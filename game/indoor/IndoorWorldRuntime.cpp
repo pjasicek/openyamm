@@ -243,6 +243,17 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     return true;
 }
 
+bool IndoorWorldRuntime::actorInspectState(
+    size_t actorIndex,
+    uint32_t animationTicks,
+    GameplayActorInspectState &state) const
+{
+    (void)actorIndex;
+    (void)animationTicks;
+    state = {};
+    return false;
+}
+
 bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request)
 {
     (void)request;

@@ -269,6 +269,11 @@ const NpcDialogTable *GameplayOverlayContext::npcDialogTable() const
     return &m_session.data().npcDialogTable();
 }
 
+const MonsterTable *GameplayOverlayContext::monsterTable() const
+{
+    return &m_session.data().monsterTable();
+}
+
 GameplayUiController::CharacterScreenState &GameplayOverlayContext::characterScreen() const
 {
     return uiController().characterScreen();
@@ -499,6 +504,11 @@ bool &GameplayOverlayContext::closeOverlayLatch() const
     return interactionState().closeOverlayLatch;
 }
 
+bool &GameplayOverlayContext::restToggleLatch() const
+{
+    return interactionState().restToggleLatch;
+}
+
 bool &GameplayOverlayContext::restClickLatch() const
 {
     return interactionState().restClickLatch;
@@ -507,6 +517,16 @@ bool &GameplayOverlayContext::restClickLatch() const
 GameplayRestPointerTarget &GameplayOverlayContext::restPressedTarget() const
 {
     return interactionState().restPressedTarget;
+}
+
+bool &GameplayOverlayContext::gameplayHudClickLatch() const
+{
+    return interactionState().gameplayHudClickLatch;
+}
+
+GameplayHudPointerTarget &GameplayOverlayContext::gameplayHudPressedTarget() const
+{
+    return interactionState().gameplayHudPressedTarget;
 }
 
 bool &GameplayOverlayContext::menuToggleLatch() const
@@ -792,6 +812,26 @@ size_t &GameplayOverlayContext::chestSelectionIndex() const
 size_t &GameplayOverlayContext::eventDialogSelectionIndex() const
 {
     return uiController().eventDialog().selectionIndex;
+}
+
+bool &GameplayOverlayContext::partyPortraitClickLatch() const
+{
+    return interactionState().partyPortraitClickLatch;
+}
+
+std::optional<size_t> &GameplayOverlayContext::partyPortraitPressedIndex() const
+{
+    return interactionState().partyPortraitPressedIndex;
+}
+
+uint64_t &GameplayOverlayContext::lastPartyPortraitClickTicks() const
+{
+    return interactionState().lastPartyPortraitClickTicks;
+}
+
+std::optional<size_t> &GameplayOverlayContext::lastPartyPortraitClickedIndex() const
+{
+    return interactionState().lastPartyPortraitClickedIndex;
 }
 
 bool GameplayOverlayContext::trySelectPartyMember(size_t memberIndex, bool requireGameplayReady)
@@ -1373,6 +1413,30 @@ void GameplayOverlayContext::closeInventoryNestedOverlay()
     interactionState().inventoryNestedOverlayItemClickLatch = false;
 }
 
+bool GameplayOverlayContext::tryAutoPlaceHeldInventoryItemOnPartyMember(size_t memberIndex, bool showFailureStatus)
+{
+    GameplayUiController::HeldInventoryItemState &heldItem = uiController().heldInventoryItem();
+    Party *pParty = party();
+
+    if (!heldItem.active || pParty == nullptr)
+    {
+        return false;
+    }
+
+    if (!pParty->tryAutoPlaceItemInMemberInventory(memberIndex, heldItem.item))
+    {
+        if (showFailureStatus)
+        {
+            setStatusBarEvent(pParty->lastStatus().empty() ? "Inventory full" : pParty->lastStatus());
+        }
+
+        return false;
+    }
+
+    heldItem = {};
+    return true;
+}
+
 void GameplayOverlayContext::closeSpellbookOverlay(const std::string &statusText)
 {
     const bool wasActive = uiController().spellbook().active;
@@ -1623,6 +1687,141 @@ std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayC
     return uiRuntime().resolveHudLayoutElement(layoutId, screenWidth, screenHeight, fallbackWidth, fallbackHeight);
 }
 
+std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayContext::resolvePartyPortraitRect(
+    int width,
+    int height,
+    size_t memberIndex) const
+{
+    const Party *pParty = partyReadOnly();
+
+    if (pParty == nullptr || width <= 0 || height <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const GameplayHudScreenState hudScreenState = currentHudScreenState();
+    const bool isLimitedOverlayHud =
+        hudScreenState == GameplayHudScreenState::Dialogue
+        || hudScreenState == GameplayHudScreenState::Character
+        || hudScreenState == GameplayHudScreenState::Chest
+        || hudScreenState == GameplayHudScreenState::Spellbook
+        || hudScreenState == GameplayHudScreenState::Rest
+        || hudScreenState == GameplayHudScreenState::Menu
+        || hudScreenState == GameplayHudScreenState::SaveGame
+        || hudScreenState == GameplayHudScreenState::LoadGame
+        || hudScreenState == GameplayHudScreenState::Journal;
+    const bool useGameplayWideHud =
+        !isLimitedOverlayHud && settingsSnapshot().gameplayUiLayout == GameplayUiLayout::Widescreen;
+    const std::string basebarLayoutId = isLimitedOverlayHud
+        ? "OutdoorBasebar"
+        : (settingsSnapshot().gameplayUiLayout == GameplayUiLayout::Standard
+            ? "OutdoorStandardBasebar"
+            : "OutdoorGameplayBasebar");
+    const std::string partyStripLayoutId = isLimitedOverlayHud
+        ? "OutdoorPartyStrip"
+        : (settingsSnapshot().gameplayUiLayout == GameplayUiLayout::Standard
+            ? "OutdoorStandardPartyStrip"
+            : "OutdoorGameplayPartyStrip");
+    const HudLayoutElement *pBasebarLayout = findHudLayoutElement(basebarLayoutId);
+    const HudLayoutElement *pPartyStripLayout = findHudLayoutElement(partyStripLayoutId);
+
+    if (pBasebarLayout == nullptr || pPartyStripLayout == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<HudTextureHandle> basebarTexture =
+        const_cast<GameplayOverlayContext *>(this)->ensureHudTextureLoaded(pBasebarLayout->primaryAsset);
+    const std::optional<HudTextureHandle> faceMaskTexture =
+        const_cast<GameplayOverlayContext *>(this)->ensureHudTextureLoaded(pPartyStripLayout->primaryAsset);
+
+    if (!basebarTexture || !faceMaskTexture)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<ResolvedHudLayoutElement> resolvedBasebar = resolveHudLayoutElement(
+        basebarLayoutId,
+        width,
+        height,
+        basebarTexture->width,
+        basebarTexture->height);
+    const std::optional<ResolvedHudLayoutElement> resolvedPartyStrip = resolveHudLayoutElement(
+        partyStripLayoutId,
+        width,
+        height,
+        basebarTexture->width,
+        basebarTexture->height);
+
+    if (!resolvedBasebar || !resolvedPartyStrip)
+    {
+        return std::nullopt;
+    }
+
+    const std::vector<Character> &members = pParty->members();
+
+    if (memberIndex >= members.size())
+    {
+        return std::nullopt;
+    }
+
+    const float portraitWidth = static_cast<float>(faceMaskTexture->width) * resolvedBasebar->scale;
+    const float portraitHeight = static_cast<float>(faceMaskTexture->height) * resolvedBasebar->scale;
+    float portraitStartX = resolvedPartyStrip->x + resolvedPartyStrip->width * (20.0f / 471.0f);
+    float portraitY = resolvedPartyStrip->y + resolvedPartyStrip->height * (23.0f / 92.0f);
+    const float portraitDeltaX = resolvedPartyStrip->width * (94.0f / 471.0f);
+
+    if (useGameplayWideHud)
+    {
+        const float basebarCenterX = resolvedBasebar->x + resolvedBasebar->width * 0.5f;
+        const float portraitGroupWidth = portraitWidth + static_cast<float>(members.size() - 1) * portraitDeltaX;
+        portraitStartX = basebarCenterX - portraitGroupWidth * 0.5f;
+        portraitY -= 15.0f * resolvedBasebar->scale;
+    }
+
+    return ResolvedHudLayoutElement{
+        portraitStartX + static_cast<float>(memberIndex) * portraitDeltaX,
+        portraitY,
+        portraitWidth,
+        portraitHeight,
+        resolvedBasebar->scale
+    };
+}
+
+std::optional<size_t> GameplayOverlayContext::resolvePartyPortraitIndexAtPoint(
+    int width,
+    int height,
+    float x,
+    float y) const
+{
+    const Party *pParty = partyReadOnly();
+
+    if (pParty == nullptr || width <= 0 || height <= 0)
+    {
+        return std::nullopt;
+    }
+
+    for (size_t memberIndex = 0; memberIndex < pParty->members().size(); ++memberIndex)
+    {
+        const std::optional<ResolvedHudLayoutElement> portraitRect = resolvePartyPortraitRect(width, height, memberIndex);
+
+        if (!portraitRect)
+        {
+            continue;
+        }
+
+        if (x >= portraitRect->x
+            && x < portraitRect->x + portraitRect->width
+            && y >= portraitRect->y
+            && y < portraitRect->y + portraitRect->height)
+        {
+            return memberIndex;
+        }
+    }
+
+    return std::nullopt;
+}
+
 std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayContext::resolveChestGridArea(
     int width,
     int height) const
@@ -1771,6 +1970,15 @@ std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::
     const std::vector<uint8_t> &bgraPixels)
 {
     return uiRuntime().ensureDynamicHudTexture(textureName, width, height, bgraPixels);
+}
+
+std::optional<std::vector<uint8_t>> GameplayOverlayContext::loadSpriteBitmapPixelsBgraCached(
+    const std::string &textureName,
+    int16_t paletteId,
+    int &width,
+    int &height)
+{
+    return uiRuntime().loadSpriteBitmapPixelsBgraCached(textureName, paletteId, width, height);
 }
 
 const std::vector<uint8_t> *GameplayOverlayContext::hudTexturePixels(

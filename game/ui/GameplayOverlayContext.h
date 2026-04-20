@@ -25,6 +25,7 @@ namespace OpenYAMM::Game
 {
 class GameAudioSystem;
 class ItemTable;
+class MonsterTable;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
 struct HouseEntry;
@@ -64,6 +65,7 @@ public:
     const HouseTable *houseTable() const;
     const ChestTable *chestTable() const;
     const NpcDialogTable *npcDialogTable() const;
+    const MonsterTable *monsterTable() const;
 
     GameplayUiController::CharacterScreenState &characterScreen() const;
     GameplayUiController::HeldInventoryItemState &heldInventoryItem() const;
@@ -112,8 +114,11 @@ public:
     std::string &mutableStatusBarHoverText() const;
 
     bool &closeOverlayLatch() const;
+    bool &restToggleLatch() const;
     bool &restClickLatch() const;
     GameplayRestPointerTarget &restPressedTarget() const;
+    bool &gameplayHudClickLatch() const;
+    GameplayHudPointerTarget &gameplayHudPressedTarget() const;
     bool &menuToggleLatch() const;
     bool &menuClickLatch() const;
     GameplayMenuPointerTarget &menuPressedTarget() const;
@@ -171,6 +176,10 @@ public:
     bool &activateInspectLatch() const;
     size_t &chestSelectionIndex() const;
     size_t &eventDialogSelectionIndex() const;
+    bool &partyPortraitClickLatch() const;
+    std::optional<size_t> &partyPortraitPressedIndex() const;
+    uint64_t &lastPartyPortraitClickTicks() const;
+    std::optional<size_t> &lastPartyPortraitClickedIndex() const;
 
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     size_t selectedCharacterScreenSourceIndex() const;
@@ -208,6 +217,7 @@ public:
     void confirmHouseBankInput();
     void closeInventoryNestedOverlay();
     void closeSpellbookOverlay(const std::string &statusText = "");
+    bool tryAutoPlaceHeldInventoryItemOnPartyMember(size_t memberIndex, bool showFailureStatus);
     bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen);
     void updateReadableScrollOverlayForHeldItem(
         size_t memberIndex,
@@ -249,6 +259,8 @@ public:
         int screenHeight,
         float fallbackWidth,
         float fallbackHeight) const;
+    std::optional<ResolvedHudLayoutElement> resolvePartyPortraitRect(int width, int height, size_t memberIndex) const;
+    std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y) const;
     std::optional<ResolvedHudLayoutElement> resolveChestGridArea(int width, int height) const;
     std::optional<ResolvedHudLayoutElement> resolveInventoryNestedOverlayGridArea(int width, int height) const;
     std::optional<ResolvedHudLayoutElement> resolveHouseShopOverlayFrame(int width, int height) const;
@@ -270,6 +282,11 @@ public:
         int width,
         int height,
         const std::vector<uint8_t> &bgraPixels);
+    std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgraCached(
+        const std::string &textureName,
+        int16_t paletteId,
+        int &width,
+        int &height);
     const std::vector<uint8_t> *hudTexturePixels(
         const std::string &textureName,
         int &width,

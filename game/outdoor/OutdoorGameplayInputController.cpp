@@ -2,6 +2,7 @@
 
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorInteractionController.h"
+#include "game/gameplay/GameplayHudInputController.h"
 #include "game/gameplay/GameplayOverlayInputController.h"
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/gameplay/GameplayScreenHotkeyController.h"
@@ -24,78 +25,10 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr float Pi = 3.14159265358979323846f;
-constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
 constexpr uint64_t SaveGameDoubleClickWindowMs = 500;
 constexpr int DwiMapId = 1;
 constexpr uint16_t DwiMeteorShowerEventId = 456;
 constexpr size_t SaveLoadVisibleSlotCount = 10;
-
-struct HudPointerState
-{
-    float x = 0.0f;
-    float y = 0.0f;
-    bool leftButtonPressed = false;
-};
-
-template <typename Target, typename ResolveTargetFn, typename ActivateTargetFn>
-void handlePointerClickRelease(
-    const HudPointerState &pointerState,
-    bool &clickLatch,
-    Target &pressedTarget,
-    const Target &noneTarget,
-    ResolveTargetFn resolveTargetFn,
-    ActivateTargetFn activateTargetFn)
-{
-    if (pointerState.leftButtonPressed)
-    {
-        if (!clickLatch)
-        {
-            pressedTarget = resolveTargetFn(pointerState.x, pointerState.y);
-            clickLatch = true;
-        }
-    }
-    else if (clickLatch)
-    {
-        const Target currentTarget = resolveTargetFn(pointerState.x, pointerState.y);
-
-        if (currentTarget == pressedTarget)
-        {
-            activateTargetFn(currentTarget);
-        }
-
-        clickLatch = false;
-        pressedTarget = noneTarget;
-    }
-    else
-    {
-        pressedTarget = noneTarget;
-    }
-}
-
-std::optional<SDL_Scancode> firstNewlyPressedScancode(
-    const bool *pKeyboardState,
-    const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousState)
-{
-    if (pKeyboardState == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    for (int scancode = SDL_SCANCODE_UNKNOWN + 1; scancode < SDL_SCANCODE_COUNT; ++scancode)
-    {
-        if (pKeyboardState[scancode] && previousState[scancode] == 0)
-        {
-            return static_cast<SDL_Scancode>(scancode);
-        }
-    }
-
-    return std::nullopt;
-}
-
-const char *activeGameplayButtonLayoutId(const OutdoorGameView &view, const char *pWideId, const char *pStandardId)
-{
-    return view.settingsSnapshot().gameplayUiLayout == GameplayUiLayout::Standard ? pStandardId : pWideId;
-}
 } // namespace
 
 void OutdoorGameplayInputController::updateCameraFromInput(
@@ -221,11 +154,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         float portraitMouseX = 0.0f;
         float portraitMouseY = 0.0f;
         const SDL_MouseButtonFlags portraitMouseButtons = SDL_GetMouseState(&portraitMouseX, &portraitMouseY);
-        const HudPointerState portraitPointerState = {
-            portraitMouseX,
-            portraitMouseY,
-            (portraitMouseButtons & SDL_BUTTON_LMASK) != 0
-        };
         const bool requireGameplayReady =
             !isEventDialogActive
             && !view.m_characterScreenOpen
@@ -238,83 +166,37 @@ void OutdoorGameplayInputController::updateCameraFromInput(
             && !isLoadGameActive
             && !isJournalActive;
 
-        handlePointerClickRelease(
-            portraitPointerState,
-            view.m_partyPortraitClickLatch,
-            view.m_partyPortraitPressedIndex,
-            std::optional<size_t>{},
-            [&view, screenWidth, screenHeight](float x, float y) -> std::optional<size_t>
-            {
-                return view.resolvePartyPortraitIndexAtPoint(screenWidth, screenHeight, x, y);
-            },
-            [&view, requireGameplayReady, hasActiveLootView, hasPendingSpellCast](const std::optional<size_t> &memberIndex)
-            {
-                if (memberIndex)
-                {
-                    if (hasPendingSpellCast)
+        GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
+        GameplayHudInputController::handlePartyPortraitInput(
+            overlayContext,
+            GameplayPartyPortraitInputConfig{
+                .screenWidth = screenWidth,
+                .screenHeight = screenHeight,
+                .pointerX = portraitMouseX,
+                .pointerY = portraitMouseY,
+                .leftButtonPressed = (portraitMouseButtons & SDL_BUTTON_LMASK) != 0,
+                .allowInput = true,
+                .requireGameplayReady = requireGameplayReady,
+                .hasActiveLootView = hasActiveLootView,
+                .onPortraitActivated =
+                    [&view, hasPendingSpellCast](size_t memberIndex)
                     {
+                        if (!hasPendingSpellCast)
+                        {
+                            return false;
+                        }
+
                         view.tryResolvePendingSpellCast({}, memberIndex);
-                        return;
+                        return true;
                     }
-
-                    if (view.m_heldInventoryItem.active)
-                    {
-                        const bool switchCharacterOnFailedPlacement =
-                            view.m_characterScreenOpen && view.m_characterPage == OutdoorGameView::CharacterPage::Inventory;
-
-                        if (view.tryAutoPlaceHeldItemOnPartyMember(*memberIndex, !switchCharacterOnFailedPlacement))
-                        {
-                            view.m_lastPartyPortraitClickedIndex = std::nullopt;
-                        }
-                        else if (switchCharacterOnFailedPlacement)
-                        {
-                            view.trySelectPartyMember(*memberIndex, requireGameplayReady);
-                        }
-
-                        return;
-                    }
-
-                    const uint64_t nowTicks = SDL_GetTicks();
-                    const bool isGameplayInventoryDoubleClick =
-                        requireGameplayReady
-                        && view.m_lastPartyPortraitClickedIndex.has_value()
-                        && *view.m_lastPartyPortraitClickedIndex == *memberIndex
-                        && nowTicks >= view.m_lastPartyPortraitClickTicks
-                        && nowTicks - view.m_lastPartyPortraitClickTicks <= PartyPortraitDoubleClickWindowMs;
-                    const bool isChestInventoryDoubleClick =
-                        hasActiveLootView
-                        && view.m_lastPartyPortraitClickedIndex.has_value()
-                        && *view.m_lastPartyPortraitClickedIndex == *memberIndex
-                        && nowTicks >= view.m_lastPartyPortraitClickTicks
-                        && nowTicks - view.m_lastPartyPortraitClickTicks <= PartyPortraitDoubleClickWindowMs;
-
-                    if (view.trySelectPartyMember(*memberIndex, requireGameplayReady))
-                    {
-                        if (isGameplayInventoryDoubleClick)
-                        {
-                            view.m_characterScreenOpen = true;
-                            view.m_adventurersInnRosterOverlayOpen = false;
-                            view.m_characterScreenSource = OutdoorGameView::CharacterScreenSource::Party;
-                            view.m_characterScreenSourceIndex = 0;
-                            view.m_adventurersInnScrollOffset = 0;
-                            view.m_characterPage = OutdoorGameView::CharacterPage::Inventory;
-                            view.m_characterDollJewelryOverlayOpen = false;
-                        }
-                        else if (isChestInventoryDoubleClick)
-                        {
-                            view.openInventoryNestedOverlay(OutdoorGameView::InventoryNestedOverlayMode::ChestTransfer);
-                        }
-
-                        view.m_lastPartyPortraitClickTicks = nowTicks;
-                        view.m_lastPartyPortraitClickedIndex = *memberIndex;
-                    }
-                }
             });
     }
     else
     {
-        view.m_partyPortraitClickLatch = false;
-        view.m_partyPortraitPressedIndex = std::nullopt;
+        GameplayOverlayContext portraitOverlayContext = view.createGameplayOverlayContext();
+        GameplayHudInputController::handlePartyPortraitInput(
+            portraitOverlayContext,
+            GameplayPartyPortraitInputConfig{});
     }
 
     const bool canToggleSpellbook =
@@ -342,84 +224,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
     GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
 
-    if (!isMenuActive && !isControlsActive && !isKeyboardActive && !isSaveGameActive && !isLoadGameActive
-        && pKeyboardState[SDL_SCANCODE_ESCAPE])
-    {
-        if (!view.m_overlayInteractionState.menuToggleLatch)
-        {
-            if (canToggleMenu)
-            {
-                overlayContext.openMenuOverlay();
-                view.m_optionsButtonClickLatch = false;
-                view.m_optionsButtonPressed = false;
-            }
-
-            view.m_overlayInteractionState.menuToggleLatch = true;
-        }
-    }
-    else if (!isMenuActive && !isControlsActive && !isKeyboardActive && !isSaveGameActive && !isLoadGameActive)
-    {
-        view.m_overlayInteractionState.menuToggleLatch = false;
-    }
-
-    if (canToggleMenu && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
-    {
-        const char *pOptionsButtonLayoutId =
-            activeGameplayButtonLayoutId(view, "OutdoorButtonOptions", "OutdoorStandardButtonOptions");
-        float optionsButtonMouseX = 0.0f;
-        float optionsButtonMouseY = 0.0f;
-        const SDL_MouseButtonFlags optionsButtonMouseButtons =
-            SDL_GetMouseState(&optionsButtonMouseX, &optionsButtonMouseY);
-        const HudPointerState optionsButtonPointerState = {
-            optionsButtonMouseX,
-            optionsButtonMouseY,
-            (optionsButtonMouseButtons & SDL_BUTTON_LMASK) != 0
-        };
-
-        handlePointerClickRelease(
-            optionsButtonPointerState,
-            view.m_optionsButtonClickLatch,
-            view.m_optionsButtonPressed,
-            false,
-            [&view, pOptionsButtonLayoutId, screenWidth, screenHeight](float pointerX, float pointerY) -> bool
-            {
-                const OutdoorGameView::HudLayoutElement *pLayout =
-                    HudUiService::findHudLayoutElement(view, pOptionsButtonLayoutId);
-
-                if (pLayout == nullptr)
-                {
-                    return false;
-                }
-
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
-                    HudUiService::resolveHudLayoutElement(
-                        view,
-                        pOptionsButtonLayoutId,
-                        screenWidth,
-                        screenHeight,
-                        pLayout->width,
-                        pLayout->height);
-
-                return resolved
-                    && HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY);
-            },
-            [&view](bool target)
-            {
-                if (target)
-                {
-                    GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
-                    overlayContext.openMenuOverlay();
-                    view.m_optionsButtonClickLatch = false;
-                    view.m_optionsButtonPressed = false;
-                }
-            });
-    }
-    else if (!view.m_menuScreen.active && !view.m_controlsScreen.active && !view.m_keyboardScreen.active)
-    {
-        view.m_optionsButtonClickLatch = false;
-        view.m_optionsButtonPressed = false;
-    }
-
     const bool canOpenRestScreen =
         !isEventDialogActive
         && !view.m_characterScreenOpen
@@ -434,80 +238,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         && !view.m_restScreen.active
         && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
-
-    if (canOpenRestScreen && isActionPressed(KeyboardAction::Rest))
-    {
-        if (!view.m_restToggleLatch)
-        {
-            overlayContext.openRestOverlay();
-            view.m_restToggleLatch = true;
-        }
-    }
-    else
-    {
-        view.m_restToggleLatch = false;
-    }
-
-    if (canOpenRestScreen && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
-    {
-        const char *pRestButtonLayoutId =
-            activeGameplayButtonLayoutId(view, "OutdoorButtonRest", "OutdoorStandardButtonRest");
-        float restButtonMouseX = 0.0f;
-        float restButtonMouseY = 0.0f;
-        const SDL_MouseButtonFlags restButtonMouseButtons =
-            SDL_GetMouseState(&restButtonMouseX, &restButtonMouseY);
-        const HudPointerState restButtonPointerState = {
-            restButtonMouseX,
-            restButtonMouseY,
-            (restButtonMouseButtons & SDL_BUTTON_LMASK) != 0
-        };
-        const OutdoorGameView::RestPointerTarget noneRestTarget = {};
-
-        handlePointerClickRelease(
-            restButtonPointerState,
-            view.m_overlayInteractionState.restClickLatch,
-            view.m_overlayInteractionState.restPressedTarget,
-            noneRestTarget,
-            [&view, pRestButtonLayoutId, screenWidth, screenHeight](float pointerX, float pointerY)
-                -> OutdoorGameView::RestPointerTarget
-            {
-                const OutdoorGameView::HudLayoutElement *pLayout =
-                    HudUiService::findHudLayoutElement(view, pRestButtonLayoutId);
-
-                if (pLayout == nullptr)
-                {
-                    return {};
-                }
-
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
-                    HudUiService::resolveHudLayoutElement(
-                        view,
-                        pRestButtonLayoutId,
-                        screenWidth,
-                        screenHeight,
-                        pLayout->width,
-                        pLayout->height);
-
-                if (!resolved || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
-                {
-                    return {};
-                }
-
-                return {OutdoorGameView::RestPointerTargetType::OpenButton};
-            },
-            [&view](const OutdoorGameView::RestPointerTarget &target)
-            {
-                if (target.type == OutdoorGameView::RestPointerTargetType::OpenButton)
-                {
-                    view.createGameplayOverlayContext().openRestOverlay();
-                }
-            });
-    }
-    else if (!view.m_restScreen.active)
-    {
-        view.m_overlayInteractionState.restClickLatch = false;
-        view.m_overlayInteractionState.restPressedTarget = {};
-    }
 
     const bool canToggleAdventurersInn =
         !isEventDialogActive
@@ -537,60 +267,21 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         && !view.m_restScreen.active
         && !view.m_heldInventoryItem.active;
 
-    if (canToggleJournal && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
-    {
-        const char *pBooksButtonLayoutId =
-            activeGameplayButtonLayoutId(view, "OutdoorButtonBooks", "OutdoorStandardButtonBooks");
-        float booksButtonMouseX = 0.0f;
-        float booksButtonMouseY = 0.0f;
-        const SDL_MouseButtonFlags booksButtonMouseButtons =
-            SDL_GetMouseState(&booksButtonMouseX, &booksButtonMouseY);
-        const HudPointerState booksButtonPointerState = {
-            booksButtonMouseX,
-            booksButtonMouseY,
-            (booksButtonMouseButtons & SDL_BUTTON_LMASK) != 0
-        };
-
-        handlePointerClickRelease(
-            booksButtonPointerState,
-            view.m_booksButtonClickLatch,
-            view.m_booksButtonPressed,
-            false,
-            [&view, pBooksButtonLayoutId, screenWidth, screenHeight](float pointerX, float pointerY) -> bool
-            {
-                const OutdoorGameView::HudLayoutElement *pLayout =
-                    HudUiService::findHudLayoutElement(view, pBooksButtonLayoutId);
-
-                if (pLayout == nullptr)
-                {
-                    return false;
-                }
-
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
-                    HudUiService::resolveHudLayoutElement(
-                        view,
-                        pBooksButtonLayoutId,
-                        screenWidth,
-                        screenHeight,
-                        pLayout->width,
-                        pLayout->height);
-
-                return resolved
-                    && HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY);
-            },
-            [&view](bool target)
-            {
-                if (target)
-                {
-                    view.createGameplayOverlayContext().openJournalOverlay();
-                }
-            });
-    }
-    else if (!view.m_journalScreen.active)
-    {
-        view.m_booksButtonClickLatch = false;
-        view.m_booksButtonPressed = false;
-    }
+    GameplayHudInputController::handleGameplayHudButtonInput(
+        overlayContext,
+        GameplayHudButtonInputConfig{
+            .screenWidth = screenWidth,
+            .screenHeight = screenHeight,
+            .pointerX = gameplayMouseX,
+            .pointerY = gameplayMouseY,
+            .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
+            .allowInput =
+                allowGameplayPointerInput
+                && !blocksUnderlyingMouseInput
+                && screenWidth > 0
+                && screenHeight > 0
+                && (canToggleMenu || canOpenRestScreen || canToggleJournal)
+        });
 
     const bool isResidentSelectionMode =
         isEventDialogActive
@@ -725,6 +416,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         overlayContext,
         pKeyboardState,
         GameplayScreenHotkeyConfig{
+            .canToggleMenu = canToggleMenu,
+            .canOpenRest = canOpenRestScreen,
             .canToggleSpellbook = canToggleSpellbook,
             .canToggleInventory = canToggleInventory,
             .canCyclePartyMember = canCyclePartyMember,

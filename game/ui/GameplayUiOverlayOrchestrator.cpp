@@ -109,14 +109,14 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
             overlayContext.ensurePendingEventDialogPresented(true);
         }
 
-        if (config.renderChestBelowHud && callbacks.renderChestOverlay)
+        if (config.renderChestBelowHud)
         {
-            callbacks.renderChestOverlay(false);
+            GameplayHudOverlayRenderer::renderChestPanel(overlayContext, width, height, false);
         }
 
-        if (config.renderInventoryBelowHud && callbacks.renderInventoryNestedOverlay)
+        if (config.renderInventoryBelowHud)
         {
-            callbacks.renderInventoryNestedOverlay(false);
+            GameplayHudOverlayRenderer::renderInventoryNestedOverlay(overlayContext, width, height, false);
         }
 
         if (config.renderDialogueBelowHud && overlayContext.activeEventDialog().isActive)
@@ -132,14 +132,14 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
         GameplayHudRenderer::renderGameplayHudArt(overlayContext, width, height);
         GameplayHudRenderer::renderGameplayHud(overlayContext, width, height);
 
-        if (config.renderChestAboveHud && callbacks.renderChestOverlay)
+        if (config.renderChestAboveHud)
         {
-            callbacks.renderChestOverlay(true);
+            GameplayHudOverlayRenderer::renderChestPanel(overlayContext, width, height, true);
         }
 
-        if (config.renderInventoryAboveHud && callbacks.renderInventoryNestedOverlay)
+        if (config.renderInventoryAboveHud)
         {
-            callbacks.renderInventoryNestedOverlay(true);
+            GameplayHudOverlayRenderer::renderInventoryNestedOverlay(overlayContext, width, height, true);
         }
 
         if (config.renderCharacterAboveHud)

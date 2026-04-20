@@ -3660,9 +3660,6 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_quickSpellReadyMemberAvailableWhileHeld(false)
     , m_quickSpellAttackFallbackRequested(false)
     , m_pendingSpellTargetClickLatch(false)
-    , m_restToggleLatch(false)
-    , m_optionsButtonClickLatch(false)
-    , m_booksButtonClickLatch(false)
     , m_adventurersInnToggleLatch(false)
     , m_gameSession(gameSession)
     , m_gameplayUiRuntime(gameSession.gameplayUiRuntime())
@@ -3676,10 +3673,6 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_characterScreenSource(m_gameplayUiController.characterScreen().source)
     , m_characterScreenSourceIndex(m_gameplayUiController.characterScreen().sourceIndex)
     , m_adventurersInnScrollOffset(m_gameplayUiController.characterScreen().adventurersInnScrollOffset)
-    , m_partyPortraitClickLatch(false)
-    , m_partyPortraitPressedIndex(std::nullopt)
-    , m_lastPartyPortraitClickTicks(0)
-    , m_lastPartyPortraitClickedIndex(std::nullopt)
     , m_lastAdventurersInnPortraitClickTicks(0)
     , m_lastAdventurersInnPortraitClickedIndex(std::nullopt)
     , m_heldInventoryItem(m_gameplayUiController.heldInventoryItem())
@@ -3705,8 +3698,6 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_inventoryNestedOverlay(m_gameplayUiController.inventoryNestedOverlay())
     , m_houseShopOverlay(m_gameplayUiController.houseShopOverlay())
     , m_houseBankState(m_gameplayUiController.houseBankState())
-    , m_optionsButtonPressed(false)
-    , m_booksButtonPressed(false)
     , m_lastSpellFailSoundTicks(0)
     , m_pendingSpellCast({})
     , m_spellAreaPreviewCache({})
@@ -4175,7 +4166,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
                 const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
                 const std::optional<size_t> hoveredPortraitMemberIndex =
-                    resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
+                    createGameplayOverlayContext().resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
 
                 if (!hoveredPortraitMemberIndex && m_outdoorMapData.has_value())
                 {
@@ -4404,7 +4395,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             else if (m_heldInventoryDropLatch)
             {
                 const bool isPointerOverPartyPortrait =
-                    resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY).has_value();
+                    createGameplayOverlayContext().resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY)
+                        .has_value();
                 bool handledInteraction = isPointerOverPartyPortrait;
 
                 if (!handledInteraction && m_outdoorMapData.has_value())
@@ -4555,7 +4547,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 !useCenterGameplayInspectPoint && (mouseButtons & SDL_BUTTON_LMASK) != 0;
             const bool isPointerOverPartyPortrait =
                 !useCenterGameplayInspectPoint
-                && resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY).has_value();
+                && createGameplayOverlayContext().resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY)
+                    .has_value();
             const bool needsInteractionInspectHit =
                 isActivationPressed
                 || isAttackPressed
@@ -5815,26 +5808,20 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                     .renderCharacterAboveHud = true,
                 },
                 GameplayUiOverlayRenderCallbacks{
-                    .renderChestOverlay =
-                        [this, width, height](bool renderAboveHud)
-                        {
-                            renderChestPanel(width, height, renderAboveHud);
-                        },
-                    .renderInventoryNestedOverlay =
-                        [this, width, height](bool renderAboveHud)
-                        {
-                            renderInventoryNestedOverlay(width, height, renderAboveHud);
-                        }});
+                });
 
             if (deferDialogueInventoryServiceOverlay)
             {
-                renderInventoryNestedOverlay(width, height, false);
+                GameplayHudOverlayRenderer::renderInventoryNestedOverlay(overlayContext, width, height, false);
             }
             GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(overlayContext, width, height);
             GameplayPartyOverlayRenderer::renderCharacterInspectOverlay(overlayContext, width, height);
             GameplayPartyOverlayRenderer::renderBuffInspectOverlay(overlayContext, width, height);
             GameplayPartyOverlayRenderer::renderCharacterDetailOverlay(overlayContext, width, height);
-            renderActorInspectOverlay(width, height);
+            {
+                GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+                GameplayPartyOverlayRenderer::renderActorInspectOverlay(overlayContext, width, height);
+            }
             GameplayPartyOverlayRenderer::renderSpellInspectOverlay(overlayContext, width, height);
             GameplayPartyOverlayRenderer::renderReadableScrollOverlay(overlayContext, width, height);
             renderGameplayMouseLookOverlay(width, height);
@@ -5848,167 +5835,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     consumePendingEventRuntimeAudioRequests();
     consumePendingWorldAudioEvents();
 
-}
-
-void OutdoorGameView::renderChestPanel(int width, int height, bool renderAboveHud) const
-{
-    if (m_pOutdoorWorldRuntime == nullptr || chestTable() == nullptr || width <= 0 || height <= 0)
-    {
-        return;
-    }
-
-    const OutdoorWorldRuntime::ChestViewState *pChestView = m_pOutdoorWorldRuntime->activeChestView();
-    const OutdoorWorldRuntime::CorpseViewState *pCorpseView = m_pOutdoorWorldRuntime->activeCorpseView();
-
-    if (pChestView == nullptr && pCorpseView == nullptr)
-    {
-        return;
-    }
-
-    if (resolveGameplayHudScreenState(m_gameplayUiController, m_activeEventDialog, m_pOutdoorWorldRuntime)
-        != GameplayHudScreenState::Chest)
-    {
-        return;
-    }
-
-    if (pChestView != nullptr)
-    {
-        GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-        GameplayHudOverlayRenderer::renderChestPanel(overlayContext, width, height, renderAboveHud);
-        return;
-    }
-
-    if (!renderAboveHud)
-    {
-        return;
-    }
-
-    const int textColumns = std::max(80, width / DebugTextCellWidthPixels);
-    const int textRows = std::max(25, height / DebugTextCellHeightPixels);
-    int row = std::max(8, textRows / 4);
-
-    std::string title;
-
-    if (pChestView != nullptr)
-    {
-        const ChestEntry *pChestEntry = chestTable()->get(pChestView->chestTypeId);
-        std::ostringstream titleStream;
-        titleStream << "Chest #" << pChestView->chestId;
-
-        if (pChestEntry != nullptr && !pChestEntry->name.empty())
-        {
-            titleStream << " - " << pChestEntry->name;
-        }
-
-        title = titleStream.str();
-    }
-    else
-    {
-        title = pCorpseView->title.empty() ? "Corpse" : pCorpseView->title;
-    }
-
-    const int titleColumn = std::max(0, (textColumns - static_cast<int>(title.size())) / 2);
-    bgfx::dbgTextPrintf(static_cast<uint16_t>(titleColumn), static_cast<uint16_t>(row++), 0x1f, "%s", title.c_str());
-
-    const std::string closeHint = "Up/Down select  Enter/Space loot  E/Esc close";
-    const int hintColumn = std::max(0, (textColumns - static_cast<int>(closeHint.size())) / 2);
-    bgfx::dbgTextPrintf(
-        static_cast<uint16_t>(hintColumn),
-        static_cast<uint16_t>(row++),
-        0x0f,
-        "%s",
-        closeHint.c_str()
-    );
-    row += 1;
-
-    const std::vector<OutdoorWorldRuntime::ChestItemState> &items =
-        pChestView != nullptr ? pChestView->items : pCorpseView->items;
-
-    if (items.empty())
-    {
-        const std::string emptyLine = "Empty";
-        const int emptyColumn = std::max(0, (textColumns - static_cast<int>(emptyLine.size())) / 2);
-        bgfx::dbgTextPrintf(
-            static_cast<uint16_t>(emptyColumn),
-            static_cast<uint16_t>(row),
-            0x0f,
-            "%s",
-            emptyLine.c_str()
-        );
-        return;
-    }
-
-    constexpr size_t MaxVisibleItems = 14;
-    const size_t visibleCount = std::min(items.size(), MaxVisibleItems);
-
-    for (size_t itemIndex = 0; itemIndex < visibleCount; ++itemIndex)
-    {
-        const OutdoorWorldRuntime::ChestItemState &item = items[itemIndex];
-        std::string itemName;
-
-        if (item.isGold)
-        {
-            itemName = std::to_string(item.goldAmount) + " gold";
-
-            if (item.goldRollCount > 1)
-            {
-                itemName += " (" + std::to_string(item.goldRollCount) + " rolls)";
-            }
-        }
-        else
-        {
-            itemName = "item #" + std::to_string(item.itemId);
-        }
-
-        if (!item.isGold && itemTable() != nullptr)
-        {
-            const ItemDefinition *pItemDefinition = itemTable()->get(item.itemId);
-
-            if (pItemDefinition != nullptr && !pItemDefinition->name.empty())
-            {
-                itemName = pItemDefinition->name;
-            }
-        }
-
-        if (!item.isGold && item.quantity > 1)
-        {
-            itemName += " x" + std::to_string(item.quantity);
-        }
-
-        const std::string line = std::to_string(itemIndex + 1) + ". " + itemName;
-        const uint8_t color = itemIndex == m_overlayInteractionState.chestSelectionIndex ? 0x0e : 0x0f;
-        const int column = std::max(4, (textColumns / 2) - 20);
-        bgfx::dbgTextPrintf(
-            static_cast<uint16_t>(column),
-            static_cast<uint16_t>(row++),
-            color,
-            "%s",
-            line.c_str()
-        );
-    }
-
-    if (items.size() > visibleCount)
-    {
-        const std::string moreLine = "...";
-        const int moreColumn = std::max(0, (textColumns - static_cast<int>(moreLine.size())) / 2);
-        bgfx::dbgTextPrintf(
-            static_cast<uint16_t>(moreColumn),
-            static_cast<uint16_t>(row),
-            0x0f,
-            "%s",
-            moreLine.c_str()
-        );
-    }
-}
-
-void OutdoorGameView::renderInventoryNestedOverlay(int width, int height, bool renderAboveHud) const
-{
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
-    GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
-        overlayContext,
-        width,
-        height,
-        renderAboveHud);
 }
 
 void OutdoorGameView::shutdown()
@@ -6468,10 +6294,13 @@ void OutdoorGameView::shutdown()
     m_overlayInteractionState.characterClickLatch = false;
     m_overlayInteractionState.characterMemberCycleLatch = false;
     m_overlayInteractionState.characterPressedTarget = {};
-    m_partyPortraitClickLatch = false;
-    m_partyPortraitPressedIndex = std::nullopt;
-    m_lastPartyPortraitClickTicks = 0;
-    m_lastPartyPortraitClickedIndex = std::nullopt;
+    m_overlayInteractionState.partyPortraitClickLatch = false;
+    m_overlayInteractionState.partyPortraitPressedIndex = std::nullopt;
+    m_overlayInteractionState.lastPartyPortraitClickTicks = 0;
+    m_overlayInteractionState.lastPartyPortraitClickedIndex = std::nullopt;
+    m_overlayInteractionState.gameplayHudClickLatch = false;
+    m_overlayInteractionState.gameplayHudPressedTarget = {};
+    m_overlayInteractionState.restToggleLatch = false;
     m_lastAdventurersInnPortraitClickTicks = 0;
     m_lastAdventurersInnPortraitClickedIndex = std::nullopt;
     m_overlayInteractionState.pendingCharacterDismissMemberIndex = std::nullopt;
@@ -6684,141 +6513,6 @@ bool OutdoorGameView::hasActiveEventDialog() const
     return m_activeEventDialog.isActive;
 }
 
-std::optional<OutdoorGameView::ResolvedHudLayoutElement> OutdoorGameView::resolvePartyPortraitRect(
-    int width,
-    int height,
-    size_t memberIndex)
-{
-    if (m_pOutdoorPartyRuntime == nullptr || width <= 0 || height <= 0)
-    {
-        return std::nullopt;
-    }
-
-    const GameplayHudScreenState hudScreenState =
-        resolveGameplayHudScreenState(m_gameplayUiController, m_activeEventDialog, m_pOutdoorWorldRuntime);
-    const bool isLimitedOverlayHud =
-        hudScreenState == HudScreenState::Dialogue
-        || hudScreenState == HudScreenState::Character
-        || hudScreenState == HudScreenState::Chest
-        || hudScreenState == HudScreenState::Spellbook
-        || hudScreenState == HudScreenState::Rest
-        || hudScreenState == HudScreenState::Menu
-        || hudScreenState == HudScreenState::SaveGame
-        || hudScreenState == HudScreenState::LoadGame
-        || hudScreenState == HudScreenState::Journal;
-    const bool useGameplayWideHud =
-        !isLimitedOverlayHud && m_gameSettings.gameplayUiLayout == GameplayUiLayout::Widescreen;
-    const std::string basebarLayoutId = isLimitedOverlayHud
-        ? "OutdoorBasebar"
-        : (m_gameSettings.gameplayUiLayout == GameplayUiLayout::Standard
-            ? "OutdoorStandardBasebar"
-            : "OutdoorGameplayBasebar");
-    const std::string partyStripLayoutId = isLimitedOverlayHud
-        ? "OutdoorPartyStrip"
-        : (m_gameSettings.gameplayUiLayout == GameplayUiLayout::Standard
-            ? "OutdoorStandardPartyStrip"
-            : "OutdoorGameplayPartyStrip");
-    const HudLayoutElement *pBasebarLayout = HudUiService::findHudLayoutElement(*this, basebarLayoutId);
-    const HudLayoutElement *pPartyStripLayout = HudUiService::findHudLayoutElement(*this, partyStripLayoutId);
-
-    if (pBasebarLayout == nullptr || pPartyStripLayout == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    const HudTextureHandle *pBasebar = HudUiService::ensureHudTextureLoaded(*this, pBasebarLayout->primaryAsset);
-    const HudTextureHandle *pFaceMask = HudUiService::ensureHudTextureLoaded(*this, pPartyStripLayout->primaryAsset);
-
-    if (pBasebar == nullptr || pFaceMask == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    const std::optional<ResolvedHudLayoutElement> resolvedBasebar = HudUiService::resolveHudLayoutElement(*this, 
-        basebarLayoutId,
-        width,
-        height,
-        static_cast<float>(pBasebar->width),
-        static_cast<float>(pBasebar->height));
-    const std::optional<ResolvedHudLayoutElement> resolvedPartyStrip = HudUiService::resolveHudLayoutElement(*this, 
-        partyStripLayoutId,
-        width,
-        height,
-        static_cast<float>(pBasebar->width),
-        static_cast<float>(pBasebar->height));
-
-    if (!resolvedBasebar || !resolvedPartyStrip)
-    {
-        return std::nullopt;
-    }
-
-    const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
-
-    if (memberIndex >= members.size())
-    {
-        return std::nullopt;
-    }
-
-    const float portraitWidth = static_cast<float>(pFaceMask->width) * resolvedBasebar->scale;
-    const float portraitHeight = static_cast<float>(pFaceMask->height) * resolvedBasebar->scale;
-    float portraitStartX = resolvedPartyStrip->x + resolvedPartyStrip->width * (20.0f / 471.0f);
-    float portraitY = resolvedPartyStrip->y + resolvedPartyStrip->height * (23.0f / 92.0f);
-    const float portraitDeltaX = resolvedPartyStrip->width * (94.0f / 471.0f);
-
-    if (useGameplayWideHud)
-    {
-        const float basebarCenterX = resolvedBasebar->x + resolvedBasebar->width * 0.5f;
-        const float portraitGroupWidth =
-            portraitWidth + static_cast<float>(members.size() - 1) * portraitDeltaX;
-        portraitStartX = basebarCenterX - portraitGroupWidth * 0.5f;
-        portraitY -= 15.0f * resolvedBasebar->scale;
-    }
-
-    return ResolvedHudLayoutElement{
-        portraitStartX + static_cast<float>(memberIndex) * portraitDeltaX,
-        portraitY,
-        portraitWidth,
-        portraitHeight,
-        resolvedBasebar->scale
-    };
-}
-
-std::optional<size_t> OutdoorGameView::resolvePartyPortraitIndexAtPoint(
-    int width,
-    int height,
-    float x,
-    float y)
-{
-    if (m_pOutdoorPartyRuntime == nullptr || width <= 0 || height <= 0)
-    {
-        return std::nullopt;
-    }
-
-    const std::vector<Character> &members = m_pOutdoorPartyRuntime->party().members();
-
-    if (members.empty())
-    {
-        return std::nullopt;
-    }
-
-    for (size_t memberIndex = 0; memberIndex < members.size(); ++memberIndex)
-    {
-        const std::optional<ResolvedHudLayoutElement> portraitRect =
-            resolvePartyPortraitRect(width, height, memberIndex);
-
-        if (portraitRect
-            && x >= portraitRect->x
-            && x < portraitRect->x + portraitRect->width
-            && y >= portraitRect->y
-            && y < portraitRect->y + portraitRect->height)
-        {
-            return memberIndex;
-        }
-    }
-
-    return std::nullopt;
-}
-
 bool OutdoorGameView::trySelectPartyMember(size_t memberIndex, bool requireGameplayReady)
 {
     if (m_pOutdoorPartyRuntime == nullptr)
@@ -6846,29 +6540,6 @@ bool OutdoorGameView::trySelectPartyMember(size_t memberIndex, bool requireGamep
         OutdoorInteractionController::presentPendingEventDialog(*this, pEventRuntimeState->messages.size(), true);
     }
 
-    return true;
-}
-
-bool OutdoorGameView::tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus)
-{
-    if (m_pOutdoorPartyRuntime == nullptr || !m_heldInventoryItem.active)
-    {
-        return false;
-    }
-
-    Party &party = m_pOutdoorPartyRuntime->party();
-
-    if (!party.tryAutoPlaceItemInMemberInventory(memberIndex, m_heldInventoryItem.item))
-    {
-        if (showFailureStatus)
-        {
-            setStatusBarEvent(party.lastStatus().empty() ? "Inventory full" : party.lastStatus());
-        }
-
-        return false;
-    }
-
-    m_heldInventoryItem = {};
     return true;
 }
 
@@ -7970,12 +7641,12 @@ void OutdoorGameView::updateCharacterDetailOverlayState(int width, int height)
     else if (resolveGameplayHudScreenState(m_gameplayUiController, m_activeEventDialog, m_pOutdoorWorldRuntime)
              == GameplayHudScreenState::Gameplay)
     {
-        memberIndex = resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
+        memberIndex = overlayContext.resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
 
         if (memberIndex)
         {
             pCharacter = party.member(*memberIndex);
-            sourceRect = resolvePartyPortraitRect(width, height, *memberIndex);
+            sourceRect = overlayContext.resolvePartyPortraitRect(width, height, *memberIndex);
         }
     }
 
@@ -10739,11 +10410,6 @@ void OutdoorGameView::updateSpellInspectOverlayState(int width, int height)
         m_spellInspectOverlay.sourceHeight = std::max(1.0f, resolved->height);
         return;
     }
-}
-
-void OutdoorGameView::renderActorInspectOverlay(int width, int height)
-{
-    GameplayPartyOverlayRenderer::renderActorInspectOverlay(*this, width, height);
 }
 
 void OutdoorGameView::TerrainVertex::init()

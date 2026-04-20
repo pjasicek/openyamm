@@ -5,7 +5,6 @@
 namespace OpenYAMM::Game
 {
 class GameplayOverlayContext;
-class OutdoorGameView;
 
 class GameplayPartyOverlayRenderer
 {
@@ -19,7 +18,7 @@ public:
     static void renderCharacterDetailOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderSpellInspectOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderReadableScrollOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderActorInspectOverlay(OutdoorGameView &view, int width, int height);
+    static void renderActorInspectOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderSpellbookOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderRestOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderMenuOverlay(GameplayOverlayContext &context, int width, int height);

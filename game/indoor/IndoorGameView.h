@@ -192,11 +192,8 @@ private:
     void clearHudResources();
     bool shouldEnableGameplayMouseLook() const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
-    std::optional<GameplayResolvedHudLayoutElement> resolvePartyPortraitRect(int width, int height, size_t memberIndex) const;
-    std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y) const;
     void updateItemInspectOverlayState(int width, int height);
     void renderGameplayMouseLookOverlay(int width, int height) const;
-    bool tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus = true);
     bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const;
 
     const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
@@ -210,12 +207,6 @@ private:
     GameplayUiController &m_gameplayUiController;
     GameplayDialogController &m_gameplayDialogController;
     GameplayOverlayInteractionState &m_overlayInteractionState;
-    bool m_partyPortraitClickLatch = false;
-    std::optional<size_t> m_partyPortraitPressedIndex;
-    uint64_t m_lastPartyPortraitClickTicks = 0;
-    std::optional<size_t> m_lastPartyPortraitClickedIndex;
-    bool m_gameplayHudButtonClickLatch = false;
-    int m_gameplayHudPressedButton = 0;
     bool m_gameplayMouseLookActive = false;
     bool m_gameplayCursorModeActive = false;
     GameplayHudScreenState m_renderedInspectableHudState = GameplayHudScreenState::Gameplay;

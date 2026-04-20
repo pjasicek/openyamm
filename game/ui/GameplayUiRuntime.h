@@ -81,6 +81,11 @@ public:
         const std::string &textureName,
         int &width,
         int &height);
+    std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgraCached(
+        const std::string &textureName,
+        int16_t paletteId,
+        int &width,
+        int &height);
     void clearHudLayoutRuntimeHeightOverrides();
     void setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height);
     const UiLayoutManager::LayoutElement *findHudLayoutElement(const std::string &layoutId) const;

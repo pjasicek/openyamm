@@ -431,6 +431,21 @@ std::optional<std::vector<uint8_t>> GameplayUiRuntime::loadHudBitmapPixelsBgraCa
         height);
 }
 
+std::optional<std::vector<uint8_t>> GameplayUiRuntime::loadSpriteBitmapPixelsBgraCached(
+    const std::string &textureName,
+    int16_t paletteId,
+    int &width,
+    int &height)
+{
+    return GameplayHudCommon::loadSpriteBitmapPixelsBgraCached(
+        m_pAssetFileSystem,
+        m_assetLoadCache,
+        textureName,
+        paletteId,
+        width,
+        height);
+}
+
 void GameplayUiRuntime::clearHudLayoutRuntimeHeightOverrides()
 {
     m_hudLayoutRuntimeHeightOverrides.clear();

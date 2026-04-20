@@ -8,6 +8,8 @@ class GameplayOverlayContext;
 
 struct GameplayScreenHotkeyConfig
 {
+    bool canToggleMenu = false;
+    bool canOpenRest = false;
     bool canToggleSpellbook = false;
     bool canToggleInventory = false;
     bool canCyclePartyMember = false;

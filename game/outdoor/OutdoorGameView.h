@@ -539,15 +539,12 @@ private:
     void updateCameraFromInput(float mouseWheelDelta, float deltaSeconds);
     float effectiveCameraYawRadians() const;
     float effectiveCameraPitchRadians() const;
-    void renderChestPanel(int width, int height, bool renderAboveHud) const;
-    void renderInventoryNestedOverlay(int width, int height, bool renderAboveHud) const;
     std::optional<ResolvedHudLayoutElement> resolveChestGridArea(int width, int height) const;
     std::optional<ResolvedHudLayoutElement> resolveInventoryNestedOverlayGridArea(int width, int height) const;
     std::optional<ResolvedHudLayoutElement> resolveHouseShopOverlayFrame(int width, int height) const;
     void preloadSpriteFrameTextures(const SpriteFrameTable &spriteFrameTable, uint16_t spriteFrameIndex);
     void queueSpriteFrameWarmup(uint16_t spriteFrameIndex);
     void updateHouseVideoPlayback(float deltaSeconds);
-    void renderActorInspectOverlay(int width, int height);
     void renderPendingSpellTargetingOverlay(int width, int height) const;
     void submitHudTexturedQuad(const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
@@ -567,9 +564,6 @@ private:
     void beginHouseBankInput(uint32_t houseId, HouseBankInputMode mode);
     void clearHouseBankState();
     bool hasActiveEventDialog() const;
-    std::optional<size_t> resolvePartyPortraitIndexAtPoint(int width, int height, float x, float y);
-    std::optional<ResolvedHudLayoutElement> resolvePartyPortraitRect(int width, int height, size_t memberIndex);
-    bool tryAutoPlaceHeldItemOnPartyMember(size_t memberIndex, bool showFailureStatus = true);
     void openInventoryNestedOverlay(InventoryNestedOverlayMode mode, uint32_t houseId = 0);
     void updateItemInspectOverlayState(int width, int height);
     void tryApplyItemInspectSkillInteraction();
@@ -804,9 +798,6 @@ private:
     bool m_quickSpellReadyMemberAvailableWhileHeld;
     bool m_quickSpellAttackFallbackRequested;
     bool m_pendingSpellTargetClickLatch;
-    bool m_restToggleLatch;
-    bool m_optionsButtonClickLatch;
-    bool m_booksButtonClickLatch;
     bool m_adventurersInnToggleLatch;
     GameSession &m_gameSession;
     GameplayUiRuntime &m_gameplayUiRuntime;
@@ -820,10 +811,6 @@ private:
     CharacterScreenSource &m_characterScreenSource;
     size_t &m_characterScreenSourceIndex;
     size_t &m_adventurersInnScrollOffset;
-    bool m_partyPortraitClickLatch;
-    std::optional<size_t> m_partyPortraitPressedIndex;
-    uint64_t m_lastPartyPortraitClickTicks;
-    std::optional<size_t> m_lastPartyPortraitClickedIndex;
     uint64_t m_lastAdventurersInnPortraitClickTicks;
     std::optional<size_t> m_lastAdventurersInnPortraitClickedIndex;
     HeldInventoryItemState &m_heldInventoryItem;
@@ -849,8 +836,6 @@ private:
     InventoryNestedOverlayState &m_inventoryNestedOverlay;
     HouseShopOverlayState &m_houseShopOverlay;
     HouseBankState &m_houseBankState;
-    bool m_optionsButtonPressed = false;
-    bool m_booksButtonPressed = false;
     uint64_t m_lastSpellFailSoundTicks;
     uint64_t m_lastMeteorShowerImpactSoundTicks = 0;
     uint64_t m_lastStarburstImpactSoundTicks = 0;

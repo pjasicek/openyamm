@@ -6,11 +6,9 @@
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
-#include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/items/PriceCalculator.h"
 #include "game/party/SkillData.h"
-#include "game/render/TextureFiltering.h"
 #include "game/ui/GameplayOverlayContext.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
@@ -7210,41 +7208,43 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     renderSkillGroup("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
 }
 
-void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &view, int width, int height)
+void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayOverlayContext &context, int width, int height)
 {
-    if (!view.m_actorInspectOverlay.active
-        || view.m_pOutdoorWorldRuntime == nullptr
-        || view.monsterTable() == nullptr
-        || !bgfx::isValid(view.m_programHandle)
-        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
-        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+    const GameplayUiController::ActorInspectOverlayState &actorInspect = context.actorInspectOverlayReadOnly();
+    IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+    const MonsterTable *pMonsterTable = context.monsterTable();
+
+    if (!actorInspect.active
+        || pWorldRuntime == nullptr
+        || pMonsterTable == nullptr
         || width <= 0
         || height <= 0)
     {
         return;
     }
 
-    const OutdoorWorldRuntime::MapActorState *pActorState =
-        view.m_pOutdoorWorldRuntime->mapActorState(view.m_actorInspectOverlay.runtimeActorIndex);
+    GameplayActorInspectState actorState = {};
 
-    if (pActorState == nullptr)
+    if (!pWorldRuntime->actorInspectState(actorInspect.runtimeActorIndex, currentAnimationTicks(), actorState))
     {
         return;
     }
 
-    const MonsterTable::MonsterStatsEntry *pStats = view.monsterTable()->findStatsById(pActorState->monsterId);
+    const MonsterTable::MonsterStatsEntry *pStats = pMonsterTable->findStatsById(actorState.monsterId);
 
     if (pStats == nullptr)
     {
         return;
     }
 
-    const OutdoorGameView::HudLayoutElement *pRootLayout = HudUiService::findHudLayoutElement(view, "ActorInspectRoot");
-    const OutdoorGameView::HudLayoutElement *pPreviewLayout = HudUiService::findHudLayoutElement(view, "ActorInspectPreviewFrame");
-    const OutdoorGameView::HudLayoutElement *pHealthBarBackgroundLayout =
-        HudUiService::findHudLayoutElement(view, "ActorInspectHealthBarBackground");
-    const OutdoorGameView::HudLayoutElement *pHealthBarFillLayout =
-        HudUiService::findHudLayoutElement(view, "ActorInspectHealthBarFill");
+    const GameplayOverlayContext::HudLayoutElement *pRootLayout =
+        HudUiService::findHudLayoutElement(context, "ActorInspectRoot");
+    const GameplayOverlayContext::HudLayoutElement *pPreviewLayout =
+        HudUiService::findHudLayoutElement(context, "ActorInspectPreviewFrame");
+    const GameplayOverlayContext::HudLayoutElement *pHealthBarBackgroundLayout =
+        HudUiService::findHudLayoutElement(context, "ActorInspectHealthBarBackground");
+    const GameplayOverlayContext::HudLayoutElement *pHealthBarFillLayout =
+        HudUiService::findHudLayoutElement(context, "ActorInspectHealthBarFill");
 
     if (pRootLayout == nullptr
         || pPreviewLayout == nullptr
@@ -7260,17 +7260,17 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
     const float rootWidth = pRootLayout->width * popupScale;
     const float rootHeight = pRootLayout->height * popupScale;
     const float popupGap = 12.0f * popupScale;
-    float rootX = view.m_actorInspectOverlay.sourceX + view.m_actorInspectOverlay.sourceWidth + popupGap;
+    float rootX = actorInspect.sourceX + actorInspect.sourceWidth + popupGap;
 
     if (rootX + rootWidth > uiViewport.x + uiViewport.width)
     {
-        rootX = view.m_actorInspectOverlay.sourceX - rootWidth - popupGap;
+        rootX = actorInspect.sourceX - rootWidth - popupGap;
     }
 
     rootX = std::clamp(rootX, uiViewport.x, uiViewport.x + uiViewport.width - rootWidth);
-    float rootY = view.m_actorInspectOverlay.sourceY + (view.m_actorInspectOverlay.sourceHeight - rootHeight) * 0.5f;
+    float rootY = actorInspect.sourceY + (actorInspect.sourceHeight - rootHeight) * 0.5f;
     rootY = std::clamp(rootY, uiViewport.y, uiViewport.y + uiViewport.height - rootHeight);
-    const OutdoorGameView::ResolvedHudLayoutElement rootRect = {
+    const GameplayResolvedHudLayoutElement rootRect = {
         std::round(rootX),
         std::round(rootY),
         std::round(rootWidth),
@@ -7281,7 +7281,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
     setupHudProjection(width, height);
 
     const auto submitSolidQuad =
-        [&view](float x, float y, float quadWidth, float quadHeight, uint32_t abgr)
+        [&context](float x, float y, float quadWidth, float quadHeight, uint32_t abgr)
         {
             if (quadWidth <= 0.0f || quadHeight <= 0.0f)
             {
@@ -7289,26 +7289,24 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
             }
 
             const std::string textureName = "__actor_inspect_solid_" + std::to_string(abgr);
-            const OutdoorGameView::HudTextureHandle *pSolidTexture =
-                HudUiService::ensureSolidHudTextureLoaded(
-                    const_cast<OutdoorGameView &>(view),
-                    textureName,
-                    abgr);
+            const std::optional<GameplayOverlayContext::HudTextureHandle> solidTexture =
+                HudUiService::ensureSolidHudTextureLoaded(context, textureName, abgr);
 
-            if (pSolidTexture == nullptr)
+            if (!solidTexture)
             {
                 return;
             }
 
-            view.submitHudTexturedQuad(*pSolidTexture, x, y, quadWidth, quadHeight);
+            context.submitHudTexturedQuad(*solidTexture, x, y, quadWidth, quadHeight);
         };
 
-    std::function<std::optional<OutdoorGameView::ResolvedHudLayoutElement>(const std::string &)> resolveLayout;
+    std::function<std::optional<GameplayResolvedHudLayoutElement>(const std::string &)> resolveLayout;
     resolveLayout =
-        [&view, &rootRect, popupScale, &resolveLayout](
-            const std::string &layoutId) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+        [&context, &rootRect, popupScale, &resolveLayout](
+            const std::string &layoutId) -> std::optional<GameplayResolvedHudLayoutElement>
         {
-            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+            const GameplayOverlayContext::HudLayoutElement *pLayout =
+                HudUiService::findHudLayoutElement(context, layoutId);
 
             if (pLayout == nullptr)
             {
@@ -7321,18 +7319,19 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
 
             if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
             {
-                const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pLayout->primaryAsset);
+                const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
+                    HudUiService::ensureHudTextureLoaded(context, pLayout->primaryAsset);
 
-                if (pTexture != nullptr)
+                if (texture)
                 {
                     if (pLayout->width <= 0.0f)
                     {
-                        resolvedWidth = static_cast<float>(pTexture->width) * popupScale;
+                        resolvedWidth = static_cast<float>(texture->width) * popupScale;
                     }
 
                     if (pLayout->height <= 0.0f)
                     {
-                        resolvedHeight = static_cast<float>(pTexture->height) * popupScale;
+                        resolvedHeight = static_cast<float>(texture->height) * popupScale;
                     }
                 }
             }
@@ -7349,11 +7348,11 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
                 resolvedHeight = rootRect.height;
             }
 
-            OutdoorGameView::ResolvedHudLayoutElement parent = rootRect;
+            GameplayResolvedHudLayoutElement parent = rootRect;
 
             if (!pLayout->parentId.empty() && toLowerCopy(pLayout->parentId) != "actorinspectroot")
             {
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedParent =
+                const std::optional<GameplayResolvedHudLayoutElement> resolvedParent =
                     resolveLayout(pLayout->parentId);
 
                 if (resolvedParent)
@@ -7362,7 +7361,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
                 }
             }
 
-            return OutdoorGameView::resolveAttachedHudLayoutRect(
+            return GameplayHudCommon::resolveAttachedHudLayoutRect(
                 pLayout->attachTo,
                 parent,
                 resolvedWidth,
@@ -7372,25 +7371,24 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
                 popupScale);
         };
 
-    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> previewRect =
-        resolveLayout("ActorInspectPreviewFrame");
+    const std::optional<GameplayResolvedHudLayoutElement> previewRect = resolveLayout("ActorInspectPreviewFrame");
     const float previewBorderThickness = std::max(1.0f, std::round(0.125f * popupScale));
     const float previewInnerInset = previewBorderThickness;
     const uint32_t previewBackgroundColor = makeAbgrColor(0, 0, 0, 255);
     const uint32_t previewBorderColor = makeAbgrColor(255, 255, 155, 255);
-    const OutdoorGameView::HudTextureHandle *pBackgroundTexture =
-        HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pRootLayout->primaryAsset);
+    const std::optional<GameplayOverlayContext::HudTextureHandle> backgroundTexture =
+        HudUiService::ensureHudTextureLoaded(context, pRootLayout->primaryAsset);
 
-    if (pBackgroundTexture != nullptr)
+    if (backgroundTexture)
     {
-        view.submitHudTexturedQuad(*pBackgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
+        context.submitHudTexturedQuad(*backgroundTexture, rootRect.x, rootRect.y, rootRect.width, rootRect.height);
     }
 
-    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "ActorInspect");
+    const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(context, "ActorInspect");
 
     for (const std::string &layoutId : orderedLayoutIds)
     {
-        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+        const GameplayOverlayContext::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(context, layoutId);
 
         if (pLayout == nullptr
             || !pLayout->visible
@@ -7401,22 +7399,20 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
             continue;
         }
 
-        const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), pLayout->primaryAsset);
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+        const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
+            HudUiService::ensureHudTextureLoaded(context, pLayout->primaryAsset);
+        const std::optional<GameplayResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
 
-        if (pTexture == nullptr || !resolved)
+        if (!texture || !resolved)
         {
             continue;
         }
 
-        view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+        context.submitHudTexturedQuad(*texture, resolved->x, resolved->y, resolved->width, resolved->height);
     }
 
-    const float healthRatio = pActorState->maxHp > 0
-        ? std::clamp(
-            static_cast<float>(pActorState->currentHp) / static_cast<float>(pActorState->maxHp),
-            0.0f,
-            1.0f)
+    const float healthRatio = actorState.maxHp > 0
+        ? std::clamp(static_cast<float>(actorState.currentHp) / static_cast<float>(actorState.maxHp), 0.0f, 1.0f)
         : 0.0f;
     uint32_t healthBarColor = makeAbgrColor(0, 255, 0);
 
@@ -7429,7 +7425,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
         healthBarColor = makeAbgrColor(255, 255, 0);
     }
 
-    if (const std::optional<OutdoorGameView::ResolvedHudLayoutElement> healthBackgroundRect =
+    if (const std::optional<GameplayResolvedHudLayoutElement> healthBackgroundRect =
             resolveLayout("ActorInspectHealthBarBackground"))
     {
         submitSolidQuad(
@@ -7440,7 +7436,7 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
             makeAbgrColor(32, 32, 32, 220));
     }
 
-    if (const std::optional<OutdoorGameView::ResolvedHudLayoutElement> healthFillRect =
+    if (const std::optional<GameplayResolvedHudLayoutElement> healthFillRect =
             resolveLayout("ActorInspectHealthBarFill"))
     {
         submitSolidQuad(
@@ -7462,106 +7458,59 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
             previewBackgroundColor);
     }
 
-    if (view.m_outdoorActorPreviewBillboardSet)
+    if (previewRect && !actorState.previewTextureName.empty())
     {
-        uint16_t spriteFrameIndex = pActorState->spriteFrameIndex;
-        const size_t walkingAnimationIndex = static_cast<size_t>(OutdoorWorldRuntime::ActorAnimation::Walking);
+        int previewTextureWidth = 0;
+        int previewTextureHeight = 0;
+        const std::optional<std::vector<uint8_t>> previewPixels = context.loadSpriteBitmapPixelsBgraCached(
+            actorState.previewTextureName,
+            actorState.previewPaletteId,
+            previewTextureWidth,
+            previewTextureHeight);
 
-        if (walkingAnimationIndex < pActorState->actionSpriteFrameIndices.size()
-            && pActorState->actionSpriteFrameIndices[walkingAnimationIndex] != 0)
+        if (previewPixels && previewTextureWidth > 0 && previewTextureHeight > 0)
         {
-            spriteFrameIndex = pActorState->actionSpriteFrameIndices[walkingAnimationIndex];
-        }
+            const std::string cacheName = "__actor_inspect_preview_" + actorState.previewTextureName + "_"
+                + std::to_string(actorState.previewPaletteId);
+            const std::optional<GameplayOverlayContext::HudTextureHandle> previewTexture =
+                context.ensureDynamicHudTexture(cacheName, previewTextureWidth, previewTextureHeight, *previewPixels);
 
-        const SpriteFrameEntry *pFrame =
-            view.m_outdoorActorPreviewBillboardSet->spriteFrameTable.getFrame(spriteFrameIndex, currentAnimationTicks());
-
-        if (pFrame == nullptr)
-        {
-            pFrame = view.m_outdoorActorPreviewBillboardSet->spriteFrameTable.getFrame(spriteFrameIndex, 0);
-        }
-
-        if (pFrame != nullptr && previewRect)
-        {
-            static constexpr int PreviewFacingOctant = 0;
-            const ResolvedSpriteTexture resolvedTexture =
-                SpriteFrameTable::resolveTexture(*pFrame, PreviewFacingOctant);
-            const OutdoorGameView::BillboardTextureHandle *pExistingTexture =
-                view.findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
-            const OutdoorGameView::BillboardTextureHandle *pTexture =
-                pExistingTexture != nullptr
-                    ? pExistingTexture
-                    : OutdoorBillboardRenderer::ensureSpriteBillboardTexture(
-                        view,
-                        resolvedTexture.textureName,
-                        pFrame->paletteId);
-
-            if (pTexture != nullptr && bgfx::isValid(pTexture->textureHandle))
+            if (previewTexture)
             {
                 const float previewPadding = std::round(4.0f * popupScale);
-                const float baseAvailableWidth = std::max(1.0f, previewRect->width - previewPadding * 2.0f);
-                const float baseAvailableHeight = std::max(1.0f, previewRect->height - previewPadding * 2.0f);
-                const float expandedAvailableWidth = std::max(1.0f, previewRect->width * 1.4f);
-                const float expandedAvailableHeight = std::max(1.0f, previewRect->height * 1.4f);
+                const float innerX = previewRect->x + previewPadding;
+                const float innerY = previewRect->y + previewPadding;
+                const float innerWidth = std::max(1.0f, previewRect->width - previewPadding * 2.0f);
+                const float innerHeight = std::max(1.0f, previewRect->height - previewPadding * 2.0f);
                 const float fitScale = std::min(
-                    baseAvailableWidth / static_cast<float>(std::max(1, pTexture->width)),
-                    baseAvailableHeight / static_cast<float>(std::max(1, pTexture->height)));
-                const float boostedScale = std::min(
-                    fitScale * 1.4f,
-                    std::min(
-                        expandedAvailableWidth / static_cast<float>(std::max(1, pTexture->width)),
-                        expandedAvailableHeight / static_cast<float>(std::max(1, pTexture->height))));
-                const float portraitZoomScale = boostedScale * 1.45f;
-                const float previewWidth = static_cast<float>(pTexture->width) * portraitZoomScale;
-                const float previewHeight = static_cast<float>(pTexture->height) * portraitZoomScale;
-                const float previewX = std::round(previewRect->x + (previewRect->width - previewWidth) * 0.5f);
-                const uint16_t scissorX = static_cast<uint16_t>(
-                    std::clamp(std::lround(previewRect->x + previewInnerInset), 0l, long(width)));
-                const uint16_t scissorY = static_cast<uint16_t>(
-                    std::clamp(std::lround(previewRect->y + previewInnerInset), 0l, long(height)));
-                const uint16_t scissorWidth = static_cast<uint16_t>(
-                    std::clamp(
-                        std::lround(std::max(1.0f, previewRect->width - previewInnerInset * 2.0f)),
-                        1l,
-                        long(width)));
-                const uint16_t scissorHeight = static_cast<uint16_t>(
-                    std::clamp(
-                        std::lround(std::max(1.0f, previewRect->height - previewInnerInset * 2.0f)),
-                        1l,
-                        long(height)));
-                const float visibleCenterY =
-                    static_cast<float>(scissorY) + static_cast<float>(scissorHeight) * 0.5f;
-                const float previewY = std::round(visibleCenterY - previewHeight * 0.48f);
+                    innerWidth / static_cast<float>(previewTexture->width),
+                    innerHeight / static_cast<float>(previewTexture->height));
+                const float previewScale = fitScale * 1.8f;
+                const float scaledWidth = static_cast<float>(previewTexture->width) * previewScale;
+                const float scaledHeight = static_cast<float>(previewTexture->height) * previewScale;
+                const float scaledX = std::round(innerX + (innerWidth - scaledWidth) * 0.5f);
+                const float scaledY = std::round(innerY + (innerHeight - scaledHeight) * 0.52f);
+                const float visibleLeft = std::max(scaledX, innerX);
+                const float visibleTop = std::max(scaledY, innerY);
+                const float visibleRight = std::min(scaledX + scaledWidth, innerX + innerWidth);
+                const float visibleBottom = std::min(scaledY + scaledHeight, innerY + innerHeight);
 
-                if (bgfx::getAvailTransientVertexBuffer(6, OutdoorGameView::TexturedTerrainVertex::ms_layout) >= 6)
+                if (visibleRight > visibleLeft && visibleBottom > visibleTop)
                 {
-                    bgfx::TransientVertexBuffer transientVertexBuffer = {};
-                    bgfx::allocTransientVertexBuffer(
-                        &transientVertexBuffer,
-                        6,
-                        OutdoorGameView::TexturedTerrainVertex::ms_layout);
-                    OutdoorGameView::TexturedTerrainVertex *pVertices =
-                        reinterpret_cast<OutdoorGameView::TexturedTerrainVertex *>(transientVertexBuffer.data);
-                    pVertices[0] = {previewX, previewY, 0.0f, 0.0f, 0.0f};
-                    pVertices[1] = {previewX + previewWidth, previewY, 0.0f, 1.0f, 0.0f};
-                    pVertices[2] = {previewX + previewWidth, previewY + previewHeight, 0.0f, 1.0f, 1.0f};
-                    pVertices[3] = {previewX, previewY, 0.0f, 0.0f, 0.0f};
-                    pVertices[4] = {previewX + previewWidth, previewY + previewHeight, 0.0f, 1.0f, 1.0f};
-                    pVertices[5] = {previewX, previewY + previewHeight, 0.0f, 0.0f, 1.0f};
-                    float modelMatrix[16] = {};
-                    bx::mtxIdentity(modelMatrix);
-                    bgfx::setTransform(modelMatrix);
-                    bgfx::setVertexBuffer(0, &transientVertexBuffer);
-                    bindTexture(
-                        0,
-                        view.m_terrainTextureSamplerHandle,
-                        pTexture->textureHandle,
-                        TextureFilterProfile::Billboard,
-                        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-                    bgfx::setScissor(scissorX, scissorY, scissorWidth, scissorHeight);
-                    bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-                    bgfx::submit(HudViewId, view.m_texturedTerrainProgramHandle);
-                    bgfx::setScissor(0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+                    const float u0 = (visibleLeft - scaledX) / scaledWidth;
+                    const float v0 = (visibleTop - scaledY) / scaledHeight;
+                    const float u1 = (visibleRight - scaledX) / scaledWidth;
+                    const float v1 = (visibleBottom - scaledY) / scaledHeight;
+                    context.submitWorldTextureQuad(
+                        previewTexture->textureHandle,
+                        visibleLeft,
+                        visibleTop,
+                        visibleRight - visibleLeft,
+                        visibleBottom - visibleTop,
+                        u0,
+                        v0,
+                        u1,
+                        v1);
                 }
             }
         }
@@ -7603,77 +7552,78 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
         pStats->hasSpell2 ? pStats->spell2Name : std::string()});
     std::vector<std::string> activeEffects;
 
-    if (pActorState->isDead)
+    if (actorState.isDead)
     {
         activeEffects.push_back("Dead");
     }
     else
     {
-        if (pActorState->stunRemainingSeconds > 0.0f)
+        if (actorState.stunRemainingSeconds > 0.0f)
         {
             activeEffects.push_back("Stunned");
         }
 
-        if (pActorState->paralyzeRemainingSeconds > 0.0f)
+        if (actorState.paralyzeRemainingSeconds > 0.0f)
         {
             activeEffects.push_back("Paralyzed");
         }
 
-        if (pActorState->slowRemainingSeconds > 0.0f)
+        if (actorState.slowRemainingSeconds > 0.0f)
         {
             activeEffects.push_back("Slow");
         }
 
-        if (pActorState->fearRemainingSeconds > 0.0f)
+        if (actorState.fearRemainingSeconds > 0.0f)
         {
             activeEffects.push_back("Afraid");
         }
 
-        if (pActorState->shrinkRemainingSeconds > 0.0f)
+        if (actorState.shrinkRemainingSeconds > 0.0f)
         {
             activeEffects.push_back("Shrunk");
         }
 
-        if (pActorState->darkGraspRemainingSeconds > 0.0f)
+        if (actorState.darkGraspRemainingSeconds > 0.0f)
         {
             activeEffects.push_back("Dark Grasp");
         }
 
-        switch (pActorState->controlMode)
+        switch (actorState.controlMode)
         {
-            case OutdoorWorldRuntime::ActorControlMode::Charm:
+            case GameplayActorControlMode::Charm:
                 activeEffects.push_back("Charmed");
                 break;
-            case OutdoorWorldRuntime::ActorControlMode::Berserk:
+            case GameplayActorControlMode::Berserk:
                 activeEffects.push_back("Berserk");
                 break;
-            case OutdoorWorldRuntime::ActorControlMode::Enslaved:
+            case GameplayActorControlMode::Enslaved:
                 activeEffects.push_back("Enslaved");
                 break;
-            case OutdoorWorldRuntime::ActorControlMode::ControlUndead:
+            case GameplayActorControlMode::ControlUndead:
                 activeEffects.push_back("Controlled");
                 break;
-            case OutdoorWorldRuntime::ActorControlMode::Reanimated:
+            case GameplayActorControlMode::Reanimated:
                 activeEffects.push_back("Reanimated");
                 break;
-            case OutdoorWorldRuntime::ActorControlMode::None:
+            case GameplayActorControlMode::None:
                 break;
         }
     }
 
     const std::string effectsText = activeEffects.empty() ? "None" : joinNonEmptyTexts(activeEffects);
     const auto renderTextForLayout =
-        [&view, &resolveLayout](const char *pLayoutId, const std::string &text)
+        [&context, &resolveLayout](const char *pLayoutId, const std::string &text)
         {
-            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLayoutId);
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(pLayoutId);
+            const GameplayOverlayContext::HudLayoutElement *pLayout =
+                HudUiService::findHudLayoutElement(context, pLayoutId);
+            const std::optional<GameplayResolvedHudLayoutElement> resolved = resolveLayout(pLayoutId);
 
             if (pLayout == nullptr || !resolved || text.empty())
             {
                 return;
             }
 
-            HudUiService::renderLayoutLabel(view, *pLayout, *resolved, text);
+            HudUiService::renderLayoutLabel(context, *pLayout, *resolved, text);
         };
 
     for (const char *pLabelId : {
@@ -7695,7 +7645,8 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
              "ActorInspectResistanceDarkLabel",
              "ActorInspectResistancePhysicalLabel"})
     {
-        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, pLabelId);
+        const GameplayOverlayContext::HudLayoutElement *pLayout =
+            HudUiService::findHudLayoutElement(context, pLabelId);
 
         if (pLayout != nullptr)
         {
@@ -7703,15 +7654,11 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(OutdoorGameView &vi
         }
     }
 
-    renderTextForLayout("ActorInspectTitle", pActorState->displayName);
+    renderTextForLayout("ActorInspectTitle", actorState.displayName);
     renderTextForLayout(
         "ActorInspectHitPointsValue",
-        std::to_string(std::max(0, pActorState->currentHp))
-            + " / "
-            + std::to_string(std::max(0, pActorState->maxHp)));
-    renderTextForLayout(
-        "ActorInspectArmorClassValue",
-        std::to_string(view.m_pOutdoorWorldRuntime->effectiveMapActorArmorClass(view.m_actorInspectOverlay.runtimeActorIndex)));
+        std::to_string(std::max(0, actorState.currentHp)) + " / " + std::to_string(std::max(0, actorState.maxHp)));
+    renderTextForLayout("ActorInspectArmorClassValue", std::to_string(actorState.armorClass));
     renderTextForLayout("ActorInspectAttackValue", attackText);
     renderTextForLayout("ActorInspectDamageValue", damageText);
     renderTextForLayout("ActorInspectSpellValue", spellText);

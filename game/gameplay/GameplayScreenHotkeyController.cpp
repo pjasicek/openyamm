@@ -29,6 +29,52 @@ void GameplayScreenHotkeyController::handleGameplayScreenHotkeys(
     const bool *pKeyboardState,
     const GameplayScreenHotkeyConfig &config)
 {
+    if (pKeyboardState != nullptr)
+    {
+        const bool escapePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
+
+        if (config.canToggleMenu)
+        {
+            if (escapePressed)
+            {
+                if (!context.menuToggleLatch())
+                {
+                    context.openMenuOverlay();
+                    context.menuToggleLatch() = true;
+                }
+            }
+            else
+            {
+                context.menuToggleLatch() = false;
+            }
+        }
+
+        if (config.canOpenRest)
+        {
+            if (context.mutableSettings().keyboard.isPressed(KeyboardAction::Rest, pKeyboardState))
+            {
+                if (!context.restToggleLatch())
+                {
+                    context.openRestOverlay();
+                    context.restToggleLatch() = true;
+                }
+            }
+            else
+            {
+                context.restToggleLatch() = false;
+            }
+        }
+        else
+        {
+            context.restToggleLatch() = false;
+        }
+    }
+    else
+    {
+        context.menuToggleLatch() = false;
+        context.restToggleLatch() = false;
+    }
+
     if (isActionNewlyPressed(context, KeyboardAction::Cast, pKeyboardState))
     {
         if (context.spellbookReadOnly().active)

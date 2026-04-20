@@ -352,6 +352,21 @@ struct GameplayRestPointerTarget
     bool operator==(const GameplayRestPointerTarget &other) const = default;
 };
 
+enum class GameplayHudPointerTargetType
+{
+    None,
+    MenuButton,
+    RestButton,
+    BooksButton
+};
+
+struct GameplayHudPointerTarget
+{
+    GameplayHudPointerTargetType type = GameplayHudPointerTargetType::None;
+
+    bool operator==(const GameplayHudPointerTarget &other) const = default;
+};
+
 enum class GameplayControlsPointerTargetType
 {
     None,
@@ -489,8 +504,11 @@ struct GameplayInventoryNestedOverlayPointerTarget
 struct GameplayOverlayInteractionState
 {
     bool closeOverlayLatch = false;
+    bool restToggleLatch = false;
     bool restClickLatch = false;
     GameplayRestPointerTarget restPressedTarget = {};
+    bool gameplayHudClickLatch = false;
+    GameplayHudPointerTarget gameplayHudPressedTarget = {};
     bool menuToggleLatch = false;
     bool menuClickLatch = false;
     GameplayMenuPointerTarget menuPressedTarget = {};
@@ -549,6 +567,10 @@ struct GameplayOverlayInteractionState
     std::array<bool, 5> eventDialogPartySelectLatches = {};
     bool activateInspectLatch = false;
     size_t chestSelectionIndex = 0;
+    bool partyPortraitClickLatch = false;
+    std::optional<size_t> partyPortraitPressedIndex = std::nullopt;
+    uint64_t lastPartyPortraitClickTicks = 0;
+    std::optional<size_t> lastPartyPortraitClickedIndex = std::nullopt;
 };
 
 struct GameplayRenderedInspectableHudItem

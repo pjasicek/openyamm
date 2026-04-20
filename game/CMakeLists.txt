@@ -30,6 +30,7 @@ add_executable(openyamm
     gameplay/ChestRuntime.cpp
     gameplay/GameplayDialogController.cpp
     gameplay/GameplayDialogUiFlow.cpp
+    gameplay/GameplayHudInputController.cpp
     gameplay/GameplayOverlayInputController.cpp
     gameplay/GameplayPartyOverlayInputController.cpp
     gameplay/GameplayScreenHotkeyController.cpp

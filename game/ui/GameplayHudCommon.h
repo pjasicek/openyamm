@@ -157,6 +157,13 @@ public:
         const std::string &textureName,
         int &width,
         int &height);
+    static std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgraCached(
+        const Engine::AssetFileSystem *pAssetFileSystem,
+        GameplayAssetLoadCache &cache,
+        const std::string &textureName,
+        int16_t paletteId,
+        int &width,
+        int &height);
     static const GameplayHudTextureData *findHudTexture(
         const std::vector<GameplayHudTextureData> &textures,
         const std::unordered_map<std::string, size_t> &textureIndexByName,

@@ -546,6 +546,10 @@ public:
     bool isChestOpened(uint32_t chestId) const;
     size_t mapActorCount() const override;
     bool actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const override;
+    bool actorInspectState(
+        size_t actorIndex,
+        uint32_t animationTicks,
+        GameplayActorInspectState &state) const override;
     const MapActorState *mapActorState(size_t actorIndex) const;
     std::optional<ActorDecisionDebugInfo> debugActorDecisionInfo(
         size_t actorIndex,

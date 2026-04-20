@@ -8495,6 +8495,87 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
     return true;
 }
 
+bool OutdoorWorldRuntime::actorInspectState(
+    size_t actorIndex,
+    uint32_t animationTicks,
+    GameplayActorInspectState &state) const
+{
+    const MapActorState *pActor = mapActorState(actorIndex);
+
+    if (pActor == nullptr)
+    {
+        return false;
+    }
+
+    state = {};
+    state.displayName = pActor->displayName;
+    state.monsterId = pActor->monsterId;
+    state.currentHp = pActor->currentHp;
+    state.maxHp = pActor->maxHp;
+    state.armorClass = effectiveMapActorArmorClass(actorIndex);
+    state.isDead = pActor->isDead;
+    state.slowRemainingSeconds = pActor->slowRemainingSeconds;
+    state.stunRemainingSeconds = pActor->stunRemainingSeconds;
+    state.paralyzeRemainingSeconds = pActor->paralyzeRemainingSeconds;
+    state.fearRemainingSeconds = pActor->fearRemainingSeconds;
+    state.shrinkRemainingSeconds = pActor->shrinkRemainingSeconds;
+    state.darkGraspRemainingSeconds = pActor->darkGraspRemainingSeconds;
+
+    switch (pActor->controlMode)
+    {
+        case ActorControlMode::Charm:
+            state.controlMode = GameplayActorControlMode::Charm;
+            break;
+        case ActorControlMode::Berserk:
+            state.controlMode = GameplayActorControlMode::Berserk;
+            break;
+        case ActorControlMode::Enslaved:
+            state.controlMode = GameplayActorControlMode::Enslaved;
+            break;
+        case ActorControlMode::ControlUndead:
+            state.controlMode = GameplayActorControlMode::ControlUndead;
+            break;
+        case ActorControlMode::Reanimated:
+            state.controlMode = GameplayActorControlMode::Reanimated;
+            break;
+        case ActorControlMode::None:
+            state.controlMode = GameplayActorControlMode::None;
+            break;
+    }
+
+    if (m_pActorSpriteFrameTable == nullptr)
+    {
+        return true;
+    }
+
+    uint16_t spriteFrameIndex = pActor->spriteFrameIndex;
+    const size_t walkingAnimationIndex = static_cast<size_t>(ActorAnimation::Walking);
+
+    if (walkingAnimationIndex < pActor->actionSpriteFrameIndices.size()
+        && pActor->actionSpriteFrameIndices[walkingAnimationIndex] != 0)
+    {
+        spriteFrameIndex = pActor->actionSpriteFrameIndices[walkingAnimationIndex];
+    }
+
+    const SpriteFrameEntry *pFrame = m_pActorSpriteFrameTable->getFrame(spriteFrameIndex, animationTicks);
+
+    if (pFrame == nullptr)
+    {
+        pFrame = m_pActorSpriteFrameTable->getFrame(spriteFrameIndex, 0);
+    }
+
+    if (pFrame == nullptr)
+    {
+        return true;
+    }
+
+    static constexpr int PreviewFacingOctant = 0;
+    const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, PreviewFacingOctant);
+    state.previewTextureName = resolvedTexture.textureName;
+    state.previewPaletteId = pFrame->paletteId;
+    return true;
+}
+
 const OutdoorWorldRuntime::MapActorState *OutdoorWorldRuntime::mapActorState(size_t actorIndex) const
 {
     if (actorIndex >= m_mapActors.size())

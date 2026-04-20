@@ -79,6 +79,10 @@ public:
     ) override;
     size_t mapActorCount() const override;
     bool actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const override;
+    bool actorInspectState(
+        size_t actorIndex,
+        uint32_t animationTicks,
+        GameplayActorInspectState &state) const override;
     bool castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request) override;
     bool applyPartySpellToActor(
         size_t actorIndex,

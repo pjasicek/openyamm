@@ -59,6 +59,35 @@ struct GameplayRuntimeActorState
     bool hasDetectedParty = false;
 };
 
+enum class GameplayActorControlMode : uint8_t
+{
+    None = 0,
+    Charm = 1,
+    Berserk = 2,
+    Enslaved = 3,
+    ControlUndead = 4,
+    Reanimated = 5,
+};
+
+struct GameplayActorInspectState
+{
+    std::string displayName;
+    std::string previewTextureName;
+    int16_t monsterId = 0;
+    int16_t previewPaletteId = 0;
+    int currentHp = 0;
+    int maxHp = 0;
+    int armorClass = 0;
+    bool isDead = false;
+    float slowRemainingSeconds = 0.0f;
+    float stunRemainingSeconds = 0.0f;
+    float paralyzeRemainingSeconds = 0.0f;
+    float fearRemainingSeconds = 0.0f;
+    float shrinkRemainingSeconds = 0.0f;
+    float darkGraspRemainingSeconds = 0.0f;
+    GameplayActorControlMode controlMode = GameplayActorControlMode::None;
+};
+
 struct GameplayPartySpellProjectileRequest
 {
     uint32_t casterMemberIndex = 0;
@@ -107,6 +136,10 @@ public:
         int32_t toZ) = 0;
     virtual size_t mapActorCount() const = 0;
     virtual bool actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const = 0;
+    virtual bool actorInspectState(
+        size_t actorIndex,
+        uint32_t animationTicks,
+        GameplayActorInspectState &state) const = 0;
     virtual bool castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request) = 0;
     virtual bool applyPartySpellToActor(
         size_t actorIndex,

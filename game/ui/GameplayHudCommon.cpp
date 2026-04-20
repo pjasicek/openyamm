@@ -174,6 +174,105 @@ bool usesBlackTransparencyKey(std::string_view textureName)
     const std::string normalizedName = toLowerCopy(std::string(textureName));
     return normalizedName.rfind("mapdir", 0) == 0 || normalizedName.rfind("micon", 0) == 0;
 }
+
+std::optional<std::vector<uint8_t>> decodeBitmapPixelsBgra(
+    const std::vector<uint8_t> &bitmapBytes,
+    const std::optional<std::array<uint8_t, 256 * 3>> &overridePalette,
+    bool allowBlackTransparencyKey,
+    int &width,
+    int &height)
+{
+    if (bitmapBytes.empty())
+    {
+        return std::nullopt;
+    }
+
+    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes.data(), bitmapBytes.size());
+
+    if (pIoStream == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
+
+    if (pLoadedSurface == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    SDL_Palette *pBasePalette = SDL_GetSurfacePalette(pLoadedSurface);
+    const bool canApplyPalette =
+        overridePalette.has_value()
+        && pLoadedSurface->format == SDL_PIXELFORMAT_INDEX8
+        && pBasePalette != nullptr;
+
+    if (canApplyPalette)
+    {
+        width = pLoadedSurface->w;
+        height = pLoadedSurface->h;
+        std::vector<uint8_t> pixels(static_cast<size_t>(width) * static_cast<size_t>(height) * 4);
+
+        for (int row = 0; row < height; ++row)
+        {
+            const uint8_t *pSourceRow = static_cast<const uint8_t *>(pLoadedSurface->pixels)
+                + static_cast<ptrdiff_t>(row * pLoadedSurface->pitch);
+
+            for (int column = 0; column < width; ++column)
+            {
+                const uint8_t paletteIndex = pSourceRow[column];
+                const SDL_Color sourceColor =
+                    paletteIndex < pBasePalette->ncolors ? pBasePalette->colors[paletteIndex] : SDL_Color{0, 0, 0, 255};
+                const bool isZeroIndexKey = paletteIndex == 0;
+                const bool isMagentaKey = sourceColor.r >= 248 && sourceColor.g <= 8 && sourceColor.b >= 248;
+                const bool isTealKey = sourceColor.r <= 8 && sourceColor.g >= 248 && sourceColor.b >= 248;
+                const size_t paletteOffset = static_cast<size_t>(paletteIndex) * 3;
+                const size_t pixelOffset =
+                    (static_cast<size_t>(row) * static_cast<size_t>(width) + static_cast<size_t>(column)) * 4;
+
+                pixels[pixelOffset + 0] = (*overridePalette)[paletteOffset + 2];
+                pixels[pixelOffset + 1] = (*overridePalette)[paletteOffset + 1];
+                pixels[pixelOffset + 2] = (*overridePalette)[paletteOffset + 0];
+                pixels[pixelOffset + 3] = (isZeroIndexKey || isMagentaKey || isTealKey) ? 0 : 255;
+            }
+        }
+
+        SDL_DestroySurface(pLoadedSurface);
+        return pixels;
+    }
+
+    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
+    SDL_DestroySurface(pLoadedSurface);
+
+    if (pConvertedSurface == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    width = pConvertedSurface->w;
+    height = pConvertedSurface->h;
+    const size_t pixelCount = static_cast<size_t>(width) * static_cast<size_t>(height) * 4;
+    std::vector<uint8_t> pixels(pixelCount);
+    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
+    SDL_DestroySurface(pConvertedSurface);
+
+    for (size_t pixelOffset = 0; pixelOffset < pixels.size(); pixelOffset += 4)
+    {
+        const uint8_t blue = pixels[pixelOffset + 0];
+        const uint8_t green = pixels[pixelOffset + 1];
+        const uint8_t red = pixels[pixelOffset + 2];
+        const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
+        const bool isTealKey = red <= 8 && green >= 248 && blue >= 248;
+        const bool isBlackKey = allowBlackTransparencyKey && red <= 8 && green <= 8 && blue <= 8;
+
+        if (isMagentaKey || isTealKey || isBlackKey)
+        {
+            pixels[pixelOffset + 3] = 0;
+        }
+    }
+
+    return pixels;
+}
 } // namespace
 
 GameplayUiViewportRect GameplayHudCommon::computeUiViewportRect(int screenWidth, int screenHeight)
@@ -684,51 +783,41 @@ std::optional<std::vector<uint8_t>> GameplayHudCommon::loadHudBitmapPixelsBgraCa
         return std::nullopt;
     }
 
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+    return decodeBitmapPixelsBgra(*bitmapBytes, std::nullopt, usesBlackTransparencyKey(textureName), width, height);
+}
 
-    if (pIoStream == nullptr)
+std::optional<std::vector<uint8_t>> GameplayHudCommon::loadSpriteBitmapPixelsBgraCached(
+    const Engine::AssetFileSystem *pAssetFileSystem,
+    GameplayAssetLoadCache &cache,
+    const std::string &textureName,
+    int16_t paletteId,
+    int &width,
+    int &height)
+{
+    const std::optional<std::string> spritePath = findCachedAssetPath(
+        pAssetFileSystem,
+        cache,
+        "Data/sprites",
+        textureName + ".bmp");
+
+    if (!spritePath)
     {
         return std::nullopt;
     }
 
-    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
+    const std::optional<std::vector<uint8_t>> bitmapBytes = readCachedBinaryFile(pAssetFileSystem, cache, *spritePath);
 
-    if (pLoadedSurface == nullptr)
+    if (!bitmapBytes || bitmapBytes->empty())
     {
         return std::nullopt;
     }
 
-    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
-    SDL_DestroySurface(pLoadedSurface);
-
-    if (pConvertedSurface == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    width = pConvertedSurface->w;
-    height = pConvertedSurface->h;
-    const size_t pixelCount = static_cast<size_t>(width) * static_cast<size_t>(height) * 4;
-    std::vector<uint8_t> pixels(pixelCount);
-    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
-    SDL_DestroySurface(pConvertedSurface);
-
-    for (size_t pixelOffset = 0; pixelOffset < pixels.size(); pixelOffset += 4)
-    {
-        const uint8_t blue = pixels[pixelOffset + 0];
-        const uint8_t green = pixels[pixelOffset + 1];
-        const uint8_t red = pixels[pixelOffset + 2];
-        const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
-        const bool isTealKey = red <= 8 && green >= 248 && blue >= 248;
-        const bool isBlackKey = usesBlackTransparencyKey(textureName) && red <= 8 && green <= 8 && blue <= 8;
-
-        if (isMagentaKey || isTealKey || isBlackKey)
-        {
-            pixels[pixelOffset + 3] = 0;
-        }
-    }
-
-    return pixels;
+    return decodeBitmapPixelsBgra(
+        *bitmapBytes,
+        loadCachedActPalette(pAssetFileSystem, cache, paletteId),
+        false,
+        width,
+        height);
 }
 
 const GameplayHudTextureData *GameplayHudCommon::findHudTexture(
