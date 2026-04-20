@@ -546,7 +546,6 @@ private:
     void queueSpriteFrameWarmup(uint16_t spriteFrameIndex);
     void updateHouseVideoPlayback(float deltaSeconds);
     void renderPendingSpellTargetingOverlay(int width, int height) const;
-    void submitHudTexturedQuad(const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -626,10 +625,7 @@ private:
     std::optional<size_t> resolveRuntimeActorIndexForInspectHit(const InspectHit &inspectHit) const;
     bool shouldEnableGameplayMouseLook() const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
-    void renderGameplayMouseLookOverlay(int width, int height) const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
-    bool loadHudFont(const Engine::AssetFileSystem &assetFileSystem, const std::string &fontName);
-    bool loadHudTexture(const Engine::AssetFileSystem &assetFileSystem, const std::string &textureName);
     bool m_isInitialized;
     bool m_isRenderable;
     std::optional<MapStatsEntry> m_map;
@@ -841,7 +837,6 @@ private:
     uint64_t m_lastStarburstImpactSoundTicks = 0;
     PendingSpellCastState m_pendingSpellCast;
     SpellAreaPreviewCacheState m_spellAreaPreviewCache;
-    mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
     bool m_heldInventoryDropLatch;
     size_t &m_eventDialogSelectionIndex;
     std::string &m_statusBarHoverText;

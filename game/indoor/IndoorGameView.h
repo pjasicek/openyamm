@@ -189,12 +189,9 @@ private:
         int &height) const;
     bool loadHudTexture(const std::string &textureName);
     bool loadHudFont(const std::string &fontName);
-    void clearHudResources();
     bool shouldEnableGameplayMouseLook() const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
     void updateItemInspectOverlayState(int width, int height);
-    void renderGameplayMouseLookOverlay(int width, int height) const;
-    bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const;
 
     const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
     IndoorDebugRenderer *m_pIndoorRenderer = nullptr;
@@ -209,6 +206,5 @@ private:
     GameplayOverlayInteractionState &m_overlayInteractionState;
     bool m_gameplayMouseLookActive = false;
     bool m_gameplayCursorModeActive = false;
-    GameplayHudScreenState m_renderedInspectableHudState = GameplayHudScreenState::Gameplay;
 };
 } // namespace OpenYAMM::Game

@@ -2350,6 +2350,17 @@ const std::vector<GameplayRenderedInspectableHudItem> &GameplayOverlayContext::r
     return uiRuntime().renderedInspectableHudItems();
 }
 
+void GameplayOverlayContext::beginRenderedInspectableHudFrame() const
+{
+    uiRuntime().clearRenderedInspectableHudItems();
+    uiRuntime().setRenderedInspectableHudScreenState(currentHudScreenState());
+}
+
+GameplayHudScreenState GameplayOverlayContext::renderedInspectableHudScreenState() const
+{
+    return uiRuntime().renderedInspectableHudScreenState();
+}
+
 bool GameplayOverlayContext::isOpaqueHudPixelAtPoint(
     const GameplayRenderedInspectableHudItem &item,
     float x,

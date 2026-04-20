@@ -360,6 +360,8 @@ public:
 
     void addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) const;
     const std::vector<GameplayRenderedInspectableHudItem> &renderedInspectableHudItems() const;
+    void beginRenderedInspectableHudFrame() const;
+    GameplayHudScreenState renderedInspectableHudScreenState() const;
     bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const;
     std::string resolveEquippedItemHudTextureName(
         const ItemDefinition &itemDefinition,

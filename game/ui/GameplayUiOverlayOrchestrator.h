@@ -45,6 +45,7 @@ struct GameplayUiOverlayRenderConfig
     bool canRenderHudOverlays = false;
     bool hasActiveLootView = false;
     bool activeEventDialog = false;
+    bool renderGameplayMouseLookOverlay = false;
     bool renderChestBelowHud = false;
     bool renderChestAboveHud = false;
     bool renderInventoryBelowHud = false;
@@ -55,11 +56,6 @@ struct GameplayUiOverlayRenderConfig
     bool renderCharacterAboveHud = false;
     bool renderDebugLootFallback = false;
     bool renderDebugDialogueFallback = false;
-};
-
-struct GameplayUiOverlayRenderCallbacks
-{
-    std::function<void()> renderGameplayMouseLookOverlay;
 };
 
 class GameplayUiOverlayOrchestrator
@@ -77,7 +73,6 @@ public:
         GameplayOverlayContext &overlayContext,
         int width,
         int height,
-        const GameplayUiOverlayRenderConfig &config,
-        const GameplayUiOverlayRenderCallbacks &callbacks);
+        const GameplayUiOverlayRenderConfig &config);
 };
 } // namespace OpenYAMM::Game

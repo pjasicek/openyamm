@@ -340,10 +340,10 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                             height);
                     },
                 .handleCharacterOverlayInput =
-                    [&view](const bool *pState, int width, int height)
+                    [&overlayContext](const bool *pState, int width, int height)
                     {
                         GameplayPartyOverlayInputController::handleCharacterOverlayInput(
-                            view,
+                            overlayContext,
                             pState,
                             width,
                             height);

@@ -72,6 +72,8 @@ public:
     std::vector<GameplayRenderedInspectableHudItem> &renderedInspectableHudItems();
     const std::vector<GameplayRenderedInspectableHudItem> &renderedInspectableHudItems() const;
     void clearRenderedInspectableHudItems();
+    GameplayHudScreenState renderedInspectableHudScreenState() const;
+    void setRenderedInspectableHudScreenState(GameplayHudScreenState state);
     bool ensureTownPortalDestinationsLoaded();
     const std::vector<GameplayTownPortalDestination> &townPortalDestinations() const;
 
@@ -126,6 +128,7 @@ public:
     bgfx::TextureHandle ensureHudFontMainTextureColor(const GameplayHudFontHandle &font, uint32_t colorAbgr);
     void addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item);
     bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y);
+    void releaseHudGpuResources(bool destroyBgfxResources);
     void bindHudRenderBackend(const GameplayHudRenderBackend &backend);
     void clearHudRenderBackend();
     bool hasHudRenderResources() const;
@@ -192,6 +195,7 @@ private:
     std::vector<GameplayHudTextureColorTextureData> m_hudTextureColorTextureHandles;
     std::unordered_map<std::string, float> m_hudLayoutRuntimeHeightOverrides;
     std::vector<GameplayRenderedInspectableHudItem> m_renderedInspectableHudItems;
+    GameplayHudScreenState m_renderedInspectableHudScreenState = GameplayHudScreenState::Gameplay;
     std::vector<GameplayTownPortalDestination> m_townPortalDestinations;
     bool m_townPortalDestinationsLoaded = false;
     GameplayHudRenderBackend m_hudRenderBackend;

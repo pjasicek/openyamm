@@ -3,7 +3,6 @@
 namespace OpenYAMM::Game
 {
 class GameplayOverlayContext;
-class OutdoorGameView;
 
 class GameplayPartyOverlayInputController
 {
@@ -20,11 +19,6 @@ public:
         int screenHeight);
     static void handleCharacterOverlayInput(
         GameplayOverlayContext &context,
-        const bool *pKeyboardState,
-        int screenWidth,
-        int screenHeight);
-    static void handleCharacterOverlayInput(
-        OutdoorGameView &view,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);

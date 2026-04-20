@@ -95,6 +95,7 @@ void GameplayUiRuntime::clear()
     m_layoutManager.clear();
     m_hudLayoutRuntimeHeightOverrides.clear();
     m_renderedInspectableHudItems.clear();
+    m_renderedInspectableHudScreenState = GameplayHudScreenState::Gameplay;
     m_townPortalDestinations.clear();
     m_townPortalDestinationsLoaded = false;
     m_hudRenderBackend = {};
@@ -278,6 +279,16 @@ const std::vector<GameplayRenderedInspectableHudItem> &GameplayUiRuntime::render
 void GameplayUiRuntime::clearRenderedInspectableHudItems()
 {
     m_renderedInspectableHudItems.clear();
+}
+
+GameplayHudScreenState GameplayUiRuntime::renderedInspectableHudScreenState() const
+{
+    return m_renderedInspectableHudScreenState;
+}
+
+void GameplayUiRuntime::setRenderedInspectableHudScreenState(GameplayHudScreenState state)
+{
+    m_renderedInspectableHudScreenState = state;
 }
 
 bool GameplayUiRuntime::ensureTownPortalDestinationsLoaded()
@@ -797,6 +808,42 @@ bool GameplayUiRuntime::isOpaqueHudPixelAtPoint(const GameplayRenderedInspectabl
     }
 
     return (*pixels)[pixelOffset + 3] > 0;
+}
+
+void GameplayUiRuntime::releaseHudGpuResources(bool destroyBgfxResources)
+{
+    if (destroyBgfxResources)
+    {
+        clearHudResources();
+        return;
+    }
+
+    for (GameplayHudTextureData &textureHandle : m_hudTextureHandles)
+    {
+        textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+    }
+
+    for (GameplayHudFontData &fontHandle : m_hudFontHandles)
+    {
+        fontHandle.mainTextureHandle = BGFX_INVALID_HANDLE;
+        fontHandle.shadowTextureHandle = BGFX_INVALID_HANDLE;
+    }
+
+    for (GameplayHudFontColorTextureData &textureHandle : m_hudFontColorTextureHandles)
+    {
+        textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+    }
+
+    for (GameplayHudTextureColorTextureData &textureHandle : m_hudTextureColorTextureHandles)
+    {
+        textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+    }
+
+    m_hudTextureHandles.clear();
+    m_hudTextureIndexByName.clear();
+    m_hudFontHandles.clear();
+    m_hudFontColorTextureHandles.clear();
+    m_hudTextureColorTextureHandles.clear();
 }
 
 void GameplayUiRuntime::bindHudRenderBackend(const GameplayHudRenderBackend &backend)

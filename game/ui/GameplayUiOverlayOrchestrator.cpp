@@ -3,6 +3,7 @@
 #include "game/gameplay/GameplayOverlayInputController.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
 #include "game/ui/GameplayDialogueRenderer.h"
+#include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayHudRenderer.h"
 #include "game/ui/GameplayOverlayContext.h"
@@ -99,9 +100,10 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
     GameplayOverlayContext &overlayContext,
     int width,
     int height,
-    const GameplayUiOverlayRenderConfig &config,
-    const GameplayUiOverlayRenderCallbacks &callbacks)
+    const GameplayUiOverlayRenderConfig &config)
 {
+    overlayContext.beginRenderedInspectableHudFrame();
+
     if (config.canRenderHudOverlays)
     {
         if (config.renderDialogueBelowHud || config.renderDialogueAboveHud || config.renderDebugDialogueFallback)
@@ -163,11 +165,11 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
         GameplayPartyOverlayRenderer::renderSpellbookOverlay(overlayContext, width, height);
         GameplayPartyOverlayRenderer::renderHeldInventoryItem(overlayContext, width, height);
         GameplayPartyOverlayRenderer::renderItemInspectOverlay(overlayContext, width, height);
-
-        if (callbacks.renderGameplayMouseLookOverlay)
-        {
-            callbacks.renderGameplayMouseLookOverlay();
-        }
+        GameplayHudOverlaySupport::renderGameplayMouseLookOverlay(
+            overlayContext,
+            width,
+            height,
+            config.renderGameplayMouseLookOverlay);
 
         return;
     }
