@@ -4,7 +4,7 @@
 #include "game/items/ItemRuntime.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/GameplayHudOverlayRenderer.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/GameplayPartyOverlayRenderer.h"
 
 #include <algorithm>
@@ -12,7 +12,7 @@
 namespace OpenYAMM::Game
 {
 void GameplayScreenController::updateSharedFrameState(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     int width,
     int height,
     float deltaSeconds,
@@ -46,7 +46,7 @@ void GameplayScreenController::updateSharedFrameState(
 }
 
 bool GameplayScreenController::updateRenderedHudItemInspectOverlay(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     int width,
     int height,
     bool requireOpaqueHitTest)
@@ -59,7 +59,7 @@ bool GameplayScreenController::updateRenderedHudItemInspectOverlay(
 }
 
 void GameplayScreenController::applySharedItemInspectSkillInteraction(
-    GameplayOverlayContext &context)
+    GameplayScreenRuntime &context)
 {
     GameplayUiController::ItemInspectOverlayState &overlay = context.itemInspectOverlay();
     Party *pParty = context.party();
@@ -332,7 +332,7 @@ void GameplayScreenController::applySharedItemInspectSkillInteraction(
 }
 
 void GameplayScreenController::updateRestOverlayProgress(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     float deltaSeconds)
 {
     GameplayUiController::RestScreenState &restScreen = context.restScreenState();
@@ -392,21 +392,21 @@ void GameplayScreenController::updateRestOverlayProgress(
 }
 
 void GameplayScreenController::handlePartyPortraitInput(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const GameplayPartyPortraitInputConfig &config)
 {
     GameplayHudInputController::handlePartyPortraitInput(context, config);
 }
 
 void GameplayScreenController::handleGameplayHudButtonInput(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const GameplayHudButtonInputConfig &config)
 {
     GameplayHudInputController::handleGameplayHudButtonInput(context, config);
 }
 
 GameplayUiOverlayInputResult GameplayScreenController::handleSharedOverlayInput(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const bool *pKeyboardState,
     int width,
     int height,
@@ -428,7 +428,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleSharedOverlayInput(
 }
 
 void GameplayScreenController::handleSharedHotkeys(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const bool *pKeyboardState,
     const GameplayScreenHotkeyConfig &config)
 {
@@ -436,7 +436,7 @@ void GameplayScreenController::handleSharedHotkeys(
 }
 
 void GameplayScreenController::handleUtilitySpellOverlayInput(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const bool *pKeyboardState,
     int width,
     int height)
@@ -449,7 +449,7 @@ void GameplayScreenController::handleUtilitySpellOverlayInput(
 }
 
 void GameplayScreenController::renderSharedOverlays(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     int width,
     int height,
     const GameplayScreenRenderConfig &config)

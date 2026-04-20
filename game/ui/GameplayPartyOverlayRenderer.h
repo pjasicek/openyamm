@@ -4,34 +4,34 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 
 class GameplayPartyOverlayRenderer
 {
 public:
-    static void renderUtilitySpellOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderCharacterOverlay(GameplayOverlayContext &context, int width, int height, bool renderAboveHud);
-    static void renderHeldInventoryItem(GameplayOverlayContext &context, int width, int height);
-    static void renderItemInspectOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderCharacterInspectOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderBuffInspectOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderCharacterDetailOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderSpellInspectOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderReadableScrollOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderActorInspectOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderSpellbookOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderRestOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderMenuOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderControlsOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderKeyboardOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderVideoOptionsOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderSaveGameOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderLoadGameOverlay(GameplayOverlayContext &context, int width, int height);
-    static void renderJournalOverlay(GameplayOverlayContext &context, int width, int height);
+    static void renderUtilitySpellOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderCharacterOverlay(GameplayScreenRuntime &context, int width, int height, bool renderAboveHud);
+    static void renderHeldInventoryItem(GameplayScreenRuntime &context, int width, int height);
+    static void renderItemInspectOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderCharacterInspectOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderBuffInspectOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderCharacterDetailOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderSpellInspectOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderReadableScrollOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderActorInspectOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderSpellbookOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderRestOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderMenuOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderControlsOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderKeyboardOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderVideoOptionsOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderSaveGameOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderLoadGameOverlay(GameplayScreenRuntime &context, int width, int height);
+    static void renderJournalOverlay(GameplayScreenRuntime &context, int width, int height);
 
 private:
     static void renderSaveLoadOverlay(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         int width,
         int height,
         const char *pScreenName,

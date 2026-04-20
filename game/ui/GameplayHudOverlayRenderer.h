@@ -2,12 +2,12 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 
 class GameplayHudOverlayRenderer
 {
 public:
-    static void renderChestPanel(GameplayOverlayContext &context, int width, int height, bool renderAboveHud);
-    static void renderInventoryNestedOverlay(GameplayOverlayContext &context, int width, int height, bool renderAboveHud);
+    static void renderChestPanel(GameplayScreenRuntime &context, int width, int height, bool renderAboveHud);
+    static void renderInventoryNestedOverlay(GameplayScreenRuntime &context, int width, int height, bool renderAboveHud);
 };
 } // namespace OpenYAMM::Game

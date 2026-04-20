@@ -37,7 +37,7 @@
 #include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "engine/TextTable.h"
 
 #include <bx/math.h>
@@ -3487,6 +3487,9 @@ bool OutdoorGameView::initialize(
     m_pOutdoorWorldRuntime = &sceneRuntime.worldRuntime();
     m_pOutdoorWorldRuntime->setParticleSystem(&m_particleSystem);
     m_gameSettings = settings;
+    m_gameSession.gameplayScreenRuntime().bindSceneAdapter(this);
+    m_gameSession.gameplayScreenRuntime().bindAudioSystem(m_pGameAudioSystem);
+    m_gameSession.gameplayScreenRuntime().bindSettings(&m_gameSettings);
     m_gameplayUiRuntime.bindAssetFileSystem(&assetFileSystem);
     m_gameplayUiRuntime.initializeHouseVideoPlayer();
     m_gameplayUiRuntime.resetPortraitFxStates(5);
@@ -3612,22 +3615,19 @@ bool OutdoorGameView::initialize(
         return false;
     }
 
-    if (houseTable() != nullptr)
-    {
-        const std::vector<std::string> relevantHouseVideoStems = collectRelevantHouseVideoStemsForMap(
-            outdoorMapData,
-            m_pOutdoorSceneRuntime != nullptr
-                ? m_pOutdoorSceneRuntime->localEventProgram()
-                : std::nullopt,
-            m_pOutdoorSceneRuntime != nullptr
-                ? m_pOutdoorSceneRuntime->globalEventProgram()
-                : std::nullopt,
-            *houseTable());
+    const std::vector<std::string> relevantHouseVideoStems = collectRelevantHouseVideoStemsForMap(
+        outdoorMapData,
+        m_pOutdoorSceneRuntime != nullptr
+            ? m_pOutdoorSceneRuntime->localEventProgram()
+            : std::nullopt,
+        m_pOutdoorSceneRuntime != nullptr
+            ? m_pOutdoorSceneRuntime->globalEventProgram()
+            : std::nullopt,
+        m_gameSession.data().houseTable());
 
-        for (const std::string &videoStem : relevantHouseVideoStems)
-        {
-            m_gameplayUiRuntime.queueBackgroundHouseVideoPreload(videoStem);
-        }
+    for (const std::string &videoStem : relevantHouseVideoStems)
+    {
+        m_gameplayUiRuntime.queueBackgroundHouseVideoPreload(videoStem);
     }
 
     m_isRenderable = true;
@@ -3640,6 +3640,13 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     {
         return;
     }
+
+    const GameDataRepository &data = m_gameSession.data();
+    const ItemTable &itemTable = data.itemTable();
+    const SpellTable &spellTable = data.spellTable();
+    const HouseTable &houseTable = data.houseTable();
+    const ChestTable &chestTable = data.chestTable();
+    const SpecialItemEnchantTable &specialItemEnchantTable = data.specialItemEnchantTable();
 
     GameplayHudRenderBackend hudRenderBackend = {};
     hudRenderBackend.texturedProgramHandle = m_texturedTerrainProgramHandle;
@@ -3687,7 +3694,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 if (m_pendingSavePreviewCapture.closeUiOnSuccess)
                 {
                     m_saveGameScreen = {};
-                    createGameplayOverlayContext().closeMenuOverlay();
+                    m_gameSession.gameplayScreenRuntime().closeMenuOverlay();
                 }
             }
 
@@ -3726,7 +3733,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         return;
     }
 
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
     GameplayScreenController::updateSharedFrameState(
         overlayContext,
         width,
@@ -3883,7 +3890,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
                 const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
                 const std::optional<size_t> hoveredPortraitMemberIndex =
-                    createGameplayOverlayContext().resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
+                    m_gameSession.gameplayScreenRuntime().resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY);
 
                 if (!hoveredPortraitMemberIndex && m_outdoorMapData.has_value())
                 {
@@ -4112,7 +4119,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             else if (m_heldInventoryDropLatch)
             {
                 const bool isPointerOverPartyPortrait =
-                    createGameplayOverlayContext().resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY)
+                    m_gameSession.gameplayScreenRuntime().resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY)
                         .has_value();
                 bool handledInteraction = isPointerOverPartyPortrait;
 
@@ -4150,8 +4157,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                 if (!handledInteraction)
                 {
-                    const ItemDefinition *pItemDefinition =
-                        itemTable() != nullptr ? itemTable()->get(m_heldInventoryItem.item.objectDescriptionId) : nullptr;
+                    const ItemDefinition *pItemDefinition = itemTable.get(m_heldInventoryItem.item.objectDescriptionId);
                     const std::string itemName =
                         pItemDefinition != nullptr && !pItemDefinition->name.empty()
                         ? pItemDefinition->name
@@ -4264,7 +4270,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 !useCenterGameplayInspectPoint && (mouseButtons & SDL_BUTTON_LMASK) != 0;
             const bool isPointerOverPartyPortrait =
                 !useCenterGameplayInspectPoint
-                && createGameplayOverlayContext().resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY)
+                && m_gameSession.gameplayScreenRuntime().resolvePartyPortraitIndexAtPoint(width, height, mouseX, mouseY)
                     .has_value();
             const bool needsInteractionInspectHit =
                 isActivationPressed
@@ -4420,7 +4426,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                     {
                         if (!pAttacker->attackSpellName.empty())
                         {
-                            const SpellEntry *pAttackSpellEntry = spellTable()->findByName(pAttacker->attackSpellName);
+                            const SpellEntry *pAttackSpellEntry = spellTable.findByName(pAttacker->attackSpellName);
 
                             if (pAttackSpellEntry == nullptr)
                             {
@@ -4546,7 +4552,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                 ^ static_cast<uint32_t>((runtimeActorIndex.value_or(0) + 1) * 2654435761u)
                                 ^ static_cast<uint32_t>(party.activeMemberIndex() * 40503u));
                             const CharacterAttackProfile attackProfile =
-                                GameMechanics::buildCharacterAttackProfile(*pAttacker, itemTable(), spellTable());
+                                GameMechanics::buildCharacterAttackProfile(*pAttacker, &itemTable, &spellTable);
                             CharacterAttackResult attack = {};
 
                             if (attackProfile.hasBlaster && attackProfile.rangedAttackBonus.has_value())
@@ -4574,8 +4580,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                             {
                                 attack = GameMechanics::resolveCharacterAttackAgainstArmorClass(
                                     *pAttacker,
-                                    itemTable(),
-                                    spellTable(),
+                                    &itemTable,
+                                    &spellTable,
                                     targetArmorClass,
                                     targetDistance,
                                     rng);
@@ -4629,10 +4635,9 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                 {
                                     int appliedDamage = attack.damage;
 
-                                    if (itemTable() != nullptr)
                                     {
                                         const MonsterTable::MonsterStatsEntry *pStats =
-                                            m_gameSession.data().monsterTable().findStatsById(pTargetActor->monsterId);
+                                            data.monsterTable().findStatsById(pTargetActor->monsterId);
 
                                         if (pStats != nullptr)
                                         {
@@ -4640,8 +4645,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                                 ItemEnchantRuntime::characterAttackDamageMultiplierAgainstMonster(
                                                     *pAttacker,
                                                     CharacterAttackMode::Melee,
-                                                    itemTable(),
-                                                    specialItemEnchantTable(),
+                                                    &itemTable,
+                                                    &specialItemEnchantTable,
                                                     pStats->name,
                                                     pStats->pictureName);
                                             appliedDamage *= multiplier;
@@ -4778,7 +4783,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                             pActiveMember != nullptr
                                             ? GameMechanics::resolveCharacterAttackSoundId(
                                                 *pActiveMember,
-                                                itemTable(),
+                                                &itemTable,
                                                 attack.mode)
                                             : SoundId::SwingBlunt01;
                                         m_pGameAudioSystem->playCommonSound(
@@ -5170,27 +5175,27 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             {
                 const std::string primaryEventSummary = summarizeLinkedEvent(
                     inspectHit.eventIdPrimary,
-                    houseTable(),
+                    &houseTable,
                     localEventProgram,
                     globalEventProgram
                 );
                 const std::string secondaryEventSummary = summarizeLinkedEvent(
                     inspectHit.eventIdSecondary,
-                    houseTable(),
+                    &houseTable,
                     localEventProgram,
                     globalEventProgram
                 );
                 const std::string primaryChestSummary = summarizeLinkedChests(
                     inspectHit.eventIdPrimary,
                     m_outdoorMapDeltaData,
-                    chestTable(),
+                    &chestTable,
                     localEventProgram,
                     globalEventProgram
                 );
                 const std::string secondaryChestSummary = summarizeLinkedChests(
                     inspectHit.eventIdSecondary,
                     m_outdoorMapDeltaData,
-                    chestTable(),
+                    &chestTable,
                     localEventProgram,
                     globalEventProgram
                 );
@@ -5441,14 +5446,14 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             {
                 const std::string faceEventSummary = summarizeLinkedEvent(
                     inspectHit.cogTriggeredNumber,
-                    houseTable(),
+                    &houseTable,
                     localEventProgram,
                     globalEventProgram
                 );
                 const std::string faceChestSummary = summarizeLinkedChests(
                     inspectHit.cogTriggeredNumber,
                     m_outdoorMapDeltaData,
-                    chestTable(),
+                    &chestTable,
                     localEventProgram,
                     globalEventProgram
                 );
@@ -5500,7 +5505,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     if (!captureSavePreviewThisFrame)
     {
-        GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+        GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
         const bool deferDialogueInventoryServiceOverlay =
             m_inventoryNestedOverlay.active
             && (m_inventoryNestedOverlay.mode == InventoryNestedOverlayMode::ShopSell
@@ -5546,6 +5551,8 @@ void OutdoorGameView::shutdown()
 {
     syncGameplayMouseLookMode(SDL_GetMouseFocus(), false);
     m_gameplayUiRuntime.clearHudRenderBackend();
+    m_gameSession.gameplayScreenRuntime().clearSceneAdapter(this);
+    m_gameSession.gameplayScreenRuntime().bindAudioSystem(nullptr);
 
     if (!m_isInitialized)
     {
@@ -5945,7 +5952,7 @@ void OutdoorGameView::shutdown()
     m_spellbook = {};
     m_utilitySpellOverlay = {};
     m_overlayInteractionState.spellbookPressedTarget = {};
-    createGameplayOverlayContext().resetUtilitySpellOverlayInteractionState();
+    m_gameSession.gameplayScreenRuntime().resetUtilitySpellOverlayInteractionState();
     m_overlayInteractionState.lastSpellbookSpellClickTicks = 0;
     m_overlayInteractionState.lastSpellbookClickedSpellId = 0;
     m_pendingSpellCast = {};
@@ -6084,7 +6091,7 @@ void OutdoorGameView::setCameraAngles(float yawRadians, float pitchRadians)
 
 void OutdoorGameView::reopenMenuScreen()
 {
-    createGameplayOverlayContext().openMenuOverlay();
+    m_gameSession.gameplayScreenRuntime().openMenuOverlay();
 }
 
 void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
@@ -6093,7 +6100,7 @@ void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
         m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
     const uint32_t hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
     const HouseEntry *pHostHouseEntry =
-        (hostHouseId != 0 && houseTable() != nullptr) ? houseTable()->get(hostHouseId) : nullptr;
+        hostHouseId != 0 ? m_gameSession.data().houseTable().get(hostHouseId) : nullptr;
 
     if (resolveGameplayHudScreenState(m_gameplayUiController, m_activeEventDialog, m_pOutdoorWorldRuntime)
             != GameplayHudScreenState::Dialogue
@@ -6179,10 +6186,10 @@ bool OutdoorGameView::trySelectPartyMember(size_t memberIndex, bool requireGamep
 void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
 {
     m_itemInspectOverlay = {};
+    const ItemTable &itemTable = m_gameSession.data().itemTable();
 
     if (width <= 0
         || height <= 0
-        || itemTable() == nullptr
         || m_pendingSpellCast.active
         || m_spellbook.active
         || m_controlsScreen.active
@@ -6197,7 +6204,7 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
     float mouseX = 0.0f;
     float mouseY = 0.0f;
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
 
     if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
     {
@@ -6324,10 +6331,11 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
 
 void OutdoorGameView::tryApplyWorldItemInspectSkillInteraction()
 {
+    const ItemTable &itemTable = m_gameSession.data().itemTable();
+
     if (!m_itemInspectOverlay.active
         || !m_itemInspectOverlay.hasItemState
         || m_pOutdoorPartyRuntime == nullptr
-        || itemTable() == nullptr
         || m_itemInspectOverlay.sourceType != ItemInspectSourceType::WorldItem)
     {
         return;
@@ -6338,7 +6346,7 @@ void OutdoorGameView::tryApplyWorldItemInspectSkillInteraction()
     interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceWorldItemIndex) << 44;
     interactionKey ^= static_cast<uint64_t>(m_itemInspectOverlay.sourceType) << 56;
 
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
 
     if (overlayContext.itemInspectInteractionLatch() && overlayContext.itemInspectInteractionKey() == interactionKey)
     {
@@ -6350,7 +6358,7 @@ void OutdoorGameView::tryApplyWorldItemInspectSkillInteraction()
 
     Party &party = m_pOutdoorPartyRuntime->party();
     const Character *pActiveMember = party.activeMember();
-    const ItemDefinition *pItemDefinition = itemTable()->get(m_itemInspectOverlay.objectDescriptionId);
+    const ItemDefinition *pItemDefinition = itemTable.get(m_itemInspectOverlay.objectDescriptionId);
 
     if (pActiveMember == nullptr || pItemDefinition == nullptr)
     {
@@ -6739,7 +6747,7 @@ void OutdoorGameView::startInnRest(uint32_t houseId)
         return;
     }
 
-    createGameplayOverlayContext().openRestOverlay();
+    m_gameSession.gameplayScreenRuntime().openRestOverlay();
     beginRestAction(RestMode::Heal, innRestDurationMinutes(houseId), false);
 }
 
@@ -6812,7 +6820,7 @@ void OutdoorGameView::completeRestAction(bool closeRestScreenAfterCompletion)
 
     if (closeRestScreenAfterCompletion || completedMode == RestMode::Heal)
     {
-        createGameplayOverlayContext().closeRestOverlay();
+        m_gameSession.gameplayScreenRuntime().closeRestOverlay();
     }
 }
 
@@ -6920,21 +6928,23 @@ void OutdoorGameView::openInventoryNestedOverlay(InventoryNestedOverlayMode mode
 
     closeHouseShopOverlay();
     m_gameplayUiController.openInventoryNestedOverlay(mode, houseId);
-    createGameplayOverlayContext().resetInventoryNestedOverlayInteractionState();
+    m_gameSession.gameplayScreenRuntime().resetInventoryNestedOverlayInteractionState();
 }
 
 void OutdoorGameView::closeInventoryNestedOverlay()
 {
     m_gameplayUiController.closeInventoryNestedOverlay();
-    createGameplayOverlayContext().resetInventoryNestedOverlayInteractionState();
+    m_gameSession.gameplayScreenRuntime().resetInventoryNestedOverlayInteractionState();
 }
 
 OutdoorGameView::QuickSpellCastResult OutdoorGameView::tryBeginQuickSpellCast()
 {
-    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr || spellTable() == nullptr)
+    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
     {
         return QuickSpellCastResult::Failed;
     }
+
+    const SpellTable &spellTable = m_gameSession.data().spellTable();
 
     if (m_pendingSpellCast.active)
     {
@@ -6973,7 +6983,7 @@ OutdoorGameView::QuickSpellCastResult OutdoorGameView::tryBeginQuickSpellCast()
         return QuickSpellCastResult::AttackFallback;
     }
 
-    const SpellEntry *pSpellEntry = spellTable()->findByName(pCaster->quickSpellName);
+    const SpellEntry *pSpellEntry = spellTable.findByName(pCaster->quickSpellName);
 
     if (pSpellEntry == nullptr)
     {
@@ -7035,11 +7045,12 @@ void OutdoorGameView::updateReadableScrollOverlayForHeldItem(
     const CharacterPointerTarget &pointerTarget,
     bool isLeftMousePressed)
 {
+    const ItemTable &itemTable = m_gameSession.data().itemTable();
+    const ReadableScrollTable &readableScrollTable = m_gameSession.data().readableScrollTable();
     m_readableScrollOverlay = {};
 
     if (!isLeftMousePressed
         || !m_heldInventoryItem.active
-        || itemTable() == nullptr
         || m_pOutdoorPartyRuntime == nullptr
         || (pointerTarget.type != CharacterPointerTargetType::EquipmentSlot
             && pointerTarget.type != CharacterPointerTargetType::DollPanel))
@@ -7048,7 +7059,7 @@ void OutdoorGameView::updateReadableScrollOverlayForHeldItem(
     }
 
     const InventoryItemUseAction useAction =
-        InventoryItemUseRuntime::classifyItemUse(m_heldInventoryItem.item, *itemTable());
+        InventoryItemUseRuntime::classifyItemUse(m_heldInventoryItem.item, itemTable);
 
     if (useAction != InventoryItemUseAction::ReadMessageScroll)
     {
@@ -7061,8 +7072,8 @@ void OutdoorGameView::updateReadableScrollOverlayForHeldItem(
             party,
             memberIndex,
             m_heldInventoryItem.item,
-            *itemTable(),
-            readableScrollTable());
+            itemTable,
+            &readableScrollTable);
 
     if (!useResult.handled || useResult.action != InventoryItemUseAction::ReadMessageScroll)
     {
@@ -7760,10 +7771,12 @@ void OutdoorGameView::updateFootstepAudio(float deltaSeconds)
 
 bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName)
 {
-    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr || spellTable() == nullptr)
+    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
     {
         return false;
     }
+
+    const SpellTable &spellTable = m_gameSession.data().spellTable();
 
     PartySpellCastRequest resolvedRequest = request;
     resolvedRequest.hasViewTransform = true;
@@ -7802,7 +7815,7 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
             if (resolvedRequest.spellId == spellIdValue(SpellId::LloydsBeacon)
                 || resolvedRequest.spellId == spellIdValue(SpellId::TownPortal))
             {
-                createGameplayOverlayContext().resetUtilitySpellOverlayInteractionState();
+                m_gameSession.gameplayScreenRuntime().resetUtilitySpellOverlayInteractionState();
             }
         };
 
@@ -7816,7 +7829,7 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
         PartySpellSystem::castSpell(
             party,
             *m_pOutdoorWorldRuntime,
-            *spellTable(),
+            spellTable,
             resolvedRequest);
 
     if (result.succeeded())
@@ -7833,7 +7846,7 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
 
         if (m_pGameAudioSystem != nullptr)
         {
-            const SpellEntry *pSpellEntry = spellTable()->findById(static_cast<int>(request.spellId));
+            const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(request.spellId));
 
             if (result.effectKind == PartySpellCastEffectKind::CharacterRestore
                 || result.effectKind == PartySpellCastEffectKind::PartyRestore)
@@ -7899,7 +7912,7 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
 
         if (spellIdFromValue(request.spellId) == SpellId::TownPortal)
         {
-            GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+            GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
 
             if (!overlayContext.ensureTownPortalDestinationsLoaded())
             {
@@ -7923,7 +7936,7 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
                 request.spellId,
                 request.casterMemberIndex,
                 false);
-            createGameplayOverlayContext().resetUtilitySpellOverlayInteractionState();
+            m_gameSession.gameplayScreenRuntime().resetUtilitySpellOverlayInteractionState();
             setStatusBarEvent("Set or recall beacon", 4.0f);
             return true;
         }
@@ -7952,10 +7965,14 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
 
 bool OutdoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen)
 {
-    if (!m_heldInventoryItem.active || itemTable() == nullptr || m_pOutdoorPartyRuntime == nullptr)
+    if (!m_heldInventoryItem.active || m_pOutdoorPartyRuntime == nullptr)
     {
         return false;
     }
+
+    const ItemTable &itemTable = m_gameSession.data().itemTable();
+    const ReadableScrollTable &readableScrollTable = m_gameSession.data().readableScrollTable();
+    const SpellTable &spellTable = m_gameSession.data().spellTable();
 
     Party &party = m_pOutdoorPartyRuntime->party();
     const InventoryItemUseResult useResult =
@@ -7963,8 +7980,8 @@ bool OutdoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepC
             party,
             memberIndex,
             m_heldInventoryItem.item,
-            *itemTable(),
-            readableScrollTable());
+            itemTable,
+            &readableScrollTable);
 
     if (!useResult.handled)
     {
@@ -7973,12 +7990,7 @@ bool OutdoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepC
 
     if (useResult.action == InventoryItemUseAction::CastScroll)
     {
-        if (spellTable() == nullptr)
-        {
-            return false;
-        }
-
-        const SpellEntry *pSpellEntry = spellTable()->findById(static_cast<int>(useResult.spellId));
+        const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(useResult.spellId));
 
         if (pSpellEntry == nullptr)
         {
@@ -8075,11 +8087,12 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
     const std::optional<size_t> &portraitMemberIndex,
     const std::optional<bx::Vec3> &fallbackGroundTargetPoint)
 {
-    if (!m_pendingSpellCast.active || m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr
-        || spellTable() == nullptr)
+    if (!m_pendingSpellCast.active || m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
     {
         return false;
     }
+
+    const SpellTable &spellTable = m_gameSession.data().spellTable();
 
     PartySpellCastRequest request = {};
     request.casterMemberIndex = m_pendingSpellCast.casterMemberIndex;
@@ -8175,7 +8188,7 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
     const PartySpellCastResult result = PartySpellSystem::castSpell(
         m_pOutdoorPartyRuntime->party(),
         *m_pOutdoorWorldRuntime,
-        *spellTable(),
+        spellTable,
         request);
 
     if (!result.succeeded())
@@ -8214,7 +8227,7 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
 
     if (m_pGameAudioSystem != nullptr)
     {
-        const SpellEntry *pSpellEntry = spellTable()->findById(static_cast<int>(request.spellId));
+        const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(request.spellId));
 
         if (result.effectKind == PartySpellCastEffectKind::CharacterRestore
             || result.effectKind == PartySpellCastEffectKind::PartyRestore)
@@ -8331,7 +8344,7 @@ void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) 
     const uint32_t crosshairColor = packHudColorAbgr(255, 255, 155);
     const uint32_t shadowColor = 0xc0000000u;
 
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
     const std::optional<GameplayHudTextureHandle> crosshairTexture =
         overlayContext.ensureSolidHudTextureLoaded("__spell_target_crosshair__", crosshairColor);
     const std::optional<GameplayHudTextureHandle> shadowTexture =
@@ -8468,20 +8481,6 @@ OutdoorPartyRuntime *OutdoorGameView::partyRuntime() const
     return m_pOutdoorPartyRuntime;
 }
 
-GameplayOverlayContext OutdoorGameView::createGameplayOverlayContext()
-{
-    return GameplayOverlayContext(m_gameSession, m_pGameAudioSystem, &m_gameSettings, *this);
-}
-
-GameplayOverlayContext OutdoorGameView::createGameplayOverlayContext() const
-{
-    return GameplayOverlayContext(
-        const_cast<GameSession &>(m_gameSession),
-        m_pGameAudioSystem,
-        const_cast<GameSettings *>(&m_gameSettings),
-        const_cast<OutdoorGameView &>(*this));
-}
-
 IGameplayWorldRuntime *OutdoorGameView::worldRuntime() const
 {
     return m_pOutdoorWorldRuntime;
@@ -8492,104 +8491,9 @@ GameAudioSystem *OutdoorGameView::audioSystem() const
     return m_pGameAudioSystem;
 }
 
-const ItemTable *OutdoorGameView::itemTable() const
+const GameDataRepository &OutdoorGameView::data() const
 {
-    return &m_gameSession.data().itemTable();
-}
-
-const StandardItemEnchantTable *OutdoorGameView::standardItemEnchantTable() const
-{
-    return &m_gameSession.data().standardItemEnchantTable();
-}
-
-const SpecialItemEnchantTable *OutdoorGameView::specialItemEnchantTable() const
-{
-    return &m_gameSession.data().specialItemEnchantTable();
-}
-
-const ClassSkillTable *OutdoorGameView::classSkillTable() const
-{
-    return &m_gameSession.data().classSkillTable();
-}
-
-const CharacterDollTable *OutdoorGameView::characterDollTable() const
-{
-    return &m_gameSession.data().characterDollTable();
-}
-
-const CharacterInspectTable *OutdoorGameView::characterInspectTable() const
-{
-    return &m_gameSession.data().characterInspectTable();
-}
-
-const RosterTable *OutdoorGameView::rosterTable() const
-{
-    return &m_gameSession.data().rosterTable();
-}
-
-const ReadableScrollTable *OutdoorGameView::readableScrollTable() const
-{
-    return &m_gameSession.data().readableScrollTable();
-}
-
-const ItemEquipPosTable *OutdoorGameView::itemEquipPosTable() const
-{
-    return &m_gameSession.data().itemEquipPosTable();
-}
-
-const SpellTable *OutdoorGameView::spellTable() const
-{
-    return &m_gameSession.data().spellTable();
-}
-
-const ObjectTable *OutdoorGameView::objectTable() const
-{
-    return &m_gameSession.data().objectTable();
-}
-
-const MonsterTable *OutdoorGameView::monsterTable() const
-{
-    return &m_gameSession.data().monsterTable();
-}
-
-const HouseTable *OutdoorGameView::houseTable() const
-{
-    return &m_gameSession.data().houseTable();
-}
-
-const ChestTable *OutdoorGameView::chestTable() const
-{
-    return &m_gameSession.data().chestTable();
-}
-
-const NpcDialogTable *OutdoorGameView::npcDialogTable() const
-{
-    return &m_gameSession.data().npcDialogTable();
-}
-
-const JournalQuestTable *OutdoorGameView::journalQuestTable() const
-{
-    return &m_gameSession.data().journalQuestTable();
-}
-
-const JournalHistoryTable *OutdoorGameView::journalHistoryTable() const
-{
-    return &m_gameSession.data().journalHistoryTable();
-}
-
-const JournalAutonoteTable *OutdoorGameView::journalAutonoteTable() const
-{
-    return &m_gameSession.data().journalAutonoteTable();
-}
-
-const std::vector<MapStatsEntry> *OutdoorGameView::mapEntries() const
-{
-    return &m_gameSession.data().mapEntries();
-}
-
-const ArcomageLibrary *OutdoorGameView::arcomageLibrary() const
-{
-    return &m_gameSession.data().arcomageLibrary();
+    return m_gameSession.data();
 }
 
 const std::string &OutdoorGameView::currentMapFileName() const

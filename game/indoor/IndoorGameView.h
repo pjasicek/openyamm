@@ -42,7 +42,7 @@ struct ArcomageLibrary;
 class IndoorDebugRenderer;
 class IndoorPartyRuntime;
 class IndoorSceneRuntime;
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 
 using IndoorSpellbookPointerTargetType = GameplaySpellbookPointerTargetType;
 using IndoorSpellbookPointerTarget = GameplaySpellbookPointerTarget;
@@ -69,22 +69,6 @@ public:
     IndoorPartyRuntime *partyRuntime() const;
     IGameplayWorldRuntime *worldRuntime() const;
     GameAudioSystem *audioSystem() const;
-    const ItemTable *itemTable() const;
-    const StandardItemEnchantTable *standardItemEnchantTable() const;
-    const SpecialItemEnchantTable *specialItemEnchantTable() const;
-    const ClassSkillTable *classSkillTable() const;
-    const CharacterDollTable *characterDollTable() const;
-    const CharacterInspectTable *characterInspectTable() const;
-    const RosterTable *rosterTable() const;
-    const ReadableScrollTable *readableScrollTable() const;
-    const ItemEquipPosTable *itemEquipPosTable() const;
-    const SpellTable *spellTable() const;
-    const HouseTable *houseTable() const;
-    const ChestTable *chestTable() const;
-    const NpcDialogTable *npcDialogTable() const;
-    const JournalQuestTable *journalQuestTable() const;
-    const JournalHistoryTable *journalHistoryTable() const;
-    const JournalAutonoteTable *journalAutonoteTable() const;
     const std::string &currentMapFileName() const override;
     float gameplayCameraYawRadians() const override;
     const std::vector<uint8_t> *journalMapFullyRevealedCells() const override;
@@ -117,8 +101,6 @@ public:
     int restFoodRequired() const override;
     const GameSettings &settingsSnapshot() const;
 private:
-    GameplayOverlayContext createGameplayOverlayContext();
-    GameplayOverlayContext createGameplayOverlayContext() const;
     EventDialogContent &activeEventDialog()
     {
         return m_gameplayUiController.eventDialog().content;

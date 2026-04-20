@@ -1,6 +1,6 @@
 #include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayHudCommon.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -327,7 +327,7 @@ float snappedHudFontScale(float scale)
 } // namespace
 
 void GameplayDialogueRenderer::renderDialogueOverlay(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     int width,
     int height,
     bool renderAboveHud)
@@ -391,9 +391,9 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         dialogMouseY,
         hoveredHouseServiceTopicText);
 
-    const GameplayOverlayContext::HudLayoutElement *pDialogueFrameLayout = view.findHudLayoutElement("DialogueFrame");
-    const GameplayOverlayContext::HudLayoutElement *pDialogueTextLayout = view.findHudLayoutElement("DialogueText");
-    const GameplayOverlayContext::HudLayoutElement *pBasebarLayout = view.findHudLayoutElement("OutdoorBasebar");
+    const GameplayScreenRuntime::HudLayoutElement *pDialogueFrameLayout = view.findHudLayoutElement("DialogueFrame");
+    const GameplayScreenRuntime::HudLayoutElement *pDialogueTextLayout = view.findHudLayoutElement("DialogueText");
+    const GameplayScreenRuntime::HudLayoutElement *pBasebarLayout = view.findHudLayoutElement("OutdoorBasebar");
 
     if (showDialogueTextFrame
         && pDialogueFrameLayout != nullptr
@@ -402,7 +402,7 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         && toLowerCopy(pDialogueFrameLayout->screen) == "dialogue"
         && toLowerCopy(pDialogueTextLayout->screen) == "dialogue")
     {
-        const std::optional<GameplayOverlayContext::HudFontHandle> font =
+        const std::optional<GameplayScreenRuntime::HudFontHandle> font =
             view.findHudFont(pDialogueTextLayout->fontName);
 
         if (font)
@@ -478,7 +478,7 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         if (pHostHouseEntry != nullptr && view.party() != nullptr && view.itemTable() != nullptr)
         {
             const Character *pActiveCharacter = view.party()->activeMember();
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedInventoryGrid =
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedInventoryGrid =
                 view.resolveInventoryNestedOverlayGridArea(width, height);
 
             if (pActiveCharacter != nullptr && resolvedInventoryGrid)
@@ -555,7 +555,7 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
 
     for (const std::string &layoutId : orderedDialogueLayoutIds)
     {
-        const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
+        const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
 
         if (pLayout == nullptr || toLowerCopy(pLayout->screen) != "dialogue")
         {
@@ -655,7 +655,7 @@ bool GameplayDialogueRenderer::shouldRenderInCurrentPass(bool renderAboveHud, in
     return renderAboveHud ? zIndex >= hudZThreshold : zIndex < hudZThreshold;
 }
 
-bool GameplayDialogueRenderer::isDialogueFrameSubtree(GameplayOverlayContext &view, const std::string &layoutId)
+bool GameplayDialogueRenderer::isDialogueFrameSubtree(GameplayScreenRuntime &view, const std::string &layoutId)
 {
     std::string currentLayoutId = layoutId;
 
@@ -666,7 +666,7 @@ bool GameplayDialogueRenderer::isDialogueFrameSubtree(GameplayOverlayContext &vi
             return true;
         }
 
-        const GameplayOverlayContext::HudLayoutElement *pCurrentLayout = view.findHudLayoutElement(currentLayoutId);
+        const GameplayScreenRuntime::HudLayoutElement *pCurrentLayout = view.findHudLayoutElement(currentLayoutId);
 
         if (pCurrentLayout == nullptr || pCurrentLayout->parentId.empty())
         {
@@ -680,7 +680,7 @@ bool GameplayDialogueRenderer::isDialogueFrameSubtree(GameplayOverlayContext &vi
 }
 
 void GameplayDialogueRenderer::renderBlackoutBackdrop(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     int screenWidth,
     int screenHeight,
     float viewportX,
@@ -692,7 +692,7 @@ void GameplayDialogueRenderer::renderBlackoutBackdrop(
 }
 
 void GameplayDialogueRenderer::updateHouseShopHoverTopicText(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     int width,
     int height,
     float dialogMouseX,
@@ -715,7 +715,7 @@ void GameplayDialogueRenderer::updateHouseShopHoverTopicText(
         return;
     }
 
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedFrame =
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedFrame =
         view.resolveHouseShopOverlayFrame(width, height);
 
     if (!resolvedFrame)
@@ -777,7 +777,7 @@ void GameplayDialogueRenderer::updateHouseShopHoverTopicText(
             continue;
         }
 
-        const std::optional<GameplayOverlayContext::HudTextureHandle> itemTexture =
+        const std::optional<GameplayScreenRuntime::HudTextureHandle> itemTexture =
             view.ensureHudTextureLoaded(pItemDefinition->iconName);
 
         if (!itemTexture)
@@ -831,7 +831,7 @@ void GameplayDialogueRenderer::updateHouseShopHoverTopicText(
 }
 
 void GameplayDialogueRenderer::renderHouseShopOverlay(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     int width,
     int height,
     float dialogMouseX,
@@ -855,7 +855,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
         return;
     }
 
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedFrame =
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedFrame =
         view.resolveHouseShopOverlayFrame(width, height);
 
     if (!resolvedFrame)
@@ -863,7 +863,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
         return;
     }
 
-    const GameplayOverlayContext::HudLayoutElement *pFrameLayout = view.findHudLayoutElement("DialogueShopOverlayFrame");
+    const GameplayScreenRuntime::HudLayoutElement *pFrameLayout = view.findHudLayoutElement("DialogueShopOverlayFrame");
     const int hudZThreshold = view.defaultHudLayoutZIndexForScreen("OutdoorHud");
 
     if (pFrameLayout != nullptr && shouldRenderInCurrentPass(renderAboveHud, hudZThreshold, pFrameLayout->zIndex))
@@ -877,7 +877,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
 
         if (!backgroundAsset.empty())
         {
-            const std::optional<GameplayOverlayContext::HudTextureHandle> frameTexture =
+            const std::optional<GameplayScreenRuntime::HudTextureHandle> frameTexture =
                 view.ensureHudTextureLoaded(backgroundAsset);
 
             if (frameTexture)
@@ -947,7 +947,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
             continue;
         }
 
-        const std::optional<GameplayOverlayContext::HudTextureHandle> itemTexture =
+        const std::optional<GameplayScreenRuntime::HudTextureHandle> itemTexture =
             view.ensureHudTextureLoaded(pItemDefinition->iconName);
 
         if (!itemTexture)
@@ -1010,7 +1010,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
 }
 
 void GameplayDialogueRenderer::renderDialogueTextureElement(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const std::string &layoutId,
     int width,
     int height,
@@ -1021,7 +1021,7 @@ void GameplayDialogueRenderer::renderDialogueTextureElement(
     bool showEventDialogPanel,
     bool renderAboveHud)
 {
-    const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
+    const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
 
     if (pLayout == nullptr || !pLayout->visible || toLowerCopy(pLayout->screen) != "dialogue")
     {
@@ -1065,14 +1065,14 @@ void GameplayDialogueRenderer::renderDialogueTextureElement(
         return;
     }
 
-    std::optional<GameplayOverlayContext::HudTextureHandle> baseTexture;
+    std::optional<GameplayScreenRuntime::HudTextureHandle> baseTexture;
 
     if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
     {
         baseTexture = view.ensureHudTextureLoaded(pLayout->primaryAsset);
     }
 
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
         layoutId,
         width,
         height,
@@ -1103,7 +1103,7 @@ void GameplayDialogueRenderer::renderDialogueTextureElement(
         return;
     }
 
-    const std::optional<GameplayOverlayContext::HudTextureHandle> texture = view.ensureHudTextureLoaded(*pAssetName);
+    const std::optional<GameplayScreenRuntime::HudTextureHandle> texture = view.ensureHudTextureLoaded(*pAssetName);
 
     if (!texture)
     {
@@ -1114,14 +1114,14 @@ void GameplayDialogueRenderer::renderDialogueTextureElement(
 }
 
 void GameplayDialogueRenderer::renderDialogueLabelById(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const std::string &layoutId,
     const std::string &label,
     int width,
     int height,
     bool renderAboveHud)
 {
-    const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
+    const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
 
     if (pLayout == nullptr || !pLayout->visible || toLowerCopy(pLayout->screen) != "dialogue")
     {
@@ -1135,7 +1135,7 @@ void GameplayDialogueRenderer::renderDialogueLabelById(
         return;
     }
 
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
         layoutId,
         width,
         height,
@@ -1151,7 +1151,7 @@ void GameplayDialogueRenderer::renderDialogueLabelById(
 }
 
 void GameplayDialogueRenderer::renderDialogueEventPanel(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     int width,
     int height,
     float dialogMouseX,
@@ -1168,18 +1168,18 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
         return;
     }
 
-    const GameplayOverlayContext::HudLayoutElement *pEventDialogLayout = view.findHudLayoutElement("DialogueEventDialog");
-    const GameplayOverlayContext::HudLayoutElement *pNpcPortraitLayout = view.findHudLayoutElement("DialogueNpcPortrait");
-    const GameplayOverlayContext::HudLayoutElement *pHouseTitleLayout = view.findHudLayoutElement("DialogueHouseTitle");
-    const GameplayOverlayContext::HudLayoutElement *pNpcNameLayout = view.findHudLayoutElement("DialogueNpcName");
-    const GameplayOverlayContext::HudLayoutElement *pTopicRowLayout = view.findHudLayoutElement("DialogueTopicRow_1");
+    const GameplayScreenRuntime::HudLayoutElement *pEventDialogLayout = view.findHudLayoutElement("DialogueEventDialog");
+    const GameplayScreenRuntime::HudLayoutElement *pNpcPortraitLayout = view.findHudLayoutElement("DialogueNpcPortrait");
+    const GameplayScreenRuntime::HudLayoutElement *pHouseTitleLayout = view.findHudLayoutElement("DialogueHouseTitle");
+    const GameplayScreenRuntime::HudLayoutElement *pNpcNameLayout = view.findHudLayoutElement("DialogueNpcName");
+    const GameplayScreenRuntime::HudLayoutElement *pTopicRowLayout = view.findHudLayoutElement("DialogueTopicRow_1");
 
     if (pEventDialogLayout == nullptr)
     {
         return;
     }
 
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedEventDialog = view.resolveHudLayoutElement(
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedEventDialog = view.resolveHudLayoutElement(
         "DialogueEventDialog",
         width,
         height,
@@ -1203,7 +1203,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
     const float sectionGap = 8.0f * panelScale;
     const float houseTitleToPortraitGap = 2.0f * panelScale;
     float contentY = panelInnerY;
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedPortraitTemplate =
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedPortraitTemplate =
         pNpcPortraitLayout != nullptr
         ? view.resolveHudLayoutElement(
             "DialogueNpcPortrait",
@@ -1212,7 +1212,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             pNpcPortraitLayout->width,
             pNpcPortraitLayout->height)
         : std::nullopt;
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedNpcNameTemplate =
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedNpcNameTemplate =
         pNpcNameLayout != nullptr
         ? view.resolveHudLayoutElement(
             "DialogueNpcName",
@@ -1221,7 +1221,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             pNpcNameLayout->width,
             pNpcNameLayout->height)
         : std::nullopt;
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedTopicRowTemplate =
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedTopicRowTemplate =
         pTopicRowLayout != nullptr
         ? view.resolveHudLayoutElement(
             "DialogueTopicRow_1",
@@ -1230,9 +1230,9 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             pTopicRowLayout->width,
             pTopicRowLayout->height)
         : std::nullopt;
-    const GameplayOverlayContext::HudLayoutElement *pEffectiveHouseTitleLayout =
+    const GameplayScreenRuntime::HudLayoutElement *pEffectiveHouseTitleLayout =
         pHouseTitleLayout != nullptr ? pHouseTitleLayout : pNpcNameLayout;
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedHouseTitleTemplate =
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedHouseTitleTemplate =
         pEffectiveHouseTitleLayout != nullptr
         ? view.resolveHudLayoutElement(
             pEffectiveHouseTitleLayout->id,
@@ -1258,7 +1258,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
 
     if (pHostHouseEntry != nullptr && pEffectiveHouseTitleLayout != nullptr)
     {
-        GameplayOverlayContext::ResolvedHudLayoutElement resolvedHouseTitle = {};
+        GameplayScreenRuntime::ResolvedHudLayoutElement resolvedHouseTitle = {};
         resolvedHouseTitle.x = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->x : panelInnerX;
         resolvedHouseTitle.y = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->y : contentY;
         resolvedHouseTitle.width = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->width : panelInnerWidth;
@@ -1302,7 +1302,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             const float portraitY = std::round(startY);
             const float portraitX = std::round(portraitAreaX + (portraitAreaWidth - portraitBorderSize) * 0.5f);
             const float portraitBorderY = std::round(portraitY + (portraitAreaHeight - portraitBorderSize) * 0.5f);
-            const std::optional<GameplayOverlayContext::HudTextureHandle> portraitBorder =
+            const std::optional<GameplayScreenRuntime::HudTextureHandle> portraitBorder =
                 view.ensureHudTextureLoaded("evtnpc");
 
             if (portraitBorder)
@@ -1315,7 +1315,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                 const float innerX = std::round(portraitX + portraitInset);
                 const float innerY = std::round(portraitBorderY + portraitInset);
                 const float innerSize = std::round(portraitBorderSize - portraitInset * 2.0f);
-                const std::optional<GameplayOverlayContext::HudTextureHandle> transitionIcon =
+                const std::optional<GameplayScreenRuntime::HudTextureHandle> transitionIcon =
                     view.ensureHudTextureLoaded("Outside");
 
                 if (transitionIcon)
@@ -1360,9 +1360,9 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                 }
                 else
                 {
-                    const std::optional<GameplayOverlayContext::HudTextureHandle> parchment =
+                    const std::optional<GameplayScreenRuntime::HudTextureHandle> parchment =
                         view.ensureSolidHudTextureLoaded("__dialogue_map_icon_bg__", 0xffcdb07aU);
-                    const std::optional<GameplayOverlayContext::HudTextureHandle> lineTexture =
+                    const std::optional<GameplayScreenRuntime::HudTextureHandle> lineTexture =
                         view.ensureSolidHudTextureLoaded("__dialogue_map_icon_line__", 0xff5c4228U);
 
                     if (parchment)
@@ -1397,7 +1397,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             {
                 char textureName[16] = {};
                 std::snprintf(textureName, sizeof(textureName), "npc%04u", pictureId);
-                const std::optional<GameplayOverlayContext::HudTextureHandle> portraitTexture =
+                const std::optional<GameplayScreenRuntime::HudTextureHandle> portraitTexture =
                     view.ensureHudTextureLoaded(textureName);
 
                 if (portraitTexture)
@@ -1449,7 +1449,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
 
             if (selected)
             {
-                const std::optional<GameplayOverlayContext::HudTextureHandle> highlight =
+                const std::optional<GameplayScreenRuntime::HudTextureHandle> highlight =
                     view.ensureSolidHudTextureLoaded("__dialogue_event_npc_highlight__", 0x40ffffaaU);
 
                 if (highlight)
@@ -1463,7 +1463,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             if (pNpcNameLayout != nullptr
                 && shouldRenderInCurrentPass(renderAboveHud, hudZThreshold, pNpcNameLayout->zIndex))
             {
-                GameplayOverlayContext::ResolvedHudLayoutElement resolvedName = {};
+                GameplayScreenRuntime::ResolvedHudLayoutElement resolvedName = {};
                 resolvedName.x = nameX;
                 resolvedName.y = portraitY + nameOffsetY;
                 resolvedName.width = nameWidth;
@@ -1518,7 +1518,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             && ((!suppressServiceTopicsForShopOverlay && !view.activeEventDialog().actions.empty())
                 || hoveredHouseServiceTopicText.has_value()))
         {
-            const std::optional<GameplayOverlayContext::HudFontHandle> topicFont =
+            const std::optional<GameplayScreenRuntime::HudFontHandle> topicFont =
                 view.findHudFont(pTopicRowLayout->fontName);
             const float topicFontScale = snappedHudFontScale(
                 resolvedTopicRowTemplate ? resolvedTopicRowTemplate->scale : panelScale);
@@ -1598,7 +1598,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
 
             for (size_t actionIndex = 0; actionIndex < visibleActionCount; ++actionIndex)
             {
-                GameplayOverlayContext::ResolvedHudLayoutElement resolvedRow = {};
+                GameplayScreenRuntime::ResolvedHudLayoutElement resolvedRow = {};
                 resolvedRow.x = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->x : panelInnerX;
                 resolvedRow.y = rowY;
                 resolvedRow.width = resolvedTopicRowTemplate ? resolvedTopicRowTemplate->width : panelInnerWidth;
@@ -1622,7 +1622,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                     if (topicFont)
                     {
                         float lineY = pressAreaY;
-                        GameplayOverlayContext::HudLayoutElement hoveredTopicRowLayout = *pTopicRowLayout;
+                        GameplayScreenRuntime::HudLayoutElement hoveredTopicRowLayout = *pTopicRowLayout;
 
                         if (isHovered)
                         {
@@ -1631,7 +1631,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
 
                         for (const std::string &wrappedLine : wrappedActionLabels[actionIndex])
                         {
-                            GameplayOverlayContext::ResolvedHudLayoutElement resolvedLine = resolvedRow;
+                            GameplayScreenRuntime::ResolvedHudLayoutElement resolvedLine = resolvedRow;
                             resolvedLine.y = lineY;
                             resolvedLine.height = topicLineHeight;
                             view.renderLayoutLabel(
@@ -1643,7 +1643,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                     }
                     else
                     {
-                        GameplayOverlayContext::HudLayoutElement hoveredTopicRowLayout = *pTopicRowLayout;
+                        GameplayScreenRuntime::HudLayoutElement hoveredTopicRowLayout = *pTopicRowLayout;
 
                         if (isHovered)
                         {
@@ -1666,7 +1666,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
 }
 
 void GameplayDialogueRenderer::renderDialogueBodyText(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     int width,
     int height,
     bool renderAboveHud,
@@ -1677,14 +1677,14 @@ void GameplayDialogueRenderer::renderDialogueBodyText(
         return;
     }
 
-    const GameplayOverlayContext::HudLayoutElement *pDialogueTextLayout = view.findHudLayoutElement("DialogueText");
+    const GameplayScreenRuntime::HudLayoutElement *pDialogueTextLayout = view.findHudLayoutElement("DialogueText");
 
     if (pDialogueTextLayout == nullptr || toLowerCopy(pDialogueTextLayout->screen) != "dialogue")
     {
         return;
     }
 
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedText = view.resolveHudLayoutElement(
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedText = view.resolveHudLayoutElement(
         "DialogueText",
         width,
         height,
@@ -1698,7 +1698,7 @@ void GameplayDialogueRenderer::renderDialogueBodyText(
         return;
     }
 
-    const std::optional<GameplayOverlayContext::HudFontHandle> font =
+    const std::optional<GameplayScreenRuntime::HudFontHandle> font =
         view.findHudFont(pDialogueTextLayout->fontName);
 
     if (!font)
@@ -1758,7 +1758,7 @@ void GameplayDialogueRenderer::renderDialogueBodyText(
 }
 
 void GameplayDialogueRenderer::submitTextureHandleQuad(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     bgfx::TextureHandle textureHandle,
     float x,
     float y,
@@ -1769,7 +1769,7 @@ void GameplayDialogueRenderer::submitTextureHandleQuad(
 }
 
 void GameplayDialogueRenderer::submitTextureHandleQuadUv(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     bgfx::TextureHandle textureHandle,
     float x,
     float y,
@@ -1784,7 +1784,7 @@ void GameplayDialogueRenderer::submitTextureHandleQuadUv(
 }
 
 void GameplayDialogueRenderer::renderDialogueVideoArea(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     float x,
     float y,
     float quadWidth,
@@ -1795,9 +1795,9 @@ void GameplayDialogueRenderer::renderDialogueVideoArea(
         return;
     }
 
-    const std::optional<GameplayOverlayContext::HudTextureHandle> videoFillTexture =
+    const std::optional<GameplayScreenRuntime::HudTextureHandle> videoFillTexture =
         view.ensureSolidHudTextureLoaded("__dialogue_video_area_fill__", 0xa0181818u);
-    const std::optional<GameplayOverlayContext::HudTextureHandle> videoBorderTexture =
+    const std::optional<GameplayScreenRuntime::HudTextureHandle> videoBorderTexture =
         view.ensureSolidHudTextureLoaded("__dialogue_video_area_border__", 0xff505050u);
 
     if (videoFillTexture)

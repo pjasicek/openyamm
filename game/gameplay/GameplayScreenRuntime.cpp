@@ -1,5 +1,6 @@
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 
+#include "game/app/GameSession.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
@@ -8,6 +9,7 @@
 #include "game/StringUtils.h"
 #include "game/ui/SpellbookUiLayout.h"
 
+#include <cassert>
 #include <cmath>
 
 namespace OpenYAMM::Game
@@ -36,34 +38,63 @@ bool usesAlternateCloakBeltEquippedVariant(EquipmentSlot slot)
 }
 } // namespace
 
-GameplayOverlayContext::GameplayOverlayContext(
-    GameSession &session,
-    GameAudioSystem *pAudioSystem,
-    GameSettings *pSettings,
-    IGameplayOverlaySceneAdapter &sceneAdapter)
+GameplayScreenRuntime::GameplayScreenRuntime(GameSession &session)
     : m_session(session)
-    , m_pAudioSystem(pAudioSystem)
-    , m_pSettings(pSettings)
-    , m_sceneAdapter(sceneAdapter)
 {
 }
 
-GameplayUiController &GameplayOverlayContext::uiController() const
+void GameplayScreenRuntime::bindAudioSystem(GameAudioSystem *pAudioSystem)
+{
+    m_pAudioSystem = pAudioSystem;
+}
+
+void GameplayScreenRuntime::bindSettings(GameSettings *pSettings)
+{
+    m_pSettings = pSettings;
+}
+
+void GameplayScreenRuntime::bindSceneAdapter(IGameplayOverlaySceneAdapter *pSceneAdapter)
+{
+    m_pSceneAdapter = pSceneAdapter;
+}
+
+void GameplayScreenRuntime::clearSceneAdapter(IGameplayOverlaySceneAdapter *pSceneAdapter)
+{
+    if (m_pSceneAdapter == pSceneAdapter)
+    {
+        m_pSceneAdapter = nullptr;
+    }
+}
+
+void GameplayScreenRuntime::clearTransientBindings()
+{
+    m_pAudioSystem = nullptr;
+    m_pSettings = nullptr;
+    m_pSceneAdapter = nullptr;
+}
+
+IGameplayOverlaySceneAdapter &GameplayScreenRuntime::sceneAdapter() const
+{
+    assert(m_pSceneAdapter != nullptr);
+    return *m_pSceneAdapter;
+}
+
+GameplayUiController &GameplayScreenRuntime::uiController() const
 {
     return m_session.gameplayUiController();
 }
 
-GameplayUiRuntime &GameplayOverlayContext::uiRuntime() const
+GameplayUiRuntime &GameplayScreenRuntime::uiRuntime() const
 {
     return m_session.gameplayUiRuntime();
 }
 
-GameplayOverlayInteractionState &GameplayOverlayContext::interactionState() const
+GameplayOverlayInteractionState &GameplayScreenRuntime::interactionState() const
 {
     return m_session.overlayInteractionState();
 }
 
-GameplayDialogUiFlowState GameplayOverlayContext::dialogUiFlowState()
+GameplayDialogUiFlowState GameplayScreenRuntime::dialogUiFlowState()
 {
     return {
         uiController(),
@@ -73,7 +104,7 @@ GameplayDialogUiFlowState GameplayOverlayContext::dialogUiFlowState()
     };
 }
 
-GameplayDialogController::Context GameplayOverlayContext::buildDialogContext(EventRuntimeState &eventRuntimeState)
+GameplayDialogController::Context GameplayScreenRuntime::buildDialogContext(EventRuntimeState &eventRuntimeState)
 {
     GameplayDialogController::Callbacks callbacks = {};
     callbacks.playSpeechReaction =
@@ -121,7 +152,7 @@ GameplayDialogController::Context GameplayOverlayContext::buildDialogContext(Eve
         std::move(callbacks));
 }
 
-void GameplayOverlayContext::presentPendingEventDialogShared(size_t previousMessageCount, bool allowNpcFallbackContent)
+void GameplayScreenRuntime::presentPendingEventDialogShared(size_t previousMessageCount, bool allowNpcFallbackContent)
 {
     GameplayDialogUiFlowState state = dialogUiFlowState();
     GameplayDialogUiFlowPresentOptions options = {};
@@ -139,7 +170,7 @@ void GameplayOverlayContext::presentPendingEventDialogShared(size_t previousMess
         options);
 }
 
-void GameplayOverlayContext::closeActiveEventDialogShared()
+void GameplayScreenRuntime::closeActiveEventDialogShared()
 {
     GameplayDialogUiFlowState state = dialogUiFlowState();
     ::OpenYAMM::Game::closeActiveEventDialog(
@@ -147,7 +178,7 @@ void GameplayOverlayContext::closeActiveEventDialogShared()
         worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr);
 }
 
-void GameplayOverlayContext::returnToHouseBankMainDialogShared()
+void GameplayScreenRuntime::returnToHouseBankMainDialogShared()
 {
     GameplayDialogUiFlowState state = dialogUiFlowState();
     const GameplayDialogController::Result result = ::OpenYAMM::Game::returnToHouseBankMainDialog(
@@ -164,692 +195,692 @@ void GameplayOverlayContext::returnToHouseBankMainDialogShared()
     }
 }
 
-IGameplayWorldRuntime *GameplayOverlayContext::worldRuntime() const
+IGameplayWorldRuntime *GameplayScreenRuntime::worldRuntime() const
 {
     return m_session.activeWorldRuntime();
 }
 
-Party *GameplayOverlayContext::party() const
+Party *GameplayScreenRuntime::party() const
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
     return pWorldRuntime != nullptr ? pWorldRuntime->party() : nullptr;
 }
 
-const Party *GameplayOverlayContext::partyReadOnly() const
+const Party *GameplayScreenRuntime::partyReadOnly() const
 {
     const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
     return pWorldRuntime != nullptr ? pWorldRuntime->party() : nullptr;
 }
 
-float GameplayOverlayContext::partyX() const
+float GameplayScreenRuntime::partyX() const
 {
     const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
     return pWorldRuntime != nullptr ? pWorldRuntime->partyX() : 0.0f;
 }
 
-float GameplayOverlayContext::partyY() const
+float GameplayScreenRuntime::partyY() const
 {
     const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
     return pWorldRuntime != nullptr ? pWorldRuntime->partyY() : 0.0f;
 }
 
-float GameplayOverlayContext::partyFootZ() const
+float GameplayScreenRuntime::partyFootZ() const
 {
     const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
     return pWorldRuntime != nullptr ? pWorldRuntime->partyFootZ() : 0.0f;
 }
 
-GameAudioSystem *GameplayOverlayContext::audioSystem() const
+GameAudioSystem *GameplayScreenRuntime::audioSystem() const
 {
     return m_pAudioSystem;
 }
 
-const ItemTable *GameplayOverlayContext::itemTable() const
+const ItemTable *GameplayScreenRuntime::itemTable() const
 {
     return &m_session.data().itemTable();
 }
 
-const StandardItemEnchantTable *GameplayOverlayContext::standardItemEnchantTable() const
+const StandardItemEnchantTable *GameplayScreenRuntime::standardItemEnchantTable() const
 {
     return &m_session.data().standardItemEnchantTable();
 }
 
-const SpecialItemEnchantTable *GameplayOverlayContext::specialItemEnchantTable() const
+const SpecialItemEnchantTable *GameplayScreenRuntime::specialItemEnchantTable() const
 {
     return &m_session.data().specialItemEnchantTable();
 }
 
-const ClassSkillTable *GameplayOverlayContext::classSkillTable() const
+const ClassSkillTable *GameplayScreenRuntime::classSkillTable() const
 {
     return &m_session.data().classSkillTable();
 }
 
-const CharacterDollTable *GameplayOverlayContext::characterDollTable() const
+const CharacterDollTable *GameplayScreenRuntime::characterDollTable() const
 {
     return &m_session.data().characterDollTable();
 }
 
-const CharacterInspectTable *GameplayOverlayContext::characterInspectTable() const
+const CharacterInspectTable *GameplayScreenRuntime::characterInspectTable() const
 {
     return &m_session.data().characterInspectTable();
 }
 
-const RosterTable *GameplayOverlayContext::rosterTable() const
+const RosterTable *GameplayScreenRuntime::rosterTable() const
 {
     return &m_session.data().rosterTable();
 }
 
-const ReadableScrollTable *GameplayOverlayContext::readableScrollTable() const
+const ReadableScrollTable *GameplayScreenRuntime::readableScrollTable() const
 {
     return &m_session.data().readableScrollTable();
 }
 
-const ItemEquipPosTable *GameplayOverlayContext::itemEquipPosTable() const
+const ItemEquipPosTable *GameplayScreenRuntime::itemEquipPosTable() const
 {
     return &m_session.data().itemEquipPosTable();
 }
 
-const SpellTable *GameplayOverlayContext::spellTable() const
+const SpellTable *GameplayScreenRuntime::spellTable() const
 {
     return &m_session.data().spellTable();
 }
 
-const HouseTable *GameplayOverlayContext::houseTable() const
+const HouseTable *GameplayScreenRuntime::houseTable() const
 {
     return &m_session.data().houseTable();
 }
 
-const ChestTable *GameplayOverlayContext::chestTable() const
+const ChestTable *GameplayScreenRuntime::chestTable() const
 {
     return &m_session.data().chestTable();
 }
 
-const NpcDialogTable *GameplayOverlayContext::npcDialogTable() const
+const NpcDialogTable *GameplayScreenRuntime::npcDialogTable() const
 {
     return &m_session.data().npcDialogTable();
 }
 
-const MonsterTable *GameplayOverlayContext::monsterTable() const
+const MonsterTable *GameplayScreenRuntime::monsterTable() const
 {
     return &m_session.data().monsterTable();
 }
 
-GameplayUiController::CharacterScreenState &GameplayOverlayContext::characterScreen() const
+GameplayUiController::CharacterScreenState &GameplayScreenRuntime::characterScreen() const
 {
     return uiController().characterScreen();
 }
 
-GameplayUiController::HeldInventoryItemState &GameplayOverlayContext::heldInventoryItem() const
+GameplayUiController::HeldInventoryItemState &GameplayScreenRuntime::heldInventoryItem() const
 {
     return uiController().heldInventoryItem();
 }
 
-GameplayUiController::ItemInspectOverlayState &GameplayOverlayContext::itemInspectOverlay() const
+GameplayUiController::ItemInspectOverlayState &GameplayScreenRuntime::itemInspectOverlay() const
 {
     return uiController().itemInspectOverlay();
 }
 
-GameplayUiController::CharacterInspectOverlayState &GameplayOverlayContext::characterInspectOverlay() const
+GameplayUiController::CharacterInspectOverlayState &GameplayScreenRuntime::characterInspectOverlay() const
 {
     return uiController().characterInspectOverlay();
 }
 
-GameplayUiController::BuffInspectOverlayState &GameplayOverlayContext::buffInspectOverlay() const
+GameplayUiController::BuffInspectOverlayState &GameplayScreenRuntime::buffInspectOverlay() const
 {
     return uiController().buffInspectOverlay();
 }
 
-GameplayUiController::CharacterDetailOverlayState &GameplayOverlayContext::characterDetailOverlay() const
+GameplayUiController::CharacterDetailOverlayState &GameplayScreenRuntime::characterDetailOverlay() const
 {
     return uiController().characterDetailOverlay();
 }
 
-GameplayUiController::ActorInspectOverlayState &GameplayOverlayContext::actorInspectOverlay() const
+GameplayUiController::ActorInspectOverlayState &GameplayScreenRuntime::actorInspectOverlay() const
 {
     return uiController().actorInspectOverlay();
 }
 
-GameplayUiController::SpellInspectOverlayState &GameplayOverlayContext::spellInspectOverlay() const
+GameplayUiController::SpellInspectOverlayState &GameplayScreenRuntime::spellInspectOverlay() const
 {
     return uiController().spellInspectOverlay();
 }
 
-GameplayUiController::ReadableScrollOverlayState &GameplayOverlayContext::readableScrollOverlay() const
+GameplayUiController::ReadableScrollOverlayState &GameplayScreenRuntime::readableScrollOverlay() const
 {
     return uiController().readableScrollOverlay();
 }
 
-GameplayUiController::SpellbookState &GameplayOverlayContext::spellbook() const
+GameplayUiController::SpellbookState &GameplayScreenRuntime::spellbook() const
 {
     return uiController().spellbook();
 }
 
-GameplayUiController::UtilitySpellOverlayState &GameplayOverlayContext::utilitySpellOverlay() const
+GameplayUiController::UtilitySpellOverlayState &GameplayScreenRuntime::utilitySpellOverlay() const
 {
     return uiController().utilitySpellOverlay();
 }
 
-GameplayUiController::InventoryNestedOverlayState &GameplayOverlayContext::inventoryNestedOverlay() const
+GameplayUiController::InventoryNestedOverlayState &GameplayScreenRuntime::inventoryNestedOverlay() const
 {
     return uiController().inventoryNestedOverlay();
 }
 
-GameplayUiController::HouseShopOverlayState &GameplayOverlayContext::houseShopOverlay() const
+GameplayUiController::HouseShopOverlayState &GameplayScreenRuntime::houseShopOverlay() const
 {
     return uiController().houseShopOverlay();
 }
 
-GameplayUiController::HouseBankState &GameplayOverlayContext::houseBankState() const
+GameplayUiController::HouseBankState &GameplayScreenRuntime::houseBankState() const
 {
     return uiController().houseBankState();
 }
 
-GameplayUiController::JournalScreenState &GameplayOverlayContext::journalScreenState() const
+GameplayUiController::JournalScreenState &GameplayScreenRuntime::journalScreenState() const
 {
     return uiController().journalScreen();
 }
 
-GameplayUiController::RestScreenState &GameplayOverlayContext::restScreenState() const
+GameplayUiController::RestScreenState &GameplayScreenRuntime::restScreenState() const
 {
     return uiController().restScreen();
 }
 
-GameplayUiController::MenuScreenState &GameplayOverlayContext::menuScreenState() const
+GameplayUiController::MenuScreenState &GameplayScreenRuntime::menuScreenState() const
 {
     return uiController().menuScreen();
 }
 
-GameplayUiController::ControlsScreenState &GameplayOverlayContext::controlsScreenState() const
+GameplayUiController::ControlsScreenState &GameplayScreenRuntime::controlsScreenState() const
 {
     return uiController().controlsScreen();
 }
 
-GameplayUiController::KeyboardScreenState &GameplayOverlayContext::keyboardScreenState() const
+GameplayUiController::KeyboardScreenState &GameplayScreenRuntime::keyboardScreenState() const
 {
     return uiController().keyboardScreen();
 }
 
-GameplayUiController::VideoOptionsScreenState &GameplayOverlayContext::videoOptionsScreenState() const
+GameplayUiController::VideoOptionsScreenState &GameplayScreenRuntime::videoOptionsScreenState() const
 {
     return uiController().videoOptionsScreen();
 }
 
-GameplayUiController::SaveGameScreenState &GameplayOverlayContext::saveGameScreenState() const
+GameplayUiController::SaveGameScreenState &GameplayScreenRuntime::saveGameScreenState() const
 {
     return uiController().saveGameScreen();
 }
 
-GameplayUiController::LoadGameScreenState &GameplayOverlayContext::loadGameScreenState() const
+GameplayUiController::LoadGameScreenState &GameplayScreenRuntime::loadGameScreenState() const
 {
     return uiController().loadGameScreen();
 }
 
-const GameplayUiController::CharacterScreenState &GameplayOverlayContext::characterScreenReadOnly() const
+const GameplayUiController::CharacterScreenState &GameplayScreenRuntime::characterScreenReadOnly() const
 {
     return uiController().characterScreen();
 }
 
-const GameplayUiController::ItemInspectOverlayState &GameplayOverlayContext::itemInspectOverlayReadOnly() const
+const GameplayUiController::ItemInspectOverlayState &GameplayScreenRuntime::itemInspectOverlayReadOnly() const
 {
     return uiController().itemInspectOverlay();
 }
 
-const GameplayUiController::CharacterInspectOverlayState &GameplayOverlayContext::characterInspectOverlayReadOnly() const
+const GameplayUiController::CharacterInspectOverlayState &GameplayScreenRuntime::characterInspectOverlayReadOnly() const
 {
     return uiController().characterInspectOverlay();
 }
 
-const GameplayUiController::BuffInspectOverlayState &GameplayOverlayContext::buffInspectOverlayReadOnly() const
+const GameplayUiController::BuffInspectOverlayState &GameplayScreenRuntime::buffInspectOverlayReadOnly() const
 {
     return uiController().buffInspectOverlay();
 }
 
-const GameplayUiController::CharacterDetailOverlayState &GameplayOverlayContext::characterDetailOverlayReadOnly() const
+const GameplayUiController::CharacterDetailOverlayState &GameplayScreenRuntime::characterDetailOverlayReadOnly() const
 {
     return uiController().characterDetailOverlay();
 }
 
-const GameplayUiController::ActorInspectOverlayState &GameplayOverlayContext::actorInspectOverlayReadOnly() const
+const GameplayUiController::ActorInspectOverlayState &GameplayScreenRuntime::actorInspectOverlayReadOnly() const
 {
     return uiController().actorInspectOverlay();
 }
 
-const GameplayUiController::SpellInspectOverlayState &GameplayOverlayContext::spellInspectOverlayReadOnly() const
+const GameplayUiController::SpellInspectOverlayState &GameplayScreenRuntime::spellInspectOverlayReadOnly() const
 {
     return uiController().spellInspectOverlay();
 }
 
-const GameplayUiController::ReadableScrollOverlayState &GameplayOverlayContext::readableScrollOverlayReadOnly() const
+const GameplayUiController::ReadableScrollOverlayState &GameplayScreenRuntime::readableScrollOverlayReadOnly() const
 {
     return uiController().readableScrollOverlay();
 }
 
-const GameplayUiController::SpellbookState &GameplayOverlayContext::spellbookReadOnly() const
+const GameplayUiController::SpellbookState &GameplayScreenRuntime::spellbookReadOnly() const
 {
     return uiController().spellbook();
 }
 
-const GameplayUiController::UtilitySpellOverlayState &GameplayOverlayContext::utilitySpellOverlayReadOnly() const
+const GameplayUiController::UtilitySpellOverlayState &GameplayScreenRuntime::utilitySpellOverlayReadOnly() const
 {
     return uiController().utilitySpellOverlay();
 }
 
-const GameplayUiController::JournalScreenState &GameplayOverlayContext::journalScreenStateReadOnly() const
+const GameplayUiController::JournalScreenState &GameplayScreenRuntime::journalScreenStateReadOnly() const
 {
     return uiController().journalScreen();
 }
 
-const JournalQuestTable *GameplayOverlayContext::journalQuestTable() const
+const JournalQuestTable *GameplayScreenRuntime::journalQuestTable() const
 {
     return &m_session.data().journalQuestTable();
 }
 
-const JournalHistoryTable *GameplayOverlayContext::journalHistoryTable() const
+const JournalHistoryTable *GameplayScreenRuntime::journalHistoryTable() const
 {
     return &m_session.data().journalHistoryTable();
 }
 
-const JournalAutonoteTable *GameplayOverlayContext::journalAutonoteTable() const
+const JournalAutonoteTable *GameplayScreenRuntime::journalAutonoteTable() const
 {
     return &m_session.data().journalAutonoteTable();
 }
 
-const std::string &GameplayOverlayContext::currentMapFileName() const
+const std::string &GameplayScreenRuntime::currentMapFileName() const
 {
-    return m_sceneAdapter.currentMapFileName();
+    return sceneAdapter().currentMapFileName();
 }
 
-float GameplayOverlayContext::gameplayCameraYawRadians() const
+float GameplayScreenRuntime::gameplayCameraYawRadians() const
 {
-    return m_sceneAdapter.gameplayCameraYawRadians();
+    return sceneAdapter().gameplayCameraYawRadians();
 }
 
-const std::vector<uint8_t> *GameplayOverlayContext::journalMapFullyRevealedCells() const
+const std::vector<uint8_t> *GameplayScreenRuntime::journalMapFullyRevealedCells() const
 {
-    return m_sceneAdapter.journalMapFullyRevealedCells();
+    return sceneAdapter().journalMapFullyRevealedCells();
 }
 
-const std::vector<uint8_t> *GameplayOverlayContext::journalMapPartiallyRevealedCells() const
+const std::vector<uint8_t> *GameplayScreenRuntime::journalMapPartiallyRevealedCells() const
 {
-    return m_sceneAdapter.journalMapPartiallyRevealedCells();
+    return sceneAdapter().journalMapPartiallyRevealedCells();
 }
 
-EventDialogContent &GameplayOverlayContext::activeEventDialog() const
+EventDialogContent &GameplayScreenRuntime::activeEventDialog() const
 {
     return uiController().eventDialog().content;
 }
 
-std::string &GameplayOverlayContext::statusBarEventText() const
+std::string &GameplayScreenRuntime::statusBarEventText() const
 {
     return uiController().statusBar().eventText;
 }
 
-float &GameplayOverlayContext::statusBarEventRemainingSeconds() const
+float &GameplayScreenRuntime::statusBarEventRemainingSeconds() const
 {
     return uiController().statusBar().eventRemainingSeconds;
 }
 
-const std::string &GameplayOverlayContext::statusBarHoverText() const
+const std::string &GameplayScreenRuntime::statusBarHoverText() const
 {
     return uiController().statusBar().hoverText;
 }
 
-std::string &GameplayOverlayContext::mutableStatusBarHoverText() const
+std::string &GameplayScreenRuntime::mutableStatusBarHoverText() const
 {
     return uiController().statusBar().hoverText;
 }
 
-bool &GameplayOverlayContext::closeOverlayLatch() const
+bool &GameplayScreenRuntime::closeOverlayLatch() const
 {
     return interactionState().closeOverlayLatch;
 }
 
-bool &GameplayOverlayContext::restToggleLatch() const
+bool &GameplayScreenRuntime::restToggleLatch() const
 {
     return interactionState().restToggleLatch;
 }
 
-bool &GameplayOverlayContext::restClickLatch() const
+bool &GameplayScreenRuntime::restClickLatch() const
 {
     return interactionState().restClickLatch;
 }
 
-GameplayRestPointerTarget &GameplayOverlayContext::restPressedTarget() const
+GameplayRestPointerTarget &GameplayScreenRuntime::restPressedTarget() const
 {
     return interactionState().restPressedTarget;
 }
 
-bool &GameplayOverlayContext::gameplayHudClickLatch() const
+bool &GameplayScreenRuntime::gameplayHudClickLatch() const
 {
     return interactionState().gameplayHudClickLatch;
 }
 
-GameplayHudPointerTarget &GameplayOverlayContext::gameplayHudPressedTarget() const
+GameplayHudPointerTarget &GameplayScreenRuntime::gameplayHudPressedTarget() const
 {
     return interactionState().gameplayHudPressedTarget;
 }
 
-bool &GameplayOverlayContext::menuToggleLatch() const
+bool &GameplayScreenRuntime::menuToggleLatch() const
 {
     return interactionState().menuToggleLatch;
 }
 
-bool &GameplayOverlayContext::menuClickLatch() const
+bool &GameplayScreenRuntime::menuClickLatch() const
 {
     return interactionState().menuClickLatch;
 }
 
-GameplayMenuPointerTarget &GameplayOverlayContext::menuPressedTarget() const
+GameplayMenuPointerTarget &GameplayScreenRuntime::menuPressedTarget() const
 {
     return interactionState().menuPressedTarget;
 }
 
-bool &GameplayOverlayContext::controlsToggleLatch() const
+bool &GameplayScreenRuntime::controlsToggleLatch() const
 {
     return interactionState().controlsToggleLatch;
 }
 
-bool &GameplayOverlayContext::controlsClickLatch() const
+bool &GameplayScreenRuntime::controlsClickLatch() const
 {
     return interactionState().controlsClickLatch;
 }
 
-GameplayControlsPointerTarget &GameplayOverlayContext::controlsPressedTarget() const
+GameplayControlsPointerTarget &GameplayScreenRuntime::controlsPressedTarget() const
 {
     return interactionState().controlsPressedTarget;
 }
 
-bool &GameplayOverlayContext::controlsSliderDragActive() const
+bool &GameplayScreenRuntime::controlsSliderDragActive() const
 {
     return interactionState().controlsSliderDragActive;
 }
 
-GameplayControlsPointerTargetType &GameplayOverlayContext::controlsDraggedSlider() const
+GameplayControlsPointerTargetType &GameplayScreenRuntime::controlsDraggedSlider() const
 {
     return interactionState().controlsDraggedSlider;
 }
 
-bool &GameplayOverlayContext::keyboardToggleLatch() const
+bool &GameplayScreenRuntime::keyboardToggleLatch() const
 {
     return interactionState().keyboardToggleLatch;
 }
 
-bool &GameplayOverlayContext::keyboardClickLatch() const
+bool &GameplayScreenRuntime::keyboardClickLatch() const
 {
     return interactionState().keyboardClickLatch;
 }
 
-GameplayKeyboardPointerTarget &GameplayOverlayContext::keyboardPressedTarget() const
+GameplayKeyboardPointerTarget &GameplayScreenRuntime::keyboardPressedTarget() const
 {
     return interactionState().keyboardPressedTarget;
 }
 
-bool &GameplayOverlayContext::videoOptionsToggleLatch() const
+bool &GameplayScreenRuntime::videoOptionsToggleLatch() const
 {
     return interactionState().videoOptionsToggleLatch;
 }
 
-bool &GameplayOverlayContext::videoOptionsClickLatch() const
+bool &GameplayScreenRuntime::videoOptionsClickLatch() const
 {
     return interactionState().videoOptionsClickLatch;
 }
 
-GameplayVideoOptionsPointerTarget &GameplayOverlayContext::videoOptionsPressedTarget() const
+GameplayVideoOptionsPointerTarget &GameplayScreenRuntime::videoOptionsPressedTarget() const
 {
     return interactionState().videoOptionsPressedTarget;
 }
 
-bool &GameplayOverlayContext::saveGameToggleLatch() const
+bool &GameplayScreenRuntime::saveGameToggleLatch() const
 {
     return interactionState().saveGameToggleLatch;
 }
 
-bool &GameplayOverlayContext::saveGameClickLatch() const
+bool &GameplayScreenRuntime::saveGameClickLatch() const
 {
     return interactionState().saveGameClickLatch;
 }
 
-GameplaySaveLoadPointerTarget &GameplayOverlayContext::saveGamePressedTarget() const
+GameplaySaveLoadPointerTarget &GameplayScreenRuntime::saveGamePressedTarget() const
 {
     return interactionState().saveGamePressedTarget;
 }
 
-bool &GameplayOverlayContext::characterClickLatch() const
+bool &GameplayScreenRuntime::characterClickLatch() const
 {
     return interactionState().characterClickLatch;
 }
 
-GameplayCharacterPointerTarget &GameplayOverlayContext::characterPressedTarget() const
+GameplayCharacterPointerTarget &GameplayScreenRuntime::characterPressedTarget() const
 {
     return interactionState().characterPressedTarget;
 }
 
-bool &GameplayOverlayContext::characterMemberCycleLatch() const
+bool &GameplayScreenRuntime::characterMemberCycleLatch() const
 {
     return interactionState().characterMemberCycleLatch;
 }
 
-std::optional<size_t> &GameplayOverlayContext::pendingCharacterDismissMemberIndex() const
+std::optional<size_t> &GameplayScreenRuntime::pendingCharacterDismissMemberIndex() const
 {
     return interactionState().pendingCharacterDismissMemberIndex;
 }
 
-uint64_t &GameplayOverlayContext::pendingCharacterDismissExpiresTicks() const
+uint64_t &GameplayScreenRuntime::pendingCharacterDismissExpiresTicks() const
 {
     return interactionState().pendingCharacterDismissExpiresTicks;
 }
 
-bool &GameplayOverlayContext::spellbookClickLatch() const
+bool &GameplayScreenRuntime::spellbookClickLatch() const
 {
     return interactionState().spellbookClickLatch;
 }
 
-GameplaySpellbookPointerTarget &GameplayOverlayContext::spellbookPressedTarget() const
+GameplaySpellbookPointerTarget &GameplayScreenRuntime::spellbookPressedTarget() const
 {
     return interactionState().spellbookPressedTarget;
 }
 
-uint64_t &GameplayOverlayContext::lastSpellbookSpellClickTicks() const
+uint64_t &GameplayScreenRuntime::lastSpellbookSpellClickTicks() const
 {
     return interactionState().lastSpellbookSpellClickTicks;
 }
 
-uint32_t &GameplayOverlayContext::lastSpellbookClickedSpellId() const
+uint32_t &GameplayScreenRuntime::lastSpellbookClickedSpellId() const
 {
     return interactionState().lastSpellbookClickedSpellId;
 }
 
-bool &GameplayOverlayContext::utilitySpellClickLatch() const
+bool &GameplayScreenRuntime::utilitySpellClickLatch() const
 {
     return interactionState().utilitySpellClickLatch;
 }
 
-GameplayUtilitySpellPointerTarget &GameplayOverlayContext::utilitySpellPressedTarget() const
+GameplayUtilitySpellPointerTarget &GameplayScreenRuntime::utilitySpellPressedTarget() const
 {
     return interactionState().utilitySpellPressedTarget;
 }
 
-std::array<bool, 39> &GameplayOverlayContext::saveGameEditKeyLatches() const
+std::array<bool, 39> &GameplayScreenRuntime::saveGameEditKeyLatches() const
 {
     return interactionState().saveGameEditKeyLatches;
 }
 
-bool &GameplayOverlayContext::saveGameEditBackspaceLatch() const
+bool &GameplayScreenRuntime::saveGameEditBackspaceLatch() const
 {
     return interactionState().saveGameEditBackspaceLatch;
 }
 
-uint64_t &GameplayOverlayContext::lastSaveGameSlotClickTicks() const
+uint64_t &GameplayScreenRuntime::lastSaveGameSlotClickTicks() const
 {
     return interactionState().lastSaveGameSlotClickTicks;
 }
 
-std::optional<size_t> &GameplayOverlayContext::lastSaveGameClickedSlotIndex() const
+std::optional<size_t> &GameplayScreenRuntime::lastSaveGameClickedSlotIndex() const
 {
     return interactionState().lastSaveGameClickedSlotIndex;
 }
 
-bool &GameplayOverlayContext::journalToggleLatch() const
+bool &GameplayScreenRuntime::journalToggleLatch() const
 {
     return interactionState().journalToggleLatch;
 }
 
-bool &GameplayOverlayContext::journalClickLatch() const
+bool &GameplayScreenRuntime::journalClickLatch() const
 {
     return interactionState().journalClickLatch;
 }
 
-GameplayJournalPointerTarget &GameplayOverlayContext::journalPressedTarget() const
+GameplayJournalPointerTarget &GameplayScreenRuntime::journalPressedTarget() const
 {
     return interactionState().journalPressedTarget;
 }
 
-bool &GameplayOverlayContext::journalMapKeyZoomLatch() const
+bool &GameplayScreenRuntime::journalMapKeyZoomLatch() const
 {
     return interactionState().journalMapKeyZoomLatch;
 }
 
-bool &GameplayOverlayContext::dialogueClickLatch() const
+bool &GameplayScreenRuntime::dialogueClickLatch() const
 {
     return interactionState().dialogueClickLatch;
 }
 
-GameplayDialoguePointerTarget &GameplayOverlayContext::dialoguePressedTarget() const
+GameplayDialoguePointerTarget &GameplayScreenRuntime::dialoguePressedTarget() const
 {
     return interactionState().dialoguePressedTarget;
 }
 
-bool &GameplayOverlayContext::houseShopClickLatch() const
+bool &GameplayScreenRuntime::houseShopClickLatch() const
 {
     return interactionState().houseShopClickLatch;
 }
 
-size_t &GameplayOverlayContext::houseShopPressedSlotIndex() const
+size_t &GameplayScreenRuntime::houseShopPressedSlotIndex() const
 {
     return interactionState().houseShopPressedSlotIndex;
 }
 
-bool &GameplayOverlayContext::chestClickLatch() const
+bool &GameplayScreenRuntime::chestClickLatch() const
 {
     return interactionState().chestClickLatch;
 }
 
-bool &GameplayOverlayContext::chestItemClickLatch() const
+bool &GameplayScreenRuntime::chestItemClickLatch() const
 {
     return interactionState().chestItemClickLatch;
 }
 
-GameplayChestPointerTarget &GameplayOverlayContext::chestPressedTarget() const
+GameplayChestPointerTarget &GameplayScreenRuntime::chestPressedTarget() const
 {
     return interactionState().chestPressedTarget;
 }
 
-bool &GameplayOverlayContext::inventoryNestedOverlayItemClickLatch() const
+bool &GameplayScreenRuntime::inventoryNestedOverlayItemClickLatch() const
 {
     return interactionState().inventoryNestedOverlayItemClickLatch;
 }
 
-std::array<bool, 10> &GameplayOverlayContext::houseBankDigitLatches() const
+std::array<bool, 10> &GameplayScreenRuntime::houseBankDigitLatches() const
 {
     return interactionState().houseBankDigitLatches;
 }
 
-bool &GameplayOverlayContext::houseBankBackspaceLatch() const
+bool &GameplayScreenRuntime::houseBankBackspaceLatch() const
 {
     return interactionState().houseBankBackspaceLatch;
 }
 
-bool &GameplayOverlayContext::houseBankConfirmLatch() const
+bool &GameplayScreenRuntime::houseBankConfirmLatch() const
 {
     return interactionState().houseBankConfirmLatch;
 }
 
-bool &GameplayOverlayContext::lootChestItemLatch() const
+bool &GameplayScreenRuntime::lootChestItemLatch() const
 {
     return interactionState().lootChestItemLatch;
 }
 
-bool &GameplayOverlayContext::chestSelectUpLatch() const
+bool &GameplayScreenRuntime::chestSelectUpLatch() const
 {
     return interactionState().chestSelectUpLatch;
 }
 
-bool &GameplayOverlayContext::chestSelectDownLatch() const
+bool &GameplayScreenRuntime::chestSelectDownLatch() const
 {
     return interactionState().chestSelectDownLatch;
 }
 
-bool &GameplayOverlayContext::eventDialogSelectUpLatch() const
+bool &GameplayScreenRuntime::eventDialogSelectUpLatch() const
 {
     return interactionState().eventDialogSelectUpLatch;
 }
 
-bool &GameplayOverlayContext::eventDialogSelectDownLatch() const
+bool &GameplayScreenRuntime::eventDialogSelectDownLatch() const
 {
     return interactionState().eventDialogSelectDownLatch;
 }
 
-bool &GameplayOverlayContext::eventDialogAcceptLatch() const
+bool &GameplayScreenRuntime::eventDialogAcceptLatch() const
 {
     return interactionState().eventDialogAcceptLatch;
 }
 
-std::array<bool, 5> &GameplayOverlayContext::eventDialogPartySelectLatches() const
+std::array<bool, 5> &GameplayScreenRuntime::eventDialogPartySelectLatches() const
 {
     return interactionState().eventDialogPartySelectLatches;
 }
 
-bool &GameplayOverlayContext::activateInspectLatch() const
+bool &GameplayScreenRuntime::activateInspectLatch() const
 {
     return interactionState().activateInspectLatch;
 }
 
-bool &GameplayOverlayContext::itemInspectInteractionLatch() const
+bool &GameplayScreenRuntime::itemInspectInteractionLatch() const
 {
     return interactionState().itemInspectInteractionLatch;
 }
 
-uint64_t &GameplayOverlayContext::itemInspectInteractionKey() const
+uint64_t &GameplayScreenRuntime::itemInspectInteractionKey() const
 {
     return interactionState().itemInspectInteractionKey;
 }
 
-size_t &GameplayOverlayContext::chestSelectionIndex() const
+size_t &GameplayScreenRuntime::chestSelectionIndex() const
 {
     return interactionState().chestSelectionIndex;
 }
 
-size_t &GameplayOverlayContext::eventDialogSelectionIndex() const
+size_t &GameplayScreenRuntime::eventDialogSelectionIndex() const
 {
     return uiController().eventDialog().selectionIndex;
 }
 
-bool &GameplayOverlayContext::partyPortraitClickLatch() const
+bool &GameplayScreenRuntime::partyPortraitClickLatch() const
 {
     return interactionState().partyPortraitClickLatch;
 }
 
-std::optional<size_t> &GameplayOverlayContext::partyPortraitPressedIndex() const
+std::optional<size_t> &GameplayScreenRuntime::partyPortraitPressedIndex() const
 {
     return interactionState().partyPortraitPressedIndex;
 }
 
-uint64_t &GameplayOverlayContext::lastPartyPortraitClickTicks() const
+uint64_t &GameplayScreenRuntime::lastPartyPortraitClickTicks() const
 {
     return interactionState().lastPartyPortraitClickTicks;
 }
 
-std::optional<size_t> &GameplayOverlayContext::lastPartyPortraitClickedIndex() const
+std::optional<size_t> &GameplayScreenRuntime::lastPartyPortraitClickedIndex() const
 {
     return interactionState().lastPartyPortraitClickedIndex;
 }
 
-bool GameplayOverlayContext::trySelectPartyMember(size_t memberIndex, bool requireGameplayReady)
+bool GameplayScreenRuntime::trySelectPartyMember(size_t memberIndex, bool requireGameplayReady)
 {
-    return m_sceneAdapter.trySelectPartyMember(memberIndex, requireGameplayReady);
+    return sceneAdapter().trySelectPartyMember(memberIndex, requireGameplayReady);
 }
 
-size_t GameplayOverlayContext::selectedCharacterScreenSourceIndex() const
+size_t GameplayScreenRuntime::selectedCharacterScreenSourceIndex() const
 {
     const Party *pParty = partyReadOnly();
 
@@ -862,7 +893,7 @@ size_t GameplayOverlayContext::selectedCharacterScreenSourceIndex() const
     return isAdventurersInnCharacterSourceActive() ? screen.sourceIndex : pParty->activeMemberIndex();
 }
 
-const Character *GameplayOverlayContext::selectedCharacterScreenCharacter() const
+const Character *GameplayScreenRuntime::selectedCharacterScreenCharacter() const
 {
     const Party *pParty = partyReadOnly();
 
@@ -879,30 +910,30 @@ const Character *GameplayOverlayContext::selectedCharacterScreenCharacter() cons
     return pParty->activeMember();
 }
 
-bool GameplayOverlayContext::isAdventurersInnCharacterSourceActive() const
+bool GameplayScreenRuntime::isAdventurersInnCharacterSourceActive() const
 {
     const GameplayUiController::CharacterScreenState &screen = characterScreenReadOnly();
     return screen.open && screen.source == GameplayUiController::CharacterScreenSource::AdventurersInn;
 }
 
-bool GameplayOverlayContext::isAdventurersInnScreenActive() const
+bool GameplayScreenRuntime::isAdventurersInnScreenActive() const
 {
     const GameplayUiController::CharacterScreenState &screen = characterScreenReadOnly();
     return isAdventurersInnCharacterSourceActive() && screen.adventurersInnRosterOverlayOpen;
 }
 
-bool GameplayOverlayContext::isReadOnlyAdventurersInnCharacterViewActive() const
+bool GameplayScreenRuntime::isReadOnlyAdventurersInnCharacterViewActive() const
 {
     return isAdventurersInnCharacterSourceActive() && !characterScreenReadOnly().adventurersInnRosterOverlayOpen;
 }
 
-bool GameplayOverlayContext::activeMemberKnowsSpell(uint32_t spellId) const
+bool GameplayScreenRuntime::activeMemberKnowsSpell(uint32_t spellId) const
 {
     const Character *pMember = partyReadOnly() != nullptr ? partyReadOnly()->activeMember() : nullptr;
     return pMember != nullptr && pMember->knowsSpell(spellId);
 }
 
-bool GameplayOverlayContext::activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const
+bool GameplayScreenRuntime::activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const
 {
     const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(school);
     const Character *pMember = partyReadOnly() != nullptr ? partyReadOnly()->activeMember() : nullptr;
@@ -923,12 +954,12 @@ bool GameplayOverlayContext::activeMemberHasSpellbookSchool(GameplayUiController
     return pSkill != nullptr && pSkill->level > 0 && pSkill->mastery != SkillMastery::None;
 }
 
-void GameplayOverlayContext::setStatusBarEvent(const std::string &text, float durationSeconds)
+void GameplayScreenRuntime::setStatusBarEvent(const std::string &text, float durationSeconds)
 {
     uiController().setStatusBarEvent(text, durationSeconds);
 }
 
-void GameplayOverlayContext::openRestOverlay()
+void GameplayScreenRuntime::openRestOverlay()
 {
     if (party() == nullptr || worldRuntime() == nullptr)
     {
@@ -946,7 +977,7 @@ void GameplayOverlayContext::openRestOverlay()
     interactionState().restPressedTarget = {};
 }
 
-void GameplayOverlayContext::openSpellbookOverlay()
+void GameplayScreenRuntime::openSpellbookOverlay()
 {
     GameplayUiController::SpellbookSchool school = GameplayUiController::SpellbookSchool::Fire;
 
@@ -990,13 +1021,13 @@ void GameplayOverlayContext::openSpellbookOverlay()
     }
 }
 
-void GameplayOverlayContext::openChestTransferInventoryOverlay()
+void GameplayScreenRuntime::openChestTransferInventoryOverlay()
 {
     uiController().openInventoryNestedOverlay(GameplayUiController::InventoryNestedOverlayMode::ChestTransfer);
     interactionState().inventoryNestedOverlayItemClickLatch = false;
 }
 
-void GameplayOverlayContext::toggleCharacterInventoryScreen()
+void GameplayScreenRuntime::toggleCharacterInventoryScreen()
 {
     GameplayUiController::CharacterScreenState &characterScreen = uiController().characterScreen();
     characterScreen.open = !characterScreen.open;
@@ -1017,7 +1048,7 @@ void GameplayOverlayContext::toggleCharacterInventoryScreen()
     }
 }
 
-void GameplayOverlayContext::handleDialogueCloseRequest()
+void GameplayScreenRuntime::handleDialogueCloseRequest()
 {
     if (houseBankState().inputActive())
     {
@@ -1061,7 +1092,7 @@ void GameplayOverlayContext::handleDialogueCloseRequest()
     }
 }
 
-void GameplayOverlayContext::closeRestOverlay()
+void GameplayScreenRuntime::closeRestOverlay()
 {
     uiController().restScreen() = {};
     interactionState().closeOverlayLatch = false;
@@ -1069,7 +1100,7 @@ void GameplayOverlayContext::closeRestOverlay()
     interactionState().restPressedTarget = {};
 }
 
-void GameplayOverlayContext::openMenuOverlay()
+void GameplayScreenRuntime::openMenuOverlay()
 {
     closeSpellbookOverlay();
     closeReadableScrollOverlay();
@@ -1104,7 +1135,7 @@ void GameplayOverlayContext::openMenuOverlay()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::closeMenuOverlay()
+void GameplayScreenRuntime::closeMenuOverlay()
 {
     uiController().menuScreen() = {};
     interactionState().menuToggleLatch = false;
@@ -1113,7 +1144,7 @@ void GameplayOverlayContext::closeMenuOverlay()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::openControlsOverlay()
+void GameplayScreenRuntime::openControlsOverlay()
 {
     uiController().menuScreen().active = false;
     interactionState().menuToggleLatch = false;
@@ -1137,7 +1168,7 @@ void GameplayOverlayContext::openControlsOverlay()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::closeControlsOverlay()
+void GameplayScreenRuntime::closeControlsOverlay()
 {
     uiController().controlsScreen() = {};
     interactionState().controlsToggleLatch = false;
@@ -1158,7 +1189,7 @@ void GameplayOverlayContext::closeControlsOverlay()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::openKeyboardOverlay()
+void GameplayScreenRuntime::openKeyboardOverlay()
 {
     uiController().controlsScreen() = {};
     interactionState().controlsToggleLatch = false;
@@ -1178,7 +1209,7 @@ void GameplayOverlayContext::openKeyboardOverlay()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::closeKeyboardOverlayToControls()
+void GameplayScreenRuntime::closeKeyboardOverlayToControls()
 {
     uiController().keyboardScreen() = {};
     interactionState().keyboardToggleLatch = false;
@@ -1194,7 +1225,7 @@ void GameplayOverlayContext::closeKeyboardOverlayToControls()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::closeKeyboardOverlayToMenu()
+void GameplayScreenRuntime::closeKeyboardOverlayToMenu()
 {
     uiController().keyboardScreen() = {};
     interactionState().keyboardToggleLatch = false;
@@ -1214,7 +1245,7 @@ void GameplayOverlayContext::closeKeyboardOverlayToMenu()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::openVideoOptionsOverlay()
+void GameplayScreenRuntime::openVideoOptionsOverlay()
 {
     uiController().controlsScreen().active = false;
     interactionState().controlsToggleLatch = false;
@@ -1234,7 +1265,7 @@ void GameplayOverlayContext::openVideoOptionsOverlay()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::closeVideoOptionsOverlay()
+void GameplayScreenRuntime::closeVideoOptionsOverlay()
 {
     uiController().videoOptionsScreen() = {};
     interactionState().videoOptionsToggleLatch = false;
@@ -1254,7 +1285,7 @@ void GameplayOverlayContext::closeVideoOptionsOverlay()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::openSaveGameOverlay()
+void GameplayScreenRuntime::openSaveGameOverlay()
 {
     uiController().menuScreen().active = false;
     interactionState().menuToggleLatch = false;
@@ -1280,7 +1311,7 @@ void GameplayOverlayContext::openSaveGameOverlay()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::closeSaveGameOverlay()
+void GameplayScreenRuntime::closeSaveGameOverlay()
 {
     uiController().saveGameScreen() = {};
     interactionState().saveGameToggleLatch = false;
@@ -1291,17 +1322,17 @@ void GameplayOverlayContext::closeSaveGameOverlay()
     interactionState().closeOverlayLatch = false;
 }
 
-void GameplayOverlayContext::requestOpenNewGameScreen()
+void GameplayScreenRuntime::requestOpenNewGameScreen()
 {
     m_session.requestOpenNewGameScreen();
 }
 
-void GameplayOverlayContext::requestOpenLoadGameScreen()
+void GameplayScreenRuntime::requestOpenLoadGameScreen()
 {
     m_session.requestOpenLoadGameScreen();
 }
 
-void GameplayOverlayContext::openJournalOverlay()
+void GameplayScreenRuntime::openJournalOverlay()
 {
     closeSpellbookOverlay();
     closeMenuOverlay();
@@ -1339,7 +1370,7 @@ void GameplayOverlayContext::openJournalOverlay()
     }
 }
 
-void GameplayOverlayContext::closeJournalOverlay()
+void GameplayScreenRuntime::closeJournalOverlay()
 {
     GameplayUiController::JournalScreenState &journalScreen = uiController().journalScreen();
     const bool wasActive = journalScreen.active;
@@ -1363,7 +1394,7 @@ void GameplayOverlayContext::closeJournalOverlay()
     }
 }
 
-void GameplayOverlayContext::ensurePendingEventDialogPresented(bool allowNpcFallbackContent)
+void GameplayScreenRuntime::ensurePendingEventDialogPresented(bool allowNpcFallbackContent)
 {
     if (activeEventDialog().isActive)
     {
@@ -1382,12 +1413,12 @@ void GameplayOverlayContext::ensurePendingEventDialogPresented(bool allowNpcFall
     presentPendingEventDialogShared(pEventRuntimeState->messages.size(), allowNpcFallbackContent);
 }
 
-void GameplayOverlayContext::executeActiveDialogAction()
+void GameplayScreenRuntime::executeActiveDialogAction()
 {
-    m_sceneAdapter.executeActiveDialogAction();
+    sceneAdapter().executeActiveDialogAction();
 }
 
-void GameplayOverlayContext::refreshHouseBankInputDialog()
+void GameplayScreenRuntime::refreshHouseBankInputDialog()
 {
     GameplayDialogUiFlowState state = dialogUiFlowState();
     ::OpenYAMM::Game::refreshHouseBankInputDialog(
@@ -1400,7 +1431,7 @@ void GameplayOverlayContext::refreshHouseBankInputDialog()
         (SDL_GetTicks() / 500u) % 2u == 0u);
 }
 
-void GameplayOverlayContext::confirmHouseBankInput()
+void GameplayScreenRuntime::confirmHouseBankInput()
 {
     GameplayDialogUiFlowState state = dialogUiFlowState();
     const GameplayDialogController::Result result = ::OpenYAMM::Game::confirmHouseBankInput(
@@ -1417,13 +1448,13 @@ void GameplayOverlayContext::confirmHouseBankInput()
     }
 }
 
-void GameplayOverlayContext::closeInventoryNestedOverlay()
+void GameplayScreenRuntime::closeInventoryNestedOverlay()
 {
     uiController().closeInventoryNestedOverlay();
     interactionState().inventoryNestedOverlayItemClickLatch = false;
 }
 
-bool GameplayOverlayContext::tryAutoPlaceHeldInventoryItemOnPartyMember(size_t memberIndex, bool showFailureStatus)
+bool GameplayScreenRuntime::tryAutoPlaceHeldInventoryItemOnPartyMember(size_t memberIndex, bool showFailureStatus)
 {
     GameplayUiController::HeldInventoryItemState &heldItem = uiController().heldInventoryItem();
     Party *pParty = party();
@@ -1447,7 +1478,7 @@ bool GameplayOverlayContext::tryAutoPlaceHeldInventoryItemOnPartyMember(size_t m
     return true;
 }
 
-void GameplayOverlayContext::closeSpellbookOverlay(const std::string &statusText)
+void GameplayScreenRuntime::closeSpellbookOverlay(const std::string &statusText)
 {
     const bool wasActive = uiController().spellbook().active;
     uiController().closeSpellbook();
@@ -1467,12 +1498,12 @@ void GameplayOverlayContext::closeSpellbookOverlay(const std::string &statusText
     }
 }
 
-bool GameplayOverlayContext::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen)
+bool GameplayScreenRuntime::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen)
 {
-    return m_sceneAdapter.tryUseHeldItemOnPartyMember(memberIndex, keepCharacterScreenOpen);
+    return sceneAdapter().tryUseHeldItemOnPartyMember(memberIndex, keepCharacterScreenOpen);
 }
 
-void GameplayOverlayContext::updateReadableScrollOverlayForHeldItem(
+void GameplayScreenRuntime::updateReadableScrollOverlayForHeldItem(
     size_t memberIndex,
     const GameplayCharacterPointerTarget &pointerTarget,
     bool isLeftMousePressed)
@@ -1516,12 +1547,12 @@ void GameplayOverlayContext::updateReadableScrollOverlayForHeldItem(
     overlay.body = useResult.readableBody;
 }
 
-void GameplayOverlayContext::closeReadableScrollOverlay()
+void GameplayScreenRuntime::closeReadableScrollOverlay()
 {
     uiController().closeReadableScrollOverlay();
 }
 
-void GameplayOverlayContext::resetDialogueOverlayInteractionState()
+void GameplayScreenRuntime::resetDialogueOverlayInteractionState()
 {
     eventDialogSelectUpLatch() = false;
     eventDialogSelectDownLatch() = false;
@@ -1531,54 +1562,54 @@ void GameplayOverlayContext::resetDialogueOverlayInteractionState()
     dialoguePressedTarget() = {};
 }
 
-void GameplayOverlayContext::resetSpellbookOverlayInteractionState()
+void GameplayScreenRuntime::resetSpellbookOverlayInteractionState()
 {
     spellbookClickLatch() = false;
     spellbookPressedTarget() = {};
 }
 
-void GameplayOverlayContext::resetCharacterOverlayInteractionState()
+void GameplayScreenRuntime::resetCharacterOverlayInteractionState()
 {
     characterClickLatch() = false;
     characterPressedTarget() = {};
 }
 
-void GameplayOverlayContext::triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId)
+void GameplayScreenRuntime::triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId)
 {
-    m_sceneAdapter.triggerPortraitFaceAnimation(memberIndex, animationId);
+    sceneAdapter().triggerPortraitFaceAnimation(memberIndex, animationId);
 }
 
-void GameplayOverlayContext::playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
+void GameplayScreenRuntime::playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
 {
-    m_sceneAdapter.playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
+    sceneAdapter().playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
 }
 
-bool GameplayOverlayContext::tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName)
+bool GameplayScreenRuntime::tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName)
 {
-    return m_sceneAdapter.tryCastSpellFromMember(casterMemberIndex, spellId, spellName);
+    return sceneAdapter().tryCastSpellFromMember(casterMemberIndex, spellId, spellName);
 }
 
-bool GameplayOverlayContext::tryCastSpellRequest(
+bool GameplayScreenRuntime::tryCastSpellRequest(
     const PartySpellCastRequest &request,
     const std::string &spellName)
 {
-    return m_sceneAdapter.tryCastSpellRequest(request, spellName);
+    return sceneAdapter().tryCastSpellRequest(request, spellName);
 }
 
-void GameplayOverlayContext::resetUtilitySpellOverlayInteractionState()
+void GameplayScreenRuntime::resetUtilitySpellOverlayInteractionState()
 {
     interactionState().utilitySpellClickLatch = false;
     interactionState().utilitySpellPressedTarget = {};
 }
 
-void GameplayOverlayContext::resetInventoryNestedOverlayInteractionState()
+void GameplayScreenRuntime::resetInventoryNestedOverlayInteractionState()
 {
     interactionState().inventoryNestedOverlayClickLatch = false;
     interactionState().inventoryNestedOverlayPressedTarget = {};
     interactionState().inventoryNestedOverlayItemClickLatch = false;
 }
 
-void GameplayOverlayContext::resetLootOverlayInteractionState()
+void GameplayScreenRuntime::resetLootOverlayInteractionState()
 {
     closeOverlayLatch() = false;
     chestClickLatch() = false;
@@ -1592,17 +1623,17 @@ void GameplayOverlayContext::resetLootOverlayInteractionState()
     resetInventoryNestedOverlayInteractionState();
 }
 
-GameSettings &GameplayOverlayContext::mutableSettings() const
+GameSettings &GameplayScreenRuntime::mutableSettings() const
 {
     return *m_pSettings;
 }
 
-const std::array<uint8_t, SDL_SCANCODE_COUNT> &GameplayOverlayContext::previousKeyboardState() const
+const std::array<uint8_t, SDL_SCANCODE_COUNT> &GameplayScreenRuntime::previousKeyboardState() const
 {
     return m_session.previousKeyboardState();
 }
 
-void GameplayOverlayContext::commitSettingsChange()
+void GameplayScreenRuntime::commitSettingsChange()
 {
     if (m_pSettings != nullptr)
     {
@@ -1610,22 +1641,22 @@ void GameplayOverlayContext::commitSettingsChange()
     }
 }
 
-bool GameplayOverlayContext::trySaveToSelectedGameSlot()
+bool GameplayScreenRuntime::trySaveToSelectedGameSlot()
 {
-    return m_sceneAdapter.trySaveToSelectedGameSlot();
+    return sceneAdapter().trySaveToSelectedGameSlot();
 }
 
-int GameplayOverlayContext::restFoodRequired() const
+int GameplayScreenRuntime::restFoodRequired() const
 {
-    return m_sceneAdapter.restFoodRequired();
+    return sceneAdapter().restFoodRequired();
 }
 
-const GameSettings &GameplayOverlayContext::settingsSnapshot() const
+const GameSettings &GameplayScreenRuntime::settingsSnapshot() const
 {
     return *m_pSettings;
 }
 
-bool GameplayOverlayContext::isControlsRenderButtonPressed(GameplayControlsRenderButton button) const
+bool GameplayScreenRuntime::isControlsRenderButtonPressed(GameplayControlsRenderButton button) const
 {
     if (!controlsClickLatch())
     {
@@ -1653,7 +1684,7 @@ bool GameplayOverlayContext::isControlsRenderButtonPressed(GameplayControlsRende
     return false;
 }
 
-bool GameplayOverlayContext::isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const
+bool GameplayScreenRuntime::isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const
 {
     if (!videoOptionsClickLatch())
     {
@@ -1673,43 +1704,43 @@ bool GameplayOverlayContext::isVideoOptionsRenderButtonPressed(GameplayVideoOpti
     return false;
 }
 
-void GameplayOverlayContext::clearHudLayoutRuntimeHeightOverrides()
+void GameplayScreenRuntime::clearHudLayoutRuntimeHeightOverrides()
 {
     uiRuntime().clearHudLayoutRuntimeHeightOverrides();
 }
 
-void GameplayOverlayContext::setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height)
+void GameplayScreenRuntime::setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height)
 {
     uiRuntime().setHudLayoutRuntimeHeightOverride(layoutId, height);
 }
 
-const HouseEntry *GameplayOverlayContext::findHouseEntry(uint32_t houseId) const
+const HouseEntry *GameplayScreenRuntime::findHouseEntry(uint32_t houseId) const
 {
     return houseTable() != nullptr ? houseTable()->get(houseId) : nullptr;
 }
 
-const GameplayOverlayContext::HudLayoutElement *GameplayOverlayContext::findHudLayoutElement(
+const GameplayScreenRuntime::HudLayoutElement *GameplayScreenRuntime::findHudLayoutElement(
     const std::string &layoutId) const
 {
     return uiRuntime().findHudLayoutElement(layoutId);
 }
 
-int GameplayOverlayContext::defaultHudLayoutZIndexForScreen(const std::string &screen) const
+int GameplayScreenRuntime::defaultHudLayoutZIndexForScreen(const std::string &screen) const
 {
     return uiRuntime().defaultHudLayoutZIndexForScreen(screen);
 }
 
-GameplayHudScreenState GameplayOverlayContext::currentHudScreenState() const
+GameplayHudScreenState GameplayScreenRuntime::currentHudScreenState() const
 {
     return resolveGameplayHudScreenState(uiController(), activeEventDialog(), worldRuntime());
 }
 
-std::vector<std::string> GameplayOverlayContext::sortedHudLayoutIdsForScreen(const std::string &screen) const
+std::vector<std::string> GameplayScreenRuntime::sortedHudLayoutIdsForScreen(const std::string &screen) const
 {
     return uiRuntime().sortedHudLayoutIdsForScreen(screen);
 }
 
-std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayContext::resolveHudLayoutElement(
+std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRuntime::resolveHudLayoutElement(
     const std::string &layoutId,
     int screenWidth,
     int screenHeight,
@@ -1719,7 +1750,7 @@ std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayC
     return uiRuntime().resolveHudLayoutElement(layoutId, screenWidth, screenHeight, fallbackWidth, fallbackHeight);
 }
 
-std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayContext::resolvePartyPortraitRect(
+std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRuntime::resolvePartyPortraitRect(
     int width,
     int height,
     size_t memberIndex) const
@@ -1763,9 +1794,9 @@ std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayC
     }
 
     const std::optional<HudTextureHandle> basebarTexture =
-        const_cast<GameplayOverlayContext *>(this)->ensureHudTextureLoaded(pBasebarLayout->primaryAsset);
+        const_cast<GameplayScreenRuntime *>(this)->ensureHudTextureLoaded(pBasebarLayout->primaryAsset);
     const std::optional<HudTextureHandle> faceMaskTexture =
-        const_cast<GameplayOverlayContext *>(this)->ensureHudTextureLoaded(pPartyStripLayout->primaryAsset);
+        const_cast<GameplayScreenRuntime *>(this)->ensureHudTextureLoaded(pPartyStripLayout->primaryAsset);
 
     if (!basebarTexture || !faceMaskTexture)
     {
@@ -1820,7 +1851,7 @@ std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayC
     };
 }
 
-std::optional<size_t> GameplayOverlayContext::resolvePartyPortraitIndexAtPoint(
+std::optional<size_t> GameplayScreenRuntime::resolvePartyPortraitIndexAtPoint(
     int width,
     int height,
     float x,
@@ -1854,7 +1885,7 @@ std::optional<size_t> GameplayOverlayContext::resolvePartyPortraitIndexAtPoint(
     return std::nullopt;
 }
 
-std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayContext::resolveChestGridArea(
+std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRuntime::resolveChestGridArea(
     int width,
     int height) const
 {
@@ -1902,8 +1933,8 @@ std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayC
     return resolved;
 }
 
-std::optional<GameplayOverlayContext::ResolvedHudLayoutElement>
-GameplayOverlayContext::resolveInventoryNestedOverlayGridArea(
+std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement>
+GameplayScreenRuntime::resolveInventoryNestedOverlayGridArea(
     int width,
     int height) const
 {
@@ -1927,7 +1958,7 @@ GameplayOverlayContext::resolveInventoryNestedOverlayGridArea(
         pGridLayout->height);
 }
 
-std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayContext::resolveHouseShopOverlayFrame(
+std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRuntime::resolveHouseShopOverlayFrame(
     int width,
     int height) const
 {
@@ -1951,7 +1982,7 @@ std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> GameplayOverlayC
         pFrameLayout->height);
 }
 
-bool GameplayOverlayContext::isPointerInsideResolvedElement(
+bool GameplayScreenRuntime::isPointerInsideResolvedElement(
     const ResolvedHudLayoutElement &resolved,
     float pointerX,
     float pointerY) const
@@ -1959,7 +1990,7 @@ bool GameplayOverlayContext::isPointerInsideResolvedElement(
     return GameplayHudCommon::isPointerInsideResolvedElement(resolved, pointerX, pointerY);
 }
 
-const std::string *GameplayOverlayContext::resolveInteractiveAssetName(
+const std::string *GameplayScreenRuntime::resolveInteractiveAssetName(
     const HudLayoutElement &layout,
     const ResolvedHudLayoutElement &resolved,
     float pointerX,
@@ -1982,20 +2013,20 @@ const std::string *GameplayOverlayContext::resolveInteractiveAssetName(
     return &*m_resolvedInteractiveAssetName;
 }
 
-std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::ensureHudTextureLoaded(
+std::optional<GameplayScreenRuntime::HudTextureHandle> GameplayScreenRuntime::ensureHudTextureLoaded(
     const std::string &textureName)
 {
     return uiRuntime().ensureHudTextureLoaded(textureName);
 }
 
-std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::ensureSolidHudTextureLoaded(
+std::optional<GameplayScreenRuntime::HudTextureHandle> GameplayScreenRuntime::ensureSolidHudTextureLoaded(
     const std::string &textureName,
     uint32_t abgrColor)
 {
     return uiRuntime().ensureSolidHudTextureLoaded(textureName, abgrColor);
 }
 
-std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::ensureDynamicHudTexture(
+std::optional<GameplayScreenRuntime::HudTextureHandle> GameplayScreenRuntime::ensureDynamicHudTexture(
     const std::string &textureName,
     int width,
     int height,
@@ -2004,7 +2035,7 @@ std::optional<GameplayOverlayContext::HudTextureHandle> GameplayOverlayContext::
     return uiRuntime().ensureDynamicHudTexture(textureName, width, height, bgraPixels);
 }
 
-std::optional<std::vector<uint8_t>> GameplayOverlayContext::loadSpriteBitmapPixelsBgraCached(
+std::optional<std::vector<uint8_t>> GameplayScreenRuntime::loadSpriteBitmapPixelsBgraCached(
     const std::string &textureName,
     int16_t paletteId,
     int &width,
@@ -2013,7 +2044,7 @@ std::optional<std::vector<uint8_t>> GameplayOverlayContext::loadSpriteBitmapPixe
     return uiRuntime().loadSpriteBitmapPixelsBgraCached(textureName, paletteId, width, height);
 }
 
-const std::vector<uint8_t> *GameplayOverlayContext::hudTexturePixels(
+const std::vector<uint8_t> *GameplayScreenRuntime::hudTexturePixels(
     const std::string &textureName,
     int &width,
     int &height)
@@ -2021,12 +2052,12 @@ const std::vector<uint8_t> *GameplayOverlayContext::hudTexturePixels(
     return uiRuntime().hudTexturePixels(textureName, width, height);
 }
 
-bool GameplayOverlayContext::ensureHudTextureDimensions(const std::string &textureName, int &width, int &height)
+bool GameplayScreenRuntime::ensureHudTextureDimensions(const std::string &textureName, int &width, int &height)
 {
     return uiRuntime().ensureHudTextureDimensions(textureName, width, height);
 }
 
-bool GameplayOverlayContext::tryGetOpaqueHudTextureBounds(
+bool GameplayScreenRuntime::tryGetOpaqueHudTextureBounds(
     const std::string &textureName,
     int &width,
     int &height,
@@ -2045,7 +2076,7 @@ bool GameplayOverlayContext::tryGetOpaqueHudTextureBounds(
         opaqueMaxY);
 }
 
-void GameplayOverlayContext::submitHudTexturedQuad(
+void GameplayScreenRuntime::submitHudTexturedQuad(
     const HudTextureHandle &texture,
     float x,
     float y,
@@ -2055,12 +2086,12 @@ void GameplayOverlayContext::submitHudTexturedQuad(
     uiRuntime().submitHudTexturedQuad(texture.textureHandle, x, y, quadWidth, quadHeight);
 }
 
-bgfx::TextureHandle GameplayOverlayContext::ensureHudTextureColor(const HudTextureHandle &texture, uint32_t colorAbgr) const
+bgfx::TextureHandle GameplayScreenRuntime::ensureHudTextureColor(const HudTextureHandle &texture, uint32_t colorAbgr) const
 {
     return uiRuntime().ensureHudTextureColor(texture, colorAbgr);
 }
 
-void GameplayOverlayContext::renderLayoutLabel(
+void GameplayScreenRuntime::renderLayoutLabel(
     const HudLayoutElement &layout,
     const ResolvedHudLayoutElement &resolved,
     const std::string &label) const
@@ -2105,17 +2136,17 @@ void GameplayOverlayContext::renderLayoutLabel(
         });
 }
 
-std::optional<GameplayOverlayContext::HudFontHandle> GameplayOverlayContext::findHudFont(const std::string &fontName) const
+std::optional<GameplayScreenRuntime::HudFontHandle> GameplayScreenRuntime::findHudFont(const std::string &fontName) const
 {
     return uiRuntime().findHudFont(fontName);
 }
 
-float GameplayOverlayContext::measureHudTextWidth(const HudFontHandle &font, const std::string &text) const
+float GameplayScreenRuntime::measureHudTextWidth(const HudFontHandle &font, const std::string &text) const
 {
     return uiRuntime().measureHudTextWidth(font, text);
 }
 
-std::vector<std::string> GameplayOverlayContext::wrapHudTextToWidth(
+std::vector<std::string> GameplayScreenRuntime::wrapHudTextToWidth(
     const HudFontHandle &font,
     const std::string &text,
     float maxWidth) const
@@ -2123,14 +2154,14 @@ std::vector<std::string> GameplayOverlayContext::wrapHudTextToWidth(
     return uiRuntime().wrapHudTextToWidth(font, text, maxWidth);
 }
 
-bgfx::TextureHandle GameplayOverlayContext::ensureHudFontMainTextureColor(
+bgfx::TextureHandle GameplayScreenRuntime::ensureHudFontMainTextureColor(
     const HudFontHandle &font,
     uint32_t colorAbgr) const
 {
     return uiRuntime().ensureHudFontMainTextureColor(font, colorAbgr);
 }
 
-void GameplayOverlayContext::renderHudFontLayer(
+void GameplayScreenRuntime::renderHudFontLayer(
     const HudFontHandle &font,
     bgfx::TextureHandle textureHandle,
     const std::string &text,
@@ -2141,17 +2172,17 @@ void GameplayOverlayContext::renderHudFontLayer(
     uiRuntime().renderHudFontLayer(font, textureHandle, text, textX, textY, fontScale);
 }
 
-bool GameplayOverlayContext::hasHudRenderResources() const
+bool GameplayScreenRuntime::hasHudRenderResources() const
 {
     return uiRuntime().hasHudRenderResources();
 }
 
-void GameplayOverlayContext::prepareHudView(int width, int height) const
+void GameplayScreenRuntime::prepareHudView(int width, int height) const
 {
     uiRuntime().prepareHudView(width, height);
 }
 
-void GameplayOverlayContext::submitHudQuadBatch(
+void GameplayScreenRuntime::submitHudQuadBatch(
     const std::vector<GameplayHudBatchQuad> &quads,
     int screenWidth,
     int screenHeight) const
@@ -2159,7 +2190,7 @@ void GameplayOverlayContext::submitHudQuadBatch(
     uiRuntime().submitHudQuadBatch(quads, screenWidth, screenHeight);
 }
 
-void GameplayOverlayContext::renderViewportSidePanels(
+void GameplayScreenRuntime::renderViewportSidePanels(
     int screenWidth,
     int screenHeight,
     const std::string &textureName)
@@ -2194,12 +2225,12 @@ void GameplayOverlayContext::renderViewportSidePanels(
     }
 }
 
-std::string GameplayOverlayContext::resolvePortraitTextureName(const Character &character) const
+std::string GameplayScreenRuntime::resolvePortraitTextureName(const Character &character) const
 {
     return uiRuntime().resolvePortraitTextureName(character);
 }
 
-void GameplayOverlayContext::consumePendingPortraitEventFxRequests()
+void GameplayScreenRuntime::consumePendingPortraitEventFxRequests()
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
 
@@ -2307,7 +2338,7 @@ void GameplayOverlayContext::consumePendingPortraitEventFxRequests()
     pEventRuntimeState->spellFxRequests.clear();
 }
 
-void GameplayOverlayContext::renderPortraitFx(
+void GameplayScreenRuntime::renderPortraitFx(
     size_t memberIndex,
     float portraitX,
     float portraitY,
@@ -2317,14 +2348,14 @@ void GameplayOverlayContext::renderPortraitFx(
     uiRuntime().renderPortraitFx(memberIndex, portraitX, portraitY, portraitWidth, portraitHeight);
 }
 
-bool GameplayOverlayContext::tryGetGameplayMinimapState(GameplayMinimapState &state) const
+bool GameplayScreenRuntime::tryGetGameplayMinimapState(GameplayMinimapState &state) const
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
     state = {};
     return pWorldRuntime != nullptr && pWorldRuntime->tryGetGameplayMinimapState(state);
 }
 
-void GameplayOverlayContext::collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const
+void GameplayScreenRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
 
@@ -2337,17 +2368,17 @@ void GameplayOverlayContext::collectGameplayMinimapMarkers(std::vector<GameplayM
     pWorldRuntime->collectGameplayMinimapMarkers(markers);
 }
 
-bool GameplayOverlayContext::ensureTownPortalDestinationsLoaded()
+bool GameplayScreenRuntime::ensureTownPortalDestinationsLoaded()
 {
     return uiRuntime().ensureTownPortalDestinationsLoaded();
 }
 
-const std::vector<GameplayTownPortalDestination> &GameplayOverlayContext::townPortalDestinations() const
+const std::vector<GameplayTownPortalDestination> &GameplayScreenRuntime::townPortalDestinations() const
 {
     return uiRuntime().townPortalDestinations();
 }
 
-std::string GameplayOverlayContext::resolveMapLocationName(const std::string &mapFileName) const
+std::string GameplayScreenRuntime::resolveMapLocationName(const std::string &mapFileName) const
 {
     for (const MapStatsEntry &entry : m_session.data().mapEntries())
     {
@@ -2360,19 +2391,19 @@ std::string GameplayOverlayContext::resolveMapLocationName(const std::string &ma
     return mapFileName;
 }
 
-float GameplayOverlayContext::measureHudTextWidth(const std::string &fontName, const std::string &text) const
+float GameplayScreenRuntime::measureHudTextWidth(const std::string &fontName, const std::string &text) const
 {
     const std::optional<HudFontHandle> font = findHudFont(fontName);
     return font ? measureHudTextWidth(*font, text) : 0.0f;
 }
 
-int GameplayOverlayContext::hudFontHeight(const std::string &fontName) const
+int GameplayScreenRuntime::hudFontHeight(const std::string &fontName) const
 {
     const std::optional<HudFontHandle> font = findHudFont(fontName);
     return font ? font->fontHeight : 0;
 }
 
-std::vector<std::string> GameplayOverlayContext::wrapHudTextToWidth(
+std::vector<std::string> GameplayScreenRuntime::wrapHudTextToWidth(
     const std::string &fontName,
     const std::string &text,
     float maxWidth) const
@@ -2381,7 +2412,7 @@ std::vector<std::string> GameplayOverlayContext::wrapHudTextToWidth(
     return font ? wrapHudTextToWidth(*font, text, maxWidth) : std::vector<std::string>{text};
 }
 
-void GameplayOverlayContext::renderHudTextLine(
+void GameplayScreenRuntime::renderHudTextLine(
     const std::string &fontName,
     uint32_t colorAbgr,
     const std::string &text,
@@ -2407,28 +2438,28 @@ void GameplayOverlayContext::renderHudTextLine(
     renderHudFontLayer(*font, coloredMainTextureHandle, text, textX, textY, fontScale);
 }
 
-void GameplayOverlayContext::addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) const
+void GameplayScreenRuntime::addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) const
 {
     uiRuntime().addRenderedInspectableHudItem(item);
 }
 
-const std::vector<GameplayRenderedInspectableHudItem> &GameplayOverlayContext::renderedInspectableHudItems() const
+const std::vector<GameplayRenderedInspectableHudItem> &GameplayScreenRuntime::renderedInspectableHudItems() const
 {
     return uiRuntime().renderedInspectableHudItems();
 }
 
-void GameplayOverlayContext::beginRenderedInspectableHudFrame() const
+void GameplayScreenRuntime::beginRenderedInspectableHudFrame() const
 {
     uiRuntime().clearRenderedInspectableHudItems();
     uiRuntime().setRenderedInspectableHudScreenState(currentHudScreenState());
 }
 
-GameplayHudScreenState GameplayOverlayContext::renderedInspectableHudScreenState() const
+GameplayHudScreenState GameplayScreenRuntime::renderedInspectableHudScreenState() const
 {
     return uiRuntime().renderedInspectableHudScreenState();
 }
 
-bool GameplayOverlayContext::isOpaqueHudPixelAtPoint(
+bool GameplayScreenRuntime::isOpaqueHudPixelAtPoint(
     const GameplayRenderedInspectableHudItem &item,
     float x,
     float y) const
@@ -2436,7 +2467,7 @@ bool GameplayOverlayContext::isOpaqueHudPixelAtPoint(
     return uiRuntime().isOpaqueHudPixelAtPoint(item, x, y);
 }
 
-std::string GameplayOverlayContext::resolveEquippedItemHudTextureName(
+std::string GameplayScreenRuntime::resolveEquippedItemHudTextureName(
     const ItemDefinition &itemDefinition,
     uint32_t dollTypeId,
     bool hasRightHandWeapon,
@@ -2490,7 +2521,7 @@ std::string GameplayOverlayContext::resolveEquippedItemHudTextureName(
     return itemDefinition.iconName;
 }
 
-std::optional<GameplayResolvedHudLayoutElement> GameplayOverlayContext::resolveCharacterEquipmentRenderRect(
+std::optional<GameplayResolvedHudLayoutElement> GameplayScreenRuntime::resolveCharacterEquipmentRenderRect(
     const UiLayoutManager::LayoutElement &layout,
     const ItemDefinition &itemDefinition,
     const GameplayHudTextureHandle &texture,
@@ -2596,7 +2627,7 @@ std::optional<GameplayResolvedHudLayoutElement> GameplayOverlayContext::resolveC
     return rect;
 }
 
-void GameplayOverlayContext::submitWorldTextureQuad(
+void GameplayScreenRuntime::submitWorldTextureQuad(
     bgfx::TextureHandle textureHandle,
     float x,
     float y,
@@ -2610,7 +2641,7 @@ void GameplayOverlayContext::submitWorldTextureQuad(
     uiRuntime().submitHudTexturedQuad(textureHandle, x, y, quadWidth, quadHeight, u0, v0, u1, v1);
 }
 
-bool GameplayOverlayContext::renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const
+bool GameplayScreenRuntime::renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const
 {
     return uiRuntime().renderHouseVideoFrame(x, y, quadWidth, quadHeight);
 }

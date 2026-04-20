@@ -1,7 +1,7 @@
 #pragma once
 
+#include "game/app/GameSettings.h"
 #include "game/tables/ChestTable.h"
-#include "game/app/GameSession.h"
 #include "game/events/EventDialogContent.h"
 #include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
@@ -11,6 +11,7 @@
 #include "game/tables/NpcDialogTable.h"
 #include "game/party/Party.h"
 #include "game/ui/GameplayUiController.h"
+#include "game/ui/GameplayUiRuntime.h"
 #include "game/ui/UiLayoutManager.h"
 
 #include <bgfx/bgfx.h>
@@ -23,6 +24,7 @@
 
 namespace OpenYAMM::Game
 {
+class GameSession;
 class GameAudioSystem;
 class ItemTable;
 class MonsterTable;
@@ -31,7 +33,7 @@ class SpecialItemEnchantTable;
 struct HouseEntry;
 struct ItemDefinition;
 
-class GameplayOverlayContext
+class GameplayScreenRuntime
 {
 public:
     using HudLayoutElement = UiLayoutManager::LayoutElement;
@@ -39,11 +41,13 @@ public:
     using HudTextureHandle = GameplayHudTextureHandle;
     using HudFontHandle = GameplayHudFontHandle;
 
-    GameplayOverlayContext(
-        GameSession &session,
-        GameAudioSystem *pAudioSystem,
-        GameSettings *pSettings,
-        IGameplayOverlaySceneAdapter &sceneAdapter);
+    explicit GameplayScreenRuntime(GameSession &session);
+
+    void bindAudioSystem(GameAudioSystem *pAudioSystem);
+    void bindSettings(GameSettings *pSettings);
+    void bindSceneAdapter(IGameplayOverlaySceneAdapter *pSceneAdapter);
+    void clearSceneAdapter(IGameplayOverlaySceneAdapter *pSceneAdapter);
+    void clearTransientBindings();
 
     IGameplayWorldRuntime *worldRuntime() const;
     Party *party() const;
@@ -398,6 +402,7 @@ public:
     bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const;
 
 private:
+    IGameplayOverlaySceneAdapter &sceneAdapter() const;
     GameplayUiController &uiController() const;
     GameplayUiRuntime &uiRuntime() const;
     GameplayOverlayInteractionState &interactionState() const;
@@ -410,7 +415,7 @@ private:
     GameSession &m_session;
     GameAudioSystem *m_pAudioSystem = nullptr;
     GameSettings *m_pSettings = nullptr;
-    IGameplayOverlaySceneAdapter &m_sceneAdapter;
+    IGameplayOverlaySceneAdapter *m_pSceneAdapter = nullptr;
     mutable std::optional<std::string> m_resolvedInteractiveAssetName;
 };
 } // namespace OpenYAMM::Game

@@ -7,13 +7,13 @@
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayHudRenderer.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/GameplayPartyOverlayRenderer.h"
 
 namespace OpenYAMM::Game
 {
 GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverlayInput(
-    GameplayOverlayContext &overlayContext,
+    GameplayScreenRuntime &overlayContext,
     const bool *pKeyboardState,
     int width,
     int height,
@@ -113,7 +113,7 @@ GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverla
 }
 
 void GameplayUiOverlayOrchestrator::renderStandardOverlays(
-    GameplayOverlayContext &overlayContext,
+    GameplayScreenRuntime &overlayContext,
     int width,
     int height,
     const GameplayUiOverlayRenderConfig &config)

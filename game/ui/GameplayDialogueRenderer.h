@@ -8,34 +8,34 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 struct HouseEntry;
 
 class GameplayDialogueRenderer
 {
 public:
     static void renderDialogueOverlay(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         int width,
         int height,
         bool renderAboveHud);
     static bool shouldRenderInCurrentPass(bool renderAboveHud, int hudZThreshold, int zIndex);
-    static bool isDialogueFrameSubtree(GameplayOverlayContext &context, const std::string &layoutId);
+    static bool isDialogueFrameSubtree(GameplayScreenRuntime &context, const std::string &layoutId);
     static void renderBlackoutBackdrop(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         int screenWidth,
         int screenHeight,
         float viewportX,
         float viewportWidth);
     static void updateHouseShopHoverTopicText(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         int width,
         int height,
         float dialogMouseX,
         float dialogMouseY,
         std::optional<std::string> &hoveredHouseServiceTopicText);
     static void renderHouseShopOverlay(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         int width,
         int height,
         float dialogMouseX,
@@ -43,7 +43,7 @@ public:
         std::string &dialogueResponseHintText,
         bool renderAboveHud);
     static void renderDialogueTextureElement(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const std::string &layoutId,
         int width,
         int height,
@@ -54,14 +54,14 @@ public:
         bool showEventDialogPanel,
         bool renderAboveHud);
     static void renderDialogueLabelById(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const std::string &layoutId,
         const std::string &label,
         int width,
         int height,
         bool renderAboveHud);
     static void renderDialogueEventPanel(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         int width,
         int height,
         float dialogMouseX,
@@ -73,7 +73,7 @@ public:
         const std::optional<std::string> &hoveredHouseServiceTopicText,
         bool suppressServiceTopicsForShopOverlay);
     static void renderDialogueBodyText(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         int width,
         int height,
         bool renderAboveHud,
@@ -81,20 +81,20 @@ public:
 
 private:
     static void submitTextureHandleQuad(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         bgfx::TextureHandle textureHandle,
         float x,
         float y,
         float quadWidth,
         float quadHeight);
     static void renderDialogueVideoArea(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         float x,
         float y,
         float quadWidth,
         float quadHeight);
     static void submitTextureHandleQuadUv(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         bgfx::TextureHandle textureHandle,
         float x,
         float y,

@@ -5,6 +5,7 @@
 #include "game/StringUtils.h"
 #include "game/fx/ParticleSystem.h"
 #include "game/outdoor/OutdoorGameView.h"
+#include "game/data/GameDataRepository.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/tables/SpriteTables.h"
@@ -382,10 +383,12 @@ const std::vector<OutdoorFxRuntime::ContactShadowState> &OutdoorFxRuntime::conta
 
 void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refreshSpatialFx)
 {
-    if (view.m_pOutdoorWorldRuntime == nullptr || view.objectTable() == nullptr)
+    if (view.m_pOutdoorWorldRuntime == nullptr)
     {
         return;
     }
+
+    const ObjectTable &objectTable = view.data().objectTable();
 
     for (size_t projectileIndex = 0;
          projectileIndex < view.m_pOutdoorWorldRuntime->projectileCount();
@@ -399,7 +402,7 @@ void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refres
             continue;
         }
 
-        const ObjectEntry *pObjectEntry = view.objectTable()->get(pProjectile->objectDescriptionId);
+        const ObjectEntry *pObjectEntry = objectTable.get(pProjectile->objectDescriptionId);
 
         if (pObjectEntry != nullptr)
         {

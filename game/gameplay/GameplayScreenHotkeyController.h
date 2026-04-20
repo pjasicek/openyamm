@@ -4,7 +4,7 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 
 struct GameplayScreenHotkeyConfig
 {
@@ -21,7 +21,7 @@ class GameplayScreenHotkeyController
 {
 public:
     static void handleGameplayScreenHotkeys(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const bool *pKeyboardState,
         const GameplayScreenHotkeyConfig &config);
 };

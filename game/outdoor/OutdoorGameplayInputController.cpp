@@ -1,11 +1,12 @@
 #include "game/outdoor/OutdoorGameplayInputController.h"
 
+#include "game/app/GameSession.h"
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/render/TextureFiltering.h"
 #include "game/scene/OutdoorSceneRuntime.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/KeyboardScreenLayout.h"
 
 #include <SDL3/SDL.h>
@@ -161,7 +162,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
             && !isLoadGameActive
             && !isJournalActive;
 
-        GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
+        GameplayScreenRuntime &overlayContext = view.m_gameSession.gameplayScreenRuntime();
         GameplayScreenController::handlePartyPortraitInput(
             overlayContext,
             GameplayPartyPortraitInputConfig{
@@ -188,7 +189,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     }
     else
     {
-        GameplayOverlayContext portraitOverlayContext = view.createGameplayOverlayContext();
+        GameplayScreenRuntime &portraitOverlayContext = view.m_gameSession.gameplayScreenRuntime();
         GameplayScreenController::handlePartyPortraitInput(
             portraitOverlayContext,
             GameplayPartyPortraitInputConfig{});
@@ -217,7 +218,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
 
-    GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
+    GameplayScreenRuntime &overlayContext = view.m_gameSession.gameplayScreenRuntime();
 
     const bool canOpenRestScreen =
         !isEventDialogActive
@@ -404,7 +405,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                     view.m_pOutdoorPartyRuntime->setRunning(view.m_gameSettings.alwaysRun);
                 }
 
-                view.createGameplayOverlayContext().commitSettingsChange();
+                view.m_gameSession.gameplayScreenRuntime().commitSettingsChange();
                 view.m_toggleRunningLatch = true;
             }
         }

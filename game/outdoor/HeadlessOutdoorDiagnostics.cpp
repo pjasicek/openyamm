@@ -38,7 +38,7 @@
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
 
@@ -273,7 +273,7 @@ struct GameApplicationTestAccess
 
     static void consumePendingPortraitEventFxRequests(GameApplication &application)
     {
-        application.m_outdoorGameView.createGameplayOverlayContext().consumePendingPortraitEventFxRequests();
+        application.m_gameSession.gameplayScreenRuntime().consumePendingPortraitEventFxRequests();
     }
 
     static bool heldInventoryItemActive(const GameApplication &application)

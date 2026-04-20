@@ -2,43 +2,43 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 
 class GameplayOverlayInputController
 {
 public:
     static bool handleRestOverlayInput(
-        GameplayOverlayContext &view,
+        GameplayScreenRuntime &view,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);
     static bool handleMenuOverlayInput(
-        GameplayOverlayContext &view,
+        GameplayScreenRuntime &view,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);
     static bool handleControlsOverlayInput(
-        GameplayOverlayContext &view,
+        GameplayScreenRuntime &view,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);
     static bool handleKeyboardOverlayInput(
-        GameplayOverlayContext &view,
+        GameplayScreenRuntime &view,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);
     static bool handleVideoOptionsOverlayInput(
-        GameplayOverlayContext &view,
+        GameplayScreenRuntime &view,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);
     static bool handleSaveGameOverlayInput(
-        GameplayOverlayContext &view,
+        GameplayScreenRuntime &view,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);
     static bool handleJournalOverlayInput(
-        GameplayOverlayContext &view,
+        GameplayScreenRuntime &view,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight,
@@ -50,13 +50,13 @@ public:
         bool zoomOutPressed,
         float mouseWheelDelta);
     static void handleDialogueOverlayInput(
-        GameplayOverlayContext &view,
+        GameplayScreenRuntime &view,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight,
         bool isResidentSelectionMode);
     static void handleLootOverlayInput(
-        GameplayOverlayContext &view,
+        GameplayScreenRuntime &view,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight,

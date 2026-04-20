@@ -58,6 +58,7 @@ struct SDL_Window;
 
 namespace OpenYAMM::Game
 {
+class GameDataRepository;
 class GameSession;
 class OutdoorPartyRuntime;
 class OutdoorSceneRuntime;
@@ -74,7 +75,7 @@ class GameplayPartyOverlayRenderer;
 class GameplayHudOverlayRenderer;
 class GameplayPartyOverlayInputController;
 class GameplayOverlayInputController;
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 struct ArcomageLibrary;
 class ItemTable;
 struct GameApplicationTestAccess;
@@ -119,7 +120,7 @@ public:
 
 private:
     friend struct GameApplicationTestAccess;
-    friend class GameplayOverlayContext;
+    friend class GameplayScreenRuntime;
     friend class GameplayHudRenderer;
     friend class GameplayPartyOverlayRenderer;
     friend class GameplayPartyOverlayInputController;
@@ -474,26 +475,7 @@ public:
     OutdoorPartyRuntime *partyRuntime() const;
     IGameplayWorldRuntime *worldRuntime() const;
     GameAudioSystem *audioSystem() const;
-    const ItemTable *itemTable() const;
-    const StandardItemEnchantTable *standardItemEnchantTable() const;
-    const SpecialItemEnchantTable *specialItemEnchantTable() const;
-    const ClassSkillTable *classSkillTable() const;
-    const CharacterDollTable *characterDollTable() const;
-    const CharacterInspectTable *characterInspectTable() const;
-    const RosterTable *rosterTable() const;
-    const ReadableScrollTable *readableScrollTable() const;
-    const ItemEquipPosTable *itemEquipPosTable() const;
-    const SpellTable *spellTable() const;
-    const ObjectTable *objectTable() const;
-    const MonsterTable *monsterTable() const;
-    const HouseTable *houseTable() const;
-    const ChestTable *chestTable() const;
-    const NpcDialogTable *npcDialogTable() const;
-    const JournalQuestTable *journalQuestTable() const;
-    const JournalHistoryTable *journalHistoryTable() const;
-    const JournalAutonoteTable *journalAutonoteTable() const;
-    const std::vector<MapStatsEntry> *mapEntries() const;
-    const ArcomageLibrary *arcomageLibrary() const;
+    const GameDataRepository &data() const;
     const std::string &currentMapFileName() const override;
     float gameplayCameraYawRadians() const override;
     const std::vector<uint8_t> *journalMapFullyRevealedCells() const override;
@@ -520,8 +502,6 @@ public:
     int restFoodRequired() const override;
     const GameSettings &settingsSnapshot() const;
 private:
-    GameplayOverlayContext createGameplayOverlayContext();
-    GameplayOverlayContext createGameplayOverlayContext() const;
     static ResolvedHudLayoutElement resolveAttachedHudLayoutRect(
         HudLayoutAttachMode attachTo,
         const ResolvedHudLayoutElement &parent,

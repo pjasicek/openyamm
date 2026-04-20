@@ -17,7 +17,7 @@
 #include "game/ui/GameplayDebugOverlayRenderer.h"
 #include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
 
@@ -983,6 +983,9 @@ bool IndoorGameView::initialize(
     m_pIndoorSceneRuntime = &sceneRuntime;
     m_pGameAudioSystem = pGameAudioSystem;
     m_map = map;
+    m_gameSession.gameplayScreenRuntime().bindSceneAdapter(this);
+    m_gameSession.gameplayScreenRuntime().bindAudioSystem(m_pGameAudioSystem);
+    m_gameSession.gameplayScreenRuntime().bindSettings(&m_settings);
     m_gameplayUiRuntime.bindAssetFileSystem(&assetFileSystem);
     m_gameplayUiRuntime.resetPortraitFxStates(sceneRuntime.partyRuntime().party().members().size());
     m_gameplayUiController.clearRuntimeState();
@@ -1075,7 +1078,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
         presentPendingEventDialog(pEventRuntimeState->messages.size(), true);
     }
 
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
     GameplayScreenController::updateSharedFrameState(
         overlayContext,
         width,
@@ -1132,7 +1135,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
     {
         if (escapePressed && m_gameSession.previousKeyboardState()[SDL_SCANCODE_ESCAPE] == 0)
         {
-            createGameplayOverlayContext().openMenuOverlay();
+            m_gameSession.gameplayScreenRuntime().openMenuOverlay();
             m_overlayInteractionState.menuToggleLatch = true;
             hasSharedScreenOverlay = true;
         }
@@ -1358,6 +1361,8 @@ void IndoorGameView::shutdown()
     m_pIndoorRenderer = nullptr;
     m_pIndoorSceneRuntime = nullptr;
     m_pGameAudioSystem = nullptr;
+    m_gameSession.gameplayScreenRuntime().clearSceneAdapter(this);
+    m_gameSession.gameplayScreenRuntime().bindAudioSystem(nullptr);
     m_map.reset();
     m_gameplayUiRuntime.clear();
     m_gameplayUiController.clearRuntimeState();
@@ -1430,26 +1435,12 @@ void IndoorGameView::shutdown()
 
 void IndoorGameView::reopenMenuScreen()
 {
-    createGameplayOverlayContext().openMenuOverlay();
+    m_gameSession.gameplayScreenRuntime().openMenuOverlay();
 }
 
 IndoorPartyRuntime *IndoorGameView::partyRuntime() const
 {
     return m_pIndoorSceneRuntime != nullptr ? &m_pIndoorSceneRuntime->partyRuntime() : nullptr;
-}
-
-GameplayOverlayContext IndoorGameView::createGameplayOverlayContext()
-{
-    return GameplayOverlayContext(m_gameSession, m_pGameAudioSystem, &m_settings, *this);
-}
-
-GameplayOverlayContext IndoorGameView::createGameplayOverlayContext() const
-{
-    return GameplayOverlayContext(
-        const_cast<GameSession &>(m_gameSession),
-        m_pGameAudioSystem,
-        const_cast<GameSettings *>(&m_settings),
-        const_cast<IndoorGameView &>(*this));
 }
 
 IGameplayWorldRuntime *IndoorGameView::worldRuntime() const
@@ -1460,86 +1451,6 @@ IGameplayWorldRuntime *IndoorGameView::worldRuntime() const
 GameAudioSystem *IndoorGameView::audioSystem() const
 {
     return m_pGameAudioSystem;
-}
-
-const ItemTable *IndoorGameView::itemTable() const
-{
-    return &m_gameSession.data().itemTable();
-}
-
-const StandardItemEnchantTable *IndoorGameView::standardItemEnchantTable() const
-{
-    return &m_gameSession.data().standardItemEnchantTable();
-}
-
-const SpecialItemEnchantTable *IndoorGameView::specialItemEnchantTable() const
-{
-    return &m_gameSession.data().specialItemEnchantTable();
-}
-
-const ClassSkillTable *IndoorGameView::classSkillTable() const
-{
-    return &m_gameSession.data().classSkillTable();
-}
-
-const CharacterDollTable *IndoorGameView::characterDollTable() const
-{
-    return &m_gameSession.data().characterDollTable();
-}
-
-const CharacterInspectTable *IndoorGameView::characterInspectTable() const
-{
-    return &m_gameSession.data().characterInspectTable();
-}
-
-const RosterTable *IndoorGameView::rosterTable() const
-{
-    return &m_gameSession.data().rosterTable();
-}
-
-const ReadableScrollTable *IndoorGameView::readableScrollTable() const
-{
-    return &m_gameSession.data().readableScrollTable();
-}
-
-const ItemEquipPosTable *IndoorGameView::itemEquipPosTable() const
-{
-    return &m_gameSession.data().itemEquipPosTable();
-}
-
-const SpellTable *IndoorGameView::spellTable() const
-{
-    return &m_gameSession.data().spellTable();
-}
-
-const HouseTable *IndoorGameView::houseTable() const
-{
-    return &m_gameSession.data().houseTable();
-}
-
-const ChestTable *IndoorGameView::chestTable() const
-{
-    return &m_gameSession.data().chestTable();
-}
-
-const NpcDialogTable *IndoorGameView::npcDialogTable() const
-{
-    return &m_gameSession.data().npcDialogTable();
-}
-
-const JournalQuestTable *IndoorGameView::journalQuestTable() const
-{
-    return &m_gameSession.data().journalQuestTable();
-}
-
-const JournalHistoryTable *IndoorGameView::journalHistoryTable() const
-{
-    return &m_gameSession.data().journalHistoryTable();
-}
-
-const JournalAutonoteTable *IndoorGameView::journalAutonoteTable() const
-{
-    return &m_gameSession.data().journalAutonoteTable();
 }
 
 const std::string &IndoorGameView::currentMapFileName() const
@@ -1649,8 +1560,12 @@ void IndoorGameView::closeInventoryNestedOverlay()
 bool IndoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen)
 {
     GameplayUiController::HeldInventoryItemState &heldItem = m_gameplayUiController.heldInventoryItem();
+    const GameDataRepository &data = m_gameSession.data();
+    const ItemTable &itemTable = data.itemTable();
+    const ReadableScrollTable &readableScrollTable = data.readableScrollTable();
+    const SpellTable &spellTable = data.spellTable();
 
-    if (!heldItem.active || itemTable() == nullptr || partyRuntime() == nullptr || worldRuntime() == nullptr)
+    if (!heldItem.active || partyRuntime() == nullptr || worldRuntime() == nullptr)
     {
         return false;
     }
@@ -1661,8 +1576,8 @@ bool IndoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCh
             party,
             memberIndex,
             heldItem.item,
-            *itemTable(),
-            readableScrollTable());
+            itemTable,
+            &readableScrollTable);
 
     if (!useResult.handled)
     {
@@ -1671,12 +1586,7 @@ bool IndoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCh
 
     if (useResult.action == InventoryItemUseAction::CastScroll)
     {
-        if (spellTable() == nullptr)
-        {
-            return false;
-        }
-
-        const SpellEntry *pSpellEntry = spellTable()->findById(static_cast<int>(useResult.spellId));
+        const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(useResult.spellId));
 
         if (pSpellEntry == nullptr)
         {
@@ -1692,7 +1602,7 @@ bool IndoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCh
         request.spendMana = false;
         request.applyRecovery = true;
         const PartySpellCastResult result =
-            PartySpellSystem::castSpell(party, *worldRuntime(), *spellTable(), request);
+            PartySpellSystem::castSpell(party, *worldRuntime(), spellTable, request);
 
         if (!result.succeeded())
         {
@@ -1762,11 +1672,13 @@ void IndoorGameView::updateReadableScrollOverlayForHeldItem(
     bool isLeftMousePressed)
 {
     GameplayUiController::ReadableScrollOverlayState &overlay = m_gameplayUiController.readableScrollOverlay();
+    const GameDataRepository &data = m_gameSession.data();
+    const ItemTable &itemTable = data.itemTable();
+    const ReadableScrollTable &readableScrollTable = data.readableScrollTable();
     overlay = {};
 
     if (!isLeftMousePressed
         || !m_gameplayUiController.heldInventoryItem().active
-        || itemTable() == nullptr
         || partyRuntime() == nullptr
         || (pointerTarget.type != GameplayCharacterPointerTargetType::EquipmentSlot
             && pointerTarget.type != GameplayCharacterPointerTargetType::DollPanel))
@@ -1775,7 +1687,7 @@ void IndoorGameView::updateReadableScrollOverlayForHeldItem(
     }
 
     const InventoryItemUseAction useAction =
-        InventoryItemUseRuntime::classifyItemUse(m_gameplayUiController.heldInventoryItem().item, *itemTable());
+        InventoryItemUseRuntime::classifyItemUse(m_gameplayUiController.heldInventoryItem().item, itemTable);
 
     if (useAction != InventoryItemUseAction::ReadMessageScroll)
     {
@@ -1788,8 +1700,8 @@ void IndoorGameView::updateReadableScrollOverlayForHeldItem(
             party,
             memberIndex,
             m_gameplayUiController.heldInventoryItem().item,
-            *itemTable(),
-            readableScrollTable());
+            itemTable,
+            &readableScrollTable);
 
     if (!useResult.handled || useResult.action != InventoryItemUseAction::ReadMessageScroll)
     {
@@ -1824,10 +1736,12 @@ bool IndoorGameView::tryCastSpellFromMember(
     uint32_t spellId,
     const std::string &spellName)
 {
-    if (spellTable() == nullptr || partyRuntime() == nullptr || worldRuntime() == nullptr)
+    if (partyRuntime() == nullptr || worldRuntime() == nullptr)
     {
         return false;
     }
+
+    const SpellTable &spellTable = m_gameSession.data().spellTable();
 
     PartySpellCastRequest request = {};
     request.casterMemberIndex = casterMemberIndex;
@@ -1835,7 +1749,7 @@ bool IndoorGameView::tryCastSpellFromMember(
 
     Party &party = partyRuntime()->party();
     const PartySpellCastResult result =
-        PartySpellSystem::castSpell(party, *worldRuntime(), *spellTable(), request);
+        PartySpellSystem::castSpell(party, *worldRuntime(), spellTable, request);
 
     if (!result.succeeded())
     {
@@ -1860,7 +1774,7 @@ bool IndoorGameView::tryCastSpellFromMember(
 
     if (m_pGameAudioSystem != nullptr)
     {
-        const SpellEntry *pSpellEntry = spellTable()->findById(static_cast<int>(spellId));
+        const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(spellId));
 
         if (result.effectKind == PartySpellCastEffectKind::CharacterRestore
             || result.effectKind == PartySpellCastEffectKind::PartyRestore)
@@ -1887,14 +1801,16 @@ bool IndoorGameView::tryCastSpellRequest(
     const PartySpellCastRequest &request,
     const std::string &spellName)
 {
-    if (spellTable() == nullptr || partyRuntime() == nullptr || worldRuntime() == nullptr)
+    if (partyRuntime() == nullptr || worldRuntime() == nullptr)
     {
         return false;
     }
 
+    const SpellTable &spellTable = m_gameSession.data().spellTable();
+
     Party &party = partyRuntime()->party();
     const PartySpellCastResult result =
-        PartySpellSystem::castSpell(party, *worldRuntime(), *spellTable(), request);
+        PartySpellSystem::castSpell(party, *worldRuntime(), spellTable, request);
 
     if (!result.succeeded())
     {
@@ -1908,7 +1824,7 @@ bool IndoorGameView::tryCastSpellRequest(
 
     if (m_pGameAudioSystem != nullptr)
     {
-        const SpellEntry *pSpellEntry = spellTable()->findById(static_cast<int>(request.spellId));
+        const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(request.spellId));
 
         if (result.effectKind == PartySpellCastEffectKind::CharacterRestore
             || result.effectKind == PartySpellCastEffectKind::PartyRestore)
@@ -1989,7 +1905,7 @@ bool IndoorGameView::trySaveToSelectedGameSlot()
 
     if (saved)
     {
-        createGameplayOverlayContext().closeSaveGameOverlay();
+        m_gameSession.gameplayScreenRuntime().closeSaveGameOverlay();
     }
 
     return saved;
@@ -2027,7 +1943,7 @@ const GameSettings &IndoorGameView::settingsSnapshot() const
 
 bool IndoorGameView::shouldEnableGameplayMouseLook() const
 {
-    return createGameplayOverlayContext().currentHudScreenState() == GameplayHudScreenState::Gameplay;
+    return m_gameSession.gameplayScreenRuntime().currentHudScreenState() == GameplayHudScreenState::Gameplay;
 }
 
 void IndoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled)
@@ -2070,7 +1986,6 @@ void IndoorGameView::updateItemInspectOverlayState(int width, int height)
 
     if (width <= 0
         || height <= 0
-        || itemTable() == nullptr
         || m_gameplayUiController.spellbook().active
         || m_gameplayUiController.controlsScreen().active
         || m_gameplayUiController.keyboardScreen().active
@@ -2081,7 +1996,7 @@ void IndoorGameView::updateItemInspectOverlayState(int width, int height)
         return;
     }
 
-    GameplayOverlayContext overlayContext = createGameplayOverlayContext();
+    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
     float mouseX = 0.0f;
     float mouseY = 0.0f;
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
@@ -2189,14 +2104,14 @@ GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntim
         pParty,
         worldRuntime(),
         m_pIndoorSceneRuntime != nullptr ? &m_pIndoorSceneRuntime->globalEventProgram() : nullptr,
-        houseTable(),
-        classSkillTable(),
-        npcDialogTable(),
+        &m_gameSession.data().houseTable(),
+        &m_gameSession.data().classSkillTable(),
+        &m_gameSession.data().npcDialogTable(),
         m_map ? &*m_map : nullptr,
         &m_gameSession.data().mapEntries(),
-        rosterTable(),
+        &m_gameSession.data().rosterTable(),
         &m_gameSession.data().arcomageLibrary(),
-        createGameplayOverlayContext().currentHudScreenState() == GameplayHudScreenState::Dialogue,
+        m_gameSession.gameplayScreenRuntime().currentHudScreenState() == GameplayHudScreenState::Dialogue,
         std::move(callbacks));
 }
 

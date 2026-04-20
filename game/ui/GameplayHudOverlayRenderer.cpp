@@ -1,5 +1,5 @@
 #include "game/ui/GameplayHudOverlayRenderer.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
@@ -8,6 +8,7 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
+#include <cmath>
 #include <limits>
 #include <optional>
 #include <string>
@@ -174,13 +175,13 @@ std::string replaceAll(std::string text, const std::string &from, const std::str
     return text;
 }
 
-void renderViewportParchmentSidePanels(GameplayOverlayContext &view, int width, int height)
+void renderViewportParchmentSidePanels(GameplayScreenRuntime &view, int width, int height)
 {
     view.renderViewportSidePanels(width, height, "UI-Parch");
 }
 } // namespace
 
-void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, int width, int height, bool renderAboveHud)
+void GameplayHudOverlayRenderer::renderChestPanel(GameplayScreenRuntime &view, int width, int height, bool renderAboveHud)
 {
     if (view.worldRuntime() == nullptr || view.chestTable() == nullptr || width <= 0 || height <= 0)
     {
@@ -210,7 +211,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
 
     for (const std::string &layoutId : orderedChestLayoutIds)
     {
-        const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
+        const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
         const std::string normalizedLayoutId = toLowerCopy(layoutId);
 
         if (pLayout == nullptr || !pLayout->visible)
@@ -230,7 +231,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
 
         const float fallbackWidth = pLayout->width > 0.0f ? pLayout->width : 0.0f;
         const float fallbackHeight = pLayout->height > 0.0f ? pLayout->height : 0.0f;
-        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
+        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
             layoutId,
             width,
             height,
@@ -250,7 +251,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
         }
         else if (pLayout->interactive)
         {
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> interactiveResolved =
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> interactiveResolved =
                 view.resolveHudLayoutElement(
                 layoutId,
                 width,
@@ -274,13 +275,13 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
 
         if (!assetName.empty())
         {
-            const std::optional<GameplayOverlayContext::HudTextureHandle> texture = view.ensureHudTextureLoaded(assetName);
+            const std::optional<GameplayScreenRuntime::HudTextureHandle> texture = view.ensureHudTextureLoaded(assetName);
 
             if (texture)
             {
                 if (normalizedLayoutId == "chesticonbackground")
                 {
-                    const std::optional<GameplayOverlayContext::HudTextureHandle> portraitBorder =
+                    const std::optional<GameplayScreenRuntime::HudTextureHandle> portraitBorder =
                         view.ensureHudTextureLoaded("evtnpc");
 
                     if (portraitBorder)
@@ -318,7 +319,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
             continue;
         }
 
-        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedGrid =
+        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedGrid =
             view.resolveChestGridArea(width, height);
 
         if (!resolvedGrid || pChestView->gridWidth == 0 || pChestView->gridHeight == 0)
@@ -352,7 +353,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
                 renderItem.width = goldVisual.width;
                 renderItem.height = goldVisual.height;
 
-                const std::optional<GameplayOverlayContext::HudTextureHandle> goldTexture =
+                const std::optional<GameplayScreenRuntime::HudTextureHandle> goldTexture =
                     view.ensureHudTextureLoaded(goldVisual.pTextureName);
 
                 if (!goldTexture)
@@ -386,7 +387,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
                 continue;
             }
 
-            const std::optional<GameplayOverlayContext::HudTextureHandle> itemTexture =
+            const std::optional<GameplayScreenRuntime::HudTextureHandle> itemTexture =
                 view.ensureHudTextureLoaded(pItemDefinition->iconName);
 
             if (!itemTexture)
@@ -422,7 +423,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayOverlayContext &view, 
 }
 
 void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     int width,
     int height,
     bool renderAboveHud)
@@ -446,8 +447,8 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
         return;
     }
 
-    const GameplayOverlayContext::HudLayoutElement *pPageLayout = view.findHudLayoutElement("ChestNestedInventoryPage");
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedPage =
+    const GameplayScreenRuntime::HudLayoutElement *pPageLayout = view.findHudLayoutElement("ChestNestedInventoryPage");
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedPage =
         pPageLayout != nullptr
         ? view.resolveHudLayoutElement(
             "ChestNestedInventoryPage",
@@ -466,7 +467,7 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
 
     if (!pPageLayout->primaryAsset.empty())
     {
-        const std::optional<GameplayOverlayContext::HudTextureHandle> pageTexture =
+        const std::optional<GameplayScreenRuntime::HudTextureHandle> pageTexture =
             view.ensureHudTextureLoaded(pPageLayout->primaryAsset);
 
         if (pageTexture)
@@ -476,7 +477,7 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
     }
 
     const Character *pCharacter = view.partyReadOnly()->activeMember();
-    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedInventoryGrid =
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedInventoryGrid =
         view.resolveInventoryNestedOverlayGridArea(width, height);
 
     if (pCharacter == nullptr || !resolvedInventoryGrid)
@@ -501,7 +502,7 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
             continue;
         }
 
-        const std::optional<GameplayOverlayContext::HudTextureHandle> itemTexture =
+        const std::optional<GameplayScreenRuntime::HudTextureHandle> itemTexture =
             view.ensureHudTextureLoaded(pItemDefinition->iconName);
 
         if (!itemTexture)
@@ -536,7 +537,7 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
 
         if (bgfx::isValid(tintedTextureHandle) && tintedTextureHandle.idx != itemTexture->textureHandle.idx)
         {
-            GameplayOverlayContext::HudTextureHandle tintedTexture = *itemTexture;
+            GameplayScreenRuntime::HudTextureHandle tintedTexture = *itemTexture;
             tintedTexture.textureHandle = tintedTextureHandle;
             view.submitHudTexturedQuad(tintedTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
         }

@@ -5,7 +5,7 @@
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/StringUtils.h"
 #include "game/tables/ItemTable.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/KeyboardScreenLayout.h"
 
 #include <SDL3/SDL.h>
@@ -186,7 +186,7 @@ bool isHouseType(const HouseEntry &houseEntry, const char *pTypeName)
 }
 
 void beginRestAction(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     GameplayUiController::RestMode mode,
     float minutes,
     bool consumeFood)
@@ -229,12 +229,12 @@ void beginRestAction(
     }
 }
 
-void startRestAction(GameplayOverlayContext &view, GameplayUiController::RestMode mode, float minutes)
+void startRestAction(GameplayScreenRuntime &view, GameplayUiController::RestMode mode, float minutes)
 {
     beginRestAction(view, mode, minutes, true);
 }
 
-void completeRestAction(GameplayOverlayContext &view, bool closeRestScreenAfterCompletion)
+void completeRestAction(GameplayScreenRuntime &view, bool closeRestScreenAfterCompletion)
 {
     GameplayUiController::RestScreenState &restScreen = view.restScreenState();
 
@@ -267,7 +267,7 @@ void completeRestAction(GameplayOverlayContext &view, bool closeRestScreenAfterC
 }
 
 GameplayMenuPointerTarget resolveMenuPointerTarget(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     int screenWidth,
     int screenHeight,
     const char *pLayoutId,
@@ -296,7 +296,7 @@ GameplayMenuPointerTarget resolveMenuPointerTarget(
 }
 
 GameplaySaveLoadPointerTarget resolveSaveLoadPointerTarget(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     int screenWidth,
     int screenHeight,
     const char *pLayoutId,
@@ -609,7 +609,7 @@ HouseShopItemDrawRect resolveHouseShopItemDrawRect(
 } // namespace
 
 bool GameplayOverlayInputController::handleRestOverlayInput(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)
@@ -696,14 +696,14 @@ bool GameplayOverlayInputController::handleRestOverlayInput(
             float pointerX,
             float pointerY) -> GameplayRestPointerTarget
         {
-            const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
+            const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
 
             if (pLayout == nullptr)
             {
                 return {};
             }
 
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                 view.resolveHudLayoutElement(layoutId, screenWidth, screenHeight, pLayout->width, pLayout->height);
 
             if (!resolved || !view.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
@@ -777,7 +777,7 @@ bool GameplayOverlayInputController::handleRestOverlayInput(
 }
 
 bool GameplayOverlayInputController::handleMenuOverlayInput(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)
@@ -1025,7 +1025,7 @@ bool GameplayOverlayInputController::handleMenuOverlayInput(
 }
 
 bool GameplayOverlayInputController::handleControlsOverlayInput(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)
@@ -1079,14 +1079,14 @@ bool GameplayOverlayInputController::handleControlsOverlayInput(
             float pointerX,
             float pointerY) -> GameplayControlsPointerTarget
         {
-            const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(pLayoutId);
+            const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(pLayoutId);
 
             if (pLayout == nullptr)
             {
                 return {};
             }
 
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                 view.resolveHudLayoutElement(pLayoutId, screenWidth, screenHeight, pLayout->width, pLayout->height);
 
             if (!resolved || !view.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
@@ -1230,14 +1230,14 @@ bool GameplayOverlayInputController::handleControlsOverlayInput(
                 return;
             }
 
-            const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(pLayoutId);
+            const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(pLayoutId);
 
             if (pLayout == nullptr)
             {
                 return;
             }
 
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                 view.resolveHudLayoutElement(pLayoutId, screenWidth, screenHeight, pLayout->width, pLayout->height);
 
             if (!resolved)
@@ -1379,7 +1379,7 @@ bool GameplayOverlayInputController::handleControlsOverlayInput(
 }
 
 bool GameplayOverlayInputController::handleKeyboardOverlayInput(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)
@@ -1443,14 +1443,14 @@ bool GameplayOverlayInputController::handleKeyboardOverlayInput(
             float pointerX,
             float pointerY) -> GameplayKeyboardPointerTarget
         {
-            const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(pLayoutId);
+            const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(pLayoutId);
 
             if (pLayout == nullptr)
             {
                 return {};
             }
 
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                 view.resolveHudLayoutElement(pLayoutId, screenWidth, screenHeight, pLayout->width, pLayout->height);
 
             if (!resolved || !view.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
@@ -1578,7 +1578,7 @@ bool GameplayOverlayInputController::handleKeyboardOverlayInput(
 }
 
 bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)
@@ -1630,14 +1630,14 @@ bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
             float pointerX,
             float pointerY) -> GameplayVideoOptionsPointerTarget
         {
-            const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(pLayoutId);
+            const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(pLayoutId);
 
             if (pLayout == nullptr)
             {
                 return {};
             }
 
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                 view.resolveHudLayoutElement(pLayoutId, screenWidth, screenHeight, pLayout->width, pLayout->height);
 
             if (!resolved || !view.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
@@ -1712,7 +1712,7 @@ bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
 }
 
 bool GameplayOverlayInputController::handleSaveGameOverlayInput(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)
@@ -1946,7 +1946,7 @@ bool GameplayOverlayInputController::handleSaveGameOverlayInput(
 }
 
 bool GameplayOverlayInputController::handleJournalOverlayInput(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight,
@@ -2185,14 +2185,14 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
             float pointerX,
             float pointerY) -> GameplayJournalPointerTarget
         {
-            const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
+            const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
 
             if (pLayout == nullptr)
             {
                 return {};
             }
 
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                 view.resolveHudLayoutElement(
                     layoutId,
                     screenWidth,
@@ -2291,9 +2291,9 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
         };
 
     const auto resolveJournalViewport =
-        [&view, screenWidth, screenHeight]() -> std::optional<GameplayOverlayContext::ResolvedHudLayoutElement>
+        [&view, screenWidth, screenHeight]() -> std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement>
         {
-            const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement("JournalMapViewport");
+            const GameplayScreenRuntime::HudLayoutElement *pLayout = view.findHudLayoutElement("JournalMapViewport");
 
             if (pLayout == nullptr)
             {
@@ -2449,7 +2449,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
         {
             const int zoom = GameplayJournalMapZoomLevels[journalScreen.mapZoomStep];
             const float zoomFactor = static_cast<float>(zoom) / 384.0f;
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> mapViewport = resolveJournalViewport();
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> mapViewport = resolveJournalViewport();
             const float viewportWidth = mapViewport.has_value() ? mapViewport->width : 336.0f;
             const float viewportHeight = mapViewport.has_value() ? mapViewport->height : 336.0f;
             const float worldUnitsPerPixelX =
@@ -2496,7 +2496,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
 
         if (journalScreen.view == GameplayUiController::JournalView::Map && pressedTarget == noneJournalTarget)
         {
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> mapViewport = resolveJournalViewport();
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> mapViewport = resolveJournalViewport();
 
             if (mapViewport.has_value()
                 && view.isPointerInsideResolvedElement(*mapViewport, journalPointerState.x, journalPointerState.y))
@@ -2525,7 +2525,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
 }
 
 void GameplayOverlayInputController::handleDialogueOverlayInput(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight,
@@ -2654,9 +2654,9 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
         const auto findDialogueCloseTarget =
             [&view, screenWidth, screenHeight](float mouseX, float mouseY) -> GameplayDialoguePointerTarget
             {
-                const GameplayOverlayContext::HudLayoutElement *pGoodbyeLayout =
+                const GameplayScreenRuntime::HudLayoutElement *pGoodbyeLayout =
                     view.findHudLayoutElement("DialogueGoodbyeButton");
-                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedGoodbye =
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedGoodbye =
                     pGoodbyeLayout != nullptr
                     ? view.resolveHudLayoutElement(
                         "DialogueGoodbyeButton",
@@ -2787,7 +2787,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
         && view.worldRuntime() != nullptr
         && view.itemTable() != nullptr)
     {
-        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedFrame =
+        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedFrame =
             view.resolveHouseShopOverlayFrame(screenWidth, screenHeight);
         std::optional<HouseStockMode> stockMode;
 
@@ -2846,7 +2846,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                             continue;
                         }
 
-                        const std::optional<GameplayOverlayContext::HudTextureHandle> itemTexture =
+                        const std::optional<GameplayScreenRuntime::HudTextureHandle> itemTexture =
                             view.ensureHudTextureLoaded(pItemDefinition->iconName);
 
                         if (!itemTexture)
@@ -2942,7 +2942,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
         && pDialogueHouseEntry != nullptr
         && view.party() != nullptr)
     {
-        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedInventoryGrid =
+        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedInventoryGrid =
             view.resolveInventoryNestedOverlayGridArea(screenWidth, screenHeight);
 
         if (resolvedInventoryGrid
@@ -3101,9 +3101,9 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
             if (isResidentSelectionMode)
             {
-                const GameplayOverlayContext::HudLayoutElement *pEventDialogLayout =
+                const GameplayScreenRuntime::HudLayoutElement *pEventDialogLayout =
                     view.findHudLayoutElement("DialogueEventDialog");
-                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedEventDialog =
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedEventDialog =
                     showEventDialogPanel && pEventDialogLayout != nullptr
                     ? view.resolveHudLayoutElement(
                         "DialogueEventDialog",
@@ -3149,11 +3149,11 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
             }
             else
             {
-                const GameplayOverlayContext::HudLayoutElement *pEventDialogLayout =
+                const GameplayScreenRuntime::HudLayoutElement *pEventDialogLayout =
                     view.findHudLayoutElement("DialogueEventDialog");
-                const GameplayOverlayContext::HudLayoutElement *pTopicRowLayout =
+                const GameplayScreenRuntime::HudLayoutElement *pTopicRowLayout =
                     view.findHudLayoutElement("DialogueTopicRow_1");
-                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedTopicRowTemplate =
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedTopicRowTemplate =
                     pTopicRowLayout != nullptr
                     ? view.resolveHudLayoutElement(
                         "DialogueTopicRow_1",
@@ -3162,7 +3162,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                         pTopicRowLayout->width,
                         pTopicRowLayout->height)
                     : std::nullopt;
-                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedEventDialog =
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedEventDialog =
                     (showEventDialogPanel && pEventDialogLayout != nullptr && pTopicRowLayout != nullptr)
                     ? view.resolveHudLayoutElement(
                         "DialogueEventDialog",
@@ -3176,9 +3176,9 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                 {
                     if (view.activeEventDialog().presentation == EventDialogPresentation::Transition)
                     {
-                        const GameplayOverlayContext::HudLayoutElement *pOkLayout =
+                        const GameplayScreenRuntime::HudLayoutElement *pOkLayout =
                             view.findHudLayoutElement("DialogueOkButton");
-                        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedOk =
+                        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedOk =
                             pOkLayout != nullptr
                             ? view.resolveHudLayoutElement(
                                 "DialogueOkButton",
@@ -3207,7 +3207,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                     const float panelInnerWidth = resolvedEventDialog->width - panelPaddingX * 2.0f;
                     const float portraitBorderSize = 80.0f * panelScale;
                     const float sectionGap = 8.0f * panelScale;
-                    const std::optional<GameplayOverlayContext::HudFontHandle> topicFont =
+                    const std::optional<GameplayScreenRuntime::HudFontHandle> topicFont =
                         view.findHudFont(pTopicRowLayout->fontName);
                     const float topicFontScale =
                         snappedHudFontScale(resolvedTopicRowTemplate ? resolvedTopicRowTemplate->scale : panelScale);
@@ -3312,9 +3312,9 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                 }
             }
 
-            const GameplayOverlayContext::HudLayoutElement *pGoodbyeLayout =
+            const GameplayScreenRuntime::HudLayoutElement *pGoodbyeLayout =
                 view.findHudLayoutElement("DialogueGoodbyeButton");
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedGoodbye =
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedGoodbye =
                 pGoodbyeLayout != nullptr
                 ? view.resolveHudLayoutElement(
                     "DialogueGoodbyeButton",
@@ -3379,7 +3379,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 }
 
 void GameplayOverlayInputController::handleLootOverlayInput(
-    GameplayOverlayContext &view,
+    GameplayScreenRuntime &view,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight,
@@ -3422,7 +3422,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
         const auto findChestPointerTarget =
             [&view, screenWidth, screenHeight](float mouseX, float mouseY) -> GameplayChestPointerTarget
             {
-                const GameplayOverlayContext::HudLayoutElement *pCloseLayout =
+                const GameplayScreenRuntime::HudLayoutElement *pCloseLayout =
                     view.findHudLayoutElement("ChestCloseButton");
 
                 if (pCloseLayout == nullptr)
@@ -3430,7 +3430,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                     return {};
                 }
 
-                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedClose =
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedClose =
                     view.resolveHudLayoutElement(
                         "ChestCloseButton",
                         screenWidth,
@@ -3460,7 +3460,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
 
         if (inventoryNestedOverlayActive && view.inventoryNestedOverlay().active)
         {
-            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedInventoryGrid =
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedInventoryGrid =
                 view.resolveInventoryNestedOverlayGridArea(screenWidth, screenHeight);
 
             if (resolvedInventoryGrid
@@ -3497,7 +3497,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
 
                     if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
                     {
-                        const std::optional<GameplayOverlayContext::HudTextureHandle> pItemTexture =
+                        const std::optional<GameplayScreenRuntime::HudTextureHandle> pItemTexture =
                             view.ensureHudTextureLoaded(pItemDefinition->iconName);
 
                         if (pItemTexture)
@@ -3565,7 +3565,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
 
                         if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
                         {
-                            const std::optional<GameplayOverlayContext::HudTextureHandle> pItemTexture =
+                            const std::optional<GameplayScreenRuntime::HudTextureHandle> pItemTexture =
                                 view.ensureHudTextureLoaded(pItemDefinition->iconName);
 
                             if (pItemTexture)
@@ -3626,7 +3626,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                 }
             });
 
-        const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedChestGrid =
+        const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolvedChestGrid =
             view.resolveChestGridArea(screenWidth, screenHeight);
         const GameplayChestPointerTarget hoveredChestTarget =
             findChestPointerTarget(chestMouseX, chestMouseY);
@@ -3671,7 +3671,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
 
                 if (pItemDefinition != nullptr)
                 {
-                    const std::optional<GameplayOverlayContext::HudTextureHandle> pItemTexture =
+                    const std::optional<GameplayScreenRuntime::HudTextureHandle> pItemTexture =
                         view.ensureHudTextureLoaded(pItemDefinition->iconName);
 
                     if (pItemTexture)
@@ -3735,7 +3735,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
 
                         if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
                         {
-                            const std::optional<GameplayOverlayContext::HudTextureHandle> pItemTexture =
+                            const std::optional<GameplayScreenRuntime::HudTextureHandle> pItemTexture =
                                 view.ensureHudTextureLoaded(pItemDefinition->iconName);
 
                             if (pItemTexture)

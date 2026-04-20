@@ -2,23 +2,23 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 
 class GameplayPartyOverlayInputController
 {
 public:
     static void handleUtilitySpellOverlayInput(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);
     static void handleSpellbookOverlayInput(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);
     static void handleCharacterOverlayInput(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);

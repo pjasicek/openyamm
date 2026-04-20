@@ -4,7 +4,7 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 }
 
 #include <optional>
@@ -64,7 +64,7 @@ struct KeyboardScreenLayout
 };
 
 std::optional<KeyboardScreenLayout> resolveKeyboardScreenLayout(
-    const GameplayOverlayContext &context,
+    const GameplayScreenRuntime &context,
     int width,
     int height);
 }

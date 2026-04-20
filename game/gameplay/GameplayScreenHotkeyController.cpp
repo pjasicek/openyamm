@@ -1,12 +1,12 @@
 #include "game/gameplay/GameplayScreenHotkeyController.h"
 
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 
 namespace OpenYAMM::Game
 {
 namespace
 {
-bool isActionNewlyPressed(GameplayOverlayContext &context, KeyboardAction action, const bool *pKeyboardState)
+bool isActionNewlyPressed(GameplayScreenRuntime &context, KeyboardAction action, const bool *pKeyboardState)
 {
     if (pKeyboardState == nullptr)
     {
@@ -25,7 +25,7 @@ bool isActionNewlyPressed(GameplayOverlayContext &context, KeyboardAction action
 }
 
 void GameplayScreenHotkeyController::handleGameplayScreenHotkeys(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const bool *pKeyboardState,
     const GameplayScreenHotkeyConfig &config)
 {

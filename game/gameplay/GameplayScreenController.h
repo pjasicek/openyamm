@@ -6,7 +6,7 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 
 struct GameplayScreenRenderConfig
 {
@@ -30,53 +30,53 @@ class GameplayScreenController
 {
 public:
     static void updateSharedFrameState(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         int width,
         int height,
         float deltaSeconds,
         const GameplayScreenFrameUpdateConfig &config);
 
     static bool updateRenderedHudItemInspectOverlay(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         int width,
         int height,
         bool requireOpaqueHitTest);
 
     static void applySharedItemInspectSkillInteraction(
-        GameplayOverlayContext &context);
+        GameplayScreenRuntime &context);
 
     static void updateRestOverlayProgress(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         float deltaSeconds);
 
     static void handlePartyPortraitInput(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const GameplayPartyPortraitInputConfig &config);
 
     static void handleGameplayHudButtonInput(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const GameplayHudButtonInputConfig &config);
 
     static GameplayUiOverlayInputResult handleSharedOverlayInput(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const bool *pKeyboardState,
         int width,
         int height,
         const GameplayUiOverlayInputConfig &config);
 
     static void handleSharedHotkeys(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const bool *pKeyboardState,
         const GameplayScreenHotkeyConfig &config);
 
     static void handleUtilitySpellOverlayInput(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const bool *pKeyboardState,
         int width,
         int height);
 
     static void renderSharedOverlays(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         int width,
         int height,
         const GameplayScreenRenderConfig &config);

@@ -1,6 +1,6 @@
 #include "game/ui/KeyboardScreenLayout.h"
 
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 
 namespace OpenYAMM::Game
 {
@@ -13,7 +13,7 @@ constexpr float KeyboardRightValueOffsetX = -95.0f;
 }
 
 std::optional<KeyboardScreenLayout> resolveKeyboardScreenLayout(
-    const GameplayOverlayContext &context,
+    const GameplayScreenRuntime &context,
     int width,
     int height)
 {

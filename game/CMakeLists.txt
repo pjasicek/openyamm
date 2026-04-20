@@ -112,7 +112,7 @@ add_executable(openyamm
     ui/GameplayHudOverlaySupport.cpp
     ui/GameplayHudOverlayRenderer.cpp
     ui/GameplayDebugOverlayRenderer.cpp
-    ui/GameplayOverlayContext.cpp
+    gameplay/GameplayScreenRuntime.cpp
     ui/GameplayPartyOverlayRenderer.cpp
     ui/GameplayUiOverlayOrchestrator.cpp
     ui/GameplayUiRuntime.cpp

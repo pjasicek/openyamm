@@ -2,6 +2,7 @@
 
 #include "game/events/EventRuntime.h"
 #include "game/app/GameSettings.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplayDialogController.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/maps/SaveGame.h"
@@ -25,6 +26,8 @@ namespace OpenYAMM::Game
 class GameSession
 {
 public:
+    GameSession();
+
     using SaveGameToPathCallback = std::function<bool(
         const std::filesystem::path &,
         const std::string &,
@@ -54,6 +57,8 @@ public:
     const GameplayUiController &gameplayUiController() const;
     GameplayUiRuntime &gameplayUiRuntime();
     const GameplayUiRuntime &gameplayUiRuntime() const;
+    GameplayScreenRuntime &gameplayScreenRuntime();
+    const GameplayScreenRuntime &gameplayScreenRuntime() const;
     GameplayDialogController &gameplayDialogController();
     const GameplayDialogController &gameplayDialogController() const;
     GameplayOverlayInteractionState &overlayInteractionState();
@@ -139,6 +144,7 @@ private:
     std::string m_currentMapFileName;
     GameplayUiController m_gameplayUiController;
     GameplayUiRuntime m_gameplayUiRuntime;
+    GameplayScreenRuntime m_gameplayScreenRuntime;
     GameplayDialogController m_gameplayDialogController;
     GameplayOverlayInteractionState m_overlayInteractionState;
     std::array<uint8_t, SDL_SCANCODE_COUNT> m_previousKeyboardState = {};

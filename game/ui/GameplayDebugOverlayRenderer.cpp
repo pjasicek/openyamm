@@ -5,7 +5,7 @@
 #include "game/tables/ChestTable.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/ItemTable.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 
 #include <bgfx/bgfx.h>
 
@@ -30,7 +30,7 @@ void renderCenteredDebugTextLine(int textColumns, int row, uint8_t color, const 
 }
 
 std::string lootItemDebugName(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const GameplayChestItemState &item)
 {
     if (item.isGold)
@@ -64,7 +64,7 @@ std::string lootItemDebugName(
 }
 } // namespace
 
-void GameplayDebugOverlayRenderer::renderChestPanel(GameplayOverlayContext &context, int width, int height)
+void GameplayDebugOverlayRenderer::renderChestPanel(GameplayScreenRuntime &context, int width, int height)
 {
     if (context.worldRuntime() == nullptr || width <= 0 || height <= 0)
     {
@@ -141,7 +141,7 @@ void GameplayDebugOverlayRenderer::renderChestPanel(GameplayOverlayContext &cont
     }
 }
 
-void GameplayDebugOverlayRenderer::renderEventDialogPanel(GameplayOverlayContext &context, int width, int height)
+void GameplayDebugOverlayRenderer::renderEventDialogPanel(GameplayScreenRuntime &context, int width, int height)
 {
     if (!context.activeEventDialog().isActive || width <= 0 || height <= 0)
     {

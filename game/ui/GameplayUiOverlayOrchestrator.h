@@ -2,7 +2,7 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 
 struct GameplayUiOverlayInputConfig
 {
@@ -53,14 +53,14 @@ class GameplayUiOverlayOrchestrator
 {
 public:
     static GameplayUiOverlayInputResult handleStandardOverlayInput(
-        GameplayOverlayContext &overlayContext,
+        GameplayScreenRuntime &overlayContext,
         const bool *pKeyboardState,
         int width,
         int height,
         const GameplayUiOverlayInputConfig &config);
 
     static void renderStandardOverlays(
-        GameplayOverlayContext &overlayContext,
+        GameplayScreenRuntime &overlayContext,
         int width,
         int height,
         const GameplayUiOverlayRenderConfig &config);

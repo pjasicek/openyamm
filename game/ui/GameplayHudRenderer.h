@@ -2,12 +2,12 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 
 class GameplayHudRenderer
 {
 public:
-    static void renderGameplayHudArt(GameplayOverlayContext &context, int width, int height);
-    static void renderGameplayHud(GameplayOverlayContext &context, int width, int height);
+    static void renderGameplayHudArt(GameplayScreenRuntime &context, int width, int height);
+    static void renderGameplayHud(GameplayScreenRuntime &context, int width, int height);
 };
 } // namespace OpenYAMM::Game

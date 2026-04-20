@@ -2,7 +2,7 @@
 
 #include "game/tables/CharacterDollTable.h"
 #include "game/gameplay/GameMechanics.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
@@ -598,7 +598,7 @@ void handlePointerClickRelease(
 } // namespace
 
 void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)
@@ -678,12 +678,12 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 float pointerX,
                 float pointerY) -> GameplayUtilitySpellPointerTarget
             {
-                const GameplayOverlayContext::HudLayoutElement *pCloseLayout =
+                const GameplayScreenRuntime::HudLayoutElement *pCloseLayout =
                     context.findHudLayoutElement("TownPortalCloseButton");
 
                 if (pCloseLayout != nullptr && pCloseLayout->visible)
                 {
-                    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> closeResolved =
+                    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> closeResolved =
                         context.resolveHudLayoutElement(
                             "TownPortalCloseButton",
                             screenWidth,
@@ -719,14 +719,14 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                         continue;
                     }
 
-                    const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
+                    const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
                     if (pLayout == nullptr || !pLayout->visible)
                     {
                         continue;
                     }
 
-                    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved = context.resolveHudLayoutElement(
+                    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved = context.resolveHudLayoutElement(
                         layoutId,
                         screenWidth,
                         screenHeight,
@@ -941,7 +941,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 }
 
 void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)
@@ -981,7 +981,7 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                     continue;
                 }
 
-                const GameplayOverlayContext::HudLayoutElement *pLayout =
+                const GameplayScreenRuntime::HudLayoutElement *pLayout =
                     context.findHudLayoutElement(definition.pButtonLayoutId);
 
                 if (pLayout == nullptr)
@@ -989,7 +989,7 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                     continue;
                 }
 
-                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                     context.resolveHudLayoutElement(
                         definition.pButtonLayoutId,
                         screenWidth,
@@ -1011,14 +1011,14 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                     const char *pLayoutId,
                     GameplaySpellbookPointerTargetType type) -> GameplaySpellbookPointerTarget
                 {
-                    const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(pLayoutId);
+                    const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(pLayoutId);
 
                     if (pLayout == nullptr)
                     {
                         return {};
                     }
 
-                    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+                    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                         context.resolveHudLayoutElement(
                             pLayoutId,
                             screenWidth,
@@ -1081,14 +1081,14 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 
                 const uint32_t spellOrdinal = spellOffset + 1;
                 const std::string layoutId = spellbookSpellLayoutId(context.spellbook().school, spellOrdinal);
-                const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
+                const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
                 if (pLayout == nullptr)
                 {
                     continue;
                 }
 
-                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                     context.resolveHudLayoutElement(
                         layoutId,
                         screenWidth,
@@ -1333,7 +1333,7 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 }
 
 void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)

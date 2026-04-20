@@ -20,6 +20,11 @@ Party buildConfiguredParty(
 }
 }
 
+GameSession::GameSession()
+    : m_gameplayScreenRuntime(*this)
+{
+}
+
 void GameSession::bindDataRepository(const GameDataRepository *pDataRepository)
 {
     m_pDataRepository = pDataRepository;
@@ -43,6 +48,7 @@ void GameSession::clear()
     m_currentMapFileName.clear();
     m_gameplayUiController.clearRuntimeState();
     m_gameplayUiRuntime.clear();
+    m_gameplayScreenRuntime.clearTransientBindings();
     m_overlayInteractionState = {};
     m_previousKeyboardState.fill(0);
     m_pActiveWorldRuntime = nullptr;
@@ -127,6 +133,16 @@ GameplayUiRuntime &GameSession::gameplayUiRuntime()
 const GameplayUiRuntime &GameSession::gameplayUiRuntime() const
 {
     return m_gameplayUiRuntime;
+}
+
+GameplayScreenRuntime &GameSession::gameplayScreenRuntime()
+{
+    return m_gameplayScreenRuntime;
+}
+
+const GameplayScreenRuntime &GameSession::gameplayScreenRuntime() const
+{
+    return m_gameplayScreenRuntime;
 }
 
 GameplayDialogController &GameSession::gameplayDialogController()

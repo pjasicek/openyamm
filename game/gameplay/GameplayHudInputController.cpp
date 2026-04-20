@@ -1,6 +1,6 @@
 #include "game/gameplay/GameplayHudInputController.h"
 
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 
 #include <SDL3/SDL.h>
 
@@ -55,7 +55,7 @@ void handlePointerClickRelease(
 }
 
 const char *activeGameplayButtonLayoutId(
-    const GameplayOverlayContext &context,
+    const GameplayScreenRuntime &context,
     const char *pWideId,
     const char *pStandardId)
 {
@@ -64,7 +64,7 @@ const char *activeGameplayButtonLayoutId(
 }
 
 void GameplayHudInputController::handlePartyPortraitInput(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const GameplayPartyPortraitInputConfig &config)
 {
     if (!config.allowInput || config.screenWidth <= 0 || config.screenHeight <= 0)
@@ -158,7 +158,7 @@ void GameplayHudInputController::handlePartyPortraitInput(
 }
 
 void GameplayHudInputController::handleGameplayHudButtonInput(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const GameplayHudButtonInputConfig &config)
 {
     if (!config.allowInput || config.screenWidth <= 0 || config.screenHeight <= 0)
@@ -207,14 +207,14 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
 
             for (const auto &[pLayoutId, targetType] : targets)
             {
-                const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(pLayoutId);
+                const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(pLayoutId);
 
                 if (pLayout == nullptr)
                 {
                     continue;
                 }
 
-                const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved =
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved =
                     context.resolveHudLayoutElement(
                         pLayoutId,
                         config.screenWidth,

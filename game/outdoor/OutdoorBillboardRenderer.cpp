@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 
+#include "game/data/GameDataRepository.h"
 #include "game/fx/ParticleRecipes.h"
 #include "game/fx/ParticleSystem.h"
 #include "game/outdoor/OutdoorGameView.h"
@@ -1288,13 +1289,11 @@ void OutdoorBillboardRenderer::queueEventSpellBillboardTextureWarmup(
     OutdoorGameView &view,
     const ScriptedEventProgram &eventProgram)
 {
-    if (view.spellTable() == nullptr || view.objectTable() == nullptr)
-    {
-        return;
-    }
+    const SpellTable &spellTable = view.data().spellTable();
+    const ObjectTable &objectTable = view.data().objectTable();
 
     auto queueSpellObjectSpriteFrame =
-        [&view](int objectId)
+        [&view, &objectTable](int objectId)
         {
             if (objectId <= 0)
             {
@@ -1302,14 +1301,14 @@ void OutdoorBillboardRenderer::queueEventSpellBillboardTextureWarmup(
             }
 
             const std::optional<uint16_t> descriptionId =
-                view.objectTable()->findDescriptionIdByObjectId(static_cast<int16_t>(objectId));
+                objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(objectId));
 
             if (!descriptionId)
             {
                 return;
             }
 
-            const ObjectEntry *pObjectEntry = view.objectTable()->get(*descriptionId);
+            const ObjectEntry *pObjectEntry = objectTable.get(*descriptionId);
 
             if (pObjectEntry == nullptr)
             {
@@ -1354,7 +1353,7 @@ void OutdoorBillboardRenderer::queueEventSpellBillboardTextureWarmup(
 
     for (uint32_t spellId : eventProgram.castSpellIds())
     {
-        const SpellEntry *pSpellEntry = view.spellTable()->findById(static_cast<int>(spellId));
+        const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(spellId));
 
         if (pSpellEntry == nullptr)
         {

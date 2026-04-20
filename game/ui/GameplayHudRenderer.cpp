@@ -2,7 +2,7 @@
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/StringUtils.h"
-#include "game/ui/GameplayOverlayContext.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 
 #include <SDL3/SDL.h>
 
@@ -189,8 +189,8 @@ PortraitAggroIndicator classifyPortraitAggroIndicator(
     return PortraitAggroIndicator::Green;
 }
 
-std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolveLayout(
-    GameplayOverlayContext &context,
+std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolveLayout(
+    GameplayScreenRuntime &context,
     const std::string &layoutId,
     float fallbackWidth,
     float fallbackHeight,
@@ -376,7 +376,7 @@ bool isBuffLayoutVisible(const Party &party, const std::string &layoutId)
 }
 
 bool isDescendantOf(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const UiLayoutManager::LayoutElement &layout,
     const std::string &ancestorId)
 {
@@ -402,7 +402,7 @@ bool isDescendantOf(
 }
 
 bool isGameplayElementVisibleInHudState(
-    GameplayOverlayContext &context,
+    GameplayScreenRuntime &context,
     const UiLayoutManager::LayoutElement &layout,
     ActiveGameplayHudLayout gameplayHudLayout)
 {
@@ -433,7 +433,7 @@ bool isGameplayElementVisibleInHudState(
 
 } // namespace
 
-void GameplayHudRenderer::renderGameplayHudArt(GameplayOverlayContext &context, int width, int height)
+void GameplayHudRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, int width, int height)
 {
     Party *pParty = context.party();
 
@@ -1104,7 +1104,7 @@ void GameplayHudRenderer::renderGameplayHudArt(GameplayOverlayContext &context, 
     flushQueuedHudQuads();
 }
 
-void GameplayHudRenderer::renderGameplayHud(GameplayOverlayContext &context, int width, int height)
+void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int width, int height)
 {
     Party *pParty = context.party();
 

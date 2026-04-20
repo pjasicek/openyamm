@@ -6,7 +6,7 @@
 
 namespace OpenYAMM::Game
 {
-class GameplayOverlayContext;
+class GameplayScreenRuntime;
 
 struct GameplayPartyPortraitInputConfig
 {
@@ -35,11 +35,11 @@ class GameplayHudInputController
 {
 public:
     static void handlePartyPortraitInput(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const GameplayPartyPortraitInputConfig &config);
 
     static void handleGameplayHudButtonInput(
-        GameplayOverlayContext &context,
+        GameplayScreenRuntime &context,
         const GameplayHudButtonInputConfig &config);
 };
 } // namespace OpenYAMM::Game
