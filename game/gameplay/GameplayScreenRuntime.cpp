@@ -3,11 +3,14 @@
 #include "game/app/GameSession.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameplayDialogUiFlow.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/party/SpellSchool.h"
 #include "game/StringUtils.h"
 #include "game/ui/SpellbookUiLayout.h"
+
+#include <SDL3/SDL.h>
 
 #include <cassert>
 #include <cmath>
@@ -36,6 +39,175 @@ bool usesAlternateCloakBeltEquippedVariant(EquipmentSlot slot)
 {
     return slot == EquipmentSlot::Cloak || slot == EquipmentSlot::Belt;
 }
+
+uint32_t currentAnimationTicks()
+{
+    return (static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL;
+}
+
+uint32_t mixPortraitSequenceValue(uint32_t value)
+{
+    value ^= value >> 16;
+    value *= 0x7feb352du;
+    value ^= value >> 15;
+    value *= 0x846ca68bu;
+    value ^= value >> 16;
+    return value;
+}
+
+PortraitId pickIdlePortrait(uint32_t sequenceValue)
+{
+    const uint32_t randomValue = sequenceValue % 100u;
+
+    if (randomValue < 25u)
+    {
+        return PortraitId::Blink;
+    }
+
+    if (randomValue < 31u)
+    {
+        return PortraitId::Wink;
+    }
+
+    if (randomValue < 37u)
+    {
+        return PortraitId::MouthOpenRandom;
+    }
+
+    if (randomValue < 43u)
+    {
+        return PortraitId::PurseLipsRandom;
+    }
+
+    if (randomValue < 46u)
+    {
+        return PortraitId::LookUp;
+    }
+
+    if (randomValue < 52u)
+    {
+        return PortraitId::LookRight;
+    }
+
+    if (randomValue < 58u)
+    {
+        return PortraitId::LookLeft;
+    }
+
+    if (randomValue < 64u)
+    {
+        return PortraitId::LookDown;
+    }
+
+    if (randomValue < 70u)
+    {
+        return PortraitId::Portrait54;
+    }
+
+    if (randomValue < 76u)
+    {
+        return PortraitId::Portrait55;
+    }
+
+    if (randomValue < 82u)
+    {
+        return PortraitId::Portrait56;
+    }
+
+    if (randomValue < 88u)
+    {
+        return PortraitId::Portrait57;
+    }
+
+    if (randomValue < 94u)
+    {
+        return PortraitId::PurseLips1;
+    }
+
+    return PortraitId::PurseLips2;
+}
+
+uint32_t pickNormalPortraitDurationTicks(uint32_t sequenceValue)
+{
+    return 32u + (sequenceValue % 257u);
+}
+
+bool portraitExpressionAllowedForCondition(
+    const std::optional<CharacterCondition> &displayedCondition,
+    PortraitId newPortrait)
+{
+    if (!displayedCondition)
+    {
+        return true;
+    }
+
+    const std::optional<PortraitId> currentPortrait = portraitIdForCondition(*displayedCondition);
+
+    if (!currentPortrait)
+    {
+        return true;
+    }
+
+    if (*currentPortrait == PortraitId::Dead || *currentPortrait == PortraitId::Eradicated)
+    {
+        return false;
+    }
+
+    if (*currentPortrait == PortraitId::Petrified)
+    {
+        return newPortrait == PortraitId::WakeUp;
+    }
+
+    if (*currentPortrait == PortraitId::Sleep && newPortrait == PortraitId::WakeUp)
+    {
+        return true;
+    }
+
+    if ((*currentPortrait >= PortraitId::Cursed && *currentPortrait <= PortraitId::Unconscious)
+        && *currentPortrait != PortraitId::Poisoned)
+    {
+        return isDamagePortrait(newPortrait);
+    }
+
+    return true;
+}
+
+bool bypassSpeechCooldown(SpeechId speechId)
+{
+    switch (speechId)
+    {
+        case SpeechId::HelloDay:
+        case SpeechId::HelloEvening:
+        case SpeechId::DamageMajor:
+        case SpeechId::IdentifyWeakItem:
+        case SpeechId::IdentifyGreatItem:
+        case SpeechId::IdentifyFailItem:
+        case SpeechId::RepairSuccess:
+        case SpeechId::RepairFail:
+        case SpeechId::CantLearnSpell:
+        case SpeechId::LearnSpell:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+uint32_t speechSpeakerKey(size_t memberIndex, SpeechId speechId)
+{
+    switch (speechId)
+    {
+        case SpeechId::HelloDay:
+        case SpeechId::HelloEvening:
+            return 0x80000000u;
+
+        default:
+            return memberIndex + 1;
+    }
+}
+
+constexpr uint32_t SpeechReactionCooldownMs = 900;
+constexpr uint32_t CombatSpeechReactionCooldownMs = 2500;
 } // namespace
 
 GameplayScreenRuntime::GameplayScreenRuntime(GameSession &session)
@@ -1261,14 +1433,339 @@ void GameplayScreenRuntime::resetCharacterOverlayInteractionState()
     interactionState().characterPressedTarget = {};
 }
 
+void GameplayScreenRuntime::updatePartyPortraitAnimations(float deltaSeconds)
+{
+    (void)deltaSeconds;
+    Party *pParty = party();
+
+    if (pParty == nullptr)
+    {
+        return;
+    }
+
+    GameplayPortraitPresentationState &presentationState = uiRuntime().portraitPresentationState();
+    const uint32_t nowTicks = currentAnimationTicks();
+
+    if (presentationState.lastAnimationUpdateTicks == 0)
+    {
+        presentationState.lastAnimationUpdateTicks = nowTicks;
+    }
+
+    const uint32_t deltaTicks = nowTicks - presentationState.lastAnimationUpdateTicks;
+    presentationState.lastAnimationUpdateTicks = nowTicks;
+
+    if (deltaTicks == 0)
+    {
+        return;
+    }
+
+    for (size_t memberIndex = 0; memberIndex < pParty->members().size(); ++memberIndex)
+    {
+        Character *pMember = pParty->member(memberIndex);
+
+        if (pMember == nullptr)
+        {
+            continue;
+        }
+
+        updatePortraitAnimation(*pMember, memberIndex, deltaTicks);
+    }
+}
+
+void GameplayScreenRuntime::updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks)
+{
+    member.portraitElapsedTicks += deltaTicks;
+    const std::optional<CharacterCondition> displayedCondition = GameMechanics::displayedCondition(member);
+
+    if (displayedCondition)
+    {
+        const std::optional<PortraitId> conditionPortrait = portraitIdForCondition(*displayedCondition);
+
+        if (conditionPortrait)
+        {
+            if (isDamagePortrait(member.portraitState)
+                && member.portraitDurationTicks > 0
+                && member.portraitElapsedTicks < member.portraitDurationTicks)
+            {
+                return;
+            }
+
+            if (member.portraitState != *conditionPortrait || member.portraitDurationTicks != 0)
+            {
+                member.portraitState = *conditionPortrait;
+                member.portraitElapsedTicks = 0;
+                member.portraitDurationTicks = 0;
+            }
+
+            return;
+        }
+    }
+
+    if (member.portraitDurationTicks > 0 && member.portraitElapsedTicks < member.portraitDurationTicks)
+    {
+        return;
+    }
+
+    member.portraitElapsedTicks = 0;
+    const uint32_t sequenceValue =
+        mixPortraitSequenceValue(static_cast<uint32_t>(memberIndex + 1u) * 2654435761u + member.portraitSequenceCounter++);
+
+    if (member.portraitState != PortraitId::Normal || (sequenceValue % 5u) != 0u)
+    {
+        member.portraitState = PortraitId::Normal;
+        member.portraitDurationTicks = pickNormalPortraitDurationTicks(sequenceValue);
+        return;
+    }
+
+    member.portraitState = pickIdlePortrait(sequenceValue);
+    member.portraitDurationTicks = defaultPortraitAnimationLengthTicks(member.portraitState);
+}
+
+void GameplayScreenRuntime::playPortraitExpression(
+    size_t memberIndex,
+    PortraitId portraitId,
+    std::optional<uint32_t> durationTicks)
+{
+    Party *pParty = party();
+
+    if (pParty == nullptr)
+    {
+        return;
+    }
+
+    Character *pMember = pParty->member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<CharacterCondition> displayedCondition = GameMechanics::displayedCondition(*pMember);
+
+    if (!portraitExpressionAllowedForCondition(displayedCondition, portraitId))
+    {
+        return;
+    }
+
+    pMember->portraitState = portraitId;
+    pMember->portraitElapsedTicks = 0;
+    pMember->portraitDurationTicks = durationTicks.value_or(defaultPortraitAnimationLengthTicks(portraitId));
+    pMember->portraitSequenceCounter += 1;
+}
+
 void GameplayScreenRuntime::triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId)
 {
-    sceneAdapter().triggerPortraitFaceAnimation(memberIndex, animationId);
+    const FaceAnimationEntry *pEntry = uiRuntime().findFaceAnimation(animationId);
+
+    if (pEntry == nullptr || pEntry->portraitIds.empty())
+    {
+        return;
+    }
+
+    const uint32_t sequenceValue =
+        mixPortraitSequenceValue(currentAnimationTicks() ^ static_cast<uint32_t>(memberIndex + 1u) ^ pEntry->portraitIds.size());
+    const size_t choiceIndex = sequenceValue % pEntry->portraitIds.size();
+    playPortraitExpression(memberIndex, pEntry->portraitIds[choiceIndex], std::nullopt);
+}
+
+void GameplayScreenRuntime::triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId)
+{
+    const Party *pParty = partyReadOnly();
+
+    if (pParty == nullptr)
+    {
+        return;
+    }
+
+    for (size_t memberIndex = 0; memberIndex < pParty->members().size(); ++memberIndex)
+    {
+        if (pParty->members()[memberIndex].health <= 0)
+        {
+            continue;
+        }
+
+        triggerPortraitFaceAnimation(memberIndex, animationId);
+    }
+}
+
+bool GameplayScreenRuntime::canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks)
+{
+    const GameplayPortraitPresentationState &presentationState = uiRuntime().portraitPresentationState();
+
+    if (memberIndex >= presentationState.memberSpeechCooldownUntilTicks.size())
+    {
+        return true;
+    }
+
+    if (bypassSpeechCooldown(speechId))
+    {
+        return true;
+    }
+
+    if (nowTicks < presentationState.memberSpeechCooldownUntilTicks[memberIndex])
+    {
+        return false;
+    }
+
+    switch (speechId)
+    {
+        case SpeechId::KillWeakEnemy:
+        case SpeechId::KillStrongEnemy:
+            return true;
+
+        case SpeechId::AttackHit:
+        case SpeechId::AttackMiss:
+        case SpeechId::Shoot:
+        case SpeechId::CastSpell:
+        case SpeechId::DamagedParty:
+            return nowTicks >= presentationState.memberCombatSpeechCooldownUntilTicks[memberIndex];
+
+        default:
+            return true;
+    }
 }
 
 void GameplayScreenRuntime::playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
 {
-    sceneAdapter().playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
+    Party *pParty = party();
+
+    if (pParty == nullptr)
+    {
+        return;
+    }
+
+    const Character *pMember = pParty->member(memberIndex);
+
+    if (pMember == nullptr)
+    {
+        return;
+    }
+
+    const uint32_t nowTicks = currentAnimationTicks();
+
+    if (!canPlaySpeechReaction(memberIndex, speechId, nowTicks))
+    {
+        return;
+    }
+
+    const SpeechReactionEntry *pReaction = m_pAudioSystem != nullptr ? m_pAudioSystem->findSpeechReaction(speechId) : nullptr;
+    bool speechPlayed = false;
+
+    if (m_pAudioSystem != nullptr)
+    {
+        speechPlayed = m_pAudioSystem->playSpeech(
+            *pMember,
+            speechId,
+            nowTicks ^ memberIndex,
+            speechSpeakerKey(memberIndex, speechId));
+    }
+
+    if (speechPlayed)
+    {
+        GameplayPortraitPresentationState &presentationState = uiRuntime().portraitPresentationState();
+
+        if (memberIndex >= presentationState.memberSpeechCooldownUntilTicks.size())
+        {
+            presentationState.memberSpeechCooldownUntilTicks.resize(memberIndex + 1, 0);
+            presentationState.memberCombatSpeechCooldownUntilTicks.resize(memberIndex + 1, 0);
+        }
+
+        if (!bypassSpeechCooldown(speechId))
+        {
+            presentationState.memberSpeechCooldownUntilTicks[memberIndex] = nowTicks + SpeechReactionCooldownMs;
+        }
+
+        switch (speechId)
+        {
+            case SpeechId::AttackHit:
+            case SpeechId::AttackMiss:
+            case SpeechId::Shoot:
+            case SpeechId::CastSpell:
+            case SpeechId::DamagedParty:
+            case SpeechId::KillWeakEnemy:
+            case SpeechId::KillStrongEnemy:
+                presentationState.memberCombatSpeechCooldownUntilTicks[memberIndex] =
+                    nowTicks + CombatSpeechReactionCooldownMs;
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    if (!triggerFaceAnimation)
+    {
+        return;
+    }
+
+    if (pReaction != nullptr && pReaction->faceAnimationId.has_value())
+    {
+        triggerPortraitFaceAnimation(memberIndex, *pReaction->faceAnimationId);
+    }
+}
+
+void GameplayScreenRuntime::consumePendingPartyAudioRequests()
+{
+    if (m_pAudioSystem == nullptr)
+    {
+        return;
+    }
+
+    Party *pParty = party();
+
+    if (pParty == nullptr)
+    {
+        return;
+    }
+
+    const std::vector<Party::PendingAudioRequest> requests = pParty->pendingAudioRequests();
+
+    if (requests.empty())
+    {
+        return;
+    }
+
+    const GameAudioSystem::WorldPosition listenerPosition = {
+        partyX(),
+        partyY(),
+        partyFootZ(),
+    };
+
+    for (const Party::PendingAudioRequest &request : requests)
+    {
+        if (request.kind == Party::PendingAudioRequest::Kind::Speech)
+        {
+            playSpeechReaction(request.memberIndex, request.speechId, true);
+            continue;
+        }
+
+        GameAudioSystem::PlaybackGroup group = GameAudioSystem::PlaybackGroup::Ui;
+        std::optional<GameAudioSystem::WorldPosition> position = std::nullopt;
+
+        if (request.soundId == SoundId::Splash)
+        {
+            group = GameAudioSystem::PlaybackGroup::World;
+            position = listenerPosition;
+        }
+
+        const bool played = request.soundId == SoundId::DullStrike
+            || request.soundId == SoundId::MetalVsMetal01
+            || request.soundId == SoundId::MetalArmorStrike01
+            || request.soundId == SoundId::MetalArmorStrike02
+            || request.soundId == SoundId::MetalArmorStrike03
+            || request.soundId == SoundId::DullArmorStrike01
+            || request.soundId == SoundId::DullArmorStrike02
+            || request.soundId == SoundId::DullArmorStrike03
+            ? m_pAudioSystem->playCommonSoundNonResettable(request.soundId, group, position)
+            : m_pAudioSystem->playCommonSound(request.soundId, group, position);
+
+        if (!played)
+        {
+            continue;
+        }
+    }
+
+    pParty->clearPendingAudioRequests();
 }
 
 bool GameplayScreenRuntime::tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName)
@@ -1372,6 +1869,7 @@ bool GameplayScreenRuntime::ensurePortraitRuntimeLoaded()
 void GameplayScreenRuntime::resetPortraitFxStates(size_t memberCount)
 {
     uiRuntime().resetPortraitFxStates(memberCount);
+    uiRuntime().resetPortraitPresentationState(memberCount);
 }
 
 void GameplayScreenRuntime::resetOverlayInteractionState()

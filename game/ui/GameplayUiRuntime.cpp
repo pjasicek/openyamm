@@ -1137,8 +1137,10 @@ bool GameplayUiRuntime::ensurePortraitRuntimeLoaded()
         m_pAssetFileSystem->readTextFile(dataTablePath("spell_fx.txt"));
     const std::optional<std::string> portraitFxEventText =
         m_pAssetFileSystem->readTextFile(dataTablePath("portrait_fx_events.txt"));
+    const std::optional<std::string> faceAnimationText =
+        m_pAssetFileSystem->readTextFile(dataTablePath("face_animations.txt"));
 
-    if (!portraitFrameText || !iconFrameText || !spellFxText || !portraitFxEventText)
+    if (!portraitFrameText || !iconFrameText || !spellFxText || !portraitFxEventText || !faceAnimationText)
     {
         return false;
     }
@@ -1151,8 +1153,14 @@ bool GameplayUiRuntime::ensurePortraitRuntimeLoaded()
         Engine::TextTable::parseTabSeparated(*spellFxText);
     const std::optional<Engine::TextTable> parsedPortraitFxEventTable =
         Engine::TextTable::parseTabSeparated(*portraitFxEventText);
+    const std::optional<Engine::TextTable> parsedFaceAnimationTable =
+        Engine::TextTable::parseTabSeparated(*faceAnimationText);
 
-    if (!parsedPortraitFrameTable || !parsedIconFrameTable || !parsedSpellFxTable || !parsedPortraitFxEventTable)
+    if (!parsedPortraitFrameTable
+        || !parsedIconFrameTable
+        || !parsedSpellFxTable
+        || !parsedPortraitFxEventTable
+        || !parsedFaceAnimationTable)
     {
         return false;
     }
@@ -1185,10 +1193,18 @@ bool GameplayUiRuntime::ensurePortraitRuntimeLoaded()
         portraitFxEventRows.push_back(parsedPortraitFxEventTable->getRow(rowIndex));
     }
 
+    std::vector<std::vector<std::string>> faceAnimationRows;
+    faceAnimationRows.reserve(parsedFaceAnimationTable->getRowCount());
+    for (size_t rowIndex = 0; rowIndex < parsedFaceAnimationTable->getRowCount(); ++rowIndex)
+    {
+        faceAnimationRows.push_back(parsedFaceAnimationTable->getRow(rowIndex));
+    }
+
     if (!m_portraitFrameTable.loadRows(portraitFrameRows)
         || !m_iconFrameTable.loadRows(iconFrameRows)
         || !m_spellFxTable.loadFromRows(spellFxRows)
-        || !m_portraitFxEventTable.loadFromRows(portraitFxEventRows))
+        || !m_portraitFxEventTable.loadFromRows(portraitFxEventRows)
+        || !m_faceAnimationTable.loadFromRows(faceAnimationRows))
     {
         clearPortraitRuntime();
         return false;
@@ -1201,6 +1217,23 @@ bool GameplayUiRuntime::ensurePortraitRuntimeLoaded()
 void GameplayUiRuntime::resetPortraitFxStates(size_t memberCount)
 {
     m_portraitFxStates.assign(memberCount, {});
+}
+
+void GameplayUiRuntime::resetPortraitPresentationState(size_t memberCount)
+{
+    m_portraitPresentationState.lastAnimationUpdateTicks = 0;
+    m_portraitPresentationState.memberSpeechCooldownUntilTicks.assign(memberCount, 0);
+    m_portraitPresentationState.memberCombatSpeechCooldownUntilTicks.assign(memberCount, 0);
+}
+
+GameplayPortraitPresentationState &GameplayUiRuntime::portraitPresentationState()
+{
+    return m_portraitPresentationState;
+}
+
+const GameplayPortraitPresentationState &GameplayUiRuntime::portraitPresentationState() const
+{
+    return m_portraitPresentationState;
 }
 
 std::string GameplayUiRuntime::resolvePortraitTextureName(const Character &character) const
@@ -1298,6 +1331,11 @@ void GameplayUiRuntime::triggerPortraitSpellFx(const PartySpellCastResult &resul
 const PortraitFxEventEntry *GameplayUiRuntime::findPortraitFxEvent(PortraitFxEventKind kind) const
 {
     return m_portraitRuntimeLoaded ? m_portraitFxEventTable.findByKind(kind) : nullptr;
+}
+
+const FaceAnimationEntry *GameplayUiRuntime::findFaceAnimation(FaceAnimationId animationId) const
+{
+    return m_portraitRuntimeLoaded ? m_faceAnimationTable.find(animationId) : nullptr;
 }
 
 uint32_t GameplayUiRuntime::defaultPortraitAnimationLengthTicks(PortraitId portraitId) const
@@ -1442,7 +1480,9 @@ void GameplayUiRuntime::clearPortraitRuntime()
     m_iconFrameTable = {};
     m_spellFxTable = {};
     m_portraitFxEventTable = {};
+    m_faceAnimationTable = {};
     m_portraitFxStates.clear();
+    m_portraitPresentationState = {};
 }
 
 void GameplayUiRuntime::clearHudResources()

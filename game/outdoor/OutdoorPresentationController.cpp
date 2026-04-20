@@ -1,25 +1,20 @@
 #include "game/outdoor/OutdoorPresentationController.h"
 
 #include "game/audio/GameAudioSystem.h"
-#include "game/gameplay/GameMechanics.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
-#include "game/tables/PortraitEnums.h"
 #include "game/StringUtils.h"
 
 #include <SDL3/SDL.h>
 
 #include <algorithm>
 #include <cmath>
-#include <vector>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SpeechReactionCooldownMs = 900;
-constexpr uint32_t CombatSpeechReactionCooldownMs = 2500;
 constexpr uint64_t MeteorShowerImpactSoundCooldownMs = 120;
 constexpr uint64_t StarburstImpactSoundCooldownMs = 120;
 constexpr float WalkingSoundMovementSpeedThreshold = 20.0f;
@@ -27,98 +22,6 @@ constexpr float WalkingMotionHoldSeconds = 0.125f;
 constexpr uint8_t FirstRoadTileId = 198;
 constexpr uint8_t EndRoadTileId = 234;
 constexpr uint8_t EndDirtTileId = 90;
-
-uint32_t currentAnimationTicks()
-{
-    return static_cast<uint32_t>((static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL);
-}
-
-uint32_t mixPortraitSequenceValue(uint32_t value)
-{
-    value ^= value >> 16;
-    value *= 0x7feb352du;
-    value ^= value >> 15;
-    value *= 0x846ca68bu;
-    value ^= value >> 16;
-    return value;
-}
-
-PortraitId pickIdlePortrait(uint32_t sequenceValue)
-{
-    const uint32_t randomValue = sequenceValue % 100u;
-
-    if (randomValue < 25u)
-    {
-        return PortraitId::Blink;
-    }
-
-    if (randomValue < 31u)
-    {
-        return PortraitId::Wink;
-    }
-
-    if (randomValue < 37u)
-    {
-        return PortraitId::MouthOpenRandom;
-    }
-
-    if (randomValue < 43u)
-    {
-        return PortraitId::PurseLipsRandom;
-    }
-
-    if (randomValue < 46u)
-    {
-        return PortraitId::LookUp;
-    }
-
-    if (randomValue < 52u)
-    {
-        return PortraitId::LookRight;
-    }
-
-    if (randomValue < 58u)
-    {
-        return PortraitId::LookLeft;
-    }
-
-    if (randomValue < 64u)
-    {
-        return PortraitId::LookDown;
-    }
-
-    if (randomValue < 70u)
-    {
-        return PortraitId::Portrait54;
-    }
-
-    if (randomValue < 76u)
-    {
-        return PortraitId::Portrait55;
-    }
-
-    if (randomValue < 82u)
-    {
-        return PortraitId::Portrait56;
-    }
-
-    if (randomValue < 88u)
-    {
-        return PortraitId::Portrait57;
-    }
-
-    if (randomValue < 94u)
-    {
-        return PortraitId::PurseLips1;
-    }
-
-    return PortraitId::PurseLips2;
-}
-
-uint32_t pickNormalPortraitDurationTicks(uint32_t sequenceValue)
-{
-    return 32u + (sequenceValue % 257u);
-}
 
 std::optional<uint8_t> sampleOutdoorTerrainTileId(const OutdoorMapData &outdoorMapData, float x, float y)
 {
@@ -150,423 +53,7 @@ bool isDirtTerrainTileId(uint8_t tileId)
 {
     return tileId > 0 && tileId < EndDirtTileId;
 }
-
-bool portraitExpressionAllowedForCondition(
-    const std::optional<CharacterCondition> &displayedCondition,
-    PortraitId newPortrait)
-{
-    if (!displayedCondition)
-    {
-        return true;
-    }
-
-    const std::optional<PortraitId> currentPortrait = portraitIdForCondition(*displayedCondition);
-
-    if (!currentPortrait)
-    {
-        return true;
-    }
-
-    if (*currentPortrait == PortraitId::Dead || *currentPortrait == PortraitId::Eradicated)
-    {
-        return false;
-    }
-
-    if (*currentPortrait == PortraitId::Petrified)
-    {
-        return newPortrait == PortraitId::WakeUp;
-    }
-
-    if (*currentPortrait == PortraitId::Sleep && newPortrait == PortraitId::WakeUp)
-    {
-        return true;
-    }
-
-    if ((*currentPortrait >= PortraitId::Cursed && *currentPortrait <= PortraitId::Unconscious)
-        && *currentPortrait != PortraitId::Poisoned)
-    {
-        return isDamagePortrait(newPortrait);
-    }
-
-    return true;
-}
-
-bool bypassSpeechCooldown(SpeechId speechId)
-{
-    switch (speechId)
-    {
-        case SpeechId::HelloDay:
-        case SpeechId::HelloEvening:
-        case SpeechId::DamageMajor:
-        case SpeechId::IdentifyWeakItem:
-        case SpeechId::IdentifyGreatItem:
-        case SpeechId::IdentifyFailItem:
-        case SpeechId::RepairSuccess:
-        case SpeechId::RepairFail:
-        case SpeechId::CantLearnSpell:
-        case SpeechId::LearnSpell:
-            return true;
-
-        default:
-            return false;
-    }
-}
-
-uint32_t speechSpeakerKey(size_t memberIndex, SpeechId speechId)
-{
-    switch (speechId)
-    {
-        case SpeechId::HelloDay:
-        case SpeechId::HelloEvening:
-            return 0x80000000u;
-
-        default:
-            return static_cast<uint32_t>(memberIndex + 1);
-    }
-}
-
 } // namespace
-
-void OutdoorPresentationController::updatePartyPortraitAnimations(OutdoorGameView &view, float deltaSeconds)
-{
-    if (view.m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    (void)deltaSeconds;
-    const uint32_t nowTicks = currentAnimationTicks();
-
-    if (view.m_lastPortraitAnimationUpdateTicks == 0)
-    {
-        view.m_lastPortraitAnimationUpdateTicks = nowTicks;
-    }
-
-    const uint32_t deltaTicks = nowTicks - view.m_lastPortraitAnimationUpdateTicks;
-    view.m_lastPortraitAnimationUpdateTicks = nowTicks;
-
-    if (deltaTicks == 0)
-    {
-        return;
-    }
-
-    Party &party = view.m_pOutdoorPartyRuntime->party();
-
-    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
-    {
-        Character *pMember = party.member(memberIndex);
-
-        if (pMember == nullptr)
-        {
-            continue;
-        }
-
-        view.updatePortraitAnimation(*pMember, memberIndex, deltaTicks);
-    }
-}
-
-void OutdoorPresentationController::updatePortraitAnimation(
-    OutdoorGameView &view,
-    Character &member,
-    size_t memberIndex,
-    uint32_t deltaTicks)
-{
-    member.portraitElapsedTicks += deltaTicks;
-    const std::optional<CharacterCondition> displayedCondition = GameMechanics::displayedCondition(member);
-
-    if (displayedCondition)
-    {
-        const std::optional<PortraitId> conditionPortrait = portraitIdForCondition(*displayedCondition);
-
-        if (conditionPortrait)
-        {
-            if (isDamagePortrait(member.portraitState)
-                && member.portraitDurationTicks > 0
-                && member.portraitElapsedTicks < member.portraitDurationTicks)
-            {
-                return;
-            }
-
-            if (member.portraitState != *conditionPortrait || member.portraitDurationTicks != 0)
-            {
-                member.portraitState = *conditionPortrait;
-                member.portraitElapsedTicks = 0;
-                member.portraitDurationTicks = 0;
-            }
-
-            return;
-        }
-    }
-
-    if (member.portraitDurationTicks > 0 && member.portraitElapsedTicks < member.portraitDurationTicks)
-    {
-        return;
-    }
-
-    member.portraitElapsedTicks = 0;
-    const uint32_t sequenceValue = mixPortraitSequenceValue(
-        static_cast<uint32_t>(memberIndex + 1u) * 2654435761u + member.portraitSequenceCounter++);
-
-    if (member.portraitState != PortraitId::Normal || (sequenceValue % 5u) != 0u)
-    {
-        member.portraitState = PortraitId::Normal;
-        member.portraitDurationTicks = pickNormalPortraitDurationTicks(sequenceValue);
-        return;
-    }
-
-    member.portraitState = pickIdlePortrait(sequenceValue);
-    member.portraitDurationTicks = view.defaultPortraitAnimationLengthTicks(member.portraitState);
-}
-
-void OutdoorPresentationController::playPortraitExpression(
-    OutdoorGameView &view,
-    size_t memberIndex,
-    PortraitId portraitId,
-    std::optional<uint32_t> durationTicks)
-{
-    if (view.m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    Character *pMember = view.m_pOutdoorPartyRuntime->party().member(memberIndex);
-
-    if (pMember == nullptr)
-    {
-        return;
-    }
-
-    const std::optional<CharacterCondition> displayedCondition = GameMechanics::displayedCondition(*pMember);
-
-    if (!portraitExpressionAllowedForCondition(displayedCondition, portraitId))
-    {
-        return;
-    }
-
-    pMember->portraitState = portraitId;
-    pMember->portraitElapsedTicks = 0;
-    pMember->portraitDurationTicks = durationTicks.value_or(view.defaultPortraitAnimationLengthTicks(portraitId));
-    pMember->portraitSequenceCounter += 1;
-}
-
-void OutdoorPresentationController::triggerPortraitFaceAnimation(
-    OutdoorGameView &view,
-    size_t memberIndex,
-    FaceAnimationId animationId)
-{
-    const FaceAnimationEntry *pEntry = view.m_faceAnimationTable.find(animationId);
-
-    if (pEntry == nullptr || pEntry->portraitIds.empty())
-    {
-        return;
-    }
-
-    const uint32_t sequenceValue = mixPortraitSequenceValue(
-        currentAnimationTicks() ^ static_cast<uint32_t>(memberIndex + 1u) ^ static_cast<uint32_t>(pEntry->portraitIds.size()));
-    const size_t choiceIndex = static_cast<size_t>(sequenceValue % pEntry->portraitIds.size());
-
-    view.playPortraitExpression(memberIndex, pEntry->portraitIds[choiceIndex]);
-}
-
-void OutdoorPresentationController::triggerPortraitFaceAnimationForAllLivingMembers(
-    OutdoorGameView &view,
-    FaceAnimationId animationId)
-{
-    if (view.m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    const std::vector<Character> &members = view.m_pOutdoorPartyRuntime->party().members();
-
-    for (size_t memberIndex = 0; memberIndex < members.size(); ++memberIndex)
-    {
-        if (members[memberIndex].health <= 0)
-        {
-            continue;
-        }
-
-        view.triggerPortraitFaceAnimation(memberIndex, animationId);
-    }
-}
-
-bool OutdoorPresentationController::canPlaySpeechReaction(
-    OutdoorGameView &view,
-    size_t memberIndex,
-    SpeechId speechId,
-    uint32_t nowTicks)
-{
-    if (memberIndex >= view.m_memberSpeechCooldownUntilTicks.size())
-    {
-        return true;
-    }
-
-    if (bypassSpeechCooldown(speechId))
-    {
-        return true;
-    }
-
-    if (nowTicks < view.m_memberSpeechCooldownUntilTicks[memberIndex])
-    {
-        return false;
-    }
-
-    switch (speechId)
-    {
-    case SpeechId::KillWeakEnemy:
-    case SpeechId::KillStrongEnemy:
-        return true;
-
-    case SpeechId::AttackHit:
-    case SpeechId::AttackMiss:
-    case SpeechId::Shoot:
-    case SpeechId::CastSpell:
-    case SpeechId::DamagedParty:
-        return nowTicks >= view.m_memberCombatSpeechCooldownUntilTicks[memberIndex];
-
-    default:
-        return true;
-    }
-}
-
-void OutdoorPresentationController::playSpeechReaction(
-    OutdoorGameView &view,
-    size_t memberIndex,
-    SpeechId speechId,
-    bool triggerFaceAnimation)
-{
-    if (view.m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    const Character *pMember = view.m_pOutdoorPartyRuntime->party().member(memberIndex);
-
-    if (pMember == nullptr)
-    {
-        return;
-    }
-
-    const uint32_t nowTicks = currentAnimationTicks();
-
-    if (!canPlaySpeechReaction(view, memberIndex, speechId, nowTicks))
-    {
-        return;
-    }
-
-    const SpeechReactionEntry *pReaction =
-        view.m_pGameAudioSystem != nullptr ? view.m_pGameAudioSystem->findSpeechReaction(speechId) : nullptr;
-    bool speechPlayed = false;
-
-    if (view.m_pGameAudioSystem != nullptr)
-    {
-        speechPlayed = view.m_pGameAudioSystem->playSpeech(
-            *pMember,
-            speechId,
-            nowTicks ^ static_cast<uint32_t>(memberIndex),
-            speechSpeakerKey(memberIndex, speechId));
-    }
-
-    if (speechPlayed)
-    {
-        if (memberIndex >= view.m_memberSpeechCooldownUntilTicks.size())
-        {
-            view.m_memberSpeechCooldownUntilTicks.resize(memberIndex + 1, 0);
-            view.m_memberCombatSpeechCooldownUntilTicks.resize(memberIndex + 1, 0);
-        }
-
-        if (!bypassSpeechCooldown(speechId))
-        {
-            view.m_memberSpeechCooldownUntilTicks[memberIndex] = nowTicks + SpeechReactionCooldownMs;
-        }
-
-        switch (speechId)
-        {
-        case SpeechId::AttackHit:
-        case SpeechId::AttackMiss:
-        case SpeechId::Shoot:
-        case SpeechId::CastSpell:
-        case SpeechId::DamagedParty:
-        case SpeechId::KillWeakEnemy:
-        case SpeechId::KillStrongEnemy:
-            view.m_memberCombatSpeechCooldownUntilTicks[memberIndex] = nowTicks + CombatSpeechReactionCooldownMs;
-            break;
-
-        default:
-            break;
-        }
-    }
-
-    if (!triggerFaceAnimation)
-    {
-        return;
-    }
-
-    if (pReaction != nullptr && pReaction->faceAnimationId)
-    {
-        view.triggerPortraitFaceAnimation(memberIndex, *pReaction->faceAnimationId);
-    }
-}
-
-void OutdoorPresentationController::consumePendingPartyAudioRequests(OutdoorGameView &view)
-{
-    if (view.m_pGameAudioSystem == nullptr || view.m_pOutdoorPartyRuntime == nullptr)
-    {
-        return;
-    }
-
-    Party &party = view.m_pOutdoorPartyRuntime->party();
-    const std::vector<Party::PendingAudioRequest> requests = party.pendingAudioRequests();
-
-    if (requests.empty())
-    {
-        return;
-    }
-
-    std::optional<GameAudioSystem::WorldPosition> listenerPosition = std::nullopt;
-    const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
-    listenerPosition = GameAudioSystem::WorldPosition{
-        moveState.x,
-        moveState.y,
-        moveState.footZ + view.m_cameraEyeHeight
-    };
-
-    for (const Party::PendingAudioRequest &request : requests)
-    {
-        if (request.kind == Party::PendingAudioRequest::Kind::Speech)
-        {
-            view.playSpeechReaction(request.memberIndex, request.speechId, true);
-            continue;
-        }
-
-        GameAudioSystem::PlaybackGroup group = GameAudioSystem::PlaybackGroup::Ui;
-        std::optional<GameAudioSystem::WorldPosition> position = std::nullopt;
-
-        if (request.soundId == SoundId::Splash)
-        {
-            group = GameAudioSystem::PlaybackGroup::World;
-            position = listenerPosition;
-        }
-
-        const bool played = request.soundId == SoundId::DullStrike
-            || request.soundId == SoundId::MetalVsMetal01
-            || request.soundId == SoundId::MetalArmorStrike01
-            || request.soundId == SoundId::MetalArmorStrike02
-            || request.soundId == SoundId::MetalArmorStrike03
-            || request.soundId == SoundId::DullArmorStrike01
-            || request.soundId == SoundId::DullArmorStrike02
-            || request.soundId == SoundId::DullArmorStrike03
-            ? view.m_pGameAudioSystem->playCommonSoundNonResettable(request.soundId, group, position)
-            : view.m_pGameAudioSystem->playCommonSound(request.soundId, group, position);
-
-        if (!played)
-        {
-            continue;
-        }
-    }
-
-    party.clearPendingAudioRequests();
-}
 
 void OutdoorPresentationController::consumePendingWorldAudioEvents(OutdoorGameView &view)
 {
@@ -762,92 +249,47 @@ void OutdoorPresentationController::updateFootstepAudio(OutdoorGameView &view, f
     const auto chooseTerrainFootstepSound =
         [&view, running, &moveState]() -> SoundId
         {
-            if (!view.m_outdoorMapData)
-            {
-                return running ? SoundId::RunGround : SoundId::WalkGround;
-            }
-
-            if (const std::optional<uint8_t> tileId = sampleOutdoorTerrainTileId(*view.m_outdoorMapData, moveState.x, moveState.y))
-            {
-                if (isRoadTerrainTileId(*tileId))
-                {
-                    return running ? SoundId::RunRoad : SoundId::WalkRoad;
-                }
-
-                if (isDirtTerrainTileId(*tileId))
-                {
-                    return running ? SoundId::RunDirt : SoundId::WalkDirt;
-                }
-            }
-
-            const std::string tileset = toLowerCopy(view.m_outdoorMapData->groundTilesetName);
-
-            if (tileset.find("grass") != std::string::npos)
+            if (!view.m_outdoorMapData || moveState.supportKind != OutdoorSupportKind::Terrain)
             {
                 return running ? SoundId::RunGrass : SoundId::WalkGrass;
             }
 
-            if (tileset.find("desert") != std::string::npos || tileset.find("sand") != std::string::npos)
+            const std::optional<uint8_t> terrainTileId =
+                sampleOutdoorTerrainTileId(*view.m_outdoorMapData, moveState.x, moveState.y);
+
+            if (!terrainTileId.has_value())
             {
-                return running ? SoundId::RunDesert : SoundId::WalkDesert;
+                return running ? SoundId::RunGrass : SoundId::WalkGrass;
             }
 
-            if (tileset.find("snow") != std::string::npos || tileset.find("ice") != std::string::npos)
-            {
-                return running ? SoundId::RunSnow : SoundId::WalkSnow;
-            }
-
-            if (tileset.find("swamp") != std::string::npos)
-            {
-                return running ? SoundId::RunSwamp : SoundId::WalkSwamp;
-            }
-
-            if (tileset.find("badland") != std::string::npos)
-            {
-                return running ? SoundId::RunBadlands : SoundId::WalkBadlands;
-            }
-
-            if (tileset.find("road") != std::string::npos)
+            if (isRoadTerrainTileId(*terrainTileId))
             {
                 return running ? SoundId::RunRoad : SoundId::WalkRoad;
             }
 
-            return running ? SoundId::RunGround : SoundId::WalkGround;
+            if (isDirtTerrainTileId(*terrainTileId))
+            {
+                return running ? SoundId::RunDirt : SoundId::WalkDirt;
+            }
+
+            return running ? SoundId::RunGrass : SoundId::WalkGrass;
         };
 
-    SoundId soundId = SoundId::None;
+    const SoundId desiredSoundId = moveState.supportKind == OutdoorSupportKind::BModelFace
+        ? chooseBModelFootstepSound()
+        : chooseTerrainFootstepSound();
 
-    if (moveState.supportOnWater)
-    {
-        soundId = running ? SoundId::RunWater : SoundId::WalkWater;
-    }
-    else if (moveState.supportKind == OutdoorSupportKind::BModelFace)
-    {
-        soundId = chooseBModelFootstepSound();
-    }
-    else
-    {
-        soundId = chooseTerrainFootstepSound();
-    }
-
-    if (soundId == SoundId::None)
-    {
-        view.m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
-        view.m_activeWalkingSoundId = std::nullopt;
-        return;
-    }
-
-    if (view.m_activeWalkingSoundId && *view.m_activeWalkingSoundId == soundId)
+    if (view.m_activeWalkingSoundId == desiredSoundId)
     {
         return;
     }
 
-    if (view.m_pGameAudioSystem->playLoopingSound(
-            static_cast<uint32_t>(soundId),
-            GameAudioSystem::PlaybackGroup::Walking))
-    {
-        view.m_activeWalkingSoundId = soundId;
-    }
+    view.m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+    const bool played =
+        view.m_pGameAudioSystem->playLoopingSound(
+            static_cast<uint32_t>(desiredSoundId),
+            GameAudioSystem::PlaybackGroup::Walking);
+
+    view.m_activeWalkingSoundId = played ? std::optional<SoundId>(desiredSoundId) : std::nullopt;
 }
-
 } // namespace OpenYAMM::Game

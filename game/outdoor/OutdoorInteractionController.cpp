@@ -1081,7 +1081,7 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
     callbacks.playSpeechReaction =
         [&view](size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
         {
-            view.playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
+            view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
         };
     callbacks.playHouseSound =
         [&view](uint32_t soundId)
@@ -1273,7 +1273,7 @@ void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &vi
 
         if (pParty != nullptr)
         {
-            view.triggerPortraitFaceAnimation(
+            view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
                 pParty->activeMemberIndex(),
                 FaceAnimationId::ItemSold);
         }
@@ -1341,7 +1341,7 @@ void OutdoorInteractionController::presentPendingEventDialog(OutdoorGameView &vi
                     currentHour >= 0 && (currentHour < 5 || currentHour > 21)
                         ? SpeechId::HelloEvening
                         : SpeechId::HelloDay;
-                view.playSpeechReaction(activeMemberIndex, greetingSpeechId, true);
+                view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(activeMemberIndex, greetingSpeechId, true);
             }
         });
 }
@@ -3464,7 +3464,7 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
             }
 
             view.m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
-            view.playSpeechReaction(recipientMemberIndex, SpeechId::FoundItem, true);
+            view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(recipientMemberIndex, SpeechId::FoundItem, true);
             view.setStatusBarEvent("Picked up " + itemName);
 
             if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
@@ -3491,7 +3491,10 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
             view.m_heldInventoryItem.grabOffsetX = 0.0f;
             view.m_heldInventoryItem.grabOffsetY = 0.0f;
             view.m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
-            view.playSpeechReaction(view.m_pOutdoorPartyRuntime->party().activeMemberIndex(), SpeechId::FoundItem, true);
+            view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
+                view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
+                SpeechId::FoundItem,
+                true);
             view.setStatusBarEvent("Picked up " + itemName);
 
             if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
@@ -4105,13 +4108,20 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
 
             if (!event.hit)
             {
-                view.triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackMiss);
-                view.playSpeechReaction(event.sourcePartyMemberIndex, SpeechId::AttackMiss, false);
+                view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
+                    event.sourcePartyMemberIndex,
+                    FaceAnimationId::AttackMiss);
+                view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
+                    event.sourcePartyMemberIndex,
+                    SpeechId::AttackMiss,
+                    false);
                 view.showCombatStatusBarEvent(sourceName + " misses " + targetName);
             }
             else if (event.killed)
             {
-                view.triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackHit);
+                view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
+                    event.sourcePartyMemberIndex,
+                    FaceAnimationId::AttackHit);
                 SpeechId speechId = SpeechId::AttackHit;
 
                 if ((currentAnimationTicks() + event.targetActorId) % 100u < KillSpeechChancePercent)
@@ -4121,7 +4131,10 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
                         : SpeechId::KillWeakEnemy;
                 }
 
-                view.playSpeechReaction(event.sourcePartyMemberIndex, speechId, false);
+                view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
+                    event.sourcePartyMemberIndex,
+                    speechId,
+                    false);
                 if (event.spellId > 0)
                 {
                     view.showCombatStatusBarEvent(
@@ -4135,8 +4148,13 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
             }
             else
             {
-                view.triggerPortraitFaceAnimation(event.sourcePartyMemberIndex, FaceAnimationId::AttackHit);
-                view.playSpeechReaction(event.sourcePartyMemberIndex, SpeechId::AttackHit, false);
+                view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
+                    event.sourcePartyMemberIndex,
+                    FaceAnimationId::AttackHit);
+                view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
+                    event.sourcePartyMemberIndex,
+                    SpeechId::AttackHit,
+                    false);
                 if (event.spellId > 0)
                 {
                     view.showCombatStatusBarEvent(
@@ -4297,11 +4315,14 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
 
             if (event.affectsAllParty)
             {
-                view.triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId::DamagedParty);
+                view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimationForAllLivingMembers(
+                    FaceAnimationId::DamagedParty);
             }
             else
             {
-                view.triggerPortraitFaceAnimation(*targetMemberIndex, FaceAnimationId::Damaged);
+                view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
+                    *targetMemberIndex,
+                    FaceAnimationId::Damaged);
             }
 
             std::cout << "Party damaged source=" << sourceName

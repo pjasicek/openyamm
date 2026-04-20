@@ -3494,11 +3494,6 @@ bool OutdoorGameView::initialize(
     screenRuntime.initializeHouseVideoPlayer();
     screenRuntime.resetPortraitFxStates(5);
 
-    if (!loadPortraitAnimationData(assetFileSystem))
-    {
-        std::cout << "HUD portrait animation load failed\n";
-    }
-
     if (!loadPortraitFxData(assetFileSystem))
     {
         std::cout << "HUD portrait FX load failed\n";
@@ -3740,7 +3735,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
         height,
         deltaSeconds,
         GameplayScreenFrameUpdateConfig{.updateBuffInspectOverlay = m_showGameplayHud});
-    updatePartyPortraitAnimations(deltaSeconds);
 
     if (m_pOutdoorPartyRuntime != nullptr)
     {
@@ -4808,19 +4802,18 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                                 : SpeechId::KillWeakEnemy;
                                         }
 
-                                        triggerPortraitFaceAnimation(
+                                        overlayContext.triggerPortraitFaceAnimation(
                                             party.activeMemberIndex(),
                                             attacked && attack.hit ? FaceAnimationId::AttackHit : FaceAnimationId::AttackMiss);
-                                        playSpeechReaction(
-                                            party.activeMemberIndex(),
-                                            speechId,
-                                            false);
+                                        overlayContext.playSpeechReaction(party.activeMemberIndex(), speechId, false);
                                     }
                                 }
                                 else
                                 {
-                                    triggerPortraitFaceAnimation(party.activeMemberIndex(), FaceAnimationId::Shoot);
-                                    playSpeechReaction(party.activeMemberIndex(), SpeechId::Shoot, false);
+                                    overlayContext.triggerPortraitFaceAnimation(
+                                        party.activeMemberIndex(),
+                                        FaceAnimationId::Shoot);
+                                    overlayContext.playSpeechReaction(party.activeMemberIndex(), SpeechId::Shoot, false);
                                 }
 
                                 party.switchToNextReadyMember();
@@ -5525,7 +5518,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     }
 
     updateFootstepAudio(deltaSeconds);
-    consumePendingPartyAudioRequests();
     consumePendingEventRuntimeAudioRequests();
     consumePendingWorldAudioEvents();
 
@@ -5866,8 +5858,6 @@ void OutdoorGameView::shutdown()
 
     resetRuntimeState();
     m_pGameAudioSystem = nullptr;
-    m_faceAnimationTable = {};
-    m_lastPortraitAnimationUpdateTicks = 0;
     m_outdoorDecorationBillboardSet.reset();
     m_outdoorActorPreviewBillboardSet.reset();
     m_outdoorSpriteObjectBillboardSet.reset();
@@ -5940,8 +5930,6 @@ void OutdoorGameView::shutdown()
     m_hasLastFootstepPosition = false;
     m_walkingMotionHoldSeconds = 0.0f;
     m_activeWalkingSoundId = std::nullopt;
-    m_memberSpeechCooldownUntilTicks.clear();
-    m_memberCombatSpeechCooldownUntilTicks.clear();
     m_activeHouseAudioHostId = 0;
 }
 
@@ -6300,7 +6288,7 @@ void OutdoorGameView::tryApplyWorldItemInspectSkillInteraction()
                 return;
             }
 
-            playSpeechReaction(activeMemberIndex, speechId, true);
+            m_gameSession.gameplayScreenRuntime().playSpeechReaction(activeMemberIndex, speechId, true);
             reactionPlayed = true;
         };
 
@@ -6967,7 +6955,7 @@ void OutdoorGameView::triggerPortraitEventFxWithoutSpeech(size_t memberIndex, Po
 
     if (pEntry->faceAnimationId.has_value())
     {
-        triggerPortraitFaceAnimation(memberIndex, *pEntry->faceAnimationId);
+        m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(memberIndex, *pEntry->faceAnimationId);
     }
 
     if (m_pGameAudioSystem == nullptr)
@@ -7451,69 +7439,6 @@ std::optional<bx::Vec3> OutdoorGameView::resolveQuickCastCursorTargetPoint(float
     };
 }
 
-bool OutdoorGameView::loadPortraitAnimationData(const Engine::AssetFileSystem &assetFileSystem)
-{
-    m_faceAnimationTable = {};
-    const std::optional<std::string> faceAnimationText =
-        assetFileSystem.readTextFile(dataTablePath("face_animations.txt"));
-
-    if (!faceAnimationText)
-    {
-        return false;
-    }
-
-    const std::optional<Engine::TextTable> parsedTable = Engine::TextTable::parseTabSeparated(*faceAnimationText);
-
-    if (!parsedTable)
-    {
-        return false;
-    }
-
-    std::vector<std::vector<std::string>> rows;
-    rows.reserve(parsedTable->getRowCount());
-
-    for (size_t rowIndex = 0; rowIndex < parsedTable->getRowCount(); ++rowIndex)
-    {
-        rows.push_back(parsedTable->getRow(rowIndex));
-    }
-
-    return m_gameSession.gameplayScreenRuntime().ensurePortraitRuntimeLoaded()
-        && m_faceAnimationTable.loadFromRows(rows);
-}
-
-void OutdoorGameView::updatePartyPortraitAnimations(float deltaSeconds)
-{
-    OutdoorPresentationController::updatePartyPortraitAnimations(*this, deltaSeconds);
-}
-
-void OutdoorGameView::updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks)
-{
-    OutdoorPresentationController::updatePortraitAnimation(*this, member, memberIndex, deltaTicks);
-}
-
-void OutdoorGameView::playPortraitExpression(
-    size_t memberIndex,
-    PortraitId portraitId,
-    std::optional<uint32_t> durationTicks)
-{
-    OutdoorPresentationController::playPortraitExpression(*this, memberIndex, portraitId, durationTicks);
-}
-
-void OutdoorGameView::triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId)
-{
-    OutdoorPresentationController::triggerPortraitFaceAnimation(*this, memberIndex, animationId);
-}
-
-void OutdoorGameView::triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId)
-{
-    OutdoorPresentationController::triggerPortraitFaceAnimationForAllLivingMembers(*this, animationId);
-}
-
-uint32_t OutdoorGameView::defaultPortraitAnimationLengthTicks(PortraitId portraitId) const
-{
-    return m_gameSession.gameplayScreenRuntime().defaultPortraitAnimationLengthTicks(portraitId);
-}
-
 const AdventurersInnMember *OutdoorGameView::selectedAdventurersInnMember() const
 {
     if (m_pOutdoorPartyRuntime == nullptr || m_characterScreenSource != CharacterScreenSource::AdventurersInn)
@@ -7550,80 +7475,6 @@ bool OutdoorGameView::triggerPortraitFxAnimation(
 void OutdoorGameView::triggerPortraitSpellFx(const PartySpellCastResult &result)
 {
     m_gameSession.gameplayScreenRuntime().triggerPortraitSpellFx(result);
-}
-
-void OutdoorGameView::triggerPortraitEventFx(const EventRuntimeState::PortraitFxRequest &request)
-{
-    const PortraitFxEventEntry *pEntry = m_gameSession.gameplayScreenRuntime().findPortraitFxEvent(request.kind);
-
-    if (pEntry == nullptr)
-    {
-        return;
-    }
-
-    m_gameSession.gameplayScreenRuntime().triggerPortraitFxAnimation(
-        pEntry->animationName,
-        request.memberIndices);
-
-    if (pEntry->faceAnimationId.has_value())
-    {
-        for (size_t memberIndex : request.memberIndices)
-        {
-            triggerPortraitFaceAnimation(memberIndex, *pEntry->faceAnimationId);
-        }
-    }
-
-    if (m_pGameAudioSystem == nullptr || request.memberIndices.empty())
-    {
-        return;
-    }
-
-    switch (request.kind)
-    {
-        case PortraitFxEventKind::AutoNote:
-            m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-            break;
-
-        case PortraitFxEventKind::AwardGain:
-            m_pGameAudioSystem->playCommonSound(SoundId::Chimes, GameAudioSystem::PlaybackGroup::Ui);
-            playSpeechReaction(request.memberIndices.front(), SpeechId::AwardGot, false);
-            break;
-
-        case PortraitFxEventKind::QuestComplete:
-            m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-            playSpeechReaction(request.memberIndices.front(), SpeechId::QuestGot, false);
-            break;
-
-        case PortraitFxEventKind::StatIncrease:
-            m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-            break;
-
-        case PortraitFxEventKind::StatDecrease:
-            playSpeechReaction(request.memberIndices.front(), SpeechId::Indignant, false);
-            break;
-
-        case PortraitFxEventKind::Disease:
-            playSpeechReaction(request.memberIndices.front(), SpeechId::Poisoned, false);
-            break;
-
-        case PortraitFxEventKind::None:
-            break;
-    }
-}
-
-void OutdoorGameView::playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
-{
-    OutdoorPresentationController::playSpeechReaction(*this, memberIndex, speechId, triggerFaceAnimation);
-}
-
-bool OutdoorGameView::canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks)
-{
-    return OutdoorPresentationController::canPlaySpeechReaction(*this, memberIndex, speechId, nowTicks);
-}
-
-void OutdoorGameView::consumePendingPartyAudioRequests()
-{
-    OutdoorPresentationController::consumePendingPartyAudioRequests(*this);
 }
 
 void OutdoorGameView::consumePendingEventRuntimeAudioRequests()
@@ -7711,8 +7562,9 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
             closeUtilitySpellUi();
         }
 
-        triggerPortraitFaceAnimation(resolvedRequest.casterMemberIndex, FaceAnimationId::CastSpell);
-        playSpeechReaction(resolvedRequest.casterMemberIndex, SpeechId::CastSpell, false);
+        GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+        screenRuntime.triggerPortraitFaceAnimation(resolvedRequest.casterMemberIndex, FaceAnimationId::CastSpell);
+        screenRuntime.playSpeechReaction(resolvedRequest.casterMemberIndex, SpeechId::CastSpell, false);
         triggerPortraitSpellFx(result);
         m_outdoorFxRuntime.triggerPartySpellFx(*this, result);
 
@@ -7819,7 +7671,9 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
         closeUtilitySpellUi();
     }
 
-    triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::SpellFailed);
+    m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
+        request.casterMemberIndex,
+        FaceAnimationId::SpellFailed);
     if (m_pGameAudioSystem != nullptr)
     {
         const uint64_t nowTicks = SDL_GetTicks();
@@ -7906,7 +7760,7 @@ bool OutdoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepC
             && m_pGameAudioSystem != nullptr)
         {
             m_pGameAudioSystem->playCommonSound(SoundId::Drink, GameAudioSystem::PlaybackGroup::Ui);
-            triggerPortraitFaceAnimation(memberIndex, FaceAnimationId::DrinkPotion);
+            m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(memberIndex, FaceAnimationId::DrinkPotion);
         }
 
         if (useResult.action == InventoryItemUseAction::UseHorseshoe && useResult.consumed)
@@ -7923,7 +7777,7 @@ bool OutdoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepC
 
         if (useResult.speechId.has_value())
         {
-            playSpeechReaction(memberIndex, *useResult.speechId, true);
+            m_gameSession.gameplayScreenRuntime().playSpeechReaction(memberIndex, *useResult.speechId, true);
         }
     }
 
@@ -8074,7 +7928,9 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
         else
         {
             const std::string statusText = result.statusText.empty() ? "Spell failed" : result.statusText;
-            triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::SpellFailed);
+            m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
+                request.casterMemberIndex,
+                FaceAnimationId::SpellFailed);
             if (m_pGameAudioSystem != nullptr)
             {
                 const uint64_t nowTicks = SDL_GetTicks();
@@ -8092,8 +7948,9 @@ bool OutdoorGameView::tryResolvePendingSpellCast(
         return false;
     }
 
-    triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::CastSpell);
-    playSpeechReaction(request.casterMemberIndex, SpeechId::CastSpell, false);
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    screenRuntime.triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::CastSpell);
+    screenRuntime.playSpeechReaction(request.casterMemberIndex, SpeechId::CastSpell, false);
     triggerPortraitSpellFx(result);
     m_outdoorFxRuntime.triggerPartySpellFx(*this, result);
 

@@ -16,7 +16,6 @@
 #include "game/tables/CharacterInspectTable.h"
 #include "game/events/EventDialogContent.h"
 #include "game/events/EventRuntime.h"
-#include "game/tables/FaceAnimationTable.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/JournalAutonoteTable.h"
@@ -479,13 +478,11 @@ public:
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void executeActiveDialogAction() override;
     bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) override;
-    void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId) override;
     void updateReadableScrollOverlayForHeldItem(
         size_t memberIndex,
         const CharacterPointerTarget &pointerTarget,
         bool isLeftMousePressed);
     void closeReadableScrollOverlay();
-    void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) override;
     bool tryCastSpellFromMember(
         size_t casterMemberIndex,
         uint32_t spellId,
@@ -520,20 +517,11 @@ private:
     void updateItemInspectOverlayState(int width, int height);
     void tryApplyWorldItemInspectSkillInteraction();
     void updateActorInspectOverlayState(int width, int height);
-    bool loadPortraitAnimationData(const Engine::AssetFileSystem &assetFileSystem);
     bool loadPortraitFxData(const Engine::AssetFileSystem &assetFileSystem);
-    void updatePartyPortraitAnimations(float deltaSeconds);
-    void updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks);
-    void playPortraitExpression(size_t memberIndex, PortraitId portraitId, std::optional<uint32_t> durationTicks = std::nullopt);
-    void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
-    uint32_t defaultPortraitAnimationLengthTicks(PortraitId portraitId) const;
     const AdventurersInnMember *selectedAdventurersInnMember() const;
     AdventurersInnMember *selectedAdventurersInnMember();
     bool triggerPortraitFxAnimation(const std::string &animationName, const std::vector<size_t> &memberIndices);
     void triggerPortraitSpellFx(const PartySpellCastResult &result);
-    void triggerPortraitEventFx(const EventRuntimeState::PortraitFxRequest &request);
-    bool canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks);
-    void consumePendingPartyAudioRequests();
     void consumePendingEventRuntimeAudioRequests();
     void consumePendingWorldAudioEvents();
     void updateFootstepAudio(float deltaSeconds);
@@ -583,7 +571,6 @@ private:
     std::optional<ActorPreviewBillboardSet> m_outdoorActorPreviewBillboardSet;
     std::optional<SpriteObjectBillboardSet> m_outdoorSpriteObjectBillboardSet;
     std::optional<MapDeltaData> m_outdoorMapDeltaData;
-    FaceAnimationTable m_faceAnimationTable;
     GameAudioSystem *m_pGameAudioSystem;
     OutdoorSceneRuntime *m_pOutdoorSceneRuntime;
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
@@ -659,7 +646,6 @@ private:
     float m_lastSkyUpdateElapsedTime = -1.0f;
     std::vector<AnimatedWaterTerrainTileState> m_animatedWaterTerrainTiles;
     SpriteLoadCache m_spriteLoadCache;
-    uint32_t m_lastPortraitAnimationUpdateTicks = 0;
     std::vector<uint16_t> m_pendingSpriteFrameWarmups;
     std::vector<bool> m_queuedSpriteFrameWarmups;
     size_t m_nextPendingSpriteFrameWarmupIndex;
@@ -688,8 +674,6 @@ private:
     bool m_hasLastFootstepPosition;
     float m_walkingMotionHoldSeconds = 0.0f;
     std::optional<SoundId> m_activeWalkingSoundId;
-    std::vector<uint32_t> m_memberSpeechCooldownUntilTicks;
-    std::vector<uint32_t> m_memberCombatSpeechCooldownUntilTicks;
     uint32_t m_activeHouseAudioHostId;
     bool m_showTerrainWireframe;
     bool m_showBModels;

@@ -29,7 +29,11 @@ struct IndoorSceneDecorationFlag
 struct IndoorSceneFaceAttributeOverride
 {
     size_t faceIndex = 0;
-    uint32_t legacyAttributes = 0;
+    std::optional<uint32_t> legacyAttributes;
+    std::optional<uint16_t> textureFrameTableCog;
+    std::optional<uint16_t> cogNumber;
+    std::optional<uint16_t> cogTriggered;
+    std::optional<uint16_t> cogTriggerType;
 };
 
 struct IndoorSceneDoor
@@ -66,9 +70,13 @@ public:
     std::optional<IndoorSceneData> loadFromText(const std::string &yamlText, std::string &errorMessage) const;
 };
 
+const IndoorSceneFaceAttributeOverride *findIndoorSceneFaceOverride(const IndoorSceneData &sceneData, size_t faceIndex);
+IndoorSceneFaceAttributeOverride *findIndoorSceneFaceOverride(IndoorSceneData &sceneData, size_t faceIndex);
+void applyIndoorSceneFaceOverride(const IndoorSceneFaceAttributeOverride &overrideEntry, IndoorFace &face);
+
 bool buildIndoorMapStateFromScene(
     const IndoorSceneData &sceneData,
-    const IndoorMapData &indoorMapData,
+    IndoorMapData &indoorMapData,
     MapDeltaData &mapDeltaData,
     std::string &errorMessage);
 }

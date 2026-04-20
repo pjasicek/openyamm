@@ -165,8 +165,12 @@ public:
     void resetDialogueOverlayInteractionState();
     void resetSpellbookOverlayInteractionState();
     void resetCharacterOverlayInteractionState();
+    void updatePartyPortraitAnimations(float deltaSeconds);
     void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId);
+    void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
+    bool canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks);
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
+    void consumePendingPartyAudioRequests();
     bool tryCastSpellFromMember(
         size_t casterMemberIndex,
         uint32_t spellId,
@@ -361,6 +365,8 @@ private:
     GameplayUiController &uiController() const;
     GameplayUiRuntime &uiRuntime() const;
     GameplayDialogUiFlowState dialogUiFlowState();
+    void updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks);
+    void playPortraitExpression(size_t memberIndex, PortraitId portraitId, std::optional<uint32_t> durationTicks);
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
     void presentPendingEventDialogShared(size_t previousMessageCount, bool allowNpcFallbackContent);
     void closeActiveEventDialogShared();

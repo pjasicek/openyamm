@@ -35,6 +35,9 @@ void GameplayScreenController::updateSharedFrameState(
     float deltaSeconds,
     const GameplayScreenFrameUpdateConfig &config)
 {
+    context.updatePartyPortraitAnimations(deltaSeconds);
+    context.consumePendingPartyAudioRequests();
+
     float &statusBarRemainingSeconds = context.statusBarEventRemainingSeconds();
 
     if (statusBarRemainingSeconds > 0.0f)

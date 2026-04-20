@@ -1264,7 +1264,7 @@ bool IndoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCh
 
         if (useResult.speechId.has_value())
         {
-            playSpeechReaction(memberIndex, *useResult.speechId, true);
+            m_gameSession.gameplayScreenRuntime().playSpeechReaction(memberIndex, *useResult.speechId, true);
         }
     }
 
@@ -1335,19 +1335,6 @@ void IndoorGameView::updateReadableScrollOverlayForHeldItem(
 void IndoorGameView::closeReadableScrollOverlay()
 {
     m_gameplayUiController.closeReadableScrollOverlay();
-}
-
-void IndoorGameView::playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
-{
-    (void)memberIndex;
-    (void)speechId;
-    (void)triggerFaceAnimation;
-}
-
-void IndoorGameView::triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId)
-{
-    (void)memberIndex;
-    (void)animationId;
 }
 
 bool IndoorGameView::tryCastSpellFromMember(
@@ -1599,7 +1586,7 @@ GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntim
     callbacks.playSpeechReaction =
         [this](size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
         {
-            playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
+            m_gameSession.gameplayScreenRuntime().playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
         };
     callbacks.playHouseSound =
         [this](uint32_t soundId)

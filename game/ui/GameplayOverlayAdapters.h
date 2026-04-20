@@ -46,8 +46,6 @@ public:
 
     virtual void executeActiveDialogAction() = 0;
     virtual bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) = 0;
-    virtual void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId) = 0;
-    virtual void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) = 0;
     virtual bool tryCastSpellFromMember(
         size_t casterMemberIndex,
         uint32_t spellId,

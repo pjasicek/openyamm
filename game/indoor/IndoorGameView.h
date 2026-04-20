@@ -74,14 +74,12 @@ public:
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void executeActiveDialogAction() override;
     bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) override;
-    void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId) override;
     void updateReadableScrollOverlayForHeldItem(
         size_t memberIndex,
         const GameplayCharacterPointerTarget &pointerTarget,
         bool isLeftMousePressed);
     void closeReadableScrollOverlay();
     void closeInventoryNestedOverlay();
-    void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) override;
     bool tryCastSpellFromMember(
         size_t casterMemberIndex,
         uint32_t spellId,

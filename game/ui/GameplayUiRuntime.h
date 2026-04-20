@@ -5,6 +5,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
+#include "game/tables/FaceAnimationTable.h"
 #include "game/tables/IconFrameTable.h"
 #include "game/tables/PortraitFrameTable.h"
 #include "game/tables/PortraitFxEventTable.h"
@@ -33,6 +34,13 @@ struct GameplayPortraitFxState
     bool active = false;
     size_t animationId = 0;
     uint32_t startedTicks = 0;
+};
+
+struct GameplayPortraitPresentationState
+{
+    uint32_t lastAnimationUpdateTicks = 0;
+    std::vector<uint32_t> memberSpeechCooldownUntilTicks;
+    std::vector<uint32_t> memberCombatSpeechCooldownUntilTicks;
 };
 
 class GameplayUiRuntime
@@ -157,10 +165,14 @@ public:
         float fontScale) const;
     bool ensurePortraitRuntimeLoaded();
     void resetPortraitFxStates(size_t memberCount);
+    void resetPortraitPresentationState(size_t memberCount);
+    GameplayPortraitPresentationState &portraitPresentationState();
+    const GameplayPortraitPresentationState &portraitPresentationState() const;
     std::string resolvePortraitTextureName(const Character &character) const;
     bool triggerPortraitFxAnimation(const std::string &animationName, const std::vector<size_t> &memberIndices);
     void triggerPortraitSpellFx(const PartySpellCastResult &result);
     const PortraitFxEventEntry *findPortraitFxEvent(PortraitFxEventKind kind) const;
+    const FaceAnimationEntry *findFaceAnimation(FaceAnimationId animationId) const;
     uint32_t defaultPortraitAnimationLengthTicks(PortraitId portraitId) const;
     void renderPortraitFx(
         size_t memberIndex,
@@ -203,7 +215,9 @@ private:
     IconFrameTable m_iconFrameTable;
     SpellFxTable m_spellFxTable;
     PortraitFxEventTable m_portraitFxEventTable;
+    FaceAnimationTable m_faceAnimationTable;
     std::vector<GameplayPortraitFxState> m_portraitFxStates;
+    GameplayPortraitPresentationState m_portraitPresentationState;
     HouseVideoPlayer m_houseVideoPlayer;
 };
 }

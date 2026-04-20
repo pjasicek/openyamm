@@ -27,7 +27,6 @@
 #include "game/gameplay/MasteryTeacherDialog.h"
 #include "game/outdoor/OutdoorMovementController.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
-#include "game/outdoor/OutdoorPresentationController.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/party/Party.h"
@@ -37,6 +36,7 @@
 #include "game/maps/SaveGame.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "game/ui/GameplayUiRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/party/SpellIds.h"
@@ -188,8 +188,15 @@ struct GameApplicationTestAccess
         std::vector<uint32_t> speechCooldownUntilTicks,
         std::vector<uint32_t> combatSpeechCooldownUntilTicks)
     {
-        view.m_memberSpeechCooldownUntilTicks = std::move(speechCooldownUntilTicks);
-        view.m_memberCombatSpeechCooldownUntilTicks = std::move(combatSpeechCooldownUntilTicks);
+        GameplayPortraitPresentationState &presentationState =
+            view.m_gameSession.gameplayUiRuntime().portraitPresentationState();
+        presentationState.memberSpeechCooldownUntilTicks = std::move(speechCooldownUntilTicks);
+        presentationState.memberCombatSpeechCooldownUntilTicks = std::move(combatSpeechCooldownUntilTicks);
+    }
+
+    static bool canPlaySpeechReaction(OutdoorGameView &view, size_t memberIndex, SpeechId speechId, uint32_t nowTicks)
+    {
+        return view.m_gameSession.gameplayScreenRuntime().canPlaySpeechReaction(memberIndex, speechId, nowTicks);
     }
 
     static void openPendingEventDialog(
@@ -20554,7 +20561,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 std::vector<uint32_t>{1000u},
                 std::vector<uint32_t>{4000u});
 
-            if (!OutdoorPresentationController::canPlaySpeechReaction(view, 0, SpeechId::DamageMinor, 1500u))
+            if (!GameApplicationTestAccess::canPlaySpeechReaction(view, 0, SpeechId::DamageMinor, 1500u))
             {
                 failure = "DamageMinor was incorrectly blocked by combat cooldown";
                 return false;
@@ -20575,7 +20582,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 std::vector<uint32_t>{4000u},
                 std::vector<uint32_t>{4000u});
 
-            if (!OutdoorPresentationController::canPlaySpeechReaction(view, 0, SpeechId::DamageMajor, 1500u))
+            if (!GameApplicationTestAccess::canPlaySpeechReaction(view, 0, SpeechId::DamageMajor, 1500u))
             {
                 failure = "DamageMajor was incorrectly blocked by active speech cooldowns";
                 return false;
