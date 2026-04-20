@@ -1571,6 +1571,7 @@ void GameplayScreenRuntime::resetSpellbookOverlayInteractionState()
 void GameplayScreenRuntime::resetCharacterOverlayInteractionState()
 {
     characterClickLatch() = false;
+    characterMemberCycleLatch() = false;
     characterPressedTarget() = {};
 }
 

@@ -6186,7 +6186,7 @@ bool OutdoorGameView::trySelectPartyMember(size_t memberIndex, bool requireGamep
 void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
 {
     m_itemInspectOverlay = {};
-    const ItemTable &itemTable = m_gameSession.data().itemTable();
+    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
 
     if (width <= 0
         || height <= 0
@@ -6201,25 +6201,24 @@ void OutdoorGameView::updateItemInspectOverlayState(int width, int height)
         return;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
+    GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
+        overlayContext,
+        width,
+        height,
+        true,
+        true);
 
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
+    if (overlayContext.itemInspectOverlayReadOnly().active)
     {
-        overlayContext.itemInspectInteractionLatch() = false;
-        overlayContext.itemInspectInteractionKey() = 0;
         return;
     }
 
-    if (GameplayScreenController::updateRenderedHudItemInspectOverlay(
-            overlayContext,
-            width,
-            height,
-            true))
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+
+    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
     {
-        GameplayScreenController::applySharedItemInspectSkillInteraction(overlayContext);
         return;
     }
 

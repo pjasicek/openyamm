@@ -4,6 +4,8 @@
 #include "game/gameplay/GameplayScreenHotkeyController.h"
 #include "game/ui/GameplayUiOverlayOrchestrator.h"
 
+#include <functional>
+
 namespace OpenYAMM::Game
 {
 class GameplayScreenRuntime;
@@ -26,6 +28,57 @@ struct GameplayScreenFrameUpdateConfig
     bool updateBuffInspectOverlay = true;
 };
 
+struct GameplayStandardUiInputConfig
+{
+    const bool *pKeyboardState = nullptr;
+    int width = 0;
+    int height = 0;
+    float pointerX = 0.0f;
+    float pointerY = 0.0f;
+    bool leftButtonPressed = false;
+    bool allowGameplayPointerInput = false;
+    bool canOpenRest = false;
+    float mouseWheelDelta = 0.0f;
+    bool blockPortraitInput = false;
+    bool blockHudButtonInput = false;
+    bool blockMenuToggle = false;
+    bool blockSpellbookToggle = false;
+    bool blockInventoryToggle = false;
+    bool blockPartyCycle = false;
+    bool blockJournalToggle = false;
+    bool requireGameplayReadyForPortraitSelection = true;
+    bool requireGameplayReadyForPartySelection = false;
+    std::function<bool(size_t memberIndex)> onPortraitActivated;
+};
+
+struct GameplayStandardWorldInputGateConfig
+{
+    const bool *pKeyboardState = nullptr;
+    int width = 0;
+    int height = 0;
+    bool blockOnDialogue = true;
+    bool blockOnRest = true;
+    bool blockOnSpellbook = true;
+    bool blockOnUtilitySpellOverlay = true;
+    bool utilitySpellInventoryTargetKeepsWorldInput = true;
+    bool blockOnSaveGame = true;
+    bool blockOnLoadGame = true;
+    bool blockOnControls = true;
+    bool blockOnKeyboard = true;
+    bool blockOnVideoOptions = true;
+    bool blockOnMenu = true;
+    bool blockOnCharacterScreen = true;
+    bool blockOnJournal = true;
+    bool clearCharacterOverlayInputState = true;
+    bool closeReadableScrollOverlay = true;
+};
+
+struct GameplayStandardWorldInputGateResult
+{
+    bool blocked = false;
+    bool utilitySpellOverlayHandled = false;
+};
+
 class GameplayScreenController
 {
 public:
@@ -40,6 +93,13 @@ public:
         GameplayScreenRuntime &context,
         int width,
         int height,
+        bool requireOpaqueHitTest);
+
+    static void updateStandardHudItemInspectOverlayFromMouse(
+        GameplayScreenRuntime &context,
+        int width,
+        int height,
+        bool enabled,
         bool requireOpaqueHitTest);
 
     static void applySharedItemInspectSkillInteraction(
@@ -68,6 +128,14 @@ public:
         GameplayScreenRuntime &context,
         const bool *pKeyboardState,
         const GameplayScreenHotkeyConfig &config);
+
+    static GameplayUiOverlayInputResult handleStandardUiInput(
+        GameplayScreenRuntime &context,
+        const GameplayStandardUiInputConfig &config);
+
+    static GameplayStandardWorldInputGateResult gateStandardWorldInput(
+        GameplayScreenRuntime &context,
+        const GameplayStandardWorldInputGateConfig &config);
 
     static void handleUtilitySpellOverlayInput(
         GameplayScreenRuntime &context,

@@ -132,108 +132,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     view.m_gameplayMouseLookActive = gameplayMouseLookActive;
     view.syncGameplayMouseLookMode(pWindow, gameplayMouseLookActive);
 
-    if (view.m_pOutdoorPartyRuntime != nullptr
-        && screenWidth > 0
-        && screenHeight > 0
-        && allowGameplayPointerInput
-        && !isSpellbookActive
-        && !isRestScreenActive
-        && !isMenuActive
-        && !isControlsActive
-        && !isKeyboardActive
-        && !isSaveGameActive
-        && !isLoadGameActive
-        && !isJournalActive
-        && !isUtilitySpellModalActive
-        && !view.m_readableScrollOverlay.active)
-    {
-        float portraitMouseX = 0.0f;
-        float portraitMouseY = 0.0f;
-        const SDL_MouseButtonFlags portraitMouseButtons = SDL_GetMouseState(&portraitMouseX, &portraitMouseY);
-        const bool requireGameplayReady =
-            !isEventDialogActive
-            && !view.m_characterScreenOpen
-            && !hasActiveLootView
-            && !isSpellbookActive
-            && !isRestScreenActive
-            && !isMenuActive
-            && !isControlsActive
-            && !isSaveGameActive
-            && !isLoadGameActive
-            && !isJournalActive;
-
-        GameplayScreenRuntime &overlayContext = view.m_gameSession.gameplayScreenRuntime();
-        GameplayScreenController::handlePartyPortraitInput(
-            overlayContext,
-            GameplayPartyPortraitInputConfig{
-                .screenWidth = screenWidth,
-                .screenHeight = screenHeight,
-                .pointerX = portraitMouseX,
-                .pointerY = portraitMouseY,
-                .leftButtonPressed = (portraitMouseButtons & SDL_BUTTON_LMASK) != 0,
-                .allowInput = true,
-                .requireGameplayReady = requireGameplayReady,
-                .hasActiveLootView = hasActiveLootView,
-                .onPortraitActivated =
-                    [&view, hasPendingSpellCast](size_t memberIndex)
-                    {
-                        if (!hasPendingSpellCast)
-                        {
-                            return false;
-                        }
-
-                        view.tryResolvePendingSpellCast({}, memberIndex);
-                        return true;
-                    }
-            });
-    }
-    else
-    {
-        GameplayScreenRuntime &portraitOverlayContext = view.m_gameSession.gameplayScreenRuntime();
-        GameplayScreenController::handlePartyPortraitInput(
-            portraitOverlayContext,
-            GameplayPartyPortraitInputConfig{});
-    }
-
-    const bool canToggleSpellbook =
-        !isEventDialogActive
-        && !view.m_characterScreenOpen
-        && !hasActiveLootView
-        && !hasPendingSpellCast
-        && !view.m_restScreen.active
-        && !view.m_journalScreen.active
-        && !view.m_heldInventoryItem.active;
-
-    const bool canToggleMenu =
-        !isEventDialogActive
-        && !view.m_characterScreenOpen
-        && !hasActiveLootView
-        && !hasPendingSpellCast
-        && !view.m_spellbook.active
-        && !view.m_restScreen.active
-        && !view.m_controlsScreen.active
-        && !view.m_keyboardScreen.active
-        && !view.m_saveGameScreen.active
-        && !view.m_loadGameScreen.active
-        && !view.m_journalScreen.active
-        && !view.m_heldInventoryItem.active;
-
     GameplayScreenRuntime &overlayContext = view.m_gameSession.gameplayScreenRuntime();
-
-    const bool canOpenRestScreen =
-        !isEventDialogActive
-        && !view.m_characterScreenOpen
-        && !hasActiveLootView
-        && !hasPendingSpellCast
-        && !view.m_spellbook.active
-        && !view.m_menuScreen.active
-        && !view.m_controlsScreen.active
-        && !view.m_keyboardScreen.active
-        && !view.m_saveGameScreen.active
-        && !view.m_loadGameScreen.active
-        && !view.m_restScreen.active
-        && !view.m_journalScreen.active
-        && !view.m_heldInventoryItem.active;
 
     const bool canToggleAdventurersInn =
         !isEventDialogActive
@@ -249,71 +148,39 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
 
-    const bool canToggleJournal =
-        !isEventDialogActive
-        && !view.m_characterScreenOpen
-        && !hasActiveLootView
-        && !hasPendingSpellCast
-        && !view.m_spellbook.active
-        && !view.m_menuScreen.active
-        && !view.m_controlsScreen.active
-        && !view.m_keyboardScreen.active
-        && !view.m_saveGameScreen.active
-        && !view.m_loadGameScreen.active
-        && !view.m_restScreen.active
-        && !view.m_heldInventoryItem.active;
-
-    GameplayScreenController::handleGameplayHudButtonInput(
-        overlayContext,
-        GameplayHudButtonInputConfig{
-            .screenWidth = screenWidth,
-            .screenHeight = screenHeight,
-            .pointerX = gameplayMouseX,
-            .pointerY = gameplayMouseY,
-            .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
-            .allowInput =
-                allowGameplayPointerInput
-                && !blocksUnderlyingMouseInput
-                && screenWidth > 0
-                && screenHeight > 0
-                && (canToggleMenu || canOpenRestScreen || canToggleJournal)
-        });
-
-    const bool isResidentSelectionMode =
-        isEventDialogActive
-        && !view.m_activeEventDialog.actions.empty()
-        && std::all_of(
-            view.m_activeEventDialog.actions.begin(),
-            view.m_activeEventDialog.actions.end(),
-            [](const EventDialogAction &action)
-            {
-                return action.kind == EventDialogActionKind::HouseResident;
-            });
     const GameplayUiOverlayInputResult overlayInputResult =
-        GameplayScreenController::handleSharedOverlayInput(
+        GameplayScreenController::handleStandardUiInput(
             overlayContext,
-            pKeyboardState,
-            screenWidth,
-            screenHeight,
-            GameplayUiOverlayInputConfig{
-                .hasActiveLootView = hasActiveLootView,
-                .canToggleJournal = canToggleJournal,
-                .mapShortcutPressed = pKeyboardState[SDL_SCANCODE_M] || isActionPressed(KeyboardAction::MapBook),
-                .storyShortcutPressed = isActionPressed(KeyboardAction::History),
-                .notesShortcutPressed = isActionPressed(KeyboardAction::AutoNotes),
-                .zoomInPressed = isActionPressed(KeyboardAction::ZoomIn),
-                .zoomOutPressed = isActionPressed(KeyboardAction::ZoomOut),
+            GameplayStandardUiInputConfig{
+                .pKeyboardState = pKeyboardState,
+                .width = screenWidth,
+                .height = screenHeight,
+                .pointerX = gameplayMouseX,
+                .pointerY = gameplayMouseY,
+                .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
+                .allowGameplayPointerInput = allowGameplayPointerInput,
+                .canOpenRest = true,
                 .mouseWheelDelta = mouseWheelDelta,
-                .activeEventDialog = isEventDialogActive,
-                .residentSelectionMode = isResidentSelectionMode,
-                .restActive = view.m_restScreen.active,
-                .menuActive = view.m_menuScreen.active,
-                .controlsActive = view.m_controlsScreen.active,
-                .keyboardActive = view.m_keyboardScreen.active,
-                .videoOptionsActive = view.m_videoOptionsScreen.active,
-                .saveGameActive = view.m_saveGameScreen.active,
-                .spellbookActive = view.m_spellbook.active,
-                .characterScreenOpen = view.m_characterScreenOpen,
+                .blockPortraitInput = isUtilitySpellModalActive || view.m_readableScrollOverlay.active,
+                .blockHudButtonInput = blocksUnderlyingMouseInput || isUtilitySpellModalActive,
+                .blockMenuToggle = hasPendingSpellCast || view.m_characterScreenOpen || view.m_heldInventoryItem.active,
+                .blockSpellbookToggle = hasPendingSpellCast || view.m_heldInventoryItem.active,
+                .blockInventoryToggle = view.m_heldInventoryItem.active,
+                .blockPartyCycle = hasPendingSpellCast || view.m_characterScreenOpen,
+                .blockJournalToggle = hasPendingSpellCast || view.m_characterScreenOpen || view.m_heldInventoryItem.active,
+                .requireGameplayReadyForPortraitSelection = !hasPendingSpellCast,
+                .requireGameplayReadyForPartySelection = true,
+                .onPortraitActivated =
+                    [&view, hasPendingSpellCast](size_t memberIndex)
+                    {
+                        if (!hasPendingSpellCast)
+                        {
+                            return false;
+                        }
+
+                        view.tryResolvePendingSpellCast({}, memberIndex);
+                        return true;
+                    },
             });
 
     if (overlayInputResult.journalInputConsumed)
@@ -355,16 +222,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         view.m_adventurersInnToggleLatch = false;
     }
 
-    const bool canToggleInventory =
-        !isEventDialogActive
-        && !view.m_restScreen.active
-        && !view.m_menuScreen.active
-        && !view.m_controlsScreen.active
-        && !view.m_keyboardScreen.active
-        && !view.m_saveGameScreen.active
-        && !view.m_loadGameScreen.active
-        && !view.m_journalScreen.active;
-
     const bool canCyclePartyMember =
         !isEventDialogActive
         && !view.m_characterScreenOpen
@@ -378,19 +235,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         && !view.m_loadGameScreen.active
         && !view.m_restScreen.active
         && !view.m_journalScreen.active;
-
-    GameplayScreenController::handleSharedHotkeys(
-        overlayContext,
-        pKeyboardState,
-        GameplayScreenHotkeyConfig{
-            .canToggleMenu = canToggleMenu,
-            .canOpenRest = canOpenRestScreen,
-            .canToggleSpellbook = canToggleSpellbook,
-            .canToggleInventory = canToggleInventory,
-            .canCyclePartyMember = canCyclePartyMember,
-            .hasActiveLootView = hasActiveLootView,
-            .requireGameplayReadyForPartySelection = true,
-        });
 
     if (canCyclePartyMember)
     {
@@ -472,66 +316,19 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         view.m_quickSpellCastRepeatCooldownSeconds = 0.0f;
     }
 
-    if (isEventDialogActive)
-    {
-        return;
-    }
-
-    if (view.m_restScreen.active)
-    {
-        return;
-    }
-
-    if (view.m_spellbook.active)
-    {
-        return;
-    }
-
-    if (view.m_utilitySpellOverlay.active
-        && view.m_utilitySpellOverlay.mode != OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget)
-    {
-        GameplayScreenController::handleUtilitySpellOverlayInput(
+    const GameplayStandardWorldInputGateResult worldInputGateResult =
+        GameplayScreenController::gateStandardWorldInput(
             overlayContext,
-            pKeyboardState,
-            screenWidth,
-            screenHeight);
-        return;
-    }
+            GameplayStandardWorldInputGateConfig{
+                .pKeyboardState = pKeyboardState,
+                .width = screenWidth,
+                .height = screenHeight,
+            });
 
-    if (view.m_saveGameScreen.active)
+    if (worldInputGateResult.blocked)
     {
         return;
     }
-
-    if (view.m_controlsScreen.active)
-    {
-        return;
-    }
-
-    if (view.m_keyboardScreen.active)
-    {
-        return;
-    }
-
-    if (view.m_videoOptionsScreen.active)
-    {
-        return;
-    }
-
-    if (view.m_menuScreen.active)
-    {
-        return;
-    }
-
-    if (view.m_characterScreenOpen)
-    {
-        return;
-    }
-
-    view.m_overlayInteractionState.characterClickLatch = false;
-    view.m_overlayInteractionState.characterMemberCycleLatch = false;
-    view.m_overlayInteractionState.characterPressedTarget = {};
-    view.closeReadableScrollOverlay();
 
     const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
     float mouseX = 0.0f;

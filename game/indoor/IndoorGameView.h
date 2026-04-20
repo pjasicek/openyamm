@@ -171,7 +171,6 @@ private:
     bool loadHudFont(const std::string &fontName);
     bool shouldEnableGameplayMouseLook() const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
-    void updateItemInspectOverlayState(int width, int height);
 
     const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
     IndoorDebugRenderer *m_pIndoorRenderer = nullptr;

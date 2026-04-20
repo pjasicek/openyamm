@@ -7,10 +7,27 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/GameplayPartyOverlayRenderer.h"
 
+#include <SDL3/SDL.h>
+
 #include <algorithm>
 
 namespace OpenYAMM::Game
 {
+namespace
+{
+bool isResidentSelectionMode(const EventDialogContent &dialog)
+{
+    return !dialog.actions.empty()
+        && std::all_of(
+            dialog.actions.begin(),
+            dialog.actions.end(),
+            [](const EventDialogAction &action)
+            {
+                return action.kind == EventDialogActionKind::HouseResident;
+            });
+}
+} // namespace
+
 void GameplayScreenController::updateSharedFrameState(
     GameplayScreenRuntime &context,
     int width,
@@ -56,6 +73,38 @@ bool GameplayScreenController::updateRenderedHudItemInspectOverlay(
         width,
         height,
         requireOpaqueHitTest);
+}
+
+void GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
+    GameplayScreenRuntime &context,
+    int width,
+    int height,
+    bool enabled,
+    bool requireOpaqueHitTest)
+{
+    GameplayUiController::ItemInspectOverlayState &overlay = context.itemInspectOverlay();
+    overlay = {};
+
+    if (!enabled || width <= 0 || height <= 0)
+    {
+        return;
+    }
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+
+    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
+    {
+        context.itemInspectInteractionLatch() = false;
+        context.itemInspectInteractionKey() = 0;
+        return;
+    }
+
+    if (updateRenderedHudItemInspectOverlay(context, width, height, requireOpaqueHitTest))
+    {
+        applySharedItemInspectSkillInteraction(context);
+    }
 }
 
 void GameplayScreenController::applySharedItemInspectSkillInteraction(
@@ -433,6 +482,326 @@ void GameplayScreenController::handleSharedHotkeys(
     const GameplayScreenHotkeyConfig &config)
 {
     GameplayScreenHotkeyController::handleGameplayScreenHotkeys(context, pKeyboardState, config);
+}
+
+GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
+    GameplayScreenRuntime &context,
+    const GameplayStandardUiInputConfig &config)
+{
+    IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+    const bool hasActiveLootView =
+        pWorldRuntime != nullptr
+        && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr);
+    const bool activeEventDialog = context.activeEventDialog().isActive;
+    const bool residentSelectionMode = isResidentSelectionMode(context.activeEventDialog());
+    const bool spellbookActive = context.spellbookReadOnly().active;
+    const bool characterScreenOpen = context.characterScreenReadOnly().open;
+    const bool restActive = context.restScreenState().active;
+    const bool menuActive = context.menuScreenState().active;
+    const bool controlsActive = context.controlsScreenState().active;
+    const bool keyboardActive = context.keyboardScreenState().active;
+    const bool videoOptionsActive = context.videoOptionsScreenState().active;
+    const bool saveGameActive = context.saveGameScreenState().active;
+    const bool loadGameActive = context.loadGameScreenState().active;
+    const bool journalActive = context.journalScreenState().active;
+    const bool houseShopActive = context.houseShopOverlay().active;
+    const bool houseBankInputActive = context.houseBankState().inputActive();
+
+    const bool gameplayReadyForPortraitClicks =
+        config.allowGameplayPointerInput
+        && config.width > 0
+        && config.height > 0
+        && !config.blockPortraitInput
+        && !activeEventDialog
+        && !spellbookActive
+        && !restActive
+        && !menuActive
+        && !controlsActive
+        && !keyboardActive
+        && !videoOptionsActive
+        && !saveGameActive
+        && !loadGameActive
+        && !journalActive
+        && !houseShopActive
+        && !houseBankInputActive;
+
+    if (gameplayReadyForPortraitClicks)
+    {
+        handlePartyPortraitInput(
+            context,
+            GameplayPartyPortraitInputConfig{
+                .screenWidth = config.width,
+                .screenHeight = config.height,
+                .pointerX = config.pointerX,
+                .pointerY = config.pointerY,
+                .leftButtonPressed = config.leftButtonPressed,
+                .allowInput = true,
+                .requireGameplayReady =
+                    config.requireGameplayReadyForPortraitSelection && !hasActiveLootView,
+                .hasActiveLootView = hasActiveLootView,
+                .onPortraitActivated = config.onPortraitActivated,
+            });
+    }
+    else
+    {
+        handlePartyPortraitInput(context, GameplayPartyPortraitInputConfig{});
+    }
+
+    const bool canToggleSpellbook =
+        !activeEventDialog
+        && !characterScreenOpen
+        && !hasActiveLootView
+        && !restActive
+        && !menuActive
+        && !controlsActive
+        && !keyboardActive
+        && !videoOptionsActive
+        && !saveGameActive
+        && !loadGameActive
+        && !journalActive
+        && !houseShopActive
+        && !houseBankInputActive
+        && !config.blockSpellbookToggle;
+
+    const bool canToggleInventory =
+        !activeEventDialog
+        && !restActive
+        && !menuActive
+        && !controlsActive
+        && !keyboardActive
+        && !videoOptionsActive
+        && !saveGameActive
+        && !loadGameActive
+        && !journalActive
+        && !config.blockInventoryToggle;
+
+    const bool canCyclePartyMember =
+        !activeEventDialog
+        && !hasActiveLootView
+        && !spellbookActive
+        && !restActive
+        && !menuActive
+        && !controlsActive
+        && !keyboardActive
+        && !videoOptionsActive
+        && !saveGameActive
+        && !loadGameActive
+        && !journalActive
+        && !houseShopActive
+        && !houseBankInputActive
+        && !config.blockPartyCycle;
+
+    const bool canToggleMenu =
+        !activeEventDialog
+        && !hasActiveLootView
+        && !restActive
+        && !menuActive
+        && !controlsActive
+        && !keyboardActive
+        && !videoOptionsActive
+        && !saveGameActive
+        && !loadGameActive
+        && !journalActive
+        && !context.inventoryNestedOverlay().active
+        && !houseShopActive
+        && !houseBankInputActive
+        && !config.blockMenuToggle;
+
+    handleSharedHotkeys(
+        context,
+        config.pKeyboardState,
+        GameplayScreenHotkeyConfig{
+            .canToggleMenu = canToggleMenu,
+            .canOpenRest = config.canOpenRest,
+            .canToggleSpellbook = canToggleSpellbook,
+            .canToggleInventory = canToggleInventory,
+            .canCyclePartyMember = canCyclePartyMember,
+            .hasActiveLootView = hasActiveLootView,
+            .requireGameplayReadyForPartySelection = config.requireGameplayReadyForPartySelection,
+        });
+
+    const bool canClickGameplayHudButtons =
+        config.allowGameplayPointerInput
+        && config.width > 0
+        && config.height > 0
+        && !config.blockHudButtonInput
+        && !activeEventDialog
+        && !characterScreenOpen
+        && !spellbookActive
+        && !hasActiveLootView
+        && !restActive
+        && !menuActive
+        && !controlsActive
+        && !keyboardActive
+        && !videoOptionsActive
+        && !saveGameActive
+        && !loadGameActive
+        && !journalActive
+        && !houseShopActive
+        && !houseBankInputActive;
+
+    handleGameplayHudButtonInput(
+        context,
+        GameplayHudButtonInputConfig{
+            .screenWidth = config.width,
+            .screenHeight = config.height,
+            .pointerX = config.pointerX,
+            .pointerY = config.pointerY,
+            .leftButtonPressed = config.leftButtonPressed,
+            .allowInput = canClickGameplayHudButtons,
+        });
+
+    const bool canToggleJournal =
+        !activeEventDialog
+        && !hasActiveLootView
+        && !restActive
+        && !menuActive
+        && !controlsActive
+        && !keyboardActive
+        && !videoOptionsActive
+        && !saveGameActive
+        && !loadGameActive
+        && !context.inventoryNestedOverlay().active
+        && !houseShopActive
+        && !houseBankInputActive
+        && !config.blockJournalToggle;
+
+    const bool mapShortcutPressed =
+        config.pKeyboardState != nullptr
+        && (config.pKeyboardState[SDL_SCANCODE_M]
+            || context.mutableSettings().keyboard.isPressed(KeyboardAction::MapBook, config.pKeyboardState));
+    const bool storyShortcutPressed =
+        config.pKeyboardState != nullptr
+        && context.mutableSettings().keyboard.isPressed(KeyboardAction::History, config.pKeyboardState);
+    const bool notesShortcutPressed =
+        config.pKeyboardState != nullptr
+        && context.mutableSettings().keyboard.isPressed(KeyboardAction::AutoNotes, config.pKeyboardState);
+    const bool zoomInPressed =
+        config.pKeyboardState != nullptr
+        && context.mutableSettings().keyboard.isPressed(KeyboardAction::ZoomIn, config.pKeyboardState);
+    const bool zoomOutPressed =
+        config.pKeyboardState != nullptr
+        && context.mutableSettings().keyboard.isPressed(KeyboardAction::ZoomOut, config.pKeyboardState);
+
+    return handleSharedOverlayInput(
+        context,
+        config.pKeyboardState,
+        config.width,
+        config.height,
+        GameplayUiOverlayInputConfig{
+            .hasActiveLootView = hasActiveLootView,
+            .canToggleJournal = canToggleJournal,
+            .mapShortcutPressed = mapShortcutPressed,
+            .storyShortcutPressed = storyShortcutPressed,
+            .notesShortcutPressed = notesShortcutPressed,
+            .zoomInPressed = zoomInPressed,
+            .zoomOutPressed = zoomOutPressed,
+            .mouseWheelDelta = config.mouseWheelDelta,
+            .activeEventDialog = activeEventDialog,
+            .residentSelectionMode = residentSelectionMode,
+            .restActive = restActive,
+            .menuActive = menuActive,
+            .controlsActive = controlsActive,
+            .keyboardActive = keyboardActive,
+            .videoOptionsActive = videoOptionsActive,
+            .saveGameActive = saveGameActive,
+            .spellbookActive = spellbookActive,
+            .characterScreenOpen = characterScreenOpen,
+        });
+}
+
+GameplayStandardWorldInputGateResult GameplayScreenController::gateStandardWorldInput(
+    GameplayScreenRuntime &context,
+    const GameplayStandardWorldInputGateConfig &config)
+{
+    if (config.blockOnDialogue && context.activeEventDialog().isActive)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.blockOnRest && context.restScreenState().active)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.blockOnSpellbook && context.spellbookReadOnly().active)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.blockOnUtilitySpellOverlay && context.utilitySpellOverlayReadOnly().active)
+    {
+        const bool inventoryTargetMode =
+            context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
+
+        if (!inventoryTargetMode || !config.utilitySpellInventoryTargetKeepsWorldInput)
+        {
+            if (!inventoryTargetMode && config.pKeyboardState != nullptr)
+            {
+                handleUtilitySpellOverlayInput(
+                    context,
+                    config.pKeyboardState,
+                    config.width,
+                    config.height);
+
+                return {.blocked = true, .utilitySpellOverlayHandled = true};
+            }
+
+            return {.blocked = true};
+        }
+    }
+
+    if (config.blockOnSaveGame && context.saveGameScreenState().active)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.blockOnLoadGame && context.loadGameScreenState().active)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.blockOnControls && context.controlsScreenState().active)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.blockOnKeyboard && context.keyboardScreenState().active)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.blockOnVideoOptions && context.videoOptionsScreenState().active)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.blockOnMenu && context.menuScreenState().active)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.blockOnCharacterScreen && context.characterScreenReadOnly().open)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.blockOnJournal && context.journalScreenState().active)
+    {
+        return {.blocked = true};
+    }
+
+    if (config.clearCharacterOverlayInputState)
+    {
+        context.resetCharacterOverlayInteractionState();
+    }
+
+    if (config.closeReadableScrollOverlay)
+    {
+        context.closeReadableScrollOverlay();
+    }
+
+    return {};
 }
 
 void GameplayScreenController::handleUtilitySpellOverlayInput(

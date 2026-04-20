@@ -1085,7 +1085,17 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
         height,
         deltaSeconds,
         GameplayScreenFrameUpdateConfig{});
-    updateItemInspectOverlayState(width, height);
+    GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
+        overlayContext,
+        width,
+        height,
+        !m_gameplayUiController.spellbook().active
+            && !m_gameplayUiController.controlsScreen().active
+            && !m_gameplayUiController.keyboardScreen().active
+            && !m_gameplayUiController.menuScreen().active
+            && !m_gameplayUiController.saveGameScreen().active
+            && !m_gameplayUiController.loadGameScreen().active,
+        false);
     const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
     struct KeyboardStateSnapshotUpdater
     {
@@ -1110,209 +1120,19 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
     const bool hasActiveLootView =
         pWorldRuntime != nullptr
         && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr);
-    bool hasSharedScreenOverlay =
-        m_gameplayUiController.restScreen().active
-        || m_gameplayUiController.menuScreen().active
-        || m_gameplayUiController.controlsScreen().active
-        || m_gameplayUiController.keyboardScreen().active
-        || m_gameplayUiController.videoOptionsScreen().active
-        || m_gameplayUiController.saveGameScreen().active
-        || m_gameplayUiController.loadGameScreen().active
-        || m_gameplayUiController.journalScreen().active;
-
-    const bool canOpenMenu =
-        !activeEventDialog().isActive
-        && !hasActiveLootView
-        && !hasSharedScreenOverlay
-        && !m_gameplayUiController.inventoryNestedOverlay().active
-        && !m_gameplayUiController.houseShopOverlay().active
-        && !m_gameplayUiController.houseBankState().inputActive();
     const bool allowGameplayPointerInput = !gameplayMouseLookAllowed || gameplayCursorModeActive;
-
-    const bool escapePressed = pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_ESCAPE];
-
-    if (canOpenMenu)
-    {
-        if (escapePressed && m_gameSession.previousKeyboardState()[SDL_SCANCODE_ESCAPE] == 0)
-        {
-            m_gameSession.gameplayScreenRuntime().openMenuOverlay();
-            m_overlayInteractionState.menuToggleLatch = true;
-            hasSharedScreenOverlay = true;
-        }
-        else if (!escapePressed)
-        {
-            m_overlayInteractionState.menuToggleLatch = false;
-        }
-    }
-
-    const bool gameplayReadyForPortraitClicks =
-        allowGameplayPointerInput
-        && width > 0
-        && height > 0
-        && !activeEventDialog().isActive
-        && !m_gameplayUiController.spellbook().active
-        && !m_gameplayUiController.restScreen().active
-        && !m_gameplayUiController.menuScreen().active
-        && !m_gameplayUiController.controlsScreen().active
-        && !m_gameplayUiController.keyboardScreen().active
-        && !m_gameplayUiController.videoOptionsScreen().active
-        && !m_gameplayUiController.saveGameScreen().active
-        && !m_gameplayUiController.loadGameScreen().active
-        && !m_gameplayUiController.journalScreen().active
-        && !m_gameplayUiController.houseShopOverlay().active
-        && !m_gameplayUiController.houseBankState().inputActive();
-
-    if (gameplayReadyForPortraitClicks)
-    {
-        const bool requireGameplayReady = !hasActiveLootView;
-        GameplayScreenController::handlePartyPortraitInput(
-            overlayContext,
-            GameplayPartyPortraitInputConfig{
-                .screenWidth = width,
-                .screenHeight = height,
-                .pointerX = gameplayMouseX,
-                .pointerY = gameplayMouseY,
-                .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
-                .allowInput = true,
-                .requireGameplayReady = requireGameplayReady,
-                .hasActiveLootView = hasActiveLootView,
-            });
-    }
-    else
-    {
-        GameplayScreenController::handlePartyPortraitInput(
-            overlayContext,
-            GameplayPartyPortraitInputConfig{});
-    }
-
-    const bool canToggleGameplaySpellbook =
-        !activeEventDialog().isActive
-        && !m_gameplayUiController.characterScreen().open
-        && !hasActiveLootView
-        && !m_gameplayUiController.restScreen().active
-        && !m_gameplayUiController.menuScreen().active
-        && !m_gameplayUiController.controlsScreen().active
-        && !m_gameplayUiController.keyboardScreen().active
-        && !m_gameplayUiController.videoOptionsScreen().active
-        && !m_gameplayUiController.saveGameScreen().active
-        && !m_gameplayUiController.loadGameScreen().active
-        && !m_gameplayUiController.journalScreen().active
-        && !m_gameplayUiController.houseShopOverlay().active
-        && !m_gameplayUiController.houseBankState().inputActive();
-
-    const bool canToggleInventory =
-        !activeEventDialog().isActive
-        && !m_gameplayUiController.restScreen().active
-        && !m_gameplayUiController.menuScreen().active
-        && !m_gameplayUiController.controlsScreen().active
-        && !m_gameplayUiController.keyboardScreen().active
-        && !m_gameplayUiController.videoOptionsScreen().active
-        && !m_gameplayUiController.saveGameScreen().active
-        && !m_gameplayUiController.loadGameScreen().active
-        && !m_gameplayUiController.journalScreen().active;
-
-    const bool canCyclePartyMember =
-        !activeEventDialog().isActive
-        && !hasActiveLootView
-        && !m_gameplayUiController.spellbook().active
-        && !m_gameplayUiController.restScreen().active
-        && !m_gameplayUiController.menuScreen().active
-        && !m_gameplayUiController.controlsScreen().active
-        && !m_gameplayUiController.keyboardScreen().active
-        && !m_gameplayUiController.videoOptionsScreen().active
-        && !m_gameplayUiController.saveGameScreen().active
-        && !m_gameplayUiController.loadGameScreen().active
-        && !m_gameplayUiController.journalScreen().active
-        && !m_gameplayUiController.houseShopOverlay().active
-        && !m_gameplayUiController.houseBankState().inputActive();
-
-    GameplayScreenController::handleSharedHotkeys(
+    GameplayScreenController::handleStandardUiInput(
         overlayContext,
-        pKeyboardState,
-        GameplayScreenHotkeyConfig{
-            .canToggleMenu = canOpenMenu,
-            .canOpenRest = false,
-            .canToggleSpellbook = canToggleGameplaySpellbook,
-            .canToggleInventory = canToggleInventory,
-            .canCyclePartyMember = canCyclePartyMember,
-            .hasActiveLootView = hasActiveLootView,
-        });
-
-    const bool canClickGameplayHudButtons =
-        allowGameplayPointerInput
-        && width > 0
-        && height > 0
-        && !activeEventDialog().isActive
-        && !m_gameplayUiController.characterScreen().open
-        && !m_gameplayUiController.spellbook().active
-        && !hasActiveLootView
-        && !m_gameplayUiController.restScreen().active
-        && !m_gameplayUiController.menuScreen().active
-        && !m_gameplayUiController.controlsScreen().active
-        && !m_gameplayUiController.keyboardScreen().active
-        && !m_gameplayUiController.videoOptionsScreen().active
-        && !m_gameplayUiController.saveGameScreen().active
-        && !m_gameplayUiController.loadGameScreen().active
-        && !m_gameplayUiController.journalScreen().active
-        && !m_gameplayUiController.houseShopOverlay().active
-        && !m_gameplayUiController.houseBankState().inputActive();
-
-    GameplayScreenController::handleGameplayHudButtonInput(
-        overlayContext,
-        GameplayHudButtonInputConfig{
-            .screenWidth = width,
-            .screenHeight = height,
+        GameplayStandardUiInputConfig{
+            .pKeyboardState = pKeyboardState,
+            .width = width,
+            .height = height,
             .pointerX = gameplayMouseX,
             .pointerY = gameplayMouseY,
             .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
-            .allowInput = canClickGameplayHudButtons
-        });
-
-    const bool canToggleJournal =
-        !activeEventDialog().isActive
-        && !hasActiveLootView
-        && !m_gameplayUiController.restScreen().active
-        && !m_gameplayUiController.menuScreen().active
-        && !m_gameplayUiController.controlsScreen().active
-        && !m_gameplayUiController.keyboardScreen().active
-        && !m_gameplayUiController.videoOptionsScreen().active
-        && !m_gameplayUiController.saveGameScreen().active
-        && !m_gameplayUiController.loadGameScreen().active
-        && !m_gameplayUiController.inventoryNestedOverlay().active
-        && !m_gameplayUiController.houseShopOverlay().active
-        && !m_gameplayUiController.houseBankState().inputActive();
-
-    const GameplayUiOverlayInputResult inputResult = GameplayScreenController::handleSharedOverlayInput(
-        overlayContext,
-        pKeyboardState,
-        width,
-        height,
-        GameplayUiOverlayInputConfig{
-            .hasActiveLootView = hasActiveLootView,
-            .canToggleJournal = canToggleJournal,
-            .mapShortcutPressed =
-                pKeyboardState != nullptr
-                && (pKeyboardState[SDL_SCANCODE_M]
-                    || m_settings.keyboard.isPressed(KeyboardAction::MapBook, pKeyboardState)),
-            .storyShortcutPressed =
-                pKeyboardState != nullptr && m_settings.keyboard.isPressed(KeyboardAction::History, pKeyboardState),
-            .notesShortcutPressed =
-                pKeyboardState != nullptr && m_settings.keyboard.isPressed(KeyboardAction::AutoNotes, pKeyboardState),
-            .zoomInPressed =
-                pKeyboardState != nullptr && m_settings.keyboard.isPressed(KeyboardAction::ZoomIn, pKeyboardState),
-            .zoomOutPressed =
-                pKeyboardState != nullptr && m_settings.keyboard.isPressed(KeyboardAction::ZoomOut, pKeyboardState),
+            .allowGameplayPointerInput = allowGameplayPointerInput,
+            .canOpenRest = false,
             .mouseWheelDelta = mouseWheelDelta,
-            .activeEventDialog = activeEventDialog().isActive,
-            .residentSelectionMode = isResidentSelectionMode(activeEventDialog()),
-            .restActive = m_gameplayUiController.restScreen().active,
-            .menuActive = m_gameplayUiController.menuScreen().active,
-            .controlsActive = m_gameplayUiController.controlsScreen().active,
-            .keyboardActive = m_gameplayUiController.keyboardScreen().active,
-            .videoOptionsActive = m_gameplayUiController.videoOptionsScreen().active,
-            .saveGameActive = m_gameplayUiController.saveGameScreen().active,
-            .spellbookActive = m_gameplayUiController.spellbook().active,
-            .characterScreenOpen = m_gameplayUiController.characterScreen().open,
         });
 
     const bool canRenderHudOverlays =
@@ -1976,45 +1796,6 @@ void IndoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled
     else
     {
         SDL_ShowCursor();
-    }
-}
-
-void IndoorGameView::updateItemInspectOverlayState(int width, int height)
-{
-    GameplayUiController::ItemInspectOverlayState &overlay = m_gameplayUiController.itemInspectOverlay();
-    overlay = {};
-
-    if (width <= 0
-        || height <= 0
-        || m_gameplayUiController.spellbook().active
-        || m_gameplayUiController.controlsScreen().active
-        || m_gameplayUiController.keyboardScreen().active
-        || m_gameplayUiController.menuScreen().active
-        || m_gameplayUiController.saveGameScreen().active
-        || m_gameplayUiController.loadGameScreen().active)
-    {
-        return;
-    }
-
-    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
-    {
-        overlayContext.itemInspectInteractionLatch() = false;
-        overlayContext.itemInspectInteractionKey() = 0;
-        return;
-    }
-
-    if (GameplayScreenController::updateRenderedHudItemInspectOverlay(
-        overlayContext,
-        width,
-        height,
-        false))
-    {
-        GameplayScreenController::applySharedItemInspectSkillInteraction(overlayContext);
     }
 }
 
