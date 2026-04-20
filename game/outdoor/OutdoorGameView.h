@@ -114,24 +114,13 @@ public:
         const std::optional<MapDeltaData> &outdoorMapDeltaData,
         GameAudioSystem *pGameAudioSystem,
         OutdoorSceneRuntime &sceneRuntime,
-        const GameSettings &settings,
-        std::function<bool(
-            const std::filesystem::path &,
-            const std::string &,
-            const std::vector<uint8_t> &,
-            std::string &)> saveGameToPathCallback,
-        std::function<bool(const std::filesystem::path &, std::string &)> loadGameFromPathCallback,
-        std::function<void(const GameSettings &)> settingsChangedCallback
-    );
+        const GameSettings &settings);
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void shutdown();
     float cameraYawRadians() const;
     float cameraPitchRadians() const;
     void setCameraAngles(float yawRadians, float pitchRadians);
     void reopenMenuScreen();
-    void requestOpenNewGameScreen() override;
-    bool consumePendingOpenNewGameScreenRequest();
-    bool consumePendingOpenLoadGameScreenRequest();
     bool requestQuickSave();
     void setSettingsSnapshot(const GameSettings &settings);
 
@@ -419,12 +408,6 @@ public:
     using SpellbookPointerTargetType = GameplaySpellbookPointerTargetType;
 
 private:
-    enum class InventoryNestedOverlayPointerTargetType
-    {
-        None,
-        CloseButton
-    };
-
     using ItemInspectSourceType = GameplayUiController::ItemInspectSourceType;
 
     using CharacterPointerTarget = GameplayCharacterPointerTarget;
@@ -496,13 +479,6 @@ private:
     using JournalScreenState = GameplayUiController::JournalScreenState;
     using JournalView = GameplayUiController::JournalView;
     using JournalNotesCategory = GameplayUiController::JournalNotesCategory;
-
-    struct InventoryNestedOverlayPointerTarget
-    {
-        InventoryNestedOverlayPointerTargetType type = InventoryNestedOverlayPointerTargetType::None;
-
-        bool operator==(const InventoryNestedOverlayPointerTarget &other) const = default;
-    };
 
     using MenuPointerTargetType = GameplayMenuPointerTargetType;
     using SaveLoadPointerTargetType = GameplaySaveLoadPointerTargetType;
@@ -595,18 +571,13 @@ public:
     const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const override;
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady) override;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
-    void handleDialogueCloseRequest() override;
-    void requestOpenLoadGameScreen() override;
     void executeActiveDialogAction() override;
-    void refreshHouseBankInputDialog() override;
-    void confirmHouseBankInput() override;
     bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) override;
     void updateReadableScrollOverlayForHeldItem(
         size_t memberIndex,
         const CharacterPointerTarget &pointerTarget,
         bool isLeftMousePressed);
     void closeReadableScrollOverlay();
-    void resetInventoryNestedOverlayInteractionState() override;
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) override;
     bool tryCastSpellFromMember(
         size_t casterMemberIndex,
@@ -615,7 +586,6 @@ public:
     GameSettings &mutableSettings();
     std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState();
     const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
-    void commitSettingsChange() override;
     bool trySaveToSelectedGameSlot() override;
     int restFoodRequired() const override;
     const GameSettings &settingsSnapshot() const;
@@ -846,13 +816,9 @@ private:
     bool loadTownPortalDestinations(const Engine::AssetFileSystem &assetFileSystem);
     void closeSpellbook(const std::string &statusText = "");
     void closeInventoryNestedOverlay();
-    void openLoadGameScreen();
-    void closeLoadGameScreen();
     void refreshSaveGameSlots();
-    void refreshLoadGameSlots();
     std::string resolveSaveLocationName(const std::string &mapFileName) const;
     bool beginSaveWithPreview(const std::filesystem::path &path, const std::string &saveName, bool closeUiOnSuccess);
-    bool tryLoadFromSelectedGameSlot();
     void clearWorldInteractionInputLatches();
     float innRestDurationMinutes(uint32_t houseId) const;
     void startInnRest(uint32_t houseId);
@@ -1049,8 +1015,6 @@ private:
     bool m_restToggleLatch;
     bool m_optionsButtonClickLatch;
     bool m_booksButtonClickLatch;
-    bool m_loadGameToggleLatch;
-    bool m_loadGameClickLatch;
     bool m_adventurersInnToggleLatch;
     GameSession &m_gameSession;
     GameplayUiRuntime &m_gameplayUiRuntime;
@@ -1106,21 +1070,14 @@ private:
     bool m_townPortalDestinationsLoaded = false;
     bool m_optionsButtonPressed = false;
     bool m_booksButtonPressed = false;
-    SaveLoadPointerTarget m_loadGamePressedTarget;
-    uint64_t m_lastLoadGameSlotClickTicks = 0;
-    std::optional<size_t> m_lastLoadGameClickedSlotIndex;
     uint64_t m_lastSpellFailSoundTicks;
     uint64_t m_lastMeteorShowerImpactSoundTicks = 0;
     uint64_t m_lastStarburstImpactSoundTicks = 0;
-    bool m_pendingOpenNewGameScreen = false;
-    bool m_pendingOpenLoadGameScreen = false;
     PendingSpellCastState m_pendingSpellCast;
     SpellAreaPreviewCacheState m_spellAreaPreviewCache;
     std::vector<GameplayRenderedInspectableHudItem> &m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
     bool m_heldInventoryDropLatch;
-    bool m_inventoryNestedOverlayClickLatch;
-    InventoryNestedOverlayPointerTarget m_inventoryNestedOverlayPressedTarget;
     size_t &m_eventDialogSelectionIndex;
     std::string &m_statusBarHoverText;
     std::string &m_statusBarEventText;
@@ -1133,15 +1090,8 @@ private:
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
     GameSettings m_gameSettings = GameSettings::createDefault();
-    std::function<bool(
-        const std::filesystem::path &,
-        const std::string &,
-        const std::vector<uint8_t> &,
-        std::string &)> m_saveGameToPathCallback;
     std::filesystem::path m_autosavePath =
         std::filesystem::path("saves") / "autosave.oysav";
-    std::function<bool(const std::filesystem::path &, std::string &)> m_loadGameFromPathCallback;
-    std::function<void(const GameSettings &)> m_settingsChangedCallback;
     PendingSavePreviewCaptureState m_pendingSavePreviewCapture;
     InspectHit m_pressedInspectHit;
     int m_lastRenderWidth = 0;

@@ -3,6 +3,7 @@
 #include "game/tables/ChestTable.h"
 #include "game/app/GameSession.h"
 #include "game/events/EventDialogContent.h"
+#include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/ui/GameplayOverlayAdapters.h"
 #include "game/ui/GameplayOverlayTypes.h"
@@ -363,6 +364,11 @@ public:
 private:
     GameplayUiController &uiController() const;
     GameplayOverlayInteractionState &interactionState() const;
+    GameplayDialogUiFlowState dialogUiFlowState();
+    GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
+    void presentPendingEventDialogShared(size_t previousMessageCount, bool allowNpcFallbackContent);
+    void closeActiveEventDialogShared();
+    void returnToHouseBankMainDialogShared();
 
     GameSession &m_session;
     GameAudioSystem *m_pAudioSystem = nullptr;

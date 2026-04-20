@@ -63,6 +63,7 @@ public:
     float partyFootZ() const override;
     void syncSpellMovementStatesFromPartyBuffs() override;
     void requestPartyJump() override;
+    void cancelPendingMapTransition() override;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
     bool castEventSpell(

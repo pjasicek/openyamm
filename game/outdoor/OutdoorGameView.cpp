@@ -3663,8 +3663,6 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_restToggleLatch(false)
     , m_optionsButtonClickLatch(false)
     , m_booksButtonClickLatch(false)
-    , m_loadGameToggleLatch(false)
-    , m_loadGameClickLatch(false)
     , m_adventurersInnToggleLatch(false)
     , m_gameSession(gameSession)
     , m_gameplayUiRuntime(gameSession.gameplayUiRuntime())
@@ -3716,14 +3714,11 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_houseBankState(m_gameplayUiController.houseBankState())
     , m_optionsButtonPressed(false)
     , m_booksButtonPressed(false)
-    , m_loadGamePressedTarget({})
     , m_lastSpellFailSoundTicks(0)
     , m_pendingSpellCast({})
     , m_spellAreaPreviewCache({})
     , m_renderedInspectableHudItems(m_gameplayUiRuntime.renderedInspectableHudItems())
     , m_heldInventoryDropLatch(false)
-    , m_inventoryNestedOverlayClickLatch(false)
-    , m_inventoryNestedOverlayPressedTarget({})
     , m_eventDialogSelectionIndex(m_gameplayUiController.eventDialog().selectionIndex)
     , m_statusBarHoverText(m_gameplayUiController.statusBar().hoverText)
     , m_statusBarEventText(m_gameplayUiController.statusBar().eventText)
@@ -3769,18 +3764,10 @@ bool OutdoorGameView::initialize(
     const std::optional<DecorationBillboardSet> &outdoorDecorationBillboardSet,
     const std::optional<ActorPreviewBillboardSet> &outdoorActorPreviewBillboardSet,
     const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet,
-    const std::optional<MapDeltaData> &outdoorMapDeltaData,
-    GameAudioSystem *pGameAudioSystem,
-    OutdoorSceneRuntime &sceneRuntime,
-    const GameSettings &settings,
-    std::function<bool(
-        const std::filesystem::path &,
-        const std::string &,
-        const std::vector<uint8_t> &,
-        std::string &)> saveGameToPathCallback,
-    std::function<bool(const std::filesystem::path &, std::string &)> loadGameFromPathCallback,
-    std::function<void(const GameSettings &)> settingsChangedCallback
-)
+        const std::optional<MapDeltaData> &outdoorMapDeltaData,
+        GameAudioSystem *pGameAudioSystem,
+        OutdoorSceneRuntime &sceneRuntime,
+        const GameSettings &settings)
 {
     shutdown();
     const GameDataRepository &data = m_gameSession.data();
@@ -3801,9 +3788,6 @@ bool OutdoorGameView::initialize(
     m_pOutdoorWorldRuntime->setParticleSystem(&m_particleSystem);
     m_gameSettings = settings;
     m_gameplayUiRuntime.bindAssetFileSystem(&assetFileSystem);
-    m_saveGameToPathCallback = std::move(saveGameToPathCallback);
-    m_loadGameFromPathCallback = std::move(loadGameFromPathCallback);
-    m_settingsChangedCallback = std::move(settingsChangedCallback);
     m_portraitSpellFxStates.assign(5, {});
 
     if (!loadPortraitAnimationData(assetFileSystem))
@@ -3967,7 +3951,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
     if (m_pendingSavePreviewCapture.active
         && m_pendingSavePreviewCapture.screenshotRequested
-        && m_saveGameToPathCallback)
+        && m_gameSession.canSaveGameToPath())
     {
         const std::optional<Engine::BgfxContext::ScreenshotCapture> screenshot =
             Engine::BgfxContext::consumeScreenshot(m_pendingSavePreviewCapture.requestId);
@@ -3985,7 +3969,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             std::string error;
 
             if (!previewBmp.empty()
-                && m_saveGameToPathCallback(
+                && m_gameSession.saveGameToPath(
                     m_pendingSavePreviewCapture.savePath,
                     m_pendingSavePreviewCapture.saveName,
                     previewBmp,
@@ -6173,7 +6157,6 @@ void OutdoorGameView::shutdown()
             m_pOutdoorWorldRuntime->setParticleSystem(nullptr);
         }
         m_pOutdoorWorldRuntime = nullptr;
-        m_settingsChangedCallback = {};
     };
 
     m_gameplayUiController.clearRuntimeState();
@@ -6763,28 +6746,9 @@ void OutdoorGameView::setCameraAngles(float yawRadians, float pitchRadians)
     m_cameraPitchRadians = std::clamp(m_cameraPitchRadians, -1.55f, 1.55f);
 }
 
-void OutdoorGameView::requestOpenNewGameScreen()
-{
-    m_pendingOpenNewGameScreen = true;
-}
-
 void OutdoorGameView::reopenMenuScreen()
 {
     createGameplayOverlayContext().openMenuOverlay();
-}
-
-bool OutdoorGameView::consumePendingOpenNewGameScreenRequest()
-{
-    const bool pending = m_pendingOpenNewGameScreen;
-    m_pendingOpenNewGameScreen = false;
-    return pending;
-}
-
-bool OutdoorGameView::consumePendingOpenLoadGameScreenRequest()
-{
-    const bool pending = m_pendingOpenLoadGameScreen;
-    m_pendingOpenLoadGameScreen = false;
-    return pending;
 }
 
 void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
@@ -8532,22 +8496,6 @@ void OutdoorGameView::closeSpellbook(const std::string &statusText)
     }
 }
 
-void OutdoorGameView::openLoadGameScreen()
-{
-    m_pendingOpenLoadGameScreen = true;
-}
-
-void OutdoorGameView::closeLoadGameScreen()
-{
-    m_loadGameScreen = {};
-    m_loadGameToggleLatch = false;
-    m_loadGameClickLatch = false;
-    m_loadGamePressedTarget = {};
-    m_menuScreen = {};
-    m_menuScreen.active = true;
-    clearWorldInteractionInputLatches();
-}
-
 void OutdoorGameView::refreshSaveGameSlots()
 {
     m_saveGameScreen.slots.clear();
@@ -8605,63 +8553,6 @@ void OutdoorGameView::refreshSaveGameSlots()
     m_saveGameScreen.editBuffer.clear();
 }
 
-void OutdoorGameView::refreshLoadGameSlots()
-{
-    m_loadGameScreen.slots.clear();
-    std::filesystem::create_directories("saves");
-
-    for (const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator("saves"))
-    {
-        if (!entry.is_regular_file() || toLowerCopy(entry.path().extension().string()) != ".oysav")
-        {
-            continue;
-        }
-
-        std::string error;
-        const std::optional<GameSaveData> saveData = loadGameDataFromPath(entry.path(), error);
-
-        if (!saveData)
-        {
-            continue;
-        }
-
-        SaveSlotSummary slot = {};
-        slot.path = entry.path();
-        slot.fileLabel = !saveData->saveName.empty() ? saveData->saveName : friendlySaveFileLabel(entry.path());
-        slot.locationName = resolveSaveLocationName(saveData->mapFileName);
-        slot.populated = true;
-        const CivilTime civilTime = civilTimeFromGameMinutes(saveData->savedGameMinutes);
-        slot.weekdayClockText = formatClock(civilTime);
-        slot.dateText = formatDate(civilTime);
-
-        if (!saveData->previewBmp.empty())
-        {
-            decodeBmpBytesToBgra(
-                saveData->previewBmp,
-                slot.previewWidth,
-                slot.previewHeight,
-                slot.previewPixelsBgra);
-        }
-
-        m_loadGameScreen.slots.push_back(std::move(slot));
-    }
-
-    std::sort(
-        m_loadGameScreen.slots.begin(),
-        m_loadGameScreen.slots.end(),
-        [](const SaveSlotSummary &left, const SaveSlotSummary &right)
-        {
-            return compareSavePathsForDisplay(left.path, right.path);
-        });
-
-    if (m_loadGameScreen.selectedIndex >= m_loadGameScreen.slots.size())
-    {
-        m_loadGameScreen.selectedIndex = 0;
-    }
-
-    m_loadGameScreen.scrollOffset = 0;
-}
-
 std::string OutdoorGameView::resolveSaveLocationName(const std::string &mapFileName) const
 {
     for (const MapStatsEntry &entry : m_gameSession.data().mapEntries())
@@ -8680,7 +8571,7 @@ bool OutdoorGameView::trySaveToSelectedGameSlot()
     if (!m_saveGameScreen.active
         || m_saveGameScreen.slots.empty()
         || m_saveGameScreen.selectedIndex >= m_saveGameScreen.slots.size()
-        || !m_saveGameToPathCallback)
+        || !m_gameSession.canSaveGameToPath())
     {
         return false;
     }
@@ -8715,7 +8606,7 @@ bool OutdoorGameView::beginSaveWithPreview(
     const std::string &saveName,
     bool closeUiOnSuccess)
 {
-    if (!m_saveGameToPathCallback)
+    if (!m_gameSession.canSaveGameToPath())
     {
         return false;
     }
@@ -8730,20 +8621,6 @@ bool OutdoorGameView::beginSaveWithPreview(
     m_pendingSavePreviewCapture.closeUiOnSuccess = closeUiOnSuccess;
     m_pendingSavePreviewCapture.startedTicks = SDL_GetTicks();
     return true;
-}
-
-bool OutdoorGameView::tryLoadFromSelectedGameSlot()
-{
-    if (!m_loadGameScreen.active
-        || m_loadGameScreen.slots.empty()
-        || m_loadGameScreen.selectedIndex >= m_loadGameScreen.slots.size()
-        || !m_loadGameFromPathCallback)
-    {
-        return false;
-    }
-
-    std::string error;
-    return m_loadGameFromPathCallback(m_loadGameScreen.slots[m_loadGameScreen.selectedIndex].path, error);
 }
 
 void OutdoorGameView::clearWorldInteractionInputLatches()
@@ -9102,17 +8979,13 @@ void OutdoorGameView::openInventoryNestedOverlay(InventoryNestedOverlayMode mode
 
     closeHouseShopOverlay();
     m_gameplayUiController.openInventoryNestedOverlay(mode, houseId);
-    m_inventoryNestedOverlayClickLatch = false;
-    interactionState().inventoryNestedOverlayItemClickLatch = false;
-    m_inventoryNestedOverlayPressedTarget = {};
+    createGameplayOverlayContext().resetInventoryNestedOverlayInteractionState();
 }
 
 void OutdoorGameView::closeInventoryNestedOverlay()
 {
     m_gameplayUiController.closeInventoryNestedOverlay();
-    m_inventoryNestedOverlayClickLatch = false;
-    interactionState().inventoryNestedOverlayItemClickLatch = false;
-    m_inventoryNestedOverlayPressedTarget = {};
+    createGameplayOverlayContext().resetInventoryNestedOverlayInteractionState();
 }
 
 OutdoorGameView::QuickSpellCastResult OutdoorGameView::tryBeginQuickSpellCast()
@@ -11016,36 +10889,9 @@ const std::vector<uint8_t> *OutdoorGameView::journalMapPartiallyRevealedCells() 
     return m_outdoorMapDeltaData ? &m_outdoorMapDeltaData->partiallyRevealedCells : nullptr;
 }
 
-void OutdoorGameView::handleDialogueCloseRequest()
-{
-    OutdoorInteractionController::handleDialogueCloseRequest(*this);
-}
-
-void OutdoorGameView::requestOpenLoadGameScreen()
-{
-    openLoadGameScreen();
-}
-
 void OutdoorGameView::executeActiveDialogAction()
 {
     OutdoorInteractionController::executeActiveDialogAction(*this);
-}
-
-void OutdoorGameView::refreshHouseBankInputDialog()
-{
-    OutdoorInteractionController::refreshHouseBankInputDialog(*this);
-}
-
-void OutdoorGameView::confirmHouseBankInput()
-{
-    OutdoorInteractionController::confirmHouseBankInput(*this);
-}
-
-void OutdoorGameView::resetInventoryNestedOverlayInteractionState()
-{
-    m_inventoryNestedOverlayClickLatch = false;
-    interactionState().inventoryNestedOverlayItemClickLatch = false;
-    m_inventoryNestedOverlayPressedTarget = {};
 }
 
 GameSettings &OutdoorGameView::mutableSettings()
@@ -11789,14 +11635,6 @@ bool OutdoorGameView::renderHouseVideoFrame(float x, float y, float quadWidth, f
 
     submitWorldTextureQuad(m_houseVideoPlayer.textureHandle(), x, y, quadWidth, quadHeight, 0.0f, 0.0f, 1.0f, 1.0f);
     return true;
-}
-
-void OutdoorGameView::commitSettingsChange()
-{
-    if (m_settingsChangedCallback)
-    {
-        m_settingsChangedCallback(m_gameSettings);
-    }
 }
 
 void OutdoorGameView::setStatusBarEvent(const std::string &text, float durationSeconds)

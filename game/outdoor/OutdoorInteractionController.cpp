@@ -3,8 +3,10 @@
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/events/EvtEnums.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
+#include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/app/GameSession.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/SpawnPreview.h"
@@ -1105,14 +1107,14 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
     callbacks.requestTravelAutosave =
         [&view]()
         {
-            if (!view.m_saveGameToPathCallback)
+            if (!view.m_gameSession.canSaveGameToPath())
             {
                 return;
             }
 
             std::string error;
 
-            if (view.m_saveGameToPathCallback(view.m_autosavePath, "", {}, error))
+            if (view.m_gameSession.saveGameToPath(view.m_autosavePath, "", {}, error))
             {
                 view.refreshSaveGameSlots();
             }
@@ -1306,69 +1308,46 @@ void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &vi
 
 void OutdoorInteractionController::presentPendingEventDialog(OutdoorGameView &view, size_t previousMessageCount, bool allowNpcFallbackContent)
 {
-    EventRuntimeState *pEventRuntimeState =
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return;
-    }
-
-    view.closeHouseShopOverlay();
-    view.closeInventoryNestedOverlay();
-    const bool showBankInputCursor = (SDL_GetTicks() / 500u) % 2u == 0u;
-    GameplayDialogController::Context context = createGameplayDialogContext(view, *pEventRuntimeState, "present_pending_event_dialog");
-    const GameplayDialogController::PresentPendingDialogResult result =
-        view.m_gameplayDialogController.presentPendingEventDialog(
-            context,
-            previousMessageCount,
-            allowNpcFallbackContent,
-            showBankInputCursor);
-
-    if (!result.dialogOpened)
-    {
-        return;
-    }
-
-    view.m_eventDialogSelectionIndex = 0;
-    view.interactionState().eventDialogSelectUpLatch = false;
-    view.interactionState().eventDialogSelectDownLatch = false;
-    const bool suppressInitialAccept =
-        ([]() -> bool
+    GameplayDialogUiFlowState state = {
+        view.m_gameplayUiController,
+        view.interactionState(),
+        view.m_gameplayDialogController,
+        view.m_eventDialogSelectionIndex
+    };
+    GameplayDialogUiFlowPresentOptions options = {};
+    options.suppressInitialAcceptIfActivationKeysHeld = true;
+    ::OpenYAMM::Game::presentPendingEventDialog(
+        state,
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr,
+        [&view](EventRuntimeState &eventRuntimeState)
         {
-            const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+            return createGameplayDialogContext(view, eventRuntimeState, "present_pending_event_dialog");
+        },
+        previousMessageCount,
+        allowNpcFallbackContent,
+        options,
+        [&view](const GameplayDialogController::PresentPendingDialogResult &result)
+        {
+            std::cout << "Opened "
+                      << (view.m_activeEventDialog.isHouseDialog ? "house" : "npc")
+                      << " dialog for id=" << view.m_activeEventDialog.sourceId << '\n';
 
-            if (pKeyboardState == nullptr)
+            if (!result.wasDialogAlreadyActive
+                && (result.resolvedContext.kind == DialogueContextKind::NpcTalk
+                    || result.resolvedContext.kind == DialogueContextKind::NpcNews)
+                && result.resolvedContext.sourceId != 0
+                && view.m_pOutdoorPartyRuntime != nullptr)
             {
-                return false;
+                const size_t activeMemberIndex = view.m_pOutdoorPartyRuntime->party().activeMemberIndex();
+                const int currentHour =
+                    view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->currentHour() : -1;
+                const SpeechId greetingSpeechId =
+                    currentHour >= 0 && (currentHour < 5 || currentHour > 21)
+                        ? SpeechId::HelloEvening
+                        : SpeechId::HelloDay;
+                view.playSpeechReaction(activeMemberIndex, greetingSpeechId, true);
             }
-
-            return pKeyboardState[SDL_SCANCODE_SPACE]
-                || pKeyboardState[SDL_SCANCODE_RETURN]
-                || pKeyboardState[SDL_SCANCODE_KP_ENTER];
-        })();
-    view.interactionState().eventDialogAcceptLatch = suppressInitialAccept;
-    view.interactionState().eventDialogPartySelectLatches.fill(false);
-
-    std::cout << "Opened "
-              << (view.m_activeEventDialog.isHouseDialog ? "house" : "npc")
-              << " dialog for id=" << view.m_activeEventDialog.sourceId << '\n';
-
-    if (!result.wasDialogAlreadyActive
-        && (result.resolvedContext.kind == DialogueContextKind::NpcTalk
-            || result.resolvedContext.kind == DialogueContextKind::NpcNews)
-        && result.resolvedContext.sourceId != 0
-        && view.m_pOutdoorPartyRuntime != nullptr)
-    {
-        const size_t activeMemberIndex = view.m_pOutdoorPartyRuntime->party().activeMemberIndex();
-        const int currentHour =
-            view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->currentHour() : -1;
-        const SpeechId greetingSpeechId =
-            currentHour >= 0 && (currentHour < 5 || currentHour > 21)
-            ? SpeechId::HelloEvening
-            : SpeechId::HelloDay;
-        view.playSpeechReaction(activeMemberIndex, greetingSpeechId, true);
-    }
+        });
 }
 
 
@@ -1377,31 +1356,29 @@ void OutdoorInteractionController::closeActiveEventDialog(OutdoorGameView &view)
 {
     EventRuntimeState *pEventRuntimeState =
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-    const uint32_t hostHouseId =
-        pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
 
     if (pEventRuntimeState != nullptr)
     {
-        pEventRuntimeState->pendingDialogueContext.reset();
-        pEventRuntimeState->dialogueState = {};
+        pEventRuntimeState->grantedItems.clear();
+        pEventRuntimeState->grantedItemIds.clear();
     }
 
-    view.m_gameplayUiController.clearEventDialog();
-    view.m_eventDialogSelectionIndex = 0;
-    view.interactionState().eventDialogSelectUpLatch = false;
-    view.interactionState().eventDialogSelectDownLatch = false;
-    view.interactionState().eventDialogAcceptLatch = false;
-    view.interactionState().eventDialogPartySelectLatches.fill(false);
-    view.interactionState().dialogueClickLatch = false;
-    view.interactionState().dialoguePressedTarget = {};
-    view.closeHouseShopOverlay();
-    view.closeInventoryNestedOverlay();
-    view.clearHouseBankState();
-
-    if (hostHouseId != 0 && view.m_flipOnExitEnabled)
-    {
-        view.setCameraAngles(view.cameraYawRadians() + Pi, view.cameraPitchRadians());
-    }
+    GameplayDialogUiFlowState state = {
+        view.m_gameplayUiController,
+        view.interactionState(),
+        view.m_gameplayDialogController,
+        view.m_eventDialogSelectionIndex
+    };
+    ::OpenYAMM::Game::closeActiveEventDialog(
+        state,
+        pEventRuntimeState,
+        [&view](uint32_t hostHouseId)
+        {
+            if (hostHouseId != 0 && view.m_flipOnExitEnabled)
+            {
+                view.setCameraAngles(view.cameraYawRadians() + Pi, view.cameraPitchRadians());
+            }
+        });
 }
 
 
@@ -1673,37 +1650,39 @@ void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(Outdoor
 
 void OutdoorInteractionController::refreshHouseBankInputDialog(OutdoorGameView &view)
 {
-    EventRuntimeState *pEventRuntimeState =
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return;
-    }
-
-    const bool showCursor = (SDL_GetTicks() / 500u) % 2u == 0u;
-    GameplayDialogController::Context context = createGameplayDialogContext(view, *pEventRuntimeState, "refresh_house_bank_input_dialog");
-    view.m_gameplayDialogController.refreshHouseBankInputDialog(context, showCursor);
+    GameplayDialogUiFlowState state = {
+        view.m_gameplayUiController,
+        view.interactionState(),
+        view.m_gameplayDialogController,
+        view.m_eventDialogSelectionIndex
+    };
+    ::OpenYAMM::Game::refreshHouseBankInputDialog(
+        state,
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr,
+        [&view](EventRuntimeState &eventRuntimeState)
+        {
+            return createGameplayDialogContext(view, eventRuntimeState, "refresh_house_bank_input_dialog");
+        },
+        (SDL_GetTicks() / 500u) % 2u == 0u);
 }
 
 
 
 void OutdoorInteractionController::returnToHouseBankMainDialog(OutdoorGameView &view)
 {
-    view.interactionState().houseBankDigitLatches.fill(false);
-    view.interactionState().houseBankBackspaceLatch = false;
-    view.interactionState().houseBankConfirmLatch = false;
-
-    EventRuntimeState *pEventRuntimeState =
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return;
-    }
-    
-    GameplayDialogController::Context context = createGameplayDialogContext(view, *pEventRuntimeState, "return_to_house_bank_main_dialog");
-    const GameplayDialogController::Result result = view.m_gameplayDialogController.returnToHouseBankMainDialog(context);
+    GameplayDialogUiFlowState state = {
+        view.m_gameplayUiController,
+        view.interactionState(),
+        view.m_gameplayDialogController,
+        view.m_eventDialogSelectionIndex
+    };
+    const GameplayDialogController::Result result = ::OpenYAMM::Game::returnToHouseBankMainDialog(
+        state,
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr,
+        [&view](EventRuntimeState &eventRuntimeState)
+        {
+            return createGameplayDialogContext(view, eventRuntimeState, "return_to_house_bank_main_dialog");
+        });
 
     if (result.shouldOpenPendingEventDialog)
     {
@@ -1718,19 +1697,19 @@ void OutdoorInteractionController::returnToHouseBankMainDialog(OutdoorGameView &
 
 void OutdoorInteractionController::confirmHouseBankInput(OutdoorGameView &view)
 {
-    EventRuntimeState *pEventRuntimeState =
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return;
-    }
-
-    GameplayDialogController::Context context = createGameplayDialogContext(view, *pEventRuntimeState, "confirm_house_bank_input");
-    const GameplayDialogController::Result result = view.m_gameplayDialogController.confirmHouseBankInput(context);
-    view.interactionState().houseBankDigitLatches.fill(false);
-    view.interactionState().houseBankBackspaceLatch = false;
-    view.interactionState().houseBankConfirmLatch = false;
+    GameplayDialogUiFlowState state = {
+        view.m_gameplayUiController,
+        view.interactionState(),
+        view.m_gameplayDialogController,
+        view.m_eventDialogSelectionIndex
+    };
+    const GameplayDialogController::Result result = ::OpenYAMM::Game::confirmHouseBankInput(
+        state,
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr,
+        [&view](EventRuntimeState &eventRuntimeState)
+        {
+            return createGameplayDialogContext(view, eventRuntimeState, "confirm_house_bank_input");
+        });
 
     if (result.shouldOpenPendingEventDialog)
     {

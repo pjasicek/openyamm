@@ -359,6 +359,19 @@ struct GameplaySaveLoadPointerTarget
     bool operator==(const GameplaySaveLoadPointerTarget &other) const = default;
 };
 
+enum class GameplayInventoryNestedOverlayPointerTargetType
+{
+    None,
+    CloseButton
+};
+
+struct GameplayInventoryNestedOverlayPointerTarget
+{
+    GameplayInventoryNestedOverlayPointerTargetType type = GameplayInventoryNestedOverlayPointerTargetType::None;
+
+    bool operator==(const GameplayInventoryNestedOverlayPointerTarget &other) const = default;
+};
+
 struct GameplayOverlayInteractionState
 {
     bool closeOverlayLatch = false;
@@ -405,6 +418,8 @@ struct GameplayOverlayInteractionState
     bool chestClickLatch = false;
     bool chestItemClickLatch = false;
     GameplayChestPointerTarget chestPressedTarget = {};
+    bool inventoryNestedOverlayClickLatch = false;
+    GameplayInventoryNestedOverlayPointerTarget inventoryNestedOverlayPressedTarget = {};
     bool inventoryNestedOverlayItemClickLatch = false;
     std::array<bool, 10> houseBankDigitLatches = {};
     bool houseBankBackspaceLatch = false;

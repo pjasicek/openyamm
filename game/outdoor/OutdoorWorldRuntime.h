@@ -668,6 +668,7 @@ public:
     float partyFootZ() const override;
     void syncSpellMovementStatesFromPartyBuffs() override;
     void requestPartyJump() override;
+    void cancelPendingMapTransition() override;
     const MapDeltaData *mapDeltaData() const override;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;

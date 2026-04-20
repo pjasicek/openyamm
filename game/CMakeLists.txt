@@ -29,6 +29,7 @@ add_executable(openyamm
     gameplay/CorpseLootRuntime.cpp
     gameplay/ChestRuntime.cpp
     gameplay/GameplayDialogController.cpp
+    gameplay/GameplayDialogUiFlow.cpp
     gameplay/GameplayOverlayInputController.cpp
     gameplay/GameplayPartyOverlayInputController.cpp
     gameplay/GameplayScreenHotkeyController.cpp

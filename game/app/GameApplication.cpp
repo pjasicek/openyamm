@@ -502,6 +502,29 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
     , m_lastFrameWidth(config.windowWidth)
     , m_lastFrameHeight(config.windowHeight)
 {
+    m_gameSession.setSaveGameToPathCallback(
+        [this](
+            const std::filesystem::path &path,
+            const std::string &saveName,
+            const std::vector<uint8_t> &previewBmp,
+            std::string &error) -> bool
+        {
+            static_cast<void>(error);
+            return quickSaveToPath(path, saveName, previewBmp);
+        });
+    m_gameSession.setSettingsChangedCallback(
+        [this](const GameSettings &settings)
+        {
+            m_settings = settings;
+            std::string error;
+
+            if (!saveGameSettings(settingsFilePath(), m_settings, error))
+            {
+                std::cerr << "GameApplication: failed to write settings.ini: " << error << '\n';
+            }
+
+            applyCurrentSettingsToActiveRuntime();
+        });
 }
 
 int GameApplication::run()
@@ -823,34 +846,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->outdoorMapDeltaData,
             &m_gameAudioSystem,
             *static_cast<OutdoorSceneRuntime *>(m_pMapSceneRuntime.get()),
-            m_settings,
-            [this](
-                const std::filesystem::path &path,
-                const std::string &saveName,
-                const std::vector<uint8_t> &previewBmp,
-                std::string &error) -> bool
-            {
-                static_cast<void>(error);
-                return quickSaveToPath(path, saveName, previewBmp);
-            },
-            [this](const std::filesystem::path &path, std::string &error) -> bool
-            {
-                static_cast<void>(error);
-                return quickLoadFromPath(path, true);
-            },
-            [this](const GameSettings &settings)
-            {
-                m_settings = settings;
-                std::string error;
-
-                if (!saveGameSettings(settingsFilePath(), m_settings, error))
-                {
-                    std::cerr << "GameApplication: failed to write settings.ini: " << error << '\n';
-                }
-
-                applyCurrentSettingsToActiveRuntime();
-            }
-        );
+            m_settings);
 
         if (!initialized)
         {
@@ -923,28 +919,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
                 selectedMap->map,
                 m_indoorDebugRenderer,
                 *pIndoorSceneRuntime,
-                &m_gameAudioSystem,
-                [this](
-                    const std::filesystem::path &path,
-                    const std::string &saveName,
-                    const std::vector<uint8_t> &previewBmp,
-                    std::string &error) -> bool
-                {
-                    static_cast<void>(error);
-                    return quickSaveToPath(path, saveName, previewBmp);
-                },
-                [this](const GameSettings &settings)
-                {
-                    m_settings = settings;
-                    std::string error;
-
-                    if (!saveGameSettings(settingsFilePath(), m_settings, error))
-                    {
-                        std::cerr << "GameApplication: failed to write settings.ini: " << error << '\n';
-                    }
-
-                    applyCurrentSettingsToActiveRuntime();
-                }))
+                &m_gameAudioSystem))
         {
             std::cerr
                 << "GameApplication: indoor gameplay view initialization failed for map "
@@ -1914,13 +1889,13 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     {
         m_outdoorGameView.render(width, height, mouseWheelDelta, deltaSeconds);
 
-        if (m_outdoorGameView.consumePendingOpenNewGameScreenRequest())
+        if (m_gameSession.consumePendingOpenNewGameScreenRequest())
         {
             openNewGameScreen();
             return;
         }
 
-        if (m_outdoorGameView.consumePendingOpenLoadGameScreenRequest())
+        if (m_gameSession.consumePendingOpenLoadGameScreenRequest())
         {
             openLoadGameScreen(true);
             return;
@@ -1954,13 +1929,13 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     {
         m_indoorGameView.render(width, height, mouseWheelDelta, deltaSeconds);
 
-        if (m_indoorGameView.consumePendingOpenNewGameScreenRequest())
+        if (m_gameSession.consumePendingOpenNewGameScreenRequest())
         {
             openNewGameScreen();
             return;
         }
 
-        if (m_indoorGameView.consumePendingOpenLoadGameScreenRequest())
+        if (m_gameSession.consumePendingOpenLoadGameScreenRequest())
         {
             openLoadGameScreen(true);
             return;

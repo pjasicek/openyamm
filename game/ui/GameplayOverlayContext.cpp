@@ -1,5 +1,7 @@
 #include "game/ui/GameplayOverlayContext.h"
 
+#include "game/gameplay/GameplayDialogContextBuilder.h"
+#include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/items/InventoryItemUseRuntime.h"
 #include "game/party/SpellSchool.h"
@@ -55,6 +57,107 @@ GameplayUiController &GameplayOverlayContext::uiController() const
 GameplayOverlayInteractionState &GameplayOverlayContext::interactionState() const
 {
     return m_session.overlayInteractionState();
+}
+
+GameplayDialogUiFlowState GameplayOverlayContext::dialogUiFlowState()
+{
+    return {
+        uiController(),
+        interactionState(),
+        m_session.gameplayDialogController(),
+        eventDialogSelectionIndex()
+    };
+}
+
+GameplayDialogController::Context GameplayOverlayContext::buildDialogContext(EventRuntimeState &eventRuntimeState)
+{
+    GameplayDialogController::Callbacks callbacks = {};
+    callbacks.playSpeechReaction =
+        [this](size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
+        {
+            playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
+        };
+    callbacks.playHouseSound =
+        [this](uint32_t soundId)
+        {
+            if (m_pAudioSystem != nullptr)
+            {
+                m_pAudioSystem->playSound(soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
+            }
+        };
+    callbacks.cancelMapTransition =
+        [this]()
+        {
+            if (IGameplayWorldRuntime *pWorldRuntime = worldRuntime())
+            {
+                pWorldRuntime->cancelPendingMapTransition();
+            }
+        };
+
+    const MapStatsEntry *pCurrentMap = m_session.hasCurrentMapFileName()
+        ? m_session.data().mapStats().findByFileName(m_session.currentMapFileName())
+        : nullptr;
+
+    return buildGameplayDialogContext(
+        uiController(),
+        eventRuntimeState,
+        activeEventDialog(),
+        eventDialogSelectionIndex(),
+        party(),
+        worldRuntime(),
+        nullptr,
+        houseTable(),
+        classSkillTable(),
+        npcDialogTable(),
+        pCurrentMap,
+        &m_session.data().mapEntries(),
+        rosterTable(),
+        &m_session.data().arcomageLibrary(),
+        currentHudScreenState() == GameplayHudScreenState::Dialogue,
+        std::move(callbacks));
+}
+
+void GameplayOverlayContext::presentPendingEventDialogShared(size_t previousMessageCount, bool allowNpcFallbackContent)
+{
+    GameplayDialogUiFlowState state = dialogUiFlowState();
+    GameplayDialogUiFlowPresentOptions options = {};
+    options.suppressInitialAcceptIfActivationKeysHeld = m_session.currentSceneKind() == SceneKind::Outdoor;
+
+    ::OpenYAMM::Game::presentPendingEventDialog(
+        state,
+        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr,
+        [this](EventRuntimeState &eventRuntimeState)
+        {
+            return buildDialogContext(eventRuntimeState);
+        },
+        previousMessageCount,
+        allowNpcFallbackContent,
+        options);
+}
+
+void GameplayOverlayContext::closeActiveEventDialogShared()
+{
+    GameplayDialogUiFlowState state = dialogUiFlowState();
+    ::OpenYAMM::Game::closeActiveEventDialog(
+        state,
+        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr);
+}
+
+void GameplayOverlayContext::returnToHouseBankMainDialogShared()
+{
+    GameplayDialogUiFlowState state = dialogUiFlowState();
+    const GameplayDialogController::Result result = ::OpenYAMM::Game::returnToHouseBankMainDialog(
+        state,
+        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr,
+        [this](EventRuntimeState &eventRuntimeState)
+        {
+            return buildDialogContext(eventRuntimeState);
+        });
+
+    if (result.shouldOpenPendingEventDialog)
+    {
+        presentPendingEventDialogShared(result.previousMessageCount, result.allowNpcFallbackContent);
+    }
 }
 
 IGameplayWorldRuntime *GameplayOverlayContext::worldRuntime() const
@@ -847,7 +950,46 @@ void GameplayOverlayContext::toggleCharacterInventoryScreen()
 
 void GameplayOverlayContext::handleDialogueCloseRequest()
 {
-    m_sceneAdapter.handleDialogueCloseRequest();
+    if (houseBankState().inputActive())
+    {
+        returnToHouseBankMainDialogShared();
+        return;
+    }
+
+    if (inventoryNestedOverlay().active && currentHudScreenState() == GameplayHudScreenState::Dialogue)
+    {
+        closeInventoryNestedOverlay();
+        return;
+    }
+
+    if (houseShopOverlay().active)
+    {
+        uiController().closeHouseShopOverlay();
+        return;
+    }
+
+    EventRuntimeState *pEventRuntimeState = worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr)
+    {
+        closeActiveEventDialogShared();
+        interactionState().activateInspectLatch = true;
+        return;
+    }
+
+    GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
+    const GameplayDialogController::CloseDialogRequestResult result =
+        m_session.gameplayDialogController().handleDialogueCloseRequest(context);
+
+    if (result.shouldOpenPendingEventDialog)
+    {
+        presentPendingEventDialogShared(result.previousMessageCount, result.allowNpcFallbackContent);
+    }
+    else if (result.shouldCloseActiveDialog)
+    {
+        closeActiveEventDialogShared();
+        interactionState().activateInspectLatch = true;
+    }
 }
 
 void GameplayOverlayContext::closeRestOverlay()
@@ -1082,12 +1224,12 @@ void GameplayOverlayContext::closeSaveGameOverlay()
 
 void GameplayOverlayContext::requestOpenNewGameScreen()
 {
-    m_sceneAdapter.requestOpenNewGameScreen();
+    m_session.requestOpenNewGameScreen();
 }
 
 void GameplayOverlayContext::requestOpenLoadGameScreen()
 {
-    m_sceneAdapter.requestOpenLoadGameScreen();
+    m_session.requestOpenLoadGameScreen();
 }
 
 void GameplayOverlayContext::openJournalOverlay()
@@ -1159,12 +1301,32 @@ void GameplayOverlayContext::executeActiveDialogAction()
 
 void GameplayOverlayContext::refreshHouseBankInputDialog()
 {
-    m_sceneAdapter.refreshHouseBankInputDialog();
+    GameplayDialogUiFlowState state = dialogUiFlowState();
+    ::OpenYAMM::Game::refreshHouseBankInputDialog(
+        state,
+        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr,
+        [this](EventRuntimeState &eventRuntimeState)
+        {
+            return buildDialogContext(eventRuntimeState);
+        },
+        (SDL_GetTicks() / 500u) % 2u == 0u);
 }
 
 void GameplayOverlayContext::confirmHouseBankInput()
 {
-    m_sceneAdapter.confirmHouseBankInput();
+    GameplayDialogUiFlowState state = dialogUiFlowState();
+    const GameplayDialogController::Result result = ::OpenYAMM::Game::confirmHouseBankInput(
+        state,
+        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr,
+        [this](EventRuntimeState &eventRuntimeState)
+        {
+            return buildDialogContext(eventRuntimeState);
+        });
+
+    if (result.shouldOpenPendingEventDialog)
+    {
+        presentPendingEventDialogShared(result.previousMessageCount, result.allowNpcFallbackContent);
+    }
 }
 
 void GameplayOverlayContext::closeInventoryNestedOverlay()
@@ -1266,7 +1428,9 @@ bool GameplayOverlayContext::tryCastSpellRequest(
 
 void GameplayOverlayContext::resetInventoryNestedOverlayInteractionState()
 {
-    m_sceneAdapter.resetInventoryNestedOverlayInteractionState();
+    interactionState().inventoryNestedOverlayClickLatch = false;
+    interactionState().inventoryNestedOverlayPressedTarget = {};
+    interactionState().inventoryNestedOverlayItemClickLatch = false;
 }
 
 void GameplayOverlayContext::resetLootOverlayInteractionState()
@@ -1295,7 +1459,10 @@ const std::array<uint8_t, SDL_SCANCODE_COUNT> &GameplayOverlayContext::previousK
 
 void GameplayOverlayContext::commitSettingsChange()
 {
-    m_sceneAdapter.commitSettingsChange();
+    if (m_pSettings != nullptr)
+    {
+        m_session.notifySettingsChanged(*m_pSettings);
+    }
 }
 
 bool GameplayOverlayContext::trySaveToSelectedGameSlot()

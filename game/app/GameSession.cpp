@@ -55,6 +55,8 @@ void GameSession::clear()
     m_outdoorCameraPitchRadians = 0.0f;
     m_currentSavePath.reset();
     m_pendingMapMove.reset();
+    m_pendingOpenNewGameScreen = false;
+    m_pendingOpenLoadGameScreen = false;
 }
 
 const std::optional<Party> &GameSession::partyState() const
@@ -298,6 +300,62 @@ std::optional<EventRuntimeState::PendingMapMove> GameSession::consumePendingMapM
 void GameSession::clearPendingMapMove()
 {
     m_pendingMapMove.reset();
+}
+
+void GameSession::setSaveGameToPathCallback(SaveGameToPathCallback callback)
+{
+    m_saveGameToPathCallback = std::move(callback);
+}
+
+bool GameSession::canSaveGameToPath() const
+{
+    return static_cast<bool>(m_saveGameToPathCallback);
+}
+
+bool GameSession::saveGameToPath(
+    const std::filesystem::path &path,
+    const std::string &saveName,
+    const std::vector<uint8_t> &previewBmp,
+    std::string &error) const
+{
+    return m_saveGameToPathCallback && m_saveGameToPathCallback(path, saveName, previewBmp, error);
+}
+
+void GameSession::setSettingsChangedCallback(SettingsChangedCallback callback)
+{
+    m_settingsChangedCallback = std::move(callback);
+}
+
+void GameSession::notifySettingsChanged(const GameSettings &settings) const
+{
+    if (m_settingsChangedCallback)
+    {
+        m_settingsChangedCallback(settings);
+    }
+}
+
+void GameSession::requestOpenNewGameScreen()
+{
+    m_pendingOpenNewGameScreen = true;
+}
+
+void GameSession::requestOpenLoadGameScreen()
+{
+    m_pendingOpenLoadGameScreen = true;
+}
+
+bool GameSession::consumePendingOpenNewGameScreenRequest()
+{
+    const bool pending = m_pendingOpenNewGameScreen;
+    m_pendingOpenNewGameScreen = false;
+    return pending;
+}
+
+bool GameSession::consumePendingOpenLoadGameScreenRequest()
+{
+    const bool pending = m_pendingOpenLoadGameScreen;
+    m_pendingOpenLoadGameScreen = false;
+    return pending;
 }
 
 void GameSession::captureOutdoorRuntimeState(

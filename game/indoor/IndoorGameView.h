@@ -61,19 +61,11 @@ public:
         const MapStatsEntry &map,
         IndoorDebugRenderer &indoorRenderer,
         IndoorSceneRuntime &sceneRuntime,
-        GameAudioSystem *pGameAudioSystem,
-        std::function<bool(
-            const std::filesystem::path &,
-            const std::string &,
-            const std::vector<uint8_t> &,
-            std::string &)> saveGameToPathCallback,
-        std::function<void(const GameSettings &)> settingsChangedCallback);
+        GameAudioSystem *pGameAudioSystem);
     void setSettingsSnapshot(const GameSettings &settings);
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void shutdown();
     void reopenMenuScreen();
-    bool consumePendingOpenNewGameScreenRequest();
-    bool consumePendingOpenLoadGameScreenRequest();
 
     IndoorPartyRuntime *partyRuntime() const;
     IGameplayWorldRuntime *worldRuntime() const;
@@ -102,12 +94,7 @@ public:
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
-    void handleDialogueCloseRequest() override;
-    void requestOpenNewGameScreen() override;
-    void requestOpenLoadGameScreen() override;
     void executeActiveDialogAction() override;
-    void refreshHouseBankInputDialog() override;
-    void confirmHouseBankInput() override;
     bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) override;
     void updateReadableScrollOverlayForHeldItem(
         size_t memberIndex,
@@ -115,7 +102,6 @@ public:
         bool isLeftMousePressed);
     void closeReadableScrollOverlay();
     void closeInventoryNestedOverlay();
-    void resetInventoryNestedOverlayInteractionState() override;
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) override;
     bool tryCastSpellFromMember(
         size_t casterMemberIndex,
@@ -127,7 +113,6 @@ public:
     GameSettings &mutableSettings();
     std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState();
     const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
-    void commitSettingsChange() override;
     bool trySaveToSelectedGameSlot() override;
     int restFoodRequired() const override;
     const GameSettings &settingsSnapshot() const;
@@ -353,12 +338,6 @@ private:
     GameplayOverlayInteractionState &m_overlayInteractionState;
     GameplayAssetLoadCache &m_hudAssetLoadCache;
     UiLayoutManager &m_uiLayoutManager;
-    std::function<bool(
-        const std::filesystem::path &,
-        const std::string &,
-        const std::vector<uint8_t> &,
-        std::string &)> m_saveGameToPathCallback;
-    std::function<void(const GameSettings &)> m_settingsChangedCallback;
     bool m_partyPortraitClickLatch = false;
     std::optional<size_t> m_partyPortraitPressedIndex;
     uint64_t m_lastPartyPortraitClickTicks = 0;
@@ -367,8 +346,6 @@ private:
     int m_gameplayHudPressedButton = 0;
     bool m_gameplayMouseLookActive = false;
     bool m_gameplayCursorModeActive = false;
-    bool m_pendingOpenNewGameScreen = false;
-    bool m_pendingOpenLoadGameScreen = false;
     std::vector<HudTextureHandleInternal> &m_hudTextureHandles;
     std::unordered_map<std::string, size_t> &m_hudTextureIndexByName;
     std::vector<HudFontHandleInternal> &m_hudFontHandles;

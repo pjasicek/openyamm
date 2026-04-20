@@ -5,6 +5,7 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayOverlayInputController.h"
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
+#include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GameplayScreenHotkeyController.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/items/InventoryItemUseRuntime.h"
@@ -1047,13 +1048,7 @@ bool IndoorGameView::initialize(
     const MapStatsEntry &map,
     IndoorDebugRenderer &indoorRenderer,
     IndoorSceneRuntime &sceneRuntime,
-    GameAudioSystem *pGameAudioSystem,
-    std::function<bool(
-        const std::filesystem::path &,
-        const std::string &,
-        const std::vector<uint8_t> &,
-        std::string &)> saveGameToPathCallback,
-    std::function<void(const GameSettings &)> settingsChangedCallback)
+    GameAudioSystem *pGameAudioSystem)
 {
     shutdown();
     const GameDataRepository &data = m_gameSession.data();
@@ -1063,8 +1058,6 @@ bool IndoorGameView::initialize(
     m_pIndoorSceneRuntime = &sceneRuntime;
     m_pGameAudioSystem = pGameAudioSystem;
     m_map = map;
-    m_saveGameToPathCallback = std::move(saveGameToPathCallback);
-    m_settingsChangedCallback = std::move(settingsChangedCallback);
     m_gameplayUiRuntime.bindAssetFileSystem(&assetFileSystem);
     m_gameplayUiController.clearRuntimeState();
 
@@ -1711,8 +1704,6 @@ void IndoorGameView::shutdown()
     m_pIndoorSceneRuntime = nullptr;
     m_pGameAudioSystem = nullptr;
     m_map.reset();
-    m_saveGameToPathCallback = {};
-    m_settingsChangedCallback = {};
     m_gameplayUiRuntime.clear();
     m_gameplayUiController.clearRuntimeState();
     interactionState().closeOverlayLatch = false;
@@ -1777,8 +1768,6 @@ void IndoorGameView::shutdown()
     m_gameplayHudPressedButton = 0;
     m_gameplayMouseLookActive = false;
     m_gameplayCursorModeActive = false;
-    m_pendingOpenNewGameScreen = false;
-    m_pendingOpenLoadGameScreen = false;
     m_gameSession.previousKeyboardState().fill(0);
     m_renderedInspectableHudItems.clear();
     m_hudLayoutRuntimeHeightOverrides.clear();
@@ -1787,20 +1776,6 @@ void IndoorGameView::shutdown()
 void IndoorGameView::reopenMenuScreen()
 {
     createGameplayOverlayContext().openMenuOverlay();
-}
-
-bool IndoorGameView::consumePendingOpenNewGameScreenRequest()
-{
-    const bool pending = m_pendingOpenNewGameScreen;
-    m_pendingOpenNewGameScreen = false;
-    return pending;
-}
-
-bool IndoorGameView::consumePendingOpenLoadGameScreenRequest()
-{
-    const bool pending = m_pendingOpenLoadGameScreen;
-    m_pendingOpenLoadGameScreen = false;
-    return pending;
 }
 
 IndoorPartyRuntime *IndoorGameView::partyRuntime() const
@@ -2048,43 +2023,6 @@ void IndoorGameView::setStatusBarEvent(const std::string &text, float durationSe
     m_gameplayUiController.setStatusBarEvent(text, durationSeconds);
 }
 
-void IndoorGameView::handleDialogueCloseRequest()
-{
-    EventRuntimeState *pEventRuntimeState =
-        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState == nullptr)
-    {
-        closeActiveEventDialog();
-        interactionState().activateInspectLatch = true;
-        return;
-    }
-
-    GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
-    const GameplayDialogController::CloseDialogRequestResult result =
-        m_gameplayDialogController.handleDialogueCloseRequest(context);
-
-    if (result.shouldOpenPendingEventDialog)
-    {
-        presentPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
-    }
-    else if (result.shouldCloseActiveDialog)
-    {
-        closeActiveEventDialog();
-        interactionState().activateInspectLatch = true;
-    }
-}
-
-void IndoorGameView::requestOpenNewGameScreen()
-{
-    m_pendingOpenNewGameScreen = true;
-}
-
-void IndoorGameView::requestOpenLoadGameScreen()
-{
-    m_pendingOpenLoadGameScreen = true;
-}
-
 void IndoorGameView::executeActiveDialogAction()
 {
     EventRuntimeState *pEventRuntimeState =
@@ -2109,42 +2047,6 @@ void IndoorGameView::executeActiveDialogAction()
     }
 }
 
-void IndoorGameView::refreshHouseBankInputDialog()
-{
-    EventRuntimeState *pEventRuntimeState =
-        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return;
-    }
-
-    const bool showCursor = (SDL_GetTicks() / 500u) % 2u == 0u;
-    GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
-    m_gameplayDialogController.refreshHouseBankInputDialog(context, showCursor);
-}
-
-void IndoorGameView::confirmHouseBankInput()
-{
-    EventRuntimeState *pEventRuntimeState =
-        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return;
-    }
-
-    GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
-    const GameplayDialogController::Result result = m_gameplayDialogController.confirmHouseBankInput(context);
-    interactionState().houseBankDigitLatches.fill(false);
-    interactionState().houseBankBackspaceLatch = false;
-    interactionState().houseBankConfirmLatch = false;
-
-    if (result.shouldOpenPendingEventDialog)
-    {
-        presentPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
-    }
-}
 
 void IndoorGameView::closeInventoryNestedOverlay()
 {
@@ -2311,11 +2213,6 @@ void IndoorGameView::closeReadableScrollOverlay()
     m_gameplayUiController.closeReadableScrollOverlay();
 }
 
-void IndoorGameView::resetInventoryNestedOverlayInteractionState()
-{
-    interactionState().inventoryNestedOverlayItemClickLatch = false;
-}
-
 void IndoorGameView::playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
 {
     (void)memberIndex;
@@ -2452,14 +2349,6 @@ const std::array<uint8_t, SDL_SCANCODE_COUNT> &IndoorGameView::previousKeyboardS
     return m_gameSession.previousKeyboardState();
 }
 
-void IndoorGameView::commitSettingsChange()
-{
-    if (m_settingsChangedCallback)
-    {
-        m_settingsChangedCallback(m_settings);
-    }
-}
-
 bool IndoorGameView::trySaveToSelectedGameSlot()
 {
     GameplayUiController::SaveGameScreenState &saveGameScreen = m_gameplayUiController.saveGameScreen();
@@ -2467,7 +2356,7 @@ bool IndoorGameView::trySaveToSelectedGameSlot()
     if (!saveGameScreen.active
         || saveGameScreen.slots.empty()
         || saveGameScreen.selectedIndex >= saveGameScreen.slots.size()
-        || !m_saveGameToPathCallback)
+        || !m_gameSession.canSaveGameToPath())
     {
         return false;
     }
@@ -2490,7 +2379,7 @@ bool IndoorGameView::trySaveToSelectedGameSlot()
     }
 
     std::string error;
-    const bool saved = m_saveGameToPathCallback(
+    const bool saved = m_gameSession.saveGameToPath(
         saveGameScreen.slots[saveGameScreen.selectedIndex].path,
         saveName,
         {},
@@ -4063,58 +3952,33 @@ GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntim
 
 void IndoorGameView::presentPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent)
 {
-    EventRuntimeState *pEventRuntimeState =
-        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return;
-    }
-
-    closeInventoryNestedOverlay();
-    houseShopOverlay() = {};
-    const bool showBankInputCursor = (SDL_GetTicks() / 500u) % 2u == 0u;
-    GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
-    const GameplayDialogController::PresentPendingDialogResult result =
-        m_gameplayDialogController.presentPendingEventDialog(
-            context,
-            previousMessageCount,
-            allowNpcFallbackContent,
-            showBankInputCursor);
-
-    if (!result.dialogOpened)
-    {
-        return;
-    }
-
-    eventDialogSelectionIndex() = 0;
-    interactionState().eventDialogSelectUpLatch = false;
-    interactionState().eventDialogSelectDownLatch = false;
-    interactionState().eventDialogAcceptLatch = false;
-    interactionState().eventDialogPartySelectLatches.fill(false);
+    GameplayDialogUiFlowState state = {
+        m_gameplayUiController,
+        interactionState(),
+        m_gameplayDialogController,
+        eventDialogSelectionIndex()
+    };
+    ::OpenYAMM::Game::presentPendingEventDialog(
+        state,
+        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr,
+        [this](EventRuntimeState &eventRuntimeState)
+        {
+            return buildDialogContext(eventRuntimeState);
+        },
+        previousMessageCount,
+        allowNpcFallbackContent);
 }
 
 void IndoorGameView::closeActiveEventDialog()
 {
-    EventRuntimeState *pEventRuntimeState =
-        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState != nullptr)
-    {
-        pEventRuntimeState->pendingDialogueContext.reset();
-        pEventRuntimeState->dialogueState = {};
-    }
-
-    m_gameplayUiController.clearEventDialog();
-    eventDialogSelectionIndex() = 0;
-    interactionState().eventDialogSelectUpLatch = false;
-    interactionState().eventDialogSelectDownLatch = false;
-    interactionState().eventDialogAcceptLatch = false;
-    interactionState().eventDialogPartySelectLatches.fill(false);
-    interactionState().dialogueClickLatch = false;
-    interactionState().dialoguePressedTarget = {};
-    houseShopOverlay() = {};
-    closeInventoryNestedOverlay();
-    m_gameplayUiController.clearHouseBankState();
+    GameplayDialogUiFlowState state = {
+        m_gameplayUiController,
+        interactionState(),
+        m_gameplayDialogController,
+        eventDialogSelectionIndex()
+    };
+    ::OpenYAMM::Game::closeActiveEventDialog(
+        state,
+        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr);
 }
 } // namespace OpenYAMM::Game

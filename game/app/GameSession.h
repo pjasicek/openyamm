@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/events/EventRuntime.h"
+#include "game/app/GameSettings.h"
 #include "game/gameplay/GameplayDialogController.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/maps/SaveGame.h"
@@ -14,6 +15,7 @@
 
 #include <array>
 #include <filesystem>
+#include <functional>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -23,6 +25,13 @@ namespace OpenYAMM::Game
 class GameSession
 {
 public:
+    using SaveGameToPathCallback = std::function<bool(
+        const std::filesystem::path &,
+        const std::string &,
+        const std::vector<uint8_t> &,
+        std::string &)>;
+    using SettingsChangedCallback = std::function<void(const GameSettings &)>;
+
     void clear();
     void bindDataRepository(const GameDataRepository *pDataRepository);
     bool hasDataRepository() const;
@@ -89,6 +98,22 @@ public:
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove();
     void clearPendingMapMove();
 
+    void setSaveGameToPathCallback(SaveGameToPathCallback callback);
+    bool canSaveGameToPath() const;
+    bool saveGameToPath(
+        const std::filesystem::path &path,
+        const std::string &saveName,
+        const std::vector<uint8_t> &previewBmp,
+        std::string &error) const;
+
+    void setSettingsChangedCallback(SettingsChangedCallback callback);
+    void notifySettingsChanged(const GameSettings &settings) const;
+
+    void requestOpenNewGameScreen();
+    void requestOpenLoadGameScreen();
+    bool consumePendingOpenNewGameScreenRequest();
+    bool consumePendingOpenLoadGameScreenRequest();
+
     void captureOutdoorRuntimeState(
         const std::string &mapFileName,
         const Party &party,
@@ -127,5 +152,9 @@ private:
     float m_outdoorCameraPitchRadians = 0.0f;
     std::optional<std::filesystem::path> m_currentSavePath;
     std::optional<EventRuntimeState::PendingMapMove> m_pendingMapMove;
+    SaveGameToPathCallback m_saveGameToPathCallback;
+    SettingsChangedCallback m_settingsChangedCallback;
+    bool m_pendingOpenNewGameScreen = false;
+    bool m_pendingOpenLoadGameScreen = false;
 };
 }

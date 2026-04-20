@@ -89,6 +89,7 @@ public:
     virtual float partyFootZ() const = 0;
     virtual void syncSpellMovementStatesFromPartyBuffs() = 0;
     virtual void requestPartyJump() = 0;
+    virtual void cancelPendingMapTransition() = 0;
     virtual EventRuntimeState *eventRuntimeState() = 0;
     virtual const EventRuntimeState *eventRuntimeState() const = 0;
     virtual bool castEventSpell(

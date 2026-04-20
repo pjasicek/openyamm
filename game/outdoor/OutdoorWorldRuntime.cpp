@@ -11231,6 +11231,39 @@ void OutdoorWorldRuntime::requestPartyJump()
     }
 }
 
+void OutdoorWorldRuntime::cancelPendingMapTransition()
+{
+    if (m_pOutdoorMapData == nullptr || m_pPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    const MapBounds &bounds = m_map.outdoorBounds;
+
+    if (!bounds.enabled)
+    {
+        return;
+    }
+
+    constexpr float CancelClampInset = 1.0f;
+    const OutdoorMoveState &moveState = m_pPartyRuntime->movementState();
+    const float clampedX = std::clamp(
+        moveState.x,
+        static_cast<float>(bounds.minX) + CancelClampInset,
+        static_cast<float>(bounds.maxX) - CancelClampInset);
+    const float clampedY = std::clamp(
+        moveState.y,
+        static_cast<float>(bounds.minY) + CancelClampInset,
+        static_cast<float>(bounds.maxY) - CancelClampInset);
+
+    if (clampedX == moveState.x && clampedY == moveState.y)
+    {
+        return;
+    }
+
+    m_pPartyRuntime->teleportTo(clampedX, clampedY, moveState.footZ);
+}
+
 const MapDeltaData *OutdoorWorldRuntime::mapDeltaData() const
 {
     return m_pOutdoorMapDeltaData;

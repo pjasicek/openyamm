@@ -158,6 +158,10 @@ void IndoorWorldRuntime::requestPartyJump()
     }
 }
 
+void IndoorWorldRuntime::cancelPendingMapTransition()
+{
+}
+
 bool IndoorWorldRuntime::castEventSpell(
     uint32_t spellId,
     uint32_t skillLevel,

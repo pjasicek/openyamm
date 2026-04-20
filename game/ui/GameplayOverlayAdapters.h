@@ -48,14 +48,8 @@ public:
     virtual const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const = 0;
 
     virtual bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady) = 0;
-    virtual void handleDialogueCloseRequest() = 0;
-    virtual void requestOpenNewGameScreen() = 0;
-    virtual void requestOpenLoadGameScreen() = 0;
     virtual void executeActiveDialogAction() = 0;
-    virtual void refreshHouseBankInputDialog() = 0;
-    virtual void confirmHouseBankInput() = 0;
     virtual bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) = 0;
-    virtual void resetInventoryNestedOverlayInteractionState() = 0;
     virtual void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation) = 0;
     virtual bool tryCastSpellFromMember(
         size_t casterMemberIndex,
@@ -64,7 +58,6 @@ public:
     virtual bool tryCastSpellRequest(
         const PartySpellCastRequest &request,
         const std::string &spellName) = 0;
-    virtual void commitSettingsChange() = 0;
     virtual bool trySaveToSelectedGameSlot() = 0;
     virtual int restFoodRequired() const = 0;
 };
