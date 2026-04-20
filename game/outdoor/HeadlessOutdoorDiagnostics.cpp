@@ -38,6 +38,7 @@
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
+#include "game/ui/GameplayOverlayContext.h"
 #include "game/party/SpellIds.h"
 #include "game/SpriteObjectDefs.h"
 
@@ -268,6 +269,11 @@ struct GameApplicationTestAccess
     static OutdoorGameView &outdoorGameView(GameApplication &application)
     {
         return application.m_outdoorGameView;
+    }
+
+    static void consumePendingPortraitEventFxRequests(GameApplication &application)
+    {
+        application.m_outdoorGameView.createGameplayOverlayContext().consumePendingPortraitEventFxRequests();
     }
 
     static bool heldInventoryItemActive(const GameApplication &application)
@@ -22927,7 +22933,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            OutdoorPresentationController::consumePendingPortraitEventFxRequests(view);
+            GameApplicationTestAccess::consumePendingPortraitEventFxRequests(application);
 
             if (!pEventRuntimeState->spellFxRequests.empty())
             {

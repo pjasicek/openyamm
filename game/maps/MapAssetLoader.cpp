@@ -1,5 +1,6 @@
 #include "game/data/ActorNameResolver.h"
 #include "game/events/EvtEnums.h"
+#include "game/maps/IndoorSceneYml.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/OutdoorSceneYml.h"
 #include "game/maps/TerrainTileData.h"
@@ -3048,7 +3049,45 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
         if (assetInfo.indoorMapData)
         {
-            if (companionBytes)
+            if (sceneText)
+            {
+                IndoorSceneYmlLoader sceneLoader = {};
+                std::string sceneError;
+                const std::optional<IndoorSceneData> sceneData = sceneLoader.loadFromText(*sceneText, sceneError);
+
+                if (!sceneData)
+                {
+                    std::cerr << "Failed to parse indoor scene yml for " << map.fileName
+                              << ": " << sceneError << '\n';
+                    return std::nullopt;
+                }
+
+                if (!sceneData->geometryFile.empty()
+                    && toLowerCopy(sceneData->geometryFile) != toLowerCopy(map.fileName))
+                {
+                    std::cerr << "Failed to build indoor scene state for " << map.fileName
+                              << ": scene geometry_file does not match loaded indoor geometry\n";
+                    return std::nullopt;
+                }
+
+                MapDeltaData sceneMapDeltaData = {};
+
+                if (!buildIndoorMapStateFromScene(
+                        *sceneData,
+                        *assetInfo.indoorMapData,
+                        sceneMapDeltaData,
+                        sceneError))
+                {
+                    std::cerr << "Failed to build indoor scene state for " << map.fileName
+                              << ": " << sceneError << '\n';
+                    return std::nullopt;
+                }
+
+                assetInfo.indoorMapDeltaData = std::move(sceneMapDeltaData);
+                assetInfo.authoredCompanionSource = AuthoredCompanionSource::SceneYml;
+                logStageComplete("indoor scene yml applied");
+            }
+            else if (companionBytes)
             {
                 const MapDeltaDataLoader mapDeltaDataLoader;
                 assetInfo.indoorMapDeltaData =
@@ -3056,6 +3095,7 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
                 if (assetInfo.indoorMapDeltaData)
                 {
+                    assetInfo.authoredCompanionSource = AuthoredCompanionSource::LegacyCompanion;
                     logStageComplete("indoor map delta parsed");
                 }
             }
@@ -3223,6 +3263,11 @@ std::optional<std::string> MapAssetLoader::buildSceneFileName(const std::string 
     const std::string extension = normalized.substr(normalized.size() - 4);
 
     if (extension == ".odm")
+    {
+        return stem + ".scene.yml";
+    }
+
+    if (extension == ".blv")
     {
         return stem + ".scene.yml";
     }

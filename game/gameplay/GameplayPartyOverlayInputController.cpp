@@ -234,7 +234,7 @@ size_t maxLloydBeaconSlots(const Character *pCharacter)
 
 bool isTownPortalDestinationUnlocked(
     const Party *pParty,
-    const OutdoorGameView::TownPortalDestination &destination)
+    const GameplayTownPortalDestination &destination)
 {
     if (destination.unlockQBitId == 0)
     {
@@ -600,12 +600,12 @@ void handlePointerClickRelease(
 } // namespace
 
 void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
-    OutdoorGameView &view,
+    GameplayOverlayContext &context,
     const bool *pKeyboardState,
     int screenWidth,
     int screenHeight)
 {
-    if (!view.m_utilitySpellOverlay.active)
+    if (!context.utilitySpellOverlayReadOnly().active)
     {
         return;
     }
@@ -614,17 +614,18 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
     if (closePressed)
     {
-        if (!view.interactionState().closeOverlayLatch)
+        if (!context.closeOverlayLatch())
         {
-            view.m_gameplayUiController.closeUtilitySpellOverlay();
-            view.setStatusBarEvent("Spell cancelled", 2.0f);
-            view.interactionState().closeOverlayLatch = true;
+            context.utilitySpellOverlay() = {};
+            context.resetUtilitySpellOverlayInteractionState();
+            context.setStatusBarEvent("Spell cancelled", 2.0f);
+            context.closeOverlayLatch() = true;
         }
 
         return;
     }
 
-    view.interactionState().closeOverlayLatch = false;
+    context.closeOverlayLatch() = false;
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -634,31 +635,39 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
         mouseY,
         (mouseButtons & SDL_BUTTON_LMASK) != 0
     };
-    const OutdoorGameView::UtilitySpellPointerTarget noneTarget = {};
+    const GameplayUtilitySpellPointerTarget noneTarget = {};
     const auto resolveSpellName =
-        [&view]() -> std::string
+        [&context]() -> std::string
         {
-            if (view.spellTable() == nullptr)
+            if (context.spellTable() == nullptr)
             {
                 return "Spell";
             }
 
             const SpellEntry *pEntry =
-                view.spellTable()->findById(static_cast<int>(view.m_utilitySpellOverlay.spellId));
+                context.spellTable()->findById(static_cast<int>(context.utilitySpellOverlayReadOnly().spellId));
             return pEntry != nullptr && !pEntry->name.empty() ? pEntry->name : "Spell";
         };
 
-    if (view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::TownPortal)
+    if (context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::TownPortal)
     {
-        const Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
+        if (!context.ensureTownPortalDestinationsLoaded())
+        {
+            context.utilitySpellOverlay() = {};
+            context.resetUtilitySpellOverlayInteractionState();
+            context.setStatusBarEvent("Town Portal destinations unavailable");
+            return;
+        }
+
+        const Party *pParty = context.partyReadOnly();
         const auto findDestinationIndexByLayoutId =
-            [&view](const std::string &layoutId) -> std::optional<size_t>
+            [&context](const std::string &layoutId) -> std::optional<size_t>
             {
                 const std::string normalizedLayoutId = toLowerCopy(layoutId);
 
-                for (size_t index = 0; index < view.m_townPortalDestinations.size(); ++index)
+                for (size_t index = 0; index < context.townPortalDestinations().size(); ++index)
                 {
-                    if (toLowerCopy(view.m_townPortalDestinations[index].buttonLayoutId) == normalizedLayoutId)
+                    if (toLowerCopy(context.townPortalDestinations()[index].buttonLayoutId) == normalizedLayoutId)
                     {
                         return index;
                     }
@@ -667,18 +676,17 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 return std::nullopt;
             };
         const auto findTownPortalTarget =
-            [&view, screenWidth, screenHeight, pParty, &findDestinationIndexByLayoutId](
+            [&context, screenWidth, screenHeight, pParty, &findDestinationIndexByLayoutId](
                 float pointerX,
-                float pointerY) -> OutdoorGameView::UtilitySpellPointerTarget
+                float pointerY) -> GameplayUtilitySpellPointerTarget
             {
-                const OutdoorGameView::HudLayoutElement *pCloseLayout =
-                    HudUiService::findHudLayoutElement(view, "TownPortalCloseButton");
+                const GameplayOverlayContext::HudLayoutElement *pCloseLayout =
+                    context.findHudLayoutElement("TownPortalCloseButton");
 
                 if (pCloseLayout != nullptr && pCloseLayout->visible)
                 {
-                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> closeResolved =
-                        HudUiService::resolveHudLayoutElement(
-                            view,
+                    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> closeResolved =
+                        context.resolveHudLayoutElement(
                             "TownPortalCloseButton",
                             screenWidth,
                             screenHeight,
@@ -686,13 +694,13 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                             pCloseLayout->height);
 
                     if (closeResolved.has_value()
-                        && HudUiService::isPointerInsideResolvedElement(*closeResolved, pointerX, pointerY))
+                        && context.isPointerInsideResolvedElement(*closeResolved, pointerX, pointerY))
                     {
-                        return {OutdoorGameView::UtilitySpellPointerTargetType::Close, 0};
+                        return {GameplayUtilitySpellPointerTargetType::Close, 0};
                     }
                 }
 
-                for (const std::string &layoutId : HudUiService::sortedHudLayoutIdsForScreen(view, "TownPortal"))
+                for (const std::string &layoutId : context.sortedHudLayoutIdsForScreen("TownPortal"))
                 {
                     const std::optional<size_t> destinationIndex = findDestinationIndexByLayoutId(layoutId);
 
@@ -701,81 +709,82 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                         continue;
                     }
 
-                    if (*destinationIndex >= view.m_townPortalDestinations.size())
+                    if (*destinationIndex >= context.townPortalDestinations().size())
                     {
                         continue;
                     }
 
-                    const OutdoorGameView::TownPortalDestination &destination = view.m_townPortalDestinations[*destinationIndex];
+                    const GameplayTownPortalDestination &destination = context.townPortalDestinations()[*destinationIndex];
 
                     if (!isTownPortalDestinationUnlocked(pParty, destination))
                     {
                         continue;
                     }
 
-                    const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+                    const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
                     if (pLayout == nullptr || !pLayout->visible)
                     {
                         continue;
                     }
 
-                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(
-                        view,
+                    const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved = context.resolveHudLayoutElement(
                         layoutId,
                         screenWidth,
                         screenHeight,
                         pLayout->width,
                         pLayout->height);
 
-                    if (!resolved.has_value() || !HudUiService::isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                    if (!resolved.has_value() || !context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
                     {
                         continue;
                     }
 
-                    return {OutdoorGameView::UtilitySpellPointerTargetType::TownPortalDestination, *destinationIndex};
+                    return {GameplayUtilitySpellPointerTargetType::TownPortalDestination, *destinationIndex};
                 }
 
                 return {};
             };
 
-        const OutdoorGameView::UtilitySpellPointerTarget hoveredTarget = findTownPortalTarget(mouseX, mouseY);
+        const GameplayUtilitySpellPointerTarget hoveredTarget = findTownPortalTarget(mouseX, mouseY);
 
-        if (hoveredTarget.type == OutdoorGameView::UtilitySpellPointerTargetType::TownPortalDestination
-            && hoveredTarget.index < view.m_townPortalDestinations.size())
+        if (hoveredTarget.type == GameplayUtilitySpellPointerTargetType::TownPortalDestination
+            && hoveredTarget.index < context.townPortalDestinations().size())
         {
-            view.m_statusBarHoverText = "Town Portal to " + view.m_townPortalDestinations[hoveredTarget.index].label;
+            context.mutableStatusBarHoverText() =
+                "Town Portal to " + context.townPortalDestinations()[hoveredTarget.index].label;
         }
         else
         {
-            view.m_statusBarHoverText.clear();
+            context.mutableStatusBarHoverText().clear();
         }
 
         handlePointerClickRelease(
             pointerState,
-            view.m_utilitySpellClickLatch,
-            view.m_utilitySpellPressedTarget,
+            context.utilitySpellClickLatch(),
+            context.utilitySpellPressedTarget(),
             noneTarget,
             findTownPortalTarget,
-            [&view, &resolveSpellName](const OutdoorGameView::UtilitySpellPointerTarget &target)
+            [&context, &resolveSpellName](const GameplayUtilitySpellPointerTarget &target)
             {
-                if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::Close)
+                if (target.type == GameplayUtilitySpellPointerTargetType::Close)
                 {
-                    view.m_gameplayUiController.closeUtilitySpellOverlay();
-                    view.setStatusBarEvent("Spell cancelled", 2.0f);
+                    context.utilitySpellOverlay() = {};
+                    context.resetUtilitySpellOverlayInteractionState();
+                    context.setStatusBarEvent("Spell cancelled", 2.0f);
                     return;
                 }
 
-                if (target.type != OutdoorGameView::UtilitySpellPointerTargetType::TownPortalDestination
-                    || target.index >= view.m_townPortalDestinations.size())
+                if (target.type != GameplayUtilitySpellPointerTargetType::TownPortalDestination
+                    || target.index >= context.townPortalDestinations().size())
                 {
                     return;
                 }
 
-                const OutdoorGameView::TownPortalDestination &destination = view.m_townPortalDestinations[target.index];
+                const GameplayTownPortalDestination &destination = context.townPortalDestinations()[target.index];
                 PartySpellCastRequest request = {};
-                request.casterMemberIndex = view.m_utilitySpellOverlay.casterMemberIndex;
-                request.spellId = view.m_utilitySpellOverlay.spellId;
+                request.casterMemberIndex = context.utilitySpellOverlayReadOnly().casterMemberIndex;
+                request.spellId = context.utilitySpellOverlayReadOnly().spellId;
                 request.utilityAction = PartySpellUtilityActionKind::TownPortalDestination;
                 request.hasUtilityMapMove = true;
                 request.utilityActionId = destination.id;
@@ -786,23 +795,23 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 request.utilityMapMoveDirectionDegrees = destination.directionDegrees;
                 request.utilityMapMoveUseMapStartPosition = destination.useMapStartPosition;
                 request.utilityStatusText = destination.label;
-                view.tryCastSpellRequest(request, resolveSpellName());
+                context.tryCastSpellRequest(request, resolveSpellName());
             });
         return;
     }
 
-    view.m_statusBarHoverText.clear();
+    context.mutableStatusBarHoverText().clear();
 
     const UtilityOverlayLayout layout = computeUtilityOverlayLayout(screenWidth, screenHeight);
     const auto findPointerTarget =
-        [&view, &layout](float pointerX, float pointerY) -> OutdoorGameView::UtilitySpellPointerTarget
+        [&context, &layout](float pointerX, float pointerY) -> GameplayUtilitySpellPointerTarget
         {
             if (pointInsideRect(pointerX, pointerY, layout.closeX, layout.closeY, layout.closeSize, layout.closeSize))
             {
-                return {OutdoorGameView::UtilitySpellPointerTargetType::Close, 0};
+                return {GameplayUtilitySpellPointerTargetType::Close, 0};
             }
 
-            if (view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::LloydsBeacon)
+            if (context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::LloydsBeacon)
             {
                 const float tabY = layout.panelY + 24.0f;
                 const float setTabX = layout.contentX;
@@ -810,17 +819,17 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
                 if (pointInsideRect(pointerX, pointerY, setTabX, tabY, layout.tabWidth, layout.tabHeight))
                 {
-                    return {OutdoorGameView::UtilitySpellPointerTargetType::LloydSetTab, 0};
+                    return {GameplayUtilitySpellPointerTargetType::LloydSetTab, 0};
                 }
 
                 if (pointInsideRect(pointerX, pointerY, recallTabX, tabY, layout.tabWidth, layout.tabHeight))
                 {
-                    return {OutdoorGameView::UtilitySpellPointerTargetType::LloydRecallTab, 0};
+                    return {GameplayUtilitySpellPointerTargetType::LloydRecallTab, 0};
                 }
 
                 const Character *pCaster =
-                    view.m_pOutdoorPartyRuntime != nullptr
-                        ? view.m_pOutdoorPartyRuntime->party().member(view.m_utilitySpellOverlay.casterMemberIndex)
+                    context.partyReadOnly() != nullptr
+                        ? context.partyReadOnly()->member(context.utilitySpellOverlayReadOnly().casterMemberIndex)
                         : nullptr;
                 const size_t slotCount = maxLloydBeaconSlots(pCaster);
 
@@ -833,7 +842,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                         continue;
                     }
 
-                    return {OutdoorGameView::UtilitySpellPointerTargetType::LloydSlot, index};
+                    return {GameplayUtilitySpellPointerTargetType::LloydSlot, index};
                 }
             }
 
@@ -842,43 +851,44 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
     handlePointerClickRelease(
         pointerState,
-        view.m_utilitySpellClickLatch,
-        view.m_utilitySpellPressedTarget,
+        context.utilitySpellClickLatch(),
+        context.utilitySpellPressedTarget(),
         noneTarget,
         findPointerTarget,
-        [&view, &resolveSpellName](const OutdoorGameView::UtilitySpellPointerTarget &target)
+        [&context, &resolveSpellName](const GameplayUtilitySpellPointerTarget &target)
         {
-            if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::Close)
+            if (target.type == GameplayUtilitySpellPointerTargetType::Close)
             {
-                view.m_gameplayUiController.closeUtilitySpellOverlay();
-                view.setStatusBarEvent("Spell cancelled", 2.0f);
+                context.utilitySpellOverlay() = {};
+                context.resetUtilitySpellOverlayInteractionState();
+                context.setStatusBarEvent("Spell cancelled", 2.0f);
                 return;
             }
 
-            if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::LloydSetTab)
+            if (target.type == GameplayUtilitySpellPointerTargetType::LloydSetTab)
             {
-                view.m_utilitySpellOverlay.lloydRecallMode = false;
+                context.utilitySpellOverlay().lloydRecallMode = false;
                 return;
             }
 
-            if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::LloydRecallTab)
+            if (target.type == GameplayUtilitySpellPointerTargetType::LloydRecallTab)
             {
-                view.m_utilitySpellOverlay.lloydRecallMode = true;
+                context.utilitySpellOverlay().lloydRecallMode = true;
                 return;
             }
 
             PartySpellCastRequest request = {};
-            request.casterMemberIndex = view.m_utilitySpellOverlay.casterMemberIndex;
-            request.spellId = view.m_utilitySpellOverlay.spellId;
+            request.casterMemberIndex = context.utilitySpellOverlayReadOnly().casterMemberIndex;
+            request.spellId = context.utilitySpellOverlayReadOnly().spellId;
 
-            if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::TownPortalDestination)
+            if (target.type == GameplayUtilitySpellPointerTargetType::TownPortalDestination)
             {
-                if (target.index >= view.m_townPortalDestinations.size())
+                if (target.index >= context.townPortalDestinations().size())
                 {
                     return;
                 }
 
-                const OutdoorGameView::TownPortalDestination &destination = view.m_townPortalDestinations[target.index];
+                const GameplayTownPortalDestination &destination = context.townPortalDestinations()[target.index];
                 request.utilityAction = PartySpellUtilityActionKind::TownPortalDestination;
                 request.hasUtilityMapMove = true;
                 request.utilityActionId = destination.id;
@@ -889,19 +899,19 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 request.utilityMapMoveDirectionDegrees = destination.directionDegrees;
                 request.utilityMapMoveUseMapStartPosition = destination.useMapStartPosition;
                 request.utilityStatusText = destination.label;
-                view.tryCastSpellRequest(request, resolveSpellName());
+                context.tryCastSpellRequest(request, resolveSpellName());
                 return;
             }
 
-            if (target.type == OutdoorGameView::UtilitySpellPointerTargetType::LloydSlot)
+            if (target.type == GameplayUtilitySpellPointerTargetType::LloydSlot)
             {
-                if (view.m_pOutdoorPartyRuntime == nullptr || view.m_pOutdoorWorldRuntime == nullptr)
+                if (context.partyReadOnly() == nullptr || context.worldRuntime() == nullptr)
                 {
                     return;
                 }
 
                 const Character *pCaster =
-                    view.m_pOutdoorPartyRuntime->party().member(view.m_utilitySpellOverlay.casterMemberIndex);
+                    context.partyReadOnly()->member(context.utilitySpellOverlayReadOnly().casterMemberIndex);
 
                 if (pCaster == nullptr || target.index >= pCaster->lloydsBeacons.size())
                 {
@@ -910,7 +920,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
                 request.utilitySlotIndex = static_cast<uint8_t>(target.index);
 
-                if (view.m_utilitySpellOverlay.lloydRecallMode)
+                if (context.utilitySpellOverlayReadOnly().lloydRecallMode)
                 {
                     if (!pCaster->lloydsBeacons[target.index].has_value())
                     {
@@ -922,13 +932,12 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 else
                 {
                     request.utilityAction = PartySpellUtilityActionKind::LloydsBeaconSet;
-                    request.utilityStatusText =
-                        view.resolveSaveLocationName(view.m_pOutdoorWorldRuntime->mapName());
+                    request.utilityStatusText = context.resolveMapLocationName(context.worldRuntime()->mapName());
                     request.utilityMapMoveDirectionDegrees =
-                        static_cast<int32_t>(std::lround(view.cameraYawRadians() * 180.0f / 3.14159265358979323846f));
+                        static_cast<int32_t>(std::lround(context.gameplayCameraYawRadians() * 180.0f / 3.14159265358979323846f));
                 }
 
-                view.tryCastSpellRequest(request, resolveSpellName());
+                context.tryCastSpellRequest(request, resolveSpellName());
             }
         });
 }
@@ -2414,17 +2423,17 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     const auto clearPendingCharacterDismiss =
         [&view]()
         {
-            view.interactionState().pendingCharacterDismissMemberIndex = std::nullopt;
-            view.interactionState().pendingCharacterDismissExpiresTicks = 0;
+            view.m_overlayInteractionState.pendingCharacterDismissMemberIndex = std::nullopt;
+            view.m_overlayInteractionState.pendingCharacterDismissExpiresTicks = 0;
         };
     const uint64_t nowTicks = SDL_GetTicks();
 
     if (pParty == nullptr
         || overlayContext.isAdventurersInnCharacterSourceActive()
-        || (view.interactionState().pendingCharacterDismissMemberIndex.has_value()
-            && (nowTicks > view.interactionState().pendingCharacterDismissExpiresTicks
-                || *view.interactionState().pendingCharacterDismissMemberIndex >= pParty->members().size()
-                || *view.interactionState().pendingCharacterDismissMemberIndex != pParty->activeMemberIndex())))
+        || (view.m_overlayInteractionState.pendingCharacterDismissMemberIndex.has_value()
+            && (nowTicks > view.m_overlayInteractionState.pendingCharacterDismissExpiresTicks
+                || *view.m_overlayInteractionState.pendingCharacterDismissMemberIndex >= pParty->members().size()
+                || *view.m_overlayInteractionState.pendingCharacterDismissMemberIndex != pParty->activeMemberIndex())))
     {
         clearPendingCharacterDismiss();
     }
@@ -2441,22 +2450,22 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         ? static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 3))
         : 11.0f;
     setCharacterSkillRegionHeight(
-        view.m_hudLayoutRuntimeHeightOverrides,
+        view.m_gameplayUiRuntime.hudLayoutRuntimeHeightOverrides(),
         skillRowHeight,
         "CharacterSkillsWeaponsListRegion",
         skillUiData.weaponRows.size());
     setCharacterSkillRegionHeight(
-        view.m_hudLayoutRuntimeHeightOverrides,
+        view.m_gameplayUiRuntime.hudLayoutRuntimeHeightOverrides(),
         skillRowHeight,
         "CharacterSkillsMagicListRegion",
         skillUiData.magicRows.size());
     setCharacterSkillRegionHeight(
-        view.m_hudLayoutRuntimeHeightOverrides,
+        view.m_gameplayUiRuntime.hudLayoutRuntimeHeightOverrides(),
         skillRowHeight,
         "CharacterSkillsArmorListRegion",
         skillUiData.armorRows.size());
     setCharacterSkillRegionHeight(
-        view.m_hudLayoutRuntimeHeightOverrides,
+        view.m_gameplayUiRuntime.hudLayoutRuntimeHeightOverrides(),
         skillRowHeight,
         "CharacterSkillsMiscListRegion",
         skillUiData.miscRows.size());
@@ -2468,7 +2477,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
     if (closePressed)
     {
-        if (!view.interactionState().closeOverlayLatch)
+        if (!view.m_overlayInteractionState.closeOverlayLatch)
         {
             if (isInventorySpellTargetMode)
             {
@@ -2479,12 +2488,12 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             view.m_characterDollJewelryOverlayOpen = false;
             view.m_adventurersInnRosterOverlayOpen = false;
             clearPendingCharacterDismiss();
-            view.interactionState().closeOverlayLatch = true;
+            view.m_overlayInteractionState.closeOverlayLatch = true;
         }
     }
     else
     {
-        view.interactionState().closeOverlayLatch = false;
+        view.m_overlayInteractionState.closeOverlayLatch = false;
     }
 
     if (isAdventurersInnMode)
@@ -2641,8 +2650,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         const OutdoorGameView::CharacterPointerTarget noneCharacterTarget = {};
         handlePointerClickRelease(
             pointerState,
-            view.interactionState().characterClickLatch,
-            view.interactionState().characterPressedTarget,
+            view.m_overlayInteractionState.characterClickLatch,
+            view.m_overlayInteractionState.characterPressedTarget,
             noneCharacterTarget,
             findInnPointerTarget,
             [&view](const OutdoorGameView::CharacterPointerTarget &target)
@@ -2761,1130 +2770,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         return;
     }
 
-    const SDL_Scancode charCycleScancode = view.m_gameSettings.keyboard.binding(KeyboardAction::CharCycle);
-    const bool charCyclePressed =
-        pKeyboardState != nullptr
-        && charCycleScancode > SDL_SCANCODE_UNKNOWN
-        && charCycleScancode < SDL_SCANCODE_COUNT
-        && pKeyboardState[charCycleScancode];
-    const bool charCycleNewlyPressed =
-        charCyclePressed && view.previousKeyboardState()[charCycleScancode] == 0;
+    handleCharacterOverlayInput(overlayContext, pKeyboardState, screenWidth, screenHeight);
 
-    if (charCycleNewlyPressed)
-    {
-        if (view.m_pOutdoorPartyRuntime != nullptr)
-        {
-            const std::vector<Character> &members = view.m_pOutdoorPartyRuntime->party().members();
-
-            if (!members.empty())
-            {
-                const size_t nextMemberIndex =
-                    (view.m_pOutdoorPartyRuntime->party().activeMemberIndex() + 1) % members.size();
-                view.trySelectPartyMember(nextMemberIndex, false);
-            }
-
-            view.interactionState().characterMemberCycleLatch = true;
-        }
-    }
-    else
-    {
-        view.interactionState().characterMemberCycleLatch = false;
-    }
-
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
-
-    const auto resolveCharacterInventoryGrid =
-        [&view, screenWidth, screenHeight]() -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
-        {
-            const OutdoorGameView::HudLayoutElement *pInventoryGridLayout = HudUiService::findHudLayoutElement(view, "CharacterInventoryGrid");
-
-            if (pInventoryGridLayout == nullptr)
-            {
-                return std::nullopt;
-            }
-
-            return HudUiService::resolveHudLayoutElement(view, 
-                "CharacterInventoryGrid",
-                screenWidth,
-                screenHeight,
-                pInventoryGridLayout->width,
-                pInventoryGridLayout->height);
-        };
-
-    const auto findCharacterPointerTarget =
-        [&view,
-         &overlayContext,
-         screenWidth,
-         screenHeight,
-         skillRowHeight,
-         &skillUiData,
-         isReadOnlyAdventurersInnView,
-         pActiveCharacter,
-         pActiveCharacterDollType,
-         &resolveCharacterInventoryGrid](
-            float pointerX,
-            float pointerY) -> OutdoorGameView::CharacterPointerTarget
-        {
-            if (screenWidth <= 0 || screenHeight <= 0)
-            {
-                return {};
-            }
-
-            struct CharacterTabTarget
-            {
-                const char *layoutId;
-                OutdoorGameView::CharacterPage page;
-            };
-
-            static constexpr CharacterTabTarget TabTargets[] = {
-                {"CharacterStatsButton", OutdoorGameView::CharacterPage::Stats},
-                {"CharacterSkillsButton", OutdoorGameView::CharacterPage::Skills},
-                {"CharacterInventoryButton", OutdoorGameView::CharacterPage::Inventory},
-                {"CharacterAwardsButton", OutdoorGameView::CharacterPage::Awards},
-            };
-
-            for (const CharacterTabTarget &target : TabTargets)
-            {
-                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, target.layoutId);
-
-                if (pLayout == nullptr)
-                {
-                    continue;
-                }
-
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
-                    target.layoutId,
-                    screenWidth,
-                    screenHeight,
-                    pLayout->width,
-                    pLayout->height);
-
-                if (resolved
-                    && pointerX >= resolved->x
-                    && pointerX < resolved->x + resolved->width
-                    && pointerY >= resolved->y
-                    && pointerY < resolved->y + resolved->height)
-                {
-                    return {OutdoorGameView::CharacterPointerTargetType::PageButton, target.page};
-                }
-            }
-
-            if (!overlayContext.isAdventurersInnCharacterSourceActive() && view.m_pOutdoorPartyRuntime != nullptr)
-            {
-                const size_t activeMemberIndex = view.m_pOutdoorPartyRuntime->party().activeMemberIndex();
-
-                if (activeMemberIndex > 0)
-                {
-                    const OutdoorGameView::HudLayoutElement *pDismissLayout =
-                        HudUiService::findHudLayoutElement(view, "CharacterDismissButton");
-
-                    if (pDismissLayout != nullptr)
-                    {
-                        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
-                            HudUiService::resolveHudLayoutElement(
-                                view,
-                                "CharacterDismissButton",
-                                screenWidth,
-                                screenHeight,
-                                pDismissLayout->width,
-                                pDismissLayout->height);
-
-                        if (resolved
-                            && pointerX >= resolved->x
-                            && pointerX < resolved->x + resolved->width
-                            && pointerY >= resolved->y
-                            && pointerY < resolved->y + resolved->height)
-                        {
-                            return {
-                                OutdoorGameView::CharacterPointerTargetType::DismissButton,
-                                OutdoorGameView::CharacterPage::Inventory
-                            };
-                        }
-                    }
-                }
-            }
-
-            const OutdoorGameView::HudLayoutElement *pExitLayout = HudUiService::findHudLayoutElement(view, "CharacterExitButton");
-
-            if (pExitLayout != nullptr)
-            {
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
-                    "CharacterExitButton",
-                    screenWidth,
-                    screenHeight,
-                    pExitLayout->width,
-                    pExitLayout->height);
-
-                if (resolved
-                    && pointerX >= resolved->x
-                    && pointerX < resolved->x + resolved->width
-                    && pointerY >= resolved->y
-                    && pointerY < resolved->y + resolved->height)
-                {
-                    return {OutdoorGameView::CharacterPointerTargetType::ExitButton, OutdoorGameView::CharacterPage::Inventory};
-                }
-            }
-
-            const OutdoorGameView::HudLayoutElement *pMagnifyLayout = HudUiService::findHudLayoutElement(view, "CharacterMagnifyButton");
-
-            if (pMagnifyLayout != nullptr)
-            {
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = HudUiService::resolveHudLayoutElement(view, 
-                    "CharacterMagnifyButton",
-                    screenWidth,
-                    screenHeight,
-                    pMagnifyLayout->width,
-                    pMagnifyLayout->height);
-
-                if (resolved
-                    && pointerX >= resolved->x
-                    && pointerX < resolved->x + resolved->width
-                    && pointerY >= resolved->y
-                    && pointerY < resolved->y + resolved->height)
-                {
-                    return {OutdoorGameView::CharacterPointerTargetType::MagnifyButton, OutdoorGameView::CharacterPage::Inventory};
-                }
-            }
-
-            if (!view.m_heldInventoryItem.active)
-            {
-                for (auto it = view.m_renderedInspectableHudItems.rbegin(); it != view.m_renderedInspectableHudItems.rend(); ++it)
-                {
-                    if (it->sourceType != OutdoorGameView::ItemInspectSourceType::Equipment
-                        || !isVisibleInCharacterDollOverlay(it->equipmentSlot, view.m_characterDollJewelryOverlayOpen))
-                    {
-                        continue;
-                    }
-
-                    if (!view.isOpaqueHudPixelAtPoint(*it, pointerX, pointerY))
-                    {
-                        continue;
-                    }
-
-                    OutdoorGameView::CharacterPointerTarget pointerTarget = {};
-                    pointerTarget.type = OutdoorGameView::CharacterPointerTargetType::EquipmentSlot;
-                    pointerTarget.page = view.m_characterPage;
-                    pointerTarget.equipmentSlot = it->equipmentSlot;
-                    return pointerTarget;
-                }
-            }
-
-            struct CharacterEquipmentSlotTarget
-            {
-                const char *layoutId;
-                EquipmentSlot slot;
-                bool jewelryOverlayOnly;
-            };
-
-            static constexpr CharacterEquipmentSlotTarget EquipmentSlotTargets[] = {
-                {"CharacterDollBowSlot", EquipmentSlot::Bow, false},
-                {"CharacterDollRightHandSlot", EquipmentSlot::MainHand, false},
-                {"CharacterDollLeftHandSlot", EquipmentSlot::OffHand, false},
-                {"CharacterDollArmorSlot", EquipmentSlot::Armor, false},
-                {"CharacterDollHelmetSlot", EquipmentSlot::Helm, false},
-                {"CharacterDollBeltSlot", EquipmentSlot::Belt, false},
-                {"CharacterDollCloakSlot", EquipmentSlot::Cloak, false},
-                {"CharacterDollBootsSlot", EquipmentSlot::Boots, false},
-                {"CharacterDollAmuletSlot", EquipmentSlot::Amulet, true},
-                {"CharacterDollGauntletsSlot", EquipmentSlot::Gauntlets, true},
-                {"CharacterDollRing1Slot", EquipmentSlot::Ring1, true},
-                {"CharacterDollRing2Slot", EquipmentSlot::Ring2, true},
-                {"CharacterDollRing3Slot", EquipmentSlot::Ring3, true},
-                {"CharacterDollRing4Slot", EquipmentSlot::Ring4, true},
-                {"CharacterDollRing5Slot", EquipmentSlot::Ring5, true},
-                {"CharacterDollRing6Slot", EquipmentSlot::Ring6, true},
-            };
-
-            for (const CharacterEquipmentSlotTarget &target : EquipmentSlotTargets)
-            {
-                if (!isVisibleInCharacterDollOverlay(target.slot, view.m_characterDollJewelryOverlayOpen))
-                {
-                    continue;
-                }
-
-                if (view.m_heldInventoryItem.active && !target.jewelryOverlayOnly)
-                {
-                    continue;
-                }
-
-                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, target.layoutId);
-
-                if (pLayout == nullptr)
-                {
-                    continue;
-                }
-
-                const uint32_t equippedId =
-                    pActiveCharacter != nullptr ? equippedItemId(pActiveCharacter->equipment, target.slot) : 0;
-                const ItemDefinition *pItemDefinition =
-                    equippedId != 0 && view.itemTable() != nullptr ? view.itemTable()->get(equippedId) : nullptr;
-                std::optional<OutdoorGameView::ResolvedHudLayoutElement> dynamicRect;
-                std::string dynamicTextureName;
-
-                if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
-                {
-                    const bool hasRightHandWeapon =
-                        pActiveCharacter != nullptr && pActiveCharacter->equipment.mainHand != 0;
-                    const uint32_t dollTypeId =
-                        pActiveCharacterDollType != nullptr ? pActiveCharacterDollType->id : 0;
-                    dynamicTextureName = overlayContext.resolveEquippedItemHudTextureName(
-                        *pItemDefinition,
-                        dollTypeId,
-                        hasRightHandWeapon,
-                        target.slot);
-                    const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(view, dynamicTextureName);
-
-                    if (pTexture != nullptr)
-                    {
-                        dynamicRect = overlayContext.resolveCharacterEquipmentRenderRect(
-                            *pLayout,
-                            *pItemDefinition,
-                            GameplayHudTextureHandle{
-                                .textureName = pTexture->textureName,
-                                .width = pTexture->width,
-                                .height = pTexture->height,
-                                .textureHandle = pTexture->textureHandle
-                            },
-                            pActiveCharacterDollType,
-                            target.slot,
-                            screenWidth,
-                            screenHeight);
-                    }
-                }
-
-                bool pointerInsideDynamicRect = false;
-
-                if (dynamicRect)
-                {
-                    if (view.m_heldInventoryItem.active)
-                    {
-                        pointerInsideDynamicRect =
-                            pointerX >= dynamicRect->x
-                            && pointerX < dynamicRect->x + dynamicRect->width
-                            && pointerY >= dynamicRect->y
-                            && pointerY < dynamicRect->y + dynamicRect->height;
-                    }
-                    else if (!dynamicTextureName.empty() && pItemDefinition != nullptr)
-                    {
-                        OutdoorGameView::RenderedInspectableHudItem renderedItem = {};
-                        renderedItem.objectDescriptionId = pItemDefinition->itemId;
-                        renderedItem.textureName = dynamicTextureName;
-                        renderedItem.x = dynamicRect->x;
-                        renderedItem.y = dynamicRect->y;
-                        renderedItem.width = dynamicRect->width;
-                        renderedItem.height = dynamicRect->height;
-                        pointerInsideDynamicRect = view.isOpaqueHudPixelAtPoint(renderedItem, pointerX, pointerY);
-                    }
-                }
-
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
-                    view.m_heldInventoryItem.active && !dynamicRect
-                        ? HudUiService::resolveHudLayoutElement(view, 
-                            target.layoutId,
-                            screenWidth,
-                            screenHeight,
-                            pLayout->width,
-                            pLayout->height)
-                        : std::nullopt;
-                const bool pointerInsideLayoutRect =
-                    resolved
-                    && pointerX >= resolved->x
-                    && pointerX < resolved->x + resolved->width
-                    && pointerY >= resolved->y
-                    && pointerY < resolved->y + resolved->height;
-
-                if (!pointerInsideDynamicRect && !pointerInsideLayoutRect)
-                {
-                    continue;
-                }
-
-                if ((!isReadOnlyAdventurersInnView && view.m_heldInventoryItem.active)
-                    || (pActiveCharacter != nullptr && equippedItemId(pActiveCharacter->equipment, target.slot) != 0))
-                {
-                    if (isReadOnlyAdventurersInnView)
-                    {
-                        continue;
-                    }
-
-                    OutdoorGameView::CharacterPointerTarget pointerTarget = {};
-                    pointerTarget.type = OutdoorGameView::CharacterPointerTargetType::EquipmentSlot;
-                    pointerTarget.page = view.m_characterPage;
-                    pointerTarget.equipmentSlot = target.slot;
-                    return pointerTarget;
-                }
-            }
-
-            if (!isReadOnlyAdventurersInnView && view.m_heldInventoryItem.active)
-            {
-                const OutdoorGameView::HudLayoutElement *pDollLayout = HudUiService::findHudLayoutElement(view, "CharacterDollPanel");
-
-                if (pDollLayout != nullptr)
-                {
-                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedDoll = HudUiService::resolveHudLayoutElement(view, 
-                        "CharacterDollPanel",
-                        screenWidth,
-                        screenHeight,
-                        pDollLayout->width,
-                        pDollLayout->height);
-
-                    if (resolvedDoll
-                        && pointerX >= resolvedDoll->x
-                        && pointerX < resolvedDoll->x + resolvedDoll->width
-                        && pointerY >= resolvedDoll->y
-                        && pointerY < resolvedDoll->y + resolvedDoll->height)
-                    {
-                        return {OutdoorGameView::CharacterPointerTargetType::DollPanel, view.m_characterPage};
-                    }
-                }
-            }
-
-            if (view.m_characterPage == OutdoorGameView::CharacterPage::Inventory)
-            {
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedInventoryGrid =
-                    resolveCharacterInventoryGrid();
-
-                if (resolvedInventoryGrid
-                    && pointerX >= resolvedInventoryGrid->x
-                    && pointerX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
-                    && pointerY >= resolvedInventoryGrid->y
-                    && pointerY < resolvedInventoryGrid->y + resolvedInventoryGrid->height)
-                {
-                    const float cellWidth =
-                        resolvedInventoryGrid->width / static_cast<float>(Character::InventoryWidth);
-                    const float cellHeight =
-                        resolvedInventoryGrid->height / static_cast<float>(Character::InventoryHeight);
-                    const uint8_t gridX = static_cast<uint8_t>(std::clamp(
-                        static_cast<int>((pointerX - resolvedInventoryGrid->x) / cellWidth),
-                        0,
-                        Character::InventoryWidth - 1));
-                    const uint8_t gridY = static_cast<uint8_t>(std::clamp(
-                        static_cast<int>((pointerY - resolvedInventoryGrid->y) / cellHeight),
-                        0,
-                        Character::InventoryHeight - 1));
-
-                    if (!isReadOnlyAdventurersInnView && view.m_heldInventoryItem.active)
-                    {
-                        OutdoorGameView::CharacterPointerTarget target = {};
-                        target.type = OutdoorGameView::CharacterPointerTargetType::InventoryCell;
-                        target.page = OutdoorGameView::CharacterPage::Inventory;
-                        target.gridX = gridX;
-                        target.gridY = gridY;
-                        return target;
-                    }
-
-                    if (pActiveCharacter != nullptr)
-                    {
-                        const InventoryItem *pItem = pActiveCharacter->inventoryItemAt(gridX, gridY);
-
-                        if (pItem != nullptr)
-                        {
-                            if (!isReadOnlyAdventurersInnView)
-                            {
-                                OutdoorGameView::CharacterPointerTarget target = {};
-                                target.type = OutdoorGameView::CharacterPointerTargetType::InventoryItem;
-                                target.page = OutdoorGameView::CharacterPage::Inventory;
-                                target.gridX = pItem->gridX;
-                                target.gridY = pItem->gridY;
-                                return target;
-                            }
-                        }
-                    }
-                }
-            }
-
-            if (view.m_characterPage == OutdoorGameView::CharacterPage::Skills)
-            {
-                const auto findSkillRowTarget =
-                    [&view, screenWidth, screenHeight, pointerX, pointerY, skillRowHeight](
-                        const char *pRegionId,
-                        const char *pLevelHeaderId,
-                        const std::vector<CharacterSkillUiRow> &rows) -> OutdoorGameView::CharacterPointerTarget
-                    {
-                        if (rows.empty())
-                        {
-                            return {};
-                        }
-
-                        const OutdoorGameView::HudLayoutElement *pRegionLayout = HudUiService::findHudLayoutElement(view, pRegionId);
-                        const OutdoorGameView::HudLayoutElement *pLevelLayout = HudUiService::findHudLayoutElement(view, pLevelHeaderId);
-
-                        if (pRegionLayout == nullptr || pLevelLayout == nullptr)
-                        {
-                            return {};
-                        }
-
-                        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedRegion = HudUiService::resolveHudLayoutElement(view, 
-                            pRegionId,
-                            screenWidth,
-                            screenHeight,
-                            pRegionLayout->width,
-                            pRegionLayout->height);
-                        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedLevelHeader = HudUiService::resolveHudLayoutElement(view, 
-                            pLevelHeaderId,
-                            screenWidth,
-                            screenHeight,
-                            pLevelLayout->width,
-                            pLevelLayout->height);
-
-                        if (!resolvedRegion || !resolvedLevelHeader)
-                        {
-                            return {};
-                        }
-
-                        const float rowHeightPixels = skillRowHeight * resolvedRegion->scale;
-                        const float rowWidth = resolvedLevelHeader->x + resolvedLevelHeader->width - resolvedRegion->x;
-
-                        for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
-                        {
-                            const CharacterSkillUiRow &row = rows[rowIndex];
-
-                            if (!row.interactive)
-                            {
-                                continue;
-                            }
-
-                            const float rowY = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
-
-                            if (pointerX >= resolvedRegion->x
-                                && pointerX < resolvedRegion->x + rowWidth
-                                && pointerY >= rowY
-                                && pointerY < rowY + rowHeightPixels)
-                            {
-                                OutdoorGameView::CharacterPointerTarget target = {};
-                                target.type = OutdoorGameView::CharacterPointerTargetType::SkillRow;
-                                target.page = OutdoorGameView::CharacterPage::Skills;
-                                target.skillName = row.canonicalName;
-                                return target;
-                            }
-                        }
-
-                        return {};
-                    };
-
-                const OutdoorGameView::CharacterPointerTarget weaponTarget =
-                    findSkillRowTarget("CharacterSkillsWeaponsListRegion", "CharacterSkillsWeaponsLevelHeader", skillUiData.weaponRows);
-
-                if (weaponTarget.type == OutdoorGameView::CharacterPointerTargetType::SkillRow)
-                {
-                    return weaponTarget;
-                }
-
-                const OutdoorGameView::CharacterPointerTarget magicTarget =
-                    findSkillRowTarget("CharacterSkillsMagicListRegion", "CharacterSkillsMagicLevelHeader", skillUiData.magicRows);
-
-                if (magicTarget.type == OutdoorGameView::CharacterPointerTargetType::SkillRow)
-                {
-                    return magicTarget;
-                }
-
-                const OutdoorGameView::CharacterPointerTarget armorTarget =
-                    findSkillRowTarget("CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows);
-
-                if (armorTarget.type == OutdoorGameView::CharacterPointerTargetType::SkillRow)
-                {
-                    return armorTarget;
-                }
-
-                const OutdoorGameView::CharacterPointerTarget miscTarget =
-                    findSkillRowTarget("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
-
-                if (miscTarget.type == OutdoorGameView::CharacterPointerTargetType::SkillRow)
-                {
-                    return miscTarget;
-                }
-            }
-
-            return {};
-        };
-
-    const HudPointerState pointerState = {
-        mouseX,
-        mouseY,
-        isLeftMousePressed
-    };
-    const OutdoorGameView::CharacterPointerTarget noneCharacterTarget = {};
-    const OutdoorGameView::CharacterPointerTarget hoveredCharacterTarget = findCharacterPointerTarget(mouseX, mouseY);
-
-    if (view.m_pOutdoorPartyRuntime != nullptr)
-    {
-        view.updateReadableScrollOverlayForHeldItem(
-            view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
-            hoveredCharacterTarget,
-            isLeftMousePressed);
-    }
-    else
-    {
-        view.closeReadableScrollOverlay();
-    }
-
-    handlePointerClickRelease(
-        pointerState,
-        view.interactionState().characterClickLatch,
-        view.interactionState().characterPressedTarget,
-        noneCharacterTarget,
-        findCharacterPointerTarget,
-        [&view,
-         screenWidth,
-         screenHeight,
-         mouseX,
-         mouseY,
-         &clearPendingCharacterDismiss,
-         &resolveCharacterInventoryGrid,
-         pActiveCharacterDollType,
-         isReadOnlyAdventurersInnView](
-            const OutdoorGameView::CharacterPointerTarget &target)
-        {
-            const bool isInventorySpellTargetMode =
-                view.m_utilitySpellOverlay.active
-                && view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget;
-            const auto resolveItemLogName =
-                [&view](uint32_t objectDescriptionId) -> std::string
-                {
-                    const ItemDefinition *pItemDefinition =
-                        view.itemTable() != nullptr ? view.itemTable()->get(objectDescriptionId) : nullptr;
-
-                    if (pItemDefinition == nullptr || pItemDefinition->name.empty())
-                    {
-                        return std::to_string(objectDescriptionId);
-                    }
-
-                    return pItemDefinition->name;
-                };
-
-            const auto logCharacterItemAction =
-                [&view, &resolveItemLogName](const char *pAction, uint32_t objectDescriptionId, const std::string &detail)
-                {
-                    const size_t memberIndex =
-                        view.m_pOutdoorPartyRuntime != nullptr ? view.m_pOutdoorPartyRuntime->party().activeMemberIndex() : 0;
-                    std::cout << "Character item " << pAction
-                              << ": member=" << memberIndex
-                              << " item=\"" << resolveItemLogName(objectDescriptionId) << "\"";
-
-                    if (!detail.empty())
-                    {
-                        std::cout << " " << detail;
-                    }
-
-                    std::cout << '\n';
-                };
-
-            const auto setHeldItem =
-                [&view](const InventoryItem &item)
-                {
-                    view.m_heldInventoryItem.active = true;
-                    view.m_heldInventoryItem.item = item;
-                    view.m_heldInventoryItem.grabCellOffsetX = 0;
-                    view.m_heldInventoryItem.grabCellOffsetY = 0;
-                    view.m_heldInventoryItem.grabOffsetX = 0.0f;
-                    view.m_heldInventoryItem.grabOffsetY = 0.0f;
-                };
-
-            if (target.type != OutdoorGameView::CharacterPointerTargetType::DismissButton)
-            {
-                clearPendingCharacterDismiss();
-            }
-
-            if (isInventorySpellTargetMode)
-            {
-                if (target.type == OutdoorGameView::CharacterPointerTargetType::InventoryItem)
-                {
-                    PartySpellCastRequest request = {};
-                    request.casterMemberIndex = view.m_utilitySpellOverlay.casterMemberIndex;
-                    request.spellId = view.m_utilitySpellOverlay.spellId;
-                    request.targetItemMemberIndex =
-                        view.m_pOutdoorPartyRuntime != nullptr
-                            ? std::optional<size_t>(view.m_pOutdoorPartyRuntime->party().activeMemberIndex())
-                            : std::nullopt;
-                    request.targetInventoryGridX = target.gridX;
-                    request.targetInventoryGridY = target.gridY;
-
-                    const SpellEntry *pSpellEntry =
-                        view.spellTable() != nullptr
-                            ? view.spellTable()->findById(static_cast<int>(request.spellId))
-                            : nullptr;
-                    const std::string spellName =
-                        pSpellEntry != nullptr && !pSpellEntry->name.empty()
-                            ? pSpellEntry->name
-                            : "Spell";
-                    view.tryCastSpellRequest(request, spellName);
-                    return;
-                }
-
-                if (target.type == OutdoorGameView::CharacterPointerTargetType::EquipmentSlot)
-                {
-                    PartySpellCastRequest request = {};
-                    request.casterMemberIndex = view.m_utilitySpellOverlay.casterMemberIndex;
-                    request.spellId = view.m_utilitySpellOverlay.spellId;
-                    request.targetItemMemberIndex =
-                        view.m_pOutdoorPartyRuntime != nullptr
-                            ? std::optional<size_t>(view.m_pOutdoorPartyRuntime->party().activeMemberIndex())
-                            : std::nullopt;
-                    request.targetEquipmentSlot = target.equipmentSlot;
-
-                    const SpellEntry *pSpellEntry =
-                        view.spellTable() != nullptr
-                            ? view.spellTable()->findById(static_cast<int>(request.spellId))
-                            : nullptr;
-                    const std::string spellName =
-                        pSpellEntry != nullptr && !pSpellEntry->name.empty()
-                            ? pSpellEntry->name
-                            : "Spell";
-                    view.tryCastSpellRequest(request, spellName);
-                    return;
-                }
-            }
-
-            if (target.type == OutdoorGameView::CharacterPointerTargetType::PageButton)
-            {
-                if (isInventorySpellTargetMode && target.page != OutdoorGameView::CharacterPage::Inventory)
-                {
-                    view.setStatusBarEvent("Select an item");
-                    return;
-                }
-
-                if (view.m_characterPage != target.page)
-                {
-                    view.m_characterPage = target.page;
-
-                    if (view.m_pGameAudioSystem != nullptr)
-                    {
-                        view.m_pGameAudioSystem->playCommonSound(SoundId::ClickIn, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-                }
-            }
-            else if (target.type == OutdoorGameView::CharacterPointerTargetType::ExitButton)
-            {
-                if (isInventorySpellTargetMode)
-                {
-                    view.m_gameplayUiController.closeUtilitySpellOverlay();
-                }
-
-                if (isReadOnlyAdventurersInnView)
-                {
-                    view.m_characterDollJewelryOverlayOpen = false;
-                    view.m_adventurersInnRosterOverlayOpen = true;
-                }
-                else
-                {
-                    view.m_characterScreenOpen = false;
-                    view.m_characterDollJewelryOverlayOpen = false;
-                    view.m_adventurersInnRosterOverlayOpen = false;
-                }
-            }
-            else if (target.type == OutdoorGameView::CharacterPointerTargetType::DismissButton
-                && view.m_pOutdoorPartyRuntime != nullptr)
-            {
-                Party &party = view.m_pOutdoorPartyRuntime->party();
-                const size_t memberIndex = party.activeMemberIndex();
-                const Character *pMember = party.member(memberIndex);
-
-                if (pMember == nullptr || memberIndex == 0)
-                {
-                    clearPendingCharacterDismiss();
-                    return;
-                }
-
-                const bool confirmed =
-                    view.interactionState().pendingCharacterDismissMemberIndex.has_value()
-                    && *view.interactionState().pendingCharacterDismissMemberIndex == memberIndex
-                    && SDL_GetTicks() <= view.interactionState().pendingCharacterDismissExpiresTicks;
-
-                if (!confirmed)
-                {
-                    const uint64_t dismissClickTicks = SDL_GetTicks();
-                    view.interactionState().pendingCharacterDismissMemberIndex = memberIndex;
-                    view.interactionState().pendingCharacterDismissExpiresTicks = dismissClickTicks + CharacterDismissConfirmWindowMs;
-                    view.setStatusBarEvent(
-                        "To confirm " + pMember->name + " dismissal press the button again...",
-                        2.0f);
-
-                    if (view.m_pGameAudioSystem != nullptr)
-                    {
-                        view.m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-                }
-                else
-                {
-                    const std::string dismissedName = pMember->name;
-                    clearPendingCharacterDismiss();
-
-                    if (party.dismissMemberToAdventurersInn(memberIndex))
-                    {
-                        view.m_characterDollJewelryOverlayOpen = false;
-                        view.setStatusBarEvent(dismissedName + " dismissed.");
-                    }
-                    else
-                    {
-                        view.setStatusBarEvent("Dismissal failed.");
-                    }
-                }
-            }
-            else if (target.type == OutdoorGameView::CharacterPointerTargetType::MagnifyButton)
-            {
-                view.m_characterDollJewelryOverlayOpen = !view.m_characterDollJewelryOverlayOpen;
-            }
-            else if (target.type == OutdoorGameView::CharacterPointerTargetType::SkillRow
-                && view.m_pOutdoorPartyRuntime != nullptr)
-            {
-                if (view.m_pOutdoorPartyRuntime->party().increaseActiveMemberSkillLevel(target.skillName))
-                {
-                    if (view.m_pGameAudioSystem != nullptr)
-                    {
-                        view.m_pGameAudioSystem->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-                    }
-
-                    view.playSpeechReaction(
-                        view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
-                        SpeechId::SkillIncreased,
-                        true);
-                }
-            }
-            else if (target.type == OutdoorGameView::CharacterPointerTargetType::InventoryItem
-                && view.m_pOutdoorPartyRuntime != nullptr)
-            {
-                Party &party = view.m_pOutdoorPartyRuntime->party();
-                InventoryItem heldItem = {};
-
-                if (party.takeItemFromMemberInventoryCell(party.activeMemberIndex(), target.gridX, target.gridY, heldItem))
-                {
-                    setHeldItem(heldItem);
-                    logCharacterItemAction(
-                        "picked_up",
-                        heldItem.objectDescriptionId,
-                        "source=inventory cell=(" + std::to_string(target.gridX) + "," + std::to_string(target.gridY) + ")");
-
-                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedInventoryGrid =
-                        resolveCharacterInventoryGrid();
-
-                    if (resolvedInventoryGrid)
-                    {
-                        const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
-                            resolvedInventoryGrid->x,
-                            resolvedInventoryGrid->y,
-                            resolvedInventoryGrid->width,
-                            resolvedInventoryGrid->height,
-                            resolvedInventoryGrid->scale);
-                        const uint8_t hoveredGridX = static_cast<uint8_t>(std::clamp(
-                            static_cast<int>((mouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
-                            0,
-                            Character::InventoryWidth - 1));
-                        const uint8_t hoveredGridY = static_cast<uint8_t>(std::clamp(
-                            static_cast<int>((mouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
-                            0,
-                            Character::InventoryHeight - 1));
-                        view.m_heldInventoryItem.grabCellOffsetX = hoveredGridX - heldItem.gridX;
-                        view.m_heldInventoryItem.grabCellOffsetY = hoveredGridY - heldItem.gridY;
-                        const ItemDefinition *pItemDefinition =
-                            view.itemTable() != nullptr ? view.itemTable()->get(heldItem.objectDescriptionId) : nullptr;
-
-                        if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
-                        {
-                            const OutdoorGameView::HudTextureHandle *pItemTexture =
-                                HudUiService::ensureHudTextureLoaded(view, pItemDefinition->iconName);
-
-                            if (pItemTexture != nullptr)
-                            {
-                                const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
-                                const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
-                                const InventoryItemScreenRect itemRect =
-                                    computeInventoryItemScreenRect(gridMetrics, heldItem, itemWidth, itemHeight);
-                                view.m_heldInventoryItem.grabOffsetX = mouseX - itemRect.x;
-                                view.m_heldInventoryItem.grabOffsetY = mouseY - itemRect.y;
-                            }
-                        }
-                    }
-                }
-            }
-            else if (target.type == OutdoorGameView::CharacterPointerTargetType::EquipmentSlot
-                && view.m_pOutdoorPartyRuntime != nullptr)
-            {
-                Party &party = view.m_pOutdoorPartyRuntime->party();
-
-                if (!view.m_heldInventoryItem.active)
-                {
-                    InventoryItem unequippedItem = {};
-
-                    if (party.takeEquippedItemFromMember(party.activeMemberIndex(), target.equipmentSlot, unequippedItem))
-                    {
-                        setHeldItem(unequippedItem);
-                        logCharacterItemAction(
-                            "removed_from_doll",
-                            unequippedItem.objectDescriptionId,
-                            "slot=" + std::string(equipmentSlotName(target.equipmentSlot)));
-                    }
-
-                    return;
-                }
-
-                if (view.itemTable() != nullptr)
-                {
-                    const InventoryItemUseAction useAction =
-                        InventoryItemUseRuntime::classifyItemUse(view.m_heldInventoryItem.item, *view.itemTable());
-
-                    if (useAction == InventoryItemUseAction::ReadMessageScroll)
-                    {
-                        return;
-                    }
-
-                    if (useAction != InventoryItemUseAction::None && useAction != InventoryItemUseAction::Equip)
-                    {
-                        view.tryUseHeldItemOnPartyMember(party.activeMemberIndex(), true);
-                        return;
-                    }
-                }
-
-                const ItemDefinition *pItemDefinition =
-                    view.itemTable() != nullptr
-                        ? view.itemTable()->get(view.m_heldInventoryItem.item.objectDescriptionId)
-                        : nullptr;
-
-                if (pItemDefinition == nullptr)
-                {
-                    return;
-                }
-
-                const std::optional<CharacterEquipPlan> plan =
-                    GameMechanics::resolveCharacterEquipPlan(
-                        *party.activeMember(),
-                        *pItemDefinition,
-                        view.itemTable(),
-                        pActiveCharacterDollType,
-                        target.equipmentSlot,
-                        false);
-
-                if (!plan)
-                {
-                    logCharacterItemAction(
-                        "equip_rejected",
-                        view.m_heldInventoryItem.item.objectDescriptionId,
-                        "target=" + std::string(equipmentSlotName(target.equipmentSlot)));
-                    view.setStatusBarEvent("Can't equip that item there");
-                    return;
-                }
-
-                std::optional<InventoryItem> heldReplacement;
-
-                if (!party.tryEquipItemOnMember(
-                        party.activeMemberIndex(),
-                        plan->targetSlot,
-                        view.m_heldInventoryItem.item,
-                        plan->displacedSlot,
-                        plan->autoStoreDisplacedItem,
-                        heldReplacement))
-                {
-                    logCharacterItemAction(
-                        "equip_failed",
-                        view.m_heldInventoryItem.item.objectDescriptionId,
-                        "target=" + std::string(equipmentSlotName(plan->targetSlot)) + " reason=\"" + party.lastStatus() + "\"");
-                    view.setStatusBarEvent(party.lastStatus().empty() ? "Can't equip that item" : party.lastStatus());
-                    return;
-                }
-
-                logCharacterItemAction(
-                    "placed_on_doll",
-                    view.m_heldInventoryItem.item.objectDescriptionId,
-                    "slot=" + std::string(equipmentSlotName(plan->targetSlot)));
-
-                if (heldReplacement)
-                {
-                    setHeldItem(*heldReplacement);
-                }
-                else
-                {
-                    view.m_heldInventoryItem = {};
-                }
-            }
-            else if (target.type == OutdoorGameView::CharacterPointerTargetType::InventoryCell
-                && view.m_pOutdoorPartyRuntime != nullptr
-                && view.m_heldInventoryItem.active)
-            {
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedInventoryGrid =
-                    resolveCharacterInventoryGrid();
-
-                if (!resolvedInventoryGrid)
-                {
-                    return;
-                }
-
-                const ItemDefinition *pItemDefinition =
-                    view.itemTable() != nullptr
-                        ? view.itemTable()->get(view.m_heldInventoryItem.item.objectDescriptionId)
-                        : nullptr;
-
-                if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-                {
-                    return;
-                }
-
-                const OutdoorGameView::HudTextureHandle *pItemTexture = HudUiService::ensureHudTextureLoaded(view, pItemDefinition->iconName);
-
-                if (pItemTexture == nullptr)
-                {
-                    return;
-                }
-
-                const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
-                    resolvedInventoryGrid->x,
-                    resolvedInventoryGrid->y,
-                    resolvedInventoryGrid->width,
-                    resolvedInventoryGrid->height,
-                    resolvedInventoryGrid->scale);
-                const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
-                const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
-                const float drawX = mouseX - view.m_heldInventoryItem.grabOffsetX;
-                const float drawY = mouseY - view.m_heldInventoryItem.grabOffsetY;
-                const std::optional<std::pair<int, int>> placement =
-                    computeHeldInventoryPlacement(
-                        gridMetrics,
-                        view.m_heldInventoryItem.item.width,
-                        view.m_heldInventoryItem.item.height,
-                        itemWidth,
-                        itemHeight,
-                        drawX,
-                        drawY);
-
-                if (!placement)
-                {
-                    return;
-                }
-
-                const int destinationGridX = placement->first;
-                const int destinationGridY = placement->second;
-
-                if (destinationGridX < 0
-                    || destinationGridY < 0
-                    || destinationGridX >= Character::InventoryWidth
-                    || destinationGridY >= Character::InventoryHeight)
-                {
-                    return;
-                }
-
-                Party &party = view.m_pOutdoorPartyRuntime->party();
-                std::optional<InventoryItem> replacedItem;
-
-                if (party.tryPlaceItemInMemberInventoryCell(
-                        party.activeMemberIndex(),
-                        view.m_heldInventoryItem.item,
-                        static_cast<uint8_t>(destinationGridX),
-                        static_cast<uint8_t>(destinationGridY),
-                        replacedItem))
-                {
-                    if (replacedItem)
-                    {
-                        view.m_heldInventoryItem.item = *replacedItem;
-                        view.m_heldInventoryItem.grabCellOffsetX = 0;
-                        view.m_heldInventoryItem.grabCellOffsetY = 0;
-                        view.m_heldInventoryItem.grabOffsetX = 0.0f;
-                        view.m_heldInventoryItem.grabOffsetY = 0.0f;
-                    }
-                    else
-                    {
-                        view.m_heldInventoryItem = {};
-                    }
-                }
-            }
-            else if (target.type == OutdoorGameView::CharacterPointerTargetType::DollPanel
-                && view.m_heldInventoryItem.active)
-            {
-                if (view.m_pOutdoorPartyRuntime == nullptr)
-                {
-                    return;
-                }
-
-                Party &party = view.m_pOutdoorPartyRuntime->party();
-
-                if (view.itemTable() != nullptr)
-                {
-                    const InventoryItemUseAction useAction =
-                        InventoryItemUseRuntime::classifyItemUse(view.m_heldInventoryItem.item, *view.itemTable());
-
-                    if (useAction == InventoryItemUseAction::ReadMessageScroll)
-                    {
-                        return;
-                    }
-
-                    if (useAction != InventoryItemUseAction::None && useAction != InventoryItemUseAction::Equip)
-                    {
-                        view.tryUseHeldItemOnPartyMember(party.activeMemberIndex(), true);
-                        return;
-                    }
-                }
-
-                const ItemDefinition *pItemDefinition =
-                    view.itemTable() != nullptr
-                        ? view.itemTable()->get(view.m_heldInventoryItem.item.objectDescriptionId)
-                        : nullptr;
-
-                if (pItemDefinition == nullptr)
-                {
-                    return;
-                }
-
-                const OutdoorGameView::HudLayoutElement *pDollLayout = HudUiService::findHudLayoutElement(view, "CharacterDollPanel");
-                const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedDoll = pDollLayout != nullptr
-                    ? HudUiService::resolveHudLayoutElement(view, 
-                        "CharacterDollPanel",
-                        screenWidth,
-                        screenHeight,
-                        pDollLayout->width,
-                        pDollLayout->height)
-                    : std::nullopt;
-                const bool preferOffHand =
-                    resolvedDoll && mouseX >= resolvedDoll->x + resolvedDoll->width * 0.5f;
-                const std::optional<CharacterEquipPlan> plan =
-                    GameMechanics::resolveCharacterEquipPlan(
-                        *party.activeMember(),
-                        *pItemDefinition,
-                        view.itemTable(),
-                        pActiveCharacterDollType,
-                        std::nullopt,
-                        preferOffHand);
-
-                if (!plan)
-                {
-                    logCharacterItemAction(
-                        "equip_rejected",
-                        view.m_heldInventoryItem.item.objectDescriptionId,
-                        "target=auto");
-                    view.setStatusBarEvent("Can't equip that item");
-                    return;
-                }
-
-                std::optional<InventoryItem> heldReplacement;
-
-                if (!party.tryEquipItemOnMember(
-                        party.activeMemberIndex(),
-                        plan->targetSlot,
-                        view.m_heldInventoryItem.item,
-                        plan->displacedSlot,
-                        plan->autoStoreDisplacedItem,
-                        heldReplacement))
-                {
-                    logCharacterItemAction(
-                        "equip_failed",
-                        view.m_heldInventoryItem.item.objectDescriptionId,
-                        "target=" + std::string(equipmentSlotName(plan->targetSlot)) + " reason=\"" + party.lastStatus() + "\"");
-                    view.setStatusBarEvent(party.lastStatus().empty() ? "Can't equip that item" : party.lastStatus());
-                    return;
-                }
-
-                logCharacterItemAction(
-                    "placed_on_doll",
-                    view.m_heldInventoryItem.item.objectDescriptionId,
-                    "slot=" + std::string(equipmentSlotName(plan->targetSlot)));
-
-                if (heldReplacement)
-                {
-                    setHeldItem(*heldReplacement);
-                }
-                else
-                {
-                    view.m_heldInventoryItem = {};
-                }
-            }
-        });
 }
 } // namespace OpenYAMM::Game

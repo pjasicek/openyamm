@@ -42,8 +42,7 @@ public:
         GameSession &session,
         GameAudioSystem *pAudioSystem,
         GameSettings *pSettings,
-        IGameplayOverlaySceneAdapter &sceneAdapter,
-        IGameplayOverlayHudAdapter &hudAdapter);
+        IGameplayOverlaySceneAdapter &sceneAdapter);
 
     IGameplayWorldRuntime *worldRuntime() const;
     Party *party() const;
@@ -110,6 +109,7 @@ public:
     std::string &statusBarEventText() const;
     float &statusBarEventRemainingSeconds() const;
     const std::string &statusBarHoverText() const;
+    std::string &mutableStatusBarHoverText() const;
 
     bool &closeOverlayLatch() const;
     bool &restClickLatch() const;
@@ -140,6 +140,8 @@ public:
     GameplaySpellbookPointerTarget &spellbookPressedTarget() const;
     uint64_t &lastSpellbookSpellClickTicks() const;
     uint32_t &lastSpellbookClickedSpellId() const;
+    bool &utilitySpellClickLatch() const;
+    GameplayUtilitySpellPointerTarget &utilitySpellPressedTarget() const;
     std::array<bool, 39> &saveGameEditKeyLatches() const;
     bool &saveGameEditBackspaceLatch() const;
     uint64_t &lastSaveGameSlotClickTicks() const;
@@ -200,6 +202,7 @@ public:
     void requestOpenLoadGameScreen();
     void openJournalOverlay();
     void closeJournalOverlay();
+    void ensurePendingEventDialogPresented(bool allowNpcFallbackContent = true);
     void executeActiveDialogAction();
     void refreshHouseBankInputDialog();
     void confirmHouseBankInput();
@@ -211,6 +214,7 @@ public:
         const GameplayCharacterPointerTarget &pointerTarget,
         bool isLeftMousePressed);
     void closeReadableScrollOverlay();
+    void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId);
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
     bool tryCastSpellFromMember(
         size_t casterMemberIndex,
@@ -219,6 +223,7 @@ public:
     bool tryCastSpellRequest(
         const PartySpellCastRequest &request,
         const std::string &spellName);
+    void resetUtilitySpellOverlayInteractionState();
     void resetInventoryNestedOverlayInteractionState();
     void resetLootOverlayInteractionState();
     GameSettings &mutableSettings() const;
@@ -319,6 +324,9 @@ public:
         float portraitHeight) const;
     bool tryGetGameplayMinimapState(GameplayMinimapState &state) const;
     void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const;
+    bool ensureTownPortalDestinationsLoaded();
+    const std::vector<GameplayTownPortalDestination> &townPortalDestinations() const;
+    std::string resolveMapLocationName(const std::string &mapFileName) const;
     float measureHudTextWidth(const std::string &fontName, const std::string &text) const;
     int hudFontHeight(const std::string &fontName) const;
     std::vector<std::string> wrapHudTextToWidth(
@@ -363,6 +371,7 @@ public:
 
 private:
     GameplayUiController &uiController() const;
+    GameplayUiRuntime &uiRuntime() const;
     GameplayOverlayInteractionState &interactionState() const;
     GameplayDialogUiFlowState dialogUiFlowState();
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
@@ -374,7 +383,6 @@ private:
     GameAudioSystem *m_pAudioSystem = nullptr;
     GameSettings *m_pSettings = nullptr;
     IGameplayOverlaySceneAdapter &m_sceneAdapter;
-    IGameplayOverlayHudAdapter &m_hudAdapter;
     mutable std::optional<std::string> m_resolvedInteractiveAssetName;
 };
 } // namespace OpenYAMM::Game

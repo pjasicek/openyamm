@@ -19,23 +19,11 @@ namespace
 constexpr uint16_t HudViewId = 2;
 } // namespace
 
-bool HudUiService::loadHudLayout(OutdoorGameView &view, const Engine::AssetFileSystem &assetFileSystem)
-{
-    view.m_uiLayoutManager.clear();
-
-    return view.m_gameplayUiController.loadGameplayLayouts(
-        assetFileSystem,
-        [&view, &assetFileSystem](const std::string &path) -> bool
-        {
-            return view.m_uiLayoutManager.loadLayoutFile(assetFileSystem, path);
-        });
-}
-
 const OutdoorGameView::HudLayoutElement *HudUiService::findHudLayoutElement(
     const OutdoorGameView &view,
     const std::string &layoutId)
 {
-    return view.m_uiLayoutManager.findElement(layoutId);
+    return view.m_gameplayUiRuntime.layoutManager().findElement(layoutId);
 }
 
 const UiLayoutManager::LayoutElement *HudUiService::findHudLayoutElement(
@@ -49,7 +37,7 @@ std::vector<std::string> HudUiService::sortedHudLayoutIdsForScreen(
     const OutdoorGameView &view,
     const std::string &screen)
 {
-    return view.m_uiLayoutManager.sortedLayoutIdsForScreen(screen);
+    return view.m_gameplayUiRuntime.layoutManager().sortedLayoutIdsForScreen(screen);
 }
 
 std::vector<std::string> HudUiService::sortedHudLayoutIdsForScreen(
@@ -57,18 +45,6 @@ std::vector<std::string> HudUiService::sortedHudLayoutIdsForScreen(
     const std::string &screen)
 {
     return view.sortedHudLayoutIdsForScreen(screen);
-}
-
-const std::vector<std::string> &HudUiService::sortedHudLayoutIdsForScreenCached(
-    const OutdoorGameView &view,
-    const std::string &screen)
-{
-    return view.m_uiLayoutManager.sortedLayoutIdsForScreenCached(screen);
-}
-
-int HudUiService::maxHudLayoutZIndexForScreen(const OutdoorGameView &view, const std::string &screen)
-{
-    return view.m_uiLayoutManager.maxZIndexForScreen(screen);
 }
 
 int HudUiService::defaultHudLayoutZIndexForScreen(const std::string &screen)
@@ -81,7 +57,7 @@ const OutdoorGameView::HudFontHandle *HudUiService::findHudFont(
     const std::string &fontName)
 {
     if (const OutdoorGameView::HudFontHandle *pLoadedFont =
-            GameplayHudCommon::findHudFont(view.m_hudFontHandles, fontName))
+            GameplayHudCommon::findHudFont(view.m_gameplayUiRuntime.hudFontHandles(), fontName))
     {
         return pLoadedFont;
     }
@@ -93,7 +69,7 @@ const OutdoorGameView::HudFontHandle *HudUiService::findHudFont(
         if (mutableView.loadHudFont(*view.m_pAssetFileSystem, fontName))
         {
             if (const OutdoorGameView::HudFontHandle *pReloadedFont =
-                    GameplayHudCommon::findHudFont(view.m_hudFontHandles, fontName))
+                    GameplayHudCommon::findHudFont(view.m_gameplayUiRuntime.hudFontHandles(), fontName))
             {
                 static std::unordered_set<std::string> lazyReloadLogs;
                 const std::string normalizedFontName = toLowerCopy(fontName);
@@ -252,7 +228,7 @@ bgfx::TextureHandle HudUiService::ensureHudFontMainTextureColor(
     return GameplayHudCommon::ensureHudFontMainTextureColor(
         font,
         colorAbgr,
-        view.m_hudFontColorTextureHandles);
+        const_cast<GameplayUiRuntime &>(view.m_gameplayUiRuntime).hudFontColorTextureHandles());
 }
 
 bgfx::TextureHandle HudUiService::ensureHudFontMainTextureColor(
@@ -271,7 +247,7 @@ bgfx::TextureHandle HudUiService::ensureHudTextureColor(
     return GameplayHudCommon::ensureHudTextureColor(
         texture,
         colorAbgr,
-        view.m_hudTextureColorTextureHandles);
+        const_cast<GameplayUiRuntime &>(view.m_gameplayUiRuntime).hudTextureColorTextureHandles());
 }
 
 bgfx::TextureHandle HudUiService::ensureHudTextureColor(
@@ -324,7 +300,10 @@ const OutdoorGameView::HudTextureHandle *HudUiService::findHudTexture(
     const OutdoorGameView &view,
     const std::string &textureName)
 {
-    return GameplayHudCommon::findHudTexture(view.m_hudTextureHandles, view.m_hudTextureIndexByName, textureName);
+    return GameplayHudCommon::findHudTexture(
+        view.m_gameplayUiRuntime.hudTextureHandles(),
+        view.m_gameplayUiRuntime.hudTextureIndexByName(),
+        textureName);
 }
 
 const OutdoorGameView::HudTextureHandle *HudUiService::ensureHudTextureLoaded(
@@ -345,13 +324,16 @@ const OutdoorGameView::HudTextureHandle *HudUiService::ensureHudTextureLoaded(
             view.m_pAssetFileSystem,
             view.m_spriteLoadCache,
             textureName,
-            view.m_hudTextureHandles,
-            view.m_hudTextureIndexByName))
+            view.m_gameplayUiRuntime.hudTextureHandles(),
+            view.m_gameplayUiRuntime.hudTextureIndexByName()))
     {
         return nullptr;
     }
 
-    return GameplayHudCommon::findHudTexture(view.m_hudTextureHandles, view.m_hudTextureIndexByName, textureName);
+    return GameplayHudCommon::findHudTexture(
+        view.m_gameplayUiRuntime.hudTextureHandles(),
+        view.m_gameplayUiRuntime.hudTextureIndexByName(),
+        textureName);
 }
 
 std::optional<GameplayHudTextureHandle> HudUiService::ensureHudTextureLoaded(
@@ -416,10 +398,12 @@ const OutdoorGameView::HudTextureHandle *HudUiService::ensureSolidHudTextureLoad
         return nullptr;
     }
 
-    const size_t index = view.m_hudTextureHandles.size();
-    view.m_hudTextureHandles.push_back(std::move(textureHandle));
-    view.m_hudTextureIndexByName[view.m_hudTextureHandles.back().textureName] = index;
-    return &view.m_hudTextureHandles.back();
+    std::vector<OutdoorGameView::HudTextureHandle> &hudTextureHandles = view.m_gameplayUiRuntime.hudTextureHandles();
+    std::unordered_map<std::string, size_t> &hudTextureIndexByName = view.m_gameplayUiRuntime.hudTextureIndexByName();
+    const size_t index = hudTextureHandles.size();
+    hudTextureHandles.push_back(std::move(textureHandle));
+    hudTextureIndexByName[hudTextureHandles.back().textureName] = index;
+    return &hudTextureHandles.back();
 }
 
 std::optional<GameplayHudTextureHandle> HudUiService::ensureSolidHudTextureLoaded(
@@ -456,14 +440,24 @@ void HudUiService::renderViewportSidePanels(
         return;
     }
 
-    view.submitHudTexturedQuad(*pTexture, 0.0f, 0.0f, viewport.x, static_cast<float>(screenHeight));
+    view.m_gameplayUiRuntime.submitHudTexturedQuad(
+        pTexture->textureHandle,
+        0.0f,
+        0.0f,
+        viewport.x,
+        static_cast<float>(screenHeight));
 
     const float rightX = viewport.x + viewport.width;
     const float rightWidth = static_cast<float>(screenWidth) - rightX;
 
     if (rightWidth > 0.5f)
     {
-        view.submitHudTexturedQuad(*pTexture, rightX, 0.0f, rightWidth, static_cast<float>(screenHeight));
+        view.m_gameplayUiRuntime.submitHudTexturedQuad(
+            pTexture->textureHandle,
+            rightX,
+            0.0f,
+            rightWidth,
+            static_cast<float>(screenHeight));
     }
 }
 
@@ -513,8 +507,8 @@ std::optional<OutdoorGameView::ResolvedHudLayoutElement> HudUiService::resolveHu
     float fallbackHeight)
 {
     return GameplayHudCommon::resolveHudLayoutElement(
-        view.m_uiLayoutManager,
-        view.m_hudLayoutRuntimeHeightOverrides,
+        view.m_gameplayUiRuntime.layoutManager(),
+        view.m_gameplayUiRuntime.hudLayoutRuntimeHeightOverrides(),
         layoutId,
         screenWidth,
         screenHeight,

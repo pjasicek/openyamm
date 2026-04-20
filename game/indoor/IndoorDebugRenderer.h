@@ -50,6 +50,8 @@ public:
     void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void setCameraPosition(float x, float y, float z);
     bool hasHudRenderResources() const;
+    bgfx::ProgramHandle hudTexturedProgramHandle() const;
+    bgfx::UniformHandle hudTextureSamplerHandle() const;
     void prepareHudView(int width, int height) const;
     void submitHudTextureQuad(
         bgfx::TextureHandle textureHandle,

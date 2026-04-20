@@ -9,7 +9,7 @@ class GameplayPartyOverlayInputController
 {
 public:
     static void handleUtilitySpellOverlayInput(
-        OutdoorGameView &view,
+        GameplayOverlayContext &context,
         const bool *pKeyboardState,
         int screenWidth,
         int screenHeight);

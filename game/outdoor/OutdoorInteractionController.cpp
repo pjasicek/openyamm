@@ -1190,7 +1190,8 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         view.mapEntries(),
         view.rosterTable(),
         view.arcomageLibrary(),
-        view.currentHudScreenState() == OutdoorGameView::OverlayHudScreenState::Dialogue,
+        resolveGameplayHudScreenState(view.m_gameplayUiController, view.m_activeEventDialog, view.m_pOutdoorWorldRuntime)
+            == GameplayHudScreenState::Dialogue,
         std::move(callbacks));
 }
 
@@ -1310,7 +1311,7 @@ void OutdoorInteractionController::presentPendingEventDialog(OutdoorGameView &vi
 {
     GameplayDialogUiFlowState state = {
         view.m_gameplayUiController,
-        view.interactionState(),
+        view.m_overlayInteractionState,
         view.m_gameplayDialogController,
         view.m_eventDialogSelectionIndex
     };
@@ -1365,7 +1366,7 @@ void OutdoorInteractionController::closeActiveEventDialog(OutdoorGameView &view)
 
     GameplayDialogUiFlowState state = {
         view.m_gameplayUiController,
-        view.interactionState(),
+        view.m_overlayInteractionState,
         view.m_gameplayDialogController,
         view.m_eventDialogSelectionIndex
     };
@@ -1538,7 +1539,8 @@ void OutdoorInteractionController::handleDialogueCloseRequest(OutdoorGameView &v
     }
 
     if (view.m_inventoryNestedOverlay.active
-        && view.currentHudScreenState() == OutdoorGameView::OverlayHudScreenState::Dialogue)
+        && resolveGameplayHudScreenState(view.m_gameplayUiController, view.m_activeEventDialog, view.m_pOutdoorWorldRuntime)
+               == GameplayHudScreenState::Dialogue)
     {
         view.closeInventoryNestedOverlay();
         return;
@@ -1556,7 +1558,7 @@ void OutdoorInteractionController::handleDialogueCloseRequest(OutdoorGameView &v
     if (pEventRuntimeState == nullptr)
     {
         OutdoorInteractionController::closeActiveEventDialog(view);
-        view.interactionState().activateInspectLatch = true;
+        view.m_overlayInteractionState.activateInspectLatch = true;
         return;
     }
 
@@ -1571,7 +1573,7 @@ void OutdoorInteractionController::handleDialogueCloseRequest(OutdoorGameView &v
     else if (result.shouldCloseActiveDialog)
     {
         OutdoorInteractionController::closeActiveEventDialog(view);
-        view.interactionState().activateInspectLatch = true;
+        view.m_overlayInteractionState.activateInspectLatch = true;
     }
 }
 
@@ -1652,7 +1654,7 @@ void OutdoorInteractionController::refreshHouseBankInputDialog(OutdoorGameView &
 {
     GameplayDialogUiFlowState state = {
         view.m_gameplayUiController,
-        view.interactionState(),
+        view.m_overlayInteractionState,
         view.m_gameplayDialogController,
         view.m_eventDialogSelectionIndex
     };
@@ -1672,7 +1674,7 @@ void OutdoorInteractionController::returnToHouseBankMainDialog(OutdoorGameView &
 {
     GameplayDialogUiFlowState state = {
         view.m_gameplayUiController,
-        view.interactionState(),
+        view.m_overlayInteractionState,
         view.m_gameplayDialogController,
         view.m_eventDialogSelectionIndex
     };
@@ -1699,7 +1701,7 @@ void OutdoorInteractionController::confirmHouseBankInput(OutdoorGameView &view)
 {
     GameplayDialogUiFlowState state = {
         view.m_gameplayUiController,
-        view.interactionState(),
+        view.m_overlayInteractionState,
         view.m_gameplayDialogController,
         view.m_eventDialogSelectionIndex
     };

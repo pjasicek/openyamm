@@ -11,6 +11,9 @@
 
 namespace OpenYAMM::Game
 {
+struct GameplayMinimapState;
+struct GameplayMinimapMarkerState;
+
 struct GameplayChestItemState
 {
     InventoryItem item = {};
@@ -148,6 +151,8 @@ public:
         uint32_t skillLevel,
         SkillMastery skillMastery,
         std::string &failureText) = 0;
+    virtual bool tryGetGameplayMinimapState(GameplayMinimapState &state) const = 0;
+    virtual void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const = 0;
     virtual const GameplayChestViewState *activeChestView() const = 0;
     virtual bool takeActiveChestItem(size_t itemIndex, GameplayChestItemState &item) = 0;
     virtual bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, GameplayChestItemState &item) = 0;

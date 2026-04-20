@@ -40,6 +40,7 @@ add_executable(openyamm
     gameplay/StoryTextFormatter.cpp
     audio/HouseVideoPlayer.cpp
     items/InventoryItemUseRuntime.cpp
+    maps/IndoorSceneYml.cpp
     maps/MapDeltaData.cpp
     maps/OutdoorSceneYml.cpp
     maps/TerrainTileData.cpp

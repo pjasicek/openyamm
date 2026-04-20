@@ -172,7 +172,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         view.m_utilitySpellOverlay.active
         && view.m_utilitySpellOverlay.mode != OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget;
     const bool blocksUnderlyingMouseInput =
-        view.currentHudScreenState() != OutdoorGameView::HudScreenState::Gameplay
+        resolveGameplayHudScreenState(view.m_gameplayUiController, view.m_activeEventDialog, view.m_pOutdoorWorldRuntime)
+            != GameplayHudScreenState::Gameplay
         || view.m_readableScrollOverlay.active;
     SDL_Window *pWindow = SDL_GetMouseFocus();
 
@@ -344,7 +345,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     if (!isMenuActive && !isControlsActive && !isKeyboardActive && !isSaveGameActive && !isLoadGameActive
         && pKeyboardState[SDL_SCANCODE_ESCAPE])
     {
-        if (!view.interactionState().menuToggleLatch)
+        if (!view.m_overlayInteractionState.menuToggleLatch)
         {
             if (canToggleMenu)
             {
@@ -353,12 +354,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                 view.m_optionsButtonPressed = false;
             }
 
-            view.interactionState().menuToggleLatch = true;
+            view.m_overlayInteractionState.menuToggleLatch = true;
         }
     }
     else if (!isMenuActive && !isControlsActive && !isKeyboardActive && !isSaveGameActive && !isLoadGameActive)
     {
-        view.interactionState().menuToggleLatch = false;
+        view.m_overlayInteractionState.menuToggleLatch = false;
     }
 
     if (canToggleMenu && allowGameplayPointerInput && !blocksUnderlyingMouseInput && screenWidth > 0 && screenHeight > 0)
@@ -464,8 +465,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
         handlePointerClickRelease(
             restButtonPointerState,
-            view.interactionState().restClickLatch,
-            view.interactionState().restPressedTarget,
+            view.m_overlayInteractionState.restClickLatch,
+            view.m_overlayInteractionState.restPressedTarget,
             noneRestTarget,
             [&view, pRestButtonLayoutId, screenWidth, screenHeight](float pointerX, float pointerY)
                 -> OutdoorGameView::RestPointerTarget
@@ -504,8 +505,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     }
     else if (!view.m_restScreen.active)
     {
-        view.interactionState().restClickLatch = false;
-        view.interactionState().restPressedTarget = {};
+        view.m_overlayInteractionState.restClickLatch = false;
+        view.m_overlayInteractionState.restPressedTarget = {};
     }
 
     const bool canToggleAdventurersInn =
@@ -631,12 +632,12 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                 .resetDialogueInteractionState =
                     [&view]()
                     {
-                        view.interactionState().eventDialogSelectUpLatch = false;
-                        view.interactionState().eventDialogSelectDownLatch = false;
-                        view.interactionState().eventDialogAcceptLatch = false;
-                        view.interactionState().eventDialogPartySelectLatches.fill(false);
-                        view.interactionState().dialogueClickLatch = false;
-                        view.interactionState().dialoguePressedTarget = {};
+                        view.m_overlayInteractionState.eventDialogSelectUpLatch = false;
+                        view.m_overlayInteractionState.eventDialogSelectDownLatch = false;
+                        view.m_overlayInteractionState.eventDialogAcceptLatch = false;
+                        view.m_overlayInteractionState.eventDialogPartySelectLatches.fill(false);
+                        view.m_overlayInteractionState.dialogueClickLatch = false;
+                        view.m_overlayInteractionState.dialoguePressedTarget = {};
                     },
                 .handleSpellbookOverlayInput =
                     [&overlayContext](const bool *pState, int width, int height)
@@ -830,7 +831,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         && view.m_utilitySpellOverlay.mode != OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget)
     {
         GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
-            view,
+            overlayContext,
             pKeyboardState,
             screenWidth,
             screenHeight);
@@ -867,9 +868,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         return;
     }
 
-    view.interactionState().characterClickLatch = false;
-    view.interactionState().characterMemberCycleLatch = false;
-    view.interactionState().characterPressedTarget = {};
+    view.m_overlayInteractionState.characterClickLatch = false;
+    view.m_overlayInteractionState.characterMemberCycleLatch = false;
+    view.m_overlayInteractionState.characterPressedTarget = {};
     view.closeReadableScrollOverlay();
 
     const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];

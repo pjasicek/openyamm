@@ -16,22 +16,16 @@ namespace OpenYAMM::Game
 class HudUiService
 {
 public:
-    static bool loadHudLayout(OutdoorGameView &view, const Engine::AssetFileSystem &assetFileSystem);
-
     static const OutdoorGameView::HudLayoutElement *findHudLayoutElement(
         const OutdoorGameView &view,
         const std::string &layoutId);
     static const UiLayoutManager::LayoutElement *findHudLayoutElement(
         const GameplayOverlayContext &view,
         const std::string &layoutId);
-    static const std::vector<std::string> &sortedHudLayoutIdsForScreenCached(
-        const OutdoorGameView &view,
-        const std::string &screen);
     static std::vector<std::string> sortedHudLayoutIdsForScreen(const OutdoorGameView &view, const std::string &screen);
     static std::vector<std::string> sortedHudLayoutIdsForScreen(
         const GameplayOverlayContext &view,
         const std::string &screen);
-    static int maxHudLayoutZIndexForScreen(const OutdoorGameView &view, const std::string &screen);
     static int defaultHudLayoutZIndexForScreen(const std::string &screen);
 
     static const OutdoorGameView::HudFontHandle *findHudFont(

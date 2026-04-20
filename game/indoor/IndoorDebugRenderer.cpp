@@ -2082,6 +2082,16 @@ bool IndoorDebugRenderer::hasHudRenderResources() const
     return bgfx::isValid(m_texturedProgramHandle) && bgfx::isValid(m_textureSamplerHandle);
 }
 
+bgfx::ProgramHandle IndoorDebugRenderer::hudTexturedProgramHandle() const
+{
+    return m_texturedProgramHandle;
+}
+
+bgfx::UniformHandle IndoorDebugRenderer::hudTextureSamplerHandle() const
+{
+    return m_textureSamplerHandle;
+}
+
 void IndoorDebugRenderer::prepareHudView(int width, int height) const
 {
     if (!hasHudRenderResources() || width <= 0 || height <= 0)

@@ -121,11 +121,6 @@ UiViewportRect computeUiViewportRect(int screenWidth, int screenHeight)
     return viewport;
 }
 
-void renderViewportParchmentSidePanels(const OutdoorGameView &view, int width, int height)
-{
-    HudUiService::renderViewportSidePanels(view, width, height, "UI-Parch");
-}
-
 void renderViewportParchmentSidePanels(GameplayOverlayContext &view, int width, int height)
 {
     HudUiService::renderViewportSidePanels(view, width, height, "UI-Parch");
@@ -503,7 +498,7 @@ bool utilityOverlayPointInsideRect(float x, float y, float rectX, float rectY, f
 
 bool isUtilityTownPortalDestinationUnlocked(
     const Party *pParty,
-    const OutdoorGameView::TownPortalDestination &destination)
+    const GameplayTownPortalDestination &destination)
 {
     if (destination.unlockQBitId == 0)
     {
@@ -3372,12 +3367,11 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayOverlayContext &
     renderInteractiveTextureLayout("JournalCloseButton");
 }
 
-void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameView &view, int width, int height)
+void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayOverlayContext &context, int width, int height)
 {
-    if (!view.m_utilitySpellOverlay.active
-        || view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget
-        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
-        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
+    if (!context.utilitySpellOverlayReadOnly().active
+        || context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget
+        || !context.hasHudRenderResources()
         || width <= 0
         || height <= 0)
     {
@@ -3385,25 +3379,28 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
     }
 
     setupHudProjection(width, height);
-    renderViewportParchmentSidePanels(view, width, height);
+    renderViewportParchmentSidePanels(context, width, height);
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
     const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
     const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
-    const EventRuntimeState *pEventRuntimeState =
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
 
-    if (view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::TownPortal)
+    if (context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::TownPortal)
     {
-        const Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
-        const std::vector<std::string> orderedLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "TownPortal");
+        if (!context.ensureTownPortalDestinationsLoaded())
+        {
+            return;
+        }
+
+        const Party *pParty = context.partyReadOnly();
+        const std::vector<std::string> orderedLayoutIds = context.sortedHudLayoutIdsForScreen("TownPortal");
         const auto findDestinationByLayoutId =
-            [&view](const std::string &layoutId) -> const OutdoorGameView::TownPortalDestination *
+            [&context](const std::string &layoutId) -> const GameplayTownPortalDestination *
             {
                 const std::string normalizedLayoutId = toLowerCopy(layoutId);
 
-                for (const OutdoorGameView::TownPortalDestination &destination : view.m_townPortalDestinations)
+                for (const GameplayTownPortalDestination &destination : context.townPortalDestinations())
                 {
                     if (toLowerCopy(destination.buttonLayoutId) == normalizedLayoutId)
                     {
@@ -3414,35 +3411,35 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
                 return nullptr;
             };
         const auto resolveLayout =
-            [&view, width, height](const std::string &layoutId) -> std::optional<OutdoorGameView::ResolvedHudLayoutElement>
+            [&context, width, height](const std::string &layoutId) -> std::optional<GameplayOverlayContext::ResolvedHudLayoutElement>
             {
-                const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+                const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
                 if (pLayout == nullptr)
                 {
                     return std::nullopt;
                 }
 
-                return HudUiService::resolveHudLayoutElement(view, layoutId, width, height, pLayout->width, pLayout->height);
+                return context.resolveHudLayoutElement(layoutId, width, height, pLayout->width, pLayout->height);
             };
 
         for (const std::string &layoutId : orderedLayoutIds)
         {
-            const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
+            const GameplayOverlayContext::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
 
             if (pLayout == nullptr || !pLayout->visible)
             {
                 continue;
             }
 
-            const OutdoorGameView::TownPortalDestination *pDestination = findDestinationByLayoutId(layoutId);
+            const GameplayTownPortalDestination *pDestination = findDestinationByLayoutId(layoutId);
 
             if (pDestination != nullptr && !isUtilityTownPortalDestinationUnlocked(pParty, *pDestination))
             {
                 continue;
             }
 
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
 
             if (!resolved.has_value())
             {
@@ -3451,7 +3448,7 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
 
             const std::string *pAssetName =
                 pLayout->interactive
-                    ? HudUiService::resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed)
+                    ? context.resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed)
                     : &pLayout->primaryAsset;
 
             if (pAssetName == nullptr || pAssetName->empty())
@@ -3459,15 +3456,15 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
                 continue;
             }
 
-            const OutdoorGameView::HudTextureHandle *pTexture =
-                HudUiService::ensureHudTextureLoaded(const_cast<OutdoorGameView &>(view), *pAssetName);
+            const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
+                context.ensureHudTextureLoaded(*pAssetName);
 
-            if (pTexture == nullptr)
+            if (!texture.has_value())
             {
                 continue;
             }
 
-            view.submitHudTexturedQuad(*pTexture, resolved->x, resolved->y, resolved->width, resolved->height);
+            context.submitHudTexturedQuad(*texture, resolved->x, resolved->y, resolved->width, resolved->height);
         }
 
         return;
@@ -3488,7 +3485,7 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
     const float borderThickness = std::max(1.0f, std::round(2.0f * layout.scale));
 
     const auto submitSolidQuad =
-        [&view](float x, float y, float quadWidth, float quadHeight, uint32_t abgr)
+        [&context](float x, float y, float quadWidth, float quadHeight, uint32_t abgr)
         {
             if (quadWidth <= 0.0f || quadHeight <= 0.0f)
             {
@@ -3496,19 +3493,16 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
             }
 
             const std::string textureName = "__utility_overlay_solid_" + std::to_string(abgr);
-            const OutdoorGameView::HudTextureHandle *pTexture =
-                HudUiService::ensureSolidHudTextureLoaded(
-                    const_cast<OutdoorGameView &>(view),
-                    textureName,
-                    abgr);
+            const std::optional<GameplayOverlayContext::HudTextureHandle> texture =
+                context.ensureSolidHudTextureLoaded(textureName, abgr);
 
-            if (pTexture != nullptr)
+            if (texture.has_value())
             {
-                view.submitHudTexturedQuad(*pTexture, x, y, quadWidth, quadHeight);
+                context.submitHudTexturedQuad(*texture, x, y, quadWidth, quadHeight);
             }
         };
     const auto renderLabel =
-        [&view](const std::string &text,
+        [&context](const std::string &text,
             float x,
             float y,
             float rectWidth,
@@ -3516,22 +3510,22 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
             float scale,
             const char *pFontName,
             uint32_t colorAbgr,
-            OutdoorGameView::HudTextAlignX alignX,
-            OutdoorGameView::HudTextAlignY alignY)
+            UiLayoutManager::TextAlignX alignX,
+            UiLayoutManager::TextAlignY alignY)
         {
-            OutdoorGameView::HudLayoutElement labelLayout = {};
+            GameplayOverlayContext::HudLayoutElement labelLayout = {};
             labelLayout.fontName = pFontName;
             labelLayout.textColorAbgr = colorAbgr;
             labelLayout.textAlignX = alignX;
             labelLayout.textAlignY = alignY;
 
-            OutdoorGameView::ResolvedHudLayoutElement labelRect = {};
+            GameplayOverlayContext::ResolvedHudLayoutElement labelRect = {};
             labelRect.x = x;
             labelRect.y = y;
             labelRect.width = rectWidth;
             labelRect.height = rectHeight;
             labelRect.scale = scale;
-            HudUiService::renderLayoutLabel(view, labelLayout, labelRect, text);
+            context.renderLayoutLabel(labelLayout, labelRect, text);
         };
 
     submitSolidQuad(0.0f, 0.0f, static_cast<float>(width), static_cast<float>(height), screenShadeColor);
@@ -3563,10 +3557,10 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
         layout.scale,
         "arrus",
         makeAbgrColor(255, 255, 255),
-        OutdoorGameView::HudTextAlignX::Center,
-        OutdoorGameView::HudTextAlignY::Middle);
+        UiLayoutManager::TextAlignX::Center,
+        UiLayoutManager::TextAlignY::Middle);
 
-    if (view.m_utilitySpellOverlay.mode != OutdoorGameView::UtilitySpellOverlayMode::LloydsBeacon)
+    if (context.utilitySpellOverlayReadOnly().mode != GameplayUiController::UtilitySpellOverlayMode::LloydsBeacon)
     {
         return;
     }
@@ -3580,8 +3574,8 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
         layout.scale,
         "arrus",
         titleColor,
-        OutdoorGameView::HudTextAlignX::Left,
-        OutdoorGameView::HudTextAlignY::Top);
+        UiLayoutManager::TextAlignX::Left,
+        UiLayoutManager::TextAlignY::Top);
 
     const float tabY = layout.panelY + 48.0f * layout.scale;
     const float setTabX = layout.contentX;
@@ -3590,7 +3584,7 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
         utilityOverlayPointInsideRect(mouseX, mouseY, setTabX, tabY, layout.tabWidth, layout.tabHeight);
     const bool recallHovered =
         utilityOverlayPointInsideRect(mouseX, mouseY, recallTabX, tabY, layout.tabWidth, layout.tabHeight);
-    const bool recallMode = view.m_utilitySpellOverlay.lloydRecallMode;
+    const bool recallMode = context.utilitySpellOverlayReadOnly().lloydRecallMode;
 
     submitSolidQuad(
         setTabX,
@@ -3613,8 +3607,8 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
         layout.scale,
         "Lucida",
         textColor,
-        OutdoorGameView::HudTextAlignX::Center,
-        OutdoorGameView::HudTextAlignY::Middle);
+        UiLayoutManager::TextAlignX::Center,
+        UiLayoutManager::TextAlignY::Middle);
     renderLabel(
         "Recall",
         recallTabX,
@@ -3624,12 +3618,12 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
         layout.scale,
         "Lucida",
         textColor,
-        OutdoorGameView::HudTextAlignX::Center,
-        OutdoorGameView::HudTextAlignY::Middle);
+        UiLayoutManager::TextAlignX::Center,
+        UiLayoutManager::TextAlignY::Middle);
 
     const Character *pCaster =
-        view.m_pOutdoorPartyRuntime != nullptr
-            ? view.m_pOutdoorPartyRuntime->party().member(view.m_utilitySpellOverlay.casterMemberIndex)
+        context.partyReadOnly() != nullptr
+            ? context.partyReadOnly()->member(context.utilitySpellOverlayReadOnly().casterMemberIndex)
             : nullptr;
     const size_t slotCount = utilityOverlayMaxLloydBeaconSlots(pCaster);
 
@@ -3655,8 +3649,8 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
             layout.scale,
             "Lucida",
             mutedColor,
-            OutdoorGameView::HudTextAlignX::Left,
-            OutdoorGameView::HudTextAlignY::Middle);
+            UiLayoutManager::TextAlignX::Left,
+            UiLayoutManager::TextAlignY::Middle);
 
         std::string primaryText = "Available";
         std::string secondaryText = recallMode ? "Empty" : "Set beacon here";
@@ -3686,8 +3680,8 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
             layout.scale,
             "Lucida",
             primaryColor,
-            OutdoorGameView::HudTextAlignX::Left,
-            OutdoorGameView::HudTextAlignY::Middle);
+            UiLayoutManager::TextAlignX::Left,
+            UiLayoutManager::TextAlignY::Middle);
         renderLabel(
             secondaryText,
             layout.contentX + 104.0f * layout.scale,
@@ -3697,8 +3691,8 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(const OutdoorGameVi
             layout.scale,
             "Lucida",
             secondaryColor,
-            OutdoorGameView::HudTextAlignX::Left,
-            OutdoorGameView::HudTextAlignY::Middle);
+            UiLayoutManager::TextAlignX::Left,
+            UiLayoutManager::TextAlignY::Middle);
     }
 }
 
@@ -6110,8 +6104,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         || context.partyReadOnly() == nullptr
         || !context.hasHudRenderResources()
         || width <= 0
-        || height <= 0
-        || context.isAdventurersInnScreenActive())
+        || height <= 0)
     {
         return;
     }
@@ -7207,1545 +7200,6 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                     levelResolved.height = rowHeightPixels;
                     levelResolved.scale = resolvedLevelHeader->scale;
                     context.renderLayoutLabel(levelLayout, levelResolved, row.level);
-                }
-            }
-        };
-
-    renderSkillGroup("CharacterSkillsWeaponsListRegion", "CharacterSkillsWeaponsLevelHeader", skillUiData.weaponRows);
-    renderSkillGroup("CharacterSkillsMagicListRegion", "CharacterSkillsMagicLevelHeader", skillUiData.magicRows);
-    renderSkillGroup("CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows);
-    renderSkillGroup("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
-}
-
-void GameplayPartyOverlayRenderer::renderCharacterOverlay(
-    const OutdoorGameView &view,
-    int width,
-    int height,
-    bool renderAboveHud)
-{
-    if (view.currentHudScreenState() != OutdoorGameView::HudScreenState::Character
-        || view.m_pOutdoorPartyRuntime == nullptr
-        || !bgfx::isValid(view.m_texturedTerrainProgramHandle)
-        || !bgfx::isValid(view.m_terrainTextureSamplerHandle)
-        || width <= 0
-        || height <= 0)
-    {
-        return;
-    }
-
-    OutdoorGameView &mutableView = const_cast<OutdoorGameView &>(view);
-    GameplayOverlayContext overlayContext = mutableView.createGameplayOverlayContext();
-    setupHudProjection(width, height);
-    renderViewportParchmentSidePanels(view, width, height);
-
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
-    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
-    float characterMouseX = 0.0f;
-    float characterMouseY = 0.0f;
-    const SDL_MouseButtonFlags characterMouseButtons = SDL_GetMouseState(&characterMouseX, &characterMouseY);
-    const bool isLeftMousePressed = (characterMouseButtons & SDL_BUTTON_LMASK) != 0;
-
-    const auto replaceAll = [](std::string text, const std::string &from, const std::string &to) -> std::string
-    {
-        size_t position = 0;
-
-        while ((position = text.find(from, position)) != std::string::npos)
-        {
-            text.replace(position, from.size(), to);
-            position += to.size();
-        }
-
-        return text;
-    };
-    const auto submitSolidHudQuad =
-        [&view](const std::string &textureName, float x, float y, float quadWidth, float quadHeight, uint32_t abgr)
-        {
-            if (quadWidth <= 0.0f || quadHeight <= 0.0f)
-            {
-                return;
-            }
-
-            const OutdoorGameView::HudTextureHandle *pSolidTexture =
-                HudUiService::ensureSolidHudTextureLoaded(
-                    const_cast<OutdoorGameView &>(view),
-                    textureName,
-                    abgr);
-
-            if (pSolidTexture == nullptr)
-            {
-                return;
-            }
-
-            view.submitHudTexturedQuad(*pSolidTexture, x, y, quadWidth, quadHeight);
-        };
-    const auto renderInventoryTargetCrosshair =
-        [&submitSolidHudQuad](float centerX, float centerY, float overlayScale, uint32_t crosshairColor, uint32_t shadowColor)
-        {
-            const float armLength = std::round(10.0f * overlayScale);
-            const float armGap = std::round(4.0f * overlayScale);
-            const float stroke = std::max(1.0f, std::round(2.0f * overlayScale));
-            const auto submitCrosshairLine =
-                [&submitSolidHudQuad, crosshairColor, shadowColor](float x, float y, float quadWidth, float quadHeight)
-                {
-                    submitSolidHudQuad(
-                        "__inventory_target_crosshair_shadow__",
-                        x + 1.0f,
-                        y + 1.0f,
-                        quadWidth,
-                        quadHeight,
-                        shadowColor);
-                    submitSolidHudQuad(
-                        "__inventory_target_crosshair__",
-                        x,
-                        y,
-                        quadWidth,
-                        quadHeight,
-                        crosshairColor);
-                };
-
-            submitCrosshairLine(centerX - armGap - armLength, centerY - stroke * 0.5f, armLength, stroke);
-            submitCrosshairLine(centerX + armGap, centerY - stroke * 0.5f, armLength, stroke);
-            submitCrosshairLine(centerX - stroke * 0.5f, centerY - armGap - armLength, stroke, armLength);
-            submitCrosshairLine(centerX - stroke * 0.5f, centerY + armGap, stroke, armLength);
-        };
-    const auto renderInventoryTargetFrame =
-        [&submitSolidHudQuad](float x, float y, float rectWidth, float rectHeight, float overlayScale, uint32_t frameColor, uint32_t shadowColor)
-        {
-            const float thickness = std::max(1.0f, std::round(2.0f * overlayScale));
-            const auto submitFrameQuad =
-                [&submitSolidHudQuad, frameColor, shadowColor](
-                    float quadX,
-                    float quadY,
-                    float quadWidth,
-                    float quadHeight)
-                {
-                    submitSolidHudQuad(
-                        "__inventory_target_frame_shadow__",
-                        quadX + 1.0f,
-                        quadY + 1.0f,
-                        quadWidth,
-                        quadHeight,
-                        shadowColor);
-                    submitSolidHudQuad(
-                        "__inventory_target_frame__",
-                        quadX,
-                        quadY,
-                        quadWidth,
-                        quadHeight,
-                        frameColor);
-                };
-
-            submitFrameQuad(x - thickness, y - thickness, rectWidth + thickness * 2.0f, thickness);
-            submitFrameQuad(x - thickness, y + rectHeight, rectWidth + thickness * 2.0f, thickness);
-            submitFrameQuad(x - thickness, y, thickness, rectHeight);
-            submitFrameQuad(x + rectWidth, y, thickness, rectHeight);
-        };
-
-    const std::string activePageRootId =
-        view.m_characterPage == OutdoorGameView::CharacterPage::Stats
-            ? "characterstatspage"
-            : (view.m_characterPage == OutdoorGameView::CharacterPage::Skills
-                ? "characterskillspage"
-                : (view.m_characterPage == OutdoorGameView::CharacterPage::Inventory
-                    ? "characterinventorypage"
-                    : "characterawardspage"));
-    std::unordered_map<std::string, bool> visibleCharacterAncestorCache;
-    std::function<bool(const OutdoorGameView::HudLayoutElement &)> hasVisibleCharacterAncestors;
-    hasVisibleCharacterAncestors =
-        [&view, &activePageRootId, &visibleCharacterAncestorCache, &hasVisibleCharacterAncestors](
-            const OutdoorGameView::HudLayoutElement &layout) -> bool
-        {
-            const std::string normalizedId = toLowerCopy(layout.id);
-            const auto cachedIterator = visibleCharacterAncestorCache.find(normalizedId);
-
-            if (cachedIterator != visibleCharacterAncestorCache.end())
-            {
-                return cachedIterator->second;
-            }
-
-            bool result = layout.visible && toLowerCopy(layout.screen) == "character";
-
-            if (result
-                && (normalizedId == "characterstatspage"
-                    || normalizedId == "characterskillspage"
-                    || normalizedId == "characterinventorypage"
-                    || normalizedId == "characterawardspage"))
-            {
-                result = normalizedId == activePageRootId;
-            }
-
-            if (result && !layout.parentId.empty())
-            {
-                const OutdoorGameView::HudLayoutElement *pParent = HudUiService::findHudLayoutElement(view, layout.parentId);
-                result = pParent != nullptr && hasVisibleCharacterAncestors(*pParent);
-            }
-
-            visibleCharacterAncestorCache[normalizedId] = result;
-            return result;
-        };
-
-    const Party &party = view.m_pOutdoorPartyRuntime->party();
-    const bool isAdventurersInnActive = overlayContext.isAdventurersInnScreenActive();
-    const Character *pCharacter = overlayContext.selectedCharacterScreenCharacter();
-    const std::vector<std::string> orderedCharacterLayoutIds = HudUiService::sortedHudLayoutIdsForScreen(view, "Character");
-    const int hudZThreshold = HudUiService::defaultHudLayoutZIndexForScreen("OutdoorHud");
-    const auto shouldRenderInCurrentPass =
-        [renderAboveHud, hudZThreshold](int zIndex) -> bool
-        {
-            return renderAboveHud ? zIndex >= hudZThreshold : zIndex < hudZThreshold;
-        };
-    const size_t characterSourceIndex = overlayContext.selectedCharacterScreenSourceIndex();
-    const auto formatPair = [](int actualValue, int baseValue) -> std::string
-    {
-        return std::to_string(actualValue) + " / " + std::to_string(baseValue);
-    };
-    const auto formatSheetValue = [&formatPair](const CharacterSheetValue &value) -> std::string
-    {
-        if (value.infinite)
-        {
-            return "INF";
-        }
-
-        return formatPair(value.actual, value.base);
-    };
-
-    std::string mightValue = "0 / 0";
-    std::string intellectValue = "0 / 0";
-    std::string personalityValue = "0 / 0";
-    std::string enduranceValue = "0 / 0";
-    std::string accuracyValue = "0 / 0";
-    std::string speedValue = "0 / 0";
-    std::string luckValue = "0 / 0";
-    std::string hitPointsValue = "0 / 0";
-    std::string spellPointsValue = "0 / 0";
-    std::string armorClassValue = "0 / 0";
-    std::string conditionValue = "-";
-    std::string quickSpellValue = "-";
-    std::string ageValue = "-";
-    std::string levelValue = "0 / 0";
-    std::string experienceValue = "-";
-    std::string attackValue = "-";
-    std::string meleeDamageValue = "-";
-    std::string shootValue = "-";
-    std::string rangedDamageValue = "-";
-    std::string fireResistanceValue = "0 / 0";
-    std::string airResistanceValue = "0 / 0";
-    std::string waterResistanceValue = "0 / 0";
-    std::string earthResistanceValue = "0 / 0";
-    std::string mindResistanceValue = "0 / 0";
-    std::string bodyResistanceValue = "0 / 0";
-    std::string awards;
-    std::string inventoryInfo;
-    std::string adventurersInnBlurb;
-    bool canTrainToNextLevel = false;
-    CharacterSheetSummary summary = {};
-    const OutdoorGameView::HudFontHandle *pSkillRowFont = HudUiService::findHudFont(view, "Lucida");
-    const float skillRowHeight =
-        pSkillRowFont != nullptr ? static_cast<float>(std::max(1, pSkillRowFont->fontHeight - 3)) : 11.0f;
-    const CharacterDollEntry *pCharacterDollEntry = resolveCharacterDollEntry(view.characterDollTable(), pCharacter);
-    const CharacterDollTypeEntry *pCharacterDollType =
-        pCharacterDollEntry != nullptr && view.characterDollTable() != nullptr
-            ? view.characterDollTable()->getDollType(pCharacterDollEntry->dollTypeId)
-            : nullptr;
-
-    if (pCharacter != nullptr)
-    {
-        summary = GameMechanics::buildCharacterSheetSummary(
-            *pCharacter,
-            view.itemTable(),
-            view.standardItemEnchantTable(),
-            view.specialItemEnchantTable());
-        mightValue = formatSheetValue(summary.might);
-        intellectValue = formatSheetValue(summary.intellect);
-        personalityValue = formatSheetValue(summary.personality);
-        enduranceValue = formatSheetValue(summary.endurance);
-        accuracyValue = formatSheetValue(summary.accuracy);
-        speedValue = formatSheetValue(summary.speed);
-        luckValue = formatSheetValue(summary.luck);
-        hitPointsValue =
-            std::to_string(summary.health.current) + " / " + std::to_string(summary.health.maximum);
-        spellPointsValue =
-            std::to_string(summary.spellPoints.current) + " / " + std::to_string(summary.spellPoints.maximum);
-        armorClassValue = formatSheetValue(summary.armorClass);
-        conditionValue = summary.conditionText;
-        quickSpellValue = summary.quickSpellText;
-        ageValue = summary.ageText;
-        levelValue = formatSheetValue(summary.level);
-        experienceValue = summary.experienceText;
-        canTrainToNextLevel = summary.canTrainToNextLevel;
-        attackValue = std::to_string(summary.combat.attack);
-        meleeDamageValue = summary.combat.meleeDamageText;
-        shootValue = summary.combat.shoot ? std::to_string(*summary.combat.shoot) : "N/A";
-        rangedDamageValue = summary.combat.rangedDamageText;
-        fireResistanceValue = formatSheetValue(summary.fireResistance);
-        airResistanceValue = formatSheetValue(summary.airResistance);
-        waterResistanceValue = formatSheetValue(summary.waterResistance);
-        earthResistanceValue = formatSheetValue(summary.earthResistance);
-        mindResistanceValue = formatSheetValue(summary.mindResistance);
-        bodyResistanceValue = formatSheetValue(summary.bodyResistance);
-        awards = "Awards earned: " + std::to_string(pCharacter->awards.size());
-
-        if (view.rosterTable() != nullptr && pCharacter->rosterId != 0)
-        {
-            const RosterEntry *pRosterEntry = view.rosterTable()->get(pCharacter->rosterId);
-            adventurersInnBlurb = pRosterEntry != nullptr ? pRosterEntry->blurb : "";
-        }
-    }
-
-    const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pCharacter);
-    mutableView.m_hudLayoutRuntimeHeightOverrides.clear();
-    const uint32_t skillPointsValueColorAbgr =
-        pCharacter != nullptr && pCharacter->skillPoints > 0 ? makeAbgrColor(0, 255, 0) : makeAbgrColor(255, 255, 255);
-    const uint32_t experienceValueColorAbgr =
-        pCharacter != nullptr && canTrainToNextLevel ? makeAbgrColor(0, 255, 0) : makeAbgrColor(255, 255, 255);
-
-    setCharacterSkillRegionHeight(
-        mutableView.m_hudLayoutRuntimeHeightOverrides,
-        skillRowHeight,
-        "CharacterSkillsWeaponsListRegion",
-        skillUiData.weaponRows.size());
-    setCharacterSkillRegionHeight(
-        mutableView.m_hudLayoutRuntimeHeightOverrides,
-        skillRowHeight,
-        "CharacterSkillsMagicListRegion",
-        skillUiData.magicRows.size());
-    setCharacterSkillRegionHeight(
-        mutableView.m_hudLayoutRuntimeHeightOverrides,
-        skillRowHeight,
-        "CharacterSkillsArmorListRegion",
-        skillUiData.armorRows.size());
-    setCharacterSkillRegionHeight(
-        mutableView.m_hudLayoutRuntimeHeightOverrides,
-        skillRowHeight,
-        "CharacterSkillsMiscListRegion",
-        skillUiData.miscRows.size());
-
-    const auto submitCharacterDollLayer =
-        [&view, &mutableView, uiViewport, baseScale](
-            const OutdoorGameView::HudLayoutElement &layout,
-            const OutdoorGameView::ResolvedHudLayoutElement &resolvedAnchor,
-            const std::string &assetName,
-            int offsetX,
-            int offsetY,
-            const char *pRenderKey = nullptr)
-        {
-            if (assetName.empty() || assetName == "none")
-            {
-                return;
-            }
-
-            const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(mutableView, assetName);
-
-            if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
-            {
-                return;
-            }
-
-            const float centerX = resolvedAnchor.x + resolvedAnchor.width * 0.5f;
-            const float centerY = resolvedAnchor.y + resolvedAnchor.height * 0.5f;
-            const float scale = resolvedAnchor.scale;
-            const float layerWidth = static_cast<float>(pTexture->width) * scale;
-            const float layerHeight = static_cast<float>(pTexture->height) * scale;
-            float anchorX = centerX;
-            float anchorY = centerY;
-            const auto setAnchorPoint = [&](float normalizedX, float normalizedY)
-            {
-                anchorX = resolvedAnchor.x + resolvedAnchor.width * normalizedX;
-                anchorY = resolvedAnchor.y + resolvedAnchor.height * normalizedY;
-            };
-
-            if (!layout.parentId.empty())
-            {
-                switch (layout.attachTo)
-                {
-                    case OutdoorGameView::HudLayoutAttachMode::None:
-                    case OutdoorGameView::HudLayoutAttachMode::CenterIn:
-                        setAnchorPoint(0.5f, 0.5f);
-                        break;
-                    case OutdoorGameView::HudLayoutAttachMode::RightOf:
-                    case OutdoorGameView::HudLayoutAttachMode::Below:
-                    case OutdoorGameView::HudLayoutAttachMode::InsideTopLeft:
-                        setAnchorPoint(0.0f, 0.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAttachMode::LeftOf:
-                    case OutdoorGameView::HudLayoutAttachMode::InsideTopRight:
-                        setAnchorPoint(1.0f, 0.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAttachMode::Above:
-                        setAnchorPoint(0.0f, 1.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAttachMode::CenterAbove:
-                    case OutdoorGameView::HudLayoutAttachMode::InsideBottomCenter:
-                        setAnchorPoint(0.5f, 1.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAttachMode::CenterBelow:
-                    case OutdoorGameView::HudLayoutAttachMode::InsideTopCenter:
-                        setAnchorPoint(0.5f, 0.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAttachMode::InsideLeft:
-                        setAnchorPoint(0.0f, 0.5f);
-                        break;
-                    case OutdoorGameView::HudLayoutAttachMode::InsideRight:
-                        setAnchorPoint(1.0f, 0.5f);
-                        break;
-                    case OutdoorGameView::HudLayoutAttachMode::InsideBottomLeft:
-                        setAnchorPoint(0.0f, 1.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAttachMode::InsideBottomRight:
-                        setAnchorPoint(1.0f, 1.0f);
-                        break;
-                }
-            }
-            else
-            {
-                switch (layout.anchor)
-                {
-                    case OutdoorGameView::HudLayoutAnchor::TopLeft:
-                        setAnchorPoint(0.0f, 0.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAnchor::TopCenter:
-                        setAnchorPoint(0.5f, 0.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAnchor::TopRight:
-                        setAnchorPoint(1.0f, 0.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAnchor::Left:
-                        setAnchorPoint(0.0f, 0.5f);
-                        break;
-                    case OutdoorGameView::HudLayoutAnchor::Center:
-                        setAnchorPoint(0.5f, 0.5f);
-                        break;
-                    case OutdoorGameView::HudLayoutAnchor::Right:
-                        setAnchorPoint(1.0f, 0.5f);
-                        break;
-                    case OutdoorGameView::HudLayoutAnchor::BottomLeft:
-                        setAnchorPoint(0.0f, 1.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAnchor::BottomCenter:
-                        setAnchorPoint(0.5f, 1.0f);
-                        break;
-                    case OutdoorGameView::HudLayoutAnchor::BottomRight:
-                        setAnchorPoint(1.0f, 1.0f);
-                        break;
-                }
-            }
-
-            anchorX += static_cast<float>(offsetX) * scale;
-            anchorY += static_cast<float>(offsetY) * scale;
-            float layerX = std::round(anchorX - layerWidth * 0.5f);
-            float layerY = std::round(anchorY - layerHeight * 0.5f);
-
-            if (!layout.parentId.empty())
-            {
-                switch (layout.attachTo)
-                {
-                    case OutdoorGameView::HudLayoutAttachMode::RightOf:
-                    case OutdoorGameView::HudLayoutAttachMode::Below:
-                    case OutdoorGameView::HudLayoutAttachMode::InsideTopLeft:
-                        layerX = std::round(anchorX);
-                        layerY = std::round(anchorY);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAttachMode::LeftOf:
-                    case OutdoorGameView::HudLayoutAttachMode::InsideTopRight:
-                        layerX = std::round(anchorX - layerWidth);
-                        layerY = std::round(anchorY);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAttachMode::Above:
-                        layerX = std::round(anchorX);
-                        layerY = std::round(anchorY - layerHeight);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAttachMode::CenterAbove:
-                        layerY = std::round(anchorY - layerHeight);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAttachMode::CenterBelow:
-                    case OutdoorGameView::HudLayoutAttachMode::InsideTopCenter:
-                        layerY = std::round(anchorY);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAttachMode::InsideLeft:
-                        layerX = std::round(anchorX);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAttachMode::InsideRight:
-                        layerX = std::round(anchorX - layerWidth);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAttachMode::InsideBottomLeft:
-                        layerX = std::round(anchorX);
-                        layerY = std::round(anchorY - layerHeight);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAttachMode::InsideBottomCenter:
-                        layerY = std::round(anchorY - layerHeight);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAttachMode::InsideBottomRight:
-                        layerX = std::round(anchorX - layerWidth);
-                        layerY = std::round(anchorY - layerHeight);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAttachMode::None:
-                    case OutdoorGameView::HudLayoutAttachMode::CenterIn:
-                        break;
-                }
-            }
-            else
-            {
-                switch (layout.anchor)
-                {
-                    case OutdoorGameView::HudLayoutAnchor::TopLeft:
-                        layerX = std::round(anchorX);
-                        layerY = std::round(anchorY);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAnchor::TopCenter:
-                        layerY = std::round(anchorY);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAnchor::TopRight:
-                        layerX = std::round(anchorX - layerWidth);
-                        layerY = std::round(anchorY);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAnchor::Left:
-                        layerX = std::round(anchorX);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAnchor::Center:
-                        break;
-
-                    case OutdoorGameView::HudLayoutAnchor::Right:
-                        layerX = std::round(anchorX - layerWidth);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAnchor::BottomLeft:
-                        layerX = std::round(anchorX);
-                        layerY = std::round(anchorY - layerHeight);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAnchor::BottomCenter:
-                        layerY = std::round(anchorY - layerHeight);
-                        break;
-
-                    case OutdoorGameView::HudLayoutAnchor::BottomRight:
-                        layerX = std::round(anchorX - layerWidth);
-                        layerY = std::round(anchorY - layerHeight);
-                        break;
-                }
-            }
-
-            if (pRenderKey != nullptr)
-            {
-                logCharacterEquipmentRender(
-                    pRenderKey,
-                    layout.parentId,
-                    assetName,
-                    layerX,
-                    layerY,
-                    layerWidth,
-                    layerHeight,
-                    layout.zIndex,
-                    baseScale > 0.0f ? (layerX - uiViewport.x) / baseScale : layerX,
-                    baseScale > 0.0f ? (layerY - uiViewport.y) / baseScale : layerY,
-                    baseScale > 0.0f ? layerWidth / baseScale : layerWidth,
-                    baseScale > 0.0f ? layerHeight / baseScale : layerHeight);
-            }
-
-            view.submitHudTexturedQuad(*pTexture, layerX, layerY, layerWidth, layerHeight);
-        };
-
-    const auto getEquippedItemDefinition =
-        [&view, pCharacter](EquipmentSlot slot) -> const ItemDefinition *
-        {
-            if (pCharacter == nullptr || view.itemTable() == nullptr)
-            {
-                return nullptr;
-            }
-
-            const uint32_t itemId = equippedItemId(pCharacter->equipment, slot);
-            return itemId != 0 ? view.itemTable()->get(itemId) : nullptr;
-        };
-    const auto renderSplitCharacterStatLabel =
-        [&view](
-            const OutdoorGameView::HudLayoutElement &layout,
-            const OutdoorGameView::ResolvedHudLayoutElement &resolved,
-            const SplitCharacterStatValue &value)
-        {
-            const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, layout.fontName);
-
-            if (pFont == nullptr)
-            {
-                return;
-            }
-
-            float fontScale = resolved.scale * std::max(0.1f, layout.textScale);
-
-            if (fontScale >= 1.0f)
-            {
-                fontScale = snappedHudFontScale(fontScale);
-            }
-            else
-            {
-                fontScale = std::max(0.5f, fontScale);
-            }
-
-            const std::string separatorText = " / ";
-            const float actualWidth = HudUiService::measureHudTextWidth(view, *pFont, value.actualText) * fontScale;
-            const float separatorWidth = HudUiService::measureHudTextWidth(view, *pFont, separatorText) * fontScale;
-            const float baseWidth = HudUiService::measureHudTextWidth(view, *pFont, value.baseText) * fontScale;
-            const float totalWidth = actualWidth + separatorWidth + baseWidth;
-            const float labelHeightPixels = static_cast<float>(pFont->fontHeight) * fontScale;
-            float textX = resolved.x + layout.textPadX * resolved.scale;
-            float textY = resolved.y + layout.textPadY * resolved.scale;
-
-            switch (layout.textAlignX)
-            {
-            case OutdoorGameView::HudTextAlignX::Left:
-                break;
-
-            case OutdoorGameView::HudTextAlignX::Center:
-                textX = resolved.x + (resolved.width - totalWidth) * 0.5f + layout.textPadX * resolved.scale;
-                break;
-
-            case OutdoorGameView::HudTextAlignX::Right:
-                textX = resolved.x + resolved.width - totalWidth + layout.textPadX * resolved.scale;
-                break;
-            }
-
-            switch (layout.textAlignY)
-            {
-            case OutdoorGameView::HudTextAlignY::Top:
-                break;
-
-            case OutdoorGameView::HudTextAlignY::Middle:
-                textY = resolved.y + (resolved.height - labelHeightPixels) * 0.5f + layout.textPadY * resolved.scale;
-                break;
-
-            case OutdoorGameView::HudTextAlignY::Bottom:
-                textY = resolved.y + resolved.height - labelHeightPixels + layout.textPadY * resolved.scale;
-                break;
-            }
-
-            textX = std::round(textX);
-            textY = std::round(textY);
-
-            bgfx::TextureHandle actualTexture =
-                HudUiService::ensureHudFontMainTextureColor(view, *pFont, value.actualColorAbgr);
-            bgfx::TextureHandle baseTexture =
-                HudUiService::ensureHudFontMainTextureColor(view, *pFont, layout.textColorAbgr);
-
-            if (!bgfx::isValid(actualTexture))
-            {
-                actualTexture = pFont->mainTextureHandle;
-            }
-
-            if (!bgfx::isValid(baseTexture))
-            {
-                baseTexture = pFont->mainTextureHandle;
-            }
-
-            HudUiService::renderHudFontLayer(
-                view,
-                *pFont,
-                pFont->shadowTextureHandle,
-                value.actualText,
-                textX,
-                textY,
-                fontScale);
-            HudUiService::renderHudFontLayer(view, *pFont, actualTexture, value.actualText, textX, textY, fontScale);
-            textX += actualWidth;
-            HudUiService::renderHudFontLayer(
-                view,
-                *pFont,
-                pFont->shadowTextureHandle,
-                separatorText,
-                textX,
-                textY,
-                fontScale);
-            HudUiService::renderHudFontLayer(view, *pFont, baseTexture, separatorText, textX, textY, fontScale);
-            textX += separatorWidth;
-            HudUiService::renderHudFontLayer(
-                view,
-                *pFont,
-                pFont->shadowTextureHandle,
-                value.baseText,
-                textX,
-                textY,
-                fontScale);
-            HudUiService::renderHudFontLayer(view, *pFont, baseTexture, value.baseText, textX, textY, fontScale);
-        };
-
-    const ItemDefinition *pMainHandItem = getEquippedItemDefinition(EquipmentSlot::MainHand);
-    const ItemDefinition *pOffHandItem = getEquippedItemDefinition(EquipmentSlot::OffHand);
-    SkillMastery spearMastery = SkillMastery::None;
-
-    if (pCharacter != nullptr)
-    {
-        const CharacterSkill *pSpearSkill = pCharacter->findSkill("Spear");
-
-        if (pSpearSkill != nullptr)
-        {
-            spearMastery = pSpearSkill->mastery;
-        }
-    }
-
-    const bool leftHandDisabled =
-        pMainHandItem != nullptr
-        && (pMainHandItem->equipStat == "Weapon2"
-            || (canonicalSkillName(pMainHandItem->skillGroup) == "Spear" && spearMastery < SkillMastery::Master));
-
-    struct CharacterLayoutPassEntry
-    {
-        const OutdoorGameView::HudLayoutElement *pLayout = nullptr;
-        std::string normalizedId;
-        OutdoorGameView::ResolvedHudLayoutElement resolved;
-    };
-
-    std::vector<CharacterLayoutPassEntry> characterLayoutPassEntries;
-    characterLayoutPassEntries.reserve(orderedCharacterLayoutIds.size());
-
-    for (const std::string &layoutId : orderedCharacterLayoutIds)
-    {
-        const OutdoorGameView::HudLayoutElement *pLayout = HudUiService::findHudLayoutElement(view, layoutId);
-
-        if (pLayout == nullptr || !hasVisibleCharacterAncestors(*pLayout) || !shouldRenderInCurrentPass(pLayout->zIndex))
-        {
-            continue;
-        }
-
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolved =
-            HudUiService::resolveHudLayoutElement(
-                view,
-                pLayout->id,
-                width,
-                height,
-                pLayout->width,
-                pLayout->height);
-
-        if (!resolved)
-        {
-            continue;
-        }
-
-        const std::string normalizedLayoutId = toLowerCopy(pLayout->id);
-
-        if (isAdventurersInnActive && !shouldRenderCharacterLayoutInAdventurersInn(normalizedLayoutId))
-        {
-            continue;
-        }
-
-        if (normalizedLayoutId.starts_with("adventurersinn"))
-        {
-            if (!isAdventurersInnActive)
-            {
-                continue;
-            }
-
-            if (normalizedLayoutId == "adventurersinnhirebutton" && party.isFull())
-            {
-                continue;
-            }
-        }
-
-        if (normalizedLayoutId == "characterdismissbutton"
-            && (overlayContext.isAdventurersInnCharacterSourceActive() || party.activeMemberIndex() == 0))
-        {
-            continue;
-        }
-
-        if (normalizedLayoutId == "characterdolljewelryoverlaypanel" && !view.m_characterDollJewelryOverlayOpen)
-        {
-            continue;
-        }
-
-        if (isAdventurersInnActive && normalizedLayoutId == "charactermagnifybutton")
-        {
-            continue;
-        }
-
-        CharacterLayoutPassEntry entry = {};
-        entry.pLayout = pLayout;
-        entry.normalizedId = normalizedLayoutId;
-        entry.resolved = *resolved;
-        characterLayoutPassEntries.push_back(std::move(entry));
-    }
-
-    for (const CharacterLayoutPassEntry &entry : characterLayoutPassEntries)
-    {
-        const OutdoorGameView::HudLayoutElement *pLayout = entry.pLayout;
-        const OutdoorGameView::ResolvedHudLayoutElement &resolved = entry.resolved;
-        const std::string &normalizedLayoutId = entry.normalizedId;
-
-        if (normalizedLayoutId == "characterdollbackground")
-        {
-            std::string assetName = pLayout->primaryAsset;
-
-            if (pCharacterDollEntry != nullptr
-                && !pCharacterDollEntry->backgroundAsset.empty()
-                && pCharacterDollEntry->backgroundAsset != "none")
-            {
-                const OutdoorGameView::HudTextureHandle *pBackgroundTexture =
-                    HudUiService::ensureHudTextureLoaded(mutableView, pCharacterDollEntry->backgroundAsset);
-
-                if (pBackgroundTexture != nullptr)
-                {
-                    assetName = pCharacterDollEntry->backgroundAsset;
-                }
-            }
-
-            if (!assetName.empty())
-            {
-                const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(mutableView, assetName);
-
-                if (pTexture != nullptr)
-                {
-                    view.submitHudTexturedQuad(*pTexture, resolved.x, resolved.y, resolved.width, resolved.height);
-                }
-            }
-
-            continue;
-        }
-
-        if (normalizedLayoutId == "characterdollbody" && pCharacterDollEntry != nullptr)
-        {
-            submitCharacterDollLayer(
-                *pLayout,
-                resolved,
-                pCharacterDollEntry->bodyAsset,
-                pCharacterDollEntry->bodyOffsetX,
-                pCharacterDollEntry->bodyOffsetY);
-            continue;
-        }
-
-        if (normalizedLayoutId == "characterdollrighthand"
-            && pCharacterDollEntry != nullptr
-            && pCharacterDollType != nullptr)
-        {
-            submitCharacterDollLayer(
-                *pLayout,
-                resolved,
-                pMainHandItem != nullptr ? pCharacterDollEntry->rightHandHoldAsset : pCharacterDollEntry->rightHandOpenAsset,
-                pMainHandItem != nullptr ? pCharacterDollType->rightHandClosedX : pCharacterDollType->rightHandOpenX,
-                pMainHandItem != nullptr ? pCharacterDollType->rightHandClosedY : pCharacterDollType->rightHandOpenY);
-            continue;
-        }
-
-        if (normalizedLayoutId == "characterdolllefthand"
-            && pCharacterDollEntry != nullptr
-            && pCharacterDollType != nullptr)
-        {
-            if (pOffHandItem != nullptr)
-            {
-                submitCharacterDollLayer(
-                    *pLayout,
-                    resolved,
-                    pCharacterDollEntry->leftHandHoldAsset,
-                    pCharacterDollType->leftHandOpenX,
-                    pCharacterDollType->leftHandOpenY);
-            }
-            else if (leftHandDisabled)
-            {
-                submitCharacterDollLayer(
-                    *pLayout,
-                    resolved,
-                    pCharacterDollEntry->leftHandClosedAsset,
-                    pCharacterDollType->leftHandClosedX,
-                    pCharacterDollType->leftHandClosedY);
-            }
-            else
-            {
-                submitCharacterDollLayer(
-                    *pLayout,
-                    resolved,
-                    pCharacterDollEntry->leftHandOpenAsset,
-                    pCharacterDollType->leftHandFingersX,
-                    pCharacterDollType->leftHandFingersY);
-            }
-            continue;
-        }
-
-        if (normalizedLayoutId == "characterdollrighthandfingers"
-            && pCharacterDollEntry != nullptr
-            && pCharacterDollType != nullptr
-            && getEquippedItemDefinition(EquipmentSlot::MainHand) != nullptr)
-        {
-            submitCharacterDollLayer(
-                *pLayout,
-                resolved,
-                pCharacterDollEntry->rightHandFingersAsset,
-                pCharacterDollType->rightHandFingersX,
-                pCharacterDollType->rightHandFingersY);
-            continue;
-        }
-
-        if (normalizedLayoutId == "characterpaperdollregion"
-            && pCharacter != nullptr
-            && !pCharacter->portraitTextureName.empty())
-        {
-            const std::string portraitTextureName = view.resolvePortraitTextureName(*pCharacter);
-            const OutdoorGameView::HudTextureHandle *pPortraitTexture = HudUiService::ensureHudTextureLoaded(mutableView, portraitTextureName);
-
-            if (pPortraitTexture != nullptr && pPortraitTexture->width > 0 && pPortraitTexture->height > 0)
-            {
-                const float scale = std::min(
-                    resolved.width / static_cast<float>(pPortraitTexture->width),
-                    resolved.height / static_cast<float>(pPortraitTexture->height));
-                const float portraitWidth = static_cast<float>(pPortraitTexture->width) * scale;
-                const float portraitHeight = static_cast<float>(pPortraitTexture->height) * scale;
-                const float portraitX = resolved.x + (resolved.width - portraitWidth) * 0.5f;
-                const float portraitY = resolved.y + (resolved.height - portraitHeight) * 0.5f;
-                view.submitHudTexturedQuad(*pPortraitTexture, portraitX, portraitY, portraitWidth, portraitHeight);
-            }
-        }
-
-        const std::string *pAssetName =
-            HudUiService::resolveInteractiveAssetName(*pLayout, resolved, characterMouseX, characterMouseY, isLeftMousePressed);
-
-        if (!pAssetName->empty())
-        {
-            const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(mutableView, *pAssetName);
-
-            if (pTexture != nullptr)
-            {
-                view.submitHudTexturedQuad(*pTexture, resolved.x, resolved.y, resolved.width, resolved.height);
-            }
-        }
-
-        const std::optional<EquipmentSlot> slot = characterEquipmentSlotForLayoutId(pLayout->id);
-
-        if (slot && isVisibleInCharacterDollOverlay(*slot, view.m_characterDollJewelryOverlayOpen))
-        {
-            const ItemDefinition *pItemDefinition = getEquippedItemDefinition(*slot);
-
-            if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
-            {
-                const bool hasRightHandWeapon = pCharacter != nullptr && pCharacter->equipment.mainHand != 0;
-                const uint32_t dollTypeId = pCharacterDollType != nullptr ? pCharacterDollType->id : 0;
-                const std::string textureName =
-                    overlayContext.resolveEquippedItemHudTextureName(*pItemDefinition, dollTypeId, hasRightHandWeapon, *slot);
-                const OutdoorGameView::HudTextureHandle *pTexture = HudUiService::ensureHudTextureLoaded(mutableView, textureName);
-
-                if (pTexture != nullptr)
-                {
-                    const std::optional<OutdoorGameView::ResolvedHudLayoutElement> iconRect =
-                        overlayContext.resolveCharacterEquipmentRenderRect(
-                            *pLayout,
-                            *pItemDefinition,
-                            GameplayHudTextureHandle{
-                                .textureName = pTexture->textureName,
-                                .width = pTexture->width,
-                                .height = pTexture->height,
-                                .textureHandle = pTexture->textureHandle
-                            },
-                            pCharacterDollType,
-                            *slot,
-                            width,
-                            height);
-
-                    if (iconRect)
-                    {
-                        logCharacterEquipmentRender(
-                            "slot." + std::string(equipmentSlotName(*slot)),
-                            pLayout->parentId,
-                            textureName,
-                            iconRect->x,
-                            iconRect->y,
-                            iconRect->width,
-                            iconRect->height,
-                            pLayout->zIndex,
-                            baseScale > 0.0f ? (iconRect->x - uiViewport.x) / baseScale : iconRect->x,
-                            baseScale > 0.0f ? (iconRect->y - uiViewport.y) / baseScale : iconRect->y,
-                            baseScale > 0.0f ? iconRect->width / baseScale : iconRect->width,
-                            baseScale > 0.0f ? iconRect->height / baseScale : iconRect->height);
-                        const std::optional<InventoryItem> equippedItemState =
-                            !overlayContext.isAdventurersInnCharacterSourceActive() && view.m_pOutdoorPartyRuntime != nullptr
-                                ? view.m_pOutdoorPartyRuntime->party().equippedItem(
-                                    view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
-                                    *slot)
-                                : std::nullopt;
-                        view.submitHudTexturedQuad(*pTexture, iconRect->x, iconRect->y, iconRect->width, iconRect->height);
-
-                        const bgfx::TextureHandle tintedTextureHandle = HudUiService::ensureHudTextureColor(mutableView, 
-                            *pTexture,
-                            itemTintColorAbgr(
-                                equippedItemState.has_value() ? &*equippedItemState : nullptr,
-                                pItemDefinition,
-                                ItemTintContext::Equipped));
-
-                        if (bgfx::isValid(tintedTextureHandle) && tintedTextureHandle.idx != pTexture->textureHandle.idx)
-                        {
-                            OutdoorGameView::HudTextureHandle tintedTexture = *pTexture;
-                            tintedTexture.textureHandle = tintedTextureHandle;
-                            view.submitHudTexturedQuad(tintedTexture, iconRect->x, iconRect->y, iconRect->width, iconRect->height);
-                        }
-
-                        if (pItemDefinition->itemId != 0)
-                        {
-                            OutdoorGameView::RenderedInspectableHudItem inspectableItem = {};
-                            inspectableItem.objectDescriptionId = pItemDefinition->itemId;
-
-                            if (equippedItemState.has_value())
-                            {
-                                inspectableItem.hasItemState = true;
-                                inspectableItem.itemState = *equippedItemState;
-                            }
-
-                            inspectableItem.sourceType =
-                                overlayContext.isAdventurersInnCharacterSourceActive()
-                                    ? OutdoorGameView::ItemInspectSourceType::None
-                                    : OutdoorGameView::ItemInspectSourceType::Equipment;
-                            inspectableItem.sourceMemberIndex = characterSourceIndex;
-                            inspectableItem.equipmentSlot = *slot;
-                            inspectableItem.textureName = textureName;
-                            inspectableItem.x = iconRect->x;
-                            inspectableItem.y = iconRect->y;
-                            inspectableItem.width = iconRect->width;
-                            inspectableItem.height = iconRect->height;
-                            view.m_renderedInspectableHudItems.push_back(std::move(inspectableItem));
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    if (!isAdventurersInnActive
-        && view.m_characterPage == OutdoorGameView::CharacterPage::Inventory
-        && pCharacter != nullptr)
-    {
-        const OutdoorGameView::HudLayoutElement *pInventoryGridLayout = HudUiService::findHudLayoutElement(view, "CharacterInventoryGrid");
-        const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedInventoryGrid =
-            pInventoryGridLayout != nullptr
-                ? HudUiService::resolveHudLayoutElement(view, 
-                    "CharacterInventoryGrid",
-                    width,
-                    height,
-                    pInventoryGridLayout->width,
-                    pInventoryGridLayout->height)
-                : std::nullopt;
-
-        if (resolvedInventoryGrid)
-        {
-            const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
-                resolvedInventoryGrid->x,
-                resolvedInventoryGrid->y,
-                resolvedInventoryGrid->width,
-                resolvedInventoryGrid->height,
-                resolvedInventoryGrid->scale);
-
-            for (const InventoryItem &item : pCharacter->inventory)
-            {
-                const ItemDefinition *pItemDefinition =
-                    view.itemTable() != nullptr ? view.itemTable()->get(item.objectDescriptionId) : nullptr;
-
-                if (pItemDefinition == nullptr || pItemDefinition->iconName.empty())
-                {
-                    continue;
-                }
-
-                const OutdoorGameView::HudTextureHandle *pItemTexture =
-                    HudUiService::ensureHudTextureLoaded(mutableView, pItemDefinition->iconName);
-
-                if (pItemTexture == nullptr)
-                {
-                    continue;
-                }
-
-                const float itemWidth = static_cast<float>(pItemTexture->width) * gridMetrics.scale;
-                const float itemHeight = static_cast<float>(pItemTexture->height) * gridMetrics.scale;
-                const InventoryItemScreenRect itemRect =
-                    computeInventoryItemScreenRect(gridMetrics, item, itemWidth, itemHeight);
-                view.submitHudTexturedQuad(*pItemTexture, itemRect.x, itemRect.y, itemRect.width, itemRect.height);
-
-                if (pItemDefinition->itemId != 0)
-                {
-                    OutdoorGameView::RenderedInspectableHudItem inspectableItem = {};
-                    inspectableItem.objectDescriptionId = pItemDefinition->itemId;
-                    inspectableItem.hasItemState = true;
-                    inspectableItem.itemState = item;
-                    inspectableItem.sourceType =
-                        overlayContext.isAdventurersInnCharacterSourceActive()
-                            ? OutdoorGameView::ItemInspectSourceType::None
-                            : OutdoorGameView::ItemInspectSourceType::Inventory;
-                    inspectableItem.sourceMemberIndex = characterSourceIndex;
-                    inspectableItem.sourceGridX = item.gridX;
-                    inspectableItem.sourceGridY = item.gridY;
-                    inspectableItem.textureName = pItemDefinition->iconName;
-                    inspectableItem.x = itemRect.x;
-                    inspectableItem.y = itemRect.y;
-                    inspectableItem.width = itemRect.width;
-                    inspectableItem.height = itemRect.height;
-                    view.m_renderedInspectableHudItems.push_back(std::move(inspectableItem));
-                }
-            }
-        }
-    }
-
-    const bool isInventorySpellTargetMode =
-        view.m_utilitySpellOverlay.active
-        && view.m_utilitySpellOverlay.mode == OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget
-        && view.m_characterPage == OutdoorGameView::CharacterPage::Inventory
-        && pCharacter != nullptr;
-
-    if (renderAboveHud && isInventorySpellTargetMode)
-    {
-        const uint32_t pickerColor = makeAbgrColor(255, 255, 155);
-        const uint32_t shadowColor = 0xc0000000u;
-        const float overlayScale = std::clamp(baseScale, 0.75f, 2.0f);
-        float pickerCenterX = characterMouseX;
-        float pickerCenterY = characterMouseY;
-        const OutdoorGameView::RenderedInspectableHudItem *pHoveredItem = nullptr;
-
-        for (auto it = view.m_renderedInspectableHudItems.rbegin(); it != view.m_renderedInspectableHudItems.rend(); ++it)
-        {
-            if (it->sourceMemberIndex != characterSourceIndex)
-            {
-                continue;
-            }
-
-            if (it->sourceType != OutdoorGameView::ItemInspectSourceType::Inventory
-                && it->sourceType != OutdoorGameView::ItemInspectSourceType::Equipment)
-            {
-                continue;
-            }
-
-            const bool isHovered =
-                it->sourceType == OutdoorGameView::ItemInspectSourceType::Equipment
-                    ? view.isOpaqueHudPixelAtPoint(*it, characterMouseX, characterMouseY)
-                    : characterMouseX >= it->x
-                        && characterMouseX < it->x + it->width
-                        && characterMouseY >= it->y
-                        && characterMouseY < it->y + it->height;
-
-            if (!isHovered)
-            {
-                continue;
-            }
-
-            pHoveredItem = &*it;
-            break;
-        }
-
-        if (pHoveredItem != nullptr)
-        {
-            renderInventoryTargetFrame(
-                pHoveredItem->x,
-                pHoveredItem->y,
-                pHoveredItem->width,
-                pHoveredItem->height,
-                overlayScale,
-                pickerColor,
-                shadowColor);
-        }
-
-        renderInventoryTargetCrosshair(
-            pickerCenterX,
-            pickerCenterY,
-            overlayScale,
-            pickerColor,
-            shadowColor);
-
-        OutdoorGameView::HudLayoutElement promptLayout = {};
-        promptLayout.fontName = "arrus";
-        promptLayout.textColorAbgr = pickerColor;
-        promptLayout.textAlignX = OutdoorGameView::HudTextAlignX::Center;
-        promptLayout.textAlignY = OutdoorGameView::HudTextAlignY::Top;
-        OutdoorGameView::ResolvedHudLayoutElement promptRect = {};
-        promptRect.x = uiViewport.x;
-        promptRect.y = uiViewport.y + std::round(18.0f * overlayScale);
-        promptRect.width = uiViewport.width;
-        promptRect.height = std::round(24.0f * overlayScale);
-        promptRect.scale = overlayScale;
-        HudUiService::renderLayoutLabel(
-            view,
-            promptLayout,
-            promptRect,
-            "Select item target  LMB cast  Esc cancel");
-    }
-
-    for (const CharacterLayoutPassEntry &entry : characterLayoutPassEntries)
-    {
-        const OutdoorGameView::HudLayoutElement *pLayout = entry.pLayout;
-
-        if (pLayout == nullptr || pLayout->labelText.empty())
-        {
-            continue;
-        }
-
-        OutdoorGameView::HudLayoutElement layoutForRender = *pLayout;
-        const std::string &normalizedLayoutId = entry.normalizedId;
-        const OutdoorGameView::ResolvedHudLayoutElement &resolved = entry.resolved;
-
-        if (normalizedLayoutId == "characterstatsskillpointsvalue"
-            || normalizedLayoutId == "characterskillsskillpointsvalue")
-        {
-            layoutForRender.textColorAbgr = skillPointsValueColorAbgr;
-        }
-        else if (normalizedLayoutId == "characterstatexperiencevalue")
-        {
-            layoutForRender.textColorAbgr = experienceValueColorAbgr;
-        }
-
-        std::string label = pLayout->labelText;
-        label = replaceAll(label, "{gold}", std::to_string(party.gold()));
-        label = replaceAll(label, "{food}", std::to_string(party.food()));
-        label = replaceAll(label, "{character_name}", pCharacter != nullptr ? pCharacter->name : "");
-        label = replaceAll(
-            label,
-            "{stats_skill_points}",
-            pCharacter != nullptr ? "Skill Points: " + std::to_string(pCharacter->skillPoints) : "Skill Points: 0");
-        label = replaceAll(
-            label,
-            "{stats_skill_points_value}",
-            pCharacter != nullptr ? std::to_string(pCharacter->skillPoints) : "0");
-        label = replaceAll(
-            label,
-            "{character_class_race}",
-            pCharacter != nullptr ? (!pCharacter->className.empty() ? pCharacter->className : pCharacter->role) : "");
-        label = replaceAll(
-            label,
-            "{quick_stats}",
-            pCharacter != nullptr
-                ? ("HP " + std::to_string(pCharacter->health) + "/" + std::to_string(pCharacter->maxHealth)
-                    + "\nSP " + std::to_string(pCharacter->spellPoints) + "/" + std::to_string(pCharacter->maxSpellPoints))
-                : "");
-        label = replaceAll(label, "{might_value}", mightValue);
-        label = replaceAll(label, "{intellect_value}", intellectValue);
-        label = replaceAll(label, "{personality_value}", personalityValue);
-        label = replaceAll(label, "{endurance_value}", enduranceValue);
-        label = replaceAll(label, "{accuracy_value}", accuracyValue);
-        label = replaceAll(label, "{speed_value}", speedValue);
-        label = replaceAll(label, "{luck_value}", luckValue);
-        label = replaceAll(label, "{hit_points_value}", hitPointsValue);
-        label = replaceAll(label, "{spell_points_value}", spellPointsValue);
-        label = replaceAll(label, "{armor_class_value}", armorClassValue);
-        label = replaceAll(label, "{condition_value}", conditionValue);
-        label = replaceAll(label, "{quick_spell_value}", quickSpellValue);
-        label = replaceAll(label, "{age_value}", ageValue);
-        label = replaceAll(label, "{level_value}", levelValue);
-        label = replaceAll(label, "{experience_value}", experienceValue);
-        label = replaceAll(label, "{attack_value}", attackValue);
-        label = replaceAll(label, "{melee_damage_value}", meleeDamageValue);
-        label = replaceAll(label, "{shoot_value}", shootValue);
-        label = replaceAll(label, "{ranged_damage_value}", rangedDamageValue);
-        label = replaceAll(label, "{fire_resistance_value}", fireResistanceValue);
-        label = replaceAll(label, "{air_resistance_value}", airResistanceValue);
-        label = replaceAll(label, "{water_resistance_value}", waterResistanceValue);
-        label = replaceAll(label, "{earth_resistance_value}", earthResistanceValue);
-        label = replaceAll(label, "{mind_resistance_value}", mindResistanceValue);
-        label = replaceAll(label, "{body_resistance_value}", bodyResistanceValue);
-        label = replaceAll(label, "{awards}", awards);
-        label = replaceAll(label, "{award_detail}", "");
-        label = replaceAll(label, "{inventory_info}", inventoryInfo);
-
-        if (label.find('{') != std::string::npos)
-        {
-            label.clear();
-        }
-
-        SplitCharacterStatValue splitValue = {};
-
-        if (tryGetSplitCharacterStatValue(normalizedLayoutId, summary, splitValue))
-        {
-            renderSplitCharacterStatLabel(layoutForRender, resolved, splitValue);
-            continue;
-        }
-
-        HudUiService::renderLayoutLabel(view, layoutForRender, resolved, label);
-    }
-
-    if (isAdventurersInnActive)
-    {
-        const std::vector<AdventurersInnMember> &innMembers = party.adventurersInnMembers();
-        const size_t maximumScrollOffset =
-            innMembers.size() > AdventurersInnVisibleCount ? innMembers.size() - AdventurersInnVisibleCount : 0;
-        const size_t scrollOffset = std::min(view.m_adventurersInnScrollOffset, maximumScrollOffset);
-        const OutdoorGameView::HudFontHandle *pFont = HudUiService::findHudFont(view, "SMALLNUM");
-
-        const auto renderInnLabel =
-            [&view, baseScale](const std::string &text, float x, float y, float width, float height)
-            {
-                OutdoorGameView::HudLayoutElement layout = {};
-                layout.fontName = "SMALLNUM";
-                layout.textColorAbgr = AdventurersInnTextColorAbgr;
-                layout.textAlignX = OutdoorGameView::HudTextAlignX::Left;
-                layout.textAlignY = OutdoorGameView::HudTextAlignY::Top;
-                OutdoorGameView::ResolvedHudLayoutElement resolved = {};
-                resolved.x = std::round(x * baseScale);
-                resolved.y = std::round(y * baseScale);
-                resolved.width = width * baseScale;
-                resolved.height = height * baseScale;
-                resolved.scale = baseScale;
-                HudUiService::renderLayoutLabel(view, layout, resolved, text);
-            };
-
-        for (size_t visibleIndex = 0; visibleIndex < AdventurersInnVisibleCount; ++visibleIndex)
-        {
-            const size_t innIndex = scrollOffset + visibleIndex;
-
-            if (innIndex >= innMembers.size())
-            {
-                continue;
-            }
-
-            const size_t column = visibleIndex % AdventurersInnVisibleColumns;
-            const size_t row = visibleIndex / AdventurersInnVisibleColumns;
-            const float portraitX =
-                uiViewport.x
-                + (AdventurersInnPortraitX
-                    + static_cast<float>(column) * (AdventurersInnPortraitWidth + AdventurersInnPortraitGapX)) * baseScale;
-            const float portraitY =
-                uiViewport.y
-                + (AdventurersInnPortraitY
-                    + static_cast<float>(row) * (AdventurersInnPortraitHeight + AdventurersInnPortraitGapY)) * baseScale;
-            const float portraitWidth = AdventurersInnPortraitWidth * baseScale;
-            const float portraitHeight = AdventurersInnPortraitHeight * baseScale;
-            std::string textureName = npcPortraitTextureName(innMembers[innIndex].portraitPictureId);
-
-            if (textureName.empty())
-            {
-                textureName = view.resolvePortraitTextureName(innMembers[innIndex].character);
-            }
-
-            const OutdoorGameView::HudTextureHandle *pPortraitTexture =
-                HudUiService::ensureHudTextureLoaded(mutableView, textureName);
-
-            if (pPortraitTexture != nullptr)
-            {
-                view.submitHudTexturedQuad(*pPortraitTexture, portraitX, portraitY, portraitWidth, portraitHeight);
-            }
-
-            if (innIndex == view.m_characterScreenSourceIndex)
-            {
-                const OutdoorGameView::HudTextureHandle *pSelectionTexture =
-                    HudUiService::ensureSolidHudTextureLoaded(
-                        mutableView,
-                        "__adventurers_inn_selection__",
-                        AdventurersInnSelectionColorAbgr);
-
-                if (pSelectionTexture != nullptr)
-                {
-                    const float thickness = std::max(1.0f, AdventurersInnSelectionThickness * baseScale);
-                    view.submitHudTexturedQuad(
-                        *pSelectionTexture,
-                        portraitX - thickness,
-                        portraitY - thickness,
-                        portraitWidth + thickness * 2.0f,
-                        thickness);
-                    view.submitHudTexturedQuad(
-                        *pSelectionTexture,
-                        portraitX - thickness,
-                        portraitY + portraitHeight,
-                        portraitWidth + thickness * 2.0f,
-                        thickness);
-                    view.submitHudTexturedQuad(*pSelectionTexture, portraitX - thickness, portraitY, thickness, portraitHeight);
-                    view.submitHudTexturedQuad(*pSelectionTexture, portraitX + portraitWidth, portraitY, thickness, portraitHeight);
-                }
-            }
-        }
-
-        if (pCharacter != nullptr)
-        {
-            const auto formatSignedValue = [](const std::string &value) -> std::string
-            {
-                int parsedValue = 0;
-                return tryParseInteger(value, parsedValue) && parsedValue > 0 ? "+" + value : value;
-            };
-
-            renderInnLabel(
-                "Name: " + pCharacter->name,
-                AdventurersInnColumn1X + uiViewport.x / baseScale,
-                AdventurersInnColumn1Y + uiViewport.y / baseScale,
-                170.0f,
-                16.0f);
-            renderInnLabel(
-                "Class: " + (!pCharacter->className.empty() ? pCharacter->className : pCharacter->role),
-                AdventurersInnColumn1X + uiViewport.x / baseScale,
-                AdventurersInnColumn1Y + AdventurersInnColumnLineStep + uiViewport.y / baseScale,
-                170.0f,
-                16.0f);
-            renderInnLabel(
-                "HP: " + std::to_string(pCharacter->health),
-                AdventurersInnColumn1X + uiViewport.x / baseScale,
-                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 2.0f + uiViewport.y / baseScale,
-                170.0f,
-                16.0f);
-            renderInnLabel(
-                "AC: " + armorClassValue,
-                AdventurersInnColumn1X + uiViewport.x / baseScale,
-                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 3.0f + uiViewport.y / baseScale,
-                170.0f,
-                16.0f);
-            renderInnLabel(
-                "Attack: " + formatSignedValue(attackValue),
-                AdventurersInnColumn1X + uiViewport.x / baseScale,
-                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 4.0f + uiViewport.y / baseScale,
-                170.0f,
-                16.0f);
-            renderInnLabel(
-                "Shoot: " + formatSignedValue(shootValue),
-                AdventurersInnColumn1X + uiViewport.x / baseScale,
-                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 5.0f + uiViewport.y / baseScale,
-                170.0f,
-                16.0f);
-            renderInnLabel(
-                "Skills: " + std::to_string(pCharacter->skills.size()),
-                AdventurersInnColumn1X + uiViewport.x / baseScale,
-                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 6.0f + uiViewport.y / baseScale,
-                170.0f,
-                16.0f);
-            renderInnLabel(
-                "Cond: " + conditionValue,
-                AdventurersInnColumn1X + uiViewport.x / baseScale,
-                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 7.0f + uiViewport.y / baseScale,
-                170.0f,
-                16.0f);
-            renderInnLabel(
-                "QSpell: " + quickSpellValue,
-                AdventurersInnColumn1X + uiViewport.x / baseScale,
-                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 8.0f + uiViewport.y / baseScale,
-                170.0f,
-                16.0f);
-
-            renderInnLabel(
-                "Level: " + std::to_string(pCharacter->level),
-                AdventurersInnColumn2X + uiViewport.x / baseScale,
-                AdventurersInnColumn2Y + uiViewport.y / baseScale,
-                130.0f,
-                16.0f);
-            renderInnLabel(
-                "SP: " + std::to_string(pCharacter->spellPoints),
-                AdventurersInnColumn2X + uiViewport.x / baseScale,
-                AdventurersInnColumn2Y + AdventurersInnColumnLineStep + uiViewport.y / baseScale,
-                130.0f,
-                16.0f);
-            renderInnLabel(
-                "Dmg: " + meleeDamageValue,
-                AdventurersInnColumn2X + uiViewport.x / baseScale,
-                AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 2.0f + uiViewport.y / baseScale,
-                130.0f,
-                16.0f);
-            renderInnLabel(
-                "Dmg: " + rangedDamageValue,
-                AdventurersInnColumn2X + uiViewport.x / baseScale,
-                AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 3.0f + uiViewport.y / baseScale,
-                130.0f,
-                16.0f);
-            renderInnLabel(
-                "Points: " + std::to_string(pCharacter->skillPoints),
-                AdventurersInnColumn2X + uiViewport.x / baseScale,
-                AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 4.0f + uiViewport.y / baseScale,
-                130.0f,
-                16.0f);
-
-            if (pFont != nullptr && !adventurersInnBlurb.empty())
-            {
-                float fontScale = baseScale >= 1.0f ? snappedHudFontScale(baseScale) : std::max(0.5f, baseScale);
-                const float lineHeight = std::max(1.0f, static_cast<float>(pFont->fontHeight - 2)) * fontScale;
-                const float wrapWidth =
-                    std::max(1.0f, (AdventurersInnBlurbWidth * baseScale) / std::max(0.5f, fontScale));
-                const std::vector<std::string> wrappedLines =
-                    HudUiService::wrapHudTextToWidth(view, *pFont, adventurersInnBlurb, wrapWidth);
-                bgfx::TextureHandle coloredTextureHandle =
-                    HudUiService::ensureHudFontMainTextureColor(view, *pFont, AdventurersInnTextColorAbgr);
-
-                if (!bgfx::isValid(coloredTextureHandle))
-                {
-                    coloredTextureHandle = pFont->mainTextureHandle;
-                }
-
-                float blurbX = std::round(uiViewport.x + AdventurersInnBlurbX * baseScale);
-                float blurbY = std::round(uiViewport.y + AdventurersInnBlurbY * baseScale);
-
-                for (const std::string &line : wrappedLines)
-                {
-                    HudUiService::renderHudFontLayer(view, *pFont, pFont->shadowTextureHandle, line, blurbX, blurbY, fontScale);
-                    HudUiService::renderHudFontLayer(view, *pFont, coloredTextureHandle, line, blurbX, blurbY, fontScale);
-                    blurbY += lineHeight;
-                }
-            }
-        }
-    }
-
-    const auto renderSkillGroup =
-        [&view, width, height, &hasVisibleCharacterAncestors, &shouldRenderInCurrentPass, skillRowHeight](
-            const char *pRegionId,
-            const char *pLevelHeaderId,
-            const std::vector<CharacterSkillUiRow> &rows)
-        {
-            const OutdoorGameView::HudLayoutElement *pRegionLayout = HudUiService::findHudLayoutElement(view, pRegionId);
-            const OutdoorGameView::HudLayoutElement *pLevelLayout = HudUiService::findHudLayoutElement(view, pLevelHeaderId);
-
-            if (pRegionLayout == nullptr
-                || pLevelLayout == nullptr
-                || !hasVisibleCharacterAncestors(*pRegionLayout)
-                || !hasVisibleCharacterAncestors(*pLevelLayout)
-                || !shouldRenderInCurrentPass(pRegionLayout->zIndex))
-            {
-                return;
-            }
-
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedRegion = HudUiService::resolveHudLayoutElement(view, 
-                pRegionId,
-                width,
-                height,
-                pRegionLayout->width,
-                pRegionLayout->height);
-            const std::optional<OutdoorGameView::ResolvedHudLayoutElement> resolvedLevelHeader =
-                HudUiService::resolveHudLayoutElement(view, 
-                    pLevelHeaderId,
-                    width,
-                    height,
-                    pLevelLayout->width,
-                    pLevelLayout->height);
-
-            if (!resolvedRegion || !resolvedLevelHeader)
-            {
-                return;
-            }
-
-            const float rowHeightPixels = skillRowHeight * resolvedRegion->scale;
-            const float nameWidth =
-                std::max(0.0f, resolvedLevelHeader->x - resolvedRegion->x - 6.0f * resolvedRegion->scale);
-            const std::vector<CharacterSkillUiRow> displayRows =
-                rows.empty() ? std::vector<CharacterSkillUiRow>{{"", "None", "", false}} : rows;
-
-            for (size_t rowIndex = 0; rowIndex < displayRows.size(); ++rowIndex)
-            {
-                const CharacterSkillUiRow &row = displayRows[rowIndex];
-                const uint32_t textColorAbgr = row.upgradeable ? 0xffff784au : 0xffffffffu;
-
-                OutdoorGameView::HudLayoutElement nameLayout = {};
-                nameLayout.fontName = "Lucida";
-                nameLayout.textColorAbgr = textColorAbgr;
-                nameLayout.textAlignX = OutdoorGameView::HudTextAlignX::Left;
-                nameLayout.textAlignY = OutdoorGameView::HudTextAlignY::Middle;
-                OutdoorGameView::ResolvedHudLayoutElement nameResolved = {};
-                nameResolved.x = resolvedRegion->x;
-                nameResolved.y = resolvedRegion->y + static_cast<float>(rowIndex) * rowHeightPixels;
-                nameResolved.width = nameWidth;
-                nameResolved.height = rowHeightPixels;
-                nameResolved.scale = resolvedRegion->scale;
-                HudUiService::renderLayoutLabel(view, nameLayout, nameResolved, row.label);
-
-                if (!row.level.empty())
-                {
-                    OutdoorGameView::HudLayoutElement levelLayout = {};
-                    levelLayout.fontName = "Lucida";
-                    levelLayout.textColorAbgr = textColorAbgr;
-                    levelLayout.textAlignX = OutdoorGameView::HudTextAlignX::Right;
-                    levelLayout.textAlignY = OutdoorGameView::HudTextAlignY::Middle;
-                    OutdoorGameView::ResolvedHudLayoutElement levelResolved = {};
-                    levelResolved.x = resolvedLevelHeader->x;
-                    levelResolved.y = nameResolved.y;
-                    levelResolved.width = resolvedLevelHeader->width;
-                    levelResolved.height = rowHeightPixels;
-                    levelResolved.scale = resolvedLevelHeader->scale;
-                    HudUiService::renderLayoutLabel(view, levelLayout, levelResolved, row.level);
                 }
             }
         };

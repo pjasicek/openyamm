@@ -2,6 +2,7 @@
 
 #include "game/gameplay/GameplayOverlayInputController.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
+#include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayHudRenderer.h"
 #include "game/ui/GameplayOverlayContext.h"
@@ -103,6 +104,11 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
 {
     if (config.canRenderHudOverlays)
     {
+        if (config.renderDialogueBelowHud || config.renderDialogueAboveHud || config.renderDebugDialogueFallback)
+        {
+            overlayContext.ensurePendingEventDialogPresented(true);
+        }
+
         if (config.renderChestBelowHud && callbacks.renderChestOverlay)
         {
             callbacks.renderChestOverlay(false);
@@ -113,14 +119,14 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
             callbacks.renderInventoryNestedOverlay(false);
         }
 
-        if (config.renderDialogueBelowHud && callbacks.renderDialogueOverlay)
+        if (config.renderDialogueBelowHud && overlayContext.activeEventDialog().isActive)
         {
-            callbacks.renderDialogueOverlay(false);
+            GameplayDialogueRenderer::renderDialogueOverlay(overlayContext, width, height, false);
         }
 
-        if (config.renderCharacterBelowHud && callbacks.renderCharacterOverlay)
+        if (config.renderCharacterBelowHud)
         {
-            callbacks.renderCharacterOverlay(false);
+            GameplayPartyOverlayRenderer::renderCharacterOverlay(overlayContext, width, height, false);
         }
 
         GameplayHudRenderer::renderGameplayHudArt(overlayContext, width, height);
@@ -136,14 +142,14 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
             callbacks.renderInventoryNestedOverlay(true);
         }
 
-        if (config.renderCharacterAboveHud && callbacks.renderCharacterOverlay)
+        if (config.renderCharacterAboveHud)
         {
-            callbacks.renderCharacterOverlay(true);
+            GameplayPartyOverlayRenderer::renderCharacterOverlay(overlayContext, width, height, true);
         }
 
-        if (config.renderDialogueAboveHud && callbacks.renderDialogueOverlay)
+        if (config.renderDialogueAboveHud && overlayContext.activeEventDialog().isActive)
         {
-            callbacks.renderDialogueOverlay(true);
+            GameplayDialogueRenderer::renderDialogueOverlay(overlayContext, width, height, true);
         }
 
         GameplayPartyOverlayRenderer::renderRestOverlay(overlayContext, width, height);
@@ -171,9 +177,14 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
         GameplayDebugOverlayRenderer::renderChestPanel(overlayContext, width, height);
     }
 
-    if (config.activeEventDialog && config.renderDebugDialogueFallback)
+    if (config.renderDebugDialogueFallback)
     {
-        GameplayDebugOverlayRenderer::renderEventDialogPanel(overlayContext, width, height);
+        overlayContext.ensurePendingEventDialogPresented(true);
+
+        if (overlayContext.activeEventDialog().isActive)
+        {
+            GameplayDebugOverlayRenderer::renderEventDialogPanel(overlayContext, width, height);
+        }
     }
 }
 } // namespace OpenYAMM::Game

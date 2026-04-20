@@ -35,6 +35,88 @@ enum class GameplayHudScreenState
     Journal
 };
 
+inline GameplayHudScreenState resolveGameplayHudScreenState(
+    const GameplayUiController &uiController,
+    const EventDialogContent &activeEventDialog,
+    const IGameplayWorldRuntime *pWorldRuntime)
+{
+    if (activeEventDialog.isActive)
+    {
+        return GameplayHudScreenState::Dialogue;
+    }
+
+    if (uiController.journalScreen().active)
+    {
+        return GameplayHudScreenState::Journal;
+    }
+
+    if (uiController.restScreen().active)
+    {
+        return GameplayHudScreenState::Rest;
+    }
+
+    if (uiController.videoOptionsScreen().active)
+    {
+        return GameplayHudScreenState::VideoOptions;
+    }
+
+    if (uiController.keyboardScreen().active)
+    {
+        return GameplayHudScreenState::Keyboard;
+    }
+
+    if (uiController.controlsScreen().active)
+    {
+        return GameplayHudScreenState::Controls;
+    }
+
+    if (uiController.menuScreen().active)
+    {
+        return GameplayHudScreenState::Menu;
+    }
+
+    if (uiController.saveGameScreen().active)
+    {
+        return GameplayHudScreenState::SaveGame;
+    }
+
+    if (uiController.loadGameScreen().active)
+    {
+        return GameplayHudScreenState::LoadGame;
+    }
+
+    if (uiController.utilitySpellOverlay().active)
+    {
+        switch (uiController.utilitySpellOverlay().mode)
+        {
+            case GameplayUiController::UtilitySpellOverlayMode::TownPortal:
+                return GameplayHudScreenState::TownPortal;
+            case GameplayUiController::UtilitySpellOverlayMode::LloydsBeacon:
+                return GameplayHudScreenState::LloydsBeacon;
+            default:
+                break;
+        }
+    }
+
+    if (uiController.characterScreen().open)
+    {
+        return GameplayHudScreenState::Character;
+    }
+
+    if (uiController.spellbook().active)
+    {
+        return GameplayHudScreenState::Spellbook;
+    }
+
+    if (pWorldRuntime != nullptr
+        && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr))
+    {
+        return GameplayHudScreenState::Chest;
+    }
+
+    return GameplayHudScreenState::Gameplay;
+}
+
 struct GameplayResolvedHudLayoutElement
 {
     float x = 0.0f;
@@ -154,6 +236,38 @@ struct GameplaySpellbookPointerTarget
     uint32_t spellId = 0;
 
     bool operator==(const GameplaySpellbookPointerTarget &other) const = default;
+};
+
+struct GameplayTownPortalDestination
+{
+    std::string id;
+    std::string label;
+    std::string buttonLayoutId;
+    std::string mapName;
+    int32_t x = 0;
+    int32_t y = 0;
+    int32_t z = 0;
+    std::optional<int32_t> directionDegrees;
+    bool useMapStartPosition = false;
+    uint32_t unlockQBitId = 0;
+};
+
+enum class GameplayUtilitySpellPointerTargetType
+{
+    None,
+    Close,
+    TownPortalDestination,
+    LloydSetTab,
+    LloydRecallTab,
+    LloydSlot,
+};
+
+struct GameplayUtilitySpellPointerTarget
+{
+    GameplayUtilitySpellPointerTargetType type = GameplayUtilitySpellPointerTargetType::None;
+    size_t index = 0;
+
+    bool operator==(const GameplayUtilitySpellPointerTarget &other) const = default;
 };
 
 enum class GameplayCharacterPointerTargetType
@@ -403,6 +517,8 @@ struct GameplayOverlayInteractionState
     GameplaySpellbookPointerTarget spellbookPressedTarget = {};
     uint64_t lastSpellbookSpellClickTicks = 0;
     uint32_t lastSpellbookClickedSpellId = 0;
+    bool utilitySpellClickLatch = false;
+    GameplayUtilitySpellPointerTarget utilitySpellPressedTarget = {};
     std::array<bool, 39> saveGameEditKeyLatches = {};
     bool saveGameEditBackspaceLatch = false;
     uint64_t lastSaveGameSlotClickTicks = 0;

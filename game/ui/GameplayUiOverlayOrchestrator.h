@@ -59,8 +59,6 @@ struct GameplayUiOverlayRenderConfig
 
 struct GameplayUiOverlayRenderCallbacks
 {
-    std::function<void(bool renderAboveHud)> renderCharacterOverlay;
-    std::function<void(bool renderAboveHud)> renderDialogueOverlay;
     std::function<void(bool renderAboveHud)> renderChestOverlay;
     std::function<void(bool renderAboveHud)> renderInventoryNestedOverlay;
     std::function<void()> renderGameplayMouseLookOverlay;

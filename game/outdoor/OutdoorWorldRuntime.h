@@ -654,6 +654,8 @@ public:
         uint32_t skillLevel,
         SkillMastery skillMastery,
         std::string &failureText) override;
+    bool tryGetGameplayMinimapState(GameplayMinimapState &state) const override;
+    void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const override;
     bool isArmageddonActive() const;
     float armageddonCameraShakeYawRadians() const;
     float armageddonCameraShakePitchRadians() const;

@@ -25,6 +25,38 @@ float fixedDoorDirectionComponentToFloat(int value)
     return static_cast<float>(value) / 65536.0f;
 }
 
+float calculateMechanismDistance(
+    const MapDeltaDoor &door,
+    const RuntimeMechanismState &runtimeMechanism
+)
+{
+    if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Open))
+    {
+        return 0.0f;
+    }
+
+    if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closed) || (door.attributes & 0x2) != 0)
+    {
+        return static_cast<float>(door.moveLength);
+    }
+
+    if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing))
+    {
+        const float closingDistance =
+            runtimeMechanism.timeSinceTriggeredMs * static_cast<float>(door.closeSpeed) / 1000.0f;
+        return std::min(closingDistance, static_cast<float>(door.moveLength));
+    }
+
+    if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Opening))
+    {
+        const float openingDistance =
+            runtimeMechanism.timeSinceTriggeredMs * static_cast<float>(door.openSpeed) / 1000.0f;
+        return std::max(0.0f, static_cast<float>(door.moveLength) - openingDistance);
+    }
+
+    return 0.0f;
+}
+
 bx::Vec3 vecSubtract(const bx::Vec3 &left, const bx::Vec3 &right)
 {
     return {left.x - right.x, left.y - right.y, left.z - right.z};
@@ -543,7 +575,7 @@ std::vector<IndoorVertex> buildIndoorMechanismAdjustedVertices(
         RuntimeMechanismState runtimeMechanism = {};
         runtimeMechanism.state = door.state;
         runtimeMechanism.timeSinceTriggeredMs = static_cast<float>(door.timeSinceTriggered);
-        runtimeMechanism.currentDistance = EventRuntime::calculateMechanismDistance(door, runtimeMechanism);
+        runtimeMechanism.currentDistance = calculateMechanismDistance(door, runtimeMechanism);
         runtimeMechanism.isMoving =
             door.state == static_cast<uint16_t>(EvtMechanismState::Opening)
             || door.state == static_cast<uint16_t>(EvtMechanismState::Closing);
@@ -558,7 +590,7 @@ std::vector<IndoorVertex> buildIndoorMechanismAdjustedVertices(
             {
                 door.state = mechanismIterator->second.state;
                 distance = mechanismIterator->second.isMoving
-                    ? EventRuntime::calculateMechanismDistance(door, mechanismIterator->second)
+                    ? calculateMechanismDistance(door, mechanismIterator->second)
                     : mechanismIterator->second.currentDistance;
             }
         }

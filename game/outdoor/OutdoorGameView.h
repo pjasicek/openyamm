@@ -17,10 +17,8 @@
 #include "game/events/EventDialogContent.h"
 #include "game/events/EventRuntime.h"
 #include "game/tables/FaceAnimationTable.h"
-#include "game/audio/HouseVideoPlayer.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/tables/HouseTable.h"
-#include "game/tables/IconFrameTable.h"
 #include "game/tables/JournalAutonoteTable.h"
 #include "game/tables/JournalHistoryTable.h"
 #include "game/tables/JournalQuestTable.h"
@@ -29,12 +27,9 @@
 #include "game/tables/NpcDialogTable.h"
 #include "game/tables/ObjectTable.h"
 #include "game/party/PartySpellSystem.h"
-#include "game/tables/PortraitFxEventTable.h"
-#include "game/tables/PortraitFrameTable.h"
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
-#include "game/tables/SpellFxTable.h"
 #include "game/gameplay/GameplayDialogController.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiController.h"
@@ -88,7 +83,6 @@ struct ItemDefinition;
 
 class OutdoorGameView
     : public IGameplayOverlaySceneAdapter
-    , public IGameplayOverlayHudAdapter
 {
 public:
     explicit OutdoorGameView(GameSession &gameSession);
@@ -266,24 +260,7 @@ private:
     using HudTextAlignX = UiLayoutManager::TextAlignX;
     using HudTextAlignY = UiLayoutManager::TextAlignY;
 
-    enum class HudScreenState
-    {
-        Gameplay,
-        Dialogue,
-        Character,
-        TownPortal,
-        LloydsBeacon,
-        Chest,
-        Spellbook,
-        Rest,
-        Menu,
-        Controls,
-        Keyboard,
-        VideoOptions,
-        SaveGame,
-        LoadGame,
-        Journal
-    };
+    using HudScreenState = GameplayHudScreenState;
 
     using CharacterPage = GameplayUiController::CharacterPage;
     using CharacterScreenSource = GameplayUiController::CharacterScreenSource;
@@ -356,41 +333,6 @@ public:
         float y = 0.0f;
     };
 
-    struct TownPortalDestination
-    {
-        std::string id;
-        std::string label;
-        std::string buttonLayoutId;
-        std::string mapName;
-        int32_t x = 0;
-        int32_t y = 0;
-        int32_t z = 0;
-        std::optional<int32_t> directionDegrees;
-        bool useMapStartPosition = false;
-        uint32_t unlockQBitId = 0;
-    };
-
-    enum class UtilitySpellPointerTargetType
-    {
-        None = 0,
-        Close,
-        TownPortalDestination,
-        LloydSetTab,
-        LloydRecallTab,
-        LloydSlot,
-    };
-
-    struct UtilitySpellPointerTarget
-    {
-        UtilitySpellPointerTargetType type = UtilitySpellPointerTargetType::None;
-        size_t index = 0;
-
-        bool operator==(const UtilitySpellPointerTarget &other) const
-        {
-            return type == other.type && index == other.index;
-        }
-    };
-
     struct KeyboardInteractionBillboardCandidate
     {
         InspectHit inspectHit;
@@ -414,13 +356,6 @@ private:
 
     using HeldInventoryItemState = GameplayUiController::HeldInventoryItemState;
     using ItemInspectOverlayState = GameplayUiController::ItemInspectOverlayState;
-
-    struct PortraitFxState
-    {
-        bool active = false;
-        size_t animationId = 0;
-        uint32_t startedTicks = 0;
-    };
 
     using CharacterInspectMasteryLine = GameplayUiController::CharacterInspectMasteryLine;
     using CharacterInspectOverlayState = GameplayUiController::CharacterInspectOverlayState;
@@ -573,6 +508,7 @@ public:
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void executeActiveDialogAction() override;
     bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) override;
+    void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId) override;
     void updateReadableScrollOverlayForHeldItem(
         size_t memberIndex,
         const CharacterPointerTarget &pointerTarget,
@@ -589,134 +525,9 @@ public:
     bool trySaveToSelectedGameSlot() override;
     int restFoodRequired() const override;
     const GameSettings &settingsSnapshot() const;
-    bool isControlsRenderButtonPressed(GameplayControlsRenderButton button) const;
-    bool isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const;
-    void clearHudLayoutRuntimeHeightOverrides() override;
-    void setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height) override;
-    const HouseEntry *findHouseEntry(uint32_t houseId) const;
-    const UiLayoutManager::LayoutElement *findHudLayoutElement(const std::string &layoutId) const override;
-    int defaultHudLayoutZIndexForScreen(const std::string &screen) const override;
-    GameplayHudScreenState currentGameplayHudScreenState() const override;
-    std::vector<std::string> sortedHudLayoutIdsForScreen(const std::string &screen) const override;
-    std::optional<GameplayResolvedHudLayoutElement> resolveHudLayoutElement(
-        const std::string &layoutId,
-        int screenWidth,
-        int screenHeight,
-        float fallbackWidth,
-        float fallbackHeight) const override;
-    std::optional<GameplayResolvedHudLayoutElement> resolveGameplayChestGridArea(int width, int height) const override;
-    std::optional<GameplayResolvedHudLayoutElement> resolveGameplayInventoryNestedOverlayGridArea(
-        int width,
-        int height) const override;
-    std::optional<GameplayResolvedHudLayoutElement> resolveGameplayHouseShopOverlayFrame(
-        int width,
-        int height) const override;
-    bool isPointerInsideResolvedElement(
-        const GameplayResolvedHudLayoutElement &resolved,
-        float pointerX,
-        float pointerY) const override;
-    std::optional<std::string> resolveInteractiveAssetName(
-        const UiLayoutManager::LayoutElement &layout,
-        const GameplayResolvedHudLayoutElement &resolved,
-        float pointerX,
-        float pointerY,
-        bool isLeftMousePressed) const override;
-    std::optional<GameplayHudTextureHandle> ensureHudTextureLoaded(const std::string &textureName) override;
-    std::optional<GameplayHudTextureHandle> ensureSolidHudTextureLoaded(
-        const std::string &textureName,
-        uint32_t abgrColor) override;
-    std::optional<GameplayHudTextureHandle> ensureDynamicHudTexture(
-        const std::string &textureName,
-        int width,
-        int height,
-        const std::vector<uint8_t> &bgraPixels) override;
-    const std::vector<uint8_t> *hudTexturePixels(
-        const std::string &textureName,
-        int &width,
-        int &height) override;
-    bool ensureHudTextureDimensions(const std::string &textureName, int &width, int &height) override;
-    bool tryGetOpaqueHudTextureBounds(
-        const std::string &textureName,
-        int &width,
-        int &height,
-        int &opaqueMinX,
-        int &opaqueMinY,
-        int &opaqueMaxX,
-        int &opaqueMaxY) override;
-    void submitHudTexturedQuad(
-        const GameplayHudTextureHandle &texture,
-        float x,
-        float y,
-        float quadWidth,
-        float quadHeight) const override;
-    bgfx::TextureHandle ensureHudTextureColor(
-        const GameplayHudTextureHandle &texture,
-        uint32_t colorAbgr) const override;
-    void renderLayoutLabel(
-        const UiLayoutManager::LayoutElement &layout,
-        const GameplayResolvedHudLayoutElement &resolved,
-        const std::string &label) const override;
-    std::optional<GameplayHudFontHandle> findHudFont(const std::string &fontName) const override;
-    float measureHudTextWidth(const GameplayHudFontHandle &font, const std::string &text) const override;
-    std::vector<std::string> wrapHudTextToWidth(
-        const GameplayHudFontHandle &font,
-        const std::string &text,
-        float maxWidth) const override;
-    bgfx::TextureHandle ensureHudFontMainTextureColor(
-        const GameplayHudFontHandle &font,
-        uint32_t colorAbgr) const override;
-    void renderHudFontLayer(
-        const GameplayHudFontHandle &font,
-        bgfx::TextureHandle textureHandle,
-        const std::string &text,
-        float textX,
-        float textY,
-        float fontScale) const override;
-    bool hasHudRenderResources() const override;
-    void prepareHudView(int width, int height) const override;
-    void submitHudQuadBatch(
-        const std::vector<GameplayHudBatchQuad> &quads,
-        int screenWidth,
-        int screenHeight) const override;
-    std::string resolvePortraitTextureName(const Character &character) const override;
-    void consumePendingPortraitEventFxRequests() override;
-    void renderPortraitFx(
-        size_t memberIndex,
-        float portraitX,
-        float portraitY,
-        float portraitWidth,
-        float portraitHeight) const override;
-    bool tryGetGameplayMinimapState(GameplayMinimapState &state) const override;
-    void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const override;
-    void addRenderedInspectableHudItem(const GameplayRenderedInspectableHudItem &item) override;
-    const std::vector<GameplayRenderedInspectableHudItem> &renderedInspectableHudItems() const override;
-    bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const override;
-    void submitWorldTextureQuad(
-        bgfx::TextureHandle textureHandle,
-        float x,
-        float y,
-        float quadWidth,
-        float quadHeight,
-        float u0,
-        float v0,
-        float u1,
-        float v1) const override;
-    bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const override;
-
 private:
     GameplayOverlayContext createGameplayOverlayContext();
     GameplayOverlayContext createGameplayOverlayContext() const;
-
-    GameplayOverlayInteractionState &interactionState()
-    {
-        return m_overlayInteractionState;
-    }
-
-    const GameplayOverlayInteractionState &interactionState() const
-    {
-        return m_overlayInteractionState;
-    }
-
     static ResolvedHudLayoutElement resolveAttachedHudLayoutRect(
         HudLayoutAttachMode attachTo,
         const ResolvedHudLayoutElement &parent,
@@ -733,23 +544,11 @@ private:
     std::optional<ResolvedHudLayoutElement> resolveChestGridArea(int width, int height) const;
     std::optional<ResolvedHudLayoutElement> resolveInventoryNestedOverlayGridArea(int width, int height) const;
     std::optional<ResolvedHudLayoutElement> resolveHouseShopOverlayFrame(int width, int height) const;
-    void renderEventDialogPanel(int width, int height, bool renderAboveHud);
     void preloadSpriteFrameTextures(const SpriteFrameTable &spriteFrameTable, uint16_t spriteFrameIndex);
     void queueSpriteFrameWarmup(uint16_t spriteFrameIndex);
-    HudScreenState currentHudScreenState() const;
-    void updateStatusBarEvent(float deltaSeconds);
     void updateHouseVideoPlayback(float deltaSeconds);
-    void renderCharacterOverlay(int width, int height, bool renderAboveHud) const;
-    void renderDialogueOverlay(int width, int height, bool renderAboveHud);
-    void renderCharacterInspectOverlay(int width, int height) const;
-    void renderBuffInspectOverlay(int width, int height) const;
-    void renderCharacterDetailOverlay(int width, int height) const;
     void renderActorInspectOverlay(int width, int height);
-    void renderSpellInspectOverlay(int width, int height) const;
-    void renderReadableScrollOverlay(int width, int height) const;
     void renderPendingSpellTargetingOverlay(int width, int height) const;
-    void renderSpellbookOverlay(int width, int height) const;
-    void renderUtilitySpellOverlay(int width, int height) const;
     void submitHudTexturedQuad(const HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
@@ -784,7 +583,6 @@ private:
     void updatePartyPortraitAnimations(float deltaSeconds);
     void updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks);
     void playPortraitExpression(size_t memberIndex, PortraitId portraitId, std::optional<uint32_t> durationTicks = std::nullopt);
-    void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId);
     void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
     uint32_t defaultPortraitAnimationLengthTicks(PortraitId portraitId) const;
     const AdventurersInnMember *selectedAdventurersInnMember() const;
@@ -813,7 +611,6 @@ private:
     std::optional<bx::Vec3> resolveQuickCastCursorTargetPoint(float cursorX, float cursorY) const;
     void triggerPortraitEventFxWithoutSpeech(size_t memberIndex, PortraitFxEventKind kind);
     bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName) override;
-    bool loadTownPortalDestinations(const Engine::AssetFileSystem &assetFileSystem);
     void closeSpellbook(const std::string &statusText = "");
     void closeInventoryNestedOverlay();
     void refreshSaveGameSlots();
@@ -848,10 +645,6 @@ private:
     std::optional<SpriteObjectBillboardSet> m_outdoorSpriteObjectBillboardSet;
     std::optional<MapDeltaData> m_outdoorMapDeltaData;
     FaceAnimationTable m_faceAnimationTable;
-    IconFrameTable m_iconFrameTable;
-    PortraitFrameTable m_portraitFrameTable;
-    SpellFxTable m_spellFxTable;
-    PortraitFxEventTable m_portraitFxEventTable;
     GameAudioSystem *m_pGameAudioSystem;
     OutdoorSceneRuntime *m_pOutdoorSceneRuntime;
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
@@ -951,7 +744,6 @@ private:
     float m_cameraOrthoScale;
     float m_mouseRotateSpeed = 0.0045f;
     bool m_showFilledTerrain;
-    std::vector<PortraitFxState> m_portraitSpellFxStates;
     float m_lastFootstepX;
     float m_lastFootstepY;
     bool m_hasLastFootstepPosition;
@@ -1021,13 +813,6 @@ private:
     GameplayUiController &m_gameplayUiController;
     GameplayDialogController &m_gameplayDialogController;
     GameplayOverlayInteractionState &m_overlayInteractionState;
-    std::vector<HudTextureHandle> &m_hudTextureHandles;
-    std::unordered_map<std::string, size_t> &m_hudTextureIndexByName;
-    std::vector<HudFontHandle> &m_hudFontHandles;
-    std::vector<HudFontColorTextureHandle> &m_hudFontColorTextureHandles;
-    std::vector<HudTextureColorTextureHandle> &m_hudTextureColorTextureHandles;
-    UiLayoutManager &m_uiLayoutManager;
-    std::unordered_map<std::string, float> &m_hudLayoutRuntimeHeightOverrides;
     bool &m_characterScreenOpen;
     bool &m_characterDollJewelryOverlayOpen;
     bool &m_adventurersInnRosterOverlayOpen;
@@ -1064,10 +849,6 @@ private:
     InventoryNestedOverlayState &m_inventoryNestedOverlay;
     HouseShopOverlayState &m_houseShopOverlay;
     HouseBankState &m_houseBankState;
-    bool m_utilitySpellClickLatch = false;
-    UtilitySpellPointerTarget m_utilitySpellPressedTarget = {};
-    std::vector<TownPortalDestination> m_townPortalDestinations;
-    bool m_townPortalDestinationsLoaded = false;
     bool m_optionsButtonPressed = false;
     bool m_booksButtonPressed = false;
     uint64_t m_lastSpellFailSoundTicks;
@@ -1075,7 +856,6 @@ private:
     uint64_t m_lastStarburstImpactSoundTicks = 0;
     PendingSpellCastState m_pendingSpellCast;
     SpellAreaPreviewCacheState m_spellAreaPreviewCache;
-    std::vector<GameplayRenderedInspectableHudItem> &m_renderedInspectableHudItems;
     mutable HudScreenState m_renderedInspectableHudState = HudScreenState::Gameplay;
     bool m_heldInventoryDropLatch;
     size_t &m_eventDialogSelectionIndex;
@@ -1086,7 +866,6 @@ private:
     uint64_t m_lastHoverInspectUpdateNanoseconds;
     InspectHit m_cachedHoverInspectHit;
     EventDialogContent &m_activeEventDialog;
-    HouseVideoPlayer m_houseVideoPlayer;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
     GameSettings m_gameSettings = GameSettings::createDefault();

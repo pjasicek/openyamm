@@ -16,6 +16,7 @@
 #include "game/SpriteObjectDefs.h"
 #include "game/party/SkillData.h"
 #include "game/StringUtils.h"
+#include "game/ui/GameplayOverlayTypes.h"
 
 #include <algorithm>
 #include <cmath>
@@ -11471,6 +11472,131 @@ bool OutdoorWorldRuntime::tryStartArmageddon(
     m_armageddonState.cameraShakePitchRadians = 0.0f;
     ++pCaster->armageddonCastsToday;
     return true;
+}
+
+bool OutdoorWorldRuntime::tryGetGameplayMinimapState(GameplayMinimapState &state) const
+{
+    state = {};
+
+    if (m_map.fileName.empty() || m_pPartyRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const Party &runtimeParty = m_pPartyRuntime->party();
+    const PartyBuffState *pWizardEyeBuff = runtimeParty.partyBuff(PartyBuffId::WizardEye);
+    const SkillMastery wizardEyeMastery =
+        pWizardEyeBuff != nullptr ? pWizardEyeBuff->skillMastery : SkillMastery::None;
+    const OutdoorMoveState &moveState = m_pPartyRuntime->movementState();
+
+    state.textureName = toLowerCopy(std::filesystem::path(m_map.fileName).stem().string());
+    state.partyU = std::clamp((moveState.x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+    state.partyV = std::clamp((32768.0f - moveState.y) / 65536.0f, 0.0f, 1.0f);
+    state.wizardEyeActive = pWizardEyeBuff != nullptr;
+    state.wizardEyeShowsExpertObjects = wizardEyeMastery >= SkillMastery::Expert;
+    state.wizardEyeShowsMasterDecorations = wizardEyeMastery >= SkillMastery::Master;
+    return true;
+}
+
+void OutdoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const
+{
+    markers.clear();
+
+    GameplayMinimapState minimapState = {};
+
+    if (!tryGetGameplayMinimapState(minimapState) || !minimapState.wizardEyeActive)
+    {
+        return;
+    }
+
+    for (size_t actorIndex = 0; actorIndex < mapActorCount(); ++actorIndex)
+    {
+        const MapActorState *pActor = mapActorState(actorIndex);
+
+        if (pActor == nullptr || pActor->isInvisible)
+        {
+            continue;
+        }
+
+        GameplayMinimapMarkerState marker = {};
+        marker.type = pActor->isDead
+            ? GameplayMinimapMarkerType::CorpseActor
+            : pActor->hostileToParty ? GameplayMinimapMarkerType::HostileActor : GameplayMinimapMarkerType::FriendlyActor;
+        marker.u = std::clamp((static_cast<float>(pActor->x) + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+        marker.v = std::clamp((32768.0f - static_cast<float>(pActor->y)) / 65536.0f, 0.0f, 1.0f);
+        markers.push_back(marker);
+    }
+
+    if (minimapState.wizardEyeShowsExpertObjects)
+    {
+        for (size_t worldItemIndex = 0; worldItemIndex < worldItemCount(); ++worldItemIndex)
+        {
+            const WorldItemState *pWorldItem = worldItemState(worldItemIndex);
+
+            if (pWorldItem == nullptr)
+            {
+                continue;
+            }
+
+            GameplayMinimapMarkerState marker = {};
+            marker.type = GameplayMinimapMarkerType::WorldItem;
+            marker.u = std::clamp((pWorldItem->x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+            marker.v = std::clamp((32768.0f - pWorldItem->y) / 65536.0f, 0.0f, 1.0f);
+            markers.push_back(marker);
+        }
+
+        for (size_t projectileIndex = 0; projectileIndex < projectileCount(); ++projectileIndex)
+        {
+            const ProjectileState *pProjectile = projectileState(projectileIndex);
+
+            if (pProjectile == nullptr)
+            {
+                continue;
+            }
+
+            GameplayMinimapMarkerState marker = {};
+            marker.type = GameplayMinimapMarkerType::Projectile;
+            marker.u = std::clamp((pProjectile->x + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+            marker.v = std::clamp((32768.0f - pProjectile->y) / 65536.0f, 0.0f, 1.0f);
+            markers.push_back(marker);
+        }
+    }
+
+    if (minimapState.wizardEyeShowsMasterDecorations
+        && m_pOutdoorMapDeltaData != nullptr
+        && m_pOutdoorMapData != nullptr)
+    {
+        for (size_t entityIndex = 0; entityIndex < m_pOutdoorMapData->entities.size(); ++entityIndex)
+        {
+            if (entityIndex >= m_pOutdoorMapDeltaData->decorationFlags.size())
+            {
+                continue;
+            }
+
+            if ((m_pOutdoorMapDeltaData->decorationFlags[entityIndex] & 0x0008) == 0)
+            {
+                continue;
+            }
+
+            if (m_eventRuntimeState)
+            {
+                const auto overrideIterator =
+                    m_eventRuntimeState->spriteOverrides.find(static_cast<uint32_t>(entityIndex));
+
+                if (overrideIterator != m_eventRuntimeState->spriteOverrides.end() && overrideIterator->second.hidden)
+                {
+                    continue;
+                }
+            }
+
+            const OutdoorEntity &entity = m_pOutdoorMapData->entities[entityIndex];
+            GameplayMinimapMarkerState marker = {};
+            marker.type = GameplayMinimapMarkerType::Decoration;
+            marker.u = std::clamp((static_cast<float>(entity.x) + 32768.0f) / 65536.0f, 0.0f, 1.0f);
+            marker.v = std::clamp((32768.0f - static_cast<float>(entity.y)) / 65536.0f, 0.0f, 1.0f);
+            markers.push_back(marker);
+        }
+    }
 }
 
 bool OutdoorWorldRuntime::isArmageddonActive() const

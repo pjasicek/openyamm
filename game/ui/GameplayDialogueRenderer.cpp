@@ -1,4 +1,5 @@
 #include "game/ui/GameplayDialogueRenderer.h"
+#include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayOverlayContext.h"
 #include "game/ui/HudUiService.h"
 
@@ -267,6 +268,47 @@ HouseShopItemDrawRect resolveHouseShopItemDrawRect(
     return result;
 }
 
+uint32_t currentDialogueHostHouseId(const EventRuntimeState *pEventRuntimeState)
+{
+    return pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
+}
+
+bool isResidentSelectionMode(const EventDialogContent &dialog)
+{
+    return !dialog.actions.empty()
+        && std::all_of(
+            dialog.actions.begin(),
+            dialog.actions.end(),
+            [](const EventDialogAction &action)
+            {
+                return action.kind == EventDialogActionKind::HouseResident;
+            });
+}
+
+struct InventoryGridMetrics
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    float cellWidth = 0.0f;
+    float cellHeight = 0.0f;
+};
+
+InventoryGridMetrics computeInventoryGridMetrics(
+    float x,
+    float y,
+    float width,
+    float height,
+    int columns,
+    int rows)
+{
+    InventoryGridMetrics metrics = {};
+    metrics.x = x;
+    metrics.y = y;
+    metrics.cellWidth = width / static_cast<float>(std::max(1, columns));
+    metrics.cellHeight = height / static_cast<float>(std::max(1, rows));
+    return metrics;
+}
+
 float snappedHudFontScale(float scale)
 {
     if (scale < 1.0f)
@@ -284,6 +326,330 @@ float snappedHudFontScale(float scale)
     return scale;
 }
 } // namespace
+
+void GameplayDialogueRenderer::renderDialogueOverlay(
+    GameplayOverlayContext &view,
+    int width,
+    int height,
+    bool renderAboveHud)
+{
+    if (view.currentHudScreenState() != GameplayHudScreenState::Dialogue
+        || !view.activeEventDialog().isActive
+        || !view.hasHudRenderResources()
+        || width <= 0
+        || height <= 0)
+    {
+        return;
+    }
+
+    view.clearHudLayoutRuntimeHeightOverrides();
+    float dialogMouseX = 0.0f;
+    float dialogMouseY = 0.0f;
+    SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
+    const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
+
+    if (!renderAboveHud && uiViewport.x > 0.5f)
+    {
+        renderBlackoutBackdrop(view, width, height, uiViewport.x, uiViewport.width);
+    }
+
+    const bool residentSelectionMode = isResidentSelectionMode(view.activeEventDialog());
+    const EventRuntimeState *pEventRuntimeState =
+        view.worldRuntime() != nullptr ? view.worldRuntime()->eventRuntimeState() : nullptr;
+    const HouseEntry *pHostHouseEntry =
+        (currentDialogueHostHouseId(pEventRuntimeState) != 0 && view.houseTable() != nullptr)
+        ? view.houseTable()->get(currentDialogueHostHouseId(pEventRuntimeState))
+        : nullptr;
+    const bool showDialogueVideoArea = pHostHouseEntry != nullptr;
+    const bool hasDialogueParticipantIdentity =
+        !view.activeEventDialog().title.empty()
+        || view.activeEventDialog().participantPictureId != 0
+        || view.activeEventDialog().sourceId != 0;
+    const bool showEventDialogPanel =
+        residentSelectionMode
+        || !view.activeEventDialog().actions.empty()
+        || pHostHouseEntry != nullptr
+        || hasDialogueParticipantIdentity;
+    const std::vector<std::string> &dialogueBodyLines = view.activeEventDialog().lines;
+    const bool showDialogueTextFrame = !dialogueBodyLines.empty();
+    std::optional<std::string> hoveredHouseServiceTopicText;
+    const bool suppressServiceTopicsForShopOverlay =
+        (view.houseShopOverlay().active
+         && (view.houseShopOverlay().mode == GameplayUiController::HouseShopMode::BuyStandard
+             || view.houseShopOverlay().mode == GameplayUiController::HouseShopMode::BuySpecial
+             || view.houseShopOverlay().mode == GameplayUiController::HouseShopMode::BuySpellbooks))
+        || (view.inventoryNestedOverlay().active
+            && (view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopSell
+                || view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopIdentify
+                || view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopRepair));
+    const Party *pParty = view.partyReadOnly();
+
+    updateHouseShopHoverTopicText(
+        view,
+        width,
+        height,
+        dialogMouseX,
+        dialogMouseY,
+        hoveredHouseServiceTopicText);
+
+    const GameplayOverlayContext::HudLayoutElement *pDialogueFrameLayout = view.findHudLayoutElement("DialogueFrame");
+    const GameplayOverlayContext::HudLayoutElement *pDialogueTextLayout = view.findHudLayoutElement("DialogueText");
+    const GameplayOverlayContext::HudLayoutElement *pBasebarLayout = view.findHudLayoutElement("OutdoorBasebar");
+
+    if (showDialogueTextFrame
+        && pDialogueFrameLayout != nullptr
+        && pDialogueTextLayout != nullptr
+        && pBasebarLayout != nullptr
+        && toLowerCopy(pDialogueFrameLayout->screen) == "dialogue"
+        && toLowerCopy(pDialogueTextLayout->screen) == "dialogue")
+    {
+        const std::optional<GameplayOverlayContext::HudFontHandle> font =
+            view.findHudFont(pDialogueTextLayout->fontName);
+
+        if (font)
+        {
+            constexpr float DialogueTextTopInset = 2.0f;
+            constexpr float DialogueTextBottomInset = 5.0f;
+            constexpr float DialogueTextRightInset = 6.0f;
+            const float lineHeight = static_cast<float>(font->fontHeight);
+            const float textPadY = std::abs(pDialogueTextLayout->textPadY);
+            const float textWrapWidth = std::max(
+                0.0f,
+                pDialogueTextLayout->width
+                    - std::abs(pDialogueTextLayout->textPadX) * 2.0f
+                    - DialogueTextRightInset);
+            size_t wrappedLineCount = 0;
+
+            for (const std::string &line : dialogueBodyLines)
+            {
+                const std::vector<std::string> wrappedLines =
+                    view.wrapHudTextToWidth(*font, line, textWrapWidth);
+                wrappedLineCount += std::max<size_t>(1, wrappedLines.size());
+            }
+
+            const float rawComputedTextHeight =
+                static_cast<float>(wrappedLineCount) * lineHeight
+                + textPadY * 2.0f
+                + DialogueTextTopInset
+                + DialogueTextBottomInset;
+            const float authoritativeFrameHeight = pBasebarLayout->height + rawComputedTextHeight;
+            view.setHudLayoutRuntimeHeightOverride("DialogueFrame", authoritativeFrameHeight);
+            view.setHudLayoutRuntimeHeightOverride("DialogueText", rawComputedTextHeight);
+        }
+    }
+
+    std::string dialogueResponseHintText =
+        view.activeEventDialog().actions.empty()
+            ? "Enter/Space/E/Esc close"
+            : "Up/Down select  Enter/Space accept  E/Esc close";
+
+    if (view.houseBankState().inputActive())
+    {
+        dialogueResponseHintText = "Type amount  Enter accept  E/Esc cancel";
+    }
+
+    if (view.statusBarEventRemainingSeconds() > 0.0f && !view.statusBarEventText().empty())
+    {
+        dialogueResponseHintText = view.statusBarEventText();
+    }
+
+    if (view.inventoryNestedOverlay().active
+        && (view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopSell
+            || view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopIdentify
+            || view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopRepair))
+    {
+        if (view.statusBarEventRemainingSeconds() <= 0.0f || view.statusBarEventText().empty())
+        {
+            if (view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopSell)
+            {
+                dialogueResponseHintText = "Select the Item to Sell";
+            }
+            else if (view.inventoryNestedOverlay().mode
+                == GameplayUiController::InventoryNestedOverlayMode::ShopIdentify)
+            {
+                dialogueResponseHintText = "Select the Item to Identify";
+            }
+            else if (view.inventoryNestedOverlay().mode
+                == GameplayUiController::InventoryNestedOverlayMode::ShopRepair)
+            {
+                dialogueResponseHintText = "Select the Item to Repair";
+            }
+        }
+
+        if (pHostHouseEntry != nullptr && view.party() != nullptr && view.itemTable() != nullptr)
+        {
+            const Character *pActiveCharacter = view.party()->activeMember();
+            const std::optional<GameplayOverlayContext::ResolvedHudLayoutElement> resolvedInventoryGrid =
+                view.resolveInventoryNestedOverlayGridArea(width, height);
+
+            if (pActiveCharacter != nullptr && resolvedInventoryGrid)
+            {
+                const InventoryGridMetrics gridMetrics = computeInventoryGridMetrics(
+                    resolvedInventoryGrid->x,
+                    resolvedInventoryGrid->y,
+                    resolvedInventoryGrid->width,
+                    resolvedInventoryGrid->height,
+                    Character::InventoryWidth,
+                    Character::InventoryHeight);
+
+                if (dialogMouseX >= resolvedInventoryGrid->x
+                    && dialogMouseX < resolvedInventoryGrid->x + resolvedInventoryGrid->width
+                    && dialogMouseY >= resolvedInventoryGrid->y
+                    && dialogMouseY < resolvedInventoryGrid->y + resolvedInventoryGrid->height)
+                {
+                    const uint8_t gridX = static_cast<uint8_t>(std::clamp(
+                        static_cast<int>((dialogMouseX - resolvedInventoryGrid->x) / gridMetrics.cellWidth),
+                        0,
+                        Character::InventoryWidth - 1));
+                    const uint8_t gridY = static_cast<uint8_t>(std::clamp(
+                        static_cast<int>((dialogMouseY - resolvedInventoryGrid->y) / gridMetrics.cellHeight),
+                        0,
+                        Character::InventoryHeight - 1));
+                    const InventoryItem *pItem = pActiveCharacter->inventoryItemAt(gridX, gridY);
+
+                    if (pItem != nullptr)
+                    {
+                        if (view.inventoryNestedOverlay().mode == GameplayUiController::InventoryNestedOverlayMode::ShopSell)
+                        {
+                            hoveredHouseServiceTopicText = HouseServiceRuntime::buildSellHoverText(
+                                *view.party(),
+                                *view.itemTable(),
+                                *view.standardItemEnchantTable(),
+                                *view.specialItemEnchantTable(),
+                                *pHostHouseEntry,
+                                *pItem);
+                        }
+                        else if (view.inventoryNestedOverlay().mode
+                            == GameplayUiController::InventoryNestedOverlayMode::ShopIdentify)
+                        {
+                            hoveredHouseServiceTopicText = HouseServiceRuntime::buildIdentifyHoverText(
+                                *view.party(),
+                                *view.itemTable(),
+                                *view.standardItemEnchantTable(),
+                                *view.specialItemEnchantTable(),
+                                *pHostHouseEntry,
+                                *pItem);
+                        }
+                        else if (view.inventoryNestedOverlay().mode
+                            == GameplayUiController::InventoryNestedOverlayMode::ShopRepair)
+                        {
+                            const std::string hoverText = HouseServiceRuntime::buildRepairHoverText(
+                                *view.party(),
+                                *view.itemTable(),
+                                *view.standardItemEnchantTable(),
+                                *view.specialItemEnchantTable(),
+                                *pHostHouseEntry,
+                                *pItem);
+
+                            if (!hoverText.empty())
+                            {
+                                hoveredHouseServiceTopicText = hoverText;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    const std::vector<std::string> orderedDialogueLayoutIds = view.sortedHudLayoutIdsForScreen("Dialogue");
+
+    for (const std::string &layoutId : orderedDialogueLayoutIds)
+    {
+        const GameplayOverlayContext::HudLayoutElement *pLayout = view.findHudLayoutElement(layoutId);
+
+        if (pLayout == nullptr || toLowerCopy(pLayout->screen) != "dialogue")
+        {
+            continue;
+        }
+
+        renderDialogueTextureElement(
+            view,
+            layoutId,
+            width,
+            height,
+            dialogMouseX,
+            dialogMouseY,
+            showDialogueTextFrame,
+            showDialogueVideoArea,
+            showEventDialogPanel,
+            renderAboveHud);
+    }
+
+    renderHouseShopOverlay(
+        view,
+        width,
+        height,
+        dialogMouseX,
+        dialogMouseY,
+        dialogueResponseHintText,
+        renderAboveHud);
+
+    renderDialogueLabelById(
+        view,
+        "DialogueGoodbyeButton",
+        (view.activeEventDialog().presentation == EventDialogPresentation::Transition
+            && view.activeEventDialog().actions.size() > 1)
+            ? view.activeEventDialog().actions[1].label
+            : "Close",
+        width,
+        height,
+        renderAboveHud);
+
+    if (view.activeEventDialog().presentation == EventDialogPresentation::Transition
+        && !view.activeEventDialog().actions.empty())
+    {
+        renderDialogueLabelById(
+            view,
+            "DialogueOkButton",
+            view.activeEventDialog().actions[0].label,
+            width,
+            height,
+            renderAboveHud);
+    }
+
+    renderDialogueLabelById(
+        view,
+        "DialogueGoldLabel",
+        pParty != nullptr ? std::to_string(pParty->gold()) : "",
+        width,
+        height,
+        renderAboveHud);
+    renderDialogueLabelById(
+        view,
+        "DialogueFoodLabel",
+        pParty != nullptr ? std::to_string(pParty->food()) : "",
+        width,
+        height,
+        renderAboveHud);
+    renderDialogueLabelById(
+        view,
+        "DialogueResponseHint",
+        dialogueResponseHintText,
+        width,
+        height,
+        renderAboveHud);
+    renderDialogueEventPanel(
+        view,
+        width,
+        height,
+        dialogMouseX,
+        dialogMouseY,
+        renderAboveHud,
+        showEventDialogPanel,
+        residentSelectionMode,
+        pHostHouseEntry,
+        hoveredHouseServiceTopicText,
+        suppressServiceTopicsForShopOverlay);
+    renderDialogueBodyText(
+        view,
+        width,
+        height,
+        renderAboveHud,
+        dialogueBodyLines);
+
+    view.clearHudLayoutRuntimeHeightOverrides();
+}
 
 bool GameplayDialogueRenderer::shouldRenderInCurrentPass(bool renderAboveHud, int hudZThreshold, int zIndex)
 {

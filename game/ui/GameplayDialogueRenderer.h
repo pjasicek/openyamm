@@ -14,6 +14,11 @@ struct HouseEntry;
 class GameplayDialogueRenderer
 {
 public:
+    static void renderDialogueOverlay(
+        GameplayOverlayContext &context,
+        int width,
+        int height,
+        bool renderAboveHud);
     static bool shouldRenderInCurrentPass(bool renderAboveHud, int hudZThreshold, int zIndex);
     static bool isDialogueFrameSubtree(GameplayOverlayContext &context, const std::string &layoutId);
     static void renderBlackoutBackdrop(

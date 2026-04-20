@@ -5,6 +5,7 @@
 #include "game/gameplay/ChestRuntime.h"
 #include "game/gameplay/CorpseLootRuntime.h"
 #include "game/indoor/IndoorPartyRuntime.h"
+#include "game/ui/GameplayOverlayTypes.h"
 
 #include <algorithm>
 #include <array>
@@ -458,6 +459,17 @@ bool IndoorWorldRuntime::tryStartArmageddon(
     (void)skillMastery;
     failureText = "Spell failed";
     return false;
+}
+
+bool IndoorWorldRuntime::tryGetGameplayMinimapState(GameplayMinimapState &state) const
+{
+    state = {};
+    return false;
+}
+
+void IndoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const
+{
+    markers.clear();
 }
 
 const IndoorWorldRuntime::ChestViewState *IndoorWorldRuntime::activeChestView() const

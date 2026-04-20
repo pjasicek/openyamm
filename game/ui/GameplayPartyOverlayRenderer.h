@@ -10,9 +10,8 @@ class OutdoorGameView;
 class GameplayPartyOverlayRenderer
 {
 public:
-    static void renderUtilitySpellOverlay(const OutdoorGameView &view, int width, int height);
+    static void renderUtilitySpellOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderCharacterOverlay(GameplayOverlayContext &context, int width, int height, bool renderAboveHud);
-    static void renderCharacterOverlay(const OutdoorGameView &view, int width, int height, bool renderAboveHud);
     static void renderHeldInventoryItem(GameplayOverlayContext &context, int width, int height);
     static void renderItemInspectOverlay(GameplayOverlayContext &context, int width, int height);
     static void renderCharacterInspectOverlay(GameplayOverlayContext &context, int width, int height);
