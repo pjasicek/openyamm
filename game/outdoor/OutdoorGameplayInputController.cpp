@@ -339,6 +339,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         && !view.m_journalScreen.active
         && !view.m_heldInventoryItem.active;
 
+    GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
+
     if (!isMenuActive && !isControlsActive && !isKeyboardActive && !isSaveGameActive && !isLoadGameActive
         && pKeyboardState[SDL_SCANCODE_ESCAPE])
     {
@@ -346,7 +348,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         {
             if (canToggleMenu)
             {
-                view.openMenu();
+                overlayContext.openMenuOverlay();
+                view.m_optionsButtonClickLatch = false;
+                view.m_optionsButtonPressed = false;
             }
 
             view.interactionState().menuToggleLatch = true;
@@ -402,7 +406,10 @@ void OutdoorGameplayInputController::updateCameraFromInput(
             {
                 if (target)
                 {
-                    view.openMenu();
+                    GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
+                    overlayContext.openMenuOverlay();
+                    view.m_optionsButtonClickLatch = false;
+                    view.m_optionsButtonPressed = false;
                 }
             });
     }
@@ -431,7 +438,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     {
         if (!view.m_restToggleLatch)
         {
-            view.openRestScreen();
+            overlayContext.openRestOverlay();
             view.m_restToggleLatch = true;
         }
     }
@@ -491,7 +498,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
             {
                 if (target.type == OutdoorGameView::RestPointerTargetType::OpenButton)
                 {
-                    view.openRestScreen();
+                    view.createGameplayOverlayContext().openRestOverlay();
                 }
             });
     }
@@ -574,7 +581,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
             {
                 if (target)
                 {
-                    view.openJournal();
+                    view.createGameplayOverlayContext().openJournalOverlay();
                 }
             });
     }
@@ -584,7 +591,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         view.m_booksButtonPressed = false;
     }
 
-    GameplayOverlayContext overlayContext = view.createGameplayOverlayContext();
     const bool isResidentSelectionMode =
         isEventDialogActive
         && !view.m_activeEventDialog.actions.empty()

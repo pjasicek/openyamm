@@ -178,6 +178,7 @@ public:
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
+    void openRestOverlay();
     void openSpellbookOverlay();
     void openChestTransferInventoryOverlay();
     void toggleCharacterInventoryScreen();

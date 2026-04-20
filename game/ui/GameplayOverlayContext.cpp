@@ -756,6 +756,24 @@ void GameplayOverlayContext::setStatusBarEvent(const std::string &text, float du
     uiController().setStatusBarEvent(text, durationSeconds);
 }
 
+void GameplayOverlayContext::openRestOverlay()
+{
+    if (party() == nullptr || worldRuntime() == nullptr)
+    {
+        return;
+    }
+
+    closeSpellbookOverlay();
+    closeMenuOverlay();
+    closeReadableScrollOverlay();
+    closeInventoryNestedOverlay();
+    uiController().characterScreen() = {};
+    uiController().restScreen() = {};
+    uiController().restScreen().active = true;
+    interactionState().restClickLatch = false;
+    interactionState().restPressedTarget = {};
+}
+
 void GameplayOverlayContext::openSpellbookOverlay()
 {
     GameplayUiController::SpellbookSchool school = GameplayUiController::SpellbookSchool::Fire;

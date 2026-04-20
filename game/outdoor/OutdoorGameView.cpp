@@ -3996,7 +3996,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 if (m_pendingSavePreviewCapture.closeUiOnSuccess)
                 {
                     m_saveGameScreen = {};
-                    closeMenu();
+                    createGameplayOverlayContext().closeMenuOverlay();
                 }
             }
 
@@ -6770,7 +6770,7 @@ void OutdoorGameView::requestOpenNewGameScreen()
 
 void OutdoorGameView::reopenMenuScreen()
 {
-    openMenu();
+    createGameplayOverlayContext().openMenuOverlay();
 }
 
 bool OutdoorGameView::consumePendingOpenNewGameScreenRequest()
@@ -8532,262 +8532,6 @@ void OutdoorGameView::closeSpellbook(const std::string &statusText)
     }
 }
 
-void OutdoorGameView::openRestScreen()
-{
-    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
-    {
-        return;
-    }
-
-    closeSpellbook();
-    closeMenu();
-    closeReadableScrollOverlay();
-    closeInventoryNestedOverlay();
-    m_characterScreenOpen = false;
-    m_characterDollJewelryOverlayOpen = false;
-    m_adventurersInnRosterOverlayOpen = false;
-    m_restScreen = {};
-    m_restScreen.active = true;
-    m_restToggleLatch = false;
-    interactionState().restClickLatch = false;
-    interactionState().restPressedTarget = {};
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::closeRestScreen()
-{
-    m_restScreen = {};
-    m_restToggleLatch = false;
-    interactionState().restClickLatch = false;
-    interactionState().restPressedTarget = {};
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::openMenu()
-{
-    closeSpellbook();
-    closeReadableScrollOverlay();
-    closeInventoryNestedOverlay();
-    m_characterScreenOpen = false;
-    m_characterDollJewelryOverlayOpen = false;
-    m_adventurersInnRosterOverlayOpen = false;
-    m_restScreen = {};
-    m_controlsScreen = {};
-    m_saveGameScreen = {};
-    m_loadGameScreen = {};
-    m_journalScreen.active = false;
-    m_menuScreen = {};
-    m_menuScreen.active = true;
-    m_optionsButtonClickLatch = false;
-    m_optionsButtonPressed = false;
-    interactionState().menuToggleLatch = false;
-    interactionState().menuClickLatch = false;
-    interactionState().menuPressedTarget = {};
-    interactionState().controlsToggleLatch = false;
-    interactionState().controlsClickLatch = false;
-    interactionState().controlsPressedTarget = {};
-    interactionState().controlsSliderDragActive = false;
-    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
-    interactionState().saveGameToggleLatch = false;
-    interactionState().saveGameClickLatch = false;
-    interactionState().saveGamePressedTarget = {};
-    m_loadGameToggleLatch = false;
-    m_loadGameClickLatch = false;
-    m_loadGamePressedTarget = {};
-    interactionState().closeOverlayLatch = false;
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::closeMenu()
-{
-    m_menuScreen = {};
-    m_optionsButtonClickLatch = false;
-    m_optionsButtonPressed = false;
-    interactionState().menuToggleLatch = false;
-    interactionState().menuClickLatch = false;
-    interactionState().menuPressedTarget = {};
-    interactionState().closeOverlayLatch = false;
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::openControlsScreen()
-{
-    m_menuScreen.active = false;
-    interactionState().menuToggleLatch = false;
-    interactionState().menuClickLatch = false;
-    interactionState().menuPressedTarget = {};
-    m_controlsScreen = {};
-    m_controlsScreen.active = true;
-    interactionState().controlsToggleLatch = false;
-    interactionState().controlsClickLatch = false;
-    interactionState().controlsPressedTarget = {};
-    m_keyboardScreen = {};
-    interactionState().keyboardToggleLatch = false;
-    interactionState().keyboardClickLatch = false;
-    interactionState().keyboardPressedTarget = {};
-    interactionState().controlsSliderDragActive = false;
-    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
-    m_videoOptionsScreen = {};
-    interactionState().videoOptionsToggleLatch = false;
-    interactionState().videoOptionsClickLatch = false;
-    interactionState().videoOptionsPressedTarget = {};
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::closeControlsScreen()
-{
-    m_controlsScreen = {};
-    interactionState().controlsToggleLatch = false;
-    interactionState().controlsClickLatch = false;
-    interactionState().controlsPressedTarget = {};
-    m_keyboardScreen = {};
-    interactionState().keyboardToggleLatch = false;
-    interactionState().keyboardClickLatch = false;
-    interactionState().keyboardPressedTarget = {};
-    interactionState().controlsSliderDragActive = false;
-    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
-    m_videoOptionsScreen = {};
-    interactionState().videoOptionsToggleLatch = false;
-    interactionState().videoOptionsClickLatch = false;
-    interactionState().videoOptionsPressedTarget = {};
-    m_menuScreen = {};
-    m_menuScreen.active = true;
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::openKeyboardScreen()
-{
-    m_controlsScreen = {};
-    interactionState().controlsToggleLatch = false;
-    interactionState().controlsClickLatch = false;
-    interactionState().controlsPressedTarget = {};
-    interactionState().controlsSliderDragActive = false;
-    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
-    m_keyboardScreen = {};
-    m_keyboardScreen.active = true;
-    interactionState().keyboardToggleLatch = false;
-    interactionState().keyboardClickLatch = false;
-    interactionState().keyboardPressedTarget = {};
-    m_videoOptionsScreen = {};
-    interactionState().videoOptionsToggleLatch = false;
-    interactionState().videoOptionsClickLatch = false;
-    interactionState().videoOptionsPressedTarget = {};
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::closeKeyboardScreenToControls()
-{
-    m_keyboardScreen = {};
-    interactionState().keyboardToggleLatch = false;
-    interactionState().keyboardClickLatch = false;
-    interactionState().keyboardPressedTarget = {};
-    m_controlsScreen = {};
-    m_controlsScreen.active = true;
-    interactionState().controlsToggleLatch = false;
-    interactionState().controlsClickLatch = false;
-    interactionState().controlsPressedTarget = {};
-    interactionState().controlsSliderDragActive = false;
-    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::closeKeyboardScreenToMenu()
-{
-    m_keyboardScreen = {};
-    interactionState().keyboardToggleLatch = false;
-    interactionState().keyboardClickLatch = false;
-    interactionState().keyboardPressedTarget = {};
-    m_controlsScreen = {};
-    interactionState().controlsToggleLatch = false;
-    interactionState().controlsClickLatch = false;
-    interactionState().controlsPressedTarget = {};
-    interactionState().controlsSliderDragActive = false;
-    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
-    m_menuScreen = {};
-    m_menuScreen.active = true;
-    interactionState().menuToggleLatch = false;
-    interactionState().menuClickLatch = false;
-    interactionState().menuPressedTarget = {};
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::openVideoOptionsScreen()
-{
-    m_controlsScreen.active = false;
-    interactionState().controlsToggleLatch = false;
-    interactionState().controlsClickLatch = false;
-    interactionState().controlsPressedTarget = {};
-    m_keyboardScreen = {};
-    interactionState().keyboardToggleLatch = false;
-    interactionState().keyboardClickLatch = false;
-    interactionState().keyboardPressedTarget = {};
-    interactionState().controlsSliderDragActive = false;
-    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
-    m_videoOptionsScreen = {};
-    m_videoOptionsScreen.active = true;
-    interactionState().videoOptionsToggleLatch = false;
-    interactionState().videoOptionsClickLatch = false;
-    interactionState().videoOptionsPressedTarget = {};
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::closeVideoOptionsScreen()
-{
-    m_videoOptionsScreen = {};
-    interactionState().videoOptionsToggleLatch = false;
-    interactionState().videoOptionsClickLatch = false;
-    interactionState().videoOptionsPressedTarget = {};
-    m_keyboardScreen = {};
-    interactionState().keyboardToggleLatch = false;
-    interactionState().keyboardClickLatch = false;
-    interactionState().keyboardPressedTarget = {};
-    m_controlsScreen = {};
-    m_controlsScreen.active = true;
-    interactionState().controlsToggleLatch = false;
-    interactionState().controlsClickLatch = false;
-    interactionState().controlsPressedTarget = {};
-    interactionState().controlsSliderDragActive = false;
-    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::openSaveGameScreen()
-{
-    m_menuScreen.active = false;
-    interactionState().menuToggleLatch = false;
-    interactionState().menuClickLatch = false;
-    interactionState().menuPressedTarget = {};
-    m_controlsScreen = {};
-    interactionState().controlsToggleLatch = false;
-    interactionState().controlsClickLatch = false;
-    interactionState().controlsPressedTarget = {};
-    interactionState().controlsSliderDragActive = false;
-    interactionState().controlsDraggedSlider = ControlsPointerTargetType::None;
-    m_videoOptionsScreen = {};
-    interactionState().videoOptionsToggleLatch = false;
-    interactionState().videoOptionsClickLatch = false;
-    interactionState().videoOptionsPressedTarget = {};
-    m_loadGameScreen = {};
-    m_saveGameScreen = {};
-    m_saveGameScreen.active = true;
-    refreshSaveGameSlots();
-    interactionState().saveGameToggleLatch = false;
-    interactionState().saveGameClickLatch = false;
-    interactionState().saveGamePressedTarget = {};
-    clearWorldInteractionInputLatches();
-}
-
-void OutdoorGameView::closeSaveGameScreen()
-{
-    m_saveGameScreen = {};
-    interactionState().saveGameToggleLatch = false;
-    interactionState().saveGameClickLatch = false;
-    interactionState().saveGamePressedTarget = {};
-    m_menuScreen = {};
-    m_menuScreen.active = true;
-    clearWorldInteractionInputLatches();
-}
-
 void OutdoorGameView::openLoadGameScreen()
 {
     m_pendingOpenLoadGameScreen = true;
@@ -9002,81 +8746,6 @@ bool OutdoorGameView::tryLoadFromSelectedGameSlot()
     return m_loadGameFromPathCallback(m_loadGameScreen.slots[m_loadGameScreen.selectedIndex].path, error);
 }
 
-void OutdoorGameView::openJournal()
-{
-    closeSpellbook();
-    closeMenu();
-    closeReadableScrollOverlay();
-    closeInventoryNestedOverlay();
-    m_characterScreenOpen = false;
-    m_characterDollJewelryOverlayOpen = false;
-    m_adventurersInnRosterOverlayOpen = false;
-    m_restScreen = {};
-    m_journalScreen.active = true;
-    m_journalScreen.view = JournalView::Map;
-    m_journalScreen.notesCategory = JournalNotesCategory::Potion;
-    m_journalScreen.questPage = 0;
-    m_journalScreen.storyPage = 0;
-    m_journalScreen.notesPage = 0;
-    m_journalScreen.hoverAnimationElapsedSeconds = 0.0f;
-    m_journalScreen.mapDragActive = false;
-    m_journalScreen.mapDragStartMouseX = 0.0f;
-    m_journalScreen.mapDragStartMouseY = 0.0f;
-    m_journalScreen.mapDragStartCenterX = 0.0f;
-    m_journalScreen.mapDragStartCenterY = 0.0f;
-    m_journalScreen.cachedMapValid = false;
-
-    if (m_pOutdoorPartyRuntime != nullptr)
-    {
-        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-        m_journalScreen.mapCenterX = moveState.x;
-        m_journalScreen.mapCenterY = moveState.y;
-    }
-    else
-    {
-        m_journalScreen.mapCenterX = 0.0f;
-        m_journalScreen.mapCenterY = 0.0f;
-    }
-
-    clampJournalMapState(m_journalScreen);
-
-    interactionState().journalToggleLatch = false;
-    interactionState().journalClickLatch = false;
-    interactionState().journalMapKeyZoomLatch = false;
-    interactionState().journalPressedTarget = {};
-    interactionState().closeOverlayLatch = false;
-    clearWorldInteractionInputLatches();
-
-    if (m_pGameAudioSystem != nullptr)
-    {
-        m_pGameAudioSystem->playCommonSound(SoundId::OpenBook, GameAudioSystem::PlaybackGroup::Ui);
-    }
-}
-
-void OutdoorGameView::closeJournal()
-{
-    const bool wasActive = m_journalScreen.active;
-    m_journalScreen.active = false;
-    m_journalScreen.hoverAnimationElapsedSeconds = 0.0f;
-    m_journalScreen.mapDragActive = false;
-    m_journalScreen.mapDragStartMouseX = 0.0f;
-    m_journalScreen.mapDragStartMouseY = 0.0f;
-    m_journalScreen.mapDragStartCenterX = 0.0f;
-    m_journalScreen.mapDragStartCenterY = 0.0f;
-    m_journalScreen.cachedMapValid = false;
-    interactionState().journalToggleLatch = false;
-    interactionState().journalClickLatch = false;
-    interactionState().journalMapKeyZoomLatch = false;
-    interactionState().journalPressedTarget = {};
-    interactionState().closeOverlayLatch = false;
-    clearWorldInteractionInputLatches();
-
-    if (wasActive && m_pGameAudioSystem != nullptr)
-    {
-        m_pGameAudioSystem->playCommonSound(SoundId::CloseBook, GameAudioSystem::PlaybackGroup::Ui);
-    }
-}
-
 void OutdoorGameView::clearWorldInteractionInputLatches()
 {
     m_keyboardUseLatch = false;
@@ -9252,7 +8921,7 @@ void OutdoorGameView::startInnRest(uint32_t houseId)
         return;
     }
 
-    openRestScreen();
+    createGameplayOverlayContext().openRestOverlay();
     beginRestAction(RestMode::Heal, innRestDurationMinutes(houseId), false);
 }
 
@@ -9325,7 +8994,7 @@ void OutdoorGameView::completeRestAction(bool closeRestScreenAfterCompletion)
 
     if (closeRestScreenAfterCompletion || completedMode == RestMode::Heal)
     {
-        closeRestScreen();
+        createGameplayOverlayContext().closeRestOverlay();
     }
 }
 
