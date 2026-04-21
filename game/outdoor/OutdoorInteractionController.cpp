@@ -11,6 +11,7 @@
 #include "game/SpawnPreview.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/items/ItemGenerator.h"
+#include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/StringUtils.h"
@@ -38,6 +39,16 @@ constexpr float InteractionEntityHeight = 192.0f;
 constexpr float InteractionDecorationMinHalfExtent = 24.0f;
 constexpr float InteractionDecorationMinHeight = 48.0f;
 constexpr float InteractionActorMinHalfExtent = 32.0f;
+
+void forceEventGrantedItemIdentificationState(InventoryItem &item, const ItemTable &itemTable)
+{
+    const ItemDefinition *pItemDefinition = itemTable.get(item.objectDescriptionId);
+
+    if (pItemDefinition != nullptr && ItemRuntime::requiresIdentification(*pItemDefinition))
+    {
+        item.identified = false;
+    }
+}
 constexpr float InteractionActorMinHeight = 96.0f;
 constexpr float InteractionWorldItemMinHalfExtent = 20.0f;
 constexpr float InteractionWorldItemMinHeight = 40.0f;
@@ -1579,7 +1590,9 @@ void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(Outdoor
             continue;
         }
 
-        OutdoorInteractionController::setHeldInventoryItem(view.heldInventoryItem(), item);
+        InventoryItem grantedItem = item;
+        forceEventGrantedItemIdentificationState(grantedItem, itemTable);
+        OutdoorInteractionController::setHeldInventoryItem(view.heldInventoryItem(), grantedItem);
     }
 
     for (uint32_t itemId : pEventRuntimeState->grantedItemIds)
@@ -1594,8 +1607,9 @@ void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(Outdoor
             continue;
         }
 
-        const InventoryItem item =
+        InventoryItem item =
             ItemGenerator::makeInventoryItem(itemId, itemTable, ItemGenerationMode::Generic);
+        forceEventGrantedItemIdentificationState(item, itemTable);
         OutdoorInteractionController::setHeldInventoryItem(view.heldInventoryItem(), item);
     }
 

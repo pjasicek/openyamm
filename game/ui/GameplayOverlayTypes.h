@@ -573,6 +573,8 @@ struct GameplayOverlayInteractionState
     std::optional<size_t> partyPortraitPressedIndex = std::nullopt;
     uint64_t lastPartyPortraitClickTicks = 0;
     std::optional<size_t> lastPartyPortraitClickedIndex = std::nullopt;
+    uint64_t lastAdventurersInnPortraitClickTicks = 0;
+    std::optional<size_t> lastAdventurersInnPortraitClickedIndex = std::nullopt;
 };
 
 struct GameplayRenderedInspectableHudItem

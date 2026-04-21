@@ -9,6 +9,7 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SkillData.h"
+#include "game/ui/GameplayHudCommon.h"
 #include "game/ui/SpellbookUiLayout.h"
 #include "game/StringUtils.h"
 
@@ -1477,6 +1478,125 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 return {};
             }
 
+            if (context.isAdventurersInnScreenActive())
+            {
+                const auto resolveButtonTarget =
+                    [&context, screenWidth, screenHeight, pointerX, pointerY](
+                        const char *pLayoutId,
+                        GameplayCharacterPointerTargetType targetType) -> GameplayCharacterPointerTarget
+                    {
+                        const UiLayoutManager::LayoutElement *pLayout = context.findHudLayoutElement(pLayoutId);
+
+                        if (pLayout == nullptr)
+                        {
+                            return {};
+                        }
+
+                        const std::optional<GameplayResolvedHudLayoutElement> resolved =
+                            context.resolveHudLayoutElement(
+                                pLayoutId,
+                                screenWidth,
+                                screenHeight,
+                                pLayout->width,
+                                pLayout->height);
+
+                        if (resolved.has_value()
+                            && context.isPointerInsideResolvedElement(*resolved, pointerX, pointerY))
+                        {
+                            return {targetType};
+                        }
+
+                        return {};
+                    };
+
+                GameplayCharacterPointerTarget target = resolveButtonTarget(
+                    "AdventurersInnExitButton",
+                    GameplayCharacterPointerTargetType::ExitButton);
+
+                if (target.type != GameplayCharacterPointerTargetType::None)
+                {
+                    return target;
+                }
+
+                if (pParty != nullptr && !pParty->isFull())
+                {
+                    target = resolveButtonTarget(
+                        "AdventurersInnHireButton",
+                        GameplayCharacterPointerTargetType::AdventurersInnHireButton);
+
+                    if (target.type != GameplayCharacterPointerTargetType::None)
+                    {
+                        return target;
+                    }
+                }
+
+                target = resolveButtonTarget(
+                    "AdventurersInnScrollUpButton",
+                    GameplayCharacterPointerTargetType::AdventurersInnScrollUpButton);
+
+                if (target.type != GameplayCharacterPointerTargetType::None)
+                {
+                    return target;
+                }
+
+                target = resolveButtonTarget(
+                    "AdventurersInnScrollDownButton",
+                    GameplayCharacterPointerTargetType::AdventurersInnScrollDownButton);
+
+                if (target.type != GameplayCharacterPointerTargetType::None)
+                {
+                    return target;
+                }
+
+                if (pParty != nullptr)
+                {
+                    constexpr size_t VisibleRows = 4;
+                    constexpr size_t VisibleColumns = 2;
+                    constexpr size_t VisibleCount = VisibleRows * VisibleColumns;
+                    constexpr float PortraitX = 34.0f;
+                    constexpr float PortraitY = 47.0f;
+                    constexpr float PortraitWidth = 62.0f;
+                    constexpr float PortraitHeight = 72.0f;
+                    constexpr float PortraitGapX = 3.0f;
+                    constexpr float PortraitGapY = 3.0f;
+                    const GameplayUiViewportRect uiViewport =
+                        GameplayHudCommon::computeUiViewportRect(screenWidth, screenHeight);
+                    const float baseScale =
+                        std::min(uiViewport.width / 640.0f, uiViewport.height / 480.0f);
+
+                    const size_t scrollOffset = std::min(
+                        context.characterScreenReadOnly().adventurersInnScrollOffset,
+                        pParty->adventurersInnMembers().size());
+                    const size_t visibleCount =
+                        std::min(VisibleCount, pParty->adventurersInnMembers().size() - scrollOffset);
+
+                    for (size_t visibleIndex = 0; visibleIndex < visibleCount; ++visibleIndex)
+                    {
+                        const size_t column = visibleIndex % VisibleColumns;
+                        const size_t row = visibleIndex / VisibleColumns;
+                        const float x =
+                            uiViewport.x
+                            + (PortraitX + static_cast<float>(column) * (PortraitWidth + PortraitGapX))
+                                * baseScale;
+                        const float y =
+                            uiViewport.y
+                            + (PortraitY + static_cast<float>(row) * (PortraitHeight + PortraitGapY))
+                                * baseScale;
+                        const float w = PortraitWidth * baseScale;
+                        const float h = PortraitHeight * baseScale;
+
+                        if (pointerX >= x && pointerX < x + w && pointerY >= y && pointerY < y + h)
+                        {
+                            target.type = GameplayCharacterPointerTargetType::AdventurersInnPortrait;
+                            target.innIndex = scrollOffset + visibleIndex;
+                            return target;
+                        }
+                    }
+                }
+
+                return {};
+            }
+
             struct CharacterTabTarget
             {
                 const char *pLayoutId;
@@ -2039,6 +2159,91 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     context.characterScreen().open = false;
                     context.characterScreen().dollJewelryOverlayOpen = false;
                     context.characterScreen().adventurersInnRosterOverlayOpen = false;
+                }
+
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::AdventurersInnPortrait)
+            {
+                const uint64_t nowTicks = SDL_GetTicks();
+                const bool isDoubleClick =
+                    context.interactionState().lastAdventurersInnPortraitClickedIndex.has_value()
+                    && *context.interactionState().lastAdventurersInnPortraitClickedIndex == target.innIndex
+                    && nowTicks >= context.interactionState().lastAdventurersInnPortraitClickTicks
+                    && nowTicks - context.interactionState().lastAdventurersInnPortraitClickTicks
+                        <= PartyPortraitDoubleClickWindowMs;
+                context.characterScreen().sourceIndex = target.innIndex;
+                context.interactionState().lastAdventurersInnPortraitClickTicks = nowTicks;
+                context.interactionState().lastAdventurersInnPortraitClickedIndex = target.innIndex;
+
+                if (isDoubleClick)
+                {
+                    context.characterScreen().adventurersInnRosterOverlayOpen = false;
+                    context.characterScreen().dollJewelryOverlayOpen = false;
+                    context.characterScreen().page = GameplayUiController::CharacterPage::Inventory;
+                }
+
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::AdventurersInnScrollUpButton)
+            {
+                if (context.characterScreenReadOnly().adventurersInnScrollOffset > 0)
+                {
+                    --context.characterScreen().adventurersInnScrollOffset;
+                }
+
+                return;
+            }
+
+            constexpr size_t AdventurersInnVisibleCount = 8;
+
+            if (target.type == GameplayCharacterPointerTargetType::AdventurersInnScrollDownButton && pParty != nullptr)
+            {
+                const size_t innCount = pParty->adventurersInnMembers().size();
+
+                if (context.characterScreenReadOnly().adventurersInnScrollOffset + AdventurersInnVisibleCount < innCount)
+                {
+                    ++context.characterScreen().adventurersInnScrollOffset;
+                }
+
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::AdventurersInnHireButton && pParty != nullptr)
+            {
+                const size_t innIndex = context.characterScreenReadOnly().sourceIndex;
+                const AdventurersInnMember *pInnMember = pParty->adventurersInnMember(innIndex);
+                const std::string memberName =
+                    pInnMember != nullptr ? pInnMember->character.name : "Adventurer";
+
+                if (pParty->hireAdventurersInnMember(innIndex))
+                {
+                    if (pParty->adventurersInnMembers().empty())
+                    {
+                        context.characterScreen().open = false;
+                        context.characterScreen().adventurersInnRosterOverlayOpen = false;
+                    }
+                    else
+                    {
+                        context.characterScreen().sourceIndex =
+                            std::min(innIndex, pParty->adventurersInnMembers().size() - 1);
+                        const size_t maximumScrollOffset =
+                            pParty->adventurersInnMembers().size() > AdventurersInnVisibleCount
+                                ? pParty->adventurersInnMembers().size() - AdventurersInnVisibleCount
+                                : 0;
+                        context.characterScreen().adventurersInnScrollOffset =
+                            std::min(context.characterScreenReadOnly().adventurersInnScrollOffset, maximumScrollOffset);
+                        context.characterScreen().adventurersInnRosterOverlayOpen = true;
+                    }
+
+                    context.setStatusBarEvent(memberName + " joined the party.");
+                }
+                else
+                {
+                    context.setStatusBarEvent(
+                        pParty->lastStatus().empty() ? "Can't hire adventurer." : pParty->lastStatus());
                 }
 
                 return;

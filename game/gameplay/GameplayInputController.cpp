@@ -24,6 +24,13 @@ bool isActionNewlyPressed(GameplayScreenRuntime &context, KeyboardAction action,
 
     return pKeyboardState[scancode] && context.previousKeyboardState()[scancode] == 0;
 }
+
+bool isEscapeNewlyPressed(GameplayScreenRuntime &context, const bool *pKeyboardState)
+{
+    return pKeyboardState != nullptr
+        && pKeyboardState[SDL_SCANCODE_ESCAPE]
+        && context.previousKeyboardState()[SDL_SCANCODE_ESCAPE] == 0;
+}
 } // namespace
 
 void GameplayInputController::handleStandardUiHotkeys(
@@ -48,9 +55,37 @@ void GameplayInputController::handleStandardUiHotkeys(
     const bool houseShopActive = context.houseShopOverlay().active;
     const bool houseBankInputActive = context.houseBankState().inputActive();
 
+    if (isEscapeNewlyPressed(context, config.pKeyboardState))
+    {
+        if (spellbookActive)
+        {
+            context.closeSpellbookOverlay();
+            context.interactionState().menuToggleLatch = true;
+            return;
+        }
+
+        if (characterScreenOpen)
+        {
+            context.characterScreen().open = false;
+            context.characterScreen().dollJewelryOverlayOpen = false;
+            context.characterScreen().adventurersInnRosterOverlayOpen = false;
+            context.interactionState().menuToggleLatch = true;
+            return;
+        }
+
+        if (activeEventDialog || houseShopActive || houseBankInputActive)
+        {
+            context.handleDialogueCloseRequest();
+            context.interactionState().menuToggleLatch = true;
+            return;
+        }
+    }
+
     const bool canToggleMenu =
         !activeEventDialog
         && !hasActiveLootView
+        && !characterScreenOpen
+        && !spellbookActive
         && !restActive
         && !menuActive
         && !controlsActive
@@ -170,9 +205,7 @@ void GameplayInputController::handleStandardUiHotkeys(
     }
 
     const bool canCyclePartyMember =
-        !activeEventDialog
-        && !hasActiveLootView
-        && !spellbookActive
+        !spellbookActive
         && !restActive
         && !menuActive
         && !controlsActive
@@ -181,7 +214,6 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !saveGameActive
         && !loadGameActive
         && !journalActive
-        && !houseShopActive
         && !houseBankInputActive
         && !config.blockPartyCycle;
 
@@ -198,6 +230,11 @@ void GameplayInputController::handleStandardUiHotkeys(
     }
 
     const size_t nextMemberIndex = (pParty->activeMemberIndex() + 1) % pParty->members().size();
-    context.trySelectPartyMember(nextMemberIndex, config.requireGameplayReadyForPartySelection);
+    const bool requireGameplayReady =
+        config.requireGameplayReadyForPartySelection
+        && !activeEventDialog
+        && !hasActiveLootView
+        && !houseShopActive;
+    context.trySelectPartyMember(nextMemberIndex, requireGameplayReady);
 }
 } // namespace OpenYAMM::Game

@@ -3632,6 +3632,12 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                     if (takenItem.isGold)
                     {
                         view.party()->addGold(static_cast<int>(takenItem.goldAmount));
+                        view.setStatusBarEvent("Picked up " + std::to_string(takenItem.goldAmount) + " gold");
+
+                        if (view.audioSystem() != nullptr)
+                        {
+                            view.audioSystem()->playCommonSound(SoundId::Gold, GameAudioSystem::PlaybackGroup::Ui);
+                        }
                     }
                     else
                     {
@@ -3727,11 +3733,18 @@ void GameplayOverlayInputController::handleLootOverlayInput(
         view.interactionState().chestSelectDownLatch = false;
     }
 
-    const bool lootPressed = pKeyboardState[SDL_SCANCODE_RETURN] || pKeyboardState[SDL_SCANCODE_SPACE];
+    const bool spacePressed = pKeyboardState[SDL_SCANCODE_SPACE];
+    const bool lootPressed = pKeyboardState[SDL_SCANCODE_RETURN] || spacePressed;
+    const bool spaceConsumedByOpeningLootView =
+        spacePressed && view.interactionState().activateInspectLatch;
 
     if (lootPressed)
     {
-        if (!view.interactionState().lootChestItemLatch
+        if (spaceConsumedByOpeningLootView)
+        {
+            view.interactionState().lootChestItemLatch = true;
+        }
+        else if (!view.interactionState().lootChestItemLatch
             && !view.inventoryNestedOverlay().active
             && itemCount > 0
             && view.party() != nullptr)
@@ -3773,6 +3786,13 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                         if (removedItem.isGold)
                         {
                             view.party()->addGold(static_cast<int>(removedItem.goldAmount));
+                            view.setStatusBarEvent(
+                                "Picked up " + std::to_string(removedItem.goldAmount) + " gold");
+
+                            if (view.audioSystem() != nullptr)
+                            {
+                                view.audioSystem()->playCommonSound(SoundId::Gold, GameAudioSystem::PlaybackGroup::Ui);
+                            }
                         }
 
                         const GameplayChestViewState *pUpdatedChestView =

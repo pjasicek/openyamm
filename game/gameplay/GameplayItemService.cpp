@@ -90,6 +90,12 @@ bool applyLootOperation(
 
     return false;
 }
+
+Party *activeParty(GameSession &session)
+{
+    IGameplayWorldRuntime *pWorldRuntime = session.activeWorldRuntime();
+    return pWorldRuntime != nullptr ? pWorldRuntime->party() : nullptr;
+}
 }
 
 GameplayItemService::GameplayItemService(GameSession &session)
@@ -104,7 +110,7 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
 {
     GameplayUiController &uiController = m_session.gameplayUiController();
     GameplayUiController::HeldInventoryItemState &heldItem = uiController.heldInventoryItem();
-    Party *pParty = m_session.partyState() ? &*m_session.partyState() : nullptr;
+    Party *pParty = runtime.party();
     const ItemTable *pItemTable = m_session.hasDataRepository() ? &m_session.data().itemTable() : nullptr;
     const ReadableScrollTable *pReadableScrollTable =
         m_session.hasDataRepository() ? &m_session.data().readableScrollTable() : nullptr;
@@ -234,7 +240,7 @@ void GameplayItemService::updateReadableScrollOverlayForHeldItem(
     overlay = {};
 
     const ItemTable *pItemTable = m_session.hasDataRepository() ? &m_session.data().itemTable() : nullptr;
-    Party *pParty = m_session.partyState() ? &*m_session.partyState() : nullptr;
+    Party *pParty = activeParty(m_session);
     const GameplayUiController::HeldInventoryItemState &heldItem = uiController.heldInventoryItem();
     const ReadableScrollTable *pReadableScrollTable =
         m_session.hasDataRepository() ? &m_session.data().readableScrollTable() : nullptr;
@@ -281,7 +287,7 @@ bool GameplayItemService::identifyInspectedItem(
 {
     statusText.clear();
 
-    Party *pParty = m_session.partyState() ? &*m_session.partyState() : nullptr;
+    Party *pParty = activeParty(m_session);
     IGameplayWorldRuntime *pWorldRuntime = m_session.activeWorldRuntime();
     const ItemTable *pItemTable = m_session.hasDataRepository() ? &m_session.data().itemTable() : nullptr;
 
@@ -363,7 +369,7 @@ bool GameplayItemService::tryIdentifyInspectedItem(
 {
     statusText.clear();
 
-    Party *pParty = m_session.partyState() ? &*m_session.partyState() : nullptr;
+    Party *pParty = activeParty(m_session);
     IGameplayWorldRuntime *pWorldRuntime = m_session.activeWorldRuntime();
     const ItemTable *pItemTable = m_session.hasDataRepository() ? &m_session.data().itemTable() : nullptr;
 

@@ -505,12 +505,16 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
     const bool houseShopActive = context.houseShopOverlay().active;
     const bool houseBankInputActive = context.houseBankState().inputActive();
 
+    const bool requirePortraitGameplayReady =
+        config.requireGameplayReadyForPortraitSelection
+        && !activeEventDialog
+        && !hasActiveLootView
+        && !houseShopActive;
     const bool gameplayReadyForPortraitClicks =
         config.allowGameplayPointerInput
         && config.width > 0
         && config.height > 0
         && !config.blockPortraitInput
-        && !activeEventDialog
         && !spellbookActive
         && !restActive
         && !menuActive
@@ -520,7 +524,6 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
         && !saveGameActive
         && !loadGameActive
         && !journalActive
-        && !houseShopActive
         && !houseBankInputActive;
 
     if (gameplayReadyForPortraitClicks)
@@ -534,8 +537,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
                 .pointerY = config.pointerY,
                 .leftButtonPressed = config.leftButtonPressed,
                 .allowInput = true,
-                .requireGameplayReady =
-                    config.requireGameplayReadyForPortraitSelection && !hasActiveLootView,
+                .requireGameplayReady = requirePortraitGameplayReady,
                 .hasActiveLootView = hasActiveLootView,
                 .onPortraitActivated = config.onPortraitActivated,
             });

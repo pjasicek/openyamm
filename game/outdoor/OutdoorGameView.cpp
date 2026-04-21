@@ -4134,6 +4134,11 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
             if (isActivationPressed && !overlayInteractionState.activateInspectLatch)
             {
+                const bool hadLootViewBeforeActivation =
+                    m_pOutdoorWorldRuntime != nullptr
+                    && (m_pOutdoorWorldRuntime->activeChestView() != nullptr
+                        || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
+
                 if (OutdoorInteractionController::canActivateInteractionInspectEvent(
                         *this,
                         interactionInspectHit,
@@ -4142,6 +4147,16 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 {
                     refreshInteractionInspectHit();
                     refreshHoverInspectHit();
+
+                    const bool hasLootViewAfterActivation =
+                        m_pOutdoorWorldRuntime != nullptr
+                        && (m_pOutdoorWorldRuntime->activeChestView() != nullptr
+                            || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
+
+                    if (!hadLootViewBeforeActivation && hasLootViewAfterActivation)
+                    {
+                        overlayInteractionState.lootChestItemLatch = true;
+                    }
                 }
 
                 overlayInteractionState.activateInspectLatch = true;

@@ -1458,6 +1458,8 @@ CharacterSkill *ensureCharacterSkill(
 struct RegressionScenario
 {
     OutdoorWorldRuntime world;
+    GameplayActorService actorService;
+    GameplayProjectileService projectileService;
     Party party;
     EventRuntime eventRuntime;
     EventRuntimeState *pEventRuntimeState = nullptr;
@@ -2022,6 +2024,7 @@ bool initializeRegressionScenario(
     RegressionScenario &scenario
 )
 {
+    scenario.actorService = buildBoundGameplayActorService(gameDataLoader);
     scenario.world.initialize(
         selectedMap.map,
         gameDataLoader.getMonsterTable(),
@@ -2043,7 +2046,9 @@ bool initializeRegressionScenario(
         selectedMap.outdoorDecorationCollisionSet,
         selectedMap.outdoorActorCollisionSet,
         selectedMap.outdoorSpriteObjectCollisionSet,
-        selectedMap.outdoorSpriteObjectBillboardSet
+        selectedMap.outdoorSpriteObjectBillboardSet,
+        &scenario.actorService,
+        &scenario.projectileService
     );
 
     scenario.party = {};

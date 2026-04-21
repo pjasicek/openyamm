@@ -8,6 +8,7 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/items/PriceCalculator.h"
 #include "game/tables/MonsterTable.h"
+#include "game/tables/RosterTable.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/party/SkillData.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
@@ -6187,6 +6188,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
     const Party &party = *context.partyReadOnly();
     const Character *pCharacter = context.selectedCharacterScreenCharacter();
+    const bool isAdventurersInnRoster = context.isAdventurersInnScreenActive();
     const std::vector<std::string> orderedCharacterLayoutIds = context.sortedHudLayoutIdsForScreen("Character");
     const int hudZThreshold = context.defaultHudLayoutZIndexForScreen("OutdoorHud");
     const auto shouldRenderInCurrentPass =
@@ -6224,6 +6226,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     std::string bodyResistanceValue = "0 / 0";
     std::string awards;
     std::string inventoryInfo;
+    std::string adventurersInnBlurb;
     bool canTrainToNextLevel = false;
 
     if (pCharacter != nullptr)
@@ -6276,6 +6279,12 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         mindResistanceValue = formatSheetValue(summary.mindResistance);
         bodyResistanceValue = formatSheetValue(summary.bodyResistance);
         awards = "Awards earned: " + std::to_string(pCharacter->awards.size());
+
+        if (context.rosterTable() != nullptr && pCharacter->rosterId != 0)
+        {
+            const RosterEntry *pRosterEntry = context.rosterTable()->get(pCharacter->rosterId);
+            adventurersInnBlurb = pRosterEntry != nullptr ? pRosterEntry->blurb : "";
+        }
     }
 
     const CharacterSkillUiData skillUiData = buildCharacterSkillUiData(pCharacter);
@@ -6629,7 +6638,20 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
         const std::string normalizedLayoutId = toLowerCopy(pLayout->id);
 
-        if (normalizedLayoutId.starts_with("adventurersinn"))
+        if (isAdventurersInnRoster)
+        {
+            if (!shouldRenderCharacterLayoutInAdventurersInn(normalizedLayoutId))
+            {
+                continue;
+            }
+        }
+        else if (normalizedLayoutId.starts_with("adventurersinn"))
+        {
+            continue;
+        }
+
+        if (normalizedLayoutId == "characterdismissbutton"
+            && (context.isAdventurersInnCharacterSourceActive() || party.activeMemberIndex() == 0))
         {
             continue;
         }
@@ -6931,7 +6953,10 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
     }
 
-    if (characterScreen.page == GameplayUiController::CharacterPage::Inventory && pCharacter != nullptr && context.itemTable() != nullptr)
+    if (characterScreen.page == GameplayUiController::CharacterPage::Inventory
+        && pCharacter != nullptr
+        && context.itemTable() != nullptr
+        && !isAdventurersInnRoster)
     {
         const UiLayoutManager::LayoutElement *pInventoryGridLayout = context.findHudLayoutElement("CharacterInventoryGrid");
 
@@ -7149,6 +7174,232 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
     renderSkillGroup("CharacterSkillsMagicListRegion", "CharacterSkillsMagicLevelHeader", skillUiData.magicRows);
     renderSkillGroup("CharacterSkillsArmorListRegion", "CharacterSkillsArmorLevelHeader", skillUiData.armorRows);
     renderSkillGroup("CharacterSkillsMiscListRegion", "CharacterSkillsMiscLevelHeader", skillUiData.miscRows);
+
+    if (isAdventurersInnRoster)
+    {
+        const std::vector<AdventurersInnMember> &innMembers = party.adventurersInnMembers();
+        const size_t maximumScrollOffset =
+            innMembers.size() > AdventurersInnVisibleCount ? innMembers.size() - AdventurersInnVisibleCount : 0;
+        const size_t scrollOffset = std::min(characterScreen.adventurersInnScrollOffset, maximumScrollOffset);
+        const std::optional<GameplayHudFontHandle> font = context.findHudFont("SMALLNUM");
+        const auto formatSignedValue = [](const std::string &value) -> std::string
+        {
+            int parsedValue = 0;
+            return tryParseInteger(value, parsedValue) && parsedValue > 0 ? "+" + value : value;
+        };
+        const auto renderInnLabel =
+            [&context, baseScale](const std::string &text, float x, float y, float rectWidth, float rectHeight)
+            {
+                UiLayoutManager::LayoutElement layout = {};
+                layout.fontName = "SMALLNUM";
+                layout.textColorAbgr = AdventurersInnTextColorAbgr;
+                layout.textAlignX = UiLayoutManager::TextAlignX::Left;
+                layout.textAlignY = UiLayoutManager::TextAlignY::Top;
+
+                GameplayResolvedHudLayoutElement resolved = {};
+                resolved.x = std::round(x * baseScale);
+                resolved.y = std::round(y * baseScale);
+                resolved.width = rectWidth * baseScale;
+                resolved.height = rectHeight * baseScale;
+                resolved.scale = baseScale;
+                context.renderLayoutLabel(layout, resolved, text);
+            };
+
+        for (size_t visibleIndex = 0; visibleIndex < AdventurersInnVisibleCount; ++visibleIndex)
+        {
+            const size_t innIndex = scrollOffset + visibleIndex;
+
+            if (innIndex >= innMembers.size())
+            {
+                continue;
+            }
+
+            const size_t column = visibleIndex % AdventurersInnVisibleColumns;
+            const size_t row = visibleIndex / AdventurersInnVisibleColumns;
+            const float portraitX =
+                uiViewport.x
+                + (AdventurersInnPortraitX
+                    + static_cast<float>(column) * (AdventurersInnPortraitWidth + AdventurersInnPortraitGapX)) * baseScale;
+            const float portraitY =
+                uiViewport.y
+                + (AdventurersInnPortraitY
+                    + static_cast<float>(row) * (AdventurersInnPortraitHeight + AdventurersInnPortraitGapY)) * baseScale;
+            const float portraitWidth = AdventurersInnPortraitWidth * baseScale;
+            const float portraitHeight = AdventurersInnPortraitHeight * baseScale;
+            std::string portraitTextureName = npcPortraitTextureName(innMembers[innIndex].portraitPictureId);
+
+            if (portraitTextureName.empty())
+            {
+                portraitTextureName = context.resolvePortraitTextureName(innMembers[innIndex].character);
+            }
+
+            const std::optional<GameplayHudTextureHandle> portraitTexture =
+                context.gameplayUiRuntime().ensureHudTextureLoaded(portraitTextureName);
+
+            if (portraitTexture.has_value())
+            {
+                context.submitHudTexturedQuad(
+                    *portraitTexture,
+                    portraitX,
+                    portraitY,
+                    portraitWidth,
+                    portraitHeight);
+            }
+
+            if (innIndex == characterScreen.sourceIndex)
+            {
+                const std::optional<GameplayHudTextureHandle> selectionTexture =
+                    context.gameplayUiRuntime().ensureSolidHudTextureLoaded(
+                        "__adventurers_inn_selection__",
+                        AdventurersInnSelectionColorAbgr);
+
+                if (selectionTexture.has_value())
+                {
+                    const float thickness = std::max(1.0f, AdventurersInnSelectionThickness * baseScale);
+                    context.submitHudTexturedQuad(
+                        *selectionTexture,
+                        portraitX - thickness,
+                        portraitY - thickness,
+                        portraitWidth + thickness * 2.0f,
+                        thickness);
+                    context.submitHudTexturedQuad(
+                        *selectionTexture,
+                        portraitX - thickness,
+                        portraitY + portraitHeight,
+                        portraitWidth + thickness * 2.0f,
+                        thickness);
+                    context.submitHudTexturedQuad(
+                        *selectionTexture,
+                        portraitX - thickness,
+                        portraitY,
+                        thickness,
+                        portraitHeight);
+                    context.submitHudTexturedQuad(
+                        *selectionTexture,
+                        portraitX + portraitWidth,
+                        portraitY,
+                        thickness,
+                        portraitHeight);
+                }
+            }
+        }
+
+        if (pCharacter != nullptr)
+        {
+            renderInnLabel(
+                "Name: " + pCharacter->name,
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "Class: " + (!pCharacter->className.empty() ? pCharacter->className : pCharacter->role),
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "HP: " + std::to_string(pCharacter->health),
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 2.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "AC: " + armorClassValue,
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 3.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "Attack: " + formatSignedValue(attackValue),
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 4.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "Shoot: " + formatSignedValue(shootValue),
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 5.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "Skills: " + std::to_string(pCharacter->skills.size()),
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 6.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "Cond: " + conditionValue,
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 7.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+            renderInnLabel(
+                "QSpell: " + quickSpellValue,
+                AdventurersInnColumn1X + uiViewport.x / baseScale,
+                AdventurersInnColumn1Y + AdventurersInnColumnLineStep * 8.0f + uiViewport.y / baseScale,
+                170.0f,
+                16.0f);
+
+            renderInnLabel(
+                "Level: " + std::to_string(pCharacter->level),
+                AdventurersInnColumn2X + uiViewport.x / baseScale,
+                AdventurersInnColumn2Y + uiViewport.y / baseScale,
+                130.0f,
+                16.0f);
+            renderInnLabel(
+                "SP: " + std::to_string(pCharacter->spellPoints),
+                AdventurersInnColumn2X + uiViewport.x / baseScale,
+                AdventurersInnColumn2Y + AdventurersInnColumnLineStep + uiViewport.y / baseScale,
+                130.0f,
+                16.0f);
+            renderInnLabel(
+                "Dmg: " + meleeDamageValue,
+                AdventurersInnColumn2X + uiViewport.x / baseScale,
+                AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 2.0f + uiViewport.y / baseScale,
+                130.0f,
+                16.0f);
+            renderInnLabel(
+                "Dmg: " + rangedDamageValue,
+                AdventurersInnColumn2X + uiViewport.x / baseScale,
+                AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 3.0f + uiViewport.y / baseScale,
+                130.0f,
+                16.0f);
+            renderInnLabel(
+                "Points: " + std::to_string(pCharacter->skillPoints),
+                AdventurersInnColumn2X + uiViewport.x / baseScale,
+                AdventurersInnColumn2Y + AdventurersInnColumnLineStep * 4.0f + uiViewport.y / baseScale,
+                130.0f,
+                16.0f);
+
+            if (font.has_value() && !adventurersInnBlurb.empty())
+            {
+                float fontScale = baseScale >= 1.0f ? snappedHudFontScale(baseScale) : std::max(0.5f, baseScale);
+                const float lineHeight = std::max(1.0f, static_cast<float>(font->fontHeight - 2)) * fontScale;
+                const float wrapWidth =
+                    std::max(1.0f, (AdventurersInnBlurbWidth * baseScale) / std::max(0.5f, fontScale));
+                const std::vector<std::string> wrappedLines =
+                    context.wrapHudTextToWidth(*font, adventurersInnBlurb, wrapWidth);
+                bgfx::TextureHandle coloredTextureHandle =
+                    context.ensureHudFontMainTextureColor(*font, AdventurersInnTextColorAbgr);
+
+                if (!bgfx::isValid(coloredTextureHandle))
+                {
+                    coloredTextureHandle = font->mainTextureHandle;
+                }
+
+                float blurbX = std::round(uiViewport.x + AdventurersInnBlurbX * baseScale);
+                float blurbY = std::round(uiViewport.y + AdventurersInnBlurbY * baseScale);
+
+                for (const std::string &line : wrappedLines)
+                {
+                    context.renderHudFontLayer(*font, font->shadowTextureHandle, line, blurbX, blurbY, fontScale);
+                    context.renderHudFontLayer(*font, coloredTextureHandle, line, blurbX, blurbY, fontScale);
+                    blurbY += lineHeight;
+                }
+            }
+        }
+    }
 }
 
 void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayScreenRuntime &context, int width, int height)
