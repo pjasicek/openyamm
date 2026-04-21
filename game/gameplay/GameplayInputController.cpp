@@ -1,6 +1,10 @@
 #include "game/gameplay/GameplayInputController.h"
 
+#include "game/gameplay/GameplayActionController.h"
+#include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/gameplay/GameplaySpellActionController.h"
+#include "game/gameplay/GameplaySpellService.h"
 
 #include <SDL3/SDL.h>
 
@@ -32,6 +36,23 @@ bool isEscapeNewlyPressed(GameplayScreenRuntime &context, const bool *pKeyboardS
         && context.previousKeyboardState()[SDL_SCANCODE_ESCAPE] == 0;
 }
 } // namespace
+
+GameplayMouseLookPolicyResult GameplayInputController::updateGameplayMouseLookPolicy(
+    GameplayScreenState::GameplayMouseLookState &state,
+    const GameplayMouseLookPolicyConfig &config)
+{
+    const bool cursorModeActive = config.mouseLookAllowed && config.rightMousePressed;
+    const bool mouseLookActive = config.mouseLookAllowed && !cursorModeActive;
+
+    state.cursorModeActive = cursorModeActive;
+    state.mouseLookActive = mouseLookActive;
+
+    GameplayMouseLookPolicyResult result = {};
+    result.cursorModeActive = cursorModeActive;
+    result.mouseLookActive = mouseLookActive;
+    result.allowGameplayPointerInput = !config.mouseLookAllowed || cursorModeActive;
+    return result;
+}
 
 void GameplayInputController::handleStandardUiHotkeys(
     GameplayScreenRuntime &context,
@@ -236,5 +257,277 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !hasActiveLootView
         && !houseShopActive;
     context.trySelectPartyMember(nextMemberIndex, requireGameplayReady);
+}
+
+void GameplayInputController::handleSharedGameplayHotkeys(
+    GameplayScreenRuntime &context,
+    const GameplaySharedGameplayHotkeyConfig &config)
+{
+    if (config.pKeyboardState == nullptr)
+    {
+        context.interactionState().alwaysRunToggleLatch = false;
+        context.interactionState().adventurersInnToggleLatch = false;
+        return;
+    }
+
+    if (config.canToggleAlwaysRun
+        && context.mutableSettings().keyboard.isPressed(KeyboardAction::AlwaysRun, config.pKeyboardState))
+    {
+        if (!context.interactionState().alwaysRunToggleLatch)
+        {
+            GameSettings &settings = context.mutableSettings();
+            settings.alwaysRun = !settings.alwaysRun;
+
+            if (config.applyAlwaysRun)
+            {
+                config.applyAlwaysRun(settings.alwaysRun);
+            }
+
+            context.commitSettingsChange();
+            context.interactionState().alwaysRunToggleLatch = true;
+        }
+    }
+    else
+    {
+        context.interactionState().alwaysRunToggleLatch = false;
+    }
+
+    if (config.canToggleAdventurersInn && config.pKeyboardState[SDL_SCANCODE_P])
+    {
+        if (!context.interactionState().adventurersInnToggleLatch)
+        {
+            GameplayUiController::CharacterScreenState &characterScreen = context.characterScreen();
+
+            if (context.isAdventurersInnCharacterSourceActive())
+            {
+                characterScreen.open = false;
+                characterScreen.dollJewelryOverlayOpen = false;
+                characterScreen.adventurersInnRosterOverlayOpen = false;
+            }
+            else if (context.party() != nullptr && !context.party()->adventurersInnMembers().empty())
+            {
+                characterScreen.open = true;
+                characterScreen.adventurersInnRosterOverlayOpen = true;
+                characterScreen.source = GameplayUiController::CharacterScreenSource::AdventurersInn;
+                characterScreen.sourceIndex = 0;
+                characterScreen.adventurersInnScrollOffset = 0;
+                characterScreen.page = GameplayUiController::CharacterPage::Inventory;
+                characterScreen.dollJewelryOverlayOpen = false;
+            }
+            else
+            {
+                context.setStatusBarEvent("The Adventurer's Inn is empty.");
+            }
+
+            context.interactionState().adventurersInnToggleLatch = true;
+        }
+    }
+    else
+    {
+        context.interactionState().adventurersInnToggleLatch = false;
+    }
+}
+
+GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInputFrame(
+    GameplayScreenState &screenState,
+    GameplayScreenRuntime &context,
+    GameplaySpellService &spellService,
+    const GameplaySharedInputFrameConfig &config)
+{
+    GameplaySharedInputFrameResult frameResult = {};
+    GameplayScreenState::PendingSpellTargetState &pendingSpellCast = screenState.pendingSpellTarget();
+    GameplayScreenState::QuickSpellState &quickSpellState = screenState.quickSpellState();
+    GameplayScreenState::GameplayMouseLookState &gameplayMouseLookState = screenState.gameplayMouseLookState();
+
+    IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+    const bool hasActiveLootView =
+        pWorldRuntime != nullptr
+        && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr);
+    const bool hasPendingSpellCast = pendingSpellCast.active;
+    const GameplayUiController::HeldInventoryItemState &heldInventoryItem = context.heldInventoryItem();
+    const bool blocksUnderlyingMouseInput =
+        context.currentHudScreenState() != GameplayHudScreenState::Gameplay
+        || config.isReadableScrollOverlayActive;
+    const bool gameplayMouseLookAllowed =
+        GameplayScreenController::canEnableGameplayMouseLook(
+            context,
+            GameplayMouseLookEnableConfig{
+                .hasPendingSpellTarget = hasPendingSpellCast,
+                .blockOnReadableScrollOverlay = true,
+                .blockOnUtilitySpellOverlay = true,
+            });
+
+    frameResult.mouseLookPolicy =
+        updateGameplayMouseLookPolicy(
+            gameplayMouseLookState,
+            GameplayMouseLookPolicyConfig{
+                .mouseLookAllowed = gameplayMouseLookAllowed,
+                .rightMousePressed = config.rightButtonPressed,
+            });
+
+    const bool canToggleAdventurersInn =
+        GameplayScreenController::canRunStandardGameplayAction(
+            context,
+            GameplayStandardGameplayActionGateConfig{
+                .hasActiveLootView = hasActiveLootView,
+                .hasPendingSpellCast = hasPendingSpellCast,
+                .hasHeldItem = heldInventoryItem.active,
+                .blockOnHeldItem = true,
+            });
+
+    const GameplayUiOverlayInputResult overlayInputResult =
+        GameplayScreenController::processStandardUiInputFrame(
+            context,
+            GameplayStandardUiInputFrameConfig{
+                .hotkeys =
+                    GameplayStandardUiHotkeyConfig{
+                        .pKeyboardState = config.pKeyboardState,
+                        .canOpenRest = true,
+                        .blockMenuToggle =
+                            hasPendingSpellCast
+                            || context.characterScreenReadOnly().open
+                            || heldInventoryItem.active,
+                        .blockSpellbookToggle = hasPendingSpellCast || heldInventoryItem.active,
+                        .blockInventoryToggle = heldInventoryItem.active,
+                        .blockPartyCycle = hasPendingSpellCast || context.characterScreenReadOnly().open,
+                        .requireGameplayReadyForPartySelection = true,
+                    },
+                .input =
+                    GameplayStandardUiInputConfig{
+                        .pKeyboardState = config.pKeyboardState,
+                        .width = config.screenWidth,
+                        .height = config.screenHeight,
+                        .pointerX = config.pointerX,
+                        .pointerY = config.pointerY,
+                        .leftButtonPressed = config.leftButtonPressed,
+                        .allowGameplayPointerInput = frameResult.mouseLookPolicy.allowGameplayPointerInput,
+                        .mouseWheelDelta = config.mouseWheelDelta,
+                        .blockPortraitInput =
+                            config.isUtilitySpellModalActive || config.isReadableScrollOverlayActive,
+                        .blockHudButtonInput = blocksUnderlyingMouseInput || config.isUtilitySpellModalActive,
+                        .blockJournalToggle =
+                            hasPendingSpellCast
+                            || context.characterScreenReadOnly().open
+                            || heldInventoryItem.active,
+                        .requireGameplayReadyForPortraitSelection = !hasPendingSpellCast,
+                        .onPortraitActivated =
+                            [&screenState, &context, &spellService, &config, hasPendingSpellCast](
+                                size_t memberIndex)
+                            {
+                                if (!hasPendingSpellCast)
+                                {
+                                    return false;
+                                }
+
+                                GameplaySpellActionController::PendingTargetSelectionInput pendingTargetInput = {};
+                                pendingTargetInput.confirmPressed = true;
+                                pendingTargetInput.portraitMemberIndex = memberIndex;
+
+                                if (config.buildSpellActionTargetQueries)
+                                {
+                                    pendingTargetInput.targetQueries = config.buildSpellActionTargetQueries();
+                                }
+
+                                const GameplaySpellActionController::PendingTargetSelectionResult result =
+                                    GameplaySpellActionController::updatePendingTargetSelection(
+                                        screenState,
+                                        context,
+                                        spellService,
+                                        pendingTargetInput);
+
+                                if (result.castSucceeded && config.handlePendingSpellCastSucceeded)
+                                {
+                                    config.handlePendingSpellCastSucceeded(result.castResult);
+                                }
+
+                                return true;
+                            },
+                    },
+            });
+
+    frameResult.journalInputConsumed = overlayInputResult.journalInputConsumed;
+
+    if (frameResult.journalInputConsumed)
+    {
+        return frameResult;
+    }
+
+    const bool canRunStandardGameplayAction =
+        GameplayScreenController::canRunStandardGameplayAction(
+            context,
+            GameplayStandardGameplayActionGateConfig{
+                .hasActiveLootView = hasActiveLootView,
+                .hasPendingSpellCast = hasPendingSpellCast,
+                .blockOnCharacterScreen = true,
+            });
+
+    handleSharedGameplayHotkeys(
+        context,
+        GameplaySharedGameplayHotkeyConfig{
+            .pKeyboardState = config.pKeyboardState,
+            .canToggleAlwaysRun = canRunStandardGameplayAction,
+            .canToggleAdventurersInn = canToggleAdventurersInn,
+            .applyAlwaysRun = config.applyAlwaysRun,
+        });
+
+    if (canRunStandardGameplayAction)
+    {
+        const bool isQuickCastPressed =
+            context.mutableSettings().keyboard.isPressed(KeyboardAction::CastReady, config.pKeyboardState);
+
+        GameplayActionController::updateQuickCastAction(
+            quickSpellState,
+            GameplayActionController::QuickCastActionConfig{
+                .canRunAction = true,
+                .quickCastPressed = isQuickCastPressed,
+                .hasReadyMember = config.hasReadyMember,
+                .beginQuickCast =
+                    [&context, &spellService, &config]() -> GameplayActionController::QuickCastActionResult
+                    {
+                        if (!config.canBeginQuickCast
+                            || context.worldRuntime() == nullptr
+                            || !config.buildSpellActionTargetQueries)
+                        {
+                            return GameplayActionController::QuickCastActionResult::Failed;
+                        }
+
+                        const GameplaySpellActionController::SpellActionResult result =
+                            GameplaySpellActionController::tryBeginQuickSpellCast(
+                                context,
+                                spellService,
+                                config.buildSpellActionTargetQueries());
+
+                        if (result == GameplaySpellActionController::SpellActionResult::AttackFallback)
+                        {
+                            return GameplayActionController::QuickCastActionResult::AttackFallback;
+                        }
+
+                        if (result == GameplaySpellActionController::SpellActionResult::CastStarted)
+                        {
+                            return GameplayActionController::QuickCastActionResult::CastStarted;
+                        }
+
+                        return GameplayActionController::QuickCastActionResult::Failed;
+                    },
+            });
+    }
+    else
+    {
+        GameplayActionController::updateQuickCastAction(
+            quickSpellState,
+            GameplayActionController::QuickCastActionConfig{});
+    }
+
+    const GameplayStandardWorldInputGateResult worldInputGateResult =
+        GameplayScreenController::gateStandardWorldInput(
+            context,
+            GameplayStandardWorldInputGateConfig{
+                .pKeyboardState = config.pKeyboardState,
+                .width = config.screenWidth,
+                .height = config.screenHeight,
+            });
+
+    frameResult.worldInputBlocked = worldInputGateResult.blocked;
+    return frameResult;
 }
 } // namespace OpenYAMM::Game

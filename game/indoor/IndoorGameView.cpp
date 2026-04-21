@@ -3,6 +3,7 @@
 #include "game/app/GameSession.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayInputController.h"
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/GameplaySpellService.h"
@@ -947,19 +948,23 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
         GameplayScreenController::canEnableGameplayMouseLook(
             m_gameSession.gameplayScreenRuntime(),
             GameplayMouseLookEnableConfig{});
-    const bool gameplayCursorModeActive =
-        gameplayMouseLookAllowed && (gameplayMouseButtons & SDL_BUTTON_RMASK) != 0;
-    const bool gameplayMouseLookActive = gameplayMouseLookAllowed && !gameplayCursorModeActive;
 
     GameplayScreenState::GameplayMouseLookState &gameplayMouseLookState =
         m_gameSession.gameplayScreenState().gameplayMouseLookState();
-    gameplayMouseLookState.cursorModeActive = gameplayCursorModeActive;
-    gameplayMouseLookState.mouseLookActive = gameplayMouseLookActive;
-    syncGameplayMouseLookMode(pWindow, gameplayMouseLookActive);
+    const GameplayMouseLookPolicyResult mouseLookPolicy =
+        GameplayInputController::updateGameplayMouseLookPolicy(
+            gameplayMouseLookState,
+            GameplayMouseLookPolicyConfig{
+                .mouseLookAllowed = gameplayMouseLookAllowed,
+                .rightMousePressed = (gameplayMouseButtons & SDL_BUTTON_RMASK) != 0,
+            });
+    syncGameplayMouseLookMode(pWindow, mouseLookPolicy.mouseLookActive);
 
     if (m_pIndoorRenderer != nullptr)
     {
-        m_pIndoorRenderer->setGameplayMouseLookMode(gameplayMouseLookActive, gameplayCursorModeActive);
+        m_pIndoorRenderer->setGameplayMouseLookMode(
+            mouseLookPolicy.mouseLookActive,
+            mouseLookPolicy.cursorModeActive);
     }
 
     if (m_pIndoorRenderer != nullptr)
@@ -978,7 +983,6 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
 
     GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
     const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
-    const bool allowGameplayPointerInput = !gameplayMouseLookAllowed || gameplayCursorModeActive;
     const bool canRenderHudOverlays =
         m_pIndoorRenderer != nullptr
         && m_pIndoorRenderer->hasHudRenderResources()
@@ -1004,7 +1008,7 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
                     .pointerX = gameplayMouseX,
                     .pointerY = gameplayMouseY,
                     .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
-                    .allowGameplayPointerInput = allowGameplayPointerInput,
+                    .allowGameplayPointerInput = mouseLookPolicy.allowGameplayPointerInput,
                     .mouseWheelDelta = mouseWheelDelta,
                 },
             .render =

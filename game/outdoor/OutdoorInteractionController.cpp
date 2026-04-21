@@ -5,14 +5,16 @@
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayCombatController.h"
+#include "game/gameplay/GameplayHeldItemController.h"
+#include "game/gameplay/GameplayInteractionController.h"
 #include "game/app/GameSession.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/SpawnPreview.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
-#include "game/items/ItemGenerator.h"
-#include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
+#include "game/tables/MonsterTable.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/StringUtils.h"
 #include "game/scene/OutdoorSceneRuntime.h"
@@ -32,29 +34,16 @@ namespace
 constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float BillboardSpatialCellSize = 2048.0f;
-constexpr float OeNearHoverDistance = 512.0f;
-constexpr float OeActorHoverDistance = 8192.0f;
 constexpr float InteractionEntityHalfExtent = 96.0f;
 constexpr float InteractionEntityHeight = 192.0f;
 constexpr float InteractionDecorationMinHalfExtent = 24.0f;
 constexpr float InteractionDecorationMinHeight = 48.0f;
 constexpr float InteractionActorMinHalfExtent = 32.0f;
-
-void forceEventGrantedItemIdentificationState(InventoryItem &item, const ItemTable &itemTable)
-{
-    const ItemDefinition *pItemDefinition = itemTable.get(item.objectDescriptionId);
-
-    if (pItemDefinition != nullptr && ItemRuntime::requiresIdentification(*pItemDefinition))
-    {
-        item.identified = false;
-    }
-}
 constexpr float InteractionActorMinHeight = 96.0f;
 constexpr float InteractionWorldItemMinHalfExtent = 20.0f;
 constexpr float InteractionWorldItemMinHeight = 40.0f;
 constexpr float InteractionSpriteObjectMinHalfExtent = 24.0f;
 constexpr float InteractionSpriteObjectMinHeight = 48.0f;
-constexpr uint32_t KillSpeechChancePercent = 20;
 
 bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
 {
@@ -1204,63 +1193,6 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         std::move(callbacks));
 }
 
-void OutdoorInteractionController::setHeldInventoryItem(
-    GameplayUiController::HeldInventoryItemState &heldInventoryItem,
-    const InventoryItem &item)
-{
-    heldInventoryItem.active = true;
-    heldInventoryItem.item = item;
-    heldInventoryItem.grabCellOffsetX = 0;
-    heldInventoryItem.grabCellOffsetY = 0;
-    heldInventoryItem.grabOffsetX = 0.0f;
-    heldInventoryItem.grabOffsetY = 0.0f;
-}
-
-bool OutdoorInteractionController::tryDisplaceHeldInventoryItem(OutdoorGameView &view)
-{
-    GameplayUiController::HeldInventoryItemState &heldInventoryItem = view.heldInventoryItem();
-
-    if (!heldInventoryItem.active)
-    {
-        return true;
-    }
-
-    if (view.m_pOutdoorPartyRuntime == nullptr)
-    {
-        return false;
-    }
-
-    Party &party = view.m_pOutdoorPartyRuntime->party();
-
-    if (party.tryGrantInventoryItem(heldInventoryItem.item))
-    {
-        heldInventoryItem = {};
-        return true;
-    }
-
-    if (view.m_pOutdoorWorldRuntime == nullptr)
-    {
-        return false;
-    }
-
-    const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
-
-    if (!view.m_pOutdoorWorldRuntime->spawnWorldItem(
-            heldInventoryItem.item,
-            moveState.x,
-            moveState.y,
-            moveState.footZ + view.m_cameraEyeHeight,
-            view.m_cameraYawRadians))
-    {
-        return false;
-    }
-
-    heldInventoryItem = {};
-    return true;
-}
-
-
-
 void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &view)
 {
     GameplayScreenRuntime &screenRuntime = view.m_gameSession.gameplayScreenRuntime();
@@ -1431,7 +1363,9 @@ std::optional<std::string> OutdoorInteractionController::resolveEventHintText(
 
 
 
-std::optional<std::string> OutdoorInteractionController::resolveHoverStatusBarText(const OutdoorGameView &view, const OutdoorGameView::InspectHit &inspectHit)
+std::optional<std::string> OutdoorInteractionController::resolveEventTargetHoverStatusText(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
 {
     if (!inspectHit.hasHit)
     {
@@ -1446,7 +1380,8 @@ std::optional<std::string> OutdoorInteractionController::resolveHoverStatusBarTe
             return std::nullopt;
         }
 
-        const DecorationBillboard &decoration = view.m_outdoorDecorationBillboardSet->billboards[inspectHit.bModelIndex];
+        const DecorationBillboard &decoration =
+            view.m_outdoorDecorationBillboardSet->billboards[inspectHit.bModelIndex];
 
         if (const std::optional<std::string> interactiveText =
                 resolveInteractiveDecorationHoverText(view, decoration.entityIndex))
@@ -1477,7 +1412,8 @@ std::optional<std::string> OutdoorInteractionController::resolveHoverStatusBarTe
 
         if ((pDecorationEntry == nullptr || pDecorationEntry->hint.empty()) && !decoration.name.empty())
         {
-            pDecorationEntry = view.m_outdoorDecorationBillboardSet->decorationTable.findByInternalName(decoration.name);
+            pDecorationEntry =
+                view.m_outdoorDecorationBillboardSet->decorationTable.findByInternalName(decoration.name);
         }
 
         if (pDecorationEntry != nullptr && !pDecorationEntry->hint.empty())
@@ -1490,11 +1426,6 @@ std::optional<std::string> OutdoorInteractionController::resolveHoverStatusBarTe
 
     if (inspectHit.kind == "entity")
     {
-        if (inspectHit.distance > OeNearHoverDistance)
-        {
-            return std::nullopt;
-        }
-
         if (const std::optional<std::string> interactiveText =
                 resolveInteractiveDecorationHoverText(view, inspectHit.bModelIndex))
         {
@@ -1513,28 +1444,149 @@ std::optional<std::string> OutdoorInteractionController::resolveHoverStatusBarTe
 
     if (inspectHit.kind == "face")
     {
-        if (inspectHit.distance > OeNearHoverDistance)
-        {
-            return std::nullopt;
-        }
-
         return resolveEventHintText(view, inspectHit.cogTriggeredNumber);
-    }
-
-    if (inspectHit.kind == "actor")
-    {
-        if (inspectHit.distance > OeActorHoverDistance || inspectHit.name.empty())
-        {
-            return std::nullopt;
-        }
-
-        return inspectHit.name;
     }
 
     return std::nullopt;
 }
 
+GameplayWorldHit OutdoorInteractionController::translateInspectHitToGameplayWorldHit(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    GameplayWorldHit worldHit = {};
 
+    if (!inspectHit.hasHit)
+    {
+        return worldHit;
+    }
+
+    const bx::Vec3 hitPoint = {inspectHit.hitX, inspectHit.hitY, inspectHit.hitZ};
+    worldHit.hasHit = true;
+
+    if (inspectHit.kind == "actor")
+    {
+        worldHit.kind = GameplayWorldHitKind::Actor;
+
+        GameplayActorTargetHit actorHit = {};
+        const std::optional<size_t> actorIndex = view.resolveRuntimeActorIndexForInspectHit(inspectHit);
+        actorHit.actorIndex = actorIndex.value_or(GameplayInvalidWorldIndex);
+        actorHit.displayName = inspectHit.name;
+        actorHit.isFriendly = inspectHit.isFriendly;
+        actorHit.hitPoint = hitPoint;
+        actorHit.distance = inspectHit.distance;
+        worldHit.actor = actorHit;
+        return worldHit;
+    }
+
+    if (inspectHit.kind == "world_item")
+    {
+        worldHit.kind = GameplayWorldHitKind::WorldItem;
+
+        GameplayWorldItemTargetHit worldItemHit = {};
+        worldItemHit.worldItemIndex = inspectHit.bModelIndex;
+        worldItemHit.objectDescriptionId = inspectHit.objectDescriptionId;
+        worldItemHit.objectSpriteId = inspectHit.objectSpriteId;
+        worldItemHit.hitPoint = hitPoint;
+        worldItemHit.distance = inspectHit.distance;
+        worldHit.worldItem = worldItemHit;
+        return worldHit;
+    }
+
+    if (inspectHit.kind == "chest" || inspectHit.kind == "corpse")
+    {
+        const bool isChest = inspectHit.kind == "chest";
+        worldHit.kind = isChest ? GameplayWorldHitKind::Chest : GameplayWorldHitKind::Corpse;
+
+        GameplayContainerTargetHit containerHit = {};
+        containerHit.sourceKind =
+            isChest ? GameplayWorldContainerSourceKind::Chest : GameplayWorldContainerSourceKind::Corpse;
+        containerHit.sourceIndex = inspectHit.bModelIndex;
+        containerHit.distance = inspectHit.distance;
+        worldHit.container = containerHit;
+        return worldHit;
+    }
+
+    if (inspectHit.kind == "terrain")
+    {
+        worldHit.kind = GameplayWorldHitKind::Ground;
+
+        GameplayGroundTargetHit groundHit = {};
+        groundHit.worldPoint = hitPoint;
+        groundHit.distance = inspectHit.distance;
+        groundHit.isValid = true;
+        worldHit.ground = groundHit;
+        return worldHit;
+    }
+
+    if (inspectHit.kind == "object")
+    {
+        worldHit.kind = GameplayWorldHitKind::Object;
+
+        GameplayObjectTargetHit objectHit = {};
+        objectHit.objectIndex = inspectHit.bModelIndex;
+        objectHit.objectDescriptionId = inspectHit.objectDescriptionId;
+        objectHit.objectSpriteId = inspectHit.objectSpriteId;
+        objectHit.spellId = inspectHit.spellId;
+        objectHit.hitPoint = hitPoint;
+        objectHit.distance = inspectHit.distance;
+        worldHit.object = objectHit;
+        return worldHit;
+    }
+
+    GameplayEventTargetHit eventTargetHit = {};
+    eventTargetHit.targetIndex = inspectHit.bModelIndex;
+    eventTargetHit.secondaryIndex = inspectHit.faceIndex;
+    eventTargetHit.eventIdPrimary = inspectHit.eventIdPrimary;
+    eventTargetHit.eventIdSecondary = inspectHit.eventIdSecondary;
+    eventTargetHit.triggeredEventId = inspectHit.cogTriggeredNumber;
+    eventTargetHit.trigger = inspectHit.cogTrigger;
+    eventTargetHit.variablePrimary = inspectHit.variablePrimary;
+    eventTargetHit.variableSecondary = inspectHit.variableSecondary;
+    eventTargetHit.specialTrigger = inspectHit.specialTrigger;
+    eventTargetHit.name = inspectHit.name;
+    eventTargetHit.hitPoint = hitPoint;
+    eventTargetHit.distance = inspectHit.distance;
+
+    if (inspectHit.kind == "face")
+    {
+        eventTargetHit.targetKind = GameplayWorldEventTargetKind::Surface;
+    }
+    else if (inspectHit.kind == "entity")
+    {
+        eventTargetHit.targetKind = GameplayWorldEventTargetKind::Entity;
+    }
+    else if (inspectHit.kind == "decoration")
+    {
+        eventTargetHit.targetKind = GameplayWorldEventTargetKind::Decoration;
+    }
+    else if (inspectHit.kind == "spawn")
+    {
+        eventTargetHit.targetKind = GameplayWorldEventTargetKind::Spawn;
+    }
+    else
+    {
+        worldHit.hasHit = false;
+        worldHit.kind = GameplayWorldHitKind::None;
+        return worldHit;
+    }
+
+    worldHit.kind = GameplayWorldHitKind::EventTarget;
+    worldHit.eventTarget = eventTargetHit;
+    return worldHit;
+}
+
+GameplayHoverStatusPayload OutdoorInteractionController::resolveGameplayHoverStatusPayload(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    const GameplayWorldHit worldHit = translateInspectHitToGameplayWorldHit(view, inspectHit);
+
+    GameplayHoverStatusPayload payload = {};
+    payload.worldHit = worldHit;
+    payload.eventTargetStatusText = resolveEventTargetHoverStatusText(view, inspectHit);
+    return payload;
+}
 
 void OutdoorInteractionController::handleDialogueCloseRequest(OutdoorGameView &view)
 {
@@ -1576,45 +1628,29 @@ void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(Outdoor
         return;
     }
 
-    const ItemTable &itemTable = view.data().itemTable();
-
-    for (const InventoryItem &item : pEventRuntimeState->grantedItems)
-    {
-        if (item.objectDescriptionId == 0)
+    const GameplayHeldItemController::DropHeldItemCallback dropHeldItem =
+        [&view](const InventoryItem &item) -> bool
         {
-            continue;
-        }
+            if (view.m_pOutdoorWorldRuntime == nullptr || view.m_pOutdoorPartyRuntime == nullptr)
+            {
+                return false;
+            }
 
-        if (!OutdoorInteractionController::tryDisplaceHeldInventoryItem(view))
-        {
-            continue;
-        }
+            const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+            return view.m_pOutdoorWorldRuntime->spawnWorldItem(
+                item,
+                moveState.x,
+                moveState.y,
+                moveState.footZ + view.m_cameraEyeHeight,
+                view.m_cameraYawRadians);
+        };
 
-        InventoryItem grantedItem = item;
-        forceEventGrantedItemIdentificationState(grantedItem, itemTable);
-        OutdoorInteractionController::setHeldInventoryItem(view.heldInventoryItem(), grantedItem);
-    }
-
-    for (uint32_t itemId : pEventRuntimeState->grantedItemIds)
-    {
-        if (itemId == 0)
-        {
-            continue;
-        }
-
-        if (!OutdoorInteractionController::tryDisplaceHeldInventoryItem(view))
-        {
-            continue;
-        }
-
-        InventoryItem item =
-            ItemGenerator::makeInventoryItem(itemId, itemTable, ItemGenerationMode::Generic);
-        forceEventGrantedItemIdentificationState(item, itemTable);
-        OutdoorInteractionController::setHeldInventoryItem(view.heldInventoryItem(), item);
-    }
-
-    pEventRuntimeState->grantedItems.clear();
-    pEventRuntimeState->grantedItemIds.clear();
+    GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
+        view.heldInventoryItem(),
+        &view.m_pOutdoorPartyRuntime->party(),
+        *pEventRuntimeState,
+        view.data().itemTable(),
+        dropHeldItem);
 }
 
 
@@ -3305,112 +3341,12 @@ OutdoorGameView::InspectHit OutdoorInteractionController::pickKeyboardInteractio
     return bestHit;
 }
 
-bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view, const OutdoorGameView::InspectHit &inspectHit)
+bool OutdoorInteractionController::tryActivateActorInspectEvent(
+    OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
 {
-    std::cout << "tryActivateInspectEvent: kind=" << inspectHit.kind
-              << " index=" << inspectHit.bModelIndex
-              << " name=" << inspectHit.name
-              << " npc=" << inspectHit.npcId
-              << " group=" << inspectHit.actorGroup
-              << " dist=" << inspectHit.distance
-              << '\n';
-
-    if (inspectHit.kind == "world_item")
+    if (inspectHit.kind != "actor")
     {
-        if (view.m_pOutdoorWorldRuntime == nullptr || view.m_pOutdoorPartyRuntime == nullptr)
-        {
-            return false;
-        }
-
-        const OutdoorWorldRuntime::WorldItemState *pWorldItem =
-            view.m_pOutdoorWorldRuntime->worldItemState(inspectHit.bModelIndex);
-
-        if (pWorldItem == nullptr)
-        {
-            return false;
-        }
-
-        const ItemDefinition *pItemDefinition = view.data().itemTable().get(pWorldItem->item.objectDescriptionId);
-        const std::string itemName =
-            pItemDefinition != nullptr && !pItemDefinition->name.empty() ? pItemDefinition->name : "item";
-
-        if (pWorldItem->isGold)
-        {
-            OutdoorWorldRuntime::WorldItemState worldItem = {};
-
-            if (!view.m_pOutdoorWorldRuntime->takeWorldItem(inspectHit.bModelIndex, worldItem))
-            {
-                return false;
-            }
-
-            const int goldAmount = static_cast<int>(std::max<uint32_t>(1u, worldItem.goldAmount));
-            view.m_pOutdoorPartyRuntime->party().addGold(goldAmount);
-            view.setStatusBarEvent("Picked up " + std::to_string(goldAmount) + " gold");
-
-            if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
-            {
-                pEventRuntimeState->lastActivationResult =
-                    "picked up " + std::to_string(goldAmount) + " gold";
-            }
-
-            return true;
-        }
-
-        size_t recipientMemberIndex = 0;
-
-        if (view.m_pOutdoorPartyRuntime->party().tryGrantInventoryItem(pWorldItem->item, &recipientMemberIndex))
-        {
-            OutdoorWorldRuntime::WorldItemState worldItem = {};
-
-            if (!view.m_pOutdoorWorldRuntime->takeWorldItem(inspectHit.bModelIndex, worldItem))
-            {
-                return false;
-            }
-
-            view.m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
-            view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(recipientMemberIndex, SpeechId::FoundItem, true);
-            view.setStatusBarEvent("Picked up " + itemName);
-
-            if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
-            {
-                pEventRuntimeState->lastActivationResult = "picked up " + itemName;
-            }
-
-            return true;
-        }
-
-        GameplayUiController::HeldInventoryItemState &heldInventoryItem = view.heldInventoryItem();
-
-        if (!heldInventoryItem.active)
-        {
-            OutdoorWorldRuntime::WorldItemState worldItem = {};
-
-            if (!view.m_pOutdoorWorldRuntime->takeWorldItem(inspectHit.bModelIndex, worldItem))
-            {
-                return false;
-            }
-
-            heldInventoryItem.active = true;
-            heldInventoryItem.item = worldItem.item;
-            heldInventoryItem.grabCellOffsetX = 0;
-            heldInventoryItem.grabCellOffsetY = 0;
-            heldInventoryItem.grabOffsetX = 0.0f;
-            heldInventoryItem.grabOffsetY = 0.0f;
-            view.m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
-            view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
-                view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
-                SpeechId::FoundItem,
-                true);
-            view.setStatusBarEvent("Picked up " + itemName);
-
-            if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
-            {
-                pEventRuntimeState->lastActivationResult = "picked up " + itemName + " into hand";
-            }
-
-            return true;
-        }
-
         return false;
     }
 
@@ -3467,7 +3403,8 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
                 bool lootedAny = false;
                 bool blockedByInventory = false;
 
-                while (const OutdoorWorldRuntime::CorpseViewState *pCorpseView = view.m_pOutdoorWorldRuntime->activeCorpseView())
+                while (const OutdoorWorldRuntime::CorpseViewState *pCorpseView =
+                       view.m_pOutdoorWorldRuntime->activeCorpseView())
                 {
                     if (pCorpseView->items.empty())
                     {
@@ -3531,18 +3468,14 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
                             break;
                         }
 
-                        heldInventoryItem.active = true;
-                        heldInventoryItem.item = {};
-                        heldInventoryItem.item.objectDescriptionId = removedItem.itemId;
-                        heldInventoryItem.item.quantity = removedItem.quantity;
-                        heldInventoryItem.item.width = removedItem.width;
-                        heldInventoryItem.item.height = removedItem.height;
-                        heldInventoryItem.item.gridX = removedItem.gridX;
-                        heldInventoryItem.item.gridY = removedItem.gridY;
-                        heldInventoryItem.grabCellOffsetX = 0;
-                        heldInventoryItem.grabCellOffsetY = 0;
-                        heldInventoryItem.grabOffsetX = 0.0f;
-                        heldInventoryItem.grabOffsetY = 0.0f;
+                        InventoryItem heldItem = {};
+                        heldItem.objectDescriptionId = removedItem.itemId;
+                        heldItem.quantity = removedItem.quantity;
+                        heldItem.width = removedItem.width;
+                        heldItem.height = removedItem.height;
+                        heldItem.gridX = removedItem.gridX;
+                        heldItem.gridY = removedItem.gridY;
+                        GameplayHeldItemController::setHeldInventoryItem(heldInventoryItem, heldItem);
 
                         if (firstLootedItemName.empty())
                         {
@@ -3639,12 +3572,17 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
         GameplayDialogController::Context context =
             createGameplayDialogContext(view, *pEventRuntimeState, "activate_actor_npc_dialog");
         const GameplayDialogController::Result result =
-            view.m_gameSession.gameplayDialogController().openNpcDialogue(context, static_cast<uint32_t>(inspectHit.npcId));
+            view.m_gameSession.gameplayDialogController().openNpcDialogue(
+                context,
+                static_cast<uint32_t>(inspectHit.npcId));
         pEventRuntimeState->lastActivationResult = "npc " + std::to_string(inspectHit.npcId) + " engaged";
 
         if (result.shouldOpenPendingEventDialog)
         {
-            OutdoorInteractionController::presentPendingEventDialog(view, result.previousMessageCount, result.allowNpcFallbackContent);
+            OutdoorInteractionController::presentPendingEventDialog(
+                view,
+                result.previousMessageCount,
+                result.allowNpcFallbackContent);
         }
 
         std::cout << "Opening direct NPC dialog for npc=" << inspectHit.npcId << '\n';
@@ -3685,7 +3623,10 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
 
             if (result.shouldOpenPendingEventDialog)
             {
-                OutdoorInteractionController::presentPendingEventDialog(view, result.previousMessageCount, result.allowNpcFallbackContent);
+                OutdoorInteractionController::presentPendingEventDialog(
+                    view,
+                    result.previousMessageCount,
+                    result.allowNpcFallbackContent);
             }
 
             std::cout << "Opening generic NPC news for actor group=" << inspectHit.actorGroup
@@ -3696,6 +3637,149 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
 
         std::cout << "Actor generic dialog fallback: no resolution\n";
     }
+
+    return false;
+}
+
+bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
+    OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    if (inspectHit.kind != "world_item")
+    {
+        return false;
+    }
+
+    if (view.m_pOutdoorWorldRuntime == nullptr || view.m_pOutdoorPartyRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const OutdoorWorldRuntime::WorldItemState *pWorldItem =
+        view.m_pOutdoorWorldRuntime->worldItemState(inspectHit.bModelIndex);
+
+    if (pWorldItem == nullptr)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = view.data().itemTable().get(pWorldItem->item.objectDescriptionId);
+    const std::string itemName =
+        pItemDefinition != nullptr && !pItemDefinition->name.empty() ? pItemDefinition->name : "item";
+
+    if (pWorldItem->isGold)
+    {
+        OutdoorWorldRuntime::WorldItemState worldItem = {};
+
+        if (!view.m_pOutdoorWorldRuntime->takeWorldItem(inspectHit.bModelIndex, worldItem))
+        {
+            return false;
+        }
+
+        const int goldAmount = static_cast<int>(std::max<uint32_t>(1u, worldItem.goldAmount));
+        view.m_pOutdoorPartyRuntime->party().addGold(goldAmount);
+        view.setStatusBarEvent("Picked up " + std::to_string(goldAmount) + " gold");
+
+        if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
+        {
+            pEventRuntimeState->lastActivationResult = "picked up " + std::to_string(goldAmount) + " gold";
+        }
+
+        return true;
+    }
+
+    size_t recipientMemberIndex = 0;
+
+    if (view.m_pOutdoorPartyRuntime->party().tryGrantInventoryItem(pWorldItem->item, &recipientMemberIndex))
+    {
+        OutdoorWorldRuntime::WorldItemState worldItem = {};
+
+        if (!view.m_pOutdoorWorldRuntime->takeWorldItem(inspectHit.bModelIndex, worldItem))
+        {
+            return false;
+        }
+
+        view.m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
+        view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
+            recipientMemberIndex,
+            SpeechId::FoundItem,
+            true);
+        view.setStatusBarEvent("Picked up " + itemName);
+
+        if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
+        {
+            pEventRuntimeState->lastActivationResult = "picked up " + itemName;
+        }
+
+        return true;
+    }
+
+    GameplayUiController::HeldInventoryItemState &heldInventoryItem = view.heldInventoryItem();
+
+    if (!heldInventoryItem.active)
+    {
+        OutdoorWorldRuntime::WorldItemState worldItem = {};
+
+        if (!view.m_pOutdoorWorldRuntime->takeWorldItem(inspectHit.bModelIndex, worldItem))
+        {
+            return false;
+        }
+
+        GameplayHeldItemController::setHeldInventoryItem(heldInventoryItem, worldItem.item);
+        view.m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
+        view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
+            view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
+            SpeechId::FoundItem,
+            true);
+        view.setStatusBarEvent("Picked up " + itemName);
+
+        if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
+        {
+            pEventRuntimeState->lastActivationResult = "picked up " + itemName + " into hand";
+        }
+
+        return true;
+    }
+
+    return false;
+}
+
+bool OutdoorInteractionController::tryActivateContainerInspectEvent(
+    OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    if (inspectHit.kind != "chest" && inspectHit.kind != "corpse")
+    {
+        return false;
+    }
+
+    EventRuntimeState *pEventRuntimeState =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState != nullptr)
+    {
+        pEventRuntimeState->lastActivationResult = "no activatable event on hovered target";
+    }
+
+    std::cout << "Outdoor inspect activation ignored: unsupported target kind '"
+              << inspectHit.kind << "'\n";
+    return false;
+}
+
+bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
+    OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    EventRuntimeState *pEventRuntimeState =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (!view.m_outdoorMapData || pEventRuntimeState == nullptr)
+    {
+        std::cout << "Outdoor inspect activation ignored: runtime not available\n";
+        return false;
+    }
+
+    uint16_t eventId = 0;
 
     std::optional<EventRuntimeState::ActiveDecorationContext> decorationContext;
 
@@ -3824,13 +3908,67 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
     return true;
 }
 
+bool OutdoorInteractionController::tryActivateInspectEvent(
+    OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    std::cout << "tryActivateInspectEvent: kind=" << inspectHit.kind
+              << " index=" << inspectHit.bModelIndex
+              << " name=" << inspectHit.name
+              << " npc=" << inspectHit.npcId
+              << " group=" << inspectHit.actorGroup
+              << " dist=" << inspectHit.distance
+              << '\n';
+
+    if (inspectHit.kind == "world_item")
+    {
+        return tryActivateWorldItemInspectEvent(view, inspectHit);
+    }
+
+    if (inspectHit.kind == "actor")
+    {
+        return tryActivateActorInspectEvent(view, inspectHit);
+    }
+
+    if (inspectHit.kind == "chest" || inspectHit.kind == "corpse")
+    {
+        return tryActivateContainerInspectEvent(view, inspectHit);
+    }
+
+    return tryActivateEventTargetInspectEvent(view, inspectHit);
+}
 
 
-bool OutdoorInteractionController::canActivateInspectEvent(const OutdoorGameView &view, const OutdoorGameView::InspectHit &inspectHit)
+
+bool OutdoorInteractionController::canActivateInspectEvent(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
 {
     if (inspectHit.kind == "world_item")
     {
-        return !view.heldInventoryItem().active;
+        return canActivateWorldItemInspectEvent(view, inspectHit);
+    }
+
+    if (inspectHit.kind == "actor")
+    {
+        return canActivateActorInspectEvent(view, inspectHit);
+    }
+
+    if (inspectHit.kind == "chest" || inspectHit.kind == "corpse")
+    {
+        return canActivateContainerInspectEvent(view, inspectHit);
+    }
+
+    return canActivateEventTargetInspectEvent(view, inspectHit);
+}
+
+bool OutdoorInteractionController::canActivateActorInspectEvent(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    if (inspectHit.kind != "actor")
+    {
+        return false;
     }
 
     const EventRuntimeState *pEventRuntimeState =
@@ -3841,36 +3979,65 @@ bool OutdoorInteractionController::canActivateInspectEvent(const OutdoorGameView
         return false;
     }
 
-    if (inspectHit.kind == "actor")
+    if (view.m_pOutdoorWorldRuntime != nullptr)
     {
-        if (view.m_pOutdoorWorldRuntime != nullptr)
+        const std::optional<size_t> runtimeActorIndex = view.resolveRuntimeActorIndexForInspectHit(inspectHit);
+
+        if (runtimeActorIndex)
         {
-            const std::optional<size_t> runtimeActorIndex = view.resolveRuntimeActorIndexForInspectHit(inspectHit);
+            const OutdoorWorldRuntime::MapActorState *pActorState =
+                view.m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
 
-            if (runtimeActorIndex)
+            if (pActorState != nullptr && pActorState->isDead)
             {
-                const OutdoorWorldRuntime::MapActorState *pActorState =
-                    view.m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
-
-                if (pActorState != nullptr && pActorState->isDead)
-                {
-                    return true;
-                }
+                return true;
             }
         }
+    }
 
-        if (inspectHit.npcId > 0)
-        {
-            return true;
-        }
+    if (inspectHit.npcId > 0)
+    {
+        return true;
+    }
 
-        return resolveGenericActorDialog(
-            view.m_map ? view.m_map->fileName : std::string(),
-            inspectHit.name,
-            inspectHit.actorGroup,
-            *pEventRuntimeState,
-            view.data().npcDialogTable()
-        ).has_value();
+    return resolveGenericActorDialog(
+        view.m_map ? view.m_map->fileName : std::string(),
+        inspectHit.name,
+        inspectHit.actorGroup,
+        *pEventRuntimeState,
+        view.data().npcDialogTable()
+    ).has_value();
+}
+
+bool OutdoorInteractionController::canActivateWorldItemInspectEvent(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    if (inspectHit.kind != "world_item")
+    {
+        return false;
+    }
+
+    return !view.heldInventoryItem().active;
+}
+
+bool OutdoorInteractionController::canActivateContainerInspectEvent(
+    const OutdoorGameView &,
+    const OutdoorGameView::InspectHit &)
+{
+    return false;
+}
+
+bool OutdoorInteractionController::canActivateEventTargetInspectEvent(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    const EventRuntimeState *pEventRuntimeState =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (!view.m_outdoorMapData || pEventRuntimeState == nullptr)
+    {
+        return false;
     }
 
     if (inspectHit.kind == "entity")
@@ -3915,8 +4082,6 @@ bool OutdoorInteractionController::canActivateInspectEvent(const OutdoorGameView
     return false;
 }
 
-
-
 bool OutdoorInteractionController::isInteractionInspectHitInRange(
     const OutdoorGameView &view,
     const OutdoorGameView::InspectHit &inspectHit,
@@ -3937,6 +4102,115 @@ bool OutdoorInteractionController::canActivateInteractionInspectEvent(
 {
     return canActivateInspectEvent(view, inspectHit)
         && isInteractionInspectHitInRange(view, inspectHit, inputMethod);
+}
+
+bool OutdoorInteractionController::canActivateInteractionActorInspectEvent(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit,
+    InteractionInputMethod inputMethod)
+{
+    return canActivateActorInspectEvent(view, inspectHit)
+        && isInteractionInspectHitInRange(view, inspectHit, inputMethod);
+}
+
+bool OutdoorInteractionController::canActivateInteractionWorldItemInspectEvent(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit,
+    InteractionInputMethod inputMethod)
+{
+    return canActivateWorldItemInspectEvent(view, inspectHit)
+        && isInteractionInspectHitInRange(view, inspectHit, inputMethod);
+}
+
+bool OutdoorInteractionController::canActivateInteractionContainerInspectEvent(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit,
+    InteractionInputMethod inputMethod)
+{
+    return canActivateContainerInspectEvent(view, inspectHit)
+        && isInteractionInspectHitInRange(view, inspectHit, inputMethod);
+}
+
+bool OutdoorInteractionController::canActivateInteractionEventTargetInspectEvent(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit,
+    InteractionInputMethod inputMethod)
+{
+    return canActivateEventTargetInspectEvent(view, inspectHit)
+        && isInteractionInspectHitInRange(view, inspectHit, inputMethod);
+}
+
+bool OutdoorInteractionController::canDispatchWorldActivation(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit,
+    const GameplayWorldHit &worldHit,
+    InteractionInputMethod inputMethod)
+{
+    return GameplayInteractionController::canDispatchWorldActivation(
+        GameplayInteractionController::WorldActivationDispatchInput{
+            .hit = worldHit,
+            .canActivateActor =
+                [&](const GameplayWorldHit &) -> bool
+                {
+                    return canActivateInteractionActorInspectEvent(view, inspectHit, inputMethod);
+                },
+            .canActivateWorldItem =
+                [&](const GameplayWorldHit &) -> bool
+                {
+                    return canActivateInteractionWorldItemInspectEvent(view, inspectHit, inputMethod);
+                },
+            .canActivateContainer =
+                [&](const GameplayWorldHit &) -> bool
+                {
+                    return canActivateInteractionContainerInspectEvent(view, inspectHit, inputMethod);
+                },
+            .canActivateEventTarget =
+                [&](const GameplayWorldHit &) -> bool
+                {
+                    return canActivateInteractionEventTargetInspectEvent(view, inspectHit, inputMethod);
+                },
+            .canActivateFallback =
+                [&](const GameplayWorldHit &) -> bool
+                {
+                    return canActivateInteractionInspectEvent(view, inspectHit, inputMethod);
+                },
+        });
+}
+
+bool OutdoorInteractionController::dispatchWorldActivation(
+    OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit,
+    const GameplayWorldHit &worldHit)
+{
+    return GameplayInteractionController::dispatchWorldActivation(
+        GameplayInteractionController::WorldActivationDispatchInput{
+            .hit = worldHit,
+            .activateActor =
+                [&](const GameplayWorldHit &) -> bool
+                {
+                    return tryActivateActorInspectEvent(view, inspectHit);
+                },
+            .activateWorldItem =
+                [&](const GameplayWorldHit &) -> bool
+                {
+                    return tryActivateWorldItemInspectEvent(view, inspectHit);
+                },
+            .activateContainer =
+                [&](const GameplayWorldHit &) -> bool
+                {
+                    return tryActivateContainerInspectEvent(view, inspectHit);
+                },
+            .activateEventTarget =
+                [&](const GameplayWorldHit &) -> bool
+                {
+                    return tryActivateEventTargetInspectEvent(view, inspectHit);
+                },
+            .activateFallback =
+                [&](const GameplayWorldHit &) -> bool
+                {
+                    return tryActivateInspectEvent(view, inspectHit);
+                },
+        });
 }
 
 
@@ -3991,258 +4265,112 @@ void OutdoorInteractionController::applyPendingCombatEvents(OutdoorGameView &vie
         return;
     }
 
+    std::vector<GameplayCombatController::CombatEvent> combatEvents;
+    combatEvents.reserve(view.m_pOutdoorWorldRuntime->pendingCombatEvents().size());
+
     for (const OutdoorWorldRuntime::CombatEvent &event : view.m_pOutdoorWorldRuntime->pendingCombatEvents())
     {
-        if (event.type == OutdoorWorldRuntime::CombatEvent::Type::PartyProjectileActorImpact)
+        GameplayCombatController::CombatEvent sharedEvent = {};
+
+        switch (event.type)
         {
-            const Character *pSourceMember = view.m_pOutdoorPartyRuntime->party().member(event.sourcePartyMemberIndex);
-            const OutdoorWorldRuntime::MapActorState *pTargetActor = nullptr;
-            std::string sourceName = pSourceMember != nullptr && !pSourceMember->name.empty()
-                ? pSourceMember->name
-                : "party";
-            std::string targetName = "monster";
-
-            for (size_t actorIndex = 0; actorIndex < view.m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
-            {
-                const OutdoorWorldRuntime::MapActorState *pActor = view.m_pOutdoorWorldRuntime->mapActorState(actorIndex);
-
-                if (pActor != nullptr && pActor->actorId == event.targetActorId)
-                {
-                    pTargetActor = pActor;
-                    targetName = pActor->displayName;
-                    break;
-                }
-            }
-
-            if (!event.hit)
-            {
-                view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
-                    event.sourcePartyMemberIndex,
-                    FaceAnimationId::AttackMiss);
-                view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
-                    event.sourcePartyMemberIndex,
-                    SpeechId::AttackMiss,
-                    false);
-                view.showCombatStatusBarEvent(sourceName + " misses " + targetName);
-            }
-            else if (event.killed)
-            {
-                view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
-                    event.sourcePartyMemberIndex,
-                    FaceAnimationId::AttackHit);
-                SpeechId speechId = SpeechId::AttackHit;
-
-                if ((currentAnimationTicks() + event.targetActorId) % 100u < KillSpeechChancePercent)
-                {
-                    speechId = pTargetActor != nullptr && pTargetActor->maxHp >= 100
-                        ? SpeechId::KillStrongEnemy
-                        : SpeechId::KillWeakEnemy;
-                }
-
-                view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
-                    event.sourcePartyMemberIndex,
-                    speechId,
-                    false);
-                if (event.spellId > 0)
-                {
-                    view.showCombatStatusBarEvent(
-                        sourceName + " deals " + std::to_string(event.damage) + " damage killing " + targetName);
-                }
-                else
-                {
-                    view.showCombatStatusBarEvent(
-                        sourceName + " inflicts " + std::to_string(event.damage) + " points killing " + targetName);
-                }
-            }
-            else
-            {
-                view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
-                    event.sourcePartyMemberIndex,
-                    FaceAnimationId::AttackHit);
-                view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
-                    event.sourcePartyMemberIndex,
-                    SpeechId::AttackHit,
-                    false);
-                if (event.spellId > 0)
-                {
-                    view.showCombatStatusBarEvent(
-                        sourceName + " deals " + std::to_string(event.damage) + " damage to " + targetName);
-                }
-                else
-                {
-                    view.showCombatStatusBarEvent(
-                        sourceName + " shoots " + targetName + " for " + std::to_string(event.damage) + " points");
-                }
-            }
-
-            if (event.hit
-                && event.damage > 0
-                && event.spellId == 0
-                && pSourceMember != nullptr
-                && pSourceMember->vampiricHealFraction > 0.0f)
-            {
-                view.m_pOutdoorPartyRuntime->party().healMember(
-                    event.sourcePartyMemberIndex,
-                    std::max(1, static_cast<int>(std::round(
-                        static_cast<float>(event.damage) * pSourceMember->vampiricHealFraction))));
-            }
-
-            continue;
-        }
-
-        if (event.type != OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
-            && event.type != OutdoorWorldRuntime::CombatEvent::Type::PartyProjectileImpact)
-        {
-            continue;
-        }
-
-        std::string sourceName = "monster";
-        uint32_t sourceAttackPreferences = 0;
-
-        for (size_t actorIndex = 0; actorIndex < view.m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
-        {
-            const OutdoorWorldRuntime::MapActorState *pActor = view.m_pOutdoorWorldRuntime->mapActorState(actorIndex);
-
-            if (pActor != nullptr && pActor->actorId == event.sourceId)
-            {
-                sourceName = pActor->displayName;
-
-                if (const MonsterTable::MonsterStatsEntry *pStats =
-                        view.data().monsterTable().findStatsById(pActor->monsterId))
-                {
-                    sourceAttackPreferences = pStats->attackPreferences;
-                }
-
+            case OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact:
+                sharedEvent.type = GameplayCombatController::CombatEventType::MonsterMeleeImpact;
                 break;
-            }
+            case OutdoorWorldRuntime::CombatEvent::Type::MonsterRangedRelease:
+                sharedEvent.type = GameplayCombatController::CombatEventType::MonsterRangedRelease;
+                break;
+            case OutdoorWorldRuntime::CombatEvent::Type::PartyProjectileImpact:
+                sharedEvent.type = GameplayCombatController::CombatEventType::PartyProjectileImpact;
+                break;
+            case OutdoorWorldRuntime::CombatEvent::Type::PartyProjectileActorImpact:
+                sharedEvent.type = GameplayCombatController::CombatEventType::PartyProjectileActorImpact;
+                break;
         }
 
-        if (event.sourceId == std::numeric_limits<uint32_t>::max())
-        {
-            sourceName = event.spellId > 0 ? "event spell" : "event";
-        }
-
-        const std::string status = event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
-            ? sourceName + " hit party for " + std::to_string(event.damage)
-            : sourceName
-                + (event.spellId > 0 ? " spell hit party for " : " projectile hit party for ")
-                + std::to_string(event.damage);
-
-        Party &party = view.m_pOutdoorPartyRuntime->party();
-        std::optional<size_t> targetMemberIndex = std::nullopt;
-
-        if (!event.affectsAllParty)
-        {
-            targetMemberIndex = party.chooseMonsterAttackTarget(
-                sourceAttackPreferences,
-                event.sourceId ^ static_cast<uint32_t>(event.damage) ^ static_cast<uint32_t>(event.spellId));
-        }
-
-        Character *pTargetMember =
-            targetMemberIndex ? view.m_pOutdoorPartyRuntime->party().member(*targetMemberIndex) : nullptr;
-        const bool ignorePhysicalDamage =
-            pTargetMember != nullptr
-            && pTargetMember->physicalDamageImmune
-            && (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact || event.spellId == 0);
-
-        if (ignorePhysicalDamage)
-        {
-            view.showCombatStatusBarEvent("Mistform ignores physical damage");
-            continue;
-        }
-
-        const bool isPhysicalProjectile =
-            event.type == OutdoorWorldRuntime::CombatEvent::Type::PartyProjectileImpact && event.spellId == 0;
-        const auto adjustedDamageForMember =
-            [event, isPhysicalProjectile](const Character &member) -> int
-            {
-                if (isPhysicalProjectile && member.halfMissileDamage)
-                {
-                    return std::max(1, (event.damage + 1) / 2);
-                }
-
-        return event.damage;
-            };
-        bool damagedParty = false;
-        std::vector<size_t> damagedMemberIndices;
-
-        if (event.affectsAllParty)
-        {
-            bool wroteStatus = false;
-
-            for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
-            {
-                Character *pMember = party.member(memberIndex);
-
-                if (pMember == nullptr || pMember->health <= 0)
-                {
-                    continue;
-                }
-
-                if (pMember->physicalDamageImmune
-                    && (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact || event.spellId == 0))
-                {
-                    continue;
-                }
-
-                const bool applied = party.applyDamageToMember(
-                    memberIndex,
-                    adjustedDamageForMember(*pMember),
-                    wroteStatus ? "" : status);
-                damagedParty = applied || damagedParty;
-
-                if (applied)
-                {
-                    damagedMemberIndices.push_back(memberIndex);
-                }
-                wroteStatus = wroteStatus || damagedParty;
-            }
-        }
-        else
-        {
-            const int adjustedDamage =
-                pTargetMember != nullptr ? adjustedDamageForMember(*pTargetMember) : event.damage;
-            damagedParty = targetMemberIndex ? party.applyDamageToMember(*targetMemberIndex, adjustedDamage, status) : false;
-
-            if (damagedParty && targetMemberIndex.has_value())
-            {
-                damagedMemberIndices.push_back(*targetMemberIndex);
-            }
-        }
-
-        if (damagedParty)
-        {
-            // We intentionally keep physical projectiles on the same armor-impact path as melee hits.
-            if (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact || isPhysicalProjectile)
-            {
-                for (size_t memberIndex : damagedMemberIndices)
-                {
-                    party.requestDamageImpactSoundForMember(memberIndex);
-                }
-            }
-
-            if (event.affectsAllParty)
-            {
-                view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimationForAllLivingMembers(
-                    FaceAnimationId::DamagedParty);
-            }
-            else
-            {
-                view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
-                    *targetMemberIndex,
-                    FaceAnimationId::Damaged);
-            }
-
-            std::cout << "Party damaged source=" << sourceName
-                      << " damage=" << event.damage
-                      << " kind="
-                      << (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
-                              ? "melee"
-                              : (event.spellId > 0 ? "spell" : "projectile"))
-                      << '\n';
-        }
+        sharedEvent.sourceId = event.sourceId;
+        sharedEvent.sourcePartyMemberIndex = event.sourcePartyMemberIndex;
+        sharedEvent.targetActorId = event.targetActorId;
+        sharedEvent.damage = event.damage;
+        sharedEvent.spellId = event.spellId;
+        sharedEvent.affectsAllParty = event.affectsAllParty;
+        sharedEvent.hit = event.hit;
+        sharedEvent.killed = event.killed;
+        combatEvents.push_back(std::move(sharedEvent));
     }
 
+    Party &party = view.m_pOutdoorPartyRuntime->party();
+    GameplayCombatController::PendingCombatEventContext context{
+        .party = party,
+        .resolveActorById =
+            [&view](uint32_t actorId) -> std::optional<GameplayCombatController::ActorCombatInfo>
+            {
+                if (view.m_pOutdoorWorldRuntime == nullptr)
+                {
+                    return std::nullopt;
+                }
+
+                for (size_t actorIndex = 0; actorIndex < view.m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
+                {
+                    const OutdoorWorldRuntime::MapActorState *pActor =
+                        view.m_pOutdoorWorldRuntime->mapActorState(actorIndex);
+
+                    if (pActor == nullptr || pActor->actorId != actorId)
+                    {
+                        continue;
+                    }
+
+                    GameplayCombatController::ActorCombatInfo info = {};
+                    info.actorId = pActor->actorId;
+                    info.monsterId = pActor->monsterId;
+                    info.maxHp = pActor->maxHp;
+                    info.displayName = pActor->displayName;
+
+                    if (const MonsterTable::MonsterStatsEntry *pStats =
+                            view.data().monsterTable().findStatsById(pActor->monsterId))
+                    {
+                        info.attackPreferences = pStats->attackPreferences;
+                    }
+
+                    return info;
+                }
+
+                return std::nullopt;
+            },
+        .presentation = {
+            .triggerPortraitFaceAnimation =
+                [&view](size_t memberIndex, FaceAnimationId animationId)
+                {
+                    view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(memberIndex, animationId);
+                },
+            .triggerPortraitFaceAnimationForAllLivingMembers =
+                [&view](FaceAnimationId animationId)
+                {
+                    view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimationForAllLivingMembers(
+                        animationId);
+                },
+            .playSpeechReaction =
+                [&view](size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
+                {
+                    view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
+                        memberIndex,
+                        speechId,
+                        triggerFaceAnimation);
+                },
+            .showCombatStatus =
+                [&view](const std::string &status)
+                {
+                    view.showCombatStatusBarEvent(status);
+                },
+            .animationTicks =
+                []() -> uint32_t
+                {
+                    return currentAnimationTicks();
+                },
+        },
+    };
+
+    GameplayCombatController::handlePendingCombatEvents(context, combatEvents);
     view.m_pOutdoorWorldRuntime->clearPendingCombatEvents();
 }
 

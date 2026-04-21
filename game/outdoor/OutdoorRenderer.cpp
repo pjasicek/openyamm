@@ -2,13 +2,13 @@
 
 #include "game/app/GameSession.h"
 #include "game/events/EvtEnums.h"
+#include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/outdoor/OutdoorFogProfile.h"
 #include "game/fx/ParticleRenderer.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
-#include "game/party/SpellIds.h"
 #include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
 
@@ -48,8 +48,6 @@ constexpr float OutdoorFxLightRefreshIntervalSeconds = 1.0f / 60.0f;
 constexpr float OutdoorFxLightingAmbient = 1.0f;
 // OpenYAMM tuning: keep outdoor FX lights visibly readable against the current ambient baseline.
 constexpr float OutdoorFxLightingScale = 1.6f;
-constexpr float SpellImpactAoePreviewRadius = 448.0f;
-constexpr float MeteorShowerPreviewRadius = 768.0f;
 constexpr size_t SpellAreaPreviewGridResolution = 24;
 constexpr float SpellAreaPreviewRefreshIntervalSeconds = 1.0f / 30.0f;
 constexpr float SpellAreaPreviewRetargetDistance = 72.0f;
@@ -2390,30 +2388,21 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint1
         view.m_gameSession.gameplayScreenState().pendingSpellTarget();
 
     if (view.m_pOutdoorWorldRuntime == nullptr
-        || !pendingSpellCast.active
-        || pendingSpellCast.targetKind != PartySpellCastTargetKind::GroundPoint)
+        || !pendingSpellCast.active)
     {
         return;
     }
 
-    const SpellId spellId = spellIdFromValue(pendingSpellCast.spellId);
-    float previewRadius = 0.0f;
-    uint32_t previewColor = 0;
+    const std::optional<GameplaySpellTargetingOverlayRenderer::AreaMarkerVisualPolicy> markerPolicy =
+        GameplaySpellTargetingOverlayRenderer::resolveAreaMarkerVisualPolicy(pendingSpellCast);
 
-    if (spellId == SpellId::MeteorShower)
-    {
-        previewRadius = MeteorShowerPreviewRadius;
-        previewColor = withAlpha(makeAbgr(255, 176, 96), 220);
-    }
-    else if (spellId == SpellId::Starburst)
-    {
-        previewRadius = SpellImpactAoePreviewRadius;
-        previewColor = withAlpha(makeAbgr(192, 224, 255), 220);
-    }
-    else
+    if (!markerPolicy)
     {
         return;
     }
+
+    const float previewRadius = markerPolicy->radius;
+    const uint32_t previewColor = markerPolicy->ringColorAbgr;
 
     float mouseX = 0.0f;
     float mouseY = 0.0f;
@@ -2550,7 +2539,7 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint1
         const float retargetDistanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
         const bool needsRefresh =
             !view.m_spellAreaPreviewCache.valid
-            || view.m_spellAreaPreviewCache.spellId != pendingSpellCast.spellId
+            || view.m_spellAreaPreviewCache.spellId != markerPolicy->spellId
             || std::abs(view.m_spellAreaPreviewCache.radius - previewRadius) > 0.01f
             || retargetDistanceSquared >= SpellAreaPreviewRetargetDistance * SpellAreaPreviewRetargetDistance;
         const bool refreshAllowed =
@@ -2562,7 +2551,7 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint1
         {
             view.m_spellAreaPreviewCache.vertices = buildSpellAreaPreviewVertices();
             view.m_spellAreaPreviewCache.valid = !view.m_spellAreaPreviewCache.vertices.empty();
-            view.m_spellAreaPreviewCache.spellId = pendingSpellCast.spellId;
+            view.m_spellAreaPreviewCache.spellId = markerPolicy->spellId;
             view.m_spellAreaPreviewCache.targetX = targetPoint->x;
             view.m_spellAreaPreviewCache.targetY = targetPoint->y;
             view.m_spellAreaPreviewCache.targetZ = targetPoint->z;
@@ -2589,20 +2578,18 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint1
                 static_cast<size_t>(
                     texturedVertices.size() * sizeof(OutdoorGameView::TexturedTerrainVertex)));
 
-            const uint32_t baseColorAbgr =
-                spellId == SpellId::MeteorShower ? makeAbgr(255, 132, 44) : makeAbgr(126, 186, 255);
-            const uint32_t accentColorAbgr =
-                spellId == SpellId::MeteorShower ? makeAbgr(255, 222, 148) : makeAbgr(232, 246, 255);
+            const uint32_t baseColorAbgr = markerPolicy->baseColorAbgr;
+            const uint32_t accentColorAbgr = markerPolicy->accentColorAbgr;
             const std::array<float, 4> params0 = {
                 view.m_elapsedTime,
-                spellId == SpellId::MeteorShower ? 5.2f : 4.3f,
+                markerPolicy->shaderSpeed,
                 0.86f,
                 0.0f
             };
             const std::array<float, 4> params1 = {
-                spellId == SpellId::MeteorShower ? 2.6f : 2.2f,
-                spellId == SpellId::MeteorShower ? 0.11f : 0.09f,
-                spellId == SpellId::MeteorShower ? 0.07f : 0.055f,
+                markerPolicy->shaderFrequency,
+                markerPolicy->shaderPrimaryBandWidth,
+                markerPolicy->shaderSecondaryBandWidth,
                 0.0f
             };
             const std::array<float, 4> colorA = {

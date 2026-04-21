@@ -1,29 +1,25 @@
 #include "game/outdoor/OutdoorGameplayInputController.h"
 
 #include "game/app/GameSession.h"
-#include "game/gameplay/GameplayScreenController.h"
+#include "game/gameplay/GameplayInputController.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/render/TextureFiltering.h"
 #include "game/scene/OutdoorSceneRuntime.h"
-#include "game/gameplay/GameplayScreenRuntime.h"
-#include "game/ui/KeyboardScreenLayout.h"
 
 #include <SDL3/SDL.h>
 
 #include <algorithm>
 #include <cmath>
-#include <optional>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
 constexpr float Pi = 3.14159265358979323846f;
-constexpr uint64_t SaveGameDoubleClickWindowMs = 500;
 constexpr int DwiMapId = 1;
 constexpr uint16_t DwiMeteorShowerEventId = 456;
-constexpr size_t SaveLoadVisibleSlotCount = 10;
 } // namespace
 
 void OutdoorGameplayInputController::updateCameraFromInput(
@@ -50,41 +46,20 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         {
             return view.m_gameSettings.keyboard.isPressed(action, pKeyboardState);
         };
-    const auto isActionNewlyPressed =
-        [&view, pKeyboardState](KeyboardAction action) -> bool
-        {
-            const SDL_Scancode scancode = view.m_gameSettings.keyboard.binding(action);
-
-            return pKeyboardState != nullptr
-                && scancode > SDL_SCANCODE_UNKNOWN
-                && scancode < SDL_SCANCODE_COUNT
-                && pKeyboardState[scancode]
-                && view.previousKeyboardState()[scancode] == 0;
-        };
-
+    GameplayScreenState &gameplayScreenState = view.m_gameSession.gameplayScreenState();
+    GameplayScreenState::PendingSpellTargetState &pendingSpellCast = gameplayScreenState.pendingSpellTarget();
+    GameplayScreenState::GameplayMouseLookState &gameplayMouseLookState =
+        gameplayScreenState.gameplayMouseLookState();
+    GameplayScreenRuntime &overlayContext = view.m_gameSession.gameplayScreenRuntime();
+    const bool hasPendingSpellCast = pendingSpellCast.active;
     const bool hasActiveLootView =
         view.m_pOutdoorWorldRuntime != nullptr
         && (view.m_pOutdoorWorldRuntime->activeChestView() != nullptr
             || view.m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
-    GameplayScreenState &gameplayScreenState = view.m_gameSession.gameplayScreenState();
-    GameplayScreenState::PendingSpellTargetState &pendingSpellCast = gameplayScreenState.pendingSpellTarget();
-    GameplayScreenState::QuickSpellState &quickSpellState = gameplayScreenState.quickSpellState();
-    GameplayScreenState::GameplayMouseLookState &gameplayMouseLookState =
-        gameplayScreenState.gameplayMouseLookState();
-    GameplayScreenRuntime &overlayContext = view.m_gameSession.gameplayScreenRuntime();
-    const GameplayUiController::HeldInventoryItemState &heldInventoryItem = view.heldInventoryItem();
-    const bool hasPendingSpellCast = pendingSpellCast.active;
     const bool isUtilitySpellModalActive =
         view.utilitySpellOverlay().active
         && view.utilitySpellOverlay().mode != OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget;
     const bool isReadableScrollOverlayActive = overlayContext.readableScrollOverlayReadOnly().active;
-    const bool blocksUnderlyingMouseInput =
-        resolveGameplayHudScreenState(
-            view.m_gameSession.gameplayUiController(),
-            overlayContext.activeEventDialog(),
-            view.m_pOutdoorWorldRuntime)
-            != GameplayHudScreenState::Gameplay
-        || isReadableScrollOverlayActive;
     SDL_Window *pWindow = SDL_GetMouseFocus();
 
     if (pWindow == nullptr)
@@ -103,213 +78,57 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     float gameplayMouseX = 0.0f;
     float gameplayMouseY = 0.0f;
     const SDL_MouseButtonFlags gameplayMouseButtons = SDL_GetMouseState(&gameplayMouseX, &gameplayMouseY);
-    const bool isRightMousePressed = (gameplayMouseButtons & SDL_BUTTON_RMASK) != 0;
-    const bool gameplayMouseLookAllowed =
-        GameplayScreenController::canEnableGameplayMouseLook(
+    const bool hasReadyMember =
+        view.m_pOutdoorPartyRuntime != nullptr
+        && view.m_pOutdoorPartyRuntime->party().hasSelectableMemberInGameplay();
+    const GameplaySharedInputFrameResult sharedInputFrameResult =
+        GameplayInputController::updateSharedGameplayInputFrame(
+            gameplayScreenState,
             overlayContext,
-            GameplayMouseLookEnableConfig{
-                .hasPendingSpellTarget = hasPendingSpellCast,
-                .blockOnReadableScrollOverlay = true,
-                .blockOnUtilitySpellOverlay = true,
-            });
-    const bool gameplayCursorModeActive = gameplayMouseLookAllowed && isRightMousePressed;
-    const bool gameplayMouseLookActive = gameplayMouseLookAllowed && !gameplayCursorModeActive;
-    const bool allowGameplayPointerInput = !gameplayMouseLookAllowed || gameplayCursorModeActive;
-
-    gameplayMouseLookState.cursorModeActive = gameplayCursorModeActive;
-    gameplayMouseLookState.mouseLookActive = gameplayMouseLookActive;
-    view.syncGameplayMouseLookMode(pWindow, gameplayMouseLookActive);
-
-    const bool canToggleAdventurersInn =
-        GameplayScreenController::canRunStandardGameplayAction(
-            overlayContext,
-            GameplayStandardGameplayActionGateConfig{
-                .hasActiveLootView = hasActiveLootView,
-                .hasPendingSpellCast = hasPendingSpellCast,
-                .hasHeldItem = heldInventoryItem.active,
-                .blockOnHeldItem = true,
-            });
-
-    const GameplayUiOverlayInputResult overlayInputResult =
-        GameplayScreenController::processStandardUiInputFrame(
-            overlayContext,
-            GameplayStandardUiInputFrameConfig{
-                .hotkeys =
-                    GameplayStandardUiHotkeyConfig{
-                        .pKeyboardState = pKeyboardState,
-                        .canOpenRest = true,
-                        .blockMenuToggle =
-                            hasPendingSpellCast
-                            || overlayContext.characterScreenReadOnly().open
-                            || heldInventoryItem.active,
-                        .blockSpellbookToggle = hasPendingSpellCast || heldInventoryItem.active,
-                        .blockInventoryToggle = heldInventoryItem.active,
-                        .blockPartyCycle = hasPendingSpellCast || overlayContext.characterScreenReadOnly().open,
-                        .requireGameplayReadyForPartySelection = true,
+            view.m_gameSession.gameplaySpellService(),
+            GameplaySharedInputFrameConfig{
+                .pKeyboardState = pKeyboardState,
+                .mouseWheelDelta = mouseWheelDelta,
+                .screenWidth = screenWidth,
+                .screenHeight = screenHeight,
+                .pointerX = gameplayMouseX,
+                .pointerY = gameplayMouseY,
+                .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
+                .rightButtonPressed = (gameplayMouseButtons & SDL_BUTTON_RMASK) != 0,
+                .hasReadyMember = hasReadyMember,
+                .canBeginQuickCast =
+                    view.m_pOutdoorPartyRuntime != nullptr && view.m_pOutdoorWorldRuntime != nullptr,
+                .isUtilitySpellModalActive = isUtilitySpellModalActive,
+                .isReadableScrollOverlayActive = isReadableScrollOverlayActive,
+                .buildSpellActionTargetQueries =
+                    [&view]()
+                    {
+                        return view.buildSpellActionTargetQueries();
                     },
-                .input =
-                    GameplayStandardUiInputConfig{
-                        .pKeyboardState = pKeyboardState,
-                        .width = screenWidth,
-                        .height = screenHeight,
-                        .pointerX = gameplayMouseX,
-                        .pointerY = gameplayMouseY,
-                        .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
-                        .allowGameplayPointerInput = allowGameplayPointerInput,
-                        .mouseWheelDelta = mouseWheelDelta,
-                        .blockPortraitInput = isUtilitySpellModalActive || isReadableScrollOverlayActive,
-                        .blockHudButtonInput = blocksUnderlyingMouseInput || isUtilitySpellModalActive,
-                        .blockJournalToggle =
-                            hasPendingSpellCast
-                            || overlayContext.characterScreenReadOnly().open
-                            || heldInventoryItem.active,
-                        .requireGameplayReadyForPortraitSelection = !hasPendingSpellCast,
-                        .onPortraitActivated =
-                            [&view, hasPendingSpellCast](size_t memberIndex)
-                            {
-                                if (!hasPendingSpellCast)
-                                {
-                                    return false;
-                                }
-
-                                view.tryResolvePendingSpellCast({}, memberIndex);
-                                return true;
-                            },
+                .handlePendingSpellCastSucceeded =
+                    [&view](const PartySpellCastResult &castResult)
+                    {
+                        view.m_outdoorFxRuntime.triggerPartySpellFx(view, castResult);
+                        view.m_cachedHoverInspectHitValid = false;
+                        view.m_cachedHoverInspectHit = {};
+                    },
+                .applyAlwaysRun =
+                    [&view](bool enabled)
+                    {
+                        if (view.m_pOutdoorPartyRuntime != nullptr)
+                        {
+                            view.m_pOutdoorPartyRuntime->setRunning(enabled);
+                        }
                     },
             });
+    view.syncGameplayMouseLookMode(pWindow, sharedInputFrameResult.mouseLookPolicy.mouseLookActive);
 
-    if (overlayInputResult.journalInputConsumed)
+    if (sharedInputFrameResult.journalInputConsumed)
     {
         return;
     }
 
-    if (canToggleAdventurersInn && pKeyboardState[SDL_SCANCODE_P])
-    {
-        if (!view.m_adventurersInnToggleLatch)
-        {
-            GameplayUiController::CharacterScreenState &characterScreen = overlayContext.characterScreen();
-
-            if (overlayContext.isAdventurersInnCharacterSourceActive())
-            {
-                characterScreen.open = false;
-                characterScreen.dollJewelryOverlayOpen = false;
-                characterScreen.adventurersInnRosterOverlayOpen = false;
-            }
-            else if (view.m_pOutdoorPartyRuntime != nullptr
-                && !view.m_pOutdoorPartyRuntime->party().adventurersInnMembers().empty())
-            {
-                characterScreen.open = true;
-                characterScreen.adventurersInnRosterOverlayOpen = true;
-                characterScreen.source = OutdoorGameView::CharacterScreenSource::AdventurersInn;
-                characterScreen.sourceIndex = 0;
-                characterScreen.adventurersInnScrollOffset = 0;
-                characterScreen.page = OutdoorGameView::CharacterPage::Inventory;
-                characterScreen.dollJewelryOverlayOpen = false;
-            }
-            else
-            {
-                view.setStatusBarEvent("The Adventurer's Inn is empty.");
-            }
-
-            view.m_adventurersInnToggleLatch = true;
-        }
-    }
-    else
-    {
-        view.m_adventurersInnToggleLatch = false;
-    }
-
-    const bool canRunStandardGameplayAction =
-        GameplayScreenController::canRunStandardGameplayAction(
-            overlayContext,
-            GameplayStandardGameplayActionGateConfig{
-                .hasActiveLootView = hasActiveLootView,
-                .hasPendingSpellCast = hasPendingSpellCast,
-                .blockOnCharacterScreen = true,
-            });
-
-    if (canRunStandardGameplayAction)
-    {
-        if (isActionPressed(KeyboardAction::AlwaysRun))
-        {
-            if (!view.m_toggleRunningLatch)
-            {
-                view.m_gameSettings.alwaysRun = !view.m_gameSettings.alwaysRun;
-
-                if (view.m_pOutdoorPartyRuntime != nullptr)
-                {
-                    view.m_pOutdoorPartyRuntime->setRunning(view.m_gameSettings.alwaysRun);
-                }
-
-                view.m_gameSession.gameplayScreenRuntime().commitSettingsChange();
-                view.m_toggleRunningLatch = true;
-            }
-        }
-        else
-        {
-            view.m_toggleRunningLatch = false;
-        }
-    }
-    else
-    {
-        view.m_toggleRunningLatch = false;
-    }
-
-    if (canRunStandardGameplayAction)
-    {
-        const bool isQuickCastPressed = isActionPressed(KeyboardAction::CastReady);
-        bool quickCastReadyMemberTransitionWhileHeld = false;
-
-        if (isQuickCastPressed && view.m_pOutdoorPartyRuntime != nullptr)
-        {
-            const bool hasReadyMember = view.m_pOutdoorPartyRuntime->party().hasSelectableMemberInGameplay();
-            quickCastReadyMemberTransitionWhileHeld =
-                !quickSpellState.readyMemberAvailableWhileHeld && hasReadyMember;
-            quickSpellState.readyMemberAvailableWhileHeld = hasReadyMember;
-        }
-        else if (!isQuickCastPressed)
-        {
-            quickSpellState.readyMemberAvailableWhileHeld = false;
-        }
-
-        const bool quickCastPressedThisFrame = isQuickCastPressed && !quickSpellState.castLatch;
-        const bool quickCastRepeatReady =
-            isQuickCastPressed
-            && quickSpellState.castLatch
-            && (quickSpellState.castRepeatCooldownSeconds <= 0.0f
-                || quickCastReadyMemberTransitionWhileHeld);
-
-        if (quickCastPressedThisFrame || quickCastRepeatReady)
-        {
-            view.tryBeginQuickSpellCast();
-            quickSpellState.castLatch = true;
-            quickSpellState.castRepeatCooldownSeconds =
-                OutdoorGameView::HeldGameplayActionRepeatDebounceSeconds;
-        }
-        else if (!isQuickCastPressed)
-        {
-            quickSpellState.castLatch = false;
-            quickSpellState.readyMemberAvailableWhileHeld = false;
-            quickSpellState.castRepeatCooldownSeconds = 0.0f;
-        }
-    }
-    else
-    {
-        quickSpellState.castLatch = false;
-        quickSpellState.readyMemberAvailableWhileHeld = false;
-        quickSpellState.castRepeatCooldownSeconds = 0.0f;
-    }
-
-    const GameplayStandardWorldInputGateResult worldInputGateResult =
-        GameplayScreenController::gateStandardWorldInput(
-            overlayContext,
-            GameplayStandardWorldInputGateConfig{
-                .pKeyboardState = pKeyboardState,
-                .width = screenWidth,
-                .height = screenHeight,
-            });
-
-    if (worldInputGateResult.blocked)
+    if (sharedInputFrameResult.worldInputBlocked)
     {
         return;
     }
@@ -317,7 +136,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
     float mouseX = 0.0f;
     float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    SDL_GetMouseState(&mouseX, &mouseY);
     const bool blockCameraRotation =
         overlayContext.buffInspectOverlayReadOnly().active
         || overlayContext.characterDetailOverlayReadOnly().active;
@@ -394,7 +213,9 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                     OutdoorInteractionController::applyPendingCombatEvents(view);
 
                     EventRuntimeState *pEventRuntimeState =
-                        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+                        view.m_pOutdoorWorldRuntime != nullptr
+                            ? view.m_pOutdoorWorldRuntime->eventRuntimeState()
+                            : nullptr;
 
                     if (pEventRuntimeState != nullptr)
                     {
@@ -410,7 +231,10 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
                     if (frameAdvanceResult.shouldOpenEventDialog)
                     {
-                        OutdoorInteractionController::presentPendingEventDialog(view, frameAdvanceResult.previousMessageCount, true);
+                        OutdoorInteractionController::presentPendingEventDialog(
+                            view,
+                            frameAdvanceResult.previousMessageCount,
+                            true);
                     }
                 }
             }

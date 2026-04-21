@@ -25,6 +25,8 @@ add_executable(openyamm
     fx/ParticleRenderer.cpp
     fx/ParticleSystem.cpp
     gameplay/GameMechanics.cpp
+    gameplay/GameplayActionController.cpp
+    gameplay/GameplayCombatController.cpp
     gameplay/GameplayController.cpp
     gameplay/CorpseLootRuntime.cpp
     gameplay/ChestRuntime.cpp
@@ -32,8 +34,10 @@ add_executable(openyamm
     gameplay/GameplayDialogController.cpp
     gameplay/GameplayDialogUiFlow.cpp
     gameplay/GameplayFxService.cpp
+    gameplay/GameplayHeldItemController.cpp
     gameplay/GameplayHudInputController.cpp
     gameplay/GameplayInputController.cpp
+    gameplay/GameplayInteractionController.cpp
     gameplay/GameplayItemService.cpp
     gameplay/GameplayOverlayInputController.cpp
     gameplay/GameplayPartyOverlayInputController.cpp
@@ -41,6 +45,7 @@ add_executable(openyamm
     gameplay/GameplayScreenController.cpp
     gameplay/GameplayScreenState.cpp
     gameplay/GameplaySaveLoadUiSupport.cpp
+    gameplay/GameplaySpellActionController.cpp
     gameplay/GameplaySpellService.cpp
     gameplay/GenericActorDialog.cpp
     gameplay/HouseInteraction.cpp
@@ -118,6 +123,7 @@ add_executable(openyamm
     ui/GameplayHudOverlaySupport.cpp
     ui/GameplayHudOverlayRenderer.cpp
     ui/GameplayDebugOverlayRenderer.cpp
+    ui/GameplaySpellTargetingOverlayRenderer.cpp
     ui/GameplayUiRenderer.cpp
     gameplay/GameplayScreenRuntime.cpp
     ui/GameplayPartyOverlayRenderer.cpp

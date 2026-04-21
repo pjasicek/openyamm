@@ -26,6 +26,7 @@
 #include "game/tables/NpcDialogTable.h"
 #include "game/tables/ObjectTable.h"
 #include "game/party/PartySpellSystem.h"
+#include "game/gameplay/GameplaySpellActionController.h"
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
@@ -265,15 +266,6 @@ private:
     using CharacterPointerTargetType = GameplayCharacterPointerTargetType;
 
 public:
-    static constexpr float HeldGameplayActionRepeatDebounceSeconds = 0.14f;
-
-    enum class QuickSpellCastResult
-    {
-        CastStarted,
-        AttackFallback,
-        Failed
-    };
-
     using SpellbookSchool = GameplayUiController::SpellbookSchool;
     using HouseShopMode = GameplayUiController::HouseShopMode;
     using InventoryNestedOverlayMode = GameplayUiController::InventoryNestedOverlayMode;
@@ -477,7 +469,6 @@ private:
     void preloadSpriteFrameTextures(const SpriteFrameTable &spriteFrameTable, uint16_t spriteFrameIndex);
     void queueSpriteFrameWarmup(uint16_t spriteFrameIndex);
     void updateHouseVideoPlayback(float deltaSeconds);
-    void renderPendingSpellTargetingOverlay(int width, int height) const;
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName);
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath);
     std::optional<std::array<uint8_t, 256 * 3>> loadCachedActPalette(int16_t paletteId);
@@ -495,23 +486,23 @@ private:
     void consumePendingEventRuntimeAudioRequests();
     void consumePendingWorldAudioEvents();
     void updateFootstepAudio(float deltaSeconds);
-    QuickSpellCastResult tryBeginQuickSpellCast();
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(SpellbookSchool school) const;
-    bool tryResolveQuickCastRequest(PartySpellCastRequest &request, const PartySpellDescriptor &descriptor) const;
-    std::optional<size_t> resolveQuickCastHoveredActorIndex() const;
-    std::optional<size_t> resolveClosestQuickCastVisibleActorIndex(float sourceX, float sourceY, float sourceZ) const;
-    bool buildQuickCastInspectRayForScreenPoint(float screenX, float screenY, bx::Vec3 &rayOrigin, bx::Vec3 &rayDirection) const;
+    GameplaySpellActionController::TargetQueries buildSpellActionTargetQueries() const;
+    std::optional<size_t> resolveSpellActionHoveredActorIndex() const;
+    std::optional<size_t> resolveClosestVisibleHostileActorIndex(float sourceX, float sourceY, float sourceZ) const;
+    std::optional<bx::Vec3> resolveSpellActionActorTargetPoint(size_t actorIndex) const;
+    std::optional<bx::Vec3> resolveSpellActionForwardGroundTargetPoint() const;
+    bool buildQuickCastInspectRayForScreenPoint(
+        float screenX,
+        float screenY,
+        bx::Vec3 &rayOrigin,
+        bx::Vec3 &rayDirection) const;
     std::optional<bx::Vec3> resolveQuickCastCursorTargetPoint(float cursorX, float cursorY) const;
     bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName) override;
     bool beginSaveWithPreview(const std::filesystem::path &path, const std::string &saveName, bool closeUiOnSuccess);
     void clearWorldInteractionInputLatches();
     float innRestDurationMinutes(uint32_t houseId) const;
-    bool tryResolvePendingSpellCast(
-        const InspectHit &actorInspectHit,
-        const std::optional<size_t> &portraitMemberIndex,
-        const std::optional<bx::Vec3> &fallbackGroundTargetPoint = std::nullopt);
-    std::optional<bx::Vec3> resolvePendingSpellGroundTargetPoint(const InspectHit &inspectHit) const;
     std::optional<size_t> resolveRuntimeActorIndexForInspectHit(const InspectHit &inspectHit) const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
@@ -663,11 +654,9 @@ private:
     bool m_toggleInspectLatch;
     bool m_triggerMeteorLatch;
     bool m_toggleRainLatch;
-    bool m_toggleRunningLatch;
     bool m_toggleFlyingLatch;
     bool m_toggleWaterWalkLatch;
     bool m_toggleFeatherFallLatch;
-    bool m_adventurersInnToggleLatch;
     GameSession &m_gameSession;
     uint64_t m_lastAdventurersInnPortraitClickTicks;
     std::optional<size_t> m_lastAdventurersInnPortraitClickedIndex;
@@ -683,7 +672,6 @@ private:
     std::filesystem::path m_autosavePath =
         std::filesystem::path("saves") / "autosave.oysav";
     PendingSavePreviewCaptureState m_pendingSavePreviewCapture;
-    InspectHit m_pressedInspectHit;
     int m_lastRenderWidth = 0;
     int m_lastRenderHeight = 0;
 };

@@ -5,6 +5,11 @@
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/fx/ParticleRenderer.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayActionController.h"
+#include "game/gameplay/GameplayCombatController.h"
+#include "game/gameplay/GameplayHeldItemController.h"
+#include "game/gameplay/GameplayInteractionController.h"
+#include "game/gameplay/GameplaySpellActionController.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/HouseServiceRuntime.h"
@@ -37,6 +42,7 @@
 #include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
+#include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "engine/TextTable.h"
 
@@ -695,8 +701,6 @@ constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float OeCharacterMeleeAttackDistance = 407.2f;
 constexpr float OeMeleeAlertDistance = 307.2f;
 constexpr float OeYellowAlertDistance = 5120.0f;
-constexpr float OeNearHoverDistance = 512.0f;
-constexpr float OeActorHoverDistance = 8192.0f;
 constexpr uint32_t OeArrowProjectileObjectId = 545;
 constexpr uint32_t OeBlasterProjectileObjectId = 555;
 constexpr float OutdoorWalkableNormalZ = 0.70710678f;
@@ -720,7 +724,6 @@ constexpr uint64_t PartyPortraitDoubleClickWindowMs = 500;
 constexpr uint64_t HoverInspectRefreshNanoseconds = 20 * 1000 * 1000;
 constexpr uint32_t SpeechReactionCooldownMs = 900;
 constexpr uint32_t CombatSpeechReactionCooldownMs = 2500;
-constexpr uint32_t KillSpeechChancePercent = 20;
 constexpr float WalkingSoundMovementSpeedThreshold = 20.0f;
 constexpr float WalkingMotionHoldSeconds = 0.125f;
 constexpr uint32_t BrokenItemTintColorAbgr = 0x800000ffu;
@@ -915,52 +918,6 @@ std::string normalizeDecorationKey(const std::string &value)
     }
 
     return lowered.substr(begin, end - begin);
-}
-
-std::string formatPartyAttackStatusText(
-    const std::string &attackerName,
-    const std::string &targetName,
-    const CharacterAttackResult &attack,
-    bool killed)
-{
-    if (!attack.canAttack)
-    {
-        return "Target is out of range";
-    }
-
-    if (attack.resolvesOnImpact)
-    {
-        if (!targetName.empty())
-        {
-            return attackerName + " shoots " + targetName;
-        }
-
-        return attack.mode == CharacterAttackMode::Melee ? attackerName + " swings" : attackerName + " shoots";
-    }
-
-    if (targetName.empty())
-    {
-        return attackerName + " swings";
-    }
-
-    if (!attack.hit)
-    {
-        return attackerName + " misses " + targetName;
-    }
-
-    if (killed)
-    {
-        return attackerName + " inflicts " + std::to_string(attack.damage) + " points killing " + targetName;
-    }
-
-    if (attack.mode == CharacterAttackMode::Bow
-        || attack.mode == CharacterAttackMode::Wand
-        || attack.mode == CharacterAttackMode::Blaster)
-    {
-        return attackerName + " shoots " + targetName + " for " + std::to_string(attack.damage) + " points";
-    }
-
-    return attackerName + " hits " + targetName + " for " + std::to_string(attack.damage) + " damage";
 }
 
 bool decorationMatchesAnyKey(
@@ -3254,11 +3211,9 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_toggleInspectLatch(false)
     , m_triggerMeteorLatch(false)
     , m_toggleRainLatch(false)
-    , m_toggleRunningLatch(false)
     , m_toggleFlyingLatch(false)
     , m_toggleWaterWalkLatch(false)
     , m_toggleFeatherFallLatch(false)
-    , m_adventurersInnToggleLatch(false)
     , m_gameSession(gameSession)
     , m_lastAdventurersInnPortraitClickTicks(0)
     , m_lastAdventurersInnPortraitClickedIndex(std::nullopt)
@@ -3502,10 +3457,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
     if (deltaSeconds > 0.0f)
     {
         m_elapsedTime += deltaSeconds;
-        attackActionState.inspectRepeatCooldownSeconds =
-            std::max(0.0f, attackActionState.inspectRepeatCooldownSeconds - deltaSeconds);
-        quickSpellState.castRepeatCooldownSeconds =
-            std::max(0.0f, quickSpellState.castRepeatCooldownSeconds - deltaSeconds);
+        GameplayActionController::updateCooldowns(gameplayScreenState, deltaSeconds);
     }
 
     if (m_pendingSavePreviewCapture.active
@@ -3702,17 +3654,17 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                 if (closePressed)
                 {
-                    if (!overlayInteractionState.closeOverlayLatch)
-                    {
-                        m_gameSession.gameplaySpellService().clearPendingTargetSelection(
-                            m_gameSession.gameplayScreenRuntime(),
-                            "Spell canceled");
-                        overlayInteractionState.closeOverlayLatch = true;
-                    }
+                    GameplaySpellActionController::PendingTargetSelectionInput pendingTargetInput = {};
+                    pendingTargetInput.cancelPressed = true;
+                    GameplaySpellActionController::updatePendingTargetSelection(
+                        gameplayScreenState,
+                        m_gameSession.gameplayScreenRuntime(),
+                        m_gameSession.gameplaySpellService(),
+                        pendingTargetInput);
                 }
                 else
                 {
-                    overlayInteractionState.closeOverlayLatch = false;
+                    pendingSpellCast.cancelLatch = false;
                 }
 
                 SDL_GetMouseState(&mouseX, &mouseY);
@@ -3759,7 +3711,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                 && (inspectHit.kind == "actor" || inspectHit.kind == "world_item");
                         };
                     const auto refreshHoverInspectHit =
-                        [&]()
+                        [&]() -> GameplayHoverStatusPayload
                         {
                             InspectHit mouseInspectHit = {};
                             InspectHit centerInspectHit = {};
@@ -3789,88 +3741,132 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                             }
 
                             m_lastHoverInspectUpdateNanoseconds = renderStartTickCount;
+                            return OutdoorInteractionController::resolveGameplayHoverStatusPayload(
+                                *this,
+                                m_cachedHoverInspectHit);
                         };
-                        const bool shouldRefreshHoverInspect =
-                            !m_cachedHoverInspectHitValid
-                            || renderStartTickCount < m_lastHoverInspectUpdateNanoseconds
-                            || renderStartTickCount - m_lastHoverInspectUpdateNanoseconds
-                                >= HoverInspectRefreshNanoseconds;
-
-                        if (shouldRefreshHoverInspect)
-                        {
-                            refreshHoverInspectHit();
-                        }
+                    GameplayInteractionController::updateHoverState(
+                        GameplayInteractionController::HoverStateInput{
+                            .allowHover = true,
+                            .hasCachedHover = m_cachedHoverInspectHitValid,
+                            .currentTickNanoseconds = renderStartTickCount,
+                            .lastUpdateNanoseconds = m_lastHoverInspectUpdateNanoseconds,
+                            .refreshIntervalNanoseconds = HoverInspectRefreshNanoseconds,
+                            .refreshHover = refreshHoverInspectHit,
+                            .readCachedHover =
+                                [&]() -> GameplayHoverStatusPayload
+                                {
+                                    return OutdoorInteractionController::resolveGameplayHoverStatusPayload(
+                                        *this,
+                                        m_cachedHoverInspectHit);
+                                },
+                            .clearHover =
+                                [&]()
+                                {
+                                    m_cachedHoverInspectHitValid = false;
+                                    m_cachedHoverInspectHit = {};
+                                },
+                        });
                 }
                 else
                 {
-                    m_cachedHoverInspectHitValid = false;
-                    m_cachedHoverInspectHit = {};
+                    GameplayInteractionController::updateHoverState(
+                        GameplayInteractionController::HoverStateInput{
+                            .allowHover = false,
+                            .clearHover =
+                                [&]()
+                                {
+                                    m_cachedHoverInspectHitValid = false;
+                                    m_cachedHoverInspectHit = {};
+                                },
+                        });
                 }
 
                 if (isLeftMousePressed)
                 {
-                    if (!pendingSpellCast.clickLatch)
+                    GameplaySpellActionController::PendingTargetSelectionInput pendingTargetInput = {};
+                    pendingTargetInput.confirmPressed = true;
+                    pendingTargetInput.portraitMemberIndex = hoveredPortraitMemberIndex;
+                    pendingTargetInput.targetQueries = buildSpellActionTargetQueries();
+
+                    if (!pendingSpellCast.clickLatch && !hoveredPortraitMemberIndex && m_outdoorMapData.has_value())
                     {
-                        pendingSpellCast.clickLatch = true;
-                        const std::optional<size_t> portraitMemberIndex = hoveredPortraitMemberIndex;
                         InspectHit pendingInspectHit = {};
                         std::optional<bx::Vec3> pendingGroundTargetPoint;
 
-                        if (!portraitMemberIndex && m_outdoorMapData.has_value())
+                        bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+                        bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+                        if (buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
                         {
-                            bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
-                            bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+                            pendingInspectHit = OutdoorInteractionController::inspectBModelFace(*this,
+                                *m_outdoorMapData,
+                                rayOrigin,
+                                rayDirection,
+                                mouseX,
+                                mouseY,
+                                width,
+                                height,
+                                wireframeViewMatrix,
+                                wireframeProjectionMatrix,
+                                OutdoorGameView::DecorationPickMode::Interaction);
 
-                            if (buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
+                            const std::optional<float> terrainDistance =
+                                intersectOutdoorTerrainRay(*m_outdoorMapData, rayOrigin, rayDirection);
+
+                            if (terrainDistance)
                             {
-                                pendingInspectHit = OutdoorInteractionController::inspectBModelFace(*this,
-                                    *m_outdoorMapData,
-                                    rayOrigin,
-                                    rayDirection,
-                                    mouseX,
-                                    mouseY,
-                                    width,
-                                    height,
-                                    wireframeViewMatrix,
-                                    wireframeProjectionMatrix,
-                                    OutdoorGameView::DecorationPickMode::Interaction);
-
-                                const std::optional<float> terrainDistance =
-                                    intersectOutdoorTerrainRay(*m_outdoorMapData, rayOrigin, rayDirection);
-
-                                if (terrainDistance)
-                                {
-                                    pendingGroundTargetPoint = bx::Vec3 {
-                                        rayOrigin.x + rayDirection.x * *terrainDistance,
-                                        rayOrigin.y + rayDirection.y * *terrainDistance,
-                                        rayOrigin.z + rayDirection.z * *terrainDistance
-                                    };
-                                }
+                                pendingGroundTargetPoint = bx::Vec3 {
+                                    rayOrigin.x + rayDirection.x * *terrainDistance,
+                                    rayOrigin.y + rayDirection.y * *terrainDistance,
+                                    rayOrigin.z + rayDirection.z * *terrainDistance
+                                };
                             }
                         }
 
-                        if (tryResolvePendingSpellCast(
-                                pendingInspectHit,
-                                portraitMemberIndex,
-                                pendingGroundTargetPoint))
-                        {
-                            m_cachedHoverInspectHitValid = false;
-                            m_cachedHoverInspectHit = {};
-                        }
+                        pendingTargetInput.worldHit =
+                            OutdoorInteractionController::translateInspectHitToGameplayWorldHit(
+                                *this,
+                                pendingInspectHit);
+                        pendingTargetInput.fallbackGroundTargetPoint =
+                            pendingGroundTargetPoint
+                                ? pendingGroundTargetPoint
+                                : resolveSpellActionForwardGroundTargetPoint();
+                    }
+
+                    const GameplaySpellActionController::PendingTargetSelectionResult pendingTargetResult =
+                        GameplaySpellActionController::updatePendingTargetSelection(
+                            gameplayScreenState,
+                            m_gameSession.gameplayScreenRuntime(),
+                            m_gameSession.gameplaySpellService(),
+                            pendingTargetInput);
+
+                    if (pendingTargetResult.castSucceeded)
+                    {
+                        m_outdoorFxRuntime.triggerPartySpellFx(*this, pendingTargetResult.castResult);
+                        m_cachedHoverInspectHitValid = false;
+                        m_cachedHoverInspectHit = {};
                     }
                 }
                 else
                 {
-                    pendingSpellCast.clickLatch = false;
+                    GameplaySpellActionController::PendingTargetSelectionInput pendingTargetInput = {};
+                    pendingTargetInput.confirmPressed = false;
+                    GameplaySpellActionController::updatePendingTargetSelection(
+                        gameplayScreenState,
+                        m_gameSession.gameplayScreenRuntime(),
+                        m_gameSession.gameplaySpellService(),
+                        pendingTargetInput);
                 }
 
                 worldInteractionInputState.keyboardUseLatch = false;
                 worldInteractionInputState.heldInventoryDropLatch = false;
                 overlayInteractionState.activateInspectLatch = false;
+                worldInteractionInputState.inspectKeyboardActivateLatch = false;
                 worldInteractionInputState.inspectMouseActivateLatch = false;
+                worldInteractionInputState.pressedWorldHit = {};
                 attackActionState.inspectLatch = false;
                 attackActionState.inspectRepeatCooldownSeconds = 0.0f;
-                m_pressedInspectHit = {};
             }
             else
             {
@@ -3878,43 +3874,60 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                     pKeyboardState != nullptr
                     && m_gameSettings.keyboard.isPressed(KeyboardAction::Trigger, pKeyboardState);
 
-                if (isKeyboardUsePressed)
+                InspectHit keyboardUseInspectHit = {};
+                const GameplayInteractionController::KeyboardInteractionResult
+                    keyboardInteractionResult = GameplayInteractionController::updateKeyboardInteraction(
+                        worldInteractionInputState,
+                        GameplayInteractionController::KeyboardInteractionInput{
+                            .interactionPressed = isKeyboardUsePressed,
+                            .allowInteraction = m_outdoorMapData.has_value(),
+                            .pickHit =
+                                [&]() -> GameplayWorldHit
+                                {
+                                    OutdoorBillboardRenderer::prepareKeyboardInteractionBillboardCache(
+                                        *this,
+                                        width,
+                                        height,
+                                        wireframeViewMatrix,
+                                        wireframeProjectionMatrix,
+                                        wireframeEye);
+
+                                    keyboardUseInspectHit =
+                                        OutdoorInteractionController::pickKeyboardInteractionInspectHit(
+                                            *this,
+                                            *m_outdoorMapData,
+                                            width,
+                                            height,
+                                            wireframeViewMatrix,
+                                            wireframeProjectionMatrix);
+
+                                    return OutdoorInteractionController::translateInspectHitToGameplayWorldHit(
+                                        *this,
+                                        keyboardUseInspectHit);
+                                },
+                            .canActivate =
+                                [&](const GameplayWorldHit &hit) -> bool
+                                {
+                                    return OutdoorInteractionController::canDispatchWorldActivation(
+                                        *this,
+                                        keyboardUseInspectHit,
+                                        hit,
+                                        OutdoorInteractionController::InteractionInputMethod::Keyboard);
+                                },
+                            .activate =
+                                [&](const GameplayWorldHit &hit) -> bool
+                                {
+                                    return OutdoorInteractionController::dispatchWorldActivation(
+                                        *this,
+                                        keyboardUseInspectHit,
+                                        hit);
+                                },
+                        });
+
+                if (keyboardInteractionResult.activated)
                 {
-                    if (!worldInteractionInputState.keyboardUseLatch && m_outdoorMapData.has_value())
-                    {
-                        OutdoorBillboardRenderer::prepareKeyboardInteractionBillboardCache(
-                            *this,
-                            width,
-                            height,
-                            wireframeViewMatrix,
-                            wireframeProjectionMatrix,
-                            wireframeEye);
-
-                        const InspectHit keyboardUseInspectHit =
-                            OutdoorInteractionController::pickKeyboardInteractionInspectHit(
-                                *this,
-                                *m_outdoorMapData,
-                                width,
-                                height,
-                                wireframeViewMatrix,
-                                wireframeProjectionMatrix);
-
-                        if (OutdoorInteractionController::canActivateInteractionInspectEvent(
-                                *this,
-                                keyboardUseInspectHit,
-                                OutdoorInteractionController::InteractionInputMethod::Keyboard)
-                            && OutdoorInteractionController::tryActivateInspectEvent(*this, keyboardUseInspectHit))
-                        {
-                            m_cachedHoverInspectHitValid = false;
-                            m_cachedHoverInspectHit = {};
-                        }
-
-                        worldInteractionInputState.keyboardUseLatch = true;
-                    }
-                }
-                else
-                {
-                    worldInteractionInputState.keyboardUseLatch = false;
+                    m_cachedHoverInspectHitValid = false;
+                    m_cachedHoverInspectHit = {};
                 }
             }
         }
@@ -3931,91 +3944,107 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
             const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
             const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
 
-            if (isLeftMousePressed)
-            {
-                if (!worldInteractionInputState.heldInventoryDropLatch)
-                {
-                    worldInteractionInputState.heldInventoryDropLatch = true;
-                }
-            }
-            else if (worldInteractionInputState.heldInventoryDropLatch)
-            {
-                const bool isPointerOverPartyPortrait =
-                    m_gameSession.gameplayScreenRuntime().resolvePartyPortraitIndexAtPoint(
-                        width,
-                        height,
-                        mouseX,
-                        mouseY)
-                    .has_value();
-                bool handledInteraction = isPointerOverPartyPortrait;
+            const bool isPointerOverPartyPortrait =
+                m_gameSession.gameplayScreenRuntime().resolvePartyPortraitIndexAtPoint(
+                    width,
+                    height,
+                    mouseX,
+                    mouseY)
+                .has_value();
+            InspectHit heldItemInspectHit = {};
+            const GameplayInteractionController::HeldItemWorldInteractionResult heldItemInteractionResult =
+                GameplayInteractionController::updateHeldItemWorldInteraction(
+                    worldInteractionInputState,
+                    GameplayInteractionController::HeldItemWorldInteractionInput{
+                        .heldItemActive = heldInventoryItem().active,
+                        .leftMousePressed = isLeftMousePressed,
+                        .pointerOverPartyPortrait = isPointerOverPartyPortrait,
+                        .pickHit =
+                            [&]() -> GameplayWorldHit
+                            {
+                                if (!m_outdoorMapData.has_value())
+                                {
+                                    return {};
+                                }
 
-                if (!handledInteraction && m_outdoorMapData.has_value())
-                {
-                    bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
-                    bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+                                bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+                                bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
 
-                    if (buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
-                    {
-                        const InspectHit heldItemInspectHit = OutdoorInteractionController::inspectBModelFace(
-                            *this,
-                            *m_outdoorMapData,
-                            rayOrigin,
-                            rayDirection,
-                            mouseX,
-                            mouseY,
-                            width,
-                            height,
-                            wireframeViewMatrix,
-                            wireframeProjectionMatrix,
-                            OutdoorGameView::DecorationPickMode::Interaction,
-                            OutdoorInteractionController::FacePickMode::InteractionActivatable);
+                                if (!buildInspectRayForScreenPoint(mouseX, mouseY, rayOrigin, rayDirection))
+                                {
+                                    return {};
+                                }
 
-                        if (OutdoorInteractionController::canActivateInteractionInspectEvent(
-                                *this,
-                                heldItemInspectHit,
-                                OutdoorInteractionController::InteractionInputMethod::Mouse))
-                        {
-                            OutdoorInteractionController::tryActivateInspectEvent(*this, heldItemInspectHit);
-                            handledInteraction = true;
-                        }
-                    }
-                }
+                                heldItemInspectHit = OutdoorInteractionController::inspectBModelFace(
+                                    *this,
+                                    *m_outdoorMapData,
+                                    rayOrigin,
+                                    rayDirection,
+                                    mouseX,
+                                    mouseY,
+                                    width,
+                                    height,
+                                    wireframeViewMatrix,
+                                    wireframeProjectionMatrix,
+                                    OutdoorGameView::DecorationPickMode::Interaction,
+                                    OutdoorInteractionController::FacePickMode::InteractionActivatable);
 
-                if (!handledInteraction)
-                {
-                    const ItemDefinition *pItemDefinition = itemTable.get(heldInventoryItem().item.objectDescriptionId);
-                    const std::string itemName =
-                        pItemDefinition != nullptr && !pItemDefinition->name.empty()
-                        ? pItemDefinition->name
-                        : "item";
+                                return OutdoorInteractionController::translateInspectHitToGameplayWorldHit(
+                                    *this,
+                                    heldItemInspectHit);
+                            },
+                        .canUseOnWorld =
+                            [&](const GameplayWorldHit &hit) -> bool
+                            {
+                                return OutdoorInteractionController::canDispatchWorldActivation(
+                                    *this,
+                                    heldItemInspectHit,
+                                    hit,
+                                    OutdoorInteractionController::InteractionInputMethod::Mouse);
+                            },
+                        .useOnWorld =
+                            [&](const GameplayWorldHit &hit) -> bool
+                            {
+                                return OutdoorInteractionController::dispatchWorldActivation(
+                                    *this,
+                                    heldItemInspectHit,
+                                    hit);
+                            },
+                        .dropHeldItem =
+                            [&]() -> bool
+                            {
+                                const ItemDefinition *pItemDefinition =
+                                    itemTable.get(heldInventoryItem().item.objectDescriptionId);
+                                const std::string itemName =
+                                    pItemDefinition != nullptr && !pItemDefinition->name.empty()
+                                    ? pItemDefinition->name
+                                    : "item";
 
-                    if (m_pOutdoorWorldRuntime != nullptr && m_pOutdoorPartyRuntime != nullptr)
-                    {
-                        const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+                                if (m_pOutdoorWorldRuntime == nullptr || m_pOutdoorPartyRuntime == nullptr)
+                                {
+                                    setStatusBarEvent("Can't drop " + itemName);
+                                    return false;
+                                }
 
-                        if (m_pOutdoorWorldRuntime->spawnWorldItem(
-                                heldInventoryItem().item,
-                                moveState.x,
-                                moveState.y,
-                                moveState.footZ + m_cameraEyeHeight,
-                                m_cameraYawRadians))
-                        {
-                            setStatusBarEvent("Dropped " + itemName);
-                            heldInventoryItem() = {};
-                        }
-                        else
-                        {
-                            setStatusBarEvent("Can't drop " + itemName);
-                        }
-                    }
-                    else
-                    {
-                        setStatusBarEvent("Can't drop " + itemName);
-                    }
-                }
+                                const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
 
-                worldInteractionInputState.heldInventoryDropLatch = false;
-            }
+                                if (!m_pOutdoorWorldRuntime->spawnWorldItem(
+                                        heldInventoryItem().item,
+                                        moveState.x,
+                                        moveState.y,
+                                        moveState.footZ + m_cameraEyeHeight,
+                                        m_cameraYawRadians))
+                                {
+                                    setStatusBarEvent("Can't drop " + itemName);
+                                    return false;
+                                }
+
+                                setStatusBarEvent("Dropped " + itemName);
+                                GameplayHeldItemController::clearHeldInventoryItem(heldInventoryItem());
+                                return true;
+                            },
+                    });
+            (void)heldItemInteractionResult;
         }
         else if (!pendingSpellCast.active
                  && m_inspectMode
@@ -4036,7 +4065,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 rayDirection = {0.0f, 0.0f, 0.0f};
             }
             const auto refreshHoverInspectHit =
-                [&]()
+                [&]() -> GameplayHoverStatusPayload
                 {
                     inspectHit = OutdoorInteractionController::inspectBModelFace(
                         *this,
@@ -4053,20 +4082,33 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                     m_cachedHoverInspectHit = inspectHit;
                     m_cachedHoverInspectHitValid = true;
                     m_lastHoverInspectUpdateNanoseconds = renderStartTickCount;
+                    return OutdoorInteractionController::resolveGameplayHoverStatusPayload(*this, inspectHit);
                 };
-            const bool shouldRefreshHoverInspect =
-                !m_cachedHoverInspectHitValid
-                || renderStartTickCount < m_lastHoverInspectUpdateNanoseconds
-                || renderStartTickCount - m_lastHoverInspectUpdateNanoseconds >= HoverInspectRefreshNanoseconds;
-
-            if (shouldRefreshHoverInspect)
-            {
-                refreshHoverInspectHit();
-            }
-            else
-            {
-                inspectHit = m_cachedHoverInspectHit;
-            }
+            const auto readCachedHoverInspectHit =
+                [&]() -> GameplayHoverStatusPayload
+                {
+                    inspectHit = m_cachedHoverInspectHit;
+                    return OutdoorInteractionController::resolveGameplayHoverStatusPayload(*this, inspectHit);
+                };
+            const auto clearHoverInspectHit =
+                [&]()
+                {
+                    m_cachedHoverInspectHitValid = false;
+                    m_cachedHoverInspectHit = {};
+                    inspectHit = {};
+                };
+            GameplayInteractionController::HoverStateResult hoverStateResult =
+                GameplayInteractionController::updateHoverState(
+                    GameplayInteractionController::HoverStateInput{
+                        .allowHover = true,
+                        .hasCachedHover = m_cachedHoverInspectHitValid,
+                        .currentTickNanoseconds = renderStartTickCount,
+                        .lastUpdateNanoseconds = m_lastHoverInspectUpdateNanoseconds,
+                        .refreshIntervalNanoseconds = HoverInspectRefreshNanoseconds,
+                        .refreshHover = refreshHoverInspectHit,
+                        .readCachedHover = readCachedHoverInspectHit,
+                        .clearHover = clearHoverInspectHit,
+                    });
 
             const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
             const bool isActivationPressed =
@@ -4113,52 +4155,45 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                         OutdoorInteractionController::FacePickMode::InteractionActivatable);
                     hasInteractionInspectHit = true;
                 };
-            const auto isSameInspectActivationTarget =
-                [](const InspectHit &lhs, const InspectHit &rhs) -> bool
-                {
-                    return lhs.hasHit
-                        && rhs.hasHit
-                        && lhs.kind == rhs.kind
-                        && lhs.bModelIndex == rhs.bModelIndex
-                        && lhs.faceIndex == rhs.faceIndex
-                        && lhs.npcId == rhs.npcId
-                        && lhs.eventIdPrimary == rhs.eventIdPrimary
-                        && lhs.eventIdSecondary == rhs.eventIdSecondary
-                        && lhs.specialTrigger == rhs.specialTrigger;
-                };
-
             if (needsInteractionInspectHit)
             {
                 refreshInteractionInspectHit();
             }
 
-            if (isActivationPressed && !overlayInteractionState.activateInspectLatch)
+            const bool hadLootViewBeforeActivation =
+                m_pOutdoorWorldRuntime != nullptr
+                && (m_pOutdoorWorldRuntime->activeChestView() != nullptr
+                    || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
+            const GameplayInteractionController::KeyboardActivationInteractionResult
+                keyboardActivationResult = GameplayInteractionController::updateKeyboardActivationInteraction(
+                    worldInteractionInputState,
+                    GameplayInteractionController::KeyboardActivationInteractionInput{
+                        .activationPressed = isActivationPressed,
+                        .allowInteraction = m_outdoorMapData.has_value(),
+                        .currentHit = OutdoorInteractionController::translateInspectHitToGameplayWorldHit(
+                            *this,
+                            interactionInspectHit),
+                        .canActivate =
+                            [&](const GameplayWorldHit &hit) -> bool
+                            {
+                                return OutdoorInteractionController::canDispatchWorldActivation(
+                                    *this,
+                                    interactionInspectHit,
+                                    hit,
+                                    OutdoorInteractionController::InteractionInputMethod::Keyboard);
+                            },
+                        .activate =
+                            [&](const GameplayWorldHit &hit) -> bool
+                            {
+                                return OutdoorInteractionController::dispatchWorldActivation(
+                                    *this,
+                                    interactionInspectHit,
+                                    hit);
+                            },
+                    });
+
+            if (keyboardActivationResult.latched)
             {
-                const bool hadLootViewBeforeActivation =
-                    m_pOutdoorWorldRuntime != nullptr
-                    && (m_pOutdoorWorldRuntime->activeChestView() != nullptr
-                        || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
-
-                if (OutdoorInteractionController::canActivateInteractionInspectEvent(
-                        *this,
-                        interactionInspectHit,
-                        OutdoorInteractionController::InteractionInputMethod::Keyboard)
-                    && OutdoorInteractionController::tryActivateInspectEvent(*this, interactionInspectHit))
-                {
-                    refreshInteractionInspectHit();
-                    refreshHoverInspectHit();
-
-                    const bool hasLootViewAfterActivation =
-                        m_pOutdoorWorldRuntime != nullptr
-                        && (m_pOutdoorWorldRuntime->activeChestView() != nullptr
-                            || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
-
-                    if (!hadLootViewBeforeActivation && hasLootViewAfterActivation)
-                    {
-                        overlayInteractionState.lootChestItemLatch = true;
-                    }
-                }
-
                 overlayInteractionState.activateInspectLatch = true;
             }
             else if (!isActivationPressed)
@@ -4166,70 +4201,70 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 overlayInteractionState.activateInspectLatch = false;
             }
 
-            if (isLeftMousePressed && !isPointerOverPartyPortrait)
+            if (keyboardActivationResult.activated)
             {
-                if (!worldInteractionInputState.inspectMouseActivateLatch)
-                {
-                    if (!hasInteractionInspectHit)
-                    {
-                        refreshInteractionInspectHit();
-                    }
+                refreshInteractionInspectHit();
+                refreshHoverInspectHit();
 
-                    m_pressedInspectHit = interactionInspectHit;
-                    worldInteractionInputState.inspectMouseActivateLatch = true;
+                const bool hasLootViewAfterActivation =
+                    m_pOutdoorWorldRuntime != nullptr
+                    && (m_pOutdoorWorldRuntime->activeChestView() != nullptr
+                        || m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
+
+                if (!hadLootViewBeforeActivation && hasLootViewAfterActivation)
+                {
+                    overlayInteractionState.lootChestItemLatch = true;
                 }
             }
-            else if (worldInteractionInputState.inspectMouseActivateLatch)
-            {
-                if (!hasInteractionInspectHit)
-                {
-                    refreshInteractionInspectHit();
-                }
 
-                if (!isPointerOverPartyPortrait
-                    && isSameInspectActivationTarget(m_pressedInspectHit, interactionInspectHit))
-                {
-                    if (OutdoorInteractionController::canActivateInteractionInspectEvent(
+            const GameplayInteractionController::MouseClickInteractionResult
+                mouseInteractionResult = GameplayInteractionController::updateMouseClickInteraction(
+                    worldInteractionInputState,
+                    GameplayInteractionController::MouseClickInteractionInput{
+                        .leftMousePressed = isLeftMousePressed,
+                        .pointerOverPartyPortrait = isPointerOverPartyPortrait,
+                        .currentHit = OutdoorInteractionController::translateInspectHitToGameplayWorldHit(
                             *this,
-                            interactionInspectHit,
-                            OutdoorInteractionController::InteractionInputMethod::Mouse)
-                        && OutdoorInteractionController::tryActivateInspectEvent(*this, interactionInspectHit))
-                    {
-                        refreshInteractionInspectHit();
-                        refreshHoverInspectHit();
-                    }
-                }
+                            interactionInspectHit),
+                        .canActivate =
+                            [&](const GameplayWorldHit &hit) -> bool
+                            {
+                                return OutdoorInteractionController::canDispatchWorldActivation(
+                                    *this,
+                                    interactionInspectHit,
+                                    hit,
+                                    OutdoorInteractionController::InteractionInputMethod::Mouse);
+                            },
+                        .activate =
+                            [&](const GameplayWorldHit &hit) -> bool
+                            {
+                                return OutdoorInteractionController::dispatchWorldActivation(
+                                    *this,
+                                    interactionInspectHit,
+                                    hit);
+                            },
+                    });
 
-                worldInteractionInputState.inspectMouseActivateLatch = false;
-                m_pressedInspectHit = {};
+            if (mouseInteractionResult.activated)
+            {
+                refreshInteractionInspectHit();
+                refreshHoverInspectHit();
             }
 
-            const bool attackTriggeredByQuickCastFallback = quickSpellState.attackFallbackRequested;
             const bool isHeldAttackPressed = isAttackPressed;
-            bool attackReadyMemberTransitionWhileHeld = false;
+            const bool hasReadyMember =
+                m_pOutdoorPartyRuntime != nullptr
+                && m_pOutdoorPartyRuntime->party().hasSelectableMemberInGameplay();
+            const GameplayActionController::AttackActionDecision attackActionDecision =
+                GameplayActionController::updateAttackAction(
+                    attackActionState,
+                    quickSpellState,
+                    GameplayActionController::AttackActionConfig{
+                        .attackPressed = isHeldAttackPressed,
+                        .hasReadyMember = hasReadyMember,
+                    });
 
-            if (isHeldAttackPressed && m_pOutdoorPartyRuntime != nullptr)
-            {
-                const bool hasReadyMember = m_pOutdoorPartyRuntime->party().hasSelectableMemberInGameplay();
-                attackReadyMemberTransitionWhileHeld =
-                    !attackActionState.readyMemberAvailableWhileHeld && hasReadyMember;
-                attackActionState.readyMemberAvailableWhileHeld = hasReadyMember;
-            }
-            else if (!isHeldAttackPressed)
-            {
-                attackActionState.readyMemberAvailableWhileHeld = false;
-            }
-
-            const bool attackPressedThisFrame =
-                (isHeldAttackPressed || attackTriggeredByQuickCastFallback) && !attackActionState.inspectLatch;
-            const bool attackRepeatReady =
-                (isHeldAttackPressed || attackTriggeredByQuickCastFallback)
-                && attackActionState.inspectLatch
-                && (attackActionState.inspectRepeatCooldownSeconds <= 0.0f || attackReadyMemberTransitionWhileHeld);
-
-            quickSpellState.attackFallbackRequested = false;
-
-            if (attackPressedThisFrame || attackRepeatReady)
+            if (attackActionDecision.shouldAttemptAttack)
             {
                 if (!hasInteractionInspectHit)
                 {
@@ -4249,41 +4284,30 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                     if (pAttacker == nullptr || !GameMechanics::canSelectInGameplay(*pAttacker))
                     {
-                        if (attackPressedThisFrame)
+                        if (attackActionDecision.pressedThisFrame)
                         {
                             setStatusBarEvent("Nobody is in condition");
                         }
                     }
                     else
                     {
+                        const size_t actingMemberIndex = party.activeMemberIndex();
+
                         if (!pAttacker->attackSpellName.empty())
                         {
-                            const SpellEntry *pAttackSpellEntry = spellTable.findByName(pAttacker->attackSpellName);
-
-                            if (pAttackSpellEntry == nullptr)
-                            {
-                                setStatusBarEvent("Unknown attack spell");
-                            }
-                            else
-                            {
-                                const GameplaySpellService::MemberSpellCastResolution castResolution =
-                                    m_gameSession.gameplaySpellService().castSpellFromMember(
+                            const GameplaySpellActionController::AttackCastResult attackCastResult =
+                                GameplaySpellActionController::tryBeginAttackCast(
                                     m_gameSession.gameplayScreenRuntime(),
-                                    party.activeMemberIndex(),
-                                    static_cast<uint32_t>(pAttackSpellEntry->id),
-                                    pAttackSpellEntry->name,
-                                    true,
-                                    [this](
-                                        PartySpellCastRequest &quickCastRequest,
-                                        const PartySpellDescriptor &descriptor)
-                                    {
-                                        return tryResolveQuickCastRequest(quickCastRequest, descriptor);
-                                    });
+                                    m_gameSession.gameplaySpellService(),
+                                    actingMemberIndex,
+                                    pAttacker->attackSpellName,
+                                    buildSpellActionTargetQueries());
 
-                                if (castResolution.castStarted && !castResolution.followupUiActive)
-                                {
-                                    party.switchToNextReadyMember();
-                                }
+                            if (attackCastResult.disposition
+                                == GameplaySpellActionController::AttackCastDisposition::CastStarted
+                                && !attackCastResult.followupUiActive)
+                            {
+                                party.switchToNextReadyMember();
                             }
                         }
                         else
@@ -4389,7 +4413,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                             std::mt19937 rng(
                                 static_cast<uint32_t>(SDL_GetTicks())
                                 ^ static_cast<uint32_t>((runtimeActorIndex.value_or(0) + 1) * 2654435761u)
-                                ^ static_cast<uint32_t>(party.activeMemberIndex() * 40503u));
+                                ^ static_cast<uint32_t>(actingMemberIndex * 40503u));
                             const CharacterAttackProfile attackProfile =
                                 GameMechanics::buildCharacterAttackProfile(*pAttacker, &itemTable, &spellTable);
                             CharacterAttackResult attack = {};
@@ -4509,7 +4533,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                         if (pAttacker->vampiricHealFraction > 0.0f && appliedDamage > 0)
                                         {
                                             party.healMember(
-                                                party.activeMemberIndex(),
+                                                actingMemberIndex,
                                                 std::max(1, static_cast<int>(std::round(
                                                     static_cast<float>(appliedDamage) * pAttacker->vampiricHealFraction))));
                                         }
@@ -4553,8 +4577,8 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                 {
                                     OutdoorWorldRuntime::SpellCastRequest request = {};
                                     request.sourceKind = OutdoorWorldRuntime::RuntimeSpellSourceKind::Party;
-                                    request.sourceId = static_cast<uint32_t>(party.activeMemberIndex() + 1);
-                                    request.sourcePartyMemberIndex = static_cast<uint32_t>(party.activeMemberIndex());
+                                    request.sourceId = static_cast<uint32_t>(actingMemberIndex + 1);
+                                    request.sourcePartyMemberIndex = static_cast<uint32_t>(actingMemberIndex);
                                     request.ability = OutdoorWorldRuntime::MonsterAttackAbility::Spell1;
                                     request.spellId = static_cast<uint32_t>(attack.spellId);
                                     request.skillLevel = attack.skillLevel;
@@ -4573,7 +4597,7 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                 else
                                 {
                                     OutdoorWorldRuntime::PartyProjectileRequest request = {};
-                                    request.sourcePartyMemberIndex = static_cast<uint32_t>(party.activeMemberIndex());
+                                    request.sourcePartyMemberIndex = static_cast<uint32_t>(actingMemberIndex);
                                     request.objectId =
                                         attack.mode == CharacterAttackMode::Blaster
                                             ? OeBlasterProjectileObjectId
@@ -4634,33 +4658,6 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
 
                                 party.applyRecoveryToActiveMember(attack.recoverySeconds);
 
-                                if (attack.mode == CharacterAttackMode::Melee)
-                                {
-                                    if (hadMeleeTarget)
-                                    {
-                                        SpeechId speechId = attacked && attack.hit ? SpeechId::AttackHit : SpeechId::AttackMiss;
-
-                                        if (killed)
-                                        {
-                                            speechId = pTargetActor != nullptr && pTargetActor->maxHp >= 100
-                                                ? SpeechId::KillStrongEnemy
-                                                : SpeechId::KillWeakEnemy;
-                                        }
-
-                                        overlayContext.triggerPortraitFaceAnimation(
-                                            party.activeMemberIndex(),
-                                            attacked && attack.hit ? FaceAnimationId::AttackHit : FaceAnimationId::AttackMiss);
-                                        overlayContext.playSpeechReaction(party.activeMemberIndex(), speechId, false);
-                                    }
-                                }
-                                else
-                                {
-                                    overlayContext.triggerPortraitFaceAnimation(
-                                        party.activeMemberIndex(),
-                                        FaceAnimationId::Shoot);
-                                    overlayContext.playSpeechReaction(party.activeMemberIndex(), SpeechId::Shoot, false);
-                                }
-
                                 party.switchToNextReadyMember();
                             }
 
@@ -4668,12 +4665,35 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                                 attack.mode == CharacterAttackMode::Melee && !targetInMeleeRange
                                     ? std::string()
                                     : (pTargetActor != nullptr ? interactionInspectHit.name : std::string());
-                            showCombatStatusBarEvent(
-                                formatPartyAttackStatusText(
-                                    pAttacker->name,
-                                    attackTargetName,
-                                    attack,
-                                    killed));
+                            GameplayCombatController::PresentationCallbacks combatPresentation = {};
+                            combatPresentation.triggerPortraitFaceAnimation =
+                                [&overlayContext](size_t memberIndex, FaceAnimationId animationId)
+                                {
+                                    overlayContext.triggerPortraitFaceAnimation(memberIndex, animationId);
+                                };
+                            combatPresentation.playSpeechReaction =
+                                [&overlayContext](size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
+                                {
+                                    overlayContext.playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
+                                };
+                            combatPresentation.showCombatStatus =
+                                [this](const std::string &status)
+                                {
+                                    showCombatStatusBarEvent(status);
+                                };
+                            GameplayCombatController::handlePartyAttackPresentation(
+                                combatPresentation,
+                                GameplayCombatController::PartyAttackPresentation{
+                                    .memberIndex = actingMemberIndex,
+                                    .attackerName = pAttacker->name,
+                                    .targetName = attackTargetName,
+                                    .attack = attack,
+                                    .actionPerformed = actionPerformed,
+                                    .attacked = attacked,
+                                    .hadMeleeTarget = hadMeleeTarget,
+                                    .killed = killed,
+                                    .targetStrongEnemy = pTargetActor != nullptr && pTargetActor->maxHp >= 100,
+                                });
 
                             if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
                             {
@@ -4705,17 +4725,9 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                         }
                     }
                 }
-
-                attackActionState.inspectLatch = true;
-                attackActionState.inspectRepeatCooldownSeconds = HeldGameplayActionRepeatDebounceSeconds;
-            }
-            else if (!isAttackPressed)
-            {
-                attackActionState.clear();
             }
 
-            m_gameSession.gameplayScreenRuntime().mutableStatusBarHoverText() =
-                OutdoorInteractionController::resolveHoverStatusBarText(*this, inspectHit).value_or("");
+            m_gameSession.gameplayScreenRuntime().mutableStatusBarHoverText() = hoverStateResult.statusText;
         }
         else
         {
@@ -5358,7 +5370,17 @@ void OutdoorGameView::render(int width, int height, float mouseWheelDelta, float
                 .onRenderedHud =
                     [this, width, height]()
                     {
-                        renderPendingSpellTargetingOverlay(width, height);
+                        float mouseX = 0.0f;
+                        float mouseY = 0.0f;
+                        SDL_GetMouseState(&mouseX, &mouseY);
+                        GameplaySpellTargetingOverlayRenderer::renderPendingSpellTargetingOverlay(
+                            m_gameSession.gameplayScreenRuntime(),
+                            m_gameSession.gameplaySpellService(),
+                            m_gameSession.gameplayScreenState().pendingSpellTarget(),
+                            width,
+                            height,
+                            mouseX,
+                            mouseY);
                     },
             });
     }
@@ -5740,11 +5762,11 @@ void OutdoorGameView::shutdown()
     m_toggleInspectLatch = false;
     m_triggerMeteorLatch = false;
     worldInteractionInputState.keyboardUseLatch = false;
+    worldInteractionInputState.inspectKeyboardActivateLatch = false;
     screenRuntime.resetOverlayInteractionState();
     worldInteractionInputState.inspectMouseActivateLatch = false;
     attackActionState.clear();
     pendingSpellCast.clickLatch = false;
-    m_adventurersInnToggleLatch = false;
     GameplayUiController::CharacterScreenState &characterScreen = screenRuntime.characterScreen();
     characterScreen.open = false;
     characterScreen.dollJewelryOverlayOpen = false;
@@ -5756,7 +5778,7 @@ void OutdoorGameView::shutdown()
     characterScreen.adventurersInnScrollOffset = 0;
     m_lastAdventurersInnPortraitClickTicks = 0;
     m_lastAdventurersInnPortraitClickedIndex = std::nullopt;
-    heldInventoryItem() = {};
+    GameplayHeldItemController::clearHeldInventoryItem(heldInventoryItem());
     screenRuntime.actorInspectOverlay() = {};
     screenRuntime.spellInspectOverlay() = {};
     screenRuntime.readableScrollOverlay() = {};
@@ -5766,6 +5788,7 @@ void OutdoorGameView::shutdown()
     quickSpellState.clear();
     m_spellAreaPreviewCache = {};
     worldInteractionInputState.heldInventoryDropLatch = false;
+    worldInteractionInputState.pressedWorldHit = {};
     m_cachedHoverInspectHitValid = false;
     m_lastHoverInspectUpdateNanoseconds = 0;
     m_cachedHoverInspectHit = {};
@@ -5775,7 +5798,6 @@ void OutdoorGameView::shutdown()
     m_isRotatingCamera = false;
     m_lastMouseX = 0.0f;
     m_lastMouseY = 0.0f;
-    m_pressedInspectHit = {};
     m_lastFootstepX = 0.0f;
     m_lastFootstepY = 0.0f;
     m_hasLastFootstepPosition = false;
@@ -6284,11 +6306,12 @@ void OutdoorGameView::clearWorldInteractionInputLatches()
     WorldInteractionInputState &worldInteractionInputState = gameplayScreenState.worldInteractionInputState();
 
     worldInteractionInputState.keyboardUseLatch = false;
+    worldInteractionInputState.inspectKeyboardActivateLatch = false;
     pendingSpellCast.clickLatch = false;
     worldInteractionInputState.heldInventoryDropLatch = false;
     m_gameSession.overlayInteractionState().activateInspectLatch = false;
     worldInteractionInputState.inspectMouseActivateLatch = false;
-    m_pressedInspectHit = {};
+    worldInteractionInputState.pressedWorldHit = {};
     attackActionState.clear();
     quickSpellState.clear();
     m_cachedHoverInspectHitValid = false;
@@ -6331,37 +6354,6 @@ float OutdoorGameView::innRestDurationMinutes(uint32_t houseId) const
     return durationMinutes;
 }
 
-OutdoorGameView::QuickSpellCastResult OutdoorGameView::tryBeginQuickSpellCast()
-{
-    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
-    {
-        return QuickSpellCastResult::Failed;
-    }
-
-    const GameplaySpellService::QuickSpellStartResolution resolution =
-        m_gameSession.gameplaySpellService().tryStartQuickSpellCast(
-            m_gameSession.gameplayScreenRuntime(),
-            [this](
-                PartySpellCastRequest &quickCastRequest,
-                const PartySpellDescriptor &descriptor)
-            {
-                return tryResolveQuickCastRequest(quickCastRequest, descriptor);
-            });
-
-    if (resolution.disposition == GameplaySpellService::QuickSpellStartDisposition::AttackFallback)
-    {
-        m_gameSession.gameplayScreenState().quickSpellState().attackFallbackRequested = true;
-        return QuickSpellCastResult::AttackFallback;
-    }
-
-    if (resolution.disposition == GameplaySpellService::QuickSpellStartDisposition::CastStarted)
-    {
-        return QuickSpellCastResult::CastStarted;
-    }
-
-    return QuickSpellCastResult::Failed;
-}
-
 bool OutdoorGameView::activeMemberKnowsSpell(uint32_t spellId) const
 {
     if (m_pOutdoorPartyRuntime == nullptr)
@@ -6399,118 +6391,57 @@ bool OutdoorGameView::activeMemberHasSpellbookSchool(SpellbookSchool school) con
     return pSkill != nullptr && pSkill->level > 0 && pSkill->mastery != SkillMastery::None;
 }
 
-bool OutdoorGameView::tryResolveQuickCastRequest(
-    PartySpellCastRequest &request,
-    const PartySpellDescriptor &descriptor) const
+GameplaySpellActionController::TargetQueries OutdoorGameView::buildSpellActionTargetQueries() const
 {
-    if (m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
-    {
-        return false;
-    }
+    GameplaySpellActionController::TargetQueries targetQueries = {};
 
-    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-    const float sourceX = moveState.x;
-    const float sourceY = moveState.y;
     float cursorX = 0.0f;
     float cursorY = 0.0f;
+    SDL_GetMouseState(&cursorX, &cursorY);
 
     const GameplayMouseLookState &gameplayMouseLookState =
         m_gameSession.gameplayScreenState().gameplayMouseLookState();
 
-    if (gameplayMouseLookState.mouseLookActive
+    targetQueries.useCrosshairTarget =
+        gameplayMouseLookState.mouseLookActive
         && !gameplayMouseLookState.cursorModeActive
         && m_lastRenderWidth > 0
-        && m_lastRenderHeight > 0)
-    {
-        cursorX = static_cast<float>(m_lastRenderWidth) * 0.5f;
-        cursorY = static_cast<float>(m_lastRenderHeight) * 0.5f;
-    }
-    else
-    {
-        SDL_GetMouseState(&cursorX, &cursorY);
-    }
-
-    if (descriptor.targetKind == PartySpellCastTargetKind::None)
-    {
-        return true;
-    }
-
-    if (descriptor.targetKind == PartySpellCastTargetKind::Actor)
-    {
-        request.targetActorIndex = resolveQuickCastHoveredActorIndex();
-
-        if (!request.targetActorIndex)
+        && m_lastRenderHeight > 0;
+    targetQueries.cursorX = cursorX;
+    targetQueries.cursorY = cursorY;
+    targetQueries.screenWidth = static_cast<float>(m_lastRenderWidth);
+    targetQueries.screenHeight = static_cast<float>(m_lastRenderHeight);
+    targetQueries.resolveHoveredActorIndex =
+        [this]()
         {
-            request.targetActorIndex = resolveClosestQuickCastVisibleActorIndex(
-                sourceX,
-                sourceY,
-                moveState.footZ + 96.0f);
-        }
-
-        if (request.targetActorIndex)
+            return resolveSpellActionHoveredActorIndex();
+        };
+    targetQueries.resolveClosestVisibleHostileActorIndex =
+        [this]()
         {
-            return true;
-        }
-
-        if (descriptor.effectKind == PartySpellCastEffectKind::Projectile)
-        {
-            const std::optional<bx::Vec3> groundTargetPoint = resolveQuickCastCursorTargetPoint(cursorX, cursorY);
-
-            if (!groundTargetPoint)
+            if (m_pOutdoorPartyRuntime == nullptr)
             {
-                return false;
+                return std::optional<size_t>();
             }
 
-            request.hasTargetPoint = true;
-            request.targetX = groundTargetPoint->x;
-            request.targetY = groundTargetPoint->y;
-            request.targetZ = groundTargetPoint->z;
-            return true;
-        }
-
-        return false;
-    }
-
-    if (descriptor.targetKind == PartySpellCastTargetKind::GroundPoint)
-    {
-        std::optional<bx::Vec3> targetPoint;
-        const std::optional<size_t> hoveredActorIndex = resolveQuickCastHoveredActorIndex();
-
-        if (hoveredActorIndex)
+            const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+            return resolveClosestVisibleHostileActorIndex(moveState.x, moveState.y, moveState.footZ + 96.0f);
+        };
+    targetQueries.resolveActorTargetPoint =
+        [this](size_t actorIndex)
         {
-            const OutdoorWorldRuntime::MapActorState *pActor = m_pOutdoorWorldRuntime->mapActorState(*hoveredActorIndex);
-
-            if (pActor != nullptr && !pActor->isDead && !pActor->isInvisible)
-            {
-                targetPoint = bx::Vec3 {
-                    pActor->preciseX,
-                    pActor->preciseY,
-                    pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f)
-                };
-            }
-        }
-
-        if (!targetPoint)
+            return resolveSpellActionActorTargetPoint(actorIndex);
+        };
+    targetQueries.resolveGroundTargetPoint =
+        [this](float screenX, float screenY)
         {
-            targetPoint = resolveQuickCastCursorTargetPoint(cursorX, cursorY);
-        }
+            return resolveQuickCastCursorTargetPoint(screenX, screenY);
+        };
 
-        if (!targetPoint)
-        {
-            return false;
-        }
-
-        request.hasTargetPoint = true;
-        request.targetX = targetPoint->x;
-        request.targetY = targetPoint->y;
-        request.targetZ = targetPoint->z;
-        return true;
-    }
-
-    return false;
+    return targetQueries;
 }
 
-std::optional<size_t> OutdoorGameView::resolveQuickCastHoveredActorIndex() const
+std::optional<size_t> OutdoorGameView::resolveSpellActionHoveredActorIndex() const
 {
     if (!m_cachedHoverInspectHitValid || m_cachedHoverInspectHit.kind != "actor")
     {
@@ -6538,7 +6469,7 @@ std::optional<size_t> OutdoorGameView::resolveQuickCastHoveredActorIndex() const
     return actorIndex;
 }
 
-std::optional<size_t> OutdoorGameView::resolveClosestQuickCastVisibleActorIndex(
+std::optional<size_t> OutdoorGameView::resolveClosestVisibleHostileActorIndex(
     float sourceX,
     float sourceY,
     float sourceZ) const
@@ -6632,6 +6563,27 @@ std::optional<size_t> OutdoorGameView::resolveClosestQuickCastVisibleActorIndex(
     }
 
     return nearestActorIndex;
+}
+
+std::optional<bx::Vec3> OutdoorGameView::resolveSpellActionActorTargetPoint(size_t actorIndex) const
+{
+    if (m_pOutdoorWorldRuntime == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const OutdoorWorldRuntime::MapActorState *pActor = m_pOutdoorWorldRuntime->mapActorState(actorIndex);
+
+    if (pActor == nullptr || pActor->isDead || pActor->isInvisible)
+    {
+        return std::nullopt;
+    }
+
+    return bx::Vec3 {
+        pActor->preciseX,
+        pActor->preciseY,
+        pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f)
+    };
 }
 
 bool OutdoorGameView::buildQuickCastInspectRayForScreenPoint(
@@ -6762,7 +6714,13 @@ std::optional<bx::Vec3> OutdoorGameView::resolveQuickCastCursorTargetPoint(float
 
     if (inspectHit.hasHit)
     {
-        const std::optional<bx::Vec3> inspectTargetPoint = resolvePendingSpellGroundTargetPoint(inspectHit);
+        const GameplayWorldHit worldHit =
+            OutdoorInteractionController::translateInspectHitToGameplayWorldHit(*this, inspectHit);
+        const std::optional<bx::Vec3> inspectTargetPoint =
+            GameplaySpellActionController::resolveGroundTargetPointForWorldHit(
+                worldHit,
+                buildSpellActionTargetQueries(),
+                fallbackGroundTargetPoint);
 
         if (inspectTargetPoint)
         {
@@ -6873,107 +6831,8 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
     return false;
 }
 
-bool OutdoorGameView::tryResolvePendingSpellCast(
-    const InspectHit &actorInspectHit,
-    const std::optional<size_t> &portraitMemberIndex,
-    const std::optional<bx::Vec3> &fallbackGroundTargetPoint)
+std::optional<bx::Vec3> OutdoorGameView::resolveSpellActionForwardGroundTargetPoint() const
 {
-    const PendingSpellCastState &pendingSpellCast = m_gameSession.gameplayScreenState().pendingSpellTarget();
-
-    if (!pendingSpellCast.active || m_pOutdoorPartyRuntime == nullptr || m_pOutdoorWorldRuntime == nullptr)
-    {
-        return false;
-    }
-
-    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
-    PartySpellCastRequest request = m_gameSession.gameplaySpellService().makePendingTargetSelectionRequest();
-    const bool actorTargetAllowed =
-        pendingSpellCast.targetKind == PartySpellCastTargetKind::Actor
-        || pendingSpellCast.targetKind == PartySpellCastTargetKind::ActorOrCharacter;
-    const bool characterTargetAllowed =
-        pendingSpellCast.targetKind == PartySpellCastTargetKind::Character
-        || pendingSpellCast.targetKind == PartySpellCastTargetKind::ActorOrCharacter;
-    const std::optional<size_t> runtimeActorIndex =
-        actorTargetAllowed && actorInspectHit.kind == "actor"
-            ? resolveRuntimeActorIndexForInspectHit(actorInspectHit)
-            : std::nullopt;
-
-    if (runtimeActorIndex)
-    {
-        const OutdoorWorldRuntime::MapActorState *pActor = m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
-
-        if (pActor != nullptr && !pActor->isDead && !pActor->isInvisible)
-        {
-            request.targetActorIndex = runtimeActorIndex;
-        }
-    }
-
-    if (characterTargetAllowed && portraitMemberIndex)
-    {
-        request.targetCharacterIndex = *portraitMemberIndex;
-    }
-
-    if (pendingSpellCast.targetKind == PartySpellCastTargetKind::GroundPoint)
-    {
-        const std::optional<bx::Vec3> groundTargetPoint =
-            actorInspectHit.hasHit
-                ? resolvePendingSpellGroundTargetPoint(actorInspectHit)
-                : fallbackGroundTargetPoint.has_value()
-                ? fallbackGroundTargetPoint
-                : resolvePendingSpellGroundTargetPoint(actorInspectHit);
-
-        if (groundTargetPoint)
-        {
-            request.hasTargetPoint = true;
-            request.targetX = groundTargetPoint->x;
-            request.targetY = groundTargetPoint->y;
-            request.targetZ = groundTargetPoint->z;
-        }
-    }
-
-    if (!m_gameSession.gameplaySpellService().validatePendingTargetSelectionRequest(screenRuntime, request))
-    {
-        return false;
-    }
-
-    const GameplaySpellService::PendingTargetResolution resolution =
-        m_gameSession.gameplaySpellService().resolvePendingTargetSelectionCast(screenRuntime, request);
-
-    if (resolution.disposition != GameplaySpellService::PendingTargetResolutionDisposition::CastSucceeded)
-    {
-        return false;
-    }
-
-    m_outdoorFxRuntime.triggerPartySpellFx(*this, resolution.castResult);
-    m_gameSession.gameplaySpellService().clearPendingTargetSelection(screenRuntime);
-    return true;
-}
-
-std::optional<bx::Vec3> OutdoorGameView::resolvePendingSpellGroundTargetPoint(const InspectHit &inspectHit) const
-{
-    if (inspectHit.hasHit)
-    {
-        if (inspectHit.kind == "actor")
-        {
-            const std::optional<size_t> runtimeActorIndex = resolveRuntimeActorIndexForInspectHit(inspectHit);
-            const OutdoorWorldRuntime::MapActorState *pActor =
-                runtimeActorIndex && m_pOutdoorWorldRuntime != nullptr
-                    ? m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex)
-                    : nullptr;
-
-            if (pActor != nullptr)
-            {
-                return bx::Vec3 {
-                    pActor->preciseX,
-                    pActor->preciseY,
-                    pActor->preciseZ + std::max(48.0f, static_cast<float>(pActor->height) * 0.6f)
-                };
-            }
-        }
-
-        return bx::Vec3 {inspectHit.hitX, inspectHit.hitY, inspectHit.hitZ};
-    }
-
     if (m_outdoorMapData.has_value())
     {
         const bx::Vec3 rayOrigin = {
@@ -7003,119 +6862,6 @@ std::optional<bx::Vec3> OutdoorGameView::resolvePendingSpellGroundTargetPoint(co
     }
 
     return std::nullopt;
-}
-
-void OutdoorGameView::renderPendingSpellTargetingOverlay(int width, int height) const
-{
-    if (!m_gameSession.gameplayScreenState().pendingSpellTarget().active
-        || !bgfx::isValid(m_texturedTerrainProgramHandle)
-        || !bgfx::isValid(m_terrainTextureSamplerHandle)
-        || width <= 0
-        || height <= 0)
-    {
-        return;
-    }
-
-    float projectionMatrix[16] = {};
-    bx::mtxOrtho(
-        projectionMatrix,
-        0.0f,
-        static_cast<float>(width),
-        static_cast<float>(height),
-        0.0f,
-        0.0f,
-        1000.0f,
-        0.0f,
-        bgfx::getCaps()->homogeneousDepth
-    );
-    bgfx::setViewRect(HudViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
-    bgfx::setViewTransform(HudViewId, nullptr, projectionMatrix);
-    bgfx::touch(HudViewId);
-
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    SDL_GetMouseState(&mouseX, &mouseY);
-    const UiViewportRect uiViewport = computeUiViewportRect(width, height);
-    const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
-    const float overlayScale = std::clamp(baseScale, 0.75f, 2.0f);
-    const float armLength = std::round(10.0f * overlayScale);
-    const float armGap = std::round(4.0f * overlayScale);
-    const float stroke = std::max(1.0f, std::round(2.0f * overlayScale));
-    const uint32_t crosshairColor = packHudColorAbgr(255, 255, 155);
-    const uint32_t shadowColor = 0xc0000000u;
-
-    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
-    const std::optional<GameplayHudTextureHandle> crosshairTexture =
-        overlayContext.gameplayUiRuntime().ensureSolidHudTextureLoaded("__spell_target_crosshair__", crosshairColor);
-    const std::optional<GameplayHudTextureHandle> shadowTexture =
-        overlayContext.gameplayUiRuntime().ensureSolidHudTextureLoaded("__spell_target_shadow__", shadowColor);
-
-    if (!crosshairTexture || !shadowTexture)
-    {
-        return;
-    }
-
-    const auto submitTexturedQuad =
-        [this](bgfx::TextureHandle textureHandle, float x, float y, float quadWidth, float quadHeight)
-        {
-            if (!bgfx::isValid(textureHandle)
-                || quadWidth <= 0.0f
-                || quadHeight <= 0.0f
-                || bgfx::getAvailTransientVertexBuffer(6, TexturedTerrainVertex::ms_layout) < 6)
-            {
-                return;
-            }
-
-            bgfx::TransientVertexBuffer transientVertexBuffer = {};
-            bgfx::allocTransientVertexBuffer(&transientVertexBuffer, 6, TexturedTerrainVertex::ms_layout);
-            TexturedTerrainVertex *pVertices = reinterpret_cast<TexturedTerrainVertex *>(transientVertexBuffer.data);
-            pVertices[0] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[1] = {x + quadWidth, y, 0.0f, 1.0f, 0.0f};
-            pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[3] = {x, y, 0.0f, 0.0f, 0.0f};
-            pVertices[4] = {x + quadWidth, y + quadHeight, 0.0f, 1.0f, 1.0f};
-            pVertices[5] = {x, y + quadHeight, 0.0f, 0.0f, 1.0f};
-
-            float modelMatrix[16] = {};
-            bx::mtxIdentity(modelMatrix);
-            bgfx::setTransform(modelMatrix);
-            bgfx::setVertexBuffer(0, &transientVertexBuffer);
-            bindTexture(
-                0,
-                m_terrainTextureSamplerHandle,
-                textureHandle,
-                TextureFilterProfile::Ui,
-                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-            bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA);
-            bgfx::submit(HudViewId, m_texturedTerrainProgramHandle);
-        };
-
-    const auto submitCrosshairLine =
-        [&](float x, float y, float quadWidth, float quadHeight)
-        {
-            submitTexturedQuad(shadowTexture->textureHandle, x + 1.0f, y + 1.0f, quadWidth, quadHeight);
-            submitTexturedQuad(crosshairTexture->textureHandle, x, y, quadWidth, quadHeight);
-        };
-
-    submitCrosshairLine(mouseX - armGap - armLength, mouseY - stroke * 0.5f, armLength, stroke);
-    submitCrosshairLine(mouseX + armGap, mouseY - stroke * 0.5f, armLength, stroke);
-    submitCrosshairLine(mouseX - stroke * 0.5f, mouseY - armGap - armLength, stroke, armLength);
-    submitCrosshairLine(mouseX - stroke * 0.5f, mouseY + armGap, stroke, armLength);
-
-    const std::string prompt =
-        m_gameSession.gameplaySpellService().pendingTargetSelectionPromptText(true);
-    HudLayoutElement promptLayout = {};
-    promptLayout.fontName = "arrus";
-    promptLayout.textColorAbgr = crosshairColor;
-    promptLayout.textAlignX = HudTextAlignX::Center;
-    promptLayout.textAlignY = HudTextAlignY::Top;
-    ResolvedHudLayoutElement promptRect = {};
-    promptRect.x = uiViewport.x;
-    promptRect.y = uiViewport.y + std::round(18.0f * overlayScale);
-    promptRect.width = uiViewport.width;
-    promptRect.height = std::round(24.0f * overlayScale);
-    promptRect.scale = overlayScale;
-    overlayContext.renderLayoutLabel(promptLayout, promptRect, prompt);
 }
 
 OutdoorGameView::HeldInventoryItemState &OutdoorGameView::heldInventoryItem()

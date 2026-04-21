@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/outdoor/OutdoorGameView.h"
+#include "game/gameplay/GameplayWorldInteraction.h"
 
 #include <cstdint>
 #include <optional>
@@ -89,10 +90,28 @@ public:
     static std::optional<std::string> resolveInteractiveDecorationHoverText(
         const OutdoorGameView &view,
         size_t entityIndex);
-    static std::optional<std::string> resolveHoverStatusBarText(
+    static std::optional<std::string> resolveEventTargetHoverStatusText(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
+    static GameplayWorldHit translateInspectHitToGameplayWorldHit(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
+    static GameplayHoverStatusPayload resolveGameplayHoverStatusPayload(
         const OutdoorGameView &view,
         const OutdoorGameView::InspectHit &inspectHit);
     static bool canActivateInspectEvent(const OutdoorGameView &view, const OutdoorGameView::InspectHit &inspectHit);
+    static bool canActivateActorInspectEvent(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
+    static bool canActivateWorldItemInspectEvent(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
+    static bool canActivateContainerInspectEvent(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
+    static bool canActivateEventTargetInspectEvent(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
     static bool isInteractionInspectHitInRange(
         const OutdoorGameView &view,
         const OutdoorGameView::InspectHit &inspectHit,
@@ -101,6 +120,41 @@ public:
         const OutdoorGameView &view,
         const OutdoorGameView::InspectHit &inspectHit,
         InteractionInputMethod inputMethod);
+    static bool canActivateInteractionActorInspectEvent(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit,
+        InteractionInputMethod inputMethod);
+    static bool canActivateInteractionWorldItemInspectEvent(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit,
+        InteractionInputMethod inputMethod);
+    static bool canActivateInteractionContainerInspectEvent(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit,
+        InteractionInputMethod inputMethod);
+    static bool canActivateInteractionEventTargetInspectEvent(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit,
+        InteractionInputMethod inputMethod);
+    static bool canDispatchWorldActivation(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit,
+        const GameplayWorldHit &worldHit,
+        InteractionInputMethod inputMethod);
+    static bool dispatchWorldActivation(
+        OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit,
+        const GameplayWorldHit &worldHit);
+    static bool tryActivateActorInspectEvent(OutdoorGameView &view, const OutdoorGameView::InspectHit &inspectHit);
+    static bool tryActivateWorldItemInspectEvent(
+        OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
+    static bool tryActivateContainerInspectEvent(
+        OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
+    static bool tryActivateEventTargetInspectEvent(
+        OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
     static bool tryActivateInspectEvent(OutdoorGameView &view, const OutdoorGameView::InspectHit &inspectHit);
 
     static void presentPendingEventDialog(
@@ -116,10 +170,6 @@ public:
     static void applyPendingCombatEvents(OutdoorGameView &view);
 
 private:
-    static void setHeldInventoryItem(
-        GameplayUiController::HeldInventoryItemState &heldInventoryItem,
-        const InventoryItem &item);
-    static bool tryDisplaceHeldInventoryItem(OutdoorGameView &view);
     static GameplayDialogController::Context createGameplayDialogContext(
         OutdoorGameView &view,
         EventRuntimeState &eventRuntimeState,

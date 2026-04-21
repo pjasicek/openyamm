@@ -506,6 +506,8 @@ struct GameplayOverlayInteractionState
     bool closeOverlayLatch = false;
     bool restToggleLatch = false;
     bool restClickLatch = false;
+    bool alwaysRunToggleLatch = false;
+    bool adventurersInnToggleLatch = false;
     GameplayRestPointerTarget restPressedTarget = {};
     bool gameplayHudClickLatch = false;
     GameplayHudPointerTarget gameplayHudPressedTarget = {};

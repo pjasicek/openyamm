@@ -2,8 +2,10 @@
 #include "game/BinaryReader.h"
 
 #include <array>
+#include <algorithm>
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <optional>
 #include <string>
 #include <vector>
@@ -355,6 +357,65 @@ SectorLayout sectorLayoutForVersion(int version)
         .exitTagOffset = 0x66,
         .boundingBoxOffset = 0x68,
     };
+}
+
+template <typename ValueType>
+void writeValue(std::vector<uint8_t> &bytes, size_t offset, ValueType value)
+{
+    if (offset + sizeof(ValueType) > bytes.size())
+    {
+        return;
+    }
+
+    std::memcpy(bytes.data() + offset, &value, sizeof(ValueType));
+}
+
+void appendZeroBytes(std::vector<uint8_t> &bytes, size_t count)
+{
+    bytes.insert(bytes.end(), count, 0);
+}
+
+void appendInt32(std::vector<uint8_t> &bytes, int32_t value)
+{
+    const size_t offset = bytes.size();
+    appendZeroBytes(bytes, sizeof(value));
+    writeValue(bytes, offset, value);
+}
+
+void appendUInt16(std::vector<uint8_t> &bytes, uint16_t value)
+{
+    const size_t offset = bytes.size();
+    appendZeroBytes(bytes, sizeof(value));
+    writeValue(bytes, offset, value);
+}
+
+void appendInt16(std::vector<uint8_t> &bytes, int16_t value)
+{
+    const size_t offset = bytes.size();
+    appendZeroBytes(bytes, sizeof(value));
+    writeValue(bytes, offset, value);
+}
+
+void appendFixedString(std::vector<uint8_t> &bytes, const std::string &value, size_t maxLength)
+{
+    const size_t offset = bytes.size();
+    appendZeroBytes(bytes, maxLength);
+    const size_t copyLength = std::min(maxLength, value.size());
+
+    if (copyLength > 0)
+    {
+        std::memcpy(bytes.data() + offset, value.data(), copyLength);
+    }
+}
+
+uint16_t clampedUInt16(size_t value)
+{
+    return static_cast<uint16_t>(std::min<size_t>(value, 0xffffu));
+}
+
+int16_t clampedInt16(int value)
+{
+    return static_cast<int16_t>(std::clamp(value, -32768, 32767));
 }
 }
 
@@ -848,5 +909,280 @@ std::optional<IndoorMapData> IndoorMapDataLoader::loadFromBytes(const std::vecto
     }
 
     return indoorMapData;
+}
+
+std::optional<std::vector<uint8_t>> IndoorMapDataWriter::buildBytes(const IndoorMapData &indoorMapData) const
+{
+    static constexpr VersionLayout Layout = {8, 0x60, 0x78, 0x20, 0x14, 0x18};
+    const SectorLayout sectorLayout = sectorLayoutForVersion(Layout.version);
+
+    if (indoorMapData.vertices.size() > 0x7fffffffu || indoorMapData.faces.size() > 0x7fffffffu)
+    {
+        return std::nullopt;
+    }
+
+    std::vector<uint8_t> bytes(SectionOffset, 0);
+
+    writeValue<int32_t>(bytes, 0x00, Layout.version);
+    appendInt32(bytes, static_cast<int32_t>(indoorMapData.vertices.size()));
+
+    for (const IndoorVertex &vertex : indoorMapData.vertices)
+    {
+        appendInt16(bytes, clampedInt16(vertex.x));
+        appendInt16(bytes, clampedInt16(vertex.y));
+        appendInt16(bytes, clampedInt16(vertex.z));
+    }
+
+    appendInt32(bytes, static_cast<int32_t>(indoorMapData.faces.size()));
+    const size_t faceHeadersOffset = bytes.size();
+    appendZeroBytes(bytes, indoorMapData.faces.size() * Layout.faceRecordSize);
+
+    std::vector<uint8_t> faceDataBytes;
+
+    for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
+    {
+        const IndoorFace &face = indoorMapData.faces[faceIndex];
+        const size_t vertexCount = face.vertexIndices.size();
+        const size_t streamStride = (vertexCount + 1) * sizeof(int16_t);
+        const size_t faceDataOffset = faceDataBytes.size();
+        appendZeroBytes(faceDataBytes, streamStride * 6);
+
+        for (size_t vertexIndex = 0; vertexIndex < vertexCount; ++vertexIndex)
+        {
+            const int16_t textureU = vertexIndex < face.textureUs.size() ? face.textureUs[vertexIndex] : 0;
+            const int16_t textureV = vertexIndex < face.textureVs.size() ? face.textureVs[vertexIndex] : 0;
+            writeValue<uint16_t>(
+                faceDataBytes,
+                faceDataOffset + vertexIndex * sizeof(uint16_t),
+                face.vertexIndices[vertexIndex]);
+            writeValue<int16_t>(
+                faceDataBytes,
+                faceDataOffset + streamStride * 4 + vertexIndex * sizeof(int16_t),
+                textureU);
+            writeValue<int16_t>(
+                faceDataBytes,
+                faceDataOffset + streamStride * 5 + vertexIndex * sizeof(int16_t),
+                textureV);
+        }
+
+        const size_t faceStructOffset = faceHeadersOffset + faceIndex * Layout.faceRecordSize + 0x10;
+        writeValue<uint32_t>(bytes, faceStructOffset + 0x1c, face.attributes);
+        writeValue<uint16_t>(bytes, faceStructOffset + 0x38, static_cast<uint16_t>(faceIndex));
+        writeValue<uint16_t>(bytes, faceStructOffset + 0x3c, face.roomNumber);
+        writeValue<uint16_t>(bytes, faceStructOffset + 0x3e, face.roomBehindNumber);
+        writeValue<uint8_t>(bytes, faceStructOffset + 0x4c, face.facetType);
+        writeValue<uint8_t>(bytes, faceStructOffset + 0x4d, static_cast<uint8_t>(std::min<size_t>(vertexCount, 255)));
+    }
+
+    writeValue<int32_t>(bytes, FaceDataSizeOffset, static_cast<int32_t>(faceDataBytes.size()));
+    bytes.insert(bytes.end(), faceDataBytes.begin(), faceDataBytes.end());
+
+    for (const IndoorFace &face : indoorMapData.faces)
+    {
+        appendFixedString(bytes, face.textureName, TextureNameSize);
+    }
+
+    appendInt32(bytes, static_cast<int32_t>(indoorMapData.faces.size()));
+
+    for (const IndoorFace &face : indoorMapData.faces)
+    {
+        const size_t faceParamOffset = bytes.size();
+        appendZeroBytes(bytes, FaceParamRecordSize);
+        writeValue<uint16_t>(bytes, faceParamOffset + 0x10, face.textureFrameTableIndex);
+        writeValue<uint16_t>(bytes, faceParamOffset + 0x12, face.textureFrameTableCog);
+        writeValue<int16_t>(bytes, faceParamOffset + 0x14, face.textureDeltaU);
+        writeValue<int16_t>(bytes, faceParamOffset + 0x16, face.textureDeltaV);
+        writeValue<uint16_t>(bytes, faceParamOffset + 0x18, face.cogNumber);
+        writeValue<uint16_t>(bytes, faceParamOffset + 0x1a, face.cogTriggered);
+        writeValue<uint16_t>(bytes, faceParamOffset + 0x1c, face.cogTriggerType);
+        writeValue<uint16_t>(bytes, faceParamOffset + 0x22, face.lightLevel);
+    }
+
+    for (const IndoorFace &face : indoorMapData.faces)
+    {
+        appendFixedString(bytes, face.textureName, FaceParamNameSize);
+    }
+
+    appendInt32(bytes, static_cast<int32_t>(indoorMapData.sectors.size()));
+    const size_t sectorHeadersOffset = bytes.size();
+    appendZeroBytes(bytes, indoorMapData.sectors.size() * Layout.sectorRecordSize);
+
+    std::vector<uint16_t> sectorData;
+    std::vector<uint16_t> sectorLightData;
+
+    for (size_t sectorIndex = 0; sectorIndex < indoorMapData.sectors.size(); ++sectorIndex)
+    {
+        const IndoorSector &sector = indoorMapData.sectors[sectorIndex];
+        const size_t sectorOffset = sectorHeadersOffset + sectorIndex * Layout.sectorRecordSize;
+        const auto appendIds = [&sectorData](const std::vector<uint16_t> &ids)
+        {
+            sectorData.insert(sectorData.end(), ids.begin(), ids.end());
+        };
+
+        writeValue<int32_t>(bytes, sectorOffset + 0x00, sector.flags);
+        writeValue<int32_t>(bytes, sectorOffset + sectorLayout.unknown0Offset, sector.unknown0);
+        writeValue<uint16_t>(
+            bytes,
+            sectorOffset + sectorLayout.floorCountOffset,
+            clampedUInt16(sector.floorFaceIds.size()));
+        writeValue<uint16_t>(
+            bytes,
+            sectorOffset + sectorLayout.wallCountOffset,
+            clampedUInt16(sector.wallFaceIds.size()));
+        writeValue<uint16_t>(
+            bytes,
+            sectorOffset + sectorLayout.ceilingCountOffset,
+            clampedUInt16(sector.ceilingFaceIds.size()));
+        writeValue<uint16_t>(bytes, sectorOffset + sectorLayout.fluidCountOffset, sector.fluidCount);
+        writeValue<int16_t>(
+            bytes,
+            sectorOffset + sectorLayout.portalCountOffset,
+            clampedInt16(sector.portalFaceIds.size()));
+        writeValue<uint16_t>(bytes, sectorOffset + sectorLayout.faceCountOffset, clampedUInt16(sector.faceIds.size()));
+        writeValue<uint16_t>(
+            bytes,
+            sectorOffset + sectorLayout.nonBspFaceCountOffset,
+            clampedUInt16(sector.nonBspFaceIds.size()));
+        writeValue<uint16_t>(
+            bytes,
+            sectorOffset + sectorLayout.cylinderFaceCountOffset,
+            clampedUInt16(sector.cylinderFaceIds.size()));
+        writeValue<uint16_t>(bytes, sectorOffset + sectorLayout.cogCountOffset, sector.cogCount);
+        writeValue<uint16_t>(
+            bytes,
+            sectorOffset + sectorLayout.decorationCountOffset,
+            clampedUInt16(sector.decorationIds.size()));
+        writeValue<uint16_t>(bytes, sectorOffset + sectorLayout.markerCountOffset, sector.markerCount);
+        writeValue<uint16_t>(
+            bytes,
+            sectorOffset + sectorLayout.lightCountOffset,
+            clampedUInt16(sector.lightIds.size()));
+        writeValue<int16_t>(bytes, sectorOffset + sectorLayout.waterLevelOffset, sector.waterLevel);
+        writeValue<int16_t>(bytes, sectorOffset + sectorLayout.mistLevelOffset, sector.mistLevel);
+        writeValue<int16_t>(
+            bytes,
+            sectorOffset + sectorLayout.lightDistanceMultiplierOffset,
+            sector.lightDistanceMultiplier);
+        writeValue<int16_t>(
+            bytes,
+            sectorOffset + sectorLayout.minAmbientLightLevelOffset,
+            sector.minAmbientLightLevel);
+        writeValue<int16_t>(bytes, sectorOffset + sectorLayout.firstBspNodeOffset, sector.firstBspNode);
+        writeValue<int16_t>(bytes, sectorOffset + sectorLayout.exitTagOffset, sector.exitTag);
+        writeValue<int16_t>(bytes, sectorOffset + sectorLayout.boundingBoxOffset + 0x00, sector.minX);
+        writeValue<int16_t>(bytes, sectorOffset + sectorLayout.boundingBoxOffset + 0x02, sector.maxX);
+        writeValue<int16_t>(bytes, sectorOffset + sectorLayout.boundingBoxOffset + 0x04, sector.minY);
+        writeValue<int16_t>(bytes, sectorOffset + sectorLayout.boundingBoxOffset + 0x06, sector.maxY);
+        writeValue<int16_t>(bytes, sectorOffset + sectorLayout.boundingBoxOffset + 0x08, sector.minZ);
+        writeValue<int16_t>(bytes, sectorOffset + sectorLayout.boundingBoxOffset + 0x0a, sector.maxZ);
+
+        appendIds(sector.floorFaceIds);
+        appendIds(sector.wallFaceIds);
+        appendIds(sector.ceilingFaceIds);
+        sectorData.insert(sectorData.end(), sector.fluidCount, 0);
+        appendIds(sector.portalFaceIds);
+        appendIds(sector.faceIds);
+        appendIds(sector.cylinderFaceIds);
+        sectorData.insert(sectorData.end(), sector.cogCount, 0);
+        appendIds(sector.decorationIds);
+        sectorData.insert(sectorData.end(), sector.markerCount, 0);
+        sectorLightData.insert(sectorLightData.end(), sector.lightIds.begin(), sector.lightIds.end());
+    }
+
+    writeValue<int32_t>(bytes, SectorRDataSizeOffset, static_cast<int32_t>(sectorData.size() * sizeof(uint16_t)));
+    writeValue<int32_t>(bytes, SectorRLDataSizeOffset, static_cast<int32_t>(sectorLightData.size() * sizeof(uint16_t)));
+
+    for (uint16_t value : sectorData)
+    {
+        appendUInt16(bytes, value);
+    }
+
+    for (uint16_t value : sectorLightData)
+    {
+        appendUInt16(bytes, value);
+    }
+
+    appendInt32(bytes, static_cast<int32_t>(indoorMapData.doorCount));
+    appendInt32(bytes, static_cast<int32_t>(indoorMapData.entities.size()));
+
+    for (const IndoorEntity &entity : indoorMapData.entities)
+    {
+        const size_t entityOffset = bytes.size();
+        appendZeroBytes(bytes, Layout.spriteRecordSize);
+        writeValue<uint16_t>(bytes, entityOffset + 0x00, entity.decorationListId);
+        writeValue<uint16_t>(bytes, entityOffset + 0x02, entity.aiAttributes);
+        writeValue<int32_t>(bytes, entityOffset + 0x04, entity.x);
+        writeValue<int32_t>(bytes, entityOffset + 0x08, entity.y);
+        writeValue<int32_t>(bytes, entityOffset + 0x0c, entity.z);
+        writeValue<int32_t>(bytes, entityOffset + 0x10, entity.facing);
+        writeValue<uint16_t>(bytes, entityOffset + 0x14, entity.eventIdPrimary);
+        writeValue<uint16_t>(bytes, entityOffset + 0x16, entity.eventIdSecondary);
+        writeValue<uint16_t>(bytes, entityOffset + 0x18, entity.variablePrimary);
+        writeValue<uint16_t>(bytes, entityOffset + 0x1a, entity.variableSecondary);
+        writeValue<uint16_t>(bytes, entityOffset + 0x1c, entity.specialTrigger);
+    }
+
+    for (const IndoorEntity &entity : indoorMapData.entities)
+    {
+        appendFixedString(bytes, entity.name, SpriteNameSize);
+    }
+
+    appendInt32(bytes, static_cast<int32_t>(indoorMapData.lights.size()));
+
+    for (const IndoorLight &light : indoorMapData.lights)
+    {
+        const size_t lightOffset = bytes.size();
+        appendZeroBytes(bytes, Layout.lightRecordSize);
+        writeValue<int16_t>(bytes, lightOffset + 0x00, light.x);
+        writeValue<int16_t>(bytes, lightOffset + 0x02, light.y);
+        writeValue<int16_t>(bytes, lightOffset + 0x04, light.z);
+        writeValue<int16_t>(bytes, lightOffset + 0x06, light.radius);
+        writeValue<uint8_t>(bytes, lightOffset + 0x08, light.red);
+        writeValue<uint8_t>(bytes, lightOffset + 0x09, light.green);
+        writeValue<uint8_t>(bytes, lightOffset + 0x0a, light.blue);
+        writeValue<uint8_t>(bytes, lightOffset + 0x0b, light.type);
+        writeValue<int16_t>(bytes, lightOffset + 0x0c, light.attributes);
+        writeValue<int16_t>(bytes, lightOffset + 0x0e, light.brightness);
+    }
+
+    appendInt32(bytes, static_cast<int32_t>(indoorMapData.bspNodes.size()));
+
+    for (const IndoorBspNode &node : indoorMapData.bspNodes)
+    {
+        appendInt16(bytes, node.front);
+        appendInt16(bytes, node.back);
+        appendInt16(bytes, node.faceIdOffset);
+        appendInt16(bytes, node.faceCount);
+    }
+
+    appendInt32(bytes, static_cast<int32_t>(indoorMapData.spawns.size()));
+
+    for (const IndoorSpawn &spawn : indoorMapData.spawns)
+    {
+        const size_t spawnOffset = bytes.size();
+        appendZeroBytes(bytes, Layout.spawnRecordSize);
+        writeValue<int32_t>(bytes, spawnOffset + 0x00, spawn.x);
+        writeValue<int32_t>(bytes, spawnOffset + 0x04, spawn.y);
+        writeValue<int32_t>(bytes, spawnOffset + 0x08, spawn.z);
+        writeValue<uint16_t>(bytes, spawnOffset + 0x0c, spawn.radius);
+        writeValue<uint16_t>(bytes, spawnOffset + 0x0e, spawn.typeId);
+        writeValue<uint16_t>(bytes, spawnOffset + 0x10, spawn.index);
+        writeValue<uint16_t>(bytes, spawnOffset + 0x12, spawn.attributes);
+        writeValue<uint32_t>(bytes, spawnOffset + 0x14, spawn.group);
+    }
+
+    appendInt32(bytes, static_cast<int32_t>(indoorMapData.outlines.size()));
+
+    for (const IndoorOutline &outline : indoorMapData.outlines)
+    {
+        appendUInt16(bytes, outline.vertex1Id);
+        appendUInt16(bytes, outline.vertex2Id);
+        appendUInt16(bytes, outline.face1Id);
+        appendUInt16(bytes, outline.face2Id);
+        appendInt16(bytes, outline.z);
+        appendUInt16(bytes, outline.flags);
+    }
+
+    return bytes;
 }
 }

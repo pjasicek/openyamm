@@ -165,4 +165,10 @@ class IndoorMapDataLoader
 public:
     std::optional<IndoorMapData> loadFromBytes(const std::vector<uint8_t> &bytes) const;
 };
+
+class IndoorMapDataWriter
+{
+public:
+    std::optional<std::vector<uint8_t>> buildBytes(const IndoorMapData &indoorMapData) const;
+};
 }

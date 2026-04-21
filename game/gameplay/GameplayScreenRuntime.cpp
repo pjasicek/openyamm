@@ -5,6 +5,7 @@
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayHeldItemController.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/items/InventoryItemUseRuntime.h"
@@ -1529,17 +1530,21 @@ bool GameplayScreenRuntime::tryAutoPlaceHeldInventoryItemOnPartyMember(size_t me
         return false;
     }
 
-    if (!pParty->tryAutoPlaceItemInMemberInventory(memberIndex, heldItem.item))
+    std::string failureStatus;
+    if (!GameplayHeldItemController::tryAutoPlaceHeldInventoryItemOnPartyMember(
+            heldItem,
+            *pParty,
+            memberIndex,
+            failureStatus))
     {
         if (showFailureStatus)
         {
-            setStatusBarEvent(pParty->lastStatus().empty() ? "Inventory full" : pParty->lastStatus());
+            setStatusBarEvent(failureStatus.empty() ? "Inventory full" : failureStatus);
         }
 
         return false;
     }
 
-    heldItem = {};
     return true;
 }
 

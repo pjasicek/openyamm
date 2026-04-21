@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/gameplay/GameplayWorldInteraction.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/ui/GameplayUiController.h"
 
@@ -37,6 +38,7 @@ public:
         PartySpellCastTargetKind targetKind = PartySpellCastTargetKind::None;
         std::string spellName;
         bool clickLatch = false;
+        bool cancelLatch = false;
 
         void clear();
     };
@@ -63,8 +65,10 @@ public:
     struct WorldInteractionInputState
     {
         bool keyboardUseLatch = false;
+        bool inspectKeyboardActivateLatch = false;
         bool heldInventoryDropLatch = false;
         bool inspectMouseActivateLatch = false;
+        GameplayWorldHit pressedWorldHit;
 
         void clear();
     };
