@@ -17,6 +17,24 @@ These rules apply to all AI-generated contributions.
 
 ---
 
+# Repository Workflow
+
+OpenEnroth reference repository:
+
+reference/OpenEnroth-git/
+
+Rules:
+
+* Use the local OpenEnroth checkout above as the reference source.
+* Do not search OpenEnroth on the web when the local reference is available.
+* Never copy code from OpenEnroth, only inspect it for behavior and structure.
+
+Preferred build command:
+
+cmake --build build --target openyamm -j25
+
+---
+
 # Coding Style
 
 Maximum line length: 120 characters.
@@ -98,6 +116,28 @@ engine/
 game/
 editor/
 tools/
+
+Indoor/outdoor shared gameplay rule:
+
+* Treat gameplay systems as shared by default.
+* Fixes for HUD, UI screens, input semantics, keybinds, inventory, items,
+  dialogue, shops, chests, rest, spell casting, projectiles, particles,
+  combat rules, monster AI, party state, qbits, journal, save/load, audio
+  reactions, and gameplay FX should normally be implemented in shared gameplay
+  code.
+* Do not implement separate indoor-only or outdoor-only fixes for those systems
+  unless the behavior truly depends on BLV/ODM world representation.
+* Indoor/outdoor-specific code should normally be limited to map loading,
+  geometry rendering, visibility/culling, picking, LOS, collision, floor
+  resolution, movement integration, projectile collision against world
+  geometry, event-face/decor/mechanism lookup, and world-specific decal
+  placement.
+* If a bug appears in only indoor or only outdoor, first check whether the
+  shared system is being called with different data or missing world hooks.
+  Prefer fixing the shared path or the world hook over adding divergent logic
+  to `IndoorGameView` or `OutdoorGameView`.
+* Do not add adapters or forwarding layers that only hide duplicated ownership.
+  Shared ownership should live in shared gameplay code.
 
 ---
 
@@ -201,16 +241,59 @@ Avoid duplicating gameplay logic.
 
 ---
 
-# Commit Format
+# Shared gameplay runtime boundary refactor
 
-Small commits.
+Architectural source of truth:
+- docs/indoor_outdoor_shared_gameplay_extraction_plan.md
 
-Format:
+Execution control files:
+- PLAN.md
+- ACCEPTANCE.md
+- TASK_QUEUE.md
+- PROGRESS.md
 
-system: short description
+Execution rules:
+- `docs/indoor_outdoor_shared_gameplay_extraction_plan.md` is the only authoritative refactor target.
+- `docs/shared_gameplay_action_extraction_plan.md` is deprecated historical context only.
+- Do not execute the master plan linearly from top to bottom.
+- Use PLAN.md for condensed goals.
+- Use TASK_QUEUE.md as the executable work queue.
+- Use docs/indoor_outdoor_shared_gameplay_extraction_plan.md for architecture, ownership boundaries, executable phases,
+  required world seam, and validation.
+- If task intent is unclear, consult only the relevant sections of the authoritative plan, then continue.
+- Work in small coherent slices.
+- Prefer finishing one ownership transfer path before starting another.
+- Keep the repository buildable after each meaningful slice.
+- Update TASK_QUEUE.md and PROGRESS.md after each meaningful slice.
+- Do not reintroduce shared gameplay semantics into OutdoorGameView or IndoorGameView.
+- Shared gameplay owns what should happen.
+- Active world owns world facts and world-specific application.
+- Gameplay owns input semantics; indoor/outdoor must not sample or pass raw SDL input for shared gameplay behavior.
+- Do not replace the current callback wall with another adapter/callback wall. Shared gameplay should use GameSession
+  state directly and call the active IGameplayWorldRuntime seam directly for world facts/application.
 
-Example:
+Validation commands:
+- cmake --build build --target openyamm -j25
+- ctest --test-dir build --output-on-failure
 
-renderer: implement bgfx initialization
-assets: add zip resource provider
-audio: implement SDL mixer
+Manual smoke tests to note in PROGRESS.md when relevant:
+- LMB attack cadence
+- quick cast with target under cursor
+- quick cast with no target using crosshair/cursor direction
+- quick cast with no assigned spell falling back to attack
+- attack-cast substitution
+- spellbook targeted spell selection
+- Meteor Shower / Starburst ground targeting
+- chest open with space does not pick an item
+- held item transfer to party portrait in chest/dialogue/shop
+- quest-granted item under cursor transferred to party
+- dialogue accept/close and Escape behavior
+- actor/world item/deco/event-face hover and activation
+
+Stopping conditions:
+- Stop only if all acceptance criteria are satisfied and recorded in PROGRESS.md
+- Or if PROGRESS.md contains exactly: - Hard blocker: YES
+
+Context recovery:
+- If context becomes compressed or unclear, re-read AGENTS.md, PLAN.md, ACCEPTANCE.md, TASK_QUEUE.md, PROGRESS.md, and the relevant sections of:
+  - docs/indoor_outdoor_shared_gameplay_extraction_plan.md
