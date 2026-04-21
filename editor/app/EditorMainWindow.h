@@ -107,7 +107,7 @@ private:
     void renderToolModeButtons(EditorSession &session);
     void renderTransformToolbar();
     void renderTerrainToolbar(EditorSession &session);
-    void renderViewToolbar();
+    void renderViewToolbar(const EditorSession &session);
     void renderToolbarStatus(const EditorSession &session);
     const ModelImportInspectionState &ensureModelImportInspection(
         const char *pPath,
@@ -177,19 +177,30 @@ private:
     void duplicateSelected(EditorSession &session);
     void deleteSelected(EditorSession &session);
     void renderDocumentSummary(const EditorSession &session) const;
+    void renderIndoorDocumentSummary(const EditorSession &session) const;
     void renderEnvironmentInspector(EditorSession &session) const;
+    void renderIndoorEnvironmentInspector(EditorSession &session) const;
     void renderTerrainInspector(EditorSession &session) const;
     void renderBModelInspector(EditorSession &session, size_t bmodelIndex) const;
-    void renderInteractiveFaceInspector(EditorSession &session) const;
+    void renderInteractiveFaceInspector(EditorSession &session);
     void renderEntityPlacementInspector(EditorSession &session) const;
     void renderEntityInspector(EditorSession &session, size_t entityIndex) const;
+    void renderIndoorEntityInspector(EditorSession &session, size_t entityIndex) const;
     void renderSpawnPlacementInspector(EditorSession &session) const;
     void renderSpawnInspector(EditorSession &session, size_t spawnIndex) const;
+    void renderIndoorSpawnInspector(EditorSession &session, size_t spawnIndex) const;
     void renderActorPlacementInspector(EditorSession &session) const;
     void renderActorInspector(EditorSession &session, size_t actorIndex) const;
+    void renderIndoorActorInspector(EditorSession &session, size_t actorIndex) const;
     void renderSpriteObjectPlacementInspector(EditorSession &session) const;
     void renderSpriteObjectInspector(EditorSession &session, size_t spriteObjectIndex) const;
+    void renderIndoorSpriteObjectInspector(EditorSession &session, size_t spriteObjectIndex) const;
     void renderChestInspector(EditorSession &session, size_t chestIndex) const;
+    void renderIndoorChestInspector(EditorSession &session, size_t chestIndex) const;
+    void renderIndoorLightInspector(EditorSession &session, size_t lightIndex) const;
+    void renderIndoorDoorInspector(EditorSession &session, size_t doorIndex);
+    void syncIndoorEventPreviewFromViewport(EditorSession &session);
+    void applyIndoorEventPreviewToViewport(EditorSession &session);
     void renderModelImportModal(EditorSession &session);
     void renderModelFileBrowserPopup(EditorSession &session);
     void renderNewOutdoorMapModal(EditorSession &session);
@@ -244,7 +255,10 @@ private:
     mutable int m_newOutdoorTilesetPreset = 0;
     mutable bool m_openOpenOutdoorMapModal = false;
     mutable char m_openOutdoorMapFilter[128] = {};
+    mutable std::filesystem::path m_openMapBrowserDirectory;
+    mutable std::string m_openMapSelectedRelativePath;
     mutable char m_sceneFilter[128] = {};
+    mutable int m_indoorSceneRoomFilter = -1;
     mutable bool m_openMapPackageActionModal = false;
     mutable MapPackageAction m_mapPackageAction = MapPackageAction::None;
     mutable char m_mapPackageActionMapId[64] = {};

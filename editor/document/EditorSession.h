@@ -10,8 +10,10 @@
 #include "game/tables/SpriteTables.h"
 #include "tools/legacy_events/EvtProgram.h"
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
+#include <filesystem>
 #include <optional>
 #include <string>
 #include <unordered_map>
@@ -31,7 +33,9 @@ enum class EditorSelectionKind
     Spawn,
     Actor,
     SpriteObject,
-    Chest
+    Chest,
+    Light,
+    Door
 };
 
 struct EditorSelection
@@ -112,6 +116,14 @@ struct EditorImportedMaterialDiagnostic
     bool usesDefaultFallback = false;
 };
 
+struct EditorPreviewMechanismState
+{
+    uint16_t state = 0;
+    float timeSinceTriggeredMs = 0.0f;
+    float currentDistance = 0.0f;
+    bool isMoving = false;
+};
+
 enum class EditorTerrainPaintMode
 {
     Brush,
@@ -156,6 +168,8 @@ public:
 
     bool openDefaultOutdoorDocument(std::string &errorMessage);
     bool openOutdoorMap(const std::string &mapFileName, std::string &errorMessage);
+    bool openIndoorMap(const std::string &mapFileName, std::string &errorMessage);
+    bool openMapPhysicalPath(const std::filesystem::path &path, std::string &errorMessage);
     bool createNewOutdoorMap(
         const std::string &mapId,
         const std::string &displayName,
@@ -250,6 +264,14 @@ public:
     const std::vector<EditorIdLabelOption> &mapEventOptions() const;
     std::optional<std::string> describeMapEvent(uint16_t eventId) const;
     std::optional<std::string> localScriptModulePath() const;
+    bool ensurePreviewEventRuntimeState(std::string &errorMessage);
+    void syncPreviewMechanismState(uint32_t mechanismId, uint16_t state, float distance, bool isMoving);
+    bool simulateMapEvent(uint16_t eventId, std::string &errorMessage);
+    void resetPreviewEventRuntimeState();
+    std::optional<EditorPreviewMechanismState> previewMechanismState(uint32_t mechanismId) const;
+    std::optional<uint16_t> lastPreviewEventId() const;
+    const std::vector<std::string> &lastPreviewEventMessages() const;
+    const std::vector<std::string> &lastPreviewEventStatusMessages() const;
     uint16_t effectiveOutdoorFaceEventId(size_t bmodelIndex, size_t faceIndex) const;
     std::optional<uint16_t> derivedBModelDefaultEventId(size_t bmodelIndex) const;
     std::vector<EditorChestLink> findChestLinks(size_t chestIndex) const;
@@ -295,6 +317,7 @@ private:
     void normalizeOutdoorSceneCollections();
     void loadOutdoorEditorSupportData(const std::string &mapFileName);
     void pruneBModelImportSources();
+    std::string previewEventRuntimeKey() const;
 
     const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
     Game::MonsterTable m_monsterTable;
@@ -314,6 +337,15 @@ private:
     std::optional<Game::EvtProgram> m_globalEvtProgram;
     std::optional<Game::ScriptedEventProgram> m_localScriptedEventProgram;
     std::optional<Game::ScriptedEventProgram> m_globalScriptedEventProgram;
+    bool m_hasPreviewEventRuntimeState = false;
+    std::array<uint8_t, 75> m_previewEventMapVars = {};
+    std::array<uint8_t, 125> m_previewEventDecorVars = {};
+    std::unordered_map<uint32_t, int32_t> m_previewEventVariables;
+    std::unordered_map<uint32_t, EditorPreviewMechanismState> m_previewEventMechanisms;
+    std::optional<uint16_t> m_lastPreviewEventId;
+    std::vector<std::string> m_lastPreviewEventMessages;
+    std::vector<std::string> m_lastPreviewEventStatusMessages;
+    std::string m_previewEventRuntimeKey;
     std::vector<EditorIdLabelOption> m_mapEventOptions;
     std::optional<std::string> m_localScriptModulePath;
     EditorDocument m_document;

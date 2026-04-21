@@ -30,6 +30,7 @@ constexpr uint32_t EnvironmentFlagRedFog = 0x80;
 constexpr size_t SpriteObjectContainingItemSize = 0x24;
 constexpr size_t ChestItemPayloadSize = 140 * 36;
 constexpr char DocumentSnapshotSeparator[] = "\n---ODM-HEX---\n";
+constexpr char IndoorDocumentSnapshotSeparator[] = "\n---BLV-HEX---\n";
 constexpr char DocumentSnapshotGeometryMetadataSeparator[] = "\n---GEOMETRY-YML---\n";
 constexpr char DocumentSnapshotTerrainMetadataSeparator[] = "\n---TERRAIN-YML---\n";
 constexpr int DefaultOutdoorBoundsExtent = 23143;
@@ -155,6 +156,188 @@ bool ensureOverlaySeedTextFile(
     }
 
     return true;
+}
+
+bool readTextFile(const std::filesystem::path &path, std::string &text)
+{
+    std::ifstream input(path);
+
+    if (!input)
+    {
+        return false;
+    }
+
+    text.assign(std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
+    return true;
+}
+
+bool readBinaryFile(const std::filesystem::path &path, std::vector<uint8_t> &bytes)
+{
+    bytes.clear();
+    std::ifstream input(path, std::ios::binary);
+
+    if (!input)
+    {
+        return false;
+    }
+
+    input.seekg(0, std::ios::end);
+    const std::streamsize size = input.tellg();
+
+    if (size < 0)
+    {
+        return false;
+    }
+
+    input.seekg(0, std::ios::beg);
+    bytes.resize(static_cast<size_t>(size));
+
+    if (size == 0)
+    {
+        return true;
+    }
+
+    return input.read(reinterpret_cast<char *>(bytes.data()), size).good();
+}
+
+std::optional<std::vector<uint8_t>> loadLegacyIndoorCompanionBytes(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &scenePhysicalPath,
+    const std::string &sceneVirtualPath,
+    const std::string &legacyCompanionFile)
+{
+    if (legacyCompanionFile.empty())
+    {
+        return std::nullopt;
+    }
+
+    std::vector<std::filesystem::path> physicalCandidates;
+
+    if (!scenePhysicalPath.empty())
+    {
+        physicalCandidates.push_back(scenePhysicalPath.parent_path() / legacyCompanionFile);
+    }
+
+    const std::filesystem::path companionPath = legacyCompanionFile;
+
+    if (companionPath.is_absolute())
+    {
+        physicalCandidates.push_back(companionPath);
+    }
+
+    for (const std::filesystem::path &candidate : physicalCandidates)
+    {
+        std::vector<uint8_t> bytes;
+
+        if (readBinaryFile(candidate, bytes))
+        {
+            return bytes;
+        }
+    }
+
+    std::vector<std::string> virtualCandidates;
+
+    if (!sceneVirtualPath.empty())
+    {
+        virtualCandidates.push_back((std::filesystem::path(sceneVirtualPath).parent_path() / legacyCompanionFile).generic_string());
+    }
+
+    const std::string defaultGamesPath = (std::filesystem::path("Data/games") / legacyCompanionFile).generic_string();
+
+    if (virtualCandidates.empty() || virtualCandidates.front() != defaultGamesPath)
+    {
+        virtualCandidates.push_back(defaultGamesPath);
+    }
+
+    for (const std::string &candidate : virtualCandidates)
+    {
+        const std::optional<std::vector<uint8_t>> bytes = assetFileSystem.readBinaryFile(candidate);
+
+        if (bytes)
+        {
+            return bytes;
+        }
+    }
+
+    return std::nullopt;
+}
+
+void synthesizeIndoorFaceAttributeOverridesFromLegacyCompanion(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &scenePhysicalPath,
+    const std::string &sceneVirtualPath,
+    const Game::IndoorMapData &indoorGeometry,
+    Game::IndoorSceneData &sceneData)
+{
+    if (!sceneData.legacyCompanionFile
+        || sceneData.legacyCompanionFile->empty()
+        || !sceneData.initialState.faceAttributeOverrides.empty())
+    {
+        return;
+    }
+
+    const std::optional<std::vector<uint8_t>> companionBytes =
+        loadLegacyIndoorCompanionBytes(
+            assetFileSystem,
+            scenePhysicalPath,
+            sceneVirtualPath,
+            *sceneData.legacyCompanionFile);
+
+    if (!companionBytes)
+    {
+        return;
+    }
+
+    const Game::MapDeltaDataLoader loader = {};
+    const std::optional<Game::MapDeltaData> legacyMapDeltaData = loader.loadIndoorFromBytes(*companionBytes, indoorGeometry);
+
+    if (!legacyMapDeltaData || legacyMapDeltaData->faceAttributes.size() < indoorGeometry.faces.size())
+    {
+        return;
+    }
+
+    size_t overrideCount = 0;
+
+    for (size_t faceIndex = 0; faceIndex < indoorGeometry.faces.size(); ++faceIndex)
+    {
+        if (legacyMapDeltaData->faceAttributes[faceIndex] != indoorGeometry.faces[faceIndex].attributes)
+        {
+            ++overrideCount;
+        }
+    }
+
+    sceneData.initialState.faceAttributeOverrides.clear();
+    sceneData.initialState.faceAttributeOverrides.reserve(overrideCount);
+
+    for (size_t faceIndex = 0; faceIndex < indoorGeometry.faces.size(); ++faceIndex)
+    {
+        const uint32_t effectiveAttributes = legacyMapDeltaData->faceAttributes[faceIndex];
+
+        if (effectiveAttributes == indoorGeometry.faces[faceIndex].attributes)
+        {
+            continue;
+        }
+
+        Game::IndoorSceneFaceAttributeOverride overrideEntry = {};
+        overrideEntry.faceIndex = faceIndex;
+        overrideEntry.legacyAttributes = effectiveAttributes;
+        sceneData.initialState.faceAttributeOverrides.push_back(std::move(overrideEntry));
+    }
+}
+
+std::string displayPathForDocument(
+    const std::filesystem::path &editorDevelopmentRoot,
+    const std::filesystem::path &path)
+{
+    std::error_code relativeError;
+    const std::filesystem::path relativePath = std::filesystem::relative(path, editorDevelopmentRoot, relativeError);
+
+    if (!relativeError && !relativePath.empty() && !relativePath.native().starts_with(".."))
+    {
+        return relativePath.generic_string();
+    }
+
+    return path.generic_string();
 }
 
 std::string toLowerCopy(const std::string &value)
@@ -1372,6 +1555,164 @@ bool EditorDocument::loadOutdoorSceneVirtualPath(
     return loadOutdoorSceneText(assetFileSystem, sceneVirtualPath, *sceneText, std::nullopt, std::nullopt, errorMessage);
 }
 
+bool EditorDocument::loadIndoorMapPackage(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &mapFileName,
+    std::string &errorMessage)
+{
+    const std::string sceneVirtualPath = "Data/games/" + replaceExtension(mapFileName, ".scene.yml");
+
+    if (!assetFileSystem.exists(sceneVirtualPath))
+    {
+        errorMessage = "could not find scene supplement for " + mapFileName;
+        return false;
+    }
+
+    return loadIndoorSceneVirtualPath(assetFileSystem, sceneVirtualPath, errorMessage);
+}
+
+bool EditorDocument::loadIndoorSceneVirtualPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &sceneVirtualPath,
+    std::string &errorMessage)
+{
+    const std::optional<std::string> sceneText = assetFileSystem.readTextFile(sceneVirtualPath);
+
+    if (!sceneText)
+    {
+        errorMessage = "could not read scene text: " + sceneVirtualPath;
+        return false;
+    }
+
+    return loadIndoorSceneText(assetFileSystem, sceneVirtualPath, *sceneText, errorMessage);
+}
+
+bool EditorDocument::loadMapPhysicalPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &path,
+    std::string &errorMessage)
+{
+    const std::filesystem::path normalizedPath = std::filesystem::absolute(path);
+    const std::string fileNameLower = toLowerCopy(normalizedPath.filename().string());
+    const std::string extensionLower = toLowerCopy(normalizedPath.extension().string());
+
+    if (extensionLower == ".odm")
+    {
+        const std::filesystem::path packagePath =
+            normalizedPath.parent_path() / std::filesystem::path(normalizedPath.stem().string() + ".map.yml");
+        const std::filesystem::path scenePath =
+            normalizedPath.parent_path() / std::filesystem::path(normalizedPath.stem().string() + ".scene.yml");
+
+        if (std::filesystem::exists(packagePath))
+        {
+            return loadMapPhysicalPath(assetFileSystem, packagePath, errorMessage);
+        }
+
+        if (std::filesystem::exists(scenePath))
+        {
+            return loadMapPhysicalPath(assetFileSystem, scenePath, errorMessage);
+        }
+
+        errorMessage = "could not find scene supplement for " + normalizedPath.string();
+        return false;
+    }
+
+    if (extensionLower == ".blv")
+    {
+        const std::filesystem::path scenePath =
+            normalizedPath.parent_path() / std::filesystem::path(normalizedPath.stem().string() + ".scene.yml");
+
+        if (!std::filesystem::exists(scenePath))
+        {
+            errorMessage = "could not find scene supplement for " + normalizedPath.string();
+            return false;
+        }
+
+        return loadMapPhysicalPath(assetFileSystem, scenePath, errorMessage);
+    }
+
+    if (fileNameLower.ends_with(".map.yml"))
+    {
+        std::string packageText;
+
+        if (!readTextFile(normalizedPath, packageText))
+        {
+            errorMessage = "could not read map package root: " + normalizedPath.string();
+            return false;
+        }
+
+        const std::optional<EditorOutdoorMapPackageMetadata> packageMetadata =
+            loadOutdoorMapPackageMetadataFromText(packageText, errorMessage);
+
+        if (!packageMetadata)
+        {
+            errorMessage = "could not parse map package root " + normalizedPath.string() + ": " + errorMessage;
+            return false;
+        }
+
+        const std::filesystem::path scenePath = normalizedPath.parent_path() / packageMetadata->sceneFile;
+        std::string sceneText;
+
+        if (!readTextFile(scenePath, sceneText))
+        {
+            errorMessage = "could not read scene text: " + scenePath.string();
+            return false;
+        }
+
+        return loadOutdoorScenePhysicalPath(
+            assetFileSystem,
+            scenePath,
+            sceneText,
+            *packageMetadata,
+            normalizedPath,
+            errorMessage);
+    }
+
+    if (fileNameLower.ends_with(".scene.yml"))
+    {
+        std::string sceneText;
+
+        if (!readTextFile(normalizedPath, sceneText))
+        {
+            errorMessage = "could not read scene text: " + normalizedPath.string();
+            return false;
+        }
+
+        YAML::Node root;
+
+        try
+        {
+            root = YAML::Load(sceneText);
+        }
+        catch (const YAML::Exception &exception)
+        {
+            errorMessage = "could not parse scene text: " + std::string(exception.what());
+            return false;
+        }
+
+        const std::string kind = root["kind"].as<std::string>(std::string());
+        const std::string geometryFile =
+            root["source"] ? root["source"]["geometry_file"].as<std::string>(std::string()) : std::string();
+        const std::string geometryExtension = toLowerCopy(std::filesystem::path(geometryFile).extension().string());
+
+        if (kind == "indoor_scene" || geometryExtension == ".blv")
+        {
+            return loadIndoorScenePhysicalPath(assetFileSystem, normalizedPath, sceneText, errorMessage);
+        }
+
+        if (kind == "outdoor_scene" || geometryExtension == ".odm")
+        {
+            return loadOutdoorScenePhysicalPath(assetFileSystem, normalizedPath, sceneText, std::nullopt, std::nullopt, errorMessage);
+        }
+
+        errorMessage = "could not determine map kind for scene " + normalizedPath.string();
+        return false;
+    }
+
+    errorMessage = "unsupported map path: " + normalizedPath.string();
+    return false;
+}
+
 bool EditorDocument::createNewOutdoorMapPackage(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &mapFileName,
@@ -1498,7 +1839,7 @@ bool EditorDocument::createNewOutdoorMapPackage(
 
 bool EditorDocument::saveSource(std::string &errorMessage)
 {
-    if (m_kind != Kind::Outdoor)
+    if (m_kind != Kind::Outdoor && m_kind != Kind::Indoor)
     {
         errorMessage = "no editable document is loaded";
         return false;
@@ -1515,6 +1856,48 @@ bool EditorDocument::saveSource(std::string &errorMessage)
 
 bool EditorDocument::saveSourceAs(const std::filesystem::path &scenePhysicalPath, std::string &errorMessage)
 {
+    if (m_kind == Kind::Indoor)
+    {
+        if (m_editorDevelopmentRoot.empty())
+        {
+            errorMessage = "document save root is not initialized";
+            return false;
+        }
+
+        if (m_indoorSceneData.geometryFile.empty())
+        {
+            errorMessage = "document geometry save path is not initialized";
+            return false;
+        }
+
+        const std::string targetGeometryFileName = deriveGeometryFileNameForScenePath(
+            scenePhysicalPath,
+            m_indoorSceneData.geometryFile);
+        const std::filesystem::path targetGeometryPath = scenePhysicalPath.parent_path() / targetGeometryFileName;
+        const std::string yamlText = serializeIndoorScene(m_indoorSceneData, targetGeometryFileName);
+
+        if (!writeTextFileAtomically(scenePhysicalPath, yamlText, errorMessage))
+        {
+            return false;
+        }
+
+        m_scenePhysicalPath = scenePhysicalPath;
+        m_sceneVirtualPath = sceneVirtualPathFromPhysical(m_editorDevelopmentRoot, scenePhysicalPath);
+        m_geometryPhysicalPath = targetGeometryPath;
+        m_geometryVirtualPath = sceneVirtualPathFromPhysical(m_editorDevelopmentRoot, targetGeometryPath);
+        m_geometryMetadataPhysicalPath.clear();
+        m_geometryMetadataVirtualPath.clear();
+        m_mapPackagePhysicalPath.clear();
+        m_mapPackageVirtualPath.clear();
+        m_terrainMetadataPhysicalPath.clear();
+        m_terrainMetadataVirtualPath.clear();
+        m_hasMapPackageRoot = false;
+        m_displayName = targetGeometryFileName;
+        m_isRuntimeBuildDirty = false;
+        m_isDirty = false;
+        return true;
+    }
+
     if (m_kind != Kind::Outdoor)
     {
         errorMessage = "no editable document is loaded";
@@ -1658,7 +2041,7 @@ bool EditorDocument::saveSourceAs(const std::filesystem::path &scenePhysicalPath
 
 bool EditorDocument::buildRuntime(std::string &errorMessage)
 {
-    if (m_kind != Kind::Outdoor)
+    if (m_kind != Kind::Outdoor && m_kind != Kind::Indoor)
     {
         errorMessage = "no editable document is loaded";
         return false;
@@ -1681,6 +2064,43 @@ bool EditorDocument::buildRuntime(std::string &errorMessage)
 
 bool EditorDocument::buildRuntimeAs(const std::filesystem::path &scenePhysicalPath, std::string &errorMessage)
 {
+    if (m_kind == Kind::Indoor)
+    {
+        if (m_editorDevelopmentRoot.empty())
+        {
+            errorMessage = "document save root is not initialized";
+            return false;
+        }
+
+        if (m_isDirty)
+        {
+            errorMessage = "save source before build";
+            return false;
+        }
+
+        if (m_indoorSceneData.geometryFile.empty())
+        {
+            errorMessage = "document geometry save path is not initialized";
+            return false;
+        }
+
+        const std::string targetGeometryFileName = deriveGeometryFileNameForScenePath(
+            scenePhysicalPath,
+            m_indoorSceneData.geometryFile);
+        const std::filesystem::path targetGeometryPath = scenePhysicalPath.parent_path() / targetGeometryFileName;
+
+        if (!m_indoorGeometrySourceBytes.empty()
+            && !writeBinaryFileAtomically(targetGeometryPath, m_indoorGeometrySourceBytes, errorMessage))
+        {
+            return false;
+        }
+
+        m_geometryPhysicalPath = targetGeometryPath;
+        m_geometryVirtualPath = sceneVirtualPathFromPhysical(m_editorDevelopmentRoot, targetGeometryPath);
+        m_isRuntimeBuildDirty = false;
+        return true;
+    }
+
     if (m_kind != Kind::Outdoor)
     {
         errorMessage = "no editable document is loaded";
@@ -1858,6 +2278,22 @@ bool EditorDocument::buildOutdoorAuthoredRuntimeState(
     return Game::buildOutdoorMapStateFromScene(m_outdoorSceneData, outdoorMapData, mapDeltaData, errorMessage);
 }
 
+bool EditorDocument::buildIndoorAuthoredRuntimeState(
+    Game::IndoorMapData &indoorMapData,
+    Game::MapDeltaData &mapDeltaData,
+    std::string &errorMessage) const
+{
+    if (m_kind != Kind::Indoor)
+    {
+        errorMessage = "document does not contain an indoor scene";
+        return false;
+    }
+
+    indoorMapData = m_indoorGeometry;
+    mapDeltaData = {};
+    return Game::buildIndoorMapStateFromScene(m_indoorSceneData, indoorMapData, mapDeltaData, errorMessage);
+}
+
 bool EditorDocument::restoreOutdoorSceneSnapshot(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &sceneSnapshot,
@@ -1925,13 +2361,22 @@ bool EditorDocument::restoreOutdoorSceneSnapshot(
         return false;
     }
 
-    const bool loaded = loadOutdoorSceneText(
-        assetFileSystem,
-        m_sceneVirtualPath,
-        sceneText,
-        m_hasMapPackageRoot ? std::optional<EditorOutdoorMapPackageMetadata>(m_outdoorMapPackageMetadata) : std::nullopt,
-        m_hasMapPackageRoot ? std::optional<std::string>(m_mapPackageVirtualPath) : std::nullopt,
-        errorMessage);
+    const bool usePhysicalPath = std::filesystem::path(m_sceneVirtualPath).is_absolute();
+    const bool loaded = usePhysicalPath
+        ? loadOutdoorScenePhysicalPath(
+            assetFileSystem,
+            m_scenePhysicalPath,
+            sceneText,
+            m_hasMapPackageRoot ? std::optional<EditorOutdoorMapPackageMetadata>(m_outdoorMapPackageMetadata) : std::nullopt,
+            m_hasMapPackageRoot ? std::optional<std::filesystem::path>(m_mapPackagePhysicalPath) : std::nullopt,
+            errorMessage)
+        : loadOutdoorSceneText(
+            assetFileSystem,
+            m_sceneVirtualPath,
+            sceneText,
+            m_hasMapPackageRoot ? std::optional<EditorOutdoorMapPackageMetadata>(m_outdoorMapPackageMetadata) : std::nullopt,
+            m_hasMapPackageRoot ? std::optional<std::string>(m_mapPackageVirtualPath) : std::nullopt,
+            errorMessage);
 
     if (loaded)
     {
@@ -1989,6 +2434,300 @@ bool EditorDocument::restoreOutdoorSceneSnapshot(
     return loaded;
 }
 
+bool EditorDocument::restoreIndoorSceneSnapshot(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &sceneSnapshot,
+    std::string &errorMessage)
+{
+    if (m_kind != Kind::Indoor)
+    {
+        errorMessage = "document does not contain an indoor scene";
+        return false;
+    }
+
+    const std::string separator = IndoorDocumentSnapshotSeparator;
+    const size_t separatorOffset = sceneSnapshot.find(separator);
+
+    if (separatorOffset == std::string::npos)
+    {
+        errorMessage = "document snapshot is missing BLV geometry section";
+        return false;
+    }
+
+    const std::string sceneText = sceneSnapshot.substr(0, separatorOffset);
+    const std::string geometryHex = sceneSnapshot.substr(separatorOffset + separator.size());
+    std::vector<uint8_t> geometryBytes;
+
+    if (!upperHexToBytes(geometryHex, geometryBytes))
+    {
+        errorMessage = "document snapshot contains invalid BLV hex";
+        return false;
+    }
+
+    Game::IndoorMapDataLoader geometryLoader = {};
+    const std::optional<Game::IndoorMapData> indoorGeometry = geometryLoader.loadFromBytes(geometryBytes);
+
+    if (!indoorGeometry)
+    {
+        errorMessage = "document snapshot contains invalid BLV geometry";
+        return false;
+    }
+
+    const bool usePhysicalPath = std::filesystem::path(m_sceneVirtualPath).is_absolute();
+    const bool loaded = usePhysicalPath
+        ? loadIndoorScenePhysicalPath(assetFileSystem, m_scenePhysicalPath, sceneText, errorMessage)
+        : loadIndoorSceneText(assetFileSystem, m_sceneVirtualPath, sceneText, errorMessage);
+
+    if (loaded)
+    {
+        m_indoorGeometrySourceBytes = geometryBytes;
+        m_indoorGeometry = *indoorGeometry;
+        ++m_sceneRevision;
+        m_isDirty = true;
+        m_isRuntimeBuildDirty = false;
+    }
+
+    return loaded;
+}
+
+bool EditorDocument::loadOutdoorScenePhysicalPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &scenePhysicalPath,
+    const std::string &sceneText,
+    const std::optional<EditorOutdoorMapPackageMetadata> &packageMetadata,
+    const std::optional<std::filesystem::path> &packagePhysicalPath,
+    std::string &errorMessage)
+{
+    Game::OutdoorSceneYmlLoader sceneLoader = {};
+    const std::optional<Game::OutdoorSceneData> sceneData = sceneLoader.loadFromText(sceneText, errorMessage);
+
+    if (!sceneData)
+    {
+        return false;
+    }
+
+    const std::filesystem::path developmentRoot = assetFileSystem.getDevelopmentRoot();
+    const std::filesystem::path editorDevelopmentRoot = assetFileSystem.getEditorDevelopmentRoot();
+    const std::filesystem::path geometryPath = scenePhysicalPath.parent_path() / sceneData->geometryFile;
+    const std::filesystem::path geometryMetadataPhysicalPath =
+        packageMetadata
+            ? (scenePhysicalPath.parent_path() / packageMetadata->geometryMetadataFile)
+            : deriveGeometryMetadataPathForScenePath(scenePhysicalPath);
+    const std::filesystem::path terrainMetadataPhysicalPath =
+        packageMetadata
+            ? (scenePhysicalPath.parent_path() / packageMetadata->terrainMetadataFile)
+            : deriveTerrainMetadataPathForScenePath(scenePhysicalPath);
+    std::string geometryMetadataText;
+    std::string terrainMetadataText;
+    const bool hasGeometryMetadataText = readTextFile(geometryMetadataPhysicalPath, geometryMetadataText);
+    const bool hasTerrainMetadataText = readTextFile(terrainMetadataPhysicalPath, terrainMetadataText);
+
+    std::optional<EditorOutdoorGeometryMetadata> geometryMetadata;
+
+    if (hasGeometryMetadataText)
+    {
+        geometryMetadata = loadOutdoorGeometryMetadataFromText(geometryMetadataText, errorMessage);
+
+        if (!geometryMetadata)
+        {
+            return false;
+        }
+    }
+
+    std::optional<EditorOutdoorTerrainMetadata> terrainMetadata;
+
+    if (hasTerrainMetadataText)
+    {
+        terrainMetadata = loadOutdoorTerrainMetadataFromText(terrainMetadataText, errorMessage);
+
+        if (!terrainMetadata)
+        {
+            return false;
+        }
+    }
+
+    std::vector<uint8_t> geometryBytesStorage;
+    const bool hasGeometryBytes = readBinaryFile(geometryPath, geometryBytesStorage);
+    std::optional<std::vector<uint8_t>> geometryBytes;
+
+    if (hasGeometryBytes)
+    {
+        geometryBytes = geometryBytesStorage;
+    }
+
+    std::optional<Game::OutdoorMapData> outdoorGeometry;
+
+    if (geometryBytes)
+    {
+        Game::OutdoorMapDataLoader geometryLoader = {};
+        outdoorGeometry = geometryLoader.loadFromBytes(*geometryBytes);
+
+        if (!outdoorGeometry)
+        {
+            errorMessage = "could not parse outdoor geometry: " + geometryPath.string();
+            return false;
+        }
+    }
+    else if (packageMetadata)
+    {
+        outdoorGeometry = buildOutdoorGeometryFromSourcePackage(
+            assetFileSystem,
+            *sceneData,
+            geometryMetadata,
+            terrainMetadata,
+            errorMessage);
+
+        if (!outdoorGeometry)
+        {
+            if (errorMessage.empty())
+            {
+                errorMessage = "could not rebuild outdoor geometry from source package";
+            }
+
+            return false;
+        }
+    }
+    else
+    {
+        errorMessage = "could not read outdoor geometry: " + geometryPath.string();
+        return false;
+    }
+
+    m_kind = Kind::Outdoor;
+    m_isDirty = false;
+    m_isRuntimeBuildDirty = false;
+    m_developmentRoot = developmentRoot;
+    m_editorDevelopmentRoot = editorDevelopmentRoot;
+    m_outdoorGeometry = *outdoorGeometry;
+    m_outdoorGeometrySourceBytes = geometryBytes.value_or(std::vector<uint8_t>{});
+    m_outdoorSceneData = *sceneData;
+    ++m_sceneRevision;
+    m_sceneVirtualPath = displayPathForDocument(editorDevelopmentRoot, scenePhysicalPath);
+    m_scenePhysicalPath = scenePhysicalPath;
+    m_geometryVirtualPath = displayPathForDocument(editorDevelopmentRoot, geometryPath);
+    m_geometryPhysicalPath = geometryPath;
+    m_geometryMetadataVirtualPath = displayPathForDocument(editorDevelopmentRoot, geometryMetadataPhysicalPath);
+    m_geometryMetadataPhysicalPath = geometryMetadataPhysicalPath;
+    m_hasMapPackageRoot = packageMetadata.has_value();
+    m_mapPackageVirtualPath =
+        packagePhysicalPath
+            ? displayPathForDocument(editorDevelopmentRoot, *packagePhysicalPath)
+            : std::string();
+    m_mapPackagePhysicalPath = packagePhysicalPath.value_or(std::filesystem::path());
+    m_terrainMetadataVirtualPath = displayPathForDocument(editorDevelopmentRoot, terrainMetadataPhysicalPath);
+    m_terrainMetadataPhysicalPath = terrainMetadataPhysicalPath;
+    m_displayName = sceneData->geometryFile;
+    m_outdoorMapPackageMetadata = packageMetadata.value_or(EditorOutdoorMapPackageMetadata{});
+    m_outdoorGeometryMetadata = geometryMetadata.value_or(EditorOutdoorGeometryMetadata{});
+    m_outdoorTerrainMetadata = terrainMetadata.value_or(EditorOutdoorTerrainMetadata{});
+
+    synchronizeOutdoorGeometryMetadata();
+
+    if (hasTerrainMetadataText)
+    {
+        normalizeOutdoorTerrainMetadata(
+            m_outdoorTerrainMetadata,
+            m_displayName,
+            m_outdoorGeometry.heightMap,
+            m_outdoorGeometry.tileMap,
+            m_outdoorGeometry.attributeMap);
+        m_outdoorGeometry.heightMap = m_outdoorTerrainMetadata.heightMap;
+        m_outdoorGeometry.tileMap = m_outdoorTerrainMetadata.tileMap;
+        m_outdoorGeometry.attributeMap = m_outdoorTerrainMetadata.attributeMap;
+    }
+    else
+    {
+        synchronizeOutdoorTerrainMetadata();
+    }
+
+    const std::string sourceFingerprint = currentSourcePackageFingerprint();
+    normalizeOutdoorMapPackageMetadata(
+        m_outdoorMapPackageMetadata,
+        deriveOutdoorMapPackageId(sceneData->geometryFile),
+        deriveOutdoorMapPackageDisplayName(sceneData->geometryFile),
+        sceneData->geometryFile,
+        m_scenePhysicalPath.filename().string(),
+        m_geometryMetadataPhysicalPath.filename().string(),
+        m_terrainMetadataPhysicalPath.filename().string(),
+        deriveDefaultScriptModuleForMapFile(sceneData->geometryFile),
+        sourceFingerprint,
+        m_hasMapPackageRoot ? m_outdoorMapPackageMetadata.builtSourceFingerprint : sourceFingerprint);
+    m_isRuntimeBuildDirty = (m_outdoorMapPackageMetadata.builtSourceFingerprint != sourceFingerprint);
+    return true;
+}
+
+bool EditorDocument::loadIndoorScenePhysicalPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &scenePhysicalPath,
+    const std::string &sceneText,
+    std::string &errorMessage)
+{
+    Game::IndoorSceneYmlLoader sceneLoader = {};
+    const std::optional<Game::IndoorSceneData> sceneData = sceneLoader.loadFromText(sceneText, errorMessage);
+
+    if (!sceneData)
+    {
+        return false;
+    }
+
+    const std::filesystem::path developmentRoot = assetFileSystem.getDevelopmentRoot();
+    const std::filesystem::path editorDevelopmentRoot = assetFileSystem.getEditorDevelopmentRoot();
+    const std::filesystem::path geometryPath = scenePhysicalPath.parent_path() / sceneData->geometryFile;
+    std::vector<uint8_t> geometryBytes;
+
+    if (!readBinaryFile(geometryPath, geometryBytes))
+    {
+        errorMessage = "could not read indoor geometry: " + geometryPath.string();
+        return false;
+    }
+
+    Game::IndoorMapDataLoader geometryLoader = {};
+    const std::optional<Game::IndoorMapData> indoorGeometry = geometryLoader.loadFromBytes(geometryBytes);
+
+    if (!indoorGeometry)
+    {
+        errorMessage = "could not parse indoor geometry: " + geometryPath.string();
+        return false;
+    }
+
+    Game::IndoorSceneData normalizedSceneData = *sceneData;
+    synthesizeIndoorFaceAttributeOverridesFromLegacyCompanion(
+        assetFileSystem,
+        scenePhysicalPath,
+        displayPathForDocument(editorDevelopmentRoot, scenePhysicalPath),
+        *indoorGeometry,
+        normalizedSceneData);
+
+    m_kind = Kind::Indoor;
+    m_isDirty = false;
+    m_isRuntimeBuildDirty = false;
+    m_developmentRoot = developmentRoot;
+    m_editorDevelopmentRoot = editorDevelopmentRoot;
+    m_outdoorGeometry = {};
+    m_outdoorSceneData = {};
+    m_outdoorGeometryMetadata = {};
+    m_outdoorMapPackageMetadata = {};
+    m_outdoorTerrainMetadata = {};
+    m_outdoorGeometrySourceBytes.clear();
+    m_indoorGeometry = *indoorGeometry;
+    m_indoorGeometrySourceBytes = geometryBytes;
+    m_indoorSceneData = std::move(normalizedSceneData);
+    ++m_sceneRevision;
+    m_sceneVirtualPath = displayPathForDocument(editorDevelopmentRoot, scenePhysicalPath);
+    m_scenePhysicalPath = scenePhysicalPath;
+    m_geometryVirtualPath = displayPathForDocument(editorDevelopmentRoot, geometryPath);
+    m_geometryPhysicalPath = geometryPath;
+    m_geometryMetadataVirtualPath.clear();
+    m_geometryMetadataPhysicalPath.clear();
+    m_hasMapPackageRoot = false;
+    m_mapPackageVirtualPath.clear();
+    m_mapPackagePhysicalPath.clear();
+    m_terrainMetadataVirtualPath.clear();
+    m_terrainMetadataPhysicalPath.clear();
+    m_displayName = sceneData->geometryFile;
+    return true;
+}
+
 std::string EditorDocument::createOutdoorSceneSnapshot() const
 {
     if (m_kind != Kind::Outdoor)
@@ -2027,9 +2766,102 @@ std::string EditorDocument::createOutdoorSceneSnapshot() const
         + serializeOutdoorTerrainMetadata(terrainMetadata);
 }
 
+std::string EditorDocument::createIndoorSceneSnapshot() const
+{
+    if (m_kind != Kind::Indoor)
+    {
+        return {};
+    }
+
+    return serializeIndoorScene(m_indoorSceneData)
+        + IndoorDocumentSnapshotSeparator
+        + bytesToUpperHex(m_indoorGeometrySourceBytes);
+}
+
 std::vector<std::string> EditorDocument::validate() const
 {
     std::vector<std::string> issues;
+
+    if (m_kind == Kind::Indoor)
+    {
+        if (m_indoorSceneData.geometryFile.empty())
+        {
+            issues.push_back("Scene source.geometry_file is empty.");
+        }
+
+        if (m_indoorSceneData.environment.fogWeakDistance < 0)
+        {
+            issues.push_back("Environment fog weak distance must be non-negative.");
+        }
+
+        if (m_indoorSceneData.environment.fogStrongDistance < 0)
+        {
+            issues.push_back("Environment fog strong distance must be non-negative.");
+        }
+
+        if (m_indoorSceneData.environment.fogStrongDistance < m_indoorSceneData.environment.fogWeakDistance)
+        {
+            issues.push_back("Environment fog strong distance must be greater than or equal to weak distance.");
+        }
+
+        std::vector<uint8_t> seenFaceOverrides(m_indoorGeometry.faces.size(), 0);
+
+        for (const Game::IndoorSceneFaceAttributeOverride &overrideEntry : m_indoorSceneData.initialState.faceAttributeOverrides)
+        {
+            if (overrideEntry.faceIndex >= m_indoorGeometry.faces.size())
+            {
+                issues.push_back("Face override " + std::to_string(overrideEntry.faceIndex) + " is out of range.");
+                continue;
+            }
+
+            if (seenFaceOverrides[overrideEntry.faceIndex] != 0)
+            {
+                issues.push_back("Face override " + std::to_string(overrideEntry.faceIndex) + " is duplicated.");
+                continue;
+            }
+
+            seenFaceOverrides[overrideEntry.faceIndex] = 1;
+
+            if (!overrideEntry.legacyAttributes.has_value()
+                && !overrideEntry.textureFrameTableCog.has_value()
+                && !overrideEntry.cogNumber.has_value()
+                && !overrideEntry.cogTriggered.has_value()
+                && !overrideEntry.cogTriggerType.has_value())
+            {
+                issues.push_back(
+                    "Face override " + std::to_string(overrideEntry.faceIndex) + " does not define any override fields.");
+            }
+        }
+
+        std::vector<uint8_t> seenDoorIndices(m_indoorGeometry.doorCount, 0);
+
+        for (const Game::IndoorSceneDoor &door : m_indoorSceneData.initialState.doors)
+        {
+            if (door.doorIndex >= m_indoorGeometry.doorCount)
+            {
+                issues.push_back("Door " + std::to_string(door.doorIndex) + " is out of range.");
+                continue;
+            }
+
+            if (seenDoorIndices[door.doorIndex] != 0)
+            {
+                issues.push_back("Door " + std::to_string(door.doorIndex) + " is duplicated.");
+                continue;
+            }
+
+            seenDoorIndices[door.doorIndex] = 1;
+        }
+
+        for (const Game::IndoorSceneDecorationFlag &flag : m_indoorSceneData.initialState.decorationFlags)
+        {
+            if (flag.entityIndex >= m_indoorGeometry.entities.size())
+            {
+                issues.push_back("Decoration flag entity index " + std::to_string(flag.entityIndex) + " is invalid.");
+            }
+        }
+
+        return issues;
+    }
 
     if (m_kind != Kind::Outdoor)
     {
@@ -2231,6 +3063,12 @@ void EditorDocument::setDirty(bool isDirty)
 {
     m_isDirty = isDirty;
 
+    if (m_kind == Kind::Indoor)
+    {
+        m_isRuntimeBuildDirty = false;
+        return;
+    }
+
     if (m_kind != Kind::Outdoor)
     {
         m_isRuntimeBuildDirty = isDirty;
@@ -2364,6 +3202,26 @@ Game::OutdoorSceneData &EditorDocument::mutableOutdoorSceneData()
 const Game::OutdoorSceneData &EditorDocument::outdoorSceneData() const
 {
     return m_outdoorSceneData;
+}
+
+const Game::IndoorMapData &EditorDocument::indoorGeometry() const
+{
+    return m_indoorGeometry;
+}
+
+Game::IndoorMapData &EditorDocument::mutableIndoorGeometry()
+{
+    return m_indoorGeometry;
+}
+
+Game::IndoorSceneData &EditorDocument::mutableIndoorSceneData()
+{
+    return m_indoorSceneData;
+}
+
+const Game::IndoorSceneData &EditorDocument::indoorSceneData() const
+{
+    return m_indoorSceneData;
 }
 
 const EditorOutdoorGeometryMetadata &EditorDocument::outdoorGeometryMetadata() const
@@ -2659,10 +3517,87 @@ bool EditorDocument::loadOutdoorSceneText(
     return true;
 }
 
+bool EditorDocument::loadIndoorSceneText(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &sceneVirtualPath,
+    const std::string &sceneText,
+    std::string &errorMessage)
+{
+    Game::IndoorSceneYmlLoader sceneLoader = {};
+    const std::optional<Game::IndoorSceneData> sceneData = sceneLoader.loadFromText(sceneText, errorMessage);
+
+    if (!sceneData)
+    {
+        return false;
+    }
+
+    const std::filesystem::path developmentRoot = assetFileSystem.getDevelopmentRoot();
+    const std::filesystem::path editorDevelopmentRoot = assetFileSystem.getEditorDevelopmentRoot();
+    const std::filesystem::path scenePhysicalPath =
+        assetFileSystem.resolvePhysicalPath(sceneVirtualPath).value_or(
+            scenePhysicalPathFromVirtual(editorDevelopmentRoot, sceneVirtualPath));
+    const std::filesystem::path geometryPath = std::filesystem::path(sceneVirtualPath).parent_path() / sceneData->geometryFile;
+    const std::optional<std::vector<uint8_t>> geometryBytes = assetFileSystem.readBinaryFile(geometryPath.generic_string());
+
+    if (!geometryBytes)
+    {
+        errorMessage = "could not read indoor geometry: " + geometryPath.generic_string();
+        return false;
+    }
+
+    Game::IndoorMapDataLoader geometryLoader = {};
+    const std::optional<Game::IndoorMapData> indoorGeometry = geometryLoader.loadFromBytes(*geometryBytes);
+
+    if (!indoorGeometry)
+    {
+        errorMessage = "could not parse indoor geometry: " + geometryPath.generic_string();
+        return false;
+    }
+
+    Game::IndoorSceneData normalizedSceneData = *sceneData;
+    synthesizeIndoorFaceAttributeOverridesFromLegacyCompanion(
+        assetFileSystem,
+        scenePhysicalPath,
+        sceneVirtualPath,
+        *indoorGeometry,
+        normalizedSceneData);
+
+    m_kind = Kind::Indoor;
+    m_isDirty = false;
+    m_isRuntimeBuildDirty = false;
+    m_developmentRoot = developmentRoot;
+    m_editorDevelopmentRoot = editorDevelopmentRoot;
+    m_outdoorGeometry = {};
+    m_outdoorSceneData = {};
+    m_outdoorGeometryMetadata = {};
+    m_outdoorMapPackageMetadata = {};
+    m_outdoorTerrainMetadata = {};
+    m_outdoorGeometrySourceBytes.clear();
+    m_indoorGeometry = *indoorGeometry;
+    m_indoorGeometrySourceBytes = *geometryBytes;
+    m_indoorSceneData = std::move(normalizedSceneData);
+    ++m_sceneRevision;
+    m_sceneVirtualPath = sceneVirtualPath;
+    m_scenePhysicalPath = scenePhysicalPath;
+    m_geometryVirtualPath = geometryPath.generic_string();
+    m_geometryPhysicalPath = assetFileSystem.resolvePhysicalPath(m_geometryVirtualPath).value_or(std::filesystem::path());
+    m_geometryMetadataVirtualPath.clear();
+    m_geometryMetadataPhysicalPath.clear();
+    m_hasMapPackageRoot = false;
+    m_mapPackageVirtualPath.clear();
+    m_mapPackagePhysicalPath.clear();
+    m_terrainMetadataVirtualPath.clear();
+    m_terrainMetadataPhysicalPath.clear();
+    m_displayName = sceneData->geometryFile;
+    return true;
+}
+
 std::string EditorDocument::replaceExtension(const std::string &fileName, const std::string &newExtension)
 {
     const std::filesystem::path path(fileName);
-    return path.stem().string() + newExtension;
+    const std::filesystem::path replacedPath =
+        path.parent_path() / std::filesystem::path(path.stem().string() + newExtension);
+    return replacedPath.generic_string();
 }
 
 std::string EditorDocument::deriveGeometryFileNameForScenePath(
@@ -3013,6 +3948,249 @@ std::string EditorDocument::serializeOutdoorScene(
     emitIntegerSequence(emitter, sceneData.initialState.eventVariables.decorVars);
     emitter << YAML::EndMap;
 
+    emitter << YAML::EndMap;
+    emitter << YAML::EndMap;
+
+    std::string text = emitter.c_str();
+
+    if (!text.empty() && text.back() != '\n')
+    {
+        text.push_back('\n');
+    }
+
+    return text;
+}
+
+std::string EditorDocument::serializeIndoorScene(
+    const Game::IndoorSceneData &sceneData,
+    const std::optional<std::string> &geometryFileOverride)
+{
+    YAML::Emitter emitter;
+    emitter.SetIndent(2);
+    emitter.SetSeqFormat(YAML::Block);
+    emitter.SetMapFormat(YAML::Block);
+
+    emitter << YAML::BeginMap;
+    emitter << YAML::Key << "format_version" << YAML::Value << sceneData.formatVersion;
+    emitter << YAML::Key << "kind" << YAML::Value << "indoor_scene";
+
+    emitter << YAML::Key << "source" << YAML::Value << YAML::BeginMap;
+    emitter << YAML::Key << "geometry_file" << YAML::Value
+            << (geometryFileOverride ? *geometryFileOverride : sceneData.geometryFile);
+
+    if (sceneData.legacyCompanionFile && !sceneData.legacyCompanionFile->empty())
+    {
+        emitter << YAML::Key << "legacy_companion_file" << YAML::Value << *sceneData.legacyCompanionFile;
+    }
+
+    emitter << YAML::EndMap;
+
+    emitter << YAML::Key << "environment" << YAML::Value << YAML::BeginMap;
+    emitter << YAML::Key << "sky_texture" << YAML::Value << sceneData.environment.skyTexture;
+    emitter << YAML::Key << "day_bits_raw" << YAML::Value << sceneData.environment.dayBitsRaw;
+    emitter << YAML::Key << "map_extra_bits_raw" << YAML::Value << sceneData.environment.mapExtraBitsRaw;
+    emitter << YAML::Key << "flags" << YAML::Value << YAML::BeginMap;
+    emitter << YAML::Key << "foggy" << YAML::Value << ((sceneData.environment.dayBitsRaw & 0x1) != 0);
+    emitter << YAML::Key << "raining" << YAML::Value
+            << ((sceneData.environment.mapExtraBitsRaw & EnvironmentFlagRain) != 0);
+    emitter << YAML::Key << "snowing" << YAML::Value
+            << ((sceneData.environment.mapExtraBitsRaw & EnvironmentFlagSnow) != 0);
+    emitter << YAML::Key << "underwater" << YAML::Value
+            << ((sceneData.environment.mapExtraBitsRaw & EnvironmentFlagUnderwater) != 0);
+    emitter << YAML::Key << "no_terrain" << YAML::Value
+            << ((sceneData.environment.mapExtraBitsRaw & EnvironmentFlagNoTerrain) != 0);
+    emitter << YAML::Key << "always_dark" << YAML::Value
+            << ((sceneData.environment.mapExtraBitsRaw & EnvironmentFlagAlwaysDark) != 0);
+    emitter << YAML::Key << "always_light" << YAML::Value
+            << ((sceneData.environment.mapExtraBitsRaw & EnvironmentFlagAlwaysLight) != 0);
+    emitter << YAML::Key << "always_foggy" << YAML::Value
+            << ((sceneData.environment.mapExtraBitsRaw & EnvironmentFlagAlwaysFoggy) != 0);
+    emitter << YAML::Key << "red_fog" << YAML::Value
+            << ((sceneData.environment.mapExtraBitsRaw & EnvironmentFlagRedFog) != 0);
+    emitter << YAML::EndMap;
+    emitter << YAML::Key << "fog" << YAML::Value << YAML::BeginMap;
+    emitter << YAML::Key << "weak_distance" << YAML::Value << sceneData.environment.fogWeakDistance;
+    emitter << YAML::Key << "strong_distance" << YAML::Value << sceneData.environment.fogStrongDistance;
+    emitter << YAML::EndMap;
+    emitter << YAML::Key << "ceiling" << YAML::Value << sceneData.environment.ceiling;
+    emitter << YAML::EndMap;
+
+    emitter << YAML::Key << "initial_state" << YAML::Value << YAML::BeginMap;
+    emitter << YAML::Key << "location" << YAML::Value << YAML::BeginMap;
+    emitter << YAML::Key << "respawn_count" << YAML::Value << sceneData.initialState.locationInfo.respawnCount;
+    emitter << YAML::Key << "last_respawn_day" << YAML::Value << sceneData.initialState.locationInfo.lastRespawnDay;
+    emitter << YAML::Key << "reputation" << YAML::Value << sceneData.initialState.locationInfo.reputation;
+    emitter << YAML::Key << "alert_status" << YAML::Value << sceneData.initialState.locationInfo.alertStatus;
+    emitter << YAML::EndMap;
+
+    emitter << YAML::Key << "visible_outlines" << YAML::Value << YAML::BeginMap;
+    emitter << YAML::Key << "bitset_hex" << YAML::Value << bytesToUpperHex(sceneData.initialState.visibleOutlines);
+    emitter << YAML::EndMap;
+
+    emitter << YAML::Key << "face_attribute_overrides" << YAML::Value << YAML::BeginSeq;
+
+    for (const Game::IndoorSceneFaceAttributeOverride &faceOverride : sceneData.initialState.faceAttributeOverrides)
+    {
+        emitter << YAML::BeginMap;
+        emitter << YAML::Key << "face_index" << YAML::Value << faceOverride.faceIndex;
+
+        if (faceOverride.legacyAttributes.has_value())
+        {
+            emitter << YAML::Key << "legacy_attributes" << YAML::Value << *faceOverride.legacyAttributes;
+        }
+
+        if (faceOverride.textureFrameTableCog.has_value())
+        {
+            emitter << YAML::Key << "texture_frame_table_cog" << YAML::Value << *faceOverride.textureFrameTableCog;
+        }
+
+        if (faceOverride.cogNumber.has_value())
+        {
+            emitter << YAML::Key << "cog_number" << YAML::Value << *faceOverride.cogNumber;
+        }
+
+        if (faceOverride.cogTriggered.has_value())
+        {
+            emitter << YAML::Key << "cog_triggered" << YAML::Value << *faceOverride.cogTriggered;
+        }
+
+        if (faceOverride.cogTriggerType.has_value())
+        {
+            emitter << YAML::Key << "cog_trigger_type" << YAML::Value << *faceOverride.cogTriggerType;
+        }
+
+        emitter << YAML::EndMap;
+    }
+
+    emitter << YAML::EndSeq;
+    emitter << YAML::Key << "decoration_flags" << YAML::Value << YAML::BeginSeq;
+
+    for (const Game::IndoorSceneDecorationFlag &flag : sceneData.initialState.decorationFlags)
+    {
+        emitter << YAML::BeginMap;
+        emitter << YAML::Key << "entity_index" << YAML::Value << flag.entityIndex;
+        emitter << YAML::Key << "flag" << YAML::Value << flag.flag;
+        emitter << YAML::EndMap;
+    }
+
+    emitter << YAML::EndSeq;
+    emitter << YAML::Key << "actors" << YAML::Value << YAML::BeginSeq;
+
+    for (const Game::MapDeltaActor &actor : sceneData.initialState.actors)
+    {
+        emitter << YAML::BeginMap;
+        emitter << YAML::Key << "name" << YAML::Value << actor.name;
+        emitter << YAML::Key << "npc_id" << YAML::Value << actor.npcId;
+        emitter << YAML::Key << "attributes" << YAML::Value << actor.attributes;
+        emitter << YAML::Key << "hp" << YAML::Value << actor.hp;
+        emitter << YAML::Key << "hostility_type" << YAML::Value << static_cast<int>(actor.hostilityType);
+        emitter << YAML::Key << "monster_info_id" << YAML::Value << actor.monsterInfoId;
+        emitter << YAML::Key << "monster_id" << YAML::Value << actor.monsterId;
+        emitter << YAML::Key << "radius" << YAML::Value << actor.radius;
+        emitter << YAML::Key << "height" << YAML::Value << actor.height;
+        emitter << YAML::Key << "move_speed" << YAML::Value << actor.moveSpeed;
+        emitter << YAML::Key << "position" << YAML::Value;
+        emitPositionMap(emitter, actor.x, actor.y, actor.z);
+        emitter << YAML::Key << "sprite_ids" << YAML::Value;
+        emitSequence(emitter, actor.spriteIds);
+        emitter << YAML::Key << "sector_id" << YAML::Value << actor.sectorId;
+        emitter << YAML::Key << "current_action_animation" << YAML::Value << actor.currentActionAnimation;
+        emitter << YAML::Key << "group" << YAML::Value << actor.group;
+        emitter << YAML::Key << "ally" << YAML::Value << actor.ally;
+        emitter << YAML::Key << "unique_name_index" << YAML::Value << actor.uniqueNameIndex;
+        emitter << YAML::EndMap;
+    }
+
+    emitter << YAML::EndSeq;
+    emitter << YAML::Key << "sprite_objects" << YAML::Value << YAML::BeginSeq;
+
+    for (const Game::MapDeltaSpriteObject &spriteObject : sceneData.initialState.spriteObjects)
+    {
+        emitter << YAML::BeginMap;
+        emitter << YAML::Key << "sprite_id" << YAML::Value << spriteObject.spriteId;
+        emitter << YAML::Key << "object_description_id" << YAML::Value << spriteObject.objectDescriptionId;
+        emitter << YAML::Key << "position" << YAML::Value;
+        emitPositionMap(emitter, spriteObject.x, spriteObject.y, spriteObject.z);
+        emitter << YAML::Key << "velocity" << YAML::Value;
+        emitPositionMap(emitter, spriteObject.velocityX, spriteObject.velocityY, spriteObject.velocityZ);
+        emitter << YAML::Key << "yaw_angle" << YAML::Value << spriteObject.yawAngle;
+        emitter << YAML::Key << "sound_id" << YAML::Value << spriteObject.soundId;
+        emitter << YAML::Key << "attributes" << YAML::Value << spriteObject.attributes;
+        emitter << YAML::Key << "sector_id" << YAML::Value << spriteObject.sectorId;
+        emitter << YAML::Key << "time_since_created" << YAML::Value << spriteObject.timeSinceCreated;
+        emitter << YAML::Key << "temporary_lifetime" << YAML::Value << spriteObject.temporaryLifetime;
+        emitter << YAML::Key << "glow_radius_multiplier" << YAML::Value << spriteObject.glowRadiusMultiplier;
+        emitter << YAML::Key << "spell_id" << YAML::Value << spriteObject.spellId;
+        emitter << YAML::Key << "spell_level" << YAML::Value << spriteObject.spellLevel;
+        emitter << YAML::Key << "spell_skill" << YAML::Value << spriteObject.spellSkill;
+        emitter << YAML::Key << "field54" << YAML::Value << spriteObject.field54;
+        emitter << YAML::Key << "spell_caster_pid" << YAML::Value << spriteObject.spellCasterPid;
+        emitter << YAML::Key << "spell_target_pid" << YAML::Value << spriteObject.spellTargetPid;
+        emitter << YAML::Key << "lod_distance" << YAML::Value << static_cast<int>(spriteObject.lodDistance);
+        emitter << YAML::Key << "spell_caster_ability" << YAML::Value
+                << static_cast<int>(spriteObject.spellCasterAbility);
+        emitter << YAML::Key << "initial_position" << YAML::Value;
+        emitPositionMap(emitter, spriteObject.initialX, spriteObject.initialY, spriteObject.initialZ);
+        emitter << YAML::Key << "raw_containing_item_hex" << YAML::Value << bytesToUpperHex(spriteObject.rawContainingItem);
+        emitter << YAML::EndMap;
+    }
+
+    emitter << YAML::EndSeq;
+    emitter << YAML::Key << "chests" << YAML::Value << YAML::BeginSeq;
+
+    for (const Game::MapDeltaChest &chest : sceneData.initialState.chests)
+    {
+        emitter << YAML::BeginMap;
+        emitter << YAML::Key << "chest_type_id" << YAML::Value << chest.chestTypeId;
+        emitter << YAML::Key << "flags" << YAML::Value << chest.flags;
+        emitter << YAML::Key << "raw_items_hex" << YAML::Value << bytesToUpperHex(chest.rawItems);
+        emitter << YAML::Key << "inventory_matrix" << YAML::Value;
+        emitSequence(emitter, chest.inventoryMatrix);
+        emitter << YAML::EndMap;
+    }
+
+    emitter << YAML::EndSeq;
+    emitter << YAML::Key << "doors" << YAML::Value << YAML::BeginSeq;
+
+    for (const Game::IndoorSceneDoor &door : sceneData.initialState.doors)
+    {
+        emitter << YAML::BeginMap;
+        emitter << YAML::Key << "door_index" << YAML::Value << door.doorIndex;
+        emitter << YAML::Key << "legacy_attributes" << YAML::Value << door.door.attributes;
+        emitter << YAML::Key << "door_id" << YAML::Value << door.door.doorId;
+        emitter << YAML::Key << "time_since_triggered_ms" << YAML::Value << door.door.timeSinceTriggered;
+        emitter << YAML::Key << "move_length" << YAML::Value << door.door.moveLength;
+        emitter << YAML::Key << "open_speed" << YAML::Value << door.door.openSpeed;
+        emitter << YAML::Key << "close_speed" << YAML::Value << door.door.closeSpeed;
+        emitter << YAML::Key << "state" << YAML::Value << door.door.state;
+        emitter << YAML::Key << "direction" << YAML::Value;
+        emitPositionMap(emitter, door.door.directionX, door.door.directionY, door.door.directionZ);
+        emitter << YAML::Key << "vertex_ids" << YAML::Value;
+        emitSequence(emitter, door.door.vertexIds);
+        emitter << YAML::Key << "face_ids" << YAML::Value;
+        emitSequence(emitter, door.door.faceIds);
+        emitter << YAML::Key << "sector_ids" << YAML::Value;
+        emitSequence(emitter, door.door.sectorIds);
+        emitter << YAML::Key << "delta_us" << YAML::Value;
+        emitSequence(emitter, door.door.deltaUs);
+        emitter << YAML::Key << "delta_vs" << YAML::Value;
+        emitSequence(emitter, door.door.deltaVs);
+        emitter << YAML::Key << "x_offsets" << YAML::Value;
+        emitSequence(emitter, door.door.xOffsets);
+        emitter << YAML::Key << "y_offsets" << YAML::Value;
+        emitSequence(emitter, door.door.yOffsets);
+        emitter << YAML::Key << "z_offsets" << YAML::Value;
+        emitSequence(emitter, door.door.zOffsets);
+        emitter << YAML::EndMap;
+    }
+
+    emitter << YAML::EndSeq;
+    emitter << YAML::Key << "variables" << YAML::Value << YAML::BeginMap;
+    emitter << YAML::Key << "map" << YAML::Value;
+    emitIntegerSequence(emitter, sceneData.initialState.eventVariables.mapVars);
+    emitter << YAML::Key << "decor" << YAML::Value;
+    emitIntegerSequence(emitter, sceneData.initialState.eventVariables.decorVars);
+    emitter << YAML::EndMap;
     emitter << YAML::EndMap;
     emitter << YAML::EndMap;
 

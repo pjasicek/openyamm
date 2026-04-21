@@ -4,7 +4,9 @@
 #include "editor/document/OutdoorGeometryMetadata.h"
 #include "editor/document/OutdoorMapPackageMetadata.h"
 #include "editor/document/OutdoorTerrainMetadata.h"
+#include "game/indoor/IndoorMapData.h"
 #include "game/maps/MapDeltaData.h"
+#include "game/maps/IndoorSceneYml.h"
 #include "game/maps/OutdoorSceneYml.h"
 #include "game/outdoor/OutdoorMapData.h"
 
@@ -21,12 +23,21 @@ public:
     enum class Kind
     {
         None,
-        Outdoor
+        Outdoor,
+        Indoor
     };
 
     bool loadOutdoorMapPackage(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &mapFileName,
+        std::string &errorMessage);
+    bool loadIndoorMapPackage(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &mapFileName,
+        std::string &errorMessage);
+    bool loadMapPhysicalPath(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::filesystem::path &path,
         std::string &errorMessage);
     bool createNewOutdoorMapPackage(
         const Engine::AssetFileSystem &assetFileSystem,
@@ -35,6 +46,10 @@ public:
         const Game::OutdoorSceneEnvironment &environment,
         std::string &errorMessage);
     bool loadOutdoorSceneVirtualPath(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &sceneVirtualPath,
+        std::string &errorMessage);
+    bool loadIndoorSceneVirtualPath(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &sceneVirtualPath,
         std::string &errorMessage);
@@ -50,11 +65,20 @@ public:
         Game::OutdoorMapData &outdoorMapData,
         Game::MapDeltaData &mapDeltaData,
         std::string &errorMessage) const;
+    bool buildIndoorAuthoredRuntimeState(
+        Game::IndoorMapData &indoorMapData,
+        Game::MapDeltaData &mapDeltaData,
+        std::string &errorMessage) const;
     bool restoreOutdoorSceneSnapshot(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &sceneSnapshot,
         std::string &errorMessage);
+    bool restoreIndoorSceneSnapshot(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &sceneSnapshot,
+        std::string &errorMessage);
     std::string createOutdoorSceneSnapshot() const;
+    std::string createIndoorSceneSnapshot() const;
     std::vector<std::string> validate() const;
 
     Kind kind() const;
@@ -81,6 +105,10 @@ public:
     Game::OutdoorMapData &mutableOutdoorGeometry();
     Game::OutdoorSceneData &mutableOutdoorSceneData();
     const Game::OutdoorSceneData &outdoorSceneData() const;
+    const Game::IndoorMapData &indoorGeometry() const;
+    Game::IndoorMapData &mutableIndoorGeometry();
+    Game::IndoorSceneData &mutableIndoorSceneData();
+    const Game::IndoorSceneData &indoorSceneData() const;
     const EditorOutdoorGeometryMetadata &outdoorGeometryMetadata() const;
     std::optional<EditorBModelImportSource> outdoorBModelImportSource(size_t bmodelIndex) const;
     std::optional<EditorBModelSourceTransform> outdoorBModelSourceTransform(size_t bmodelIndex) const;
@@ -100,6 +128,23 @@ private:
         const std::optional<EditorOutdoorMapPackageMetadata> &packageMetadata,
         const std::optional<std::string> &packageVirtualPath,
         std::string &errorMessage);
+    bool loadIndoorSceneText(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &sceneVirtualPath,
+        const std::string &sceneText,
+        std::string &errorMessage);
+    bool loadOutdoorScenePhysicalPath(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::filesystem::path &scenePhysicalPath,
+        const std::string &sceneText,
+        const std::optional<EditorOutdoorMapPackageMetadata> &packageMetadata,
+        const std::optional<std::filesystem::path> &packagePhysicalPath,
+        std::string &errorMessage);
+    bool loadIndoorScenePhysicalPath(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::filesystem::path &scenePhysicalPath,
+        const std::string &sceneText,
+        std::string &errorMessage);
 
     static std::string replaceExtension(const std::string &fileName, const std::string &newExtension);
     static std::string deriveGeometryFileNameForScenePath(
@@ -115,6 +160,9 @@ private:
         const EditorOutdoorMapPackageMetadata &packageMetadata) const;
     static std::string serializeOutdoorScene(
         const Game::OutdoorSceneData &sceneData,
+        const std::optional<std::string> &geometryFileOverride = std::nullopt);
+    static std::string serializeIndoorScene(
+        const Game::IndoorSceneData &sceneData,
         const std::optional<std::string> &geometryFileOverride = std::nullopt);
     static bool writeTextFileAtomically(
         const std::filesystem::path &path,
@@ -143,10 +191,13 @@ private:
     std::filesystem::path m_terrainMetadataPhysicalPath;
     Game::OutdoorMapData m_outdoorGeometry = {};
     Game::OutdoorSceneData m_outdoorSceneData = {};
+    Game::IndoorMapData m_indoorGeometry = {};
+    Game::IndoorSceneData m_indoorSceneData = {};
     EditorOutdoorGeometryMetadata m_outdoorGeometryMetadata = {};
     EditorOutdoorMapPackageMetadata m_outdoorMapPackageMetadata = {};
     EditorOutdoorTerrainMetadata m_outdoorTerrainMetadata = {};
     std::vector<uint8_t> m_outdoorGeometrySourceBytes;
+    std::vector<uint8_t> m_indoorGeometrySourceBytes;
     uint64_t m_sceneRevision = 0;
     bool m_isRuntimeBuildDirty = false;
 };

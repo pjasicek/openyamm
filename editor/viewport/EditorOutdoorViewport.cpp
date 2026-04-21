@@ -2,6 +2,8 @@
 
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
+#include "game/events/EventRuntime.h"
+#include "game/indoor/IndoorGeometryUtils.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/maps/TerrainTileData.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
@@ -36,6 +38,7 @@ constexpr float CameraNearPlane = 32.0f;
 constexpr float CameraFarPlane = 131072.0f;
 constexpr float CameraMouseSensitivity = 0.0035f;
 constexpr float CameraMoveSpeed = 9000.0f;
+constexpr float IndoorCameraMoveSpeedMultiplier = 0.25f;
 constexpr float CameraFastMoveSpeedMultiplier = 4.0f;
 constexpr float CameraMinPitchRadians = -1.45f;
 constexpr float CameraMaxPitchRadians = 1.45f;
@@ -999,6 +1002,196 @@ Game::OutdoorBModelVertex transformImportedPreviewVertex(
     vertex.y = static_cast<int>(std::lround(worldY));
     vertex.z = static_cast<int>(std::lround(worldZ));
     return vertex;
+}
+
+void appendUniqueIndoorFaceIds(
+    std::vector<uint16_t> &targetFaceIds,
+    const std::vector<uint16_t> &sourceFaceIds)
+{
+    for (uint16_t faceId : sourceFaceIds)
+    {
+        if (std::find(targetFaceIds.begin(), targetFaceIds.end(), faceId) == targetFaceIds.end())
+        {
+            targetFaceIds.push_back(faceId);
+        }
+    }
+}
+
+std::vector<uint16_t> indoorSectorFaceIds(const Game::IndoorMapData &indoorMapData, uint16_t sectorId)
+{
+    if (sectorId >= indoorMapData.sectors.size())
+    {
+        return {};
+    }
+
+    const Game::IndoorSector &sector = indoorMapData.sectors[sectorId];
+    std::vector<uint16_t> faceIds;
+    faceIds.reserve(sector.faceIds.size() + sector.portalFaceIds.size());
+    appendUniqueIndoorFaceIds(faceIds, sector.faceIds);
+    appendUniqueIndoorFaceIds(faceIds, sector.portalFaceIds);
+    return faceIds;
+}
+
+std::vector<uint16_t> connectedIndoorSectorIds(const Game::IndoorMapData &indoorMapData, uint16_t sectorId)
+{
+    if (sectorId >= indoorMapData.sectors.size())
+    {
+        return {};
+    }
+
+    const Game::IndoorSector &sector = indoorMapData.sectors[sectorId];
+    std::vector<uint16_t> connectedSectorIds;
+
+    const auto appendConnectedSector =
+        [&](uint16_t connectedSectorId)
+    {
+        if (connectedSectorId >= indoorMapData.sectors.size())
+        {
+            return;
+        }
+
+        if (std::find(connectedSectorIds.begin(), connectedSectorIds.end(), connectedSectorId)
+            == connectedSectorIds.end())
+        {
+            connectedSectorIds.push_back(connectedSectorId);
+        }
+    };
+
+    const auto collectFromFaces =
+        [&](const std::vector<uint16_t> &faceIds)
+    {
+        for (uint16_t faceId : faceIds)
+        {
+            if (faceId >= indoorMapData.faces.size())
+            {
+                continue;
+            }
+
+            const Game::IndoorFace &face = indoorMapData.faces[faceId];
+            const bool isPortal = face.isPortal || Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::IsPortal);
+
+            if (!isPortal)
+            {
+                continue;
+            }
+
+            if (face.roomNumber == sectorId)
+            {
+                appendConnectedSector(face.roomBehindNumber);
+            }
+            else if (face.roomBehindNumber == sectorId)
+            {
+                appendConnectedSector(face.roomNumber);
+            }
+        }
+    };
+
+    collectFromFaces(sector.portalFaceIds);
+    collectFromFaces(sector.faceIds);
+    return connectedSectorIds;
+}
+
+bool indoorSectorBoundsContainPoint(
+    const Game::IndoorMapData &indoorMapData,
+    uint16_t sectorId,
+    const bx::Vec3 &point)
+{
+    if (sectorId >= indoorMapData.sectors.size())
+    {
+        return false;
+    }
+
+    const Game::IndoorSector &sector = indoorMapData.sectors[sectorId];
+    return point.x >= static_cast<float>(sector.minX)
+        && point.x <= static_cast<float>(sector.maxX)
+        && point.y >= static_cast<float>(sector.minY)
+        && point.y <= static_cast<float>(sector.maxY)
+        && point.z >= static_cast<float>(sector.minZ)
+        && point.z <= static_cast<float>(sector.maxZ);
+}
+
+bool indoorFaceMatchesRoomIsolation(
+    const Game::IndoorFace &face,
+    const std::optional<uint16_t> &isolatedRoomId)
+{
+    if (!isolatedRoomId.has_value())
+    {
+        return true;
+    }
+
+    return face.roomNumber == *isolatedRoomId || face.roomBehindNumber == *isolatedRoomId;
+}
+
+bool indoorGeometryKindHiddenByView(
+    Game::IndoorFaceKind kind,
+    bool showIndoorFloors,
+    bool showIndoorCeilings)
+{
+    if (!showIndoorFloors && kind == Game::IndoorFaceKind::Floor)
+    {
+        return true;
+    }
+
+    if (!showIndoorCeilings && kind == Game::IndoorFaceKind::Ceiling)
+    {
+        return true;
+    }
+
+    return false;
+}
+
+bool indoorMarkerVisibleForIsolation(
+    const Game::IndoorMapData &indoorMapData,
+    const std::optional<uint16_t> &isolatedRoomId,
+    const bx::Vec3 &point,
+    std::optional<int16_t> sectorId = std::nullopt)
+{
+    if (!isolatedRoomId.has_value())
+    {
+        return true;
+    }
+
+    if (sectorId.has_value() && *sectorId >= 0)
+    {
+        return static_cast<uint16_t>(*sectorId) == *isolatedRoomId;
+    }
+
+    return indoorSectorBoundsContainPoint(indoorMapData, *isolatedRoomId, point);
+}
+
+bool indoorDoorVisibleForIsolation(
+    const Game::IndoorMapData &indoorMapData,
+    const Game::MapDeltaDoor &door,
+    const std::optional<uint16_t> &isolatedRoomId,
+    const std::optional<bx::Vec3> &center)
+{
+    if (!isolatedRoomId.has_value())
+    {
+        return true;
+    }
+
+    for (uint16_t sectorId : door.sectorIds)
+    {
+        if (sectorId == *isolatedRoomId)
+        {
+            return true;
+        }
+    }
+
+    for (uint16_t faceId : door.faceIds)
+    {
+        if (faceId >= indoorMapData.faces.size())
+        {
+            continue;
+        }
+
+        if (indoorFaceMatchesRoomIsolation(indoorMapData.faces[faceId], isolatedRoomId))
+        {
+            return true;
+        }
+    }
+
+    return center.has_value() && indoorSectorBoundsContainPoint(indoorMapData, *isolatedRoomId, *center);
 }
 
 uint8_t classifyImportedPreviewPolygonType(const ImportedModel &importedModel, const ImportedModelFace &face)
@@ -2701,6 +2894,361 @@ std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> buildProceduralBMode
     return buildProceduralBModelFaceVertices(outdoorMapData.bmodels[bmodelIndex], faceIndex, origin);
 }
 
+std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedIndoorFaceVertices(
+    const Game::IndoorMapData &indoorMapData,
+    const std::vector<Game::IndoorVertex> &indoorVertices,
+    size_t faceIndex,
+    int textureWidth,
+    int textureHeight)
+{
+    std::vector<EditorOutdoorViewport::TexturedPreviewVertex> vertices;
+
+    if (textureWidth <= 0 || textureHeight <= 0 || faceIndex >= indoorMapData.faces.size())
+    {
+        return vertices;
+    }
+
+    const Game::IndoorFace &face = indoorMapData.faces[faceIndex];
+
+    if (face.vertexIndices.size() < 3 || face.textureName.empty())
+    {
+        return vertices;
+    }
+
+    for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
+    {
+        const size_t triangleVertexIndices[3] = {0, triangleIndex, triangleIndex + 1};
+        EditorOutdoorViewport::TexturedPreviewVertex triangleVertices[3] = {};
+        bool isTriangleValid = true;
+
+        for (size_t triangleVertexSlot = 0; triangleVertexSlot < 3; ++triangleVertexSlot)
+        {
+            const size_t localTriangleVertexIndex = triangleVertexIndices[triangleVertexSlot];
+            const uint16_t modelVertexIndex = face.vertexIndices[localTriangleVertexIndex];
+
+            if (modelVertexIndex >= indoorVertices.size()
+                || localTriangleVertexIndex >= face.textureUs.size()
+                || localTriangleVertexIndex >= face.textureVs.size())
+            {
+                isTriangleValid = false;
+                break;
+            }
+
+            const bx::Vec3 worldVertex = Game::indoorVertexToWorld(indoorVertices[modelVertexIndex]);
+            const float normalizedU =
+                static_cast<float>(face.textureUs[localTriangleVertexIndex] + face.textureDeltaU)
+                / static_cast<float>(textureWidth);
+            const float normalizedV =
+                static_cast<float>(face.textureVs[localTriangleVertexIndex] + face.textureDeltaV)
+                / static_cast<float>(textureHeight);
+            triangleVertices[triangleVertexSlot] =
+                {worldVertex.x, worldVertex.y, worldVertex.z, normalizedU, normalizedV};
+        }
+
+        if (!isTriangleValid)
+        {
+            continue;
+        }
+
+        vertices.push_back(triangleVertices[0]);
+        vertices.push_back(triangleVertices[1]);
+        vertices.push_back(triangleVertices[2]);
+    }
+
+    return vertices;
+}
+
+std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> buildProceduralIndoorFaceVertices(
+    const Game::IndoorMapData &indoorMapData,
+    const std::vector<Game::IndoorVertex> &indoorVertices,
+    size_t faceIndex,
+    const bx::Vec3 &origin)
+{
+    std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> vertices;
+    Game::IndoorFaceGeometryData geometry = {};
+
+    if (!Game::buildIndoorFaceGeometry(indoorMapData, indoorVertices, faceIndex, geometry)
+        || geometry.vertices.size() < 3)
+    {
+        return vertices;
+    }
+
+    const bx::Vec3 fallbackNormal =
+        vecDot(geometry.normal, geometry.normal) > 0.001f ? geometry.normal : bx::Vec3 {0.0f, 0.0f, 1.0f};
+
+    for (size_t triangleIndex = 1; triangleIndex + 1 < geometry.vertices.size(); ++triangleIndex)
+    {
+        appendProceduralTriangle(
+            vertices,
+            geometry.vertices[0],
+            geometry.vertices[triangleIndex],
+            geometry.vertices[triangleIndex + 1],
+            origin,
+            fallbackNormal);
+    }
+
+    return vertices;
+}
+
+std::vector<EditorOutdoorViewport::PreviewVertex> buildIndoorWireVertices(
+    const Game::IndoorMapData &indoorMapData,
+    const std::vector<Game::IndoorVertex> &indoorVertices,
+    bool showIndoorFloors,
+    bool showIndoorCeilings,
+    const std::optional<uint16_t> &isolatedRoomId)
+{
+    std::vector<EditorOutdoorViewport::PreviewVertex> vertices;
+    constexpr uint32_t IndoorWireColor = 0x9cb5c8ffu;
+
+    for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
+    {
+        const Game::IndoorFace &face = indoorMapData.faces[faceIndex];
+
+        if (!indoorFaceMatchesRoomIsolation(face, isolatedRoomId))
+        {
+            continue;
+        }
+
+        Game::IndoorFaceGeometryData geometry = {};
+
+        if (!Game::buildIndoorFaceGeometry(indoorMapData, indoorVertices, faceIndex, geometry)
+            || geometry.vertices.size() < 2)
+        {
+            continue;
+        }
+
+        if (indoorGeometryKindHiddenByView(geometry.kind, showIndoorFloors, showIndoorCeilings))
+        {
+            continue;
+        }
+
+        for (size_t vertexIndex = 0; vertexIndex < geometry.vertices.size(); ++vertexIndex)
+        {
+            const bx::Vec3 &start = geometry.vertices[vertexIndex];
+            const bx::Vec3 &end = geometry.vertices[(vertexIndex + 1) % geometry.vertices.size()];
+            vertices.push_back({start.x, start.y, start.z, IndoorWireColor});
+            vertices.push_back({end.x, end.y, end.z, IndoorWireColor});
+        }
+    }
+
+    return vertices;
+}
+
+bool indoorFaceHiddenByCeilingView(
+    const Game::IndoorMapData &indoorMapData,
+    const std::vector<Game::IndoorVertex> &indoorVertices,
+    size_t faceIndex,
+    bool showIndoorFloors,
+    bool showIndoorCeilings,
+    const std::optional<uint16_t> &isolatedRoomId)
+{
+    if (faceIndex >= indoorMapData.faces.size())
+    {
+        return true;
+    }
+
+    const Game::IndoorFace &face = indoorMapData.faces[faceIndex];
+
+    if (!indoorFaceMatchesRoomIsolation(face, isolatedRoomId))
+    {
+        return true;
+    }
+
+    if (showIndoorFloors && showIndoorCeilings)
+    {
+        return false;
+    }
+
+    Game::IndoorFaceGeometryData geometry = {};
+
+    if (!Game::buildIndoorFaceGeometry(indoorMapData, indoorVertices, faceIndex, geometry))
+    {
+        return false;
+    }
+
+    return indoorGeometryKindHiddenByView(geometry.kind, showIndoorFloors, showIndoorCeilings);
+}
+
+float calculateMechanismPreviewDistance(
+    const Game::MapDeltaDoor &door,
+    const Game::RuntimeMechanismState &previewState)
+{
+    if (previewState.state == static_cast<uint16_t>(Game::EvtMechanismState::Open))
+    {
+        return 0.0f;
+    }
+
+    if (previewState.state == static_cast<uint16_t>(Game::EvtMechanismState::Closed) || (door.attributes & 0x2) != 0)
+    {
+        return static_cast<float>(door.moveLength);
+    }
+
+    if (previewState.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing))
+    {
+        const float closingDistance =
+            previewState.timeSinceTriggeredMs * static_cast<float>(door.closeSpeed) / 1000.0f;
+        return std::min(closingDistance, static_cast<float>(door.moveLength));
+    }
+
+    if (previewState.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening))
+    {
+        const float openingDistance =
+            previewState.timeSinceTriggeredMs * static_cast<float>(door.openSpeed) / 1000.0f;
+        return std::max(0.0f, static_cast<float>(door.moveLength) - openingDistance);
+    }
+
+    return 0.0f;
+}
+
+Game::RuntimeMechanismState buildMechanismPreviewState(const Game::MapDeltaDoor &door)
+{
+    Game::RuntimeMechanismState previewState = {};
+    previewState.state = door.state;
+    previewState.timeSinceTriggeredMs = static_cast<float>(door.timeSinceTriggered);
+    previewState.currentDistance = calculateMechanismPreviewDistance(door, previewState);
+    previewState.isMoving =
+        door.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening)
+        || door.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing);
+    return previewState;
+}
+
+void advanceMechanismPreviewState(
+    const Game::MapDeltaDoor &door,
+    float deltaMilliseconds,
+    Game::RuntimeMechanismState &previewState)
+{
+    if (!previewState.isMoving || deltaMilliseconds <= 0.0f)
+    {
+        return;
+    }
+
+    previewState.timeSinceTriggeredMs += deltaMilliseconds;
+    previewState.currentDistance = calculateMechanismPreviewDistance(door, previewState);
+
+    if (previewState.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing))
+    {
+        const float closedDistance =
+            previewState.timeSinceTriggeredMs * static_cast<float>(door.closeSpeed) / 1000.0f;
+
+        if (closedDistance >= static_cast<float>(door.moveLength))
+        {
+            previewState.state = static_cast<uint16_t>(Game::EvtMechanismState::Closed);
+            previewState.timeSinceTriggeredMs = 0.0f;
+            previewState.currentDistance = static_cast<float>(door.moveLength);
+            previewState.isMoving = false;
+        }
+    }
+    else if (previewState.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening))
+    {
+        const float openedDistance =
+            previewState.timeSinceTriggeredMs * static_cast<float>(door.openSpeed) / 1000.0f;
+
+        if (openedDistance >= static_cast<float>(door.moveLength))
+        {
+            previewState.state = static_cast<uint16_t>(Game::EvtMechanismState::Open);
+            previewState.timeSinceTriggeredMs = 0.0f;
+            previewState.currentDistance = 0.0f;
+            previewState.isMoving = false;
+        }
+    }
+    else
+    {
+        previewState.isMoving = false;
+    }
+}
+
+bool indoorDoorContainsFace(const Game::MapDeltaDoor &door, uint16_t faceId)
+{
+    return std::find(door.faceIds.begin(), door.faceIds.end(), faceId) != door.faceIds.end();
+}
+
+void synchronizeIndoorDoorFaceArraySizes(Game::MapDeltaDoor &door)
+{
+    door.numFaces = static_cast<uint16_t>(door.faceIds.size());
+    door.deltaUs.resize(door.faceIds.size(), 0);
+    door.deltaVs.resize(door.faceIds.size(), 0);
+}
+
+bool addIndoorDoorFace(Game::MapDeltaDoor &door, uint16_t faceId)
+{
+    if (indoorDoorContainsFace(door, faceId))
+    {
+        return false;
+    }
+
+    synchronizeIndoorDoorFaceArraySizes(door);
+    door.faceIds.push_back(faceId);
+    door.deltaUs.push_back(0);
+    door.deltaVs.push_back(0);
+    door.numFaces = static_cast<uint16_t>(door.faceIds.size());
+    return true;
+}
+
+bool removeIndoorDoorFace(Game::MapDeltaDoor &door, uint16_t faceId)
+{
+    const auto iterator = std::find(door.faceIds.begin(), door.faceIds.end(), faceId);
+
+    if (iterator == door.faceIds.end())
+    {
+        return false;
+    }
+
+    const size_t offset = static_cast<size_t>(std::distance(door.faceIds.begin(), iterator));
+    door.faceIds.erase(iterator);
+
+    if (offset < door.deltaUs.size())
+    {
+        door.deltaUs.erase(door.deltaUs.begin() + static_cast<ptrdiff_t>(offset));
+    }
+
+    if (offset < door.deltaVs.size())
+    {
+        door.deltaVs.erase(door.deltaVs.begin() + static_cast<ptrdiff_t>(offset));
+    }
+
+    synchronizeIndoorDoorFaceArraySizes(door);
+    return true;
+}
+
+bool intersectRayTriangle(
+    const bx::Vec3 &origin,
+    const bx::Vec3 &direction,
+    const bx::Vec3 &a,
+    const bx::Vec3 &b,
+    const bx::Vec3 &c,
+    float &distance)
+{
+    const bx::Vec3 edge1 = vecSubtract(b, a);
+    const bx::Vec3 edge2 = vecSubtract(c, a);
+    const bx::Vec3 p = vecCross(direction, edge2);
+    const float determinant = vecDot(edge1, p);
+
+    if (std::fabs(determinant) <= 0.00001f)
+    {
+        return false;
+    }
+
+    const float inverseDeterminant = 1.0f / determinant;
+    const bx::Vec3 t = vecSubtract(origin, a);
+    const float u = vecDot(t, p) * inverseDeterminant;
+
+    if (u < 0.0f || u > 1.0f)
+    {
+        return false;
+    }
+
+    const bx::Vec3 q = vecCross(t, edge1);
+    const float v = vecDot(direction, q) * inverseDeterminant;
+
+    if (v < 0.0f || (u + v) > 1.0f)
+    {
+        return false;
+    }
+
+    distance = vecDot(edge2, q) * inverseDeterminant;
+    return distance >= 0.0f;
+}
+
 void appendCrossMarker(
     std::vector<EditorOutdoorViewport::PreviewVertex> &vertices,
     const bx::Vec3 &center,
@@ -2714,6 +3262,162 @@ void appendCrossMarker(
     vertices.push_back({center.x, center.y + halfExtent, center.z + height * 0.5f, color});
     vertices.push_back({center.x, center.y, center.z, color});
     vertices.push_back({center.x, center.y, center.z + height, color});
+}
+
+void appendLine(
+    std::vector<EditorOutdoorViewport::PreviewVertex> &vertices,
+    const bx::Vec3 &start,
+    const bx::Vec3 &end,
+    uint32_t color)
+{
+    vertices.push_back({start.x, start.y, start.z, color});
+    vertices.push_back({end.x, end.y, end.z, color});
+}
+
+void appendBoxMarker(
+    std::vector<EditorOutdoorViewport::PreviewVertex> &vertices,
+    const bx::Vec3 &center,
+    float halfExtent,
+    uint32_t color)
+{
+    const bx::Vec3 p000 = {center.x - halfExtent, center.y - halfExtent, center.z - halfExtent};
+    const bx::Vec3 p001 = {center.x - halfExtent, center.y - halfExtent, center.z + halfExtent};
+    const bx::Vec3 p010 = {center.x - halfExtent, center.y + halfExtent, center.z - halfExtent};
+    const bx::Vec3 p011 = {center.x - halfExtent, center.y + halfExtent, center.z + halfExtent};
+    const bx::Vec3 p100 = {center.x + halfExtent, center.y - halfExtent, center.z - halfExtent};
+    const bx::Vec3 p101 = {center.x + halfExtent, center.y - halfExtent, center.z + halfExtent};
+    const bx::Vec3 p110 = {center.x + halfExtent, center.y + halfExtent, center.z - halfExtent};
+    const bx::Vec3 p111 = {center.x + halfExtent, center.y + halfExtent, center.z + halfExtent};
+
+    appendLine(vertices, p000, p001, color);
+    appendLine(vertices, p000, p010, color);
+    appendLine(vertices, p000, p100, color);
+    appendLine(vertices, p001, p011, color);
+    appendLine(vertices, p001, p101, color);
+    appendLine(vertices, p010, p011, color);
+    appendLine(vertices, p010, p110, color);
+    appendLine(vertices, p100, p101, color);
+    appendLine(vertices, p100, p110, color);
+    appendLine(vertices, p111, p101, color);
+    appendLine(vertices, p111, p110, color);
+    appendLine(vertices, p111, p011, color);
+}
+
+void drawMechanismOverlayLabel(
+    ImDrawList *pDrawList,
+    const ImVec2 &anchor,
+    ImU32 color,
+    const char *pLabel)
+{
+    const ImVec2 textSize = ImGui::CalcTextSize(pLabel);
+    const ImVec2 padding = {6.0f, 3.0f};
+    const ImVec2 min = {anchor.x + 10.0f, anchor.y - textSize.y - 10.0f};
+    const ImVec2 max = {
+        min.x + textSize.x + padding.x * 2.0f,
+        min.y + textSize.y + padding.y * 2.0f};
+    pDrawList->AddRectFilled(min, max, IM_COL32(18, 22, 26, 220), 4.0f);
+    pDrawList->AddRect(min, max, IM_COL32(255, 255, 255, 36), 4.0f, 0, 1.0f);
+    pDrawList->AddText({min.x + padding.x, min.y + padding.y}, color, pLabel);
+}
+
+void drawMechanismOverlayCircle(ImDrawList *pDrawList, const ImVec2 &center, float radius, ImU32 color)
+{
+    pDrawList->AddCircleFilled(center, radius + 3.0f, IM_COL32(0, 0, 0, 150), 20);
+    pDrawList->AddCircle(center, radius, color, 20, 3.0f);
+}
+
+void drawMechanismOverlaySquare(ImDrawList *pDrawList, const ImVec2 &center, float radius, ImU32 color)
+{
+    const ImVec2 min = {center.x - radius, center.y - radius};
+    const ImVec2 max = {center.x + radius, center.y + radius};
+    pDrawList->AddRectFilled(
+        {min.x - 3.0f, min.y - 3.0f},
+        {max.x + 3.0f, max.y + 3.0f},
+        IM_COL32(0, 0, 0, 150),
+        4.0f);
+    pDrawList->AddRect(min, max, color, 4.0f, 0, 3.0f);
+}
+
+void drawMechanismOverlayDiamond(ImDrawList *pDrawList, const ImVec2 &center, float radius, ImU32 color)
+{
+    const ImVec2 top = {center.x, center.y - radius};
+    const ImVec2 right = {center.x + radius, center.y};
+    const ImVec2 bottom = {center.x, center.y + radius};
+    const ImVec2 left = {center.x - radius, center.y};
+    pDrawList->AddQuadFilled(
+        {top.x, top.y - 3.0f},
+        {right.x + 3.0f, right.y},
+        {bottom.x, bottom.y + 3.0f},
+        {left.x - 3.0f, left.y},
+        IM_COL32(0, 0, 0, 150));
+    pDrawList->AddQuad(top, right, bottom, left, color, 3.0f);
+}
+
+void drawMechanismCenterHandle(
+    ImDrawList *pDrawList,
+    const ImVec2 &center,
+    float radius,
+    ImU32 ringColor,
+    bool selected)
+{
+    const float outerRadius = radius + (selected ? 5.0f : 3.0f);
+    pDrawList->AddCircleFilled(center, outerRadius, IM_COL32(0, 0, 0, 150), 24);
+    pDrawList->AddCircleFilled(
+        center,
+        radius,
+        selected ? IM_COL32(255, 255, 255, 52) : IM_COL32(24, 30, 36, 210),
+        24);
+    pDrawList->AddCircle(center, radius, ringColor, 24, selected ? 3.5f : 2.5f);
+    pDrawList->AddCircleFilled(center, 3.0f, ringColor, 12);
+}
+
+std::optional<bx::Vec3> indoorFaceCenter(
+    const Game::IndoorMapData &indoorMapData,
+    const std::vector<Game::IndoorVertex> &indoorVertices,
+    size_t faceId)
+{
+    if (faceId >= indoorMapData.faces.size())
+    {
+        return std::nullopt;
+    }
+
+    Game::IndoorFaceGeometryData geometry = {};
+
+    if (!Game::buildIndoorFaceGeometry(indoorMapData, indoorVertices, faceId, geometry) || geometry.vertices.empty())
+    {
+        return std::nullopt;
+    }
+
+    bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+
+    for (const bx::Vec3 &vertex : geometry.vertices)
+    {
+        center.x += vertex.x;
+        center.y += vertex.y;
+        center.z += vertex.z;
+    }
+
+    const float inverseCount = 1.0f / static_cast<float>(geometry.vertices.size());
+    center.x *= inverseCount;
+    center.y *= inverseCount;
+    center.z *= inverseCount;
+    return center;
+}
+
+float resolvedIndoorDoorDistance(
+    const Game::MapDeltaDoor &door,
+    const std::optional<Game::RuntimeMechanismState> &previewState)
+{
+    if (previewState.has_value())
+    {
+        return previewState->currentDistance;
+    }
+
+    Game::RuntimeMechanismState baseState = {};
+    baseState.state = door.state;
+    baseState.timeSinceTriggeredMs = static_cast<float>(door.timeSinceTriggered);
+    baseState.currentDistance = calculateMechanismPreviewDistance(door, baseState);
+    return baseState.currentDistance;
 }
 }
 
@@ -2897,7 +3601,9 @@ void EditorOutdoorViewport::updateAndRender(
     bgfx::setViewClear(EditorSceneViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x2c2217ffu, 1.0f, 0);
     bgfx::touch(EditorSceneViewId);
 
-    if (!session.hasDocument() || session.document().kind() != EditorDocument::Kind::Outdoor)
+    if (!session.hasDocument()
+        || (session.document().kind() != EditorDocument::Kind::Outdoor
+            && session.document().kind() != EditorDocument::Kind::Indoor))
     {
         return;
     }
@@ -2908,7 +3614,9 @@ void EditorOutdoorViewport::updateAndRender(
     }
 
     const EditorDocument &document = session.document();
+    advanceIndoorMechanismPreview(document, deltaSeconds);
     ensureGeometryBuffers(session);
+    refreshIndoorPreviewGeometryBuffers(document);
     updateCamera(document, isHovered, isFocused, deltaSeconds);
     tryPick(session, leftMouseClicked, mouseX, mouseY);
 
@@ -2958,20 +3666,28 @@ void EditorOutdoorViewport::updateAndRender(
         }
     }
 
-    const bool selectedTerrainCell = trySelectTerrainCell(session, leftMouseClicked, mouseX, mouseY);
+    const bool isOutdoorDocument = document.kind() == EditorDocument::Kind::Outdoor;
+    const bool selectedTerrainCell =
+        isOutdoorDocument && trySelectTerrainCell(session, leftMouseClicked, mouseX, mouseY);
     const bool selectedInteractiveFace =
         !selectedTerrainCell && trySelectInteractiveFace(session, leftMouseClicked, mouseX, mouseY);
     const bool placedObject =
-        !selectedTerrainCell && !selectedInteractiveFace && tryPlaceObject(session, leftMouseClicked, mouseX, mouseY);
+        !selectedTerrainCell
+        && !selectedInteractiveFace
+        && tryPlaceObject(session, leftMouseClicked, mouseX, mouseY);
     const bool startedGizmoDrag =
         !placedObject && tryBeginGizmoDrag(session, leftMouseClicked, mouseX, mouseY);
-    updateGizmoDrag(session, leftMouseDown, mouseX, mouseY);
+
+    if (document.kind() == EditorDocument::Kind::Outdoor || document.kind() == EditorDocument::Kind::Indoor)
+    {
+        updateGizmoDrag(session, leftMouseDown, mouseX, mouseY);
+    }
 
     if (!selectedTerrainCell
         && !selectedInteractiveFace
         && !placedObject
         && !startedGizmoDrag
-        && m_activeGizmoDrag.mode == GizmoDragMode::None)
+        && (!isOutdoorDocument || m_activeGizmoDrag.mode == GizmoDragMode::None))
     {
         tryPick(session, leftMouseClicked, mouseX, mouseY);
     }
@@ -2983,6 +3699,332 @@ void EditorOutdoorViewport::updateAndRender(
 
 void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
 {
+    if (session.hasDocument() && session.document().kind() == EditorDocument::Kind::Indoor)
+    {
+        std::string modeLabel = "INDOOR / SELECT";
+
+        if (m_placementKind == EditorSelectionKind::InteractiveFace)
+        {
+            modeLabel = "INDOOR / FACE";
+        }
+        else if (m_placementKind == EditorSelectionKind::Actor)
+        {
+            modeLabel = "INDOOR / ACTOR PLACE";
+        }
+        else if (m_placementKind == EditorSelectionKind::SpriteObject)
+        {
+            modeLabel = "INDOOR / OBJECT PLACE";
+        }
+
+        ImGui::PushStyleColor(ImGuiCol_Text, ImVec4(0.95f, 0.87f, 0.76f, 1.0f));
+        ImGui::TextUnformatted(modeLabel.c_str());
+        ImGui::PopStyleColor();
+
+        if (m_indoorDoorFaceEditMode != IndoorDoorFaceEditMode::None
+            && m_indoorDoorFaceEditDoorIndex.has_value()
+            && session.selection().kind == EditorSelectionKind::Door
+            && session.selection().index == *m_indoorDoorFaceEditDoorIndex)
+        {
+            ImGui::TextDisabled(
+                "%s",
+                m_indoorDoorFaceEditMode == IndoorDoorFaceEditMode::Add
+                    ? "LMB add face to mechanism  ·  F frame"
+                    : "LMB remove face from mechanism  ·  F frame");
+        }
+        else if (m_placementKind == EditorSelectionKind::Actor || m_placementKind == EditorSelectionKind::SpriteObject)
+        {
+            ImGui::TextDisabled("Move cursor  ·  LMB place  ·  Esc cancel");
+        }
+        else
+        {
+            ImGui::TextDisabled("LMB select  ·  RMB freelook  ·  F frame");
+        }
+
+        if (m_isolatedIndoorRoomId.has_value())
+        {
+            ImGui::TextDisabled(
+                "Room %u isolated  ·  Floors %s  ·  Ceilings %s",
+                static_cast<unsigned>(*m_isolatedIndoorRoomId),
+                m_showIndoorFloors ? "on" : "off",
+                m_showIndoorCeilings ? "on" : "off");
+        }
+        else if (!m_showIndoorFloors || !m_showIndoorCeilings)
+        {
+            ImGui::TextDisabled(
+                "Floors %s  ·  Ceilings %s",
+                m_showIndoorFloors ? "on" : "off",
+                m_showIndoorCeilings ? "on" : "off");
+        }
+
+        if (m_indoorDoorFaceEditMode != IndoorDoorFaceEditMode::None
+            && m_indoorDoorFaceEditDoorIndex.has_value()
+            && session.selection().kind == EditorSelectionKind::Door
+            && session.selection().index == *m_indoorDoorFaceEditDoorIndex)
+        {
+            const Game::IndoorSceneDoor &door =
+                session.document().indoorSceneData().initialState.doors[*m_indoorDoorFaceEditDoorIndex];
+            ImGui::Text(
+                "Door %zu  ·  %s  ·  Faces %zu",
+                *m_indoorDoorFaceEditDoorIndex,
+                m_indoorDoorFaceEditMode == IndoorDoorFaceEditMode::Add ? "Add" : "Remove",
+                door.door.faceIds.size());
+        }
+        else if (session.selection().kind == EditorSelectionKind::Door
+            && session.selection().index < session.document().indoorSceneData().initialState.doors.size())
+        {
+            const Game::IndoorSceneDoor &door =
+                session.document().indoorSceneData().initialState.doors[session.selection().index];
+            uint16_t previewState = 0;
+            float currentDistance = 0.0f;
+            bool isMoving = false;
+            const bool hasPreview =
+                tryGetIndoorMechanismPreview(session.document(), session.selection().index, previewState, currentDistance, isMoving);
+            const float resolvedDistance =
+                hasPreview
+                    ? currentDistance
+                    : resolvedIndoorDoorDistance(door.door, std::nullopt);
+            ImGui::Text(
+                "Door %zu  ·  Faces %zu  ·  Distance %.1f / %u%s",
+                session.selection().index,
+                door.door.faceIds.size(),
+                resolvedDistance,
+                door.door.moveLength,
+                isMoving ? "  ·  Moving" : "");
+
+            const std::optional<bx::Vec3> currentCenter = selectedWorldPosition(session.document(), session.selection());
+
+            if (currentCenter)
+            {
+                const bx::Vec3 direction = {
+                    static_cast<float>(door.door.directionX) / 65536.0f,
+                    static_cast<float>(door.door.directionY) / 65536.0f,
+                    static_cast<float>(door.door.directionZ) / 65536.0f};
+                const bx::Vec3 currentOffset = vecScale(direction, resolvedDistance);
+                const bx::Vec3 fullOffset = vecScale(direction, static_cast<float>(door.door.moveLength));
+                const bx::Vec3 openCenter = {
+                    currentCenter->x - currentOffset.x,
+                    currentCenter->y - currentOffset.y,
+                    currentCenter->z - currentOffset.z};
+                const bx::Vec3 closedCenter = {
+                    openCenter.x + fullOffset.x,
+                    openCenter.y + fullOffset.y,
+                    openCenter.z + fullOffset.z};
+
+                float openX = 0.0f;
+                float openY = 0.0f;
+                float openW = 0.0f;
+                float closedX = 0.0f;
+                float closedY = 0.0f;
+                float closedW = 0.0f;
+                float currentX = 0.0f;
+                float currentY = 0.0f;
+                float currentW = 0.0f;
+                const bool hasOpen = projectWorldPoint(
+                    openCenter,
+                    m_viewProjectionMatrix,
+                    m_viewportWidth,
+                    m_viewportHeight,
+                    openX,
+                    openY,
+                    openW);
+                const bool hasClosed = projectWorldPoint(
+                    closedCenter,
+                    m_viewProjectionMatrix,
+                    m_viewportWidth,
+                    m_viewportHeight,
+                    closedX,
+                    closedY,
+                    closedW);
+                const bool hasCurrent = projectWorldPoint(
+                    *currentCenter,
+                    m_viewProjectionMatrix,
+                    m_viewportWidth,
+                    m_viewportHeight,
+                    currentX,
+                    currentY,
+                    currentW);
+
+                if (hasOpen || hasClosed || hasCurrent)
+                {
+                    ImDrawList *pDrawList = ImGui::GetForegroundDrawList();
+                    const ImU32 openColor = IM_COL32(102, 255, 140, 255);
+                    const ImU32 closedColor = IM_COL32(255, 110, 110, 255);
+                    const ImU32 currentColor = IM_COL32(255, 255, 255, 255);
+                    const ImU32 pathColor = IM_COL32(255, 226, 110, 255);
+
+                    const ImVec2 openPoint = {
+                        static_cast<float>(m_viewportX) + openX,
+                        static_cast<float>(m_viewportY) + openY};
+                    const ImVec2 closedPoint = {
+                        static_cast<float>(m_viewportX) + closedX,
+                        static_cast<float>(m_viewportY) + closedY};
+                    const ImVec2 currentPoint = {
+                        static_cast<float>(m_viewportX) + currentX,
+                        static_cast<float>(m_viewportY) + currentY};
+
+                    if (hasOpen && hasClosed)
+                    {
+                        pDrawList->AddLine(openPoint, closedPoint, pathColor, 3.0f);
+                        const ImVec2 directionScreen = {closedPoint.x - openPoint.x, closedPoint.y - openPoint.y};
+                        const float directionLength =
+                            std::sqrt(directionScreen.x * directionScreen.x + directionScreen.y * directionScreen.y);
+
+                        if (directionLength > 8.0f)
+                        {
+                            const float inverseLength = 1.0f / directionLength;
+                            const ImVec2 tangent = {
+                                directionScreen.x * inverseLength,
+                                directionScreen.y * inverseLength};
+                            const ImVec2 normal = {-tangent.y, tangent.x};
+                            const ImVec2 arrowBase = {
+                                closedPoint.x - tangent.x * 16.0f,
+                                closedPoint.y - tangent.y * 16.0f};
+                            pDrawList->AddTriangleFilled(
+                                closedPoint,
+                                {arrowBase.x + normal.x * 6.0f, arrowBase.y + normal.y * 6.0f},
+                                {arrowBase.x - normal.x * 6.0f, arrowBase.y - normal.y * 6.0f},
+                                pathColor);
+                        }
+                    }
+
+                    if (hasOpen)
+                    {
+                        drawMechanismOverlayCircle(pDrawList, openPoint, 10.0f, openColor);
+                        drawMechanismOverlayLabel(pDrawList, openPoint, openColor, "OPEN");
+                    }
+
+                    if (hasClosed)
+                    {
+                        drawMechanismOverlaySquare(pDrawList, closedPoint, 10.0f, closedColor);
+                        drawMechanismOverlayLabel(pDrawList, closedPoint, closedColor, "CLOSED");
+                    }
+
+                    if (hasCurrent)
+                    {
+                        drawMechanismOverlayDiamond(pDrawList, currentPoint, 11.0f, currentColor);
+                        drawMechanismOverlayLabel(pDrawList, currentPoint, currentColor, "NOW");
+                    }
+                }
+            }
+        }
+        else if (session.selection().kind == EditorSelectionKind::InteractiveFace)
+        {
+            const size_t selectedFaceCount =
+                session.selectedInteractiveFaceIndices().empty() ? 1 : session.selectedInteractiveFaceIndices().size();
+            const Game::IndoorMapData &indoorGeometry = session.document().indoorGeometry();
+
+            if (session.selection().index < indoorGeometry.faces.size())
+            {
+                const Game::IndoorFace &selectedFace = indoorGeometry.faces[session.selection().index];
+                uint32_t effectiveAttributes = selectedFace.attributes;
+
+                for (const Game::IndoorSceneFaceAttributeOverride &overrideEntry :
+                    session.document().indoorSceneData().initialState.faceAttributeOverrides)
+                {
+                    if (overrideEntry.faceIndex == session.selection().index && overrideEntry.legacyAttributes.has_value())
+                    {
+                        effectiveAttributes = *overrideEntry.legacyAttributes;
+                        break;
+                    }
+                }
+
+                const bool isPortal =
+                    selectedFace.isPortal || Game::hasFaceAttribute(effectiveAttributes, Game::FaceAttribute::IsPortal);
+                const std::vector<uint16_t> connectedRooms =
+                    connectedIndoorSectorIds(indoorGeometry, selectedFace.roomNumber);
+
+                if (isPortal)
+                {
+                    ImGui::Text(
+                        "Face %zu  ·  Portal %u ↔ %u  ·  %zu selected",
+                        session.selection().index,
+                        static_cast<unsigned>(selectedFace.roomNumber),
+                        static_cast<unsigned>(selectedFace.roomBehindNumber),
+                        selectedFaceCount);
+                }
+                else if (!connectedRooms.empty())
+                {
+                    ImGui::Text(
+                        "Face %zu  ·  Room %u  ·  Links %zu  ·  %zu selected",
+                        session.selection().index,
+                        static_cast<unsigned>(selectedFace.roomNumber),
+                        connectedRooms.size(),
+                        selectedFaceCount);
+                }
+                else
+                {
+                    ImGui::Text(
+                        "Face %zu  ·  Room %u  ·  %zu selected",
+                        session.selection().index,
+                        static_cast<unsigned>(selectedFace.roomNumber),
+                        selectedFaceCount);
+                }
+            }
+            else
+            {
+                ImGui::Text("Face selection  ·  %zu selected", selectedFaceCount);
+            }
+        }
+        else
+        {
+            ImGui::Text(
+                "Actors %zu  ·  Objects %zu  ·  Doors %zu",
+                session.document().indoorSceneData().initialState.actors.size(),
+                session.document().indoorSceneData().initialState.spriteObjects.size(),
+                session.document().indoorSceneData().initialState.doors.size());
+        }
+
+        {
+            const Game::IndoorMapData &indoorGeometry = session.document().indoorGeometry();
+            const Game::IndoorSceneData &sceneData = session.document().indoorSceneData();
+            ImDrawList *pDrawList = ImGui::GetForegroundDrawList();
+
+            for (size_t doorIndex = 0; doorIndex < sceneData.initialState.doors.size(); ++doorIndex)
+            {
+                const std::optional<bx::Vec3> center =
+                    selectedWorldPosition(session.document(), {EditorSelectionKind::Door, doorIndex});
+
+                if (!center
+                    || !indoorDoorVisibleForIsolation(
+                        indoorGeometry,
+                        sceneData.initialState.doors[doorIndex].door,
+                        m_isolatedIndoorRoomId,
+                        center))
+                {
+                    continue;
+                }
+
+                float screenX = 0.0f;
+                float screenY = 0.0f;
+                float clipW = 0.0f;
+
+                if (!projectWorldPoint(
+                        *center,
+                        m_viewProjectionMatrix,
+                        m_viewportWidth,
+                        m_viewportHeight,
+                        screenX,
+                        screenY,
+                        clipW))
+                {
+                    continue;
+                }
+
+                const ImVec2 handleCenter = {
+                    static_cast<float>(m_viewportX) + screenX,
+                    static_cast<float>(m_viewportY) + screenY};
+                const bool selected = session.selection().kind == EditorSelectionKind::Door
+                    && session.selection().index == doorIndex;
+                const ImU32 handleColor = selected
+                    ? IM_COL32(255, 255, 255, 255)
+                    : IM_COL32(96, 255, 180, 255);
+                drawMechanismCenterHandle(pDrawList, handleCenter, selected ? 12.0f : 10.0f, handleColor, selected);
+            }
+        }
+
+        return;
+    }
+
     std::string modeLabel = placementKindLabel(m_placementKind);
 
     if (m_placementKind == EditorSelectionKind::Terrain)
@@ -3218,6 +4260,64 @@ bool EditorOutdoorViewport::showBModels() const
 void EditorOutdoorViewport::setShowBModels(bool enabled)
 {
     m_showBModels = enabled;
+}
+
+bool EditorOutdoorViewport::showIndoorPortals() const
+{
+    return m_showIndoorPortals;
+}
+
+void EditorOutdoorViewport::setShowIndoorPortals(bool enabled)
+{
+    m_showIndoorPortals = enabled;
+}
+
+bool EditorOutdoorViewport::showIndoorFloors() const
+{
+    return m_showIndoorFloors;
+}
+
+void EditorOutdoorViewport::setShowIndoorFloors(bool enabled)
+{
+    if (m_showIndoorFloors == enabled)
+    {
+        return;
+    }
+
+    m_showIndoorFloors = enabled;
+    m_indoorPreviewGeometryBuffersDirty = true;
+}
+
+bool EditorOutdoorViewport::showIndoorCeilings() const
+{
+    return m_showIndoorCeilings;
+}
+
+void EditorOutdoorViewport::setShowIndoorCeilings(bool enabled)
+{
+    if (m_showIndoorCeilings == enabled)
+    {
+        return;
+    }
+
+    m_showIndoorCeilings = enabled;
+    m_indoorPreviewGeometryBuffersDirty = true;
+}
+
+std::optional<uint16_t> EditorOutdoorViewport::isolatedIndoorRoomId() const
+{
+    return m_isolatedIndoorRoomId;
+}
+
+void EditorOutdoorViewport::setIsolatedIndoorRoomId(std::optional<uint16_t> roomId)
+{
+    if (m_isolatedIndoorRoomId == roomId)
+    {
+        return;
+    }
+
+    m_isolatedIndoorRoomId = roomId;
+    m_indoorPreviewGeometryBuffersDirty = true;
 }
 
 bool EditorOutdoorViewport::showBModelWireframe() const
@@ -3461,6 +4561,481 @@ void EditorOutdoorViewport::focusBModel(const EditorDocument &document, size_t b
     m_activeCameraFocus.durationSeconds = CameraFocusDurationSeconds;
 }
 
+void EditorOutdoorViewport::previewIndoorMechanismOpen(const EditorDocument &document, size_t doorIndex)
+{
+    ensureIndoorMechanismPreviewDocument(document);
+
+    if (document.kind() != EditorDocument::Kind::Indoor
+        || doorIndex >= document.indoorSceneData().initialState.doors.size())
+    {
+        return;
+    }
+
+    Game::RuntimeMechanismState previewState = {};
+    previewState.state = static_cast<uint16_t>(Game::EvtMechanismState::Open);
+    previewState.currentDistance = 0.0f;
+    previewState.isMoving = false;
+    m_indoorMechanismPreviewOverrides[doorIndex] = previewState;
+    invalidateIndoorMechanismPreview();
+}
+
+void EditorOutdoorViewport::previewIndoorMechanismClose(const EditorDocument &document, size_t doorIndex)
+{
+    ensureIndoorMechanismPreviewDocument(document);
+
+    if (document.kind() != EditorDocument::Kind::Indoor
+        || doorIndex >= document.indoorSceneData().initialState.doors.size())
+    {
+        return;
+    }
+
+    const Game::MapDeltaDoor &door = document.indoorSceneData().initialState.doors[doorIndex].door;
+    Game::RuntimeMechanismState previewState = {};
+    previewState.state = static_cast<uint16_t>(Game::EvtMechanismState::Closed);
+    previewState.currentDistance = static_cast<float>(door.moveLength);
+    previewState.isMoving = false;
+    m_indoorMechanismPreviewOverrides[doorIndex] = previewState;
+    invalidateIndoorMechanismPreview();
+}
+
+void EditorOutdoorViewport::previewIndoorMechanismSimulate(const EditorDocument &document, size_t doorIndex)
+{
+    ensureIndoorMechanismPreviewDocument(document);
+
+    if (document.kind() != EditorDocument::Kind::Indoor
+        || doorIndex >= document.indoorSceneData().initialState.doors.size())
+    {
+        return;
+    }
+
+    const Game::MapDeltaDoor &door = document.indoorSceneData().initialState.doors[doorIndex].door;
+    const auto previewIterator = m_indoorMechanismPreviewOverrides.find(doorIndex);
+    Game::RuntimeMechanismState previewState =
+        previewIterator != m_indoorMechanismPreviewOverrides.end()
+            ? previewIterator->second
+            : buildMechanismPreviewState(door);
+
+    if (previewState.state == static_cast<uint16_t>(Game::EvtMechanismState::Closed)
+        || previewState.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing))
+    {
+        if (door.openSpeed == 0 || door.moveLength == 0)
+        {
+            previewIndoorMechanismOpen(document, doorIndex);
+            return;
+        }
+
+        const float openDistance =
+            std::max(0.0f, static_cast<float>(door.moveLength) - previewState.currentDistance);
+        previewState.timeSinceTriggeredMs = openDistance * 1000.0f / static_cast<float>(door.openSpeed);
+        previewState.state = static_cast<uint16_t>(Game::EvtMechanismState::Opening);
+        previewState.isMoving = previewState.currentDistance > 0.0f;
+    }
+    else
+    {
+        if (door.closeSpeed == 0 || door.moveLength == 0)
+        {
+            previewIndoorMechanismClose(document, doorIndex);
+            return;
+        }
+
+        previewState.timeSinceTriggeredMs =
+            previewState.currentDistance * 1000.0f / static_cast<float>(door.closeSpeed);
+        previewState.state = static_cast<uint16_t>(Game::EvtMechanismState::Closing);
+        previewState.isMoving = previewState.currentDistance < static_cast<float>(door.moveLength);
+    }
+
+    previewState.currentDistance = calculateMechanismPreviewDistance(door, previewState);
+    m_indoorMechanismPreviewOverrides[doorIndex] = previewState;
+    invalidateIndoorMechanismPreview();
+}
+
+void EditorOutdoorViewport::setIndoorMechanismPreviewState(
+    const EditorDocument &document,
+    size_t doorIndex,
+    const Game::RuntimeMechanismState &state)
+{
+    ensureIndoorMechanismPreviewDocument(document);
+
+    if (document.kind() != EditorDocument::Kind::Indoor
+        || doorIndex >= document.indoorSceneData().initialState.doors.size())
+    {
+        return;
+    }
+
+    m_indoorMechanismPreviewOverrides[doorIndex] = state;
+    invalidateIndoorMechanismPreview();
+}
+
+void EditorOutdoorViewport::clearIndoorMechanismPreview(const EditorDocument &document)
+{
+    ensureIndoorMechanismPreviewDocument(document);
+
+    if (document.kind() != EditorDocument::Kind::Indoor)
+    {
+        return;
+    }
+
+    if (m_indoorMechanismPreviewOverrides.empty())
+    {
+        return;
+    }
+
+    m_indoorMechanismPreviewOverrides.clear();
+    invalidateIndoorMechanismPreview();
+}
+
+bool EditorOutdoorViewport::tryGetIndoorMechanismPreview(
+    const EditorDocument &document,
+    size_t doorIndex,
+    uint16_t &state,
+    float &distance,
+    bool &isMoving) const
+{
+    if (document.kind() != EditorDocument::Kind::Indoor
+        || doorIndex >= document.indoorSceneData().initialState.doors.size())
+    {
+        return false;
+    }
+
+    ensureIndoorMechanismPreviewDocument(document);
+    const Game::MapDeltaDoor &door = document.indoorSceneData().initialState.doors[doorIndex].door;
+    const auto previewIterator = m_indoorMechanismPreviewOverrides.find(doorIndex);
+    const Game::RuntimeMechanismState previewState =
+        previewIterator != m_indoorMechanismPreviewOverrides.end()
+            ? previewIterator->second
+            : buildMechanismPreviewState(door);
+    state = previewState.state;
+    distance = previewState.currentDistance;
+    isMoving = previewState.isMoving;
+    return true;
+}
+
+void EditorOutdoorViewport::setIndoorDoorFaceEditMode(
+    IndoorDoorFaceEditMode mode,
+    std::optional<size_t> doorIndex)
+{
+    m_indoorDoorFaceEditMode = mode;
+    m_indoorDoorFaceEditDoorIndex = mode == IndoorDoorFaceEditMode::None ? std::nullopt : doorIndex;
+}
+
+EditorOutdoorViewport::IndoorDoorFaceEditMode EditorOutdoorViewport::indoorDoorFaceEditMode() const
+{
+    return m_indoorDoorFaceEditMode;
+}
+
+std::optional<size_t> EditorOutdoorViewport::indoorDoorFaceEditDoorIndex() const
+{
+    return m_indoorDoorFaceEditDoorIndex;
+}
+
+void EditorOutdoorViewport::ensureIndoorMechanismPreviewDocument(const EditorDocument &document) const
+{
+    if (document.kind() != EditorDocument::Kind::Indoor)
+    {
+        return;
+    }
+
+    const std::string documentKey = documentCameraKey(document);
+
+    if (documentKey == m_indoorMechanismPreviewDocumentKey)
+    {
+        return;
+    }
+
+    m_indoorMechanismPreviewDocumentKey = documentKey;
+    m_indoorMechanismPreviewOverrides.clear();
+    m_indoorRenderVerticesKey.clear();
+    m_indoorRenderVertices.clear();
+    const_cast<EditorOutdoorViewport *>(this)->m_indoorMechanismPreviewAccumulatorSeconds = 0.0f;
+    const_cast<EditorOutdoorViewport *>(this)->m_indoorPreviewGeometryBuffersDirty = false;
+}
+
+void EditorOutdoorViewport::advanceIndoorMechanismPreview(const EditorDocument &document, float deltaSeconds)
+{
+    ensureIndoorMechanismPreviewDocument(document);
+
+    if (document.kind() != EditorDocument::Kind::Indoor
+        || deltaSeconds <= 0.0f
+        || m_indoorMechanismPreviewOverrides.empty())
+    {
+        return;
+    }
+
+    m_indoorMechanismPreviewAccumulatorSeconds += deltaSeconds;
+    constexpr float PreviewTickSeconds = 1.0f / 60.0f;
+
+    if (m_indoorMechanismPreviewAccumulatorSeconds < PreviewTickSeconds)
+    {
+        return;
+    }
+
+    float tickSeconds = 0.0f;
+    int tickCount = 0;
+
+    while (m_indoorMechanismPreviewAccumulatorSeconds >= PreviewTickSeconds && tickCount < 4)
+    {
+        m_indoorMechanismPreviewAccumulatorSeconds -= PreviewTickSeconds;
+        tickSeconds += PreviewTickSeconds;
+        ++tickCount;
+    }
+
+    const Game::IndoorSceneData &sceneData = document.indoorSceneData();
+    bool changed = false;
+
+    for (auto &[doorIndex, previewState] : m_indoorMechanismPreviewOverrides)
+    {
+        if (doorIndex >= sceneData.initialState.doors.size() || !previewState.isMoving)
+        {
+            continue;
+        }
+
+        const Game::MapDeltaDoor &door = sceneData.initialState.doors[doorIndex].door;
+        const uint16_t previousState = previewState.state;
+        const float previousDistance = previewState.currentDistance;
+        const bool wasMoving = previewState.isMoving;
+        advanceMechanismPreviewState(door, tickSeconds * 1000.0f, previewState);
+
+        if (previewState.state != previousState
+            || std::fabs(previewState.currentDistance - previousDistance) > 0.001f
+            || previewState.isMoving != wasMoving)
+        {
+            changed = true;
+        }
+    }
+
+    if (changed)
+    {
+        invalidateIndoorMechanismPreview();
+    }
+}
+
+void EditorOutdoorViewport::invalidateIndoorMechanismPreview()
+{
+    ++m_indoorMechanismPreviewRevision;
+    m_indoorRenderVerticesKey.clear();
+    m_indoorPreviewGeometryBuffersDirty = true;
+}
+
+const std::vector<Game::IndoorVertex> &EditorOutdoorViewport::indoorRenderVertices(const EditorDocument &document) const
+{
+    ensureIndoorMechanismPreviewDocument(document);
+
+    if (document.kind() != EditorDocument::Kind::Indoor)
+    {
+        static const std::vector<Game::IndoorVertex> emptyVertices;
+        return emptyVertices;
+    }
+
+    const std::string verticesKey =
+        documentGeometryKey(document) + "|preview=" + std::to_string(m_indoorMechanismPreviewRevision);
+
+    if (verticesKey == m_indoorRenderVerticesKey)
+    {
+        return m_indoorRenderVertices;
+    }
+
+    const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
+    const Game::IndoorSceneData &sceneData = document.indoorSceneData();
+    Game::MapDeltaData previewMapDeltaData = {};
+    previewMapDeltaData.doors.reserve(sceneData.initialState.doors.size());
+
+    for (const Game::IndoorSceneDoor &door : sceneData.initialState.doors)
+    {
+        previewMapDeltaData.doors.push_back(door.door);
+    }
+
+    Game::EventRuntimeState previewRuntimeState = {};
+    const Game::EventRuntimeState *pPreviewRuntimeState = nullptr;
+
+    if (!m_indoorMechanismPreviewOverrides.empty())
+    {
+        pPreviewRuntimeState = &previewRuntimeState;
+
+        for (const auto &[doorIndex, previewState] : m_indoorMechanismPreviewOverrides)
+        {
+            if (doorIndex >= sceneData.initialState.doors.size())
+            {
+                continue;
+            }
+
+            previewRuntimeState.mechanisms[sceneData.initialState.doors[doorIndex].door.doorId] = previewState;
+        }
+    }
+
+    m_indoorRenderVertices =
+        Game::buildIndoorMechanismAdjustedVertices(indoorGeometry, &previewMapDeltaData, pPreviewRuntimeState);
+    m_indoorRenderVerticesKey = verticesKey;
+    return m_indoorRenderVertices;
+}
+
+void EditorOutdoorViewport::refreshIndoorPreviewGeometryBuffers(const EditorDocument &document)
+{
+    if (!m_indoorPreviewGeometryBuffersDirty || document.kind() != EditorDocument::Kind::Indoor)
+    {
+        return;
+    }
+
+    const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
+    const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+    const std::vector<PreviewVertex> wireVertices =
+        buildIndoorWireVertices(
+            indoorGeometry,
+            indoorVertices,
+            m_showIndoorFloors,
+            m_showIndoorCeilings,
+            m_isolatedIndoorRoomId);
+
+    if (bgfx::isValid(m_bmodelWireVertexBufferHandle))
+    {
+        bgfx::destroy(m_bmodelWireVertexBufferHandle);
+        m_bmodelWireVertexBufferHandle = BGFX_INVALID_HANDLE;
+    }
+
+    m_bmodelWireVertexCount = 0;
+
+    if (!wireVertices.empty())
+    {
+        m_bmodelWireVertexBufferHandle = bgfx::createVertexBuffer(
+            bgfx::copy(wireVertices.data(), static_cast<uint32_t>(wireVertices.size() * sizeof(PreviewVertex))),
+            PreviewVertex::ms_layout);
+        m_bmodelWireVertexCount = static_cast<uint32_t>(wireVertices.size());
+    }
+
+    std::unordered_map<std::string, std::vector<TexturedPreviewVertex>> texturedVerticesByKey;
+    std::vector<ProceduralPreviewVertex> portalVertices;
+    std::vector<ProceduralPreviewVertex> unassignedVertices;
+    std::vector<ProceduralPreviewVertex> missingVertices;
+    std::unordered_map<std::string, std::pair<int, int>> textureSizesByKey;
+
+    for (const TexturedBatch &batch : m_bmodelTexturedBatches)
+    {
+        textureSizesByKey[batch.key] = {batch.textureWidth, batch.textureHeight};
+    }
+
+    for (size_t faceIndex = 0; faceIndex < indoorGeometry.faces.size(); ++faceIndex)
+    {
+        if (indoorFaceHiddenByCeilingView(
+                indoorGeometry,
+                indoorVertices,
+                faceIndex,
+                m_showIndoorFloors,
+                m_showIndoorCeilings,
+                m_isolatedIndoorRoomId))
+        {
+            continue;
+        }
+
+        const Game::IndoorFace &face = indoorGeometry.faces[faceIndex];
+        const bx::Vec3 objectOrigin = {0.0f, 0.0f, 0.0f};
+        const std::vector<ProceduralPreviewVertex> allFaceVertices =
+            buildProceduralIndoorFaceVertices(indoorGeometry, indoorVertices, faceIndex, objectOrigin);
+
+        if (face.isPortal)
+        {
+            portalVertices.insert(portalVertices.end(), allFaceVertices.begin(), allFaceVertices.end());
+            continue;
+        }
+
+        if (face.textureName.empty())
+        {
+            unassignedVertices.insert(unassignedVertices.end(), allFaceVertices.begin(), allFaceVertices.end());
+            continue;
+        }
+
+        const std::string textureKey = toLowerCopy(face.textureName);
+        const auto sizeIt = textureSizesByKey.find(textureKey);
+
+        if (sizeIt == textureSizesByKey.end() || sizeIt->second.first <= 0 || sizeIt->second.second <= 0)
+        {
+            missingVertices.insert(missingVertices.end(), allFaceVertices.begin(), allFaceVertices.end());
+            continue;
+        }
+
+        std::vector<TexturedPreviewVertex> faceVertices =
+            buildTexturedIndoorFaceVertices(
+                indoorGeometry,
+                indoorVertices,
+                faceIndex,
+                sizeIt->second.first,
+                sizeIt->second.second);
+
+        if (faceVertices.empty())
+        {
+            continue;
+        }
+
+        std::vector<TexturedPreviewVertex> &batchVertices = texturedVerticesByKey[textureKey];
+        batchVertices.insert(batchVertices.end(), faceVertices.begin(), faceVertices.end());
+    }
+
+    const auto rebuildTexturedBatch =
+        [](TexturedBatch &batch, const std::vector<TexturedPreviewVertex> &vertices)
+    {
+        if (bgfx::isValid(batch.vertexBufferHandle))
+        {
+            bgfx::destroy(batch.vertexBufferHandle);
+            batch.vertexBufferHandle = BGFX_INVALID_HANDLE;
+        }
+
+        batch.vertexCount = 0;
+
+        if (vertices.empty())
+        {
+            return;
+        }
+
+        batch.vertexBufferHandle = bgfx::createVertexBuffer(
+            bgfx::copy(vertices.data(), static_cast<uint32_t>(vertices.size() * sizeof(TexturedPreviewVertex))),
+            TexturedPreviewVertex::ms_layout);
+        batch.vertexCount = bgfx::isValid(batch.vertexBufferHandle) ? static_cast<uint32_t>(vertices.size()) : 0;
+    };
+
+    const auto rebuildProceduralBatch =
+        [](std::vector<ProceduralBatch> &batches, const char *pKey, const std::vector<ProceduralPreviewVertex> &vertices)
+    {
+        for (ProceduralBatch &batch : batches)
+        {
+            if (batch.key != pKey)
+            {
+                continue;
+            }
+
+            if (bgfx::isValid(batch.vertexBufferHandle))
+            {
+                bgfx::destroy(batch.vertexBufferHandle);
+                batch.vertexBufferHandle = BGFX_INVALID_HANDLE;
+            }
+
+            batch.vertexCount = 0;
+
+            if (!vertices.empty())
+            {
+                batch.vertexBufferHandle = bgfx::createVertexBuffer(
+                    bgfx::copy(
+                        vertices.data(),
+                        static_cast<uint32_t>(vertices.size() * sizeof(ProceduralPreviewVertex))),
+                    ProceduralPreviewVertex::ms_layout);
+                batch.vertexCount =
+                    bgfx::isValid(batch.vertexBufferHandle) ? static_cast<uint32_t>(vertices.size()) : 0;
+            }
+
+            return;
+        }
+    };
+
+    for (TexturedBatch &batch : m_bmodelTexturedBatches)
+    {
+        const auto verticesIt = texturedVerticesByKey.find(batch.key);
+        static const std::vector<TexturedPreviewVertex> emptyVertices;
+        rebuildTexturedBatch(batch, verticesIt != texturedVerticesByKey.end() ? verticesIt->second : emptyVertices);
+    }
+
+    rebuildProceduralBatch(m_bmodelUnassignedBatches, "__unassigned__", unassignedVertices);
+    rebuildProceduralBatch(m_bmodelMissingAssetBatches, "__missing__", missingVertices);
+    rebuildProceduralBatch(m_indoorPortalBatches, "__portals__", portalVertices);
+    m_indoorPreviewGeometryBuffersDirty = false;
+}
+
 const bx::Vec3 &EditorOutdoorViewport::cameraPosition() const
 {
     return m_cameraPosition;
@@ -3607,6 +5182,14 @@ void EditorOutdoorViewport::destroyGeometryBuffers()
         }
     }
 
+    for (ProceduralBatch &batch : m_indoorPortalBatches)
+    {
+        if (bgfx::isValid(batch.vertexBufferHandle))
+        {
+            bgfx::destroy(batch.vertexBufferHandle);
+        }
+    }
+
     for (ProceduralBatch &batch : m_bmodelUnassignedBatches)
     {
         if (bgfx::isValid(batch.vertexBufferHandle))
@@ -3624,6 +5207,7 @@ void EditorOutdoorViewport::destroyGeometryBuffers()
     }
 
     m_bmodelAllFaceBatches.clear();
+    m_indoorPortalBatches.clear();
     m_bmodelUnassignedBatches.clear();
     m_bmodelMissingAssetBatches.clear();
 
@@ -3716,6 +5300,196 @@ void EditorOutdoorViewport::ensureGeometryBuffers(const EditorSession &session)
     destroyGeometryBuffers();
     m_geometryKey = geometryKey;
     const Engine::AssetFileSystem &assetFileSystem = *session.assetFileSystem();
+
+    if (document.kind() == EditorDocument::Kind::Indoor)
+    {
+        const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
+        const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+        const std::vector<PreviewVertex> wireVertices =
+            buildIndoorWireVertices(
+                indoorGeometry,
+                indoorVertices,
+                m_showIndoorFloors,
+                m_showIndoorCeilings,
+                m_isolatedIndoorRoomId);
+
+        if (!wireVertices.empty())
+        {
+            m_bmodelWireVertexBufferHandle = bgfx::createVertexBuffer(
+                bgfx::copy(
+                    wireVertices.data(),
+                    static_cast<uint32_t>(wireVertices.size() * sizeof(PreviewVertex))),
+                PreviewVertex::ms_layout);
+            m_bmodelWireVertexCount = static_cast<uint32_t>(wireVertices.size());
+        }
+
+        BitmapLoadCache bitmapLoadCache = {};
+        std::unordered_map<std::string, std::vector<TexturedPreviewVertex>> batchVerticesByKey;
+        std::unordered_map<std::string, std::vector<ProceduralPreviewVertex>> missingVerticesByKey;
+        std::vector<ProceduralPreviewVertex> portalVertices;
+
+        for (size_t faceIndex = 0; faceIndex < indoorGeometry.faces.size(); ++faceIndex)
+        {
+            if (indoorFaceHiddenByCeilingView(
+                    indoorGeometry,
+                    indoorVertices,
+                    faceIndex,
+                    m_showIndoorFloors,
+                    m_showIndoorCeilings,
+                    m_isolatedIndoorRoomId))
+            {
+                continue;
+            }
+
+            const Game::IndoorFace &face = indoorGeometry.faces[faceIndex];
+            const bx::Vec3 objectOrigin = {0.0f, 0.0f, 0.0f};
+            const std::vector<ProceduralPreviewVertex> allFaceVertices =
+                buildProceduralIndoorFaceVertices(indoorGeometry, indoorVertices, faceIndex, objectOrigin);
+
+            if (face.isPortal)
+            {
+                if (!allFaceVertices.empty())
+                {
+                    portalVertices.insert(portalVertices.end(), allFaceVertices.begin(), allFaceVertices.end());
+                }
+
+                continue;
+            }
+
+            if (face.textureName.empty())
+            {
+                if (!allFaceVertices.empty())
+                {
+                    std::vector<ProceduralPreviewVertex> &missingVertices = missingVerticesByKey["__unassigned__"];
+                    missingVertices.insert(missingVertices.end(), allFaceVertices.begin(), allFaceVertices.end());
+                }
+
+                continue;
+            }
+
+            int textureWidth = 0;
+            int textureHeight = 0;
+            const std::optional<std::vector<uint8_t>> texturePixels =
+                loadBitmapPixelsBgra(
+                    assetFileSystem,
+                    "Data/bitmaps",
+                    face.textureName,
+                    textureWidth,
+                    textureHeight,
+                    false,
+                    bitmapLoadCache);
+
+            if (!texturePixels || textureWidth <= 0 || textureHeight <= 0)
+            {
+                if (!allFaceVertices.empty())
+                {
+                    std::vector<ProceduralPreviewVertex> &missingVertices = missingVerticesByKey["__missing__"];
+                    missingVertices.insert(missingVertices.end(), allFaceVertices.begin(), allFaceVertices.end());
+                }
+
+                continue;
+            }
+
+            std::vector<TexturedPreviewVertex> faceVertices =
+                buildTexturedIndoorFaceVertices(indoorGeometry, indoorVertices, faceIndex, textureWidth, textureHeight);
+
+            if (faceVertices.empty())
+            {
+                continue;
+            }
+
+            std::vector<TexturedPreviewVertex> &batchVertices = batchVerticesByKey[toLowerCopy(face.textureName)];
+            batchVertices.insert(batchVertices.end(), faceVertices.begin(), faceVertices.end());
+        }
+
+        for (const auto &[textureName, vertices] : batchVerticesByKey)
+        {
+            if (vertices.empty())
+            {
+                continue;
+            }
+
+            int textureWidth = 0;
+            int textureHeight = 0;
+            const std::optional<std::vector<uint8_t>> texturePixels =
+                loadBitmapPixelsBgra(
+                    assetFileSystem,
+                    "Data/bitmaps",
+                    textureName,
+                    textureWidth,
+                    textureHeight,
+                    false,
+                    bitmapLoadCache);
+
+            if (!texturePixels || textureWidth <= 0 || textureHeight <= 0)
+            {
+                continue;
+            }
+
+            TexturedBatch batch = {};
+            batch.vertexBufferHandle = bgfx::createVertexBuffer(
+                bgfx::copy(vertices.data(), static_cast<uint32_t>(vertices.size() * sizeof(TexturedPreviewVertex))),
+                TexturedPreviewVertex::ms_layout);
+            batch.textureHandle = bgfx::createTexture2D(
+                static_cast<uint16_t>(textureWidth),
+                static_cast<uint16_t>(textureHeight),
+                false,
+                1,
+                bgfx::TextureFormat::BGRA8,
+                BGFX_SAMPLER_MIN_POINT | BGFX_SAMPLER_MAG_POINT | BGFX_SAMPLER_MIP_POINT,
+                bgfx::copy(texturePixels->data(), static_cast<uint32_t>(texturePixels->size())));
+            batch.vertexCount = static_cast<uint32_t>(vertices.size());
+            batch.key = textureName;
+            batch.textureWidth = textureWidth;
+            batch.textureHeight = textureHeight;
+
+            if (bgfx::isValid(batch.vertexBufferHandle) && bgfx::isValid(batch.textureHandle))
+            {
+                m_bmodelTexturedBatches.push_back(batch);
+            }
+        }
+
+        const auto appendProceduralBatch =
+            [](const std::vector<ProceduralPreviewVertex> &vertices,
+                const char *pKey,
+                std::vector<EditorOutdoorViewport::ProceduralBatch> &targetBatches)
+        {
+            if (vertices.empty())
+            {
+                return;
+            }
+
+            EditorOutdoorViewport::ProceduralBatch batch = {};
+            batch.vertexBufferHandle = bgfx::createVertexBuffer(
+                bgfx::copy(
+                    vertices.data(),
+                    static_cast<uint32_t>(vertices.size() * sizeof(EditorOutdoorViewport::ProceduralPreviewVertex))),
+                EditorOutdoorViewport::ProceduralPreviewVertex::ms_layout);
+            batch.vertexCount = static_cast<uint32_t>(vertices.size());
+            batch.key = pKey;
+
+            if (bgfx::isValid(batch.vertexBufferHandle))
+            {
+                targetBatches.push_back(batch);
+            }
+        };
+
+        if (const auto unassignedIt = missingVerticesByKey.find("__unassigned__"); unassignedIt != missingVerticesByKey.end())
+        {
+            appendProceduralBatch(unassignedIt->second, "__unassigned__", m_bmodelUnassignedBatches);
+        }
+
+        if (const auto missingIt = missingVerticesByKey.find("__missing__"); missingIt != missingVerticesByKey.end())
+        {
+            appendProceduralBatch(missingIt->second, "__missing__", m_bmodelMissingAssetBatches);
+        }
+
+        appendProceduralBatch(portalVertices, "__portals__", m_indoorPortalBatches);
+        m_indoorPreviewGeometryBuffersDirty = false;
+
+        return;
+    }
+
     const Game::OutdoorMapData &outdoorGeometry = document.outdoorGeometry();
     const std::vector<ProceduralPreviewVertex> terrainVertices = buildTerrainVertices(outdoorGeometry);
     const std::vector<PreviewVertex> bmodelWireVertices = buildBModelWireVertices(outdoorGeometry);
@@ -4069,8 +5843,11 @@ void EditorOutdoorViewport::updateCamera(
         return;
     }
 
-    const float moveSpeed =
+    const float baseMoveSpeed =
         CameraMoveSpeed
+        * (document.kind() == EditorDocument::Kind::Indoor ? IndoorCameraMoveSpeedMultiplier : 1.0f);
+    const float moveSpeed =
+        baseMoveSpeed
         * ((ImGui::IsKeyDown(ImGuiKey_LeftShift) || ImGui::IsKeyDown(ImGuiKey_RightShift))
                ? CameraFastMoveSpeedMultiplier
                : 1.0f)
@@ -4447,6 +6224,73 @@ void EditorOutdoorViewport::tryPick(
 
     if (m_placementKind != EditorSelectionKind::None)
     {
+        return;
+    }
+
+    if (session.document().kind() == EditorDocument::Kind::Indoor)
+    {
+        bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+        if (!computeMouseRay(mouseX, mouseY, rayOrigin, rayDirection))
+        {
+            return;
+        }
+
+        const Game::IndoorMapData &indoorGeometry = session.document().indoorGeometry();
+        const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(session.document());
+        float bestDistance = std::numeric_limits<float>::max();
+        size_t bestFaceIndex = std::numeric_limits<size_t>::max();
+
+        for (size_t faceIndex = 0; faceIndex < indoorGeometry.faces.size(); ++faceIndex)
+        {
+            if (indoorFaceHiddenByCeilingView(
+                    indoorGeometry,
+                    indoorVertices,
+                    faceIndex,
+                    m_showIndoorFloors,
+                    m_showIndoorCeilings,
+                    m_isolatedIndoorRoomId))
+            {
+                continue;
+            }
+
+            Game::IndoorFaceGeometryData geometry = {};
+
+            if (!Game::buildIndoorFaceGeometry(indoorGeometry, indoorVertices, faceIndex, geometry)
+                || geometry.vertices.size() < 3)
+            {
+                continue;
+            }
+
+            for (size_t triangleIndex = 1; triangleIndex + 1 < geometry.vertices.size(); ++triangleIndex)
+            {
+                float distance = 0.0f;
+
+                if (!intersectRayTriangle(
+                        rayOrigin,
+                        rayDirection,
+                        geometry.vertices[0],
+                        geometry.vertices[triangleIndex],
+                        geometry.vertices[triangleIndex + 1],
+                        distance))
+                {
+                    continue;
+                }
+
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    bestFaceIndex = faceIndex;
+                }
+            }
+        }
+
+        if (bestFaceIndex != std::numeric_limits<size_t>::max())
+        {
+            session.select(EditorSelectionKind::InteractiveFace, bestFaceIndex);
+        }
+
         return;
     }
 
@@ -4980,6 +6824,104 @@ bool EditorOutdoorViewport::trySelectInteractiveFace(
     }
 
     const EditorDocument &document = session.document();
+
+    if (document.kind() == EditorDocument::Kind::Indoor)
+    {
+        const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
+        const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+        float bestDistance = std::numeric_limits<float>::max();
+        size_t bestFaceIndex = std::numeric_limits<size_t>::max();
+
+        for (size_t faceIndex = 0; faceIndex < indoorGeometry.faces.size(); ++faceIndex)
+        {
+            if (indoorFaceHiddenByCeilingView(
+                    indoorGeometry,
+                    indoorVertices,
+                    faceIndex,
+                    m_showIndoorFloors,
+                    m_showIndoorCeilings,
+                    m_isolatedIndoorRoomId))
+            {
+                continue;
+            }
+
+            Game::IndoorFaceGeometryData geometry = {};
+
+            if (!Game::buildIndoorFaceGeometry(indoorGeometry, indoorVertices, faceIndex, geometry)
+                || geometry.vertices.size() < 3)
+            {
+                continue;
+            }
+
+            for (size_t triangleIndex = 1; triangleIndex + 1 < geometry.vertices.size(); ++triangleIndex)
+            {
+                float distance = 0.0f;
+
+                if (!intersectRayTriangle(
+                        rayOrigin,
+                        rayDirection,
+                        geometry.vertices[0],
+                        geometry.vertices[triangleIndex],
+                        geometry.vertices[triangleIndex + 1],
+                        distance))
+                {
+                    continue;
+                }
+
+                if (distance < bestDistance)
+                {
+                    bestDistance = distance;
+                    bestFaceIndex = faceIndex;
+                }
+            }
+        }
+
+        if (bestFaceIndex == std::numeric_limits<size_t>::max())
+        {
+            return false;
+        }
+
+        if (m_indoorDoorFaceEditMode != IndoorDoorFaceEditMode::None
+            && m_indoorDoorFaceEditDoorIndex.has_value()
+            && session.selection().kind == EditorSelectionKind::Door
+            && session.selection().index == *m_indoorDoorFaceEditDoorIndex)
+        {
+            Game::IndoorSceneData &sceneData = session.document().mutableIndoorSceneData();
+
+            if (*m_indoorDoorFaceEditDoorIndex < sceneData.initialState.doors.size())
+            {
+                Game::MapDeltaDoor &door = sceneData.initialState.doors[*m_indoorDoorFaceEditDoorIndex].door;
+                const uint16_t faceId = static_cast<uint16_t>(bestFaceIndex);
+                const bool shouldMutate =
+                    m_indoorDoorFaceEditMode == IndoorDoorFaceEditMode::Add
+                        ? !indoorDoorContainsFace(door, faceId)
+                        : indoorDoorContainsFace(door, faceId);
+
+                if (shouldMutate)
+                {
+                    session.captureUndoSnapshot();
+                    const bool mutated =
+                        m_indoorDoorFaceEditMode == IndoorDoorFaceEditMode::Add
+                            ? addIndoorDoorFace(door, faceId)
+                            : removeIndoorDoorFace(door, faceId);
+
+                    if (mutated)
+                    {
+                        session.noteDocumentMutated(
+                            m_indoorDoorFaceEditMode == IndoorDoorFaceEditMode::Add
+                                ? "Added mechanism face"
+                                : "Removed mechanism face");
+                    }
+                }
+            }
+
+            return true;
+        }
+
+        session.replaceInteractiveFaceSelection(bestFaceIndex);
+        return true;
+    }
+
     const Game::OutdoorMapData &outdoorGeometry = document.outdoorGeometry();
     const bx::Vec3 segmentEnd = {
         rayOrigin.x + rayDirection.x * CameraFarPlane,
@@ -5334,6 +7276,169 @@ std::optional<bx::Vec3> EditorOutdoorViewport::selectedWorldPosition(
     const EditorDocument &document,
     const EditorSelection &selection) const
 {
+    if (document.kind() == EditorDocument::Kind::Indoor)
+    {
+        const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
+        const Game::IndoorSceneData &sceneData = document.indoorSceneData();
+        const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+
+        switch (selection.kind)
+        {
+        case EditorSelectionKind::Entity:
+            if (selection.index < indoorGeometry.entities.size())
+            {
+                const Game::IndoorEntity &entity = indoorGeometry.entities[selection.index];
+                return bx::Vec3{static_cast<float>(entity.x), static_cast<float>(entity.y), static_cast<float>(entity.z)};
+            }
+            break;
+
+        case EditorSelectionKind::Spawn:
+            if (selection.index < indoorGeometry.spawns.size())
+            {
+                const Game::IndoorSpawn &spawn = indoorGeometry.spawns[selection.index];
+                return bx::Vec3{static_cast<float>(spawn.x), static_cast<float>(spawn.y), static_cast<float>(spawn.z)};
+            }
+            break;
+
+        case EditorSelectionKind::Actor:
+            if (selection.index < sceneData.initialState.actors.size())
+            {
+                const Game::MapDeltaActor &actor = sceneData.initialState.actors[selection.index];
+                return bx::Vec3{static_cast<float>(actor.x), static_cast<float>(actor.y), static_cast<float>(actor.z)};
+            }
+            break;
+
+        case EditorSelectionKind::SpriteObject:
+            if (selection.index < sceneData.initialState.spriteObjects.size())
+            {
+                const Game::MapDeltaSpriteObject &spriteObject = sceneData.initialState.spriteObjects[selection.index];
+                return bx::Vec3{
+                    static_cast<float>(spriteObject.x),
+                    static_cast<float>(spriteObject.y),
+                    static_cast<float>(spriteObject.z)};
+            }
+            break;
+
+        case EditorSelectionKind::Light:
+            if (selection.index < indoorGeometry.lights.size())
+            {
+                const Game::IndoorLight &light = indoorGeometry.lights[selection.index];
+                return bx::Vec3{static_cast<float>(light.x), static_cast<float>(light.y), static_cast<float>(light.z)};
+            }
+            break;
+
+        case EditorSelectionKind::Door:
+            if (selection.index < sceneData.initialState.doors.size())
+            {
+                const Game::IndoorSceneDoor &door = sceneData.initialState.doors[selection.index];
+                bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+                int count = 0;
+
+                for (uint16_t vertexId : door.door.vertexIds)
+                {
+                    if (vertexId >= indoorVertices.size())
+                    {
+                        continue;
+                    }
+
+                    const bx::Vec3 worldVertex = Game::indoorVertexToWorld(indoorVertices[vertexId]);
+                    center.x += worldVertex.x;
+                    center.y += worldVertex.y;
+                    center.z += worldVertex.z;
+                    ++count;
+                }
+
+                if (count > 0)
+                {
+                    const float invCount = 1.0f / static_cast<float>(count);
+                    center.x *= invCount;
+                    center.y *= invCount;
+                    center.z *= invCount;
+                    return center;
+                }
+
+                for (uint16_t faceId : door.door.faceIds)
+                {
+                    const std::optional<bx::Vec3> faceCenter = indoorFaceCenter(indoorGeometry, indoorVertices, faceId);
+
+                    if (!faceCenter)
+                    {
+                        continue;
+                    }
+
+                    center.x += faceCenter->x;
+                    center.y += faceCenter->y;
+                    center.z += faceCenter->z;
+                    ++count;
+                }
+
+                if (count > 0)
+                {
+                    const float invCount = 1.0f / static_cast<float>(count);
+                    center.x *= invCount;
+                    center.y *= invCount;
+                    center.z *= invCount;
+                    return center;
+                }
+
+                for (uint16_t sectorId : door.door.sectorIds)
+                {
+                    if (sectorId >= indoorGeometry.sectors.size())
+                    {
+                        continue;
+                    }
+
+                    const Game::IndoorSector &sector = indoorGeometry.sectors[sectorId];
+                    center.x += (static_cast<float>(sector.minX) + static_cast<float>(sector.maxX)) * 0.5f;
+                    center.y += (static_cast<float>(sector.minY) + static_cast<float>(sector.maxY)) * 0.5f;
+                    center.z += (static_cast<float>(sector.minZ) + static_cast<float>(sector.maxZ)) * 0.5f;
+                    ++count;
+                }
+
+                if (count > 0)
+                {
+                    const float invCount = 1.0f / static_cast<float>(count);
+                    center.x *= invCount;
+                    center.y *= invCount;
+                    center.z *= invCount;
+                    return center;
+                }
+            }
+            break;
+
+        case EditorSelectionKind::InteractiveFace:
+            if (selection.index < indoorGeometry.faces.size())
+            {
+                Game::IndoorFaceGeometryData geometry = {};
+
+                if (Game::buildIndoorFaceGeometry(indoorGeometry, indoorVertices, selection.index, geometry)
+                    && !geometry.vertices.empty())
+                {
+                    bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+
+                    for (const bx::Vec3 &vertex : geometry.vertices)
+                    {
+                        center.x += vertex.x;
+                        center.y += vertex.y;
+                        center.z += vertex.z;
+                    }
+
+                    const float invCount = 1.0f / static_cast<float>(geometry.vertices.size());
+                    center.x *= invCount;
+                    center.y *= invCount;
+                    center.z *= invCount;
+                    return center;
+                }
+            }
+            break;
+
+        default:
+            break;
+        }
+
+        return std::nullopt;
+    }
+
     const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
     const Game::OutdoorMapData &outdoorGeometry = document.outdoorGeometry();
 
@@ -5519,6 +7624,18 @@ bool EditorOutdoorViewport::decodeSelectedInteractiveFace(
         return false;
     }
 
+    if (document.kind() == EditorDocument::Kind::Indoor)
+    {
+        if (selection.index >= document.indoorGeometry().faces.size())
+        {
+            return false;
+        }
+
+        bmodelIndex = 0;
+        faceIndex = selection.index;
+        return true;
+    }
+
     size_t runningIndex = 0;
 
     for (size_t currentBModelIndex = 0; currentBModelIndex < document.outdoorGeometry().bmodels.size(); ++currentBModelIndex)
@@ -5658,6 +7775,94 @@ bool EditorOutdoorViewport::samplePlacementWorldPosition(
         return false;
     }
 
+    if (document.kind() == EditorDocument::Kind::Indoor)
+    {
+        const Game::IndoorMapData &indoorMapData = document.indoorGeometry();
+        const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+        float bestFloorDistance = std::numeric_limits<float>::max();
+        float bestFallbackDistance = std::numeric_limits<float>::max();
+        bx::Vec3 bestFloorPoint = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 bestFallbackPoint = {0.0f, 0.0f, 0.0f};
+        bool foundFloorHit = false;
+        bool foundFallbackHit = false;
+
+        for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
+        {
+            if (indoorFaceHiddenByCeilingView(
+                    indoorMapData,
+                    indoorVertices,
+                    faceIndex,
+                    m_showIndoorFloors,
+                    m_showIndoorCeilings,
+                    m_isolatedIndoorRoomId))
+            {
+                continue;
+            }
+
+            Game::IndoorFaceGeometryData geometry = {};
+
+            if (!Game::buildIndoorFaceGeometry(indoorMapData, indoorVertices, faceIndex, geometry)
+                || geometry.vertices.size() < 3)
+            {
+                continue;
+            }
+
+            for (size_t triangleIndex = 1; triangleIndex + 1 < geometry.vertices.size(); ++triangleIndex)
+            {
+                float hitDistance = 0.0f;
+
+                if (!intersectRayTriangle(
+                        rayOrigin,
+                        rayDirection,
+                        geometry.vertices[0],
+                        geometry.vertices[triangleIndex],
+                        geometry.vertices[triangleIndex + 1],
+                        hitDistance))
+                {
+                    continue;
+                }
+
+                const bx::Vec3 hitPoint = {
+                    rayOrigin.x + rayDirection.x * hitDistance,
+                    rayOrigin.y + rayDirection.y * hitDistance,
+                    rayOrigin.z + rayDirection.z * hitDistance
+                };
+                const bool isPreferredFloor =
+                    geometry.isWalkable || geometry.kind == Game::IndoorFaceKind::Floor;
+
+                if (isPreferredFloor)
+                {
+                    if (hitDistance < bestFloorDistance)
+                    {
+                        bestFloorDistance = hitDistance;
+                        bestFloorPoint = hitPoint;
+                        foundFloorHit = true;
+                    }
+                }
+                else if (hitDistance < bestFallbackDistance)
+                {
+                    bestFallbackDistance = hitDistance;
+                    bestFallbackPoint = hitPoint;
+                    foundFallbackHit = true;
+                }
+            }
+        }
+
+        if (foundFloorHit)
+        {
+            worldPosition = bestFloorPoint;
+            return true;
+        }
+
+        if (foundFallbackHit)
+        {
+            worldPosition = bestFallbackPoint;
+            return true;
+        }
+
+        return false;
+    }
+
     const Game::OutdoorMapData &outdoorMapData = document.outdoorGeometry();
     constexpr float MaxDistance = 200000.0f;
     constexpr float StepDistance = 512.0f;
@@ -5733,8 +7938,6 @@ bool EditorOutdoorViewport::setSelectedWorldPosition(EditorSession &session, con
     }
 
     EditorDocument &document = session.document();
-    Game::OutdoorSceneData &sceneData = document.mutableOutdoorSceneData();
-    Game::OutdoorMapData &outdoorGeometry = document.mutableOutdoorGeometry();
     int targetX = static_cast<int>(std::lround(worldPosition.x));
     int targetY = static_cast<int>(std::lround(worldPosition.y));
     int targetZ = static_cast<int>(std::lround(worldPosition.z));
@@ -5753,6 +7956,44 @@ bool EditorOutdoorViewport::setSelectedWorldPosition(EditorSession &session, con
     }
 
     bool changed = false;
+
+    if (document.kind() == EditorDocument::Kind::Indoor)
+    {
+        Game::IndoorSceneData &sceneData = document.mutableIndoorSceneData();
+
+        switch (session.selection().kind)
+        {
+        case EditorSelectionKind::Actor:
+            if (session.selection().index < sceneData.initialState.actors.size())
+            {
+                Game::MapDeltaActor &actor = sceneData.initialState.actors[session.selection().index];
+                changed = actor.x != targetX || actor.y != targetY || actor.z != targetZ;
+                actor.x = targetX;
+                actor.y = targetY;
+                actor.z = targetZ;
+            }
+            break;
+
+        case EditorSelectionKind::SpriteObject:
+            if (session.selection().index < sceneData.initialState.spriteObjects.size())
+            {
+                Game::MapDeltaSpriteObject &spriteObject = sceneData.initialState.spriteObjects[session.selection().index];
+                changed = spriteObject.x != targetX || spriteObject.y != targetY || spriteObject.z != targetZ;
+                spriteObject.x = targetX;
+                spriteObject.y = targetY;
+                spriteObject.z = targetZ;
+            }
+            break;
+
+        default:
+            break;
+        }
+
+        return changed;
+    }
+
+    Game::OutdoorSceneData &sceneData = document.mutableOutdoorSceneData();
+    Game::OutdoorMapData &outdoorGeometry = document.mutableOutdoorGeometry();
 
     switch (session.selection().kind)
     {
@@ -6391,7 +8632,9 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
             uint32_t vertexCount,
             const bx::Vec3 &objectOrigin,
             const ClayPreviewSettings &settings,
-            bool depthEqual) -> void
+            bool depthEqual,
+            bool blendAlpha = false,
+            bool writeDepth = true) -> void
     {
         if (!bgfx::isValid(vertexBufferHandle)
             || vertexCount == 0
@@ -6414,12 +8657,24 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
         bgfx::setUniform(m_previewObjectOriginHandle, previewOrigin.data());
         bgfx::setTransform(transform);
         bgfx::setVertexBuffer(0, vertexBufferHandle);
-        bgfx::setState(
+        uint64_t state =
             BGFX_STATE_WRITE_RGB
-                | BGFX_STATE_WRITE_A
-                | BGFX_STATE_WRITE_Z
-                | (depthEqual ? BGFX_STATE_DEPTH_TEST_LEQUAL : BGFX_STATE_DEPTH_TEST_LESS)
-                | BGFX_STATE_MSAA);
+            | BGFX_STATE_WRITE_A
+            | (depthEqual ? BGFX_STATE_DEPTH_TEST_LEQUAL : BGFX_STATE_DEPTH_TEST_LESS)
+            | BGFX_STATE_MSAA;
+
+        if (writeDepth)
+        {
+            state |= BGFX_STATE_WRITE_Z;
+        }
+
+        if (blendAlpha)
+        {
+            state |= BGFX_STATE_BLEND_ALPHA;
+        }
+
+        bgfx::setState(
+            state);
         bgfx::submit(EditorSceneViewId, m_proceduralPreviewProgramHandle);
     };
     const auto submitGridBatch =
@@ -6463,6 +8718,82 @@ void EditorOutdoorViewport::submitStaticGeometry(const EditorSession &session) c
                 | BGFX_STATE_MSAA);
         bgfx::submit(EditorSceneViewId, m_proceduralPreviewProgramHandle);
     };
+
+    if (session.document().kind() == EditorDocument::Kind::Indoor)
+    {
+        for (const TexturedBatch &batch : m_bmodelTexturedBatches)
+        {
+            if (!bgfx::isValid(batch.vertexBufferHandle) || !bgfx::isValid(batch.textureHandle) || batch.vertexCount == 0)
+            {
+                continue;
+            }
+
+            bgfx::setTransform(transform);
+            bgfx::setVertexBuffer(0, batch.vertexBufferHandle);
+            bgfx::setTexture(0, m_textureSamplerHandle, batch.textureHandle);
+            bgfx::setState(
+                BGFX_STATE_WRITE_RGB
+                    | BGFX_STATE_WRITE_A
+                    | BGFX_STATE_WRITE_Z
+                    | BGFX_STATE_DEPTH_TEST_LESS
+                    | BGFX_STATE_MSAA);
+            bgfx::submit(EditorSceneViewId, m_texturedProgramHandle);
+        }
+
+        for (const ProceduralBatch &batch : m_bmodelUnassignedBatches)
+        {
+            submitGridBatch(
+                batch.vertexBufferHandle,
+                batch.vertexCount,
+                batch.objectOrigin,
+                m_gridPreviewSettings,
+                1.0f,
+                false);
+        }
+
+        for (const ProceduralBatch &batch : m_bmodelMissingAssetBatches)
+        {
+            submitGridBatch(
+                batch.vertexBufferHandle,
+                batch.vertexCount,
+                batch.objectOrigin,
+                m_errorPreviewSettings,
+                2.0f,
+                true);
+        }
+
+        if (m_showIndoorPortals)
+        {
+            for (const ProceduralBatch &batch : m_indoorPortalBatches)
+            {
+                submitProceduralBatch(
+                    batch.vertexBufferHandle,
+                    batch.vertexCount,
+                    batch.objectOrigin,
+                    m_indoorPortalPreviewSettings,
+                    true,
+                    true,
+                    false);
+            }
+        }
+
+        if (m_showBModelWireframe && bgfx::isValid(m_bmodelWireVertexBufferHandle) && m_bmodelWireVertexCount > 0)
+        {
+            bgfx::setTransform(transform);
+            bgfx::setVertexBuffer(0, m_bmodelWireVertexBufferHandle);
+            bgfx::setState(
+                BGFX_STATE_WRITE_RGB
+                    | BGFX_STATE_WRITE_A
+                    | BGFX_STATE_WRITE_Z
+                    | BGFX_STATE_DEPTH_TEST_LESS
+                    | BGFX_STATE_PT_LINES
+                    | BGFX_STATE_MSAA);
+            bgfx::submit(EditorSceneViewId, m_programHandle);
+        }
+
+        return;
+    }
+
     const bool terrainUsesClay =
         m_previewMaterialMode == PreviewMaterialMode::Clay
         || !bgfx::isValid(m_texturedTerrainVertexBufferHandle)
@@ -6671,6 +9002,11 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
     const EditorSession &session,
     const EditorDocument &document) const
 {
+    if (document.kind() == EditorDocument::Kind::Indoor)
+    {
+        return;
+    }
+
     if ((!m_showEntities || !m_showEntityBillboards)
         && (!m_showActors || !m_showActorBillboards)
         && (!m_showSpawns || !m_showSpawnActorBillboards)
@@ -7144,6 +9480,485 @@ void EditorOutdoorViewport::submitMarkerGeometry(
     std::vector<PreviewVertex> xrayVertices;
     std::vector<PreviewVertex> xrayFillVertices;
     m_markerCandidates.clear();
+
+    if (document.kind() == EditorDocument::Kind::Indoor)
+    {
+        const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
+        const Game::IndoorSceneData &sceneData = document.indoorSceneData();
+        const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+        const uint32_t entityColor = makeAbgr(255, 208, 64);
+        const uint32_t lightColor = makeAbgr(255, 192, 96);
+        const uint32_t spawnColor = makeAbgr(96, 192, 255);
+        const uint32_t actorColor = makeAbgr(224, 100, 80);
+        const uint32_t spriteColor = makeAbgr(216, 96, 255);
+        const uint32_t doorColor = makeAbgr(96, 255, 180);
+        const uint32_t selectedColor = makeAbgr(255, 255, 255);
+        const uint32_t faceSelectionColor = makeAbgr(255, 96, 255);
+        const uint32_t faceSelectionFillColor = makeAbgrAlpha(255, 96, 255, 72);
+        const uint32_t portalEdgeColor = makeAbgr(96, 232, 255);
+        const uint32_t portalFillColor = makeAbgrAlpha(96, 232, 255, 38);
+        const uint32_t isolatedRoomEdgeColor = makeAbgr(255, 214, 96);
+        const uint32_t isolatedRoomFillColor = makeAbgrAlpha(255, 214, 96, 28);
+        const uint32_t isolatedPortalEdgeColor = makeAbgr(128, 240, 255);
+        const uint32_t isolatedPortalFillColor = makeAbgrAlpha(128, 240, 255, 54);
+        const auto appendIndoorFaceOverlay =
+            [&](size_t faceId, uint32_t edgeColor, uint32_t fillColor, float edgeOffset, float fillOffset)
+        {
+            if (faceId >= indoorGeometry.faces.size())
+            {
+                return;
+            }
+
+            if (indoorFaceHiddenByCeilingView(
+                    indoorGeometry,
+                    indoorVertices,
+                    faceId,
+                    m_showIndoorFloors,
+                    m_showIndoorCeilings,
+                    m_isolatedIndoorRoomId))
+            {
+                return;
+            }
+
+            Game::IndoorFaceGeometryData geometry = {};
+
+            if (!Game::buildIndoorFaceGeometry(indoorGeometry, indoorVertices, faceId, geometry)
+                || geometry.vertices.size() < 3)
+            {
+                return;
+            }
+
+            for (size_t vertexIndex = 0; vertexIndex < geometry.vertices.size(); ++vertexIndex)
+            {
+                const bx::Vec3 &start = geometry.vertices[vertexIndex];
+                const bx::Vec3 &end = geometry.vertices[(vertexIndex + 1) % geometry.vertices.size()];
+                xrayVertices.push_back({start.x, start.y, start.z + edgeOffset, edgeColor});
+                xrayVertices.push_back({end.x, end.y, end.z + edgeOffset, edgeColor});
+            }
+
+            for (size_t vertexIndex = 1; vertexIndex + 1 < geometry.vertices.size(); ++vertexIndex)
+            {
+                xrayFillVertices.push_back({
+                    geometry.vertices[0].x,
+                    geometry.vertices[0].y,
+                    geometry.vertices[0].z + fillOffset,
+                    fillColor});
+                xrayFillVertices.push_back({
+                    geometry.vertices[vertexIndex].x,
+                    geometry.vertices[vertexIndex].y,
+                    geometry.vertices[vertexIndex].z + fillOffset,
+                    fillColor});
+                xrayFillVertices.push_back({
+                    geometry.vertices[vertexIndex + 1].x,
+                    geometry.vertices[vertexIndex + 1].y,
+                    geometry.vertices[vertexIndex + 1].z + fillOffset,
+                    fillColor});
+            }
+        };
+
+        if (m_showIndoorPortals)
+        {
+            for (size_t faceId = 0; faceId < indoorGeometry.faces.size(); ++faceId)
+            {
+                const Game::IndoorFace &face = indoorGeometry.faces[faceId];
+
+                if (!(face.isPortal || Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::IsPortal)))
+                {
+                    continue;
+                }
+
+                appendIndoorFaceOverlay(faceId, portalEdgeColor, portalFillColor, 1.5f, 0.5f);
+            }
+        }
+
+        if (m_isolatedIndoorRoomId.has_value() && *m_isolatedIndoorRoomId < indoorGeometry.sectors.size())
+        {
+            for (uint16_t faceId : indoorSectorFaceIds(indoorGeometry, *m_isolatedIndoorRoomId))
+            {
+                const bool isPortalFace =
+                    faceId < indoorGeometry.faces.size()
+                    && (indoorGeometry.faces[faceId].isPortal
+                        || Game::hasFaceAttribute(indoorGeometry.faces[faceId].attributes, Game::FaceAttribute::IsPortal));
+                appendIndoorFaceOverlay(
+                    faceId,
+                    isPortalFace ? isolatedPortalEdgeColor : isolatedRoomEdgeColor,
+                    isPortalFace ? isolatedPortalFillColor : isolatedRoomFillColor,
+                    isPortalFace ? 2.5f : 2.0f,
+                    isPortalFace ? 1.0f : 0.75f);
+            }
+        }
+
+        if (m_showEntities)
+        {
+            for (size_t entityIndex = 0; entityIndex < indoorGeometry.entities.size(); ++entityIndex)
+            {
+                const Game::IndoorEntity &entity = indoorGeometry.entities[entityIndex];
+                const bx::Vec3 center = {
+                    static_cast<float>(entity.x),
+                    static_cast<float>(entity.y),
+                    static_cast<float>(entity.z)};
+
+                if (!indoorMarkerVisibleForIsolation(indoorGeometry, m_isolatedIndoorRoomId, center))
+                {
+                    continue;
+                }
+
+                appendCrossMarker(
+                    vertices,
+                    center,
+                    64.0f,
+                    128.0f,
+                    selection.kind == EditorSelectionKind::Entity && selection.index == entityIndex ? selectedColor : entityColor);
+                m_markerCandidates.push_back({EditorSelectionKind::Entity, entityIndex, center, 18.0f});
+            }
+        }
+
+        for (size_t lightIndex = 0; lightIndex < indoorGeometry.lights.size(); ++lightIndex)
+        {
+            const Game::IndoorLight &light = indoorGeometry.lights[lightIndex];
+            const bx::Vec3 center = {
+                static_cast<float>(light.x),
+                static_cast<float>(light.y),
+                static_cast<float>(light.z)};
+
+            if (!indoorMarkerVisibleForIsolation(indoorGeometry, m_isolatedIndoorRoomId, center))
+            {
+                continue;
+            }
+
+            appendCrossMarker(
+                vertices,
+                center,
+                48.0f,
+                96.0f,
+                selection.kind == EditorSelectionKind::Light && selection.index == lightIndex ? selectedColor : lightColor);
+            m_markerCandidates.push_back({EditorSelectionKind::Light, lightIndex, center, 18.0f});
+        }
+
+        if (m_showSpawns)
+        {
+            for (size_t spawnIndex = 0; spawnIndex < indoorGeometry.spawns.size(); ++spawnIndex)
+            {
+                const Game::IndoorSpawn &spawn = indoorGeometry.spawns[spawnIndex];
+                const bx::Vec3 center = {
+                    static_cast<float>(spawn.x),
+                    static_cast<float>(spawn.y),
+                    static_cast<float>(spawn.z)};
+
+                if (!indoorMarkerVisibleForIsolation(indoorGeometry, m_isolatedIndoorRoomId, center))
+                {
+                    continue;
+                }
+
+                appendCrossMarker(
+                    vertices,
+                    center,
+                    static_cast<float>(std::max<uint16_t>(spawn.radius, 64)),
+                    128.0f,
+                    selection.kind == EditorSelectionKind::Spawn && selection.index == spawnIndex ? selectedColor : spawnColor);
+                m_markerCandidates.push_back({EditorSelectionKind::Spawn, spawnIndex, center, 22.0f});
+            }
+        }
+
+        if (m_showActors)
+        {
+            for (size_t actorIndex = 0; actorIndex < sceneData.initialState.actors.size(); ++actorIndex)
+            {
+                const Game::MapDeltaActor &actor = sceneData.initialState.actors[actorIndex];
+                const bx::Vec3 center = {
+                    static_cast<float>(actor.x),
+                    static_cast<float>(actor.y),
+                    static_cast<float>(actor.z)};
+
+                if (!indoorMarkerVisibleForIsolation(indoorGeometry, m_isolatedIndoorRoomId, center, actor.sectorId))
+                {
+                    continue;
+                }
+
+                appendCrossMarker(
+                    vertices,
+                    center,
+                    static_cast<float>(std::max<uint16_t>(actor.radius, 64)),
+                    static_cast<float>(std::max<uint16_t>(actor.height, 128)),
+                    selection.kind == EditorSelectionKind::Actor && selection.index == actorIndex ? selectedColor : actorColor);
+                m_markerCandidates.push_back({EditorSelectionKind::Actor, actorIndex, center, 22.0f});
+            }
+        }
+
+        if (m_showSpriteObjects)
+        {
+            for (size_t objectIndex = 0; objectIndex < sceneData.initialState.spriteObjects.size(); ++objectIndex)
+            {
+                const Game::MapDeltaSpriteObject &spriteObject = sceneData.initialState.spriteObjects[objectIndex];
+                const bx::Vec3 center = {
+                    static_cast<float>(spriteObject.x),
+                    static_cast<float>(spriteObject.y),
+                    static_cast<float>(spriteObject.z)};
+
+                if (!indoorMarkerVisibleForIsolation(
+                        indoorGeometry,
+                        m_isolatedIndoorRoomId,
+                        center,
+                        spriteObject.sectorId))
+                {
+                    continue;
+                }
+
+                appendCrossMarker(
+                    vertices,
+                    center,
+                    48.0f,
+                    96.0f,
+                    selection.kind == EditorSelectionKind::SpriteObject && selection.index == objectIndex
+                        ? selectedColor
+                        : spriteColor);
+                m_markerCandidates.push_back({EditorSelectionKind::SpriteObject, objectIndex, center, 18.0f});
+            }
+        }
+
+        for (size_t doorIndex = 0; doorIndex < sceneData.initialState.doors.size(); ++doorIndex)
+        {
+            const std::optional<bx::Vec3> center = selectedWorldPosition(document, {EditorSelectionKind::Door, doorIndex});
+
+            if (!indoorDoorVisibleForIsolation(
+                    indoorGeometry,
+                    sceneData.initialState.doors[doorIndex].door,
+                    m_isolatedIndoorRoomId,
+                    center))
+            {
+                continue;
+            }
+
+            if (center)
+            {
+                m_markerCandidates.push_back({EditorSelectionKind::Door, doorIndex, *center, 40.0f});
+            }
+        }
+
+        if (selection.kind == EditorSelectionKind::Door
+            && selection.index < sceneData.initialState.doors.size())
+        {
+            const Game::MapDeltaDoor &door = sceneData.initialState.doors[selection.index].door;
+            const std::optional<bx::Vec3> currentCenter = selectedWorldPosition(document, selection);
+            uint16_t previewStateValue = 0;
+            float previewDistance = 0.0f;
+            bool previewMoving = false;
+            const bool hasPreviewState =
+                tryGetIndoorMechanismPreview(document, selection.index, previewStateValue, previewDistance, previewMoving);
+            std::optional<Game::RuntimeMechanismState> previewState;
+
+            if (hasPreviewState)
+            {
+                previewState = Game::RuntimeMechanismState{};
+                previewState->state = previewStateValue;
+                previewState->currentDistance = previewDistance;
+                previewState->isMoving = previewMoving;
+            }
+
+            uint32_t linkedEdgeColor = makeAbgr(96, 255, 180);
+            uint32_t linkedFillColor = makeAbgrAlpha(96, 255, 180, 52);
+            const uint32_t faceLinkColor = makeAbgr(96, 255, 180);
+            const uint32_t faceCenterColor = makeAbgr(144, 255, 208);
+
+            if (m_indoorDoorFaceEditMode == IndoorDoorFaceEditMode::Add
+                && m_indoorDoorFaceEditDoorIndex == selection.index)
+            {
+                linkedEdgeColor = makeAbgr(112, 255, 112);
+                linkedFillColor = makeAbgrAlpha(112, 255, 112, 64);
+            }
+            else if (m_indoorDoorFaceEditMode == IndoorDoorFaceEditMode::Remove
+                && m_indoorDoorFaceEditDoorIndex == selection.index)
+            {
+                linkedEdgeColor = makeAbgr(255, 112, 112);
+                linkedFillColor = makeAbgrAlpha(255, 112, 112, 64);
+            }
+
+            for (uint16_t faceId : door.faceIds)
+            {
+                appendIndoorFaceOverlay(faceId, linkedEdgeColor, linkedFillColor, 5.0f, 3.0f);
+
+                const std::optional<bx::Vec3> faceCenter = indoorFaceCenter(indoorGeometry, indoorVertices, faceId);
+
+                if (!faceCenter)
+                {
+                    continue;
+                }
+
+                appendCrossMarker(xrayVertices, *faceCenter, 18.0f, 32.0f, faceCenterColor);
+
+                if (currentCenter)
+                {
+                    appendLine(xrayVertices, *currentCenter, *faceCenter, faceLinkColor);
+                }
+            }
+        }
+
+        if (selection.kind == EditorSelectionKind::InteractiveFace
+            && selection.index < indoorGeometry.faces.size())
+        {
+            const Game::IndoorFace &selectedFace = indoorGeometry.faces[selection.index];
+            uint32_t effectiveAttributes = selectedFace.attributes;
+
+            for (const Game::IndoorSceneFaceAttributeOverride &overrideEntry : sceneData.initialState.faceAttributeOverrides)
+            {
+                if (overrideEntry.faceIndex == selection.index && overrideEntry.legacyAttributes.has_value())
+                {
+                    effectiveAttributes = *overrideEntry.legacyAttributes;
+                    break;
+                }
+            }
+
+            const bool effectivePortal =
+                selectedFace.isPortal || Game::hasFaceAttribute(effectiveAttributes, Game::FaceAttribute::IsPortal);
+            const uint32_t roomEdgeColor = makeAbgr(255, 196, 96);
+            const uint32_t roomFillColor = makeAbgrAlpha(255, 196, 96, 22);
+            const uint32_t behindRoomEdgeColor = makeAbgr(96, 196, 255);
+            const uint32_t behindRoomFillColor = makeAbgrAlpha(96, 196, 255, 18);
+
+            for (uint16_t faceId : indoorSectorFaceIds(indoorGeometry, selectedFace.roomNumber))
+            {
+                appendIndoorFaceOverlay(faceId, roomEdgeColor, roomFillColor, 2.0f, 1.0f);
+            }
+
+            if (effectivePortal
+                && selectedFace.roomBehindNumber != selectedFace.roomNumber
+                && selectedFace.roomBehindNumber < indoorGeometry.sectors.size())
+            {
+                for (uint16_t faceId : indoorSectorFaceIds(indoorGeometry, selectedFace.roomBehindNumber))
+                {
+                    appendIndoorFaceOverlay(faceId, behindRoomEdgeColor, behindRoomFillColor, 1.0f, 0.0f);
+                }
+            }
+        }
+
+        if (selection.kind == EditorSelectionKind::InteractiveFace)
+        {
+            const uint32_t facePrimarySelectionColor = makeAbgr(255, 255, 255);
+            const uint32_t facePrimarySelectionFillColor = makeAbgrAlpha(255, 240, 96, 84);
+
+            for (size_t faceId : session.selectedInteractiveFaceIndices())
+            {
+                if (faceId >= indoorGeometry.faces.size())
+                {
+                    continue;
+                }
+
+                const uint32_t color =
+                    selection.kind == EditorSelectionKind::InteractiveFace && selection.index == faceId
+                        ? facePrimarySelectionColor
+                        : faceSelectionColor;
+                const uint32_t fillColor =
+                    selection.kind == EditorSelectionKind::InteractiveFace && selection.index == faceId
+                        ? facePrimarySelectionFillColor
+                        : faceSelectionFillColor;
+                appendIndoorFaceOverlay(faceId, color, fillColor, 4.0f, 2.0f);
+            }
+        }
+
+        if (vertices.empty() && fillVertices.empty() && xrayVertices.empty() && xrayFillVertices.empty())
+        {
+            return;
+        }
+
+        if (!fillVertices.empty()
+            && bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(fillVertices.size()), PreviewVertex::ms_layout)
+                < fillVertices.size())
+        {
+            return;
+        }
+
+        if (!xrayFillVertices.empty()
+            && bgfx::getAvailTransientVertexBuffer(
+                    static_cast<uint32_t>(xrayFillVertices.size()),
+                    PreviewVertex::ms_layout)
+                < xrayFillVertices.size())
+        {
+            return;
+        }
+
+        if (!vertices.empty()
+            && bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), PreviewVertex::ms_layout)
+                < vertices.size())
+        {
+            return;
+        }
+
+        if (!xrayVertices.empty()
+            && bgfx::getAvailTransientVertexBuffer(
+                    static_cast<uint32_t>(xrayVertices.size()),
+                    PreviewVertex::ms_layout)
+                < xrayVertices.size())
+        {
+            return;
+        }
+
+        float transform[16] = {};
+        bx::mtxIdentity(transform);
+
+        if (!xrayFillVertices.empty())
+        {
+            bgfx::TransientVertexBuffer xrayFillVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(
+                &xrayFillVertexBuffer,
+                static_cast<uint32_t>(xrayFillVertices.size()),
+                PreviewVertex::ms_layout);
+            std::memcpy(
+                xrayFillVertexBuffer.data,
+                xrayFillVertices.data(),
+                xrayFillVertices.size() * sizeof(PreviewVertex));
+            bgfx::setTransform(transform);
+            bgfx::setVertexBuffer(0, &xrayFillVertexBuffer, 0, static_cast<uint32_t>(xrayFillVertices.size()));
+            bgfx::setState(
+                BGFX_STATE_WRITE_RGB
+                    | BGFX_STATE_WRITE_A
+                    | BGFX_STATE_DEPTH_TEST_ALWAYS
+                    | BGFX_STATE_BLEND_ALPHA
+                    | BGFX_STATE_MSAA);
+            bgfx::submit(EditorSceneViewId, m_programHandle);
+        }
+
+        if (!vertices.empty())
+        {
+            bgfx::TransientVertexBuffer transientVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(
+                &transientVertexBuffer,
+                static_cast<uint32_t>(vertices.size()),
+                PreviewVertex::ms_layout);
+            std::memcpy(transientVertexBuffer.data, vertices.data(), vertices.size() * sizeof(PreviewVertex));
+            bgfx::setTransform(transform);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
+            bgfx::setState(
+                BGFX_STATE_WRITE_RGB
+                    | BGFX_STATE_WRITE_A
+                    | BGFX_STATE_WRITE_Z
+                    | BGFX_STATE_DEPTH_TEST_LESS
+                    | BGFX_STATE_PT_LINES
+                    | BGFX_STATE_MSAA);
+            bgfx::submit(EditorSceneViewId, m_programHandle);
+        }
+
+        if (!xrayVertices.empty())
+        {
+            bgfx::TransientVertexBuffer xrayVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(
+                &xrayVertexBuffer,
+                static_cast<uint32_t>(xrayVertices.size()),
+                PreviewVertex::ms_layout);
+            std::memcpy(xrayVertexBuffer.data, xrayVertices.data(), xrayVertices.size() * sizeof(PreviewVertex));
+            bgfx::setTransform(transform);
+            bgfx::setVertexBuffer(0, &xrayVertexBuffer, 0, static_cast<uint32_t>(xrayVertices.size()));
+            bgfx::setState(
+                BGFX_STATE_WRITE_RGB
+                    | BGFX_STATE_WRITE_A
+                    | BGFX_STATE_DEPTH_TEST_ALWAYS
+                    | BGFX_STATE_PT_LINES
+                    | BGFX_STATE_MSAA);
+            bgfx::submit(EditorSceneViewId, m_programHandle);
+        }
+
+        return;
+    }
+
     const auto tryGetCachedBillboardSize =
         [this](const std::string &textureName, int16_t paletteId, float scale, float &worldWidth, float &worldHeight)
     {

@@ -18,15 +18,19 @@ add_executable(openyamm-editor
     viewport/EditorOutdoorViewport.cpp
     ${CMAKE_SOURCE_DIR}/game/data/ActorNameResolver.cpp
     ${CMAKE_SOURCE_DIR}/game/SpawnPreview.cpp
+    ${CMAKE_SOURCE_DIR}/game/indoor/IndoorGeometryUtils.cpp
+    ${CMAKE_SOURCE_DIR}/game/indoor/IndoorMapData.cpp
     ${CMAKE_SOURCE_DIR}/game/outdoor/OutdoorMapData.cpp
     ${CMAKE_SOURCE_DIR}/game/outdoor/OutdoorGeometryUtils.cpp
     ${CMAKE_SOURCE_DIR}/game/events/ScriptedEventProgram.cpp
+    ${CMAKE_SOURCE_DIR}/game/maps/IndoorSceneYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/MapDeltaData.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/OutdoorSceneYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/TerrainTileData.cpp
     ${CMAKE_SOURCE_DIR}/tools/legacy_events/EvtProgram.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/ChestTable.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/HouseTable.cpp
+    ${CMAKE_SOURCE_DIR}/game/tables/ItemTable.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/MapStats.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/MonsterTable.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/ObjectTable.cpp

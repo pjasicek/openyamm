@@ -3,6 +3,8 @@
 #include "editor/document/EditorSession.h"
 #include "editor/document/EditorDocument.h"
 #include "engine/AssetFileSystem.h"
+#include "game/indoor/IndoorMapData.h"
+#include "game/maps/IndoorSceneYml.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMapData.h"
@@ -88,6 +90,20 @@ bool readBinaryFileBytes(const std::filesystem::path &path, std::vector<uint8_t>
     input.seekg(0, std::ios::beg);
     bytes.resize(static_cast<size_t>(size));
     return input.read(reinterpret_cast<char *>(bytes.data()), size).good();
+}
+
+bool readTextFileContents(const std::filesystem::path &path, std::string &text)
+{
+    text.clear();
+    std::ifstream input(path);
+
+    if (!input)
+    {
+        return false;
+    }
+
+    text.assign(std::istreambuf_iterator<char>(input), std::istreambuf_iterator<char>());
+    return true;
 }
 
 bool writeGlbFile(
@@ -455,6 +471,34 @@ bool loadOutdoorGeometry(
     return true;
 }
 
+bool loadIndoorGeometry(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const std::string &mapFileName,
+    OpenYAMM::Game::IndoorMapData &indoorMapData,
+    std::string &failure)
+{
+    const std::string geometryPath = "Data/games/" + mapFileName;
+    const std::optional<std::vector<uint8_t>> geometryBytes = assetFileSystem.readBinaryFile(geometryPath);
+
+    if (!geometryBytes)
+    {
+        failure = "could not read geometry bytes for " + mapFileName;
+        return false;
+    }
+
+    OpenYAMM::Game::IndoorMapDataLoader loader = {};
+    const std::optional<OpenYAMM::Game::IndoorMapData> loadedMap = loader.loadFromBytes(*geometryBytes);
+
+    if (!loadedMap)
+    {
+        failure = "could not parse indoor geometry for " + mapFileName;
+        return false;
+    }
+
+    indoorMapData = *loadedMap;
+    return true;
+}
+
 bool loadLegacyOutdoorMapDelta(
     const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
     const std::string &mapFileName,
@@ -480,6 +524,42 @@ bool loadLegacyOutdoorMapDelta(
     OpenYAMM::Game::MapDeltaDataLoader loader = {};
     const std::optional<OpenYAMM::Game::MapDeltaData> loadedMapDelta =
         loader.loadOutdoorFromBytes(*companionBytes, outdoorMapData);
+
+    if (!loadedMapDelta)
+    {
+        failure = "could not parse legacy companion for " + mapFileName;
+        return false;
+    }
+
+    mapDeltaData = *loadedMapDelta;
+    return true;
+}
+
+bool loadLegacyIndoorMapDelta(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const std::string &mapFileName,
+    const OpenYAMM::Game::IndoorMapData &indoorMapData,
+    OpenYAMM::Game::MapDeltaData &mapDeltaData,
+    std::string &failure)
+{
+    const std::string companionFileName = replaceExtension(mapFileName, ".dlv");
+    std::optional<std::vector<uint8_t>> companionBytes =
+        assetFileSystem.readBinaryFile("Data/games/legacy/" + companionFileName);
+
+    if (!companionBytes)
+    {
+        companionBytes = assetFileSystem.readBinaryFile("Data/games/" + companionFileName);
+    }
+
+    if (!companionBytes)
+    {
+        failure = "could not read legacy companion for " + mapFileName;
+        return false;
+    }
+
+    OpenYAMM::Game::MapDeltaDataLoader loader = {};
+    const std::optional<OpenYAMM::Game::MapDeltaData> loadedMapDelta =
+        loader.loadIndoorFromBytes(*companionBytes, indoorMapData);
 
     if (!loadedMapDelta)
     {
@@ -1761,6 +1841,418 @@ bool verifyOutdoorSourceOnlyPackageLoad(
     return true;
 }
 
+bool verifyIndoorMapPackageLoad(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    std::string &failure)
+{
+    OpenYAMM::Game::IndoorMapData legacyIndoorGeometry = {};
+    OpenYAMM::Game::MapDeltaData legacyMapDeltaData = {};
+
+    if (!loadIndoorGeometry(assetFileSystem, "d18.blv", legacyIndoorGeometry, failure))
+    {
+        failure = "could not load legacy d18.blv geometry for indoor package test: " + failure;
+        return false;
+    }
+
+    if (!loadLegacyIndoorMapDelta(assetFileSystem, "d18.blv", legacyIndoorGeometry, legacyMapDeltaData, failure))
+    {
+        failure = "could not load legacy d18.dlv for indoor package test: " + failure;
+        return false;
+    }
+
+    std::vector<OpenYAMM::Game::IndoorSceneFaceAttributeOverride> expectedFaceAttributeOverrides;
+    expectedFaceAttributeOverrides.reserve(legacyIndoorGeometry.faces.size());
+
+    for (size_t faceIndex = 0; faceIndex < legacyIndoorGeometry.faces.size(); ++faceIndex)
+    {
+        if (faceIndex >= legacyMapDeltaData.faceAttributes.size())
+        {
+            failure = "legacy indoor map delta face attributes are shorter than indoor geometry";
+            return false;
+        }
+
+        const uint32_t effectiveAttributes = legacyMapDeltaData.faceAttributes[faceIndex];
+
+        if (effectiveAttributes == legacyIndoorGeometry.faces[faceIndex].attributes)
+        {
+            continue;
+        }
+
+        OpenYAMM::Game::IndoorSceneFaceAttributeOverride overrideEntry = {};
+        overrideEntry.faceIndex = faceIndex;
+        overrideEntry.legacyAttributes = effectiveAttributes;
+        expectedFaceAttributeOverrides.push_back(std::move(overrideEntry));
+    }
+
+    OpenYAMM::Editor::EditorSession session;
+    session.initialize(assetFileSystem);
+
+    if (!session.openIndoorMap("d18.blv", failure))
+    {
+        failure = "could not open d18.blv for indoor package test: " + failure;
+        return false;
+    }
+
+    OpenYAMM::Editor::EditorDocument &document = session.document();
+
+    if (document.kind() != OpenYAMM::Editor::EditorDocument::Kind::Indoor)
+    {
+        failure = "indoor package test did not load an indoor document";
+        return false;
+    }
+
+    if (document.indoorGeometry().faces.empty())
+    {
+        failure = "indoor package test loaded an empty indoor geometry";
+        return false;
+    }
+
+    const std::vector<OpenYAMM::Game::IndoorSceneFaceAttributeOverride> &loadedFaceAttributeOverrides =
+        document.indoorSceneData().initialState.faceAttributeOverrides;
+
+    if (loadedFaceAttributeOverrides.size() != expectedFaceAttributeOverrides.size())
+    {
+        failure = "indoor package test did not synthesize the expected indoor face attribute override count";
+        return false;
+    }
+
+    for (size_t overrideIndex = 0; overrideIndex < expectedFaceAttributeOverrides.size(); ++overrideIndex)
+    {
+        const OpenYAMM::Game::IndoorSceneFaceAttributeOverride &expectedOverride =
+            expectedFaceAttributeOverrides[overrideIndex];
+        const OpenYAMM::Game::IndoorSceneFaceAttributeOverride &loadedOverride =
+            loadedFaceAttributeOverrides[overrideIndex];
+
+        if (loadedOverride.faceIndex != expectedOverride.faceIndex
+            || loadedOverride.legacyAttributes != expectedOverride.legacyAttributes)
+        {
+            failure = "indoor package test synthesized incorrect indoor face attribute overrides";
+            return false;
+        }
+    }
+
+    const std::filesystem::path originalGeometryPath = document.geometryPhysicalPath();
+    std::vector<uint8_t> originalGeometryBytes;
+
+    if (originalGeometryPath.empty() || !readBinaryFileBytes(originalGeometryPath, originalGeometryBytes))
+    {
+        failure = "indoor package test could not read original d18.blv bytes";
+        return false;
+    }
+
+    OpenYAMM::Game::IndoorSceneData &sceneData = document.mutableIndoorSceneData();
+    sceneData.environment.skyTexture = "testsky";
+    sceneData.environment.dayBitsRaw = 1;
+    sceneData.environment.mapExtraBitsRaw = 0x20;
+    sceneData.environment.fogWeakDistance = 2048;
+    sceneData.environment.fogStrongDistance = 4096;
+    sceneData.environment.ceiling = 7777;
+    session.noteDocumentMutated({});
+
+    std::string mutationFailure;
+
+    if (!session.createOutdoorObject(OpenYAMM::Editor::EditorSelectionKind::Actor, 1024, 2048, 512, mutationFailure))
+    {
+        failure = "indoor package test could not create actor: " + mutationFailure;
+        return false;
+    }
+
+    if (!session.createOutdoorObject(
+            OpenYAMM::Editor::EditorSelectionKind::SpriteObject,
+            1536,
+            2304,
+            640,
+            mutationFailure))
+    {
+        failure = "indoor package test could not create sprite object: " + mutationFailure;
+        return false;
+    }
+
+    if (!session.createOutdoorObject(OpenYAMM::Editor::EditorSelectionKind::Chest, 0, 0, 0, mutationFailure))
+    {
+        failure = "indoor package test could not create chest: " + mutationFailure;
+        return false;
+    }
+
+    uint32_t expectedDoorId = 0;
+    uint16_t expectedDoorState = 0;
+    size_t expectedTriggerFaceIndex = 0;
+    uint16_t expectedTriggerCogNumber = 0;
+    uint16_t expectedTriggerEvent = 0;
+    uint16_t expectedTriggerType = 0;
+    uint16_t expectedTriggerTextureFrameCog = 0;
+
+    if (!sceneData.initialState.doors.empty())
+    {
+        OpenYAMM::Game::IndoorSceneDoor &door = sceneData.initialState.doors.front();
+        door.door.doorId += 1000;
+        door.door.state = 2;
+        expectedDoorId = door.door.doorId;
+        expectedDoorState = door.door.state;
+        session.noteDocumentMutated({});
+    }
+
+    if (!document.indoorGeometry().faces.empty())
+    {
+        const OpenYAMM::Game::IndoorFace &baseFace = document.indoorGeometry().faces.front();
+        expectedTriggerFaceIndex = 0;
+        expectedTriggerCogNumber = baseFace.cogNumber == 0 ? 77 : static_cast<uint16_t>(baseFace.cogNumber + 1);
+        expectedTriggerEvent = baseFace.cogTriggered == 0 ? 14 : static_cast<uint16_t>(baseFace.cogTriggered + 1);
+        expectedTriggerType =
+            baseFace.cogTriggerType == 0 ? 1 : static_cast<uint16_t>(baseFace.cogTriggerType + 1);
+        expectedTriggerTextureFrameCog =
+            baseFace.textureFrameTableCog == 0 ? 33 : static_cast<uint16_t>(baseFace.textureFrameTableCog + 1);
+
+        OpenYAMM::Game::IndoorSceneFaceAttributeOverride *pOverride =
+            OpenYAMM::Game::findIndoorSceneFaceOverride(sceneData, expectedTriggerFaceIndex);
+
+        if (pOverride == nullptr)
+        {
+            OpenYAMM::Game::IndoorSceneFaceAttributeOverride overrideEntry = {};
+            overrideEntry.faceIndex = expectedTriggerFaceIndex;
+            overrideEntry.cogNumber = expectedTriggerCogNumber;
+            overrideEntry.cogTriggered = expectedTriggerEvent;
+            overrideEntry.cogTriggerType = expectedTriggerType;
+            overrideEntry.textureFrameTableCog = expectedTriggerTextureFrameCog;
+            sceneData.initialState.faceAttributeOverrides.push_back(std::move(overrideEntry));
+        }
+        else
+        {
+            pOverride->cogNumber = expectedTriggerCogNumber;
+            pOverride->cogTriggered = expectedTriggerEvent;
+            pOverride->cogTriggerType = expectedTriggerType;
+            pOverride->textureFrameTableCog = expectedTriggerTextureFrameCog;
+        }
+
+        session.noteDocumentMutated({});
+    }
+
+    const size_t expectedFaceCount = document.indoorGeometry().faces.size();
+    const size_t expectedLightCount = document.indoorGeometry().lights.size();
+    const size_t expectedEntityCount = document.indoorGeometry().entities.size();
+    const size_t expectedSpawnCount = document.indoorGeometry().spawns.size();
+    const size_t expectedActorCount = sceneData.initialState.actors.size();
+    const size_t expectedSpriteObjectCount = sceneData.initialState.spriteObjects.size();
+    const size_t expectedChestCount = sceneData.initialState.chests.size();
+    const size_t expectedDoorCount = sceneData.initialState.doors.size();
+    const std::string expectedSkyTexture = sceneData.environment.skyTexture;
+    const int32_t expectedDayBitsRaw = sceneData.environment.dayBitsRaw;
+    const uint32_t expectedMapExtraBitsRaw = sceneData.environment.mapExtraBitsRaw;
+    const int32_t expectedFogWeakDistance = sceneData.environment.fogWeakDistance;
+    const int32_t expectedFogStrongDistance = sceneData.environment.fogStrongDistance;
+    const int32_t expectedCeiling = sceneData.environment.ceiling;
+    const size_t expectedFaceOverrideCount = sceneData.initialState.faceAttributeOverrides.size();
+
+    OpenYAMM::Game::IndoorMapData builtIndoorGeometry = {};
+    OpenYAMM::Game::MapDeltaData builtMapDeltaData = {};
+
+    if (!document.buildIndoorAuthoredRuntimeState(builtIndoorGeometry, builtMapDeltaData, failure))
+    {
+        failure = "indoor package test could not build authored runtime state: " + failure;
+        return false;
+    }
+
+    if (builtIndoorGeometry.faces.size() != expectedFaceCount
+        || builtMapDeltaData.doors.size() != expectedDoorCount
+        || builtMapDeltaData.actors.size() != expectedActorCount)
+    {
+        failure = "indoor package test built unexpected authored runtime counts";
+        return false;
+    }
+
+    if (builtMapDeltaData.faceAttributes != legacyMapDeltaData.faceAttributes)
+    {
+        failure = "indoor package test did not rebuild indoor face attributes to match d18.dlv";
+        return false;
+    }
+
+    if (expectedTriggerFaceIndex >= builtIndoorGeometry.faces.size())
+    {
+        failure = "indoor package test trigger override face index is out of range";
+        return false;
+    }
+
+    const OpenYAMM::Game::IndoorFace &builtTriggerFace = builtIndoorGeometry.faces[expectedTriggerFaceIndex];
+
+    if (builtTriggerFace.cogNumber != expectedTriggerCogNumber
+        || builtTriggerFace.cogTriggered != expectedTriggerEvent
+        || builtTriggerFace.cogTriggerType != expectedTriggerType
+        || builtTriggerFace.textureFrameTableCog != expectedTriggerTextureFrameCog)
+    {
+        failure = "indoor package test did not apply indoor face trigger overrides into built runtime geometry";
+        return false;
+    }
+
+    const std::filesystem::path gamesPath = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path tempScenePath = gamesPath / "__editor_headless_d18.scene.yml";
+    const std::filesystem::path tempGeometryPath = gamesPath / "__editor_headless_d18.blv";
+
+    if (!document.saveSourceAs(tempScenePath, failure))
+    {
+        failure = "indoor package test could not save source scene: " + failure;
+        return false;
+    }
+
+    if (!std::filesystem::exists(tempScenePath))
+    {
+        failure = "indoor package test did not emit a saved .scene.yml";
+        return false;
+    }
+
+    std::string savedSceneText;
+
+    if (!readTextFileContents(tempScenePath, savedSceneText))
+    {
+        failure = "indoor package test could not read saved .scene.yml";
+        return false;
+    }
+
+    OpenYAMM::Game::IndoorSceneYmlLoader savedSceneLoader = {};
+    std::string savedSceneError;
+    const std::optional<OpenYAMM::Game::IndoorSceneData> savedSceneData =
+        savedSceneLoader.loadFromText(savedSceneText, savedSceneError);
+
+    if (!savedSceneData)
+    {
+        failure = "indoor package test could not parse saved .scene.yml: " + savedSceneError;
+        return false;
+    }
+
+    if (savedSceneData->initialState.faceAttributeOverrides.size() != expectedFaceOverrideCount)
+    {
+        failure = "indoor package test did not persist indoor face overrides";
+        return false;
+    }
+
+    const OpenYAMM::Game::IndoorSceneFaceAttributeOverride *pSavedTriggerOverride =
+        OpenYAMM::Game::findIndoorSceneFaceOverride(*savedSceneData, expectedTriggerFaceIndex);
+
+    if (pSavedTriggerOverride == nullptr
+        || pSavedTriggerOverride->cogNumber != expectedTriggerCogNumber
+        || pSavedTriggerOverride->cogTriggered != expectedTriggerEvent
+        || pSavedTriggerOverride->cogTriggerType != expectedTriggerType
+        || pSavedTriggerOverride->textureFrameTableCog != expectedTriggerTextureFrameCog)
+    {
+        failure = "indoor package test did not persist indoor face trigger overrides";
+        return false;
+    }
+
+    if (std::filesystem::exists(tempGeometryPath))
+    {
+        failure = "indoor package test unexpectedly emitted .blv during source save";
+        return false;
+    }
+
+    if (!document.buildRuntimeAs(tempScenePath, failure))
+    {
+        failure = "indoor package test could not build .blv output: " + failure;
+        return false;
+    }
+
+    if (!std::filesystem::exists(tempGeometryPath))
+    {
+        failure = "indoor package test did not emit built .blv output";
+        return false;
+    }
+
+    std::vector<uint8_t> builtGeometryBytes;
+
+    if (!readBinaryFileBytes(tempGeometryPath, builtGeometryBytes))
+    {
+        failure = "indoor package test could not read built .blv bytes";
+        return false;
+    }
+
+    if (builtGeometryBytes != originalGeometryBytes)
+    {
+        failure = "indoor package test changed indoor geometry bytes during save/build";
+        return false;
+    }
+
+    OpenYAMM::Editor::EditorSession reloadedSession;
+    reloadedSession.initialize(assetFileSystem);
+
+    if (!reloadedSession.openIndoorMap("__editor_headless_d18.blv", failure))
+    {
+        failure = "indoor package test could not reload saved indoor package: " + failure;
+        return false;
+    }
+
+    const OpenYAMM::Editor::EditorDocument &reloadedDocument = reloadedSession.document();
+
+    if (reloadedDocument.kind() != OpenYAMM::Editor::EditorDocument::Kind::Indoor)
+    {
+        failure = "reloaded indoor package did not stay indoor";
+        return false;
+    }
+
+    if (reloadedDocument.indoorGeometry().faces.size() != expectedFaceCount
+        || reloadedDocument.indoorGeometry().lights.size() != expectedLightCount
+        || reloadedDocument.indoorGeometry().entities.size() != expectedEntityCount
+        || reloadedDocument.indoorGeometry().spawns.size() != expectedSpawnCount
+        || reloadedDocument.indoorSceneData().initialState.actors.size() != expectedActorCount
+        || reloadedDocument.indoorSceneData().initialState.spriteObjects.size() != expectedSpriteObjectCount
+        || reloadedDocument.indoorSceneData().initialState.chests.size() != expectedChestCount
+        || reloadedDocument.indoorSceneData().initialState.doors.size() != expectedDoorCount)
+    {
+        failure = "reloaded indoor package changed indoor authored counts";
+        return false;
+    }
+
+    if (reloadedDocument.indoorSceneData().environment.skyTexture != expectedSkyTexture
+        || reloadedDocument.indoorSceneData().environment.dayBitsRaw != expectedDayBitsRaw
+        || reloadedDocument.indoorSceneData().environment.mapExtraBitsRaw != expectedMapExtraBitsRaw
+        || reloadedDocument.indoorSceneData().environment.fogWeakDistance != expectedFogWeakDistance
+        || reloadedDocument.indoorSceneData().environment.fogStrongDistance != expectedFogStrongDistance
+        || reloadedDocument.indoorSceneData().environment.ceiling != expectedCeiling)
+    {
+        failure = "reloaded indoor package changed indoor environment values";
+        return false;
+    }
+
+    if (!reloadedDocument.indoorSceneData().initialState.doors.empty())
+    {
+        const OpenYAMM::Game::IndoorSceneDoor &door = reloadedDocument.indoorSceneData().initialState.doors.front();
+
+        if (door.door.doorId != expectedDoorId || door.door.state != expectedDoorState)
+        {
+            failure = "reloaded indoor package changed indoor door override values";
+            return false;
+        }
+    }
+
+    OpenYAMM::Game::IndoorMapData reloadedBuiltIndoorGeometry = {};
+    OpenYAMM::Game::MapDeltaData reloadedBuiltMapDeltaData = {};
+
+    if (!reloadedSession.document().buildIndoorAuthoredRuntimeState(
+            reloadedBuiltIndoorGeometry,
+            reloadedBuiltMapDeltaData,
+            failure))
+    {
+        failure = "reloaded indoor package could not rebuild authored runtime state: " + failure;
+        return false;
+    }
+
+    if (expectedTriggerFaceIndex >= reloadedBuiltIndoorGeometry.faces.size())
+    {
+        failure = "reloaded indoor package trigger face index is out of range";
+        return false;
+    }
+
+    const OpenYAMM::Game::IndoorFace &reloadedTriggerFace = reloadedBuiltIndoorGeometry.faces[expectedTriggerFaceIndex];
+
+    if (reloadedTriggerFace.cogNumber != expectedTriggerCogNumber
+        || reloadedTriggerFace.cogTriggered != expectedTriggerEvent
+        || reloadedTriggerFace.cogTriggerType != expectedTriggerType
+        || reloadedTriggerFace.textureFrameTableCog != expectedTriggerTextureFrameCog)
+    {
+        failure = "reloaded indoor package lost indoor face trigger overrides";
+        return false;
+    }
+
+    return true;
+}
+
 bool verifyOutdoorMapPackageLifecycle(
     const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
     std::string &failure)
@@ -2011,6 +2503,7 @@ void removeTemporaryRoundTripScenes(const std::filesystem::path &gamesPath)
                 || fileName.ends_with(".map.yml")
                 || fileName.ends_with(".terrain.yml")
                 || fileName.ends_with(".odm")
+                || fileName.ends_with(".blv")
                 || fileName.ends_with(".obj")
                 || fileName.ends_with(".gltf")
                 || fileName.ends_with(".glb")
@@ -2157,6 +2650,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
     const bool runLuaEventDiscoveryChecks = suiteName == "outdoor-lua-event-discovery";
     const bool runNewMapCreationChecks = suiteName == "outdoor-new-map-creation";
     const bool runSourceOnlyPackageLoadChecks = suiteName == "outdoor-source-only-package-load";
+    const bool runIndoorPackageLoadChecks = suiteName == "indoor-map-package-load";
     const bool runMapPackageLifecycleChecks = suiteName == "outdoor-map-package-lifecycle";
     const bool runEntityPlacementChecks = suiteName == "outdoor-entity-placement";
     const bool runSpriteObjectPlacementChecks = suiteName == "outdoor-sprite-object-placement";
@@ -2171,6 +2665,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         || runLuaEventDiscoveryChecks
         || runNewMapCreationChecks
         || runSourceOnlyPackageLoadChecks
+        || runIndoorPackageLoadChecks
         || runMapPackageLifecycleChecks
         || runEntityPlacementChecks
         || runSpriteObjectPlacementChecks;
@@ -2250,6 +2745,24 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         std::cout << "  pass __editor_headless_source_only.odm\n";
         std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
         removeTemporaryRoundTripScenes(gamesPath);
+        removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+        return 0;
+    }
+
+    if (runIndoorPackageLoadChecks)
+    {
+        std::string failure;
+
+        if (!verifyIndoorMapPackageLoad(assetFileSystem, failure))
+        {
+            std::cerr << "Editor headless regression failed: " << failure << '\n';
+            return 1;
+        }
+
+        std::cout << "Editor headless regression: suite=" << suiteName << " maps=1\n";
+        std::cout << "  pass d18.blv\n";
+        std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
+        removeTemporaryRoundTripScenes(assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games");
         removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
         return 0;
     }

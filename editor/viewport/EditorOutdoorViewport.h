@@ -2,6 +2,7 @@
 
 #include "editor/document/EditorSession.h"
 #include "editor/import/ObjModelImport.h"
+#include "game/events/EventRuntime.h"
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
 
@@ -35,6 +36,13 @@ public:
     {
         World,
         Local
+    };
+
+    enum class IndoorDoorFaceEditMode
+    {
+        None,
+        Add,
+        Remove
     };
 
     struct PreviewVertex
@@ -131,6 +139,14 @@ public:
     void setForcePreviewOnSelectedOnly(bool enabled);
     bool showBModels() const;
     void setShowBModels(bool enabled);
+    bool showIndoorPortals() const;
+    void setShowIndoorPortals(bool enabled);
+    bool showIndoorFloors() const;
+    void setShowIndoorFloors(bool enabled);
+    bool showIndoorCeilings() const;
+    void setShowIndoorCeilings(bool enabled);
+    std::optional<uint16_t> isolatedIndoorRoomId() const;
+    void setIsolatedIndoorRoomId(std::optional<uint16_t> roomId);
     bool showBModelWireframe() const;
     void setShowBModelWireframe(bool enabled);
     bool showEntities() const;
@@ -158,6 +174,23 @@ public:
     void setTransformSpaceMode(TransformSpaceMode mode);
     void focusSelection(const EditorDocument &document, const EditorSelection &selection);
     void focusBModel(const EditorDocument &document, size_t bmodelIndex);
+    void previewIndoorMechanismOpen(const EditorDocument &document, size_t doorIndex);
+    void previewIndoorMechanismClose(const EditorDocument &document, size_t doorIndex);
+    void previewIndoorMechanismSimulate(const EditorDocument &document, size_t doorIndex);
+    void setIndoorMechanismPreviewState(
+        const EditorDocument &document,
+        size_t doorIndex,
+        const Game::RuntimeMechanismState &state);
+    void clearIndoorMechanismPreview(const EditorDocument &document);
+    bool tryGetIndoorMechanismPreview(
+        const EditorDocument &document,
+        size_t doorIndex,
+        uint16_t &state,
+        float &distance,
+        bool &isMoving) const;
+    void setIndoorDoorFaceEditMode(IndoorDoorFaceEditMode mode, std::optional<size_t> doorIndex = std::nullopt);
+    IndoorDoorFaceEditMode indoorDoorFaceEditMode() const;
+    std::optional<size_t> indoorDoorFaceEditDoorIndex() const;
 
     const bx::Vec3 &cameraPosition() const;
     float cameraYawRadians() const;
@@ -340,6 +373,11 @@ private:
     void submitStaticGeometry(const EditorSession &session) const;
     void submitEntityBillboardGeometry(const EditorSession &session, const EditorDocument &document) const;
     void submitMarkerGeometry(const EditorSession &session, const EditorDocument &document, const EditorSelection &selection);
+    void ensureIndoorMechanismPreviewDocument(const EditorDocument &document) const;
+    void advanceIndoorMechanismPreview(const EditorDocument &document, float deltaSeconds);
+    void invalidateIndoorMechanismPreview();
+    const std::vector<Game::IndoorVertex> &indoorRenderVertices(const EditorDocument &document) const;
+    void refreshIndoorPreviewGeometryBuffers(const EditorDocument &document);
 
     static std::string documentGeometryKey(const EditorDocument &document);
     static std::string documentCameraKey(const EditorDocument &document);
@@ -351,6 +389,9 @@ private:
         uint32_t vertexCount = 0;
         size_t bmodelIndex = std::numeric_limits<size_t>::max();
         bx::Vec3 objectOrigin = {0.0f, 0.0f, 0.0f};
+        std::string key;
+        int textureWidth = 0;
+        int textureHeight = 0;
     };
 
     struct ProceduralBatch
@@ -359,6 +400,7 @@ private:
         uint32_t vertexCount = 0;
         size_t bmodelIndex = std::numeric_limits<size_t>::max();
         bx::Vec3 objectOrigin = {0.0f, 0.0f, 0.0f};
+        std::string key;
     };
 
     struct ClayPreviewSettings
@@ -417,6 +459,7 @@ private:
     uint32_t m_bmodelWireVertexCount = 0;
     std::vector<TexturedBatch> m_bmodelTexturedBatches;
     std::vector<ProceduralBatch> m_bmodelAllFaceBatches;
+    std::vector<ProceduralBatch> m_indoorPortalBatches;
     std::vector<ProceduralBatch> m_bmodelUnassignedBatches;
     std::vector<ProceduralBatch> m_bmodelMissingAssetBatches;
     std::optional<ImportedModelPreviewRequest> m_importedModelPreviewRequest;
@@ -460,6 +503,10 @@ private:
     PreviewMaterialMode m_previewMaterialMode = PreviewMaterialMode::Textured;
     bool m_forcePreviewOnSelectedOnly = false;
     bool m_showBModels = true;
+    bool m_showIndoorPortals = true;
+    bool m_showIndoorFloors = true;
+    bool m_showIndoorCeilings = true;
+    std::optional<uint16_t> m_isolatedIndoorRoomId;
     bool m_showBModelWireframe = false;
     bool m_showEntities = true;
     bool m_showEntityBillboards = true;
@@ -471,6 +518,11 @@ private:
     bool m_showEventMarkers = true;
     bool m_showChestLinks = true;
     ClayPreviewSettings m_clayPreviewSettings = {};
+    ClayPreviewSettings m_indoorPortalPreviewSettings = {
+        {0.26f, 0.84f, 0.92f, 0.48f},
+        0.10f,
+        0.16f,
+        0.24f};
     GridPreviewSettings m_gridPreviewSettings = {};
     GridPreviewSettings m_errorPreviewSettings = {
         {0.90f, 0.04f, 0.90f, 1.0f},
@@ -481,6 +533,15 @@ private:
         4.0f,
         0.06f,
         0.12f};
+    mutable std::string m_indoorMechanismPreviewDocumentKey;
+    mutable std::unordered_map<size_t, Game::RuntimeMechanismState> m_indoorMechanismPreviewOverrides;
+    IndoorDoorFaceEditMode m_indoorDoorFaceEditMode = IndoorDoorFaceEditMode::None;
+    std::optional<size_t> m_indoorDoorFaceEditDoorIndex;
+    mutable std::string m_indoorRenderVerticesKey;
+    mutable std::vector<Game::IndoorVertex> m_indoorRenderVertices;
+    uint64_t m_indoorMechanismPreviewRevision = 0;
+    float m_indoorMechanismPreviewAccumulatorSeconds = 0.0f;
+    bool m_indoorPreviewGeometryBuffersDirty = false;
     TransformGizmoMode m_transformGizmoMode = TransformGizmoMode::Translate;
     TransformSpaceMode m_transformSpaceMode = TransformSpaceMode::World;
     bool m_snapEnabled = true;

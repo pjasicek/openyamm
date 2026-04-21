@@ -2,6 +2,9 @@
 #include "editor/import/ObjModelImport.h"
 
 #include "engine/TextTable.h"
+#include "engine/scripting/LuaStateOwner.h"
+#include "game/events/EvtEnums.h"
+#include "game/indoor/IndoorGeometryUtils.h"
 #include "game/maps/TerrainTileData.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 
@@ -17,9 +20,16 @@
 #include <cstdio>
 #include <cstring>
 #include <filesystem>
+#include <fstream>
+#include <iterator>
 #include <sstream>
 #include <unordered_map>
 #include <unordered_set>
+
+extern "C"
+{
+#include <lauxlib.h>
+}
 
 namespace OpenYAMM::Editor
 {
@@ -29,6 +39,8 @@ bool isKnownBitmapTextureName(const std::vector<std::string> &bitmapTextureNames
 
 constexpr size_t SpriteObjectContainingItemSize = 0x24;
 constexpr size_t ChestItemRecordSize = 36;
+constexpr size_t ChestItemRecordCount = 140;
+constexpr size_t ChestInventoryCellCount = 140;
 constexpr int ChestMatrixColumns = 14;
 std::string trimCopy(const std::string &value)
 {
@@ -282,6 +294,31 @@ bool materializeImportedModelTextures(
     }
 
     return true;
+}
+
+std::optional<size_t> nextAvailableIndoorDoorIndex(
+    const Game::IndoorSceneData &sceneData,
+    size_t geometryDoorCount)
+{
+    std::vector<uint8_t> usedDoorIndices(geometryDoorCount, 0);
+
+    for (const Game::IndoorSceneDoor &door : sceneData.initialState.doors)
+    {
+        if (door.doorIndex < usedDoorIndices.size())
+        {
+            usedDoorIndices[door.doorIndex] = 1;
+        }
+    }
+
+    for (size_t doorIndex = 0; doorIndex < usedDoorIndices.size(); ++doorIndex)
+    {
+        if (usedDoorIndices[doorIndex] == 0)
+        {
+            return doorIndex;
+        }
+    }
+
+    return std::nullopt;
 }
 
 bool loadTextTableRows(
@@ -959,6 +996,44 @@ std::optional<std::string> readFirstExistingText(
     return std::nullopt;
 }
 
+bool readPhysicalTextFile(const std::filesystem::path &path, std::string &text)
+{
+    std::ifstream stream(path, std::ios::binary);
+
+    if (!stream.is_open())
+    {
+        return false;
+    }
+
+    text.assign(std::istreambuf_iterator<char>(stream), std::istreambuf_iterator<char>());
+    return true;
+}
+
+std::optional<std::string> readFirstExistingPhysicalText(
+    const std::vector<std::filesystem::path> &paths,
+    std::string &resolvedPath)
+{
+    for (const std::filesystem::path &path : paths)
+    {
+        if (path.empty() || !std::filesystem::exists(path) || !std::filesystem::is_regular_file(path))
+        {
+            continue;
+        }
+
+        std::string text;
+
+        if (!readPhysicalTextFile(path, text))
+        {
+            continue;
+        }
+
+        resolvedPath = path.lexically_normal().generic_string();
+        return text;
+    }
+
+    return std::nullopt;
+}
+
 std::vector<std::string> buildLuaScriptPathCandidates(const std::string &baseName, bool globalScope)
 {
     if (globalScope)
@@ -974,6 +1049,40 @@ std::vector<std::string> buildLuaScriptPathCandidates(const std::string &baseNam
         "Data/scripts/maps/" + lowerBaseName + ".lua",
         "Data/scripts/maps/" + baseName + ".lua",
     };
+}
+
+std::vector<std::filesystem::path> buildLuaScriptSidecarPathCandidates(
+    const std::string &baseName,
+    const std::filesystem::path &geometryPath,
+    const std::filesystem::path &scenePath)
+{
+    const std::string lowerBaseName = toLowerCopy(baseName);
+    std::vector<std::filesystem::path> candidates;
+
+    const auto appendDirectoryCandidates =
+        [&](const std::filesystem::path &directory)
+    {
+        if (directory.empty())
+        {
+            return;
+        }
+
+        const std::filesystem::path normalizedDirectory = directory.lexically_normal();
+        const std::filesystem::path lowerCandidate = normalizedDirectory / (lowerBaseName + ".lua");
+        candidates.push_back(lowerCandidate);
+
+        const std::filesystem::path exactCandidate = normalizedDirectory / (baseName + ".lua");
+
+        if (exactCandidate != lowerCandidate)
+        {
+            candidates.push_back(exactCandidate);
+        }
+    };
+
+    appendDirectoryCandidates(geometryPath.parent_path());
+    appendDirectoryCandidates(scenePath.parent_path());
+    appendDirectoryCandidates(std::filesystem::current_path());
+    return candidates;
 }
 
 std::vector<std::string> buildLuaSupportPathCandidates()
@@ -999,6 +1108,673 @@ std::string prependLuaSupport(
     }
 
     return *supportSource + "\n\n" + *scriptSource;
+}
+
+constexpr char LuaScopeMap[] = "map";
+constexpr char LuaScopeGlobal[] = "global";
+constexpr char LuaScopeCanShowTopic[] = "CanShowTopic";
+constexpr uint32_t LuaPreviewRegistryKey = 0x45565052u;
+
+struct EditorPreviewLuaState
+{
+    const Game::MapDeltaData *pMapDeltaData = nullptr;
+    std::array<uint8_t, 75> *pMapVars = nullptr;
+    std::array<uint8_t, 125> *pDecorVars = nullptr;
+    std::unordered_map<uint32_t, int32_t> *pVariables = nullptr;
+    std::unordered_map<uint32_t, EditorPreviewMechanismState> *pMechanisms = nullptr;
+    std::vector<std::string> *pMessages = nullptr;
+    std::vector<std::string> *pStatusMessages = nullptr;
+    std::vector<std::string> *pActivityMessages = nullptr;
+    std::optional<std::string> pendingMessageText;
+    uint16_t currentEventId = 0;
+};
+
+EditorPreviewLuaState *previewLuaStateFromLua(lua_State *pLuaState)
+{
+    lua_pushlightuserdata(pLuaState, const_cast<uint32_t *>(&LuaPreviewRegistryKey));
+    lua_rawget(pLuaState, LUA_REGISTRYINDEX);
+    EditorPreviewLuaState *pState = static_cast<EditorPreviewLuaState *>(lua_touserdata(pLuaState, -1));
+    lua_pop(pLuaState, 1);
+    return pState;
+}
+
+void appendPreviewActivity(lua_State *pLuaState, const std::string &message)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+
+    if (pState != nullptr && pState->pActivityMessages != nullptr)
+    {
+        pState->pActivityMessages->push_back(message);
+    }
+}
+
+int32_t previewVariableValue(const EditorPreviewLuaState &state, uint32_t selector)
+{
+    if (selector >= static_cast<uint32_t>(Game::EvtVariable::MapPersistentVariableBegin)
+        && selector <= static_cast<uint32_t>(Game::EvtVariable::MapPersistentVariableEnd)
+        && state.pMapVars != nullptr)
+    {
+        return (*state.pMapVars)[selector - static_cast<uint32_t>(Game::EvtVariable::MapPersistentVariableBegin)];
+    }
+
+    if (selector >= static_cast<uint32_t>(Game::EvtVariable::MapPersistentDecorVariableBegin)
+        && selector <= static_cast<uint32_t>(Game::EvtVariable::MapPersistentDecorVariableEnd)
+        && state.pDecorVars != nullptr)
+    {
+        return (*state.pDecorVars)[selector - static_cast<uint32_t>(Game::EvtVariable::MapPersistentDecorVariableBegin)];
+    }
+
+    if (state.pVariables == nullptr)
+    {
+        return 0;
+    }
+
+    const auto iterator = state.pVariables->find(selector);
+    return iterator != state.pVariables->end() ? iterator->second : 0;
+}
+
+void setPreviewVariableValue(EditorPreviewLuaState &state, uint32_t selector, int32_t value)
+{
+    if (selector >= static_cast<uint32_t>(Game::EvtVariable::MapPersistentVariableBegin)
+        && selector <= static_cast<uint32_t>(Game::EvtVariable::MapPersistentVariableEnd)
+        && state.pMapVars != nullptr)
+    {
+        const size_t index = selector - static_cast<uint32_t>(Game::EvtVariable::MapPersistentVariableBegin);
+        (*state.pMapVars)[index] = std::clamp(value, 0, 255);
+        return;
+    }
+
+    if (selector >= static_cast<uint32_t>(Game::EvtVariable::MapPersistentDecorVariableBegin)
+        && selector <= static_cast<uint32_t>(Game::EvtVariable::MapPersistentDecorVariableEnd)
+        && state.pDecorVars != nullptr)
+    {
+        const size_t index = selector - static_cast<uint32_t>(Game::EvtVariable::MapPersistentDecorVariableBegin);
+        (*state.pDecorVars)[index] = std::clamp(value, 0, 255);
+        return;
+    }
+
+    if (state.pVariables != nullptr)
+    {
+        (*state.pVariables)[selector] = value;
+    }
+}
+
+float previewMechanismDistanceForState(const Game::MapDeltaDoor &door, uint16_t state, float timeSinceTriggeredMs)
+{
+    if (state == static_cast<uint16_t>(Game::EvtMechanismState::Open))
+    {
+        return 0.0f;
+    }
+
+    if (state == static_cast<uint16_t>(Game::EvtMechanismState::Closed) || (door.attributes & 0x2) != 0)
+    {
+        return static_cast<float>(door.moveLength);
+    }
+
+    if (state == static_cast<uint16_t>(Game::EvtMechanismState::Closing))
+    {
+        return std::min(
+            timeSinceTriggeredMs * static_cast<float>(door.closeSpeed) / 1000.0f,
+            static_cast<float>(door.moveLength));
+    }
+
+    if (state == static_cast<uint16_t>(Game::EvtMechanismState::Opening))
+    {
+        return std::max(
+            0.0f,
+            static_cast<float>(door.moveLength)
+                - timeSinceTriggeredMs * static_cast<float>(door.openSpeed) / 1000.0f);
+    }
+
+    return 0.0f;
+}
+
+EditorPreviewMechanismState buildPreviewMechanismState(const Game::MapDeltaDoor &door)
+{
+    EditorPreviewMechanismState state = {};
+    state.state = door.state;
+    state.timeSinceTriggeredMs = static_cast<float>(door.timeSinceTriggered);
+    state.currentDistance = previewMechanismDistanceForState(door, state.state, state.timeSinceTriggeredMs);
+    state.isMoving =
+        state.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening)
+        || state.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing);
+    return state;
+}
+
+const Game::MapDeltaDoor *findPreviewDoorById(const Game::MapDeltaData &mapDeltaData, uint32_t mechanismId)
+{
+    for (const Game::MapDeltaDoor &door : mapDeltaData.doors)
+    {
+        if (door.doorId == mechanismId)
+        {
+            return &door;
+        }
+    }
+
+    return nullptr;
+}
+
+void applyPreviewMechanismAction(
+    EditorPreviewMechanismState &state,
+    const Game::MapDeltaDoor *pDoor,
+    Game::EvtMechanismAction action)
+{
+    if (action == Game::EvtMechanismAction::Trigger)
+    {
+        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening)
+            || state.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing))
+        {
+            return;
+        }
+
+        state.timeSinceTriggeredMs = 0.0f;
+        state.state = state.state == static_cast<uint16_t>(Game::EvtMechanismState::Closed)
+            ? static_cast<uint16_t>(Game::EvtMechanismState::Opening)
+            : static_cast<uint16_t>(Game::EvtMechanismState::Closing);
+        state.isMoving = true;
+        return;
+    }
+
+    if (action == Game::EvtMechanismAction::Open)
+    {
+        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Open)
+            || state.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening))
+        {
+            return;
+        }
+
+        if (pDoor != nullptr && state.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing))
+        {
+            const float openDistance = std::max(0.0f, static_cast<float>(pDoor->moveLength) - state.currentDistance);
+            state.timeSinceTriggeredMs =
+                openDistance * 1000.0f / std::max(1.0f, static_cast<float>(pDoor->openSpeed));
+        }
+        else
+        {
+            state.timeSinceTriggeredMs = 0.0f;
+        }
+
+        state.state = static_cast<uint16_t>(Game::EvtMechanismState::Opening);
+        state.isMoving = true;
+        state.currentDistance = pDoor != nullptr
+            ? previewMechanismDistanceForState(*pDoor, state.state, state.timeSinceTriggeredMs)
+            : 0.0f;
+        return;
+    }
+
+    if (action == Game::EvtMechanismAction::Close)
+    {
+        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Closed)
+            || state.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing))
+        {
+            return;
+        }
+
+        if (pDoor != nullptr && state.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening))
+        {
+            state.timeSinceTriggeredMs =
+                state.currentDistance * 1000.0f / std::max(1.0f, static_cast<float>(pDoor->closeSpeed));
+        }
+        else
+        {
+            state.timeSinceTriggeredMs = 0.0f;
+        }
+
+        state.state = static_cast<uint16_t>(Game::EvtMechanismState::Closing);
+        state.isMoving = true;
+        state.currentDistance = pDoor != nullptr
+            ? previewMechanismDistanceForState(*pDoor, state.state, state.timeSinceTriggeredMs)
+            : state.currentDistance;
+    }
+}
+
+void registerPreviewLuaFunction(lua_State *pLuaState, const char *pName, lua_CFunction function)
+{
+    lua_pushcfunction(pLuaState, function);
+    lua_setfield(pLuaState, -2, pName);
+}
+
+void registerPreviewLuaNoOp(lua_State *pLuaState, const char *pName, lua_CFunction function)
+{
+    lua_pushstring(pLuaState, pName);
+    lua_pushcclosure(pLuaState, function, 1);
+    lua_setfield(pLuaState, -2, pName);
+}
+
+int luaPreviewBeginEvent(lua_State *pLuaState)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+
+    if (pState != nullptr)
+    {
+        pState->currentEventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
+        pState->pendingMessageText.reset();
+    }
+
+    return 0;
+}
+
+int luaPreviewBeginCanShowTopic(lua_State *pLuaState)
+{
+    (void)pLuaState;
+    return 0;
+}
+
+int luaPreviewRandomJump(lua_State *pLuaState)
+{
+    luaL_checkinteger(pLuaState, 1);
+    luaL_checkinteger(pLuaState, 2);
+    luaL_checktype(pLuaState, 3, LUA_TTABLE);
+    const size_t count = lua_rawlen(pLuaState, 3);
+
+    for (size_t index = 1; index <= count; ++index)
+    {
+        lua_geti(pLuaState, 3, static_cast<lua_Integer>(index));
+
+        if (lua_isinteger(pLuaState, -1))
+        {
+            const lua_Integer value = lua_tointeger(pLuaState, -1);
+            lua_pop(pLuaState, 1);
+            lua_pushinteger(pLuaState, value);
+            return 1;
+        }
+
+        lua_pop(pLuaState, 1);
+    }
+
+    lua_pushinteger(pLuaState, 0);
+    return 1;
+}
+
+int luaPreviewCompare(lua_State *pLuaState)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+    const uint32_t selector = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const int32_t compareValue = static_cast<int32_t>(luaL_checkinteger(pLuaState, 2));
+    const int32_t currentValue = pState != nullptr ? previewVariableValue(*pState, selector) : 0;
+    lua_pushboolean(pLuaState, currentValue >= compareValue);
+    return 1;
+}
+
+int luaPreviewAdd(lua_State *pLuaState)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+
+    if (pState != nullptr)
+    {
+        const uint32_t selector = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+        const int32_t value = static_cast<int32_t>(luaL_checkinteger(pLuaState, 2));
+        setPreviewVariableValue(*pState, selector, previewVariableValue(*pState, selector) + value);
+    }
+
+    return 0;
+}
+
+int luaPreviewSubtract(lua_State *pLuaState)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+
+    if (pState != nullptr)
+    {
+        const uint32_t selector = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+        const int32_t value = static_cast<int32_t>(luaL_checkinteger(pLuaState, 2));
+        setPreviewVariableValue(*pState, selector, previewVariableValue(*pState, selector) - value);
+    }
+
+    return 0;
+}
+
+int luaPreviewSet(lua_State *pLuaState)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+
+    if (pState != nullptr)
+    {
+        const uint32_t selector = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+        const int32_t value = static_cast<int32_t>(luaL_checkinteger(pLuaState, 2));
+        setPreviewVariableValue(*pState, selector, value);
+    }
+
+    return 0;
+}
+
+int luaPreviewSetDoorState(lua_State *pLuaState)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+
+    if (pState == nullptr || pState->pMechanisms == nullptr || pState->pMapDeltaData == nullptr)
+    {
+        return 0;
+    }
+
+    const uint32_t mechanismId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t actionValue = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    const Game::MapDeltaDoor *pDoor = findPreviewDoorById(*pState->pMapDeltaData, mechanismId);
+    EditorPreviewMechanismState &mechanism = (*pState->pMechanisms)[mechanismId];
+
+    if (mechanism.state == 0 && mechanism.currentDistance == 0.0f && !mechanism.isMoving && pDoor != nullptr)
+    {
+        mechanism = buildPreviewMechanismState(*pDoor);
+    }
+
+    Game::EvtMechanismAction action = Game::EvtMechanismAction::Open;
+
+    if (actionValue == static_cast<uint32_t>(Game::EvtMechanismAction::Close))
+    {
+        action = Game::EvtMechanismAction::Close;
+    }
+    else if (actionValue == static_cast<uint32_t>(Game::EvtMechanismAction::Trigger))
+    {
+        action = Game::EvtMechanismAction::Trigger;
+    }
+
+    applyPreviewMechanismAction(mechanism, pDoor, action);
+    return 0;
+}
+
+int luaPreviewStopDoor(lua_State *pLuaState)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+
+    if (pState != nullptr && pState->pMechanisms != nullptr)
+    {
+        const uint32_t mechanismId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+        (*pState->pMechanisms)[mechanismId].isMoving = false;
+    }
+
+    return 0;
+}
+
+int luaPreviewStatusText(lua_State *pLuaState)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+
+    if (pState != nullptr && pState->pStatusMessages != nullptr)
+    {
+        pState->pStatusMessages->push_back(luaL_checkstring(pLuaState, 1));
+    }
+
+    return 0;
+}
+
+int luaPreviewSetMessage(lua_State *pLuaState)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+
+    if (pState != nullptr)
+    {
+        pState->pendingMessageText = luaL_checkstring(pLuaState, 1);
+    }
+
+    return 0;
+}
+
+int luaPreviewSimpleMessage(lua_State *pLuaState)
+{
+    EditorPreviewLuaState *pState = previewLuaStateFromLua(pLuaState);
+
+    if (pState == nullptr || pState->pMessages == nullptr)
+    {
+        return 0;
+    }
+
+    if (lua_gettop(pLuaState) >= 1 && lua_type(pLuaState, 1) == LUA_TSTRING)
+    {
+        pState->pMessages->push_back(lua_tostring(pLuaState, 1));
+        return 0;
+    }
+
+    if (pState->pendingMessageText)
+    {
+        pState->pMessages->push_back(*pState->pendingMessageText);
+    }
+
+    return 0;
+}
+
+int luaPreviewNoOp(lua_State *pLuaState)
+{
+    const char *pName = lua_tostring(pLuaState, lua_upvalueindex(1));
+
+    if (pName != nullptr)
+    {
+        appendPreviewActivity(pLuaState, std::string("Ignored evt.") + pName);
+    }
+
+    return 0;
+}
+
+int luaPreviewFalse(lua_State *pLuaState)
+{
+    const char *pName = lua_tostring(pLuaState, lua_upvalueindex(1));
+
+    if (pName != nullptr)
+    {
+        appendPreviewActivity(pLuaState, std::string("Ignored evt.") + pName);
+    }
+
+    lua_pushboolean(pLuaState, 0);
+    return 1;
+}
+
+void registerPreviewEventBindings(lua_State *pLuaState)
+{
+    lua_newtable(pLuaState);
+
+    registerPreviewLuaFunction(pLuaState, "_BeginEvent", luaPreviewBeginEvent);
+    registerPreviewLuaFunction(pLuaState, "_BeginCanShowTopic", luaPreviewBeginCanShowTopic);
+    registerPreviewLuaFunction(pLuaState, "_RandomJump", luaPreviewRandomJump);
+    registerPreviewLuaFunction(pLuaState, "Cmp", luaPreviewCompare);
+    registerPreviewLuaFunction(pLuaState, "Add", luaPreviewAdd);
+    registerPreviewLuaFunction(pLuaState, "Subtract", luaPreviewSubtract);
+    registerPreviewLuaFunction(pLuaState, "Set", luaPreviewSet);
+    registerPreviewLuaFunction(pLuaState, "SetDoorState", luaPreviewSetDoorState);
+    registerPreviewLuaFunction(pLuaState, "StopDoor", luaPreviewStopDoor);
+    registerPreviewLuaFunction(pLuaState, "StatusText", luaPreviewStatusText);
+    registerPreviewLuaFunction(pLuaState, "SetMessage", luaPreviewSetMessage);
+    registerPreviewLuaFunction(pLuaState, "SimpleMessage", luaPreviewSimpleMessage);
+
+    const std::array<const char *, 31> noOpFunctions = {{
+        "_InputString", "_PressAnyKey", "_SpecialJump", "ForPlayer", "EnterHouse", "PlaySound", "MoveToMap",
+        "OpenChest", "FaceExpression", "DamagePlayer", "SetSnow", "SetRain", "SetTexture", "SetTextureOutdoors",
+        "ShowMovie", "SetSprite", "SummonMonsters", "CastSpell", "SpeakNPC", "SetFacetBit",
+        "SetFacetBitOutdoors", "SetMonsterBit", "Question", "SetLight", "SummonItem", "SummonObject",
+        "SetNPCTopic", "MoveNPC", "GiveItem", "ChangeEvent", "RefundChestArtifacts"
+    }};
+
+    for (const char *pFunctionName : noOpFunctions)
+    {
+        registerPreviewLuaNoOp(pLuaState, pFunctionName, luaPreviewNoOp);
+    }
+
+    const std::array<const char *, 16> falseFunctions = {{
+        "_IsNpcInParty", "CheckSkill", "CheckMonstersKilled", "CheckItemsCount", "Jump",
+        "IsTotalBountyInRange", "CanPlayerAct", "SetNPCGroupNews", "SetMonsterGroup", "SetNPCItem",
+        "SetNPCGreeting", "ChangeGroupToGroup", "ChangeGroupAlly", "SetMonGroupBit", "SetChestBit",
+        "SetMonsterItem"
+    }};
+
+    for (const char *pFunctionName : falseFunctions)
+    {
+        registerPreviewLuaNoOp(pLuaState, pFunctionName, luaPreviewFalse);
+    }
+
+    registerPreviewLuaNoOp(pLuaState, "FaceAnimation", luaPreviewNoOp);
+
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, LuaScopeGlobal);
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, LuaScopeMap);
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, LuaScopeCanShowTopic);
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "hint");
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "house");
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "str");
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "VarNum");
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "Players");
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, "const");
+
+    lua_newtable(pLuaState);
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, LuaScopeGlobal);
+    lua_newtable(pLuaState);
+    lua_setfield(pLuaState, -2, LuaScopeMap);
+    lua_setfield(pLuaState, -2, "meta");
+
+    lua_setglobal(pLuaState, "evt");
+}
+
+bool loadPreviewLuaProgram(
+    const std::optional<Game::ScriptedEventProgram> &program,
+    const std::string &fallbackChunkName,
+    const Engine::LuaStateOwner &lua,
+    std::string &errorMessage)
+{
+    if (!program || !program->luaSourceText())
+    {
+        return true;
+    }
+
+    std::optional<std::string> runtimeError;
+    const std::string chunkName = program->luaSourceName().value_or(fallbackChunkName);
+
+    if (!lua.runChunk(*program->luaSourceText(), chunkName, runtimeError))
+    {
+        errorMessage = runtimeError.value_or("failed to execute preview lua chunk");
+        return false;
+    }
+
+    return true;
+}
+
+bool invokePreviewEventHandler(
+    const Engine::LuaStateOwner &lua,
+    const char *pScopeName,
+    uint16_t eventId,
+    std::string &errorMessage)
+{
+    lua_State *pLuaState = lua.state();
+    lua_getglobal(pLuaState, "evt");
+
+    if (!lua_istable(pLuaState, -1))
+    {
+        lua_pop(pLuaState, 1);
+        errorMessage = "preview lua did not create evt table";
+        return false;
+    }
+
+    lua_getfield(pLuaState, -1, pScopeName);
+
+    if (!lua_istable(pLuaState, -1))
+    {
+        lua_pop(pLuaState, 2);
+        errorMessage = std::string("preview lua is missing evt.") + pScopeName;
+        return false;
+    }
+
+    lua_geti(pLuaState, -1, eventId);
+
+    if (!lua_isfunction(pLuaState, -1))
+    {
+        lua_pop(pLuaState, 3);
+        errorMessage = std::string("preview lua is missing evt.") + pScopeName + "[" + std::to_string(eventId) + "]";
+        return false;
+    }
+
+    lua_remove(pLuaState, -2);
+    lua_remove(pLuaState, -2);
+
+    std::optional<std::string> runtimeError;
+
+    if (!lua.call(0, 0, runtimeError))
+    {
+        errorMessage = runtimeError.value_or("failed to execute preview event");
+        return false;
+    }
+
+    return true;
+}
+
+bool executePreviewEventScripts(
+    const std::optional<Game::ScriptedEventProgram> &localProgram,
+    const std::optional<Game::ScriptedEventProgram> &globalProgram,
+    EditorPreviewLuaState &state,
+    std::string &errorMessage,
+    std::optional<uint16_t> eventId = std::nullopt)
+{
+    Engine::LuaStateOwner lua = {};
+
+    if (!lua.isValid())
+    {
+        errorMessage = "lua state unavailable";
+        return false;
+    }
+
+    lua.openApprovedLibraries();
+    registerPreviewEventBindings(lua.state());
+    lua_pushlightuserdata(lua.state(), const_cast<uint32_t *>(&LuaPreviewRegistryKey));
+    lua_pushlightuserdata(lua.state(), &state);
+    lua_rawset(lua.state(), LUA_REGISTRYINDEX);
+
+    if (!loadPreviewLuaProgram(globalProgram, "@Global.lua", lua, errorMessage))
+    {
+        return false;
+    }
+
+    if (!loadPreviewLuaProgram(localProgram, "@Local.lua", lua, errorMessage))
+    {
+        return false;
+    }
+
+    if (!eventId.has_value())
+    {
+        if (globalProgram)
+        {
+            for (uint16_t onLoadEventId : globalProgram->onLoadEventIds())
+            {
+                std::string onLoadError;
+
+                if (!invokePreviewEventHandler(lua, LuaScopeGlobal, onLoadEventId, onLoadError))
+                {
+                    appendPreviewActivity(lua.state(), "Ignored global onLoad " + std::to_string(onLoadEventId) + ": "
+                        + onLoadError);
+                }
+            }
+        }
+
+        if (localProgram)
+        {
+            for (uint16_t onLoadEventId : localProgram->onLoadEventIds())
+            {
+                std::string onLoadError;
+
+                if (!invokePreviewEventHandler(lua, LuaScopeMap, onLoadEventId, onLoadError))
+                {
+                    appendPreviewActivity(lua.state(), "Ignored local onLoad " + std::to_string(onLoadEventId) + ": "
+                        + onLoadError);
+                }
+            }
+        }
+
+        return true;
+    }
+
+    const bool useLocalScope = localProgram && localProgram->hasEvent(*eventId);
+    const bool useGlobalScope = globalProgram && globalProgram->hasEvent(*eventId);
+
+    if (!useLocalScope && !useGlobalScope)
+    {
+        errorMessage = "preview lua did not resolve event " + std::to_string(*eventId);
+        return false;
+    }
+
+    return invokePreviewEventHandler(lua, useLocalScope ? LuaScopeMap : LuaScopeGlobal, *eventId, errorMessage);
 }
 
 std::vector<uint32_t> getOpenedChestIds(
@@ -2194,12 +2970,14 @@ bool EditorSession::openDefaultOutdoorDocument(std::string &errorMessage)
 
     const std::vector<std::string> entries = m_pAssetFileSystem->enumerate("Data/games");
     std::string selectedMapFileName;
+    bool selectedMapIsIndoor = false;
 
     for (const std::string &entry : entries)
     {
-        if (entry == "out01.map.yml" || entry == "out01.scene.yml")
+        if (entry == "d18.scene.yml" || entry == "d18.blv")
         {
-            selectedMapFileName = "out01.odm";
+            selectedMapFileName = "d18.blv";
+            selectedMapIsIndoor = true;
             break;
         }
     }
@@ -2208,6 +2986,25 @@ bool EditorSession::openDefaultOutdoorDocument(std::string &errorMessage)
     {
         for (const std::string &entry : entries)
         {
+            if (entry == "out01.map.yml" || entry == "out01.scene.yml")
+            {
+                selectedMapFileName = "out01.odm";
+                break;
+            }
+        }
+    }
+
+    if (selectedMapFileName.empty())
+    {
+        for (const std::string &entry : entries)
+        {
+            if (entry.ends_with(".blv"))
+            {
+                selectedMapFileName = std::filesystem::path(entry).filename().string();
+                selectedMapIsIndoor = true;
+                break;
+            }
+
             if (entry.ends_with(".map.yml"))
             {
                 const std::filesystem::path path(entry);
@@ -2226,11 +3023,13 @@ bool EditorSession::openDefaultOutdoorDocument(std::string &errorMessage)
 
     if (selectedMapFileName.empty())
     {
-        errorMessage = "could not find any outdoor .map.yml or .scene.yml document in Data/games";
+        errorMessage = "could not find any indoor or outdoor .scene.yml / .map.yml document in Data/games";
         return false;
     }
 
-    return openOutdoorMap(selectedMapFileName, errorMessage);
+    return selectedMapIsIndoor
+        ? openIndoorMap(selectedMapFileName, errorMessage)
+        : openOutdoorMap(selectedMapFileName, errorMessage);
 }
 
 bool EditorSession::openOutdoorMap(const std::string &mapFileName, std::string &errorMessage)
@@ -2248,11 +3047,69 @@ bool EditorSession::openOutdoorMap(const std::string &mapFileName, std::string &
 
     loadOutdoorEditorSupportData(mapFileName);
     resetHistory();
+    resetPreviewEventRuntimeState();
     m_document.synchronizeOutdoorGeometryMetadata();
     m_savedSnapshot = m_document.createOutdoorSceneSnapshot();
     refreshValidation();
     m_selection = {EditorSelectionKind::Summary, 0};
     appendLog("info", "Opened outdoor document " + m_document.displayName());
+    return true;
+}
+
+bool EditorSession::openIndoorMap(const std::string &mapFileName, std::string &errorMessage)
+{
+    if (m_pAssetFileSystem == nullptr)
+    {
+        errorMessage = "editor session is not initialized";
+        return false;
+    }
+
+    if (!m_document.loadIndoorMapPackage(*m_pAssetFileSystem, mapFileName, errorMessage))
+    {
+        return false;
+    }
+
+    loadOutdoorEditorSupportData(mapFileName);
+    resetHistory();
+    resetPreviewEventRuntimeState();
+    m_savedSnapshot = m_document.createIndoorSceneSnapshot();
+    refreshValidation();
+    m_selection = {EditorSelectionKind::Summary, 0};
+    appendLog("info", "Opened indoor document " + m_document.displayName());
+    return true;
+}
+
+bool EditorSession::openMapPhysicalPath(const std::filesystem::path &path, std::string &errorMessage)
+{
+    if (m_pAssetFileSystem == nullptr)
+    {
+        errorMessage = "editor session is not initialized";
+        return false;
+    }
+
+    if (!m_document.loadMapPhysicalPath(*m_pAssetFileSystem, path, errorMessage))
+    {
+        return false;
+    }
+
+    loadOutdoorEditorSupportData(m_document.displayName());
+    resetHistory();
+    resetPreviewEventRuntimeState();
+
+    if (m_document.kind() == EditorDocument::Kind::Outdoor)
+    {
+        m_document.synchronizeOutdoorGeometryMetadata();
+        m_savedSnapshot = m_document.createOutdoorSceneSnapshot();
+        appendLog("info", "Opened outdoor document " + m_document.displayName());
+    }
+    else
+    {
+        m_savedSnapshot = m_document.createIndoorSceneSnapshot();
+        appendLog("info", "Opened indoor document " + m_document.displayName());
+    }
+
+    refreshValidation();
+    m_selection = {EditorSelectionKind::Summary, 0};
     return true;
 }
 
@@ -2429,15 +3286,20 @@ bool EditorSession::deleteActiveDocumentPackage(std::string &errorMessage)
 
 bool EditorSession::saveActiveDocument(std::string &errorMessage)
 {
-    m_document.synchronizeOutdoorGeometryMetadata();
-    m_document.synchronizeOutdoorTerrainMetadata();
+    if (m_document.kind() == EditorDocument::Kind::Outdoor)
+    {
+        m_document.synchronizeOutdoorGeometryMetadata();
+        m_document.synchronizeOutdoorTerrainMetadata();
+    }
 
     if (!m_document.saveSource(errorMessage))
     {
         return false;
     }
 
-    m_savedSnapshot = m_document.createOutdoorSceneSnapshot();
+    m_savedSnapshot = m_document.kind() == EditorDocument::Kind::Indoor
+        ? m_document.createIndoorSceneSnapshot()
+        : m_document.createOutdoorSceneSnapshot();
     refreshDirtyState();
     refreshValidation();
     appendLog("info", "Saved source " + m_document.sceneVirtualPath());
@@ -2484,7 +3346,10 @@ void EditorSession::captureUndoSnapshot()
         return;
     }
 
-    m_undoSnapshots.push_back(m_document.createOutdoorSceneSnapshot());
+    m_undoSnapshots.push_back(
+        m_document.kind() == EditorDocument::Kind::Indoor
+            ? m_document.createIndoorSceneSnapshot()
+            : m_document.createOutdoorSceneSnapshot());
 
     if (m_undoSnapshots.size() > 256)
     {
@@ -2505,6 +3370,7 @@ void EditorSession::noteDocumentMutated(const std::string &reason)
     pruneBModelImportSources();
     m_document.synchronizeOutdoorGeometryMetadata();
     m_document.touchSceneRevision();
+    resetPreviewEventRuntimeState();
     refreshDirtyState();
     refreshValidation();
 
@@ -2532,11 +3398,17 @@ bool EditorSession::undo(std::string &errorMessage)
         return false;
     }
 
-    const std::string currentSnapshot = m_document.createOutdoorSceneSnapshot();
+    const std::string currentSnapshot = m_document.kind() == EditorDocument::Kind::Indoor
+        ? m_document.createIndoorSceneSnapshot()
+        : m_document.createOutdoorSceneSnapshot();
     const std::string targetSnapshot = m_undoSnapshots.back();
     m_undoSnapshots.pop_back();
 
-    if (!m_document.restoreOutdoorSceneSnapshot(*m_pAssetFileSystem, targetSnapshot, errorMessage))
+    const bool restored = m_document.kind() == EditorDocument::Kind::Indoor
+        ? m_document.restoreIndoorSceneSnapshot(*m_pAssetFileSystem, targetSnapshot, errorMessage)
+        : m_document.restoreOutdoorSceneSnapshot(*m_pAssetFileSystem, targetSnapshot, errorMessage);
+
+    if (!restored)
     {
         return false;
     }
@@ -2557,11 +3429,17 @@ bool EditorSession::redo(std::string &errorMessage)
         return false;
     }
 
-    const std::string currentSnapshot = m_document.createOutdoorSceneSnapshot();
+    const std::string currentSnapshot = m_document.kind() == EditorDocument::Kind::Indoor
+        ? m_document.createIndoorSceneSnapshot()
+        : m_document.createOutdoorSceneSnapshot();
     const std::string targetSnapshot = m_redoSnapshots.back();
     m_redoSnapshots.pop_back();
 
-    if (!m_document.restoreOutdoorSceneSnapshot(*m_pAssetFileSystem, targetSnapshot, errorMessage))
+    const bool restored = m_document.kind() == EditorDocument::Kind::Indoor
+        ? m_document.restoreIndoorSceneSnapshot(*m_pAssetFileSystem, targetSnapshot, errorMessage)
+        : m_document.restoreOutdoorSceneSnapshot(*m_pAssetFileSystem, targetSnapshot, errorMessage);
+
+    if (!restored)
     {
         return false;
     }
@@ -2576,95 +3454,161 @@ bool EditorSession::redo(std::string &errorMessage)
 
 bool EditorSession::createOutdoorObject(EditorSelectionKind kind, int x, int y, int z, std::string &errorMessage)
 {
-    if (!hasDocument() || m_document.kind() != EditorDocument::Kind::Outdoor)
+    if (!hasDocument())
     {
-        errorMessage = "no outdoor document is loaded";
+        errorMessage = "no document is loaded";
         return false;
     }
 
     captureUndoSnapshot();
-    Game::OutdoorSceneData &sceneData = m_document.mutableOutdoorSceneData();
     EditorSelection newSelection = {};
     std::string createdLabel;
 
-    switch (kind)
+    if (m_document.kind() == EditorDocument::Kind::Indoor)
     {
-    case EditorSelectionKind::Entity:
-    {
-        Game::OutdoorSceneEntity entity = {};
-        entity.entityIndex = sceneData.entities.size();
-        entity.entity.decorationListId = m_pendingEntityDecorationListId;
-        entity.entity.x = x;
-        entity.entity.y = y;
-        entity.entity.z = z;
+        Game::IndoorSceneData &sceneData = m_document.mutableIndoorSceneData();
 
-        if (const Game::DecorationEntry *pDecoration = m_decorationTable.get(entity.entity.decorationListId))
+        switch (kind)
         {
-            entity.entity.name = pDecoration->internalName;
+        case EditorSelectionKind::Actor:
+        {
+            Game::MapDeltaActor actor = m_pendingActor;
+            actor.x = x;
+            actor.y = y;
+            actor.z = z;
+            sceneData.initialState.actors.push_back(std::move(actor));
+            newSelection = {EditorSelectionKind::Actor, sceneData.initialState.actors.size() - 1};
+            createdLabel = "actor";
+            break;
         }
 
-        sceneData.entities.push_back(std::move(entity));
-        newSelection = {EditorSelectionKind::Entity, sceneData.entities.size() - 1};
-        createdLabel = "entity";
-        break;
-    }
-
-    case EditorSelectionKind::Spawn:
-    {
-        Game::OutdoorSceneSpawn spawn = {};
-        spawn.spawnIndex = sceneData.spawns.size();
-        spawn.spawn = m_pendingSpawn;
-        spawn.spawn.x = x;
-        spawn.spawn.y = y;
-        spawn.spawn.z = z;
-        sceneData.spawns.push_back(std::move(spawn));
-        newSelection = {EditorSelectionKind::Spawn, sceneData.spawns.size() - 1};
-        createdLabel = "spawn";
-        break;
-    }
-
-    case EditorSelectionKind::Actor:
-    {
-        Game::MapDeltaActor actor = m_pendingActor;
-        actor.x = x;
-        actor.y = y;
-        actor.z = z;
-        sceneData.initialState.actors.push_back(std::move(actor));
-        newSelection = {EditorSelectionKind::Actor, sceneData.initialState.actors.size() - 1};
-        createdLabel = "actor";
-        break;
-    }
-
-    case EditorSelectionKind::SpriteObject:
-    {
-        Game::MapDeltaSpriteObject spriteObject = {};
-        spriteObject.objectDescriptionId = m_pendingSpriteObjectDescriptionId;
-        spriteObject.x = x;
-        spriteObject.y = y;
-        spriteObject.z = z;
-        spriteObject.initialX = x;
-        spriteObject.initialY = y;
-        spriteObject.initialZ = z;
-        spriteObject.rawContainingItem.assign(SpriteObjectContainingItemSize, 0);
-
-        if (const Game::ObjectEntry *pObjectEntry = m_objectTable.get(spriteObject.objectDescriptionId))
+        case EditorSelectionKind::SpriteObject:
         {
-            spriteObject.spriteId = pObjectEntry->spriteId;
-            spriteObject.temporaryLifetime = pObjectEntry->lifetimeTicks;
+            Game::MapDeltaSpriteObject spriteObject = {};
+            spriteObject.objectDescriptionId = m_pendingSpriteObjectDescriptionId;
+            spriteObject.x = x;
+            spriteObject.y = y;
+            spriteObject.z = z;
+            spriteObject.initialX = x;
+            spriteObject.initialY = y;
+            spriteObject.initialZ = z;
+            spriteObject.rawContainingItem.assign(SpriteObjectContainingItemSize, 0);
+
+            if (const Game::ObjectEntry *pObjectEntry = m_objectTable.get(spriteObject.objectDescriptionId))
+            {
+                spriteObject.spriteId = pObjectEntry->spriteId;
+                spriteObject.temporaryLifetime = pObjectEntry->lifetimeTicks;
+            }
+
+            sceneData.initialState.spriteObjects.push_back(std::move(spriteObject));
+            newSelection = {EditorSelectionKind::SpriteObject, sceneData.initialState.spriteObjects.size() - 1};
+            createdLabel = "sprite object";
+            break;
         }
 
-        sceneData.initialState.spriteObjects.push_back(std::move(spriteObject));
-        newSelection = {EditorSelectionKind::SpriteObject, sceneData.initialState.spriteObjects.size() - 1};
-        createdLabel = "sprite object";
-        break;
+        case EditorSelectionKind::Chest:
+        {
+            Game::MapDeltaChest chest = {};
+            chest.rawItems.assign(ChestItemRecordCount * ChestItemRecordSize, 0);
+            chest.inventoryMatrix.assign(ChestInventoryCellCount, 0);
+            sceneData.initialState.chests.push_back(std::move(chest));
+            newSelection = {EditorSelectionKind::Chest, sceneData.initialState.chests.size() - 1};
+            createdLabel = "chest";
+            break;
+        }
+
+        default:
+            errorMessage = "selected indoor kind cannot be created in Wave 2";
+            return false;
+        }
+    }
+    else
+    {
+        Game::OutdoorSceneData &sceneData = m_document.mutableOutdoorSceneData();
+
+        switch (kind)
+        {
+        case EditorSelectionKind::Entity:
+        {
+            Game::OutdoorSceneEntity entity = {};
+            entity.entityIndex = sceneData.entities.size();
+            entity.entity.decorationListId = m_pendingEntityDecorationListId;
+            entity.entity.x = x;
+            entity.entity.y = y;
+            entity.entity.z = z;
+
+            if (const Game::DecorationEntry *pDecoration = m_decorationTable.get(entity.entity.decorationListId))
+            {
+                entity.entity.name = pDecoration->internalName;
+            }
+
+            sceneData.entities.push_back(std::move(entity));
+            newSelection = {EditorSelectionKind::Entity, sceneData.entities.size() - 1};
+            createdLabel = "entity";
+            break;
+        }
+
+        case EditorSelectionKind::Spawn:
+        {
+            Game::OutdoorSceneSpawn spawn = {};
+            spawn.spawnIndex = sceneData.spawns.size();
+            spawn.spawn = m_pendingSpawn;
+            spawn.spawn.x = x;
+            spawn.spawn.y = y;
+            spawn.spawn.z = z;
+            sceneData.spawns.push_back(std::move(spawn));
+            newSelection = {EditorSelectionKind::Spawn, sceneData.spawns.size() - 1};
+            createdLabel = "spawn";
+            break;
+        }
+
+        case EditorSelectionKind::Actor:
+        {
+            Game::MapDeltaActor actor = m_pendingActor;
+            actor.x = x;
+            actor.y = y;
+            actor.z = z;
+            sceneData.initialState.actors.push_back(std::move(actor));
+            newSelection = {EditorSelectionKind::Actor, sceneData.initialState.actors.size() - 1};
+            createdLabel = "actor";
+            break;
+        }
+
+        case EditorSelectionKind::SpriteObject:
+        {
+            Game::MapDeltaSpriteObject spriteObject = {};
+            spriteObject.objectDescriptionId = m_pendingSpriteObjectDescriptionId;
+            spriteObject.x = x;
+            spriteObject.y = y;
+            spriteObject.z = z;
+            spriteObject.initialX = x;
+            spriteObject.initialY = y;
+            spriteObject.initialZ = z;
+            spriteObject.rawContainingItem.assign(SpriteObjectContainingItemSize, 0);
+
+            if (const Game::ObjectEntry *pObjectEntry = m_objectTable.get(spriteObject.objectDescriptionId))
+            {
+                spriteObject.spriteId = pObjectEntry->spriteId;
+                spriteObject.temporaryLifetime = pObjectEntry->lifetimeTicks;
+            }
+
+            sceneData.initialState.spriteObjects.push_back(std::move(spriteObject));
+            newSelection = {EditorSelectionKind::SpriteObject, sceneData.initialState.spriteObjects.size() - 1};
+            createdLabel = "sprite object";
+            break;
+        }
+
+        default:
+            errorMessage = "selected kind cannot be created";
+            return false;
+        }
     }
 
-    default:
-        errorMessage = "selected kind cannot be created";
-        return false;
+    if (m_document.kind() == EditorDocument::Kind::Outdoor)
+    {
+        normalizeOutdoorSceneCollections();
     }
 
-    normalizeOutdoorSceneCollections();
     m_selection = newSelection;
     noteDocumentMutated("Created " + createdLabel);
     return true;
@@ -2672,126 +3616,218 @@ bool EditorSession::createOutdoorObject(EditorSelectionKind kind, int x, int y, 
 
 bool EditorSession::duplicateSelectedObject(std::string &errorMessage)
 {
-    if (!hasDocument() || m_document.kind() != EditorDocument::Kind::Outdoor)
+    if (!hasDocument())
     {
-        errorMessage = "no outdoor document is loaded";
+        errorMessage = "no document is loaded";
         return false;
     }
 
     constexpr int DuplicateOffset = 256;
 
     captureUndoSnapshot();
-    Game::OutdoorSceneData &sceneData = m_document.mutableOutdoorSceneData();
     std::string duplicatedLabel;
 
-    switch (m_selection.kind)
+    if (m_document.kind() == EditorDocument::Kind::Indoor)
     {
-    case EditorSelectionKind::BModel:
-        if (m_selection.index >= m_document.mutableOutdoorGeometry().bmodels.size())
-        {
-            errorMessage = "selected bmodel is out of range";
-            return false;
-        }
-        else
-        {
-            Game::OutdoorMapData &outdoorGeometry = m_document.mutableOutdoorGeometry();
-            Game::OutdoorBModel duplicatedBModel = outdoorGeometry.bmodels[m_selection.index];
-            const size_t newBModelIndex = outdoorGeometry.bmodels.size();
-            outdoorGeometry.bmodels.push_back(std::move(duplicatedBModel));
-            copyBModelSceneReferences(
-                sceneData,
-                m_selection.index,
-                newBModelIndex,
-                sceneData);
+        Game::IndoorSceneData &sceneData = m_document.mutableIndoorSceneData();
 
-            const std::optional<EditorBModelImportSource> sourceImport =
-                m_document.outdoorBModelImportSource(m_selection.index);
-
-            if (sourceImport)
+        switch (m_selection.kind)
+        {
+        case EditorSelectionKind::Actor:
+            if (m_selection.index >= sceneData.initialState.actors.size())
             {
-                m_document.copyOutdoorBModelImportSource(m_selection.index, newBModelIndex);
+                errorMessage = "selected actor is out of range";
+                return false;
             }
+            else
+            {
+                Game::MapDeltaActor actor = sceneData.initialState.actors[m_selection.index];
+                actor.x += DuplicateOffset;
+                actor.y += DuplicateOffset;
+                sceneData.initialState.actors.push_back(std::move(actor));
+                m_selection = {EditorSelectionKind::Actor, sceneData.initialState.actors.size() - 1};
+                duplicatedLabel = "actor";
+            }
+            break;
 
-            m_selection = {EditorSelectionKind::BModel, newBModelIndex};
-            duplicatedLabel = "bmodel";
-        }
-        break;
+        case EditorSelectionKind::SpriteObject:
+            if (m_selection.index >= sceneData.initialState.spriteObjects.size())
+            {
+                errorMessage = "selected sprite object is out of range";
+                return false;
+            }
+            else
+            {
+                Game::MapDeltaSpriteObject spriteObject = sceneData.initialState.spriteObjects[m_selection.index];
+                spriteObject.x += DuplicateOffset;
+                spriteObject.y += DuplicateOffset;
+                spriteObject.initialX += DuplicateOffset;
+                spriteObject.initialY += DuplicateOffset;
+                sceneData.initialState.spriteObjects.push_back(std::move(spriteObject));
+                m_selection = {EditorSelectionKind::SpriteObject, sceneData.initialState.spriteObjects.size() - 1};
+                duplicatedLabel = "sprite object";
+            }
+            break;
 
-    case EditorSelectionKind::Entity:
-        if (m_selection.index >= sceneData.entities.size())
-        {
-            errorMessage = "selected entity is out of range";
+        case EditorSelectionKind::Chest:
+            if (m_selection.index >= sceneData.initialState.chests.size())
+            {
+                errorMessage = "selected chest is out of range";
+                return false;
+            }
+            else
+            {
+                Game::MapDeltaChest chest = sceneData.initialState.chests[m_selection.index];
+                sceneData.initialState.chests.push_back(std::move(chest));
+                m_selection = {EditorSelectionKind::Chest, sceneData.initialState.chests.size() - 1};
+                duplicatedLabel = "chest";
+            }
+            break;
+
+        case EditorSelectionKind::Door:
+            if (m_selection.index >= sceneData.initialState.doors.size())
+            {
+                errorMessage = "selected door override is out of range";
+                return false;
+            }
+            else
+            {
+                const std::optional<size_t> newDoorIndex =
+                    nextAvailableIndoorDoorIndex(sceneData, m_document.indoorGeometry().doorCount);
+
+                if (!newDoorIndex)
+                {
+                    errorMessage = "no unused indoor geometry door slot is available";
+                    return false;
+                }
+
+                Game::IndoorSceneDoor door = sceneData.initialState.doors[m_selection.index];
+                door.doorIndex = *newDoorIndex;
+                door.door.slotIndex = *newDoorIndex;
+                sceneData.initialState.doors.push_back(std::move(door));
+                m_selection = {EditorSelectionKind::Door, sceneData.initialState.doors.size() - 1};
+                duplicatedLabel = "door override";
+            }
+            break;
+
+        default:
+            errorMessage = "selected indoor item cannot be duplicated in Wave 2";
             return false;
         }
-        else
-        {
-            Game::OutdoorSceneEntity entity = sceneData.entities[m_selection.index];
-            entity.entity.x += DuplicateOffset;
-            entity.entity.y += DuplicateOffset;
-            sceneData.entities.push_back(std::move(entity));
-            normalizeOutdoorSceneCollections();
-            m_selection = {EditorSelectionKind::Entity, sceneData.entities.size() - 1};
-            duplicatedLabel = "entity";
-        }
-        break;
+    }
+    else
+    {
+        Game::OutdoorSceneData &sceneData = m_document.mutableOutdoorSceneData();
 
-    case EditorSelectionKind::Spawn:
-        if (m_selection.index >= sceneData.spawns.size())
+        switch (m_selection.kind)
         {
-            errorMessage = "selected spawn is out of range";
+        case EditorSelectionKind::BModel:
+            if (m_selection.index >= m_document.mutableOutdoorGeometry().bmodels.size())
+            {
+                errorMessage = "selected bmodel is out of range";
+                return false;
+            }
+            else
+            {
+                Game::OutdoorMapData &outdoorGeometry = m_document.mutableOutdoorGeometry();
+                Game::OutdoorBModel duplicatedBModel = outdoorGeometry.bmodels[m_selection.index];
+                const size_t newBModelIndex = outdoorGeometry.bmodels.size();
+                outdoorGeometry.bmodels.push_back(std::move(duplicatedBModel));
+                copyBModelSceneReferences(
+                    sceneData,
+                    m_selection.index,
+                    newBModelIndex,
+                    sceneData);
+
+                const std::optional<EditorBModelImportSource> sourceImport =
+                    m_document.outdoorBModelImportSource(m_selection.index);
+
+                if (sourceImport)
+                {
+                    m_document.copyOutdoorBModelImportSource(m_selection.index, newBModelIndex);
+                }
+
+                m_selection = {EditorSelectionKind::BModel, newBModelIndex};
+                duplicatedLabel = "bmodel";
+            }
+            break;
+
+        case EditorSelectionKind::Entity:
+            if (m_selection.index >= sceneData.entities.size())
+            {
+                errorMessage = "selected entity is out of range";
+                return false;
+            }
+            else
+            {
+                Game::OutdoorSceneEntity entity = sceneData.entities[m_selection.index];
+                entity.entity.x += DuplicateOffset;
+                entity.entity.y += DuplicateOffset;
+                sceneData.entities.push_back(std::move(entity));
+                normalizeOutdoorSceneCollections();
+                m_selection = {EditorSelectionKind::Entity, sceneData.entities.size() - 1};
+                duplicatedLabel = "entity";
+            }
+            break;
+
+        case EditorSelectionKind::Spawn:
+            if (m_selection.index >= sceneData.spawns.size())
+            {
+                errorMessage = "selected spawn is out of range";
+                return false;
+            }
+            else
+            {
+                Game::OutdoorSceneSpawn spawn = sceneData.spawns[m_selection.index];
+                spawn.spawn.x += DuplicateOffset;
+                spawn.spawn.y += DuplicateOffset;
+                sceneData.spawns.push_back(std::move(spawn));
+                normalizeOutdoorSceneCollections();
+                m_selection = {EditorSelectionKind::Spawn, sceneData.spawns.size() - 1};
+                duplicatedLabel = "spawn";
+            }
+            break;
+
+        case EditorSelectionKind::Actor:
+            if (m_selection.index >= sceneData.initialState.actors.size())
+            {
+                errorMessage = "selected actor is out of range";
+                return false;
+            }
+            else
+            {
+                Game::MapDeltaActor actor = sceneData.initialState.actors[m_selection.index];
+                actor.x += DuplicateOffset;
+                actor.y += DuplicateOffset;
+                sceneData.initialState.actors.push_back(std::move(actor));
+                m_selection = {EditorSelectionKind::Actor, sceneData.initialState.actors.size() - 1};
+                duplicatedLabel = "actor";
+            }
+            break;
+
+        case EditorSelectionKind::SpriteObject:
+            if (m_selection.index >= sceneData.initialState.spriteObjects.size())
+            {
+                errorMessage = "selected sprite object is out of range";
+                return false;
+            }
+            else
+            {
+                Game::MapDeltaSpriteObject spriteObject = sceneData.initialState.spriteObjects[m_selection.index];
+                spriteObject.x += DuplicateOffset;
+                spriteObject.y += DuplicateOffset;
+                spriteObject.initialX += DuplicateOffset;
+                spriteObject.initialY += DuplicateOffset;
+                sceneData.initialState.spriteObjects.push_back(std::move(spriteObject));
+                m_selection = {EditorSelectionKind::SpriteObject, sceneData.initialState.spriteObjects.size() - 1};
+                duplicatedLabel = "sprite object";
+            }
+            break;
+
+        default:
+            errorMessage = "selected item cannot be duplicated";
             return false;
         }
-        else
-        {
-            Game::OutdoorSceneSpawn spawn = sceneData.spawns[m_selection.index];
-            spawn.spawn.x += DuplicateOffset;
-            spawn.spawn.y += DuplicateOffset;
-            sceneData.spawns.push_back(std::move(spawn));
-            normalizeOutdoorSceneCollections();
-            m_selection = {EditorSelectionKind::Spawn, sceneData.spawns.size() - 1};
-            duplicatedLabel = "spawn";
-        }
-        break;
-
-    case EditorSelectionKind::Actor:
-        if (m_selection.index >= sceneData.initialState.actors.size())
-        {
-            errorMessage = "selected actor is out of range";
-            return false;
-        }
-        else
-        {
-            Game::MapDeltaActor actor = sceneData.initialState.actors[m_selection.index];
-            actor.x += DuplicateOffset;
-            actor.y += DuplicateOffset;
-            sceneData.initialState.actors.push_back(std::move(actor));
-            m_selection = {EditorSelectionKind::Actor, sceneData.initialState.actors.size() - 1};
-            duplicatedLabel = "actor";
-        }
-        break;
-
-    case EditorSelectionKind::SpriteObject:
-        if (m_selection.index >= sceneData.initialState.spriteObjects.size())
-        {
-            errorMessage = "selected sprite object is out of range";
-            return false;
-        }
-        else
-        {
-            Game::MapDeltaSpriteObject spriteObject = sceneData.initialState.spriteObjects[m_selection.index];
-            spriteObject.x += DuplicateOffset;
-            spriteObject.y += DuplicateOffset;
-            spriteObject.initialX += DuplicateOffset;
-            spriteObject.initialY += DuplicateOffset;
-            sceneData.initialState.spriteObjects.push_back(std::move(spriteObject));
-            m_selection = {EditorSelectionKind::SpriteObject, sceneData.initialState.spriteObjects.size() - 1};
-            duplicatedLabel = "sprite object";
-        }
-        break;
-
-    default:
-        errorMessage = "selected item cannot be duplicated";
-        return false;
     }
 
     noteDocumentMutated("Duplicated " + duplicatedLabel);
@@ -2800,117 +3836,208 @@ bool EditorSession::duplicateSelectedObject(std::string &errorMessage)
 
 bool EditorSession::deleteSelectedObject(std::string &errorMessage)
 {
-    if (!hasDocument() || m_document.kind() != EditorDocument::Kind::Outdoor)
+    if (!hasDocument())
     {
-        errorMessage = "no outdoor document is loaded";
+        errorMessage = "no document is loaded";
         return false;
     }
 
     captureUndoSnapshot();
-    Game::OutdoorSceneData &sceneData = m_document.mutableOutdoorSceneData();
     std::string deletedLabel;
 
-    switch (m_selection.kind)
+    if (m_document.kind() == EditorDocument::Kind::Indoor)
     {
-    case EditorSelectionKind::BModel:
-        if (m_selection.index >= m_document.mutableOutdoorGeometry().bmodels.size())
+        Game::IndoorSceneData &sceneData = m_document.mutableIndoorSceneData();
+
+        switch (m_selection.kind)
         {
-            errorMessage = "selected bmodel is out of range";
+        case EditorSelectionKind::Actor:
+            if (m_selection.index >= sceneData.initialState.actors.size())
+            {
+                errorMessage = "selected actor is out of range";
+                return false;
+            }
+            else
+            {
+                sceneData.initialState.actors.erase(
+                    sceneData.initialState.actors.begin() + static_cast<ptrdiff_t>(m_selection.index));
+                deletedLabel = "actor";
+                m_selection = sceneData.initialState.actors.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{
+                        EditorSelectionKind::Actor,
+                        std::min(m_selection.index, sceneData.initialState.actors.size() - 1)};
+            }
+            break;
+
+        case EditorSelectionKind::SpriteObject:
+            if (m_selection.index >= sceneData.initialState.spriteObjects.size())
+            {
+                errorMessage = "selected sprite object is out of range";
+                return false;
+            }
+            else
+            {
+                sceneData.initialState.spriteObjects.erase(
+                    sceneData.initialState.spriteObjects.begin() + static_cast<ptrdiff_t>(m_selection.index));
+                deletedLabel = "sprite object";
+                m_selection = sceneData.initialState.spriteObjects.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{
+                        EditorSelectionKind::SpriteObject,
+                        std::min(m_selection.index, sceneData.initialState.spriteObjects.size() - 1)};
+            }
+            break;
+
+        case EditorSelectionKind::Chest:
+            if (m_selection.index >= sceneData.initialState.chests.size())
+            {
+                errorMessage = "selected chest is out of range";
+                return false;
+            }
+            else
+            {
+                sceneData.initialState.chests.erase(
+                    sceneData.initialState.chests.begin() + static_cast<ptrdiff_t>(m_selection.index));
+                deletedLabel = "chest";
+                m_selection = sceneData.initialState.chests.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{
+                        EditorSelectionKind::Chest,
+                        std::min(m_selection.index, sceneData.initialState.chests.size() - 1)};
+            }
+            break;
+
+        case EditorSelectionKind::Door:
+            if (m_selection.index >= sceneData.initialState.doors.size())
+            {
+                errorMessage = "selected door override is out of range";
+                return false;
+            }
+            else
+            {
+                sceneData.initialState.doors.erase(
+                    sceneData.initialState.doors.begin() + static_cast<ptrdiff_t>(m_selection.index));
+                deletedLabel = "door override";
+                m_selection = sceneData.initialState.doors.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{
+                        EditorSelectionKind::Door,
+                        std::min(m_selection.index, sceneData.initialState.doors.size() - 1)};
+            }
+            break;
+
+        default:
+            errorMessage = "selected indoor item cannot be deleted in Wave 2";
             return false;
         }
-        else
-        {
-            Game::OutdoorMapData &outdoorGeometry = m_document.mutableOutdoorGeometry();
-            const size_t deletedBModelIndex = m_selection.index;
-            outdoorGeometry.bmodels.erase(
-                outdoorGeometry.bmodels.begin() + static_cast<ptrdiff_t>(deletedBModelIndex));
-            repairBModelReferencesAfterDelete(sceneData, deletedBModelIndex);
+    }
+    else
+    {
+        Game::OutdoorSceneData &sceneData = m_document.mutableOutdoorSceneData();
 
-            m_document.eraseOutdoorBModelImportSource(deletedBModelIndex);
-            deletedLabel = "bmodel";
-            m_selection = outdoorGeometry.bmodels.empty()
-                ? EditorSelection{EditorSelectionKind::Summary, 0}
-                : EditorSelection{
-                    EditorSelectionKind::BModel,
-                    std::min(deletedBModelIndex, outdoorGeometry.bmodels.size() - 1)};
-        }
-        break;
-
-    case EditorSelectionKind::Entity:
-        if (m_selection.index >= sceneData.entities.size())
+        switch (m_selection.kind)
         {
-            errorMessage = "selected entity is out of range";
+        case EditorSelectionKind::BModel:
+            if (m_selection.index >= m_document.mutableOutdoorGeometry().bmodels.size())
+            {
+                errorMessage = "selected bmodel is out of range";
+                return false;
+            }
+            else
+            {
+                Game::OutdoorMapData &outdoorGeometry = m_document.mutableOutdoorGeometry();
+                const size_t deletedBModelIndex = m_selection.index;
+                outdoorGeometry.bmodels.erase(
+                    outdoorGeometry.bmodels.begin() + static_cast<ptrdiff_t>(deletedBModelIndex));
+                repairBModelReferencesAfterDelete(sceneData, deletedBModelIndex);
+
+                m_document.eraseOutdoorBModelImportSource(deletedBModelIndex);
+                deletedLabel = "bmodel";
+                m_selection = outdoorGeometry.bmodels.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{
+                        EditorSelectionKind::BModel,
+                        std::min(deletedBModelIndex, outdoorGeometry.bmodels.size() - 1)};
+            }
+            break;
+
+        case EditorSelectionKind::Entity:
+            if (m_selection.index >= sceneData.entities.size())
+            {
+                errorMessage = "selected entity is out of range";
+                return false;
+            }
+            else
+            {
+                sceneData.entities.erase(sceneData.entities.begin() + static_cast<ptrdiff_t>(m_selection.index));
+                normalizeOutdoorSceneCollections();
+                deletedLabel = "entity";
+                m_selection = sceneData.entities.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{EditorSelectionKind::Entity, std::min(m_selection.index, sceneData.entities.size() - 1)};
+            }
+            break;
+
+        case EditorSelectionKind::Spawn:
+            if (m_selection.index >= sceneData.spawns.size())
+            {
+                errorMessage = "selected spawn is out of range";
+                return false;
+            }
+            else
+            {
+                sceneData.spawns.erase(sceneData.spawns.begin() + static_cast<ptrdiff_t>(m_selection.index));
+                normalizeOutdoorSceneCollections();
+                deletedLabel = "spawn";
+                m_selection = sceneData.spawns.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{EditorSelectionKind::Spawn, std::min(m_selection.index, sceneData.spawns.size() - 1)};
+            }
+            break;
+
+        case EditorSelectionKind::Actor:
+            if (m_selection.index >= sceneData.initialState.actors.size())
+            {
+                errorMessage = "selected actor is out of range";
+                return false;
+            }
+            else
+            {
+                sceneData.initialState.actors.erase(
+                    sceneData.initialState.actors.begin() + static_cast<ptrdiff_t>(m_selection.index));
+                deletedLabel = "actor";
+                m_selection = sceneData.initialState.actors.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{
+                        EditorSelectionKind::Actor,
+                        std::min(m_selection.index, sceneData.initialState.actors.size() - 1)};
+            }
+            break;
+
+        case EditorSelectionKind::SpriteObject:
+            if (m_selection.index >= sceneData.initialState.spriteObjects.size())
+            {
+                errorMessage = "selected sprite object is out of range";
+                return false;
+            }
+            else
+            {
+                sceneData.initialState.spriteObjects.erase(
+                    sceneData.initialState.spriteObjects.begin() + static_cast<ptrdiff_t>(m_selection.index));
+                deletedLabel = "sprite object";
+                m_selection = sceneData.initialState.spriteObjects.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{
+                        EditorSelectionKind::SpriteObject,
+                        std::min(m_selection.index, sceneData.initialState.spriteObjects.size() - 1)};
+            }
+            break;
+
+        default:
+            errorMessage = "selected item cannot be deleted";
             return false;
         }
-        else
-        {
-            sceneData.entities.erase(sceneData.entities.begin() + static_cast<ptrdiff_t>(m_selection.index));
-            normalizeOutdoorSceneCollections();
-            deletedLabel = "entity";
-            m_selection = sceneData.entities.empty()
-                ? EditorSelection{EditorSelectionKind::Summary, 0}
-                : EditorSelection{EditorSelectionKind::Entity, std::min(m_selection.index, sceneData.entities.size() - 1)};
-        }
-        break;
-
-    case EditorSelectionKind::Spawn:
-        if (m_selection.index >= sceneData.spawns.size())
-        {
-            errorMessage = "selected spawn is out of range";
-            return false;
-        }
-        else
-        {
-            sceneData.spawns.erase(sceneData.spawns.begin() + static_cast<ptrdiff_t>(m_selection.index));
-            normalizeOutdoorSceneCollections();
-            deletedLabel = "spawn";
-            m_selection = sceneData.spawns.empty()
-                ? EditorSelection{EditorSelectionKind::Summary, 0}
-                : EditorSelection{EditorSelectionKind::Spawn, std::min(m_selection.index, sceneData.spawns.size() - 1)};
-        }
-        break;
-
-    case EditorSelectionKind::Actor:
-        if (m_selection.index >= sceneData.initialState.actors.size())
-        {
-            errorMessage = "selected actor is out of range";
-            return false;
-        }
-        else
-        {
-            sceneData.initialState.actors.erase(
-                sceneData.initialState.actors.begin() + static_cast<ptrdiff_t>(m_selection.index));
-            deletedLabel = "actor";
-            m_selection = sceneData.initialState.actors.empty()
-                ? EditorSelection{EditorSelectionKind::Summary, 0}
-                : EditorSelection{
-                    EditorSelectionKind::Actor,
-                    std::min(m_selection.index, sceneData.initialState.actors.size() - 1)};
-        }
-        break;
-
-    case EditorSelectionKind::SpriteObject:
-        if (m_selection.index >= sceneData.initialState.spriteObjects.size())
-        {
-            errorMessage = "selected sprite object is out of range";
-            return false;
-        }
-        else
-        {
-            sceneData.initialState.spriteObjects.erase(
-                sceneData.initialState.spriteObjects.begin() + static_cast<ptrdiff_t>(m_selection.index));
-            deletedLabel = "sprite object";
-            m_selection = sceneData.initialState.spriteObjects.empty()
-                ? EditorSelection{EditorSelectionKind::Summary, 0}
-                : EditorSelection{
-                    EditorSelectionKind::SpriteObject,
-                    std::min(m_selection.index, sceneData.initialState.spriteObjects.size() - 1)};
-        }
-        break;
-
-    default:
-        errorMessage = "selected item cannot be deleted";
-        return false;
     }
 
     noteDocumentMutated("Deleted " + deletedLabel);
@@ -3625,12 +4752,15 @@ std::vector<EditorChestContentRecord> EditorSession::decodeChestContents(size_t 
 {
     std::vector<EditorChestContentRecord> records;
 
-    if (!hasDocument() || m_document.kind() != EditorDocument::Kind::Outdoor)
+    if (!hasDocument())
     {
         return records;
     }
 
-    const std::vector<Game::MapDeltaChest> &chests = m_document.outdoorSceneData().initialState.chests;
+    const std::vector<Game::MapDeltaChest> &chests =
+        m_document.kind() == EditorDocument::Kind::Indoor
+        ? m_document.indoorSceneData().initialState.chests
+        : m_document.outdoorSceneData().initialState.chests;
 
     if (chestIndex >= chests.size())
     {
@@ -3911,6 +5041,222 @@ std::optional<std::string> EditorSession::describeMapEvent(uint16_t eventId) con
 std::optional<std::string> EditorSession::localScriptModulePath() const
 {
     return m_localScriptModulePath;
+}
+
+bool EditorSession::ensurePreviewEventRuntimeState(std::string &errorMessage)
+{
+    if (!hasDocument())
+    {
+        errorMessage = "no document is loaded";
+        return false;
+    }
+
+    const std::string runtimeKey = previewEventRuntimeKey();
+
+    if (runtimeKey == m_previewEventRuntimeKey
+        && m_hasPreviewEventRuntimeState)
+    {
+        return true;
+    }
+
+    m_hasPreviewEventRuntimeState = false;
+    m_previewEventMapVars = {};
+    m_previewEventDecorVars = {};
+    m_previewEventVariables.clear();
+    m_previewEventMechanisms.clear();
+    m_lastPreviewEventId.reset();
+    m_lastPreviewEventMessages.clear();
+    m_lastPreviewEventStatusMessages.clear();
+
+    Game::MapDeltaData mapDeltaData = {};
+    bool builtState = false;
+
+    if (m_document.kind() == EditorDocument::Kind::Indoor)
+    {
+        Game::IndoorMapData indoorMapData = {};
+        builtState = m_document.buildIndoorAuthoredRuntimeState(indoorMapData, mapDeltaData, errorMessage);
+    }
+    else
+    {
+        Game::OutdoorMapData outdoorMapData = {};
+        builtState = m_document.buildOutdoorAuthoredRuntimeState(outdoorMapData, mapDeltaData, errorMessage);
+    }
+
+    if (!builtState)
+    {
+        return false;
+    }
+
+    m_previewEventMapVars = mapDeltaData.eventVariables.mapVars;
+    m_previewEventDecorVars = mapDeltaData.eventVariables.decorVars;
+
+    for (const Game::MapDeltaDoor &door : mapDeltaData.doors)
+    {
+        m_previewEventMechanisms[door.doorId] = buildPreviewMechanismState(door);
+    }
+
+    std::vector<std::string> previewActivityMessages;
+    EditorPreviewLuaState previewState = {};
+    previewState.pMapDeltaData = &mapDeltaData;
+    previewState.pMapVars = &m_previewEventMapVars;
+    previewState.pDecorVars = &m_previewEventDecorVars;
+    previewState.pVariables = &m_previewEventVariables;
+    previewState.pMechanisms = &m_previewEventMechanisms;
+    previewState.pMessages = &m_lastPreviewEventMessages;
+    previewState.pStatusMessages = &m_lastPreviewEventStatusMessages;
+    previewState.pActivityMessages = &previewActivityMessages;
+
+    if (!executePreviewEventScripts(
+            m_localScriptedEventProgram,
+            m_globalScriptedEventProgram,
+            previewState,
+            errorMessage))
+    {
+        resetPreviewEventRuntimeState();
+        return false;
+    }
+
+    m_lastPreviewEventMessages.clear();
+    m_lastPreviewEventStatusMessages.clear();
+
+    for (const std::string &message : previewActivityMessages)
+    {
+        appendLog("evt", message);
+    }
+
+    m_hasPreviewEventRuntimeState = true;
+    m_previewEventRuntimeKey = runtimeKey;
+    return true;
+}
+
+void EditorSession::syncPreviewMechanismState(uint32_t mechanismId, uint16_t state, float distance, bool isMoving)
+{
+    if (!m_hasPreviewEventRuntimeState || mechanismId == 0)
+    {
+        return;
+    }
+
+    EditorPreviewMechanismState &mechanism = m_previewEventMechanisms[mechanismId];
+    mechanism.state = state;
+    mechanism.currentDistance = distance;
+    mechanism.isMoving = isMoving;
+}
+
+bool EditorSession::simulateMapEvent(uint16_t eventId, std::string &errorMessage)
+{
+    if (eventId == 0)
+    {
+        errorMessage = "event id is zero";
+        return false;
+    }
+
+    if (!ensurePreviewEventRuntimeState(errorMessage) || !m_hasPreviewEventRuntimeState)
+    {
+        return false;
+    }
+
+    if (!m_localScriptedEventProgram
+        && !m_globalScriptedEventProgram)
+    {
+        errorMessage = "no Lua event program is loaded for this map";
+        return false;
+    }
+
+    m_lastPreviewEventId = eventId;
+    m_lastPreviewEventMessages.clear();
+    m_lastPreviewEventStatusMessages.clear();
+    std::vector<std::string> previewActivityMessages;
+    Game::MapDeltaData mapDeltaData = {};
+    bool builtState = false;
+
+    if (m_document.kind() == EditorDocument::Kind::Indoor)
+    {
+        Game::IndoorMapData indoorMapData = {};
+        builtState = m_document.buildIndoorAuthoredRuntimeState(indoorMapData, mapDeltaData, errorMessage);
+    }
+    else
+    {
+        Game::OutdoorMapData outdoorMapData = {};
+        builtState = m_document.buildOutdoorAuthoredRuntimeState(outdoorMapData, mapDeltaData, errorMessage);
+    }
+
+    if (!builtState)
+    {
+        return false;
+    }
+
+    EditorPreviewLuaState previewState = {};
+    previewState.pMapDeltaData = &mapDeltaData;
+    previewState.pMapVars = &m_previewEventMapVars;
+    previewState.pDecorVars = &m_previewEventDecorVars;
+    previewState.pVariables = &m_previewEventVariables;
+    previewState.pMechanisms = &m_previewEventMechanisms;
+    previewState.pMessages = &m_lastPreviewEventMessages;
+    previewState.pStatusMessages = &m_lastPreviewEventStatusMessages;
+    previewState.pActivityMessages = &previewActivityMessages;
+
+    if (!executePreviewEventScripts(
+            m_localScriptedEventProgram,
+            m_globalScriptedEventProgram,
+            previewState,
+            errorMessage,
+            eventId))
+    {
+        return false;
+    }
+
+    for (const std::string &message : m_lastPreviewEventStatusMessages)
+    {
+        appendLog("evt", "status: " + message);
+    }
+
+    for (const std::string &message : m_lastPreviewEventMessages)
+    {
+        appendLog("evt", "message: " + message);
+    }
+
+    for (const std::string &message : previewActivityMessages)
+    {
+        appendLog("evt", message);
+    }
+
+    return true;
+}
+
+void EditorSession::resetPreviewEventRuntimeState()
+{
+    m_hasPreviewEventRuntimeState = false;
+    m_previewEventMapVars = {};
+    m_previewEventDecorVars = {};
+    m_previewEventVariables.clear();
+    m_previewEventMechanisms.clear();
+    m_lastPreviewEventId.reset();
+    m_lastPreviewEventMessages.clear();
+    m_lastPreviewEventStatusMessages.clear();
+    m_previewEventRuntimeKey.clear();
+}
+
+std::optional<EditorPreviewMechanismState> EditorSession::previewMechanismState(uint32_t mechanismId) const
+{
+    const auto iterator = m_previewEventMechanisms.find(mechanismId);
+    return iterator != m_previewEventMechanisms.end()
+        ? std::optional<EditorPreviewMechanismState>(iterator->second)
+        : std::nullopt;
+}
+
+std::optional<uint16_t> EditorSession::lastPreviewEventId() const
+{
+    return m_lastPreviewEventId;
+}
+
+const std::vector<std::string> &EditorSession::lastPreviewEventMessages() const
+{
+    return m_lastPreviewEventMessages;
+}
+
+const std::vector<std::string> &EditorSession::lastPreviewEventStatusMessages() const
+{
+    return m_lastPreviewEventStatusMessages;
 }
 
 void EditorSession::ensureOutdoorDerivedCaches() const
@@ -4539,6 +5885,185 @@ void EditorSession::refreshValidation()
     }
 
     m_validationMessages = m_document.validate();
+
+    if (m_document.kind() == EditorDocument::Kind::Indoor)
+    {
+        const Game::IndoorMapData &indoorGeometry = m_document.indoorGeometry();
+        const Game::IndoorSceneData &sceneData = m_document.indoorSceneData();
+        std::unordered_set<std::string> knownBitmapNames;
+
+        for (const std::string &textureName : m_bitmapTextureNames)
+        {
+            knownBitmapNames.insert(toLowerCopy(textureName));
+        }
+
+        size_t faceTooFewVerticesCount = 0;
+        std::string faceTooFewVerticesExample;
+        size_t invalidFaceVertexIndexCount = 0;
+        std::string invalidFaceVertexIndexExample;
+        size_t degenerateFaceCount = 0;
+        std::string degenerateFaceExample;
+        size_t emptyTextureFaceCount = 0;
+        std::string emptyTextureFaceExample;
+        size_t missingTextureFaceCount = 0;
+        std::string missingTextureFaceExample;
+        size_t missingEntityEventCount = 0;
+        std::string missingEntityEventExample;
+        size_t missingFaceEventCount = 0;
+        std::string missingFaceEventExample;
+
+        for (size_t faceIndex = 0; faceIndex < indoorGeometry.faces.size(); ++faceIndex)
+        {
+            const Game::IndoorFace &face = indoorGeometry.faces[faceIndex];
+
+            if (face.vertexIndices.size() < 3)
+            {
+                recordSummarizedIssue(
+                    faceTooFewVerticesCount,
+                    faceTooFewVerticesExample,
+                    "Face " + std::to_string(faceIndex) + " has fewer than 3 vertices.");
+                continue;
+            }
+
+            bool hasInvalidVertexIndex = false;
+
+            for (uint16_t vertexIndex : face.vertexIndices)
+            {
+                if (vertexIndex >= indoorGeometry.vertices.size())
+                {
+                    hasInvalidVertexIndex = true;
+                    break;
+                }
+            }
+
+            if (hasInvalidVertexIndex)
+            {
+                recordSummarizedIssue(
+                    invalidFaceVertexIndexCount,
+                    invalidFaceVertexIndexExample,
+                    "Face " + std::to_string(faceIndex) + " references an invalid vertex index.");
+                continue;
+            }
+
+            Game::IndoorFaceGeometryData geometry = {};
+
+            if (Game::buildIndoorFaceGeometry(indoorGeometry, indoorGeometry.vertices, faceIndex, geometry))
+            {
+                const float normalLengthSquared =
+                    geometry.normal.x * geometry.normal.x
+                    + geometry.normal.y * geometry.normal.y
+                    + geometry.normal.z * geometry.normal.z;
+
+                if (normalLengthSquared <= 0.01f)
+                {
+                    recordSummarizedIssue(
+                        degenerateFaceCount,
+                        degenerateFaceExample,
+                        "Face " + std::to_string(faceIndex) + " is degenerate.");
+                }
+            }
+
+            const std::string textureName = toLowerCopy(trimCopy(face.textureName));
+
+            if (textureName.empty())
+            {
+                recordSummarizedIssue(
+                    emptyTextureFaceCount,
+                    emptyTextureFaceExample,
+                    "Face " + std::to_string(faceIndex) + " has an empty texture name.");
+            }
+            else if (!knownBitmapNames.empty() && !knownBitmapNames.contains(textureName))
+            {
+                recordSummarizedIssue(
+                    missingTextureFaceCount,
+                    missingTextureFaceExample,
+                    "Face " + std::to_string(faceIndex) + " uses missing texture '" + face.textureName + "'.");
+            }
+
+            Game::IndoorFace effectiveFace = face;
+
+            if (const Game::IndoorSceneFaceAttributeOverride *pOverride =
+                    Game::findIndoorSceneFaceOverride(sceneData, faceIndex))
+            {
+                Game::applyIndoorSceneFaceOverride(*pOverride, effectiveFace);
+            }
+
+            const uint16_t eventId = effectiveFace.cogTriggered;
+
+            if (eventId != 0 && !hasResolvedEvent(
+                    eventId,
+                    m_localScriptedEventProgram,
+                    m_globalScriptedEventProgram,
+                    m_localEvtProgram,
+                    m_globalEvtProgram))
+            {
+                recordSummarizedIssue(
+                    missingFaceEventCount,
+                    missingFaceEventExample,
+                    "Face " + std::to_string(faceIndex) + " references missing event " + std::to_string(eventId) + ".");
+            }
+        }
+
+        for (size_t entityIndex = 0; entityIndex < indoorGeometry.entities.size(); ++entityIndex)
+        {
+            const Game::IndoorEntity &entity = indoorGeometry.entities[entityIndex];
+
+            for (uint16_t eventId : {entity.eventIdPrimary, entity.eventIdSecondary})
+            {
+                if (!hasResolvedEvent(
+                        eventId,
+                        m_localScriptedEventProgram,
+                        m_globalScriptedEventProgram,
+                        m_localEvtProgram,
+                        m_globalEvtProgram))
+                {
+                    recordSummarizedIssue(
+                        missingEntityEventCount,
+                        missingEntityEventExample,
+                        "Entity " + std::to_string(entityIndex) + " references missing event "
+                            + std::to_string(eventId) + ".");
+                }
+            }
+        }
+
+        appendSummarizedIssue(
+            m_validationMessages,
+            faceTooFewVerticesCount,
+            "faces have fewer than 3 vertices.",
+            faceTooFewVerticesExample);
+        appendSummarizedIssue(
+            m_validationMessages,
+            invalidFaceVertexIndexCount,
+            "faces reference invalid vertex indices.",
+            invalidFaceVertexIndexExample);
+        appendSummarizedIssue(
+            m_validationMessages,
+            degenerateFaceCount,
+            "faces are degenerate.",
+            degenerateFaceExample);
+        appendSummarizedIssue(
+            m_validationMessages,
+            emptyTextureFaceCount,
+            "faces have empty texture names.",
+            emptyTextureFaceExample);
+        appendSummarizedIssue(
+            m_validationMessages,
+            missingTextureFaceCount,
+            "faces use missing textures.",
+            missingTextureFaceExample);
+        appendSummarizedIssue(
+            m_validationMessages,
+            missingEntityEventCount,
+            "entity event references are unresolved.",
+            missingEntityEventExample);
+        appendSummarizedIssue(
+            m_validationMessages,
+            missingFaceEventCount,
+            "face event references are unresolved.",
+            missingFaceEventExample);
+        return;
+    }
+
     const Game::OutdoorMapData &outdoorGeometry = m_document.outdoorGeometry();
     const Game::OutdoorSceneData &sceneData = m_document.outdoorSceneData();
     std::unordered_set<std::string> knownBitmapNames;
@@ -4836,7 +6361,11 @@ void EditorSession::refreshDirtyState()
         return;
     }
 
-    m_document.setDirty(m_document.createOutdoorSceneSnapshot() != m_savedSnapshot);
+    m_document.setDirty(
+        (m_document.kind() == EditorDocument::Kind::Indoor
+            ? m_document.createIndoorSceneSnapshot()
+            : m_document.createOutdoorSceneSnapshot())
+        != m_savedSnapshot);
 }
 
 void EditorSession::resetHistory()
@@ -4919,15 +6448,24 @@ void EditorSession::loadOutdoorEditorSupportData(const std::string &mapFileName)
     {
         localLuaCandidates.push_back(packageScriptModule);
     }
-    else
-    {
-        localLuaCandidates = buildLuaScriptPathCandidates(mapBaseName, false);
-    }
+
+    const std::vector<std::filesystem::path> localLuaSidecarCandidates =
+        buildLuaScriptSidecarPathCandidates(
+            mapBaseName,
+            m_document.geometryPhysicalPath(),
+            m_document.scenePhysicalPath());
+    const std::vector<std::string> defaultLuaCandidates = buildLuaScriptPathCandidates(mapBaseName, false);
+    localLuaCandidates.insert(localLuaCandidates.end(), defaultLuaCandidates.begin(), defaultLuaCandidates.end());
 
     {
         std::string resolvedLuaPath;
-        const std::optional<std::string> luaSource =
-            readFirstExistingText(*m_pAssetFileSystem, localLuaCandidates, resolvedLuaPath);
+        std::optional<std::string> luaSource =
+            readFirstExistingPhysicalText(localLuaSidecarCandidates, resolvedLuaPath);
+
+        if (!luaSource)
+        {
+            luaSource = readFirstExistingText(*m_pAssetFileSystem, localLuaCandidates, resolvedLuaPath);
+        }
 
         if (luaSource)
         {
@@ -4991,5 +6529,17 @@ void EditorSession::pruneBModelImportSources()
     {
         m_selection = {EditorSelectionKind::Summary, 0};
     }
+}
+
+std::string EditorSession::previewEventRuntimeKey() const
+{
+    if (!hasDocument())
+    {
+        return {};
+    }
+
+    return m_document.sceneVirtualPath()
+        + "|"
+        + std::to_string(static_cast<unsigned long long>(m_document.sceneRevision()));
 }
 }
