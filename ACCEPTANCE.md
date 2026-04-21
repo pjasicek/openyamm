@@ -1,44 +1,50 @@
 # Acceptance Criteria
 
-## Authoritative Target
+## Authoritative Plans
 
-- [x] `docs/indoor_outdoor_shared_gameplay_extraction_plan.md` is the only authoritative refactor target.
-- [x] `docs/shared_gameplay_action_extraction_plan.md` is deprecated historical context only.
+- [ ] `docs/projectile_service_moderate_refactor_plan.md` progress says `Done definition satisfied: YES`.
+- [ ] `docs/actor_ai_shared_refactor_plan.md` progress says `Done definition satisfied: YES`.
 
-## Structural
+## Projectile Structural Acceptance
 
-- [ ] `GameApplication::renderFrame` follows the target frame shape from the authoritative plan.
-- [ ] A shared `GameInputSystem` samples engine/SDL input once per frame outside indoor/outdoor views.
-- [ ] Shared gameplay consumes a semantic `GameplayInputFrame`.
-- [ ] Shared gameplay input paths do not call `SDL_GetKeyboardState`, `SDL_GetMouseState`, or
-  `SDL_GetRelativeMouseState` from `OutdoorGameView`, `IndoorGameView`, or `OutdoorGameplayInputController`.
-- [ ] `GameplaySession::updateGameplay(const GameplayInputFrame &, float)` is the shared gameplay frame entry point.
-- [ ] `OutdoorGameView` and `IndoorGameView` do not call `GameplayInputController::updateSharedGameplayInputFrame`.
-- [ ] `GameplayInteractionController::WorldInteractionFrameInput` callback bag is removed or reduced to non-behavioral
-  plain data only.
-- [ ] Shared gameplay pulls party, UI state, held item state, pending spell state, status text, spell service, and item
-  service directly from `GameSession`.
-- [ ] Shared gameplay calls `IGameplayWorldRuntime` directly for world facts/application.
-- [ ] `OutdoorGameView::render` does not assemble gameplay interaction, pending spell, held-item, activation, or party
-  attack lambdas.
-- [ ] `IndoorGameView::render` does not assemble no-op gameplay interaction lambdas.
-- [ ] `IGameplayWorldRuntime` exposes cohesive world methods for picking, interaction, held-item world use/drop,
-  pending spell target facts, party attack world facts/application, world update, and world rendering.
-- [ ] No shared gameplay controller includes outdoor or indoor view headers.
-- [ ] No new adapter/callback layer merely hides the old view ownership.
+- [ ] The main projectile loop uses `ProjectileFrameFacts` and `ProjectileFrameResult`.
+- [ ] Shared projectile service owns projectile gameplay decisions.
+- [ ] Active world owns projectile collision facts and world-specific application.
+- [ ] Public projectile frame API no longer exposes the old micro-decision command layer.
+- [ ] Projectile refactor does not merge indoor/outdoor runtime, renderer, or collision types.
+- [ ] Projectile refactor does not introduce callback bags or ownership-hiding adapters.
 
-## Behavioral
+## Projectile Behavioral Acceptance
 
-- [ ] Outdoor behavior remains unchanged for mouse-look/RMB cursor mode.
-- [ ] Outdoor behavior remains unchanged for LMB attack cadence.
-- [ ] Outdoor behavior remains unchanged for quick cast and quick-cast attack fallback.
-- [ ] Outdoor behavior remains unchanged for attack-cast substitution.
-- [ ] Outdoor behavior remains unchanged for pending targeted spell confirmation/cancel.
-- [ ] Outdoor behavior remains unchanged for Space/E/mouse activation.
-- [ ] Outdoor behavior remains unchanged for held-item transfer/use/drop.
-- [ ] Outdoor behavior remains unchanged for chest-open-with-Space item-pickup suppression.
-- [ ] Indoor uses the same shared gameplay decisions as outdoor where indoor world hooks exist.
-- [ ] Missing indoor behavior is represented as missing active-world implementation, not duplicated gameplay logic.
+- [ ] Projectile travel behavior remains unchanged.
+- [ ] Bounce behavior remains unchanged.
+- [ ] Collision and expiry behavior remains unchanged.
+- [ ] Direct actor/party impact behavior remains unchanged.
+- [ ] Area impact behavior remains unchanged.
+- [ ] Impact FX/audio behavior remains unchanged.
+- [ ] Spawned projectile behavior remains unchanged.
+- [ ] Special paths are audited: Fire Spike, Meteor Shower, Starburst, and other special projectile paths.
+
+## Actor AI Structural Acceptance
+
+- [ ] Shared actor AI owns high-level actor behavior decisions.
+- [ ] Outdoor produces coarse actor AI facts and applies coarse actor AI results.
+- [ ] Indoor produces coarse actor AI facts and applies coarse actor AI results.
+- [ ] Movement, collision, LOS, floor/sector/terrain, and representation-specific application remain world-owned.
+- [ ] `GameplayActorService` is no longer the public micro-decision API for the actor frame.
+- [ ] Actor AI refactor does not merge indoor/outdoor actor storage.
+- [ ] Actor AI refactor does not introduce callback bags or ownership-hiding adapters.
+
+## Actor AI Behavioral Acceptance
+
+- [ ] Outdoor idle/wander behavior remains unchanged.
+- [ ] Outdoor pursuit behavior remains unchanged.
+- [ ] Outdoor melee attack behavior remains unchanged.
+- [ ] Outdoor ranged attack/projectile spawn behavior remains unchanged.
+- [ ] Outdoor actor-vs-actor hostility behavior remains unchanged.
+- [ ] Fear, blind, stun, paralyze, and death transitions remain correct.
+- [ ] Crowd steering remains at least as good as before the refactor.
+- [ ] Indoor actor AI uses the same shared behavior decisions where indoor world hooks exist.
 
 ## Validation
 
@@ -48,13 +54,9 @@
 
 ## Done Definition
 
-This refactor is done only when:
+This subsystem refactor batch is done only when:
 
-- the target frame shape is implemented;
-- input is owned by shared gameplay infrastructure;
-- gameplay decisions live in `GameplaySession` and shared controllers/services;
-- active world owns world facts/application;
-- indoor/outdoor views no longer wire shared gameplay behavior;
-- no giant callback bag replaces the old ownership leak;
-- indoor and outdoor use the same shared gameplay flow;
+- projectile plan done definition is satisfied;
+- actor AI plan done definition is satisfied;
+- root acceptance criteria are checked;
 - `PROGRESS.md` contains `## Done definition satisfied: YES`.

@@ -12,29 +12,32 @@ Read these files first:
 - TASK_QUEUE.md
 - PROGRESS.md
 - docs/indoor_outdoor_shared_gameplay_extraction_plan.md
+- docs/projectile_service_moderate_refactor_plan.md
+- docs/actor_ai_shared_refactor_plan.md
 
-Use docs/indoor_outdoor_shared_gameplay_extraction_plan.md as the only authoritative refactor target.
-docs/shared_gameplay_action_extraction_plan.md is deprecated historical context only; do not use it as execution input.
-Do not execute the master plan linearly.
+Use docs/projectile_service_moderate_refactor_plan.md as the authoritative plan for projectile work.
+Use docs/actor_ai_shared_refactor_plan.md as the authoritative plan for actor AI work.
+Use docs/indoor_outdoor_shared_gameplay_extraction_plan.md only as architectural ownership background.
+Do not execute any plan linearly.
 Use TASK_QUEUE.md as the executable task list.
 
 Execute the next unfinished task from TASK_QUEUE.md.
 Work on one coherent slice, or a tightly related micro-batch if required to keep build passing.
-Current priority is the runtime-boundary refactor:
-- introduce GameInputSystem and GameplayInputFrame
-- add GameplaySession::updateGameplay
-- remove the WorldInteractionFrameInput callback bag
-- move outdoor callback bodies into active-world methods
-- implement indoor active-world seam methods
-- move world update/render behind active world
+Current priority is the projectile service moderate refactor first, then shared actor AI:
+- add projectile coarse frame facts/result types
+- add outdoor projectile frame fact collection
+- implement updateProjectileFrame
+- switch outdoor projectile loop to facts/result
+- remove or privatize old projectile frame-decision layer
+- then move to the actor AI task queue
 Run the documented build/tests.
 Fix regressions you introduce.
-Update TASK_QUEUE.md and PROGRESS.md with concrete evidence.
+Update TASK_QUEUE.md, PROGRESS.md, and the relevant subsystem plan progress section with concrete evidence.
 Do not mark completion just because a helper, adapter, or callback exists.
-Completion requires the target frame shape, shared gameplay-owned input and decisions, direct active-world facts and
-application calls, and no view-owned shared gameplay wiring.
+Completion requires the subsystem done definitions and root ACCEPTANCE.md to be satisfied.
 Stop only after finishing the current slice, recording evidence, and leaving the repo in a buildable state.
-If ownership or scope is unclear, consult only the relevant sections of the authoritative plan, then continue.
+If ownership or scope is unclear, consult only the relevant sections of the active subsystem plan and architectural
+background, then continue.
 EOF
 
 while true; do

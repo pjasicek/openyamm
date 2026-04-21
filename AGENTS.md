@@ -241,10 +241,14 @@ Avoid duplicating gameplay logic.
 
 ---
 
-# Shared gameplay runtime boundary refactor
+# Current subsystem refactor loops
 
-Architectural source of truth:
+Architectural background:
 - docs/indoor_outdoor_shared_gameplay_extraction_plan.md
+
+Current subsystem plans:
+- docs/projectile_service_moderate_refactor_plan.md
+- docs/actor_ai_shared_refactor_plan.md
 
 Execution control files:
 - PLAN.md
@@ -253,14 +257,15 @@ Execution control files:
 - PROGRESS.md
 
 Execution rules:
-- `docs/indoor_outdoor_shared_gameplay_extraction_plan.md` is the only authoritative refactor target.
-- `docs/shared_gameplay_action_extraction_plan.md` is deprecated historical context only.
-- Do not execute the master plan linearly from top to bottom.
+- `docs/projectile_service_moderate_refactor_plan.md` is authoritative for the projectile service refactor.
+- `docs/actor_ai_shared_refactor_plan.md` is authoritative for the shared actor AI refactor.
+- `docs/indoor_outdoor_shared_gameplay_extraction_plan.md` is architectural background and ownership context.
+- Do not execute any plan linearly from top to bottom.
 - Use PLAN.md for condensed goals.
 - Use TASK_QUEUE.md as the executable work queue.
-- Use docs/indoor_outdoor_shared_gameplay_extraction_plan.md for architecture, ownership boundaries, executable phases,
-  required world seam, and validation.
-- If task intent is unclear, consult only the relevant sections of the authoritative plan, then continue.
+- Use the relevant subsystem document for detailed task requirements and acceptance.
+- If task intent is unclear, consult only the relevant sections of the subsystem plan and architectural background, then
+  continue.
 - Work in small coherent slices.
 - Prefer finishing one ownership transfer path before starting another.
 - Keep the repository buildable after each meaningful slice.
@@ -268,27 +273,22 @@ Execution rules:
 - Do not reintroduce shared gameplay semantics into OutdoorGameView or IndoorGameView.
 - Shared gameplay owns what should happen.
 - Active world owns world facts and world-specific application.
-- Gameplay owns input semantics; indoor/outdoor must not sample or pass raw SDL input for shared gameplay behavior.
-- Do not replace the current callback wall with another adapter/callback wall. Shared gameplay should use GameSession
-  state directly and call the active IGameplayWorldRuntime seam directly for world facts/application.
+- For projectiles: shared projectile service owns projectile gameplay decisions; active world owns collision facts and
+  world application.
+- For actor AI: shared actor AI owns behavior decisions; active world owns actor facts, movement/collision, LOS, and
+  result application.
+- Do not replace micro-struct over-abstraction with callback bags or adapters that hide ownership.
 
 Validation commands:
 - cmake --build build --target openyamm -j25
 - ctest --test-dir build --output-on-failure
 
 Manual smoke tests to note in PROGRESS.md when relevant:
-- LMB attack cadence
-- quick cast with target under cursor
-- quick cast with no target using crosshair/cursor direction
-- quick cast with no assigned spell falling back to attack
-- attack-cast substitution
-- spellbook targeted spell selection
-- Meteor Shower / Starburst ground targeting
-- chest open with space does not pick an item
-- held item transfer to party portrait in chest/dialogue/shop
-- quest-granted item under cursor transferred to party
-- dialogue accept/close and Escape behavior
-- actor/world item/deco/event-face hover and activation
+- projectile travel, bounce, collision, impact FX, splash, area impact, and spawned projectiles
+- Fire Spike, Meteor Shower, Starburst, and special projectile paths if touched
+- outdoor actor idle/wander, pursuit, melee attack, ranged attack, actor-vs-actor hostility, fear, blind, stun,
+  paralyze, death, and crowd steering
+- indoor actor AI paths once indoor AI hooks are touched
 
 Stopping conditions:
 - Stop only if all acceptance criteria are satisfied and recorded in PROGRESS.md
@@ -296,4 +296,6 @@ Stopping conditions:
 
 Context recovery:
 - If context becomes compressed or unclear, re-read AGENTS.md, PLAN.md, ACCEPTANCE.md, TASK_QUEUE.md, PROGRESS.md, and the relevant sections of:
+  - docs/projectile_service_moderate_refactor_plan.md
+  - docs/actor_ai_shared_refactor_plan.md
   - docs/indoor_outdoor_shared_gameplay_extraction_plan.md

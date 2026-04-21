@@ -2,76 +2,67 @@
 
 ## Objective
 
-Reach the shared gameplay runtime boundary defined in:
+Refactor the current shared gameplay state for two subsystems:
 
-- `docs/indoor_outdoor_shared_gameplay_extraction_plan.md`
+- projectile service: `docs/projectile_service_moderate_refactor_plan.md`
+- shared actor AI: `docs/actor_ai_shared_refactor_plan.md`
 
-That document is the only authoritative refactor target.
+The runtime-boundary extraction is treated as the architectural baseline. These
+subsystem refactors must respect that boundary:
 
-The goal is not thinner adapters. The goal is that gameplay owns input,
-decisions, UI/screens, party actions, item flow, spell flow, combat rules, and
-shared presentation. Indoor/outdoor provide only the active world
-representation through `IGameplayWorldRuntime`.
+- shared gameplay owns decisions;
+- active world owns world facts and world-specific application;
+- no callback bags or thin adapters that only hide ownership.
 
-## Target Frame Shape
+## Current Priority
 
-The refactor is complete when the frame flow is structurally equivalent to:
+1. Projectile service moderate refactor.
+2. Shared actor AI refactor.
+
+Projectile comes first because it is smaller, more mechanical, and establishes
+the facts/result exchange style before actor AI uses the same pattern at a
+larger scale.
+
+## Projectile Target
+
+The projectile frame should converge to:
 
 ```cpp
-void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds)
-{
-    m_gameInputSystem.updateFromEngineInput(width, height, mouseWheelDelta);
-
-    m_gameSession.updateGameplay(m_gameInputSystem.frame(), deltaSeconds);
-
-    if (IGameplayWorldRuntime *pWorld = m_gameSession.activeWorldRuntime())
-    {
-        pWorld->renderWorld(width, height, deltaSeconds);
-    }
-
-    m_gameSession.gameplayUiRuntime().render(width, height);
-}
+ProjectileFrameFacts facts = world.collectProjectileFrameFacts(projectile, deltaSeconds);
+ProjectileFrameResult result = projectileService.updateProjectileFrame(projectile, facts);
+world.applyProjectileFrameResult(projectile, result);
 ```
 
-Exact names may differ. Ownership must not.
+Shared projectile service owns projectile gameplay decisions. Active world owns
+collision facts and application to ODM/BLV representation.
 
-## Current Reality
+## Actor AI Target
 
-- Shared controllers exist, but shared gameplay still receives a large
-  callback-heavy `WorldInteractionFrameInput`.
-- Outdoor still assembles gameplay/world interaction callbacks in
-  `OutdoorGameView::render`.
-- Indoor still has no-op callback seams for world interaction.
-- Outdoor and indoor still participate in input sampling or raw input passing
-  for shared gameplay paths.
-- `IGameplayWorldRuntime` exists, but it is not yet the cohesive active-world
-  interaction/render boundary.
+The actor AI frame should converge to:
 
-## Required Migration Order
+```cpp
+ActorAiFrameFacts facts = world.collectActorAiFrameFacts(deltaSeconds);
+ActorAiFrameResult result = actorAiSystem.updateActors(facts);
+world.applyActorAiFrameResult(result);
+```
 
-1. Introduce `GameInputSystem` and `GameplayInputFrame`.
-2. Add `GameplaySession::updateGameplay`.
-3. Replace `WorldInteractionFrameInput` callback bag with direct
-   `GameSession` state access and direct active-world calls.
-4. Move outdoor callback bodies into `OutdoorWorldRuntime` or cohesive outdoor
-   world services implementing the active-world seam.
-5. Implement indoor active-world seam methods.
-6. Move world rendering behind the active-world boundary.
-7. Continue shared-system extraction under this boundary.
+Shared actor AI owns behavior decisions. Active world owns actor storage,
+active-list construction, LOS, movement/collision, and result application.
 
 ## Anti-Goals
 
-- Do not add a second authoritative plan.
-- Do not introduce another adapter that hides the same ownership leak.
-- Do not let `OutdoorGameView` or `IndoorGameView` own shared gameplay
-  semantics.
-- Do not pass callbacks for state already owned by `GameSession`.
-- Do not sample SDL input in indoor/outdoor for shared gameplay behavior.
+- Do not copy OpenEnroth code.
+- Do not merge indoor/outdoor world representations.
+- Do not create callback bags as a replacement for micro-structs.
+- Do not rewrite behavior unless fixing a clear bug.
+- Do not move terrain, BLV sectors, collision, LOS, or renderer internals into
+  shared gameplay.
 
 ## Rules
 
 - Use `TASK_QUEUE.md` as the executable queue.
-- Finish one ownership transfer path before starting another.
-- Keep behavior unchanged unless fixing a clear bug.
+- Use the relevant subsystem plan for detailed instructions.
+- Finish one coherent slice before starting another.
+- Keep behavior unchanged unless the task explicitly fixes a bug.
 - Keep the repository buildable after each meaningful slice.
 - Update `PROGRESS.md` after each meaningful slice.
