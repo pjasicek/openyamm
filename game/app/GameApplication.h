@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/app/AppMode.h"
+#include "game/app/GameInputSystem.h"
 #include "game/app/GameSettings.h"
 #include "game/app/GameSession.h"
 #include "engine/ApplicationConfig.h"
@@ -106,6 +107,7 @@ private:
     GameDataRepository m_gameDataRepository;
     GameAudioSystem m_gameAudioSystem;
     GameSession m_gameSession;
+    GameInputSystem m_gameInputSystem;
     IndoorDebugRenderer m_indoorDebugRenderer;
     IndoorGameView m_indoorGameView;
     OutdoorGameView m_outdoorGameView;

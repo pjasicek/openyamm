@@ -1,17 +1,19 @@
 #include "game/ui/GameplayHudOverlaySupport.h"
 
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/party/SkillData.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/SpellbookUiLayout.h"
 
-#include <SDL3/SDL.h>
 #include <bx/math.h>
 
 #include <algorithm>
 #include <array>
 #include <cmath>
+#include <cstdint>
+#include <cstdio>
 #include <unordered_set>
 
 namespace OpenYAMM::Game
@@ -380,14 +382,15 @@ bool GameplayHudOverlaySupport::tryPopulateItemInspectOverlayFromRenderedHudItem
         return false;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
 
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
+    if (pInput == nullptr || !pInput->rightMouseButton.held)
     {
         return false;
     }
+
+    const float mouseX = pInput->pointerX;
+    const float mouseY = pInput->pointerY;
 
     for (auto it = context.renderedInspectableHudItems().rbegin();
          it != context.renderedInspectableHudItems().rend();
@@ -479,14 +482,15 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
         return;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
 
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
+    if (pInput == nullptr || !pInput->rightMouseButton.held)
     {
         return;
     }
+
+    const float mouseX = pInput->pointerX;
+    const float mouseY = pInput->pointerY;
 
     const Character *pCharacter = context.selectedCharacterScreenCharacter();
 
@@ -724,14 +728,17 @@ void GameplayHudOverlaySupport::updateBuffInspectOverlay(
         return;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
 
-    if ((mouseButtons & (SDL_BUTTON_RMASK | SDL_BUTTON_LMASK)) == 0 || context.itemInspectOverlayReadOnly().active)
+    if (pInput == nullptr
+        || (!pInput->rightMouseButton.held && !pInput->leftMouseButton.held)
+        || context.itemInspectOverlayReadOnly().active)
     {
         return;
     }
+
+    const float mouseX = pInput->pointerX;
+    const float mouseY = pInput->pointerY;
 
     const Party &party = *context.partyReadOnly();
 
@@ -923,11 +930,10 @@ void GameplayHudOverlaySupport::updateCharacterDetailOverlay(
         return;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
 
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0
+    if (pInput == nullptr
+        || !pInput->rightMouseButton.held
         || context.itemInspectOverlayReadOnly().active
         || context.characterInspectOverlayReadOnly().active
         || context.buffInspectOverlayReadOnly().active
@@ -942,6 +948,9 @@ void GameplayHudOverlaySupport::updateCharacterDetailOverlay(
     {
         return;
     }
+
+    const float mouseX = pInput->pointerX;
+    const float mouseY = pInput->pointerY;
 
     const Party &party = *context.partyReadOnly();
     const Character *pCharacter = nullptr;
@@ -1057,14 +1066,15 @@ void GameplayHudOverlaySupport::updateSpellInspectOverlay(
         return;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+    const GameplayInputFrame *pInput = context.currentGameplayInputFrame();
 
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
+    if (pInput == nullptr || !pInput->rightMouseButton.held)
     {
         return;
     }
+
+    const float mouseX = pInput->pointerX;
+    const float mouseY = pInput->pointerY;
 
     const SpellbookSchoolUiDefinition *pDefinition = findSpellbookSchoolUiDefinition(context.spellbookReadOnly().school);
 

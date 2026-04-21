@@ -276,6 +276,11 @@ GameplayOverlayInteractionState &GameplayScreenRuntime::interactionState() const
     return m_session.overlayInteractionState();
 }
 
+const GameplayInputFrame *GameplayScreenRuntime::currentGameplayInputFrame() const
+{
+    return m_session.currentGameplayInputFrame();
+}
+
 GameplayDialogUiFlowState GameplayScreenRuntime::dialogUiFlowState()
 {
     return {
@@ -288,29 +293,6 @@ GameplayDialogUiFlowState GameplayScreenRuntime::dialogUiFlowState()
 
 GameplayDialogController::Context GameplayScreenRuntime::buildDialogContext(EventRuntimeState &eventRuntimeState)
 {
-    GameplayDialogController::Callbacks callbacks = {};
-    callbacks.playSpeechReaction =
-        [this](size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
-        {
-            playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
-        };
-    callbacks.playHouseSound =
-        [this](uint32_t soundId)
-        {
-            if (m_pAudioSystem != nullptr)
-            {
-                m_pAudioSystem->playSound(soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
-            }
-        };
-    callbacks.cancelMapTransition =
-        [this]()
-        {
-            if (IGameplayWorldRuntime *pWorldRuntime = worldRuntime())
-            {
-                pWorldRuntime->cancelPendingMapTransition();
-            }
-        };
-
     const MapStatsEntry *pCurrentMap = m_session.hasCurrentMapFileName()
         ? m_session.data().mapStats().findByFileName(m_session.currentMapFileName())
         : nullptr;
@@ -331,7 +313,7 @@ GameplayDialogController::Context GameplayScreenRuntime::buildDialogContext(Even
         rosterTable(),
         &m_session.data().arcomageLibrary(),
         currentHudScreenState() == GameplayHudScreenState::Dialogue,
-        std::move(callbacks));
+        this);
 }
 
 void GameplayScreenRuntime::presentPendingEventDialog(
@@ -342,20 +324,23 @@ void GameplayScreenRuntime::presentPendingEventDialog(
 {
     GameplayDialogUiFlowState state = dialogUiFlowState();
     GameplayDialogUiFlowPresentOptions options = {};
+    options.pInputFrame = m_session.currentGameplayInputFrame();
     options.suppressInitialAcceptIfActivationKeysHeld = m_session.currentSceneKind() == SceneKind::Outdoor;
+    EventRuntimeState *pEventRuntimeState = worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    GameplayDialogController::Context context = contextBuilder
+        ? contextBuilder(*pEventRuntimeState)
+        : buildDialogContext(*pEventRuntimeState);
 
     ::OpenYAMM::Game::presentPendingEventDialog(
         state,
-        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr,
-        [this, &contextBuilder](EventRuntimeState &eventRuntimeState)
-        {
-            if (contextBuilder)
-            {
-                return contextBuilder(eventRuntimeState);
-            }
-
-            return buildDialogContext(eventRuntimeState);
-        },
+        pEventRuntimeState,
+        context,
         previousMessageCount,
         allowNpcFallbackContent,
         options,
@@ -377,13 +362,18 @@ uint32_t GameplayScreenRuntime::closeActiveEventDialog()
 void GameplayScreenRuntime::returnToHouseBankMainDialogShared()
 {
     GameplayDialogUiFlowState state = dialogUiFlowState();
+    EventRuntimeState *pEventRuntimeState = worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
     const GameplayDialogController::Result result = ::OpenYAMM::Game::returnToHouseBankMainDialog(
         state,
-        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr,
-        [this](EventRuntimeState &eventRuntimeState)
-        {
-            return buildDialogContext(eventRuntimeState);
-        });
+        pEventRuntimeState,
+        context);
 
     if (result.shouldOpenPendingEventDialog)
     {
@@ -1487,26 +1477,36 @@ void GameplayScreenRuntime::executeActiveDialogAction(
 void GameplayScreenRuntime::refreshHouseBankInputDialog()
 {
     GameplayDialogUiFlowState state = dialogUiFlowState();
+    EventRuntimeState *pEventRuntimeState = worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
     ::OpenYAMM::Game::refreshHouseBankInputDialog(
         state,
-        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr,
-        [this](EventRuntimeState &eventRuntimeState)
-        {
-            return buildDialogContext(eventRuntimeState);
-        },
+        pEventRuntimeState,
+        context,
         (SDL_GetTicks() / 500u) % 2u == 0u);
 }
 
 void GameplayScreenRuntime::confirmHouseBankInput()
 {
     GameplayDialogUiFlowState state = dialogUiFlowState();
+    EventRuntimeState *pEventRuntimeState = worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
     const GameplayDialogController::Result result = ::OpenYAMM::Game::confirmHouseBankInput(
         state,
-        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr,
-        [this](EventRuntimeState &eventRuntimeState)
-        {
-            return buildDialogContext(eventRuntimeState);
-        });
+        pEventRuntimeState,
+        context);
 
     if (result.shouldOpenPendingEventDialog)
     {
@@ -1773,6 +1773,11 @@ void GameplayScreenRuntime::triggerPortraitFaceAnimation(size_t memberIndex, Fac
     playPortraitExpression(memberIndex, pEntry->portraitIds[choiceIndex], std::nullopt);
 }
 
+uint32_t GameplayScreenRuntime::animationTicks() const
+{
+    return currentAnimationTicks();
+}
+
 void GameplayScreenRuntime::triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId)
 {
     const Party *pParty = partyReadOnly();
@@ -1906,6 +1911,30 @@ void GameplayScreenRuntime::playSpeechReaction(size_t memberIndex, SpeechId spee
     if (pReaction != nullptr && pReaction->faceAnimationId.has_value())
     {
         triggerPortraitFaceAnimation(memberIndex, *pReaction->faceAnimationId);
+    }
+}
+
+void GameplayScreenRuntime::playHouseSound(uint32_t soundId)
+{
+    if (m_pAudioSystem != nullptr)
+    {
+        m_pAudioSystem->playSound(soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
+    }
+}
+
+void GameplayScreenRuntime::playCommonUiSound(SoundId soundId)
+{
+    if (m_pAudioSystem != nullptr)
+    {
+        m_pAudioSystem->playCommonSound(soundId, GameAudioSystem::PlaybackGroup::Ui);
+    }
+}
+
+void GameplayScreenRuntime::stopAllAudioPlayback()
+{
+    if (m_pAudioSystem != nullptr)
+    {
+        m_pAudioSystem->stopAllPlayback();
     }
 }
 

@@ -8,6 +8,8 @@
 
 namespace OpenYAMM::Game
 {
+struct GameplayInputFrame;
+
 struct GameplayDialogUiFlowState
 {
     GameplayUiController &uiController;
@@ -16,17 +18,16 @@ struct GameplayDialogUiFlowState
     size_t &selectionIndex;
 };
 
-using GameplayDialogUiContextBuilder = std::function<GameplayDialogController::Context(EventRuntimeState &)>;
-
 struct GameplayDialogUiFlowPresentOptions
 {
+    const GameplayInputFrame *pInputFrame = nullptr;
     bool suppressInitialAcceptIfActivationKeysHeld = false;
 };
 
 void presentPendingEventDialog(
     GameplayDialogUiFlowState &state,
     EventRuntimeState *pEventRuntimeState,
-    const GameplayDialogUiContextBuilder &buildContext,
+    GameplayDialogController::Context &context,
     size_t previousMessageCount,
     bool allowNpcFallbackContent,
     const GameplayDialogUiFlowPresentOptions &options = {},
@@ -34,22 +35,21 @@ void presentPendingEventDialog(
 
 void closeActiveEventDialog(
     GameplayDialogUiFlowState &state,
-    EventRuntimeState *pEventRuntimeState,
-    const std::function<void(uint32_t hostHouseId)> &onClosed = {});
+    EventRuntimeState *pEventRuntimeState);
 
 bool refreshHouseBankInputDialog(
     GameplayDialogUiFlowState &state,
     EventRuntimeState *pEventRuntimeState,
-    const GameplayDialogUiContextBuilder &buildContext,
+    GameplayDialogController::Context &context,
     bool showCursor);
 
 GameplayDialogController::Result returnToHouseBankMainDialog(
     GameplayDialogUiFlowState &state,
     EventRuntimeState *pEventRuntimeState,
-    const GameplayDialogUiContextBuilder &buildContext);
+    GameplayDialogController::Context &context);
 
 GameplayDialogController::Result confirmHouseBankInput(
     GameplayDialogUiFlowState &state,
     EventRuntimeState *pEventRuntimeState,
-    const GameplayDialogUiContextBuilder &buildContext);
+    GameplayDialogController::Context &context);
 }

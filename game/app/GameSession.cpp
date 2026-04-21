@@ -1,5 +1,11 @@
 #include "game/app/GameSession.h"
 
+#include "game/gameplay/GameplayActionController.h"
+#include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/GameplayInteractionController.h"
+#include "game/gameplay/GameplayScreenController.h"
+#include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
+
 #include <cassert>
 #include <utility>
 
@@ -61,6 +67,7 @@ void GameSession::clear()
     m_currentSceneKind = SceneKind::Outdoor;
     m_currentMapFileName.clear();
     m_gameplayScreenState.clear();
+    m_gameplayCombatController.clear();
     m_gameplayProjectileService.clear();
     m_gameplayFxService.clear();
     m_gameplayUiRuntime.clear();
@@ -68,6 +75,10 @@ void GameSession::clear()
     m_overlayInteractionState = {};
     m_previousKeyboardState.fill(0);
     m_pActiveWorldRuntime = nullptr;
+    m_pCurrentGameplayInputFrame = nullptr;
+    m_sharedInputFrameResult = {};
+    m_sharedWorldInteractionBlockedThisFrame = false;
+    m_relativeMouseMotionResetRequested = false;
     m_outdoorPartyState.reset();
     m_currentOutdoorWorldState.reset();
     m_outdoorWorldStates.clear();
@@ -169,6 +180,16 @@ const GameplayActorService &GameSession::gameplayActorService() const
     return m_gameplayActorService;
 }
 
+GameplayCombatController &GameSession::gameplayCombatController()
+{
+    return m_gameplayCombatController;
+}
+
+const GameplayCombatController &GameSession::gameplayCombatController() const
+{
+    return m_gameplayCombatController;
+}
+
 GameplayItemService &GameSession::gameplayItemService()
 {
     return m_gameplayItemService;
@@ -257,6 +278,192 @@ IGameplayWorldRuntime *GameSession::activeWorldRuntime() const
 void GameSession::bindActiveWorldRuntime(IGameplayWorldRuntime *pWorldRuntime)
 {
     m_pActiveWorldRuntime = pWorldRuntime;
+}
+
+const GameplayInputFrame *GameSession::currentGameplayInputFrame() const
+{
+    return m_pCurrentGameplayInputFrame;
+}
+
+void GameSession::bindCurrentGameplayInputFrame(const GameplayInputFrame *pInputFrame)
+{
+    m_pCurrentGameplayInputFrame = pInputFrame;
+}
+
+void GameSession::updateGameplay(const GameplayInputFrame &input, float deltaSeconds)
+{
+    bindCurrentGameplayInputFrame(&input);
+    m_sharedInputFrameResult = {};
+
+    GameplayScreenFrameUpdateConfig frameUpdateConfig = {};
+    frameUpdateConfig.updateBuffInspectOverlay = m_currentSceneKind == SceneKind::Outdoor;
+    GameplayScreenController::updateSharedFrameState(
+        m_gameplayScreenRuntime,
+        input.screenWidth,
+        input.screenHeight,
+        deltaSeconds,
+        frameUpdateConfig);
+
+    IGameplayWorldRuntime *pWorldRuntime = activeWorldRuntime();
+    const bool hasActiveLootView =
+        pWorldRuntime != nullptr
+        && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr);
+    const GameplayStandardWorldInteractionFrameState worldInteractionFrameState =
+        GameplayScreenController::captureStandardWorldInteractionFrameState(m_gameplayScreenRuntime);
+    m_sharedWorldInteractionBlockedThisFrame =
+        GameplayScreenController::isStandardWorldInteractionBlockedForFrame(
+            m_gameplayScreenRuntime,
+            GameplayStandardWorldInteractionFrameGateConfig{
+                .state = worldInteractionFrameState,
+                .hasActiveLootView = hasActiveLootView,
+            });
+
+    if (pWorldRuntime != nullptr)
+    {
+        const Party *pParty = pWorldRuntime->party();
+        const bool hasReadyMember = pParty != nullptr && pParty->hasSelectableMemberInGameplay();
+        const bool isUtilitySpellModalActive =
+            m_gameplayScreenRuntime.utilitySpellOverlayReadOnly().active
+            && m_gameplayScreenRuntime.utilitySpellOverlayReadOnly().mode
+                != GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
+        const bool isReadableScrollOverlayActive =
+            m_gameplayScreenRuntime.readableScrollOverlayReadOnly().active;
+
+        m_sharedInputFrameResult =
+            GameplayInputController::updateSharedGameplayInputFrame(
+                m_gameplayScreenState,
+                m_gameplayScreenRuntime,
+                m_gameplaySpellService,
+                GameplaySharedInputFrameConfig{
+                    .pKeyboardState = input.keyboardState(),
+                    .pInputFrame = &input,
+                    .mouseWheelDelta = input.mouseWheelDelta,
+                    .screenWidth = input.screenWidth,
+                    .screenHeight = input.screenHeight,
+                    .pointerX = input.pointerX,
+                    .pointerY = input.pointerY,
+                    .leftButtonPressed = input.leftMouseButton.held,
+                    .rightButtonPressed = input.rightMouseButton.held,
+                    .hasReadyMember = hasReadyMember,
+                    .canBeginQuickCast = true,
+                    .isUtilitySpellModalActive = isUtilitySpellModalActive,
+                    .isReadableScrollOverlayActive = isReadableScrollOverlayActive,
+                    .processSharedGameplayHotkeys = true,
+                    .processQuickCast = true,
+                });
+
+        const bool allowWorldMovementInput =
+            !m_sharedInputFrameResult.journalInputConsumed && !m_sharedInputFrameResult.worldInputBlocked;
+        pWorldRuntime->updateWorldMovement(input, deltaSeconds, allowWorldMovementInput);
+        pWorldRuntime->updateActorAi(deltaSeconds);
+
+        Party *pMutableParty = pWorldRuntime->party();
+        if (pMutableParty != nullptr && !m_gameplayCombatController.pendingCombatEvents().empty())
+        {
+            GameplayCombatController::PendingCombatEventContext combatEventContext{
+                .party = *pMutableParty,
+                .pWorldRuntime = pWorldRuntime,
+                .pRuntime = &m_gameplayScreenRuntime,
+            };
+            m_gameplayCombatController.handleAndClearPendingCombatEvents(combatEventContext);
+        }
+
+        const bool worldInputBlocked =
+            m_currentSceneKind == SceneKind::Indoor
+                ? !allowWorldMovementInput
+                : m_sharedWorldInteractionBlockedThisFrame;
+        GameplayInteractionController::updateWorldInteractionFrame(
+            m_gameplayScreenState,
+            m_overlayInteractionState,
+            m_gameplayScreenRuntime,
+            m_gameplaySpellService,
+            input,
+            m_sharedInputFrameResult,
+            worldInputBlocked);
+    }
+
+    if (deltaSeconds > 0.0f)
+    {
+        m_gameplayProjectileService.updateProjectileImpactPresentation(deltaSeconds);
+        GameplayActionController::updateCooldowns(m_gameplayScreenState, deltaSeconds);
+    }
+
+    m_gameplayScreenRuntime.updateHouseVideoBackgroundPreloads();
+}
+
+void GameSession::renderGameplayUi(int width, int height)
+{
+    IGameplayWorldRuntime *pWorldRuntime = activeWorldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const GameplayWorldUiRenderState uiRenderState = pWorldRuntime->gameplayUiRenderState(width, height);
+
+    if (!uiRenderState.renderGameplayHud)
+    {
+        return;
+    }
+
+    const GameplayScreenState::GameplayMouseLookState &gameplayMouseLookState =
+        m_gameplayScreenState.gameplayMouseLookState();
+    const GameplayScreenState::PendingSpellTargetState &pendingSpellCast =
+        m_gameplayScreenState.pendingSpellTarget();
+
+    GameplayScreenController::renderStandardUi(
+        m_gameplayScreenRuntime,
+        width,
+        height,
+        GameplayStandardUiRenderConfig{
+            .canRenderHudOverlays = uiRenderState.canRenderHudOverlays,
+            .renderGameplayHud = uiRenderState.renderGameplayHud,
+            .renderGameplayMouseLookOverlay =
+                gameplayMouseLookState.mouseLookActive
+                    && !gameplayMouseLookState.cursorModeActive
+                    && !pendingSpellCast.active,
+            .renderActorInspectOverlay = uiRenderState.renderActorInspectOverlay,
+            .renderDebugFallbacks = uiRenderState.renderDebugFallbacks,
+        });
+
+    const GameplayInputFrame *pInputFrame = currentGameplayInputFrame();
+
+    if (pInputFrame == nullptr)
+    {
+        return;
+    }
+
+    GameplaySpellTargetingOverlayRenderer::renderPendingSpellTargetingOverlay(
+        m_gameplayScreenRuntime,
+        m_gameplaySpellService,
+        pendingSpellCast,
+        width,
+        height,
+        pInputFrame->pointerX,
+        pInputFrame->pointerY);
+}
+
+const GameplaySharedInputFrameResult &GameSession::sharedInputFrameResult() const
+{
+    return m_sharedInputFrameResult;
+}
+
+bool GameSession::sharedWorldInteractionBlockedThisFrame() const
+{
+    return m_sharedWorldInteractionBlockedThisFrame;
+}
+
+void GameSession::requestRelativeMouseMotionReset()
+{
+    m_relativeMouseMotionResetRequested = true;
+}
+
+bool GameSession::consumeRelativeMouseMotionResetRequest()
+{
+    const bool requested = m_relativeMouseMotionResetRequested;
+    m_relativeMouseMotionResetRequested = false;
+    return requested;
 }
 
 const std::optional<OutdoorPartyRuntime::Snapshot> &GameSession::outdoorPartyState() const

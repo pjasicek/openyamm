@@ -12,7 +12,6 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <functional>
 #include <optional>
 #include <vector>
 
@@ -25,27 +24,18 @@ class NpcDialogTable;
 class Party;
 class RosterTable;
 struct HouseEntry;
+class GameplayScreenRuntime;
 
 class GameplayDialogController
 {
 public:
-    struct Callbacks
-    {
-        std::function<void(size_t, SpeechId, bool)> playSpeechReaction;
-        std::function<void(uint32_t)> playHouseSound;
-        std::function<void(SoundId)> playCommonSound;
-        std::function<void()> requestTravelAutosave;
-        std::function<void()> stopTravelAudio;
-        std::function<void()> cancelMapTransition;
-        std::function<bool(uint16_t, size_t &)> executeNpcTopicEvent;
-    };
-
     struct Context
     {
         GameplayUiController &uiController;
         EventRuntimeState &eventRuntimeState;
         EventDialogContent &activeEventDialog;
         size_t &selectionIndex;
+        GameplayScreenRuntime *pScreenRuntime = nullptr;
         Party *pParty = nullptr;
         IGameplayWorldRuntime *pWorldRuntime = nullptr;
         const std::optional<ScriptedEventProgram> *pGlobalEventProgram = nullptr;
@@ -57,7 +47,6 @@ public:
         const RosterTable *pRosterTable = nullptr;
         const ArcomageLibrary *pArcomageLibrary = nullptr;
         bool dialogueHudActive = false;
-        Callbacks callbacks = {};
     };
 
     struct Result

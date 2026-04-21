@@ -2,11 +2,11 @@
 
 #include "game/tables/CharacterDollTable.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/items/InventoryItemUseRuntime.h"
-#include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SkillData.h"
 #include "game/ui/GameplayHudCommon.h"
@@ -601,10 +601,12 @@ void handlePointerClickRelease(
 
 void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
     GameplayScreenRuntime &context,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight)
+    const GameplayInputFrame &input)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
+
     if (!context.utilitySpellOverlayReadOnly().active)
     {
         return;
@@ -627,13 +629,10 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
     context.interactionState().closeOverlayLatch = false;
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
     const HudPointerState pointerState = {
-        mouseX,
-        mouseY,
-        (mouseButtons & SDL_BUTTON_LMASK) != 0
+        input.pointerX,
+        input.pointerY,
+        input.leftMouseButton.held
     };
     const GameplayUtilitySpellPointerTarget noneTarget = {};
     const auto resolveSpellName =
@@ -746,7 +745,8 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 return {};
             };
 
-        const GameplayUtilitySpellPointerTarget hoveredTarget = findTownPortalTarget(mouseX, mouseY);
+        const GameplayUtilitySpellPointerTarget hoveredTarget =
+            findTownPortalTarget(pointerState.x, pointerState.y);
 
         if (hoveredTarget.type == GameplayUtilitySpellPointerTargetType::TownPortalDestination
             && hoveredTarget.index < context.townPortalDestinations().size())
@@ -944,10 +944,11 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
 
 void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
     GameplayScreenRuntime &context,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight)
+    const GameplayInputFrame &input)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
     const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
 
     if (closePressed)
@@ -963,13 +964,10 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
         context.interactionState().closeOverlayLatch = false;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const bool isLeftMousePressed = input.leftMouseButton.held;
     const HudPointerState pointerState = {
-        mouseX,
-        mouseY,
+        input.pointerX,
+        input.pointerY,
         isLeftMousePressed
     };
     const GameplaySpellbookPointerTarget noneSpellbookTarget = {};
@@ -1336,10 +1334,11 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
 
 void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     GameplayScreenRuntime &context,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight)
+    const GameplayInputFrame &input)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
     Character *pActiveCharacter = const_cast<Character *>(context.selectedCharacterScreenCharacter());
     Party *pParty = context.party();
     const bool isReadOnlyAdventurersInnView = context.isReadOnlyAdventurersInnCharacterViewActive();
@@ -1413,14 +1412,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         context.interactionState().closeOverlayLatch = false;
     }
 
-    const SDL_Scancode charCycleScancode = context.mutableSettings().keyboard.binding(KeyboardAction::CharCycle);
-    const bool charCyclePressed =
-        pKeyboardState != nullptr
-        && charCycleScancode > SDL_SCANCODE_UNKNOWN
-        && charCycleScancode < SDL_SCANCODE_COUNT
-        && pKeyboardState[charCycleScancode];
-    const bool charCycleNewlyPressed =
-        charCyclePressed && context.previousKeyboardState()[charCycleScancode] == 0;
+    const bool charCycleNewlyPressed = input.action(KeyboardAction::CharCycle).pressed;
 
     if (charCycleNewlyPressed)
     {
@@ -1437,10 +1429,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         context.interactionState().characterMemberCycleLatch = false;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const float mouseX = input.pointerX;
+    const float mouseY = input.pointerY;
+    const bool isLeftMousePressed = input.leftMouseButton.held;
 
     const auto resolveCharacterInventoryGrid =
         [&context, screenWidth, screenHeight]() -> std::optional<GameplayResolvedHudLayoutElement>

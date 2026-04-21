@@ -467,9 +467,8 @@ void LoadGameScreen::drawScreen(float deltaSeconds)
     static_cast<void>(deltaSeconds);
 
     ensureLayoutLoaded();
-    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
-    const bool escapePressed = pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_ESCAPE];
-    const bool returnPressed = pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_RETURN];
+    const bool escapePressed = isScancodeHeld(SDL_SCANCODE_ESCAPE);
+    const bool returnPressed = isScancodeHeld(SDL_SCANCODE_RETURN);
 
     if (escapePressed)
     {

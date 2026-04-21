@@ -3,6 +3,9 @@
 #include "game/events/ISceneEventContext.h"
 #include "game/events/EventRuntime.h"
 #include "game/events/ScriptedEventProgram.h"
+#include "game/gameplay/GameplayActionController.h"
+#include "game/gameplay/GameplayActorService.h"
+#include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/maps/MapAssetLoader.h"
@@ -29,8 +32,9 @@ namespace OpenYAMM::Game
 {
 class ItemTable;
 class ChestTable;
-class GameplayActorService;
+class GameplayFxService;
 class GameplayProjectileService;
+class OutdoorGameView;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
 class ParticleSystem;
@@ -101,6 +105,15 @@ public:
         None,
         Party,
         Actor,
+    };
+
+    enum class ProjectileCollisionKind
+    {
+        None,
+        Party,
+        Actor,
+        BModel,
+        Terrain,
     };
 
     enum class ActorControlMode : uint8_t
@@ -210,28 +223,7 @@ public:
         int8_t crowdSideSign = 0;
     };
 
-    struct CombatEvent
-    {
-        enum class Type
-        {
-            MonsterMeleeImpact,
-            MonsterRangedRelease,
-            PartyProjectileImpact,
-            PartyProjectileActorImpact,
-        };
-
-        Type type = Type::MonsterMeleeImpact;
-        uint32_t sourceId = 0;
-        uint32_t sourcePartyMemberIndex = 0;
-        uint32_t targetActorId = 0;
-        bool fromSummonedMonster = false;
-        MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
-        int damage = 0;
-        int spellId = 0;
-        bool affectsAllParty = false;
-        bool hit = false;
-        bool killed = false;
-    };
+    using CombatEvent = GameplayCombatController::CombatEvent;
 
     struct ActorDecisionDebugInfo
     {
@@ -272,6 +264,18 @@ public:
 
     using ProjectileState = GameplayProjectileService::ProjectileState;
     using ProjectileImpactState = GameplayProjectileService::ProjectileImpactState;
+
+    struct ProjectileCollisionFacts
+    {
+        bool hit = false;
+        float factor = 2.0f;
+        bx::Vec3 point = {0.0f, 0.0f, 0.0f};
+        ProjectileCollisionKind kind = ProjectileCollisionKind::None;
+        std::string colliderName;
+        size_t actorIndex = static_cast<size_t>(-1);
+        size_t faceIndex = static_cast<size_t>(-1);
+        bool waterTerrainImpact = false;
+    };
 
     struct FireSpikeTrapState
     {
@@ -450,10 +454,13 @@ public:
         const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet = std::nullopt,
         const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet = std::nullopt,
         GameplayActorService *pGameplayActorService = nullptr,
-        GameplayProjectileService *pGameplayProjectileService = nullptr
+        GameplayProjectileService *pGameplayProjectileService = nullptr,
+        GameplayCombatController *pGameplayCombatController = nullptr,
+        GameplayFxService *pGameplayFxService = nullptr
     );
 
     bool isInitialized() const;
+    void bindInteractionView(OutdoorGameView *pView);
     int mapId() const;
     const std::string &mapName() const override;
     Snapshot snapshot() const;
@@ -470,6 +477,7 @@ public:
     const char *rainIntensityPresetName() const;
     void advanceGameMinutes(float minutes) override;
     void updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ);
+    void queueActorAiUpdate(float deltaSeconds, float partyX, float partyY, float partyZ);
 
     void applyEventRuntimeState();
     bool updateTimers(
@@ -485,7 +493,14 @@ public:
         size_t actorIndex,
         uint32_t animationTicks,
         GameplayActorInspectState &state) const override;
+    std::optional<GameplayCombatActorInfo> combatActorInfoById(uint32_t actorId) const override;
     const MapActorState *mapActorState(size_t actorIndex) const;
+    std::optional<GameplayWorldPoint> partyAttackFallbackProjectionPoint(size_t actorIndex) const;
+    std::optional<GameplayPartyAttackActorFacts> partyAttackActorFacts(
+        size_t actorIndex,
+        bool visibleForFallback) const override;
+    std::vector<GameplayPartyAttackActorFacts> collectPartyAttackFallbackActors(
+        const GameplayPartyAttackFallbackQuery &query) const override;
     std::optional<ActorDecisionDebugInfo> debugActorDecisionInfo(
         size_t actorIndex,
         float partyX,
@@ -501,6 +516,26 @@ public:
     bool debugSpawnEncounterFromSpawnPoint(size_t spawnIndex, uint32_t countOverride = 0);
     bool setMapActorDead(size_t actorIndex, bool isDead, bool emitAudio = true);
     bool applyPartyAttackToMapActor(size_t actorIndex, int damage, float partyX, float partyY, float partyZ);
+    bool applyPartyAttackMeleeDamage(
+        size_t actorIndex,
+        int damage,
+        const GameplayWorldPoint &source) override;
+    bool spawnPartyAttackProjectile(const GameplayPartyAttackProjectileRequest &request) override;
+    bool castPartyAttackSpell(const GameplayPartyAttackSpellRequest &request) override;
+    void recordPartyAttackWorldResult(
+        std::optional<size_t> actorIndex,
+        bool attacked,
+        bool actionPerformed) override;
+    bool worldInteractionReady() const override;
+    bool worldInspectModeActive() const override;
+    GameplayWorldPickRequest buildWorldPickRequest(const GameplayWorldPickRequestInput &input) const override;
+    std::optional<GameplayHeldItemDropRequest> buildHeldItemDropRequest() const override;
+    GameplayPartyAttackFrameInput buildPartyAttackFrameInput(
+        const GameplayWorldPickRequest &pickRequest) const override;
+    std::optional<size_t> spellActionHoveredActorIndex() const override;
+    std::optional<size_t> spellActionClosestVisibleHostileActorIndex() const override;
+    std::optional<bx::Vec3> spellActionActorTargetPoint(size_t actorIndex) const override;
+    std::optional<bx::Vec3> spellActionGroundTargetPoint(float screenX, float screenY) const override;
     bool applyPartySpellToActor(
         size_t actorIndex,
         uint32_t spellId,
@@ -521,6 +556,14 @@ public:
         float partyY,
         float partyZ,
         uint32_t sourcePartyMemberIndex = 0);
+    bool applyDirectSpellImpactToMapActor(
+        size_t actorIndex,
+        uint32_t spellId,
+        float partyX,
+        float partyY,
+        float partyZ,
+        uint32_t sourcePartyMemberIndex,
+        const GameplayActorService::DirectSpellImpactResult &impact);
     bool healMapActor(size_t actorIndex, int amount);
     bool resurrectMapActor(size_t actorIndex, int health, bool friendlyToParty);
     bool clearMapActorSpellEffects(size_t actorIndex);
@@ -591,9 +634,23 @@ public:
         uint32_t skillLevel,
         SkillMastery skillMastery,
         std::string &failureText) override;
-    void collectProjectilePresentationState(
-        std::vector<GameplayProjectilePresentationState> &projectiles,
-        std::vector<GameplayProjectileImpactPresentationState> &impacts) const override;
+    bool canActivateWorldHit(
+        const GameplayWorldHit &hit,
+        GameplayInteractionMethod interactionMethod) const override;
+    bool activateWorldHit(const GameplayWorldHit &hit) override;
+    GameplayPendingSpellWorldTargetFacts pickPendingSpellWorldTarget(
+        const GameplayWorldPickRequest &request) override;
+    GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) override;
+    GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) override;
+    GameplayWorldHit pickCurrentInteractionTarget(const GameplayWorldPickRequest &request) override;
+    GameplayWorldHoverCacheState worldHoverCacheState() const override;
+    GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) override;
+    GameplayHoverStatusPayload readCachedWorldHover() override;
+    void clearWorldHover() override;
+    bool canUseHeldItemOnWorld(const GameplayWorldHit &hit) const override;
+    bool useHeldItemOnWorld(const GameplayWorldHit &hit) override;
+    void applyPendingSpellCastWorldEffects(const PartySpellCastResult &castResult) override;
+    bool dropHeldItemToWorld(const GameplayHeldItemDropRequest &request) override;
     bool tryGetGameplayMinimapState(GameplayMinimapState &state) const override;
     void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const override;
     bool isArmageddonActive() const;
@@ -613,7 +670,28 @@ public:
     float partyFootZ() const override;
     void syncSpellMovementStatesFromPartyBuffs() override;
     void requestPartyJump() override;
+    void setAlwaysRunEnabled(bool enabled) override;
+    void updateWorldMovement(
+        const GameplayInputFrame &input,
+        float deltaSeconds,
+        bool allowWorldInput) override;
+    void updateActorAi(float deltaSeconds) override;
+    void updateWorld(float deltaSeconds) override;
+    void renderWorld(
+        int width,
+        int height,
+        const GameplayInputFrame &input,
+        float deltaSeconds) override;
+    GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const override;
+    bool requestTravelAutosave() override;
+    void presentPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent);
+    void handleDialogueCloseRequest();
+    void executeActiveDialogAction();
+    void openDebugNpcDialogue(uint32_t npcId);
+    void applyGrantedEventItemsToHeldInventory();
+    bool tryTriggerLocalEventById(uint16_t eventId);
     void cancelPendingMapTransition() override;
+    bool executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount) override;
     const MapDeltaData *mapDeltaData() const override;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
@@ -792,6 +870,7 @@ private:
         float y,
         float z,
         bool positional = true);
+    void pushProjectileAudioEvent(const GameplayProjectileService::ProjectileAudioRequest &request);
     bool spawnProjectileFromMapActor(
         const MapActorState &actor,
         const MonsterTable::MonsterStatsEntry &stats,
@@ -858,6 +937,82 @@ private:
     void materializeMapDeltaWorldItems();
     void updateWorldItems(float deltaSeconds);
     void updateFireSpikeTraps(float deltaSeconds, float partyX, float partyY, float partyZ);
+    void applyFireSpikeTrapTriggerDecision(
+        FireSpikeTrapState &trap,
+        const GameplayProjectileService::FireSpikeTrapTriggerDecision &decision);
+    int resolveProjectilePartyImpactDamage(const ProjectileState &projectile) const;
+    GameplayProjectileService::ProjectileAreaImpactInput buildProjectileAreaImpactInput(
+        const ProjectileState &projectile,
+        const bx::Vec3 &impactPoint,
+        float impactRadius,
+        float partyX,
+        float partyY,
+        float partyZ,
+        bool canHitParty,
+        size_t directActorIndex) const;
+    void applyProjectileAreaImpact(
+        const ProjectileState &projectile,
+        const bx::Vec3 &impactPoint,
+        float impactRadius,
+        float partyX,
+        float partyY,
+        float partyZ,
+        bool canHitParty,
+        size_t directActorIndex,
+        bool logAoeHits);
+    int resolvePartyProjectileDamageMultiplier(
+        const ProjectileState &projectile,
+        size_t actorIndex) const;
+    GameplayProjectileService::ProjectileDirectActorImpactInput buildProjectileDirectActorImpactInput(
+        const ProjectileState &projectile,
+        size_t actorIndex) const;
+    void applyProjectileDirectPartyImpact(const ProjectileState &projectile);
+    void applyProjectileDirectActorImpact(const ProjectileState &projectile, size_t actorIndex);
+    ProjectileCollisionFacts buildProjectileCollisionFacts(
+        const ProjectileState &projectile,
+        const bx::Vec3 &segmentStart,
+        const bx::Vec3 &segmentEnd,
+        float partyX,
+        float partyY,
+        float partyZ) const;
+    GameplayProjectileService::ProjectileBounceSurfaceFacts buildProjectileBounceSurfaceFacts(
+        const ProjectileCollisionFacts &collision) const;
+    GameplayProjectileService::ProjectileCollisionPresentationInput buildProjectileCollisionPresentationInput(
+        const ProjectileState &projectile,
+        const ProjectileCollisionFacts &collision) const;
+    void applyProjectileLifetimeExpiryDecision(
+        ProjectileState &projectile,
+        const GameplayProjectileService::ProjectileLifetimeExpiryDecision &decision,
+        float partyX,
+        float partyY,
+        float partyZ);
+    void applyProjectileCollisionResolutionDecision(
+        ProjectileState &projectile,
+        const ProjectileCollisionFacts &collision,
+        const GameplayProjectileService::ProjectileCollisionResolutionDecision &resolutionDecision,
+        float partyX,
+        float partyY,
+        float partyZ);
+    void applyProjectileCollisionFrameDecision(
+        ProjectileState &projectile,
+        const ProjectileCollisionFacts &collision,
+        const GameplayProjectileService::ProjectileCollisionFrameDecision &frameDecision,
+        float partyX,
+        float partyY,
+        float partyZ);
+    void applyProjectileUpdateFrameDecision(
+        ProjectileState &projectile,
+        const ProjectileCollisionFacts &collision,
+        const GameplayProjectileService::ProjectileUpdateFrameDecision &frameDecision,
+        float partyX,
+        float partyY,
+        float partyZ);
+    bool applyProjectileSpawnPresentationDecision(
+        const GameplayProjectileService::ProjectileSpawnResult &spawnResult,
+        const GameplayProjectileService::ProjectileSpawnPresentationDecision &decision,
+        const std::string &spawnKindName,
+        const std::string &instantColliderName);
+    static const char *projectileCollisionKindName(ProjectileCollisionKind kind);
     void updateProjectiles(float deltaSeconds, float partyX, float partyY, float partyZ);
     void spawnProjectileImpact(
         const ProjectileState &projectile,
@@ -879,6 +1034,28 @@ private:
     void removeBloodSplat(uint32_t sourceActorId);
     GameplayProjectileService &projectileService();
     const GameplayProjectileService &projectileService() const;
+    GameplayProjectileService::ProjectileImpactPresentationResult spawnProjectileImpactPresentation(
+        const ProjectileState &projectile,
+        const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
+        float x,
+        float y,
+        float z,
+        bool centerVertically);
+    GameplayProjectileService::ProjectileImpactPresentationResult spawnWaterSplashImpactPresentation(
+        const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
+        float x,
+        float y,
+        float z);
+    GameplayProjectileService::ProjectileImpactPresentationResult spawnImmediateSpellImpactPresentation(
+        const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
+        int sourceSpellId,
+        const std::string &sourceObjectName,
+        const std::string &sourceObjectSpriteName,
+        float x,
+        float y,
+        float z,
+        bool centerVertically,
+        bool freezeAnimation);
 
     int m_mapId = 0;
     int m_mapTreasureLevel = 0;
@@ -909,9 +1086,13 @@ private:
     const SpellTable *m_pSpellTable = nullptr;
     GameplayActorService *m_pGameplayActorService = nullptr;
     GameplayProjectileService *m_pGameplayProjectileService = nullptr;
+    GameplayProjectileService m_fallbackGameplayProjectileService;
+    GameplayCombatController *m_pGameplayCombatController = nullptr;
+    GameplayFxService *m_pGameplayFxService = nullptr;
     const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
     const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
     ParticleSystem *m_pParticleSystem = nullptr;
+    OutdoorGameView *m_pInteractionView = nullptr;
     std::optional<std::vector<uint8_t>> m_outdoorLandMask;
     std::vector<OutdoorFaceGeometryData> m_outdoorFaces;
     std::vector<std::vector<size_t>> m_outdoorFaceGridCells;
@@ -924,15 +1105,18 @@ private:
     std::optional<OutdoorMovementController> m_outdoorMovementController;
     std::unordered_map<int16_t, MonsterVisualState> m_monsterVisualsById;
     float m_actorUpdateAccumulatorSeconds = 0.0f;
+    bool m_actorAiUpdateQueued = false;
+    float m_queuedActorAiDeltaSeconds = 0.0f;
+    float m_queuedActorAiPartyX = 0.0f;
+    float m_queuedActorAiPartyY = 0.0f;
+    float m_queuedActorAiPartyZ = 0.0f;
     uint32_t m_sessionChestSeed = 0;
     uint32_t m_nextActorId = 0;
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<AudioEvent> m_pendingAudioEvents;
-    std::vector<CombatEvent> m_pendingCombatEvents;
     std::vector<WorldItemState> m_worldItems;
     uint32_t m_nextWorldItemId = 1;
-    uint32_t m_nextFireSpikeTrapId = 1;
     float m_gameplayOverlayRemainingSeconds = 0.0f;
     float m_gameplayOverlayDurationSeconds = 0.0f;
     float m_gameplayOverlayPeakAlpha = 0.0f;

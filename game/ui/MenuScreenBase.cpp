@@ -499,20 +499,22 @@ MenuScreenBase::~MenuScreenBase()
     destroyRendererResources();
 }
 
-void MenuScreenBase::renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds)
+void MenuScreenBase::renderFrame(
+    int width,
+    int height,
+    const GameplayInputFrame &inputFrame,
+    float deltaSeconds)
 {
     m_frameWidth = width;
     m_frameHeight = height;
-    m_mouseWheelDelta = mouseWheelDelta;
+    m_pInputFrame = &inputFrame;
+    m_mouseWheelDelta = inputFrame.mouseWheelDelta;
     ensureRendererInitialized();
 
-    float polledMouseX = 0.0f;
-    float polledMouseY = 0.0f;
-    const uint32_t mouseButtons = SDL_GetMouseState(&polledMouseX, &polledMouseY);
-    m_mouseX = polledMouseX;
-    m_mouseY = polledMouseY;
-    m_leftMouseDown = (mouseButtons & SDL_BUTTON_LMASK) != 0;
-    m_rightMouseDown = (mouseButtons & SDL_BUTTON_RMASK) != 0;
+    m_mouseX = inputFrame.pointerX;
+    m_mouseY = inputFrame.pointerY;
+    m_leftMouseDown = inputFrame.leftMouseButton.held;
+    m_rightMouseDown = inputFrame.rightMouseButton.held;
 
     bgfx::setViewRect(MenuViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
     bgfx::setViewClear(MenuViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ffu, 1.0f, 0);
@@ -535,6 +537,7 @@ void MenuScreenBase::renderFrame(int width, int height, float mouseWheelDelta, f
     drawScreen(deltaSeconds);
     m_leftMouseDownPrevious = m_leftMouseDown;
     m_rightMouseDownPrevious = m_rightMouseDown;
+    m_pInputFrame = nullptr;
 }
 
 const Engine::AssetFileSystem &MenuScreenBase::assetFileSystem() const
@@ -595,6 +598,11 @@ bool MenuScreenBase::rightMouseJustPressed() const
 bool MenuScreenBase::rightMouseJustReleased() const
 {
     return !m_rightMouseDown && m_rightMouseDownPrevious;
+}
+
+bool MenuScreenBase::isScancodeHeld(SDL_Scancode scancode) const
+{
+    return m_pInputFrame != nullptr && m_pInputFrame->isScancodeHeld(scancode);
 }
 
 void MenuScreenBase::drawTexture(const std::string &textureName, const Rect &rect)

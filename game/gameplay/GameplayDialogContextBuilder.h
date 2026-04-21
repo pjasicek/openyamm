@@ -10,6 +10,8 @@
 
 namespace OpenYAMM::Game
 {
+class GameplayScreenRuntime;
+
 inline GameplayDialogController::Context buildGameplayDialogContext(
     GameplayUiController &uiController,
     EventRuntimeState &eventRuntimeState,
@@ -26,13 +28,14 @@ inline GameplayDialogController::Context buildGameplayDialogContext(
     const RosterTable *pRosterTable,
     const ArcomageLibrary *pArcomageLibrary,
     bool dialogueHudActive,
-    GameplayDialogController::Callbacks callbacks)
+    GameplayScreenRuntime *pScreenRuntime)
 {
     GameplayDialogController::Context context = {
         uiController,
         eventRuntimeState,
         activeEventDialog,
         selectionIndex,
+        pScreenRuntime,
         pParty,
         pWorldRuntime,
         pGlobalEventProgram,
@@ -43,8 +46,7 @@ inline GameplayDialogController::Context buildGameplayDialogContext(
         pMapEntries,
         pRosterTable,
         pArcomageLibrary,
-        dialogueHudActive,
-        std::move(callbacks)
+        dialogueHudActive
     };
     return context;
 }

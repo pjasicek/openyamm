@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayDialogController.h"
 
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
 #include "game/tables/MapStats.h"
@@ -297,14 +298,14 @@ void applyMapTransitionTravelSideEffects(
     GameplayDialogController::Context &context,
     const MapEdgeTransition &transition)
 {
-    if (context.callbacks.stopTravelAudio)
+    if (context.pScreenRuntime != nullptr)
     {
-        context.callbacks.stopTravelAudio();
+        context.pScreenRuntime->stopAllAudioPlayback();
     }
 
-    if (context.callbacks.requestTravelAutosave)
+    if (context.pWorldRuntime != nullptr)
     {
-        context.callbacks.requestTravelAutosave();
+        context.pWorldRuntime->requestTravelAutosave();
     }
 
     if (context.pWorldRuntime != nullptr && transition.travelDays > 0)
@@ -317,6 +318,51 @@ void applyMapTransitionTravelSideEffects(
         context.pParty->restAndHealAll();
         applyTravelFoodAndFatigue(*context.pParty, transition.travelDays);
     }
+}
+
+void playSpeechReaction(
+    GameplayDialogController::Context &context,
+    size_t memberIndex,
+    SpeechId speechId,
+    bool triggerFaceAnimation)
+{
+    if (context.pScreenRuntime != nullptr)
+    {
+        context.pScreenRuntime->playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
+    }
+}
+
+void playHouseSound(GameplayDialogController::Context &context, uint32_t soundId)
+{
+    if (context.pScreenRuntime != nullptr)
+    {
+        context.pScreenRuntime->playHouseSound(soundId);
+    }
+}
+
+void playCommonUiSound(GameplayDialogController::Context &context, SoundId soundId)
+{
+    if (context.pScreenRuntime != nullptr)
+    {
+        context.pScreenRuntime->playCommonUiSound(soundId);
+    }
+}
+
+void cancelMapTransition(GameplayDialogController::Context &context)
+{
+    if (context.pWorldRuntime != nullptr)
+    {
+        context.pWorldRuntime->cancelPendingMapTransition();
+    }
+}
+
+bool executeNpcTopicEvent(
+    GameplayDialogController::Context &context,
+    uint16_t eventId,
+    size_t &previousMessageCount)
+{
+    return context.pWorldRuntime != nullptr
+        && context.pWorldRuntime->executeNpcTopicEvent(eventId, previousMessageCount);
 }
 }
 
@@ -409,11 +455,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
     if (action.kind == EventDialogActionKind::MapTransitionCancel)
     {
-        if (context.callbacks.cancelMapTransition)
-        {
-            context.callbacks.cancelMapTransition();
-        }
-
+        cancelMapTransition(context);
         result.shouldCloseActiveDialog = true;
         return result;
     }
@@ -554,13 +596,13 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 context.pWorldRuntime
             );
 
-            if (houseResult.soundType.has_value() && context.callbacks.playHouseSound)
+            if (houseResult.soundType.has_value())
             {
                 const std::optional<uint32_t> soundId = deriveHouseSoundId(*pHouseEntry, *houseResult.soundType);
 
                 if (soundId.has_value())
                 {
-                    context.callbacks.playHouseSound(*soundId);
+                    playHouseSound(context, *soundId);
                 }
             }
 
@@ -579,10 +621,10 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             }
 
             if (houseResult.succeeded
-                && option.id == HouseActionId::TrainingTrainActiveMember
-                && context.callbacks.playSpeechReaction)
+                && option.id == HouseActionId::TrainingTrainActiveMember)
             {
-                context.callbacks.playSpeechReaction(
+                playSpeechReaction(
+                    context,
                     context.pParty->activeMemberIndex(),
                     SpeechId::LevelUp,
                     true);
@@ -590,35 +632,30 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
             if (houseResult.succeeded && option.id == HouseActionId::TempleHeal)
             {
-                if (context.callbacks.playCommonSound)
-                {
-                    context.callbacks.playCommonSound(SoundId::Heal);
-                }
+                playCommonUiSound(context, SoundId::Heal);
 
-                if (context.callbacks.playSpeechReaction)
-                {
-                    context.callbacks.playSpeechReaction(
-                        context.pParty->activeMemberIndex(),
-                        SpeechId::TempleHeal,
-                        true);
-                }
+                playSpeechReaction(
+                    context,
+                    context.pParty->activeMemberIndex(),
+                    SpeechId::TempleHeal,
+                    true);
             }
 
             if (houseResult.succeeded
-                && option.id == HouseActionId::TempleDonate
-                && context.callbacks.playSpeechReaction)
+                && option.id == HouseActionId::TempleDonate)
             {
-                context.callbacks.playSpeechReaction(
+                playSpeechReaction(
+                    context,
                     context.pParty->activeMemberIndex(),
                     SpeechId::TempleDonate,
                     true);
             }
 
             if (houseResult.succeeded
-                && option.id == HouseActionId::TransportRoute
-                && context.callbacks.playSpeechReaction)
+                && option.id == HouseActionId::TransportRoute)
             {
-                context.callbacks.playSpeechReaction(
+                playSpeechReaction(
+                    context,
                     context.pParty->activeMemberIndex(),
                     isBoatHouse(*pHouseEntry) ? SpeechId::TravelBoat : SpeechId::TravelHorse,
                     true);
@@ -876,10 +913,10 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 executed = true;
             }
         }
-        else if (context.callbacks.executeNpcTopicEvent)
+        else
         {
             size_t executionPreviousMessageCount = result.previousMessageCount;
-            executed = context.callbacks.executeNpcTopicEvent(static_cast<uint16_t>(action.id), executionPreviousMessageCount);
+            executed = executeNpcTopicEvent(context, static_cast<uint16_t>(action.id), executionPreviousMessageCount);
         }
 
         if (!executed)
@@ -1060,11 +1097,7 @@ GameplayDialogController::CloseDialogRequestResult GameplayDialogController::han
     if (context.eventRuntimeState.pendingDialogueContext.has_value()
         && context.eventRuntimeState.pendingDialogueContext->kind == DialogueContextKind::MapTransition)
     {
-        if (context.callbacks.cancelMapTransition)
-        {
-            context.callbacks.cancelMapTransition();
-        }
-
+        cancelMapTransition(context);
         result.shouldCloseActiveDialog = true;
         return result;
     }
@@ -1132,7 +1165,7 @@ GameplayDialogController::CloseDialogRequestResult GameplayDialogController::han
         return result;
     }
 
-    if (pHostHouseEntry != nullptr && context.callbacks.playHouseSound)
+    if (pHostHouseEntry != nullptr)
     {
         if (resolveHouseServiceType(*pHostHouseEntry) == HouseServiceType::Temple)
         {
@@ -1141,7 +1174,7 @@ GameplayDialogController::CloseDialogRequestResult GameplayDialogController::han
 
             if (soundId.has_value())
             {
-                context.callbacks.playHouseSound(*soundId);
+                playHouseSound(context, *soundId);
             }
         }
         else if (resolveHouseServiceType(*pHostHouseEntry) == HouseServiceType::Bank
@@ -1152,7 +1185,7 @@ GameplayDialogController::CloseDialogRequestResult GameplayDialogController::han
 
             if (soundId.has_value())
             {
-                context.callbacks.playHouseSound(*soundId);
+                playHouseSound(context, *soundId);
             }
         }
     }
@@ -1252,15 +1285,12 @@ GameplayDialogController::Result GameplayDialogController::confirmHouseBankInput
 
         if (depositedAmount > context.pParty->gold())
         {
-            if (context.callbacks.playHouseSound)
-            {
-                const std::optional<uint32_t> soundId =
-                    deriveHouseSoundId(*pHouseEntry, HouseSoundType::GeneralNotEnoughGold);
+            const std::optional<uint32_t> soundId =
+                deriveHouseSoundId(*pHouseEntry, HouseSoundType::GeneralNotEnoughGold);
 
-                if (soundId.has_value())
-                {
-                    context.callbacks.playHouseSound(*soundId);
-                }
+            if (soundId.has_value())
+            {
+                playHouseSound(context, *soundId);
             }
 
             depositedAmount = context.pParty->gold();
@@ -1271,13 +1301,11 @@ GameplayDialogController::Result GameplayDialogController::confirmHouseBankInput
             context.pParty->depositGoldToBank(depositedAmount);
             houseBankState.transactionPerformed = true;
 
-            if (context.callbacks.playSpeechReaction)
-            {
-                context.callbacks.playSpeechReaction(
-                    context.pParty->activeMemberIndex(),
-                    SpeechId::BankDeposit,
-                    true);
-            }
+            playSpeechReaction(
+                context,
+                context.pParty->activeMemberIndex(),
+                SpeechId::BankDeposit,
+                true);
         }
     }
     else if (houseBankState.inputMode == GameplayUiController::HouseBankInputMode::Withdraw)
@@ -1286,15 +1314,12 @@ GameplayDialogController::Result GameplayDialogController::confirmHouseBankInput
 
         if (withdrawnAmount > context.pParty->bankGold())
         {
-            if (context.callbacks.playHouseSound)
-            {
-                const std::optional<uint32_t> soundId =
-                    deriveHouseSoundId(*pHouseEntry, HouseSoundType::GeneralNotEnoughGold);
+            const std::optional<uint32_t> soundId =
+                deriveHouseSoundId(*pHouseEntry, HouseSoundType::GeneralNotEnoughGold);
 
-                if (soundId.has_value())
-                {
-                    context.callbacks.playHouseSound(*soundId);
-                }
+            if (soundId.has_value())
+            {
+                playHouseSound(context, *soundId);
             }
 
             withdrawnAmount = context.pParty->bankGold();
@@ -1324,9 +1349,9 @@ bool GameplayDialogController::rejectClosedHouseInteraction(
     context.uiController.closeInventoryNestedOverlay();
     context.uiController.setStatusBarEvent(buildClosedStatusText(houseEntry));
 
-    if (context.pParty != nullptr && context.callbacks.playSpeechReaction)
+    if (context.pParty != nullptr)
     {
-        context.callbacks.playSpeechReaction(context.pParty->activeMemberIndex(), SpeechId::StoreClosed, true);
+        playSpeechReaction(context, context.pParty->activeMemberIndex(), SpeechId::StoreClosed, true);
     }
 
     context.eventRuntimeState.pendingDialogueContext.reset();

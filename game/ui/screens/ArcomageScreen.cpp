@@ -698,8 +698,7 @@ void ArcomageScreen::updateHumanInput(
         }
     }
 
-    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
-    const bool escapeDown = pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_ESCAPE];
+    const bool escapeDown = isScancodeHeld(SDL_SCANCODE_ESCAPE);
 
     if (escapeDown && !m_escapeLatch)
     {
@@ -830,8 +829,7 @@ void ArcomageScreen::updateCardAnimation(float deltaSeconds)
 void ArcomageScreen::updateFinishInput()
 {
     m_hoveredHandIndex.reset();
-    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
-    const bool escapeDown = pKeyboardState != nullptr && pKeyboardState[SDL_SCANCODE_ESCAPE];
+    const bool escapeDown = isScancodeHeld(SDL_SCANCODE_ESCAPE);
 
     if ((escapeDown && !m_escapeLatch) || leftMouseJustPressed() || rightMouseJustPressed())
     {

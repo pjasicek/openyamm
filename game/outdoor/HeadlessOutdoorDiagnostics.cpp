@@ -12,6 +12,7 @@
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayActorService.h"
+#include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GenericActorDialog.h"
@@ -217,7 +218,10 @@ struct GameApplicationTestAccess
         size_t previousMessageCount,
         bool allowNpcFallbackContent)
     {
-        OutdoorInteractionController::presentPendingEventDialog(application.m_outdoorGameView, previousMessageCount, allowNpcFallbackContent);
+        if (OutdoorWorldRuntime *pWorldRuntime = outdoorWorldRuntime(application))
+        {
+            pWorldRuntime->presentPendingEventDialog(previousMessageCount, allowNpcFallbackContent);
+        }
     }
 
     static const std::string &statusBarEventText(const GameApplication &application)
@@ -259,12 +263,18 @@ struct GameApplicationTestAccess
 
     static void executeActiveDialogAction(GameApplication &application)
     {
-        OutdoorInteractionController::executeActiveDialogAction(application.m_outdoorGameView);
+        if (OutdoorWorldRuntime *pWorldRuntime = outdoorWorldRuntime(application))
+        {
+            pWorldRuntime->executeActiveDialogAction();
+        }
     }
 
     static void handleDialogueCloseRequest(GameApplication &application)
     {
-        OutdoorInteractionController::handleDialogueCloseRequest(application.m_outdoorGameView);
+        if (OutdoorWorldRuntime *pWorldRuntime = outdoorWorldRuntime(application))
+        {
+            pWorldRuntime->handleDialogueCloseRequest();
+        }
     }
 
     static bool processPendingMapMove(GameApplication &application)
@@ -362,6 +372,7 @@ struct GameApplicationTestAccess
             *pEventRuntimeState,
             screenRuntime.activeEventDialog(),
             screenRuntime.eventDialogSelectionIndex(),
+            &screenRuntime,
             application.m_pOutdoorPartyRuntime != nullptr ? &application.m_pOutdoorPartyRuntime->party() : nullptr,
             application.m_pOutdoorWorldRuntime.get(),
             pGlobalEventProgram,
@@ -372,8 +383,7 @@ struct GameApplicationTestAccess
             &application.m_gameDataLoader.getMapStats().getEntries(),
             &application.m_gameDataLoader.getRosterTable(),
             &application.m_gameDataLoader.getArcomageLibrary(),
-            false,
-            {}
+            false
         };
 
         application.m_gameSession.gameplayDialogController().presentPendingEventDialog(
@@ -393,9 +403,17 @@ struct GameApplicationTestAccess
             return {};
         }
 
-        return static_cast<OutdoorSceneRuntime *>(application.m_pMapSceneRuntime.get())->advanceFrame(
+        OutdoorSceneRuntime::AdvanceFrameResult result =
+            static_cast<OutdoorSceneRuntime *>(application.m_pMapSceneRuntime.get())->advanceFrame(
             movementInput,
             deltaSeconds);
+
+        if (IGameplayWorldRuntime *pWorldRuntime = application.m_gameSession.activeWorldRuntime())
+        {
+            pWorldRuntime->updateActorAi(deltaSeconds);
+        }
+
+        return result;
     }
 };
 
@@ -1460,6 +1478,7 @@ struct RegressionScenario
     OutdoorWorldRuntime world;
     GameplayActorService actorService;
     GameplayProjectileService projectileService;
+    GameplayCombatController combatController;
     Party party;
     EventRuntime eventRuntime;
     EventRuntimeState *pEventRuntimeState = nullptr;
@@ -2048,7 +2067,8 @@ bool initializeRegressionScenario(
         selectedMap.outdoorSpriteObjectCollisionSet,
         selectedMap.outdoorSpriteObjectBillboardSet,
         &scenario.actorService,
-        &scenario.projectileService
+        &scenario.projectileService,
+        &scenario.combatController
     );
 
     scenario.party = {};
@@ -2241,6 +2261,7 @@ bool initializeRegressionScenarioFromApplication(
         &GameApplicationTestAccess::gameDataLoader(application).getStandardItemEnchantTable(),
         &GameApplicationTestAccess::gameDataLoader(application).getSpecialItemEnchantTable());
     scenario.party.setClassSkillTable(&GameApplicationTestAccess::gameDataLoader(application).getClassSkillTable());
+    scenario.actorService = buildBoundGameplayActorService(GameApplicationTestAccess::gameDataLoader(application));
 
     scenario.world.initialize(
         selectedMap->map,
@@ -2263,7 +2284,10 @@ bool initializeRegressionScenarioFromApplication(
         selectedMap->outdoorDecorationCollisionSet,
         selectedMap->outdoorActorCollisionSet,
         selectedMap->outdoorSpriteObjectCollisionSet,
-        selectedMap->outdoorSpriteObjectBillboardSet
+        selectedMap->outdoorSpriteObjectBillboardSet,
+        &scenario.actorService,
+        &scenario.projectileService,
+        &scenario.combatController
     );
     scenario.world.restoreSnapshot(GameApplicationTestAccess::outdoorWorldRuntime(application)->snapshot());
     scenario.pEventRuntimeState = scenario.world.eventRuntimeState();
@@ -2281,10 +2305,10 @@ void applyPendingCombatEventsToScenarioParty(RegressionScenario &scenario)
 {
     for (const OutdoorWorldRuntime::CombatEvent &event : scenario.world.pendingCombatEvents())
     {
-        if (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
-            || event.type == OutdoorWorldRuntime::CombatEvent::Type::PartyProjectileImpact)
+        if (event.type == GameplayCombatController::CombatEventType::MonsterMeleeImpact
+            || event.type == GameplayCombatController::CombatEventType::PartyProjectileImpact)
         {
-            const std::string status = event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterMeleeImpact
+            const std::string status = event.type == GameplayCombatController::CombatEventType::MonsterMeleeImpact
                 ? "melee damage"
                 : "projectile damage";
             if (event.affectsAllParty)
@@ -11405,7 +11429,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 for (const OutdoorWorldRuntime::CombatEvent &event : scenario.world.pendingCombatEvents())
                 {
-                    if (event.type == OutdoorWorldRuntime::CombatEvent::Type::MonsterRangedRelease
+                    if (event.type == GameplayCombatController::CombatEventType::MonsterRangedRelease
                         && event.sourceId == 53)
                     {
                         sawRangedRelease = true;
@@ -24614,9 +24638,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             party.addGold(1000);
-            OutdoorInteractionController::openDebugNpcDialogue(
-                GameApplicationTestAccess::outdoorGameView(application),
-                279);
+            pWorldRuntime->openDebugNpcDialogue(279);
 
             if (!GameApplicationTestAccess::hasActiveEventDialog(application))
             {
@@ -24716,8 +24738,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             GameApplicationTestAccess::setHeldInventoryItem(application, oldHeldItem);
             pEventRuntimeState->grantedItemIds = {643};
-            OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(
-                GameApplicationTestAccess::outdoorGameView(application));
+            pWorldRuntime->applyGrantedEventItemsToHeldInventory();
 
             if (!GameApplicationTestAccess::heldInventoryItemActive(application)
                 || GameApplicationTestAccess::heldInventoryItem(application).objectDescriptionId != 643)
@@ -24799,8 +24820,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             GameApplicationTestAccess::setHeldInventoryItem(fullInventoryApplication, oldHeldItem);
             const size_t initialWorldItemCount = pFullWorldRuntime->worldItemCount();
             pFullEventRuntimeState->grantedItemIds = {643};
-            OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(
-                GameApplicationTestAccess::outdoorGameView(fullInventoryApplication));
+            pFullWorldRuntime->applyGrantedEventItemsToHeldInventory();
 
             if (!GameApplicationTestAccess::heldInventoryItemActive(fullInventoryApplication)
                 || GameApplicationTestAccess::heldInventoryItem(fullInventoryApplication).objectDescriptionId != 643)

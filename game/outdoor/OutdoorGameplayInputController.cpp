@@ -1,10 +1,10 @@
 #include "game/outdoor/OutdoorGameplayInputController.h"
 
 #include "game/app/GameSession.h"
-#include "game/gameplay/GameplayInputController.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
-#include "game/outdoor/OutdoorInteractionController.h"
+#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/render/TextureFiltering.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 
@@ -24,7 +24,7 @@ constexpr uint16_t DwiMeteorShowerEventId = 456;
 
 void OutdoorGameplayInputController::updateCameraFromInput(
     OutdoorGameView &view,
-    float mouseWheelDelta,
+    const GameplayInputFrame &input,
     float deltaSeconds)
 {
     const float displayDeltaSeconds = std::max(deltaSeconds, 0.000001f);
@@ -34,18 +34,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         : (view.m_framesPerSecond * 0.9f + instantaneousFramesPerSecond * 0.1f);
     deltaSeconds = std::min(deltaSeconds, 0.05f);
 
-    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+    const bool *pKeyboardState = input.keyboardState();
 
-    if (pKeyboardState == nullptr)
-    {
-        return;
-    }
-
-    const auto isActionPressed =
-        [&view, pKeyboardState](KeyboardAction action) -> bool
-        {
-            return view.m_gameSettings.keyboard.isPressed(action, pKeyboardState);
-        };
     GameplayScreenState &gameplayScreenState = view.m_gameSession.gameplayScreenState();
     GameplayScreenState::PendingSpellTargetState &pendingSpellCast = gameplayScreenState.pendingSpellTarget();
     GameplayScreenState::GameplayMouseLookState &gameplayMouseLookState =
@@ -56,10 +46,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         view.m_pOutdoorWorldRuntime != nullptr
         && (view.m_pOutdoorWorldRuntime->activeChestView() != nullptr
             || view.m_pOutdoorWorldRuntime->activeCorpseView() != nullptr);
-    const bool isUtilitySpellModalActive =
-        view.utilitySpellOverlay().active
-        && view.utilitySpellOverlay().mode != OutdoorGameView::UtilitySpellOverlayMode::InventoryTarget;
-    const bool isReadableScrollOverlayActive = overlayContext.readableScrollOverlayReadOnly().active;
     SDL_Window *pWindow = SDL_GetMouseFocus();
 
     if (pWindow == nullptr)
@@ -67,60 +53,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         pWindow = SDL_GetKeyboardFocus();
     }
 
-    int screenWidth = 0;
-    int screenHeight = 0;
-
-    if (pWindow != nullptr)
-    {
-        SDL_GetWindowSizeInPixels(pWindow, &screenWidth, &screenHeight);
-    }
-
-    float gameplayMouseX = 0.0f;
-    float gameplayMouseY = 0.0f;
-    const SDL_MouseButtonFlags gameplayMouseButtons = SDL_GetMouseState(&gameplayMouseX, &gameplayMouseY);
-    const bool hasReadyMember =
-        view.m_pOutdoorPartyRuntime != nullptr
-        && view.m_pOutdoorPartyRuntime->party().hasSelectableMemberInGameplay();
-    const GameplaySharedInputFrameResult sharedInputFrameResult =
-        GameplayInputController::updateSharedGameplayInputFrame(
-            gameplayScreenState,
-            overlayContext,
-            view.m_gameSession.gameplaySpellService(),
-            GameplaySharedInputFrameConfig{
-                .pKeyboardState = pKeyboardState,
-                .mouseWheelDelta = mouseWheelDelta,
-                .screenWidth = screenWidth,
-                .screenHeight = screenHeight,
-                .pointerX = gameplayMouseX,
-                .pointerY = gameplayMouseY,
-                .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
-                .rightButtonPressed = (gameplayMouseButtons & SDL_BUTTON_RMASK) != 0,
-                .hasReadyMember = hasReadyMember,
-                .canBeginQuickCast =
-                    view.m_pOutdoorPartyRuntime != nullptr && view.m_pOutdoorWorldRuntime != nullptr,
-                .isUtilitySpellModalActive = isUtilitySpellModalActive,
-                .isReadableScrollOverlayActive = isReadableScrollOverlayActive,
-                .buildSpellActionTargetQueries =
-                    [&view]()
-                    {
-                        return view.buildSpellActionTargetQueries();
-                    },
-                .handlePendingSpellCastSucceeded =
-                    [&view](const PartySpellCastResult &castResult)
-                    {
-                        view.m_outdoorFxRuntime.triggerPartySpellFx(view, castResult);
-                        view.m_cachedHoverInspectHitValid = false;
-                        view.m_cachedHoverInspectHit = {};
-                    },
-                .applyAlwaysRun =
-                    [&view](bool enabled)
-                    {
-                        if (view.m_pOutdoorPartyRuntime != nullptr)
-                        {
-                            view.m_pOutdoorPartyRuntime->setRunning(enabled);
-                        }
-                    },
-            });
+    const GameplaySharedInputFrameResult &sharedInputFrameResult = view.m_gameSession.sharedInputFrameResult();
     view.syncGameplayMouseLookMode(pWindow, sharedInputFrameResult.mouseLookPolicy.mouseLookActive);
 
     if (sharedInputFrameResult.journalInputConsumed)
@@ -134,20 +67,17 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     }
 
     const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    SDL_GetMouseState(&mouseX, &mouseY);
     const bool blockCameraRotation =
         overlayContext.buffInspectOverlayReadOnly().active
         || overlayContext.characterDetailOverlayReadOnly().active;
+    const bool wasRotatingCamera = view.m_isRotatingCamera;
 
     if (gameplayMouseLookState.mouseLookActive && !hasPendingSpellCast && !blockCameraRotation)
     {
-        float deltaMouseX = 0.0f;
-        float deltaMouseY = 0.0f;
-        SDL_GetRelativeMouseState(&deltaMouseX, &deltaMouseY);
+        const float deltaMouseX = input.relativeMouseX;
+        const float deltaMouseY = input.relativeMouseY;
 
-        if (deltaMouseX != 0.0f || deltaMouseY != 0.0f)
+        if (wasRotatingCamera && (deltaMouseX != 0.0f || deltaMouseY != 0.0f))
         {
             view.m_cameraYawRadians -= deltaMouseX * view.m_mouseRotateSpeed;
             view.m_cameraPitchRadians -= deltaMouseY * view.m_mouseRotateSpeed;
@@ -158,8 +88,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
     else
     {
         view.m_isRotatingCamera = false;
-        view.m_lastMouseX = mouseX;
-        view.m_lastMouseY = mouseY;
+        view.m_lastMouseX = input.pointerX;
+        view.m_lastMouseY = input.pointerY;
     }
 
     const float cosYaw = std::cos(view.m_cameraYawRadians);
@@ -175,17 +105,16 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         0.0f
     };
 
-    const bool moveForwardPressed = isActionPressed(KeyboardAction::Forward);
-    const bool moveBackwardPressed = isActionPressed(KeyboardAction::Backward);
-    const bool strafeLeftPressed = isActionPressed(KeyboardAction::Left);
-    const bool strafeRightPressed = isActionPressed(KeyboardAction::Right);
-    const bool jumpPressed = isActionPressed(KeyboardAction::Jump);
-    const bool flyUpPressed = isActionPressed(KeyboardAction::FlyUp);
-    const bool flyDownPressed = isActionPressed(KeyboardAction::FlyDown);
-    const bool lookUpPressed = isActionPressed(KeyboardAction::LookUp);
-    const bool lookDownPressed = isActionPressed(KeyboardAction::LookDown);
-    const bool centerViewPressed = isActionPressed(KeyboardAction::CenterView);
-    const bool landPressed = isActionPressed(KeyboardAction::Land);
+    const bool moveForwardPressed = input.action(KeyboardAction::Forward).held;
+    const bool moveBackwardPressed = input.action(KeyboardAction::Backward).held;
+    const bool strafeLeftPressed = input.action(KeyboardAction::Left).held;
+    const bool strafeRightPressed = input.action(KeyboardAction::Right).held;
+    const bool jumpPressed = input.action(KeyboardAction::Jump).held;
+    const bool flyUpPressed = input.action(KeyboardAction::FlyUp).held;
+    const bool flyDownPressed = input.action(KeyboardAction::FlyDown).held;
+    const bool lookUpPressed = input.action(KeyboardAction::LookUp).held;
+    const bool lookDownPressed = input.action(KeyboardAction::LookDown).held;
+    const bool centerViewPressed = input.action(KeyboardAction::CenterView).held;
 
     if (view.m_outdoorMapData)
     {
@@ -210,8 +139,6 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                     const OutdoorSceneRuntime::AdvanceFrameResult frameAdvanceResult =
                         view.m_pOutdoorSceneRuntime->advanceFrame(movementInput, deltaSeconds);
 
-                    OutdoorInteractionController::applyPendingCombatEvents(view);
-
                     EventRuntimeState *pEventRuntimeState =
                         view.m_pOutdoorWorldRuntime != nullptr
                             ? view.m_pOutdoorWorldRuntime->eventRuntimeState()
@@ -227,14 +154,19 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                         pEventRuntimeState->statusMessages.clear();
                     }
 
-                    OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(view);
+                    if (view.m_pOutdoorWorldRuntime != nullptr)
+                    {
+                        view.m_pOutdoorWorldRuntime->applyGrantedEventItemsToHeldInventory();
+                    }
 
                     if (frameAdvanceResult.shouldOpenEventDialog)
                     {
-                        OutdoorInteractionController::presentPendingEventDialog(
-                            view,
-                            frameAdvanceResult.previousMessageCount,
-                            true);
+                        if (view.m_pOutdoorWorldRuntime != nullptr)
+                        {
+                            view.m_pOutdoorWorldRuntime->presentPendingEventDialog(
+                                frameAdvanceResult.previousMessageCount,
+                                true);
+                        }
                     }
                 }
             }
@@ -518,12 +450,13 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                 view.m_map.has_value()
                 && view.m_map->id == DwiMapId
                 && view.m_outdoorMapData.has_value()
+                && view.m_pOutdoorWorldRuntime != nullptr
                 && view.m_pOutdoorSceneRuntime != nullptr
                 && view.m_pOutdoorSceneRuntime->localEventProgram().has_value();
 
             if (isDwiOutdoor)
             {
-                OutdoorInteractionController::tryTriggerLocalEventById(view, DwiMeteorShowerEventId);
+                view.m_pOutdoorWorldRuntime->tryTriggerLocalEventById(DwiMeteorShowerEventId);
             }
 
             view.m_triggerMeteorLatch = true;
@@ -575,13 +508,7 @@ void OutdoorGameplayInputController::updateCameraFromInput(
             view.m_toggleFeatherFallLatch = false;
         }
 
-        const SDL_Scancode landScancode = view.m_gameSettings.keyboard.binding(KeyboardAction::Land);
-
-        if (landPressed
-            && landScancode > SDL_SCANCODE_UNKNOWN
-            && landScancode < SDL_SCANCODE_COUNT
-            && view.previousKeyboardState()[landScancode] == 0
-            && view.m_pOutdoorPartyRuntime->partyMovementState().flying)
+        if (input.action(KeyboardAction::Land).pressed && view.m_pOutdoorPartyRuntime->partyMovementState().flying)
         {
             view.m_pOutdoorPartyRuntime->toggleFlying();
         }

@@ -2,6 +2,7 @@
 
 namespace OpenYAMM::Game
 {
+struct GameplayInputFrame;
 class GameplayScreenRuntime;
 
 class GameplayPartyOverlayInputController
@@ -9,18 +10,12 @@ class GameplayPartyOverlayInputController
 public:
     static void handleUtilitySpellOverlayInput(
         GameplayScreenRuntime &context,
-        const bool *pKeyboardState,
-        int screenWidth,
-        int screenHeight);
+        const GameplayInputFrame &input);
     static void handleSpellbookOverlayInput(
         GameplayScreenRuntime &context,
-        const bool *pKeyboardState,
-        int screenWidth,
-        int screenHeight);
+        const GameplayInputFrame &input);
     static void handleCharacterOverlayInput(
         GameplayScreenRuntime &context,
-        const bool *pKeyboardState,
-        int screenWidth,
-        int screenHeight);
+        const GameplayInputFrame &input);
 };
 } // namespace OpenYAMM::Game

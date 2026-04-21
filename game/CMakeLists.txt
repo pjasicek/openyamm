@@ -3,6 +3,7 @@ openyamm_configure_ffmpeg()
 
 add_executable(openyamm
     app/ScreenManager.cpp
+    app/GameInputSystem.cpp
     arcomage/ArcomageAi.cpp
     arcomage/ArcomageLoader.cpp
     arcomage/ArcomageRules.cpp

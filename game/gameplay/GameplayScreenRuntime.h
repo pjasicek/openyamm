@@ -29,6 +29,7 @@ namespace OpenYAMM::Game
 class GameSession;
 class GameAudioSystem;
 class GameplayFxService;
+struct GameplayInputFrame;
 class GameplayItemService;
 class GameplaySpellService;
 class ItemTable;
@@ -150,6 +151,7 @@ public:
     std::string &mutableStatusBarHoverText() const;
     size_t &eventDialogSelectionIndex() const;
     GameplayOverlayInteractionState &interactionState() const;
+    const GameplayInputFrame *currentGameplayInputFrame() const;
 
     bool trySelectPartyMember(size_t memberIndex, bool requireGameplayReady);
     size_t selectedCharacterScreenSourceIndex() const;
@@ -229,10 +231,14 @@ public:
     void resetSpellbookOverlayInteractionState();
     void resetCharacterOverlayInteractionState();
     void updatePartyPortraitAnimations(float deltaSeconds);
+    uint32_t animationTicks() const;
     void triggerPortraitFaceAnimation(size_t memberIndex, FaceAnimationId animationId);
     void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
     bool canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks);
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
+    void playHouseSound(uint32_t soundId);
+    void playCommonUiSound(SoundId soundId);
+    void stopAllAudioPlayback();
     void consumePendingPartyAudioRequests();
     bool tryCastSpellFromMember(
         size_t casterMemberIndex,

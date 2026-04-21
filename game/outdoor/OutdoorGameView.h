@@ -64,6 +64,7 @@ class OutdoorSceneRuntime;
 class OutdoorWorldRuntime;
 class OutdoorBillboardRenderer;
 class OutdoorGameplayInputController;
+struct GameplayInputFrame;
 class OutdoorInteractionController;
 class OutdoorRenderer;
 class OutdoorPresentationController;
@@ -108,7 +109,7 @@ public:
         GameAudioSystem *pGameAudioSystem,
         OutdoorSceneRuntime &sceneRuntime,
         const GameSettings &settings);
-    void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
+    void render(int width, int height, const GameplayInputFrame &input, float deltaSeconds);
     void shutdown();
     float cameraYawRadians() const;
     float cameraPitchRadians() const;
@@ -462,8 +463,8 @@ public:
     const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
     bool trySaveToSelectedGameSlot() override;
     const GameSettings &settingsSnapshot() const;
+    GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const;
 private:
-    void updateCameraFromInput(float mouseWheelDelta, float deltaSeconds);
     float effectiveCameraYawRadians() const;
     float effectiveCameraPitchRadians() const;
     void preloadSpriteFrameTextures(const SpriteFrameTable &spriteFrameTable, uint16_t spriteFrameIndex);
@@ -478,9 +479,9 @@ private:
         int &width,
         int &height);
     bool hasActiveEventDialog() const;
-    void updateItemInspectOverlayState(int width, int height);
+    void updateItemInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     void tryApplyWorldItemInspectSkillInteraction();
-    void updateActorInspectOverlayState(int width, int height);
+    void updateActorInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     const AdventurersInnMember *selectedAdventurersInnMember() const;
     AdventurersInnMember *selectedAdventurersInnMember();
     void consumePendingEventRuntimeAudioRequests();
@@ -488,22 +489,10 @@ private:
     void updateFootstepAudio(float deltaSeconds);
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(SpellbookSchool school) const;
-    GameplaySpellActionController::TargetQueries buildSpellActionTargetQueries() const;
-    std::optional<size_t> resolveSpellActionHoveredActorIndex() const;
-    std::optional<size_t> resolveClosestVisibleHostileActorIndex(float sourceX, float sourceY, float sourceZ) const;
-    std::optional<bx::Vec3> resolveSpellActionActorTargetPoint(size_t actorIndex) const;
-    std::optional<bx::Vec3> resolveSpellActionForwardGroundTargetPoint() const;
-    bool buildQuickCastInspectRayForScreenPoint(
-        float screenX,
-        float screenY,
-        bx::Vec3 &rayOrigin,
-        bx::Vec3 &rayDirection) const;
-    std::optional<bx::Vec3> resolveQuickCastCursorTargetPoint(float cursorX, float cursorY) const;
     bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName) override;
     bool beginSaveWithPreview(const std::filesystem::path &path, const std::string &saveName, bool closeUiOnSuccess);
     void clearWorldInteractionInputLatches();
     float innRestDurationMinutes(uint32_t houseId) const;
-    std::optional<size_t> resolveRuntimeActorIndexForInspectHit(const InspectHit &inspectHit) const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     bool m_isInitialized;
@@ -629,6 +618,7 @@ private:
     bool m_showEntities;
     bool m_showSpawns;
     bool m_showGameplayHud;
+    bool m_renderGameplayUiThisFrame;
     bool m_showDebugHud;
     bool m_inspectMode;
     bool m_walkSoundEnabled = true;

@@ -250,7 +250,7 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
         }
     }
 
-    m_pWorldRuntime->updateMapActors(deltaSeconds, moveState.x, moveState.y, moveState.footZ);
+    m_pWorldRuntime->queueActorAiUpdate(deltaSeconds, moveState.x, moveState.y, moveState.footZ);
     notifyFriendlyActorContacts(*m_pWorldRuntime, moveState, m_pPartyRuntime->movementEvents());
     return result;
 }

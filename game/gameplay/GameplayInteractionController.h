@@ -1,27 +1,31 @@
 #pragma once
 
+#include "game/gameplay/GameplayActionController.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/GameplayScreenState.h"
 #include "game/gameplay/GameplayWorldInteraction.h"
+#include "game/ui/GameplayOverlayTypes.h"
 
 #include <cstdint>
-#include <functional>
+#include <optional>
 #include <string>
 
 namespace OpenYAMM::Game
 {
+class GameplayScreenRuntime;
+class GameplaySpellService;
+struct GameplayInputFrame;
+struct GameplaySharedInputFrameResult;
+
 class GameplayInteractionController
 {
 public:
     struct HoverStateInput
     {
         bool allowHover = false;
-        bool hasCachedHover = false;
         uint64_t currentTickNanoseconds = 0;
-        uint64_t lastUpdateNanoseconds = 0;
         uint64_t refreshIntervalNanoseconds = 0;
-        std::function<GameplayHoverStatusPayload()> refreshHover;
-        std::function<GameplayHoverStatusPayload()> readCachedHover;
-        std::function<void()> clearHover;
+        GameplayWorldHoverRequest hoverRequest = {};
     };
 
     struct HoverStateResult
@@ -38,8 +42,8 @@ public:
         bool leftMousePressed = false;
         bool pointerOverPartyPortrait = false;
         GameplayWorldHit currentHit;
-        std::function<bool(const GameplayWorldHit &hit)> canActivate;
-        std::function<bool(const GameplayWorldHit &hit)> activate;
+        IGameplayWorldRuntime *pWorldRuntime = nullptr;
+        GameplayInteractionMethod interactionMethod = GameplayInteractionMethod::Mouse;
     };
 
     struct MouseClickInteractionResult
@@ -54,9 +58,10 @@ public:
     {
         bool interactionPressed = false;
         bool allowInteraction = false;
-        std::function<GameplayWorldHit()> pickHit;
-        std::function<bool(const GameplayWorldHit &hit)> canActivate;
-        std::function<bool(const GameplayWorldHit &hit)> activate;
+        GameplayWorldHit pickedHit;
+        bool hasPickedHit = false;
+        IGameplayWorldRuntime *pWorldRuntime = nullptr;
+        GameplayInteractionMethod interactionMethod = GameplayInteractionMethod::Keyboard;
     };
 
     struct KeyboardInteractionResult
@@ -72,8 +77,8 @@ public:
         bool activationPressed = false;
         bool allowInteraction = false;
         GameplayWorldHit currentHit;
-        std::function<bool(const GameplayWorldHit &hit)> canActivate;
-        std::function<bool(const GameplayWorldHit &hit)> activate;
+        IGameplayWorldRuntime *pWorldRuntime = nullptr;
+        GameplayInteractionMethod interactionMethod = GameplayInteractionMethod::Keyboard;
     };
 
     struct KeyboardActivationInteractionResult
@@ -88,10 +93,9 @@ public:
         bool heldItemActive = false;
         bool leftMousePressed = false;
         bool pointerOverPartyPortrait = false;
-        std::function<GameplayWorldHit()> pickHit;
-        std::function<bool(const GameplayWorldHit &hit)> canUseOnWorld;
-        std::function<bool(const GameplayWorldHit &hit)> useOnWorld;
-        std::function<bool()> dropHeldItem;
+        GameplayWorldHit pickedHit;
+        bool hasPickedHit = false;
+        IGameplayWorldRuntime *pWorldRuntime = nullptr;
     };
 
     struct HeldItemWorldInteractionResult
@@ -106,22 +110,49 @@ public:
         bool cleared = false;
     };
 
-    struct WorldActivationDispatchInput
+    struct WorldInteractionPointerPolicyInput
     {
-        GameplayWorldHit hit;
-        std::function<bool(const GameplayWorldHit &hit)> canActivateActor;
-        std::function<bool(const GameplayWorldHit &hit)> activateActor;
-        std::function<bool(const GameplayWorldHit &hit)> canActivateWorldItem;
-        std::function<bool(const GameplayWorldHit &hit)> activateWorldItem;
-        std::function<bool(const GameplayWorldHit &hit)> canActivateContainer;
-        std::function<bool(const GameplayWorldHit &hit)> activateContainer;
-        std::function<bool(const GameplayWorldHit &hit)> canActivateEventTarget;
-        std::function<bool(const GameplayWorldHit &hit)> activateEventTarget;
-        std::function<bool(const GameplayWorldHit &hit)> canActivateFallback;
-        std::function<bool(const GameplayWorldHit &hit)> activateFallback;
+        bool pendingSpellActive = false;
+        bool heldItemActive = false;
+        bool mouseLookActive = false;
+        bool cursorModeActive = false;
+        bool leftMousePressed = false;
+        bool rightMousePressed = false;
+        bool keyboardActivationPressed = false;
+        bool keyboardAttackPressed = false;
+        float pointerX = 0.0f;
+        float pointerY = 0.0f;
+        float screenWidth = 0.0f;
+        float screenHeight = 0.0f;
+        bool pointerOverPortrait = false;
     };
 
-    static HoverStateResult updateHoverState(const HoverStateInput &input);
+    struct WorldInteractionPointerPolicy
+    {
+        bool useCenterGameplayPoint = false;
+        bool leftMousePressed = false;
+        bool pointerOverPartyPortrait = false;
+        bool activationPressed = false;
+        bool attackPressed = false;
+        float inspectScreenX = 0.0f;
+        float inspectScreenY = 0.0f;
+    };
+
+    struct WorldInteractionFrameResult
+    {
+        bool blocked = false;
+        bool pendingSpellHandled = false;
+        bool heldItemHandled = false;
+        bool keyboardUseActivated = false;
+        bool keyboardActivationActivated = false;
+        bool mouseActivationActivated = false;
+        bool attackAttempted = false;
+        HoverStateResult hover = {};
+    };
+
+    static HoverStateResult updateHoverState(
+        const HoverStateInput &input,
+        IGameplayWorldRuntime *pWorldRuntime);
     static MouseClickInteractionResult updateMouseClickInteraction(
         GameplayScreenState::WorldInteractionInputState &state,
         const MouseClickInteractionInput &input);
@@ -135,8 +166,16 @@ public:
         GameplayScreenState::WorldInteractionInputState &state,
         const HeldItemWorldInteractionInput &input);
     static std::optional<std::string> resolveHoverStatusText(const GameplayHoverStatusPayload &payload);
-    static bool canDispatchWorldActivation(const WorldActivationDispatchInput &input);
-    static bool dispatchWorldActivation(const WorldActivationDispatchInput &input);
+    static WorldInteractionPointerPolicy resolveWorldInteractionPointerPolicy(
+        const WorldInteractionPointerPolicyInput &input);
+    static WorldInteractionFrameResult updateWorldInteractionFrame(
+        GameplayScreenState &screenState,
+        GameplayOverlayInteractionState &overlayInteractionState,
+        GameplayScreenRuntime &runtime,
+        GameplaySpellService &spellService,
+        const GameplayInputFrame &input,
+        const GameplaySharedInputFrameResult &sharedInput,
+        bool worldInputBlocked);
 
 private:
     static bool isSameActivationTarget(const GameplayWorldHit &lhs, const GameplayWorldHit &rhs);

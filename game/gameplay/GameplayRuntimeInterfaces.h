@@ -1,11 +1,14 @@
 #pragma once
 
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/GameplayWorldInteraction.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -13,6 +16,16 @@ namespace OpenYAMM::Game
 {
 struct GameplayMinimapState;
 struct GameplayMinimapMarkerState;
+struct GameplayInputFrame;
+struct PartySpellCastResult;
+
+struct GameplayWorldUiRenderState
+{
+    bool canRenderHudOverlays = false;
+    bool renderGameplayHud = true;
+    bool renderActorInspectOverlay = true;
+    bool renderDebugFallbacks = false;
+};
 
 struct GameplayChestItemState
 {
@@ -209,6 +222,95 @@ struct GameplayProjectileImpactPresentationState
     bool freezeAnimation = false;
 };
 
+struct GameplayHeldItemDropRequest
+{
+    InventoryItem item = {};
+    float sourceX = 0.0f;
+    float sourceY = 0.0f;
+    float sourceZ = 0.0f;
+    float yawRadians = 0.0f;
+};
+
+struct GameplayWorldPoint
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+};
+
+struct GameplayPartyAttackActorFacts
+{
+    size_t actorIndex = 0;
+    int16_t monsterId = 0;
+    std::string displayName;
+    GameplayWorldPoint position = {};
+    uint16_t radius = 0;
+    uint16_t height = 0;
+    int currentHp = 0;
+    int maxHp = 0;
+    int effectiveArmorClass = 0;
+    bool isDead = false;
+    bool isInvisible = false;
+    bool hostileToParty = false;
+    bool visibleForFallback = false;
+};
+
+struct GameplayCombatActorInfo
+{
+    uint32_t actorId = 0;
+    int16_t monsterId = 0;
+    int maxHp = 0;
+    uint32_t attackPreferences = 0;
+    std::string displayName;
+};
+
+struct GameplayPartyAttackSpellRequest
+{
+    size_t sourcePartyMemberIndex = 0;
+    uint32_t spellId = 0;
+    uint32_t skillLevel = 0;
+    uint32_t skillMastery = 0;
+    int damage = 0;
+    int attackBonus = 0;
+    bool useActorHitChance = false;
+    GameplayWorldPoint source = {};
+    GameplayWorldPoint target = {};
+};
+
+struct GameplayPartyAttackProjectileRequest
+{
+    size_t sourcePartyMemberIndex = 0;
+    uint32_t objectId = 0;
+    int damage = 0;
+    int attackBonus = 0;
+    bool useActorHitChance = false;
+    GameplayWorldPoint source = {};
+    GameplayWorldPoint target = {};
+};
+
+struct GameplayPartyAttackFallbackQuery
+{
+    std::array<float, 16> viewMatrix = {};
+    std::array<float, 16> projectionMatrix = {};
+};
+
+struct GameplayPartyAttackFrameInput
+{
+    bool enabled = false;
+    GameplayWorldPoint partyPosition = {};
+    GameplayWorldPoint rangedSource = {};
+    GameplayWorldPoint defaultRangedTarget = {};
+    GameplayWorldPoint rayRangedTarget = {};
+    bool hasRayRangedTarget = false;
+    GameplayPartyAttackFallbackQuery fallbackQuery = {};
+};
+
+enum class GameplayInteractionMethod
+{
+    Keyboard,
+    Mouse,
+};
+
 class IGameplayWorldRuntime
 {
 public:
@@ -230,7 +332,22 @@ public:
     virtual float partyFootZ() const = 0;
     virtual void syncSpellMovementStatesFromPartyBuffs() = 0;
     virtual void requestPartyJump() = 0;
+    virtual void setAlwaysRunEnabled(bool enabled) = 0;
+    virtual void updateWorldMovement(
+        const GameplayInputFrame &input,
+        float deltaSeconds,
+        bool allowWorldInput) = 0;
+    virtual void updateActorAi(float deltaSeconds) = 0;
+    virtual void updateWorld(float deltaSeconds) = 0;
+    virtual void renderWorld(
+        int width,
+        int height,
+        const GameplayInputFrame &input,
+        float deltaSeconds) = 0;
+    virtual GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const = 0;
+    virtual bool requestTravelAutosave() = 0;
     virtual void cancelPendingMapTransition() = 0;
+    virtual bool executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount) = 0;
     virtual EventRuntimeState *eventRuntimeState() = 0;
     virtual const EventRuntimeState *eventRuntimeState() const = 0;
     virtual bool castEventSpell(
@@ -249,6 +366,7 @@ public:
         size_t actorIndex,
         uint32_t animationTicks,
         GameplayActorInspectState &state) const = 0;
+    virtual std::optional<GameplayCombatActorInfo> combatActorInfoById(uint32_t actorId) const = 0;
     virtual bool castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request) = 0;
     virtual bool applyPartySpellToActor(
         size_t actorIndex,
@@ -289,9 +407,48 @@ public:
         uint32_t skillLevel,
         SkillMastery skillMastery,
         std::string &failureText) = 0;
-    virtual void collectProjectilePresentationState(
-        std::vector<GameplayProjectilePresentationState> &projectiles,
-        std::vector<GameplayProjectileImpactPresentationState> &impacts) const = 0;
+    virtual bool canActivateWorldHit(
+        const GameplayWorldHit &hit,
+        GameplayInteractionMethod interactionMethod) const = 0;
+    virtual bool activateWorldHit(const GameplayWorldHit &hit) = 0;
+    virtual std::optional<GameplayPartyAttackActorFacts> partyAttackActorFacts(
+        size_t actorIndex,
+        bool visibleForFallback) const = 0;
+    virtual std::vector<GameplayPartyAttackActorFacts> collectPartyAttackFallbackActors(
+        const GameplayPartyAttackFallbackQuery &query) const = 0;
+    virtual bool applyPartyAttackMeleeDamage(
+        size_t actorIndex,
+        int damage,
+        const GameplayWorldPoint &source) = 0;
+    virtual bool spawnPartyAttackProjectile(const GameplayPartyAttackProjectileRequest &request) = 0;
+    virtual bool castPartyAttackSpell(const GameplayPartyAttackSpellRequest &request) = 0;
+    virtual void recordPartyAttackWorldResult(
+        std::optional<size_t> actorIndex,
+        bool attacked,
+        bool actionPerformed) = 0;
+    virtual bool worldInteractionReady() const = 0;
+    virtual bool worldInspectModeActive() const = 0;
+    virtual GameplayWorldPickRequest buildWorldPickRequest(const GameplayWorldPickRequestInput &input) const = 0;
+    virtual std::optional<GameplayHeldItemDropRequest> buildHeldItemDropRequest() const = 0;
+    virtual GameplayPartyAttackFrameInput buildPartyAttackFrameInput(
+        const GameplayWorldPickRequest &pickRequest) const = 0;
+    virtual std::optional<size_t> spellActionHoveredActorIndex() const = 0;
+    virtual std::optional<size_t> spellActionClosestVisibleHostileActorIndex() const = 0;
+    virtual std::optional<bx::Vec3> spellActionActorTargetPoint(size_t actorIndex) const = 0;
+    virtual std::optional<bx::Vec3> spellActionGroundTargetPoint(float screenX, float screenY) const = 0;
+    virtual GameplayPendingSpellWorldTargetFacts pickPendingSpellWorldTarget(
+        const GameplayWorldPickRequest &request) = 0;
+    virtual GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) = 0;
+    virtual GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) = 0;
+    virtual GameplayWorldHit pickCurrentInteractionTarget(const GameplayWorldPickRequest &request) = 0;
+    virtual GameplayWorldHoverCacheState worldHoverCacheState() const = 0;
+    virtual GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) = 0;
+    virtual GameplayHoverStatusPayload readCachedWorldHover() = 0;
+    virtual void clearWorldHover() = 0;
+    virtual bool canUseHeldItemOnWorld(const GameplayWorldHit &hit) const = 0;
+    virtual bool useHeldItemOnWorld(const GameplayWorldHit &hit) = 0;
+    virtual void applyPendingSpellCastWorldEffects(const PartySpellCastResult &castResult) = 0;
+    virtual bool dropHeldItemToWorld(const GameplayHeldItemDropRequest &request) = 0;
     virtual bool tryGetGameplayMinimapState(GameplayMinimapState &state) const = 0;
     virtual void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const = 0;
     virtual GameplayChestViewState *activeChestView() = 0;

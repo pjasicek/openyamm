@@ -1,10 +1,13 @@
 #include "game/gameplay/GameplayHeldItemController.h"
 
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/party/Party.h"
 #include "game/tables/ItemTable.h"
+
+#include <optional>
 
 namespace OpenYAMM::Game
 {
@@ -40,14 +43,16 @@ void GameplayHeldItemController::clearHeldInventoryItem(
 }
 
 bool GameplayHeldItemController::tryDisplaceHeldInventoryItem(
-    GameplayUiController::HeldInventoryItemState &heldInventoryItem,
-    Party *pParty,
-    const DropHeldItemCallback &dropHeldItem)
+    GameplayScreenRuntime &runtime)
 {
+    GameplayUiController::HeldInventoryItemState &heldInventoryItem = runtime.heldInventoryItem();
+
     if (!heldInventoryItem.active)
     {
         return true;
     }
+
+    Party *pParty = runtime.party();
 
     if (pParty != nullptr && pParty->tryGrantInventoryItem(heldInventoryItem.item))
     {
@@ -55,7 +60,23 @@ bool GameplayHeldItemController::tryDisplaceHeldInventoryItem(
         return true;
     }
 
-    if (!dropHeldItem || !dropHeldItem(heldInventoryItem.item))
+    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    std::optional<GameplayHeldItemDropRequest> dropRequest = pWorldRuntime->buildHeldItemDropRequest();
+
+    if (!dropRequest)
+    {
+        return false;
+    }
+
+    dropRequest->item = heldInventoryItem.item;
+
+    if (!pWorldRuntime->dropHeldItemToWorld(*dropRequest))
     {
         return false;
     }
@@ -65,16 +86,21 @@ bool GameplayHeldItemController::tryDisplaceHeldInventoryItem(
 }
 
 void GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
-    GameplayUiController::HeldInventoryItemState &heldInventoryItem,
-    Party *pParty,
+    GameplayScreenRuntime &runtime,
     EventRuntimeState &eventRuntimeState,
-    const ItemTable &itemTable,
-    const DropHeldItemCallback &dropHeldItem)
+    const ItemTable &itemTable)
 {
     if (eventRuntimeState.grantedItems.empty() && eventRuntimeState.grantedItemIds.empty())
     {
         return;
     }
+
+    if (runtime.party() == nullptr)
+    {
+        return;
+    }
+
+    GameplayUiController::HeldInventoryItemState &heldInventoryItem = runtime.heldInventoryItem();
 
     for (const InventoryItem &item : eventRuntimeState.grantedItems)
     {
@@ -83,7 +109,7 @@ void GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
             continue;
         }
 
-        if (!tryDisplaceHeldInventoryItem(heldInventoryItem, pParty, dropHeldItem))
+        if (!tryDisplaceHeldInventoryItem(runtime))
         {
             continue;
         }
@@ -100,7 +126,7 @@ void GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
             continue;
         }
 
-        if (!tryDisplaceHeldInventoryItem(heldInventoryItem, pParty, dropHeldItem))
+        if (!tryDisplaceHeldInventoryItem(runtime))
         {
             continue;
         }

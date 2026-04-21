@@ -4,11 +4,11 @@
 
 #include <cstddef>
 #include <cstdint>
-#include <functional>
 #include <string>
 
 namespace OpenYAMM::Game
 {
+class GameplayScreenRuntime;
 class ItemTable;
 class Party;
 struct EventRuntimeState;
@@ -16,23 +16,17 @@ struct EventRuntimeState;
 class GameplayHeldItemController
 {
 public:
-    using DropHeldItemCallback = std::function<bool(const InventoryItem &item)>;
-
     static void setHeldInventoryItem(
         GameplayUiController::HeldInventoryItemState &heldInventoryItem,
         const InventoryItem &item);
     static void clearHeldInventoryItem(GameplayUiController::HeldInventoryItemState &heldInventoryItem);
 
     static bool tryDisplaceHeldInventoryItem(
-        GameplayUiController::HeldInventoryItemState &heldInventoryItem,
-        Party *pParty,
-        const DropHeldItemCallback &dropHeldItem);
+        GameplayScreenRuntime &runtime);
     static void applyGrantedEventItemsToHeldInventory(
-        GameplayUiController::HeldInventoryItemState &heldInventoryItem,
-        Party *pParty,
+        GameplayScreenRuntime &runtime,
         EventRuntimeState &eventRuntimeState,
-        const ItemTable &itemTable,
-        const DropHeldItemCallback &dropHeldItem);
+        const ItemTable &itemTable);
     static bool tryAutoPlaceHeldInventoryItemOnPartyMember(
         GameplayUiController::HeldInventoryItemState &heldInventoryItem,
         Party &party,

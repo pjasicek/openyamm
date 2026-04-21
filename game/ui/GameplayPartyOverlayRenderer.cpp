@@ -1,11 +1,11 @@
 #include "game/ui/GameplayPartyOverlayRenderer.h"
 
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/StoryTextFormatter.h"
 #include "game/events/EvtEnums.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemRuntime.h"
-#include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/items/PriceCalculator.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/RosterTable.h"
@@ -61,6 +61,29 @@ constexpr float JournalMapWorldHalfExtent = 32768.0f;
 constexpr char JournalMapTextureCacheName[] = "__journal_map_composited__";
 constexpr std::array<int, 3> JournalMapZoomLevels = {384, 768, 1536};
 constexpr float Pi = 3.14159265358979323846f;
+
+struct PointerRenderInput
+{
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    bool isLeftMousePressed = false;
+};
+
+PointerRenderInput pointerRenderInput(const GameplayScreenRuntime &context)
+{
+    PointerRenderInput input = {};
+    const GameplayInputFrame *pInputFrame = context.currentGameplayInputFrame();
+
+    if (pInputFrame == nullptr)
+    {
+        return input;
+    }
+
+    input.mouseX = pInputFrame->pointerX;
+    input.mouseY = pInputFrame->pointerY;
+    input.isLeftMousePressed = pInputFrame->leftMouseButton.held;
+    return input;
+}
 
 uint32_t currentAnimationTicks()
 {
@@ -1604,10 +1627,10 @@ void GameplayPartyOverlayRenderer::renderRestOverlay(GameplayScreenRuntime &cont
     setupHudProjection(width, height);
     context.renderViewportSidePanels(width, height, "UI-Parch");
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float mouseX = pointerInput.mouseX;
+    const float mouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
     const float gameMinutes = context.worldRuntime() != nullptr ? context.worldRuntime()->gameMinutes() : 0.0f;
     const RestDateText dateText = formatRestDateText(gameMinutes);
     const std::string timeText = formatRestTimeText(gameMinutes);
@@ -1715,10 +1738,10 @@ void GameplayPartyOverlayRenderer::renderMenuOverlay(GameplayScreenRuntime &cont
     setupHudProjection(width, height);
     context.renderViewportSidePanels(width, height, "UI-Parch");
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float mouseX = pointerInput.mouseX;
+    const float mouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
     const std::vector<std::string> orderedLayoutIds = context.sortedHudLayoutIdsForScreen("Menu");
 
     for (const std::string &layoutId : orderedLayoutIds)
@@ -1825,10 +1848,10 @@ void GameplayPartyOverlayRenderer::renderControlsOverlay(GameplayScreenRuntime &
     setupHudProjection(width, height);
     context.renderViewportSidePanels(width, height, "UI-Parch");
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float mouseX = pointerInput.mouseX;
+    const float mouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
     const std::vector<std::string> orderedLayoutIds = context.sortedHudLayoutIdsForScreen("Controls");
     const GameSettings &settings = context.settingsSnapshot();
     const auto isStateButtonLayoutId =
@@ -2054,10 +2077,10 @@ void GameplayPartyOverlayRenderer::renderKeyboardOverlay(GameplayScreenRuntime &
     setupHudProjection(width, height);
     context.renderViewportSidePanels(width, height, "UI-Parch");
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float mouseX = pointerInput.mouseX;
+    const float mouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
     const std::vector<std::string> orderedLayoutIds = context.sortedHudLayoutIdsForScreen("Keyboard");
 
     const auto resolveLayout =
@@ -2209,10 +2232,10 @@ void GameplayPartyOverlayRenderer::renderVideoOptionsOverlay(GameplayScreenRunti
     setupHudProjection(width, height);
     context.renderViewportSidePanels(width, height, "UI-Parch");
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float mouseX = pointerInput.mouseX;
+    const float mouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
     const std::vector<std::string> orderedLayoutIds = context.sortedHudLayoutIdsForScreen("VideoOptions");
     const GameSettings &settings = context.settingsSnapshot();
 
@@ -2393,10 +2416,10 @@ void GameplayPartyOverlayRenderer::renderSaveLoadOverlay(
     setupHudProjection(width, height);
     context.renderViewportSidePanels(width, height, "UI-Parch");
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float mouseX = pointerInput.mouseX;
+    const float mouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
     const std::vector<std::string> orderedLayoutIds = context.sortedHudLayoutIdsForScreen(pScreenName);
     const uint32_t rowColor = makeAbgrColor(255, 255, 255);
     const uint32_t selectedRowColor = makeAbgrColor(255, 255, 0);
@@ -2699,10 +2722,10 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
     setupHudProjection(width, height);
     context.renderViewportSidePanels(width, height, "UI-Parch");
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float mouseX = pointerInput.mouseX;
+    const float mouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
 
     const auto loadHudTexture =
         [&context](const std::string &textureName) -> std::optional<GameplayScreenRuntime::HudTextureHandle>
@@ -3323,10 +3346,10 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayScreenRunti
     setupHudProjection(width, height);
     renderViewportParchmentSidePanels(context, width, height);
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float mouseX = pointerInput.mouseX;
+    const float mouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
 
     if (context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::TownPortal)
     {
@@ -3672,10 +3695,10 @@ void GameplayPartyOverlayRenderer::renderSpellbookOverlay(GameplayScreenRuntime 
     setupHudProjection(width, height);
     renderViewportParchmentSidePanels(context, width, height);
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float mouseX = pointerInput.mouseX;
+    const float mouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
 
     const auto submitTexturedQuad =
         [&context](const GameplayScreenRuntime::HudTextureHandle &texture, float x, float y, float quadWidth, float quadHeight)
@@ -3938,9 +3961,9 @@ void GameplayPartyOverlayRenderer::renderHeldInventoryItem(GameplayScreenRuntime
 
     const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float scale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    SDL_GetMouseState(&mouseX, &mouseY);
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float mouseX = pointerInput.mouseX;
+    const float mouseY = pointerInput.mouseY;
     const float itemX = std::round(mouseX - heldItem.grabOffsetX);
     const float itemY = std::round(mouseY - heldItem.grabOffsetY);
     const float itemWidth = static_cast<float>(texture->width) * scale;
@@ -6056,10 +6079,10 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
 
     const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
     const float baseScale = std::min(uiViewport.width / HudReferenceWidth, uiViewport.height / HudReferenceHeight);
-    float characterMouseX = 0.0f;
-    float characterMouseY = 0.0f;
-    const SDL_MouseButtonFlags characterMouseButtons = SDL_GetMouseState(&characterMouseX, &characterMouseY);
-    const bool isLeftMousePressed = (characterMouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float characterMouseX = pointerInput.mouseX;
+    const float characterMouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
 
     const auto submitSolidHudQuad =
         [&context](const std::string &textureName, float x, float y, float quadWidth, float quadHeight, uint32_t abgr)

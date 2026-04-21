@@ -324,6 +324,11 @@ void OutdoorFxRuntime::update(OutdoorGameView &view, float deltaSeconds)
 
 void OutdoorFxRuntime::triggerPartySpellFx(OutdoorGameView &view, const PartySpellCastResult &result)
 {
+    triggerPartySpellFx(view.m_particleSystem, result);
+}
+
+void OutdoorFxRuntime::triggerPartySpellFx(ParticleSystem &particleSystem, const PartySpellCastResult &result)
+{
     if (!result.succeeded() || !result.hasSourcePoint || !shouldTriggerPartySpellSparkles(result.effectKind))
     {
         return;
@@ -345,7 +350,7 @@ void OutdoorFxRuntime::triggerPartySpellFx(OutdoorGameView &view, const PartySpe
             (result.spellId * 2654435761u) ^ static_cast<uint32_t>(sparkleIndex * 2246822519u);
 
         FxRecipes::spawnBuffSparkles(
-            view.m_particleSystem,
+            particleSystem,
             sparkleSeed,
             sparkleX,
             sparkleY,

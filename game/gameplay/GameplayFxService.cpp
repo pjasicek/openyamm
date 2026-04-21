@@ -31,21 +31,63 @@ void GameplayFxService::clear()
     m_activeProjectileImpactPresentationStates.clear();
 }
 
-void GameplayFxService::syncActiveWorldProjectilePresentation()
+void GameplayFxService::syncProjectilePresentation()
 {
     m_activeProjectilePresentationStates.clear();
     m_activeProjectileImpactPresentationStates.clear();
 
-    const IGameplayWorldRuntime *pWorldRuntime = m_session.activeWorldRuntime();
-
-    if (pWorldRuntime == nullptr)
-    {
-        return;
-    }
-
-    pWorldRuntime->collectProjectilePresentationState(
+    m_session.gameplayProjectileService().collectProjectilePresentationState(
         m_activeProjectilePresentationStates,
         m_activeProjectileImpactPresentationStates);
+}
+
+GameplayProjectileService::ProjectileImpactPresentationResult GameplayFxService::spawnProjectileImpactPresentation(
+    const GameplayProjectileService::ProjectileState &projectile,
+    const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
+    float x,
+    float y,
+    float z,
+    bool centerVertically)
+{
+    return m_session.gameplayProjectileService().spawnProjectileImpactPresentation(
+        projectile,
+        definition,
+        x,
+        y,
+        z,
+        centerVertically);
+}
+
+GameplayProjectileService::ProjectileImpactPresentationResult GameplayFxService::spawnWaterSplashImpactPresentation(
+    const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
+    float x,
+    float y,
+    float z)
+{
+    return m_session.gameplayProjectileService().spawnWaterSplashImpactPresentation(definition, x, y, z);
+}
+
+GameplayProjectileService::ProjectileImpactPresentationResult GameplayFxService::spawnImmediateSpellImpactPresentation(
+    const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
+    int sourceSpellId,
+    const std::string &sourceObjectName,
+    const std::string &sourceObjectSpriteName,
+    float x,
+    float y,
+    float z,
+    bool centerVertically,
+    bool freezeAnimation)
+{
+    return m_session.gameplayProjectileService().spawnImmediateSpellImpactPresentation(
+        definition,
+        sourceSpellId,
+        sourceObjectName,
+        sourceObjectSpriteName,
+        x,
+        y,
+        z,
+        centerVertically,
+        freezeAnimation);
 }
 
 void GameplayFxService::triggerPortraitEventFxWithoutSpeech(

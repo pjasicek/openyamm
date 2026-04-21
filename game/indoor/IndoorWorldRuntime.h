@@ -15,6 +15,8 @@
 namespace OpenYAMM::Game
 {
 class GameplayActorService;
+class IndoorDebugRenderer;
+class IndoorGameView;
 class IndoorPartyRuntime;
 class SpriteFrameTable;
 
@@ -38,6 +40,9 @@ public:
     };
 
     IndoorWorldRuntime() = default;
+
+    void bindRenderer(IndoorDebugRenderer *pRenderer);
+    void bindGameplayView(IndoorGameView *pView);
 
     void initialize(
         const MapStatsEntry &map,
@@ -71,7 +76,22 @@ public:
     float partyFootZ() const override;
     void syncSpellMovementStatesFromPartyBuffs() override;
     void requestPartyJump() override;
+    void setAlwaysRunEnabled(bool enabled) override;
+    void updateWorldMovement(
+        const GameplayInputFrame &input,
+        float deltaSeconds,
+        bool allowWorldInput) override;
+    void updateActorAi(float deltaSeconds) override;
+    void updateWorld(float deltaSeconds) override;
+    void renderWorld(
+        int width,
+        int height,
+        const GameplayInputFrame &input,
+        float deltaSeconds) override;
+    GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const override;
+    bool requestTravelAutosave() override;
     void cancelPendingMapTransition() override;
+    bool executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount) override;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
     bool castEventSpell(
@@ -91,6 +111,7 @@ public:
         size_t actorIndex,
         uint32_t animationTicks,
         GameplayActorInspectState &state) const override;
+    std::optional<GameplayCombatActorInfo> combatActorInfoById(uint32_t actorId) const override;
     bool castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request) override;
     bool applyPartySpellToActor(
         size_t actorIndex,
@@ -131,9 +152,48 @@ public:
         uint32_t skillLevel,
         SkillMastery skillMastery,
         std::string &failureText) override;
-    void collectProjectilePresentationState(
-        std::vector<GameplayProjectilePresentationState> &projectiles,
-        std::vector<GameplayProjectileImpactPresentationState> &impacts) const override;
+    bool canActivateWorldHit(
+        const GameplayWorldHit &hit,
+        GameplayInteractionMethod interactionMethod) const override;
+    bool activateWorldHit(const GameplayWorldHit &hit) override;
+    std::optional<GameplayPartyAttackActorFacts> partyAttackActorFacts(
+        size_t actorIndex,
+        bool visibleForFallback) const override;
+    std::vector<GameplayPartyAttackActorFacts> collectPartyAttackFallbackActors(
+        const GameplayPartyAttackFallbackQuery &query) const override;
+    bool applyPartyAttackMeleeDamage(
+        size_t actorIndex,
+        int damage,
+        const GameplayWorldPoint &source) override;
+    bool spawnPartyAttackProjectile(const GameplayPartyAttackProjectileRequest &request) override;
+    bool castPartyAttackSpell(const GameplayPartyAttackSpellRequest &request) override;
+    void recordPartyAttackWorldResult(
+        std::optional<size_t> actorIndex,
+        bool attacked,
+        bool actionPerformed) override;
+    bool worldInteractionReady() const override;
+    bool worldInspectModeActive() const override;
+    GameplayWorldPickRequest buildWorldPickRequest(const GameplayWorldPickRequestInput &input) const override;
+    std::optional<GameplayHeldItemDropRequest> buildHeldItemDropRequest() const override;
+    GameplayPartyAttackFrameInput buildPartyAttackFrameInput(
+        const GameplayWorldPickRequest &pickRequest) const override;
+    std::optional<size_t> spellActionHoveredActorIndex() const override;
+    std::optional<size_t> spellActionClosestVisibleHostileActorIndex() const override;
+    std::optional<bx::Vec3> spellActionActorTargetPoint(size_t actorIndex) const override;
+    std::optional<bx::Vec3> spellActionGroundTargetPoint(float screenX, float screenY) const override;
+    GameplayPendingSpellWorldTargetFacts pickPendingSpellWorldTarget(
+        const GameplayWorldPickRequest &request) override;
+    GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) override;
+    GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) override;
+    GameplayWorldHit pickCurrentInteractionTarget(const GameplayWorldPickRequest &request) override;
+    GameplayWorldHoverCacheState worldHoverCacheState() const override;
+    GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) override;
+    GameplayHoverStatusPayload readCachedWorldHover() override;
+    void clearWorldHover() override;
+    bool canUseHeldItemOnWorld(const GameplayWorldHit &hit) const override;
+    bool useHeldItemOnWorld(const GameplayWorldHit &hit) override;
+    void applyPendingSpellCastWorldEffects(const PartySpellCastResult &castResult) override;
+    bool dropHeldItemToWorld(const GameplayHeldItemDropRequest &request) override;
     bool tryGetGameplayMinimapState(GameplayMinimapState &state) const override;
     void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const override;
     ChestViewState *activeChestView() override;
@@ -190,6 +250,8 @@ private:
     void syncMapActorSpellEffectStates();
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
+    std::optional<GameplayWorldPoint> actorImpactPoint(size_t actorIndex) const;
+    void triggerProjectileImpactPresentation(size_t actorIndex, uint32_t spellId);
 
     std::optional<MapStatsEntry> m_map;
     const MonsterTable *m_pMonsterTable = nullptr;
@@ -202,6 +264,8 @@ private:
     std::optional<MapDeltaData> *m_pMapDeltaData = nullptr;
     std::optional<EventRuntimeState> *m_pEventRuntimeState = nullptr;
     GameplayActorService *m_pGameplayActorService = nullptr;
+    IndoorDebugRenderer *m_pRenderer = nullptr;
+    IndoorGameView *m_pGameplayView = nullptr;
     std::string m_mapName;
     float m_gameMinutes = 9.0f * 60.0f;
     int m_currentLocationReputation = 0;

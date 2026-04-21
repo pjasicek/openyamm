@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/tables/PortraitFxEventTable.h"
@@ -26,7 +27,29 @@ public:
     explicit GameplayFxService(GameSession &session);
 
     void clear();
-    void syncActiveWorldProjectilePresentation();
+    void syncProjectilePresentation();
+    GameplayProjectileService::ProjectileImpactPresentationResult spawnProjectileImpactPresentation(
+        const GameplayProjectileService::ProjectileState &projectile,
+        const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
+        float x,
+        float y,
+        float z,
+        bool centerVertically);
+    GameplayProjectileService::ProjectileImpactPresentationResult spawnWaterSplashImpactPresentation(
+        const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
+        float x,
+        float y,
+        float z);
+    GameplayProjectileService::ProjectileImpactPresentationResult spawnImmediateSpellImpactPresentation(
+        const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
+        int sourceSpellId,
+        const std::string &sourceObjectName,
+        const std::string &sourceObjectSpriteName,
+        float x,
+        float y,
+        float z,
+        bool centerVertically,
+        bool freezeAnimation);
     void triggerPortraitEventFxWithoutSpeech(
         GameplayScreenRuntime &runtime,
         size_t memberIndex,

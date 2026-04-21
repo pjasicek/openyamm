@@ -1,6 +1,7 @@
 #include "game/gameplay/GameplayInputController.h"
 
 #include "game/gameplay/GameplayActionController.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplaySpellActionController.h"
@@ -29,11 +30,58 @@ bool isActionNewlyPressed(GameplayScreenRuntime &context, KeyboardAction action,
     return pKeyboardState[scancode] && context.previousKeyboardState()[scancode] == 0;
 }
 
+bool isActionNewlyPressed(
+    GameplayScreenRuntime &context,
+    KeyboardAction action,
+    const GameplayInputFrame *pInputFrame,
+    const bool *pKeyboardState)
+{
+    if (pInputFrame != nullptr)
+    {
+        return pInputFrame->action(action).pressed;
+    }
+
+    return isActionNewlyPressed(context, action, pKeyboardState);
+}
+
+bool isActionHeld(
+    GameplayScreenRuntime &context,
+    KeyboardAction action,
+    const GameplayInputFrame *pInputFrame,
+    const bool *pKeyboardState)
+{
+    if (pInputFrame != nullptr)
+    {
+        return pInputFrame->action(action).held;
+    }
+
+    return context.mutableSettings().keyboard.isPressed(action, pKeyboardState);
+}
+
 bool isEscapeNewlyPressed(GameplayScreenRuntime &context, const bool *pKeyboardState)
 {
     return pKeyboardState != nullptr
         && pKeyboardState[SDL_SCANCODE_ESCAPE]
         && context.previousKeyboardState()[SDL_SCANCODE_ESCAPE] == 0;
+}
+
+GameplaySpellActionController::TargetQueries buildSpellActionTargetQueries(
+    const GameplayScreenState &screenState,
+    const GameplaySharedInputFrameConfig &config)
+{
+    const GameplayScreenState::GameplayMouseLookState &mouseLookState = screenState.gameplayMouseLookState();
+
+    GameplaySpellActionController::TargetQueries targetQueries = {};
+    targetQueries.useCrosshairTarget =
+        mouseLookState.mouseLookActive
+        && !mouseLookState.cursorModeActive
+        && config.screenWidth > 0
+        && config.screenHeight > 0;
+    targetQueries.cursorX = config.pointerX;
+    targetQueries.cursorY = config.pointerY;
+    targetQueries.screenWidth = static_cast<float>(config.screenWidth);
+    targetQueries.screenHeight = static_cast<float>(config.screenHeight);
+    return targetQueries;
 }
 } // namespace
 
@@ -142,7 +190,7 @@ void GameplayInputController::handleStandardUiHotkeys(
 
         if (config.canOpenRest)
         {
-            if (context.mutableSettings().keyboard.isPressed(KeyboardAction::Rest, config.pKeyboardState))
+            if (isActionHeld(context, KeyboardAction::Rest, config.pInputFrame, config.pKeyboardState))
             {
                 if (!context.interactionState().restToggleLatch)
                 {
@@ -182,7 +230,7 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !houseBankInputActive
         && !config.blockSpellbookToggle;
 
-    if (isActionNewlyPressed(context, KeyboardAction::Cast, config.pKeyboardState))
+    if (isActionNewlyPressed(context, KeyboardAction::Cast, config.pInputFrame, config.pKeyboardState))
     {
         if (context.spellbookReadOnly().active)
         {
@@ -206,7 +254,8 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !journalActive
         && !config.blockInventoryToggle;
 
-    if (isActionNewlyPressed(context, KeyboardAction::Quest, config.pKeyboardState) && canToggleInventory)
+    if (isActionNewlyPressed(context, KeyboardAction::Quest, config.pInputFrame, config.pKeyboardState)
+        && canToggleInventory)
     {
         if (hasActiveLootView)
         {
@@ -238,7 +287,8 @@ void GameplayInputController::handleStandardUiHotkeys(
         && !houseBankInputActive
         && !config.blockPartyCycle;
 
-    if (!canCyclePartyMember || !isActionNewlyPressed(context, KeyboardAction::CharCycle, config.pKeyboardState))
+    if (!canCyclePartyMember
+        || !isActionNewlyPressed(context, KeyboardAction::CharCycle, config.pInputFrame, config.pKeyboardState))
     {
         return;
     }
@@ -271,16 +321,16 @@ void GameplayInputController::handleSharedGameplayHotkeys(
     }
 
     if (config.canToggleAlwaysRun
-        && context.mutableSettings().keyboard.isPressed(KeyboardAction::AlwaysRun, config.pKeyboardState))
+        && isActionHeld(context, KeyboardAction::AlwaysRun, config.pInputFrame, config.pKeyboardState))
     {
         if (!context.interactionState().alwaysRunToggleLatch)
         {
             GameSettings &settings = context.mutableSettings();
             settings.alwaysRun = !settings.alwaysRun;
 
-            if (config.applyAlwaysRun)
+            if (IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime())
             {
-                config.applyAlwaysRun(settings.alwaysRun);
+                pWorldRuntime->setAlwaysRunEnabled(settings.alwaysRun);
             }
 
             context.commitSettingsChange();
@@ -375,77 +425,83 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 .blockOnHeldItem = true,
             });
 
-    const GameplayUiOverlayInputResult overlayInputResult =
-        GameplayScreenController::processStandardUiInputFrame(
-            context,
-            GameplayStandardUiInputFrameConfig{
-                .hotkeys =
-                    GameplayStandardUiHotkeyConfig{
-                        .pKeyboardState = config.pKeyboardState,
-                        .canOpenRest = true,
-                        .blockMenuToggle =
-                            hasPendingSpellCast
-                            || context.characterScreenReadOnly().open
-                            || heldInventoryItem.active,
-                        .blockSpellbookToggle = hasPendingSpellCast || heldInventoryItem.active,
-                        .blockInventoryToggle = heldInventoryItem.active,
-                        .blockPartyCycle = hasPendingSpellCast || context.characterScreenReadOnly().open,
-                        .requireGameplayReadyForPartySelection = true,
-                    },
-                .input =
-                    GameplayStandardUiInputConfig{
-                        .pKeyboardState = config.pKeyboardState,
-                        .width = config.screenWidth,
-                        .height = config.screenHeight,
-                        .pointerX = config.pointerX,
-                        .pointerY = config.pointerY,
-                        .leftButtonPressed = config.leftButtonPressed,
-                        .allowGameplayPointerInput = frameResult.mouseLookPolicy.allowGameplayPointerInput,
-                        .mouseWheelDelta = config.mouseWheelDelta,
-                        .blockPortraitInput =
-                            config.isUtilitySpellModalActive || config.isReadableScrollOverlayActive,
-                        .blockHudButtonInput = blocksUnderlyingMouseInput || config.isUtilitySpellModalActive,
-                        .blockJournalToggle =
-                            hasPendingSpellCast
-                            || context.characterScreenReadOnly().open
-                            || heldInventoryItem.active,
-                        .requireGameplayReadyForPortraitSelection = !hasPendingSpellCast,
-                        .onPortraitActivated =
-                            [&screenState, &context, &spellService, &config, hasPendingSpellCast](
-                                size_t memberIndex)
-                            {
-                                if (!hasPendingSpellCast)
+    if (config.processStandardUiInput)
+    {
+        const GameplayUiOverlayInputResult overlayInputResult =
+            GameplayScreenController::processStandardUiInputFrame(
+                context,
+                GameplayStandardUiInputFrameConfig{
+                    .hotkeys =
+                        GameplayStandardUiHotkeyConfig{
+                            .pKeyboardState = config.pKeyboardState,
+                            .pInputFrame = config.pInputFrame,
+                            .canOpenRest = true,
+                            .blockMenuToggle =
+                                hasPendingSpellCast
+                                || context.characterScreenReadOnly().open
+                                || heldInventoryItem.active,
+                            .blockSpellbookToggle = hasPendingSpellCast || heldInventoryItem.active,
+                            .blockInventoryToggle = heldInventoryItem.active,
+                            .blockPartyCycle = hasPendingSpellCast || context.characterScreenReadOnly().open,
+                            .requireGameplayReadyForPartySelection = true,
+                        },
+                    .input =
+                        GameplayStandardUiInputConfig{
+                            .pKeyboardState = config.pKeyboardState,
+                            .pInputFrame = config.pInputFrame,
+                            .width = config.screenWidth,
+                            .height = config.screenHeight,
+                            .pointerX = config.pointerX,
+                            .pointerY = config.pointerY,
+                            .leftButtonPressed = config.leftButtonPressed,
+                            .allowGameplayPointerInput = frameResult.mouseLookPolicy.allowGameplayPointerInput,
+                            .mouseWheelDelta = config.mouseWheelDelta,
+                            .blockPortraitInput =
+                                config.isUtilitySpellModalActive || config.isReadableScrollOverlayActive,
+                            .blockHudButtonInput = blocksUnderlyingMouseInput || config.isUtilitySpellModalActive,
+                            .blockJournalToggle =
+                                hasPendingSpellCast
+                                || context.characterScreenReadOnly().open
+                                || heldInventoryItem.active,
+                            .requireGameplayReadyForPortraitSelection = !hasPendingSpellCast,
+                            .onPortraitActivated =
+                                [&screenState, &context, &spellService, &config, hasPendingSpellCast](
+                                    size_t memberIndex)
                                 {
-                                    return false;
-                                }
+                                    if (!hasPendingSpellCast)
+                                    {
+                                        return false;
+                                    }
 
-                                GameplaySpellActionController::PendingTargetSelectionInput pendingTargetInput = {};
-                                pendingTargetInput.confirmPressed = true;
-                                pendingTargetInput.portraitMemberIndex = memberIndex;
+                                    GameplaySpellActionController::PendingTargetSelectionInput pendingTargetInput = {};
+                                    pendingTargetInput.confirmPressed = true;
+                                    pendingTargetInput.portraitMemberIndex = memberIndex;
+                                    pendingTargetInput.targetQueries =
+                                        buildSpellActionTargetQueries(screenState, config);
 
-                                if (config.buildSpellActionTargetQueries)
-                                {
-                                    pendingTargetInput.targetQueries = config.buildSpellActionTargetQueries();
-                                }
+                                    const GameplaySpellActionController::PendingTargetSelectionResult result =
+                                        GameplaySpellActionController::updatePendingTargetSelection(
+                                            screenState,
+                                            context,
+                                            spellService,
+                                            pendingTargetInput);
 
-                                const GameplaySpellActionController::PendingTargetSelectionResult result =
-                                    GameplaySpellActionController::updatePendingTargetSelection(
-                                        screenState,
-                                        context,
-                                        spellService,
-                                        pendingTargetInput);
+                                    if (result.castSucceeded)
+                                    {
+                                        if (IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime())
+                                        {
+                                            pWorldRuntime->applyPendingSpellCastWorldEffects(result.castResult);
+                                            pWorldRuntime->clearWorldHover();
+                                        }
+                                    }
 
-                                if (result.castSucceeded && config.handlePendingSpellCastSucceeded)
-                                {
-                                    config.handlePendingSpellCastSucceeded(result.castResult);
-                                }
+                                    return true;
+                                },
+                        },
+                });
 
-                                return true;
-                            },
-                    },
-            });
-
-    frameResult.journalInputConsumed = overlayInputResult.journalInputConsumed;
+        frameResult.journalInputConsumed = overlayInputResult.journalInputConsumed;
+    }
 
     if (frameResult.journalInputConsumed)
     {
@@ -461,57 +517,59 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 .blockOnCharacterScreen = true,
             });
 
-    handleSharedGameplayHotkeys(
-        context,
-        GameplaySharedGameplayHotkeyConfig{
-            .pKeyboardState = config.pKeyboardState,
-            .canToggleAlwaysRun = canRunStandardGameplayAction,
-            .canToggleAdventurersInn = canToggleAdventurersInn,
-            .applyAlwaysRun = config.applyAlwaysRun,
-        });
-
-    if (canRunStandardGameplayAction)
+    if (config.processSharedGameplayHotkeys)
     {
-        const bool isQuickCastPressed =
-            context.mutableSettings().keyboard.isPressed(KeyboardAction::CastReady, config.pKeyboardState);
-
-        GameplayActionController::updateQuickCastAction(
-            quickSpellState,
-            GameplayActionController::QuickCastActionConfig{
-                .canRunAction = true,
-                .quickCastPressed = isQuickCastPressed,
-                .hasReadyMember = config.hasReadyMember,
-                .beginQuickCast =
-                    [&context, &spellService, &config]() -> GameplayActionController::QuickCastActionResult
-                    {
-                        if (!config.canBeginQuickCast
-                            || context.worldRuntime() == nullptr
-                            || !config.buildSpellActionTargetQueries)
-                        {
-                            return GameplayActionController::QuickCastActionResult::Failed;
-                        }
-
-                        const GameplaySpellActionController::SpellActionResult result =
-                            GameplaySpellActionController::tryBeginQuickSpellCast(
-                                context,
-                                spellService,
-                                config.buildSpellActionTargetQueries());
-
-                        if (result == GameplaySpellActionController::SpellActionResult::AttackFallback)
-                        {
-                            return GameplayActionController::QuickCastActionResult::AttackFallback;
-                        }
-
-                        if (result == GameplaySpellActionController::SpellActionResult::CastStarted)
-                        {
-                            return GameplayActionController::QuickCastActionResult::CastStarted;
-                        }
-
-                        return GameplayActionController::QuickCastActionResult::Failed;
-                    },
+        handleSharedGameplayHotkeys(
+            context,
+            GameplaySharedGameplayHotkeyConfig{
+                .pKeyboardState = config.pKeyboardState,
+                .pInputFrame = config.pInputFrame,
+                .canToggleAlwaysRun = canRunStandardGameplayAction,
+                .canToggleAdventurersInn = canToggleAdventurersInn,
             });
     }
-    else
+
+    if (canRunStandardGameplayAction && config.processQuickCast)
+    {
+        const bool isQuickCastPressed =
+            isActionHeld(context, KeyboardAction::CastReady, config.pInputFrame, config.pKeyboardState);
+
+        const GameplayActionController::QuickCastActionDecision quickCastDecision =
+            GameplayActionController::updateQuickCastAction(
+                quickSpellState,
+                GameplayActionController::QuickCastActionConfig{
+                    .canRunAction = true,
+                    .quickCastPressed = isQuickCastPressed,
+                    .hasReadyMember = config.hasReadyMember,
+                });
+
+        if (quickCastDecision.shouldBeginQuickCast)
+        {
+            GameplayActionController::QuickCastActionResult quickCastResult =
+                GameplayActionController::QuickCastActionResult::Failed;
+
+            if (config.canBeginQuickCast && context.worldRuntime() != nullptr)
+            {
+                const GameplaySpellActionController::SpellActionResult spellActionResult =
+                    GameplaySpellActionController::tryBeginQuickSpellCast(
+                        context,
+                        spellService,
+                        buildSpellActionTargetQueries(screenState, config));
+
+                if (spellActionResult == GameplaySpellActionController::SpellActionResult::AttackFallback)
+                {
+                    quickCastResult = GameplayActionController::QuickCastActionResult::AttackFallback;
+                }
+                else if (spellActionResult == GameplaySpellActionController::SpellActionResult::CastStarted)
+                {
+                    quickCastResult = GameplayActionController::QuickCastActionResult::CastStarted;
+                }
+            }
+
+            GameplayActionController::applyQuickCastActionResult(quickSpellState, quickCastResult);
+        }
+    }
+    else if (config.processQuickCast)
     {
         GameplayActionController::updateQuickCastAction(
             quickSpellState,
@@ -523,6 +581,7 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
             context,
             GameplayStandardWorldInputGateConfig{
                 .pKeyboardState = config.pKeyboardState,
+                .pInputFrame = config.pInputFrame,
                 .width = config.screenWidth,
                 .height = config.screenHeight,
             });

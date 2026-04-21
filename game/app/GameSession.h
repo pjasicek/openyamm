@@ -4,6 +4,8 @@
 #include "game/app/GameSettings.h"
 #include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayActorService.h"
+#include "game/gameplay/GameplayCombatController.h"
+#include "game/gameplay/GameplayInputController.h"
 #include "game/gameplay/GameplayScreenState.h"
 #include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayProjectileService.h"
@@ -29,6 +31,8 @@
 
 namespace OpenYAMM::Game
 {
+struct GameplayInputFrame;
+
 class GameSession
 {
 public:
@@ -67,6 +71,8 @@ public:
     const GameplayUiRuntime &gameplayUiRuntime() const;
     GameplayActorService &gameplayActorService();
     const GameplayActorService &gameplayActorService() const;
+    GameplayCombatController &gameplayCombatController();
+    const GameplayCombatController &gameplayCombatController() const;
     GameplayItemService &gameplayItemService();
     const GameplayItemService &gameplayItemService() const;
     GameplayProjectileService &gameplayProjectileService();
@@ -86,6 +92,14 @@ public:
 
     IGameplayWorldRuntime *activeWorldRuntime() const;
     void bindActiveWorldRuntime(IGameplayWorldRuntime *pWorldRuntime);
+    const GameplayInputFrame *currentGameplayInputFrame() const;
+    void bindCurrentGameplayInputFrame(const GameplayInputFrame *pInputFrame);
+    void updateGameplay(const GameplayInputFrame &input, float deltaSeconds);
+    void renderGameplayUi(int width, int height);
+    const GameplaySharedInputFrameResult &sharedInputFrameResult() const;
+    bool sharedWorldInteractionBlockedThisFrame() const;
+    void requestRelativeMouseMotionReset();
+    bool consumeRelativeMouseMotionResetRequest();
 
     const std::optional<OutdoorPartyRuntime::Snapshot> &outdoorPartyState() const;
     void setOutdoorPartyState(const OutdoorPartyRuntime::Snapshot &snapshot);
@@ -164,6 +178,7 @@ private:
     GameplayUiController m_gameplayUiController;
     GameplayUiRuntime m_gameplayUiRuntime;
     GameplayActorService m_gameplayActorService;
+    GameplayCombatController m_gameplayCombatController;
     GameplayItemService m_gameplayItemService;
     GameplayProjectileService m_gameplayProjectileService;
     GameplayFxService m_gameplayFxService;
@@ -173,6 +188,10 @@ private:
     GameplayOverlayInteractionState m_overlayInteractionState;
     std::array<uint8_t, SDL_SCANCODE_COUNT> m_previousKeyboardState = {};
     IGameplayWorldRuntime *m_pActiveWorldRuntime = nullptr;
+    const GameplayInputFrame *m_pCurrentGameplayInputFrame = nullptr;
+    GameplaySharedInputFrameResult m_sharedInputFrameResult = {};
+    bool m_sharedWorldInteractionBlockedThisFrame = false;
+    bool m_relativeMouseMotionResetRequested = false;
     std::optional<OutdoorPartyRuntime::Snapshot> m_outdoorPartyState;
     std::optional<OutdoorWorldRuntime::Snapshot> m_currentOutdoorWorldState;
     std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot> m_outdoorWorldStates;

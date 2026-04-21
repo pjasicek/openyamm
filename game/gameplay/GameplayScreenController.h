@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/gameplay/GameplayInputController.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayHudInputController.h"
 #include "game/ui/GameplayUiOverlayOrchestrator.h"
 
@@ -31,6 +32,7 @@ struct GameplayScreenFrameUpdateConfig
 struct GameplayStandardUiInputConfig
 {
     const bool *pKeyboardState = nullptr;
+    const GameplayInputFrame *pInputFrame = nullptr;
     int width = 0;
     int height = 0;
     float pointerX = 0.0f;
@@ -48,6 +50,7 @@ struct GameplayStandardUiInputConfig
 struct GameplayStandardWorldInputGateConfig
 {
     const bool *pKeyboardState = nullptr;
+    const GameplayInputFrame *pInputFrame = nullptr;
     int width = 0;
     int height = 0;
     bool blockOnDialogue = true;
@@ -125,7 +128,6 @@ struct GameplayStandardUiRenderConfig
     bool renderGameplayMouseLookOverlay = false;
     bool renderActorInspectOverlay = true;
     bool renderDebugFallbacks = false;
-    std::function<void()> onRenderedHud;
 };
 
 struct GameplayStandardUiFrameConfig
@@ -181,6 +183,7 @@ public:
 
     static void updateStandardHudItemInspectOverlayFromMouse(
         GameplayScreenRuntime &context,
+        const GameplayInputFrame &input,
         int width,
         int height,
         bool enabled,
@@ -203,9 +206,7 @@ public:
 
     static GameplayUiOverlayInputResult handleSharedOverlayInput(
         GameplayScreenRuntime &context,
-        const bool *pKeyboardState,
-        int width,
-        int height,
+        const GameplayInputFrame &input,
         const GameplayUiOverlayInputConfig &config);
 
     static GameplayUiOverlayInputResult handleStandardUiInput(
@@ -242,9 +243,7 @@ public:
 
     static void handleUtilitySpellOverlayInput(
         GameplayScreenRuntime &context,
-        const bool *pKeyboardState,
-        int width,
-        int height);
+        const GameplayInputFrame &input);
 
     static void renderSharedOverlays(
         GameplayScreenRuntime &context,

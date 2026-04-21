@@ -1,11 +1,10 @@
 #include "game/ui/GameplayHudOverlayRenderer.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
 #include "game/StringUtils.h"
-
-#include <SDL3/SDL.h>
 
 #include <algorithm>
 #include <cmath>
@@ -52,6 +51,29 @@ struct InventoryItemScreenRect
     float width = 0.0f;
     float height = 0.0f;
 };
+
+struct PointerRenderInput
+{
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    bool isLeftMousePressed = false;
+};
+
+PointerRenderInput pointerRenderInput(const GameplayScreenRuntime &view)
+{
+    PointerRenderInput input = {};
+    const GameplayInputFrame *pInputFrame = view.currentGameplayInputFrame();
+
+    if (pInputFrame == nullptr)
+    {
+        return input;
+    }
+
+    input.mouseX = pInputFrame->pointerX;
+    input.mouseY = pInputFrame->pointerY;
+    input.isLeftMousePressed = pInputFrame->leftMouseButton.held;
+    return input;
+}
 
 uint32_t itemTintColorAbgr(
     const InventoryItem *pItemState,
@@ -195,10 +217,10 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayScreenRuntime &view, i
         return;
     }
 
-    float chestMouseX = 0.0f;
-    float chestMouseY = 0.0f;
-    const SDL_MouseButtonFlags chestMouseButtons = SDL_GetMouseState(&chestMouseX, &chestMouseY);
-    const bool isLeftMousePressed = (chestMouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(view);
+    const float chestMouseX = pointerInput.mouseX;
+    const float chestMouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
     const ChestEntry *pChestEntry = view.chestTable()->get(pChestView->chestTypeId);
     const std::vector<std::string> orderedChestLayoutIds = view.sortedHudLayoutIdsForScreen("Chest");
     const Party *pParty = view.partyReadOnly();

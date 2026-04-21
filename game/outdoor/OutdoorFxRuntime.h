@@ -50,6 +50,7 @@ public:
     void reset();
     void update(OutdoorGameView &view, float deltaSeconds);
     void triggerPartySpellFx(OutdoorGameView &view, const PartySpellCastResult &result);
+    static void triggerPartySpellFx(ParticleSystem &particleSystem, const PartySpellCastResult &result);
 
     const std::vector<GlowBillboardState> &glowBillboards() const;
     const std::vector<LightEmitterState> &lightEmitters() const;

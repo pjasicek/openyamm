@@ -3,7 +3,7 @@
 #include "game/app/GameSession.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameMechanics.h"
-#include "game/gameplay/GameplayInputController.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/GameplaySpellService.h"
@@ -28,7 +28,6 @@
 #include <cmath>
 #include <cstring>
 #include <functional>
-#include <iostream>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -878,6 +877,7 @@ bool IndoorGameView::initialize(
     m_pIndoorSceneRuntime = &sceneRuntime;
     m_pGameAudioSystem = pGameAudioSystem;
     m_map = map;
+    m_pIndoorSceneRuntime->worldRuntime().bindGameplayView(this);
     m_gameSession.gameplayScreenRuntime().bindSceneAdapter(this);
     m_gameSession.gameplayScreenRuntime().bindAudioSystem(m_pGameAudioSystem);
     m_gameSession.gameplayScreenRuntime().bindSettings(&m_settings);
@@ -894,10 +894,6 @@ bool IndoorGameView::initialize(
         return false;
     }
 
-    if (!sharedUiBootstrap.portraitRuntimeLoaded)
-    {
-        std::cout << "HUD portrait FX load failed\n";
-    }
     return true;
 }
 
@@ -915,7 +911,7 @@ void IndoorGameView::setSettingsSnapshot(const GameSettings &settings)
     }
 }
 
-void IndoorGameView::render(int width, int height, float mouseWheelDelta, float deltaSeconds)
+void IndoorGameView::render(int width, int height, const GameplayInputFrame &input, float deltaSeconds)
 {
     GameplayHudRenderBackend hudRenderBackend = {};
     bgfx::ProgramHandle invalidProgramHandle = BGFX_INVALID_HANDLE;
@@ -941,35 +937,36 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
         pWindow = SDL_GetKeyboardFocus();
     }
 
-    float gameplayMouseX = 0.0f;
-    float gameplayMouseY = 0.0f;
-    const SDL_MouseButtonFlags gameplayMouseButtons = SDL_GetMouseState(&gameplayMouseX, &gameplayMouseY);
-    const bool gameplayMouseLookAllowed =
-        GameplayScreenController::canEnableGameplayMouseLook(
-            m_gameSession.gameplayScreenRuntime(),
-            GameplayMouseLookEnableConfig{});
+    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
 
-    GameplayScreenState::GameplayMouseLookState &gameplayMouseLookState =
-        m_gameSession.gameplayScreenState().gameplayMouseLookState();
-    const GameplayMouseLookPolicyResult mouseLookPolicy =
-        GameplayInputController::updateGameplayMouseLookPolicy(
-            gameplayMouseLookState,
-            GameplayMouseLookPolicyConfig{
-                .mouseLookAllowed = gameplayMouseLookAllowed,
-                .rightMousePressed = (gameplayMouseButtons & SDL_BUTTON_RMASK) != 0,
-            });
-    syncGameplayMouseLookMode(pWindow, mouseLookPolicy.mouseLookActive);
+    GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
+        overlayContext,
+        input,
+        width,
+        height,
+        GameplayScreenController::canUpdateStandardHudItemInspectOverlayFromMouse(overlayContext, width, height),
+        false);
+
+    const GameplaySharedInputFrameResult &sharedInputFrameResult = m_gameSession.sharedInputFrameResult();
+    syncGameplayMouseLookMode(pWindow, sharedInputFrameResult.mouseLookPolicy.mouseLookActive);
 
     if (m_pIndoorRenderer != nullptr)
     {
         m_pIndoorRenderer->setGameplayMouseLookMode(
-            mouseLookPolicy.mouseLookActive,
-            mouseLookPolicy.cursorModeActive);
+            sharedInputFrameResult.mouseLookPolicy.mouseLookActive,
+            sharedInputFrameResult.mouseLookPolicy.cursorModeActive);
     }
 
     if (m_pIndoorRenderer != nullptr)
     {
-        m_pIndoorRenderer->render(width, height, mouseWheelDelta, deltaSeconds);
+        const bool allowWorldInput =
+            !sharedInputFrameResult.journalInputConsumed && !sharedInputFrameResult.worldInputBlocked;
+        m_pIndoorRenderer->render(
+            width,
+            height,
+            input,
+            deltaSeconds,
+            allowWorldInput);
     }
 
     m_gameSession.gameplayScreenRuntime().ensurePendingEventDialogPresented(
@@ -979,53 +976,30 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
             return buildDialogContext(eventRuntimeState);
         });
 
-    updateActorInspectOverlayState(width, height);
+    updateActorInspectOverlayState(width, height, input);
+}
 
-    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
-    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
-    const bool canRenderHudOverlays =
-        m_pIndoorRenderer != nullptr
-        && m_pIndoorRenderer->hasHudRenderResources()
-        && width > 0
-        && height > 0;
-
-    GameplayScreenController::processStandardUiFrame(
-        overlayContext,
-        width,
-        height,
-        deltaSeconds,
-        GameplayStandardUiFrameConfig{
-            .frame = GameplayScreenFrameUpdateConfig{},
-            .hotkeys =
-                GameplayStandardUiHotkeyConfig{
-                    .pKeyboardState = pKeyboardState,
-                },
-            .input =
-                GameplayStandardUiInputConfig{
-                    .pKeyboardState = pKeyboardState,
-                    .width = width,
-                    .height = height,
-                    .pointerX = gameplayMouseX,
-                    .pointerY = gameplayMouseY,
-                    .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
-                    .allowGameplayPointerInput = mouseLookPolicy.allowGameplayPointerInput,
-                    .mouseWheelDelta = mouseWheelDelta,
-                },
-            .render =
-                GameplayStandardUiRenderConfig{
-                    .canRenderHudOverlays = canRenderHudOverlays,
-                    .renderGameplayMouseLookOverlay =
-                        gameplayMouseLookState.mouseLookActive && !gameplayMouseLookState.cursorModeActive,
-                    .renderActorInspectOverlay = true,
-                    .renderDebugFallbacks = true,
-                },
-            .updateHudItemInspectOverlayFromMouse = true,
-        });
+GameplayWorldUiRenderState IndoorGameView::gameplayUiRenderState(int width, int height) const
+{
+    return GameplayWorldUiRenderState{
+        .canRenderHudOverlays =
+            m_pIndoorRenderer != nullptr
+            && m_pIndoorRenderer->hasHudRenderResources()
+            && width > 0
+            && height > 0,
+        .renderDebugFallbacks = true,
+    };
 }
 
 void IndoorGameView::shutdown()
 {
     syncGameplayMouseLookMode(SDL_GetMouseFocus(), false);
+
+    if (m_pIndoorSceneRuntime != nullptr)
+    {
+        m_pIndoorSceneRuntime->worldRuntime().bindGameplayView(nullptr);
+        m_pIndoorSceneRuntime->worldRuntime().bindRenderer(nullptr);
+    }
 
     if (m_pIndoorRenderer != nullptr)
     {
@@ -1221,7 +1195,7 @@ void IndoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled
         }
 
         SDL_SetWindowRelativeMouseMode(pWindow, enabled);
-        SDL_GetRelativeMouseState(nullptr, nullptr);
+        m_gameSession.requestRelativeMouseMotionReset();
     }
 
     if (enabled)
@@ -1234,7 +1208,7 @@ void IndoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled
     }
 }
 
-void IndoorGameView::updateActorInspectOverlayState(int width, int height)
+void IndoorGameView::updateActorInspectOverlayState(int width, int height, const GameplayInputFrame &input)
 {
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
     GameplayUiController::ActorInspectOverlayState &actorInspectOverlay = screenRuntime.actorInspectOverlay();
@@ -1263,17 +1237,13 @@ void IndoorGameView::updateActorInspectOverlayState(int width, int height)
         return;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0 || m_pIndoorRenderer == nullptr)
+    if (!input.rightMouseButton.held || m_pIndoorRenderer == nullptr)
     {
         return;
     }
 
     const std::optional<IndoorDebugRenderer::GameplayActorPick> pick =
-        m_pIndoorRenderer->gameplayActorPickAtCursor(width, height, mouseX, mouseY);
+        m_pIndoorRenderer->gameplayActorPickAtCursor(width, height, input.pointerX, input.pointerY);
 
     if (!pick.has_value())
     {
@@ -1310,29 +1280,6 @@ std::optional<std::vector<uint8_t>> IndoorGameView::readCachedBinaryFile(const s
 
 GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntimeState &eventRuntimeState)
 {
-    GameplayDialogController::Callbacks callbacks = {};
-    callbacks.playSpeechReaction =
-        [this](size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
-        {
-            m_gameSession.gameplayScreenRuntime().playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
-        };
-    callbacks.playHouseSound =
-        [this](uint32_t soundId)
-        {
-            if (m_pGameAudioSystem != nullptr)
-            {
-                m_pGameAudioSystem->playSound(soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
-            }
-        };
-    callbacks.playCommonSound =
-        [this](SoundId soundId)
-        {
-            if (m_pGameAudioSystem != nullptr)
-            {
-                m_pGameAudioSystem->playCommonSound(soundId, GameAudioSystem::PlaybackGroup::Ui);
-            }
-        };
-
     Party *pParty = partyRuntime() != nullptr ? &partyRuntime()->party() : nullptr;
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
 
@@ -1352,7 +1299,7 @@ GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntim
         &m_gameSession.data().rosterTable(),
         &m_gameSession.data().arcomageLibrary(),
         screenRuntime.currentHudScreenState() == GameplayHudScreenState::Dialogue,
-        std::move(callbacks));
+        &screenRuntime);
 }
 
 } // namespace OpenYAMM::Game

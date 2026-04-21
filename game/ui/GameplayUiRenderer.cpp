@@ -2,10 +2,9 @@
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayFxService.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/StringUtils.h"
-
-#include <SDL3/SDL.h>
 
 #include <algorithm>
 #include <cmath>
@@ -38,6 +37,29 @@ enum class ActiveGameplayHudLayout
     Standard,
     Widescreen
 };
+
+struct PointerRenderInput
+{
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    bool isLeftMousePressed = false;
+};
+
+PointerRenderInput pointerRenderInput(const GameplayScreenRuntime &context)
+{
+    PointerRenderInput input = {};
+    const GameplayInputFrame *pInputFrame = context.currentGameplayInputFrame();
+
+    if (pInputFrame == nullptr)
+    {
+        return input;
+    }
+
+    input.mouseX = pInputFrame->pointerX;
+    input.mouseY = pInputFrame->pointerY;
+    input.isLeftMousePressed = pInputFrame->leftMouseButton.held;
+    return input;
+}
 
 std::string normalizeGameplayLayoutRoleId(const std::string &layoutId)
 {
@@ -562,10 +584,10 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         portraitY -= 15.0f * uiScale;
     }
 
-    float characterMouseX = 0.0f;
-    float characterMouseY = 0.0f;
-    const SDL_MouseButtonFlags characterMouseButtons = SDL_GetMouseState(&characterMouseX, &characterMouseY);
-    const bool isLeftMousePressed = (characterMouseButtons & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(context);
+    const float characterMouseX = pointerInput.mouseX;
+    const float characterMouseY = pointerInput.mouseY;
+    const bool isLeftMousePressed = pointerInput.isLeftMousePressed;
 
     const auto renderGameplayBasebarLeftAttachment =
         [&](const std::string &layoutId)

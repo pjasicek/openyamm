@@ -810,7 +810,9 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->outdoorSpriteObjectCollisionSet,
             selectedMap->outdoorSpriteObjectBillboardSet,
             &m_gameSession.gameplayActorService(),
-            &m_gameSession.gameplayProjectileService()
+            &m_gameSession.gameplayProjectileService(),
+            &m_gameSession.gameplayCombatController(),
+            &m_gameSession.gameplayFxService()
         );
 
         restoreSavedOutdoorWorldStateForSelectedMap();
@@ -918,6 +920,11 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
                 << selectedMap->map.fileName
                 << '\n';
             return false;
+        }
+
+        if (initializeView)
+        {
+            pIndoorSceneRuntime->worldRuntime().bindRenderer(&m_indoorDebugRenderer);
         }
 
         if (initializeView
@@ -1118,7 +1125,7 @@ void GameApplication::renderLoadingOverlayProgress(int progressPercent)
     m_pLoadingOverlayScreen->renderFrame(
         std::max(1, m_lastFrameWidth),
         std::max(1, m_lastFrameHeight),
-        0.0f,
+        m_gameInputSystem.frame(),
         1.0f / 60.0f);
     bgfx::frame();
 }
@@ -1251,14 +1258,9 @@ bool GameApplication::reloadSelectedMap()
 
 void GameApplication::updateQuickSaveInput()
 {
-    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+    const GameplayInputFrame &inputFrame = m_gameInputSystem.frame();
 
-    if (pKeyboardState == nullptr)
-    {
-        return;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_F9])
+    if (inputFrame.isScancodeHeld(SDL_SCANCODE_F9))
     {
         if (!m_quickSaveLatch)
         {
@@ -1271,7 +1273,7 @@ void GameApplication::updateQuickSaveInput()
         m_quickSaveLatch = false;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_F10])
+    if (inputFrame.isScancodeHeld(SDL_SCANCODE_F10))
     {
         if (!m_quickLoadLatch)
         {
@@ -1720,14 +1722,9 @@ void GameApplication::updateMapPickerInput()
     constexpr uint64_t InitialRepeatDelayMs = 300;
     constexpr uint64_t HeldRepeatIntervalMs = 70;
 
-    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+    const GameplayInputFrame &inputFrame = m_gameInputSystem.frame();
 
-    if (pKeyboardState == nullptr)
-    {
-        return;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_F8])
+    if (inputFrame.isScancodeHeld(SDL_SCANCODE_F8))
     {
         if (!m_pickerToggleLatch)
         {
@@ -1757,7 +1754,7 @@ void GameApplication::updateMapPickerInput()
 
     const uint64_t currentTickCount = SDL_GetTicks();
 
-    if (pKeyboardState[SDL_SCANCODE_UP])
+    if (inputFrame.isScancodeHeld(SDL_SCANCODE_UP))
     {
         if (m_pickerNextUpRepeatTick == 0 || currentTickCount >= m_pickerNextUpRepeatTick)
         {
@@ -1772,7 +1769,7 @@ void GameApplication::updateMapPickerInput()
         m_pickerNextUpRepeatTick = 0;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_DOWN])
+    if (inputFrame.isScancodeHeld(SDL_SCANCODE_DOWN))
     {
         if (m_pickerNextDownRepeatTick == 0 || currentTickCount >= m_pickerNextDownRepeatTick)
         {
@@ -1787,7 +1784,7 @@ void GameApplication::updateMapPickerInput()
         m_pickerNextDownRepeatTick = 0;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_RETURN])
+    if (inputFrame.isScancodeHeld(SDL_SCANCODE_RETURN))
     {
         if (!m_pickerApplyLatch)
         {
@@ -1861,11 +1858,19 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
 {
     m_lastFrameWidth = width;
     m_lastFrameHeight = height;
+
+    if (m_gameSession.consumeRelativeMouseMotionResetRequest())
+    {
+        m_gameInputSystem.resetRelativeMouseMotion();
+    }
+
+    m_gameInputSystem.updateFromEngineInput(width, height, mouseWheelDelta, m_settings);
+    m_gameSession.bindCurrentGameplayInputFrame(&m_gameInputSystem.frame());
     processPendingArcomageGame();
 
     if (IScreen *pActiveScreen = m_screenManager.activeScreen())
     {
-        pActiveScreen->renderFrame(width, height, mouseWheelDelta, deltaSeconds);
+        pActiveScreen->renderFrame(width, height, m_gameInputSystem.frame(), deltaSeconds);
         handleCompletedPartyDefeatScreen();
         handleCompletedArcomageScreen();
         m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
@@ -1879,7 +1884,7 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     {
         if (IScreen *pActiveScreen = m_screenManager.activeScreen())
         {
-            pActiveScreen->renderFrame(width, height, mouseWheelDelta, deltaSeconds);
+            pActiveScreen->renderFrame(width, height, m_gameInputSystem.frame(), deltaSeconds);
             handleCompletedPartyDefeatScreen();
         }
 
@@ -1888,13 +1893,20 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     }
 
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
+    m_gameSession.updateGameplay(m_gameInputSystem.frame(), deltaSeconds);
 
-    if (m_pMapSceneRuntime != nullptr
-        && m_pMapSceneRuntime->kind() == SceneKind::Outdoor
-        && selectedMap
-        && selectedMap->outdoorMapData)
+    IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+
+    if (pWorldRuntime != nullptr && m_pMapSceneRuntime != nullptr && selectedMap)
     {
-        m_outdoorGameView.render(width, height, mouseWheelDelta, deltaSeconds);
+        pWorldRuntime->updateWorld(deltaSeconds);
+        pWorldRuntime->renderWorld(width, height, m_gameInputSystem.frame(), deltaSeconds);
+        m_gameSession.renderGameplayUi(width, height);
+
+        if (m_gameSession.consumeRelativeMouseMotionResetRequest())
+        {
+            m_gameInputSystem.resetRelativeMouseMotion();
+        }
 
         if (m_gameSession.consumePendingOpenNewGameScreenRequest())
         {
@@ -1908,10 +1920,17 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
             return;
         }
 
-        if (m_pOutdoorPartyRuntime != nullptr)
+        if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor && m_pOutdoorPartyRuntime != nullptr)
         {
             const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
             m_gameAudioSystem.update(moveState.x, moveState.y, moveState.footZ + 96.0f, deltaSeconds);
+        }
+        else if (m_pMapSceneRuntime->kind() == SceneKind::Indoor)
+        {
+            const IndoorSceneRuntime *pIndoorRuntime =
+                static_cast<const IndoorSceneRuntime *>(m_pMapSceneRuntime.get());
+            const IndoorMoveState &moveState = pIndoorRuntime->partyRuntime().movementState();
+            m_gameAudioSystem.update(moveState.x, moveState.y, moveState.eyeZ(), deltaSeconds);
         }
         else
         {
@@ -1927,38 +1946,6 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
 
         renderMapPickerOverlay();
         return;
-    }
-
-    if (m_pMapSceneRuntime != nullptr
-        && m_pMapSceneRuntime->kind() == SceneKind::Indoor
-        && selectedMap
-        && selectedMap->indoorMapData)
-    {
-        m_indoorGameView.render(width, height, mouseWheelDelta, deltaSeconds);
-
-        if (m_gameSession.consumePendingOpenNewGameScreenRequest())
-        {
-            openNewGameScreen();
-            return;
-        }
-
-        if (m_gameSession.consumePendingOpenLoadGameScreenRequest())
-        {
-            openLoadGameScreen(true);
-            return;
-        }
-
-        const IndoorSceneRuntime *pIndoorRuntime = static_cast<const IndoorSceneRuntime *>(m_pMapSceneRuntime.get());
-        const IndoorMoveState &moveState = pIndoorRuntime->partyRuntime().movementState();
-        m_gameAudioSystem.update(moveState.x, moveState.y, moveState.eyeZ(), deltaSeconds);
-        processPendingMapMove();
-
-        if (processPendingQuickSaveInput())
-        {
-            return;
-        }
-
-        renderMapPickerOverlay();
     }
 }
 

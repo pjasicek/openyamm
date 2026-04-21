@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplaySpellActionController.h"
 
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/tables/SpellTable.h"
 
@@ -11,14 +12,7 @@ GameplaySpellActionController::SpellActionResult GameplaySpellActionController::
     const TargetQueries &targetQueries)
 {
     const GameplaySpellService::QuickSpellStartResolution resolution =
-        spellService.tryStartQuickSpellCast(
-            runtime,
-            [&targetQueries](
-                PartySpellCastRequest &quickCastRequest,
-                const PartySpellDescriptor &descriptor)
-            {
-                return tryResolveQuickCastRequest(quickCastRequest, descriptor, targetQueries);
-            });
+        spellService.tryStartQuickSpellCast(runtime, targetQueries);
 
     if (resolution.disposition == GameplaySpellService::QuickSpellStartDisposition::AttackFallback)
     {
@@ -65,12 +59,7 @@ GameplaySpellActionController::AttackCastResult GameplaySpellActionController::t
             uint32_t(pAttackSpellEntry->id),
             pAttackSpellEntry->name,
             true,
-            [&targetQueries](
-                PartySpellCastRequest &quickCastRequest,
-                const PartySpellDescriptor &descriptor)
-            {
-                return tryResolveQuickCastRequest(quickCastRequest, descriptor, targetQueries);
-            });
+            &targetQueries);
 
     if (!castResolution.castStarted)
     {
@@ -84,103 +73,6 @@ GameplaySpellActionController::AttackCastResult GameplaySpellActionController::t
         .disposition = AttackCastDisposition::CastStarted,
         .followupUiActive = castResolution.followupUiActive,
     };
-}
-
-bool GameplaySpellActionController::tryResolveQuickCastRequest(
-    PartySpellCastRequest &request,
-    const PartySpellDescriptor &descriptor,
-    const TargetQueries &targetQueries)
-{
-    if (descriptor.targetKind == PartySpellCastTargetKind::None)
-    {
-        return true;
-    }
-
-    if (descriptor.targetKind == PartySpellCastTargetKind::Actor)
-    {
-        if (targetQueries.resolveHoveredActorIndex)
-        {
-            request.targetActorIndex = targetQueries.resolveHoveredActorIndex();
-        }
-
-        if (!request.targetActorIndex && targetQueries.resolveClosestVisibleHostileActorIndex)
-        {
-            request.targetActorIndex = targetQueries.resolveClosestVisibleHostileActorIndex();
-        }
-
-        if (request.targetActorIndex)
-        {
-            return true;
-        }
-
-        if (descriptor.effectKind == PartySpellCastEffectKind::Projectile)
-        {
-            const std::optional<bx::Vec3> groundTargetPoint = resolveCursorTargetPoint(targetQueries);
-
-            if (!groundTargetPoint)
-            {
-                return false;
-            }
-
-            request.hasTargetPoint = true;
-            request.targetX = groundTargetPoint->x;
-            request.targetY = groundTargetPoint->y;
-            request.targetZ = groundTargetPoint->z;
-            return true;
-        }
-
-        return false;
-    }
-
-    if (descriptor.targetKind == PartySpellCastTargetKind::GroundPoint)
-    {
-        std::optional<bx::Vec3> targetPoint;
-
-        if (targetQueries.resolveHoveredActorIndex && targetQueries.resolveActorTargetPoint)
-        {
-            const std::optional<size_t> hoveredActorIndex = targetQueries.resolveHoveredActorIndex();
-
-            if (hoveredActorIndex)
-            {
-                targetPoint = targetQueries.resolveActorTargetPoint(*hoveredActorIndex);
-            }
-        }
-
-        if (!targetPoint)
-        {
-            targetPoint = resolveCursorTargetPoint(targetQueries);
-        }
-
-        if (!targetPoint)
-        {
-            return false;
-        }
-
-        request.hasTargetPoint = true;
-        request.targetX = targetPoint->x;
-        request.targetY = targetPoint->y;
-        request.targetZ = targetPoint->z;
-        return true;
-    }
-
-    return false;
-}
-
-std::optional<bx::Vec3> GameplaySpellActionController::resolveCursorTargetPoint(const TargetQueries &targetQueries)
-{
-    if (!targetQueries.resolveGroundTargetPoint)
-    {
-        return std::nullopt;
-    }
-
-    if (targetQueries.useCrosshairTarget && targetQueries.screenWidth > 0.0f && targetQueries.screenHeight > 0.0f)
-    {
-        return targetQueries.resolveGroundTargetPoint(
-            targetQueries.screenWidth * 0.5f,
-            targetQueries.screenHeight * 0.5f);
-    }
-
-    return targetQueries.resolveGroundTargetPoint(targetQueries.cursorX, targetQueries.cursorY);
 }
 
 GameplaySpellActionController::PendingTargetSelectionResult
@@ -235,7 +127,7 @@ GameplaySpellActionController::updatePendingTargetSelection(
 
     if (actorTargetAllowed)
     {
-        resolvePendingActorTarget(request, input.worldHit, input.targetQueries);
+        resolvePendingActorTarget(request, input.worldHit, runtime.worldRuntime());
     }
 
     if (characterTargetAllowed)
@@ -248,7 +140,7 @@ GameplaySpellActionController::updatePendingTargetSelection(
         resolvePendingGroundTarget(
             request,
             input.worldHit,
-            input.targetQueries,
+            runtime.worldRuntime(),
             input.fallbackGroundTargetPoint);
     }
 
@@ -274,7 +166,7 @@ GameplaySpellActionController::updatePendingTargetSelection(
 
 std::optional<bx::Vec3> GameplaySpellActionController::resolveGroundTargetPointForWorldHit(
     const GameplayWorldHit &worldHit,
-    const TargetQueries &targetQueries,
+    const IGameplayWorldRuntime *pWorldRuntime,
     const std::optional<bx::Vec3> &fallbackGroundTargetPoint)
 {
     if (!worldHit.hasHit)
@@ -286,9 +178,9 @@ std::optional<bx::Vec3> GameplaySpellActionController::resolveGroundTargetPointF
     {
         const size_t actorIndex = worldHit.actor->actorIndex;
 
-        if (actorIndex != GameplayInvalidWorldIndex && targetQueries.resolveActorTargetPoint)
+        if (actorIndex != GameplayInvalidWorldIndex && pWorldRuntime != nullptr)
         {
-            const std::optional<bx::Vec3> actorTargetPoint = targetQueries.resolveActorTargetPoint(actorIndex);
+            const std::optional<bx::Vec3> actorTargetPoint = pWorldRuntime->spellActionActorTargetPoint(actorIndex);
 
             if (actorTargetPoint)
             {
@@ -330,7 +222,7 @@ std::optional<bx::Vec3> GameplaySpellActionController::resolveGroundTargetPointF
 bool GameplaySpellActionController::resolvePendingActorTarget(
     PartySpellCastRequest &request,
     const GameplayWorldHit &worldHit,
-    const TargetQueries &targetQueries)
+    const IGameplayWorldRuntime *pWorldRuntime)
 {
     if (!worldHit.hasHit
         || worldHit.kind != GameplayWorldHitKind::Actor
@@ -340,8 +232,8 @@ bool GameplaySpellActionController::resolvePendingActorTarget(
         return false;
     }
 
-    if (targetQueries.resolveActorTargetPoint
-        && !targetQueries.resolveActorTargetPoint(worldHit.actor->actorIndex))
+    if (pWorldRuntime != nullptr
+        && !pWorldRuntime->spellActionActorTargetPoint(worldHit.actor->actorIndex))
     {
         return false;
     }
@@ -366,11 +258,11 @@ bool GameplaySpellActionController::resolvePendingCharacterTarget(
 bool GameplaySpellActionController::resolvePendingGroundTarget(
     PartySpellCastRequest &request,
     const GameplayWorldHit &worldHit,
-    const TargetQueries &targetQueries,
+    const IGameplayWorldRuntime *pWorldRuntime,
     const std::optional<bx::Vec3> &fallbackGroundTargetPoint)
 {
     const std::optional<bx::Vec3> groundTargetPoint =
-        resolveGroundTargetPointForWorldHit(worldHit, targetQueries, fallbackGroundTargetPoint);
+        resolveGroundTargetPointForWorldHit(worldHit, pWorldRuntime, fallbackGroundTargetPoint);
 
     if (!groundTargetPoint)
     {

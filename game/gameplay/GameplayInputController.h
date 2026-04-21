@@ -4,16 +4,16 @@
 #include "game/gameplay/GameplayScreenState.h"
 #include "game/party/PartySpellSystem.h"
 
-#include <functional>
-
 namespace OpenYAMM::Game
 {
 class GameplaySpellService;
 class GameplayScreenRuntime;
+struct GameplayInputFrame;
 
 struct GameplayStandardUiHotkeyConfig
 {
     const bool *pKeyboardState = nullptr;
+    const GameplayInputFrame *pInputFrame = nullptr;
     bool canOpenRest = false;
     bool blockMenuToggle = false;
     bool blockSpellbookToggle = false;
@@ -38,14 +38,15 @@ struct GameplayMouseLookPolicyResult
 struct GameplaySharedGameplayHotkeyConfig
 {
     const bool *pKeyboardState = nullptr;
+    const GameplayInputFrame *pInputFrame = nullptr;
     bool canToggleAlwaysRun = false;
     bool canToggleAdventurersInn = false;
-    std::function<void(bool enabled)> applyAlwaysRun;
 };
 
 struct GameplaySharedInputFrameConfig
 {
     const bool *pKeyboardState = nullptr;
+    const GameplayInputFrame *pInputFrame = nullptr;
     float mouseWheelDelta = 0.0f;
     int screenWidth = 0;
     int screenHeight = 0;
@@ -57,9 +58,9 @@ struct GameplaySharedInputFrameConfig
     bool canBeginQuickCast = false;
     bool isUtilitySpellModalActive = false;
     bool isReadableScrollOverlayActive = false;
-    std::function<GameplaySpellActionController::TargetQueries()> buildSpellActionTargetQueries;
-    std::function<void(const PartySpellCastResult &castResult)> handlePendingSpellCastSucceeded;
-    std::function<void(bool enabled)> applyAlwaysRun;
+    bool processStandardUiInput = true;
+    bool processSharedGameplayHotkeys = true;
+    bool processQuickCast = true;
 };
 
 struct GameplaySharedInputFrameResult

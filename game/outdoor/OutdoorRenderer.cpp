@@ -2,6 +2,7 @@
 
 #include "game/app/GameSession.h"
 #include "game/events/EvtEnums.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/outdoor/OutdoorFogProfile.h"
@@ -2404,10 +2405,15 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint1
     const float previewRadius = markerPolicy->radius;
     const uint32_t previewColor = markerPolicy->ringColorAbgr;
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    SDL_GetMouseState(&mouseX, &mouseY);
-    const std::optional<bx::Vec3> targetPoint = view.resolveQuickCastCursorTargetPoint(mouseX, mouseY);
+    const GameplayInputFrame *pInputFrame = view.m_gameSession.currentGameplayInputFrame();
+
+    if (pInputFrame == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<bx::Vec3> targetPoint =
+        view.m_pOutdoorWorldRuntime->spellActionGroundTargetPoint(pInputFrame->pointerX, pInputFrame->pointerY);
 
     if (!targetPoint)
     {

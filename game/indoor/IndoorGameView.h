@@ -3,6 +3,7 @@
 #include "engine/AssetFileSystem.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/gameplay/GameplayDialogController.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/items/ItemEquipPosTable.h"
 #include "game/tables/CharacterDollTable.h"
@@ -36,6 +37,7 @@
 namespace OpenYAMM::Game
 {
 class GameSession;
+struct GameplayInputFrame;
 struct ArcomageLibrary;
 class IndoorDebugRenderer;
 class IndoorPartyRuntime;
@@ -60,7 +62,7 @@ public:
         IndoorSceneRuntime &sceneRuntime,
         GameAudioSystem *pGameAudioSystem);
     void setSettingsSnapshot(const GameSettings &settings);
-    void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
+    void render(int width, int height, const GameplayInputFrame &input, float deltaSeconds);
     void shutdown();
     void reopenMenuScreen();
 
@@ -78,12 +80,13 @@ public:
     GameSettings &mutableSettings();
     bool trySaveToSelectedGameSlot() override;
     const GameSettings &settingsSnapshot() const;
+    GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const;
 private:
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName) const;
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath) const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
-    void updateActorInspectOverlayState(int width, int height);
+    void updateActorInspectOverlayState(int width, int height, const GameplayInputFrame &input);
 
     const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
     IndoorDebugRenderer *m_pIndoorRenderer = nullptr;

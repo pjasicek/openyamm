@@ -38,7 +38,7 @@ void GameplayScreenController::updateSharedFrameState(
     float deltaSeconds,
     const GameplayScreenFrameUpdateConfig &config)
 {
-    context.fxService().syncActiveWorldProjectilePresentation();
+    context.fxService().syncProjectilePresentation();
     context.fxService().advanceGameplayScreenOverlay(deltaSeconds);
     context.updatePartyPortraitAnimations(deltaSeconds);
     context.consumePendingPartyAudioRequests();
@@ -198,6 +198,7 @@ bool GameplayScreenController::canEnableGameplayMouseLook(
 
 void GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
     GameplayScreenRuntime &context,
+    const GameplayInputFrame &input,
     int width,
     int height,
     bool enabled,
@@ -211,11 +212,7 @@ void GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
         return;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-
-    if ((mouseButtons & SDL_BUTTON_RMASK) == 0)
+    if (!input.rightMouseButton.held)
     {
         context.interactionState().itemInspectInteractionLatch = false;
         context.interactionState().itemInspectInteractionKey = 0;
@@ -462,16 +459,12 @@ void GameplayScreenController::handleGameplayHudButtonInput(
 
 GameplayUiOverlayInputResult GameplayScreenController::handleSharedOverlayInput(
     GameplayScreenRuntime &context,
-    const bool *pKeyboardState,
-    int width,
-    int height,
+    const GameplayInputFrame &input,
     const GameplayUiOverlayInputConfig &config)
 {
     GameplayUiOverlayInputResult result = GameplayUiOverlayOrchestrator::handleStandardOverlayInput(
         context,
-        pKeyboardState,
-        width,
-        height,
+        input,
         config);
 
     if (result.journalInputConsumed && !config.activeEventDialog)
@@ -486,6 +479,29 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
     GameplayScreenRuntime &context,
     const GameplayStandardUiInputConfig &config)
 {
+    GameplayInputFrame fallbackInput = {};
+
+    if (config.pInputFrame == nullptr)
+    {
+        fallbackInput.screenWidth = config.width;
+        fallbackInput.screenHeight = config.height;
+        fallbackInput.pointerX = config.pointerX;
+        fallbackInput.pointerY = config.pointerY;
+        fallbackInput.mouseWheelDelta = config.mouseWheelDelta;
+        fallbackInput.leftMouseButton.held = config.leftButtonPressed;
+
+        if (config.pKeyboardState != nullptr)
+        {
+            for (int scancode = 0; scancode < SDL_SCANCODE_COUNT; ++scancode)
+            {
+                fallbackInput.keyboardHeld[scancode] = config.pKeyboardState[scancode];
+            }
+        }
+    }
+
+    const GameplayInputFrame &input =
+        config.pInputFrame != nullptr ? *config.pInputFrame : fallbackInput;
+    const bool *pKeyboardState = input.keyboardState();
     IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
     const bool hasActiveLootView =
         pWorldRuntime != nullptr
@@ -594,27 +610,20 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
         && !config.blockJournalToggle;
 
     const bool mapShortcutPressed =
-        config.pKeyboardState != nullptr
-        && (config.pKeyboardState[SDL_SCANCODE_M]
-            || context.mutableSettings().keyboard.isPressed(KeyboardAction::MapBook, config.pKeyboardState));
+        input.isScancodeHeld(SDL_SCANCODE_M)
+        || input.action(KeyboardAction::MapBook).held;
     const bool storyShortcutPressed =
-        config.pKeyboardState != nullptr
-        && context.mutableSettings().keyboard.isPressed(KeyboardAction::History, config.pKeyboardState);
+        input.action(KeyboardAction::History).held;
     const bool notesShortcutPressed =
-        config.pKeyboardState != nullptr
-        && context.mutableSettings().keyboard.isPressed(KeyboardAction::AutoNotes, config.pKeyboardState);
+        input.action(KeyboardAction::AutoNotes).held;
     const bool zoomInPressed =
-        config.pKeyboardState != nullptr
-        && context.mutableSettings().keyboard.isPressed(KeyboardAction::ZoomIn, config.pKeyboardState);
+        input.action(KeyboardAction::ZoomIn).held;
     const bool zoomOutPressed =
-        config.pKeyboardState != nullptr
-        && context.mutableSettings().keyboard.isPressed(KeyboardAction::ZoomOut, config.pKeyboardState);
+        input.action(KeyboardAction::ZoomOut).held;
 
     return handleSharedOverlayInput(
         context,
-        config.pKeyboardState,
-        config.width,
-        config.height,
+        input,
         GameplayUiOverlayInputConfig{
             .hasActiveLootView = hasActiveLootView,
             .canToggleJournal = canToggleJournal,
@@ -623,7 +632,7 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
             .notesShortcutPressed = notesShortcutPressed,
             .zoomInPressed = zoomInPressed,
             .zoomOutPressed = zoomOutPressed,
-            .mouseWheelDelta = config.mouseWheelDelta,
+            .mouseWheelDelta = input.mouseWheelDelta,
             .activeEventDialog = activeEventDialog,
             .residentSelectionMode = residentSelectionMode,
             .restActive = restActive,
@@ -664,13 +673,11 @@ GameplayStandardWorldInputGateResult GameplayScreenController::gateStandardWorld
 
         if (!inventoryTargetMode || !config.utilitySpellInventoryTargetKeepsWorldInput)
         {
-            if (!inventoryTargetMode && config.pKeyboardState != nullptr)
+            if (!inventoryTargetMode && config.pInputFrame != nullptr)
             {
                 handleUtilitySpellOverlayInput(
                     context,
-                    config.pKeyboardState,
-                    config.width,
-                    config.height);
+                    *config.pInputFrame);
 
                 return {.blocked = true, .utilitySpellOverlayHandled = true};
             }
@@ -823,10 +830,6 @@ void GameplayScreenController::renderStandardUi(
             .renderActorInspectOverlay = config.renderActorInspectOverlay,
         });
 
-    if (config.onRenderedHud)
-    {
-        config.onRenderedHud();
-    }
 }
 
 void GameplayScreenController::processStandardUiFrame(
@@ -846,6 +849,7 @@ void GameplayScreenController::processStandardUiFrame(
             config.blockHudItemInspectOverlayFromMouseUpdate);
     updateStandardHudItemInspectOverlayFromMouse(
         context,
+        config.input.pInputFrame != nullptr ? *config.input.pInputFrame : GameplayInputFrame{},
         width,
         height,
         updateHudItemInspectOverlay,
@@ -875,15 +879,11 @@ GameplayUiOverlayInputResult GameplayScreenController::processStandardUiInputFra
 
 void GameplayScreenController::handleUtilitySpellOverlayInput(
     GameplayScreenRuntime &context,
-    const bool *pKeyboardState,
-    int width,
-    int height)
+    const GameplayInputFrame &input)
 {
     GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
         context,
-        pKeyboardState,
-        width,
-        height);
+        input);
 }
 
 void GameplayScreenController::renderSharedOverlays(

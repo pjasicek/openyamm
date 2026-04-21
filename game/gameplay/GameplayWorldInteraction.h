@@ -1,5 +1,6 @@
 #pragma once
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <optional>
@@ -15,6 +16,29 @@ struct GameplayWorldRay
 {
     bx::Vec3 origin = {0.0f, 0.0f, 0.0f};
     bx::Vec3 direction = {0.0f, 0.0f, 0.0f};
+};
+
+struct GameplayWorldPickRequest
+{
+    float screenX = 0.0f;
+    float screenY = 0.0f;
+    int viewWidth = 0;
+    int viewHeight = 0;
+    std::array<float, 16> viewMatrix = {};
+    std::array<float, 16> projectionMatrix = {};
+    bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+    bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+    bx::Vec3 eye = {0.0f, 0.0f, 0.0f};
+    bool hasRay = false;
+};
+
+struct GameplayWorldPickRequestInput
+{
+    float screenX = 0.0f;
+    float screenY = 0.0f;
+    int screenWidth = 0;
+    int screenHeight = 0;
+    bool includeRay = false;
 };
 
 enum class GameplayWorldHitKind
@@ -51,6 +75,8 @@ struct GameplayActorTargetHit
     size_t actorIndex = GameplayInvalidWorldIndex;
     std::string displayName;
     bool isFriendly = false;
+    int16_t npcId = 0;
+    uint32_t actorGroup = 0;
     bx::Vec3 hitPoint = {0.0f, 0.0f, 0.0f};
     float distance = 0.0f;
 };
@@ -83,6 +109,7 @@ struct GameplayEventTargetHit
     uint16_t variablePrimary = 0;
     uint16_t variableSecondary = 0;
     uint16_t specialTrigger = 0;
+    uint32_t attributes = 0;
     std::string name;
     bx::Vec3 hitPoint = {0.0f, 0.0f, 0.0f};
     float distance = 0.0f;
@@ -121,5 +148,31 @@ struct GameplayHoverStatusPayload
 {
     GameplayWorldHit worldHit;
     std::optional<std::string> eventTargetStatusText;
+};
+
+enum class GameplayWorldHoverProbeKind
+{
+    Standard,
+    PendingSpell,
+};
+
+struct GameplayWorldHoverRequest
+{
+    GameplayWorldHoverProbeKind probeKind = GameplayWorldHoverProbeKind::Standard;
+    GameplayWorldPickRequest primaryPickRequest = {};
+    std::optional<GameplayWorldPickRequest> secondaryPickRequest;
+    uint64_t updateTickNanoseconds = 0;
+};
+
+struct GameplayWorldHoverCacheState
+{
+    bool hasCachedHover = false;
+    uint64_t lastUpdateNanoseconds = 0;
+};
+
+struct GameplayPendingSpellWorldTargetFacts
+{
+    GameplayWorldHit worldHit = {};
+    std::optional<bx::Vec3> fallbackGroundTargetPoint;
 };
 }

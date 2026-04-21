@@ -1,52 +1,265 @@
 #include "game/gameplay/GameplayInteractionController.h"
 
+#include "game/gameplay/GameplayHeldItemController.h"
+#include "game/gameplay/GameplayInputController.h"
+#include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/gameplay/GameplaySpellActionController.h"
+#include "game/gameplay/GameplaySpellService.h"
+#include "game/tables/ItemTable.h"
+
+#include <SDL3/SDL_timer.h>
+
+#include <chrono>
+
 namespace OpenYAMM::Game
 {
 namespace
 {
 constexpr float NearHoverStatusDistance = 512.0f;
 constexpr float ActorHoverStatusDistance = 8192.0f;
+constexpr uint64_t HoverInspectRefreshNanoseconds = 20 * 1000 * 1000;
+constexpr uint32_t ArrowProjectileObjectId = 545;
+constexpr uint32_t BlasterProjectileObjectId = 555;
 
 bool hasStatusText(const std::optional<std::string> &text)
 {
     return text.has_value() && !text->empty();
 }
+
+bool hasActiveLootView(const GameplayScreenRuntime &runtime)
+{
+    const IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+    return pWorldRuntime != nullptr
+        && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr);
+}
+
+std::string heldItemDisplayName(const GameplayScreenRuntime &runtime)
+{
+    const GameplayUiController::HeldInventoryItemState &heldItem = runtime.heldInventoryItem();
+    const ItemTable *pItemTable = runtime.itemTable();
+    const ItemDefinition *pItemDefinition =
+        pItemTable != nullptr ? pItemTable->get(heldItem.item.objectDescriptionId) : nullptr;
+
+    return pItemDefinition != nullptr && !pItemDefinition->name.empty()
+        ? pItemDefinition->name
+        : "item";
+}
+
+bool dropHeldItemToActiveWorld(
+    GameplayScreenRuntime &runtime,
+    const std::optional<GameplayHeldItemDropRequest> &dropRequest)
+{
+    GameplayUiController::HeldInventoryItemState &heldItem = runtime.heldInventoryItem();
+
+    if (!heldItem.active || !dropRequest)
+    {
+        return false;
+    }
+
+    const std::string itemName = heldItemDisplayName(runtime);
+    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        runtime.setStatusBarEvent("Can't drop " + itemName);
+        return false;
+    }
+
+    GameplayHeldItemDropRequest resolvedDropRequest = *dropRequest;
+    resolvedDropRequest.item = heldItem.item;
+
+    if (!pWorldRuntime->dropHeldItemToWorld(resolvedDropRequest))
+    {
+        runtime.setStatusBarEvent("Can't drop " + itemName);
+        return false;
+    }
+
+    runtime.setStatusBarEvent("Dropped " + itemName);
+    GameplayHeldItemController::clearHeldInventoryItem(heldItem);
+    return true;
+}
+
+void clearWorldHover(IGameplayWorldRuntime *pWorldRuntime)
+{
+    if (pWorldRuntime != nullptr)
+    {
+        pWorldRuntime->clearWorldHover();
+    }
+}
+
+void refreshWorldHover(
+    const GameplayInteractionController::HoverStateInput &input,
+    IGameplayWorldRuntime *pWorldRuntime)
+{
+    if (pWorldRuntime != nullptr)
+    {
+        pWorldRuntime->refreshWorldHover(input.hoverRequest);
+    }
+}
+
+uint32_t partyAttackRandomSeed()
+{
+    const std::chrono::steady_clock::time_point now = std::chrono::steady_clock::now();
+    return uint32_t(std::chrono::duration_cast<std::chrono::milliseconds>(now.time_since_epoch()).count());
+}
+
+GameplayActionController::WorldPoint toActionWorldPoint(const GameplayWorldPoint &point)
+{
+    return GameplayActionController::WorldPoint{
+        .x = point.x,
+        .y = point.y,
+        .z = point.z,
+    };
+}
+
+GameplaySpellActionController::TargetQueries buildSpellActionTargetQueries(
+    GameplayScreenState &screenState,
+    const GameplayInputFrame &input)
+{
+    const GameplayScreenState::GameplayMouseLookState &mouseLookState = screenState.gameplayMouseLookState();
+
+    GameplaySpellActionController::TargetQueries targetQueries = {};
+    targetQueries.useCrosshairTarget =
+        mouseLookState.mouseLookActive
+        && !mouseLookState.cursorModeActive
+        && input.screenWidth > 0
+        && input.screenHeight > 0;
+    targetQueries.cursorX = input.pointerX;
+    targetQueries.cursorY = input.pointerY;
+    targetQueries.screenWidth = static_cast<float>(input.screenWidth);
+    targetQueries.screenHeight = static_cast<float>(input.screenHeight);
+    return targetQueries;
+}
+
+void executePartyAttack(
+    GameplayScreenRuntime &runtime,
+    GameplaySpellService &spellService,
+    const GameplayPartyAttackFrameInput &partyAttackInput,
+    const GameplayInteractionController::HoverStateInput &standardHoverInput,
+    const GameplaySpellActionController::TargetQueries &targetQueries,
+    const GameplayActionController::AttackActionDecision &decision,
+    const GameplayWorldHit &currentHit)
+{
+    if (!partyAttackInput.enabled)
+    {
+        return;
+    }
+
+    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    Party *pParty = pWorldRuntime->party();
+
+    if (pParty == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<size_t> directActorIndex =
+        currentHit.kind == GameplayWorldHitKind::Actor && currentHit.actor
+            ? std::optional<size_t>(currentHit.actor->actorIndex)
+            : std::nullopt;
+    const std::string directTargetName =
+        currentHit.kind == GameplayWorldHitKind::Actor && currentHit.actor
+            ? currentHit.actor->displayName
+            : "";
+
+    GameplayActionController::executePartyAttack(
+        GameplayActionController::PartyAttackConfig{
+            .pRuntime = &runtime,
+            .pSpellService = &spellService,
+            .pWorldRuntime = pWorldRuntime,
+            .pParty = pParty,
+            .pItemTable = runtime.itemTable(),
+            .pSpellTable = runtime.spellTable(),
+            .pMonsterTable = runtime.monsterTable(),
+            .pSpecialItemEnchantTable = runtime.specialItemEnchantTable(),
+            .directTargetActorIndex = directActorIndex,
+            .directTargetName = directTargetName,
+            .partyPosition = toActionWorldPoint(partyAttackInput.partyPosition),
+            .rangedSource = toActionWorldPoint(partyAttackInput.rangedSource),
+            .defaultRangedTarget = toActionWorldPoint(partyAttackInput.defaultRangedTarget),
+            .rayRangedTarget = toActionWorldPoint(partyAttackInput.rayRangedTarget),
+            .hasRayRangedTarget = partyAttackInput.hasRayRangedTarget,
+            .fallbackQuery = partyAttackInput.fallbackQuery,
+            .worldInspectionRefreshRequest = standardHoverInput.hoverRequest,
+            .randomSeed = partyAttackRandomSeed(),
+            .arrowProjectileObjectId = ArrowProjectileObjectId,
+            .blasterProjectileObjectId = BlasterProjectileObjectId,
+            .pressedThisFrame = decision.pressedThisFrame,
+            .targetQueries = targetQueries,
+        });
+}
+
+void clearWorldInteractionFrameState(
+    GameplayScreenState &screenState,
+    GameplayOverlayInteractionState &overlayInteractionState,
+    GameplayScreenRuntime &runtime)
+{
+    GameplayScreenState::PendingSpellTargetState &pendingSpellCast = screenState.pendingSpellTarget();
+    GameplayScreenState::QuickSpellState &quickSpellState = screenState.quickSpellState();
+    GameplayScreenState::AttackActionState &attackActionState = screenState.attackActionState();
+    GameplayScreenState::WorldInteractionInputState &worldInteractionInputState =
+        screenState.worldInteractionInputState();
+
+    worldInteractionInputState.keyboardUseLatch = false;
+    worldInteractionInputState.inspectKeyboardActivateLatch = false;
+    pendingSpellCast.clickLatch = false;
+    worldInteractionInputState.heldInventoryDropLatch = false;
+    overlayInteractionState.activateInspectLatch = false;
+    worldInteractionInputState.inspectMouseActivateLatch = false;
+    worldInteractionInputState.pressedWorldHit = {};
+    attackActionState.clear();
+    quickSpellState.clear();
+
+    clearWorldHover(runtime.worldRuntime());
+    runtime.mutableStatusBarHoverText().clear();
+}
 }
 
 GameplayInteractionController::HoverStateResult GameplayInteractionController::updateHoverState(
-    const HoverStateInput &input)
+    const HoverStateInput &input,
+    IGameplayWorldRuntime *pWorldRuntime)
 {
     HoverStateResult result = {};
 
     if (!input.allowHover)
     {
-        if (input.clearHover)
+        if (pWorldRuntime != nullptr)
         {
-            input.clearHover();
+            pWorldRuntime->clearWorldHover();
             result.cleared = true;
         }
 
         return result;
     }
 
+    if (pWorldRuntime == nullptr)
+    {
+        return result;
+    }
+
+    const GameplayWorldHoverCacheState cacheState = pWorldRuntime->worldHoverCacheState();
     const bool shouldRefreshHover =
-        !input.hasCachedHover
-        || input.currentTickNanoseconds < input.lastUpdateNanoseconds
-        || input.currentTickNanoseconds - input.lastUpdateNanoseconds >= input.refreshIntervalNanoseconds;
+        !cacheState.hasCachedHover
+        || input.currentTickNanoseconds < cacheState.lastUpdateNanoseconds
+        || input.currentTickNanoseconds - cacheState.lastUpdateNanoseconds >= input.refreshIntervalNanoseconds;
 
     GameplayHoverStatusPayload payload = {};
 
     if (shouldRefreshHover)
     {
-        if (input.refreshHover)
-        {
-            payload = input.refreshHover();
-            result.refreshed = true;
-        }
+        payload = pWorldRuntime->refreshWorldHover(input.hoverRequest);
+        result.refreshed = true;
     }
-    else if (input.readCachedHover)
+    else
     {
-        payload = input.readCachedHover();
+        payload = pWorldRuntime->readCachedWorldHover();
     }
 
     const std::optional<std::string> statusText = resolveHoverStatusText(payload);
@@ -83,10 +296,12 @@ GameplayInteractionController::MouseClickInteractionResult GameplayInteractionCo
 
     if (!input.pointerOverPartyPortrait && isSameActivationTarget(state.pressedWorldHit, input.currentHit))
     {
-        const bool canActivate = !input.canActivate || input.canActivate(input.currentHit);
-        if (canActivate && input.activate)
+        const bool canActivate =
+            input.pWorldRuntime != nullptr
+            && input.pWorldRuntime->canActivateWorldHit(input.currentHit, input.interactionMethod);
+        if (canActivate)
         {
-            result.activated = input.activate(input.currentHit);
+            result.activated = input.pWorldRuntime->activateWorldHit(input.currentHit);
         }
     }
 
@@ -126,23 +341,20 @@ GameplayInteractionController::KeyboardInteractionResult GameplayInteractionCont
     state.keyboardUseLatch = true;
     result.latched = true;
 
-    GameplayWorldHit hit = {};
-
-    if (input.pickHit)
-    {
-        hit = input.pickHit();
-        result.picked = true;
-    }
+    const GameplayWorldHit &hit = input.pickedHit;
+    result.picked = input.hasPickedHit;
 
     if (!hit.hasHit)
     {
         return result;
     }
 
-    const bool canActivate = !input.canActivate || input.canActivate(hit);
-    if (canActivate && input.activate)
+    const bool canActivate =
+        input.pWorldRuntime != nullptr
+        && input.pWorldRuntime->canActivateWorldHit(hit, input.interactionMethod);
+    if (canActivate)
     {
-        result.activated = input.activate(hit);
+        result.activated = input.pWorldRuntime->activateWorldHit(hit);
     }
 
     return result;
@@ -184,10 +396,12 @@ GameplayInteractionController::updateKeyboardActivationInteraction(
         return result;
     }
 
-    const bool canActivate = !input.canActivate || input.canActivate(input.currentHit);
-    if (canActivate && input.activate)
+    const bool canActivate =
+        input.pWorldRuntime != nullptr
+        && input.pWorldRuntime->canActivateWorldHit(input.currentHit, input.interactionMethod);
+    if (canActivate)
     {
-        result.activated = input.activate(input.currentHit);
+        result.activated = input.pWorldRuntime->activateWorldHit(input.currentHit);
     }
 
     return result;
@@ -234,20 +448,17 @@ GameplayInteractionController::updateHeldItemWorldInteraction(
 
     if (!handledInteraction)
     {
-        GameplayWorldHit hit = {};
-
-        if (input.pickHit)
-        {
-            hit = input.pickHit();
-            result.picked = true;
-        }
+        const GameplayWorldHit &hit = input.pickedHit;
+        result.picked = input.hasPickedHit;
 
         if (hit.hasHit)
         {
-            const bool canUseOnWorld = !input.canUseOnWorld || input.canUseOnWorld(hit);
-            if (canUseOnWorld && input.useOnWorld)
+            const bool canUseOnWorld =
+                input.pWorldRuntime != nullptr
+                && input.pWorldRuntime->canUseHeldItemOnWorld(hit);
+            if (canUseOnWorld)
             {
-                handledInteraction = input.useOnWorld(hit);
+                handledInteraction = input.pWorldRuntime->useHeldItemOnWorld(hit);
                 result.usedOnWorld = handledInteraction;
             }
         }
@@ -256,11 +467,6 @@ GameplayInteractionController::updateHeldItemWorldInteraction(
     if (!handledInteraction)
     {
         result.dropRequested = true;
-
-        if (input.dropHeldItem)
-        {
-            result.dropped = input.dropHeldItem();
-        }
     }
 
     state.heldInventoryDropLatch = false;
@@ -308,64 +514,410 @@ std::optional<std::string> GameplayInteractionController::resolveHoverStatusText
     return payload.eventTargetStatusText;
 }
 
-bool GameplayInteractionController::canDispatchWorldActivation(const WorldActivationDispatchInput &input)
+GameplayInteractionController::WorldInteractionPointerPolicy
+GameplayInteractionController::resolveWorldInteractionPointerPolicy(
+    const WorldInteractionPointerPolicyInput &input)
 {
-    if (!input.hit.hasHit)
-    {
-        return false;
-    }
-
-    if (input.hit.kind == GameplayWorldHitKind::Actor)
-    {
-        return input.canActivateActor && input.canActivateActor(input.hit);
-    }
-
-    if (input.hit.kind == GameplayWorldHitKind::WorldItem)
-    {
-        return input.canActivateWorldItem && input.canActivateWorldItem(input.hit);
-    }
-
-    if (input.hit.kind == GameplayWorldHitKind::Chest || input.hit.kind == GameplayWorldHitKind::Corpse)
-    {
-        return input.canActivateContainer && input.canActivateContainer(input.hit);
-    }
-
-    if (input.hit.kind == GameplayWorldHitKind::EventTarget)
-    {
-        return input.canActivateEventTarget && input.canActivateEventTarget(input.hit);
-    }
-
-    return input.canActivateFallback && input.canActivateFallback(input.hit);
+    WorldInteractionPointerPolicy policy = {};
+    policy.useCenterGameplayPoint = input.mouseLookActive && !input.cursorModeActive;
+    policy.inspectScreenX =
+        policy.useCenterGameplayPoint ? input.screenWidth * 0.5f : input.pointerX;
+    policy.inspectScreenY =
+        policy.useCenterGameplayPoint ? input.screenHeight * 0.5f : input.pointerY;
+    policy.leftMousePressed =
+        (input.pendingSpellActive || input.heldItemActive || !policy.useCenterGameplayPoint)
+            && input.leftMousePressed;
+    policy.pointerOverPartyPortrait =
+        (input.pendingSpellActive || input.heldItemActive || !policy.useCenterGameplayPoint)
+            && input.pointerOverPortrait;
+    policy.activationPressed = input.keyboardActivationPressed && !input.rightMousePressed;
+    policy.attackPressed =
+        (input.keyboardAttackPressed && !input.rightMousePressed)
+        || (policy.useCenterGameplayPoint && input.leftMousePressed && !input.rightMousePressed);
+    return policy;
 }
 
-bool GameplayInteractionController::dispatchWorldActivation(const WorldActivationDispatchInput &input)
+GameplayInteractionController::WorldInteractionFrameResult
+GameplayInteractionController::updateWorldInteractionFrame(
+    GameplayScreenState &screenState,
+    GameplayOverlayInteractionState &overlayInteractionState,
+    GameplayScreenRuntime &runtime,
+    GameplaySpellService &spellService,
+    const GameplayInputFrame &input,
+    const GameplaySharedInputFrameResult &sharedInput,
+    bool worldInputBlocked)
 {
-    if (!input.hit.hasHit)
+    WorldInteractionFrameResult result = {};
+    GameplayScreenState::PendingSpellTargetState &pendingSpellCast = screenState.pendingSpellTarget();
+    GameplayScreenState::QuickSpellState &quickSpellState = screenState.quickSpellState();
+    GameplayScreenState::AttackActionState &attackActionState = screenState.attackActionState();
+    GameplayScreenState::WorldInteractionInputState &worldInteractionInputState =
+        screenState.worldInteractionInputState();
+    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+    const bool heldItemActive = runtime.heldInventoryItem().active;
+    const float screenWidth = static_cast<float>(input.screenWidth);
+    const float screenHeight = static_cast<float>(input.screenHeight);
+    const bool worldReady = pWorldRuntime != nullptr && pWorldRuntime->worldInteractionReady();
+    const bool inspectModeActive = pWorldRuntime != nullptr && pWorldRuntime->worldInspectModeActive();
+    const bool pendingSpellCancelPressed = input.isScancodeHeld(SDL_SCANCODE_ESCAPE);
+    const bool keyboardUsePressed = input.action(KeyboardAction::Trigger).held;
+    const bool activationPressed = input.isScancodeHeld(SDL_SCANCODE_E);
+    const bool attackPressed = input.action(KeyboardAction::Attack).held;
+    const bool leftMousePressed = input.leftMouseButton.held;
+    const bool rightMousePressed = input.rightMouseButton.held;
+    const bool mouseLookActive = sharedInput.mouseLookPolicy.mouseLookActive;
+    const bool cursorModeActive = sharedInput.mouseLookPolicy.cursorModeActive;
+    const std::optional<size_t> hoveredPortraitMemberIndex =
+        runtime.resolvePartyPortraitIndexAtPoint(
+            input.screenWidth,
+            input.screenHeight,
+            input.pointerX,
+            input.pointerY);
+    const Party *pParty = pWorldRuntime != nullptr ? pWorldRuntime->party() : nullptr;
+    const bool hasReadyMember = pParty != nullptr && pParty->hasSelectableMemberInGameplay();
+    const WorldInteractionPointerPolicy pointerPolicy =
+        resolveWorldInteractionPointerPolicy(
+            WorldInteractionPointerPolicyInput{
+                .pendingSpellActive = pendingSpellCast.active,
+                .heldItemActive = heldItemActive,
+                .mouseLookActive = mouseLookActive,
+                .cursorModeActive = cursorModeActive,
+                .leftMousePressed = leftMousePressed,
+                .rightMousePressed = rightMousePressed,
+                .keyboardActivationPressed = activationPressed,
+                .keyboardAttackPressed = attackPressed,
+                .pointerX = input.pointerX,
+                .pointerY = input.pointerY,
+                .screenWidth = screenWidth,
+                .screenHeight = screenHeight,
+                .pointerOverPortrait = hoveredPortraitMemberIndex.has_value(),
+            });
+    const GameplaySpellActionController::TargetQueries targetQueries =
+        buildSpellActionTargetQueries(screenState, input);
+
+    GameplayWorldPickRequest pendingSpellPickRequest = {};
+    GameplayWorldPickRequest keyboardUsePickRequest = {};
+    GameplayWorldPickRequest heldItemWorldPickRequest = {};
+    GameplayWorldPickRequest currentInteractionPickRequest = {};
+    GameplayWorldPickRequest centerHoverPickRequest = {};
+    std::optional<GameplayHeldItemDropRequest> heldItemDropRequest;
+    GameplayPartyAttackFrameInput partyAttackInput = {};
+
+    if (pWorldRuntime != nullptr)
     {
-        return false;
+        pendingSpellPickRequest =
+            pWorldRuntime->buildWorldPickRequest(
+                GameplayWorldPickRequestInput{
+                    .screenX = input.pointerX,
+                    .screenY = input.pointerY,
+                    .screenWidth = input.screenWidth,
+                    .screenHeight = input.screenHeight,
+                });
+        keyboardUsePickRequest =
+            pWorldRuntime->buildWorldPickRequest(
+                GameplayWorldPickRequestInput{
+                    .screenX = pointerPolicy.inspectScreenX,
+                    .screenY = pointerPolicy.inspectScreenY,
+                    .screenWidth = input.screenWidth,
+                    .screenHeight = input.screenHeight,
+                    .includeRay = true,
+                });
+        heldItemWorldPickRequest =
+            pWorldRuntime->buildWorldPickRequest(
+                GameplayWorldPickRequestInput{
+                    .screenX = input.pointerX,
+                    .screenY = input.pointerY,
+                    .screenWidth = input.screenWidth,
+                    .screenHeight = input.screenHeight,
+                    .includeRay = true,
+                });
+        currentInteractionPickRequest = keyboardUsePickRequest;
+        centerHoverPickRequest =
+            pWorldRuntime->buildWorldPickRequest(
+                GameplayWorldPickRequestInput{
+                    .screenX = screenWidth * 0.5f,
+                    .screenY = screenHeight * 0.5f,
+                    .screenWidth = input.screenWidth,
+                    .screenHeight = input.screenHeight,
+                });
+        heldItemDropRequest = pWorldRuntime->buildHeldItemDropRequest();
+        partyAttackInput = pWorldRuntime->buildPartyAttackFrameInput(currentInteractionPickRequest);
     }
 
-    if (input.hit.kind == GameplayWorldHitKind::Actor)
+    const uint64_t currentTickNanoseconds = SDL_GetTicksNS();
+    HoverStateInput pendingSpellHoverInput = {};
+    pendingSpellHoverInput.allowHover = !hoveredPortraitMemberIndex && worldReady;
+    pendingSpellHoverInput.currentTickNanoseconds = currentTickNanoseconds;
+    pendingSpellHoverInput.refreshIntervalNanoseconds = HoverInspectRefreshNanoseconds;
+    pendingSpellHoverInput.hoverRequest =
+        GameplayWorldHoverRequest{
+            .probeKind = GameplayWorldHoverProbeKind::PendingSpell,
+            .primaryPickRequest = pendingSpellPickRequest,
+            .secondaryPickRequest = centerHoverPickRequest,
+            .updateTickNanoseconds = currentTickNanoseconds,
+        };
+
+    HoverStateInput standardHoverInput = {};
+    standardHoverInput.allowHover = inspectModeActive && worldReady;
+    standardHoverInput.currentTickNanoseconds = currentTickNanoseconds;
+    standardHoverInput.refreshIntervalNanoseconds = HoverInspectRefreshNanoseconds;
+    standardHoverInput.hoverRequest =
+        GameplayWorldHoverRequest{
+            .probeKind = GameplayWorldHoverProbeKind::Standard,
+            .primaryPickRequest = currentInteractionPickRequest,
+            .updateTickNanoseconds = currentTickNanoseconds,
+        };
+
+    if (worldInputBlocked)
     {
-        return input.activateActor && input.activateActor(input.hit);
+        clearWorldInteractionFrameState(screenState, overlayInteractionState, runtime);
+        result.blocked = true;
+        return result;
     }
 
-    if (input.hit.kind == GameplayWorldHitKind::WorldItem)
+    if (pendingSpellCast.active)
     {
-        return input.activateWorldItem && input.activateWorldItem(input.hit);
+        GameplaySpellActionController::PendingTargetSelectionInput pendingTargetInput = {};
+        pendingTargetInput.cancelPressed = false;
+
+        updateHoverState(pendingSpellHoverInput, pWorldRuntime);
+
+        if (targetQueries.screenWidth > 0.0f || targetQueries.screenHeight > 0.0f)
+        {
+            pendingTargetInput.targetQueries = targetQueries;
+        }
+
+        if (hoveredPortraitMemberIndex)
+        {
+            pendingTargetInput.portraitMemberIndex = hoveredPortraitMemberIndex;
+        }
+
+        if (pendingSpellCancelPressed)
+        {
+            pendingTargetInput.cancelPressed = true;
+        }
+
+        if (pointerPolicy.leftMousePressed && !pendingTargetInput.cancelPressed)
+        {
+            pendingTargetInput.confirmPressed = true;
+
+            if (!pendingSpellCast.clickLatch
+                && !hoveredPortraitMemberIndex
+                && worldReady
+                && pWorldRuntime != nullptr)
+            {
+                const GameplayPendingSpellWorldTargetFacts targetFacts =
+                    pWorldRuntime->pickPendingSpellWorldTarget(pendingSpellPickRequest);
+                pendingTargetInput.worldHit = targetFacts.worldHit;
+                pendingTargetInput.fallbackGroundTargetPoint = targetFacts.fallbackGroundTargetPoint;
+            }
+        }
+
+        const GameplaySpellActionController::PendingTargetSelectionResult pendingTargetResult =
+            GameplaySpellActionController::updatePendingTargetSelection(
+                screenState,
+                runtime,
+                spellService,
+                pendingTargetInput);
+
+        if (pendingTargetResult.castSucceeded)
+        {
+            IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+
+            if (pWorldRuntime != nullptr)
+            {
+                pWorldRuntime->applyPendingSpellCastWorldEffects(pendingTargetResult.castResult);
+            }
+
+            clearWorldHover(pWorldRuntime);
+        }
+
+        worldInteractionInputState.keyboardUseLatch = false;
+        worldInteractionInputState.heldInventoryDropLatch = false;
+        overlayInteractionState.activateInspectLatch = false;
+        worldInteractionInputState.inspectKeyboardActivateLatch = false;
+        worldInteractionInputState.inspectMouseActivateLatch = false;
+        worldInteractionInputState.pressedWorldHit = {};
+        attackActionState.inspectLatch = false;
+        attackActionState.inspectRepeatCooldownSeconds = 0.0f;
+        result.pendingSpellHandled = true;
+        return result;
     }
 
-    if (input.hit.kind == GameplayWorldHitKind::Chest || input.hit.kind == GameplayWorldHitKind::Corpse)
+    GameplayWorldHit keyboardUseHit = {};
+    bool hasKeyboardUseHit = false;
+
+    if (keyboardUsePressed
+        && !worldInteractionInputState.keyboardUseLatch
+        && worldReady
+        && pWorldRuntime != nullptr)
     {
-        return input.activateContainer && input.activateContainer(input.hit);
+        keyboardUseHit = pWorldRuntime->pickKeyboardInteractionTarget(keyboardUsePickRequest);
+        hasKeyboardUseHit = true;
     }
 
-    if (input.hit.kind == GameplayWorldHitKind::EventTarget)
+    const KeyboardInteractionResult keyboardInteractionResult =
+        updateKeyboardInteraction(
+            worldInteractionInputState,
+            KeyboardInteractionInput{
+                .interactionPressed = keyboardUsePressed,
+                .allowInteraction = worldReady,
+                .pickedHit = keyboardUseHit,
+                .hasPickedHit = hasKeyboardUseHit,
+                .pWorldRuntime = pWorldRuntime,
+                .interactionMethod = GameplayInteractionMethod::Keyboard,
+            });
+
+    if (keyboardInteractionResult.activated)
     {
-        return input.activateEventTarget && input.activateEventTarget(input.hit);
+        result.keyboardUseActivated = true;
+        clearWorldHover(pWorldRuntime);
     }
 
-    return input.activateFallback && input.activateFallback(input.hit);
+    if (heldItemActive)
+    {
+        GameplayWorldHit heldItemWorldHit = {};
+        bool hasHeldItemWorldHit = false;
+
+        if (!pointerPolicy.leftMousePressed
+            && worldInteractionInputState.heldInventoryDropLatch
+            && !pointerPolicy.pointerOverPartyPortrait
+            && worldReady
+            && pWorldRuntime != nullptr)
+        {
+            heldItemWorldHit = pWorldRuntime->pickHeldItemWorldTarget(heldItemWorldPickRequest);
+            hasHeldItemWorldHit = true;
+        }
+
+        const HeldItemWorldInteractionResult heldItemWorldInteractionResult =
+            updateHeldItemWorldInteraction(
+                worldInteractionInputState,
+                HeldItemWorldInteractionInput{
+                    .heldItemActive = heldItemActive,
+                    .leftMousePressed = pointerPolicy.leftMousePressed,
+                    .pointerOverPartyPortrait = pointerPolicy.pointerOverPartyPortrait,
+                    .pickedHit = heldItemWorldHit,
+                    .hasPickedHit = hasHeldItemWorldHit,
+                    .pWorldRuntime = pWorldRuntime,
+                });
+
+        if (heldItemWorldInteractionResult.dropRequested)
+        {
+            dropHeldItemToActiveWorld(runtime, heldItemDropRequest);
+        }
+
+        result.heldItemHandled = true;
+        return result;
+    }
+
+    if (!inspectModeActive || !worldReady)
+    {
+        clearWorldInteractionFrameState(screenState, overlayInteractionState, runtime);
+        return result;
+    }
+
+    result.hover = updateHoverState(standardHoverInput, pWorldRuntime);
+
+    GameplayWorldHit currentHit = {};
+    bool currentHitRefreshed = false;
+    const auto pickCurrentHit =
+        [&]() -> GameplayWorldHit
+        {
+            if (!currentHitRefreshed && worldReady && pWorldRuntime != nullptr)
+            {
+                currentHit = pWorldRuntime->pickCurrentInteractionTarget(currentInteractionPickRequest);
+                currentHitRefreshed = true;
+            }
+
+            return currentHit;
+        };
+
+    if (pointerPolicy.activationPressed
+        || pointerPolicy.attackPressed
+        || pointerPolicy.leftMousePressed
+        || worldInteractionInputState.inspectMouseActivateLatch)
+    {
+        pickCurrentHit();
+    }
+
+    const bool hadLootViewBeforeActivation = hasActiveLootView(runtime);
+
+    const KeyboardActivationInteractionResult keyboardActivationResult =
+        updateKeyboardActivationInteraction(
+            worldInteractionInputState,
+            KeyboardActivationInteractionInput{
+                .activationPressed = pointerPolicy.activationPressed,
+                .allowInteraction = worldReady,
+                .currentHit = currentHit,
+                .pWorldRuntime = pWorldRuntime,
+                .interactionMethod = GameplayInteractionMethod::Keyboard,
+            });
+
+    if (keyboardActivationResult.latched)
+    {
+        overlayInteractionState.activateInspectLatch = true;
+    }
+    else if (!pointerPolicy.activationPressed)
+    {
+        overlayInteractionState.activateInspectLatch = false;
+    }
+
+    if (keyboardActivationResult.activated)
+    {
+        result.keyboardActivationActivated = true;
+        refreshWorldHover(standardHoverInput, pWorldRuntime);
+
+        const bool hasLootViewAfterActivation = hasActiveLootView(runtime);
+
+        if (!hadLootViewBeforeActivation && hasLootViewAfterActivation)
+        {
+            overlayInteractionState.lootChestItemLatch = true;
+        }
+    }
+
+    const MouseClickInteractionResult mouseInteractionResult =
+        updateMouseClickInteraction(
+            worldInteractionInputState,
+            MouseClickInteractionInput{
+                .leftMousePressed = pointerPolicy.leftMousePressed,
+                .pointerOverPartyPortrait = pointerPolicy.pointerOverPartyPortrait,
+                .currentHit = currentHit,
+                .pWorldRuntime = pWorldRuntime,
+                .interactionMethod = GameplayInteractionMethod::Mouse,
+            });
+
+    if (mouseInteractionResult.activated)
+    {
+        result.mouseActivationActivated = true;
+        refreshWorldHover(standardHoverInput, pWorldRuntime);
+    }
+
+    const GameplayActionController::AttackActionDecision attackActionDecision =
+        GameplayActionController::updateAttackAction(
+            attackActionState,
+            quickSpellState,
+            GameplayActionController::AttackActionConfig{
+                .attackPressed = pointerPolicy.attackPressed,
+                .hasReadyMember = hasReadyMember,
+            });
+
+    if (attackActionDecision.shouldAttemptAttack)
+    {
+        pickCurrentHit();
+        result.attackAttempted = true;
+        executePartyAttack(
+            runtime,
+            spellService,
+            partyAttackInput,
+            standardHoverInput,
+            targetQueries,
+            attackActionDecision,
+            currentHit);
+    }
+
+    runtime.mutableStatusBarHoverText() = result.hover.statusText;
+
+    return result;
 }
 
 bool GameplayInteractionController::isSameActivationTarget(

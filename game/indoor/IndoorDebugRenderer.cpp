@@ -2,7 +2,9 @@
 
 #include "game/data/ActorNameResolver.h"
 #include "game/FaceEnums.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/indoor/IndoorGeometryUtils.h"
+#include "game/party/PartySpellSystem.h"
 #include "game/render/TextureFiltering.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/SpriteObjectDefs.h"
@@ -85,6 +87,10 @@ constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 2;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float InspectRayEpsilon = 0.0001f;
+constexpr float PendingSpellWorldFxDurationSeconds = 0.72f;
+constexpr float PendingSpellWorldFxRingRadius = 28.0f;
+constexpr float ProjectileImpactWorldFxDurationSeconds = 0.48f;
+constexpr size_t MaxPendingSpellWorldFx = 48;
 
 struct RuntimeActorBillboard
 {
@@ -115,6 +121,7 @@ struct RuntimeSpriteObjectBillboard
     uint16_t attributes = 0;
     int32_t spellId = 0;
     uint32_t timeSinceCreatedTicks = 0;
+    bool hasContainingItem = false;
     std::string objectName;
 };
 
@@ -308,12 +315,6 @@ std::vector<RuntimeSpriteObjectBillboard> buildRuntimeSpriteObjectBillboards(
             continue;
         }
 
-        if (hasContainingItemPayload(spriteObject.rawContainingItem)
-            && (pObjectEntry->flags & ObjectDescUnpickable) == 0)
-        {
-            continue;
-        }
-
         RuntimeSpriteObjectBillboard billboard = {};
         billboard.objectIndex = objectIndex;
         billboard.x = spriteObject.x;
@@ -327,6 +328,9 @@ std::vector<RuntimeSpriteObjectBillboard> buildRuntimeSpriteObjectBillboards(
         billboard.attributes = spriteObject.attributes;
         billboard.spellId = spriteObject.spellId;
         billboard.timeSinceCreatedTicks = uint32_t(spriteObject.timeSinceCreated) * 8;
+        billboard.hasContainingItem =
+            hasContainingItemPayload(spriteObject.rawContainingItem)
+            && (pObjectEntry->flags & ObjectDescUnpickable) == 0;
         billboard.objectName = pObjectEntry->internalName;
         billboards.push_back(std::move(billboard));
     }
@@ -1040,6 +1044,37 @@ uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
         | static_cast<uint32_t>(red);
 }
 
+uint32_t withAlpha(uint32_t colorAbgr, uint8_t alpha)
+{
+    return (colorAbgr & 0x00ffffffu) | (static_cast<uint32_t>(alpha) << 24);
+}
+
+bool shouldTriggerPendingSpellWorldFx(PartySpellCastEffectKind effectKind)
+{
+    return effectKind == PartySpellCastEffectKind::PartyBuff
+        || effectKind == PartySpellCastEffectKind::CharacterBuff
+        || effectKind == PartySpellCastEffectKind::CharacterRestore
+        || effectKind == PartySpellCastEffectKind::PartyRestore;
+}
+
+uint32_t pendingSpellWorldFxColorAbgr(PartySpellCastEffectKind effectKind)
+{
+    if (effectKind == PartySpellCastEffectKind::CharacterRestore
+        || effectKind == PartySpellCastEffectKind::PartyRestore)
+    {
+        return withAlpha(makeAbgr(192, 255, 192), 220);
+    }
+
+    return withAlpha(makeAbgr(180, 220, 255), 210);
+}
+
+uint32_t projectileImpactWorldFxColorAbgr(uint32_t spellId)
+{
+    return spellId == 0
+        ? withAlpha(makeAbgr(232, 216, 106), 204)
+        : withAlpha(makeAbgr(116, 199, 255), 204);
+}
+
 float fixedDoorDirectionComponentToFloat(int value)
 {
     return static_cast<float>(value) / 65536.0f;
@@ -1547,7 +1582,12 @@ bool IndoorDebugRenderer::isBatchVisible(
     return batch.sectorId < 0 && batch.backSectorId < 0;
 }
 
-void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, float deltaSeconds)
+void IndoorDebugRenderer::render(
+    int width,
+    int height,
+    const GameplayInputFrame &input,
+    float deltaSeconds,
+    bool allowWorldInput)
 {
     if (!m_isInitialized)
     {
@@ -1556,6 +1596,8 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
 
     const uint16_t viewWidth = static_cast<uint16_t>(std::max(width, 1));
     const uint16_t viewHeight = static_cast<uint16_t>(std::max(height, 1));
+    m_lastRenderWidth = viewWidth;
+    m_lastRenderHeight = viewHeight;
     bgfx::setViewRect(MainViewId, 0, 0, viewWidth, viewHeight);
 
     if (!m_isRenderable)
@@ -1565,9 +1607,8 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
     }
 
     const float deltaMilliseconds = deltaSeconds * 1000.0f;
-    updateCameraFromInput(deltaSeconds);
 
-    if (m_pSceneRuntime != nullptr && m_pSceneRuntime->advanceSimulation(deltaMilliseconds))
+    if (allowWorldInput && m_pSceneRuntime != nullptr && m_pSceneRuntime->advanceSimulation(deltaMilliseconds))
     {
         rebuildDerivedGeometryResources();
     }
@@ -1576,15 +1617,6 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
     const float sinPitch = std::sin(m_cameraPitchRadians);
     const float cosYaw = std::cos(m_cameraYawRadians);
     const float sinYaw = std::sin(m_cameraYawRadians);
-
-    if (mouseWheelDelta != 0.0f)
-    {
-        const bx::Vec3 forward = {cosYaw * cosPitch, -sinYaw * cosPitch, sinPitch};
-        const float wheelMoveSpeed = 300.0f;
-        m_cameraPositionX += forward.x * mouseWheelDelta * wheelMoveSpeed;
-        m_cameraPositionY += forward.y * mouseWheelDelta * wheelMoveSpeed;
-        m_cameraPositionZ += forward.z * mouseWheelDelta * wheelMoveSpeed;
-    }
 
     const bx::Vec3 eye = {m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ};
     const bx::Vec3 at = {
@@ -1611,13 +1643,11 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
     const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(eye);
 
     InspectHit inspectHit = {};
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
+    float mouseX = input.pointerX;
+    float mouseY = input.pointerY;
 
     if (m_inspectMode && m_indoorMapData)
     {
-        SDL_GetMouseState(&mouseX, &mouseY);
-
         if (m_gameplayMouseLookEnabled && !m_gameplayCursorMode)
         {
             mouseX = static_cast<float>(viewWidth) * 0.5f;
@@ -1669,13 +1699,10 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
 
         inspectHit = m_cachedInspectHit;
 
-        const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
-        const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(nullptr, nullptr);
         const bool isActivationPressed =
-            pKeyboardState != nullptr
-            && pKeyboardState[SDL_SCANCODE_E]
-            && (mouseButtons & SDL_BUTTON_RMASK) == 0;
-        const bool isLeftMousePressed = (mouseButtons & SDL_BUTTON_LMASK) != 0;
+            input.isScancodeHeld(SDL_SCANCODE_E)
+            && !input.rightMouseButton.held;
+        const bool isLeftMousePressed = input.leftMouseButton.held;
 
         if ((isActivationPressed || isLeftMousePressed) && !m_activateInspectLatch)
         {
@@ -1814,6 +1841,9 @@ void IndoorDebugRenderer::render(int width, int height, float mouseWheelDelta, f
     {
         renderSpriteObjectBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
     }
+
+    renderPendingSpellWorldFx(MainViewId, viewMatrix, eye);
+    advancePendingSpellWorldFx(deltaSeconds);
 
     if (m_showSpawns && bgfx::isValid(m_spawnMarkerVertexBufferHandle) && m_spawnMarkerVertexCount > 0)
     {
@@ -2226,6 +2256,65 @@ void IndoorDebugRenderer::setGameplayMouseLookMode(bool enabled, bool cursorMode
     m_gameplayCursorMode = cursorMode;
 }
 
+void IndoorDebugRenderer::triggerPendingSpellWorldFx(const PartySpellCastResult &castResult)
+{
+    if (!castResult.succeeded()
+        || !castResult.hasSourcePoint
+        || !shouldTriggerPendingSpellWorldFx(castResult.effectKind))
+    {
+        return;
+    }
+
+    const size_t affectedCharacterCount =
+        castResult.affectedCharacterIndices.empty() ? 1 : castResult.affectedCharacterIndices.size();
+    const size_t effectCount = std::max<size_t>(1, affectedCharacterCount);
+    const uint32_t colorAbgr = pendingSpellWorldFxColorAbgr(castResult.effectKind);
+
+    for (size_t effectIndex = 0; effectIndex < effectCount; ++effectIndex)
+    {
+        const float angleRadians =
+            (Pi * 2.0f * static_cast<float>(effectIndex)) / static_cast<float>(effectCount);
+        const float offsetRadius = effectCount > 1 ? PendingSpellWorldFxRingRadius : 0.0f;
+
+        PendingSpellWorldFx effect = {};
+        effect.x = castResult.sourceX + std::cos(angleRadians) * offsetRadius;
+        effect.y = castResult.sourceY + std::sin(angleRadians) * offsetRadius;
+        effect.z = castResult.sourceZ + (effectCount > 1 ? static_cast<float>(effectIndex % 2) * 10.0f : 0.0f);
+        effect.durationSeconds = PendingSpellWorldFxDurationSeconds;
+        effect.radius = castResult.effectKind == PartySpellCastEffectKind::PartyRestore ? 34.0f : 28.0f;
+        effect.colorAbgr = colorAbgr;
+        m_pendingSpellWorldFx.push_back(effect);
+    }
+
+    if (m_pendingSpellWorldFx.size() > MaxPendingSpellWorldFx)
+    {
+        const size_t eraseCount = m_pendingSpellWorldFx.size() - MaxPendingSpellWorldFx;
+        m_pendingSpellWorldFx.erase(
+            m_pendingSpellWorldFx.begin(),
+            m_pendingSpellWorldFx.begin() + static_cast<std::ptrdiff_t>(eraseCount));
+    }
+}
+
+void IndoorDebugRenderer::triggerProjectileImpactWorldFx(float x, float y, float z, uint32_t spellId)
+{
+    PendingSpellWorldFx effect = {};
+    effect.x = x;
+    effect.y = y;
+    effect.z = z;
+    effect.durationSeconds = ProjectileImpactWorldFxDurationSeconds;
+    effect.radius = spellId == 0 ? 18.0f : 26.0f;
+    effect.colorAbgr = projectileImpactWorldFxColorAbgr(spellId);
+    m_pendingSpellWorldFx.push_back(effect);
+
+    if (m_pendingSpellWorldFx.size() > MaxPendingSpellWorldFx)
+    {
+        const size_t eraseCount = m_pendingSpellWorldFx.size() - MaxPendingSpellWorldFx;
+        m_pendingSpellWorldFx.erase(
+            m_pendingSpellWorldFx.begin(),
+            m_pendingSpellWorldFx.begin() + static_cast<std::ptrdiff_t>(eraseCount));
+    }
+}
+
 std::optional<IndoorDebugRenderer::GameplayActorPick>
 IndoorDebugRenderer::gameplayActorPickAtCursor(
     int viewWidth,
@@ -2369,6 +2458,611 @@ IndoorDebugRenderer::gameplayActorPickAtCursor(
     return pick;
 }
 
+GameplayWorldPickRequest IndoorDebugRenderer::buildGameplayWorldPickRequest(
+    const GameplayWorldPickRequestInput &input) const
+{
+    const int viewWidth = std::max(input.screenWidth, 1);
+    const int viewHeight = std::max(input.screenHeight, 1);
+    const float aspectRatio = float(viewWidth) / float(viewHeight);
+    const float cosPitch = std::cos(m_cameraPitchRadians);
+    const float sinPitch = std::sin(m_cameraPitchRadians);
+    const float cosYaw = std::cos(m_cameraYawRadians);
+    const float sinYaw = std::sin(m_cameraYawRadians);
+    const bx::Vec3 eye = {
+        m_cameraPositionX,
+        m_cameraPositionY,
+        m_cameraPositionZ
+    };
+    const bx::Vec3 at = {
+        m_cameraPositionX + cosYaw * cosPitch,
+        m_cameraPositionY - sinYaw * cosPitch,
+        m_cameraPositionZ + sinPitch
+    };
+    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+    float viewMatrix[16] = {};
+    float projectionMatrix[16] = {};
+
+    bx::mtxLookAt(viewMatrix, eye, at, up);
+    bx::mtxProj(
+        projectionMatrix,
+        60.0f,
+        aspectRatio,
+        0.1f,
+        50000.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+
+    GameplayWorldPickRequest request = {};
+    request.screenX = input.screenX;
+    request.screenY = input.screenY;
+    request.viewWidth = viewWidth;
+    request.viewHeight = viewHeight;
+    request.eye = eye;
+    std::copy(std::begin(viewMatrix), std::end(viewMatrix), request.viewMatrix.begin());
+    std::copy(std::begin(projectionMatrix), std::end(projectionMatrix), request.projectionMatrix.begin());
+
+    if (input.includeRay)
+    {
+        const float normalizedMouseX = ((input.screenX / float(viewWidth)) * 2.0f) - 1.0f;
+        const float normalizedMouseY = 1.0f - ((input.screenY / float(viewHeight)) * 2.0f);
+        float viewProjectionMatrix[16] = {};
+        float inverseViewProjectionMatrix[16] = {};
+        bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
+        bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
+        request.rayOrigin = bx::mulH({normalizedMouseX, normalizedMouseY, 0.0f}, inverseViewProjectionMatrix);
+        const bx::Vec3 rayTarget = bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
+        request.rayDirection = vecNormalize(vecSubtract(rayTarget, request.rayOrigin));
+        request.hasRay = vecLength(request.rayDirection) > InspectRayEpsilon;
+    }
+
+    return request;
+}
+
+std::optional<IndoorDebugRenderer::InspectHit> IndoorDebugRenderer::inspectGameplayWorldHit(
+    const GameplayWorldPickRequest &request) const
+{
+    if (!m_isInitialized
+        || !m_isRenderable
+        || !m_indoorMapData
+        || request.viewWidth <= 0
+        || request.viewHeight <= 0)
+    {
+        return std::nullopt;
+    }
+
+    GameplayWorldPickRequest rayRequest = request;
+
+    if (!rayRequest.hasRay)
+    {
+        const GameplayWorldPickRequestInput input = {
+            .screenX = request.screenX,
+            .screenY = request.screenY,
+            .screenWidth = request.viewWidth,
+            .screenHeight = request.viewHeight,
+            .includeRay = true,
+        };
+        rayRequest = buildGameplayWorldPickRequest(input);
+    }
+
+    if (!rayRequest.hasRay || vecLength(rayRequest.rayDirection) <= InspectRayEpsilon)
+    {
+        return std::nullopt;
+    }
+
+    const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(rayRequest.eye);
+    return inspectAtCursor(
+        *m_indoorMapData,
+        m_renderVertices,
+        visibleSectorMask,
+        rayRequest.rayOrigin,
+        rayRequest.rayDirection);
+}
+
+GameplayWorldHit IndoorDebugRenderer::translateInspectHitToGameplayWorldHit(
+    const InspectHit &inspectHit,
+    const GameplayWorldPickRequest &request) const
+{
+    GameplayWorldHit worldHit = {};
+
+    if (!inspectHit.hasHit)
+    {
+        return worldHit;
+    }
+
+    const bx::Vec3 hitPoint = {
+        request.rayOrigin.x + request.rayDirection.x * inspectHit.distance,
+        request.rayOrigin.y + request.rayDirection.y * inspectHit.distance,
+        request.rayOrigin.z + request.rayDirection.z * inspectHit.distance
+    };
+    worldHit.hasHit = true;
+
+    if (inspectHit.kind == "actor")
+    {
+        worldHit.kind = GameplayWorldHitKind::Actor;
+
+        GameplayActorTargetHit actorHit = {};
+        actorHit.actorIndex = inspectHit.index;
+        actorHit.displayName = inspectHit.name;
+        actorHit.isFriendly = inspectHit.isFriendly;
+        actorHit.hitPoint = hitPoint;
+        actorHit.distance = inspectHit.distance;
+        worldHit.actor = actorHit;
+        return worldHit;
+    }
+
+    if (inspectHit.kind == "object")
+    {
+        if (inspectHit.hasContainingItem)
+        {
+            worldHit.kind = GameplayWorldHitKind::WorldItem;
+
+            GameplayWorldItemTargetHit worldItemHit = {};
+            worldItemHit.worldItemIndex = inspectHit.index;
+            worldItemHit.objectDescriptionId = inspectHit.objectDescriptionId;
+            worldItemHit.objectSpriteId = inspectHit.objectSpriteId;
+            worldItemHit.hitPoint = hitPoint;
+            worldItemHit.distance = inspectHit.distance;
+            worldHit.worldItem = worldItemHit;
+            return worldHit;
+        }
+
+        worldHit.kind = GameplayWorldHitKind::Object;
+
+        GameplayObjectTargetHit objectHit = {};
+        objectHit.objectIndex = inspectHit.index;
+        objectHit.objectDescriptionId = inspectHit.objectDescriptionId;
+        objectHit.objectSpriteId = inspectHit.objectSpriteId;
+        objectHit.spellId = inspectHit.spellId;
+        objectHit.hitPoint = hitPoint;
+        objectHit.distance = inspectHit.distance;
+        worldHit.object = objectHit;
+        return worldHit;
+    }
+
+    GameplayEventTargetHit eventTargetHit = {};
+    eventTargetHit.targetIndex = inspectHit.index;
+    eventTargetHit.eventIdPrimary = inspectHit.eventIdPrimary;
+    eventTargetHit.eventIdSecondary = inspectHit.eventIdSecondary;
+    eventTargetHit.triggeredEventId = inspectHit.cogTriggered;
+    eventTargetHit.trigger = inspectHit.cogTriggerType;
+    eventTargetHit.variablePrimary = inspectHit.variablePrimary;
+    eventTargetHit.variableSecondary = inspectHit.variableSecondary;
+    eventTargetHit.specialTrigger = inspectHit.specialTrigger;
+    eventTargetHit.attributes = inspectHit.attributes;
+    eventTargetHit.name = inspectHit.name;
+    eventTargetHit.hitPoint = hitPoint;
+    eventTargetHit.distance = inspectHit.distance;
+
+    if (inspectHit.kind == "face")
+    {
+        eventTargetHit.targetKind = GameplayWorldEventTargetKind::Surface;
+        eventTargetHit.secondaryIndex = inspectHit.index;
+    }
+    else if (inspectHit.kind == "entity")
+    {
+        eventTargetHit.targetKind = GameplayWorldEventTargetKind::Entity;
+    }
+    else if (inspectHit.kind == "spawn")
+    {
+        eventTargetHit.targetKind = GameplayWorldEventTargetKind::Spawn;
+    }
+    else if (inspectHit.kind == "mechanism")
+    {
+        eventTargetHit.targetKind = GameplayWorldEventTargetKind::Object;
+        eventTargetHit.triggeredEventId = inspectHit.mechanismLinkedEventId != 0
+            ? inspectHit.mechanismLinkedEventId
+            : static_cast<uint16_t>(inspectHit.doorId);
+    }
+    else
+    {
+        worldHit.hasHit = false;
+        worldHit.kind = GameplayWorldHitKind::None;
+        return worldHit;
+    }
+
+    worldHit.kind = GameplayWorldHitKind::EventTarget;
+    worldHit.eventTarget = eventTargetHit;
+    return worldHit;
+}
+
+GameplayWorldHit IndoorDebugRenderer::pickGameplayWorldHit(const GameplayWorldPickRequest &request) const
+{
+    const std::optional<InspectHit> inspectHit = inspectGameplayWorldHit(request);
+
+    if (!inspectHit)
+    {
+        return {};
+    }
+
+    GameplayWorldPickRequest rayRequest = request;
+
+    if (!rayRequest.hasRay)
+    {
+        const GameplayWorldPickRequestInput input = {
+            .screenX = request.screenX,
+            .screenY = request.screenY,
+            .screenWidth = request.viewWidth,
+            .screenHeight = request.viewHeight,
+            .includeRay = true,
+        };
+        rayRequest = buildGameplayWorldPickRequest(input);
+    }
+
+    return translateInspectHitToGameplayWorldHit(*inspectHit, rayRequest);
+}
+
+GameplayWorldHoverCacheState IndoorDebugRenderer::gameplayWorldHoverCacheState() const
+{
+    return GameplayWorldHoverCacheState{
+        .hasCachedHover = m_cachedInspectHitValid && m_cachedGameplayWorldPickRequest.hasRay,
+        .lastUpdateNanoseconds = m_lastInspectUpdateTick * 1000000ULL,
+    };
+}
+
+GameplayHoverStatusPayload IndoorDebugRenderer::refreshGameplayWorldHover(const GameplayWorldHoverRequest &request)
+{
+    GameplayHoverStatusPayload payload = {};
+    GameplayWorldPickRequest pickRequest = request.primaryPickRequest;
+
+    if (!pickRequest.hasRay)
+    {
+        pickRequest = buildGameplayWorldPickRequest(
+            GameplayWorldPickRequestInput{
+                .screenX = pickRequest.screenX,
+                .screenY = pickRequest.screenY,
+                .screenWidth = pickRequest.viewWidth,
+                .screenHeight = pickRequest.viewHeight,
+                .includeRay = true,
+            });
+    }
+
+    std::optional<InspectHit> inspectHit = inspectGameplayWorldHit(pickRequest);
+
+    if (request.probeKind == GameplayWorldHoverProbeKind::PendingSpell
+        && request.secondaryPickRequest
+        && (!inspectHit || !inspectHit->hasHit))
+    {
+        pickRequest = *request.secondaryPickRequest;
+
+        if (!pickRequest.hasRay)
+        {
+            pickRequest = buildGameplayWorldPickRequest(
+                GameplayWorldPickRequestInput{
+                    .screenX = pickRequest.screenX,
+                    .screenY = pickRequest.screenY,
+                    .screenWidth = pickRequest.viewWidth,
+                    .screenHeight = pickRequest.viewHeight,
+                    .includeRay = true,
+                });
+        }
+
+        inspectHit = inspectGameplayWorldHit(pickRequest);
+    }
+
+    if (inspectHit)
+    {
+        m_cachedInspectHit = *inspectHit;
+        m_cachedInspectHitValid = inspectHit->hasHit;
+        m_cachedGameplayWorldPickRequest = pickRequest;
+        m_lastInspectUpdateTick = request.updateTickNanoseconds / 1000000ULL;
+        payload.worldHit = pickGameplayWorldHit(pickRequest);
+    }
+    else
+    {
+        clearGameplayWorldHover();
+    }
+
+    return payload;
+}
+
+GameplayHoverStatusPayload IndoorDebugRenderer::readCachedGameplayWorldHover() const
+{
+    GameplayHoverStatusPayload payload = {};
+
+    if (!m_cachedInspectHitValid || !m_cachedGameplayWorldPickRequest.hasRay)
+    {
+        return payload;
+    }
+
+    payload.worldHit = translateInspectHitToGameplayWorldHit(m_cachedInspectHit, m_cachedGameplayWorldPickRequest);
+    return payload;
+}
+
+void IndoorDebugRenderer::clearGameplayWorldHover()
+{
+    m_cachedInspectHit = {};
+    m_cachedInspectHitValid = false;
+    m_cachedGameplayWorldPickRequest = {};
+}
+
+std::optional<size_t> IndoorDebugRenderer::gameplayHoveredActorIndex() const
+{
+    if (!m_cachedInspectHitValid || m_cachedInspectHit.kind != "actor")
+    {
+        return std::nullopt;
+    }
+
+    return m_cachedInspectHit.index;
+}
+
+std::optional<size_t> IndoorDebugRenderer::gameplayClosestVisibleHostileActorIndex() const
+{
+    if (!m_isInitialized
+        || !m_isRenderable
+        || m_pSceneRuntime == nullptr
+        || m_lastRenderWidth <= 0
+        || m_lastRenderHeight <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const float aspectRatio = float(m_lastRenderWidth) / float(m_lastRenderHeight);
+    const float cosPitch = std::cos(m_cameraPitchRadians);
+    const float sinPitch = std::sin(m_cameraPitchRadians);
+    const float cosYaw = std::cos(m_cameraYawRadians);
+    const float sinYaw = std::sin(m_cameraYawRadians);
+    const bx::Vec3 eye = {
+        m_cameraPositionX,
+        m_cameraPositionY,
+        m_cameraPositionZ
+    };
+    const bx::Vec3 at = {
+        m_cameraPositionX + cosYaw * cosPitch,
+        m_cameraPositionY - sinYaw * cosPitch,
+        m_cameraPositionZ + sinPitch
+    };
+    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+    float viewMatrix[16] = {};
+    float projectionMatrix[16] = {};
+    float viewProjectionMatrix[16] = {};
+    bx::mtxLookAt(viewMatrix, eye, at, up);
+    bx::mtxProj(
+        projectionMatrix,
+        60.0f,
+        aspectRatio,
+        0.1f,
+        50000.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
+
+    std::optional<size_t> nearestActorIndex;
+    float nearestDistanceSquared = std::numeric_limits<float>::max();
+    IGameplayWorldRuntime &worldRuntime = m_pSceneRuntime->worldRuntime();
+
+    for (size_t actorIndex = 0; actorIndex < worldRuntime.mapActorCount(); ++actorIndex)
+    {
+        GameplayRuntimeActorState actorState = {};
+
+        if (!worldRuntime.actorRuntimeState(actorIndex, actorState)
+            || actorState.isDead
+            || actorState.isInvisible
+            || !actorState.hostileToParty
+            || !actorState.hasDetectedParty)
+        {
+            continue;
+        }
+
+        const bx::Vec3 actorPoint = {
+            actorState.preciseX,
+            actorState.preciseY,
+            actorState.preciseZ + std::max(48.0f, float(actorState.height) * 0.6f)
+        };
+        ProjectedPoint projected = {};
+
+        if (!projectWorldPointToScreen(
+                actorPoint,
+                m_lastRenderWidth,
+                m_lastRenderHeight,
+                viewProjectionMatrix,
+                projected))
+        {
+            continue;
+        }
+
+        if (projected.x < 0.0f
+            || projected.x > float(m_lastRenderWidth)
+            || projected.y < 0.0f
+            || projected.y > float(m_lastRenderHeight))
+        {
+            continue;
+        }
+
+        const float deltaX = actorState.preciseX - eye.x;
+        const float deltaY = actorState.preciseY - eye.y;
+        const float deltaZ = actorState.preciseZ - eye.z;
+        const float distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+
+        if (distanceSquared < nearestDistanceSquared)
+        {
+            nearestDistanceSquared = distanceSquared;
+            nearestActorIndex = actorIndex;
+        }
+    }
+
+    return nearestActorIndex;
+}
+
+std::optional<bx::Vec3> IndoorDebugRenderer::gameplayActorTargetPoint(size_t actorIndex) const
+{
+    if (m_pSceneRuntime == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    GameplayRuntimeActorState actorState = {};
+
+    if (!m_pSceneRuntime->worldRuntime().actorRuntimeState(actorIndex, actorState)
+        || actorState.isDead
+        || actorState.isInvisible)
+    {
+        return std::nullopt;
+    }
+
+    return bx::Vec3 {
+        actorState.preciseX,
+        actorState.preciseY,
+        actorState.preciseZ + std::max(48.0f, float(actorState.height) * 0.6f)
+    };
+}
+
+std::optional<bx::Vec3> IndoorDebugRenderer::gameplayGroundTargetPoint(float screenX, float screenY) const
+{
+    if (m_lastRenderWidth <= 0 || m_lastRenderHeight <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const GameplayWorldPickRequest request = buildGameplayWorldPickRequest(
+        GameplayWorldPickRequestInput{
+            .screenX = screenX,
+            .screenY = screenY,
+            .screenWidth = m_lastRenderWidth,
+            .screenHeight = m_lastRenderHeight,
+            .includeRay = true,
+        });
+
+    if (!request.hasRay)
+    {
+        return std::nullopt;
+    }
+
+    const GameplayWorldHit worldHit = pickGameplayWorldHit(request);
+
+    if (worldHit.kind == GameplayWorldHitKind::Actor && worldHit.actor)
+    {
+        const std::optional<bx::Vec3> actorTargetPoint =
+            gameplayActorTargetPoint(worldHit.actor->actorIndex);
+
+        if (actorTargetPoint)
+        {
+            return actorTargetPoint;
+        }
+
+        return worldHit.actor->hitPoint;
+    }
+
+    if (worldHit.ground && worldHit.ground->isValid)
+    {
+        return worldHit.ground->worldPoint;
+    }
+
+    if (worldHit.worldItem)
+    {
+        return worldHit.worldItem->hitPoint;
+    }
+
+    if (worldHit.eventTarget)
+    {
+        return worldHit.eventTarget->hitPoint;
+    }
+
+    if (worldHit.object)
+    {
+        return worldHit.object->hitPoint;
+    }
+
+    constexpr float ForwardFallbackDistance = 4096.0f;
+    return bx::Vec3 {
+        request.rayOrigin.x + request.rayDirection.x * ForwardFallbackDistance,
+        request.rayOrigin.y + request.rayDirection.y * ForwardFallbackDistance,
+        request.rayOrigin.z + request.rayDirection.z * ForwardFallbackDistance
+    };
+}
+
+float IndoorDebugRenderer::cameraYawRadians() const
+{
+    return m_cameraYawRadians;
+}
+
+std::optional<IndoorDebugRenderer::InspectHit> IndoorDebugRenderer::inspectHitFromGameplayWorldHit(
+    const GameplayWorldHit &hit) const
+{
+    if (!hit.hasHit || hit.kind != GameplayWorldHitKind::EventTarget || !hit.eventTarget)
+    {
+        return std::nullopt;
+    }
+
+    InspectHit inspectHit = {};
+    const GameplayEventTargetHit &eventTarget = *hit.eventTarget;
+    inspectHit.hasHit = true;
+    inspectHit.index = eventTarget.targetIndex;
+    inspectHit.name = eventTarget.name;
+    inspectHit.distance = eventTarget.distance;
+    inspectHit.eventIdPrimary = eventTarget.eventIdPrimary;
+    inspectHit.eventIdSecondary = eventTarget.eventIdSecondary;
+    inspectHit.cogTriggered = eventTarget.triggeredEventId;
+    inspectHit.cogTriggerType = eventTarget.trigger;
+    inspectHit.variablePrimary = eventTarget.variablePrimary;
+    inspectHit.variableSecondary = eventTarget.variableSecondary;
+    inspectHit.specialTrigger = eventTarget.specialTrigger;
+    inspectHit.attributes = eventTarget.attributes;
+
+    if (eventTarget.targetKind == GameplayWorldEventTargetKind::Surface)
+    {
+        inspectHit.kind = "face";
+    }
+    else if (eventTarget.targetKind == GameplayWorldEventTargetKind::Entity)
+    {
+        inspectHit.kind = "entity";
+    }
+    else if (eventTarget.targetKind == GameplayWorldEventTargetKind::Spawn)
+    {
+        inspectHit.kind = "spawn";
+    }
+    else if (eventTarget.targetKind == GameplayWorldEventTargetKind::Object)
+    {
+        inspectHit.kind = "mechanism";
+        inspectHit.doorId = eventTarget.triggeredEventId;
+        inspectHit.mechanismLinkedEventId = eventTarget.triggeredEventId;
+    }
+    else
+    {
+        return std::nullopt;
+    }
+
+    return inspectHit;
+}
+
+bool IndoorDebugRenderer::canActivateGameplayWorldHit(const GameplayWorldHit &hit) const
+{
+    const std::optional<InspectHit> inspectHit = inspectHitFromGameplayWorldHit(hit);
+
+    if (!inspectHit)
+    {
+        return false;
+    }
+
+    if (inspectHit->kind == "entity")
+    {
+        return inspectHit->eventIdPrimary != 0 || inspectHit->eventIdSecondary != 0;
+    }
+
+    if (inspectHit->kind == "face")
+    {
+        return inspectHit->cogTriggered != 0;
+    }
+
+    if (inspectHit->kind == "mechanism")
+    {
+        return inspectHit->mechanismLinkedEventId != 0 || inspectHit->doorId != 0;
+    }
+
+    return false;
+}
+
+bool IndoorDebugRenderer::activateGameplayWorldHit(const GameplayWorldHit &hit)
+{
+    const std::optional<InspectHit> inspectHit = inspectHitFromGameplayWorldHit(hit);
+
+    if (!inspectHit)
+    {
+        return false;
+    }
+
+    return tryActivateInspectEvent(*inspectHit);
+}
+
 void IndoorDebugRenderer::shutdown()
 {
     m_indoorMapData.reset();
@@ -2382,6 +3076,7 @@ void IndoorDebugRenderer::shutdown()
     m_indoorSpriteObjectBillboardSet.reset();
     m_houseTable.reset();
     m_mechanismBindings.clear();
+    m_pendingSpellWorldFx.clear();
 
     if (bgfx::isValid(m_programHandle))
     {
@@ -3193,6 +3888,131 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
             | BGFX_STATE_BLEND_ALPHA
         );
         bgfx::submit(viewId, m_texturedProgramHandle);
+    }
+}
+
+void IndoorDebugRenderer::advancePendingSpellWorldFx(float deltaSeconds)
+{
+    const float clampedDeltaSeconds = std::max(deltaSeconds, 0.0f);
+
+    for (PendingSpellWorldFx &effect : m_pendingSpellWorldFx)
+    {
+        effect.ageSeconds += clampedDeltaSeconds;
+    }
+
+    m_pendingSpellWorldFx.erase(
+        std::remove_if(
+            m_pendingSpellWorldFx.begin(),
+            m_pendingSpellWorldFx.end(),
+            [](const PendingSpellWorldFx &effect)
+            {
+                return effect.durationSeconds <= 0.0f || effect.ageSeconds >= effect.durationSeconds;
+            }),
+        m_pendingSpellWorldFx.end());
+}
+
+void IndoorDebugRenderer::renderPendingSpellWorldFx(
+    uint16_t viewId,
+    const float *pViewMatrix,
+    const bx::Vec3 &cameraPosition)
+{
+    if (m_pendingSpellWorldFx.empty() || !bgfx::isValid(m_programHandle))
+    {
+        return;
+    }
+
+    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
+    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+
+    struct DrawItem
+    {
+        const PendingSpellWorldFx *pEffect = nullptr;
+        float distanceSquared = 0.0f;
+    };
+
+    std::vector<DrawItem> drawItems;
+    drawItems.reserve(m_pendingSpellWorldFx.size());
+
+    for (const PendingSpellWorldFx &effect : m_pendingSpellWorldFx)
+    {
+        const float deltaX = effect.x - cameraPosition.x;
+        const float deltaY = effect.y - cameraPosition.y;
+        const float deltaZ = effect.z - cameraPosition.z;
+
+        DrawItem item = {};
+        item.pEffect = &effect;
+        item.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+        drawItems.push_back(item);
+    }
+
+    std::sort(
+        drawItems.begin(),
+        drawItems.end(),
+        [](const DrawItem &left, const DrawItem &right)
+        {
+            return left.distanceSquared > right.distanceSquared;
+        });
+
+    for (const DrawItem &item : drawItems)
+    {
+        const PendingSpellWorldFx &effect = *item.pEffect;
+        const float normalizedAge = std::clamp(effect.ageSeconds / effect.durationSeconds, 0.0f, 1.0f);
+        const float fade = 1.0f - normalizedAge;
+        const uint8_t baseAlpha = static_cast<uint8_t>((effect.colorAbgr >> 24) & 0xffu);
+        const uint8_t alpha =
+            static_cast<uint8_t>(std::clamp(std::lround(static_cast<float>(baseAlpha) * fade), 0l, 255l));
+
+        if (alpha == 0)
+        {
+            continue;
+        }
+
+        const uint32_t colorAbgr = withAlpha(effect.colorAbgr, alpha);
+        const float radius = effect.radius * (1.0f + normalizedAge * 0.45f);
+        const bx::Vec3 center = {
+            effect.x,
+            effect.y,
+            effect.z + normalizedAge * 32.0f
+        };
+        const bx::Vec3 right = {cameraRight.x * radius, cameraRight.y * radius, cameraRight.z * radius};
+        const bx::Vec3 up = {cameraUp.x * radius, cameraUp.y * radius, cameraUp.z * radius};
+
+        std::array<TerrainVertex, 6> vertices = {{
+            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, colorAbgr},
+            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, colorAbgr},
+            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, colorAbgr},
+            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, colorAbgr},
+            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, colorAbgr},
+            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, colorAbgr}
+        }};
+
+        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), TerrainVertex::ms_layout)
+            < vertices.size())
+        {
+            continue;
+        }
+
+        bgfx::TransientVertexBuffer transientVertexBuffer = {};
+        bgfx::allocTransientVertexBuffer(
+            &transientVertexBuffer,
+            static_cast<uint32_t>(vertices.size()),
+            TerrainVertex::ms_layout
+        );
+        std::memcpy(
+            transientVertexBuffer.data,
+            vertices.data(),
+            static_cast<size_t>(vertices.size() * sizeof(TerrainVertex)));
+
+        float modelMatrix[16] = {};
+        bx::mtxIdentity(modelMatrix);
+        bgfx::setTransform(modelMatrix);
+        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
+        bgfx::setState(
+            BGFX_STATE_WRITE_RGB
+            | BGFX_STATE_WRITE_A
+            | BGFX_STATE_DEPTH_TEST_LEQUAL
+            | BGFX_STATE_BLEND_ALPHA);
+        bgfx::submit(viewId, m_programHandle);
     }
 }
 
@@ -4509,6 +5329,7 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
                 bestHit.objectSpriteId = object.objectSpriteId;
                 bestHit.attributes = object.attributes;
                 bestHit.spellId = object.spellId;
+                bestHit.hasContainingItem = object.hasContainingItem;
             }
         }
     }
@@ -4701,7 +5522,33 @@ std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildPortal
     return portalVertices;
 }
 
-void IndoorDebugRenderer::updateCameraFromInput(float deltaSeconds)
+void IndoorDebugRenderer::updateWorldMovement(
+    const GameplayInputFrame &input,
+    float deltaSeconds,
+    bool allowWorldInput)
+{
+    updateCameraFromInput(input, deltaSeconds, allowWorldInput);
+
+    if (!allowWorldInput || input.mouseWheelDelta == 0.0f)
+    {
+        return;
+    }
+
+    const float cosPitch = std::cos(m_cameraPitchRadians);
+    const float sinPitch = std::sin(m_cameraPitchRadians);
+    const float cosYaw = std::cos(m_cameraYawRadians);
+    const float sinYaw = std::sin(m_cameraYawRadians);
+    const bx::Vec3 forward = {cosYaw * cosPitch, -sinYaw * cosPitch, sinPitch};
+    const float wheelMoveSpeed = 300.0f;
+    m_cameraPositionX += forward.x * input.mouseWheelDelta * wheelMoveSpeed;
+    m_cameraPositionY += forward.y * input.mouseWheelDelta * wheelMoveSpeed;
+    m_cameraPositionZ += forward.z * input.mouseWheelDelta * wheelMoveSpeed;
+}
+
+void IndoorDebugRenderer::updateCameraFromInput(
+    const GameplayInputFrame &input,
+    float deltaSeconds,
+    bool allowWorldInput)
 {
     const float displayDeltaSeconds = std::max(deltaSeconds, 0.000001f);
     const float instantaneousFramesPerSecond = 1.0f / displayDeltaSeconds;
@@ -4710,28 +5557,21 @@ void IndoorDebugRenderer::updateCameraFromInput(float deltaSeconds)
         : (m_framesPerSecond * 0.9f + instantaneousFramesPerSecond * 0.1f);
     deltaSeconds = std::min(deltaSeconds, 0.05f);
 
-    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
-
-    if (pKeyboardState == nullptr)
-    {
-        return;
-    }
+    const bool *pKeyboardState = input.keyboardState();
 
     const float moveSpeed = 320.0f;
     const float fastMoveMultiplier = 4.0f;
     const float mouseRotateSpeed = 0.0045f;
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const bool shouldRotateCamera = m_gameplayMouseLookEnabled && !m_gameplayCursorMode;
+    const float mouseX = input.pointerX;
+    const float mouseY = input.pointerY;
+    const bool shouldRotateCamera = allowWorldInput && m_gameplayMouseLookEnabled && !m_gameplayCursorMode;
 
     if (shouldRotateCamera)
     {
         if (m_gameplayMouseLookEnabled)
         {
-            float relativeMouseX = 0.0f;
-            float relativeMouseY = 0.0f;
-            SDL_GetRelativeMouseState(&relativeMouseX, &relativeMouseY);
+            const float relativeMouseX = input.relativeMouseX;
+            const float relativeMouseY = input.relativeMouseY;
 
             if (relativeMouseX != 0.0f || relativeMouseY != 0.0f)
             {
@@ -4763,31 +5603,31 @@ void IndoorDebugRenderer::updateCameraFromInput(float deltaSeconds)
     const bool isFastMovePressed =
         pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
     const bool jumpPressed = pKeyboardState[SDL_SCANCODE_X];
-    const bool jumpRequested = jumpPressed && !m_jumpHeld;
+    const bool jumpRequested = allowWorldInput && jumpPressed && !m_jumpHeld;
     m_jumpHeld = jumpPressed;
     const float currentMoveSpeed = isFastMovePressed ? moveSpeed * fastMoveMultiplier : moveSpeed;
     float desiredVelocityX = 0.0f;
     float desiredVelocityY = 0.0f;
 
-    if (pKeyboardState[SDL_SCANCODE_W])
+    if (allowWorldInput && pKeyboardState[SDL_SCANCODE_W])
     {
         desiredVelocityX += cosYaw * currentMoveSpeed;
         desiredVelocityY += -sinYaw * currentMoveSpeed;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_S])
+    if (allowWorldInput && pKeyboardState[SDL_SCANCODE_S])
     {
         desiredVelocityX -= cosYaw * currentMoveSpeed;
         desiredVelocityY -= -sinYaw * currentMoveSpeed;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_A])
+    if (allowWorldInput && pKeyboardState[SDL_SCANCODE_A])
     {
         desiredVelocityX -= right.x * currentMoveSpeed;
         desiredVelocityY -= right.y * currentMoveSpeed;
     }
 
-    if (pKeyboardState[SDL_SCANCODE_D])
+    if (allowWorldInput && pKeyboardState[SDL_SCANCODE_D])
     {
         desiredVelocityX += right.x * currentMoveSpeed;
         desiredVelocityY += right.y * currentMoveSpeed;
@@ -4803,27 +5643,27 @@ void IndoorDebugRenderer::updateCameraFromInput(float deltaSeconds)
     }
     else
     {
-        if (pKeyboardState[SDL_SCANCODE_W])
+        if (allowWorldInput && pKeyboardState[SDL_SCANCODE_W])
         {
             m_cameraPositionX += forward.x * currentMoveSpeed * deltaSeconds;
             m_cameraPositionY += forward.y * currentMoveSpeed * deltaSeconds;
             m_cameraPositionZ += forward.z * currentMoveSpeed * deltaSeconds;
         }
 
-        if (pKeyboardState[SDL_SCANCODE_S])
+        if (allowWorldInput && pKeyboardState[SDL_SCANCODE_S])
         {
             m_cameraPositionX -= forward.x * currentMoveSpeed * deltaSeconds;
             m_cameraPositionY -= forward.y * currentMoveSpeed * deltaSeconds;
             m_cameraPositionZ -= forward.z * currentMoveSpeed * deltaSeconds;
         }
 
-        if (pKeyboardState[SDL_SCANCODE_A])
+        if (allowWorldInput && pKeyboardState[SDL_SCANCODE_A])
         {
             m_cameraPositionX -= right.x * currentMoveSpeed * deltaSeconds;
             m_cameraPositionY -= right.y * currentMoveSpeed * deltaSeconds;
         }
 
-        if (pKeyboardState[SDL_SCANCODE_D])
+        if (allowWorldInput && pKeyboardState[SDL_SCANCODE_D])
         {
             m_cameraPositionX += right.x * currentMoveSpeed * deltaSeconds;
             m_cameraPositionY += right.y * currentMoveSpeed * deltaSeconds;

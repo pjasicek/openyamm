@@ -2,17 +2,29 @@
 
 #include "game/party/PartySpellSystem.h"
 
-#include <functional>
+#include <optional>
 #include <string>
+
+#include <bx/math.h>
 
 namespace OpenYAMM::Game
 {
 class GameSession;
 class GameplayScreenRuntime;
+class IGameplayWorldRuntime;
 
 class GameplaySpellService
 {
 public:
+    struct TargetQueries
+    {
+        bool useCrosshairTarget = false;
+        float cursorX = 0.0f;
+        float cursorY = 0.0f;
+        float screenWidth = 0.0f;
+        float screenHeight = 0.0f;
+    };
+
     enum class QuickSpellStartDisposition
     {
         Failed,
@@ -49,9 +61,7 @@ public:
 
     QuickSpellStartResolution tryStartQuickSpellCast(
         GameplayScreenRuntime &runtime,
-        const std::function<bool(
-            PartySpellCastRequest &,
-            const PartySpellDescriptor &)> &worldTargetResolver);
+        const TargetQueries &targetQueries);
 
     MemberSpellCastResolution castSpellFromMember(
         GameplayScreenRuntime &runtime,
@@ -59,9 +69,7 @@ public:
         uint32_t spellId,
         const std::string &spellName,
         bool quickCast = false,
-        const std::function<bool(
-            PartySpellCastRequest &,
-            const PartySpellDescriptor &)> &worldTargetResolver = {});
+        const TargetQueries *pTargetQueries = nullptr);
 
     bool tryCastSpellFromMember(
         GameplayScreenRuntime &runtime,
@@ -69,15 +77,13 @@ public:
         uint32_t spellId,
         const std::string &spellName,
         bool quickCast = false,
-        const std::function<bool(
-            PartySpellCastRequest &,
-            const PartySpellDescriptor &)> &worldTargetResolver = {});
+        const TargetQueries *pTargetQueries = nullptr);
 
     bool tryPrepareQuickCastRequest(
         GameplayScreenRuntime &runtime,
         PartySpellCastRequest &request,
         const std::string &spellName,
-        const std::function<bool(PartySpellCastRequest &, const PartySpellDescriptor &)> &worldTargetResolver) const;
+        const TargetQueries &targetQueries) const;
 
     SpellRequestResolution resolveSpellRequest(
         GameplayScreenRuntime &runtime,
@@ -140,6 +146,14 @@ public:
         const PartySpellCastResult &result) const;
 
 private:
+    static bool tryResolveQuickCastRequest(
+        GameplayScreenRuntime &runtime,
+        PartySpellCastRequest &request,
+        const PartySpellDescriptor &descriptor,
+        const TargetQueries &targetQueries);
+    static std::optional<bx::Vec3> resolveCursorTargetPoint(
+        const TargetQueries &targetQueries,
+        const IGameplayWorldRuntime *pWorldRuntime);
     static bool tryValidateCasterForGameplayCast(GameplayScreenRuntime &runtime, size_t casterMemberIndex);
     static bool isQuickCastable(const PartySpellDescriptor &descriptor);
     static bool requiresTargetSelection(const PartySpellCastResult &result);

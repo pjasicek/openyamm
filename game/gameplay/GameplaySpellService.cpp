@@ -32,9 +32,7 @@ GameplaySpellService::GameplaySpellService(GameSession &session)
 
 GameplaySpellService::QuickSpellStartResolution GameplaySpellService::tryStartQuickSpellCast(
     GameplayScreenRuntime &runtime,
-    const std::function<bool(
-        PartySpellCastRequest &,
-        const PartySpellDescriptor &)> &worldTargetResolver)
+    const TargetQueries &targetQueries)
 {
     QuickSpellStartResolution resolution = {};
 
@@ -106,7 +104,7 @@ GameplaySpellService::QuickSpellStartResolution GameplaySpellService::tryStartQu
             uint32_t(pSpellEntry->id),
             pSpellEntry->name,
             true,
-            worldTargetResolver))
+            &targetQueries))
     {
         resolution.disposition = QuickSpellStartDisposition::CastStarted;
     }
@@ -120,7 +118,7 @@ GameplaySpellService::MemberSpellCastResolution GameplaySpellService::castSpellF
     uint32_t spellId,
     const std::string &spellName,
     bool quickCast,
-    const std::function<bool(PartySpellCastRequest &, const PartySpellDescriptor &)> &worldTargetResolver)
+    const TargetQueries *pTargetQueries)
 {
     MemberSpellCastResolution resolution = {};
     Party *pParty = runtime.party();
@@ -141,8 +139,8 @@ GameplaySpellService::MemberSpellCastResolution GameplaySpellService::castSpellF
     request.spellId = spellId;
 
     if (quickCast
-        && worldTargetResolver
-        && !tryPrepareQuickCastRequest(runtime, request, spellName, worldTargetResolver))
+        && pTargetQueries != nullptr
+        && !tryPrepareQuickCastRequest(runtime, request, spellName, *pTargetQueries))
     {
         return resolution;
     }
@@ -159,7 +157,7 @@ bool GameplaySpellService::tryCastSpellFromMember(
     uint32_t spellId,
     const std::string &spellName,
     bool quickCast,
-    const std::function<bool(PartySpellCastRequest &, const PartySpellDescriptor &)> &worldTargetResolver)
+    const TargetQueries *pTargetQueries)
 {
     return castSpellFromMember(
         runtime,
@@ -167,14 +165,14 @@ bool GameplaySpellService::tryCastSpellFromMember(
         spellId,
         spellName,
         quickCast,
-        worldTargetResolver).castStarted;
+        pTargetQueries).castStarted;
 }
 
 bool GameplaySpellService::tryPrepareQuickCastRequest(
     GameplayScreenRuntime &runtime,
     PartySpellCastRequest &request,
     const std::string &spellName,
-    const std::function<bool(PartySpellCastRequest &, const PartySpellDescriptor &)> &worldTargetResolver) const
+    const TargetQueries &targetQueries) const
 {
     const std::optional<PartySpellDescriptor> descriptor = PartySpellSystem::describeSpell(request.spellId);
 
@@ -185,13 +183,116 @@ bool GameplaySpellService::tryPrepareQuickCastRequest(
 
     request.quickCast = true;
 
-    if (worldTargetResolver(request, *descriptor))
+    if (tryResolveQuickCastRequest(runtime, request, *descriptor, targetQueries))
     {
         return true;
     }
 
     runtime.setStatusBarEvent("No target for " + spellName, 3.0f);
     return false;
+}
+
+bool GameplaySpellService::tryResolveQuickCastRequest(
+    GameplayScreenRuntime &runtime,
+    PartySpellCastRequest &request,
+    const PartySpellDescriptor &descriptor,
+    const TargetQueries &targetQueries)
+{
+    IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+
+    if (descriptor.targetKind == PartySpellCastTargetKind::None)
+    {
+        return true;
+    }
+
+    if (descriptor.targetKind == PartySpellCastTargetKind::Actor)
+    {
+        if (pWorldRuntime != nullptr)
+        {
+            request.targetActorIndex = pWorldRuntime->spellActionHoveredActorIndex();
+
+            if (!request.targetActorIndex)
+            {
+                request.targetActorIndex = pWorldRuntime->spellActionClosestVisibleHostileActorIndex();
+            }
+        }
+
+        if (request.targetActorIndex)
+        {
+            return true;
+        }
+
+        if (descriptor.effectKind == PartySpellCastEffectKind::Projectile)
+        {
+            const std::optional<bx::Vec3> groundTargetPoint =
+                resolveCursorTargetPoint(targetQueries, pWorldRuntime);
+
+            if (!groundTargetPoint)
+            {
+                return false;
+            }
+
+            request.hasTargetPoint = true;
+            request.targetX = groundTargetPoint->x;
+            request.targetY = groundTargetPoint->y;
+            request.targetZ = groundTargetPoint->z;
+            return true;
+        }
+
+        return false;
+    }
+
+    if (descriptor.targetKind == PartySpellCastTargetKind::GroundPoint)
+    {
+        std::optional<bx::Vec3> targetPoint;
+
+        if (pWorldRuntime != nullptr)
+        {
+            const std::optional<size_t> hoveredActorIndex = pWorldRuntime->spellActionHoveredActorIndex();
+
+            if (hoveredActorIndex)
+            {
+                targetPoint = pWorldRuntime->spellActionActorTargetPoint(*hoveredActorIndex);
+            }
+        }
+
+        if (!targetPoint)
+        {
+            targetPoint = resolveCursorTargetPoint(targetQueries, pWorldRuntime);
+        }
+
+        if (!targetPoint)
+        {
+            return false;
+        }
+
+        request.hasTargetPoint = true;
+        request.targetX = targetPoint->x;
+        request.targetY = targetPoint->y;
+        request.targetZ = targetPoint->z;
+        return true;
+    }
+
+    return false;
+}
+
+std::optional<bx::Vec3> GameplaySpellService::resolveCursorTargetPoint(
+    const TargetQueries &targetQueries,
+    const IGameplayWorldRuntime *pWorldRuntime)
+{
+    if (pWorldRuntime == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    if (targetQueries.useCrosshairTarget && targetQueries.screenWidth > 0.0f && targetQueries.screenHeight > 0.0f)
+    {
+        return pWorldRuntime->spellActionGroundTargetPoint(
+            targetQueries.screenWidth * 0.5f,
+            targetQueries.screenHeight * 0.5f);
+    }
+
+    return pWorldRuntime->spellActionGroundTargetPoint(targetQueries.cursorX, targetQueries.cursorY);
 }
 
 GameplaySpellService::SpellRequestResolution GameplaySpellService::resolveSpellRequest(

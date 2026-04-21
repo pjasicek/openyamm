@@ -1,6 +1,7 @@
 #include "game/ui/GameplayUiOverlayOrchestrator.h"
 
 #include "game/gameplay/GameplayFxService.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayOverlayInputController.h"
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
@@ -16,24 +17,18 @@ namespace OpenYAMM::Game
 {
 GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverlayInput(
     GameplayScreenRuntime &overlayContext,
-    const bool *pKeyboardState,
-    int width,
-    int height,
+    const GameplayInputFrame &input,
     const GameplayUiOverlayInputConfig &config)
 {
     GameplayOverlayInputController::handleLootOverlayInput(
         overlayContext,
-        pKeyboardState,
-        width,
-        height,
+        input,
         config.hasActiveLootView);
 
     GameplayUiOverlayInputResult result = {};
     result.journalInputConsumed = GameplayOverlayInputController::handleJournalOverlayInput(
         overlayContext,
-        pKeyboardState,
-        width,
-        height,
+        input,
         config.canToggleJournal,
         config.mapShortcutPressed,
         config.storyShortcutPressed,
@@ -46,9 +41,7 @@ GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverla
     {
         GameplayOverlayInputController::handleDialogueOverlayInput(
             overlayContext,
-            pKeyboardState,
-            width,
-            height,
+            input,
             config.residentSelectionMode);
     }
     else
@@ -58,40 +51,32 @@ GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverla
 
     if (config.restActive)
     {
-        (void)GameplayOverlayInputController::handleRestOverlayInput(overlayContext, pKeyboardState, width, height);
+        (void)GameplayOverlayInputController::handleRestOverlayInput(overlayContext, input);
     }
     else if (config.menuActive)
     {
-        (void)GameplayOverlayInputController::handleMenuOverlayInput(overlayContext, pKeyboardState, width, height);
+        (void)GameplayOverlayInputController::handleMenuOverlayInput(overlayContext, input);
     }
     else if (config.controlsActive)
     {
-        (void)GameplayOverlayInputController::handleControlsOverlayInput(overlayContext, pKeyboardState, width, height);
+        (void)GameplayOverlayInputController::handleControlsOverlayInput(overlayContext, input);
     }
     else if (config.keyboardActive)
     {
-        (void)GameplayOverlayInputController::handleKeyboardOverlayInput(overlayContext, pKeyboardState, width, height);
+        (void)GameplayOverlayInputController::handleKeyboardOverlayInput(overlayContext, input);
     }
     else if (config.videoOptionsActive)
     {
-        (void)GameplayOverlayInputController::handleVideoOptionsOverlayInput(
-            overlayContext,
-            pKeyboardState,
-            width,
-            height);
+        (void)GameplayOverlayInputController::handleVideoOptionsOverlayInput(overlayContext, input);
     }
     else if (config.saveGameActive)
     {
-        (void)GameplayOverlayInputController::handleSaveGameOverlayInput(overlayContext, pKeyboardState, width, height);
+        (void)GameplayOverlayInputController::handleSaveGameOverlayInput(overlayContext, input);
     }
 
     if (config.spellbookActive)
     {
-        GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
-            overlayContext,
-            pKeyboardState,
-            width,
-            height);
+        GameplayPartyOverlayInputController::handleSpellbookOverlayInput(overlayContext, input);
     }
     else
     {
@@ -100,11 +85,7 @@ GameplayUiOverlayInputResult GameplayUiOverlayOrchestrator::handleStandardOverla
 
     if (config.characterScreenOpen)
     {
-        GameplayPartyOverlayInputController::handleCharacterOverlayInput(
-            overlayContext,
-            pKeyboardState,
-            width,
-            height);
+        GameplayPartyOverlayInputController::handleCharacterOverlayInput(overlayContext, input);
     }
     else
     {

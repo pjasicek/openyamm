@@ -1,5 +1,8 @@
 #include "game/gameplay/GameplayCombatController.h"
 
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
+
 #include <algorithm>
 #include <cmath>
 #include <iostream>
@@ -11,72 +14,130 @@ namespace
 {
 constexpr uint32_t KillSpeechChancePercent = 20;
 
-std::optional<GameplayCombatController::ActorCombatInfo> resolveActor(
+std::optional<GameplayCombatActorInfo> resolveActor(
     const GameplayCombatController::PendingCombatEventContext &context,
     uint32_t actorId)
 {
-    if (!context.resolveActorById)
+    if (context.pWorldRuntime == nullptr)
     {
         return std::nullopt;
     }
 
-    return context.resolveActorById(actorId);
+    return context.pWorldRuntime->combatActorInfoById(actorId);
 }
 
 void triggerPortraitFaceAnimation(
-    const GameplayCombatController::PresentationCallbacks &presentation,
+    GameplayScreenRuntime *pRuntime,
     size_t memberIndex,
     FaceAnimationId animationId)
 {
-    if (presentation.triggerPortraitFaceAnimation)
+    if (pRuntime != nullptr)
     {
-        presentation.triggerPortraitFaceAnimation(memberIndex, animationId);
+        pRuntime->triggerPortraitFaceAnimation(memberIndex, animationId);
     }
 }
 
 void triggerPortraitFaceAnimationForAllLivingMembers(
-    const GameplayCombatController::PresentationCallbacks &presentation,
+    GameplayScreenRuntime *pRuntime,
     FaceAnimationId animationId)
 {
-    if (presentation.triggerPortraitFaceAnimationForAllLivingMembers)
+    if (pRuntime != nullptr)
     {
-        presentation.triggerPortraitFaceAnimationForAllLivingMembers(animationId);
+        pRuntime->triggerPortraitFaceAnimationForAllLivingMembers(animationId);
     }
 }
 
 void playSpeechReaction(
-    const GameplayCombatController::PresentationCallbacks &presentation,
+    GameplayScreenRuntime *pRuntime,
     size_t memberIndex,
     SpeechId speechId,
     bool triggerFaceAnimation)
 {
-    if (presentation.playSpeechReaction)
+    if (pRuntime != nullptr)
     {
-        presentation.playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
+        pRuntime->playSpeechReaction(memberIndex, speechId, triggerFaceAnimation);
     }
 }
 
 void showCombatStatus(
-    const GameplayCombatController::PresentationCallbacks &presentation,
+    GameplayScreenRuntime *pRuntime,
     const std::string &status)
 {
-    if (presentation.showCombatStatus)
+    if (pRuntime != nullptr)
     {
-        presentation.showCombatStatus(status);
+        pRuntime->setStatusBarEvent(status);
     }
 }
 
-uint32_t animationTicks(const GameplayCombatController::PresentationCallbacks &presentation)
+uint32_t animationTicks(const GameplayScreenRuntime *pRuntime)
 {
-    if (presentation.animationTicks)
+    if (pRuntime != nullptr)
     {
-        return presentation.animationTicks();
+        return pRuntime->animationTicks();
     }
 
     return 0;
 }
 
 } // namespace
+
+GameplayCombatController::CombatEvent GameplayCombatController::buildMonsterMeleeImpactEvent(
+    uint32_t sourceId,
+    int damage)
+{
+    CombatEvent event = {};
+    event.type = CombatEventType::MonsterMeleeImpact;
+    event.sourceId = sourceId;
+    event.damage = damage;
+    return event;
+}
+
+GameplayCombatController::CombatEvent GameplayCombatController::buildMonsterRangedReleaseEvent(
+    uint32_t sourceId,
+    int damage)
+{
+    CombatEvent event = {};
+    event.type = CombatEventType::MonsterRangedRelease;
+    event.sourceId = sourceId;
+    event.damage = damage;
+    return event;
+}
+
+GameplayCombatController::CombatEvent GameplayCombatController::buildPartyProjectileImpactEvent(
+    uint32_t sourceId,
+    int damage,
+    int spellId,
+    bool affectsAllParty)
+{
+    CombatEvent event = {};
+    event.type = CombatEventType::PartyProjectileImpact;
+    event.sourceId = sourceId;
+    event.damage = damage;
+    event.spellId = spellId;
+    event.affectsAllParty = affectsAllParty;
+    return event;
+}
+
+GameplayCombatController::CombatEvent GameplayCombatController::buildPartyProjectileActorImpactEvent(
+    uint32_t sourceId,
+    uint32_t sourcePartyMemberIndex,
+    uint32_t targetActorId,
+    int damage,
+    int spellId,
+    bool hit,
+    bool killed)
+{
+    CombatEvent event = {};
+    event.type = CombatEventType::PartyProjectileActorImpact;
+    event.sourceId = sourceId;
+    event.sourcePartyMemberIndex = sourcePartyMemberIndex;
+    event.targetActorId = targetActorId;
+    event.damage = hit ? damage : 0;
+    event.spellId = spellId;
+    event.hit = hit;
+    event.killed = killed;
+    return event;
+}
 
 std::string GameplayCombatController::formatPartyAttackStatusText(
     const std::string &attackerName,
@@ -125,7 +186,7 @@ std::string GameplayCombatController::formatPartyAttackStatusText(
 }
 
 void GameplayCombatController::handlePartyAttackPresentation(
-    const PresentationCallbacks &presentation,
+    GameplayScreenRuntime *pRuntime,
     const PartyAttackPresentation &attack)
 {
     if (attack.actionPerformed)
@@ -143,21 +204,21 @@ void GameplayCombatController::handlePartyAttackPresentation(
                 }
 
                 triggerPortraitFaceAnimation(
-                    presentation,
+                    pRuntime,
                     attack.memberIndex,
                     attack.attacked && attack.attack.hit ? FaceAnimationId::AttackHit : FaceAnimationId::AttackMiss);
-                playSpeechReaction(presentation, attack.memberIndex, speechId, false);
+                playSpeechReaction(pRuntime, attack.memberIndex, speechId, false);
             }
         }
         else
         {
-            triggerPortraitFaceAnimation(presentation, attack.memberIndex, FaceAnimationId::Shoot);
-            playSpeechReaction(presentation, attack.memberIndex, SpeechId::Shoot, false);
+            triggerPortraitFaceAnimation(pRuntime, attack.memberIndex, FaceAnimationId::Shoot);
+            playSpeechReaction(pRuntime, attack.memberIndex, SpeechId::Shoot, false);
         }
     }
 
     showCombatStatus(
-        presentation,
+        pRuntime,
         formatPartyAttackStatusText(
             attack.attackerName,
             attack.targetName,
@@ -174,7 +235,7 @@ void GameplayCombatController::handlePendingCombatEvents(
         if (event.type == CombatEventType::PartyProjectileActorImpact)
         {
             const Character *pSourceMember = context.party.member(event.sourcePartyMemberIndex);
-            const std::optional<ActorCombatInfo> targetActor = resolveActor(context, event.targetActorId);
+            const std::optional<GameplayCombatActorInfo> targetActor = resolveActor(context, event.targetActorId);
             const std::string sourceName =
                 pSourceMember != nullptr && !pSourceMember->name.empty() ? pSourceMember->name : "party";
             const std::string targetName = targetActor ? targetActor->displayName : "monster";
@@ -182,60 +243,60 @@ void GameplayCombatController::handlePendingCombatEvents(
             if (!event.hit)
             {
                 triggerPortraitFaceAnimation(
-                    context.presentation,
+                    context.pRuntime,
                     event.sourcePartyMemberIndex,
                     FaceAnimationId::AttackMiss);
-                playSpeechReaction(context.presentation, event.sourcePartyMemberIndex, SpeechId::AttackMiss, false);
-                showCombatStatus(context.presentation, sourceName + " misses " + targetName);
+                playSpeechReaction(context.pRuntime, event.sourcePartyMemberIndex, SpeechId::AttackMiss, false);
+                showCombatStatus(context.pRuntime, sourceName + " misses " + targetName);
             }
             else if (event.killed)
             {
                 triggerPortraitFaceAnimation(
-                    context.presentation,
+                    context.pRuntime,
                     event.sourcePartyMemberIndex,
                     FaceAnimationId::AttackHit);
                 SpeechId speechId = SpeechId::AttackHit;
 
-                if ((animationTicks(context.presentation) + event.targetActorId) % 100u < KillSpeechChancePercent)
+                if ((animationTicks(context.pRuntime) + event.targetActorId) % 100u < KillSpeechChancePercent)
                 {
                     speechId = targetActor && targetActor->maxHp >= 100
                         ? SpeechId::KillStrongEnemy
                         : SpeechId::KillWeakEnemy;
                 }
 
-                playSpeechReaction(context.presentation, event.sourcePartyMemberIndex, speechId, false);
+                playSpeechReaction(context.pRuntime, event.sourcePartyMemberIndex, speechId, false);
 
                 if (event.spellId > 0)
                 {
                     showCombatStatus(
-                        context.presentation,
+                        context.pRuntime,
                         sourceName + " deals " + std::to_string(event.damage) + " damage killing " + targetName);
                 }
                 else
                 {
                     showCombatStatus(
-                        context.presentation,
+                        context.pRuntime,
                         sourceName + " inflicts " + std::to_string(event.damage) + " points killing " + targetName);
                 }
             }
             else
             {
                 triggerPortraitFaceAnimation(
-                    context.presentation,
+                    context.pRuntime,
                     event.sourcePartyMemberIndex,
                     FaceAnimationId::AttackHit);
-                playSpeechReaction(context.presentation, event.sourcePartyMemberIndex, SpeechId::AttackHit, false);
+                playSpeechReaction(context.pRuntime, event.sourcePartyMemberIndex, SpeechId::AttackHit, false);
 
                 if (event.spellId > 0)
                 {
                     showCombatStatus(
-                        context.presentation,
+                        context.pRuntime,
                         sourceName + " deals " + std::to_string(event.damage) + " damage to " + targetName);
                 }
                 else
                 {
                     showCombatStatus(
-                        context.presentation,
+                        context.pRuntime,
                         sourceName + " shoots " + targetName + " for " + std::to_string(event.damage) + " points");
                 }
             }
@@ -264,7 +325,7 @@ void GameplayCombatController::handlePendingCombatEvents(
         std::string sourceName = "monster";
         uint32_t sourceAttackPreferences = 0;
 
-        const std::optional<ActorCombatInfo> sourceActor = resolveActor(context, event.sourceId);
+        const std::optional<GameplayCombatActorInfo> sourceActor = resolveActor(context, event.sourceId);
         if (sourceActor)
         {
             sourceName = sourceActor->displayName;
@@ -299,7 +360,7 @@ void GameplayCombatController::handlePendingCombatEvents(
 
         if (ignorePhysicalDamage)
         {
-            showCombatStatus(context.presentation, "Mistform ignores physical damage");
+            showCombatStatus(context.pRuntime, "Mistform ignores physical damage");
             continue;
         }
 
@@ -378,11 +439,11 @@ void GameplayCombatController::handlePendingCombatEvents(
 
             if (event.affectsAllParty)
             {
-                triggerPortraitFaceAnimationForAllLivingMembers(context.presentation, FaceAnimationId::DamagedParty);
+                triggerPortraitFaceAnimationForAllLivingMembers(context.pRuntime, FaceAnimationId::DamagedParty);
             }
             else
             {
-                triggerPortraitFaceAnimation(context.presentation, *targetMemberIndex, FaceAnimationId::Damaged);
+                triggerPortraitFaceAnimation(context.pRuntime, *targetMemberIndex, FaceAnimationId::Damaged);
             }
 
             std::cout << "Party damaged source=" << sourceName
@@ -394,5 +455,66 @@ void GameplayCombatController::handlePendingCombatEvents(
                       << '\n';
         }
     }
+}
+
+void GameplayCombatController::clear()
+{
+    m_pendingCombatEvents.clear();
+}
+
+void GameplayCombatController::recordMonsterMeleeImpact(uint32_t sourceId, int damage)
+{
+    m_pendingCombatEvents.push_back(buildMonsterMeleeImpactEvent(sourceId, damage));
+}
+
+void GameplayCombatController::recordMonsterRangedRelease(uint32_t sourceId, int damage)
+{
+    m_pendingCombatEvents.push_back(buildMonsterRangedReleaseEvent(sourceId, damage));
+}
+
+void GameplayCombatController::recordPartyProjectileImpact(
+    uint32_t sourceId,
+    int damage,
+    int spellId,
+    bool affectsAllParty)
+{
+    m_pendingCombatEvents.push_back(
+        buildPartyProjectileImpactEvent(sourceId, damage, spellId, affectsAllParty));
+}
+
+void GameplayCombatController::recordPartyProjectileActorImpact(
+    uint32_t sourceId,
+    uint32_t sourcePartyMemberIndex,
+    uint32_t targetActorId,
+    int damage,
+    int spellId,
+    bool hit,
+    bool killed)
+{
+    m_pendingCombatEvents.push_back(
+        buildPartyProjectileActorImpactEvent(
+            sourceId,
+            sourcePartyMemberIndex,
+            targetActorId,
+            damage,
+            spellId,
+            hit,
+            killed));
+}
+
+const std::vector<GameplayCombatController::CombatEvent> &GameplayCombatController::pendingCombatEvents() const
+{
+    return m_pendingCombatEvents;
+}
+
+void GameplayCombatController::clearPendingCombatEvents()
+{
+    m_pendingCombatEvents.clear();
+}
+
+void GameplayCombatController::handleAndClearPendingCombatEvents(PendingCombatEventContext &context)
+{
+    handlePendingCombatEvents(context, m_pendingCombatEvents);
+    m_pendingCombatEvents.clear();
 }
 } // namespace OpenYAMM::Game

@@ -5,13 +5,15 @@
 #include "game/tables/PortraitEnums.h"
 
 #include <cstdint>
-#include <functional>
 #include <optional>
 #include <string>
 #include <vector>
 
 namespace OpenYAMM::Game
 {
+class GameplayScreenRuntime;
+class IGameplayWorldRuntime;
+
 class GameplayCombatController
 {
 public:
@@ -36,29 +38,11 @@ public:
         bool killed = false;
     };
 
-    struct ActorCombatInfo
-    {
-        uint32_t actorId = 0;
-        int16_t monsterId = 0;
-        int maxHp = 0;
-        uint32_t attackPreferences = 0;
-        std::string displayName;
-    };
-
-    struct PresentationCallbacks
-    {
-        std::function<void(size_t, FaceAnimationId)> triggerPortraitFaceAnimation;
-        std::function<void(FaceAnimationId)> triggerPortraitFaceAnimationForAllLivingMembers;
-        std::function<void(size_t, SpeechId, bool)> playSpeechReaction;
-        std::function<void(const std::string &)> showCombatStatus;
-        std::function<uint32_t()> animationTicks;
-    };
-
     struct PendingCombatEventContext
     {
         Party &party;
-        std::function<std::optional<ActorCombatInfo>(uint32_t)> resolveActorById;
-        PresentationCallbacks presentation;
+        IGameplayWorldRuntime *pWorldRuntime = nullptr;
+        GameplayScreenRuntime *pRuntime = nullptr;
     };
 
     struct PartyAttackPresentation
@@ -81,11 +65,49 @@ public:
         bool killed);
 
     static void handlePartyAttackPresentation(
-        const PresentationCallbacks &presentation,
+        GameplayScreenRuntime *pRuntime,
         const PartyAttackPresentation &attack);
 
+    void clear();
+    void recordMonsterMeleeImpact(uint32_t sourceId, int damage);
+    void recordMonsterRangedRelease(uint32_t sourceId, int damage);
+    void recordPartyProjectileImpact(
+        uint32_t sourceId,
+        int damage,
+        int spellId,
+        bool affectsAllParty);
+    void recordPartyProjectileActorImpact(
+        uint32_t sourceId,
+        uint32_t sourcePartyMemberIndex,
+        uint32_t targetActorId,
+        int damage,
+        int spellId,
+        bool hit,
+        bool killed);
+    const std::vector<CombatEvent> &pendingCombatEvents() const;
+    void clearPendingCombatEvents();
+    void handleAndClearPendingCombatEvents(PendingCombatEventContext &context);
+
+private:
+    static CombatEvent buildMonsterMeleeImpactEvent(uint32_t sourceId, int damage);
+    static CombatEvent buildMonsterRangedReleaseEvent(uint32_t sourceId, int damage);
+    static CombatEvent buildPartyProjectileImpactEvent(
+        uint32_t sourceId,
+        int damage,
+        int spellId,
+        bool affectsAllParty);
+    static CombatEvent buildPartyProjectileActorImpactEvent(
+        uint32_t sourceId,
+        uint32_t sourcePartyMemberIndex,
+        uint32_t targetActorId,
+        int damage,
+        int spellId,
+        bool hit,
+        bool killed);
     static void handlePendingCombatEvents(
         PendingCombatEventContext &context,
         const std::vector<CombatEvent> &events);
+
+    std::vector<CombatEvent> m_pendingCombatEvents;
 };
 } // namespace OpenYAMM::Game

@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayOverlayInputController.h"
 
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/HouseServiceRuntime.h"
@@ -54,6 +55,15 @@ struct HudPointerState
     float y = 0.0f;
     bool leftButtonPressed = false;
 };
+
+HudPointerState pointerStateFromInput(const GameplayInputFrame &input)
+{
+    return {
+        input.pointerX,
+        input.pointerY,
+        input.leftMouseButton.held
+    };
+}
 
 struct InventoryGridMetrics
 {
@@ -529,10 +539,11 @@ HouseShopItemDrawRect resolveHouseShopItemDrawRect(
 
 bool GameplayOverlayInputController::handleRestOverlayInput(
     GameplayScreenRuntime &view,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight)
+    const GameplayInputFrame &input)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
     GameplayUiController::RestScreenState &restScreen = view.restScreenState();
 
     if (!restScreen.active)
@@ -599,14 +610,7 @@ bool GameplayOverlayInputController::handleRestOverlayInput(
         return true;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const HudPointerState pointerState = {
-        mouseX,
-        mouseY,
-        (mouseButtons & SDL_BUTTON_LMASK) != 0
-    };
+    const HudPointerState pointerState = pointerStateFromInput(input);
     const GameplayRestPointerTarget noneTarget = {};
     const auto resolveTarget =
         [&view, screenWidth, screenHeight](
@@ -697,10 +701,11 @@ bool GameplayOverlayInputController::handleRestOverlayInput(
 
 bool GameplayOverlayInputController::handleMenuOverlayInput(
     GameplayScreenRuntime &view,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight)
+    const GameplayInputFrame &input)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
     GameplayUiController::MenuScreenState &menuScreen = view.menuScreenState();
 
     if (!menuScreen.active)
@@ -731,14 +736,7 @@ bool GameplayOverlayInputController::handleMenuOverlayInput(
         return true;
     }
 
-    float menuMouseX = 0.0f;
-    float menuMouseY = 0.0f;
-    const SDL_MouseButtonFlags menuMouseButtons = SDL_GetMouseState(&menuMouseX, &menuMouseY);
-    const HudPointerState menuPointerState = {
-        menuMouseX,
-        menuMouseY,
-        (menuMouseButtons & SDL_BUTTON_LMASK) != 0
-    };
+    const HudPointerState menuPointerState = pointerStateFromInput(input);
     const GameplayMenuPointerTarget noneMenuTarget = {};
     const auto findMenuPointerTarget =
         [&view, screenWidth, screenHeight](float pointerX, float pointerY) -> GameplayMenuPointerTarget
@@ -945,10 +943,11 @@ bool GameplayOverlayInputController::handleMenuOverlayInput(
 
 bool GameplayOverlayInputController::handleControlsOverlayInput(
     GameplayScreenRuntime &view,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight)
+    const GameplayInputFrame &input)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
     GameplayUiController::ControlsScreenState &controlsScreen = view.controlsScreenState();
 
     if (!controlsScreen.active)
@@ -982,14 +981,7 @@ bool GameplayOverlayInputController::handleControlsOverlayInput(
         return true;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const HudPointerState pointerState = {
-        mouseX,
-        mouseY,
-        (mouseButtons & SDL_BUTTON_LMASK) != 0
-    };
+    const HudPointerState pointerState = pointerStateFromInput(input);
     const GameplayControlsPointerTarget noneTarget = {};
     const auto resolveTarget =
         [&view, screenWidth, screenHeight](
@@ -1299,10 +1291,11 @@ bool GameplayOverlayInputController::handleControlsOverlayInput(
 
 bool GameplayOverlayInputController::handleKeyboardOverlayInput(
     GameplayScreenRuntime &view,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight)
+    const GameplayInputFrame &input)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
     GameplayUiController::KeyboardScreenState &keyboardScreen = view.keyboardScreenState();
 
     if (!keyboardScreen.active)
@@ -1346,14 +1339,7 @@ bool GameplayOverlayInputController::handleKeyboardOverlayInput(
         }
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const HudPointerState pointerState = {
-        mouseX,
-        mouseY,
-        (mouseButtons & SDL_BUTTON_LMASK) != 0
-    };
+    const HudPointerState pointerState = pointerStateFromInput(input);
     const GameplayKeyboardPointerTarget noneTarget = {};
     const auto resolveLayoutTarget =
         [&view, screenWidth, screenHeight](
@@ -1498,10 +1484,11 @@ bool GameplayOverlayInputController::handleKeyboardOverlayInput(
 
 bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
     GameplayScreenRuntime &view,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight)
+    const GameplayInputFrame &input)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
     GameplayUiController::VideoOptionsScreenState &videoOptionsScreen = view.videoOptionsScreenState();
 
     if (!videoOptionsScreen.active)
@@ -1533,14 +1520,7 @@ bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
         return true;
     }
 
-    float mouseX = 0.0f;
-    float mouseY = 0.0f;
-    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
-    const HudPointerState pointerState = {
-        mouseX,
-        mouseY,
-        (mouseButtons & SDL_BUTTON_LMASK) != 0
-    };
+    const HudPointerState pointerState = pointerStateFromInput(input);
     const GameplayVideoOptionsPointerTarget noneTarget = {};
     const auto resolveTarget =
         [&view, screenWidth, screenHeight](
@@ -1632,10 +1612,11 @@ bool GameplayOverlayInputController::handleVideoOptionsOverlayInput(
 
 bool GameplayOverlayInputController::handleSaveGameOverlayInput(
     GameplayScreenRuntime &view,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight)
+    const GameplayInputFrame &input)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
     GameplayUiController::SaveGameScreenState &saveGameScreen = view.saveGameScreenState();
 
     if (!saveGameScreen.active)
@@ -1713,14 +1694,7 @@ bool GameplayOverlayInputController::handleSaveGameOverlayInput(
         view.interactionState().saveGameEditBackspaceLatch = false;
     }
 
-    float saveMouseX = 0.0f;
-    float saveMouseY = 0.0f;
-    const SDL_MouseButtonFlags saveMouseButtons = SDL_GetMouseState(&saveMouseX, &saveMouseY);
-    const HudPointerState savePointerState = {
-        saveMouseX,
-        saveMouseY,
-        (saveMouseButtons & SDL_BUTTON_LMASK) != 0
-    };
+    const HudPointerState savePointerState = pointerStateFromInput(input);
     const GameplaySaveLoadPointerTarget noneSaveTarget = {};
     const auto findSavePointerTarget =
         [&view, screenWidth, screenHeight](float pointerX, float pointerY) -> GameplaySaveLoadPointerTarget
@@ -1866,9 +1840,7 @@ bool GameplayOverlayInputController::handleSaveGameOverlayInput(
 
 bool GameplayOverlayInputController::handleJournalOverlayInput(
     GameplayScreenRuntime &view,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight,
+    const GameplayInputFrame &input,
     bool canToggleJournal,
     bool mapShortcutPressed,
     bool storyShortcutPressed,
@@ -1877,6 +1849,9 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
     bool zoomOutPressed,
     float mouseWheelDelta)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
     GameplayUiController::JournalScreenState &journalScreen = view.journalScreenState();
     JournalShortcutView requestedJournalView = JournalShortcutView::None;
 
@@ -2087,14 +2062,7 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
         return true;
     }
 
-    float journalMouseX = 0.0f;
-    float journalMouseY = 0.0f;
-    const SDL_MouseButtonFlags journalMouseButtons = SDL_GetMouseState(&journalMouseX, &journalMouseY);
-    const HudPointerState journalPointerState = {
-        journalMouseX,
-        journalMouseY,
-        (journalMouseButtons & SDL_BUTTON_LMASK) != 0
-    };
+    const HudPointerState journalPointerState = pointerStateFromInput(input);
     const GameplayJournalPointerTarget noneJournalTarget = {};
 
     const auto resolveJournalTarget =
@@ -2445,11 +2413,13 @@ bool GameplayOverlayInputController::handleJournalOverlayInput(
 
 void GameplayOverlayInputController::handleDialogueOverlayInput(
     GameplayScreenRuntime &view,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight,
+    const GameplayInputFrame &input,
     bool isResidentSelectionMode)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
+
     if (view.partyReadOnly() != nullptr)
     {
         static constexpr SDL_Scancode PartySelectScancodes[5] = {
@@ -2561,14 +2531,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
         view.refreshHouseBankInputDialog();
 
-        float dialogMouseX = 0.0f;
-        float dialogMouseY = 0.0f;
-        const SDL_MouseButtonFlags dialogMouseButtons = SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
-        const HudPointerState pointerState = {
-            dialogMouseX,
-            dialogMouseY,
-            (dialogMouseButtons & SDL_BUTTON_LMASK) != 0
-        };
+        const HudPointerState pointerState = pointerStateFromInput(input);
         const GameplayDialoguePointerTarget noneDialogueTarget = {};
         const auto findDialogueCloseTarget =
             [&view, screenWidth, screenHeight](float mouseX, float mouseY) -> GameplayDialoguePointerTarget
@@ -2689,10 +2652,9 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
         view.interactionState().eventDialogAcceptLatch = false;
     }
 
-    float dialogMouseX = 0.0f;
-    float dialogMouseY = 0.0f;
-    const SDL_MouseButtonFlags dialogMouseButtons = SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
-    const bool isLeftMousePressed = (dialogMouseButtons & SDL_BUTTON_LMASK) != 0;
+    const float dialogMouseX = input.pointerX;
+    const float dialogMouseY = input.pointerY;
+    const bool isLeftMousePressed = input.leftMouseButton.held;
     const EventRuntimeState *pDialogueEventRuntimeState =
         view.worldRuntime() != nullptr ? view.worldRuntime()->eventRuntimeState() : nullptr;
     const HouseEntry *pDialogueHouseEntry =
@@ -3299,11 +3261,13 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
 
 void GameplayOverlayInputController::handleLootOverlayInput(
     GameplayScreenRuntime &view,
-    const bool *pKeyboardState,
-    int screenWidth,
-    int screenHeight,
+    const GameplayInputFrame &input,
     bool hasActiveLootView)
 {
+    const bool *pKeyboardState = input.keyboardState();
+    const int screenWidth = input.screenWidth;
+    const int screenHeight = input.screenHeight;
+
     if (!hasActiveLootView)
     {
         view.resetLootOverlayInteractionState();
@@ -3319,10 +3283,9 @@ void GameplayOverlayInputController::handleLootOverlayInput(
 
     if (pChestView != nullptr && screenWidth > 0 && screenHeight > 0)
     {
-        float chestMouseX = 0.0f;
-        float chestMouseY = 0.0f;
-        const SDL_MouseButtonFlags chestMouseButtons = SDL_GetMouseState(&chestMouseX, &chestMouseY);
-        const bool isChestLeftMousePressed = (chestMouseButtons & SDL_BUTTON_LMASK) != 0;
+        const float chestMouseX = input.pointerX;
+        const float chestMouseY = input.pointerY;
+        const bool isChestLeftMousePressed = input.leftMouseButton.held;
         const HudPointerState chestPointerState = {
             chestMouseX,
             chestMouseY,

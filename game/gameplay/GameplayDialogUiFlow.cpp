@@ -1,5 +1,7 @@
 #include "game/gameplay/GameplayDialogUiFlow.h"
 
+#include "game/gameplay/GameplayInputFrame.h"
+
 #include <SDL3/SDL.h>
 
 namespace OpenYAMM::Game
@@ -15,25 +17,18 @@ void resetDialogInteractionState(GameplayDialogUiFlowState &state, bool suppress
     state.interactionState.eventDialogPartySelectLatches.fill(false);
 }
 
-bool shouldSuppressInitialAccept()
+bool shouldSuppressInitialAccept(const GameplayInputFrame &input)
 {
-    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
-
-    if (pKeyboardState == nullptr)
-    {
-        return false;
-    }
-
-    return pKeyboardState[SDL_SCANCODE_SPACE]
-        || pKeyboardState[SDL_SCANCODE_RETURN]
-        || pKeyboardState[SDL_SCANCODE_KP_ENTER];
+    return input.isScancodeHeld(SDL_SCANCODE_SPACE)
+        || input.isScancodeHeld(SDL_SCANCODE_RETURN)
+        || input.isScancodeHeld(SDL_SCANCODE_KP_ENTER);
 }
 }
 
 void presentPendingEventDialog(
     GameplayDialogUiFlowState &state,
     EventRuntimeState *pEventRuntimeState,
-    const GameplayDialogUiContextBuilder &buildContext,
+    GameplayDialogController::Context &context,
     size_t previousMessageCount,
     bool allowNpcFallbackContent,
     const GameplayDialogUiFlowPresentOptions &options,
@@ -51,7 +46,6 @@ void presentPendingEventDialog(
     state.uiController.houseShopOverlay() = {};
 
     const bool showBankInputCursor = (SDL_GetTicks() / 500u) % 2u == 0u;
-    GameplayDialogController::Context context = buildContext(*pEventRuntimeState);
     const GameplayDialogController::PresentPendingDialogResult result =
         state.dialogController.presentPendingEventDialog(
             context,
@@ -66,7 +60,9 @@ void presentPendingEventDialog(
 
     resetDialogInteractionState(
         state,
-        options.suppressInitialAcceptIfActivationKeysHeld && shouldSuppressInitialAccept());
+        options.suppressInitialAcceptIfActivationKeysHeld
+            && options.pInputFrame != nullptr
+            && shouldSuppressInitialAccept(*options.pInputFrame));
 
     if (onOpened)
     {
@@ -76,11 +72,8 @@ void presentPendingEventDialog(
 
 void closeActiveEventDialog(
     GameplayDialogUiFlowState &state,
-    EventRuntimeState *pEventRuntimeState,
-    const std::function<void(uint32_t hostHouseId)> &onClosed)
+    EventRuntimeState *pEventRuntimeState)
 {
-    const uint32_t hostHouseId = pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
-
     if (pEventRuntimeState != nullptr)
     {
         pEventRuntimeState->pendingDialogueContext.reset();
@@ -97,17 +90,12 @@ void closeActiveEventDialog(
     state.interactionState.inventoryNestedOverlayPressedTarget = {};
     state.interactionState.inventoryNestedOverlayItemClickLatch = false;
     state.uiController.clearHouseBankState();
-
-    if (onClosed)
-    {
-        onClosed(hostHouseId);
-    }
 }
 
 bool refreshHouseBankInputDialog(
     GameplayDialogUiFlowState &state,
     EventRuntimeState *pEventRuntimeState,
-    const GameplayDialogUiContextBuilder &buildContext,
+    GameplayDialogController::Context &context,
     bool showCursor)
 {
     if (pEventRuntimeState == nullptr)
@@ -115,14 +103,13 @@ bool refreshHouseBankInputDialog(
         return false;
     }
 
-    GameplayDialogController::Context context = buildContext(*pEventRuntimeState);
     return state.dialogController.refreshHouseBankInputDialog(context, showCursor);
 }
 
 GameplayDialogController::Result returnToHouseBankMainDialog(
     GameplayDialogUiFlowState &state,
     EventRuntimeState *pEventRuntimeState,
-    const GameplayDialogUiContextBuilder &buildContext)
+    GameplayDialogController::Context &context)
 {
     state.interactionState.houseBankDigitLatches.fill(false);
     state.interactionState.houseBankBackspaceLatch = false;
@@ -133,14 +120,13 @@ GameplayDialogController::Result returnToHouseBankMainDialog(
         return {};
     }
 
-    GameplayDialogController::Context context = buildContext(*pEventRuntimeState);
     return state.dialogController.returnToHouseBankMainDialog(context);
 }
 
 GameplayDialogController::Result confirmHouseBankInput(
     GameplayDialogUiFlowState &state,
     EventRuntimeState *pEventRuntimeState,
-    const GameplayDialogUiContextBuilder &buildContext)
+    GameplayDialogController::Context &context)
 {
     if (pEventRuntimeState == nullptr)
     {
@@ -150,7 +136,6 @@ GameplayDialogController::Result confirmHouseBankInput(
         return {};
     }
 
-    GameplayDialogController::Context context = buildContext(*pEventRuntimeState);
     const GameplayDialogController::Result result = state.dialogController.confirmHouseBankInput(context);
     state.interactionState.houseBankDigitLatches.fill(false);
     state.interactionState.houseBankBackspaceLatch = false;

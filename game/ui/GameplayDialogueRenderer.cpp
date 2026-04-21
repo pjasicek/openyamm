@@ -1,16 +1,13 @@
 #include "game/ui/GameplayDialogueRenderer.h"
 #include "game/ui/GameplayHudCommon.h"
+#include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 
 #include "game/gameplay/HouseServiceRuntime.h"
 #include "game/tables/ItemTable.h"
-#include "game/outdoor/OutdoorPartyRuntime.h"
-#include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/StringUtils.h"
 
 #include <bx/math.h>
-
-#include <SDL3/SDL.h>
 
 #include <algorithm>
 #include <array>
@@ -58,6 +55,29 @@ struct HouseShopItemDrawRect
     float width = 0.0f;
     float height = 0.0f;
 };
+
+struct PointerRenderInput
+{
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    bool isLeftMousePressed = false;
+};
+
+PointerRenderInput pointerRenderInput(const GameplayScreenRuntime &view)
+{
+    PointerRenderInput input = {};
+    const GameplayInputFrame *pInputFrame = view.currentGameplayInputFrame();
+
+    if (pInputFrame == nullptr)
+    {
+        return input;
+    }
+
+    input.mouseX = pInputFrame->pointerX;
+    input.mouseY = pInputFrame->pointerY;
+    input.isLeftMousePressed = pInputFrame->leftMouseButton.held;
+    return input;
+}
 
 bool isHouseType(const HouseEntry &houseEntry, const char *pTypeName)
 {
@@ -342,9 +362,9 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
     }
 
     view.clearHudLayoutRuntimeHeightOverrides();
-    float dialogMouseX = 0.0f;
-    float dialogMouseY = 0.0f;
-    SDL_GetMouseState(&dialogMouseX, &dialogMouseY);
+    const PointerRenderInput pointerInput = pointerRenderInput(view);
+    const float dialogMouseX = pointerInput.mouseX;
+    const float dialogMouseY = pointerInput.mouseY;
     const GameplayUiViewportRect uiViewport = GameplayHudCommon::computeUiViewportRect(width, height);
 
     if (!renderAboveHud && uiViewport.x > 0.5f)
@@ -1094,9 +1114,14 @@ void GameplayDialogueRenderer::renderDialogueTextureElement(
         return;
     }
 
-    const bool isLeftMousePressed = (SDL_GetMouseState(nullptr, nullptr) & SDL_BUTTON_LMASK) != 0;
+    const PointerRenderInput pointerInput = pointerRenderInput(view);
     const std::string *pAssetName =
-        view.resolveInteractiveAssetName(*pLayout, *resolved, dialogMouseX, dialogMouseY, isLeftMousePressed);
+        view.resolveInteractiveAssetName(
+            *pLayout,
+            *resolved,
+            dialogMouseX,
+            dialogMouseY,
+            pointerInput.isLeftMousePressed);
 
     if (pAssetName->empty())
     {

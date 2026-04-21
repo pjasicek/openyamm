@@ -56,7 +56,11 @@ public:
     explicit MenuScreenBase(const Engine::AssetFileSystem &assetFileSystem);
     ~MenuScreenBase() override;
 
-    void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds) override;
+    void renderFrame(
+        int width,
+        int height,
+        const GameplayInputFrame &inputFrame,
+        float deltaSeconds) override;
 
 protected:
     const Engine::AssetFileSystem &assetFileSystem() const;
@@ -71,6 +75,7 @@ protected:
     bool rightMouseDown() const;
     bool rightMouseJustPressed() const;
     bool rightMouseJustReleased() const;
+    bool isScancodeHeld(SDL_Scancode scancode) const;
 
     void drawTexture(const std::string &textureName, const Rect &rect);
     void drawTextureRegion(const std::string &textureName, const SourceRect &sourceRect, const Rect &rect);
@@ -191,6 +196,7 @@ private:
     std::optional<std::string> resolveFontPath(const std::string &fontName);
 
     const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
+    const GameplayInputFrame *m_pInputFrame = nullptr;
     int m_frameWidth = 0;
     int m_frameHeight = 0;
     float m_mouseX = 0.0f;

@@ -2261,7 +2261,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
 
     if (hoveredInspectHit && hoveredInspectHit->kind == "actor")
     {
-        hoveredRuntimeActorIndex = view.resolveRuntimeActorIndexForInspectHit(*hoveredInspectHit);
+        hoveredRuntimeActorIndex =
+            OutdoorInteractionController::resolveRuntimeActorIndexForInspectHit(view, *hoveredInspectHit);
     }
 
     thread_local std::vector<bool> coveredRuntimeActors;

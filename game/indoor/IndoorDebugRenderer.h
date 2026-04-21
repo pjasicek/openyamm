@@ -10,6 +10,7 @@
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/GameplayWorldInteraction.h"
 #include "game/tables/HouseTable.h"
 
 #include <bgfx/bgfx.h>
@@ -22,6 +23,8 @@
 
 namespace OpenYAMM::Game
 {
+struct GameplayInputFrame;
+struct PartySpellCastResult;
 class IndoorSceneRuntime;
 
 class IndoorDebugRenderer
@@ -56,7 +59,16 @@ public:
         const ChestTable &chestTable,
         const HouseTable &houseTable
     );
-    void render(int width, int height, float mouseWheelDelta, float deltaSeconds);
+    void render(
+        int width,
+        int height,
+        const GameplayInputFrame &input,
+        float deltaSeconds,
+        bool allowWorldInput = true);
+    void updateWorldMovement(
+        const GameplayInputFrame &input,
+        float deltaSeconds,
+        bool allowWorldInput);
     void setCameraPosition(float x, float y, float z);
     bool hasHudRenderResources() const;
     bgfx::ProgramHandle hudTexturedProgramHandle() const;
@@ -74,11 +86,26 @@ public:
         float v1,
         TextureFilterProfile filterProfile = TextureFilterProfile::Ui) const;
     void setGameplayMouseLookMode(bool enabled, bool cursorMode);
+    void triggerPendingSpellWorldFx(const PartySpellCastResult &castResult);
+    void triggerProjectileImpactWorldFx(float x, float y, float z, uint32_t spellId);
     std::optional<GameplayActorPick> gameplayActorPickAtCursor(
         int viewWidth,
         int viewHeight,
         float screenX,
         float screenY) const;
+    GameplayWorldPickRequest buildGameplayWorldPickRequest(const GameplayWorldPickRequestInput &input) const;
+    GameplayWorldHit pickGameplayWorldHit(const GameplayWorldPickRequest &request) const;
+    GameplayWorldHoverCacheState gameplayWorldHoverCacheState() const;
+    GameplayHoverStatusPayload refreshGameplayWorldHover(const GameplayWorldHoverRequest &request);
+    GameplayHoverStatusPayload readCachedGameplayWorldHover() const;
+    void clearGameplayWorldHover();
+    std::optional<size_t> gameplayHoveredActorIndex() const;
+    std::optional<size_t> gameplayClosestVisibleHostileActorIndex() const;
+    std::optional<bx::Vec3> gameplayActorTargetPoint(size_t actorIndex) const;
+    std::optional<bx::Vec3> gameplayGroundTargetPoint(float screenX, float screenY) const;
+    float cameraYawRadians() const;
+    bool canActivateGameplayWorldHit(const GameplayWorldHit &hit) const;
+    bool activateGameplayWorldHit(const GameplayWorldHit &hit);
     void shutdown();
 
 private:
@@ -171,12 +198,24 @@ private:
         uint16_t objectDescriptionId = 0;
         uint16_t objectSpriteId = 0;
         int32_t spellId = 0;
+        bool hasContainingItem = false;
         uint32_t doorAttributes = 0;
         uint32_t doorId = 0;
         uint16_t doorState = 0;
         uint16_t mechanismLinkedEventId = 0;
         std::string mechanismFaceSummary;
         std::string mechanismLinkedEventSummary;
+    };
+
+    struct PendingSpellWorldFx
+    {
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float ageSeconds = 0.0f;
+        float durationSeconds = 0.0f;
+        float radius = 0.0f;
+        uint32_t colorAbgr = 0xffffffffu;
     };
 
     static bgfx::ProgramHandle loadProgram(const char *pVertexShaderName, const char *pFragmentShaderName);
@@ -233,7 +272,12 @@ private:
         const std::vector<uint8_t> &visibleSectorMask,
         const bx::Vec3 &rayOrigin,
         const bx::Vec3 &rayDirection) const;
-    void updateCameraFromInput(float deltaSeconds);
+    std::optional<InspectHit> inspectGameplayWorldHit(const GameplayWorldPickRequest &request) const;
+    GameplayWorldHit translateInspectHitToGameplayWorldHit(
+        const InspectHit &inspectHit,
+        const GameplayWorldPickRequest &request) const;
+    std::optional<InspectHit> inspectHitFromGameplayWorldHit(const GameplayWorldHit &hit) const;
+    void updateCameraFromInput(const GameplayInputFrame &input, float deltaSeconds, bool allowWorldInput);
     void renderDecorationBillboards(
         uint16_t viewId,
         const float *pViewMatrix,
@@ -251,6 +295,12 @@ private:
         const float *pViewMatrix,
         const bx::Vec3 &cameraPosition,
         const std::vector<uint8_t> &visibleSectorMask
+    );
+    void advancePendingSpellWorldFx(float deltaSeconds);
+    void renderPendingSpellWorldFx(
+        uint16_t viewId,
+        const float *pViewMatrix,
+        const bx::Vec3 &cameraPosition
     );
     const bgfx::TextureHandle *findIndoorTextureHandle(const std::string &textureName) const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
@@ -303,6 +353,7 @@ private:
     std::vector<TexturedBatch> m_texturedBatches;
     std::vector<IndoorTextureHandle> m_indoorTextureHandles;
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
+    std::vector<PendingSpellWorldFx> m_pendingSpellWorldFx;
     std::vector<MechanismBinding> m_mechanismBindings;
     std::vector<int32_t> m_faceBatchIndices;
     std::vector<uint32_t> m_faceVertexOffsets;
@@ -321,6 +372,8 @@ private:
     bool m_isRotatingCamera;
     float m_lastMouseX;
     float m_lastMouseY;
+    int m_lastRenderWidth = 0;
+    int m_lastRenderHeight = 0;
     bool m_toggleFilledLatch;
     bool m_toggleWireframeLatch;
     bool m_togglePortalsLatch;
@@ -352,6 +405,7 @@ private:
     uint64_t m_inspectGeometryRevision = 0;
     uint64_t m_cachedInspectGeometryRevision = 0;
     uint64_t m_lastInspectUpdateTick = 0;
+    GameplayWorldPickRequest m_cachedGameplayWorldPickRequest = {};
     mutable int16_t m_cachedVisibleSectorId = -1;
     mutable std::vector<uint32_t> m_cachedVisibleDoorStateSignature;
     mutable std::vector<uint8_t> m_cachedVisibleSectorMask;
