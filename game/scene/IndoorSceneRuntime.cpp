@@ -1,5 +1,7 @@
 #include "game/scene/IndoorSceneRuntime.h"
 
+#include "game/gameplay/GameplayActorService.h"
+
 #include <iostream>
 
 namespace OpenYAMM::Game
@@ -32,7 +34,9 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const std::optional<MapDeltaData> &indoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState,
     const std::optional<ScriptedEventProgram> &localEventProgram,
-    const std::optional<ScriptedEventProgram> &globalEventProgram)
+    const std::optional<ScriptedEventProgram> &globalEventProgram,
+    GameplayActorService *pGameplayActorService,
+    const SpriteFrameTable *pActorSpriteFrameTable)
     : m_mapFileName(mapFileName)
     , m_pSessionParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
@@ -53,7 +57,9 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         &m_partyRuntime.party(),
         &m_partyRuntime,
         &m_mapDeltaData,
-        &m_eventRuntimeState
+        &m_eventRuntimeState,
+        pGameplayActorService,
+        pActorSpriteFrameTable
     );
 
     if (!indoorMapData.vertices.empty())

@@ -807,7 +807,9 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->outdoorDecorationCollisionSet,
             selectedMap->outdoorActorCollisionSet,
             selectedMap->outdoorSpriteObjectCollisionSet,
-            selectedMap->outdoorSpriteObjectBillboardSet
+            selectedMap->outdoorSpriteObjectBillboardSet,
+            &m_gameSession.gameplayActorService(),
+            &m_gameSession.gameplayProjectileService()
         );
 
         restoreSavedOutdoorWorldStateForSelectedMap();
@@ -879,7 +881,11 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->indoorMapDeltaData,
             selectedMap->eventRuntimeState,
             selectedMap->localEventProgram,
-            selectedMap->globalEventProgram
+            selectedMap->globalEventProgram,
+            &m_gameSession.gameplayActorService(),
+            selectedMap->indoorActorPreviewBillboardSet
+                ? &selectedMap->indoorActorPreviewBillboardSet->spriteFrameTable
+                : nullptr
         );
         const std::unordered_map<std::string, IndoorSceneRuntime::Snapshot>::const_iterator indoorStateIt =
             m_gameSession.indoorSceneStates().find(selectedMap->map.fileName);

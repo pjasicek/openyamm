@@ -6,7 +6,9 @@
 #include "game/tables/CharacterInspectTable.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/tables/ClassSkillTable.h"
+#include "game/tables/FaceAnimationTable.h"
 #include "game/tables/HouseTable.h"
+#include "game/tables/IconFrameTable.h"
 #include "game/tables/JournalAutonoteTable.h"
 #include "game/tables/JournalHistoryTable.h"
 #include "game/tables/JournalQuestTable.h"
@@ -20,10 +22,13 @@
 #include "game/tables/MonsterTable.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/tables/ObjectTable.h"
+#include "game/tables/PortraitFrameTable.h"
+#include "game/tables/PortraitFxEventTable.h"
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RaceStartingStatsTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
+#include "game/tables/SpellFxTable.h"
 
 #include <cstddef>
 #include <string>
@@ -77,6 +82,11 @@ public:
     const RaceStartingStatsTable &getRaceStartingStatsTable() const;
     const ReadableScrollTable &getReadableScrollTable() const;
     const ArcomageLibrary &getArcomageLibrary() const;
+    const PortraitFrameTable &getPortraitFrameTable() const;
+    const IconFrameTable &getIconFrameTable() const;
+    const SpellFxTable &getSpellFxTable() const;
+    const PortraitFxEventTable &getPortraitFxEventTable() const;
+    const FaceAnimationTable &getFaceAnimationTable() const;
 
 private:
     bool loadInternal(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose);
@@ -108,6 +118,11 @@ private:
     bool loadRaceStartingStatsTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadReadableScrollTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadArcomageLibrary(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadPortraitFrameTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadIconFrameTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadSpellFxTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadPortraitFxEventTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadFaceAnimationTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadFirstTextTableRows(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::vector<std::string> &virtualPaths,
@@ -143,6 +158,11 @@ private:
     RaceStartingStatsTable m_raceStartingStatsTable;
     ReadableScrollTable m_readableScrollTable;
     ArcomageLibrary m_arcomageLibrary;
+    PortraitFrameTable m_portraitFrameTable;
+    IconFrameTable m_iconFrameTable;
+    SpellFxTable m_spellFxTable;
+    PortraitFxEventTable m_portraitFxEventTable;
+    FaceAnimationTable m_faceAnimationTable;
     std::optional<MapAssetInfo> m_selectedMap;
 };
 }

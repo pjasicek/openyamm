@@ -118,6 +118,53 @@ struct RuntimeSpriteObjectBillboard
     std::string objectName;
 };
 
+struct ProjectedPoint
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+};
+
+bool projectWorldPointToScreen(
+    const bx::Vec3 &worldPoint,
+    int width,
+    int height,
+    const float *pViewProjectionMatrix,
+    ProjectedPoint &projected)
+{
+    const float clipX =
+        worldPoint.x * pViewProjectionMatrix[0]
+        + worldPoint.y * pViewProjectionMatrix[4]
+        + worldPoint.z * pViewProjectionMatrix[8]
+        + pViewProjectionMatrix[12];
+    const float clipY =
+        worldPoint.x * pViewProjectionMatrix[1]
+        + worldPoint.y * pViewProjectionMatrix[5]
+        + worldPoint.z * pViewProjectionMatrix[9]
+        + pViewProjectionMatrix[13];
+    const float clipZ =
+        worldPoint.x * pViewProjectionMatrix[2]
+        + worldPoint.y * pViewProjectionMatrix[6]
+        + worldPoint.z * pViewProjectionMatrix[10]
+        + pViewProjectionMatrix[14];
+    const float clipW =
+        worldPoint.x * pViewProjectionMatrix[3]
+        + worldPoint.y * pViewProjectionMatrix[7]
+        + worldPoint.z * pViewProjectionMatrix[11]
+        + pViewProjectionMatrix[15];
+
+    if (clipW <= 0.0f)
+    {
+        return false;
+    }
+
+    const float reciprocalW = 1.0f / clipW;
+    projected.x = ((clipX * reciprocalW) * 0.5f + 0.5f) * static_cast<float>(width);
+    projected.y = (1.0f - ((clipY * reciprocalW) * 0.5f + 0.5f)) * static_cast<float>(height);
+    projected.z = clipZ * reciprocalW;
+    return true;
+}
+
 uint32_t currentAnimationTicks()
 {
     return static_cast<uint32_t>((static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL);
@@ -2179,6 +2226,149 @@ void IndoorDebugRenderer::setGameplayMouseLookMode(bool enabled, bool cursorMode
     m_gameplayCursorMode = cursorMode;
 }
 
+std::optional<IndoorDebugRenderer::GameplayActorPick>
+IndoorDebugRenderer::gameplayActorPickAtCursor(
+    int viewWidth,
+    int viewHeight,
+    float screenX,
+    float screenY) const
+{
+    if (!m_isInitialized
+        || !m_isRenderable
+        || !m_indoorMapData
+        || m_pSceneRuntime == nullptr
+        || viewWidth <= 0
+        || viewHeight <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const float aspectRatio =
+        static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
+    const float cosPitch = std::cos(m_cameraPitchRadians);
+    const float sinPitch = std::sin(m_cameraPitchRadians);
+    const float cosYaw = std::cos(m_cameraYawRadians);
+    const float sinYaw = std::sin(m_cameraYawRadians);
+    const bx::Vec3 eye = {
+        m_cameraPositionX,
+        m_cameraPositionY,
+        m_cameraPositionZ
+    };
+    const bx::Vec3 at = {
+        m_cameraPositionX + cosYaw * cosPitch,
+        m_cameraPositionY - sinYaw * cosPitch,
+        m_cameraPositionZ + sinPitch
+    };
+    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+    float viewMatrix[16] = {};
+    float projectionMatrix[16] = {};
+    float viewProjectionMatrix[16] = {};
+    float inverseViewProjectionMatrix[16] = {};
+    bx::mtxLookAt(viewMatrix, eye, at, up);
+    bx::mtxProj(
+        projectionMatrix,
+        60.0f,
+        aspectRatio,
+        0.1f,
+        50000.0f,
+        bgfx::getCaps()->homogeneousDepth
+    );
+    bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
+    bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
+
+    const float normalizedMouseX = ((screenX / static_cast<float>(viewWidth)) * 2.0f) - 1.0f;
+    const float normalizedMouseY = 1.0f - ((screenY / static_cast<float>(viewHeight)) * 2.0f);
+    const bx::Vec3 rayOrigin =
+        bx::mulH({normalizedMouseX, normalizedMouseY, 0.0f}, inverseViewProjectionMatrix);
+    const bx::Vec3 rayTarget =
+        bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
+    const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
+
+    if (vecLength(rayDirection) <= InspectRayEpsilon)
+    {
+        return std::nullopt;
+    }
+
+    const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(eye);
+    const InspectHit inspectHit =
+        inspectAtCursor(*m_indoorMapData, m_renderVertices, visibleSectorMask, rayOrigin, rayDirection);
+
+    if (!inspectHit.hasHit || inspectHit.kind != "actor")
+    {
+        return std::nullopt;
+    }
+
+    GameplayRuntimeActorState actorState = {};
+
+    if (!m_pSceneRuntime->worldRuntime().actorRuntimeState(inspectHit.index, actorState))
+    {
+        return std::nullopt;
+    }
+
+    const float halfExtent = static_cast<float>(std::max<uint16_t>(actorState.radius, 32));
+    const float actorHeight = static_cast<float>(std::max<uint16_t>(actorState.height, 96));
+    const float minX = actorState.preciseX - halfExtent;
+    const float maxX = actorState.preciseX + halfExtent;
+    const float minY = actorState.preciseY - halfExtent;
+    const float maxY = actorState.preciseY + halfExtent;
+    const float minZ = actorState.preciseZ;
+    const float maxZ = actorState.preciseZ + actorHeight;
+    const std::array<bx::Vec3, 8> corners = {{
+        {minX, minY, minZ},
+        {maxX, minY, minZ},
+        {minX, maxY, minZ},
+        {maxX, maxY, minZ},
+        {minX, minY, maxZ},
+        {maxX, minY, maxZ},
+        {minX, maxY, maxZ},
+        {maxX, maxY, maxZ},
+    }};
+
+    bool hasProjectedPoint = false;
+    float rectMinX = 0.0f;
+    float rectMinY = 0.0f;
+    float rectMaxX = 0.0f;
+    float rectMaxY = 0.0f;
+
+    for (const bx::Vec3 &corner : corners)
+    {
+        ProjectedPoint projected = {};
+
+        if (!projectWorldPointToScreen(corner, viewWidth, viewHeight, viewProjectionMatrix, projected))
+        {
+            continue;
+        }
+
+        if (!hasProjectedPoint)
+        {
+            rectMinX = projected.x;
+            rectMinY = projected.y;
+            rectMaxX = projected.x;
+            rectMaxY = projected.y;
+            hasProjectedPoint = true;
+            continue;
+        }
+
+        rectMinX = std::min(rectMinX, projected.x);
+        rectMinY = std::min(rectMinY, projected.y);
+        rectMaxX = std::max(rectMaxX, projected.x);
+        rectMaxY = std::max(rectMaxY, projected.y);
+    }
+
+    if (!hasProjectedPoint)
+    {
+        return std::nullopt;
+    }
+
+    GameplayActorPick pick = {};
+    pick.runtimeActorIndex = inspectHit.index;
+    pick.sourceX = rectMinX;
+    pick.sourceY = rectMinY;
+    pick.sourceWidth = std::max(1.0f, rectMaxX - rectMinX);
+    pick.sourceHeight = std::max(1.0f, rectMaxY - rectMinY);
+    return pick;
+}
+
 void IndoorDebugRenderer::shutdown()
 {
     m_indoorMapData.reset();
@@ -4071,8 +4261,7 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
     const std::vector<IndoorVertex> &vertices,
     const std::vector<uint8_t> &visibleSectorMask,
     const bx::Vec3 &rayOrigin,
-    const bx::Vec3 &rayDirection
-)
+    const bx::Vec3 &rayDirection) const
 {
     InspectHit bestHit = {};
     float bestDistance = std::numeric_limits<float>::max();

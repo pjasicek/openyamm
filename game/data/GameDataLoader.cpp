@@ -1045,6 +1045,31 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadPortraitFrameTable(assetFileSystem))
+    {
+        return false;
+    }
+
+    if (!loadIconFrameTable(assetFileSystem))
+    {
+        return false;
+    }
+
+    if (!loadSpellFxTable(assetFileSystem))
+    {
+        return false;
+    }
+
+    if (!loadPortraitFxEventTable(assetFileSystem))
+    {
+        return false;
+    }
+
+    if (!loadFaceAnimationTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadNpcDialogTable(assetFileSystem))
     {
         return false;
@@ -1274,6 +1299,31 @@ const ReadableScrollTable &GameDataLoader::getReadableScrollTable() const
 const ArcomageLibrary &GameDataLoader::getArcomageLibrary() const
 {
     return m_arcomageLibrary;
+}
+
+const PortraitFrameTable &GameDataLoader::getPortraitFrameTable() const
+{
+    return m_portraitFrameTable;
+}
+
+const IconFrameTable &GameDataLoader::getIconFrameTable() const
+{
+    return m_iconFrameTable;
+}
+
+const SpellFxTable &GameDataLoader::getSpellFxTable() const
+{
+    return m_spellFxTable;
+}
+
+const PortraitFxEventTable &GameDataLoader::getPortraitFxEventTable() const
+{
+    return m_portraitFxEventTable;
+}
+
+const FaceAnimationTable &GameDataLoader::getFaceAnimationTable() const
+{
+    return m_faceAnimationTable;
 }
 
 bool GameDataLoader::loadTable(
@@ -1814,6 +1864,106 @@ bool GameDataLoader::loadArcomageLibrary(const Engine::AssetFileSystem &assetFil
     }
 
     m_arcomageLibrary = loader.library();
+    return true;
+}
+
+bool GameDataLoader::loadPortraitFrameTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+    const std::string tablePath = dataTablePath("portrait_frame_data.txt");
+
+    if (!loadTextTableRows(assetFileSystem, tablePath, rows))
+    {
+        std::cerr << "Failed to read portrait frame table: " << tablePath << '\n';
+        return false;
+    }
+
+    if (!m_portraitFrameTable.loadRows(rows))
+    {
+        std::cerr << "Failed to parse portrait frame table: " << tablePath << '\n';
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadIconFrameTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+    const std::string tablePath = dataTablePath("icon_frame_data.txt");
+
+    if (!loadTextTableRows(assetFileSystem, tablePath, rows))
+    {
+        std::cerr << "Failed to read icon frame table: " << tablePath << '\n';
+        return false;
+    }
+
+    if (!m_iconFrameTable.loadRows(rows))
+    {
+        std::cerr << "Failed to parse icon frame table: " << tablePath << '\n';
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadSpellFxTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+    const std::string tablePath = dataTablePath("spell_fx.txt");
+
+    if (!loadTextTableRows(assetFileSystem, tablePath, rows))
+    {
+        std::cerr << "Failed to read spell FX table: " << tablePath << '\n';
+        return false;
+    }
+
+    if (!m_spellFxTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse spell FX table: " << tablePath << '\n';
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadPortraitFxEventTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+    const std::string tablePath = dataTablePath("portrait_fx_events.txt");
+
+    if (!loadTextTableRows(assetFileSystem, tablePath, rows))
+    {
+        std::cerr << "Failed to read portrait FX event table: " << tablePath << '\n';
+        return false;
+    }
+
+    if (!m_portraitFxEventTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse portrait FX event table: " << tablePath << '\n';
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadFaceAnimationTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+    const std::string tablePath = dataTablePath("face_animations.txt");
+
+    if (!loadTextTableRows(assetFileSystem, tablePath, rows))
+    {
+        std::cerr << "Failed to read face animation table: " << tablePath << '\n';
+        return false;
+    }
+
+    if (!m_faceAnimationTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse face animation table: " << tablePath << '\n';
+        return false;
+    }
+
     return true;
 }
 

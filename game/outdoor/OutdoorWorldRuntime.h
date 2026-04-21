@@ -3,6 +3,7 @@
 #include "game/events/ISceneEventContext.h"
 #include "game/events/EventRuntime.h"
 #include "game/events/ScriptedEventProgram.h"
+#include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/maps/MapDeltaData.h"
@@ -28,6 +29,8 @@ namespace OpenYAMM::Game
 {
 class ItemTable;
 class ChestTable;
+class GameplayActorService;
+class GameplayProjectileService;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
 class ParticleSystem;
@@ -91,13 +94,7 @@ public:
         Bored = 7,
     };
 
-    enum class MonsterAttackAbility
-    {
-        Attack1,
-        Attack2,
-        Spell1,
-        Spell2,
-    };
+    using MonsterAttackAbility = GameplayProjectileService::MonsterAttackAbility;
 
     enum class DebugTargetKind
     {
@@ -273,72 +270,8 @@ public:
         bool friendlyNearParty = false;
     };
 
-    struct ProjectileState
-    {
-        enum class SourceKind
-        {
-            Actor,
-            Event,
-            Party,
-        };
-
-        uint32_t projectileId = 0;
-        SourceKind sourceKind = SourceKind::Actor;
-        uint32_t sourceId = 0;
-        uint32_t sourcePartyMemberIndex = 0;
-        int16_t sourceMonsterId = 0;
-        bool fromSummonedMonster = false;
-        MonsterAttackAbility ability = MonsterAttackAbility::Attack1;
-        uint16_t objectDescriptionId = 0;
-        uint16_t objectSpriteId = 0;
-        uint16_t objectSpriteFrameIndex = 0;
-        uint16_t impactObjectDescriptionId = 0;
-        uint16_t objectFlags = 0;
-        uint16_t radius = 0;
-        uint16_t height = 0;
-        int spellId = 0;
-        int effectSoundId = 0;
-        uint32_t skillLevel = 0;
-        uint32_t skillMastery = 0;
-        std::string objectName;
-        std::string objectSpriteName;
-        float sourceX = 0.0f;
-        float sourceY = 0.0f;
-        float sourceZ = 0.0f;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        float velocityX = 0.0f;
-        float velocityY = 0.0f;
-        float velocityZ = 0.0f;
-        int damage = 0;
-        int attackBonus = 0;
-        bool useActorHitChance = false;
-        uint32_t timeSinceCreatedTicks = 0;
-        uint32_t lifetimeTicks = 0;
-        bool isExpired = false;
-    };
-
-    struct ProjectileImpactState
-    {
-        uint32_t effectId = 0;
-        uint16_t objectDescriptionId = 0;
-        uint16_t objectSpriteId = 0;
-        uint16_t objectSpriteFrameIndex = 0;
-        uint16_t sourceObjectFlags = 0;
-        int sourceSpellId = 0;
-        std::string objectName;
-        std::string objectSpriteName;
-        std::string sourceObjectName;
-        std::string sourceObjectSpriteName;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        uint32_t timeSinceCreatedTicks = 0;
-        uint32_t lifetimeTicks = 0;
-        bool freezeAnimation = false;
-        bool isExpired = false;
-    };
+    using ProjectileState = GameplayProjectileService::ProjectileState;
+    using ProjectileImpactState = GameplayProjectileService::ProjectileImpactState;
 
     struct FireSpikeTrapState
     {
@@ -515,7 +448,9 @@ public:
         const std::optional<OutdoorDecorationCollisionSet> &outdoorDecorationCollisionSet = std::nullopt,
         const std::optional<OutdoorActorCollisionSet> &outdoorActorCollisionSet = std::nullopt,
         const std::optional<OutdoorSpriteObjectCollisionSet> &outdoorSpriteObjectCollisionSet = std::nullopt,
-        const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet = std::nullopt
+        const std::optional<SpriteObjectBillboardSet> &outdoorSpriteObjectBillboardSet = std::nullopt,
+        GameplayActorService *pGameplayActorService = nullptr,
+        GameplayProjectileService *pGameplayProjectileService = nullptr
     );
 
     bool isInitialized() const;
@@ -605,18 +540,16 @@ public:
     const SpawnPointState *spawnPointState(size_t spawnIndex) const;
     size_t chestCount() const;
     size_t openedChestCount() const;
+    ChestViewState *activeChestView() override;
     const ChestViewState *activeChestView() const override;
-    bool identifyActiveChestItem(size_t itemIndex, std::string &statusText) override;
-    bool tryIdentifyActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
-    bool tryRepairActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
+    void commitActiveChestView() override;
     bool takeActiveChestItem(size_t itemIndex, ChestItemState &item) override;
     bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item) override;
     bool tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY) override;
     void closeActiveChestView() override;
+    CorpseViewState *activeCorpseView() override;
     const CorpseViewState *activeCorpseView() const override;
-    bool identifyActiveCorpseItem(size_t itemIndex, std::string &statusText) override;
-    bool tryIdentifyActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
-    bool tryRepairActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
+    void commitActiveCorpseView() override;
     bool openMapActorCorpseView(size_t actorIndex);
     bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item) override;
     void closeActiveCorpseView() override;
@@ -652,12 +585,15 @@ public:
     const ProjectileImpactState *projectileImpactState(size_t effectIndex) const;
     size_t fireSpikeTrapCount() const;
     const FireSpikeTrapState *fireSpikeTrapState(size_t trapIndex) const;
-    void triggerGameplayScreenOverlay(uint32_t colorAbgr, float durationSeconds, float peakAlpha) override;
+    void startGameplayScreenOverlay(uint32_t colorAbgr, float durationSeconds, float peakAlpha);
     bool tryStartArmageddon(
         size_t casterMemberIndex,
         uint32_t skillLevel,
         SkillMastery skillMastery,
         std::string &failureText) override;
+    void collectProjectilePresentationState(
+        std::vector<GameplayProjectilePresentationState> &projectiles,
+        std::vector<GameplayProjectileImpactPresentationState> &impacts) const override;
     bool tryGetGameplayMinimapState(GameplayMinimapState &state) const override;
     void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const override;
     bool isArmageddonActive() const;
@@ -907,11 +843,6 @@ private:
         float spawnForwardOffset
     );
     bool hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const;
-    void updateActorSpellEffects(MapActorState &actor, float deltaSeconds);
-    void restoreActorHostilityAfterControlEffect(MapActorState &actor);
-    int effectiveArmorClassForActor(
-        const MapActorState &actor,
-        const MonsterTable::MonsterStatsEntry *pStats) const;
     void buildOutdoorFaceSpatialIndex();
     bool materializeTreasureSpawnFromSpawnPoint(size_t spawnPointIndex);
     bool resolveWorldItemVisual(
@@ -946,6 +877,8 @@ private:
     void bakeBloodSplatGeometry(BloodSplatState &splat) const;
     void spawnBloodSplatForActorIfNeeded(size_t actorIndex);
     void removeBloodSplat(uint32_t sourceActorId);
+    GameplayProjectileService &projectileService();
+    const GameplayProjectileService &projectileService() const;
 
     int m_mapId = 0;
     int m_mapTreasureLevel = 0;
@@ -974,6 +907,8 @@ private:
     const OutdoorMapData *m_pOutdoorMapData = nullptr;
     const MapDeltaData *m_pOutdoorMapDeltaData = nullptr;
     const SpellTable *m_pSpellTable = nullptr;
+    GameplayActorService *m_pGameplayActorService = nullptr;
+    GameplayProjectileService *m_pGameplayProjectileService = nullptr;
     const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
     const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
     ParticleSystem *m_pParticleSystem = nullptr;
@@ -997,8 +932,6 @@ private:
     std::vector<CombatEvent> m_pendingCombatEvents;
     std::vector<WorldItemState> m_worldItems;
     uint32_t m_nextWorldItemId = 1;
-    uint32_t m_nextProjectileId = 1;
-    uint32_t m_nextProjectileImpactId = 1;
     uint32_t m_nextFireSpikeTrapId = 1;
     float m_gameplayOverlayRemainingSeconds = 0.0f;
     float m_gameplayOverlayDurationSeconds = 0.0f;
@@ -1006,8 +939,6 @@ private:
     uint32_t m_gameplayOverlayColorAbgr = 0x00000000u;
     bool m_hasRainIntensityOverride = false;
     RainIntensityPreset m_rainIntensityPreset = RainIntensityPreset::Off;
-    std::vector<ProjectileState> m_projectiles;
-    std::vector<ProjectileImpactState> m_projectileImpacts;
     std::vector<FireSpikeTrapState> m_fireSpikeTraps;
     std::vector<BloodSplatState> m_bloodSplats;
     uint64_t m_bloodSplatRevision = 0;

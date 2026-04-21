@@ -1164,9 +1164,9 @@ void GameplayHudOverlaySupport::renderGameplayMouseLookOverlay(
     const uint32_t dotColor = packHudColorAbgr(255, 255, 180);
     const uint32_t shadowColor = 0xc0000000u;
     const std::optional<GameplayScreenRuntime::HudTextureHandle> dotTexture =
-        context.ensureSolidHudTextureLoaded("__gameplay_mouse_look_marker__", dotColor);
+        context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__gameplay_mouse_look_marker__", dotColor);
     const std::optional<GameplayScreenRuntime::HudTextureHandle> shadowTexture =
-        context.ensureSolidHudTextureLoaded("__gameplay_mouse_look_marker_shadow__", shadowColor);
+        context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__gameplay_mouse_look_marker_shadow__", shadowColor);
 
     if (!dotTexture || !shadowTexture)
     {

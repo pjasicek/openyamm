@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 
+#include "game/app/GameSession.h"
 #include "game/data/GameDataRepository.h"
 #include "game/fx/ParticleRecipes.h"
 #include "game/fx/ParticleSystem.h"
@@ -679,7 +680,7 @@ std::optional<OutdoorGameView::InspectHit> OutdoorBillboardRenderer::resolveHove
         return view.m_cachedHoverInspectHit;
     }
 
-    if (!view.m_pendingSpellCast.active)
+    if (!view.m_gameSession.gameplayScreenState().pendingSpellTarget().active)
     {
         return std::nullopt;
     }
@@ -3160,9 +3161,13 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
     };
 
     std::vector<BillboardDrawItem> drawItems;
+    const std::vector<GameplayProjectilePresentationState> &projectiles =
+        view.m_gameSession.gameplayFxService().activeProjectilePresentationStates();
+    const std::vector<GameplayProjectileImpactPresentationState> &impacts =
+        view.m_gameSession.gameplayFxService().activeProjectileImpactPresentationStates();
     drawItems.reserve(
-        view.m_pOutdoorWorldRuntime->projectileCount()
-        + view.m_pOutdoorWorldRuntime->projectileImpactCount()
+        projectiles.size()
+        + impacts.size()
         + view.m_pOutdoorWorldRuntime->fireSpikeTrapCount());
 
     auto appendRuntimeDrawItem =
@@ -3296,47 +3301,27 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
             drawItems.push_back(drawItem);
         };
 
-    for (size_t projectileIndex = 0; projectileIndex < view.m_pOutdoorWorldRuntime->projectileCount(); ++projectileIndex)
+    for (const GameplayProjectilePresentationState &projectile : projectiles)
     {
-        const OutdoorWorldRuntime::ProjectileState *pProjectile = view.m_pOutdoorWorldRuntime->projectileState(projectileIndex);
-
-        if (pProjectile == nullptr)
-        {
-            continue;
-        }
-
-        const float projectileDeltaX = pProjectile->x - cameraPosition.x;
-        const float projectileDeltaY = pProjectile->y - cameraPosition.y;
-        const float projectileDeltaZ = pProjectile->z - cameraPosition.z;
-        const float projectileDistanceSquared =
-            projectileDeltaX * projectileDeltaX + projectileDeltaY * projectileDeltaY + projectileDeltaZ * projectileDeltaZ;
-
         appendRuntimeDrawItem(
-            pProjectile->projectileId,
+            projectile.projectileId,
             "projectile",
-            pProjectile->x,
-            pProjectile->y,
-            pProjectile->z,
-            pProjectile->objectSpriteFrameIndex,
-            pProjectile->objectSpriteId,
-            pProjectile->objectSpriteName,
-            pProjectile->timeSinceCreatedTicks);
+            projectile.x,
+            projectile.y,
+            projectile.z,
+            projectile.objectSpriteFrameIndex,
+            projectile.objectSpriteId,
+            projectile.objectSpriteName,
+            projectile.timeSinceCreatedTicks);
     }
 
-    for (size_t effectIndex = 0; effectIndex < view.m_pOutdoorWorldRuntime->projectileImpactCount(); ++effectIndex)
+    for (const GameplayProjectileImpactPresentationState &impact : impacts)
     {
-        const OutdoorWorldRuntime::ProjectileImpactState *pEffect = view.m_pOutdoorWorldRuntime->projectileImpactState(effectIndex);
-
-        if (pEffect == nullptr)
-        {
-            continue;
-        }
-
         const FxRecipes::ProjectileRecipe recipe = FxRecipes::classifyProjectileRecipe(
-            pEffect->sourceSpellId,
-            pEffect->sourceObjectName,
-            pEffect->sourceObjectSpriteName,
-            pEffect->sourceObjectFlags);
+            impact.sourceSpellId,
+            impact.sourceObjectName,
+            impact.sourceObjectSpriteName,
+            impact.sourceObjectFlags);
 
         if (FxRecipes::projectileRecipeUsesDedicatedImpactFx(recipe))
         {
@@ -3344,15 +3329,15 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
         }
 
         appendRuntimeDrawItem(
-            pEffect->effectId,
+            impact.effectId,
             "impact",
-            pEffect->x,
-            pEffect->y,
-            pEffect->z,
-            pEffect->objectSpriteFrameIndex,
-            pEffect->objectSpriteId,
-            pEffect->objectSpriteName,
-            pEffect->freezeAnimation ? 0u : pEffect->timeSinceCreatedTicks);
+            impact.x,
+            impact.y,
+            impact.z,
+            impact.objectSpriteFrameIndex,
+            impact.objectSpriteId,
+            impact.objectSpriteName,
+            impact.freezeAnimation ? 0u : impact.timeSinceCreatedTicks);
     }
 
     for (size_t trapIndex = 0; trapIndex < view.m_pOutdoorWorldRuntime->fireSpikeTrapCount(); ++trapIndex)

@@ -25,7 +25,6 @@
 #include "game/ui/GameplayOverlayAdapters.h"
 #include "game/ui/UiLayoutManager.h"
 
-#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <filesystem>
@@ -73,83 +72,18 @@ public:
     bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void executeActiveDialogAction() override;
-    bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) override;
-    void updateReadableScrollOverlayForHeldItem(
-        size_t memberIndex,
-        const GameplayCharacterPointerTarget &pointerTarget,
-        bool isLeftMousePressed);
-    void closeReadableScrollOverlay();
-    void closeInventoryNestedOverlay();
-    bool tryCastSpellFromMember(
-        size_t casterMemberIndex,
-        uint32_t spellId,
-        const std::string &spellName) override;
     bool tryCastSpellRequest(
         const PartySpellCastRequest &request,
         const std::string &spellName) override;
     GameSettings &mutableSettings();
-    std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState();
-    const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
     bool trySaveToSelectedGameSlot() override;
     const GameSettings &settingsSnapshot() const;
 private:
-    EventDialogContent &activeEventDialog()
-    {
-        return m_gameplayUiController.eventDialog().content;
-    }
-
-    const EventDialogContent &activeEventDialog() const
-    {
-        return m_gameplayUiController.eventDialog().content;
-    }
-
-    size_t &eventDialogSelectionIndex()
-    {
-        return m_gameplayUiController.eventDialog().selectionIndex;
-    }
-
-    const size_t &eventDialogSelectionIndex() const
-    {
-        return m_gameplayUiController.eventDialog().selectionIndex;
-    }
-
-    std::string &statusBarEventText()
-    {
-        return m_gameplayUiController.statusBar().eventText;
-    }
-
-    const std::string &statusBarEventText() const
-    {
-        return m_gameplayUiController.statusBar().eventText;
-    }
-
-    float &statusBarEventRemainingSeconds()
-    {
-        return m_gameplayUiController.statusBar().eventRemainingSeconds;
-    }
-
-    const float &statusBarEventRemainingSeconds() const
-    {
-        return m_gameplayUiController.statusBar().eventRemainingSeconds;
-    }
-
-    GameplayUiController::HouseShopOverlayState &houseShopOverlay()
-    {
-        return m_gameplayUiController.houseShopOverlay();
-    }
-
-    const GameplayUiController::HouseShopOverlayState &houseShopOverlay() const
-    {
-        return m_gameplayUiController.houseShopOverlay();
-    }
-
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
-    void presentPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent);
-    void closeActiveEventDialog();
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName) const;
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath) const;
-    bool shouldEnableGameplayMouseLook() const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
+    void updateActorInspectOverlayState(int width, int height);
 
     const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
     IndoorDebugRenderer *m_pIndoorRenderer = nullptr;
@@ -158,10 +92,5 @@ private:
     std::optional<MapStatsEntry> m_map;
     GameSettings m_settings = GameSettings::createDefault();
     GameSession &m_gameSession;
-    GameplayUiController &m_gameplayUiController;
-    GameplayDialogController &m_gameplayDialogController;
-    GameplayOverlayInteractionState &m_overlayInteractionState;
-    bool m_gameplayMouseLookActive = false;
-    bool m_gameplayCursorModeActive = false;
 };
 } // namespace OpenYAMM::Game

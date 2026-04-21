@@ -69,6 +69,22 @@ enum class GameplayActorControlMode : uint8_t
     Reanimated = 5,
 };
 
+enum class GameplayActorAiType : uint8_t
+{
+    Suicide = 0,
+    Wimp = 1,
+    Normal = 2,
+    Aggressive = 3,
+};
+
+enum class GameplayActorAttackAbility : uint8_t
+{
+    Attack1 = 0,
+    Attack2 = 1,
+    Spell1 = 2,
+    Spell2 = 3,
+};
+
 struct GameplayActorInspectState
 {
     std::string displayName;
@@ -88,6 +104,56 @@ struct GameplayActorInspectState
     GameplayActorControlMode controlMode = GameplayActorControlMode::None;
 };
 
+struct GameplayActorSpellEffectState
+{
+    float slowRemainingSeconds = 0.0f;
+    float slowMoveMultiplier = 1.0f;
+    float slowRecoveryMultiplier = 1.0f;
+    float stunRemainingSeconds = 0.0f;
+    float paralyzeRemainingSeconds = 0.0f;
+    float fearRemainingSeconds = 0.0f;
+    float blindRemainingSeconds = 0.0f;
+    float controlRemainingSeconds = 0.0f;
+    GameplayActorControlMode controlMode = GameplayActorControlMode::None;
+    float shrinkRemainingSeconds = 0.0f;
+    float shrinkDamageMultiplier = 1.0f;
+    float shrinkArmorClassMultiplier = 1.0f;
+    float darkGraspRemainingSeconds = 0.0f;
+    bool hostileToParty = false;
+    bool hasDetectedParty = false;
+};
+
+struct GameplayActorTargetPolicyState
+{
+    int16_t monsterId = 0;
+    float preciseZ = 0.0f;
+    uint16_t height = 0;
+    bool hostileToParty = false;
+    GameplayActorControlMode controlMode = GameplayActorControlMode::None;
+};
+
+struct GameplayActorTargetPolicyResult
+{
+    bool canTarget = false;
+    int relationToTarget = 0;
+    float engagementRange = 0.0f;
+};
+
+struct GameplayActorAttackChoiceResult
+{
+    GameplayActorAttackAbility ability = GameplayActorAttackAbility::Attack1;
+    uint32_t nextDecisionCount = 0;
+};
+
+struct GameplayActorAttackConstraintState
+{
+    bool attack1IsRanged = false;
+    bool attack2IsRanged = false;
+    bool blindActive = false;
+    bool darkGraspActive = false;
+    bool rangedCommitAllowed = true;
+};
+
 struct GameplayPartySpellProjectileRequest
 {
     uint32_t casterMemberIndex = 0;
@@ -101,6 +167,46 @@ struct GameplayPartySpellProjectileRequest
     float targetX = 0.0f;
     float targetY = 0.0f;
     float targetZ = 0.0f;
+};
+
+struct GameplayProjectilePresentationState
+{
+    uint32_t projectileId = 0;
+    uint16_t objectDescriptionId = 0;
+    uint16_t objectSpriteId = 0;
+    uint16_t objectSpriteFrameIndex = 0;
+    uint16_t objectFlags = 0;
+    uint16_t radius = 0;
+    uint16_t height = 0;
+    int spellId = 0;
+    std::string objectName;
+    std::string objectSpriteName;
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+    float velocityX = 0.0f;
+    float velocityY = 0.0f;
+    float velocityZ = 0.0f;
+    uint32_t timeSinceCreatedTicks = 0;
+};
+
+struct GameplayProjectileImpactPresentationState
+{
+    uint32_t effectId = 0;
+    uint16_t objectDescriptionId = 0;
+    uint16_t objectSpriteId = 0;
+    uint16_t objectSpriteFrameIndex = 0;
+    uint16_t sourceObjectFlags = 0;
+    int sourceSpellId = 0;
+    std::string objectName;
+    std::string objectSpriteName;
+    std::string sourceObjectName;
+    std::string sourceObjectSpriteName;
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+    uint32_t timeSinceCreatedTicks = 0;
+    bool freezeAnimation = false;
 };
 
 class IGameplayWorldRuntime
@@ -178,31 +284,26 @@ public:
         float x,
         float y,
         float z) = 0;
-    virtual void triggerGameplayScreenOverlay(
-        uint32_t colorAbgr,
-        float durationSeconds,
-        float peakAlpha) = 0;
     virtual bool tryStartArmageddon(
         size_t casterMemberIndex,
         uint32_t skillLevel,
         SkillMastery skillMastery,
         std::string &failureText) = 0;
+    virtual void collectProjectilePresentationState(
+        std::vector<GameplayProjectilePresentationState> &projectiles,
+        std::vector<GameplayProjectileImpactPresentationState> &impacts) const = 0;
     virtual bool tryGetGameplayMinimapState(GameplayMinimapState &state) const = 0;
     virtual void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const = 0;
+    virtual GameplayChestViewState *activeChestView() = 0;
     virtual const GameplayChestViewState *activeChestView() const = 0;
-    virtual bool identifyActiveChestItem(size_t itemIndex, std::string &statusText) = 0;
-    virtual bool tryIdentifyActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText) = 0;
-    virtual bool tryRepairActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText) = 0;
+    virtual void commitActiveChestView() = 0;
     virtual bool takeActiveChestItem(size_t itemIndex, GameplayChestItemState &item) = 0;
     virtual bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, GameplayChestItemState &item) = 0;
     virtual bool tryPlaceActiveChestItemAt(const GameplayChestItemState &item, uint8_t gridX, uint8_t gridY) = 0;
     virtual void closeActiveChestView() = 0;
+    virtual GameplayCorpseViewState *activeCorpseView() = 0;
     virtual const GameplayCorpseViewState *activeCorpseView() const = 0;
-    virtual bool identifyActiveCorpseItem(size_t itemIndex, std::string &statusText) = 0;
-    virtual bool tryIdentifyActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText)
-        = 0;
-    virtual bool tryRepairActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText)
-        = 0;
+    virtual void commitActiveCorpseView() = 0;
     virtual bool takeActiveCorpseItem(size_t itemIndex, GameplayChestItemState &item) = 0;
     virtual void closeActiveCorpseView() = 0;
 };

@@ -45,11 +45,6 @@ public:
     virtual float gameplayCameraYawRadians() const = 0;
 
     virtual void executeActiveDialogAction() = 0;
-    virtual bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) = 0;
-    virtual bool tryCastSpellFromMember(
-        size_t casterMemberIndex,
-        uint32_t spellId,
-        const std::string &spellName) = 0;
     virtual bool tryCastSpellRequest(
         const PartySpellCastRequest &request,
         const std::string &spellName) = 0;

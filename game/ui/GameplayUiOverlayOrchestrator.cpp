@@ -1,5 +1,6 @@
 #include "game/ui/GameplayUiOverlayOrchestrator.h"
 
+#include "game/gameplay/GameplayFxService.h"
 #include "game/gameplay/GameplayOverlayInputController.h"
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
@@ -7,6 +8,7 @@
 #include "game/ui/GameplayHudOverlaySupport.h"
 #include "game/ui/GameplayHudOverlayRenderer.h"
 #include "game/ui/GameplayHudRenderer.h"
+#include "game/ui/GameplayUiRenderer.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/ui/GameplayPartyOverlayRenderer.h"
 
@@ -127,6 +129,8 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
             overlayContext.ensurePendingEventDialogPresented(true);
         }
 
+        overlayContext.fxService().renderGameplayScreenOverlay(overlayContext, width, height);
+
         if (config.renderChestBelowHud)
         {
             GameplayHudOverlayRenderer::renderChestPanel(overlayContext, width, height, false);
@@ -147,7 +151,7 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
             GameplayPartyOverlayRenderer::renderCharacterOverlay(overlayContext, width, height, false);
         }
 
-        GameplayHudRenderer::renderGameplayHudArt(overlayContext, width, height);
+        GameplayUiRenderer::renderGameplayHudArt(overlayContext, width, height);
         GameplayHudRenderer::renderGameplayHud(overlayContext, width, height);
 
         if (config.renderChestAboveHud)

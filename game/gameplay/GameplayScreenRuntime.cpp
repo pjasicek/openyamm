@@ -1,11 +1,14 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 
 #include "game/app/GameSession.h"
+#include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
+#include "game/gameplay/GameplaySpellService.h"
 #include "game/items/InventoryItemUseRuntime.h"
+#include "game/party/SpellIds.h"
 #include "game/party/SpellSchool.h"
 #include "game/StringUtils.h"
 #include "game/ui/SpellbookUiLayout.h"
@@ -208,6 +211,7 @@ uint32_t speechSpeakerKey(size_t memberIndex, SpeechId speechId)
 
 constexpr uint32_t SpeechReactionCooldownMs = 900;
 constexpr uint32_t CombatSpeechReactionCooldownMs = 2500;
+constexpr uint64_t SpellFailSoundCooldownMs = 250;
 } // namespace
 
 GameplayScreenRuntime::GameplayScreenRuntime(GameSession &session)
@@ -259,6 +263,11 @@ GameplayUiController &GameplayScreenRuntime::uiController() const
 GameplayUiRuntime &GameplayScreenRuntime::uiRuntime() const
 {
     return m_session.gameplayUiRuntime();
+}
+
+GameplayUiRuntime &GameplayScreenRuntime::gameplayUiRuntime() const
+{
+    return uiRuntime();
 }
 
 GameplayOverlayInteractionState &GameplayScreenRuntime::interactionState() const
@@ -324,7 +333,11 @@ GameplayDialogController::Context GameplayScreenRuntime::buildDialogContext(Even
         std::move(callbacks));
 }
 
-void GameplayScreenRuntime::presentPendingEventDialogShared(size_t previousMessageCount, bool allowNpcFallbackContent)
+void GameplayScreenRuntime::presentPendingEventDialog(
+    size_t previousMessageCount,
+    bool allowNpcFallbackContent,
+    const DialogContextBuilder &contextBuilder,
+    const PendingEventDialogOpenedCallback &onOpened)
 {
     GameplayDialogUiFlowState state = dialogUiFlowState();
     GameplayDialogUiFlowPresentOptions options = {};
@@ -333,21 +346,31 @@ void GameplayScreenRuntime::presentPendingEventDialogShared(size_t previousMessa
     ::OpenYAMM::Game::presentPendingEventDialog(
         state,
         worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr,
-        [this](EventRuntimeState &eventRuntimeState)
+        [this, &contextBuilder](EventRuntimeState &eventRuntimeState)
         {
+            if (contextBuilder)
+            {
+                return contextBuilder(eventRuntimeState);
+            }
+
             return buildDialogContext(eventRuntimeState);
         },
         previousMessageCount,
         allowNpcFallbackContent,
-        options);
+        options,
+        onOpened);
 }
 
-void GameplayScreenRuntime::closeActiveEventDialogShared()
+uint32_t GameplayScreenRuntime::closeActiveEventDialog()
 {
+    EventRuntimeState *pEventRuntimeState =
+        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+    const uint32_t hostHouseId = pEventRuntimeState != nullptr ? pEventRuntimeState->dialogueState.hostHouseId : 0;
     GameplayDialogUiFlowState state = dialogUiFlowState();
     ::OpenYAMM::Game::closeActiveEventDialog(
         state,
-        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr);
+        pEventRuntimeState);
+    return hostHouseId;
 }
 
 void GameplayScreenRuntime::returnToHouseBankMainDialogShared()
@@ -363,7 +386,7 @@ void GameplayScreenRuntime::returnToHouseBankMainDialogShared()
 
     if (result.shouldOpenPendingEventDialog)
     {
-        presentPendingEventDialogShared(result.previousMessageCount, result.allowNpcFallbackContent);
+        presentPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
     }
 }
 
@@ -479,7 +502,7 @@ const MonsterTable *GameplayScreenRuntime::monsterTable() const
 
 GameplayUiController::CharacterScreenState &GameplayScreenRuntime::characterScreen() const
 {
-    return uiController().characterScreen();
+    return m_session.gameplayScreenState().characterScreen();
 }
 
 GameplayUiController::HeldInventoryItemState &GameplayScreenRuntime::heldInventoryItem() const
@@ -524,7 +547,7 @@ GameplayUiController::ReadableScrollOverlayState &GameplayScreenRuntime::readabl
 
 GameplayUiController::SpellbookState &GameplayScreenRuntime::spellbook() const
 {
-    return uiController().spellbook();
+    return m_session.gameplayScreenState().spellbook();
 }
 
 GameplayUiController::UtilitySpellOverlayState &GameplayScreenRuntime::utilitySpellOverlay() const
@@ -534,62 +557,62 @@ GameplayUiController::UtilitySpellOverlayState &GameplayScreenRuntime::utilitySp
 
 GameplayUiController::InventoryNestedOverlayState &GameplayScreenRuntime::inventoryNestedOverlay() const
 {
-    return uiController().inventoryNestedOverlay();
+    return m_session.gameplayScreenState().inventoryNestedOverlay();
 }
 
 GameplayUiController::HouseShopOverlayState &GameplayScreenRuntime::houseShopOverlay() const
 {
-    return uiController().houseShopOverlay();
+    return m_session.gameplayScreenState().houseShopOverlay();
 }
 
 GameplayUiController::HouseBankState &GameplayScreenRuntime::houseBankState() const
 {
-    return uiController().houseBankState();
+    return m_session.gameplayScreenState().houseBankState();
 }
 
 GameplayUiController::JournalScreenState &GameplayScreenRuntime::journalScreenState() const
 {
-    return uiController().journalScreen();
+    return m_session.gameplayScreenState().journalScreen();
 }
 
 GameplayUiController::RestScreenState &GameplayScreenRuntime::restScreenState() const
 {
-    return uiController().restScreen();
+    return m_session.gameplayScreenState().restScreen();
 }
 
 GameplayUiController::MenuScreenState &GameplayScreenRuntime::menuScreenState() const
 {
-    return uiController().menuScreen();
+    return m_session.gameplayScreenState().menuScreen();
 }
 
 GameplayUiController::ControlsScreenState &GameplayScreenRuntime::controlsScreenState() const
 {
-    return uiController().controlsScreen();
+    return m_session.gameplayScreenState().controlsScreen();
 }
 
 GameplayUiController::KeyboardScreenState &GameplayScreenRuntime::keyboardScreenState() const
 {
-    return uiController().keyboardScreen();
+    return m_session.gameplayScreenState().keyboardScreen();
 }
 
 GameplayUiController::VideoOptionsScreenState &GameplayScreenRuntime::videoOptionsScreenState() const
 {
-    return uiController().videoOptionsScreen();
+    return m_session.gameplayScreenState().videoOptionsScreen();
 }
 
 GameplayUiController::SaveGameScreenState &GameplayScreenRuntime::saveGameScreenState() const
 {
-    return uiController().saveGameScreen();
+    return m_session.gameplayScreenState().saveGameScreen();
 }
 
 GameplayUiController::LoadGameScreenState &GameplayScreenRuntime::loadGameScreenState() const
 {
-    return uiController().loadGameScreen();
+    return m_session.gameplayScreenState().loadGameScreen();
 }
 
 const GameplayUiController::CharacterScreenState &GameplayScreenRuntime::characterScreenReadOnly() const
 {
-    return uiController().characterScreen();
+    return m_session.gameplayScreenState().characterScreen();
 }
 
 const GameplayUiController::ItemInspectOverlayState &GameplayScreenRuntime::itemInspectOverlayReadOnly() const
@@ -629,7 +652,7 @@ const GameplayUiController::ReadableScrollOverlayState &GameplayScreenRuntime::r
 
 const GameplayUiController::SpellbookState &GameplayScreenRuntime::spellbookReadOnly() const
 {
-    return uiController().spellbook();
+    return m_session.gameplayScreenState().spellbook();
 }
 
 const GameplayUiController::UtilitySpellOverlayState &GameplayScreenRuntime::utilitySpellOverlayReadOnly() const
@@ -639,7 +662,7 @@ const GameplayUiController::UtilitySpellOverlayState &GameplayScreenRuntime::uti
 
 const GameplayUiController::JournalScreenState &GameplayScreenRuntime::journalScreenStateReadOnly() const
 {
-    return uiController().journalScreen();
+    return m_session.gameplayScreenState().journalScreen();
 }
 
 const JournalQuestTable *GameplayScreenRuntime::journalQuestTable() const
@@ -732,7 +755,7 @@ bool GameplayScreenRuntime::trySelectPartyMember(size_t memberIndex, bool requir
 
     if (pEventRuntimeState != nullptr && activeEventDialog().isActive)
     {
-        presentPendingEventDialogShared(pEventRuntimeState->messages.size(), true);
+        presentPendingEventDialog(pEventRuntimeState->messages.size(), true);
     }
 
     return true;
@@ -826,13 +849,67 @@ void GameplayScreenRuntime::openRestOverlay()
 
     closeSpellbookOverlay();
     closeMenuOverlay();
-    closeReadableScrollOverlay();
+    itemService().closeReadableScrollOverlay();
     closeInventoryNestedOverlay();
     uiController().characterScreen() = {};
     uiController().restScreen() = {};
     uiController().restScreen().active = true;
     interactionState().restClickLatch = false;
     interactionState().restPressedTarget = {};
+}
+
+void GameplayScreenRuntime::beginRestAction(
+    GameplayUiController::RestMode mode,
+    float minutes,
+    bool consumeFood)
+{
+    GameplayUiController::RestScreenState &restScreen = restScreenState();
+
+    if (!restScreen.active || party() == nullptr || worldRuntime() == nullptr)
+    {
+        return;
+    }
+
+    if ((mode == GameplayUiController::RestMode::Heal && restScreen.mode != GameplayUiController::RestMode::None)
+        || (mode == GameplayUiController::RestMode::Wait && restScreen.mode == GameplayUiController::RestMode::Heal))
+    {
+        setStatusBarEvent("You are already resting.");
+        return;
+    }
+
+    if (mode == GameplayUiController::RestMode::Heal && consumeFood)
+    {
+        const int foodRequired = restFoodRequired();
+        Party &currentParty = *party();
+
+        if (currentParty.food() < foodRequired)
+        {
+            setStatusBarEvent("You don't have enough food to rest.");
+            return;
+        }
+
+        currentParty.addFood(-foodRequired);
+    }
+
+    restScreen.mode = mode;
+    restScreen.totalMinutes = std::max(0.0f, minutes);
+    restScreen.remainingMinutes = restScreen.totalMinutes;
+
+    if (restScreen.remainingMinutes <= 0.0f)
+    {
+        restScreen.mode = GameplayUiController::RestMode::None;
+    }
+}
+
+void GameplayScreenRuntime::startRestAction(GameplayUiController::RestMode mode, float minutes)
+{
+    beginRestAction(mode, minutes, true);
+}
+
+void GameplayScreenRuntime::startInnRest(float durationMinutes)
+{
+    openRestOverlay();
+    beginRestAction(GameplayUiController::RestMode::Heal, durationMinutes, false);
 }
 
 void GameplayScreenRuntime::openSpellbookOverlay()
@@ -922,7 +999,7 @@ void GameplayScreenRuntime::handleDialogueCloseRequest()
 
     if (houseShopOverlay().active)
     {
-        uiController().closeHouseShopOverlay();
+        closeHouseShopOverlay();
         return;
     }
 
@@ -930,7 +1007,7 @@ void GameplayScreenRuntime::handleDialogueCloseRequest()
 
     if (pEventRuntimeState == nullptr)
     {
-        closeActiveEventDialogShared();
+        closeActiveEventDialog();
         interactionState().activateInspectLatch = true;
         return;
     }
@@ -941,13 +1018,20 @@ void GameplayScreenRuntime::handleDialogueCloseRequest()
 
     if (result.shouldOpenPendingEventDialog)
     {
-        presentPendingEventDialogShared(result.previousMessageCount, result.allowNpcFallbackContent);
+        presentPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
     }
     else if (result.shouldCloseActiveDialog)
     {
-        closeActiveEventDialogShared();
+        closeActiveEventDialog();
         interactionState().activateInspectLatch = true;
     }
+}
+
+void GameplayScreenRuntime::closeHouseShopOverlay()
+{
+    uiController().closeHouseShopOverlay();
+    interactionState().houseShopClickLatch = false;
+    interactionState().houseShopPressedSlotIndex = static_cast<size_t>(-1);
 }
 
 void GameplayScreenRuntime::closeRestOverlay()
@@ -958,10 +1042,42 @@ void GameplayScreenRuntime::closeRestOverlay()
     interactionState().restPressedTarget = {};
 }
 
+void GameplayScreenRuntime::completeRestAction(bool closeRestScreenAfterCompletion)
+{
+    GameplayUiController::RestScreenState &restScreen = restScreenState();
+
+    if (!restScreen.active)
+    {
+        return;
+    }
+
+    const GameplayUiController::RestMode completedMode = restScreen.mode;
+    const float remainingMinutes = std::max(0.0f, restScreen.remainingMinutes);
+
+    if (remainingMinutes > 0.0f && worldRuntime() != nullptr)
+    {
+        worldRuntime()->advanceGameMinutes(remainingMinutes);
+    }
+
+    restScreen.mode = GameplayUiController::RestMode::None;
+    restScreen.totalMinutes = 0.0f;
+    restScreen.remainingMinutes = 0.0f;
+
+    if (completedMode == GameplayUiController::RestMode::Heal && party() != nullptr)
+    {
+        party()->restAndHealAll();
+    }
+
+    if (closeRestScreenAfterCompletion || completedMode == GameplayUiController::RestMode::Heal)
+    {
+        closeRestOverlay();
+    }
+}
+
 void GameplayScreenRuntime::openMenuOverlay()
 {
     closeSpellbookOverlay();
-    closeReadableScrollOverlay();
+    itemService().closeReadableScrollOverlay();
     closeInventoryNestedOverlay();
     uiController().characterScreen() = {};
     uiController().restScreen() = {};
@@ -1162,11 +1278,16 @@ void GameplayScreenRuntime::openSaveGameOverlay()
     uiController().loadGameScreen() = {};
     uiController().saveGameScreen() = {};
     uiController().saveGameScreen().active = true;
-    refreshSaveGameSlots(uiController().saveGameScreen(), m_session.data().mapEntries());
+    refreshSaveGameOverlaySlots();
     interactionState().saveGameToggleLatch = false;
     interactionState().saveGameClickLatch = false;
     interactionState().saveGamePressedTarget = {};
     interactionState().closeOverlayLatch = false;
+}
+
+void GameplayScreenRuntime::refreshSaveGameOverlaySlots()
+{
+    refreshSaveGameSlots(uiController().saveGameScreen(), m_session.data().mapEntries());
 }
 
 void GameplayScreenRuntime::closeSaveGameOverlay()
@@ -1194,7 +1315,7 @@ void GameplayScreenRuntime::openJournalOverlay()
 {
     closeSpellbookOverlay();
     closeMenuOverlay();
-    closeReadableScrollOverlay();
+    itemService().closeReadableScrollOverlay();
     closeInventoryNestedOverlay();
     uiController().characterScreen() = {};
     uiController().restScreen() = {};
@@ -1254,6 +1375,14 @@ void GameplayScreenRuntime::closeJournalOverlay()
 
 void GameplayScreenRuntime::ensurePendingEventDialogPresented(bool allowNpcFallbackContent)
 {
+    ensurePendingEventDialogPresented(allowNpcFallbackContent, {}, {});
+}
+
+void GameplayScreenRuntime::ensurePendingEventDialogPresented(
+    bool allowNpcFallbackContent,
+    const DialogContextBuilder &contextBuilder,
+    const PendingEventDialogOpenedCallback &onOpened)
+{
     if (activeEventDialog().isActive)
     {
         return;
@@ -1268,12 +1397,90 @@ void GameplayScreenRuntime::ensurePendingEventDialogPresented(bool allowNpcFallb
         return;
     }
 
-    presentPendingEventDialogShared(pEventRuntimeState->messages.size(), allowNpcFallbackContent);
+    presentPendingEventDialog(
+        pEventRuntimeState->messages.size(),
+        allowNpcFallbackContent,
+        contextBuilder,
+        onOpened);
+}
+
+void GameplayScreenRuntime::closeActiveDialogActionResult(
+    const GameplayDialogController::Result &result,
+    const DialogueCloseCallback &closeActiveDialog)
+{
+    if (result.shouldCloseActiveDialog)
+    {
+        if (closeActiveDialog)
+        {
+            closeActiveDialog();
+        }
+        else
+        {
+            closeActiveEventDialog();
+        }
+    }
+}
+
+void GameplayScreenRuntime::presentPendingDialogActionResult(
+    const GameplayDialogController::Result &result,
+    const PendingEventDialogPresenter &presentPendingEventDialogCallback)
+{
+    if (!result.shouldOpenPendingEventDialog)
+    {
+        return;
+    }
+
+    if (presentPendingEventDialogCallback)
+    {
+        presentPendingEventDialogCallback(result.previousMessageCount, result.allowNpcFallbackContent);
+    }
+    else
+    {
+        presentPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
+    }
 }
 
 void GameplayScreenRuntime::executeActiveDialogAction()
 {
     sceneAdapter().executeActiveDialogAction();
+}
+
+void GameplayScreenRuntime::executeActiveDialogAction(
+    const ActiveDialogContextBuilder &contextBuilder,
+    const ActiveDialogActionCallback &beforeCloseContinuation,
+    const DialogueCloseCallback &closeActiveDialog,
+    const ActiveDialogActionCallback &afterCloseContinuation,
+    const PendingEventDialogPresenter &presentPendingEventDialogCallback)
+{
+    if (!contextBuilder)
+    {
+        return;
+    }
+
+    EventRuntimeState *pEventRuntimeState = worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return;
+    }
+
+    GameplayDialogController::Context context = contextBuilder(*pEventRuntimeState);
+    const GameplayDialogController::Result result =
+        m_session.gameplayDialogController().executeActiveDialogAction(context);
+
+    if (beforeCloseContinuation)
+    {
+        beforeCloseContinuation(result);
+    }
+
+    closeActiveDialogActionResult(result, closeActiveDialog);
+
+    if (afterCloseContinuation)
+    {
+        afterCloseContinuation(result);
+    }
+
+    presentPendingDialogActionResult(result, presentPendingEventDialogCallback);
 }
 
 void GameplayScreenRuntime::refreshHouseBankInputDialog()
@@ -1302,7 +1509,7 @@ void GameplayScreenRuntime::confirmHouseBankInput()
 
     if (result.shouldOpenPendingEventDialog)
     {
-        presentPendingEventDialogShared(result.previousMessageCount, result.allowNpcFallbackContent);
+        presentPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
     }
 }
 
@@ -1356,58 +1563,51 @@ void GameplayScreenRuntime::closeSpellbookOverlay(const std::string &statusText)
     }
 }
 
-bool GameplayScreenRuntime::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen)
+void GameplayScreenRuntime::openUtilitySpellOverlay(
+    GameplayUiController::UtilitySpellOverlayMode mode,
+    uint32_t spellId,
+    size_t casterMemberIndex,
+    bool lloydRecallMode)
 {
-    return sceneAdapter().tryUseHeldItemOnPartyMember(memberIndex, keepCharacterScreenOpen);
+    uiController().openUtilitySpellOverlay(mode, spellId, casterMemberIndex, lloydRecallMode);
 }
 
-void GameplayScreenRuntime::updateReadableScrollOverlayForHeldItem(
-    size_t memberIndex,
-    const GameplayCharacterPointerTarget &pointerTarget,
-    bool isLeftMousePressed)
+void GameplayScreenRuntime::closeUtilitySpellOverlayAfterSpellResolution(uint32_t spellId)
 {
-    GameplayUiController::ReadableScrollOverlayState &overlay = uiController().readableScrollOverlay();
-    overlay = {};
-
-    if (!isLeftMousePressed
-        || !heldInventoryItem().active
-        || itemTable() == nullptr
-        || party() == nullptr
-        || (pointerTarget.type != GameplayCharacterPointerTargetType::EquipmentSlot
-            && pointerTarget.type != GameplayCharacterPointerTargetType::DollPanel))
+    if (!utilitySpellOverlay().active)
     {
         return;
     }
 
-    const InventoryItemUseAction useAction =
-        InventoryItemUseRuntime::classifyItemUse(heldInventoryItem().item, *itemTable());
+    const GameplayUiController::UtilitySpellOverlayMode mode = utilitySpellOverlay().mode;
+    uiController().closeUtilitySpellOverlay();
 
-    if (useAction != InventoryItemUseAction::ReadMessageScroll)
+    if (mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget)
     {
-        return;
+        characterScreen().open = false;
+        characterScreen().dollJewelryOverlayOpen = false;
+        characterScreen().adventurersInnRosterOverlayOpen = false;
     }
 
-    const InventoryItemUseResult useResult =
-        InventoryItemUseRuntime::useItemOnMember(
-            *party(),
-            memberIndex,
-            heldInventoryItem().item,
-            *itemTable(),
-            readableScrollTable());
-
-    if (!useResult.handled || useResult.action != InventoryItemUseAction::ReadMessageScroll)
+    if (isSpellId(spellId, SpellId::LloydsBeacon) || isSpellId(spellId, SpellId::TownPortal))
     {
-        return;
+        resetUtilitySpellOverlayInteractionState();
     }
-
-    overlay.active = true;
-    overlay.title = useResult.readableTitle;
-    overlay.body = useResult.readableBody;
 }
 
-void GameplayScreenRuntime::closeReadableScrollOverlay()
+GameplayItemService &GameplayScreenRuntime::itemService() const
 {
-    uiController().closeReadableScrollOverlay();
+    return m_session.gameplayItemService();
+}
+
+GameplayFxService &GameplayScreenRuntime::fxService() const
+{
+    return m_session.gameplayFxService();
+}
+
+GameplaySpellService &GameplayScreenRuntime::spellService() const
+{
+    return m_session.gameplaySpellService();
 }
 
 void GameplayScreenRuntime::resetDialogueOverlayInteractionState()
@@ -1768,9 +1968,12 @@ void GameplayScreenRuntime::consumePendingPartyAudioRequests()
     pParty->clearPendingAudioRequests();
 }
 
-bool GameplayScreenRuntime::tryCastSpellFromMember(size_t casterMemberIndex, uint32_t spellId, const std::string &spellName)
+bool GameplayScreenRuntime::tryCastSpellFromMember(
+    size_t casterMemberIndex,
+    uint32_t spellId,
+    const std::string &spellName)
 {
-    return sceneAdapter().tryCastSpellFromMember(casterMemberIndex, spellId, spellName);
+    return spellService().tryCastSpellFromMember(*this, casterMemberIndex, spellId, spellName);
 }
 
 bool GameplayScreenRuntime::tryCastSpellRequest(
@@ -1778,6 +1981,25 @@ bool GameplayScreenRuntime::tryCastSpellRequest(
     const std::string &spellName)
 {
     return sceneAdapter().tryCastSpellRequest(request, spellName);
+}
+
+void GameplayScreenRuntime::triggerSpellFailureFeedback(size_t casterMemberIndex, const std::string &statusText)
+{
+    triggerPortraitFaceAnimation(casterMemberIndex, FaceAnimationId::SpellFailed);
+
+    if (audioSystem() != nullptr)
+    {
+        const uint64_t nowTicks = SDL_GetTicks();
+
+        if (nowTicks >= m_lastSpellFailSoundTicks
+            && nowTicks - m_lastSpellFailSoundTicks >= SpellFailSoundCooldownMs)
+        {
+            audioSystem()->playCommonSound(SoundId::SpellFail, GameAudioSystem::PlaybackGroup::Ui);
+            m_lastSpellFailSoundTicks = nowTicks;
+        }
+    }
+
+    setStatusBarEvent(statusText.empty() ? "Spell failed" : statusText);
 }
 
 void GameplayScreenRuntime::resetUtilitySpellOverlayInteractionState()
@@ -1817,12 +2039,83 @@ const std::array<uint8_t, SDL_SCANCODE_COUNT> &GameplayScreenRuntime::previousKe
     return m_session.previousKeyboardState();
 }
 
+void GameplayScreenRuntime::updatePreviousKeyboardStateSnapshot(const bool *pKeyboardState)
+{
+    std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState = m_session.previousKeyboardState();
+
+    if (pKeyboardState == nullptr)
+    {
+        previousKeyboardState.fill(0);
+        return;
+    }
+
+    for (size_t scancode = 0; scancode < SDL_SCANCODE_COUNT; ++scancode)
+    {
+        previousKeyboardState[scancode] = pKeyboardState[scancode] ? 1u : 0u;
+    }
+}
+
 void GameplayScreenRuntime::commitSettingsChange()
 {
     if (m_pSettings != nullptr)
     {
         m_session.notifySettingsChanged(*m_pSettings);
     }
+}
+
+std::optional<GameplayScreenRuntime::PreparedSaveGameRequest> GameplayScreenRuntime::prepareSelectedSaveGameRequest() const
+{
+    const GameplayUiController::SaveGameScreenState &saveGameScreen = saveGameScreenState();
+
+    if (!saveGameScreen.active
+        || saveGameScreen.slots.empty()
+        || saveGameScreen.selectedIndex >= saveGameScreen.slots.size()
+        || !m_session.canSaveGameToPath())
+    {
+        return std::nullopt;
+    }
+
+    PreparedSaveGameRequest request = {};
+    request.path = saveGameScreen.slots[saveGameScreen.selectedIndex].path;
+
+    if (saveGameScreen.editActive)
+    {
+        request.saveName = saveGameScreen.editBuffer;
+    }
+    else
+    {
+        const GameplayUiController::SaveSlotSummary &slot = saveGameScreen.slots[saveGameScreen.selectedIndex];
+        request.saveName = slot.fileLabel == "Empty" ? std::string() : slot.fileLabel;
+    }
+
+    if (request.saveName.empty())
+    {
+        const MapStatsEntry *pCurrentMap = m_session.hasCurrentMapFileName()
+            ? m_session.data().mapStats().findByFileName(m_session.currentMapFileName())
+            : nullptr;
+        request.saveName = pCurrentMap != nullptr && !pCurrentMap->name.empty()
+            ? pCurrentMap->name
+            : "Save Game";
+    }
+
+    return request;
+}
+
+bool GameplayScreenRuntime::trySaveToSelectedGameSlot(const SaveGameExecutor &executor)
+{
+    if (!executor)
+    {
+        return false;
+    }
+
+    const std::optional<PreparedSaveGameRequest> request = prepareSelectedSaveGameRequest();
+
+    if (!request.has_value())
+    {
+        return false;
+    }
+
+    return executor(*request);
 }
 
 bool GameplayScreenRuntime::trySaveToSelectedGameSlot()
@@ -1839,6 +2132,31 @@ int GameplayScreenRuntime::restFoodRequired() const
 const GameSettings &GameplayScreenRuntime::settingsSnapshot() const
 {
     return *m_pSettings;
+}
+
+GameplayScreenRuntime::SharedUiBootstrapResult GameplayScreenRuntime::initializeSharedUiRuntime(
+    const SharedUiBootstrapConfig &config)
+{
+    SharedUiBootstrapResult result = {};
+
+    bindAssetFileSystem(config.pAssetFileSystem);
+    clearUiControllerRuntimeState();
+    resetPortraitFxStates(config.portraitMemberCount);
+
+    if (config.initializeHouseVideoPlayer)
+    {
+        result.houseVideoPlayerInitialized = initializeHouseVideoPlayer();
+    }
+
+    result.layoutsLoaded = ensureGameplayLayoutsLoaded();
+    result.portraitRuntimeLoaded = ensurePortraitRuntimeLoaded();
+
+    if (result.layoutsLoaded && config.preloadReferencedAssets)
+    {
+        preloadReferencedAssets();
+    }
+
+    return result;
 }
 
 void GameplayScreenRuntime::bindAssetFileSystem(const Engine::AssetFileSystem *pAssetFileSystem)
@@ -2050,9 +2368,9 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
     }
 
     const std::optional<HudTextureHandle> basebarTexture =
-        const_cast<GameplayScreenRuntime *>(this)->ensureHudTextureLoaded(pBasebarLayout->primaryAsset);
-    const std::optional<HudTextureHandle> faceMaskTexture =
-        const_cast<GameplayScreenRuntime *>(this)->ensureHudTextureLoaded(pPartyStripLayout->primaryAsset);
+        const_cast<GameplayScreenRuntime *>(this)->gameplayUiRuntime().ensureHudTextureLoaded(pBasebarLayout->primaryAsset);
+    const std::optional<HudTextureHandle> faceMaskTexture = const_cast<GameplayScreenRuntime *>(this)
+        ->gameplayUiRuntime().ensureHudTextureLoaded(pPartyStripLayout->primaryAsset);
 
     if (!basebarTexture || !faceMaskTexture)
     {
@@ -2269,69 +2587,6 @@ const std::string *GameplayScreenRuntime::resolveInteractiveAssetName(
     return &*m_resolvedInteractiveAssetName;
 }
 
-std::optional<GameplayScreenRuntime::HudTextureHandle> GameplayScreenRuntime::ensureHudTextureLoaded(
-    const std::string &textureName)
-{
-    return uiRuntime().ensureHudTextureLoaded(textureName);
-}
-
-std::optional<GameplayScreenRuntime::HudTextureHandle> GameplayScreenRuntime::ensureSolidHudTextureLoaded(
-    const std::string &textureName,
-    uint32_t abgrColor)
-{
-    return uiRuntime().ensureSolidHudTextureLoaded(textureName, abgrColor);
-}
-
-std::optional<GameplayScreenRuntime::HudTextureHandle> GameplayScreenRuntime::ensureDynamicHudTexture(
-    const std::string &textureName,
-    int width,
-    int height,
-    const std::vector<uint8_t> &bgraPixels)
-{
-    return uiRuntime().ensureDynamicHudTexture(textureName, width, height, bgraPixels);
-}
-
-std::optional<std::vector<uint8_t>> GameplayScreenRuntime::loadSpriteBitmapPixelsBgraCached(
-    const std::string &textureName,
-    int16_t paletteId,
-    int &width,
-    int &height)
-{
-    return uiRuntime().loadSpriteBitmapPixelsBgraCached(textureName, paletteId, width, height);
-}
-
-const std::vector<uint8_t> *GameplayScreenRuntime::hudTexturePixels(
-    const std::string &textureName,
-    int &width,
-    int &height)
-{
-    return uiRuntime().hudTexturePixels(textureName, width, height);
-}
-
-bool GameplayScreenRuntime::ensureHudTextureDimensions(const std::string &textureName, int &width, int &height)
-{
-    return uiRuntime().ensureHudTextureDimensions(textureName, width, height);
-}
-
-bool GameplayScreenRuntime::tryGetOpaqueHudTextureBounds(
-    const std::string &textureName,
-    int &width,
-    int &height,
-    int &opaqueMinX,
-    int &opaqueMinY,
-    int &opaqueMaxX,
-    int &opaqueMaxY)
-{
-    return uiRuntime().tryGetOpaqueHudTextureBounds(
-        textureName,
-        width,
-        height,
-        opaqueMinX,
-        opaqueMinY,
-        opaqueMaxX,
-        opaqueMaxY);
-}
-
 void GameplayScreenRuntime::submitHudTexturedQuad(
     const HudTextureHandle &texture,
     float x,
@@ -2340,11 +2595,6 @@ void GameplayScreenRuntime::submitHudTexturedQuad(
     float quadHeight) const
 {
     uiRuntime().submitHudTexturedQuad(texture.textureHandle, x, y, quadWidth, quadHeight);
-}
-
-bgfx::TextureHandle GameplayScreenRuntime::ensureHudTextureColor(const HudTextureHandle &texture, uint32_t colorAbgr) const
-{
-    return uiRuntime().ensureHudTextureColor(texture, colorAbgr);
 }
 
 void GameplayScreenRuntime::renderLayoutLabel(
@@ -2483,7 +2733,7 @@ void GameplayScreenRuntime::renderViewportSidePanels(
         return;
     }
 
-    const std::optional<HudTextureHandle> texture = ensureHudTextureLoaded(textureName);
+    const std::optional<HudTextureHandle> texture = gameplayUiRuntime().ensureHudTextureLoaded(textureName);
 
     if (!texture)
     {
@@ -2504,114 +2754,6 @@ void GameplayScreenRuntime::renderViewportSidePanels(
 std::string GameplayScreenRuntime::resolvePortraitTextureName(const Character &character) const
 {
     return uiRuntime().resolvePortraitTextureName(character);
-}
-
-void GameplayScreenRuntime::consumePendingPortraitEventFxRequests()
-{
-    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
-
-    if (pWorldRuntime == nullptr)
-    {
-        return;
-    }
-
-    EventRuntimeState *pEventRuntimeState = pWorldRuntime->eventRuntimeState();
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return;
-    }
-
-    for (const EventRuntimeState::PortraitFxRequest &request : pEventRuntimeState->portraitFxRequests)
-    {
-        const PortraitFxEventEntry *pEntry = uiRuntime().findPortraitFxEvent(request.kind);
-
-        if (pEntry == nullptr)
-        {
-            continue;
-        }
-
-        uiRuntime().triggerPortraitFxAnimation(pEntry->animationName, request.memberIndices);
-
-        if (pEntry->faceAnimationId.has_value())
-        {
-            for (size_t memberIndex : request.memberIndices)
-            {
-                triggerPortraitFaceAnimation(memberIndex, *pEntry->faceAnimationId);
-            }
-        }
-
-        if (request.memberIndices.empty())
-        {
-            continue;
-        }
-
-        switch (request.kind)
-        {
-            case PortraitFxEventKind::AutoNote:
-                if (audioSystem() != nullptr)
-                {
-                    audioSystem()->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-                }
-                break;
-
-            case PortraitFxEventKind::AwardGain:
-                if (audioSystem() != nullptr)
-                {
-                    audioSystem()->playCommonSound(SoundId::Chimes, GameAudioSystem::PlaybackGroup::Ui);
-                }
-                playSpeechReaction(request.memberIndices.front(), SpeechId::AwardGot, false);
-                break;
-
-            case PortraitFxEventKind::QuestComplete:
-                if (audioSystem() != nullptr)
-                {
-                    audioSystem()->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-                }
-                playSpeechReaction(request.memberIndices.front(), SpeechId::QuestGot, false);
-                break;
-
-            case PortraitFxEventKind::StatIncrease:
-                if (audioSystem() != nullptr)
-                {
-                    audioSystem()->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-                }
-                break;
-
-            case PortraitFxEventKind::StatDecrease:
-                playSpeechReaction(request.memberIndices.front(), SpeechId::Indignant, false);
-                break;
-
-            case PortraitFxEventKind::Disease:
-                playSpeechReaction(request.memberIndices.front(), SpeechId::Poisoned, false);
-                break;
-
-            case PortraitFxEventKind::None:
-                break;
-        }
-    }
-
-    pEventRuntimeState->portraitFxRequests.clear();
-
-    for (const EventRuntimeState::SpellFxRequest &request : pEventRuntimeState->spellFxRequests)
-    {
-        uiRuntime().triggerPortraitSpellFx(PartySpellCastResult{
-            .spellId = request.spellId,
-            .affectedCharacterIndices = request.memberIndices
-        });
-
-        if (audioSystem() != nullptr && spellTable() != nullptr)
-        {
-            const SpellEntry *pSpellEntry = spellTable()->findById(request.spellId);
-
-            if (pSpellEntry != nullptr && pSpellEntry->effectSoundId > 0)
-            {
-                audioSystem()->playSound(pSpellEntry->effectSoundId, GameAudioSystem::PlaybackGroup::Ui);
-            }
-        }
-    }
-
-    pEventRuntimeState->spellFxRequests.clear();
 }
 
 void GameplayScreenRuntime::renderPortraitFx(
@@ -2759,18 +2901,6 @@ uint32_t GameplayScreenRuntime::defaultPortraitAnimationLengthTicks(PortraitId p
     return uiRuntime().defaultPortraitAnimationLengthTicks(portraitId);
 }
 
-bool GameplayScreenRuntime::triggerPortraitFxAnimation(
-    const std::string &animationName,
-    const std::vector<size_t> &memberIndices)
-{
-    return uiRuntime().triggerPortraitFxAnimation(animationName, memberIndices);
-}
-
-void GameplayScreenRuntime::triggerPortraitSpellFx(const PartySpellCastResult &result)
-{
-    uiRuntime().triggerPortraitSpellFx(result);
-}
-
 std::string GameplayScreenRuntime::resolveEquippedItemHudTextureName(
     const ItemDefinition &itemDefinition,
     uint32_t dollTypeId,
@@ -2816,7 +2946,7 @@ std::string GameplayScreenRuntime::resolveEquippedItemHudTextureName(
         int width = 0;
         int height = 0;
 
-        if (ensureHudTextureDimensions(candidateName, width, height))
+        if (gameplayUiRuntime().ensureHudTextureDimensions(candidateName, width, height))
         {
             return candidateName;
         }

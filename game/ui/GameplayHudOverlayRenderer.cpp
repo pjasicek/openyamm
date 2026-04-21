@@ -275,14 +275,14 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayScreenRuntime &view, i
 
         if (!assetName.empty())
         {
-            const std::optional<GameplayScreenRuntime::HudTextureHandle> texture = view.ensureHudTextureLoaded(assetName);
+            const std::optional<GameplayScreenRuntime::HudTextureHandle> texture = view.gameplayUiRuntime().ensureHudTextureLoaded(assetName);
 
             if (texture)
             {
                 if (normalizedLayoutId == "chesticonbackground")
                 {
                     const std::optional<GameplayScreenRuntime::HudTextureHandle> portraitBorder =
-                        view.ensureHudTextureLoaded("evtnpc");
+                        view.gameplayUiRuntime().ensureHudTextureLoaded("evtnpc");
 
                     if (portraitBorder)
                     {
@@ -354,7 +354,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayScreenRuntime &view, i
                 renderItem.height = goldVisual.height;
 
                 const std::optional<GameplayScreenRuntime::HudTextureHandle> goldTexture =
-                    view.ensureHudTextureLoaded(goldVisual.pTextureName);
+                    view.gameplayUiRuntime().ensureHudTextureLoaded(goldVisual.pTextureName);
 
                 if (!goldTexture)
                 {
@@ -388,7 +388,7 @@ void GameplayHudOverlayRenderer::renderChestPanel(GameplayScreenRuntime &view, i
             }
 
             const std::optional<GameplayScreenRuntime::HudTextureHandle> itemTexture =
-                view.ensureHudTextureLoaded(pItemDefinition->iconName);
+                view.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
             if (!itemTexture)
             {
@@ -468,7 +468,7 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
     if (!pPageLayout->primaryAsset.empty())
     {
         const std::optional<GameplayScreenRuntime::HudTextureHandle> pageTexture =
-            view.ensureHudTextureLoaded(pPageLayout->primaryAsset);
+            view.gameplayUiRuntime().ensureHudTextureLoaded(pPageLayout->primaryAsset);
 
         if (pageTexture)
         {
@@ -503,7 +503,7 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
         }
 
         const std::optional<GameplayScreenRuntime::HudTextureHandle> itemTexture =
-            view.ensureHudTextureLoaded(pItemDefinition->iconName);
+            view.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
         if (!itemTexture)
         {
@@ -533,7 +533,7 @@ void GameplayHudOverlayRenderer::renderInventoryNestedOverlay(
         }
 
         const bgfx::TextureHandle tintedTextureHandle =
-            view.ensureHudTextureColor(*itemTexture, itemTintColorAbgr(&item, pItemDefinition, tintContext));
+            view.gameplayUiRuntime().ensureHudTextureColor(*itemTexture, itemTintColorAbgr(&item, pItemDefinition, tintContext));
 
         if (bgfx::isValid(tintedTextureHandle) && tintedTextureHandle.idx != itemTexture->textureHandle.idx)
         {

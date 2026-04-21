@@ -1,6 +1,8 @@
 #include "game/outdoor/OutdoorPresentationController.h"
 
+#include "game/app/GameSession.h"
 #include "game/audio/GameAudioSystem.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
@@ -151,7 +153,10 @@ void OutdoorPresentationController::updateFootstepAudio(OutdoorGameView &view, f
         return;
     }
 
-    if (resolveGameplayHudScreenState(view.m_gameplayUiController, view.m_activeEventDialog, view.m_pOutdoorWorldRuntime)
+    if (resolveGameplayHudScreenState(
+            view.m_gameSession.gameplayUiController(),
+            view.m_gameSession.gameplayScreenRuntime().activeEventDialog(),
+            view.m_pOutdoorWorldRuntime)
         != GameplayHudScreenState::Gameplay)
     {
         view.m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);

@@ -3,7 +3,6 @@
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/events/EvtEnums.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
-#include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/app/GameSession.h"
@@ -1077,6 +1076,7 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
     const char *reason)
 {
     (void)reason;
+    GameplayScreenRuntime &screenRuntime = view.m_gameSession.gameplayScreenRuntime();
     GameplayDialogController::Callbacks callbacks = {};
     callbacks.playSpeechReaction =
         [&view](size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)
@@ -1111,7 +1111,7 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
 
             if (view.m_gameSession.saveGameToPath(view.m_autosavePath, "", {}, error))
             {
-                view.refreshSaveGameSlots();
+                view.m_gameSession.gameplayScreenRuntime().refreshSaveGameOverlaySlots();
             }
         };
     callbacks.stopTravelAudio =
@@ -1171,10 +1171,10 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         };
 
     return buildGameplayDialogContext(
-        view.m_gameplayUiController,
+        view.m_gameSession.gameplayUiController(),
         eventRuntimeState,
-        view.m_activeEventDialog,
-        view.m_eventDialogSelectionIndex,
+        screenRuntime.activeEventDialog(),
+        screenRuntime.eventDialogSelectionIndex(),
         view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr,
         view.m_pOutdoorWorldRuntime,
         view.m_pOutdoorSceneRuntime != nullptr ? &view.m_pOutdoorSceneRuntime->globalEventProgram() : nullptr,
@@ -1185,7 +1185,10 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         &view.data().mapEntries(),
         &view.data().rosterTable(),
         &view.data().arcomageLibrary(),
-        resolveGameplayHudScreenState(view.m_gameplayUiController, view.m_activeEventDialog, view.m_pOutdoorWorldRuntime)
+        resolveGameplayHudScreenState(
+            view.m_gameSession.gameplayUiController(),
+            screenRuntime.activeEventDialog(),
+            view.m_pOutdoorWorldRuntime)
             == GameplayHudScreenState::Dialogue,
         std::move(callbacks));
 }
@@ -1204,7 +1207,9 @@ void OutdoorInteractionController::setHeldInventoryItem(
 
 bool OutdoorInteractionController::tryDisplaceHeldInventoryItem(OutdoorGameView &view)
 {
-    if (!view.m_heldInventoryItem.active)
+    GameplayUiController::HeldInventoryItemState &heldInventoryItem = view.heldInventoryItem();
+
+    if (!heldInventoryItem.active)
     {
         return true;
     }
@@ -1216,9 +1221,9 @@ bool OutdoorInteractionController::tryDisplaceHeldInventoryItem(OutdoorGameView 
 
     Party &party = view.m_pOutdoorPartyRuntime->party();
 
-    if (party.tryGrantInventoryItem(view.m_heldInventoryItem.item))
+    if (party.tryGrantInventoryItem(heldInventoryItem.item))
     {
-        view.m_heldInventoryItem = {};
+        heldInventoryItem = {};
         return true;
     }
 
@@ -1230,7 +1235,7 @@ bool OutdoorInteractionController::tryDisplaceHeldInventoryItem(OutdoorGameView 
     const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
 
     if (!view.m_pOutdoorWorldRuntime->spawnWorldItem(
-            view.m_heldInventoryItem.item,
+            heldInventoryItem.item,
             moveState.x,
             moveState.y,
             moveState.footZ + view.m_cameraEyeHeight,
@@ -1239,7 +1244,7 @@ bool OutdoorInteractionController::tryDisplaceHeldInventoryItem(OutdoorGameView 
         return false;
     }
 
-    view.m_heldInventoryItem = {};
+    heldInventoryItem = {};
     return true;
 }
 
@@ -1247,6 +1252,7 @@ bool OutdoorInteractionController::tryDisplaceHeldInventoryItem(OutdoorGameView 
 
 void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &view)
 {
+    GameplayScreenRuntime &screenRuntime = view.m_gameSession.gameplayScreenRuntime();
     EventRuntimeState *pEventRuntimeState =
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
 
@@ -1256,77 +1262,81 @@ void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &vi
     }
 
     const std::optional<EventDialogAction> selectedAction =
-        view.m_activeEventDialog.isActive
-            && view.m_eventDialogSelectionIndex < view.m_activeEventDialog.actions.size()
-        ? std::optional<EventDialogAction>(view.m_activeEventDialog.actions[view.m_eventDialogSelectionIndex])
+        screenRuntime.activeEventDialog().isActive
+            && screenRuntime.eventDialogSelectionIndex() < screenRuntime.activeEventDialog().actions.size()
+        ? std::optional<EventDialogAction>(
+            screenRuntime.activeEventDialog().actions[screenRuntime.eventDialogSelectionIndex()])
         : std::nullopt;
     Party *pParty = view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->party() : nullptr;
     const int initialGold = pParty != nullptr ? pParty->gold() : 0;
-    GameplayDialogController::Context context = createGameplayDialogContext(view, *pEventRuntimeState, "execute_active_dialog_action");
-    const GameplayDialogController::Result result = view.m_gameplayDialogController.executeActiveDialogAction(context);
-    const bool useHouseTradeItemReaction =
-        shouldUseHouseTradeItemReaction(*pEventRuntimeState, selectedAction, initialGold, pParty);
-
-    if (useHouseTradeItemReaction)
-    {
-        pEventRuntimeState->portraitFxRequests.clear();
-
-        if (pParty != nullptr)
+    screenRuntime.executeActiveDialogAction(
+        [&view](EventRuntimeState &eventRuntimeState)
         {
-            view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
-                pParty->activeMemberIndex(),
-                FaceAnimationId::ItemSold);
-        }
-    }
+            return createGameplayDialogContext(view, eventRuntimeState, "execute_active_dialog_action");
+        },
+        [&view, pEventRuntimeState, selectedAction, initialGold, pParty](const GameplayDialogController::Result &result)
+        {
+            (void)result;
 
-    OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(view);
+            const bool useHouseTradeItemReaction =
+                shouldUseHouseTradeItemReaction(*pEventRuntimeState, selectedAction, initialGold, pParty);
 
-    if (result.shouldCloseActiveDialog)
-    {
-        OutdoorInteractionController::closeActiveEventDialog(view);
-    }
+            if (useHouseTradeItemReaction)
+            {
+                pEventRuntimeState->portraitFxRequests.clear();
 
-    if (result.pendingInnRest.has_value())
-    {
-        view.startInnRest(result.pendingInnRest->houseId);
-    }
+                if (pParty != nullptr)
+                {
+                    view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
+                        pParty->activeMemberIndex(),
+                        FaceAnimationId::ItemSold);
+                }
+            }
 
-    if (result.shouldOpenPendingEventDialog)
-    {
-        OutdoorInteractionController::presentPendingEventDialog(
-            view,
-            result.previousMessageCount,
-            result.allowNpcFallbackContent);
-    }
+            OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(view);
+        },
+        [&view]()
+        {
+            OutdoorInteractionController::closeActiveEventDialog(view);
+        },
+        [&view](const GameplayDialogController::Result &result)
+        {
+            if (result.pendingInnRest.has_value())
+            {
+                view.m_gameSession.gameplayScreenRuntime().startInnRest(
+                    view.innRestDurationMinutes(result.pendingInnRest->houseId));
+            }
+        },
+        [&view](size_t previousMessageCount, bool allowNpcFallbackContent)
+        {
+            OutdoorInteractionController::presentPendingEventDialog(
+                view,
+                previousMessageCount,
+                allowNpcFallbackContent);
+        });
 }
 
 
 
-void OutdoorInteractionController::presentPendingEventDialog(OutdoorGameView &view, size_t previousMessageCount, bool allowNpcFallbackContent)
+void OutdoorInteractionController::presentPendingEventDialog(
+    OutdoorGameView &view,
+    size_t previousMessageCount,
+    bool allowNpcFallbackContent)
 {
-    GameplayDialogUiFlowState state = {
-        view.m_gameplayUiController,
-        view.m_overlayInteractionState,
-        view.m_gameplayDialogController,
-        view.m_eventDialogSelectionIndex
-    };
-    GameplayDialogUiFlowPresentOptions options = {};
-    options.suppressInitialAcceptIfActivationKeysHeld = true;
-    ::OpenYAMM::Game::presentPendingEventDialog(
-        state,
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr,
+    GameplayScreenRuntime &screenRuntime = view.m_gameSession.gameplayScreenRuntime();
+
+    screenRuntime.presentPendingEventDialog(
+        previousMessageCount,
+        allowNpcFallbackContent,
         [&view](EventRuntimeState &eventRuntimeState)
         {
             return createGameplayDialogContext(view, eventRuntimeState, "present_pending_event_dialog");
         },
-        previousMessageCount,
-        allowNpcFallbackContent,
-        options,
-        [&view](const GameplayDialogController::PresentPendingDialogResult &result)
+        [&view, &screenRuntime](const GameplayDialogController::PresentPendingDialogResult &result)
         {
             std::cout << "Opened "
-                      << (view.m_activeEventDialog.isHouseDialog ? "house" : "npc")
-                      << " dialog for id=" << view.m_activeEventDialog.sourceId << '\n';
+                      << (screenRuntime.activeEventDialog().isHouseDialog ? "house" : "npc")
+                      << " dialog for id=" << screenRuntime.activeEventDialog().sourceId << '\n';
 
             if (!result.wasDialogAlreadyActive
                 && (result.resolvedContext.kind == DialogueContextKind::NpcTalk
@@ -1359,22 +1369,12 @@ void OutdoorInteractionController::closeActiveEventDialog(OutdoorGameView &view)
         pEventRuntimeState->grantedItemIds.clear();
     }
 
-    GameplayDialogUiFlowState state = {
-        view.m_gameplayUiController,
-        view.m_overlayInteractionState,
-        view.m_gameplayDialogController,
-        view.m_eventDialogSelectionIndex
-    };
-    ::OpenYAMM::Game::closeActiveEventDialog(
-        state,
-        pEventRuntimeState,
-        [&view](uint32_t hostHouseId)
-        {
-            if (hostHouseId != 0 && view.m_flipOnExitEnabled)
-            {
-                view.setCameraAngles(view.cameraYawRadians() + Pi, view.cameraPitchRadians());
-            }
-        });
+    const uint32_t hostHouseId = view.m_gameSession.gameplayScreenRuntime().closeActiveEventDialog();
+
+    if (hostHouseId != 0 && view.m_flipOnExitEnabled)
+    {
+        view.setCameraAngles(view.cameraYawRadians() + Pi, view.cameraPitchRadians());
+    }
 }
 
 
@@ -1527,49 +1527,7 @@ std::optional<std::string> OutdoorInteractionController::resolveHoverStatusBarTe
 
 void OutdoorInteractionController::handleDialogueCloseRequest(OutdoorGameView &view)
 {
-    if (view.m_houseBankState.inputActive())
-    {
-        OutdoorInteractionController::returnToHouseBankMainDialog(view);
-        return;
-    }
-
-    if (view.m_inventoryNestedOverlay.active
-        && resolveGameplayHudScreenState(view.m_gameplayUiController, view.m_activeEventDialog, view.m_pOutdoorWorldRuntime)
-               == GameplayHudScreenState::Dialogue)
-    {
-        view.closeInventoryNestedOverlay();
-        return;
-    }
-
-    if (view.m_houseShopOverlay.active)
-    {
-        view.closeHouseShopOverlay();
-        return;
-    }
-
-    EventRuntimeState *pEventRuntimeState =
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState == nullptr)
-    {
-        OutdoorInteractionController::closeActiveEventDialog(view);
-        view.m_overlayInteractionState.activateInspectLatch = true;
-        return;
-    }
-
-    GameplayDialogController::Context context = createGameplayDialogContext(view, *pEventRuntimeState, "handle_dialogue_close_request");
-    const GameplayDialogController::CloseDialogRequestResult result =
-        view.m_gameplayDialogController.handleDialogueCloseRequest(context);
-
-    if (result.shouldOpenPendingEventDialog)
-    {
-        OutdoorInteractionController::presentPendingEventDialog(view, result.previousMessageCount, result.allowNpcFallbackContent);
-    }
-    else if (result.shouldCloseActiveDialog)
-    {
-        OutdoorInteractionController::closeActiveEventDialog(view);
-        view.m_overlayInteractionState.activateInspectLatch = true;
-    }
+    view.m_gameSession.gameplayScreenRuntime().handleDialogueCloseRequest();
 }
 
 
@@ -1585,7 +1543,8 @@ void OutdoorInteractionController::openDebugNpcDialogue(OutdoorGameView &view, u
     }
 
     GameplayDialogController::Context context = createGameplayDialogContext(view, *pEventRuntimeState, "open_debug_npc_dialogue");
-    const GameplayDialogController::Result result = view.m_gameplayDialogController.openNpcDialogue(context, npcId);
+    const GameplayDialogController::Result result =
+        view.m_gameSession.gameplayDialogController().openNpcDialogue(context, npcId);
     pEventRuntimeState->lastActivationResult = "debug npc " + std::to_string(npcId) + " engaged";
 
     if (result.shouldOpenPendingEventDialog)
@@ -1620,7 +1579,7 @@ void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(Outdoor
             continue;
         }
 
-        OutdoorInteractionController::setHeldInventoryItem(view.m_heldInventoryItem, item);
+        OutdoorInteractionController::setHeldInventoryItem(view.heldInventoryItem(), item);
     }
 
     for (uint32_t itemId : pEventRuntimeState->grantedItemIds)
@@ -1637,82 +1596,11 @@ void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(Outdoor
 
         const InventoryItem item =
             ItemGenerator::makeInventoryItem(itemId, itemTable, ItemGenerationMode::Generic);
-        OutdoorInteractionController::setHeldInventoryItem(view.m_heldInventoryItem, item);
+        OutdoorInteractionController::setHeldInventoryItem(view.heldInventoryItem(), item);
     }
 
     pEventRuntimeState->grantedItems.clear();
     pEventRuntimeState->grantedItemIds.clear();
-}
-
-
-
-void OutdoorInteractionController::refreshHouseBankInputDialog(OutdoorGameView &view)
-{
-    GameplayDialogUiFlowState state = {
-        view.m_gameplayUiController,
-        view.m_overlayInteractionState,
-        view.m_gameplayDialogController,
-        view.m_eventDialogSelectionIndex
-    };
-    ::OpenYAMM::Game::refreshHouseBankInputDialog(
-        state,
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr,
-        [&view](EventRuntimeState &eventRuntimeState)
-        {
-            return createGameplayDialogContext(view, eventRuntimeState, "refresh_house_bank_input_dialog");
-        },
-        (SDL_GetTicks() / 500u) % 2u == 0u);
-}
-
-
-
-void OutdoorInteractionController::returnToHouseBankMainDialog(OutdoorGameView &view)
-{
-    GameplayDialogUiFlowState state = {
-        view.m_gameplayUiController,
-        view.m_overlayInteractionState,
-        view.m_gameplayDialogController,
-        view.m_eventDialogSelectionIndex
-    };
-    const GameplayDialogController::Result result = ::OpenYAMM::Game::returnToHouseBankMainDialog(
-        state,
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr,
-        [&view](EventRuntimeState &eventRuntimeState)
-        {
-            return createGameplayDialogContext(view, eventRuntimeState, "return_to_house_bank_main_dialog");
-        });
-
-    if (result.shouldOpenPendingEventDialog)
-    {
-        OutdoorInteractionController::presentPendingEventDialog(
-            view,
-            result.previousMessageCount,
-            result.allowNpcFallbackContent);
-    }
-}
-
-
-
-void OutdoorInteractionController::confirmHouseBankInput(OutdoorGameView &view)
-{
-    GameplayDialogUiFlowState state = {
-        view.m_gameplayUiController,
-        view.m_overlayInteractionState,
-        view.m_gameplayDialogController,
-        view.m_eventDialogSelectionIndex
-    };
-    const GameplayDialogController::Result result = ::OpenYAMM::Game::confirmHouseBankInput(
-        state,
-        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr,
-        [&view](EventRuntimeState &eventRuntimeState)
-        {
-            return createGameplayDialogContext(view, eventRuntimeState, "confirm_house_bank_input");
-        });
-
-    if (result.shouldOpenPendingEventDialog)
-    {
-        OutdoorInteractionController::presentPendingEventDialog(view, result.previousMessageCount, result.allowNpcFallbackContent);
-    }
 }
 
 
@@ -2699,7 +2587,9 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 coveredRuntimeActors[actor.runtimeActorIndex] = true;
             }
 
-            if (view.m_pendingSpellCast.active && pActorState != nullptr && pActorState->isDead)
+            if (view.m_gameSession.gameplayScreenState().pendingSpellTarget().active
+                && pActorState != nullptr
+                && pActorState->isDead)
             {
                 continue;
             }
@@ -2835,7 +2725,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 continue;
             }
 
-            if (view.m_pendingSpellCast.active && pActorState->isDead)
+            if (view.m_gameSession.gameplayScreenState().pendingSpellTarget().active && pActorState->isDead)
             {
                 continue;
             }
@@ -3475,7 +3365,9 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
             return true;
         }
 
-        if (!view.m_heldInventoryItem.active)
+        GameplayUiController::HeldInventoryItemState &heldInventoryItem = view.heldInventoryItem();
+
+        if (!heldInventoryItem.active)
         {
             OutdoorWorldRuntime::WorldItemState worldItem = {};
 
@@ -3484,12 +3376,12 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
                 return false;
             }
 
-            view.m_heldInventoryItem.active = true;
-            view.m_heldInventoryItem.item = worldItem.item;
-            view.m_heldInventoryItem.grabCellOffsetX = 0;
-            view.m_heldInventoryItem.grabCellOffsetY = 0;
-            view.m_heldInventoryItem.grabOffsetX = 0.0f;
-            view.m_heldInventoryItem.grabOffsetY = 0.0f;
+            heldInventoryItem.active = true;
+            heldInventoryItem.item = worldItem.item;
+            heldInventoryItem.grabCellOffsetX = 0;
+            heldInventoryItem.grabCellOffsetY = 0;
+            heldInventoryItem.grabOffsetX = 0.0f;
+            heldInventoryItem.grabOffsetY = 0.0f;
             view.m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
             view.m_gameSession.gameplayScreenRuntime().playSpeechReaction(
                 view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
@@ -3614,7 +3506,9 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
                         continue;
                     }
 
-                    if (!view.m_heldInventoryItem.active)
+                    GameplayUiController::HeldInventoryItemState &heldInventoryItem = view.heldInventoryItem();
+
+                    if (!heldInventoryItem.active)
                     {
                         OutdoorWorldRuntime::ChestItemState removedItem = {};
 
@@ -3623,18 +3517,18 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
                             break;
                         }
 
-                        view.m_heldInventoryItem.active = true;
-                        view.m_heldInventoryItem.item = {};
-                        view.m_heldInventoryItem.item.objectDescriptionId = removedItem.itemId;
-                        view.m_heldInventoryItem.item.quantity = removedItem.quantity;
-                        view.m_heldInventoryItem.item.width = removedItem.width;
-                        view.m_heldInventoryItem.item.height = removedItem.height;
-                        view.m_heldInventoryItem.item.gridX = removedItem.gridX;
-                        view.m_heldInventoryItem.item.gridY = removedItem.gridY;
-                        view.m_heldInventoryItem.grabCellOffsetX = 0;
-                        view.m_heldInventoryItem.grabCellOffsetY = 0;
-                        view.m_heldInventoryItem.grabOffsetX = 0.0f;
-                        view.m_heldInventoryItem.grabOffsetY = 0.0f;
+                        heldInventoryItem.active = true;
+                        heldInventoryItem.item = {};
+                        heldInventoryItem.item.objectDescriptionId = removedItem.itemId;
+                        heldInventoryItem.item.quantity = removedItem.quantity;
+                        heldInventoryItem.item.width = removedItem.width;
+                        heldInventoryItem.item.height = removedItem.height;
+                        heldInventoryItem.item.gridX = removedItem.gridX;
+                        heldInventoryItem.item.gridY = removedItem.gridY;
+                        heldInventoryItem.grabCellOffsetX = 0;
+                        heldInventoryItem.grabCellOffsetY = 0;
+                        heldInventoryItem.grabOffsetX = 0.0f;
+                        heldInventoryItem.grabOffsetY = 0.0f;
 
                         if (firstLootedItemName.empty())
                         {
@@ -3731,7 +3625,7 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
         GameplayDialogController::Context context =
             createGameplayDialogContext(view, *pEventRuntimeState, "activate_actor_npc_dialog");
         const GameplayDialogController::Result result =
-            view.m_gameplayDialogController.openNpcDialogue(context, static_cast<uint32_t>(inspectHit.npcId));
+            view.m_gameSession.gameplayDialogController().openNpcDialogue(context, static_cast<uint32_t>(inspectHit.npcId));
         pEventRuntimeState->lastActivationResult = "npc " + std::to_string(inspectHit.npcId) + " engaged";
 
         if (result.shouldOpenPendingEventDialog)
@@ -3766,7 +3660,7 @@ bool OutdoorInteractionController::tryActivateInspectEvent(OutdoorGameView &view
             faceTalkingActor();
             GameplayDialogController::Context context =
                 createGameplayDialogContext(view, *pEventRuntimeState, "activate_actor_news_dialog");
-            const GameplayDialogController::Result result = view.m_gameplayDialogController.openNpcNews(
+            const GameplayDialogController::Result result = view.m_gameSession.gameplayDialogController().openNpcNews(
                 context,
                 resolution->npcId,
                 resolution->newsId,
@@ -3922,7 +3816,7 @@ bool OutdoorInteractionController::canActivateInspectEvent(const OutdoorGameView
 {
     if (inspectHit.kind == "world_item")
     {
-        return !view.m_heldInventoryItem.active;
+        return !view.heldInventoryItem().active;
     }
 
     const EventRuntimeState *pEventRuntimeState =

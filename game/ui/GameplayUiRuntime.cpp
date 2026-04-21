@@ -105,6 +105,17 @@ void GameplayUiRuntime::clear()
     m_assetsPreloaded = false;
 }
 
+void GameplayUiRuntime::bindDataRepository(const GameDataRepository *pDataRepository)
+{
+    if (m_pDataRepository == pDataRepository)
+    {
+        return;
+    }
+
+    clearPortraitRuntime();
+    m_pDataRepository = pDataRepository;
+}
+
 void GameplayUiRuntime::bindAssetFileSystem(const Engine::AssetFileSystem *pAssetFileSystem)
 {
     if (m_pAssetFileSystem == pAssetFileSystem)
@@ -1124,89 +1135,8 @@ bool GameplayUiRuntime::ensurePortraitRuntimeLoaded()
         return true;
     }
 
-    if (m_pAssetFileSystem == nullptr)
+    if (m_pDataRepository == nullptr)
     {
-        return false;
-    }
-
-    const std::optional<std::string> portraitFrameText =
-        m_pAssetFileSystem->readTextFile(dataTablePath("portrait_frame_data.txt"));
-    const std::optional<std::string> iconFrameText =
-        m_pAssetFileSystem->readTextFile(dataTablePath("icon_frame_data.txt"));
-    const std::optional<std::string> spellFxText =
-        m_pAssetFileSystem->readTextFile(dataTablePath("spell_fx.txt"));
-    const std::optional<std::string> portraitFxEventText =
-        m_pAssetFileSystem->readTextFile(dataTablePath("portrait_fx_events.txt"));
-    const std::optional<std::string> faceAnimationText =
-        m_pAssetFileSystem->readTextFile(dataTablePath("face_animations.txt"));
-
-    if (!portraitFrameText || !iconFrameText || !spellFxText || !portraitFxEventText || !faceAnimationText)
-    {
-        return false;
-    }
-
-    const std::optional<Engine::TextTable> parsedPortraitFrameTable =
-        Engine::TextTable::parseTabSeparated(*portraitFrameText);
-    const std::optional<Engine::TextTable> parsedIconFrameTable =
-        Engine::TextTable::parseTabSeparated(*iconFrameText);
-    const std::optional<Engine::TextTable> parsedSpellFxTable =
-        Engine::TextTable::parseTabSeparated(*spellFxText);
-    const std::optional<Engine::TextTable> parsedPortraitFxEventTable =
-        Engine::TextTable::parseTabSeparated(*portraitFxEventText);
-    const std::optional<Engine::TextTable> parsedFaceAnimationTable =
-        Engine::TextTable::parseTabSeparated(*faceAnimationText);
-
-    if (!parsedPortraitFrameTable
-        || !parsedIconFrameTable
-        || !parsedSpellFxTable
-        || !parsedPortraitFxEventTable
-        || !parsedFaceAnimationTable)
-    {
-        return false;
-    }
-
-    std::vector<std::vector<std::string>> portraitFrameRows;
-    portraitFrameRows.reserve(parsedPortraitFrameTable->getRowCount());
-    for (size_t rowIndex = 0; rowIndex < parsedPortraitFrameTable->getRowCount(); ++rowIndex)
-    {
-        portraitFrameRows.push_back(parsedPortraitFrameTable->getRow(rowIndex));
-    }
-
-    std::vector<std::vector<std::string>> iconFrameRows;
-    iconFrameRows.reserve(parsedIconFrameTable->getRowCount());
-    for (size_t rowIndex = 0; rowIndex < parsedIconFrameTable->getRowCount(); ++rowIndex)
-    {
-        iconFrameRows.push_back(parsedIconFrameTable->getRow(rowIndex));
-    }
-
-    std::vector<std::vector<std::string>> spellFxRows;
-    spellFxRows.reserve(parsedSpellFxTable->getRowCount());
-    for (size_t rowIndex = 0; rowIndex < parsedSpellFxTable->getRowCount(); ++rowIndex)
-    {
-        spellFxRows.push_back(parsedSpellFxTable->getRow(rowIndex));
-    }
-
-    std::vector<std::vector<std::string>> portraitFxEventRows;
-    portraitFxEventRows.reserve(parsedPortraitFxEventTable->getRowCount());
-    for (size_t rowIndex = 0; rowIndex < parsedPortraitFxEventTable->getRowCount(); ++rowIndex)
-    {
-        portraitFxEventRows.push_back(parsedPortraitFxEventTable->getRow(rowIndex));
-    }
-
-    std::vector<std::vector<std::string>> faceAnimationRows;
-    faceAnimationRows.reserve(parsedFaceAnimationTable->getRowCount());
-    for (size_t rowIndex = 0; rowIndex < parsedFaceAnimationTable->getRowCount(); ++rowIndex)
-    {
-        faceAnimationRows.push_back(parsedFaceAnimationTable->getRow(rowIndex));
-    }
-
-    if (!m_portraitFrameTable.loadRows(portraitFrameRows)
-        || !m_iconFrameTable.loadRows(iconFrameRows)
-        || !m_spellFxTable.loadFromRows(spellFxRows)
-        || !m_portraitFxEventTable.loadFromRows(portraitFxEventRows)
-        || !m_faceAnimationTable.loadFromRows(faceAnimationRows))
-    {
-        clearPortraitRuntime();
         return false;
     }
 
@@ -1265,7 +1195,8 @@ std::string GameplayUiRuntime::resolvePortraitTextureName(const Character &chara
         return character.portraitTextureName;
     }
 
-    const PortraitFrameEntry *pFrame = m_portraitFrameTable.getFrame(character.portraitState, character.portraitElapsedTicks);
+    const PortraitFrameEntry *pFrame =
+        m_pDataRepository->portraitFrameTable().getFrame(character.portraitState, character.portraitElapsedTicks);
 
     if (pFrame != nullptr && pFrame->textureIndex > 0)
     {
@@ -1284,7 +1215,7 @@ bool GameplayUiRuntime::triggerPortraitFxAnimation(
         return false;
     }
 
-    const std::optional<size_t> animationId = m_iconFrameTable.findAnimationIdByName(animationName);
+    const std::optional<size_t> animationId = m_pDataRepository->iconFrameTable().findAnimationIdByName(animationName);
 
     if (!animationId)
     {
@@ -1318,7 +1249,7 @@ void GameplayUiRuntime::triggerPortraitSpellFx(const PartySpellCastResult &resul
         return;
     }
 
-    const SpellFxEntry *pSpellFxEntry = m_spellFxTable.findBySpellId(result.spellId);
+    const SpellFxEntry *pSpellFxEntry = m_pDataRepository->spellFxTable().findBySpellId(result.spellId);
 
     if (pSpellFxEntry == nullptr)
     {
@@ -1330,17 +1261,17 @@ void GameplayUiRuntime::triggerPortraitSpellFx(const PartySpellCastResult &resul
 
 const PortraitFxEventEntry *GameplayUiRuntime::findPortraitFxEvent(PortraitFxEventKind kind) const
 {
-    return m_portraitRuntimeLoaded ? m_portraitFxEventTable.findByKind(kind) : nullptr;
+    return m_portraitRuntimeLoaded ? m_pDataRepository->portraitFxEventTable().findByKind(kind) : nullptr;
 }
 
 const FaceAnimationEntry *GameplayUiRuntime::findFaceAnimation(FaceAnimationId animationId) const
 {
-    return m_portraitRuntimeLoaded ? m_faceAnimationTable.find(animationId) : nullptr;
+    return m_portraitRuntimeLoaded ? m_pDataRepository->faceAnimationTable().find(animationId) : nullptr;
 }
 
 uint32_t GameplayUiRuntime::defaultPortraitAnimationLengthTicks(PortraitId portraitId) const
 {
-    const int32_t animationLengthTicks = m_portraitFrameTable.animationLengthTicks(portraitId);
+    const int32_t animationLengthTicks = m_pDataRepository->portraitFrameTable().animationLengthTicks(portraitId);
 
     if (animationLengthTicks > 0)
     {
@@ -1369,7 +1300,7 @@ void GameplayUiRuntime::renderPortraitFx(
         return;
     }
 
-    const int32_t animationLengthTicks = m_iconFrameTable.animationLengthTicks(state.animationId);
+    const int32_t animationLengthTicks = m_pDataRepository->iconFrameTable().animationLengthTicks(state.animationId);
     const uint32_t nowTicks = currentAnimationTicks();
     const uint32_t elapsedTicks = nowTicks - state.startedTicks;
 
@@ -1378,7 +1309,7 @@ void GameplayUiRuntime::renderPortraitFx(
         return;
     }
 
-    const IconFrameEntry *pFrame = m_iconFrameTable.getFrame(state.animationId, elapsedTicks);
+    const IconFrameEntry *pFrame = m_pDataRepository->iconFrameTable().getFrame(state.animationId, elapsedTicks);
 
     if (pFrame == nullptr || pFrame->textureName.empty())
     {
@@ -1476,11 +1407,6 @@ bool GameplayUiRuntime::renderHouseVideoFrame(float x, float y, float quadWidth,
 void GameplayUiRuntime::clearPortraitRuntime()
 {
     m_portraitRuntimeLoaded = false;
-    m_portraitFrameTable = {};
-    m_iconFrameTable = {};
-    m_spellFxTable = {};
-    m_portraitFxEventTable = {};
-    m_faceAnimationTable = {};
     m_portraitFxStates.clear();
     m_portraitPresentationState = {};
 }

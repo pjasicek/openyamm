@@ -1,11 +1,14 @@
 #include "game/indoor/IndoorWorldRuntime.h"
 
 #include "game/SpriteObjectDefs.h"
+#include "game/data/ActorNameResolver.h"
 #include "game/events/EvtEnums.h"
 #include "game/gameplay/ChestRuntime.h"
 #include "game/gameplay/CorpseLootRuntime.h"
+#include "game/gameplay/GameplayActorService.h"
 #include "game/indoor/IndoorPartyRuntime.h"
 #include "game/items/ItemRuntime.h"
+#include "game/tables/SpriteTables.h"
 #include "game/ui/GameplayOverlayTypes.h"
 
 #include <algorithm>
@@ -47,6 +50,75 @@ uint32_t defaultActorAttributes(bool hostileToParty)
 
     return attributes;
 }
+
+bool hasActiveActorSpellEffectOverride(const GameplayActorSpellEffectState &state)
+{
+    return state.slowRemainingSeconds > 0.0f
+        || state.stunRemainingSeconds > 0.0f
+        || state.paralyzeRemainingSeconds > 0.0f
+        || state.fearRemainingSeconds > 0.0f
+        || state.blindRemainingSeconds > 0.0f
+        || state.controlRemainingSeconds > 0.0f
+        || state.controlMode != GameplayActorControlMode::None
+        || state.shrinkRemainingSeconds > 0.0f
+        || state.darkGraspRemainingSeconds > 0.0f
+        || state.slowMoveMultiplier != 1.0f
+        || state.slowRecoveryMultiplier != 1.0f
+        || state.shrinkDamageMultiplier != 1.0f
+        || state.shrinkArmorClassMultiplier != 1.0f;
+}
+
+const MonsterEntry *resolveRuntimeMonsterEntry(const MonsterTable &monsterTable, const MapDeltaActor &actor)
+{
+    const MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =
+        monsterTable.findDisplayEntryById(actor.monsterInfoId);
+
+    if (pDisplayEntry != nullptr)
+    {
+        const MonsterEntry *pMonsterEntry = monsterTable.findByInternalName(pDisplayEntry->pictureName);
+
+        if (pMonsterEntry != nullptr)
+        {
+            return pMonsterEntry;
+        }
+    }
+
+    return monsterTable.findById(actor.monsterId);
+}
+
+uint16_t resolveRuntimeActorSpriteFrameIndex(
+    const SpriteFrameTable &spriteFrameTable,
+    const MapDeltaActor &actor,
+    const MonsterEntry *pMonsterEntry)
+{
+    if (pMonsterEntry != nullptr)
+    {
+        for (const std::string &spriteName : pMonsterEntry->spriteNames)
+        {
+            if (spriteName.empty())
+            {
+                continue;
+            }
+
+            const std::optional<uint16_t> frameIndex = spriteFrameTable.findFrameIndexBySpriteName(spriteName);
+
+            if (frameIndex)
+            {
+                return *frameIndex;
+            }
+        }
+    }
+
+    for (uint16_t spriteId : actor.spriteIds)
+    {
+        if (spriteId != 0)
+        {
+            return spriteId;
+        }
+    }
+
+    return 0;
+}
 }
 
 void IndoorWorldRuntime::initialize(
@@ -58,7 +130,9 @@ void IndoorWorldRuntime::initialize(
     Party *pParty,
     IndoorPartyRuntime *pPartyRuntime,
     std::optional<MapDeltaData> *pMapDeltaData,
-    std::optional<EventRuntimeState> *pEventRuntimeState
+    std::optional<EventRuntimeState> *pEventRuntimeState,
+    GameplayActorService *pGameplayActorService,
+    const SpriteFrameTable *pActorSpriteFrameTable
 )
 {
     m_map = map;
@@ -71,6 +145,8 @@ void IndoorWorldRuntime::initialize(
     m_pPartyRuntime = pPartyRuntime;
     m_pMapDeltaData = pMapDeltaData;
     m_pEventRuntimeState = pEventRuntimeState;
+    m_pGameplayActorService = pGameplayActorService;
+    m_pActorSpriteFrameTable = pActorSpriteFrameTable;
     std::random_device randomDevice;
     const uint64_t timeSeed = uint64_t(std::chrono::steady_clock::now().time_since_epoch().count());
     m_sessionChestSeed = randomDevice() ^ uint32_t(timeSeed) ^ uint32_t(timeSeed >> 32);
@@ -78,6 +154,14 @@ void IndoorWorldRuntime::initialize(
     m_activeChestView.reset();
     m_mapActorCorpseViews.clear();
     m_activeCorpseView.reset();
+    syncMapActorSpellEffectStates();
+}
+
+void IndoorWorldRuntime::syncMapActorSpellEffectStates()
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+    const size_t actorCount = pMapDeltaData != nullptr ? pMapDeltaData->actors.size() : 0;
+    m_mapActorSpellEffectStates.resize(actorCount);
 }
 
 const std::string &IndoorWorldRuntime::mapName() const
@@ -264,7 +348,13 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     const int16_t resolvedMonsterId = actor.monsterInfoId > 0 ? actor.monsterInfoId : actor.monsterId;
     const bool hostileToParty =
         (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) != 0
-        || (m_pMonsterTable != nullptr && resolvedMonsterId > 0 && m_pMonsterTable->isHostileToParty(resolvedMonsterId));
+        || (m_pMonsterTable != nullptr
+            && resolvedMonsterId > 0
+            && m_pMonsterTable->isHostileToParty(resolvedMonsterId));
+    const bool defaultDetectedParty = hostileToParty && isAggressive;
+    const GameplayActorSpellEffectState *pEffectState =
+        actorIndex < m_mapActorSpellEffectStates.size() ? &m_mapActorSpellEffectStates[actorIndex] : nullptr;
+    const bool useEffectOverride = pEffectState != nullptr && hasActiveActorSpellEffectOverride(*pEffectState);
 
     state.preciseX = static_cast<float>(actor.x);
     state.preciseY = static_cast<float>(actor.y);
@@ -273,8 +363,8 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     state.height = actor.height;
     state.isDead = actor.hp <= 0;
     state.isInvisible = isInvisible;
-    state.hostileToParty = hostileToParty;
-    state.hasDetectedParty = hostileToParty && isAggressive;
+    state.hostileToParty = useEffectOverride ? pEffectState->hostileToParty : hostileToParty;
+    state.hasDetectedParty = useEffectOverride ? pEffectState->hasDetectedParty : defaultDetectedParty;
     return true;
 }
 
@@ -283,10 +373,84 @@ bool IndoorWorldRuntime::actorInspectState(
     uint32_t animationTicks,
     GameplayActorInspectState &state) const
 {
-    (void)actorIndex;
-    (void)animationTicks;
     state = {};
-    return false;
+
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr
+        || m_pMonsterTable == nullptr
+        || actorIndex >= pMapDeltaData->actors.size())
+    {
+        return false;
+    }
+
+    const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+    const int16_t resolvedMonsterId = actor.monsterInfoId > 0 ? actor.monsterInfoId : actor.monsterId;
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(resolvedMonsterId);
+
+    if (pStats == nullptr)
+    {
+        return false;
+    }
+
+    state.displayName = resolveMapDeltaActorName(*m_pMonsterTable, actor);
+    state.monsterId = resolvedMonsterId;
+    state.currentHp = std::max(0, static_cast<int>(actor.hp));
+    state.maxHp = std::max(0, pStats->hitPoints);
+    state.isDead = actor.hp <= 0;
+
+    int armorClass = pStats->armorClass;
+    const GameplayActorSpellEffectState *pEffectState =
+        actorIndex < m_mapActorSpellEffectStates.size() ? &m_mapActorSpellEffectStates[actorIndex] : nullptr;
+
+    if (pEffectState != nullptr)
+    {
+        state.slowRemainingSeconds = pEffectState->slowRemainingSeconds;
+        state.stunRemainingSeconds = pEffectState->stunRemainingSeconds;
+        state.paralyzeRemainingSeconds = pEffectState->paralyzeRemainingSeconds;
+        state.fearRemainingSeconds = pEffectState->fearRemainingSeconds;
+        state.shrinkRemainingSeconds = pEffectState->shrinkRemainingSeconds;
+        state.darkGraspRemainingSeconds = pEffectState->darkGraspRemainingSeconds;
+        state.controlMode = pEffectState->controlMode;
+
+        if (m_pGameplayActorService != nullptr)
+        {
+            armorClass = m_pGameplayActorService->effectiveArmorClass(armorClass, *pEffectState);
+        }
+    }
+
+    state.armorClass = armorClass;
+
+    if (m_pActorSpriteFrameTable == nullptr)
+    {
+        return true;
+    }
+
+    const MonsterEntry *pMonsterEntry = resolveRuntimeMonsterEntry(*m_pMonsterTable, actor);
+    const uint16_t spriteFrameIndex =
+        resolveRuntimeActorSpriteFrameIndex(*m_pActorSpriteFrameTable, actor, pMonsterEntry);
+
+    if (spriteFrameIndex == 0)
+    {
+        return true;
+    }
+
+    const SpriteFrameEntry *pFrame = m_pActorSpriteFrameTable->getFrame(spriteFrameIndex, animationTicks);
+
+    if (pFrame == nullptr)
+    {
+        pFrame = m_pActorSpriteFrameTable->getFrame(spriteFrameIndex, 0);
+    }
+
+    if (pFrame == nullptr)
+    {
+        return true;
+    }
+
+    const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+    state.previewTextureName = resolvedTexture.textureName;
+    state.previewPaletteId = pFrame->paletteId;
+    return true;
 }
 
 bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request)
@@ -306,18 +470,10 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
     float partyZ,
     uint32_t sourcePartyMemberIndex)
 {
-    (void)spellId;
-    (void)skillLevel;
-    (void)skillMastery;
     (void)partyX;
     (void)partyY;
     (void)partyZ;
     (void)sourcePartyMemberIndex;
-
-    if (damage <= 0)
-    {
-        return false;
-    }
 
     MapDeltaData *pMapDeltaData = mapDeltaData();
 
@@ -330,6 +486,42 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
 
     if (actor.hp <= 0
         || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
+    {
+        return false;
+    }
+
+    syncMapActorSpellEffectStates();
+    GameplayActorSpellEffectState &effectState = m_mapActorSpellEffectStates[actorIndex];
+    const int16_t resolvedMonsterId = actor.monsterInfoId > 0 ? actor.monsterInfoId : actor.monsterId;
+    const bool defaultHostileToParty =
+        (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) != 0
+        || (m_pMonsterTable != nullptr
+            && resolvedMonsterId > 0
+            && m_pMonsterTable->isHostileToParty(resolvedMonsterId));
+
+    if (m_pGameplayActorService != nullptr)
+    {
+        const GameplayActorService::SharedSpellEffectResult effectResult =
+            m_pGameplayActorService->tryApplySharedSpellEffect(
+                spellId,
+                skillLevel,
+                skillMastery,
+                m_pGameplayActorService->actorLooksUndead(resolvedMonsterId),
+                defaultHostileToParty,
+                effectState);
+
+        if (effectResult.disposition == GameplayActorService::SharedSpellDisposition::Rejected)
+        {
+            return false;
+        }
+
+        if (effectResult.disposition == GameplayActorService::SharedSpellDisposition::Applied)
+        {
+            return true;
+        }
+    }
+
+    if (damage <= 0)
     {
         return false;
     }
@@ -481,17 +673,8 @@ bool IndoorWorldRuntime::summonFriendlyMonsterById(
         spawnedAny = true;
     }
 
+    syncMapActorSpellEffectStates();
     return spawnedAny;
-}
-
-void IndoorWorldRuntime::triggerGameplayScreenOverlay(
-    uint32_t colorAbgr,
-    float durationSeconds,
-    float peakAlpha)
-{
-    (void)colorAbgr;
-    (void)durationSeconds;
-    (void)peakAlpha;
 }
 
 bool IndoorWorldRuntime::tryStartArmageddon(
@@ -507,6 +690,14 @@ bool IndoorWorldRuntime::tryStartArmageddon(
     return false;
 }
 
+void IndoorWorldRuntime::collectProjectilePresentationState(
+    std::vector<GameplayProjectilePresentationState> &projectiles,
+    std::vector<GameplayProjectileImpactPresentationState> &impacts) const
+{
+    projectiles.clear();
+    impacts.clear();
+}
+
 bool IndoorWorldRuntime::tryGetGameplayMinimapState(GameplayMinimapState &state) const
 {
     state = {};
@@ -518,152 +709,31 @@ void IndoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinim
     markers.clear();
 }
 
+IndoorWorldRuntime::ChestViewState *IndoorWorldRuntime::activeChestView()
+{
+    return m_activeChestView ? &*m_activeChestView : nullptr;
+}
+
 const IndoorWorldRuntime::ChestViewState *IndoorWorldRuntime::activeChestView() const
 {
     return m_activeChestView ? &*m_activeChestView : nullptr;
 }
 
-bool IndoorWorldRuntime::identifyActiveChestItem(size_t itemIndex, std::string &statusText)
+void IndoorWorldRuntime::commitActiveChestView()
 {
-    statusText.clear();
-
-    if (!m_activeChestView || itemIndex >= m_activeChestView->items.size() || m_pItemTable == nullptr)
+    if (!m_activeChestView)
     {
-        return false;
+        return;
     }
 
-    ChestItemState &chestItem = m_activeChestView->items[itemIndex];
-
-    if (chestItem.isGold)
-    {
-        return false;
-    }
-
-    const ItemDefinition *pItemDefinition = m_pItemTable->get(chestItem.item.objectDescriptionId);
-
-    if (pItemDefinition == nullptr)
-    {
-        statusText = "Unavailable.";
-        return false;
-    }
-
-    if (chestItem.item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
-    {
-        statusText = "Already identified.";
-        return false;
-    }
-
-    chestItem.item.identified = true;
-    statusText = "Identified " + ItemRuntime::displayName(chestItem.item, *pItemDefinition) + ".";
     const uint32_t chestId = m_activeChestView->chestId;
 
     if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
     {
         m_materializedChestViews[chestId] = *m_activeChestView;
     }
-
-    return true;
 }
 
-bool IndoorWorldRuntime::tryIdentifyActiveChestItem(
-    size_t itemIndex,
-    const Character &inspector,
-    std::string &statusText)
-{
-    statusText.clear();
-
-    if (!m_activeChestView || itemIndex >= m_activeChestView->items.size() || m_pItemTable == nullptr)
-    {
-        return false;
-    }
-
-    ChestItemState &chestItem = m_activeChestView->items[itemIndex];
-
-    if (chestItem.isGold)
-    {
-        return false;
-    }
-
-    const ItemDefinition *pItemDefinition = m_pItemTable->get(chestItem.item.objectDescriptionId);
-
-    if (pItemDefinition == nullptr)
-    {
-        statusText = "Unavailable.";
-        return false;
-    }
-
-    if (chestItem.item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
-    {
-        statusText = "Already identified.";
-        return false;
-    }
-
-    if (!ItemRuntime::canCharacterIdentifyItem(inspector, *pItemDefinition))
-    {
-        statusText = "Not skilled enough.";
-        return false;
-    }
-
-    chestItem.item.identified = true;
-    statusText = "Identified " + ItemRuntime::displayName(chestItem.item, *pItemDefinition) + ".";
-    const uint32_t chestId = m_activeChestView->chestId;
-
-    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
-    {
-        m_materializedChestViews[chestId] = *m_activeChestView;
-    }
-
-    return true;
-}
-
-bool IndoorWorldRuntime::tryRepairActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText)
-{
-    statusText.clear();
-
-    if (!m_activeChestView || itemIndex >= m_activeChestView->items.size() || m_pItemTable == nullptr)
-    {
-        return false;
-    }
-
-    ChestItemState &chestItem = m_activeChestView->items[itemIndex];
-
-    if (chestItem.isGold)
-    {
-        return false;
-    }
-
-    const ItemDefinition *pItemDefinition = m_pItemTable->get(chestItem.item.objectDescriptionId);
-
-    if (pItemDefinition == nullptr)
-    {
-        statusText = "Unavailable.";
-        return false;
-    }
-
-    if (!chestItem.item.broken)
-    {
-        statusText = "Nothing to repair.";
-        return false;
-    }
-
-    if (!ItemRuntime::canCharacterRepairItem(inspector, *pItemDefinition))
-    {
-        statusText = "Not skilled enough.";
-        return false;
-    }
-
-    chestItem.item.broken = false;
-    chestItem.item.identified = true;
-    statusText = "Repaired " + ItemRuntime::displayName(chestItem.item, *pItemDefinition) + ".";
-    const uint32_t chestId = m_activeChestView->chestId;
-
-    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
-    {
-        m_materializedChestViews[chestId] = *m_activeChestView;
-    }
-
-    return true;
-}
 
 bool IndoorWorldRuntime::takeActiveChestItem(size_t itemIndex, ChestItemState &item)
 {
@@ -721,152 +791,29 @@ void IndoorWorldRuntime::closeActiveChestView()
     m_activeChestView.reset();
 }
 
+IndoorWorldRuntime::CorpseViewState *IndoorWorldRuntime::activeCorpseView()
+{
+    return m_activeCorpseView ? &*m_activeCorpseView : nullptr;
+}
+
 const IndoorWorldRuntime::CorpseViewState *IndoorWorldRuntime::activeCorpseView() const
 {
     return m_activeCorpseView ? &*m_activeCorpseView : nullptr;
 }
 
-bool IndoorWorldRuntime::identifyActiveCorpseItem(size_t itemIndex, std::string &statusText)
+void IndoorWorldRuntime::commitActiveCorpseView()
 {
-    statusText.clear();
-
-    if (!m_activeCorpseView || itemIndex >= m_activeCorpseView->items.size() || m_pItemTable == nullptr)
+    if (!m_activeCorpseView)
     {
-        return false;
+        return;
     }
-
-    ChestItemState &corpseItem = m_activeCorpseView->items[itemIndex];
-
-    if (corpseItem.isGold)
-    {
-        return false;
-    }
-
-    const ItemDefinition *pItemDefinition = m_pItemTable->get(corpseItem.item.objectDescriptionId);
-
-    if (pItemDefinition == nullptr)
-    {
-        statusText = "Unavailable.";
-        return false;
-    }
-
-    if (corpseItem.item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
-    {
-        statusText = "Already identified.";
-        return false;
-    }
-
-    corpseItem.item.identified = true;
-    statusText = "Identified " + ItemRuntime::displayName(corpseItem.item, *pItemDefinition) + ".";
 
     if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
     {
         m_mapActorCorpseViews[m_activeCorpseView->sourceIndex] = *m_activeCorpseView;
     }
-
-    return true;
 }
 
-bool IndoorWorldRuntime::tryIdentifyActiveCorpseItem(
-    size_t itemIndex,
-    const Character &inspector,
-    std::string &statusText)
-{
-    statusText.clear();
-
-    if (!m_activeCorpseView || itemIndex >= m_activeCorpseView->items.size() || m_pItemTable == nullptr)
-    {
-        return false;
-    }
-
-    ChestItemState &corpseItem = m_activeCorpseView->items[itemIndex];
-
-    if (corpseItem.isGold)
-    {
-        return false;
-    }
-
-    const ItemDefinition *pItemDefinition = m_pItemTable->get(corpseItem.item.objectDescriptionId);
-
-    if (pItemDefinition == nullptr)
-    {
-        statusText = "Unavailable.";
-        return false;
-    }
-
-    if (corpseItem.item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
-    {
-        statusText = "Already identified.";
-        return false;
-    }
-
-    if (!ItemRuntime::canCharacterIdentifyItem(inspector, *pItemDefinition))
-    {
-        statusText = "Not skilled enough.";
-        return false;
-    }
-
-    corpseItem.item.identified = true;
-    statusText = "Identified " + ItemRuntime::displayName(corpseItem.item, *pItemDefinition) + ".";
-
-    if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
-    {
-        m_mapActorCorpseViews[m_activeCorpseView->sourceIndex] = *m_activeCorpseView;
-    }
-
-    return true;
-}
-
-bool IndoorWorldRuntime::tryRepairActiveCorpseItem(
-    size_t itemIndex,
-    const Character &inspector,
-    std::string &statusText)
-{
-    statusText.clear();
-
-    if (!m_activeCorpseView || itemIndex >= m_activeCorpseView->items.size() || m_pItemTable == nullptr)
-    {
-        return false;
-    }
-
-    ChestItemState &corpseItem = m_activeCorpseView->items[itemIndex];
-
-    if (corpseItem.isGold)
-    {
-        return false;
-    }
-
-    const ItemDefinition *pItemDefinition = m_pItemTable->get(corpseItem.item.objectDescriptionId);
-
-    if (pItemDefinition == nullptr)
-    {
-        statusText = "Unavailable.";
-        return false;
-    }
-
-    if (!corpseItem.item.broken)
-    {
-        statusText = "Nothing to repair.";
-        return false;
-    }
-
-    if (!ItemRuntime::canCharacterRepairItem(inspector, *pItemDefinition))
-    {
-        statusText = "Not skilled enough.";
-        return false;
-    }
-
-    corpseItem.item.broken = false;
-    corpseItem.item.identified = true;
-    statusText = "Repaired " + ItemRuntime::displayName(corpseItem.item, *pItemDefinition) + ".";
-
-    if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
-    {
-        m_mapActorCorpseViews[m_activeCorpseView->sourceIndex] = *m_activeCorpseView;
-    }
-
-    return true;
-}
 
 bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
 {
@@ -1021,6 +968,7 @@ bool IndoorWorldRuntime::summonMonsters(
         spawnedAny = true;
     }
 
+    syncMapActorSpellEffectStates();
     return spawnedAny;
 }
 
@@ -1349,6 +1297,7 @@ IndoorWorldRuntime::Snapshot IndoorWorldRuntime::snapshot() const
     snapshot.activeChestView = m_activeChestView;
     snapshot.mapActorCorpseViews = m_mapActorCorpseViews;
     snapshot.activeCorpseView = m_activeCorpseView;
+    snapshot.mapActorSpellEffectStates = m_mapActorSpellEffectStates;
     return snapshot;
 }
 
@@ -1361,6 +1310,8 @@ void IndoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_activeChestView = snapshot.activeChestView;
     m_mapActorCorpseViews = snapshot.mapActorCorpseViews;
     m_activeCorpseView = snapshot.activeCorpseView;
+    m_mapActorSpellEffectStates = snapshot.mapActorSpellEffectStates;
+    syncMapActorSpellEffectStates();
 }
 
 IndoorWorldRuntime::ChestViewState IndoorWorldRuntime::buildChestView(uint32_t chestId) const

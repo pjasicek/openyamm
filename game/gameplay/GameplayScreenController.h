@@ -1,7 +1,7 @@
 #pragma once
 
+#include "game/gameplay/GameplayInputController.h"
 #include "game/gameplay/GameplayHudInputController.h"
-#include "game/gameplay/GameplayScreenHotkeyController.h"
 #include "game/ui/GameplayUiOverlayOrchestrator.h"
 
 #include <functional>
@@ -37,17 +37,11 @@ struct GameplayStandardUiInputConfig
     float pointerY = 0.0f;
     bool leftButtonPressed = false;
     bool allowGameplayPointerInput = false;
-    bool canOpenRest = false;
     float mouseWheelDelta = 0.0f;
     bool blockPortraitInput = false;
     bool blockHudButtonInput = false;
-    bool blockMenuToggle = false;
-    bool blockSpellbookToggle = false;
-    bool blockInventoryToggle = false;
-    bool blockPartyCycle = false;
     bool blockJournalToggle = false;
     bool requireGameplayReadyForPortraitSelection = true;
-    bool requireGameplayReadyForPartySelection = false;
     std::function<bool(size_t memberIndex)> onPortraitActivated;
 };
 
@@ -79,6 +73,51 @@ struct GameplayStandardWorldInputGateResult
     bool utilitySpellOverlayHandled = false;
 };
 
+struct GameplayStandardWorldInteractionFrameState
+{
+    bool restActiveBeforeInput = false;
+    bool menuActiveBeforeInput = false;
+    bool controlsActiveBeforeInput = false;
+    bool keyboardActiveBeforeInput = false;
+    bool videoOptionsActiveBeforeInput = false;
+    bool saveGameActiveBeforeInput = false;
+    bool loadGameActiveBeforeInput = false;
+    bool journalActiveBeforeInput = false;
+};
+
+struct GameplayStandardWorldInteractionFrameGateConfig
+{
+    GameplayStandardWorldInteractionFrameState state = {};
+    bool hasActiveLootView = false;
+};
+
+struct GameplayStandardWorldInspectOverlayConfig
+{
+    int width = 0;
+    int height = 0;
+    bool worldReady = false;
+    bool hasHeldItem = false;
+    bool hasPendingSpellTarget = false;
+    bool hasActiveLootView = false;
+};
+
+struct GameplayStandardGameplayActionGateConfig
+{
+    bool hasActiveLootView = false;
+    bool hasPendingSpellCast = false;
+    bool hasHeldItem = false;
+    bool blockOnCharacterScreen = false;
+    bool blockOnHeldItem = false;
+};
+
+struct GameplayMouseLookEnableConfig
+{
+    bool hasPendingSpellTarget = false;
+    bool blockOnReadableScrollOverlay = false;
+    bool blockOnUtilitySpellOverlay = false;
+    bool utilitySpellInventoryTargetKeepsMouseLook = true;
+};
+
 struct GameplayStandardUiRenderConfig
 {
     bool canRenderHudOverlays = false;
@@ -87,6 +126,23 @@ struct GameplayStandardUiRenderConfig
     bool renderActorInspectOverlay = true;
     bool renderDebugFallbacks = false;
     std::function<void()> onRenderedHud;
+};
+
+struct GameplayStandardUiFrameConfig
+{
+    GameplayScreenFrameUpdateConfig frame = {};
+    GameplayStandardUiHotkeyConfig hotkeys = {};
+    GameplayStandardUiInputConfig input = {};
+    GameplayStandardUiRenderConfig render = {};
+    bool updateHudItemInspectOverlayFromMouse = false;
+    bool blockHudItemInspectOverlayFromMouseUpdate = false;
+    bool requireOpaqueHudItemInspectHit = false;
+};
+
+struct GameplayStandardUiInputFrameConfig
+{
+    GameplayStandardUiHotkeyConfig hotkeys = {};
+    GameplayStandardUiInputConfig input = {};
 };
 
 class GameplayScreenController
@@ -104,6 +160,24 @@ public:
         int width,
         int height,
         bool requireOpaqueHitTest);
+
+    static bool canUpdateStandardHudItemInspectOverlayFromMouse(
+        GameplayScreenRuntime &context,
+        int width,
+        int height,
+        bool additionalBlock = false);
+
+    static bool canUpdateStandardWorldInspectOverlayFromMouse(
+        GameplayScreenRuntime &context,
+        const GameplayStandardWorldInspectOverlayConfig &config);
+
+    static bool canRunStandardGameplayAction(
+        GameplayScreenRuntime &context,
+        const GameplayStandardGameplayActionGateConfig &config);
+
+    static bool canEnableGameplayMouseLook(
+        GameplayScreenRuntime &context,
+        const GameplayMouseLookEnableConfig &config);
 
     static void updateStandardHudItemInspectOverlayFromMouse(
         GameplayScreenRuntime &context,
@@ -134,11 +208,6 @@ public:
         int height,
         const GameplayUiOverlayInputConfig &config);
 
-    static void handleSharedHotkeys(
-        GameplayScreenRuntime &context,
-        const bool *pKeyboardState,
-        const GameplayScreenHotkeyConfig &config);
-
     static GameplayUiOverlayInputResult handleStandardUiInput(
         GameplayScreenRuntime &context,
         const GameplayStandardUiInputConfig &config);
@@ -147,11 +216,29 @@ public:
         GameplayScreenRuntime &context,
         const GameplayStandardWorldInputGateConfig &config);
 
+    static GameplayStandardWorldInteractionFrameState captureStandardWorldInteractionFrameState(
+        GameplayScreenRuntime &context);
+
+    static bool isStandardWorldInteractionBlockedForFrame(
+        GameplayScreenRuntime &context,
+        const GameplayStandardWorldInteractionFrameGateConfig &config);
+
     static void renderStandardUi(
         GameplayScreenRuntime &context,
         int width,
         int height,
         const GameplayStandardUiRenderConfig &config);
+
+    static void processStandardUiFrame(
+        GameplayScreenRuntime &context,
+        int width,
+        int height,
+        float deltaSeconds,
+        const GameplayStandardUiFrameConfig &config);
+
+    static GameplayUiOverlayInputResult processStandardUiInputFrame(
+        GameplayScreenRuntime &context,
+        const GameplayStandardUiInputFrameConfig &config);
 
     static void handleUtilitySpellOverlayInput(
         GameplayScreenRuntime &context,

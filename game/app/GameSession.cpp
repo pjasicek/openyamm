@@ -21,13 +21,27 @@ Party buildConfiguredParty(
 }
 
 GameSession::GameSession()
-    : m_gameplayScreenRuntime(*this)
+    : m_gameplayItemService(*this)
+    , m_gameplayFxService(*this)
+    , m_gameplaySpellService(*this)
+    , m_gameplayScreenRuntime(*this)
 {
+    m_gameplayUiController.bindExternalState(&m_gameplayScreenState.uiState());
 }
 
 void GameSession::bindDataRepository(const GameDataRepository *pDataRepository)
 {
     m_pDataRepository = pDataRepository;
+    m_gameplayUiRuntime.bindDataRepository(pDataRepository);
+
+    if (m_pDataRepository != nullptr)
+    {
+        m_gameplayActorService.bindTables(&m_pDataRepository->monsterTable(), &m_pDataRepository->spellTable());
+    }
+    else
+    {
+        m_gameplayActorService.bindTables(nullptr, nullptr);
+    }
 }
 
 bool GameSession::hasDataRepository() const
@@ -46,7 +60,9 @@ void GameSession::clear()
     m_partyState.reset();
     m_currentSceneKind = SceneKind::Outdoor;
     m_currentMapFileName.clear();
-    m_gameplayUiController.clearRuntimeState();
+    m_gameplayScreenState.clear();
+    m_gameplayProjectileService.clear();
+    m_gameplayFxService.clear();
     m_gameplayUiRuntime.clear();
     m_gameplayScreenRuntime.clearTransientBindings();
     m_overlayInteractionState = {};
@@ -61,8 +77,6 @@ void GameSession::clear()
     m_outdoorCameraPitchRadians = 0.0f;
     m_currentSavePath.reset();
     m_pendingMapMove.reset();
-    m_pendingOpenNewGameScreen = false;
-    m_pendingOpenLoadGameScreen = false;
 }
 
 const std::optional<Party> &GameSession::partyState() const
@@ -125,6 +139,16 @@ const GameplayUiController &GameSession::gameplayUiController() const
     return m_gameplayUiController;
 }
 
+GameplayScreenState &GameSession::gameplayScreenState()
+{
+    return m_gameplayScreenState;
+}
+
+const GameplayScreenState &GameSession::gameplayScreenState() const
+{
+    return m_gameplayScreenState;
+}
+
 GameplayUiRuntime &GameSession::gameplayUiRuntime()
 {
     return m_gameplayUiRuntime;
@@ -133,6 +157,56 @@ GameplayUiRuntime &GameSession::gameplayUiRuntime()
 const GameplayUiRuntime &GameSession::gameplayUiRuntime() const
 {
     return m_gameplayUiRuntime;
+}
+
+GameplayActorService &GameSession::gameplayActorService()
+{
+    return m_gameplayActorService;
+}
+
+const GameplayActorService &GameSession::gameplayActorService() const
+{
+    return m_gameplayActorService;
+}
+
+GameplayItemService &GameSession::gameplayItemService()
+{
+    return m_gameplayItemService;
+}
+
+const GameplayItemService &GameSession::gameplayItemService() const
+{
+    return m_gameplayItemService;
+}
+
+GameplayProjectileService &GameSession::gameplayProjectileService()
+{
+    return m_gameplayProjectileService;
+}
+
+const GameplayProjectileService &GameSession::gameplayProjectileService() const
+{
+    return m_gameplayProjectileService;
+}
+
+GameplayFxService &GameSession::gameplayFxService()
+{
+    return m_gameplayFxService;
+}
+
+const GameplayFxService &GameSession::gameplayFxService() const
+{
+    return m_gameplayFxService;
+}
+
+GameplaySpellService &GameSession::gameplaySpellService()
+{
+    return m_gameplaySpellService;
+}
+
+const GameplaySpellService &GameSession::gameplaySpellService() const
+{
+    return m_gameplaySpellService;
 }
 
 GameplayScreenRuntime &GameSession::gameplayScreenRuntime()
@@ -352,26 +426,22 @@ void GameSession::notifySettingsChanged(const GameSettings &settings) const
 
 void GameSession::requestOpenNewGameScreen()
 {
-    m_pendingOpenNewGameScreen = true;
+    m_gameplayScreenState.requestOpenNewGameScreen();
 }
 
 void GameSession::requestOpenLoadGameScreen()
 {
-    m_pendingOpenLoadGameScreen = true;
+    m_gameplayScreenState.requestOpenLoadGameScreen();
 }
 
 bool GameSession::consumePendingOpenNewGameScreenRequest()
 {
-    const bool pending = m_pendingOpenNewGameScreen;
-    m_pendingOpenNewGameScreen = false;
-    return pending;
+    return m_gameplayScreenState.consumePendingOpenNewGameScreenRequest();
 }
 
 bool GameSession::consumePendingOpenLoadGameScreenRequest()
 {
-    const bool pending = m_pendingOpenLoadGameScreen;
-    m_pendingOpenLoadGameScreen = false;
-    return pending;
+    return m_gameplayScreenState.consumePendingOpenLoadGameScreenRequest();
 }
 
 void GameSession::captureOutdoorRuntimeState(

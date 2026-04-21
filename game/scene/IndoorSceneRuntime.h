@@ -14,6 +14,9 @@
 
 namespace OpenYAMM::Game
 {
+class GameplayActorService;
+class SpriteFrameTable;
+
 class IndoorSceneRuntime : public IMapSceneRuntime
 {
 public:
@@ -38,7 +41,9 @@ public:
         const std::optional<MapDeltaData> &indoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState,
         const std::optional<ScriptedEventProgram> &localEventProgram,
-        const std::optional<ScriptedEventProgram> &globalEventProgram
+        const std::optional<ScriptedEventProgram> &globalEventProgram,
+        GameplayActorService *pGameplayActorService,
+        const SpriteFrameTable *pActorSpriteFrameTable = nullptr
     );
 
     SceneKind kind() const override;

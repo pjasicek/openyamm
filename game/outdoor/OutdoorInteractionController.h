@@ -110,9 +110,6 @@ public:
     static void closeActiveEventDialog(OutdoorGameView &view);
     static void handleDialogueCloseRequest(OutdoorGameView &view);
     static void executeActiveDialogAction(OutdoorGameView &view);
-    static void refreshHouseBankInputDialog(OutdoorGameView &view);
-    static void returnToHouseBankMainDialog(OutdoorGameView &view);
-    static void confirmHouseBankInput(OutdoorGameView &view);
     static void openDebugNpcDialogue(OutdoorGameView &view, uint32_t npcId);
     static void applyGrantedEventItemsToHeldInventory(OutdoorGameView &view);
     static bool tryTriggerLocalEventById(OutdoorGameView &view, uint16_t eventId);

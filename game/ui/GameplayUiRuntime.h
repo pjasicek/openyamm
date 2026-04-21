@@ -2,14 +2,12 @@
 
 #include "engine/AssetFileSystem.h"
 #include "game/audio/HouseVideoPlayer.h"
+#include "game/data/GameDataRepository.h"
 #include "game/events/EventRuntime.h"
 #include "game/party/Party.h"
 #include "game/party/PartySpellSystem.h"
 #include "game/tables/FaceAnimationTable.h"
-#include "game/tables/IconFrameTable.h"
-#include "game/tables/PortraitFrameTable.h"
 #include "game/tables/PortraitFxEventTable.h"
-#include "game/tables/SpellFxTable.h"
 #include "game/ui/GameplayHudCommon.h"
 #include "game/ui/GameplayUiController.h"
 #include "game/ui/UiLayoutManager.h"
@@ -47,6 +45,7 @@ class GameplayUiRuntime
 {
 public:
     void clear();
+    void bindDataRepository(const GameDataRepository *pDataRepository);
     void bindAssetFileSystem(const Engine::AssetFileSystem *pAssetFileSystem);
     const Engine::AssetFileSystem *assetFileSystem() const;
 
@@ -198,6 +197,7 @@ private:
     bool m_assetsPreloaded = false;
     bool m_portraitRuntimeLoaded = false;
     bool m_houseVideoPlayerInitialized = false;
+    const GameDataRepository *m_pDataRepository = nullptr;
     GameplayAssetLoadCache m_assetLoadCache;
     UiLayoutManager m_layoutManager;
     std::vector<GameplayHudTextureData> m_hudTextureHandles;
@@ -211,11 +211,6 @@ private:
     std::vector<GameplayTownPortalDestination> m_townPortalDestinations;
     bool m_townPortalDestinationsLoaded = false;
     GameplayHudRenderBackend m_hudRenderBackend;
-    PortraitFrameTable m_portraitFrameTable;
-    IconFrameTable m_iconFrameTable;
-    SpellFxTable m_spellFxTable;
-    PortraitFxEventTable m_portraitFxEventTable;
-    FaceAnimationTable m_faceAnimationTable;
     std::vector<GameplayPortraitFxState> m_portraitFxStates;
     GameplayPortraitPresentationState m_portraitPresentationState;
     HouseVideoPlayer m_houseVideoPlayer;

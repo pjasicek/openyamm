@@ -120,6 +120,13 @@ struct PartySpellCastResult
     float sourceZ = 0.0f;
     std::string statusText;
     std::vector<size_t> affectedCharacterIndices;
+    struct ScreenOverlayRequest
+    {
+        uint32_t colorAbgr = 0x00000000u;
+        float durationSeconds = 0.0f;
+        float peakAlpha = 0.0f;
+    };
+    std::optional<ScreenOverlayRequest> screenOverlayRequest;
 
     bool succeeded() const
     {

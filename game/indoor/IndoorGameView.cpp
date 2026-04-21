@@ -3,13 +3,11 @@
 #include "game/app/GameSession.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameMechanics.h"
-#include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
-#include "game/items/InventoryItemUseRuntime.h"
+#include "game/gameplay/GameplaySpellService.h"
 #include "game/items/ItemRuntime.h"
 #include "game/indoor/IndoorDebugRenderer.h"
-#include "game/party/PartySpellSystem.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpellSchool.h"
 #include "game/render/TextureFiltering.h"
@@ -38,9 +36,6 @@ namespace OpenYAMM::Game
 {
 IndoorGameView::IndoorGameView(GameSession &gameSession)
     : m_gameSession(gameSession)
-    , m_gameplayUiController(gameSession.gameplayUiController())
-    , m_gameplayDialogController(gameSession.gameplayDialogController())
-    , m_overlayInteractionState(gameSession.overlayInteractionState())
 {
 }
 
@@ -886,21 +881,22 @@ bool IndoorGameView::initialize(
     m_gameSession.gameplayScreenRuntime().bindAudioSystem(m_pGameAudioSystem);
     m_gameSession.gameplayScreenRuntime().bindSettings(&m_settings);
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
-    screenRuntime.bindAssetFileSystem(&assetFileSystem);
-    screenRuntime.resetPortraitFxStates(sceneRuntime.partyRuntime().party().members().size());
-    screenRuntime.clearUiControllerRuntimeState();
+    const GameplayScreenRuntime::SharedUiBootstrapResult sharedUiBootstrap =
+        screenRuntime.initializeSharedUiRuntime(
+            GameplayScreenRuntime::SharedUiBootstrapConfig{
+                .pAssetFileSystem = &assetFileSystem,
+                .portraitMemberCount = sceneRuntime.partyRuntime().party().members().size(),
+            });
 
-    if (!screenRuntime.ensureGameplayLayoutsLoaded())
+    if (!sharedUiBootstrap.layoutsLoaded)
     {
         return false;
     }
 
-    if (!screenRuntime.ensurePortraitRuntimeLoaded())
+    if (!sharedUiBootstrap.portraitRuntimeLoaded)
     {
         std::cout << "HUD portrait FX load failed\n";
     }
-
-    screenRuntime.preloadReferencedAssets();
     return true;
 }
 
@@ -930,16 +926,12 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
     hudRenderBackend.viewId = HudViewId;
     m_gameSession.gameplayScreenRuntime().bindHudRenderBackend(hudRenderBackend);
 
-    EventRuntimeState *pEventRuntimeState =
-        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr;
-
-    if (!activeEventDialog().isActive
-        && pEventRuntimeState != nullptr
-        && pEventRuntimeState->pendingDialogueContext.has_value()
-        && pEventRuntimeState->pendingDialogueContext->kind != DialogueContextKind::None)
-    {
-        presentPendingEventDialog(pEventRuntimeState->messages.size(), true);
-    }
+    m_gameSession.gameplayScreenRuntime().ensurePendingEventDialogPresented(
+        true,
+        [this](EventRuntimeState &eventRuntimeState)
+        {
+            return buildDialogContext(eventRuntimeState);
+        });
 
     SDL_Window *pWindow = SDL_GetMouseFocus();
 
@@ -951,13 +943,18 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
     float gameplayMouseX = 0.0f;
     float gameplayMouseY = 0.0f;
     const SDL_MouseButtonFlags gameplayMouseButtons = SDL_GetMouseState(&gameplayMouseX, &gameplayMouseY);
-    const bool gameplayMouseLookAllowed = shouldEnableGameplayMouseLook();
+    const bool gameplayMouseLookAllowed =
+        GameplayScreenController::canEnableGameplayMouseLook(
+            m_gameSession.gameplayScreenRuntime(),
+            GameplayMouseLookEnableConfig{});
     const bool gameplayCursorModeActive =
         gameplayMouseLookAllowed && (gameplayMouseButtons & SDL_BUTTON_RMASK) != 0;
     const bool gameplayMouseLookActive = gameplayMouseLookAllowed && !gameplayCursorModeActive;
 
-    m_gameplayCursorModeActive = gameplayCursorModeActive;
-    m_gameplayMouseLookActive = gameplayMouseLookActive;
+    GameplayScreenState::GameplayMouseLookState &gameplayMouseLookState =
+        m_gameSession.gameplayScreenState().gameplayMouseLookState();
+    gameplayMouseLookState.cursorModeActive = gameplayCursorModeActive;
+    gameplayMouseLookState.mouseLookActive = gameplayMouseLookActive;
     syncGameplayMouseLookMode(pWindow, gameplayMouseLookActive);
 
     if (m_pIndoorRenderer != nullptr)
@@ -970,82 +967,55 @@ void IndoorGameView::render(int width, int height, float mouseWheelDelta, float 
         m_pIndoorRenderer->render(width, height, mouseWheelDelta, deltaSeconds);
     }
 
-    if (!activeEventDialog().isActive
-        && pEventRuntimeState != nullptr
-        && pEventRuntimeState->pendingDialogueContext.has_value()
-        && pEventRuntimeState->pendingDialogueContext->kind != DialogueContextKind::None)
-    {
-        presentPendingEventDialog(pEventRuntimeState->messages.size(), true);
-    }
-
-    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
-    GameplayScreenController::updateSharedFrameState(
-        overlayContext,
-        width,
-        height,
-        deltaSeconds,
-        GameplayScreenFrameUpdateConfig{});
-    GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
-        overlayContext,
-        width,
-        height,
-        !m_gameplayUiController.spellbook().active
-            && !m_gameplayUiController.controlsScreen().active
-            && !m_gameplayUiController.keyboardScreen().active
-            && !m_gameplayUiController.menuScreen().active
-            && !m_gameplayUiController.saveGameScreen().active
-            && !m_gameplayUiController.loadGameScreen().active,
-        false);
-    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
-    struct KeyboardStateSnapshotUpdater
-    {
-        std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState;
-        const bool *pKeyboardState = nullptr;
-
-        ~KeyboardStateSnapshotUpdater()
+    m_gameSession.gameplayScreenRuntime().ensurePendingEventDialogPresented(
+        true,
+        [this](EventRuntimeState &eventRuntimeState)
         {
-            if (pKeyboardState == nullptr)
-            {
-                previousKeyboardState.fill(0);
-                return;
-            }
-
-            for (size_t scancode = 0; scancode < SDL_SCANCODE_COUNT; ++scancode)
-            {
-                previousKeyboardState[scancode] = pKeyboardState[scancode] ? 1u : 0u;
-            }
-        }
-    } keyboardStateSnapshotUpdater = {m_gameSession.previousKeyboardState(), pKeyboardState};
-    const bool allowGameplayPointerInput = !gameplayMouseLookAllowed || gameplayCursorModeActive;
-    GameplayScreenController::handleStandardUiInput(
-        overlayContext,
-        GameplayStandardUiInputConfig{
-            .pKeyboardState = pKeyboardState,
-            .width = width,
-            .height = height,
-            .pointerX = gameplayMouseX,
-            .pointerY = gameplayMouseY,
-            .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
-            .allowGameplayPointerInput = allowGameplayPointerInput,
-            .canOpenRest = false,
-            .mouseWheelDelta = mouseWheelDelta,
+            return buildDialogContext(eventRuntimeState);
         });
 
+    updateActorInspectOverlayState(width, height);
+
+    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
+    const bool *pKeyboardState = SDL_GetKeyboardState(nullptr);
+    const bool allowGameplayPointerInput = !gameplayMouseLookAllowed || gameplayCursorModeActive;
     const bool canRenderHudOverlays =
         m_pIndoorRenderer != nullptr
         && m_pIndoorRenderer->hasHudRenderResources()
         && width > 0
         && height > 0;
 
-    GameplayScreenController::renderStandardUi(
+    GameplayScreenController::processStandardUiFrame(
         overlayContext,
         width,
         height,
-        GameplayStandardUiRenderConfig{
-            .canRenderHudOverlays = canRenderHudOverlays,
-            .renderGameplayMouseLookOverlay = m_gameplayMouseLookActive && !m_gameplayCursorModeActive,
-            .renderActorInspectOverlay = false,
-            .renderDebugFallbacks = true,
+        deltaSeconds,
+        GameplayStandardUiFrameConfig{
+            .frame = GameplayScreenFrameUpdateConfig{},
+            .hotkeys =
+                GameplayStandardUiHotkeyConfig{
+                    .pKeyboardState = pKeyboardState,
+                },
+            .input =
+                GameplayStandardUiInputConfig{
+                    .pKeyboardState = pKeyboardState,
+                    .width = width,
+                    .height = height,
+                    .pointerX = gameplayMouseX,
+                    .pointerY = gameplayMouseY,
+                    .leftButtonPressed = (gameplayMouseButtons & SDL_BUTTON_LMASK) != 0,
+                    .allowGameplayPointerInput = allowGameplayPointerInput,
+                    .mouseWheelDelta = mouseWheelDelta,
+                },
+            .render =
+                GameplayStandardUiRenderConfig{
+                    .canRenderHudOverlays = canRenderHudOverlays,
+                    .renderGameplayMouseLookOverlay =
+                        gameplayMouseLookState.mouseLookActive && !gameplayMouseLookState.cursorModeActive,
+                    .renderActorInspectOverlay = true,
+                    .renderDebugFallbacks = true,
+                },
+            .updateHudItemInspectOverlayFromMouse = true,
         });
 }
 
@@ -1066,11 +1036,11 @@ void IndoorGameView::shutdown()
     m_gameSession.gameplayScreenRuntime().bindAudioSystem(nullptr);
     m_map.reset();
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    screenRuntime.actorInspectOverlay() = {};
     screenRuntime.clearSharedUiRuntime();
     screenRuntime.clearUiControllerRuntimeState();
     screenRuntime.resetOverlayInteractionState();
-    m_gameplayMouseLookActive = false;
-    m_gameplayCursorModeActive = false;
+    m_gameSession.gameplayScreenState().gameplayMouseLookState().clear();
     m_gameSession.previousKeyboardState().fill(0);
     m_gameSession.gameplayScreenRuntime().resetHudTransientState();
 }
@@ -1143,264 +1113,29 @@ bool IndoorGameView::activeMemberHasSpellbookSchool(GameplayUiController::Spellb
 
 void IndoorGameView::setStatusBarEvent(const std::string &text, float durationSeconds)
 {
-    m_gameplayUiController.setStatusBarEvent(text, durationSeconds);
+    m_gameSession.gameplayScreenRuntime().setStatusBarEvent(text, durationSeconds);
 }
 
 void IndoorGameView::executeActiveDialogAction()
 {
-    EventRuntimeState *pEventRuntimeState =
-        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr;
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return;
-    }
-
-    GameplayDialogController::Context context = buildDialogContext(*pEventRuntimeState);
-    const GameplayDialogController::Result result = m_gameplayDialogController.executeActiveDialogAction(context);
-
-    if (result.shouldCloseActiveDialog)
-    {
-        closeActiveEventDialog();
-    }
-
-    if (result.shouldOpenPendingEventDialog)
-    {
-        presentPendingEventDialog(result.previousMessageCount, result.allowNpcFallbackContent);
-    }
-}
-
-
-void IndoorGameView::closeInventoryNestedOverlay()
-{
-    m_gameplayUiController.closeInventoryNestedOverlay();
-}
-
-bool IndoorGameView::tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen)
-{
-    GameplayUiController::HeldInventoryItemState &heldItem = m_gameplayUiController.heldInventoryItem();
-    const GameDataRepository &data = m_gameSession.data();
-    const ItemTable &itemTable = data.itemTable();
-    const ReadableScrollTable &readableScrollTable = data.readableScrollTable();
-    const SpellTable &spellTable = data.spellTable();
-
-    if (!heldItem.active || partyRuntime() == nullptr || worldRuntime() == nullptr)
-    {
-        return false;
-    }
-
-    Party &party = partyRuntime()->party();
-    const InventoryItemUseResult useResult =
-        InventoryItemUseRuntime::useItemOnMember(
-            party,
-            memberIndex,
-            heldItem.item,
-            itemTable,
-            &readableScrollTable);
-
-    if (!useResult.handled)
-    {
-        return false;
-    }
-
-    if (useResult.action == InventoryItemUseAction::CastScroll)
-    {
-        const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(useResult.spellId));
-
-        if (pSpellEntry == nullptr)
+    m_gameSession.gameplayScreenRuntime().executeActiveDialogAction(
+        [this](EventRuntimeState &eventRuntimeState)
         {
-            setStatusBarEvent("Unknown scroll spell");
-            return true;
-        }
-
-        PartySpellCastRequest request = {};
-        request.casterMemberIndex = memberIndex;
-        request.spellId = useResult.spellId;
-        request.skillLevelOverride = useResult.spellSkillLevelOverride;
-        request.skillMasteryOverride = useResult.spellSkillMasteryOverride;
-        request.spendMana = false;
-        request.applyRecovery = true;
-        const PartySpellCastResult result =
-            PartySpellSystem::castSpell(party, *worldRuntime(), spellTable, request);
-
-        if (!result.succeeded())
+            return buildDialogContext(eventRuntimeState);
+        },
+        {},
+        {},
+        {},
+        [this](size_t previousMessageCount, bool allowNpcFallbackContent)
         {
-            setStatusBarEvent(result.statusText.empty() ? "Spell failed" : result.statusText);
-            return true;
-        }
-
-        if (useResult.consumed)
-        {
-            heldItem = {};
-        }
-    }
-    else if (useResult.action == InventoryItemUseAction::ReadMessageScroll)
-    {
-        GameplayUiController::ReadableScrollOverlayState &overlay = m_gameplayUiController.readableScrollOverlay();
-        overlay.active = true;
-        overlay.title = useResult.readableTitle;
-        overlay.body = useResult.readableBody;
-    }
-    else
-    {
-        if (useResult.consumed)
-        {
-            heldItem = {};
-        }
-
-        if (useResult.action == InventoryItemUseAction::ConsumePotion
-            && useResult.consumed
-            && m_pGameAudioSystem != nullptr)
-        {
-            m_pGameAudioSystem->playCommonSound(SoundId::Drink, GameAudioSystem::PlaybackGroup::Ui);
-        }
-        else if (useResult.action == InventoryItemUseAction::LearnSpell
-                 && !useResult.consumed
-                 && useResult.alreadyKnown
-                 && m_pGameAudioSystem != nullptr)
-        {
-            m_pGameAudioSystem->playCommonSound(SoundId::Error, GameAudioSystem::PlaybackGroup::Ui);
-        }
-
-        if (useResult.speechId.has_value())
-        {
-            m_gameSession.gameplayScreenRuntime().playSpeechReaction(memberIndex, *useResult.speechId, true);
-        }
-    }
-
-    if (!useResult.statusText.empty())
-    {
-        setStatusBarEvent(useResult.statusText);
-    }
-
-    const bool closeCharacterScreen = !keepCharacterScreenOpen || useResult.action == InventoryItemUseAction::CastScroll;
-
-    if (closeCharacterScreen)
-    {
-        GameplayUiController::CharacterScreenState &screen = m_gameplayUiController.characterScreen();
-        screen.open = false;
-        screen.dollJewelryOverlayOpen = false;
-    }
-
-    return true;
-}
-
-void IndoorGameView::updateReadableScrollOverlayForHeldItem(
-    size_t memberIndex,
-    const GameplayCharacterPointerTarget &pointerTarget,
-    bool isLeftMousePressed)
-{
-    GameplayUiController::ReadableScrollOverlayState &overlay = m_gameplayUiController.readableScrollOverlay();
-    const GameDataRepository &data = m_gameSession.data();
-    const ItemTable &itemTable = data.itemTable();
-    const ReadableScrollTable &readableScrollTable = data.readableScrollTable();
-    overlay = {};
-
-    if (!isLeftMousePressed
-        || !m_gameplayUiController.heldInventoryItem().active
-        || partyRuntime() == nullptr
-        || (pointerTarget.type != GameplayCharacterPointerTargetType::EquipmentSlot
-            && pointerTarget.type != GameplayCharacterPointerTargetType::DollPanel))
-    {
-        return;
-    }
-
-    const InventoryItemUseAction useAction =
-        InventoryItemUseRuntime::classifyItemUse(m_gameplayUiController.heldInventoryItem().item, itemTable);
-
-    if (useAction != InventoryItemUseAction::ReadMessageScroll)
-    {
-        return;
-    }
-
-    Party &party = partyRuntime()->party();
-    const InventoryItemUseResult useResult =
-        InventoryItemUseRuntime::useItemOnMember(
-            party,
-            memberIndex,
-            m_gameplayUiController.heldInventoryItem().item,
-            itemTable,
-            &readableScrollTable);
-
-    if (!useResult.handled || useResult.action != InventoryItemUseAction::ReadMessageScroll)
-    {
-        return;
-    }
-
-    overlay.active = true;
-    overlay.title = useResult.readableTitle;
-    overlay.body = useResult.readableBody;
-}
-
-void IndoorGameView::closeReadableScrollOverlay()
-{
-    m_gameplayUiController.closeReadableScrollOverlay();
-}
-
-bool IndoorGameView::tryCastSpellFromMember(
-    size_t casterMemberIndex,
-    uint32_t spellId,
-    const std::string &spellName)
-{
-    if (partyRuntime() == nullptr || worldRuntime() == nullptr)
-    {
-        return false;
-    }
-
-    const SpellTable &spellTable = m_gameSession.data().spellTable();
-
-    PartySpellCastRequest request = {};
-    request.casterMemberIndex = casterMemberIndex;
-    request.spellId = spellId;
-
-    Party &party = partyRuntime()->party();
-    const PartySpellCastResult result =
-        PartySpellSystem::castSpell(party, *worldRuntime(), spellTable, request);
-
-    if (!result.succeeded())
-    {
-        if (result.status == PartySpellCastStatus::NeedActorTarget
-            || result.status == PartySpellCastStatus::NeedCharacterTarget
-            || result.status == PartySpellCastStatus::NeedActorOrCharacterTarget
-            || result.status == PartySpellCastStatus::NeedGroundPoint
-            || result.status == PartySpellCastStatus::NeedInventoryItemTarget
-            || result.status == PartySpellCastStatus::NeedUtilityUi)
-        {
-            setStatusBarEvent("Spell targeting is not wired indoors yet");
-            return false;
-        }
-
-        if (!result.statusText.empty())
-        {
-            setStatusBarEvent(result.statusText);
-        }
-
-        return false;
-    }
-
-    if (m_pGameAudioSystem != nullptr)
-    {
-        const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(spellId));
-
-        if (result.effectKind == PartySpellCastEffectKind::CharacterRestore
-            || result.effectKind == PartySpellCastEffectKind::PartyRestore)
-        {
-            m_pGameAudioSystem->playCommonSound(SoundId::Heal, GameAudioSystem::PlaybackGroup::Ui);
-        }
-        else if (pSpellEntry != nullptr
-            && pSpellEntry->effectSoundId > 0
-            && result.effectKind != PartySpellCastEffectKind::Projectile
-            && result.effectKind != PartySpellCastEffectKind::MultiProjectile)
-        {
-            m_pGameAudioSystem->playSound(
-                static_cast<uint32_t>(pSpellEntry->effectSoundId),
-                GameAudioSystem::PlaybackGroup::Ui);
-        }
-    }
-
-    m_gameSession.gameplayScreenRuntime().triggerPortraitSpellFx(result);
-    setStatusBarEvent("Cast " + spellName);
-    return true;
+            m_gameSession.gameplayScreenRuntime().presentPendingEventDialog(
+                previousMessageCount,
+                allowNpcFallbackContent,
+                [this](EventRuntimeState &eventRuntimeState)
+                {
+                    return buildDialogContext(eventRuntimeState);
+                });
+        });
 }
 
 bool IndoorGameView::tryCastSpellRequest(
@@ -1412,50 +1147,23 @@ bool IndoorGameView::tryCastSpellRequest(
         return false;
     }
 
-    const SpellTable &spellTable = m_gameSession.data().spellTable();
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    const GameplaySpellService::SpellRequestResolution resolution =
+        m_gameSession.gameplaySpellService().resolveSpellRequest(screenRuntime, request, spellName);
 
-    Party &party = partyRuntime()->party();
-    const PartySpellCastResult result =
-        PartySpellSystem::castSpell(party, *worldRuntime(), spellTable, request);
-
-    if (!result.succeeded())
+    if (resolution.disposition == GameplaySpellService::SpellRequestDisposition::CastSucceeded
+        || resolution.disposition == GameplaySpellService::SpellRequestDisposition::OpenedSelectionUi)
     {
-        if (!result.statusText.empty())
-        {
-            setStatusBarEvent(result.statusText);
-        }
+        return true;
+    }
 
+    if (resolution.disposition == GameplaySpellService::SpellRequestDisposition::NeedsTargetSelection)
+    {
+        setStatusBarEvent("Spell targeting is not wired indoors yet");
         return false;
     }
 
-    if (m_pGameAudioSystem != nullptr)
-    {
-        const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(request.spellId));
-
-        if (result.effectKind == PartySpellCastEffectKind::CharacterRestore
-            || result.effectKind == PartySpellCastEffectKind::PartyRestore)
-        {
-            m_pGameAudioSystem->playCommonSound(SoundId::Heal, GameAudioSystem::PlaybackGroup::Ui);
-        }
-        else if (pSpellEntry != nullptr
-            && pSpellEntry->effectSoundId > 0
-            && result.effectKind != PartySpellCastEffectKind::Projectile
-            && result.effectKind != PartySpellCastEffectKind::MultiProjectile)
-        {
-            m_pGameAudioSystem->playSound(
-                static_cast<uint32_t>(pSpellEntry->effectSoundId),
-                GameAudioSystem::PlaybackGroup::Ui);
-        }
-    }
-
-    m_gameSession.gameplayScreenRuntime().triggerPortraitSpellFx(result);
-
-    if (!spellName.empty())
-    {
-        setStatusBarEvent("Cast " + spellName);
-    }
-
-    return true;
+    return false;
 }
 
 GameSettings &IndoorGameView::mutableSettings()
@@ -1463,68 +1171,30 @@ GameSettings &IndoorGameView::mutableSettings()
     return m_settings;
 }
 
-std::array<uint8_t, SDL_SCANCODE_COUNT> &IndoorGameView::previousKeyboardState()
-{
-    return m_gameSession.previousKeyboardState();
-}
-
-const std::array<uint8_t, SDL_SCANCODE_COUNT> &IndoorGameView::previousKeyboardState() const
-{
-    return m_gameSession.previousKeyboardState();
-}
-
 bool IndoorGameView::trySaveToSelectedGameSlot()
 {
-    GameplayUiController::SaveGameScreenState &saveGameScreen = m_gameplayUiController.saveGameScreen();
+    return m_gameSession.gameplayScreenRuntime().trySaveToSelectedGameSlot(
+        [this](const GameplayScreenRuntime::PreparedSaveGameRequest &request)
+        {
+            std::string error;
+            const bool saved = m_gameSession.saveGameToPath(
+                request.path,
+                request.saveName,
+                {},
+                error);
 
-    if (!saveGameScreen.active
-        || saveGameScreen.slots.empty()
-        || saveGameScreen.selectedIndex >= saveGameScreen.slots.size()
-        || !m_gameSession.canSaveGameToPath())
-    {
-        return false;
-    }
+            if (saved)
+            {
+                m_gameSession.gameplayScreenRuntime().closeSaveGameOverlay();
+            }
 
-    std::string saveName;
-
-    if (saveGameScreen.editActive)
-    {
-        saveName = saveGameScreen.editBuffer;
-    }
-    else
-    {
-        const GameplayUiController::SaveSlotSummary &slot = saveGameScreen.slots[saveGameScreen.selectedIndex];
-        saveName = slot.fileLabel == "Empty" ? std::string() : slot.fileLabel;
-    }
-
-    if (saveName.empty())
-    {
-        saveName = m_map.has_value() ? m_map->name : "Save Game";
-    }
-
-    std::string error;
-    const bool saved = m_gameSession.saveGameToPath(
-        saveGameScreen.slots[saveGameScreen.selectedIndex].path,
-        saveName,
-        {},
-        error);
-
-    if (saved)
-    {
-        m_gameSession.gameplayScreenRuntime().closeSaveGameOverlay();
-    }
-
-    return saved;
+            return saved;
+        });
 }
 
 const GameSettings &IndoorGameView::settingsSnapshot() const
 {
     return m_settings;
-}
-
-bool IndoorGameView::shouldEnableGameplayMouseLook() const
-{
-    return m_gameSession.gameplayScreenRuntime().currentHudScreenState() == GameplayHudScreenState::Gameplay;
 }
 
 void IndoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled)
@@ -1558,6 +1228,60 @@ void IndoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled
     {
         SDL_ShowCursor();
     }
+}
+
+void IndoorGameView::updateActorInspectOverlayState(int width, int height)
+{
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    GameplayUiController::ActorInspectOverlayState &actorInspectOverlay = screenRuntime.actorInspectOverlay();
+
+    actorInspectOverlay = {};
+
+    const IndoorWorldRuntime *pWorldRuntime =
+        m_pIndoorSceneRuntime != nullptr ? &m_pIndoorSceneRuntime->worldRuntime() : nullptr;
+    const bool hasActiveLootView =
+        pWorldRuntime != nullptr
+        && (pWorldRuntime->activeChestView() != nullptr
+            || pWorldRuntime->activeCorpseView() != nullptr);
+
+    if (!GameplayScreenController::canUpdateStandardWorldInspectOverlayFromMouse(
+            screenRuntime,
+            GameplayStandardWorldInspectOverlayConfig{
+                .width = width,
+                .height = height,
+                .worldReady = m_pIndoorRenderer != nullptr && pWorldRuntime != nullptr,
+                .hasHeldItem = screenRuntime.heldInventoryItem().active,
+                .hasPendingSpellTarget =
+                    m_gameSession.gameplayScreenState().pendingSpellTarget().active,
+                .hasActiveLootView = hasActiveLootView,
+            }))
+    {
+        return;
+    }
+
+    float mouseX = 0.0f;
+    float mouseY = 0.0f;
+    const SDL_MouseButtonFlags mouseButtons = SDL_GetMouseState(&mouseX, &mouseY);
+
+    if ((mouseButtons & SDL_BUTTON_RMASK) == 0 || m_pIndoorRenderer == nullptr)
+    {
+        return;
+    }
+
+    const std::optional<IndoorDebugRenderer::GameplayActorPick> pick =
+        m_pIndoorRenderer->gameplayActorPickAtCursor(width, height, mouseX, mouseY);
+
+    if (!pick.has_value())
+    {
+        return;
+    }
+
+    actorInspectOverlay.active = true;
+    actorInspectOverlay.runtimeActorIndex = pick->runtimeActorIndex;
+    actorInspectOverlay.sourceX = pick->sourceX;
+    actorInspectOverlay.sourceY = pick->sourceY;
+    actorInspectOverlay.sourceWidth = pick->sourceWidth;
+    actorInspectOverlay.sourceHeight = pick->sourceHeight;
 }
 
 std::optional<std::string> IndoorGameView::findCachedAssetPath(
@@ -1606,12 +1330,13 @@ GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntim
         };
 
     Party *pParty = partyRuntime() != nullptr ? &partyRuntime()->party() : nullptr;
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
 
     return buildGameplayDialogContext(
-        m_gameplayUiController,
+        m_gameSession.gameplayUiController(),
         eventRuntimeState,
-        activeEventDialog(),
-        eventDialogSelectionIndex(),
+        screenRuntime.activeEventDialog(),
+        screenRuntime.eventDialogSelectionIndex(),
         pParty,
         worldRuntime(),
         m_pIndoorSceneRuntime != nullptr ? &m_pIndoorSceneRuntime->globalEventProgram() : nullptr,
@@ -1622,39 +1347,8 @@ GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntim
         &m_gameSession.data().mapEntries(),
         &m_gameSession.data().rosterTable(),
         &m_gameSession.data().arcomageLibrary(),
-        m_gameSession.gameplayScreenRuntime().currentHudScreenState() == GameplayHudScreenState::Dialogue,
+        screenRuntime.currentHudScreenState() == GameplayHudScreenState::Dialogue,
         std::move(callbacks));
 }
 
-void IndoorGameView::presentPendingEventDialog(size_t previousMessageCount, bool allowNpcFallbackContent)
-{
-    GameplayDialogUiFlowState state = {
-        m_gameplayUiController,
-        m_overlayInteractionState,
-        m_gameplayDialogController,
-        eventDialogSelectionIndex()
-    };
-    ::OpenYAMM::Game::presentPendingEventDialog(
-        state,
-        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr,
-        [this](EventRuntimeState &eventRuntimeState)
-        {
-            return buildDialogContext(eventRuntimeState);
-        },
-        previousMessageCount,
-        allowNpcFallbackContent);
-}
-
-void IndoorGameView::closeActiveEventDialog()
-{
-    GameplayDialogUiFlowState state = {
-        m_gameplayUiController,
-        m_overlayInteractionState,
-        m_gameplayDialogController,
-        eventDialogSelectionIndex()
-    };
-    ::OpenYAMM::Game::closeActiveEventDialog(
-        state,
-        m_pIndoorSceneRuntime != nullptr ? m_pIndoorSceneRuntime->eventRuntimeState() : nullptr);
-}
 } // namespace OpenYAMM::Game

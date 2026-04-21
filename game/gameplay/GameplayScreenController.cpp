@@ -1,5 +1,8 @@
 #include "game/gameplay/GameplayScreenController.h"
 
+#include "game/gameplay/GameplayFxService.h"
+#include "game/gameplay/GameplayInputController.h"
+#include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayPartyOverlayInputController.h"
 #include "game/items/ItemRuntime.h"
 #include "game/ui/GameplayHudOverlaySupport.h"
@@ -35,6 +38,8 @@ void GameplayScreenController::updateSharedFrameState(
     float deltaSeconds,
     const GameplayScreenFrameUpdateConfig &config)
 {
+    context.fxService().syncActiveWorldProjectilePresentation();
+    context.fxService().advanceGameplayScreenOverlay(deltaSeconds);
     context.updatePartyPortraitAnimations(deltaSeconds);
     context.consumePendingPartyAudioRequests();
 
@@ -76,6 +81,119 @@ bool GameplayScreenController::updateRenderedHudItemInspectOverlay(
         width,
         height,
         requireOpaqueHitTest);
+}
+
+bool GameplayScreenController::canUpdateStandardHudItemInspectOverlayFromMouse(
+    GameplayScreenRuntime &context,
+    int width,
+    int height,
+    bool additionalBlock)
+{
+    if (width <= 0
+        || height <= 0
+        || additionalBlock
+        || context.spellbookReadOnly().active
+        || context.controlsScreenState().active
+        || context.keyboardScreenState().active
+        || context.menuScreenState().active
+        || context.saveGameScreenState().active
+        || context.loadGameScreenState().active)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool GameplayScreenController::canUpdateStandardWorldInspectOverlayFromMouse(
+    GameplayScreenRuntime &context,
+    const GameplayStandardWorldInspectOverlayConfig &config)
+{
+    if (config.width <= 0
+        || config.height <= 0
+        || !config.worldReady
+        || config.hasHeldItem
+        || config.hasPendingSpellTarget
+        || config.hasActiveLootView
+        || context.activeEventDialog().isActive
+        || context.characterScreenReadOnly().open
+        || context.spellbookReadOnly().active
+        || context.controlsScreenState().active
+        || context.keyboardScreenState().active
+        || context.menuScreenState().active
+        || context.saveGameScreenState().active
+        || context.loadGameScreenState().active)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool GameplayScreenController::canRunStandardGameplayAction(
+    GameplayScreenRuntime &context,
+    const GameplayStandardGameplayActionGateConfig &config)
+{
+    if (config.hasActiveLootView
+        || config.hasPendingSpellCast
+        || context.activeEventDialog().isActive
+        || context.spellbookReadOnly().active
+        || context.restScreenState().active
+        || context.menuScreenState().active
+        || context.controlsScreenState().active
+        || context.keyboardScreenState().active
+        || context.saveGameScreenState().active
+        || context.loadGameScreenState().active
+        || context.journalScreenState().active)
+    {
+        return false;
+    }
+
+    if (config.blockOnCharacterScreen && context.characterScreenReadOnly().open)
+    {
+        return false;
+    }
+
+    if (config.blockOnHeldItem && config.hasHeldItem)
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool GameplayScreenController::canEnableGameplayMouseLook(
+    GameplayScreenRuntime &context,
+    const GameplayMouseLookEnableConfig &config)
+{
+    if (context.currentHudScreenState() != GameplayHudScreenState::Gameplay)
+    {
+        return false;
+    }
+
+    if (config.hasPendingSpellTarget)
+    {
+        return false;
+    }
+
+    if (config.blockOnReadableScrollOverlay && context.readableScrollOverlayReadOnly().active)
+    {
+        return false;
+    }
+
+    if (config.blockOnUtilitySpellOverlay && context.utilitySpellOverlayReadOnly().active)
+    {
+        const bool inventoryTargetMode =
+            context.utilitySpellOverlayReadOnly().mode
+            == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
+
+        if (!inventoryTargetMode || !config.utilitySpellInventoryTargetKeepsMouseLook)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 void GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
@@ -135,7 +253,8 @@ void GameplayScreenController::applySharedItemInspectSkillInteraction(
     interactionKey ^= uint64_t(overlay.sourceLootItemIndex) << 48;
     interactionKey ^= uint64_t(overlay.sourceType) << 56;
 
-    if (context.interactionState().itemInspectInteractionLatch && context.interactionState().itemInspectInteractionKey == interactionKey)
+    if (context.interactionState().itemInspectInteractionLatch
+        && context.interactionState().itemInspectInteractionKey == interactionKey)
     {
         return;
     }
@@ -219,124 +338,21 @@ void GameplayScreenController::applySharedItemInspectSkillInteraction(
         };
 
     const auto forceIdentifyWithoutReaction =
-        [&context, pParty, &overlay](std::string &statusText) -> bool
+        [&context, &overlay](std::string &statusText) -> bool
         {
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Inventory)
-            {
-                return pParty->identifyMemberInventoryItem(
-                    overlay.sourceMemberIndex,
-                    overlay.sourceGridX,
-                    overlay.sourceGridY,
-                    statusText);
-            }
-
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Equipment)
-            {
-                return pParty->identifyEquippedItem(
-                    overlay.sourceMemberIndex,
-                    overlay.sourceEquipmentSlot,
-                    statusText);
-            }
-
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Chest
-                && context.worldRuntime() != nullptr)
-            {
-                return context.worldRuntime()->identifyActiveChestItem(overlay.sourceLootItemIndex, statusText);
-            }
-
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Corpse
-                && context.worldRuntime() != nullptr)
-            {
-                return context.worldRuntime()->identifyActiveCorpseItem(overlay.sourceLootItemIndex, statusText);
-            }
-
-            return false;
+            return context.itemService().identifyInspectedItem(overlay, statusText);
         };
 
     const auto tryIdentifyWithSkill =
-        [&context, pParty, activeMemberIndex, pActiveMember, &overlay](std::string &statusText) -> bool
+        [&context, activeMemberIndex, &overlay](std::string &statusText) -> bool
         {
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Inventory)
-            {
-                return pParty->tryIdentifyMemberInventoryItem(
-                    overlay.sourceMemberIndex,
-                    overlay.sourceGridX,
-                    overlay.sourceGridY,
-                    activeMemberIndex,
-                    statusText);
-            }
-
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Equipment)
-            {
-                return pParty->tryIdentifyEquippedItem(
-                    overlay.sourceMemberIndex,
-                    overlay.sourceEquipmentSlot,
-                    activeMemberIndex,
-                    statusText);
-            }
-
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Chest
-                && context.worldRuntime() != nullptr)
-            {
-                return context.worldRuntime()->tryIdentifyActiveChestItem(
-                    overlay.sourceLootItemIndex,
-                    *pActiveMember,
-                    statusText);
-            }
-
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Corpse
-                && context.worldRuntime() != nullptr)
-            {
-                return context.worldRuntime()->tryIdentifyActiveCorpseItem(
-                    overlay.sourceLootItemIndex,
-                    *pActiveMember,
-                    statusText);
-            }
-
-            return false;
+            return context.itemService().tryIdentifyInspectedItem(overlay, activeMemberIndex, statusText);
         };
 
     const auto tryRepairWithSkill =
-        [&context, pParty, activeMemberIndex, pActiveMember, &overlay](std::string &statusText) -> bool
+        [&context, activeMemberIndex, &overlay](std::string &statusText) -> bool
         {
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Inventory)
-            {
-                return pParty->tryRepairMemberInventoryItem(
-                    overlay.sourceMemberIndex,
-                    overlay.sourceGridX,
-                    overlay.sourceGridY,
-                    activeMemberIndex,
-                    statusText);
-            }
-
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Equipment)
-            {
-                return pParty->tryRepairEquippedItem(
-                    overlay.sourceMemberIndex,
-                    overlay.sourceEquipmentSlot,
-                    activeMemberIndex,
-                    statusText);
-            }
-
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Chest
-                && context.worldRuntime() != nullptr)
-            {
-                return context.worldRuntime()->tryRepairActiveChestItem(
-                    overlay.sourceLootItemIndex,
-                    *pActiveMember,
-                    statusText);
-            }
-
-            if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::Corpse
-                && context.worldRuntime() != nullptr)
-            {
-                return context.worldRuntime()->tryRepairActiveCorpseItem(
-                    overlay.sourceLootItemIndex,
-                    *pActiveMember,
-                    statusText);
-            }
-
-            return false;
+            return context.itemService().tryRepairInspectedItem(overlay, activeMemberIndex, statusText);
         };
 
     if (!overlay.itemState.identified)
@@ -427,20 +443,7 @@ void GameplayScreenController::updateRestOverlayProgress(
         return;
     }
 
-    const GameplayUiController::RestMode completedMode = restScreen.mode;
-    restScreen.mode = GameplayUiController::RestMode::None;
-    restScreen.totalMinutes = 0.0f;
-    restScreen.remainingMinutes = 0.0f;
-
-    if (completedMode == GameplayUiController::RestMode::Heal && context.party() != nullptr)
-    {
-        context.party()->restAndHealAll();
-    }
-
-    if (completedMode == GameplayUiController::RestMode::Heal)
-    {
-        context.closeRestOverlay();
-    }
+    context.completeRestAction(false);
 }
 
 void GameplayScreenController::handlePartyPortraitInput(
@@ -477,14 +480,6 @@ GameplayUiOverlayInputResult GameplayScreenController::handleSharedOverlayInput(
     }
 
     return result;
-}
-
-void GameplayScreenController::handleSharedHotkeys(
-    GameplayScreenRuntime &context,
-    const bool *pKeyboardState,
-    const GameplayScreenHotkeyConfig &config)
-{
-    GameplayScreenHotkeyController::handleGameplayScreenHotkeys(context, pKeyboardState, config);
 }
 
 GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
@@ -549,79 +544,6 @@ GameplayUiOverlayInputResult GameplayScreenController::handleStandardUiInput(
     {
         handlePartyPortraitInput(context, GameplayPartyPortraitInputConfig{});
     }
-
-    const bool canToggleSpellbook =
-        !activeEventDialog
-        && !characterScreenOpen
-        && !hasActiveLootView
-        && !restActive
-        && !menuActive
-        && !controlsActive
-        && !keyboardActive
-        && !videoOptionsActive
-        && !saveGameActive
-        && !loadGameActive
-        && !journalActive
-        && !houseShopActive
-        && !houseBankInputActive
-        && !config.blockSpellbookToggle;
-
-    const bool canToggleInventory =
-        !activeEventDialog
-        && !restActive
-        && !menuActive
-        && !controlsActive
-        && !keyboardActive
-        && !videoOptionsActive
-        && !saveGameActive
-        && !loadGameActive
-        && !journalActive
-        && !config.blockInventoryToggle;
-
-    const bool canCyclePartyMember =
-        !activeEventDialog
-        && !hasActiveLootView
-        && !spellbookActive
-        && !restActive
-        && !menuActive
-        && !controlsActive
-        && !keyboardActive
-        && !videoOptionsActive
-        && !saveGameActive
-        && !loadGameActive
-        && !journalActive
-        && !houseShopActive
-        && !houseBankInputActive
-        && !config.blockPartyCycle;
-
-    const bool canToggleMenu =
-        !activeEventDialog
-        && !hasActiveLootView
-        && !restActive
-        && !menuActive
-        && !controlsActive
-        && !keyboardActive
-        && !videoOptionsActive
-        && !saveGameActive
-        && !loadGameActive
-        && !journalActive
-        && !context.inventoryNestedOverlay().active
-        && !houseShopActive
-        && !houseBankInputActive
-        && !config.blockMenuToggle;
-
-    handleSharedHotkeys(
-        context,
-        config.pKeyboardState,
-        GameplayScreenHotkeyConfig{
-            .canToggleMenu = canToggleMenu,
-            .canOpenRest = config.canOpenRest,
-            .canToggleSpellbook = canToggleSpellbook,
-            .canToggleInventory = canToggleInventory,
-            .canCyclePartyMember = canCyclePartyMember,
-            .hasActiveLootView = hasActiveLootView,
-            .requireGameplayReadyForPartySelection = config.requireGameplayReadyForPartySelection,
-        });
 
     const bool canClickGameplayHudButtons =
         config.allowGameplayPointerInput
@@ -735,7 +657,8 @@ GameplayStandardWorldInputGateResult GameplayScreenController::gateStandardWorld
     if (config.blockOnUtilitySpellOverlay && context.utilitySpellOverlayReadOnly().active)
     {
         const bool inventoryTargetMode =
-            context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
+            context.utilitySpellOverlayReadOnly().mode
+            == GameplayUiController::UtilitySpellOverlayMode::InventoryTarget;
 
         if (!inventoryTargetMode || !config.utilitySpellInventoryTargetKeepsWorldInput)
         {
@@ -801,10 +724,51 @@ GameplayStandardWorldInputGateResult GameplayScreenController::gateStandardWorld
 
     if (config.closeReadableScrollOverlay)
     {
-        context.closeReadableScrollOverlay();
+        context.itemService().closeReadableScrollOverlay();
     }
 
     return {};
+}
+
+GameplayStandardWorldInteractionFrameState GameplayScreenController::captureStandardWorldInteractionFrameState(
+    GameplayScreenRuntime &context)
+{
+    return GameplayStandardWorldInteractionFrameState{
+        .restActiveBeforeInput = context.restScreenState().active,
+        .menuActiveBeforeInput = context.menuScreenState().active,
+        .controlsActiveBeforeInput = context.controlsScreenState().active,
+        .keyboardActiveBeforeInput = context.keyboardScreenState().active,
+        .videoOptionsActiveBeforeInput = context.videoOptionsScreenState().active,
+        .saveGameActiveBeforeInput = context.saveGameScreenState().active,
+        .loadGameActiveBeforeInput = context.loadGameScreenState().active,
+        .journalActiveBeforeInput = context.journalScreenState().active,
+    };
+}
+
+bool GameplayScreenController::isStandardWorldInteractionBlockedForFrame(
+    GameplayScreenRuntime &context,
+    const GameplayStandardWorldInteractionFrameGateConfig &config)
+{
+    return config.hasActiveLootView
+        || context.activeEventDialog().isActive
+        || context.characterScreenReadOnly().open
+        || context.spellbookReadOnly().active
+        || config.state.restActiveBeforeInput
+        || context.restScreenState().active
+        || config.state.menuActiveBeforeInput
+        || context.menuScreenState().active
+        || config.state.controlsActiveBeforeInput
+        || context.controlsScreenState().active
+        || config.state.keyboardActiveBeforeInput
+        || context.keyboardScreenState().active
+        || config.state.videoOptionsActiveBeforeInput
+        || context.videoOptionsScreenState().active
+        || config.state.saveGameActiveBeforeInput
+        || context.saveGameScreenState().active
+        || config.state.loadGameActiveBeforeInput
+        || context.loadGameScreenState().active
+        || config.state.journalActiveBeforeInput
+        || context.journalScreenState().active;
 }
 
 void GameplayScreenController::renderStandardUi(
@@ -861,6 +825,50 @@ void GameplayScreenController::renderStandardUi(
     {
         config.onRenderedHud();
     }
+}
+
+void GameplayScreenController::processStandardUiFrame(
+    GameplayScreenRuntime &context,
+    int width,
+    int height,
+    float deltaSeconds,
+    const GameplayStandardUiFrameConfig &config)
+{
+    updateSharedFrameState(context, width, height, deltaSeconds, config.frame);
+    const bool updateHudItemInspectOverlay =
+        config.updateHudItemInspectOverlayFromMouse
+        && canUpdateStandardHudItemInspectOverlayFromMouse(
+            context,
+            width,
+            height,
+            config.blockHudItemInspectOverlayFromMouseUpdate);
+    updateStandardHudItemInspectOverlayFromMouse(
+        context,
+        width,
+        height,
+        updateHudItemInspectOverlay,
+        config.requireOpaqueHudItemInspectHit);
+    GameplayInputController::handleStandardUiHotkeys(context, config.hotkeys);
+    handleStandardUiInput(context, config.input);
+    renderStandardUi(context, width, height, config.render);
+
+    const bool *pKeyboardState = config.hotkeys.pKeyboardState != nullptr
+        ? config.hotkeys.pKeyboardState
+        : config.input.pKeyboardState;
+    context.updatePreviousKeyboardStateSnapshot(pKeyboardState);
+}
+
+GameplayUiOverlayInputResult GameplayScreenController::processStandardUiInputFrame(
+    GameplayScreenRuntime &context,
+    const GameplayStandardUiInputFrameConfig &config)
+{
+    GameplayInputController::handleStandardUiHotkeys(context, config.hotkeys);
+    const GameplayUiOverlayInputResult result = handleStandardUiInput(context, config.input);
+    const bool *pKeyboardState = config.hotkeys.pKeyboardState != nullptr
+        ? config.hotkeys.pKeyboardState
+        : config.input.pKeyboardState;
+    context.updatePreviousKeyboardStateSnapshot(pKeyboardState);
+    return result;
 }
 
 void GameplayScreenController::handleUtilitySpellOverlayInput(

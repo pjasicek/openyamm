@@ -2,6 +2,7 @@
 
 #include "game/tables/CharacterDollTable.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayItemService.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/items/InventoryItemUseRuntime.h"
@@ -1664,7 +1665,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         hasRightHandWeapon,
                         target.slot);
                     const std::optional<GameplayHudTextureHandle> texture =
-                        context.ensureHudTextureLoaded(dynamicTextureName);
+                        context.gameplayUiRuntime().ensureHudTextureLoaded(dynamicTextureName);
 
                     if (texture.has_value())
                     {
@@ -1926,11 +1927,14 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
     if (pParty != nullptr)
     {
-        context.updateReadableScrollOverlayForHeldItem(pParty->activeMemberIndex(), hoveredCharacterTarget, isLeftMousePressed);
+        context.itemService().updateReadableScrollOverlayForHeldItem(
+            pParty->activeMemberIndex(),
+            hoveredCharacterTarget,
+            isLeftMousePressed);
     }
     else
     {
-        context.closeReadableScrollOverlay();
+        context.itemService().closeReadableScrollOverlay();
     }
 
     handlePointerClickRelease(
@@ -2140,7 +2144,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     && useAction != InventoryItemUseAction::Equip
                     && useAction != InventoryItemUseAction::ReadMessageScroll)
                 {
-                    context.tryUseHeldItemOnPartyMember(memberIndex, true);
+                    context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true);
                     return;
                 }
 
@@ -2203,7 +2207,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                     && useAction != InventoryItemUseAction::Equip
                     && useAction != InventoryItemUseAction::ReadMessageScroll)
                 {
-                    context.tryUseHeldItemOnPartyMember(memberIndex, true);
+                    context.itemService().tryUseHeldItemOnPartyMember(context, memberIndex, true);
                     return;
                 }
 
@@ -2282,7 +2286,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 }
 
                 const std::optional<GameplayHudTextureHandle> itemTexture =
-                    context.ensureHudTextureLoaded(pItemDefinition->iconName);
+                    context.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
                 if (!itemTexture.has_value())
                 {
@@ -2375,7 +2379,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             }
 
             const std::optional<GameplayHudTextureHandle> itemTexture =
-                context.ensureHudTextureLoaded(pItemDefinition->iconName);
+                context.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
             if (!itemTexture.has_value())
             {

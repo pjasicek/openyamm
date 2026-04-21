@@ -778,7 +778,7 @@ void GameplayDialogueRenderer::updateHouseShopHoverTopicText(
         }
 
         const std::optional<GameplayScreenRuntime::HudTextureHandle> itemTexture =
-            view.ensureHudTextureLoaded(pItemDefinition->iconName);
+            view.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
         if (!itemTexture)
         {
@@ -791,7 +791,7 @@ void GameplayDialogueRenderer::updateHouseShopHoverTopicText(
         int opaqueMinY = 0;
         int opaqueMaxX = itemTexture->width - 1;
         int opaqueMaxY = itemTexture->height - 1;
-        view.tryGetOpaqueHudTextureBounds(
+        view.gameplayUiRuntime().tryGetOpaqueHudTextureBounds(
             pItemDefinition->iconName,
             opaqueTextureWidth,
             opaqueTextureHeight,
@@ -878,7 +878,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
         if (!backgroundAsset.empty())
         {
             const std::optional<GameplayScreenRuntime::HudTextureHandle> frameTexture =
-                view.ensureHudTextureLoaded(backgroundAsset);
+                view.gameplayUiRuntime().ensureHudTextureLoaded(backgroundAsset);
 
             if (frameTexture)
             {
@@ -948,7 +948,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
         }
 
         const std::optional<GameplayScreenRuntime::HudTextureHandle> itemTexture =
-            view.ensureHudTextureLoaded(pItemDefinition->iconName);
+            view.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
         if (!itemTexture)
         {
@@ -961,7 +961,7 @@ void GameplayDialogueRenderer::renderHouseShopOverlay(
         int opaqueMinY = 0;
         int opaqueMaxX = itemTexture->width - 1;
         int opaqueMaxY = itemTexture->height - 1;
-        view.tryGetOpaqueHudTextureBounds(
+        view.gameplayUiRuntime().tryGetOpaqueHudTextureBounds(
             pItemDefinition->iconName,
             opaqueTextureWidth,
             opaqueTextureHeight,
@@ -1069,7 +1069,7 @@ void GameplayDialogueRenderer::renderDialogueTextureElement(
 
     if ((pLayout->width <= 0.0f || pLayout->height <= 0.0f) && !pLayout->primaryAsset.empty())
     {
-        baseTexture = view.ensureHudTextureLoaded(pLayout->primaryAsset);
+        baseTexture = view.gameplayUiRuntime().ensureHudTextureLoaded(pLayout->primaryAsset);
     }
 
     const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved = view.resolveHudLayoutElement(
@@ -1103,7 +1103,7 @@ void GameplayDialogueRenderer::renderDialogueTextureElement(
         return;
     }
 
-    const std::optional<GameplayScreenRuntime::HudTextureHandle> texture = view.ensureHudTextureLoaded(*pAssetName);
+    const std::optional<GameplayScreenRuntime::HudTextureHandle> texture = view.gameplayUiRuntime().ensureHudTextureLoaded(*pAssetName);
 
     if (!texture)
     {
@@ -1303,7 +1303,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             const float portraitX = std::round(portraitAreaX + (portraitAreaWidth - portraitBorderSize) * 0.5f);
             const float portraitBorderY = std::round(portraitY + (portraitAreaHeight - portraitBorderSize) * 0.5f);
             const std::optional<GameplayScreenRuntime::HudTextureHandle> portraitBorder =
-                view.ensureHudTextureLoaded("evtnpc");
+                view.gameplayUiRuntime().ensureHudTextureLoaded("evtnpc");
 
             if (portraitBorder)
             {
@@ -1316,7 +1316,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                 const float innerY = std::round(portraitBorderY + portraitInset);
                 const float innerSize = std::round(portraitBorderSize - portraitInset * 2.0f);
                 const std::optional<GameplayScreenRuntime::HudTextureHandle> transitionIcon =
-                    view.ensureHudTextureLoaded("Outside");
+                    view.gameplayUiRuntime().ensureHudTextureLoaded("Outside");
 
                 if (transitionIcon)
                 {
@@ -1361,9 +1361,9 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                 else
                 {
                     const std::optional<GameplayScreenRuntime::HudTextureHandle> parchment =
-                        view.ensureSolidHudTextureLoaded("__dialogue_map_icon_bg__", 0xffcdb07aU);
+                        view.gameplayUiRuntime().ensureSolidHudTextureLoaded("__dialogue_map_icon_bg__", 0xffcdb07aU);
                     const std::optional<GameplayScreenRuntime::HudTextureHandle> lineTexture =
-                        view.ensureSolidHudTextureLoaded("__dialogue_map_icon_line__", 0xff5c4228U);
+                        view.gameplayUiRuntime().ensureSolidHudTextureLoaded("__dialogue_map_icon_line__", 0xff5c4228U);
 
                     if (parchment)
                     {
@@ -1398,7 +1398,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                 char textureName[16] = {};
                 std::snprintf(textureName, sizeof(textureName), "npc%04u", pictureId);
                 const std::optional<GameplayScreenRuntime::HudTextureHandle> portraitTexture =
-                    view.ensureHudTextureLoaded(textureName);
+                    view.gameplayUiRuntime().ensureHudTextureLoaded(textureName);
 
                 if (portraitTexture)
                 {
@@ -1450,7 +1450,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             if (selected)
             {
                 const std::optional<GameplayScreenRuntime::HudTextureHandle> highlight =
-                    view.ensureSolidHudTextureLoaded("__dialogue_event_npc_highlight__", 0x40ffffaaU);
+                    view.gameplayUiRuntime().ensureSolidHudTextureLoaded("__dialogue_event_npc_highlight__", 0x40ffffaaU);
 
                 if (highlight)
                 {
@@ -1796,9 +1796,9 @@ void GameplayDialogueRenderer::renderDialogueVideoArea(
     }
 
     const std::optional<GameplayScreenRuntime::HudTextureHandle> videoFillTexture =
-        view.ensureSolidHudTextureLoaded("__dialogue_video_area_fill__", 0xa0181818u);
+        view.gameplayUiRuntime().ensureSolidHudTextureLoaded("__dialogue_video_area_fill__", 0xa0181818u);
     const std::optional<GameplayScreenRuntime::HudTextureHandle> videoBorderTexture =
-        view.ensureSolidHudTextureLoaded("__dialogue_video_area_border__", 0xff505050u);
+        view.gameplayUiRuntime().ensureSolidHudTextureLoaded("__dialogue_video_area_border__", 0xff505050u);
 
     if (videoFillTexture)
     {

@@ -40,6 +40,11 @@ void GameDataRepository::clear()
     m_pRaceStartingStatsTable = nullptr;
     m_pReadableScrollTable = nullptr;
     m_pArcomageLibrary = nullptr;
+    m_pPortraitFrameTable = nullptr;
+    m_pIconFrameTable = nullptr;
+    m_pSpellFxTable = nullptr;
+    m_pPortraitFxEventTable = nullptr;
+    m_pFaceAnimationTable = nullptr;
 }
 
 void GameDataRepository::bind(const GameDataLoader &loader)
@@ -66,6 +71,11 @@ void GameDataRepository::bind(const GameDataLoader &loader)
     m_pRaceStartingStatsTable = &loader.getRaceStartingStatsTable();
     m_pReadableScrollTable = &loader.getReadableScrollTable();
     m_pArcomageLibrary = &loader.getArcomageLibrary();
+    m_pPortraitFrameTable = &loader.getPortraitFrameTable();
+    m_pIconFrameTable = &loader.getIconFrameTable();
+    m_pSpellFxTable = &loader.getSpellFxTable();
+    m_pPortraitFxEventTable = &loader.getPortraitFxEventTable();
+    m_pFaceAnimationTable = &loader.getFaceAnimationTable();
 }
 
 bool GameDataRepository::isBound() const
@@ -186,5 +196,30 @@ const ReadableScrollTable &GameDataRepository::readableScrollTable() const
 const ArcomageLibrary &GameDataRepository::arcomageLibrary() const
 {
     return requireBound(m_pArcomageLibrary);
+}
+
+const PortraitFrameTable &GameDataRepository::portraitFrameTable() const
+{
+    return requireBound(m_pPortraitFrameTable);
+}
+
+const IconFrameTable &GameDataRepository::iconFrameTable() const
+{
+    return requireBound(m_pIconFrameTable);
+}
+
+const SpellFxTable &GameDataRepository::spellFxTable() const
+{
+    return requireBound(m_pSpellFxTable);
+}
+
+const PortraitFxEventTable &GameDataRepository::portraitFxEventTable() const
+{
+    return requireBound(m_pPortraitFxEventTable);
+}
+
+const FaceAnimationTable &GameDataRepository::faceAnimationTable() const
+{
+    return requireBound(m_pFaceAnimationTable);
 }
 } // namespace OpenYAMM::Game

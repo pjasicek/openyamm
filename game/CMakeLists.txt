@@ -28,14 +28,20 @@ add_executable(openyamm
     gameplay/GameplayController.cpp
     gameplay/CorpseLootRuntime.cpp
     gameplay/ChestRuntime.cpp
+    gameplay/GameplayActorService.cpp
     gameplay/GameplayDialogController.cpp
     gameplay/GameplayDialogUiFlow.cpp
+    gameplay/GameplayFxService.cpp
     gameplay/GameplayHudInputController.cpp
+    gameplay/GameplayInputController.cpp
+    gameplay/GameplayItemService.cpp
     gameplay/GameplayOverlayInputController.cpp
     gameplay/GameplayPartyOverlayInputController.cpp
+    gameplay/GameplayProjectileService.cpp
     gameplay/GameplayScreenController.cpp
-    gameplay/GameplayScreenHotkeyController.cpp
+    gameplay/GameplayScreenState.cpp
     gameplay/GameplaySaveLoadUiSupport.cpp
+    gameplay/GameplaySpellService.cpp
     gameplay/GenericActorDialog.cpp
     gameplay/HouseInteraction.cpp
     gameplay/HouseServiceRuntime.cpp
@@ -112,6 +118,7 @@ add_executable(openyamm
     ui/GameplayHudOverlaySupport.cpp
     ui/GameplayHudOverlayRenderer.cpp
     ui/GameplayDebugOverlayRenderer.cpp
+    ui/GameplayUiRenderer.cpp
     gameplay/GameplayScreenRuntime.cpp
     ui/GameplayPartyOverlayRenderer.cpp
     ui/GameplayUiOverlayOrchestrator.cpp

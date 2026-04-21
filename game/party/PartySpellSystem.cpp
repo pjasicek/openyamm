@@ -2333,7 +2333,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     }
                 }
 
-                worldRuntime.triggerGameplayScreenOverlay(makeAbgr(56, 0, 12), 0.52f, 0.65f);
+                result.screenOverlayRequest = PartySpellCastResult::ScreenOverlayRequest{
+                    .colorAbgr = makeAbgr(56, 0, 12),
+                    .durationSeconds = 0.52f,
+                    .peakAlpha = 0.65f
+                };
             }
             else if (spellId == SpellId::Armageddon)
             {

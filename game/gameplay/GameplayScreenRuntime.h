@@ -18,6 +18,8 @@
 
 #include <array>
 #include <cstdint>
+#include <filesystem>
+#include <functional>
 #include <optional>
 #include <string>
 #include <vector>
@@ -26,6 +28,9 @@ namespace OpenYAMM::Game
 {
 class GameSession;
 class GameAudioSystem;
+class GameplayFxService;
+class GameplayItemService;
+class GameplaySpellService;
 class ItemTable;
 class MonsterTable;
 class StandardItemEnchantTable;
@@ -40,6 +45,33 @@ public:
     using ResolvedHudLayoutElement = GameplayResolvedHudLayoutElement;
     using HudTextureHandle = GameplayHudTextureHandle;
     using HudFontHandle = GameplayHudFontHandle;
+    using DialogueCloseCallback = std::function<void()>;
+    using DialogContextBuilder =
+        std::function<GameplayDialogController::Context(EventRuntimeState &eventRuntimeState)>;
+    using ActiveDialogContextBuilder = DialogContextBuilder;
+    using ActiveDialogActionCallback = std::function<void(const GameplayDialogController::Result &result)>;
+    using PendingEventDialogPresenter = std::function<void(size_t previousMessageCount, bool allowNpcFallbackContent)>;
+    using PendingEventDialogOpenedCallback =
+        std::function<void(const GameplayDialogController::PresentPendingDialogResult &result)>;
+    struct PreparedSaveGameRequest
+    {
+        std::filesystem::path path;
+        std::string saveName;
+    };
+    struct SharedUiBootstrapConfig
+    {
+        const Engine::AssetFileSystem *pAssetFileSystem = nullptr;
+        size_t portraitMemberCount = 0;
+        bool initializeHouseVideoPlayer = false;
+        bool preloadReferencedAssets = true;
+    };
+    struct SharedUiBootstrapResult
+    {
+        bool layoutsLoaded = false;
+        bool portraitRuntimeLoaded = false;
+        bool houseVideoPlayerInitialized = false;
+    };
+    using SaveGameExecutor = std::function<bool(const PreparedSaveGameRequest &request)>;
 
     explicit GameplayScreenRuntime(GameSession &session);
 
@@ -129,11 +161,16 @@ public:
     bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void openRestOverlay();
+    void beginRestAction(GameplayUiController::RestMode mode, float minutes, bool consumeFood);
+    void startRestAction(GameplayUiController::RestMode mode, float minutes);
+    void startInnRest(float durationMinutes);
     void openSpellbookOverlay();
     void openChestTransferInventoryOverlay();
     void toggleCharacterInventoryScreen();
+    uint32_t closeActiveEventDialog();
     void handleDialogueCloseRequest();
     void closeRestOverlay();
+    void completeRestAction(bool closeRestScreenAfterCompletion);
     void openMenuOverlay();
     void closeMenuOverlay();
     void openControlsOverlay();
@@ -144,24 +181,50 @@ public:
     void openVideoOptionsOverlay();
     void closeVideoOptionsOverlay();
     void openSaveGameOverlay();
+    void refreshSaveGameOverlaySlots();
     void closeSaveGameOverlay();
     void requestOpenNewGameScreen();
     void requestOpenLoadGameScreen();
     void openJournalOverlay();
     void closeJournalOverlay();
+    void closeHouseShopOverlay();
     void ensurePendingEventDialogPresented(bool allowNpcFallbackContent = true);
+    void ensurePendingEventDialogPresented(
+        bool allowNpcFallbackContent,
+        const DialogContextBuilder &contextBuilder,
+        const PendingEventDialogOpenedCallback &onOpened = {});
+    void presentPendingEventDialog(
+        size_t previousMessageCount,
+        bool allowNpcFallbackContent,
+        const DialogContextBuilder &contextBuilder = {},
+        const PendingEventDialogOpenedCallback &onOpened = {});
+    void closeActiveDialogActionResult(
+        const GameplayDialogController::Result &result,
+        const DialogueCloseCallback &closeActiveDialog = {});
+    void presentPendingDialogActionResult(
+        const GameplayDialogController::Result &result,
+        const PendingEventDialogPresenter &presentPendingEventDialogCallback = {});
     void executeActiveDialogAction();
+    void executeActiveDialogAction(
+        const ActiveDialogContextBuilder &contextBuilder,
+        const ActiveDialogActionCallback &beforeCloseContinuation = {},
+        const DialogueCloseCallback &closeActiveDialog = {},
+        const ActiveDialogActionCallback &afterCloseContinuation = {},
+        const PendingEventDialogPresenter &presentPendingEventDialogCallback = {});
     void refreshHouseBankInputDialog();
     void confirmHouseBankInput();
     void closeInventoryNestedOverlay();
     void closeSpellbookOverlay(const std::string &statusText = "");
+    void openUtilitySpellOverlay(
+        GameplayUiController::UtilitySpellOverlayMode mode,
+        uint32_t spellId,
+        size_t casterMemberIndex,
+        bool lloydRecallMode = false);
+    void closeUtilitySpellOverlayAfterSpellResolution(uint32_t spellId);
     bool tryAutoPlaceHeldInventoryItemOnPartyMember(size_t memberIndex, bool showFailureStatus);
-    bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen);
-    void updateReadableScrollOverlayForHeldItem(
-        size_t memberIndex,
-        const GameplayCharacterPointerTarget &pointerTarget,
-        bool isLeftMousePressed);
-    void closeReadableScrollOverlay();
+    GameplayItemService &itemService() const;
+    GameplayFxService &fxService() const;
+    GameplaySpellService &spellService() const;
     void resetDialogueOverlayInteractionState();
     void resetSpellbookOverlayInteractionState();
     void resetCharacterOverlayInteractionState();
@@ -178,15 +241,21 @@ public:
     bool tryCastSpellRequest(
         const PartySpellCastRequest &request,
         const std::string &spellName);
+    void triggerSpellFailureFeedback(size_t casterMemberIndex, const std::string &statusText);
     void resetUtilitySpellOverlayInteractionState();
     void resetInventoryNestedOverlayInteractionState();
     void resetLootOverlayInteractionState();
     GameSettings &mutableSettings() const;
     const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
+    void updatePreviousKeyboardStateSnapshot(const bool *pKeyboardState);
     void commitSettingsChange();
+    std::optional<PreparedSaveGameRequest> prepareSelectedSaveGameRequest() const;
+    bool trySaveToSelectedGameSlot(const SaveGameExecutor &executor);
     bool trySaveToSelectedGameSlot();
     int restFoodRequired() const;
     const GameSettings &settingsSnapshot() const;
+    GameplayUiRuntime &gameplayUiRuntime() const;
+    SharedUiBootstrapResult initializeSharedUiRuntime(const SharedUiBootstrapConfig &config);
     void bindAssetFileSystem(const Engine::AssetFileSystem *pAssetFileSystem);
     void clearUiControllerRuntimeState();
     bool ensureGameplayLayoutsLoaded();
@@ -233,39 +302,12 @@ public:
         float pointerX,
         float pointerY,
         bool isLeftMousePressed) const;
-
-    std::optional<HudTextureHandle> ensureHudTextureLoaded(const std::string &textureName);
-    std::optional<HudTextureHandle> ensureSolidHudTextureLoaded(const std::string &textureName, uint32_t abgrColor);
-    std::optional<HudTextureHandle> ensureDynamicHudTexture(
-        const std::string &textureName,
-        int width,
-        int height,
-        const std::vector<uint8_t> &bgraPixels);
-    std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgraCached(
-        const std::string &textureName,
-        int16_t paletteId,
-        int &width,
-        int &height);
-    const std::vector<uint8_t> *hudTexturePixels(
-        const std::string &textureName,
-        int &width,
-        int &height);
-    bool ensureHudTextureDimensions(const std::string &textureName, int &width, int &height);
-    bool tryGetOpaqueHudTextureBounds(
-        const std::string &textureName,
-        int &width,
-        int &height,
-        int &opaqueMinX,
-        int &opaqueMinY,
-        int &opaqueMaxX,
-        int &opaqueMaxY);
     void submitHudTexturedQuad(
         const HudTextureHandle &texture,
         float x,
         float y,
         float quadWidth,
         float quadHeight) const;
-    bgfx::TextureHandle ensureHudTextureColor(const HudTextureHandle &texture, uint32_t colorAbgr) const;
     void renderLayoutLabel(
         const HudLayoutElement &layout,
         const ResolvedHudLayoutElement &resolved,
@@ -299,7 +341,6 @@ public:
         int screenHeight,
         const std::string &textureName);
     std::string resolvePortraitTextureName(const Character &character) const;
-    void consumePendingPortraitEventFxRequests();
     void renderPortraitFx(
         size_t memberIndex,
         float portraitX,
@@ -333,8 +374,6 @@ public:
     bool isOpaqueHudPixelAtPoint(const GameplayRenderedInspectableHudItem &item, float x, float y) const;
     const PortraitFxEventEntry *findPortraitFxEvent(PortraitFxEventKind kind) const;
     uint32_t defaultPortraitAnimationLengthTicks(PortraitId portraitId) const;
-    bool triggerPortraitFxAnimation(const std::string &animationName, const std::vector<size_t> &memberIndices);
-    void triggerPortraitSpellFx(const PartySpellCastResult &result);
     std::string resolveEquippedItemHudTextureName(
         const ItemDefinition &itemDefinition,
         uint32_t dollTypeId,
@@ -368,14 +407,13 @@ private:
     void updatePortraitAnimation(Character &member, size_t memberIndex, uint32_t deltaTicks);
     void playPortraitExpression(size_t memberIndex, PortraitId portraitId, std::optional<uint32_t> durationTicks);
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
-    void presentPendingEventDialogShared(size_t previousMessageCount, bool allowNpcFallbackContent);
-    void closeActiveEventDialogShared();
     void returnToHouseBankMainDialogShared();
 
     GameSession &m_session;
     GameAudioSystem *m_pAudioSystem = nullptr;
     GameSettings *m_pSettings = nullptr;
     IGameplayOverlaySceneAdapter *m_pSceneAdapter = nullptr;
+    uint64_t m_lastSpellFailSoundTicks = 0;
     mutable std::optional<std::string> m_resolvedInteractiveAssetName;
 };
 } // namespace OpenYAMM::Game

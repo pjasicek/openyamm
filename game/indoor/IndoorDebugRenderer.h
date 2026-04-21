@@ -27,6 +27,15 @@ class IndoorSceneRuntime;
 class IndoorDebugRenderer
 {
 public:
+    struct GameplayActorPick
+    {
+        size_t runtimeActorIndex = 0;
+        float sourceX = 0.0f;
+        float sourceY = 0.0f;
+        float sourceWidth = 0.0f;
+        float sourceHeight = 0.0f;
+    };
+
     IndoorDebugRenderer();
     ~IndoorDebugRenderer();
 
@@ -65,6 +74,11 @@ public:
         float v1,
         TextureFilterProfile filterProfile = TextureFilterProfile::Ui) const;
     void setGameplayMouseLookMode(bool enabled, bool cursorMode);
+    std::optional<GameplayActorPick> gameplayActorPickAtCursor(
+        int viewWidth,
+        int viewHeight,
+        float screenX,
+        float screenY) const;
     void shutdown();
 
 private:
@@ -218,8 +232,7 @@ private:
         const std::vector<IndoorVertex> &vertices,
         const std::vector<uint8_t> &visibleSectorMask,
         const bx::Vec3 &rayOrigin,
-        const bx::Vec3 &rayDirection
-    );
+        const bx::Vec3 &rayDirection) const;
     void updateCameraFromInput(float deltaSeconds);
     void renderDecorationBillboards(
         uint16_t viewId,

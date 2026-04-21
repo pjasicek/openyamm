@@ -2,6 +2,12 @@
 
 #include "game/events/EventRuntime.h"
 #include "game/app/GameSettings.h"
+#include "game/gameplay/GameplayFxService.h"
+#include "game/gameplay/GameplayActorService.h"
+#include "game/gameplay/GameplayScreenState.h"
+#include "game/gameplay/GameplayItemService.h"
+#include "game/gameplay/GameplayProjectileService.h"
+#include "game/gameplay/GameplaySpellService.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplayDialogController.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
@@ -55,8 +61,20 @@ public:
 
     GameplayUiController &gameplayUiController();
     const GameplayUiController &gameplayUiController() const;
+    GameplayScreenState &gameplayScreenState();
+    const GameplayScreenState &gameplayScreenState() const;
     GameplayUiRuntime &gameplayUiRuntime();
     const GameplayUiRuntime &gameplayUiRuntime() const;
+    GameplayActorService &gameplayActorService();
+    const GameplayActorService &gameplayActorService() const;
+    GameplayItemService &gameplayItemService();
+    const GameplayItemService &gameplayItemService() const;
+    GameplayProjectileService &gameplayProjectileService();
+    const GameplayProjectileService &gameplayProjectileService() const;
+    GameplayFxService &gameplayFxService();
+    const GameplayFxService &gameplayFxService() const;
+    GameplaySpellService &gameplaySpellService();
+    const GameplaySpellService &gameplaySpellService() const;
     GameplayScreenRuntime &gameplayScreenRuntime();
     const GameplayScreenRuntime &gameplayScreenRuntime() const;
     GameplayDialogController &gameplayDialogController();
@@ -142,8 +160,14 @@ private:
     std::optional<Party> m_partyState;
     SceneKind m_currentSceneKind = SceneKind::Outdoor;
     std::string m_currentMapFileName;
+    GameplayScreenState m_gameplayScreenState;
     GameplayUiController m_gameplayUiController;
     GameplayUiRuntime m_gameplayUiRuntime;
+    GameplayActorService m_gameplayActorService;
+    GameplayItemService m_gameplayItemService;
+    GameplayProjectileService m_gameplayProjectileService;
+    GameplayFxService m_gameplayFxService;
+    GameplaySpellService m_gameplaySpellService;
     GameplayScreenRuntime m_gameplayScreenRuntime;
     GameplayDialogController m_gameplayDialogController;
     GameplayOverlayInteractionState m_overlayInteractionState;
@@ -160,7 +184,5 @@ private:
     std::optional<EventRuntimeState::PendingMapMove> m_pendingMapMove;
     SaveGameToPathCallback m_saveGameToPathCallback;
     SettingsChangedCallback m_settingsChangedCallback;
-    bool m_pendingOpenNewGameScreen = false;
-    bool m_pendingOpenLoadGameScreen = false;
 };
 }

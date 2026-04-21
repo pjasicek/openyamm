@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorFxRuntime.h"
 
+#include "game/app/GameSession.h"
 #include "game/fx/ParticleRecipes.h"
 #include "game/party/SpellIds.h"
 #include "game/StringUtils.h"
@@ -181,18 +182,6 @@ void applyDecorationLightPulse(
         static_cast<int>(std::lround(static_cast<float>(alpha) * alphaScale)),
         0,
         255));
-}
-
-bool isCannonballProjectile(const OutdoorWorldRuntime::ProjectileState &projectile)
-{
-    if (projectile.spellId == CannonballPseudoSpellId)
-    {
-        return true;
-    }
-
-    const std::string objectName = toLowerCopy(projectile.objectName);
-    const std::string spriteName = toLowerCopy(projectile.objectSpriteName);
-    return objectName.find("cannonball") != std::string::npos || spriteName == "obj376";
 }
 
 uint32_t partySpellFxColorAbgr(const PartySpellCastResult &result)
@@ -383,39 +372,30 @@ const std::vector<OutdoorFxRuntime::ContactShadowState> &OutdoorFxRuntime::conta
 
 void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refreshSpatialFx)
 {
-    if (view.m_pOutdoorWorldRuntime == nullptr)
-    {
-        return;
-    }
-
     const ObjectTable &objectTable = view.data().objectTable();
+    const std::vector<GameplayProjectilePresentationState> &projectiles =
+        view.m_gameSession.gameplayFxService().activeProjectilePresentationStates();
+    const std::vector<GameplayProjectileImpactPresentationState> &impacts =
+        view.m_gameSession.gameplayFxService().activeProjectileImpactPresentationStates();
 
-    for (size_t projectileIndex = 0;
-         projectileIndex < view.m_pOutdoorWorldRuntime->projectileCount();
-         ++projectileIndex)
+    for (const GameplayProjectilePresentationState &projectile : projectiles)
     {
-        const OutdoorWorldRuntime::ProjectileState *pProjectile =
-            view.m_pOutdoorWorldRuntime->projectileState(projectileIndex);
-
-        if (pProjectile == nullptr || pProjectile->isExpired)
-        {
-            continue;
-        }
-
-        const ObjectEntry *pObjectEntry = objectTable.get(pProjectile->objectDescriptionId);
+        const ObjectEntry *pObjectEntry = objectTable.get(projectile.objectDescriptionId);
 
         if (pObjectEntry != nullptr)
         {
-            if (isCannonballProjectile(*pProjectile))
+            if (projectile.spellId == CannonballPseudoSpellId
+                || projectile.objectName == "Cannonball"
+                || projectile.objectSpriteName == "CANNBL")
             {
                 if (refreshSpatialFx)
                 {
                     addContactShadow(
                         view,
-                        pProjectile->x,
-                        pProjectile->y,
-                        pProjectile->z,
-                        std::max(24.0f, pProjectile->radius * 0.75f),
+                        projectile.x,
+                        projectile.y,
+                        projectile.z,
+                        std::max(24.0f, projectile.radius * 0.75f),
                         0.0f);
                 }
 
@@ -423,50 +403,50 @@ void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refres
             }
 
             const FxRecipes::ProjectileRecipe recipe = FxRecipes::classifyProjectileRecipe(
-                pProjectile->spellId,
-                pProjectile->objectName,
-                pProjectile->objectSpriteName,
+                projectile.spellId,
+                projectile.objectName,
+                projectile.objectSpriteName,
                 pObjectEntry->flags);
             const uint32_t trailColor = FxRecipes::projectileRecipeColorAbgr(recipe);
             const float velocityLength = std::sqrt(
-                pProjectile->velocityX * pProjectile->velocityX
-                + pProjectile->velocityY * pProjectile->velocityY
-                + pProjectile->velocityZ * pProjectile->velocityZ);
+                projectile.velocityX * projectile.velocityX
+                + projectile.velocityY * projectile.velocityY
+                + projectile.velocityZ * projectile.velocityZ);
             float directionX = 0.0f;
             float directionY = 0.0f;
             float directionZ = 1.0f;
 
             if (velocityLength > 0.001f)
             {
-                directionX = pProjectile->velocityX / velocityLength;
-                directionY = pProjectile->velocityY / velocityLength;
-                directionZ = pProjectile->velocityZ / velocityLength;
+                directionX = projectile.velocityX / velocityLength;
+                directionY = projectile.velocityY / velocityLength;
+                directionZ = projectile.velocityZ / velocityLength;
             }
 
-            const float backOffset = FxRecipes::projectileRecipeBackOffset(recipe, pProjectile->radius);
-            const float anchoredX = pProjectile->x - directionX * backOffset;
-            const float anchoredY = pProjectile->y - directionY * backOffset;
+            const float backOffset = FxRecipes::projectileRecipeBackOffset(recipe, projectile.radius);
+            const float anchoredX = projectile.x - directionX * backOffset;
+            const float anchoredY = projectile.y - directionY * backOffset;
             const float projectileCenterZ =
-                pProjectile->z + FxRecipes::projectileRecipeAnchorOffset(
+                projectile.z + FxRecipes::projectileRecipeAnchorOffset(
                     recipe,
-                    pProjectile->radius,
-                    pProjectile->height);
+                    projectile.radius,
+                    projectile.height);
 
             FxRecipes::ProjectileSpawnContext trailContext = {};
-            trailContext.projectileId = pProjectile->projectileId;
+            trailContext.projectileId = projectile.projectileId;
             trailContext.objectFlags = pObjectEntry->flags;
-            trailContext.radius = pProjectile->radius;
-            trailContext.height = pProjectile->height;
-            trailContext.spellId = pProjectile->spellId;
-            trailContext.objectName = pProjectile->objectName;
-            trailContext.spriteName = pProjectile->objectSpriteName;
+            trailContext.radius = projectile.radius;
+            trailContext.height = projectile.height;
+            trailContext.spellId = projectile.spellId;
+            trailContext.objectName = projectile.objectName;
+            trailContext.spriteName = projectile.objectSpriteName;
             trailContext.x = anchoredX;
             trailContext.y = anchoredY;
             trailContext.z = projectileCenterZ;
-            trailContext.velocityX = pProjectile->velocityX;
-            trailContext.velocityY = pProjectile->velocityY;
-            trailContext.velocityZ = pProjectile->velocityZ;
-            float &cooldown = m_trailCooldownByProjectileId[pProjectile->projectileId];
+            trailContext.velocityX = projectile.velocityX;
+            trailContext.velocityY = projectile.velocityY;
+            trailContext.velocityZ = projectile.velocityZ;
+            float &cooldown = m_trailCooldownByProjectileId[projectile.projectileId];
 
             if (cooldown <= 0.0f)
             {
@@ -479,8 +459,8 @@ void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refres
             if (refreshSpatialFx && glowRadius > 0.0f)
             {
                 addLightEmitter(
-                    pProjectile->x,
-                    pProjectile->y,
+                    projectile.x,
+                    projectile.y,
                     projectileCenterZ,
                     glowRadius,
                     makeAbgr(
@@ -488,7 +468,7 @@ void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refres
                         static_cast<uint8_t>((trailColor >> 8) & 0xffu),
                         static_cast<uint8_t>((trailColor >> 16) & 0xffu),
                         255));
-                addGlowBillboard(pProjectile->x, pProjectile->y, pProjectile->z, glowRadius, trailColor, false);
+                addGlowBillboard(projectile.x, projectile.y, projectile.z, glowRadius, trailColor, false);
             }
         }
 
@@ -496,43 +476,33 @@ void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refres
         {
             addContactShadow(
                 view,
-                pProjectile->x,
-                pProjectile->y,
-                pProjectile->z,
-                std::max(24.0f, pProjectile->radius * 0.75f),
+                projectile.x,
+                projectile.y,
+                projectile.z,
+                std::max(24.0f, projectile.radius * 0.75f),
                 0.0f);
         }
     }
 
-    for (size_t effectIndex = 0;
-         effectIndex < view.m_pOutdoorWorldRuntime->projectileImpactCount();
-         ++effectIndex)
+    for (const GameplayProjectileImpactPresentationState &impact : impacts)
     {
-        const OutdoorWorldRuntime::ProjectileImpactState *pEffect =
-            view.m_pOutdoorWorldRuntime->projectileImpactState(effectIndex);
-
-        if (pEffect == nullptr || pEffect->isExpired)
-        {
-            continue;
-        }
-
-        if (m_seenImpactIds.insert(pEffect->effectId).second)
+        if (m_seenImpactIds.insert(impact.effectId).second)
         {
             const FxRecipes::ProjectileRecipe recipe = FxRecipes::classifyProjectileRecipe(
-                pEffect->sourceSpellId,
-                pEffect->sourceObjectName,
-                pEffect->sourceObjectSpriteName,
-                pEffect->sourceObjectFlags);
+                impact.sourceSpellId,
+                impact.sourceObjectName,
+                impact.sourceObjectSpriteName,
+                impact.sourceObjectFlags);
 
             if (FxRecipes::projectileRecipeUsesDedicatedImpactFx(recipe))
             {
                 FxRecipes::ImpactSpawnContext impactContext = {};
                 impactContext.recipe = recipe;
-                impactContext.objectName = pEffect->objectName;
-                impactContext.spriteName = pEffect->objectSpriteName;
-                impactContext.x = pEffect->x;
-                impactContext.y = pEffect->y;
-                impactContext.z = pEffect->z;
+                impactContext.objectName = impact.objectName;
+                impactContext.spriteName = impact.objectSpriteName;
+                impactContext.x = impact.x;
+                impactContext.y = impact.y;
+                impactContext.z = impact.z;
                 FxRecipes::spawnImpactParticles(view.m_particleSystem, impactContext);
 
                 const float impactLightRadius =
@@ -544,9 +514,9 @@ void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refres
                         : 96.0f;
 
                 addLightEmitter(
-                    pEffect->x,
-                    pEffect->y,
-                    pEffect->z + 16.0f,
+                    impact.x,
+                    impact.y,
+                    impact.z + 16.0f,
                     impactLightRadius,
                     FxRecipes::projectileRecipeColorAbgr(recipe));
             }
@@ -889,24 +859,14 @@ void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSe
 
 void OutdoorFxRuntime::cleanupSeenIds(const OutdoorGameView &view)
 {
-    if (view.m_pOutdoorWorldRuntime == nullptr)
-    {
-        m_seenImpactIds.clear();
-        return;
-    }
-
     std::unordered_set<uint32_t> activeImpactIds;
-    activeImpactIds.reserve(view.m_pOutdoorWorldRuntime->projectileImpactCount());
+    const std::vector<GameplayProjectileImpactPresentationState> &impacts =
+        view.m_gameSession.gameplayFxService().activeProjectileImpactPresentationStates();
+    activeImpactIds.reserve(impacts.size());
 
-    for (size_t effectIndex = 0; effectIndex < view.m_pOutdoorWorldRuntime->projectileImpactCount(); ++effectIndex)
+    for (const GameplayProjectileImpactPresentationState &impact : impacts)
     {
-        const OutdoorWorldRuntime::ProjectileImpactState *pEffect =
-            view.m_pOutdoorWorldRuntime->projectileImpactState(effectIndex);
-
-        if (pEffect != nullptr && !pEffect->isExpired)
-        {
-            activeImpactIds.insert(pEffect->effectId);
-        }
+        activeImpactIds.insert(impact.effectId);
     }
 
     for (auto it = m_seenImpactIds.begin(); it != m_seenImpactIds.end();)

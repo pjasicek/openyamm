@@ -11,6 +11,9 @@
 #include "game/events/EventRuntime.h"
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayActorService.h"
+#include "game/gameplay/GameplayScreenController.h"
+#include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/app/GameApplication.h"
 #include "game/outdoor/OutdoorInteractionController.h"
@@ -58,6 +61,16 @@
 
 namespace OpenYAMM::Game
 {
+namespace
+{
+GameplayActorService buildBoundGameplayActorService(const GameDataLoader &gameDataLoader)
+{
+    GameplayActorService service = {};
+    service.bindTables(&gameDataLoader.getMonsterTable(), &gameDataLoader.getSpellTable());
+    return service;
+}
+}
+
 struct GameApplicationTestAccess
 {
     static bool loadGameData(GameApplication &application, const Engine::AssetFileSystem &assetFileSystem)
@@ -209,37 +222,39 @@ struct GameApplicationTestAccess
 
     static const std::string &statusBarEventText(const GameApplication &application)
     {
-        return application.m_outdoorGameView.m_statusBarEventText;
+        return application.m_gameSession.gameplayScreenRuntime().statusBarEventText();
     }
 
     static bool hasActiveEventDialog(const GameApplication &application)
     {
-        return application.m_outdoorGameView.m_activeEventDialog.isActive;
+        return application.m_gameSession.gameplayScreenRuntime().activeEventDialog().isActive;
     }
 
     static bool isRestScreenActive(const GameApplication &application)
     {
-        return application.m_outdoorGameView.m_restScreen.active;
+        return application.m_gameSession.gameplayScreenRuntime().restScreenState().active;
     }
 
     static float restRemainingMinutes(const GameApplication &application)
     {
-        return application.m_outdoorGameView.m_restScreen.remainingMinutes;
+        return application.m_gameSession.gameplayScreenRuntime().restScreenState().remainingMinutes;
     }
 
     static void updateRestScreen(GameApplication &application, float deltaSeconds)
     {
-        application.m_outdoorGameView.updateRestScreen(deltaSeconds);
+        GameplayScreenController::updateRestOverlayProgress(
+            application.m_gameSession.gameplayScreenRuntime(),
+            deltaSeconds);
     }
 
     static const EventDialogContent &activeEventDialog(const GameApplication &application)
     {
-        return application.m_outdoorGameView.m_activeEventDialog;
+        return application.m_gameSession.gameplayScreenRuntime().activeEventDialog();
     }
 
     static void setEventDialogSelectionIndex(GameApplication &application, size_t selectionIndex)
     {
-        application.m_outdoorGameView.m_eventDialogSelectionIndex = selectionIndex;
+        application.m_gameSession.gameplayScreenRuntime().eventDialogSelectionIndex() = selectionIndex;
     }
 
     static void executeActiveDialogAction(GameApplication &application)
@@ -270,7 +285,7 @@ struct GameApplicationTestAccess
 
     static const GameplayUiController::CharacterScreenState &characterScreen(const GameApplication &application)
     {
-        return application.m_outdoorGameView.m_gameplayUiController.characterScreen();
+        return application.m_gameSession.gameplayScreenRuntime().characterScreenReadOnly();
     }
 
     static OutdoorGameView &outdoorGameView(GameApplication &application)
@@ -280,27 +295,29 @@ struct GameApplicationTestAccess
 
     static void consumePendingPortraitEventFxRequests(GameApplication &application)
     {
-        application.m_gameSession.gameplayScreenRuntime().consumePendingPortraitEventFxRequests();
+        application.m_gameSession.gameplayFxService().consumePendingEventFxRequests(
+            application.m_gameSession.gameplayScreenRuntime());
     }
 
     static bool heldInventoryItemActive(const GameApplication &application)
     {
-        return application.m_outdoorGameView.m_heldInventoryItem.active;
+        return application.m_outdoorGameView.heldInventoryItem().active;
     }
 
     static const InventoryItem &heldInventoryItem(const GameApplication &application)
     {
-        return application.m_outdoorGameView.m_heldInventoryItem.item;
+        return application.m_outdoorGameView.heldInventoryItem().item;
     }
 
     static void setHeldInventoryItem(GameApplication &application, const InventoryItem &item)
     {
-        application.m_outdoorGameView.m_heldInventoryItem.active = true;
-        application.m_outdoorGameView.m_heldInventoryItem.item = item;
-        application.m_outdoorGameView.m_heldInventoryItem.grabCellOffsetX = 0;
-        application.m_outdoorGameView.m_heldInventoryItem.grabCellOffsetY = 0;
-        application.m_outdoorGameView.m_heldInventoryItem.grabOffsetX = 0.0f;
-        application.m_outdoorGameView.m_heldInventoryItem.grabOffsetY = 0.0f;
+        GameplayUiController::HeldInventoryItemState &heldInventoryItem = application.m_outdoorGameView.heldInventoryItem();
+        heldInventoryItem.active = true;
+        heldInventoryItem.item = item;
+        heldInventoryItem.grabCellOffsetX = 0;
+        heldInventoryItem.grabCellOffsetY = 0;
+        heldInventoryItem.grabOffsetX = 0.0f;
+        heldInventoryItem.grabOffsetY = 0.0f;
     }
 
     static void setAutosavePath(GameApplication &application, const std::filesystem::path &path)
@@ -339,11 +356,12 @@ struct GameApplicationTestAccess
             selectedMap && selectedMap->globalEventProgram
             ? &selectedMap->globalEventProgram
             : nullptr;
+        GameplayScreenRuntime &screenRuntime = application.m_gameSession.gameplayScreenRuntime();
         GameplayDialogController::Context context = {
-            application.m_outdoorGameView.m_gameplayUiController,
+            application.m_gameSession.gameplayUiController(),
             *pEventRuntimeState,
-            application.m_outdoorGameView.m_activeEventDialog,
-            application.m_outdoorGameView.m_eventDialogSelectionIndex,
+            screenRuntime.activeEventDialog(),
+            screenRuntime.eventDialogSelectionIndex(),
             application.m_pOutdoorPartyRuntime != nullptr ? &application.m_pOutdoorPartyRuntime->party() : nullptr,
             application.m_pOutdoorWorldRuntime.get(),
             pGlobalEventProgram,
@@ -358,7 +376,7 @@ struct GameApplicationTestAccess
             {}
         };
 
-        application.m_outdoorGameView.m_gameplayDialogController.presentPendingEventDialog(
+        application.m_gameSession.gameplayDialogController().presentPendingEventDialog(
             context,
             previousMessageCount,
             allowNpcFallbackContent,
@@ -1448,6 +1466,7 @@ struct RegressionScenario
 struct IndoorRegressionScenario
 {
     IndoorWorldRuntime world;
+    GameplayActorService actorService;
     Party party;
     EventRuntime eventRuntime;
     std::optional<MapDeltaData> mapDeltaData;
@@ -2060,6 +2079,7 @@ bool initializeIndoorRegressionScenario(
     scenario.party.seed(createRegressionPartySeed());
     scenario.mapDeltaData = *selectedMap.indoorMapDeltaData;
     scenario.eventRuntimeState = *selectedMap.eventRuntimeState;
+    scenario.actorService = buildBoundGameplayActorService(gameDataLoader);
     scenario.world.initialize(
         selectedMap.map,
         gameDataLoader.getMonsterTable(),
@@ -2069,7 +2089,8 @@ bool initializeIndoorRegressionScenario(
         &scenario.party,
         nullptr,
         &scenario.mapDeltaData,
-        &scenario.eventRuntimeState
+        &scenario.eventRuntimeState,
+        &scenario.actorService
     );
     return scenario.world.eventRuntimeState() != nullptr;
 }
@@ -4356,6 +4377,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
 
+                GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
                 IndoorSceneRuntime runtime(
                     loadedMap->map.fileName,
                     loadedMap->map,
@@ -4368,7 +4390,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     loadedMap->indoorMapDeltaData,
                     loadedMap->eventRuntimeState,
                     loadedMap->localEventProgram,
-                    loadedMap->globalEventProgram
+                    loadedMap->globalEventProgram,
+                    &actorService
                 );
 
                 const size_t initialActorCount =
@@ -4419,6 +4442,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
 
+                GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
                 IndoorSceneRuntime runtime(
                     loadedMap->map.fileName,
                     loadedMap->map,
@@ -4431,7 +4455,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     loadedMap->indoorMapDeltaData,
                     loadedMap->eventRuntimeState,
                     loadedMap->localEventProgram,
-                    loadedMap->globalEventProgram
+                    loadedMap->globalEventProgram,
+                    &actorService
                 );
 
                 runtime.worldRuntime().advanceGameMinutes(137.0f);
@@ -4542,6 +4567,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.seed(createRegressionPartySeed());
                 partyRuntime.initializePartyPosition(-661.0f, -1059.0f, -39.0f, false);
 
+                GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
                 IndoorWorldRuntime worldRuntime = {};
                 worldRuntime.initialize(
                     loadedMap->map,
@@ -4552,7 +4578,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     &party,
                     &partyRuntime,
                     &indoorMapDeltaData,
-                    &eventRuntimeState);
+                    &eventRuntimeState,
+                    &actorService);
 
                 PartySpellCastRequest torchLightRequest = {};
                 torchLightRequest.casterMemberIndex = 0;
@@ -4672,6 +4699,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 std::optional<MapDeltaData> indoorMapDeltaData = *loadedMap->indoorMapDeltaData;
                 std::optional<EventRuntimeState> eventRuntimeState = *loadedMap->eventRuntimeState;
+                GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
                 IndoorWorldRuntime worldRuntime = {};
                 worldRuntime.initialize(
                     loadedMap->map,
@@ -4682,7 +4710,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     &party,
                     nullptr,
                     &indoorMapDeltaData,
-                    &eventRuntimeState
+                    &eventRuntimeState,
+                    &actorService
                 );
 
                 HouseEntry houseEntry = {};
@@ -5011,6 +5040,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
 
+                GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
                 IndoorSceneRuntime runtime(
                     loadedMap->map.fileName,
                     loadedMap->map,
@@ -5023,7 +5053,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     loadedMap->indoorMapDeltaData,
                     loadedMap->eventRuntimeState,
                     loadedMap->localEventProgram,
-                    loadedMap->globalEventProgram
+                    loadedMap->globalEventProgram,
+                    &actorService
                 );
 
                 if (!runtime.activateEvent(12, "regression", 0))
@@ -5090,6 +5121,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
 
+                GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
                 IndoorSceneRuntime runtime(
                     loadedMap->map.fileName,
                     loadedMap->map,
@@ -5102,7 +5134,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     loadedMap->indoorMapDeltaData,
                     loadedMap->eventRuntimeState,
                     loadedMap->localEventProgram,
-                    loadedMap->globalEventProgram
+                    loadedMap->globalEventProgram,
+                    &actorService
                 );
 
                 Character *pCaster = runtime.partyRuntime().party().member(0);
@@ -5319,6 +5352,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
 
+                GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
                 IndoorWorldRuntime worldRuntime = {};
                 worldRuntime.initialize(
                     loadedMap->map,
@@ -5329,7 +5363,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     &party,
                     nullptr,
                     &indoorMapDeltaData,
-                    &eventRuntimeState);
+                    &eventRuntimeState,
+                    &actorService);
 
                 if (worldRuntime.mapActorCount() != indoorMapDeltaData->actors.size())
                 {
@@ -5457,6 +5492,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.seed(createRegressionPartySeed());
                 partyRuntime.initializePartyPosition(-661.0f, -1059.0f, -39.0f, false);
 
+                GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
                 IndoorWorldRuntime worldRuntime = {};
                 worldRuntime.initialize(
                     loadedMap->map,
@@ -5467,7 +5503,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     &party,
                     &partyRuntime,
                     &indoorMapDeltaData,
-                    &eventRuntimeState);
+                    &eventRuntimeState,
+                    &actorService);
 
                 std::optional<size_t> targetActorIndex;
 
@@ -6191,6 +6228,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 const IndoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
                 std::optional<MapDeltaData> restoredMapDelta = *scenario.mapDeltaData;
                 std::optional<EventRuntimeState> restoredEventRuntimeState = *scenario.eventRuntimeState;
+                GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
                 IndoorWorldRuntime restoredWorld = {};
                 restoredWorld.initialize(
                     loadedMap->map,
@@ -6201,7 +6239,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     &scenario.party,
                     nullptr,
                     &restoredMapDelta,
-                    &restoredEventRuntimeState);
+                    &restoredEventRuntimeState,
+                    &actorService);
                 restoredWorld.restoreSnapshot(snapshot);
 
                 const IndoorWorldRuntime::ChestViewState *pRestoredChestView = restoredWorld.activeChestView();

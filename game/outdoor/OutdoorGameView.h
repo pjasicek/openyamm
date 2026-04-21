@@ -14,13 +14,13 @@
 #include "game/tables/ChestTable.h"
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/CharacterInspectTable.h"
-#include "game/events/EventDialogContent.h"
 #include "game/events/EventRuntime.h"
 #include "game/audio/GameAudioSystem.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/JournalAutonoteTable.h"
 #include "game/tables/JournalHistoryTable.h"
 #include "game/tables/JournalQuestTable.h"
+#include "game/gameplay/GameplayScreenState.h"
 #include "game/items/ItemEquipPosTable.h"
 #include "game/items/ItemEnchantTables.h"
 #include "game/tables/NpcDialogTable.h"
@@ -350,26 +350,13 @@ private:
     using ItemInspectSourceType = GameplayUiController::ItemInspectSourceType;
 
     using CharacterPointerTarget = GameplayCharacterPointerTarget;
+    using PendingSpellCastState = GameplayScreenState::PendingSpellTargetState;
+    using QuickSpellState = GameplayScreenState::QuickSpellState;
+    using AttackActionState = GameplayScreenState::AttackActionState;
+    using WorldInteractionInputState = GameplayScreenState::WorldInteractionInputState;
+    using GameplayMouseLookState = GameplayScreenState::GameplayMouseLookState;
 
     using HeldInventoryItemState = GameplayUiController::HeldInventoryItemState;
-    using ItemInspectOverlayState = GameplayUiController::ItemInspectOverlayState;
-
-    using ActorInspectOverlayState = GameplayUiController::ActorInspectOverlayState;
-    using SpellInspectOverlayState = GameplayUiController::SpellInspectOverlayState;
-    using ReadableScrollOverlayState = GameplayUiController::ReadableScrollOverlayState;
-
-    struct PendingSpellCastState
-    {
-        bool active = false;
-        size_t casterMemberIndex = 0;
-        uint32_t spellId = 0;
-        uint32_t skillLevelOverride = 0;
-        SkillMastery skillMasteryOverride = SkillMastery::None;
-        bool spendMana = true;
-        bool applyRecovery = true;
-        PartySpellCastTargetKind targetKind = PartySpellCastTargetKind::None;
-        std::string spellName;
-    };
 
     struct SpellAreaPreviewCacheState
     {
@@ -388,7 +375,6 @@ private:
     using SpellbookState = GameplayUiController::SpellbookState;
     using UtilitySpellOverlayState = GameplayUiController::UtilitySpellOverlayState;
     using RestScreenState = GameplayUiController::RestScreenState;
-    using RestMode = GameplayUiController::RestMode;
     using RestPointerTargetType = GameplayRestPointerTargetType;
     using RestPointerTarget = GameplayRestPointerTarget;
     using MenuScreenState = GameplayUiController::MenuScreenState;
@@ -402,8 +388,6 @@ private:
     using VideoOptionsPointerTargetType = GameplayVideoOptionsPointerTargetType;
     using VideoOptionsPointerTarget = GameplayVideoOptionsPointerTarget;
     using SaveSlotSummary = GameplayUiController::SaveSlotSummary;
-    using SaveGameScreenState = GameplayUiController::SaveGameScreenState;
-    using LoadGameScreenState = GameplayUiController::LoadGameScreenState;
     using JournalScreenState = GameplayUiController::JournalScreenState;
     using JournalView = GameplayUiController::JournalView;
     using JournalNotesCategory = GameplayUiController::JournalNotesCategory;
@@ -424,9 +408,13 @@ private:
         uint64_t startedTicks = 0;
     };
 
-    using InventoryNestedOverlayState = GameplayUiController::InventoryNestedOverlayState;
-    using HouseShopOverlayState = GameplayUiController::HouseShopOverlayState;
-    using HouseBankState = GameplayUiController::HouseBankState;
+    HeldInventoryItemState &heldInventoryItem();
+    const HeldInventoryItemState &heldInventoryItem() const;
+
+    GameplayUiController::UtilitySpellOverlayState &utilitySpellOverlay();
+    const GameplayUiController::UtilitySpellOverlayState &utilitySpellOverlay() const;
+    GameplayUiController::HouseShopOverlayState &houseShopOverlay();
+    const GameplayUiController::HouseShopOverlayState &houseShopOverlay() const;
 
     using HudLayoutElement = UiLayoutManager::LayoutElement;
 
@@ -477,16 +465,6 @@ public:
     float gameplayCameraYawRadians() const override;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void executeActiveDialogAction() override;
-    bool tryUseHeldItemOnPartyMember(size_t memberIndex, bool keepCharacterScreenOpen) override;
-    void updateReadableScrollOverlayForHeldItem(
-        size_t memberIndex,
-        const CharacterPointerTarget &pointerTarget,
-        bool isLeftMousePressed);
-    void closeReadableScrollOverlay();
-    bool tryCastSpellFromMember(
-        size_t casterMemberIndex,
-        uint32_t spellId,
-        const std::string &spellName) override;
     GameSettings &mutableSettings();
     std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState();
     const std::array<uint8_t, SDL_SCANCODE_COUNT> &previousKeyboardState() const;
@@ -508,59 +486,33 @@ private:
         int16_t paletteId,
         int &width,
         int &height);
-    void openHouseShopOverlay(uint32_t houseId, HouseShopMode mode);
-    void closeHouseShopOverlay();
-    void beginHouseBankInput(uint32_t houseId, HouseBankInputMode mode);
-    void clearHouseBankState();
     bool hasActiveEventDialog() const;
-    void openInventoryNestedOverlay(InventoryNestedOverlayMode mode, uint32_t houseId = 0);
     void updateItemInspectOverlayState(int width, int height);
     void tryApplyWorldItemInspectSkillInteraction();
     void updateActorInspectOverlayState(int width, int height);
-    bool loadPortraitFxData(const Engine::AssetFileSystem &assetFileSystem);
     const AdventurersInnMember *selectedAdventurersInnMember() const;
     AdventurersInnMember *selectedAdventurersInnMember();
-    bool triggerPortraitFxAnimation(const std::string &animationName, const std::vector<size_t> &memberIndices);
-    void triggerPortraitSpellFx(const PartySpellCastResult &result);
     void consumePendingEventRuntimeAudioRequests();
     void consumePendingWorldAudioEvents();
     void updateFootstepAudio(float deltaSeconds);
     QuickSpellCastResult tryBeginQuickSpellCast();
-    bool tryCastSpellFromMember(
-        size_t casterMemberIndex,
-        uint32_t spellId,
-        const std::string &spellName,
-        bool quickCast = false);
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(SpellbookSchool school) const;
     bool tryResolveQuickCastRequest(PartySpellCastRequest &request, const PartySpellDescriptor &descriptor) const;
-    bool isSpellQuickCastable(const PartySpellDescriptor &descriptor) const;
     std::optional<size_t> resolveQuickCastHoveredActorIndex() const;
     std::optional<size_t> resolveClosestQuickCastVisibleActorIndex(float sourceX, float sourceY, float sourceZ) const;
     bool buildQuickCastInspectRayForScreenPoint(float screenX, float screenY, bx::Vec3 &rayOrigin, bx::Vec3 &rayDirection) const;
     std::optional<bx::Vec3> resolveQuickCastCursorTargetPoint(float cursorX, float cursorY) const;
-    void triggerPortraitEventFxWithoutSpeech(size_t memberIndex, PortraitFxEventKind kind);
     bool tryCastSpellRequest(const PartySpellCastRequest &request, const std::string &spellName) override;
-    void closeSpellbook(const std::string &statusText = "");
-    void closeInventoryNestedOverlay();
-    void refreshSaveGameSlots();
-    std::string resolveSaveLocationName(const std::string &mapFileName) const;
     bool beginSaveWithPreview(const std::filesystem::path &path, const std::string &saveName, bool closeUiOnSuccess);
     void clearWorldInteractionInputLatches();
     float innRestDurationMinutes(uint32_t houseId) const;
-    void startInnRest(uint32_t houseId);
-    void beginRestAction(RestMode mode, float minutes, bool consumeFood);
-    void startRestAction(RestMode mode, float minutes);
-    void completeRestAction(bool closeRestScreenAfterCompletion);
-    void updateRestScreen(float deltaSeconds);
-    void clearPendingSpellCast(const std::string &statusText = "");
     bool tryResolvePendingSpellCast(
         const InspectHit &actorInspectHit,
         const std::optional<size_t> &portraitMemberIndex,
         const std::optional<bx::Vec3> &fallbackGroundTargetPoint = std::nullopt);
     std::optional<bx::Vec3> resolvePendingSpellGroundTargetPoint(const InspectHit &inspectHit) const;
     std::optional<size_t> resolveRuntimeActorIndexForInspectHit(const InspectHit &inspectHit) const;
-    bool shouldEnableGameplayMouseLook() const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     bool m_isInitialized;
@@ -691,8 +643,6 @@ private:
     bool m_walkSoundEnabled = true;
     bool m_showHitStatusMessages = true;
     bool m_flipOnExitEnabled = false;
-    bool m_gameplayMouseLookActive = false;
-    bool m_gameplayCursorModeActive = false;
     bool m_isRotatingCamera;
     float m_lastMouseX;
     float m_lastMouseY;
@@ -713,66 +663,20 @@ private:
     bool m_toggleInspectLatch;
     bool m_triggerMeteorLatch;
     bool m_toggleRainLatch;
-    bool m_keyboardUseLatch;
-    bool m_inspectMouseActivateLatch;
-    bool m_attackInspectLatch;
-    bool m_attackReadyMemberAvailableWhileHeld;
-    float m_attackInspectRepeatCooldownSeconds;
-    float m_quickSpellCastRepeatCooldownSeconds;
     bool m_toggleRunningLatch;
     bool m_toggleFlyingLatch;
     bool m_toggleWaterWalkLatch;
     bool m_toggleFeatherFallLatch;
-    bool m_quickSpellCastLatch;
-    bool m_quickSpellReadyMemberAvailableWhileHeld;
-    bool m_quickSpellAttackFallbackRequested;
-    bool m_pendingSpellTargetClickLatch;
     bool m_adventurersInnToggleLatch;
     GameSession &m_gameSession;
-    GameplayUiController &m_gameplayUiController;
-    GameplayDialogController &m_gameplayDialogController;
-    GameplayOverlayInteractionState &m_overlayInteractionState;
-    bool &m_characterScreenOpen;
-    bool &m_characterDollJewelryOverlayOpen;
-    bool &m_adventurersInnRosterOverlayOpen;
-    CharacterPage &m_characterPage;
-    CharacterScreenSource &m_characterScreenSource;
-    size_t &m_characterScreenSourceIndex;
-    size_t &m_adventurersInnScrollOffset;
     uint64_t m_lastAdventurersInnPortraitClickTicks;
     std::optional<size_t> m_lastAdventurersInnPortraitClickedIndex;
-    HeldInventoryItemState &m_heldInventoryItem;
-    ItemInspectOverlayState &m_itemInspectOverlay;
-    ActorInspectOverlayState &m_actorInspectOverlay;
-    SpellInspectOverlayState &m_spellInspectOverlay;
-    ReadableScrollOverlayState &m_readableScrollOverlay;
-    SpellbookState &m_spellbook;
-    UtilitySpellOverlayState &m_utilitySpellOverlay;
-    RestScreenState &m_restScreen;
-    MenuScreenState &m_menuScreen;
-    ControlsScreenState &m_controlsScreen;
-    KeyboardScreenState &m_keyboardScreen;
-    VideoOptionsScreenState &m_videoOptionsScreen;
-    SaveGameScreenState &m_saveGameScreen;
-    LoadGameScreenState &m_loadGameScreen;
-    JournalScreenState &m_journalScreen;
-    InventoryNestedOverlayState &m_inventoryNestedOverlay;
-    HouseShopOverlayState &m_houseShopOverlay;
-    HouseBankState &m_houseBankState;
-    uint64_t m_lastSpellFailSoundTicks;
     uint64_t m_lastMeteorShowerImpactSoundTicks = 0;
     uint64_t m_lastStarburstImpactSoundTicks = 0;
-    PendingSpellCastState m_pendingSpellCast;
     SpellAreaPreviewCacheState m_spellAreaPreviewCache;
-    bool m_heldInventoryDropLatch;
-    size_t &m_eventDialogSelectionIndex;
-    std::string &m_statusBarHoverText;
-    std::string &m_statusBarEventText;
-    float &m_statusBarEventRemainingSeconds;
     bool m_cachedHoverInspectHitValid;
     uint64_t m_lastHoverInspectUpdateNanoseconds;
     InspectHit m_cachedHoverInspectHit;
-    EventDialogContent &m_activeEventDialog;
     OutdoorPartyRuntime *m_pOutdoorPartyRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
     GameSettings m_gameSettings = GameSettings::createDefault();

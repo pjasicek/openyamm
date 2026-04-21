@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorRenderer.h"
 
+#include "game/app/GameSession.h"
 #include "game/events/EvtEnums.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
 #include "game/outdoor/OutdoorFogProfile.h"
@@ -2385,14 +2386,17 @@ void OutdoorRenderer::renderWorldPasses(
 
 void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint16_t viewId)
 {
+    const GameplayScreenState::PendingSpellTargetState &pendingSpellCast =
+        view.m_gameSession.gameplayScreenState().pendingSpellTarget();
+
     if (view.m_pOutdoorWorldRuntime == nullptr
-        || !view.m_pendingSpellCast.active
-        || view.m_pendingSpellCast.targetKind != PartySpellCastTargetKind::GroundPoint)
+        || !pendingSpellCast.active
+        || pendingSpellCast.targetKind != PartySpellCastTargetKind::GroundPoint)
     {
         return;
     }
 
-    const SpellId spellId = spellIdFromValue(view.m_pendingSpellCast.spellId);
+    const SpellId spellId = spellIdFromValue(pendingSpellCast.spellId);
     float previewRadius = 0.0f;
     uint32_t previewColor = 0;
 
@@ -2546,7 +2550,7 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint1
         const float retargetDistanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
         const bool needsRefresh =
             !view.m_spellAreaPreviewCache.valid
-            || view.m_spellAreaPreviewCache.spellId != view.m_pendingSpellCast.spellId
+            || view.m_spellAreaPreviewCache.spellId != pendingSpellCast.spellId
             || std::abs(view.m_spellAreaPreviewCache.radius - previewRadius) > 0.01f
             || retargetDistanceSquared >= SpellAreaPreviewRetargetDistance * SpellAreaPreviewRetargetDistance;
         const bool refreshAllowed =
@@ -2558,7 +2562,7 @@ void OutdoorRenderer::renderPendingSpellAreaPreview(OutdoorGameView &view, uint1
         {
             view.m_spellAreaPreviewCache.vertices = buildSpellAreaPreviewVertices();
             view.m_spellAreaPreviewCache.valid = !view.m_spellAreaPreviewCache.vertices.empty();
-            view.m_spellAreaPreviewCache.spellId = view.m_pendingSpellCast.spellId;
+            view.m_spellAreaPreviewCache.spellId = pendingSpellCast.spellId;
             view.m_spellAreaPreviewCache.targetX = targetPoint->x;
             view.m_spellAreaPreviewCache.targetY = targetPoint->y;
             view.m_spellAreaPreviewCache.targetZ = targetPoint->z;

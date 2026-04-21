@@ -14,7 +14,9 @@
 
 namespace OpenYAMM::Game
 {
+class GameplayActorService;
 class IndoorPartyRuntime;
+class SpriteFrameTable;
 
 class IndoorWorldRuntime : public ISceneEventContext, public IGameplayWorldRuntime
 {
@@ -32,6 +34,7 @@ public:
         std::optional<ChestViewState> activeChestView;
         std::vector<std::optional<CorpseViewState>> mapActorCorpseViews;
         std::optional<CorpseViewState> activeCorpseView;
+        std::vector<GameplayActorSpellEffectState> mapActorSpellEffectStates;
     };
 
     IndoorWorldRuntime() = default;
@@ -45,7 +48,9 @@ public:
         Party *pParty,
         IndoorPartyRuntime *pPartyRuntime,
         std::optional<MapDeltaData> *pMapDeltaData,
-        std::optional<EventRuntimeState> *pEventRuntimeState
+        std::optional<EventRuntimeState> *pEventRuntimeState,
+        GameplayActorService *pGameplayActorService,
+        const SpriteFrameTable *pActorSpriteFrameTable = nullptr
     );
 
     const std::string &mapName() const override;
@@ -121,29 +126,26 @@ public:
         float x,
         float y,
         float z) override;
-    void triggerGameplayScreenOverlay(
-        uint32_t colorAbgr,
-        float durationSeconds,
-        float peakAlpha) override;
     bool tryStartArmageddon(
         size_t casterMemberIndex,
         uint32_t skillLevel,
         SkillMastery skillMastery,
         std::string &failureText) override;
+    void collectProjectilePresentationState(
+        std::vector<GameplayProjectilePresentationState> &projectiles,
+        std::vector<GameplayProjectileImpactPresentationState> &impacts) const override;
     bool tryGetGameplayMinimapState(GameplayMinimapState &state) const override;
     void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const override;
+    ChestViewState *activeChestView() override;
     const ChestViewState *activeChestView() const override;
-    bool identifyActiveChestItem(size_t itemIndex, std::string &statusText) override;
-    bool tryIdentifyActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
-    bool tryRepairActiveChestItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
+    void commitActiveChestView() override;
     bool takeActiveChestItem(size_t itemIndex, ChestItemState &item) override;
     bool takeActiveChestItemAt(uint8_t gridX, uint8_t gridY, ChestItemState &item) override;
     bool tryPlaceActiveChestItemAt(const ChestItemState &item, uint8_t gridX, uint8_t gridY) override;
     void closeActiveChestView() override;
+    CorpseViewState *activeCorpseView() override;
     const CorpseViewState *activeCorpseView() const override;
-    bool identifyActiveCorpseItem(size_t itemIndex, std::string &statusText) override;
-    bool tryIdentifyActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
-    bool tryRepairActiveCorpseItem(size_t itemIndex, const Character &inspector, std::string &statusText) override;
+    void commitActiveCorpseView() override;
     bool openMapActorCorpseView(size_t actorIndex);
     bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item) override;
     void closeActiveCorpseView() override;
@@ -185,6 +187,7 @@ private:
         uint32_t typeIndexInMapStats,
         uint32_t level
     ) const;
+    void syncMapActorSpellEffectStates();
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
 
@@ -193,10 +196,12 @@ private:
     const ObjectTable *m_pObjectTable = nullptr;
     const ItemTable *m_pItemTable = nullptr;
     const ChestTable *m_pChestTable = nullptr;
+    const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
     Party *m_pParty = nullptr;
     IndoorPartyRuntime *m_pPartyRuntime = nullptr;
     std::optional<MapDeltaData> *m_pMapDeltaData = nullptr;
     std::optional<EventRuntimeState> *m_pEventRuntimeState = nullptr;
+    GameplayActorService *m_pGameplayActorService = nullptr;
     std::string m_mapName;
     float m_gameMinutes = 9.0f * 60.0f;
     int m_currentLocationReputation = 0;
@@ -205,5 +210,6 @@ private:
     std::optional<ChestViewState> m_activeChestView;
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
     std::optional<CorpseViewState> m_activeCorpseView;
+    std::vector<GameplayActorSpellEffectState> m_mapActorSpellEffectStates;
 };
 }

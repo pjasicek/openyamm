@@ -14,10 +14,11 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 22;
+constexpr uint32_t SaveVersion = 23;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
+constexpr uint32_t SaveVersionIndoorActorSpellEffects = 23;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -988,6 +989,44 @@ bool readValue(BinaryReader &reader, IndoorPartyRuntime::Snapshot &value)
         && readValue(reader, value.pendingJumpRequested);
 }
 
+void writeValue(BinaryWriter &writer, const GameplayActorSpellEffectState &value)
+{
+    writeValue(writer, value.slowRemainingSeconds);
+    writeValue(writer, value.slowMoveMultiplier);
+    writeValue(writer, value.slowRecoveryMultiplier);
+    writeValue(writer, value.stunRemainingSeconds);
+    writeValue(writer, value.paralyzeRemainingSeconds);
+    writeValue(writer, value.fearRemainingSeconds);
+    writeValue(writer, value.blindRemainingSeconds);
+    writeValue(writer, value.controlRemainingSeconds);
+    writeValue(writer, value.controlMode);
+    writeValue(writer, value.shrinkRemainingSeconds);
+    writeValue(writer, value.shrinkDamageMultiplier);
+    writeValue(writer, value.shrinkArmorClassMultiplier);
+    writeValue(writer, value.darkGraspRemainingSeconds);
+    writeValue(writer, value.hostileToParty);
+    writeValue(writer, value.hasDetectedParty);
+}
+
+bool readValue(BinaryReader &reader, GameplayActorSpellEffectState &value)
+{
+    return readValue(reader, value.slowRemainingSeconds)
+        && readValue(reader, value.slowMoveMultiplier)
+        && readValue(reader, value.slowRecoveryMultiplier)
+        && readValue(reader, value.stunRemainingSeconds)
+        && readValue(reader, value.paralyzeRemainingSeconds)
+        && readValue(reader, value.fearRemainingSeconds)
+        && readValue(reader, value.blindRemainingSeconds)
+        && readValue(reader, value.controlRemainingSeconds)
+        && readValue(reader, value.controlMode)
+        && readValue(reader, value.shrinkRemainingSeconds)
+        && readValue(reader, value.shrinkDamageMultiplier)
+        && readValue(reader, value.shrinkArmorClassMultiplier)
+        && readValue(reader, value.darkGraspRemainingSeconds)
+        && readValue(reader, value.hostileToParty)
+        && readValue(reader, value.hasDetectedParty);
+}
+
 void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::Snapshot &value)
 {
     writeValue(writer, value.gameMinutes);
@@ -997,6 +1036,7 @@ void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::Snapshot &value)
     writeValue(writer, value.activeChestView);
     writeValue(writer, value.mapActorCorpseViews);
     writeValue(writer, value.activeCorpseView);
+    writeValue(writer, value.mapActorSpellEffectStates);
 }
 
 bool readValue(BinaryReader &reader, IndoorWorldRuntime::Snapshot &value)
@@ -1007,7 +1047,9 @@ bool readValue(BinaryReader &reader, IndoorWorldRuntime::Snapshot &value)
         && (reader.version() < SaveVersionIndoorChestViews || readValue(reader, value.materializedChestViews))
         && (reader.version() < SaveVersionIndoorChestViews || readValue(reader, value.activeChestView))
         && (reader.version() < SaveVersionIndoorCorpseViews || readValue(reader, value.mapActorCorpseViews))
-        && (reader.version() < SaveVersionIndoorCorpseViews || readValue(reader, value.activeCorpseView));
+        && (reader.version() < SaveVersionIndoorCorpseViews || readValue(reader, value.activeCorpseView))
+        && (reader.version() < SaveVersionIndoorActorSpellEffects
+            || readValue(reader, value.mapActorSpellEffectStates));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorPartyRuntime::Snapshot &value)
@@ -2216,7 +2258,12 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         return std::nullopt;
     }
 
-    if (version != 18 && version != 19 && version != 20 && version != 21 && version != SaveVersion)
+    if (version != 18
+        && version != 19
+        && version != 20
+        && version != 21
+        && version != 22
+        && version != SaveVersion)
     {
         error = "unsupported save version";
         return std::nullopt;

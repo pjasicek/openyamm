@@ -185,87 +185,6 @@ bool isHouseType(const HouseEntry &houseEntry, const char *pTypeName)
     return houseEntry.type == pTypeName;
 }
 
-void beginRestAction(
-    GameplayScreenRuntime &view,
-    GameplayUiController::RestMode mode,
-    float minutes,
-    bool consumeFood)
-{
-    GameplayUiController::RestScreenState &restScreen = view.restScreenState();
-
-    if (!restScreen.active || view.party() == nullptr || view.worldRuntime() == nullptr)
-    {
-        return;
-    }
-
-    if ((mode == GameplayUiController::RestMode::Heal && restScreen.mode != GameplayUiController::RestMode::None)
-        || (mode == GameplayUiController::RestMode::Wait && restScreen.mode == GameplayUiController::RestMode::Heal))
-    {
-        view.setStatusBarEvent("You are already resting.");
-        return;
-    }
-
-    if (mode == GameplayUiController::RestMode::Heal && consumeFood)
-    {
-        const int foodRequired = view.restFoodRequired();
-        Party &party = *view.party();
-
-        if (party.food() < foodRequired)
-        {
-            view.setStatusBarEvent("You don't have enough food to rest.");
-            return;
-        }
-
-        party.addFood(-foodRequired);
-    }
-
-    restScreen.mode = mode;
-    restScreen.totalMinutes = std::max(0.0f, minutes);
-    restScreen.remainingMinutes = restScreen.totalMinutes;
-
-    if (restScreen.remainingMinutes <= 0.0f)
-    {
-        restScreen.mode = GameplayUiController::RestMode::None;
-    }
-}
-
-void startRestAction(GameplayScreenRuntime &view, GameplayUiController::RestMode mode, float minutes)
-{
-    beginRestAction(view, mode, minutes, true);
-}
-
-void completeRestAction(GameplayScreenRuntime &view, bool closeRestScreenAfterCompletion)
-{
-    GameplayUiController::RestScreenState &restScreen = view.restScreenState();
-
-    if (!restScreen.active)
-    {
-        return;
-    }
-
-    const GameplayUiController::RestMode completedMode = restScreen.mode;
-    const float remainingMinutes = std::max(0.0f, restScreen.remainingMinutes);
-
-    if (remainingMinutes > 0.0f && view.worldRuntime() != nullptr)
-    {
-        view.worldRuntime()->advanceGameMinutes(remainingMinutes);
-    }
-
-    restScreen.mode = GameplayUiController::RestMode::None;
-    restScreen.totalMinutes = 0.0f;
-    restScreen.remainingMinutes = 0.0f;
-
-    if (completedMode == GameplayUiController::RestMode::Heal && view.party() != nullptr)
-    {
-        view.party()->restAndHealAll();
-    }
-
-    if (closeRestScreenAfterCompletion || completedMode == GameplayUiController::RestMode::Heal)
-    {
-        view.closeRestOverlay();
-    }
-}
-
 GameplayMenuPointerTarget resolveMenuPointerTarget(
     GameplayScreenRuntime &view,
     int screenWidth,
@@ -628,7 +547,7 @@ bool GameplayOverlayInputController::handleRestOverlayInput(
         {
             if (restScreen.mode != GameplayUiController::RestMode::None)
             {
-                completeRestAction(view, true);
+                view.completeRestAction(true);
             }
             else
             {
@@ -748,19 +667,19 @@ bool GameplayOverlayInputController::handleRestOverlayInput(
             switch (target.type)
             {
             case GameplayRestPointerTargetType::Rest8HoursButton:
-                startRestAction(view, GameplayUiController::RestMode::Heal, 8.0f * 60.0f);
+                view.startRestAction(GameplayUiController::RestMode::Heal, 8.0f * 60.0f);
                 break;
 
             case GameplayRestPointerTargetType::WaitUntilDawnButton:
-                startRestAction(view, GameplayUiController::RestMode::Wait, waitUntilDawnMinutes());
+                view.startRestAction(GameplayUiController::RestMode::Wait, waitUntilDawnMinutes());
                 break;
 
             case GameplayRestPointerTargetType::Wait1HourButton:
-                startRestAction(view, GameplayUiController::RestMode::Wait, 60.0f);
+                view.startRestAction(GameplayUiController::RestMode::Wait, 60.0f);
                 break;
 
             case GameplayRestPointerTargetType::Wait5MinutesButton:
-                startRestAction(view, GameplayUiController::RestMode::Wait, 5.0f);
+                view.startRestAction(GameplayUiController::RestMode::Wait, 5.0f);
                 break;
 
             case GameplayRestPointerTargetType::ExitButton:
@@ -2847,7 +2766,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                         }
 
                         const std::optional<GameplayScreenRuntime::HudTextureHandle> itemTexture =
-                            view.ensureHudTextureLoaded(pItemDefinition->iconName);
+                            view.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
                         if (!itemTexture)
                         {
@@ -2860,7 +2779,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                         int opaqueMinY = 0;
                         int opaqueMaxX = itemTexture->width - 1;
                         int opaqueMaxY = itemTexture->height - 1;
-                        view.tryGetOpaqueHudTextureBounds(
+                        view.gameplayUiRuntime().tryGetOpaqueHudTextureBounds(
                             pItemDefinition->iconName,
                             opaqueTextureWidth,
                             opaqueTextureHeight,
@@ -3498,7 +3417,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                     if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
                     {
                         const std::optional<GameplayScreenRuntime::HudTextureHandle> pItemTexture =
-                            view.ensureHudTextureLoaded(pItemDefinition->iconName);
+                            view.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
                         if (pItemTexture)
                         {
@@ -3566,7 +3485,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                         if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
                         {
                             const std::optional<GameplayScreenRuntime::HudTextureHandle> pItemTexture =
-                                view.ensureHudTextureLoaded(pItemDefinition->iconName);
+                                view.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
                             if (pItemTexture)
                             {
@@ -3672,7 +3591,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                 if (pItemDefinition != nullptr)
                 {
                     const std::optional<GameplayScreenRuntime::HudTextureHandle> pItemTexture =
-                        view.ensureHudTextureLoaded(pItemDefinition->iconName);
+                        view.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
                     if (pItemTexture)
                     {
@@ -3736,7 +3655,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                         if (pItemDefinition != nullptr && !pItemDefinition->iconName.empty())
                         {
                             const std::optional<GameplayScreenRuntime::HudTextureHandle> pItemTexture =
-                                view.ensureHudTextureLoaded(pItemDefinition->iconName);
+                                view.gameplayUiRuntime().ensureHudTextureLoaded(pItemDefinition->iconName);
 
                             if (pItemTexture)
                             {
