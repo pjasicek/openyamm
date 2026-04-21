@@ -34,7 +34,7 @@ void GameSession::bindDataRepository(const GameDataRepository *pDataRepository)
     m_pDataRepository = pDataRepository;
     m_gameplayUiRuntime.bindDataRepository(pDataRepository);
 
-    if (m_pDataRepository != nullptr)
+    if (m_pDataRepository != nullptr && m_pDataRepository->isBound())
     {
         m_gameplayActorService.bindTables(&m_pDataRepository->monsterTable(), &m_pDataRepository->spellTable());
     }

@@ -3178,6 +3178,14 @@ CombatTargetInfo selectCombatTarget(
             continue;
         }
 
+        const float deltaX = otherActor.preciseX - actor.preciseX;
+        const float deltaY = otherActor.preciseY - actor.preciseY;
+
+        if (std::abs(deltaX) > HostilityLongRange || std::abs(deltaY) > HostilityLongRange)
+        {
+            continue;
+        }
+
         const GameplayActorTargetPolicyResult targetPolicy =
             pGameplayActorService->resolveActorTargetPolicy(
                 actorTargetPolicyState,
@@ -3188,12 +3196,15 @@ CombatTargetInfo selectCombatTarget(
             continue;
         }
 
-        const float deltaX = otherActor.preciseX - actor.preciseX;
-        const float deltaY = otherActor.preciseY - actor.preciseY;
         const float otherActorTargetZ =
             otherActor.preciseZ + std::max(24.0f, static_cast<float>(otherActor.height) * 0.7f);
         const float deltaZ = otherActorTargetZ - actorTargetZ;
         const float distanceSquaredToOtherActor = lengthSquared3d(deltaX, deltaY, deltaZ);
+
+        if (distanceSquaredToOtherActor >= bestPriorityDistanceSquared)
+        {
+            continue;
+        }
 
         if (!isWithinRange3d(deltaX, deltaY, deltaZ, targetPolicy.engagementRange))
         {
@@ -3201,13 +3212,10 @@ CombatTargetInfo selectCombatTarget(
         }
 
         if (!hasClearOutdoorLineOfSight(
+                actorIndex,
+                otherActorIndex,
                 bx::Vec3{actor.preciseX, actor.preciseY, actorTargetZ},
                 bx::Vec3{otherActor.preciseX, otherActor.preciseY, otherActorTargetZ}))
-        {
-            continue;
-        }
-
-        if (distanceSquaredToOtherActor >= bestPriorityDistanceSquared)
         {
             continue;
         }
@@ -5695,6 +5703,9 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             activeActorMask[activeActorDistances[index].first] = true;
         }
 
+        const size_t mapActorCount = m_mapActors.size();
+        std::vector<int8_t> actorLineOfSightCache(mapActorCount * mapActorCount, -1);
+
         for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
         {
             MapActorState &actor = m_mapActors[actorIndex];
@@ -5894,9 +5905,36 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 && std::abs(deltaPartyZ) <= partySenseRange
                 && isWithinRange3d(deltaPartyX, deltaPartyY, deltaPartyZ, partySenseRange);
             const auto hasClearOutdoorLineOfSight =
-                [this](const bx::Vec3 &start, const bx::Vec3 &end) -> bool
+                [this, mapActorCount, &actorLineOfSightCache](
+                    size_t startActorIndex,
+                    size_t endActorIndex,
+                    const bx::Vec3 &start,
+                    const bx::Vec3 &end) -> bool
             {
-                return this->hasClearOutdoorLineOfSight(start, end);
+                if (startActorIndex >= mapActorCount || endActorIndex >= mapActorCount)
+                {
+                    return this->hasClearOutdoorLineOfSight(start, end);
+                }
+
+                const size_t firstActorIndex = std::min(startActorIndex, endActorIndex);
+                const size_t secondActorIndex = std::max(startActorIndex, endActorIndex);
+                const size_t cacheIndex = firstActorIndex * mapActorCount + secondActorIndex;
+
+                if (cacheIndex >= actorLineOfSightCache.size())
+                {
+                    return this->hasClearOutdoorLineOfSight(start, end);
+                }
+
+                int8_t &cachedResult = actorLineOfSightCache[cacheIndex];
+
+                if (cachedResult >= 0)
+                {
+                    return cachedResult != 0;
+                }
+
+                const bool hasLineOfSight = this->hasClearOutdoorLineOfSight(start, end);
+                cachedResult = hasLineOfSight ? 1 : 0;
+                return hasLineOfSight;
             };
             const bool movementAllowed = pStats->movementType != MonsterTable::MonsterMovementType::Stationary;
             const CombatTargetInfo combatTarget =
@@ -8685,7 +8723,7 @@ std::optional<OutdoorWorldRuntime::ActorDecisionDebugInfo> OutdoorWorldRuntime::
         && std::abs(deltaPartyZ) <= partySenseRange
         && isWithinRange3d(deltaPartyX, deltaPartyY, deltaPartyZ, partySenseRange);
     const auto hasClearOutdoorLineOfSight =
-        [this](const bx::Vec3 &start, const bx::Vec3 &end) -> bool
+        [this](size_t, size_t, const bx::Vec3 &start, const bx::Vec3 &end) -> bool
     {
         return this->hasClearOutdoorLineOfSight(start, end);
     };

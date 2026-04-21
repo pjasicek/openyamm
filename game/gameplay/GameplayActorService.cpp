@@ -887,7 +887,9 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
     }
 
     const bool hostileToSummon = actor.hostileToParty && targetIsPartyControlled;
-    const bool hostileByFaction = monsterIdsAreHostile(actor.monsterId, target.monsterId);
+    const int factionRelation =
+        m_pMonsterTable != nullptr ? m_pMonsterTable->getRelationBetweenMonsters(actor.monsterId, target.monsterId) : 0;
+    const bool hostileByFaction = factionRelation > 0;
 
     if (!hostileByFaction && !hostileToSummon)
     {
@@ -907,12 +909,7 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
         return result;
     }
 
-    if (m_pMonsterTable == nullptr)
-    {
-        return result;
-    }
-
-    result.relationToTarget = m_pMonsterTable->getRelationBetweenMonsters(actor.monsterId, target.monsterId);
+    result.relationToTarget = factionRelation;
     result.engagementRange = hostilityRangeForRelation(result.relationToTarget);
     result.canTarget = result.engagementRange > 0.0f;
     return result;

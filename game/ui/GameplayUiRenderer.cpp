@@ -9,6 +9,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <initializer_list>
 #include <limits>
 #include <string_view>
 #include <vector>
@@ -114,23 +115,11 @@ int outdoorMinimapArrowIndex(float yawRadians)
     return (octant + 7) % 8;
 }
 
-PortraitAggroIndicator classifyPortraitAggroIndicator(
-    const Character &member,
-    const IGameplayWorldRuntime *pWorldRuntime)
+float nearestHostileActorDistanceToParty(const IGameplayWorldRuntime *pWorldRuntime)
 {
-    if (!GameMechanics::canAct(member))
-    {
-        return PortraitAggroIndicator::Hidden;
-    }
-
-    if (member.recoverySecondsRemaining > 0.0f)
-    {
-        return PortraitAggroIndicator::Hidden;
-    }
-
     if (pWorldRuntime == nullptr)
     {
-        return PortraitAggroIndicator::Hidden;
+        return std::numeric_limits<float>::max();
     }
 
     const float partyX = pWorldRuntime->partyX();
@@ -156,6 +145,21 @@ PortraitAggroIndicator classifyPortraitAggroIndicator(
         const float centerDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
         const float edgeDistance = std::max(0.0f, centerDistance - static_cast<float>(actorState.radius));
         nearestHostileDistance = std::min(nearestHostileDistance, edgeDistance);
+    }
+
+    return nearestHostileDistance;
+}
+
+PortraitAggroIndicator classifyPortraitAggroIndicator(const Character &member, float nearestHostileDistance)
+{
+    if (!GameMechanics::canAct(member))
+    {
+        return PortraitAggroIndicator::Hidden;
+    }
+
+    if (member.recoverySecondsRemaining > 0.0f)
+    {
+        return PortraitAggroIndicator::Hidden;
     }
 
     if (nearestHostileDistance < OeMeleeAlertDistance)
@@ -357,19 +361,23 @@ bool isBuffLayoutVisible(const Party &party, const std::string &layoutId)
     return true;
 }
 
-bool isDescendantOf(
+bool isDescendantOfAny(
     GameplayScreenRuntime &context,
     const UiLayoutManager::LayoutElement &layout,
-    const std::string &ancestorId)
+    std::initializer_list<std::string_view> ancestorIds)
 {
-    const std::string normalizedAncestorId = toLowerCopy(ancestorId);
     const UiLayoutManager::LayoutElement *pCurrent = &layout;
 
     while (pCurrent != nullptr)
     {
-        if (toLowerCopy(pCurrent->id) == normalizedAncestorId)
+        const std::string normalizedLayoutId = toLowerCopy(pCurrent->id);
+
+        for (std::string_view ancestorId : ancestorIds)
         {
-            return true;
+            if (normalizedLayoutId == ancestorId)
+            {
+                return true;
+            }
         }
 
         if (pCurrent->parentId.empty())
@@ -395,22 +403,26 @@ bool isGameplayElementVisibleInHudState(
 
     if (gameplayHudLayout == ActiveGameplayHudLayout::Overlay)
     {
-        return isDescendantOf(context, layout, "OutdoorBasebar");
+        return isDescendantOfAny(context, layout, {"outdoorbasebar"});
     }
 
     if (gameplayHudLayout == ActiveGameplayHudLayout::Standard)
     {
-        return isDescendantOf(context, layout, "OutdoorStandardBasebar")
-            || isDescendantOf(context, layout, "OutdoorStandardTopBar");
+        return isDescendantOfAny(context, layout, {"outdoorstandardbasebar", "outdoorstandardtopbar"});
     }
 
-    return isDescendantOf(context, layout, "OutdoorGameplayBasebar")
-        || isDescendantOf(context, layout, "OutdoorOptionsBar")
-        || isDescendantOf(context, layout, "OutdoorGoldBar")
-        || isDescendantOf(context, layout, "OutdoorFoodRestBar")
-        || isDescendantOf(context, layout, "OutdoorBuffBodyPanel")
-        || isDescendantOf(context, layout, "OutdoorBuffSkullPanel")
-        || isDescendantOf(context, layout, "OutdoorMinimapFrame");
+    return isDescendantOfAny(
+        context,
+        layout,
+        {
+            "outdoorgameplaybasebar",
+            "outdooroptionsbar",
+            "outdoorgoldbar",
+            "outdoorfoodrestbar",
+            "outdoorbuffbodypanel",
+            "outdoorbuffskullpanel",
+            "outdoorminimapframe",
+        });
 }
 } // namespace
 
@@ -656,6 +668,8 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
 
     const size_t activeMemberIndex = party.activeMemberIndex();
     const bool activeMemberReadyForSelection = party.canSelectMemberInGameplay(activeMemberIndex);
+    const float nearestHostileDistance =
+        manaFrame ? nearestHostileActorDistanceToParty(context.worldRuntime()) : std::numeric_limits<float>::max();
 
     for (size_t memberIndex = 0; memberIndex < displayedMemberCount; ++memberIndex)
     {
@@ -688,7 +702,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         if (manaFrame)
         {
             const PortraitAggroIndicator aggroIndicator =
-                classifyPortraitAggroIndicator(member, context.worldRuntime());
+                classifyPortraitAggroIndicator(member, nearestHostileDistance);
             const std::optional<GameplayHudTextureHandle> *pAggroTexture = nullptr;
 
             switch (aggroIndicator)

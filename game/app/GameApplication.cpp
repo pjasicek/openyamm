@@ -657,6 +657,7 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
     }
 
     m_gameDataRepository.bind(m_gameDataLoader);
+    m_gameSession.bindDataRepository(&m_gameDataRepository);
 
     loadOrCreateSettings();
 
