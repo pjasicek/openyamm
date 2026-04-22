@@ -241,14 +241,13 @@ Avoid duplicating gameplay logic.
 
 ---
 
-# Current subsystem refactor loops
+# Current subsystem refactor loop
 
 Architectural background:
 - docs/indoor_outdoor_shared_gameplay_extraction_plan.md
 
-Current subsystem plans:
-- docs/projectile_service_moderate_refactor_plan.md
-- docs/actor_ai_shared_refactor_plan.md
+Current subsystem plan:
+- docs/indoor_oe_collision_physics_plan.md
 
 Execution control files:
 - PLAN.md
@@ -257,8 +256,7 @@ Execution control files:
 - PROGRESS.md
 
 Execution rules:
-- `docs/projectile_service_moderate_refactor_plan.md` is authoritative for the projectile service refactor.
-- `docs/actor_ai_shared_refactor_plan.md` is authoritative for the shared actor AI refactor.
+- `docs/indoor_oe_collision_physics_plan.md` is authoritative for the current indoor BLV collision/physics work.
 - `docs/indoor_outdoor_shared_gameplay_extraction_plan.md` is architectural background and ownership context.
 - Do not execute any plan linearly from top to bottom.
 - Use PLAN.md for condensed goals.
@@ -267,35 +265,40 @@ Execution rules:
 - If task intent is unclear, consult only the relevant sections of the subsystem plan and architectural background, then
   continue.
 - Work in small coherent slices.
-- Prefer finishing one ownership transfer path before starting another.
+- Prefer finishing one collision ownership path before starting another.
 - Keep the repository buildable after each meaningful slice.
 - Update TASK_QUEUE.md and PROGRESS.md after each meaningful slice.
 - Do not reintroduce shared gameplay semantics into OutdoorGameView or IndoorGameView.
 - Shared gameplay owns what should happen.
 - Active world owns world facts and world-specific application.
-- For projectiles: shared projectile service owns projectile gameplay decisions; active world owns collision facts and
-  world application.
-- For actor AI: shared actor AI owns behavior decisions; active world owns actor facts, movement/collision, LOS, and
-  result application.
-- Do not replace micro-struct over-abstraction with callback bags or adapters that hide ownership.
+- For indoor collision: indoor world code owns BLV geometry, sectors, portals, floor/ceiling queries, moving
+  mechanisms, collision categories, and movement integration.
+- Shared actor AI owns behavior decisions and should only receive movement/contact facts from indoor collision.
+- Do not move BLV collision into shared gameplay.
+- Do not replace collision ownership with callback bags or adapters that hide ownership.
+- Do not copy OpenEnroth code. Use the local checkout only as a behavioral/structural reference.
+- The current reduced indoor actor navigation radius is a temporary workaround and must not be treated as the final
+  solution.
+- The target is an OE-like swept iterative indoor resolver, not destination-position collision plus portal-specific
+  heuristics.
 
 Validation commands:
 - cmake --build build --target openyamm -j25
 - ctest --test-dir build --output-on-failure
 
 Manual smoke tests to note in PROGRESS.md when relevant:
-- projectile travel, bounce, collision, impact FX, splash, area impact, and spawned projectiles
-- Fire Spike, Meteor Shower, Starburst, and special projectile paths if touched
-- outdoor actor idle/wander, pursuit, melee attack, ranged attack, actor-vs-actor hostility, fear, blind, stun,
-  paralyze, death, and crowd steering
-- indoor actor AI paths once indoor AI hooks are touched
+- `blv18` Naga Vault: large Naga actors can pass through portals without perfect center alignment
+- indoor actors do not pass through closed doors/walls
+- indoor actors slide along walls/portal frames instead of getting pinned
+- indoor actor-vs-actor crowding blocks overlap without jamming every portal
+- indoor party collides with hostile actors
+- opened-door pocket movement does not jitter
 
 Stopping conditions:
 - Stop only if all acceptance criteria are satisfied and recorded in PROGRESS.md
 - Or if PROGRESS.md contains exactly: - Hard blocker: YES
 
 Context recovery:
-- If context becomes compressed or unclear, re-read AGENTS.md, PLAN.md, ACCEPTANCE.md, TASK_QUEUE.md, PROGRESS.md, and the relevant sections of:
-  - docs/projectile_service_moderate_refactor_plan.md
-  - docs/actor_ai_shared_refactor_plan.md
+- If context becomes compressed or unclear, re-read AGENTS.md, PLAN.md, ACCEPTANCE.md, TASK_QUEUE.md, PROGRESS.md, and:
+  - docs/indoor_oe_collision_physics_plan.md
   - docs/indoor_outdoor_shared_gameplay_extraction_plan.md

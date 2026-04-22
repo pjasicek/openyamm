@@ -2,67 +2,74 @@
 
 ## Objective
 
-Refactor the current shared gameplay state for two subsystems:
+Implement OE-like indoor BLV collision and physics structurally, not by portal-specific heuristics or reduced-radius
+workarounds.
 
-- projectile service: `docs/projectile_service_moderate_refactor_plan.md`
-- shared actor AI: `docs/actor_ai_shared_refactor_plan.md`
+Authoritative detailed plan:
 
-The runtime-boundary extraction is treated as the architectural baseline. These
-subsystem refactors must respect that boundary:
+- `docs/indoor_oe_collision_physics_plan.md`
 
-- shared gameplay owns decisions;
-- active world owns world facts and world-specific application;
-- no callback bags or thin adapters that only hide ownership.
+Architectural background:
+
+- `docs/indoor_outdoor_shared_gameplay_extraction_plan.md`
+
+## Target
+
+Indoor movement should converge to an OE-shaped collision model:
+
+```cpp
+IndoorMoveResult result = indoorMovementController.resolveMove(request);
+world.applyIndoorMoveResult(result);
+sharedActorAi.updateActorAfterWorldMovement(worldMovementFacts);
+```
+
+The indoor movement controller owns BLV-specific physics:
+
+- swept low/high body spheres;
+- nearest collision along the movement segment;
+- bounded iterative movement;
+- face, portal, actor, party, decoration, and sprite-object collision categories;
+- sector transitions through portals;
+- floor/ceiling/step-up handling;
+- moving mechanism / door blocking state.
+
+Shared gameplay remains outside BLV collision:
+
+- shared actor AI owns behavior decisions;
+- indoor world provides movement/contact facts;
+- indoor world applies movement results to BLV/DLV runtime state.
+
+## Current Known Problem
+
+The current indoor resolver still contains simplified destination-position collision logic. It was temporarily made
+usable by giving non-flying indoor actors a reduced navigation radius. That unblocks Naga Vault portals, but it is not
+the final structural solution.
+
+The final implementation must remove the need for reduced-radius wall navigation by making the solver behave like OE:
+move to nearest hit, respond, then continue with remaining movement.
 
 ## Current Priority
 
-1. Projectile service moderate refactor.
-2. Shared actor AI refactor.
-
-Projectile comes first because it is smaller, more mechanical, and establishes
-the facts/result exchange style before actor AI uses the same pattern at a
-larger scale.
-
-## Projectile Target
-
-The projectile frame should converge to:
-
-```cpp
-ProjectileFrameFacts facts = world.collectProjectileFrameFacts(projectile, deltaSeconds);
-ProjectileFrameResult result = projectileService.updateProjectileFrame(projectile, facts);
-world.applyProjectileFrameResult(projectile, result);
-```
-
-Shared projectile service owns projectile gameplay decisions. Active world owns
-collision facts and application to ODM/BLV representation.
-
-## Actor AI Target
-
-The actor AI frame should converge to:
-
-```cpp
-ActorAiFrameFacts facts = world.collectActorAiFrameFacts(deltaSeconds);
-ActorAiFrameResult result = actorAiSystem.updateActors(facts);
-world.applyActorAiFrameResult(result);
-```
-
-Shared actor AI owns behavior decisions. Active world owns actor storage,
-active-list construction, LOS, movement/collision, and result application.
+1. Build the OE-like swept indoor collision core.
+2. Replace actor indoor movement first.
+3. Replace party indoor movement second.
+4. Remove temporary reduced-radius and noisy diagnostic code.
+5. Validate Naga Vault and opened-door pocket cases.
 
 ## Anti-Goals
 
 - Do not copy OpenEnroth code.
-- Do not merge indoor/outdoor world representations.
-- Do not create callback bags as a replacement for micro-structs.
-- Do not rewrite behavior unless fixing a clear bug.
-- Do not move terrain, BLV sectors, collision, LOS, or renderer internals into
-  shared gameplay.
+- Do not move BLV collision into shared gameplay.
+- Do not create callback bags or adapter layers to hide ownership.
+- Do not rewrite outdoor movement unless a clearly reusable primitive can be shared safely.
+- Do not change actor AI decisions unless the collision result facts are insufficient.
+- Do not keep `radius=40` indoor wall navigation as the final fix.
 
 ## Rules
 
 - Use `TASK_QUEUE.md` as the executable queue.
-- Use the relevant subsystem plan for detailed instructions.
-- Finish one coherent slice before starting another.
-- Keep behavior unchanged unless the task explicitly fixes a bug.
+- Use `docs/indoor_oe_collision_physics_plan.md` for detailed requirements and acceptance.
 - Keep the repository buildable after each meaningful slice.
-- Update `PROGRESS.md` after each meaningful slice.
+- Update `TASK_QUEUE.md` and `PROGRESS.md` after each meaningful slice.
+- Prefer doctest coverage for pure collision math.
+- Record manual smoke status for BLV integration cases in `PROGRESS.md`.

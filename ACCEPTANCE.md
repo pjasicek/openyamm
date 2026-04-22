@@ -1,62 +1,60 @@
 # Acceptance Criteria
 
-## Authoritative Plans
+## Authoritative Plan
 
-- [ ] `docs/projectile_service_moderate_refactor_plan.md` progress says `Done definition satisfied: YES`.
-- [ ] `docs/actor_ai_shared_refactor_plan.md` progress says `Done definition satisfied: YES`.
+- [ ] `docs/indoor_oe_collision_physics_plan.md` is the active subsystem plan.
+- [ ] `TASK_QUEUE.md` contains the executable Wiggum queue for this collision slice.
+- [ ] `PROGRESS.md` records evidence after each meaningful slice.
 
-## Projectile Structural Acceptance
+## Structural Acceptance
 
-- [ ] The main projectile loop uses `ProjectileFrameFacts` and `ProjectileFrameResult`.
-- [ ] Shared projectile service owns projectile gameplay decisions.
-- [ ] Active world owns projectile collision facts and world-specific application.
-- [ ] Public projectile frame API no longer exposes the old micro-decision command layer.
-- [ ] Projectile refactor does not merge indoor/outdoor runtime, renderer, or collision types.
-- [ ] Projectile refactor does not introduce callback bags or ownership-hiding adapters.
+- [ ] Indoor actor movement no longer uses destination-only wall collision as the primary solver.
+- [ ] Indoor actor movement uses swept movement to the nearest collision point.
+- [ ] Indoor movement uses low/high body spheres and midpoint/extra sphere checks where needed for BLV faces.
+- [ ] Indoor movement uses a bounded iterative loop that adjusts velocity after each hit.
+- [ ] Indoor face hits project remaining movement along a slide plane.
+- [ ] Indoor sector/portal transitions are resolved inside the movement solver.
+- [ ] Moving mechanism / door state is respected by the collision face set.
+- [ ] Actor-vs-actor collision/contact uses OE-like override radius semantics for crowd probing.
+- [ ] Party-vs-actor collision is handled by the indoor collision system, not by UI/gameplay code.
+- [ ] Shared actor AI remains shared and receives only movement/contact facts.
+- [ ] No callback bags, ownership-hiding adapters, or indoor/outdoor gameplay duplication are introduced.
+- [ ] No OpenEnroth code is copied.
 
-## Projectile Behavioral Acceptance
+## Behavioral Acceptance
 
-- [ ] Projectile travel behavior remains unchanged.
-- [ ] Bounce behavior remains unchanged.
-- [ ] Collision and expiry behavior remains unchanged.
-- [ ] Direct actor/party impact behavior remains unchanged.
-- [ ] Area impact behavior remains unchanged.
-- [ ] Impact FX/audio behavior remains unchanged.
-- [ ] Spawned projectile behavior remains unchanged.
-- [ ] Special paths are audited: Fire Spike, Meteor Shower, Starburst, and other special projectile paths.
+- [ ] Non-flying indoor actors can use authored BLV actor radius for wall/body collision without portal over-blocking.
+- [ ] The temporary reduced indoor wall-navigation radius workaround is removed or no longer used for final behavior.
+- [ ] Large actors in `blv18` Naga Vault can pass through portals without requiring perfect center alignment.
+- [ ] Actors still cannot pass through closed doors, walls, or blocking mechanisms.
+- [ ] Actors slide along walls instead of being pinned by portal frames.
+- [ ] Actor-vs-actor crowding blocks overlap but does not jam every portal.
+- [ ] Hostile actors collide with the party indoors.
+- [ ] Party movement through opened door pockets does not jitter.
+- [ ] Indoor buttons/mechanisms continue to open/close/move doors correctly.
+- [ ] Indoor actor AI post-movement facts still trigger crowd steering/fallback behavior when blocked.
 
-## Actor AI Structural Acceptance
+## Test Acceptance
 
-- [ ] Shared actor AI owns high-level actor behavior decisions.
-- [ ] Outdoor produces coarse actor AI facts and applies coarse actor AI results.
-- [ ] Indoor produces coarse actor AI facts and applies coarse actor AI results.
-- [ ] Movement, collision, LOS, floor/sector/terrain, and representation-specific application remain world-owned.
-- [ ] `GameplayActorService` is no longer the public micro-decision API for the actor frame.
-- [ ] Actor AI refactor does not merge indoor/outdoor actor storage.
-- [ ] Actor AI refactor does not introduce callback bags or ownership-hiding adapters.
-
-## Actor AI Behavioral Acceptance
-
-- [ ] Outdoor idle/wander behavior remains unchanged.
-- [ ] Outdoor pursuit behavior remains unchanged.
-- [ ] Outdoor melee attack behavior remains unchanged.
-- [ ] Outdoor ranged attack/projectile spawn behavior remains unchanged.
-- [ ] Outdoor actor-vs-actor hostility behavior remains unchanged.
-- [ ] Fear, blind, stun, paralyze, and death transitions remain correct.
-- [ ] Crowd steering remains at least as good as before the refactor.
-- [ ] Indoor actor AI uses the same shared behavior decisions where indoor world hooks exist.
+- [ ] Doctest coverage exists for pure swept collision math where practical.
+- [ ] Doctest coverage exists for nearest-hit selection where practical.
+- [ ] Doctest coverage exists for wall velocity projection where practical.
+- [ ] Doctest coverage exists for portal-adjacent sector selection where practical.
+- [ ] Doctest coverage exists for actor contact override radius where practical.
+- [ ] Headless or manual smoke for `blv18` Naga Vault is recorded in `PROGRESS.md`.
+- [ ] Headless or manual smoke for opened-door pocket movement is recorded in `PROGRESS.md`.
 
 ## Validation
 
 - [ ] `cmake --build build --target openyamm -j25`
 - [ ] `ctest --test-dir build --output-on-failure`
-- [ ] Manual smoke status is recorded in `PROGRESS.md` for touched behavior.
 
 ## Done Definition
 
-This subsystem refactor batch is done only when:
+This slice is done only when:
 
-- projectile plan done definition is satisfied;
-- actor AI plan done definition is satisfied;
-- root acceptance criteria are checked;
+- all structural acceptance criteria are satisfied;
+- all behavioral acceptance criteria are satisfied or explicitly documented as intentionally different from OE;
+- required validation commands pass;
+- temporary noisy diagnostics are removed or gated;
 - `PROGRESS.md` contains `## Done definition satisfied: YES`.
