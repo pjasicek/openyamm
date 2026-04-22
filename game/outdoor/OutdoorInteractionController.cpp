@@ -76,24 +76,17 @@ bool interactiveDecorationHidesWhenCleared(OutdoorGameView::InteractiveDecoratio
 bool shouldUseHouseTradeItemReaction(
     const EventRuntimeState &eventRuntimeState,
     const std::optional<EventDialogAction> &action,
-    int initialGold,
+    int,
     const Party *pParty)
 {
     if (!action.has_value()
-        || action->kind != EventDialogActionKind::NpcTopic
-        || eventRuntimeState.dialogueState.hostHouseId == 0
         || (eventRuntimeState.grantedItems.empty() && eventRuntimeState.grantedItemIds.empty())
         || pParty == nullptr)
     {
         return false;
     }
 
-    if (!eventRuntimeState.removedItemIds.empty())
-    {
-        return true;
-    }
-
-    return pParty->gold() < initialGold;
+    return true;
 }
 
 struct DirectInteractiveDecorationBindingSpec

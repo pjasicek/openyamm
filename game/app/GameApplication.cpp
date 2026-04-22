@@ -877,7 +877,9 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->map,
             *selectedMap->indoorMapData,
             m_gameDataLoader.getMonsterTable(),
+            m_gameDataLoader.getMonsterProjectileTable(),
             m_gameDataLoader.getObjectTable(),
+            m_gameDataLoader.getSpellTable(),
             m_gameDataLoader.getItemTable(),
             m_gameDataLoader.getChestTable(),
             party,
@@ -886,8 +888,12 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->localEventProgram,
             selectedMap->globalEventProgram,
             &m_gameSession.gameplayActorService(),
+            &m_gameSession.gameplayProjectileService(),
             selectedMap->indoorActorPreviewBillboardSet
                 ? &selectedMap->indoorActorPreviewBillboardSet->spriteFrameTable
+                : nullptr,
+            selectedMap->indoorSpriteObjectBillboardSet
+                ? &selectedMap->indoorSpriteObjectBillboardSet->spriteFrameTable
                 : nullptr
         );
         const std::unordered_map<std::string, IndoorSceneRuntime::Snapshot>::const_iterator indoorStateIt =
@@ -2176,7 +2182,10 @@ std::string GameApplication::resolvePartyDefeatRespawnMapFileName() const
 
     if (pCurrentMap != nullptr)
     {
-        const int effectiveAreaId = pCurrentMap->isTopLevelArea ? pCurrentMap->id : pCurrentMap->areaId;
+        const bool indoorMap = currentMapFileName.ends_with(".blv");
+        const int effectiveAreaId = indoorMap && pCurrentMap->areaId != 0
+            ? pCurrentMap->areaId
+            : (pCurrentMap->isTopLevelArea ? pCurrentMap->id : pCurrentMap->areaId);
 
         if (effectiveAreaId == 1)
         {

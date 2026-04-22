@@ -28,19 +28,19 @@ public:
 
     void clear();
     void syncProjectilePresentation();
-    GameplayProjectileService::ProjectileImpactPresentationResult spawnProjectileImpactPresentation(
+    GameplayProjectileService::ProjectileImpactSpawnResult spawnProjectileImpactVisual(
         const GameplayProjectileService::ProjectileState &projectile,
         const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
         float x,
         float y,
         float z,
         bool centerVertically);
-    GameplayProjectileService::ProjectileImpactPresentationResult spawnWaterSplashImpactPresentation(
+    GameplayProjectileService::ProjectileImpactSpawnResult spawnWaterSplashImpactVisual(
         const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
         float x,
         float y,
         float z);
-    GameplayProjectileService::ProjectileImpactPresentationResult spawnImmediateSpellImpactPresentation(
+    GameplayProjectileService::ProjectileImpactSpawnResult spawnImmediateSpellImpactVisual(
         const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
         int sourceSpellId,
         const std::string &sourceObjectName,

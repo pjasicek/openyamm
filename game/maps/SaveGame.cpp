@@ -14,11 +14,12 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 23;
+constexpr uint32_t SaveVersion = 24;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
 constexpr uint32_t SaveVersionIndoorActorSpellEffects = 23;
+constexpr uint32_t SaveVersionIndoorActorAiStates = 24;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -1027,6 +1028,78 @@ bool readValue(BinaryReader &reader, GameplayActorSpellEffectState &value)
         && readValue(reader, value.hasDetectedParty);
 }
 
+void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::MapActorAiState &value)
+{
+    writeValue(writer, value.actorId);
+    writeValue(writer, value.monsterId);
+    writeValue(writer, value.displayName);
+    writeValue(writer, value.hostileToParty);
+    writeValue(writer, value.hasDetectedParty);
+    writeValue(writer, value.bloodSplatSpawned);
+    writeValue(writer, value.motionState);
+    writeValue(writer, value.animationState);
+    writeValue(writer, value.queuedAttackAbility);
+    writeValue(writer, value.spellEffects);
+    writeValue(writer, value.preciseX);
+    writeValue(writer, value.preciseY);
+    writeValue(writer, value.preciseZ);
+    writeValue(writer, value.homePreciseX);
+    writeValue(writer, value.homePreciseY);
+    writeValue(writer, value.homePreciseZ);
+    writeValue(writer, value.moveDirectionX);
+    writeValue(writer, value.moveDirectionY);
+    writeValue(writer, value.velocityX);
+    writeValue(writer, value.velocityY);
+    writeValue(writer, value.velocityZ);
+    writeValue(writer, value.yawRadians);
+    writeValue(writer, value.animationTimeTicks);
+    writeValue(writer, value.recoverySeconds);
+    writeValue(writer, value.attackAnimationSeconds);
+    writeValue(writer, value.attackCooldownSeconds);
+    writeValue(writer, value.idleDecisionSeconds);
+    writeValue(writer, value.actionSeconds);
+    writeValue(writer, value.idleDecisionCount);
+    writeValue(writer, value.pursueDecisionCount);
+    writeValue(writer, value.attackDecisionCount);
+    writeValue(writer, value.attackImpactTriggered);
+}
+
+bool readValue(BinaryReader &reader, IndoorWorldRuntime::MapActorAiState &value)
+{
+    return readValue(reader, value.actorId)
+        && readValue(reader, value.monsterId)
+        && readValue(reader, value.displayName)
+        && readValue(reader, value.hostileToParty)
+        && readValue(reader, value.hasDetectedParty)
+        && readValue(reader, value.bloodSplatSpawned)
+        && readValue(reader, value.motionState)
+        && readValue(reader, value.animationState)
+        && readValue(reader, value.queuedAttackAbility)
+        && readValue(reader, value.spellEffects)
+        && readValue(reader, value.preciseX)
+        && readValue(reader, value.preciseY)
+        && readValue(reader, value.preciseZ)
+        && readValue(reader, value.homePreciseX)
+        && readValue(reader, value.homePreciseY)
+        && readValue(reader, value.homePreciseZ)
+        && readValue(reader, value.moveDirectionX)
+        && readValue(reader, value.moveDirectionY)
+        && readValue(reader, value.velocityX)
+        && readValue(reader, value.velocityY)
+        && readValue(reader, value.velocityZ)
+        && readValue(reader, value.yawRadians)
+        && readValue(reader, value.animationTimeTicks)
+        && readValue(reader, value.recoverySeconds)
+        && readValue(reader, value.attackAnimationSeconds)
+        && readValue(reader, value.attackCooldownSeconds)
+        && readValue(reader, value.idleDecisionSeconds)
+        && readValue(reader, value.actionSeconds)
+        && readValue(reader, value.idleDecisionCount)
+        && readValue(reader, value.pursueDecisionCount)
+        && readValue(reader, value.attackDecisionCount)
+        && readValue(reader, value.attackImpactTriggered);
+}
+
 void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::Snapshot &value)
 {
     writeValue(writer, value.gameMinutes);
@@ -1036,7 +1109,7 @@ void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::Snapshot &value)
     writeValue(writer, value.activeChestView);
     writeValue(writer, value.mapActorCorpseViews);
     writeValue(writer, value.activeCorpseView);
-    writeValue(writer, value.mapActorSpellEffectStates);
+    writeValue(writer, value.mapActorAiStates);
 }
 
 bool readValue(BinaryReader &reader, IndoorWorldRuntime::Snapshot &value)
@@ -1049,7 +1122,9 @@ bool readValue(BinaryReader &reader, IndoorWorldRuntime::Snapshot &value)
         && (reader.version() < SaveVersionIndoorCorpseViews || readValue(reader, value.mapActorCorpseViews))
         && (reader.version() < SaveVersionIndoorCorpseViews || readValue(reader, value.activeCorpseView))
         && (reader.version() < SaveVersionIndoorActorSpellEffects
-            || readValue(reader, value.mapActorSpellEffectStates));
+            || reader.version() >= SaveVersionIndoorActorAiStates
+            || readValue(reader, value.mapActorSpellEffectStates))
+        && (reader.version() < SaveVersionIndoorActorAiStates || readValue(reader, value.mapActorAiStates));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorPartyRuntime::Snapshot &value)
@@ -2263,6 +2338,7 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         && version != 20
         && version != 21
         && version != 22
+        && version != 23
         && version != SaveVersion)
     {
         error = "unsupported save version";

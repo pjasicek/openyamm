@@ -5,6 +5,7 @@
 #include "game/outdoor/OutdoorFxRuntime.h"
 #include "game/gameplay/ChestRuntime.h"
 #include "game/gameplay/CorpseLootRuntime.h"
+#include "game/gameplay/GameplayActorAiSystem.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayFxService.h"
 #include "game/items/ItemGenerator.h"
@@ -51,9 +52,12 @@ constexpr float HostilityCloseRange = 1024.0f;
 constexpr float HostilityShortRange = 2560.0f;
 constexpr float HostilityMediumRange = 5120.0f;
 constexpr float HostilityLongRange = 10240.0f;
+constexpr float ActorMeleeRange = 307.2f;
 constexpr float ActiveActorUpdateRange = 6144.0f;
 constexpr size_t MaxActiveActorUpdates = 48;
 constexpr float InactiveActorDecisionIntervalSeconds = 1.5f;
+constexpr float InactiveActorBoredSeconds = 2.0f;
+constexpr uint32_t InactiveActorFidgetChancePercent = 5u;
 constexpr float PeasantAggroRadius = 4096.0f;
 constexpr float PartyCollisionRadius = 37.0f;
 constexpr float PartyCollisionHeight = 192.0f;
@@ -77,8 +81,6 @@ constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float PartyTargetHeightOffset = 96.0f;
 constexpr float OeTurnAwayFromWaterAngleRadians = Pi / 32.0f;
-constexpr float ActorCrowdSideLockSeconds = 0.22f;
-constexpr float ActorCrowdRetreatAngleRadians = Pi * 0.53f;
 constexpr int DwiMapId = 1;
 constexpr uint32_t DwiTestActor61 = 61;
 constexpr float DwiTestActor61X = -7665.0f;
@@ -108,6 +110,60 @@ constexpr size_t MaxOutdoorBloodSplats = 64;
 constexpr size_t BloodSplatGridResolution = 10;
 constexpr float BloodSplatHeightOffset = 2.0f;
 constexpr float BloodSplatMinSurfaceHeightTolerance = 32.0f;
+
+enum class MissingStatsActorDeathAction : uint8_t
+{
+    Continue = 0,
+    HoldDead = 1,
+    MarkDead = 2,
+    AdvanceDying = 3,
+};
+
+struct MissingStatsActorDeathFrame
+{
+    MissingStatsActorDeathAction action = MissingStatsActorDeathAction::Continue;
+    float actionSeconds = 0.0f;
+    bool finishedDying = false;
+};
+
+struct OutdoorActiveActorCandidate
+{
+    size_t actorIndex = static_cast<size_t>(-1);
+    float distanceToParty = 0.0f;
+    bool eligible = false;
+};
+
+MissingStatsActorDeathFrame resolveMissingStatsActorDeathFrame(
+    bool dead,
+    bool hpDepleted,
+    bool dying,
+    float actionSeconds,
+    float deltaSeconds)
+{
+    MissingStatsActorDeathFrame result = {};
+
+    if (dead)
+    {
+        result.action = MissingStatsActorDeathAction::HoldDead;
+        return result;
+    }
+
+    if (!hpDepleted && !dying)
+    {
+        return result;
+    }
+
+    if (!dying)
+    {
+        result.action = MissingStatsActorDeathAction::MarkDead;
+        return result;
+    }
+
+    result.action = MissingStatsActorDeathAction::AdvanceDying;
+    result.actionSeconds = std::max(0.0f, actionSeconds - std::max(0.0f, deltaSeconds));
+    result.finishedDying = result.actionSeconds <= 0.0f;
+    return result;
+}
 
 float rainIntensityValue(OutdoorWorldRuntime::RainIntensityPreset preset)
 {
@@ -1188,6 +1244,13 @@ float normalizeAngleRadians(float angle)
     }
 
     return angle;
+}
+
+uint32_t inactiveActorDecisionSeed(uint32_t actorId, uint32_t counter, uint32_t salt)
+{
+    return static_cast<uint32_t>(actorId + 1) * 1103515245u
+        + counter * 2654435761u
+        + salt;
 }
 
 float shortestAngleDistanceRadians(float left, float right)
@@ -2274,13 +2337,8 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.recoverySeconds = monsterRecoverySeconds(pStats != nullptr ? pStats->recovery : 100);
     state.attackAnimationSeconds = std::max(0.1f, attackAnimationSeconds);
     GameplayActorService actorService = {};
-    GameplayActorService::ActorInitialTimingInput timingInput = {};
-    timingInput.actorId = actorId;
-    timingInput.recoverySeconds = state.recoverySeconds;
-    const GameplayActorService::ActorInitialTimingResult initialTiming =
-        actorService.resolveActorInitialTiming(timingInput);
-    state.attackCooldownSeconds = initialTiming.attackCooldownSeconds;
-    state.idleDecisionSeconds = initialTiming.idleDecisionSeconds;
+    state.attackCooldownSeconds = actorService.initialAttackCooldownSeconds(actorId, state.recoverySeconds);
+    state.idleDecisionSeconds = actorService.initialIdleDecisionSeconds(actorId);
 
     state.preciseZ = resolveInitialActorGroundZ(
         pOutdoorMapData,
@@ -2363,32 +2421,73 @@ float actorAnimationSeconds(
         fallbackSeconds);
 }
 
-GameplayActorService::ActorCombatAvailabilityInput buildActorCombatAvailabilityInput(
-    const OutdoorWorldRuntime::MapActorState &actor)
-{
-    GameplayActorService::ActorCombatAvailabilityInput input = {};
-    input.invisible = actor.isInvisible;
-    input.dead = actor.isDead;
-    input.hpDepleted = actor.currentHp <= 0;
-    input.dyingState = actor.aiState == OutdoorWorldRuntime::ActorAiState::Dying;
-    input.deadState = actor.aiState == OutdoorWorldRuntime::ActorAiState::Dead;
-    return input;
-}
-
 bool isActorUnavailableForCombat(const OutdoorWorldRuntime::MapActorState &actor)
 {
     GameplayActorService actorService = {};
-    return actorService.isActorUnavailableForCombat(buildActorCombatAvailabilityInput(actor));
+    return actorService.isActorUnavailableForCombat(
+        actor.isInvisible,
+        actor.isDead,
+        actor.currentHp <= 0,
+        actor.aiState == OutdoorWorldRuntime::ActorAiState::Dying,
+        actor.aiState == OutdoorWorldRuntime::ActorAiState::Dead);
+}
+
+std::vector<bool> selectOutdoorActiveActorMask(
+    const std::vector<OutdoorActiveActorCandidate> &candidates,
+    size_t actorCount,
+    size_t maxActiveActors,
+    float activeRange)
+{
+    std::vector<bool> activeActorMask(actorCount, false);
+
+    if (actorCount == 0 || maxActiveActors == 0)
+    {
+        return activeActorMask;
+    }
+
+    std::vector<std::pair<size_t, float>> activeActorDistances;
+    activeActorDistances.reserve(candidates.size());
+
+    for (const OutdoorActiveActorCandidate &candidate : candidates)
+    {
+        if (!candidate.eligible || candidate.actorIndex >= actorCount)
+        {
+            continue;
+        }
+
+        if (candidate.distanceToParty <= activeRange)
+        {
+            activeActorDistances.push_back({candidate.actorIndex, candidate.distanceToParty});
+        }
+    }
+
+    std::stable_sort(
+        activeActorDistances.begin(),
+        activeActorDistances.end(),
+        [](const std::pair<size_t, float> &left, const std::pair<size_t, float> &right)
+        {
+            return left.second < right.second;
+        });
+
+    for (size_t index = 0; index < activeActorDistances.size() && index < maxActiveActors; ++index)
+    {
+        activeActorMask[activeActorDistances[index].first] = true;
+    }
+
+    return activeActorMask;
 }
 
 bool canEnterHitReaction(const OutdoorWorldRuntime::MapActorState &actor)
 {
     GameplayActorService actorService = {};
-    GameplayActorService::ActorHitReactionInput input = {};
-    input.availability = buildActorCombatAvailabilityInput(actor);
-    input.stunnedState = actor.aiState == OutdoorWorldRuntime::ActorAiState::Stunned;
-    input.attackingState = actor.aiState == OutdoorWorldRuntime::ActorAiState::Attacking;
-    return actorService.canActorEnterHitReaction(input);
+    return actorService.canActorEnterHitReaction(
+        actor.isInvisible,
+        actor.isDead,
+        actor.currentHp <= 0,
+        actor.aiState == OutdoorWorldRuntime::ActorAiState::Dying,
+        actor.aiState == OutdoorWorldRuntime::ActorAiState::Dead,
+        actor.aiState == OutdoorWorldRuntime::ActorAiState::Stunned,
+        actor.aiState == OutdoorWorldRuntime::ActorAiState::Attacking);
 }
 
 void beginHitReaction(
@@ -2595,6 +2694,153 @@ GameplayActorAiType gameplayActorAiTypeFromMonster(MonsterTable::MonsterAiType a
     }
 }
 
+enum class OutdoorTargetKind : uint8_t
+{
+    None = 0,
+    Party = 1,
+    Actor = 2,
+};
+
+ActorAiTargetKind actorAiTargetKindFromOutdoorTarget(OutdoorTargetKind kind)
+{
+    switch (kind)
+    {
+        case OutdoorTargetKind::Party:
+            return ActorAiTargetKind::Party;
+
+        case OutdoorTargetKind::Actor:
+            return ActorAiTargetKind::Actor;
+
+        case OutdoorTargetKind::None:
+        default:
+            return ActorAiTargetKind::None;
+    }
+}
+
+ActorAiMotionState actorAiMotionStateFromOutdoor(OutdoorWorldRuntime::ActorAiState state)
+{
+    switch (state)
+    {
+        case OutdoorWorldRuntime::ActorAiState::Wandering:
+            return ActorAiMotionState::Wandering;
+
+        case OutdoorWorldRuntime::ActorAiState::Pursuing:
+            return ActorAiMotionState::Pursuing;
+
+        case OutdoorWorldRuntime::ActorAiState::Fleeing:
+            return ActorAiMotionState::Fleeing;
+
+        case OutdoorWorldRuntime::ActorAiState::Stunned:
+            return ActorAiMotionState::Stunned;
+
+        case OutdoorWorldRuntime::ActorAiState::Attacking:
+            return ActorAiMotionState::Attacking;
+
+        case OutdoorWorldRuntime::ActorAiState::Dying:
+            return ActorAiMotionState::Dying;
+
+        case OutdoorWorldRuntime::ActorAiState::Dead:
+            return ActorAiMotionState::Dead;
+
+        case OutdoorWorldRuntime::ActorAiState::Standing:
+        default:
+            return ActorAiMotionState::Standing;
+    }
+}
+
+ActorAiAnimationState actorAiAnimationStateFromOutdoor(OutdoorWorldRuntime::ActorAnimation animation)
+{
+    switch (animation)
+    {
+        case OutdoorWorldRuntime::ActorAnimation::Walking:
+            return ActorAiAnimationState::Walking;
+
+        case OutdoorWorldRuntime::ActorAnimation::AttackMelee:
+            return ActorAiAnimationState::AttackMelee;
+
+        case OutdoorWorldRuntime::ActorAnimation::AttackRanged:
+            return ActorAiAnimationState::AttackRanged;
+
+        case OutdoorWorldRuntime::ActorAnimation::GotHit:
+            return ActorAiAnimationState::GotHit;
+
+        case OutdoorWorldRuntime::ActorAnimation::Dying:
+            return ActorAiAnimationState::Dying;
+
+        case OutdoorWorldRuntime::ActorAnimation::Dead:
+            return ActorAiAnimationState::Dead;
+
+        case OutdoorWorldRuntime::ActorAnimation::Bored:
+            return ActorAiAnimationState::Bored;
+
+        case OutdoorWorldRuntime::ActorAnimation::Standing:
+        default:
+            return ActorAiAnimationState::Standing;
+    }
+}
+
+OutdoorWorldRuntime::ActorAiState outdoorActorAiStateFromGameplay(ActorAiMotionState state)
+{
+    switch (state)
+    {
+        case ActorAiMotionState::Wandering:
+            return OutdoorWorldRuntime::ActorAiState::Wandering;
+
+        case ActorAiMotionState::Pursuing:
+            return OutdoorWorldRuntime::ActorAiState::Pursuing;
+
+        case ActorAiMotionState::Fleeing:
+            return OutdoorWorldRuntime::ActorAiState::Fleeing;
+
+        case ActorAiMotionState::Stunned:
+            return OutdoorWorldRuntime::ActorAiState::Stunned;
+
+        case ActorAiMotionState::Attacking:
+            return OutdoorWorldRuntime::ActorAiState::Attacking;
+
+        case ActorAiMotionState::Dying:
+            return OutdoorWorldRuntime::ActorAiState::Dying;
+
+        case ActorAiMotionState::Dead:
+            return OutdoorWorldRuntime::ActorAiState::Dead;
+
+        case ActorAiMotionState::Standing:
+        default:
+            return OutdoorWorldRuntime::ActorAiState::Standing;
+    }
+}
+
+OutdoorWorldRuntime::ActorAnimation outdoorActorAnimationFromGameplay(ActorAiAnimationState animation)
+{
+    switch (animation)
+    {
+        case ActorAiAnimationState::Walking:
+            return OutdoorWorldRuntime::ActorAnimation::Walking;
+
+        case ActorAiAnimationState::AttackMelee:
+            return OutdoorWorldRuntime::ActorAnimation::AttackMelee;
+
+        case ActorAiAnimationState::AttackRanged:
+            return OutdoorWorldRuntime::ActorAnimation::AttackRanged;
+
+        case ActorAiAnimationState::GotHit:
+            return OutdoorWorldRuntime::ActorAnimation::GotHit;
+
+        case ActorAiAnimationState::Dying:
+            return OutdoorWorldRuntime::ActorAnimation::Dying;
+
+        case ActorAiAnimationState::Dead:
+            return OutdoorWorldRuntime::ActorAnimation::Dead;
+
+        case ActorAiAnimationState::Bored:
+            return OutdoorWorldRuntime::ActorAnimation::Bored;
+
+        case ActorAiAnimationState::Standing:
+        default:
+            return OutdoorWorldRuntime::ActorAnimation::Standing;
+    }
+}
+
 GameplayActorTargetPolicyState buildGameplayActorTargetPolicyState(const OutdoorWorldRuntime::MapActorState &actor)
 {
     GameplayActorTargetPolicyState state = {};
@@ -2642,16 +2888,6 @@ GameplayActorAttackAbility gameplayAttackAbilityFromOutdoor(OutdoorWorldRuntime:
         default:
             return GameplayActorAttackAbility::Attack1;
     }
-}
-
-GameplayActorService::AttackDamageProfile gameplayAttackDamageProfileFromOutdoor(
-    const MonsterTable::MonsterStatsEntry::DamageProfile &profile)
-{
-    GameplayActorService::AttackDamageProfile result = {};
-    result.diceRolls = profile.diceRolls;
-    result.diceSides = profile.diceSides;
-    result.bonus = profile.bonus;
-    return result;
 }
 
 OutdoorWorldRuntime::ActorControlMode outdoorActorControlModeFromGameplay(GameplayActorControlMode mode)
@@ -2932,13 +3168,8 @@ OutdoorWorldRuntime::MapActorState buildSpawnedMapActorState(
     state.recoverySeconds = monsterRecoverySeconds(stats.recovery);
     state.attackAnimationSeconds = 0.3f;
     GameplayActorService actorService = {};
-    GameplayActorService::ActorInitialTimingInput timingInput = {};
-    timingInput.actorId = actorId;
-    timingInput.recoverySeconds = state.recoverySeconds;
-    const GameplayActorService::ActorInitialTimingResult initialTiming =
-        actorService.resolveActorInitialTiming(timingInput);
-    state.attackCooldownSeconds = initialTiming.attackCooldownSeconds;
-    state.idleDecisionSeconds = initialTiming.idleDecisionSeconds;
+    state.attackCooldownSeconds = actorService.initialAttackCooldownSeconds(actorId, state.recoverySeconds);
+    state.idleDecisionSeconds = actorService.initialIdleDecisionSeconds(actorId);
 
     state.preciseZ = resolveInitialActorGroundZ(
         pOutdoorMapData,
@@ -2953,16 +3184,59 @@ OutdoorWorldRuntime::MapActorState buildSpawnedMapActorState(
     return state;
 }
 
-template <typename VisibilityFn>
-std::vector<GameplayActorService::CombatTargetCandidate> buildCombatTargetCandidates(
+struct OutdoorCombatTargetCandidate
+{
+    size_t actorIndex = static_cast<size_t>(-1);
+    GameplayActorTargetPolicyState policyState = {};
+    float preciseX = 0.0f;
+    float preciseY = 0.0f;
+    float targetZ = 0.0f;
+    uint16_t radius = 0;
+    bool unavailable = false;
+    bool lineOfSightChecked = false;
+    bool hasLineOfSight = false;
+};
+
+struct OutdoorTargetFacts
+{
+    OutdoorTargetKind kind = OutdoorTargetKind::None;
+    size_t actorIndex = static_cast<size_t>(-1);
+    int relationToTarget = 0;
+    float targetX = 0.0f;
+    float targetY = 0.0f;
+    float targetZ = 0.0f;
+    float deltaX = 0.0f;
+    float deltaY = 0.0f;
+    float deltaZ = 0.0f;
+    float horizontalDistanceToTarget = 0.0f;
+    float distanceToTarget = 0.0f;
+    float edgeDistance = 0.0f;
+    bool canSense = false;
+    bool partyCanSense = false;
+};
+
+struct OutdoorEngagementState
+{
+    bool shouldEngageTarget = false;
+    bool shouldPromoteHostility = false;
+    float promotionRange = 0.0f;
+    bool shouldFlee = false;
+    bool inMeleeRange = false;
+    bool friendlyNearParty = false;
+};
+
+float meleeRangeForCombatTarget(bool targetIsActor)
+{
+    return targetIsActor ? ActorMeleeRange * 0.5f : ActorMeleeRange;
+}
+
+std::vector<OutdoorCombatTargetCandidate> buildCombatTargetCandidates(
     const GameplayActorService *pGameplayActorService,
     const OutdoorWorldRuntime::MapActorState &actor,
     size_t actorIndex,
-    const std::vector<OutdoorWorldRuntime::MapActorState> &mapActors,
-    VisibilityFn &&hasClearOutdoorLineOfSight)
+    const std::vector<OutdoorWorldRuntime::MapActorState> &mapActors)
 {
-    const float actorTargetZ = actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f);
-    std::vector<GameplayActorService::CombatTargetCandidate> candidates;
+    std::vector<OutdoorCombatTargetCandidate> candidates;
 
     if (pGameplayActorService == nullptr)
     {
@@ -2995,18 +3269,13 @@ std::vector<GameplayActorService::CombatTargetCandidate> buildCombatTargetCandid
 
         const float otherActorTargetZ =
             otherActor.preciseZ + std::max(24.0f, static_cast<float>(otherActor.height) * 0.7f);
-        GameplayActorService::CombatTargetCandidate candidate = {};
+        OutdoorCombatTargetCandidate candidate = {};
         candidate.actorIndex = otherActorIndex;
         candidate.policyState = buildGameplayActorTargetPolicyState(otherActor);
         candidate.preciseX = otherActor.preciseX;
         candidate.preciseY = otherActor.preciseY;
         candidate.targetZ = otherActorTargetZ;
         candidate.radius = otherActor.radius;
-        candidate.hasLineOfSight = hasClearOutdoorLineOfSight(
-            actorIndex,
-            otherActorIndex,
-            bx::Vec3{actor.preciseX, actor.preciseY, actorTargetZ},
-            bx::Vec3{otherActor.preciseX, otherActor.preciseY, otherActorTargetZ});
         candidates.push_back(candidate);
     }
 
@@ -3014,86 +3283,179 @@ std::vector<GameplayActorService::CombatTargetCandidate> buildCombatTargetCandid
 }
 
 template <typename VisibilityFn>
-GameplayActorService::CombatTargetResult resolveOutdoorCombatTarget(
+OutdoorTargetFacts resolveOutdoorTargetFacts(
     const GameplayActorService *pGameplayActorService,
     const OutdoorWorldRuntime::MapActorState &actor,
     size_t actorIndex,
-    const std::vector<OutdoorWorldRuntime::MapActorState> &mapActors,
+    std::vector<OutdoorCombatTargetCandidate> &candidates,
     float partyX,
     float partyY,
     float partyZ,
     VisibilityFn &&hasClearOutdoorLineOfSight)
 {
+    OutdoorTargetFacts target = {};
+
     if (pGameplayActorService == nullptr)
     {
-        return {};
+        return target;
     }
 
+    float bestPriorityDistanceSquared = std::numeric_limits<float>::max();
+    const GameplayActorTargetPolicyState actorPolicyState = buildGameplayActorTargetPolicyState(actor);
     const float actorTargetZ = actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f);
-    const std::vector<GameplayActorService::CombatTargetCandidate> candidates =
-        buildCombatTargetCandidates(
-            pGameplayActorService,
-            actor,
-            actorIndex,
-            mapActors,
-            std::forward<VisibilityFn>(hasClearOutdoorLineOfSight));
-    GameplayActorService::CombatTargetInput input = {};
-    input.actorIndex = actorIndex;
-    input.actorPolicyState = buildGameplayActorTargetPolicyState(actor);
-    input.actorX = actor.preciseX;
-    input.actorY = actor.preciseY;
-    input.actorTargetZ = actorTargetZ;
-    input.actorRadius = actor.radius;
-    input.partyX = partyX;
-    input.partyY = partyY;
-    input.partyTargetZ = partyZ + PartyTargetHeightOffset;
-    input.partyCollisionRadius = PartyCollisionRadius;
-    input.pActorCandidates = &candidates;
-    return pGameplayActorService->resolveCombatTarget(input);
+    const float partyTargetZ = partyZ + PartyTargetHeightOffset;
+    const float partySenseRange = pGameplayActorService->partyEngagementRange(actorPolicyState);
+
+    if (partySenseRange > 0.0f)
+    {
+        const float deltaPartyX = partyX - actor.preciseX;
+        const float deltaPartyY = partyY - actor.preciseY;
+        const float deltaPartyZ = partyTargetZ - actorTargetZ;
+        const bool canSenseParty =
+            std::abs(deltaPartyX) <= partySenseRange
+            && std::abs(deltaPartyY) <= partySenseRange
+            && std::abs(deltaPartyZ) <= partySenseRange
+            && isWithinRange3d(deltaPartyX, deltaPartyY, deltaPartyZ, partySenseRange);
+
+        target.partyCanSense = canSenseParty;
+
+        if (canSenseParty)
+        {
+            const float horizontalDistanceToParty = length2d(deltaPartyX, deltaPartyY);
+            const float distanceToParty = length3d(deltaPartyX, deltaPartyY, deltaPartyZ);
+            const float edgeDistanceToParty =
+                std::max(0.0f, distanceToParty - static_cast<float>(actor.radius) - PartyCollisionRadius);
+            target.kind = OutdoorTargetKind::Party;
+            target.targetX = partyX;
+            target.targetY = partyY;
+            target.targetZ = partyTargetZ;
+            target.deltaX = deltaPartyX;
+            target.deltaY = deltaPartyY;
+            target.deltaZ = deltaPartyZ;
+            target.horizontalDistanceToTarget = horizontalDistanceToParty;
+            target.distanceToTarget = distanceToParty;
+            target.edgeDistance = edgeDistanceToParty;
+            target.canSense = true;
+            bestPriorityDistanceSquared = distanceToParty * distanceToParty;
+        }
+    }
+
+    for (OutdoorCombatTargetCandidate &candidate : candidates)
+    {
+        if (candidate.actorIndex == actorIndex || candidate.unavailable)
+        {
+            continue;
+        }
+
+        const float deltaX = candidate.preciseX - actor.preciseX;
+        const float deltaY = candidate.preciseY - actor.preciseY;
+
+        if (std::abs(deltaX) > HostilityLongRange || std::abs(deltaY) > HostilityLongRange)
+        {
+            continue;
+        }
+
+        const GameplayActorTargetPolicyResult targetPolicy =
+            pGameplayActorService->resolveActorTargetPolicy(actorPolicyState, candidate.policyState);
+
+        if (!targetPolicy.canTarget)
+        {
+            continue;
+        }
+
+        const float deltaZ = candidate.targetZ - actorTargetZ;
+        const float distanceSquaredToCandidate = lengthSquared3d(deltaX, deltaY, deltaZ);
+
+        if (distanceSquaredToCandidate >= bestPriorityDistanceSquared)
+        {
+            continue;
+        }
+
+        if (!isWithinRange3d(deltaX, deltaY, deltaZ, targetPolicy.engagementRange))
+        {
+            continue;
+        }
+
+        if (!candidate.lineOfSightChecked)
+        {
+            candidate.hasLineOfSight =
+                hasClearOutdoorLineOfSight(
+                    actorIndex,
+                    candidate.actorIndex,
+                    bx::Vec3{actor.preciseX, actor.preciseY, actorTargetZ},
+                    bx::Vec3{candidate.preciseX, candidate.preciseY, candidate.targetZ});
+            candidate.lineOfSightChecked = true;
+        }
+
+        if (!candidate.hasLineOfSight)
+        {
+            continue;
+        }
+
+        const float horizontalDistanceToCandidate = length2d(deltaX, deltaY);
+        const float distanceToCandidate = length3d(deltaX, deltaY, deltaZ);
+        const float edgeDistance =
+            std::max(
+                0.0f,
+                distanceToCandidate - static_cast<float>(actor.radius) - static_cast<float>(candidate.radius));
+        target.kind = OutdoorTargetKind::Actor;
+        target.actorIndex = candidate.actorIndex;
+        target.relationToTarget = targetPolicy.relationToTarget;
+        target.targetX = candidate.preciseX;
+        target.targetY = candidate.preciseY;
+        target.targetZ = candidate.targetZ;
+        target.deltaX = deltaX;
+        target.deltaY = deltaY;
+        target.deltaZ = deltaZ;
+        target.horizontalDistanceToTarget = horizontalDistanceToCandidate;
+        target.distanceToTarget = distanceToCandidate;
+        target.edgeDistance = edgeDistance;
+        target.canSense = true;
+        bestPriorityDistanceSquared = distanceSquaredToCandidate;
+    }
+
+    return target;
 }
 
-GameplayActorService::IdleBehaviorResult fallbackIdleStandBehavior(bool bored)
+OutdoorEngagementState resolveOutdoorEngagementState(
+    const GameplayActorService &actorService,
+    const GameplayActorTargetPolicyState &actorPolicyState,
+    const OutdoorTargetFacts &combatTarget,
+    GameplayActorAiType aiType,
+    uint8_t hostilityType,
+    int currentHp,
+    int maxHp,
+    bool hostileToParty,
+    bool partyIsVeryNearActor)
 {
-    GameplayActorService::IdleBehaviorResult result = {};
-    result.action = GameplayActorService::IdleBehaviorAction::Stand;
-    result.bored = bored;
-    result.actionSeconds = bored ? 2.0f : 1.5f;
-    result.idleDecisionSeconds = result.actionSeconds;
-    return result;
-}
+    OutdoorEngagementState engagement = {};
+    const bool targetIsActor = combatTarget.kind == OutdoorTargetKind::Actor;
+    const bool hasCombatTarget = combatTarget.kind != OutdoorTargetKind::None;
+    engagement.shouldEngageTarget = hasCombatTarget && combatTarget.canSense;
+    engagement.inMeleeRange = combatTarget.edgeDistance <= meleeRangeForCombatTarget(targetIsActor);
 
-void applyIdleBehavior(
-    const GameplayActorService::IdleBehaviorResult &behavior,
-    OutdoorWorldRuntime::MapActorState &actor)
-{
-    if (behavior.updateYaw)
+    if (targetIsActor && hostilityType == 0 && !actorService.isPartyControlledActor(actorPolicyState.controlMode))
     {
-        actor.yawRadians = behavior.yawRadians;
+        engagement.promotionRange =
+            actorService.hostilityPromotionRangeForFriendlyActor(combatTarget.relationToTarget);
+        engagement.shouldPromoteHostility =
+            combatTarget.relationToTarget == 1
+            || (engagement.promotionRange >= 0.0f
+                && lengthSquared3d(combatTarget.deltaX, combatTarget.deltaY, combatTarget.deltaZ)
+                    <= engagement.promotionRange * engagement.promotionRange);
+
+        if (!engagement.shouldPromoteHostility)
+        {
+            engagement.shouldEngageTarget = false;
+        }
     }
 
-    actor.attackImpactTriggered = false;
-
-    if (behavior.action == GameplayActorService::IdleBehaviorAction::Stand)
-    {
-        actor.moveDirectionX = 0.0f;
-        actor.moveDirectionY = 0.0f;
-        actor.velocityX = 0.0f;
-        actor.velocityY = 0.0f;
-        actor.actionSeconds = behavior.actionSeconds;
-        actor.idleDecisionSeconds = behavior.idleDecisionSeconds;
-        actor.animation = behavior.bored
-            ? OutdoorWorldRuntime::ActorAnimation::Bored
-            : OutdoorWorldRuntime::ActorAnimation::Standing;
-    }
-    else
-    {
-        actor.moveDirectionX = behavior.moveDirectionX;
-        actor.moveDirectionY = behavior.moveDirectionY;
-        actor.actionSeconds = behavior.actionSeconds;
-        actor.idleDecisionSeconds = behavior.idleDecisionSeconds;
-    }
-
-    actor.animationTimeTicks = 0.0f;
+    engagement.shouldFlee =
+        engagement.shouldEngageTarget
+        && combatTarget.distanceToTarget <= HostilityLongRange
+        && actorService.shouldFleeForAiType(aiType, currentHp, maxHp);
+    engagement.friendlyNearParty = !engagement.shouldEngageTarget && !hostileToParty && partyIsVeryNearActor;
+    return engagement;
 }
 
 void resetCrowdSteeringState(OutdoorWorldRuntime::MapActorState &actor)
@@ -3109,111 +3471,6 @@ void resetCrowdSteeringState(OutdoorWorldRuntime::MapActorState &actor)
     actor.crowdProbeElapsedSeconds = 0.0f;
     actor.crowdEscapeAttempts = 0;
     actor.crowdSideSign = 0;
-}
-
-GameplayActorService::CrowdSteeringState buildCrowdSteeringState(
-    const OutdoorWorldRuntime::MapActorState &actor)
-{
-    GameplayActorService::CrowdSteeringState state = {};
-    state.noProgressSeconds = actor.crowdNoProgressSeconds;
-    state.lastEdgeDistance = actor.crowdLastEdgeDistance;
-    state.retreatRemainingSeconds = actor.crowdRetreatRemainingSeconds;
-    state.standRemainingSeconds = actor.crowdStandRemainingSeconds;
-    state.probeEdgeDistance = actor.crowdProbeEdgeDistance;
-    state.probeElapsedSeconds = actor.crowdProbeElapsedSeconds;
-    state.escapeAttempts = actor.crowdEscapeAttempts;
-    state.sideSign = actor.crowdSideSign;
-    return state;
-}
-
-void applyCrowdSteeringState(
-    const GameplayActorService::CrowdSteeringState &state,
-    OutdoorWorldRuntime::MapActorState &actor)
-{
-    actor.crowdNoProgressSeconds = state.noProgressSeconds;
-    actor.crowdLastEdgeDistance = state.lastEdgeDistance;
-    actor.crowdRetreatRemainingSeconds = state.retreatRemainingSeconds;
-    actor.crowdStandRemainingSeconds = state.standRemainingSeconds;
-    actor.crowdProbeEdgeDistance = state.probeEdgeDistance;
-    actor.crowdProbeElapsedSeconds = state.probeElapsedSeconds;
-    actor.crowdEscapeAttempts = state.escapeAttempts;
-    actor.crowdSideSign = state.sideSign;
-}
-
-void beginCrowdSideStep(
-    OutdoorWorldRuntime::MapActorState &actor,
-    float deltaTargetX,
-    float deltaTargetY,
-    int sideSign)
-{
-    if (sideSign == 0)
-    {
-        sideSign = 1;
-    }
-
-    const float yaw = normalizeAngleRadians(
-        std::atan2(deltaTargetY, deltaTargetX) + (sideSign > 0 ? (Pi / 4.0f) : (-Pi / 4.0f)));
-    actor.crowdSideSign = sideSign > 0 ? 1 : -1;
-    actor.crowdSideLockRemainingSeconds = ActorCrowdSideLockSeconds;
-    actor.yawRadians = yaw;
-    actor.moveDirectionX = std::cos(yaw);
-    actor.moveDirectionY = std::sin(yaw);
-    actor.attackImpactTriggered = false;
-    actor.actionSeconds = std::max(actor.actionSeconds, ActorCrowdSideLockSeconds);
-}
-
-void beginCrowdRetreatStep(
-    OutdoorWorldRuntime::MapActorState &actor,
-    float deltaTargetX,
-    float deltaTargetY,
-    int sideSign,
-    float retreatSeconds)
-{
-    if (sideSign == 0)
-    {
-        sideSign = 1;
-    }
-
-    const float yaw = normalizeAngleRadians(
-        std::atan2(deltaTargetY, deltaTargetX)
-        + (sideSign > 0 ? ActorCrowdRetreatAngleRadians : (-ActorCrowdRetreatAngleRadians)));
-    actor.crowdSideSign = sideSign > 0 ? 1 : -1;
-    actor.crowdRetreatRemainingSeconds = retreatSeconds;
-    actor.crowdSideLockRemainingSeconds = retreatSeconds;
-    actor.yawRadians = yaw;
-    actor.moveDirectionX = std::cos(yaw);
-    actor.moveDirectionY = std::sin(yaw);
-    actor.attackImpactTriggered = false;
-    actor.actionSeconds = std::max(actor.actionSeconds, retreatSeconds);
-}
-
-void beginCrowdStandOrBored(
-    OutdoorWorldRuntime::MapActorState &actor,
-    bool bored,
-    float durationSeconds,
-    const GameplayActorService *pGameplayActorService)
-{
-    GameplayActorService::IdleBehaviorResult idleBehavior =
-        pGameplayActorService != nullptr
-        ? pGameplayActorService->idleStandBehavior(bored)
-        : fallbackIdleStandBehavior(bored);
-    idleBehavior.actionSeconds = std::max(idleBehavior.actionSeconds, durationSeconds);
-    idleBehavior.idleDecisionSeconds = std::max(idleBehavior.idleDecisionSeconds, durationSeconds);
-    applyIdleBehavior(idleBehavior, actor);
-    actor.aiState = OutdoorWorldRuntime::ActorAiState::Standing;
-    actor.crowdStandRemainingSeconds = durationSeconds;
-    actor.crowdSideLockRemainingSeconds = 0.0f;
-    actor.crowdNoProgressSeconds = 0.0f;
-    actor.crowdRetreatRemainingSeconds = 0.0f;
-    actor.crowdProbeX = actor.preciseX;
-    actor.crowdProbeY = actor.preciseY;
-    actor.crowdProbeEdgeDistance = 0.0f;
-    actor.crowdProbeElapsedSeconds = 0.0f;
-    actor.crowdLastEdgeDistance = 0.0f;
-    actor.crowdEscapeAttempts = 0;
-    actor.crowdSideSign = 0;
-    actor.moveDirectionX = 0.0f;
-    actor.moveDirectionY = 0.0f;
 }
 
 void updateInactiveActorPresentation(
@@ -3240,44 +3497,38 @@ void updateInactiveActorPresentation(
     }
 
     actor.animationTimeTicks += ActorUpdateStepSeconds * TicksPerSecond;
+    actor.actionSeconds = std::max(0.0f, actor.actionSeconds - ActorUpdateStepSeconds);
+    actor.idleDecisionSeconds = std::max(0.0f, actor.idleDecisionSeconds - ActorUpdateStepSeconds);
 
-    const GameplayActorService *pActorService = pGameplayActorService;
-    GameplayActorService fallbackActorService = {};
-
-    if (pActorService == nullptr)
-    {
-        pActorService = &fallbackActorService;
-    }
-
-    GameplayActorService::InactiveActorBehaviorInput inactiveInput = {};
-    inactiveInput.actorId = actor.actorId;
-    inactiveInput.idleDecisionCount = actor.idleDecisionCount;
-    inactiveInput.currentAnimationBored = actor.animation == OutdoorWorldRuntime::ActorAnimation::Bored;
-    inactiveInput.allowFidget = pGameplayActorService != nullptr;
-    inactiveInput.actionSeconds = actor.actionSeconds;
-    inactiveInput.idleDecisionSeconds = actor.idleDecisionSeconds;
-    inactiveInput.deltaSeconds = ActorUpdateStepSeconds;
-    inactiveInput.decisionIntervalSeconds = InactiveActorDecisionIntervalSeconds;
-    const GameplayActorService::InactiveActorBehaviorResult inactiveBehavior =
-        pActorService->resolveInactiveActorBehavior(inactiveInput);
-
-    actor.actionSeconds = inactiveBehavior.actionSeconds;
-    actor.idleDecisionSeconds = inactiveBehavior.idleDecisionSeconds;
-    actor.idleDecisionCount = inactiveBehavior.nextIdleDecisionCount;
-
-    if (inactiveBehavior.keepCurrentAnimation)
+    if (actor.animation == OutdoorWorldRuntime::ActorAnimation::Bored && actor.actionSeconds > 0.0f)
     {
         return;
     }
 
-    if (inactiveBehavior.shouldSetStandingAnimation)
+    actor.animation = OutdoorWorldRuntime::ActorAnimation::Standing;
+
+    if (actor.idleDecisionSeconds > 0.0f)
     {
-        actor.animation = OutdoorWorldRuntime::ActorAnimation::Standing;
+        return;
     }
 
-    if (inactiveBehavior.shouldApplyIdleBehavior)
+    actor.idleDecisionSeconds = InactiveActorDecisionIntervalSeconds;
+
+    if (pGameplayActorService == nullptr)
     {
-        applyIdleBehavior(inactiveBehavior.idleBehavior, actor);
+        return;
+    }
+
+    const uint32_t decisionSeed = inactiveActorDecisionSeed(actor.actorId, actor.idleDecisionCount, 0x7f4a7c15u);
+    actor.idleDecisionCount += 1;
+
+    if ((decisionSeed % 100u) < InactiveActorFidgetChancePercent)
+    {
+        actor.attackImpactTriggered = false;
+        actor.actionSeconds = InactiveActorBoredSeconds;
+        actor.idleDecisionSeconds = InactiveActorBoredSeconds;
+        actor.animation = OutdoorWorldRuntime::ActorAnimation::Bored;
+        actor.animationTimeTicks = 0.0f;
     }
 }
 
@@ -4560,9 +4811,9 @@ void OutdoorWorldRuntime::applyFireSpikeTrapTriggerDecision(
                 break;
             }
 
-            case GameplayProjectileService::FireSpikeTrapTriggerCommand::SpawnImpactPresentation:
+            case GameplayProjectileService::FireSpikeTrapTriggerCommand::SpawnImpactVisual:
             {
-                GameplayProjectileService::FireSpikeTrapImpactPresentationInput impactInput = {};
+                GameplayProjectileService::FireSpikeTrapImpactProjectileInput impactInput = {};
                 impactInput.sourceKind = trap.sourceKind;
                 impactInput.sourceId = trap.sourceId;
                 impactInput.sourcePartyMemberIndex = trap.sourcePartyMemberIndex;
@@ -4588,7 +4839,7 @@ void OutdoorWorldRuntime::applyFireSpikeTrapTriggerDecision(
                 impactInput.damage = decision.damage;
 
                 const ProjectileState impactSource =
-                    projectileService().buildFireSpikeTrapImpactPresentationProjectile(impactInput);
+                    projectileService().buildFireSpikeTrapImpactProjectile(impactInput);
                 spawnProjectileImpact(impactSource, trap.x, trap.y, trap.z);
                 break;
             }
@@ -5427,47 +5678,315 @@ void OutdoorWorldRuntime::updateGameplayScreenOverlay(float deltaSeconds)
     m_atmosphereState.gameplayOverlayColorAbgr = overlayColor;
 }
 
-void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ)
+void OutdoorWorldRuntime::updateActorFrameGlobalEffects(
+    float deltaSeconds,
+    float partyX,
+    float partyY,
+    float partyZ)
 {
-    if (deltaSeconds <= 0.0f || m_pMonsterTable == nullptr)
-    {
-        return;
-    }
-
     updateGameplayScreenOverlay(deltaSeconds);
     updateArmageddon(deltaSeconds, partyX, partyY, partyZ);
     m_actorUpdateAccumulatorSeconds =
         std::min(m_actorUpdateAccumulatorSeconds + deltaSeconds, MaxAccumulatedActorUpdateSeconds);
+}
 
-    while (m_actorUpdateAccumulatorSeconds >= ActorUpdateStepSeconds)
+std::vector<bool> OutdoorWorldRuntime::selectOutdoorActiveActors(float partyX, float partyY, float partyZ) const
+{
+    std::vector<OutdoorActiveActorCandidate> activeActorCandidates;
+    activeActorCandidates.reserve(m_mapActors.size());
+
+    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
     {
-        std::vector<GameplayActorService::ActiveActorUpdateCandidate> activeActorCandidates;
-        activeActorCandidates.reserve(m_mapActors.size());
+        const MapActorState &actor = m_mapActors[actorIndex];
+        OutdoorActiveActorCandidate candidate = {};
+        candidate.actorIndex = actorIndex;
+        candidate.eligible = !actor.isDead && !actor.isInvisible;
 
-        for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+        if (candidate.eligible)
         {
-            const MapActorState &actor = m_mapActors[actorIndex];
-            GameplayActorService::ActiveActorUpdateCandidate candidate = {};
-            candidate.actorIndex = actorIndex;
-            candidate.eligible = !actor.isDead && !actor.isInvisible;
+            const float deltaX = partyX - actor.preciseX;
+            const float deltaY = partyY - actor.preciseY;
+            const float deltaZ = partyZ - actor.preciseZ;
+            candidate.distanceToParty = std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ)
+                - static_cast<float>(actor.radius);
 
-            if (candidate.eligible)
+            if (candidate.distanceToParty < 0.0f)
             {
-                const float deltaX = partyX - actor.preciseX;
-                const float deltaY = partyY - actor.preciseY;
-                const float deltaZ = partyZ - actor.preciseZ;
-                candidate.distanceToParty = std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ)
-                    - static_cast<float>(actor.radius);
-
-                if (candidate.distanceToParty < 0.0f)
-                {
-                    candidate.distanceToParty = 0.0f;
-                }
+                candidate.distanceToParty = 0.0f;
             }
-
-            activeActorCandidates.push_back(candidate);
         }
 
+        activeActorCandidates.push_back(candidate);
+    }
+
+    return selectOutdoorActiveActorMask(
+        activeActorCandidates,
+        m_mapActors.size(),
+        MaxActiveActorUpdates,
+        ActiveActorUpdateRange);
+}
+
+ActorAiFrameFacts OutdoorWorldRuntime::collectOutdoorActorAiFrameFacts(
+    float deltaSeconds,
+    float partyX,
+    float partyY,
+    float partyZ,
+    const std::vector<bool> &activeActorMask) const
+{
+    ActorAiFrameFacts facts = {};
+    facts.deltaSeconds = deltaSeconds;
+    facts.fixedStepSeconds = ActorUpdateStepSeconds;
+    facts.party.position = GameplayWorldPoint{partyX, partyY, partyZ};
+    facts.party.collisionRadius = PartyCollisionRadius;
+    facts.party.collisionHeight = PartyCollisionHeight;
+    facts.party.invisible = false;
+
+    std::vector<int8_t> actorLineOfSightCache(m_mapActors.size() * m_mapActors.size(), -1);
+
+    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+    {
+        const bool active = actorIndex < activeActorMask.size() && activeActorMask[actorIndex];
+        const std::optional<ActorAiFacts> actorFacts =
+            collectOutdoorActorAiFacts(actorIndex, active, partyX, partyY, partyZ, actorLineOfSightCache);
+
+        if (!actorFacts)
+        {
+            continue;
+        }
+
+        if (active)
+        {
+            facts.activeActors.push_back(*actorFacts);
+        }
+        else
+        {
+            facts.backgroundActors.push_back(*actorFacts);
+        }
+    }
+
+    return facts;
+}
+
+std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
+    size_t actorIndex,
+    bool active,
+    float partyX,
+    float partyY,
+    float partyZ,
+    std::vector<int8_t> &actorLineOfSightCache) const
+{
+    if (actorIndex >= m_mapActors.size() || m_pMonsterTable == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const MapActorState &actor = m_mapActors[actorIndex];
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+    if (pStats == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const size_t mapActorCount = m_mapActors.size();
+    const auto hasClearOutdoorLineOfSight =
+        [this, mapActorCount, &actorLineOfSightCache](
+        size_t startActorIndex,
+        size_t endActorIndex,
+        const bx::Vec3 &start,
+        const bx::Vec3 &end) -> bool
+    {
+        if (startActorIndex >= mapActorCount || endActorIndex >= mapActorCount)
+        {
+            return this->hasClearOutdoorLineOfSight(start, end);
+        }
+
+        const size_t firstActorIndex = std::min(startActorIndex, endActorIndex);
+        const size_t secondActorIndex = std::max(startActorIndex, endActorIndex);
+        const size_t cacheIndex = firstActorIndex * mapActorCount + secondActorIndex;
+
+        if (cacheIndex >= actorLineOfSightCache.size())
+        {
+            return this->hasClearOutdoorLineOfSight(start, end);
+        }
+
+        int8_t &cachedResult = actorLineOfSightCache[cacheIndex];
+
+        if (cachedResult >= 0)
+        {
+            return cachedResult != 0;
+        }
+
+        const bool hasLineOfSight = this->hasClearOutdoorLineOfSight(start, end);
+        cachedResult = hasLineOfSight ? 1 : 0;
+        return hasLineOfSight;
+    };
+
+    std::vector<OutdoorCombatTargetCandidate> combatCandidates;
+    OutdoorTargetFacts combatTarget = {};
+
+    if (active)
+    {
+        combatCandidates =
+            buildCombatTargetCandidates(
+                m_pGameplayActorService,
+                actor,
+                actorIndex,
+                m_mapActors);
+        combatTarget =
+            resolveOutdoorTargetFacts(
+                m_pGameplayActorService,
+                actor,
+                actorIndex,
+                combatCandidates,
+                partyX,
+                partyY,
+                partyZ,
+                hasClearOutdoorLineOfSight);
+    }
+
+    ActorAiFacts facts = {};
+    facts.actorIndex = actorIndex;
+    facts.actorId = actor.actorId;
+
+    facts.identity.actorId = actor.actorId;
+    facts.identity.monsterId = actor.monsterId;
+    facts.identity.displayName = actor.displayName;
+    facts.identity.group = actor.group;
+    facts.identity.ally = actor.ally;
+    facts.identity.hostilityType = actor.hostilityType;
+    facts.identity.targetPolicy = buildGameplayActorTargetPolicyState(actor);
+
+    facts.stats.aiType = gameplayActorAiTypeFromMonster(pStats->aiType);
+    facts.stats.monsterLevel = pStats->level;
+    facts.stats.currentHp = actor.currentHp;
+    facts.stats.maxHp = actor.maxHp;
+    facts.stats.armorClass = effectiveMapActorArmorClass(actorIndex);
+    facts.stats.radius = actor.radius;
+    facts.stats.height = actor.height;
+    facts.stats.moveSpeed = actor.moveSpeed > 0 ? actor.moveSpeed : static_cast<uint16_t>(pStats->speed);
+    facts.stats.canFly = pStats->canFly;
+    facts.stats.hasSpell1 = pStats->hasSpell1;
+    facts.stats.hasSpell2 = pStats->hasSpell2;
+    facts.stats.spell1UseChance = pStats->spell1UseChance;
+    facts.stats.spell2UseChance = pStats->spell2UseChance;
+    facts.stats.attack2Chance = pStats->attack2Chance;
+    facts.stats.attack1Damage.diceRolls = pStats->attack1Damage.diceRolls;
+    facts.stats.attack1Damage.diceSides = pStats->attack1Damage.diceSides;
+    facts.stats.attack1Damage.bonus = pStats->attack1Damage.bonus;
+    facts.stats.attack2Damage.diceRolls = pStats->attack2Damage.diceRolls;
+    facts.stats.attack2Damage.diceSides = pStats->attack2Damage.diceSides;
+    facts.stats.attack2Damage.bonus = pStats->attack2Damage.bonus;
+    facts.stats.attackConstraints.attack1IsRanged = pStats->attack1HasMissile;
+    facts.stats.attackConstraints.attack2IsRanged = pStats->attack2HasMissile;
+    facts.stats.attackConstraints.blindActive = actor.blindRemainingSeconds > 0.0f;
+    facts.stats.attackConstraints.darkGraspActive = actor.darkGraspRemainingSeconds > 0.0f;
+    facts.stats.attackConstraints.rangedCommitAllowed = true;
+
+    facts.runtime.motionState = actorAiMotionStateFromOutdoor(actor.aiState);
+    facts.runtime.animationState = actorAiAnimationStateFromOutdoor(actor.animation);
+    facts.runtime.queuedAttackAbility = gameplayAttackAbilityFromOutdoor(actor.queuedAttackAbility);
+    facts.runtime.animationTimeTicks = actor.animationTimeTicks;
+    facts.runtime.recoverySeconds = actor.recoverySeconds;
+    facts.runtime.attackAnimationSeconds = actor.attackAnimationSeconds;
+    facts.runtime.meleeAttackAnimationSeconds = actorAnimationSeconds(
+        m_pActorSpriteFrameTable,
+        actor,
+        ActorAnimation::AttackMelee,
+        actor.attackAnimationSeconds);
+    facts.runtime.rangedAttackAnimationSeconds = actorAnimationSeconds(
+        m_pActorSpriteFrameTable,
+        actor,
+        ActorAnimation::AttackRanged,
+        actor.attackAnimationSeconds);
+    facts.runtime.attackCooldownSeconds = actor.attackCooldownSeconds;
+    facts.runtime.idleDecisionSeconds = actor.idleDecisionSeconds;
+    facts.runtime.actionSeconds = actor.actionSeconds;
+    facts.runtime.crowdSideLockRemainingSeconds = actor.crowdSideLockRemainingSeconds;
+    facts.runtime.crowdNoProgressSeconds = actor.crowdNoProgressSeconds;
+    facts.runtime.crowdLastEdgeDistance = actor.crowdLastEdgeDistance;
+    facts.runtime.crowdRetreatRemainingSeconds = actor.crowdRetreatRemainingSeconds;
+    facts.runtime.crowdStandRemainingSeconds = actor.crowdStandRemainingSeconds;
+    facts.runtime.crowdProbeEdgeDistance = actor.crowdProbeEdgeDistance;
+    facts.runtime.crowdProbeElapsedSeconds = actor.crowdProbeElapsedSeconds;
+    facts.runtime.yawRadians = actor.yawRadians;
+    facts.runtime.idleDecisionCount = actor.idleDecisionCount;
+    facts.runtime.pursueDecisionCount = actor.pursueDecisionCount;
+    facts.runtime.attackDecisionCount = actor.attackDecisionCount;
+    facts.runtime.crowdEscapeAttempts = actor.crowdEscapeAttempts;
+    facts.runtime.crowdSideSign = actor.crowdSideSign;
+    facts.runtime.attackImpactTriggered = actor.attackImpactTriggered;
+
+    facts.status.spellEffects = buildGameplayActorSpellEffectState(actor);
+    facts.status.invisible = actor.isInvisible;
+    facts.status.dead = actor.isDead;
+    facts.status.hostileToParty = actor.hostileToParty;
+    facts.status.bloodSplatSpawned = actor.bloodSplatSpawned;
+    facts.status.hasDetectedParty = actor.hasDetectedParty;
+    facts.status.defaultHostileToParty = m_pMonsterTable->isHostileToParty(actor.monsterId);
+
+    facts.target.currentKind = actorAiTargetKindFromOutdoorTarget(combatTarget.kind);
+    facts.target.currentActorIndex = combatTarget.actorIndex;
+    facts.target.currentRelationToTarget = combatTarget.relationToTarget;
+    facts.target.currentPosition = GameplayWorldPoint{combatTarget.targetX, combatTarget.targetY, combatTarget.targetZ};
+    facts.target.currentAudioPosition = facts.target.currentPosition;
+
+    if (combatTarget.kind == OutdoorTargetKind::Actor
+        && combatTarget.actorIndex < m_mapActors.size())
+    {
+        const MapActorState &targetActor = m_mapActors[combatTarget.actorIndex];
+        facts.target.currentHp = targetActor.currentHp;
+        facts.target.currentAudioPosition =
+        GameplayWorldPoint{
+            targetActor.preciseX,
+            targetActor.preciseY,
+            targetActor.preciseZ + static_cast<float>(targetActor.height) * 0.5f};
+    }
+
+    facts.target.currentDistance = combatTarget.distanceToTarget;
+    facts.target.currentEdgeDistance = combatTarget.edgeDistance;
+    facts.target.currentCanSense = combatTarget.canSense;
+    facts.target.partyCanSenseActor = combatTarget.partyCanSense;
+    facts.target.candidates.reserve(combatCandidates.size());
+
+    for (const OutdoorCombatTargetCandidate &combatCandidate : combatCandidates)
+    {
+        ActorTargetCandidateFacts candidate = {};
+        candidate.kind = ActorAiTargetKind::Actor;
+        candidate.actorIndex = combatCandidate.actorIndex;
+        candidate.policy = combatCandidate.policyState;
+        candidate.position =
+        GameplayWorldPoint{combatCandidate.preciseX, combatCandidate.preciseY, combatCandidate.targetZ};
+        candidate.radius = combatCandidate.radius;
+        candidate.unavailable = combatCandidate.unavailable;
+        candidate.hasLineOfSight = combatCandidate.hasLineOfSight;
+
+        if (combatCandidate.actorIndex < m_mapActors.size())
+        {
+        const MapActorState &targetActor = m_mapActors[combatCandidate.actorIndex];
+        candidate.actorId = targetActor.actorId;
+        candidate.monsterId = targetActor.monsterId;
+        candidate.currentHp = targetActor.currentHp;
+        candidate.height = targetActor.height;
+        candidate.audioPosition =
+            GameplayWorldPoint{
+                targetActor.preciseX,
+                targetActor.preciseY,
+                targetActor.preciseZ + static_cast<float>(targetActor.height) * 0.5f};
+        }
+
+        facts.target.candidates.push_back(candidate);
+    }
+
+    facts.movement.position = GameplayWorldPoint{actor.preciseX, actor.preciseY, actor.preciseZ};
+    facts.movement.homePosition = GameplayWorldPoint{actor.homePreciseX, actor.homePreciseY, actor.homePreciseZ};
+    facts.movement.moveDirectionX = actor.moveDirectionX;
+    facts.movement.moveDirectionY = actor.moveDirectionY;
+    facts.movement.velocityX = actor.velocityX;
+    facts.movement.velocityY = actor.velocityY;
+    facts.movement.velocityZ = actor.velocityZ;
+    facts.movement.wanderRadius = wanderRadiusForMovementType(pStats->movementType);
+    {
         const GameplayActorService *pActorService = m_pGameplayActorService;
         GameplayActorService fallbackActorService = {};
 
@@ -5476,32 +5995,875 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
             pActorService = &fallbackActorService;
         }
 
-        GameplayActorService::ActiveActorUpdateSelectionInput activeSelectionInput = {};
-        activeSelectionInput.pCandidates = &activeActorCandidates;
-        activeSelectionInput.actorCount = m_mapActors.size();
-        activeSelectionInput.maxActiveActors = MaxActiveActorUpdates;
-        activeSelectionInput.activeRange = ActiveActorUpdateRange;
-        const GameplayActorService::ActiveActorUpdateSelectionResult activeSelection =
-            pActorService->selectActiveActorUpdates(activeSelectionInput);
-        std::vector<bool> activeActorMask = activeSelection.activeActorMask;
+        facts.movement.effectiveMoveSpeed =
+            pActorService->effectiveActorMoveSpeed(
+                actor.moveSpeed,
+                pStats->speed,
+                actor.slowMoveMultiplier,
+                actor.darkGraspRemainingSeconds > 0.0f);
+    }
+    facts.movement.distanceToParty = length2d(partyX - actor.preciseX, partyY - actor.preciseY);
+    facts.movement.edgeDistanceToParty =
+        std::max(0.0f, facts.movement.distanceToParty - static_cast<float>(actor.radius) - PartyCollisionRadius);
+    facts.movement.allowIdleWander = m_pGameplayActorService != nullptr;
+    facts.movement.movementAllowed = pStats->movementType != MonsterTable::MonsterMovementType::Stationary;
+    facts.movement.movementBlocked = false;
+    {
+        const GameplayActorService *pActorService = m_pGameplayActorService;
+        GameplayActorService fallbackActorService = {};
 
-        const size_t mapActorCount = m_mapActors.size();
-        std::vector<int8_t> actorLineOfSightCache(mapActorCount * mapActorCount, -1);
-
-        for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+        if (pActorService == nullptr)
         {
-            MapActorState &actor = m_mapActors[actorIndex];
+            pActorService = &fallbackActorService;
+        }
 
-            GameplayActorService::ActorDeathFrameInput earlyDeathInput = {};
-            earlyDeathInput.dead = actor.isDead;
-            earlyDeathInput.hpDepleted = actor.currentHp <= 0;
-            earlyDeathInput.dying = actor.currentHp <= 0 && actor.aiState == ActorAiState::Dying;
-            earlyDeathInput.actionSeconds = actor.actionSeconds;
-            earlyDeathInput.deltaSeconds = ActorUpdateStepSeconds;
-            const GameplayActorService::ActorDeathFrameResult earlyDeathFrame =
-                pActorService->resolveActorDeathFrame(earlyDeathInput);
+        const bool partyIsVeryNearActor =
+            pActorService->partyIsVeryNearActor(
+                facts.movement.distanceToParty,
+                partyZ - actor.preciseZ,
+                actor.radius,
+                actor.height,
+                PartyCollisionRadius);
+        const OutdoorEngagementState engagement =
+            resolveOutdoorEngagementState(
+                *pActorService,
+                facts.identity.targetPolicy,
+                combatTarget,
+                facts.stats.aiType,
+                actor.hostilityType,
+                actor.currentHp,
+                actor.maxHp,
+                actor.hostileToParty,
+                partyIsVeryNearActor);
 
-            if (earlyDeathFrame.action == GameplayActorService::ActorDeathFrameAction::HoldDead)
+        facts.movement.inMeleeRange = engagement.inMeleeRange;
+    }
+
+    facts.world.targetZ = actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f);
+    facts.world.floorZ = actor.preciseZ;
+    facts.world.active = active;
+    facts.world.activeByDistance = active;
+
+    return facts;
+}
+
+OutdoorWorldRuntime::OutdoorActorAiFrameApplication OutdoorWorldRuntime::applyOutdoorActorAiFrameResult(
+    const ActorAiFrameResult &result,
+    const std::vector<bool> &activeActorMask,
+    const ActorAiFrameFacts &facts)
+{
+    OutdoorActorAiFrameApplication application = {};
+    application.handledActorMask.resize(m_mapActors.size(), false);
+    application.activeUpdatesAppliedActorMask.resize(m_mapActors.size(), false);
+    application.combatFlowsAppliedActorMask.resize(m_mapActors.size(), false);
+    application.combatEngagesAppliedActorMask.resize(m_mapActors.size(), false);
+    application.nonCombatAppliedActorMask.resize(m_mapActors.size(), false);
+    application.frameCommitsAppliedActorMask.resize(m_mapActors.size(), false);
+    application.frameCommitKeepCurrentAnimationMask.resize(m_mapActors.size(), false);
+    application.frameCommitResetAnimationTimeMask.resize(m_mapActors.size(), false);
+    application.frameCommitResetCrowdSteeringMask.resize(m_mapActors.size(), false);
+    application.frameCommitClearVelocityMask.resize(m_mapActors.size(), false);
+    application.frameCommitApplyMovementMask.resize(m_mapActors.size(), false);
+    application.combatFlowDesiredMoveX.resize(m_mapActors.size(), 0.0f);
+    application.combatFlowDesiredMoveY.resize(m_mapActors.size(), 0.0f);
+    application.combatEngageDesiredMoveX.resize(m_mapActors.size(), 0.0f);
+    application.combatEngageDesiredMoveY.resize(m_mapActors.size(), 0.0f);
+    application.nonCombatDesiredMoveX.resize(m_mapActors.size(), 0.0f);
+    application.nonCombatDesiredMoveY.resize(m_mapActors.size(), 0.0f);
+    application.combatEngageMeleePursuitActiveMask.resize(m_mapActors.size(), false);
+    application.movementEffectiveMoveSpeed.resize(m_mapActors.size(), 0.0f);
+    application.movementTargetPosition.resize(m_mapActors.size());
+    application.movementTargetEdgeDistance.resize(m_mapActors.size(), 0.0f);
+    application.movementInMeleeRangeMask.resize(m_mapActors.size(), false);
+
+    for (const ActorAiFacts &actorFacts : facts.activeActors)
+    {
+        if (actorFacts.actorIndex >= m_mapActors.size())
+        {
+            continue;
+        }
+
+        application.movementEffectiveMoveSpeed[actorFacts.actorIndex] = actorFacts.movement.effectiveMoveSpeed;
+        application.movementTargetPosition[actorFacts.actorIndex] = actorFacts.target.currentPosition;
+        application.movementTargetEdgeDistance[actorFacts.actorIndex] = actorFacts.target.currentEdgeDistance;
+        application.movementInMeleeRangeMask[actorFacts.actorIndex] = actorFacts.movement.inMeleeRange;
+    }
+
+    for (const ActorAiUpdate &update : result.actorUpdates)
+    {
+        if (update.actorIndex >= m_mapActors.size())
+        {
+        continue;
+        }
+
+        MapActorState &actor = m_mapActors[update.actorIndex];
+        if (update.statePatch.spellEffects)
+        {
+        applyGameplayActorSpellEffectState(*update.statePatch.spellEffects, actor);
+        }
+
+        if (update.statePatch.hostilityType)
+        {
+        actor.hostilityType = *update.statePatch.hostilityType;
+        }
+
+        if (update.statePatch.hasDetectedParty)
+        {
+        actor.hasDetectedParty = *update.statePatch.hasDetectedParty;
+        }
+
+        const bool activeActor =
+        update.actorIndex < activeActorMask.size()
+        && activeActorMask[update.actorIndex];
+
+        if (activeActor)
+        {
+            application.activeUpdatesAppliedActorMask[update.actorIndex] = true;
+        }
+
+        if (activeActor && update.animationPatch.animationTimeTicks)
+        {
+        actor.animationTimeTicks = *update.animationPatch.animationTimeTicks;
+        }
+
+        if (activeActor && update.statePatch.idleDecisionSeconds)
+        {
+        actor.idleDecisionSeconds = *update.statePatch.idleDecisionSeconds;
+        }
+
+        if (activeActor && update.statePatch.attackCooldownSeconds)
+        {
+        actor.attackCooldownSeconds = *update.statePatch.attackCooldownSeconds;
+        }
+
+        if (activeActor && update.statePatch.actionSeconds)
+        {
+        actor.actionSeconds = *update.statePatch.actionSeconds;
+        }
+
+        if (activeActor && update.statePatch.attackDecisionCount)
+        {
+        actor.attackDecisionCount = *update.statePatch.attackDecisionCount;
+        }
+
+        if (activeActor && update.statePatch.idleDecisionCount)
+        {
+        actor.idleDecisionCount = *update.statePatch.idleDecisionCount;
+        }
+
+        if (activeActor && update.statePatch.pursueDecisionCount)
+        {
+        actor.pursueDecisionCount = *update.statePatch.pursueDecisionCount;
+        }
+
+        if (activeActor && update.statePatch.crowdSideLockRemainingSeconds)
+        {
+        actor.crowdSideLockRemainingSeconds = *update.statePatch.crowdSideLockRemainingSeconds;
+        }
+
+        if (activeActor && update.statePatch.crowdRetreatRemainingSeconds)
+        {
+        actor.crowdRetreatRemainingSeconds = *update.statePatch.crowdRetreatRemainingSeconds;
+        }
+
+        if (activeActor && update.statePatch.crowdStandRemainingSeconds)
+        {
+        actor.crowdStandRemainingSeconds = *update.statePatch.crowdStandRemainingSeconds;
+        }
+
+        if (activeActor && update.statePatch.attackImpactTriggered)
+        {
+        actor.attackImpactTriggered = *update.statePatch.attackImpactTriggered;
+        }
+
+        const bool activeAttackStart =
+        activeActor
+        && update.statePatch.motionState
+        && *update.statePatch.motionState == ActorAiMotionState::Attacking
+        && update.statePatch.queuedAttackAbility;
+
+        if (activeAttackStart)
+        {
+        actor.aiState = ActorAiState::Attacking;
+        actor.queuedAttackAbility = outdoorAttackAbilityFromGameplay(*update.statePatch.queuedAttackAbility);
+
+        if (update.animationPatch.animationState)
+        {
+            actor.animation = outdoorActorAnimationFromGameplay(*update.animationPatch.animationState);
+        }
+
+        if (update.animationPatch.animationTimeTicks)
+        {
+            actor.animationTimeTicks = *update.animationPatch.animationTimeTicks;
+        }
+
+        if (update.movementIntent.action == ActorAiMovementAction::Stand)
+        {
+            actor.moveDirectionX = update.movementIntent.moveDirectionX;
+            actor.moveDirectionY = update.movementIntent.moveDirectionY;
+        }
+
+        if (update.movementIntent.updateYaw)
+        {
+            actor.yawRadians = update.movementIntent.yawRadians;
+        }
+
+        }
+
+        if (activeActor && update.combatFlowHandled)
+        {
+        const ActorAnimation previousAnimation = actor.animation;
+
+        if (update.statePatch.motionState)
+        {
+            actor.aiState = outdoorActorAiStateFromGameplay(*update.statePatch.motionState);
+        }
+
+        if (update.animationPatch.animationState)
+        {
+            actor.animation = outdoorActorAnimationFromGameplay(*update.animationPatch.animationState);
+        }
+
+        if (previousAnimation != actor.animation && actor.aiState != ActorAiState::Attacking)
+        {
+            actor.animationTimeTicks = 0.0f;
+        }
+
+        if (update.statePatch.actionSeconds)
+        {
+            actor.actionSeconds = *update.statePatch.actionSeconds;
+        }
+
+        if (update.statePatch.idleDecisionSeconds)
+        {
+            actor.idleDecisionSeconds = *update.statePatch.idleDecisionSeconds;
+        }
+
+        if (update.movementIntent.action == ActorAiMovementAction::Stand)
+        {
+            actor.moveDirectionX = update.movementIntent.moveDirectionX;
+            actor.moveDirectionY = update.movementIntent.moveDirectionY;
+        }
+        else if (update.movementIntent.action == ActorAiMovementAction::Flee
+            || update.movementIntent.action == ActorAiMovementAction::Wander)
+        {
+            actor.moveDirectionX = update.movementIntent.moveDirectionX;
+            actor.moveDirectionY = update.movementIntent.moveDirectionY;
+        }
+
+        if (update.movementIntent.updateYaw)
+        {
+            actor.yawRadians = update.movementIntent.yawRadians;
+        }
+
+        if (update.movementIntent.clearVelocity)
+        {
+            actor.velocityX = 0.0f;
+            actor.velocityY = 0.0f;
+        }
+
+        application.combatFlowDesiredMoveX[update.actorIndex] = update.movementIntent.desiredMoveX;
+        application.combatFlowDesiredMoveY[update.actorIndex] = update.movementIntent.desiredMoveY;
+        application.combatFlowsAppliedActorMask[update.actorIndex] = true;
+        }
+
+        if (activeActor && update.combatEngageHandled)
+        {
+        const ActorAnimation previousAnimation = actor.animation;
+
+        if (update.statePatch.motionState)
+        {
+            actor.aiState = outdoorActorAiStateFromGameplay(*update.statePatch.motionState);
+        }
+
+        if (update.animationPatch.animationState)
+        {
+            actor.animation = outdoorActorAnimationFromGameplay(*update.animationPatch.animationState);
+        }
+
+        if (previousAnimation != actor.animation && actor.aiState != ActorAiState::Attacking)
+        {
+            actor.animationTimeTicks = 0.0f;
+        }
+
+        if (update.statePatch.actionSeconds)
+        {
+            actor.actionSeconds = *update.statePatch.actionSeconds;
+        }
+
+        if (update.movementIntent.action == ActorAiMovementAction::Stand
+            || update.movementIntent.action == ActorAiMovementAction::Pursue)
+        {
+            actor.moveDirectionX = update.movementIntent.moveDirectionX;
+            actor.moveDirectionY = update.movementIntent.moveDirectionY;
+        }
+
+        if (update.movementIntent.updateYaw)
+        {
+            actor.yawRadians = update.movementIntent.yawRadians;
+        }
+
+        if (update.statePatch.attackImpactTriggered)
+        {
+            actor.attackImpactTriggered = *update.statePatch.attackImpactTriggered;
+        }
+
+        application.combatEngageDesiredMoveX[update.actorIndex] = update.movementIntent.desiredMoveX;
+        application.combatEngageDesiredMoveY[update.actorIndex] = update.movementIntent.desiredMoveY;
+        application.combatEngageMeleePursuitActiveMask[update.actorIndex] = update.meleePursuitActive;
+        application.combatEngagesAppliedActorMask[update.actorIndex] = true;
+        }
+
+        if (activeActor && update.nonCombatHandled)
+        {
+        if (update.statePatch.motionState)
+        {
+            actor.aiState = outdoorActorAiStateFromGameplay(*update.statePatch.motionState);
+        }
+
+        if (update.animationPatch.animationState)
+        {
+            actor.animation = outdoorActorAnimationFromGameplay(*update.animationPatch.animationState);
+        }
+
+        if (update.animationPatch.animationTimeTicks)
+        {
+            actor.animationTimeTicks = *update.animationPatch.animationTimeTicks;
+        }
+
+        if (update.statePatch.actionSeconds)
+        {
+            actor.actionSeconds = *update.statePatch.actionSeconds;
+        }
+
+        if (update.statePatch.idleDecisionSeconds)
+        {
+            actor.idleDecisionSeconds = *update.statePatch.idleDecisionSeconds;
+        }
+
+        if (update.statePatch.attackImpactTriggered)
+        {
+            actor.attackImpactTriggered = *update.statePatch.attackImpactTriggered;
+        }
+
+        if (update.movementIntent.action == ActorAiMovementAction::Stand
+            || update.movementIntent.action == ActorAiMovementAction::Wander)
+        {
+            actor.moveDirectionX = update.movementIntent.moveDirectionX;
+            actor.moveDirectionY = update.movementIntent.moveDirectionY;
+        }
+
+        if (update.movementIntent.updateYaw)
+        {
+            actor.yawRadians = update.movementIntent.yawRadians;
+        }
+
+        if (update.movementIntent.clearVelocity)
+        {
+            actor.velocityX = 0.0f;
+            actor.velocityY = 0.0f;
+        }
+
+        application.nonCombatDesiredMoveX[update.actorIndex] = update.movementIntent.desiredMoveX;
+        application.nonCombatDesiredMoveY[update.actorIndex] = update.movementIntent.desiredMoveY;
+        application.nonCombatAppliedActorMask[update.actorIndex] = true;
+        }
+
+        if (activeActor && update.frameCommitHandled)
+        {
+        application.frameCommitsAppliedActorMask[update.actorIndex] = true;
+        application.frameCommitKeepCurrentAnimationMask[update.actorIndex] =
+            update.animationPatch.keepCurrentAnimation;
+        application.frameCommitResetAnimationTimeMask[update.actorIndex] =
+            update.animationPatch.resetAnimationTime;
+        application.frameCommitResetCrowdSteeringMask[update.actorIndex] = update.resetCrowdSteering;
+        application.frameCommitClearVelocityMask[update.actorIndex] = update.movementIntent.clearVelocity;
+        application.frameCommitApplyMovementMask[update.actorIndex] = update.movementIntent.applyMovement;
+        }
+
+        if (activeActor && update.attackRequest)
+        {
+        if (update.attackRequest->kind == ActorAiAttackRequestKind::PartyMelee)
+        {
+            if (m_pGameplayCombatController != nullptr)
+            {
+                m_pGameplayCombatController->recordMonsterMeleeImpact(
+                    actor.actorId,
+                    update.attackRequest->damage);
+            }
+        }
+        else if (update.attackRequest->kind == ActorAiAttackRequestKind::ActorMelee)
+        {
+            applyMonsterAttackToMapActor(
+                update.attackRequest->targetActorIndex,
+                update.attackRequest->damage,
+                actor.actorId,
+                false);
+        }
+        }
+
+        const bool terminalActor =
+        actor.isDead
+        || actor.currentHp <= 0
+        || actor.aiState == ActorAiState::Dying
+        || actor.aiState == ActorAiState::Dead;
+        const bool activeStatusLockHandledActor =
+        update.statusLockHandled && update.actorIndex < activeActorMask.size()
+        && activeActorMask[update.actorIndex];
+
+        if (!terminalActor && !activeStatusLockHandledActor)
+        {
+        continue;
+        }
+
+        if (terminalActor)
+        {
+        resetCrowdSteeringState(actor);
+        }
+
+        if (update.movementIntent.clearVelocity)
+        {
+        actor.moveDirectionX = 0.0f;
+        actor.moveDirectionY = 0.0f;
+        actor.velocityX = 0.0f;
+        actor.velocityY = 0.0f;
+        actor.velocityZ = 0.0f;
+        }
+
+        if (update.statePatch.attackImpactTriggered)
+        {
+        actor.attackImpactTriggered = *update.statePatch.attackImpactTriggered;
+        }
+        else if (terminalActor)
+        {
+        actor.attackImpactTriggered = false;
+        }
+
+        if (update.statePatch.dead && *update.statePatch.dead)
+        {
+        setMapActorDead(update.actorIndex, true, false);
+        application.handledActorMask[update.actorIndex] = true;
+        continue;
+        }
+
+        if (update.statePatch.motionState)
+        {
+        actor.aiState = outdoorActorAiStateFromGameplay(*update.statePatch.motionState);
+        }
+
+        if (update.animationPatch.animationState)
+        {
+        actor.animation = outdoorActorAnimationFromGameplay(*update.animationPatch.animationState);
+        }
+
+        if (update.animationPatch.animationTimeTicks)
+        {
+        actor.animationTimeTicks = *update.animationPatch.animationTimeTicks;
+        }
+
+        if (update.statePatch.actionSeconds)
+        {
+        actor.actionSeconds = *update.statePatch.actionSeconds;
+        }
+
+        actor.x = static_cast<int>(std::lround(actor.preciseX));
+        actor.y = static_cast<int>(std::lround(actor.preciseY));
+        actor.z = static_cast<int>(std::lround(actor.preciseZ));
+        application.handledActorMask[update.actorIndex] = true;
+    }
+
+    for (const ActorProjectileRequest &projectileRequest : result.projectileRequests)
+    {
+        if (projectileRequest.sourceActorIndex >= m_mapActors.size()
+        || projectileRequest.sourceActorIndex >= activeActorMask.size()
+        || !activeActorMask[projectileRequest.sourceActorIndex])
+        {
+        continue;
+        }
+
+        const MapActorState &actor = m_mapActors[projectileRequest.sourceActorIndex];
+        const MonsterTable::MonsterStatsEntry *pStats =
+        m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(actor.monsterId) : nullptr;
+
+        if (pStats == nullptr)
+        {
+        continue;
+        }
+
+        if (m_pGameplayCombatController != nullptr)
+        {
+        m_pGameplayCombatController->recordMonsterRangedRelease(actor.actorId, projectileRequest.damage);
+        }
+
+        if (projectileRequest.targetKind != ActorAiTargetKind::None)
+        {
+        spawnProjectileFromMapActor(
+            actor,
+            *pStats,
+            outdoorAttackAbilityFromGameplay(projectileRequest.ability),
+            projectileRequest.target.x,
+            projectileRequest.target.y,
+            projectileRequest.target.z);
+        }
+    }
+
+    for (const ActorAudioRequest &audioRequest : result.audioRequests)
+    {
+        if (audioRequest.actorIndex >= m_mapActors.size())
+        {
+        continue;
+        }
+
+        const MapActorState &actor = m_mapActors[audioRequest.actorIndex];
+        const MonsterTable::MonsterStatsEntry *pStats =
+        m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(actor.monsterId) : nullptr;
+
+        if (pStats == nullptr)
+        {
+        continue;
+        }
+
+        if (audioRequest.kind == ActorAiAudioRequestKind::Alert)
+        {
+        pushAudioEvent(
+            pStats->awareSoundId,
+            actor.actorId,
+            "monster_alert",
+            audioRequest.position.x,
+            audioRequest.position.y,
+            audioRequest.position.z);
+        }
+        else if (audioRequest.kind == ActorAiAudioRequestKind::Attack)
+        {
+        pushAudioEvent(
+            pStats->attackSoundId,
+            actor.actorId,
+            "monster_attack",
+            audioRequest.position.x,
+            audioRequest.position.y,
+            audioRequest.position.z);
+        }
+        else if (audioRequest.kind == ActorAiAudioRequestKind::Hit)
+        {
+        pushAudioEvent(
+            pStats->winceSoundId,
+            actor.actorId,
+            "monster_hit",
+            audioRequest.position.x,
+            audioRequest.position.y,
+            audioRequest.position.z);
+        }
+        else if (audioRequest.kind == ActorAiAudioRequestKind::Death)
+        {
+        pushAudioEvent(
+            pStats->deathSoundId,
+            actor.actorId,
+            "monster_death",
+            audioRequest.position.x,
+            audioRequest.position.y,
+            audioRequest.position.z);
+        }
+    }
+
+    for (const ActorFxRequest &fxRequest : result.fxRequests)
+    {
+        if (fxRequest.kind == ActorAiFxRequestKind::Death)
+        {
+        spawnBloodSplatForActorIfNeeded(fxRequest.actorIndex);
+        }
+    }
+
+    return application;
+}
+
+void OutdoorWorldRuntime::applyOutdoorActorPostMovementAiUpdate(
+    MapActorState &actor,
+    const ActorAiUpdate &movementUpdate,
+    float &desiredMoveX,
+    float &desiredMoveY)
+{
+    if (movementUpdate.statePatch.pursueDecisionCount)
+    {
+        actor.pursueDecisionCount = *movementUpdate.statePatch.pursueDecisionCount;
+    }
+
+    if (movementUpdate.statePatch.crowdSideLockRemainingSeconds)
+    {
+        actor.crowdSideLockRemainingSeconds = *movementUpdate.statePatch.crowdSideLockRemainingSeconds;
+    }
+
+    if (movementUpdate.statePatch.crowdNoProgressSeconds)
+    {
+        actor.crowdNoProgressSeconds = *movementUpdate.statePatch.crowdNoProgressSeconds;
+    }
+
+    if (movementUpdate.statePatch.crowdLastEdgeDistance)
+    {
+        actor.crowdLastEdgeDistance = *movementUpdate.statePatch.crowdLastEdgeDistance;
+    }
+
+    if (movementUpdate.statePatch.crowdRetreatRemainingSeconds)
+    {
+        actor.crowdRetreatRemainingSeconds = *movementUpdate.statePatch.crowdRetreatRemainingSeconds;
+    }
+
+    if (movementUpdate.statePatch.crowdStandRemainingSeconds)
+    {
+        actor.crowdStandRemainingSeconds = *movementUpdate.statePatch.crowdStandRemainingSeconds;
+    }
+
+    if (movementUpdate.statePatch.crowdProbeEdgeDistance)
+    {
+        actor.crowdProbeEdgeDistance = *movementUpdate.statePatch.crowdProbeEdgeDistance;
+    }
+
+    if (movementUpdate.statePatch.crowdProbeElapsedSeconds)
+    {
+        actor.crowdProbeElapsedSeconds = *movementUpdate.statePatch.crowdProbeElapsedSeconds;
+    }
+
+    if (movementUpdate.statePatch.crowdEscapeAttempts)
+    {
+        actor.crowdEscapeAttempts = *movementUpdate.statePatch.crowdEscapeAttempts;
+    }
+
+    if (movementUpdate.statePatch.crowdSideSign)
+    {
+        actor.crowdSideSign = *movementUpdate.statePatch.crowdSideSign;
+    }
+
+    if (movementUpdate.crowdSteeringHandled)
+    {
+        actor.crowdProbeX = actor.preciseX;
+        actor.crowdProbeY = actor.preciseY;
+        desiredMoveX = movementUpdate.movementIntent.desiredMoveX;
+        desiredMoveY = movementUpdate.movementIntent.desiredMoveY;
+    }
+
+    if (movementUpdate.movementIntent.clearVelocity)
+    {
+        actor.velocityX = 0.0f;
+        actor.velocityY = 0.0f;
+    }
+
+    if (movementUpdate.movementIntent.action == ActorAiMovementAction::Stand
+        || movementUpdate.movementIntent.action == ActorAiMovementAction::Pursue)
+    {
+        actor.moveDirectionX = movementUpdate.movementIntent.moveDirectionX;
+        actor.moveDirectionY = movementUpdate.movementIntent.moveDirectionY;
+    }
+
+    if (movementUpdate.movementIntent.updateYaw)
+    {
+        actor.yawRadians = movementUpdate.movementIntent.yawRadians;
+    }
+
+    if (movementUpdate.statePatch.actionSeconds)
+    {
+        actor.actionSeconds = *movementUpdate.statePatch.actionSeconds;
+    }
+
+    if (movementUpdate.statePatch.motionState)
+    {
+        actor.aiState = outdoorActorAiStateFromGameplay(*movementUpdate.statePatch.motionState);
+    }
+
+    if (movementUpdate.animationPatch.animationState)
+    {
+        actor.animation = outdoorActorAnimationFromGameplay(*movementUpdate.animationPatch.animationState);
+    }
+
+    if (movementUpdate.animationPatch.animationTimeTicks)
+    {
+        actor.animationTimeTicks = *movementUpdate.animationPatch.animationTimeTicks;
+    }
+
+    if (movementUpdate.statePatch.idleDecisionSeconds)
+    {
+        actor.idleDecisionSeconds = *movementUpdate.statePatch.idleDecisionSeconds;
+    }
+
+    if (movementUpdate.statePatch.attackImpactTriggered)
+    {
+        actor.attackImpactTriggered = *movementUpdate.statePatch.attackImpactTriggered;
+    }
+}
+
+void OutdoorWorldRuntime::applyOutdoorActorMovementIntegration(
+    size_t actorIndex,
+    const MonsterTable::MonsterStatsEntry *pStats,
+    const std::vector<bool> &activeActorMask,
+    float moveSpeed,
+    bool meleePursuitActive,
+    bool inMeleeRange,
+    const GameplayWorldPoint &targetPosition,
+    float targetEdgeDistance,
+    const GameplayActorAiSystem &actorAiSystem,
+    ActorAiState &nextAiState,
+    ActorAnimation &nextAnimation,
+    float &desiredMoveX,
+    float &desiredMoveY)
+{
+    if (actorIndex >= m_mapActors.size() || pStats == nullptr)
+    {
+        return;
+    }
+
+    MapActorState &actor = m_mapActors[actorIndex];
+
+    if (m_pOutdoorMapData != nullptr)
+    {
+        applyOutdoorWaterRestriction(
+        *m_pOutdoorMapData,
+        m_outdoorLandMask,
+        pStats,
+        actor,
+        moveSpeed,
+        desiredMoveX,
+        desiredMoveY,
+        nextAiState,
+        nextAnimation);
+    }
+
+    actor.velocityX = desiredMoveX * moveSpeed;
+    actor.velocityY = desiredMoveY * moveSpeed;
+    actor.velocityZ = 0.0f;
+
+    if (m_pOutdoorMapData != nullptr)
+    {
+        applyOeOutdoorSteepSlopeResponse(actor, *m_pOutdoorMapData, pStats);
+    }
+
+    const float moveDeltaX = actor.velocityX * ActorUpdateStepSeconds;
+    const float moveDeltaY = actor.velocityY * ActorUpdateStepSeconds;
+    bool moved = false;
+    size_t contactedActorCount = 0;
+
+    if (m_outdoorMovementController && actor.movementStateInitialized && m_pMonsterTable != nullptr)
+    {
+        m_outdoorMovementController->setActorColliders(
+        buildNearbyActorMovementColliders(m_mapActors, activeActorMask, *m_pMonsterTable));
+        const float collisionRadius = actorCollisionRadius(actor, pStats);
+        const float collisionHeight = actorCollisionHeight(actor, collisionRadius);
+        std::vector<size_t> contactedActorIndices;
+        actor.movementState = m_outdoorMovementController->resolveOutdoorActorMove(
+        actor.movementState,
+        OutdoorBodyDimensions{collisionRadius, collisionHeight},
+        actor.velocityX,
+        actor.velocityY,
+        actor.velocityZ,
+        pStats->canFly,
+        ActorUpdateStepSeconds,
+        &contactedActorIndices,
+        OutdoorIgnoredActorCollider{OutdoorActorCollisionSource::MapDelta, actorIndex});
+        syncActorFromMovementState(actor);
+        actor.velocityZ = actor.movementState.verticalVelocity;
+        moved = true;
+
+        std::sort(contactedActorIndices.begin(), contactedActorIndices.end());
+        contactedActorCount = static_cast<size_t>(
+        std::distance(
+            contactedActorIndices.begin(),
+            std::unique(contactedActorIndices.begin(), contactedActorIndices.end())));
+    }
+    else
+    {
+        if (m_pOutdoorMapData != nullptr)
+        {
+        moved = tryMoveActorInWorld(
+            actor,
+            *m_pOutdoorMapData,
+            m_outdoorFaces,
+            pStats,
+            moveDeltaX,
+            moveDeltaY);
+
+        if (!moved && std::abs(moveDeltaX) > 0.001f)
+        {
+            moved = tryMoveActorInWorld(
+                actor,
+                *m_pOutdoorMapData,
+                m_outdoorFaces,
+                pStats,
+                moveDeltaX,
+                0.0f);
+        }
+
+        if (!moved && std::abs(moveDeltaY) > 0.001f)
+        {
+            moved = tryMoveActorInWorld(
+                actor,
+                *m_pOutdoorMapData,
+                m_outdoorFaces,
+                pStats,
+                0.0f,
+                moveDeltaY);
+        }
+        }
+        else
+        {
+        actor.preciseX += moveDeltaX;
+        actor.preciseY += moveDeltaY;
+        moved = true;
+        }
+    }
+
+    ActorAiFacts movementFacts = {};
+    movementFacts.actorIndex = actorIndex;
+    movementFacts.actorId = actor.actorId;
+    movementFacts.stats.canFly = pStats->canFly;
+    movementFacts.runtime.motionState = actorAiMotionStateFromOutdoor(actor.aiState);
+    movementFacts.runtime.actionSeconds = actor.actionSeconds;
+    movementFacts.runtime.crowdNoProgressSeconds = actor.crowdNoProgressSeconds;
+    movementFacts.runtime.crowdLastEdgeDistance = actor.crowdLastEdgeDistance;
+    movementFacts.runtime.crowdRetreatRemainingSeconds = actor.crowdRetreatRemainingSeconds;
+    movementFacts.runtime.crowdStandRemainingSeconds = actor.crowdStandRemainingSeconds;
+    movementFacts.runtime.crowdProbeEdgeDistance = actor.crowdProbeEdgeDistance;
+    movementFacts.runtime.crowdProbeElapsedSeconds = actor.crowdProbeElapsedSeconds;
+    movementFacts.runtime.pursueDecisionCount = actor.pursueDecisionCount;
+    movementFacts.runtime.crowdEscapeAttempts = actor.crowdEscapeAttempts;
+    movementFacts.runtime.crowdSideSign = actor.crowdSideSign;
+    movementFacts.movement.position = GameplayWorldPoint{actor.preciseX, actor.preciseY, actor.preciseZ};
+    movementFacts.movement.contactedActorCount = contactedActorCount;
+    movementFacts.movement.meleePursuitActive = meleePursuitActive;
+    movementFacts.movement.inMeleeRange = inMeleeRange;
+    movementFacts.movement.allowCrowdSteering = m_pGameplayActorService != nullptr;
+    movementFacts.movement.movementBlocked = !moved;
+    movementFacts.target.currentPosition = targetPosition;
+    movementFacts.target.currentEdgeDistance = targetEdgeDistance;
+    const ActorAiUpdate movementUpdate = actorAiSystem.updateActorAfterWorldMovement(movementFacts);
+    applyOutdoorActorPostMovementAiUpdate(actor, movementUpdate, desiredMoveX, desiredMoveY);
+}
+
+void OutdoorWorldRuntime::updateOutdoorActorsForStep(
+    float partyX,
+    float partyY,
+    float partyZ,
+    const std::vector<bool> &activeActorMask,
+    const OutdoorActorAiFrameApplication &sharedActorApplication,
+    const GameplayActorAiSystem &actorAiSystem)
+{
+    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+    {
+        if (actorIndex < sharedActorApplication.handledActorMask.size()
+            && sharedActorApplication.handledActorMask[actorIndex])
+        {
+            continue;
+        }
+
+        MapActorState &actor = m_mapActors[actorIndex];
+        const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
+
+        if (pStats == nullptr)
+        {
+            const MissingStatsActorDeathFrame earlyDeathFrame = resolveMissingStatsActorDeathFrame(
+                actor.isDead,
+                actor.currentHp <= 0,
+                actor.currentHp <= 0 && actor.aiState == ActorAiState::Dying,
+                actor.actionSeconds,
+                ActorUpdateStepSeconds);
+
+            if (earlyDeathFrame.action == MissingStatsActorDeathAction::HoldDead)
             {
                 resetCrowdSteeringState(actor);
                 actor.aiState = ActorAiState::Dead;
@@ -5509,8 +6871,8 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 continue;
             }
 
-            if (earlyDeathFrame.action == GameplayActorService::ActorDeathFrameAction::MarkDead
-                || earlyDeathFrame.action == GameplayActorService::ActorDeathFrameAction::AdvanceDying)
+            if (earlyDeathFrame.action == MissingStatsActorDeathAction::MarkDead
+                || earlyDeathFrame.action == MissingStatsActorDeathAction::AdvanceDying)
             {
                 spawnBloodSplatForActorIfNeeded(actorIndex);
                 resetCrowdSteeringState(actor);
@@ -5521,7 +6883,7 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 actor.velocityZ = 0.0f;
                 actor.attackImpactTriggered = false;
 
-                if (earlyDeathFrame.action == GameplayActorService::ActorDeathFrameAction::AdvanceDying)
+                if (earlyDeathFrame.action == MissingStatsActorDeathAction::AdvanceDying)
                 {
                     actor.animation = ActorAnimation::Dying;
                     actor.animationTimeTicks += ActorUpdateStepSeconds * TicksPerSecond;
@@ -5540,969 +6902,194 @@ void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, floa
                 continue;
             }
 
-            const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId);
-
-            GameplayActorService::ActorFrameRouteInput routeInput = {};
-            routeInput.hasMonsterStats = pStats != nullptr;
-            routeInput.selectedForActiveUpdate = activeActorMask[actorIndex];
-            const GameplayActorService::ActorFrameRouteResult frameRoute =
-                pActorService->resolveActorFrameRoute(routeInput);
-
-            if (frameRoute.action == GameplayActorService::ActorFrameRouteAction::MissingStats)
-            {
-                resetCrowdSteeringState(actor);
-                actor.animation = ActorAnimation::Standing;
-                continue;
-            }
-
-            if (frameRoute.action == GameplayActorService::ActorFrameRouteAction::Inactive)
-            {
-                resetCrowdSteeringState(actor);
-                updateInactiveActorPresentation(actor, partyX, partyY, m_pGameplayActorService);
-                continue;
-            }
-
-            if (m_outdoorMovementController && !actor.movementStateInitialized)
-            {
-                const float collisionRadius = actorCollisionRadius(actor, pStats);
-                actor.movementState = m_outdoorMovementController->initializeStateForBody(
-                    actor.preciseX,
-                    actor.preciseY,
-                    actor.preciseZ + GroundSnapHeight,
-                    collisionRadius);
-                actor.movementStateInitialized = true;
-                syncActorFromMovementState(actor);
-            }
-
-            GameplayActorService::ActorAnimationTickInput animationTickInput = {};
-            animationTickInput.walking = actor.animation == ActorAnimation::Walking;
-            animationTickInput.slowActive = actor.slowRemainingSeconds > 0.0f;
-            animationTickInput.slowMoveMultiplier = actor.slowMoveMultiplier;
-            animationTickInput.baseTickDelta = ActorUpdateStepSeconds * TicksPerSecond;
-            const GameplayActorService::ActorAnimationTickResult animationTick =
-                pActorService->advanceActorAnimationTick(animationTickInput);
-            actor.animationTimeTicks += animationTick.tickDelta;
-
-            if (actor.aiState == ActorAiState::Dying)
-            {
-                GameplayActorService::ActorDeathFrameInput dyingInput = {};
-                dyingInput.dying = true;
-                dyingInput.actionSeconds = actor.actionSeconds;
-                dyingInput.deltaSeconds = ActorUpdateStepSeconds;
-                const GameplayActorService::ActorDeathFrameResult dyingFrame =
-                    pActorService->resolveActorDeathFrame(dyingInput);
-
-                actor.actionSeconds = dyingFrame.actionSeconds;
-                actor.moveDirectionX = 0.0f;
-                actor.moveDirectionY = 0.0f;
-                actor.velocityX = 0.0f;
-                actor.velocityY = 0.0f;
-                actor.velocityZ = 0.0f;
-
-                if (dyingFrame.finishedDying)
-                {
-                    setMapActorDead(actorIndex, true, false);
-                }
-
-                continue;
-            }
-
-            const GameplayActorService *pStatusActorService = m_pGameplayActorService;
-            GameplayActorService fallbackStatusActorService = {};
-
-            if (pStatusActorService == nullptr)
-            {
-                pStatusActorService = &fallbackStatusActorService;
-            }
-
-            GameplayActorService::ActorStatusFrameInput statusInput = {};
-            statusInput.currentlyStunned = actor.aiState == ActorAiState::Stunned;
-            statusInput.paralyzeActive = actor.paralyzeRemainingSeconds > 0.0f;
-            statusInput.actionSeconds = actor.actionSeconds;
-            statusInput.deltaSeconds = ActorUpdateStepSeconds;
-            const GameplayActorService::ActorStatusFrameResult stunnedFrame =
-                pStatusActorService->resolveActorStatusFrame(statusInput);
-
-            if (stunnedFrame.action == GameplayActorService::ActorStatusFrameAction::HoldStun
-                || stunnedFrame.action == GameplayActorService::ActorStatusFrameAction::RecoverFromStun)
-            {
-                actor.actionSeconds = stunnedFrame.actionSeconds;
-                actor.moveDirectionX = 0.0f;
-                actor.moveDirectionY = 0.0f;
-                actor.velocityX = 0.0f;
-                actor.velocityY = 0.0f;
-                actor.velocityZ = 0.0f;
-
-                if (stunnedFrame.action == GameplayActorService::ActorStatusFrameAction::RecoverFromStun)
-                {
-                    actor.aiState = ActorAiState::Standing;
-                    actor.animation = ActorAnimation::Standing;
-                    actor.animationTimeTicks = 0.0f;
-                }
-
-                continue;
-            }
-
-            if (m_pGameplayActorService != nullptr)
-            {
-                GameplayActorSpellEffectState effectState = buildGameplayActorSpellEffectState(actor);
-                const bool defaultHostileToParty =
-                    m_pMonsterTable != nullptr
-                    && m_pMonsterTable->isHostileToParty(actor.monsterId);
-                m_pGameplayActorService->updateSpellEffectTimers(
-                    effectState,
-                    ActorUpdateStepSeconds,
-                    defaultHostileToParty);
-                applyGameplayActorSpellEffectState(effectState, actor);
-            }
-
-            statusInput = {};
-            statusInput.paralyzeActive = actor.paralyzeRemainingSeconds > 0.0f;
-            statusInput.stunActive = actor.stunRemainingSeconds > 0.0f;
-            statusInput.actionSeconds = actor.actionSeconds;
-            statusInput.stunRemainingSeconds = actor.stunRemainingSeconds;
-            const GameplayActorService::ActorStatusFrameResult statusFrame =
-                pStatusActorService->resolveActorStatusFrame(statusInput);
-
-            if (statusFrame.action == GameplayActorService::ActorStatusFrameAction::HoldParalyze)
-            {
-                actor.aiState = ActorAiState::Standing;
-                actor.animation = ActorAnimation::Standing;
-                actor.animationTimeTicks = 0.0f;
-                actor.actionSeconds = statusFrame.actionSeconds;
-                actor.moveDirectionX = 0.0f;
-                actor.moveDirectionY = 0.0f;
-                actor.velocityX = 0.0f;
-                actor.velocityY = 0.0f;
-                actor.velocityZ = 0.0f;
-                actor.attackImpactTriggered = false;
-                continue;
-            }
-
-            if (statusFrame.action == GameplayActorService::ActorStatusFrameAction::ForceStun)
-            {
-                actor.aiState = ActorAiState::Stunned;
-                actor.animation = ActorAnimation::GotHit;
-                actor.actionSeconds = statusFrame.actionSeconds;
-                actor.moveDirectionX = 0.0f;
-                actor.moveDirectionY = 0.0f;
-                actor.velocityX = 0.0f;
-                actor.velocityY = 0.0f;
-                actor.velocityZ = 0.0f;
-                continue;
-            }
-
-            const GameplayActorService *pTimerActorService = m_pGameplayActorService;
-            GameplayActorService fallbackTimerActorService = {};
-
-            if (pTimerActorService == nullptr)
-            {
-                pTimerActorService = &fallbackTimerActorService;
-            }
-
-            GameplayActorService::ActorFrameTimerInput timerInput = {};
-            timerInput.attacking = actor.aiState == ActorAiState::Attacking;
-            timerInput.idleDecisionSeconds = actor.idleDecisionSeconds;
-            timerInput.attackCooldownSeconds = actor.attackCooldownSeconds;
-            timerInput.actionSeconds = actor.actionSeconds;
-            timerInput.crowdSideLockRemainingSeconds = actor.crowdSideLockRemainingSeconds;
-            timerInput.crowdRetreatRemainingSeconds = actor.crowdRetreatRemainingSeconds;
-            timerInput.crowdStandRemainingSeconds = actor.crowdStandRemainingSeconds;
-            timerInput.slowRecoveryMultiplier = actor.slowRecoveryMultiplier;
-            timerInput.deltaSeconds = ActorUpdateStepSeconds;
-            const GameplayActorService::ActorFrameTimerResult frameTimers =
-                pTimerActorService->advanceActorFrameTimers(timerInput);
-            actor.idleDecisionSeconds = frameTimers.idleDecisionSeconds;
-            actor.attackCooldownSeconds = frameTimers.attackCooldownSeconds;
-            actor.actionSeconds = frameTimers.actionSeconds;
-            actor.crowdSideLockRemainingSeconds = frameTimers.crowdSideLockRemainingSeconds;
-            actor.crowdRetreatRemainingSeconds = frameTimers.crowdRetreatRemainingSeconds;
-            actor.crowdStandRemainingSeconds = frameTimers.crowdStandRemainingSeconds;
-
-            const GameplayActorTargetPolicyState actorTargetPolicyState = buildGameplayActorTargetPolicyState(actor);
-            GameplayActorService::ActorMoveSpeedInput moveSpeedInput = {};
-            moveSpeedInput.configuredMoveSpeed = actor.moveSpeed;
-            moveSpeedInput.defaultMoveSpeed = pStats->speed;
-            moveSpeedInput.slowMoveMultiplier = actor.slowMoveMultiplier;
-            moveSpeedInput.darkGraspActive = actor.darkGraspRemainingSeconds > 0.0f;
-            const GameplayActorService::ActorMoveSpeedResult moveSpeedResult =
-                pActorService->resolveActorMoveSpeed(moveSpeedInput);
-            const float effectiveMoveSpeed = moveSpeedResult.moveSpeed;
-
-            const float deltaPartyX = partyX - actor.preciseX;
-            const float deltaPartyY = partyY - actor.preciseY;
-            const float distanceToParty = length2d(deltaPartyX, deltaPartyY);
-            const auto hasClearOutdoorLineOfSight =
-                [this, mapActorCount, &actorLineOfSightCache](
-                    size_t startActorIndex,
-                    size_t endActorIndex,
-                    const bx::Vec3 &start,
-                    const bx::Vec3 &end) -> bool
-            {
-                if (startActorIndex >= mapActorCount || endActorIndex >= mapActorCount)
-                {
-                    return this->hasClearOutdoorLineOfSight(start, end);
-                }
-
-                const size_t firstActorIndex = std::min(startActorIndex, endActorIndex);
-                const size_t secondActorIndex = std::max(startActorIndex, endActorIndex);
-                const size_t cacheIndex = firstActorIndex * mapActorCount + secondActorIndex;
-
-                if (cacheIndex >= actorLineOfSightCache.size())
-                {
-                    return this->hasClearOutdoorLineOfSight(start, end);
-                }
-
-                int8_t &cachedResult = actorLineOfSightCache[cacheIndex];
-
-                if (cachedResult >= 0)
-                {
-                    return cachedResult != 0;
-                }
-
-                const bool hasLineOfSight = this->hasClearOutdoorLineOfSight(start, end);
-                cachedResult = hasLineOfSight ? 1 : 0;
-                return hasLineOfSight;
-            };
-            const bool movementAllowed = pStats->movementType != MonsterTable::MonsterMovementType::Stationary;
-            const GameplayActorService::CombatTargetResult combatTarget =
-                resolveOutdoorCombatTarget(
-                    m_pGameplayActorService,
-                    actor,
-                    actorIndex,
-                    m_mapActors,
-                    partyX,
-                    partyY,
-                    partyZ,
-                    hasClearOutdoorLineOfSight);
-            const bool forcedFearFlee = actor.fearRemainingSeconds > 0.0f;
-            const bool forcedBlindWander = actor.blindRemainingSeconds > 0.0f;
-            GameplayActorService::ActorAttackFrameInput attackFrameInput = {};
-            attackFrameInput.attacking = actor.aiState == ActorAiState::Attacking;
-            attackFrameInput.actionSeconds = actor.actionSeconds;
-            attackFrameInput.impactTriggered = actor.attackImpactTriggered;
-            const GameplayActorService::ActorAttackFrameResult attackFrame =
-                pActorService->resolveActorAttackFrame(attackFrameInput);
-            const bool attackJustCompleted = attackFrame.attackJustCompleted;
-            const bool attackInProgress = attackFrame.attackInProgress;
-            GameplayActorService::ActorPartyProximityInput partyProximityInput = {};
-            partyProximityInput.horizontalDistanceToParty = distanceToParty;
-            partyProximityInput.verticalDistanceToParty = partyZ - actor.preciseZ;
-            partyProximityInput.actorRadius = actor.radius;
-            partyProximityInput.actorHeight = actor.height;
-            partyProximityInput.partyCollisionRadius = PartyCollisionRadius;
-            const GameplayActorService::ActorPartyProximityResult partyProximity =
-                pActorService->resolveActorPartyProximity(partyProximityInput);
-            GameplayActorService::CombatEngagementResult engagement = {};
-
-            if (m_pGameplayActorService != nullptr)
-            {
-                GameplayActorService::CombatEngagementInput engagementInput = {};
-                engagementInput.actorPolicyState = actorTargetPolicyState;
-                engagementInput.combatTarget = combatTarget;
-                engagementInput.aiType = gameplayActorAiTypeFromMonster(pStats->aiType);
-                engagementInput.hostilityType = actor.hostilityType;
-                engagementInput.currentHp = actor.currentHp;
-                engagementInput.maxHp = actor.maxHp;
-                engagementInput.hostileToParty = actor.hostileToParty;
-                engagementInput.hasDetectedParty = actor.hasDetectedParty;
-                engagementInput.partyIsVeryNearActor = partyProximity.veryNearParty;
-                engagement = m_pGameplayActorService->resolveCombatEngagement(engagementInput);
-            }
-
-            if (engagement.shouldUpdateHostilityType)
-            {
-                actor.hostilityType = engagement.hostilityType;
-            }
-
-            if (engagement.shouldPlayPartyAlert)
-            {
-                pushAudioEvent(
-                    pStats->awareSoundId,
-                    actor.actorId,
-                    "monster_alert",
-                    actor.preciseX,
-                    actor.preciseY,
-                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
-            }
-
-            actor.hasDetectedParty = engagement.hasDetectedParty;
-            const bool hasCombatTarget = engagement.hasCombatTarget;
-            const bool targetIsParty = engagement.targetIsParty;
-            const bool targetIsActor = engagement.targetIsActor;
-            const bool shouldEngageTarget = engagement.shouldEngageTarget;
-            const bool shouldFlee = engagement.shouldFlee;
-            const bool inMeleeRange = engagement.inMeleeRange;
-            const bool friendlyNearParty = engagement.friendlyNearParty;
-            float desiredMoveX = 0.0f;
-            float desiredMoveY = 0.0f;
-            ActorAiState nextAiState = ActorAiState::Standing;
-            ActorAnimation nextAnimation = ActorAnimation::Standing;
-            bool meleePursuitActive = false;
-            bool preserveCrowdSteering = false;
-
-            if (attackJustCompleted)
-            {
-                const GameplayActorService *pActorService = m_pGameplayActorService;
-                GameplayActorService fallbackActorService = {};
-
-                if (pActorService == nullptr)
-                {
-                    pActorService = &fallbackActorService;
-                }
-
-                GameplayActorService::AttackImpactInput attackImpactInput = {};
-                attackImpactInput.ability = gameplayAttackAbilityFromOutdoor(actor.queuedAttackAbility);
-                attackImpactInput.monsterLevel = pStats->level;
-                attackImpactInput.attack1Damage = gameplayAttackDamageProfileFromOutdoor(pStats->attack1Damage);
-                attackImpactInput.attack2Damage = gameplayAttackDamageProfileFromOutdoor(pStats->attack2Damage);
-                attackImpactInput.abilityIsRanged = isRangedAttackAbility(*pStats, actor.queuedAttackAbility);
-                attackImpactInput.abilityIsMelee = isMeleeAttackAbility(*pStats, actor.queuedAttackAbility);
-                attackImpactInput.hasCombatTarget = hasCombatTarget;
-                attackImpactInput.targetIsParty = targetIsParty;
-                attackImpactInput.targetIsActor = targetIsActor;
-                attackImpactInput.shrinkActive = actor.shrinkRemainingSeconds > 0.0f;
-                attackImpactInput.shrinkDamageMultiplier = actor.shrinkDamageMultiplier;
-                attackImpactInput.darkGraspActive = actor.darkGraspRemainingSeconds > 0.0f;
-                const GameplayActorService::AttackImpactResult attackImpact =
-                    pActorService->resolveAttackImpact(attackImpactInput);
-
-                if (attackImpact.action == GameplayActorService::AttackImpactAction::RangedRelease)
-                {
-                    if (m_pGameplayCombatController != nullptr)
-                    {
-                        m_pGameplayCombatController->recordMonsterRangedRelease(actor.actorId, attackImpact.damage);
-                    }
-
-                    if (attackImpact.shouldSpawnProjectile)
-                    {
-                        spawnProjectileFromMapActor(
-                            actor,
-                            *pStats,
-                            actor.queuedAttackAbility,
-                            combatTarget.targetX,
-                            combatTarget.targetY,
-                            combatTarget.targetZ);
-                    }
-                }
-                else if (attackImpact.action == GameplayActorService::AttackImpactAction::PartyMeleeImpact)
-                {
-                    if (m_pGameplayCombatController != nullptr)
-                    {
-                        m_pGameplayCombatController->recordMonsterMeleeImpact(actor.actorId, attackImpact.damage);
-                    }
-                }
-                else if (attackImpact.action == GameplayActorService::AttackImpactAction::ActorMeleeImpact)
-                {
-                    applyMonsterAttackToMapActor(combatTarget.actorIndex, attackImpact.damage, actor.actorId);
-                }
-
-                actor.attackImpactTriggered = true;
-            }
-
-            const GameplayActorService *pFlowActorService = m_pGameplayActorService;
-            GameplayActorService fallbackFlowActorService = {};
-
-            if (pFlowActorService == nullptr)
-            {
-                pFlowActorService = &fallbackFlowActorService;
-            }
-
-            GameplayActorService::CombatFlowDecisionInput flowInput = {};
-            flowInput.attackInProgress = attackInProgress;
-            flowInput.blindActive = forcedBlindWander;
-            flowInput.shouldFlee = shouldFlee;
-            flowInput.fearActive = forcedFearFlee;
-            flowInput.shouldEngageTarget = shouldEngageTarget;
-            flowInput.friendlyNearParty = friendlyNearParty;
-            const GameplayActorService::CombatFlowDecisionResult flowDecision =
-                pFlowActorService->resolveCombatFlowDecision(flowInput);
-
-            const bool flowActionHandledBySharedApplication =
-                flowDecision.action == GameplayActorService::CombatFlowAction::ContinueAttack
-                || flowDecision.action == GameplayActorService::CombatFlowAction::BlindWander
-                || flowDecision.action == GameplayActorService::CombatFlowAction::Flee
-                || flowDecision.action == GameplayActorService::CombatFlowAction::FriendlyNearParty;
-
-            if (flowActionHandledBySharedApplication)
-            {
-                GameplayActorService::CombatFlowApplicationInput applicationInput = {};
-                applicationInput.action = flowDecision.action;
-                applicationInput.movementAllowed = movementAllowed;
-                applicationInput.currentYawRadians = actor.yawRadians;
-                applicationInput.currentMoveDirectionX = actor.moveDirectionX;
-                applicationInput.currentMoveDirectionY = actor.moveDirectionY;
-                applicationInput.targetDeltaX = combatTarget.deltaX;
-                applicationInput.targetDeltaY = combatTarget.deltaY;
-                applicationInput.targetHorizontalDistance = combatTarget.horizontalDistanceToTarget;
-                applicationInput.actionSeconds = actor.actionSeconds;
-                applicationInput.idleDecisionSeconds = actor.idleDecisionSeconds;
-                const GameplayActorService::CombatFlowApplicationResult application =
-                    pFlowActorService->resolveCombatFlowApplication(applicationInput);
-
-                switch (application.state)
-                {
-                    case GameplayActorService::CombatFlowApplicationState::Attacking:
-                        nextAiState = ActorAiState::Attacking;
-                        break;
-                    case GameplayActorService::CombatFlowApplicationState::Wandering:
-                        nextAiState = ActorAiState::Wandering;
-                        break;
-                    case GameplayActorService::CombatFlowApplicationState::Fleeing:
-                        nextAiState = ActorAiState::Fleeing;
-                        break;
-                    case GameplayActorService::CombatFlowApplicationState::Standing:
-                    default:
-                        nextAiState = ActorAiState::Standing;
-                        break;
-                }
-
-                switch (application.animation)
-                {
-                    case GameplayActorService::CombatFlowApplicationAnimation::Current:
-                        nextAnimation = actor.animation;
-                        break;
-                    case GameplayActorService::CombatFlowApplicationAnimation::Walking:
-                        nextAnimation = ActorAnimation::Walking;
-                        break;
-                    case GameplayActorService::CombatFlowApplicationAnimation::Standing:
-                    default:
-                        nextAnimation = ActorAnimation::Standing;
-                        break;
-                }
-
-                if (application.clearMoveDirection)
-                {
-                    actor.moveDirectionX = 0.0f;
-                    actor.moveDirectionY = 0.0f;
-                }
-
-                if (application.updateMoveDirection)
-                {
-                    actor.moveDirectionX = application.moveDirectionX;
-                    actor.moveDirectionY = application.moveDirectionY;
-                }
-
-                if (application.updateDesiredMove)
-                {
-                    desiredMoveX = application.desiredMoveX;
-                    desiredMoveY = application.desiredMoveY;
-                }
-
-                if (application.updateYaw)
-                {
-                    actor.yawRadians = application.yawRadians;
-                }
-
-                if (application.clearVelocity)
-                {
-                    actor.velocityX = 0.0f;
-                    actor.velocityY = 0.0f;
-                }
-
-                actor.actionSeconds = application.actionSeconds;
-                actor.idleDecisionSeconds = application.idleDecisionSeconds;
-            }
-            else if (flowDecision.action == GameplayActorService::CombatFlowAction::EngageTarget)
-            {
-                const GameplayActorService *pActorService = m_pGameplayActorService;
-                GameplayActorService fallbackActorService = {};
-
-                if (pActorService == nullptr)
-                {
-                    pActorService = &fallbackActorService;
-                }
-
-                GameplayActorService::CombatAbilityDecisionInput abilityInput = {};
-                abilityInput.actorId = actor.actorId;
-                abilityInput.attackDecisionCount = actor.attackDecisionCount;
-                abilityInput.hasSpell1 = pStats->hasSpell1;
-                abilityInput.spell1UseChance = pStats->spell1UseChance;
-                abilityInput.hasSpell2 = pStats->hasSpell2;
-                abilityInput.spell2UseChance = pStats->spell2UseChance;
-                abilityInput.attack2Chance = pStats->attack2Chance;
-                abilityInput.constraintState.attack1IsRanged = pStats->attack1HasMissile;
-                abilityInput.constraintState.attack2IsRanged = pStats->attack2HasMissile;
-                abilityInput.constraintState.blindActive = actor.blindRemainingSeconds > 0.0f;
-                abilityInput.constraintState.darkGraspActive = actor.darkGraspRemainingSeconds > 0.0f;
-                abilityInput.movementAllowed = movementAllowed;
-                abilityInput.targetIsActor = targetIsActor;
-                abilityInput.targetEdgeDistance = combatTarget.edgeDistance;
-                abilityInput.inMeleeRange = inMeleeRange;
-                abilityInput.chooseRandomAbility = m_pGameplayActorService != nullptr;
-                abilityInput.applyAbilityConstraints = m_pGameplayActorService != nullptr;
-                const GameplayActorService::CombatAbilityDecisionResult abilityDecision =
-                    pActorService->resolveCombatAbilityDecision(abilityInput);
-                actor.attackDecisionCount = abilityDecision.nextAttackDecisionCount;
-
-                const MonsterAttackAbility chosenAbility =
-                    outdoorAttackAbilityFromGameplay(abilityDecision.ability);
-                const bool chosenAbilityIsRanged = abilityDecision.abilityIsRanged;
-                const bool chosenAbilityIsMelee = abilityDecision.abilityIsMelee;
-                const bool stationaryOrTooCloseForRangedPursuit =
-                    abilityDecision.stationaryOrTooCloseForRangedPursuit;
-
-                GameplayActorService::CombatEngageDecisionInput engageInput = {};
-                engageInput.abilityIsRanged = chosenAbilityIsRanged;
-                engageInput.abilityIsMelee = chosenAbilityIsMelee;
-                engageInput.inMeleeRange = inMeleeRange;
-                engageInput.attackCooldownReady = actor.attackCooldownSeconds <= 0.0f;
-                engageInput.movementAllowed = movementAllowed;
-                engageInput.stationaryOrTooCloseForRangedPursuit = stationaryOrTooCloseForRangedPursuit;
-                engageInput.currentlyPursuing = actor.aiState == ActorAiState::Pursuing;
-                engageInput.crowdStandActive = actor.crowdStandRemainingSeconds > 0.0f;
-                engageInput.actionSeconds = actor.actionSeconds;
-                engageInput.currentMoveDirectionX = actor.moveDirectionX;
-                engageInput.currentMoveDirectionY = actor.moveDirectionY;
-                engageInput.targetEdgeDistance = combatTarget.edgeDistance;
-                const GameplayActorService::CombatEngageDecisionResult engageDecision =
-                    pActorService->resolveCombatEngageDecision(engageInput);
-                meleePursuitActive = engageDecision.meleePursuitActive;
-                preserveCrowdSteering = engageDecision.preserveCrowdSteering;
-
-                GameplayActorService::CombatEngageApplicationInput engageApplicationInput = {};
-                engageApplicationInput.action = engageDecision.action;
-                engageApplicationInput.pursueMode = engageDecision.pursueMode;
-                engageApplicationInput.useRecoveryFloorForPursuit = engageDecision.useRecoveryFloorForPursuit;
-                engageApplicationInput.recoverySeconds = actor.recoverySeconds;
-                const GameplayActorService::CombatEngageApplicationResult engageApplication =
-                    pActorService->resolveCombatEngageApplication(engageApplicationInput);
-
-                switch (engageApplication.state)
-                {
-                    case GameplayActorService::CombatEngageApplicationState::Attacking:
-                        nextAiState = ActorAiState::Attacking;
-                        break;
-                    case GameplayActorService::CombatEngageApplicationState::Pursuing:
-                        nextAiState = ActorAiState::Pursuing;
-                        break;
-                    case GameplayActorService::CombatEngageApplicationState::Standing:
-                    default:
-                        nextAiState = ActorAiState::Standing;
-                        break;
-                }
-
-                switch (engageApplication.animation)
-                {
-                    case GameplayActorService::CombatEngageApplicationAnimation::Walking:
-                        nextAnimation = ActorAnimation::Walking;
-                        break;
-                    case GameplayActorService::CombatEngageApplicationAnimation::BoredOrStanding:
-                        nextAnimation = actor.animation == ActorAnimation::Bored
-                            ? ActorAnimation::Bored
-                            : ActorAnimation::Standing;
-                        break;
-                    case GameplayActorService::CombatEngageApplicationAnimation::AttackAbility:
-                        nextAnimation = attackAnimationForAbility(*pStats, chosenAbility);
-                        break;
-                    case GameplayActorService::CombatEngageApplicationAnimation::Standing:
-                    default:
-                        nextAnimation = ActorAnimation::Standing;
-                        break;
-                }
-
-                if (engageApplication.clearMoveDirection)
-                {
-                    actor.moveDirectionX = 0.0f;
-                    actor.moveDirectionY = 0.0f;
-                }
-
-                if (engageApplication.faceTarget)
-                {
-                    faceDirection(actor, combatTarget.deltaX, combatTarget.deltaY);
-                }
-
-                if (engageApplication.useCurrentMoveAsDesired)
-                {
-                    desiredMoveX = actor.moveDirectionX;
-                    desiredMoveY = actor.moveDirectionY;
-                }
-
-                if (engageApplication.startAttack)
-                {
-                    actor.queuedAttackAbility = chosenAbility;
-                    const float attackAnimationSeconds = actorAnimationSeconds(
-                        m_pActorSpriteFrameTable,
-                        actor,
-                        nextAnimation,
-                        actor.attackAnimationSeconds);
-                    GameplayActorService::AttackStartInput attackStartInput = {};
-                    attackStartInput.actorId = actor.actorId;
-                    attackStartInput.attackDecisionCount = actor.attackDecisionCount;
-                    attackStartInput.abilityIsRanged = chosenAbilityIsRanged;
-                    attackStartInput.attackAnimationSeconds = attackAnimationSeconds;
-                    attackStartInput.recoverySeconds = actor.recoverySeconds;
-                    const GameplayActorService::AttackStartResult attackStart =
-                        pActorService->resolveAttackStart(attackStartInput);
-                    actor.attackCooldownSeconds = attackStart.attackCooldownSeconds;
-                    actor.actionSeconds = attackStart.actionSeconds;
-                    actor.attackImpactTriggered = false;
-                    actor.animationTimeTicks = 0.0f;
-                    pushAudioEvent(
-                        pStats->attackSoundId,
-                        actor.actorId,
-                        "monster_attack",
-                        actor.preciseX,
-                        actor.preciseY,
-                        actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
-                }
-                else if (engageApplication.startPursueAction)
-                {
-                    GameplayActorService::PursueActionInput pursueInput = {};
-                    pursueInput.actorId = actor.actorId;
-                    pursueInput.pursueDecisionCount = actor.pursueDecisionCount;
-                    pursueInput.deltaTargetX = combatTarget.deltaX;
-                    pursueInput.deltaTargetY = combatTarget.deltaY;
-                    pursueInput.distanceToTarget = combatTarget.horizontalDistanceToTarget;
-                    pursueInput.moveSpeed = effectiveMoveSpeed;
-                    pursueInput.minimumActionSeconds = engageApplication.minimumPursueActionSeconds;
-                    pursueInput.mode = engageApplication.pursueMode;
-                    const GameplayActorService::PursueActionResult pursueAction =
-                        pActorService->resolvePursueAction(pursueInput);
-                    actor.pursueDecisionCount = pursueAction.nextDecisionCount;
-
-                    if (pursueAction.started)
-                    {
-                        actor.yawRadians = pursueAction.yawRadians;
-                        actor.moveDirectionX = pursueAction.moveDirectionX;
-                        actor.moveDirectionY = pursueAction.moveDirectionY;
-                        actor.attackImpactTriggered = false;
-                        actor.actionSeconds = pursueAction.actionSeconds;
-                        desiredMoveX = actor.moveDirectionX;
-                        desiredMoveY = actor.moveDirectionY;
-                    }
-                    else
-                    {
-                        nextAiState = ActorAiState::Standing;
-                        nextAnimation = ActorAnimation::Standing;
-                    }
-                }
-            }
-            else
-            {
-                const float wanderRadius = wanderRadiusForMovementType(pStats->movementType);
-                const GameplayActorService *pActorService = m_pGameplayActorService;
-                GameplayActorService fallbackActorService = {};
-
-                if (pActorService == nullptr)
-                {
-                    pActorService = &fallbackActorService;
-                }
-
-                GameplayActorService::NonCombatBehaviorInput nonCombatInput = {};
-                nonCombatInput.actorId = actor.actorId;
-                nonCombatInput.idleDecisionCount = actor.idleDecisionCount;
-                nonCombatInput.hostileToParty = actor.hostileToParty;
-                nonCombatInput.currentlyWandering = actor.aiState == ActorAiState::Wandering;
-                nonCombatInput.currentlyWalking = actor.animation == ActorAnimation::Walking;
-                nonCombatInput.allowIdleWander = m_pGameplayActorService != nullptr;
-                nonCombatInput.actionSeconds = actor.actionSeconds;
-                nonCombatInput.moveDirectionX = actor.moveDirectionX;
-                nonCombatInput.moveDirectionY = actor.moveDirectionY;
-                nonCombatInput.preciseX = actor.preciseX;
-                nonCombatInput.preciseY = actor.preciseY;
-                nonCombatInput.homePreciseX = actor.homePreciseX;
-                nonCombatInput.homePreciseY = actor.homePreciseY;
-                nonCombatInput.currentYawRadians = actor.yawRadians;
-                nonCombatInput.wanderRadius = wanderRadius;
-                nonCombatInput.moveSpeed = effectiveMoveSpeed;
-                const GameplayActorService::NonCombatBehaviorResult nonCombatBehavior =
-                    pActorService->resolveNonCombatBehavior(nonCombatInput);
-
-                if (nonCombatBehavior.action == GameplayActorService::NonCombatBehaviorAction::ApplyIdleBehavior)
-                {
-                    nextAiState = ActorAiState::Standing;
-                    applyIdleBehavior(nonCombatBehavior.idleBehavior, actor);
-                    nextAnimation = actor.animation;
-                    actor.moveDirectionX = 0.0f;
-                    actor.moveDirectionY = 0.0f;
-                }
-                else if (nonCombatBehavior.action == GameplayActorService::NonCombatBehaviorAction::ReturnHome)
-                {
-                    nextAiState = ActorAiState::Wandering;
-                    nextAnimation = ActorAnimation::Walking;
-
-                    if (nonCombatBehavior.updateYaw)
-                    {
-                        actor.yawRadians = nonCombatBehavior.yawRadians;
-                    }
-
-                    desiredMoveX = nonCombatBehavior.moveDirectionX;
-                    desiredMoveY = nonCombatBehavior.moveDirectionY;
-                    actor.moveDirectionX = desiredMoveX;
-                    actor.moveDirectionY = desiredMoveY;
-                }
-                else if (nonCombatBehavior.action == GameplayActorService::NonCombatBehaviorAction::ContinueMove)
-                {
-                    nextAiState = ActorAiState::Wandering;
-                    nextAnimation = ActorAnimation::Walking;
-                    desiredMoveX = nonCombatBehavior.moveDirectionX;
-                    desiredMoveY = nonCombatBehavior.moveDirectionY;
-                }
-                else if (nonCombatBehavior.action == GameplayActorService::NonCombatBehaviorAction::StartIdleBehavior)
-                {
-                    actor.idleDecisionCount = nonCombatBehavior.idleBehavior.nextDecisionCount;
-                    applyIdleBehavior(nonCombatBehavior.idleBehavior, actor);
-
-                    if (nonCombatBehavior.idleBehavior.action == GameplayActorService::IdleBehaviorAction::Wander)
-                    {
-                        nextAiState = ActorAiState::Wandering;
-                        nextAnimation = ActorAnimation::Walking;
-                        desiredMoveX = actor.moveDirectionX;
-                        desiredMoveY = actor.moveDirectionY;
-                    }
-                    else
-                    {
-                        nextAiState = ActorAiState::Standing;
-                        nextAnimation = actor.animation;
-                    }
-                }
-                else
-                {
-                    nextAiState = ActorAiState::Standing;
-                    nextAnimation = ActorAnimation::Standing;
-                    actor.moveDirectionX = 0.0f;
-                    actor.moveDirectionY = 0.0f;
-                }
-            }
-
-            GameplayActorService::ActorFrameCommitInput frameCommitInput = {};
-            frameCommitInput.attackInProgress = attackInProgress;
-            frameCommitInput.proposedAnimationChanged = nextAnimation != actor.animation;
-            frameCommitInput.preserveCrowdSteering = preserveCrowdSteering;
-            frameCommitInput.movementAllowed = movementAllowed;
-            frameCommitInput.desiredMoveX = desiredMoveX;
-            frameCommitInput.desiredMoveY = desiredMoveY;
-            const GameplayActorService::ActorFrameCommitResult frameCommit =
-                pActorService->resolveActorFrameCommit(frameCommitInput);
-
-            if (frameCommit.keepCurrentAnimation)
-            {
-                nextAnimation = actor.animation;
-            }
-
-            if (frameCommit.resetAnimationTime)
-            {
-                actor.animationTimeTicks = 0.0f;
-            }
-
-            actor.aiState = nextAiState;
-            actor.animation = nextAnimation;
-
-            if (frameCommit.resetCrowdSteering)
-            {
-                resetCrowdSteeringState(actor);
-            }
-
-            if (frameCommit.clearVelocity)
-            {
-                actor.velocityX = 0.0f;
-                actor.velocityY = 0.0f;
-                actor.velocityZ = 0.0f;
-            }
-
-            if (frameCommit.applyMovement)
-            {
-                const float moveSpeed = effectiveMoveSpeed;
-
-                if (m_pOutdoorMapData != nullptr)
-                {
-                    applyOutdoorWaterRestriction(
-                        *m_pOutdoorMapData,
-                        m_outdoorLandMask,
-                        pStats,
-                        actor,
-                        moveSpeed,
-                        desiredMoveX,
-                        desiredMoveY,
-                        nextAiState,
-                        nextAnimation);
-                }
-
-                actor.velocityX = desiredMoveX * moveSpeed;
-                actor.velocityY = desiredMoveY * moveSpeed;
-                actor.velocityZ = 0.0f;
-
-                if (m_pOutdoorMapData != nullptr)
-                {
-                    applyOeOutdoorSteepSlopeResponse(actor, *m_pOutdoorMapData, pStats);
-                }
-
-                const float moveDeltaX = actor.velocityX * ActorUpdateStepSeconds;
-                const float moveDeltaY = actor.velocityY * ActorUpdateStepSeconds;
-                bool moved = false;
-
-                if (m_outdoorMovementController && actor.movementStateInitialized)
-                {
-                    m_outdoorMovementController->setActorColliders(
-                        buildNearbyActorMovementColliders(m_mapActors, activeActorMask, *m_pMonsterTable));
-                    const float collisionRadius = actorCollisionRadius(actor, pStats);
-                    const float collisionHeight = actorCollisionHeight(actor, collisionRadius);
-                    std::vector<size_t> contactedActorIndices;
-                    actor.movementState = m_outdoorMovementController->resolveOutdoorActorMove(
-                        actor.movementState,
-                        OutdoorBodyDimensions{collisionRadius, collisionHeight},
-                        actor.velocityX,
-                        actor.velocityY,
-                        actor.velocityZ,
-                        pStats->canFly,
-                        ActorUpdateStepSeconds,
-                        &contactedActorIndices,
-                        OutdoorIgnoredActorCollider{OutdoorActorCollisionSource::MapDelta, actorIndex});
-                    syncActorFromMovementState(actor);
-                    actor.velocityZ = actor.movementState.verticalVelocity;
-                    moved = true;
-
-                    std::sort(contactedActorIndices.begin(), contactedActorIndices.end());
-                    const size_t uniqueContactCount = static_cast<size_t>(
-                        std::distance(
-                            contactedActorIndices.begin(),
-                            std::unique(contactedActorIndices.begin(), contactedActorIndices.end())));
-                    bool shouldApplyCrowdSteering = false;
-
-                    if (m_pGameplayActorService != nullptr)
-                    {
-                        GameplayActorService::CrowdSteeringEligibilityInput crowdSteeringInput = {};
-                        crowdSteeringInput.contactedActorCount = uniqueContactCount;
-                        crowdSteeringInput.meleePursuitActive = meleePursuitActive;
-                        crowdSteeringInput.pursuing = actor.aiState == ActorAiState::Pursuing;
-                        crowdSteeringInput.actorCanFly = pStats->canFly;
-                        crowdSteeringInput.inMeleeRange = inMeleeRange;
-                        crowdSteeringInput.targetEdgeDistance = combatTarget.edgeDistance;
-                        shouldApplyCrowdSteering =
-                            m_pGameplayActorService->shouldApplyCrowdSteering(crowdSteeringInput);
-                    }
-
-                    if (shouldApplyCrowdSteering)
-                    {
-                        const GameplayActorService::CrowdSteeringResult crowdSteering =
-                            m_pGameplayActorService->resolveCrowdSteering(
-                                actor.actorId,
-                                actor.pursueDecisionCount,
-                                combatTarget.edgeDistance,
-                                ActorUpdateStepSeconds,
-                                buildCrowdSteeringState(actor));
-                        actor.pursueDecisionCount = crowdSteering.nextDecisionCount;
-                        applyCrowdSteeringState(crowdSteering.state, actor);
-
-                        if (crowdSteering.action == GameplayActorService::CrowdSteeringAction::Stand)
-                        {
-                            beginCrowdStandOrBored(
-                                actor,
-                                crowdSteering.bored,
-                                crowdSteering.standSeconds,
-                                m_pGameplayActorService);
-                            desiredMoveX = 0.0f;
-                            desiredMoveY = 0.0f;
-                        }
-                        else if (crowdSteering.action == GameplayActorService::CrowdSteeringAction::Retreat)
-                        {
-                            beginCrowdRetreatStep(
-                                actor,
-                                combatTarget.deltaX,
-                                combatTarget.deltaY,
-                                crowdSteering.sideSign,
-                                crowdSteering.retreatSeconds);
-                            desiredMoveX = actor.moveDirectionX;
-                            desiredMoveY = actor.moveDirectionY;
-                        }
-                        else
-                        {
-                            beginCrowdSideStep(
-                                actor,
-                                combatTarget.deltaX,
-                                combatTarget.deltaY,
-                                crowdSteering.sideSign);
-                            desiredMoveX = actor.moveDirectionX;
-                            desiredMoveY = actor.moveDirectionY;
-                        }
-
-                        actor.crowdProbeX = actor.preciseX;
-                        actor.crowdProbeY = actor.preciseY;
-
-                        if (actor.crowdStandRemainingSeconds <= 0.0f)
-                        {
-                            actor.aiState = ActorAiState::Pursuing;
-                            actor.animation = ActorAnimation::Walking;
-                        }
-                    }
-                }
-                else
-                {
-                    if (m_pOutdoorMapData != nullptr)
-                    {
-                        moved = tryMoveActorInWorld(
-                            actor,
-                            *m_pOutdoorMapData,
-                            m_outdoorFaces,
-                            pStats,
-                            moveDeltaX,
-                            moveDeltaY);
-
-                        if (!moved && std::abs(moveDeltaX) > 0.001f)
-                        {
-                            moved = tryMoveActorInWorld(
-                                actor,
-                                *m_pOutdoorMapData,
-                                m_outdoorFaces,
-                                pStats,
-                                moveDeltaX,
-                                0.0f);
-                        }
-
-                        if (!moved && std::abs(moveDeltaY) > 0.001f)
-                        {
-                            moved = tryMoveActorInWorld(
-                                actor,
-                                *m_pOutdoorMapData,
-                                m_outdoorFaces,
-                                pStats,
-                                0.0f,
-                                moveDeltaY);
-                        }
-                    }
-                    else
-                    {
-                        actor.preciseX += moveDeltaX;
-                        actor.preciseY += moveDeltaY;
-                        moved = true;
-                    }
-                }
-
-                GameplayActorService::ActorMovementBlockInput movementBlockInput = {};
-                movementBlockInput.movementBlocked = !moved;
-                movementBlockInput.pursuing = actor.aiState == ActorAiState::Pursuing;
-                movementBlockInput.actionSeconds = actor.actionSeconds;
-                const GameplayActorService::ActorMovementBlockResult movementBlock =
-                    pActorService->resolveActorMovementBlock(movementBlockInput);
-
-                if (movementBlock.zeroVelocity)
-                {
-                    actor.velocityX = 0.0f;
-                    actor.velocityY = 0.0f;
-                }
-
-                if (movementBlock.resetMoveDirection)
-                {
-                    actor.moveDirectionX = 0.0f;
-                    actor.moveDirectionY = 0.0f;
-                    actor.actionSeconds = movementBlock.actionSeconds;
-                }
-
-                if (movementBlock.stand)
-                {
-                    actor.aiState = ActorAiState::Standing;
-                    actor.animation = ActorAnimation::Standing;
-                }
-            }
-            actor.x = static_cast<int>(std::lround(actor.preciseX));
-            actor.y = static_cast<int>(std::lround(actor.preciseY));
-            actor.z = static_cast<int>(std::lround(actor.preciseZ));
+            resetCrowdSteeringState(actor);
+            actor.animation = ActorAnimation::Standing;
+            continue;
         }
 
-        updateWorldItems(ActorUpdateStepSeconds);
-        updateProjectiles(ActorUpdateStepSeconds, partyX, partyY, partyZ);
-        updateFireSpikeTraps(ActorUpdateStepSeconds, partyX, partyY, partyZ);
+        const bool selectedForActiveUpdate = actorIndex < activeActorMask.size() && activeActorMask[actorIndex];
+
+        if (!selectedForActiveUpdate)
+        {
+            resetCrowdSteeringState(actor);
+            updateInactiveActorPresentation(actor, partyX, partyY, m_pGameplayActorService);
+            continue;
+        }
+
+        if (m_outdoorMovementController && !actor.movementStateInitialized)
+        {
+            const float collisionRadius = actorCollisionRadius(actor, pStats);
+            actor.movementState = m_outdoorMovementController->initializeStateForBody(
+                actor.preciseX,
+                actor.preciseY,
+                actor.preciseZ + GroundSnapHeight,
+                collisionRadius);
+            actor.movementStateInitialized = true;
+            syncActorFromMovementState(actor);
+        }
+
+        const bool activeUpdateAlreadyApplied =
+            actorIndex < sharedActorApplication.activeUpdatesAppliedActorMask.size()
+            && sharedActorApplication.activeUpdatesAppliedActorMask[actorIndex];
+
+        if (!activeUpdateAlreadyApplied)
+        {
+            continue;
+        }
+
+        const float effectiveMoveSpeed =
+            actorIndex < sharedActorApplication.movementEffectiveMoveSpeed.size()
+            ? sharedActorApplication.movementEffectiveMoveSpeed[actorIndex]
+            : 0.0f;
+        const GameplayWorldPoint movementTargetPosition =
+            actorIndex < sharedActorApplication.movementTargetPosition.size()
+            ? sharedActorApplication.movementTargetPosition[actorIndex]
+            : GameplayWorldPoint{};
+        const float movementTargetEdgeDistance =
+            actorIndex < sharedActorApplication.movementTargetEdgeDistance.size()
+            ? sharedActorApplication.movementTargetEdgeDistance[actorIndex]
+            : 0.0f;
+        const bool inMeleeRange =
+            actorIndex < sharedActorApplication.movementInMeleeRangeMask.size()
+            && sharedActorApplication.movementInMeleeRangeMask[actorIndex];
+        float desiredMoveX = 0.0f;
+        float desiredMoveY = 0.0f;
+        ActorAiState nextAiState = ActorAiState::Standing;
+        ActorAnimation nextAnimation = ActorAnimation::Standing;
+        bool meleePursuitActive = false;
+
+        const bool combatFlowAlreadyApplied =
+            actorIndex < sharedActorApplication.combatFlowsAppliedActorMask.size()
+            && sharedActorApplication.combatFlowsAppliedActorMask[actorIndex];
+        const bool combatEngageAlreadyApplied =
+            actorIndex < sharedActorApplication.combatEngagesAppliedActorMask.size()
+            && sharedActorApplication.combatEngagesAppliedActorMask[actorIndex];
+        const bool nonCombatAlreadyApplied =
+            actorIndex < sharedActorApplication.nonCombatAppliedActorMask.size()
+            && sharedActorApplication.nonCombatAppliedActorMask[actorIndex];
+
+        if (combatFlowAlreadyApplied)
+        {
+            nextAiState = actor.aiState;
+            nextAnimation = actor.animation;
+            desiredMoveX = sharedActorApplication.combatFlowDesiredMoveX[actorIndex];
+            desiredMoveY = sharedActorApplication.combatFlowDesiredMoveY[actorIndex];
+        }
+        else if (combatEngageAlreadyApplied)
+        {
+            nextAiState = actor.aiState;
+            nextAnimation = actor.animation;
+            desiredMoveX = sharedActorApplication.combatEngageDesiredMoveX[actorIndex];
+            desiredMoveY = sharedActorApplication.combatEngageDesiredMoveY[actorIndex];
+            meleePursuitActive = sharedActorApplication.combatEngageMeleePursuitActiveMask[actorIndex];
+        }
+        else if (nonCombatAlreadyApplied)
+        {
+            nextAiState = actor.aiState;
+            nextAnimation = actor.animation;
+            desiredMoveX = sharedActorApplication.nonCombatDesiredMoveX[actorIndex];
+            desiredMoveY = sharedActorApplication.nonCombatDesiredMoveY[actorIndex];
+        }
+
+        bool frameCommitKeepCurrentAnimation = false;
+        bool frameCommitResetAnimationTime = false;
+        bool frameCommitResetCrowdSteering = false;
+        bool frameCommitClearVelocity = true;
+        bool frameCommitApplyMovement = false;
+        const bool frameCommitAlreadyApplied =
+            actorIndex < sharedActorApplication.frameCommitsAppliedActorMask.size()
+            && sharedActorApplication.frameCommitsAppliedActorMask[actorIndex];
+
+        if (frameCommitAlreadyApplied)
+        {
+            frameCommitKeepCurrentAnimation =
+                sharedActorApplication.frameCommitKeepCurrentAnimationMask[actorIndex];
+            frameCommitResetAnimationTime =
+                sharedActorApplication.frameCommitResetAnimationTimeMask[actorIndex];
+            frameCommitResetCrowdSteering =
+                sharedActorApplication.frameCommitResetCrowdSteeringMask[actorIndex];
+            frameCommitClearVelocity =
+                sharedActorApplication.frameCommitClearVelocityMask[actorIndex];
+            frameCommitApplyMovement =
+                sharedActorApplication.frameCommitApplyMovementMask[actorIndex];
+        }
+
+        if (frameCommitKeepCurrentAnimation)
+        {
+            nextAnimation = actor.animation;
+        }
+
+        if (frameCommitResetAnimationTime)
+        {
+            actor.animationTimeTicks = 0.0f;
+        }
+
+        actor.aiState = nextAiState;
+        actor.animation = nextAnimation;
+
+        if (frameCommitResetCrowdSteering)
+        {
+            resetCrowdSteeringState(actor);
+        }
+
+        if (frameCommitClearVelocity)
+        {
+            actor.velocityX = 0.0f;
+            actor.velocityY = 0.0f;
+            actor.velocityZ = 0.0f;
+        }
+
+        if (frameCommitApplyMovement)
+        {
+            applyOutdoorActorMovementIntegration(
+                actorIndex,
+                pStats,
+                activeActorMask,
+                effectiveMoveSpeed,
+                meleePursuitActive,
+                inMeleeRange,
+                movementTargetPosition,
+                movementTargetEdgeDistance,
+                actorAiSystem,
+                nextAiState,
+                nextAnimation,
+                desiredMoveX,
+                desiredMoveY);
+        }
+        actor.x = static_cast<int>(std::lround(actor.preciseX));
+        actor.y = static_cast<int>(std::lround(actor.preciseY));
+        actor.z = static_cast<int>(std::lround(actor.preciseZ));
+    }
+}
+
+void OutdoorWorldRuntime::applyActorFrameSideEffects(float deltaSeconds, float partyX, float partyY, float partyZ)
+{
+    updateWorldItems(deltaSeconds);
+    updateProjectiles(deltaSeconds, partyX, partyY, partyZ);
+    updateFireSpikeTraps(deltaSeconds, partyX, partyY, partyZ);
+}
+
+void OutdoorWorldRuntime::updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ)
+{
+    if (deltaSeconds <= 0.0f || m_pMonsterTable == nullptr)
+    {
+        return;
+    }
+
+    updateActorFrameGlobalEffects(deltaSeconds, partyX, partyY, partyZ);
+
+    while (m_actorUpdateAccumulatorSeconds >= ActorUpdateStepSeconds)
+    {
+        const std::vector<bool> activeActorMask = selectOutdoorActiveActors(partyX, partyY, partyZ);
+        const ActorAiFrameFacts actorAiFacts =
+            collectOutdoorActorAiFrameFacts(ActorUpdateStepSeconds, partyX, partyY, partyZ, activeActorMask);
+        const GameplayActorAiSystem actorAiSystem = {};
+        const ActorAiFrameResult actorAiResult = actorAiSystem.updateActors(actorAiFacts);
+        const OutdoorActorAiFrameApplication sharedActorApplication =
+            applyOutdoorActorAiFrameResult(actorAiResult, activeActorMask, actorAiFacts);
+
+        updateOutdoorActorsForStep(partyX, partyY, partyZ, activeActorMask, sharedActorApplication, actorAiSystem);
+        applyActorFrameSideEffects(ActorUpdateStepSeconds, partyX, partyY, partyZ);
         m_actorUpdateAccumulatorSeconds -= ActorUpdateStepSeconds;
     }
 }
@@ -6602,12 +7189,12 @@ bool OutdoorWorldRuntime::spawnProjectileFromMapActor(
     spawnRequest.spawnForwardOffset = static_cast<float>(actor.radius) + 8.0f;
     const GameplayProjectileService::ProjectileSpawnResult spawnResult =
         projectileService().spawnProjectile(spawnRequest);
-    const GameplayProjectileService::ProjectileSpawnPresentationDecision presentationDecision =
-        projectileService().buildProjectileSpawnPresentationDecision(spawnResult);
+    const GameplayProjectileService::ProjectileSpawnEffects spawnEffects =
+        projectileService().buildProjectileSpawnEffects(spawnResult);
 
-    if (!applyProjectileSpawnPresentationDecision(
+    if (!applyProjectileSpawnEffects(
             spawnResult,
-            presentationDecision,
+            spawnEffects,
             "monster",
             "monster_projectile_zero_distance"))
     {
@@ -6792,12 +7379,12 @@ bool OutdoorWorldRuntime::spawnDeathBlossomFalloutProjectiles(
 
     for (const GameplayProjectileService::ProjectileSpawnResult &spawnResult : falloutResults)
     {
-        const GameplayProjectileService::ProjectileSpawnPresentationDecision presentationDecision =
-            projectileService().buildProjectileSpawnPresentationDecision(spawnResult);
+        const GameplayProjectileService::ProjectileSpawnEffects spawnEffects =
+            projectileService().buildProjectileSpawnEffects(spawnResult);
 
-        if (applyProjectileSpawnPresentationDecision(
+        if (applyProjectileSpawnEffects(
                 spawnResult,
-                presentationDecision,
+                spawnEffects,
                 projectileSourceKindName(spawnResult.projectile.sourceKind),
                 "death_blossom_fallout_zero_distance"))
         {
@@ -6934,12 +7521,12 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
     spawnRequest.allowInstantImpact = true;
     const GameplayProjectileService::ProjectileSpawnResult spawnResult =
         projectileService().spawnProjectile(spawnRequest);
-    const GameplayProjectileService::ProjectileSpawnPresentationDecision presentationDecision =
-        projectileService().buildProjectileSpawnPresentationDecision(spawnResult);
+    const GameplayProjectileService::ProjectileSpawnEffects spawnEffects =
+        projectileService().buildProjectileSpawnEffects(spawnResult);
 
-    return applyProjectileSpawnPresentationDecision(
+    return applyProjectileSpawnEffects(
         spawnResult,
-        presentationDecision,
+        spawnEffects,
         spellSourceKindName(request.sourceKind),
         "spell_zero_distance");
 }
@@ -6973,8 +7560,8 @@ void OutdoorWorldRuntime::spawnProjectileImpact(
         return;
     }
 
-    const GameplayProjectileService::ProjectileImpactPresentationResult result =
-        spawnProjectileImpactPresentation(projectile, *impactDefinition, x, y, z, centerVertically);
+    const GameplayProjectileService::ProjectileImpactSpawnResult result =
+        spawnProjectileImpactVisual(projectile, *impactDefinition, x, y, z, centerVertically);
 
     if (result.spawned && result.pImpact != nullptr)
     {
@@ -6997,7 +7584,7 @@ bool OutdoorWorldRuntime::spawnWaterSplashImpact(float x, float y, float z)
         return false;
     }
 
-    spawnWaterSplashImpactPresentation(*splashDefinition, x, y, z);
+    spawnWaterSplashImpactVisual(*splashDefinition, x, y, z);
 
     if (const std::optional<GameplayProjectileService::ProjectileAudioRequest> audioRequest =
             projectileService().buildWaterSplashAudioRequest(x, y, z))
@@ -7783,6 +8370,120 @@ OutdoorWorldRuntime::ProjectileCollisionFacts OutdoorWorldRuntime::buildProjecti
     return best;
 }
 
+OutdoorWorldRuntime::ProjectileFrameWorldFacts OutdoorWorldRuntime::collectProjectileFrameFacts(
+    const ProjectileState &projectile,
+    float deltaSeconds,
+    float partyX,
+    float partyY,
+    float partyZ) const
+{
+    ProjectileState predictedProjectile = projectile;
+    const uint32_t deltaTicks = GameplayProjectileService::ticksFromDeltaSeconds(deltaSeconds);
+    const bool lifetimeExpired = projectileService().advanceProjectileLifetime(predictedProjectile, deltaTicks);
+
+    ProjectileFrameWorldFacts worldFacts = {};
+    worldFacts.frame.deltaSeconds = deltaSeconds;
+    worldFacts.frame.gravity = WorldItemGravity;
+    worldFacts.frame.bounceFactor = WorldItemBounceFactor;
+    worldFacts.frame.bounceStopVelocity = WorldItemBounceStopVelocity;
+    worldFacts.frame.groundDamping = WorldItemGroundDamping;
+    worldFacts.frame.partyPosition = {partyX, partyY, partyZ};
+    worldFacts.frame.partyCollisionRadius = PartyCollisionRadius;
+    worldFacts.frame.partyCollisionHeight = PartyCollisionHeight;
+    worldFacts.frame.canHitParty = true;
+    worldFacts.frame.nonPartyProjectileDamage = resolveProjectilePartyImpactDamage(projectile);
+
+    size_t directActorIndex = static_cast<size_t>(-1);
+    bx::Vec3 areaImpactPoint = {projectile.x, projectile.y, projectile.z};
+
+    if (!lifetimeExpired)
+    {
+        worldFacts.frame.motion =
+            projectileService().advanceProjectileMotion(predictedProjectile, deltaSeconds, WorldItemGravity);
+        const bx::Vec3 segmentStart = {
+            worldFacts.frame.motion.startX,
+            worldFacts.frame.motion.startY,
+            worldFacts.frame.motion.startZ
+        };
+        const bx::Vec3 segmentEnd = {
+            worldFacts.frame.motion.endX,
+            worldFacts.frame.motion.endY,
+            worldFacts.frame.motion.endZ
+        };
+
+        areaImpactPoint = segmentEnd;
+        worldFacts.collision =
+            buildProjectileCollisionFacts(projectile, segmentStart, segmentEnd, partyX, partyY, partyZ);
+
+        if (worldFacts.collision.hit)
+        {
+            areaImpactPoint = worldFacts.collision.point;
+            directActorIndex = worldFacts.collision.kind == ProjectileCollisionKind::Actor
+                ? worldFacts.collision.actorIndex
+                : static_cast<size_t>(-1);
+
+            worldFacts.frame.hasCollision = true;
+            worldFacts.frame.collision.point = {
+                worldFacts.collision.point.x,
+                worldFacts.collision.point.y,
+                worldFacts.collision.point.z
+            };
+            worldFacts.frame.collision.colliderName = worldFacts.collision.colliderName;
+            worldFacts.frame.collision.actorIndex = worldFacts.collision.actorIndex;
+            worldFacts.frame.collision.bounceSurface = buildProjectileBounceSurfaceFacts(worldFacts.collision);
+            worldFacts.frame.collision.waterTerrainImpact = worldFacts.collision.waterTerrainImpact;
+
+            switch (worldFacts.collision.kind)
+            {
+                case ProjectileCollisionKind::Party:
+                    worldFacts.frame.collision.kind =
+                        GameplayProjectileService::ProjectileFrameCollisionKind::Party;
+                    break;
+
+                case ProjectileCollisionKind::Actor:
+                {
+                    worldFacts.frame.collision.kind =
+                        GameplayProjectileService::ProjectileFrameCollisionKind::Actor;
+
+                    const GameplayProjectileService::ProjectileDirectActorImpactInput directInput =
+                        buildProjectileDirectActorImpactInput(projectile, worldFacts.collision.actorIndex);
+                    worldFacts.frame.collision.actorId = directInput.actorId;
+                    worldFacts.frame.collision.targetArmorClass = directInput.targetArmorClass;
+                    worldFacts.frame.collision.damageMultiplier = directInput.damageMultiplier;
+                    worldFacts.frame.collision.targetDistance = directInput.targetDistance;
+                    break;
+                }
+
+                case ProjectileCollisionKind::BModel:
+                case ProjectileCollisionKind::Terrain:
+                    worldFacts.frame.collision.kind =
+                        GameplayProjectileService::ProjectileFrameCollisionKind::World;
+                    break;
+
+                case ProjectileCollisionKind::None:
+                default:
+                    worldFacts.frame.collision.kind =
+                        GameplayProjectileService::ProjectileFrameCollisionKind::None;
+                    break;
+            }
+        }
+    }
+
+    const GameplayProjectileService::ProjectileAreaImpactInput areaInput =
+        buildProjectileAreaImpactInput(
+            projectile,
+            areaImpactPoint,
+            0.0f,
+            partyX,
+            partyY,
+            partyZ,
+            true,
+            directActorIndex);
+    worldFacts.frame.areaActors = areaInput.actors;
+
+    return worldFacts;
+}
+
 GameplayProjectileService::ProjectileBounceSurfaceFacts OutdoorWorldRuntime::buildProjectileBounceSurfaceFacts(
     const ProjectileCollisionFacts &collision) const
 {
@@ -7830,227 +8531,216 @@ GameplayProjectileService::ProjectileBounceSurfaceFacts OutdoorWorldRuntime::bui
     return facts;
 }
 
-GameplayProjectileService::ProjectileCollisionPresentationInput
-OutdoorWorldRuntime::buildProjectileCollisionPresentationInput(
-    const ProjectileState &projectile,
-    const ProjectileCollisionFacts &collision) const
-{
-    GameplayProjectileService::ProjectileCollisionPresentationInput input = {};
-    input.impactX = collision.point.x;
-    input.impactY = collision.point.y;
-    input.impactZ = collision.point.z;
-    input.projectileX = projectile.x;
-    input.projectileY = projectile.y;
-    input.waterTerrainImpact = collision.waterTerrainImpact;
-    input.actorImpact = collision.kind == ProjectileCollisionKind::Actor;
-    return input;
-}
-
-void OutdoorWorldRuntime::applyProjectileLifetimeExpiryDecision(
-    ProjectileState &projectile,
-    const GameplayProjectileService::ProjectileLifetimeExpiryDecision &decision,
-    float partyX,
-    float partyY,
-    float partyZ)
-{
-    for (const GameplayProjectileService::ProjectileLifetimeExpiryCommand command : decision.commands)
-    {
-        switch (command)
-        {
-            case GameplayProjectileService::ProjectileLifetimeExpiryCommand::SpawnDeathBlossomFallout:
-                spawnDeathBlossomFalloutProjectiles(projectile, projectile.x, projectile.y, projectile.z);
-                break;
-
-            case GameplayProjectileService::ProjectileLifetimeExpiryCommand::ApplyAreaDamage:
-            {
-                const bx::Vec3 impactPoint = {projectile.x, projectile.y, projectile.z};
-                applyProjectileAreaImpact(
-                    projectile,
-                    impactPoint,
-                    decision.impactRadius,
-                    partyX,
-                    partyY,
-                    partyZ,
-                    true,
-                    static_cast<size_t>(-1),
-                    false);
-                break;
-            }
-
-            case GameplayProjectileService::ProjectileLifetimeExpiryCommand::SpawnProjectileImpact:
-                spawnProjectileImpact(projectile, projectile.x, projectile.y, projectile.z, false);
-                break;
-
-            case GameplayProjectileService::ProjectileLifetimeExpiryCommand::ExpireProjectile:
-                logProjectileLifetimeExpiry(projectile);
-                projectileService().expireProjectile(projectile);
-                break;
-        }
-    }
-}
-
-void OutdoorWorldRuntime::applyProjectileCollisionResolutionDecision(
+void OutdoorWorldRuntime::applyProjectileFrameResult(
     ProjectileState &projectile,
     const ProjectileCollisionFacts &collision,
-    const GameplayProjectileService::ProjectileCollisionResolutionDecision &resolutionDecision,
-    float partyX,
-    float partyY,
-    float partyZ)
+    const GameplayProjectileService::ProjectileFrameResult &frameResult)
 {
-    const GameplayProjectileService::ProjectileCollisionOutcomeDecision &outcomeDecision =
-        resolutionDecision.outcome;
-    const GameplayProjectileService::ProjectileCollisionPresentationDecision &presentationDecision =
-        resolutionDecision.presentation;
-
-    for (const GameplayProjectileService::ProjectileCollisionResolutionCommand command : resolutionDecision.commands)
+    if (frameResult.deathBlossomFallout)
     {
-        switch (command)
+        spawnDeathBlossomFalloutProjectiles(
+            projectile,
+            frameResult.deathBlossomFallout->point.x,
+            frameResult.deathBlossomFallout->point.y,
+            frameResult.deathBlossomFallout->point.z);
+    }
+
+    if (frameResult.directPartyImpact && frameResult.directPartyImpact->hitParty)
+    {
+        if (m_pGameplayCombatController != nullptr)
         {
-            case GameplayProjectileService::ProjectileCollisionResolutionCommand::SpawnDeathBlossomFallout:
-                spawnDeathBlossomFalloutProjectiles(
-                    projectile,
-                    collision.point.x,
-                    collision.point.y,
-                    collision.point.z);
-                break;
+            m_pGameplayCombatController->recordPartyProjectileImpact(
+                projectile.sourceId,
+                frameResult.directPartyImpact->damage,
+                projectile.spellId,
+                false);
+        }
+    }
 
-            case GameplayProjectileService::ProjectileCollisionResolutionCommand::ApplyDirectPartyImpact:
-                applyProjectileDirectPartyImpact(projectile);
-                break;
+    if (frameResult.directActorImpact && frameResult.directActorImpact->actorIndex < m_mapActors.size())
+    {
+        const GameplayProjectileService::ProjectileDirectActorImpactDecision &decision =
+            *frameResult.directActorImpact;
 
-            case GameplayProjectileService::ProjectileCollisionResolutionCommand::ApplyDirectActorImpact:
-                applyProjectileDirectActorImpact(projectile, outcomeDecision.directActorIndex);
-                break;
+        bool killed = false;
+        if (decision.applyPartyProjectileDamage)
+        {
+            const int beforeHp = m_mapActors[decision.actorIndex].currentHp;
+            applyPartyAttackToMapActor(
+                decision.actorIndex,
+                decision.damage,
+                projectile.sourceX,
+                projectile.sourceY,
+                projectile.sourceZ);
+            const OutdoorWorldRuntime::MapActorState &afterActor = m_mapActors[decision.actorIndex];
+            killed = beforeHp > 0 && afterActor.currentHp <= 0;
+        }
 
-            case GameplayProjectileService::ProjectileCollisionResolutionCommand::ApplyAreaDamage:
+        if (decision.queuePartyProjectileActorEvent)
+        {
+            if (m_pGameplayCombatController != nullptr)
             {
-                const size_t directAreaActorIndex = outcomeDecision.hasDirectActorIndex
-                    ? outcomeDecision.directActorIndex
-                    : static_cast<size_t>(-1);
-                applyProjectileAreaImpact(
-                    projectile,
-                    collision.point,
-                    outcomeDecision.impactRadius,
-                    partyX,
-                    partyY,
-                    partyZ,
-                    outcomeDecision.areaCanHitParty,
-                    directAreaActorIndex,
+                m_pGameplayCombatController->recordPartyProjectileActorImpact(
+                    projectile.sourceId,
+                    projectile.sourcePartyMemberIndex,
+                    decision.actorId,
+                    decision.damage,
+                    projectile.spellId,
+                    decision.hit,
+                    killed);
+            }
+        }
+        else if (decision.applyNonPartyProjectileDamage)
+        {
+            applyMonsterAttackToMapActor(
+                decision.actorIndex,
+                decision.damage,
+                projectile.sourceId);
+        }
+    }
+
+    if (frameResult.areaImpact)
+    {
+        const GameplayProjectileService::ProjectileFrameAreaImpactResult &areaImpact = *frameResult.areaImpact;
+
+        if (areaImpact.decision.hitParty)
+        {
+            if (m_pGameplayCombatController != nullptr)
+            {
+                m_pGameplayCombatController->recordPartyProjectileImpact(
+                    projectile.sourceId,
+                    areaImpact.decision.partyDamage,
+                    projectile.spellId,
                     true);
-                break;
             }
 
-            case GameplayProjectileService::ProjectileCollisionResolutionCommand::LogCollision:
-                logProjectileCollision(
-                    projectile,
-                    projectileCollisionKindName(collision.kind),
-                    collision.colliderName,
-                    collision.point);
-                break;
+            if (areaImpact.logHits)
+            {
+                const bx::Vec3 impactPoint = {areaImpact.point.x, areaImpact.point.y, areaImpact.point.z};
+                logProjectileAoeHit(projectile, "party", impactPoint, areaImpact.radius);
+            }
+        }
 
-            case GameplayProjectileService::ProjectileCollisionResolutionCommand::SpawnWaterSplash:
+        for (const GameplayProjectileService::ProjectileAreaImpactActorDecision &actorHit :
+             areaImpact.decision.actorHits)
+        {
+            if (actorHit.actorIndex >= m_mapActors.size())
+            {
+                continue;
+            }
+
+            bool killed = false;
+            if (projectile.sourceKind == ProjectileState::SourceKind::Party)
+            {
+                const int beforeHp = m_mapActors[actorHit.actorIndex].currentHp;
+                applyPartyAttackToMapActor(
+                    actorHit.actorIndex,
+                    actorHit.damage,
+                    projectile.sourceX,
+                    projectile.sourceY,
+                    projectile.sourceZ);
+                killed = beforeHp > 0 && m_mapActors[actorHit.actorIndex].currentHp <= 0;
+
+                if (m_pGameplayCombatController != nullptr)
+                {
+                    m_pGameplayCombatController->recordPartyProjectileActorImpact(
+                        projectile.sourceId,
+                        projectile.sourcePartyMemberIndex,
+                        m_mapActors[actorHit.actorIndex].actorId,
+                        actorHit.damage,
+                        projectile.spellId,
+                        true,
+                        killed);
+                }
+            }
+            else
+            {
+                applyMonsterAttackToMapActor(actorHit.actorIndex, actorHit.damage, projectile.sourceId);
+            }
+
+            if (areaImpact.logHits)
+            {
+                const bx::Vec3 impactPoint = {areaImpact.point.x, areaImpact.point.y, areaImpact.point.z};
+                logProjectileAoeHit(projectile, "actor", impactPoint, areaImpact.radius);
+            }
+        }
+    }
+
+    if (frameResult.logCollision)
+    {
+        logProjectileCollision(
+            projectile,
+            projectileCollisionKindName(collision.kind),
+            collision.colliderName,
+            collision.point);
+    }
+
+    if (frameResult.fxRequest)
+    {
+        switch (frameResult.fxRequest->kind)
+        {
+            case GameplayProjectileService::ProjectileFrameFxKind::WaterSplash:
                 spawnWaterSplashImpact(
-                    presentationDecision.x,
-                    presentationDecision.y,
-                    presentationDecision.z);
+                    frameResult.fxRequest->point.x,
+                    frameResult.fxRequest->point.y,
+                    frameResult.fxRequest->point.z);
                 break;
 
-            case GameplayProjectileService::ProjectileCollisionResolutionCommand::SpawnProjectileImpact:
+            case GameplayProjectileService::ProjectileFrameFxKind::ProjectileImpact:
                 spawnProjectileImpact(
                     projectile,
-                    presentationDecision.x,
-                    presentationDecision.y,
-                    presentationDecision.z,
-                    presentationDecision.centerProjectileImpactVertically);
-                break;
-
-            case GameplayProjectileService::ProjectileCollisionResolutionCommand::ExpireProjectile:
-                projectileService().expireProjectile(projectile);
+                    frameResult.fxRequest->point.x,
+                    frameResult.fxRequest->point.y,
+                    frameResult.fxRequest->point.z,
+                    frameResult.fxRequest->centerVertically);
                 break;
         }
     }
-}
 
-void OutdoorWorldRuntime::applyProjectileCollisionFrameDecision(
-    ProjectileState &projectile,
-    const ProjectileCollisionFacts &collision,
-    const GameplayProjectileService::ProjectileCollisionFrameDecision &frameDecision,
-    float partyX,
-    float partyY,
-    float partyZ)
-{
-    for (const GameplayProjectileService::ProjectileCollisionFrameCommand command : frameDecision.commands)
+    if (frameResult.audioRequest)
     {
-        switch (command)
-        {
-            case GameplayProjectileService::ProjectileCollisionFrameCommand::ApplyBounce:
-                projectileService().applyProjectileBounce(
-                    projectile,
-                    collision.point.x,
-                    collision.point.y,
-                    collision.point.z,
-                    frameDecision.bounce.normalX,
-                    frameDecision.bounce.normalY,
-                    frameDecision.bounce.normalZ,
-                    WorldItemBounceFactor,
-                    WorldItemBounceStopVelocity,
-                    WorldItemGroundDamping);
-                break;
-
-            case GameplayProjectileService::ProjectileCollisionFrameCommand::ApplyResolution:
-                applyProjectileCollisionResolutionDecision(
-                    projectile,
-                    collision,
-                    frameDecision.resolution,
-                    partyX,
-                    partyY,
-                    partyZ);
-                break;
-        }
+        pushProjectileAudioEvent(*frameResult.audioRequest);
     }
-}
 
-void OutdoorWorldRuntime::applyProjectileUpdateFrameDecision(
-    ProjectileState &projectile,
-    const ProjectileCollisionFacts &collision,
-    const GameplayProjectileService::ProjectileUpdateFrameDecision &frameDecision,
-    float partyX,
-    float partyY,
-    float partyZ)
-{
-    for (const GameplayProjectileService::ProjectileUpdateFrameCommand command : frameDecision.commands)
+    for (const GameplayProjectileService::ProjectileSpawnRequest &spawnRequest : frameResult.spawnedProjectiles)
     {
-        switch (command)
-        {
-            case GameplayProjectileService::ProjectileUpdateFrameCommand::ApplyLifetimeExpiry:
-                applyProjectileLifetimeExpiryDecision(
-                    projectile,
-                    frameDecision.frameAdvance.lifetimeExpiryDecision,
-                    partyX,
-                    partyY,
-                    partyZ);
-                break;
+        projectileService().spawnProjectile(spawnRequest);
+    }
 
-            case GameplayProjectileService::ProjectileUpdateFrameCommand::ApplyCollisionFrame:
-                applyProjectileCollisionFrameDecision(
-                    projectile,
-                    collision,
-                    frameDecision.collisionFrame,
-                    partyX,
-                    partyY,
-                    partyZ);
-                break;
+    if (frameResult.logLifetimeExpiry)
+    {
+        logProjectileLifetimeExpiry(projectile);
+    }
 
-            case GameplayProjectileService::ProjectileUpdateFrameCommand::ApplyMotionEnd:
-                projectileService().applyProjectileMotionEnd(projectile, frameDecision.frameAdvance.motionSegment);
-                break;
-        }
+    if (frameResult.bounce)
+    {
+        projectileService().applyProjectileBounce(
+            projectile,
+            frameResult.bounce->point.x,
+            frameResult.bounce->point.y,
+            frameResult.bounce->point.z,
+            frameResult.bounce->normalX,
+            frameResult.bounce->normalY,
+            frameResult.bounce->normalZ,
+            frameResult.bounce->bounceFactor,
+            frameResult.bounce->stopVelocity,
+            frameResult.bounce->groundDamping);
+    }
+
+    if (frameResult.applyMotionEnd)
+    {
+        projectileService().applyProjectileMotionEnd(projectile, frameResult.motion);
+    }
+
+    if (frameResult.expireProjectile)
+    {
+        projectileService().expireProjectile(projectile);
     }
 }
 
-bool OutdoorWorldRuntime::applyProjectileSpawnPresentationDecision(
+bool OutdoorWorldRuntime::applyProjectileSpawnEffects(
     const GameplayProjectileService::ProjectileSpawnResult &spawnResult,
-    const GameplayProjectileService::ProjectileSpawnPresentationDecision &decision,
+    const GameplayProjectileService::ProjectileSpawnEffects &decision,
     const std::string &spawnKindName,
     const std::string &instantColliderName)
 {
@@ -8059,11 +8749,11 @@ bool OutdoorWorldRuntime::applyProjectileSpawnPresentationDecision(
         return false;
     }
 
-    for (const GameplayProjectileService::ProjectileSpawnPresentationCommand command : decision.commands)
+    for (const GameplayProjectileService::ProjectileSpawnEffectCommand command : decision.commands)
     {
         switch (command)
         {
-            case GameplayProjectileService::ProjectileSpawnPresentationCommand::SpawnInstantImpact:
+            case GameplayProjectileService::ProjectileSpawnEffectCommand::SpawnInstantImpact:
                 logProjectileCollision(
                     spawnResult.projectile,
                     "instant",
@@ -8076,14 +8766,14 @@ bool OutdoorWorldRuntime::applyProjectileSpawnPresentationDecision(
                     decision.impactZ);
                 break;
 
-            case GameplayProjectileService::ProjectileSpawnPresentationCommand::PlayReleaseAudio:
+            case GameplayProjectileService::ProjectileSpawnEffectCommand::PlayReleaseAudio:
                 if (decision.releaseAudioRequest)
                 {
                     pushProjectileAudioEvent(*decision.releaseAudioRequest);
                 }
                 break;
 
-            case GameplayProjectileService::ProjectileSpawnPresentationCommand::LogSpawn:
+            case GameplayProjectileService::ProjectileSpawnEffectCommand::LogSpawn:
                 logProjectileSpawn(
                     spawnKindName.c_str(),
                     spawnResult.projectile,
@@ -8130,48 +8820,11 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
             continue;
         }
 
-        const GameplayProjectileService::ProjectileFrameAdvanceResult frameAdvance =
-            projectileService().advanceProjectileFrame(projectile, deltaSeconds, WorldItemGravity);
-
-        ProjectileCollisionFacts collision = {};
-        GameplayProjectileService::ProjectileBounceSurfaceFacts bounceSurfaceFacts = {};
-        GameplayProjectileService::ProjectileCollisionOutcomeInput outcomeInput = {};
-        GameplayProjectileService::ProjectileCollisionPresentationInput presentationInput = {};
-
-        if (frameAdvance.kind == GameplayProjectileService::ProjectileFrameAdvanceKind::Moving)
-        {
-            const bx::Vec3 segmentStart = {
-                frameAdvance.motionSegment.startX,
-                frameAdvance.motionSegment.startY,
-                frameAdvance.motionSegment.startZ
-            };
-            const bx::Vec3 segmentEnd = {
-                frameAdvance.motionSegment.endX,
-                frameAdvance.motionSegment.endY,
-                frameAdvance.motionSegment.endZ
-            };
-            collision = buildProjectileCollisionFacts(projectile, segmentStart, segmentEnd, partyX, partyY, partyZ);
-
-            if (collision.hit)
-            {
-                bounceSurfaceFacts = buildProjectileBounceSurfaceFacts(collision);
-                outcomeInput.directPartyImpact = collision.kind == ProjectileCollisionKind::Party;
-                outcomeInput.directActorImpact = collision.kind == ProjectileCollisionKind::Actor;
-                outcomeInput.directActorIndex = collision.actorIndex;
-                presentationInput = buildProjectileCollisionPresentationInput(projectile, collision);
-            }
-        }
-
-        const GameplayProjectileService::ProjectileUpdateFrameDecision frameDecision =
-            projectileService().buildProjectileUpdateFrameDecision(
-                projectile,
-                frameAdvance,
-                collision.hit,
-                bounceSurfaceFacts,
-                outcomeInput,
-                presentationInput,
-                WorldItemBounceStopVelocity);
-        applyProjectileUpdateFrameDecision(projectile, collision, frameDecision, partyX, partyY, partyZ);
+        const ProjectileFrameWorldFacts worldFacts =
+            collectProjectileFrameFacts(projectile, deltaSeconds, partyX, partyY, partyZ);
+        const GameplayProjectileService::ProjectileFrameResult frameResult =
+            projectileService().updateProjectileFrame(projectile, worldFacts.frame);
+        applyProjectileFrameResult(projectile, worldFacts.collision, frameResult);
     }
 
     projectileService().eraseExpiredProjectiles();
@@ -8691,18 +9344,24 @@ std::optional<OutdoorWorldRuntime::ActorDecisionDebugInfo> OutdoorWorldRuntime::
     {
         return this->hasClearOutdoorLineOfSight(start, end);
     };
-    const GameplayActorService::CombatTargetResult combatTarget =
-        resolveOutdoorCombatTarget(
+    std::vector<OutdoorCombatTargetCandidate> combatCandidates =
+        buildCombatTargetCandidates(
             m_pGameplayActorService,
             actor,
             actorIndex,
-            m_mapActors,
+            m_mapActors);
+    const OutdoorTargetFacts combatTarget =
+        resolveOutdoorTargetFacts(
+            m_pGameplayActorService,
+            actor,
+            actorIndex,
+            combatCandidates,
             partyX,
             partyY,
             partyZ,
             hasClearOutdoorLineOfSight);
-    const bool targetIsParty = combatTarget.kind == GameplayActorService::CombatTargetKind::Party;
-    const bool targetIsActor = combatTarget.kind == GameplayActorService::CombatTargetKind::Actor;
+    const bool targetIsParty = combatTarget.kind == OutdoorTargetKind::Party;
+    const bool targetIsActor = combatTarget.kind == OutdoorTargetKind::Actor;
     GameplayActorService fallbackActorService = {};
     const GameplayActorService *pActorService = m_pGameplayActorService;
 
@@ -8711,30 +9370,24 @@ std::optional<OutdoorWorldRuntime::ActorDecisionDebugInfo> OutdoorWorldRuntime::
         pActorService = &fallbackActorService;
     }
 
-    GameplayActorService::ActorPartyProximityInput partyProximityInput = {};
-    partyProximityInput.horizontalDistanceToParty = distanceToParty;
-    partyProximityInput.verticalDistanceToParty = partyZ - actor.preciseZ;
-    partyProximityInput.actorRadius = actor.radius;
-    partyProximityInput.actorHeight = actor.height;
-    partyProximityInput.partyCollisionRadius = PartyCollisionRadius;
-    const GameplayActorService::ActorPartyProximityResult partyProximity =
-        pActorService->resolveActorPartyProximity(partyProximityInput);
-    GameplayActorService::CombatEngagementResult engagement = {};
-
-    if (m_pGameplayActorService != nullptr)
-    {
-        GameplayActorService::CombatEngagementInput engagementInput = {};
-        engagementInput.actorPolicyState = actorTargetPolicyState;
-        engagementInput.combatTarget = combatTarget;
-        engagementInput.aiType = gameplayActorAiTypeFromMonster(pStats->aiType);
-        engagementInput.hostilityType = actor.hostilityType;
-        engagementInput.currentHp = actor.currentHp;
-        engagementInput.maxHp = actor.maxHp;
-        engagementInput.hostileToParty = actor.hostileToParty;
-        engagementInput.hasDetectedParty = actor.hasDetectedParty;
-        engagementInput.partyIsVeryNearActor = partyProximity.veryNearParty;
-        engagement = m_pGameplayActorService->resolveCombatEngagement(engagementInput);
-    }
+    const bool partyIsVeryNearActor =
+        pActorService->partyIsVeryNearActor(
+            distanceToParty,
+            partyZ - actor.preciseZ,
+            actor.radius,
+            actor.height,
+            PartyCollisionRadius);
+    const OutdoorEngagementState engagement =
+        resolveOutdoorEngagementState(
+            *pActorService,
+            actorTargetPolicyState,
+            combatTarget,
+            gameplayActorAiTypeFromMonster(pStats->aiType),
+            actor.hostilityType,
+            actor.currentHp,
+            actor.maxHp,
+            actor.hostileToParty,
+            partyIsVeryNearActor);
 
     info.partySenseRange = partySenseRange;
     info.distanceToParty = distanceToParty;
@@ -8753,20 +9406,17 @@ std::optional<OutdoorWorldRuntime::ActorDecisionDebugInfo> OutdoorWorldRuntime::
         info.targetMonsterId = m_mapActors[combatTarget.actorIndex].monsterId;
     }
 
-    GameplayActorService::ActorAttackFrameInput attackFrameInput = {};
-    attackFrameInput.attacking = actor.aiState == ActorAiState::Attacking;
-    attackFrameInput.actionSeconds = actor.actionSeconds;
-    attackFrameInput.impactTriggered = actor.attackImpactTriggered;
-    const GameplayActorService::ActorAttackFrameResult attackFrame =
-        pActorService->resolveActorAttackFrame(attackFrameInput);
+    const bool attacking = actor.aiState == ActorAiState::Attacking;
+    const bool attackInProgress = attacking && actor.actionSeconds > 0.0f;
+    const bool attackJustCompleted = attacking && !attackInProgress && !actor.attackImpactTriggered;
 
     info.promotionRange = engagement.promotionRange;
     info.shouldPromoteHostility = engagement.shouldPromoteHostility;
     info.shouldEngageTarget = engagement.shouldEngageTarget;
     info.shouldFlee = engagement.shouldFlee;
     info.inMeleeRange = engagement.inMeleeRange;
-    info.attackJustCompleted = attackFrame.attackJustCompleted;
-    info.attackInProgress = attackFrame.attackInProgress;
+    info.attackJustCompleted = attackJustCompleted;
+    info.attackInProgress = attackInProgress;
     info.friendlyNearParty = engagement.friendlyNearParty;
     return info;
 }
@@ -8885,7 +9535,11 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
     return true;
 }
 
-bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(size_t actorIndex, int damage, uint32_t sourceActorId)
+bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
+    size_t actorIndex,
+    int damage,
+    uint32_t sourceActorId,
+    bool emitAudio)
 {
     if (actorIndex >= m_mapActors.size() || damage <= 0)
     {
@@ -8921,7 +9575,7 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(size_t actorIndex, int da
     {
         beginDyingState(actor, m_pActorSpriteFrameTable);
 
-        if (m_pMonsterTable != nullptr)
+        if (emitAudio && m_pMonsterTable != nullptr)
         {
             if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
             {
@@ -8943,7 +9597,7 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(size_t actorIndex, int da
         beginHitReaction(actor, m_pActorSpriteFrameTable);
     }
 
-    if (m_pMonsterTable != nullptr)
+    if (emitAudio && m_pMonsterTable != nullptr)
     {
         if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
         {
@@ -9780,8 +10434,8 @@ bool OutdoorWorldRuntime::spawnImmediateSpellVisual(
     effectDefinition.objectName = effectObjectName;
     effectDefinition.objectSpriteName = effectSpriteName;
 
-    const GameplayProjectileService::ProjectileImpactPresentationResult result =
-        spawnImmediateSpellImpactPresentation(
+    const GameplayProjectileService::ProjectileImpactSpawnResult result =
+        spawnImmediateSpellImpactVisual(
             effectDefinition,
             static_cast<int>(spellId),
             definition.objectName,
@@ -10148,7 +10802,7 @@ bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
 
     const MapActorState &actor = m_mapActors[actorIndex];
 
-    if (!actor.isDead)
+    if (!actor.isDead || actor.isInvisible)
     {
         return false;
     }
@@ -10684,8 +11338,8 @@ const GameplayProjectileService &OutdoorWorldRuntime::projectileService() const
     return *m_pGameplayProjectileService;
 }
 
-GameplayProjectileService::ProjectileImpactPresentationResult
-OutdoorWorldRuntime::spawnProjectileImpactPresentation(
+GameplayProjectileService::ProjectileImpactSpawnResult
+OutdoorWorldRuntime::spawnProjectileImpactVisual(
     const ProjectileState &projectile,
     const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
     float x,
@@ -10695,7 +11349,7 @@ OutdoorWorldRuntime::spawnProjectileImpactPresentation(
 {
     if (m_pGameplayFxService != nullptr)
     {
-        return m_pGameplayFxService->spawnProjectileImpactPresentation(
+        return m_pGameplayFxService->spawnProjectileImpactVisual(
             projectile,
             definition,
             x,
@@ -10704,11 +11358,11 @@ OutdoorWorldRuntime::spawnProjectileImpactPresentation(
             centerVertically);
     }
 
-    return projectileService().spawnProjectileImpactPresentation(projectile, definition, x, y, z, centerVertically);
+    return projectileService().spawnProjectileImpactVisual(projectile, definition, x, y, z, centerVertically);
 }
 
-GameplayProjectileService::ProjectileImpactPresentationResult
-OutdoorWorldRuntime::spawnWaterSplashImpactPresentation(
+GameplayProjectileService::ProjectileImpactSpawnResult
+OutdoorWorldRuntime::spawnWaterSplashImpactVisual(
     const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
     float x,
     float y,
@@ -10716,14 +11370,14 @@ OutdoorWorldRuntime::spawnWaterSplashImpactPresentation(
 {
     if (m_pGameplayFxService != nullptr)
     {
-        return m_pGameplayFxService->spawnWaterSplashImpactPresentation(definition, x, y, z);
+        return m_pGameplayFxService->spawnWaterSplashImpactVisual(definition, x, y, z);
     }
 
-    return projectileService().spawnWaterSplashImpactPresentation(definition, x, y, z);
+    return projectileService().spawnWaterSplashImpactVisual(definition, x, y, z);
 }
 
-GameplayProjectileService::ProjectileImpactPresentationResult
-OutdoorWorldRuntime::spawnImmediateSpellImpactPresentation(
+GameplayProjectileService::ProjectileImpactSpawnResult
+OutdoorWorldRuntime::spawnImmediateSpellImpactVisual(
     const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
     int sourceSpellId,
     const std::string &sourceObjectName,
@@ -10736,7 +11390,7 @@ OutdoorWorldRuntime::spawnImmediateSpellImpactPresentation(
 {
     if (m_pGameplayFxService != nullptr)
     {
-        return m_pGameplayFxService->spawnImmediateSpellImpactPresentation(
+        return m_pGameplayFxService->spawnImmediateSpellImpactVisual(
             definition,
             sourceSpellId,
             sourceObjectName,
@@ -10748,7 +11402,7 @@ OutdoorWorldRuntime::spawnImmediateSpellImpactPresentation(
             freezeAnimation);
     }
 
-    return projectileService().spawnImmediateSpellImpactPresentation(
+    return projectileService().spawnImmediateSpellImpactVisual(
         definition,
         sourceSpellId,
         sourceObjectName,
@@ -11322,13 +11976,13 @@ bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &req
     spawnRequest.spawnForwardOffset = PartyCollisionRadius;
     const GameplayProjectileService::ProjectileSpawnResult spawnResult =
         projectileService().spawnProjectile(spawnRequest);
-    GameplayProjectileService::ProjectileSpawnPresentationOptions presentationOptions = {};
-    presentationOptions.playReleaseAudio = false;
-    const GameplayProjectileService::ProjectileSpawnPresentationDecision presentationDecision =
-        projectileService().buildProjectileSpawnPresentationDecision(spawnResult, presentationOptions);
-    return applyProjectileSpawnPresentationDecision(
+    GameplayProjectileService::ProjectileSpawnEffectOptions spawnEffectOptions = {};
+    spawnEffectOptions.playReleaseAudio = false;
+    const GameplayProjectileService::ProjectileSpawnEffects spawnEffects =
+        projectileService().buildProjectileSpawnEffects(spawnResult, spawnEffectOptions);
+    return applyProjectileSpawnEffects(
         spawnResult,
-        presentationDecision,
+        spawnEffects,
         "party",
         "party_projectile_zero_distance");
 }

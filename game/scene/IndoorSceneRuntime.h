@@ -15,7 +15,10 @@
 namespace OpenYAMM::Game
 {
 class GameplayActorService;
+class GameplayProjectileService;
+class MonsterProjectileTable;
 class SpriteFrameTable;
+class SpellTable;
 
 class IndoorSceneRuntime : public IMapSceneRuntime
 {
@@ -29,6 +32,26 @@ public:
         float mechanismAccumulatorMilliseconds = 0.0f;
     };
 
+    IndoorSceneRuntime(
+        const std::string &mapFileName,
+        const MapStatsEntry &map,
+        const IndoorMapData &indoorMapData,
+        const MonsterTable &monsterTable,
+        const MonsterProjectileTable &monsterProjectileTable,
+        const ObjectTable &objectTable,
+        const SpellTable &spellTable,
+        const ItemTable &itemTable,
+        const ChestTable &chestTable,
+        Party &party,
+        const std::optional<MapDeltaData> &indoorMapDeltaData,
+        const std::optional<EventRuntimeState> &eventRuntimeState,
+        const std::optional<ScriptedEventProgram> &localEventProgram,
+        const std::optional<ScriptedEventProgram> &globalEventProgram,
+        GameplayActorService *pGameplayActorService,
+        GameplayProjectileService *pGameplayProjectileService,
+        const SpriteFrameTable *pActorSpriteFrameTable = nullptr,
+        const SpriteFrameTable *pProjectileSpriteFrameTable = nullptr
+    );
     IndoorSceneRuntime(
         const std::string &mapFileName,
         const MapStatsEntry &map,

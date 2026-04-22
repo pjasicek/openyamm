@@ -4,6 +4,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/gameplay/GameplayActionController.h"
+#include "game/gameplay/GameplayActorAiSystem.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayProjectileService.h"
@@ -275,6 +276,12 @@ public:
         size_t actorIndex = static_cast<size_t>(-1);
         size_t faceIndex = static_cast<size_t>(-1);
         bool waterTerrainImpact = false;
+    };
+
+    struct ProjectileFrameWorldFacts
+    {
+        GameplayProjectileService::ProjectileFrameFacts frame;
+        ProjectileCollisionFacts collision;
     };
 
     struct FireSpikeTrapState
@@ -842,7 +849,7 @@ private:
     static std::pair<int, int> remapTreasureLevelRange(int itemTreasureLevel, int mapTreasureLevel);
     static int sampleRemappedTreasureLevel(int itemTreasureLevel, int mapTreasureLevel, std::mt19937 &rng);
 
-    bool applyMonsterAttackToMapActor(size_t actorIndex, int damage, uint32_t sourceActorId);
+    bool applyMonsterAttackToMapActor(size_t actorIndex, int damage, uint32_t sourceActorId, bool emitAudio = true);
     bool spawnEncounterFromResolvedData(
         int encounterSlot,
         char fixedTier,
@@ -975,41 +982,21 @@ private:
         float partyX,
         float partyY,
         float partyZ) const;
+    ProjectileFrameWorldFacts collectProjectileFrameFacts(
+        const ProjectileState &projectile,
+        float deltaSeconds,
+        float partyX,
+        float partyY,
+        float partyZ) const;
     GameplayProjectileService::ProjectileBounceSurfaceFacts buildProjectileBounceSurfaceFacts(
         const ProjectileCollisionFacts &collision) const;
-    GameplayProjectileService::ProjectileCollisionPresentationInput buildProjectileCollisionPresentationInput(
-        const ProjectileState &projectile,
-        const ProjectileCollisionFacts &collision) const;
-    void applyProjectileLifetimeExpiryDecision(
-        ProjectileState &projectile,
-        const GameplayProjectileService::ProjectileLifetimeExpiryDecision &decision,
-        float partyX,
-        float partyY,
-        float partyZ);
-    void applyProjectileCollisionResolutionDecision(
+    void applyProjectileFrameResult(
         ProjectileState &projectile,
         const ProjectileCollisionFacts &collision,
-        const GameplayProjectileService::ProjectileCollisionResolutionDecision &resolutionDecision,
-        float partyX,
-        float partyY,
-        float partyZ);
-    void applyProjectileCollisionFrameDecision(
-        ProjectileState &projectile,
-        const ProjectileCollisionFacts &collision,
-        const GameplayProjectileService::ProjectileCollisionFrameDecision &frameDecision,
-        float partyX,
-        float partyY,
-        float partyZ);
-    void applyProjectileUpdateFrameDecision(
-        ProjectileState &projectile,
-        const ProjectileCollisionFacts &collision,
-        const GameplayProjectileService::ProjectileUpdateFrameDecision &frameDecision,
-        float partyX,
-        float partyY,
-        float partyZ);
-    bool applyProjectileSpawnPresentationDecision(
+        const GameplayProjectileService::ProjectileFrameResult &frameResult);
+    bool applyProjectileSpawnEffects(
         const GameplayProjectileService::ProjectileSpawnResult &spawnResult,
-        const GameplayProjectileService::ProjectileSpawnPresentationDecision &decision,
+        const GameplayProjectileService::ProjectileSpawnEffects &decision,
         const std::string &spawnKindName,
         const std::string &instantColliderName);
     static const char *projectileCollisionKindName(ProjectileCollisionKind kind);
@@ -1034,19 +1021,19 @@ private:
     void removeBloodSplat(uint32_t sourceActorId);
     GameplayProjectileService &projectileService();
     const GameplayProjectileService &projectileService() const;
-    GameplayProjectileService::ProjectileImpactPresentationResult spawnProjectileImpactPresentation(
+    GameplayProjectileService::ProjectileImpactSpawnResult spawnProjectileImpactVisual(
         const ProjectileState &projectile,
         const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
         float x,
         float y,
         float z,
         bool centerVertically);
-    GameplayProjectileService::ProjectileImpactPresentationResult spawnWaterSplashImpactPresentation(
+    GameplayProjectileService::ProjectileImpactSpawnResult spawnWaterSplashImpactVisual(
         const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
         float x,
         float y,
         float z);
-    GameplayProjectileService::ProjectileImpactPresentationResult spawnImmediateSpellImpactPresentation(
+    GameplayProjectileService::ProjectileImpactSpawnResult spawnImmediateSpellImpactVisual(
         const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
         int sourceSpellId,
         const std::string &sourceObjectName,
@@ -1129,6 +1116,77 @@ private:
     ArmageddonState m_armageddonState = {};
 
     void updateGameplayScreenOverlay(float deltaSeconds);
+    void updateActorFrameGlobalEffects(float deltaSeconds, float partyX, float partyY, float partyZ);
+    std::vector<bool> selectOutdoorActiveActors(float partyX, float partyY, float partyZ) const;
+    struct OutdoorActorAiFrameApplication
+    {
+        std::vector<bool> handledActorMask;
+        std::vector<bool> activeUpdatesAppliedActorMask;
+        std::vector<bool> combatFlowsAppliedActorMask;
+        std::vector<bool> combatEngagesAppliedActorMask;
+        std::vector<bool> nonCombatAppliedActorMask;
+        std::vector<bool> frameCommitsAppliedActorMask;
+        std::vector<bool> frameCommitKeepCurrentAnimationMask;
+        std::vector<bool> frameCommitResetAnimationTimeMask;
+        std::vector<bool> frameCommitResetCrowdSteeringMask;
+        std::vector<bool> frameCommitClearVelocityMask;
+        std::vector<bool> frameCommitApplyMovementMask;
+        std::vector<float> combatFlowDesiredMoveX;
+        std::vector<float> combatFlowDesiredMoveY;
+        std::vector<float> combatEngageDesiredMoveX;
+        std::vector<float> combatEngageDesiredMoveY;
+        std::vector<float> nonCombatDesiredMoveX;
+        std::vector<float> nonCombatDesiredMoveY;
+        std::vector<bool> combatEngageMeleePursuitActiveMask;
+        std::vector<float> movementEffectiveMoveSpeed;
+        std::vector<GameplayWorldPoint> movementTargetPosition;
+        std::vector<float> movementTargetEdgeDistance;
+        std::vector<bool> movementInMeleeRangeMask;
+    };
+    ActorAiFrameFacts collectOutdoorActorAiFrameFacts(
+        float deltaSeconds,
+        float partyX,
+        float partyY,
+        float partyZ,
+        const std::vector<bool> &activeActorMask) const;
+    std::optional<ActorAiFacts> collectOutdoorActorAiFacts(
+        size_t actorIndex,
+        bool active,
+        float partyX,
+        float partyY,
+        float partyZ,
+        std::vector<int8_t> &actorLineOfSightCache) const;
+    OutdoorActorAiFrameApplication applyOutdoorActorAiFrameResult(
+        const ActorAiFrameResult &result,
+        const std::vector<bool> &activeActorMask,
+        const ActorAiFrameFacts &facts);
+    void applyOutdoorActorPostMovementAiUpdate(
+        MapActorState &actor,
+        const ActorAiUpdate &movementUpdate,
+        float &desiredMoveX,
+        float &desiredMoveY);
+    void applyOutdoorActorMovementIntegration(
+        size_t actorIndex,
+        const MonsterTable::MonsterStatsEntry *pStats,
+        const std::vector<bool> &activeActorMask,
+        float moveSpeed,
+        bool meleePursuitActive,
+        bool inMeleeRange,
+        const GameplayWorldPoint &targetPosition,
+        float targetEdgeDistance,
+        const GameplayActorAiSystem &actorAiSystem,
+        ActorAiState &nextAiState,
+        ActorAnimation &nextAnimation,
+        float &desiredMoveX,
+        float &desiredMoveY);
+    void updateOutdoorActorsForStep(
+        float partyX,
+        float partyY,
+        float partyZ,
+        const std::vector<bool> &activeActorMask,
+        const OutdoorActorAiFrameApplication &sharedActorApplication,
+        const GameplayActorAiSystem &actorAiSystem);
+    void applyActorFrameSideEffects(float deltaSeconds, float partyX, float partyY, float partyZ);
     void advanceGameMinutesInternal(float minutes);
     void applyInitialWeatherProfile();
     void applyDailyWeatherRollover(int weatherDayIndex);

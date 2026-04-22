@@ -183,7 +183,7 @@ public:
         std::string objectSpriteName;
     };
 
-    struct ProjectileImpactPresentationResult
+    struct ProjectileImpactSpawnResult
     {
         bool spawned = false;
         const ProjectileImpactState *pImpact = nullptr;
@@ -208,38 +208,10 @@ public:
         float endZ = 0.0f;
     };
 
-    enum class ProjectileFrameAdvanceKind
-    {
-        LifetimeExpired,
-        Moving,
-    };
-
-    enum class ProjectileImpactReason
-    {
-        Collision,
-        LifetimeExpired,
-    };
-
-    struct ProjectileImpactDecision
-    {
-        bool spawnDeathBlossomFallout = false;
-        bool applyAreaDamage = false;
-        bool spawnProjectileImpact = false;
-        float impactRadius = 0.0f;
-    };
-
     struct ProjectileBounceSurfaceFacts
     {
         bool canBounce = false;
         bool requiresDownwardVelocity = false;
-        float normalX = 0.0f;
-        float normalY = 0.0f;
-        float normalZ = 1.0f;
-    };
-
-    struct ProjectileBounceDecision
-    {
-        bool shouldBounce = false;
         float normalX = 0.0f;
         float normalY = 0.0f;
         float normalZ = 1.0f;
@@ -256,24 +228,24 @@ public:
         bool positional = true;
     };
 
-    enum class ProjectileSpawnPresentationCommand
+    enum class ProjectileSpawnEffectCommand
     {
         SpawnInstantImpact,
         PlayReleaseAudio,
         LogSpawn,
     };
 
-    struct ProjectileSpawnPresentationDecision
+    struct ProjectileSpawnEffects
     {
         bool accepted = false;
         float impactX = 0.0f;
         float impactY = 0.0f;
         float impactZ = 0.0f;
         std::optional<ProjectileAudioRequest> releaseAudioRequest;
-        std::vector<ProjectileSpawnPresentationCommand> commands;
+        std::vector<ProjectileSpawnEffectCommand> commands;
     };
 
-    struct ProjectileSpawnPresentationOptions
+    struct ProjectileSpawnEffectOptions
     {
         bool playReleaseAudio = true;
     };
@@ -402,11 +374,103 @@ public:
         bool queuePartyProjectileActorEvent = false;
     };
 
-    struct ProjectileCollisionOutcomeInput
+    enum class ProjectileFrameCollisionKind
     {
-        bool directPartyImpact = false;
-        bool directActorImpact = false;
-        size_t directActorIndex = 0;
+        None,
+        Party,
+        Actor,
+        World,
+    };
+
+    struct ProjectileFrameCollisionFacts
+    {
+        ProjectileFrameCollisionKind kind = ProjectileFrameCollisionKind::None;
+        GameplayWorldPoint point;
+        std::string colliderName;
+        size_t actorIndex = static_cast<size_t>(-1);
+        uint32_t actorId = 0;
+        int targetArmorClass = 0;
+        int damageMultiplier = 1;
+        float targetDistance = 0.0f;
+        bool waterTerrainImpact = false;
+        ProjectileBounceSurfaceFacts bounceSurface;
+    };
+
+    struct ProjectileFrameBounceResult
+    {
+        GameplayWorldPoint point;
+        float normalX = 0.0f;
+        float normalY = 0.0f;
+        float normalZ = 1.0f;
+        float bounceFactor = 0.0f;
+        float stopVelocity = 0.0f;
+        float groundDamping = 0.0f;
+    };
+
+    enum class ProjectileFrameFxKind
+    {
+        ProjectileImpact,
+        WaterSplash,
+    };
+
+    struct ProjectileFrameFxRequest
+    {
+        ProjectileFrameFxKind kind = ProjectileFrameFxKind::ProjectileImpact;
+        GameplayWorldPoint point;
+        bool centerVertically = false;
+    };
+
+    struct ProjectileDeathBlossomFalloutRequest
+    {
+        GameplayWorldPoint point;
+    };
+
+    struct ProjectileFrameAreaImpactResult
+    {
+        GameplayWorldPoint point;
+        float radius = 0.0f;
+        bool logHits = false;
+        ProjectileAreaImpactDecision decision;
+    };
+
+    struct ProjectileFrameFacts
+    {
+        float deltaSeconds = 0.0f;
+        float gravity = 0.0f;
+        float bounceFactor = 0.0f;
+        float bounceStopVelocity = 0.0f;
+        float groundDamping = 0.0f;
+
+        ProjectileMotionSegment motion;
+
+        bool hasCollision = false;
+        ProjectileFrameCollisionFacts collision;
+
+        GameplayWorldPoint partyPosition;
+        float partyCollisionRadius = 0.0f;
+        float partyCollisionHeight = 0.0f;
+        bool canHitParty = true;
+        int nonPartyProjectileDamage = 0;
+
+        std::vector<ProjectileAreaImpactActorFacts> areaActors;
+    };
+
+    struct ProjectileFrameResult
+    {
+        ProjectileMotionSegment motion;
+        bool applyMotionEnd = false;
+        bool expireProjectile = false;
+        bool logCollision = false;
+        bool logLifetimeExpiry = false;
+
+        std::optional<ProjectileFrameBounceResult> bounce;
+        std::optional<ProjectileDirectPartyImpactDecision> directPartyImpact;
+        std::optional<ProjectileDirectActorImpactDecision> directActorImpact;
+        std::optional<ProjectileFrameAreaImpactResult> areaImpact;
+        std::optional<ProjectileFrameFxRequest> fxRequest;
+        std::optional<ProjectileAudioRequest> audioRequest;
+        std::optional<ProjectileDeathBlossomFalloutRequest> deathBlossomFallout;
+        std::vector<ProjectileSpawnRequest> spawnedProjectiles;
     };
 
     struct ProjectileActorRelationFacts
@@ -424,108 +488,6 @@ public:
         bool dead = false;
         bool unavailableForCombat = false;
         bool friendlyToProjectileSource = false;
-    };
-
-    struct ProjectileCollisionOutcomeDecision
-    {
-        bool spawnDeathBlossomFallout = false;
-        bool stopAfterDeathBlossomFallout = false;
-        bool applyDirectPartyImpact = false;
-        bool applyDirectActorImpact = false;
-        bool applyAreaDamage = false;
-        bool areaCanHitParty = true;
-        float impactRadius = 0.0f;
-        bool hasDirectActorIndex = false;
-        size_t directActorIndex = 0;
-    };
-
-    enum class ProjectileLifetimeExpiryCommand
-    {
-        SpawnDeathBlossomFallout,
-        ApplyAreaDamage,
-        SpawnProjectileImpact,
-        ExpireProjectile,
-    };
-
-    struct ProjectileLifetimeExpiryDecision
-    {
-        float impactRadius = 0.0f;
-        std::vector<ProjectileLifetimeExpiryCommand> commands;
-    };
-
-    struct ProjectileCollisionPresentationInput
-    {
-        float impactX = 0.0f;
-        float impactY = 0.0f;
-        float impactZ = 0.0f;
-        float projectileX = 0.0f;
-        float projectileY = 0.0f;
-        bool waterTerrainImpact = false;
-        bool actorImpact = false;
-    };
-
-    struct ProjectileCollisionPresentationDecision
-    {
-        bool spawnWaterSplash = false;
-        bool spawnProjectileImpact = false;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        bool centerProjectileImpactVertically = false;
-    };
-
-    enum class ProjectileCollisionResolutionCommand
-    {
-        SpawnDeathBlossomFallout,
-        ApplyDirectPartyImpact,
-        ApplyDirectActorImpact,
-        ApplyAreaDamage,
-        LogCollision,
-        SpawnWaterSplash,
-        SpawnProjectileImpact,
-        ExpireProjectile,
-    };
-
-    struct ProjectileCollisionResolutionDecision
-    {
-        ProjectileCollisionOutcomeDecision outcome;
-        ProjectileCollisionPresentationDecision presentation;
-        std::vector<ProjectileCollisionResolutionCommand> commands;
-    };
-
-    enum class ProjectileCollisionFrameCommand
-    {
-        ApplyBounce,
-        ApplyResolution,
-    };
-
-    struct ProjectileCollisionFrameDecision
-    {
-        ProjectileBounceDecision bounce;
-        ProjectileCollisionResolutionDecision resolution;
-        std::vector<ProjectileCollisionFrameCommand> commands;
-    };
-
-    enum class ProjectileUpdateFrameCommand
-    {
-        ApplyLifetimeExpiry,
-        ApplyCollisionFrame,
-        ApplyMotionEnd,
-    };
-
-    struct ProjectileFrameAdvanceResult
-    {
-        ProjectileFrameAdvanceKind kind = ProjectileFrameAdvanceKind::Moving;
-        ProjectileMotionSegment motionSegment;
-        ProjectileImpactDecision lifetimeImpactDecision;
-        ProjectileLifetimeExpiryDecision lifetimeExpiryDecision;
-    };
-
-    struct ProjectileUpdateFrameDecision
-    {
-        ProjectileFrameAdvanceResult frameAdvance;
-        ProjectileCollisionFrameDecision collisionFrame;
-        std::vector<ProjectileUpdateFrameCommand> commands;
     };
 
     struct FireSpikeTrapActorFacts
@@ -588,7 +550,7 @@ public:
     enum class FireSpikeTrapTriggerCommand
     {
         ApplyActorImpact,
-        SpawnImpactPresentation,
+        SpawnImpactVisual,
         ExpireTrap,
     };
 
@@ -606,7 +568,7 @@ public:
         uint32_t timeSinceCreatedTicks = 0;
     };
 
-    struct FireSpikeTrapImpactPresentationInput
+    struct FireSpikeTrapImpactProjectileInput
     {
         ProjectileState::SourceKind sourceKind = ProjectileState::SourceKind::Party;
         uint32_t sourceId = 0;
@@ -642,11 +604,11 @@ public:
     uint32_t allocateProjectileImpactId();
     static uint32_t ticksFromDeltaSeconds(float deltaSeconds);
     ProjectileSpawnResult spawnProjectile(const ProjectileSpawnRequest &request);
-    ProjectileSpawnPresentationDecision buildProjectileSpawnPresentationDecision(
+    ProjectileSpawnEffects buildProjectileSpawnEffects(
         const ProjectileSpawnResult &result) const;
-    ProjectileSpawnPresentationDecision buildProjectileSpawnPresentationDecision(
+    ProjectileSpawnEffects buildProjectileSpawnEffects(
         const ProjectileSpawnResult &result,
-        const ProjectileSpawnPresentationOptions &options) const;
+        const ProjectileSpawnEffectOptions &options) const;
     std::vector<AreaSpellProjectileShot> buildMeteorShowerProjectileShots(
         uint32_t skillMastery,
         uint32_t nextProjectileId,
@@ -672,10 +634,9 @@ public:
         ProjectileState &projectile,
         float deltaSeconds,
         float gravity) const;
-    ProjectileFrameAdvanceResult advanceProjectileFrame(
+    ProjectileFrameResult updateProjectileFrame(
         ProjectileState &projectile,
-        float deltaSeconds,
-        float gravity) const;
+        const ProjectileFrameFacts &facts) const;
     void applyProjectileMotionEnd(
         ProjectileState &projectile,
         const ProjectileMotionSegment &motionSegment) const;
@@ -690,13 +651,6 @@ public:
         float bounceFactor,
         float stopVelocity,
         float groundDamping) const;
-    ProjectileImpactDecision buildProjectileImpactDecision(
-        const ProjectileState &projectile,
-        ProjectileImpactReason reason) const;
-    ProjectileBounceDecision buildProjectileBounceDecision(
-        const ProjectileState &projectile,
-        const ProjectileBounceSurfaceFacts &surfaceFacts,
-        float stopVelocity) const;
     std::vector<ProjectileSpawnRequest> buildDeathBlossomFalloutSpawnRequests(
         const ProjectileState &projectile,
         const ProjectileDefinition &shardDefinition,
@@ -709,7 +663,7 @@ public:
         float x,
         float y,
         float z);
-    bool shouldSpawnProjectileImpactPresentation(
+    bool shouldSpawnProjectileImpactVisual(
         const ProjectileState &projectile,
         const ProjectileImpactVisualDefinition &definition) const;
     ProjectileImpactRequest buildProjectileImpactRequest(
@@ -735,19 +689,19 @@ public:
     std::optional<ProjectileImpactVisualDefinition> buildWaterSplashImpactVisualDefinition(
         const ObjectTable *pObjectTable,
         const SpriteFrameTable *pSpriteFrameTable) const;
-    ProjectileImpactPresentationResult spawnProjectileImpactPresentation(
+    ProjectileImpactSpawnResult spawnProjectileImpactVisual(
         const ProjectileState &projectile,
         const ProjectileImpactVisualDefinition &definition,
         float x,
         float y,
         float z,
         bool centerVertically);
-    ProjectileImpactPresentationResult spawnWaterSplashImpactPresentation(
+    ProjectileImpactSpawnResult spawnWaterSplashImpactVisual(
         const ProjectileImpactVisualDefinition &definition,
         float x,
         float y,
         float z);
-    ProjectileImpactPresentationResult spawnImmediateSpellImpactPresentation(
+    ProjectileImpactSpawnResult spawnImmediateSpellImpactVisual(
         const ProjectileImpactVisualDefinition &definition,
         int sourceSpellId,
         const std::string &sourceObjectName,
@@ -787,33 +741,7 @@ public:
     ProjectileDirectActorImpactDecision buildProjectileDirectActorImpactDecision(
         const ProjectileState &projectile,
         const ProjectileDirectActorImpactInput &input) const;
-    ProjectileCollisionOutcomeDecision buildProjectileCollisionOutcomeDecision(
-        const ProjectileImpactDecision &impactDecision,
-        const ProjectileCollisionOutcomeInput &input) const;
-    ProjectileLifetimeExpiryDecision buildProjectileLifetimeExpiryDecision(
-        const ProjectileImpactDecision &impactDecision) const;
     void expireProjectile(ProjectileState &projectile) const;
-    ProjectileCollisionPresentationDecision buildProjectileCollisionPresentationDecision(
-        const ProjectileImpactDecision &impactDecision,
-        const ProjectileCollisionPresentationInput &input) const;
-    ProjectileCollisionResolutionDecision buildProjectileCollisionResolutionDecision(
-        const ProjectileImpactDecision &impactDecision,
-        const ProjectileCollisionOutcomeInput &outcomeInput,
-        const ProjectileCollisionPresentationInput &presentationInput) const;
-    ProjectileCollisionFrameDecision buildProjectileCollisionFrameDecision(
-        const ProjectileState &projectile,
-        const ProjectileBounceSurfaceFacts &bounceSurfaceFacts,
-        const ProjectileCollisionOutcomeInput &outcomeInput,
-        const ProjectileCollisionPresentationInput &presentationInput,
-        float bounceStopVelocity) const;
-    ProjectileUpdateFrameDecision buildProjectileUpdateFrameDecision(
-        const ProjectileState &projectile,
-        const ProjectileFrameAdvanceResult &frameAdvance,
-        bool collisionHit,
-        const ProjectileBounceSurfaceFacts &bounceSurfaceFacts,
-        const ProjectileCollisionOutcomeInput &outcomeInput,
-        const ProjectileCollisionPresentationInput &presentationInput,
-        float bounceStopVelocity) const;
     bool isProjectileSourceFriendlyToActor(
         const ProjectileState &projectile,
         const ProjectileActorRelationFacts &facts) const;
@@ -830,8 +758,8 @@ public:
         float deltaSeconds) const;
     FireSpikeTrapTriggerDecision buildFireSpikeTrapTriggerDecision(
         const FireSpikeTrapTriggerInput &input) const;
-    ProjectileState buildFireSpikeTrapImpactPresentationProjectile(
-        const FireSpikeTrapImpactPresentationInput &input);
+    ProjectileState buildFireSpikeTrapImpactProjectile(
+        const FireSpikeTrapImpactProjectileInput &input);
     void eraseExpiredProjectiles();
     void eraseExpiredProjectileImpacts();
     void eraseExpiredProjectilesAndImpacts();

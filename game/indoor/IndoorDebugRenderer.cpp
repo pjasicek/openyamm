@@ -3709,9 +3709,9 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
 
     struct BillboardDrawItem
     {
-        int x = 0;
-        int y = 0;
-        int z = 0;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
         const SpriteFrameEntry *pFrame = nullptr;
         const BillboardTextureHandle *pTexture = nullptr;
         bool mirrored = false;
@@ -3729,6 +3729,69 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
         useRuntimeBillboards
         ? runtimeBillboards.size()
         : m_indoorSpriteObjectBillboardSet->billboards.size());
+    auto appendProjectileDrawItem =
+        [&](uint16_t cachedSpriteFrameIndex,
+            uint16_t spriteId,
+            const std::string &spriteName,
+            float x,
+            float y,
+            float z,
+            uint32_t timeTicks)
+        {
+            uint16_t spriteFrameIndex = cachedSpriteFrameIndex;
+
+            if (spriteFrameIndex == 0 && !spriteName.empty())
+            {
+                const std::optional<uint16_t> spriteFrameIndexByName =
+                    m_indoorSpriteObjectBillboardSet->spriteFrameTable.findFrameIndexBySpriteName(spriteName);
+
+                if (spriteFrameIndexByName)
+                {
+                    spriteFrameIndex = *spriteFrameIndexByName;
+                }
+            }
+
+            if (spriteFrameIndex == 0)
+            {
+                spriteFrameIndex = spriteId;
+            }
+
+            if (spriteFrameIndex == 0)
+            {
+                return;
+            }
+
+            const SpriteFrameEntry *pFrame =
+                m_indoorSpriteObjectBillboardSet->spriteFrameTable.getFrame(spriteFrameIndex, timeTicks);
+
+            if (pFrame == nullptr)
+            {
+                return;
+            }
+
+            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+            const BillboardTextureHandle *pTexture =
+                findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                return;
+            }
+
+            const float deltaX = x - cameraPosition.x;
+            const float deltaY = y - cameraPosition.y;
+            const float deltaZ = z - cameraPosition.z;
+
+            BillboardDrawItem drawItem = {};
+            drawItem.x = x;
+            drawItem.y = y;
+            drawItem.z = z;
+            drawItem.pFrame = pFrame;
+            drawItem.pTexture = pTexture;
+            drawItem.mirrored = resolvedTexture.mirrored;
+            drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+            drawItems.push_back(drawItem);
+        };
 
     if (useRuntimeBillboards)
     {
@@ -3763,9 +3826,9 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
             const float deltaZ = float(billboard.z) - cameraPosition.z;
 
             BillboardDrawItem drawItem = {};
-            drawItem.x = billboard.x;
-            drawItem.y = billboard.y;
-            drawItem.z = billboard.z;
+            drawItem.x = static_cast<float>(billboard.x);
+            drawItem.y = static_cast<float>(billboard.y);
+            drawItem.z = static_cast<float>(billboard.z);
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
@@ -3806,14 +3869,45 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
             const float deltaZ = float(billboard.z) - cameraPosition.z;
 
             BillboardDrawItem drawItem = {};
-            drawItem.x = billboard.x;
-            drawItem.y = billboard.y;
-            drawItem.z = billboard.z;
+            drawItem.x = static_cast<float>(billboard.x);
+            drawItem.y = static_cast<float>(billboard.y);
+            drawItem.z = static_cast<float>(billboard.z);
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
             drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
             drawItems.push_back(drawItem);
+        }
+    }
+
+    if (m_pSceneRuntime != nullptr)
+    {
+        std::vector<GameplayProjectilePresentationState> projectiles;
+        std::vector<GameplayProjectileImpactPresentationState> impacts;
+        m_pSceneRuntime->worldRuntime().collectProjectilePresentationState(projectiles, impacts);
+
+        for (const GameplayProjectilePresentationState &projectile : projectiles)
+        {
+            appendProjectileDrawItem(
+                projectile.objectSpriteFrameIndex,
+                projectile.objectSpriteId,
+                projectile.objectSpriteName,
+                projectile.x,
+                projectile.y,
+                projectile.z,
+                projectile.timeSinceCreatedTicks);
+        }
+
+        for (const GameplayProjectileImpactPresentationState &impact : impacts)
+        {
+            appendProjectileDrawItem(
+                impact.objectSpriteFrameIndex,
+                impact.objectSpriteId,
+                impact.objectSpriteName,
+                impact.x,
+                impact.y,
+                impact.z,
+                impact.freezeAnimation ? 0u : impact.timeSinceCreatedTicks);
         }
     }
 
@@ -3835,12 +3929,16 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
         const float worldHeight = float(texture.height) * spriteScale;
         const float halfWidth = worldWidth * 0.5f;
         const bx::Vec3 center = {
-            float(drawItem.x),
-            float(drawItem.y),
-            float(drawItem.z) + worldHeight * 0.5f
+            drawItem.x,
+            drawItem.y,
+            drawItem.z + worldHeight * 0.5f
         };
         const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
-        const bx::Vec3 up = {cameraUp.x * worldHeight * 0.5f, cameraUp.y * worldHeight * 0.5f, cameraUp.z * worldHeight * 0.5f};
+        const bx::Vec3 up = {
+            cameraUp.x * worldHeight * 0.5f,
+            cameraUp.y * worldHeight * 0.5f,
+            cameraUp.z * worldHeight * 0.5f
+        };
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
 

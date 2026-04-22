@@ -247,6 +247,10 @@ private:
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &fileName
     );
+    static std::optional<std::string> findCompanionAssetPath(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &fileName
+    );
     static std::optional<std::string> buildCompanionFileName(const std::string &fileName);
     static std::optional<std::string> buildSceneFileName(const std::string &fileName);
 };

@@ -38,6 +38,12 @@ constexpr int HouseVideoAudioQueueTargetMilliseconds = 100;
 constexpr size_t InvalidFrameIndex = std::numeric_limits<size_t>::max();
 constexpr const char *DefaultHouseVideoDirectory = "Videos/Houses";
 
+bool canUseBgfxResources()
+{
+    const bgfx::InternalData *pInternalData = bgfx::getInternalData();
+    return pInternalData != nullptr && pInternalData->caps != nullptr;
+}
+
 std::string makeClipKey(const std::string &videoDirectory, const std::string &videoStem)
 {
     return videoDirectory + "/" + videoStem;
@@ -417,12 +423,12 @@ void HouseVideoPlayer::shutdown()
         m_pAudioStream = nullptr;
     }
 
-    if (bgfx::isValid(m_videoTextureHandle))
+    if (canUseBgfxResources() && bgfx::isValid(m_videoTextureHandle))
     {
         bgfx::destroy(m_videoTextureHandle);
-        m_videoTextureHandle = BGFX_INVALID_HANDLE;
     }
 
+    m_videoTextureHandle = BGFX_INVALID_HANDLE;
     m_videoTextureWidth = 0;
     m_videoTextureHeight = 0;
 
@@ -685,6 +691,14 @@ void HouseVideoPlayer::ensureVideoTexture(int width, int height)
 {
     if (width <= 0 || height <= 0)
     {
+        return;
+    }
+
+    if (!canUseBgfxResources())
+    {
+        m_videoTextureHandle = BGFX_INVALID_HANDLE;
+        m_videoTextureWidth = 0;
+        m_videoTextureHeight = 0;
         return;
     }
 

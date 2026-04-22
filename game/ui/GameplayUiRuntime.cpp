@@ -16,6 +16,12 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+bool canUseBgfxResources()
+{
+    const bgfx::InternalData *pInternalData = bgfx::getInternalData();
+    return pInternalData != nullptr && pInternalData->caps != nullptr;
+}
+
 std::string dataTablePath(std::string_view fileName)
 {
     return "Data/data_tables/" + std::string(fileName);
@@ -165,6 +171,11 @@ bool GameplayUiRuntime::ensureGameplayLayoutsLoaded(const GameplayUiController &
 void GameplayUiRuntime::preloadReferencedAssets()
 {
     if (m_assetsPreloaded)
+    {
+        return;
+    }
+
+    if (!canUseBgfxResources())
     {
         return;
     }
@@ -423,6 +434,11 @@ const std::vector<GameplayTownPortalDestination> &GameplayUiRuntime::townPortalD
 
 bool GameplayUiRuntime::loadHudTexture(const std::string &textureName)
 {
+    if (!canUseBgfxResources())
+    {
+        return false;
+    }
+
     return GameplayHudCommon::loadHudTexture(
         m_pAssetFileSystem,
         m_assetLoadCache,
@@ -433,6 +449,11 @@ bool GameplayUiRuntime::loadHudTexture(const std::string &textureName)
 
 bool GameplayUiRuntime::loadHudFont(const std::string &fontName)
 {
+    if (!canUseBgfxResources())
+    {
+        return false;
+    }
+
     return GameplayHudCommon::loadHudFont(
         m_pAssetFileSystem,
         m_assetLoadCache,

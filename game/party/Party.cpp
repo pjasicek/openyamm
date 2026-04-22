@@ -1460,8 +1460,8 @@ PartySeed Party::createDefaultSeed()
     cleric.maxSpellPoints = 120;
     cleric.spellPoints = 120;
     grantDefaultEquipmentSkills(cleric);
-    grantAllMagicSchools(cleric, 10, SkillMastery::Grandmaster);
-    grantAllSpells(cleric);
+    grantSeedSkill(cleric, "FireMagic", 10, SkillMastery::Master);
+    cleric.learnSpell(spellIdValue(SpellId::TorchLight));
     grantSeedSkill(cleric, "IdentifyItem", 10, SkillMastery::Grandmaster);
     grantSeedSkill(cleric, "RepairItem", 10, SkillMastery::Grandmaster);
     grantSeedEquippedItem(cleric, EquipmentSlot::MainHand, 79, 0, 0, 16);

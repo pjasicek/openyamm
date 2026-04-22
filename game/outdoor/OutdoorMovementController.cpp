@@ -1611,7 +1611,7 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
 
     const auto runCollisionPass =
         [this, deltaSeconds, &state, pContactedActorIndices, bodyRadius, bodyHeight, &ignoredActorCollider,
-            &candidateFaceIndices, partyCloseToGround, flyingActive, waterWalkActive](
+            &candidateFaceIndices, partyCloseToGround, wasAirborne, flyingActive, waterWalkActive](
             bx::Vec3 &passPosition,
             bx::Vec3 &passInputSpeed,
             bool &passPartyNotOnModel)
@@ -1746,8 +1746,8 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                     isOutdoorPositionWater(*m_pOutdoorMapData, m_outdoorLandMask, newPosLow.x, passPosition.y);
                 const bool yAdvanceOnWater =
                     isOutdoorPositionWater(*m_pOutdoorMapData, m_outdoorLandMask, passPosition.x, newPosLow.y);
-                const bool allowGroundedWaterEntry =
-                    flyingActive || !partyCloseToGround || waterWalkActive || currentOnWater;
+                const bool allowWaterEntry =
+                    wasAirborne || flyingActive || !partyCloseToGround || waterWalkActive || currentOnWater;
 
                 if (terrainSlopeTooHigh(*m_pOutdoorMapData, newPosLow.x, passPosition.y)
                     && xAdvanceFloor.height > passPosition.z)
@@ -1761,12 +1761,12 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
                     moveInY = false;
                 }
 
-                if (!allowGroundedWaterEntry && xAdvanceOnWater)
+                if (!allowWaterEntry && xAdvanceOnWater)
                 {
                     moveInX = false;
                 }
 
-                if (!allowGroundedWaterEntry && yAdvanceOnWater)
+                if (!allowWaterEntry && yAdvanceOnWater)
                 {
                     moveInY = false;
                 }

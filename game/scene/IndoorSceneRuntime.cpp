@@ -27,6 +27,82 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const MapStatsEntry &map,
     const IndoorMapData &indoorMapData,
     const MonsterTable &monsterTable,
+    const MonsterProjectileTable &monsterProjectileTable,
+    const ObjectTable &objectTable,
+    const SpellTable &spellTable,
+    const ItemTable &itemTable,
+    const ChestTable &chestTable,
+    Party &party,
+    const std::optional<MapDeltaData> &indoorMapDeltaData,
+    const std::optional<EventRuntimeState> &eventRuntimeState,
+    const std::optional<ScriptedEventProgram> &localEventProgram,
+    const std::optional<ScriptedEventProgram> &globalEventProgram,
+    GameplayActorService *pGameplayActorService,
+    GameplayProjectileService *pGameplayProjectileService,
+    const SpriteFrameTable *pActorSpriteFrameTable,
+    const SpriteFrameTable *pProjectileSpriteFrameTable)
+    : m_mapFileName(mapFileName)
+    , m_pSessionParty(&party)
+    , m_mapDeltaData(indoorMapDeltaData)
+    , m_eventRuntimeState(eventRuntimeState)
+    , m_localEventProgram(localEventProgram)
+    , m_globalEventProgram(globalEventProgram)
+    , m_partyRuntime(
+        IndoorMovementController(indoorMapData, &m_mapDeltaData, &m_eventRuntimeState),
+        itemTable)
+{
+    m_partyRuntime.setParty(*m_pSessionParty);
+    m_worldRuntime.initialize(
+        map,
+        monsterTable,
+        monsterProjectileTable,
+        objectTable,
+        spellTable,
+        itemTable,
+        chestTable,
+        &m_partyRuntime.party(),
+        &m_partyRuntime,
+        &m_mapDeltaData,
+        &m_eventRuntimeState,
+        pGameplayActorService,
+        pGameplayProjectileService,
+        pActorSpriteFrameTable,
+        pProjectileSpriteFrameTable,
+        &indoorMapData
+    );
+
+    if (!indoorMapData.vertices.empty())
+    {
+        int minX = indoorMapData.vertices.front().x;
+        int maxX = indoorMapData.vertices.front().x;
+        int minY = indoorMapData.vertices.front().y;
+        int maxY = indoorMapData.vertices.front().y;
+        int minZ = indoorMapData.vertices.front().z;
+        int maxZ = indoorMapData.vertices.front().z;
+
+        for (const IndoorVertex &vertex : indoorMapData.vertices)
+        {
+            minX = std::min(minX, vertex.x);
+            maxX = std::max(maxX, vertex.x);
+            minY = std::min(minY, vertex.y);
+            maxY = std::max(maxY, vertex.y);
+            minZ = std::min(minZ, vertex.z);
+            maxZ = std::max(maxZ, vertex.z);
+        }
+
+        m_partyRuntime.initializeEyePosition(
+            static_cast<float>((minX + maxX) / 2),
+            static_cast<float>(minY - 256),
+            static_cast<float>((minZ + maxZ) / 2),
+            false);
+    }
+}
+
+IndoorSceneRuntime::IndoorSceneRuntime(
+    const std::string &mapFileName,
+    const MapStatsEntry &map,
+    const IndoorMapData &indoorMapData,
+    const MonsterTable &monsterTable,
     const ObjectTable &objectTable,
     const ItemTable &itemTable,
     const ChestTable &chestTable,
@@ -59,7 +135,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         &m_mapDeltaData,
         &m_eventRuntimeState,
         pGameplayActorService,
-        pActorSpriteFrameTable
+        pActorSpriteFrameTable,
+        &indoorMapData
     );
 
     if (!indoorMapData.vertices.empty())

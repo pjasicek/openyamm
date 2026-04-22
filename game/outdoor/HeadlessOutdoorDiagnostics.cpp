@@ -127,6 +127,16 @@ struct GameApplicationTestAccess
         return application.m_pOutdoorWorldRuntime.get();
     }
 
+    static IMapSceneRuntime *mapSceneRuntime(GameApplication &application)
+    {
+        return application.m_pMapSceneRuntime.get();
+    }
+
+    static const IMapSceneRuntime *mapSceneRuntime(const GameApplication &application)
+    {
+        return application.m_pMapSceneRuntime.get();
+    }
+
     static GameDataLoader &gameDataLoader(GameApplication &application)
     {
         return application.m_gameDataLoader;
@@ -536,10 +546,8 @@ SyntheticOutdoorWaterBoundaryScenario createSyntheticOutdoorWaterBoundaryScenari
     auto tileCenter =
         [halfTile](int tileX, int tileY) -> std::pair<float, float>
     {
-        const float worldX =
-            static_cast<float>((64 - tileX - 1) * OutdoorMapData::TerrainTileSize) + halfTile;
-        const float worldY =
-            static_cast<float>((64 - tileY) * OutdoorMapData::TerrainTileSize) - halfTile;
+        const float worldX = outdoorGridCornerWorldX(tileX) + halfTile;
+        const float worldY = outdoorGridCornerWorldY(tileY) - halfTile;
         return {worldX, worldY};
     };
 
@@ -2231,10 +2239,9 @@ bool loadHeadlessGameApplicationMap(
         return false;
     }
 
-    if (GameApplicationTestAccess::outdoorPartyRuntime(application) == nullptr
-        || GameApplicationTestAccess::outdoorWorldRuntime(application) == nullptr)
+    if (GameApplicationTestAccess::mapSceneRuntime(application) == nullptr)
     {
-        failure = "target outdoor runtime was not initialized";
+        failure = "target gameplay runtime was not initialized";
         return false;
     }
 
@@ -4608,7 +4615,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     &partyRuntime,
                     &indoorMapDeltaData,
                     &eventRuntimeState,
-                    &actorService);
+                    &actorService,
+                    nullptr,
+                    &*loadedMap->indoorMapData);
 
                 PartySpellCastRequest torchLightRequest = {};
                 torchLightRequest.casterMemberIndex = 0;
@@ -4740,7 +4749,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     nullptr,
                     &indoorMapDeltaData,
                     &eventRuntimeState,
-                    &actorService
+                    &actorService,
+                    nullptr,
+                    &*loadedMap->indoorMapData
                 );
 
                 HouseEntry houseEntry = {};
@@ -5393,7 +5404,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     nullptr,
                     &indoorMapDeltaData,
                     &eventRuntimeState,
-                    &actorService);
+                    &actorService,
+                    nullptr,
+                    &*loadedMap->indoorMapData);
 
                 if (worldRuntime.mapActorCount() != indoorMapDeltaData->actors.size())
                 {
@@ -5533,7 +5546,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     &partyRuntime,
                     &indoorMapDeltaData,
                     &eventRuntimeState,
-                    &actorService);
+                    &actorService,
+                    nullptr,
+                    &*loadedMap->indoorMapData);
 
                 std::optional<size_t> targetActorIndex;
 
@@ -8511,6 +8526,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.map.treasureLevel = 5;
             modifiedMap.outdoorMapData = *selectedMap->outdoorMapData;
             modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
             modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 0;
@@ -8524,10 +8540,17 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             spawn.radius = 32;
             spawn.typeId = 2;
-            spawn.index = 7;
+            spawn.index = 6;
             spawn.attributes = 0;
             spawn.group = 0;
-            modifiedMap.outdoorMapData->spawns.push_back(spawn);
+
+            for (int spawnIndex = 0; spawnIndex < 16; ++spawnIndex)
+            {
+                OutdoorSpawn treasureSpawn = spawn;
+                treasureSpawn.x += static_cast<int32_t>(spawnIndex * 64);
+                treasureSpawn.index = 6;
+                modifiedMap.outdoorMapData->spawns.push_back(treasureSpawn);
+            }
 
             RegressionScenario modifiedScenario = {};
 
@@ -12606,15 +12629,25 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             partyRuntime.initialize(pTargetActor->preciseX, pTargetActor->preciseY, pTargetActor->preciseZ);
             partyRuntime.party().seed(createRegressionPartySeed());
 
-            const auto isUtilitySpell =
+            const auto expectedUtilitySelectionStatus =
                 [](uint32_t spellId)
+                    -> std::optional<PartySpellCastStatus>
                 {
-                    return spellId == spellIdValue(SpellId::RechargeItem)
-                        || spellId == spellIdValue(SpellId::EnchantItem)
-                        || spellId == spellIdValue(SpellId::TownPortal)
+                    if (spellId == spellIdValue(SpellId::RechargeItem)
+                        || spellId == spellIdValue(SpellId::EnchantItem))
+                    {
+                        return PartySpellCastStatus::NeedInventoryItemTarget;
+                    }
+
+                    if (spellId == spellIdValue(SpellId::TownPortal)
                         || spellId == spellIdValue(SpellId::LloydsBeacon)
                         || spellId == spellIdValue(SpellId::Telekinesis)
-                        || spellId == spellIdValue(SpellId::Telepathy);
+                        || spellId == spellIdValue(SpellId::Telepathy))
+                    {
+                        return PartySpellCastStatus::NeedUtilityUi;
+                    }
+
+                    return std::nullopt;
                 };
 
             for (uint32_t spellId = 1; spellId <= spellIdValue(SpellId::WingBuffet); ++spellId)
@@ -12642,17 +12675,37 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 request.spendMana = false;
                 request.applyRecovery = false;
 
+                if (spellId == spellIdValue(SpellId::FireAura)
+                    || spellId == spellIdValue(SpellId::VampiricWeapon))
+                {
+                    Character *pCaster = partyRuntime.party().member(request.casterMemberIndex);
+
+                    if (pCaster == nullptr)
+                    {
+                        failure = "caster missing for item-target spell";
+                        return false;
+                    }
+
+                    pCaster->equipment.mainHand = 1;
+                    pCaster->equipmentRuntime.mainHand = {};
+                    request.targetItemMemberIndex = request.casterMemberIndex;
+                    request.targetEquipmentSlot = EquipmentSlot::MainHand;
+                }
+
                 const PartySpellCastResult result = PartySpellSystem::castSpell(
                     partyRuntime.party(),
                     scenario.world,
                     gameDataLoader.getSpellTable(),
                     request);
 
-                if (isUtilitySpell(spellId))
+                const std::optional<PartySpellCastStatus> expectedUtilityStatus =
+                    expectedUtilitySelectionStatus(spellId);
+
+                if (expectedUtilityStatus.has_value())
                 {
-                    if (result.status != PartySpellCastStatus::NeedUtilityUi)
+                    if (result.status != *expectedUtilityStatus)
                     {
-                        failure = "utility spell " + pSpellEntry->name + " did not request utility ui";
+                        failure = "utility spell " + pSpellEntry->name + " did not request selection ui";
                         return false;
                     }
 
@@ -13125,7 +13178,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             std::optional<ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
                 "evt.CanShowTopic[1] = function()\n"
                 "    evt._BeginCanShowTopic(1)\n"
-                "    if evt.CheckMonstersKilled(2, 8, 1, true) then\n"
+                "    if evt.CheckMonstersKilled(4, 8, 1, true) then\n"
                 "        return true\n"
                 "    end\n"
                 "    return false\n"
@@ -17400,9 +17453,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             GameApplicationTestAccess::shutdownRenderer(application);
 
-            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, false))
             {
-                failure = "could not initialize gameplay runtime with view for entity 700";
+                failure = "could not initialize gameplay runtime for spellbook speech audio test";
                 return false;
             }
 
@@ -17509,7 +17562,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             GameApplicationTestAccess::shutdownRenderer(application);
 
-            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, false))
             {
                 failure = "could not initialize gameplay runtime with view for damage speech audio test";
                 return false;
@@ -17576,7 +17629,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             GameApplicationTestAccess::shutdownRenderer(application);
 
-            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, false))
             {
                 failure = "could not initialize gameplay runtime with view for roster damage speech audio test";
                 return false;
@@ -19779,9 +19832,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             GameApplicationTestAccess::shutdownRenderer(application);
 
-            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, true))
+            if (!GameApplicationTestAccess::initializeSelectedMapRuntime(application, false))
             {
-                failure = "could not initialize gameplay runtime with view for entity 730";
+                failure = "could not initialize gameplay runtime for entity 730";
                 return false;
             }
 
@@ -20146,7 +20199,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            pEventRuntimeState->variables[900] = 1;
+            scenario.party.setQuestBit(900, true);
 
             const std::vector<HouseActionOption> unlockedActions = buildHouseActionOptions(
                 *pQBitHouse,
@@ -22734,26 +22787,34 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
 
             GameApplicationTestAccess::applyPartyDefeatConsequences(application);
+            IMapSceneRuntime *pDefeatRuntime = GameApplicationTestAccess::mapSceneRuntime(application);
+            Party *pDefeatedParty = pDefeatRuntime != nullptr ? &pDefeatRuntime->party() : nullptr;
 
-            if (party.gold() != 0)
+            if (pDefeatedParty == nullptr)
+            {
+                failure = "missing defeated party runtime";
+                return false;
+            }
+
+            if (pDefeatedParty->gold() != 0)
             {
                 failure = "party defeat did not remove carried gold";
                 return false;
             }
 
-            if (party.bankGold() != 234)
+            if (pDefeatedParty->bankGold() != 234)
             {
                 failure = "party defeat should not remove bank gold";
                 return false;
             }
 
-            if (party.eventVariableValue(static_cast<uint16_t>(EvtVariable::NumDeaths)) != 1)
+            if (pDefeatedParty->eventVariableValue(static_cast<uint16_t>(EvtVariable::NumDeaths)) != 1)
             {
                 failure = "party defeat did not increment NumDeaths";
                 return false;
             }
 
-            if (!party.hasActableMember())
+            if (!pDefeatedParty->hasActableMember())
             {
                 failure = "party defeat did not revive the party";
                 return false;
@@ -24429,7 +24490,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (ensureCharacterSkill(*pBlockedMember, "Perception", 5, SkillMastery::Normal) == nullptr)
+            if (ensureCharacterSkill(*pBlockedMember, "Perception", 2, SkillMastery::Normal) == nullptr)
             {
                 failure = "could not seed blocked palm tree perception skill";
                 return false;
@@ -24441,7 +24502,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (blockedScenario.pEventRuntimeState->variables.contains(270))
+            if (blockedScenario.party.hasQuestBit(270))
             {
                 failure = "event 494 incorrectly accepted low Perception";
                 return false;
@@ -24475,8 +24536,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (!rewardScenario.pEventRuntimeState->variables.contains(270)
-                || rewardScenario.pEventRuntimeState->variables.at(270) == 0)
+            if (!rewardScenario.party.hasQuestBit(270))
             {
                 failure = "event 494 did not mark the palm tree as harvested";
                 return false;

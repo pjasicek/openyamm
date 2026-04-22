@@ -530,7 +530,14 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::WaterWalk:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {}, {}, PartyBuffId::WaterWalk);
         case SpellId::RechargeItem:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::UtilityUi, PartySpellCastEffectKind::UtilityUi, SkillMastery::Expert, {8, 8, 8, 8}, {200, 200, 200, 200}, PartyBuffId::TorchLight);
+            return makeBackendSpellRule(
+                spellId,
+                PartySpellCastTargetKind::InventoryItem,
+                PartySpellCastEffectKind::UtilityUi,
+                SkillMastery::Expert,
+                {8, 8, 8, 8},
+                {200, 200, 200, 200},
+                PartyBuffId::TorchLight);
         case SpellId::AcidBurst:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight, 9, 9, false);
         case SpellId::EnchantItem:
@@ -1398,6 +1405,15 @@ PartySpellCastResult PartySpellSystem::castSpell(
             }
         }
         else if (spellId == SpellId::LloydsBeacon && request.utilityAction == PartySpellUtilityActionKind::None)
+        {
+            return makeFailure(
+                request.spellId,
+                PartySpellCastStatus::NeedUtilityUi,
+                rule->targetKind,
+                rule->effectKind,
+                "Need spell UI");
+        }
+        else if (request.utilityAction == PartySpellUtilityActionKind::None)
         {
             return makeFailure(
                 request.spellId,

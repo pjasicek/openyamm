@@ -2,6 +2,8 @@
 
 #include "game/events/EventRuntime.h"
 #include "game/events/ISceneEventContext.h"
+#include "game/gameplay/GameplayActorAiTypes.h"
+#include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/tables/ChestTable.h"
@@ -11,13 +13,20 @@
 #include "game/tables/ObjectTable.h"
 
 #include <optional>
+#include <string>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
+class GameplayActorAiSystem;
 class GameplayActorService;
+class GameplayProjectileService;
 class IndoorDebugRenderer;
+class IndoorFaceGeometryCache;
 class IndoorGameView;
 class IndoorPartyRuntime;
+class MonsterProjectileTable;
+class SpellTable;
 class SpriteFrameTable;
 
 class IndoorWorldRuntime : public ISceneEventContext, public IGameplayWorldRuntime
@@ -26,6 +35,42 @@ public:
     using ChestItemState = GameplayChestItemState;
     using ChestViewState = GameplayChestViewState;
     using CorpseViewState = GameplayCorpseViewState;
+
+    struct MapActorAiState
+    {
+        uint32_t actorId = 0;
+        int16_t monsterId = 0;
+        std::string displayName;
+        bool hostileToParty = false;
+        bool hasDetectedParty = false;
+        bool bloodSplatSpawned = false;
+        ActorAiMotionState motionState = ActorAiMotionState::Standing;
+        ActorAiAnimationState animationState = ActorAiAnimationState::Standing;
+        GameplayActorAttackAbility queuedAttackAbility = GameplayActorAttackAbility::Attack1;
+        GameplayActorSpellEffectState spellEffects = {};
+        float preciseX = 0.0f;
+        float preciseY = 0.0f;
+        float preciseZ = 0.0f;
+        float homePreciseX = 0.0f;
+        float homePreciseY = 0.0f;
+        float homePreciseZ = 0.0f;
+        float moveDirectionX = 0.0f;
+        float moveDirectionY = 0.0f;
+        float velocityX = 0.0f;
+        float velocityY = 0.0f;
+        float velocityZ = 0.0f;
+        float yawRadians = 0.0f;
+        float animationTimeTicks = 0.0f;
+        float recoverySeconds = 0.0f;
+        float attackAnimationSeconds = 0.3f;
+        float attackCooldownSeconds = 0.0f;
+        float idleDecisionSeconds = 0.0f;
+        float actionSeconds = 0.0f;
+        uint32_t idleDecisionCount = 0;
+        uint32_t pursueDecisionCount = 0;
+        uint32_t attackDecisionCount = 0;
+        bool attackImpactTriggered = false;
+    };
 
     struct Snapshot
     {
@@ -37,6 +82,7 @@ public:
         std::vector<std::optional<CorpseViewState>> mapActorCorpseViews;
         std::optional<CorpseViewState> activeCorpseView;
         std::vector<GameplayActorSpellEffectState> mapActorSpellEffectStates;
+        std::vector<MapActorAiState> mapActorAiStates;
     };
 
     IndoorWorldRuntime() = default;
@@ -44,6 +90,24 @@ public:
     void bindRenderer(IndoorDebugRenderer *pRenderer);
     void bindGameplayView(IndoorGameView *pView);
 
+    void initialize(
+        const MapStatsEntry &map,
+        const MonsterTable &monsterTable,
+        const MonsterProjectileTable &monsterProjectileTable,
+        const ObjectTable &objectTable,
+        const SpellTable &spellTable,
+        const ItemTable &itemTable,
+        const ChestTable &chestTable,
+        Party *pParty,
+        IndoorPartyRuntime *pPartyRuntime,
+        std::optional<MapDeltaData> *pMapDeltaData,
+        std::optional<EventRuntimeState> *pEventRuntimeState,
+        GameplayActorService *pGameplayActorService,
+        GameplayProjectileService *pGameplayProjectileService,
+        const SpriteFrameTable *pActorSpriteFrameTable = nullptr,
+        const SpriteFrameTable *pProjectileSpriteFrameTable = nullptr,
+        const IndoorMapData *pIndoorMapData = nullptr
+    );
     void initialize(
         const MapStatsEntry &map,
         const MonsterTable &monsterTable,
@@ -55,7 +119,8 @@ public:
         std::optional<MapDeltaData> *pMapDeltaData,
         std::optional<EventRuntimeState> *pEventRuntimeState,
         GameplayActorService *pGameplayActorService,
-        const SpriteFrameTable *pActorSpriteFrameTable = nullptr
+        const SpriteFrameTable *pActorSpriteFrameTable = nullptr,
+        const IndoorMapData *pIndoorMapData = nullptr
     );
 
     const std::string &mapName() const override;
@@ -106,6 +171,9 @@ public:
         int32_t toZ
     ) override;
     size_t mapActorCount() const override;
+    void collectProjectilePresentationState(
+        std::vector<GameplayProjectilePresentationState> &projectiles,
+        std::vector<GameplayProjectileImpactPresentationState> &impacts) const;
     bool actorRuntimeState(size_t actorIndex, GameplayRuntimeActorState &state) const override;
     bool actorInspectState(
         size_t actorIndex,
@@ -247,23 +315,50 @@ private:
         uint32_t typeIndexInMapStats,
         uint32_t level
     ) const;
-    void syncMapActorSpellEffectStates();
+    void syncMapActorAiStates();
+    std::vector<bool> selectIndoorActiveActors(const ActorPartyFacts &partyFacts) const;
+    ActorAiFrameFacts collectIndoorActorAiFrameFacts(float deltaSeconds) const;
+    std::vector<bool> applyIndoorActorAiFrameResult(
+        const ActorAiFrameResult &result,
+        const GameplayActorAiSystem &actorAiSystem);
+    void applyIndoorActorMovementIntegration(
+        size_t actorIndex,
+        const ActorAiUpdate &update,
+        const GameplayActorAiSystem &actorAiSystem);
+    bool applyIndoorActorProjectileRequest(const ActorProjectileRequest &projectileRequest);
+    void pushIndoorProjectileAudioEvent(
+        const GameplayProjectileService::ProjectileAudioRequest &audioRequest);
+    void updateIndoorProjectiles(float deltaSeconds);
+    std::optional<ActorAiFacts> collectIndoorActorAiFacts(
+        size_t actorIndex,
+        bool active,
+        const ActorPartyFacts &partyFacts,
+        const std::vector<uint8_t> &partyReachableSectorMask,
+        const std::vector<IndoorVertex> &vertices,
+        IndoorFaceGeometryCache &geometryCache
+    ) const;
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
     std::optional<GameplayWorldPoint> actorImpactPoint(size_t actorIndex) const;
-    void triggerProjectileImpactPresentation(size_t actorIndex, uint32_t spellId);
+    void triggerProjectileImpactVisualAt(const GameplayWorldPoint &point, uint32_t spellId);
+    void triggerProjectileImpactVisual(size_t actorIndex, uint32_t spellId);
 
     std::optional<MapStatsEntry> m_map;
     const MonsterTable *m_pMonsterTable = nullptr;
+    const MonsterProjectileTable *m_pMonsterProjectileTable = nullptr;
     const ObjectTable *m_pObjectTable = nullptr;
+    const SpellTable *m_pSpellTable = nullptr;
     const ItemTable *m_pItemTable = nullptr;
     const ChestTable *m_pChestTable = nullptr;
     const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
+    const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
+    const IndoorMapData *m_pIndoorMapData = nullptr;
     Party *m_pParty = nullptr;
     IndoorPartyRuntime *m_pPartyRuntime = nullptr;
     std::optional<MapDeltaData> *m_pMapDeltaData = nullptr;
     std::optional<EventRuntimeState> *m_pEventRuntimeState = nullptr;
     GameplayActorService *m_pGameplayActorService = nullptr;
+    GameplayProjectileService *m_pGameplayProjectileService = nullptr;
     IndoorDebugRenderer *m_pRenderer = nullptr;
     IndoorGameView *m_pGameplayView = nullptr;
     std::string m_mapName;
@@ -274,6 +369,6 @@ private:
     std::optional<ChestViewState> m_activeChestView;
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
     std::optional<CorpseViewState> m_activeCorpseView;
-    std::vector<GameplayActorSpellEffectState> m_mapActorSpellEffectStates;
+    std::vector<MapActorAiState> m_mapActorAiStates;
 };
 }

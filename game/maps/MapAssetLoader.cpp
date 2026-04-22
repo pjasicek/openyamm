@@ -2816,7 +2816,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
     if (companionFileName)
     {
-        const std::optional<std::string> companionPath = findAssetPath(assetFileSystem, *companionFileName);
+        const std::optional<std::string> companionPath =
+            findCompanionAssetPath(assetFileSystem, *companionFileName);
 
         if (companionPath)
         {
@@ -3219,6 +3220,32 @@ std::optional<std::string> MapAssetLoader::findAssetPath(
         if (toLower(entry) == normalizedFileName)
         {
             return std::string("Data/games/") + entry;
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<std::string> MapAssetLoader::findCompanionAssetPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &fileName
+)
+{
+    const std::optional<std::string> gamesPath = findAssetPath(assetFileSystem, fileName);
+
+    if (gamesPath)
+    {
+        return gamesPath;
+    }
+
+    const std::vector<std::string> entries = assetFileSystem.enumerate("_legacy/map_delta");
+    const std::string normalizedFileName = toLower(fileName);
+
+    for (const std::string &entry : entries)
+    {
+        if (toLower(entry) == normalizedFileName)
+        {
+            return std::string("_legacy/map_delta/") + entry;
         }
     }
 

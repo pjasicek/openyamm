@@ -18,7 +18,7 @@ namespace
 {
 constexpr float NearHoverStatusDistance = 512.0f;
 constexpr float ActorHoverStatusDistance = 8192.0f;
-constexpr uint64_t HoverInspectRefreshNanoseconds = 20 * 1000 * 1000;
+constexpr uint64_t HoverInspectRefreshNanoseconds = 33 * 1000 * 1000;
 constexpr uint32_t ArrowProjectileObjectId = 545;
 constexpr uint32_t BlasterProjectileObjectId = 555;
 
@@ -595,78 +595,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
     const GameplaySpellActionController::TargetQueries targetQueries =
         buildSpellActionTargetQueries(screenState, input);
 
-    GameplayWorldPickRequest pendingSpellPickRequest = {};
-    GameplayWorldPickRequest keyboardUsePickRequest = {};
-    GameplayWorldPickRequest heldItemWorldPickRequest = {};
-    GameplayWorldPickRequest currentInteractionPickRequest = {};
-    GameplayWorldPickRequest centerHoverPickRequest = {};
-    std::optional<GameplayHeldItemDropRequest> heldItemDropRequest;
-    GameplayPartyAttackFrameInput partyAttackInput = {};
-
-    if (pWorldRuntime != nullptr)
-    {
-        pendingSpellPickRequest =
-            pWorldRuntime->buildWorldPickRequest(
-                GameplayWorldPickRequestInput{
-                    .screenX = input.pointerX,
-                    .screenY = input.pointerY,
-                    .screenWidth = input.screenWidth,
-                    .screenHeight = input.screenHeight,
-                });
-        keyboardUsePickRequest =
-            pWorldRuntime->buildWorldPickRequest(
-                GameplayWorldPickRequestInput{
-                    .screenX = pointerPolicy.inspectScreenX,
-                    .screenY = pointerPolicy.inspectScreenY,
-                    .screenWidth = input.screenWidth,
-                    .screenHeight = input.screenHeight,
-                    .includeRay = true,
-                });
-        heldItemWorldPickRequest =
-            pWorldRuntime->buildWorldPickRequest(
-                GameplayWorldPickRequestInput{
-                    .screenX = input.pointerX,
-                    .screenY = input.pointerY,
-                    .screenWidth = input.screenWidth,
-                    .screenHeight = input.screenHeight,
-                    .includeRay = true,
-                });
-        currentInteractionPickRequest = keyboardUsePickRequest;
-        centerHoverPickRequest =
-            pWorldRuntime->buildWorldPickRequest(
-                GameplayWorldPickRequestInput{
-                    .screenX = screenWidth * 0.5f,
-                    .screenY = screenHeight * 0.5f,
-                    .screenWidth = input.screenWidth,
-                    .screenHeight = input.screenHeight,
-                });
-        heldItemDropRequest = pWorldRuntime->buildHeldItemDropRequest();
-        partyAttackInput = pWorldRuntime->buildPartyAttackFrameInput(currentInteractionPickRequest);
-    }
-
     const uint64_t currentTickNanoseconds = SDL_GetTicksNS();
-    HoverStateInput pendingSpellHoverInput = {};
-    pendingSpellHoverInput.allowHover = !hoveredPortraitMemberIndex && worldReady;
-    pendingSpellHoverInput.currentTickNanoseconds = currentTickNanoseconds;
-    pendingSpellHoverInput.refreshIntervalNanoseconds = HoverInspectRefreshNanoseconds;
-    pendingSpellHoverInput.hoverRequest =
-        GameplayWorldHoverRequest{
-            .probeKind = GameplayWorldHoverProbeKind::PendingSpell,
-            .primaryPickRequest = pendingSpellPickRequest,
-            .secondaryPickRequest = centerHoverPickRequest,
-            .updateTickNanoseconds = currentTickNanoseconds,
-        };
-
-    HoverStateInput standardHoverInput = {};
-    standardHoverInput.allowHover = inspectModeActive && worldReady;
-    standardHoverInput.currentTickNanoseconds = currentTickNanoseconds;
-    standardHoverInput.refreshIntervalNanoseconds = HoverInspectRefreshNanoseconds;
-    standardHoverInput.hoverRequest =
-        GameplayWorldHoverRequest{
-            .probeKind = GameplayWorldHoverProbeKind::Standard,
-            .primaryPickRequest = currentInteractionPickRequest,
-            .updateTickNanoseconds = currentTickNanoseconds,
-        };
 
     if (worldInputBlocked)
     {
@@ -677,6 +606,41 @@ GameplayInteractionController::updateWorldInteractionFrame(
 
     if (pendingSpellCast.active)
     {
+        GameplayWorldPickRequest pendingSpellPickRequest = {};
+        GameplayWorldPickRequest centerHoverPickRequest = {};
+
+        if (pWorldRuntime != nullptr)
+        {
+            pendingSpellPickRequest =
+                pWorldRuntime->buildWorldPickRequest(
+                    GameplayWorldPickRequestInput{
+                        .screenX = input.pointerX,
+                        .screenY = input.pointerY,
+                        .screenWidth = input.screenWidth,
+                        .screenHeight = input.screenHeight,
+                    });
+            centerHoverPickRequest =
+                pWorldRuntime->buildWorldPickRequest(
+                    GameplayWorldPickRequestInput{
+                        .screenX = screenWidth * 0.5f,
+                        .screenY = screenHeight * 0.5f,
+                        .screenWidth = input.screenWidth,
+                        .screenHeight = input.screenHeight,
+                    });
+        }
+
+        HoverStateInput pendingSpellHoverInput = {};
+        pendingSpellHoverInput.allowHover = !hoveredPortraitMemberIndex && worldReady;
+        pendingSpellHoverInput.currentTickNanoseconds = currentTickNanoseconds;
+        pendingSpellHoverInput.refreshIntervalNanoseconds = HoverInspectRefreshNanoseconds;
+        pendingSpellHoverInput.hoverRequest =
+            GameplayWorldHoverRequest{
+                .probeKind = GameplayWorldHoverProbeKind::PendingSpell,
+                .primaryPickRequest = pendingSpellPickRequest,
+                .secondaryPickRequest = centerHoverPickRequest,
+                .updateTickNanoseconds = currentTickNanoseconds,
+            };
+
         GameplaySpellActionController::PendingTargetSelectionInput pendingTargetInput = {};
         pendingTargetInput.cancelPressed = false;
 
@@ -752,6 +716,15 @@ GameplayInteractionController::updateWorldInteractionFrame(
         && worldReady
         && pWorldRuntime != nullptr)
     {
+        const GameplayWorldPickRequest keyboardUsePickRequest =
+            pWorldRuntime->buildWorldPickRequest(
+                GameplayWorldPickRequestInput{
+                    .screenX = pointerPolicy.inspectScreenX,
+                    .screenY = pointerPolicy.inspectScreenY,
+                    .screenWidth = input.screenWidth,
+                    .screenHeight = input.screenHeight,
+                    .includeRay = true,
+                });
         keyboardUseHit = pWorldRuntime->pickKeyboardInteractionTarget(keyboardUsePickRequest);
         hasKeyboardUseHit = true;
     }
@@ -785,6 +758,15 @@ GameplayInteractionController::updateWorldInteractionFrame(
             && worldReady
             && pWorldRuntime != nullptr)
         {
+            const GameplayWorldPickRequest heldItemWorldPickRequest =
+                pWorldRuntime->buildWorldPickRequest(
+                    GameplayWorldPickRequestInput{
+                        .screenX = input.pointerX,
+                        .screenY = input.pointerY,
+                        .screenWidth = input.screenWidth,
+                        .screenHeight = input.screenHeight,
+                        .includeRay = true,
+                    });
             heldItemWorldHit = pWorldRuntime->pickHeldItemWorldTarget(heldItemWorldPickRequest);
             hasHeldItemWorldHit = true;
         }
@@ -803,6 +785,8 @@ GameplayInteractionController::updateWorldInteractionFrame(
 
         if (heldItemWorldInteractionResult.dropRequested)
         {
+            const std::optional<GameplayHeldItemDropRequest> heldItemDropRequest =
+                pWorldRuntime != nullptr ? pWorldRuntime->buildHeldItemDropRequest() : std::nullopt;
             dropHeldItemToActiveWorld(runtime, heldItemDropRequest);
         }
 
@@ -815,6 +799,32 @@ GameplayInteractionController::updateWorldInteractionFrame(
         clearWorldInteractionFrameState(screenState, overlayInteractionState, runtime);
         return result;
     }
+
+    GameplayWorldPickRequest currentInteractionPickRequest = {};
+
+    if (pWorldRuntime != nullptr)
+    {
+        currentInteractionPickRequest =
+            pWorldRuntime->buildWorldPickRequest(
+                GameplayWorldPickRequestInput{
+                    .screenX = pointerPolicy.inspectScreenX,
+                    .screenY = pointerPolicy.inspectScreenY,
+                    .screenWidth = input.screenWidth,
+                    .screenHeight = input.screenHeight,
+                    .includeRay = true,
+                });
+    }
+
+    HoverStateInput standardHoverInput = {};
+    standardHoverInput.allowHover = inspectModeActive && worldReady;
+    standardHoverInput.currentTickNanoseconds = currentTickNanoseconds;
+    standardHoverInput.refreshIntervalNanoseconds = HoverInspectRefreshNanoseconds;
+    standardHoverInput.hoverRequest =
+        GameplayWorldHoverRequest{
+            .probeKind = GameplayWorldHoverProbeKind::Standard,
+            .primaryPickRequest = currentInteractionPickRequest,
+            .updateTickNanoseconds = currentTickNanoseconds,
+        };
 
     result.hover = updateHoverState(standardHoverInput, pWorldRuntime);
 
@@ -904,6 +914,10 @@ GameplayInteractionController::updateWorldInteractionFrame(
     if (attackActionDecision.shouldAttemptAttack)
     {
         pickCurrentHit();
+        const GameplayPartyAttackFrameInput partyAttackInput =
+            pWorldRuntime != nullptr
+            ? pWorldRuntime->buildPartyAttackFrameInput(currentInteractionPickRequest)
+            : GameplayPartyAttackFrameInput{};
         result.attackAttempted = true;
         executePartyAttack(
             runtime,

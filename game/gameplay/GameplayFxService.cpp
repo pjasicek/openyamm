@@ -41,7 +41,7 @@ void GameplayFxService::syncProjectilePresentation()
         m_activeProjectileImpactPresentationStates);
 }
 
-GameplayProjectileService::ProjectileImpactPresentationResult GameplayFxService::spawnProjectileImpactPresentation(
+GameplayProjectileService::ProjectileImpactSpawnResult GameplayFxService::spawnProjectileImpactVisual(
     const GameplayProjectileService::ProjectileState &projectile,
     const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
     float x,
@@ -49,7 +49,7 @@ GameplayProjectileService::ProjectileImpactPresentationResult GameplayFxService:
     float z,
     bool centerVertically)
 {
-    return m_session.gameplayProjectileService().spawnProjectileImpactPresentation(
+    return m_session.gameplayProjectileService().spawnProjectileImpactVisual(
         projectile,
         definition,
         x,
@@ -58,16 +58,16 @@ GameplayProjectileService::ProjectileImpactPresentationResult GameplayFxService:
         centerVertically);
 }
 
-GameplayProjectileService::ProjectileImpactPresentationResult GameplayFxService::spawnWaterSplashImpactPresentation(
+GameplayProjectileService::ProjectileImpactSpawnResult GameplayFxService::spawnWaterSplashImpactVisual(
     const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
     float x,
     float y,
     float z)
 {
-    return m_session.gameplayProjectileService().spawnWaterSplashImpactPresentation(definition, x, y, z);
+    return m_session.gameplayProjectileService().spawnWaterSplashImpactVisual(definition, x, y, z);
 }
 
-GameplayProjectileService::ProjectileImpactPresentationResult GameplayFxService::spawnImmediateSpellImpactPresentation(
+GameplayProjectileService::ProjectileImpactSpawnResult GameplayFxService::spawnImmediateSpellImpactVisual(
     const GameplayProjectileService::ProjectileImpactVisualDefinition &definition,
     int sourceSpellId,
     const std::string &sourceObjectName,
@@ -78,7 +78,7 @@ GameplayProjectileService::ProjectileImpactPresentationResult GameplayFxService:
     bool centerVertically,
     bool freezeAnimation)
 {
-    return m_session.gameplayProjectileService().spawnImmediateSpellImpactPresentation(
+    return m_session.gameplayProjectileService().spawnImmediateSpellImpactVisual(
         definition,
         sourceSpellId,
         sourceObjectName,
