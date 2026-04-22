@@ -145,6 +145,8 @@ public:
     void setShowIndoorFloors(bool enabled);
     bool showIndoorCeilings() const;
     void setShowIndoorCeilings(bool enabled);
+    bool showIndoorGizmosEverywhere() const;
+    void setShowIndoorGizmosEverywhere(bool enabled);
     std::optional<uint16_t> isolatedIndoorRoomId() const;
     void setIsolatedIndoorRoomId(std::optional<uint16_t> roomId);
     bool showBModelWireframe() const;
@@ -209,6 +211,7 @@ private:
         bool hasBillboardBounds = false;
         float billboardWorldWidth = 0.0f;
         float billboardWorldHeight = 0.0f;
+        bool blockedByLineOfSight = false;
     };
 
     enum class GizmoDragMode
@@ -302,6 +305,20 @@ private:
         int z = 0;
     };
 
+    struct PendingActorPlacementPreview
+    {
+        int x = 0;
+        int y = 0;
+        int z = 0;
+    };
+
+    struct PendingSpawnPlacementPreview
+    {
+        int x = 0;
+        int y = 0;
+        int z = 0;
+    };
+
     bool ensureRenderResources();
     void destroyImportedModelPreview();
     void destroyGeometryBuffers();
@@ -315,7 +332,7 @@ private:
         bool isFocused,
         float deltaSeconds);
     void resetCameraToDocument(const EditorDocument &document);
-    void tryPick(
+    bool tryPick(
         EditorSession &session,
         bool leftMouseClicked,
         float mouseX,
@@ -369,6 +386,7 @@ private:
         float mouseX,
         float mouseY,
         bx::Vec3 &worldPosition) const;
+    int snapIndoorActorZToFloor(const EditorDocument &document, int x, int y, int z) const;
     bool setSelectedWorldPosition(EditorSession &session, const bx::Vec3 &worldPosition);
     void submitStaticGeometry(const EditorSession &session) const;
     void submitEntityBillboardGeometry(const EditorSession &session, const EditorDocument &document) const;
@@ -490,6 +508,8 @@ private:
     ActiveTerrainPaint m_activeTerrainPaint = {};
     ActiveTerrainSculpt m_activeTerrainSculpt = {};
     std::optional<PendingEntityPlacementPreview> m_pendingEntityPlacementPreview;
+    std::optional<PendingActorPlacementPreview> m_pendingActorPlacementPreview;
+    std::optional<PendingSpawnPlacementPreview> m_pendingSpawnPlacementPreview;
     std::optional<PendingSpriteObjectPlacementPreview> m_pendingSpriteObjectPlacementPreview;
     bool m_hoverTerrainValid = false;
     int m_hoverTerrainCellX = 0;
@@ -506,6 +526,7 @@ private:
     bool m_showIndoorPortals = true;
     bool m_showIndoorFloors = true;
     bool m_showIndoorCeilings = true;
+    bool m_showIndoorGizmosEverywhere = false;
     std::optional<uint16_t> m_isolatedIndoorRoomId;
     bool m_showBModelWireframe = false;
     bool m_showEntities = true;

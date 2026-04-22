@@ -1,6 +1,7 @@
 #pragma once
 
 #include "engine/AssetFileSystem.h"
+#include "editor/document/IndoorGeometryMetadata.h"
 #include "editor/document/OutdoorGeometryMetadata.h"
 #include "editor/document/OutdoorMapPackageMetadata.h"
 #include "editor/document/OutdoorTerrainMetadata.h"
@@ -109,6 +110,9 @@ public:
     Game::IndoorMapData &mutableIndoorGeometry();
     Game::IndoorSceneData &mutableIndoorSceneData();
     const Game::IndoorSceneData &indoorSceneData() const;
+    bool hasIndoorGeometryMetadata() const;
+    const EditorIndoorGeometryMetadata &indoorGeometryMetadata() const;
+    EditorIndoorGeometryMetadata &mutableIndoorGeometryMetadata();
     const EditorOutdoorGeometryMetadata &outdoorGeometryMetadata() const;
     std::optional<EditorBModelImportSource> outdoorBModelImportSource(size_t bmodelIndex) const;
     std::optional<EditorBModelSourceTransform> outdoorBModelSourceTransform(size_t bmodelIndex) const;
@@ -193,6 +197,8 @@ private:
     Game::OutdoorSceneData m_outdoorSceneData = {};
     Game::IndoorMapData m_indoorGeometry = {};
     Game::IndoorSceneData m_indoorSceneData = {};
+    bool m_hasIndoorGeometryMetadata = false;
+    EditorIndoorGeometryMetadata m_indoorGeometryMetadata = {};
     EditorOutdoorGeometryMetadata m_outdoorGeometryMetadata = {};
     EditorOutdoorMapPackageMetadata m_outdoorMapPackageMetadata = {};
     EditorOutdoorTerrainMetadata m_outdoorTerrainMetadata = {};

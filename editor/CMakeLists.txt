@@ -9,10 +9,13 @@ add_executable(openyamm-editor
     app/EditorMainWindow.cpp
     app/EditorImGuiBgfxRenderer.cpp
     document/EditorDocument.cpp
+    document/IndoorGeometryMetadata.cpp
     document/OutdoorGeometryMetadata.cpp
     document/OutdoorMapPackageMetadata.cpp
     document/OutdoorTerrainMetadata.cpp
     document/EditorSession.cpp
+    import/IndoorSourceGeometryCompiler.cpp
+    import/IndoorSourceGeometryImport.cpp
     import/ObjModelImport.cpp
     headless/EditorHeadlessDiagnostics.cpp
     viewport/EditorOutdoorViewport.cpp

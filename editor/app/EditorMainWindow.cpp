@@ -188,6 +188,21 @@ std::string trimCopy(const std::string &value)
     return std::string(begin, end);
 }
 
+bool stringContains(const std::string &value, const std::string &substring)
+{
+    return value.find(substring) != std::string::npos;
+}
+
+bool stringStartsWith(const std::string &value, const std::string &prefix)
+{
+    return value.size() >= prefix.size() && value.compare(0, prefix.size(), prefix) == 0;
+}
+
+bool isIndoorSourceDiagnostic(const std::string &message)
+{
+    return stringStartsWith(message, "Indoor source ") || stringStartsWith(message, "Indoor geometry source ");
+}
+
 bool indoorDoorContainsFace(const Game::MapDeltaDoor &door, uint16_t faceId)
 {
     return std::find(door.faceIds.begin(), door.faceIds.end(), faceId) != door.faceIds.end();
@@ -1200,6 +1215,68 @@ std::optional<uint16_t> findIndoorRoomIdForPoint(
     }
 
     return static_cast<uint16_t>(*sectorId);
+}
+
+int snapIndoorActorZToFloor(const Game::IndoorMapData &indoorGeometry, int x, int y, int z)
+{
+    Game::IndoorFaceGeometryCache geometryCache(indoorGeometry.faces.size());
+    const std::optional<int16_t> sectorId = Game::findIndoorSectorForPoint(
+        indoorGeometry,
+        indoorGeometry.vertices,
+        {static_cast<float>(x), static_cast<float>(y), static_cast<float>(z)},
+        &geometryCache);
+    const Game::IndoorFloorSample floor = Game::sampleIndoorFloor(
+        indoorGeometry,
+        indoorGeometry.vertices,
+        static_cast<float>(x),
+        static_cast<float>(y),
+        static_cast<float>(z),
+        131072.0f,
+        0.0f,
+        sectorId,
+        nullptr,
+        &geometryCache);
+
+    if (!floor.hasFloor || floor.height <= static_cast<float>(z))
+    {
+        return z;
+    }
+
+    return static_cast<int>(std::lround(floor.height));
+}
+
+void assignIndoorEntityToSector(Game::IndoorMapData &indoorGeometry, size_t entityIndex)
+{
+    if (entityIndex >= indoorGeometry.entities.size())
+    {
+        return;
+    }
+
+    const uint16_t clampedEntityIndex = static_cast<uint16_t>(std::min<size_t>(entityIndex, 65535));
+
+    for (Game::IndoorSector &sector : indoorGeometry.sectors)
+    {
+        sector.decorationIds.erase(
+            std::remove(sector.decorationIds.begin(), sector.decorationIds.end(), clampedEntityIndex),
+            sector.decorationIds.end());
+    }
+
+    const Game::IndoorEntity &entity = indoorGeometry.entities[entityIndex];
+    Game::IndoorFaceGeometryCache geometryCache(indoorGeometry.faces.size());
+    const std::optional<uint16_t> roomId =
+        findIndoorRoomIdForPoint(indoorGeometry, entity.x, entity.y, entity.z, geometryCache);
+
+    if (!roomId.has_value() || *roomId >= indoorGeometry.sectors.size())
+    {
+        return;
+    }
+
+    std::vector<uint16_t> &decorationIds = indoorGeometry.sectors[*roomId].decorationIds;
+
+    if (std::find(decorationIds.begin(), decorationIds.end(), clampedEntityIndex) == decorationIds.end())
+    {
+        decorationIds.push_back(clampedEntityIndex);
+    }
 }
 
 std::string indoorFaceOutlinerLabel(const Game::IndoorFace &face, size_t faceIndex)
@@ -4742,6 +4819,37 @@ void EditorMainWindow::handleGlobalShortcuts(EditorSession &session)
         return;
     }
 
+    if (io.KeyCtrl && !io.WantTextInput)
+    {
+        if (io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_Z, false))
+        {
+            std::string errorMessage;
+
+            if (session.canRedo() && !session.redo(errorMessage))
+            {
+                session.logError(errorMessage);
+            }
+        }
+        else if (!io.KeyShift && ImGui::IsKeyPressed(ImGuiKey_Z, false))
+        {
+            std::string errorMessage;
+
+            if (session.canUndo() && !session.undo(errorMessage))
+            {
+                session.logError(errorMessage);
+            }
+        }
+        else if (ImGui::IsKeyPressed(ImGuiKey_Y, false))
+        {
+            std::string errorMessage;
+
+            if (session.canRedo() && !session.redo(errorMessage))
+            {
+                session.logError(errorMessage);
+            }
+        }
+    }
+
     if (io.KeyCtrl && ImGui::IsKeyPressed(ImGuiKey_S, false))
     {
         std::string errorMessage;
@@ -4899,6 +5007,11 @@ void EditorMainWindow::ensureEditorStateLoaded(EditorSession &session)
         m_viewport.setShowIndoorCeilings(parseBoolValue(iterator->second));
     }
 
+    if (const auto iterator = values.find("show_indoor_gizmos_everywhere"); iterator != values.end())
+    {
+        m_viewport.setShowIndoorGizmosEverywhere(parseBoolValue(iterator->second));
+    }
+
     if (const auto iterator = values.find("isolated_indoor_room"); iterator != values.end())
     {
         const int roomId = std::atoi(iterator->second.c_str());
@@ -5052,6 +5165,7 @@ void EditorMainWindow::persistEditorStateIfNeeded(const EditorSession &session)
     output << "show_indoor_portals=" << (m_viewport.showIndoorPortals() ? 1 : 0) << '\n';
     output << "show_indoor_floors=" << (m_viewport.showIndoorFloors() ? 1 : 0) << '\n';
     output << "show_indoor_ceilings=" << (m_viewport.showIndoorCeilings() ? 1 : 0) << '\n';
+    output << "show_indoor_gizmos_everywhere=" << (m_viewport.showIndoorGizmosEverywhere() ? 1 : 0) << '\n';
     output << "isolated_indoor_room="
            << (m_viewport.isolatedIndoorRoomId().has_value()
                    ? std::to_string(*m_viewport.isolatedIndoorRoomId())
@@ -5718,48 +5832,76 @@ void EditorMainWindow::renderTerrainToolbar(EditorSession &session)
 
 void EditorMainWindow::renderViewToolbar(const EditorSession &session)
 {
+    const bool isIndoorDocument =
+        session.hasDocument() && session.document().kind() == EditorDocument::Kind::Indoor;
+    bool hasPrimaryItem = false;
+    const auto samePrimaryLine = [&hasPrimaryItem]()
+    {
+        if (hasPrimaryItem)
+        {
+            ImGui::SameLine();
+        }
+
+        hasPrimaryItem = true;
+    };
+    bool hasSecondaryItem = false;
+    const auto sameSecondaryLine = [&hasSecondaryItem]()
+    {
+        if (hasSecondaryItem)
+        {
+            ImGui::SameLine();
+        }
+
+        hasSecondaryItem = true;
+    };
+
     renderToolbarSubLabel("Primary");
-    bool showTerrain = m_viewport.showTerrainFill();
-    if (renderIconTogglePill("ViewTerrain", "Terrain", UiIcon::Terrain, showTerrain))
+
+    if (!isIndoorDocument)
     {
-        m_viewport.setShowTerrainFill(!showTerrain);
+        samePrimaryLine();
+        bool showTerrain = m_viewport.showTerrainFill();
+        if (renderIconTogglePill("ViewTerrain", "Terrain", UiIcon::Terrain, showTerrain))
+        {
+            m_viewport.setShowTerrainFill(!showTerrain);
+        }
+
+        samePrimaryLine();
+        bool showTerrainGrid = m_viewport.showTerrainGrid();
+        if (renderIconTogglePill("ViewGrid", "Grid", UiIcon::Grid, showTerrainGrid))
+        {
+            m_viewport.setShowTerrainGrid(!showTerrainGrid);
+        }
+
+        samePrimaryLine();
+        if (renderIconTogglePill(
+                "PreviewTextured",
+                "Textured",
+                UiIcon::Textured,
+                m_viewport.previewMaterialMode() == EditorOutdoorViewport::PreviewMaterialMode::Textured))
+        {
+            m_viewport.setPreviewMaterialMode(EditorOutdoorViewport::PreviewMaterialMode::Textured);
+        }
+
+        samePrimaryLine();
+        if (renderIconTogglePill(
+                "PreviewClay",
+                "Clay",
+                UiIcon::Clay,
+                m_viewport.previewMaterialMode() == EditorOutdoorViewport::PreviewMaterialMode::Clay))
+        {
+            m_viewport.setPreviewMaterialMode(EditorOutdoorViewport::PreviewMaterialMode::Clay);
+        }
     }
 
-    ImGui::SameLine();
-    bool showTerrainGrid = m_viewport.showTerrainGrid();
-    if (renderIconTogglePill("ViewGrid", "Grid", UiIcon::Grid, showTerrainGrid))
-    {
-        m_viewport.setShowTerrainGrid(!showTerrainGrid);
-    }
-
-    ImGui::SameLine();
-    if (renderIconTogglePill(
-            "PreviewTextured",
-            "Textured",
-            UiIcon::Textured,
-            m_viewport.previewMaterialMode() == EditorOutdoorViewport::PreviewMaterialMode::Textured))
-    {
-        m_viewport.setPreviewMaterialMode(EditorOutdoorViewport::PreviewMaterialMode::Textured);
-    }
-
-    ImGui::SameLine();
-    if (renderIconTogglePill(
-            "PreviewClay",
-            "Clay",
-            UiIcon::Clay,
-            m_viewport.previewMaterialMode() == EditorOutdoorViewport::PreviewMaterialMode::Clay))
-    {
-        m_viewport.setPreviewMaterialMode(EditorOutdoorViewport::PreviewMaterialMode::Clay);
-    }
-
-    ImGui::SameLine();
+    samePrimaryLine();
     bool showEntities = m_viewport.showEntities();
     if (renderIconTogglePill("ViewEntities", "Entities", UiIcon::Entity, showEntities))
     {
         m_viewport.setShowEntities(!showEntities);
     }
 
-    ImGui::SameLine();
+    samePrimaryLine();
     bool showSpawns = m_viewport.showSpawns();
     bool showActors = m_viewport.showActors();
     if (renderIconTogglePill("ViewActors", "Actors", UiIcon::Actor, showActors))
@@ -5767,7 +5909,7 @@ void EditorMainWindow::renderViewToolbar(const EditorSession &session)
         m_viewport.setShowActors(!showActors);
     }
 
-    ImGui::SameLine();
+    samePrimaryLine();
     bool showEvents = m_viewport.showEventMarkers();
     if (renderIconTogglePill("ViewEvents", "Events", UiIcon::Select, showEvents))
     {
@@ -5776,15 +5918,20 @@ void EditorMainWindow::renderViewToolbar(const EditorSession &session)
 
     ImGui::NewLine();
     renderToolbarSubLabel("Secondary");
-    bool showBModels = m_viewport.showBModels();
-    if (renderSecondaryIconTogglePill("ViewBModels", "BModels", UiIcon::Face, showBModels))
+
+    if (!isIndoorDocument)
     {
-        m_viewport.setShowBModels(!showBModels);
+        sameSecondaryLine();
+        bool showBModels = m_viewport.showBModels();
+        if (renderSecondaryIconTogglePill("ViewBModels", "BModels", UiIcon::Face, showBModels))
+        {
+            m_viewport.setShowBModels(!showBModels);
+        }
     }
 
-    if (session.hasDocument() && session.document().kind() == EditorDocument::Kind::Indoor)
+    if (isIndoorDocument)
     {
-        ImGui::SameLine();
+        sameSecondaryLine();
         bool showIndoorPortals = m_viewport.showIndoorPortals();
 
         if (renderSecondaryIconTogglePill("ViewIndoorPortals", "Portals", UiIcon::Face, showIndoorPortals))
@@ -5792,7 +5939,7 @@ void EditorMainWindow::renderViewToolbar(const EditorSession &session)
             m_viewport.setShowIndoorPortals(!showIndoorPortals);
         }
 
-        ImGui::SameLine();
+        sameSecondaryLine();
         bool showIndoorFloors = m_viewport.showIndoorFloors();
 
         if (renderSecondaryIconTogglePill("ViewIndoorFloors", "Floors", UiIcon::Face, showIndoorFloors))
@@ -5800,7 +5947,7 @@ void EditorMainWindow::renderViewToolbar(const EditorSession &session)
             m_viewport.setShowIndoorFloors(!showIndoorFloors);
         }
 
-        ImGui::SameLine();
+        sameSecondaryLine();
         bool showIndoorCeilings = m_viewport.showIndoorCeilings();
 
         if (renderSecondaryIconTogglePill("ViewIndoorCeilings", "Ceilings", UiIcon::Face, showIndoorCeilings))
@@ -5808,9 +5955,23 @@ void EditorMainWindow::renderViewToolbar(const EditorSession &session)
             m_viewport.setShowIndoorCeilings(!showIndoorCeilings);
         }
 
-        if (const std::optional<uint16_t> isolatedRoomId = m_viewport.isolatedIndoorRoomId(); isolatedRoomId.has_value())
+        sameSecondaryLine();
+        const bool showIndoorGizmosEverywhere = m_viewport.showIndoorGizmosEverywhere();
+
+        if (renderSecondaryIconTogglePill(
+                "ViewIndoorGizmosEverywhere",
+                showIndoorGizmosEverywhere ? "Gizmos All" : "Gizmos LoS",
+                UiIcon::Select,
+                showIndoorGizmosEverywhere))
         {
-            ImGui::SameLine();
+            m_viewport.setShowIndoorGizmosEverywhere(!showIndoorGizmosEverywhere);
+        }
+
+        const std::optional<uint16_t> isolatedRoomId = m_viewport.isolatedIndoorRoomId();
+
+        if (isolatedRoomId.has_value())
+        {
+            sameSecondaryLine();
             const std::string label = "Room " + std::to_string(*isolatedRoomId);
 
             if (renderSecondaryIconTogglePill("ViewIndoorRoomIsolation", label.c_str(), UiIcon::Face, true))
@@ -5820,37 +5981,40 @@ void EditorMainWindow::renderViewToolbar(const EditorSession &session)
         }
     }
 
-    ImGui::SameLine();
+    sameSecondaryLine();
     bool showBModelWire = m_viewport.showBModelWireframe();
     if (renderSecondaryIconTogglePill("ViewWire", "Wire", UiIcon::Wireframe, showBModelWire))
     {
         m_viewport.setShowBModelWireframe(!showBModelWire);
     }
 
-    ImGui::SameLine();
-    if (renderSecondaryIconTogglePill(
-            "PreviewGrid",
-            "Grid",
-            UiIcon::Grid,
-            m_viewport.previewMaterialMode() == EditorOutdoorViewport::PreviewMaterialMode::Grid))
+    if (!isIndoorDocument)
     {
-        m_viewport.setPreviewMaterialMode(EditorOutdoorViewport::PreviewMaterialMode::Grid);
+        sameSecondaryLine();
+        if (renderSecondaryIconTogglePill(
+                "PreviewGrid",
+                "Grid",
+                UiIcon::Grid,
+                m_viewport.previewMaterialMode() == EditorOutdoorViewport::PreviewMaterialMode::Grid))
+        {
+            m_viewport.setPreviewMaterialMode(EditorOutdoorViewport::PreviewMaterialMode::Grid);
+        }
+
+        sameSecondaryLine();
+        bool previewSelectedOnly = m_viewport.forcePreviewOnSelectedOnly();
+        if (renderSecondaryIconTogglePill("PreviewSelected", "Selected", UiIcon::Select, previewSelectedOnly))
+        {
+            m_viewport.setForcePreviewOnSelectedOnly(!previewSelectedOnly);
+        }
     }
 
-    ImGui::SameLine();
-    bool previewSelectedOnly = m_viewport.forcePreviewOnSelectedOnly();
-    if (renderSecondaryIconTogglePill("PreviewSelected", "Selected", UiIcon::Select, previewSelectedOnly))
-    {
-        m_viewport.setForcePreviewOnSelectedOnly(!previewSelectedOnly);
-    }
-
-    ImGui::SameLine();
+    sameSecondaryLine();
     if (renderSecondaryIconTogglePill("ViewSpawns", "Spawns", UiIcon::Spawn, showSpawns))
     {
         m_viewport.setShowSpawns(!showSpawns);
     }
 
-    ImGui::SameLine();
+    sameSecondaryLine();
     bool showObjects = m_viewport.showSpriteObjects();
     if (renderSecondaryIconTogglePill("ViewObjects", "Objects", UiIcon::Object, showObjects))
     {
@@ -6784,6 +6948,30 @@ void EditorMainWindow::renderCreateButtons(EditorSession &session)
             {
                 session.setPendingActor(sceneData.initialState.actors[session.selection().index]);
             }
+            else if (kind == EditorSelectionKind::Entity
+                && session.selection().kind == EditorSelectionKind::Entity
+                && session.selection().index < session.document().indoorGeometry().entities.size())
+            {
+                session.setPendingEntityDecorationListId(
+                    session.document().indoorGeometry().entities[session.selection().index].decorationListId);
+            }
+            else if (kind == EditorSelectionKind::Spawn
+                && session.selection().kind == EditorSelectionKind::Spawn
+                && session.selection().index < session.document().indoorGeometry().spawns.size())
+            {
+                const Game::IndoorSpawn &selectedSpawn =
+                    session.document().indoorGeometry().spawns[session.selection().index];
+                Game::OutdoorSpawn pendingSpawn = {};
+                pendingSpawn.x = selectedSpawn.x;
+                pendingSpawn.y = selectedSpawn.y;
+                pendingSpawn.z = selectedSpawn.z;
+                pendingSpawn.radius = selectedSpawn.radius;
+                pendingSpawn.typeId = selectedSpawn.typeId;
+                pendingSpawn.index = selectedSpawn.index;
+                pendingSpawn.attributes = selectedSpawn.attributes;
+                pendingSpawn.group = selectedSpawn.group;
+                session.setPendingSpawn(pendingSpawn);
+            }
             else if (kind == EditorSelectionKind::SpriteObject
                 && session.selection().kind == EditorSelectionKind::SpriteObject
                 && session.selection().index < sceneData.initialState.spriteObjects.size())
@@ -6795,7 +6983,11 @@ void EditorMainWindow::renderCreateButtons(EditorSession &session)
             m_viewport.setPlacementKind(kind);
         };
 
+        renderIndoorPlacementButton(session, "CreateIndoorDecoration", "Decoration", EditorSelectionKind::Entity);
+        ImGui::SameLine();
         renderIndoorPlacementButton(session, "CreateIndoorActor", "Actor", EditorSelectionKind::Actor);
+        ImGui::SameLine();
+        renderIndoorPlacementButton(session, "CreateIndoorSpawn", "Spawn", EditorSelectionKind::Spawn);
         ImGui::SameLine();
         renderIndoorPlacementButton(session, "CreateIndoorObject", "Object", EditorSelectionKind::SpriteObject);
         ImGui::SameLine();
@@ -6811,7 +7003,9 @@ void EditorMainWindow::renderCreateButtons(EditorSession &session)
         }
 
         const bool canMutateIndoorSelection =
-            session.selection().kind == EditorSelectionKind::Actor
+            session.selection().kind == EditorSelectionKind::Entity
+            || session.selection().kind == EditorSelectionKind::Actor
+            || session.selection().kind == EditorSelectionKind::Spawn
             || session.selection().kind == EditorSelectionKind::SpriteObject
             || session.selection().kind == EditorSelectionKind::Chest
             || session.selection().kind == EditorSelectionKind::Door;
@@ -7353,6 +7547,14 @@ void EditorMainWindow::assignModelBrowserSelectionPath(const std::filesystem::pa
     else if (m_modelBrowserTarget == ModelImportTarget::ImportNewBModel)
     {
         std::snprintf(m_globalBModelImportPath, sizeof(m_globalBModelImportPath), "%s", normalizedPath.c_str());
+    }
+    else if (m_modelBrowserTarget == ModelImportTarget::ImportIndoorSourceGeometry)
+    {
+        std::snprintf(
+            m_indoorSourceGeometryImportPath,
+            sizeof(m_indoorSourceGeometryImportPath),
+            "%s",
+            normalizedPath.c_str());
     }
 
     rememberModelImportDirectory(normalizedPath.c_str());
@@ -8882,6 +9084,14 @@ void EditorMainWindow::renderInspector(EditorSession &session)
     {
         selectionSummary = {"Object Placement", "Click in the viewport to place a sprite object"};
     }
+    else if (m_viewport.placementKind() == EditorSelectionKind::Entity)
+    {
+        selectionSummary = {"Decoration Placement", "Click in the viewport to place a decoration"};
+    }
+    else if (m_viewport.placementKind() == EditorSelectionKind::Spawn)
+    {
+        selectionSummary = {"Spawn Placement", "Click in the viewport to place a spawn marker"};
+    }
     else if (session.document().kind() == EditorDocument::Kind::Outdoor)
     {
         switch (m_viewport.placementKind())
@@ -8930,16 +9140,14 @@ void EditorMainWindow::renderInspector(EditorSession &session)
     ImGui::PopStyleColor(2);
     ImGui::Spacing();
 
-    if (session.document().kind() == EditorDocument::Kind::Outdoor
-        && m_viewport.placementKind() == EditorSelectionKind::Entity)
+    if (m_viewport.placementKind() == EditorSelectionKind::Entity)
     {
         renderEntityPlacementInspector(session);
         ImGui::End();
         return;
     }
 
-    if (session.document().kind() == EditorDocument::Kind::Outdoor
-        && m_viewport.placementKind() == EditorSelectionKind::Spawn)
+    if (m_viewport.placementKind() == EditorSelectionKind::Spawn)
     {
         renderSpawnPlacementInspector(session);
         ImGui::End();
@@ -9161,7 +9369,7 @@ void EditorMainWindow::renderViewportPanel(EditorSession &session, float deltaSe
     ImGui::End();
 }
 
-void EditorMainWindow::renderDocumentSummary(const EditorSession &session) const
+void EditorMainWindow::renderDocumentSummary(EditorSession &session)
 {
     const EditorDocument &document = session.document();
 
@@ -9208,11 +9416,509 @@ void EditorMainWindow::renderDocumentSummary(const EditorSession &session) const
     }
 }
 
-void EditorMainWindow::renderIndoorDocumentSummary(const EditorSession &session) const
+std::string extractQuotedIndoorSourceId(const std::string &message)
+{
+    const size_t firstQuote = message.find('\'');
+
+    if (firstQuote == std::string::npos)
+    {
+        return {};
+    }
+
+    const size_t secondQuote = message.find('\'', firstQuote + 1);
+
+    if (secondQuote == std::string::npos || secondQuote <= firstQuote + 1)
+    {
+        return {};
+    }
+
+    return message.substr(firstQuote + 1, secondQuote - firstQuote - 1);
+}
+
+enum class IndoorSourceDiagnosticGroup
+{
+    SourceAsset,
+    Portal,
+    Trigger,
+    Mechanism,
+    Marker,
+    Other
+};
+
+IndoorSourceDiagnosticGroup indoorSourceDiagnosticGroup(const std::string &message)
+{
+    if (stringContains(message, "source asset") || stringContains(message, "asset path"))
+    {
+        return IndoorSourceDiagnosticGroup::SourceAsset;
+    }
+
+    if (stringContains(message, " portal "))
+    {
+        return IndoorSourceDiagnosticGroup::Portal;
+    }
+
+    if (stringContains(message, " trigger ") || stringContains(message, "surface '"))
+    {
+        return IndoorSourceDiagnosticGroup::Trigger;
+    }
+
+    if (stringContains(message, " mechanism "))
+    {
+        return IndoorSourceDiagnosticGroup::Mechanism;
+    }
+
+    if (stringContains(message, " entity ")
+        || stringContains(message, " light ")
+        || stringContains(message, " spawn "))
+    {
+        return IndoorSourceDiagnosticGroup::Marker;
+    }
+
+    return IndoorSourceDiagnosticGroup::Other;
+}
+
+const char *indoorSourceDiagnosticGroupLabel(IndoorSourceDiagnosticGroup group)
+{
+    switch (group)
+    {
+    case IndoorSourceDiagnosticGroup::SourceAsset:
+        return "Source File";
+    case IndoorSourceDiagnosticGroup::Portal:
+        return "Portals";
+    case IndoorSourceDiagnosticGroup::Trigger:
+        return "Triggers";
+    case IndoorSourceDiagnosticGroup::Mechanism:
+        return "Mechanisms";
+    case IndoorSourceDiagnosticGroup::Marker:
+        return "Markers";
+    case IndoorSourceDiagnosticGroup::Other:
+        return "Other";
+    }
+
+    return "Other";
+}
+
+bool selectIndoorSourceDiagnosticTarget(
+    EditorSession &session,
+    const EditorIndoorGeometryMetadata &sourceGeometry,
+    const std::string &message)
+{
+    const std::string sourceId = extractQuotedIndoorSourceId(message);
+
+    if (sourceId.empty())
+    {
+        return false;
+    }
+
+    if (stringContains(message, "portal '"))
+    {
+        for (const EditorIndoorGeometryPortalMetadata &portal : sourceGeometry.portals)
+        {
+            if (portal.id == sourceId && portal.runtimeFaceIndex)
+            {
+                session.replaceInteractiveFaceSelection(*portal.runtimeFaceIndex);
+                return true;
+            }
+        }
+    }
+
+    if (stringContains(message, "surface '"))
+    {
+        for (const EditorIndoorGeometrySurfaceMetadata &surface : sourceGeometry.surfaces)
+        {
+            if (surface.id == sourceId && surface.runtimeFaceIndex)
+            {
+                session.replaceInteractiveFaceSelection(*surface.runtimeFaceIndex);
+                return true;
+            }
+        }
+    }
+
+    if (stringContains(message, "mechanism '"))
+    {
+        for (const EditorIndoorGeometryMechanismMetadata &mechanism : sourceGeometry.mechanisms)
+        {
+            if (mechanism.id == sourceId && mechanism.runtimeDoorIndex)
+            {
+                session.select(EditorSelectionKind::Door, *mechanism.runtimeDoorIndex);
+                return true;
+            }
+        }
+    }
+
+    if (stringContains(message, "entity '"))
+    {
+        for (const EditorIndoorGeometryEntityMetadata &entity : sourceGeometry.entities)
+        {
+            if (entity.id == sourceId && entity.runtimeEntityIndex)
+            {
+                session.select(EditorSelectionKind::Entity, *entity.runtimeEntityIndex);
+                return true;
+            }
+        }
+    }
+
+    if (stringContains(message, "light '"))
+    {
+        for (const EditorIndoorGeometryLightMetadata &light : sourceGeometry.lights)
+        {
+            if (light.id == sourceId && light.runtimeLightIndex)
+            {
+                session.select(EditorSelectionKind::Light, *light.runtimeLightIndex);
+                return true;
+            }
+        }
+    }
+
+    if (stringContains(message, "spawn '"))
+    {
+        for (const EditorIndoorGeometrySpawnMetadata &spawn : sourceGeometry.spawns)
+        {
+            if (spawn.id == sourceId && spawn.runtimeSpawnIndex)
+            {
+                session.select(EditorSelectionKind::Spawn, *spawn.runtimeSpawnIndex);
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+bool editIndoorSourceStringVector(
+    EditorSession &session,
+    const char *pLabel,
+    std::vector<std::string> &values,
+    size_t capacity)
+{
+    std::string joinedValues;
+
+    for (size_t index = 0; index < values.size(); ++index)
+    {
+        if (index != 0)
+        {
+            joinedValues += ", ";
+        }
+
+        joinedValues += values[index];
+    }
+
+    if (!editStringField(session, pLabel, joinedValues, capacity))
+    {
+        return false;
+    }
+
+    values.clear();
+    std::stringstream stream(joinedValues);
+    std::string entry;
+
+    while (std::getline(stream, entry, ','))
+    {
+        const std::string trimmedEntry = trimCopy(entry);
+
+        if (!trimmedEntry.empty())
+        {
+            values.push_back(trimmedEntry);
+        }
+    }
+
+    return true;
+}
+
+bool editIndoorSourceOptionalFloat(
+    EditorSession &session,
+    const char *pLabel,
+    std::optional<float> &value,
+    float defaultValue)
+{
+    float editedValue = value.value_or(defaultValue);
+
+    if (!editFloatField(session, pLabel, editedValue, 1.0f))
+    {
+        return false;
+    }
+
+    value = editedValue;
+    return true;
+}
+
+bool editIndoorSourceOptionalUInt32(
+    EditorSession &session,
+    const char *pLabel,
+    std::optional<uint32_t> &value,
+    uint32_t defaultValue)
+{
+    uint32_t editedValue = value.value_or(defaultValue);
+
+    if (!editUInt32Field(session, pLabel, editedValue))
+    {
+        return false;
+    }
+
+    value = editedValue;
+    return true;
+}
+
+void renderIndoorSourceMetadataEditor(
+    EditorSession &session,
+    EditorIndoorGeometryMetadata &sourceGeometry)
+{
+    bool changed = false;
+
+    if (beginInspectorSectionBlock("Source Metadata", false))
+    {
+        if (beginInspectorPropertyTable("IndoorSourceMetadataFields"))
+        {
+            changed = editStringField(session, "Source Asset", sourceGeometry.source.assetPath, 256) || changed;
+            changed = editStringField(session, "Authoring File", sourceGeometry.source.authoringFile, 256) || changed;
+            changed = editStringField(session, "Root Node", sourceGeometry.source.rootNodeName, 128) || changed;
+            changed = editStringField(
+                session,
+                "Coordinate System",
+                sourceGeometry.source.coordinateSystem,
+                64) || changed;
+            changed = editFloatField(session, "Unit Scale", sourceGeometry.source.unitScale, 1.0f) || changed;
+            ImGui::EndTable();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Rooms", false))
+    {
+        for (size_t roomIndex = 0; roomIndex < sourceGeometry.rooms.size(); ++roomIndex)
+        {
+            EditorIndoorGeometryRoomMetadata &room = sourceGeometry.rooms[roomIndex];
+            const std::string label =
+                room.id.empty() ? "Room " + std::to_string(roomIndex) : room.id + "##Room" + std::to_string(roomIndex);
+
+            if (ImGui::TreeNodeEx(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+            {
+                if (beginInspectorPropertyTable(("IndoorSourceRoom" + std::to_string(roomIndex)).c_str()))
+                {
+                    changed = editStringField(session, "Id", room.id, 128) || changed;
+                    changed = editStringField(session, "Name", room.name, 128) || changed;
+                    changed = editIndoorSourceStringVector(
+                        session,
+                        "Source Nodes",
+                        room.sourceNodeNames,
+                        512) || changed;
+                    ImGui::EndTable();
+                }
+
+                ImGui::TreePop();
+            }
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Portals", false))
+    {
+        for (size_t portalIndex = 0; portalIndex < sourceGeometry.portals.size(); ++portalIndex)
+        {
+            EditorIndoorGeometryPortalMetadata &portal = sourceGeometry.portals[portalIndex];
+            const std::string label = portal.id.empty()
+                ? "Portal " + std::to_string(portalIndex)
+                : portal.id + "##Portal" + std::to_string(portalIndex);
+
+            if (ImGui::TreeNodeEx(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+            {
+                if (beginInspectorPropertyTable(("IndoorSourcePortal" + std::to_string(portalIndex)).c_str()))
+                {
+                    changed = editStringField(session, "Id", portal.id, 128) || changed;
+                    changed = editStringField(session, "Name", portal.name, 128) || changed;
+                    changed = editStringField(session, "Front Room", portal.frontRoom, 128) || changed;
+                    changed = editStringField(session, "Back Room", portal.backRoom, 128) || changed;
+                    changed = editStringField(session, "Source Node", portal.sourceNodeName, 256) || changed;
+                    ImGui::EndTable();
+                }
+
+                ImGui::TreePop();
+            }
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Trigger Surfaces", false))
+    {
+        for (size_t surfaceIndex = 0; surfaceIndex < sourceGeometry.surfaces.size(); ++surfaceIndex)
+        {
+            EditorIndoorGeometrySurfaceMetadata &surface = sourceGeometry.surfaces[surfaceIndex];
+            const std::string label = surface.id.empty()
+                ? "Surface " + std::to_string(surfaceIndex)
+                : surface.id + "##Surface" + std::to_string(surfaceIndex);
+
+            if (ImGui::TreeNodeEx(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+            {
+                if (beginInspectorPropertyTable(("IndoorSourceSurface" + std::to_string(surfaceIndex)).c_str()))
+                {
+                    changed = editStringField(session, "Id", surface.id, 128) || changed;
+                    changed = editStringField(session, "Source Node", surface.sourceNodeName, 256) || changed;
+                    changed = editStringField(session, "Material", surface.materialId, 128) || changed;
+
+                    if (!surface.trigger)
+                    {
+                        if (ImGui::Button("Add Trigger"))
+                        {
+                            session.captureUndoSnapshot();
+                            surface.trigger = EditorIndoorGeometrySurfaceTriggerMetadata{};
+                            changed = true;
+                        }
+                    }
+                    else
+                    {
+                        changed = editMapEventField(session, "Event Id", surface.trigger->eventId) || changed;
+                        changed = editStringField(session, "Trigger Type", surface.trigger->type, 64) || changed;
+                    }
+
+                    ImGui::EndTable();
+                }
+
+                ImGui::TreePop();
+            }
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Mechanisms", false))
+    {
+        for (size_t mechanismIndex = 0; mechanismIndex < sourceGeometry.mechanisms.size(); ++mechanismIndex)
+        {
+            EditorIndoorGeometryMechanismMetadata &mechanism = sourceGeometry.mechanisms[mechanismIndex];
+            const std::string label = mechanism.id.empty()
+                ? "Mechanism " + std::to_string(mechanismIndex)
+                : mechanism.id + "##Mechanism" + std::to_string(mechanismIndex);
+
+            if (ImGui::TreeNodeEx(label.c_str(), ImGuiTreeNodeFlags_DefaultOpen))
+            {
+                if (beginInspectorPropertyTable(("IndoorSourceMechanism" + std::to_string(mechanismIndex)).c_str()))
+                {
+                    changed = editStringField(session, "Id", mechanism.id, 128) || changed;
+                    changed = editStringField(session, "Name", mechanism.name, 128) || changed;
+                    changed = editStringField(session, "Kind", mechanism.kind, 64) || changed;
+                    changed = editStringField(session, "Initial State", mechanism.initialState, 32) || changed;
+                    changed = editIndoorSourceStringVector(session, "Source Nodes", mechanism.sourceNodeNames, 512)
+                        || changed;
+                    changed = editIndoorSourceStringVector(
+                        session,
+                        "Trigger Surfaces",
+                        mechanism.triggerSurfaceIds,
+                        512) || changed;
+                    changed = editIndoorSourceOptionalUInt32(
+                        session,
+                        "Door Id",
+                        mechanism.doorId,
+                        mechanism.mechanismId)
+                        || changed;
+                    changed = editIndoorSourceOptionalFloat(session, "Move Distance", mechanism.moveDistance, 512.0f)
+                        || changed;
+                    changed = editIndoorSourceOptionalUInt32(session, "Move Length", mechanism.moveLength, 512)
+                        || changed;
+                    changed = editIndoorSourceOptionalFloat(session, "Open Speed", mechanism.openSpeed, 128.0f)
+                        || changed;
+                    changed = editIndoorSourceOptionalFloat(session, "Close Speed", mechanism.closeSpeed, 128.0f)
+                        || changed;
+                    ImGui::EndTable();
+                }
+
+                ImGui::TreePop();
+            }
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Markers", false))
+    {
+        for (size_t entityIndex = 0; entityIndex < sourceGeometry.entities.size(); ++entityIndex)
+        {
+            EditorIndoorGeometryEntityMetadata &entity = sourceGeometry.entities[entityIndex];
+            const std::string label = entity.id.empty()
+                ? "Decoration " + std::to_string(entityIndex)
+                : entity.id + "##Entity" + std::to_string(entityIndex);
+
+            if (ImGui::TreeNodeEx(label.c_str()))
+            {
+                if (beginInspectorPropertyTable(("IndoorSourceEntity" + std::to_string(entityIndex)).c_str()))
+                {
+                    changed = editStringField(session, "Id", entity.id, 128) || changed;
+                    changed = editStringField(session, "Kind", entity.kind, 64) || changed;
+                    changed = editStringField(session, "Source Node", entity.sourceNodeName, 256) || changed;
+                    changed = editUInt16Field(session, "Decoration List Id", entity.decorationListId) || changed;
+                    changed = editMapEventField(session, "Event Primary", entity.eventIdPrimary) || changed;
+                    changed = editMapEventField(session, "Event Secondary", entity.eventIdSecondary) || changed;
+                    ImGui::EndTable();
+                }
+
+                ImGui::TreePop();
+            }
+        }
+
+        for (size_t lightIndex = 0; lightIndex < sourceGeometry.lights.size(); ++lightIndex)
+        {
+            EditorIndoorGeometryLightMetadata &light = sourceGeometry.lights[lightIndex];
+            const std::string label = light.id.empty()
+                ? "Light " + std::to_string(lightIndex)
+                : light.id + "##Light" + std::to_string(lightIndex);
+
+            if (ImGui::TreeNodeEx(label.c_str()))
+            {
+                if (beginInspectorPropertyTable(("IndoorSourceLight" + std::to_string(lightIndex)).c_str()))
+                {
+                    changed = editStringField(session, "Id", light.id, 128) || changed;
+                    changed = editStringField(session, "Source Node", light.sourceNodeName, 256) || changed;
+                    changed = editStringField(session, "Type", light.type, 64) || changed;
+                    changed = editInt16Field(session, "Radius", light.radius) || changed;
+                    changed = editInt16Field(session, "Brightness", light.brightness) || changed;
+                    ImGui::EndTable();
+                }
+
+                ImGui::TreePop();
+            }
+        }
+
+        for (size_t spawnIndex = 0; spawnIndex < sourceGeometry.spawns.size(); ++spawnIndex)
+        {
+            EditorIndoorGeometrySpawnMetadata &spawn = sourceGeometry.spawns[spawnIndex];
+            const std::string label = spawn.id.empty()
+                ? "Spawn " + std::to_string(spawnIndex)
+                : spawn.id + "##Spawn" + std::to_string(spawnIndex);
+
+            if (ImGui::TreeNodeEx(label.c_str()))
+            {
+                if (beginInspectorPropertyTable(("IndoorSourceSpawn" + std::to_string(spawnIndex)).c_str()))
+                {
+                    changed = editStringField(session, "Id", spawn.id, 128) || changed;
+                    changed = editStringField(session, "Source Node", spawn.sourceNodeName, 256) || changed;
+                    changed = editUInt16Field(session, "Type Id", spawn.typeId) || changed;
+                    changed = editUInt16Field(session, "Index", spawn.index) || changed;
+                    changed = editUInt16Field(session, "Radius", spawn.radius) || changed;
+                    changed = editUInt32Field(session, "Group", spawn.group) || changed;
+                    ImGui::EndTable();
+                }
+
+                ImGui::TreePop();
+            }
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (changed)
+    {
+        session.noteDocumentMutated("Edited indoor source metadata");
+    }
+}
+
+void EditorMainWindow::renderIndoorDocumentSummary(EditorSession &session)
 {
     const EditorDocument &document = session.document();
     const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
     const Game::IndoorSceneData &sceneData = document.indoorSceneData();
+    const EditorIndoorGeometryMetadata &sourceGeometry = document.indoorGeometryMetadata();
 
     ImGui::Text("Map: %s", document.displayName().c_str());
     ImGui::Text("Scene: %s", document.sceneVirtualPath().c_str());
@@ -9228,11 +9934,205 @@ void EditorMainWindow::renderIndoorDocumentSummary(const EditorSession &session)
     ImGui::Text("Chests: %zu", sceneData.initialState.chests.size());
     ImGui::Text("Doors: %zu", sceneData.initialState.doors.size());
     ImGui::Text("Dirty: %s", document.isDirty() ? "yes" : "no");
+    ImGui::Spacing();
+    ImGui::SeparatorText("Source Geometry");
+    ImGui::Text("Metadata: %s", document.hasIndoorGeometryMetadata() ? "yes" : "no");
+    const char *pSourceAsset =
+        sourceGeometry.source.assetPath.empty() ? "<none>" : sourceGeometry.source.assetPath.c_str();
+    ImGui::Text("Source Asset: %s", pSourceAsset);
+    ImGui::Text(
+        "Rooms %zu  Portals %zu  Surfaces %zu  Mechanisms %zu",
+        sourceGeometry.rooms.size(),
+        sourceGeometry.portals.size(),
+        sourceGeometry.surfaces.size(),
+        sourceGeometry.mechanisms.size());
+
+    std::vector<std::string> sourceDiagnostics;
+
+    for (const std::string &message : session.validationMessages())
+    {
+        if (isIndoorSourceDiagnostic(message))
+        {
+            sourceDiagnostics.push_back(message);
+        }
+    }
+
+    const bool hasSourceMetadata =
+        document.hasIndoorGeometryMetadata() || !isIndoorGeometryMetadataEmpty(sourceGeometry);
+    const bool sourceMissing = std::any_of(
+        sourceDiagnostics.begin(),
+        sourceDiagnostics.end(),
+        [](const std::string &message)
+        {
+            return stringContains(message, "source asset is missing")
+                || stringContains(message, "source asset path is empty");
+        });
+    const char *pSourceStatus = "No Source Metadata";
+    uint32_t sourceStatusTextColor = 0xAEB6C2;
+
+    if (hasSourceMetadata && sourceMissing)
+    {
+        pSourceStatus = "Source Missing";
+        sourceStatusTextColor = 0xF5D3D3;
+    }
+    else if (hasSourceMetadata && !sourceDiagnostics.empty())
+    {
+        pSourceStatus = "Source Has Warnings";
+        sourceStatusTextColor = 0xF2DEC2;
+    }
+    else if (hasSourceMetadata)
+    {
+        pSourceStatus = "Source OK";
+        sourceStatusTextColor = 0xD7F0DB;
+    }
+
+    ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(sourceStatusTextColor));
+    ImGui::Text("Status: %s", pSourceStatus);
+    ImGui::PopStyleColor();
+
+    if (beginInspectorPropertyTable("IndoorSourceGeometryImportFields"))
+    {
+        beginInspectorFieldRow("Model Path");
+        const float browseButtonWidth = 30.0f;
+        ImGui::SetNextItemWidth(-browseButtonWidth - ImGui::GetStyle().ItemSpacing.x);
+        ImGui::InputText(
+            "##IndoorSourceGeometryImportPath",
+            m_indoorSourceGeometryImportPath,
+            sizeof(m_indoorSourceGeometryImportPath));
+        ImGui::SameLine();
+
+        if (ImGui::Button("...", ImVec2(browseButtonWidth, 0.0f)))
+        {
+            openModelFileBrowser(
+                ModelImportTarget::ImportIndoorSourceGeometry,
+                m_indoorSourceGeometryImportPath);
+        }
+
+        ImGui::EndTable();
+    }
+
+    if (ImGui::Button("Import Source Geometry", ImVec2(180.0f, 0.0f)))
+    {
+        std::string errorMessage;
+
+        if (session.importIndoorSourceGeometryFromModel(m_indoorSourceGeometryImportPath, errorMessage))
+        {
+            rememberModelImportDirectory(m_indoorSourceGeometryImportPath);
+            setStatusMessage(StatusMessageKind::Success, "Imported indoor source geometry metadata.");
+        }
+        else
+        {
+            setStatusMessage(StatusMessageKind::Error, errorMessage);
+            session.logError(errorMessage);
+        }
+    }
+    ImGui::SameLine();
+
+    if (!hasSourceMetadata)
+    {
+        ImGui::BeginDisabled();
+    }
+
+    if (ImGui::Button("Build Source Geometry", ImVec2(180.0f, 0.0f)))
+    {
+        std::string errorMessage;
+
+        if (session.buildActiveDocument(errorMessage))
+        {
+            setStatusMessage(StatusMessageKind::Success, "Built indoor source geometry.");
+        }
+        else
+        {
+            setStatusMessage(StatusMessageKind::Error, errorMessage);
+            session.logError(errorMessage);
+        }
+    }
+
+    if (!hasSourceMetadata)
+    {
+        ImGui::EndDisabled();
+    }
+
+    if (!sourceDiagnostics.empty() && beginInspectorSectionBlock("Source Diagnostics"))
+    {
+        const std::array<IndoorSourceDiagnosticGroup, 6> groups = {{
+            IndoorSourceDiagnosticGroup::SourceAsset,
+            IndoorSourceDiagnosticGroup::Portal,
+            IndoorSourceDiagnosticGroup::Trigger,
+            IndoorSourceDiagnosticGroup::Mechanism,
+            IndoorSourceDiagnosticGroup::Marker,
+            IndoorSourceDiagnosticGroup::Other
+        }};
+
+        for (IndoorSourceDiagnosticGroup group : groups)
+        {
+            size_t groupIssueCount = 0;
+
+            for (const std::string &message : sourceDiagnostics)
+            {
+                if (indoorSourceDiagnosticGroup(message) == group)
+                {
+                    ++groupIssueCount;
+                }
+            }
+
+            if (groupIssueCount == 0)
+            {
+                continue;
+            }
+
+            ImGui::PushStyleColor(ImGuiCol_Text, colorFromRgb(0xF8E4C7));
+            ImGui::Text("%s · %zu", indoorSourceDiagnosticGroupLabel(group), groupIssueCount);
+            ImGui::PopStyleColor();
+
+            for (size_t index = 0; index < sourceDiagnostics.size(); ++index)
+            {
+                const std::string &message = sourceDiagnostics[index];
+
+                if (indoorSourceDiagnosticGroup(message) != group)
+                {
+                    continue;
+                }
+
+                ImGui::PushID(static_cast<int>(index));
+                const bool canSelect = !extractQuotedIndoorSourceId(message).empty();
+
+                if (!canSelect)
+                {
+                    ImGui::BeginDisabled();
+                }
+
+                if (ImGui::SmallButton("Select"))
+                {
+                    selectIndoorSourceDiagnosticTarget(session, sourceGeometry, message);
+                }
+
+                if (!canSelect)
+                {
+                    ImGui::EndDisabled();
+                }
+
+                ImGui::SameLine();
+                ImGui::TextWrapped("%s", message.c_str());
+                ImGui::PopID();
+            }
+
+            ImGui::Spacing();
+        }
+
+        endInspectorSectionBlock();
+    }
+
+    if (hasSourceMetadata)
+    {
+        EditorIndoorGeometryMetadata &mutableSourceGeometry = session.document().mutableIndoorGeometryMetadata();
+        renderIndoorSourceMetadataEditor(session, mutableSourceGeometry);
+    }
 
     if (!session.validationMessages().empty())
     {
         ImGui::Spacing();
-        ImGui::Text("Validation Issues: %zu", session.validationMessages().size());
+        ImGui::Text("All Validation Issues: %zu", session.validationMessages().size());
 
         const size_t issueCountToShow = std::min<size_t>(session.validationMessages().size(), 6);
 
@@ -12738,6 +13638,9 @@ void EditorMainWindow::renderActorInspector(EditorSession &session, size_t actor
     }
 
     Game::MapDeltaActor &actor = actors[actorIndex];
+    const int originalX = actor.x;
+    const int originalY = actor.y;
+    const int originalZ = actor.z;
     const Game::MonsterTable &monsterTable = session.monsterTable();
     const std::string displayLabel = actorDisplayLabel(&monsterTable, actor, actorIndex);
     const std::string templateLabel = actorMonsterTemplateLabel(&monsterTable, actor);
@@ -12832,6 +13735,32 @@ void EditorMainWindow::renderActorInspector(EditorSession &session, size_t actor
 
     if (changed)
     {
+        if (session.document().kind() == EditorDocument::Kind::Indoor)
+        {
+            const int snappedZ =
+                snapIndoorActorZToFloor(session.document().indoorGeometry(), actor.x, actor.y, actor.z);
+
+            if (snappedZ != actor.z)
+            {
+                actor.z = snappedZ;
+                changed = true;
+            }
+
+            if (actor.x != originalX || actor.y != originalY || actor.z != originalZ)
+            {
+                Game::IndoorMapData &indoorGeometry = session.document().mutableIndoorGeometry();
+                const std::optional<int16_t> sectorId = Game::findIndoorSectorForPoint(
+                    indoorGeometry,
+                    indoorGeometry.vertices,
+                    {
+                        static_cast<float>(actor.x),
+                        static_cast<float>(actor.y),
+                        static_cast<float>(actor.z)
+                    });
+                actor.sectorId = sectorId.value_or(-1);
+            }
+        }
+
         session.noteDocumentMutated({});
     }
 }
@@ -13386,7 +14315,7 @@ void EditorMainWindow::renderChestInspector(EditorSession &session, size_t chest
 
 void EditorMainWindow::renderIndoorEntityInspector(EditorSession &session, size_t entityIndex) const
 {
-    const Game::IndoorMapData &indoorGeometry = session.document().indoorGeometry();
+    Game::IndoorMapData &indoorGeometry = session.document().mutableIndoorGeometry();
 
     if (entityIndex >= indoorGeometry.entities.size())
     {
@@ -13394,28 +14323,116 @@ void EditorMainWindow::renderIndoorEntityInspector(EditorSession &session, size_
         return;
     }
 
-    const Game::IndoorEntity &entity = indoorGeometry.entities[entityIndex];
+    Game::IndoorEntity &entity = indoorGeometry.entities[entityIndex];
+    const int originalX = entity.x;
+    const int originalY = entity.y;
+    const int originalZ = entity.z;
+    bool changed = false;
 
-    if (beginInspectorPropertyTable("IndoorEntityFields"))
+    if (beginInspectorSectionBlock("Overview"))
     {
-        renderInspectorReadOnlyField("Name", entity.name.empty() ? "<none>" : entity.name);
-        renderInspectorReadOnlyField("Decoration Id", std::to_string(entity.decorationListId));
-        renderInspectorReadOnlyField("AI Attributes", std::to_string(entity.aiAttributes));
-        renderInspectorReadOnlyField("Position",
-            std::to_string(entity.x) + ", " + std::to_string(entity.y) + ", " + std::to_string(entity.z));
-        renderInspectorReadOnlyField("Facing", std::to_string(entity.facing));
-        renderInspectorReadOnlyField("Primary Event", std::to_string(entity.eventIdPrimary));
-        renderInspectorReadOnlyField("Secondary Event", std::to_string(entity.eventIdSecondary));
-        renderInspectorReadOnlyField("Primary Variable", std::to_string(entity.variablePrimary));
-        renderInspectorReadOnlyField("Secondary Variable", std::to_string(entity.variableSecondary));
-        renderInspectorReadOnlyField("Special Trigger", std::to_string(entity.specialTrigger));
-        ImGui::EndTable();
+        if (beginInspectorPropertyTable("IndoorEntityOverviewFields"))
+        {
+            const uint16_t originalDecorationListId = entity.decorationListId;
+            const bool decorationChanged = renderDecorationSelector(
+                session,
+                "Decoration",
+                entity.decorationListId,
+                false);
+            changed = decorationChanged || changed;
+
+            if (decorationChanged)
+            {
+                if (const Game::DecorationEntry *pDecoration = session.decorationTable().get(entity.decorationListId))
+                {
+                    entity.name = pDecoration->internalName;
+                }
+                else if (entity.decorationListId != originalDecorationListId)
+                {
+                    entity.name.clear();
+                }
+            }
+
+            renderInspectorReadOnlyField("Entity Index", std::to_string(entityIndex));
+            changed = editStringField(session, "Name", entity.name, 128) || changed;
+            renderInspectorReadOnlyField("Decoration List Id", std::to_string(entity.decorationListId));
+            renderInspectorReadOnlyField(
+                "Resolved Hint",
+                [&session, &entity]()
+                {
+                    const Game::DecorationEntry *pDecoration = session.decorationTable().get(entity.decorationListId);
+                    return pDecoration != nullptr && !pDecoration->hint.empty()
+                        ? pDecoration->hint
+                        : std::string("<none>");
+                }());
+
+            Game::IndoorFaceGeometryCache geometryCache(indoorGeometry.faces.size());
+            const std::optional<uint16_t> roomId =
+                findIndoorRoomIdForPoint(indoorGeometry, entity.x, entity.y, entity.z, geometryCache);
+            renderInspectorReadOnlyField("Room", roomId ? std::to_string(*roomId) : std::string("<unknown>"));
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Placement"))
+    {
+        if (beginInspectorPropertyTable("IndoorEntityPlacementFields"))
+        {
+            changed = editPositionField(session, "Position", entity.x, entity.y, entity.z) || changed;
+            changed = editIntField(
+                session,
+                "Facing",
+                entity.facing,
+                std::numeric_limits<int>::min(),
+                std::numeric_limits<int>::max()) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Behavior"))
+    {
+        if (beginInspectorPropertyTable("IndoorEntityBehaviorFields"))
+        {
+            changed = editUInt16Field(session, "AI Attributes", entity.aiAttributes) || changed;
+            changed = editUInt16Field(session, "Variable Primary", entity.variablePrimary) || changed;
+            changed = editUInt16Field(session, "Variable Secondary", entity.variableSecondary) || changed;
+            changed = editUInt16Field(session, "Special Trigger", entity.specialTrigger) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Events"))
+    {
+        if (beginInspectorPropertyTable("IndoorEntityEventFields"))
+        {
+            changed = editMapEventField(session, "Event Primary", entity.eventIdPrimary) || changed;
+            renderResolvedMapEventField(session, "Primary Event Label", entity.eventIdPrimary);
+            changed = editMapEventField(session, "Event Secondary", entity.eventIdSecondary) || changed;
+            renderResolvedMapEventField(session, "Secondary Event Label", entity.eventIdSecondary);
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (changed)
+    {
+        if (entity.x != originalX || entity.y != originalY || entity.z != originalZ)
+        {
+            assignIndoorEntityToSector(indoorGeometry, entityIndex);
+        }
+
+        session.setPendingEntityDecorationListId(entity.decorationListId);
+        indoorGeometry.spriteCount = indoorGeometry.entities.size();
+        session.noteDocumentMutated({});
     }
 }
 
 void EditorMainWindow::renderIndoorSpawnInspector(EditorSession &session, size_t spawnIndex) const
 {
-    const Game::IndoorMapData &indoorGeometry = session.document().indoorGeometry();
+    Game::IndoorMapData &indoorGeometry = session.document().mutableIndoorGeometry();
 
     if (spawnIndex >= indoorGeometry.spawns.size())
     {
@@ -13423,18 +14440,133 @@ void EditorMainWindow::renderIndoorSpawnInspector(EditorSession &session, size_t
         return;
     }
 
-    const Game::IndoorSpawn &spawn = indoorGeometry.spawns[spawnIndex];
+    Game::IndoorSpawn &spawn = indoorGeometry.spawns[spawnIndex];
+    Game::OutdoorSpawn editableSpawn = {};
+    editableSpawn.x = spawn.x;
+    editableSpawn.y = spawn.y;
+    editableSpawn.z = spawn.z;
+    editableSpawn.radius = spawn.radius;
+    editableSpawn.typeId = spawn.typeId;
+    editableSpawn.index = spawn.index;
+    editableSpawn.attributes = spawn.attributes;
+    editableSpawn.group = spawn.group;
 
-    if (beginInspectorPropertyTable("IndoorSpawnFields"))
+    const Game::MapStatsEntry *pMapEntry = session.currentMapStatsEntry();
+    const Game::SpawnPreview preview = pMapEntry != nullptr
+        ? Game::SpawnPreviewResolver::describe(
+            *pMapEntry,
+            &session.monsterTable(),
+            spawn.typeId,
+            spawn.index,
+            spawn.attributes,
+            spawn.group)
+        : Game::SpawnPreview {};
+    bool changed = false;
+
+    if (pMapEntry == nullptr)
     {
-        renderInspectorReadOnlyField("Position",
-            std::to_string(spawn.x) + ", " + std::to_string(spawn.y) + ", " + std::to_string(spawn.z));
-        renderInspectorReadOnlyField("Radius", std::to_string(spawn.radius));
-        renderInspectorReadOnlyField("Type Id", std::to_string(spawn.typeId));
-        renderInspectorReadOnlyField("Index", std::to_string(spawn.index));
-        renderInspectorReadOnlyField("Attributes", std::to_string(spawn.attributes));
-        renderInspectorReadOnlyField("Group", std::to_string(spawn.group));
-        ImGui::EndTable();
+        ImGui::TextUnformatted("Map stats entry is unavailable. Spawn semantics may be incomplete.");
+    }
+
+    const auto applyEditableSpawn =
+        [&spawn, &editableSpawn]()
+    {
+        spawn.x = editableSpawn.x;
+        spawn.y = editableSpawn.y;
+        spawn.z = editableSpawn.z;
+        spawn.radius = editableSpawn.radius;
+        spawn.typeId = editableSpawn.typeId;
+        spawn.index = editableSpawn.index;
+        spawn.attributes = editableSpawn.attributes;
+        spawn.group = editableSpawn.group;
+    };
+
+    if (beginInspectorSectionBlock("Overview"))
+    {
+        if (beginInspectorPropertyTable("IndoorSpawnIdentityFields"))
+        {
+            renderInspectorReadOnlyField("Spawn Index", std::to_string(spawnIndex));
+            changed = editSpawnTypeField(session, editableSpawn) || changed;
+
+            if (editableSpawn.typeId == 3 && pMapEntry != nullptr)
+            {
+                changed = editActorSpawnEncounterField(session, *pMapEntry, editableSpawn) || changed;
+            }
+            else if (editableSpawn.typeId == 2)
+            {
+                changed = renderObjectSelector(session, "Object Description", editableSpawn.index, false) || changed;
+            }
+            else
+            {
+                changed = editUInt16Field(session, "Index", editableSpawn.index) || changed;
+            }
+
+            renderInspectorReadOnlyField("Type Label", preview.typeName.empty() ? "<unknown>" : preview.typeName);
+            renderInspectorReadOnlyField("Summary", preview.summary.empty() ? "<unresolved>" : preview.summary);
+            renderInspectorReadOnlyField("Detail", preview.detail.empty() ? "<none>" : preview.detail);
+            const Game::ObjectEntry *pObjectEntry =
+                editableSpawn.typeId == 2 ? session.objectTable().get(editableSpawn.index) : nullptr;
+            renderInspectorReadOnlyField(
+                "Object Label",
+                pObjectEntry != nullptr && !pObjectEntry->internalName.empty()
+                    ? pObjectEntry->internalName
+                    : "<none>");
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Placement"))
+    {
+        if (beginInspectorPropertyTable("IndoorSpawnPlacementFields"))
+        {
+            changed = editPositionField(session, "Position", editableSpawn.x, editableSpawn.y, editableSpawn.z)
+                || changed;
+            changed = editUInt16Field(session, "Radius", editableSpawn.radius) || changed;
+            changed = editUInt32Field(session, "Group", editableSpawn.group) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Behavior"))
+    {
+        if (beginInspectorPropertyTable("IndoorSpawnBehaviorFields"))
+        {
+            changed = editUInt16Field(session, "Attributes", editableSpawn.attributes) || changed;
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (beginInspectorSectionBlock("Overrides And Legacy", false))
+    {
+        if (beginInspectorPropertyTable("IndoorSpawnLegacyFields"))
+        {
+            changed = editUInt16Field(session, "Type Id Raw", editableSpawn.typeId) || changed;
+            changed = editUInt16Field(session, "Index Raw", editableSpawn.index) || changed;
+            renderInspectorReadOnlyField("Resolved Type", preview.typeName.empty() ? "<unknown>" : preview.typeName);
+            renderInspectorReadOnlyField("Resolved Summary", preview.summary.empty() ? "<unresolved>" : preview.summary);
+            ImGui::EndTable();
+        }
+        endInspectorSectionBlock();
+    }
+
+    if (changed)
+    {
+        if (editableSpawn.typeId == 3)
+        {
+            editableSpawn.z = snapIndoorActorZToFloor(
+                indoorGeometry,
+                editableSpawn.x,
+                editableSpawn.y,
+                editableSpawn.z);
+        }
+
+        applyEditableSpawn();
+        session.setPendingSpawn(editableSpawn);
+        indoorGeometry.spawnCount = indoorGeometry.spawns.size();
+        session.noteDocumentMutated({});
     }
 }
 

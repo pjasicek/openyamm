@@ -64,7 +64,8 @@ private:
     {
         None,
         ReplaceSelectedBModel,
-        ImportNewBModel
+        ImportNewBModel,
+        ImportIndoorSourceGeometry
     };
 
     enum class MapPackageAction
@@ -176,8 +177,8 @@ private:
     void destroyBitmapPreviewTextures();
     void duplicateSelected(EditorSession &session);
     void deleteSelected(EditorSession &session);
-    void renderDocumentSummary(const EditorSession &session) const;
-    void renderIndoorDocumentSummary(const EditorSession &session) const;
+    void renderDocumentSummary(EditorSession &session);
+    void renderIndoorDocumentSummary(EditorSession &session);
     void renderEnvironmentInspector(EditorSession &session) const;
     void renderIndoorEnvironmentInspector(EditorSession &session) const;
     void renderTerrainInspector(EditorSession &session) const;
@@ -247,6 +248,7 @@ private:
     mutable std::string m_globalBModelImportSelectedMeshName;
     mutable ModelImportInspectionState m_globalBModelImportInspection;
     mutable bool m_globalBModelImportSplitByMesh = false;
+    mutable char m_indoorSourceGeometryImportPath[512] = {};
     mutable bool m_openNewOutdoorMapModal = false;
     mutable bool m_closeNewOutdoorMapModal = false;
     mutable char m_newOutdoorMapId[64] = {};

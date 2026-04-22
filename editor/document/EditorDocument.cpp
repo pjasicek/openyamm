@@ -1,4 +1,5 @@
 #include "editor/document/EditorDocument.h"
+#include "editor/import/IndoorSourceGeometryCompiler.h"
 #include "editor/import/ObjModelImport.h"
 
 #include <yaml-cpp/yaml.h>
@@ -32,6 +33,7 @@ constexpr size_t ChestItemPayloadSize = 140 * 36;
 constexpr char DocumentSnapshotSeparator[] = "\n---ODM-HEX---\n";
 constexpr char IndoorDocumentSnapshotSeparator[] = "\n---BLV-HEX---\n";
 constexpr char DocumentSnapshotGeometryMetadataSeparator[] = "\n---GEOMETRY-YML---\n";
+constexpr char IndoorDocumentSnapshotGeometryMetadataSeparator[] = "\n---INDOOR-GEOMETRY-YML---\n";
 constexpr char DocumentSnapshotTerrainMetadataSeparator[] = "\n---TERRAIN-YML---\n";
 constexpr int DefaultOutdoorBoundsExtent = 23143;
 constexpr int DefaultOutdoorEncounterChance = 0;
@@ -1109,6 +1111,106 @@ std::optional<std::vector<uint8_t>> compileOutdoorGeometryBytes(
     return geometryWriter.buildBytes(outdoorMapData);
 }
 
+std::filesystem::path resolveIndoorSourceAssetPath(
+    const std::filesystem::path &developmentRoot,
+    const std::filesystem::path &scenePhysicalPath,
+    const EditorIndoorGeometryMetadata &metadata)
+{
+    const std::string sourceAssetPath = trimCopy(metadata.source.assetPath);
+
+    if (sourceAssetPath.empty())
+    {
+        return {};
+    }
+
+    const std::filesystem::path sourcePath(sourceAssetPath);
+
+    if (sourcePath.is_absolute())
+    {
+        return sourcePath;
+    }
+
+    if (!scenePhysicalPath.empty())
+    {
+        const std::filesystem::path sceneRelativePath = scenePhysicalPath.parent_path() / sourcePath;
+
+        if (std::filesystem::exists(sceneRelativePath))
+        {
+            return sceneRelativePath;
+        }
+    }
+
+    return developmentRoot / sourcePath;
+}
+
+bool compileIndoorSourceGeometryBytes(
+    const std::filesystem::path &developmentRoot,
+    const std::filesystem::path &scenePhysicalPath,
+    const EditorIndoorGeometryMetadata &metadata,
+    const Game::IndoorSceneData &sceneData,
+    Game::IndoorMapData &compiledGeometry,
+    std::vector<uint8_t> &compiledBytes,
+    std::string &errorMessage)
+{
+    const std::filesystem::path sourcePath = resolveIndoorSourceAssetPath(developmentRoot, scenePhysicalPath, metadata);
+
+    if (sourcePath.empty() || !std::filesystem::exists(sourcePath))
+    {
+        return false;
+    }
+
+    IndoorSourceGeometryCompileResult compileResult = {};
+
+    if (!compileIndoorSourceGeometry(sourcePath, metadata, compileResult, errorMessage))
+    {
+        errorMessage = "could not compile indoor source geometry: " + errorMessage;
+        return false;
+    }
+
+    Game::MapDeltaData ignoredMapDeltaData = {};
+    compiledGeometry = std::move(compileResult.indoorGeometry);
+    Game::IndoorSceneData compiledSceneData = sceneData;
+
+    if (!compileResult.generatedDoors.empty())
+    {
+        std::unordered_set<size_t> doorIndices;
+
+        for (const Game::IndoorSceneDoor &door : compiledSceneData.initialState.doors)
+        {
+            doorIndices.insert(door.doorIndex);
+        }
+
+        for (const Game::IndoorSceneDoor &generatedDoor : compileResult.generatedDoors)
+        {
+            if (!doorIndices.insert(generatedDoor.doorIndex).second)
+            {
+                errorMessage = "source-generated indoor mechanism conflicts with an authored scene door index";
+                return false;
+            }
+
+            compiledSceneData.initialState.doors.push_back(generatedDoor);
+        }
+    }
+
+    if (!Game::buildIndoorMapStateFromScene(compiledSceneData, compiledGeometry, ignoredMapDeltaData, errorMessage))
+    {
+        errorMessage = "could not apply indoor scene to compiled source geometry: " + errorMessage;
+        return false;
+    }
+
+    Game::IndoorMapDataWriter writer = {};
+    const std::optional<std::vector<uint8_t>> bytes = writer.buildBytes(compiledGeometry);
+
+    if (!bytes)
+    {
+        errorMessage = "could not serialize compiled indoor source geometry";
+        return false;
+    }
+
+    compiledBytes = *bytes;
+    return true;
+}
+
 std::string deriveDefaultScriptModuleForMapFile(const std::string &mapFileName)
 {
     const std::string stem = std::filesystem::path(mapFileName).stem().string();
@@ -1754,6 +1856,11 @@ bool EditorDocument::createNewOutdoorMapPackage(
     m_outdoorGeometry = {};
     m_outdoorGeometry.version = 8;
     m_outdoorGeometrySourceBytes.clear();
+    m_indoorGeometry = {};
+    m_indoorSceneData = {};
+    m_indoorGeometrySourceBytes.clear();
+    m_hasIndoorGeometryMetadata = false;
+    m_indoorGeometryMetadata = {};
     m_outdoorSceneData = {};
     m_outdoorGeometryMetadata = {};
     m_outdoorMapPackageMetadata = {};
@@ -1874,19 +1981,57 @@ bool EditorDocument::saveSourceAs(const std::filesystem::path &scenePhysicalPath
             scenePhysicalPath,
             m_indoorSceneData.geometryFile);
         const std::filesystem::path targetGeometryPath = scenePhysicalPath.parent_path() / targetGeometryFileName;
+        const std::filesystem::path targetGeometryMetadataPath =
+            deriveGeometryMetadataPathForScenePath(scenePhysicalPath);
         const std::string yamlText = serializeIndoorScene(m_indoorSceneData, targetGeometryFileName);
+        Game::IndoorMapDataWriter geometryWriter = {};
+        const std::optional<std::vector<uint8_t>> geometryBytes = geometryWriter.buildBytes(m_indoorGeometry);
+
+        if (!geometryBytes)
+        {
+            errorMessage = "could not serialize indoor geometry";
+            return false;
+        }
 
         if (!writeTextFileAtomically(scenePhysicalPath, yamlText, errorMessage))
         {
             return false;
         }
 
+        if (!m_hasIndoorGeometryMetadata
+            && !writeBinaryFileAtomically(targetGeometryPath, *geometryBytes, errorMessage))
+        {
+            return false;
+        }
+
+        if (m_hasIndoorGeometryMetadata || !isIndoorGeometryMetadataEmpty(m_indoorGeometryMetadata))
+        {
+            m_hasIndoorGeometryMetadata = true;
+            normalizeIndoorGeometryMetadata(m_indoorGeometryMetadata, targetGeometryFileName);
+
+            if (!writeTextFileAtomically(
+                    targetGeometryMetadataPath,
+                    serializeIndoorGeometryMetadata(m_indoorGeometryMetadata),
+                    errorMessage))
+            {
+                return false;
+            }
+        }
+
         m_scenePhysicalPath = scenePhysicalPath;
         m_sceneVirtualPath = sceneVirtualPathFromPhysical(m_editorDevelopmentRoot, scenePhysicalPath);
         m_geometryPhysicalPath = targetGeometryPath;
         m_geometryVirtualPath = sceneVirtualPathFromPhysical(m_editorDevelopmentRoot, targetGeometryPath);
-        m_geometryMetadataPhysicalPath.clear();
-        m_geometryMetadataVirtualPath.clear();
+        m_geometryMetadataPhysicalPath =
+            m_hasIndoorGeometryMetadata ? targetGeometryMetadataPath : std::filesystem::path();
+        m_geometryMetadataVirtualPath =
+            m_hasIndoorGeometryMetadata
+                ? sceneVirtualPathFromPhysical(m_editorDevelopmentRoot, targetGeometryMetadataPath)
+                : std::string();
+        if (!m_hasIndoorGeometryMetadata)
+        {
+            m_indoorGeometrySourceBytes = *geometryBytes;
+        }
         m_mapPackagePhysicalPath.clear();
         m_mapPackageVirtualPath.clear();
         m_terrainMetadataPhysicalPath.clear();
@@ -2088,6 +2233,38 @@ bool EditorDocument::buildRuntimeAs(const std::filesystem::path &scenePhysicalPa
             scenePhysicalPath,
             m_indoorSceneData.geometryFile);
         const std::filesystem::path targetGeometryPath = scenePhysicalPath.parent_path() / targetGeometryFileName;
+        Game::IndoorMapData compiledIndoorGeometry = {};
+        std::vector<uint8_t> compiledIndoorGeometryBytes;
+        std::string compileErrorMessage;
+
+        if (m_hasIndoorGeometryMetadata
+            && compileIndoorSourceGeometryBytes(
+                m_editorDevelopmentRoot,
+                scenePhysicalPath,
+                m_indoorGeometryMetadata,
+                m_indoorSceneData,
+                compiledIndoorGeometry,
+                compiledIndoorGeometryBytes,
+                compileErrorMessage))
+        {
+            if (!writeBinaryFileAtomically(targetGeometryPath, compiledIndoorGeometryBytes, errorMessage))
+            {
+                return false;
+            }
+
+            m_indoorGeometry = std::move(compiledIndoorGeometry);
+            m_indoorGeometrySourceBytes = std::move(compiledIndoorGeometryBytes);
+            m_geometryPhysicalPath = targetGeometryPath;
+            m_geometryVirtualPath = sceneVirtualPathFromPhysical(m_editorDevelopmentRoot, targetGeometryPath);
+            m_isRuntimeBuildDirty = false;
+            return true;
+        }
+
+        if (!compileErrorMessage.empty())
+        {
+            errorMessage = compileErrorMessage;
+            return false;
+        }
 
         if (!m_indoorGeometrySourceBytes.empty()
             && !writeBinaryFileAtomically(targetGeometryPath, m_indoorGeometrySourceBytes, errorMessage))
@@ -2289,6 +2466,33 @@ bool EditorDocument::buildIndoorAuthoredRuntimeState(
         return false;
     }
 
+    if (m_hasIndoorGeometryMetadata)
+    {
+        Game::IndoorMapData compiledIndoorGeometry = {};
+        std::vector<uint8_t> ignoredCompiledBytes;
+        std::string compileErrorMessage;
+
+        if (compileIndoorSourceGeometryBytes(
+                m_editorDevelopmentRoot,
+                m_scenePhysicalPath,
+                m_indoorGeometryMetadata,
+                m_indoorSceneData,
+                compiledIndoorGeometry,
+                ignoredCompiledBytes,
+                compileErrorMessage))
+        {
+            indoorMapData = std::move(compiledIndoorGeometry);
+            mapDeltaData = {};
+            return true;
+        }
+
+        if (!compileErrorMessage.empty())
+        {
+            errorMessage = compileErrorMessage;
+            return false;
+        }
+    }
+
     indoorMapData = m_indoorGeometry;
     mapDeltaData = {};
     return Game::buildIndoorMapStateFromScene(m_indoorSceneData, indoorMapData, mapDeltaData, errorMessage);
@@ -2455,7 +2659,17 @@ bool EditorDocument::restoreIndoorSceneSnapshot(
     }
 
     const std::string sceneText = sceneSnapshot.substr(0, separatorOffset);
-    const std::string geometryHex = sceneSnapshot.substr(separatorOffset + separator.size());
+    const std::string geometryAndMetadataText = sceneSnapshot.substr(separatorOffset + separator.size());
+    const std::string metadataSeparator = IndoorDocumentSnapshotGeometryMetadataSeparator;
+    const size_t metadataSeparatorOffset = geometryAndMetadataText.find(metadataSeparator);
+    const std::string geometryHex =
+        metadataSeparatorOffset == std::string::npos
+            ? geometryAndMetadataText
+            : geometryAndMetadataText.substr(0, metadataSeparatorOffset);
+    const std::string geometryMetadataText =
+        metadataSeparatorOffset == std::string::npos
+            ? std::string()
+            : geometryAndMetadataText.substr(metadataSeparatorOffset + metadataSeparator.size());
     std::vector<uint8_t> geometryBytes;
 
     if (!upperHexToBytes(geometryHex, geometryBytes))
@@ -2482,6 +2696,22 @@ bool EditorDocument::restoreIndoorSceneSnapshot(
     {
         m_indoorGeometrySourceBytes = geometryBytes;
         m_indoorGeometry = *indoorGeometry;
+
+        if (metadataSeparatorOffset != std::string::npos)
+        {
+            std::optional<EditorIndoorGeometryMetadata> geometryMetadata =
+                loadIndoorGeometryMetadataFromText(geometryMetadataText, errorMessage);
+
+            if (!geometryMetadata)
+            {
+                return false;
+            }
+
+            m_hasIndoorGeometryMetadata = true;
+            m_indoorGeometryMetadata = *geometryMetadata;
+            normalizeIndoorGeometryMetadata(m_indoorGeometryMetadata, m_indoorSceneData.geometryFile);
+        }
+
         ++m_sceneRevision;
         m_isDirty = true;
         m_isRuntimeBuildDirty = false;
@@ -2601,6 +2831,11 @@ bool EditorDocument::loadOutdoorScenePhysicalPath(
     m_outdoorGeometry = *outdoorGeometry;
     m_outdoorGeometrySourceBytes = geometryBytes.value_or(std::vector<uint8_t>{});
     m_outdoorSceneData = *sceneData;
+    m_indoorGeometry = {};
+    m_indoorGeometrySourceBytes.clear();
+    m_indoorSceneData = {};
+    m_hasIndoorGeometryMetadata = false;
+    m_indoorGeometryMetadata = {};
     ++m_sceneRevision;
     m_sceneVirtualPath = displayPathForDocument(editorDevelopmentRoot, scenePhysicalPath);
     m_scenePhysicalPath = scenePhysicalPath;
@@ -2673,6 +2908,10 @@ bool EditorDocument::loadIndoorScenePhysicalPath(
     const std::filesystem::path developmentRoot = assetFileSystem.getDevelopmentRoot();
     const std::filesystem::path editorDevelopmentRoot = assetFileSystem.getEditorDevelopmentRoot();
     const std::filesystem::path geometryPath = scenePhysicalPath.parent_path() / sceneData->geometryFile;
+    const std::filesystem::path geometryMetadataPhysicalPath =
+        deriveGeometryMetadataPathForScenePath(scenePhysicalPath);
+    std::string geometryMetadataText;
+    const bool hasGeometryMetadataText = readTextFile(geometryMetadataPhysicalPath, geometryMetadataText);
     std::vector<uint8_t> geometryBytes;
 
     if (!readBinaryFile(geometryPath, geometryBytes))
@@ -2688,6 +2927,20 @@ bool EditorDocument::loadIndoorScenePhysicalPath(
     {
         errorMessage = "could not parse indoor geometry: " + geometryPath.string();
         return false;
+    }
+
+    std::optional<EditorIndoorGeometryMetadata> geometryMetadata;
+
+    if (hasGeometryMetadataText)
+    {
+        geometryMetadata = loadIndoorGeometryMetadataFromText(geometryMetadataText, errorMessage);
+
+        if (!geometryMetadata)
+        {
+            return false;
+        }
+
+        normalizeIndoorGeometryMetadata(*geometryMetadata, sceneData->geometryFile);
     }
 
     Game::IndoorSceneData normalizedSceneData = *sceneData;
@@ -2712,13 +2965,19 @@ bool EditorDocument::loadIndoorScenePhysicalPath(
     m_indoorGeometry = *indoorGeometry;
     m_indoorGeometrySourceBytes = geometryBytes;
     m_indoorSceneData = std::move(normalizedSceneData);
+    m_hasIndoorGeometryMetadata = hasGeometryMetadataText;
+    m_indoorGeometryMetadata = geometryMetadata.value_or(EditorIndoorGeometryMetadata{});
+    normalizeIndoorGeometryMetadata(m_indoorGeometryMetadata, sceneData->geometryFile);
     ++m_sceneRevision;
     m_sceneVirtualPath = displayPathForDocument(editorDevelopmentRoot, scenePhysicalPath);
     m_scenePhysicalPath = scenePhysicalPath;
     m_geometryVirtualPath = displayPathForDocument(editorDevelopmentRoot, geometryPath);
     m_geometryPhysicalPath = geometryPath;
-    m_geometryMetadataVirtualPath.clear();
-    m_geometryMetadataPhysicalPath.clear();
+    m_geometryMetadataVirtualPath =
+        hasGeometryMetadataText
+            ? displayPathForDocument(editorDevelopmentRoot, geometryMetadataPhysicalPath)
+            : std::string();
+    m_geometryMetadataPhysicalPath = hasGeometryMetadataText ? geometryMetadataPhysicalPath : std::filesystem::path();
     m_hasMapPackageRoot = false;
     m_mapPackageVirtualPath.clear();
     m_mapPackagePhysicalPath.clear();
@@ -2773,9 +3032,23 @@ std::string EditorDocument::createIndoorSceneSnapshot() const
         return {};
     }
 
-    return serializeIndoorScene(m_indoorSceneData)
+    Game::IndoorMapDataWriter geometryWriter = {};
+    const std::optional<std::vector<uint8_t>> geometryBytes =
+        m_hasIndoorGeometryMetadata ? std::nullopt : geometryWriter.buildBytes(m_indoorGeometry);
+    const std::vector<uint8_t> &snapshotGeometryBytes = geometryBytes ? *geometryBytes : m_indoorGeometrySourceBytes;
+    std::string snapshot = serializeIndoorScene(m_indoorSceneData)
         + IndoorDocumentSnapshotSeparator
-        + bytesToUpperHex(m_indoorGeometrySourceBytes);
+        + bytesToUpperHex(snapshotGeometryBytes);
+
+    if (m_hasIndoorGeometryMetadata || !isIndoorGeometryMetadataEmpty(m_indoorGeometryMetadata))
+    {
+        EditorIndoorGeometryMetadata geometryMetadata = m_indoorGeometryMetadata;
+        normalizeIndoorGeometryMetadata(geometryMetadata, m_displayName);
+        snapshot += IndoorDocumentSnapshotGeometryMetadataSeparator;
+        snapshot += serializeIndoorGeometryMetadata(geometryMetadata);
+    }
+
+    return snapshot;
 }
 
 std::vector<std::string> EditorDocument::validate() const
@@ -2787,6 +3060,26 @@ std::vector<std::string> EditorDocument::validate() const
         if (m_indoorSceneData.geometryFile.empty())
         {
             issues.push_back("Scene source.geometry_file is empty.");
+        }
+
+        if (m_hasIndoorGeometryMetadata || !isIndoorGeometryMetadataEmpty(m_indoorGeometryMetadata))
+        {
+            std::vector<std::string> geometryMetadataIssues =
+                validateIndoorGeometryMetadata(m_indoorGeometryMetadata, m_indoorGeometry);
+            issues.insert(issues.end(), geometryMetadataIssues.begin(), geometryMetadataIssues.end());
+
+            const std::string sourceAssetPath = trimCopy(m_indoorGeometryMetadata.source.assetPath);
+
+            if (!sourceAssetPath.empty())
+            {
+                const std::filesystem::path sourcePath =
+                    resolveIndoorSourceAssetPath(m_editorDevelopmentRoot, m_scenePhysicalPath, m_indoorGeometryMetadata);
+
+                if (sourcePath.empty() || !std::filesystem::exists(sourcePath))
+                {
+                    issues.push_back("Indoor geometry source asset is missing: " + sourceAssetPath);
+                }
+            }
         }
 
         if (m_indoorSceneData.environment.fogWeakDistance < 0)
@@ -3224,6 +3517,22 @@ const Game::IndoorSceneData &EditorDocument::indoorSceneData() const
     return m_indoorSceneData;
 }
 
+bool EditorDocument::hasIndoorGeometryMetadata() const
+{
+    return m_hasIndoorGeometryMetadata;
+}
+
+const EditorIndoorGeometryMetadata &EditorDocument::indoorGeometryMetadata() const
+{
+    return m_indoorGeometryMetadata;
+}
+
+EditorIndoorGeometryMetadata &EditorDocument::mutableIndoorGeometryMetadata()
+{
+    m_hasIndoorGeometryMetadata = true;
+    return m_indoorGeometryMetadata;
+}
+
 const EditorOutdoorGeometryMetadata &EditorDocument::outdoorGeometryMetadata() const
 {
     return m_outdoorGeometryMetadata;
@@ -3459,6 +3768,11 @@ bool EditorDocument::loadOutdoorSceneText(
     m_outdoorGeometry = *outdoorGeometry;
     m_outdoorGeometrySourceBytes = geometryBytes.value_or(std::vector<uint8_t>{});
     m_outdoorSceneData = *sceneData;
+    m_indoorGeometry = {};
+    m_indoorGeometrySourceBytes.clear();
+    m_indoorSceneData = {};
+    m_hasIndoorGeometryMetadata = false;
+    m_indoorGeometryMetadata = {};
     ++m_sceneRevision;
     m_sceneVirtualPath = sceneVirtualPath;
     m_scenePhysicalPath = scenePhysicalPath;
@@ -3536,8 +3850,16 @@ bool EditorDocument::loadIndoorSceneText(
     const std::filesystem::path scenePhysicalPath =
         assetFileSystem.resolvePhysicalPath(sceneVirtualPath).value_or(
             scenePhysicalPathFromVirtual(editorDevelopmentRoot, sceneVirtualPath));
-    const std::filesystem::path geometryPath = std::filesystem::path(sceneVirtualPath).parent_path() / sceneData->geometryFile;
-    const std::optional<std::vector<uint8_t>> geometryBytes = assetFileSystem.readBinaryFile(geometryPath.generic_string());
+    const std::filesystem::path geometryPath =
+        std::filesystem::path(sceneVirtualPath).parent_path() / sceneData->geometryFile;
+    const std::string geometryMetadataVirtualPath =
+        deriveGeometryMetadataPathForScenePath(std::filesystem::path(sceneVirtualPath)).generic_string();
+    const std::optional<std::string> geometryMetadataText =
+        assetFileSystem.exists(geometryMetadataVirtualPath)
+            ? assetFileSystem.readTextFile(geometryMetadataVirtualPath)
+            : std::nullopt;
+    const std::optional<std::vector<uint8_t>> geometryBytes =
+        assetFileSystem.readBinaryFile(geometryPath.generic_string());
 
     if (!geometryBytes)
     {
@@ -3552,6 +3874,20 @@ bool EditorDocument::loadIndoorSceneText(
     {
         errorMessage = "could not parse indoor geometry: " + geometryPath.generic_string();
         return false;
+    }
+
+    std::optional<EditorIndoorGeometryMetadata> geometryMetadata;
+
+    if (geometryMetadataText)
+    {
+        geometryMetadata = loadIndoorGeometryMetadataFromText(*geometryMetadataText, errorMessage);
+
+        if (!geometryMetadata)
+        {
+            return false;
+        }
+
+        normalizeIndoorGeometryMetadata(*geometryMetadata, sceneData->geometryFile);
     }
 
     Game::IndoorSceneData normalizedSceneData = *sceneData;
@@ -3576,13 +3912,19 @@ bool EditorDocument::loadIndoorSceneText(
     m_indoorGeometry = *indoorGeometry;
     m_indoorGeometrySourceBytes = *geometryBytes;
     m_indoorSceneData = std::move(normalizedSceneData);
+    m_hasIndoorGeometryMetadata = geometryMetadataText.has_value();
+    m_indoorGeometryMetadata = geometryMetadata.value_or(EditorIndoorGeometryMetadata{});
+    normalizeIndoorGeometryMetadata(m_indoorGeometryMetadata, sceneData->geometryFile);
     ++m_sceneRevision;
     m_sceneVirtualPath = sceneVirtualPath;
     m_scenePhysicalPath = scenePhysicalPath;
     m_geometryVirtualPath = geometryPath.generic_string();
     m_geometryPhysicalPath = assetFileSystem.resolvePhysicalPath(m_geometryVirtualPath).value_or(std::filesystem::path());
-    m_geometryMetadataVirtualPath.clear();
-    m_geometryMetadataPhysicalPath.clear();
+    m_geometryMetadataVirtualPath = geometryMetadataText ? geometryMetadataVirtualPath : std::string();
+    m_geometryMetadataPhysicalPath =
+        geometryMetadataText
+            ? assetFileSystem.resolvePhysicalPath(m_geometryMetadataVirtualPath).value_or(std::filesystem::path())
+            : std::filesystem::path();
     m_hasMapPackageRoot = false;
     m_mapPackageVirtualPath.clear();
     m_mapPackagePhysicalPath.clear();

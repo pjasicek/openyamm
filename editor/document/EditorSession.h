@@ -211,6 +211,9 @@ public:
         bool splitByMesh,
         bool mergeCoplanarFaces,
         std::string &errorMessage);
+    bool importIndoorSourceGeometryFromModel(
+        const std::string &sourcePath,
+        std::string &errorMessage);
     bool reimportSelectedBModel(std::string &errorMessage);
     bool captureSelectedBModelMaterialRemaps(std::string &errorMessage);
 
@@ -261,6 +264,7 @@ public:
     std::optional<std::pair<std::string, int16_t>> previewDecorationTexture(uint16_t decorationListId) const;
     std::optional<std::pair<std::string, int16_t>> previewObjectTexture(uint16_t objectDescriptionId) const;
     std::optional<std::pair<std::string, int16_t>> previewMonsterTexture(int16_t monsterInfoId, int16_t monsterId) const;
+    std::optional<std::pair<std::string, int16_t>> previewSpawnMonsterTexture(uint16_t typeId, uint16_t index) const;
     const std::vector<EditorIdLabelOption> &mapEventOptions() const;
     std::optional<std::string> describeMapEvent(uint16_t eventId) const;
     std::optional<std::string> localScriptModulePath() const;

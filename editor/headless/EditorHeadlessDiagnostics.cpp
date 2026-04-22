@@ -2,7 +2,9 @@
 
 #include "editor/document/EditorSession.h"
 #include "editor/document/EditorDocument.h"
+#include "editor/import/IndoorSourceGeometryCompiler.h"
 #include "engine/AssetFileSystem.h"
+#include "game/events/EvtEnums.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/IndoorSceneYml.h"
 #include "game/maps/MapDeltaData.h"
@@ -12,6 +14,7 @@
 #include <SDL3/SDL.h>
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <cstring>
 #include <filesystem>
@@ -33,6 +36,19 @@ constexpr size_t ChestItemRecordCount = 140;
 bool nearlyEqualFloat(float left, float right, float epsilon = 0.001f)
 {
     return std::fabs(left - right) <= epsilon;
+}
+
+bool containsDiagnosticSubstring(const std::vector<std::string> &diagnostics, const std::string &substring)
+{
+    for (const std::string &diagnostic : diagnostics)
+    {
+        if (diagnostic.find(substring) != std::string::npos)
+        {
+            return true;
+        }
+    }
+
+    return false;
 }
 
 std::string bytesToUpperHex(const std::vector<uint8_t> &bytes)
@@ -1907,6 +1923,304 @@ bool verifyIndoorMapPackageLoad(
         return false;
     }
 
+    const std::filesystem::path gamesPath = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path tempSourceGlbPath = gamesPath / "__editor_headless_indoor_source.glb";
+
+    {
+        const std::string glbJson =
+            "{\n"
+            "  \"asset\": {\"version\": \"2.0\"},\n"
+            "  \"buffers\": [{\"byteLength\": 92}],\n"
+            "  \"bufferViews\": [\n"
+            "    {\"buffer\": 0, \"byteOffset\": 0, \"byteLength\": 48, \"target\": 34962},\n"
+            "    {\"buffer\": 0, \"byteOffset\": 48, \"byteLength\": 32, \"target\": 34962},\n"
+            "    {\"buffer\": 0, \"byteOffset\": 80, \"byteLength\": 12, \"target\": 34963}\n"
+            "  ],\n"
+            "  \"accessors\": [\n"
+            "    {\"bufferView\": 0, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC3\"},\n"
+            "    {\"bufferView\": 1, \"componentType\": 5126, \"count\": 4, \"type\": \"VEC2\"},\n"
+            "    {\"bufferView\": 2, \"componentType\": 5123, \"count\": 6, \"type\": \"SCALAR\"}\n"
+            "  ],\n"
+            "  \"materials\": [{\"name\": \"StoneWall\"}],\n"
+            "  \"meshes\": [{\"name\": \"semantic_surface\", \"primitives\": ["
+            "{\"attributes\": {\"POSITION\": 0, \"TEXCOORD_0\": 1}, \"indices\": 2, \"material\": 0, \"mode\": 4}"
+            "]}],\n"
+            "  \"nodes\": [\n"
+            "    {\"name\": \"ROOM_entry\", \"mesh\": 0},\n"
+            "    {\"name\": \"ROOM_main\", \"mesh\": 0},\n"
+            "    {\"name\": \"PORTAL_entry_main\", \"mesh\": 0},\n"
+            "    {\"name\": \"TRIGGER_button_open_gate\", \"mesh\": 0},\n"
+            "    {\"name\": \"MECH_gate_74\", \"mesh\": 0},\n"
+            "    {\"name\": \"DECOR_torch_01\", \"mesh\": 0},\n"
+            "    {\"name\": \"LIGHT_torch_01\", \"mesh\": 0},\n"
+            "    {\"name\": \"SPAWN_guard_01\", \"mesh\": 0}\n"
+            "  ],\n"
+            "  \"scenes\": [{\"nodes\": [0, 1, 2, 3, 4, 5, 6, 7]}],\n"
+            "  \"scene\": 0\n"
+            "}\n";
+        std::vector<uint8_t> glbBinary;
+        const float positions[] = {
+            -128.0f, -128.0f, 0.0f,
+             128.0f, -128.0f, 0.0f,
+             128.0f,  128.0f, 0.0f,
+            -128.0f,  128.0f, 0.0f
+        };
+        const float texCoords[] = {
+            0.0f, 0.0f,
+            1.0f, 0.0f,
+            1.0f, 1.0f,
+            0.0f, 1.0f
+        };
+        const uint16_t indices[] = {0, 1, 2, 0, 2, 3};
+        appendBytes(glbBinary, positions, sizeof(positions));
+        appendBytes(glbBinary, texCoords, sizeof(texCoords));
+        appendBytes(glbBinary, indices, sizeof(indices));
+
+        if (!writeGlbFile(tempSourceGlbPath, glbJson, glbBinary))
+        {
+            failure = "indoor package test could not create indoor source GLB fixture";
+            return false;
+        }
+    }
+
+    std::string importFailure;
+
+    if (!session.importIndoorSourceGeometryFromModel(tempSourceGlbPath.string(), importFailure))
+    {
+        failure = "indoor package test could not import indoor source GLB metadata: " + importFailure;
+        return false;
+    }
+
+    const OpenYAMM::Editor::EditorIndoorGeometryMetadata &importedSourceMetadata =
+        document.indoorGeometryMetadata();
+
+    if (!document.hasIndoorGeometryMetadata()
+        || importedSourceMetadata.rooms.size() != 2
+        || importedSourceMetadata.portals.size() != 1
+        || importedSourceMetadata.surfaces.size() != 1
+        || importedSourceMetadata.mechanisms.size() != 1
+        || importedSourceMetadata.entities.size() != 1
+        || importedSourceMetadata.lights.size() != 1
+        || importedSourceMetadata.spawns.size() != 1)
+    {
+        failure = "indoor package test imported unexpected indoor source metadata counts";
+        return false;
+    }
+
+    const std::vector<std::string> importedSourceDiagnostics = document.validate();
+
+    if (!containsDiagnosticSubstring(importedSourceDiagnostics, "trigger has no event id")
+        || !containsDiagnosticSubstring(importedSourceDiagnostics, "decoration list id is not set")
+        || !containsDiagnosticSubstring(importedSourceDiagnostics, "radius must be greater than zero")
+        || !containsDiagnosticSubstring(importedSourceDiagnostics, "type/index is not set"))
+    {
+        failure = "indoor package test did not report expected source metadata diagnostics";
+        return false;
+    }
+
+    OpenYAMM::Editor::EditorIndoorGeometryMetadata &mutableImportedSourceMetadata =
+        document.mutableIndoorGeometryMetadata();
+
+    if (!mutableImportedSourceMetadata.surfaces.empty()
+        && mutableImportedSourceMetadata.surfaces.front().trigger.has_value())
+    {
+        mutableImportedSourceMetadata.surfaces.front().trigger->eventId = 14;
+    }
+
+    if (!mutableImportedSourceMetadata.entities.empty())
+    {
+        mutableImportedSourceMetadata.entities.front().decorationListId = 7;
+        mutableImportedSourceMetadata.entities.front().eventIdPrimary = 15;
+    }
+
+    if (!mutableImportedSourceMetadata.lights.empty())
+    {
+        mutableImportedSourceMetadata.lights.front().color = {255, 180, 96};
+        mutableImportedSourceMetadata.lights.front().radius = 512;
+        mutableImportedSourceMetadata.lights.front().brightness = 128;
+    }
+
+    if (!mutableImportedSourceMetadata.spawns.empty())
+    {
+        mutableImportedSourceMetadata.spawns.front().typeId = 1;
+        mutableImportedSourceMetadata.spawns.front().index = 3;
+        mutableImportedSourceMetadata.spawns.front().radius = 256;
+        mutableImportedSourceMetadata.spawns.front().group = 2;
+    }
+
+    const OpenYAMM::Editor::EditorIndoorGeometryMetadata &compiledSourceMetadata =
+        document.indoorGeometryMetadata();
+
+    if (compiledSourceMetadata.rooms.front().id != "room_entry"
+        || compiledSourceMetadata.portals.front().frontRoom != "room_entry"
+        || compiledSourceMetadata.portals.front().backRoom != "room_main"
+        || compiledSourceMetadata.surfaces.front().id != "button_open_gate"
+        || compiledSourceMetadata.mechanisms.front().id != "gate_74"
+        || compiledSourceMetadata.mechanisms.front().doorId.value_or(0) != 74)
+    {
+        failure = "indoor package test imported unexpected indoor source metadata ids";
+        return false;
+    }
+
+    OpenYAMM::Editor::IndoorSourceGeometryCompileResult sourceCompileResult = {};
+
+    if (!OpenYAMM::Editor::compileIndoorSourceGeometry(
+            tempSourceGlbPath,
+            compiledSourceMetadata,
+            sourceCompileResult,
+            failure))
+    {
+        failure = "indoor package test could not compile indoor source geometry: " + failure;
+        return false;
+    }
+
+    if (sourceCompileResult.indoorGeometry.sectors.size() != 2
+        || sourceCompileResult.indoorGeometry.vertices.size() != 20
+        || sourceCompileResult.indoorGeometry.faces.size() != 10
+        || sourceCompileResult.indoorGeometry.doorCount != 1
+        || sourceCompileResult.generatedDoors.size() != 1
+        || sourceCompileResult.indoorGeometry.entities.size() != 1
+        || sourceCompileResult.indoorGeometry.lights.size() != 1
+        || sourceCompileResult.indoorGeometry.spawns.size() != 1
+        || sourceCompileResult.indoorGeometry.faces.front().textureName != "StoneWall"
+        || sourceCompileResult.indoorGeometry.sectors[0].portalFaceIds.empty()
+        || sourceCompileResult.indoorGeometry.sectors[1].portalFaceIds.empty())
+    {
+        failure = "indoor package test compiled unexpected indoor source geometry";
+        return false;
+    }
+
+    if (sourceCompileResult.indoorGeometry.entities.front().decorationListId != 7
+        || sourceCompileResult.indoorGeometry.entities.front().eventIdPrimary != 15
+        || sourceCompileResult.indoorGeometry.lights.front().radius != 512
+        || sourceCompileResult.indoorGeometry.lights.front().brightness != 128
+        || sourceCompileResult.indoorGeometry.spawns.front().typeId != 1
+        || sourceCompileResult.indoorGeometry.spawns.front().index != 3
+        || sourceCompileResult.indoorGeometry.spawns.front().group != 2)
+    {
+        failure = "indoor package test compiled unexpected indoor source marker data";
+        return false;
+    }
+
+    bool foundTriggerSurfaceFace = false;
+
+    for (const OpenYAMM::Game::IndoorFace &face : sourceCompileResult.indoorGeometry.faces)
+    {
+        if (face.cogTriggered == 14
+            && OpenYAMM::Game::hasFaceAttribute(face.attributes, OpenYAMM::Game::FaceAttribute::Clickable))
+        {
+            foundTriggerSurfaceFace = true;
+            break;
+        }
+    }
+
+    if (!foundTriggerSurfaceFace)
+    {
+        failure = "indoor package test did not compile source trigger surface face data";
+        return false;
+    }
+
+    if (sourceCompileResult.generatedDoors.front().door.faceIds.size() != 2
+        || sourceCompileResult.generatedDoors.front().door.vertexIds.size() != 4
+        || sourceCompileResult.generatedDoors.front().door.sectorIds.size() != 1
+        || sourceCompileResult.generatedDoors.front().door.doorId != 74
+        || sourceCompileResult.generatedDoors.front().door.state
+            != static_cast<uint16_t>(OpenYAMM::Game::EvtMechanismState::Closed))
+    {
+        failure = "indoor package test compiled unexpected indoor source mechanism data";
+        return false;
+    }
+
+    const uint16_t sourcePortalFaceIndex = sourceCompileResult.indoorGeometry.sectors[0].portalFaceIds.front();
+
+    if (sourcePortalFaceIndex >= sourceCompileResult.indoorGeometry.faces.size())
+    {
+        failure = "indoor package test compiled an out-of-range indoor portal face reference";
+        return false;
+    }
+
+    const OpenYAMM::Game::IndoorFace &sourcePortalFace =
+        sourceCompileResult.indoorGeometry.faces[sourcePortalFaceIndex];
+
+    if (!sourcePortalFace.isPortal
+        || sourcePortalFace.roomNumber != 0
+        || sourcePortalFace.roomBehindNumber != 1)
+    {
+        failure = "indoor package test compiled incorrect indoor portal face data";
+        return false;
+    }
+
+    OpenYAMM::Game::IndoorMapDataWriter sourceWriter = {};
+    const std::optional<std::vector<uint8_t>> sourceBytes =
+        sourceWriter.buildBytes(sourceCompileResult.indoorGeometry);
+
+    if (!sourceBytes)
+    {
+        failure = "indoor package test could not serialize compiled indoor source geometry";
+        return false;
+    }
+
+    OpenYAMM::Game::IndoorMapDataLoader sourceLoader = {};
+    const std::optional<OpenYAMM::Game::IndoorMapData> reloadedSourceGeometry =
+        sourceLoader.loadFromBytes(*sourceBytes);
+
+    if (!reloadedSourceGeometry
+        || reloadedSourceGeometry->sectors.size() != 2
+        || reloadedSourceGeometry->vertices.size() != 20
+        || reloadedSourceGeometry->faces.size() != 10
+        || reloadedSourceGeometry->doorCount != 1
+        || reloadedSourceGeometry->entities.size() != 1
+        || reloadedSourceGeometry->lights.size() != 1
+        || reloadedSourceGeometry->spawns.size() != 1
+        || reloadedSourceGeometry->faces.front().textureName != "StoneWall"
+        || reloadedSourceGeometry->sectors[0].portalFaceIds.empty()
+        || reloadedSourceGeometry->sectors[1].portalFaceIds.empty())
+    {
+        failure = "indoor package test could not reload compiled indoor source geometry";
+        return false;
+    }
+
+    if (reloadedSourceGeometry->entities.front().decorationListId != 7
+        || reloadedSourceGeometry->entities.front().eventIdPrimary != 15
+        || reloadedSourceGeometry->lights.front().radius != 512
+        || reloadedSourceGeometry->lights.front().brightness != 128
+        || reloadedSourceGeometry->spawns.front().typeId != 1
+        || reloadedSourceGeometry->spawns.front().index != 3
+        || reloadedSourceGeometry->spawns.front().group != 2)
+    {
+        failure = "indoor package test did not preserve compiled indoor source marker data";
+        return false;
+    }
+
+    bool reloadedTriggerSurfaceFace = false;
+
+    for (const OpenYAMM::Game::IndoorFace &face : reloadedSourceGeometry->faces)
+    {
+        if (face.cogTriggered == 14
+            && OpenYAMM::Game::hasFaceAttribute(face.attributes, OpenYAMM::Game::FaceAttribute::Clickable))
+        {
+            reloadedTriggerSurfaceFace = true;
+            break;
+        }
+    }
+
+    if (!reloadedTriggerSurfaceFace)
+    {
+        failure = "indoor package test did not preserve source trigger surface face data";
+        return false;
+    }
+
+    const uint16_t reloadedPortalFaceIndex = reloadedSourceGeometry->sectors[0].portalFaceIds.front();
+
+    if (reloadedPortalFaceIndex >= reloadedSourceGeometry->faces.size()
+        || !reloadedSourceGeometry->faces[reloadedPortalFaceIndex].isPortal
+        || reloadedSourceGeometry->faces[reloadedPortalFaceIndex].roomNumber != 0
+        || reloadedSourceGeometry->faces[reloadedPortalFaceIndex].roomBehindNumber != 1)
+    {
+        failure = "indoor package test did not preserve compiled indoor portal face data";
+        return false;
+    }
+
     const std::vector<OpenYAMM::Game::IndoorSceneFaceAttributeOverride> &loadedFaceAttributeOverrides =
         document.indoorSceneData().initialState.faceAttributeOverrides;
 
@@ -2042,6 +2356,91 @@ bool verifyIndoorMapPackageLoad(
     const int32_t expectedFogStrongDistance = sceneData.environment.fogStrongDistance;
     const int32_t expectedCeiling = sceneData.environment.ceiling;
     const size_t expectedFaceOverrideCount = sceneData.initialState.faceAttributeOverrides.size();
+    OpenYAMM::Editor::EditorIndoorGeometryMetadata &indoorGeometryMetadata =
+        document.mutableIndoorGeometryMetadata();
+    indoorGeometryMetadata.source.authoringFile = "source/d18.blend";
+    indoorGeometryMetadata.source.assetPath = "source/d18.glb";
+    indoorGeometryMetadata.source.rootNodeName = "d18";
+    indoorGeometryMetadata.source.coordinateSystem = "openyamm_mm8";
+    indoorGeometryMetadata.source.unitScale = 1.0f;
+    indoorGeometryMetadata.importSettings.sourceFormat = "glb";
+    indoorGeometryMetadata.importSettings.generateBsp = true;
+
+    OpenYAMM::Editor::EditorIndoorGeometryMaterialMetadata material = {};
+    material.id = "test_wall";
+    material.sourceMaterial = "TestWall";
+    material.texture = "dngnwall";
+    material.facetType = "wall";
+    indoorGeometryMetadata.materials.push_back(std::move(material));
+
+    if (!document.indoorGeometry().sectors.empty())
+    {
+        OpenYAMM::Editor::EditorIndoorGeometryRoomMetadata room = {};
+        room.roomId = 1;
+        room.name = "Room 1";
+        room.sourceNodeNames.push_back("room_001");
+        room.runtimeSectorIndex = 0;
+        indoorGeometryMetadata.rooms.push_back(std::move(room));
+    }
+
+    for (size_t faceIndex = 0; faceIndex < document.indoorGeometry().faces.size(); ++faceIndex)
+    {
+        if (!document.indoorGeometry().faces[faceIndex].isPortal)
+        {
+            continue;
+        }
+
+        OpenYAMM::Editor::EditorIndoorGeometryPortalMetadata portal = {};
+        portal.portalId = 1;
+        portal.name = "Portal 1";
+        portal.frontRoomId = 1;
+        portal.backRoomId = 1;
+        portal.sourceNodeName = "portal_001";
+        portal.runtimeFaceIndex = faceIndex;
+        indoorGeometryMetadata.portals.push_back(std::move(portal));
+        break;
+    }
+
+    if (document.indoorGeometry().doorCount > 0)
+    {
+        OpenYAMM::Editor::EditorIndoorGeometryMechanismMetadata mechanism = {};
+        mechanism.id = "gate_001";
+        mechanism.name = "Door 1";
+        mechanism.kind = "sliding_door";
+        mechanism.sourceNodeNames.push_back("door_001");
+        mechanism.triggerSurfaceIds.push_back("button_001");
+        mechanism.runtimeDoorIndex = 0;
+        mechanism.doorId = 1;
+        mechanism.initialState = "closed";
+
+        if (!document.indoorGeometry().faces.empty())
+        {
+            OpenYAMM::Editor::EditorIndoorGeometrySurfaceMetadata surface = {};
+            surface.id = "button_001";
+            surface.sourceNodeName = "trigger_button_001";
+            surface.materialId = "test_wall";
+            surface.flags.push_back("clickable");
+            surface.runtimeFaceIndex = 0;
+            surface.trigger = OpenYAMM::Editor::EditorIndoorGeometrySurfaceTriggerMetadata{14, "door"};
+            indoorGeometryMetadata.surfaces.push_back(std::move(surface));
+
+            mechanism.affectedFaceIndices.push_back(0);
+            mechanism.triggerFaceIndices.push_back(0);
+        }
+
+        if (!document.indoorGeometry().vertices.empty())
+        {
+            mechanism.affectedVertexIndices.push_back(0);
+        }
+
+        mechanism.moveAxis = std::array<float, 3>{0.0f, 0.0f, -1.0f};
+        mechanism.moveDistance = 256.0f;
+        mechanism.openSpeed = 64.0f;
+        mechanism.closeSpeed = 64.0f;
+        indoorGeometryMetadata.mechanisms.push_back(std::move(mechanism));
+    }
+
+    session.noteDocumentMutated({});
 
     OpenYAMM::Game::IndoorMapData builtIndoorGeometry = {};
     OpenYAMM::Game::MapDeltaData builtMapDeltaData = {};
@@ -2083,9 +2482,9 @@ bool verifyIndoorMapPackageLoad(
         return false;
     }
 
-    const std::filesystem::path gamesPath = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
     const std::filesystem::path tempScenePath = gamesPath / "__editor_headless_d18.scene.yml";
     const std::filesystem::path tempGeometryPath = gamesPath / "__editor_headless_d18.blv";
+    const std::filesystem::path tempGeometryMetadataPath = gamesPath / "__editor_headless_d18.geometry.yml";
 
     if (!document.saveSourceAs(tempScenePath, failure))
     {
@@ -2096,6 +2495,12 @@ bool verifyIndoorMapPackageLoad(
     if (!std::filesystem::exists(tempScenePath))
     {
         failure = "indoor package test did not emit a saved .scene.yml";
+        return false;
+    }
+
+    if (!std::filesystem::exists(tempGeometryMetadataPath))
+    {
+        failure = "indoor package test did not emit a saved indoor .geometry.yml";
         return false;
     }
 
@@ -2143,6 +2548,38 @@ bool verifyIndoorMapPackageLoad(
         return false;
     }
 
+    std::string savedGeometryMetadataText;
+
+    if (!readTextFileContents(tempGeometryMetadataPath, savedGeometryMetadataText))
+    {
+        failure = "indoor package test could not read saved indoor .geometry.yml";
+        return false;
+    }
+
+    std::string savedGeometryMetadataError;
+    const std::optional<OpenYAMM::Editor::EditorIndoorGeometryMetadata> savedGeometryMetadata =
+        OpenYAMM::Editor::loadIndoorGeometryMetadataFromText(
+            savedGeometryMetadataText,
+            savedGeometryMetadataError);
+
+    if (!savedGeometryMetadata)
+    {
+        failure = "indoor package test could not parse saved indoor .geometry.yml: " + savedGeometryMetadataError;
+        return false;
+    }
+
+    if (savedGeometryMetadata->source.assetPath != "source/d18.glb"
+        || savedGeometryMetadata->source.authoringFile != "source/d18.blend"
+        || savedGeometryMetadata->materials.size() != indoorGeometryMetadata.materials.size()
+        || savedGeometryMetadata->rooms.size() != indoorGeometryMetadata.rooms.size()
+        || savedGeometryMetadata->portals.size() != indoorGeometryMetadata.portals.size()
+        || savedGeometryMetadata->surfaces.size() != indoorGeometryMetadata.surfaces.size()
+        || savedGeometryMetadata->mechanisms.size() != indoorGeometryMetadata.mechanisms.size())
+    {
+        failure = "indoor package test did not persist indoor source geometry metadata";
+        return false;
+    }
+
     if (!document.buildRuntimeAs(tempScenePath, failure))
     {
         failure = "indoor package test could not build .blv output: " + failure;
@@ -2183,6 +2620,17 @@ bool verifyIndoorMapPackageLoad(
     if (reloadedDocument.kind() != OpenYAMM::Editor::EditorDocument::Kind::Indoor)
     {
         failure = "reloaded indoor package did not stay indoor";
+        return false;
+    }
+
+    if (!reloadedDocument.hasIndoorGeometryMetadata()
+        || reloadedDocument.indoorGeometryMetadata().source.assetPath != "source/d18.glb"
+        || reloadedDocument.indoorGeometryMetadata().materials.size() != indoorGeometryMetadata.materials.size()
+        || reloadedDocument.indoorGeometryMetadata().rooms.size() != indoorGeometryMetadata.rooms.size()
+        || reloadedDocument.indoorGeometryMetadata().surfaces.size() != indoorGeometryMetadata.surfaces.size()
+        || reloadedDocument.indoorGeometryMetadata().mechanisms.size() != indoorGeometryMetadata.mechanisms.size())
+    {
+        failure = "reloaded indoor package lost indoor source geometry metadata";
         return false;
     }
 

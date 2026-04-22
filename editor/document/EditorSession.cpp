@@ -1,4 +1,5 @@
 #include "editor/document/EditorSession.h"
+#include "editor/import/IndoorSourceGeometryImport.h"
 #include "editor/import/ObjModelImport.h"
 
 #include "engine/TextTable.h"
@@ -36,12 +37,44 @@ namespace OpenYAMM::Editor
 namespace
 {
 bool isKnownBitmapTextureName(const std::vector<std::string> &bitmapTextureNames, const std::string &textureName);
+void assignIndoorEntityToSector(Game::IndoorMapData &indoorGeometry, size_t entityIndex);
+void removeIndoorEntityFromSectors(Game::IndoorMapData &indoorGeometry, size_t entityIndex);
+void repairIndoorEntitySectorReferencesAfterDelete(Game::IndoorMapData &indoorGeometry, size_t deletedEntityIndex);
 
 constexpr size_t SpriteObjectContainingItemSize = 0x24;
 constexpr size_t ChestItemRecordSize = 36;
 constexpr size_t ChestItemRecordCount = 140;
 constexpr size_t ChestInventoryCellCount = 140;
 constexpr int ChestMatrixColumns = 14;
+
+int snapIndoorActorZToFloor(const Game::IndoorMapData &indoorGeometry, int x, int y, int z)
+{
+    Game::IndoorFaceGeometryCache geometryCache(indoorGeometry.faces.size());
+    const std::optional<int16_t> sectorId = Game::findIndoorSectorForPoint(
+        indoorGeometry,
+        indoorGeometry.vertices,
+        {static_cast<float>(x), static_cast<float>(y), static_cast<float>(z)},
+        &geometryCache);
+    const Game::IndoorFloorSample floor = Game::sampleIndoorFloor(
+        indoorGeometry,
+        indoorGeometry.vertices,
+        static_cast<float>(x),
+        static_cast<float>(y),
+        static_cast<float>(z),
+        131072.0f,
+        0.0f,
+        sectorId,
+        nullptr,
+        &geometryCache);
+
+    if (!floor.hasFloor || floor.height <= static_cast<float>(z))
+    {
+        return z;
+    }
+
+    return static_cast<int>(std::lround(floor.height));
+}
+
 std::string trimCopy(const std::string &value)
 {
     const auto begin = std::find_if_not(value.begin(), value.end(), [](unsigned char character)
@@ -547,6 +580,27 @@ void appendMonsterSpriteFamilies(
             families.insert(*familyRoot);
         }
     }
+}
+
+const Game::MonsterEntry *resolveMonsterEntryForActor(
+    const Game::MonsterTable &monsterTable,
+    const Game::MapDeltaActor &actor)
+{
+    const Game::MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =
+        monsterTable.findDisplayEntryById(actor.monsterInfoId);
+    const Game::MonsterEntry *pMonsterEntry = nullptr;
+
+    if (pDisplayEntry != nullptr)
+    {
+        pMonsterEntry = monsterTable.findByInternalName(pDisplayEntry->pictureName);
+    }
+
+    if (pMonsterEntry == nullptr)
+    {
+        pMonsterEntry = monsterTable.findById(actor.monsterId);
+    }
+
+    return pMonsterEntry;
 }
 
 std::optional<std::string> resolveMonsterNameForSpawn(
@@ -2085,6 +2139,75 @@ bool isKnownBitmapTextureName(const std::vector<std::string> &bitmapTextureNames
     return false;
 }
 
+void assignIndoorEntityToSector(Game::IndoorMapData &indoorGeometry, size_t entityIndex)
+{
+    if (entityIndex >= indoorGeometry.entities.size())
+    {
+        return;
+    }
+
+    removeIndoorEntityFromSectors(indoorGeometry, entityIndex);
+
+    const Game::IndoorEntity &entity = indoorGeometry.entities[entityIndex];
+    Game::IndoorFaceGeometryCache geometryCache(indoorGeometry.faces.size());
+    const std::optional<int16_t> sectorId = Game::findIndoorSectorForPoint(
+        indoorGeometry,
+        indoorGeometry.vertices,
+        {
+            static_cast<float>(entity.x),
+            static_cast<float>(entity.y),
+            static_cast<float>(entity.z)
+        },
+        &geometryCache);
+
+    if (!sectorId.has_value() || *sectorId < 0 || static_cast<size_t>(*sectorId) >= indoorGeometry.sectors.size())
+    {
+        return;
+    }
+
+    std::vector<uint16_t> &decorationIds = indoorGeometry.sectors[static_cast<size_t>(*sectorId)].decorationIds;
+    const uint16_t clampedEntityIndex = static_cast<uint16_t>(std::min<size_t>(entityIndex, 65535));
+
+    if (std::find(decorationIds.begin(), decorationIds.end(), clampedEntityIndex) == decorationIds.end())
+    {
+        decorationIds.push_back(clampedEntityIndex);
+    }
+}
+
+void removeIndoorEntityFromSectors(Game::IndoorMapData &indoorGeometry, size_t entityIndex)
+{
+    const uint16_t clampedEntityIndex = static_cast<uint16_t>(std::min<size_t>(entityIndex, 65535));
+
+    for (Game::IndoorSector &sector : indoorGeometry.sectors)
+    {
+        sector.decorationIds.erase(
+            std::remove(sector.decorationIds.begin(), sector.decorationIds.end(), clampedEntityIndex),
+            sector.decorationIds.end());
+    }
+}
+
+void repairIndoorEntitySectorReferencesAfterDelete(Game::IndoorMapData &indoorGeometry, size_t deletedEntityIndex)
+{
+    for (Game::IndoorSector &sector : indoorGeometry.sectors)
+    {
+        std::vector<uint16_t> repairedDecorationIds;
+        repairedDecorationIds.reserve(sector.decorationIds.size());
+
+        for (uint16_t entityIndex : sector.decorationIds)
+        {
+            if (entityIndex == deletedEntityIndex)
+            {
+                continue;
+            }
+
+            repairedDecorationIds.push_back(
+                entityIndex > deletedEntityIndex ? static_cast<uint16_t>(entityIndex - 1) : entityIndex);
+        }
+
+        sector.decorationIds = std::move(repairedDecorationIds);
+    }
+}
+
 std::vector<EditorMaterialTextureRemap> collectImportedMaterialRemaps(
     const std::vector<std::string> &bitmapTextureNames,
     const ImportedModel &importedModel,
@@ -2892,6 +3015,8 @@ void EditorSession::initialize(const Engine::AssetFileSystem &assetFileSystem)
     m_pAssetFileSystem = &assetFileSystem;
     m_pendingSpawn = {};
     m_pendingSpawn.radius = 512;
+    m_pendingSpawn.typeId = 3;
+    m_pendingSpawn.index = 1;
     m_pendingActor = {};
     m_pendingActor.hp = 1;
     m_pendingActor.radius = 64;
@@ -3466,19 +3591,64 @@ bool EditorSession::createOutdoorObject(EditorSelectionKind kind, int x, int y, 
 
     if (m_document.kind() == EditorDocument::Kind::Indoor)
     {
+        Game::IndoorMapData &indoorGeometry = m_document.mutableIndoorGeometry();
         Game::IndoorSceneData &sceneData = m_document.mutableIndoorSceneData();
 
         switch (kind)
         {
+        case EditorSelectionKind::Entity:
+        {
+            Game::IndoorEntity entity = {};
+            entity.decorationListId = m_pendingEntityDecorationListId;
+            entity.x = x;
+            entity.y = y;
+            entity.z = z;
+
+            if (const Game::DecorationEntry *pDecoration = m_decorationTable.get(entity.decorationListId))
+            {
+                entity.name = pDecoration->internalName;
+            }
+
+            indoorGeometry.entities.push_back(std::move(entity));
+            assignIndoorEntityToSector(indoorGeometry, indoorGeometry.entities.size() - 1);
+            indoorGeometry.spriteCount = indoorGeometry.entities.size();
+            newSelection = {EditorSelectionKind::Entity, indoorGeometry.entities.size() - 1};
+            createdLabel = "decoration";
+            break;
+        }
+
         case EditorSelectionKind::Actor:
         {
             Game::MapDeltaActor actor = m_pendingActor;
             actor.x = x;
             actor.y = y;
-            actor.z = z;
+            actor.z = snapIndoorActorZToFloor(indoorGeometry, x, y, z);
+            actor.sectorId = Game::findIndoorSectorForPoint(
+                indoorGeometry,
+                indoorGeometry.vertices,
+                {static_cast<float>(actor.x), static_cast<float>(actor.y), static_cast<float>(actor.z)})
+                .value_or(-1);
             sceneData.initialState.actors.push_back(std::move(actor));
             newSelection = {EditorSelectionKind::Actor, sceneData.initialState.actors.size() - 1};
             createdLabel = "actor";
+            break;
+        }
+
+        case EditorSelectionKind::Spawn:
+        {
+            Game::IndoorSpawn spawn = {};
+            spawn.x = x;
+            spawn.y = y;
+            spawn.radius = m_pendingSpawn.radius;
+            spawn.typeId = m_pendingSpawn.typeId;
+            spawn.index = m_pendingSpawn.index;
+            spawn.attributes = m_pendingSpawn.attributes;
+            spawn.group = m_pendingSpawn.group;
+            spawn.z = spawn.typeId == 3 ? snapIndoorActorZToFloor(indoorGeometry, x, y, z) : z;
+            indoorGeometry.spawns.push_back(std::move(spawn));
+            indoorGeometry.spawnCount = indoorGeometry.spawns.size();
+            newSelection = {EditorSelectionKind::Spawn, indoorGeometry.spawns.size() - 1};
+            createdLabel = "spawn";
             break;
         }
 
@@ -3629,10 +3799,30 @@ bool EditorSession::duplicateSelectedObject(std::string &errorMessage)
 
     if (m_document.kind() == EditorDocument::Kind::Indoor)
     {
+        Game::IndoorMapData &indoorGeometry = m_document.mutableIndoorGeometry();
         Game::IndoorSceneData &sceneData = m_document.mutableIndoorSceneData();
 
         switch (m_selection.kind)
         {
+        case EditorSelectionKind::Entity:
+            if (m_selection.index >= indoorGeometry.entities.size())
+            {
+                errorMessage = "selected decoration is out of range";
+                return false;
+            }
+            else
+            {
+                Game::IndoorEntity entity = indoorGeometry.entities[m_selection.index];
+                entity.x += DuplicateOffset;
+                entity.y += DuplicateOffset;
+                indoorGeometry.entities.push_back(std::move(entity));
+                assignIndoorEntityToSector(indoorGeometry, indoorGeometry.entities.size() - 1);
+                indoorGeometry.spriteCount = indoorGeometry.entities.size();
+                m_selection = {EditorSelectionKind::Entity, indoorGeometry.entities.size() - 1};
+                duplicatedLabel = "decoration";
+            }
+            break;
+
         case EditorSelectionKind::Actor:
             if (m_selection.index >= sceneData.initialState.actors.size())
             {
@@ -3647,6 +3837,24 @@ bool EditorSession::duplicateSelectedObject(std::string &errorMessage)
                 sceneData.initialState.actors.push_back(std::move(actor));
                 m_selection = {EditorSelectionKind::Actor, sceneData.initialState.actors.size() - 1};
                 duplicatedLabel = "actor";
+            }
+            break;
+
+        case EditorSelectionKind::Spawn:
+            if (m_selection.index >= indoorGeometry.spawns.size())
+            {
+                errorMessage = "selected spawn is out of range";
+                return false;
+            }
+            else
+            {
+                Game::IndoorSpawn spawn = indoorGeometry.spawns[m_selection.index];
+                spawn.x += DuplicateOffset;
+                spawn.y += DuplicateOffset;
+                indoorGeometry.spawns.push_back(std::move(spawn));
+                indoorGeometry.spawnCount = indoorGeometry.spawns.size();
+                m_selection = {EditorSelectionKind::Spawn, indoorGeometry.spawns.size() - 1};
+                duplicatedLabel = "spawn";
             }
             break;
 
@@ -3847,10 +4055,32 @@ bool EditorSession::deleteSelectedObject(std::string &errorMessage)
 
     if (m_document.kind() == EditorDocument::Kind::Indoor)
     {
+        Game::IndoorMapData &indoorGeometry = m_document.mutableIndoorGeometry();
         Game::IndoorSceneData &sceneData = m_document.mutableIndoorSceneData();
 
         switch (m_selection.kind)
         {
+        case EditorSelectionKind::Entity:
+            if (m_selection.index >= indoorGeometry.entities.size())
+            {
+                errorMessage = "selected decoration is out of range";
+                return false;
+            }
+            else
+            {
+                indoorGeometry.entities.erase(
+                    indoorGeometry.entities.begin() + static_cast<ptrdiff_t>(m_selection.index));
+                repairIndoorEntitySectorReferencesAfterDelete(indoorGeometry, m_selection.index);
+                indoorGeometry.spriteCount = indoorGeometry.entities.size();
+                deletedLabel = "decoration";
+                m_selection = indoorGeometry.entities.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{
+                        EditorSelectionKind::Entity,
+                        std::min(m_selection.index, indoorGeometry.entities.size() - 1)};
+            }
+            break;
+
         case EditorSelectionKind::Actor:
             if (m_selection.index >= sceneData.initialState.actors.size())
             {
@@ -3867,6 +4097,26 @@ bool EditorSession::deleteSelectedObject(std::string &errorMessage)
                     : EditorSelection{
                         EditorSelectionKind::Actor,
                         std::min(m_selection.index, sceneData.initialState.actors.size() - 1)};
+            }
+            break;
+
+        case EditorSelectionKind::Spawn:
+            if (m_selection.index >= indoorGeometry.spawns.size())
+            {
+                errorMessage = "selected spawn is out of range";
+                return false;
+            }
+            else
+            {
+                indoorGeometry.spawns.erase(
+                    indoorGeometry.spawns.begin() + static_cast<ptrdiff_t>(m_selection.index));
+                indoorGeometry.spawnCount = indoorGeometry.spawns.size();
+                deletedLabel = "spawn";
+                m_selection = indoorGeometry.spawns.empty()
+                    ? EditorSelection{EditorSelectionKind::Summary, 0}
+                    : EditorSelection{
+                        EditorSelectionKind::Spawn,
+                        std::min(m_selection.index, indoorGeometry.spawns.size() - 1)};
             }
             break;
 
@@ -4351,6 +4601,56 @@ bool EditorSession::importNewBModelFromModel(
 
     m_selection = {EditorSelectionKind::BModel, firstNewIndex};
     noteDocumentMutated("Imported " + std::to_string(importedModels.size()) + " bmodels from model");
+    return true;
+}
+
+bool EditorSession::importIndoorSourceGeometryFromModel(
+    const std::string &sourcePath,
+    std::string &errorMessage)
+{
+    if (m_pAssetFileSystem == nullptr)
+    {
+        errorMessage = "editor session is not initialized";
+        return false;
+    }
+
+    if (!hasDocument() || m_document.kind() != EditorDocument::Kind::Indoor)
+    {
+        errorMessage = "no indoor document is loaded";
+        return false;
+    }
+
+    const std::string trimmedSourcePath = trimCopy(sourcePath);
+
+    if (trimmedSourcePath.empty())
+    {
+        errorMessage = "model path is empty";
+        return false;
+    }
+
+    IndoorSourceGeometryImportResult importResult = {};
+
+    if (!importIndoorSourceGeometryMetadataFromModel(
+            std::filesystem::path(trimmedSourcePath),
+            m_document.displayName(),
+            importResult,
+            errorMessage))
+    {
+        return false;
+    }
+
+    captureUndoSnapshot();
+    m_document.mutableIndoorGeometryMetadata() = std::move(importResult.metadata);
+    noteDocumentMutated(
+        "Imported indoor source geometry metadata from "
+        + std::to_string(importResult.importedMeshCount)
+        + " meshes");
+
+    for (const std::string &warning : importResult.warnings)
+    {
+        logInfo("Indoor source import warning: " + warning);
+    }
+
     return true;
 }
 
@@ -5023,6 +5323,107 @@ std::optional<std::pair<std::string, int16_t>> EditorSession::previewMonsterText
     return std::nullopt;
 }
 
+std::optional<std::pair<std::string, int16_t>> EditorSession::previewSpawnMonsterTexture(
+    uint16_t typeId,
+    uint16_t index) const
+{
+    const Game::MapStatsEntry *pMapEntry = currentMapStatsEntry();
+
+    if (typeId != 3 || pMapEntry == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<std::string> monsterName = resolveMonsterNameForSpawn(*pMapEntry, typeId, index);
+
+    if (!monsterName)
+    {
+        return std::nullopt;
+    }
+
+    const Game::MonsterEntry *pMonsterEntry = m_monsterTable.findByInternalName(*monsterName);
+
+    if (pMonsterEntry == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const Game::SpriteFrameTable *pCachedTable = actorBillboardSpriteFrameTable();
+
+    if (pCachedTable != nullptr)
+    {
+        for (const std::string &spriteName : pMonsterEntry->spriteNames)
+        {
+            if (spriteName.empty())
+            {
+                continue;
+            }
+
+            const std::optional<uint16_t> frameIndex = pCachedTable->findFrameIndexBySpriteName(spriteName);
+
+            if (!frameIndex)
+            {
+                continue;
+            }
+
+            const Game::SpriteFrameEntry *pFrame = pCachedTable->getFrame(*frameIndex, 0);
+
+            if (pFrame != nullptr)
+            {
+                const Game::ResolvedSpriteTexture resolvedTexture =
+                    Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
+                return std::pair<std::string, int16_t>{resolvedTexture.textureName, pFrame->paletteId};
+            }
+        }
+    }
+
+    if (m_pAssetFileSystem == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    std::unordered_set<std::string> families;
+    appendMonsterSpriteFamilies(families, pMonsterEntry);
+
+    if (families.empty())
+    {
+        return std::nullopt;
+    }
+
+    Game::SpriteFrameTable spriteFrameTable = {};
+
+    if (!loadMonsterSpriteFrameTable(*m_pAssetFileSystem, families, spriteFrameTable))
+    {
+        return std::nullopt;
+    }
+
+    for (const std::string &spriteName : pMonsterEntry->spriteNames)
+    {
+        if (spriteName.empty())
+        {
+            continue;
+        }
+
+        const std::optional<uint16_t> frameIndex = spriteFrameTable.findFrameIndexBySpriteName(spriteName);
+
+        if (!frameIndex)
+        {
+            continue;
+        }
+
+        const Game::SpriteFrameEntry *pFrame = spriteFrameTable.getFrame(*frameIndex, 0);
+
+        if (pFrame != nullptr)
+        {
+            const Game::ResolvedSpriteTexture resolvedTexture =
+                Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
+            return std::pair<std::string, int16_t>{resolvedTexture.textureName, pFrame->paletteId};
+        }
+    }
+
+    return std::nullopt;
+}
+
 const std::vector<EditorIdLabelOption> &EditorSession::mapEventOptions() const
 {
     return m_mapEventOptions;
@@ -5261,7 +5662,7 @@ const std::vector<std::string> &EditorSession::lastPreviewEventStatusMessages() 
 
 void EditorSession::ensureOutdoorDerivedCaches() const
 {
-    if (!hasDocument() || m_document.kind() != EditorDocument::Kind::Outdoor)
+    if (!hasDocument())
     {
         m_cachedOutdoorDerivedKey.clear();
         m_cachedEntityBillboardPreviews.clear();
@@ -5277,32 +5678,276 @@ void EditorSession::ensureOutdoorDerivedCaches() const
     }
 
     const std::string cacheKey =
-        m_document.sceneVirtualPath() + "|" + std::to_string(static_cast<unsigned long long>(m_document.sceneRevision()));
+        m_document.sceneVirtualPath()
+        + "|" + std::to_string(static_cast<int>(m_document.kind()))
+        + "|" + std::to_string(static_cast<unsigned long long>(m_document.sceneRevision()))
+        + "|" + std::to_string(m_pendingActor.monsterInfoId)
+        + "|" + std::to_string(m_pendingActor.monsterId)
+        + "|" + std::to_string(m_pendingSpawn.typeId)
+        + "|" + std::to_string(m_pendingSpawn.index);
 
     if (cacheKey == m_cachedOutdoorDerivedKey)
     {
         return;
     }
 
-    const Game::OutdoorSceneData &sceneData = m_document.outdoorSceneData();
-    const Game::OutdoorMapData &outdoorGeometry = m_document.outdoorGeometry();
     m_cachedEntityBillboardPreviews.clear();
     m_cachedActorBillboardPreviews.clear();
     m_cachedEffectiveFaceEvents.clear();
-    m_cachedEffectiveFaceEvents.resize(outdoorGeometry.bmodels.size());
     m_cachedDefaultBModelEvents.clear();
-    m_cachedDefaultBModelEvents.resize(outdoorGeometry.bmodels.size());
     m_cachedChestLinks.clear();
-    m_cachedChestLinks.resize(sceneData.initialState.chests.size());
     m_cachedImportedMaterialDiagnostics.clear();
-    m_cachedImportedMaterialDiagnostics.resize(outdoorGeometry.bmodels.size());
-    m_cachedImportedMaterialDiagnosticsValid.assign(outdoorGeometry.bmodels.size(), false);
     m_cachedActorBillboardSpriteFrameTable = {};
     m_hasCachedActorBillboardSpriteFrameTable = false;
+
+    if (m_document.kind() == EditorDocument::Kind::Indoor)
+    {
+        const Game::IndoorMapData &indoorGeometry = m_document.indoorGeometry();
+        const Game::IndoorSceneData &sceneData = m_document.indoorSceneData();
+        std::unordered_set<std::string> actorFamilies;
+
+        if (m_pAssetFileSystem != nullptr)
+        {
+            appendMonsterSpriteFamilies(actorFamilies, resolveMonsterEntryForActor(m_monsterTable, m_pendingActor));
+
+            for (const Game::MapDeltaActor &actor : sceneData.initialState.actors)
+            {
+                const Game::MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =
+                    m_monsterTable.findDisplayEntryById(actor.monsterInfoId);
+                const Game::MonsterEntry *pMonsterEntry = nullptr;
+
+                if (pDisplayEntry != nullptr)
+                {
+                    pMonsterEntry = m_monsterTable.findByInternalName(pDisplayEntry->pictureName);
+                }
+
+                if (pMonsterEntry == nullptr)
+                {
+                    pMonsterEntry = m_monsterTable.findById(actor.monsterId);
+                }
+
+                appendMonsterSpriteFamilies(actorFamilies, pMonsterEntry);
+            }
+
+            if (const Game::MapStatsEntry *pMapEntry = currentMapStatsEntry())
+            {
+                if (const std::optional<std::string> monsterName =
+                        resolveMonsterNameForSpawn(*pMapEntry, m_pendingSpawn.typeId, m_pendingSpawn.index))
+                {
+                    appendMonsterSpriteFamilies(actorFamilies, m_monsterTable.findByInternalName(*monsterName));
+                }
+
+                for (const Game::IndoorSpawn &spawn : indoorGeometry.spawns)
+                {
+                    const std::optional<std::string> monsterName =
+                        resolveMonsterNameForSpawn(*pMapEntry, spawn.typeId, spawn.index);
+
+                    if (!monsterName)
+                    {
+                        continue;
+                    }
+
+                    appendMonsterSpriteFamilies(actorFamilies, m_monsterTable.findByInternalName(*monsterName));
+                }
+            }
+
+            if (!actorFamilies.empty())
+            {
+                m_hasCachedActorBillboardSpriteFrameTable =
+                    loadMonsterSpriteFrameTable(
+                        *m_pAssetFileSystem,
+                        actorFamilies,
+                        m_cachedActorBillboardSpriteFrameTable);
+            }
+        }
+
+        if (m_hasDecorationTable)
+        {
+            for (size_t entityIndex = 0; entityIndex < indoorGeometry.entities.size(); ++entityIndex)
+            {
+                const Game::IndoorEntity &entity = indoorGeometry.entities[entityIndex];
+                const Game::DecorationEntry *pDecoration = m_decorationTable.get(entity.decorationListId);
+
+                if ((pDecoration == nullptr || pDecoration->spriteId == 0) && !entity.name.empty())
+                {
+                    pDecoration = m_decorationTable.findByInternalName(entity.name);
+                }
+
+                if (pDecoration == nullptr || pDecoration->spriteId == 0)
+                {
+                    continue;
+                }
+
+                EditorEntityBillboardPreview preview = {};
+                preview.entityIndex = entityIndex;
+                preview.spriteId = pDecoration->spriteId;
+                preview.flags = pDecoration->flags;
+                preview.height = pDecoration->height;
+                preview.radius = pDecoration->radius;
+                preview.x = entity.x;
+                preview.y = entity.y;
+                preview.z = entity.z;
+                preview.facing = entity.facing;
+                preview.name = entity.name;
+                m_cachedEntityBillboardPreviews.push_back(std::move(preview));
+            }
+        }
+
+        if (m_hasCachedActorBillboardSpriteFrameTable)
+        {
+            for (size_t actorIndex = 0; actorIndex < sceneData.initialState.actors.size(); ++actorIndex)
+            {
+                const Game::MapDeltaActor &actor = sceneData.initialState.actors[actorIndex];
+                const Game::MonsterTable::MonsterDisplayNameEntry *pDisplayEntry =
+                    m_monsterTable.findDisplayEntryById(actor.monsterInfoId);
+                const Game::MonsterEntry *pMonsterEntry = nullptr;
+
+                if (pDisplayEntry != nullptr)
+                {
+                    pMonsterEntry = m_monsterTable.findByInternalName(pDisplayEntry->pictureName);
+                }
+
+                if (pMonsterEntry == nullptr)
+                {
+                    pMonsterEntry = m_monsterTable.findById(actor.monsterId);
+                }
+
+                uint16_t spriteFrameIndex = 0;
+
+                if (pMonsterEntry != nullptr)
+                {
+                    for (const std::string &spriteName : pMonsterEntry->spriteNames)
+                    {
+                        if (spriteName.empty())
+                        {
+                            continue;
+                        }
+
+                        const std::optional<uint16_t> frameIndex =
+                            m_cachedActorBillboardSpriteFrameTable.findFrameIndexBySpriteName(spriteName);
+
+                        if (frameIndex)
+                        {
+                            spriteFrameIndex = *frameIndex;
+                            break;
+                        }
+                    }
+                }
+
+                if (spriteFrameIndex == 0)
+                {
+                    for (uint16_t spriteId : actor.spriteIds)
+                    {
+                        if (spriteId != 0)
+                        {
+                            spriteFrameIndex = spriteId;
+                            break;
+                        }
+                    }
+                }
+
+                if (spriteFrameIndex == 0)
+                {
+                    continue;
+                }
+
+                EditorActorBillboardPreview preview = {};
+                preview.source = EditorActorBillboardPreview::Source::Actor;
+                preview.sourceIndex = actorIndex;
+                preview.spriteFrameIndex = spriteFrameIndex;
+                preview.x = actor.x;
+                preview.y = actor.y;
+                preview.z = snapIndoorActorZToFloor(indoorGeometry, actor.x, actor.y, actor.z);
+                preview.radius = actor.radius;
+                preview.height = actor.height;
+                preview.name = actor.name;
+                m_cachedActorBillboardPreviews.push_back(std::move(preview));
+            }
+
+            if (const Game::MapStatsEntry *pMapEntry = currentMapStatsEntry())
+            {
+                for (size_t spawnIndex = 0; spawnIndex < indoorGeometry.spawns.size(); ++spawnIndex)
+                {
+                    const Game::IndoorSpawn &spawn = indoorGeometry.spawns[spawnIndex];
+                    const std::optional<std::string> monsterName =
+                        resolveMonsterNameForSpawn(*pMapEntry, spawn.typeId, spawn.index);
+
+                    if (!monsterName)
+                    {
+                        continue;
+                    }
+
+                    const Game::MonsterEntry *pMonsterEntry = m_monsterTable.findByInternalName(*monsterName);
+
+                    if (pMonsterEntry == nullptr)
+                    {
+                        continue;
+                    }
+
+                    uint16_t spriteFrameIndex = 0;
+
+                    for (const std::string &spriteName : pMonsterEntry->spriteNames)
+                    {
+                        if (spriteName.empty())
+                        {
+                            continue;
+                        }
+
+                        const std::optional<uint16_t> frameIndex =
+                            m_cachedActorBillboardSpriteFrameTable.findFrameIndexBySpriteName(spriteName);
+
+                        if (frameIndex)
+                        {
+                            spriteFrameIndex = *frameIndex;
+                            break;
+                        }
+                    }
+
+                    if (spriteFrameIndex == 0)
+                    {
+                        continue;
+                    }
+
+                    EditorActorBillboardPreview preview = {};
+                    preview.source = EditorActorBillboardPreview::Source::Spawn;
+                    preview.sourceIndex = spawnIndex;
+                    preview.spriteFrameIndex = spriteFrameIndex;
+                    preview.x = spawn.x;
+                    preview.y = spawn.y;
+                    preview.z = spawn.typeId == 3
+                        ? snapIndoorActorZToFloor(indoorGeometry, spawn.x, spawn.y, spawn.z)
+                        : spawn.z;
+                    preview.radius = static_cast<uint16_t>(std::max<int>(pMonsterEntry->radius, 0));
+                    preview.height = static_cast<uint16_t>(std::max<int>(pMonsterEntry->height, 0));
+                    preview.name = *monsterName;
+                    m_cachedActorBillboardPreviews.push_back(std::move(preview));
+                }
+            }
+        }
+
+        m_cachedOutdoorDerivedKey = cacheKey;
+        return;
+    }
+
+    if (m_document.kind() != EditorDocument::Kind::Outdoor)
+    {
+        m_cachedOutdoorDerivedKey = cacheKey;
+        return;
+    }
+
+    const Game::OutdoorSceneData &sceneData = m_document.outdoorSceneData();
+    const Game::OutdoorMapData &outdoorGeometry = m_document.outdoorGeometry();
+    m_cachedEffectiveFaceEvents.resize(outdoorGeometry.bmodels.size());
+    m_cachedDefaultBModelEvents.resize(outdoorGeometry.bmodels.size());
+    m_cachedChestLinks.resize(sceneData.initialState.chests.size());
+    m_cachedImportedMaterialDiagnostics.resize(outdoorGeometry.bmodels.size());
+    m_cachedImportedMaterialDiagnosticsValid.assign(outdoorGeometry.bmodels.size(), false);
 
     if (m_pAssetFileSystem != nullptr)
     {
         std::unordered_set<std::string> actorFamilies;
+
+        appendMonsterSpriteFamilies(actorFamilies, resolveMonsterEntryForActor(m_monsterTable, m_pendingActor));
 
         for (const Game::MapDeltaActor &actor : sceneData.initialState.actors)
         {
@@ -5325,6 +5970,12 @@ void EditorSession::ensureOutdoorDerivedCaches() const
 
         if (const Game::MapStatsEntry *pMapEntry = currentMapStatsEntry())
         {
+            if (const std::optional<std::string> monsterName =
+                    resolveMonsterNameForSpawn(*pMapEntry, m_pendingSpawn.typeId, m_pendingSpawn.index))
+            {
+                appendMonsterSpriteFamilies(actorFamilies, m_monsterTable.findByInternalName(*monsterName));
+            }
+
             for (const Game::OutdoorSceneSpawn &spawn : sceneData.spawns)
             {
                 const std::optional<std::string> monsterName =

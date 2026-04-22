@@ -2,6 +2,7 @@
 
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
+#include "game/FaceEnums.h"
 #include "game/events/EventRuntime.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/maps/MapDeltaData.h"
@@ -44,11 +45,16 @@ constexpr float CameraMinPitchRadians = -1.45f;
 constexpr float CameraMaxPitchRadians = 1.45f;
 constexpr float CameraFocusDurationSeconds = 0.22f;
 constexpr float GizmoAxisWorldLength = 1024.0f;
+constexpr float IndoorGizmoAxisWorldLength = 560.0f;
+constexpr float IndoorGizmoScreenAxisLength = 86.0f;
 constexpr float GizmoCenterPickRadiusPixels = 12.0f;
 constexpr float GizmoAxisPickSlackPixels = 10.0f;
 constexpr float GizmoZAxisPickSlackPixels = 18.0f;
 constexpr float GizmoAxisEndpointPickRadiusPixels = 14.0f;
+constexpr float IndoorGizmoAxisPickSlackPixels = 18.0f;
+constexpr float IndoorGizmoAxisEndpointPickRadiusPixels = 18.0f;
 constexpr float GizmoRotationPickSlackPixels = 12.0f;
+constexpr float GizmoDragDeadzonePixels = 4.0f;
 constexpr int GizmoRotationSegments = 32;
 constexpr uint16_t DecorationDescDontDraw = 0x0002;
 constexpr uint16_t LevelDecorationInvisible = 0x0020;
@@ -72,6 +78,14 @@ struct BitmapLoadCache
     std::unordered_map<std::string, std::optional<std::vector<uint8_t>>> binaryFilesByPath;
     std::unordered_map<std::string, std::optional<BitmapPixelsResult>> pixelsByKey;
     std::unordered_map<int16_t, std::optional<std::array<uint8_t, 256 * 3>>> actPalettesById;
+};
+
+struct EditorIndoorMechanismTextureState
+{
+    const Game::MapDeltaDoor *pDoor = nullptr;
+    size_t faceOffset = 0;
+    float distance = 0.0f;
+    bx::Vec3 direction = {0.0f, 0.0f, 0.0f};
 };
 
 struct TerrainAtlasRegion
@@ -787,6 +801,144 @@ bx::Vec3 vecLerp(const bx::Vec3 &start, const bx::Vec3 &end, float t)
     };
 }
 
+bool calculateIndoorEditorTextureAxes(
+    const Game::IndoorFace &face,
+    const bx::Vec3 &normal,
+    bx::Vec3 &axisU,
+    bx::Vec3 &axisV)
+{
+    if (face.facetType == 1)
+    {
+        axisU = {-normal.y, normal.x, 0.0f};
+        axisV = {0.0f, 0.0f, -1.0f};
+    }
+    else if (face.facetType == 3 || face.facetType == 5)
+    {
+        axisU = {1.0f, 0.0f, 0.0f};
+        axisV = {0.0f, -1.0f, 0.0f};
+    }
+    else if (face.facetType == 4 || face.facetType == 6)
+    {
+        if (std::abs(normal.z) < 0.70863342285f)
+        {
+            axisU = vecNormalize({-normal.y, normal.x, 0.0f});
+            axisV = {0.0f, 0.0f, -1.0f};
+        }
+        else
+        {
+            axisU = {1.0f, 0.0f, 0.0f};
+            axisV = {0.0f, -1.0f, 0.0f};
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::FlipNormalU))
+    {
+        axisU = {-axisU.x, -axisU.y, -axisU.z};
+    }
+
+    if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::FlipNormalV))
+    {
+        axisV = {-axisV.x, -axisV.y, -axisV.z};
+    }
+
+    return true;
+}
+
+float resolveIndoorEditorMechanismDistance(
+    const Game::MapDeltaDoor &door,
+    const Game::EventRuntimeState *pEventRuntimeState)
+{
+    const auto calculateDistance = [&door](const Game::RuntimeMechanismState &state)
+    {
+        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Open))
+        {
+            return 0.0f;
+        }
+
+        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Closed) || (door.attributes & 0x2) != 0)
+        {
+            return static_cast<float>(door.moveLength);
+        }
+
+        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing))
+        {
+            const float closingDistance = state.timeSinceTriggeredMs * static_cast<float>(door.closeSpeed) / 1000.0f;
+            return std::min(closingDistance, static_cast<float>(door.moveLength));
+        }
+
+        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening))
+        {
+            const float openingDistance = state.timeSinceTriggeredMs * static_cast<float>(door.openSpeed) / 1000.0f;
+            return std::max(0.0f, static_cast<float>(door.moveLength) - openingDistance);
+        }
+
+        return 0.0f;
+    };
+
+    Game::RuntimeMechanismState baseState = {};
+    baseState.state = door.state;
+    baseState.timeSinceTriggeredMs = static_cast<float>(door.timeSinceTriggered);
+    baseState.currentDistance = calculateDistance(baseState);
+    baseState.isMoving =
+        door.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening)
+        || door.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing);
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return baseState.currentDistance;
+    }
+
+    const auto mechanismIterator = pEventRuntimeState->mechanisms.find(door.doorId);
+
+    if (mechanismIterator == pEventRuntimeState->mechanisms.end())
+    {
+        return baseState.currentDistance;
+    }
+
+    return mechanismIterator->second.isMoving
+        ? calculateDistance(mechanismIterator->second)
+        : mechanismIterator->second.currentDistance;
+}
+
+std::optional<EditorIndoorMechanismTextureState> findIndoorEditorMechanismTextureState(
+    size_t faceIndex,
+    const Game::MapDeltaData *pIndoorMapDeltaData,
+    const Game::EventRuntimeState *pEventRuntimeState)
+{
+    if (pIndoorMapDeltaData == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    for (const Game::MapDeltaDoor &door : pIndoorMapDeltaData->doors)
+    {
+        for (size_t doorFaceOffset = 0; doorFaceOffset < door.faceIds.size(); ++doorFaceOffset)
+        {
+            if (door.faceIds[doorFaceOffset] != faceIndex)
+            {
+                continue;
+            }
+
+            EditorIndoorMechanismTextureState state = {};
+            state.pDoor = &door;
+            state.faceOffset = doorFaceOffset;
+            state.distance = resolveIndoorEditorMechanismDistance(door, pEventRuntimeState);
+            state.direction = {
+                static_cast<float>(door.directionX) / 65536.0f,
+                static_cast<float>(door.directionY) / 65536.0f,
+                static_cast<float>(door.directionZ) / 65536.0f
+            };
+            return state;
+        }
+    }
+
+    return std::nullopt;
+}
+
 float lerpFloat(float start, float end, float t)
 {
     return start + (end - start) * t;
@@ -1157,6 +1309,15 @@ bool indoorMarkerVisibleForIsolation(
     }
 
     return indoorSectorBoundsContainPoint(indoorMapData, *isolatedRoomId, point);
+}
+
+bool isIndoorMovableSelectionKind(EditorSelectionKind kind)
+{
+    return kind == EditorSelectionKind::Entity
+        || kind == EditorSelectionKind::Actor
+        || kind == EditorSelectionKind::Spawn
+        || kind == EditorSelectionKind::SpriteObject
+        || kind == EditorSelectionKind::Light;
 }
 
 bool indoorDoorVisibleForIsolation(
@@ -2899,7 +3060,9 @@ std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedIndoorFac
     const std::vector<Game::IndoorVertex> &indoorVertices,
     size_t faceIndex,
     int textureWidth,
-    int textureHeight)
+    int textureHeight,
+    const Game::MapDeltaData *pIndoorMapDeltaData,
+    const Game::EventRuntimeState *pEventRuntimeState)
 {
     std::vector<EditorOutdoorViewport::TexturedPreviewVertex> vertices;
 
@@ -2913,6 +3076,90 @@ std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedIndoorFac
     if (face.vertexIndices.size() < 3 || face.textureName.empty())
     {
         return vertices;
+    }
+
+    const std::optional<EditorIndoorMechanismTextureState> mechanismTextureState =
+        findIndoorEditorMechanismTextureState(faceIndex, pIndoorMapDeltaData, pEventRuntimeState);
+    std::vector<float> projectedUs;
+    std::vector<float> projectedVs;
+    float projectedDeltaU = 0.0f;
+    float projectedDeltaV = 0.0f;
+
+    if (mechanismTextureState)
+    {
+        Game::IndoorFaceGeometryData geometry = {};
+
+        if (!Game::buildIndoorFaceGeometry(indoorMapData, indoorVertices, faceIndex, geometry)
+            || vecDot(geometry.normal, geometry.normal) <= 0.0001f)
+        {
+            return vertices;
+        }
+
+        bx::Vec3 axisU = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 axisV = {0.0f, 0.0f, 0.0f};
+
+        if (!calculateIndoorEditorTextureAxes(face, geometry.normal, axisU, axisV))
+        {
+            return vertices;
+        }
+
+        projectedUs.reserve(face.vertexIndices.size());
+        projectedVs.reserve(face.vertexIndices.size());
+        float minU = std::numeric_limits<float>::infinity();
+        float minV = std::numeric_limits<float>::infinity();
+        float maxU = -std::numeric_limits<float>::infinity();
+        float maxV = -std::numeric_limits<float>::infinity();
+
+        for (const bx::Vec3 &point : geometry.vertices)
+        {
+            const float pointU = vecDot(point, axisU);
+            const float pointV = vecDot(point, axisV);
+            projectedUs.push_back(pointU);
+            projectedVs.push_back(pointV);
+            minU = std::min(minU, pointU);
+            minV = std::min(minV, pointV);
+            maxU = std::max(maxU, pointU);
+            maxV = std::max(maxV, pointV);
+        }
+
+        if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::TextureAlignLeft))
+        {
+            projectedDeltaU -= minU;
+        }
+        else if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::TextureAlignRight))
+        {
+            projectedDeltaU -= maxU + static_cast<float>(textureWidth);
+        }
+
+        if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::TextureAlignDown))
+        {
+            projectedDeltaV -= minV;
+        }
+        else if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::TextureAlignBottom))
+        {
+            projectedDeltaV -= maxV + static_cast<float>(textureHeight);
+        }
+
+        if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::TextureMoveByDoor))
+        {
+            projectedDeltaU = -vecDot(mechanismTextureState->direction, axisU) * mechanismTextureState->distance;
+            projectedDeltaV = -vecDot(mechanismTextureState->direction, axisV) * mechanismTextureState->distance;
+
+            if (mechanismTextureState->pDoor != nullptr)
+            {
+                if (mechanismTextureState->faceOffset < mechanismTextureState->pDoor->deltaUs.size())
+                {
+                    projectedDeltaU +=
+                        static_cast<float>(mechanismTextureState->pDoor->deltaUs[mechanismTextureState->faceOffset]);
+                }
+
+                if (mechanismTextureState->faceOffset < mechanismTextureState->pDoor->deltaVs.size())
+                {
+                    projectedDeltaV +=
+                        static_cast<float>(mechanismTextureState->pDoor->deltaVs[mechanismTextureState->faceOffset]);
+                }
+            }
+        }
     }
 
     for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
@@ -2935,12 +3182,23 @@ std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedIndoorFac
             }
 
             const bx::Vec3 worldVertex = Game::indoorVertexToWorld(indoorVertices[modelVertexIndex]);
-            const float normalizedU =
+            float normalizedU =
                 static_cast<float>(face.textureUs[localTriangleVertexIndex] + face.textureDeltaU)
-                / static_cast<float>(textureWidth);
-            const float normalizedV =
+                    / static_cast<float>(textureWidth);
+            float normalizedV =
                 static_cast<float>(face.textureVs[localTriangleVertexIndex] + face.textureDeltaV)
-                / static_cast<float>(textureHeight);
+                    / static_cast<float>(textureHeight);
+
+            if (mechanismTextureState
+                && localTriangleVertexIndex < projectedUs.size()
+                && localTriangleVertexIndex < projectedVs.size())
+            {
+                normalizedU =
+                    (projectedUs[localTriangleVertexIndex] + projectedDeltaU) / static_cast<float>(textureWidth);
+                normalizedV =
+                    (projectedVs[localTriangleVertexIndex] + projectedDeltaV) / static_cast<float>(textureHeight);
+            }
+
             triangleVertices[triangleVertexSlot] =
                 {worldVertex.x, worldVertex.y, worldVertex.z, normalizedU, normalizedV};
         }
@@ -3040,7 +3298,8 @@ bool indoorFaceHiddenByCeilingView(
     size_t faceIndex,
     bool showIndoorFloors,
     bool showIndoorCeilings,
-    const std::optional<uint16_t> &isolatedRoomId)
+    const std::optional<uint16_t> &isolatedRoomId,
+    Game::IndoorFaceGeometryCache *pGeometryCache = nullptr)
 {
     if (faceIndex >= indoorMapData.faces.size())
     {
@@ -3060,13 +3319,23 @@ bool indoorFaceHiddenByCeilingView(
     }
 
     Game::IndoorFaceGeometryData geometry = {};
+    const Game::IndoorFaceGeometryData *pGeometry = nullptr;
 
-    if (!Game::buildIndoorFaceGeometry(indoorMapData, indoorVertices, faceIndex, geometry))
+    if (pGeometryCache != nullptr)
+    {
+        pGeometry = pGeometryCache->geometryForFace(indoorMapData, indoorVertices, faceIndex);
+    }
+    else if (Game::buildIndoorFaceGeometry(indoorMapData, indoorVertices, faceIndex, geometry))
+    {
+        pGeometry = &geometry;
+    }
+
+    if (pGeometry == nullptr)
     {
         return false;
     }
 
-    return indoorGeometryKindHiddenByView(geometry.kind, showIndoorFloors, showIndoorCeilings);
+    return indoorGeometryKindHiddenByView(pGeometry->kind, showIndoorFloors, showIndoorCeilings);
 }
 
 float calculateMechanismPreviewDistance(
@@ -3371,6 +3640,84 @@ void drawMechanismCenterHandle(
     pDrawList->AddCircleFilled(center, 3.0f, ringColor, 12);
 }
 
+void drawEditorCenterHandle(
+    ImDrawList *pDrawList,
+    const ImVec2 &center,
+    float radius,
+    ImU32 ringColor,
+    bool selected)
+{
+    drawMechanismCenterHandle(pDrawList, center, radius, ringColor, selected);
+}
+
+void drawLightBulbCenterHandle(
+    ImDrawList *pDrawList,
+    const ImVec2 &center,
+    float radius,
+    ImU32 color,
+    bool selected)
+{
+    const float outerRadius = radius + (selected ? 5.0f : 3.0f);
+    pDrawList->AddCircleFilled(center, outerRadius, IM_COL32(0, 0, 0, 150), 24);
+    pDrawList->AddCircleFilled(
+        {center.x, center.y - radius * 0.18f},
+        radius * 0.62f,
+        selected ? IM_COL32(255, 255, 255, 64) : IM_COL32(24, 30, 36, 220),
+        20);
+    pDrawList->AddCircle({center.x, center.y - radius * 0.18f}, radius * 0.62f, color, 20, selected ? 3.0f : 2.2f);
+    pDrawList->AddRectFilled(
+        {center.x - radius * 0.35f, center.y + radius * 0.35f},
+        {center.x + radius * 0.35f, center.y + radius * 0.78f},
+        color,
+        2.0f);
+    pDrawList->AddLine(
+        {center.x - radius * 0.45f, center.y + radius * 1.0f},
+        {center.x + radius * 0.45f, center.y + radius * 1.0f},
+        color,
+        selected ? 3.0f : 2.0f);
+}
+
+void drawTranslateAxisOverlay(
+    ImDrawList *pDrawList,
+    const ImVec2 &origin,
+    const ImVec2 &end,
+    ImU32 color,
+    const char *pLabel)
+{
+    const ImVec2 delta = {end.x - origin.x, end.y - origin.y};
+    const float length = std::sqrt(delta.x * delta.x + delta.y * delta.y);
+
+    if (length < 8.0f)
+    {
+        return;
+    }
+
+    const float inverseLength = 1.0f / length;
+    const ImVec2 direction = {delta.x * inverseLength, delta.y * inverseLength};
+    const ImVec2 normal = {-direction.y, direction.x};
+    const ImVec2 start = {origin.x + direction.x * 15.0f, origin.y + direction.y * 15.0f};
+    const ImVec2 arrowBase = {end.x - direction.x * 13.0f, end.y - direction.y * 13.0f};
+
+    pDrawList->AddLine(start, end, IM_COL32(0, 0, 0, 180), 6.0f);
+    pDrawList->AddLine(start, end, color, 3.5f);
+    pDrawList->AddTriangleFilled(
+        end,
+        {arrowBase.x + normal.x * 6.0f, arrowBase.y + normal.y * 6.0f},
+        {arrowBase.x - normal.x * 6.0f, arrowBase.y - normal.y * 6.0f},
+        IM_COL32(0, 0, 0, 180));
+    pDrawList->AddTriangleFilled(
+        end,
+        {arrowBase.x + normal.x * 4.5f, arrowBase.y + normal.y * 4.5f},
+        {arrowBase.x - normal.x * 4.5f, arrowBase.y - normal.y * 4.5f},
+        color);
+    pDrawList->AddCircleFilled(end, 5.0f, IM_COL32(0, 0, 0, 180), 16);
+    pDrawList->AddCircleFilled(end, 3.5f, color, 16);
+    pDrawList->AddText(
+        {end.x + direction.x * 8.0f - 3.0f, end.y + direction.y * 8.0f - 7.0f},
+        color,
+        pLabel);
+}
+
 std::optional<bx::Vec3> indoorFaceCenter(
     const Game::IndoorMapData &indoorMapData,
     const std::vector<Game::IndoorVertex> &indoorVertices,
@@ -3402,6 +3749,186 @@ std::optional<bx::Vec3> indoorFaceCenter(
     center.y *= inverseCount;
     center.z *= inverseCount;
     return center;
+}
+
+void assignIndoorEntityToSector(Game::IndoorMapData &indoorGeometry, size_t entityIndex)
+{
+    if (entityIndex >= indoorGeometry.entities.size())
+    {
+        return;
+    }
+
+    const uint16_t clampedEntityIndex = static_cast<uint16_t>(std::min<size_t>(entityIndex, 65535));
+
+    for (Game::IndoorSector &sector : indoorGeometry.sectors)
+    {
+        sector.decorationIds.erase(
+            std::remove(sector.decorationIds.begin(), sector.decorationIds.end(), clampedEntityIndex),
+            sector.decorationIds.end());
+    }
+
+    const Game::IndoorEntity &entity = indoorGeometry.entities[entityIndex];
+    Game::IndoorFaceGeometryCache geometryCache(indoorGeometry.faces.size());
+    const std::optional<int16_t> sectorId = Game::findIndoorSectorForPoint(
+        indoorGeometry,
+        indoorGeometry.vertices,
+        {
+            static_cast<float>(entity.x),
+            static_cast<float>(entity.y),
+            static_cast<float>(entity.z)
+        },
+        &geometryCache);
+
+    if (!sectorId.has_value() || *sectorId < 0 || static_cast<size_t>(*sectorId) >= indoorGeometry.sectors.size())
+    {
+        return;
+    }
+
+    std::vector<uint16_t> &decorationIds = indoorGeometry.sectors[static_cast<size_t>(*sectorId)].decorationIds;
+
+    if (std::find(decorationIds.begin(), decorationIds.end(), clampedEntityIndex) == decorationIds.end())
+    {
+        decorationIds.push_back(clampedEntityIndex);
+    }
+}
+
+std::optional<int16_t> findIndoorSectorIdForPoint(Game::IndoorMapData &indoorGeometry, int x, int y, int z)
+{
+    Game::IndoorFaceGeometryCache geometryCache(indoorGeometry.faces.size());
+    return Game::findIndoorSectorForPoint(
+        indoorGeometry,
+        indoorGeometry.vertices,
+        {static_cast<float>(x), static_cast<float>(y), static_cast<float>(z)},
+        &geometryCache);
+}
+
+void assignIndoorLightToSector(Game::IndoorMapData &indoorGeometry, size_t lightIndex)
+{
+    if (lightIndex >= indoorGeometry.lights.size())
+    {
+        return;
+    }
+
+    const uint16_t clampedLightIndex = static_cast<uint16_t>(std::min<size_t>(lightIndex, 65535));
+
+    for (Game::IndoorSector &sector : indoorGeometry.sectors)
+    {
+        sector.lightIds.erase(
+            std::remove(sector.lightIds.begin(), sector.lightIds.end(), clampedLightIndex),
+            sector.lightIds.end());
+    }
+
+    const Game::IndoorLight &light = indoorGeometry.lights[lightIndex];
+    const std::optional<int16_t> sectorId = findIndoorSectorIdForPoint(
+        indoorGeometry,
+        static_cast<int>(light.x),
+        static_cast<int>(light.y),
+        static_cast<int>(light.z));
+
+    if (!sectorId.has_value() || *sectorId < 0 || static_cast<size_t>(*sectorId) >= indoorGeometry.sectors.size())
+    {
+        return;
+    }
+
+    std::vector<uint16_t> &lightIds = indoorGeometry.sectors[static_cast<size_t>(*sectorId)].lightIds;
+
+    if (std::find(lightIds.begin(), lightIds.end(), clampedLightIndex) == lightIds.end())
+    {
+        lightIds.push_back(clampedLightIndex);
+    }
+}
+
+bool indoorMarkerHasLineOfSight(
+    const Game::IndoorMapData &indoorMapData,
+    const std::vector<Game::IndoorVertex> &indoorVertices,
+    Game::IndoorFaceGeometryCache &geometryCache,
+    const bx::Vec3 &cameraPosition,
+    const bx::Vec3 &target,
+    bool showIndoorFloors,
+    bool showIndoorCeilings,
+    const std::optional<uint16_t> &isolatedRoomId)
+{
+    const bx::Vec3 toTarget = vecSubtract(target, cameraPosition);
+    const float targetDistance = vecLength(toTarget);
+
+    if (targetDistance <= 1.0f)
+    {
+        return true;
+    }
+
+    const bx::Vec3 direction = vecScale(toTarget, 1.0f / targetDistance);
+    constexpr float StartSlack = 8.0f;
+    constexpr float EndSlack = 16.0f;
+    constexpr float BoundsSlack = 4.0f;
+    const float segmentMinX = std::min(cameraPosition.x, target.x) - BoundsSlack;
+    const float segmentMaxX = std::max(cameraPosition.x, target.x) + BoundsSlack;
+    const float segmentMinY = std::min(cameraPosition.y, target.y) - BoundsSlack;
+    const float segmentMaxY = std::max(cameraPosition.y, target.y) + BoundsSlack;
+    const float segmentMinZ = std::min(cameraPosition.z, target.z) - BoundsSlack;
+    const float segmentMaxZ = std::max(cameraPosition.z, target.z) + BoundsSlack;
+
+    for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
+    {
+        const Game::IndoorFace &face = indoorMapData.faces[faceIndex];
+
+        if (face.isPortal || Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::IsPortal))
+        {
+            continue;
+        }
+
+        if (indoorFaceHiddenByCeilingView(
+                indoorMapData,
+                indoorVertices,
+                faceIndex,
+                showIndoorFloors,
+                showIndoorCeilings,
+                isolatedRoomId,
+                &geometryCache))
+        {
+            continue;
+        }
+
+        const Game::IndoorFaceGeometryData *pGeometry =
+            geometryCache.geometryForFace(indoorMapData, indoorVertices, faceIndex);
+
+        if (pGeometry == nullptr || pGeometry->vertices.size() < 3)
+        {
+            continue;
+        }
+
+        if (pGeometry->maxX < segmentMinX
+            || pGeometry->minX > segmentMaxX
+            || pGeometry->maxY < segmentMinY
+            || pGeometry->minY > segmentMaxY
+            || pGeometry->maxZ < segmentMinZ
+            || pGeometry->minZ > segmentMaxZ)
+        {
+            continue;
+        }
+
+        for (size_t triangleIndex = 1; triangleIndex + 1 < pGeometry->vertices.size(); ++triangleIndex)
+        {
+            float distance = 0.0f;
+
+            if (!intersectRayTriangle(
+                    cameraPosition,
+                    direction,
+                    pGeometry->vertices[0],
+                    pGeometry->vertices[triangleIndex],
+                    pGeometry->vertices[triangleIndex + 1],
+                    distance))
+            {
+                continue;
+            }
+
+            if (distance > StartSlack && distance < targetDistance - EndSlack)
+            {
+                return false;
+            }
+        }
+    }
+
+    return true;
 }
 
 float resolvedIndoorDoorDistance(
@@ -3618,7 +4145,6 @@ void EditorOutdoorViewport::updateAndRender(
     ensureGeometryBuffers(session);
     refreshIndoorPreviewGeometryBuffers(document);
     updateCamera(document, isHovered, isFocused, deltaSeconds);
-    tryPick(session, leftMouseClicked, mouseX, mouseY);
 
     const bx::Vec3 forward = {
         std::sin(m_cameraYawRadians) * std::cos(m_cameraPitchRadians),
@@ -3667,16 +4193,26 @@ void EditorOutdoorViewport::updateAndRender(
     }
 
     const bool isOutdoorDocument = document.kind() == EditorDocument::Kind::Outdoor;
+    const bool startedGizmoDrag = tryBeginGizmoDrag(session, leftMouseClicked, mouseX, mouseY);
+    const bool pickedBeforeEdit = !startedGizmoDrag && tryPick(session, leftMouseClicked, mouseX, mouseY);
     const bool selectedTerrainCell =
-        isOutdoorDocument && trySelectTerrainCell(session, leftMouseClicked, mouseX, mouseY);
+        !startedGizmoDrag && isOutdoorDocument && trySelectTerrainCell(session, leftMouseClicked, mouseX, mouseY);
     const bool selectedInteractiveFace =
-        !selectedTerrainCell && trySelectInteractiveFace(session, leftMouseClicked, mouseX, mouseY);
+        !startedGizmoDrag
+        && !selectedTerrainCell
+        && trySelectInteractiveFace(session, leftMouseClicked, mouseX, mouseY);
     const bool placedObject =
-        !selectedTerrainCell
+        !startedGizmoDrag
+        && !selectedTerrainCell
         && !selectedInteractiveFace
+        && !pickedBeforeEdit
         && tryPlaceObject(session, leftMouseClicked, mouseX, mouseY);
-    const bool startedGizmoDrag =
-        !placedObject && tryBeginGizmoDrag(session, leftMouseClicked, mouseX, mouseY);
+    const bool consumedEditClick =
+        startedGizmoDrag
+        || pickedBeforeEdit
+        || placedObject
+        || selectedTerrainCell
+        || selectedInteractiveFace;
 
     if (document.kind() == EditorDocument::Kind::Outdoor || document.kind() == EditorDocument::Kind::Indoor)
     {
@@ -3686,7 +4222,7 @@ void EditorOutdoorViewport::updateAndRender(
     if (!selectedTerrainCell
         && !selectedInteractiveFace
         && !placedObject
-        && !startedGizmoDrag
+        && !consumedEditClick
         && (!isOutdoorDocument || m_activeGizmoDrag.mode == GizmoDragMode::None))
     {
         tryPick(session, leftMouseClicked, mouseX, mouseY);
@@ -3711,6 +4247,14 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
         {
             modeLabel = "INDOOR / ACTOR PLACE";
         }
+        else if (m_placementKind == EditorSelectionKind::Spawn)
+        {
+            modeLabel = "INDOOR / SPAWN PLACE";
+        }
+        else if (m_placementKind == EditorSelectionKind::Entity)
+        {
+            modeLabel = "INDOOR / DECORATION PLACE";
+        }
         else if (m_placementKind == EditorSelectionKind::SpriteObject)
         {
             modeLabel = "INDOOR / OBJECT PLACE";
@@ -3731,7 +4275,10 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
                     ? "LMB add face to mechanism  ·  F frame"
                     : "LMB remove face from mechanism  ·  F frame");
         }
-        else if (m_placementKind == EditorSelectionKind::Actor || m_placementKind == EditorSelectionKind::SpriteObject)
+        else if (m_placementKind == EditorSelectionKind::Actor
+            || m_placementKind == EditorSelectionKind::Entity
+            || m_placementKind == EditorSelectionKind::Spawn
+            || m_placementKind == EditorSelectionKind::SpriteObject)
         {
             ImGui::TextDisabled("Move cursor  ·  LMB place  ·  Esc cancel");
         }
@@ -3978,28 +4525,15 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
             const Game::IndoorMapData &indoorGeometry = session.document().indoorGeometry();
             const Game::IndoorSceneData &sceneData = session.document().indoorSceneData();
             ImDrawList *pDrawList = ImGui::GetForegroundDrawList();
-
-            for (size_t doorIndex = 0; doorIndex < sceneData.initialState.doors.size(); ++doorIndex)
+            const auto projectToOverlay =
+                [this](const bx::Vec3 &point, ImVec2 &screenPoint)
             {
-                const std::optional<bx::Vec3> center =
-                    selectedWorldPosition(session.document(), {EditorSelectionKind::Door, doorIndex});
-
-                if (!center
-                    || !indoorDoorVisibleForIsolation(
-                        indoorGeometry,
-                        sceneData.initialState.doors[doorIndex].door,
-                        m_isolatedIndoorRoomId,
-                        center))
-                {
-                    continue;
-                }
-
                 float screenX = 0.0f;
                 float screenY = 0.0f;
                 float clipW = 0.0f;
 
                 if (!projectWorldPoint(
-                        *center,
+                        point,
                         m_viewProjectionMatrix,
                         m_viewportWidth,
                         m_viewportHeight,
@@ -4007,18 +4541,184 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
                         screenY,
                         clipW))
                 {
-                    continue;
+                    return false;
+                }
+
+                screenPoint = {
+                    static_cast<float>(m_viewportX) + screenX,
+                    static_cast<float>(m_viewportY) + screenY
+                };
+                return true;
+            };
+            const auto drawProjectedHandle =
+                [this, pDrawList](
+                    const bx::Vec3 &center,
+                    ImU32 color,
+                    bool selected,
+                    bool lightBulb)
+            {
+                float screenX = 0.0f;
+                float screenY = 0.0f;
+                float clipW = 0.0f;
+
+                if (!projectWorldPoint(
+                        center,
+                        m_viewProjectionMatrix,
+                        m_viewportWidth,
+                        m_viewportHeight,
+                        screenX,
+                        screenY,
+                        clipW))
+                {
+                    return;
                 }
 
                 const ImVec2 handleCenter = {
                     static_cast<float>(m_viewportX) + screenX,
                     static_cast<float>(m_viewportY) + screenY};
-                const bool selected = session.selection().kind == EditorSelectionKind::Door
-                    && session.selection().index == doorIndex;
-                const ImU32 handleColor = selected
-                    ? IM_COL32(255, 255, 255, 255)
-                    : IM_COL32(96, 255, 180, 255);
-                drawMechanismCenterHandle(pDrawList, handleCenter, selected ? 12.0f : 10.0f, handleColor, selected);
+
+                if (lightBulb)
+                {
+                    drawLightBulbCenterHandle(pDrawList, handleCenter, selected ? 12.0f : 10.0f, color, selected);
+                    return;
+                }
+
+                drawEditorCenterHandle(pDrawList, handleCenter, selected ? 12.0f : 10.0f, color, selected);
+            };
+
+            for (const MarkerCandidate &candidate : m_markerCandidates)
+            {
+                const bool selected = session.selection().kind == candidate.selectionKind
+                    && session.selection().index == candidate.selectionIndex;
+                const uint8_t alpha = candidate.blockedByLineOfSight && !selected ? 96 : 255;
+
+                if (candidate.selectionKind == EditorSelectionKind::Entity)
+                {
+                    drawProjectedHandle(candidate.worldPosition, IM_COL32(255, 214, 96, alpha), selected, false);
+                    continue;
+                }
+
+                if (candidate.selectionKind == EditorSelectionKind::Light)
+                {
+                    if (candidate.selectionIndex >= indoorGeometry.lights.size())
+                    {
+                        continue;
+                    }
+
+                    const Game::IndoorLight &light = indoorGeometry.lights[candidate.selectionIndex];
+                    const ImU32 color = selected
+                        ? IM_COL32(255, 255, 255, 255)
+                        : IM_COL32(
+                            light.red == 0 ? 255 : light.red,
+                            light.green == 0 ? 220 : light.green,
+                            light.blue == 0 ? 96 : light.blue,
+                            alpha);
+                    drawProjectedHandle(candidate.worldPosition, color, selected, true);
+                    continue;
+                }
+
+                if (candidate.selectionKind == EditorSelectionKind::Actor
+                    || candidate.selectionKind == EditorSelectionKind::Spawn)
+                {
+                    if (candidate.selectionKind == EditorSelectionKind::Actor
+                        && candidate.selectionIndex >= sceneData.initialState.actors.size())
+                    {
+                        continue;
+                    }
+
+                    if (candidate.selectionKind == EditorSelectionKind::Spawn
+                        && candidate.selectionIndex >= indoorGeometry.spawns.size())
+                    {
+                        continue;
+                    }
+
+                    drawProjectedHandle(candidate.worldPosition, IM_COL32(255, 96, 220, alpha), selected, false);
+                    continue;
+                }
+
+                if (candidate.selectionKind == EditorSelectionKind::Door)
+                {
+                    if (candidate.selectionIndex >= sceneData.initialState.doors.size())
+                    {
+                        continue;
+                    }
+
+                    drawProjectedHandle(candidate.worldPosition, IM_COL32(96, 255, 180, alpha), selected, false);
+                }
+            }
+
+            const EditorSelection selection = session.selection();
+            const bool movableIndoorSelection =
+                selection.kind == EditorSelectionKind::Entity
+                || selection.kind == EditorSelectionKind::Actor
+                || selection.kind == EditorSelectionKind::Spawn
+                || selection.kind == EditorSelectionKind::SpriteObject
+                || selection.kind == EditorSelectionKind::Light;
+
+            if (movableIndoorSelection && m_transformGizmoMode == TransformGizmoMode::Translate)
+            {
+                const std::optional<bx::Vec3> selectedPosition =
+                    selectedWorldPosition(session.document(), selection);
+
+                if (selectedPosition)
+                {
+                    bx::Vec3 xAxisWorld = {1.0f, 0.0f, 0.0f};
+                    bx::Vec3 yAxisWorld = {0.0f, 1.0f, 0.0f};
+                    bx::Vec3 zAxisWorld = {0.0f, 0.0f, 1.0f};
+                    computeTransformBasis(
+                        session.document(),
+                        selection,
+                        m_transformSpaceMode,
+                        xAxisWorld,
+                        yAxisWorld,
+                        zAxisWorld);
+
+                    const bx::Vec3 xAxisEnd =
+                        vecAdd(*selectedPosition, vecScale(xAxisWorld, IndoorGizmoAxisWorldLength));
+                    const bx::Vec3 yAxisEnd =
+                        vecAdd(*selectedPosition, vecScale(yAxisWorld, IndoorGizmoAxisWorldLength));
+                    const bx::Vec3 zAxisEnd =
+                        vecAdd(*selectedPosition, vecScale(zAxisWorld, IndoorGizmoAxisWorldLength));
+                    ImVec2 origin = {};
+                    ImVec2 xEnd = {};
+                    ImVec2 yEnd = {};
+                    ImVec2 zEnd = {};
+                    const auto screenAxisEnd =
+                        [&projectToOverlay, &origin](const bx::Vec3 &worldEnd, float fallbackX, float fallbackY)
+                    {
+                        ImVec2 projectedEnd = {};
+                        float directionX = fallbackX;
+                        float directionY = fallbackY;
+
+                        if (projectToOverlay(worldEnd, projectedEnd))
+                        {
+                            const float deltaX = projectedEnd.x - origin.x;
+                            const float deltaY = projectedEnd.y - origin.y;
+                            const float length = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                            if (length >= 8.0f)
+                            {
+                                directionX = deltaX / length;
+                                directionY = deltaY / length;
+                            }
+                        }
+
+                        return ImVec2{
+                            origin.x + directionX * IndoorGizmoScreenAxisLength,
+                            origin.y + directionY * IndoorGizmoScreenAxisLength
+                        };
+                    };
+
+                    if (projectToOverlay(*selectedPosition, origin))
+                    {
+                        xEnd = screenAxisEnd(xAxisEnd, 1.0f, 0.0f);
+                        yEnd = screenAxisEnd(yAxisEnd, 0.0f, 1.0f);
+                        zEnd = screenAxisEnd(zAxisEnd, 0.0f, -1.0f);
+                        drawTranslateAxisOverlay(pDrawList, origin, xEnd, IM_COL32(255, 96, 96, 255), "X");
+                        drawTranslateAxisOverlay(pDrawList, origin, yEnd, IM_COL32(96, 255, 96, 255), "Y");
+                        drawTranslateAxisOverlay(pDrawList, origin, zEnd, IM_COL32(96, 160, 255, 255), "Z");
+                    }
+                }
             }
         }
 
@@ -4181,6 +4881,16 @@ void EditorOutdoorViewport::setPlacementKind(EditorSelectionKind kind)
         m_pendingEntityPlacementPreview.reset();
     }
 
+    if (kind != EditorSelectionKind::Actor)
+    {
+        m_pendingActorPlacementPreview.reset();
+    }
+
+    if (kind != EditorSelectionKind::Spawn)
+    {
+        m_pendingSpawnPlacementPreview.reset();
+    }
+
     if (kind != EditorSelectionKind::SpriteObject)
     {
         m_pendingSpriteObjectPlacementPreview.reset();
@@ -4302,6 +5012,16 @@ void EditorOutdoorViewport::setShowIndoorCeilings(bool enabled)
 
     m_showIndoorCeilings = enabled;
     m_indoorPreviewGeometryBuffersDirty = true;
+}
+
+bool EditorOutdoorViewport::showIndoorGizmosEverywhere() const
+{
+    return m_showIndoorGizmosEverywhere;
+}
+
+void EditorOutdoorViewport::setShowIndoorGizmosEverywhere(bool enabled)
+{
+    m_showIndoorGizmosEverywhere = enabled;
 }
 
 std::optional<uint16_t> EditorOutdoorViewport::isolatedIndoorRoomId() const
@@ -4876,7 +5596,32 @@ void EditorOutdoorViewport::refreshIndoorPreviewGeometryBuffers(const EditorDocu
     }
 
     const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
+    const Game::IndoorSceneData &sceneData = document.indoorSceneData();
     const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+    Game::MapDeltaData previewMapDeltaData = {};
+    previewMapDeltaData.doors.reserve(sceneData.initialState.doors.size());
+
+    for (const Game::IndoorSceneDoor &door : sceneData.initialState.doors)
+    {
+        previewMapDeltaData.doors.push_back(door.door);
+    }
+
+    Game::EventRuntimeState previewRuntimeState = {};
+    const Game::EventRuntimeState *pPreviewRuntimeState = nullptr;
+
+    if (!m_indoorMechanismPreviewOverrides.empty())
+    {
+        pPreviewRuntimeState = &previewRuntimeState;
+
+        for (const auto &[doorIndex, previewState] : m_indoorMechanismPreviewOverrides)
+        {
+            if (doorIndex < sceneData.initialState.doors.size())
+            {
+                previewRuntimeState.mechanisms[sceneData.initialState.doors[doorIndex].door.doorId] = previewState;
+            }
+        }
+    }
+
     const std::vector<PreviewVertex> wireVertices =
         buildIndoorWireVertices(
             indoorGeometry,
@@ -4957,7 +5702,9 @@ void EditorOutdoorViewport::refreshIndoorPreviewGeometryBuffers(const EditorDocu
                 indoorVertices,
                 faceIndex,
                 sizeIt->second.first,
-                sizeIt->second.second);
+                sizeIt->second.second,
+                &previewMapDeltaData,
+                pPreviewRuntimeState);
 
         if (faceVertices.empty())
         {
@@ -5304,7 +6051,32 @@ void EditorOutdoorViewport::ensureGeometryBuffers(const EditorSession &session)
     if (document.kind() == EditorDocument::Kind::Indoor)
     {
         const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
+        const Game::IndoorSceneData &sceneData = document.indoorSceneData();
         const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+        Game::MapDeltaData previewMapDeltaData = {};
+        previewMapDeltaData.doors.reserve(sceneData.initialState.doors.size());
+
+        for (const Game::IndoorSceneDoor &door : sceneData.initialState.doors)
+        {
+            previewMapDeltaData.doors.push_back(door.door);
+        }
+
+        Game::EventRuntimeState previewRuntimeState = {};
+        const Game::EventRuntimeState *pPreviewRuntimeState = nullptr;
+
+        if (!m_indoorMechanismPreviewOverrides.empty())
+        {
+            pPreviewRuntimeState = &previewRuntimeState;
+
+            for (const auto &[doorIndex, previewState] : m_indoorMechanismPreviewOverrides)
+            {
+                if (doorIndex < sceneData.initialState.doors.size())
+                {
+                    previewRuntimeState.mechanisms[sceneData.initialState.doors[doorIndex].door.doorId] = previewState;
+                }
+            }
+        }
+
         const std::vector<PreviewVertex> wireVertices =
             buildIndoorWireVertices(
                 indoorGeometry,
@@ -5391,7 +6163,14 @@ void EditorOutdoorViewport::ensureGeometryBuffers(const EditorSession &session)
             }
 
             std::vector<TexturedPreviewVertex> faceVertices =
-                buildTexturedIndoorFaceVertices(indoorGeometry, indoorVertices, faceIndex, textureWidth, textureHeight);
+                buildTexturedIndoorFaceVertices(
+                    indoorGeometry,
+                    indoorVertices,
+                    faceIndex,
+                    textureWidth,
+                    textureHeight,
+                    &previewMapDeltaData,
+                    pPreviewRuntimeState);
 
             if (faceVertices.empty())
             {
@@ -6066,7 +6845,7 @@ void EditorOutdoorViewport::resetCameraToDocument(const EditorDocument &document
     m_cameraInitializedForDocument = true;
 }
 
-void EditorOutdoorViewport::tryPick(
+bool EditorOutdoorViewport::tryPick(
     EditorSession &session,
     bool leftMouseClicked,
     float mouseX,
@@ -6074,7 +6853,7 @@ void EditorOutdoorViewport::tryPick(
 {
     if (!leftMouseClicked || !m_isHovered || !session.hasDocument())
     {
-        return;
+        return false;
     }
 
     const float localMouseX = mouseX - static_cast<float>(m_viewportX);
@@ -6219,12 +6998,12 @@ void EditorOutdoorViewport::tryPick(
     if (bestKind != EditorSelectionKind::None)
     {
         session.select(bestKind, bestIndex);
-        return;
+        return true;
     }
 
     if (m_placementKind != EditorSelectionKind::None)
     {
-        return;
+        return false;
     }
 
     if (session.document().kind() == EditorDocument::Kind::Indoor)
@@ -6234,7 +7013,7 @@ void EditorOutdoorViewport::tryPick(
 
         if (!computeMouseRay(mouseX, mouseY, rayOrigin, rayDirection))
         {
-            return;
+            return false;
         }
 
         const Game::IndoorMapData &indoorGeometry = session.document().indoorGeometry();
@@ -6289,9 +7068,10 @@ void EditorOutdoorViewport::tryPick(
         if (bestFaceIndex != std::numeric_limits<size_t>::max())
         {
             session.select(EditorSelectionKind::InteractiveFace, bestFaceIndex);
+            return true;
         }
 
-        return;
+        return false;
     }
 
     bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
@@ -6299,7 +7079,7 @@ void EditorOutdoorViewport::tryPick(
 
     if (!computeMouseRay(mouseX, mouseY, rayOrigin, rayDirection))
     {
-        return;
+        return false;
     }
 
     const EditorDocument &document = session.document();
@@ -6351,7 +7131,10 @@ void EditorOutdoorViewport::tryPick(
     if (foundBModelHit)
     {
         session.select(EditorSelectionKind::BModel, bestBModelIndex);
+        return true;
     }
+
+    return false;
 }
 
 void EditorOutdoorViewport::finishTerrainStroke(EditorSession &session)
@@ -6829,6 +7612,7 @@ bool EditorOutdoorViewport::trySelectInteractiveFace(
     {
         const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
         const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+        Game::IndoorFaceGeometryCache facePickGeometryCache(indoorGeometry.faces.size());
         float bestDistance = std::numeric_limits<float>::max();
         size_t bestFaceIndex = std::numeric_limits<size_t>::max();
 
@@ -6840,29 +7624,30 @@ bool EditorOutdoorViewport::trySelectInteractiveFace(
                     faceIndex,
                     m_showIndoorFloors,
                     m_showIndoorCeilings,
-                    m_isolatedIndoorRoomId))
+                    m_isolatedIndoorRoomId,
+                    &facePickGeometryCache))
             {
                 continue;
             }
 
-            Game::IndoorFaceGeometryData geometry = {};
+            const Game::IndoorFaceGeometryData *pGeometry =
+                facePickGeometryCache.geometryForFace(indoorGeometry, indoorVertices, faceIndex);
 
-            if (!Game::buildIndoorFaceGeometry(indoorGeometry, indoorVertices, faceIndex, geometry)
-                || geometry.vertices.size() < 3)
+            if (pGeometry == nullptr || pGeometry->vertices.size() < 3)
             {
                 continue;
             }
 
-            for (size_t triangleIndex = 1; triangleIndex + 1 < geometry.vertices.size(); ++triangleIndex)
+            for (size_t triangleIndex = 1; triangleIndex + 1 < pGeometry->vertices.size(); ++triangleIndex)
             {
                 float distance = 0.0f;
 
                 if (!intersectRayTriangle(
                         rayOrigin,
                         rayDirection,
-                        geometry.vertices[0],
-                        geometry.vertices[triangleIndex],
-                        geometry.vertices[triangleIndex + 1],
+                        pGeometry->vertices[0],
+                        pGeometry->vertices[triangleIndex],
+                        pGeometry->vertices[triangleIndex + 1],
                         distance))
                 {
                     continue;
@@ -7149,6 +7934,8 @@ bool EditorOutdoorViewport::tryPlaceObject(
     if (!m_isHovered || m_placementKind == EditorSelectionKind::None || !session.hasDocument())
     {
         m_pendingEntityPlacementPreview.reset();
+        m_pendingActorPlacementPreview.reset();
+        m_pendingSpawnPlacementPreview.reset();
         m_pendingSpriteObjectPlacementPreview.reset();
         return false;
     }
@@ -7156,9 +7943,13 @@ bool EditorOutdoorViewport::tryPlaceObject(
     if (m_placementKind != EditorSelectionKind::BModel
         && m_placementKind != EditorSelectionKind::SpriteObject
         && m_placementKind != EditorSelectionKind::Entity
+        && m_placementKind != EditorSelectionKind::Actor
+        && m_placementKind != EditorSelectionKind::Spawn
         && !leftMouseClicked)
     {
         m_pendingEntityPlacementPreview.reset();
+        m_pendingActorPlacementPreview.reset();
+        m_pendingSpawnPlacementPreview.reset();
         m_pendingSpriteObjectPlacementPreview.reset();
         return false;
     }
@@ -7173,6 +7964,8 @@ bool EditorOutdoorViewport::tryPlaceObject(
     if (!sampledWorldPosition)
     {
         m_pendingEntityPlacementPreview.reset();
+        m_pendingActorPlacementPreview.reset();
+        m_pendingSpawnPlacementPreview.reset();
         m_pendingSpriteObjectPlacementPreview.reset();
         return false;
     }
@@ -7251,6 +8044,48 @@ bool EditorOutdoorViewport::tryPlaceObject(
         m_pendingEntityPlacementPreview.reset();
     }
 
+    if (m_placementKind == EditorSelectionKind::Actor)
+    {
+        const int previewX = static_cast<int>(std::lround(worldPosition.x));
+        const int previewY = static_cast<int>(std::lround(worldPosition.y));
+        const int previewZ = snapIndoorActorZToFloor(
+            session.document(),
+            previewX,
+            previewY,
+            static_cast<int>(std::lround(worldPosition.z)));
+        m_pendingActorPlacementPreview = PendingActorPlacementPreview{
+            previewX,
+            previewY,
+            previewZ
+        };
+    }
+    else
+    {
+        m_pendingActorPlacementPreview.reset();
+    }
+
+    if (m_placementKind == EditorSelectionKind::Spawn)
+    {
+        const int previewX = static_cast<int>(std::lround(worldPosition.x));
+        const int previewY = static_cast<int>(std::lround(worldPosition.y));
+        const int previewZ = session.pendingSpawn().typeId == 3
+            ? snapIndoorActorZToFloor(
+                session.document(),
+                previewX,
+                previewY,
+                static_cast<int>(std::lround(worldPosition.z)))
+            : static_cast<int>(std::lround(worldPosition.z));
+        m_pendingSpawnPlacementPreview = PendingSpawnPlacementPreview{
+            previewX,
+            previewY,
+            previewZ
+        };
+    }
+    else
+    {
+        m_pendingSpawnPlacementPreview.reset();
+    }
+
     if (!leftMouseClicked)
     {
         return false;
@@ -7296,7 +8131,10 @@ std::optional<bx::Vec3> EditorOutdoorViewport::selectedWorldPosition(
             if (selection.index < indoorGeometry.spawns.size())
             {
                 const Game::IndoorSpawn &spawn = indoorGeometry.spawns[selection.index];
-                return bx::Vec3{static_cast<float>(spawn.x), static_cast<float>(spawn.y), static_cast<float>(spawn.z)};
+                const int displayZ = spawn.typeId == 3
+                    ? snapIndoorActorZToFloor(document, spawn.x, spawn.y, spawn.z)
+                    : spawn.z;
+                return bx::Vec3{static_cast<float>(spawn.x), static_cast<float>(spawn.y), static_cast<float>(displayZ)};
             }
             break;
 
@@ -7304,7 +8142,8 @@ std::optional<bx::Vec3> EditorOutdoorViewport::selectedWorldPosition(
             if (selection.index < sceneData.initialState.actors.size())
             {
                 const Game::MapDeltaActor &actor = sceneData.initialState.actors[selection.index];
-                return bx::Vec3{static_cast<float>(actor.x), static_cast<float>(actor.y), static_cast<float>(actor.z)};
+                const int displayZ = snapIndoorActorZToFloor(document, actor.x, actor.y, actor.z);
+                return bx::Vec3{static_cast<float>(actor.x), static_cast<float>(actor.y), static_cast<float>(displayZ)};
             }
             break;
 
@@ -7779,12 +8618,24 @@ bool EditorOutdoorViewport::samplePlacementWorldPosition(
     {
         const Game::IndoorMapData &indoorMapData = document.indoorGeometry();
         const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
-        float bestFloorDistance = std::numeric_limits<float>::max();
-        float bestFallbackDistance = std::numeric_limits<float>::max();
-        bx::Vec3 bestFloorPoint = {0.0f, 0.0f, 0.0f};
-        bx::Vec3 bestFallbackPoint = {0.0f, 0.0f, 0.0f};
-        bool foundFloorHit = false;
-        bool foundFallbackHit = false;
+        constexpr float PlacementSurfaceOffset = 12.0f;
+        float bestDistance = std::numeric_limits<float>::max();
+        bx::Vec3 bestPoint = {0.0f, 0.0f, 0.0f};
+        bool foundHit = false;
+        const auto offsetFromPlacementSurface = [rayDirection](const bx::Vec3 &hitPoint, const bx::Vec3 &faceNormal)
+        {
+            if (vecLength(faceNormal) <= 0.0001f)
+            {
+                return hitPoint;
+            }
+
+            const bx::Vec3 normalizedNormal = vecNormalize(faceNormal);
+            const bx::Vec3 offsetDirection =
+                vecDot(normalizedNormal, rayDirection) > 0.0f
+                    ? vecScale(normalizedNormal, -1.0f)
+                    : normalizedNormal;
+            return vecAdd(hitPoint, vecScale(offsetDirection, PlacementSurfaceOffset));
+        };
 
         for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
         {
@@ -7827,36 +8678,19 @@ bool EditorOutdoorViewport::samplePlacementWorldPosition(
                     rayOrigin.y + rayDirection.y * hitDistance,
                     rayOrigin.z + rayDirection.z * hitDistance
                 };
-                const bool isPreferredFloor =
-                    geometry.isWalkable || geometry.kind == Game::IndoorFaceKind::Floor;
 
-                if (isPreferredFloor)
+                if (hitDistance < bestDistance)
                 {
-                    if (hitDistance < bestFloorDistance)
-                    {
-                        bestFloorDistance = hitDistance;
-                        bestFloorPoint = hitPoint;
-                        foundFloorHit = true;
-                    }
-                }
-                else if (hitDistance < bestFallbackDistance)
-                {
-                    bestFallbackDistance = hitDistance;
-                    bestFallbackPoint = hitPoint;
-                    foundFallbackHit = true;
+                    bestDistance = hitDistance;
+                    bestPoint = offsetFromPlacementSurface(hitPoint, geometry.normal);
+                    foundHit = true;
                 }
             }
         }
 
-        if (foundFloorHit)
+        if (foundHit)
         {
-            worldPosition = bestFloorPoint;
-            return true;
-        }
-
-        if (foundFallbackHit)
-        {
-            worldPosition = bestFallbackPoint;
+            worldPosition = bestPoint;
             return true;
         }
 
@@ -7930,6 +8764,41 @@ bool EditorOutdoorViewport::samplePlacementWorldPosition(
     return false;
 }
 
+int EditorOutdoorViewport::snapIndoorActorZToFloor(const EditorDocument &document, int x, int y, int z) const
+{
+    if (document.kind() != EditorDocument::Kind::Indoor)
+    {
+        return z;
+    }
+
+    const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
+    const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+    Game::IndoorFaceGeometryCache geometryCache(indoorGeometry.faces.size());
+    const std::optional<int16_t> sectorId = Game::findIndoorSectorForPoint(
+        indoorGeometry,
+        indoorVertices,
+        {static_cast<float>(x), static_cast<float>(y), static_cast<float>(z)},
+        &geometryCache);
+    const Game::IndoorFloorSample floor = Game::sampleIndoorFloor(
+        indoorGeometry,
+        indoorVertices,
+        static_cast<float>(x),
+        static_cast<float>(y),
+        static_cast<float>(z),
+        131072.0f,
+        0.0f,
+        sectorId,
+        nullptr,
+        &geometryCache);
+
+    if (!floor.hasFloor || floor.height <= static_cast<float>(z))
+    {
+        return z;
+    }
+
+    return static_cast<int>(std::lround(floor.height));
+}
+
 bool EditorOutdoorViewport::setSelectedWorldPosition(EditorSession &session, const bx::Vec3 &worldPosition)
 {
     if (!session.hasDocument())
@@ -7959,18 +8828,60 @@ bool EditorOutdoorViewport::setSelectedWorldPosition(EditorSession &session, con
 
     if (document.kind() == EditorDocument::Kind::Indoor)
     {
+        Game::IndoorMapData &indoorGeometry = document.mutableIndoorGeometry();
         Game::IndoorSceneData &sceneData = document.mutableIndoorSceneData();
 
         switch (session.selection().kind)
         {
+        case EditorSelectionKind::Entity:
+            if (session.selection().index < indoorGeometry.entities.size())
+            {
+                Game::IndoorEntity &entity = indoorGeometry.entities[session.selection().index];
+                changed = entity.x != targetX || entity.y != targetY || entity.z != targetZ;
+                entity.x = targetX;
+                entity.y = targetY;
+                entity.z = targetZ;
+
+                if (changed)
+                {
+                    assignIndoorEntityToSector(indoorGeometry, session.selection().index);
+                    indoorGeometry.spriteCount = indoorGeometry.entities.size();
+                }
+            }
+            break;
+
+        case EditorSelectionKind::Spawn:
+            if (session.selection().index < indoorGeometry.spawns.size())
+            {
+                Game::IndoorSpawn &spawn = indoorGeometry.spawns[session.selection().index];
+                const int snappedTargetZ =
+                    spawn.typeId == 3 ? snapIndoorActorZToFloor(document, targetX, targetY, targetZ) : targetZ;
+                changed = spawn.x != targetX || spawn.y != targetY || spawn.z != snappedTargetZ;
+                spawn.x = targetX;
+                spawn.y = targetY;
+                spawn.z = snappedTargetZ;
+            }
+            break;
+
         case EditorSelectionKind::Actor:
             if (session.selection().index < sceneData.initialState.actors.size())
             {
                 Game::MapDeltaActor &actor = sceneData.initialState.actors[session.selection().index];
-                changed = actor.x != targetX || actor.y != targetY || actor.z != targetZ;
+                const int snappedTargetZ = snapIndoorActorZToFloor(document, targetX, targetY, targetZ);
+                changed = actor.x != targetX || actor.y != targetY || actor.z != snappedTargetZ;
                 actor.x = targetX;
                 actor.y = targetY;
-                actor.z = targetZ;
+                actor.z = snappedTargetZ;
+
+                if (changed)
+                {
+                    const std::optional<int16_t> sectorId = findIndoorSectorIdForPoint(
+                        indoorGeometry,
+                        actor.x,
+                        actor.y,
+                        actor.z);
+                    actor.sectorId = sectorId.value_or(-1);
+                }
             }
             break;
 
@@ -7982,6 +8893,44 @@ bool EditorOutdoorViewport::setSelectedWorldPosition(EditorSession &session, con
                 spriteObject.x = targetX;
                 spriteObject.y = targetY;
                 spriteObject.z = targetZ;
+
+                if (changed)
+                {
+                    const std::optional<int16_t> sectorId = findIndoorSectorIdForPoint(
+                        indoorGeometry,
+                        spriteObject.x,
+                        spriteObject.y,
+                        spriteObject.z);
+                    spriteObject.sectorId = sectorId.value_or(-1);
+                }
+            }
+            break;
+
+        case EditorSelectionKind::Light:
+            if (session.selection().index < indoorGeometry.lights.size())
+            {
+                Game::IndoorLight &light = indoorGeometry.lights[session.selection().index];
+                const int clampedX = std::clamp(
+                    targetX,
+                    static_cast<int>(std::numeric_limits<int16_t>::min()),
+                    static_cast<int>(std::numeric_limits<int16_t>::max()));
+                const int clampedY = std::clamp(
+                    targetY,
+                    static_cast<int>(std::numeric_limits<int16_t>::min()),
+                    static_cast<int>(std::numeric_limits<int16_t>::max()));
+                const int clampedZ = std::clamp(
+                    targetZ,
+                    static_cast<int>(std::numeric_limits<int16_t>::min()),
+                    static_cast<int>(std::numeric_limits<int16_t>::max()));
+                changed = light.x != clampedX || light.y != clampedY || light.z != clampedZ;
+                light.x = static_cast<int16_t>(clampedX);
+                light.y = static_cast<int16_t>(clampedY);
+                light.z = static_cast<int16_t>(clampedZ);
+
+                if (changed)
+                {
+                    assignIndoorLightToSector(indoorGeometry, session.selection().index);
+                }
             }
             break;
 
@@ -8148,9 +9097,12 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
     bx::Vec3 yAxisWorld = {0.0f, 1.0f, 0.0f};
     bx::Vec3 zAxisWorld = {0.0f, 0.0f, 1.0f};
     computeTransformBasis(session.document(), selection, m_transformSpaceMode, xAxisWorld, yAxisWorld, zAxisWorld);
-    const bx::Vec3 xAxisPoint = vecAdd(*selectedPosition, vecScale(xAxisWorld, GizmoAxisWorldLength));
-    const bx::Vec3 yAxisPoint = vecAdd(*selectedPosition, vecScale(yAxisWorld, GizmoAxisWorldLength));
-    const bx::Vec3 zAxisPoint = vecAdd(*selectedPosition, vecScale(zAxisWorld, GizmoAxisWorldLength));
+    const bool isIndoorMovableSelection =
+        session.document().kind() == EditorDocument::Kind::Indoor && isIndoorMovableSelectionKind(selection.kind);
+    const float axisWorldLength = isIndoorMovableSelection ? IndoorGizmoAxisWorldLength : GizmoAxisWorldLength;
+    const bx::Vec3 xAxisPoint = vecAdd(*selectedPosition, vecScale(xAxisWorld, axisWorldLength));
+    const bx::Vec3 yAxisPoint = vecAdd(*selectedPosition, vecScale(yAxisWorld, axisWorldLength));
+    const bx::Vec3 zAxisPoint = vecAdd(*selectedPosition, vecScale(zAxisWorld, axisWorldLength));
     float xAxisScreenX = 0.0f;
     float xAxisScreenY = 0.0f;
     float yAxisScreenX = 0.0f;
@@ -8158,7 +9110,7 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
     float zAxisScreenX = 0.0f;
     float zAxisScreenY = 0.0f;
     float axisClipW = 0.0f;
-    const bool hasXAxis = projectWorldPoint(
+    bool hasXAxis = projectWorldPoint(
         xAxisPoint,
         m_viewProjectionMatrix,
         m_viewportWidth,
@@ -8166,7 +9118,7 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
         xAxisScreenX,
         xAxisScreenY,
         axisClipW);
-    const bool hasYAxis = projectWorldPoint(
+    bool hasYAxis = projectWorldPoint(
         yAxisPoint,
         m_viewProjectionMatrix,
         m_viewportWidth,
@@ -8174,7 +9126,7 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
         yAxisScreenX,
         yAxisScreenY,
         axisClipW);
-    const bool hasZAxis = projectWorldPoint(
+    bool hasZAxis = projectWorldPoint(
         zAxisPoint,
         m_viewProjectionMatrix,
         m_viewportWidth,
@@ -8182,6 +9134,43 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
         zAxisScreenX,
         zAxisScreenY,
         axisClipW);
+
+    if (isIndoorMovableSelection)
+    {
+        const auto fitIndoorAxisToScreen =
+            [centerScreenX, centerScreenY](
+                bool projected,
+                float &axisScreenX,
+                float &axisScreenY,
+                float fallbackX,
+                float fallbackY)
+        {
+            float directionX = fallbackX;
+            float directionY = fallbackY;
+
+            if (projected)
+            {
+                const float deltaX = axisScreenX - centerScreenX;
+                const float deltaY = axisScreenY - centerScreenY;
+                const float length = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                if (length >= 8.0f)
+                {
+                    directionX = deltaX / length;
+                    directionY = deltaY / length;
+                }
+            }
+
+            axisScreenX = centerScreenX + directionX * IndoorGizmoScreenAxisLength;
+            axisScreenY = centerScreenY + directionY * IndoorGizmoScreenAxisLength;
+            return true;
+        };
+
+        hasXAxis = fitIndoorAxisToScreen(hasXAxis, xAxisScreenX, xAxisScreenY, 1.0f, 0.0f);
+        hasYAxis = fitIndoorAxisToScreen(hasYAxis, yAxisScreenX, yAxisScreenY, 0.0f, 1.0f);
+        hasZAxis = fitIndoorAxisToScreen(hasZAxis, zAxisScreenX, zAxisScreenY, 0.0f, -1.0f);
+    }
+
     const bool useRotateGizmo =
         selection.kind == EditorSelectionKind::BModel && m_transformGizmoMode == TransformGizmoMode::Rotate;
     float rotateHandleRadiusWorld = 0.0f;
@@ -8304,6 +9293,11 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
 
     GizmoDragMode mode = GizmoDragMode::None;
 
+    const float axisPickSlack = isIndoorMovableSelection ? IndoorGizmoAxisPickSlackPixels : GizmoAxisPickSlackPixels;
+    const float zAxisPickSlack = isIndoorMovableSelection ? IndoorGizmoAxisPickSlackPixels : GizmoZAxisPickSlackPixels;
+    const float endpointPickRadius =
+        isIndoorMovableSelection ? IndoorGizmoAxisEndpointPickRadiusPixels : GizmoAxisEndpointPickRadiusPixels;
+
     if (useRotateGizmo)
     {
         if (rotatePickDistanceSquared <= GizmoRotationPickSlackPixels * GizmoRotationPickSlackPixels)
@@ -8312,22 +9306,23 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
         }
     }
     else if (hasZAxis
-        && (zAxisDistanceSquared <= GizmoZAxisPickSlackPixels * GizmoZAxisPickSlackPixels
+        && (zAxisDistanceSquared <= zAxisPickSlack * zAxisPickSlack
             || zAxisEndpointDistanceSquared
-                <= GizmoAxisEndpointPickRadiusPixels * GizmoAxisEndpointPickRadiusPixels))
+                <= endpointPickRadius * endpointPickRadius))
     {
         mode = GizmoDragMode::TranslateZ;
     }
-    else if (squaredLength2(localMouseX - centerScreenX, localMouseY - centerScreenY)
+    else if (!isIndoorMovableSelection
+        && squaredLength2(localMouseX - centerScreenX, localMouseY - centerScreenY)
         <= GizmoCenterPickRadiusPixels * GizmoCenterPickRadiusPixels)
     {
         mode = GizmoDragMode::TranslatePlaneXY;
     }
-    else if (hasXAxis && xAxisDistanceSquared <= GizmoAxisPickSlackPixels * GizmoAxisPickSlackPixels)
+    else if (hasXAxis && xAxisDistanceSquared <= axisPickSlack * axisPickSlack)
     {
         mode = GizmoDragMode::TranslateX;
     }
-    else if (hasYAxis && yAxisDistanceSquared <= GizmoAxisPickSlackPixels * GizmoAxisPickSlackPixels)
+    else if (hasYAxis && yAxisDistanceSquared <= axisPickSlack * axisPickSlack)
     {
         mode = GizmoDragMode::TranslateY;
     }
@@ -8351,7 +9346,7 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
     m_activeGizmoDrag.yAxisScreenY = yAxisScreenY;
     m_activeGizmoDrag.zAxisScreenX = zAxisScreenX;
     m_activeGizmoDrag.zAxisScreenY = zAxisScreenY;
-    m_activeGizmoDrag.axisWorldLength = GizmoAxisWorldLength;
+    m_activeGizmoDrag.axisWorldLength = axisWorldLength;
     m_activeGizmoDrag.xAxisWorld = xAxisWorld;
     m_activeGizmoDrag.yAxisWorld = yAxisWorld;
     m_activeGizmoDrag.zAxisWorld = zAxisWorld;
@@ -8448,6 +9443,19 @@ void EditorOutdoorViewport::updateGizmoDrag(
     const float localMouseY = mouseY - static_cast<float>(m_viewportY);
     const float deltaMouseX = localMouseX - m_activeGizmoDrag.startMouseX;
     const float deltaMouseY = localMouseY - m_activeGizmoDrag.startMouseY;
+    const bool translateDrag =
+        m_activeGizmoDrag.mode == GizmoDragMode::TranslateX
+        || m_activeGizmoDrag.mode == GizmoDragMode::TranslateY
+        || m_activeGizmoDrag.mode == GizmoDragMode::TranslateZ
+        || m_activeGizmoDrag.mode == GizmoDragMode::TranslatePlaneXY;
+
+    if (translateDrag
+        && !m_activeGizmoDrag.mutated
+        && squaredLength2(deltaMouseX, deltaMouseY) < GizmoDragDeadzonePixels * GizmoDragDeadzonePixels)
+    {
+        return;
+    }
+
     bx::Vec3 updatedPosition = m_activeGizmoDrag.startWorldPosition;
 
     switch (m_activeGizmoDrag.mode)
@@ -9002,19 +10010,38 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
     const EditorSession &session,
     const EditorDocument &document) const
 {
-    if (document.kind() == EditorDocument::Kind::Indoor)
+    const bool hasBillboardContent =
+        (m_showEntities && m_showEntityBillboards)
+        || (m_showActors && m_showActorBillboards)
+        || (m_showSpawns && m_showSpawnActorBillboards)
+        || m_pendingEntityPlacementPreview != std::nullopt
+        || m_pendingActorPlacementPreview != std::nullopt
+        || m_pendingSpawnPlacementPreview != std::nullopt
+        || m_showSpriteObjects
+        || m_pendingSpriteObjectPlacementPreview != std::nullopt;
+
+    if (!hasBillboardContent
+        || !bgfx::isValid(m_texturedProgramHandle)
+        || !bgfx::isValid(m_textureSamplerHandle))
     {
         return;
     }
 
-    if ((!m_showEntities || !m_showEntityBillboards)
+    if (document.kind() != EditorDocument::Kind::Indoor
+        && document.kind() != EditorDocument::Kind::Outdoor)
+    {
+        return;
+    }
+
+    if (document.kind() == EditorDocument::Kind::Indoor
+        && (!m_showEntities || !m_showEntityBillboards)
         && (!m_showActors || !m_showActorBillboards)
         && (!m_showSpawns || !m_showSpawnActorBillboards)
-        && m_pendingEntityPlacementPreview == std::nullopt
         && !m_showSpriteObjects
-        && m_pendingSpriteObjectPlacementPreview == std::nullopt
-        || !bgfx::isValid(m_texturedProgramHandle)
-        || !bgfx::isValid(m_textureSamplerHandle))
+        && m_pendingEntityPlacementPreview == std::nullopt
+        && m_pendingActorPlacementPreview == std::nullopt
+        && m_pendingSpawnPlacementPreview == std::nullopt
+        && m_pendingSpriteObjectPlacementPreview == std::nullopt)
     {
         return;
     }
@@ -9026,9 +10053,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
         return;
     }
 
-    const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
     const uint32_t animationTicks = currentAnimationTicks();
-    const EditorSelection &selection = session.selection();
     const bx::Vec3 forward = vecNormalize({
         std::sin(m_cameraYawRadians) * std::cos(m_cameraPitchRadians),
         std::cos(m_cameraYawRadians) * std::cos(m_cameraPitchRadians),
@@ -9054,7 +10079,8 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
         session.entityBillboardPreviews().size()
         + session.actorBillboardPreviews().size()
         + (m_pendingEntityPlacementPreview ? 1u : 0u)
-        + sceneData.initialState.spriteObjects.size()
+        + (m_pendingActorPlacementPreview ? 1u : 0u)
+        + (m_pendingSpawnPlacementPreview ? 1u : 0u)
         + (m_pendingSpriteObjectPlacementPreview ? 1u : 0u));
     const auto ensureTexture =
         [this, pAssetFileSystem, &bitmapLoadCache](
@@ -9173,7 +10199,398 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
         drawItems.push_back(drawItem);
     };
 
-    if (m_showEntities && m_showEntityBillboards)
+    const auto appendActorPlacementBillboard =
+        [this, &session, &forward, &ensureTexture, &drawItems](
+            const Game::MapDeltaActor &actor,
+            int x,
+            int y,
+            int z)
+    {
+        const std::optional<std::pair<std::string, int16_t>> texture =
+            session.previewMonsterTexture(actor.monsterInfoId, actor.monsterId);
+
+        if (!texture)
+        {
+            return;
+        }
+
+        const float deltaX = static_cast<float>(x) - m_cameraPosition.x;
+        const float deltaY = static_cast<float>(y) - m_cameraPosition.y;
+        const float deltaZ = static_cast<float>(z) - m_cameraPosition.z;
+        const float cameraDepth = deltaX * forward.x + deltaY * forward.y + deltaZ * forward.z;
+
+        if (cameraDepth <= 0.1f)
+        {
+            return;
+        }
+
+        const SpriteBillboardTexture *pTexture = ensureTexture(texture->first, texture->second);
+
+        if (pTexture == nullptr || pTexture->height <= 0)
+        {
+            return;
+        }
+
+        const float worldHeight =
+            actor.height > 0 ? static_cast<float>(actor.height) : static_cast<float>(pTexture->height);
+        const float aspectRatio =
+            static_cast<float>(pTexture->width) / static_cast<float>(pTexture->height);
+        const float worldWidth = worldHeight * aspectRatio;
+        BillboardDrawItem drawItem = {};
+        drawItem.pTexture = pTexture;
+        drawItem.center = {
+            static_cast<float>(x),
+            static_cast<float>(y),
+            static_cast<float>(z) + worldHeight * 0.5f
+        };
+        drawItem.worldWidth = worldWidth;
+        drawItem.worldHeight = worldHeight;
+        drawItem.cameraDepth = cameraDepth;
+        drawItems.push_back(drawItem);
+    };
+
+    const auto appendSpawnPlacementBillboard =
+        [this, &session, &forward, &ensureTexture, &drawItems](
+            const Game::OutdoorSpawn &spawn,
+            int x,
+            int y,
+            int z)
+    {
+        std::optional<std::pair<std::string, int16_t>> texture;
+
+        if (spawn.typeId == 3)
+        {
+            texture = session.previewSpawnMonsterTexture(spawn.typeId, spawn.index);
+        }
+        else if (spawn.typeId == 2)
+        {
+            texture = session.previewObjectTexture(spawn.index);
+        }
+
+        if (!texture)
+        {
+            return;
+        }
+
+        const float deltaX = static_cast<float>(x) - m_cameraPosition.x;
+        const float deltaY = static_cast<float>(y) - m_cameraPosition.y;
+        const float deltaZ = static_cast<float>(z) - m_cameraPosition.z;
+        const float cameraDepth = deltaX * forward.x + deltaY * forward.y + deltaZ * forward.z;
+
+        if (cameraDepth <= 0.1f)
+        {
+            return;
+        }
+
+        const SpriteBillboardTexture *pTexture = ensureTexture(texture->first, texture->second);
+
+        if (pTexture == nullptr)
+        {
+            return;
+        }
+
+        const float scale = spawn.typeId == 3 ? 1.0f : 0.75f;
+        BillboardDrawItem drawItem = {};
+        drawItem.pTexture = pTexture;
+        drawItem.center = {
+            static_cast<float>(x),
+            static_cast<float>(y),
+            static_cast<float>(z) + static_cast<float>(pTexture->height) * scale * 0.5f
+        };
+        drawItem.worldWidth = static_cast<float>(pTexture->width) * scale;
+        drawItem.worldHeight = static_cast<float>(pTexture->height) * scale;
+        drawItem.cameraDepth = cameraDepth;
+        drawItems.push_back(drawItem);
+    };
+
+    if (document.kind() == EditorDocument::Kind::Indoor)
+    {
+        const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
+        const Game::IndoorSceneData &sceneData = document.indoorSceneData();
+        const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
+
+        if (m_showEntities && m_showEntityBillboards)
+        {
+            const Game::SpriteFrameTable *pEntitySpriteFrameTable = session.entityBillboardSpriteFrameTable();
+
+            if (pEntitySpriteFrameTable != nullptr)
+            {
+                for (const EditorEntityBillboardPreview &preview : session.entityBillboardPreviews())
+                {
+                    if (preview.entityIndex >= indoorGeometry.entities.size())
+                    {
+                        continue;
+                    }
+
+                    const Game::IndoorEntity &entity = indoorGeometry.entities[preview.entityIndex];
+
+                    if ((entity.aiAttributes & LevelDecorationInvisible) != 0
+                        || (preview.flags & DecorationDescDontDraw) != 0
+                        || preview.spriteId == 0)
+                    {
+                        continue;
+                    }
+
+                    const bx::Vec3 center = {
+                        static_cast<float>(preview.x),
+                        static_cast<float>(preview.y),
+                        static_cast<float>(preview.z)};
+
+                    if (!indoorMarkerVisibleForIsolation(indoorGeometry, m_isolatedIndoorRoomId, center))
+                    {
+                        continue;
+                    }
+
+                    const float deltaX = center.x - m_cameraPosition.x;
+                    const float deltaY = center.y - m_cameraPosition.y;
+                    const float deltaZ = center.z - m_cameraPosition.z;
+                    const float cameraDepth = deltaX * forward.x + deltaY * forward.y + deltaZ * forward.z;
+
+                    if (cameraDepth <= 0.1f)
+                    {
+                        continue;
+                    }
+
+                    const uint32_t animationOffsetTicks =
+                        animationTicks + static_cast<uint32_t>(std::abs(preview.x + preview.y));
+                    const Game::SpriteFrameEntry *pFrame =
+                        pEntitySpriteFrameTable->getFrame(preview.spriteId, animationOffsetTicks);
+
+                    if (pFrame == nullptr)
+                    {
+                        continue;
+                    }
+
+                    const float facingRadians = static_cast<float>(preview.facing) * bx::kPi / 180.0f;
+                    const float angleToCamera = std::atan2(
+                        static_cast<float>(preview.y) - m_cameraPosition.y,
+                        static_cast<float>(preview.x) - m_cameraPosition.x);
+                    const float octantAngle = facingRadians - angleToCamera + bx::kPi + (bx::kPi / 8.0f);
+                    const int octant = static_cast<int>(std::floor(octantAngle / (bx::kPi / 4.0f))) & 7;
+                    const Game::ResolvedSpriteTexture resolvedTexture =
+                        Game::SpriteFrameTable::resolveTexture(*pFrame, octant);
+                    const SpriteBillboardTexture *pTexture =
+                        ensureTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+                    if (pTexture == nullptr)
+                    {
+                        continue;
+                    }
+
+                    const float spriteScale = std::max(pFrame->scale, 0.01f);
+                    BillboardDrawItem drawItem = {};
+                    drawItem.pTexture = pTexture;
+                    drawItem.center = {
+                        center.x,
+                        center.y,
+                        center.z + static_cast<float>(pTexture->height) * spriteScale * 0.5f
+                    };
+                    drawItem.worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+                    drawItem.worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+                    drawItem.cameraDepth = cameraDepth;
+                    drawItem.mirrored = resolvedTexture.mirrored;
+                    drawItems.push_back(drawItem);
+                }
+            }
+        }
+
+        const Game::SpriteFrameTable *pActorSpriteFrameTable = session.actorBillboardSpriteFrameTable();
+
+        if (pActorSpriteFrameTable != nullptr
+            && ((m_showActors && m_showActorBillboards) || (m_showSpawns && m_showSpawnActorBillboards)))
+        {
+            for (const EditorActorBillboardPreview &preview : session.actorBillboardPreviews())
+            {
+                const bool isActor = preview.source == EditorActorBillboardPreview::Source::Actor;
+
+                if ((isActor && (!m_showActors || !m_showActorBillboards))
+                    || (!isActor && (!m_showSpawns || !m_showSpawnActorBillboards)))
+                {
+                    continue;
+                }
+
+                const bx::Vec3 center = {
+                    static_cast<float>(preview.x),
+                    static_cast<float>(preview.y),
+                    static_cast<float>(preview.z)};
+
+                if (!indoorMarkerVisibleForIsolation(indoorGeometry, m_isolatedIndoorRoomId, center))
+                {
+                    continue;
+                }
+
+                const float deltaX = center.x - m_cameraPosition.x;
+                const float deltaY = center.y - m_cameraPosition.y;
+                const float deltaZ = center.z - m_cameraPosition.z;
+                const float cameraDepth = deltaX * forward.x + deltaY * forward.y + deltaZ * forward.z;
+
+                if (cameraDepth <= 0.1f)
+                {
+                    continue;
+                }
+
+                const Game::SpriteFrameEntry *pFrame =
+                    pActorSpriteFrameTable->getFrame(preview.spriteFrameIndex, 0);
+
+                if (pFrame == nullptr)
+                {
+                    continue;
+                }
+
+                const float angleToCamera = std::atan2(
+                    static_cast<float>(preview.y) - m_cameraPosition.y,
+                    static_cast<float>(preview.x) - m_cameraPosition.x);
+                const float octantAngle = preview.yawRadians - angleToCamera + bx::kPi + (bx::kPi / 8.0f);
+                const int octant = static_cast<int>(std::floor(octantAngle / (bx::kPi / 4.0f))) & 7;
+                const Game::ResolvedSpriteTexture resolvedTexture =
+                    Game::SpriteFrameTable::resolveTexture(*pFrame, octant);
+                const SpriteBillboardTexture *pTexture =
+                    ensureTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+                if (pTexture == nullptr)
+                {
+                    continue;
+                }
+
+                const float spriteScale = std::max(pFrame->scale, 0.01f);
+                BillboardDrawItem drawItem = {};
+                drawItem.pTexture = pTexture;
+                drawItem.center = {
+                    center.x,
+                    center.y,
+                    center.z + static_cast<float>(pTexture->height) * spriteScale * 0.5f
+                };
+                drawItem.worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+                drawItem.worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+                drawItem.cameraDepth = cameraDepth;
+                drawItem.mirrored = resolvedTexture.mirrored;
+                drawItems.push_back(drawItem);
+            }
+        }
+
+        if (m_showSpriteObjects)
+        {
+            for (const Game::MapDeltaSpriteObject &spriteObject : sceneData.initialState.spriteObjects)
+            {
+                if (!indoorMarkerVisibleForIsolation(
+                        indoorGeometry,
+                        m_isolatedIndoorRoomId,
+                        {
+                            static_cast<float>(spriteObject.x),
+                            static_cast<float>(spriteObject.y),
+                            static_cast<float>(spriteObject.z)
+                        },
+                        spriteObject.sectorId))
+                {
+                    continue;
+                }
+
+                const Game::ObjectEntry *pObjectEntry = session.objectTable().get(spriteObject.objectDescriptionId);
+                const uint16_t spriteId = pObjectEntry != nullptr ? pObjectEntry->spriteId : spriteObject.spriteId;
+                appendSpriteObjectBillboard(
+                    spriteObject.objectDescriptionId,
+                    spriteId,
+                    spriteObject.x,
+                    spriteObject.y,
+                    spriteObject.z,
+                    static_cast<uint32_t>(spriteObject.timeSinceCreated) * 8u);
+            }
+        }
+
+        if (m_pendingEntityPlacementPreview)
+        {
+            const Game::DecorationEntry *pDecoration =
+                session.decorationTable().get(session.pendingEntityDecorationListId());
+            const Game::SpriteFrameTable *pEntitySpriteFrameTable = session.entityBillboardSpriteFrameTable();
+
+            if (pDecoration != nullptr
+                && pEntitySpriteFrameTable != nullptr
+                && (pDecoration->flags & DecorationDescDontDraw) == 0
+                && pDecoration->spriteId != 0)
+            {
+                const uint32_t animationOffsetTicks =
+                    animationTicks
+                    + static_cast<uint32_t>(
+                        std::abs(m_pendingEntityPlacementPreview->x + m_pendingEntityPlacementPreview->y));
+                const Game::SpriteFrameEntry *pFrame =
+                    pEntitySpriteFrameTable->getFrame(pDecoration->spriteId, animationOffsetTicks);
+
+                if (pFrame != nullptr)
+                {
+                    const Game::ResolvedSpriteTexture resolvedTexture =
+                        Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
+                    const SpriteBillboardTexture *pTexture =
+                        ensureTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+                    if (pTexture != nullptr)
+                    {
+                        const float deltaX =
+                            static_cast<float>(m_pendingEntityPlacementPreview->x) - m_cameraPosition.x;
+                        const float deltaY =
+                            static_cast<float>(m_pendingEntityPlacementPreview->y) - m_cameraPosition.y;
+                        const float deltaZ =
+                            static_cast<float>(m_pendingEntityPlacementPreview->z) - m_cameraPosition.z;
+                        const float cameraDepth = deltaX * forward.x + deltaY * forward.y + deltaZ * forward.z;
+
+                        if (cameraDepth > 0.1f)
+                        {
+                            const float spriteScale = std::max(pFrame->scale, 0.01f);
+                            BillboardDrawItem drawItem = {};
+                            drawItem.pTexture = pTexture;
+                            drawItem.center = {
+                                static_cast<float>(m_pendingEntityPlacementPreview->x),
+                                static_cast<float>(m_pendingEntityPlacementPreview->y),
+                                static_cast<float>(m_pendingEntityPlacementPreview->z)
+                                    + static_cast<float>(pTexture->height) * spriteScale * 0.5f
+                            };
+                            drawItem.worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+                            drawItem.worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+                            drawItem.cameraDepth = cameraDepth;
+                            drawItem.mirrored = resolvedTexture.mirrored;
+                            drawItems.push_back(drawItem);
+                        }
+                    }
+                }
+            }
+        }
+
+        if (m_pendingActorPlacementPreview)
+        {
+            appendActorPlacementBillboard(
+                session.pendingActor(),
+                m_pendingActorPlacementPreview->x,
+                m_pendingActorPlacementPreview->y,
+                m_pendingActorPlacementPreview->z);
+        }
+
+        if (m_pendingSpawnPlacementPreview)
+        {
+            appendSpawnPlacementBillboard(
+                session.pendingSpawn(),
+                m_pendingSpawnPlacementPreview->x,
+                m_pendingSpawnPlacementPreview->y,
+                m_pendingSpawnPlacementPreview->z);
+        }
+
+        if (m_pendingSpriteObjectPlacementPreview)
+        {
+            const Game::ObjectEntry *pObjectEntry =
+                session.objectTable().get(session.pendingSpriteObjectDescriptionId());
+            const uint16_t spriteId = pObjectEntry != nullptr ? pObjectEntry->spriteId : 0;
+            appendSpriteObjectBillboard(
+                session.pendingSpriteObjectDescriptionId(),
+                spriteId,
+                m_pendingSpriteObjectPlacementPreview->x,
+                m_pendingSpriteObjectPlacementPreview->y,
+                m_pendingSpriteObjectPlacementPreview->z,
+                animationTicks);
+        }
+    }
+    else
+    {
+        const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
+
+        if (m_showEntities && m_showEntityBillboards)
     {
         const Game::SpriteFrameTable *pEntitySpriteFrameTable = session.entityBillboardSpriteFrameTable();
 
@@ -9366,6 +10783,24 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
         }
     }
 
+    if (m_pendingActorPlacementPreview)
+    {
+        appendActorPlacementBillboard(
+            session.pendingActor(),
+            m_pendingActorPlacementPreview->x,
+            m_pendingActorPlacementPreview->y,
+            m_pendingActorPlacementPreview->z);
+    }
+
+    if (m_pendingSpawnPlacementPreview)
+    {
+        appendSpawnPlacementBillboard(
+            session.pendingSpawn(),
+            m_pendingSpawnPlacementPreview->x,
+            m_pendingSpawnPlacementPreview->y,
+            m_pendingSpawnPlacementPreview->z);
+    }
+
     if (m_showSpriteObjects)
     {
         for (const Game::MapDeltaSpriteObject &spriteObject : sceneData.initialState.spriteObjects)
@@ -9394,6 +10829,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
             m_pendingSpriteObjectPlacementPreview->y,
             m_pendingSpriteObjectPlacementPreview->z,
             animationTicks);
+    }
     }
 
     std::sort(drawItems.begin(), drawItems.end(), [](const BillboardDrawItem &left, const BillboardDrawItem &right)
@@ -9501,6 +10937,7 @@ void EditorOutdoorViewport::submitMarkerGeometry(
         const uint32_t isolatedRoomFillColor = makeAbgrAlpha(255, 214, 96, 28);
         const uint32_t isolatedPortalEdgeColor = makeAbgr(128, 240, 255);
         const uint32_t isolatedPortalFillColor = makeAbgrAlpha(128, 240, 255, 54);
+        Game::IndoorFaceGeometryCache markerGeometryCache(indoorGeometry.faces.size());
         const auto appendIndoorFaceOverlay =
             [&](size_t faceId, uint32_t edgeColor, uint32_t fillColor, float edgeOffset, float fillOffset)
         {
@@ -9515,43 +10952,44 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                     faceId,
                     m_showIndoorFloors,
                     m_showIndoorCeilings,
-                    m_isolatedIndoorRoomId))
+                    m_isolatedIndoorRoomId,
+                    &markerGeometryCache))
             {
                 return;
             }
 
-            Game::IndoorFaceGeometryData geometry = {};
+            const Game::IndoorFaceGeometryData *pGeometry =
+                markerGeometryCache.geometryForFace(indoorGeometry, indoorVertices, faceId);
 
-            if (!Game::buildIndoorFaceGeometry(indoorGeometry, indoorVertices, faceId, geometry)
-                || geometry.vertices.size() < 3)
+            if (pGeometry == nullptr || pGeometry->vertices.size() < 3)
             {
                 return;
             }
 
-            for (size_t vertexIndex = 0; vertexIndex < geometry.vertices.size(); ++vertexIndex)
+            for (size_t vertexIndex = 0; vertexIndex < pGeometry->vertices.size(); ++vertexIndex)
             {
-                const bx::Vec3 &start = geometry.vertices[vertexIndex];
-                const bx::Vec3 &end = geometry.vertices[(vertexIndex + 1) % geometry.vertices.size()];
+                const bx::Vec3 &start = pGeometry->vertices[vertexIndex];
+                const bx::Vec3 &end = pGeometry->vertices[(vertexIndex + 1) % pGeometry->vertices.size()];
                 xrayVertices.push_back({start.x, start.y, start.z + edgeOffset, edgeColor});
                 xrayVertices.push_back({end.x, end.y, end.z + edgeOffset, edgeColor});
             }
 
-            for (size_t vertexIndex = 1; vertexIndex + 1 < geometry.vertices.size(); ++vertexIndex)
+            for (size_t vertexIndex = 1; vertexIndex + 1 < pGeometry->vertices.size(); ++vertexIndex)
             {
                 xrayFillVertices.push_back({
-                    geometry.vertices[0].x,
-                    geometry.vertices[0].y,
-                    geometry.vertices[0].z + fillOffset,
+                    pGeometry->vertices[0].x,
+                    pGeometry->vertices[0].y,
+                    pGeometry->vertices[0].z + fillOffset,
                     fillColor});
                 xrayFillVertices.push_back({
-                    geometry.vertices[vertexIndex].x,
-                    geometry.vertices[vertexIndex].y,
-                    geometry.vertices[vertexIndex].z + fillOffset,
+                    pGeometry->vertices[vertexIndex].x,
+                    pGeometry->vertices[vertexIndex].y,
+                    pGeometry->vertices[vertexIndex].z + fillOffset,
                     fillColor});
                 xrayFillVertices.push_back({
-                    geometry.vertices[vertexIndex + 1].x,
-                    geometry.vertices[vertexIndex + 1].y,
-                    geometry.vertices[vertexIndex + 1].z + fillOffset,
+                    pGeometry->vertices[vertexIndex + 1].x,
+                    pGeometry->vertices[vertexIndex + 1].y,
+                    pGeometry->vertices[vertexIndex + 1].z + fillOffset,
                     fillColor});
             }
         };
@@ -9578,7 +11016,9 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                 const bool isPortalFace =
                     faceId < indoorGeometry.faces.size()
                     && (indoorGeometry.faces[faceId].isPortal
-                        || Game::hasFaceAttribute(indoorGeometry.faces[faceId].attributes, Game::FaceAttribute::IsPortal));
+                        || Game::hasFaceAttribute(
+                            indoorGeometry.faces[faceId].attributes,
+                            Game::FaceAttribute::IsPortal));
                 appendIndoorFaceOverlay(
                     faceId,
                     isPortalFace ? isolatedPortalEdgeColor : isolatedRoomEdgeColor,
@@ -9587,6 +11027,18 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                     isPortalFace ? 1.0f : 0.75f);
             }
         }
+        const auto markerLineOfSightBlocked = [&](const bx::Vec3 &center)
+        {
+            return !indoorMarkerHasLineOfSight(
+                indoorGeometry,
+                indoorVertices,
+                markerGeometryCache,
+                m_cameraPosition,
+                center,
+                m_showIndoorFloors,
+                m_showIndoorCeilings,
+                m_isolatedIndoorRoomId);
+        };
 
         if (m_showEntities)
         {
@@ -9603,13 +11055,24 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                     continue;
                 }
 
-                appendCrossMarker(
-                    vertices,
-                    center,
-                    64.0f,
-                    128.0f,
-                    selection.kind == EditorSelectionKind::Entity && selection.index == entityIndex ? selectedColor : entityColor);
-                m_markerCandidates.push_back({EditorSelectionKind::Entity, entityIndex, center, 18.0f});
+                const bool blockedByLineOfSight = markerLineOfSightBlocked(center);
+
+                if (blockedByLineOfSight && !m_showIndoorGizmosEverywhere)
+                {
+                    continue;
+                }
+
+                const bool isSelected =
+                    selection.kind == EditorSelectionKind::Entity && selection.index == entityIndex;
+
+                MarkerCandidate candidate = {};
+                candidate.selectionKind = EditorSelectionKind::Entity;
+                candidate.selectionIndex = entityIndex;
+                candidate.worldPosition = center;
+                candidate.pickRadiusPixels = isSelected ? 32.0f : 26.0f;
+                candidate.blockedByLineOfSight = blockedByLineOfSight;
+
+                m_markerCandidates.push_back(candidate);
             }
         }
 
@@ -9626,13 +11089,20 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                 continue;
             }
 
-            appendCrossMarker(
-                vertices,
-                center,
-                48.0f,
-                96.0f,
-                selection.kind == EditorSelectionKind::Light && selection.index == lightIndex ? selectedColor : lightColor);
-            m_markerCandidates.push_back({EditorSelectionKind::Light, lightIndex, center, 18.0f});
+            const bool blockedByLineOfSight = markerLineOfSightBlocked(center);
+
+            if (blockedByLineOfSight && !m_showIndoorGizmosEverywhere)
+            {
+                continue;
+            }
+
+            MarkerCandidate candidate = {};
+            candidate.selectionKind = EditorSelectionKind::Light;
+            candidate.selectionIndex = lightIndex;
+            candidate.worldPosition = center;
+            candidate.pickRadiusPixels = 28.0f;
+            candidate.blockedByLineOfSight = blockedByLineOfSight;
+            m_markerCandidates.push_back(candidate);
         }
 
         if (m_showSpawns)
@@ -9640,24 +11110,48 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             for (size_t spawnIndex = 0; spawnIndex < indoorGeometry.spawns.size(); ++spawnIndex)
             {
                 const Game::IndoorSpawn &spawn = indoorGeometry.spawns[spawnIndex];
+                const int displayZ = spawn.typeId == 3
+                    ? snapIndoorActorZToFloor(document, spawn.x, spawn.y, spawn.z)
+                    : spawn.z;
                 const bx::Vec3 center = {
                     static_cast<float>(spawn.x),
                     static_cast<float>(spawn.y),
-                    static_cast<float>(spawn.z)};
+                    static_cast<float>(displayZ)};
 
                 if (!indoorMarkerVisibleForIsolation(indoorGeometry, m_isolatedIndoorRoomId, center))
                 {
                     continue;
                 }
 
-                appendCrossMarker(
-                    vertices,
-                    center,
-                    static_cast<float>(std::max<uint16_t>(spawn.radius, 64)),
-                    128.0f,
-                    selection.kind == EditorSelectionKind::Spawn && selection.index == spawnIndex ? selectedColor : spawnColor);
-                m_markerCandidates.push_back({EditorSelectionKind::Spawn, spawnIndex, center, 22.0f});
+                const bool blockedByLineOfSight = markerLineOfSightBlocked(center);
+
+                if (blockedByLineOfSight && !m_showIndoorGizmosEverywhere)
+                {
+                    continue;
+                }
+
+                const bool isSelected =
+                    selection.kind == EditorSelectionKind::Spawn && selection.index == spawnIndex;
+
+                MarkerCandidate candidate = {};
+                candidate.selectionKind = EditorSelectionKind::Spawn;
+                candidate.selectionIndex = spawnIndex;
+                candidate.worldPosition = center;
+                candidate.pickRadiusPixels = isSelected ? 34.0f : 28.0f;
+                candidate.blockedByLineOfSight = blockedByLineOfSight;
+
+                m_markerCandidates.push_back(candidate);
             }
+        }
+
+        if (m_pendingSpawnPlacementPreview)
+        {
+            const uint32_t pendingSpawnColor = makeAbgr(96, 255, 160);
+            const bx::Vec3 center = {
+                static_cast<float>(m_pendingSpawnPlacementPreview->x),
+                static_cast<float>(m_pendingSpawnPlacementPreview->y),
+                static_cast<float>(m_pendingSpawnPlacementPreview->z)};
+            appendCrossMarker(vertices, center, 64.0f, 128.0f, pendingSpawnColor);
         }
 
         if (m_showActors)
@@ -9665,23 +11159,31 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             for (size_t actorIndex = 0; actorIndex < sceneData.initialState.actors.size(); ++actorIndex)
             {
                 const Game::MapDeltaActor &actor = sceneData.initialState.actors[actorIndex];
+                const int displayZ = snapIndoorActorZToFloor(document, actor.x, actor.y, actor.z);
                 const bx::Vec3 center = {
                     static_cast<float>(actor.x),
                     static_cast<float>(actor.y),
-                    static_cast<float>(actor.z)};
+                    static_cast<float>(displayZ)};
 
                 if (!indoorMarkerVisibleForIsolation(indoorGeometry, m_isolatedIndoorRoomId, center, actor.sectorId))
                 {
                     continue;
                 }
 
-                appendCrossMarker(
-                    vertices,
-                    center,
-                    static_cast<float>(std::max<uint16_t>(actor.radius, 64)),
-                    static_cast<float>(std::max<uint16_t>(actor.height, 128)),
-                    selection.kind == EditorSelectionKind::Actor && selection.index == actorIndex ? selectedColor : actorColor);
-                m_markerCandidates.push_back({EditorSelectionKind::Actor, actorIndex, center, 22.0f});
+                const bool blockedByLineOfSight = markerLineOfSightBlocked(center);
+
+                if (blockedByLineOfSight && !m_showIndoorGizmosEverywhere)
+                {
+                    continue;
+                }
+
+                MarkerCandidate candidate = {};
+                candidate.selectionKind = EditorSelectionKind::Actor;
+                candidate.selectionIndex = actorIndex;
+                candidate.worldPosition = center;
+                candidate.pickRadiusPixels = 28.0f;
+                candidate.blockedByLineOfSight = blockedByLineOfSight;
+                m_markerCandidates.push_back(candidate);
             }
         }
 
@@ -9731,7 +11233,22 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
             if (center)
             {
-                m_markerCandidates.push_back({EditorSelectionKind::Door, doorIndex, *center, 40.0f});
+                const bool blockedByLineOfSight = markerLineOfSightBlocked(*center);
+
+                if (blockedByLineOfSight && !m_showIndoorGizmosEverywhere)
+                {
+                    continue;
+                }
+
+                MarkerCandidate candidate = {};
+                candidate.selectionKind = EditorSelectionKind::Door;
+                candidate.selectionIndex = doorIndex;
+                candidate.worldPosition = *center;
+                candidate.pickRadiusPixels = selection.kind == EditorSelectionKind::Door && selection.index == doorIndex
+                    ? 44.0f
+                    : 36.0f;
+                candidate.blockedByLineOfSight = blockedByLineOfSight;
+                m_markerCandidates.push_back(candidate);
             }
         }
 
@@ -10165,6 +11682,17 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                 spawn.spawn.typeId == 3 ? 34.0f : 26.0f;
             m_markerCandidates.push_back({EditorSelectionKind::Spawn, spawnIndex, center, spawnPickRadius});
         }
+    }
+
+    if (m_pendingSpawnPlacementPreview)
+    {
+        const uint32_t pendingSpawnColor = makeAbgr(96, 255, 160);
+        const float halfExtent = static_cast<float>(std::max<uint16_t>(session.pendingSpawn().radius, 96));
+        const bx::Vec3 center = {
+            static_cast<float>(m_pendingSpawnPlacementPreview->x),
+            static_cast<float>(m_pendingSpawnPlacementPreview->y),
+            static_cast<float>(m_pendingSpawnPlacementPreview->z) + halfExtent};
+        appendCrossMarker(vertices, center, halfExtent, halfExtent * 2.0f, pendingSpawnColor);
     }
 
     if (m_showActors)
