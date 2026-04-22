@@ -153,24 +153,6 @@ public:
         float speed = 0.0f;
     };
 
-    struct ProjectileImpactRequest
-    {
-        uint16_t objectDescriptionId = 0;
-        uint16_t objectSpriteId = 0;
-        uint16_t objectSpriteFrameIndex = 0;
-        uint16_t sourceObjectFlags = 0;
-        int sourceSpellId = 0;
-        std::string objectName;
-        std::string objectSpriteName;
-        std::string sourceObjectName;
-        std::string sourceObjectSpriteName;
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        uint32_t lifetimeTicks = 0;
-        bool freezeAnimation = false;
-    };
-
     struct ProjectileImpactVisualDefinition
     {
         uint16_t objectDescriptionId = 0;
@@ -228,26 +210,16 @@ public:
         bool positional = true;
     };
 
-    enum class ProjectileSpawnEffectCommand
-    {
-        SpawnInstantImpact,
-        PlayReleaseAudio,
-        LogSpawn,
-    };
-
     struct ProjectileSpawnEffects
     {
         bool accepted = false;
+        bool spawnInstantImpact = false;
+        bool playReleaseAudio = false;
+        bool logSpawn = false;
         float impactX = 0.0f;
         float impactY = 0.0f;
         float impactZ = 0.0f;
         std::optional<ProjectileAudioRequest> releaseAudioRequest;
-        std::vector<ProjectileSpawnEffectCommand> commands;
-    };
-
-    struct ProjectileSpawnEffectOptions
-    {
-        bool playReleaseAudio = true;
     };
 
     struct AreaSpellProjectileShot
@@ -258,18 +230,6 @@ public:
         float targetX = 0.0f;
         float targetY = 0.0f;
         float targetZ = 0.0f;
-    };
-
-    struct PartyProjectileActorImpactInput
-    {
-        uint32_t projectileId = 0;
-        uint32_t targetActorId = 0;
-        int damage = 0;
-        int attackBonus = 0;
-        int targetArmorClass = 0;
-        int damageMultiplier = 1;
-        float targetDistance = 0.0f;
-        bool useActorHitChance = false;
     };
 
     struct MonsterProjectileDamageProfile
@@ -291,12 +251,6 @@ public:
         MonsterAttackAbility monsterAbility = MonsterAttackAbility::Attack1;
         MonsterProjectileDamageProfile attack1Damage;
         MonsterProjectileDamageProfile attack2Damage;
-    };
-
-    struct PartyProjectileActorImpactDecision
-    {
-        int damage = 0;
-        bool hit = true;
     };
 
     struct ProjectileAreaImpactActorFacts
@@ -329,28 +283,17 @@ public:
         std::vector<ProjectileAreaImpactActorFacts> actors;
     };
 
-    struct ProjectileAreaImpactActorDecision
+    struct ProjectileAreaImpactActorHit
     {
         size_t actorIndex = 0;
         int damage = 0;
     };
 
-    struct ProjectileAreaImpactDecision
+    struct ProjectileAreaImpact
     {
         bool hitParty = false;
         int partyDamage = 0;
-        std::vector<ProjectileAreaImpactActorDecision> actorHits;
-    };
-
-    struct ProjectileDirectPartyImpactInput
-    {
-        int nonPartyProjectileDamage = 0;
-    };
-
-    struct ProjectileDirectPartyImpactDecision
-    {
-        bool hitParty = false;
-        int damage = 0;
+        std::vector<ProjectileAreaImpactActorHit> actorHits;
     };
 
     struct ProjectileDirectActorImpactInput
@@ -363,7 +306,7 @@ public:
         int nonPartyProjectileDamage = 0;
     };
 
-    struct ProjectileDirectActorImpactDecision
+    struct ProjectileDirectActorImpact
     {
         size_t actorIndex = 0;
         uint32_t actorId = 0;
@@ -420,17 +363,12 @@ public:
         bool centerVertically = false;
     };
 
-    struct ProjectileDeathBlossomFalloutRequest
-    {
-        GameplayWorldPoint point;
-    };
-
     struct ProjectileFrameAreaImpactResult
     {
         GameplayWorldPoint point;
         float radius = 0.0f;
         bool logHits = false;
-        ProjectileAreaImpactDecision decision;
+        ProjectileAreaImpact impact;
     };
 
     struct ProjectileFrameFacts
@@ -464,12 +402,12 @@ public:
         bool logLifetimeExpiry = false;
 
         std::optional<ProjectileFrameBounceResult> bounce;
-        std::optional<ProjectileDirectPartyImpactDecision> directPartyImpact;
-        std::optional<ProjectileDirectActorImpactDecision> directActorImpact;
+        std::optional<int> directPartyDamage;
+        std::optional<ProjectileDirectActorImpact> directActorImpact;
         std::optional<ProjectileFrameAreaImpactResult> areaImpact;
         std::optional<ProjectileFrameFxRequest> fxRequest;
         std::optional<ProjectileAudioRequest> audioRequest;
-        std::optional<ProjectileDeathBlossomFalloutRequest> deathBlossomFallout;
+        std::optional<GameplayWorldPoint> deathBlossomFalloutPoint;
         std::vector<ProjectileSpawnRequest> spawnedProjectiles;
     };
 
@@ -519,14 +457,7 @@ public:
         std::vector<FireSpikeActiveTrapFacts> traps;
     };
 
-    struct FireSpikeTrapSpawnLimitDecision
-    {
-        uint32_t activeLimit = 0;
-        uint32_t activeCount = 0;
-        bool canSpawn = false;
-    };
-
-    struct FireSpikeTrapSpawnDecision
+    struct FireSpikeTrapSpawnResult
     {
         uint32_t activeLimit = 0;
         uint32_t activeCount = 0;
@@ -547,25 +478,15 @@ public:
         std::vector<FireSpikeTrapActorFacts> actors;
     };
 
-    enum class FireSpikeTrapTriggerCommand
-    {
-        ApplyActorImpact,
-        SpawnImpactVisual,
-        ExpireTrap,
-    };
-
-    struct FireSpikeTrapTriggerDecision
+    struct FireSpikeTrapTriggerResult
     {
         bool triggered = false;
+        bool applyActorImpact = false;
+        bool spawnImpactVisual = false;
+        bool expireTrap = false;
         size_t actorIndex = 0;
         uint32_t actorId = 0;
         int damage = 0;
-        std::vector<FireSpikeTrapTriggerCommand> commands;
-    };
-
-    struct FireSpikeTrapLifetimeFrame
-    {
-        uint32_t timeSinceCreatedTicks = 0;
     };
 
     struct FireSpikeTrapImpactProjectileInput
@@ -608,7 +529,7 @@ public:
         const ProjectileSpawnResult &result) const;
     ProjectileSpawnEffects buildProjectileSpawnEffects(
         const ProjectileSpawnResult &result,
-        const ProjectileSpawnEffectOptions &options) const;
+        bool playReleaseAudio) const;
     std::vector<AreaSpellProjectileShot> buildMeteorShowerProjectileShots(
         uint32_t skillMastery,
         uint32_t nextProjectileId,
@@ -620,8 +541,6 @@ public:
         float targetX,
         float targetY,
         float targetZ) const;
-    const ProjectileImpactState &spawnProjectileImpact(const ProjectileImpactRequest &request);
-
     std::vector<ProjectileState> &projectiles();
     const std::vector<ProjectileState> &projectiles() const;
     std::vector<ProjectileImpactState> &projectileImpacts();
@@ -666,18 +585,6 @@ public:
     bool shouldSpawnProjectileImpactVisual(
         const ProjectileState &projectile,
         const ProjectileImpactVisualDefinition &definition) const;
-    ProjectileImpactRequest buildProjectileImpactRequest(
-        const ProjectileState &projectile,
-        const ProjectileImpactVisualDefinition &definition,
-        float x,
-        float y,
-        float z,
-        bool centerVertically) const;
-    ProjectileImpactRequest buildWaterSplashImpactRequest(
-        const ProjectileImpactVisualDefinition &definition,
-        float x,
-        float y,
-        float z) const;
     ProjectileImpactVisualDefinition buildProjectileImpactVisualDefinition(
         uint16_t objectDescriptionId,
         const ObjectEntry &objectEntry,
@@ -730,15 +637,10 @@ public:
         const SpecialItemEnchantTable *pSpecialItemEnchantTable,
         const std::string &targetMonsterName,
         const std::string &targetMonsterPictureName) const;
-    PartyProjectileActorImpactDecision buildPartyProjectileActorImpactDecision(
-        const PartyProjectileActorImpactInput &input) const;
-    ProjectileAreaImpactDecision buildProjectileAreaImpactDecision(
+    ProjectileAreaImpact buildProjectileAreaImpact(
         const ProjectileState &projectile,
         const ProjectileAreaImpactInput &input) const;
-    ProjectileDirectPartyImpactDecision buildProjectileDirectPartyImpactDecision(
-        const ProjectileState &projectile,
-        const ProjectileDirectPartyImpactInput &input) const;
-    ProjectileDirectActorImpactDecision buildProjectileDirectActorImpactDecision(
+    ProjectileDirectActorImpact buildProjectileDirectActorImpact(
         const ProjectileState &projectile,
         const ProjectileDirectActorImpactInput &input) const;
     void expireProjectile(ProjectileState &projectile) const;
@@ -749,14 +651,11 @@ public:
     bool canProjectileCollideWithActor(
         const ProjectileState &projectile,
         const ProjectileCollisionActorFacts &actorFacts) const;
-    uint32_t fireSpikeLimitForMastery(uint32_t skillMastery) const;
-    FireSpikeTrapSpawnLimitDecision buildFireSpikeTrapSpawnLimitDecision(
-        const FireSpikeTrapSpawnLimitInput &input) const;
-    FireSpikeTrapSpawnDecision buildFireSpikeTrapSpawnDecision(const FireSpikeTrapSpawnLimitInput &input);
-    FireSpikeTrapLifetimeFrame advanceFireSpikeTrapLifetime(
+    FireSpikeTrapSpawnResult buildFireSpikeTrapSpawn(const FireSpikeTrapSpawnLimitInput &input);
+    uint32_t advanceFireSpikeTrapLifetime(
         uint32_t timeSinceCreatedTicks,
         float deltaSeconds) const;
-    FireSpikeTrapTriggerDecision buildFireSpikeTrapTriggerDecision(
+    FireSpikeTrapTriggerResult buildFireSpikeTrapTrigger(
         const FireSpikeTrapTriggerInput &input) const;
     ProjectileState buildFireSpikeTrapImpactProjectile(
         const FireSpikeTrapImpactProjectileInput &input);
@@ -777,6 +676,11 @@ public:
 
 private:
     static float spellImpactDamageRadius(uint32_t spellId);
+    static uint32_t fireSpikeLimitForMastery(uint32_t skillMastery);
+    std::optional<int> buildProjectileDirectPartyDamage(
+        const ProjectileState &projectile,
+        int nonPartyProjectileDamage) const;
+    const ProjectileImpactState &addProjectileImpact(ProjectileImpactState impact);
     uint32_t allocateFireSpikeTrapId();
 
     uint32_t m_nextProjectileId = 1;

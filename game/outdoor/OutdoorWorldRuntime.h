@@ -944,9 +944,9 @@ private:
     void materializeMapDeltaWorldItems();
     void updateWorldItems(float deltaSeconds);
     void updateFireSpikeTraps(float deltaSeconds, float partyX, float partyY, float partyZ);
-    void applyFireSpikeTrapTriggerDecision(
+    void applyFireSpikeTrapTriggerResult(
         FireSpikeTrapState &trap,
-        const GameplayProjectileService::FireSpikeTrapTriggerDecision &decision);
+        const GameplayProjectileService::FireSpikeTrapTriggerResult &decision);
     int resolveProjectilePartyImpactDamage(const ProjectileState &projectile) const;
     GameplayProjectileService::ProjectileAreaImpactInput buildProjectileAreaImpactInput(
         const ProjectileState &projectile,
@@ -973,7 +973,6 @@ private:
     GameplayProjectileService::ProjectileDirectActorImpactInput buildProjectileDirectActorImpactInput(
         const ProjectileState &projectile,
         size_t actorIndex) const;
-    void applyProjectileDirectPartyImpact(const ProjectileState &projectile);
     void applyProjectileDirectActorImpact(const ProjectileState &projectile, size_t actorIndex);
     ProjectileCollisionFacts buildProjectileCollisionFacts(
         const ProjectileState &projectile,

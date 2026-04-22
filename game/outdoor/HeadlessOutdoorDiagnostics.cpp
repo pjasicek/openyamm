@@ -9700,6 +9700,32 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
+            for (int step = 0; step < 64; ++step)
+            {
+                scenario.world.updateMapActors(
+                    1.0f / 128.0f,
+                    pBefore->preciseX + 20000.0f,
+                    pBefore->preciseY + 20000.0f,
+                    pBefore->preciseZ);
+
+                const OutdoorWorldRuntime::MapActorState *pAfterDeadInactiveUpdate =
+                    scenario.world.mapActorState(3);
+
+                if (pAfterDeadInactiveUpdate == nullptr)
+                {
+                    failure = "actor 3 missing after inactive dead update";
+                    return false;
+                }
+
+                if (!pAfterDeadInactiveUpdate->isDead
+                    || pAfterDeadInactiveUpdate->aiState != OutdoorWorldRuntime::ActorAiState::Dead
+                    || pAfterDeadInactiveUpdate->animation != OutdoorWorldRuntime::ActorAnimation::Dead)
+                {
+                    failure = "inactive dead actor did not keep dead state and animation";
+                    return false;
+                }
+            }
+
             return true;
         }
     );

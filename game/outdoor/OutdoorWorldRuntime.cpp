@@ -111,7 +111,7 @@ constexpr size_t BloodSplatGridResolution = 10;
 constexpr float BloodSplatHeightOffset = 2.0f;
 constexpr float BloodSplatMinSurfaceHeightTolerance = 32.0f;
 
-enum class MissingStatsActorDeathAction : uint8_t
+enum class InactiveActorDeathAction : uint8_t
 {
     Continue = 0,
     HoldDead = 1,
@@ -119,9 +119,9 @@ enum class MissingStatsActorDeathAction : uint8_t
     AdvanceDying = 3,
 };
 
-struct MissingStatsActorDeathFrame
+struct InactiveActorDeathFrame
 {
-    MissingStatsActorDeathAction action = MissingStatsActorDeathAction::Continue;
+    InactiveActorDeathAction action = InactiveActorDeathAction::Continue;
     float actionSeconds = 0.0f;
     bool finishedDying = false;
 };
@@ -133,18 +133,18 @@ struct OutdoorActiveActorCandidate
     bool eligible = false;
 };
 
-MissingStatsActorDeathFrame resolveMissingStatsActorDeathFrame(
+InactiveActorDeathFrame resolveInactiveActorDeathFrame(
     bool dead,
     bool hpDepleted,
     bool dying,
     float actionSeconds,
     float deltaSeconds)
 {
-    MissingStatsActorDeathFrame result = {};
+    InactiveActorDeathFrame result = {};
 
     if (dead)
     {
-        result.action = MissingStatsActorDeathAction::HoldDead;
+        result.action = InactiveActorDeathAction::HoldDead;
         return result;
     }
 
@@ -155,11 +155,11 @@ MissingStatsActorDeathFrame resolveMissingStatsActorDeathFrame(
 
     if (!dying)
     {
-        result.action = MissingStatsActorDeathAction::MarkDead;
+        result.action = InactiveActorDeathAction::MarkDead;
         return result;
     }
 
-    result.action = MissingStatsActorDeathAction::AdvanceDying;
+    result.action = InactiveActorDeathAction::AdvanceDying;
     result.actionSeconds = std::max(0.0f, actionSeconds - std::max(0.0f, deltaSeconds));
     result.finishedDying = result.actionSeconds <= 0.0f;
     return result;
@@ -3479,6 +3479,20 @@ void updateInactiveActorPresentation(
     float partyY,
     const GameplayActorService *pGameplayActorService)
 {
+    if (actor.isDead || actor.aiState == OutdoorWorldRuntime::ActorAiState::Dead)
+    {
+        actor.aiState = OutdoorWorldRuntime::ActorAiState::Dead;
+        actor.animation = OutdoorWorldRuntime::ActorAnimation::Dead;
+        actor.moveDirectionX = 0.0f;
+        actor.moveDirectionY = 0.0f;
+        actor.velocityX = 0.0f;
+        actor.velocityY = 0.0f;
+        actor.velocityZ = 0.0f;
+        actor.actionSeconds = 0.0f;
+        actor.attackImpactTriggered = false;
+        return;
+    }
+
     actor.aiState = OutdoorWorldRuntime::ActorAiState::Standing;
     actor.moveDirectionX = 0.0f;
     actor.moveDirectionY = 0.0f;
@@ -4545,17 +4559,17 @@ bool OutdoorWorldRuntime::spawnPartyFireSpikeTrap(
         spawnLimitInput.traps.push_back(trapFacts);
     }
 
-    const GameplayProjectileService::FireSpikeTrapSpawnDecision spawnDecision =
-        projectileService().buildFireSpikeTrapSpawnDecision(spawnLimitInput);
+    const GameplayProjectileService::FireSpikeTrapSpawnResult spawnResult =
+        projectileService().buildFireSpikeTrapSpawn(spawnLimitInput);
 
-    if (!spawnDecision.accepted)
+    if (!spawnResult.accepted)
     {
         return false;
     }
 
     const float supportZ = sampleSupportFloorHeight(x, y, z + 256.0f, 512.0f, 32.0f);
     FireSpikeTrapState trap = {};
-    trap.trapId = spawnDecision.trapId;
+    trap.trapId = spawnResult.trapId;
     trap.sourceKind = ProjectileState::SourceKind::Party;
     trap.sourceId = casterMemberIndex + 1;
     trap.sourcePartyMemberIndex = casterMemberIndex;
@@ -4701,9 +4715,8 @@ void OutdoorWorldRuntime::updateFireSpikeTraps(float deltaSeconds, float partyX,
             continue;
         }
 
-        const GameplayProjectileService::FireSpikeTrapLifetimeFrame lifetimeFrame =
+        trap.timeSinceCreatedTicks =
             projectileService().advanceFireSpikeTrapLifetime(trap.timeSinceCreatedTicks, deltaSeconds);
-        trap.timeSinceCreatedTicks = lifetimeFrame.timeSinceCreatedTicks;
 
         if (m_pOutdoorMapData != nullptr)
         {
@@ -4747,12 +4760,12 @@ void OutdoorWorldRuntime::updateFireSpikeTraps(float deltaSeconds, float partyX,
             triggerInput.actors.push_back(actorFacts);
         }
 
-        const GameplayProjectileService::FireSpikeTrapTriggerDecision triggerDecision =
-            projectileService().buildFireSpikeTrapTriggerDecision(triggerInput);
+        const GameplayProjectileService::FireSpikeTrapTriggerResult triggerResult =
+            projectileService().buildFireSpikeTrapTrigger(triggerInput);
 
-        if (triggerDecision.triggered)
+        if (triggerResult.triggered)
         {
-            applyFireSpikeTrapTriggerDecision(trap, triggerDecision);
+            applyFireSpikeTrapTriggerResult(trap, triggerResult);
         }
     }
 
@@ -4764,90 +4777,82 @@ void OutdoorWorldRuntime::updateFireSpikeTraps(float deltaSeconds, float partyX,
         });
 }
 
-void OutdoorWorldRuntime::applyFireSpikeTrapTriggerDecision(
+void OutdoorWorldRuntime::applyFireSpikeTrapTriggerResult(
     FireSpikeTrapState &trap,
-    const GameplayProjectileService::FireSpikeTrapTriggerDecision &decision)
+    const GameplayProjectileService::FireSpikeTrapTriggerResult &result)
 {
-    if (!decision.triggered || decision.actorIndex >= m_mapActors.size())
+    if (!result.triggered || result.actorIndex >= m_mapActors.size())
     {
         return;
     }
 
-    for (const GameplayProjectileService::FireSpikeTrapTriggerCommand command : decision.commands)
+    if (result.applyActorImpact)
     {
-        switch (command)
+        const size_t triggeredActorIndex = result.actorIndex;
+        const int damage = result.damage;
+        const int beforeHp = m_mapActors[triggeredActorIndex].currentHp;
+
+        if (trap.sourceKind == ProjectileState::SourceKind::Party)
         {
-            case GameplayProjectileService::FireSpikeTrapTriggerCommand::ApplyActorImpact:
+            applyPartyAttackToMapActor(
+                triggeredActorIndex,
+                damage,
+                trap.x,
+                trap.y,
+                trap.z);
+
+            if (m_pGameplayCombatController != nullptr)
             {
-                const size_t triggeredActorIndex = decision.actorIndex;
-                const int damage = decision.damage;
-                const int beforeHp = m_mapActors[triggeredActorIndex].currentHp;
-
-                if (trap.sourceKind == ProjectileState::SourceKind::Party)
-                {
-                    applyPartyAttackToMapActor(
-                        triggeredActorIndex,
-                        damage,
-                        trap.x,
-                        trap.y,
-                        trap.z);
-
-                    if (m_pGameplayCombatController != nullptr)
-                    {
-                        m_pGameplayCombatController->recordPartyProjectileActorImpact(
-                            trap.sourceId,
-                            trap.sourcePartyMemberIndex,
-                            m_mapActors[triggeredActorIndex].actorId,
-                            damage,
-                            trap.spellId,
-                            true,
-                            beforeHp > 0 && m_mapActors[triggeredActorIndex].currentHp <= 0);
-                    }
-                }
-                else
-                {
-                    applyMonsterAttackToMapActor(triggeredActorIndex, damage, trap.sourceId);
-                }
-                break;
+                m_pGameplayCombatController->recordPartyProjectileActorImpact(
+                    trap.sourceId,
+                    trap.sourcePartyMemberIndex,
+                    m_mapActors[triggeredActorIndex].actorId,
+                    damage,
+                    trap.spellId,
+                    true,
+                    beforeHp > 0 && m_mapActors[triggeredActorIndex].currentHp <= 0);
             }
-
-            case GameplayProjectileService::FireSpikeTrapTriggerCommand::SpawnImpactVisual:
-            {
-                GameplayProjectileService::FireSpikeTrapImpactProjectileInput impactInput = {};
-                impactInput.sourceKind = trap.sourceKind;
-                impactInput.sourceId = trap.sourceId;
-                impactInput.sourcePartyMemberIndex = trap.sourcePartyMemberIndex;
-                impactInput.sourceMonsterId = trap.sourceMonsterId;
-                impactInput.fromSummonedMonster = trap.fromSummonedMonster;
-                impactInput.ability = trap.ability;
-                impactInput.objectDescriptionId = trap.objectDescriptionId;
-                impactInput.objectSpriteId = trap.objectSpriteId;
-                impactInput.objectSpriteFrameIndex = trap.objectSpriteFrameIndex;
-                impactInput.impactObjectDescriptionId = trap.impactObjectDescriptionId;
-                impactInput.objectFlags = trap.objectFlags;
-                impactInput.radius = trap.radius;
-                impactInput.height = trap.height;
-                impactInput.spellId = trap.spellId;
-                impactInput.effectSoundId = trap.effectSoundId;
-                impactInput.skillLevel = trap.skillLevel;
-                impactInput.skillMastery = trap.skillMastery;
-                impactInput.objectName = trap.objectName;
-                impactInput.objectSpriteName = trap.objectSpriteName;
-                impactInput.x = trap.x;
-                impactInput.y = trap.y;
-                impactInput.z = trap.z;
-                impactInput.damage = decision.damage;
-
-                const ProjectileState impactSource =
-                    projectileService().buildFireSpikeTrapImpactProjectile(impactInput);
-                spawnProjectileImpact(impactSource, trap.x, trap.y, trap.z);
-                break;
-            }
-
-            case GameplayProjectileService::FireSpikeTrapTriggerCommand::ExpireTrap:
-                trap.isExpired = true;
-                break;
         }
+        else
+        {
+            applyMonsterAttackToMapActor(triggeredActorIndex, damage, trap.sourceId);
+        }
+    }
+
+    if (result.spawnImpactVisual)
+    {
+        GameplayProjectileService::FireSpikeTrapImpactProjectileInput impactInput = {};
+        impactInput.sourceKind = trap.sourceKind;
+        impactInput.sourceId = trap.sourceId;
+        impactInput.sourcePartyMemberIndex = trap.sourcePartyMemberIndex;
+        impactInput.sourceMonsterId = trap.sourceMonsterId;
+        impactInput.fromSummonedMonster = trap.fromSummonedMonster;
+        impactInput.ability = trap.ability;
+        impactInput.objectDescriptionId = trap.objectDescriptionId;
+        impactInput.objectSpriteId = trap.objectSpriteId;
+        impactInput.objectSpriteFrameIndex = trap.objectSpriteFrameIndex;
+        impactInput.impactObjectDescriptionId = trap.impactObjectDescriptionId;
+        impactInput.objectFlags = trap.objectFlags;
+        impactInput.radius = trap.radius;
+        impactInput.height = trap.height;
+        impactInput.spellId = trap.spellId;
+        impactInput.effectSoundId = trap.effectSoundId;
+        impactInput.skillLevel = trap.skillLevel;
+        impactInput.skillMastery = trap.skillMastery;
+        impactInput.objectName = trap.objectName;
+        impactInput.objectSpriteName = trap.objectSpriteName;
+        impactInput.x = trap.x;
+        impactInput.y = trap.y;
+        impactInput.z = trap.z;
+        impactInput.damage = result.damage;
+
+        const ProjectileState impactSource = projectileService().buildFireSpikeTrapImpactProjectile(impactInput);
+        spawnProjectileImpact(impactSource, trap.x, trap.y, trap.z);
+    }
+
+    if (result.expireTrap)
+    {
+        trap.isExpired = true;
     }
 }
 
@@ -6819,14 +6824,14 @@ void OutdoorWorldRuntime::updateOutdoorInactiveAndInvalidActors(
 
         if (pStats == nullptr)
         {
-            const MissingStatsActorDeathFrame earlyDeathFrame = resolveMissingStatsActorDeathFrame(
+            const InactiveActorDeathFrame earlyDeathFrame = resolveInactiveActorDeathFrame(
                 actor.isDead,
                 actor.currentHp <= 0,
                 actor.currentHp <= 0 && actor.aiState == ActorAiState::Dying,
                 actor.actionSeconds,
                 ActorUpdateStepSeconds);
 
-            if (earlyDeathFrame.action == MissingStatsActorDeathAction::HoldDead)
+            if (earlyDeathFrame.action == InactiveActorDeathAction::HoldDead)
             {
                 resetCrowdSteeringState(actor);
                 actor.aiState = ActorAiState::Dead;
@@ -6834,8 +6839,8 @@ void OutdoorWorldRuntime::updateOutdoorInactiveAndInvalidActors(
                 continue;
             }
 
-            if (earlyDeathFrame.action == MissingStatsActorDeathAction::MarkDead
-                || earlyDeathFrame.action == MissingStatsActorDeathAction::AdvanceDying)
+            if (earlyDeathFrame.action == InactiveActorDeathAction::MarkDead
+                || earlyDeathFrame.action == InactiveActorDeathAction::AdvanceDying)
             {
                 spawnBloodSplatForActorIfNeeded(actorIndex);
                 resetCrowdSteeringState(actor);
@@ -6846,7 +6851,7 @@ void OutdoorWorldRuntime::updateOutdoorInactiveAndInvalidActors(
                 actor.velocityZ = 0.0f;
                 actor.attackImpactTriggered = false;
 
-                if (earlyDeathFrame.action == MissingStatsActorDeathAction::AdvanceDying)
+                if (earlyDeathFrame.action == InactiveActorDeathAction::AdvanceDying)
                 {
                     actor.animation = ActorAnimation::Dying;
                     actor.animationTimeTicks += ActorUpdateStepSeconds * TicksPerSecond;
@@ -6875,6 +6880,59 @@ void OutdoorWorldRuntime::updateOutdoorInactiveAndInvalidActors(
         if (!selectedForActiveUpdate)
         {
             resetCrowdSteeringState(actor);
+
+            const InactiveActorDeathFrame inactiveDeathFrame = resolveInactiveActorDeathFrame(
+                actor.isDead,
+                actor.currentHp <= 0,
+                actor.currentHp <= 0 && actor.aiState == ActorAiState::Dying,
+                actor.actionSeconds,
+                ActorUpdateStepSeconds);
+
+            if (inactiveDeathFrame.action == InactiveActorDeathAction::HoldDead)
+            {
+                actor.aiState = ActorAiState::Dead;
+                actor.animation = ActorAnimation::Dead;
+                actor.moveDirectionX = 0.0f;
+                actor.moveDirectionY = 0.0f;
+                actor.velocityX = 0.0f;
+                actor.velocityY = 0.0f;
+                actor.velocityZ = 0.0f;
+                actor.actionSeconds = 0.0f;
+                actor.attackImpactTriggered = false;
+                continue;
+            }
+
+            if (inactiveDeathFrame.action == InactiveActorDeathAction::MarkDead
+                || inactiveDeathFrame.action == InactiveActorDeathAction::AdvanceDying)
+            {
+                spawnBloodSplatForActorIfNeeded(actorIndex);
+                actor.moveDirectionX = 0.0f;
+                actor.moveDirectionY = 0.0f;
+                actor.velocityX = 0.0f;
+                actor.velocityY = 0.0f;
+                actor.velocityZ = 0.0f;
+                actor.attackImpactTriggered = false;
+
+                if (inactiveDeathFrame.action == InactiveActorDeathAction::AdvanceDying)
+                {
+                    actor.aiState = ActorAiState::Dying;
+                    actor.animation = ActorAnimation::Dying;
+                    actor.animationTimeTicks += ActorUpdateStepSeconds * TicksPerSecond;
+                    actor.actionSeconds = inactiveDeathFrame.actionSeconds;
+
+                    if (inactiveDeathFrame.finishedDying)
+                    {
+                        setMapActorDead(actorIndex, true, false);
+                    }
+                }
+                else
+                {
+                    setMapActorDead(actorIndex, true, false);
+                }
+
+                continue;
+            }
+
             updateInactiveActorPresentation(actor, partyX, partyY, m_pGameplayActorService);
             continue;
         }
@@ -7507,8 +7565,8 @@ void OutdoorWorldRuntime::applyProjectileAreaImpact(
             partyZ,
             canHitParty,
             directActorIndex);
-    const GameplayProjectileService::ProjectileAreaImpactDecision decision =
-        projectileService().buildProjectileAreaImpactDecision(projectile, input);
+    const GameplayProjectileService::ProjectileAreaImpact decision =
+        projectileService().buildProjectileAreaImpact(projectile, input);
 
     if (decision.hitParty)
     {
@@ -7527,7 +7585,7 @@ void OutdoorWorldRuntime::applyProjectileAreaImpact(
         }
     }
 
-    for (const GameplayProjectileService::ProjectileAreaImpactActorDecision &actorHit : decision.actorHits)
+    for (const GameplayProjectileService::ProjectileAreaImpactActorHit &actorHit : decision.actorHits)
     {
         if (actorHit.actorIndex >= m_mapActors.size())
         {
@@ -7627,29 +7685,6 @@ OutdoorWorldRuntime::buildProjectileDirectActorImpactInput(
     return input;
 }
 
-void OutdoorWorldRuntime::applyProjectileDirectPartyImpact(const ProjectileState &projectile)
-{
-    GameplayProjectileService::ProjectileDirectPartyImpactInput input = {};
-    input.nonPartyProjectileDamage = resolveProjectilePartyImpactDamage(projectile);
-
-    const GameplayProjectileService::ProjectileDirectPartyImpactDecision decision =
-        projectileService().buildProjectileDirectPartyImpactDecision(projectile, input);
-
-    if (!decision.hitParty)
-    {
-        return;
-    }
-
-    if (m_pGameplayCombatController != nullptr)
-    {
-        m_pGameplayCombatController->recordPartyProjectileImpact(
-            projectile.sourceId,
-            decision.damage,
-            projectile.spellId,
-            false);
-    }
-}
-
 void OutdoorWorldRuntime::applyProjectileDirectActorImpact(
     const ProjectileState &projectile,
     size_t actorIndex)
@@ -7661,8 +7696,8 @@ void OutdoorWorldRuntime::applyProjectileDirectActorImpact(
 
     const GameplayProjectileService::ProjectileDirectActorImpactInput input =
         buildProjectileDirectActorImpactInput(projectile, actorIndex);
-    const GameplayProjectileService::ProjectileDirectActorImpactDecision decision =
-        projectileService().buildProjectileDirectActorImpactDecision(projectile, input);
+    const GameplayProjectileService::ProjectileDirectActorImpact decision =
+        projectileService().buildProjectileDirectActorImpact(projectile, input);
 
     bool killed = false;
     if (decision.applyPartyProjectileDamage)
@@ -8354,22 +8389,22 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
     const ProjectileCollisionFacts &collision,
     const GameplayProjectileService::ProjectileFrameResult &frameResult)
 {
-    if (frameResult.deathBlossomFallout)
+    if (frameResult.deathBlossomFalloutPoint)
     {
         spawnDeathBlossomFalloutProjectiles(
             projectile,
-            frameResult.deathBlossomFallout->point.x,
-            frameResult.deathBlossomFallout->point.y,
-            frameResult.deathBlossomFallout->point.z);
+            frameResult.deathBlossomFalloutPoint->x,
+            frameResult.deathBlossomFalloutPoint->y,
+            frameResult.deathBlossomFalloutPoint->z);
     }
 
-    if (frameResult.directPartyImpact && frameResult.directPartyImpact->hitParty)
+    if (frameResult.directPartyDamage)
     {
         if (m_pGameplayCombatController != nullptr)
         {
             m_pGameplayCombatController->recordPartyProjectileImpact(
                 projectile.sourceId,
-                frameResult.directPartyImpact->damage,
+                *frameResult.directPartyDamage,
                 projectile.spellId,
                 false);
         }
@@ -8377,7 +8412,7 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
 
     if (frameResult.directActorImpact && frameResult.directActorImpact->actorIndex < m_mapActors.size())
     {
-        const GameplayProjectileService::ProjectileDirectActorImpactDecision &decision =
+        const GameplayProjectileService::ProjectileDirectActorImpact &decision =
             *frameResult.directActorImpact;
 
         bool killed = false;
@@ -8421,13 +8456,13 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
     {
         const GameplayProjectileService::ProjectileFrameAreaImpactResult &areaImpact = *frameResult.areaImpact;
 
-        if (areaImpact.decision.hitParty)
+        if (areaImpact.impact.hitParty)
         {
             if (m_pGameplayCombatController != nullptr)
             {
                 m_pGameplayCombatController->recordPartyProjectileImpact(
                     projectile.sourceId,
-                    areaImpact.decision.partyDamage,
+                    areaImpact.impact.partyDamage,
                     projectile.spellId,
                     true);
             }
@@ -8439,8 +8474,8 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
             }
         }
 
-        for (const GameplayProjectileService::ProjectileAreaImpactActorDecision &actorHit :
-             areaImpact.decision.actorHits)
+        for (const GameplayProjectileService::ProjectileAreaImpactActorHit &actorHit :
+             areaImpact.impact.actorHits)
         {
             if (actorHit.actorIndex >= m_mapActors.size())
             {
@@ -8558,49 +8593,43 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
 
 bool OutdoorWorldRuntime::applyProjectileSpawnEffects(
     const GameplayProjectileService::ProjectileSpawnResult &spawnResult,
-    const GameplayProjectileService::ProjectileSpawnEffects &decision,
+    const GameplayProjectileService::ProjectileSpawnEffects &effects,
     const std::string &spawnKindName,
     const std::string &instantColliderName)
 {
-    if (!decision.accepted)
+    if (!effects.accepted)
     {
         return false;
     }
 
-    for (const GameplayProjectileService::ProjectileSpawnEffectCommand command : decision.commands)
+    if (effects.spawnInstantImpact)
     {
-        switch (command)
-        {
-            case GameplayProjectileService::ProjectileSpawnEffectCommand::SpawnInstantImpact:
-                logProjectileCollision(
-                    spawnResult.projectile,
-                    "instant",
-                    instantColliderName,
-                    {decision.impactX, decision.impactY, decision.impactZ});
-                spawnProjectileImpact(
-                    spawnResult.projectile,
-                    decision.impactX,
-                    decision.impactY,
-                    decision.impactZ);
-                break;
+        logProjectileCollision(
+            spawnResult.projectile,
+            "instant",
+            instantColliderName,
+            {effects.impactX, effects.impactY, effects.impactZ});
+        spawnProjectileImpact(
+            spawnResult.projectile,
+            effects.impactX,
+            effects.impactY,
+            effects.impactZ);
+    }
 
-            case GameplayProjectileService::ProjectileSpawnEffectCommand::PlayReleaseAudio:
-                if (decision.releaseAudioRequest)
-                {
-                    pushProjectileAudioEvent(*decision.releaseAudioRequest);
-                }
-                break;
+    if (effects.playReleaseAudio && effects.releaseAudioRequest)
+    {
+        pushProjectileAudioEvent(*effects.releaseAudioRequest);
+    }
 
-            case GameplayProjectileService::ProjectileSpawnEffectCommand::LogSpawn:
-                logProjectileSpawn(
-                    spawnKindName.c_str(),
-                    spawnResult.projectile,
-                    spawnResult.directionX,
-                    spawnResult.directionY,
-                    spawnResult.directionZ,
-                    spawnResult.speed);
-                break;
-        }
+    if (effects.logSpawn)
+    {
+        logProjectileSpawn(
+            spawnKindName.c_str(),
+            spawnResult.projectile,
+            spawnResult.directionX,
+            spawnResult.directionY,
+            spawnResult.directionZ,
+            spawnResult.speed);
     }
 
     return true;
@@ -11794,10 +11823,8 @@ bool OutdoorWorldRuntime::spawnPartyProjectile(const PartyProjectileRequest &req
     spawnRequest.spawnForwardOffset = PartyCollisionRadius;
     const GameplayProjectileService::ProjectileSpawnResult spawnResult =
         projectileService().spawnProjectile(spawnRequest);
-    GameplayProjectileService::ProjectileSpawnEffectOptions spawnEffectOptions = {};
-    spawnEffectOptions.playReleaseAudio = false;
     const GameplayProjectileService::ProjectileSpawnEffects spawnEffects =
-        projectileService().buildProjectileSpawnEffects(spawnResult, spawnEffectOptions);
+        projectileService().buildProjectileSpawnEffects(spawnResult, false);
     return applyProjectileSpawnEffects(
         spawnResult,
         spawnEffects,

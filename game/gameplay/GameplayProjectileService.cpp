@@ -338,48 +338,44 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
 GameplayProjectileService::ProjectileSpawnEffects
 GameplayProjectileService::buildProjectileSpawnEffects(const ProjectileSpawnResult &result) const
 {
-    ProjectileSpawnEffectOptions options = {};
-    return buildProjectileSpawnEffects(result, options);
+    return buildProjectileSpawnEffects(result, true);
 }
 
 GameplayProjectileService::ProjectileSpawnEffects
 GameplayProjectileService::buildProjectileSpawnEffects(
     const ProjectileSpawnResult &result,
-    const ProjectileSpawnEffectOptions &options) const
+    bool playReleaseAudio) const
 {
-    ProjectileSpawnEffects decision = {};
+    ProjectileSpawnEffects effects = {};
 
     if (result.kind == ProjectileSpawnResult::Kind::FailedZeroDistance)
     {
-        return decision;
+        return effects;
     }
 
-    decision.accepted = true;
+    effects.accepted = true;
 
     if (result.kind == ProjectileSpawnResult::Kind::InstantImpact)
     {
-        decision.impactX = result.projectile.sourceX;
-        decision.impactY = result.projectile.sourceY;
-        decision.impactZ = result.projectile.sourceZ;
-        decision.commands.push_back(ProjectileSpawnEffectCommand::SpawnInstantImpact);
-        return decision;
+        effects.spawnInstantImpact = true;
+        effects.impactX = result.projectile.sourceX;
+        effects.impactY = result.projectile.sourceY;
+        effects.impactZ = result.projectile.sourceZ;
+        return effects;
     }
 
-    if (options.playReleaseAudio)
+    if (playReleaseAudio)
     {
-        decision.releaseAudioRequest = buildProjectileReleaseAudioRequest(
+        effects.releaseAudioRequest = buildProjectileReleaseAudioRequest(
             result.projectile,
             result.projectile.sourceX,
             result.projectile.sourceY,
             result.projectile.sourceZ);
-        if (decision.releaseAudioRequest)
-        {
-            decision.commands.push_back(ProjectileSpawnEffectCommand::PlayReleaseAudio);
-        }
+        effects.playReleaseAudio = effects.releaseAudioRequest.has_value();
     }
 
-    decision.commands.push_back(ProjectileSpawnEffectCommand::LogSpawn);
-    return decision;
+    effects.logSpawn = true;
+    return effects;
 }
 
 std::vector<GameplayProjectileService::AreaSpellProjectileShot>
@@ -448,27 +444,11 @@ GameplayProjectileService::buildStarburstProjectileShots(
     return shots;
 }
 
-const GameplayProjectileService::ProjectileImpactState &GameplayProjectileService::spawnProjectileImpact(
-    const ProjectileImpactRequest &request)
+const GameplayProjectileService::ProjectileImpactState &GameplayProjectileService::addProjectileImpact(
+    ProjectileImpactState impact)
 {
-    ProjectileImpactState effect = {};
-    effect.effectId = allocateProjectileImpactId();
-    effect.objectDescriptionId = request.objectDescriptionId;
-    effect.objectSpriteId = request.objectSpriteId;
-    effect.objectSpriteFrameIndex = request.objectSpriteFrameIndex;
-    effect.sourceObjectFlags = request.sourceObjectFlags;
-    effect.sourceSpellId = request.sourceSpellId;
-    effect.objectName = request.objectName;
-    effect.objectSpriteName = request.objectSpriteName;
-    effect.sourceObjectName = request.sourceObjectName;
-    effect.sourceObjectSpriteName = request.sourceObjectSpriteName;
-    effect.x = request.x;
-    effect.y = request.y;
-    effect.z = request.z;
-    effect.lifetimeTicks = request.lifetimeTicks;
-    effect.freezeAnimation = request.freezeAnimation;
-
-    m_projectileImpacts.push_back(std::move(effect));
+    impact.effectId = allocateProjectileImpactId();
+    m_projectileImpacts.push_back(std::move(impact));
     return m_projectileImpacts.back();
 }
 
@@ -714,52 +694,6 @@ bool GameplayProjectileService::shouldSpawnProjectileImpactVisual(
     return definition.hasVisual || FxRecipes::projectileRecipeUsesDedicatedImpactFx(impactRecipe);
 }
 
-GameplayProjectileService::ProjectileImpactRequest GameplayProjectileService::buildProjectileImpactRequest(
-    const ProjectileState &projectile,
-    const ProjectileImpactVisualDefinition &definition,
-    float x,
-    float y,
-    float z,
-    bool centerVertically) const
-{
-    ProjectileImpactRequest request = {};
-    request.objectDescriptionId = definition.objectDescriptionId;
-    request.objectSpriteId = definition.objectSpriteId;
-    request.objectSpriteFrameIndex = definition.objectSpriteFrameIndex;
-    request.sourceObjectFlags = projectile.objectFlags;
-    request.sourceSpellId = projectile.spellId;
-    request.objectName = definition.objectName;
-    request.objectSpriteName = definition.objectSpriteName;
-    request.sourceObjectName = projectile.objectName;
-    request.sourceObjectSpriteName = projectile.objectSpriteName;
-    request.x = x;
-    request.y = y;
-    request.z = centerVertically
-        ? z - static_cast<float>(std::max<int16_t>(definition.objectHeight, 0)) * 0.5f
-        : z;
-    request.lifetimeTicks = definition.lifetimeTicks;
-    return request;
-}
-
-GameplayProjectileService::ProjectileImpactRequest GameplayProjectileService::buildWaterSplashImpactRequest(
-    const ProjectileImpactVisualDefinition &definition,
-    float x,
-    float y,
-    float z) const
-{
-    ProjectileImpactRequest request = {};
-    request.objectDescriptionId = definition.objectDescriptionId;
-    request.objectSpriteId = definition.objectSpriteId;
-    request.objectSpriteFrameIndex = definition.objectSpriteFrameIndex;
-    request.objectName = definition.objectName;
-    request.objectSpriteName = definition.objectSpriteName;
-    request.x = x;
-    request.y = y;
-    request.z = z;
-    request.lifetimeTicks = definition.lifetimeTicks;
-    return request;
-}
-
 GameplayProjectileService::ProjectileImpactVisualDefinition
 GameplayProjectileService::buildProjectileImpactVisualDefinition(
     uint16_t objectDescriptionId,
@@ -837,9 +771,24 @@ GameplayProjectileService::spawnProjectileImpactVisual(
         return result;
     }
 
-    const ProjectileImpactRequest impactRequest =
-        buildProjectileImpactRequest(projectile, definition, x, y, z, centerVertically);
-    const ProjectileImpactState &impact = spawnProjectileImpact(impactRequest);
+    ProjectileImpactState impactState = {};
+    impactState.objectDescriptionId = definition.objectDescriptionId;
+    impactState.objectSpriteId = definition.objectSpriteId;
+    impactState.objectSpriteFrameIndex = definition.objectSpriteFrameIndex;
+    impactState.sourceObjectFlags = projectile.objectFlags;
+    impactState.sourceSpellId = projectile.spellId;
+    impactState.objectName = definition.objectName;
+    impactState.objectSpriteName = definition.objectSpriteName;
+    impactState.sourceObjectName = projectile.objectName;
+    impactState.sourceObjectSpriteName = projectile.objectSpriteName;
+    impactState.x = x;
+    impactState.y = y;
+    impactState.z = centerVertically
+        ? z - static_cast<float>(std::max<int16_t>(definition.objectHeight, 0)) * 0.5f
+        : z;
+    impactState.lifetimeTicks = definition.lifetimeTicks;
+
+    const ProjectileImpactState &impact = addProjectileImpact(std::move(impactState));
     result.spawned = true;
     result.pImpact = &impact;
     return result;
@@ -853,8 +802,18 @@ GameplayProjectileService::spawnWaterSplashImpactVisual(
     float z)
 {
     ProjectileImpactSpawnResult result = {};
-    const ProjectileImpactRequest impactRequest = buildWaterSplashImpactRequest(definition, x, y, z);
-    const ProjectileImpactState &impact = spawnProjectileImpact(impactRequest);
+    ProjectileImpactState impactState = {};
+    impactState.objectDescriptionId = definition.objectDescriptionId;
+    impactState.objectSpriteId = definition.objectSpriteId;
+    impactState.objectSpriteFrameIndex = definition.objectSpriteFrameIndex;
+    impactState.objectName = definition.objectName;
+    impactState.objectSpriteName = definition.objectSpriteName;
+    impactState.x = x;
+    impactState.y = y;
+    impactState.z = z;
+    impactState.lifetimeTicks = definition.lifetimeTicks;
+
+    const ProjectileImpactState &impact = addProjectileImpact(std::move(impactState));
     result.spawned = true;
     result.pImpact = &impact;
     return result;
@@ -879,24 +838,24 @@ GameplayProjectileService::spawnImmediateSpellImpactVisual(
         return result;
     }
 
-    ProjectileImpactRequest impactRequest = {};
-    impactRequest.objectDescriptionId = definition.objectDescriptionId;
-    impactRequest.objectSpriteId = definition.objectSpriteId;
-    impactRequest.objectSpriteFrameIndex = definition.objectSpriteFrameIndex;
-    impactRequest.sourceSpellId = sourceSpellId;
-    impactRequest.objectName = definition.objectName;
-    impactRequest.objectSpriteName = definition.objectSpriteName;
-    impactRequest.sourceObjectName = sourceObjectName;
-    impactRequest.sourceObjectSpriteName = sourceObjectSpriteName;
-    impactRequest.x = x;
-    impactRequest.y = y;
-    impactRequest.z = centerVertically
+    ProjectileImpactState impactState = {};
+    impactState.objectDescriptionId = definition.objectDescriptionId;
+    impactState.objectSpriteId = definition.objectSpriteId;
+    impactState.objectSpriteFrameIndex = definition.objectSpriteFrameIndex;
+    impactState.sourceSpellId = sourceSpellId;
+    impactState.objectName = definition.objectName;
+    impactState.objectSpriteName = definition.objectSpriteName;
+    impactState.sourceObjectName = sourceObjectName;
+    impactState.sourceObjectSpriteName = sourceObjectSpriteName;
+    impactState.x = x;
+    impactState.y = y;
+    impactState.z = centerVertically
         ? z - static_cast<float>(std::max<int16_t>(definition.objectHeight, 0)) * 0.5f
         : z;
-    impactRequest.lifetimeTicks = definition.lifetimeTicks;
-    impactRequest.freezeAnimation = freezeAnimation;
+    impactState.lifetimeTicks = definition.lifetimeTicks;
+    impactState.freezeAnimation = freezeAnimation;
 
-    const ProjectileImpactState &impact = spawnProjectileImpact(impactRequest);
+    const ProjectileImpactState &impact = addProjectileImpact(std::move(impactState));
     result.spawned = true;
     result.pImpact = &impact;
     return result;
@@ -1069,39 +1028,12 @@ int GameplayProjectileService::resolvePartyProjectileDamageMultiplier(
         targetMonsterPictureName);
 }
 
-GameplayProjectileService::PartyProjectileActorImpactDecision
-GameplayProjectileService::buildPartyProjectileActorImpactDecision(
-    const PartyProjectileActorImpactInput &input) const
-{
-    PartyProjectileActorImpactDecision decision = {};
-    decision.damage = input.damage;
-
-    if (input.useActorHitChance)
-    {
-        std::mt19937 rng(
-            input.projectileId
-            ^ static_cast<uint32_t>(input.targetActorId * 2654435761u));
-        decision.hit = GameMechanics::characterRangedAttackHitsArmorClass(
-            input.targetArmorClass,
-            input.attackBonus,
-            input.targetDistance,
-            rng);
-    }
-
-    if (decision.hit && decision.damage > 0)
-    {
-        decision.damage *= input.damageMultiplier;
-    }
-
-    return decision;
-}
-
-GameplayProjectileService::ProjectileAreaImpactDecision
-GameplayProjectileService::buildProjectileAreaImpactDecision(
+GameplayProjectileService::ProjectileAreaImpact
+GameplayProjectileService::buildProjectileAreaImpact(
     const ProjectileState &projectile,
     const ProjectileAreaImpactInput &input) const
 {
-    ProjectileAreaImpactDecision decision = {};
+    ProjectileAreaImpact decision = {};
 
     if (input.impactRadius <= 0.0f)
     {
@@ -1155,59 +1087,59 @@ GameplayProjectileService::buildProjectileAreaImpactDecision(
             continue;
         }
 
-        ProjectileAreaImpactActorDecision actorDecision = {};
-        actorDecision.actorIndex = actor.actorIndex;
-        actorDecision.damage = impactDamage;
-        decision.actorHits.push_back(actorDecision);
+        ProjectileAreaImpactActorHit actorHit = {};
+        actorHit.actorIndex = actor.actorIndex;
+        actorHit.damage = impactDamage;
+        decision.actorHits.push_back(actorHit);
     }
 
     return decision;
 }
 
-GameplayProjectileService::ProjectileDirectPartyImpactDecision
-GameplayProjectileService::buildProjectileDirectPartyImpactDecision(
+std::optional<int>
+GameplayProjectileService::buildProjectileDirectPartyDamage(
     const ProjectileState &projectile,
-    const ProjectileDirectPartyImpactInput &input) const
+    int nonPartyProjectileDamage) const
 {
-    ProjectileDirectPartyImpactDecision decision = {};
-
     if (projectile.sourceKind == ProjectileState::SourceKind::Party)
     {
-        return decision;
+        return std::nullopt;
     }
 
-    decision.hitParty = true;
-    decision.damage = input.nonPartyProjectileDamage;
-    return decision;
+    return nonPartyProjectileDamage;
 }
 
-GameplayProjectileService::ProjectileDirectActorImpactDecision
-GameplayProjectileService::buildProjectileDirectActorImpactDecision(
+GameplayProjectileService::ProjectileDirectActorImpact
+GameplayProjectileService::buildProjectileDirectActorImpact(
     const ProjectileState &projectile,
     const ProjectileDirectActorImpactInput &input) const
 {
-    ProjectileDirectActorImpactDecision decision = {};
+    ProjectileDirectActorImpact decision = {};
     decision.actorIndex = input.actorIndex;
     decision.actorId = input.actorId;
 
     if (projectile.sourceKind == ProjectileState::SourceKind::Party)
     {
-        PartyProjectileActorImpactInput partyImpactInput = {};
-        partyImpactInput.projectileId = projectile.projectileId;
-        partyImpactInput.targetActorId = input.actorId;
-        partyImpactInput.damage = projectile.damage;
-        partyImpactInput.attackBonus = projectile.attackBonus;
-        partyImpactInput.targetArmorClass = input.targetArmorClass;
-        partyImpactInput.damageMultiplier = input.damageMultiplier;
-        partyImpactInput.targetDistance = input.targetDistance;
-        partyImpactInput.useActorHitChance = projectile.useActorHitChance;
+        decision.damage = projectile.damage;
 
-        const PartyProjectileActorImpactDecision partyDecision =
-            buildPartyProjectileActorImpactDecision(partyImpactInput);
+        if (projectile.useActorHitChance)
+        {
+            std::mt19937 rng(
+                projectile.projectileId
+                ^ static_cast<uint32_t>(input.actorId * 2654435761u));
+            decision.hit = GameMechanics::characterRangedAttackHitsArmorClass(
+                input.targetArmorClass,
+                projectile.attackBonus,
+                input.targetDistance,
+                rng);
+        }
 
-        decision.damage = partyDecision.damage;
-        decision.hit = partyDecision.hit;
-        decision.applyPartyProjectileDamage = partyDecision.hit && partyDecision.damage > 0;
+        if (decision.hit && decision.damage > 0)
+        {
+            decision.damage *= input.damageMultiplier;
+        }
+
+        decision.applyPartyProjectileDamage = decision.hit && decision.damage > 0;
         decision.queuePartyProjectileActorEvent = true;
         return decision;
     }
@@ -1235,7 +1167,7 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
 
         if (isPrimaryDeathBlossomProjectile(projectile))
         {
-            result.deathBlossomFallout = ProjectileDeathBlossomFalloutRequest{impactPoint};
+            result.deathBlossomFalloutPoint = impactPoint;
         }
         else if (spellIdFromValue(static_cast<uint32_t>(projectile.spellId)) == SpellId::RockBlast)
         {
@@ -1260,7 +1192,7 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
                     impactPoint,
                     impactRadius,
                     false,
-                    buildProjectileAreaImpactDecision(projectile, areaInput)};
+                    buildProjectileAreaImpact(projectile, areaInput)};
             }
 
             result.fxRequest = ProjectileFrameFxRequest{
@@ -1304,20 +1236,18 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
 
     if (isPrimaryDeathBlossomProjectile(projectile))
     {
-        result.deathBlossomFallout = ProjectileDeathBlossomFalloutRequest{facts.collision.point};
+        result.deathBlossomFalloutPoint = facts.collision.point;
         result.logCollision = true;
         result.expireProjectile = true;
         return result;
     }
 
-    const bool directPartyImpact = facts.collision.kind == ProjectileFrameCollisionKind::Party;
+    const bool directPartyDamage = facts.collision.kind == ProjectileFrameCollisionKind::Party;
     const bool directActorImpact = facts.collision.kind == ProjectileFrameCollisionKind::Actor;
 
-    if (directPartyImpact)
+    if (directPartyDamage)
     {
-        ProjectileDirectPartyImpactInput input = {};
-        input.nonPartyProjectileDamage = facts.nonPartyProjectileDamage;
-        result.directPartyImpact = buildProjectileDirectPartyImpactDecision(projectile, input);
+        result.directPartyDamage = buildProjectileDirectPartyDamage(projectile, facts.nonPartyProjectileDamage);
     }
     else if (directActorImpact)
     {
@@ -1328,7 +1258,7 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
         input.damageMultiplier = facts.collision.damageMultiplier;
         input.targetDistance = facts.collision.targetDistance;
         input.nonPartyProjectileDamage = facts.nonPartyProjectileDamage;
-        result.directActorImpact = buildProjectileDirectActorImpactDecision(projectile, input);
+        result.directActorImpact = buildProjectileDirectActorImpact(projectile, input);
     }
 
     const float impactRadius = spellImpactDamageRadius(static_cast<uint32_t>(projectile.spellId));
@@ -1345,14 +1275,14 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
         areaInput.partyZ = facts.partyPosition.z;
         areaInput.partyCollisionRadius = facts.partyCollisionRadius;
         areaInput.partyCollisionHeight = facts.partyCollisionHeight;
-        areaInput.canHitParty = facts.canHitParty && !directPartyImpact;
+        areaInput.canHitParty = facts.canHitParty && !directPartyDamage;
         areaInput.nonPartyProjectileDamage = facts.nonPartyProjectileDamage;
         areaInput.actors = facts.areaActors;
         result.areaImpact = ProjectileFrameAreaImpactResult{
             facts.collision.point,
             impactRadius,
             true,
-            buildProjectileAreaImpactDecision(projectile, areaInput)};
+            buildProjectileAreaImpact(projectile, areaInput)};
     }
 
     result.logCollision = true;
@@ -1423,7 +1353,7 @@ bool GameplayProjectileService::canProjectileCollideWithActor(
     return true;
 }
 
-uint32_t GameplayProjectileService::fireSpikeLimitForMastery(uint32_t skillMastery) const
+uint32_t GameplayProjectileService::fireSpikeLimitForMastery(uint32_t skillMastery)
 {
     switch (static_cast<SkillMastery>(skillMastery))
     {
@@ -1440,12 +1370,11 @@ uint32_t GameplayProjectileService::fireSpikeLimitForMastery(uint32_t skillMaste
     }
 }
 
-GameplayProjectileService::FireSpikeTrapSpawnLimitDecision
-GameplayProjectileService::buildFireSpikeTrapSpawnLimitDecision(
-    const FireSpikeTrapSpawnLimitInput &input) const
+GameplayProjectileService::FireSpikeTrapSpawnResult GameplayProjectileService::buildFireSpikeTrapSpawn(
+    const FireSpikeTrapSpawnLimitInput &input)
 {
-    FireSpikeTrapSpawnLimitDecision decision = {};
-    decision.activeLimit = fireSpikeLimitForMastery(input.skillMastery);
+    FireSpikeTrapSpawnResult result = {};
+    result.activeLimit = fireSpikeLimitForMastery(input.skillMastery);
 
     for (const FireSpikeActiveTrapFacts &trap : input.traps)
     {
@@ -1456,44 +1385,31 @@ GameplayProjectileService::buildFireSpikeTrapSpawnLimitDecision(
             continue;
         }
 
-        ++decision.activeCount;
+        ++result.activeCount;
     }
 
-    decision.canSpawn = decision.activeCount < decision.activeLimit;
-    return decision;
-}
+    result.accepted = result.activeCount < result.activeLimit;
 
-GameplayProjectileService::FireSpikeTrapSpawnDecision GameplayProjectileService::buildFireSpikeTrapSpawnDecision(
-    const FireSpikeTrapSpawnLimitInput &input)
-{
-    const FireSpikeTrapSpawnLimitDecision limitDecision = buildFireSpikeTrapSpawnLimitDecision(input);
-    FireSpikeTrapSpawnDecision decision = {};
-    decision.activeLimit = limitDecision.activeLimit;
-    decision.activeCount = limitDecision.activeCount;
-    decision.accepted = limitDecision.canSpawn;
-
-    if (decision.accepted)
+    if (result.accepted)
     {
-        decision.trapId = allocateFireSpikeTrapId();
+        result.trapId = allocateFireSpikeTrapId();
     }
 
-    return decision;
+    return result;
 }
 
-GameplayProjectileService::FireSpikeTrapLifetimeFrame GameplayProjectileService::advanceFireSpikeTrapLifetime(
+uint32_t GameplayProjectileService::advanceFireSpikeTrapLifetime(
     uint32_t timeSinceCreatedTicks,
     float deltaSeconds) const
 {
-    FireSpikeTrapLifetimeFrame frame = {};
-    frame.timeSinceCreatedTicks = timeSinceCreatedTicks + ticksFromDeltaSeconds(deltaSeconds);
-    return frame;
+    return timeSinceCreatedTicks + ticksFromDeltaSeconds(deltaSeconds);
 }
 
-GameplayProjectileService::FireSpikeTrapTriggerDecision
-GameplayProjectileService::buildFireSpikeTrapTriggerDecision(
+GameplayProjectileService::FireSpikeTrapTriggerResult
+GameplayProjectileService::buildFireSpikeTrapTrigger(
     const FireSpikeTrapTriggerInput &input) const
 {
-    FireSpikeTrapTriggerDecision decision = {};
+    FireSpikeTrapTriggerResult result = {};
     float bestDistanceSquared = std::numeric_limits<float>::max();
 
     for (const FireSpikeTrapActorFacts &actor : input.actors)
@@ -1538,24 +1454,24 @@ GameplayProjectileService::buildFireSpikeTrapTriggerDecision(
         if (horizontalDistanceSquared < bestDistanceSquared)
         {
             bestDistanceSquared = horizontalDistanceSquared;
-            decision.triggered = true;
-            decision.actorIndex = actor.actorIndex;
-            decision.actorId = actor.actorId;
+            result.triggered = true;
+            result.actorIndex = actor.actorIndex;
+            result.actorId = actor.actorId;
         }
     }
 
-    if (decision.triggered)
+    if (result.triggered)
     {
-        decision.damage = rollFireSpikeDamage(
+        result.damage = rollFireSpikeDamage(
             input.skillLevel,
             input.skillMastery,
-            input.trapId ^ static_cast<uint32_t>(decision.actorId * 2654435761u));
-        decision.commands.push_back(FireSpikeTrapTriggerCommand::ApplyActorImpact);
-        decision.commands.push_back(FireSpikeTrapTriggerCommand::SpawnImpactVisual);
-        decision.commands.push_back(FireSpikeTrapTriggerCommand::ExpireTrap);
+            input.trapId ^ static_cast<uint32_t>(result.actorId * 2654435761u));
+        result.applyActorImpact = true;
+        result.spawnImpactVisual = true;
+        result.expireTrap = true;
     }
 
-    return decision;
+    return result;
 }
 
 GameplayProjectileService::ProjectileState GameplayProjectileService::buildFireSpikeTrapImpactProjectile(

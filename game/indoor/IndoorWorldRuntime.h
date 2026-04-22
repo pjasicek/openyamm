@@ -328,6 +328,14 @@ private:
     bool applyIndoorActorProjectileRequest(const ActorProjectileRequest &projectileRequest);
     void pushIndoorProjectileAudioEvent(
         const GameplayProjectileService::ProjectileAudioRequest &audioRequest);
+    GameplayProjectileService::ProjectileFrameFacts collectIndoorProjectileFrameFacts(
+        const GameplayProjectileService::ProjectileState &projectile,
+        float deltaSeconds,
+        const std::vector<IndoorVertex> &projectileVertices,
+        IndoorFaceGeometryCache &projectileGeometryCache) const;
+    void applyIndoorProjectileFrameResult(
+        GameplayProjectileService::ProjectileState &projectile,
+        const GameplayProjectileService::ProjectileFrameResult &frameResult);
     void updateIndoorProjectiles(float deltaSeconds);
     std::optional<ActorAiFacts> collectIndoorActorAiFacts(
         size_t actorIndex,

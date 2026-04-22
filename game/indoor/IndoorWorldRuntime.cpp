@@ -1655,19 +1655,16 @@ bool IndoorWorldRuntime::applyIndoorActorProjectileRequest(const ActorProjectile
         return false;
     }
 
-    for (const GameplayProjectileService::ProjectileSpawnEffectCommand command : spawnEffects.commands)
+    if (spawnEffects.playReleaseAudio && spawnEffects.releaseAudioRequest)
     {
-        if (command == GameplayProjectileService::ProjectileSpawnEffectCommand::PlayReleaseAudio
-            && spawnEffects.releaseAudioRequest)
-        {
-            pushIndoorProjectileAudioEvent(*spawnEffects.releaseAudioRequest);
-        }
-        else if (command == GameplayProjectileService::ProjectileSpawnEffectCommand::SpawnInstantImpact)
-        {
-            triggerProjectileImpactVisualAt(
-                {spawnEffects.impactX, spawnEffects.impactY, spawnEffects.impactZ},
-                static_cast<uint32_t>(definition.spellId));
-        }
+        pushIndoorProjectileAudioEvent(*spawnEffects.releaseAudioRequest);
+    }
+
+    if (spawnEffects.spawnInstantImpact)
+    {
+        triggerProjectileImpactVisualAt(
+            {spawnEffects.impactX, spawnEffects.impactY, spawnEffects.impactZ},
+            static_cast<uint32_t>(definition.spellId));
     }
 
     return true;
@@ -1689,6 +1686,373 @@ void IndoorWorldRuntime::pushIndoorProjectileAudioEvent(
     (*m_pEventRuntimeState)->pendingSounds.push_back(sound);
 }
 
+GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoorProjectileFrameFacts(
+    const GameplayProjectileService::ProjectileState &projectile,
+    float deltaSeconds,
+    const std::vector<IndoorVertex> &projectileVertices,
+    IndoorFaceGeometryCache &projectileGeometryCache) const
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+    const IndoorMoveState *pPartyMoveState =
+        m_pPartyRuntime != nullptr ? &m_pPartyRuntime->movementState() : nullptr;
+    const GameplayWorldPoint partyPosition =
+        pPartyMoveState != nullptr
+            ? GameplayWorldPoint{pPartyMoveState->x, pPartyMoveState->y, pPartyMoveState->footZ}
+            : GameplayWorldPoint{};
+
+    GameplayProjectileService::ProjectileState predictedProjectile = projectile;
+    const uint32_t deltaTicks = GameplayProjectileService::ticksFromDeltaSeconds(deltaSeconds);
+    const bool lifetimeExpired =
+        m_pGameplayProjectileService->advanceProjectileLifetime(predictedProjectile, deltaTicks);
+
+    GameplayProjectileService::ProjectileFrameFacts facts = {};
+    facts.deltaSeconds = deltaSeconds;
+    facts.gravity = IndoorProjectileGravity;
+    facts.bounceFactor = IndoorProjectileBounceFactor;
+    facts.bounceStopVelocity = IndoorProjectileBounceStopVelocity;
+    facts.groundDamping = IndoorProjectileGroundDamping;
+    facts.partyPosition = partyPosition;
+    facts.partyCollisionRadius = PartyCollisionRadius;
+    facts.partyCollisionHeight = PartyCollisionHeight;
+    facts.canHitParty = pPartyMoveState != nullptr;
+
+    GameplayProjectileService::ProjectilePartyImpactDamageInput damageInput = {};
+    damageInput.sourceKind = projectile.sourceKind;
+    damageInput.projectileDamage = projectile.damage;
+    damageInput.spellId = projectile.spellId;
+    damageInput.skillLevel = projectile.skillLevel;
+    damageInput.monsterAbility = projectile.ability;
+
+    if (projectile.sourceKind != GameplayProjectileService::ProjectileState::SourceKind::Party
+        && m_pMonsterTable != nullptr)
+    {
+        const MonsterTable::MonsterStatsEntry *pStats = nullptr;
+
+        if (projectile.sourceMonsterId != 0)
+        {
+            pStats = m_pMonsterTable->findStatsById(projectile.sourceMonsterId);
+        }
+        else
+        {
+            for (const MapActorAiState &aiState : m_mapActorAiStates)
+            {
+                if (aiState.actorId == projectile.sourceId)
+                {
+                    pStats = m_pMonsterTable->findStatsById(aiState.monsterId);
+                    break;
+                }
+            }
+        }
+
+        if (pStats != nullptr)
+        {
+            damageInput.hasMonsterFacts = true;
+            damageInput.monsterLevel = pStats->level;
+            damageInput.attack1Damage.diceRolls = pStats->attack1Damage.diceRolls;
+            damageInput.attack1Damage.diceSides = pStats->attack1Damage.diceSides;
+            damageInput.attack1Damage.bonus = pStats->attack1Damage.bonus;
+            damageInput.attack2Damage.diceRolls = pStats->attack2Damage.diceRolls;
+            damageInput.attack2Damage.diceSides = pStats->attack2Damage.diceSides;
+            damageInput.attack2Damage.bonus = pStats->attack2Damage.bonus;
+        }
+    }
+
+    facts.nonPartyProjectileDamage =
+        m_pGameplayProjectileService->resolveProjectilePartyImpactDamage(damageInput);
+
+    size_t directActorIndex = static_cast<size_t>(-1);
+
+    if (!lifetimeExpired)
+    {
+        facts.motion =
+            m_pGameplayProjectileService->advanceProjectileMotion(
+                predictedProjectile,
+                deltaSeconds,
+                IndoorProjectileGravity);
+
+        const GameplayWorldPoint segmentStart = {
+            facts.motion.startX,
+            facts.motion.startY,
+            facts.motion.startZ
+        };
+        const GameplayWorldPoint segmentEnd = {
+            facts.motion.endX,
+            facts.motion.endY,
+            facts.motion.endZ
+        };
+        std::optional<IndoorProjectileCollisionCandidate> bestCollision;
+
+        if (m_pIndoorMapData != nullptr)
+        {
+            bestCollision =
+                findProjectileIndoorFaceHit(
+                    *m_pIndoorMapData,
+                    projectileVertices,
+                    projectileGeometryCache,
+                    projectile,
+                    segmentStart,
+                    segmentEnd);
+        }
+
+        if (facts.canHitParty && m_pGameplayProjectileService->canProjectileCollideWithParty(projectile))
+        {
+            const GameplayWorldPoint partyCenter = {
+                partyPosition.x,
+                partyPosition.y,
+                partyPosition.z + PartyCollisionHeight * 0.5f
+            };
+            std::optional<IndoorProjectileCollisionCandidate> partyHit =
+                findProjectileCylinderHit(
+                    segmentStart,
+                    segmentEnd,
+                    partyCenter,
+                    PartyCollisionRadius + static_cast<float>(projectile.radius),
+                    PartyCollisionHeight * 0.5f);
+
+            if (partyHit)
+            {
+                partyHit->kind = GameplayProjectileService::ProjectileFrameCollisionKind::Party;
+                bestCollision = *partyHit;
+            }
+        }
+
+        if (pMapDeltaData != nullptr)
+        {
+            for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
+            {
+                if (actorIndex >= m_mapActorAiStates.size())
+                {
+                    continue;
+                }
+
+                GameplayRuntimeActorState actorState = {};
+                if (!actorRuntimeState(actorIndex, actorState))
+                {
+                    continue;
+                }
+
+                GameplayActorService fallbackActorService = {};
+                const GameplayActorService *pActorService =
+                    m_pGameplayActorService != nullptr ? m_pGameplayActorService : &fallbackActorService;
+                const bool unavailable =
+                    indoorActorUnavailableForCombat(
+                        pMapDeltaData->actors[actorIndex],
+                        m_mapActorAiStates[actorIndex],
+                        *pActorService);
+                const GameplayProjectileService::ProjectileCollisionActorFacts actorFacts = {
+                    m_mapActorAiStates[actorIndex].actorId,
+                    actorState.isDead,
+                    unavailable,
+                    false
+                };
+
+                if (!m_pGameplayProjectileService->canProjectileCollideWithActor(projectile, actorFacts))
+                {
+                    continue;
+                }
+
+                const GameplayWorldPoint actorCenter = {
+                    actorState.preciseX,
+                    actorState.preciseY,
+                    actorState.preciseZ + static_cast<float>(actorState.height) * 0.5f
+                };
+                std::optional<IndoorProjectileCollisionCandidate> actorHit =
+                    findProjectileCylinderHit(
+                        segmentStart,
+                        segmentEnd,
+                        actorCenter,
+                        static_cast<float>(actorState.radius) + static_cast<float>(projectile.radius),
+                        static_cast<float>(std::max<uint16_t>(actorState.height, 16)) * 0.5f);
+
+                if (!actorHit)
+                {
+                    continue;
+                }
+
+                actorHit->kind = GameplayProjectileService::ProjectileFrameCollisionKind::Actor;
+                actorHit->actorIndex = actorIndex;
+
+                if (!bestCollision || projectileHitSortsBefore(*actorHit, *bestCollision))
+                {
+                    bestCollision = *actorHit;
+                }
+            }
+        }
+
+        if (bestCollision)
+        {
+            facts.hasCollision = true;
+            facts.collision.kind = bestCollision->kind;
+            facts.collision.point = bestCollision->point;
+            facts.collision.actorIndex = bestCollision->actorIndex;
+
+            if (bestCollision->kind == GameplayProjectileService::ProjectileFrameCollisionKind::World)
+            {
+                facts.collision.colliderName = "indoor face";
+            }
+
+            if (bestCollision->kind == GameplayProjectileService::ProjectileFrameCollisionKind::Actor
+                && bestCollision->actorIndex < mapActorCount())
+            {
+                GameplayActorInspectState inspectState = {};
+                facts.collision.actorId =
+                    bestCollision->actorIndex < m_mapActorAiStates.size()
+                        ? m_mapActorAiStates[bestCollision->actorIndex].actorId
+                        : static_cast<uint32_t>(bestCollision->actorIndex);
+                facts.collision.targetArmorClass =
+                    actorInspectState(bestCollision->actorIndex, 0, inspectState) ? inspectState.armorClass : 0;
+                facts.collision.damageMultiplier = 1;
+                facts.collision.targetDistance =
+                    length3d(
+                        projectile.sourceX - bestCollision->point.x,
+                        projectile.sourceY - bestCollision->point.y,
+                        projectile.sourceZ - bestCollision->point.z);
+                directActorIndex = bestCollision->actorIndex;
+            }
+        }
+    }
+
+    if (pMapDeltaData != nullptr)
+    {
+        facts.areaActors.reserve(pMapDeltaData->actors.size());
+
+        for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
+        {
+            if (actorIndex >= m_mapActorAiStates.size())
+            {
+                continue;
+            }
+
+            GameplayRuntimeActorState actorState = {};
+            if (!actorRuntimeState(actorIndex, actorState))
+            {
+                continue;
+            }
+
+            GameplayProjectileService::ProjectileAreaImpactActorFacts actorFacts = {};
+            actorFacts.actorIndex = actorIndex;
+            actorFacts.actorId = m_mapActorAiStates[actorIndex].actorId;
+            actorFacts.x = actorState.preciseX;
+            actorFacts.y = actorState.preciseY;
+            actorFacts.z = actorState.preciseZ;
+            actorFacts.radius = actorState.radius;
+            actorFacts.height = actorState.height;
+            actorFacts.unavailableForCombat = actorState.isDead || actorState.isInvisible;
+            actorFacts.friendlyToProjectileSource = false;
+            actorFacts.directImpactActor = actorIndex == directActorIndex;
+            facts.areaActors.push_back(actorFacts);
+        }
+    }
+
+    return facts;
+}
+
+void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
+    GameplayProjectileService::ProjectileState &projectile,
+    const GameplayProjectileService::ProjectileFrameResult &frameResult)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (frameResult.directPartyDamage && m_pParty != nullptr)
+    {
+        m_pParty->applyDamageToActiveMember(*frameResult.directPartyDamage, "monster projectile");
+    }
+
+    if (frameResult.directActorImpact
+        && frameResult.directActorImpact->actorIndex < mapActorCount()
+        && pMapDeltaData != nullptr)
+    {
+        const GameplayProjectileService::ProjectileDirectActorImpact &impact =
+            *frameResult.directActorImpact;
+
+        if (impact.applyPartyProjectileDamage)
+        {
+            applyPartyAttackMeleeDamage(
+                impact.actorIndex,
+                impact.damage,
+                {projectile.sourceX, projectile.sourceY, projectile.sourceZ});
+        }
+        else if (impact.applyNonPartyProjectileDamage && impact.damage > 0)
+        {
+            MapDeltaActor &targetActor = pMapDeltaData->actors[impact.actorIndex];
+            targetActor.hp = static_cast<int16_t>(
+                std::max(0, static_cast<int>(targetActor.hp) - impact.damage));
+        }
+    }
+
+    if (frameResult.areaImpact)
+    {
+        const GameplayProjectileService::ProjectileFrameAreaImpactResult &areaImpact = *frameResult.areaImpact;
+
+        if (areaImpact.impact.hitParty && m_pParty != nullptr)
+        {
+            m_pParty->applyDamageToActiveMember(areaImpact.impact.partyDamage, "projectile splash");
+        }
+
+        if (pMapDeltaData != nullptr)
+        {
+            for (const GameplayProjectileService::ProjectileAreaImpactActorHit &actorHit :
+                 areaImpact.impact.actorHits)
+            {
+                if (actorHit.actorIndex >= pMapDeltaData->actors.size())
+                {
+                    continue;
+                }
+
+                MapDeltaActor &targetActor = pMapDeltaData->actors[actorHit.actorIndex];
+
+                if (targetActor.hp > 0 && actorHit.damage > 0)
+                {
+                    targetActor.hp =
+                        static_cast<int16_t>(std::max(0, static_cast<int>(targetActor.hp) - actorHit.damage));
+                }
+            }
+        }
+    }
+
+    if (frameResult.fxRequest)
+    {
+        triggerProjectileImpactVisualAt(
+            frameResult.fxRequest->point,
+            static_cast<uint32_t>(std::max(projectile.spellId, 0)));
+    }
+
+    if (frameResult.audioRequest)
+    {
+        pushIndoorProjectileAudioEvent(*frameResult.audioRequest);
+    }
+
+    for (const GameplayProjectileService::ProjectileSpawnRequest &spawnRequest : frameResult.spawnedProjectiles)
+    {
+        m_pGameplayProjectileService->spawnProjectile(spawnRequest);
+    }
+
+    if (frameResult.bounce)
+    {
+        m_pGameplayProjectileService->applyProjectileBounce(
+            projectile,
+            frameResult.bounce->point.x,
+            frameResult.bounce->point.y,
+            frameResult.bounce->point.z,
+            frameResult.bounce->normalX,
+            frameResult.bounce->normalY,
+            frameResult.bounce->normalZ,
+            frameResult.bounce->bounceFactor,
+            frameResult.bounce->stopVelocity,
+            frameResult.bounce->groundDamping);
+    }
+
+    if (frameResult.applyMotionEnd)
+    {
+        m_pGameplayProjectileService->applyProjectileMotionEnd(projectile, frameResult.motion);
+    }
+
+    if (frameResult.expireProjectile)
+    {
+        m_pGameplayProjectileService->expireProjectile(projectile);
+    }
+}
+
 void IndoorWorldRuntime::updateIndoorProjectiles(float deltaSeconds)
 {
     if (deltaSeconds <= 0.0f || m_pGameplayProjectileService == nullptr)
@@ -1698,13 +2062,7 @@ void IndoorWorldRuntime::updateIndoorProjectiles(float deltaSeconds)
 
     syncMapActorAiStates();
 
-    MapDeltaData *pMapDeltaData = mapDeltaData();
-    const IndoorMoveState *pPartyMoveState =
-        m_pPartyRuntime != nullptr ? &m_pPartyRuntime->movementState() : nullptr;
-    const GameplayWorldPoint partyPosition =
-        pPartyMoveState != nullptr
-            ? GameplayWorldPoint{pPartyMoveState->x, pPartyMoveState->y, pPartyMoveState->footZ}
-            : GameplayWorldPoint{};
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
     const EventRuntimeState *pEventRuntimeState =
         m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
     std::vector<IndoorVertex> projectileVertices;
@@ -1723,351 +2081,11 @@ void IndoorWorldRuntime::updateIndoorProjectiles(float deltaSeconds)
             continue;
         }
 
-        GameplayProjectileService::ProjectileState predictedProjectile = projectile;
-        const uint32_t deltaTicks = GameplayProjectileService::ticksFromDeltaSeconds(deltaSeconds);
-        const bool lifetimeExpired =
-            m_pGameplayProjectileService->advanceProjectileLifetime(predictedProjectile, deltaTicks);
-
-        GameplayProjectileService::ProjectileFrameFacts facts = {};
-        facts.deltaSeconds = deltaSeconds;
-        facts.gravity = IndoorProjectileGravity;
-        facts.bounceFactor = IndoorProjectileBounceFactor;
-        facts.bounceStopVelocity = IndoorProjectileBounceStopVelocity;
-        facts.groundDamping = IndoorProjectileGroundDamping;
-        facts.partyPosition = partyPosition;
-        facts.partyCollisionRadius = PartyCollisionRadius;
-        facts.partyCollisionHeight = PartyCollisionHeight;
-        facts.canHitParty = pPartyMoveState != nullptr;
-
-        GameplayProjectileService::ProjectilePartyImpactDamageInput damageInput = {};
-        damageInput.sourceKind = projectile.sourceKind;
-        damageInput.projectileDamage = projectile.damage;
-        damageInput.spellId = projectile.spellId;
-        damageInput.skillLevel = projectile.skillLevel;
-        damageInput.monsterAbility = projectile.ability;
-
-        if (projectile.sourceKind != GameplayProjectileService::ProjectileState::SourceKind::Party
-            && m_pMonsterTable != nullptr)
-        {
-            const MonsterTable::MonsterStatsEntry *pStats = nullptr;
-
-            if (projectile.sourceMonsterId != 0)
-            {
-                pStats = m_pMonsterTable->findStatsById(projectile.sourceMonsterId);
-            }
-            else
-            {
-                for (const MapActorAiState &aiState : m_mapActorAiStates)
-                {
-                    if (aiState.actorId == projectile.sourceId)
-                    {
-                        pStats = m_pMonsterTable->findStatsById(aiState.monsterId);
-                        break;
-                    }
-                }
-            }
-
-            if (pStats != nullptr)
-            {
-                damageInput.hasMonsterFacts = true;
-                damageInput.monsterLevel = pStats->level;
-                damageInput.attack1Damage.diceRolls = pStats->attack1Damage.diceRolls;
-                damageInput.attack1Damage.diceSides = pStats->attack1Damage.diceSides;
-                damageInput.attack1Damage.bonus = pStats->attack1Damage.bonus;
-                damageInput.attack2Damage.diceRolls = pStats->attack2Damage.diceRolls;
-                damageInput.attack2Damage.diceSides = pStats->attack2Damage.diceSides;
-                damageInput.attack2Damage.bonus = pStats->attack2Damage.bonus;
-            }
-        }
-
-        facts.nonPartyProjectileDamage =
-            m_pGameplayProjectileService->resolveProjectilePartyImpactDamage(damageInput);
-
-        size_t directActorIndex = static_cast<size_t>(-1);
-
-        if (!lifetimeExpired)
-        {
-            facts.motion =
-                m_pGameplayProjectileService->advanceProjectileMotion(
-                    predictedProjectile,
-                    deltaSeconds,
-                    IndoorProjectileGravity);
-
-            const GameplayWorldPoint segmentStart = {
-                facts.motion.startX,
-                facts.motion.startY,
-                facts.motion.startZ
-            };
-            const GameplayWorldPoint segmentEnd = {
-                facts.motion.endX,
-                facts.motion.endY,
-                facts.motion.endZ
-            };
-            std::optional<IndoorProjectileCollisionCandidate> bestCollision;
-
-            if (m_pIndoorMapData != nullptr)
-            {
-                bestCollision =
-                    findProjectileIndoorFaceHit(
-                        *m_pIndoorMapData,
-                        projectileVertices,
-                        projectileGeometryCache,
-                        projectile,
-                        segmentStart,
-                        segmentEnd);
-            }
-
-            if (facts.canHitParty && m_pGameplayProjectileService->canProjectileCollideWithParty(projectile))
-            {
-                const GameplayWorldPoint partyCenter = {
-                    partyPosition.x,
-                    partyPosition.y,
-                    partyPosition.z + PartyCollisionHeight * 0.5f
-                };
-                std::optional<IndoorProjectileCollisionCandidate> partyHit =
-                    findProjectileCylinderHit(
-                        segmentStart,
-                        segmentEnd,
-                        partyCenter,
-                        PartyCollisionRadius + static_cast<float>(projectile.radius),
-                        PartyCollisionHeight * 0.5f);
-
-                if (partyHit)
-                {
-                    partyHit->kind = GameplayProjectileService::ProjectileFrameCollisionKind::Party;
-                    bestCollision = *partyHit;
-                }
-            }
-
-            if (pMapDeltaData != nullptr)
-            {
-                for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
-                {
-                    if (actorIndex >= m_mapActorAiStates.size())
-                    {
-                        continue;
-                    }
-
-                    GameplayRuntimeActorState actorState = {};
-                    if (!actorRuntimeState(actorIndex, actorState))
-                    {
-                        continue;
-                    }
-
-                    GameplayActorService fallbackActorService = {};
-                    const GameplayActorService *pActorService =
-                        m_pGameplayActorService != nullptr ? m_pGameplayActorService : &fallbackActorService;
-                    const bool unavailable =
-                        indoorActorUnavailableForCombat(
-                            pMapDeltaData->actors[actorIndex],
-                            m_mapActorAiStates[actorIndex],
-                            *pActorService);
-                    const GameplayProjectileService::ProjectileCollisionActorFacts actorFacts = {
-                        m_mapActorAiStates[actorIndex].actorId,
-                        actorState.isDead,
-                        unavailable,
-                        false
-                    };
-
-                    if (!m_pGameplayProjectileService->canProjectileCollideWithActor(projectile, actorFacts))
-                    {
-                        continue;
-                    }
-
-                    const GameplayWorldPoint actorCenter = {
-                        actorState.preciseX,
-                        actorState.preciseY,
-                        actorState.preciseZ + static_cast<float>(actorState.height) * 0.5f
-                    };
-                    std::optional<IndoorProjectileCollisionCandidate> actorHit =
-                        findProjectileCylinderHit(
-                            segmentStart,
-                            segmentEnd,
-                            actorCenter,
-                            static_cast<float>(actorState.radius) + static_cast<float>(projectile.radius),
-                            static_cast<float>(std::max<uint16_t>(actorState.height, 16)) * 0.5f);
-
-                    if (!actorHit)
-                    {
-                        continue;
-                    }
-
-                    actorHit->kind = GameplayProjectileService::ProjectileFrameCollisionKind::Actor;
-                    actorHit->actorIndex = actorIndex;
-
-                    if (!bestCollision || projectileHitSortsBefore(*actorHit, *bestCollision))
-                    {
-                        bestCollision = *actorHit;
-                    }
-                }
-            }
-
-            if (bestCollision)
-            {
-                facts.hasCollision = true;
-                facts.collision.kind = bestCollision->kind;
-                facts.collision.point = bestCollision->point;
-                facts.collision.actorIndex = bestCollision->actorIndex;
-
-                if (bestCollision->kind == GameplayProjectileService::ProjectileFrameCollisionKind::World)
-                {
-                    facts.collision.colliderName = "indoor face";
-                }
-
-                if (bestCollision->kind == GameplayProjectileService::ProjectileFrameCollisionKind::Actor
-                    && bestCollision->actorIndex < mapActorCount())
-                {
-                    GameplayActorInspectState inspectState = {};
-                    facts.collision.actorId =
-                        bestCollision->actorIndex < m_mapActorAiStates.size()
-                            ? m_mapActorAiStates[bestCollision->actorIndex].actorId
-                            : static_cast<uint32_t>(bestCollision->actorIndex);
-                    facts.collision.targetArmorClass =
-                        actorInspectState(bestCollision->actorIndex, 0, inspectState) ? inspectState.armorClass : 0;
-                    facts.collision.damageMultiplier = 1;
-                    facts.collision.targetDistance =
-                        length3d(
-                            projectile.sourceX - bestCollision->point.x,
-                            projectile.sourceY - bestCollision->point.y,
-                            projectile.sourceZ - bestCollision->point.z);
-                    directActorIndex = bestCollision->actorIndex;
-                }
-            }
-        }
-
-        if (pMapDeltaData != nullptr)
-        {
-            facts.areaActors.reserve(pMapDeltaData->actors.size());
-
-            for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
-            {
-                if (actorIndex >= m_mapActorAiStates.size())
-                {
-                    continue;
-                }
-
-                GameplayRuntimeActorState actorState = {};
-                if (!actorRuntimeState(actorIndex, actorState))
-                {
-                    continue;
-                }
-
-                GameplayProjectileService::ProjectileAreaImpactActorFacts actorFacts = {};
-                actorFacts.actorIndex = actorIndex;
-                actorFacts.actorId = m_mapActorAiStates[actorIndex].actorId;
-                actorFacts.x = actorState.preciseX;
-                actorFacts.y = actorState.preciseY;
-                actorFacts.z = actorState.preciseZ;
-                actorFacts.radius = actorState.radius;
-                actorFacts.height = actorState.height;
-                actorFacts.unavailableForCombat = actorState.isDead || actorState.isInvisible;
-                actorFacts.friendlyToProjectileSource = false;
-                actorFacts.directImpactActor = actorIndex == directActorIndex;
-                facts.areaActors.push_back(actorFacts);
-            }
-        }
-
+        const GameplayProjectileService::ProjectileFrameFacts facts =
+            collectIndoorProjectileFrameFacts(projectile, deltaSeconds, projectileVertices, projectileGeometryCache);
         const GameplayProjectileService::ProjectileFrameResult frameResult =
             m_pGameplayProjectileService->updateProjectileFrame(projectile, facts);
-
-        if (frameResult.directPartyImpact && frameResult.directPartyImpact->hitParty && m_pParty != nullptr)
-        {
-            m_pParty->applyDamageToActiveMember(frameResult.directPartyImpact->damage, "monster projectile");
-        }
-
-        if (frameResult.directActorImpact
-            && frameResult.directActorImpact->actorIndex < mapActorCount()
-            && pMapDeltaData != nullptr)
-        {
-            const GameplayProjectileService::ProjectileDirectActorImpactDecision &impact =
-                *frameResult.directActorImpact;
-
-            if (impact.applyPartyProjectileDamage)
-            {
-                applyPartyAttackMeleeDamage(
-                    impact.actorIndex,
-                    impact.damage,
-                    {projectile.sourceX, projectile.sourceY, projectile.sourceZ});
-            }
-            else if (impact.applyNonPartyProjectileDamage && impact.damage > 0)
-            {
-                MapDeltaActor &targetActor = pMapDeltaData->actors[impact.actorIndex];
-                targetActor.hp = static_cast<int16_t>(
-                    std::max(0, static_cast<int>(targetActor.hp) - impact.damage));
-            }
-        }
-
-        if (frameResult.areaImpact)
-        {
-            const GameplayProjectileService::ProjectileFrameAreaImpactResult &areaImpact = *frameResult.areaImpact;
-
-            if (areaImpact.decision.hitParty && m_pParty != nullptr)
-            {
-                m_pParty->applyDamageToActiveMember(areaImpact.decision.partyDamage, "projectile splash");
-            }
-
-            if (pMapDeltaData != nullptr)
-            {
-                for (const GameplayProjectileService::ProjectileAreaImpactActorDecision &actorHit :
-                     areaImpact.decision.actorHits)
-                {
-                    if (actorHit.actorIndex >= pMapDeltaData->actors.size())
-                    {
-                        continue;
-                    }
-
-                    MapDeltaActor &targetActor = pMapDeltaData->actors[actorHit.actorIndex];
-
-                    if (targetActor.hp > 0 && actorHit.damage > 0)
-                    {
-                        targetActor.hp =
-                            static_cast<int16_t>(std::max(0, static_cast<int>(targetActor.hp) - actorHit.damage));
-                    }
-                }
-            }
-        }
-
-        if (frameResult.fxRequest)
-        {
-            triggerProjectileImpactVisualAt(
-                frameResult.fxRequest->point,
-                static_cast<uint32_t>(std::max(projectile.spellId, 0)));
-        }
-
-        if (frameResult.audioRequest)
-        {
-            pushIndoorProjectileAudioEvent(*frameResult.audioRequest);
-        }
-
-        for (const GameplayProjectileService::ProjectileSpawnRequest &spawnRequest : frameResult.spawnedProjectiles)
-        {
-            m_pGameplayProjectileService->spawnProjectile(spawnRequest);
-        }
-
-        if (frameResult.bounce)
-        {
-            m_pGameplayProjectileService->applyProjectileBounce(
-                projectile,
-                frameResult.bounce->point.x,
-                frameResult.bounce->point.y,
-                frameResult.bounce->point.z,
-                frameResult.bounce->normalX,
-                frameResult.bounce->normalY,
-                frameResult.bounce->normalZ,
-                frameResult.bounce->bounceFactor,
-                frameResult.bounce->stopVelocity,
-                frameResult.bounce->groundDamping);
-        }
-
-        if (frameResult.applyMotionEnd)
-        {
-            m_pGameplayProjectileService->applyProjectileMotionEnd(projectile, frameResult.motion);
-        }
-
-        if (frameResult.expireProjectile)
-        {
-            m_pGameplayProjectileService->expireProjectile(projectile);
-        }
+        applyIndoorProjectileFrameResult(projectile, frameResult);
     }
 
     m_pGameplayProjectileService->eraseExpiredProjectiles();
