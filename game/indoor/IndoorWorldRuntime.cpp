@@ -1460,7 +1460,7 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
             aiState.velocityZ = 0.0f;
         }
 
-        if (update.frameCommitHandled && update.movementIntent.applyMovement)
+        if (update.movementIntent.applyMovement)
         {
             applyIndoorActorMovementIntegration(update.actorIndex, update, actorAiSystem);
         }

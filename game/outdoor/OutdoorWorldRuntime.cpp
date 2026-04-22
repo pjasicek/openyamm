@@ -6055,22 +6055,15 @@ OutdoorWorldRuntime::OutdoorActorAiFrameApplication OutdoorWorldRuntime::applyOu
     OutdoorActorAiFrameApplication application = {};
     application.handledActorMask.resize(m_mapActors.size(), false);
     application.activeUpdatesAppliedActorMask.resize(m_mapActors.size(), false);
-    application.combatFlowsAppliedActorMask.resize(m_mapActors.size(), false);
-    application.combatEngagesAppliedActorMask.resize(m_mapActors.size(), false);
-    application.nonCombatAppliedActorMask.resize(m_mapActors.size(), false);
-    application.frameCommitsAppliedActorMask.resize(m_mapActors.size(), false);
-    application.frameCommitKeepCurrentAnimationMask.resize(m_mapActors.size(), false);
-    application.frameCommitResetAnimationTimeMask.resize(m_mapActors.size(), false);
-    application.frameCommitResetCrowdSteeringMask.resize(m_mapActors.size(), false);
-    application.frameCommitClearVelocityMask.resize(m_mapActors.size(), false);
-    application.frameCommitApplyMovementMask.resize(m_mapActors.size(), false);
-    application.combatFlowDesiredMoveX.resize(m_mapActors.size(), 0.0f);
-    application.combatFlowDesiredMoveY.resize(m_mapActors.size(), 0.0f);
-    application.combatEngageDesiredMoveX.resize(m_mapActors.size(), 0.0f);
-    application.combatEngageDesiredMoveY.resize(m_mapActors.size(), 0.0f);
-    application.nonCombatDesiredMoveX.resize(m_mapActors.size(), 0.0f);
-    application.nonCombatDesiredMoveY.resize(m_mapActors.size(), 0.0f);
-    application.combatEngageMeleePursuitActiveMask.resize(m_mapActors.size(), false);
+    application.behaviorAppliedActorMask.resize(m_mapActors.size(), false);
+    application.keepCurrentAnimationMask.resize(m_mapActors.size(), false);
+    application.resetAnimationTimeMask.resize(m_mapActors.size(), false);
+    application.resetCrowdSteeringMask.resize(m_mapActors.size(), false);
+    application.clearVelocityMask.resize(m_mapActors.size(), true);
+    application.applyMovementMask.resize(m_mapActors.size(), false);
+    application.desiredMoveX.resize(m_mapActors.size(), 0.0f);
+    application.desiredMoveY.resize(m_mapActors.size(), 0.0f);
+    application.meleePursuitActiveMask.resize(m_mapActors.size(), false);
     application.movementEffectiveMoveSpeed.resize(m_mapActors.size(), 0.0f);
     application.movementTargetPosition.resize(m_mapActors.size());
     application.movementTargetEdgeDistance.resize(m_mapActors.size(), 0.0f);
@@ -6176,209 +6169,87 @@ OutdoorWorldRuntime::OutdoorActorAiFrameApplication OutdoorWorldRuntime::applyOu
         actor.attackImpactTriggered = *update.statePatch.attackImpactTriggered;
         }
 
-        const bool activeAttackStart =
-        activeActor
-        && update.statePatch.motionState
-        && *update.statePatch.motionState == ActorAiMotionState::Attacking
-        && update.statePatch.queuedAttackAbility;
+        const bool activeBehavior =
+            activeActor
+            && (update.statePatch.motionState
+                || update.animationPatch.animationState
+                || update.statePatch.queuedAttackAbility
+                || update.movementIntent.action != ActorAiMovementAction::None
+                || update.movementIntent.updateYaw
+                || update.movementIntent.applyMovement);
 
-        if (activeAttackStart)
+        if (activeBehavior)
         {
-        actor.aiState = ActorAiState::Attacking;
-        actor.queuedAttackAbility = outdoorAttackAbilityFromGameplay(*update.statePatch.queuedAttackAbility);
+            const ActorAnimation previousAnimation = actor.animation;
 
-        if (update.animationPatch.animationState)
-        {
-            actor.animation = outdoorActorAnimationFromGameplay(*update.animationPatch.animationState);
-        }
+            if (update.statePatch.motionState)
+            {
+                actor.aiState = outdoorActorAiStateFromGameplay(*update.statePatch.motionState);
+            }
 
-        if (update.animationPatch.animationTimeTicks)
-        {
-            actor.animationTimeTicks = *update.animationPatch.animationTimeTicks;
-        }
+            if (update.statePatch.queuedAttackAbility)
+            {
+                actor.queuedAttackAbility = outdoorAttackAbilityFromGameplay(*update.statePatch.queuedAttackAbility);
+            }
 
-        if (update.movementIntent.action == ActorAiMovementAction::Stand)
-        {
-            actor.moveDirectionX = update.movementIntent.moveDirectionX;
-            actor.moveDirectionY = update.movementIntent.moveDirectionY;
-        }
+            if (update.animationPatch.animationState)
+            {
+                actor.animation = outdoorActorAnimationFromGameplay(*update.animationPatch.animationState);
+            }
 
-        if (update.movementIntent.updateYaw)
-        {
-            actor.yawRadians = update.movementIntent.yawRadians;
-        }
+            if (update.animationPatch.resetOnAnimationChange
+                && previousAnimation != actor.animation
+                && actor.aiState != ActorAiState::Attacking)
+            {
+                actor.animationTimeTicks = 0.0f;
+            }
 
-        }
+            if (update.animationPatch.animationTimeTicks)
+            {
+                actor.animationTimeTicks = *update.animationPatch.animationTimeTicks;
+            }
 
-        if (activeActor && update.combatFlowHandled)
-        {
-        const ActorAnimation previousAnimation = actor.animation;
+            if (update.statePatch.actionSeconds)
+            {
+                actor.actionSeconds = *update.statePatch.actionSeconds;
+            }
 
-        if (update.statePatch.motionState)
-        {
-            actor.aiState = outdoorActorAiStateFromGameplay(*update.statePatch.motionState);
-        }
+            if (update.statePatch.idleDecisionSeconds)
+            {
+                actor.idleDecisionSeconds = *update.statePatch.idleDecisionSeconds;
+            }
 
-        if (update.animationPatch.animationState)
-        {
-            actor.animation = outdoorActorAnimationFromGameplay(*update.animationPatch.animationState);
-        }
+            if (update.statePatch.attackImpactTriggered)
+            {
+                actor.attackImpactTriggered = *update.statePatch.attackImpactTriggered;
+            }
 
-        if (previousAnimation != actor.animation && actor.aiState != ActorAiState::Attacking)
-        {
-            actor.animationTimeTicks = 0.0f;
-        }
+            if (update.movementIntent.action != ActorAiMovementAction::None)
+            {
+                actor.moveDirectionX = update.movementIntent.moveDirectionX;
+                actor.moveDirectionY = update.movementIntent.moveDirectionY;
+            }
 
-        if (update.statePatch.actionSeconds)
-        {
-            actor.actionSeconds = *update.statePatch.actionSeconds;
-        }
+            if (update.movementIntent.updateYaw)
+            {
+                actor.yawRadians = update.movementIntent.yawRadians;
+            }
 
-        if (update.statePatch.idleDecisionSeconds)
-        {
-            actor.idleDecisionSeconds = *update.statePatch.idleDecisionSeconds;
-        }
+            if (update.movementIntent.clearVelocity)
+            {
+                actor.velocityX = 0.0f;
+                actor.velocityY = 0.0f;
+            }
 
-        if (update.movementIntent.action == ActorAiMovementAction::Stand)
-        {
-            actor.moveDirectionX = update.movementIntent.moveDirectionX;
-            actor.moveDirectionY = update.movementIntent.moveDirectionY;
-        }
-        else if (update.movementIntent.action == ActorAiMovementAction::Flee
-            || update.movementIntent.action == ActorAiMovementAction::Wander)
-        {
-            actor.moveDirectionX = update.movementIntent.moveDirectionX;
-            actor.moveDirectionY = update.movementIntent.moveDirectionY;
-        }
-
-        if (update.movementIntent.updateYaw)
-        {
-            actor.yawRadians = update.movementIntent.yawRadians;
-        }
-
-        if (update.movementIntent.clearVelocity)
-        {
-            actor.velocityX = 0.0f;
-            actor.velocityY = 0.0f;
-        }
-
-        application.combatFlowDesiredMoveX[update.actorIndex] = update.movementIntent.desiredMoveX;
-        application.combatFlowDesiredMoveY[update.actorIndex] = update.movementIntent.desiredMoveY;
-        application.combatFlowsAppliedActorMask[update.actorIndex] = true;
-        }
-
-        if (activeActor && update.combatEngageHandled)
-        {
-        const ActorAnimation previousAnimation = actor.animation;
-
-        if (update.statePatch.motionState)
-        {
-            actor.aiState = outdoorActorAiStateFromGameplay(*update.statePatch.motionState);
-        }
-
-        if (update.animationPatch.animationState)
-        {
-            actor.animation = outdoorActorAnimationFromGameplay(*update.animationPatch.animationState);
-        }
-
-        if (previousAnimation != actor.animation && actor.aiState != ActorAiState::Attacking)
-        {
-            actor.animationTimeTicks = 0.0f;
-        }
-
-        if (update.statePatch.actionSeconds)
-        {
-            actor.actionSeconds = *update.statePatch.actionSeconds;
-        }
-
-        if (update.movementIntent.action == ActorAiMovementAction::Stand
-            || update.movementIntent.action == ActorAiMovementAction::Pursue)
-        {
-            actor.moveDirectionX = update.movementIntent.moveDirectionX;
-            actor.moveDirectionY = update.movementIntent.moveDirectionY;
-        }
-
-        if (update.movementIntent.updateYaw)
-        {
-            actor.yawRadians = update.movementIntent.yawRadians;
-        }
-
-        if (update.statePatch.attackImpactTriggered)
-        {
-            actor.attackImpactTriggered = *update.statePatch.attackImpactTriggered;
-        }
-
-        application.combatEngageDesiredMoveX[update.actorIndex] = update.movementIntent.desiredMoveX;
-        application.combatEngageDesiredMoveY[update.actorIndex] = update.movementIntent.desiredMoveY;
-        application.combatEngageMeleePursuitActiveMask[update.actorIndex] = update.meleePursuitActive;
-        application.combatEngagesAppliedActorMask[update.actorIndex] = true;
-        }
-
-        if (activeActor && update.nonCombatHandled)
-        {
-        if (update.statePatch.motionState)
-        {
-            actor.aiState = outdoorActorAiStateFromGameplay(*update.statePatch.motionState);
-        }
-
-        if (update.animationPatch.animationState)
-        {
-            actor.animation = outdoorActorAnimationFromGameplay(*update.animationPatch.animationState);
-        }
-
-        if (update.animationPatch.animationTimeTicks)
-        {
-            actor.animationTimeTicks = *update.animationPatch.animationTimeTicks;
-        }
-
-        if (update.statePatch.actionSeconds)
-        {
-            actor.actionSeconds = *update.statePatch.actionSeconds;
-        }
-
-        if (update.statePatch.idleDecisionSeconds)
-        {
-            actor.idleDecisionSeconds = *update.statePatch.idleDecisionSeconds;
-        }
-
-        if (update.statePatch.attackImpactTriggered)
-        {
-            actor.attackImpactTriggered = *update.statePatch.attackImpactTriggered;
-        }
-
-        if (update.movementIntent.action == ActorAiMovementAction::Stand
-            || update.movementIntent.action == ActorAiMovementAction::Wander)
-        {
-            actor.moveDirectionX = update.movementIntent.moveDirectionX;
-            actor.moveDirectionY = update.movementIntent.moveDirectionY;
-        }
-
-        if (update.movementIntent.updateYaw)
-        {
-            actor.yawRadians = update.movementIntent.yawRadians;
-        }
-
-        if (update.movementIntent.clearVelocity)
-        {
-            actor.velocityX = 0.0f;
-            actor.velocityY = 0.0f;
-        }
-
-        application.nonCombatDesiredMoveX[update.actorIndex] = update.movementIntent.desiredMoveX;
-        application.nonCombatDesiredMoveY[update.actorIndex] = update.movementIntent.desiredMoveY;
-        application.nonCombatAppliedActorMask[update.actorIndex] = true;
-        }
-
-        if (activeActor && update.frameCommitHandled)
-        {
-        application.frameCommitsAppliedActorMask[update.actorIndex] = true;
-        application.frameCommitKeepCurrentAnimationMask[update.actorIndex] =
-            update.animationPatch.keepCurrentAnimation;
-        application.frameCommitResetAnimationTimeMask[update.actorIndex] =
-            update.animationPatch.resetAnimationTime;
-        application.frameCommitResetCrowdSteeringMask[update.actorIndex] = update.resetCrowdSteering;
-        application.frameCommitClearVelocityMask[update.actorIndex] = update.movementIntent.clearVelocity;
-        application.frameCommitApplyMovementMask[update.actorIndex] = update.movementIntent.applyMovement;
+            application.behaviorAppliedActorMask[update.actorIndex] = true;
+            application.keepCurrentAnimationMask[update.actorIndex] = update.animationPatch.keepCurrentAnimation;
+            application.resetAnimationTimeMask[update.actorIndex] = update.animationPatch.resetAnimationTime;
+            application.resetCrowdSteeringMask[update.actorIndex] = update.resetCrowdSteering;
+            application.clearVelocityMask[update.actorIndex] = true;
+            application.applyMovementMask[update.actorIndex] = update.movementIntent.applyMovement;
+            application.desiredMoveX[update.actorIndex] = update.movementIntent.desiredMoveX;
+            application.desiredMoveY[update.actorIndex] = update.movementIntent.desiredMoveY;
+            application.meleePursuitActiveMask[update.actorIndex] = update.meleePursuitActive;
         }
 
         if (activeActor && update.attackRequest)
@@ -6958,68 +6829,41 @@ void OutdoorWorldRuntime::updateOutdoorActorsForStep(
         ActorAnimation nextAnimation = ActorAnimation::Standing;
         bool meleePursuitActive = false;
 
-        const bool combatFlowAlreadyApplied =
-            actorIndex < sharedActorApplication.combatFlowsAppliedActorMask.size()
-            && sharedActorApplication.combatFlowsAppliedActorMask[actorIndex];
-        const bool combatEngageAlreadyApplied =
-            actorIndex < sharedActorApplication.combatEngagesAppliedActorMask.size()
-            && sharedActorApplication.combatEngagesAppliedActorMask[actorIndex];
-        const bool nonCombatAlreadyApplied =
-            actorIndex < sharedActorApplication.nonCombatAppliedActorMask.size()
-            && sharedActorApplication.nonCombatAppliedActorMask[actorIndex];
+        const bool behaviorAlreadyApplied =
+            actorIndex < sharedActorApplication.behaviorAppliedActorMask.size()
+            && sharedActorApplication.behaviorAppliedActorMask[actorIndex];
 
-        if (combatFlowAlreadyApplied)
+        if (behaviorAlreadyApplied)
         {
             nextAiState = actor.aiState;
             nextAnimation = actor.animation;
-            desiredMoveX = sharedActorApplication.combatFlowDesiredMoveX[actorIndex];
-            desiredMoveY = sharedActorApplication.combatFlowDesiredMoveY[actorIndex];
-        }
-        else if (combatEngageAlreadyApplied)
-        {
-            nextAiState = actor.aiState;
-            nextAnimation = actor.animation;
-            desiredMoveX = sharedActorApplication.combatEngageDesiredMoveX[actorIndex];
-            desiredMoveY = sharedActorApplication.combatEngageDesiredMoveY[actorIndex];
-            meleePursuitActive = sharedActorApplication.combatEngageMeleePursuitActiveMask[actorIndex];
-        }
-        else if (nonCombatAlreadyApplied)
-        {
-            nextAiState = actor.aiState;
-            nextAnimation = actor.animation;
-            desiredMoveX = sharedActorApplication.nonCombatDesiredMoveX[actorIndex];
-            desiredMoveY = sharedActorApplication.nonCombatDesiredMoveY[actorIndex];
+            desiredMoveX = sharedActorApplication.desiredMoveX[actorIndex];
+            desiredMoveY = sharedActorApplication.desiredMoveY[actorIndex];
+            meleePursuitActive = sharedActorApplication.meleePursuitActiveMask[actorIndex];
         }
 
-        bool frameCommitKeepCurrentAnimation = false;
-        bool frameCommitResetAnimationTime = false;
-        bool frameCommitResetCrowdSteering = false;
-        bool frameCommitClearVelocity = true;
-        bool frameCommitApplyMovement = false;
-        const bool frameCommitAlreadyApplied =
-            actorIndex < sharedActorApplication.frameCommitsAppliedActorMask.size()
-            && sharedActorApplication.frameCommitsAppliedActorMask[actorIndex];
+        const bool keepCurrentAnimation =
+            actorIndex < sharedActorApplication.keepCurrentAnimationMask.size()
+            && sharedActorApplication.keepCurrentAnimationMask[actorIndex];
+        const bool resetAnimationTime =
+            actorIndex < sharedActorApplication.resetAnimationTimeMask.size()
+            && sharedActorApplication.resetAnimationTimeMask[actorIndex];
+        const bool resetCrowdSteering =
+            actorIndex < sharedActorApplication.resetCrowdSteeringMask.size()
+            && sharedActorApplication.resetCrowdSteeringMask[actorIndex];
+        const bool clearVelocity =
+            actorIndex >= sharedActorApplication.clearVelocityMask.size()
+            || sharedActorApplication.clearVelocityMask[actorIndex];
+        const bool applyMovement =
+            actorIndex < sharedActorApplication.applyMovementMask.size()
+            && sharedActorApplication.applyMovementMask[actorIndex];
 
-        if (frameCommitAlreadyApplied)
-        {
-            frameCommitKeepCurrentAnimation =
-                sharedActorApplication.frameCommitKeepCurrentAnimationMask[actorIndex];
-            frameCommitResetAnimationTime =
-                sharedActorApplication.frameCommitResetAnimationTimeMask[actorIndex];
-            frameCommitResetCrowdSteering =
-                sharedActorApplication.frameCommitResetCrowdSteeringMask[actorIndex];
-            frameCommitClearVelocity =
-                sharedActorApplication.frameCommitClearVelocityMask[actorIndex];
-            frameCommitApplyMovement =
-                sharedActorApplication.frameCommitApplyMovementMask[actorIndex];
-        }
-
-        if (frameCommitKeepCurrentAnimation)
+        if (keepCurrentAnimation)
         {
             nextAnimation = actor.animation;
         }
 
-        if (frameCommitResetAnimationTime)
+        if (resetAnimationTime)
         {
             actor.animationTimeTicks = 0.0f;
         }
@@ -7027,19 +6871,19 @@ void OutdoorWorldRuntime::updateOutdoorActorsForStep(
         actor.aiState = nextAiState;
         actor.animation = nextAnimation;
 
-        if (frameCommitResetCrowdSteering)
+        if (resetCrowdSteering)
         {
             resetCrowdSteeringState(actor);
         }
 
-        if (frameCommitClearVelocity)
+        if (clearVelocity)
         {
             actor.velocityX = 0.0f;
             actor.velocityY = 0.0f;
             actor.velocityZ = 0.0f;
         }
 
-        if (frameCommitApplyMovement)
+        if (applyMovement)
         {
             applyOutdoorActorMovementIntegration(
                 actorIndex,

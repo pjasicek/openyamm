@@ -121,15 +121,6 @@ enum class AttackImpactAction : uint8_t
     ActorMeleeImpact = 3,
 };
 
-enum class ActorNonCombatAction : uint8_t
-{
-    Stand = 0,
-    ApplyIdleBehavior = 1,
-    ReturnHome = 2,
-    ContinueMove = 3,
-    StartIdleBehavior = 4,
-};
-
 enum class PursueActionMode : uint8_t
 {
     OffsetShort = 0,
@@ -137,7 +128,7 @@ enum class PursueActionMode : uint8_t
     OffsetWide = 2,
 };
 
-enum class CombatEngageDecisionAction : uint8_t
+enum class CombatEngageAction : uint8_t
 {
     HoldCrowdStand = 0,
     StartRangedAttack = 1,
@@ -149,21 +140,6 @@ enum class CombatEngageDecisionAction : uint8_t
     ContinueMeleePursuit = 7,
     StartMeleePursuit = 8,
     StartMeleePursuitWithoutMovement = 9,
-};
-
-enum class CombatEngageApplicationState : uint8_t
-{
-    Standing = 0,
-    Attacking = 1,
-    Pursuing = 2,
-};
-
-enum class CombatEngageApplicationAnimation : uint8_t
-{
-    Standing = 0,
-    Walking = 1,
-    BoredOrStanding = 2,
-    AttackAbility = 3,
 };
 
 enum class CrowdSteeringAction : uint8_t
@@ -202,16 +178,6 @@ struct AttackImpactPatch
 {
     AttackImpactAction action = AttackImpactAction::None;
     int damage = 0;
-};
-
-struct ActorNonCombatPatch
-{
-    ActorNonCombatAction action = ActorNonCombatAction::Stand;
-    IdleBehaviorResult idleBehavior = {};
-    float moveDirectionX = 0.0f;
-    float moveDirectionY = 0.0f;
-    bool updateYaw = false;
-    float yawRadians = 0.0f;
 };
 
 struct CrowdSteeringState
@@ -258,7 +224,7 @@ struct RangedAbilityCommitInput
     float targetEdgeDistance = 0.0f;
 };
 
-struct CombatAbilityDecisionInput
+struct CombatAbilityChoiceInput
 {
     uint32_t actorId = 0;
     uint32_t attackDecisionCount = 0;
@@ -276,7 +242,7 @@ struct CombatAbilityDecisionInput
     bool applyAbilityConstraints = true;
 };
 
-struct CombatAbilityDecisionResult
+struct CombatAbilityChoiceResult
 {
     GameplayActorAttackAbility ability = GameplayActorAttackAbility::Attack1;
     uint32_t nextAttackDecisionCount = 0;
@@ -285,7 +251,7 @@ struct CombatAbilityDecisionResult
     bool stationaryOrTooCloseForRangedPursuit = false;
 };
 
-struct CombatEngageDecisionInput
+struct CombatEngagePlanInput
 {
     bool abilityIsRanged = false;
     bool abilityIsMelee = false;
@@ -301,34 +267,13 @@ struct CombatEngageDecisionInput
     float targetEdgeDistance = 0.0f;
 };
 
-struct CombatEngageDecisionResult
+struct CombatEngagePlan
 {
-    CombatEngageDecisionAction action = CombatEngageDecisionAction::StartMeleePursuit;
+    CombatEngageAction action = CombatEngageAction::StartMeleePursuit;
     PursueActionMode pursueMode = PursueActionMode::Direct;
     bool meleePursuitActive = false;
     bool preserveCrowdSteering = false;
     bool useRecoveryFloorForPursuit = false;
-};
-
-struct CombatEngageApplicationInput
-{
-    CombatEngageDecisionAction action = CombatEngageDecisionAction::StartMeleePursuit;
-    PursueActionMode pursueMode = PursueActionMode::Direct;
-    bool useRecoveryFloorForPursuit = false;
-    float recoverySeconds = 0.0f;
-};
-
-struct CombatEngageApplicationResult
-{
-    CombatEngageApplicationState state = CombatEngageApplicationState::Standing;
-    CombatEngageApplicationAnimation animation = CombatEngageApplicationAnimation::Standing;
-    PursueActionMode pursueMode = PursueActionMode::Direct;
-    bool clearMoveDirection = false;
-    bool faceTarget = false;
-    bool startAttack = false;
-    bool useCurrentMoveAsDesired = false;
-    bool startPursueAction = false;
-    float minimumPursueActionSeconds = 0.0f;
 };
 
 struct PursueActionInput
@@ -747,9 +692,9 @@ bool shouldCommitToRangedAbility(const RangedAbilityCommitInput &input)
     return rollPercent < chancePercent;
 }
 
-CombatAbilityDecisionResult resolveCombatAbilityDecision(const CombatAbilityDecisionInput &input)
+CombatAbilityChoiceResult chooseCombatAbility(const CombatAbilityChoiceInput &input)
 {
-    CombatAbilityDecisionResult result = {};
+    CombatAbilityChoiceResult result = {};
     result.nextAttackDecisionCount = input.attackDecisionCount;
 
     GameplayActorAttackAbility chosenAbility = GameplayActorAttackAbility::Attack1;
@@ -950,11 +895,265 @@ bool hasActiveSpellEffectTimer(const GameplayActorSpellEffectState &state)
         || state.darkGraspRemainingSeconds > 0.0f;
 }
 
+class ActorAiCommandContext
+{
+public:
+    explicit ActorAiCommandContext(const ActorAiFacts &actor)
+        : m_pActor(&actor)
+    {
+        m_update.actorIndex = actor.actorIndex;
+    }
+
+    ActorAiCommandContext(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
+        : ActorAiCommandContext(actor)
+    {
+        m_pFrame = &frame;
+    }
+
+    const ActorAiFacts &actor() const
+    {
+        return *m_pActor;
+    }
+
+    const ActorAiFrameFacts *frame() const
+    {
+        return m_pFrame;
+    }
+
+    ActorAiUpdate &update()
+    {
+        return m_update;
+    }
+
+    void setMotionState(ActorAiMotionState motionState)
+    {
+        m_update.statePatch.motionState = motionState;
+    }
+
+    void setAnimationState(ActorAiAnimationState animationState)
+    {
+        m_update.animationPatch.animationState = animationState;
+    }
+
+    void setActionSeconds(float actionSeconds)
+    {
+        m_update.statePatch.actionSeconds = actionSeconds;
+    }
+
+    void setRecoverySeconds(float recoverySeconds)
+    {
+        m_update.statePatch.recoverySeconds = recoverySeconds;
+    }
+
+    void setAttackCooldownSeconds(float attackCooldownSeconds)
+    {
+        m_update.statePatch.attackCooldownSeconds = attackCooldownSeconds;
+    }
+
+    void setAttackDecisionCount(uint32_t attackDecisionCount)
+    {
+        m_update.statePatch.attackDecisionCount = attackDecisionCount;
+    }
+
+    void setPursueDecisionCount(uint32_t pursueDecisionCount)
+    {
+        m_update.statePatch.pursueDecisionCount = pursueDecisionCount;
+    }
+
+    void setCrowdSideLockRemainingSeconds(float seconds)
+    {
+        m_update.statePatch.crowdSideLockRemainingSeconds = seconds;
+    }
+
+    void setCrowdNoProgressSeconds(float seconds)
+    {
+        m_update.statePatch.crowdNoProgressSeconds = seconds;
+    }
+
+    void setCrowdLastEdgeDistance(float distance)
+    {
+        m_update.statePatch.crowdLastEdgeDistance = distance;
+    }
+
+    void setCrowdRetreatRemainingSeconds(float seconds)
+    {
+        m_update.statePatch.crowdRetreatRemainingSeconds = seconds;
+    }
+
+    void setCrowdStandRemainingSeconds(float seconds)
+    {
+        m_update.statePatch.crowdStandRemainingSeconds = seconds;
+    }
+
+    void setCrowdProbeEdgeDistance(float distance)
+    {
+        m_update.statePatch.crowdProbeEdgeDistance = distance;
+    }
+
+    void setCrowdProbeElapsedSeconds(float seconds)
+    {
+        m_update.statePatch.crowdProbeElapsedSeconds = seconds;
+    }
+
+    void setCrowdEscapeAttempts(uint8_t attempts)
+    {
+        m_update.statePatch.crowdEscapeAttempts = attempts;
+    }
+
+    void setCrowdSideSign(int8_t sideSign)
+    {
+        m_update.statePatch.crowdSideSign = sideSign;
+    }
+
+    void setQueuedAttackAbility(GameplayActorAttackAbility ability)
+    {
+        m_update.statePatch.queuedAttackAbility = ability;
+    }
+
+    void setDead(bool dead)
+    {
+        m_update.statePatch.dead = dead;
+    }
+
+    void setSpellEffects(const GameplayActorSpellEffectState &spellEffects)
+    {
+        m_update.statePatch.spellEffects = spellEffects;
+    }
+
+    void setAttackImpactTriggered(bool triggered)
+    {
+        m_update.statePatch.attackImpactTriggered = triggered;
+    }
+
+    void setIdleDecisionSeconds(float idleDecisionSeconds)
+    {
+        m_update.statePatch.idleDecisionSeconds = idleDecisionSeconds;
+    }
+
+    void setIdleDecisionCount(uint32_t idleDecisionCount)
+    {
+        m_update.statePatch.idleDecisionCount = idleDecisionCount;
+    }
+
+    void setAnimationTimeTicks(float animationTimeTicks)
+    {
+        m_update.animationPatch.animationTimeTicks = animationTimeTicks;
+    }
+
+    void resetAnimationTime()
+    {
+        m_update.animationPatch.resetAnimationTime = true;
+    }
+
+    void resetAnimationOnChange()
+    {
+        m_update.animationPatch.resetOnAnimationChange = true;
+    }
+
+    void keepCurrentAnimation()
+    {
+        m_update.animationPatch.keepCurrentAnimation = true;
+    }
+
+    void setMeleePursuitActive(bool active)
+    {
+        m_update.meleePursuitActive = active;
+    }
+
+    void preserveCrowdSteering()
+    {
+        m_update.preserveCrowdSteering = true;
+    }
+
+    void resetCrowdSteering()
+    {
+        m_update.resetCrowdSteering = true;
+    }
+
+    void setCrowdSteeringHandled()
+    {
+        m_update.crowdSteeringHandled = true;
+    }
+
+    void setStatusLockHandled()
+    {
+        m_update.statusLockHandled = true;
+    }
+
+    void faceYaw(float yawRadians)
+    {
+        m_update.movementIntent.updateYaw = true;
+        m_update.movementIntent.yawRadians = yawRadians;
+    }
+
+    void setMovementAction(ActorAiMovementAction action)
+    {
+        m_update.movementIntent.action = action;
+    }
+
+    void setMoveDirection(float moveDirectionX, float moveDirectionY)
+    {
+        m_update.movementIntent.moveDirectionX = moveDirectionX;
+        m_update.movementIntent.moveDirectionY = moveDirectionY;
+    }
+
+    void setDesiredMovement(float desiredMoveX, float desiredMoveY)
+    {
+        m_update.movementIntent.desiredMoveX = desiredMoveX;
+        m_update.movementIntent.desiredMoveY = desiredMoveY;
+        m_update.movementIntent.applyMovement = true;
+    }
+
+    void clearMovementDirection()
+    {
+        setMoveDirection(0.0f, 0.0f);
+    }
+
+    void clearVelocity()
+    {
+        m_update.movementIntent.clearVelocity = true;
+    }
+
+    void requestAttack(const ActorAttackRequest &request)
+    {
+        m_update.attackRequest = request;
+    }
+
+    void requestProjectileAttack(const ActorAttackRequest &request)
+    {
+        requestAttack(request);
+    }
+
+    void requestAudio(const ActorAudioRequest &request)
+    {
+        m_update.audioRequests.push_back(request);
+    }
+
+    void requestFx(const ActorFxRequest &request)
+    {
+        m_update.fxRequests.push_back(request);
+    }
+
+    ActorAiUpdate finish()
+    {
+        return m_update;
+    }
+
+    void replaceUpdate(const ActorAiUpdate &update)
+    {
+        m_update = update;
+    }
+
+private:
+    const ActorAiFacts *m_pActor = nullptr;
+    const ActorAiFrameFacts *m_pFrame = nullptr;
+    ActorAiUpdate m_update = {};
+};
+
 ActorAiUpdate makeActorUpdate(const ActorAiFacts &actor)
 {
-    ActorAiUpdate update = {};
-    update.actorIndex = actor.actorIndex;
-    return update;
+    ActorAiCommandContext ai(actor);
+    return ai.finish();
 }
 
 struct ActorFrameTimerAging
@@ -967,7 +1166,7 @@ struct ActorFrameTimerAging
     float crowdStandRemainingSeconds = 0.0f;
 };
 
-struct ActorFrameCommitPatch
+struct ActorMovementCommitPatch
 {
     bool keepCurrentAnimation = false;
     bool resetAnimationTime = false;
@@ -1184,12 +1383,12 @@ ActorFrameTimerAging ageActorFrameTimers(const ActorAiFacts &actor, const ActorA
     return result;
 }
 
-ActorFrameCommitPatch buildActiveFrameCommitPatch(
+ActorMovementCommitPatch buildActiveMovementCommitPatch(
     const ActorAiFacts &actor,
     const ActorAiUpdate &update,
     bool attackInProgress)
 {
-    ActorFrameCommitPatch result = {};
+    ActorMovementCommitPatch result = {};
     result.keepCurrentAnimation = attackInProgress;
     result.resetAnimationTime = false;
     result.resetCrowdSteering = !update.preserveCrowdSteering;
@@ -1220,6 +1419,36 @@ ActorMovementBlockPatch buildPostMovementBlockPatch(const ActorAiFacts &actor)
     }
 
     return result;
+}
+
+bool AI_HandleMovementBlock(ActorAiCommandContext &ai)
+{
+    const ActorMovementBlockPatch movementBlock = buildPostMovementBlockPatch(ai.actor());
+
+    if (!movementBlock.zeroVelocity && !movementBlock.resetMoveDirection && !movementBlock.stand)
+    {
+        return false;
+    }
+
+    if (movementBlock.zeroVelocity)
+    {
+        ai.clearVelocity();
+    }
+
+    if (movementBlock.resetMoveDirection)
+    {
+        ai.setMovementAction(ActorAiMovementAction::Stand);
+        ai.clearMovementDirection();
+        ai.setActionSeconds(movementBlock.actionSeconds);
+    }
+
+    if (movementBlock.stand)
+    {
+        ai.setMotionState(ActorAiMotionState::Standing);
+        ai.setAnimationState(ActorAiAnimationState::Standing);
+    }
+
+    return true;
 }
 
 ActorCombatFlowAction chooseCombatFlowAction(
@@ -1374,9 +1603,9 @@ bool combatFlowActionCanBeAppliedByShared(ActorCombatFlowAction action)
         || action == ActorCombatFlowAction::FriendlyNearParty;
 }
 
-CombatEngageDecisionResult resolveCombatEngageDecision(const CombatEngageDecisionInput &input)
+CombatEngagePlan chooseCombatEngagePlan(const CombatEngagePlanInput &input)
 {
-    CombatEngageDecisionResult result = {};
+    CombatEngagePlan result = {};
     const bool currentlyPursuingWithMoveDirection =
         input.currentlyPursuing
         && input.actionSeconds > 0.0f
@@ -1385,7 +1614,7 @@ CombatEngageDecisionResult resolveCombatEngageDecision(const CombatEngageDecisio
 
     if (input.abilityIsMelee && input.crowdStandActive)
     {
-        result.action = CombatEngageDecisionAction::HoldCrowdStand;
+        result.action = CombatEngageAction::HoldCrowdStand;
         result.preserveCrowdSteering = true;
         return result;
     }
@@ -1394,23 +1623,23 @@ CombatEngageDecisionResult resolveCombatEngageDecision(const CombatEngageDecisio
     {
         if (input.attackCooldownReady)
         {
-            result.action = CombatEngageDecisionAction::StartRangedAttack;
+            result.action = CombatEngageAction::StartRangedAttack;
             return result;
         }
 
         if (input.stationaryOrTooCloseForRangedPursuit)
         {
-            result.action = CombatEngageDecisionAction::StandForRangedBlock;
+            result.action = CombatEngageAction::StandForRangedBlock;
             return result;
         }
 
         if (currentlyPursuingWithMoveDirection)
         {
-            result.action = CombatEngageDecisionAction::ContinueRangedPursuit;
+            result.action = CombatEngageAction::ContinueRangedPursuit;
             return result;
         }
 
-        result.action = CombatEngageDecisionAction::StartRangedPursuit;
+        result.action = CombatEngageAction::StartRangedPursuit;
         result.pursueMode = PursueActionMode::OffsetShort;
         result.useRecoveryFloorForPursuit = true;
         return result;
@@ -1420,11 +1649,11 @@ CombatEngageDecisionResult resolveCombatEngageDecision(const CombatEngageDecisio
     {
         if (input.attackCooldownReady)
         {
-            result.action = CombatEngageDecisionAction::StartMeleeAttack;
+            result.action = CombatEngageAction::StartMeleeAttack;
             return result;
         }
 
-        result.action = CombatEngageDecisionAction::StandForMeleeCooldown;
+        result.action = CombatEngageAction::StandForMeleeCooldown;
         return result;
     }
 
@@ -1433,78 +1662,19 @@ CombatEngageDecisionResult resolveCombatEngageDecision(const CombatEngageDecisio
 
     if (!input.movementAllowed)
     {
-        result.action = CombatEngageDecisionAction::StartMeleePursuitWithoutMovement;
+        result.action = CombatEngageAction::StartMeleePursuitWithoutMovement;
         return result;
     }
 
     if (currentlyPursuingWithMoveDirection)
     {
-        result.action = CombatEngageDecisionAction::ContinueMeleePursuit;
+        result.action = CombatEngageAction::ContinueMeleePursuit;
         return result;
     }
 
-    result.action = CombatEngageDecisionAction::StartMeleePursuit;
+    result.action = CombatEngageAction::StartMeleePursuit;
     result.pursueMode =
         input.targetEdgeDistance >= 1024.0f ? PursueActionMode::OffsetWide : PursueActionMode::Direct;
-    return result;
-}
-
-CombatEngageApplicationResult resolveCombatEngageApplication(const CombatEngageApplicationInput &input)
-{
-    CombatEngageApplicationResult result = {};
-    result.pursueMode = input.pursueMode;
-    result.minimumPursueActionSeconds =
-        input.useRecoveryFloorForPursuit ? std::max(0.0f, input.recoverySeconds) : 0.0f;
-
-    if (input.action == CombatEngageDecisionAction::HoldCrowdStand)
-    {
-        result.state = CombatEngageApplicationState::Standing;
-        result.animation = CombatEngageApplicationAnimation::BoredOrStanding;
-        result.clearMoveDirection = true;
-        return result;
-    }
-
-    if (input.action == CombatEngageDecisionAction::StartRangedAttack
-        || input.action == CombatEngageDecisionAction::StartMeleeAttack)
-    {
-        result.state = CombatEngageApplicationState::Attacking;
-        result.animation = CombatEngageApplicationAnimation::AttackAbility;
-        result.clearMoveDirection = true;
-        result.faceTarget = true;
-        result.startAttack = true;
-        return result;
-    }
-
-    if (input.action == CombatEngageDecisionAction::StandForRangedBlock
-        || input.action == CombatEngageDecisionAction::StandForMeleeCooldown)
-    {
-        result.state = CombatEngageApplicationState::Standing;
-        result.animation = CombatEngageApplicationAnimation::Standing;
-        result.clearMoveDirection = true;
-        result.faceTarget = true;
-        return result;
-    }
-
-    if (input.action == CombatEngageDecisionAction::ContinueRangedPursuit
-        || input.action == CombatEngageDecisionAction::ContinueMeleePursuit)
-    {
-        result.state = CombatEngageApplicationState::Pursuing;
-        result.animation = CombatEngageApplicationAnimation::Walking;
-        result.useCurrentMoveAsDesired = true;
-        return result;
-    }
-
-    if (input.action == CombatEngageDecisionAction::StartMeleePursuitWithoutMovement)
-    {
-        result.state = CombatEngageApplicationState::Pursuing;
-        result.animation = CombatEngageApplicationAnimation::Standing;
-        result.clearMoveDirection = true;
-        return result;
-    }
-
-    result.state = CombatEngageApplicationState::Pursuing;
-    result.animation = CombatEngageApplicationAnimation::Walking;
-    result.startPursueAction = true;
     return result;
 }
 
@@ -1548,124 +1718,93 @@ PursueActionResult resolvePursueAction(const PursueActionInput &input)
     return result;
 }
 
-ActorAiMotionState actorMotionStateFromCombatEngage(CombatEngageApplicationState state)
+void AI_ApplyCombatFlowPatch(ActorAiCommandContext &ai, const ActorCombatFlowPatch &application)
 {
-    switch (state)
-    {
-        case CombatEngageApplicationState::Attacking:
-            return ActorAiMotionState::Attacking;
-        case CombatEngageApplicationState::Pursuing:
-            return ActorAiMotionState::Pursuing;
-        case CombatEngageApplicationState::Standing:
-        default:
-            return ActorAiMotionState::Standing;
-    }
-}
+    const ActorAiFacts &actor = ai.actor();
 
-ActorAiAnimationState actorAnimationStateFromCombatEngage(
-    CombatEngageApplicationAnimation animation,
-    const ActorAiFacts &actor,
-    GameplayActorAttackAbility ability)
-{
-    switch (animation)
-    {
-        case CombatEngageApplicationAnimation::Walking:
-            return ActorAiAnimationState::Walking;
-        case CombatEngageApplicationAnimation::BoredOrStanding:
-            return actor.runtime.animationState == ActorAiAnimationState::Bored
-                ? ActorAiAnimationState::Bored
-                : ActorAiAnimationState::Standing;
-        case CombatEngageApplicationAnimation::AttackAbility:
-            return attackAnimationStateForAbility(ability, actor.stats.attackConstraints);
-        case CombatEngageApplicationAnimation::Standing:
-        default:
-            return ActorAiAnimationState::Standing;
-    }
-}
-
-void applyCombatFlowApplication(
-    const ActorAiFacts &actor,
-    const ActorCombatFlowPatch &application,
-    ActorAiUpdate &update)
-{
-    update.combatFlowHandled = true;
-    update.statePatch.motionState = actorMotionStateFromCombatFlow(application.motion);
-    update.animationPatch.animationState = actorAnimationStateFromCombatFlow(application.animation, actor);
-    update.statePatch.actionSeconds = application.actionSeconds;
-    update.statePatch.idleDecisionSeconds = application.idleDecisionSeconds;
+    ai.setMotionState(actorMotionStateFromCombatFlow(application.motion));
+    ai.setAnimationState(actorAnimationStateFromCombatFlow(application.animation, actor));
+    ai.resetAnimationOnChange();
+    ai.setActionSeconds(application.actionSeconds);
+    ai.setIdleDecisionSeconds(application.idleDecisionSeconds);
 
     if (application.motion == ActorCombatFlowMotion::Attacking)
     {
-        update.movementIntent.action = ActorAiMovementAction::Stand;
+        ai.setMovementAction(ActorAiMovementAction::Stand);
     }
     else if (application.motion == ActorCombatFlowMotion::Wandering)
     {
-        update.movementIntent.action = ActorAiMovementAction::Wander;
+        ai.setMovementAction(ActorAiMovementAction::Wander);
     }
     else if (application.motion == ActorCombatFlowMotion::Fleeing)
     {
-        update.movementIntent.action = ActorAiMovementAction::Flee;
+        ai.setMovementAction(ActorAiMovementAction::Flee);
     }
     else
     {
-        update.movementIntent.action = ActorAiMovementAction::Stand;
+        ai.setMovementAction(ActorAiMovementAction::Stand);
     }
 
     if (application.clearMoveDirection)
     {
-        update.movementIntent.moveDirectionX = 0.0f;
-        update.movementIntent.moveDirectionY = 0.0f;
+        ai.clearMovementDirection();
     }
 
     if (application.updateMoveDirection)
     {
-        update.movementIntent.moveDirectionX = application.moveDirectionX;
-        update.movementIntent.moveDirectionY = application.moveDirectionY;
+        ai.setMoveDirection(application.moveDirectionX, application.moveDirectionY);
     }
 
     if (application.updateDesiredMove)
     {
-        update.movementIntent.desiredMoveX = application.desiredMoveX;
-        update.movementIntent.desiredMoveY = application.desiredMoveY;
-        update.movementIntent.applyMovement = true;
+        ai.setDesiredMovement(application.desiredMoveX, application.desiredMoveY);
     }
 
     if (application.updateYaw)
     {
-        update.movementIntent.updateYaw = true;
-        update.movementIntent.yawRadians = application.yawRadians;
+        ai.faceYaw(application.yawRadians);
     }
 
     if (application.clearVelocity)
     {
-        update.movementIntent.clearVelocity = true;
+        ai.clearVelocity();
     }
 }
 
-void applyActiveFrameCommitPatch(
+void AI_Flee(ActorAiCommandContext &ai, const ActorCombatFlowPatch &application)
+{
+    AI_ApplyCombatFlowPatch(ai, application);
+}
+
+void applyActiveMovementCommitPatch(
     const ActorAiFacts &actor,
     bool attackInProgress,
     ActorAiUpdate &update)
 {
-    const ActorFrameCommitPatch frameCommit = buildActiveFrameCommitPatch(actor, update, attackInProgress);
+    const ActorMovementCommitPatch movementCommit =
+        buildActiveMovementCommitPatch(actor, update, attackInProgress);
 
-    update.frameCommitHandled = true;
-    update.animationPatch.keepCurrentAnimation = frameCommit.keepCurrentAnimation;
-    update.animationPatch.resetAnimationTime = frameCommit.resetAnimationTime;
-    update.resetCrowdSteering = frameCommit.resetCrowdSteering;
-    update.movementIntent.clearVelocity = frameCommit.clearVelocity;
-    update.movementIntent.applyMovement = frameCommit.applyMovement;
+    update.animationPatch.keepCurrentAnimation = movementCommit.keepCurrentAnimation;
+    update.animationPatch.resetAnimationTime = movementCommit.resetAnimationTime;
+    update.resetCrowdSteering = movementCommit.resetCrowdSteering;
+    update.movementIntent.clearVelocity = movementCommit.clearVelocity;
+    update.movementIntent.applyMovement = movementCommit.applyMovement;
 }
 
-std::optional<ActorCombatFlowPatch> resolveSharedCombatFlowApplication(
-    const ActorAiFacts &actor,
-    const ActorAiFrameFacts &frame,
-    bool attackInProgress)
+bool AI_CombatFlow(ActorAiCommandContext &ai, bool attackInProgress)
 {
+    const ActorAiFacts &actor = ai.actor();
+    const ActorAiFrameFacts *pFrame = ai.frame();
+
+    if (pFrame == nullptr)
+    {
+        return false;
+    }
+
     const ActorTargetState combatTarget = buildActorTargetStateFromFacts(actor);
     const GameplayActorService actorService = {};
     const ActorEngagementState engagement =
-        resolveActorEngagement(actor, frame, actorService);
+        resolveActorEngagement(actor, *pFrame, actorService);
 
     const ActorCombatFlowAction flowAction = chooseCombatFlowAction(
         attackInProgress,
@@ -1677,18 +1816,18 @@ std::optional<ActorCombatFlowPatch> resolveSharedCombatFlowApplication(
 
     if (!combatFlowActionCanBeAppliedByShared(flowAction))
     {
-        return std::nullopt;
+        return false;
     }
 
     const float actionSeconds = std::max(
         0.0f,
         actor.runtime.actionSeconds - (actor.runtime.motionState == ActorAiMotionState::Attacking
-            ? frame.fixedStepSeconds / std::max(1.0f, actor.status.spellEffects.slowRecoveryMultiplier)
-            : frame.fixedStepSeconds));
+            ? pFrame->fixedStepSeconds / std::max(1.0f, actor.status.spellEffects.slowRecoveryMultiplier)
+            : pFrame->fixedStepSeconds));
     const float idleDecisionSeconds =
-        std::max(0.0f, actor.runtime.idleDecisionSeconds - frame.fixedStepSeconds);
+        std::max(0.0f, actor.runtime.idleDecisionSeconds - pFrame->fixedStepSeconds);
 
-    return buildCombatFlowPatch(
+    const ActorCombatFlowPatch flowPatch = buildCombatFlowPatch(
         flowAction,
         actor.movement.movementAllowed,
         actor.runtime.yawRadians,
@@ -1699,6 +1838,15 @@ std::optional<ActorCombatFlowPatch> resolveSharedCombatFlowApplication(
         combatTarget.horizontalDistanceToTarget,
         actionSeconds,
         idleDecisionSeconds);
+
+    if (flowAction == ActorCombatFlowAction::Flee)
+    {
+        AI_Flee(ai, flowPatch);
+        return true;
+    }
+
+    AI_ApplyCombatFlowPatch(ai, flowPatch);
+    return true;
 }
 
 std::optional<ActorTargetCandidateFacts> chooseTarget(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
@@ -1729,25 +1877,32 @@ std::optional<ActorTargetCandidateFacts> chooseTarget(const ActorAiFacts &actor,
     return std::nullopt;
 }
 
-ActorAiUpdate aiHoldDeathState(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
+void AI_ApplyDeathState(ActorAiCommandContext &ai)
 {
-    ActorAiUpdate update = makeActorUpdate(actor);
+    const ActorAiFacts &actor = ai.actor();
+    const ActorAiFrameFacts *pFrame = ai.frame();
+
+    if (pFrame == nullptr)
+    {
+        return;
+    }
+
     const ActorDeathFramePatch deathFrame = resolveActorDeathFrame(
         actor.status.dead || actor.runtime.motionState == ActorAiMotionState::Dead,
         actor.stats.currentHp <= 0,
         actor.runtime.motionState == ActorAiMotionState::Dying,
         actor.runtime.actionSeconds,
-        frame.fixedStepSeconds);
+        pFrame->fixedStepSeconds);
 
-    update.statePatch.attackImpactTriggered = false;
-    update.movementIntent.action = ActorAiMovementAction::Stand;
-    update.movementIntent.clearVelocity = true;
+    ai.setAttackImpactTriggered(false);
+    ai.setMovementAction(ActorAiMovementAction::Stand);
+    ai.clearVelocity();
 
     if (deathFrame.action == ActorDeathFrameAction::HoldDead)
     {
-        update.statePatch.motionState = ActorAiMotionState::Dead;
-        update.animationPatch.animationState = ActorAiAnimationState::Dead;
-        return update;
+        ai.setMotionState(ActorAiMotionState::Dead);
+        ai.setAnimationState(ActorAiAnimationState::Dead);
+        return;
     }
 
     if (deathFrame.action == ActorDeathFrameAction::MarkDead || deathFrame.finishedDying)
@@ -1756,14 +1911,14 @@ ActorAiUpdate aiHoldDeathState(const ActorAiFacts &actor, const ActorAiFrameFact
         deathFx.kind = ActorAiFxRequestKind::Death;
         deathFx.actorIndex = actor.actorIndex;
         deathFx.position = actor.movement.position;
-        update.fxRequests.push_back(deathFx);
+        ai.requestFx(deathFx);
 
-        update.statePatch.dead = true;
-        update.statePatch.motionState = ActorAiMotionState::Dead;
-        update.statePatch.actionSeconds = 0.0f;
-        update.animationPatch.animationState = ActorAiAnimationState::Dead;
-        update.animationPatch.animationTimeTicks = 0.0f;
-        return update;
+        ai.setDead(true);
+        ai.setMotionState(ActorAiMotionState::Dead);
+        ai.setActionSeconds(0.0f);
+        ai.setAnimationState(ActorAiAnimationState::Dead);
+        ai.setAnimationTimeTicks(0.0f);
+        return;
     }
 
     if (deathFrame.action == ActorDeathFrameAction::AdvanceDying)
@@ -1772,16 +1927,13 @@ ActorAiUpdate aiHoldDeathState(const ActorAiFacts &actor, const ActorAiFrameFact
         deathFx.kind = ActorAiFxRequestKind::Death;
         deathFx.actorIndex = actor.actorIndex;
         deathFx.position = actor.movement.position;
-        update.fxRequests.push_back(deathFx);
+        ai.requestFx(deathFx);
 
-        update.statePatch.motionState = ActorAiMotionState::Dying;
-        update.statePatch.actionSeconds = deathFrame.actionSeconds;
-        update.animationPatch.animationState = ActorAiAnimationState::Dying;
-        update.animationPatch.animationTimeTicks =
-            actor.runtime.animationTimeTicks + frame.fixedStepSeconds * ActorAiTicksPerSecond;
+        ai.setMotionState(ActorAiMotionState::Dying);
+        ai.setActionSeconds(deathFrame.actionSeconds);
+        ai.setAnimationState(ActorAiAnimationState::Dying);
+        ai.setAnimationTimeTicks(actor.runtime.animationTimeTicks + pFrame->fixedStepSeconds * ActorAiTicksPerSecond);
     }
-
-    return update;
 }
 
 float ageActorAnimationTimeTicks(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
@@ -1799,10 +1951,10 @@ void applyActiveAnimationTickPatch(const ActorAiFacts &actor, const ActorAiFrame
     update.animationPatch.animationTimeTicks = ageActorAnimationTimeTicks(actor, frame);
 }
 
-void clearActorMovement(ActorAiUpdate &update)
+void AI_ClearMovement(ActorAiCommandContext &ai)
 {
-    update.movementIntent.action = ActorAiMovementAction::Stand;
-    update.movementIntent.clearVelocity = true;
+    ai.setMovementAction(ActorAiMovementAction::Stand);
+    ai.clearVelocity();
 }
 
 void applyActiveSpellTimerPatch(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
@@ -1989,82 +2141,91 @@ CrowdSteeringResult resolveCrowdSteering(
     return result;
 }
 
-void applyCrowdSteeringStatePatch(const CrowdSteeringState &state, ActorAiUpdate &update)
+void applyCrowdSteeringStatePatch(ActorAiCommandContext &ai, const CrowdSteeringState &state)
 {
-    update.statePatch.crowdNoProgressSeconds = state.noProgressSeconds;
-    update.statePatch.crowdLastEdgeDistance = state.lastEdgeDistance;
-    update.statePatch.crowdRetreatRemainingSeconds = state.retreatRemainingSeconds;
-    update.statePatch.crowdStandRemainingSeconds = state.standRemainingSeconds;
-    update.statePatch.crowdProbeEdgeDistance = state.probeEdgeDistance;
-    update.statePatch.crowdProbeElapsedSeconds = state.probeElapsedSeconds;
-    update.statePatch.crowdEscapeAttempts = state.escapeAttempts;
-    update.statePatch.crowdSideSign = state.sideSign;
+    ai.setCrowdNoProgressSeconds(state.noProgressSeconds);
+    ai.setCrowdLastEdgeDistance(state.lastEdgeDistance);
+    ai.setCrowdRetreatRemainingSeconds(state.retreatRemainingSeconds);
+    ai.setCrowdStandRemainingSeconds(state.standRemainingSeconds);
+    ai.setCrowdProbeEdgeDistance(state.probeEdgeDistance);
+    ai.setCrowdProbeElapsedSeconds(state.probeElapsedSeconds);
+    ai.setCrowdEscapeAttempts(state.escapeAttempts);
+    ai.setCrowdSideSign(state.sideSign);
 }
 
-void applyCrowdStandPatch(const CrowdSteeringResult &crowdSteering, ActorAiUpdate &update)
+void AI_CrowdStand(ActorAiCommandContext &ai, const CrowdSteeringResult &crowdSteering)
 {
-    const GameplayActorService actorService = {};
     IdleBehaviorResult idleBehavior = idleStandBehavior(crowdSteering.bored);
     idleBehavior.actionSeconds = std::max(idleBehavior.actionSeconds, crowdSteering.standSeconds);
     idleBehavior.idleDecisionSeconds = std::max(idleBehavior.idleDecisionSeconds, crowdSteering.standSeconds);
 
-    update.statePatch.motionState = ActorAiMotionState::Standing;
-    update.statePatch.actionSeconds = idleBehavior.actionSeconds;
-    update.statePatch.idleDecisionSeconds = idleBehavior.idleDecisionSeconds;
-    update.statePatch.attackImpactTriggered = false;
-    update.statePatch.crowdSideLockRemainingSeconds = 0.0f;
-    update.animationPatch.animationState =
-        idleBehavior.bored ? ActorAiAnimationState::Bored : ActorAiAnimationState::Standing;
-    update.animationPatch.animationTimeTicks = 0.0f;
-    update.movementIntent.action = ActorAiMovementAction::Stand;
-    update.movementIntent.moveDirectionX = 0.0f;
-    update.movementIntent.moveDirectionY = 0.0f;
-    update.movementIntent.clearVelocity = true;
-
+    ai.setMotionState(ActorAiMotionState::Standing);
+    ai.setActionSeconds(idleBehavior.actionSeconds);
+    ai.setIdleDecisionSeconds(idleBehavior.idleDecisionSeconds);
+    ai.setAttackImpactTriggered(false);
+    ai.setCrowdSideLockRemainingSeconds(0.0f);
+    ai.setAnimationState(idleBehavior.bored ? ActorAiAnimationState::Bored : ActorAiAnimationState::Standing);
+    ai.setAnimationTimeTicks(0.0f);
+    ai.setMovementAction(ActorAiMovementAction::Stand);
+    ai.clearMovementDirection();
+    ai.clearVelocity();
 }
 
-void applyCrowdMovePatch(
-    const ActorAiFacts &actor,
-    const CrowdSteeringResult &crowdSteering,
-    bool retreat,
-    ActorAiUpdate &update)
+void AI_CrowdRetreat(ActorAiCommandContext &ai, const CrowdSteeringResult &crowdSteering)
 {
+    const ActorAiFacts &actor = ai.actor();
     const int sideSign = crowdSteering.sideSign > 0 ? 1 : -1;
-    const float angleOffset =
-        retreat
-        ? (sideSign > 0 ? ActorCrowdRetreatAngleRadians : -ActorCrowdRetreatAngleRadians)
-        : (sideSign > 0 ? Pi / 4.0f : -Pi / 4.0f);
+    const float angleOffset = sideSign > 0 ? ActorCrowdRetreatAngleRadians : -ActorCrowdRetreatAngleRadians;
     const float yaw = normalizeAngleRadians(
         std::atan2(
             actor.target.currentPosition.y - actor.movement.position.y,
             actor.target.currentPosition.x - actor.movement.position.x)
         + angleOffset);
-    const float actionSeconds =
-        retreat
-        ? std::max(actor.runtime.actionSeconds, crowdSteering.retreatSeconds)
-        : std::max(actor.runtime.actionSeconds, ActorCrowdSideLockSeconds);
+    const float moveDirectionX = std::cos(yaw);
+    const float moveDirectionY = std::sin(yaw);
 
-    update.statePatch.motionState = ActorAiMotionState::Pursuing;
-    update.statePatch.actionSeconds = actionSeconds;
-    update.statePatch.attackImpactTriggered = false;
-    update.statePatch.crowdSideLockRemainingSeconds =
-        retreat ? crowdSteering.retreatSeconds : ActorCrowdSideLockSeconds;
-    update.animationPatch.animationState = ActorAiAnimationState::Walking;
-    update.movementIntent.action = ActorAiMovementAction::Pursue;
-    update.movementIntent.updateYaw = true;
-    update.movementIntent.yawRadians = yaw;
-    update.movementIntent.moveDirectionX = std::cos(yaw);
-    update.movementIntent.moveDirectionY = std::sin(yaw);
-    update.movementIntent.desiredMoveX = update.movementIntent.moveDirectionX;
-    update.movementIntent.desiredMoveY = update.movementIntent.moveDirectionY;
-    update.movementIntent.applyMovement = true;
+    ai.setMotionState(ActorAiMotionState::Pursuing);
+    ai.setActionSeconds(std::max(actor.runtime.actionSeconds, crowdSteering.retreatSeconds));
+    ai.setAttackImpactTriggered(false);
+    ai.setCrowdSideLockRemainingSeconds(crowdSteering.retreatSeconds);
+    ai.setAnimationState(ActorAiAnimationState::Walking);
+    ai.setMovementAction(ActorAiMovementAction::Pursue);
+    ai.faceYaw(yaw);
+    ai.setMoveDirection(moveDirectionX, moveDirectionY);
+    ai.setDesiredMovement(moveDirectionX, moveDirectionY);
 }
 
-void applyPostMovementCrowdSteering(const ActorAiFacts &actor, ActorAiUpdate &update)
+void AI_CrowdSidestep(ActorAiCommandContext &ai, const CrowdSteeringResult &crowdSteering)
 {
+    const ActorAiFacts &actor = ai.actor();
+    const int sideSign = crowdSteering.sideSign > 0 ? 1 : -1;
+    const float angleOffset = sideSign > 0 ? Pi / 4.0f : -Pi / 4.0f;
+    const float yaw = normalizeAngleRadians(
+        std::atan2(
+            actor.target.currentPosition.y - actor.movement.position.y,
+            actor.target.currentPosition.x - actor.movement.position.x)
+        + angleOffset);
+    const float moveDirectionX = std::cos(yaw);
+    const float moveDirectionY = std::sin(yaw);
+
+    ai.setMotionState(ActorAiMotionState::Pursuing);
+    ai.setActionSeconds(std::max(actor.runtime.actionSeconds, ActorCrowdSideLockSeconds));
+    ai.setAttackImpactTriggered(false);
+    ai.setCrowdSideLockRemainingSeconds(ActorCrowdSideLockSeconds);
+    ai.setAnimationState(ActorAiAnimationState::Walking);
+    ai.setMovementAction(ActorAiMovementAction::Pursue);
+    ai.faceYaw(yaw);
+    ai.setMoveDirection(moveDirectionX, moveDirectionY);
+    ai.setDesiredMovement(moveDirectionX, moveDirectionY);
+}
+
+bool AI_CrowdSteer(ActorAiCommandContext &ai)
+{
+    const ActorAiFacts &actor = ai.actor();
+
     if (!actor.movement.allowCrowdSteering)
     {
-        return;
+        return false;
     }
 
     CrowdSteeringEligibility crowdSteering = {};
@@ -2077,7 +2238,7 @@ void applyPostMovementCrowdSteering(const ActorAiFacts &actor, ActorAiUpdate &up
 
     if (!shouldApplyCrowdSteering(crowdSteering))
     {
-        return;
+        return false;
     }
 
     const CrowdSteeringResult crowdSteeringResult =
@@ -2088,22 +2249,24 @@ void applyPostMovementCrowdSteering(const ActorAiFacts &actor, ActorAiUpdate &up
             ActorAiUpdateStepSeconds,
             buildCrowdSteeringState(actor));
 
-    update.crowdSteeringHandled = true;
-    update.statePatch.pursueDecisionCount = crowdSteeringResult.nextDecisionCount;
-    applyCrowdSteeringStatePatch(crowdSteeringResult.state, update);
+    ai.setCrowdSteeringHandled();
+    ai.setPursueDecisionCount(crowdSteeringResult.nextDecisionCount);
+    applyCrowdSteeringStatePatch(ai, crowdSteeringResult.state);
 
     if (crowdSteeringResult.action == CrowdSteeringAction::Stand)
     {
-        applyCrowdStandPatch(crowdSteeringResult, update);
+        AI_CrowdStand(ai, crowdSteeringResult);
+        return true;
     }
-    else if (crowdSteeringResult.action == CrowdSteeringAction::Retreat)
+
+    if (crowdSteeringResult.action == CrowdSteeringAction::Retreat)
     {
-        applyCrowdMovePatch(actor, crowdSteeringResult, true, update);
+        AI_CrowdRetreat(ai, crowdSteeringResult);
+        return true;
     }
-    else
-    {
-        applyCrowdMovePatch(actor, crowdSteeringResult, false, update);
-    }
+
+    AI_CrowdSidestep(ai, crowdSteeringResult);
+    return true;
 }
 
 void applyCombatEngagementPatch(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
@@ -2216,23 +2379,177 @@ void applyAttackImpactPatch(const ActorAiFacts &actor, ActorAiUpdate &update)
     update.attackRequest = request;
 }
 
-bool applyEngageTargetBehavior(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
+void AI_Pursue(ActorAiCommandContext &ai, PursueActionMode mode, float minimumActionSeconds)
 {
-    if (!actor.world.active)
+    const ActorAiFacts &actor = ai.actor();
+    const ActorTargetState combatTarget = buildActorTargetStateFromFacts(actor);
+
+    PursueActionInput pursueInput = {};
+    pursueInput.actorId = actor.actorId;
+    pursueInput.pursueDecisionCount = actor.runtime.pursueDecisionCount;
+    pursueInput.deltaTargetX = combatTarget.deltaX;
+    pursueInput.deltaTargetY = combatTarget.deltaY;
+    pursueInput.distanceToTarget = combatTarget.horizontalDistanceToTarget;
+    pursueInput.moveSpeed = actor.movement.effectiveMoveSpeed;
+    pursueInput.minimumActionSeconds = minimumActionSeconds;
+    pursueInput.mode = mode;
+    const PursueActionResult pursueAction = resolvePursueAction(pursueInput);
+    ai.setPursueDecisionCount(pursueAction.nextDecisionCount);
+
+    if (pursueAction.started)
+    {
+        ai.setMovementAction(ActorAiMovementAction::Pursue);
+        ai.faceYaw(pursueAction.yawRadians);
+        ai.setMoveDirection(pursueAction.moveDirectionX, pursueAction.moveDirectionY);
+        ai.setDesiredMovement(pursueAction.moveDirectionX, pursueAction.moveDirectionY);
+        ai.setActionSeconds(pursueAction.actionSeconds);
+        ai.setAttackImpactTriggered(false);
+        return;
+    }
+
+    ai.setMotionState(ActorAiMotionState::Standing);
+    ai.setAnimationState(ActorAiAnimationState::Standing);
+}
+
+void AI_Pursue1(ActorAiCommandContext &ai, float minimumActionSeconds)
+{
+    AI_Pursue(ai, PursueActionMode::Direct, minimumActionSeconds);
+}
+
+void AI_Pursue2(ActorAiCommandContext &ai, float minimumActionSeconds)
+{
+    AI_Pursue(ai, PursueActionMode::OffsetShort, minimumActionSeconds);
+}
+
+void AI_Pursue3(ActorAiCommandContext &ai, float minimumActionSeconds)
+{
+    AI_Pursue(ai, PursueActionMode::OffsetWide, minimumActionSeconds);
+}
+
+void AI_StartAttack(ActorAiCommandContext &ai, const CombatAbilityChoiceResult &abilityChoice)
+{
+    const ActorAiFacts &actor = ai.actor();
+    const float attackAnimationSeconds = attackAnimationSecondsForAbility(
+        actor,
+        abilityChoice.ability,
+        actor.stats.attackConstraints);
+
+    const AttackStartPatch attackStart = startAttack(
+        actor.actorId,
+        abilityChoice.nextAttackDecisionCount,
+        abilityChoice.abilityIsRanged,
+        attackAnimationSeconds,
+        actor.runtime.recoverySeconds);
+
+    ai.setMotionState(ActorAiMotionState::Attacking);
+    ai.setQueuedAttackAbility(abilityChoice.ability);
+    ai.setAttackCooldownSeconds(attackStart.attackCooldownSeconds);
+    ai.setActionSeconds(attackStart.actionSeconds);
+    ai.setAttackImpactTriggered(false);
+    ai.setAnimationState(attackAnimationStateForAbility(abilityChoice.ability, actor.stats.attackConstraints));
+    ai.setAnimationTimeTicks(0.0f);
+    ai.setMovementAction(ActorAiMovementAction::Stand);
+    ai.clearMovementDirection();
+
+    ActorAudioRequest attackAudio = {};
+    attackAudio.kind = ActorAiAudioRequestKind::Attack;
+    attackAudio.actorIndex = actor.actorIndex;
+    attackAudio.position = actor.movement.position;
+    attackAudio.position.z += static_cast<float>(actor.stats.height) * 0.5f;
+    ai.requestAudio(attackAudio);
+}
+
+void AI_MeleeAttack(ActorAiCommandContext &ai, const CombatAbilityChoiceResult &abilityChoice)
+{
+    AI_StartAttack(ai, abilityChoice);
+}
+
+void AI_MissileAttack1(ActorAiCommandContext &ai, const CombatAbilityChoiceResult &abilityChoice)
+{
+    AI_StartAttack(ai, abilityChoice);
+}
+
+void AI_MissileAttack2(ActorAiCommandContext &ai, const CombatAbilityChoiceResult &abilityChoice)
+{
+    AI_StartAttack(ai, abilityChoice);
+}
+
+void AI_SpellAttack1(ActorAiCommandContext &ai, const CombatAbilityChoiceResult &abilityChoice)
+{
+    AI_StartAttack(ai, abilityChoice);
+}
+
+void AI_SpellAttack2(ActorAiCommandContext &ai, const CombatAbilityChoiceResult &abilityChoice)
+{
+    AI_StartAttack(ai, abilityChoice);
+}
+
+void AI_Attack(ActorAiCommandContext &ai, const CombatAbilityChoiceResult &abilityChoice)
+{
+    if (abilityChoice.ability == GameplayActorAttackAbility::Spell1)
+    {
+        AI_SpellAttack1(ai, abilityChoice);
+        return;
+    }
+
+    if (abilityChoice.ability == GameplayActorAttackAbility::Spell2)
+    {
+        AI_SpellAttack2(ai, abilityChoice);
+        return;
+    }
+
+    if (abilityChoice.abilityIsRanged && abilityChoice.ability == GameplayActorAttackAbility::Attack2)
+    {
+        AI_MissileAttack2(ai, abilityChoice);
+        return;
+    }
+
+    if (abilityChoice.abilityIsRanged)
+    {
+        AI_MissileAttack1(ai, abilityChoice);
+        return;
+    }
+
+    AI_MeleeAttack(ai, abilityChoice);
+}
+
+void AI_PursueByMode(ActorAiCommandContext &ai, PursueActionMode mode, float minimumActionSeconds)
+{
+    if (mode == PursueActionMode::OffsetShort)
+    {
+        AI_Pursue2(ai, minimumActionSeconds);
+        return;
+    }
+
+    if (mode == PursueActionMode::OffsetWide)
+    {
+        AI_Pursue3(ai, minimumActionSeconds);
+        return;
+    }
+
+    AI_Pursue1(ai, minimumActionSeconds);
+}
+
+bool AI_AttackOrPursue(ActorAiCommandContext &ai)
+{
+    const ActorAiFacts &actor = ai.actor();
+    const ActorAiFrameFacts *pFrame = ai.frame();
+
+    if (pFrame == nullptr || !actor.world.active)
     {
         return false;
     }
 
     const GameplayActorService actorService = {};
     const ActorEngagementState engagement =
-        resolveActorEngagement(actor, frame, actorService);
+        resolveActorEngagement(actor, *pFrame, actorService);
 
     if (!engagement.shouldEngageTarget)
     {
         return false;
     }
 
-    CombatAbilityDecisionInput abilityInput = {};
+    CombatAbilityChoiceInput abilityInput = {};
     abilityInput.actorId = actor.actorId;
     abilityInput.attackDecisionCount = actor.runtime.attackDecisionCount;
     abilityInput.hasSpell1 = actor.stats.hasSpell1;
@@ -2247,178 +2564,125 @@ bool applyEngageTargetBehavior(const ActorAiFacts &actor, const ActorAiFrameFact
     abilityInput.inMeleeRange = engagement.inMeleeRange;
     abilityInput.chooseRandomAbility = true;
     abilityInput.applyAbilityConstraints = true;
-    const CombatAbilityDecisionResult abilityDecision = resolveCombatAbilityDecision(abilityInput);
+    const CombatAbilityChoiceResult abilityChoice = chooseCombatAbility(abilityInput);
 
-    CombatEngageDecisionInput engageInput = {};
-    engageInput.abilityIsRanged = abilityDecision.abilityIsRanged;
-    engageInput.abilityIsMelee = abilityDecision.abilityIsMelee;
+    CombatEngagePlanInput engageInput = {};
+    engageInput.abilityIsRanged = abilityChoice.abilityIsRanged;
+    engageInput.abilityIsMelee = abilityChoice.abilityIsMelee;
     engageInput.inMeleeRange = engagement.inMeleeRange;
     engageInput.attackCooldownReady = actor.runtime.attackCooldownSeconds <= 0.0f;
     engageInput.movementAllowed = actor.movement.movementAllowed;
-    engageInput.stationaryOrTooCloseForRangedPursuit = abilityDecision.stationaryOrTooCloseForRangedPursuit;
+    engageInput.stationaryOrTooCloseForRangedPursuit = abilityChoice.stationaryOrTooCloseForRangedPursuit;
     engageInput.currentlyPursuing = actor.runtime.motionState == ActorAiMotionState::Pursuing;
     engageInput.crowdStandActive = actor.runtime.crowdStandRemainingSeconds > 0.0f;
     engageInput.actionSeconds = actor.runtime.actionSeconds;
     engageInput.currentMoveDirectionX = actor.movement.moveDirectionX;
     engageInput.currentMoveDirectionY = actor.movement.moveDirectionY;
     engageInput.targetEdgeDistance = actor.target.currentEdgeDistance;
-    const CombatEngageDecisionResult engageDecision = resolveCombatEngageDecision(engageInput);
+    const CombatEngagePlan engagePlan = chooseCombatEngagePlan(engageInput);
 
-    CombatEngageApplicationInput engageApplicationInput = {};
-    engageApplicationInput.action = engageDecision.action;
-    engageApplicationInput.pursueMode = engageDecision.pursueMode;
-    engageApplicationInput.useRecoveryFloorForPursuit = engageDecision.useRecoveryFloorForPursuit;
-    engageApplicationInput.recoverySeconds = actor.runtime.recoverySeconds;
-    const CombatEngageApplicationResult engageApplication =
-        resolveCombatEngageApplication(engageApplicationInput);
+    ai.setMeleePursuitActive(engagePlan.meleePursuitActive);
+    ai.resetAnimationOnChange();
+    ai.setAttackDecisionCount(abilityChoice.nextAttackDecisionCount);
 
-    update.combatEngageHandled = true;
-    update.meleePursuitActive = engageDecision.meleePursuitActive;
-    update.preserveCrowdSteering = engageDecision.preserveCrowdSteering;
-    update.statePatch.motionState = actorMotionStateFromCombatEngage(engageApplication.state);
-    update.animationPatch.animationState =
-        actorAnimationStateFromCombatEngage(engageApplication.animation, actor, abilityDecision.ability);
-    update.statePatch.attackDecisionCount = abilityDecision.nextAttackDecisionCount;
-
-    if (engageApplication.clearMoveDirection)
+    if (engagePlan.preserveCrowdSteering)
     {
-        update.movementIntent.action = ActorAiMovementAction::Stand;
-        update.movementIntent.moveDirectionX = 0.0f;
-        update.movementIntent.moveDirectionY = 0.0f;
+        ai.preserveCrowdSteering();
     }
 
-    if (engageApplication.faceTarget)
+    if (engagePlan.action == CombatEngageAction::HoldCrowdStand)
     {
-        update.movementIntent.updateYaw = true;
-        update.movementIntent.yawRadians = std::atan2(
-            actor.target.currentPosition.y - actor.movement.position.y,
-            actor.target.currentPosition.x - actor.movement.position.x);
-    }
-
-    if (engageApplication.useCurrentMoveAsDesired)
-    {
-        update.movementIntent.desiredMoveX = actor.movement.moveDirectionX;
-        update.movementIntent.desiredMoveY = actor.movement.moveDirectionY;
-        update.movementIntent.applyMovement = true;
-    }
-
-    if (engageApplication.startAttack)
-    {
-        const float attackAnimationSeconds = attackAnimationSecondsForAbility(
-            actor,
-            abilityDecision.ability,
-            actor.stats.attackConstraints);
-
-        const AttackStartPatch attackStart = startAttack(
-            actor.actorId,
-            abilityDecision.nextAttackDecisionCount,
-            abilityDecision.abilityIsRanged,
-            attackAnimationSeconds,
-            actor.runtime.recoverySeconds);
-
-        update.statePatch.motionState = ActorAiMotionState::Attacking;
-        update.statePatch.queuedAttackAbility = abilityDecision.ability;
-        update.statePatch.attackCooldownSeconds = attackStart.attackCooldownSeconds;
-        update.statePatch.actionSeconds = attackStart.actionSeconds;
-        update.statePatch.attackImpactTriggered = false;
-        update.animationPatch.animationState =
-            attackAnimationStateForAbility(abilityDecision.ability, actor.stats.attackConstraints);
-        update.animationPatch.animationTimeTicks = 0.0f;
-        update.movementIntent.action = ActorAiMovementAction::Stand;
-        update.movementIntent.clearVelocity = false;
-        update.movementIntent.moveDirectionX = 0.0f;
-        update.movementIntent.moveDirectionY = 0.0f;
-
-        ActorAudioRequest attackAudio = {};
-        attackAudio.kind = ActorAiAudioRequestKind::Attack;
-        attackAudio.actorIndex = actor.actorIndex;
-        attackAudio.position = actor.movement.position;
-        attackAudio.position.z += static_cast<float>(actor.stats.height) * 0.5f;
-        update.audioRequests.push_back(attackAudio);
+        ai.setMotionState(ActorAiMotionState::Standing);
+        ai.setAnimationState(actor.runtime.animationState == ActorAiAnimationState::Bored
+            ? ActorAiAnimationState::Bored
+            : ActorAiAnimationState::Standing);
+        ai.setMovementAction(ActorAiMovementAction::Stand);
+        ai.clearMovementDirection();
+        applyActiveMovementCommitPatch(actor, false, ai.update());
         return true;
     }
 
-    if (engageApplication.startPursueAction)
+    if (engagePlan.action == CombatEngageAction::StartRangedAttack
+        || engagePlan.action == CombatEngageAction::StartMeleeAttack)
     {
-        const ActorTargetState combatTarget = buildActorTargetStateFromFacts(actor);
-
-        PursueActionInput pursueInput = {};
-        pursueInput.actorId = actor.actorId;
-        pursueInput.pursueDecisionCount = actor.runtime.pursueDecisionCount;
-        pursueInput.deltaTargetX = combatTarget.deltaX;
-        pursueInput.deltaTargetY = combatTarget.deltaY;
-        pursueInput.distanceToTarget = combatTarget.horizontalDistanceToTarget;
-        pursueInput.moveSpeed = actor.movement.effectiveMoveSpeed;
-        pursueInput.minimumActionSeconds = engageApplication.minimumPursueActionSeconds;
-        pursueInput.mode = engageApplication.pursueMode;
-        const PursueActionResult pursueAction = resolvePursueAction(pursueInput);
-        update.statePatch.pursueDecisionCount = pursueAction.nextDecisionCount;
-
-        if (pursueAction.started)
-        {
-            update.movementIntent.action = ActorAiMovementAction::Pursue;
-            update.movementIntent.updateYaw = true;
-            update.movementIntent.yawRadians = pursueAction.yawRadians;
-            update.movementIntent.moveDirectionX = pursueAction.moveDirectionX;
-            update.movementIntent.moveDirectionY = pursueAction.moveDirectionY;
-            update.movementIntent.desiredMoveX = pursueAction.moveDirectionX;
-            update.movementIntent.desiredMoveY = pursueAction.moveDirectionY;
-            update.movementIntent.applyMovement = true;
-            update.statePatch.actionSeconds = pursueAction.actionSeconds;
-            update.statePatch.attackImpactTriggered = false;
-        }
-        else
-        {
-            update.statePatch.motionState = ActorAiMotionState::Standing;
-            update.animationPatch.animationState = ActorAiAnimationState::Standing;
-        }
+        ai.setMotionState(ActorAiMotionState::Attacking);
+        ai.setAnimationState(attackAnimationStateForAbility(abilityChoice.ability, actor.stats.attackConstraints));
+        ai.setMovementAction(ActorAiMovementAction::Stand);
+        ai.clearMovementDirection();
+        ai.faceYaw(std::atan2(
+            actor.target.currentPosition.y - actor.movement.position.y,
+            actor.target.currentPosition.x - actor.movement.position.x));
+        AI_Attack(ai, abilityChoice);
+        return true;
     }
 
-    applyActiveFrameCommitPatch(actor, false, update);
+    if (engagePlan.action == CombatEngageAction::StandForRangedBlock
+        || engagePlan.action == CombatEngageAction::StandForMeleeCooldown)
+    {
+        ai.setMotionState(ActorAiMotionState::Standing);
+        ai.setAnimationState(ActorAiAnimationState::Standing);
+        ai.setMovementAction(ActorAiMovementAction::Stand);
+        ai.clearMovementDirection();
+        ai.faceYaw(std::atan2(
+            actor.target.currentPosition.y - actor.movement.position.y,
+            actor.target.currentPosition.x - actor.movement.position.x));
+        applyActiveMovementCommitPatch(actor, false, ai.update());
+        return true;
+    }
+
+    if (engagePlan.action == CombatEngageAction::ContinueRangedPursuit
+        || engagePlan.action == CombatEngageAction::ContinueMeleePursuit)
+    {
+        ai.setMotionState(ActorAiMotionState::Pursuing);
+        ai.setAnimationState(ActorAiAnimationState::Walking);
+        ai.setDesiredMovement(actor.movement.moveDirectionX, actor.movement.moveDirectionY);
+        applyActiveMovementCommitPatch(actor, false, ai.update());
+        return true;
+    }
+
+    if (engagePlan.action == CombatEngageAction::StartMeleePursuitWithoutMovement)
+    {
+        ai.setMotionState(ActorAiMotionState::Pursuing);
+        ai.setAnimationState(ActorAiAnimationState::Standing);
+        ai.setMovementAction(ActorAiMovementAction::Stand);
+        ai.clearMovementDirection();
+        applyActiveMovementCommitPatch(actor, false, ai.update());
+        return true;
+    }
+
+    ai.setMotionState(ActorAiMotionState::Pursuing);
+    ai.setAnimationState(ActorAiAnimationState::Walking);
+    const float minimumActionSeconds =
+        engagePlan.useRecoveryFloorForPursuit ? std::max(0.0f, actor.runtime.recoverySeconds) : 0.0f;
+    AI_PursueByMode(ai, engagePlan.pursueMode, minimumActionSeconds);
+    applyActiveMovementCommitPatch(actor, false, ai.update());
     return true;
 }
 
-std::optional<ActorAiUpdate> aiEngageTargetIfReady(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
-{
-    ActorAiUpdate update = makeActorUpdate(actor);
-    applyActiveAnimationTickPatch(actor, frame, update);
-    applyActiveSpellTimerPatch(actor, frame, update);
-    applyActiveFrameTimerPatch(actor, frame, update);
-    applyCombatEngagementPatch(actor, frame, update);
-
-    if (!applyEngageTargetBehavior(actor, frame, update))
-    {
-        return std::nullopt;
-    }
-
-    return update;
-}
-
-std::optional<ActorAiUpdate> aiEngageTargetIfReadyWithStatusContinuation(
+void applyActiveAgingPatches(
     const ActorAiFacts &actor,
     const ActorAiFrameFacts &frame,
-    const std::optional<ActorAiUpdate> &statusContinuation)
+    const std::optional<ActorAiUpdate> &statusContinuation,
+    ActorAiUpdate &update)
 {
-    ActorAiUpdate update = makeActorUpdate(actor);
     applyStatusContinuationPatch(statusContinuation, update);
     applyActiveAnimationTickPatch(actor, frame, update);
     applyActiveSpellTimerPatch(actor, frame, update);
     applyActiveFrameTimerPatch(actor, frame, update);
-    applyCombatEngagementPatch(actor, frame, update);
-
-    if (!applyEngageTargetBehavior(actor, frame, update))
-    {
-        return std::nullopt;
-    }
-
-    return update;
 }
 
-std::optional<ActorAiUpdate> aiResolveStatusState(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
+bool AI_ApplyStatusState(ActorAiCommandContext &ai)
 {
-    ActorAiUpdate update = makeActorUpdate(actor);
+    const ActorAiFacts &actor = ai.actor();
+    const ActorAiFrameFacts *pFrame = ai.frame();
+
+    if (pFrame == nullptr)
+    {
+        return false;
+    }
+
     const GameplayActorService actorService = {};
-    const float animationTimeTicks = ageActorAnimationTimeTicks(actor, frame);
+    const float animationTimeTicks = ageActorAnimationTimeTicks(actor, *pFrame);
 
     const ActorStatusFramePatch currentStatusFrame = resolveActorStatusFrame(
         actor.runtime.motionState == ActorAiMotionState::Stunned,
@@ -2426,33 +2690,33 @@ std::optional<ActorAiUpdate> aiResolveStatusState(const ActorAiFacts &actor, con
         false,
         actor.runtime.actionSeconds,
         0.0f,
-        frame.fixedStepSeconds);
+        pFrame->fixedStepSeconds);
 
     if (currentStatusFrame.action == ActorStatusFrameAction::HoldStun)
     {
-        update.statusLockHandled = true;
-        update.statePatch.motionState = ActorAiMotionState::Stunned;
-        update.statePatch.actionSeconds = currentStatusFrame.actionSeconds;
-        update.animationPatch.animationState = ActorAiAnimationState::GotHit;
-        update.animationPatch.animationTimeTicks = animationTimeTicks;
-        clearActorMovement(update);
-        return update;
+        ai.setStatusLockHandled();
+        ai.setMotionState(ActorAiMotionState::Stunned);
+        ai.setActionSeconds(currentStatusFrame.actionSeconds);
+        ai.setAnimationState(ActorAiAnimationState::GotHit);
+        ai.setAnimationTimeTicks(animationTimeTicks);
+        AI_ClearMovement(ai);
+        return true;
     }
 
     if (currentStatusFrame.action == ActorStatusFrameAction::RecoverFromStun)
     {
-        update.statusLockHandled = true;
-        update.statePatch.motionState = ActorAiMotionState::Standing;
-        update.statePatch.actionSeconds = currentStatusFrame.actionSeconds;
-        update.animationPatch.animationState = ActorAiAnimationState::Standing;
-        update.animationPatch.animationTimeTicks = 0.0f;
-        clearActorMovement(update);
-        return update;
+        ai.setStatusLockHandled();
+        ai.setMotionState(ActorAiMotionState::Standing);
+        ai.setActionSeconds(currentStatusFrame.actionSeconds);
+        ai.setAnimationState(ActorAiAnimationState::Standing);
+        ai.setAnimationTimeTicks(0.0f);
+        AI_ClearMovement(ai);
+        return true;
     }
 
     GameplayActorSpellEffectState spellEffects = actor.status.spellEffects;
-    actorService.updateSpellEffectTimers(spellEffects, frame.fixedStepSeconds, actor.status.defaultHostileToParty);
-    update.statePatch.spellEffects = spellEffects;
+    actorService.updateSpellEffectTimers(spellEffects, pFrame->fixedStepSeconds, actor.status.defaultHostileToParty);
+    ai.setSpellEffects(spellEffects);
 
     const ActorStatusFramePatch updatedStatusFrame = resolveActorStatusFrame(
         false,
@@ -2464,97 +2728,178 @@ std::optional<ActorAiUpdate> aiResolveStatusState(const ActorAiFacts &actor, con
 
     if (updatedStatusFrame.action == ActorStatusFrameAction::HoldParalyze)
     {
-        update.statusLockHandled = true;
-        update.statePatch.motionState = ActorAiMotionState::Standing;
-        update.statePatch.actionSeconds = updatedStatusFrame.actionSeconds;
-        update.statePatch.attackImpactTriggered = false;
-        update.statePatch.spellEffects = spellEffects;
-        update.animationPatch.animationState = ActorAiAnimationState::Standing;
-        update.animationPatch.animationTimeTicks = 0.0f;
-        clearActorMovement(update);
-        return update;
+        ai.setStatusLockHandled();
+        ai.setMotionState(ActorAiMotionState::Standing);
+        ai.setActionSeconds(updatedStatusFrame.actionSeconds);
+        ai.setAttackImpactTriggered(false);
+        ai.setSpellEffects(spellEffects);
+        ai.setAnimationState(ActorAiAnimationState::Standing);
+        ai.setAnimationTimeTicks(0.0f);
+        AI_ClearMovement(ai);
+        return true;
     }
 
     if (updatedStatusFrame.action == ActorStatusFrameAction::ForceStun)
     {
-        update.statusLockHandled = true;
-        update.statePatch.motionState = ActorAiMotionState::Stunned;
-        update.statePatch.actionSeconds = updatedStatusFrame.actionSeconds;
-        update.statePatch.spellEffects = spellEffects;
-        update.animationPatch.animationState = ActorAiAnimationState::GotHit;
-        update.animationPatch.animationTimeTicks = animationTimeTicks;
-        clearActorMovement(update);
-        return update;
+        ai.setStatusLockHandled();
+        ai.setMotionState(ActorAiMotionState::Stunned);
+        ai.setActionSeconds(updatedStatusFrame.actionSeconds);
+        ai.setSpellEffects(spellEffects);
+        ai.setAnimationState(ActorAiAnimationState::GotHit);
+        ai.setAnimationTimeTicks(animationTimeTicks);
+        AI_ClearMovement(ai);
+        return true;
     }
 
-    if (update.statePatch.spellEffects)
-    {
-        return update;
-    }
-
-    return std::nullopt;
+    return false;
 }
 
-ActorAiUpdate aiContinueAttack(const ActorAiFacts &actor)
+bool AI_DeathOrStatus(ActorAiCommandContext &ai)
 {
-    ActorAiUpdate update = makeActorUpdate(actor);
-    update.statePatch.motionState = ActorAiMotionState::Attacking;
-    update.animationPatch.animationState = actor.runtime.queuedAttackAbility == GameplayActorAttackAbility::Attack1
+    if (isDeadOrDying(ai.actor()))
+    {
+        AI_ApplyDeathState(ai);
+        return true;
+    }
+
+    if (!isStatusLocked(ai.actor()))
+    {
+        return false;
+    }
+
+    return AI_ApplyStatusState(ai);
+}
+
+bool AI_ContinueCurrentAction(ActorAiCommandContext &ai)
+{
+    const ActorAiFacts &actor = ai.actor();
+
+    if (actor.runtime.motionState != ActorAiMotionState::Attacking)
+    {
+        return false;
+    }
+
+    ai.setMotionState(ActorAiMotionState::Attacking);
+    ai.setAnimationState(actor.runtime.queuedAttackAbility == GameplayActorAttackAbility::Attack1
         || actor.runtime.queuedAttackAbility == GameplayActorAttackAbility::Attack2
         ? ActorAiAnimationState::AttackMelee
-        : ActorAiAnimationState::AttackRanged;
-    update.movementIntent.action = ActorAiMovementAction::Stand;
-    return update;
+        : ActorAiAnimationState::AttackRanged);
+    ai.setMovementAction(ActorAiMovementAction::Stand);
+    return true;
 }
 
-void applyIdleBehaviorPatch(
-    const IdleBehaviorResult &idleBehavior,
-    ActorAiUpdate &update)
+void AI_Stand(ActorAiCommandContext &ai)
 {
-    update.statePatch.attackImpactTriggered = false;
-    update.statePatch.actionSeconds = idleBehavior.actionSeconds;
-    update.statePatch.idleDecisionSeconds = idleBehavior.idleDecisionSeconds;
-    update.animationPatch.animationTimeTicks = 0.0f;
+    const ActorAiFacts &actor = ai.actor();
+
+    ai.setMotionState(ActorAiMotionState::Standing);
+    ai.setAnimationState(ActorAiAnimationState::Standing);
+    ai.setMovementAction(ActorAiMovementAction::Stand);
+    ai.clearMovementDirection();
+    ai.clearVelocity();
+
+    if (actor.runtime.animationState != ActorAiAnimationState::Standing)
+    {
+        ai.setAnimationTimeTicks(0.0f);
+    }
+}
+
+void AI_Bored(ActorAiCommandContext &ai)
+{
+    ai.setMotionState(ActorAiMotionState::Standing);
+    ai.setAnimationState(ActorAiAnimationState::Bored);
+    ai.setMovementAction(ActorAiMovementAction::Stand);
+    ai.clearMovementDirection();
+    ai.clearVelocity();
+}
+
+void AI_RandomMove(ActorAiCommandContext &ai, const IdleBehaviorResult &idleBehavior)
+{
+    ai.setAttackImpactTriggered(false);
+    ai.setActionSeconds(idleBehavior.actionSeconds);
+    ai.setIdleDecisionSeconds(idleBehavior.idleDecisionSeconds);
+    ai.setAnimationTimeTicks(0.0f);
 
     if (idleBehavior.updateYaw)
     {
-        update.movementIntent.updateYaw = true;
-        update.movementIntent.yawRadians = idleBehavior.yawRadians;
+        ai.faceYaw(idleBehavior.yawRadians);
     }
 
     if (idleBehavior.action == IdleBehaviorAction::Wander)
     {
-        update.statePatch.motionState = ActorAiMotionState::Wandering;
-        update.animationPatch.animationState = ActorAiAnimationState::Walking;
-        update.movementIntent.action = ActorAiMovementAction::Wander;
-        update.movementIntent.moveDirectionX = idleBehavior.moveDirectionX;
-        update.movementIntent.moveDirectionY = idleBehavior.moveDirectionY;
-        update.movementIntent.desiredMoveX = idleBehavior.moveDirectionX;
-        update.movementIntent.desiredMoveY = idleBehavior.moveDirectionY;
-        update.movementIntent.applyMovement = true;
+        ai.setMotionState(ActorAiMotionState::Wandering);
+        ai.setAnimationState(ActorAiAnimationState::Walking);
+        ai.setMovementAction(ActorAiMovementAction::Wander);
+        ai.setMoveDirection(idleBehavior.moveDirectionX, idleBehavior.moveDirectionY);
+        ai.setDesiredMovement(idleBehavior.moveDirectionX, idleBehavior.moveDirectionY);
         return;
     }
 
-    update.statePatch.motionState = ActorAiMotionState::Standing;
-    update.animationPatch.animationState =
-        idleBehavior.bored ? ActorAiAnimationState::Bored : ActorAiAnimationState::Standing;
-    update.movementIntent.action = ActorAiMovementAction::Stand;
-    update.movementIntent.moveDirectionX = 0.0f;
-    update.movementIntent.moveDirectionY = 0.0f;
-    update.movementIntent.clearVelocity = true;
+    if (idleBehavior.bored)
+    {
+        AI_Bored(ai);
+        return;
+    }
+
+    ai.setMotionState(ActorAiMotionState::Standing);
+    ai.setAnimationState(ActorAiAnimationState::Standing);
+    ai.setMovementAction(ActorAiMovementAction::Stand);
+    ai.clearMovementDirection();
+    ai.clearVelocity();
 }
 
-ActorNonCombatPatch resolveActorNonCombatBehavior(const ActorAiFacts &actor, float actionSeconds)
+void AI_RandomMove(ActorAiCommandContext &ai, float moveDirectionX, float moveDirectionY)
 {
-    ActorNonCombatPatch result = {};
+    const ActorAiFacts &actor = ai.actor();
+
+    ai.setMotionState(ActorAiMotionState::Wandering);
+    ai.setAnimationState(ActorAiAnimationState::Walking);
+    ai.setMovementAction(ActorAiMovementAction::Wander);
+    ai.setMoveDirection(moveDirectionX, moveDirectionY);
+    ai.setDesiredMovement(moveDirectionX, moveDirectionY);
+
+    if (actor.runtime.animationState != ActorAiAnimationState::Walking)
+    {
+        ai.setAnimationTimeTicks(0.0f);
+    }
+}
+
+void AI_StandOrBored(ActorAiCommandContext &ai)
+{
+    const ActorAiFacts &actor = ai.actor();
+
+    if (actor.runtime.motionState == ActorAiMotionState::Wandering && actor.movement.movementAllowed)
+    {
+        ai.setMotionState(ActorAiMotionState::Wandering);
+        ai.setAnimationState(ActorAiAnimationState::Walking);
+        ai.setMovementAction(ActorAiMovementAction::Wander);
+        ai.setMoveDirection(actor.movement.moveDirectionX, actor.movement.moveDirectionY);
+        ai.update().movementIntent.applyMovement = true;
+        return;
+    }
+
+    ai.setMotionState(ActorAiMotionState::Standing);
+    ai.setAnimationState(ActorAiAnimationState::Standing);
+    ai.setMovementAction(ActorAiMovementAction::Stand);
+}
+
+void AI_StandOrBored(ActorAiCommandContext &ai, float actionSeconds)
+{
+    const ActorAiFacts &actor = ai.actor();
 
     if (actor.status.hostileToParty || actor.movement.wanderRadius <= 0.0f)
     {
-        result.action = actionSeconds <= 0.0f
-            ? ActorNonCombatAction::ApplyIdleBehavior
-            : ActorNonCombatAction::Stand;
-        result.idleBehavior = idleStandBehavior(false);
-        return result;
+        if (actionSeconds <= 0.0f)
+        {
+            AI_RandomMove(ai, idleStandBehavior(false));
+            ai.setMotionState(ActorAiMotionState::Standing);
+        }
+        else
+        {
+            AI_Stand(ai);
+        }
+
+        return;
     }
 
     const float deltaHomeX = actor.movement.homePosition.x - actor.movement.position.x;
@@ -2563,17 +2908,18 @@ ActorNonCombatPatch resolveActorNonCombatBehavior(const ActorAiFacts &actor, flo
 
     if (distanceToHome > actor.movement.wanderRadius)
     {
-        result.action = ActorNonCombatAction::ReturnHome;
+        float moveDirectionX = 0.0f;
+        float moveDirectionY = 0.0f;
 
         if (distanceToHome > 0.01f)
         {
-            result.moveDirectionX = deltaHomeX / distanceToHome;
-            result.moveDirectionY = deltaHomeY / distanceToHome;
-            result.updateYaw = true;
-            result.yawRadians = std::atan2(result.moveDirectionY, result.moveDirectionX);
+            moveDirectionX = deltaHomeX / distanceToHome;
+            moveDirectionY = deltaHomeY / distanceToHome;
+            ai.faceYaw(std::atan2(moveDirectionY, moveDirectionX));
         }
 
-        return result;
+        AI_RandomMove(ai, moveDirectionX, moveDirectionY);
+        return;
     }
 
     const bool hasMoveDirection =
@@ -2581,304 +2927,170 @@ ActorNonCombatPatch resolveActorNonCombatBehavior(const ActorAiFacts &actor, flo
 
     if (actionSeconds > 0.0f && hasMoveDirection)
     {
-        result.action = ActorNonCombatAction::ContinueMove;
-        result.moveDirectionX = actor.movement.moveDirectionX;
-        result.moveDirectionY = actor.movement.moveDirectionY;
-        return result;
+        AI_RandomMove(ai, actor.movement.moveDirectionX, actor.movement.moveDirectionY);
+        return;
     }
 
     if (actor.runtime.motionState == ActorAiMotionState::Wandering)
     {
-        result.action = ActorNonCombatAction::ApplyIdleBehavior;
-        result.idleBehavior = idleStandBehavior(false);
-        return result;
+        AI_RandomMove(ai, idleStandBehavior(false));
+        ai.setMotionState(ActorAiMotionState::Standing);
+        return;
     }
 
     if (actionSeconds > 0.0f)
     {
-        result.action = ActorNonCombatAction::Stand;
-        return result;
-    }
-
-    result.action = ActorNonCombatAction::StartIdleBehavior;
-
-    if (!actor.movement.allowIdleWander)
-    {
-        result.idleBehavior = idleStandBehavior(false);
-        result.idleBehavior.nextDecisionCount = actor.runtime.idleDecisionCount + 1;
-        return result;
-    }
-
-    result.idleBehavior = resolveIdleBehavior(
-        actor.actorId,
-        actor.runtime.idleDecisionCount,
-        actor.movement.position.x,
-        actor.movement.position.y,
-        actor.movement.homePosition.x,
-        actor.movement.homePosition.y,
-        actor.runtime.yawRadians,
-        actor.runtime.animationState == ActorAiAnimationState::Walking,
-        actor.movement.wanderRadius,
-        actor.movement.effectiveMoveSpeed);
-    return result;
-}
-
-void applyNonCombatBehavior(const ActorAiFacts &actor, ActorAiUpdate &update)
-{
-    const float actionSeconds = update.statePatch.actionSeconds.value_or(actor.runtime.actionSeconds);
-    const ActorNonCombatPatch nonCombatBehavior = resolveActorNonCombatBehavior(actor, actionSeconds);
-
-    update.nonCombatHandled = true;
-
-    if (nonCombatBehavior.action == ActorNonCombatAction::ApplyIdleBehavior)
-    {
-        applyIdleBehaviorPatch(nonCombatBehavior.idleBehavior, update);
-        update.statePatch.motionState = ActorAiMotionState::Standing;
+        AI_Stand(ai);
         return;
     }
 
-    if (nonCombatBehavior.action == ActorNonCombatAction::ReturnHome)
+    IdleBehaviorResult idleBehavior = {};
+
+    if (actor.movement.allowIdleWander)
     {
-        update.statePatch.motionState = ActorAiMotionState::Wandering;
-        update.animationPatch.animationState = ActorAiAnimationState::Walking;
-        update.movementIntent.action = ActorAiMovementAction::Wander;
-        update.movementIntent.moveDirectionX = nonCombatBehavior.moveDirectionX;
-        update.movementIntent.moveDirectionY = nonCombatBehavior.moveDirectionY;
-        update.movementIntent.desiredMoveX = nonCombatBehavior.moveDirectionX;
-        update.movementIntent.desiredMoveY = nonCombatBehavior.moveDirectionY;
-        update.movementIntent.applyMovement = true;
-
-        if (nonCombatBehavior.updateYaw)
-        {
-            update.movementIntent.updateYaw = true;
-            update.movementIntent.yawRadians = nonCombatBehavior.yawRadians;
-        }
-
-        if (actor.runtime.animationState != ActorAiAnimationState::Walking)
-        {
-            update.animationPatch.animationTimeTicks = 0.0f;
-        }
-
-        return;
-    }
-
-    if (nonCombatBehavior.action == ActorNonCombatAction::ContinueMove)
-    {
-        update.statePatch.motionState = ActorAiMotionState::Wandering;
-        update.animationPatch.animationState = ActorAiAnimationState::Walking;
-        update.movementIntent.action = ActorAiMovementAction::Wander;
-        update.movementIntent.moveDirectionX = nonCombatBehavior.moveDirectionX;
-        update.movementIntent.moveDirectionY = nonCombatBehavior.moveDirectionY;
-        update.movementIntent.desiredMoveX = nonCombatBehavior.moveDirectionX;
-        update.movementIntent.desiredMoveY = nonCombatBehavior.moveDirectionY;
-        update.movementIntent.applyMovement = true;
-
-        if (actor.runtime.animationState != ActorAiAnimationState::Walking)
-        {
-            update.animationPatch.animationTimeTicks = 0.0f;
-        }
-
-        return;
-    }
-
-    if (nonCombatBehavior.action == ActorNonCombatAction::StartIdleBehavior)
-    {
-        update.statePatch.idleDecisionCount = nonCombatBehavior.idleBehavior.nextDecisionCount;
-        applyIdleBehaviorPatch(nonCombatBehavior.idleBehavior, update);
-        return;
-    }
-
-    update.statePatch.motionState = ActorAiMotionState::Standing;
-    update.animationPatch.animationState = ActorAiAnimationState::Standing;
-    update.movementIntent.action = ActorAiMovementAction::Stand;
-    update.movementIntent.moveDirectionX = 0.0f;
-    update.movementIntent.moveDirectionY = 0.0f;
-    update.movementIntent.clearVelocity = true;
-
-    if (actor.runtime.animationState != ActorAiAnimationState::Standing)
-    {
-        update.animationPatch.animationTimeTicks = 0.0f;
-    }
-}
-
-ActorAiUpdate aiStandOrWander(const ActorAiFacts &actor)
-{
-    ActorAiUpdate update = makeActorUpdate(actor);
-
-    if (actor.runtime.motionState == ActorAiMotionState::Wandering && actor.movement.movementAllowed)
-    {
-        update.statePatch.motionState = ActorAiMotionState::Wandering;
-        update.animationPatch.animationState = ActorAiAnimationState::Walking;
-        update.movementIntent.action = ActorAiMovementAction::Wander;
-        update.movementIntent.moveDirectionX = actor.movement.moveDirectionX;
-        update.movementIntent.moveDirectionY = actor.movement.moveDirectionY;
-        update.movementIntent.applyMovement = true;
+        idleBehavior = resolveIdleBehavior(
+            actor.actorId,
+            actor.runtime.idleDecisionCount,
+            actor.movement.position.x,
+            actor.movement.position.y,
+            actor.movement.homePosition.x,
+            actor.movement.homePosition.y,
+            actor.runtime.yawRadians,
+            actor.runtime.animationState == ActorAiAnimationState::Walking,
+            actor.movement.wanderRadius,
+            actor.movement.effectiveMoveSpeed);
     }
     else
     {
-        update.statePatch.motionState = ActorAiMotionState::Standing;
-        update.animationPatch.animationState = ActorAiAnimationState::Standing;
-        update.movementIntent.action = ActorAiMovementAction::Stand;
+        idleBehavior = idleStandBehavior(false);
+        idleBehavior.nextDecisionCount = actor.runtime.idleDecisionCount + 1;
     }
 
-    return update;
+    ai.setIdleDecisionCount(idleBehavior.nextDecisionCount);
+    AI_RandomMove(ai, idleBehavior);
 }
 
-ActorAiUpdate aiNonCombat(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
-{
-    ActorAiUpdate update = aiStandOrWander(actor);
-    applyActiveAnimationTickPatch(actor, frame, update);
-    applyActiveSpellTimerPatch(actor, frame, update);
-    applyActiveFrameTimerPatch(actor, frame, update);
-    applyCombatEngagementPatch(actor, frame, update);
-    applyNonCombatBehavior(actor, update);
-    applyActiveFrameCommitPatch(actor, false, update);
-    return update;
-}
-
-ActorAiUpdate aiNonCombatWithStatusContinuation(
+ActorAiCommandContext beginActiveActorCommand(
     const ActorAiFacts &actor,
     const ActorAiFrameFacts &frame,
     const std::optional<ActorAiUpdate> &statusContinuation)
 {
-    ActorAiUpdate update = aiStandOrWander(actor);
-    applyStatusContinuationPatch(statusContinuation, update);
-    applyActiveAnimationTickPatch(actor, frame, update);
-    applyActiveSpellTimerPatch(actor, frame, update);
-    applyActiveFrameTimerPatch(actor, frame, update);
+    ActorAiUpdate update = makeActorUpdate(actor);
+    applyActiveAgingPatches(actor, frame, statusContinuation, update);
     applyCombatEngagementPatch(actor, frame, update);
-    applyNonCombatBehavior(actor, update);
-    applyActiveFrameCommitPatch(actor, false, update);
+
+    ActorAiCommandContext ai(actor, frame);
+    ai.replaceUpdate(update);
+    return ai;
+}
+
+ActorAiUpdate finishActiveMovementCommand(ActorAiCommandContext &ai, bool attackInProgress)
+{
+    ActorAiUpdate update = ai.finish();
+    applyActiveMovementCommitPatch(ai.actor(), attackInProgress, update);
     return update;
 }
 
-void applyNonCombatBehaviorFrame(const ActorAiFacts &actor, ActorAiUpdate &update)
+ActorAiUpdate AI_ActiveCurrentAction(
+    const ActorAiFacts &actor,
+    const ActorAiFrameFacts &frame,
+    const std::optional<ActorAiUpdate> &statusContinuation,
+    bool hasTarget)
 {
-    applyNonCombatBehavior(actor, update);
-    applyActiveFrameCommitPatch(actor, false, update);
+    ActorAiCommandContext ai(actor, frame);
+    AI_ContinueCurrentAction(ai);
+
+    ActorAiUpdate update = ai.finish();
+    applyActiveAgingPatches(actor, frame, statusContinuation, update);
+    applyAttackImpactPatch(actor, update);
+    applyCombatEngagementPatch(actor, frame, update);
+    ai.replaceUpdate(update);
+
+    const bool attackInProgress = ai.update().statePatch.actionSeconds.value_or(actor.runtime.actionSeconds) > 0.0f;
+
+    if (AI_CombatFlow(ai, attackInProgress))
+    {
+        return finishActiveMovementCommand(ai, attackInProgress);
+    }
+
+    if (hasTarget && AI_AttackOrPursue(ai))
+    {
+        return ai.finish();
+    }
+
+    AI_StandOrBored(ai, ai.update().statePatch.actionSeconds.value_or(actor.runtime.actionSeconds));
+    return finishActiveMovementCommand(ai, false);
+}
+
+ActorAiUpdate AI_ActiveBehavior(
+    const ActorAiFacts &actor,
+    const ActorAiFrameFacts &frame,
+    const std::optional<ActorAiUpdate> &statusContinuation,
+    bool hasTarget)
+{
+    ActorAiCommandContext ai = beginActiveActorCommand(actor, frame, statusContinuation);
+
+    if (AI_CombatFlow(ai, false))
+    {
+        return finishActiveMovementCommand(ai, false);
+    }
+
+    if (hasTarget && AI_AttackOrPursue(ai))
+    {
+        return ai.finish();
+    }
+
+    AI_StandOrBored(ai, ai.update().statePatch.actionSeconds.value_or(actor.runtime.actionSeconds));
+    return finishActiveMovementCommand(ai, false);
 }
 
 ActorAiUpdate updateBackgroundActor(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
 {
-    if (isDeadOrDying(actor))
+    ActorAiCommandContext ai(actor, frame);
+    const bool frameHandled = AI_DeathOrStatus(ai);
+
+    if (frameHandled || ai.update().statePatch.spellEffects)
     {
-        return aiHoldDeathState(actor, frame);
+        return ai.finish();
     }
 
-    if (isStatusLocked(actor))
-    {
-        const std::optional<ActorAiUpdate> statusUpdate = aiResolveStatusState(actor, frame);
-
-        if (statusUpdate)
-        {
-            return *statusUpdate;
-        }
-    }
-
-    return aiStandOrWander(actor);
+    ActorAiCommandContext standAi(actor);
+    AI_StandOrBored(standAi);
+    return standAi.finish();
 }
 
 ActorAiUpdate updateActor(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
 {
-    if (isDeadOrDying(actor))
-    {
-        return aiHoldDeathState(actor, frame);
-    }
-
     ActorAiFacts actorFacts = actor;
     std::optional<ActorAiUpdate> statusContinuation;
 
-    if (isStatusLocked(actor))
     {
-        const std::optional<ActorAiUpdate> statusUpdate = aiResolveStatusState(actor, frame);
+        ActorAiCommandContext ai(actorFacts, frame);
+        const bool frameHandled = AI_DeathOrStatus(ai);
 
-        if (statusUpdate)
+        if (frameHandled)
         {
-            if (statusUpdate->statusLockHandled)
-            {
-                return *statusUpdate;
-            }
+            return ai.finish();
+        }
 
+        ActorAiUpdate statusUpdate = ai.finish();
+
+        if (statusUpdate.statePatch.spellEffects)
+        {
+            actorFacts.status.spellEffects = *statusUpdate.statePatch.spellEffects;
             statusContinuation = statusUpdate;
-
-            if (statusUpdate->statePatch.spellEffects)
-            {
-                actorFacts.status.spellEffects = *statusUpdate->statePatch.spellEffects;
-            }
         }
     }
 
     const std::optional<ActorTargetCandidateFacts> target = chooseTarget(actorFacts, frame);
+    const bool hasTarget = target.has_value();
 
     if (actorFacts.runtime.motionState == ActorAiMotionState::Attacking)
     {
-        ActorAiUpdate update = aiContinueAttack(actorFacts);
-        applyStatusContinuationPatch(statusContinuation, update);
-        applyActiveAnimationTickPatch(actorFacts, frame, update);
-        applyActiveSpellTimerPatch(actorFacts, frame, update);
-        applyActiveFrameTimerPatch(actorFacts, frame, update);
-        applyAttackImpactPatch(actorFacts, update);
-        applyCombatEngagementPatch(actorFacts, frame, update);
-
-        const bool attackInProgress =
-            update.statePatch.actionSeconds.value_or(actorFacts.runtime.actionSeconds) > 0.0f;
-        const std::optional<ActorCombatFlowPatch> combatFlowApplication =
-            resolveSharedCombatFlowApplication(actorFacts, frame, attackInProgress);
-
-        if (combatFlowApplication)
-        {
-            applyCombatFlowApplication(actorFacts, *combatFlowApplication, update);
-            applyActiveFrameCommitPatch(actorFacts, attackInProgress, update);
-            return update;
-        }
-
-        if (target && applyEngageTargetBehavior(actorFacts, frame, update))
-        {
-            return update;
-        }
-
-        applyNonCombatBehaviorFrame(actorFacts, update);
-        return update;
+        return AI_ActiveCurrentAction(actorFacts, frame, statusContinuation, hasTarget);
     }
 
-    {
-        ActorAiUpdate update = makeActorUpdate(actorFacts);
-        applyStatusContinuationPatch(statusContinuation, update);
-        applyActiveAnimationTickPatch(actorFacts, frame, update);
-        applyActiveSpellTimerPatch(actorFacts, frame, update);
-        applyActiveFrameTimerPatch(actorFacts, frame, update);
-        applyCombatEngagementPatch(actorFacts, frame, update);
-
-        const std::optional<ActorCombatFlowPatch> combatFlowApplication =
-            resolveSharedCombatFlowApplication(actorFacts, frame, false);
-
-        if (combatFlowApplication)
-        {
-            applyCombatFlowApplication(actorFacts, *combatFlowApplication, update);
-            applyActiveFrameCommitPatch(actorFacts, false, update);
-            return update;
-        }
-    }
-
-    if (target)
-    {
-        const std::optional<ActorAiUpdate> engageTargetUpdate = statusContinuation
-            ? aiEngageTargetIfReadyWithStatusContinuation(actorFacts, frame, statusContinuation)
-            : aiEngageTargetIfReady(actorFacts, frame);
-
-        if (engageTargetUpdate)
-        {
-            return *engageTargetUpdate;
-        }
-
-        return statusContinuation
-            ? aiNonCombatWithStatusContinuation(actorFacts, frame, statusContinuation)
-            : aiNonCombat(actorFacts, frame);
-    }
-
-    return statusContinuation
-        ? aiNonCombatWithStatusContinuation(actorFacts, frame, statusContinuation)
-        : aiNonCombat(actorFacts, frame);
+    return AI_ActiveBehavior(actorFacts, frame, statusContinuation, hasTarget);
 }
 
 void appendActorUpdate(ActorAiFrameResult &result, const ActorAiUpdate &update)
@@ -2930,32 +3142,13 @@ void updateActiveActors(const ActorAiFrameFacts &facts, ActorAiFrameResult &resu
 
 ActorAiUpdate updateActorAfterWorldMovementInternal(const ActorAiFacts &actor)
 {
-    ActorAiUpdate update = makeActorUpdate(actor);
+    ActorAiCommandContext ai(actor);
 
-    applyPostMovementCrowdSteering(actor, update);
+    AI_CrowdSteer(ai);
 
-    const ActorMovementBlockPatch movementBlock = buildPostMovementBlockPatch(actor);
+    AI_HandleMovementBlock(ai);
 
-    if (movementBlock.zeroVelocity)
-    {
-        update.movementIntent.clearVelocity = true;
-    }
-
-    if (movementBlock.resetMoveDirection)
-    {
-        update.movementIntent.action = ActorAiMovementAction::Stand;
-        update.movementIntent.moveDirectionX = 0.0f;
-        update.movementIntent.moveDirectionY = 0.0f;
-        update.statePatch.actionSeconds = movementBlock.actionSeconds;
-    }
-
-    if (movementBlock.stand)
-    {
-        update.statePatch.motionState = ActorAiMotionState::Standing;
-        update.animationPatch.animationState = ActorAiAnimationState::Standing;
-    }
-
-    return update;
+    return ai.finish();
 }
 }
 

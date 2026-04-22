@@ -278,6 +278,7 @@ struct ActorAnimationPatch
     std::optional<float> animationTimeTicks;
     bool keepCurrentAnimation = false;
     bool resetAnimationTime = false;
+    bool resetOnAnimationChange = false;
 };
 
 struct ActorMovementIntent
@@ -346,10 +347,6 @@ struct ActorAiUpdate
     ActorAnimationPatch animationPatch = {};
     ActorMovementIntent movementIntent = {};
     bool statusLockHandled = false;
-    bool combatFlowHandled = false;
-    bool combatEngageHandled = false;
-    bool nonCombatHandled = false;
-    bool frameCommitHandled = false;
     bool meleePursuitActive = false;
     bool preserveCrowdSteering = false;
     bool resetCrowdSteering = false;
