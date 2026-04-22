@@ -12,6 +12,7 @@ set(CMAKE_BUILD_RPATH_USE_ORIGIN ON)
 
 option(OPENYAMM_BUILD_EDITOR "Build the editor target." OFF)
 option(OPENYAMM_BUILD_TOOLS "Build the tools targets." OFF)
+option(OPENYAMM_BUILD_TESTS "Build the unit test target." ON)
 option(OPENYAMM_USE_SYSTEM_SDL3 "Use an installed SDL3 package instead of fetching it." OFF)
 
 set(OPENYAMM_DEV_ASSETS_DIR
@@ -55,6 +56,11 @@ openyamm_configure_runtime_shaders()
 
 add_subdirectory(engine)
 add_subdirectory(game)
+
+if (OPENYAMM_BUILD_TESTS)
+    enable_testing()
+    add_subdirectory(tests)
+endif()
 
 if (OPENYAMM_BUILD_EDITOR)
     add_subdirectory(editor)
