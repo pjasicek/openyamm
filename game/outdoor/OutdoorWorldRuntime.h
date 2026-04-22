@@ -1118,24 +1118,6 @@ private:
     void updateGameplayScreenOverlay(float deltaSeconds);
     void updateActorFrameGlobalEffects(float deltaSeconds, float partyX, float partyY, float partyZ);
     std::vector<bool> selectOutdoorActiveActors(float partyX, float partyY, float partyZ) const;
-    struct OutdoorActorAiFrameApplication
-    {
-        std::vector<bool> handledActorMask;
-        std::vector<bool> activeUpdatesAppliedActorMask;
-        std::vector<bool> behaviorAppliedActorMask;
-        std::vector<bool> keepCurrentAnimationMask;
-        std::vector<bool> resetAnimationTimeMask;
-        std::vector<bool> resetCrowdSteeringMask;
-        std::vector<bool> clearVelocityMask;
-        std::vector<bool> applyMovementMask;
-        std::vector<float> desiredMoveX;
-        std::vector<float> desiredMoveY;
-        std::vector<bool> meleePursuitActiveMask;
-        std::vector<float> movementEffectiveMoveSpeed;
-        std::vector<GameplayWorldPoint> movementTargetPosition;
-        std::vector<float> movementTargetEdgeDistance;
-        std::vector<bool> movementInMeleeRangeMask;
-    };
     ActorAiFrameFacts collectOutdoorActorAiFrameFacts(
         float deltaSeconds,
         float partyX,
@@ -1149,10 +1131,10 @@ private:
         float partyY,
         float partyZ,
         std::vector<int8_t> &actorLineOfSightCache) const;
-    OutdoorActorAiFrameApplication applyOutdoorActorAiFrameResult(
+    void applyOutdoorActorAiFrameResult(
         const ActorAiFrameResult &result,
         const std::vector<bool> &activeActorMask,
-        const ActorAiFrameFacts &facts);
+        const GameplayActorAiSystem &actorAiSystem);
     void applyOutdoorActorPostMovementAiUpdate(
         MapActorState &actor,
         const ActorAiUpdate &movementUpdate,
@@ -1176,9 +1158,7 @@ private:
         float partyX,
         float partyY,
         float partyZ,
-        const std::vector<bool> &activeActorMask,
-        const OutdoorActorAiFrameApplication &sharedActorApplication,
-        const GameplayActorAiSystem &actorAiSystem);
+        const std::vector<bool> &activeActorMask);
     void applyActorFrameSideEffects(float deltaSeconds, float partyX, float partyY, float partyZ);
     void advanceGameMinutesInternal(float minutes);
     void applyInitialWeatherProfile();

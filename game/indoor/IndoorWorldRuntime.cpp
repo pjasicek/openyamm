@@ -1337,22 +1337,22 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
         MapDeltaActor &actor = pMapDeltaData->actors[update.actorIndex];
         MapActorAiState &aiState = m_mapActorAiStates[update.actorIndex];
 
-        if (update.statePatch.spellEffects)
+        if (update.state.spellEffects)
         {
-            aiState.spellEffects = *update.statePatch.spellEffects;
+            aiState.spellEffects = *update.state.spellEffects;
             spellEffectsAppliedMask[update.actorIndex] = true;
         }
 
-        if (update.statePatch.hostilityType)
+        if (update.state.hostilityType)
         {
-            actor.hostilityType = *update.statePatch.hostilityType;
+            actor.hostilityType = *update.state.hostilityType;
         }
 
-        if (update.statePatch.hostileToParty)
+        if (update.state.hostileToParty)
         {
-            aiState.hostileToParty = *update.statePatch.hostileToParty;
+            aiState.hostileToParty = *update.state.hostileToParty;
 
-            if (*update.statePatch.hostileToParty)
+            if (*update.state.hostileToParty)
             {
                 actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Hostile)
                     | static_cast<uint32_t>(EvtActorAttribute::Aggressor)
@@ -1361,85 +1361,85 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
             }
         }
 
-        if (update.statePatch.hasDetectedParty)
+        if (update.state.hasDetectedParty)
         {
-            aiState.hasDetectedParty = *update.statePatch.hasDetectedParty;
+            aiState.hasDetectedParty = *update.state.hasDetectedParty;
 
-            if (*update.statePatch.hasDetectedParty)
+            if (*update.state.hasDetectedParty)
             {
                 actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Nearby);
             }
         }
 
-        if (update.statePatch.bloodSplatSpawned)
+        if (update.state.bloodSplatSpawned)
         {
-            aiState.bloodSplatSpawned = *update.statePatch.bloodSplatSpawned;
+            aiState.bloodSplatSpawned = *update.state.bloodSplatSpawned;
         }
 
-        if (update.statePatch.motionState)
+        if (update.state.motionState)
         {
-            aiState.motionState = *update.statePatch.motionState;
+            aiState.motionState = *update.state.motionState;
         }
 
-        if (update.animationPatch.animationState)
+        if (update.animation.animationState)
         {
-            aiState.animationState = *update.animationPatch.animationState;
-            actor.currentActionAnimation = indoorActionAnimationFromActorAi(*update.animationPatch.animationState);
+            aiState.animationState = *update.animation.animationState;
+            actor.currentActionAnimation = indoorActionAnimationFromActorAi(*update.animation.animationState);
         }
 
-        if (update.animationPatch.animationTimeTicks)
+        if (update.animation.animationTimeTicks)
         {
-            aiState.animationTimeTicks = *update.animationPatch.animationTimeTicks;
+            aiState.animationTimeTicks = *update.animation.animationTimeTicks;
         }
 
-        if (update.animationPatch.resetAnimationTime)
+        if (update.animation.resetAnimationTime)
         {
             aiState.animationTimeTicks = 0.0f;
         }
 
-        if (update.statePatch.recoverySeconds)
+        if (update.state.recoverySeconds)
         {
-            aiState.recoverySeconds = *update.statePatch.recoverySeconds;
+            aiState.recoverySeconds = *update.state.recoverySeconds;
         }
 
-        if (update.statePatch.attackCooldownSeconds)
+        if (update.state.attackCooldownSeconds)
         {
-            aiState.attackCooldownSeconds = *update.statePatch.attackCooldownSeconds;
+            aiState.attackCooldownSeconds = *update.state.attackCooldownSeconds;
         }
 
-        if (update.statePatch.idleDecisionSeconds)
+        if (update.state.idleDecisionSeconds)
         {
-            aiState.idleDecisionSeconds = *update.statePatch.idleDecisionSeconds;
+            aiState.idleDecisionSeconds = *update.state.idleDecisionSeconds;
         }
 
-        if (update.statePatch.actionSeconds)
+        if (update.state.actionSeconds)
         {
-            aiState.actionSeconds = *update.statePatch.actionSeconds;
+            aiState.actionSeconds = *update.state.actionSeconds;
         }
 
-        if (update.statePatch.idleDecisionCount)
+        if (update.state.idleDecisionCount)
         {
-            aiState.idleDecisionCount = *update.statePatch.idleDecisionCount;
+            aiState.idleDecisionCount = *update.state.idleDecisionCount;
         }
 
-        if (update.statePatch.pursueDecisionCount)
+        if (update.state.pursueDecisionCount)
         {
-            aiState.pursueDecisionCount = *update.statePatch.pursueDecisionCount;
+            aiState.pursueDecisionCount = *update.state.pursueDecisionCount;
         }
 
-        if (update.statePatch.attackDecisionCount)
+        if (update.state.attackDecisionCount)
         {
-            aiState.attackDecisionCount = *update.statePatch.attackDecisionCount;
+            aiState.attackDecisionCount = *update.state.attackDecisionCount;
         }
 
-        if (update.statePatch.attackImpactTriggered)
+        if (update.state.attackImpactTriggered)
         {
-            aiState.attackImpactTriggered = *update.statePatch.attackImpactTriggered;
+            aiState.attackImpactTriggered = *update.state.attackImpactTriggered;
         }
 
-        if (update.statePatch.queuedAttackAbility)
+        if (update.state.queuedAttackAbility)
         {
-            aiState.queuedAttackAbility = *update.statePatch.queuedAttackAbility;
+            aiState.queuedAttackAbility = *update.state.queuedAttackAbility;
         }
 
         if (update.movementIntent.action != ActorAiMovementAction::None)
@@ -1487,7 +1487,7 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
             }
         }
 
-        if (update.statePatch.dead && *update.statePatch.dead)
+        if (update.state.dead && *update.state.dead)
         {
             actor.hp = 0;
             aiState.motionState = ActorAiMotionState::Dead;
@@ -2191,20 +2191,20 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
         aiState.moveDirectionY = movementUpdate.movementIntent.moveDirectionY;
     }
 
-    if (movementUpdate.statePatch.actionSeconds)
+    if (movementUpdate.state.actionSeconds)
     {
-        aiState.actionSeconds = *movementUpdate.statePatch.actionSeconds;
+        aiState.actionSeconds = *movementUpdate.state.actionSeconds;
     }
 
-    if (movementUpdate.statePatch.motionState)
+    if (movementUpdate.state.motionState)
     {
-        aiState.motionState = *movementUpdate.statePatch.motionState;
+        aiState.motionState = *movementUpdate.state.motionState;
     }
 
-    if (movementUpdate.animationPatch.animationState)
+    if (movementUpdate.animation.animationState)
     {
-        aiState.animationState = *movementUpdate.animationPatch.animationState;
-        actor.currentActionAnimation = indoorActionAnimationFromActorAi(*movementUpdate.animationPatch.animationState);
+        aiState.animationState = *movementUpdate.animation.animationState;
+        actor.currentActionAnimation = indoorActionAnimationFromActorAi(*movementUpdate.animation.animationState);
     }
 }
 

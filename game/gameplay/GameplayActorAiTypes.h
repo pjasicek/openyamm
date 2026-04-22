@@ -243,7 +243,7 @@ struct ActorAiFacts
     ActorWorldFacts world = {};
 };
 
-struct ActorStatePatch
+struct ActorStateUpdate
 {
     std::optional<ActorAiMotionState> motionState;
     std::optional<uint8_t> hostilityType;
@@ -272,11 +272,10 @@ struct ActorStatePatch
     std::optional<GameplayActorSpellEffectState> spellEffects;
 };
 
-struct ActorAnimationPatch
+struct ActorAnimationUpdate
 {
     std::optional<ActorAiAnimationState> animationState;
     std::optional<float> animationTimeTicks;
-    bool keepCurrentAnimation = false;
     bool resetAnimationTime = false;
     bool resetOnAnimationChange = false;
 };
@@ -291,9 +290,15 @@ struct ActorMovementIntent
     float desiredMoveY = 0.0f;
     float yawRadians = 0.0f;
     float actionSeconds = 0.0f;
+    float moveSpeed = 0.0f;
+    float targetEdgeDistance = 0.0f;
     bool updateYaw = false;
     bool clearVelocity = false;
     bool applyMovement = false;
+    bool meleePursuitActive = false;
+    bool inMeleeRange = false;
+    bool resetCrowdSteering = false;
+    bool updateCrowdProbePosition = false;
 };
 
 struct ActorAttackRequest
@@ -343,14 +348,9 @@ struct ActorAiUpdate
 {
     size_t actorIndex = static_cast<size_t>(-1);
 
-    ActorStatePatch statePatch = {};
-    ActorAnimationPatch animationPatch = {};
+    ActorStateUpdate state = {};
+    ActorAnimationUpdate animation = {};
     ActorMovementIntent movementIntent = {};
-    bool statusLockHandled = false;
-    bool meleePursuitActive = false;
-    bool preserveCrowdSteering = false;
-    bool resetCrowdSteering = false;
-    bool crowdSteeringHandled = false;
 
     std::optional<ActorAttackRequest> attackRequest;
     std::vector<ActorAudioRequest> audioRequests;

@@ -168,13 +168,13 @@ struct IdleBehaviorResult
     uint32_t nextDecisionCount = 0;
 };
 
-struct AttackStartPatch
+struct AttackStartOutcome
 {
     float attackCooldownSeconds = 0.0f;
     float actionSeconds = 0.0f;
 };
 
-struct AttackImpactPatch
+struct AttackImpactOutcome
 {
     AttackImpactAction action = AttackImpactAction::None;
     int damage = 0;
@@ -442,14 +442,14 @@ int resolveBaseAttackImpactDamage(
     }
 }
 
-AttackStartPatch startAttack(
+AttackStartOutcome startAttack(
     uint32_t actorId,
     uint32_t attackDecisionCount,
     bool abilityIsRanged,
     float attackAnimationSeconds,
     float recoverySeconds)
 {
-    AttackStartPatch result = {};
+    AttackStartOutcome result = {};
 
     result.actionSeconds = std::max(0.1f, attackAnimationSeconds);
     result.attackCooldownSeconds =
@@ -465,7 +465,7 @@ AttackStartPatch startAttack(
     return result;
 }
 
-AttackImpactPatch finishAttackImpact(
+AttackImpactOutcome finishAttackImpact(
     GameplayActorAttackAbility ability,
     int monsterLevel,
     const AttackDamageProfile &attack1Damage,
@@ -478,7 +478,7 @@ AttackImpactPatch finishAttackImpact(
     float shrinkDamageMultiplier,
     bool darkGraspActive)
 {
-    AttackImpactPatch result = {};
+    AttackImpactOutcome result = {};
     result.damage = resolveBaseAttackImpactDamage(ability, monsterLevel, attack1Damage, attack2Damage);
 
     if (shrinkActive)
@@ -927,157 +927,142 @@ public:
 
     void setMotionState(ActorAiMotionState motionState)
     {
-        m_update.statePatch.motionState = motionState;
+        m_update.state.motionState = motionState;
     }
 
     void setAnimationState(ActorAiAnimationState animationState)
     {
-        m_update.animationPatch.animationState = animationState;
+        m_update.animation.animationState = animationState;
     }
 
     void setActionSeconds(float actionSeconds)
     {
-        m_update.statePatch.actionSeconds = actionSeconds;
+        m_update.state.actionSeconds = actionSeconds;
     }
 
     void setRecoverySeconds(float recoverySeconds)
     {
-        m_update.statePatch.recoverySeconds = recoverySeconds;
+        m_update.state.recoverySeconds = recoverySeconds;
     }
 
     void setAttackCooldownSeconds(float attackCooldownSeconds)
     {
-        m_update.statePatch.attackCooldownSeconds = attackCooldownSeconds;
+        m_update.state.attackCooldownSeconds = attackCooldownSeconds;
     }
 
     void setAttackDecisionCount(uint32_t attackDecisionCount)
     {
-        m_update.statePatch.attackDecisionCount = attackDecisionCount;
+        m_update.state.attackDecisionCount = attackDecisionCount;
     }
 
     void setPursueDecisionCount(uint32_t pursueDecisionCount)
     {
-        m_update.statePatch.pursueDecisionCount = pursueDecisionCount;
+        m_update.state.pursueDecisionCount = pursueDecisionCount;
     }
 
     void setCrowdSideLockRemainingSeconds(float seconds)
     {
-        m_update.statePatch.crowdSideLockRemainingSeconds = seconds;
+        m_update.state.crowdSideLockRemainingSeconds = seconds;
     }
 
     void setCrowdNoProgressSeconds(float seconds)
     {
-        m_update.statePatch.crowdNoProgressSeconds = seconds;
+        m_update.state.crowdNoProgressSeconds = seconds;
     }
 
     void setCrowdLastEdgeDistance(float distance)
     {
-        m_update.statePatch.crowdLastEdgeDistance = distance;
+        m_update.state.crowdLastEdgeDistance = distance;
     }
 
     void setCrowdRetreatRemainingSeconds(float seconds)
     {
-        m_update.statePatch.crowdRetreatRemainingSeconds = seconds;
+        m_update.state.crowdRetreatRemainingSeconds = seconds;
     }
 
     void setCrowdStandRemainingSeconds(float seconds)
     {
-        m_update.statePatch.crowdStandRemainingSeconds = seconds;
+        m_update.state.crowdStandRemainingSeconds = seconds;
     }
 
     void setCrowdProbeEdgeDistance(float distance)
     {
-        m_update.statePatch.crowdProbeEdgeDistance = distance;
+        m_update.state.crowdProbeEdgeDistance = distance;
     }
 
     void setCrowdProbeElapsedSeconds(float seconds)
     {
-        m_update.statePatch.crowdProbeElapsedSeconds = seconds;
+        m_update.state.crowdProbeElapsedSeconds = seconds;
     }
 
     void setCrowdEscapeAttempts(uint8_t attempts)
     {
-        m_update.statePatch.crowdEscapeAttempts = attempts;
+        m_update.state.crowdEscapeAttempts = attempts;
     }
 
     void setCrowdSideSign(int8_t sideSign)
     {
-        m_update.statePatch.crowdSideSign = sideSign;
+        m_update.state.crowdSideSign = sideSign;
     }
 
     void setQueuedAttackAbility(GameplayActorAttackAbility ability)
     {
-        m_update.statePatch.queuedAttackAbility = ability;
+        m_update.state.queuedAttackAbility = ability;
     }
 
     void setDead(bool dead)
     {
-        m_update.statePatch.dead = dead;
+        m_update.state.dead = dead;
     }
 
     void setSpellEffects(const GameplayActorSpellEffectState &spellEffects)
     {
-        m_update.statePatch.spellEffects = spellEffects;
+        m_update.state.spellEffects = spellEffects;
     }
 
     void setAttackImpactTriggered(bool triggered)
     {
-        m_update.statePatch.attackImpactTriggered = triggered;
+        m_update.state.attackImpactTriggered = triggered;
     }
 
     void setIdleDecisionSeconds(float idleDecisionSeconds)
     {
-        m_update.statePatch.idleDecisionSeconds = idleDecisionSeconds;
+        m_update.state.idleDecisionSeconds = idleDecisionSeconds;
     }
 
     void setIdleDecisionCount(uint32_t idleDecisionCount)
     {
-        m_update.statePatch.idleDecisionCount = idleDecisionCount;
+        m_update.state.idleDecisionCount = idleDecisionCount;
     }
 
     void setAnimationTimeTicks(float animationTimeTicks)
     {
-        m_update.animationPatch.animationTimeTicks = animationTimeTicks;
+        m_update.animation.animationTimeTicks = animationTimeTicks;
     }
 
     void resetAnimationTime()
     {
-        m_update.animationPatch.resetAnimationTime = true;
+        m_update.animation.resetAnimationTime = true;
     }
 
     void resetAnimationOnChange()
     {
-        m_update.animationPatch.resetOnAnimationChange = true;
-    }
-
-    void keepCurrentAnimation()
-    {
-        m_update.animationPatch.keepCurrentAnimation = true;
+        m_update.animation.resetOnAnimationChange = true;
     }
 
     void setMeleePursuitActive(bool active)
     {
-        m_update.meleePursuitActive = active;
-    }
-
-    void preserveCrowdSteering()
-    {
-        m_update.preserveCrowdSteering = true;
+        m_update.movementIntent.meleePursuitActive = active;
     }
 
     void resetCrowdSteering()
     {
-        m_update.resetCrowdSteering = true;
+        m_update.movementIntent.resetCrowdSteering = true;
     }
 
-    void setCrowdSteeringHandled()
+    void updateCrowdProbePosition()
     {
-        m_update.crowdSteeringHandled = true;
-    }
-
-    void setStatusLockHandled()
-    {
-        m_update.statusLockHandled = true;
+        m_update.movementIntent.updateCrowdProbePosition = true;
     }
 
     void faceYaw(float yawRadians)
@@ -1166,16 +1151,14 @@ struct ActorFrameTimerAging
     float crowdStandRemainingSeconds = 0.0f;
 };
 
-struct ActorMovementCommitPatch
+struct ActorMovementCommit
 {
-    bool keepCurrentAnimation = false;
-    bool resetAnimationTime = false;
     bool resetCrowdSteering = false;
     bool clearVelocity = true;
     bool applyMovement = false;
 };
 
-struct ActorMovementBlockPatch
+struct ActorMovementBlockOutcome
 {
     bool zeroVelocity = false;
     bool resetMoveDirection = false;
@@ -1208,7 +1191,7 @@ enum class ActorCombatFlowAnimation : uint8_t
     Current = 2,
 };
 
-struct ActorCombatFlowPatch
+struct ActorCombatFlowOutcome
 {
     ActorCombatFlowMotion motion = ActorCombatFlowMotion::Standing;
     ActorCombatFlowAnimation animation = ActorCombatFlowAnimation::Standing;
@@ -1240,7 +1223,7 @@ enum class ActorDeathFrameAction : uint8_t
     AdvanceDying = 3,
 };
 
-struct ActorDeathFramePatch
+struct ActorDeathFrameOutcome
 {
     ActorDeathFrameAction action = ActorDeathFrameAction::Continue;
     float actionSeconds = 0.0f;
@@ -1256,13 +1239,13 @@ enum class ActorStatusFrameAction : uint8_t
     ForceStun = 4,
 };
 
-struct ActorStatusFramePatch
+struct ActorStatusFrameOutcome
 {
     ActorStatusFrameAction action = ActorStatusFrameAction::Continue;
     float actionSeconds = 0.0f;
 };
 
-ActorStatusFramePatch resolveActorStatusFrame(
+ActorStatusFrameOutcome resolveActorStatusFrame(
     bool currentlyStunned,
     bool paralyzeActive,
     bool stunActive,
@@ -1270,7 +1253,7 @@ ActorStatusFramePatch resolveActorStatusFrame(
     float stunRemainingSeconds,
     float deltaSeconds)
 {
-    ActorStatusFramePatch result = {};
+    ActorStatusFrameOutcome result = {};
     result.actionSeconds = actionSeconds;
 
     if (currentlyStunned && !paralyzeActive)
@@ -1313,14 +1296,14 @@ ActorAttackFrameState buildActorAttackFrameState(bool attacking, bool impactTrig
     return result;
 }
 
-ActorDeathFramePatch resolveActorDeathFrame(
+ActorDeathFrameOutcome resolveActorDeathFrame(
     bool dead,
     bool hpDepleted,
     bool dying,
     float actionSeconds,
     float deltaSeconds)
 {
-    ActorDeathFramePatch result = {};
+    ActorDeathFrameOutcome result = {};
 
     if (dead)
     {
@@ -1383,15 +1366,13 @@ ActorFrameTimerAging ageActorFrameTimers(const ActorAiFacts &actor, const ActorA
     return result;
 }
 
-ActorMovementCommitPatch buildActiveMovementCommitPatch(
+ActorMovementCommit buildActiveMovementCommit(
     const ActorAiFacts &actor,
     const ActorAiUpdate &update,
-    bool attackInProgress)
+    bool preserveCrowdSteering)
 {
-    ActorMovementCommitPatch result = {};
-    result.keepCurrentAnimation = attackInProgress;
-    result.resetAnimationTime = false;
-    result.resetCrowdSteering = !update.preserveCrowdSteering;
+    ActorMovementCommit result = {};
+    result.resetCrowdSteering = !preserveCrowdSteering;
     result.applyMovement =
         actor.movement.movementAllowed
         && (std::abs(update.movementIntent.desiredMoveX) > 0.001f
@@ -1399,9 +1380,9 @@ ActorMovementCommitPatch buildActiveMovementCommitPatch(
     return result;
 }
 
-ActorMovementBlockPatch buildPostMovementBlockPatch(const ActorAiFacts &actor)
+ActorMovementBlockOutcome buildPostMovementBlock(const ActorAiFacts &actor)
 {
-    ActorMovementBlockPatch result = {};
+    ActorMovementBlockOutcome result = {};
 
     if (!actor.movement.movementBlocked)
     {
@@ -1423,7 +1404,7 @@ ActorMovementBlockPatch buildPostMovementBlockPatch(const ActorAiFacts &actor)
 
 bool AI_HandleMovementBlock(ActorAiCommandContext &ai)
 {
-    const ActorMovementBlockPatch movementBlock = buildPostMovementBlockPatch(ai.actor());
+    const ActorMovementBlockOutcome movementBlock = buildPostMovementBlock(ai.actor());
 
     if (!movementBlock.zeroVelocity && !movementBlock.resetMoveDirection && !movementBlock.stand)
     {
@@ -1487,7 +1468,7 @@ ActorCombatFlowAction chooseCombatFlowAction(
     return ActorCombatFlowAction::NonCombat;
 }
 
-ActorCombatFlowPatch buildCombatFlowPatch(
+ActorCombatFlowOutcome buildCombatFlowOutcome(
     ActorCombatFlowAction action,
     bool movementAllowed,
     float currentYawRadians,
@@ -1499,7 +1480,7 @@ ActorCombatFlowPatch buildCombatFlowPatch(
     float actionSeconds,
     float idleDecisionSeconds)
 {
-    ActorCombatFlowPatch result = {};
+    ActorCombatFlowOutcome result = {};
     result.actionSeconds = actionSeconds;
     result.idleDecisionSeconds = idleDecisionSeconds;
 
@@ -1718,7 +1699,7 @@ PursueActionResult resolvePursueAction(const PursueActionInput &input)
     return result;
 }
 
-void AI_ApplyCombatFlowPatch(ActorAiCommandContext &ai, const ActorCombatFlowPatch &application)
+void AI_ApplyCombatFlowOutcome(ActorAiCommandContext &ai, const ActorCombatFlowOutcome &application)
 {
     const ActorAiFacts &actor = ai.actor();
 
@@ -1771,24 +1752,26 @@ void AI_ApplyCombatFlowPatch(ActorAiCommandContext &ai, const ActorCombatFlowPat
     }
 }
 
-void AI_Flee(ActorAiCommandContext &ai, const ActorCombatFlowPatch &application)
+void AI_Flee(ActorAiCommandContext &ai, const ActorCombatFlowOutcome &application)
 {
-    AI_ApplyCombatFlowPatch(ai, application);
+    AI_ApplyCombatFlowOutcome(ai, application);
 }
 
-void applyActiveMovementCommitPatch(
+void applyActiveMovementCommit(
     const ActorAiFacts &actor,
-    bool attackInProgress,
+    bool preserveCrowdSteering,
     ActorAiUpdate &update)
 {
-    const ActorMovementCommitPatch movementCommit =
-        buildActiveMovementCommitPatch(actor, update, attackInProgress);
+    const ActorMovementCommit movementCommit =
+        buildActiveMovementCommit(actor, update, preserveCrowdSteering);
 
-    update.animationPatch.keepCurrentAnimation = movementCommit.keepCurrentAnimation;
-    update.animationPatch.resetAnimationTime = movementCommit.resetAnimationTime;
-    update.resetCrowdSteering = movementCommit.resetCrowdSteering;
+    update.movementIntent.resetCrowdSteering = movementCommit.resetCrowdSteering;
     update.movementIntent.clearVelocity = movementCommit.clearVelocity;
     update.movementIntent.applyMovement = movementCommit.applyMovement;
+    update.movementIntent.moveSpeed = actor.movement.effectiveMoveSpeed;
+    update.movementIntent.targetPosition = actor.target.currentPosition;
+    update.movementIntent.targetEdgeDistance = actor.target.currentEdgeDistance;
+    update.movementIntent.inMeleeRange = actor.movement.inMeleeRange;
 }
 
 bool AI_CombatFlow(ActorAiCommandContext &ai, bool attackInProgress)
@@ -1827,7 +1810,7 @@ bool AI_CombatFlow(ActorAiCommandContext &ai, bool attackInProgress)
     const float idleDecisionSeconds =
         std::max(0.0f, actor.runtime.idleDecisionSeconds - pFrame->fixedStepSeconds);
 
-    const ActorCombatFlowPatch flowPatch = buildCombatFlowPatch(
+    const ActorCombatFlowOutcome flowOutcome = buildCombatFlowOutcome(
         flowAction,
         actor.movement.movementAllowed,
         actor.runtime.yawRadians,
@@ -1841,11 +1824,11 @@ bool AI_CombatFlow(ActorAiCommandContext &ai, bool attackInProgress)
 
     if (flowAction == ActorCombatFlowAction::Flee)
     {
-        AI_Flee(ai, flowPatch);
+        AI_Flee(ai, flowOutcome);
         return true;
     }
 
-    AI_ApplyCombatFlowPatch(ai, flowPatch);
+    AI_ApplyCombatFlowOutcome(ai, flowOutcome);
     return true;
 }
 
@@ -1887,7 +1870,7 @@ void AI_ApplyDeathState(ActorAiCommandContext &ai)
         return;
     }
 
-    const ActorDeathFramePatch deathFrame = resolveActorDeathFrame(
+    const ActorDeathFrameOutcome deathFrame = resolveActorDeathFrame(
         actor.status.dead || actor.runtime.motionState == ActorAiMotionState::Dead,
         actor.stats.currentHp <= 0,
         actor.runtime.motionState == ActorAiMotionState::Dying,
@@ -1941,14 +1924,14 @@ float ageActorAnimationTimeTicks(const ActorAiFacts &actor, const ActorAiFrameFa
     return actor.runtime.animationTimeTicks + actorAnimationTickDelta(actor, frame);
 }
 
-void applyActiveAnimationTickPatch(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
+void applyActiveAnimationTickUpdate(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
 {
     if (!actor.world.active)
     {
         return;
     }
 
-    update.animationPatch.animationTimeTicks = ageActorAnimationTimeTicks(actor, frame);
+    update.animation.animationTimeTicks = ageActorAnimationTimeTicks(actor, frame);
 }
 
 void AI_ClearMovement(ActorAiCommandContext &ai)
@@ -1957,9 +1940,9 @@ void AI_ClearMovement(ActorAiCommandContext &ai)
     ai.clearVelocity();
 }
 
-void applyActiveSpellTimerPatch(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
+void applyActiveSpellTimerUpdate(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
 {
-    if (!actor.world.active || update.statePatch.spellEffects || !hasActiveSpellEffectTimer(actor.status.spellEffects))
+    if (!actor.world.active || update.state.spellEffects || !hasActiveSpellEffectTimer(actor.status.spellEffects))
     {
         return;
     }
@@ -1967,20 +1950,20 @@ void applyActiveSpellTimerPatch(const ActorAiFacts &actor, const ActorAiFrameFac
     GameplayActorSpellEffectState spellEffects = actor.status.spellEffects;
     const GameplayActorService actorService = {};
     actorService.updateSpellEffectTimers(spellEffects, frame.fixedStepSeconds, actor.status.defaultHostileToParty);
-    update.statePatch.spellEffects = spellEffects;
+    update.state.spellEffects = spellEffects;
 }
 
-void applyStatusContinuationPatch(const std::optional<ActorAiUpdate> &statusUpdate, ActorAiUpdate &update)
+void applyStatusContinuationUpdate(const std::optional<ActorAiUpdate> &statusUpdate, ActorAiUpdate &update)
 {
-    if (!statusUpdate || !statusUpdate->statePatch.spellEffects)
+    if (!statusUpdate || !statusUpdate->state.spellEffects)
     {
         return;
     }
 
-    update.statePatch.spellEffects = *statusUpdate->statePatch.spellEffects;
+    update.state.spellEffects = *statusUpdate->state.spellEffects;
 }
 
-void applyActiveFrameTimerPatch(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
+void applyActiveFrameTimerUpdate(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
 {
     if (!actor.world.active)
     {
@@ -1989,12 +1972,12 @@ void applyActiveFrameTimerPatch(const ActorAiFacts &actor, const ActorAiFrameFac
 
     const ActorFrameTimerAging frameTimers = ageActorFrameTimers(actor, frame);
 
-    update.statePatch.idleDecisionSeconds = frameTimers.idleDecisionSeconds;
-    update.statePatch.attackCooldownSeconds = frameTimers.attackCooldownSeconds;
-    update.statePatch.actionSeconds = frameTimers.actionSeconds;
-    update.statePatch.crowdSideLockRemainingSeconds = frameTimers.crowdSideLockRemainingSeconds;
-    update.statePatch.crowdRetreatRemainingSeconds = frameTimers.crowdRetreatRemainingSeconds;
-    update.statePatch.crowdStandRemainingSeconds = frameTimers.crowdStandRemainingSeconds;
+    update.state.idleDecisionSeconds = frameTimers.idleDecisionSeconds;
+    update.state.attackCooldownSeconds = frameTimers.attackCooldownSeconds;
+    update.state.actionSeconds = frameTimers.actionSeconds;
+    update.state.crowdSideLockRemainingSeconds = frameTimers.crowdSideLockRemainingSeconds;
+    update.state.crowdRetreatRemainingSeconds = frameTimers.crowdRetreatRemainingSeconds;
+    update.state.crowdStandRemainingSeconds = frameTimers.crowdStandRemainingSeconds;
 }
 
 CrowdSteeringState buildCrowdSteeringState(const ActorAiFacts &actor)
@@ -2141,7 +2124,7 @@ CrowdSteeringResult resolveCrowdSteering(
     return result;
 }
 
-void applyCrowdSteeringStatePatch(ActorAiCommandContext &ai, const CrowdSteeringState &state)
+void applyCrowdSteeringStateUpdate(ActorAiCommandContext &ai, const CrowdSteeringState &state)
 {
     ai.setCrowdNoProgressSeconds(state.noProgressSeconds);
     ai.setCrowdLastEdgeDistance(state.lastEdgeDistance);
@@ -2249,9 +2232,9 @@ bool AI_CrowdSteer(ActorAiCommandContext &ai)
             ActorAiUpdateStepSeconds,
             buildCrowdSteeringState(actor));
 
-    ai.setCrowdSteeringHandled();
+    ai.updateCrowdProbePosition();
     ai.setPursueDecisionCount(crowdSteeringResult.nextDecisionCount);
-    applyCrowdSteeringStatePatch(ai, crowdSteeringResult.state);
+    applyCrowdSteeringStateUpdate(ai, crowdSteeringResult.state);
 
     if (crowdSteeringResult.action == CrowdSteeringAction::Stand)
     {
@@ -2269,7 +2252,7 @@ bool AI_CrowdSteer(ActorAiCommandContext &ai)
     return true;
 }
 
-void applyCombatEngagementPatch(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
+void applyCombatEngagementUpdate(const ActorAiFacts &actor, const ActorAiFrameFacts &frame, ActorAiUpdate &update)
 {
     if (!actor.world.active)
     {
@@ -2282,12 +2265,12 @@ void applyCombatEngagementPatch(const ActorAiFacts &actor, const ActorAiFrameFac
 
     if (engagement.shouldUpdateHostilityType)
     {
-        update.statePatch.hostilityType = engagement.hostilityType;
+        update.state.hostilityType = engagement.hostilityType;
     }
 
     if (engagement.hasDetectedParty != actor.status.hasDetectedParty)
     {
-        update.statePatch.hasDetectedParty = engagement.hasDetectedParty;
+        update.state.hasDetectedParty = engagement.hasDetectedParty;
     }
 
     if (engagement.shouldPlayPartyAlert)
@@ -2301,14 +2284,14 @@ void applyCombatEngagementPatch(const ActorAiFacts &actor, const ActorAiFrameFac
     }
 }
 
-void applyAttackImpactPatch(const ActorAiFacts &actor, ActorAiUpdate &update)
+void applyAttackImpactOutcome(const ActorAiFacts &actor, ActorAiUpdate &update)
 {
     if (!actor.world.active || actor.runtime.motionState != ActorAiMotionState::Attacking)
     {
         return;
     }
 
-    const float actionSeconds = update.statePatch.actionSeconds.value_or(actor.runtime.actionSeconds);
+    const float actionSeconds = update.state.actionSeconds.value_or(actor.runtime.actionSeconds);
     const ActorAttackFrameState attackFrame =
         buildActorAttackFrameState(true, actor.runtime.attackImpactTriggered, actionSeconds);
 
@@ -2320,7 +2303,7 @@ void applyAttackImpactPatch(const ActorAiFacts &actor, ActorAiUpdate &update)
     const bool abilityIsRanged =
         attackAbilityIsRanged(actor.runtime.queuedAttackAbility, actor.stats.attackConstraints);
     const bool abilityIsMelee = !abilityIsRanged;
-    const AttackImpactPatch attackImpact = finishAttackImpact(
+    const AttackImpactOutcome attackImpact = finishAttackImpact(
         actor.runtime.queuedAttackAbility,
         actor.stats.monsterLevel,
         attackDamageProfileFromFacts(actor.stats.attack1Damage),
@@ -2333,7 +2316,7 @@ void applyAttackImpactPatch(const ActorAiFacts &actor, ActorAiUpdate &update)
         actor.status.spellEffects.shrinkDamageMultiplier,
         actor.status.spellEffects.darkGraspRemainingSeconds > 0.0f);
 
-    update.statePatch.attackImpactTriggered = true;
+    update.state.attackImpactTriggered = true;
 
     if (attackImpact.action == AttackImpactAction::None)
     {
@@ -2434,7 +2417,7 @@ void AI_StartAttack(ActorAiCommandContext &ai, const CombatAbilityChoiceResult &
         abilityChoice.ability,
         actor.stats.attackConstraints);
 
-    const AttackStartPatch attackStart = startAttack(
+    const AttackStartOutcome attackStart = startAttack(
         actor.actorId,
         abilityChoice.nextAttackDecisionCount,
         abilityChoice.abilityIsRanged,
@@ -2585,11 +2568,6 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
     ai.resetAnimationOnChange();
     ai.setAttackDecisionCount(abilityChoice.nextAttackDecisionCount);
 
-    if (engagePlan.preserveCrowdSteering)
-    {
-        ai.preserveCrowdSteering();
-    }
-
     if (engagePlan.action == CombatEngageAction::HoldCrowdStand)
     {
         ai.setMotionState(ActorAiMotionState::Standing);
@@ -2598,7 +2576,7 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
             : ActorAiAnimationState::Standing);
         ai.setMovementAction(ActorAiMovementAction::Stand);
         ai.clearMovementDirection();
-        applyActiveMovementCommitPatch(actor, false, ai.update());
+        applyActiveMovementCommit(actor, engagePlan.preserveCrowdSteering, ai.update());
         return true;
     }
 
@@ -2626,7 +2604,7 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
         ai.faceYaw(std::atan2(
             actor.target.currentPosition.y - actor.movement.position.y,
             actor.target.currentPosition.x - actor.movement.position.x));
-        applyActiveMovementCommitPatch(actor, false, ai.update());
+        applyActiveMovementCommit(actor, engagePlan.preserveCrowdSteering, ai.update());
         return true;
     }
 
@@ -2636,7 +2614,7 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
         ai.setMotionState(ActorAiMotionState::Pursuing);
         ai.setAnimationState(ActorAiAnimationState::Walking);
         ai.setDesiredMovement(actor.movement.moveDirectionX, actor.movement.moveDirectionY);
-        applyActiveMovementCommitPatch(actor, false, ai.update());
+        applyActiveMovementCommit(actor, engagePlan.preserveCrowdSteering, ai.update());
         return true;
     }
 
@@ -2646,7 +2624,7 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
         ai.setAnimationState(ActorAiAnimationState::Standing);
         ai.setMovementAction(ActorAiMovementAction::Stand);
         ai.clearMovementDirection();
-        applyActiveMovementCommitPatch(actor, false, ai.update());
+        applyActiveMovementCommit(actor, engagePlan.preserveCrowdSteering, ai.update());
         return true;
     }
 
@@ -2655,20 +2633,20 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
     const float minimumActionSeconds =
         engagePlan.useRecoveryFloorForPursuit ? std::max(0.0f, actor.runtime.recoverySeconds) : 0.0f;
     AI_PursueByMode(ai, engagePlan.pursueMode, minimumActionSeconds);
-    applyActiveMovementCommitPatch(actor, false, ai.update());
+    applyActiveMovementCommit(actor, engagePlan.preserveCrowdSteering, ai.update());
     return true;
 }
 
-void applyActiveAgingPatches(
+void applyActiveAgingUpdates(
     const ActorAiFacts &actor,
     const ActorAiFrameFacts &frame,
     const std::optional<ActorAiUpdate> &statusContinuation,
     ActorAiUpdate &update)
 {
-    applyStatusContinuationPatch(statusContinuation, update);
-    applyActiveAnimationTickPatch(actor, frame, update);
-    applyActiveSpellTimerPatch(actor, frame, update);
-    applyActiveFrameTimerPatch(actor, frame, update);
+    applyStatusContinuationUpdate(statusContinuation, update);
+    applyActiveAnimationTickUpdate(actor, frame, update);
+    applyActiveSpellTimerUpdate(actor, frame, update);
+    applyActiveFrameTimerUpdate(actor, frame, update);
 }
 
 bool AI_ApplyStatusState(ActorAiCommandContext &ai)
@@ -2684,7 +2662,7 @@ bool AI_ApplyStatusState(ActorAiCommandContext &ai)
     const GameplayActorService actorService = {};
     const float animationTimeTicks = ageActorAnimationTimeTicks(actor, *pFrame);
 
-    const ActorStatusFramePatch currentStatusFrame = resolveActorStatusFrame(
+    const ActorStatusFrameOutcome currentStatusFrame = resolveActorStatusFrame(
         actor.runtime.motionState == ActorAiMotionState::Stunned,
         actor.status.spellEffects.paralyzeRemainingSeconds > 0.0f,
         false,
@@ -2694,7 +2672,6 @@ bool AI_ApplyStatusState(ActorAiCommandContext &ai)
 
     if (currentStatusFrame.action == ActorStatusFrameAction::HoldStun)
     {
-        ai.setStatusLockHandled();
         ai.setMotionState(ActorAiMotionState::Stunned);
         ai.setActionSeconds(currentStatusFrame.actionSeconds);
         ai.setAnimationState(ActorAiAnimationState::GotHit);
@@ -2705,7 +2682,6 @@ bool AI_ApplyStatusState(ActorAiCommandContext &ai)
 
     if (currentStatusFrame.action == ActorStatusFrameAction::RecoverFromStun)
     {
-        ai.setStatusLockHandled();
         ai.setMotionState(ActorAiMotionState::Standing);
         ai.setActionSeconds(currentStatusFrame.actionSeconds);
         ai.setAnimationState(ActorAiAnimationState::Standing);
@@ -2718,7 +2694,7 @@ bool AI_ApplyStatusState(ActorAiCommandContext &ai)
     actorService.updateSpellEffectTimers(spellEffects, pFrame->fixedStepSeconds, actor.status.defaultHostileToParty);
     ai.setSpellEffects(spellEffects);
 
-    const ActorStatusFramePatch updatedStatusFrame = resolveActorStatusFrame(
+    const ActorStatusFrameOutcome updatedStatusFrame = resolveActorStatusFrame(
         false,
         spellEffects.paralyzeRemainingSeconds > 0.0f,
         spellEffects.stunRemainingSeconds > 0.0f,
@@ -2728,7 +2704,6 @@ bool AI_ApplyStatusState(ActorAiCommandContext &ai)
 
     if (updatedStatusFrame.action == ActorStatusFrameAction::HoldParalyze)
     {
-        ai.setStatusLockHandled();
         ai.setMotionState(ActorAiMotionState::Standing);
         ai.setActionSeconds(updatedStatusFrame.actionSeconds);
         ai.setAttackImpactTriggered(false);
@@ -2741,7 +2716,6 @@ bool AI_ApplyStatusState(ActorAiCommandContext &ai)
 
     if (updatedStatusFrame.action == ActorStatusFrameAction::ForceStun)
     {
-        ai.setStatusLockHandled();
         ai.setMotionState(ActorAiMotionState::Stunned);
         ai.setActionSeconds(updatedStatusFrame.actionSeconds);
         ai.setSpellEffects(spellEffects);
@@ -2976,18 +2950,18 @@ ActorAiCommandContext beginActiveActorCommand(
     const std::optional<ActorAiUpdate> &statusContinuation)
 {
     ActorAiUpdate update = makeActorUpdate(actor);
-    applyActiveAgingPatches(actor, frame, statusContinuation, update);
-    applyCombatEngagementPatch(actor, frame, update);
+    applyActiveAgingUpdates(actor, frame, statusContinuation, update);
+    applyCombatEngagementUpdate(actor, frame, update);
 
     ActorAiCommandContext ai(actor, frame);
     ai.replaceUpdate(update);
     return ai;
 }
 
-ActorAiUpdate finishActiveMovementCommand(ActorAiCommandContext &ai, bool attackInProgress)
+ActorAiUpdate finishActiveMovementCommand(ActorAiCommandContext &ai)
 {
     ActorAiUpdate update = ai.finish();
-    applyActiveMovementCommitPatch(ai.actor(), attackInProgress, update);
+    applyActiveMovementCommit(ai.actor(), false, update);
     return update;
 }
 
@@ -3001,16 +2975,16 @@ ActorAiUpdate AI_ActiveCurrentAction(
     AI_ContinueCurrentAction(ai);
 
     ActorAiUpdate update = ai.finish();
-    applyActiveAgingPatches(actor, frame, statusContinuation, update);
-    applyAttackImpactPatch(actor, update);
-    applyCombatEngagementPatch(actor, frame, update);
+    applyActiveAgingUpdates(actor, frame, statusContinuation, update);
+    applyAttackImpactOutcome(actor, update);
+    applyCombatEngagementUpdate(actor, frame, update);
     ai.replaceUpdate(update);
 
-    const bool attackInProgress = ai.update().statePatch.actionSeconds.value_or(actor.runtime.actionSeconds) > 0.0f;
+    const bool attackInProgress = ai.update().state.actionSeconds.value_or(actor.runtime.actionSeconds) > 0.0f;
 
     if (AI_CombatFlow(ai, attackInProgress))
     {
-        return finishActiveMovementCommand(ai, attackInProgress);
+        return finishActiveMovementCommand(ai);
     }
 
     if (hasTarget && AI_AttackOrPursue(ai))
@@ -3018,8 +2992,8 @@ ActorAiUpdate AI_ActiveCurrentAction(
         return ai.finish();
     }
 
-    AI_StandOrBored(ai, ai.update().statePatch.actionSeconds.value_or(actor.runtime.actionSeconds));
-    return finishActiveMovementCommand(ai, false);
+    AI_StandOrBored(ai, ai.update().state.actionSeconds.value_or(actor.runtime.actionSeconds));
+    return finishActiveMovementCommand(ai);
 }
 
 ActorAiUpdate AI_ActiveBehavior(
@@ -3032,7 +3006,7 @@ ActorAiUpdate AI_ActiveBehavior(
 
     if (AI_CombatFlow(ai, false))
     {
-        return finishActiveMovementCommand(ai, false);
+        return finishActiveMovementCommand(ai);
     }
 
     if (hasTarget && AI_AttackOrPursue(ai))
@@ -3040,8 +3014,8 @@ ActorAiUpdate AI_ActiveBehavior(
         return ai.finish();
     }
 
-    AI_StandOrBored(ai, ai.update().statePatch.actionSeconds.value_or(actor.runtime.actionSeconds));
-    return finishActiveMovementCommand(ai, false);
+    AI_StandOrBored(ai, ai.update().state.actionSeconds.value_or(actor.runtime.actionSeconds));
+    return finishActiveMovementCommand(ai);
 }
 
 ActorAiUpdate updateBackgroundActor(const ActorAiFacts &actor, const ActorAiFrameFacts &frame)
@@ -3049,7 +3023,7 @@ ActorAiUpdate updateBackgroundActor(const ActorAiFacts &actor, const ActorAiFram
     ActorAiCommandContext ai(actor, frame);
     const bool frameHandled = AI_DeathOrStatus(ai);
 
-    if (frameHandled || ai.update().statePatch.spellEffects)
+    if (frameHandled || ai.update().state.spellEffects)
     {
         return ai.finish();
     }
@@ -3075,9 +3049,9 @@ ActorAiUpdate updateActor(const ActorAiFacts &actor, const ActorAiFrameFacts &fr
 
         ActorAiUpdate statusUpdate = ai.finish();
 
-        if (statusUpdate.statePatch.spellEffects)
+        if (statusUpdate.state.spellEffects)
         {
-            actorFacts.status.spellEffects = *statusUpdate.statePatch.spellEffects;
+            actorFacts.status.spellEffects = *statusUpdate.state.spellEffects;
             statusContinuation = statusUpdate;
         }
     }
