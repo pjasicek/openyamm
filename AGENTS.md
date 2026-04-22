@@ -286,6 +286,12 @@ Validation commands:
 - cmake --build build --target openyamm -j25
 - ctest --test-dir build --output-on-failure
 
+Test rules:
+- Prefer doctest/unit tests for pure collision math and deterministic indoor resolver behavior.
+- Use headless tests for integrated BLV behavior that requires loaded map data, mechanisms, actor runtime state, or
+  sector transitions.
+- Manual smoke is acceptable only when the behavior is not practical to assert automatically in the current harness.
+
 Manual smoke tests to note in PROGRESS.md when relevant:
 - `blv18` Naga Vault: large Naga actors can pass through portals without perfect center alignment
 - indoor actors do not pass through closed doors/walls

@@ -36,11 +36,13 @@
 
 ## Test Acceptance
 
+- [ ] Unit/doctest tests are preferred over headless tests for deterministic collision primitives.
 - [ ] Doctest coverage exists for pure swept collision math where practical.
 - [ ] Doctest coverage exists for nearest-hit selection where practical.
 - [ ] Doctest coverage exists for wall velocity projection where practical.
 - [ ] Doctest coverage exists for portal-adjacent sector selection where practical.
 - [ ] Doctest coverage exists for actor contact override radius where practical.
+- [ ] Headless tests cover integrated BLV collision behavior where practical and not cheaply unit-testable.
 - [ ] Headless or manual smoke for `blv18` Naga Vault is recorded in `PROGRESS.md`.
 - [ ] Headless or manual smoke for opened-door pocket movement is recorded in `PROGRESS.md`.
 

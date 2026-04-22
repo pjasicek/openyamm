@@ -175,9 +175,10 @@ Temporary diagnostics are allowed during the slice, but must be bounded and remo
 
 Diagnostics must not become permanent noisy stdout spam.
 
-## Tests
+## Test Strategy
 
-Prefer doctest/unit tests for pure movement geometry where possible:
+Prefer doctest/unit tests first. Any collision rule that can be isolated from a live BLV session should be covered by
+unit tests instead of being left to the slower headless suite:
 
 - swept sphere misses face;
 - swept sphere hits nearest face;
@@ -186,7 +187,8 @@ Prefer doctest/unit tests for pure movement geometry where possible:
 - actor-vs-actor override radius contact calculation;
 - velocity projection along a wall normal.
 
-Headless or manual tests are still needed for full BLV integration:
+Headless tests are appropriate for integrated cases that need loaded BLV data, mechanisms, sector transitions, or
+runtime party/actor state. Manual smoke is acceptable only when the behavior is hard to assert automatically:
 
 - `blv18` Naga Vault portal actors can pass through portals;
 - large nagas no longer need perfect center alignment to pass through a portal;
@@ -209,6 +211,8 @@ Headless or manual tests are still needed for full BLV integration:
 - Shared actor AI remains shared and only receives movement/contact facts.
 - No OpenEnroth code is copied.
 - Build and CTest pass.
+- Unit/doctest coverage exists for pure collision primitives and deterministic resolver pieces where practical.
+- Headless coverage exists for integrated indoor collision flows where practical.
 - `PROGRESS.md` records manual smoke results or explicitly states what remains to test.
 
 ## Non-Goals

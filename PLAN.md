@@ -71,5 +71,7 @@ move to nearest hit, respond, then continue with remaining movement.
 - Use `docs/indoor_oe_collision_physics_plan.md` for detailed requirements and acceptance.
 - Keep the repository buildable after each meaningful slice.
 - Update `TASK_QUEUE.md` and `PROGRESS.md` after each meaningful slice.
-- Prefer doctest coverage for pure collision math.
-- Record manual smoke status for BLV integration cases in `PROGRESS.md`.
+- Prefer doctest/unit coverage for pure collision math and deterministic resolver behavior.
+- Use headless tests for integrated BLV behavior only when a unit test would be artificial or too coupled to runtime
+  setup.
+- Record manual smoke status for BLV integration cases in `PROGRESS.md` when no reliable automated test exists yet.

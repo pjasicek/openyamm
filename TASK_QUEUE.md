@@ -10,6 +10,8 @@
 - Keep the repository buildable after each meaningful slice.
 - Run `cmake --build build --target openyamm -j25` after each meaningful implementation slice.
 - Run `ctest --test-dir build --output-on-failure` after each meaningful implementation slice.
+- Prefer doctest/unit tests for deterministic collision math and resolver pieces.
+- Add headless tests only for integrated BLV behavior that cannot be isolated cleanly in doctest.
 - Update this file and `PROGRESS.md` after each meaningful slice.
 - Do not copy OpenEnroth code.
 - Do not move BLV collision into shared gameplay.
@@ -62,6 +64,7 @@
 - [ ] Support low sphere, high sphere, midpoint sphere, and face-center-height sphere checks.
 - [ ] Respect untouchable/ethereal/non-blocking faces.
 - [ ] Add doctest coverage for miss, direct hit, nearest-hit selection, and velocity projection primitives.
+- [ ] Do not defer pure geometry behavior to headless tests.
 - [ ] Build `openyamm`.
 - [ ] Run ctest.
 - [ ] Update `PROGRESS.md`.
@@ -72,6 +75,7 @@
 - [ ] Include current sector and portal-adjacent sector when swept body touches portal bounds/plane closely enough.
 - [ ] Preserve moving mechanism adjusted vertices and door blocking masks.
 - [ ] Add doctest coverage where geometry can be isolated.
+- [ ] Add or adapt a headless test only if the portal behavior requires loaded BLV data.
 - [ ] Build `openyamm`.
 - [ ] Run ctest.
 - [ ] Update `PROGRESS.md`.
@@ -95,6 +99,7 @@
 - [ ] Preserve party collider participation.
 - [ ] Preserve actor sector id updates.
 - [ ] Validate manually or with focused diagnostics in `blv18` Naga Vault.
+- [ ] Add headless coverage for `blv18` actor portal movement if it can be asserted without fragile timing.
 - [ ] Build `openyamm`.
 - [ ] Run ctest.
 - [ ] Update `PROGRESS.md`.
@@ -115,6 +120,7 @@
 - [ ] Preserve current input semantics, jump, gravity, and camera-independent gameplay behavior.
 - [ ] Preserve party-vs-hostile-actor blocking.
 - [ ] Validate opened-door pocket movement does not jitter.
+- [ ] Add headless coverage for opened-door pocket movement if it can be asserted deterministically.
 - [ ] Build `openyamm`.
 - [ ] Run ctest.
 - [ ] Update `PROGRESS.md`.

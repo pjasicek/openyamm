@@ -33,7 +33,8 @@ Current priority:
 Do not copy OpenEnroth code. Use the local OpenEnroth checkout only as behavioral/structural reference.
 Do not move BLV collision into shared gameplay.
 Do not introduce callback bags or adapters that hide ownership.
-Prefer doctest coverage for pure collision primitives.
+Prefer doctest/unit tests for pure collision primitives and deterministic resolver behavior.
+Use headless tests for integrated BLV behavior only when unit tests would be artificial or too coupled to runtime setup.
 Run the documented build/tests.
 Fix regressions you introduce.
 Update TASK_QUEUE.md and PROGRESS.md with concrete evidence.
