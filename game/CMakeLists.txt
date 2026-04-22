@@ -69,7 +69,7 @@ add_executable(openyamm
     items/ItemGenerator.cpp
     items/ItemRuntime.cpp
     tables/ItemTable.cpp
-    indoor/IndoorDebugRenderer.cpp
+    indoor/IndoorRenderer.cpp
     indoor/IndoorGameView.cpp
     indoor/IndoorGeometryUtils.cpp
     indoor/IndoorMapData.cpp

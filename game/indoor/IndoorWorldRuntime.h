@@ -21,7 +21,7 @@ namespace OpenYAMM::Game
 class GameplayActorAiSystem;
 class GameplayActorService;
 class GameplayProjectileService;
-class IndoorDebugRenderer;
+class IndoorRenderer;
 class IndoorFaceGeometryCache;
 class IndoorGameView;
 class IndoorPartyRuntime;
@@ -87,7 +87,7 @@ public:
 
     IndoorWorldRuntime() = default;
 
-    void bindRenderer(IndoorDebugRenderer *pRenderer);
+    void bindRenderer(IndoorRenderer *pRenderer);
     void bindGameplayView(IndoorGameView *pView);
 
     void initialize(
@@ -367,7 +367,7 @@ private:
     std::optional<EventRuntimeState> *m_pEventRuntimeState = nullptr;
     GameplayActorService *m_pGameplayActorService = nullptr;
     GameplayProjectileService *m_pGameplayProjectileService = nullptr;
-    IndoorDebugRenderer *m_pRenderer = nullptr;
+    IndoorRenderer *m_pRenderer = nullptr;
     IndoorGameView *m_pGameplayView = nullptr;
     std::string m_mapName;
     float m_gameMinutes = 9.0f * 60.0f;

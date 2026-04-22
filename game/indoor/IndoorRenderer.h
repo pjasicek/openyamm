@@ -27,7 +27,7 @@ struct GameplayInputFrame;
 struct PartySpellCastResult;
 class IndoorSceneRuntime;
 
-class IndoorDebugRenderer
+class IndoorRenderer
 {
 public:
     struct GameplayActorPick
@@ -39,11 +39,11 @@ public:
         float sourceHeight = 0.0f;
     };
 
-    IndoorDebugRenderer();
-    ~IndoorDebugRenderer();
+    IndoorRenderer();
+    ~IndoorRenderer();
 
-    IndoorDebugRenderer(const IndoorDebugRenderer &) = delete;
-    IndoorDebugRenderer &operator=(const IndoorDebugRenderer &) = delete;
+    IndoorRenderer(const IndoorRenderer &) = delete;
+    IndoorRenderer &operator=(const IndoorRenderer &) = delete;
 
     bool initialize(
         Engine::AssetScaleTier assetScaleTier,
@@ -363,34 +363,13 @@ private:
     float m_cameraPositionZ;
     float m_cameraYawRadians;
     float m_cameraPitchRadians;
-    bool m_showFilled;
-    bool m_showWireframe;
-    bool m_showPortals;
-    bool m_showDecorationBillboards;
-    bool m_showActors;
-    bool m_showSpriteObjects;
     bool m_isRotatingCamera;
     float m_lastMouseX;
     float m_lastMouseY;
     int m_lastRenderWidth = 0;
     int m_lastRenderHeight = 0;
-    bool m_toggleFilledLatch;
-    bool m_toggleWireframeLatch;
-    bool m_togglePortalsLatch;
-    bool m_toggleDecorationBillboardsLatch;
-    bool m_toggleActorsLatch;
-    bool m_toggleSpriteObjectsLatch;
-    bool m_showEntities;
-    bool m_showSpawns;
-    bool m_showDoors;
     bool m_gameplayMouseLookEnabled = false;
     bool m_gameplayCursorMode = false;
-    bool m_inspectMode;
-    bool m_toggleEntitiesLatch;
-    bool m_toggleSpawnsLatch;
-    bool m_toggleDoorsLatch;
-    bool m_toggleTextureFilteringLatch;
-    bool m_toggleInspectLatch;
     bool m_activateInspectLatch;
     bool m_jumpHeld;
     InspectHit m_cachedInspectHit = {};

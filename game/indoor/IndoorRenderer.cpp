@@ -1,4 +1,4 @@
-#include "game/indoor/IndoorDebugRenderer.h"
+#include "game/indoor/IndoorRenderer.h"
 
 #include "game/data/ActorNameResolver.h"
 #include "game/FaceEnums.h"
@@ -1112,10 +1112,10 @@ bool faceHasInvisibleOverride(
 }
 }
 
-bgfx::VertexLayout IndoorDebugRenderer::TerrainVertex::ms_layout;
-bgfx::VertexLayout IndoorDebugRenderer::TexturedVertex::ms_layout;
+bgfx::VertexLayout IndoorRenderer::TerrainVertex::ms_layout;
+bgfx::VertexLayout IndoorRenderer::TexturedVertex::ms_layout;
 
-IndoorDebugRenderer::IndoorDebugRenderer()
+IndoorRenderer::IndoorRenderer()
     : m_isInitialized(false)
     , m_isRenderable(false)
     , m_indoorMapData(std::nullopt)
@@ -1142,41 +1142,20 @@ IndoorDebugRenderer::IndoorDebugRenderer()
     , m_cameraPositionZ(256.0f)
     , m_cameraYawRadians(0.0f)
     , m_cameraPitchRadians(0.15f)
-    , m_showFilled(true)
-    , m_showWireframe(false)
-    , m_showPortals(false)
-    , m_showDecorationBillboards(true)
-    , m_showActors(true)
-    , m_showSpriteObjects(true)
     , m_isRotatingCamera(false)
     , m_lastMouseX(0.0f)
     , m_lastMouseY(0.0f)
-    , m_toggleFilledLatch(false)
-    , m_toggleWireframeLatch(false)
-    , m_togglePortalsLatch(false)
-    , m_toggleDecorationBillboardsLatch(false)
-    , m_toggleActorsLatch(false)
-    , m_toggleSpriteObjectsLatch(false)
-    , m_showEntities(true)
-    , m_showSpawns(true)
-    , m_showDoors(true)
-    , m_inspectMode(false)
-    , m_toggleEntitiesLatch(false)
-    , m_toggleSpawnsLatch(false)
-    , m_toggleDoorsLatch(false)
-    , m_toggleTextureFilteringLatch(false)
-    , m_toggleInspectLatch(false)
     , m_activateInspectLatch(false)
     , m_jumpHeld(false)
 {
 }
 
-IndoorDebugRenderer::~IndoorDebugRenderer()
+IndoorRenderer::~IndoorRenderer()
 {
     shutdown();
 }
 
-bool IndoorDebugRenderer::initialize(
+bool IndoorRenderer::initialize(
     Engine::AssetScaleTier assetScaleTier,
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
@@ -1235,7 +1214,7 @@ bool IndoorDebugRenderer::initialize(
 
         if (!bgfx::isValid(m_entityMarkerVertexBufferHandle))
         {
-            std::cerr << "IndoorDebugRenderer: failed to create entity marker vertex buffer\n";
+            std::cerr << "IndoorRenderer: failed to create entity marker vertex buffer\n";
             shutdown();
             return false;
         }
@@ -1254,7 +1233,7 @@ bool IndoorDebugRenderer::initialize(
 
         if (!bgfx::isValid(m_spawnMarkerVertexBufferHandle))
         {
-            std::cerr << "IndoorDebugRenderer: failed to create spawn marker vertex buffer\n";
+            std::cerr << "IndoorRenderer: failed to create spawn marker vertex buffer\n";
             shutdown();
             return false;
         }
@@ -1358,28 +1337,28 @@ bool IndoorDebugRenderer::initialize(
 
     if (!bgfx::isValid(m_programHandle))
     {
-        std::cerr << "IndoorDebugRenderer: failed to create debug program handle\n";
+        std::cerr << "IndoorRenderer: failed to create debug program handle\n";
         shutdown();
         return false;
     }
 
     if (!bgfx::isValid(m_texturedProgramHandle))
     {
-        std::cerr << "IndoorDebugRenderer: failed to create textured program handle\n";
+        std::cerr << "IndoorRenderer: failed to create textured program handle\n";
         shutdown();
         return false;
     }
 
     if (!bgfx::isValid(m_textureSamplerHandle))
     {
-        std::cerr << "IndoorDebugRenderer: failed to create texture sampler uniform\n";
+        std::cerr << "IndoorRenderer: failed to create texture sampler uniform\n";
         shutdown();
         return false;
     }
 
     if (!rebuildDerivedGeometryResources())
     {
-        std::cerr << "IndoorDebugRenderer: failed to rebuild derived geometry resources during initialize\n";
+        std::cerr << "IndoorRenderer: failed to rebuild derived geometry resources during initialize\n";
         shutdown();
         return false;
     }
@@ -1420,7 +1399,7 @@ bool IndoorDebugRenderer::initialize(
     return true;
 }
 
-bool IndoorDebugRenderer::isFaceVisible(
+bool IndoorRenderer::isFaceVisible(
     size_t faceIndex,
     const IndoorFace &face,
     const std::optional<EventRuntimeState> &eventRuntimeState
@@ -1434,7 +1413,7 @@ bool IndoorDebugRenderer::isFaceVisible(
     return !faceHasInvisibleOverride(faceIndex, eventRuntimeState);
 }
 
-std::vector<uint8_t> IndoorDebugRenderer::buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const
+std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const
 {
     (void)cameraPosition;
 
@@ -1552,7 +1531,7 @@ std::vector<uint8_t> IndoorDebugRenderer::buildVisibleSectorMask(const bx::Vec3 
     return visibleSectorMask;
 }
 
-bool IndoorDebugRenderer::isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const
+bool IndoorRenderer::isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const
 {
     if (visibleSectorMask.empty())
     {
@@ -1564,7 +1543,7 @@ bool IndoorDebugRenderer::isSectorVisible(int16_t sectorId, const std::vector<ui
         && visibleSectorMask[sectorId] != 0;
 }
 
-bool IndoorDebugRenderer::isBatchVisible(
+bool IndoorRenderer::isBatchVisible(
     const TexturedBatch &batch,
     const std::vector<uint8_t> &visibleSectorMask
 ) const
@@ -1582,7 +1561,7 @@ bool IndoorDebugRenderer::isBatchVisible(
     return batch.sectorId < 0 && batch.backSectorId < 0;
 }
 
-void IndoorDebugRenderer::render(
+void IndoorRenderer::render(
     int width,
     int height,
     const GameplayInputFrame &input,
@@ -1621,21 +1600,22 @@ void IndoorDebugRenderer::render(
     const bx::Vec3 eye = {m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ};
     const bx::Vec3 at = {
         m_cameraPositionX + cosYaw * cosPitch,
-        m_cameraPositionY - sinYaw * cosPitch,
+        m_cameraPositionY + sinYaw * cosPitch,
         m_cameraPositionZ + sinPitch
     };
     const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
 
     float viewMatrix[16] = {};
     float projectionMatrix[16] = {};
-    bx::mtxLookAt(viewMatrix, eye, at, up);
+    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
     bx::mtxProj(
         projectionMatrix,
         60.0f,
         static_cast<float>(viewWidth) / static_cast<float>(viewHeight),
         0.1f,
         50000.0f,
-        bgfx::getCaps()->homogeneousDepth
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right
     );
 
     bgfx::setViewTransform(MainViewId, viewMatrix, projectionMatrix);
@@ -1646,7 +1626,7 @@ void IndoorDebugRenderer::render(
     float mouseX = input.pointerX;
     float mouseY = input.pointerY;
 
-    if (m_inspectMode && m_indoorMapData)
+    if (m_indoorMapData)
     {
         if (m_gameplayMouseLookEnabled && !m_gameplayCursorMode)
         {
@@ -1742,7 +1722,7 @@ void IndoorDebugRenderer::render(
     float modelMatrix[16] = {};
     bx::mtxIdentity(modelMatrix);
 
-    if (m_showFilled && bgfx::isValid(m_texturedProgramHandle) && bgfx::isValid(m_textureSamplerHandle))
+    if (bgfx::isValid(m_texturedProgramHandle) && bgfx::isValid(m_textureSamplerHandle))
     {
         for (const TexturedBatch &batch : m_texturedBatches)
         {
@@ -1785,391 +1765,31 @@ void IndoorDebugRenderer::render(
         }
     }
 
-    if (m_showDecorationBillboards)
-    {
-        renderDecorationBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
-    }
-
-    if (m_showWireframe && bgfx::isValid(m_wireframeVertexBufferHandle) && m_wireframeVertexCount > 0)
-    {
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, m_wireframeVertexBufferHandle, 0, m_wireframeVertexCount);
-        bgfx::setState(
-            BGFX_STATE_WRITE_RGB
-            | BGFX_STATE_WRITE_A
-            | BGFX_STATE_WRITE_Z
-            | BGFX_STATE_DEPTH_TEST_LESS
-            | BGFX_STATE_PT_LINES
-        );
-        bgfx::submit(MainViewId, m_programHandle);
-    }
-
-    if (m_showPortals && bgfx::isValid(m_portalVertexBufferHandle) && m_portalVertexCount > 0)
-    {
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, m_portalVertexBufferHandle, 0, m_portalVertexCount);
-        bgfx::setState(
-            BGFX_STATE_WRITE_RGB
-            | BGFX_STATE_WRITE_A
-            | BGFX_STATE_WRITE_Z
-            | BGFX_STATE_DEPTH_TEST_LEQUAL
-            | BGFX_STATE_PT_LINES
-        );
-        bgfx::submit(MainViewId, m_programHandle);
-    }
-
-    if (m_showEntities && bgfx::isValid(m_entityMarkerVertexBufferHandle) && m_entityMarkerVertexCount > 0)
-    {
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, m_entityMarkerVertexBufferHandle, 0, m_entityMarkerVertexCount);
-        bgfx::setState(
-            BGFX_STATE_WRITE_RGB
-            | BGFX_STATE_WRITE_A
-            | BGFX_STATE_WRITE_Z
-            | BGFX_STATE_DEPTH_TEST_LEQUAL
-            | BGFX_STATE_PT_LINES
-        );
-        bgfx::submit(MainViewId, m_programHandle);
-    }
-
-    if (m_showActors)
-    {
-        renderActorPreviewBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
-    }
-
-    if (m_showSpriteObjects)
-    {
-        renderSpriteObjectBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
-    }
+    renderDecorationBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
+    renderActorPreviewBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
+    renderSpriteObjectBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
 
     renderPendingSpellWorldFx(MainViewId, viewMatrix, eye);
     advancePendingSpellWorldFx(deltaSeconds);
 
-    if (m_showSpawns && bgfx::isValid(m_spawnMarkerVertexBufferHandle) && m_spawnMarkerVertexCount > 0)
-    {
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, m_spawnMarkerVertexBufferHandle, 0, m_spawnMarkerVertexCount);
-        bgfx::setState(
-            BGFX_STATE_WRITE_RGB
-            | BGFX_STATE_WRITE_A
-            | BGFX_STATE_WRITE_Z
-            | BGFX_STATE_DEPTH_TEST_LEQUAL
-            | BGFX_STATE_PT_LINES
-        );
-        bgfx::submit(MainViewId, m_programHandle);
-    }
-
-    if (m_showDoors && bgfx::isValid(m_doorMarkerVertexBufferHandle) && m_doorMarkerVertexCount > 0)
-    {
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, m_doorMarkerVertexBufferHandle, 0, m_doorMarkerVertexCount);
-        bgfx::setState(
-            BGFX_STATE_WRITE_RGB
-            | BGFX_STATE_WRITE_A
-            | BGFX_STATE_WRITE_Z
-            | BGFX_STATE_DEPTH_TEST_LEQUAL
-            | BGFX_STATE_PT_LINES
-        );
-        bgfx::submit(MainViewId, m_programHandle);
-    }
-
-    bgfx::dbgTextClear();
-    bgfx::dbgTextPrintf(0, 1, 0x0f, "Indoor debug renderer");
-    bgfx::dbgTextPrintf(0, 2, 0x0f, "FPS: %.1f", m_framesPerSecond);
-    bgfx::dbgTextPrintf(0, 3, 0x0f, "Faces: %u", m_faceCount);
-    bgfx::dbgTextPrintf(
-        0,
-        4,
-        0x0f,
-        "Modes: 1 filled=%s  2 wire=%s  3 portals=%s  4 sprites=%s  5 actors=%s  6 objs=%s  7 ents=%s  8 spawns=%s  9 mechs=%s  0 inspect=%s  F7 filter=%s  textured=%s",
-        m_showFilled ? "on" : "off",
-        m_showWireframe ? "on" : "off",
-        m_showPortals ? "on" : "off",
-        m_showDecorationBillboards ? "on" : "off",
-        m_showActors ? "on" : "off",
-        m_showSpriteObjects ? "on" : "off",
-        m_showEntities ? "on" : "off",
-        m_showSpawns ? "on" : "off",
-        m_showDoors ? "on" : "off",
-        m_inspectMode ? "on" : "off",
-        textureFilteringEnabled() ? "on" : "off",
-        m_texturedBatches.empty() ? "no" : "yes"
-    );
-    bgfx::dbgTextPrintf(0, 5, 0x0f, "Move: WASD  Rotate: RMB drag");
-    bgfx::dbgTextPrintf(
-        0,
-        6,
-        0x0f,
-        "Position: %.0f %.0f %.0f  sprites=%u ents=%u spawns=%u mechs=%u",
-        m_cameraPositionX,
-        m_cameraPositionY,
-        m_cameraPositionZ,
-        m_indoorDecorationBillboardSet ? static_cast<unsigned>(m_indoorDecorationBillboardSet->billboards.size()) : 0u,
-        m_indoorMapData ? static_cast<unsigned>(m_indoorMapData->entities.size()) : 0u,
-        m_indoorMapData ? static_cast<unsigned>(m_indoorMapData->spawns.size()) : 0u,
-        runtimeMapDeltaData() ? static_cast<unsigned>(runtimeMapDeltaData()->doors.size()) : 0u
-    );
-    if (m_inspectMode)
-    {
-        bgfx::dbgTextPrintf(0, 8, 0x0f, "Activate: LeftClick/E");
-
-        if (inspectHit.hasHit)
-        {
-            const std::optional<ScriptedEventProgram> &localEventProgram =
-                m_pSceneRuntime != nullptr ? m_pSceneRuntime->localEventProgram() : std::optional<ScriptedEventProgram>{};
-            const std::optional<ScriptedEventProgram> &globalEventProgram =
-                m_pSceneRuntime != nullptr ? m_pSceneRuntime->globalEventProgram() : std::optional<ScriptedEventProgram>{};
-
-            bgfx::dbgTextPrintf(
-                0,
-                7,
-                0x0f,
-                "Inspect: %s=%u dist=%.0f tex=%s name=%s",
-                inspectHit.kind.c_str(),
-                static_cast<unsigned>(inspectHit.index),
-                inspectHit.distance,
-                inspectHit.textureName.empty() ? "-" : inspectHit.textureName.c_str(),
-                inspectHit.name.empty() ? "-" : inspectHit.name.c_str()
-            );
-
-            if (inspectHit.kind == "entity")
-            {
-                const std::string primaryEventSummary = summarizeLinkedEvent(
-                    inspectHit.eventIdPrimary,
-                    m_houseTable,
-                    localEventProgram,
-                    globalEventProgram
-                );
-                const std::string secondaryEventSummary = summarizeLinkedEvent(
-                    inspectHit.eventIdSecondary,
-                    m_houseTable,
-                    localEventProgram,
-                    globalEventProgram
-                );
-                const std::string primaryChestSummary = summarizeLinkedChests(
-                    inspectHit.eventIdPrimary,
-                    runtimeMapDeltaData(),
-                    m_chestTable,
-                    localEventProgram,
-                    globalEventProgram
-                );
-                const std::string secondaryChestSummary = summarizeLinkedChests(
-                    inspectHit.eventIdSecondary,
-                    runtimeMapDeltaData(),
-                    m_chestTable,
-                    localEventProgram,
-                    globalEventProgram
-                );
-                bgfx::dbgTextPrintf(
-                    0,
-                    8,
-                    0x0f,
-                    "Entity: dec=%u evt=%u/%u var=%u/%u trig=%u",
-                    inspectHit.decorationListId,
-                    inspectHit.eventIdPrimary,
-                    inspectHit.eventIdSecondary,
-                    inspectHit.variablePrimary,
-                    inspectHit.variableSecondary,
-                    inspectHit.specialTrigger
-                );
-                bgfx::dbgTextPrintf(0, 9, 0x0f, "Script: P %s | S %s", primaryEventSummary.c_str(), secondaryEventSummary.c_str());
-                if (!primaryChestSummary.empty() || !secondaryChestSummary.empty())
-                {
-                    bgfx::dbgTextPrintf(
-                        0,
-                        10,
-                        0x0f,
-                        "Chest: P %s | S %s",
-                        primaryChestSummary.empty() ? "-" : primaryChestSummary.c_str(),
-                        secondaryChestSummary.empty() ? "-" : secondaryChestSummary.c_str()
-                    );
-                }
-            }
-            else if (inspectHit.kind == "face")
-            {
-                const std::string faceEventSummary = summarizeLinkedEvent(
-                    inspectHit.cogTriggered,
-                    m_houseTable,
-                    localEventProgram,
-                    globalEventProgram
-                );
-                const std::string faceChestSummary = summarizeLinkedChests(
-                    inspectHit.cogTriggered,
-                    runtimeMapDeltaData(),
-                    m_chestTable,
-                    localEventProgram,
-                    globalEventProgram
-                );
-                bgfx::dbgTextPrintf(
-                    0,
-                    8,
-                    0x0f,
-                    "Face: attr=0x%08x portal=%s room=%u behind=%u type=%u",
-                    inspectHit.attributes,
-                    inspectHit.isPortal ? "yes" : "no",
-                    inspectHit.roomNumber,
-                    inspectHit.roomBehindNumber,
-                    static_cast<unsigned>(inspectHit.facetType)
-                );
-                bgfx::dbgTextPrintf(
-                    0,
-                    9,
-                    0x0f,
-                    "FaceEvt: cog=%u evt=%u trigType=%u",
-                    inspectHit.cogNumber,
-                    inspectHit.cogTriggered,
-                    inspectHit.cogTriggerType
-                );
-                bgfx::dbgTextPrintf(0, 10, 0x0f, "Script: %s", faceEventSummary.c_str());
-                if (!faceChestSummary.empty())
-                {
-                    bgfx::dbgTextPrintf(0, 11, 0x0f, "%s", faceChestSummary.c_str());
-                }
-            }
-            else if (inspectHit.kind == "actor")
-            {
-                bgfx::dbgTextPrintf(
-                    0,
-                    8,
-                    0x0f,
-                    "Actor: %s %s",
-                    inspectHit.name.empty() ? "-" : inspectHit.name.c_str(),
-                    inspectHit.isFriendly ? "[friendly]" : "[hostile]"
-                );
-                bgfx::dbgTextPrintf(0, 9, 0x0f, "%s", inspectHit.spawnSummary.empty() ? "-" : inspectHit.spawnSummary.c_str());
-                bgfx::dbgTextPrintf(0, 10, 0x0f, "%s", inspectHit.spawnDetail.empty() ? "-" : inspectHit.spawnDetail.c_str());
-            }
-            else if (inspectHit.kind == "object")
-            {
-                bgfx::dbgTextPrintf(
-                    0,
-                    8,
-                    0x0f,
-                    "Object: desc=%u sprite=%u attr=0x%04x spell=%d",
-                    inspectHit.objectDescriptionId,
-                    inspectHit.objectSpriteId,
-                    inspectHit.attributes,
-                    inspectHit.spellId
-                );
-                bgfx::dbgTextPrintf(0, 9, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
-            }
-            else if (inspectHit.kind == "mechanism")
-            {
-                const std::string mechanismChestSummary = summarizeLinkedChests(
-                    inspectHit.mechanismLinkedEventId,
-                    runtimeMapDeltaData(),
-                    m_chestTable,
-                    localEventProgram,
-                    globalEventProgram
-                );
-                bgfx::dbgTextPrintf(
-                    0,
-                    8,
-                    0x0f,
-                    "Mechanism: id=%u state=%u attr=0x%08x",
-                    inspectHit.doorId,
-                    inspectHit.doorState,
-                    inspectHit.doorAttributes
-                );
-                bgfx::dbgTextPrintf(
-                    0,
-                    9,
-                    0x0f,
-                    "%s",
-                    inspectHit.mechanismFaceSummary.empty() ? "faces: -" : inspectHit.mechanismFaceSummary.c_str()
-                );
-                bgfx::dbgTextPrintf(
-                    0,
-                    10,
-                    0x0f,
-                    "%s",
-                    inspectHit.mechanismLinkedEventSummary.empty()
-                        ? "linked face evts: none"
-                        : inspectHit.mechanismLinkedEventSummary.c_str()
-                );
-                if (!mechanismChestSummary.empty())
-                {
-                    bgfx::dbgTextPrintf(0, 11, 0x0f, "%s", mechanismChestSummary.c_str());
-                    bgfx::dbgTextPrintf(0, 12, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
-                }
-                else
-                {
-                    bgfx::dbgTextPrintf(0, 11, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
-                }
-            }
-            else
-            {
-                bgfx::dbgTextPrintf(0, 8, 0x0f, "%s", inspectHit.spawnSummary.empty() ? "-" : inspectHit.spawnSummary.c_str());
-                bgfx::dbgTextPrintf(0, 9, 0x0f, "%s", inspectHit.spawnDetail.empty() ? "-" : inspectHit.spawnDetail.c_str());
-                bgfx::dbgTextPrintf(0, 10, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
-            }
-
-            if (const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
-                pEventRuntimeState != nullptr && pEventRuntimeState->lastActivationResult)
-            {
-                const uint16_t activationLine = inspectHit.kind == "mechanism" ? 13 : 12;
-                bgfx::dbgTextPrintf(
-                    0,
-                    activationLine,
-                    0x0f,
-                    "Activate: %s",
-                    pEventRuntimeState->lastActivationResult->c_str());
-
-                if (!pEventRuntimeState->lastAffectedMechanismIds.empty())
-                {
-                    std::string mechanismsLine = "Affected mechs:";
-
-                    for (uint32_t mechanismId : pEventRuntimeState->lastAffectedMechanismIds)
-                    {
-                        mechanismsLine += " " + std::to_string(mechanismId);
-                    }
-
-                    bgfx::dbgTextPrintf(0, activationLine + 1, 0x0f, "%s", mechanismsLine.c_str());
-                }
-            }
-        }
-        else
-        {
-            bgfx::dbgTextPrintf(0, 7, 0x0f, "Inspect: no face/entity/spawn/mechanism under cursor");
-            bgfx::dbgTextPrintf(0, 8, 0x0f, "Cursor: %.0f %.0f", mouseX, mouseY);
-
-            if (const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
-                pEventRuntimeState != nullptr && pEventRuntimeState->lastActivationResult)
-            {
-                bgfx::dbgTextPrintf(0, 9, 0x0f, "Activate: %s", pEventRuntimeState->lastActivationResult->c_str());
-
-                if (!pEventRuntimeState->lastAffectedMechanismIds.empty())
-                {
-                    std::string mechanismsLine = "Affected mechs:";
-
-                    for (uint32_t mechanismId : pEventRuntimeState->lastAffectedMechanismIds)
-                    {
-                        mechanismsLine += " " + std::to_string(mechanismId);
-                    }
-
-                    bgfx::dbgTextPrintf(0, 10, 0x0f, "%s", mechanismsLine.c_str());
-                }
-            }
-        }
-    }
 }
 
-bool IndoorDebugRenderer::hasHudRenderResources() const
+bool IndoorRenderer::hasHudRenderResources() const
 {
     return bgfx::isValid(m_texturedProgramHandle) && bgfx::isValid(m_textureSamplerHandle);
 }
 
-bgfx::ProgramHandle IndoorDebugRenderer::hudTexturedProgramHandle() const
+bgfx::ProgramHandle IndoorRenderer::hudTexturedProgramHandle() const
 {
     return m_texturedProgramHandle;
 }
 
-bgfx::UniformHandle IndoorDebugRenderer::hudTextureSamplerHandle() const
+bgfx::UniformHandle IndoorRenderer::hudTextureSamplerHandle() const
 {
     return m_textureSamplerHandle;
 }
 
-void IndoorDebugRenderer::prepareHudView(int width, int height) const
+void IndoorRenderer::prepareHudView(int width, int height) const
 {
     if (!hasHudRenderResources() || width <= 0 || height <= 0)
     {
@@ -2193,7 +1813,7 @@ void IndoorDebugRenderer::prepareHudView(int width, int height) const
     bgfx::touch(HudViewId);
 }
 
-void IndoorDebugRenderer::submitHudTextureQuad(
+void IndoorRenderer::submitHudTextureQuad(
     bgfx::TextureHandle textureHandle,
     float x,
     float y,
@@ -2250,13 +1870,13 @@ void IndoorDebugRenderer::submitHudTextureQuad(
     bgfx::submit(HudViewId, m_texturedProgramHandle);
 }
 
-void IndoorDebugRenderer::setGameplayMouseLookMode(bool enabled, bool cursorMode)
+void IndoorRenderer::setGameplayMouseLookMode(bool enabled, bool cursorMode)
 {
     m_gameplayMouseLookEnabled = enabled;
     m_gameplayCursorMode = cursorMode;
 }
 
-void IndoorDebugRenderer::triggerPendingSpellWorldFx(const PartySpellCastResult &castResult)
+void IndoorRenderer::triggerPendingSpellWorldFx(const PartySpellCastResult &castResult)
 {
     if (!castResult.succeeded()
         || !castResult.hasSourcePoint
@@ -2295,7 +1915,7 @@ void IndoorDebugRenderer::triggerPendingSpellWorldFx(const PartySpellCastResult 
     }
 }
 
-void IndoorDebugRenderer::triggerProjectileImpactWorldFx(float x, float y, float z, uint32_t spellId)
+void IndoorRenderer::triggerProjectileImpactWorldFx(float x, float y, float z, uint32_t spellId)
 {
     PendingSpellWorldFx effect = {};
     effect.x = x;
@@ -2315,8 +1935,8 @@ void IndoorDebugRenderer::triggerProjectileImpactWorldFx(float x, float y, float
     }
 }
 
-std::optional<IndoorDebugRenderer::GameplayActorPick>
-IndoorDebugRenderer::gameplayActorPickAtCursor(
+std::optional<IndoorRenderer::GameplayActorPick>
+IndoorRenderer::gameplayActorPickAtCursor(
     int viewWidth,
     int viewHeight,
     float screenX,
@@ -2345,7 +1965,7 @@ IndoorDebugRenderer::gameplayActorPickAtCursor(
     };
     const bx::Vec3 at = {
         m_cameraPositionX + cosYaw * cosPitch,
-        m_cameraPositionY - sinYaw * cosPitch,
+        m_cameraPositionY + sinYaw * cosPitch,
         m_cameraPositionZ + sinPitch
     };
     const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
@@ -2353,14 +1973,15 @@ IndoorDebugRenderer::gameplayActorPickAtCursor(
     float projectionMatrix[16] = {};
     float viewProjectionMatrix[16] = {};
     float inverseViewProjectionMatrix[16] = {};
-    bx::mtxLookAt(viewMatrix, eye, at, up);
+    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
     bx::mtxProj(
         projectionMatrix,
         60.0f,
         aspectRatio,
         0.1f,
         50000.0f,
-        bgfx::getCaps()->homogeneousDepth
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right
     );
     bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
     bx::mtxInverse(inverseViewProjectionMatrix, viewProjectionMatrix);
@@ -2458,7 +2079,7 @@ IndoorDebugRenderer::gameplayActorPickAtCursor(
     return pick;
 }
 
-GameplayWorldPickRequest IndoorDebugRenderer::buildGameplayWorldPickRequest(
+GameplayWorldPickRequest IndoorRenderer::buildGameplayWorldPickRequest(
     const GameplayWorldPickRequestInput &input) const
 {
     const int viewWidth = std::max(input.screenWidth, 1);
@@ -2475,21 +2096,22 @@ GameplayWorldPickRequest IndoorDebugRenderer::buildGameplayWorldPickRequest(
     };
     const bx::Vec3 at = {
         m_cameraPositionX + cosYaw * cosPitch,
-        m_cameraPositionY - sinYaw * cosPitch,
+        m_cameraPositionY + sinYaw * cosPitch,
         m_cameraPositionZ + sinPitch
     };
     const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
     float viewMatrix[16] = {};
     float projectionMatrix[16] = {};
 
-    bx::mtxLookAt(viewMatrix, eye, at, up);
+    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
     bx::mtxProj(
         projectionMatrix,
         60.0f,
         aspectRatio,
         0.1f,
         50000.0f,
-        bgfx::getCaps()->homogeneousDepth
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right
     );
 
     GameplayWorldPickRequest request = {};
@@ -2518,7 +2140,7 @@ GameplayWorldPickRequest IndoorDebugRenderer::buildGameplayWorldPickRequest(
     return request;
 }
 
-std::optional<IndoorDebugRenderer::InspectHit> IndoorDebugRenderer::inspectGameplayWorldHit(
+std::optional<IndoorRenderer::InspectHit> IndoorRenderer::inspectGameplayWorldHit(
     const GameplayWorldPickRequest &request) const
 {
     if (!m_isInitialized
@@ -2558,7 +2180,7 @@ std::optional<IndoorDebugRenderer::InspectHit> IndoorDebugRenderer::inspectGamep
         rayRequest.rayDirection);
 }
 
-GameplayWorldHit IndoorDebugRenderer::translateInspectHitToGameplayWorldHit(
+GameplayWorldHit IndoorRenderer::translateInspectHitToGameplayWorldHit(
     const InspectHit &inspectHit,
     const GameplayWorldPickRequest &request) const
 {
@@ -2665,7 +2287,7 @@ GameplayWorldHit IndoorDebugRenderer::translateInspectHitToGameplayWorldHit(
     return worldHit;
 }
 
-GameplayWorldHit IndoorDebugRenderer::pickGameplayWorldHit(const GameplayWorldPickRequest &request) const
+GameplayWorldHit IndoorRenderer::pickGameplayWorldHit(const GameplayWorldPickRequest &request) const
 {
     const std::optional<InspectHit> inspectHit = inspectGameplayWorldHit(request);
 
@@ -2691,7 +2313,7 @@ GameplayWorldHit IndoorDebugRenderer::pickGameplayWorldHit(const GameplayWorldPi
     return translateInspectHitToGameplayWorldHit(*inspectHit, rayRequest);
 }
 
-GameplayWorldHoverCacheState IndoorDebugRenderer::gameplayWorldHoverCacheState() const
+GameplayWorldHoverCacheState IndoorRenderer::gameplayWorldHoverCacheState() const
 {
     return GameplayWorldHoverCacheState{
         .hasCachedHover = m_cachedInspectHitValid && m_cachedGameplayWorldPickRequest.hasRay,
@@ -2699,7 +2321,7 @@ GameplayWorldHoverCacheState IndoorDebugRenderer::gameplayWorldHoverCacheState()
     };
 }
 
-GameplayHoverStatusPayload IndoorDebugRenderer::refreshGameplayWorldHover(const GameplayWorldHoverRequest &request)
+GameplayHoverStatusPayload IndoorRenderer::refreshGameplayWorldHover(const GameplayWorldHoverRequest &request)
 {
     GameplayHoverStatusPayload payload = {};
     GameplayWorldPickRequest pickRequest = request.primaryPickRequest;
@@ -2755,7 +2377,7 @@ GameplayHoverStatusPayload IndoorDebugRenderer::refreshGameplayWorldHover(const 
     return payload;
 }
 
-GameplayHoverStatusPayload IndoorDebugRenderer::readCachedGameplayWorldHover() const
+GameplayHoverStatusPayload IndoorRenderer::readCachedGameplayWorldHover() const
 {
     GameplayHoverStatusPayload payload = {};
 
@@ -2768,14 +2390,14 @@ GameplayHoverStatusPayload IndoorDebugRenderer::readCachedGameplayWorldHover() c
     return payload;
 }
 
-void IndoorDebugRenderer::clearGameplayWorldHover()
+void IndoorRenderer::clearGameplayWorldHover()
 {
     m_cachedInspectHit = {};
     m_cachedInspectHitValid = false;
     m_cachedGameplayWorldPickRequest = {};
 }
 
-std::optional<size_t> IndoorDebugRenderer::gameplayHoveredActorIndex() const
+std::optional<size_t> IndoorRenderer::gameplayHoveredActorIndex() const
 {
     if (!m_cachedInspectHitValid || m_cachedInspectHit.kind != "actor")
     {
@@ -2785,7 +2407,7 @@ std::optional<size_t> IndoorDebugRenderer::gameplayHoveredActorIndex() const
     return m_cachedInspectHit.index;
 }
 
-std::optional<size_t> IndoorDebugRenderer::gameplayClosestVisibleHostileActorIndex() const
+std::optional<size_t> IndoorRenderer::gameplayClosestVisibleHostileActorIndex() const
 {
     if (!m_isInitialized
         || !m_isRenderable
@@ -2808,21 +2430,22 @@ std::optional<size_t> IndoorDebugRenderer::gameplayClosestVisibleHostileActorInd
     };
     const bx::Vec3 at = {
         m_cameraPositionX + cosYaw * cosPitch,
-        m_cameraPositionY - sinYaw * cosPitch,
+        m_cameraPositionY + sinYaw * cosPitch,
         m_cameraPositionZ + sinPitch
     };
     const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
     float viewMatrix[16] = {};
     float projectionMatrix[16] = {};
     float viewProjectionMatrix[16] = {};
-    bx::mtxLookAt(viewMatrix, eye, at, up);
+    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
     bx::mtxProj(
         projectionMatrix,
         60.0f,
         aspectRatio,
         0.1f,
         50000.0f,
-        bgfx::getCaps()->homogeneousDepth
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right
     );
     bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
 
@@ -2883,7 +2506,7 @@ std::optional<size_t> IndoorDebugRenderer::gameplayClosestVisibleHostileActorInd
     return nearestActorIndex;
 }
 
-std::optional<bx::Vec3> IndoorDebugRenderer::gameplayActorTargetPoint(size_t actorIndex) const
+std::optional<bx::Vec3> IndoorRenderer::gameplayActorTargetPoint(size_t actorIndex) const
 {
     if (m_pSceneRuntime == nullptr)
     {
@@ -2906,7 +2529,7 @@ std::optional<bx::Vec3> IndoorDebugRenderer::gameplayActorTargetPoint(size_t act
     };
 }
 
-std::optional<bx::Vec3> IndoorDebugRenderer::gameplayGroundTargetPoint(float screenX, float screenY) const
+std::optional<bx::Vec3> IndoorRenderer::gameplayGroundTargetPoint(float screenX, float screenY) const
 {
     if (m_lastRenderWidth <= 0 || m_lastRenderHeight <= 0)
     {
@@ -2970,12 +2593,12 @@ std::optional<bx::Vec3> IndoorDebugRenderer::gameplayGroundTargetPoint(float scr
     };
 }
 
-float IndoorDebugRenderer::cameraYawRadians() const
+float IndoorRenderer::cameraYawRadians() const
 {
     return m_cameraYawRadians;
 }
 
-std::optional<IndoorDebugRenderer::InspectHit> IndoorDebugRenderer::inspectHitFromGameplayWorldHit(
+std::optional<IndoorRenderer::InspectHit> IndoorRenderer::inspectHitFromGameplayWorldHit(
     const GameplayWorldHit &hit) const
 {
     if (!hit.hasHit || hit.kind != GameplayWorldHitKind::EventTarget || !hit.eventTarget)
@@ -3024,7 +2647,7 @@ std::optional<IndoorDebugRenderer::InspectHit> IndoorDebugRenderer::inspectHitFr
     return inspectHit;
 }
 
-bool IndoorDebugRenderer::canActivateGameplayWorldHit(const GameplayWorldHit &hit) const
+bool IndoorRenderer::canActivateGameplayWorldHit(const GameplayWorldHit &hit) const
 {
     const std::optional<InspectHit> inspectHit = inspectHitFromGameplayWorldHit(hit);
 
@@ -3051,7 +2674,7 @@ bool IndoorDebugRenderer::canActivateGameplayWorldHit(const GameplayWorldHit &hi
     return false;
 }
 
-bool IndoorDebugRenderer::activateGameplayWorldHit(const GameplayWorldHit &hit)
+bool IndoorRenderer::activateGameplayWorldHit(const GameplayWorldHit &hit)
 {
     const std::optional<InspectHit> inspectHit = inspectHitFromGameplayWorldHit(hit);
 
@@ -3063,7 +2686,7 @@ bool IndoorDebugRenderer::activateGameplayWorldHit(const GameplayWorldHit &hit)
     return tryActivateInspectEvent(*inspectHit);
 }
 
-void IndoorDebugRenderer::shutdown()
+void IndoorRenderer::shutdown()
 {
     m_indoorMapData.reset();
     m_renderVertices.clear();
@@ -3152,44 +2775,33 @@ void IndoorDebugRenderer::shutdown()
     m_isRotatingCamera = false;
     m_lastMouseX = 0.0f;
     m_lastMouseY = 0.0f;
-    m_toggleFilledLatch = false;
-    m_toggleWireframeLatch = false;
-    m_togglePortalsLatch = false;
-    m_toggleDecorationBillboardsLatch = false;
-    m_toggleActorsLatch = false;
-    m_toggleSpriteObjectsLatch = false;
-    m_toggleEntitiesLatch = false;
-    m_toggleSpawnsLatch = false;
-    m_toggleDoorsLatch = false;
-    m_toggleTextureFilteringLatch = false;
-    m_toggleInspectLatch = false;
     m_isRenderable = false;
     m_isInitialized = false;
 }
 
-const std::optional<MapDeltaData> &IndoorDebugRenderer::runtimeMapDeltaData() const
+const std::optional<MapDeltaData> &IndoorRenderer::runtimeMapDeltaData() const
 {
     static const std::optional<MapDeltaData> EmptyMapDeltaData = std::nullopt;
     return m_pSceneRuntime != nullptr ? m_pSceneRuntime->mapDeltaData() : EmptyMapDeltaData;
 }
 
-const std::optional<EventRuntimeState> &IndoorDebugRenderer::runtimeEventRuntimeStateStorage() const
+const std::optional<EventRuntimeState> &IndoorRenderer::runtimeEventRuntimeStateStorage() const
 {
     static const std::optional<EventRuntimeState> EmptyEventRuntimeState = std::nullopt;
     return m_pSceneRuntime != nullptr ? m_pSceneRuntime->eventRuntimeStateStorage() : EmptyEventRuntimeState;
 }
 
-EventRuntimeState *IndoorDebugRenderer::runtimeEventRuntimeState()
+EventRuntimeState *IndoorRenderer::runtimeEventRuntimeState()
 {
     return m_pSceneRuntime != nullptr ? m_pSceneRuntime->eventRuntimeState() : nullptr;
 }
 
-const EventRuntimeState *IndoorDebugRenderer::runtimeEventRuntimeState() const
+const EventRuntimeState *IndoorRenderer::runtimeEventRuntimeState() const
 {
     return m_pSceneRuntime != nullptr ? m_pSceneRuntime->eventRuntimeState() : nullptr;
 }
 
-void IndoorDebugRenderer::TerrainVertex::init()
+void IndoorRenderer::TerrainVertex::init()
 {
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
@@ -3197,7 +2809,7 @@ void IndoorDebugRenderer::TerrainVertex::init()
         .end();
 }
 
-void IndoorDebugRenderer::TexturedVertex::init()
+void IndoorRenderer::TexturedVertex::init()
 {
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
@@ -3205,7 +2817,7 @@ void IndoorDebugRenderer::TexturedVertex::init()
         .end();
 }
 
-bgfx::ProgramHandle IndoorDebugRenderer::loadProgram(const char *pVertexShaderName, const char *pFragmentShaderName)
+bgfx::ProgramHandle IndoorRenderer::loadProgram(const char *pVertexShaderName, const char *pFragmentShaderName)
 {
     const bgfx::ShaderHandle vertexShaderHandle = loadShader(pVertexShaderName);
     const bgfx::ShaderHandle fragmentShaderHandle = loadShader(pFragmentShaderName);
@@ -3213,7 +2825,7 @@ bgfx::ProgramHandle IndoorDebugRenderer::loadProgram(const char *pVertexShaderNa
     if (!bgfx::isValid(vertexShaderHandle) || !bgfx::isValid(fragmentShaderHandle))
     {
         std::cerr
-            << "IndoorDebugRenderer: loadProgram failed"
+            << "IndoorRenderer: loadProgram failed"
             << " vs=" << (pVertexShaderName != nullptr ? pVertexShaderName : "<null>")
             << " fs=" << (pFragmentShaderName != nullptr ? pFragmentShaderName : "<null>")
             << '\n';
@@ -3223,14 +2835,14 @@ bgfx::ProgramHandle IndoorDebugRenderer::loadProgram(const char *pVertexShaderNa
     return bgfx::createProgram(vertexShaderHandle, fragmentShaderHandle, true);
 }
 
-bgfx::ShaderHandle IndoorDebugRenderer::loadShader(const char *pShaderName)
+bgfx::ShaderHandle IndoorRenderer::loadShader(const char *pShaderName)
 {
     const std::filesystem::path shaderPath = getShaderPath(bgfx::getRendererType(), pShaderName);
 
     if (shaderPath.empty())
     {
         std::cerr
-            << "IndoorDebugRenderer: loadShader could not resolve shader path for "
+            << "IndoorRenderer: loadShader could not resolve shader path for "
             << (pShaderName != nullptr ? pShaderName : "<null>")
             << '\n';
         return BGFX_INVALID_HANDLE;
@@ -3241,7 +2853,7 @@ bgfx::ShaderHandle IndoorDebugRenderer::loadShader(const char *pShaderName)
     if (shaderBytes.empty())
     {
         std::cerr
-            << "IndoorDebugRenderer: loadShader read empty shader file "
+            << "IndoorRenderer: loadShader read empty shader file "
             << shaderPath.string()
             << '\n';
         return BGFX_INVALID_HANDLE;
@@ -3250,7 +2862,7 @@ bgfx::ShaderHandle IndoorDebugRenderer::loadShader(const char *pShaderName)
     return bgfx::createShader(bgfx::copy(shaderBytes.data(), static_cast<uint32_t>(shaderBytes.size())));
 }
 
-void IndoorDebugRenderer::setCameraPosition(float x, float y, float z)
+void IndoorRenderer::setCameraPosition(float x, float y, float z)
 {
     m_cameraPositionX = x;
     m_cameraPositionY = y;
@@ -3262,7 +2874,7 @@ void IndoorDebugRenderer::setCameraPosition(float x, float y, float z)
     }
 }
 
-const IndoorDebugRenderer::BillboardTextureHandle *IndoorDebugRenderer::findBillboardTexture(
+const IndoorRenderer::BillboardTextureHandle *IndoorRenderer::findBillboardTexture(
     const std::string &textureName,
     int16_t paletteId
 ) const
@@ -3280,7 +2892,7 @@ const IndoorDebugRenderer::BillboardTextureHandle *IndoorDebugRenderer::findBill
     return nullptr;
 }
 
-void IndoorDebugRenderer::renderDecorationBillboards(
+void IndoorRenderer::renderDecorationBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition,
@@ -3481,7 +3093,7 @@ void IndoorDebugRenderer::renderDecorationBillboards(
     }
 }
 
-void IndoorDebugRenderer::renderActorPreviewBillboards(
+void IndoorRenderer::renderActorPreviewBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition,
@@ -3690,7 +3302,7 @@ void IndoorDebugRenderer::renderActorPreviewBillboards(
     }
 }
 
-void IndoorDebugRenderer::renderSpriteObjectBillboards(
+void IndoorRenderer::renderSpriteObjectBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition,
@@ -3989,7 +3601,7 @@ void IndoorDebugRenderer::renderSpriteObjectBillboards(
     }
 }
 
-void IndoorDebugRenderer::advancePendingSpellWorldFx(float deltaSeconds)
+void IndoorRenderer::advancePendingSpellWorldFx(float deltaSeconds)
 {
     const float clampedDeltaSeconds = std::max(deltaSeconds, 0.0f);
 
@@ -4009,7 +3621,7 @@ void IndoorDebugRenderer::advancePendingSpellWorldFx(float deltaSeconds)
         m_pendingSpellWorldFx.end());
 }
 
-void IndoorDebugRenderer::renderPendingSpellWorldFx(
+void IndoorRenderer::renderPendingSpellWorldFx(
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition)
@@ -4114,7 +3726,7 @@ void IndoorDebugRenderer::renderPendingSpellWorldFx(
     }
 }
 
-const bgfx::TextureHandle *IndoorDebugRenderer::findIndoorTextureHandle(const std::string &textureName) const
+const bgfx::TextureHandle *IndoorRenderer::findIndoorTextureHandle(const std::string &textureName) const
 {
     const std::string normalizedTextureName = toLowerCopy(textureName);
 
@@ -4129,7 +3741,7 @@ const bgfx::TextureHandle *IndoorDebugRenderer::findIndoorTextureHandle(const st
     return nullptr;
 }
 
-bool IndoorDebugRenderer::hasScriptVisualOverrides() const
+bool IndoorRenderer::hasScriptVisualOverrides() const
 {
     const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
 
@@ -4143,7 +3755,7 @@ bool IndoorDebugRenderer::hasScriptVisualOverrides() const
         || !pEventRuntimeState->facetClearMasks.empty();
 }
 
-void IndoorDebugRenderer::rebuildMechanismBindings()
+void IndoorRenderer::rebuildMechanismBindings()
 {
     m_mechanismBindings.clear();
     const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
@@ -4242,7 +3854,7 @@ void IndoorDebugRenderer::rebuildMechanismBindings()
     }
 }
 
-std::vector<size_t> IndoorDebugRenderer::collectMovingMechanismFaceIndices() const
+std::vector<size_t> IndoorRenderer::collectMovingMechanismFaceIndices() const
 {
     std::vector<size_t> faceIndices;
     const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
@@ -4280,7 +3892,7 @@ std::vector<size_t> IndoorDebugRenderer::collectMovingMechanismFaceIndices() con
     return faceIndices;
 }
 
-bool IndoorDebugRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanoseconds)
+bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanoseconds)
 {
     if (!m_indoorTextureSet || !m_indoorMapData)
     {
@@ -4492,7 +4104,7 @@ bool IndoorDebugRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanos
     return true;
 }
 
-bool IndoorDebugRenderer::updateMovingMechanismFaceVertices(
+bool IndoorRenderer::updateMovingMechanismFaceVertices(
     uint64_t &texturedBuildNanoseconds,
     uint64_t &uploadNanoseconds
 )
@@ -4553,7 +4165,7 @@ bool IndoorDebugRenderer::updateMovingMechanismFaceVertices(
         if (faceVertices.size() != vertexCount)
         {
             std::cerr
-                << "IndoorDebugRenderer: moving mechanism face rebuild changed vertex count"
+                << "IndoorRenderer: moving mechanism face rebuild changed vertex count"
                 << " face=" << faceIndex
                 << " batch=" << batchIndex
                 << " old=" << vertexCount
@@ -4576,7 +4188,7 @@ bool IndoorDebugRenderer::updateMovingMechanismFaceVertices(
     return true;
 }
 
-std::vector<IndoorVertex> IndoorDebugRenderer::buildMechanismAdjustedVertices(
+std::vector<IndoorVertex> IndoorRenderer::buildMechanismAdjustedVertices(
     const IndoorMapData &indoorMapData,
     const std::optional<MapDeltaData> &indoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState
@@ -4588,7 +4200,7 @@ std::vector<IndoorVertex> IndoorDebugRenderer::buildMechanismAdjustedVertices(
         eventRuntimeState ? &eventRuntimeState.value() : nullptr);
 }
 
-void IndoorDebugRenderer::destroyDerivedGeometryResources()
+void IndoorRenderer::destroyDerivedGeometryResources()
 {
     if (bgfx::isValid(m_wireframeVertexBufferHandle))
     {
@@ -4629,7 +4241,7 @@ void IndoorDebugRenderer::destroyDerivedGeometryResources()
     m_faceVertexCounts.clear();
 }
 
-void IndoorDebugRenderer::destroyIndoorTextureHandles()
+void IndoorRenderer::destroyIndoorTextureHandles()
 {
     for (IndoorTextureHandle &textureHandle : m_indoorTextureHandles)
     {
@@ -4642,11 +4254,11 @@ void IndoorDebugRenderer::destroyIndoorTextureHandles()
     m_indoorTextureHandles.clear();
 }
 
-bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
+bool IndoorRenderer::rebuildDerivedGeometryResources()
 {
     if (!m_indoorMapData)
     {
-        std::cerr << "IndoorDebugRenderer: rebuildDerivedGeometryResources has no indoor map data\n";
+        std::cerr << "IndoorRenderer: rebuildDerivedGeometryResources has no indoor map data\n";
         return false;
     }
 
@@ -4674,7 +4286,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
             wireframeVertices,
             TerrainVertex::ms_layout))
     {
-        std::cerr << "IndoorDebugRenderer: failed to update wireframe vertex buffer\n";
+        std::cerr << "IndoorRenderer: failed to update wireframe vertex buffer\n";
         return false;
     }
     m_wireframeVertexCount = static_cast<uint32_t>(wireframeVertices.size());
@@ -4685,7 +4297,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
             portalVertices,
             TerrainVertex::ms_layout))
     {
-        std::cerr << "IndoorDebugRenderer: failed to update portal vertex buffer\n";
+        std::cerr << "IndoorRenderer: failed to update portal vertex buffer\n";
         return false;
     }
     m_portalVertexCount = static_cast<uint32_t>(portalVertices.size());
@@ -4696,7 +4308,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
             doorMarkerVertices,
             TerrainVertex::ms_layout))
     {
-        std::cerr << "IndoorDebugRenderer: failed to update door marker vertex buffer\n";
+        std::cerr << "IndoorRenderer: failed to update door marker vertex buffer\n";
         return false;
     }
     m_doorMarkerVertexCount = static_cast<uint32_t>(doorMarkerVertices.size());
@@ -4712,7 +4324,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
             uint64_t texturedBuildNanoseconds = 0;
             if (!rebuildAllTexturedBatches(texturedBuildNanoseconds))
             {
-                std::cerr << "IndoorDebugRenderer: rebuildAllTexturedBatches failed\n";
+                std::cerr << "IndoorRenderer: rebuildAllTexturedBatches failed\n";
                 return false;
             }
         }
@@ -4724,13 +4336,13 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
             if (!updateMovingMechanismFaceVertices(texturedBuildNanoseconds, uploadNanoseconds))
             {
                 std::cerr
-                    << "IndoorDebugRenderer: updateMovingMechanismFaceVertices failed, rebuilding textured batches\n";
+                    << "IndoorRenderer: updateMovingMechanismFaceVertices failed, rebuilding textured batches\n";
 
                 texturedBuildNanoseconds = 0;
 
                 if (!rebuildAllTexturedBatches(texturedBuildNanoseconds))
                 {
-                    std::cerr << "IndoorDebugRenderer: rebuildAllTexturedBatches failed after moving update failure\n";
+                    std::cerr << "IndoorRenderer: rebuildAllTexturedBatches failed after moving update failure\n";
                     return false;
                 }
             }
@@ -4742,7 +4354,7 @@ bool IndoorDebugRenderer::rebuildDerivedGeometryResources()
     return true;
 }
 
-bool IndoorDebugRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
+bool IndoorRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
 {
     if (!m_indoorMapData || m_pSceneRuntime == nullptr)
     {
@@ -4790,7 +4402,7 @@ bool IndoorDebugRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
     return true;
 }
 
-std::vector<IndoorDebugRenderer::TexturedVertex> IndoorDebugRenderer::buildTexturedVertices(
+std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildTexturedVertices(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &transformedVertices,
     const OutdoorBitmapTexture &texture,
@@ -4841,7 +4453,7 @@ std::vector<IndoorDebugRenderer::TexturedVertex> IndoorDebugRenderer::buildTextu
     return vertices;
 }
 
-std::vector<IndoorDebugRenderer::TexturedVertex> IndoorDebugRenderer::buildFaceTexturedVertices(
+std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVertices(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &transformedVertices,
     const OutdoorBitmapTexture &texture,
@@ -5052,7 +4664,7 @@ std::vector<IndoorDebugRenderer::TexturedVertex> IndoorDebugRenderer::buildFaceT
     return vertices;
 }
 
-std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildEntityMarkerVertices(
+std::vector<IndoorRenderer::TerrainVertex> IndoorRenderer::buildEntityMarkerVertices(
     const IndoorMapData &indoorMapData
 )
 {
@@ -5079,7 +4691,7 @@ std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildEntity
     return vertices;
 }
 
-std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildSpawnMarkerVertices(
+std::vector<IndoorRenderer::TerrainVertex> IndoorRenderer::buildSpawnMarkerVertices(
     const IndoorMapData &indoorMapData
 )
 {
@@ -5105,7 +4717,7 @@ std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildSpawnM
     return vertices;
 }
 
-std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildDoorMarkerVertices(
+std::vector<IndoorRenderer::TerrainVertex> IndoorRenderer::buildDoorMarkerVertices(
     const std::vector<IndoorVertex> &transformedVertices,
     const MapDeltaData &mapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState
@@ -5174,7 +4786,7 @@ std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildDoorMa
     return vertices;
 }
 
-IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
+IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,
     const std::vector<uint8_t> &visibleSectorMask,
@@ -5520,7 +5132,7 @@ IndoorDebugRenderer::InspectHit IndoorDebugRenderer::inspectAtCursor(
     return bestHit;
 }
 
-std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildWireframeVertices(
+std::vector<IndoorRenderer::TerrainVertex> IndoorRenderer::buildWireframeVertices(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &transformedVertices,
     const std::optional<EventRuntimeState> &eventRuntimeState
@@ -5575,7 +5187,7 @@ std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildWirefr
     return lineVertices;
 }
 
-std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildPortalVertices(
+std::vector<IndoorRenderer::TerrainVertex> IndoorRenderer::buildPortalVertices(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &transformedVertices
 )
@@ -5620,7 +5232,7 @@ std::vector<IndoorDebugRenderer::TerrainVertex> IndoorDebugRenderer::buildPortal
     return portalVertices;
 }
 
-void IndoorDebugRenderer::updateWorldMovement(
+void IndoorRenderer::updateWorldMovement(
     const GameplayInputFrame &input,
     float deltaSeconds,
     bool allowWorldInput)
@@ -5636,14 +5248,14 @@ void IndoorDebugRenderer::updateWorldMovement(
     const float sinPitch = std::sin(m_cameraPitchRadians);
     const float cosYaw = std::cos(m_cameraYawRadians);
     const float sinYaw = std::sin(m_cameraYawRadians);
-    const bx::Vec3 forward = {cosYaw * cosPitch, -sinYaw * cosPitch, sinPitch};
+    const bx::Vec3 forward = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
     const float wheelMoveSpeed = 300.0f;
     m_cameraPositionX += forward.x * input.mouseWheelDelta * wheelMoveSpeed;
     m_cameraPositionY += forward.y * input.mouseWheelDelta * wheelMoveSpeed;
     m_cameraPositionZ += forward.z * input.mouseWheelDelta * wheelMoveSpeed;
 }
 
-void IndoorDebugRenderer::updateCameraFromInput(
+void IndoorRenderer::updateCameraFromInput(
     const GameplayInputFrame &input,
     float deltaSeconds,
     bool allowWorldInput)
@@ -5696,8 +5308,8 @@ void IndoorDebugRenderer::updateCameraFromInput(
     const float sinPitch = std::sin(m_cameraPitchRadians);
     const float cosYaw = std::cos(m_cameraYawRadians);
     const float sinYaw = std::sin(m_cameraYawRadians);
-    const bx::Vec3 forward = {cosYaw * cosPitch, -sinYaw * cosPitch, sinPitch};
-    const bx::Vec3 right = {sinYaw, cosYaw, 0.0f};
+    const bx::Vec3 forward = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
+    const bx::Vec3 right = {sinYaw, -cosYaw, 0.0f};
     const bool isFastMovePressed =
         pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
     const bool jumpPressed = pKeyboardState[SDL_SCANCODE_X];
@@ -5710,13 +5322,13 @@ void IndoorDebugRenderer::updateCameraFromInput(
     if (allowWorldInput && pKeyboardState[SDL_SCANCODE_W])
     {
         desiredVelocityX += cosYaw * currentMoveSpeed;
-        desiredVelocityY += -sinYaw * currentMoveSpeed;
+        desiredVelocityY += sinYaw * currentMoveSpeed;
     }
 
     if (allowWorldInput && pKeyboardState[SDL_SCANCODE_S])
     {
         desiredVelocityX -= cosYaw * currentMoveSpeed;
-        desiredVelocityY -= -sinYaw * currentMoveSpeed;
+        desiredVelocityY -= sinYaw * currentMoveSpeed;
     }
 
     if (allowWorldInput && pKeyboardState[SDL_SCANCODE_A])
@@ -5766,149 +5378,6 @@ void IndoorDebugRenderer::updateCameraFromInput(
             m_cameraPositionX += right.x * currentMoveSpeed * deltaSeconds;
             m_cameraPositionY += right.y * currentMoveSpeed * deltaSeconds;
         }
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_1])
-    {
-        if (!m_toggleFilledLatch)
-        {
-            m_showFilled = !m_showFilled;
-            m_toggleFilledLatch = true;
-        }
-    }
-    else
-    {
-        m_toggleFilledLatch = false;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_2])
-    {
-        if (!m_toggleWireframeLatch)
-        {
-            m_showWireframe = !m_showWireframe;
-            m_toggleWireframeLatch = true;
-        }
-    }
-    else
-    {
-        m_toggleWireframeLatch = false;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_3])
-    {
-        if (!m_togglePortalsLatch)
-        {
-            m_showPortals = !m_showPortals;
-            m_togglePortalsLatch = true;
-        }
-    }
-    else
-    {
-        m_togglePortalsLatch = false;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_4])
-    {
-        if (!m_toggleDecorationBillboardsLatch)
-        {
-            m_showDecorationBillboards = !m_showDecorationBillboards;
-            m_toggleDecorationBillboardsLatch = true;
-        }
-    }
-    else
-    {
-        m_toggleDecorationBillboardsLatch = false;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_5])
-    {
-        if (!m_toggleActorsLatch)
-        {
-            m_showActors = !m_showActors;
-            m_toggleActorsLatch = true;
-        }
-    }
-    else
-    {
-        m_toggleActorsLatch = false;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_6])
-    {
-        if (!m_toggleSpriteObjectsLatch)
-        {
-            m_showSpriteObjects = !m_showSpriteObjects;
-            m_toggleSpriteObjectsLatch = true;
-        }
-    }
-    else
-    {
-        m_toggleSpriteObjectsLatch = false;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_7])
-    {
-        if (!m_toggleEntitiesLatch)
-        {
-            m_showEntities = !m_showEntities;
-            m_toggleEntitiesLatch = true;
-        }
-    }
-    else
-    {
-        m_toggleEntitiesLatch = false;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_8])
-    {
-        if (!m_toggleSpawnsLatch)
-        {
-            m_showSpawns = !m_showSpawns;
-            m_toggleSpawnsLatch = true;
-        }
-    }
-    else
-    {
-        m_toggleSpawnsLatch = false;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_9])
-    {
-        if (!m_toggleDoorsLatch)
-        {
-            m_showDoors = !m_showDoors;
-            m_toggleDoorsLatch = true;
-        }
-    }
-    else
-    {
-        m_toggleDoorsLatch = false;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_0])
-    {
-        if (!m_toggleInspectLatch)
-        {
-            m_inspectMode = !m_inspectMode;
-            m_toggleInspectLatch = true;
-        }
-    }
-    else
-    {
-        m_toggleInspectLatch = false;
-    }
-
-    if (pKeyboardState[SDL_SCANCODE_F7])
-    {
-        if (!m_toggleTextureFilteringLatch)
-        {
-            toggleTextureFilteringEnabled();
-            m_toggleTextureFilteringLatch = true;
-        }
-    }
-    else
-    {
-        m_toggleTextureFilteringLatch = false;
     }
 
     if (m_cameraYawRadians > Pi)

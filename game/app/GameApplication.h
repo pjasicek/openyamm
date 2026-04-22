@@ -10,7 +10,7 @@
 #include "game/data/GameDataRepository.h"
 #include "game/data/GameDataLoader.h"
 #include "game/audio/GameAudioSystem.h"
-#include "game/indoor/IndoorDebugRenderer.h"
+#include "game/indoor/IndoorRenderer.h"
 #include "game/indoor/IndoorGameView.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
@@ -108,7 +108,7 @@ private:
     GameAudioSystem m_gameAudioSystem;
     GameSession m_gameSession;
     GameInputSystem m_gameInputSystem;
-    IndoorDebugRenderer m_indoorDebugRenderer;
+    IndoorRenderer m_indoorRenderer;
     IndoorGameView m_indoorGameView;
     OutdoorGameView m_outdoorGameView;
     ScreenManager m_screenManager;

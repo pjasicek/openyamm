@@ -8,7 +8,7 @@
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/items/ItemRuntime.h"
-#include "game/indoor/IndoorDebugRenderer.h"
+#include "game/indoor/IndoorRenderer.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpellSchool.h"
 #include "game/render/TextureFiltering.h"
@@ -865,7 +865,7 @@ uint32_t currentDialogueHostHouseId(const EventRuntimeState *pEventRuntimeState)
 bool IndoorGameView::initialize(
     const Engine::AssetFileSystem &assetFileSystem,
     const MapStatsEntry &map,
-    IndoorDebugRenderer &indoorRenderer,
+    IndoorRenderer &indoorRenderer,
     IndoorSceneRuntime &sceneRuntime,
     GameAudioSystem *pGameAudioSystem)
 {
@@ -1242,7 +1242,7 @@ void IndoorGameView::updateActorInspectOverlayState(int width, int height, const
         return;
     }
 
-    const std::optional<IndoorDebugRenderer::GameplayActorPick> pick =
+    const std::optional<IndoorRenderer::GameplayActorPick> pick =
         m_pIndoorRenderer->gameplayActorPickAtCursor(width, height, input.pointerX, input.pointerY);
 
     if (!pick.has_value())

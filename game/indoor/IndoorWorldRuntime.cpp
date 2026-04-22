@@ -11,7 +11,7 @@
 #include "game/gameplay/GameplayActorAiSystem.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayProjectileService.h"
-#include "game/indoor/IndoorDebugRenderer.h"
+#include "game/indoor/IndoorRenderer.h"
 #include "game/indoor/IndoorGameView.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/indoor/IndoorMovementController.h"
@@ -1156,7 +1156,7 @@ void IndoorWorldRuntime::initialize(
     syncMapActorAiStates();
 }
 
-void IndoorWorldRuntime::bindRenderer(IndoorDebugRenderer *pRenderer)
+void IndoorWorldRuntime::bindRenderer(IndoorRenderer *pRenderer)
 {
     m_pRenderer = pRenderer;
 }

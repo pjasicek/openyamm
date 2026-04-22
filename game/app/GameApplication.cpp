@@ -907,7 +907,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         pIndoorSceneRuntime->partyRuntime().setMovementSpeedMultiplier(m_settings.movementSpeedMultiplier);
 
         if (initializeView
-            && !m_indoorDebugRenderer.initialize(
+            && !m_indoorRenderer.initialize(
                 m_pAssetFileSystem != nullptr ? m_pAssetFileSystem->getAssetScaleTier() : Engine::AssetScaleTier::X1,
                 selectedMap->map,
                 m_gameDataLoader.getMonsterTable(),
@@ -930,14 +930,14 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
 
         if (initializeView)
         {
-            pIndoorSceneRuntime->worldRuntime().bindRenderer(&m_indoorDebugRenderer);
+            pIndoorSceneRuntime->worldRuntime().bindRenderer(&m_indoorRenderer);
         }
 
         if (initializeView
             && !m_indoorGameView.initialize(
                 *m_pAssetFileSystem,
                 selectedMap->map,
-                m_indoorDebugRenderer,
+                m_indoorRenderer,
                 *pIndoorSceneRuntime,
                 &m_gameAudioSystem))
         {
@@ -1231,7 +1231,7 @@ void GameApplication::shutdownRenderer()
 {
     m_outdoorGameView.shutdown();
     m_indoorGameView.shutdown();
-    m_indoorDebugRenderer.shutdown();
+    m_indoorRenderer.shutdown();
     m_gameplayController.clearRuntime();
     m_pMapSceneRuntime.reset();
     m_pOutdoorPartyRuntime.reset();

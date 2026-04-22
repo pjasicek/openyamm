@@ -39,7 +39,7 @@ namespace OpenYAMM::Game
 class GameSession;
 struct GameplayInputFrame;
 struct ArcomageLibrary;
-class IndoorDebugRenderer;
+class IndoorRenderer;
 class IndoorPartyRuntime;
 class IndoorSceneRuntime;
 class GameplayScreenRuntime;
@@ -58,7 +58,7 @@ public:
     bool initialize(
         const Engine::AssetFileSystem &assetFileSystem,
         const MapStatsEntry &map,
-        IndoorDebugRenderer &indoorRenderer,
+        IndoorRenderer &indoorRenderer,
         IndoorSceneRuntime &sceneRuntime,
         GameAudioSystem *pGameAudioSystem);
     void setSettingsSnapshot(const GameSettings &settings);
@@ -89,7 +89,7 @@ private:
     void updateActorInspectOverlayState(int width, int height, const GameplayInputFrame &input);
 
     const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
-    IndoorDebugRenderer *m_pIndoorRenderer = nullptr;
+    IndoorRenderer *m_pIndoorRenderer = nullptr;
     IndoorSceneRuntime *m_pIndoorSceneRuntime = nullptr;
     GameAudioSystem *m_pGameAudioSystem = nullptr;
     std::optional<MapStatsEntry> m_map;
