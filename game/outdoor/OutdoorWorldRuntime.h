@@ -946,7 +946,7 @@ private:
     void updateFireSpikeTraps(float deltaSeconds, float partyX, float partyY, float partyZ);
     void applyFireSpikeTrapTriggerResult(
         FireSpikeTrapState &trap,
-        const GameplayProjectileService::FireSpikeTrapTriggerResult &decision);
+        const GameplayProjectileService::FireSpikeTrapTriggerResult &result);
     int resolveProjectilePartyImpactDamage(const ProjectileState &projectile) const;
     GameplayProjectileService::ProjectileAreaImpactInput buildProjectileAreaImpactInput(
         const ProjectileState &projectile,
@@ -957,23 +957,12 @@ private:
         float partyZ,
         bool canHitParty,
         size_t directActorIndex) const;
-    void applyProjectileAreaImpact(
-        const ProjectileState &projectile,
-        const bx::Vec3 &impactPoint,
-        float impactRadius,
-        float partyX,
-        float partyY,
-        float partyZ,
-        bool canHitParty,
-        size_t directActorIndex,
-        bool logAoeHits);
     int resolvePartyProjectileDamageMultiplier(
         const ProjectileState &projectile,
         size_t actorIndex) const;
     GameplayProjectileService::ProjectileDirectActorImpactInput buildProjectileDirectActorImpactInput(
         const ProjectileState &projectile,
         size_t actorIndex) const;
-    void applyProjectileDirectActorImpact(const ProjectileState &projectile, size_t actorIndex);
     ProjectileCollisionFacts buildProjectileCollisionFacts(
         const ProjectileState &projectile,
         const bx::Vec3 &segmentStart,
@@ -995,7 +984,7 @@ private:
         const GameplayProjectileService::ProjectileFrameResult &frameResult);
     bool applyProjectileSpawnEffects(
         const GameplayProjectileService::ProjectileSpawnResult &spawnResult,
-        const GameplayProjectileService::ProjectileSpawnEffects &decision,
+        const GameplayProjectileService::ProjectileSpawnEffects &effects,
         const std::string &spawnKindName,
         const std::string &instantColliderName);
     static const char *projectileCollisionKindName(ProjectileCollisionKind kind);

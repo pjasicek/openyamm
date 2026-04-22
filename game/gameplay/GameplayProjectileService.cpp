@@ -1033,11 +1033,11 @@ GameplayProjectileService::buildProjectileAreaImpact(
     const ProjectileState &projectile,
     const ProjectileAreaImpactInput &input) const
 {
-    ProjectileAreaImpact decision = {};
+    ProjectileAreaImpact impact = {};
 
     if (input.impactRadius <= 0.0f)
     {
-        return decision;
+        return impact;
     }
 
     const int impactDamage = projectile.sourceKind == ProjectileState::SourceKind::Party
@@ -1047,7 +1047,7 @@ GameplayProjectileService::buildProjectileAreaImpact(
     if (input.canHitParty)
     {
         const float partyCenterZ = input.partyZ + input.partyCollisionHeight * 0.5f;
-        decision.hitParty = pointWithinExpandedCylinder(
+        impact.hitParty = pointWithinExpandedCylinder(
             input.partyX,
             input.partyY,
             partyCenterZ,
@@ -1056,10 +1056,10 @@ GameplayProjectileService::buildProjectileAreaImpact(
             input.impactY,
             input.impactZ,
             input.impactRadius);
-        decision.partyDamage = impactDamage;
+        impact.partyDamage = impactDamage;
     }
 
-    decision.actorHits.reserve(input.actors.size());
+    impact.actorHits.reserve(input.actors.size());
 
     for (const ProjectileAreaImpactActorFacts &actor : input.actors)
     {
@@ -1090,10 +1090,10 @@ GameplayProjectileService::buildProjectileAreaImpact(
         ProjectileAreaImpactActorHit actorHit = {};
         actorHit.actorIndex = actor.actorIndex;
         actorHit.damage = impactDamage;
-        decision.actorHits.push_back(actorHit);
+        impact.actorHits.push_back(actorHit);
     }
 
-    return decision;
+    return impact;
 }
 
 std::optional<int>
@@ -1114,39 +1114,39 @@ GameplayProjectileService::buildProjectileDirectActorImpact(
     const ProjectileState &projectile,
     const ProjectileDirectActorImpactInput &input) const
 {
-    ProjectileDirectActorImpact decision = {};
-    decision.actorIndex = input.actorIndex;
-    decision.actorId = input.actorId;
+    ProjectileDirectActorImpact impact = {};
+    impact.actorIndex = input.actorIndex;
+    impact.actorId = input.actorId;
 
     if (projectile.sourceKind == ProjectileState::SourceKind::Party)
     {
-        decision.damage = projectile.damage;
+        impact.damage = projectile.damage;
 
         if (projectile.useActorHitChance)
         {
             std::mt19937 rng(
                 projectile.projectileId
                 ^ static_cast<uint32_t>(input.actorId * 2654435761u));
-            decision.hit = GameMechanics::characterRangedAttackHitsArmorClass(
+            impact.hit = GameMechanics::characterRangedAttackHitsArmorClass(
                 input.targetArmorClass,
                 projectile.attackBonus,
                 input.targetDistance,
                 rng);
         }
 
-        if (decision.hit && decision.damage > 0)
+        if (impact.hit && impact.damage > 0)
         {
-            decision.damage *= input.damageMultiplier;
+            impact.damage *= input.damageMultiplier;
         }
 
-        decision.applyPartyProjectileDamage = decision.hit && decision.damage > 0;
-        decision.queuePartyProjectileActorEvent = true;
-        return decision;
+        impact.applyPartyProjectileDamage = impact.hit && impact.damage > 0;
+        impact.queuePartyProjectileActorEvent = true;
+        return impact;
     }
 
-    decision.damage = input.nonPartyProjectileDamage;
-    decision.applyNonPartyProjectileDamage = input.nonPartyProjectileDamage > 0;
-    return decision;
+    impact.damage = input.nonPartyProjectileDamage;
+    impact.applyNonPartyProjectileDamage = input.nonPartyProjectileDamage > 0;
+    return impact;
 }
 
 void GameplayProjectileService::expireProjectile(ProjectileState &projectile) const

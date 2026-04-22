@@ -7544,88 +7544,6 @@ GameplayProjectileService::ProjectileAreaImpactInput OutdoorWorldRuntime::buildP
     return input;
 }
 
-void OutdoorWorldRuntime::applyProjectileAreaImpact(
-    const ProjectileState &projectile,
-    const bx::Vec3 &impactPoint,
-    float impactRadius,
-    float partyX,
-    float partyY,
-    float partyZ,
-    bool canHitParty,
-    size_t directActorIndex,
-    bool logAoeHits)
-{
-    const GameplayProjectileService::ProjectileAreaImpactInput input =
-        buildProjectileAreaImpactInput(
-            projectile,
-            impactPoint,
-            impactRadius,
-            partyX,
-            partyY,
-            partyZ,
-            canHitParty,
-            directActorIndex);
-    const GameplayProjectileService::ProjectileAreaImpact decision =
-        projectileService().buildProjectileAreaImpact(projectile, input);
-
-    if (decision.hitParty)
-    {
-        if (m_pGameplayCombatController != nullptr)
-        {
-            m_pGameplayCombatController->recordPartyProjectileImpact(
-                projectile.sourceId,
-                decision.partyDamage,
-                projectile.spellId,
-                true);
-        }
-
-        if (logAoeHits)
-        {
-            logProjectileAoeHit(projectile, "party", impactPoint, impactRadius);
-        }
-    }
-
-    for (const GameplayProjectileService::ProjectileAreaImpactActorHit &actorHit : decision.actorHits)
-    {
-        if (actorHit.actorIndex >= m_mapActors.size())
-        {
-            continue;
-        }
-
-        if (projectile.sourceKind == ProjectileState::SourceKind::Party)
-        {
-            const int beforeHp = m_mapActors[actorHit.actorIndex].currentHp;
-            applyPartyAttackToMapActor(
-                actorHit.actorIndex,
-                actorHit.damage,
-                projectile.sourceX,
-                projectile.sourceY,
-                projectile.sourceZ);
-
-            if (m_pGameplayCombatController != nullptr)
-            {
-                m_pGameplayCombatController->recordPartyProjectileActorImpact(
-                    projectile.sourceId,
-                    projectile.sourcePartyMemberIndex,
-                    m_mapActors[actorHit.actorIndex].actorId,
-                    actorHit.damage,
-                    projectile.spellId,
-                    true,
-                    beforeHp > 0 && m_mapActors[actorHit.actorIndex].currentHp <= 0);
-            }
-        }
-        else
-        {
-            applyMonsterAttackToMapActor(actorHit.actorIndex, actorHit.damage, projectile.sourceId);
-        }
-
-        if (logAoeHits)
-        {
-            logProjectileAoeHit(projectile, "actor", impactPoint, impactRadius);
-        }
-    }
-}
-
 int OutdoorWorldRuntime::resolvePartyProjectileDamageMultiplier(
     const ProjectileState &projectile,
     size_t actorIndex) const
@@ -7683,57 +7601,6 @@ OutdoorWorldRuntime::buildProjectileDirectActorImpactInput(
     input.targetDistance = distanceToTarget;
     input.nonPartyProjectileDamage = resolveProjectilePartyImpactDamage(projectile);
     return input;
-}
-
-void OutdoorWorldRuntime::applyProjectileDirectActorImpact(
-    const ProjectileState &projectile,
-    size_t actorIndex)
-{
-    if (actorIndex >= m_mapActors.size())
-    {
-        return;
-    }
-
-    const GameplayProjectileService::ProjectileDirectActorImpactInput input =
-        buildProjectileDirectActorImpactInput(projectile, actorIndex);
-    const GameplayProjectileService::ProjectileDirectActorImpact decision =
-        projectileService().buildProjectileDirectActorImpact(projectile, input);
-
-    bool killed = false;
-    if (decision.applyPartyProjectileDamage)
-    {
-        const int beforeHp = m_mapActors[decision.actorIndex].currentHp;
-        applyPartyAttackToMapActor(
-            decision.actorIndex,
-            decision.damage,
-            projectile.sourceX,
-            projectile.sourceY,
-            projectile.sourceZ);
-        const OutdoorWorldRuntime::MapActorState &afterActor = m_mapActors[decision.actorIndex];
-        killed = beforeHp > 0 && afterActor.currentHp <= 0;
-    }
-
-    if (decision.queuePartyProjectileActorEvent)
-    {
-        if (m_pGameplayCombatController != nullptr)
-        {
-            m_pGameplayCombatController->recordPartyProjectileActorImpact(
-                projectile.sourceId,
-                projectile.sourcePartyMemberIndex,
-                decision.actorId,
-                decision.damage,
-                projectile.spellId,
-                decision.hit,
-                killed);
-        }
-    }
-    else if (decision.applyNonPartyProjectileDamage)
-    {
-        applyMonsterAttackToMapActor(
-            decision.actorIndex,
-            decision.damage,
-            projectile.sourceId);
-    }
 }
 
 void OutdoorWorldRuntime::buildOutdoorFaceSpatialIndex()
@@ -8412,42 +8279,42 @@ void OutdoorWorldRuntime::applyProjectileFrameResult(
 
     if (frameResult.directActorImpact && frameResult.directActorImpact->actorIndex < m_mapActors.size())
     {
-        const GameplayProjectileService::ProjectileDirectActorImpact &decision =
+        const GameplayProjectileService::ProjectileDirectActorImpact &impact =
             *frameResult.directActorImpact;
 
         bool killed = false;
-        if (decision.applyPartyProjectileDamage)
+        if (impact.applyPartyProjectileDamage)
         {
-            const int beforeHp = m_mapActors[decision.actorIndex].currentHp;
+            const int beforeHp = m_mapActors[impact.actorIndex].currentHp;
             applyPartyAttackToMapActor(
-                decision.actorIndex,
-                decision.damage,
+                impact.actorIndex,
+                impact.damage,
                 projectile.sourceX,
                 projectile.sourceY,
                 projectile.sourceZ);
-            const OutdoorWorldRuntime::MapActorState &afterActor = m_mapActors[decision.actorIndex];
+            const OutdoorWorldRuntime::MapActorState &afterActor = m_mapActors[impact.actorIndex];
             killed = beforeHp > 0 && afterActor.currentHp <= 0;
         }
 
-        if (decision.queuePartyProjectileActorEvent)
+        if (impact.queuePartyProjectileActorEvent)
         {
             if (m_pGameplayCombatController != nullptr)
             {
                 m_pGameplayCombatController->recordPartyProjectileActorImpact(
                     projectile.sourceId,
                     projectile.sourcePartyMemberIndex,
-                    decision.actorId,
-                    decision.damage,
+                    impact.actorId,
+                    impact.damage,
                     projectile.spellId,
-                    decision.hit,
+                    impact.hit,
                     killed);
             }
         }
-        else if (decision.applyNonPartyProjectileDamage)
+        else if (impact.applyNonPartyProjectileDamage)
         {
             applyMonsterAttackToMapActor(
-                decision.actorIndex,
-                decision.damage,
+                impact.actorIndex,
+                impact.damage,
                 projectile.sourceId);
         }
     }
