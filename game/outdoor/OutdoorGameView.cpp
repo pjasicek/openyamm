@@ -4168,7 +4168,6 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
     }
 
     updateFootstepAudio(deltaSeconds);
-    consumePendingEventRuntimeAudioRequests();
     consumePendingWorldAudioEvents();
 
 }
@@ -5206,11 +5205,6 @@ AdventurersInnMember *OutdoorGameView::selectedAdventurersInnMember()
     }
 
     return m_pOutdoorPartyRuntime->party().adventurersInnMember(characterScreen.sourceIndex);
-}
-
-void OutdoorGameView::consumePendingEventRuntimeAudioRequests()
-{
-    OutdoorPresentationController::consumePendingEventRuntimeAudioRequests(*this);
 }
 
 void OutdoorGameView::consumePendingWorldAudioEvents()

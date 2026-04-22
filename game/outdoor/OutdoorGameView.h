@@ -484,7 +484,6 @@ private:
     void updateActorInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     const AdventurersInnMember *selectedAdventurersInnMember() const;
     AdventurersInnMember *selectedAdventurersInnMember();
-    void consumePendingEventRuntimeAudioRequests();
     void consumePendingWorldAudioEvents();
     void updateFootstepAudio(float deltaSeconds);
     bool activeMemberKnowsSpell(uint32_t spellId) const;

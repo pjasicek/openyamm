@@ -210,6 +210,7 @@ struct CrowdSteeringEligibility
     bool pursuing = false;
     bool actorCanFly = false;
     bool inMeleeRange = false;
+    bool movementBlocked = false;
     float targetEdgeDistance = 0.0f;
 };
 
@@ -1996,7 +1997,7 @@ CrowdSteeringState buildCrowdSteeringState(const ActorAiFacts &actor)
 
 bool shouldApplyCrowdSteering(const CrowdSteeringEligibility &eligibility)
 {
-    return eligibility.contactedActorCount > 0
+    return (eligibility.contactedActorCount > 0 || eligibility.movementBlocked)
         && eligibility.meleePursuitActive
         && eligibility.pursuing
         && !eligibility.actorCanFly
@@ -2217,6 +2218,7 @@ bool AI_CrowdSteer(ActorAiCommandContext &ai)
     crowdSteering.pursuing = actor.runtime.motionState == ActorAiMotionState::Pursuing;
     crowdSteering.actorCanFly = actor.stats.canFly;
     crowdSteering.inMeleeRange = actor.movement.inMeleeRange;
+    crowdSteering.movementBlocked = actor.movement.movementBlocked;
     crowdSteering.targetEdgeDistance = actor.target.currentEdgeDistance;
 
     if (!shouldApplyCrowdSteering(crowdSteering))

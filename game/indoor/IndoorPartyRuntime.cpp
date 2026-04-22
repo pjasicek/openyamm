@@ -6,6 +6,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr float GameMinutesPerRealSecond = 0.5f;
+constexpr float GameSecondsPerRealSecond = GameMinutesPerRealSecond * 60.0f;
 constexpr float IndoorMovementStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedMovementSeconds = 0.1f;
 }
@@ -58,6 +60,9 @@ void IndoorPartyRuntime::update(float desiredVelocityX, float desiredVelocityY, 
         return;
     }
 
+    m_party.updateRecovery(deltaSeconds);
+    m_party.advanceTimedStates(deltaSeconds * GameSecondsPerRealSecond);
+
     const IndoorBodyDimensions body = {};
     m_pendingJumpRequested = m_pendingJumpRequested || jumpRequested;
     m_movementAccumulatorSeconds =
@@ -71,10 +76,18 @@ void IndoorPartyRuntime::update(float desiredVelocityX, float desiredVelocityY, 
             desiredVelocityX * m_movementSpeedMultiplier,
             desiredVelocityY * m_movementSpeedMultiplier,
             m_pendingJumpRequested,
-            IndoorMovementStepSeconds);
+            IndoorMovementStepSeconds,
+            nullptr,
+            std::nullopt,
+            true);
         m_pendingJumpRequested = false;
         m_movementAccumulatorSeconds -= IndoorMovementStepSeconds;
     }
+}
+
+void IndoorPartyRuntime::setActorColliders(const std::vector<IndoorActorCollision> &actorColliders)
+{
+    m_movementController.setActorColliders(actorColliders);
 }
 
 const IndoorMoveState &IndoorPartyRuntime::movementState() const

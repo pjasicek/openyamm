@@ -107,45 +107,6 @@ void OutdoorPresentationController::consumePendingWorldAudioEvents(OutdoorGameVi
     view.m_pOutdoorWorldRuntime->clearPendingAudioEvents();
 }
 
-void OutdoorPresentationController::consumePendingEventRuntimeAudioRequests(OutdoorGameView &view)
-{
-    if (view.m_pGameAudioSystem == nullptr || view.m_pOutdoorWorldRuntime == nullptr)
-    {
-        return;
-    }
-
-    EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState();
-
-    if (pEventRuntimeState == nullptr || pEventRuntimeState->pendingSounds.empty())
-    {
-        return;
-    }
-
-    const OutdoorMoveState *pMoveState =
-        view.m_pOutdoorPartyRuntime != nullptr ? &view.m_pOutdoorPartyRuntime->movementState() : nullptr;
-
-    for (const EventRuntimeState::PendingSound &request : pEventRuntimeState->pendingSounds)
-    {
-        std::optional<GameAudioSystem::WorldPosition> position = std::nullopt;
-
-        if (request.positional)
-        {
-            position = GameAudioSystem::WorldPosition{
-                static_cast<float>(request.x),
-                static_cast<float>(request.y),
-                pMoveState != nullptr ? pMoveState->footZ + view.m_cameraEyeHeight : 0.0f
-            };
-        }
-
-        view.m_pGameAudioSystem->playSound(
-            request.soundId,
-            request.positional ? GameAudioSystem::PlaybackGroup::World : GameAudioSystem::PlaybackGroup::Ui,
-            position);
-    }
-
-    pEventRuntimeState->pendingSounds.clear();
-}
-
 void OutdoorPresentationController::updateFootstepAudio(OutdoorGameView &view, float deltaSeconds)
 {
     if (deltaSeconds <= 0.0f || view.m_pGameAudioSystem == nullptr || view.m_pOutdoorPartyRuntime == nullptr || !view.m_outdoorMapData)

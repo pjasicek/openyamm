@@ -95,5 +95,7 @@ private:
     std::optional<MapStatsEntry> m_map;
     GameSettings m_settings = GameSettings::createDefault();
     GameSession &m_gameSession;
+    int m_lastRenderWidth = 0;
+    int m_lastRenderHeight = 0;
 };
 } // namespace OpenYAMM::Game

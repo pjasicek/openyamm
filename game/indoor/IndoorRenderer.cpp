@@ -29,6 +29,7 @@
 #include <sstream>
 #include <string>
 #include <unordered_map>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -102,6 +103,7 @@ struct RuntimeActorBillboard
     uint16_t radius = 0;
     uint16_t height = 0;
     uint16_t spriteFrameIndex = 0;
+    std::array<uint16_t, 8> actionSpriteFrameIndices = {};
     bool useStaticFrame = false;
     bool isFriendly = false;
     std::string actorName;
@@ -258,6 +260,37 @@ uint16_t resolveRuntimeActorSpriteFrameIndex(
     return 0;
 }
 
+std::array<uint16_t, 8> buildRuntimeActorActionSpriteFrameIndices(
+    const SpriteFrameTable &spriteFrameTable,
+    const MonsterEntry *pMonsterEntry)
+{
+    std::array<uint16_t, 8> spriteFrameIndices = {};
+
+    if (pMonsterEntry == nullptr)
+    {
+        return spriteFrameIndices;
+    }
+
+    for (size_t actionIndex = 0; actionIndex < spriteFrameIndices.size(); ++actionIndex)
+    {
+        const std::string &spriteName = pMonsterEntry->spriteNames[actionIndex];
+
+        if (spriteName.empty())
+        {
+            continue;
+        }
+
+        const std::optional<uint16_t> frameIndex = spriteFrameTable.findFrameIndexBySpriteName(spriteName);
+
+        if (frameIndex)
+        {
+            spriteFrameIndices[actionIndex] = *frameIndex;
+        }
+    }
+
+    return spriteFrameIndices;
+}
+
 std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
     const MonsterTable &monsterTable,
     const SpriteFrameTable &spriteFrameTable,
@@ -288,6 +321,8 @@ std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
         billboard.radius = actor.radius;
         billboard.height = actor.height;
         billboard.spriteFrameIndex = spriteFrameIndex;
+        billboard.actionSpriteFrameIndices =
+            buildRuntimeActorActionSpriteFrameIndices(spriteFrameTable, pMonsterEntry);
         billboard.useStaticFrame = false;
         billboard.isFriendly = (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) == 0;
         billboard.actorName = resolveMapDeltaActorName(monsterTable, actor);
@@ -1156,6 +1191,7 @@ IndoorRenderer::~IndoorRenderer()
 }
 
 bool IndoorRenderer::initialize(
+    const Engine::AssetFileSystem *pAssetFileSystem,
     Engine::AssetScaleTier assetScaleTier,
     const MapStatsEntry &map,
     const MonsterTable &monsterTable,
@@ -1172,6 +1208,7 @@ bool IndoorRenderer::initialize(
 {
     shutdown();
     m_isInitialized = true;
+    m_pAssetFileSystem = pAssetFileSystem;
     m_map = map;
     m_assetScaleTier = assetScaleTier;
     m_monsterTable = monsterTable;
@@ -1250,6 +1287,7 @@ bool IndoorRenderer::initialize(
             billboardTexture.height = texture.height;
             billboardTexture.physicalWidth = texture.physicalWidth;
             billboardTexture.physicalHeight = texture.physicalHeight;
+            billboardTexture.pixels = texture.pixels;
             billboardTexture.textureHandle = createBgraTexture2D(
                 uint16_t(texture.physicalWidth),
                 uint16_t(texture.physicalHeight),
@@ -1282,6 +1320,7 @@ bool IndoorRenderer::initialize(
             billboardTexture.height = texture.height;
             billboardTexture.physicalWidth = texture.physicalWidth;
             billboardTexture.physicalHeight = texture.physicalHeight;
+            billboardTexture.pixels = texture.pixels;
             billboardTexture.textureHandle = createBgraTexture2D(
                 uint16_t(texture.physicalWidth),
                 uint16_t(texture.physicalHeight),
@@ -1314,6 +1353,7 @@ bool IndoorRenderer::initialize(
             billboardTexture.height = texture.height;
             billboardTexture.physicalWidth = texture.physicalWidth;
             billboardTexture.physicalHeight = texture.physicalHeight;
+            billboardTexture.pixels = texture.pixels;
             billboardTexture.textureHandle = createBgraTexture2D(
                 uint16_t(texture.physicalWidth),
                 uint16_t(texture.physicalHeight),
@@ -2000,6 +2040,202 @@ IndoorRenderer::gameplayActorPickAtCursor(
     }
 
     const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(eye);
+    std::optional<GameplayActorPick> billboardPick;
+    float bestBillboardDistance = std::numeric_limits<float>::max();
+
+    if (runtimeMapDeltaData() && m_monsterTable && m_indoorActorPreviewBillboardSet)
+    {
+        const bx::Vec3 cameraRight = {viewMatrix[0], viewMatrix[4], viewMatrix[8]};
+        const bx::Vec3 cameraUp = {viewMatrix[1], viewMatrix[5], viewMatrix[9]};
+        const std::vector<RuntimeActorBillboard> runtimeActors =
+            buildRuntimeActorBillboards(*m_monsterTable, m_indoorActorPreviewBillboardSet->spriteFrameTable, *runtimeMapDeltaData());
+
+        for (const RuntimeActorBillboard &actor : runtimeActors)
+        {
+            if (!isSectorVisible(actor.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
+            const IndoorWorldRuntime::MapActorAiState *pActorAiState =
+                m_pSceneRuntime->worldRuntime().mapActorAiState(actor.actorIndex);
+            uint16_t spriteFrameIndex = actor.spriteFrameIndex;
+            uint32_t frameTimeTicks = actor.useStaticFrame ? 0U : currentAnimationTicks();
+
+            if (pActorAiState != nullptr)
+            {
+                const size_t animationIndex = static_cast<size_t>(pActorAiState->animationState);
+
+                if (animationIndex < actor.actionSpriteFrameIndices.size()
+                    && actor.actionSpriteFrameIndices[animationIndex] != 0)
+                {
+                    spriteFrameIndex = actor.actionSpriteFrameIndices[animationIndex];
+                }
+
+                frameTimeTicks = static_cast<uint32_t>(std::max(0.0f, pActorAiState->animationTimeTicks));
+            }
+
+            const SpriteFrameEntry *pFrame =
+                m_indoorActorPreviewBillboardSet->spriteFrameTable.getFrame(spriteFrameIndex, frameTimeTicks);
+
+            if (pFrame == nullptr)
+            {
+                continue;
+            }
+
+            const float angleToCamera = std::atan2(
+                static_cast<float>(actor.y) - m_cameraPositionY,
+                static_cast<float>(actor.x) - m_cameraPositionX);
+            const float actorYawRadians = pActorAiState != nullptr ? pActorAiState->yawRadians : 0.0f;
+            const float octantAngle = actorYawRadians - angleToCamera + Pi + (Pi / 8.0f);
+            const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
+            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
+            const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+            if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
+            {
+                continue;
+            }
+
+            const float spriteScale = std::max(pFrame->scale, 0.01f);
+            const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+            const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+            const float halfWidth = worldWidth * 0.5f;
+            const bx::Vec3 center = {
+                static_cast<float>(actor.x),
+                static_cast<float>(actor.y),
+                static_cast<float>(actor.z) + worldHeight * 0.5f
+            };
+            const bx::Vec3 right = {
+                cameraRight.x * halfWidth,
+                cameraRight.y * halfWidth,
+                cameraRight.z * halfWidth
+            };
+            const bx::Vec3 billboardUp = {
+                cameraUp.x * worldHeight * 0.5f,
+                cameraUp.y * worldHeight * 0.5f,
+                cameraUp.z * worldHeight * 0.5f
+            };
+            const bx::Vec3 topLeft = {
+                center.x - right.x + billboardUp.x,
+                center.y - right.y + billboardUp.y,
+                center.z - right.z + billboardUp.z
+            };
+            const bx::Vec3 topRight = {
+                center.x + right.x + billboardUp.x,
+                center.y + right.y + billboardUp.y,
+                center.z + right.z + billboardUp.z
+            };
+            const bx::Vec3 bottomLeft = {
+                center.x - right.x - billboardUp.x,
+                center.y - right.y - billboardUp.y,
+                center.z - right.z - billboardUp.z
+            };
+            const bx::Vec3 bottomRight = {
+                center.x + right.x - billboardUp.x,
+                center.y + right.y - billboardUp.y,
+                center.z + right.z - billboardUp.z
+            };
+            ProjectedPoint projectedTopLeft = {};
+            ProjectedPoint projectedTopRight = {};
+            ProjectedPoint projectedBottomLeft = {};
+            ProjectedPoint projectedBottomRight = {};
+
+            if (!projectWorldPointToScreen(topLeft, viewWidth, viewHeight, viewProjectionMatrix, projectedTopLeft)
+                || !projectWorldPointToScreen(topRight, viewWidth, viewHeight, viewProjectionMatrix, projectedTopRight)
+                || !projectWorldPointToScreen(bottomLeft, viewWidth, viewHeight, viewProjectionMatrix, projectedBottomLeft)
+                || !projectWorldPointToScreen(bottomRight, viewWidth, viewHeight, viewProjectionMatrix, projectedBottomRight))
+            {
+                continue;
+            }
+
+            const float left = std::min(
+                std::min(projectedTopLeft.x, projectedTopRight.x),
+                std::min(projectedBottomLeft.x, projectedBottomRight.x));
+            const float rightEdge = std::max(
+                std::max(projectedTopLeft.x, projectedTopRight.x),
+                std::max(projectedBottomLeft.x, projectedBottomRight.x));
+            const float top = std::min(
+                std::min(projectedTopLeft.y, projectedTopRight.y),
+                std::min(projectedBottomLeft.y, projectedBottomRight.y));
+            const float bottom = std::max(
+                std::max(projectedTopLeft.y, projectedTopRight.y),
+                std::max(projectedBottomLeft.y, projectedBottomRight.y));
+
+            if (screenX < left || screenX > rightEdge || screenY < top || screenY > bottom)
+            {
+                continue;
+            }
+
+            const float screenWidthPixels = rightEdge - left;
+            const float screenHeightPixels = bottom - top;
+
+            if (screenWidthPixels <= 0.0f || screenHeightPixels <= 0.0f)
+            {
+                continue;
+            }
+
+            float normalizedU = (screenX - left) / screenWidthPixels;
+            const float normalizedV = (screenY - top) / screenHeightPixels;
+
+            if (resolvedTexture.mirrored)
+            {
+                normalizedU = 1.0f - normalizedU;
+            }
+
+            if (pTexture->physicalWidth > 0 && pTexture->physicalHeight > 0 && !pTexture->pixels.empty())
+            {
+                const int pixelX = std::clamp(
+                    static_cast<int>(std::floor(normalizedU * static_cast<float>(pTexture->physicalWidth))),
+                    0,
+                    pTexture->physicalWidth - 1);
+                const int pixelY = std::clamp(
+                    static_cast<int>(std::floor(normalizedV * static_cast<float>(pTexture->physicalHeight))),
+                    0,
+                    pTexture->physicalHeight - 1);
+                const size_t pixelOffset = static_cast<size_t>((pixelY * pTexture->physicalWidth + pixelX) * 4);
+
+                if (pixelOffset + 3 >= pTexture->pixels.size() || pTexture->pixels[pixelOffset + 3] == 0)
+                {
+                    continue;
+                }
+            }
+
+            const bx::Vec3 planeNormal = {
+                -cameraRight.y * cameraUp.z + cameraRight.z * cameraUp.y,
+                -cameraRight.z * cameraUp.x + cameraRight.x * cameraUp.z,
+                -cameraRight.x * cameraUp.y + cameraRight.y * cameraUp.x
+            };
+            const float denominator = vecDot(rayDirection, planeNormal);
+
+            if (std::fabs(denominator) <= InspectRayEpsilon)
+            {
+                continue;
+            }
+
+            const float distance = vecDot(vecSubtract(center, rayOrigin), planeNormal) / denominator;
+
+            if (distance <= InspectRayEpsilon || distance >= bestBillboardDistance)
+            {
+                continue;
+            }
+
+            bestBillboardDistance = distance;
+            billboardPick = GameplayActorPick{
+                .runtimeActorIndex = actor.actorIndex,
+                .sourceX = left,
+                .sourceY = top,
+                .sourceWidth = screenWidthPixels,
+                .sourceHeight = screenHeightPixels,
+            };
+        }
+    }
+
+    if (billboardPick)
+    {
+        return billboardPick;
+    }
+
     const InspectHit inspectHit =
         inspectAtCursor(*m_indoorMapData, m_renderVertices, visibleSectorMask, rayOrigin, rayDirection);
 
@@ -2598,6 +2834,11 @@ float IndoorRenderer::cameraYawRadians() const
     return m_cameraYawRadians;
 }
 
+float IndoorRenderer::cameraPitchRadians() const
+{
+    return m_cameraPitchRadians;
+}
+
 std::optional<IndoorRenderer::InspectHit> IndoorRenderer::inspectHitFromGameplayWorldHit(
     const GameplayWorldHit &hit) const
 {
@@ -2691,6 +2932,8 @@ void IndoorRenderer::shutdown()
     m_indoorMapData.reset();
     m_renderVertices.clear();
     m_pSceneRuntime = nullptr;
+    m_pAssetFileSystem = nullptr;
+    m_spriteLoadCache = {};
     m_indoorTextureSet.reset();
     m_map.reset();
     m_monsterTable.reset();
@@ -2890,6 +3133,58 @@ const IndoorRenderer::BillboardTextureHandle *IndoorRenderer::findBillboardTextu
     }
 
     return nullptr;
+}
+
+const IndoorRenderer::BillboardTextureHandle *IndoorRenderer::ensureSpriteBillboardTexture(
+    const std::string &textureName,
+    int16_t paletteId)
+{
+    const BillboardTextureHandle *pExistingTexture = findBillboardTexture(textureName, paletteId);
+
+    if (pExistingTexture != nullptr)
+    {
+        return pExistingTexture;
+    }
+
+    int textureWidth = 0;
+    int textureHeight = 0;
+    const std::optional<std::vector<uint8_t>> pixels =
+        GameplayHudCommon::loadSpriteBitmapPixelsBgraCached(
+            m_pAssetFileSystem,
+            m_spriteLoadCache,
+            textureName,
+            paletteId,
+            textureWidth,
+            textureHeight);
+
+    if (!pixels || textureWidth <= 0 || textureHeight <= 0)
+    {
+        return nullptr;
+    }
+
+    BillboardTextureHandle billboardTexture = {};
+    billboardTexture.textureName = toLowerCopy(textureName);
+    billboardTexture.paletteId = paletteId;
+    billboardTexture.width = Engine::scalePhysicalPixelsToLogical(textureWidth, m_assetScaleTier);
+    billboardTexture.height = Engine::scalePhysicalPixelsToLogical(textureHeight, m_assetScaleTier);
+    billboardTexture.physicalWidth = textureWidth;
+    billboardTexture.physicalHeight = textureHeight;
+    billboardTexture.pixels = *pixels;
+    billboardTexture.textureHandle = createBgraTexture2D(
+        uint16_t(textureWidth),
+        uint16_t(textureHeight),
+        pixels->data(),
+        uint32_t(pixels->size()),
+        TextureFilterProfile::Billboard,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+
+    if (!bgfx::isValid(billboardTexture.textureHandle))
+    {
+        return nullptr;
+    }
+
+    m_billboardTextureHandles.push_back(std::move(billboardTexture));
+    return &m_billboardTextureHandles.back();
 }
 
 void IndoorRenderer::renderDecorationBillboards(
@@ -3144,9 +3439,28 @@ void IndoorRenderer::renderActorPreviewBillboards(
                 continue;
             }
 
-            const uint32_t frameTimeTicks = billboard.useStaticFrame ? 0U : animationTimeTicks;
+            const IndoorWorldRuntime::MapActorAiState *pActorAiState =
+                m_pSceneRuntime != nullptr
+                    ? m_pSceneRuntime->worldRuntime().mapActorAiState(billboard.actorIndex)
+                    : nullptr;
+            uint16_t spriteFrameIndex = billboard.spriteFrameIndex;
+            uint32_t frameTimeTicks = billboard.useStaticFrame ? 0U : animationTimeTicks;
+
+            if (pActorAiState != nullptr)
+            {
+                const size_t animationIndex = static_cast<size_t>(pActorAiState->animationState);
+
+                if (animationIndex < billboard.actionSpriteFrameIndices.size()
+                    && billboard.actionSpriteFrameIndices[animationIndex] != 0)
+                {
+                    spriteFrameIndex = billboard.actionSpriteFrameIndices[animationIndex];
+                }
+
+                frameTimeTicks = static_cast<uint32_t>(std::max(0.0f, pActorAiState->animationTimeTicks));
+            }
+
             const SpriteFrameEntry *pFrame =
-                m_indoorActorPreviewBillboardSet->spriteFrameTable.getFrame(billboard.spriteFrameIndex, frameTimeTicks);
+                m_indoorActorPreviewBillboardSet->spriteFrameTable.getFrame(spriteFrameIndex, frameTimeTicks);
 
             if (pFrame == nullptr)
             {
@@ -3157,11 +3471,12 @@ void IndoorRenderer::renderActorPreviewBillboards(
                 static_cast<float>(billboard.y) - cameraPosition.y,
                 static_cast<float>(billboard.x) - cameraPosition.x
             );
-            const float octantAngle = -angleToCamera + Pi + (Pi / 8.0f);
+            const float actorYawRadians = pActorAiState != nullptr ? pActorAiState->yawRadians : 0.0f;
+            const float octantAngle = actorYawRadians - angleToCamera + Pi + (Pi / 8.0f);
             const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
             const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
             const BillboardTextureHandle *pTexture =
-                findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+                ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
 
             if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
             {
@@ -3205,7 +3520,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
             const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
             const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
             const BillboardTextureHandle *pTexture =
-                findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+                ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
 
             if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
             {
@@ -3309,9 +3624,28 @@ void IndoorRenderer::renderSpriteObjectBillboards(
     const std::vector<uint8_t> &visibleSectorMask
 )
 {
-    if (!m_indoorSpriteObjectBillboardSet
-        || !bgfx::isValid(m_texturedProgramHandle)
+    if (!bgfx::isValid(m_texturedProgramHandle)
         || !bgfx::isValid(m_textureSamplerHandle))
+    {
+        return;
+    }
+
+    const SpriteFrameTable *pSpriteFrameTable = nullptr;
+
+    if (m_indoorSpriteObjectBillboardSet)
+    {
+        pSpriteFrameTable = &m_indoorSpriteObjectBillboardSet->spriteFrameTable;
+    }
+    else if (m_indoorActorPreviewBillboardSet)
+    {
+        pSpriteFrameTable = &m_indoorActorPreviewBillboardSet->spriteFrameTable;
+    }
+    else if (m_indoorDecorationBillboardSet)
+    {
+        pSpriteFrameTable = &m_indoorDecorationBillboardSet->spriteFrameTable;
+    }
+
+    if (pSpriteFrameTable == nullptr)
     {
         return;
     }
@@ -3337,10 +3671,12 @@ void IndoorRenderer::renderSpriteObjectBillboards(
         : std::vector<RuntimeSpriteObjectBillboard>{};
     std::vector<BillboardDrawItem> drawItems;
     const bool useRuntimeBillboards = !runtimeBillboards.empty();
+    const size_t staticBillboardCount =
+        m_indoorSpriteObjectBillboardSet ? m_indoorSpriteObjectBillboardSet->billboards.size() : 0;
     drawItems.reserve(
         useRuntimeBillboards
         ? runtimeBillboards.size()
-        : m_indoorSpriteObjectBillboardSet->billboards.size());
+        : staticBillboardCount);
     auto appendProjectileDrawItem =
         [&](uint16_t cachedSpriteFrameIndex,
             uint16_t spriteId,
@@ -3355,7 +3691,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             if (spriteFrameIndex == 0 && !spriteName.empty())
             {
                 const std::optional<uint16_t> spriteFrameIndexByName =
-                    m_indoorSpriteObjectBillboardSet->spriteFrameTable.findFrameIndexBySpriteName(spriteName);
+                    pSpriteFrameTable->findFrameIndexBySpriteName(spriteName);
 
                 if (spriteFrameIndexByName)
                 {
@@ -3374,7 +3710,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             }
 
             const SpriteFrameEntry *pFrame =
-                m_indoorSpriteObjectBillboardSet->spriteFrameTable.getFrame(spriteFrameIndex, timeTicks);
+                pSpriteFrameTable->getFrame(spriteFrameIndex, timeTicks);
 
             if (pFrame == nullptr)
             {
@@ -3383,7 +3719,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
 
             const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
             const BillboardTextureHandle *pTexture =
-                findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+                ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
 
             if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
             {
@@ -3415,7 +3751,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             }
 
             const SpriteFrameEntry *pFrame =
-                m_indoorSpriteObjectBillboardSet->spriteFrameTable.getFrame(
+                pSpriteFrameTable->getFrame(
                     billboard.objectSpriteId,
                     billboard.timeSinceCreatedTicks
                 );
@@ -3426,7 +3762,8 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             }
 
             const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
-            const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
+            const BillboardTextureHandle *pTexture =
+                ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
 
             if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
             {
@@ -3450,45 +3787,49 @@ void IndoorRenderer::renderSpriteObjectBillboards(
     }
     else
     {
-        for (const SpriteObjectBillboard &billboard : m_indoorSpriteObjectBillboardSet->billboards)
+        if (m_indoorSpriteObjectBillboardSet)
         {
-            if (!isSectorVisible(billboard.sectorId, visibleSectorMask))
+            for (const SpriteObjectBillboard &billboard : m_indoorSpriteObjectBillboardSet->billboards)
             {
-                continue;
+                if (!isSectorVisible(billboard.sectorId, visibleSectorMask))
+                {
+                    continue;
+                }
+
+                const SpriteFrameEntry *pFrame =
+                    pSpriteFrameTable->getFrame(
+                        billboard.objectSpriteId,
+                        billboard.timeSinceCreatedTicks
+                    );
+
+                if (pFrame == nullptr)
+                {
+                    continue;
+                }
+
+                const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+                const BillboardTextureHandle *pTexture =
+                    ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+                if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+                {
+                    continue;
+                }
+
+                const float deltaX = float(billboard.x) - cameraPosition.x;
+                const float deltaY = float(billboard.y) - cameraPosition.y;
+                const float deltaZ = float(billboard.z) - cameraPosition.z;
+
+                BillboardDrawItem drawItem = {};
+                drawItem.x = static_cast<float>(billboard.x);
+                drawItem.y = static_cast<float>(billboard.y);
+                drawItem.z = static_cast<float>(billboard.z);
+                drawItem.pFrame = pFrame;
+                drawItem.pTexture = pTexture;
+                drawItem.mirrored = resolvedTexture.mirrored;
+                drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+                drawItems.push_back(drawItem);
             }
-
-            const SpriteFrameEntry *pFrame =
-                m_indoorSpriteObjectBillboardSet->spriteFrameTable.getFrame(
-                    billboard.objectSpriteId,
-                    billboard.timeSinceCreatedTicks
-                );
-
-            if (pFrame == nullptr)
-            {
-                continue;
-            }
-
-            const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
-            const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
-
-            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
-            {
-                continue;
-            }
-
-            const float deltaX = float(billboard.x) - cameraPosition.x;
-            const float deltaY = float(billboard.y) - cameraPosition.y;
-            const float deltaZ = float(billboard.z) - cameraPosition.z;
-
-            BillboardDrawItem drawItem = {};
-            drawItem.x = static_cast<float>(billboard.x);
-            drawItem.y = static_cast<float>(billboard.y);
-            drawItem.z = static_cast<float>(billboard.z);
-            drawItem.pFrame = pFrame;
-            drawItem.pTexture = pTexture;
-            drawItem.mirrored = resolvedTexture.mirrored;
-            drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-            drawItems.push_back(drawItem);
         }
     }
 
@@ -4961,12 +5302,176 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
     if (mapDeltaData && m_monsterTable && m_indoorActorPreviewBillboardSet)
     {
+        const float cosPitch = std::cos(m_cameraPitchRadians);
+        const float sinPitch = std::sin(m_cameraPitchRadians);
+        const float cosYaw = std::cos(m_cameraYawRadians);
+        const float sinYaw = std::sin(m_cameraYawRadians);
+        const bx::Vec3 eye = {m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ};
+        const bx::Vec3 at = {
+            m_cameraPositionX + cosYaw * cosPitch,
+            m_cameraPositionY + sinYaw * cosPitch,
+            m_cameraPositionZ + sinPitch
+        };
+        const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+        float viewMatrix[16] = {};
+        bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
+        const bx::Vec3 cameraRight = {viewMatrix[0], viewMatrix[4], viewMatrix[8]};
+        const bx::Vec3 cameraUp = {viewMatrix[1], viewMatrix[5], viewMatrix[9]};
+
+        const auto isOpaqueBillboardPixel =
+            [](const BillboardTextureHandle &texture, float normalizedU, float normalizedV) -> bool
+            {
+                if (texture.physicalWidth <= 0
+                    || texture.physicalHeight <= 0
+                    || texture.pixels.empty())
+                {
+                    return true;
+                }
+
+                const int pixelX = std::clamp(
+                    static_cast<int>(std::floor(normalizedU * float(texture.physicalWidth))),
+                    0,
+                    texture.physicalWidth - 1);
+                const int pixelY = std::clamp(
+                    static_cast<int>(std::floor(normalizedV * float(texture.physicalHeight))),
+                    0,
+                    texture.physicalHeight - 1);
+                const size_t pixelOffset = static_cast<size_t>((pixelY * texture.physicalWidth + pixelX) * 4);
+                return pixelOffset + 3 < texture.pixels.size() && texture.pixels[pixelOffset + 3] != 0;
+            };
+
+        const auto hitTestActorBillboard =
+            [&](const RuntimeActorBillboard &actor, float &distance, bool &billboardTested) -> bool
+            {
+                billboardTested = false;
+                const IndoorWorldRuntime::MapActorAiState *pActorAiState =
+                    m_pSceneRuntime != nullptr
+                        ? m_pSceneRuntime->worldRuntime().mapActorAiState(actor.actorIndex)
+                        : nullptr;
+                uint16_t spriteFrameIndex = actor.spriteFrameIndex;
+                uint32_t frameTimeTicks = actor.useStaticFrame ? 0U : currentAnimationTicks();
+
+                if (pActorAiState != nullptr)
+                {
+                    const size_t animationIndex = static_cast<size_t>(pActorAiState->animationState);
+
+                    if (animationIndex < actor.actionSpriteFrameIndices.size()
+                        && actor.actionSpriteFrameIndices[animationIndex] != 0)
+                    {
+                        spriteFrameIndex = actor.actionSpriteFrameIndices[animationIndex];
+                    }
+
+                    frameTimeTicks = static_cast<uint32_t>(std::max(0.0f, pActorAiState->animationTimeTicks));
+                }
+
+                const SpriteFrameEntry *pFrame =
+                    m_indoorActorPreviewBillboardSet->spriteFrameTable.getFrame(spriteFrameIndex, frameTimeTicks);
+
+                if (pFrame == nullptr)
+                {
+                    return false;
+                }
+
+                const float angleToCamera = std::atan2(
+                    static_cast<float>(actor.y) - m_cameraPositionY,
+                    static_cast<float>(actor.x) - m_cameraPositionX);
+                const float actorYawRadians = pActorAiState != nullptr ? pActorAiState->yawRadians : 0.0f;
+                const float octantAngle = actorYawRadians - angleToCamera + Pi + (Pi / 8.0f);
+                const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
+                const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
+                const BillboardTextureHandle *pTexture =
+                    findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+                if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
+                {
+                    return false;
+                }
+
+                billboardTested = true;
+                const float spriteScale = std::max(pFrame->scale, 0.01f);
+                const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+                const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+                const bx::Vec3 center = {
+                    static_cast<float>(actor.x),
+                    static_cast<float>(actor.y),
+                    static_cast<float>(actor.z) + worldHeight * 0.5f
+                };
+                const bx::Vec3 planeNormal = {
+                    -cameraRight.y * cameraUp.z + cameraRight.z * cameraUp.y,
+                    -cameraRight.z * cameraUp.x + cameraRight.x * cameraUp.z,
+                    -cameraRight.x * cameraUp.y + cameraRight.y * cameraUp.x
+                };
+                const float denominator = vecDot(rayDirection, planeNormal);
+
+                if (std::fabs(denominator) <= InspectRayEpsilon)
+                {
+                    return false;
+                }
+
+                distance = vecDot(vecSubtract(center, rayOrigin), planeNormal) / denominator;
+
+                if (distance <= InspectRayEpsilon)
+                {
+                    return false;
+                }
+
+                const bx::Vec3 hitPoint = {
+                    rayOrigin.x + rayDirection.x * distance,
+                    rayOrigin.y + rayDirection.y * distance,
+                    rayOrigin.z + rayDirection.z * distance
+                };
+                const bx::Vec3 localDelta = vecSubtract(hitPoint, center);
+                const float localX = vecDot(localDelta, cameraRight);
+                const float localY = vecDot(localDelta, cameraUp);
+                const float halfWidth = worldWidth * 0.5f;
+                const float halfHeight = worldHeight * 0.5f;
+
+                if (std::fabs(localX) > halfWidth || std::fabs(localY) > halfHeight)
+                {
+                    return false;
+                }
+
+                float normalizedU = (localX + halfWidth) / worldWidth;
+                const float normalizedV = (halfHeight - localY) / worldHeight;
+
+                if (resolvedTexture.mirrored)
+                {
+                    normalizedU = 1.0f - normalizedU;
+                }
+
+                return isOpaqueBillboardPixel(*pTexture, normalizedU, normalizedV);
+            };
+
         const std::vector<RuntimeActorBillboard> runtimeActors =
             buildRuntimeActorBillboards(*m_monsterTable, m_indoorActorPreviewBillboardSet->spriteFrameTable, *mapDeltaData);
 
         for (const RuntimeActorBillboard &actor : runtimeActors)
         {
             if (!isSectorVisible(actor.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
+            float distance = 0.0f;
+            bool billboardTested = false;
+            const bool usedBillboardHit = hitTestActorBillboard(actor, distance, billboardTested);
+
+            if (usedBillboardHit && distance < bestDistance)
+            {
+                bestDistance = distance;
+                bestHit.hasHit = true;
+                bestHit.kind = "actor";
+                bestHit.index = actor.actorIndex;
+                bestHit.name = actor.actorName;
+                bestHit.textureName.clear();
+                bestHit.distance = distance;
+                bestHit.isFriendly = actor.isFriendly;
+                bestHit.spawnSummary.clear();
+                bestHit.spawnDetail.clear();
+                continue;
+            }
+
+            if (billboardTested)
             {
                 continue;
             }
@@ -4983,7 +5488,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 static_cast<float>(actor.y) + halfExtent,
                 static_cast<float>(actor.z) + height
             };
-            float distance = 0.0f;
 
             if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance) && distance < bestDistance)
             {
@@ -5345,6 +5849,8 @@ void IndoorRenderer::updateCameraFromInput(
 
     if (m_pSceneRuntime != nullptr)
     {
+        m_pSceneRuntime->partyRuntime().setActorColliders(
+            m_pSceneRuntime->worldRuntime().actorMovementColliders());
         m_pSceneRuntime->partyRuntime().update(desiredVelocityX, desiredVelocityY, jumpRequested, deltaSeconds);
         const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
         m_cameraPositionX = moveState.x;

@@ -240,6 +240,7 @@ public:
     void playCommonUiSound(SoundId soundId);
     void stopAllAudioPlayback();
     void consumePendingPartyAudioRequests();
+    void consumePendingEventRuntimeAudioRequests();
     bool tryCastSpellFromMember(
         size_t casterMemberIndex,
         uint32_t spellId,

@@ -8,6 +8,7 @@
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/items/ItemRuntime.h"
+#include "game/indoor/IndoorPartyRuntime.h"
 #include "game/indoor/IndoorRenderer.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpellSchool.h"
@@ -913,6 +914,9 @@ void IndoorGameView::setSettingsSnapshot(const GameSettings &settings)
 
 void IndoorGameView::render(int width, int height, const GameplayInputFrame &input, float deltaSeconds)
 {
+    m_lastRenderWidth = width;
+    m_lastRenderHeight = height;
+
     GameplayHudRenderBackend hudRenderBackend = {};
     bgfx::ProgramHandle invalidProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle invalidSamplerHandle = BGFX_INVALID_HANDLE;
@@ -960,7 +964,9 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
     if (m_pIndoorRenderer != nullptr)
     {
         const bool allowWorldInput =
-            !sharedInputFrameResult.journalInputConsumed && !sharedInputFrameResult.worldInputBlocked;
+            !sharedInputFrameResult.mouseLookPolicy.cursorModeActive
+            && !sharedInputFrameResult.journalInputConsumed
+            && !sharedInputFrameResult.worldInputBlocked;
         m_pIndoorRenderer->render(
             width,
             height,
@@ -1045,7 +1051,7 @@ GameAudioSystem *IndoorGameView::audioSystem() const
 
 float IndoorGameView::gameplayCameraYawRadians() const
 {
-    return 0.0f;
+    return m_pIndoorRenderer != nullptr ? m_pIndoorRenderer->cameraYawRadians() : 0.0f;
 }
 
 bool IndoorGameView::activeMemberKnowsSpell(uint32_t spellId) const
@@ -1125,20 +1131,49 @@ bool IndoorGameView::tryCastSpellRequest(
         return false;
     }
 
+    PartySpellCastRequest resolvedRequest = request;
+
+    if (m_pIndoorRenderer != nullptr)
+    {
+        const IndoorPartyRuntime *pRuntime = partyRuntime();
+        const IndoorMoveState &moveState = pRuntime->movementState();
+        resolvedRequest.hasViewTransform = true;
+        resolvedRequest.viewX = moveState.x;
+        resolvedRequest.viewY = moveState.y;
+        resolvedRequest.viewZ = moveState.eyeZ();
+        resolvedRequest.viewYawRadians = m_pIndoorRenderer->cameraYawRadians();
+        resolvedRequest.viewPitchRadians = m_pIndoorRenderer->cameraPitchRadians();
+        resolvedRequest.viewAspectRatio =
+            static_cast<float>(std::max(m_lastRenderWidth, 1)) / static_cast<float>(std::max(m_lastRenderHeight, 1));
+    }
+
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
     const GameplaySpellService::SpellRequestResolution resolution =
-        m_gameSession.gameplaySpellService().resolveSpellRequest(screenRuntime, request, spellName);
+        m_gameSession.gameplaySpellService().resolveSpellRequest(screenRuntime, resolvedRequest, spellName);
 
-    if (resolution.disposition == GameplaySpellService::SpellRequestDisposition::CastSucceeded
-        || resolution.disposition == GameplaySpellService::SpellRequestDisposition::OpenedSelectionUi)
+    if (resolution.disposition == GameplaySpellService::SpellRequestDisposition::CastSucceeded)
+    {
+        worldRuntime()->applyPendingSpellCastWorldEffects(resolution.castResult);
+        m_gameSession.gameplaySpellService().clearPendingTargetSelection(
+            screenRuntime,
+            "Cast " + spellName);
+        return true;
+    }
+
+    if (resolution.disposition == GameplaySpellService::SpellRequestDisposition::OpenedSelectionUi)
     {
         return true;
     }
 
     if (resolution.disposition == GameplaySpellService::SpellRequestDisposition::NeedsTargetSelection)
     {
-        setStatusBarEvent("Spell targeting is not wired indoors yet");
-        return false;
+        m_gameSession.gameplaySpellService().armPendingTargetSelection(
+            screenRuntime,
+            resolvedRequest,
+            resolution.castResult.targetKind,
+            spellName);
+        worldRuntime()->clearWorldHover();
+        return true;
     }
 
     return false;

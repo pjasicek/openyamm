@@ -5,6 +5,7 @@
 #include "game/gameplay/GameplayActorAiTypes.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/indoor/IndoorMovementController.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/tables/ChestTable.h"
 #include "game/tables/ItemTable.h"
@@ -63,12 +64,23 @@ public:
         float animationTimeTicks = 0.0f;
         float recoverySeconds = 0.0f;
         float attackAnimationSeconds = 0.3f;
+        float meleeAttackAnimationSeconds = 0.3f;
+        float rangedAttackAnimationSeconds = 0.3f;
         float attackCooldownSeconds = 0.0f;
         float idleDecisionSeconds = 0.0f;
         float actionSeconds = 0.0f;
+        float crowdSideLockRemainingSeconds = 0.0f;
+        float crowdNoProgressSeconds = 0.0f;
+        float crowdLastEdgeDistance = 0.0f;
+        float crowdRetreatRemainingSeconds = 0.0f;
+        float crowdStandRemainingSeconds = 0.0f;
+        float crowdProbeEdgeDistance = 0.0f;
+        float crowdProbeElapsedSeconds = 0.0f;
         uint32_t idleDecisionCount = 0;
         uint32_t pursueDecisionCount = 0;
         uint32_t attackDecisionCount = 0;
+        uint8_t crowdEscapeAttempts = 0;
+        int8_t crowdSideSign = 0;
         bool attackImpactTriggered = false;
     };
 
@@ -83,6 +95,7 @@ public:
         std::optional<CorpseViewState> activeCorpseView;
         std::vector<GameplayActorSpellEffectState> mapActorSpellEffectStates;
         std::vector<MapActorAiState> mapActorAiStates;
+        float actorUpdateAccumulatorSeconds = 0.0f;
     };
 
     IndoorWorldRuntime() = default;
@@ -171,6 +184,7 @@ public:
         int32_t toZ
     ) override;
     size_t mapActorCount() const override;
+    const MapActorAiState *mapActorAiState(size_t actorIndex) const;
     void collectProjectilePresentationState(
         std::vector<GameplayProjectilePresentationState> &projectiles,
         std::vector<GameplayProjectileImpactPresentationState> &impacts) const;
@@ -308,6 +322,7 @@ public:
     void restoreSnapshot(const Snapshot &snapshot);
 
     MapDeltaData *mapDeltaData();
+    std::vector<IndoorActorCollision> actorMovementColliders() const;
 
 private:
     const MapEncounterInfo *encounterInfo(uint32_t typeIndexInMapStats) const;
@@ -315,6 +330,7 @@ private:
         uint32_t typeIndexInMapStats,
         uint32_t level
     ) const;
+    void materializeInitialMonsterSpawns();
     void syncMapActorAiStates();
     std::vector<bool> selectIndoorActiveActors(const ActorPartyFacts &partyFacts) const;
     ActorAiFrameFacts collectIndoorActorAiFrameFacts(float deltaSeconds) const;
@@ -328,6 +344,9 @@ private:
     bool applyIndoorActorProjectileRequest(const ActorProjectileRequest &projectileRequest);
     void pushIndoorProjectileAudioEvent(
         const GameplayProjectileService::ProjectileAudioRequest &audioRequest);
+    bool projectileSourceIsFriendlyToActor(
+        const GameplayProjectileService::ProjectileState &projectile,
+        const MapActorAiState &actor) const;
     GameplayProjectileService::ProjectileFrameFacts collectIndoorProjectileFrameFacts(
         const GameplayProjectileService::ProjectileState &projectile,
         float deltaSeconds,
@@ -378,5 +397,6 @@ private:
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<MapActorAiState> m_mapActorAiStates;
+    float m_actorUpdateAccumulatorSeconds = 0.0f;
 };
 }

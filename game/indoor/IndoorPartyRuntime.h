@@ -24,6 +24,7 @@ public:
     void teleportEyePosition(float x, float y, float z);
     void teleportPartyPosition(float x, float y, float z);
     void update(float desiredVelocityX, float desiredVelocityY, bool jumpRequested, float deltaSeconds);
+    void setActorColliders(const std::vector<IndoorActorCollision> &actorColliders);
 
     const IndoorMoveState &movementState() const;
     const Party &party() const;

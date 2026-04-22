@@ -1816,44 +1816,35 @@ OutdoorMoveState OutdoorMovementController::resolveMoveForBody(
 
             const CollisionHit &hit = *collisionState.hit;
 
+            if (hit.kind == CollisionHit::Kind::Actor)
+            {
+                if (hit.colliderIndex < m_actorColliders.size() && pContactedActorIndices != nullptr)
+                {
+                    pContactedActorIndices->push_back(m_actorColliders[hit.colliderIndex].sourceIndex);
+                }
+
+                passInputSpeed = vecScale(passInputSpeed, 0.89263916f);
+                continue;
+            }
+
             if (hit.kind == CollisionHit::Kind::Decoration
-                || hit.kind == CollisionHit::Kind::Actor
                 || hit.kind == CollisionHit::Kind::SpriteObject)
             {
                 bx::Vec3 colliderCenter = {0.0f, 0.0f, 0.0f};
 
                 if (hit.kind == CollisionHit::Kind::Decoration)
                 {
-                if (hit.colliderIndex >= m_decorationColliders.size())
-                {
-                    passInputSpeed = vecScale(passInputSpeed, 0.89263916f);
-                    continue;
-                }
-
-                    colliderCenter = {
-                        static_cast<float>(m_decorationColliders[hit.colliderIndex].worldX),
-                        static_cast<float>(m_decorationColliders[hit.colliderIndex].worldY),
-                        static_cast<float>(m_decorationColliders[hit.colliderIndex].worldZ)
-                    };
-                }
-                else if (hit.kind == CollisionHit::Kind::Actor)
-                {
-                    if (hit.colliderIndex >= m_actorColliders.size())
+                    if (hit.colliderIndex >= m_decorationColliders.size())
                     {
                         passInputSpeed = vecScale(passInputSpeed, 0.89263916f);
                         continue;
                     }
 
                     colliderCenter = {
-                        static_cast<float>(m_actorColliders[hit.colliderIndex].worldX),
-                        static_cast<float>(m_actorColliders[hit.colliderIndex].worldY),
-                        static_cast<float>(m_actorColliders[hit.colliderIndex].worldZ)
+                        static_cast<float>(m_decorationColliders[hit.colliderIndex].worldX),
+                        static_cast<float>(m_decorationColliders[hit.colliderIndex].worldY),
+                        static_cast<float>(m_decorationColliders[hit.colliderIndex].worldZ)
                     };
-
-                    if (pContactedActorIndices != nullptr)
-                    {
-                        pContactedActorIndices->push_back(m_actorColliders[hit.colliderIndex].sourceIndex);
-                    }
                 }
                 else
                 {

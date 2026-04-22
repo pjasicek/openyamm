@@ -95,6 +95,7 @@ public:
     const GameplayInputFrame *currentGameplayInputFrame() const;
     void bindCurrentGameplayInputFrame(const GameplayInputFrame *pInputFrame);
     void updateGameplay(const GameplayInputFrame &input, float deltaSeconds);
+    void consumePendingGameplayAudioRequests();
     void renderGameplayUi(int width, int height);
     const GameplaySharedInputFrameResult &sharedInputFrameResult() const;
     bool sharedWorldInteractionBlockedThisFrame() const;

@@ -2,6 +2,10 @@
 
 #include "game/indoor/IndoorGeometryUtils.h"
 
+#include <cstddef>
+#include <optional>
+#include <vector>
+
 namespace OpenYAMM::Game
 {
 struct IndoorMoveState
@@ -28,6 +32,39 @@ struct IndoorBodyDimensions
     float height = 160.0f;
 };
 
+struct IndoorActorCollision
+{
+    size_t actorIndex = 0;
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+    float radius = 0.0f;
+    float height = 0.0f;
+    bool reportActorContact = true;
+};
+
+enum class IndoorMoveBlockKind
+{
+    None,
+    Wall,
+    Actor,
+    InvalidPosition
+};
+
+struct IndoorMoveDebugInfo
+{
+    bool wantedHorizontalMove = false;
+    bool fullMoveSucceeded = false;
+    bool wallSlideTried = false;
+    bool wallSlideSucceeded = false;
+    bool axisSlideSucceeded = false;
+    IndoorMoveBlockKind primaryBlockKind = IndoorMoveBlockKind::None;
+    size_t wallFaceIndex = static_cast<size_t>(-1);
+    bx::Vec3 wallNormal = {0.0f, 0.0f, 0.0f};
+    int16_t startSectorId = -1;
+    int16_t startEyeSectorId = -1;
+};
+
 class IndoorMovementController
 {
 public:
@@ -49,8 +86,13 @@ public:
         float desiredVelocityX,
         float desiredVelocityY,
         bool jumpRequested,
-        float deltaSeconds
+        float deltaSeconds,
+        std::vector<size_t> *pContactedActorIndices = nullptr,
+        std::optional<size_t> ignoredActorIndex = std::nullopt,
+        bool blockActorSlide = false,
+        IndoorMoveDebugInfo *pDebugInfo = nullptr
     ) const;
+    void setActorColliders(const std::vector<IndoorActorCollision> &actorColliders);
 
 private:
     IndoorFloorSample sampleSupportedFloor(
@@ -100,6 +142,12 @@ private:
         std::vector<uint8_t> collisionFaceMask;
         IndoorFaceGeometryCache geometryCache;
     };
+    struct IndoorWallCollision
+    {
+        bool hit = false;
+        bx::Vec3 normal = {0.0f, 0.0f, 0.0f};
+        size_t faceIndex = static_cast<size_t>(-1);
+    };
 
     void refreshRuntimeGeometryCache() const;
     const RuntimeGeometryCache &runtimeGeometryCache() const;
@@ -122,7 +170,34 @@ private:
         float footZ,
         const IndoorBodyDimensions &body,
         const std::vector<uint8_t> *pCollisionFaceMask,
-        const std::vector<uint8_t> *pMechanismBlockingFaceMask
+        const std::vector<uint8_t> *pMechanismBlockingFaceMask,
+        std::optional<int16_t> primarySectorId,
+        std::optional<int16_t> secondarySectorId,
+        float movementX,
+        float movementY,
+        IndoorWallCollision *pWallCollision
     ) const;
+    std::vector<int16_t> collectCollisionSectorIds(
+        const std::vector<IndoorVertex> &vertices,
+        IndoorFaceGeometryCache &geometryCache,
+        float x,
+        float y,
+        float footZ,
+        const IndoorBodyDimensions &body,
+        std::optional<int16_t> primarySectorId,
+        std::optional<int16_t> secondarySectorId
+    ) const;
+    bool collidesWithActors(
+        float currentX,
+        float currentY,
+        float candidateX,
+        float candidateY,
+        float footZ,
+        const IndoorBodyDimensions &body,
+        std::vector<size_t> *pContactedActorIndices,
+        std::optional<size_t> ignoredActorIndex,
+        bool *pHitActor
+    ) const;
+    std::vector<IndoorActorCollision> m_actorColliders;
 };
 }

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/tables/ChestTable.h"
@@ -12,6 +13,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameplayWorldInteraction.h"
 #include "game/tables/HouseTable.h"
+#include "game/ui/GameplayHudCommon.h"
 
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
@@ -46,6 +48,7 @@ public:
     IndoorRenderer &operator=(const IndoorRenderer &) = delete;
 
     bool initialize(
+        const Engine::AssetFileSystem *pAssetFileSystem,
         Engine::AssetScaleTier assetScaleTier,
         const MapStatsEntry &map,
         const MonsterTable &monsterTable,
@@ -104,6 +107,7 @@ public:
     std::optional<bx::Vec3> gameplayActorTargetPoint(size_t actorIndex) const;
     std::optional<bx::Vec3> gameplayGroundTargetPoint(float screenX, float screenY) const;
     float cameraYawRadians() const;
+    float cameraPitchRadians() const;
     bool canActivateGameplayWorldHit(const GameplayWorldHit &hit) const;
     bool activateGameplayWorldHit(const GameplayWorldHit &hit);
     void shutdown();
@@ -160,6 +164,7 @@ private:
         int height = 0;
         int physicalWidth = 0;
         int physicalHeight = 0;
+        std::vector<uint8_t> pixels;
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
@@ -304,6 +309,7 @@ private:
     );
     const bgfx::TextureHandle *findIndoorTextureHandle(const std::string &textureName) const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
+    const BillboardTextureHandle *ensureSpriteBillboardTexture(const std::string &textureName, int16_t paletteId);
     const std::optional<MapDeltaData> &runtimeMapDeltaData() const;
     const std::optional<EventRuntimeState> &runtimeEventRuntimeStateStorage() const;
     EventRuntimeState *runtimeEventRuntimeState();
@@ -331,6 +337,8 @@ private:
     std::optional<SpriteObjectBillboardSet> m_indoorSpriteObjectBillboardSet;
     std::optional<HouseTable> m_houseTable;
     std::optional<ChestTable> m_chestTable;
+    const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
+    GameplayAssetLoadCache m_spriteLoadCache;
     Engine::AssetScaleTier m_assetScaleTier = Engine::AssetScaleTier::X1;
     bgfx::DynamicVertexBufferHandle m_wireframeVertexBufferHandle;
     bgfx::DynamicVertexBufferHandle m_portalVertexBufferHandle;

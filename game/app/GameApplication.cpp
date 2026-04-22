@@ -872,6 +872,14 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         m_gameAudioSystem.setBackgroundMusicTrack(selectedMap->map.redbookTrack);
         applyCurrentSettingsToActiveRuntime();
         Party &party = ensureSessionPartyState();
+        const SpriteFrameTable *pIndoorActorSpriteFrameTable =
+            selectedMap->indoorActorPreviewBillboardSet
+                ? &selectedMap->indoorActorPreviewBillboardSet->spriteFrameTable
+                : nullptr;
+        const SpriteFrameTable *pIndoorProjectileSpriteFrameTable =
+            selectedMap->indoorSpriteObjectBillboardSet
+                ? &selectedMap->indoorSpriteObjectBillboardSet->spriteFrameTable
+                : pIndoorActorSpriteFrameTable;
         std::unique_ptr<IndoorSceneRuntime> pIndoorSceneRuntime = std::make_unique<IndoorSceneRuntime>(
             selectedMap->map.fileName,
             selectedMap->map,
@@ -889,12 +897,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->globalEventProgram,
             &m_gameSession.gameplayActorService(),
             &m_gameSession.gameplayProjectileService(),
-            selectedMap->indoorActorPreviewBillboardSet
-                ? &selectedMap->indoorActorPreviewBillboardSet->spriteFrameTable
-                : nullptr,
-            selectedMap->indoorSpriteObjectBillboardSet
-                ? &selectedMap->indoorSpriteObjectBillboardSet->spriteFrameTable
-                : nullptr
+            pIndoorActorSpriteFrameTable,
+            pIndoorProjectileSpriteFrameTable
         );
         const std::unordered_map<std::string, IndoorSceneRuntime::Snapshot>::const_iterator indoorStateIt =
             m_gameSession.indoorSceneStates().find(selectedMap->map.fileName);
@@ -908,6 +912,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
 
         if (initializeView
             && !m_indoorRenderer.initialize(
+                m_pAssetFileSystem,
                 m_pAssetFileSystem != nullptr ? m_pAssetFileSystem->getAssetScaleTier() : Engine::AssetScaleTier::X1,
                 selectedMap->map,
                 m_gameDataLoader.getMonsterTable(),
@@ -1905,7 +1910,12 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
 
     if (pWorldRuntime != nullptr && m_pMapSceneRuntime != nullptr && selectedMap)
     {
-        pWorldRuntime->updateWorld(deltaSeconds);
+        if (!m_gameSession.sharedInputFrameResult().mouseLookPolicy.cursorModeActive)
+        {
+            pWorldRuntime->updateWorld(deltaSeconds);
+        }
+
+        m_gameSession.consumePendingGameplayAudioRequests();
         pWorldRuntime->renderWorld(width, height, m_gameInputSystem.frame(), deltaSeconds);
         m_gameSession.renderGameplayUi(width, height);
 

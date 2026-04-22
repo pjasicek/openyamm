@@ -384,10 +384,17 @@ void GameSession::updateGameplay(const GameplayInputFrame &input, float deltaSec
                     .processQuickCast = true,
                 });
 
+        const bool gameplayCursorModeActive = m_sharedInputFrameResult.mouseLookPolicy.cursorModeActive;
         const bool allowWorldMovementInput =
-            !m_sharedInputFrameResult.journalInputConsumed && !m_sharedInputFrameResult.worldInputBlocked;
+            !gameplayCursorModeActive
+            && !m_sharedInputFrameResult.journalInputConsumed
+            && !m_sharedInputFrameResult.worldInputBlocked;
         pWorldRuntime->updateWorldMovement(input, deltaSeconds, allowWorldMovementInput);
-        pWorldRuntime->updateActorAi(deltaSeconds);
+
+        if (!gameplayCursorModeActive)
+        {
+            pWorldRuntime->updateActorAi(deltaSeconds);
+        }
 
         Party *pMutableParty = pWorldRuntime->party();
         if (pMutableParty != nullptr && !m_gameplayCombatController.pendingCombatEvents().empty())
@@ -421,6 +428,11 @@ void GameSession::updateGameplay(const GameplayInputFrame &input, float deltaSec
     }
 
     m_gameplayScreenRuntime.updateHouseVideoBackgroundPreloads();
+}
+
+void GameSession::consumePendingGameplayAudioRequests()
+{
+    m_gameplayScreenRuntime.consumePendingEventRuntimeAudioRequests();
 }
 
 void GameSession::renderGameplayUi(int width, int height)

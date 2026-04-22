@@ -2002,6 +2002,43 @@ void GameplayScreenRuntime::consumePendingPartyAudioRequests()
     pParty->clearPendingAudioRequests();
 }
 
+void GameplayScreenRuntime::consumePendingEventRuntimeAudioRequests()
+{
+    if (m_pAudioSystem == nullptr)
+    {
+        return;
+    }
+
+    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+    EventRuntimeState *pEventRuntimeState = pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState == nullptr || pEventRuntimeState->pendingSounds.empty())
+    {
+        return;
+    }
+
+    for (const EventRuntimeState::PendingSound &request : pEventRuntimeState->pendingSounds)
+    {
+        std::optional<GameAudioSystem::WorldPosition> position = std::nullopt;
+
+        if (request.positional)
+        {
+            position = GameAudioSystem::WorldPosition{
+                static_cast<float>(request.x),
+                static_cast<float>(request.y),
+                partyFootZ() + 96.0f
+            };
+        }
+
+        m_pAudioSystem->playSound(
+            request.soundId,
+            request.positional ? GameAudioSystem::PlaybackGroup::World : GameAudioSystem::PlaybackGroup::Ui,
+            position);
+    }
+
+    pEventRuntimeState->pendingSounds.clear();
+}
+
 bool GameplayScreenRuntime::tryCastSpellFromMember(
     size_t casterMemberIndex,
     uint32_t spellId,
