@@ -1135,6 +1135,34 @@ private:
         const ActorAiFrameResult &result,
         const std::vector<bool> &activeActorMask,
         const GameplayActorAiSystem &actorAiSystem);
+    void applyOutdoorActorRequests(const ActorAiFrameResult &result, const std::vector<bool> &activeActorMask);
+    void applyOutdoorActorProjectileRequests(
+        const std::vector<ActorProjectileRequest> &projectileRequests,
+        const std::vector<bool> &activeActorMask);
+    void applyOutdoorActorAudioRequests(const std::vector<ActorAudioRequest> &audioRequests);
+    void applyOutdoorActorFxRequests(const std::vector<ActorFxRequest> &fxRequests);
+    bool hasOutdoorActorActiveBehaviorUpdate(const ActorAiUpdate &update, bool activeActor) const;
+    void ensureOutdoorActorMovementState(MapActorState &actor, const MonsterTable::MonsterStatsEntry &stats);
+    void applyOutdoorActorStateUpdate(
+        MapActorState &actor,
+        const ActorStateUpdate &state,
+        bool activeActor,
+        bool activeBehavior);
+    void applyOutdoorActorAnimationUpdate(
+        MapActorState &actor,
+        const ActorAnimationUpdate &animation,
+        bool activeActor,
+        bool activeBehavior);
+    void applyOutdoorActorMovementIntent(
+        size_t actorIndex,
+        MapActorState &actor,
+        const MonsterTable::MonsterStatsEntry *pStats,
+        const ActorMovementIntent &movementIntent,
+        const std::vector<bool> &activeActorMask,
+        const GameplayActorAiSystem &actorAiSystem);
+    void applyOutdoorActorAttackRequest(MapActorState &actor, const std::optional<ActorAttackRequest> &attackRequest);
+    void applyOutdoorActorTerminalUpdate(size_t actorIndex, MapActorState &actor, const ActorAiUpdate &update);
+    void syncOutdoorActorIntegerPosition(MapActorState &actor) const;
     void applyOutdoorActorPostMovementAiUpdate(
         MapActorState &actor,
         const ActorAiUpdate &movementUpdate,
@@ -1154,7 +1182,7 @@ private:
         ActorAnimation &nextAnimation,
         float &desiredMoveX,
         float &desiredMoveY);
-    void updateOutdoorActorsForStep(
+    void updateOutdoorInactiveAndInvalidActors(
         float partyX,
         float partyY,
         float partyZ,
