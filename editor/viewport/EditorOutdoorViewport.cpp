@@ -5466,6 +5466,11 @@ void EditorOutdoorViewport::ensureIndoorMechanismPreviewDocument(const EditorDoc
     m_indoorMechanismPreviewOverrides.clear();
     m_indoorRenderVerticesKey.clear();
     m_indoorRenderVertices.clear();
+    m_indoorFaceGeometryCacheKey.clear();
+    m_indoorMarkerVisibilityKey.clear();
+    m_indoorMarkerLineOfSightBlockedByKey.clear();
+    m_indoorActorFloorSnapKey.clear();
+    m_indoorActorFloorSnapZByKey.clear();
     const_cast<EditorOutdoorViewport *>(this)->m_indoorMechanismPreviewAccumulatorSeconds = 0.0f;
     const_cast<EditorOutdoorViewport *>(this)->m_indoorPreviewGeometryBuffersDirty = false;
 }
@@ -5533,6 +5538,11 @@ void EditorOutdoorViewport::invalidateIndoorMechanismPreview()
 {
     ++m_indoorMechanismPreviewRevision;
     m_indoorRenderVerticesKey.clear();
+    m_indoorFaceGeometryCacheKey.clear();
+    m_indoorMarkerVisibilityKey.clear();
+    m_indoorMarkerLineOfSightBlockedByKey.clear();
+    m_indoorActorFloorSnapKey.clear();
+    m_indoorActorFloorSnapZByKey.clear();
     m_indoorPreviewGeometryBuffersDirty = true;
 }
 
@@ -5586,6 +5596,27 @@ const std::vector<Game::IndoorVertex> &EditorOutdoorViewport::indoorRenderVertic
         Game::buildIndoorMechanismAdjustedVertices(indoorGeometry, &previewMapDeltaData, pPreviewRuntimeState);
     m_indoorRenderVerticesKey = verticesKey;
     return m_indoorRenderVertices;
+}
+
+Game::IndoorFaceGeometryCache &EditorOutdoorViewport::indoorRenderFaceGeometryCache(
+    const EditorDocument &document) const
+{
+    if (document.kind() != EditorDocument::Kind::Indoor)
+    {
+        static Game::IndoorFaceGeometryCache emptyCache;
+        return emptyCache;
+    }
+
+    const std::string cacheKey =
+        documentGeometryKey(document) + "|preview=" + std::to_string(m_indoorMechanismPreviewRevision);
+
+    if (cacheKey != m_indoorFaceGeometryCacheKey)
+    {
+        m_indoorFaceGeometryCache.reset(document.indoorGeometry().faces.size());
+        m_indoorFaceGeometryCacheKey = cacheKey;
+    }
+
+    return m_indoorFaceGeometryCache;
 }
 
 void EditorOutdoorViewport::refreshIndoorPreviewGeometryBuffers(const EditorDocument &document)
@@ -7612,7 +7643,7 @@ bool EditorOutdoorViewport::trySelectInteractiveFace(
     {
         const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
         const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
-        Game::IndoorFaceGeometryCache facePickGeometryCache(indoorGeometry.faces.size());
+        Game::IndoorFaceGeometryCache &facePickGeometryCache = indoorRenderFaceGeometryCache(document);
         float bestDistance = std::numeric_limits<float>::max();
         size_t bestFaceIndex = std::numeric_limits<size_t>::max();
 
@@ -8771,9 +8802,33 @@ int EditorOutdoorViewport::snapIndoorActorZToFloor(const EditorDocument &documen
         return z;
     }
 
+    const std::string snapKey =
+        documentGeometryKey(document) + "|preview=" + std::to_string(m_indoorMechanismPreviewRevision);
+
+    if (snapKey != m_indoorActorFloorSnapKey)
+    {
+        m_indoorActorFloorSnapKey = snapKey;
+        m_indoorActorFloorSnapZByKey.clear();
+    }
+
+    const auto quantizeCoordinate = [](int value)
+    {
+        return static_cast<uint64_t>(static_cast<uint16_t>(static_cast<int16_t>(value)));
+    };
+    const uint64_t positionKey =
+        quantizeCoordinate(x)
+        | (quantizeCoordinate(y) << 16)
+        | (quantizeCoordinate(z) << 32);
+    const auto cachedIterator = m_indoorActorFloorSnapZByKey.find(positionKey);
+
+    if (cachedIterator != m_indoorActorFloorSnapZByKey.end())
+    {
+        return cachedIterator->second;
+    }
+
     const Game::IndoorMapData &indoorGeometry = document.indoorGeometry();
     const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
-    Game::IndoorFaceGeometryCache geometryCache(indoorGeometry.faces.size());
+    Game::IndoorFaceGeometryCache &geometryCache = indoorRenderFaceGeometryCache(document);
     const std::optional<int16_t> sectorId = Game::findIndoorSectorForPoint(
         indoorGeometry,
         indoorVertices,
@@ -8793,10 +8848,13 @@ int EditorOutdoorViewport::snapIndoorActorZToFloor(const EditorDocument &documen
 
     if (!floor.hasFloor || floor.height <= static_cast<float>(z))
     {
+        m_indoorActorFloorSnapZByKey.emplace(positionKey, z);
         return z;
     }
 
-    return static_cast<int>(std::lround(floor.height));
+    const int snappedZ = static_cast<int>(std::lround(floor.height));
+    m_indoorActorFloorSnapZByKey.emplace(positionKey, snappedZ);
+    return snappedZ;
 }
 
 bool EditorOutdoorViewport::setSelectedWorldPosition(EditorSession &session, const bx::Vec3 &worldPosition)
@@ -10937,7 +10995,28 @@ void EditorOutdoorViewport::submitMarkerGeometry(
         const uint32_t isolatedRoomFillColor = makeAbgrAlpha(255, 214, 96, 28);
         const uint32_t isolatedPortalEdgeColor = makeAbgr(128, 240, 255);
         const uint32_t isolatedPortalFillColor = makeAbgrAlpha(128, 240, 255, 54);
-        Game::IndoorFaceGeometryCache markerGeometryCache(indoorGeometry.faces.size());
+        Game::IndoorFaceGeometryCache &markerGeometryCache = indoorRenderFaceGeometryCache(document);
+        char markerVisibilityKeyBuffer[256] = {};
+        std::snprintf(
+            markerVisibilityKeyBuffer,
+            sizeof(markerVisibilityKeyBuffer),
+            "%s|preview=%llu|camera=%.2f,%.2f,%.2f|floors=%d|ceilings=%d|room=%d",
+            documentGeometryKey(document).c_str(),
+            static_cast<unsigned long long>(m_indoorMechanismPreviewRevision),
+            m_cameraPosition.x,
+            m_cameraPosition.y,
+            m_cameraPosition.z,
+            m_showIndoorFloors ? 1 : 0,
+            m_showIndoorCeilings ? 1 : 0,
+            m_isolatedIndoorRoomId.has_value() ? static_cast<int>(*m_isolatedIndoorRoomId) : -1);
+        const std::string markerVisibilityKey = markerVisibilityKeyBuffer;
+
+        if (markerVisibilityKey != m_indoorMarkerVisibilityKey)
+        {
+            m_indoorMarkerVisibilityKey = markerVisibilityKey;
+            m_indoorMarkerLineOfSightBlockedByKey.clear();
+        }
+
         const auto appendIndoorFaceOverlay =
             [&](size_t faceId, uint32_t edgeColor, uint32_t fillColor, float edgeOffset, float fillOffset)
         {
@@ -11029,7 +11108,23 @@ void EditorOutdoorViewport::submitMarkerGeometry(
         }
         const auto markerLineOfSightBlocked = [&](const bx::Vec3 &center)
         {
-            return !indoorMarkerHasLineOfSight(
+            char centerKeyBuffer[96] = {};
+            std::snprintf(
+                centerKeyBuffer,
+                sizeof(centerKeyBuffer),
+                "%.2f,%.2f,%.2f",
+                center.x,
+                center.y,
+                center.z);
+            const std::string centerKey = centerKeyBuffer;
+            const auto cachedIterator = m_indoorMarkerLineOfSightBlockedByKey.find(centerKey);
+
+            if (cachedIterator != m_indoorMarkerLineOfSightBlockedByKey.end())
+            {
+                return cachedIterator->second;
+            }
+
+            const bool blocked = !indoorMarkerHasLineOfSight(
                 indoorGeometry,
                 indoorVertices,
                 markerGeometryCache,
@@ -11038,6 +11133,8 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                 m_showIndoorFloors,
                 m_showIndoorCeilings,
                 m_isolatedIndoorRoomId);
+            m_indoorMarkerLineOfSightBlockedByKey.emplace(centerKey, blocked);
+            return blocked;
         };
 
         if (m_showEntities)

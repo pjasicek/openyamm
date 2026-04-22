@@ -3,6 +3,7 @@
 #include "editor/document/EditorSession.h"
 #include "editor/import/ObjModelImport.h"
 #include "game/events/EventRuntime.h"
+#include "game/indoor/IndoorGeometryUtils.h"
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
 
@@ -395,6 +396,7 @@ private:
     void advanceIndoorMechanismPreview(const EditorDocument &document, float deltaSeconds);
     void invalidateIndoorMechanismPreview();
     const std::vector<Game::IndoorVertex> &indoorRenderVertices(const EditorDocument &document) const;
+    Game::IndoorFaceGeometryCache &indoorRenderFaceGeometryCache(const EditorDocument &document) const;
     void refreshIndoorPreviewGeometryBuffers(const EditorDocument &document);
 
     static std::string documentGeometryKey(const EditorDocument &document);
@@ -560,6 +562,12 @@ private:
     std::optional<size_t> m_indoorDoorFaceEditDoorIndex;
     mutable std::string m_indoorRenderVerticesKey;
     mutable std::vector<Game::IndoorVertex> m_indoorRenderVertices;
+    mutable std::string m_indoorFaceGeometryCacheKey;
+    mutable Game::IndoorFaceGeometryCache m_indoorFaceGeometryCache;
+    mutable std::string m_indoorMarkerVisibilityKey;
+    mutable std::unordered_map<std::string, bool> m_indoorMarkerLineOfSightBlockedByKey;
+    mutable std::string m_indoorActorFloorSnapKey;
+    mutable std::unordered_map<uint64_t, int> m_indoorActorFloorSnapZByKey;
     uint64_t m_indoorMechanismPreviewRevision = 0;
     float m_indoorMechanismPreviewAccumulatorSeconds = 0.0f;
     bool m_indoorPreviewGeometryBuffersDirty = false;
