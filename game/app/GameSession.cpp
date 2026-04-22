@@ -1,6 +1,7 @@
 #include "game/app/GameSession.h"
 
 #include "game/gameplay/GameplayActionController.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayInteractionController.h"
 #include "game/gameplay/GameplayScreenController.h"
@@ -23,6 +24,35 @@ Party buildConfiguredParty(
     party.setClassSkillTable(&data.classSkillTable());
     party.restoreSnapshot(snapshot);
     return party;
+}
+
+void synchronizeGameplayActiveMemberToReadyMember(
+    GameplayScreenRuntime &screenRuntime,
+    const GameplayScreenState &screenState)
+{
+    if (screenRuntime.currentHudScreenState() != GameplayHudScreenState::Gameplay)
+    {
+        return;
+    }
+
+    if (screenState.pendingSpellTarget().active || screenRuntime.heldInventoryItem().active)
+    {
+        return;
+    }
+
+    Party *pParty = screenRuntime.party();
+
+    if (pParty == nullptr)
+    {
+        return;
+    }
+
+    const Character *pActiveMember = pParty->activeMember();
+
+    if (pActiveMember == nullptr || !GameMechanics::canTakeGameplayAction(*pActiveMember))
+    {
+        pParty->switchToNextReadyMember();
+    }
 }
 }
 
@@ -320,6 +350,8 @@ void GameSession::updateGameplay(const GameplayInputFrame &input, float deltaSec
 
     if (pWorldRuntime != nullptr)
     {
+        synchronizeGameplayActiveMemberToReadyMember(m_gameplayScreenRuntime, m_gameplayScreenState);
+
         const Party *pParty = pWorldRuntime->party();
         const bool hasReadyMember = pParty != nullptr && pParty->hasSelectableMemberInGameplay();
         const bool isUtilitySpellModalActive =

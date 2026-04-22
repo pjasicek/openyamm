@@ -167,6 +167,7 @@ public:
     static std::optional<CharacterCondition> displayedCondition(const Character &character);
     static bool canAct(const Character &character);
     static bool canSelectInGameplay(const Character &character);
+    static bool canTakeGameplayAction(const Character &character);
     static bool canCharacterEquipItem(
         const Character &character,
         const ItemDefinition &itemDefinition,

@@ -444,19 +444,14 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     Party &party = *config.pParty;
     Character *pAttacker = party.activeMember();
 
-    if ((pAttacker == nullptr || !GameMechanics::canSelectInGameplay(*pAttacker))
+    if ((pAttacker == nullptr || !GameMechanics::canTakeGameplayAction(*pAttacker))
         && party.switchToNextReadyMember())
     {
         pAttacker = party.activeMember();
     }
 
-    if (pAttacker == nullptr || !GameMechanics::canSelectInGameplay(*pAttacker))
+    if (pAttacker == nullptr || !GameMechanics::canTakeGameplayAction(*pAttacker))
     {
-        if (config.pressedThisFrame && config.pRuntime != nullptr)
-        {
-            config.pRuntime->setStatusBarEvent("Nobody is in condition");
-        }
-
         return result;
     }
 

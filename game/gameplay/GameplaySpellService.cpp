@@ -71,9 +71,8 @@ GameplaySpellService::QuickSpellStartResolution GameplaySpellService::tryStartQu
 
     const Character *pCaster = pParty->activeMember();
 
-    if (pCaster == nullptr || !GameMechanics::canSelectInGameplay(*pCaster))
+    if (pCaster == nullptr || !GameMechanics::canTakeGameplayAction(*pCaster))
     {
-        runtime.setStatusBarEvent("Nobody is in condition");
         return resolution;
     }
 
@@ -504,9 +503,8 @@ bool GameplaySpellService::tryValidateCasterForGameplayCast(GameplayScreenRuntim
 
     const Character *pCaster = pParty->member(casterMemberIndex);
 
-    if (pCaster == nullptr || !GameMechanics::canSelectInGameplay(*pCaster))
+    if (pCaster == nullptr || !GameMechanics::canTakeGameplayAction(*pCaster))
     {
-        runtime.setStatusBarEvent("Nobody is in condition");
         return false;
     }
 

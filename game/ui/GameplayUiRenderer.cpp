@@ -689,7 +689,10 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
     }
 
     const size_t activeMemberIndex = party.activeMemberIndex();
-    const bool activeMemberReadyForSelection = party.canSelectMemberInGameplay(activeMemberIndex);
+    const Character *pActiveMember = party.member(activeMemberIndex);
+    const bool showSelectedMemberRing = hudScreenState == GameplayHudScreenState::Gameplay
+        ? (pActiveMember != nullptr && GameMechanics::canTakeGameplayAction(*pActiveMember))
+        : party.canSelectMemberInGameplay(activeMemberIndex);
     const float nearestHostileDistance =
         manaFrame ? nearestHostileActorDistanceToParty(context.worldRuntime()) : std::numeric_limits<float>::max();
 
@@ -716,7 +719,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
         context.renderPortraitFx(memberIndex, portraitX, portraitY, portraitWidth, portraitHeight);
         submitQuad(queuedHudQuads, *faceMask, portraitX, portraitY, portraitWidth, portraitHeight);
 
-        if (activeMemberReadyForSelection && memberIndex == activeMemberIndex && selectionRing)
+        if (showSelectedMemberRing && memberIndex == activeMemberIndex && selectionRing)
         {
             submitQuad(queuedHudQuads, *selectionRing, portraitX - uiScale, portraitY, portraitWidth, portraitHeight);
         }

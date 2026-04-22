@@ -2309,6 +2309,11 @@ bool GameMechanics::canAct(const Character &character)
 
 bool GameMechanics::canSelectInGameplay(const Character &character)
 {
+    return canAct(character);
+}
+
+bool GameMechanics::canTakeGameplayAction(const Character &character)
+{
     return canAct(character) && character.recoverySecondsRemaining <= 0.0f;
 }
 

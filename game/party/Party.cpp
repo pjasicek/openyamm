@@ -84,9 +84,9 @@ void grantSeedSkill(Character &character, const std::string &skillName, uint32_t
     character.skills[skill.name] = skill;
 }
 
-void grantAllMagicSchools(Character &character, uint32_t level, SkillMastery mastery)
+const std::array<const char *, 12> &seedSpellSkillNames()
 {
-    static const std::array<const char *, 9> skillNames = {
+    static const std::array<const char *, 12> skillNames = {
         "FireMagic",
         "AirMagic",
         "WaterMagic",
@@ -95,10 +95,18 @@ void grantAllMagicSchools(Character &character, uint32_t level, SkillMastery mas
         "MindMagic",
         "BodyMagic",
         "LightMagic",
-        "DarkMagic"
+        "DarkMagic",
+        "DarkElfAbility",
+        "VampireAbility",
+        "DragonAbility"
     };
 
-    for (const char *pSkillName : skillNames)
+    return skillNames;
+}
+
+void grantAllMagicSchools(Character &character, uint32_t level, SkillMastery mastery)
+{
+    for (const char *pSkillName : seedSpellSkillNames())
     {
         grantSeedSkill(character, pSkillName, level, mastery);
     }
@@ -121,19 +129,7 @@ void grantAllSpellsForMagicSkill(Character &character, const std::string &skillN
 
 void grantAllSpells(Character &character)
 {
-    static const std::array<const char *, 9> skillNames = {
-        "FireMagic",
-        "AirMagic",
-        "WaterMagic",
-        "EarthMagic",
-        "SpiritMagic",
-        "MindMagic",
-        "BodyMagic",
-        "LightMagic",
-        "DarkMagic"
-    };
-
-    for (const char *pSkillName : skillNames)
+    for (const char *pSkillName : seedSpellSkillNames())
     {
         grantAllSpellsForMagicSkill(character, pSkillName);
     }
@@ -1437,6 +1433,12 @@ PartySeed Party::createDefaultSeed()
         runtimeState.specialEnchantId = specialEnchantId;
     };
 
+    auto grantSeedSpellAccess = [](Character &character)
+    {
+        grantAllMagicSchools(character, 10, SkillMastery::Grandmaster);
+        grantAllSpells(character);
+    };
+
     Character cleric = {};
     cleric.name = "Ariel";
     cleric.className = "Cleric";
@@ -1460,8 +1462,6 @@ PartySeed Party::createDefaultSeed()
     cleric.maxSpellPoints = 120;
     cleric.spellPoints = 120;
     grantDefaultEquipmentSkills(cleric);
-    grantSeedSkill(cleric, "FireMagic", 10, SkillMastery::Master);
-    cleric.learnSpell(spellIdValue(SpellId::TorchLight));
     grantSeedSkill(cleric, "IdentifyItem", 10, SkillMastery::Grandmaster);
     grantSeedSkill(cleric, "RepairItem", 10, SkillMastery::Grandmaster);
     grantSeedEquippedItem(cleric, EquipmentSlot::MainHand, 79, 0, 0, 16);
@@ -1487,6 +1487,7 @@ PartySeed Party::createDefaultSeed()
     grantSeedInventoryItem(cleric, 266, true, false);
     grantSeedInventoryItem(cleric, 253, true, false);
     grantSeedInventoryItem(cleric, 656, true, false);
+    grantSeedSpellAccess(cleric);
     seed.members.push_back(cleric);
 
     Character femaleKnight = {};
@@ -1511,6 +1512,7 @@ PartySeed Party::createDefaultSeed()
     femaleKnight.health = 115;
     grantDefaultEquipmentSkills(femaleKnight);
     grantSeedInventoryLoadout(femaleKnight);
+    grantSeedSpellAccess(femaleKnight);
     seed.members.push_back(femaleKnight);
 
     Character minotaur = {};
@@ -1535,6 +1537,7 @@ PartySeed Party::createDefaultSeed()
     minotaur.health = 130;
     grantDefaultEquipmentSkills(minotaur);
     grantSeedInventoryLoadout(minotaur);
+    grantSeedSpellAccess(minotaur);
     seed.members.push_back(minotaur);
 
     Character troll = {};
@@ -1559,6 +1562,7 @@ PartySeed Party::createDefaultSeed()
     troll.health = 140;
     grantDefaultEquipmentSkills(troll);
     grantSeedInventoryLoadout(troll);
+    grantSeedSpellAccess(troll);
     seed.members.push_back(troll);
 
     return seed;
@@ -4423,7 +4427,9 @@ bool Party::switchToNextReadyMember()
     {
         const size_t candidateIndex = (currentIndex + offset) % m_members.size();
 
-        if (canSelectMemberInGameplay(candidateIndex))
+        const Character *pCandidate = member(candidateIndex);
+
+        if (pCandidate != nullptr && GameMechanics::canTakeGameplayAction(*pCandidate))
         {
             m_activeMemberIndex = candidateIndex;
             return true;
