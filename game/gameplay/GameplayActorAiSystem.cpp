@@ -15,6 +15,7 @@ constexpr float ActorAiUpdateStepSeconds = 1.0f / ActorAiTicksPerSecond;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float ActorCrowdSideLockSeconds = 0.22f;
 constexpr float ActorCrowdRetreatAngleRadians = Pi * 0.53f;
+constexpr float ActorCrowdSidestepAngleRadians = Pi / 4.0f;
 constexpr float CrowdNoProgressThreshold = 8.0f;
 constexpr float CrowdNoProgressStandSeconds = 1.2f;
 constexpr float CrowdProbeWindowSeconds = 0.35f;
@@ -212,6 +213,7 @@ struct CrowdSteeringEligibility
     bool actorCanFly = false;
     bool inMeleeRange = false;
     bool movementBlocked = false;
+    bool triggerOnMovementBlocked = false;
     float targetEdgeDistance = 0.0f;
 };
 
@@ -2120,7 +2122,11 @@ CrowdSteeringState buildCrowdSteeringState(const ActorAiFacts &actor)
 
 bool shouldApplyCrowdSteering(const CrowdSteeringEligibility &eligibility)
 {
-    return (eligibility.contactedActorCount > 0 || eligibility.movementBlocked)
+    const bool hasTrigger =
+        eligibility.contactedActorCount > 0
+        || (eligibility.triggerOnMovementBlocked && eligibility.movementBlocked);
+
+    return hasTrigger
         && eligibility.meleePursuitActive
         && eligibility.pursuing
         && !eligibility.actorCanFly
@@ -2282,7 +2288,10 @@ void AI_CrowdRetreat(ActorAiCommandContext &ai, const CrowdSteeringResult &crowd
 {
     const ActorAiFacts &actor = ai.actor();
     const int sideSign = crowdSteering.sideSign > 0 ? 1 : -1;
-    const float angleOffset = sideSign > 0 ? ActorCrowdRetreatAngleRadians : -ActorCrowdRetreatAngleRadians;
+    const float retreatAngle = actor.movement.crowdRetreatAngleRadians > 0.0f
+        ? actor.movement.crowdRetreatAngleRadians
+        : ActorCrowdRetreatAngleRadians;
+    const float angleOffset = sideSign > 0 ? retreatAngle : -retreatAngle;
     const float yaw = normalizeAngleRadians(
         std::atan2(
             actor.target.currentPosition.y - actor.movement.position.y,
@@ -2306,7 +2315,10 @@ void AI_CrowdSidestep(ActorAiCommandContext &ai, const CrowdSteeringResult &crow
 {
     const ActorAiFacts &actor = ai.actor();
     const int sideSign = crowdSteering.sideSign > 0 ? 1 : -1;
-    const float angleOffset = sideSign > 0 ? Pi / 4.0f : -Pi / 4.0f;
+    const float sidestepAngle = actor.movement.crowdSidestepAngleRadians > 0.0f
+        ? actor.movement.crowdSidestepAngleRadians
+        : ActorCrowdSidestepAngleRadians;
+    const float angleOffset = sideSign > 0 ? sidestepAngle : -sidestepAngle;
     const float yaw = normalizeAngleRadians(
         std::atan2(
             actor.target.currentPosition.y - actor.movement.position.y,
@@ -2342,6 +2354,7 @@ bool AI_CrowdSteer(ActorAiCommandContext &ai)
     crowdSteering.actorCanFly = actor.stats.canFly;
     crowdSteering.inMeleeRange = actor.movement.inMeleeRange;
     crowdSteering.movementBlocked = actor.movement.movementBlocked;
+    crowdSteering.triggerOnMovementBlocked = actor.movement.crowdSteeringTriggersOnMovementBlocked;
     crowdSteering.targetEdgeDistance = actor.target.currentEdgeDistance;
 
     if (!shouldApplyCrowdSteering(crowdSteering))
@@ -3248,7 +3261,10 @@ ActorAiUpdate updateActorAfterWorldMovementInternal(const ActorAiFacts &actor)
 {
     ActorAiCommandContext ai(actor);
 
-    AI_CrowdSteer(ai);
+    if (AI_CrowdSteer(ai))
+    {
+        return ai.finish();
+    }
 
     AI_HandleMovementBlock(ai);
 

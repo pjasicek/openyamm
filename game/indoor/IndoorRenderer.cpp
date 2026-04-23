@@ -453,6 +453,17 @@ bx::Vec3 vecNormalize(const bx::Vec3 &vector)
     return {vector.x / vectorLength, vector.y / vectorLength, vector.z / vectorLength};
 }
 
+bx::Vec3 bottomAnchoredBillboardCenter(float x, float y, float z, const bx::Vec3 &cameraUp, float worldHeight)
+{
+    const float halfHeight = worldHeight * 0.5f;
+
+    return {
+        x + cameraUp.x * halfHeight,
+        y + cameraUp.y * halfHeight,
+        z + cameraUp.z * halfHeight
+    };
+}
+
 struct ProjectedFacePoint
 {
     float x = 0.0f;
@@ -2101,11 +2112,12 @@ IndoorRenderer::gameplayActorPickAtCursor(
             const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
             const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
             const float halfWidth = worldWidth * 0.5f;
-            const bx::Vec3 center = {
+            const bx::Vec3 center = bottomAnchoredBillboardCenter(
                 static_cast<float>(actor.x),
                 static_cast<float>(actor.y),
-                static_cast<float>(actor.z) + worldHeight * 0.5f
-            };
+                static_cast<float>(actor.z),
+                cameraUp,
+                worldHeight);
             const bx::Vec3 right = {
                 cameraRight.x * halfWidth,
                 cameraRight.y * halfWidth,
@@ -3560,11 +3572,12 @@ void IndoorRenderer::renderActorPreviewBillboards(
         const float worldWidth = static_cast<float>(texture.width) * spriteScale;
         const float worldHeight = static_cast<float>(texture.height) * spriteScale;
         const float halfWidth = worldWidth * 0.5f;
-        const bx::Vec3 center = {
+        const bx::Vec3 center = bottomAnchoredBillboardCenter(
             static_cast<float>(drawItem.x),
             static_cast<float>(drawItem.y),
-            static_cast<float>(drawItem.z) + worldHeight * 0.5f
-        };
+            static_cast<float>(drawItem.z),
+            cameraUp,
+            worldHeight);
         const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
         const bx::Vec3 up = {cameraUp.x * worldHeight * 0.5f, cameraUp.y * worldHeight * 0.5f, cameraUp.z * worldHeight * 0.5f};
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
@@ -5391,11 +5404,12 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 const float spriteScale = std::max(pFrame->scale, 0.01f);
                 const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
                 const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
-                const bx::Vec3 center = {
+                const bx::Vec3 center = bottomAnchoredBillboardCenter(
                     static_cast<float>(actor.x),
                     static_cast<float>(actor.y),
-                    static_cast<float>(actor.z) + worldHeight * 0.5f
-                };
+                    static_cast<float>(actor.z),
+                    cameraUp,
+                    worldHeight);
                 const bx::Vec3 planeNormal = {
                     -cameraRight.y * cameraUp.z + cameraRight.z * cameraUp.y,
                     -cameraRight.z * cameraUp.x + cameraRight.x * cameraUp.z,

@@ -84,19 +84,6 @@ constexpr std::array<std::array<int, 3>, 4> IndoorEncounterDifficultyTierWeights
     {0, 25, 75}
 }};
 
-bool shouldSkipDebugD18SpawnIndex(const MapStatsEntry &map, size_t spawnIndex)
-{
-    const std::string mapFileName = toLowerCopy(std::filesystem::path(map.fileName).filename().string());
-
-    if (mapFileName != "d18.blv")
-    {
-        return false;
-    }
-
-    // Temporary debug filter for isolating the BLV18 portal/crowding issue. Remove after that test pass.
-    return spawnIndex == 8 || spawnIndex == 14 || spawnIndex == 15;
-}
-
 struct IndoorResolvedProjectileDefinition
 {
     uint16_t objectDescriptionId = 0;
@@ -2644,6 +2631,9 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     movementFacts.movement.inMeleeRange = update.movementIntent.inMeleeRange;
     movementFacts.movement.movementBlocked = wantedHorizontalMove && !movedHorizontally;
     movementFacts.movement.allowCrowdSteering = m_pGameplayActorService != nullptr;
+    movementFacts.movement.crowdSteeringTriggersOnMovementBlocked = true;
+    movementFacts.movement.crowdSidestepAngleRadians = Pi / 4.0f;
+    movementFacts.movement.crowdRetreatAngleRadians = Pi * 0.53f;
     movementFacts.target.currentPosition = update.movementIntent.targetPosition;
     movementFacts.target.currentEdgeDistance = update.movementIntent.targetEdgeDistance;
 
@@ -5391,11 +5381,6 @@ void IndoorWorldRuntime::materializeInitialMonsterSpawns()
 
     for (size_t spawnIndex = 0; spawnIndex < m_pIndoorMapData->spawns.size(); ++spawnIndex)
     {
-        if (shouldSkipDebugD18SpawnIndex(*m_map, spawnIndex))
-        {
-            continue;
-        }
-
         const IndoorSpawn &spawn = m_pIndoorMapData->spawns[spawnIndex];
 
         if (spawn.typeId != 3)

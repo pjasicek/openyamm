@@ -6821,6 +6821,9 @@ void OutdoorWorldRuntime::applyOutdoorActorMovementIntegration(
     movementFacts.movement.meleePursuitActive = meleePursuitActive;
     movementFacts.movement.inMeleeRange = inMeleeRange;
     movementFacts.movement.allowCrowdSteering = m_pGameplayActorService != nullptr;
+    movementFacts.movement.crowdSteeringTriggersOnMovementBlocked = false;
+    movementFacts.movement.crowdSidestepAngleRadians = Pi * 0.30555556f;
+    movementFacts.movement.crowdRetreatAngleRadians = Pi * 0.53f;
     movementFacts.movement.movementBlocked = !moved;
     movementFacts.target.currentPosition = targetPosition;
     movementFacts.target.currentEdgeDistance = targetEdgeDistance;

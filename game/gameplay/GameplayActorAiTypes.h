@@ -216,6 +216,9 @@ struct ActorMovementFacts
     bool meleePursuitActive = false;
     bool inMeleeRange = false;
     bool allowCrowdSteering = false;
+    bool crowdSteeringTriggersOnMovementBlocked = false;
+    float crowdSidestepAngleRadians = 0.7853982f;
+    float crowdRetreatAngleRadians = 1.6650441f;
     bool allowIdleWander = false;
     bool movementAllowed = false;
     bool movementBlocked = false;
