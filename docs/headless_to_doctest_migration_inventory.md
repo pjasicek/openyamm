@@ -18,8 +18,10 @@ Line numbers refer to the source file at the time this inventory was created and
 
 ## Summary
 
-- Total headless cases inventoried: 275
-- `doctest-direct`: 59
+- Original headless cases inventoried: 275
+- Moved to doctest after this inventory: 19
+- Remaining classified headless cases: 256
+- Remaining `doctest-direct`: 40
 - `doctest-with-adaptation`: 80
 - `stay-headless`: 136
 
@@ -27,6 +29,29 @@ Already moved:
 
 - `spellbook_ui_layout_uses_canonical_school_slot_mapping` was moved from headless into
   `tests/SpellbookUiLayoutTests.cpp`.
+- `default_party_seed_preserves_unique_portrait_picture_ids` was moved into `tests/PartyRegressionTests.cpp`.
+- `monster_target_selection_prefers_matching_living_members` was moved into `tests/PartyRegressionTests.cpp`.
+- `monster_target_selection_skips_invalid_members` was moved into `tests/PartyRegressionTests.cpp`.
+- `default_seed_monster_target_selection_matches_female_preference` was moved into
+  `tests/PartyRegressionTests.cpp`.
+- `party_damage_sets_unconscious_within_endurance_threshold` was moved into `tests/PartyRegressionTests.cpp`.
+- `party_damage_sets_dead_below_endurance_threshold` was moved into `tests/PartyRegressionTests.cpp`.
+- `monster_data_parses_blood_splat_on_death_flag` was moved into `tests/MonsterTableRegressionTests.cpp`.
+- `monster_attack_style_classification_examples` was moved into `tests/MonsterTableRegressionTests.cpp`.
+- `inventory_move_accept_reject_and_swap` was moved into `tests/PartyRegressionTests.cpp`.
+- `inventory_cross_member_move_and_full_rejection` was moved into `tests/PartyRegressionTests.cpp`.
+- `inventory_member_auto_transfer_places_item_in_first_free_slot` was moved into
+  `tests/PartyRegressionTests.cpp`.
+- `gameplay_selection_blocks_impairing_conditions` was moved into `tests/PartyRegressionTests.cpp`.
+- `party_shared_experience_uses_learning_and_skips_incapacitated_members` was moved into
+  `tests/PartyRegressionTests.cpp`.
+- `member_experience_mutation_clamps_like_oe` was moved into `tests/PartyRegressionTests.cpp`.
+- `default_party_seed_first_member_matches_requested_spell_state_and_inventory` was moved into
+  `tests/PartyRegressionTests.cpp`.
+- `map_navigation_matches_authoritative_world_map` was moved into `tests/MapStatsRegressionTests.cpp`.
+- `map_navigation_rows_apply_explicit_arrival_positions` was moved into `tests/MapStatsRegressionTests.cpp`.
+- `inventory_auto_placement_uses_grid_rules` was moved into `tests/PartyRegressionTests.cpp`.
+- `inventory_auto_placement_fills_columns_vertically` was moved into `tests/PartyRegressionTests.cpp`.
 
 ## Recommended Migration Order
 
@@ -44,26 +69,13 @@ Already moved:
 - 023 `chest` L6470: `chest_loot_fixed_items_follow_item_identification_rule`
 - 024 `chest` L6512: `chest_loot_random_generation_follows_item_identification_rule`
 - 027 `arcomage` L6697: `arcomage_selected_card_data_matches_expected`
-- 035 `dialogue` L7289: `default_party_seed_preserves_unique_portrait_picture_ids`
 - 037 `dialogue` L7370: `arcomage_library_match_sanity`
-- 038 `dialogue` L7423: `monster_target_selection_prefers_matching_living_members`
-- 039 `dialogue` L7448: `monster_target_selection_skips_invalid_members`
-- 040 `dialogue` L7486: `default_seed_monster_target_selection_matches_female_preference`
-- 041 `dialogue` L7512: `party_damage_sets_unconscious_within_endurance_threshold`
-- 042 `dialogue` L7552: `party_damage_sets_dead_below_endurance_threshold`
-- 047 `dialogue` L7910: `monster_data_parses_blood_splat_on_death_flag`
-- 054 `dialogue` L8297: `monster_attack_style_classification_examples`
 - 081 `dialogue` L10271: `party_ground_movement_blocks_water_entry_without_water_walk`
 - 082 `dialogue` L10322: `party_airborne_movement_allows_water_entry_without_water_walk`
 - 111 `dialogue` L12842: `recovery_enchant_increases_recovery_progress`
 - 130 `dialogue` L13988: `item_generator_unique_rare_item_marks_party_and_does_not_repeat`
 - 131 `dialogue` L14059: `house_data_magic_guild_types_are_explicit`
 - 157 `dialogue` L15720: `roster_join_offer_mapping_samples`
-- 165 `dialogue` L16270: `inventory_auto_placement_uses_grid_rules`
-- 166 `dialogue` L16348: `inventory_auto_placement_fills_columns_vertically`
-- 167 `dialogue` L16397: `inventory_move_accept_reject_and_swap`
-- 168 `dialogue` L16492: `inventory_cross_member_move_and_full_rejection`
-- 169 `dialogue` L16615: `inventory_member_auto_transfer_places_item_in_first_free_slot`
 - 170 `dialogue` L16733: `character_sheet_uses_equipped_items_for_combat_and_ac`
 - 171 `dialogue` L16794: `character_sheet_primary_stats_do_not_double_count_equipment_bonuses`
 - 172 `dialogue` L16832: `character_sheet_uses_na_for_ranged_without_bow`
@@ -71,9 +83,7 @@ Already moved:
 - 174 `dialogue` L16915: `character_sheet_resistance_split_does_not_double_count_equipment_bonuses`
 - 175 `dialogue` L16953: `experience_inspect_supplement_reports_shortfall_and_max_trainable_level`
 - 176 `dialogue` L16988: `recruit_roster_member_loads_birth_experience_resistances_and_items`
-- 177 `dialogue` L17137: `party_shared_experience_uses_learning_and_skips_incapacitated_members`
 - 178 `dialogue` L17190: `event_experience_variable_awards_direct_member_experience_without_learning_bonus`
-- 179 `dialogue` L17244: `member_experience_mutation_clamps_like_oe`
 - 181 `dialogue` L17365: `inventory_item_use_spell_scroll_prepares_master_cast`
 - 182 `dialogue` L17410: `inventory_item_use_spellbook_consumes_on_success_when_school_and_mastery_match`
 - 186 `dialogue` L17723: `inventory_item_use_spellbook_fails_when_spell_is_already_known`
@@ -81,8 +91,6 @@ Already moved:
 - 188 `dialogue` L17815: `inventory_item_use_spellbook_fails_without_required_mastery_and_preserves_item`
 - 189 `dialogue` L17864: `inventory_item_use_readable_scroll_returns_text_without_consuming`
 - 190 `dialogue` L17897: `inventory_item_use_potions_and_horseshoe_apply_expected_effects`
-- 191 `dialogue` L17980: `default_party_seed_first_member_matches_requested_spell_state_and_inventory`
-- 192 `dialogue` L18049: `gameplay_selection_blocks_impairing_conditions`
 - 193 `dialogue` L18117: `equip_plan_requires_skill_and_respects_doll_type`
 - 194 `dialogue` L18162: `party_rejects_race_restricted_artifact_for_wrong_member`
 - 195 `dialogue` L18226: `equip_rules_respect_class_restricted_artifacts`
@@ -91,8 +99,6 @@ Already moved:
 - 198 `dialogue` L18389: `special_antidotes_enchant_blocks_poison_application`
 - 199 `dialogue` L18478: `rare_and_special_slaying_damage_multipliers_match_target_family`
 - 210 `dialogue` L19483: `lua_event_runtime_supports_evt_jump_alias`
-- 221 `dialogue` L20249: `map_navigation_matches_authoritative_world_map`
-- 222 `dialogue` L20346: `map_navigation_rows_apply_explicit_arrival_positions`
 - 230 `dialogue` L20820: `resolve_character_attack_sound_id_uses_shared_weapon_family_mapping`
 - 258 `dialogue` L23648: `ring_auto_equip_uses_first_free_then_replaces_first_ring`
 - 259 `dialogue` L23749: `amulet_replacement_keeps_displaced_item_held`
@@ -321,4 +327,3 @@ Already moved:
 - 257 `dialogue` L23561: `app_quicksave_quickload_preserves_visited_map_runtime_state`
 - 272 `dialogue` L24604: `app_npc_granted_item_enters_held_cursor_slot`
 - 273 `dialogue` L24706: `app_npc_granted_item_displaces_previous_held_item_to_inventory_or_ground`
-
