@@ -898,7 +898,8 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             &m_gameSession.gameplayActorService(),
             &m_gameSession.gameplayProjectileService(),
             pIndoorActorSpriteFrameTable,
-            pIndoorProjectileSpriteFrameTable
+            pIndoorProjectileSpriteFrameTable,
+            selectedMap->indoorDecorationBillboardSet ? &*selectedMap->indoorDecorationBillboardSet : nullptr
         );
         const std::unordered_map<std::string, IndoorSceneRuntime::Snapshot>::const_iterator indoorStateIt =
             m_gameSession.indoorSceneStates().find(selectedMap->map.fileName);

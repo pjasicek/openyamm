@@ -20,6 +20,7 @@ constexpr float CrowdNoProgressStandSeconds = 1.2f;
 constexpr float CrowdProbeWindowSeconds = 0.35f;
 constexpr float CrowdProbeEdgeDistanceThreshold = 12.0f;
 constexpr float CrowdReangleEngageRange = 1024.0f;
+constexpr float ContactFleeFallbackSeconds = 0.25f;
 constexpr float ActorMeleeRange = 307.2f;
 constexpr float HostilityLongRange = 10240.0f;
 constexpr float IdleStandSeconds = 1.5f;
@@ -1164,8 +1165,25 @@ struct ActorMovementBlockOutcome
     bool zeroVelocity = false;
     bool resetMoveDirection = false;
     bool stand = false;
+    bool crowdStand = false;
+    bool fleeFromContact = false;
+    bool faceContact = false;
+    float moveDirectionX = 0.0f;
+    float moveDirectionY = 0.0f;
+    float yawRadians = 0.0f;
     float actionSeconds = 0.0f;
 };
+
+float contactFleeActionSeconds(const ActorAiFacts &actor, float contactDistance)
+{
+    if (actor.movement.effectiveMoveSpeed <= 0.01f || contactDistance <= 0.01f)
+    {
+        return ContactFleeFallbackSeconds;
+    }
+
+    const float actionSeconds = contactDistance / actor.movement.effectiveMoveSpeed;
+    return std::clamp(actionSeconds, ContactFleeFallbackSeconds, 256.0f / ActorAiTicksPerSecond);
+}
 
 enum class ActorCombatFlowAction : uint8_t
 {
@@ -1385,6 +1403,56 @@ ActorMovementBlockOutcome buildPostMovementBlock(const ActorAiFacts &actor)
 {
     ActorMovementBlockOutcome result = {};
 
+    if (actor.movement.contactedActorCount > 1)
+    {
+        result.zeroVelocity = true;
+        result.resetMoveDirection = true;
+        result.stand = true;
+        result.crowdStand = true;
+        result.actionSeconds = std::max(actor.runtime.actionSeconds, CrowdNoProgressStandSeconds);
+        return result;
+    }
+
+    if (actor.movement.contactedActorCount == 1 && actor.movement.hasContactedActor)
+    {
+        const bool selfFriendly = actor.identity.hostilityType == 0;
+        const bool otherFriendly = actor.movement.contactedActorHostilityType == 0;
+        const float deltaX = actor.movement.position.x - actor.movement.contactedActorPosition.x;
+        const float deltaY = actor.movement.position.y - actor.movement.contactedActorPosition.y;
+        const float distance = length2d(deltaX, deltaY);
+
+        result.zeroVelocity = true;
+        result.actionSeconds = std::max(actor.runtime.actionSeconds, contactFleeActionSeconds(actor, distance));
+
+        if (selfFriendly && otherFriendly)
+        {
+            result.faceContact = true;
+            result.stand = true;
+
+            if (distance > 0.01f)
+            {
+                result.yawRadians = std::atan2(
+                    actor.movement.contactedActorPosition.y - actor.movement.position.y,
+                    actor.movement.contactedActorPosition.x - actor.movement.position.x);
+            }
+
+            return result;
+        }
+
+        if (distance > 0.01f)
+        {
+            result.fleeFromContact = true;
+            result.moveDirectionX = deltaX / distance;
+            result.moveDirectionY = deltaY / distance;
+            result.yawRadians = std::atan2(result.moveDirectionY, result.moveDirectionX);
+            return result;
+        }
+
+        result.resetMoveDirection = true;
+        result.stand = true;
+        return result;
+    }
+
     if (!actor.movement.movementBlocked)
     {
         return result;
@@ -1417,6 +1485,29 @@ bool AI_HandleMovementBlock(ActorAiCommandContext &ai)
         ai.clearVelocity();
     }
 
+    if (movementBlock.fleeFromContact)
+    {
+        ai.setMotionState(ActorAiMotionState::Fleeing);
+        ai.setAnimationState(ActorAiAnimationState::Walking);
+        ai.setMovementAction(ActorAiMovementAction::Flee);
+        ai.setMoveDirection(movementBlock.moveDirectionX, movementBlock.moveDirectionY);
+        ai.setDesiredMovement(movementBlock.moveDirectionX, movementBlock.moveDirectionY);
+        ai.faceYaw(movementBlock.yawRadians);
+        ai.setActionSeconds(movementBlock.actionSeconds);
+        return true;
+    }
+
+    if (movementBlock.faceContact)
+    {
+        ai.setMotionState(ActorAiMotionState::Standing);
+        ai.setAnimationState(ActorAiAnimationState::Standing);
+        ai.setMovementAction(ActorAiMovementAction::Stand);
+        ai.clearMovementDirection();
+        ai.faceYaw(movementBlock.yawRadians);
+        ai.setActionSeconds(movementBlock.actionSeconds);
+        return true;
+    }
+
     if (movementBlock.resetMoveDirection)
     {
         ai.setMovementAction(ActorAiMovementAction::Stand);
@@ -1430,6 +1521,38 @@ bool AI_HandleMovementBlock(ActorAiCommandContext &ai)
         ai.setAnimationState(ActorAiAnimationState::Standing);
     }
 
+    if (movementBlock.crowdStand)
+    {
+        ai.setCrowdStandRemainingSeconds(movementBlock.actionSeconds);
+    }
+
+    return true;
+}
+
+bool AI_ContinueFlee(ActorAiCommandContext &ai)
+{
+    const ActorAiFacts &actor = ai.actor();
+
+    if (actor.runtime.motionState != ActorAiMotionState::Fleeing
+        || actor.runtime.actionSeconds <= 0.0f
+        || !actor.movement.movementAllowed)
+    {
+        return false;
+    }
+
+    if (std::abs(actor.movement.moveDirectionX) <= 0.001f
+        && std::abs(actor.movement.moveDirectionY) <= 0.001f)
+    {
+        return false;
+    }
+
+    ai.setMotionState(ActorAiMotionState::Fleeing);
+    ai.setAnimationState(ActorAiAnimationState::Walking);
+    ai.setMovementAction(ActorAiMovementAction::Flee);
+    ai.setMoveDirection(actor.movement.moveDirectionX, actor.movement.moveDirectionY);
+    ai.setDesiredMovement(actor.movement.moveDirectionX, actor.movement.moveDirectionY);
+    ai.faceYaw(std::atan2(actor.movement.moveDirectionY, actor.movement.moveDirectionX));
+    ai.update().movementIntent.applyMovement = true;
     return true;
 }
 
@@ -3005,6 +3128,11 @@ ActorAiUpdate AI_ActiveBehavior(
     bool hasTarget)
 {
     ActorAiCommandContext ai = beginActiveActorCommand(actor, frame, statusContinuation);
+
+    if (AI_ContinueFlee(ai))
+    {
+        return ai.finish();
+    }
 
     if (AI_CombatFlow(ai, false))
     {

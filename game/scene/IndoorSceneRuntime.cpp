@@ -40,7 +40,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     GameplayActorService *pGameplayActorService,
     GameplayProjectileService *pGameplayProjectileService,
     const SpriteFrameTable *pActorSpriteFrameTable,
-    const SpriteFrameTable *pProjectileSpriteFrameTable)
+    const SpriteFrameTable *pProjectileSpriteFrameTable,
+    const DecorationBillboardSet *pIndoorDecorationBillboardSet)
     : m_mapFileName(mapFileName)
     , m_pSessionParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
@@ -68,7 +69,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         pGameplayProjectileService,
         pActorSpriteFrameTable,
         pProjectileSpriteFrameTable,
-        &indoorMapData
+        &indoorMapData,
+        pIndoorDecorationBillboardSet
     );
 
     if (!indoorMapData.vertices.empty())
@@ -112,7 +114,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const std::optional<ScriptedEventProgram> &localEventProgram,
     const std::optional<ScriptedEventProgram> &globalEventProgram,
     GameplayActorService *pGameplayActorService,
-    const SpriteFrameTable *pActorSpriteFrameTable)
+    const SpriteFrameTable *pActorSpriteFrameTable,
+    const DecorationBillboardSet *pIndoorDecorationBillboardSet)
     : m_mapFileName(mapFileName)
     , m_pSessionParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
@@ -136,7 +139,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         &m_eventRuntimeState,
         pGameplayActorService,
         pActorSpriteFrameTable,
-        &indoorMapData
+        &indoorMapData,
+        pIndoorDecorationBillboardSet
     );
 
     if (!indoorMapData.vertices.empty())

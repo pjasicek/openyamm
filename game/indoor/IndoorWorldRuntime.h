@@ -22,6 +22,7 @@ namespace OpenYAMM::Game
 class GameplayActorAiSystem;
 class GameplayActorService;
 class GameplayProjectileService;
+struct DecorationBillboardSet;
 class IndoorRenderer;
 class IndoorFaceGeometryCache;
 class IndoorGameView;
@@ -119,7 +120,8 @@ public:
         GameplayProjectileService *pGameplayProjectileService,
         const SpriteFrameTable *pActorSpriteFrameTable = nullptr,
         const SpriteFrameTable *pProjectileSpriteFrameTable = nullptr,
-        const IndoorMapData *pIndoorMapData = nullptr
+        const IndoorMapData *pIndoorMapData = nullptr,
+        const DecorationBillboardSet *pIndoorDecorationBillboardSet = nullptr
     );
     void initialize(
         const MapStatsEntry &map,
@@ -133,7 +135,8 @@ public:
         std::optional<EventRuntimeState> *pEventRuntimeState,
         GameplayActorService *pGameplayActorService,
         const SpriteFrameTable *pActorSpriteFrameTable = nullptr,
-        const IndoorMapData *pIndoorMapData = nullptr
+        const IndoorMapData *pIndoorMapData = nullptr,
+        const DecorationBillboardSet *pIndoorDecorationBillboardSet = nullptr
     );
 
     const std::string &mapName() const override;
@@ -322,7 +325,10 @@ public:
     void restoreSnapshot(const Snapshot &snapshot);
 
     MapDeltaData *mapDeltaData();
-    std::vector<IndoorActorCollision> actorMovementColliders() const;
+    std::vector<IndoorActorCollision> actorMovementCollidersForActorMovement() const;
+    std::vector<IndoorActorCollision> actorMovementCollidersForPartyMovement() const;
+    std::vector<IndoorCylinderCollision> decorationMovementColliders() const;
+    std::vector<IndoorCylinderCollision> spriteObjectMovementColliders() const;
 
 private:
     const MapEncounterInfo *encounterInfo(uint32_t typeIndexInMapStats) const;
@@ -380,6 +386,7 @@ private:
     const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
     const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
     const IndoorMapData *m_pIndoorMapData = nullptr;
+    const DecorationBillboardSet *m_pIndoorDecorationBillboardSet = nullptr;
     Party *m_pParty = nullptr;
     IndoorPartyRuntime *m_pPartyRuntime = nullptr;
     std::optional<MapDeltaData> *m_pMapDeltaData = nullptr;

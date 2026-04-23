@@ -14,6 +14,7 @@
 
 namespace OpenYAMM::Game
 {
+struct DecorationBillboardSet;
 class GameplayActorService;
 class GameplayProjectileService;
 class MonsterProjectileTable;
@@ -50,7 +51,8 @@ public:
         GameplayActorService *pGameplayActorService,
         GameplayProjectileService *pGameplayProjectileService,
         const SpriteFrameTable *pActorSpriteFrameTable = nullptr,
-        const SpriteFrameTable *pProjectileSpriteFrameTable = nullptr
+        const SpriteFrameTable *pProjectileSpriteFrameTable = nullptr,
+        const DecorationBillboardSet *pIndoorDecorationBillboardSet = nullptr
     );
     IndoorSceneRuntime(
         const std::string &mapFileName,
@@ -66,7 +68,8 @@ public:
         const std::optional<ScriptedEventProgram> &localEventProgram,
         const std::optional<ScriptedEventProgram> &globalEventProgram,
         GameplayActorService *pGameplayActorService,
-        const SpriteFrameTable *pActorSpriteFrameTable = nullptr
+        const SpriteFrameTable *pActorSpriteFrameTable = nullptr,
+        const DecorationBillboardSet *pIndoorDecorationBillboardSet = nullptr
     );
 
     SceneKind kind() const override;

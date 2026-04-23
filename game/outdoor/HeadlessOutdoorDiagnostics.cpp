@@ -4937,6 +4937,172 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     return false;
                 }
 
+                IndoorMoveState nearEastWall = initialized;
+                nearEastWall.x = 1024.0f - body.radius - 1.0f;
+                nearEastWall.y = 512.0f;
+                const IndoorMoveState slid =
+                    controller.resolveMove(nearEastWall, body, 1200.0f, 300.0f, false, 0.1f);
+
+                if (slid.x > 1024.0f - body.radius)
+                {
+                    failure = "indoor wall slide allowed the body through the room wall";
+                    return false;
+                }
+
+                if (slid.y <= nearEastWall.y + 4.0f)
+                {
+                    failure = "indoor movement did not slide tangentially while pressed into a wall";
+                    return false;
+                }
+
+                IndoorMoveState pressedIntoEastWall = initialized;
+                pressedIntoEastWall.x = 1024.0f - body.radius + 1.0f;
+                pressedIntoEastWall.y = 512.0f;
+                const IndoorMoveState tangentialSlide =
+                    controller.resolveMove(pressedIntoEastWall, body, 0.0f, 300.0f, false, 0.1f);
+
+                if (tangentialSlide.y <= pressedIntoEastWall.y + 4.0f)
+                {
+                    failure = "indoor movement stuck while already pressed into a wall";
+                    return false;
+                }
+
+                IndoorMoveState pressedIntoNorthEastCorner = initialized;
+                pressedIntoNorthEastCorner.x = 1024.0f - body.radius + 1.0f;
+                pressedIntoNorthEastCorner.y = 1024.0f - body.radius + 1.0f;
+                IndoorMoveDebugInfo cornerDebug = {};
+                const IndoorMoveState cornerSlide =
+                    controller.resolveMove(
+                        pressedIntoNorthEastCorner,
+                        body,
+                        -250.0f,
+                        -250.0f,
+                        false,
+                        0.1f,
+                        nullptr,
+                        std::nullopt,
+                        false,
+                        &cornerDebug);
+
+                if (cornerSlide.x >= pressedIntoNorthEastCorner.x - 4.0f
+                    || cornerSlide.y >= pressedIntoNorthEastCorner.y - 4.0f)
+                {
+                    failure =
+                        "indoor movement stuck while already pressed into a corner start=("
+                        + std::to_string(pressedIntoNorthEastCorner.x) + ","
+                        + std::to_string(pressedIntoNorthEastCorner.y) + ") moved=("
+                        + std::to_string(cornerSlide.x) + "," + std::to_string(cornerSlide.y) + ") block="
+                        + std::to_string(static_cast<int>(cornerDebug.primaryBlockKind)) + " hitFace="
+                        + std::to_string(cornerDebug.hitFaceIndex) + " hitDist="
+                        + std::to_string(cornerDebug.hitMoveDistance) + " adjusted="
+                        + std::to_string(cornerDebug.hitAdjustedMoveDistance) + " response=("
+                        + std::to_string(cornerDebug.responseStep.x) + ","
+                        + std::to_string(cornerDebug.responseStep.y) + ","
+                        + std::to_string(cornerDebug.responseStep.z) + ") tried="
+                        + std::to_string(cornerDebug.collisionResponseTried ? 1 : 0) + " ok="
+                        + std::to_string(cornerDebug.collisionResponseSucceeded ? 1 : 0) + " full="
+                        + std::to_string(cornerDebug.fullMoveSucceeded ? 1 : 0);
+                    return false;
+                }
+
+                IndoorBodyDimensions largeActorBody = {};
+                largeActorBody.radius = 100.0f;
+                largeActorBody.height = 220.0f;
+                IndoorMoveState largeActorStart =
+                    controller.initializeStateFromEyePosition(128.0f, 512.0f, largeActorBody.height, largeActorBody);
+                controller.setActorColliders({IndoorActorCollision{
+                    0,
+                    360.0f,
+                    512.0f,
+                    0.0f,
+                    40.0f,
+                    220.0f}});
+                const IndoorMoveState largeActorBlocked =
+                    controller.resolveMove(
+                        largeActorStart,
+                        largeActorBody,
+                        500.0f,
+                        0.0f,
+                        false,
+                        1.0f,
+                        nullptr,
+                        std::nullopt,
+                        true);
+
+                if (largeActorBlocked.x > 240.0f)
+                {
+                    failure = "indoor actor-vs-actor collision did not preserve the moving actor authored radius";
+                    return false;
+                }
+
+                controller.setActorColliders({
+                    IndoorActorCollision{
+                        11,
+                        360.0f,
+                        512.0f,
+                        0.0f,
+                        40.0f,
+                        220.0f},
+                    IndoorActorCollision{
+                        22,
+                        360.0f,
+                        560.0f,
+                        0.0f,
+                        40.0f,
+                        220.0f},
+                });
+                std::vector<size_t> contactedActorIndices;
+                controller.resolveMove(
+                    largeActorStart,
+                    largeActorBody,
+                    500.0f,
+                    0.0f,
+                    false,
+                    1.0f,
+                    &contactedActorIndices,
+                    std::nullopt,
+                    true);
+
+                std::sort(contactedActorIndices.begin(), contactedActorIndices.end());
+                contactedActorIndices.erase(
+                    std::unique(contactedActorIndices.begin(), contactedActorIndices.end()),
+                    contactedActorIndices.end());
+
+                if (contactedActorIndices.size() != 2
+                    || contactedActorIndices[0] != 11
+                    || contactedActorIndices[1] != 22)
+                {
+                    failure = "indoor actor movement did not report every actor contact for crowd detection";
+                    return false;
+                }
+
+                IndoorMoveState partyStart =
+                    controller.initializeStateFromEyePosition(128.0f, 512.0f, body.height, body);
+                controller.setActorColliders({IndoorActorCollision{
+                    0,
+                    360.0f,
+                    512.0f,
+                    0.0f,
+                    100.0f,
+                    220.0f}});
+                const IndoorMoveState partyBlocked =
+                    controller.resolveMove(
+                        partyStart,
+                        body,
+                        500.0f,
+                        0.0f,
+                        false,
+                        1.0f,
+                        nullptr,
+                        std::nullopt,
+                        true);
+
+                if (partyBlocked.x > 245.0f)
+                {
+                    failure = "indoor party-vs-actor collision did not use the actor authored radius";
+                    return false;
+                }
+
                 return true;
             }
         );
@@ -5029,6 +5195,592 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 if (moved.x <= 640.0f)
                 {
                     failure = "indoor movement remained blocked by a low wall segment";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_movement_controller_crosses_portals_and_respects_mechanism_blocking",
+            [&](std::string &failure)
+            {
+                IndoorMapData indoorMapData = {};
+                indoorMapData.vertices = {
+                    {0, 0, 0},
+                    {1024, 0, 0},
+                    {1024, 1024, 0},
+                    {0, 1024, 0},
+                    {0, 0, 256},
+                    {1024, 0, 256},
+                    {1024, 1024, 256},
+                    {0, 1024, 256},
+                    {2048, 0, 0},
+                    {2048, 1024, 0},
+                    {2048, 0, 256},
+                    {2048, 1024, 256},
+                    {1536, 256, 0},
+                    {1536, 768, 0},
+                    {1536, 768, 256},
+                    {1536, 256, 256},
+                };
+
+                IndoorFace westFloor = {};
+                westFloor.vertexIndices = {0, 1, 2, 3};
+                westFloor.facetType = 3;
+                westFloor.roomNumber = 1;
+
+                IndoorFace westCeiling = {};
+                westCeiling.vertexIndices = {7, 6, 5, 4};
+                westCeiling.facetType = 5;
+                westCeiling.roomNumber = 1;
+
+                IndoorFace westOuterWall = {};
+                westOuterWall.vertexIndices = {0, 3, 7, 4};
+                westOuterWall.facetType = 1;
+                westOuterWall.roomNumber = 1;
+
+                IndoorFace westSouthWall = {};
+                westSouthWall.vertexIndices = {0, 4, 5, 1};
+                westSouthWall.facetType = 1;
+                westSouthWall.roomNumber = 1;
+
+                IndoorFace westNorthWall = {};
+                westNorthWall.vertexIndices = {3, 2, 6, 7};
+                westNorthWall.facetType = 1;
+                westNorthWall.roomNumber = 1;
+
+                IndoorFace portal = {};
+                portal.vertexIndices = {1, 5, 6, 2};
+                portal.facetType = 1;
+                portal.roomNumber = 1;
+                portal.roomBehindNumber = 2;
+                portal.isPortal = true;
+
+                IndoorFace eastFloor = {};
+                eastFloor.vertexIndices = {1, 8, 9, 2};
+                eastFloor.facetType = 3;
+                eastFloor.roomNumber = 2;
+
+                IndoorFace eastCeiling = {};
+                eastCeiling.vertexIndices = {6, 11, 10, 5};
+                eastCeiling.facetType = 5;
+                eastCeiling.roomNumber = 2;
+
+                IndoorFace eastOuterWall = {};
+                eastOuterWall.vertexIndices = {8, 10, 11, 9};
+                eastOuterWall.facetType = 1;
+                eastOuterWall.roomNumber = 2;
+
+                IndoorFace eastSouthWall = {};
+                eastSouthWall.vertexIndices = {1, 5, 10, 8};
+                eastSouthWall.facetType = 1;
+                eastSouthWall.roomNumber = 2;
+
+                IndoorFace eastNorthWall = {};
+                eastNorthWall.vertexIndices = {2, 9, 11, 6};
+                eastNorthWall.facetType = 1;
+                eastNorthWall.roomNumber = 2;
+
+                IndoorFace doorFace = {};
+                doorFace.vertexIndices = {12, 15, 14, 13};
+                doorFace.facetType = 1;
+                doorFace.roomNumber = 2;
+
+                indoorMapData.faces = {
+                    westFloor,
+                    westCeiling,
+                    westOuterWall,
+                    westSouthWall,
+                    westNorthWall,
+                    portal,
+                    eastFloor,
+                    eastCeiling,
+                    eastOuterWall,
+                    eastSouthWall,
+                    eastNorthWall,
+                    doorFace,
+                };
+
+                IndoorSector dummySector = {};
+
+                IndoorSector westSector = {};
+                westSector.floorCount = 1;
+                westSector.wallCount = 3;
+                westSector.ceilingCount = 1;
+                westSector.portalCount = 1;
+                westSector.faceCount = 6;
+                westSector.nonBspFaceCount = 6;
+                westSector.minX = 0;
+                westSector.maxX = 1024;
+                westSector.minY = 0;
+                westSector.maxY = 1024;
+                westSector.minZ = 0;
+                westSector.maxZ = 256;
+                westSector.floorFaceIds = {0};
+                westSector.wallFaceIds = {2, 3, 4};
+                westSector.ceilingFaceIds = {1};
+                westSector.portalFaceIds = {5};
+                westSector.faceIds = {0, 1, 2, 3, 4, 5};
+                westSector.nonBspFaceIds = westSector.faceIds;
+
+                IndoorSector eastSector = {};
+                eastSector.floorCount = 1;
+                eastSector.wallCount = 4;
+                eastSector.ceilingCount = 1;
+                eastSector.portalCount = 1;
+                eastSector.faceCount = 7;
+                eastSector.nonBspFaceCount = 7;
+                eastSector.minX = 1024;
+                eastSector.maxX = 2048;
+                eastSector.minY = 0;
+                eastSector.maxY = 1024;
+                eastSector.minZ = 0;
+                eastSector.maxZ = 256;
+                eastSector.floorFaceIds = {6};
+                eastSector.wallFaceIds = {8, 9, 10, 11};
+                eastSector.ceilingFaceIds = {7};
+                eastSector.portalFaceIds = {5};
+                eastSector.faceIds = {5, 6, 7, 8, 9, 10, 11};
+                eastSector.nonBspFaceIds = eastSector.faceIds;
+
+                indoorMapData.sectors = {dummySector, westSector, eastSector};
+
+                MapDeltaDoor door = {};
+                door.doorId = 77;
+                door.directionX = 65536;
+                door.moveLength = 128;
+                door.openSpeed = 128;
+                door.closeSpeed = 128;
+                door.state = static_cast<uint16_t>(EvtMechanismState::Closed);
+                door.vertexIds = {12, 13, 14, 15};
+                door.faceIds = {11};
+                door.sectorIds = {2};
+                door.xOffsets = {1408, 1408, 1408, 1408};
+                door.yOffsets = {256, 768, 768, 256};
+                door.zOffsets = {0, 0, 256, 256};
+
+                std::optional<MapDeltaData> mapDeltaData = MapDeltaData {};
+                mapDeltaData->doors.push_back(door);
+                std::optional<EventRuntimeState> eventRuntimeState = EventRuntimeState {};
+                RuntimeMechanismState closedMechanism = {};
+                closedMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closed);
+                closedMechanism.currentDistance = 128.0f;
+                closedMechanism.isMoving = false;
+                eventRuntimeState->mechanisms[77] = closedMechanism;
+
+                IndoorMovementController controller(indoorMapData, &mapDeltaData, &eventRuntimeState);
+                const IndoorBodyDimensions body = {};
+                const IndoorMoveState portalStart =
+                    controller.initializeStateFromEyePosition(900.0f, 512.0f, 160.0f, body);
+                const IndoorMoveState portalMoved =
+                    controller.resolveMove(
+                        portalStart,
+                        body,
+                        400.0f,
+                        0.0f,
+                        false,
+                        1.0f,
+                        nullptr,
+                        std::nullopt,
+                        false,
+                        nullptr);
+
+                if (portalStart.sectorId != 1 || portalMoved.sectorId != 2 || portalMoved.x <= 1024.0f + body.radius)
+                {
+                    failure = "portal movement did not cross into the adjacent sector";
+                    return false;
+                }
+
+                const IndoorMoveState closedDoorStart =
+                    controller.initializeStateFromEyePosition(1300.0f, 512.0f, 160.0f, body);
+                const IndoorMoveState closedDoorMoved =
+                    controller.resolveMove(
+                        closedDoorStart,
+                        body,
+                        600.0f,
+                        0.0f,
+                        false,
+                        1.0f,
+                        nullptr,
+                        std::nullopt,
+                        false,
+                        nullptr);
+
+                if (closedDoorMoved.x > 1536.0f - body.radius + 1.0f)
+                {
+                    failure = "closed mechanism face did not block swept indoor movement";
+                    return false;
+                }
+
+                RuntimeMechanismState openMechanism = {};
+                openMechanism.state = static_cast<uint16_t>(EvtMechanismState::Open);
+                openMechanism.currentDistance = 0.0f;
+                openMechanism.isMoving = false;
+                eventRuntimeState->mechanisms[77] = openMechanism;
+
+                IndoorMovementController openController(indoorMapData, &mapDeltaData, &eventRuntimeState);
+                const IndoorMoveState openDoorStart =
+                    openController.initializeStateFromEyePosition(1300.0f, 512.0f, 160.0f, body);
+                const IndoorMoveState openDoorMoved =
+                    openController.resolveMove(
+                        openDoorStart,
+                        body,
+                        600.0f,
+                        0.0f,
+                        false,
+                        1.0f,
+                        nullptr,
+                        std::nullopt,
+                        false,
+                        nullptr);
+
+                if (openDoorMoved.x < 1800.0f)
+                {
+                    failure = "open mechanism face still blocked swept indoor movement";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
+            "indoor_d18_large_actor_crosses_portal_off_center",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData
+                    || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor authored/runtime state";
+                    return false;
+                }
+
+                IndoorBodyDimensions body = {};
+
+                for (const MapDeltaActor &actor : loadedMap->indoorMapDeltaData->actors)
+                {
+                    if (actor.radius <= body.radius)
+                    {
+                        continue;
+                    }
+
+                    body.radius = actor.radius;
+                    const float actorHeight = actor.height;
+                    body.height =
+                        actor.height > 0
+                            ? std::max(actorHeight, body.radius * 2.0f + 2.0f)
+                            : body.radius * 2.0f + 2.0f;
+                }
+
+                if (body.radius <= 40.0f)
+                {
+                    failure = "d18.blv did not expose a large authored indoor actor radius";
+                    return false;
+                }
+
+                IndoorMovementController controller(
+                    *loadedMap->indoorMapData,
+                    &loadedMap->indoorMapDeltaData,
+                    &loadedMap->eventRuntimeState);
+                const std::vector<IndoorVertex> vertices = buildIndoorMechanismAdjustedVertices(
+                    *loadedMap->indoorMapData,
+                    &*loadedMap->indoorMapDeltaData,
+                    &*loadedMap->eventRuntimeState);
+                IndoorFaceGeometryCache geometryCache(loadedMap->indoorMapData->faces.size());
+                size_t attemptedPortalCount = 0;
+
+                for (size_t sectorIndex = 0; sectorIndex < loadedMap->indoorMapData->sectors.size(); ++sectorIndex)
+                {
+                    const IndoorSector &sector = loadedMap->indoorMapData->sectors[sectorIndex];
+
+                    for (uint16_t faceId : sector.portalFaceIds)
+                    {
+                        const IndoorFaceGeometryData *pGeometry =
+                            geometryCache.geometryForFace(*loadedMap->indoorMapData, vertices, faceId);
+
+                        if (pGeometry == nullptr || !pGeometry->isPortal || pGeometry->kind != IndoorFaceKind::Wall)
+                        {
+                            continue;
+                        }
+
+                        bx::Vec3 horizontalNormal = {pGeometry->normal.x, pGeometry->normal.y, 0.0f};
+                        const float normalLength = std::sqrt(
+                            horizontalNormal.x * horizontalNormal.x + horizontalNormal.y * horizontalNormal.y);
+
+                        if (normalLength <= 0.0001f || pGeometry->vertices.empty())
+                        {
+                            continue;
+                        }
+
+                        horizontalNormal.x /= normalLength;
+                        horizontalNormal.y /= normalLength;
+                        const bx::Vec3 tangent = {-horizontalNormal.y, horizontalNormal.x, 0.0f};
+                        bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+
+                        for (const bx::Vec3 &vertex : pGeometry->vertices)
+                        {
+                            center.x += vertex.x;
+                            center.y += vertex.y;
+                            center.z += vertex.z;
+                        }
+
+                        const float inverseVertexCount = 1.0f / pGeometry->vertices.size();
+                        center.x *= inverseVertexCount;
+                        center.y *= inverseVertexCount;
+                        center.z *= inverseVertexCount;
+                        const std::array<float, 4> tangentOffsets = {{
+                            body.radius * 0.25f,
+                            -body.radius * 0.25f,
+                            body.radius * 0.5f,
+                            -body.radius * 0.5f
+                        }};
+                        const std::array<float, 2> sideSigns = {{-1.0f, 1.0f}};
+
+                        for (float sideSign : sideSigns)
+                        {
+                            for (float tangentOffset : tangentOffsets)
+                            {
+                                ++attemptedPortalCount;
+                                const float startDistance = body.radius + 24.0f;
+                                const float moveDistance = body.radius * 2.0f + 192.0f;
+                                const float startX =
+                                    center.x - horizontalNormal.x * startDistance * sideSign
+                                    + tangent.x * tangentOffset;
+                                const float startY =
+                                    center.y - horizontalNormal.y * startDistance * sideSign
+                                    + tangent.y * tangentOffset;
+                                const float eyeZ = pGeometry->minZ + body.height;
+                                const IndoorMoveState start =
+                                    controller.initializeStateFromEyePosition(startX, startY, eyeZ, body);
+
+                                if (start.sectorId < 0)
+                                {
+                                    continue;
+                                }
+
+                                const IndoorMoveState moved =
+                                    controller.resolveMove(
+                                        start,
+                                        body,
+                                        horizontalNormal.x * moveDistance * sideSign,
+                                        horizontalNormal.y * moveDistance * sideSign,
+                                        false,
+                                        1.0f);
+
+                                if (moved.sectorId >= 0 && moved.sectorId != start.sectorId)
+                                {
+                                    return true;
+                                }
+                            }
+                        }
+                    }
+                }
+
+                failure =
+                    "no off-center d18 portal crossing succeeded for large actor radius="
+                    + std::to_string(body.radius)
+                    + " height=" + std::to_string(body.height)
+                    + " attempts=" + std::to_string(attemptedPortalCount);
+                return false;
+            }
+        );
+
+        runCase(
+            "indoor_d18_large_actor_crosses_face_1366",
+            [&](std::string &failure)
+            {
+                constexpr size_t PortalFaceIndex = 1366;
+
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData
+                    || !loadedMap->eventRuntimeState || PortalFaceIndex >= loadedMap->indoorMapData->faces.size())
+                {
+                    failure = "d18.blv missing indoor authored/runtime state or portal face";
+                    return false;
+                }
+
+                IndoorBodyDimensions body = {};
+                body.radius = 100.0f;
+                body.height = 202.0f;
+                IndoorMovementController controller(
+                    *loadedMap->indoorMapData,
+                    &loadedMap->indoorMapDeltaData,
+                    &loadedMap->eventRuntimeState);
+                const std::vector<IndoorVertex> vertices = buildIndoorMechanismAdjustedVertices(
+                    *loadedMap->indoorMapData,
+                    &*loadedMap->indoorMapDeltaData,
+                    &*loadedMap->eventRuntimeState);
+                IndoorFaceGeometryCache geometryCache(loadedMap->indoorMapData->faces.size());
+                const IndoorFaceGeometryData *pGeometry =
+                    geometryCache.geometryForFace(*loadedMap->indoorMapData, vertices, PortalFaceIndex);
+
+                if (pGeometry == nullptr || !pGeometry->isPortal || pGeometry->vertices.empty())
+                {
+                    failure = "d18 face 1366 is not a usable portal";
+                    return false;
+                }
+
+                bx::Vec3 horizontalNormal = {pGeometry->normal.x, pGeometry->normal.y, 0.0f};
+                const float normalLength =
+                    std::sqrt(horizontalNormal.x * horizontalNormal.x + horizontalNormal.y * horizontalNormal.y);
+
+                if (normalLength <= 0.0001f)
+                {
+                    failure = "d18 face 1366 has no horizontal normal";
+                    return false;
+                }
+
+                horizontalNormal.x /= normalLength;
+                horizontalNormal.y /= normalLength;
+
+                bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+
+                for (const bx::Vec3 &vertex : pGeometry->vertices)
+                {
+                    center.x += vertex.x;
+                    center.y += vertex.y;
+                    center.z += vertex.z;
+                }
+
+                const float inverseVertexCount = 1.0f / pGeometry->vertices.size();
+                center.x *= inverseVertexCount;
+                center.y *= inverseVertexCount;
+                center.z *= inverseVertexCount;
+
+                const float startDistance = body.radius + 24.0f;
+                const float moveDistance = body.radius * 2.0f + 192.0f;
+                const float startX = center.x + horizontalNormal.x * startDistance;
+                const float startY = center.y + horizontalNormal.y * startDistance;
+                const IndoorMoveState start =
+                    controller.initializeStateFromEyePosition(startX, startY, pGeometry->minZ + body.height, body);
+
+                if (start.sectorId < 0)
+                {
+                    failure = "d18 face 1366 large actor start did not resolve to an indoor sector";
+                    return false;
+                }
+
+                const IndoorMoveState moved =
+                    controller.resolveMove(
+                        start,
+                        body,
+                        -horizontalNormal.x * moveDistance,
+                        -horizontalNormal.y * moveDistance,
+                        false,
+                        1.0f);
+
+                if (moved.sectorId >= 0 && moved.sectorId != start.sectorId)
+                {
+                    return true;
+                }
+
+                failure =
+                    describeIndoorFaceMembership(*loadedMap->indoorMapData, PortalFaceIndex)
+                    + " startSector=" + std::to_string(start.sectorId)
+                    + " movedSector=" + std::to_string(moved.sectorId)
+                    + " start=(" + std::to_string(start.x) + "," + std::to_string(start.y) + ","
+                    + std::to_string(start.footZ) + ") moved=(" + std::to_string(moved.x) + ","
+                    + std::to_string(moved.y) + "," + std::to_string(moved.footZ) + ")";
+                return false;
+            }
+        );
+
+        runCase(
+            "indoor_d18_naga_lintel_slide_preserves_tangential_progress",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d18.blv"))
+                {
+                    failure = "could not load d18.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData
+                    || !loadedMap->eventRuntimeState)
+                {
+                    failure = "d18.blv missing indoor authored/runtime state";
+                    return false;
+                }
+
+                IndoorBodyDimensions body = {};
+                body.radius = 135.0f;
+                body.height = 272.0f;
+                IndoorMovementController controller(
+                    *loadedMap->indoorMapData,
+                    &loadedMap->indoorMapDeltaData,
+                    &loadedMap->eventRuntimeState);
+                const IndoorMoveState start =
+                    controller.initializeStateFromEyePosition(-503.041f, -511.796f, 144.0f, body);
+
+                if (start.sectorId != 1 || start.supportFaceIndex != 1364)
+                {
+                    failure =
+                        "d18 Naga lintel start did not resolve as expected sector="
+                        + std::to_string(start.sectorId)
+                        + " supportFace=" + std::to_string(start.supportFaceIndex);
+                    return false;
+                }
+
+                IndoorMoveDebugInfo debugInfo = {};
+                IndoorMoveState moved = start;
+
+                for (int step = 0; step < 128; ++step)
+                {
+                    moved =
+                        controller.resolveMove(
+                            moved,
+                            body,
+                            150.608f,
+                            131.595f,
+                            false,
+                            1.0f / 128.0f,
+                            nullptr,
+                            std::nullopt,
+                            false,
+                            &debugInfo);
+                }
+
+                if (moved.x <= start.x + 10.0f)
+                {
+                    failure =
+                        "d18 Naga lintel slide did not preserve tangential progress start=("
+                        + std::to_string(start.x) + "," + std::to_string(start.y) + ","
+                        + std::to_string(start.footZ) + ") moved=(" + std::to_string(moved.x) + ","
+                        + std::to_string(moved.y) + "," + std::to_string(moved.footZ)
+                        + ") block=" + std::to_string(static_cast<int>(debugInfo.primaryBlockKind))
+                        + " hitFace=" + std::to_string(debugInfo.hitFaceIndex)
+                        + " responseTried=" + std::to_string(debugInfo.collisionResponseTried)
+                        + " responseSucceeded=" + std::to_string(debugInfo.collisionResponseSucceeded)
+                        + " fullMoveSucceeded=" + std::to_string(debugInfo.fullMoveSucceeded)
+                        + " hitMove=" + std::to_string(debugInfo.hitMoveDistance)
+                        + " hitAdjusted=" + std::to_string(debugInfo.hitAdjustedMoveDistance)
+                        + " hitOffset=" + std::to_string(debugInfo.hitHeightOffset)
+                        + " hitPoint=(" + std::to_string(debugInfo.hitPoint.x) + ","
+                        + std::to_string(debugInfo.hitPoint.y) + "," + std::to_string(debugInfo.hitPoint.z) + ")"
+                        + " hitNormal=(" + std::to_string(debugInfo.hitNormal.x) + ","
+                        + std::to_string(debugInfo.hitNormal.y) + "," + std::to_string(debugInfo.hitNormal.z) + ")"
+                        + " responseStep=(" + std::to_string(debugInfo.responseStep.x) + ","
+                        + std::to_string(debugInfo.responseStep.y) + ","
+                        + std::to_string(debugInfo.responseStep.z) + ")";
                     return false;
                 }
 

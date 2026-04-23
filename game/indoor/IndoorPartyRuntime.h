@@ -25,6 +25,8 @@ public:
     void teleportPartyPosition(float x, float y, float z);
     void update(float desiredVelocityX, float desiredVelocityY, bool jumpRequested, float deltaSeconds);
     void setActorColliders(const std::vector<IndoorActorCollision> &actorColliders);
+    void setDecorationColliders(const std::vector<IndoorCylinderCollision> &decorationColliders);
+    void setSpriteObjectColliders(const std::vector<IndoorCylinderCollision> &spriteObjectColliders);
 
     const IndoorMoveState &movementState() const;
     const Party &party() const;

@@ -210,6 +210,9 @@ struct ActorMovementFacts
     float distanceToParty = 0.0f;
     float edgeDistanceToParty = 0.0f;
     size_t contactedActorCount = 0;
+    GameplayWorldPoint contactedActorPosition = {};
+    uint8_t contactedActorHostilityType = 0;
+    bool hasContactedActor = false;
     bool meleePursuitActive = false;
     bool inMeleeRange = false;
     bool allowCrowdSteering = false;

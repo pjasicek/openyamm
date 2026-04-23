@@ -5849,9 +5849,12 @@ void IndoorRenderer::updateCameraFromInput(
 
     if (m_pSceneRuntime != nullptr)
     {
-        m_pSceneRuntime->partyRuntime().setActorColliders(
-            m_pSceneRuntime->worldRuntime().actorMovementColliders());
-        m_pSceneRuntime->partyRuntime().update(desiredVelocityX, desiredVelocityY, jumpRequested, deltaSeconds);
+        IndoorPartyRuntime &partyRuntime = m_pSceneRuntime->partyRuntime();
+        const IndoorWorldRuntime &worldRuntime = m_pSceneRuntime->worldRuntime();
+        partyRuntime.setActorColliders(worldRuntime.actorMovementCollidersForPartyMovement());
+        partyRuntime.setDecorationColliders(worldRuntime.decorationMovementColliders());
+        partyRuntime.setSpriteObjectColliders(worldRuntime.spriteObjectMovementColliders());
+        partyRuntime.update(desiredVelocityX, desiredVelocityY, jumpRequested, deltaSeconds);
         const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
         m_cameraPositionX = moveState.x;
         m_cameraPositionY = moveState.y;

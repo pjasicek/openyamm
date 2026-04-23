@@ -1,6 +1,7 @@
 #include "game/indoor/IndoorMovementController.h"
 
 #include "game/FaceEnums.h"
+#include "game/indoor/IndoorCollisionPrimitives.h"
 
 #include <algorithm>
 #include <array>
@@ -14,7 +15,7 @@ namespace
 {
 constexpr float MaximumRise = 48.0f;
 constexpr float MaximumDrop = 160.0f;
-constexpr float SlideFactor = 0.75f;
+constexpr float SlideFactor = 0.89263916f;
 constexpr float GravityPerSecond = 960.0f;
 constexpr float JumpVelocity = 420.0f;
 constexpr float GroundSnapSlack = 8.0f;
@@ -128,6 +129,80 @@ std::vector<uint32_t> buildDoorStateSignature(
     return signature;
 }
 
+IndoorSweptBody buildPrimitiveSweptBody(
+    float x,
+    float y,
+    float footZ,
+    const IndoorBodyDimensions &body
+)
+{
+    IndoorSweptBody sweptBody = {};
+    const float lowHeightOffset = std::max(0.0f, body.radius);
+    const float highHeightOffset = std::max(lowHeightOffset, body.height - body.radius);
+
+    sweptBody.lowSphere.center = {x, y, footZ + lowHeightOffset};
+    sweptBody.lowSphere.radius = body.radius;
+    sweptBody.lowSphere.heightOffset = lowHeightOffset;
+    sweptBody.highSphere.center = {x, y, footZ + highHeightOffset};
+    sweptBody.highSphere.radius = body.radius;
+    sweptBody.highSphere.heightOffset = highHeightOffset;
+    return sweptBody;
+}
+
+float movementDistance(float movementX, float movementY, float movementZ)
+{
+    return std::sqrt(movementX * movementX + movementY * movementY + movementZ * movementZ);
+}
+
+bx::Vec3 movementDirection(float movementX, float movementY, float movementZ)
+{
+    const float distance = movementDistance(movementX, movementY, movementZ);
+
+    if (distance <= 0.0001f)
+    {
+        return {0.0f, 0.0f, 0.0f};
+    }
+
+    return {movementX / distance, movementY / distance, movementZ / distance};
+}
+
+float dotVec(const bx::Vec3 &lhs, const bx::Vec3 &rhs)
+{
+    return lhs.x * rhs.x + lhs.y * rhs.y + lhs.z * rhs.z;
+}
+
+bx::Vec3 addVec(const bx::Vec3 &lhs, const bx::Vec3 &rhs)
+{
+    return {lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z};
+}
+
+bx::Vec3 subtractVec(const bx::Vec3 &lhs, const bx::Vec3 &rhs)
+{
+    return {lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z};
+}
+
+bx::Vec3 scaleVec(const bx::Vec3 &value, float scale)
+{
+    return {value.x * scale, value.y * scale, value.z * scale};
+}
+
+float lengthVec(const bx::Vec3 &value)
+{
+    return std::sqrt(dotVec(value, value));
+}
+
+bx::Vec3 normalizeVec(const bx::Vec3 &value)
+{
+    const float length = lengthVec(value);
+
+    if (length <= 0.0001f)
+    {
+        return {0.0f, 0.0f, 0.0f};
+    }
+
+    return scaleVec(value, 1.0f / length);
+}
+
 }
 
 IndoorMovementController::IndoorMovementController(
@@ -144,6 +219,17 @@ IndoorMovementController::IndoorMovementController(
 void IndoorMovementController::setActorColliders(const std::vector<IndoorActorCollision> &actorColliders)
 {
     m_actorColliders = actorColliders;
+}
+
+void IndoorMovementController::setDecorationColliders(const std::vector<IndoorCylinderCollision> &decorationColliders)
+{
+    m_decorationColliders = decorationColliders;
+}
+
+void IndoorMovementController::setSpriteObjectColliders(
+    const std::vector<IndoorCylinderCollision> &spriteObjectColliders)
+{
+    m_spriteObjectColliders = spriteObjectColliders;
 }
 
 void IndoorMovementController::refreshRuntimeGeometryCache() const
@@ -192,6 +278,84 @@ const std::vector<std::pair<float, float>> &IndoorMovementController::supportPro
     }
 
     return m_cachedSupportProbeOffsets;
+}
+
+IndoorMovementController::SweptCollisionRequest IndoorMovementController::buildSweptCollisionRequest(
+    const IndoorMoveState &state,
+    const IndoorBodyDimensions &body,
+    float desiredVelocityX,
+    float desiredVelocityY,
+    bool jumpRequested,
+    float deltaSeconds,
+    std::optional<size_t> ignoredActorIndex,
+    bool blockActorSlide
+) const
+{
+    SweptCollisionRequest request = {};
+    request.startState = state;
+    request.body = body;
+    request.velocity = {desiredVelocityX, desiredVelocityY, state.verticalVelocity};
+    request.deltaSeconds = deltaSeconds;
+    request.jumpRequested = jumpRequested;
+    request.ignoredActorIndex = ignoredActorIndex;
+    request.blockActorSlide = blockActorSlide;
+    return request;
+}
+
+IndoorMovementController::SweptCollisionBody IndoorMovementController::buildSweptCollisionBody(
+    const IndoorMoveState &state,
+    const IndoorBodyDimensions &body
+) const
+{
+    SweptCollisionBody collisionBody = {};
+    const float lowHeightOffset = std::max(0.0f, body.radius);
+    const float highHeightOffset = std::max(lowHeightOffset, body.height - body.radius);
+
+    collisionBody.radius = body.radius;
+    collisionBody.height = body.height;
+    collisionBody.lowSphere.center = {state.x, state.y, state.footZ + lowHeightOffset};
+    collisionBody.lowSphere.radius = body.radius;
+    collisionBody.lowSphere.heightOffset = lowHeightOffset;
+    collisionBody.highSphere.center = {state.x, state.y, state.footZ + highHeightOffset};
+    collisionBody.highSphere.radius = body.radius;
+    collisionBody.highSphere.heightOffset = highHeightOffset;
+    return collisionBody;
+}
+
+IndoorMovementController::SweptCollisionState IndoorMovementController::buildSweptCollisionState(
+    const SweptCollisionRequest &request
+) const
+{
+    SweptCollisionState state = {};
+    const float moveX = request.velocity.x * request.deltaSeconds;
+    const float moveY = request.velocity.y * request.deltaSeconds;
+    const float moveZ = request.velocity.z * request.deltaSeconds;
+    const float moveDistance = std::sqrt(moveX * moveX + moveY * moveY + moveZ * moveZ);
+
+    state.position = {
+        request.startState.x,
+        request.startState.y,
+        request.startState.footZ
+    };
+    state.velocity = request.velocity;
+    state.moveDistance = moveDistance;
+    state.adjustedMoveDistance = moveDistance;
+    state.body = buildSweptCollisionBody(request.startState, request.body);
+    state.sectorId = request.startState.sectorId;
+    state.eyeSectorId = request.startState.eyeSectorId;
+    state.supportFaceIndex = request.startState.supportFaceIndex;
+    state.grounded = request.startState.grounded;
+
+    if (moveDistance > 0.0001f)
+    {
+        state.direction = {
+            moveX / moveDistance,
+            moveY / moveDistance,
+            moveZ / moveDistance
+        };
+    }
+
+    return state;
 }
 
 IndoorFloorSample IndoorMovementController::sampleSupportedFloor(
@@ -601,9 +765,19 @@ IndoorMoveState IndoorMovementController::resolveMove(
     const std::vector<uint8_t> &mechanismBlockingFaceMask = runtimeCache.mechanismBlockingFaceMask;
     const std::vector<uint8_t> &collisionFaceMask = runtimeCache.collisionFaceMask;
 
+    const SweptCollisionRequest sweptRequest = buildSweptCollisionRequest(
+        state,
+        body,
+        desiredVelocityX,
+        desiredVelocityY,
+        jumpRequested,
+        deltaSeconds,
+        ignoredActorIndex,
+        blockActorSlide);
+    const SweptCollisionState sweptState = buildSweptCollisionState(sweptRequest);
     IndoorMoveState resolved = state;
-    const float stepX = desiredVelocityX * deltaSeconds;
-    const float stepY = desiredVelocityY * deltaSeconds;
+    const float stepX = sweptState.velocity.x * sweptRequest.deltaSeconds;
+    const float stepY = sweptState.velocity.y * sweptRequest.deltaSeconds;
     const std::optional<int16_t> preferredSectorId =
         state.sectorId >= 0 ? std::optional<int16_t>(state.sectorId) : std::nullopt;
     const IndoorFloorSample currentFloor = sampleSupportedFloor(
@@ -644,6 +818,20 @@ IndoorMoveState IndoorMovementController::resolveMove(
     bool fullMoveBlockedByActor = false;
     IndoorWallCollision fullMoveWallCollision = {};
 
+    const auto appendContactedActorIndex = [&](size_t actorIndex)
+    {
+        if (pContactedActorIndices == nullptr)
+        {
+            return;
+        }
+
+        if (std::find(pContactedActorIndices->begin(), pContactedActorIndices->end(), actorIndex)
+            == pContactedActorIndices->end())
+        {
+            pContactedActorIndices->push_back(actorIndex);
+        }
+    };
+
     if (pDebugInfo != nullptr)
     {
         *pDebugInfo = {};
@@ -657,7 +845,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
         candidateFootZ = effectiveCurrentFloor.height;
         candidateVerticalVelocity = 0.0f;
 
-        if (jumpRequested)
+        if (sweptRequest.jumpRequested)
         {
             candidateGrounded = false;
             candidateVerticalVelocity = JumpVelocity;
@@ -673,9 +861,14 @@ IndoorMoveState IndoorMovementController::resolveMove(
 
     auto tryResolvePosition =
         [&](
+            float currentX,
+            float currentY,
             float candidateX,
             float candidateY,
+            float positionFootZ,
+            float positionVerticalVelocity,
             IndoorMoveState &candidateState,
+            bool testFaceCollision,
             bool *pHitActor,
             IndoorWallCollision *pWallCollision) -> bool
     {
@@ -684,7 +877,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
             geometryCache,
             candidateX,
             candidateY,
-            candidateFootZ,
+            positionFootZ,
             body.height + MaximumRise,
             body.height + 1024.0f,
             body,
@@ -698,7 +891,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 state.supportFaceIndex,
                 candidateX,
                 candidateY,
-                candidateFootZ,
+                positionFootZ,
                 body.height + MaximumRise,
                 body.height + 1024.0f,
                 body,
@@ -712,14 +905,14 @@ IndoorMoveState IndoorMovementController::resolveMove(
             floor = preferredFloor;
         }
 
-        if (!floor.hasFloor && state.grounded && !jumpRequested)
+        if (!floor.hasFloor && state.grounded && !sweptRequest.jumpRequested)
         {
             approximateFloor = sampleApproximateSupportedFloor(
                 vertices,
                 geometryCache,
                 candidateX,
                 candidateY,
-                candidateFootZ,
+                positionFootZ,
                 body.height + MaximumRise,
                 body.height + 1024.0f,
                 body,
@@ -729,15 +922,15 @@ IndoorMoveState IndoorMovementController::resolveMove(
             floor = approximateFloor;
         }
 
-        float resolvedFootZ = candidateFootZ;
-        float resolvedVerticalVelocity = candidateVerticalVelocity;
+        float resolvedFootZ = positionFootZ;
+        float resolvedVerticalVelocity = positionVerticalVelocity;
         bool resolvedGrounded = false;
 
         if (floor.hasFloor)
         {
             const bool shouldSnapToFloor =
-                (state.grounded && !jumpRequested && candidateVerticalVelocity <= 0.0f)
-                || (candidateVerticalVelocity <= 0.0f && candidateFootZ <= floor.height + GroundSnapSlack);
+                (state.grounded && !jumpRequested && positionVerticalVelocity <= 0.0f)
+                || (positionVerticalVelocity <= 0.0f && positionFootZ <= floor.height + GroundSnapSlack);
 
             if (shouldSnapToFloor)
             {
@@ -783,7 +976,8 @@ IndoorMoveState IndoorMovementController::resolveMove(
         const std::optional<int16_t> primarySectorId =
             floorSectorId ? floorSectorId : (eyeSectorId ? eyeSectorId : fallbackSectorId);
 
-        if (collidesAtPosition(
+        if (testFaceCollision
+            && collidesAtPosition(
                 vertices,
                 geometryCache,
                 candidateX,
@@ -794,22 +988,22 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 &mechanismBlockingFaceMask,
                 primarySectorId,
                 eyeSectorId,
-                candidateX - state.x,
-                candidateY - state.y,
+                candidateX - currentX,
+                candidateY - currentY,
                 pWallCollision))
         {
             return false;
         }
 
         if (collidesWithActors(
-                state.x,
-                state.y,
+                currentX,
+                currentY,
                 candidateX,
                 candidateY,
                 resolvedFootZ,
                 body,
                 pContactedActorIndices,
-                ignoredActorIndex,
+                sweptRequest.ignoredActorIndex,
                 pHitActor))
         {
             return false;
@@ -835,18 +1029,13 @@ IndoorMoveState IndoorMovementController::resolveMove(
         return true;
     };
 
-    if (tryResolvePosition(state.x + stepX, state.y + stepY, resolved, &fullMoveBlockedByActor, &fullMoveWallCollision))
+    auto writePrimaryBlockDebug = [&]()
     {
-        if (pDebugInfo != nullptr)
+        if (pDebugInfo == nullptr)
         {
-            pDebugInfo->fullMoveSucceeded = true;
+            return;
         }
 
-        return resolved;
-    }
-
-    if (pDebugInfo != nullptr)
-    {
         if (fullMoveBlockedByActor)
         {
             pDebugInfo->primaryBlockKind = IndoorMoveBlockKind::Actor;
@@ -854,126 +1043,452 @@ IndoorMoveState IndoorMovementController::resolveMove(
         else if (fullMoveWallCollision.hit)
         {
             pDebugInfo->primaryBlockKind = IndoorMoveBlockKind::Wall;
-            pDebugInfo->wallFaceIndex = fullMoveWallCollision.faceIndex;
-            pDebugInfo->wallNormal = fullMoveWallCollision.normal;
+            pDebugInfo->hitFaceIndex = fullMoveWallCollision.faceIndex;
+            pDebugInfo->hitNormal = fullMoveWallCollision.normal;
         }
         else
         {
             pDebugInfo->primaryBlockKind = IndoorMoveBlockKind::InvalidPosition;
         }
-    }
+    };
 
-    if (blockActorSlide && fullMoveBlockedByActor)
+    auto selectNearestActorBodyHit =
+        [&](const IndoorMoveState &moveState, const bx::Vec3 &direction, float distance)
+        -> std::optional<SweptCollisionHit>
     {
-        return state;
-    }
+        std::optional<SweptCollisionHit> bestHit;
+        const IndoorSweptBody contactSweptBody =
+            buildPrimitiveSweptBody(moveState.x, moveState.y, moveState.footZ, body);
 
-    float wallSlideStepX = stepX;
-    float wallSlideStepY = stepY;
-    IndoorWallCollision wallSlideCollision = fullMoveWallCollision;
-
-    for (int attempt = 0; attempt < 3 && wallSlideCollision.hit; ++attempt)
-    {
-        bx::Vec3 slideNormal = {
-            wallSlideCollision.normal.x,
-            wallSlideCollision.normal.y,
-            0.0f
-        };
-        const float slideNormalLength =
-            std::sqrt(slideNormal.x * slideNormal.x + slideNormal.y * slideNormal.y);
-
-        if (slideNormalLength > 0.0001f)
+        for (size_t colliderIndex = 0; colliderIndex < m_actorColliders.size(); ++colliderIndex)
         {
-            slideNormal.x /= slideNormalLength;
-            slideNormal.y /= slideNormalLength;
-            const float stepIntoNormal = wallSlideStepX * slideNormal.x + wallSlideStepY * slideNormal.y;
-            wallSlideStepX -= slideNormal.x * stepIntoNormal;
-            wallSlideStepY -= slideNormal.y * stepIntoNormal;
+            const IndoorActorCollision &collider = m_actorColliders[colliderIndex];
 
-            if (pDebugInfo != nullptr)
+            if (sweptRequest.ignoredActorIndex.has_value()
+                && collider.actorIndex == *sweptRequest.ignoredActorIndex)
             {
-                pDebugInfo->wallSlideTried = true;
+                continue;
             }
 
-            if (wallSlideStepX * wallSlideStepX + wallSlideStepY * wallSlideStepY <= 0.0001f)
+            IndoorSweptCylinder cylinder = {};
+            cylinder.baseCenter = {collider.x, collider.y, collider.z};
+            cylinder.radius = collider.radius;
+            cylinder.height = collider.height;
+
+            const std::optional<IndoorSweptCylinderHit> cylinderHit =
+                sweepIndoorBodyAgainstCylinder(contactSweptBody, direction, distance, cylinder);
+
+            if (!cylinderHit)
             {
-                break;
+                continue;
             }
 
-            bool slideBlockedByActor = false;
-            wallSlideCollision = {};
+            if (collider.reportActorContact)
+            {
+                appendContactedActorIndex(collider.actorIndex);
+            }
+
+            if (bestHit && cylinderHit->adjustedMoveDistance >= bestHit->adjustedMoveDistance)
+            {
+                continue;
+            }
+
+            SweptCollisionHit hit = {};
+            hit.type = collider.reportActorContact ? SweptCollisionHitType::Actor : SweptCollisionHitType::Party;
+            hit.colliderIndex = colliderIndex;
+            hit.actorIndex = collider.actorIndex;
+            hit.point = cylinderHit->point;
+            hit.normal = cylinderHit->normal;
+            hit.heightOffset = cylinderHit->heightOffset;
+            hit.moveDistance = cylinderHit->moveDistance;
+            hit.adjustedMoveDistance = cylinderHit->adjustedMoveDistance;
+            bestHit = hit;
+        }
+
+        return bestHit;
+    };
+    auto selectNearestCylinderBodyHit =
+        [&](
+            const IndoorMoveState &moveState,
+            const bx::Vec3 &direction,
+            float distance,
+            const std::vector<IndoorCylinderCollision> &colliders,
+            SweptCollisionHitType hitType)
+        -> std::optional<SweptCollisionHit>
+    {
+        std::optional<SweptCollisionHit> bestHit;
+        const IndoorSweptBody sweptBody = buildPrimitiveSweptBody(moveState.x, moveState.y, moveState.footZ, body);
+
+        for (size_t colliderIndex = 0; colliderIndex < colliders.size(); ++colliderIndex)
+        {
+            const IndoorCylinderCollision &collider = colliders[colliderIndex];
+
+            IndoorSweptCylinder cylinder = {};
+            cylinder.baseCenter = {collider.x, collider.y, collider.z};
+            cylinder.radius = collider.radius;
+            cylinder.height = collider.height;
+
+            const std::optional<IndoorSweptCylinderHit> cylinderHit =
+                sweepIndoorBodyAgainstCylinder(sweptBody, direction, distance, cylinder);
+
+            if (!cylinderHit)
+            {
+                continue;
+            }
+
+            if (bestHit && cylinderHit->adjustedMoveDistance >= bestHit->adjustedMoveDistance)
+            {
+                continue;
+            }
+
+            SweptCollisionHit hit = {};
+            hit.type = hitType;
+            hit.colliderIndex = colliderIndex;
+            hit.point = cylinderHit->point;
+            hit.normal = cylinderHit->normal;
+            hit.heightOffset = cylinderHit->heightOffset;
+            hit.moveDistance = cylinderHit->moveDistance;
+            hit.adjustedMoveDistance = cylinderHit->adjustedMoveDistance;
+            bestHit = hit;
+        }
+
+        return bestHit;
+    };
+
+    const float stepZ = candidateFootZ - state.footZ;
+    IndoorMoveState iterativeState = state;
+    bx::Vec3 remainingStep = {stepX, stepY, stepZ};
+    float iterativeVerticalVelocity = candidateVerticalVelocity;
+    bool sweptFaceHit = false;
+    bool sweptFailed = false;
+    constexpr int MaxSweptIterations = 4;
+
+    const auto projectStepAfterFaceHit =
+        [&](
+            const bx::Vec3 &step,
+            const SweptCollisionHit &hit,
+            const IndoorMoveState &advancedState) -> bx::Vec3
+    {
+        if (hit.type != SweptCollisionHitType::Face)
+        {
+            return projectIndoorVelocityAlongPlane(
+                step,
+                hit.normal,
+                hit.type == SweptCollisionHitType::Floor ? 1.0f : SlideFactor);
+        }
+
+        const bx::Vec3 slidePlaneOrigin = {
+            hit.point.x,
+            hit.point.y,
+            hit.point.z - hit.heightOffset
+        };
+        const bx::Vec3 adjustedLowSphereCenter = {
+            advancedState.x,
+            advancedState.y,
+            advancedState.footZ + body.radius
+        };
+        const bx::Vec3 slidePlaneNormal =
+            normalizeVec(subtractVec(adjustedLowSphereCenter, slidePlaneOrigin));
+
+        if (lengthVec(slidePlaneNormal) <= 0.0001f)
+        {
+            return projectIndoorVelocityAlongPlane(step, hit.normal, SlideFactor);
+        }
+
+        const bx::Vec3 intendedLowSphereCenter = {
+            advancedState.x + step.x,
+            advancedState.y + step.y,
+            advancedState.footZ + body.radius + step.z
+        };
+        const float destinationPlaneDistance =
+            dotVec(subtractVec(intendedLowSphereCenter, slidePlaneOrigin), slidePlaneNormal);
+        const bx::Vec3 projectedDestination =
+            subtractVec(intendedLowSphereCenter, scaleVec(slidePlaneNormal, destinationPlaneDistance));
+        const bx::Vec3 slideDirection =
+            normalizeVec(subtractVec(projectedDestination, slidePlaneOrigin));
+
+        if (lengthVec(slideDirection) <= 0.0001f)
+        {
+            return projectIndoorVelocityAlongPlane(step, hit.normal, SlideFactor);
+        }
+
+        const float projectedStepDistance = dotVec(step, slideDirection);
+
+        if (std::fabs(projectedStepDistance) <= 0.0001f)
+        {
+            return {0.0f, 0.0f, 0.0f};
+        }
+
+        return scaleVec(slideDirection, projectedStepDistance * SlideFactor);
+    };
+
+    for (int iteration = 0; iteration < MaxSweptIterations; ++iteration)
+    {
+        const float remainingDistance = movementDistance(remainingStep.x, remainingStep.y, remainingStep.z);
+
+        if (remainingDistance <= 0.0001f)
+        {
+            if (pDebugInfo != nullptr && sweptFaceHit)
+            {
+                pDebugInfo->collisionResponseSucceeded = true;
+            }
+
+            return iterativeState;
+        }
+
+        const bx::Vec3 remainingDirection =
+            movementDirection(remainingStep.x, remainingStep.y, remainingStep.z);
+        const std::vector<const IndoorFaceGeometryData *> candidateFaces = collectSweptCollisionFaceCandidates(
+            vertices,
+            geometryCache,
+            iterativeState.x,
+            iterativeState.y,
+            iterativeState.footZ,
+            body,
+            remainingStep.x,
+            remainingStep.y,
+            remainingStep.z,
+            &collisionFaceMask,
+            &mechanismBlockingFaceMask,
+            iterativeState.sectorId >= 0 ? std::optional<int16_t>(iterativeState.sectorId) : std::nullopt,
+            iterativeState.eyeSectorId >= 0 ? std::optional<int16_t>(iterativeState.eyeSectorId) : std::nullopt);
+        std::vector<const IndoorFaceGeometryData *> responseFaceCandidates;
+        responseFaceCandidates.reserve(candidateFaces.size());
+
+        for (const IndoorFaceGeometryData *pFace : candidateFaces)
+        {
+            if (pFace == nullptr)
+            {
+                continue;
+            }
+
+            if (pFace->kind == IndoorFaceKind::Floor && pFace->isWalkable && remainingStep.z >= -0.0001f)
+            {
+                continue;
+            }
+
+            if (pFace->kind == IndoorFaceKind::Wall && pFace->maxZ <= iterativeState.footZ + MaximumRise)
+            {
+                continue;
+            }
+
+            responseFaceCandidates.push_back(pFace);
+        }
+
+        IndoorFaceSweepOptions sweepOptions = {};
+        sweepOptions.pCollisionFaceMask = &collisionFaceMask;
+        sweepOptions.pMechanismBlockingFaceMask = &mechanismBlockingFaceMask;
+        sweepOptions.includePortalFaces = false;
+        const std::optional<IndoorSweptFaceHit> faceHit = selectNearestIndoorFaceHit(
+            buildPrimitiveSweptBody(iterativeState.x, iterativeState.y, iterativeState.footZ, body),
+            remainingDirection,
+            remainingDistance,
+            responseFaceCandidates,
+            sweepOptions);
+        const std::optional<SweptCollisionHit> actorBodyHit =
+            selectNearestActorBodyHit(iterativeState, remainingDirection, remainingDistance);
+        const std::optional<SweptCollisionHit> decorationBodyHit =
+            selectNearestCylinderBodyHit(
+                iterativeState,
+                remainingDirection,
+                remainingDistance,
+                m_decorationColliders,
+                SweptCollisionHitType::Decoration);
+        const std::optional<SweptCollisionHit> spriteObjectBodyHit =
+            selectNearestCylinderBodyHit(
+                iterativeState,
+                remainingDirection,
+                remainingDistance,
+                m_spriteObjectColliders,
+                SweptCollisionHitType::SpriteObject);
+        std::optional<SweptCollisionHit> nearestHit;
+
+        if (faceHit)
+        {
+            const IndoorFaceGeometryData *pHitGeometry =
+                geometryCache.geometryForFace(*m_pIndoorMapData, vertices, faceHit->faceIndex);
+            SweptCollisionHit hit = {};
+            hit.type =
+                pHitGeometry != nullptr && pHitGeometry->kind == IndoorFaceKind::Floor
+                ? SweptCollisionHitType::Floor
+                : pHitGeometry != nullptr && pHitGeometry->kind == IndoorFaceKind::Ceiling
+                    ? SweptCollisionHitType::Ceiling
+                    : SweptCollisionHitType::Face;
+            hit.boundaryHit = faceHit->boundaryHit;
+            hit.faceIndex = faceHit->faceIndex;
+            hit.point = faceHit->point;
+            hit.normal = faceHit->normal;
+            hit.heightOffset = faceHit->heightOffset;
+            hit.moveDistance = faceHit->moveDistance;
+            hit.adjustedMoveDistance = faceHit->adjustedMoveDistance;
+            nearestHit = hit;
+        }
+
+        if (actorBodyHit
+            && (!nearestHit || actorBodyHit->adjustedMoveDistance < nearestHit->adjustedMoveDistance))
+        {
+            nearestHit = actorBodyHit;
+        }
+
+        if (decorationBodyHit
+            && (!nearestHit || decorationBodyHit->adjustedMoveDistance < nearestHit->adjustedMoveDistance))
+        {
+            nearestHit = decorationBodyHit;
+        }
+
+        if (spriteObjectBodyHit
+            && (!nearestHit || spriteObjectBodyHit->adjustedMoveDistance < nearestHit->adjustedMoveDistance))
+        {
+            nearestHit = spriteObjectBodyHit;
+        }
+
+        if (!nearestHit)
+        {
+            const float targetX = iterativeState.x + remainingStep.x;
+            const float targetY = iterativeState.y + remainingStep.y;
+            const float targetFootZ = iterativeState.footZ + remainingStep.z;
+            bool hitActor = false;
+            IndoorWallCollision wallCollision = {};
+            IndoorMoveState targetState = {};
 
             if (tryResolvePosition(
-                    state.x + wallSlideStepX,
-                    state.y + wallSlideStepY,
-                    resolved,
-                    &slideBlockedByActor,
-                    &wallSlideCollision))
+                    iterativeState.x,
+                    iterativeState.y,
+                    targetX,
+                    targetY,
+                    targetFootZ,
+                    iterativeVerticalVelocity,
+                    targetState,
+                    true,
+                    &hitActor,
+                    &wallCollision))
             {
                 if (pDebugInfo != nullptr)
                 {
-                    pDebugInfo->wallSlideSucceeded = true;
+                    pDebugInfo->fullMoveSucceeded = !sweptFaceHit;
+                    pDebugInfo->collisionResponseSucceeded = sweptFaceHit;
                 }
 
-                return resolved;
+                return targetState;
             }
 
-            if (blockActorSlide && slideBlockedByActor)
+            fullMoveBlockedByActor = hitActor;
+            fullMoveWallCollision = wallCollision;
+            sweptFailed = true;
+            break;
+        }
+
+        sweptFaceHit =
+            sweptFaceHit
+            || nearestHit->type == SweptCollisionHitType::Face
+            || nearestHit->type == SweptCollisionHitType::Floor
+            || nearestHit->type == SweptCollisionHitType::Ceiling;
+
+        if (pDebugInfo != nullptr)
+        {
+            pDebugInfo->collisionResponseTried = true;
+            pDebugInfo->primaryBlockKind =
+                nearestHit->type == SweptCollisionHitType::Party
+                ? IndoorMoveBlockKind::Party
+                : nearestHit->type == SweptCollisionHitType::Actor
+                    ? IndoorMoveBlockKind::Actor
+                    : IndoorMoveBlockKind::Wall;
+            pDebugInfo->hitFaceIndex = nearestHit->faceIndex;
+            pDebugInfo->hitNormal = nearestHit->normal;
+            pDebugInfo->hitPoint = nearestHit->point;
+            pDebugInfo->hitMoveDistance = nearestHit->moveDistance;
+            pDebugInfo->hitAdjustedMoveDistance = nearestHit->adjustedMoveDistance;
+            pDebugInfo->hitHeightOffset = nearestHit->heightOffset;
+        }
+
+        if (nearestHit->type == SweptCollisionHitType::Floor && iterativeVerticalVelocity < 0.0f)
+        {
+            iterativeVerticalVelocity = 0.0f;
+        }
+        else if (nearestHit->type == SweptCollisionHitType::Ceiling && iterativeVerticalVelocity > 0.0f)
+        {
+            iterativeVerticalVelocity = 0.0f;
+        }
+
+        const float advanceDistance = std::clamp(nearestHit->adjustedMoveDistance, 0.0f, remainingDistance);
+        const float advancedX = iterativeState.x + remainingDirection.x * advanceDistance;
+        const float advancedY = iterativeState.y + remainingDirection.y * advanceDistance;
+        const float advancedFootZ = iterativeState.footZ + remainingDirection.z * advanceDistance;
+        IndoorMoveState advancedState = {};
+
+        if (!tryResolvePosition(
+                iterativeState.x,
+                iterativeState.y,
+                advancedX,
+                advancedY,
+                advancedFootZ,
+                iterativeVerticalVelocity,
+                advancedState,
+                false,
+                nullptr,
+                nullptr))
+        {
+            sweptFailed = true;
+            break;
+        }
+
+        iterativeState = advancedState;
+
+        if (sweptRequest.blockActorSlide
+            && (nearestHit->type == SweptCollisionHitType::Actor
+                || nearestHit->type == SweptCollisionHitType::Party))
+        {
+            return iterativeState;
+        }
+
+        const float consumedDistance = std::clamp(nearestHit->moveDistance, 0.0f, remainingDistance);
+        const float leftoverDistance = std::max(0.0f, remainingDistance - consumedDistance);
+
+        if (leftoverDistance <= 0.0001f)
+        {
+            if (pDebugInfo != nullptr)
             {
-                return state;
+                pDebugInfo->collisionResponseSucceeded = true;
             }
+
+            return iterativeState;
+        }
+
+        const bx::Vec3 leftoverStep = {
+            remainingDirection.x * leftoverDistance,
+            remainingDirection.y * leftoverDistance,
+            remainingDirection.z * leftoverDistance
+        };
+        const float responseDamping =
+            nearestHit->type == SweptCollisionHitType::Floor ? 1.0f : SlideFactor;
+
+        if (nearestHit->type == SweptCollisionHitType::Face && nearestHit->boundaryHit)
+        {
+            remainingStep = projectStepAfterFaceHit(leftoverStep, *nearestHit, advancedState);
+        }
+        else
+        {
+            remainingStep = projectIndoorVelocityAlongPlane(leftoverStep, nearestHit->normal, responseDamping);
+        }
+
+        if (pDebugInfo != nullptr)
+        {
+            pDebugInfo->responseStep = remainingStep;
         }
     }
 
-    const float slideX = state.x + stepX * SlideFactor;
-    const float slideY = state.y + stepY * SlideFactor;
-
-    if (std::fabs(stepX) >= std::fabs(stepY))
+    if (!sweptFailed && sweptFaceHit)
     {
-        if (tryResolvePosition(slideX, state.y, resolved, nullptr, nullptr))
+        if (pDebugInfo != nullptr)
         {
-            if (pDebugInfo != nullptr)
-            {
-                pDebugInfo->axisSlideSucceeded = true;
-            }
-
-            return resolved;
+            pDebugInfo->collisionResponseSucceeded = true;
         }
 
-        if (tryResolvePosition(state.x, slideY, resolved, nullptr, nullptr))
-        {
-            if (pDebugInfo != nullptr)
-            {
-                pDebugInfo->axisSlideSucceeded = true;
-            }
-
-            return resolved;
-        }
-    }
-    else
-    {
-        if (tryResolvePosition(state.x, slideY, resolved, nullptr, nullptr))
-        {
-            if (pDebugInfo != nullptr)
-            {
-                pDebugInfo->axisSlideSucceeded = true;
-            }
-
-            return resolved;
-        }
-
-        if (tryResolvePosition(slideX, state.y, resolved, nullptr, nullptr))
-        {
-            if (pDebugInfo != nullptr)
-            {
-                pDebugInfo->axisSlideSucceeded = true;
-            }
-
-            return resolved;
-        }
+        return iterativeState;
     }
 
-    return state;
+    writePrimaryBlockDebug();
+    return iterativeState;
 }
 
 std::vector<uint8_t> IndoorMovementController::buildNonBlockingMechanismFaceMask() const
@@ -1032,49 +1547,27 @@ bool IndoorMovementController::collidesAtPosition(
         return false;
     }
 
-    const std::vector<int16_t> collisionSectorIds = collectCollisionSectorIds(
+    const std::vector<const IndoorFaceGeometryData *> candidateFaces = collectSweptCollisionFaceCandidates(
         vertices,
         geometryCache,
-        x,
-        y,
+        x - movementX,
+        y - movementY,
         footZ,
         body,
+        movementX,
+        movementY,
+        0.0f,
+        pCollisionFaceMask,
+        pMechanismBlockingFaceMask,
         primarySectorId,
         secondarySectorId);
-    const auto sectorIsRelevant = [&collisionSectorIds](uint16_t sectorId) -> bool
-    {
-        return std::find(collisionSectorIds.begin(), collisionSectorIds.end(), static_cast<int16_t>(sectorId))
-            != collisionSectorIds.end();
-    };
     IndoorWallCollision bestWallCollision = {};
     float bestWallScore = -1.0f;
     const float movementLength = std::sqrt(movementX * movementX + movementY * movementY);
 
-    for (size_t faceIndex = 0; faceIndex < m_pIndoorMapData->faces.size(); ++faceIndex)
+    for (const IndoorFaceGeometryData *pGeometry : candidateFaces)
     {
-        if (pCollisionFaceMask != nullptr
-            && !pCollisionFaceMask->empty()
-            && (faceIndex >= pCollisionFaceMask->size() || (*pCollisionFaceMask)[faceIndex] == 0))
-        {
-            continue;
-        }
-
-        if (pMechanismBlockingFaceMask != nullptr
-            && faceIndex < pMechanismBlockingFaceMask->size()
-            && (*pMechanismBlockingFaceMask)[faceIndex] == 0)
-        {
-            continue;
-        }
-
-        const IndoorFaceGeometryData *pGeometry = geometryCache.geometryForFace(
-            *m_pIndoorMapData,
-            vertices,
-            faceIndex);
-
         if (pGeometry == nullptr
-            || (!collisionSectorIds.empty()
-                && !sectorIsRelevant(pGeometry->sectorId)
-                && !sectorIsRelevant(pGeometry->backSectorId))
             || pGeometry->kind != IndoorFaceKind::Wall
             || pGeometry->isPortal
             || hasFaceAttribute(pGeometry->attributes, FaceAttribute::Untouchable)
@@ -1084,31 +1577,58 @@ bool IndoorMovementController::collidesAtPosition(
             continue;
         }
 
+        const bx::Vec3 oldCenter = {
+            x - movementX,
+            y - movementY,
+            footZ + std::min(body.height * 0.5f, std::max(body.radius, 1.0f))
+        };
+        const bx::Vec3 newCenter = {
+            x,
+            y,
+            footZ + std::min(body.height * 0.5f, std::max(body.radius, 1.0f))
+        };
+        const float oldSignedDistance =
+            dotVec(subtractVec(oldCenter, pGeometry->vertices.front()), pGeometry->normal);
+        const float newSignedDistance =
+            dotVec(subtractVec(newCenter, pGeometry->vertices.front()), pGeometry->normal);
+        const float oldDistance = std::abs(oldSignedDistance);
+        const float newDistance = std::abs(newSignedDistance);
+        const bool startedInsideWallRadius = oldDistance <= body.radius + 0.5f;
+        const bool stayedOnSameSide =
+            oldSignedDistance == 0.0f
+            || newSignedDistance == 0.0f
+            || (oldSignedDistance > 0.0f) == (newSignedDistance > 0.0f);
+
+        if (startedInsideWallRadius && stayedOnSameSide && newDistance >= oldDistance - 0.5f)
+        {
+            continue;
+        }
+
         if (pWallCollision == nullptr)
         {
             return true;
         }
 
-        bx::Vec3 wallNormal = {
+        bx::Vec3 hitNormal = {
             pGeometry->normal.x,
             pGeometry->normal.y,
             0.0f
         };
-        const float wallNormalLength = std::sqrt(wallNormal.x * wallNormal.x + wallNormal.y * wallNormal.y);
+        const float hitNormalLength = std::sqrt(hitNormal.x * hitNormal.x + hitNormal.y * hitNormal.y);
         float score = 1.0f;
 
-        if (movementLength > 0.0001f && wallNormalLength > 0.0001f)
+        if (movementLength > 0.0001f && hitNormalLength > 0.0001f)
         {
-            wallNormal.x /= wallNormalLength;
-            wallNormal.y /= wallNormalLength;
-            score = std::abs(movementX * wallNormal.x + movementY * wallNormal.y) / movementLength;
+            hitNormal.x /= hitNormalLength;
+            hitNormal.y /= hitNormalLength;
+            score = std::abs(movementX * hitNormal.x + movementY * hitNormal.y) / movementLength;
         }
 
         if (!bestWallCollision.hit || score > bestWallScore)
         {
             bestWallCollision.hit = true;
             bestWallCollision.normal = pGeometry->normal;
-            bestWallCollision.faceIndex = faceIndex;
+            bestWallCollision.faceIndex = pGeometry->faceIndex;
             bestWallScore = score;
         }
     }
@@ -1122,13 +1642,16 @@ bool IndoorMovementController::collidesAtPosition(
     return false;
 }
 
-std::vector<int16_t> IndoorMovementController::collectCollisionSectorIds(
+std::vector<int16_t> IndoorMovementController::collectSweptCollisionSectorIds(
     const std::vector<IndoorVertex> &vertices,
     IndoorFaceGeometryCache &geometryCache,
-    float x,
-    float y,
-    float footZ,
+    float startX,
+    float startY,
+    float startFootZ,
     const IndoorBodyDimensions &body,
+    float movementX,
+    float movementY,
+    float movementZ,
     std::optional<int16_t> primarySectorId,
     std::optional<int16_t> secondarySectorId
 ) const
@@ -1154,15 +1677,9 @@ std::vector<int16_t> IndoorMovementController::collectCollisionSectorIds(
 
         sectorIds.push_back(sectorId);
     };
-    const auto portalIntersectsBody = [&](const IndoorFaceGeometryData &geometry) -> bool
-    {
-        return x + body.radius >= geometry.minX
-            && x - body.radius <= geometry.maxX
-            && y + body.radius >= geometry.minY
-            && y - body.radius <= geometry.maxY
-            && footZ + body.height >= geometry.minZ
-            && footZ <= geometry.maxZ;
-    };
+    const IndoorSweptBody sweptBody = buildPrimitiveSweptBody(startX, startY, startFootZ, body);
+    const bx::Vec3 direction = movementDirection(movementX, movementY, movementZ);
+    const float distance = movementDistance(movementX, movementY, movementZ);
     const auto appendPortalAdjacentSectors = [&](int16_t sectorId)
     {
         if (sectorId < 0 || static_cast<size_t>(sectorId) >= m_pIndoorMapData->sectors.size())
@@ -1177,7 +1694,7 @@ std::vector<int16_t> IndoorMovementController::collectCollisionSectorIds(
             const IndoorFaceGeometryData *pGeometry =
                 geometryCache.geometryForFace(*m_pIndoorMapData, vertices, faceId);
 
-            if (pGeometry == nullptr || !portalIntersectsBody(*pGeometry))
+            if (pGeometry == nullptr || !indoorSweptBodyTouchesPortalFace(sweptBody, direction, distance, *pGeometry))
             {
                 continue;
             }
@@ -1211,6 +1728,84 @@ std::vector<int16_t> IndoorMovementController::collectCollisionSectorIds(
     }
 
     return sectorIds;
+}
+
+std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSweptCollisionFaceCandidates(
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    float startX,
+    float startY,
+    float startFootZ,
+    const IndoorBodyDimensions &body,
+    float movementX,
+    float movementY,
+    float movementZ,
+    const std::vector<uint8_t> *pCollisionFaceMask,
+    const std::vector<uint8_t> *pMechanismBlockingFaceMask,
+    std::optional<int16_t> primarySectorId,
+    std::optional<int16_t> secondarySectorId
+) const
+{
+    std::vector<const IndoorFaceGeometryData *> candidates;
+
+    if (m_pIndoorMapData == nullptr)
+    {
+        return candidates;
+    }
+
+    const std::vector<int16_t> collisionSectorIds = collectSweptCollisionSectorIds(
+        vertices,
+        geometryCache,
+        startX,
+        startY,
+        startFootZ,
+        body,
+        movementX,
+        movementY,
+        movementZ,
+        primarySectorId,
+        secondarySectorId);
+    const auto sectorIsRelevant = [&collisionSectorIds](uint16_t sectorId) -> bool
+    {
+        return std::find(collisionSectorIds.begin(), collisionSectorIds.end(), static_cast<int16_t>(sectorId))
+            != collisionSectorIds.end();
+    };
+
+    candidates.reserve(m_pIndoorMapData->faces.size());
+
+    for (size_t faceIndex = 0; faceIndex < m_pIndoorMapData->faces.size(); ++faceIndex)
+    {
+        if (pCollisionFaceMask != nullptr
+            && !pCollisionFaceMask->empty()
+            && (faceIndex >= pCollisionFaceMask->size() || (*pCollisionFaceMask)[faceIndex] == 0))
+        {
+            continue;
+        }
+
+        if (pMechanismBlockingFaceMask != nullptr
+            && faceIndex < pMechanismBlockingFaceMask->size()
+            && (*pMechanismBlockingFaceMask)[faceIndex] == 0)
+        {
+            continue;
+        }
+
+        const IndoorFaceGeometryData *pGeometry = geometryCache.geometryForFace(
+            *m_pIndoorMapData,
+            vertices,
+            faceIndex);
+
+        if (pGeometry == nullptr
+            || (!collisionSectorIds.empty()
+                && !sectorIsRelevant(pGeometry->sectorId)
+                && !sectorIsRelevant(pGeometry->backSectorId)))
+        {
+            continue;
+        }
+
+        candidates.push_back(pGeometry);
+    }
+
+    return candidates;
 }
 
 bool IndoorMovementController::collidesWithActors(
@@ -1266,7 +1861,12 @@ bool IndoorMovementController::collidesWithActors(
             continue;
         }
 
-        if (pContactedActorIndices != nullptr && collider.reportActorContact)
+        if (pContactedActorIndices != nullptr
+            && collider.reportActorContact
+            && std::find(
+                pContactedActorIndices->begin(),
+                pContactedActorIndices->end(),
+                collider.actorIndex) == pContactedActorIndices->end())
         {
             pContactedActorIndices->push_back(collider.actorIndex);
         }

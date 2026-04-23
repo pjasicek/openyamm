@@ -79,7 +79,8 @@ void IndoorPartyRuntime::update(float desiredVelocityX, float desiredVelocityY, 
             IndoorMovementStepSeconds,
             nullptr,
             std::nullopt,
-            true);
+            true,
+            nullptr);
         m_pendingJumpRequested = false;
         m_movementAccumulatorSeconds -= IndoorMovementStepSeconds;
     }
@@ -88,6 +89,16 @@ void IndoorPartyRuntime::update(float desiredVelocityX, float desiredVelocityY, 
 void IndoorPartyRuntime::setActorColliders(const std::vector<IndoorActorCollision> &actorColliders)
 {
     m_movementController.setActorColliders(actorColliders);
+}
+
+void IndoorPartyRuntime::setDecorationColliders(const std::vector<IndoorCylinderCollision> &decorationColliders)
+{
+    m_movementController.setDecorationColliders(decorationColliders);
+}
+
+void IndoorPartyRuntime::setSpriteObjectColliders(const std::vector<IndoorCylinderCollision> &spriteObjectColliders)
+{
+    m_movementController.setSpriteObjectColliders(spriteObjectColliders);
 }
 
 const IndoorMoveState &IndoorPartyRuntime::movementState() const

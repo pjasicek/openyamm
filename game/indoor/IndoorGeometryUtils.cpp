@@ -666,6 +666,8 @@ bool buildIndoorFaceGeometry(
     geometry.backSectorId = face.roomBehindNumber;
     geometry.facetType = face.facetType;
     geometry.isPortal = face.isPortal || hasFaceAttribute(face.attributes, FaceAttribute::IsPortal);
+    geometry.vertices.reserve(face.vertexIndices.size());
+    geometry.projectedVertices.reserve(face.vertexIndices.size());
 
     for (uint16_t vertexIndex : face.vertexIndices)
     {

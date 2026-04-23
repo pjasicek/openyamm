@@ -6623,7 +6623,8 @@ void OutdoorWorldRuntime::applyOutdoorActorPostMovementAiUpdate(
     }
 
     if (movementUpdate.movementIntent.action == ActorAiMovementAction::Stand
-        || movementUpdate.movementIntent.action == ActorAiMovementAction::Pursue)
+        || movementUpdate.movementIntent.action == ActorAiMovementAction::Pursue
+        || movementUpdate.movementIntent.action == ActorAiMovementAction::Flee)
     {
         actor.moveDirectionX = movementUpdate.movementIntent.moveDirectionX;
         actor.moveDirectionY = movementUpdate.movementIntent.moveDirectionY;
@@ -6714,6 +6715,7 @@ void OutdoorWorldRuntime::applyOutdoorActorMovementIntegration(
     const float moveDeltaY = actor.velocityY * ActorUpdateStepSeconds;
     bool moved = false;
     size_t contactedActorCount = 0;
+    std::vector<size_t> contactedActorIndices;
 
     if (m_outdoorMovementController && actor.movementStateInitialized && m_pMonsterTable != nullptr)
     {
@@ -6721,7 +6723,6 @@ void OutdoorWorldRuntime::applyOutdoorActorMovementIntegration(
         buildNearbyActorMovementColliders(m_mapActors, activeActorMask, *m_pMonsterTable));
         const float collisionRadius = actorCollisionRadius(actor, pStats);
         const float collisionHeight = actorCollisionHeight(actor, collisionRadius);
-        std::vector<size_t> contactedActorIndices;
         actor.movementState = m_outdoorMovementController->resolveOutdoorActorMove(
         actor.movementState,
         OutdoorBodyDimensions{collisionRadius, collisionHeight},
@@ -6787,6 +6788,7 @@ void OutdoorWorldRuntime::applyOutdoorActorMovementIntegration(
     ActorAiFacts movementFacts = {};
     movementFacts.actorIndex = actorIndex;
     movementFacts.actorId = actor.actorId;
+    movementFacts.identity.hostilityType = actor.hostilityType;
     movementFacts.stats.canFly = pStats->canFly;
     movementFacts.runtime.motionState = actorAiMotionStateFromOutdoor(actor.aiState);
     movementFacts.runtime.actionSeconds = actor.actionSeconds;
@@ -6801,6 +6803,21 @@ void OutdoorWorldRuntime::applyOutdoorActorMovementIntegration(
     movementFacts.runtime.crowdSideSign = actor.crowdSideSign;
     movementFacts.movement.position = GameplayWorldPoint{actor.preciseX, actor.preciseY, actor.preciseZ};
     movementFacts.movement.contactedActorCount = contactedActorCount;
+
+    if (!contactedActorIndices.empty())
+    {
+        const size_t contactedActorIndex = contactedActorIndices.front();
+
+        if (contactedActorIndex < m_mapActors.size())
+        {
+            const MapActorState &contactedActor = m_mapActors[contactedActorIndex];
+            movementFacts.movement.hasContactedActor = true;
+            movementFacts.movement.contactedActorHostilityType = contactedActor.hostilityType;
+            movementFacts.movement.contactedActorPosition =
+                GameplayWorldPoint{contactedActor.preciseX, contactedActor.preciseY, contactedActor.preciseZ};
+        }
+    }
+
     movementFacts.movement.meleePursuitActive = meleePursuitActive;
     movementFacts.movement.inMeleeRange = inMeleeRange;
     movementFacts.movement.allowCrowdSteering = m_pGameplayActorService != nullptr;

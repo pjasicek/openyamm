@@ -17,6 +17,7 @@
 #include "game/indoor/IndoorMovementController.h"
 #include "game/indoor/IndoorPartyRuntime.h"
 #include "game/items/ItemRuntime.h"
+#include "game/maps/MapAssetLoader.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/SpriteTables.h"
 #include "game/tables/MonsterProjectileTable.h"
@@ -49,23 +50,6 @@ constexpr float ActorUpdateStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
 constexpr float ActiveActorUpdateRange = 6144.0f;
 
-const char *indoorMoveBlockKindName(IndoorMoveBlockKind blockKind)
-{
-    switch (blockKind)
-    {
-    case IndoorMoveBlockKind::None:
-        return "none";
-    case IndoorMoveBlockKind::Wall:
-        return "wall";
-    case IndoorMoveBlockKind::Actor:
-        return "actor";
-    case IndoorMoveBlockKind::InvalidPosition:
-        return "invalid_position";
-    default:
-        return "unknown";
-    }
-}
-
 void resetIndoorActorCrowdSteeringState(IndoorWorldRuntime::MapActorAiState &aiState)
 {
     aiState.crowdSideLockRemainingSeconds = 0.0f;
@@ -82,9 +66,10 @@ void resetIndoorActorCrowdSteeringState(IndoorWorldRuntime::MapActorAiState &aiS
 constexpr size_t MaxActiveActorUpdates = 48;
 constexpr float HostilityLongRange = 10240.0f;
 constexpr float ActorMeleeRange = 307.2f;
-constexpr float IndoorNonFlyingActorNavigationRadius = 40.0f;
+constexpr float IndoorActorContactProbeRadius = 40.0f;
 constexpr float PartyCollisionRadius = 37.0f;
 constexpr float PartyCollisionHeight = 192.0f;
+constexpr uint16_t LevelDecorationInvisible = 0x0020;
 constexpr float PartyTargetHeightOffset = 96.0f;
 constexpr float IndoorFloorSampleRise = 96.0f;
 constexpr float IndoorFloorSampleDrop = 512.0f;
@@ -98,6 +83,19 @@ constexpr std::array<std::array<int, 3>, 4> IndoorEncounterDifficultyTierWeights
     {10, 40, 50},
     {0, 25, 75}
 }};
+
+bool shouldSkipDebugD18SpawnIndex(const MapStatsEntry &map, size_t spawnIndex)
+{
+    const std::string mapFileName = toLowerCopy(std::filesystem::path(map.fileName).filename().string());
+
+    if (mapFileName != "d18.blv")
+    {
+        return false;
+    }
+
+    // Temporary debug filter for isolating the BLV18 portal/crowding issue. Remove after that test pass.
+    return spawnIndex == 8 || spawnIndex == 14 || spawnIndex == 15;
+}
 
 struct IndoorResolvedProjectileDefinition
 {
@@ -1143,21 +1141,14 @@ bool indoorActorUnavailableForCombat(
         aiState.motionState == ActorAiMotionState::Dead);
 }
 
-float indoorActorCollisionRadius(
-    const MapDeltaActor &actor,
-    const MonsterTable::MonsterStatsEntry *pStats)
+float indoorActorCollisionRadius(const MapDeltaActor &actor)
 {
-    if (pStats != nullptr && !pStats->canFly)
-    {
-        return IndoorNonFlyingActorNavigationRadius;
-    }
-
     if (actor.radius > 0)
     {
         return static_cast<float>(actor.radius);
     }
 
-    return IndoorNonFlyingActorNavigationRadius;
+    return IndoorActorContactProbeRadius;
 }
 
 float indoorActorCollisionHeight(
@@ -1394,7 +1385,8 @@ void IndoorWorldRuntime::initialize(
     GameplayProjectileService *pGameplayProjectileService,
     const SpriteFrameTable *pActorSpriteFrameTable,
     const SpriteFrameTable *pProjectileSpriteFrameTable,
-    const IndoorMapData *pIndoorMapData
+    const IndoorMapData *pIndoorMapData,
+    const DecorationBillboardSet *pIndoorDecorationBillboardSet
 )
 {
     m_map = map;
@@ -1415,6 +1407,7 @@ void IndoorWorldRuntime::initialize(
     m_pProjectileSpriteFrameTable =
         pProjectileSpriteFrameTable != nullptr ? pProjectileSpriteFrameTable : pActorSpriteFrameTable;
     m_pIndoorMapData = pIndoorMapData;
+    m_pIndoorDecorationBillboardSet = pIndoorDecorationBillboardSet;
     if (m_pGameplayProjectileService != nullptr)
     {
         m_pGameplayProjectileService->clear();
@@ -1444,7 +1437,8 @@ void IndoorWorldRuntime::initialize(
     std::optional<EventRuntimeState> *pEventRuntimeState,
     GameplayActorService *pGameplayActorService,
     const SpriteFrameTable *pActorSpriteFrameTable,
-    const IndoorMapData *pIndoorMapData
+    const IndoorMapData *pIndoorMapData,
+    const DecorationBillboardSet *pIndoorDecorationBillboardSet
 )
 {
     m_map = map;
@@ -1464,6 +1458,7 @@ void IndoorWorldRuntime::initialize(
     m_pActorSpriteFrameTable = pActorSpriteFrameTable;
     m_pProjectileSpriteFrameTable = pActorSpriteFrameTable;
     m_pIndoorMapData = pIndoorMapData;
+    m_pIndoorDecorationBillboardSet = pIndoorDecorationBillboardSet;
     std::random_device randomDevice;
     const uint64_t timeSeed = uint64_t(std::chrono::steady_clock::now().time_since_epoch().count());
     m_sessionChestSeed = randomDevice() ^ uint32_t(timeSeed) ^ uint32_t(timeSeed >> 32);
@@ -2514,7 +2509,7 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
         return;
     }
 
-    const float collisionRadius = indoorActorCollisionRadius(actor, pStats);
+    const float collisionRadius = indoorActorCollisionRadius(actor);
     const float collisionHeight =
         actor.height != 0
             ? indoorActorCollisionHeight(actor, collisionRadius)
@@ -2538,7 +2533,7 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     const float oldZ = aiState.preciseZ;
 
     IndoorMovementController movementController(*m_pIndoorMapData, m_pMapDeltaData, m_pEventRuntimeState);
-    std::vector<IndoorActorCollision> actorColliders = actorMovementColliders();
+    std::vector<IndoorActorCollision> actorColliders = actorMovementCollidersForActorMovement();
 
     if (m_pPartyRuntime != nullptr)
     {
@@ -2548,12 +2543,14 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
             partyMoveState.x,
             partyMoveState.y,
             partyMoveState.footZ,
-            PartyCollisionRadius,
+            PartyCollisionRadius * 2.0f,
             PartyCollisionHeight,
             false});
     }
 
     movementController.setActorColliders(actorColliders);
+    movementController.setDecorationColliders(decorationMovementColliders());
+    movementController.setSpriteObjectColliders(spriteObjectMovementColliders());
     IndoorBodyDimensions body = {};
     body.radius = collisionRadius;
     body.height = collisionHeight;
@@ -2565,7 +2562,6 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     const float desiredVelocityX = update.movementIntent.desiredMoveX * effectiveMoveSpeed;
     const float desiredVelocityY = update.movementIntent.desiredMoveY * effectiveMoveSpeed;
     std::vector<size_t> contactedActorIndices;
-    IndoorMoveDebugInfo moveDebugInfo = {};
     const IndoorMoveState resolvedMoveState =
         movementController.resolveMove(
             moveState,
@@ -2576,8 +2572,7 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
             ActorUpdateStepSeconds,
             &contactedActorIndices,
             actorIndex,
-            true,
-            &moveDebugInfo);
+            true);
 
     IndoorMoveState finalMoveState = resolvedMoveState;
     std::sort(contactedActorIndices.begin(), contactedActorIndices.end());
@@ -2591,38 +2586,6 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
         std::abs(update.movementIntent.desiredMoveX) > 0.001f
         || std::abs(update.movementIntent.desiredMoveY) > 0.001f;
     const bool movedHorizontally = std::abs(deltaX) > 0.001f || std::abs(deltaY) > 0.001f;
-
-    if (wantedHorizontalMove && !movedHorizontally)
-    {
-        static uint32_t blockedMoveLogBudget = 240;
-
-        if (blockedMoveLogBudget > 0)
-        {
-            --blockedMoveLogBudget;
-            std::cout
-                << "IndoorActorMoveBlocked"
-                << " actorIndex=" << actorIndex
-                << " actorId=" << aiState.actorId
-                << " monsterId=" << aiState.monsterId
-                << " name=\"" << pStats->name << "\""
-                << " reason=" << indoorMoveBlockKindName(moveDebugInfo.primaryBlockKind)
-                << " wallFace=" << moveDebugInfo.wallFaceIndex
-                << " wallNormal=("
-                << moveDebugInfo.wallNormal.x << ','
-                << moveDebugInfo.wallNormal.y << ','
-                << moveDebugInfo.wallNormal.z << ')'
-                << " wallSlideTried=" << moveDebugInfo.wallSlideTried
-                << " axisSlideSucceeded=" << moveDebugInfo.axisSlideSucceeded
-                << " contacts=" << contactedActorCount
-                << " radius=" << collisionRadius
-                << " height=" << collisionHeight
-                << " sector=" << moveState.sectorId
-                << " eyeSector=" << moveState.eyeSectorId
-                << " pos=(" << oldX << ',' << oldY << ',' << oldZ << ')'
-                << " desiredVelocity=(" << desiredVelocityX << ',' << desiredVelocityY << ')'
-                << '\n';
-        }
-    }
 
     aiState.preciseX = finalMoveState.x;
     aiState.preciseY = finalMoveState.y;
@@ -2643,6 +2606,7 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     ActorAiFacts movementFacts = {};
     movementFacts.actorIndex = actorIndex;
     movementFacts.actorId = aiState.actorId;
+    movementFacts.identity.hostilityType = actor.hostilityType;
     movementFacts.stats.canFly = pStats->canFly;
     movementFacts.runtime.motionState = aiState.motionState;
     movementFacts.runtime.actionSeconds = aiState.actionSeconds;
@@ -2658,7 +2622,24 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     movementFacts.runtime.crowdSideSign = aiState.crowdSideSign;
     movementFacts.movement.position =
         GameplayWorldPoint{aiState.preciseX, aiState.preciseY, aiState.preciseZ};
+    movementFacts.movement.effectiveMoveSpeed = effectiveMoveSpeed;
     movementFacts.movement.contactedActorCount = contactedActorCount;
+
+    if (!contactedActorIndices.empty())
+    {
+        const size_t contactedActorIndex = contactedActorIndices.front();
+
+        if (contactedActorIndex < pMapDeltaData->actors.size() && contactedActorIndex < m_mapActorAiStates.size())
+        {
+            const MapDeltaActor &contactedActor = pMapDeltaData->actors[contactedActorIndex];
+            const MapActorAiState &contactedAiState = m_mapActorAiStates[contactedActorIndex];
+            movementFacts.movement.hasContactedActor = true;
+            movementFacts.movement.contactedActorHostilityType = contactedActor.hostilityType;
+            movementFacts.movement.contactedActorPosition =
+                GameplayWorldPoint{contactedAiState.preciseX, contactedAiState.preciseY, contactedAiState.preciseZ};
+        }
+    }
+
     movementFacts.movement.meleePursuitActive = update.movementIntent.meleePursuitActive;
     movementFacts.movement.inMeleeRange = update.movementIntent.inMeleeRange;
     movementFacts.movement.movementBlocked = wantedHorizontalMove && !movedHorizontally;
@@ -2726,7 +2707,8 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     }
 
     if (movementUpdate.movementIntent.action == ActorAiMovementAction::Stand
-        || movementUpdate.movementIntent.action == ActorAiMovementAction::Pursue)
+        || movementUpdate.movementIntent.action == ActorAiMovementAction::Pursue
+        || movementUpdate.movementIntent.action == ActorAiMovementAction::Flee)
     {
         aiState.moveDirectionX = movementUpdate.movementIntent.moveDirectionX;
         aiState.moveDirectionY = movementUpdate.movementIntent.moveDirectionY;
@@ -5000,7 +4982,7 @@ MapDeltaData *IndoorWorldRuntime::mapDeltaData()
     return &**m_pMapDeltaData;
 }
 
-std::vector<IndoorActorCollision> IndoorWorldRuntime::actorMovementColliders() const
+std::vector<IndoorActorCollision> IndoorWorldRuntime::actorMovementCollidersForActorMovement() const
 {
     std::vector<IndoorActorCollision> colliders;
     const MapDeltaData *pMapDeltaData = mapDeltaData();
@@ -5030,8 +5012,58 @@ std::vector<IndoorActorCollision> IndoorWorldRuntime::actorMovementColliders() c
             continue;
         }
 
-        const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(aiState.monsterId);
-        const float radius = indoorActorCollisionRadius(actor, pStats);
+        const float radius = IndoorActorContactProbeRadius;
+        const float actorCollisionRadius = indoorActorCollisionRadius(actor);
+        const float height = indoorActorCollisionHeight(actor, actorCollisionRadius);
+
+        if (radius <= 0.0f || height <= 0.0f)
+        {
+            continue;
+        }
+
+        colliders.push_back(IndoorActorCollision{
+            actorIndex,
+            aiState.preciseX,
+            aiState.preciseY,
+            aiState.preciseZ,
+            radius,
+            height});
+    }
+
+    return colliders;
+}
+
+std::vector<IndoorActorCollision> IndoorWorldRuntime::actorMovementCollidersForPartyMovement() const
+{
+    std::vector<IndoorActorCollision> colliders;
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || m_pMonsterTable == nullptr)
+    {
+        return colliders;
+    }
+
+    const GameplayActorService fallbackActorService = {};
+    const GameplayActorService *pActorService =
+        m_pGameplayActorService != nullptr ? m_pGameplayActorService : &fallbackActorService;
+    colliders.reserve(pMapDeltaData->actors.size());
+
+    for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
+    {
+        if (actorIndex >= m_mapActorAiStates.size())
+        {
+            continue;
+        }
+
+        const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+        const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+
+        if (indoorActorUnavailableForCombat(actor, aiState, *pActorService))
+        {
+            continue;
+        }
+
+        const float radius = indoorActorCollisionRadius(actor);
         const float height = indoorActorCollisionHeight(actor, radius);
 
         if (radius <= 0.0f || height <= 0.0f)
@@ -5046,6 +5078,110 @@ std::vector<IndoorActorCollision> IndoorWorldRuntime::actorMovementColliders() c
             aiState.preciseZ,
             radius,
             height});
+    }
+
+    return colliders;
+}
+
+std::vector<IndoorCylinderCollision> IndoorWorldRuntime::decorationMovementColliders() const
+{
+    std::vector<IndoorCylinderCollision> colliders;
+
+    if (m_pIndoorDecorationBillboardSet == nullptr || m_pIndoorMapData == nullptr)
+    {
+        return colliders;
+    }
+
+    colliders.reserve(m_pIndoorDecorationBillboardSet->billboards.size());
+
+    for (const DecorationBillboard &billboard : m_pIndoorDecorationBillboardSet->billboards)
+    {
+        if (billboard.radius <= 0 || billboard.height == 0)
+        {
+            continue;
+        }
+
+        if (hasDecorationFlag(billboard.flags, DecorationDescFlag::MoveThrough)
+            || hasDecorationFlag(billboard.flags, DecorationDescFlag::DontDraw))
+        {
+            continue;
+        }
+
+        if (billboard.entityIndex < m_pIndoorMapData->entities.size())
+        {
+            const IndoorEntity &entity = m_pIndoorMapData->entities[billboard.entityIndex];
+
+            if ((entity.aiAttributes & LevelDecorationInvisible) != 0)
+            {
+                continue;
+            }
+        }
+
+        colliders.push_back(IndoorCylinderCollision{
+            billboard.entityIndex,
+            static_cast<float>(billboard.x),
+            static_cast<float>(billboard.y),
+            static_cast<float>(billboard.z),
+            static_cast<float>(billboard.radius),
+            static_cast<float>(billboard.height)});
+    }
+
+    return colliders;
+}
+
+std::vector<IndoorCylinderCollision> IndoorWorldRuntime::spriteObjectMovementColliders() const
+{
+    std::vector<IndoorCylinderCollision> colliders;
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || m_pObjectTable == nullptr)
+    {
+        return colliders;
+    }
+
+    colliders.reserve(pMapDeltaData->spriteObjects.size());
+
+    for (size_t objectIndex = 0; objectIndex < pMapDeltaData->spriteObjects.size(); ++objectIndex)
+    {
+        const MapDeltaSpriteObject &spriteObject = pMapDeltaData->spriteObjects[objectIndex];
+        const ObjectEntry *pObjectEntry = m_pObjectTable->get(spriteObject.objectDescriptionId);
+
+        if (pObjectEntry == nullptr || spriteObject.objectDescriptionId == 0)
+        {
+            continue;
+        }
+
+        if (pObjectEntry->radius <= 0 || pObjectEntry->height <= 0)
+        {
+            continue;
+        }
+
+        if ((pObjectEntry->flags
+                & (ObjectDescNoCollision | ObjectDescTemporary | ObjectDescTrailParticle
+                    | ObjectDescTrailFire | ObjectDescTrailLine)) != 0)
+        {
+            continue;
+        }
+
+        if ((spriteObject.attributes & (SpriteAttrTemporary | SpriteAttrMissile | SpriteAttrRemoved)) != 0
+            || spriteObject.spellId != 0)
+        {
+            continue;
+        }
+
+        if (hasContainingItemPayload(spriteObject.rawContainingItem)
+            && (pObjectEntry->flags & ObjectDescUnpickable) == 0)
+        {
+            continue;
+        }
+
+        colliders.push_back(IndoorCylinderCollision{
+            objectIndex,
+            static_cast<float>(spriteObject.x),
+            static_cast<float>(spriteObject.y),
+            static_cast<float>(spriteObject.z),
+            static_cast<float>(pObjectEntry->radius),
+            static_cast<float>(pObjectEntry->height)});
     }
 
     return colliders;
@@ -5255,6 +5391,11 @@ void IndoorWorldRuntime::materializeInitialMonsterSpawns()
 
     for (size_t spawnIndex = 0; spawnIndex < m_pIndoorMapData->spawns.size(); ++spawnIndex)
     {
+        if (shouldSkipDebugD18SpawnIndex(*m_map, spawnIndex))
+        {
+            continue;
+        }
+
         const IndoorSpawn &spawn = m_pIndoorMapData->spawns[spawnIndex];
 
         if (spawn.typeId != 3)
