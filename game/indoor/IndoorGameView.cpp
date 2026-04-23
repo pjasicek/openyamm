@@ -1357,6 +1357,7 @@ void IndoorGameView::updateItemInspectOverlayState(int width, int height, const 
     itemInspectOverlay.sourceY = input.pointerY;
     itemInspectOverlay.sourceWidth = 1.0f;
     itemInspectOverlay.sourceHeight = 1.0f;
+    GameplayScreenController::applySharedItemInspectSkillInteraction(screenRuntime);
 }
 
 std::optional<std::string> IndoorGameView::findCachedAssetPath(

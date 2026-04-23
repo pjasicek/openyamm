@@ -8,7 +8,6 @@
 #include "game/render/TextureFiltering.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/SpriteObjectDefs.h"
-#include "game/SpawnPreview.h"
 #include "game/StringUtils.h"
 
 #include <bx/math.h>
@@ -390,6 +389,7 @@ std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
 
 std::vector<RuntimeSpriteObjectBillboard> buildRuntimeSpriteObjectBillboards(
     const ObjectTable &objectTable,
+    const ItemTable *pItemTable,
     const MapDeltaData &mapDeltaData
 )
 {
@@ -399,7 +399,23 @@ std::vector<RuntimeSpriteObjectBillboard> buildRuntimeSpriteObjectBillboards(
     for (size_t objectIndex = 0; objectIndex < mapDeltaData.spriteObjects.size(); ++objectIndex)
     {
         const MapDeltaSpriteObject &spriteObject = mapDeltaData.spriteObjects[objectIndex];
-        const ObjectEntry *pObjectEntry = objectTable.get(spriteObject.objectDescriptionId);
+        uint16_t resolvedObjectDescriptionId = spriteObject.objectDescriptionId;
+        const uint32_t containedItemId = spriteObjectContainedItemId(spriteObject.rawContainingItem);
+        const ItemDefinition *pContainedItemDefinition =
+            containedItemId != 0 && pItemTable != nullptr ? pItemTable->get(containedItemId) : nullptr;
+
+        if (pContainedItemDefinition != nullptr && pContainedItemDefinition->spriteIndex != 0)
+        {
+            const std::optional<uint16_t> containedObjectDescriptionId =
+                objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(pContainedItemDefinition->spriteIndex));
+
+            if (containedObjectDescriptionId)
+            {
+                resolvedObjectDescriptionId = *containedObjectDescriptionId;
+            }
+        }
+
+        const ObjectEntry *pObjectEntry = objectTable.get(resolvedObjectDescriptionId);
 
         if (pObjectEntry == nullptr || (pObjectEntry->flags & ObjectDescNoSprite) != 0 || pObjectEntry->spriteId == 0)
         {
@@ -414,7 +430,7 @@ std::vector<RuntimeSpriteObjectBillboard> buildRuntimeSpriteObjectBillboards(
         billboard.sectorId = spriteObject.sectorId;
         billboard.radius = pObjectEntry->radius;
         billboard.height = pObjectEntry->height;
-        billboard.objectDescriptionId = spriteObject.objectDescriptionId;
+        billboard.objectDescriptionId = resolvedObjectDescriptionId;
         billboard.objectSpriteId = pObjectEntry->spriteId;
         billboard.attributes = spriteObject.attributes;
         billboard.spellId = spriteObject.spellId;
@@ -422,7 +438,9 @@ std::vector<RuntimeSpriteObjectBillboard> buildRuntimeSpriteObjectBillboards(
         billboard.hasContainingItem =
             hasContainingItemPayload(spriteObject.rawContainingItem)
             && (pObjectEntry->flags & ObjectDescUnpickable) == 0;
-        billboard.objectName = pObjectEntry->internalName;
+        billboard.objectName = pContainedItemDefinition != nullptr && !pContainedItemDefinition->name.empty()
+            ? pContainedItemDefinition->name
+            : pObjectEntry->internalName;
         billboards.push_back(std::move(billboard));
     }
 
@@ -1315,6 +1333,7 @@ bool IndoorRenderer::initialize(
     const std::optional<SpriteObjectBillboardSet> &indoorSpriteObjectBillboardSet,
     IndoorSceneRuntime &sceneRuntime,
     const ObjectTable &objectTable,
+    const ItemTable &itemTable,
     const ChestTable &chestTable,
     const HouseTable &houseTable
 )
@@ -1326,6 +1345,7 @@ bool IndoorRenderer::initialize(
     m_assetScaleTier = assetScaleTier;
     m_monsterTable = monsterTable;
     m_objectTable = objectTable;
+    m_pItemTable = &itemTable;
     m_indoorMapData = indoorMapData;
     m_pSceneRuntime = &sceneRuntime;
     m_renderVertices = buildMechanismAdjustedVertices(
@@ -2062,6 +2082,18 @@ void IndoorRenderer::render(
         const bx::Vec3 rayOrigin = bx::mulH({normalizedMouseX, normalizedMouseY, 0.0f}, inverseViewProjectionMatrix);
         const bx::Vec3 rayTarget = bx::mulH({normalizedMouseX, normalizedMouseY, 1.0f}, inverseViewProjectionMatrix);
         const bx::Vec3 rayDirection = vecNormalize(vecSubtract(rayTarget, rayOrigin));
+        GameplayWorldPickRequest inspectPickRequest = {};
+        inspectPickRequest.screenX = mouseX;
+        inspectPickRequest.screenY = mouseY;
+        inspectPickRequest.viewWidth = viewWidth;
+        inspectPickRequest.viewHeight = viewHeight;
+        inspectPickRequest.rayOrigin = rayOrigin;
+        inspectPickRequest.rayDirection = rayDirection;
+        inspectPickRequest.eye = eye;
+        inspectPickRequest.hasRay = vecLength(rayDirection) > InspectRayEpsilon;
+        std::copy(std::begin(viewMatrix), std::end(viewMatrix), inspectPickRequest.viewMatrix.begin());
+        std::copy(std::begin(projectionMatrix), std::end(projectionMatrix), inspectPickRequest.projectionMatrix.begin());
+
         const uint64_t inspectTick = SDL_GetTicks();
         constexpr uint64_t InspectRefreshIntervalMs = 16;
         const bool inspectViewChanged =
@@ -2083,8 +2115,10 @@ void IndoorRenderer::render(
                 m_renderVertices,
                 visibleSectorMask,
                 rayOrigin,
-                rayDirection);
+                rayDirection,
+                &inspectPickRequest);
             m_cachedInspectHitValid = true;
+            m_cachedGameplayWorldPickRequest = inspectPickRequest;
             m_cachedInspectMouseX = mouseX;
             m_cachedInspectMouseY = mouseY;
             m_cachedInspectCameraX = eye.x;
@@ -2112,8 +2146,10 @@ void IndoorRenderer::render(
                     m_renderVertices,
                     visibleSectorMask,
                     rayOrigin,
-                    rayDirection);
+                    rayDirection,
+                    &inspectPickRequest);
                 m_cachedInspectHitValid = true;
+                m_cachedGameplayWorldPickRequest = inspectPickRequest;
                 m_cachedInspectMouseX = mouseX;
                 m_cachedInspectMouseY = mouseY;
                 m_cachedInspectCameraX = eye.x;
@@ -2793,7 +2829,8 @@ std::optional<IndoorRenderer::InspectHit> IndoorRenderer::inspectGameplayWorldHi
         m_renderVertices,
         visibleSectorMask,
         rayRequest.rayOrigin,
-        rayRequest.rayDirection);
+        rayRequest.rayDirection,
+        &rayRequest);
 }
 
 GameplayWorldHit IndoorRenderer::translateInspectHitToGameplayWorldHit(
@@ -3052,7 +3089,7 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
     if (mapDeltaData && m_objectTable)
     {
         const std::vector<RuntimeSpriteObjectBillboard> runtimeObjects =
-            buildRuntimeSpriteObjectBillboards(*m_objectTable, *mapDeltaData);
+            buildRuntimeSpriteObjectBillboards(*m_objectTable, m_pItemTable, *mapDeltaData);
 
         for (const RuntimeSpriteObjectBillboard &object : runtimeObjects)
         {
@@ -3588,10 +3625,12 @@ void IndoorRenderer::shutdown()
     m_renderVertices.clear();
     m_pSceneRuntime = nullptr;
     m_pAssetFileSystem = nullptr;
+    m_pItemTable = nullptr;
     m_spriteLoadCache = {};
     m_indoorTextureSet.reset();
     m_map.reset();
     m_monsterTable.reset();
+    m_objectTable.reset();
     m_indoorDecorationBillboardSet.reset();
     m_indoorActorPreviewBillboardSet.reset();
     m_indoorSpriteObjectBillboardSet.reset();
@@ -4413,7 +4452,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
                     1.0f / static_cast<float>(texture.width),
                     1.0f / static_cast<float>(texture.height),
                     HoveredActorOutlineThicknessPixels,
-                    0.0f
+                    1.0f
                 };
                 float modelMatrix[16] = {};
                 bx::mtxIdentity(modelMatrix);
@@ -4438,6 +4477,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
                 bgfx::setState(
                     BGFX_STATE_WRITE_RGB
                     | BGFX_STATE_WRITE_A
+                    | BGFX_STATE_WRITE_Z
                     | BGFX_STATE_DEPTH_TEST_LEQUAL
                     | BGFX_STATE_BLEND_ALPHA);
                 bgfx::submit(viewId, m_billboardProgramHandle);
@@ -4517,6 +4557,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
         bgfx::setState(
             BGFX_STATE_WRITE_RGB
             | BGFX_STATE_WRITE_A
+            | BGFX_STATE_WRITE_Z
             | BGFX_STATE_DEPTH_TEST_LEQUAL
             | BGFX_STATE_BLEND_ALPHA
         );
@@ -4532,7 +4573,14 @@ void IndoorRenderer::renderSpriteObjectBillboards(
 )
 {
     if (!bgfx::isValid(m_texturedProgramHandle)
-        || !bgfx::isValid(m_textureSamplerHandle))
+        || !bgfx::isValid(m_billboardProgramHandle)
+        || !bgfx::isValid(m_textureSamplerHandle)
+        || !bgfx::isValid(m_billboardAmbientUniformHandle)
+        || !bgfx::isValid(m_billboardOverrideColorUniformHandle)
+        || !bgfx::isValid(m_billboardOutlineParamsUniformHandle)
+        || !bgfx::isValid(m_billboardFogColorUniformHandle)
+        || !bgfx::isValid(m_billboardFogDensitiesUniformHandle)
+        || !bgfx::isValid(m_billboardFogDistancesUniformHandle))
     {
         return;
     }
@@ -4577,7 +4625,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
     const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
     const std::vector<RuntimeSpriteObjectBillboard> runtimeBillboards =
         mapDeltaData && m_objectTable
-        ? buildRuntimeSpriteObjectBillboards(*m_objectTable, *mapDeltaData)
+        ? buildRuntimeSpriteObjectBillboards(*m_objectTable, m_pItemTable, *mapDeltaData)
         : std::vector<RuntimeSpriteObjectBillboard>{};
     std::vector<BillboardDrawItem> drawItems;
     const bool useRuntimeBillboards = !runtimeBillboards.empty();
@@ -4791,6 +4839,133 @@ void IndoorRenderer::renderSpriteObjectBillboards(
         }
     );
 
+    const float prepassAmbient[4] = {1.0f, 1.0f, 1.0f, 0.0f};
+    const float prepassOverrideColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+    const float prepassOutlineParams[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+    const float prepassFogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+    const float prepassFogDensities[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+    const float prepassFogDistances[4] = {4096.0f, 4096.0f, 4096.0f, 0.0f};
+
+    for (const BillboardDrawItem &drawItem : drawItems)
+    {
+        const SpriteFrameEntry &frame = *drawItem.pFrame;
+        const BillboardTextureHandle &texture = *drawItem.pTexture;
+        const float spriteScale = std::max(frame.scale, 0.01f);
+        const float worldWidth = float(texture.width) * spriteScale;
+        const float worldHeight = float(texture.height) * spriteScale;
+        const float halfWidth = worldWidth * 0.5f;
+        const bx::Vec3 center = {
+            drawItem.x,
+            drawItem.y,
+            drawItem.z + worldHeight * 0.5f
+        };
+        const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
+        const bx::Vec3 up = {
+            cameraUp.x * worldHeight * 0.5f,
+            cameraUp.y * worldHeight * 0.5f,
+            cameraUp.z * worldHeight * 0.5f
+        };
+        const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
+        const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
+        const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
+        std::array<LitBillboardVertex, 6> prepassVertices = {{
+            {
+                center.x - right.x - up.x,
+                center.y - right.y - up.y,
+                center.z - right.z - up.z,
+                u0,
+                1.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x - right.x + up.x,
+                center.y - right.y + up.y,
+                center.z - right.z + up.z,
+                u0,
+                0.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x + right.x + up.x,
+                center.y + right.y + up.y,
+                center.z + right.z + up.z,
+                u1,
+                0.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x - right.x - up.x,
+                center.y - right.y - up.y,
+                center.z - right.z - up.z,
+                u0,
+                1.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x + right.x + up.x,
+                center.y + right.y + up.y,
+                center.z + right.z + up.z,
+                u1,
+                0.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x + right.x - up.x,
+                center.y + right.y - up.y,
+                center.z + right.z - up.z,
+                u1,
+                1.0f,
+                vertexColorAbgr
+            }
+        }};
+
+        if (bgfx::getAvailTransientVertexBuffer(
+                static_cast<uint32_t>(prepassVertices.size()),
+                LitBillboardVertex::ms_layout) < prepassVertices.size())
+        {
+            continue;
+        }
+
+        bgfx::TransientVertexBuffer prepassTransientVertexBuffer = {};
+        bgfx::allocTransientVertexBuffer(
+            &prepassTransientVertexBuffer,
+            static_cast<uint32_t>(prepassVertices.size()),
+            LitBillboardVertex::ms_layout
+        );
+        std::memcpy(
+            prepassTransientVertexBuffer.data,
+            prepassVertices.data(),
+            static_cast<size_t>(prepassVertices.size() * sizeof(LitBillboardVertex))
+        );
+
+        float prepassModelMatrix[16] = {};
+        bx::mtxIdentity(prepassModelMatrix);
+        bgfx::setTransform(prepassModelMatrix);
+        bgfx::setVertexBuffer(
+            0,
+            &prepassTransientVertexBuffer,
+            0,
+            static_cast<uint32_t>(prepassVertices.size()));
+        bindTexture(
+            0,
+            m_textureSamplerHandle,
+            texture.textureHandle,
+            TextureFilterProfile::Billboard,
+            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+        bgfx::setUniform(m_billboardAmbientUniformHandle, prepassAmbient);
+        bgfx::setUniform(m_billboardOverrideColorUniformHandle, prepassOverrideColor);
+        bgfx::setUniform(m_billboardOutlineParamsUniformHandle, prepassOutlineParams);
+        bgfx::setUniform(m_billboardFogColorUniformHandle, prepassFogColor);
+        bgfx::setUniform(m_billboardFogDensitiesUniformHandle, prepassFogDensities);
+        bgfx::setUniform(m_billboardFogDistancesUniformHandle, prepassFogDistances);
+        bgfx::setState(
+            BGFX_STATE_WRITE_Z
+            | BGFX_STATE_DEPTH_TEST_LEQUAL
+            | BGFX_STATE_BLEND_ALPHA
+        );
+        bgfx::submit(viewId, m_billboardProgramHandle);
+    }
+
     for (const BillboardDrawItem &drawItem : drawItems)
     {
         const SpriteFrameEntry &frame = *drawItem.pFrame;
@@ -4921,7 +5096,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                     1.0f / static_cast<float>(texture.width),
                     1.0f / static_cast<float>(texture.height),
                     HoveredActorOutlineThicknessPixels,
-                    0.0f
+                    1.0f
                 };
                 const float fogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
                 const float fogDensities[4] = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -6192,7 +6367,8 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
     const std::vector<IndoorVertex> &vertices,
     const std::vector<uint8_t> &visibleSectorMask,
     const bx::Vec3 &rayOrigin,
-    const bx::Vec3 &rayDirection) const
+    const bx::Vec3 &rayDirection,
+    const GameplayWorldPickRequest *pPickRequest) const
 {
     InspectHit bestHit = {};
     float bestDistance = std::numeric_limits<float>::max();
@@ -6315,49 +6491,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
         }
     }
 
-    for (size_t spawnIndex = 0; spawnIndex < indoorMapData.spawns.size(); ++spawnIndex)
-    {
-        const IndoorSpawn &spawn = indoorMapData.spawns[spawnIndex];
-        const float halfExtent = static_cast<float>(std::max<uint16_t>(spawn.radius, 32));
-        const bx::Vec3 minBounds = {
-            static_cast<float>(spawn.x) - halfExtent,
-            static_cast<float>(spawn.y) - halfExtent,
-            static_cast<float>(spawn.z)
-        };
-        const bx::Vec3 maxBounds = {
-            static_cast<float>(spawn.x) + halfExtent,
-            static_cast<float>(spawn.y) + halfExtent,
-            static_cast<float>(spawn.z) + halfExtent * 2.0f
-        };
-        float distance = 0.0f;
-
-        if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance) && distance < bestDistance)
-        {
-            bestDistance = distance;
-            bestHit.hasHit = true;
-            bestHit.kind = "spawn";
-            bestHit.index = spawnIndex;
-            bestHit.name.clear();
-            bestHit.textureName.clear();
-            bestHit.distance = distance;
-
-            if (m_map)
-            {
-                const SpawnPreview preview =
-                    SpawnPreviewResolver::describe(
-                        *m_map,
-                        m_monsterTable ? &*m_monsterTable : nullptr,
-                        spawn.typeId,
-                        spawn.index,
-                        spawn.attributes,
-                        spawn.group
-                    );
-                bestHit.spawnSummary = preview.summary;
-                bestHit.spawnDetail = preview.detail;
-            }
-        }
-    }
-
     const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
 
     if (mapDeltaData && m_monsterTable && m_indoorActorPreviewBillboardSet)
@@ -6377,7 +6510,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
         bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
         const bx::Vec3 cameraRight = {viewMatrix[0], viewMatrix[4], viewMatrix[8]};
         const bx::Vec3 cameraUp = {viewMatrix[1], viewMatrix[5], viewMatrix[9]};
-
         const auto isOpaqueBillboardPixel =
             [](const BillboardTextureHandle &texture, float normalizedU, float normalizedV) -> bool
             {
@@ -6569,7 +6701,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
     if (mapDeltaData && m_objectTable)
     {
         const std::vector<RuntimeSpriteObjectBillboard> runtimeObjects =
-            buildRuntimeSpriteObjectBillboards(*m_objectTable, *mapDeltaData);
+            buildRuntimeSpriteObjectBillboards(*m_objectTable, m_pItemTable, *mapDeltaData);
         const SpriteFrameTable *pSpriteFrameTable = nullptr;
 
         if (m_indoorSpriteObjectBillboardSet)
@@ -6600,6 +6732,25 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
         bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
         const bx::Vec3 cameraRight = {viewMatrix[0], viewMatrix[4], viewMatrix[8]};
         const bx::Vec3 cameraUp = {viewMatrix[1], viewMatrix[5], viewMatrix[9]};
+        float pickViewProjectionMatrix[16] = {};
+        const bool hasScreenPickRequest =
+            pPickRequest != nullptr
+            && pPickRequest->viewWidth > 0
+            && pPickRequest->viewHeight > 0;
+
+        if (hasScreenPickRequest)
+        {
+            bx::mtxMul(
+                pickViewProjectionMatrix,
+                pPickRequest->viewMatrix.data(),
+                pPickRequest->projectionMatrix.data());
+        }
+        float inversePickViewProjectionMatrix[16] = {};
+
+        if (hasScreenPickRequest)
+        {
+            bx::mtxInverse(inversePickViewProjectionMatrix, pickViewProjectionMatrix);
+        }
 
         const auto isOpaqueBillboardPixel =
             [](const BillboardTextureHandle &texture, float normalizedU, float normalizedV) -> bool
@@ -6623,6 +6774,127 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 return pixelOffset + 3 < texture.pixels.size() && texture.pixels[pixelOffset + 3] != 0;
             };
 
+        const auto nearestFaceDistanceForRay =
+            [&](const bx::Vec3 &sampleRayOrigin, const bx::Vec3 &sampleRayDirection) -> std::optional<float>
+            {
+                std::optional<float> nearestDistance;
+
+                for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
+                {
+                    const IndoorFace &face = indoorMapData.faces[faceIndex];
+
+                    if (face.vertexIndices.size() < 3)
+                    {
+                        continue;
+                    }
+
+                    if (!isFaceVisible(faceIndex, face, eventRuntimeState))
+                    {
+                        continue;
+                    }
+
+                    if (!visibleSectorMask.empty()
+                        && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
+                        && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask))
+                    {
+                        continue;
+                    }
+
+                    for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
+                    {
+                        const size_t triangleVertexIndices[3] = {0, triangleIndex, triangleIndex + 1};
+                        bx::Vec3 triangleVertices[3] = {
+                            {0.0f, 0.0f, 0.0f},
+                            {0.0f, 0.0f, 0.0f},
+                            {0.0f, 0.0f, 0.0f}
+                        };
+                        bool isTriangleValid = true;
+
+                        for (size_t vertexSlot = 0; vertexSlot < 3; ++vertexSlot)
+                        {
+                            const uint16_t vertexIndex = face.vertexIndices[triangleVertexIndices[vertexSlot]];
+
+                            if (vertexIndex >= vertices.size())
+                            {
+                                isTriangleValid = false;
+                                break;
+                            }
+
+                            const IndoorVertex &vertex = vertices[vertexIndex];
+                            triangleVertices[vertexSlot] = {
+                                static_cast<float>(vertex.x),
+                                static_cast<float>(vertex.y),
+                                static_cast<float>(vertex.z)
+                            };
+                        }
+
+                        if (!isTriangleValid)
+                        {
+                            continue;
+                        }
+
+                        float faceDistance = 0.0f;
+
+                        if (intersectRayTriangle(
+                                sampleRayOrigin,
+                                sampleRayDirection,
+                                triangleVertices[0],
+                                triangleVertices[1],
+                                triangleVertices[2],
+                                faceDistance)
+                            && faceDistance > InspectRayEpsilon
+                            && (!nearestDistance || faceDistance < *nearestDistance))
+                        {
+                            nearestDistance = faceDistance;
+                        }
+                    }
+                }
+
+                return nearestDistance;
+            };
+
+        const auto doesLevelMissBillboardSample =
+            [&](float screenX, float screenY, const bx::Vec3 &center, const bx::Vec3 &planeNormal) -> bool
+            {
+                if (!hasScreenPickRequest || pPickRequest == nullptr)
+                {
+                    return true;
+                }
+
+                const float normalizedX = ((screenX / static_cast<float>(pPickRequest->viewWidth)) * 2.0f) - 1.0f;
+                const float normalizedY = 1.0f - ((screenY / static_cast<float>(pPickRequest->viewHeight)) * 2.0f);
+                const bx::Vec3 sampleRayOrigin =
+                    bx::mulH({normalizedX, normalizedY, 0.0f}, inversePickViewProjectionMatrix);
+                const bx::Vec3 sampleRayTarget =
+                    bx::mulH({normalizedX, normalizedY, 1.0f}, inversePickViewProjectionMatrix);
+                const bx::Vec3 sampleRayDirection = vecNormalize(vecSubtract(sampleRayTarget, sampleRayOrigin));
+
+                if (vecLength(sampleRayDirection) <= InspectRayEpsilon)
+                {
+                    return false;
+                }
+
+                const float denominator = vecDot(sampleRayDirection, planeNormal);
+
+                if (std::fabs(denominator) <= InspectRayEpsilon)
+                {
+                    return false;
+                }
+
+                const float billboardDistance =
+                    vecDot(vecSubtract(center, sampleRayOrigin), planeNormal) / denominator;
+
+                if (billboardDistance <= InspectRayEpsilon)
+                {
+                    return false;
+                }
+
+                const std::optional<float> nearestFaceDistance =
+                    nearestFaceDistanceForRay(sampleRayOrigin, sampleRayDirection);
+
+                return !nearestFaceDistance || *nearestFaceDistance > billboardDistance + 1.0f;
+            };
+
         const auto applyObjectHit =
             [&](const RuntimeSpriteObjectBillboard &object, float distance)
             {
@@ -6640,12 +6912,21 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
             };
 
         const auto hitTestSpriteObjectBillboard =
-            [&](const RuntimeSpriteObjectBillboard &object, float &distance, bool &billboardTested) -> bool
+            [&](
+                const RuntimeSpriteObjectBillboard &object,
+                float &distance,
+                bool &billboardTested,
+                std::string *pDiagnostic) -> bool
             {
                 billboardTested = false;
 
                 if (pSpriteFrameTable == nullptr)
                 {
+                    if (pDiagnostic != nullptr)
+                    {
+                        *pDiagnostic = "result=fail reason=no_sprite_frame_table";
+                    }
+
                     return false;
                 }
 
@@ -6654,6 +6935,11 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                 if (pFrame == nullptr)
                 {
+                    if (pDiagnostic != nullptr)
+                    {
+                        *pDiagnostic = "result=fail reason=no_sprite_frame";
+                    }
+
                     return false;
                 }
 
@@ -6663,6 +6949,12 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                 if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
                 {
+                    if (pDiagnostic != nullptr)
+                    {
+                        *pDiagnostic =
+                            "result=fail reason=no_texture texture=\"" + resolvedTexture.textureName + "\"";
+                    }
+
                     return false;
                 }
 
@@ -6670,12 +6962,11 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 const float spriteScale = std::max(pFrame->scale, 0.01f);
                 const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
                 const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
-                const bx::Vec3 center = bottomAnchoredBillboardCenter(
+                const bx::Vec3 center = {
                     static_cast<float>(object.x),
                     static_cast<float>(object.y),
-                    static_cast<float>(object.z),
-                    cameraUp,
-                    worldHeight);
+                    static_cast<float>(object.z) + worldHeight * 0.5f
+                };
                 const bx::Vec3 planeNormal = {
                     -cameraRight.y * cameraUp.z + cameraRight.z * cameraUp.y,
                     -cameraRight.z * cameraUp.x + cameraRight.x * cameraUp.z,
@@ -6685,6 +6976,11 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                 if (std::fabs(denominator) <= InspectRayEpsilon)
                 {
+                    if (pDiagnostic != nullptr)
+                    {
+                        *pDiagnostic = "result=fail reason=parallel_to_billboard";
+                    }
+
                     return false;
                 }
 
@@ -6692,7 +6988,246 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                 if (distance <= InspectRayEpsilon)
                 {
+                    if (pDiagnostic != nullptr)
+                    {
+                        std::ostringstream stream;
+                        stream << "result=fail reason=behind_camera distance=" << distance;
+                        *pDiagnostic = stream.str();
+                    }
+
                     return false;
+                }
+
+                if (hasScreenPickRequest)
+                {
+                    const float halfWidth = worldWidth * 0.5f;
+                    const float halfHeight = worldHeight * 0.5f;
+                    const bx::Vec3 right = {
+                        cameraRight.x * halfWidth,
+                        cameraRight.y * halfWidth,
+                        cameraRight.z * halfWidth
+                    };
+                    const bx::Vec3 upVector = {
+                        cameraUp.x * halfHeight,
+                        cameraUp.y * halfHeight,
+                        cameraUp.z * halfHeight
+                    };
+                    const bx::Vec3 corners[4] = {
+                        {
+                            center.x - right.x - upVector.x,
+                            center.y - right.y - upVector.y,
+                            center.z - right.z - upVector.z
+                        },
+                        {
+                            center.x + right.x - upVector.x,
+                            center.y + right.y - upVector.y,
+                            center.z + right.z - upVector.z
+                        },
+                        {
+                            center.x + right.x + upVector.x,
+                            center.y + right.y + upVector.y,
+                            center.z + right.z + upVector.z
+                        },
+                        {
+                            center.x - right.x + upVector.x,
+                            center.y - right.y + upVector.y,
+                            center.z - right.z + upVector.z
+                        }
+                    };
+                    ProjectedPoint projected = {};
+                    float minX = std::numeric_limits<float>::max();
+                    float minY = std::numeric_limits<float>::max();
+                    float maxX = -std::numeric_limits<float>::max();
+                    float maxY = -std::numeric_limits<float>::max();
+                    bool allCornersProjected = true;
+
+                    for (const bx::Vec3 &corner : corners)
+                    {
+                        if (!projectWorldPointToScreen(
+                                corner,
+                                pPickRequest->viewWidth,
+                                pPickRequest->viewHeight,
+                                pickViewProjectionMatrix,
+                                projected))
+                        {
+                            allCornersProjected = false;
+                            break;
+                        }
+
+                        minX = std::min(minX, projected.x);
+                        minY = std::min(minY, projected.y);
+                        maxX = std::max(maxX, projected.x);
+                        maxY = std::max(maxY, projected.y);
+                    }
+
+                    if (allCornersProjected)
+                    {
+                        const float visibleMinX = std::clamp(minX, 0.0f, static_cast<float>(pPickRequest->viewWidth - 1));
+                        const float visibleMinY = std::clamp(minY, 0.0f, static_cast<float>(pPickRequest->viewHeight - 1));
+                        const float visibleMaxX = std::clamp(maxX, 0.0f, static_cast<float>(pPickRequest->viewWidth - 1));
+                        const float visibleMaxY = std::clamp(maxY, 0.0f, static_cast<float>(pPickRequest->viewHeight - 1));
+                        const float paddedMinX = minX - 1.5f;
+                        const float paddedMinY = minY - 1.5f;
+                        const float paddedMaxX = maxX + 1.5f;
+                        const float paddedMaxY = maxY + 1.5f;
+
+                        if (pPickRequest->screenX < paddedMinX
+                            || pPickRequest->screenX > paddedMaxX
+                            || pPickRequest->screenY < paddedMinY
+                            || pPickRequest->screenY > paddedMaxY)
+                        {
+                            if (pDiagnostic != nullptr)
+                            {
+                                std::ostringstream stream;
+                                stream
+                                    << "result=fail reason=outside_projected_rect"
+                                    << " cursor=(" << pPickRequest->screenX << "," << pPickRequest->screenY << ")"
+                                    << " rect=(" << minX << "," << minY << ")->(" << maxX << "," << maxY << ")"
+                                    << " distance=" << distance
+                                    << " texture=\"" << resolvedTexture.textureName << "\""
+                                    << " size=" << pTexture->width << "x" << pTexture->height
+                                    << " scale=" << spriteScale;
+                                *pDiagnostic = stream.str();
+                            }
+
+                            return false;
+                        }
+
+                        const float screenWidth = maxX - minX;
+                        const float screenHeight = maxY - minY;
+
+                        if (std::fabs(screenWidth) < 5.0f || std::fabs(screenHeight) < 5.0f)
+                        {
+                            if (pDiagnostic != nullptr)
+                            {
+                                std::ostringstream stream;
+                                stream
+                                    << "result=success reason=small_projected_rect"
+                                    << " cursor=(" << pPickRequest->screenX << "," << pPickRequest->screenY << ")"
+                                    << " rect=(" << minX << "," << minY << ")->(" << maxX << "," << maxY << ")"
+                                    << " distance=" << distance;
+                                *pDiagnostic = stream.str();
+                            }
+
+                            return true;
+                        }
+
+                        float normalizedU = (pPickRequest->screenX - minX) / screenWidth;
+                        const float normalizedV = (pPickRequest->screenY - minY) / screenHeight;
+
+                        if (resolvedTexture.mirrored)
+                        {
+                            normalizedU = 1.0f - normalizedU;
+                        }
+
+                        const bool isOpaque = isOpaqueBillboardPixel(*pTexture, normalizedU, normalizedV);
+
+                        if (pDiagnostic != nullptr)
+                        {
+                            std::ostringstream stream;
+                            stream
+                                << "result=" << (isOpaque ? "success" : "fail")
+                                << " reason=" << (isOpaque ? "alpha_hit" : "transparent_pixel")
+                                << " cursor=(" << pPickRequest->screenX << "," << pPickRequest->screenY << ")"
+                                << " rect=(" << minX << "," << minY << ")->(" << maxX << "," << maxY << ")"
+                                << " uv=(" << normalizedU << "," << normalizedV << ")"
+                                << " distance=" << distance
+                                << " texture=\"" << resolvedTexture.textureName << "\""
+                                << " size=" << pTexture->width << "x" << pTexture->height
+                                << " physical=" << pTexture->physicalWidth << "x" << pTexture->physicalHeight
+                                << " scale=" << spriteScale
+                                << " mirrored=" << resolvedTexture.mirrored;
+                            *pDiagnostic = stream.str();
+                        }
+
+                        if (!isOpaque)
+                        {
+                            return false;
+                        }
+
+                        if (object.hasContainingItem)
+                        {
+                            if (pDiagnostic != nullptr)
+                            {
+                                std::ostringstream stream;
+                                stream
+                                    << "result=success reason=alpha_hit_item_skip_occlusion"
+                                    << " cursor=(" << pPickRequest->screenX << "," << pPickRequest->screenY << ")"
+                                    << " rect=(" << minX << "," << minY << ")->(" << maxX << "," << maxY << ")"
+                                    << " uv=(" << normalizedU << "," << normalizedV << ")"
+                                    << " distance=" << distance
+                                    << " texture=\"" << resolvedTexture.textureName << "\""
+                                    << " size=" << pTexture->width << "x" << pTexture->height
+                                    << " physical=" << pTexture->physicalWidth << "x" << pTexture->physicalHeight
+                                    << " scale=" << spriteScale
+                                    << " mirrored=" << resolvedTexture.mirrored;
+                                *pDiagnostic = stream.str();
+                            }
+
+                            return true;
+                        }
+
+                        const bool cursorMissesLevel = doesLevelMissBillboardSample(
+                            pPickRequest->screenX,
+                            pPickRequest->screenY,
+                            center,
+                            planeNormal);
+                        const bool centerMissesLevel = doesLevelMissBillboardSample(
+                            (visibleMinX + visibleMaxX) * 0.5f,
+                            (visibleMinY + visibleMaxY) * 0.5f,
+                            center,
+                            planeNormal);
+                        const bool topLeftMissesLevel =
+                            doesLevelMissBillboardSample(visibleMinX, visibleMinY, center, planeNormal);
+                        const bool bottomLeftMissesLevel =
+                            doesLevelMissBillboardSample(visibleMinX, visibleMaxY, center, planeNormal);
+                        const bool topRightMissesLevel =
+                            doesLevelMissBillboardSample(visibleMaxX, visibleMinY, center, planeNormal);
+                        const bool bottomRightMissesLevel =
+                            doesLevelMissBillboardSample(visibleMaxX, visibleMaxY, center, planeNormal);
+                        const bool bottomCenterMissesLevel =
+                            doesLevelMissBillboardSample(
+                                (visibleMinX + visibleMaxX) * 0.5f,
+                                visibleMaxY,
+                                center,
+                                planeNormal);
+
+                        if (!cursorMissesLevel
+                            && !centerMissesLevel
+                            && !topLeftMissesLevel
+                            && !bottomLeftMissesLevel
+                            && !topRightMissesLevel
+                            && !bottomRightMissesLevel
+                            && !bottomCenterMissesLevel)
+                        {
+                            if (pDiagnostic != nullptr)
+                            {
+                                std::ostringstream stream;
+                                stream
+                                    << "result=fail reason=occluded_by_level"
+                                    << " cursor=(" << pPickRequest->screenX << "," << pPickRequest->screenY << ")"
+                                    << " rect=(" << minX << "," << minY << ")->(" << maxX << "," << maxY << ")"
+                                    << " distance=" << distance
+                                    << " samples=cursor:" << cursorMissesLevel
+                                    << ",center:" << centerMissesLevel
+                                    << ",tl:" << topLeftMissesLevel
+                                    << ",bl:" << bottomLeftMissesLevel
+                                    << ",tr:" << topRightMissesLevel
+                                    << ",br:" << bottomRightMissesLevel
+                                    << ",bc:" << bottomCenterMissesLevel;
+                                *pDiagnostic = stream.str();
+                            }
+
+                            return false;
+                        }
+
+                        return true;
+                    }
+
+                    if (pDiagnostic != nullptr)
+                    {
+                        *pDiagnostic = "result=fail reason=projection_failed";
+                    }
                 }
 
                 const bx::Vec3 hitPoint = {
@@ -6708,6 +7243,17 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                 if (std::fabs(localX) > halfWidth || std::fabs(localY) > halfHeight)
                 {
+                    if (pDiagnostic != nullptr)
+                    {
+                        std::ostringstream stream;
+                        stream
+                            << "result=fail reason=outside_ray_plane_rect"
+                            << " local=(" << localX << "," << localY << ")"
+                            << " half=(" << halfWidth << "," << halfHeight << ")"
+                            << " distance=" << distance;
+                        *pDiagnostic = stream.str();
+                    }
+
                     return false;
                 }
 
@@ -6719,7 +7265,21 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                     normalizedU = 1.0f - normalizedU;
                 }
 
-                return isOpaqueBillboardPixel(*pTexture, normalizedU, normalizedV);
+                const bool isOpaque = isOpaqueBillboardPixel(*pTexture, normalizedU, normalizedV);
+
+                if (pDiagnostic != nullptr)
+                {
+                    std::ostringstream stream;
+                    stream
+                        << "result=" << (isOpaque ? "success" : "fail")
+                        << " reason=" << (isOpaque ? "fallback_alpha_hit" : "fallback_transparent_pixel")
+                        << " local=(" << localX << "," << localY << ")"
+                        << " uv=(" << normalizedU << "," << normalizedV << ")"
+                        << " distance=" << distance;
+                    *pDiagnostic = stream.str();
+                }
+
+                return isOpaque;
             };
 
         for (const RuntimeSpriteObjectBillboard &object : runtimeObjects)
@@ -6731,11 +7291,18 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
             float distance = 0.0f;
             bool billboardTested = false;
-            const bool usedBillboardHit = hitTestSpriteObjectBillboard(object, distance, billboardTested);
+            const bool usedBillboardHit =
+                hitTestSpriteObjectBillboard(object, distance, billboardTested, nullptr);
 
-            if (usedBillboardHit && distance < bestDistance)
+            if (usedBillboardHit
+                && (distance < bestDistance || (object.hasContainingItem && bestHit.kind == "face")))
             {
                 applyObjectHit(object, distance);
+                continue;
+            }
+
+            if (object.hasContainingItem)
+            {
                 continue;
             }
 
@@ -6764,7 +7331,9 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
         }
     }
 
-    if (mapDeltaData)
+    const bool objectLoopSelectedWorldItem = bestHit.kind == "object" && bestHit.hasContainingItem;
+
+    if (mapDeltaData && !objectLoopSelectedWorldItem)
     {
         for (size_t doorIndex = 0; doorIndex < mapDeltaData->doors.size(); ++doorIndex)
         {

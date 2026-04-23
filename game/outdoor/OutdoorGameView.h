@@ -480,7 +480,6 @@ private:
         int &height);
     bool hasActiveEventDialog() const;
     void updateItemInspectOverlayState(int width, int height, const GameplayInputFrame &input);
-    void tryApplyWorldItemInspectSkillInteraction();
     void updateActorInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     const AdventurersInnMember *selectedAdventurersInnMember() const;
     AdventurersInnMember *selectedAdventurersInnMember();

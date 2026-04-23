@@ -455,6 +455,12 @@ public:
         (void)state;
         return false;
     }
+    virtual bool updateWorldItemInspectState(size_t worldItemIndex, const InventoryItem &item)
+    {
+        (void)worldItemIndex;
+        (void)item;
+        return false;
+    }
     virtual GameplayWorldHoverCacheState worldHoverCacheState() const = 0;
     virtual GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) = 0;
     virtual GameplayHoverStatusPayload readCachedWorldHover() = 0;

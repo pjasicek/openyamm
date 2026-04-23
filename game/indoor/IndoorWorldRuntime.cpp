@@ -11,6 +11,7 @@
 #include "game/gameplay/GameplayActorAiSystem.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayProjectileService.h"
+#include "game/gameplay/TreasureRuntime.h"
 #include "game/indoor/IndoorRenderer.h"
 #include "game/indoor/IndoorGameView.h"
 #include "game/indoor/IndoorGeometryUtils.h"
@@ -5066,6 +5067,34 @@ bool IndoorWorldRuntime::worldItemInspectState(size_t worldItemIndex, GameplayWo
     return true;
 }
 
+bool IndoorWorldRuntime::updateWorldItemInspectState(size_t worldItemIndex, const InventoryItem &item)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || worldItemIndex >= pMapDeltaData->spriteObjects.size())
+    {
+        return false;
+    }
+
+    MapDeltaSpriteObject &spriteObject = pMapDeltaData->spriteObjects[worldItemIndex];
+
+    if (!hasContainingItemPayload(spriteObject.rawContainingItem))
+    {
+        return false;
+    }
+
+    uint32_t goldAmount = 0;
+    readRawItemUInt32(spriteObject.rawContainingItem, 0x0c, goldAmount);
+
+    if (goldAmount > 0)
+    {
+        return false;
+    }
+
+    writeIndoorHeldItemPayload(spriteObject.rawContainingItem, item);
+    return true;
+}
+
 GameplayWorldHoverCacheState IndoorWorldRuntime::worldHoverCacheState() const
 {
     return m_pRenderer != nullptr ? m_pRenderer->gameplayWorldHoverCacheState() : GameplayWorldHoverCacheState{};
@@ -6318,6 +6347,141 @@ const MonsterTable::MonsterStatsEntry *IndoorWorldRuntime::resolveEncounterStats
     return m_pMonsterTable->findStatsByPictureName(pictureName);
 }
 
+bool IndoorWorldRuntime::materializeTreasureSpawn(size_t spawnIndex, const IndoorSpawn &spawn)
+{
+    if (!m_map
+        || m_pObjectTable == nullptr
+        || m_pItemTable == nullptr
+        || m_pParty == nullptr
+        || m_pIndoorMapData == nullptr
+        || spawn.typeId != 2)
+    {
+        return false;
+    }
+
+    const StandardItemEnchantTable *pStandardItemEnchantTable = m_pParty->standardItemEnchantTable();
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable = m_pParty->specialItemEnchantTable();
+
+    if (pStandardItemEnchantTable == nullptr || pSpecialItemEnchantTable == nullptr)
+    {
+        return false;
+    }
+
+    const auto canMaterializeAsWorldItem =
+        [this](const ItemDefinition &entry)
+        {
+            InventoryItem candidate = {};
+            candidate.objectDescriptionId = entry.itemId;
+            return resolveIndoorItemObjectDescriptionId(candidate, m_pItemTable, m_pObjectTable).has_value();
+        };
+
+    const std::optional<GameplayTreasureSpawnResult> treasure =
+        generateTreasureSpawnItem(
+            spawn.index,
+            m_map->treasureLevel,
+            m_sessionChestSeed,
+            m_map->id,
+            static_cast<uint32_t>(spawnIndex),
+            *m_pItemTable,
+            *pStandardItemEnchantTable,
+            *pSpecialItemEnchantTable,
+            m_pParty,
+            canMaterializeAsWorldItem);
+
+    if (!treasure || treasure->item.objectDescriptionId == 0)
+    {
+        return false;
+    }
+
+    const std::optional<uint16_t> objectDescriptionId =
+        resolveIndoorItemObjectDescriptionId(treasure->item, m_pItemTable, m_pObjectTable);
+
+    if (!objectDescriptionId)
+    {
+        return false;
+    }
+
+    const ObjectEntry *pObjectEntry = m_pObjectTable->get(*objectDescriptionId);
+
+    if (pObjectEntry == nullptr || (pObjectEntry->flags & ObjectDescNoSprite) != 0 || pObjectEntry->spriteId == 0)
+    {
+        return false;
+    }
+
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return false;
+    }
+
+    int z = spawn.z;
+    int16_t sectorId = -1;
+
+    if (!m_pIndoorMapData->faces.empty() && !m_pIndoorMapData->vertices.empty())
+    {
+        const EventRuntimeState *pEventRuntimeState =
+            m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value()
+                ? &m_pEventRuntimeState->value()
+                : nullptr;
+        const std::vector<IndoorVertex> vertices =
+            buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, pMapDeltaData, pEventRuntimeState);
+        IndoorFaceGeometryCache geometryCache(m_pIndoorMapData->faces.size());
+        const IndoorFloorSample floorSample =
+            sampleIndoorFloor(
+                *m_pIndoorMapData,
+                vertices,
+                static_cast<float>(spawn.x),
+                static_cast<float>(spawn.y),
+                static_cast<float>(spawn.z),
+                IndoorFloorSampleRise,
+                IndoorFloorSampleDrop,
+                std::nullopt,
+                nullptr,
+                &geometryCache);
+
+        if (floorSample.hasFloor)
+        {
+            z = static_cast<int>(std::lround(floorSample.height));
+            sectorId = floorSample.sectorId;
+        }
+        else
+        {
+            const std::optional<int16_t> pointSector =
+                findIndoorSectorForPoint(
+                    *m_pIndoorMapData,
+                    vertices,
+                    {static_cast<float>(spawn.x), static_cast<float>(spawn.y), static_cast<float>(spawn.z)},
+                    &geometryCache);
+
+            if (pointSector)
+            {
+                sectorId = *pointSector;
+            }
+        }
+    }
+
+    MapDeltaSpriteObject spriteObject = {};
+    spriteObject.spriteId = pObjectEntry->spriteId;
+    spriteObject.objectDescriptionId = *objectDescriptionId;
+    spriteObject.x = spawn.x;
+    spriteObject.y = spawn.y;
+    spriteObject.z = z;
+    spriteObject.sectorId = sectorId;
+    spriteObject.initialX = spriteObject.x;
+    spriteObject.initialY = spriteObject.y;
+    spriteObject.initialZ = spriteObject.z;
+    writeIndoorHeldItemPayload(spriteObject.rawContainingItem, treasure->item);
+
+    if (treasure->isGold)
+    {
+        writeRawItemUInt32(spriteObject.rawContainingItem, 0x0c, treasure->goldAmount);
+    }
+
+    pMapDeltaData->spriteObjects.push_back(std::move(spriteObject));
+    return true;
+}
+
 void IndoorWorldRuntime::materializeInitialMonsterSpawns()
 {
     if (!m_map
@@ -6338,6 +6502,12 @@ void IndoorWorldRuntime::materializeInitialMonsterSpawns()
     for (size_t spawnIndex = 0; spawnIndex < m_pIndoorMapData->spawns.size(); ++spawnIndex)
     {
         const IndoorSpawn &spawn = m_pIndoorMapData->spawns[spawnIndex];
+
+        if (spawn.typeId == 2)
+        {
+            materializeTreasureSpawn(spawnIndex, spawn);
+            continue;
+        }
 
         if (spawn.typeId != 3)
         {

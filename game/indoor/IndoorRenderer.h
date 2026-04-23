@@ -8,6 +8,7 @@
 #include "game/maps/MapDeltaData.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/render/TextureFiltering.h"
+#include "game/tables/ItemTable.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
 #include "game/events/EventRuntime.h"
@@ -59,6 +60,7 @@ public:
         const std::optional<SpriteObjectBillboardSet> &indoorSpriteObjectBillboardSet,
         IndoorSceneRuntime &sceneRuntime,
         const ObjectTable &objectTable,
+        const ItemTable &itemTable,
         const ChestTable &chestTable,
         const HouseTable &houseTable
     );
@@ -291,7 +293,8 @@ private:
         const std::vector<IndoorVertex> &vertices,
         const std::vector<uint8_t> &visibleSectorMask,
         const bx::Vec3 &rayOrigin,
-        const bx::Vec3 &rayDirection) const;
+        const bx::Vec3 &rayDirection,
+        const GameplayWorldPickRequest *pPickRequest = nullptr) const;
     std::optional<InspectHit> inspectGameplayWorldHit(const GameplayWorldPickRequest &request) const;
     GameplayWorldHit translateInspectHitToGameplayWorldHit(
         const InspectHit &inspectHit,
@@ -343,6 +346,7 @@ private:
     std::optional<MapStatsEntry> m_map;
     std::optional<MonsterTable> m_monsterTable;
     std::optional<ObjectTable> m_objectTable;
+    const ItemTable *m_pItemTable = nullptr;
     std::optional<IndoorMapData> m_indoorMapData;
     std::vector<IndoorVertex> m_renderVertices;
     IndoorSceneRuntime *m_pSceneRuntime = nullptr;

@@ -54,6 +54,7 @@ void main()
     if (u_billboardOverrideColor.a > 0.001 && u_billboardOutlineParams.z > 0.001)
     {
         float outlineAlpha = 0.0;
+        bool outlineOnly = u_billboardOutlineParams.w > 0.5;
         float enable1 = step(1.0, u_billboardOutlineParams.z + 0.001);
         float enable2 = step(2.0, u_billboardOutlineParams.z + 0.001);
         float enable3 = step(3.0, u_billboardOutlineParams.z + 0.001);
@@ -99,6 +100,10 @@ void main()
         if (baseAlpha <= 0.001 && outlineAlpha > 0.001)
         {
             fragmentColor = vec4(u_billboardOverrideColor.rgb, outlineAlpha * u_billboardOverrideColor.a);
+        }
+        else if (outlineOnly)
+        {
+            fragmentColor = vec4(0.0, 0.0, 0.0, 0.0);
         }
     }
 

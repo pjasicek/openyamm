@@ -243,8 +243,7 @@ void GameplayScreenController::applySharedItemInspectSkillInteraction(
         || !overlay.hasItemState
         || pParty == nullptr
         || pItemTable == nullptr
-        || overlay.sourceType == GameplayUiController::ItemInspectSourceType::None
-        || overlay.sourceType == GameplayUiController::ItemInspectSourceType::WorldItem)
+        || overlay.sourceType == GameplayUiController::ItemInspectSourceType::None)
     {
         return;
     }
@@ -254,6 +253,7 @@ void GameplayScreenController::applySharedItemInspectSkillInteraction(
     interactionKey ^= uint64_t(overlay.sourceGridX) << 24;
     interactionKey ^= uint64_t(overlay.sourceGridY) << 32;
     interactionKey ^= uint64_t(overlay.sourceEquipmentSlot) << 40;
+    interactionKey ^= uint64_t(overlay.sourceWorldItemIndex) << 44;
     interactionKey ^= uint64_t(overlay.sourceLootItemIndex) << 48;
     interactionKey ^= uint64_t(overlay.sourceType) << 56;
 
@@ -337,6 +337,18 @@ void GameplayScreenController::applySharedItemInspectSkillInteraction(
                 if (pCorpseView != nullptr && overlay.sourceLootItemIndex < pCorpseView->items.size())
                 {
                     overlay.itemState = pCorpseView->items[overlay.sourceLootItemIndex].item;
+                }
+            }
+            else if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::WorldItem)
+            {
+                IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+                GameplayWorldItemInspectState worldItemState = {};
+
+                if (pWorldRuntime != nullptr
+                    && pWorldRuntime->worldItemInspectState(overlay.sourceWorldItemIndex, worldItemState)
+                    && !worldItemState.isGold)
+                {
+                    overlay.itemState = worldItemState.item;
                 }
             }
         };

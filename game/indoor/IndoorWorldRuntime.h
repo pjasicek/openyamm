@@ -272,6 +272,7 @@ public:
     GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickMouseInteractionTarget(const GameplayWorldPickRequest &request) override;
     bool worldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state) const override;
+    bool updateWorldItemInspectState(size_t worldItemIndex, const InventoryItem &item) override;
     GameplayWorldHoverCacheState worldHoverCacheState() const override;
     GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) override;
     GameplayHoverStatusPayload readCachedWorldHover() override;
@@ -338,6 +339,7 @@ private:
         uint32_t typeIndexInMapStats,
         uint32_t level
     ) const;
+    bool materializeTreasureSpawn(size_t spawnIndex, const IndoorSpawn &spawn);
     void materializeInitialMonsterSpawns();
     void syncMapActorAiStates();
     std::vector<bool> selectIndoorActiveActors(

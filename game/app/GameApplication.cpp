@@ -924,6 +924,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
                 selectedMap->indoorSpriteObjectBillboardSet,
                 *pIndoorSceneRuntime,
                 m_gameDataLoader.getObjectTable(),
+                m_gameDataLoader.getItemTable(),
                 m_gameDataLoader.getChestTable(),
                 m_gameDataLoader.getHouseTable()))
         {

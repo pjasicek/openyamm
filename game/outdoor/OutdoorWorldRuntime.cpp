@@ -9,7 +9,7 @@
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayFxService.h"
 #include "game/items/ItemGenerator.h"
-#include "game/items/ItemRuntime.h"
+#include "game/gameplay/TreasureRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/tables/ItemTable.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
@@ -40,9 +40,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr int RandomChestItemMinLevel = 1;
-constexpr int RandomChestItemMaxLevel = 7;
-constexpr int SpawnableItemTreasureLevels = 6;
 constexpr float GameMinutesPerRealSecond = 0.5f;
 constexpr uint32_t ActorInvisibleBit = static_cast<uint32_t>(EvtActorAttribute::Invisible);
 constexpr uint32_t ActorAggressorBit = static_cast<uint32_t>(EvtActorAttribute::Aggressor);
@@ -3753,58 +3750,6 @@ bool shouldMaterializeEncounterSpawnsOnInitialize(const std::optional<MapDeltaDa
 }
 }
 
-uint32_t OutdoorWorldRuntime::makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32_t salt)
-{
-    return sessionSeed
-        ^ static_cast<uint32_t>(mapId) * 1315423911u
-        ^ (chestId + 1u) * 2654435761u
-        ^ (salt + 1u) * 2246822519u;
-}
-
-int OutdoorWorldRuntime::generateGoldAmount(int treasureLevel, std::mt19937 &rng)
-{
-    switch (treasureLevel)
-    {
-        case 1: return std::uniform_int_distribution<int>(50, 100)(rng);
-        case 2: return std::uniform_int_distribution<int>(100, 200)(rng);
-        case 3: return std::uniform_int_distribution<int>(200, 500)(rng);
-        case 4: return std::uniform_int_distribution<int>(500, 1000)(rng);
-        case 5: return std::uniform_int_distribution<int>(1000, 2000)(rng);
-        case 6: return std::uniform_int_distribution<int>(2000, 5000)(rng);
-        default: return 0;
-    }
-}
-
-std::pair<int, int> OutdoorWorldRuntime::remapTreasureLevelRange(int itemTreasureLevel, int mapTreasureLevel)
-{
-    static constexpr int mapping[7][7][2] = {
-        {{1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}, {1, 1}},
-        {{1, 1}, {1, 2}, {2, 2}, {2, 2}, {2, 2}, {2, 2}, {2, 2}},
-        {{1, 2}, {2, 2}, {2, 3}, {3, 3}, {3, 3}, {3, 3}, {3, 3}},
-        {{2, 2}, {2, 2}, {3, 3}, {3, 4}, {4, 4}, {4, 4}, {4, 4}},
-        {{2, 2}, {2, 2}, {3, 4}, {4, 4}, {4, 5}, {5, 5}, {5, 5}},
-        {{2, 2}, {2, 2}, {4, 4}, {4, 5}, {5, 5}, {5, 6}, {6, 6}},
-        {{2, 2}, {2, 2}, {7, 7}, {7, 7}, {7, 7}, {7, 7}, {7, 7}}
-    };
-
-    const int clampedItemLevel = std::clamp(itemTreasureLevel, RandomChestItemMinLevel, RandomChestItemMaxLevel);
-    const int clampedMapLevel = std::clamp(mapTreasureLevel, RandomChestItemMinLevel, RandomChestItemMaxLevel);
-    const int minLevel = mapping[clampedItemLevel - 1][clampedMapLevel - 1][0];
-    const int maxLevel = mapping[clampedItemLevel - 1][clampedMapLevel - 1][1];
-    return {minLevel, maxLevel};
-}
-
-int OutdoorWorldRuntime::sampleRemappedTreasureLevel(int itemTreasureLevel, int mapTreasureLevel, std::mt19937 &rng)
-{
-    const auto [minimumLevel, maximumLevel] = remapTreasureLevelRange(itemTreasureLevel, mapTreasureLevel);
-    return std::uniform_int_distribution<int>(minimumLevel, maximumLevel)(rng);
-}
-
-int OutdoorWorldRuntime::normalizedMapTreasureLevel() const
-{
-    return std::clamp(m_mapTreasureLevel + 1, RandomChestItemMinLevel, RandomChestItemMaxLevel);
-}
-
 void OutdoorWorldRuntime::pushAudioEvent(
     uint32_t soundId,
     uint32_t sourceId,
@@ -4268,13 +4213,6 @@ bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPoi
         return false;
     }
 
-    const int treasureLevel = std::clamp(static_cast<int>(spawn.index), RandomChestItemMinLevel, RandomChestItemMaxLevel);
-    const int mapTreasureLevel = normalizedMapTreasureLevel();
-    const uint32_t seed = makeChestSeed(m_sessionChestSeed, m_mapId, static_cast<uint32_t>(spawnPointIndex), 0x54524541u);
-    std::mt19937 rng(seed);
-    const int resolvedTreasureLevel = sampleRemappedTreasureLevel(treasureLevel, mapTreasureLevel, rng);
-    InventoryItem item = {};
-    uint32_t goldAmount = 0;
     const auto canMaterializeAsWorldItem =
         [this](const ItemDefinition &entry)
         {
@@ -4298,70 +4236,20 @@ bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPoi
                 objectSpriteName);
         };
 
-    if (resolvedTreasureLevel != RandomChestItemMaxLevel)
-    {
-        const int roll = std::uniform_int_distribution<int>(0, 99)(rng);
+    const std::optional<GameplayTreasureSpawnResult> treasure =
+        generateTreasureSpawnItem(
+            spawn.index,
+            m_mapTreasureLevel,
+            m_sessionChestSeed,
+            m_mapId,
+            static_cast<uint32_t>(spawnPointIndex),
+            *m_pItemTable,
+            *m_pStandardItemEnchantTable,
+            *m_pSpecialItemEnchantTable,
+            m_pParty,
+            canMaterializeAsWorldItem);
 
-        if (roll < 20)
-        {
-            return false;
-        }
-
-        if (roll < 60)
-        {
-            goldAmount = static_cast<uint32_t>(std::max(0, generateGoldAmount(treasureLevel, rng)));
-            const uint32_t goldHeapItemId = goldAmount <= 200 ? GoldHeapSmallItemId : GoldHeapLargeItemId;
-            item = ItemGenerator::makeInventoryItem(goldHeapItemId, *m_pItemTable, ItemGenerationMode::ChestLoot);
-        }
-        else
-        {
-            ItemGenerationRequest request = {};
-            request.treasureLevel = std::min(resolvedTreasureLevel, SpawnableItemTreasureLevels);
-            request.mode = ItemGenerationMode::ChestLoot;
-            const std::optional<InventoryItem> generatedItem =
-                ItemGenerator::generateRandomInventoryItem(
-                    *m_pItemTable,
-                    *m_pStandardItemEnchantTable,
-                    *m_pSpecialItemEnchantTable,
-                    request,
-                    m_pParty,
-                    rng,
-                    canMaterializeAsWorldItem);
-
-            if (!generatedItem)
-            {
-                return false;
-            }
-
-            item = *generatedItem;
-        }
-    }
-    else
-    {
-        ItemGenerationRequest request = {};
-        request.treasureLevel = SpawnableItemTreasureLevels;
-        request.mode = ItemGenerationMode::ChestLoot;
-        request.allowRareItems = true;
-        request.rareItemsOnly = true;
-        const std::optional<InventoryItem> generatedItem =
-            ItemGenerator::generateRandomInventoryItem(
-                *m_pItemTable,
-                *m_pStandardItemEnchantTable,
-                *m_pSpecialItemEnchantTable,
-                request,
-                m_pParty,
-                rng,
-                canMaterializeAsWorldItem);
-
-        if (!generatedItem)
-        {
-            return false;
-        }
-
-        item = *generatedItem;
-    }
-
-    if (item.objectDescriptionId == 0)
+    if (!treasure || treasure->item.objectDescriptionId == 0)
     {
         return false;
     }
@@ -4376,7 +4264,7 @@ bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPoi
     std::string objectSpriteName;
 
     if (!resolveWorldItemVisual(
-            item.objectDescriptionId,
+            treasure->item.objectDescriptionId,
             objectDescriptionId,
             objectSpriteId,
             objectSpriteFrameIndex,
@@ -4402,9 +4290,9 @@ bool OutdoorWorldRuntime::materializeTreasureSpawnFromSpawnPoint(size_t spawnPoi
 
     WorldItemState worldItem = {};
     worldItem.worldItemId = m_nextWorldItemId++;
-    worldItem.item = item;
-    worldItem.goldAmount = goldAmount;
-    worldItem.isGold = goldAmount > 0 && isGoldHeapItemId(item.objectDescriptionId);
+    worldItem.item = treasure->item;
+    worldItem.goldAmount = treasure->goldAmount;
+    worldItem.isGold = treasure->isGold && isGoldHeapItemId(treasure->item.objectDescriptionId);
     worldItem.objectDescriptionId = objectDescriptionId;
     worldItem.objectSpriteId = objectSpriteId;
     worldItem.objectSpriteFrameIndex = objectSpriteFrameIndex;
@@ -10761,119 +10649,32 @@ bool OutdoorWorldRuntime::takeWorldItem(size_t worldItemIndex, WorldItemState &i
     return true;
 }
 
-bool OutdoorWorldRuntime::identifyWorldItem(size_t worldItemIndex, std::string &statusText)
+bool OutdoorWorldRuntime::worldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state) const
 {
-    statusText.clear();
-    WorldItemState *pWorldItem = worldItemStateMutable(worldItemIndex);
+    const WorldItemState *pWorldItem = worldItemState(worldItemIndex);
 
-    if (pWorldItem == nullptr || m_pItemTable == nullptr || pWorldItem->isGold)
+    if (pWorldItem == nullptr)
     {
         return false;
     }
 
-    const ItemDefinition *pItemDefinition = m_pItemTable->get(pWorldItem->item.objectDescriptionId);
-
-    if (pItemDefinition == nullptr)
-    {
-        statusText = "Unavailable.";
-        return false;
-    }
-
-    if (pWorldItem->item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
-    {
-        statusText = "Already identified.";
-        return false;
-    }
-
-    pWorldItem->item.identified = true;
-    statusText = "Identified " + ItemRuntime::displayName(pWorldItem->item, *pItemDefinition) + ".";
+    state = {};
+    state.item = pWorldItem->item;
+    state.goldAmount = pWorldItem->goldAmount;
+    state.isGold = pWorldItem->isGold;
     return true;
 }
 
-bool OutdoorWorldRuntime::tryIdentifyWorldItem(size_t worldItemIndex, const Character &inspector, std::string &statusText)
+bool OutdoorWorldRuntime::updateWorldItemInspectState(size_t worldItemIndex, const InventoryItem &item)
 {
-    statusText.clear();
     WorldItemState *pWorldItem = worldItemStateMutable(worldItemIndex);
 
-    if (pWorldItem == nullptr || m_pItemTable == nullptr || pWorldItem->isGold)
+    if (pWorldItem == nullptr || pWorldItem->isGold)
     {
         return false;
     }
 
-    const ItemDefinition *pItemDefinition = m_pItemTable->get(pWorldItem->item.objectDescriptionId);
-
-    if (pItemDefinition == nullptr)
-    {
-        statusText = "Unavailable.";
-        return false;
-    }
-
-    if (pWorldItem->item.identified || !ItemRuntime::requiresIdentification(*pItemDefinition))
-    {
-        statusText = "Already identified.";
-        return false;
-    }
-
-    if (!ItemRuntime::canCharacterIdentifyItem(inspector, *pItemDefinition))
-    {
-        statusText = "Not skilled enough.";
-        std::cout << "Item identify: inspector=\"" << inspector.name
-                  << "\" owner=\"ground\" item=\"" << pItemDefinition->name
-                  << "\" location=ground(" << worldItemIndex << ") result=failed status=\""
-                  << statusText << "\"\n";
-        return false;
-    }
-
-    pWorldItem->item.identified = true;
-    statusText = "Identified " + ItemRuntime::displayName(pWorldItem->item, *pItemDefinition) + ".";
-    std::cout << "Item identify: inspector=\"" << inspector.name
-              << "\" owner=\"ground\" item=\"" << pItemDefinition->name
-              << "\" location=ground(" << worldItemIndex << ") result=success status=\""
-              << statusText << "\"\n";
-    return true;
-}
-
-bool OutdoorWorldRuntime::tryRepairWorldItem(size_t worldItemIndex, const Character &inspector, std::string &statusText)
-{
-    statusText.clear();
-    WorldItemState *pWorldItem = worldItemStateMutable(worldItemIndex);
-
-    if (pWorldItem == nullptr || m_pItemTable == nullptr || pWorldItem->isGold)
-    {
-        return false;
-    }
-
-    const ItemDefinition *pItemDefinition = m_pItemTable->get(pWorldItem->item.objectDescriptionId);
-
-    if (pItemDefinition == nullptr)
-    {
-        statusText = "Unavailable.";
-        return false;
-    }
-
-    if (!pWorldItem->item.broken)
-    {
-        statusText = "Nothing to repair.";
-        return false;
-    }
-
-    if (!ItemRuntime::canCharacterRepairItem(inspector, *pItemDefinition))
-    {
-        statusText = "Not skilled enough.";
-        std::cout << "Item repair: inspector=\"" << inspector.name
-                  << "\" owner=\"ground\" item=\"" << pItemDefinition->name
-                  << "\" location=ground(" << worldItemIndex << ") result=failed status=\""
-                  << statusText << "\"\n";
-        return false;
-    }
-
-    pWorldItem->item.broken = false;
-    pWorldItem->item.identified = true;
-    statusText = "Repaired " + ItemRuntime::displayName(pWorldItem->item, *pItemDefinition) + ".";
-    std::cout << "Item repair: inspector=\"" << inspector.name
-              << "\" owner=\"ground\" item=\"" << pItemDefinition->name
-              << "\" location=ground(" << worldItemIndex << ") result=success status=\""
-              << statusText << "\"\n";
+    pWorldItem->item = item;
     return true;
 }
 

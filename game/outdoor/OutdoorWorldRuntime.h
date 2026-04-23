@@ -611,9 +611,6 @@ public:
     const WorldItemState *worldItemState(size_t worldItemIndex) const;
     WorldItemState *worldItemStateMutable(size_t worldItemIndex);
     bool takeWorldItem(size_t worldItemIndex, WorldItemState &item);
-    bool identifyWorldItem(size_t worldItemIndex, std::string &statusText);
-    bool tryIdentifyWorldItem(size_t worldItemIndex, const Character &inspector, std::string &statusText);
-    bool tryRepairWorldItem(size_t worldItemIndex, const Character &inspector, std::string &statusText);
     bool spawnWorldItem(
         const InventoryItem &item,
         float sourceX,
@@ -650,6 +647,8 @@ public:
     GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickMouseInteractionTarget(const GameplayWorldPickRequest &request) override;
+    bool worldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state) const override;
+    bool updateWorldItemInspectState(size_t worldItemIndex, const InventoryItem &item) override;
     GameplayWorldHoverCacheState worldHoverCacheState() const override;
     GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) override;
     GameplayHoverStatusPayload readCachedWorldHover() override;
@@ -845,10 +844,6 @@ public:
     uint64_t bloodSplatRevision() const;
 
 private:
-    static uint32_t makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32_t salt);
-    static int generateGoldAmount(int treasureLevel, std::mt19937 &rng);
-    static std::pair<int, int> remapTreasureLevelRange(int itemTreasureLevel, int mapTreasureLevel);
-    static int sampleRemappedTreasureLevel(int itemTreasureLevel, int mapTreasureLevel, std::mt19937 &rng);
 
     bool applyMonsterAttackToMapActor(size_t actorIndex, int damage, uint32_t sourceActorId, bool emitAudio = true);
     bool spawnEncounterFromResolvedData(
@@ -869,7 +864,6 @@ private:
     void aggroNearbyMapActorFaction(size_t actorIndex, float partyX, float partyY, float partyZ);
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
-    int normalizedMapTreasureLevel() const;
     void pushAudioEvent(
         uint32_t soundId,
         uint32_t sourceId,

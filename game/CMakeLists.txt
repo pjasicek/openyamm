@@ -53,6 +53,7 @@ add_executable(openyamm
     gameplay/HouseInteraction.cpp
     gameplay/HouseServiceRuntime.cpp
     gameplay/StoryTextFormatter.cpp
+    gameplay/TreasureRuntime.cpp
     audio/HouseVideoPlayer.cpp
     items/InventoryItemUseRuntime.cpp
     maps/IndoorSceneYml.cpp

@@ -1,10 +1,13 @@
 #pragma once
 
+#include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <vector>
 
 namespace OpenYAMM::Game
 {
+constexpr size_t SpriteObjectContainingItemSize = 0x24;
 constexpr uint16_t ObjectDescNoSprite = 0x0001;
 constexpr uint16_t ObjectDescNoCollision = 0x0002;
 constexpr uint16_t ObjectDescTemporary = 0x0004;
@@ -33,5 +36,31 @@ inline bool hasContainingItemPayload(const std::vector<uint8_t> &rawContainingIt
     }
 
     return false;
+}
+
+inline uint32_t spriteObjectContainedItemId(const std::vector<uint8_t> &rawContainingItem)
+{
+    uint32_t itemId = 0;
+
+    if (rawContainingItem.size() >= sizeof(itemId))
+    {
+        std::memcpy(&itemId, rawContainingItem.data(), sizeof(itemId));
+    }
+
+    return itemId;
+}
+
+inline void writeSpriteObjectContainedItemPayload(std::vector<uint8_t> &rawContainingItem, uint32_t itemId)
+{
+    rawContainingItem.assign(SpriteObjectContainingItemSize, 0);
+
+    if (itemId == 0)
+    {
+        return;
+    }
+
+    constexpr uint32_t DefaultQuantity = 1;
+    std::memcpy(rawContainingItem.data(), &itemId, sizeof(itemId));
+    std::memcpy(rawContainingItem.data() + 0x04, &DefaultQuantity, sizeof(DefaultQuantity));
 }
 }

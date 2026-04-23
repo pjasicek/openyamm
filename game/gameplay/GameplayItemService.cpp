@@ -96,6 +96,32 @@ Party *activeParty(GameSession &session)
     IGameplayWorldRuntime *pWorldRuntime = session.activeWorldRuntime();
     return pWorldRuntime != nullptr ? pWorldRuntime->party() : nullptr;
 }
+
+bool applyWorldItemOperation(
+    IGameplayWorldRuntime &worldRuntime,
+    size_t worldItemIndex,
+    const ItemTable &itemTable,
+    ActiveLootOperation operation,
+    const Character *pInspector,
+    std::string &statusText)
+{
+    GameplayWorldItemInspectState worldItemState = {};
+
+    if (!worldRuntime.worldItemInspectState(worldItemIndex, worldItemState) || worldItemState.isGold)
+    {
+        return false;
+    }
+
+    GameplayChestItemState lootItem = {};
+    lootItem.item = worldItemState.item;
+
+    if (!applyLootOperation(lootItem, itemTable, operation, pInspector, statusText))
+    {
+        return false;
+    }
+
+    return worldRuntime.updateWorldItemInspectState(worldItemIndex, lootItem.item);
+}
 }
 
 GameplayItemService::GameplayItemService(GameSession &session)
@@ -359,6 +385,17 @@ bool GameplayItemService::identifyInspectedItem(
         return true;
     }
 
+    if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::WorldItem && pWorldRuntime != nullptr)
+    {
+        return applyWorldItemOperation(
+            *pWorldRuntime,
+            overlay.sourceWorldItemIndex,
+            *pItemTable,
+            ActiveLootOperation::ForceIdentify,
+            nullptr,
+            statusText);
+    }
+
     return false;
 }
 
@@ -450,6 +487,17 @@ bool GameplayItemService::tryIdentifyInspectedItem(
         return true;
     }
 
+    if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::WorldItem && pWorldRuntime != nullptr)
+    {
+        return applyWorldItemOperation(
+            *pWorldRuntime,
+            overlay.sourceWorldItemIndex,
+            *pItemTable,
+            ActiveLootOperation::IdentifyWithSkill,
+            pInspector,
+            statusText);
+    }
+
     return false;
 }
 
@@ -539,6 +587,17 @@ bool GameplayItemService::tryRepairInspectedItem(
 
         pWorldRuntime->commitActiveCorpseView();
         return true;
+    }
+
+    if (overlay.sourceType == GameplayUiController::ItemInspectSourceType::WorldItem && pWorldRuntime != nullptr)
+    {
+        return applyWorldItemOperation(
+            *pWorldRuntime,
+            overlay.sourceWorldItemIndex,
+            *pItemTable,
+            ActiveLootOperation::RepairWithSkill,
+            pInspector,
+            statusText);
     }
 
     return false;
