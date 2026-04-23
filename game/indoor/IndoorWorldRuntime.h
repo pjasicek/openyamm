@@ -43,6 +43,11 @@ public:
         uint32_t actorId = 0;
         int16_t monsterId = 0;
         std::string displayName;
+        uint16_t spriteFrameIndex = 0;
+        std::array<uint16_t, 8> actionSpriteFrameIndices = {};
+        uint16_t collisionRadius = 32;
+        uint16_t collisionHeight = 128;
+        uint16_t movementSpeed = 0;
         bool hostileToParty = false;
         bool hasDetectedParty = false;
         bool bloodSplatSpawned = false;
@@ -61,12 +66,17 @@ public:
         float velocityX = 0.0f;
         float velocityY = 0.0f;
         float velocityZ = 0.0f;
+        int16_t sectorId = -1;
+        int16_t eyeSectorId = -1;
+        size_t supportFaceIndex = static_cast<size_t>(-1);
+        bool grounded = true;
         float yawRadians = 0.0f;
         float animationTimeTicks = 0.0f;
         float recoverySeconds = 0.0f;
         float attackAnimationSeconds = 0.3f;
         float meleeAttackAnimationSeconds = 0.3f;
         float rangedAttackAnimationSeconds = 0.3f;
+        float dyingAnimationSeconds = 0.6f;
         float attackCooldownSeconds = 0.0f;
         float idleDecisionSeconds = 0.0f;
         float actionSeconds = 0.0f;
@@ -334,6 +344,13 @@ public:
     std::vector<IndoorCylinderCollision> spriteObjectMovementColliders() const;
 
 private:
+    struct RuntimeGeometryCache
+    {
+        bool valid = false;
+        std::vector<IndoorVertex> vertices;
+        IndoorFaceGeometryCache geometryCache;
+    };
+
     const MapEncounterInfo *encounterInfo(uint32_t typeIndexInMapStats) const;
     const MonsterTable::MonsterStatsEntry *resolveEncounterStats(
         uint32_t typeIndexInMapStats,
@@ -342,6 +359,8 @@ private:
     bool materializeTreasureSpawn(size_t spawnIndex, const IndoorSpawn &spawn);
     void materializeInitialMonsterSpawns();
     void syncMapActorAiStates();
+    void invalidateRuntimeGeometryCache();
+    RuntimeGeometryCache &runtimeGeometryCache() const;
     std::vector<bool> selectIndoorActiveActors(
         const ActorPartyFacts &partyFacts,
         int16_t partySectorId,
@@ -352,9 +371,12 @@ private:
         const ActorAiFrameResult &result,
         const GameplayActorAiSystem &actorAiSystem);
     void applyIndoorActorMovementIntegration(
+        IndoorMovementController &movementController,
         size_t actorIndex,
         const ActorAiUpdate &update,
-        const GameplayActorAiSystem &actorAiSystem);
+        const GameplayActorAiSystem &actorAiSystem,
+        const std::vector<IndoorCylinderCollision> &decorationColliders,
+        const std::vector<IndoorCylinderCollision> &spriteObjectColliders);
     bool applyIndoorActorProjectileRequest(const ActorProjectileRequest &projectileRequest);
     void pushIndoorProjectileAudioEvent(
         const GameplayProjectileService::ProjectileAudioRequest &audioRequest);
@@ -419,5 +441,6 @@ private:
     std::vector<MapActorAiState> m_mapActorAiStates;
     float m_actorUpdateAccumulatorSeconds = 0.0f;
     float m_worldItemUpdateAccumulatorSeconds = 0.0f;
+    mutable RuntimeGeometryCache m_runtimeGeometryCache;
 };
 }

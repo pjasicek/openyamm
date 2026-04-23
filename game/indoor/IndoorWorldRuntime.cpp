@@ -1122,6 +1122,37 @@ uint16_t resolveRuntimeActorActionSpriteFrameIndex(
     return frameIndex.value_or(0);
 }
 
+std::array<uint16_t, 8> buildRuntimeActorActionSpriteFrameIndices(
+    const SpriteFrameTable *pSpriteFrameTable,
+    const MonsterEntry *pMonsterEntry)
+{
+    std::array<uint16_t, 8> spriteFrameIndices = {};
+
+    if (pSpriteFrameTable == nullptr || pMonsterEntry == nullptr)
+    {
+        return spriteFrameIndices;
+    }
+
+    for (size_t actionIndex = 0; actionIndex < spriteFrameIndices.size(); ++actionIndex)
+    {
+        const std::string &spriteName = pMonsterEntry->spriteNames[actionIndex];
+
+        if (spriteName.empty())
+        {
+            continue;
+        }
+
+        const std::optional<uint16_t> frameIndex = pSpriteFrameTable->findFrameIndexBySpriteName(spriteName);
+
+        if (frameIndex)
+        {
+            spriteFrameIndices[actionIndex] = *frameIndex;
+        }
+    }
+
+    return spriteFrameIndices;
+}
+
 float animationSecondsForSpriteFrame(
     const SpriteFrameTable *pSpriteFrameTable,
     uint16_t spriteFrameIndex,
@@ -1479,6 +1510,23 @@ IndoorWorldRuntime::MapActorAiState buildIndoorMapActorAiState(
     state.actorId = static_cast<uint32_t>(actorIndex);
     state.monsterId = resolvedMonsterId;
     state.displayName = pStats != nullptr ? pStats->name : actor.name;
+    state.spriteFrameIndex = pActorSpriteFrameTable != nullptr
+        ? resolveRuntimeActorSpriteFrameIndex(*pActorSpriteFrameTable, actor, pMonsterEntry)
+        : 0;
+    state.actionSpriteFrameIndices = buildRuntimeActorActionSpriteFrameIndices(pActorSpriteFrameTable, pMonsterEntry);
+    state.collisionRadius = actor.radius != 0
+        ? actor.radius
+        : pMonsterEntry != nullptr ? pMonsterEntry->radius : uint16_t(32);
+    const float fallbackCollisionHeight = pMonsterEntry != nullptr
+        ? std::max(static_cast<float>(pMonsterEntry->height), static_cast<float>(state.collisionRadius) * 2.0f + 2.0f)
+        : indoorActorCollisionHeight(actor, static_cast<float>(state.collisionRadius));
+    state.collisionHeight = static_cast<uint16_t>(std::max(
+        2.0f,
+        actor.height != 0 ? indoorActorCollisionHeight(actor, static_cast<float>(state.collisionRadius))
+                          : fallbackCollisionHeight));
+    state.movementSpeed = actor.moveSpeed != 0
+        ? actor.moveSpeed
+        : pMonsterEntry != nullptr ? pMonsterEntry->movementSpeed : uint16_t(pStats != nullptr ? pStats->speed : 0);
     state.hostileToParty = hostileToParty;
     state.hasDetectedParty = defaultActorHasDetectedParty(actor, hostileToParty);
     state.motionState = actor.hp <= 0 ? ActorAiMotionState::Dead : ActorAiMotionState::Standing;
@@ -1488,6 +1536,8 @@ IndoorWorldRuntime::MapActorAiState buildIndoorMapActorAiState(
     state.preciseX = static_cast<float>(actor.x);
     state.preciseY = static_cast<float>(actor.y);
     state.preciseZ = static_cast<float>(actor.z);
+    state.sectorId = actor.sectorId;
+    state.eyeSectorId = actor.sectorId;
     state.homePreciseX = state.preciseX;
     state.homePreciseY = state.preciseY;
     state.homePreciseZ = state.preciseZ;
@@ -1496,6 +1546,8 @@ IndoorWorldRuntime::MapActorAiState buildIndoorMapActorAiState(
         actorAnimationSeconds(pActorSpriteFrameTable, pMonsterEntry, ActorAiAnimationState::AttackMelee, 0.3f);
     state.rangedAttackAnimationSeconds =
         actorAnimationSeconds(pActorSpriteFrameTable, pMonsterEntry, ActorAiAnimationState::AttackRanged, 0.3f);
+    state.dyingAnimationSeconds =
+        actorAnimationSeconds(pActorSpriteFrameTable, pMonsterEntry, ActorAiAnimationState::Dying, 0.6f);
     state.attackAnimationSeconds =
         std::max(state.meleeAttackAnimationSeconds, state.rangedAttackAnimationSeconds);
     state.attackCooldownSeconds =
@@ -1759,6 +1811,7 @@ void IndoorWorldRuntime::initialize(
     m_activeCorpseView.reset();
     m_mapActorAiStates.clear();
     m_actorUpdateAccumulatorSeconds = 0.0f;
+    invalidateRuntimeGeometryCache();
     materializeInitialMonsterSpawns();
     syncMapActorAiStates();
 }
@@ -1806,6 +1859,7 @@ void IndoorWorldRuntime::initialize(
     m_activeCorpseView.reset();
     m_mapActorAiStates.clear();
     m_actorUpdateAccumulatorSeconds = 0.0f;
+    invalidateRuntimeGeometryCache();
     materializeInitialMonsterSpawns();
     syncMapActorAiStates();
 }
@@ -1818,6 +1872,34 @@ void IndoorWorldRuntime::bindRenderer(IndoorRenderer *pRenderer)
 void IndoorWorldRuntime::bindGameplayView(IndoorGameView *pView)
 {
     m_pGameplayView = pView;
+}
+
+void IndoorWorldRuntime::invalidateRuntimeGeometryCache()
+{
+    m_runtimeGeometryCache.valid = false;
+    m_runtimeGeometryCache.vertices.clear();
+    m_runtimeGeometryCache.geometryCache = IndoorFaceGeometryCache();
+}
+
+IndoorWorldRuntime::RuntimeGeometryCache &IndoorWorldRuntime::runtimeGeometryCache() const
+{
+    if (m_runtimeGeometryCache.valid)
+    {
+        return m_runtimeGeometryCache;
+    }
+
+    m_runtimeGeometryCache.vertices.clear();
+    m_runtimeGeometryCache.geometryCache = IndoorFaceGeometryCache();
+
+    if (m_pIndoorMapData != nullptr)
+    {
+        m_runtimeGeometryCache.vertices =
+            buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, mapDeltaData(), eventRuntimeState());
+        m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
+    }
+
+    m_runtimeGeometryCache.valid = true;
+    return m_runtimeGeometryCache;
 }
 
 void IndoorWorldRuntime::syncMapActorAiStates()
@@ -1835,29 +1917,26 @@ void IndoorWorldRuntime::syncMapActorAiStates()
         return;
     }
 
-    std::vector<IndoorVertex> vertices;
-    IndoorFaceGeometryCache geometryCache;
+    const std::vector<IndoorVertex> *pVertices = nullptr;
+    IndoorFaceGeometryCache *pGeometryCache = nullptr;
 
     if (m_pIndoorMapData != nullptr && m_mapActorAiStates.size() < actorCount)
     {
-        const EventRuntimeState *pEventRuntimeState =
-            m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value()
-                ? &m_pEventRuntimeState->value()
-                : nullptr;
-        vertices = buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, pMapDeltaData, pEventRuntimeState);
-        geometryCache.reset(m_pIndoorMapData->faces.size());
+        RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+        pVertices = &runtimeGeometry.vertices;
+        pGeometryCache = &runtimeGeometry.geometryCache;
     }
 
     for (size_t actorIndex = m_mapActorAiStates.size(); actorIndex < actorCount; ++actorIndex)
     {
-        if (m_pIndoorMapData != nullptr)
+        if (m_pIndoorMapData != nullptr && pVertices != nullptr && pGeometryCache != nullptr)
         {
             fixIndoorInitialActorPlacement(
                 *m_pIndoorMapData,
-                vertices,
+                *pVertices,
                 m_pMonsterTable,
                 pMapDeltaData->actors[actorIndex],
-                geometryCache);
+                *pGeometryCache);
         }
 
         m_mapActorAiStates.push_back(
@@ -1973,17 +2052,20 @@ ActorAiFrameFacts IndoorWorldRuntime::collectIndoorActorAiFrameFacts(float delta
         return facts;
     }
 
-    std::vector<IndoorVertex> vertices;
-    IndoorFaceGeometryCache geometryCache;
+    std::vector<IndoorVertex> emptyVertices;
+    IndoorFaceGeometryCache emptyGeometryCache;
+    const std::vector<IndoorVertex> *pVertices = &emptyVertices;
+    IndoorFaceGeometryCache *pGeometryCache = &emptyGeometryCache;
 
     if (m_pIndoorMapData != nullptr)
     {
-        vertices = buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, mapDeltaData(), eventRuntimeState());
-        geometryCache.reset(m_pIndoorMapData->faces.size());
+        RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+        pVertices = &runtimeGeometry.vertices;
+        pGeometryCache = &runtimeGeometry.geometryCache;
     }
 
     const std::vector<bool> activeActorMask =
-        selectIndoorActiveActors(facts.party, partySectorId, vertices, geometryCache);
+        selectIndoorActiveActors(facts.party, partySectorId, *pVertices, *pGeometryCache);
 
     for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
     {
@@ -1993,8 +2075,8 @@ ActorAiFrameFacts IndoorWorldRuntime::collectIndoorActorAiFrameFacts(float delta
                 actorIndex,
                 active,
                 facts.party,
-                vertices,
-                geometryCache);
+                *pVertices,
+                *pGeometryCache);
 
         if (!actorFacts)
         {
@@ -2022,10 +2104,14 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
     const size_t actorCount = pMapDeltaData != nullptr ? pMapDeltaData->actors.size() : 0;
     std::vector<bool> spellEffectsAppliedMask(actorCount, false);
 
-    if (pMapDeltaData == nullptr)
+    if (pMapDeltaData == nullptr || m_pIndoorMapData == nullptr)
     {
         return spellEffectsAppliedMask;
     }
+
+    IndoorMovementController movementController(*m_pIndoorMapData, m_pMapDeltaData, m_pEventRuntimeState);
+    const std::vector<IndoorCylinderCollision> decorationColliders = decorationMovementColliders();
+    const std::vector<IndoorCylinderCollision> spriteObjectColliders = spriteObjectMovementColliders();
 
     for (const ActorAiUpdate &update : result.actorUpdates)
     {
@@ -2212,7 +2298,13 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
 
         if (update.movementIntent.applyMovement)
         {
-            applyIndoorActorMovementIntegration(update.actorIndex, update, actorAiSystem);
+            applyIndoorActorMovementIntegration(
+                movementController,
+                update.actorIndex,
+                update,
+                actorAiSystem,
+                decorationColliders,
+                spriteObjectColliders);
         }
 
         if (update.attackRequest)
@@ -2843,16 +2935,16 @@ void IndoorWorldRuntime::updateIndoorProjectiles(float deltaSeconds)
 
     syncMapActorAiStates();
 
-    const MapDeltaData *pMapDeltaData = mapDeltaData();
-    const EventRuntimeState *pEventRuntimeState =
-        m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
-    std::vector<IndoorVertex> projectileVertices;
-    IndoorFaceGeometryCache projectileGeometryCache;
+    std::vector<IndoorVertex> emptyVertices;
+    IndoorFaceGeometryCache emptyGeometryCache;
+    const std::vector<IndoorVertex> *pProjectileVertices = &emptyVertices;
+    IndoorFaceGeometryCache *pProjectileGeometryCache = &emptyGeometryCache;
 
     if (m_pIndoorMapData != nullptr)
     {
-        projectileVertices = buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, pMapDeltaData, pEventRuntimeState);
-        projectileGeometryCache.reset(m_pIndoorMapData->faces.size());
+        RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+        pProjectileVertices = &runtimeGeometry.vertices;
+        pProjectileGeometryCache = &runtimeGeometry.geometryCache;
     }
 
     for (GameplayProjectileService::ProjectileState &projectile : m_pGameplayProjectileService->projectiles())
@@ -2863,7 +2955,11 @@ void IndoorWorldRuntime::updateIndoorProjectiles(float deltaSeconds)
         }
 
         const GameplayProjectileService::ProjectileFrameFacts facts =
-            collectIndoorProjectileFrameFacts(projectile, deltaSeconds, projectileVertices, projectileGeometryCache);
+            collectIndoorProjectileFrameFacts(
+                projectile,
+                deltaSeconds,
+                *pProjectileVertices,
+                *pProjectileGeometryCache);
         const GameplayProjectileService::ProjectileFrameResult frameResult =
             m_pGameplayProjectileService->updateProjectileFrame(projectile, facts);
         applyIndoorProjectileFrameResult(projectile, frameResult);
@@ -3096,11 +3192,7 @@ void IndoorWorldRuntime::updateWorldItems(float deltaSeconds)
         return;
     }
 
-    const EventRuntimeState *pEventRuntimeState =
-        m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
-    const std::vector<IndoorVertex> vertices =
-        buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, pMapDeltaData, pEventRuntimeState);
-    IndoorFaceGeometryCache geometryCache(m_pIndoorMapData->faces.size());
+    RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
     bool changed = false;
 
     m_worldItemUpdateAccumulatorSeconds =
@@ -3108,7 +3200,10 @@ void IndoorWorldRuntime::updateWorldItems(float deltaSeconds)
 
     while (m_worldItemUpdateAccumulatorSeconds >= WorldItemUpdateStepSeconds)
     {
-        changed = updateWorldItemsStep(WorldItemUpdateStepSeconds, vertices, geometryCache) || changed;
+        changed = updateWorldItemsStep(
+            WorldItemUpdateStepSeconds,
+            runtimeGeometry.vertices,
+            runtimeGeometry.geometryCache) || changed;
         m_worldItemUpdateAccumulatorSeconds -= WorldItemUpdateStepSeconds;
     }
 
@@ -3119,9 +3214,12 @@ void IndoorWorldRuntime::updateWorldItems(float deltaSeconds)
 }
 
 void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
+    IndoorMovementController &movementController,
     size_t actorIndex,
     const ActorAiUpdate &update,
-    const GameplayActorAiSystem &actorAiSystem)
+    const GameplayActorAiSystem &actorAiSystem,
+    const std::vector<IndoorCylinderCollision> &decorationColliders,
+    const std::vector<IndoorCylinderCollision> &spriteObjectColliders)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
 
@@ -3137,23 +3235,15 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
     MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
     const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(aiState.monsterId);
-    const MonsterEntry *pMonsterEntry = resolveRuntimeMonsterEntry(*m_pMonsterTable, actor);
 
     if (pStats == nullptr)
     {
         return;
     }
 
-    const float collisionRadius = indoorActorCollisionRadius(actor);
-    const float collisionHeight =
-        actor.height != 0
-            ? indoorActorCollisionHeight(actor, collisionRadius)
-            : pMonsterEntry != nullptr
-                ? std::max(static_cast<float>(pMonsterEntry->height), collisionRadius * 2.0f + 2.0f)
-                : indoorActorCollisionHeight(actor, collisionRadius);
-    const uint16_t moveSpeed = actor.moveSpeed != 0
-        ? actor.moveSpeed
-        : pMonsterEntry != nullptr ? pMonsterEntry->movementSpeed : uint16_t(pStats->speed);
+    const float collisionRadius = static_cast<float>(aiState.collisionRadius);
+    const float collisionHeight = static_cast<float>(aiState.collisionHeight);
+    const uint16_t moveSpeed = aiState.movementSpeed != 0 ? aiState.movementSpeed : uint16_t(pStats->speed);
     const GameplayActorService fallbackActorService = {};
     const GameplayActorService *pActorService =
         m_pGameplayActorService != nullptr ? m_pGameplayActorService : &fallbackActorService;
@@ -3166,8 +3256,6 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     const float oldX = aiState.preciseX;
     const float oldY = aiState.preciseY;
     const float oldZ = aiState.preciseZ;
-
-    IndoorMovementController movementController(*m_pIndoorMapData, m_pMapDeltaData, m_pEventRuntimeState);
     std::vector<IndoorActorCollision> actorColliders = actorMovementCollidersForActorMovement();
 
     if (m_pPartyRuntime != nullptr)
@@ -3184,15 +3272,28 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     }
 
     movementController.setActorColliders(actorColliders);
-    movementController.setDecorationColliders(decorationMovementColliders());
-    movementController.setSpriteObjectColliders(spriteObjectMovementColliders());
+    movementController.setDecorationColliders(decorationColliders);
+    movementController.setSpriteObjectColliders(spriteObjectColliders);
     IndoorBodyDimensions body = {};
     body.radius = collisionRadius;
     body.height = collisionHeight;
 
-    IndoorMoveState moveState =
-        movementController.initializeStateFromEyePosition(oldX, oldY, oldZ + body.height, body);
+    IndoorMoveState moveState = {};
+    moveState.x = oldX;
+    moveState.y = oldY;
+    moveState.footZ = oldZ;
+    moveState.eyeHeight = body.height;
     moveState.verticalVelocity = aiState.velocityZ;
+    moveState.sectorId = aiState.sectorId;
+    moveState.eyeSectorId = aiState.eyeSectorId;
+    moveState.supportFaceIndex = aiState.supportFaceIndex;
+    moveState.grounded = aiState.grounded;
+
+    if (moveState.sectorId < 0 || moveState.eyeSectorId < 0)
+    {
+        moveState = movementController.initializeStateFromEyePosition(oldX, oldY, oldZ + body.height, body);
+        moveState.verticalVelocity = aiState.velocityZ;
+    }
 
     const float desiredVelocityX = update.movementIntent.desiredMoveX * effectiveMoveSpeed;
     const float desiredVelocityY = update.movementIntent.desiredMoveY * effectiveMoveSpeed;
@@ -3228,6 +3329,10 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     aiState.velocityX = deltaX / ActorUpdateStepSeconds;
     aiState.velocityY = deltaY / ActorUpdateStepSeconds;
     aiState.velocityZ = finalMoveState.verticalVelocity;
+    aiState.sectorId = finalMoveState.sectorId;
+    aiState.eyeSectorId = finalMoveState.eyeSectorId;
+    aiState.supportFaceIndex = finalMoveState.supportFaceIndex;
+    aiState.grounded = finalMoveState.grounded;
 
     actor.x = static_cast<int>(std::lround(aiState.preciseX));
     actor.y = static_cast<int>(std::lround(aiState.preciseY));
@@ -3403,16 +3508,9 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     const GameplayActorService fallbackActorService = {};
     const GameplayActorService *pActorService =
         m_pGameplayActorService != nullptr ? m_pGameplayActorService : &fallbackActorService;
-    const MonsterEntry *pMonsterEntry = resolveRuntimeMonsterEntry(*m_pMonsterTable, actor);
-    const uint16_t radius = actor.radius != 0
-        ? actor.radius
-        : pMonsterEntry != nullptr ? pMonsterEntry->radius : uint16_t(32);
-    const uint16_t height = actor.height != 0
-        ? actor.height
-        : pMonsterEntry != nullptr ? pMonsterEntry->height : uint16_t(128);
-    const uint16_t moveSpeed = actor.moveSpeed != 0
-        ? actor.moveSpeed
-        : pMonsterEntry != nullptr ? pMonsterEntry->movementSpeed : uint16_t(pStats->speed);
+    const uint16_t radius = aiState.collisionRadius;
+    const uint16_t height = aiState.collisionHeight;
+    const uint16_t moveSpeed = aiState.movementSpeed != 0 ? aiState.movementSpeed : uint16_t(pStats->speed);
     const bool actorInvisible = (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0;
     const bool defaultHostile = defaultActorHostileToParty(actor, m_pMonsterTable);
     const bool hasEffectOverride = hasActiveActorSpellEffectOverride(aiState.spellEffects);
@@ -3425,25 +3523,8 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     const GameplayActorTargetPolicyState actorPolicyState =
         buildIndoorActorTargetPolicyState(aiState, aiState.spellEffects, height, hostileToParty);
     const float actorTargetZ = aiState.preciseZ + std::max(24.0f, static_cast<float>(height) * 0.7f);
-    const int16_t actorAuthoredSectorId = actor.sectorId;
-    IndoorFloorSample floorSample = {};
-
-    if (m_pIndoorMapData != nullptr && !vertices.empty())
-    {
-        floorSample = sampleIndoorFloor(
-            *m_pIndoorMapData,
-            vertices,
-            aiState.preciseX,
-            aiState.preciseY,
-            aiState.preciseZ,
-            IndoorFloorSampleRise,
-            IndoorFloorSampleDrop,
-            actorAuthoredSectorId >= 0 ? std::optional<int16_t>(actorAuthoredSectorId) : std::nullopt,
-            nullptr,
-            &geometryCache);
-    }
-
-    const int16_t actorSectorId = floorSample.hasFloor ? floorSample.sectorId : actorAuthoredSectorId;
+    const int16_t actorSectorId =
+        aiState.sectorId >= 0 ? aiState.sectorId : actor.sectorId;
     const int16_t partySectorId =
         m_pPartyRuntime != nullptr ? m_pPartyRuntime->movementState().sectorId : int16_t(-1);
     const bool sameSectorAsParty = actorSectorId >= 0 && actorSectorId == partySectorId;
@@ -3699,7 +3780,7 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     facts.movement.movementBlocked = false;
 
     facts.world.targetZ = actorTargetZ;
-    facts.world.floorZ = floorSample.hasFloor ? floorSample.height : aiState.preciseZ;
+    facts.world.floorZ = aiState.preciseZ;
     facts.world.sectorId = actorSectorId;
     facts.world.active = active;
     facts.world.activeByDistance = active;
@@ -4050,8 +4131,8 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     state.preciseX = pAiState != nullptr ? pAiState->preciseX : static_cast<float>(actor.x);
     state.preciseY = pAiState != nullptr ? pAiState->preciseY : static_cast<float>(actor.y);
     state.preciseZ = pAiState != nullptr ? pAiState->preciseZ : static_cast<float>(actor.z);
-    state.radius = actor.radius;
-    state.height = actor.height;
+    state.radius = pAiState != nullptr ? pAiState->collisionRadius : actor.radius;
+    state.height = pAiState != nullptr ? pAiState->collisionHeight : actor.height;
     state.isDead = pAiState != nullptr
         ? pAiState->motionState == ActorAiMotionState::Dead
         : actor.hp <= 0;
@@ -4123,9 +4204,7 @@ bool IndoorWorldRuntime::actorInspectState(
         return true;
     }
 
-    const MonsterEntry *pMonsterEntry = resolveRuntimeMonsterEntry(*m_pMonsterTable, actor);
-    const uint16_t spriteFrameIndex =
-        resolveRuntimeActorSpriteFrameIndex(*m_pActorSpriteFrameTable, actor, pMonsterEntry);
+    const uint16_t spriteFrameIndex = m_mapActorAiStates[actorIndex].spriteFrameIndex;
 
     if (spriteFrameIndex == 0)
     {
@@ -4503,12 +4582,9 @@ void IndoorWorldRuntime::beginMapActorDyingState(size_t actorIndex, MapDeltaActo
         return;
     }
 
-    const MonsterEntry *pMonsterEntry =
-        m_pMonsterTable != nullptr ? resolveRuntimeMonsterEntry(*m_pMonsterTable, actor) : nullptr;
     aiState.motionState = ActorAiMotionState::Dying;
     aiState.animationState = ActorAiAnimationState::Dying;
-    aiState.actionSeconds =
-        actorAnimationSeconds(m_pActorSpriteFrameTable, pMonsterEntry, ActorAiAnimationState::Dying, 0.6f);
+    aiState.actionSeconds = aiState.dyingAnimationSeconds;
     aiState.animationTimeTicks = 0.0f;
     aiState.attackImpactTriggered = false;
     aiState.velocityX = 0.0f;
@@ -5816,6 +5892,8 @@ void IndoorWorldRuntime::applyEventRuntimeState()
     MapDeltaData *pMapDeltaData = mapDeltaData();
     EventRuntimeState *pEventRuntimeState = eventRuntimeState();
 
+    invalidateRuntimeGeometryCache();
+
     if (pMapDeltaData == nullptr || pEventRuntimeState == nullptr)
     {
         return;
@@ -6208,6 +6286,7 @@ void IndoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_activeCorpseView = snapshot.activeCorpseView;
     m_mapActorAiStates = snapshot.mapActorAiStates;
     m_actorUpdateAccumulatorSeconds = snapshot.actorUpdateAccumulatorSeconds;
+    invalidateRuntimeGeometryCache();
     syncMapActorAiStates();
 
     if (!snapshot.mapActorSpellEffectStates.empty())
@@ -6420,17 +6499,11 @@ bool IndoorWorldRuntime::materializeTreasureSpawn(size_t spawnIndex, const Indoo
 
     if (!m_pIndoorMapData->faces.empty() && !m_pIndoorMapData->vertices.empty())
     {
-        const EventRuntimeState *pEventRuntimeState =
-            m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value()
-                ? &m_pEventRuntimeState->value()
-                : nullptr;
-        const std::vector<IndoorVertex> vertices =
-            buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, pMapDeltaData, pEventRuntimeState);
-        IndoorFaceGeometryCache geometryCache(m_pIndoorMapData->faces.size());
+        RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
         const IndoorFloorSample floorSample =
             sampleIndoorFloor(
                 *m_pIndoorMapData,
-                vertices,
+                runtimeGeometry.vertices,
                 static_cast<float>(spawn.x),
                 static_cast<float>(spawn.y),
                 static_cast<float>(spawn.z),
@@ -6438,7 +6511,7 @@ bool IndoorWorldRuntime::materializeTreasureSpawn(size_t spawnIndex, const Indoo
                 IndoorFloorSampleDrop,
                 std::nullopt,
                 nullptr,
-                &geometryCache);
+                &runtimeGeometry.geometryCache);
 
         if (floorSample.hasFloor)
         {
@@ -6450,9 +6523,9 @@ bool IndoorWorldRuntime::materializeTreasureSpawn(size_t spawnIndex, const Indoo
             const std::optional<int16_t> pointSector =
                 findIndoorSectorForPoint(
                     *m_pIndoorMapData,
-                    vertices,
+                    runtimeGeometry.vertices,
                     {static_cast<float>(spawn.x), static_cast<float>(spawn.y), static_cast<float>(spawn.z)},
-                    &geometryCache);
+                    &runtimeGeometry.geometryCache);
 
             if (pointSector)
             {

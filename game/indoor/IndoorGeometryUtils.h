@@ -156,6 +156,7 @@ std::optional<int16_t> findIndoorSectorForPoint(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,
     const bx::Vec3 &point,
-    IndoorFaceGeometryCache *pGeometryCache = nullptr
+    IndoorFaceGeometryCache *pGeometryCache = nullptr,
+    bool allowBoundingSectorFallback = true
 );
 }

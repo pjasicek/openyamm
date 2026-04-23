@@ -15,6 +15,7 @@ namespace
 {
 constexpr float MaximumRise = 48.0f;
 constexpr float MaximumDrop = 160.0f;
+constexpr float MaximumStepUpFromCurrentFootZ = 128.0f;
 constexpr float SlideFactor = 0.89263916f;
 constexpr float GravityPerSecond = 960.0f;
 constexpr float JumpVelocity = 420.0f;
@@ -699,7 +700,12 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
         else
         {
             const std::optional<int16_t> sectorId =
-                findIndoorSectorForPoint(*m_pIndoorMapData, vertices, {candidateX, candidateY, candidateEyeZ}, &geometryCache);
+                findIndoorSectorForPoint(
+                    *m_pIndoorMapData,
+                    vertices,
+                    {candidateX, candidateY, candidateEyeZ},
+                    &geometryCache,
+                    false);
             candidateState.sectorId = sectorId.value_or(-1);
             candidateState.eyeSectorId = candidateState.sectorId;
         }
@@ -786,7 +792,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
         state.x,
         state.y,
         state.footZ,
-        body.height + MaximumRise,
+        MaximumRise,
         body.height + 1024.0f,
         body,
         preferredSectorId,
@@ -800,7 +806,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
             state.x,
             state.y,
             state.footZ,
-            body.height + MaximumRise,
+            MaximumRise,
             body.height + 1024.0f,
             body,
             &nonBlockingMechanismFaceMask)
@@ -878,7 +884,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
             candidateX,
             candidateY,
             positionFootZ,
-            body.height + MaximumRise,
+            MaximumRise,
             body.height + 1024.0f,
             body,
             preferredSectorId,
@@ -892,7 +898,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 candidateX,
                 candidateY,
                 positionFootZ,
-                body.height + MaximumRise,
+                MaximumRise,
                 body.height + 1024.0f,
                 body,
                 &nonBlockingMechanismFaceMask)
@@ -913,13 +919,25 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 candidateX,
                 candidateY,
                 positionFootZ,
-                body.height + MaximumRise,
+                MaximumRise,
                 body.height + 1024.0f,
                 body,
                 preferredSectorId,
                 state.supportFaceIndex,
                 &nonBlockingMechanismFaceMask);
             floor = approximateFloor;
+        }
+
+        if (!floor.hasFloor)
+        {
+            return false;
+        }
+
+        if (floor.hasFloor
+            && !sweptRequest.jumpRequested
+            && floor.height > state.footZ + MaximumStepUpFromCurrentFootZ)
+        {
+            return false;
         }
 
         float resolvedFootZ = positionFootZ;
@@ -968,7 +986,8 @@ IndoorMoveState IndoorMovementController::resolveMove(
             *m_pIndoorMapData,
             vertices,
             {candidateX, candidateY, resolvedEyeZ},
-            &geometryCache);
+            &geometryCache,
+            false);
         const std::optional<int16_t> floorSectorId =
             floor.hasFloor && floor.sectorId >= 0 ? std::optional<int16_t>(floor.sectorId) : std::nullopt;
         const std::optional<int16_t> fallbackSectorId =
@@ -1598,8 +1617,9 @@ bool IndoorMovementController::collidesAtPosition(
             oldSignedDistance == 0.0f
             || newSignedDistance == 0.0f
             || (oldSignedDistance > 0.0f) == (newSignedDistance > 0.0f);
+        const bool movedAwayFromWall = newDistance > oldDistance + 0.5f;
 
-        if (startedInsideWallRadius && stayedOnSameSide && newDistance >= oldDistance - 0.5f)
+        if (startedInsideWallRadius && stayedOnSameSide && movedAwayFromWall)
         {
             continue;
         }

@@ -343,7 +343,8 @@ std::array<uint16_t, 8> buildRuntimeActorActionSpriteFrameIndices(
 std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
     const MonsterTable &monsterTable,
     const SpriteFrameTable &spriteFrameTable,
-    const MapDeltaData &mapDeltaData
+    const MapDeltaData &mapDeltaData,
+    const IndoorWorldRuntime *pWorldRuntime = nullptr
 )
 {
     std::vector<RuntimeActorBillboard> billboards;
@@ -358,9 +359,13 @@ std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
             continue;
         }
 
-        const MonsterEntry *pMonsterEntry = resolveRuntimeMonsterEntry(monsterTable, actor);
-        const uint16_t spriteFrameIndex =
-            resolveRuntimeActorSpriteFrameIndex(spriteFrameTable, actor, pMonsterEntry);
+        const IndoorWorldRuntime::MapActorAiState *pActorAiState =
+            pWorldRuntime != nullptr ? pWorldRuntime->mapActorAiState(actorIndex) : nullptr;
+        const MonsterEntry *pMonsterEntry =
+            pActorAiState == nullptr ? resolveRuntimeMonsterEntry(monsterTable, actor) : nullptr;
+        const uint16_t spriteFrameIndex = pActorAiState != nullptr
+            ? pActorAiState->spriteFrameIndex
+            : resolveRuntimeActorSpriteFrameIndex(spriteFrameTable, actor, pMonsterEntry);
 
         if (spriteFrameIndex == 0)
         {
@@ -369,18 +374,21 @@ std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
 
         RuntimeActorBillboard billboard = {};
         billboard.actorIndex = actorIndex;
-        billboard.x = actor.x;
-        billboard.y = actor.y;
-        billboard.z = actor.z;
+        billboard.x = pActorAiState != nullptr ? int(std::lround(pActorAiState->preciseX)) : actor.x;
+        billboard.y = pActorAiState != nullptr ? int(std::lround(pActorAiState->preciseY)) : actor.y;
+        billboard.z = pActorAiState != nullptr ? int(std::lround(pActorAiState->preciseZ)) : actor.z;
         billboard.sectorId = actor.sectorId;
-        billboard.radius = actor.radius;
-        billboard.height = actor.height;
+        billboard.radius = pActorAiState != nullptr ? pActorAiState->collisionRadius : actor.radius;
+        billboard.height = pActorAiState != nullptr ? pActorAiState->collisionHeight : actor.height;
         billboard.spriteFrameIndex = spriteFrameIndex;
-        billboard.actionSpriteFrameIndices =
-            buildRuntimeActorActionSpriteFrameIndices(spriteFrameTable, pMonsterEntry);
+        billboard.actionSpriteFrameIndices = pActorAiState != nullptr
+            ? pActorAiState->actionSpriteFrameIndices
+            : buildRuntimeActorActionSpriteFrameIndices(spriteFrameTable, pMonsterEntry);
         billboard.useStaticFrame = false;
         billboard.isFriendly = (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) == 0;
-        billboard.actorName = resolveMapDeltaActorName(monsterTable, actor);
+        billboard.actorName = pActorAiState != nullptr
+            ? pActorAiState->displayName
+            : resolveMapDeltaActorName(monsterTable, actor);
         billboards.push_back(std::move(billboard));
     }
 
@@ -2463,7 +2471,11 @@ IndoorRenderer::gameplayActorPickAtCursor(
         const bx::Vec3 cameraRight = {viewMatrix[0], viewMatrix[4], viewMatrix[8]};
         const bx::Vec3 cameraUp = {viewMatrix[1], viewMatrix[5], viewMatrix[9]};
         const std::vector<RuntimeActorBillboard> runtimeActors =
-            buildRuntimeActorBillboards(*m_monsterTable, m_indoorActorPreviewBillboardSet->spriteFrameTable, *runtimeMapDeltaData());
+            buildRuntimeActorBillboards(
+                *m_monsterTable,
+                m_indoorActorPreviewBillboardSet->spriteFrameTable,
+                *runtimeMapDeltaData(),
+                m_pSceneRuntime != nullptr ? &m_pSceneRuntime->worldRuntime() : nullptr);
 
         for (const RuntimeActorBillboard &actor : runtimeActors)
         {
@@ -3067,7 +3079,8 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
             buildRuntimeActorBillboards(
                 *m_monsterTable,
                 m_indoorActorPreviewBillboardSet->spriteFrameTable,
-                *mapDeltaData);
+                *mapDeltaData,
+                m_pSceneRuntime != nullptr ? &m_pSceneRuntime->worldRuntime() : nullptr);
 
         for (const RuntimeActorBillboard &actor : runtimeActors)
         {
@@ -4184,7 +4197,8 @@ void IndoorRenderer::renderActorPreviewBillboards(
         ? buildRuntimeActorBillboards(
             *m_monsterTable,
             m_indoorActorPreviewBillboardSet->spriteFrameTable,
-            *mapDeltaData)
+            *mapDeltaData,
+            m_pSceneRuntime != nullptr ? &m_pSceneRuntime->worldRuntime() : nullptr)
         : std::vector<RuntimeActorBillboard>{};
     std::vector<BillboardDrawItem> drawItems;
     const bool useRuntimeBillboards = !runtimeBillboards.empty();
@@ -4839,131 +4853,143 @@ void IndoorRenderer::renderSpriteObjectBillboards(
         }
     );
 
-    const float prepassAmbient[4] = {1.0f, 1.0f, 1.0f, 0.0f};
-    const float prepassOverrideColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-    const float prepassOutlineParams[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-    const float prepassFogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-    const float prepassFogDensities[4] = {0.0f, 0.0f, 0.0f, 0.0f};
-    const float prepassFogDistances[4] = {4096.0f, 4096.0f, 4096.0f, 0.0f};
+    const bool needsDepthPrepass =
+        std::any_of(
+            drawItems.begin(),
+            drawItems.end(),
+            [](const BillboardDrawItem &drawItem)
+            {
+                return drawItem.hovered;
+            });
 
-    for (const BillboardDrawItem &drawItem : drawItems)
+    if (needsDepthPrepass)
     {
-        const SpriteFrameEntry &frame = *drawItem.pFrame;
-        const BillboardTextureHandle &texture = *drawItem.pTexture;
-        const float spriteScale = std::max(frame.scale, 0.01f);
-        const float worldWidth = float(texture.width) * spriteScale;
-        const float worldHeight = float(texture.height) * spriteScale;
-        const float halfWidth = worldWidth * 0.5f;
-        const bx::Vec3 center = {
-            drawItem.x,
-            drawItem.y,
-            drawItem.z + worldHeight * 0.5f
-        };
-        const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
-        const bx::Vec3 up = {
-            cameraUp.x * worldHeight * 0.5f,
-            cameraUp.y * worldHeight * 0.5f,
-            cameraUp.z * worldHeight * 0.5f
-        };
-        const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
-        const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
-        const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
-        std::array<LitBillboardVertex, 6> prepassVertices = {{
-            {
-                center.x - right.x - up.x,
-                center.y - right.y - up.y,
-                center.z - right.z - up.z,
-                u0,
-                1.0f,
-                vertexColorAbgr
-            },
-            {
-                center.x - right.x + up.x,
-                center.y - right.y + up.y,
-                center.z - right.z + up.z,
-                u0,
-                0.0f,
-                vertexColorAbgr
-            },
-            {
-                center.x + right.x + up.x,
-                center.y + right.y + up.y,
-                center.z + right.z + up.z,
-                u1,
-                0.0f,
-                vertexColorAbgr
-            },
-            {
-                center.x - right.x - up.x,
-                center.y - right.y - up.y,
-                center.z - right.z - up.z,
-                u0,
-                1.0f,
-                vertexColorAbgr
-            },
-            {
-                center.x + right.x + up.x,
-                center.y + right.y + up.y,
-                center.z + right.z + up.z,
-                u1,
-                0.0f,
-                vertexColorAbgr
-            },
-            {
-                center.x + right.x - up.x,
-                center.y + right.y - up.y,
-                center.z + right.z - up.z,
-                u1,
-                1.0f,
-                vertexColorAbgr
-            }
-        }};
+        const float prepassAmbient[4] = {1.0f, 1.0f, 1.0f, 0.0f};
+        const float prepassOverrideColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float prepassOutlineParams[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float prepassFogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float prepassFogDensities[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float prepassFogDistances[4] = {4096.0f, 4096.0f, 4096.0f, 0.0f};
 
-        if (bgfx::getAvailTransientVertexBuffer(
-                static_cast<uint32_t>(prepassVertices.size()),
-                LitBillboardVertex::ms_layout) < prepassVertices.size())
+        for (const BillboardDrawItem &drawItem : drawItems)
         {
-            continue;
+            const SpriteFrameEntry &frame = *drawItem.pFrame;
+            const BillboardTextureHandle &texture = *drawItem.pTexture;
+            const float spriteScale = std::max(frame.scale, 0.01f);
+            const float worldWidth = float(texture.width) * spriteScale;
+            const float worldHeight = float(texture.height) * spriteScale;
+            const float halfWidth = worldWidth * 0.5f;
+            const bx::Vec3 center = {
+                drawItem.x,
+                drawItem.y,
+                drawItem.z + worldHeight * 0.5f
+            };
+            const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
+            const bx::Vec3 up = {
+                cameraUp.x * worldHeight * 0.5f,
+                cameraUp.y * worldHeight * 0.5f,
+                cameraUp.z * worldHeight * 0.5f
+            };
+            const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
+            const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
+            const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
+            std::array<LitBillboardVertex, 6> prepassVertices = {{
+                {
+                    center.x - right.x - up.x,
+                    center.y - right.y - up.y,
+                    center.z - right.z - up.z,
+                    u0,
+                    1.0f,
+                    vertexColorAbgr
+                },
+                {
+                    center.x - right.x + up.x,
+                    center.y - right.y + up.y,
+                    center.z - right.z + up.z,
+                    u0,
+                    0.0f,
+                    vertexColorAbgr
+                },
+                {
+                    center.x + right.x + up.x,
+                    center.y + right.y + up.y,
+                    center.z + right.z + up.z,
+                    u1,
+                    0.0f,
+                    vertexColorAbgr
+                },
+                {
+                    center.x - right.x - up.x,
+                    center.y - right.y - up.y,
+                    center.z - right.z - up.z,
+                    u0,
+                    1.0f,
+                    vertexColorAbgr
+                },
+                {
+                    center.x + right.x + up.x,
+                    center.y + right.y + up.y,
+                    center.z + right.z + up.z,
+                    u1,
+                    0.0f,
+                    vertexColorAbgr
+                },
+                {
+                    center.x + right.x - up.x,
+                    center.y + right.y - up.y,
+                    center.z + right.z - up.z,
+                    u1,
+                    1.0f,
+                    vertexColorAbgr
+                }
+            }};
+
+            if (bgfx::getAvailTransientVertexBuffer(
+                    static_cast<uint32_t>(prepassVertices.size()),
+                    LitBillboardVertex::ms_layout) < prepassVertices.size())
+            {
+                continue;
+            }
+
+            bgfx::TransientVertexBuffer prepassTransientVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(
+                &prepassTransientVertexBuffer,
+                static_cast<uint32_t>(prepassVertices.size()),
+                LitBillboardVertex::ms_layout
+            );
+            std::memcpy(
+                prepassTransientVertexBuffer.data,
+                prepassVertices.data(),
+                static_cast<size_t>(prepassVertices.size() * sizeof(LitBillboardVertex))
+            );
+
+            float prepassModelMatrix[16] = {};
+            bx::mtxIdentity(prepassModelMatrix);
+            bgfx::setTransform(prepassModelMatrix);
+            bgfx::setVertexBuffer(
+                0,
+                &prepassTransientVertexBuffer,
+                0,
+                static_cast<uint32_t>(prepassVertices.size()));
+            bindTexture(
+                0,
+                m_textureSamplerHandle,
+                texture.textureHandle,
+                TextureFilterProfile::Billboard,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+            bgfx::setUniform(m_billboardAmbientUniformHandle, prepassAmbient);
+            bgfx::setUniform(m_billboardOverrideColorUniformHandle, prepassOverrideColor);
+            bgfx::setUniform(m_billboardOutlineParamsUniformHandle, prepassOutlineParams);
+            bgfx::setUniform(m_billboardFogColorUniformHandle, prepassFogColor);
+            bgfx::setUniform(m_billboardFogDensitiesUniformHandle, prepassFogDensities);
+            bgfx::setUniform(m_billboardFogDistancesUniformHandle, prepassFogDistances);
+            bgfx::setState(
+                BGFX_STATE_WRITE_Z
+                | BGFX_STATE_DEPTH_TEST_LEQUAL
+                | BGFX_STATE_BLEND_ALPHA
+            );
+            bgfx::submit(viewId, m_billboardProgramHandle);
         }
-
-        bgfx::TransientVertexBuffer prepassTransientVertexBuffer = {};
-        bgfx::allocTransientVertexBuffer(
-            &prepassTransientVertexBuffer,
-            static_cast<uint32_t>(prepassVertices.size()),
-            LitBillboardVertex::ms_layout
-        );
-        std::memcpy(
-            prepassTransientVertexBuffer.data,
-            prepassVertices.data(),
-            static_cast<size_t>(prepassVertices.size() * sizeof(LitBillboardVertex))
-        );
-
-        float prepassModelMatrix[16] = {};
-        bx::mtxIdentity(prepassModelMatrix);
-        bgfx::setTransform(prepassModelMatrix);
-        bgfx::setVertexBuffer(
-            0,
-            &prepassTransientVertexBuffer,
-            0,
-            static_cast<uint32_t>(prepassVertices.size()));
-        bindTexture(
-            0,
-            m_textureSamplerHandle,
-            texture.textureHandle,
-            TextureFilterProfile::Billboard,
-            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-        bgfx::setUniform(m_billboardAmbientUniformHandle, prepassAmbient);
-        bgfx::setUniform(m_billboardOverrideColorUniformHandle, prepassOverrideColor);
-        bgfx::setUniform(m_billboardOutlineParamsUniformHandle, prepassOutlineParams);
-        bgfx::setUniform(m_billboardFogColorUniformHandle, prepassFogColor);
-        bgfx::setUniform(m_billboardFogDensitiesUniformHandle, prepassFogDensities);
-        bgfx::setUniform(m_billboardFogDistancesUniformHandle, prepassFogDistances);
-        bgfx::setState(
-            BGFX_STATE_WRITE_Z
-            | BGFX_STATE_DEPTH_TEST_LEQUAL
-            | BGFX_STATE_BLEND_ALPHA
-        );
-        bgfx::submit(viewId, m_billboardProgramHandle);
     }
 
     for (const BillboardDrawItem &drawItem : drawItems)
@@ -6629,7 +6655,11 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
             };
 
         const std::vector<RuntimeActorBillboard> runtimeActors =
-            buildRuntimeActorBillboards(*m_monsterTable, m_indoorActorPreviewBillboardSet->spriteFrameTable, *mapDeltaData);
+            buildRuntimeActorBillboards(
+                *m_monsterTable,
+                m_indoorActorPreviewBillboardSet->spriteFrameTable,
+                *mapDeltaData,
+                m_pSceneRuntime != nullptr ? &m_pSceneRuntime->worldRuntime() : nullptr);
 
         for (const RuntimeActorBillboard &actor : runtimeActors)
         {

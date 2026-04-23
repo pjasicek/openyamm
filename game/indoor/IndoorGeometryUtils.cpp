@@ -13,6 +13,7 @@ namespace
 {
 constexpr float GeometryEpsilon = 0.0001f;
 constexpr float FloorSlack = 8.0f;
+constexpr float WalkableSlopeNormalZ = 0.70767211914f;
 
 struct ProjectedFacePoint
 {
@@ -162,17 +163,22 @@ bool faceIsWalkable(const IndoorFace &face, const bx::Vec3 &normal)
         return false;
     }
 
-    if (face.facetType == 3 || face.facetType == 4)
+    if (face.facetType == 3)
     {
         return normal.z > 0.0f;
+    }
+
+    if (face.facetType == 4)
+    {
+        return normal.z > WalkableSlopeNormalZ;
     }
 
     if (face.facetType == 5 || face.facetType == 6)
     {
-        return normal.z > 0.0f;
+        return false;
     }
 
-    return normal.z > 0.70767211914f;
+    return normal.z > WalkableSlopeNormalZ;
 }
 
 bool sectorBoundingBoxIntersectsProbe(const IndoorSector &sector, const bx::Vec3 &point)
@@ -195,22 +201,32 @@ IndoorFaceKind classifyFaceKind(const IndoorFace &face, const bx::Vec3 &normal)
         return IndoorFaceKind::Wall;
     }
 
-    if (face.facetType == 3 || face.facetType == 4)
-    {
-        return normal.z >= 0.0f ? IndoorFaceKind::Floor : IndoorFaceKind::Ceiling;
-    }
-
-    if (face.facetType == 5 || face.facetType == 6)
-    {
-        return normal.z >= 0.0f ? IndoorFaceKind::Floor : IndoorFaceKind::Ceiling;
-    }
-
-    if (normal.z > 0.70767211914f)
+    if (face.facetType == 3)
     {
         return IndoorFaceKind::Floor;
     }
 
-    if (normal.z < -0.70767211914f)
+    if (face.facetType == 4)
+    {
+        return normal.z > WalkableSlopeNormalZ ? IndoorFaceKind::Floor : IndoorFaceKind::Wall;
+    }
+
+    if (face.facetType == 5)
+    {
+        return IndoorFaceKind::Ceiling;
+    }
+
+    if (face.facetType == 6)
+    {
+        return normal.z < -WalkableSlopeNormalZ ? IndoorFaceKind::Ceiling : IndoorFaceKind::Wall;
+    }
+
+    if (normal.z > WalkableSlopeNormalZ)
+    {
+        return IndoorFaceKind::Floor;
+    }
+
+    if (normal.z < -WalkableSlopeNormalZ)
     {
         return IndoorFaceKind::Ceiling;
     }
@@ -834,8 +850,6 @@ IndoorFloorSample sampleIndoorFloor(
 {
     IndoorFloorSample bestSample = {};
     float bestScore = -std::numeric_limits<float>::infinity();
-    std::vector<uint8_t> visitedSectorMask;
-    std::vector<int16_t> candidateSectorIds;
 
     auto evaluateFloorFaces = [&](const std::vector<uint16_t> &faceIds)
     {
@@ -869,42 +883,44 @@ IndoorFloorSample sampleIndoorFloor(
         }
     };
 
-    auto evaluateSectorFloorFaces = [&](int16_t sectorId)
+    auto evaluateSectorFloorFaces = [&](int16_t sectorId) -> bool
     {
         if (sectorId < 0 || static_cast<size_t>(sectorId) >= indoorMapData.sectors.size())
         {
-            return;
+            return false;
         }
 
-        evaluateFloorFaces(indoorMapData.sectors[sectorId].floorFaceIds);
+        const IndoorSector &sector = indoorMapData.sectors[sectorId];
+        evaluateFloorFaces(sector.floorFaceIds);
+
+        if ((sector.flags & 0x8) != 0)
+        {
+            evaluateFloorFaces(sector.portalFaceIds);
+        }
+
+        return bestSample.hasFloor;
     };
 
     if (preferredSectorId
         && *preferredSectorId >= 0
         && static_cast<size_t>(*preferredSectorId) < indoorMapData.sectors.size())
     {
-        visitedSectorMask.assign(indoorMapData.sectors.size(), 0);
-        appendConnectedIndoorSectors(indoorMapData, *preferredSectorId, candidateSectorIds, visitedSectorMask);
-
-        for (int16_t sectorId : candidateSectorIds)
+        if (evaluateSectorFloorFaces(*preferredSectorId))
         {
-            evaluateSectorFloorFaces(sectorId);
+            return bestSample;
         }
     }
 
-    if (bestSample.hasFloor)
-    {
-        return bestSample;
-    }
+    const std::optional<int16_t> resolvedSectorId =
+        findIndoorSectorForPoint(indoorMapData, vertices, {x, y, z}, pGeometryCache);
 
-    for (size_t sectorIndex = 0; sectorIndex < indoorMapData.sectors.size(); ++sectorIndex)
+    if (resolvedSectorId
+        && (!preferredSectorId || *resolvedSectorId != *preferredSectorId))
     {
-        if (!visitedSectorMask.empty() && visitedSectorMask[sectorIndex] != 0)
+        if (evaluateSectorFloorFaces(*resolvedSectorId))
         {
-            continue;
+            return bestSample;
         }
-
-        evaluateSectorFloorFaces(static_cast<int16_t>(sectorIndex));
     }
 
     return bestSample;
@@ -949,8 +965,6 @@ IndoorCeilingSample sampleIndoorCeiling(
 {
     IndoorCeilingSample bestSample = {};
     float bestHeight = std::numeric_limits<float>::max();
-    std::vector<uint8_t> visitedSectorMask;
-    std::vector<int16_t> candidateSectorIds;
 
     auto evaluateCeilingFaces = [&](const std::vector<uint16_t> &faceIds)
     {
@@ -1009,42 +1023,37 @@ IndoorCeilingSample sampleIndoorCeiling(
         }
     };
 
-    auto evaluateSectorCeilingFaces = [&](int16_t sectorId)
+    auto evaluateSectorCeilingFaces = [&](int16_t sectorId) -> bool
     {
         if (sectorId < 0 || static_cast<size_t>(sectorId) >= indoorMapData.sectors.size())
         {
-            return;
+            return false;
         }
 
         evaluateCeilingFaces(indoorMapData.sectors[sectorId].ceilingFaceIds);
+        return bestSample.hasCeiling;
     };
 
     if (preferredSectorId
         && *preferredSectorId >= 0
         && static_cast<size_t>(*preferredSectorId) < indoorMapData.sectors.size())
     {
-        visitedSectorMask.assign(indoorMapData.sectors.size(), 0);
-        appendConnectedIndoorSectors(indoorMapData, *preferredSectorId, candidateSectorIds, visitedSectorMask);
-
-        for (int16_t sectorId : candidateSectorIds)
+        if (evaluateSectorCeilingFaces(*preferredSectorId))
         {
-            evaluateSectorCeilingFaces(sectorId);
+            return bestSample;
         }
     }
 
-    if (bestSample.hasCeiling)
-    {
-        return bestSample;
-    }
+    const std::optional<int16_t> resolvedSectorId =
+        findIndoorSectorForPoint(indoorMapData, vertices, {x, y, z}, pGeometryCache);
 
-    for (size_t sectorIndex = 0; sectorIndex < indoorMapData.sectors.size(); ++sectorIndex)
+    if (resolvedSectorId
+        && (!preferredSectorId || *resolvedSectorId != *preferredSectorId))
     {
-        if (!visitedSectorMask.empty() && visitedSectorMask[sectorIndex] != 0)
+        if (evaluateSectorCeilingFaces(*resolvedSectorId))
         {
-            continue;
+            return bestSample;
         }
-
-        evaluateSectorCeilingFaces(static_cast<int16_t>(sectorIndex));
     }
 
     return bestSample;
@@ -1054,7 +1063,8 @@ std::optional<int16_t> findIndoorSectorForPoint(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,
     const bx::Vec3 &point,
-    IndoorFaceGeometryCache *pGeometryCache
+    IndoorFaceGeometryCache *pGeometryCache,
+    bool allowBoundingSectorFallback
 )
 {
     if (indoorMapData.sectors.empty())
@@ -1167,13 +1177,18 @@ std::optional<int16_t> findIndoorSectorForPoint(
         return candidates.front().sectorId;
     }
 
-    if (singleSectorId && singleSector)
+    if (singleSectorId && singleSector && !candidates.empty())
     {
         return *singleSectorId;
     }
 
     if (candidates.empty())
     {
+        if (!allowBoundingSectorFallback)
+        {
+            return std::nullopt;
+        }
+
         return backupBoundingSectorId;
     }
 
