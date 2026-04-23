@@ -9,6 +9,7 @@
 
 #include <array>
 #include <algorithm>
+#include <cmath>
 #include <cstdio>
 #include <optional>
 
@@ -1062,6 +1063,31 @@ void GameplayUiRuntime::submitHudQuadBatch(
             {
                 const GameplayHudBatchQuad &quad = quads[quadIndex + localIndex];
                 HudQuadVertex *pQuadVertices = pVertices + localIndex * 6;
+
+                if (quad.line)
+                {
+                    const float dx = quad.x2 - quad.x;
+                    const float dy = quad.y2 - quad.y;
+                    const float length = std::sqrt(dx * dx + dy * dy);
+                    float normalX = 0.0f;
+                    float normalY = 0.0f;
+
+                    if (length > 0.0001f)
+                    {
+                        const float halfThickness = std::max(1.0f, quad.width) * 0.5f;
+                        normalX = -dy / length * halfThickness;
+                        normalY = dx / length * halfThickness;
+                    }
+
+                    pQuadVertices[0] = {quad.x + normalX, quad.y + normalY, 0.0f, quad.u0, quad.v0};
+                    pQuadVertices[1] = {quad.x2 + normalX, quad.y2 + normalY, 0.0f, quad.u1, quad.v0};
+                    pQuadVertices[2] = {quad.x2 - normalX, quad.y2 - normalY, 0.0f, quad.u1, quad.v1};
+                    pQuadVertices[3] = {quad.x + normalX, quad.y + normalY, 0.0f, quad.u0, quad.v0};
+                    pQuadVertices[4] = {quad.x2 - normalX, quad.y2 - normalY, 0.0f, quad.u1, quad.v1};
+                    pQuadVertices[5] = {quad.x - normalX, quad.y - normalY, 0.0f, quad.u0, quad.v1};
+                    continue;
+                }
+
                 pQuadVertices[0] = {quad.x, quad.y, 0.0f, quad.u0, quad.v0};
                 pQuadVertices[1] = {quad.x + quad.width, quad.y, 0.0f, quad.u1, quad.v0};
                 pQuadVertices[2] = {quad.x + quad.width, quad.y + quad.height, 0.0f, quad.u1, quad.v1};

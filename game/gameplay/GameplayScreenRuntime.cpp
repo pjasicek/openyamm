@@ -23,6 +23,11 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr uint32_t MinimapFactRefreshMilliseconds = 16;
+constexpr int GameplayMinimapMinZoomStep = 0;
+constexpr int GameplayMinimapDefaultZoomStep = 1;
+constexpr int GameplayMinimapMaxZoomStep = 2;
+
 bool isBodyEquipmentVisualSlot(EquipmentSlot slot)
 {
     switch (slot)
@@ -47,6 +52,11 @@ bool usesAlternateCloakBeltEquippedVariant(EquipmentSlot slot)
 uint32_t currentAnimationTicks()
 {
     return (static_cast<uint64_t>(SDL_GetTicks()) * 128ULL) / 1000ULL;
+}
+
+uint32_t currentMilliseconds()
+{
+    return SDL_GetTicks();
 }
 
 uint32_t mixPortraitSequenceValue(uint32_t value)
@@ -2841,7 +2851,76 @@ bool GameplayScreenRuntime::tryGetGameplayMinimapState(GameplayMinimapState &sta
 {
     IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
     state = {};
-    return pWorldRuntime != nullptr && pWorldRuntime->tryGetGameplayMinimapState(state);
+
+    if (pWorldRuntime == nullptr || !pWorldRuntime->tryGetGameplayMinimapState(state))
+    {
+        return false;
+    }
+
+    state.zoom *= gameplayMinimapZoomScale();
+    return true;
+}
+
+float GameplayScreenRuntime::gameplayMinimapZoomScale() const
+{
+    const int zoomStep = std::clamp(
+        uiController().state().gameplayMinimapZoomStep,
+        GameplayMinimapMinZoomStep,
+        GameplayMinimapMaxZoomStep);
+
+    if (zoomStep < GameplayMinimapDefaultZoomStep)
+    {
+        return 0.5f;
+    }
+
+    if (zoomStep > GameplayMinimapDefaultZoomStep)
+    {
+        return 2.0f;
+    }
+
+    return 1.0f;
+}
+
+void GameplayScreenRuntime::zoomGameplayMinimapIn()
+{
+    GameplayUiController::State &state = uiController().state();
+    state.gameplayMinimapZoomStep = std::min(state.gameplayMinimapZoomStep + 1, GameplayMinimapMaxZoomStep);
+}
+
+void GameplayScreenRuntime::zoomGameplayMinimapOut()
+{
+    GameplayUiController::State &state = uiController().state();
+    state.gameplayMinimapZoomStep = std::max(state.gameplayMinimapZoomStep - 1, GameplayMinimapMinZoomStep);
+}
+
+void GameplayScreenRuntime::collectGameplayMinimapLines(std::vector<GameplayMinimapLineState> &lines)
+{
+    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+
+    if (pWorldRuntime == nullptr)
+    {
+        lines.clear();
+        return;
+    }
+
+    const uint32_t nowMilliseconds = currentMilliseconds();
+
+    if (m_pCachedMinimapWorldRuntime != pWorldRuntime)
+    {
+        m_pCachedMinimapWorldRuntime = pWorldRuntime;
+        m_cachedMinimapLinesValid = false;
+        m_cachedMinimapMarkersValid = false;
+    }
+
+    if (!m_cachedMinimapLinesValid
+        || nowMilliseconds - m_cachedMinimapLineMilliseconds >= MinimapFactRefreshMilliseconds)
+    {
+        pWorldRuntime->collectGameplayMinimapLines(m_cachedMinimapLines);
+        m_cachedMinimapLineMilliseconds = nowMilliseconds;
+        m_cachedMinimapLinesValid = true;
+    }
+
+    lines = m_cachedMinimapLines;
 }
 
 void GameplayScreenRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const
@@ -2854,7 +2933,24 @@ void GameplayScreenRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMi
         return;
     }
 
-    pWorldRuntime->collectGameplayMinimapMarkers(markers);
+    const uint32_t nowMilliseconds = currentMilliseconds();
+
+    if (m_pCachedMinimapWorldRuntime != pWorldRuntime)
+    {
+        m_pCachedMinimapWorldRuntime = pWorldRuntime;
+        m_cachedMinimapLinesValid = false;
+        m_cachedMinimapMarkersValid = false;
+    }
+
+    if (!m_cachedMinimapMarkersValid
+        || nowMilliseconds - m_cachedMinimapMarkerMilliseconds >= MinimapFactRefreshMilliseconds)
+    {
+        pWorldRuntime->collectGameplayMinimapMarkers(m_cachedMinimapMarkers);
+        m_cachedMinimapMarkerMilliseconds = nowMilliseconds;
+        m_cachedMinimapMarkersValid = true;
+    }
+
+    markers = m_cachedMinimapMarkers;
 }
 
 bool GameplayScreenRuntime::ensureTownPortalDestinationsLoaded()

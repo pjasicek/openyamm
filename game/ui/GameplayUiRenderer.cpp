@@ -11,6 +11,7 @@
 #include <initializer_list>
 #include <limits>
 #include <string_view>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -18,7 +19,6 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr float Pi = 3.14159265358979323846f;
-constexpr float OutdoorMinimapZoom = 512.0f;
 constexpr float OeMeleeAlertDistance = 307.2f;
 constexpr float OeYellowAlertDistance = 5120.0f;
 
@@ -283,6 +283,41 @@ void submitQuadClipped(
     quad.y = y;
     quad.width = quadWidth;
     quad.height = quadHeight;
+    quad.clipped = true;
+    quad.scissorX = scissorX;
+    quad.scissorY = scissorY;
+    quad.scissorWidth = scissorWidth;
+    quad.scissorHeight = scissorHeight;
+    queuedHudQuads.push_back(quad);
+}
+
+void submitLineClipped(
+    std::vector<GameplayHudBatchQuad> &queuedHudQuads,
+    const GameplayHudTextureHandle &texture,
+    float x0,
+    float y0,
+    float x1,
+    float y1,
+    float thickness,
+    uint16_t scissorX,
+    uint16_t scissorY,
+    uint16_t scissorWidth,
+    uint16_t scissorHeight)
+{
+    if (!bgfx::isValid(texture.textureHandle) || thickness <= 0.0f)
+    {
+        return;
+    }
+
+    GameplayHudBatchQuad quad = {};
+    quad.textureHandle = texture.textureHandle;
+    quad.x = x0;
+    quad.y = y0;
+    quad.x2 = x1;
+    quad.y2 = y1;
+    quad.width = thickness;
+    quad.height = thickness;
+    quad.line = true;
     quad.clipped = true;
     quad.scissorX = scissorX;
     quad.scissorY = scissorY;
@@ -928,14 +963,6 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 continue;
             }
 
-            const std::optional<GameplayHudTextureHandle> minimapTexture =
-                context.gameplayUiRuntime().ensureHudTextureLoaded(minimapState.textureName);
-
-            if (!minimapTexture)
-            {
-                continue;
-            }
-
             const std::optional<GameplayResolvedHudLayoutElement> resolved =
                 resolveLayout(context, layoutId, pLayout->width, pLayout->height, width, height);
 
@@ -944,21 +971,60 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 continue;
             }
 
-            minimapState.uSpan = std::min(1.0f, pLayout->width / OutdoorMinimapZoom);
-            minimapState.vSpan = std::min(1.0f, pLayout->height / OutdoorMinimapZoom);
-            minimapState.u0 = std::clamp(minimapState.partyU - minimapState.uSpan * 0.5f, 0.0f, 1.0f - minimapState.uSpan);
-            minimapState.v0 = std::clamp(minimapState.partyV - minimapState.vSpan * 0.5f, 0.0f, 1.0f - minimapState.vSpan);
-            submitQuadUv(
-                queuedHudQuads,
-                *minimapTexture,
-                resolved->x,
-                resolved->y,
-                resolved->width,
-                resolved->height,
-                minimapState.u0,
-                minimapState.v0,
-                minimapState.u0 + minimapState.uSpan,
-                minimapState.v0 + minimapState.vSpan);
+            minimapState.uSpan = std::min(1.0f, pLayout->width / std::max(1.0f, minimapState.zoom));
+            minimapState.vSpan = std::min(1.0f, pLayout->height / std::max(1.0f, minimapState.zoom));
+            minimapState.u0 = std::clamp(
+                minimapState.partyU - minimapState.uSpan * 0.5f,
+                0.0f,
+                1.0f - minimapState.uSpan);
+            minimapState.v0 = std::clamp(
+                minimapState.partyV - minimapState.vSpan * 0.5f,
+                0.0f,
+                1.0f - minimapState.vSpan);
+
+            if (minimapState.vectorBackground)
+            {
+                const std::optional<GameplayHudTextureHandle> backgroundTexture =
+                    context.gameplayUiRuntime().ensureSolidHudTextureLoaded(
+                        "__indoor_minimap_background__",
+                        minimapState.backgroundColorAbgr);
+
+                if (!backgroundTexture)
+                {
+                    continue;
+                }
+
+                submitQuad(
+                    queuedHudQuads,
+                    *backgroundTexture,
+                    resolved->x,
+                    resolved->y,
+                    resolved->width,
+                    resolved->height);
+            }
+            else
+            {
+                const std::optional<GameplayHudTextureHandle> minimapTexture =
+                    context.gameplayUiRuntime().ensureHudTextureLoaded(minimapState.textureName);
+
+                if (!minimapTexture)
+                {
+                    continue;
+                }
+
+                submitQuadUv(
+                    queuedHudQuads,
+                    *minimapTexture,
+                    resolved->x,
+                    resolved->y,
+                    resolved->width,
+                    resolved->height,
+                    minimapState.u0,
+                    minimapState.v0,
+                    minimapState.u0 + minimapState.uSpan,
+                    minimapState.v0 + minimapState.vSpan);
+            }
+
             minimapOverlay = *resolved;
             hasMinimapState = true;
             continue;
@@ -1035,6 +1101,59 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             static_cast<uint16_t>(std::max(1.0f, std::ceil(minimapOverlay.width - markerMargin * 2.0f)));
         const uint16_t minimapScissorHeight =
             static_cast<uint16_t>(std::max(1.0f, std::ceil(minimapOverlay.height - markerMargin * 2.0f)));
+        std::vector<GameplayMinimapLineState> minimapLines;
+        context.collectGameplayMinimapLines(minimapLines);
+        std::unordered_map<uint32_t, std::optional<GameplayHudTextureHandle>> lineTextureByColor;
+
+        for (const GameplayMinimapLineState &line : minimapLines)
+        {
+            const float lineX0 =
+                minimapOverlay.x + ((line.u0 - minimapState.u0) / minimapState.uSpan) * minimapOverlay.width;
+            const float lineY0 =
+                minimapOverlay.y + ((line.v0 - minimapState.v0) / minimapState.vSpan) * minimapOverlay.height;
+            const float lineX1 =
+                minimapOverlay.x + ((line.u1 - minimapState.u0) / minimapState.uSpan) * minimapOverlay.width;
+            const float lineY1 =
+                minimapOverlay.y + ((line.v1 - minimapState.v0) / minimapState.vSpan) * minimapOverlay.height;
+
+            if ((lineX0 < minimapOverlay.x && lineX1 < minimapOverlay.x)
+                || (lineX0 > minimapOverlay.x + minimapOverlay.width
+                    && lineX1 > minimapOverlay.x + minimapOverlay.width)
+                || (lineY0 < minimapOverlay.y && lineY1 < minimapOverlay.y)
+                || (lineY0 > minimapOverlay.y + minimapOverlay.height
+                    && lineY1 > minimapOverlay.y + minimapOverlay.height))
+            {
+                continue;
+            }
+
+            std::optional<GameplayHudTextureHandle> &lineTexture = lineTextureByColor[line.colorAbgr];
+
+            if (!lineTexture)
+            {
+                lineTexture = context.gameplayUiRuntime().ensureSolidHudTextureLoaded(
+                    "__minimap_line__",
+                    line.colorAbgr);
+            }
+
+            if (!lineTexture)
+            {
+                continue;
+            }
+
+            submitLineClipped(
+                queuedHudQuads,
+                *lineTexture,
+                lineX0,
+                lineY0,
+                lineX1,
+                lineY1,
+                std::max(1.0f, minimapOverlay.scale),
+                minimapScissorX,
+                minimapScissorY,
+                minimapScissorWidth,
+                minimapScissorHeight);
+        }
+
         const std::optional<GameplayHudTextureHandle> friendlyMarkerTexture =
             minimapState.wizardEyeActive
                 ? context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__minimap_marker_friendly__", 0xff00ff00u)

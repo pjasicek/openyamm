@@ -253,35 +253,6 @@ std::vector<uint8_t> cropAndScaleBgraPreview(
     return scaledPixels;
 }
 
-void ensureJournalRevealMaskSize(std::vector<uint8_t> &bytes)
-{
-    const size_t expectedSize = JournalRevealHeight * JournalRevealBytesPerRow;
-
-    if (bytes.size() != expectedSize)
-    {
-        bytes.assign(expectedSize, 0);
-    }
-}
-
-void setPackedRevealBit(std::vector<uint8_t> &bytes, int cellX, int cellY)
-{
-    if (cellX < 0 || cellX >= JournalRevealWidth || cellY < 0 || cellY >= JournalRevealHeight)
-    {
-        return;
-    }
-
-    const size_t index = static_cast<size_t>(cellY * JournalRevealWidth + cellX);
-    const size_t byteIndex = index / 8;
-
-    if (byteIndex >= bytes.size())
-    {
-        return;
-    }
-
-    const uint8_t mask = static_cast<uint8_t>(1u << (7u - static_cast<unsigned>(index % 8)));
-    bytes[byteIndex] |= mask;
-}
-
 void clampJournalMapState(GameplayUiController::JournalScreenState &journalScreen)
 {
     journalScreen.mapZoomStep = std::clamp(
@@ -301,54 +272,6 @@ void clampJournalMapState(GameplayUiController::JournalScreenState &journalScree
         journalScreen.mapCenterY,
         -maxOffset,
         maxOffset);
-}
-
-void updateOutdoorJournalRevealMask(
-    const OutdoorPartyRuntime &partyRuntime,
-    std::optional<MapDeltaData> &outdoorMapDeltaData)
-{
-    if (!outdoorMapDeltaData.has_value())
-    {
-        return;
-    }
-
-    ensureJournalRevealMaskSize(outdoorMapDeltaData->fullyRevealedCells);
-    ensureJournalRevealMaskSize(outdoorMapDeltaData->partiallyRevealedCells);
-
-    const OutdoorMoveState &moveState = partyRuntime.movementState();
-    const float centerU = std::clamp(
-        (moveState.x + JournalMapWorldHalfExtent) / (JournalMapWorldHalfExtent * 2.0f),
-        0.0f,
-        0.999999f);
-    const float centerV = std::clamp(
-        (JournalMapWorldHalfExtent - moveState.y) / (JournalMapWorldHalfExtent * 2.0f),
-        0.0f,
-        0.999999f);
-    const int centerCellX = static_cast<int>(std::floor(centerU * static_cast<float>(JournalRevealWidth)));
-    const int centerCellY = static_cast<int>(std::floor(centerV * static_cast<float>(JournalRevealHeight)));
-
-    for (int offsetY = -10; offsetY < 10; ++offsetY)
-    {
-        const int cellY = centerCellY + offsetY;
-
-        for (int offsetX = -10; offsetX < 10; ++offsetX)
-        {
-            const int cellX = centerCellX + offsetX;
-            const int distanceSquared = offsetX * offsetX + offsetY * offsetY;
-
-            if (distanceSquared > 100)
-            {
-                continue;
-            }
-
-            setPackedRevealBit(outdoorMapDeltaData->partiallyRevealedCells, cellX, cellY);
-
-            if (distanceSquared <= 49)
-            {
-                setPackedRevealBit(outdoorMapDeltaData->fullyRevealedCells, cellX, cellY);
-            }
-        }
-    }
 }
 
 struct HouseShopItemDrawRect
@@ -3477,11 +3400,6 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
     const GameplayUiController::SaveGameScreenState &saveGameScreen = overlayContext.saveGameScreenState();
     const GameplayUiController::LoadGameScreenState &loadGameScreen = overlayContext.loadGameScreenState();
     GameplayUiController::JournalScreenState &journalScreen = overlayContext.journalScreenState();
-
-    if (m_pOutdoorPartyRuntime != nullptr)
-    {
-        updateOutdoorJournalRevealMask(*m_pOutdoorPartyRuntime, m_outdoorMapDeltaData);
-    }
 
     if (journalScreen.active)
     {

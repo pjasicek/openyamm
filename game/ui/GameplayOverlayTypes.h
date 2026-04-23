@@ -149,6 +149,9 @@ struct GameplayHudBatchQuad
     float y = 0.0f;
     float width = 0.0f;
     float height = 0.0f;
+    float x2 = 0.0f;
+    float y2 = 0.0f;
+    bool line = false;
     float u0 = 0.0f;
     float v0 = 0.0f;
     float u1 = 1.0f;
@@ -173,6 +176,9 @@ enum class GameplayMinimapMarkerType
 struct GameplayMinimapState
 {
     std::string textureName;
+    bool vectorBackground = false;
+    uint32_t backgroundColorAbgr = 0xff780000u;
+    float zoom = 512.0f;
     float u0 = 0.0f;
     float v0 = 0.0f;
     float uSpan = 1.0f;
@@ -182,6 +188,15 @@ struct GameplayMinimapState
     bool wizardEyeActive = false;
     bool wizardEyeShowsExpertObjects = false;
     bool wizardEyeShowsMasterDecorations = false;
+};
+
+struct GameplayMinimapLineState
+{
+    float u0 = 0.0f;
+    float v0 = 0.0f;
+    float u1 = 0.0f;
+    float v1 = 0.0f;
+    uint32_t colorAbgr = 0xffffffffu;
 };
 
 struct GameplayMinimapMarkerState
@@ -357,7 +372,9 @@ enum class GameplayHudPointerTargetType
     None,
     MenuButton,
     RestButton,
-    BooksButton
+    BooksButton,
+    MinimapZoomInButton,
+    MinimapZoomOutButton
 };
 
 struct GameplayHudPointerTarget

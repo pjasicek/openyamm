@@ -659,6 +659,7 @@ public:
     void applyPendingSpellCastWorldEffects(const PartySpellCastResult &castResult) override;
     bool dropHeldItemToWorld(const GameplayHeldItemDropRequest &request) override;
     bool tryGetGameplayMinimapState(GameplayMinimapState &state) const override;
+    void collectGameplayMinimapLines(std::vector<GameplayMinimapLineState> &lines) override;
     void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const override;
     bool isArmageddonActive() const;
     float armageddonCameraShakeYawRadians() const;

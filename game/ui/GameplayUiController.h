@@ -398,6 +398,7 @@ public:
 
     struct State
     {
+        int gameplayMinimapZoomStep = 1;
         CharacterScreenState characterScreen = {};
         HeldInventoryItemState heldInventoryItem = {};
         ItemInspectOverlayState itemInspectOverlay = {};

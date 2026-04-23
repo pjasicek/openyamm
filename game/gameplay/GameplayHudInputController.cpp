@@ -202,6 +202,20 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                         "OutdoorButtonBooks",
                         "OutdoorStandardButtonBooks"),
                     GameplayHudPointerTargetType::BooksButton
+                },
+                {
+                    activeGameplayButtonLayoutId(
+                        context,
+                        "OutdoorMinimapZoomIn",
+                        "OutdoorStandardMinimapZoomIn"),
+                    GameplayHudPointerTargetType::MinimapZoomInButton
+                },
+                {
+                    activeGameplayButtonLayoutId(
+                        context,
+                        "OutdoorMinimapZoomOut",
+                        "OutdoorStandardMinimapZoomOut"),
+                    GameplayHudPointerTargetType::MinimapZoomOutButton
                 }
             };
 
@@ -242,6 +256,12 @@ void GameplayHudInputController::handleGameplayHudButtonInput(
                 break;
             case GameplayHudPointerTargetType::BooksButton:
                 context.openJournalOverlay();
+                break;
+            case GameplayHudPointerTargetType::MinimapZoomInButton:
+                context.zoomGameplayMinimapIn();
+                break;
+            case GameplayHudPointerTargetType::MinimapZoomOutButton:
+                context.zoomGameplayMinimapOut();
                 break;
             case GameplayHudPointerTargetType::None:
                 break;

@@ -15,6 +15,7 @@
 namespace OpenYAMM::Game
 {
 struct GameplayMinimapState;
+struct GameplayMinimapLineState;
 struct GameplayMinimapMarkerState;
 struct GameplayInputFrame;
 struct PartySpellCastResult;
@@ -450,6 +451,7 @@ public:
     virtual void applyPendingSpellCastWorldEffects(const PartySpellCastResult &castResult) = 0;
     virtual bool dropHeldItemToWorld(const GameplayHeldItemDropRequest &request) = 0;
     virtual bool tryGetGameplayMinimapState(GameplayMinimapState &state) const = 0;
+    virtual void collectGameplayMinimapLines(std::vector<GameplayMinimapLineState> &lines) = 0;
     virtual void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const = 0;
     virtual GameplayChestViewState *activeChestView() = 0;
     virtual const GameplayChestViewState *activeChestView() const = 0;

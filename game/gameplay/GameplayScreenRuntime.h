@@ -355,6 +355,10 @@ public:
         float portraitWidth,
         float portraitHeight) const;
     bool tryGetGameplayMinimapState(GameplayMinimapState &state) const;
+    float gameplayMinimapZoomScale() const;
+    void zoomGameplayMinimapIn();
+    void zoomGameplayMinimapOut();
+    void collectGameplayMinimapLines(std::vector<GameplayMinimapLineState> &lines);
     void collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const;
     bool ensureTownPortalDestinationsLoaded();
     const std::vector<GameplayTownPortalDestination> &townPortalDestinations() const;
@@ -422,5 +426,12 @@ private:
     IGameplayOverlaySceneAdapter *m_pSceneAdapter = nullptr;
     uint64_t m_lastSpellFailSoundTicks = 0;
     mutable std::optional<std::string> m_resolvedInteractiveAssetName;
+    mutable IGameplayWorldRuntime *m_pCachedMinimapWorldRuntime = nullptr;
+    mutable uint32_t m_cachedMinimapLineMilliseconds = 0;
+    mutable uint32_t m_cachedMinimapMarkerMilliseconds = 0;
+    mutable bool m_cachedMinimapLinesValid = false;
+    mutable bool m_cachedMinimapMarkersValid = false;
+    mutable std::vector<GameplayMinimapLineState> m_cachedMinimapLines;
+    mutable std::vector<GameplayMinimapMarkerState> m_cachedMinimapMarkers;
 };
 } // namespace OpenYAMM::Game

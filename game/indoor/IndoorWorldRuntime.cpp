@@ -258,9 +258,108 @@ float indoorMinimapU(float x)
     return std::clamp((x + IndoorMinimapWorldHalfExtent) / IndoorMinimapWorldExtent, 0.0f, 1.0f);
 }
 
+float indoorMinimapRawU(float x)
+{
+    return (x + IndoorMinimapWorldHalfExtent) / IndoorMinimapWorldExtent;
+}
+
 float indoorMinimapV(float y)
 {
     return std::clamp((IndoorMinimapWorldHalfExtent - y) / IndoorMinimapWorldExtent, 0.0f, 1.0f);
+}
+
+float indoorMinimapRawV(float y)
+{
+    return (IndoorMinimapWorldHalfExtent - y) / IndoorMinimapWorldExtent;
+}
+
+bool packedIndoorOutlineBit(const std::vector<uint8_t> &bits, size_t outlineIndex)
+{
+    const size_t byteIndex = outlineIndex / 8;
+
+    if (byteIndex >= bits.size())
+    {
+        return false;
+    }
+
+    return (bits[byteIndex] & (1u << (7u - outlineIndex % 8))) != 0;
+}
+
+void setPackedIndoorOutlineBit(std::vector<uint8_t> &bits, size_t outlineIndex)
+{
+    const size_t byteIndex = outlineIndex / 8;
+
+    if (byteIndex >= bits.size())
+    {
+        return;
+    }
+
+    bits[byteIndex] = static_cast<uint8_t>(bits[byteIndex] | (1u << (7u - outlineIndex % 8)));
+}
+
+uint32_t effectiveIndoorFaceAttributes(const IndoorFace &face, const MapDeltaData *pMapDeltaData, size_t faceIndex)
+{
+    if (pMapDeltaData != nullptr && faceIndex < pMapDeltaData->faceAttributes.size())
+    {
+        return pMapDeltaData->faceAttributes[faceIndex];
+    }
+
+    return face.attributes;
+}
+
+bool indoorFaceHasInvisibleOverride(size_t faceIndex, const EventRuntimeState *pEventRuntimeState)
+{
+    if (pEventRuntimeState == nullptr)
+    {
+        return false;
+    }
+
+    const uint32_t faceId = static_cast<uint32_t>(faceIndex);
+    uint32_t invisibleMask = 0;
+    const auto setIterator = pEventRuntimeState->facetSetMasks.find(faceId);
+
+    if (setIterator != pEventRuntimeState->facetSetMasks.end())
+    {
+        invisibleMask |= setIterator->second;
+    }
+
+    const auto clearIterator = pEventRuntimeState->facetClearMasks.find(faceId);
+
+    if (clearIterator != pEventRuntimeState->facetClearMasks.end())
+    {
+        invisibleMask &= ~clearIterator->second;
+    }
+
+    return hasFaceAttribute(invisibleMask, FaceAttribute::Invisible);
+}
+
+bool indoorMinimapFaceVisible(
+    const IndoorFace &face,
+    const MapDeltaData *pMapDeltaData,
+    const EventRuntimeState *pEventRuntimeState,
+    size_t faceIndex)
+{
+    if (hasFaceAttribute(effectiveIndoorFaceAttributes(face, pMapDeltaData, faceIndex), FaceAttribute::Invisible))
+    {
+        return false;
+    }
+
+    return !indoorFaceHasInvisibleOverride(faceIndex, pEventRuntimeState);
+}
+
+bool indoorFaceHasMapEvent(const IndoorFace &face)
+{
+    return face.cogNumber != 0 || face.cogTriggered != 0 || face.textureFrameTableCog != 0;
+}
+
+uint32_t indoorMinimapGreyLineColor(float zDelta)
+{
+    const int dim = std::min(100, static_cast<int>(std::abs(zDelta) / 8.0f));
+    const uint8_t grey = static_cast<uint8_t>(std::max(0, 200 - dim));
+    return 0xff000000u
+        | (static_cast<uint32_t>(grey) << 16)
+        | (static_cast<uint32_t>(grey) << 8)
+        | static_cast<uint32_t>(grey);
 }
 
 float length2d(float x, float y)
@@ -4347,13 +4446,190 @@ bool IndoorWorldRuntime::tryGetGameplayMinimapState(GameplayMinimapState &state)
         pWizardEyeBuff != nullptr ? pWizardEyeBuff->skillMastery : SkillMastery::None;
     const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
 
-    state.textureName = toLowerCopy(std::filesystem::path(m_map->fileName).stem().string());
+    state.textureName.clear();
+    state.vectorBackground = true;
+    state.backgroundColorAbgr = 0xff780000u;
+    state.zoom = 1024.0f;
     state.partyU = indoorMinimapU(moveState.x);
     state.partyV = indoorMinimapV(moveState.y);
     state.wizardEyeActive = pWizardEyeBuff != nullptr;
     state.wizardEyeShowsExpertObjects = wizardEyeMastery >= SkillMastery::Expert;
     state.wizardEyeShowsMasterDecorations = wizardEyeMastery >= SkillMastery::Master;
     return true;
+}
+
+void IndoorWorldRuntime::collectGameplayMinimapLines(std::vector<GameplayMinimapLineState> &lines)
+{
+    lines.clear();
+
+    if (m_pIndoorMapData == nullptr || m_pPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    const Party *pParty = party();
+    const PartyBuffState *pWizardEyeBuff = pParty != nullptr ? pParty->partyBuff(PartyBuffId::WizardEye) : nullptr;
+    const bool showEventOutlines =
+        pWizardEyeBuff != nullptr && pWizardEyeBuff->skillMastery >= SkillMastery::Master;
+    const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
+    const EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+    std::vector<uint8_t> visibleSectorMask(m_pIndoorMapData->sectors.size(), 0);
+    std::vector<int16_t> pendingSectorIds;
+
+    if (moveState.eyeSectorId >= 0 && static_cast<size_t>(moveState.eyeSectorId) < visibleSectorMask.size())
+    {
+        pendingSectorIds.push_back(moveState.eyeSectorId);
+    }
+    else if (moveState.sectorId >= 0 && static_cast<size_t>(moveState.sectorId) < visibleSectorMask.size())
+    {
+        pendingSectorIds.push_back(moveState.sectorId);
+    }
+
+    while (!pendingSectorIds.empty())
+    {
+        const int16_t sectorId = pendingSectorIds.back();
+        pendingSectorIds.pop_back();
+
+        if (sectorId < 0 || static_cast<size_t>(sectorId) >= visibleSectorMask.size())
+        {
+            continue;
+        }
+
+        if (visibleSectorMask[sectorId] != 0)
+        {
+            continue;
+        }
+
+        visibleSectorMask[sectorId] = 1;
+        const IndoorSector &sector = m_pIndoorMapData->sectors[sectorId];
+
+        auto appendPortalConnectedSectors = [&](const std::vector<uint16_t> &faceIds)
+        {
+            for (uint16_t faceId : faceIds)
+            {
+                if (faceId >= m_pIndoorMapData->faces.size())
+                {
+                    continue;
+                }
+
+                const IndoorFace &face = m_pIndoorMapData->faces[faceId];
+
+                if (!face.isPortal && !hasFaceAttribute(
+                    effectiveIndoorFaceAttributes(face, pMapDeltaData, faceId),
+                    FaceAttribute::IsPortal))
+                {
+                    continue;
+                }
+
+                if (!indoorMinimapFaceVisible(face, pMapDeltaData, pEventRuntimeState, faceId))
+                {
+                    continue;
+                }
+
+                int16_t connectedSectorId = -1;
+
+                if (face.roomNumber == sectorId)
+                {
+                    connectedSectorId = static_cast<int16_t>(face.roomBehindNumber);
+                }
+                else if (face.roomBehindNumber == sectorId)
+                {
+                    connectedSectorId = static_cast<int16_t>(face.roomNumber);
+                }
+
+                if (connectedSectorId < 0 || static_cast<size_t>(connectedSectorId) >= visibleSectorMask.size())
+                {
+                    continue;
+                }
+
+                if (visibleSectorMask[connectedSectorId] == 0)
+                {
+                    pendingSectorIds.push_back(connectedSectorId);
+                }
+            }
+        };
+
+        appendPortalConnectedSectors(sector.portalFaceIds);
+        appendPortalConnectedSectors(sector.faceIds);
+    }
+
+    for (size_t faceIndex = 0; faceIndex < m_pIndoorMapData->faces.size(); ++faceIndex)
+    {
+        const IndoorFace &face = m_pIndoorMapData->faces[faceIndex];
+        const bool sectorVisible =
+            (face.roomNumber < visibleSectorMask.size() && visibleSectorMask[face.roomNumber] != 0)
+            || (face.roomBehindNumber < visibleSectorMask.size() && visibleSectorMask[face.roomBehindNumber] != 0);
+
+        if (!sectorVisible || !indoorMinimapFaceVisible(face, pMapDeltaData, pEventRuntimeState, faceIndex))
+        {
+            continue;
+        }
+
+        if (faceIndex < pMapDeltaData->faceAttributes.size())
+        {
+            pMapDeltaData->faceAttributes[faceIndex] |= faceAttributeBit(FaceAttribute::SeenByParty);
+        }
+    }
+
+    for (size_t outlineIndex = 0; outlineIndex < m_pIndoorMapData->outlines.size(); ++outlineIndex)
+    {
+        const IndoorOutline &outline = m_pIndoorMapData->outlines[outlineIndex];
+
+        if (outline.vertex1Id >= m_pIndoorMapData->vertices.size()
+            || outline.vertex2Id >= m_pIndoorMapData->vertices.size()
+            || outline.face1Id >= m_pIndoorMapData->faces.size()
+            || outline.face2Id >= m_pIndoorMapData->faces.size())
+        {
+            continue;
+        }
+
+        const IndoorFace &face1 = m_pIndoorMapData->faces[outline.face1Id];
+        const IndoorFace &face2 = m_pIndoorMapData->faces[outline.face2Id];
+        const uint32_t face1Attributes = effectiveIndoorFaceAttributes(face1, pMapDeltaData, outline.face1Id);
+        const uint32_t face2Attributes = effectiveIndoorFaceAttributes(face2, pMapDeltaData, outline.face2Id);
+
+        if (!indoorMinimapFaceVisible(face1, pMapDeltaData, pEventRuntimeState, outline.face1Id)
+            || !indoorMinimapFaceVisible(face2, pMapDeltaData, pEventRuntimeState, outline.face2Id))
+        {
+            continue;
+        }
+
+        const bool revealed =
+            packedIndoorOutlineBit(pMapDeltaData->visibleOutlines, outlineIndex)
+            || hasFaceAttribute(face1Attributes, FaceAttribute::SeenByParty)
+            || hasFaceAttribute(face2Attributes, FaceAttribute::SeenByParty);
+
+        if (!revealed)
+        {
+            continue;
+        }
+
+        setPackedIndoorOutlineBit(pMapDeltaData->visibleOutlines, outlineIndex);
+        const IndoorVertex &vertex1 = m_pIndoorMapData->vertices[outline.vertex1Id];
+        const IndoorVertex &vertex2 = m_pIndoorMapData->vertices[outline.vertex2Id];
+        const bool eventOutline =
+            showEventOutlines
+            && (hasFaceAttribute(face1Attributes, FaceAttribute::Clickable)
+                || hasFaceAttribute(face2Attributes, FaceAttribute::Clickable))
+            && (indoorFaceHasMapEvent(face1) || indoorFaceHasMapEvent(face2));
+
+        GameplayMinimapLineState line = {};
+        line.u0 = indoorMinimapRawU(vertex1.x);
+        line.v0 = indoorMinimapRawV(vertex1.y);
+        line.u1 = indoorMinimapRawU(vertex2.x);
+        line.v1 = indoorMinimapRawV(vertex2.y);
+        line.colorAbgr = eventOutline
+            ? 0xffff0000u
+            : indoorMinimapGreyLineColor(outline.z - moveState.footZ);
+        lines.push_back(line);
+    }
 }
 
 void IndoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const
