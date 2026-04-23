@@ -134,6 +134,55 @@ struct ProjectedPoint
     float z = 0.0f;
 };
 
+struct IndoorBounds
+{
+    bx::Vec3 min = {0.0f, 0.0f, 0.0f};
+    bx::Vec3 max = {0.0f, 0.0f, 0.0f};
+    bool hasPoint = false;
+};
+
+IndoorBounds makeEmptyIndoorBounds()
+{
+    IndoorBounds bounds = {};
+    bounds.min = {
+        std::numeric_limits<float>::max(),
+        std::numeric_limits<float>::max(),
+        std::numeric_limits<float>::max()
+    };
+    bounds.max = {
+        std::numeric_limits<float>::lowest(),
+        std::numeric_limits<float>::lowest(),
+        std::numeric_limits<float>::lowest()
+    };
+    return bounds;
+}
+
+void includeIndoorBoundsPoint(IndoorBounds &bounds, const IndoorVertex &vertex)
+{
+    bounds.min.x = std::min(bounds.min.x, static_cast<float>(vertex.x));
+    bounds.min.y = std::min(bounds.min.y, static_cast<float>(vertex.y));
+    bounds.min.z = std::min(bounds.min.z, static_cast<float>(vertex.z));
+    bounds.max.x = std::max(bounds.max.x, static_cast<float>(vertex.x));
+    bounds.max.y = std::max(bounds.max.y, static_cast<float>(vertex.y));
+    bounds.max.z = std::max(bounds.max.z, static_cast<float>(vertex.z));
+    bounds.hasPoint = true;
+}
+
+bool indoorBoundsOverlapWithSlack(const IndoorBounds &left, const IndoorBounds &right, float slack)
+{
+    if (!left.hasPoint || !right.hasPoint)
+    {
+        return false;
+    }
+
+    return left.max.x + slack >= right.min.x
+        && left.min.x - slack <= right.max.x
+        && left.max.y + slack >= right.min.y
+        && left.min.y - slack <= right.max.y
+        && left.max.z + slack >= right.min.z
+        && left.min.z - slack <= right.max.z;
+}
+
 bool projectWorldPointToScreen(
     const bx::Vec3 &worldPoint,
     int width,
@@ -1670,19 +1719,9 @@ std::vector<int16_t> IndoorRenderer::visibleIndoorMapRevealSectorIds(int16_t sec
     );
     bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
 
-    const auto faceBounds = [&](const IndoorFace &face, bx::Vec3 &minBounds, bx::Vec3 &maxBounds) -> bool
+    const auto faceBounds = [&](const IndoorFace &face) -> IndoorBounds
     {
-        bool hasVertex = false;
-        minBounds = {
-            std::numeric_limits<float>::max(),
-            std::numeric_limits<float>::max(),
-            std::numeric_limits<float>::max()
-        };
-        maxBounds = {
-            std::numeric_limits<float>::lowest(),
-            std::numeric_limits<float>::lowest(),
-            std::numeric_limits<float>::lowest()
-        };
+        IndoorBounds bounds = makeEmptyIndoorBounds();
 
         for (uint16_t vertexIndex : face.vertexIndices)
         {
@@ -1692,31 +1731,15 @@ std::vector<int16_t> IndoorRenderer::visibleIndoorMapRevealSectorIds(int16_t sec
             }
 
             const IndoorVertex &vertex = m_renderVertices[vertexIndex];
-            minBounds.x = std::min(minBounds.x, static_cast<float>(vertex.x));
-            minBounds.y = std::min(minBounds.y, static_cast<float>(vertex.y));
-            minBounds.z = std::min(minBounds.z, static_cast<float>(vertex.z));
-            maxBounds.x = std::max(maxBounds.x, static_cast<float>(vertex.x));
-            maxBounds.y = std::max(maxBounds.y, static_cast<float>(vertex.y));
-            maxBounds.z = std::max(maxBounds.z, static_cast<float>(vertex.z));
-            hasVertex = true;
+            includeIndoorBoundsPoint(bounds, vertex);
         }
 
-        return hasVertex;
+        return bounds;
     };
 
-    const auto doorBounds = [&](const MapDeltaDoor &door, bx::Vec3 &minBounds, bx::Vec3 &maxBounds) -> bool
+    const auto doorBounds = [&](const MapDeltaDoor &door) -> IndoorBounds
     {
-        bool hasVertex = false;
-        minBounds = {
-            std::numeric_limits<float>::max(),
-            std::numeric_limits<float>::max(),
-            std::numeric_limits<float>::max()
-        };
-        maxBounds = {
-            std::numeric_limits<float>::lowest(),
-            std::numeric_limits<float>::lowest(),
-            std::numeric_limits<float>::lowest()
-        };
+        IndoorBounds bounds = makeEmptyIndoorBounds();
 
         for (uint16_t vertexIndex : door.vertexIds)
         {
@@ -1726,28 +1749,10 @@ std::vector<int16_t> IndoorRenderer::visibleIndoorMapRevealSectorIds(int16_t sec
             }
 
             const IndoorVertex &vertex = m_renderVertices[vertexIndex];
-            minBounds.x = std::min(minBounds.x, static_cast<float>(vertex.x));
-            minBounds.y = std::min(minBounds.y, static_cast<float>(vertex.y));
-            minBounds.z = std::min(minBounds.z, static_cast<float>(vertex.z));
-            maxBounds.x = std::max(maxBounds.x, static_cast<float>(vertex.x));
-            maxBounds.y = std::max(maxBounds.y, static_cast<float>(vertex.y));
-            maxBounds.z = std::max(maxBounds.z, static_cast<float>(vertex.z));
-            hasVertex = true;
+            includeIndoorBoundsPoint(bounds, vertex);
         }
 
-        return hasVertex;
-    };
-
-    const auto boundsOverlapWithSlack =
-        [](const bx::Vec3 &leftMin, const bx::Vec3 &leftMax, const bx::Vec3 &rightMin, const bx::Vec3 &rightMax)
-    {
-        constexpr float DoorPortalRevealSlack = 64.0f;
-        return leftMax.x + DoorPortalRevealSlack >= rightMin.x
-            && leftMin.x - DoorPortalRevealSlack <= rightMax.x
-            && leftMax.y + DoorPortalRevealSlack >= rightMin.y
-            && leftMin.y - DoorPortalRevealSlack <= rightMax.y
-            && leftMax.z + DoorPortalRevealSlack >= rightMin.z
-            && leftMin.z - DoorPortalRevealSlack <= rightMax.z;
+        return bounds;
     };
 
     const auto portalBlockedByClosedDoor = [&](const IndoorFace &portalFace) -> bool
@@ -1759,10 +1764,9 @@ std::vector<int16_t> IndoorRenderer::visibleIndoorMapRevealSectorIds(int16_t sec
             return false;
         }
 
-        bx::Vec3 portalMin = {0.0f, 0.0f, 0.0f};
-        bx::Vec3 portalMax = {0.0f, 0.0f, 0.0f};
+        const IndoorBounds portalBounds = faceBounds(portalFace);
 
-        if (!faceBounds(portalFace, portalMin, portalMax))
+        if (!portalBounds.hasPoint)
         {
             return false;
         }
@@ -1776,15 +1780,10 @@ std::vector<int16_t> IndoorRenderer::visibleIndoorMapRevealSectorIds(int16_t sec
                 continue;
             }
 
-            bx::Vec3 doorMin = {0.0f, 0.0f, 0.0f};
-            bx::Vec3 doorMax = {0.0f, 0.0f, 0.0f};
+            constexpr float DoorPortalRevealSlack = 64.0f;
+            const IndoorBounds currentDoorBounds = doorBounds(door);
 
-            if (!doorBounds(door, doorMin, doorMax))
-            {
-                continue;
-            }
-
-            if (boundsOverlapWithSlack(doorMin, doorMax, portalMin, portalMax))
+            if (indoorBoundsOverlapWithSlack(currentDoorBounds, portalBounds, DoorPortalRevealSlack))
             {
                 return true;
             }
