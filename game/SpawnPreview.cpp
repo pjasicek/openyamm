@@ -169,8 +169,14 @@ SpawnPreview SpawnPreviewResolver::describe(
     if (typeId == ObjectTypeSprite)
     {
         preview.typeName = "sprite";
-        preview.summary = "treasure/item spawn index=" + std::to_string(index);
-        preview.detail = "group=" + std::to_string(group);
+        preview.summary = "treasure level " + std::to_string(index);
+
+        if (index == 7)
+        {
+            preview.summary += " (Artefact)";
+        }
+
+        preview.detail = "map treasure remaps level; group=" + std::to_string(group);
         return preview;
     }
 

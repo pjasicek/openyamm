@@ -91,6 +91,7 @@ constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float PendingSpellWorldFxDurationSeconds = 0.72f;
 constexpr float PendingSpellWorldFxRingRadius = 28.0f;
 constexpr float ProjectileImpactWorldFxDurationSeconds = 0.48f;
+constexpr float HoveredActorOutlineThicknessPixels = 2.0f;
 constexpr size_t MaxPendingSpellWorldFx = 48;
 
 struct RuntimeActorBillboard
@@ -352,6 +353,12 @@ std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
     for (size_t actorIndex = 0; actorIndex < mapDeltaData.actors.size(); ++actorIndex)
     {
         const MapDeltaActor &actor = mapDeltaData.actors[actorIndex];
+
+        if ((actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
+        {
+            continue;
+        }
+
         const MonsterEntry *pMonsterEntry = resolveRuntimeMonsterEntry(monsterTable, actor);
         const uint16_t spriteFrameIndex =
             resolveRuntimeActorSpriteFrameIndex(spriteFrameTable, actor, pMonsterEntry);
@@ -1144,6 +1151,44 @@ uint32_t withAlpha(uint32_t colorAbgr, uint8_t alpha)
     return (colorAbgr & 0x00ffffffu) | (static_cast<uint32_t>(alpha) << 24);
 }
 
+float redChannel(uint32_t colorAbgr)
+{
+    return static_cast<float>(colorAbgr & 0xffu) / 255.0f;
+}
+
+float greenChannel(uint32_t colorAbgr)
+{
+    return static_cast<float>((colorAbgr >> 8) & 0xffu) / 255.0f;
+}
+
+float blueChannel(uint32_t colorAbgr)
+{
+    return static_cast<float>((colorAbgr >> 16) & 0xffu) / 255.0f;
+}
+
+uint32_t resolveHoveredIndoorActorOutlineColor(
+    const MapDeltaActor &actor,
+    const IndoorWorldRuntime::MapActorAiState *pAiState)
+{
+    if (actor.hp <= 0 || (pAiState != nullptr && pAiState->motionState == ActorAiMotionState::Dead))
+    {
+        return makeAbgr(255, 224, 64);
+    }
+
+    if ((actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) != 0
+        || (pAiState != nullptr && pAiState->hostileToParty))
+    {
+        return makeAbgr(255, 64, 64);
+    }
+
+    return makeAbgr(64, 255, 64);
+}
+
+uint32_t hoveredIndoorWorldItemOutlineColor()
+{
+    return makeAbgr(64, 128, 255);
+}
+
 bool shouldTriggerPendingSpellWorldFx(PartySpellCastEffectKind effectKind)
 {
     return effectKind == PartySpellCastEffectKind::PartyBuff
@@ -1209,6 +1254,7 @@ bool faceHasInvisibleOverride(
 
 bgfx::VertexLayout IndoorRenderer::TerrainVertex::ms_layout;
 bgfx::VertexLayout IndoorRenderer::TexturedVertex::ms_layout;
+bgfx::VertexLayout IndoorRenderer::LitBillboardVertex::ms_layout;
 
 IndoorRenderer::IndoorRenderer()
     : m_isInitialized(false)
@@ -1221,7 +1267,14 @@ IndoorRenderer::IndoorRenderer()
     , m_doorMarkerVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_programHandle(BGFX_INVALID_HANDLE)
     , m_texturedProgramHandle(BGFX_INVALID_HANDLE)
+    , m_billboardProgramHandle(BGFX_INVALID_HANDLE)
     , m_textureSamplerHandle(BGFX_INVALID_HANDLE)
+    , m_billboardAmbientUniformHandle(BGFX_INVALID_HANDLE)
+    , m_billboardOverrideColorUniformHandle(BGFX_INVALID_HANDLE)
+    , m_billboardOutlineParamsUniformHandle(BGFX_INVALID_HANDLE)
+    , m_billboardFogColorUniformHandle(BGFX_INVALID_HANDLE)
+    , m_billboardFogDensitiesUniformHandle(BGFX_INVALID_HANDLE)
+    , m_billboardFogDistancesUniformHandle(BGFX_INVALID_HANDLE)
     , m_framesPerSecond(0.0f)
     , m_wireframeVertexCount(0)
     , m_wireframeVertexCapacity(0)
@@ -1294,6 +1347,7 @@ bool IndoorRenderer::initialize(
 
     TerrainVertex::init();
     TexturedVertex::init();
+    LitBillboardVertex::init();
 
     const std::vector<TerrainVertex> entityMarkerVertices = buildEntityMarkerVertices(indoorMapData);
     const std::vector<TerrainVertex> spawnMarkerVertices = buildSpawnMarkerVertices(indoorMapData);
@@ -1433,7 +1487,16 @@ bool IndoorRenderer::initialize(
     m_faceCount = static_cast<uint32_t>(indoorMapData.faces.size());
     m_programHandle = loadProgram("vs_cubes", "fs_cubes");
     m_texturedProgramHandle = loadProgram("vs_shadowmaps_texture", "fs_shadowmaps_texture");
+    m_billboardProgramHandle = loadProgram("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");
     m_textureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+    m_billboardAmbientUniformHandle = bgfx::createUniform("u_billboardAmbient", bgfx::UniformType::Vec4);
+    m_billboardOverrideColorUniformHandle =
+        bgfx::createUniform("u_billboardOverrideColor", bgfx::UniformType::Vec4);
+    m_billboardOutlineParamsUniformHandle =
+        bgfx::createUniform("u_billboardOutlineParams", bgfx::UniformType::Vec4);
+    m_billboardFogColorUniformHandle = bgfx::createUniform("u_fogColor", bgfx::UniformType::Vec4);
+    m_billboardFogDensitiesUniformHandle = bgfx::createUniform("u_fogDensities", bgfx::UniformType::Vec4);
+    m_billboardFogDistancesUniformHandle = bgfx::createUniform("u_fogDistances", bgfx::UniformType::Vec4);
 
     if (!bgfx::isValid(m_programHandle))
     {
@@ -1449,9 +1512,22 @@ bool IndoorRenderer::initialize(
         return false;
     }
 
-    if (!bgfx::isValid(m_textureSamplerHandle))
+    if (!bgfx::isValid(m_billboardProgramHandle))
     {
-        std::cerr << "IndoorRenderer: failed to create texture sampler uniform\n";
+        std::cerr << "IndoorRenderer: failed to create billboard program handle\n";
+        shutdown();
+        return false;
+    }
+
+    if (!bgfx::isValid(m_textureSamplerHandle)
+        || !bgfx::isValid(m_billboardAmbientUniformHandle)
+        || !bgfx::isValid(m_billboardOverrideColorUniformHandle)
+        || !bgfx::isValid(m_billboardOutlineParamsUniformHandle)
+        || !bgfx::isValid(m_billboardFogColorUniformHandle)
+        || !bgfx::isValid(m_billboardFogDensitiesUniformHandle)
+        || !bgfx::isValid(m_billboardFogDistancesUniformHandle))
+    {
+        std::cerr << "IndoorRenderer: failed to create billboard uniforms\n";
         shutdown();
         return false;
     }
@@ -2853,6 +2929,281 @@ GameplayWorldHit IndoorRenderer::pickGameplayWorldHit(const GameplayWorldPickReq
     return translateInspectHitToGameplayWorldHit(*inspectHit, rayRequest);
 }
 
+GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorldPickRequest &request) const
+{
+    GameplayWorldPickRequest rayRequest = request;
+
+    if (!rayRequest.hasRay)
+    {
+        const GameplayWorldPickRequestInput input = {
+            .screenX = request.screenX,
+            .screenY = request.screenY,
+            .screenWidth = request.viewWidth,
+            .screenHeight = request.viewHeight,
+            .includeRay = true,
+        };
+        rayRequest = buildGameplayWorldPickRequest(input);
+    }
+
+    const auto isSelectableHit =
+        [this](const GameplayWorldHit &hit) -> bool
+        {
+            if (!hit.hasHit)
+            {
+                return false;
+            }
+
+            if (hit.kind == GameplayWorldHitKind::Actor || hit.kind == GameplayWorldHitKind::WorldItem)
+            {
+                return true;
+            }
+
+            return canActivateGameplayWorldHit(hit);
+        };
+
+    const GameplayWorldHit directHit = pickGameplayWorldHit(rayRequest);
+
+    if (isSelectableHit(directHit))
+    {
+        return directHit;
+    }
+
+    if (!m_isInitialized
+        || !m_isRenderable
+        || !m_indoorMapData
+        || rayRequest.viewWidth <= 0
+        || rayRequest.viewHeight <= 0)
+    {
+        return {};
+    }
+
+    float viewProjectionMatrix[16] = {};
+    bx::mtxMul(viewProjectionMatrix, rayRequest.viewMatrix.data(), rayRequest.projectionMatrix.data());
+
+    struct KeyboardCandidate
+    {
+        float screenX = 0.0f;
+        float screenY = 0.0f;
+        float score = 0.0f;
+    };
+
+    std::vector<KeyboardCandidate> candidates;
+    const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(rayRequest.eye);
+
+    const auto appendProjectedCandidate =
+        [&](const bx::Vec3 &worldPoint, float screenRadius)
+        {
+            ProjectedPoint projected = {};
+
+            if (!projectWorldPointToScreen(
+                    worldPoint,
+                    rayRequest.viewWidth,
+                    rayRequest.viewHeight,
+                    viewProjectionMatrix,
+                    projected))
+            {
+                return;
+            }
+
+            const float deltaX = projected.x - rayRequest.screenX;
+            const float deltaY = projected.y - rayRequest.screenY;
+            const float screenDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+            if (screenDistance > screenRadius)
+            {
+                return;
+            }
+
+            const float worldDistance = vecLength(vecSubtract(worldPoint, rayRequest.eye));
+            candidates.push_back(KeyboardCandidate{
+                .screenX = projected.x,
+                .screenY = projected.y,
+                .score = screenDistance * 64.0f + worldDistance,
+            });
+        };
+
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+
+    if (mapDeltaData && m_monsterTable && m_indoorActorPreviewBillboardSet)
+    {
+        const std::vector<RuntimeActorBillboard> runtimeActors =
+            buildRuntimeActorBillboards(
+                *m_monsterTable,
+                m_indoorActorPreviewBillboardSet->spriteFrameTable,
+                *mapDeltaData);
+
+        for (const RuntimeActorBillboard &actor : runtimeActors)
+        {
+            if (!isSectorVisible(actor.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
+            appendProjectedCandidate(
+                {
+                    static_cast<float>(actor.x),
+                    static_cast<float>(actor.y),
+                    static_cast<float>(actor.z) + static_cast<float>(std::max<uint16_t>(actor.height, 96)) * 0.5f
+                },
+                112.0f);
+        }
+    }
+
+    if (mapDeltaData && m_objectTable)
+    {
+        const std::vector<RuntimeSpriteObjectBillboard> runtimeObjects =
+            buildRuntimeSpriteObjectBillboards(*m_objectTable, *mapDeltaData);
+
+        for (const RuntimeSpriteObjectBillboard &object : runtimeObjects)
+        {
+            if (!isSectorVisible(object.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
+            appendProjectedCandidate(
+                {
+                    static_cast<float>(object.x),
+                    static_cast<float>(object.y),
+                    static_cast<float>(object.z) + static_cast<float>(std::max<int16_t>(object.height, 64)) * 0.5f
+                },
+                96.0f);
+        }
+    }
+
+    for (size_t faceIndex = 0; faceIndex < m_indoorMapData->faces.size(); ++faceIndex)
+    {
+        const IndoorFace &face = m_indoorMapData->faces[faceIndex];
+
+        if (face.vertexIndices.empty()
+            || (face.cogTriggered == 0 && face.cogNumber == 0)
+            || !isFaceVisible(faceIndex, face, runtimeEventRuntimeStateStorage())
+            || (!visibleSectorMask.empty()
+                && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
+                && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask)))
+        {
+            continue;
+        }
+
+        bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+        uint32_t validVertexCount = 0;
+
+        for (uint16_t vertexIndex : face.vertexIndices)
+        {
+            if (vertexIndex >= m_renderVertices.size())
+            {
+                continue;
+            }
+
+            const IndoorVertex &vertex = m_renderVertices[vertexIndex];
+            center.x += static_cast<float>(vertex.x);
+            center.y += static_cast<float>(vertex.y);
+            center.z += static_cast<float>(vertex.z);
+            ++validVertexCount;
+        }
+
+        if (validVertexCount == 0)
+        {
+            continue;
+        }
+
+        center.x /= static_cast<float>(validVertexCount);
+        center.y /= static_cast<float>(validVertexCount);
+        center.z /= static_cast<float>(validVertexCount);
+        appendProjectedCandidate(center, 128.0f);
+    }
+
+    if (m_indoorMapData)
+    {
+        for (const IndoorEntity &entity : m_indoorMapData->entities)
+        {
+            appendProjectedCandidate(
+                {
+                    static_cast<float>(entity.x),
+                    static_cast<float>(entity.y),
+                    static_cast<float>(entity.z) + 32.0f
+                },
+                96.0f);
+        }
+    }
+
+    if (mapDeltaData)
+    {
+        for (size_t doorIndex = 0; doorIndex < mapDeltaData->doors.size(); ++doorIndex)
+        {
+            const MapDeltaDoor &door = mapDeltaData->doors[doorIndex];
+
+            if (door.vertexIds.empty()
+                || (doorIndex < m_mechanismBindings.size()
+                    && m_mechanismBindings[doorIndex].linkedEventId == 0
+                    && door.doorId == 0))
+            {
+                continue;
+            }
+
+            bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+            uint32_t validVertexCount = 0;
+
+            for (uint16_t vertexId : door.vertexIds)
+            {
+                if (vertexId >= m_renderVertices.size())
+                {
+                    continue;
+                }
+
+                const IndoorVertex &vertex = m_renderVertices[vertexId];
+                center.x += static_cast<float>(vertex.x);
+                center.y += static_cast<float>(vertex.y);
+                center.z += static_cast<float>(vertex.z);
+                ++validVertexCount;
+            }
+
+            if (validVertexCount == 0)
+            {
+                continue;
+            }
+
+            center.x /= static_cast<float>(validVertexCount);
+            center.y /= static_cast<float>(validVertexCount);
+            center.z /= static_cast<float>(validVertexCount);
+            appendProjectedCandidate(center, 128.0f);
+        }
+    }
+
+    std::sort(
+        candidates.begin(),
+        candidates.end(),
+        [](const KeyboardCandidate &left, const KeyboardCandidate &right)
+        {
+            return left.score < right.score;
+        });
+
+    constexpr size_t MaxKeyboardCandidateProbes = 16;
+    const size_t candidateProbeCount = std::min(candidates.size(), MaxKeyboardCandidateProbes);
+
+    for (size_t candidateIndex = 0; candidateIndex < candidateProbeCount; ++candidateIndex)
+    {
+        const KeyboardCandidate &candidate = candidates[candidateIndex];
+        const GameplayWorldPickRequest candidateRequest =
+            buildGameplayWorldPickRequest(
+                GameplayWorldPickRequestInput{
+                    .screenX = candidate.screenX,
+                    .screenY = candidate.screenY,
+                    .screenWidth = rayRequest.viewWidth,
+                    .screenHeight = rayRequest.viewHeight,
+                    .includeRay = true,
+                });
+        const GameplayWorldHit candidateHit = pickGameplayWorldHit(candidateRequest);
+
+        if (isSelectableHit(candidateHit))
+        {
+            return candidateHit;
+        }
+    }
+
+    return directHit;
+}
+
 GameplayWorldHoverCacheState IndoorRenderer::gameplayWorldHoverCacheState() const
 {
     return GameplayWorldHoverCacheState{
@@ -3260,6 +3611,12 @@ void IndoorRenderer::shutdown()
         m_texturedProgramHandle = BGFX_INVALID_HANDLE;
     }
 
+    if (bgfx::isValid(m_billboardProgramHandle))
+    {
+        bgfx::destroy(m_billboardProgramHandle);
+        m_billboardProgramHandle = BGFX_INVALID_HANDLE;
+    }
+
     if (bgfx::isValid(m_entityMarkerVertexBufferHandle))
     {
         bgfx::destroy(m_entityMarkerVertexBufferHandle);
@@ -3288,6 +3645,42 @@ void IndoorRenderer::shutdown()
     {
         bgfx::destroy(m_textureSamplerHandle);
         m_textureSamplerHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_billboardAmbientUniformHandle))
+    {
+        bgfx::destroy(m_billboardAmbientUniformHandle);
+        m_billboardAmbientUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_billboardOverrideColorUniformHandle))
+    {
+        bgfx::destroy(m_billboardOverrideColorUniformHandle);
+        m_billboardOverrideColorUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_billboardOutlineParamsUniformHandle))
+    {
+        bgfx::destroy(m_billboardOutlineParamsUniformHandle);
+        m_billboardOutlineParamsUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_billboardFogColorUniformHandle))
+    {
+        bgfx::destroy(m_billboardFogColorUniformHandle);
+        m_billboardFogColorUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_billboardFogDensitiesUniformHandle))
+    {
+        bgfx::destroy(m_billboardFogDensitiesUniformHandle);
+        m_billboardFogDensitiesUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_billboardFogDistancesUniformHandle))
+    {
+        bgfx::destroy(m_billboardFogDistancesUniformHandle);
+        m_billboardFogDistancesUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     destroyDerivedGeometryResources();
@@ -3361,6 +3754,15 @@ void IndoorRenderer::TexturedVertex::init()
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+        .end();
+}
+
+void IndoorRenderer::LitBillboardVertex::init()
+{
+    ms_layout.begin()
+        .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::Color0, 4, bgfx::AttribType::Uint8, true)
         .end();
 }
 
@@ -3641,10 +4043,13 @@ void IndoorRenderer::renderDecorationBillboards(
             static_cast<float>(billboard.z) + centerOffset + toCamera.z * BillboardDepthBias
         };
         const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
-        const bx::Vec3 up = {cameraUp.x * worldHeight * 0.5f, cameraUp.y * worldHeight * 0.5f, cameraUp.z * worldHeight * 0.5f};
+        const bx::Vec3 up = {
+            cameraUp.x * worldHeight * 0.5f,
+            cameraUp.y * worldHeight * 0.5f,
+            cameraUp.z * worldHeight * 0.5f
+        };
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
-
         std::array<TexturedVertex, 6> vertices = {{
             {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
             {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f},
@@ -3700,8 +4105,14 @@ void IndoorRenderer::renderActorPreviewBillboards(
 )
 {
     if (!m_indoorActorPreviewBillboardSet
-        || !bgfx::isValid(m_texturedProgramHandle)
-        || !bgfx::isValid(m_textureSamplerHandle))
+        || !bgfx::isValid(m_billboardProgramHandle)
+        || !bgfx::isValid(m_textureSamplerHandle)
+        || !bgfx::isValid(m_billboardAmbientUniformHandle)
+        || !bgfx::isValid(m_billboardOverrideColorUniformHandle)
+        || !bgfx::isValid(m_billboardOutlineParamsUniformHandle)
+        || !bgfx::isValid(m_billboardFogColorUniformHandle)
+        || !bgfx::isValid(m_billboardFogDensitiesUniformHandle)
+        || !bgfx::isValid(m_billboardFogDistancesUniformHandle))
     {
         return;
     }
@@ -3719,13 +4130,22 @@ void IndoorRenderer::renderActorPreviewBillboards(
         const SpriteFrameEntry *pFrame = nullptr;
         const BillboardTextureHandle *pTexture = nullptr;
         bool mirrored = false;
+        bool hovered = false;
+        uint32_t hoveredOutlineColorAbgr = 0;
         float distanceSquared = 0.0f;
     };
 
     const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+    const std::optional<size_t> hoveredActorIndex =
+        m_cachedInspectHitValid && m_cachedInspectHit.kind == "actor"
+        ? std::optional<size_t>(m_cachedInspectHit.index)
+        : std::nullopt;
     const std::vector<RuntimeActorBillboard> runtimeBillboards =
         mapDeltaData && m_monsterTable
-        ? buildRuntimeActorBillboards(*m_monsterTable, m_indoorActorPreviewBillboardSet->spriteFrameTable, *mapDeltaData)
+        ? buildRuntimeActorBillboards(
+            *m_monsterTable,
+            m_indoorActorPreviewBillboardSet->spriteFrameTable,
+            *mapDeltaData)
         : std::vector<RuntimeActorBillboard>{};
     std::vector<BillboardDrawItem> drawItems;
     const bool useRuntimeBillboards = !runtimeBillboards.empty();
@@ -3799,6 +4219,14 @@ void IndoorRenderer::renderActorPreviewBillboards(
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
+            drawItem.hovered = hoveredActorIndex && *hoveredActorIndex == billboard.actorIndex;
+            if (drawItem.hovered && mapDeltaData && billboard.actorIndex < mapDeltaData->actors.size())
+            {
+                drawItem.hoveredOutlineColorAbgr =
+                    resolveHoveredIndoorActorOutlineColor(
+                        mapDeltaData->actors[billboard.actorIndex],
+                        pActorAiState);
+            }
             drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
             drawItems.push_back(drawItem);
         }
@@ -3871,20 +4299,188 @@ void IndoorRenderer::renderActorPreviewBillboards(
             cameraUp,
             worldHeight);
         const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
-        const bx::Vec3 up = {cameraUp.x * worldHeight * 0.5f, cameraUp.y * worldHeight * 0.5f, cameraUp.z * worldHeight * 0.5f};
+        const bx::Vec3 up = {
+            cameraUp.x * worldHeight * 0.5f,
+            cameraUp.y * worldHeight * 0.5f,
+            cameraUp.z * worldHeight * 0.5f
+        };
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
+        const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
+        const float ambient[4] = {1.0f, 1.0f, 1.0f, 0.0f};
+        const float clearOverrideColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float clearOutlineParams[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float fogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float fogDensities[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float fogDistances[4] = {4096.0f, 4096.0f, 4096.0f, 0.0f};
 
-        std::array<TexturedVertex, 6> vertices = {{
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, 1.0f}
-        }};
+        if (drawItem.hovered)
+        {
+            const float paddingU = HoveredActorOutlineThicknessPixels / static_cast<float>(texture.width);
+            const float paddingV = HoveredActorOutlineThicknessPixels / static_cast<float>(texture.height);
+            const float outlinedHalfWidth =
+                (static_cast<float>(texture.width) * spriteScale
+                    + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale) * 0.5f;
+            const float outlinedHalfHeight =
+                (static_cast<float>(texture.height) * spriteScale
+                    + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale) * 0.5f;
+            const bx::Vec3 outlineRight = {
+                cameraRight.x * outlinedHalfWidth,
+                cameraRight.y * outlinedHalfWidth,
+                cameraRight.z * outlinedHalfWidth
+            };
+            const bx::Vec3 outlineUp = {
+                cameraUp.x * outlinedHalfHeight,
+                cameraUp.y * outlinedHalfHeight,
+                cameraUp.z * outlinedHalfHeight
+            };
+            const float outlineU0 = drawItem.mirrored ? 1.0f + paddingU : -paddingU;
+            const float outlineU1 = drawItem.mirrored ? -paddingU : 1.0f + paddingU;
+            const float outlineVTop = -paddingV;
+            const float outlineVBottom = 1.0f + paddingV;
+            std::array<LitBillboardVertex, 6> outlineVertices = {{
+                {
+                    center.x - outlineRight.x - outlineUp.x,
+                    center.y - outlineRight.y - outlineUp.y,
+                    center.z - outlineRight.z - outlineUp.z,
+                    outlineU0,
+                    outlineVBottom,
+                    vertexColorAbgr
+                },
+                {
+                    center.x - outlineRight.x + outlineUp.x,
+                    center.y - outlineRight.y + outlineUp.y,
+                    center.z - outlineRight.z + outlineUp.z,
+                    outlineU0,
+                    outlineVTop,
+                    vertexColorAbgr
+                },
+                {
+                    center.x + outlineRight.x + outlineUp.x,
+                    center.y + outlineRight.y + outlineUp.y,
+                    center.z + outlineRight.z + outlineUp.z,
+                    outlineU1,
+                    outlineVTop,
+                    vertexColorAbgr
+                },
+                {
+                    center.x - outlineRight.x - outlineUp.x,
+                    center.y - outlineRight.y - outlineUp.y,
+                    center.z - outlineRight.z - outlineUp.z,
+                    outlineU0,
+                    outlineVBottom,
+                    vertexColorAbgr
+                },
+                {
+                    center.x + outlineRight.x + outlineUp.x,
+                    center.y + outlineRight.y + outlineUp.y,
+                    center.z + outlineRight.z + outlineUp.z,
+                    outlineU1,
+                    outlineVTop,
+                    vertexColorAbgr
+                },
+                {
+                    center.x + outlineRight.x - outlineUp.x,
+                    center.y + outlineRight.y - outlineUp.y,
+                    center.z + outlineRight.z - outlineUp.z,
+                    outlineU1,
+                    outlineVBottom,
+                    vertexColorAbgr
+                }
+            }};
 
-        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), TexturedVertex::ms_layout)
+            if (bgfx::getAvailTransientVertexBuffer(
+                    static_cast<uint32_t>(outlineVertices.size()),
+                    LitBillboardVertex::ms_layout) >= outlineVertices.size())
+            {
+                bgfx::TransientVertexBuffer outlineTransientVertexBuffer = {};
+                bgfx::allocTransientVertexBuffer(
+                    &outlineTransientVertexBuffer,
+                    static_cast<uint32_t>(outlineVertices.size()),
+                    LitBillboardVertex::ms_layout);
+                std::memcpy(
+                    outlineTransientVertexBuffer.data,
+                    outlineVertices.data(),
+                    static_cast<size_t>(outlineVertices.size() * sizeof(LitBillboardVertex)));
+
+                const float overrideColor[4] = {
+                    redChannel(drawItem.hoveredOutlineColorAbgr),
+                    greenChannel(drawItem.hoveredOutlineColorAbgr),
+                    blueChannel(drawItem.hoveredOutlineColorAbgr),
+                    1.0f
+                };
+                const float outlineParams[4] = {
+                    1.0f / static_cast<float>(texture.width),
+                    1.0f / static_cast<float>(texture.height),
+                    HoveredActorOutlineThicknessPixels,
+                    0.0f
+                };
+                float modelMatrix[16] = {};
+                bx::mtxIdentity(modelMatrix);
+                bgfx::setTransform(modelMatrix);
+                bgfx::setVertexBuffer(
+                    0,
+                    &outlineTransientVertexBuffer,
+                    0,
+                    static_cast<uint32_t>(outlineVertices.size()));
+                bindTexture(
+                    0,
+                    m_textureSamplerHandle,
+                    texture.textureHandle,
+                    TextureFilterProfile::Billboard,
+                    BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+                bgfx::setUniform(m_billboardAmbientUniformHandle, ambient);
+                bgfx::setUniform(m_billboardOverrideColorUniformHandle, overrideColor);
+                bgfx::setUniform(m_billboardOutlineParamsUniformHandle, outlineParams);
+                bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+                bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
+                bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
+                bgfx::setState(
+                    BGFX_STATE_WRITE_RGB
+                    | BGFX_STATE_WRITE_A
+                    | BGFX_STATE_DEPTH_TEST_LEQUAL
+                    | BGFX_STATE_BLEND_ALPHA);
+                bgfx::submit(viewId, m_billboardProgramHandle);
+            }
+        }
+
+        std::array<LitBillboardVertex, 6> vertices = {};
+        vertices[0] = {
+            center.x - right.x - up.x,
+            center.y - right.y - up.y,
+            center.z - right.z - up.z,
+            u0,
+            1.0f,
+            vertexColorAbgr
+        };
+        vertices[1] = {
+            center.x - right.x + up.x,
+            center.y - right.y + up.y,
+            center.z - right.z + up.z,
+            u0,
+            0.0f,
+            vertexColorAbgr
+        };
+        vertices[2] = {
+            center.x + right.x + up.x,
+            center.y + right.y + up.y,
+            center.z + right.z + up.z,
+            u1,
+            0.0f,
+            vertexColorAbgr
+        };
+        vertices[3] = vertices[0];
+        vertices[4] = vertices[2];
+        vertices[5] = {
+            center.x + right.x - up.x,
+            center.y + right.y - up.y,
+            center.z + right.z - up.z,
+            u1,
+            1.0f,
+            vertexColorAbgr
+        };
+
+        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), LitBillboardVertex::ms_layout)
             < vertices.size())
         {
             continue;
@@ -3894,12 +4490,12 @@ void IndoorRenderer::renderActorPreviewBillboards(
         bgfx::allocTransientVertexBuffer(
             &transientVertexBuffer,
             static_cast<uint32_t>(vertices.size()),
-            TexturedVertex::ms_layout
+            LitBillboardVertex::ms_layout
         );
         std::memcpy(
             transientVertexBuffer.data,
             vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(TexturedVertex))
+            static_cast<size_t>(vertices.size() * sizeof(LitBillboardVertex))
         );
 
         float modelMatrix[16] = {};
@@ -3912,13 +4508,19 @@ void IndoorRenderer::renderActorPreviewBillboards(
             texture.textureHandle,
             TextureFilterProfile::Billboard,
             BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+        bgfx::setUniform(m_billboardAmbientUniformHandle, ambient);
+        bgfx::setUniform(m_billboardOverrideColorUniformHandle, clearOverrideColor);
+        bgfx::setUniform(m_billboardOutlineParamsUniformHandle, clearOutlineParams);
+        bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+        bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
+        bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
         bgfx::setState(
             BGFX_STATE_WRITE_RGB
             | BGFX_STATE_WRITE_A
             | BGFX_STATE_DEPTH_TEST_LEQUAL
             | BGFX_STATE_BLEND_ALPHA
         );
-        bgfx::submit(viewId, m_texturedProgramHandle);
+        bgfx::submit(viewId, m_billboardProgramHandle);
     }
 }
 
@@ -3960,12 +4562,15 @@ void IndoorRenderer::renderSpriteObjectBillboards(
 
     struct BillboardDrawItem
     {
+        size_t objectIndex = static_cast<size_t>(-1);
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
         const SpriteFrameEntry *pFrame = nullptr;
         const BillboardTextureHandle *pTexture = nullptr;
         bool mirrored = false;
+        bool hovered = false;
+        uint32_t hoveredOutlineColorAbgr = 0;
         float distanceSquared = 0.0f;
     };
 
@@ -3978,6 +4583,10 @@ void IndoorRenderer::renderSpriteObjectBillboards(
     const bool useRuntimeBillboards = !runtimeBillboards.empty();
     const size_t staticBillboardCount =
         m_indoorSpriteObjectBillboardSet ? m_indoorSpriteObjectBillboardSet->billboards.size() : 0;
+    const std::optional<size_t> hoveredWorldItemIndex =
+        m_cachedInspectHitValid && m_cachedInspectHit.kind == "object" && m_cachedInspectHit.hasContainingItem
+        ? std::optional<size_t>(m_cachedInspectHit.index)
+        : std::nullopt;
     drawItems.reserve(
         useRuntimeBillboards
         ? runtimeBillboards.size()
@@ -4080,12 +4689,16 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             const float deltaZ = float(billboard.z) - cameraPosition.z;
 
             BillboardDrawItem drawItem = {};
+            drawItem.objectIndex = billboard.objectIndex;
             drawItem.x = static_cast<float>(billboard.x);
             drawItem.y = static_cast<float>(billboard.y);
             drawItem.z = static_cast<float>(billboard.z);
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
+            drawItem.hovered = hoveredWorldItemIndex && *hoveredWorldItemIndex == billboard.objectIndex;
+            drawItem.hoveredOutlineColorAbgr =
+                drawItem.hovered ? hoveredIndoorWorldItemOutlineColor() : 0;
             drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
             drawItems.push_back(drawItem);
         }
@@ -4199,6 +4812,148 @@ void IndoorRenderer::renderSpriteObjectBillboards(
         };
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
+
+        if (drawItem.hovered
+            && bgfx::isValid(m_billboardProgramHandle)
+            && bgfx::isValid(m_billboardAmbientUniformHandle)
+            && bgfx::isValid(m_billboardOverrideColorUniformHandle)
+            && bgfx::isValid(m_billboardOutlineParamsUniformHandle)
+            && bgfx::isValid(m_billboardFogColorUniformHandle)
+            && bgfx::isValid(m_billboardFogDensitiesUniformHandle)
+            && bgfx::isValid(m_billboardFogDistancesUniformHandle))
+        {
+            const float paddingU = HoveredActorOutlineThicknessPixels / static_cast<float>(texture.width);
+            const float paddingV = HoveredActorOutlineThicknessPixels / static_cast<float>(texture.height);
+            const float outlinedHalfWidth =
+                (static_cast<float>(texture.width) * spriteScale
+                    + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale) * 0.5f;
+            const float outlinedHalfHeight =
+                (static_cast<float>(texture.height) * spriteScale
+                    + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale) * 0.5f;
+            const bx::Vec3 outlineRight = {
+                cameraRight.x * outlinedHalfWidth,
+                cameraRight.y * outlinedHalfWidth,
+                cameraRight.z * outlinedHalfWidth
+            };
+            const bx::Vec3 outlineUp = {
+                cameraUp.x * outlinedHalfHeight,
+                cameraUp.y * outlinedHalfHeight,
+                cameraUp.z * outlinedHalfHeight
+            };
+            const float outlineU0 = drawItem.mirrored ? 1.0f + paddingU : -paddingU;
+            const float outlineU1 = drawItem.mirrored ? -paddingU : 1.0f + paddingU;
+            const float outlineVTop = -paddingV;
+            const float outlineVBottom = 1.0f + paddingV;
+            const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
+            std::array<LitBillboardVertex, 6> outlineVertices = {{
+                {
+                    center.x - outlineRight.x - outlineUp.x,
+                    center.y - outlineRight.y - outlineUp.y,
+                    center.z - outlineRight.z - outlineUp.z,
+                    outlineU0,
+                    outlineVBottom,
+                    vertexColorAbgr
+                },
+                {
+                    center.x - outlineRight.x + outlineUp.x,
+                    center.y - outlineRight.y + outlineUp.y,
+                    center.z - outlineRight.z + outlineUp.z,
+                    outlineU0,
+                    outlineVTop,
+                    vertexColorAbgr
+                },
+                {
+                    center.x + outlineRight.x + outlineUp.x,
+                    center.y + outlineRight.y + outlineUp.y,
+                    center.z + outlineRight.z + outlineUp.z,
+                    outlineU1,
+                    outlineVTop,
+                    vertexColorAbgr
+                },
+                {
+                    center.x - outlineRight.x - outlineUp.x,
+                    center.y - outlineRight.y - outlineUp.y,
+                    center.z - outlineRight.z - outlineUp.z,
+                    outlineU0,
+                    outlineVBottom,
+                    vertexColorAbgr
+                },
+                {
+                    center.x + outlineRight.x + outlineUp.x,
+                    center.y + outlineRight.y + outlineUp.y,
+                    center.z + outlineRight.z + outlineUp.z,
+                    outlineU1,
+                    outlineVTop,
+                    vertexColorAbgr
+                },
+                {
+                    center.x + outlineRight.x - outlineUp.x,
+                    center.y + outlineRight.y - outlineUp.y,
+                    center.z + outlineRight.z - outlineUp.z,
+                    outlineU1,
+                    outlineVBottom,
+                    vertexColorAbgr
+                }
+            }};
+
+            if (bgfx::getAvailTransientVertexBuffer(
+                    static_cast<uint32_t>(outlineVertices.size()),
+                    LitBillboardVertex::ms_layout) >= outlineVertices.size())
+            {
+                bgfx::TransientVertexBuffer outlineTransientVertexBuffer = {};
+                bgfx::allocTransientVertexBuffer(
+                    &outlineTransientVertexBuffer,
+                    static_cast<uint32_t>(outlineVertices.size()),
+                    LitBillboardVertex::ms_layout);
+                std::memcpy(
+                    outlineTransientVertexBuffer.data,
+                    outlineVertices.data(),
+                    static_cast<size_t>(outlineVertices.size() * sizeof(LitBillboardVertex)));
+
+                const float ambient[4] = {1.0f, 1.0f, 1.0f, 0.0f};
+                const float overrideColor[4] = {
+                    redChannel(drawItem.hoveredOutlineColorAbgr),
+                    greenChannel(drawItem.hoveredOutlineColorAbgr),
+                    blueChannel(drawItem.hoveredOutlineColorAbgr),
+                    1.0f
+                };
+                const float outlineParams[4] = {
+                    1.0f / static_cast<float>(texture.width),
+                    1.0f / static_cast<float>(texture.height),
+                    HoveredActorOutlineThicknessPixels,
+                    0.0f
+                };
+                const float fogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+                const float fogDensities[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+                const float fogDistances[4] = {4096.0f, 4096.0f, 4096.0f, 0.0f};
+                float outlineModelMatrix[16] = {};
+                bx::mtxIdentity(outlineModelMatrix);
+                bgfx::setTransform(outlineModelMatrix);
+                bgfx::setVertexBuffer(
+                    0,
+                    &outlineTransientVertexBuffer,
+                    0,
+                    static_cast<uint32_t>(outlineVertices.size()));
+                bindTexture(
+                    0,
+                    m_textureSamplerHandle,
+                    texture.textureHandle,
+                    TextureFilterProfile::Billboard,
+                    BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+                bgfx::setUniform(m_billboardAmbientUniformHandle, ambient);
+                bgfx::setUniform(m_billboardOverrideColorUniformHandle, overrideColor);
+                bgfx::setUniform(m_billboardOutlineParamsUniformHandle, outlineParams);
+                bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+                bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
+                bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
+                bgfx::setState(
+                    BGFX_STATE_WRITE_RGB
+                    | BGFX_STATE_WRITE_A
+                    | BGFX_STATE_DEPTH_TEST_LEQUAL
+                    | BGFX_STATE_BLEND_ALPHA);
+                bgfx::submit(viewId, m_billboardProgramHandle);
+            }
+        }
 
         std::array<TexturedVertex, 6> vertices = {{
             {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
@@ -5815,10 +6570,176 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
     {
         const std::vector<RuntimeSpriteObjectBillboard> runtimeObjects =
             buildRuntimeSpriteObjectBillboards(*m_objectTable, *mapDeltaData);
+        const SpriteFrameTable *pSpriteFrameTable = nullptr;
+
+        if (m_indoorSpriteObjectBillboardSet)
+        {
+            pSpriteFrameTable = &m_indoorSpriteObjectBillboardSet->spriteFrameTable;
+        }
+        else if (m_indoorActorPreviewBillboardSet)
+        {
+            pSpriteFrameTable = &m_indoorActorPreviewBillboardSet->spriteFrameTable;
+        }
+        else if (m_indoorDecorationBillboardSet)
+        {
+            pSpriteFrameTable = &m_indoorDecorationBillboardSet->spriteFrameTable;
+        }
+
+        const float cosPitch = std::cos(m_cameraPitchRadians);
+        const float sinPitch = std::sin(m_cameraPitchRadians);
+        const float cosYaw = std::cos(m_cameraYawRadians);
+        const float sinYaw = std::sin(m_cameraYawRadians);
+        const bx::Vec3 eye = {m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ};
+        const bx::Vec3 at = {
+            m_cameraPositionX + cosYaw * cosPitch,
+            m_cameraPositionY + sinYaw * cosPitch,
+            m_cameraPositionZ + sinPitch
+        };
+        const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+        float viewMatrix[16] = {};
+        bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
+        const bx::Vec3 cameraRight = {viewMatrix[0], viewMatrix[4], viewMatrix[8]};
+        const bx::Vec3 cameraUp = {viewMatrix[1], viewMatrix[5], viewMatrix[9]};
+
+        const auto isOpaqueBillboardPixel =
+            [](const BillboardTextureHandle &texture, float normalizedU, float normalizedV) -> bool
+            {
+                if (texture.physicalWidth <= 0
+                    || texture.physicalHeight <= 0
+                    || texture.pixels.empty())
+                {
+                    return true;
+                }
+
+                const int pixelX = std::clamp(
+                    static_cast<int>(std::floor(normalizedU * static_cast<float>(texture.physicalWidth))),
+                    0,
+                    texture.physicalWidth - 1);
+                const int pixelY = std::clamp(
+                    static_cast<int>(std::floor(normalizedV * static_cast<float>(texture.physicalHeight))),
+                    0,
+                    texture.physicalHeight - 1);
+                const size_t pixelOffset = static_cast<size_t>((pixelY * texture.physicalWidth + pixelX) * 4);
+                return pixelOffset + 3 < texture.pixels.size() && texture.pixels[pixelOffset + 3] != 0;
+            };
+
+        const auto applyObjectHit =
+            [&](const RuntimeSpriteObjectBillboard &object, float distance)
+            {
+                bestDistance = distance;
+                bestHit.hasHit = true;
+                bestHit.kind = "object";
+                bestHit.index = object.objectIndex;
+                bestHit.name = object.objectName;
+                bestHit.distance = distance;
+                bestHit.objectDescriptionId = object.objectDescriptionId;
+                bestHit.objectSpriteId = object.objectSpriteId;
+                bestHit.attributes = object.attributes;
+                bestHit.spellId = object.spellId;
+                bestHit.hasContainingItem = object.hasContainingItem;
+            };
+
+        const auto hitTestSpriteObjectBillboard =
+            [&](const RuntimeSpriteObjectBillboard &object, float &distance, bool &billboardTested) -> bool
+            {
+                billboardTested = false;
+
+                if (pSpriteFrameTable == nullptr)
+                {
+                    return false;
+                }
+
+                const SpriteFrameEntry *pFrame =
+                    pSpriteFrameTable->getFrame(object.objectSpriteId, object.timeSinceCreatedTicks);
+
+                if (pFrame == nullptr)
+                {
+                    return false;
+                }
+
+                const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, 0);
+                const BillboardTextureHandle *pTexture =
+                    findBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
+
+                if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
+                {
+                    return false;
+                }
+
+                billboardTested = true;
+                const float spriteScale = std::max(pFrame->scale, 0.01f);
+                const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+                const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+                const bx::Vec3 center = bottomAnchoredBillboardCenter(
+                    static_cast<float>(object.x),
+                    static_cast<float>(object.y),
+                    static_cast<float>(object.z),
+                    cameraUp,
+                    worldHeight);
+                const bx::Vec3 planeNormal = {
+                    -cameraRight.y * cameraUp.z + cameraRight.z * cameraUp.y,
+                    -cameraRight.z * cameraUp.x + cameraRight.x * cameraUp.z,
+                    -cameraRight.x * cameraUp.y + cameraRight.y * cameraUp.x
+                };
+                const float denominator = vecDot(rayDirection, planeNormal);
+
+                if (std::fabs(denominator) <= InspectRayEpsilon)
+                {
+                    return false;
+                }
+
+                distance = vecDot(vecSubtract(center, rayOrigin), planeNormal) / denominator;
+
+                if (distance <= InspectRayEpsilon)
+                {
+                    return false;
+                }
+
+                const bx::Vec3 hitPoint = {
+                    rayOrigin.x + rayDirection.x * distance,
+                    rayOrigin.y + rayDirection.y * distance,
+                    rayOrigin.z + rayDirection.z * distance
+                };
+                const bx::Vec3 localDelta = vecSubtract(hitPoint, center);
+                const float localX = vecDot(localDelta, cameraRight);
+                const float localY = vecDot(localDelta, cameraUp);
+                const float halfWidth = worldWidth * 0.5f;
+                const float halfHeight = worldHeight * 0.5f;
+
+                if (std::fabs(localX) > halfWidth || std::fabs(localY) > halfHeight)
+                {
+                    return false;
+                }
+
+                float normalizedU = (localX + halfWidth) / worldWidth;
+                const float normalizedV = (halfHeight - localY) / worldHeight;
+
+                if (resolvedTexture.mirrored)
+                {
+                    normalizedU = 1.0f - normalizedU;
+                }
+
+                return isOpaqueBillboardPixel(*pTexture, normalizedU, normalizedV);
+            };
 
         for (const RuntimeSpriteObjectBillboard &object : runtimeObjects)
         {
             if (!isSectorVisible(object.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
+            float distance = 0.0f;
+            bool billboardTested = false;
+            const bool usedBillboardHit = hitTestSpriteObjectBillboard(object, distance, billboardTested);
+
+            if (usedBillboardHit && distance < bestDistance)
+            {
+                applyObjectHit(object, distance);
+                continue;
+            }
+
+            if (billboardTested)
             {
                 continue;
             }
@@ -5835,21 +6756,10 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 float(object.y) + halfExtent,
                 float(object.z) + height
             };
-            float distance = 0.0f;
 
             if (intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, distance) && distance < bestDistance)
             {
-                bestDistance = distance;
-                bestHit.hasHit = true;
-                bestHit.kind = "object";
-                bestHit.index = object.objectIndex;
-                bestHit.name = object.objectName;
-                bestHit.distance = distance;
-                bestHit.objectDescriptionId = object.objectDescriptionId;
-                bestHit.objectSpriteId = object.objectSpriteId;
-                bestHit.attributes = object.attributes;
-                bestHit.spellId = object.spellId;
-                bestHit.hasContainingItem = object.hasContainingItem;
+                applyObjectHit(object, distance);
             }
         }
     }

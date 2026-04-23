@@ -11923,7 +11923,7 @@ GameplayWorldHit OutdoorWorldRuntime::pickHeldItemWorldTarget(const GameplayWorl
         request);
 }
 
-GameplayWorldHit OutdoorWorldRuntime::pickCurrentInteractionTarget(const GameplayWorldPickRequest &request)
+GameplayWorldHit OutdoorWorldRuntime::pickMouseInteractionTarget(const GameplayWorldPickRequest &request)
 {
     if (m_pInteractionView == nullptr || m_pOutdoorMapData == nullptr)
     {
@@ -12050,6 +12050,11 @@ void OutdoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMini
         const MapActorState *pActor = mapActorState(actorIndex);
 
         if (pActor == nullptr || pActor->isInvisible)
+        {
+            continue;
+        }
+
+        if (!pActor->isDead && !pActor->hasDetectedParty)
         {
             continue;
         }

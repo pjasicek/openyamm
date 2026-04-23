@@ -60,6 +60,13 @@ struct GameplayCorpseViewState
     std::vector<GameplayChestItemState> items;
 };
 
+struct GameplayWorldItemInspectState
+{
+    InventoryItem item = {};
+    uint32_t goldAmount = 0;
+    bool isGold = false;
+};
+
 struct GameplayRuntimeActorState
 {
     float preciseX = 0.0f;
@@ -441,7 +448,13 @@ public:
         const GameplayWorldPickRequest &request) = 0;
     virtual GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) = 0;
     virtual GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) = 0;
-    virtual GameplayWorldHit pickCurrentInteractionTarget(const GameplayWorldPickRequest &request) = 0;
+    virtual GameplayWorldHit pickMouseInteractionTarget(const GameplayWorldPickRequest &request) = 0;
+    virtual bool worldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state) const
+    {
+        (void)worldItemIndex;
+        (void)state;
+        return false;
+    }
     virtual GameplayWorldHoverCacheState worldHoverCacheState() const = 0;
     virtual GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) = 0;
     virtual GameplayHoverStatusPayload readCachedWorldHover() = 0;

@@ -835,7 +835,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
         {
             if (!currentHitRefreshed && worldReady && pWorldRuntime != nullptr)
             {
-                currentHit = pWorldRuntime->pickCurrentInteractionTarget(currentInteractionPickRequest);
+                currentHit = pWorldRuntime->pickMouseInteractionTarget(currentInteractionPickRequest);
                 currentHitRefreshed = true;
             }
 
@@ -860,7 +860,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
                 .allowInteraction = worldReady,
                 .currentHit = currentHit,
                 .pWorldRuntime = pWorldRuntime,
-                .interactionMethod = GameplayInteractionMethod::Keyboard,
+                .interactionMethod = GameplayInteractionMethod::Mouse,
             });
 
     if (keyboardActivationResult.latched)

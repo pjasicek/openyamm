@@ -40,15 +40,17 @@ namespace
 {
 constexpr float Pi = 3.14159265358979323846f;
 constexpr uint32_t RawContainingItemSize = 0x24;
-constexpr float IndoorDroppedItemForwardOffset = 64.0f;
-constexpr float IndoorDroppedItemHeightOffset = 32.0f;
 constexpr float IndoorMinimapWorldHalfExtent = 32768.0f;
 constexpr float IndoorMinimapWorldExtent = IndoorMinimapWorldHalfExtent * 2.0f;
 constexpr float TicksPerSecond = 128.0f;
 constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
 constexpr float ActorUpdateStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
-constexpr float ActiveActorUpdateRange = 6144.0f;
+constexpr float WorldItemUpdateStepSeconds = 1.0f / 128.0f;
+constexpr float MaxAccumulatedWorldItemUpdateSeconds = 0.1f;
+constexpr float ActiveActorUpdateRange = 10240.0f;
+constexpr float IndoorActorDetectRange = 5120.0f;
+constexpr int IndoorActorDetectPortalLimit = 30;
 
 void resetIndoorActorCrowdSteeringState(IndoorWorldRuntime::MapActorAiState &aiState)
 {
@@ -73,7 +75,69 @@ constexpr uint16_t LevelDecorationInvisible = 0x0020;
 constexpr float PartyTargetHeightOffset = 96.0f;
 constexpr float IndoorFloorSampleRise = 96.0f;
 constexpr float IndoorFloorSampleDrop = 512.0f;
+constexpr float IndoorInitialActorFloorSampleRise = 4096.0f;
+constexpr float IndoorInitialActorFloorSampleDrop = 4096.0f;
 constexpr float IndoorProjectileGravity = 0.0f;
+constexpr float IndoorWorldItemThrowPitchRadians = Pi * 2.0f * (184.0f / 2048.0f);
+constexpr float IndoorWorldItemThrowSpeed = 200.0f;
+constexpr float IndoorWorldItemGravity = 900.0f;
+constexpr float IndoorWorldItemBounceFactor = 0.5f;
+constexpr float IndoorWorldItemGroundDamping = 0.89263916f;
+constexpr float IndoorWorldItemRestingHorizontalSpeedSquared = 400.0f;
+constexpr float IndoorWorldItemBounceStopVelocity = 10.0f;
+constexpr float IndoorWorldItemGroundClearance = 1.0f;
+constexpr float IndoorWorldItemFloorSampleRise = 128.0f;
+constexpr float IndoorWorldItemFloorSampleDrop = 512.0f;
+
+float indoorWorldHitDistance(const GameplayWorldHit &hit)
+{
+    if (hit.actor)
+    {
+        return hit.actor->distance;
+    }
+
+    if (hit.worldItem)
+    {
+        return hit.worldItem->distance;
+    }
+
+    if (hit.container)
+    {
+        return hit.container->distance;
+    }
+
+    if (hit.eventTarget)
+    {
+        return hit.eventTarget->distance;
+    }
+
+    if (hit.object)
+    {
+        return hit.object->distance;
+    }
+
+    if (hit.ground)
+    {
+        return hit.ground->distance;
+    }
+
+    return std::numeric_limits<float>::max();
+}
+
+int16_t clampToInt16(float value)
+{
+    return static_cast<int16_t>(
+        std::clamp(
+            std::lround(value),
+            static_cast<long>(std::numeric_limits<int16_t>::min()),
+            static_cast<long>(std::numeric_limits<int16_t>::max())));
+}
+
+float length3d(const bx::Vec3 &value)
+{
+    return std::sqrt(value.x * value.x + value.y * value.y + value.z * value.z);
+}
+
 constexpr float IndoorProjectileBounceFactor = 0.0f;
 constexpr float IndoorProjectileBounceStopVelocity = 0.0f;
 constexpr float IndoorProjectileGroundDamping = 0.0f;
@@ -1223,91 +1287,137 @@ GameplayActorTargetPolicyState buildIndoorActorTargetPolicyState(
     return state;
 }
 
-void appendIndoorConnectedSectors(
-    const IndoorMapData &indoorMapData,
-    int16_t sectorId,
-    std::vector<uint8_t> &reachableSectorMask)
+int16_t sectorBehindPortal(const IndoorFaceGeometryData &geometry, int16_t currentSectorId)
 {
-    if (sectorId < 0 || static_cast<size_t>(sectorId) >= indoorMapData.sectors.size())
+    if (geometry.sectorId == currentSectorId)
     {
-        return;
+        return static_cast<int16_t>(geometry.backSectorId);
     }
 
-    std::vector<int16_t> pendingSectorIds;
-    pendingSectorIds.push_back(sectorId);
-
-    while (!pendingSectorIds.empty())
+    if (geometry.backSectorId == currentSectorId)
     {
-        const int16_t currentSectorId = pendingSectorIds.back();
-        pendingSectorIds.pop_back();
+        return static_cast<int16_t>(geometry.sectorId);
+    }
 
-        if (currentSectorId < 0
-            || static_cast<size_t>(currentSectorId) >= indoorMapData.sectors.size()
-            || reachableSectorMask[currentSectorId] != 0)
+    return -1;
+}
+
+bool indoorDetectBetweenObjects(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache,
+    const GameplayWorldPoint &from,
+    int16_t fromSectorId,
+    const GameplayWorldPoint &to,
+    int16_t toSectorId)
+{
+    constexpr float PlaneEpsilon = 0.0001f;
+
+    if (fromSectorId < 0
+        || toSectorId < 0
+        || static_cast<size_t>(fromSectorId) >= indoorMapData.sectors.size()
+        || static_cast<size_t>(toSectorId) >= indoorMapData.sectors.size())
+    {
+        return false;
+    }
+
+    const float deltaX = to.x - from.x;
+    const float deltaY = to.y - from.y;
+    const float deltaZ = to.z - from.z;
+    const float distanceSquared = lengthSquared3d(deltaX, deltaY, deltaZ);
+
+    if (distanceSquared > IndoorActorDetectRange * IndoorActorDetectRange)
+    {
+        return false;
+    }
+
+    if (fromSectorId == toSectorId)
+    {
+        return true;
+    }
+
+    const float distance = std::sqrt(distanceSquared);
+
+    if (distance <= PlaneEpsilon)
+    {
+        return false;
+    }
+
+    const bx::Vec3 start = {from.x, from.y, from.z};
+    const bx::Vec3 segment = {deltaX, deltaY, deltaZ};
+    int16_t currentSectorId = fromSectorId;
+
+    for (int portalStep = 0; portalStep < IndoorActorDetectPortalLimit; ++portalStep)
+    {
+        if (currentSectorId < 0 || static_cast<size_t>(currentSectorId) >= indoorMapData.sectors.size())
         {
-            continue;
+            return false;
         }
 
-        reachableSectorMask[currentSectorId] = 1;
         const IndoorSector &sector = indoorMapData.sectors[currentSectorId];
-
-        auto appendConnectedSector = [&](uint16_t faceId)
-        {
-            if (faceId >= indoorMapData.faces.size())
-            {
-                return;
-            }
-
-            const IndoorFace &face = indoorMapData.faces[faceId];
-            uint16_t connectedSectorId = std::numeric_limits<uint16_t>::max();
-
-            if (face.roomNumber == currentSectorId)
-            {
-                connectedSectorId = face.roomBehindNumber;
-            }
-            else if (face.roomBehindNumber == currentSectorId)
-            {
-                connectedSectorId = face.roomNumber;
-            }
-
-            if (connectedSectorId < indoorMapData.sectors.size()
-                && reachableSectorMask[connectedSectorId] == 0)
-            {
-                pendingSectorIds.push_back(static_cast<int16_t>(connectedSectorId));
-            }
-        };
+        int16_t nextSectorId = -1;
 
         for (uint16_t faceId : sector.portalFaceIds)
         {
-            appendConnectedSector(faceId);
+            const IndoorFaceGeometryData *pGeometry = geometryCache.geometryForFace(indoorMapData, vertices, faceId);
+
+            if (pGeometry == nullptr
+                || !pGeometry->hasPlane
+                || !pGeometry->isPortal
+                || sectorBehindPortal(*pGeometry, currentSectorId) < 0
+                || !indoorSegmentMayTouchFaceBounds(from, to, *pGeometry, 0.0f))
+            {
+                continue;
+            }
+
+            const float denominator = dotProduct(segment, pGeometry->normal);
+
+            if (std::fabs(denominator) <= PlaneEpsilon)
+            {
+                continue;
+            }
+
+            const bx::Vec3 planeDelta = {
+                pGeometry->vertices.front().x - start.x,
+                pGeometry->vertices.front().y - start.y,
+                pGeometry->vertices.front().z - start.z
+            };
+            const float progress = dotProduct(planeDelta, pGeometry->normal) / denominator;
+
+            if (progress < 0.0f || progress > 1.0f)
+            {
+                continue;
+            }
+
+            const bx::Vec3 portalPoint = {
+                start.x + segment.x * progress,
+                start.y + segment.y * progress,
+                start.z + segment.z * progress
+            };
+
+            if (!isPointInsideIndoorPolygonProjected(portalPoint, pGeometry->vertices, pGeometry->normal))
+            {
+                continue;
+            }
+
+            nextSectorId = sectorBehindPortal(*pGeometry, currentSectorId);
+            break;
         }
 
-        for (uint16_t faceId : sector.faceIds)
+        if (nextSectorId < 0 || nextSectorId == currentSectorId)
         {
-            appendConnectedSector(faceId);
+            return false;
         }
-    }
-}
 
-std::vector<uint8_t> buildIndoorReachableSectorMask(const IndoorMapData *pIndoorMapData, int16_t sectorId)
-{
-    std::vector<uint8_t> reachableSectorMask;
+        if (nextSectorId == toSectorId)
+        {
+            return true;
+        }
 
-    if (pIndoorMapData == nullptr)
-    {
-        return reachableSectorMask;
+        currentSectorId = nextSectorId;
     }
 
-    reachableSectorMask.assign(pIndoorMapData->sectors.size(), 0);
-    appendIndoorConnectedSectors(*pIndoorMapData, sectorId, reachableSectorMask);
-    return reachableSectorMask;
-}
-
-bool indoorSectorReachable(const std::vector<uint8_t> &reachableSectorMask, int16_t sectorId)
-{
-    return sectorId >= 0
-        && static_cast<size_t>(sectorId) < reachableSectorMask.size()
-        && reachableSectorMask[sectorId] != 0;
+    return currentSectorId == toSectorId;
 }
 
 bool indoorActorUnavailableForCombat(
@@ -1391,6 +1501,50 @@ IndoorWorldRuntime::MapActorAiState buildIndoorMapActorAiState(
         pActorService->initialAttackCooldownSeconds(state.actorId, state.recoverySeconds);
     state.idleDecisionSeconds = pActorService->initialIdleDecisionSeconds(state.actorId);
     return state;
+}
+
+void fixIndoorInitialActorPlacement(
+    const IndoorMapData &indoorMapData,
+    const std::vector<IndoorVertex> &vertices,
+    const MonsterTable *pMonsterTable,
+    MapDeltaActor &actor,
+    IndoorFaceGeometryCache &geometryCache)
+{
+    if (vertices.empty())
+    {
+        return;
+    }
+
+    const int16_t resolvedMonsterId = actor.monsterInfoId > 0 ? actor.monsterInfoId : actor.monsterId;
+    const MonsterTable::MonsterStatsEntry *pStats =
+        pMonsterTable != nullptr ? pMonsterTable->findStatsById(resolvedMonsterId) : nullptr;
+    const float queryZ = static_cast<float>(actor.z) + static_cast<float>(actor.radius);
+    const IndoorFloorSample floorSample =
+        sampleIndoorFloor(
+            indoorMapData,
+            vertices,
+            static_cast<float>(actor.x),
+            static_cast<float>(actor.y),
+            queryZ,
+            IndoorInitialActorFloorSampleRise,
+            IndoorInitialActorFloorSampleDrop,
+            std::nullopt,
+            nullptr,
+            &geometryCache);
+
+    if (!floorSample.hasFloor)
+    {
+        return;
+    }
+
+    actor.sectorId = floorSample.sectorId;
+
+    if (pStats != nullptr && pStats->canFly && static_cast<float>(actor.z) > floorSample.height + 1.0f)
+    {
+        return;
+    }
+
+    actor.z = static_cast<int>(std::lround(floorSample.height));
 }
 
 void writeRawItemUInt16(std::vector<uint8_t> &bytes, size_t offset, uint16_t value)
@@ -1667,7 +1821,7 @@ void IndoorWorldRuntime::bindGameplayView(IndoorGameView *pView)
 
 void IndoorWorldRuntime::syncMapActorAiStates()
 {
-    const MapDeltaData *pMapDeltaData = mapDeltaData();
+    MapDeltaData *pMapDeltaData = mapDeltaData();
     const size_t actorCount = pMapDeltaData != nullptr ? pMapDeltaData->actors.size() : 0;
 
     if (m_mapActorAiStates.size() > actorCount)
@@ -1680,8 +1834,31 @@ void IndoorWorldRuntime::syncMapActorAiStates()
         return;
     }
 
+    std::vector<IndoorVertex> vertices;
+    IndoorFaceGeometryCache geometryCache;
+
+    if (m_pIndoorMapData != nullptr && m_mapActorAiStates.size() < actorCount)
+    {
+        const EventRuntimeState *pEventRuntimeState =
+            m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value()
+                ? &m_pEventRuntimeState->value()
+                : nullptr;
+        vertices = buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, pMapDeltaData, pEventRuntimeState);
+        geometryCache.reset(m_pIndoorMapData->faces.size());
+    }
+
     for (size_t actorIndex = m_mapActorAiStates.size(); actorIndex < actorCount; ++actorIndex)
     {
+        if (m_pIndoorMapData != nullptr)
+        {
+            fixIndoorInitialActorPlacement(
+                *m_pIndoorMapData,
+                vertices,
+                m_pMonsterTable,
+                pMapDeltaData->actors[actorIndex],
+                geometryCache);
+        }
+
         m_mapActorAiStates.push_back(
             buildIndoorMapActorAiState(
                 pMapDeltaData->actors[actorIndex],
@@ -1692,7 +1869,11 @@ void IndoorWorldRuntime::syncMapActorAiStates()
     }
 }
 
-std::vector<bool> IndoorWorldRuntime::selectIndoorActiveActors(const ActorPartyFacts &partyFacts) const
+std::vector<bool> IndoorWorldRuntime::selectIndoorActiveActors(
+    const ActorPartyFacts &partyFacts,
+    int16_t partySectorId,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache) const
 {
     const MapDeltaData *pMapDeltaData = mapDeltaData();
     std::vector<bool> activeActorMask(pMapDeltaData != nullptr ? pMapDeltaData->actors.size() : 0, false);
@@ -1713,19 +1894,38 @@ std::vector<bool> IndoorWorldRuntime::selectIndoorActiveActors(const ActorPartyF
 
         if (pAiState == nullptr
             || actor.hp <= 0
-            || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0
-            || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::FullAi)) == 0)
+            || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
         {
             continue;
         }
 
-        const float deltaX = partyFacts.position.x - pAiState->preciseX;
-        const float deltaY = partyFacts.position.y - pAiState->preciseY;
-        const float deltaZ = partyFacts.position.z - pAiState->preciseZ;
+        const float actorTargetZ = pAiState->preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f);
+        const GameplayWorldPoint actorTargetPoint = {pAiState->preciseX, pAiState->preciseY, actorTargetZ};
+        const GameplayWorldPoint partyTargetPoint =
+            {partyFacts.position.x, partyFacts.position.y, partyFacts.position.z + PartyTargetHeightOffset};
+        const float deltaX = partyTargetPoint.x - actorTargetPoint.x;
+        const float deltaY = partyTargetPoint.y - actorTargetPoint.y;
+        const float deltaZ = partyTargetPoint.z - actorTargetPoint.z;
         const float distanceToParty =
             std::max(0.0f, length3d(deltaX, deltaY, deltaZ) - static_cast<float>(actor.radius));
+        const bool sameSectorAsParty = actor.sectorId >= 0 && actor.sectorId == partySectorId;
+        const bool previouslyDetectedParty =
+            pAiState->hasDetectedParty || defaultActorHasDetectedParty(actor, pAiState->hostileToParty);
+        const bool canDetectParty =
+            sameSectorAsParty
+            || previouslyDetectedParty
+            || (m_pIndoorMapData != nullptr
+                && !vertices.empty()
+                && indoorDetectBetweenObjects(
+                    *m_pIndoorMapData,
+                    vertices,
+                    geometryCache,
+                    actorTargetPoint,
+                    actor.sectorId,
+                    partyTargetPoint,
+                    partySectorId));
 
-        if (distanceToParty <= ActiveActorUpdateRange)
+        if (sameSectorAsParty || (distanceToParty <= ActiveActorUpdateRange && canDetectParty))
         {
             activeActorDistances.push_back({actorIndex, distanceToParty});
         }
@@ -1765,9 +1965,6 @@ ActorAiFrameFacts IndoorWorldRuntime::collectIndoorActorAiFrameFacts(float delta
         partySectorId = moveState.sectorId;
     }
 
-    const std::vector<bool> activeActorMask = selectIndoorActiveActors(facts.party);
-    const std::vector<uint8_t> partyReachableSectorMask =
-        buildIndoorReachableSectorMask(m_pIndoorMapData, partySectorId);
     const MapDeltaData *pMapDeltaData = mapDeltaData();
 
     if (pMapDeltaData == nullptr)
@@ -1784,6 +1981,9 @@ ActorAiFrameFacts IndoorWorldRuntime::collectIndoorActorAiFrameFacts(float delta
         geometryCache.reset(m_pIndoorMapData->faces.size());
     }
 
+    const std::vector<bool> activeActorMask =
+        selectIndoorActiveActors(facts.party, partySectorId, vertices, geometryCache);
+
     for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
     {
         const bool active = actorIndex < activeActorMask.size() && activeActorMask[actorIndex];
@@ -1792,7 +1992,6 @@ ActorAiFrameFacts IndoorWorldRuntime::collectIndoorActorAiFrameFacts(float delta
                 actorIndex,
                 active,
                 facts.party,
-                partyReachableSectorMask,
                 vertices,
                 geometryCache);
 
@@ -2031,8 +2230,14 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
 
                 if (targetActor.hp > 0 && attackRequest.damage > 0)
                 {
+                    const int previousHp = targetActor.hp;
                     targetActor.hp =
                         static_cast<int16_t>(std::max(0, static_cast<int>(targetActor.hp) - attackRequest.damage));
+
+                    if (previousHp > 0 && targetActor.hp <= 0)
+                    {
+                        beginMapActorDyingState(attackRequest.targetActorIndex, targetActor);
+                    }
                 }
             }
         }
@@ -2666,6 +2871,252 @@ void IndoorWorldRuntime::updateIndoorProjectiles(float deltaSeconds)
     m_pGameplayProjectileService->eraseExpiredProjectiles();
 }
 
+bool IndoorWorldRuntime::updateWorldItemsStep(
+    float deltaSeconds,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache &geometryCache)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || m_pIndoorMapData == nullptr || m_pObjectTable == nullptr)
+    {
+        return false;
+    }
+
+    bool changed = false;
+
+    for (MapDeltaSpriteObject &spriteObject : pMapDeltaData->spriteObjects)
+    {
+        const ObjectEntry *pObjectEntry = m_pObjectTable->get(spriteObject.objectDescriptionId);
+
+        if (pObjectEntry == nullptr
+            || spriteObject.objectDescriptionId == 0
+            || (spriteObject.attributes & SpriteAttrRemoved) != 0)
+        {
+            continue;
+        }
+
+        bx::Vec3 velocity = {
+            static_cast<float>(spriteObject.velocityX),
+            static_cast<float>(spriteObject.velocityY),
+            static_cast<float>(spriteObject.velocityZ)
+        };
+
+        if (velocity.x == 0.0f && velocity.y == 0.0f && velocity.z == 0.0f)
+        {
+            continue;
+        }
+
+        if ((pObjectEntry->flags & ObjectDescNoGravity) == 0)
+        {
+            velocity.z -= IndoorWorldItemGravity * deltaSeconds;
+        }
+
+        const GameplayWorldPoint segmentStart = {
+            static_cast<float>(spriteObject.x),
+            static_cast<float>(spriteObject.y),
+            static_cast<float>(spriteObject.z)
+        };
+        const GameplayWorldPoint segmentEnd = {
+            segmentStart.x + velocity.x * deltaSeconds,
+            segmentStart.y + velocity.y * deltaSeconds,
+            segmentStart.z + velocity.z * deltaSeconds
+        };
+        GameplayWorldPoint resolvedPoint = segmentEnd;
+
+        GameplayProjectileService::ProjectileState probe = {};
+        probe.radius = static_cast<uint16_t>(std::max<uint16_t>(pObjectEntry->radius, 1));
+        probe.height = static_cast<uint16_t>(std::max<uint16_t>(pObjectEntry->height, 1));
+
+        const std::optional<IndoorProjectileCollisionCandidate> faceHit =
+            findProjectileIndoorFaceHit(*m_pIndoorMapData, vertices, geometryCache, probe, segmentStart, segmentEnd);
+
+        if (faceHit && faceHit->faceIndex < m_pIndoorMapData->faces.size())
+        {
+            resolvedPoint = faceHit->point;
+            const IndoorFaceGeometryData *pGeometry =
+                geometryCache.geometryForFace(*m_pIndoorMapData, vertices, faceHit->faceIndex);
+
+            if (pGeometry != nullptr)
+            {
+                if (pGeometry->kind == IndoorFaceKind::Floor)
+                {
+                    resolvedPoint.z = calculateIndoorFaceHeight(*pGeometry, resolvedPoint.x, resolvedPoint.y)
+                        + IndoorWorldItemGroundClearance;
+
+                    if ((pObjectEntry->flags & ObjectDescBounce) != 0
+                        && std::abs(velocity.z) >= IndoorWorldItemBounceStopVelocity)
+                    {
+                        velocity.z = -velocity.z * IndoorWorldItemBounceFactor;
+                    }
+                    else
+                    {
+                        velocity.z = 0.0f;
+                    }
+                }
+                else
+                {
+                    const float speed = length3d(velocity);
+                    const float dotFix = std::max(std::abs(dotProduct(pGeometry->normal, velocity)), speed / 8.0f);
+                    velocity.x += 2.0f * dotFix * pGeometry->normal.x;
+                    velocity.y += 2.0f * dotFix * pGeometry->normal.y;
+
+                    float zFix = dotFix * pGeometry->normal.z;
+
+                    if (pGeometry->normal.z <= 0.48828125f)
+                    {
+                        zFix *= 2.0f;
+                    }
+                    else
+                    {
+                        velocity.z += zFix;
+                        zFix *= 0.48828125f;
+                    }
+
+                    velocity.z += zFix;
+                }
+
+                velocity.x *= IndoorWorldItemGroundDamping;
+                velocity.y *= IndoorWorldItemGroundDamping;
+                velocity.z *= IndoorWorldItemGroundDamping;
+            }
+        }
+
+        const IndoorFloorSample floorSample =
+            sampleIndoorFloor(
+                *m_pIndoorMapData,
+                vertices,
+                resolvedPoint.x,
+                resolvedPoint.y,
+                resolvedPoint.z,
+                IndoorWorldItemFloorSampleRise,
+                IndoorWorldItemFloorSampleDrop,
+                spriteObject.sectorId,
+                nullptr,
+                &geometryCache);
+
+        if (floorSample.hasFloor
+            && resolvedPoint.z <= floorSample.height + IndoorWorldItemGroundClearance
+            && velocity.z <= 0.0f)
+        {
+            resolvedPoint.z = floorSample.height + IndoorWorldItemGroundClearance;
+            spriteObject.sectorId = floorSample.sectorId;
+
+            if ((pObjectEntry->flags & ObjectDescBounce) != 0
+                && std::abs(velocity.z) >= IndoorWorldItemBounceStopVelocity)
+            {
+                velocity.z = -velocity.z * IndoorWorldItemBounceFactor;
+            }
+            else
+            {
+                velocity.z = 0.0f;
+            }
+
+            velocity.x *= IndoorWorldItemGroundDamping;
+            velocity.y *= IndoorWorldItemGroundDamping;
+
+            const float horizontalSpeedSquared = velocity.x * velocity.x + velocity.y * velocity.y;
+
+            if (horizontalSpeedSquared < IndoorWorldItemRestingHorizontalSpeedSquared)
+            {
+                velocity.x = 0.0f;
+                velocity.y = 0.0f;
+            }
+        }
+        else
+        {
+            const std::optional<int16_t> sectorId =
+                findIndoorSectorForPoint(
+                    *m_pIndoorMapData,
+                    vertices,
+                    {resolvedPoint.x, resolvedPoint.y, resolvedPoint.z},
+                    &geometryCache);
+
+            if (sectorId)
+            {
+                spriteObject.sectorId = *sectorId;
+            }
+        }
+
+        const int resolvedX = static_cast<int>(std::lround(resolvedPoint.x));
+        const int resolvedY = static_cast<int>(std::lround(resolvedPoint.y));
+        const int resolvedZ = static_cast<int>(std::lround(resolvedPoint.z));
+        const int16_t resolvedVelocityX = clampToInt16(velocity.x);
+        const int16_t resolvedVelocityY = clampToInt16(velocity.y);
+        const int16_t resolvedVelocityZ = clampToInt16(velocity.z);
+
+        changed = changed
+            || spriteObject.x != resolvedX
+            || spriteObject.y != resolvedY
+            || spriteObject.z != resolvedZ
+            || spriteObject.velocityX != resolvedVelocityX
+            || spriteObject.velocityY != resolvedVelocityY
+            || spriteObject.velocityZ != resolvedVelocityZ;
+
+        spriteObject.x = resolvedX;
+        spriteObject.y = resolvedY;
+        spriteObject.z = resolvedZ;
+        spriteObject.velocityX = resolvedVelocityX;
+        spriteObject.velocityY = resolvedVelocityY;
+        spriteObject.velocityZ = resolvedVelocityZ;
+    }
+
+    return changed;
+}
+
+void IndoorWorldRuntime::updateWorldItems(float deltaSeconds)
+{
+    if (deltaSeconds <= 0.0f || m_pIndoorMapData == nullptr)
+    {
+        return;
+    }
+
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    bool hasMovingObject = false;
+
+    for (const MapDeltaSpriteObject &spriteObject : pMapDeltaData->spriteObjects)
+    {
+        if (spriteObject.velocityX != 0 || spriteObject.velocityY != 0 || spriteObject.velocityZ != 0)
+        {
+            hasMovingObject = true;
+            break;
+        }
+    }
+
+    if (!hasMovingObject)
+    {
+        m_worldItemUpdateAccumulatorSeconds = 0.0f;
+        return;
+    }
+
+    const EventRuntimeState *pEventRuntimeState =
+        m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
+    const std::vector<IndoorVertex> vertices =
+        buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, pMapDeltaData, pEventRuntimeState);
+    IndoorFaceGeometryCache geometryCache(m_pIndoorMapData->faces.size());
+    bool changed = false;
+
+    m_worldItemUpdateAccumulatorSeconds =
+        std::min(m_worldItemUpdateAccumulatorSeconds + deltaSeconds, MaxAccumulatedWorldItemUpdateSeconds);
+
+    while (m_worldItemUpdateAccumulatorSeconds >= WorldItemUpdateStepSeconds)
+    {
+        changed = updateWorldItemsStep(WorldItemUpdateStepSeconds, vertices, geometryCache) || changed;
+        m_worldItemUpdateAccumulatorSeconds -= WorldItemUpdateStepSeconds;
+    }
+
+    if (changed && m_pRenderer != nullptr)
+    {
+        m_pRenderer->clearGameplayWorldHover();
+    }
+}
+
 void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     size_t actorIndex,
     const ActorAiUpdate &update,
@@ -2926,7 +3377,6 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     size_t actorIndex,
     bool active,
     const ActorPartyFacts &partyFacts,
-    const std::vector<uint8_t> &partyReachableSectorMask,
     const std::vector<IndoorVertex> &vertices,
     IndoorFaceGeometryCache &geometryCache) const
 {
@@ -2995,11 +3445,24 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     const int16_t actorSectorId = floorSample.hasFloor ? floorSample.sectorId : actorAuthoredSectorId;
     const int16_t partySectorId =
         m_pPartyRuntime != nullptr ? m_pPartyRuntime->movementState().sectorId : int16_t(-1);
-    const std::vector<uint8_t> actorReachableSectorMask =
-        buildIndoorReachableSectorMask(m_pIndoorMapData, actorSectorId);
     const bool sameSectorAsParty = actorSectorId >= 0 && actorSectorId == partySectorId;
-    const bool portalPathToParty =
-        sameSectorAsParty || indoorSectorReachable(actorReachableSectorMask, partySectorId);
+    const GameplayWorldPoint partyTargetPoint =
+        {partyFacts.position.x, partyFacts.position.y, partyFacts.position.z + PartyTargetHeightOffset};
+    const GameplayWorldPoint actorTargetPoint = {aiState.preciseX, aiState.preciseY, actorTargetZ};
+    const bool activeCanKeepPartyTarget =
+        active
+        && (sameSectorAsParty
+            || hasDetectedParty
+            || (m_pIndoorMapData != nullptr
+                && !vertices.empty()
+                && indoorDetectBetweenObjects(
+                    *m_pIndoorMapData,
+                    vertices,
+                    geometryCache,
+                    actorTargetPoint,
+                    actorSectorId,
+                    partyTargetPoint,
+                    partySectorId)));
 
     ActorAiFacts facts = {};
     facts.actorIndex = actorIndex;
@@ -3039,8 +3502,8 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     facts.stats.attackConstraints.darkGraspActive = aiState.spellEffects.darkGraspRemainingSeconds > 0.0f;
     facts.stats.attackConstraints.rangedCommitAllowed = true;
 
-    facts.runtime.motionState = actor.hp <= 0 ? ActorAiMotionState::Dead : aiState.motionState;
-    facts.runtime.animationState = actor.hp <= 0 ? ActorAiAnimationState::Dead : aiState.animationState;
+    facts.runtime.motionState = aiState.motionState;
+    facts.runtime.animationState = aiState.animationState;
     facts.runtime.queuedAttackAbility = aiState.queuedAttackAbility;
     facts.runtime.animationTimeTicks = aiState.animationTimeTicks;
     facts.runtime.recoverySeconds = aiState.recoverySeconds;
@@ -3067,25 +3530,23 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
 
     facts.status.spellEffects = aiState.spellEffects;
     facts.status.invisible = actorInvisible;
-    facts.status.dead = actor.hp <= 0 || aiState.motionState == ActorAiMotionState::Dead;
+    facts.status.dead = aiState.motionState == ActorAiMotionState::Dead;
     facts.status.hostileToParty = hostileToParty;
     facts.status.bloodSplatSpawned = aiState.bloodSplatSpawned;
     facts.status.hasDetectedParty = hasDetectedParty;
     facts.status.defaultHostileToParty = defaultHostile;
 
-    const float partyTargetZ = partyFacts.position.z + PartyTargetHeightOffset;
     const float partyDeltaX = partyFacts.position.x - aiState.preciseX;
     const float partyDeltaY = partyFacts.position.y - aiState.preciseY;
-    const float partyDeltaZ = partyTargetZ - actorTargetZ;
+    const float partyDeltaZ = partyTargetPoint.z - actorTargetZ;
     const float partySenseRange = pActorService->partyEngagementRange(actorPolicyState);
     const bool actorCanSenseParty =
-        portalPathToParty
+        activeCanKeepPartyTarget
         && std::abs(partyDeltaX) <= partySenseRange
         && std::abs(partyDeltaY) <= partySenseRange
         && std::abs(partyDeltaZ) <= partySenseRange
         && isWithinRange3d(partyDeltaX, partyDeltaY, partyDeltaZ, partySenseRange);
-    facts.target.partyCanSenseActor =
-        sameSectorAsParty || indoorSectorReachable(partyReachableSectorMask, actorSectorId);
+    facts.target.partyCanSenseActor = actorCanSenseParty;
 
     float bestTargetDistanceSquared = std::numeric_limits<float>::max();
 
@@ -3093,7 +3554,7 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     {
         const float distanceToParty = length3d(partyDeltaX, partyDeltaY, partyDeltaZ);
         facts.target.currentKind = ActorAiTargetKind::Party;
-        facts.target.currentPosition = GameplayWorldPoint{partyFacts.position.x, partyFacts.position.y, partyTargetZ};
+        facts.target.currentPosition = partyTargetPoint;
         facts.target.currentAudioPosition = facts.target.currentPosition;
         facts.target.currentDistance = distanceToParty;
         facts.target.currentEdgeDistance =
@@ -3140,9 +3601,19 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
                 otherHostileToParty);
         const float otherTargetZ =
             otherAiState.preciseZ + std::max(24.0f, static_cast<float>(otherHeight) * 0.7f);
+        const GameplayWorldPoint otherTargetPoint = {otherAiState.preciseX, otherAiState.preciseY, otherTargetZ};
         const bool hasLineOfSight =
             otherActor.sectorId == actorSectorId
-            || indoorSectorReachable(actorReachableSectorMask, otherActor.sectorId);
+            || (m_pIndoorMapData != nullptr
+                && !vertices.empty()
+                && indoorDetectBetweenObjects(
+                    *m_pIndoorMapData,
+                    vertices,
+                    geometryCache,
+                    actorTargetPoint,
+                    actorSectorId,
+                    otherTargetPoint,
+                    otherActor.sectorId));
 
         ActorTargetCandidateFacts candidate = {};
         candidate.kind = ActorAiTargetKind::Actor;
@@ -3151,7 +3622,7 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
         candidate.monsterId = otherAiState.monsterId;
         candidate.currentHp = otherActor.hp;
         candidate.policy = otherPolicyState;
-        candidate.position = GameplayWorldPoint{otherAiState.preciseX, otherAiState.preciseY, otherTargetZ};
+        candidate.position = otherTargetPoint;
         candidate.audioPosition =
             GameplayWorldPoint{
                 otherAiState.preciseX,
@@ -3232,7 +3703,7 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     facts.world.active = active;
     facts.world.activeByDistance = active;
     facts.world.sameSectorAsParty = sameSectorAsParty;
-    facts.world.portalPathToParty = portalPathToParty;
+    facts.world.portalPathToParty = activeCanKeepPartyTarget;
     return facts;
 }
 
@@ -3419,6 +3890,7 @@ void IndoorWorldRuntime::updateActorAi(float deltaSeconds)
 
 void IndoorWorldRuntime::updateWorld(float deltaSeconds)
 {
+    updateWorldItems(deltaSeconds);
     updateIndoorProjectiles(deltaSeconds);
 }
 
@@ -3579,8 +4051,9 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     state.preciseZ = pAiState != nullptr ? pAiState->preciseZ : static_cast<float>(actor.z);
     state.radius = actor.radius;
     state.height = actor.height;
-    state.isDead = actor.hp <= 0
-        || (pAiState != nullptr && pAiState->motionState == ActorAiMotionState::Dead);
+    state.isDead = pAiState != nullptr
+        ? pAiState->motionState == ActorAiMotionState::Dead
+        : actor.hp <= 0;
     state.isInvisible = isInvisible;
     state.hostileToParty = useEffectOverride ? pEffectState->hostileToParty
         : pAiState != nullptr ? (pAiState->hostileToParty || hostileToParty) : hostileToParty;
@@ -3618,7 +4091,9 @@ bool IndoorWorldRuntime::actorInspectState(
     state.monsterId = resolvedMonsterId;
     state.currentHp = std::max(0, static_cast<int>(actor.hp));
     state.maxHp = std::max(0, pStats->hitPoints);
-    state.isDead = actor.hp <= 0;
+    state.isDead = actorIndex < m_mapActorAiStates.size()
+        ? m_mapActorAiStates[actorIndex].motionState == ActorAiMotionState::Dead
+        : actor.hp <= 0;
 
     int armorClass = pStats->armorClass;
     const GameplayActorSpellEffectState *pEffectState =
@@ -3847,6 +4322,11 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
         static_cast<int>(std::numeric_limits<int16_t>::min()),
         previousHp);
     actor.hp = static_cast<int16_t>(nextHp);
+    if (previousHp > 0 && actor.hp <= 0)
+    {
+        beginMapActorDyingState(actorIndex, actor);
+    }
+
     return actor.hp != previousHp;
 }
 
@@ -4005,11 +4485,72 @@ bool IndoorWorldRuntime::tryStartArmageddon(
     return false;
 }
 
+void IndoorWorldRuntime::beginMapActorDyingState(size_t actorIndex, MapDeltaActor &actor)
+{
+    syncMapActorAiStates();
+
+    if (actorIndex >= m_mapActorAiStates.size())
+    {
+        return;
+    }
+
+    MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+
+    if (aiState.motionState == ActorAiMotionState::Dying
+        || aiState.motionState == ActorAiMotionState::Dead)
+    {
+        return;
+    }
+
+    const MonsterEntry *pMonsterEntry =
+        m_pMonsterTable != nullptr ? resolveRuntimeMonsterEntry(*m_pMonsterTable, actor) : nullptr;
+    aiState.motionState = ActorAiMotionState::Dying;
+    aiState.animationState = ActorAiAnimationState::Dying;
+    aiState.actionSeconds =
+        actorAnimationSeconds(m_pActorSpriteFrameTable, pMonsterEntry, ActorAiAnimationState::Dying, 0.6f);
+    aiState.animationTimeTicks = 0.0f;
+    aiState.attackImpactTriggered = false;
+    aiState.velocityX = 0.0f;
+    aiState.velocityY = 0.0f;
+    aiState.velocityZ = 0.0f;
+    actor.currentActionAnimation = indoorActionAnimationFromActorAi(ActorAiAnimationState::Dying);
+}
+
 bool IndoorWorldRuntime::canActivateWorldHit(
     const GameplayWorldHit &hit,
     GameplayInteractionMethod interactionMethod) const
 {
-    (void)interactionMethod;
+    if (!hit.hasHit)
+    {
+        return false;
+    }
+
+    const GameSettings &settings =
+        m_pGameplayView != nullptr ? m_pGameplayView->settingsSnapshot() : GameSettings::createDefault();
+    const int configuredDepth = interactionMethod == GameplayInteractionMethod::Keyboard
+        ? settings.keyboardInteractionDepth
+        : settings.mouseInteractionDepth;
+    const float interactionDepth = static_cast<float>(std::clamp(configuredDepth, 32, 4096));
+
+    if (indoorWorldHitDistance(hit) >= interactionDepth)
+    {
+        return false;
+    }
+
+    if (hit.kind == GameplayWorldHitKind::Actor && hit.actor)
+    {
+        const MapDeltaData *pMapDeltaData = mapDeltaData();
+        const size_t actorIndex = hit.actor->actorIndex;
+        const MapActorAiState *pAiState =
+            actorIndex < m_mapActorAiStates.size() ? &m_mapActorAiStates[actorIndex] : nullptr;
+
+        return pMapDeltaData != nullptr
+            && actorIndex < pMapDeltaData->actors.size()
+            && pAiState != nullptr
+            && pAiState->motionState == ActorAiMotionState::Dead
+            && (pMapDeltaData->actors[actorIndex].attributes
+                & static_cast<uint32_t>(EvtActorAttribute::Invisible)) == 0;
+    }
 
     if (hit.kind == GameplayWorldHitKind::WorldItem && hit.worldItem)
     {
@@ -4025,6 +4566,11 @@ bool IndoorWorldRuntime::canActivateWorldHit(
 
 bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
 {
+    if (hit.kind == GameplayWorldHitKind::Actor && hit.actor)
+    {
+        return openMapActorCorpseView(hit.actor->actorIndex);
+    }
+
     if (hit.kind == GameplayWorldHitKind::WorldItem && hit.worldItem)
     {
         MapDeltaData *pMapDeltaData = mapDeltaData();
@@ -4042,6 +4588,36 @@ bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
             return false;
         }
 
+        uint32_t goldAmount = 0;
+        readRawItemUInt32(spriteObject.rawContainingItem, 0x0c, goldAmount);
+
+        if (goldAmount > 0)
+        {
+            if (m_pParty == nullptr)
+            {
+                return false;
+            }
+
+            m_pParty->addGold(static_cast<int>(goldAmount));
+            m_pParty->requestSound(SoundId::Gold);
+            pMapDeltaData->spriteObjects.erase(
+                pMapDeltaData->spriteObjects.begin() + std::ptrdiff_t(hit.worldItem->worldItemIndex));
+
+            const std::string statusText = "Picked up " + std::to_string(goldAmount) + " gold";
+
+            if (m_pGameplayView != nullptr)
+            {
+                m_pGameplayView->setStatusBarEvent(statusText);
+            }
+
+            if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
+            {
+                (*m_pEventRuntimeState)->lastActivationResult = statusText;
+            }
+
+            return true;
+        }
+
         size_t recipientMemberIndex = 0;
 
         if (m_pParty == nullptr || !m_pParty->tryGrantInventoryItem(item, &recipientMemberIndex))
@@ -4057,6 +4633,11 @@ bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
         pMapDeltaData->spriteObjects.erase(
             pMapDeltaData->spriteObjects.begin() + std::ptrdiff_t(hit.worldItem->worldItemIndex));
         m_pParty->requestSound(SoundId::Gold);
+
+        if (m_pGameplayView != nullptr)
+        {
+            m_pGameplayView->setStatusBarEvent("Picked up " + itemName);
+        }
 
         if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
         {
@@ -4182,6 +4763,11 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
         | static_cast<uint32_t>(EvtActorAttribute::FullAi);
 
     syncMapActorAiStates();
+
+    if (previousHp > 0 && nextHp <= 0)
+    {
+        beginMapActorDyingState(actorIndex, actor);
+    }
 
     if (actorIndex < m_mapActorAiStates.size())
     {
@@ -4319,9 +4905,9 @@ std::optional<GameplayHeldItemDropRequest> IndoorWorldRuntime::buildHeldItemDrop
     const float yawRadians = m_pRenderer != nullptr ? m_pRenderer->cameraYawRadians() : 0.0f;
     const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
     return GameplayHeldItemDropRequest{
-        .sourceX = moveState.x + std::cos(yawRadians) * IndoorDroppedItemForwardOffset,
-        .sourceY = moveState.y + std::sin(yawRadians) * IndoorDroppedItemForwardOffset,
-        .sourceZ = moveState.footZ + IndoorDroppedItemHeightOffset,
+        .sourceX = moveState.x,
+        .sourceY = moveState.y,
+        .sourceZ = moveState.eyeZ(),
         .yawRadians = yawRadians,
     };
 }
@@ -4440,7 +5026,7 @@ GameplayPendingSpellWorldTargetFacts IndoorWorldRuntime::pickPendingSpellWorldTa
 
 GameplayWorldHit IndoorWorldRuntime::pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request)
 {
-    return m_pRenderer != nullptr ? m_pRenderer->pickGameplayWorldHit(request) : GameplayWorldHit{};
+    return m_pRenderer != nullptr ? m_pRenderer->pickKeyboardGameplayWorldHit(request) : GameplayWorldHit{};
 }
 
 GameplayWorldHit IndoorWorldRuntime::pickHeldItemWorldTarget(const GameplayWorldPickRequest &request)
@@ -4448,9 +5034,36 @@ GameplayWorldHit IndoorWorldRuntime::pickHeldItemWorldTarget(const GameplayWorld
     return m_pRenderer != nullptr ? m_pRenderer->pickGameplayWorldHit(request) : GameplayWorldHit{};
 }
 
-GameplayWorldHit IndoorWorldRuntime::pickCurrentInteractionTarget(const GameplayWorldPickRequest &request)
+GameplayWorldHit IndoorWorldRuntime::pickMouseInteractionTarget(const GameplayWorldPickRequest &request)
 {
     return m_pRenderer != nullptr ? m_pRenderer->pickGameplayWorldHit(request) : GameplayWorldHit{};
+}
+
+bool IndoorWorldRuntime::worldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state) const
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || worldItemIndex >= pMapDeltaData->spriteObjects.size())
+    {
+        return false;
+    }
+
+    const MapDeltaSpriteObject &spriteObject = pMapDeltaData->spriteObjects[worldItemIndex];
+    InventoryItem item = {};
+
+    if (!readIndoorHeldItemPayload(spriteObject.rawContainingItem, m_pItemTable, item))
+    {
+        return false;
+    }
+
+    uint32_t goldAmount = 0;
+    readRawItemUInt32(spriteObject.rawContainingItem, 0x0c, goldAmount);
+
+    state = {};
+    state.item = item;
+    state.goldAmount = goldAmount;
+    state.isGold = goldAmount > 0;
+    return true;
 }
 
 GameplayWorldHoverCacheState IndoorWorldRuntime::worldHoverCacheState() const
@@ -4524,11 +5137,19 @@ bool IndoorWorldRuntime::dropHeldItemToWorld(const GameplayHeldItemDropRequest &
     }
 
     MapDeltaSpriteObject spriteObject = {};
+    const float directionX = std::cos(request.yawRadians);
+    const float directionY = std::sin(request.yawRadians);
+    const float horizontalSpeed = IndoorWorldItemThrowSpeed * std::cos(IndoorWorldItemThrowPitchRadians);
+    const float verticalSpeed = IndoorWorldItemThrowSpeed * std::sin(IndoorWorldItemThrowPitchRadians);
+
     spriteObject.spriteId = pObjectEntry->spriteId;
     spriteObject.objectDescriptionId = *objectDescriptionId;
     spriteObject.x = int(std::lround(request.sourceX));
     spriteObject.y = int(std::lround(request.sourceY));
     spriteObject.z = int(std::lround(request.sourceZ));
+    spriteObject.velocityX = clampToInt16(directionX * horizontalSpeed);
+    spriteObject.velocityY = clampToInt16(directionY * horizontalSpeed);
+    spriteObject.velocityZ = clampToInt16(verticalSpeed);
     spriteObject.yawAngle = yawAngleFromRadians(request.yawRadians);
     spriteObject.attributes = SpriteAttrDroppedByPlayer;
     spriteObject.sectorId = m_pPartyRuntime != nullptr ? m_pPartyRuntime->movementState().sectorId : -1;
@@ -4672,6 +5293,11 @@ void IndoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinim
             continue;
         }
 
+        if (!actorState.isDead && !actorState.hasDetectedParty)
+        {
+            continue;
+        }
+
         GameplayMinimapMarkerState marker = {};
         marker.type = actorState.isDead
             ? GameplayMinimapMarkerType::CorpseActor
@@ -4688,18 +5314,53 @@ void IndoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinim
         return;
     }
 
+    if (m_pObjectTable == nullptr)
+    {
+        return;
+    }
+
     for (const MapDeltaSpriteObject &spriteObject : pMapDeltaData->spriteObjects)
     {
-        if (!hasContainingItemPayload(spriteObject.rawContainingItem))
+        const ObjectEntry *pObjectEntry = m_pObjectTable->get(spriteObject.objectDescriptionId);
+
+        if (pObjectEntry == nullptr
+            || spriteObject.objectDescriptionId == 0
+            || (spriteObject.attributes & SpriteAttrRemoved) != 0
+            || (pObjectEntry->flags & ObjectDescNoSprite) != 0
+            || pObjectEntry->spriteId == 0)
         {
             continue;
         }
 
         GameplayMinimapMarkerState marker = {};
-        marker.type = GameplayMinimapMarkerType::WorldItem;
+        marker.type = (pObjectEntry->flags & ObjectDescUnpickable) != 0
+            ? GameplayMinimapMarkerType::Projectile
+            : GameplayMinimapMarkerType::WorldItem;
         marker.u = indoorMinimapU(static_cast<float>(spriteObject.x));
         marker.v = indoorMinimapV(static_cast<float>(spriteObject.y));
         markers.push_back(marker);
+    }
+
+    if (m_pGameplayProjectileService != nullptr)
+    {
+        const size_t projectileCount = m_pGameplayProjectileService->projectileCount();
+
+        for (size_t projectileIndex = 0; projectileIndex < projectileCount; ++projectileIndex)
+        {
+            const GameplayProjectileService::ProjectileState *pProjectile =
+                m_pGameplayProjectileService->projectileState(projectileIndex);
+
+            if (pProjectile == nullptr || pProjectile->isExpired)
+            {
+                continue;
+            }
+
+            GameplayMinimapMarkerState marker = {};
+            marker.type = GameplayMinimapMarkerType::Projectile;
+            marker.u = indoorMinimapU(pProjectile->x);
+            marker.v = indoorMinimapV(pProjectile->y);
+            markers.push_back(marker);
+        }
     }
 }
 
@@ -4820,7 +5481,13 @@ bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
 
     const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
 
-    if (actor.hp > 0 || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
+    const MapActorAiState *pAiState =
+        actorIndex < m_mapActorAiStates.size() ? &m_mapActorAiStates[actorIndex] : nullptr;
+
+    if (actor.hp > 0
+        || pAiState == nullptr
+        || pAiState->motionState != ActorAiMotionState::Dead
+        || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
     {
         return false;
     }

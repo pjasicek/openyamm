@@ -270,7 +270,8 @@ public:
         const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) override;
-    GameplayWorldHit pickCurrentInteractionTarget(const GameplayWorldPickRequest &request) override;
+    GameplayWorldHit pickMouseInteractionTarget(const GameplayWorldPickRequest &request) override;
+    bool worldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state) const override;
     GameplayWorldHoverCacheState worldHoverCacheState() const override;
     GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) override;
     GameplayHoverStatusPayload readCachedWorldHover() override;
@@ -339,7 +340,11 @@ private:
     ) const;
     void materializeInitialMonsterSpawns();
     void syncMapActorAiStates();
-    std::vector<bool> selectIndoorActiveActors(const ActorPartyFacts &partyFacts) const;
+    std::vector<bool> selectIndoorActiveActors(
+        const ActorPartyFacts &partyFacts,
+        int16_t partySectorId,
+        const std::vector<IndoorVertex> &vertices,
+        IndoorFaceGeometryCache &geometryCache) const;
     ActorAiFrameFacts collectIndoorActorAiFrameFacts(float deltaSeconds) const;
     std::vector<bool> applyIndoorActorAiFrameResult(
         const ActorAiFrameResult &result,
@@ -363,16 +368,21 @@ private:
         GameplayProjectileService::ProjectileState &projectile,
         const GameplayProjectileService::ProjectileFrameResult &frameResult);
     void updateIndoorProjectiles(float deltaSeconds);
+    void updateWorldItems(float deltaSeconds);
+    bool updateWorldItemsStep(
+        float deltaSeconds,
+        const std::vector<IndoorVertex> &vertices,
+        IndoorFaceGeometryCache &geometryCache);
     std::optional<ActorAiFacts> collectIndoorActorAiFacts(
         size_t actorIndex,
         bool active,
         const ActorPartyFacts &partyFacts,
-        const std::vector<uint8_t> &partyReachableSectorMask,
         const std::vector<IndoorVertex> &vertices,
         IndoorFaceGeometryCache &geometryCache
     ) const;
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
+    void beginMapActorDyingState(size_t actorIndex, MapDeltaActor &actor);
     std::optional<GameplayWorldPoint> actorImpactPoint(size_t actorIndex) const;
     void triggerProjectileImpactVisualAt(const GameplayWorldPoint &point, uint32_t spellId);
     void triggerProjectileImpactVisual(size_t actorIndex, uint32_t spellId);
@@ -406,5 +416,6 @@ private:
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<MapActorAiState> m_mapActorAiStates;
     float m_actorUpdateAccumulatorSeconds = 0.0f;
+    float m_worldItemUpdateAccumulatorSeconds = 0.0f;
 };
 }

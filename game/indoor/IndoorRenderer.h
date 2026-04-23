@@ -98,6 +98,7 @@ public:
         float screenY) const;
     GameplayWorldPickRequest buildGameplayWorldPickRequest(const GameplayWorldPickRequestInput &input) const;
     GameplayWorldHit pickGameplayWorldHit(const GameplayWorldPickRequest &request) const;
+    GameplayWorldHit pickKeyboardGameplayWorldHit(const GameplayWorldPickRequest &request) const;
     GameplayWorldHoverCacheState gameplayWorldHoverCacheState() const;
     GameplayHoverStatusPayload refreshGameplayWorldHover(const GameplayWorldHoverRequest &request);
     GameplayHoverStatusPayload readCachedGameplayWorldHover() const;
@@ -132,6 +133,19 @@ private:
         float z;
         float u;
         float v;
+
+        static void init();
+        static bgfx::VertexLayout ms_layout;
+    };
+
+    struct LitBillboardVertex
+    {
+        float x;
+        float y;
+        float z;
+        float u;
+        float v;
+        uint32_t abgr;
 
         static void init();
         static bgfx::VertexLayout ms_layout;
@@ -348,7 +362,14 @@ private:
     bgfx::DynamicVertexBufferHandle m_doorMarkerVertexBufferHandle;
     bgfx::ProgramHandle m_programHandle;
     bgfx::ProgramHandle m_texturedProgramHandle;
+    bgfx::ProgramHandle m_billboardProgramHandle;
     bgfx::UniformHandle m_textureSamplerHandle;
+    bgfx::UniformHandle m_billboardAmbientUniformHandle;
+    bgfx::UniformHandle m_billboardOverrideColorUniformHandle;
+    bgfx::UniformHandle m_billboardOutlineParamsUniformHandle;
+    bgfx::UniformHandle m_billboardFogColorUniformHandle;
+    bgfx::UniformHandle m_billboardFogDensitiesUniformHandle;
+    bgfx::UniformHandle m_billboardFogDistancesUniformHandle;
     float m_framesPerSecond;
     uint32_t m_wireframeVertexCount;
     uint32_t m_wireframeVertexCapacity;

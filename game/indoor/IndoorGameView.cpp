@@ -943,13 +943,7 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
 
     GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
 
-    GameplayScreenController::updateStandardHudItemInspectOverlayFromMouse(
-        overlayContext,
-        input,
-        width,
-        height,
-        GameplayScreenController::canUpdateStandardHudItemInspectOverlayFromMouse(overlayContext, width, height),
-        false);
+    updateItemInspectOverlayState(width, height, input);
 
     const GameplaySharedInputFrameResult &sharedInputFrameResult = m_gameSession.sharedInputFrameResult();
     syncGameplayMouseLookMode(pWindow, sharedInputFrameResult.mouseLookPolicy.mouseLookActive);
@@ -1291,6 +1285,78 @@ void IndoorGameView::updateActorInspectOverlayState(int width, int height, const
     actorInspectOverlay.sourceY = pick->sourceY;
     actorInspectOverlay.sourceWidth = pick->sourceWidth;
     actorInspectOverlay.sourceHeight = pick->sourceHeight;
+}
+
+void IndoorGameView::updateItemInspectOverlayState(int width, int height, const GameplayInputFrame &input)
+{
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    GameplayUiController::ItemInspectOverlayState &itemInspectOverlay = screenRuntime.itemInspectOverlay();
+    itemInspectOverlay = {};
+
+    const bool enabled =
+        GameplayScreenController::canUpdateStandardHudItemInspectOverlayFromMouse(screenRuntime, width, height);
+
+    if (!enabled || width <= 0 || height <= 0)
+    {
+        return;
+    }
+
+    if (!input.rightMouseButton.held)
+    {
+        screenRuntime.interactionState().itemInspectInteractionLatch = false;
+        screenRuntime.interactionState().itemInspectInteractionKey = 0;
+        return;
+    }
+
+    if (GameplayScreenController::updateRenderedHudItemInspectOverlay(screenRuntime, width, height, false))
+    {
+        GameplayScreenController::applySharedItemInspectSkillInteraction(screenRuntime);
+        return;
+    }
+
+    IndoorWorldRuntime *pWorldRuntime =
+        m_pIndoorSceneRuntime != nullptr ? &m_pIndoorSceneRuntime->worldRuntime() : nullptr;
+
+    if (pWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const GameplayWorldPickRequest pickRequest =
+        pWorldRuntime->buildWorldPickRequest(
+            GameplayWorldPickRequestInput{
+                .screenX = input.pointerX,
+                .screenY = input.pointerY,
+                .screenWidth = width,
+                .screenHeight = height,
+                .includeRay = true,
+            });
+    const GameplayWorldHit worldHit = pWorldRuntime->pickMouseInteractionTarget(pickRequest);
+
+    if (worldHit.kind != GameplayWorldHitKind::WorldItem || !worldHit.worldItem)
+    {
+        return;
+    }
+
+    GameplayWorldItemInspectState worldItemState = {};
+
+    if (!pWorldRuntime->worldItemInspectState(worldHit.worldItem->worldItemIndex, worldItemState))
+    {
+        return;
+    }
+
+    itemInspectOverlay.active = true;
+    itemInspectOverlay.objectDescriptionId = worldItemState.item.objectDescriptionId;
+    itemInspectOverlay.hasItemState = !worldItemState.isGold;
+    itemInspectOverlay.itemState = worldItemState.item;
+    itemInspectOverlay.sourceType = GameplayUiController::ItemInspectSourceType::WorldItem;
+    itemInspectOverlay.sourceWorldItemIndex = worldHit.worldItem->worldItemIndex;
+    itemInspectOverlay.hasValueOverride = worldItemState.isGold;
+    itemInspectOverlay.valueOverride = static_cast<int>(worldItemState.goldAmount);
+    itemInspectOverlay.sourceX = input.pointerX;
+    itemInspectOverlay.sourceY = input.pointerY;
+    itemInspectOverlay.sourceWidth = 1.0f;
+    itemInspectOverlay.sourceHeight = 1.0f;
 }
 
 std::optional<std::string> IndoorGameView::findCachedAssetPath(

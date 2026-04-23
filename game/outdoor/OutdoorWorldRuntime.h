@@ -649,7 +649,7 @@ public:
         const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) override;
-    GameplayWorldHit pickCurrentInteractionTarget(const GameplayWorldPickRequest &request) override;
+    GameplayWorldHit pickMouseInteractionTarget(const GameplayWorldPickRequest &request) override;
     GameplayWorldHoverCacheState worldHoverCacheState() const override;
     GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) override;
     GameplayHoverStatusPayload readCachedWorldHover() override;
