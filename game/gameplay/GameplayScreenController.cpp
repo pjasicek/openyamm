@@ -43,6 +43,13 @@ void GameplayScreenController::updateSharedFrameState(
     context.updatePartyPortraitAnimations(deltaSeconds);
     context.consumePendingPartyAudioRequests();
 
+    GameplayUiController::JournalScreenState &journalScreen = context.journalScreenState();
+
+    if (journalScreen.active)
+    {
+        journalScreen.hoverAnimationElapsedSeconds += std::max(0.0f, deltaSeconds);
+    }
+
     float &statusBarRemainingSeconds = context.statusBarEventRemainingSeconds();
 
     if (statusBarRemainingSeconds > 0.0f)

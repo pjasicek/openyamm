@@ -106,6 +106,7 @@ public:
     std::optional<size_t> gameplayClosestVisibleHostileActorIndex() const;
     std::optional<bx::Vec3> gameplayActorTargetPoint(size_t actorIndex) const;
     std::optional<bx::Vec3> gameplayGroundTargetPoint(float screenX, float screenY) const;
+    std::vector<int16_t> visibleIndoorMapRevealSectorIds(int16_t sectorId, int16_t eyeSectorId) const;
     float cameraYawRadians() const;
     float cameraPitchRadians() const;
     bool canActivateGameplayWorldHit(const GameplayWorldHit &hit) const;

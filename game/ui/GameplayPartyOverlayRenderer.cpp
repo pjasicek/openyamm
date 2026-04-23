@@ -257,6 +257,187 @@ int clampedJournalMapZoomValue(int zoomStep)
     return JournalMapZoomLevels[clampedStep];
 }
 
+void submitJournalTextureClipped(
+    GameplayScreenRuntime &context,
+    const GameplayScreenRuntime::HudTextureHandle &texture,
+    float x,
+    float y,
+    float quadWidth,
+    float quadHeight,
+    const GameplayScreenRuntime::ResolvedHudLayoutElement &clip)
+{
+    const float quadRight = x + quadWidth;
+    const float quadBottom = y + quadHeight;
+    const float clipRight = clip.x + clip.width;
+    const float clipBottom = clip.y + clip.height;
+    const float clippedLeft = std::max(x, clip.x);
+    const float clippedTop = std::max(y, clip.y);
+    const float clippedRight = std::min(quadRight, clipRight);
+    const float clippedBottom = std::min(quadBottom, clipBottom);
+
+    if (clippedLeft >= clippedRight || clippedTop >= clippedBottom || quadWidth <= 0.0f || quadHeight <= 0.0f)
+    {
+        return;
+    }
+
+    const float u0 = (clippedLeft - x) / quadWidth;
+    const float v0 = (clippedTop - y) / quadHeight;
+    const float u1 = (clippedRight - x) / quadWidth;
+    const float v1 = (clippedBottom - y) / quadHeight;
+    context.submitWorldTextureQuad(
+        texture.textureHandle,
+        clippedLeft,
+        clippedTop,
+        clippedRight - clippedLeft,
+        clippedBottom - clippedTop,
+        u0,
+        v0,
+        u1,
+        v1);
+}
+
+void renderJournalVectorMap(
+    GameplayScreenRuntime &context,
+    const GameplayScreenRuntime::ResolvedHudLayoutElement &mapResolved,
+    GameplayUiController::JournalScreenState &journalScreen,
+    int width,
+    int height)
+{
+    GameplayMinimapState minimapState = {};
+
+    if (!context.tryGetGameplayMinimapState(minimapState) || !minimapState.vectorBackground)
+    {
+        return;
+    }
+
+    const std::optional<GameplayScreenRuntime::HudTextureHandle> backgroundTexture =
+        context.gameplayUiRuntime().ensureSolidHudTextureLoaded(
+            "__journal_vector_map_background__",
+            minimapState.backgroundColorAbgr);
+
+    if (backgroundTexture)
+    {
+        context.submitHudTexturedQuad(
+            *backgroundTexture,
+            mapResolved.x,
+            mapResolved.y,
+            mapResolved.width,
+            mapResolved.height);
+    }
+
+    const int zoom = clampedJournalMapZoomValue(journalScreen.mapZoomStep);
+    const float zoomFactor = static_cast<float>(zoom) / static_cast<float>(JournalMapBaseZoom);
+    const float uCenter =
+        (journalScreen.mapCenterX + JournalMapWorldHalfExtent) / (JournalMapWorldHalfExtent * 2.0f);
+    const float vCenter =
+        (JournalMapWorldHalfExtent - journalScreen.mapCenterY) / (JournalMapWorldHalfExtent * 2.0f);
+    const float uSpan = 1.0f / std::max(zoomFactor, 0.000001f);
+    const float vSpan = 1.0f / std::max(zoomFactor, 0.000001f);
+    const float uOrigin = uCenter - uSpan * 0.5f;
+    const float vOrigin = vCenter - vSpan * 0.5f;
+    const uint16_t mapScissorX = static_cast<uint16_t>(std::max(0.0f, std::floor(mapResolved.x)));
+    const uint16_t mapScissorY = static_cast<uint16_t>(std::max(0.0f, std::floor(mapResolved.y)));
+    const uint16_t mapScissorWidth = static_cast<uint16_t>(std::max(1.0f, std::ceil(mapResolved.width)));
+    const uint16_t mapScissorHeight = static_cast<uint16_t>(std::max(1.0f, std::ceil(mapResolved.height)));
+    std::vector<GameplayHudBatchQuad> mapQuads;
+    std::vector<GameplayMinimapLineState> mapLines;
+    std::unordered_map<uint32_t, std::optional<GameplayScreenRuntime::HudTextureHandle>> lineTextureByColor;
+
+    context.collectGameplayMinimapLines(mapLines);
+
+    for (const GameplayMinimapLineState &line : mapLines)
+    {
+        const float lineX0 = mapResolved.x + ((line.u0 - uOrigin) / std::max(uSpan, 0.000001f)) * mapResolved.width;
+        const float lineY0 = mapResolved.y + ((line.v0 - vOrigin) / std::max(vSpan, 0.000001f)) * mapResolved.height;
+        const float lineX1 = mapResolved.x + ((line.u1 - uOrigin) / std::max(uSpan, 0.000001f)) * mapResolved.width;
+        const float lineY1 = mapResolved.y + ((line.v1 - vOrigin) / std::max(vSpan, 0.000001f)) * mapResolved.height;
+
+        if ((lineX0 < mapResolved.x && lineX1 < mapResolved.x)
+            || (lineX0 > mapResolved.x + mapResolved.width && lineX1 > mapResolved.x + mapResolved.width)
+            || (lineY0 < mapResolved.y && lineY1 < mapResolved.y)
+            || (lineY0 > mapResolved.y + mapResolved.height && lineY1 > mapResolved.y + mapResolved.height))
+        {
+            continue;
+        }
+
+        std::optional<GameplayScreenRuntime::HudTextureHandle> &lineTexture = lineTextureByColor[line.colorAbgr];
+
+        if (!lineTexture)
+        {
+            lineTexture =
+                context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__journal_vector_map_line__", line.colorAbgr);
+        }
+
+        if (!lineTexture)
+        {
+            continue;
+        }
+
+        GameplayHudBatchQuad quad = {};
+        quad.textureHandle = lineTexture->textureHandle;
+        quad.x = lineX0;
+        quad.y = lineY0;
+        quad.x2 = lineX1;
+        quad.y2 = lineY1;
+        quad.width = std::max(1.0f, mapResolved.scale);
+        quad.line = true;
+        quad.clipped = true;
+        quad.scissorX = mapScissorX;
+        quad.scissorY = mapScissorY;
+        quad.scissorWidth = mapScissorWidth;
+        quad.scissorHeight = mapScissorHeight;
+        mapQuads.push_back(quad);
+    }
+
+    context.submitHudQuadBatch(mapQuads, width, height);
+
+    if (context.worldRuntime() == nullptr || context.partyReadOnly() == nullptr)
+    {
+        return;
+    }
+
+    const float markerX =
+        mapResolved.x + ((minimapState.partyU - uOrigin) / std::max(uSpan, 0.000001f)) * mapResolved.width;
+    const float markerY =
+        mapResolved.y + ((minimapState.partyV - vOrigin) / std::max(vSpan, 0.000001f)) * mapResolved.height;
+    const int arrowIndex = outdoorMinimapArrowIndex(context.gameplayCameraYawRadians());
+    const std::optional<GameplayScreenRuntime::HudTextureHandle> arrowTexture =
+        context.gameplayUiRuntime().ensureHudTextureLoaded("MAPDIR" + std::to_string(arrowIndex + 1));
+
+    if (arrowTexture)
+    {
+        const float arrowWidth = static_cast<float>(arrowTexture->width) * mapResolved.scale;
+        const float arrowHeight = static_cast<float>(arrowTexture->height) * mapResolved.scale;
+        submitJournalTextureClipped(
+            context,
+            *arrowTexture,
+            markerX - arrowWidth * 0.5f,
+            markerY - arrowHeight * 0.5f,
+            arrowWidth,
+            arrowHeight,
+            mapResolved);
+    }
+
+    const GameplayScreenRuntime::HudLayoutElement *pCoordsLayout =
+        context.findHudLayoutElement("JournalMapCoordinatesText");
+    const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> coordsResolved =
+        context.resolveHudLayoutElement(
+            "JournalMapCoordinatesText",
+            width,
+            height,
+            HudReferenceWidth,
+            HudReferenceHeight);
+
+    if (pCoordsLayout != nullptr && coordsResolved)
+    {
+        const std::string coordsText =
+            "X: " + std::to_string(static_cast<int>(std::round(context.partyX())))
+            + "  Y: " + std::to_string(static_cast<int>(std::round(context.partyY())))
+            + "  Z: " + std::to_string(zoom);
+        context.renderLayoutLabel(*pCoordsLayout, *coordsResolved, coordsText);
+    }
+}
+
 std::string journalMainIconTextureName(
     const std::string &prefix,
     int frameCount,
@@ -3139,6 +3320,10 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
                         context.renderLayoutLabel(*pCoordsLayout, *coordsResolved, coordsText);
                     }
                 }
+            }
+            else
+            {
+                renderJournalVectorMap(context, *mapResolved, journalScreen, width, height);
             }
         }
     }

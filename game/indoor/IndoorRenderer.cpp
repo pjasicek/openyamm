@@ -1612,6 +1612,299 @@ bool IndoorRenderer::isBatchVisible(
     return batch.sectorId < 0 && batch.backSectorId < 0;
 }
 
+std::vector<int16_t> IndoorRenderer::visibleIndoorMapRevealSectorIds(int16_t sectorId, int16_t eyeSectorId) const
+{
+    std::vector<int16_t> sectorIds;
+
+    if (!m_indoorMapData)
+    {
+        return sectorIds;
+    }
+
+    const auto appendSectorId = [&](int16_t candidateSectorId)
+    {
+        if (candidateSectorId < 0 || static_cast<size_t>(candidateSectorId) >= m_indoorMapData->sectors.size())
+        {
+            return;
+        }
+
+        if (std::find(sectorIds.begin(), sectorIds.end(), candidateSectorId) != sectorIds.end())
+        {
+            return;
+        }
+
+        sectorIds.push_back(candidateSectorId);
+    };
+
+    appendSectorId(sectorId);
+    appendSectorId(eyeSectorId);
+
+    if (sectorIds.empty() || m_lastRenderWidth <= 0 || m_lastRenderHeight <= 0 || m_renderVertices.empty())
+    {
+        return sectorIds;
+    }
+
+    const float cosPitch = std::cos(m_cameraPitchRadians);
+    const float sinPitch = std::sin(m_cameraPitchRadians);
+    const float cosYaw = std::cos(m_cameraYawRadians);
+    const float sinYaw = std::sin(m_cameraYawRadians);
+    const bx::Vec3 eye = {m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ};
+    const bx::Vec3 at = {
+        m_cameraPositionX + cosYaw * cosPitch,
+        m_cameraPositionY + sinYaw * cosPitch,
+        m_cameraPositionZ + sinPitch
+    };
+    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+    float viewMatrix[16] = {};
+    float projectionMatrix[16] = {};
+    float viewProjectionMatrix[16] = {};
+    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
+    bx::mtxProj(
+        projectionMatrix,
+        60.0f,
+        static_cast<float>(m_lastRenderWidth) / static_cast<float>(m_lastRenderHeight),
+        0.1f,
+        50000.0f,
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right
+    );
+    bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
+
+    const auto faceBounds = [&](const IndoorFace &face, bx::Vec3 &minBounds, bx::Vec3 &maxBounds) -> bool
+    {
+        bool hasVertex = false;
+        minBounds = {
+            std::numeric_limits<float>::max(),
+            std::numeric_limits<float>::max(),
+            std::numeric_limits<float>::max()
+        };
+        maxBounds = {
+            std::numeric_limits<float>::lowest(),
+            std::numeric_limits<float>::lowest(),
+            std::numeric_limits<float>::lowest()
+        };
+
+        for (uint16_t vertexIndex : face.vertexIndices)
+        {
+            if (vertexIndex >= m_renderVertices.size())
+            {
+                continue;
+            }
+
+            const IndoorVertex &vertex = m_renderVertices[vertexIndex];
+            minBounds.x = std::min(minBounds.x, static_cast<float>(vertex.x));
+            minBounds.y = std::min(minBounds.y, static_cast<float>(vertex.y));
+            minBounds.z = std::min(minBounds.z, static_cast<float>(vertex.z));
+            maxBounds.x = std::max(maxBounds.x, static_cast<float>(vertex.x));
+            maxBounds.y = std::max(maxBounds.y, static_cast<float>(vertex.y));
+            maxBounds.z = std::max(maxBounds.z, static_cast<float>(vertex.z));
+            hasVertex = true;
+        }
+
+        return hasVertex;
+    };
+
+    const auto doorBounds = [&](const MapDeltaDoor &door, bx::Vec3 &minBounds, bx::Vec3 &maxBounds) -> bool
+    {
+        bool hasVertex = false;
+        minBounds = {
+            std::numeric_limits<float>::max(),
+            std::numeric_limits<float>::max(),
+            std::numeric_limits<float>::max()
+        };
+        maxBounds = {
+            std::numeric_limits<float>::lowest(),
+            std::numeric_limits<float>::lowest(),
+            std::numeric_limits<float>::lowest()
+        };
+
+        for (uint16_t vertexIndex : door.vertexIds)
+        {
+            if (vertexIndex >= m_renderVertices.size())
+            {
+                continue;
+            }
+
+            const IndoorVertex &vertex = m_renderVertices[vertexIndex];
+            minBounds.x = std::min(minBounds.x, static_cast<float>(vertex.x));
+            minBounds.y = std::min(minBounds.y, static_cast<float>(vertex.y));
+            minBounds.z = std::min(minBounds.z, static_cast<float>(vertex.z));
+            maxBounds.x = std::max(maxBounds.x, static_cast<float>(vertex.x));
+            maxBounds.y = std::max(maxBounds.y, static_cast<float>(vertex.y));
+            maxBounds.z = std::max(maxBounds.z, static_cast<float>(vertex.z));
+            hasVertex = true;
+        }
+
+        return hasVertex;
+    };
+
+    const auto boundsOverlapWithSlack =
+        [](const bx::Vec3 &leftMin, const bx::Vec3 &leftMax, const bx::Vec3 &rightMin, const bx::Vec3 &rightMax)
+    {
+        constexpr float DoorPortalRevealSlack = 64.0f;
+        return leftMax.x + DoorPortalRevealSlack >= rightMin.x
+            && leftMin.x - DoorPortalRevealSlack <= rightMax.x
+            && leftMax.y + DoorPortalRevealSlack >= rightMin.y
+            && leftMin.y - DoorPortalRevealSlack <= rightMax.y
+            && leftMax.z + DoorPortalRevealSlack >= rightMin.z
+            && leftMin.z - DoorPortalRevealSlack <= rightMax.z;
+    };
+
+    const auto portalBlockedByClosedDoor = [&](const IndoorFace &portalFace) -> bool
+    {
+        const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+
+        if (!mapDeltaData)
+        {
+            return false;
+        }
+
+        bx::Vec3 portalMin = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 portalMax = {0.0f, 0.0f, 0.0f};
+
+        if (!faceBounds(portalFace, portalMin, portalMax))
+        {
+            return false;
+        }
+
+        const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
+
+        for (const MapDeltaDoor &door : mapDeltaData->doors)
+        {
+            if (resolveMechanismDistance(door, eventRuntimeState) <= 1.0f)
+            {
+                continue;
+            }
+
+            bx::Vec3 doorMin = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 doorMax = {0.0f, 0.0f, 0.0f};
+
+            if (!doorBounds(door, doorMin, doorMax))
+            {
+                continue;
+            }
+
+            if (boundsOverlapWithSlack(doorMin, doorMax, portalMin, portalMax))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    };
+
+    const auto portalFaceOnScreen = [&](uint16_t faceId) -> bool
+    {
+        if (faceId >= m_indoorMapData->faces.size())
+        {
+            return false;
+        }
+
+        const IndoorFace &face = m_indoorMapData->faces[faceId];
+
+        if (!face.isPortal
+            || face.vertexIndices.empty()
+            || !isFaceVisible(faceId, face, runtimeEventRuntimeStateStorage()))
+        {
+            return false;
+        }
+
+        if (portalBlockedByClosedDoor(face))
+        {
+            return false;
+        }
+
+        float minX = std::numeric_limits<float>::max();
+        float minY = std::numeric_limits<float>::max();
+        float maxX = std::numeric_limits<float>::lowest();
+        float maxY = std::numeric_limits<float>::lowest();
+        bool hasProjectedVertex = false;
+
+        for (uint16_t vertexIndex : face.vertexIndices)
+        {
+            if (vertexIndex >= m_renderVertices.size())
+            {
+                continue;
+            }
+
+            const IndoorVertex &vertex = m_renderVertices[vertexIndex];
+            ProjectedPoint projected = {};
+
+            if (!projectWorldPointToScreen(
+                bx::Vec3{static_cast<float>(vertex.x), static_cast<float>(vertex.y), static_cast<float>(vertex.z)},
+                m_lastRenderWidth,
+                m_lastRenderHeight,
+                viewProjectionMatrix,
+                projected))
+            {
+                continue;
+            }
+
+            hasProjectedVertex = true;
+            minX = std::min(minX, projected.x);
+            minY = std::min(minY, projected.y);
+            maxX = std::max(maxX, projected.x);
+            maxY = std::max(maxY, projected.y);
+        }
+
+        if (!hasProjectedVertex)
+        {
+            return false;
+        }
+
+        constexpr float ScreenMargin = 2.0f;
+        return maxX >= -ScreenMargin
+            && maxY >= -ScreenMargin
+            && minX <= static_cast<float>(m_lastRenderWidth) + ScreenMargin
+            && minY <= static_cast<float>(m_lastRenderHeight) + ScreenMargin;
+    };
+
+    const auto appendVisiblePortalNeighbor = [&](int16_t baseSectorId, uint16_t faceId)
+    {
+        if (baseSectorId < 0
+            || static_cast<size_t>(baseSectorId) >= m_indoorMapData->sectors.size()
+            || faceId >= m_indoorMapData->faces.size()
+            || !portalFaceOnScreen(faceId))
+        {
+            return;
+        }
+
+        const IndoorFace &face = m_indoorMapData->faces[faceId];
+        int16_t connectedSectorId = -1;
+
+        if (face.roomNumber == static_cast<uint16_t>(baseSectorId))
+        {
+            connectedSectorId = static_cast<int16_t>(face.roomBehindNumber);
+        }
+        else if (face.roomBehindNumber == static_cast<uint16_t>(baseSectorId))
+        {
+            connectedSectorId = static_cast<int16_t>(face.roomNumber);
+        }
+
+        appendSectorId(connectedSectorId);
+    };
+
+    const size_t baseSectorCount = sectorIds.size();
+
+    for (size_t index = 0; index < baseSectorCount; ++index)
+    {
+        const int16_t baseSectorId = sectorIds[index];
+        const IndoorSector &sector = m_indoorMapData->sectors[baseSectorId];
+
+        for (uint16_t faceId : sector.portalFaceIds)
+        {
+            appendVisiblePortalNeighbor(baseSectorId, faceId);
+        }
+
+        for (uint16_t faceId : sector.faceIds)
+        {
+            appendVisiblePortalNeighbor(baseSectorId, faceId);
+        }
+    }
+
+    return sectorIds;
+}
+
 void IndoorRenderer::render(
     int width,
     int height,

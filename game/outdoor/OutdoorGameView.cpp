@@ -3399,12 +3399,6 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
     GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
     const GameplayUiController::SaveGameScreenState &saveGameScreen = overlayContext.saveGameScreenState();
     const GameplayUiController::LoadGameScreenState &loadGameScreen = overlayContext.loadGameScreenState();
-    GameplayUiController::JournalScreenState &journalScreen = overlayContext.journalScreenState();
-
-    if (journalScreen.active)
-    {
-        journalScreen.hoverAnimationElapsedSeconds += std::max(0.0f, deltaSeconds);
-    }
 
     updateHouseVideoPlayback(deltaSeconds);
     updateItemInspectOverlayState(width, height, input);

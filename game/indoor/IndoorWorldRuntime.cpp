@@ -347,6 +347,103 @@ bool indoorMinimapFaceVisible(
     return !indoorFaceHasInvisibleOverride(faceIndex, pEventRuntimeState);
 }
 
+void ensureIndoorMapRevealState(const IndoorMapData &indoorMapData, MapDeltaData &mapDeltaData)
+{
+    while (mapDeltaData.faceAttributes.size() < indoorMapData.faces.size())
+    {
+        const size_t faceIndex = mapDeltaData.faceAttributes.size();
+        mapDeltaData.faceAttributes.push_back(indoorMapData.faces[faceIndex].attributes);
+    }
+
+    const size_t visibleOutlineByteCount = (indoorMapData.outlines.size() + 7) / 8;
+
+    if (mapDeltaData.visibleOutlines.size() < visibleOutlineByteCount)
+    {
+        mapDeltaData.visibleOutlines.resize(visibleOutlineByteCount, 0);
+    }
+}
+
+void updateIndoorJournalRevealMask(
+    const IndoorMapData &indoorMapData,
+    const std::vector<int16_t> &revealSectorIds,
+    const EventRuntimeState *pEventRuntimeState,
+    MapDeltaData &mapDeltaData)
+{
+    ensureIndoorMapRevealState(indoorMapData, mapDeltaData);
+
+    const auto revealSectorFaces = [&](int16_t visibleSectorId)
+    {
+        if (visibleSectorId < 0 || static_cast<size_t>(visibleSectorId) >= indoorMapData.sectors.size())
+        {
+            return;
+        }
+
+        const IndoorSector &sector = indoorMapData.sectors[visibleSectorId];
+        const auto revealFace = [&](uint16_t faceId)
+        {
+            if (faceId >= indoorMapData.faces.size())
+            {
+                return;
+            }
+
+            const IndoorFace &face = indoorMapData.faces[faceId];
+
+            if (!indoorMinimapFaceVisible(face, &mapDeltaData, pEventRuntimeState, faceId))
+            {
+                return;
+            }
+
+            mapDeltaData.faceAttributes[faceId] |= faceAttributeBit(FaceAttribute::SeenByParty);
+        };
+
+        for (uint16_t faceId : sector.faceIds)
+        {
+            revealFace(faceId);
+        }
+
+        for (uint16_t faceId : sector.portalFaceIds)
+        {
+            revealFace(faceId);
+        }
+    };
+
+    for (int16_t revealSectorId : revealSectorIds)
+    {
+        revealSectorFaces(revealSectorId);
+    }
+
+    for (size_t outlineIndex = 0; outlineIndex < indoorMapData.outlines.size(); ++outlineIndex)
+    {
+        const IndoorOutline &outline = indoorMapData.outlines[outlineIndex];
+
+        if (outline.face1Id >= indoorMapData.faces.size() || outline.face2Id >= indoorMapData.faces.size())
+        {
+            continue;
+        }
+
+        const IndoorFace &face1 = indoorMapData.faces[outline.face1Id];
+        const IndoorFace &face2 = indoorMapData.faces[outline.face2Id];
+
+        if (!indoorMinimapFaceVisible(face1, &mapDeltaData, pEventRuntimeState, outline.face1Id)
+            || !indoorMinimapFaceVisible(face2, &mapDeltaData, pEventRuntimeState, outline.face2Id))
+        {
+            continue;
+        }
+
+        const uint32_t face1Attributes = effectiveIndoorFaceAttributes(face1, &mapDeltaData, outline.face1Id);
+        const uint32_t face2Attributes = effectiveIndoorFaceAttributes(face2, &mapDeltaData, outline.face2Id);
+        const bool revealed =
+            packedIndoorOutlineBit(mapDeltaData.visibleOutlines, outlineIndex)
+            || hasFaceAttribute(face1Attributes, FaceAttribute::SeenByParty)
+            || hasFaceAttribute(face2Attributes, FaceAttribute::SeenByParty);
+
+        if (revealed)
+        {
+            setPackedIndoorOutlineBit(mapDeltaData.visibleOutlines, outlineIndex);
+        }
+    }
+}
+
 bool indoorFaceHasMapEvent(const IndoorFace &face)
 {
     return face.cogNumber != 0 || face.cogTriggered != 0 || face.textureFrameTableCog != 0;
@@ -3335,6 +3432,20 @@ void IndoorWorldRuntime::renderWorld(
     {
         m_pGameplayView->render(width, height, input, deltaSeconds);
     }
+
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (m_pIndoorMapData != nullptr && m_pRenderer != nullptr && m_pPartyRuntime != nullptr && pMapDeltaData != nullptr)
+    {
+        const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
+        const std::vector<int16_t> revealSectorIds =
+            m_pRenderer->visibleIndoorMapRevealSectorIds(moveState.sectorId, moveState.eyeSectorId);
+        updateIndoorJournalRevealMask(
+            *m_pIndoorMapData,
+            revealSectorIds,
+            eventRuntimeState(),
+            *pMapDeltaData);
+    }
 }
 
 GameplayWorldUiRenderState IndoorWorldRuntime::gameplayUiRenderState(int width, int height) const
@@ -4480,103 +4591,6 @@ void IndoorWorldRuntime::collectGameplayMinimapLines(std::vector<GameplayMinimap
         pWizardEyeBuff != nullptr && pWizardEyeBuff->skillMastery >= SkillMastery::Master;
     const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
     const EventRuntimeState *pEventRuntimeState = eventRuntimeState();
-    std::vector<uint8_t> visibleSectorMask(m_pIndoorMapData->sectors.size(), 0);
-    std::vector<int16_t> pendingSectorIds;
-
-    if (moveState.eyeSectorId >= 0 && static_cast<size_t>(moveState.eyeSectorId) < visibleSectorMask.size())
-    {
-        pendingSectorIds.push_back(moveState.eyeSectorId);
-    }
-    else if (moveState.sectorId >= 0 && static_cast<size_t>(moveState.sectorId) < visibleSectorMask.size())
-    {
-        pendingSectorIds.push_back(moveState.sectorId);
-    }
-
-    while (!pendingSectorIds.empty())
-    {
-        const int16_t sectorId = pendingSectorIds.back();
-        pendingSectorIds.pop_back();
-
-        if (sectorId < 0 || static_cast<size_t>(sectorId) >= visibleSectorMask.size())
-        {
-            continue;
-        }
-
-        if (visibleSectorMask[sectorId] != 0)
-        {
-            continue;
-        }
-
-        visibleSectorMask[sectorId] = 1;
-        const IndoorSector &sector = m_pIndoorMapData->sectors[sectorId];
-
-        auto appendPortalConnectedSectors = [&](const std::vector<uint16_t> &faceIds)
-        {
-            for (uint16_t faceId : faceIds)
-            {
-                if (faceId >= m_pIndoorMapData->faces.size())
-                {
-                    continue;
-                }
-
-                const IndoorFace &face = m_pIndoorMapData->faces[faceId];
-
-                if (!face.isPortal && !hasFaceAttribute(
-                    effectiveIndoorFaceAttributes(face, pMapDeltaData, faceId),
-                    FaceAttribute::IsPortal))
-                {
-                    continue;
-                }
-
-                if (!indoorMinimapFaceVisible(face, pMapDeltaData, pEventRuntimeState, faceId))
-                {
-                    continue;
-                }
-
-                int16_t connectedSectorId = -1;
-
-                if (face.roomNumber == sectorId)
-                {
-                    connectedSectorId = static_cast<int16_t>(face.roomBehindNumber);
-                }
-                else if (face.roomBehindNumber == sectorId)
-                {
-                    connectedSectorId = static_cast<int16_t>(face.roomNumber);
-                }
-
-                if (connectedSectorId < 0 || static_cast<size_t>(connectedSectorId) >= visibleSectorMask.size())
-                {
-                    continue;
-                }
-
-                if (visibleSectorMask[connectedSectorId] == 0)
-                {
-                    pendingSectorIds.push_back(connectedSectorId);
-                }
-            }
-        };
-
-        appendPortalConnectedSectors(sector.portalFaceIds);
-        appendPortalConnectedSectors(sector.faceIds);
-    }
-
-    for (size_t faceIndex = 0; faceIndex < m_pIndoorMapData->faces.size(); ++faceIndex)
-    {
-        const IndoorFace &face = m_pIndoorMapData->faces[faceIndex];
-        const bool sectorVisible =
-            (face.roomNumber < visibleSectorMask.size() && visibleSectorMask[face.roomNumber] != 0)
-            || (face.roomBehindNumber < visibleSectorMask.size() && visibleSectorMask[face.roomBehindNumber] != 0);
-
-        if (!sectorVisible || !indoorMinimapFaceVisible(face, pMapDeltaData, pEventRuntimeState, faceIndex))
-        {
-            continue;
-        }
-
-        if (faceIndex < pMapDeltaData->faceAttributes.size())
-        {
-            pMapDeltaData->faceAttributes[faceIndex] |= faceAttributeBit(FaceAttribute::SeenByParty);
-        }
-    }
 
     for (size_t outlineIndex = 0; outlineIndex < m_pIndoorMapData->outlines.size(); ++outlineIndex)
     {
@@ -4611,7 +4625,6 @@ void IndoorWorldRuntime::collectGameplayMinimapLines(std::vector<GameplayMinimap
             continue;
         }
 
-        setPackedIndoorOutlineBit(pMapDeltaData->visibleOutlines, outlineIndex);
         const IndoorVertex &vertex1 = m_pIndoorMapData->vertices[outline.vertex1Id];
         const IndoorVertex &vertex2 = m_pIndoorMapData->vertices[outline.vertex2Id];
         const bool eventOutline =
