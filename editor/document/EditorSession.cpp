@@ -8,6 +8,7 @@
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/maps/TerrainTileData.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
+#include "game/SpriteObjectDefs.h"
 
 #include <SDL3/SDL.h>
 #include <bimg/bimg.h>
@@ -41,7 +42,6 @@ void assignIndoorEntityToSector(Game::IndoorMapData &indoorGeometry, size_t enti
 void removeIndoorEntityFromSectors(Game::IndoorMapData &indoorGeometry, size_t entityIndex);
 void repairIndoorEntitySectorReferencesAfterDelete(Game::IndoorMapData &indoorGeometry, size_t deletedEntityIndex);
 
-constexpr size_t SpriteObjectContainingItemSize = 0x24;
 constexpr size_t ChestItemRecordSize = 36;
 constexpr size_t ChestItemRecordCount = 140;
 constexpr size_t ChestInventoryCellCount = 140;
@@ -890,19 +890,13 @@ void buildDecorationOptions(
     }
 }
 
-void loadEditorItemNames(
-    const Engine::AssetFileSystem &assetFileSystem,
+void buildEditorItemNames(
+    const std::vector<std::vector<std::string>> &itemRows,
     std::unordered_map<uint32_t, std::string> &itemNames,
     std::vector<EditorIdLabelOption> &itemOptions)
 {
-    std::vector<std::vector<std::string>> itemRows;
     itemNames.clear();
     itemOptions.clear();
-
-    if (!loadTextTableRows(assetFileSystem, "Data/data_tables/items.txt", itemRows))
-    {
-        return;
-    }
 
     for (const std::vector<std::string> &row : itemRows)
     {
@@ -3081,7 +3075,27 @@ void EditorSession::initialize(const Engine::AssetFileSystem &assetFileSystem)
         }
     }
 
-    loadEditorItemNames(assetFileSystem, m_itemNames, m_itemOptions);
+    std::vector<std::vector<std::string>> itemRows;
+    std::vector<std::vector<std::string>> randomItemRows;
+
+    if (loadTextTableRows(assetFileSystem, "Data/data_tables/items.txt", itemRows))
+    {
+        buildEditorItemNames(itemRows, m_itemNames, m_itemOptions);
+        loadTextTableRows(assetFileSystem, "Data/data_tables/random_items.txt", randomItemRows);
+        m_itemTable.load(assetFileSystem, itemRows, randomItemRows);
+
+        if (!m_itemOptions.empty())
+        {
+            m_pendingSpriteObjectItemId = m_itemOptions.front().id;
+
+            if (const std::optional<uint16_t> objectDescriptionId =
+                    objectDescriptionIdForItem(m_pendingSpriteObjectItemId))
+            {
+                m_pendingSpriteObjectDescriptionId = *objectDescriptionId;
+            }
+        }
+    }
+
     buildBitmapTextureNames(assetFileSystem, m_bitmapTextureNames);
 }
 
@@ -3662,7 +3676,7 @@ bool EditorSession::createOutdoorObject(EditorSelectionKind kind, int x, int y, 
             spriteObject.initialX = x;
             spriteObject.initialY = y;
             spriteObject.initialZ = z;
-            spriteObject.rawContainingItem.assign(SpriteObjectContainingItemSize, 0);
+            Game::writeSpriteObjectContainedItemPayload(spriteObject.rawContainingItem, m_pendingSpriteObjectItemId);
 
             if (const Game::ObjectEntry *pObjectEntry = m_objectTable.get(spriteObject.objectDescriptionId))
             {
@@ -3754,7 +3768,7 @@ bool EditorSession::createOutdoorObject(EditorSelectionKind kind, int x, int y, 
             spriteObject.initialX = x;
             spriteObject.initialY = y;
             spriteObject.initialZ = z;
-            spriteObject.rawContainingItem.assign(SpriteObjectContainingItemSize, 0);
+            Game::writeSpriteObjectContainedItemPayload(spriteObject.rawContainingItem, m_pendingSpriteObjectItemId);
 
             if (const Game::ObjectEntry *pObjectEntry = m_objectTable.get(spriteObject.objectDescriptionId))
             {
@@ -4879,6 +4893,11 @@ const Game::DecorationTable &EditorSession::decorationTable() const
     return m_decorationTable;
 }
 
+const Game::ItemTable &EditorSession::itemTable() const
+{
+    return m_itemTable;
+}
+
 const std::vector<EditorIdLabelOption> &EditorSession::monsterOptions() const
 {
     return m_monsterOptions;
@@ -4949,6 +4968,16 @@ void EditorSession::setPendingActor(const Game::MapDeltaActor &actor)
     m_pendingActor = actor;
 }
 
+uint32_t EditorSession::pendingSpriteObjectItemId() const
+{
+    return m_pendingSpriteObjectItemId;
+}
+
+void EditorSession::setPendingSpriteObjectItemId(uint32_t itemId)
+{
+    m_pendingSpriteObjectItemId = itemId;
+}
+
 uint16_t EditorSession::pendingSpriteObjectDescriptionId() const
 {
     return m_pendingSpriteObjectDescriptionId;
@@ -4957,6 +4986,36 @@ uint16_t EditorSession::pendingSpriteObjectDescriptionId() const
 void EditorSession::setPendingSpriteObjectDescriptionId(uint16_t objectDescriptionId)
 {
     m_pendingSpriteObjectDescriptionId = objectDescriptionId;
+}
+
+std::optional<uint16_t> EditorSession::objectDescriptionIdForItem(uint32_t itemId) const
+{
+    const Game::ItemDefinition *pItemDefinition = m_itemTable.get(itemId);
+
+    if (pItemDefinition == nullptr || pItemDefinition->spriteIndex == 0)
+    {
+        return std::nullopt;
+    }
+
+    return m_objectTable.findDescriptionIdByObjectId(static_cast<int16_t>(pItemDefinition->spriteIndex));
+}
+
+uint16_t EditorSession::resolvedSpriteObjectObjectDescriptionId(
+    const Game::MapDeltaSpriteObject &spriteObject) const
+{
+    const uint32_t containedItemId = Game::spriteObjectContainedItemId(spriteObject.rawContainingItem);
+
+    if (containedItemId != 0)
+    {
+        const std::optional<uint16_t> objectDescriptionId = objectDescriptionIdForItem(containedItemId);
+
+        if (objectDescriptionId)
+        {
+            return *objectDescriptionId;
+        }
+    }
+
+    return spriteObject.objectDescriptionId;
 }
 
 std::string EditorSession::itemDisplayName(uint32_t itemId) const

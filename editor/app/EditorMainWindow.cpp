@@ -4,6 +4,7 @@
 
 #include "game/maps/TerrainTileData.h"
 #include "game/SpawnPreview.h"
+#include "game/SpriteObjectDefs.h"
 #include "game/data/ActorNameResolver.h"
 #include "game/events/EvtEnums.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
@@ -1611,8 +1612,36 @@ std::array<float, 3> rotateVectorByEulerDegrees(
     return {rotatedZX, rotatedZY, rotatedYZ};
 }
 
-std::string spriteObjectDisplayLabel(const Game::MapDeltaSpriteObject &spriteObject, size_t objectIndex)
+void applySpriteObjectVisualDescriptor(EditorSession &session, Game::MapDeltaSpriteObject &spriteObject)
 {
+    const Game::ObjectEntry *pObjectEntry = session.objectTable().get(spriteObject.objectDescriptionId);
+
+    if (pObjectEntry == nullptr)
+    {
+        spriteObject.spriteId = 0;
+        return;
+    }
+
+    spriteObject.spriteId = pObjectEntry->spriteId;
+
+    if (spriteObject.temporaryLifetime == 0 && pObjectEntry->lifetimeTicks > 0)
+    {
+        spriteObject.temporaryLifetime = pObjectEntry->lifetimeTicks;
+    }
+}
+
+std::string spriteObjectDisplayLabel(
+    const EditorSession &session,
+    const Game::MapDeltaSpriteObject &spriteObject,
+    size_t objectIndex)
+{
+    const uint32_t containedItemId = Game::spriteObjectContainedItemId(spriteObject.rawContainingItem);
+
+    if (containedItemId != 0)
+    {
+        return session.itemDisplayName(containedItemId) + " (#" + std::to_string(containedItemId) + ")";
+    }
+
     if (spriteObject.objectDescriptionId != 0)
     {
         return "Object " + std::to_string(spriteObject.objectDescriptionId);
@@ -1754,7 +1783,7 @@ std::pair<std::string, std::string> inspectorSelectionSummary(const EditorSessio
             {
                 return {
                     "Sprite Object",
-                    spriteObjectDisplayLabel(sceneData.initialState.spriteObjects[selection.index], selection.index)
+                    spriteObjectDisplayLabel(session, sceneData.initialState.spriteObjects[selection.index], selection.index)
                 };
             }
 
@@ -1767,7 +1796,7 @@ std::pair<std::string, std::string> inspectorSelectionSummary(const EditorSessio
         {
             return {
                 "Sprite Object",
-                spriteObjectDisplayLabel(sceneData.initialState.spriteObjects[selection.index], selection.index)
+                spriteObjectDisplayLabel(session, sceneData.initialState.spriteObjects[selection.index], selection.index)
             };
         }
 
@@ -4267,6 +4296,59 @@ bool editObjectDescriptionField(EditorSession &session, uint16_t &objectDescript
     return true;
 }
 
+bool editSpriteObjectContainedItemField(EditorSession &session, Game::MapDeltaSpriteObject &spriteObject)
+{
+    uint32_t selectedId = Game::spriteObjectContainedItemId(spriteObject.rawContainingItem);
+
+    if (!editOptionField(
+            session,
+            "Contained Item",
+            selectedId,
+            session.itemOptions(),
+            "<none>",
+            "Item"))
+    {
+        return false;
+    }
+
+    Game::writeSpriteObjectContainedItemPayload(spriteObject.rawContainingItem, selectedId);
+    session.setPendingSpriteObjectItemId(selectedId);
+
+    if (const std::optional<uint16_t> objectDescriptionId = session.objectDescriptionIdForItem(selectedId))
+    {
+        spriteObject.objectDescriptionId = *objectDescriptionId;
+        applySpriteObjectVisualDescriptor(session, spriteObject);
+        session.setPendingSpriteObjectDescriptionId(*objectDescriptionId);
+    }
+
+    return true;
+}
+
+bool editTransientSpriteObjectContainedItemField(EditorSession &session, uint32_t &itemId)
+{
+    uint32_t selectedId = itemId;
+
+    if (!editTransientOptionField(
+            "Contained Item",
+            selectedId,
+            session.itemOptions(),
+            "<none>",
+            "Item"))
+    {
+        return false;
+    }
+
+    itemId = selectedId;
+    session.setPendingSpriteObjectItemId(selectedId);
+
+    if (const std::optional<uint16_t> objectDescriptionId = session.objectDescriptionIdForItem(selectedId))
+    {
+        session.setPendingSpriteObjectDescriptionId(*objectDescriptionId);
+    }
+
+    return true;
+}
+
 bool editDecorationField(EditorSession &session, uint16_t &decorationListId)
 {
     uint32_t selectedId = decorationListId;
@@ -4400,6 +4482,28 @@ std::vector<EditorIdLabelOption> buildActorSpawnIndexOptions(const Game::MapStat
     return options;
 }
 
+std::vector<EditorIdLabelOption> buildTreasureLevelOptions()
+{
+    std::vector<EditorIdLabelOption> options;
+    options.reserve(7);
+
+    for (uint32_t level = 1; level <= 7; ++level)
+    {
+        EditorIdLabelOption option = {};
+        option.id = level;
+        option.label = std::to_string(level);
+
+        if (level == 7)
+        {
+            option.label += " (Artefact)";
+        }
+
+        options.push_back(std::move(option));
+    }
+
+    return options;
+}
+
 bool editSpawnTypeField(EditorSession &session, Game::OutdoorSpawn &spawn)
 {
     beginInspectorFieldRow("Spawn Type");
@@ -4436,6 +4540,11 @@ bool editSpawnTypeField(EditorSession &session, Game::OutdoorSpawn &spawn)
     else if (selectedKind == 1)
     {
         spawn.typeId = 2;
+
+        if (spawn.index < 1 || spawn.index > 7)
+        {
+            spawn.index = 1;
+        }
     }
 
     return true;
@@ -4475,6 +4584,11 @@ bool editTransientSpawnTypeField(Game::OutdoorSpawn &spawn)
     else if (selectedKind == 1)
     {
         spawn.typeId = 2;
+
+        if (spawn.index < 1 || spawn.index > 7)
+        {
+            spawn.index = 1;
+        }
     }
 
     return true;
@@ -4500,6 +4614,47 @@ bool editActorSpawnEncounterField(
     }
 
     spawn.typeId = 3;
+    spawn.index = static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535));
+    return true;
+}
+
+bool editSpawnTreasureLevelField(EditorSession &session, Game::OutdoorSpawn &spawn)
+{
+    std::vector<EditorIdLabelOption> options = buildTreasureLevelOptions();
+    uint32_t selectedId = spawn.index;
+
+    if (!editOptionField(
+            session,
+            "Treasure Level",
+            selectedId,
+            options,
+            nullptr,
+            "Level"))
+    {
+        return false;
+    }
+
+    spawn.typeId = 2;
+    spawn.index = static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535));
+    return true;
+}
+
+bool editTransientSpawnTreasureLevelField(Game::OutdoorSpawn &spawn)
+{
+    std::vector<EditorIdLabelOption> options = buildTreasureLevelOptions();
+    uint32_t selectedId = spawn.index;
+
+    if (!editTransientOptionField(
+            "Treasure Level",
+            selectedId,
+            options,
+            nullptr,
+            "Level"))
+    {
+        return false;
+    }
+
+    spawn.typeId = 2;
     spawn.index = static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535));
     return true;
 }
@@ -8597,7 +8752,7 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
             "Sprite Objects (" + std::to_string(sceneData.initialState.spriteObjects.size()) + ")",
             sceneData.initialState.spriteObjects.size(),
             EditorSelectionKind::SpriteObject,
-            [this, &sceneData](size_t objectIndex)
+            [this, &session, &sceneData](size_t objectIndex)
                 -> std::optional<std::string>
             {
                 const Game::MapDeltaSpriteObject &spriteObject = sceneData.initialState.spriteObjects[objectIndex];
@@ -8610,7 +8765,7 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
                     return std::nullopt;
                 }
 
-                std::string label = spriteObjectDisplayLabel(spriteObject, objectIndex);
+                std::string label = spriteObjectDisplayLabel(session, spriteObject, objectIndex);
                 label += " · " + (roomId.has_value() ? "Room " + std::to_string(*roomId) : std::string("Room ?"));
                 return matchesSceneFilter(m_sceneFilter, label) ? std::optional<std::string>(label) : std::nullopt;
             });
@@ -8958,7 +9113,7 @@ void EditorMainWindow::renderSceneOutliner(EditorSession &session)
                     && session.selection().index == spriteObjectIndex;
                 const Game::MapDeltaSpriteObject &spriteObject = sceneData.initialState.spriteObjects[spriteObjectIndex];
                 const std::string label =
-                    spriteObjectDisplayLabel(spriteObject, spriteObjectIndex)
+                    spriteObjectDisplayLabel(session, spriteObject, spriteObjectIndex)
                     + "##object"
                     + std::to_string(spriteObjectIndex);
 
@@ -9082,7 +9237,7 @@ void EditorMainWindow::renderInspector(EditorSession &session)
     }
     else if (m_viewport.placementKind() == EditorSelectionKind::SpriteObject)
     {
-        selectionSummary = {"Object Placement", "Click in the viewport to place a sprite object"};
+        selectionSummary = {"Item Placement", "Click in the viewport to place an item pickup"};
     }
     else if (m_viewport.placementKind() == EditorSelectionKind::Entity)
     {
@@ -13432,7 +13587,7 @@ void EditorMainWindow::renderSpawnPlacementInspector(EditorSession &session) con
             }
             else if (spawn.typeId == 2)
             {
-                renderObjectSelector(session, "Object Description", spawn.index, true);
+                editTransientSpawnTreasureLevelField(spawn);
             }
             else
             {
@@ -13442,10 +13597,6 @@ void EditorMainWindow::renderSpawnPlacementInspector(EditorSession &session) con
             renderInspectorReadOnlyField("Type Label", preview.typeName.empty() ? "<unknown>" : preview.typeName);
             renderInspectorReadOnlyField("Summary", preview.summary.empty() ? "<unresolved>" : preview.summary);
             renderInspectorReadOnlyField("Detail", preview.detail.empty() ? "<none>" : preview.detail);
-            const Game::ObjectEntry *pObjectEntry = spawn.typeId == 2 ? session.objectTable().get(spawn.index) : nullptr;
-            renderInspectorReadOnlyField(
-                "Object Label",
-                pObjectEntry != nullptr && !pObjectEntry->internalName.empty() ? pObjectEntry->internalName : "<none>");
             ImGui::EndTable();
         }
         endInspectorSectionBlock();
@@ -13505,7 +13656,7 @@ void EditorMainWindow::renderSpawnInspector(EditorSession &session, size_t spawn
             }
             else if (spawn.spawn.typeId == 2)
             {
-                changed = renderObjectSelector(session, "Object Description", spawn.spawn.index, false) || changed;
+                changed = editSpawnTreasureLevelField(session, spawn.spawn) || changed;
             }
             else
             {
@@ -13515,11 +13666,6 @@ void EditorMainWindow::renderSpawnInspector(EditorSession &session, size_t spawn
             renderInspectorReadOnlyField("Type Label", preview.typeName.empty() ? "<unknown>" : preview.typeName);
             renderInspectorReadOnlyField("Summary", preview.summary.empty() ? "<unresolved>" : preview.summary);
             renderInspectorReadOnlyField("Detail", preview.detail.empty() ? "<none>" : preview.detail);
-            const Game::ObjectEntry *pObjectEntry =
-                spawn.spawn.typeId == 2 ? session.objectTable().get(spawn.spawn.index) : nullptr;
-            renderInspectorReadOnlyField(
-                "Object Label",
-                pObjectEntry != nullptr && !pObjectEntry->internalName.empty() ? pObjectEntry->internalName : "<none>");
             ImGui::EndTable();
         }
         endInspectorSectionBlock();
@@ -13767,29 +13913,27 @@ void EditorMainWindow::renderActorInspector(EditorSession &session, size_t actor
 
 void EditorMainWindow::renderSpriteObjectPlacementInspector(EditorSession &session) const
 {
-    uint32_t selectedId = session.pendingSpriteObjectDescriptionId();
+    uint32_t selectedItemId = session.pendingSpriteObjectItemId();
 
-    ImGui::TextUnformatted("Decoration Placement");
+    ImGui::TextUnformatted("Item Placement");
     ImGui::Separator();
-    ImGui::TextWrapped("Choose a decoration, then click in the viewport to place it. The sprite preview follows "
+    ImGui::TextWrapped("Choose a contained item, then click in the viewport to place it. The sprite preview follows "
                        "the cursor while placement mode is active.");
 
-    renderInspectorSectionHeader("Decoration");
+    renderInspectorSectionHeader("Contained Item");
 
     if (beginInspectorPropertyTable("SpriteObjectPlacementSelection"))
     {
-        uint16_t pendingObjectDescriptionId = static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535));
-
-        if (renderObjectSelector(session, "Object Description", pendingObjectDescriptionId, true))
-        {
-            selectedId = pendingObjectDescriptionId;
-            session.setPendingSpriteObjectDescriptionId(pendingObjectDescriptionId);
-        }
-
-        renderInspectorReadOnlyField("Pending Object Description Id", std::to_string(selectedId));
+        editTransientSpriteObjectContainedItemField(session, selectedItemId);
+        renderInspectorReadOnlyField("Pending Item Id", std::to_string(selectedItemId));
 
         const Game::ObjectEntry *pObjectEntry =
-            session.objectTable().get(static_cast<uint16_t>(std::min<uint32_t>(selectedId, 65535)));
+            session.objectTable().get(session.pendingSpriteObjectDescriptionId());
+        renderInspectorReadOnlyField(
+            "Visual Object Descriptor",
+            pObjectEntry != nullptr && !pObjectEntry->internalName.empty()
+                ? pObjectEntry->internalName + " (#" + std::to_string(session.pendingSpriteObjectDescriptionId()) + ")"
+                : "Object #" + std::to_string(session.pendingSpriteObjectDescriptionId()));
         renderInspectorReadOnlyField("Sprite Id", pObjectEntry != nullptr ? std::to_string(pObjectEntry->spriteId) : "0");
         renderInspectorReadOnlyField(
             "Sprite Name",
@@ -13821,37 +13965,24 @@ void EditorMainWindow::renderSpriteObjectInspector(EditorSession &session, size_
     {
         if (beginInspectorPropertyTable("SpriteObjectIdentityFields"))
         {
-            const uint16_t originalObjectDescriptionId = spriteObject.objectDescriptionId;
-            const bool objectDescriptionChanged = renderObjectSelector(
-                session,
-                "Object Description",
-                spriteObject.objectDescriptionId,
-                false);
-            changed = objectDescriptionChanged || changed;
-
-            if (objectDescriptionChanged)
-            {
-                if (const Game::ObjectEntry *pObjectEntry = session.objectTable().get(spriteObject.objectDescriptionId))
-                {
-                    spriteObject.spriteId = pObjectEntry->spriteId;
-
-                    if (spriteObject.temporaryLifetime == 0 && pObjectEntry->lifetimeTicks > 0)
-                    {
-                        spriteObject.temporaryLifetime = pObjectEntry->lifetimeTicks;
-                    }
-                }
-                else if (spriteObject.objectDescriptionId != originalObjectDescriptionId)
-                {
-                    spriteObject.spriteId = 0;
-                }
-            }
+            changed = editSpriteObjectContainedItemField(session, spriteObject) || changed;
 
             renderInspectorReadOnlyField(
                 "Display Name",
-                spriteObjectDisplayLabel(spriteObject, spriteObjectIndex));
+                spriteObjectDisplayLabel(session, spriteObject, spriteObjectIndex));
+            renderInspectorReadOnlyField(
+                "Contained Item Id",
+                std::to_string(Game::spriteObjectContainedItemId(spriteObject.rawContainingItem)));
+            const uint16_t resolvedObjectDescriptionId =
+                session.resolvedSpriteObjectObjectDescriptionId(spriteObject);
+            const Game::ObjectEntry *pObjectEntry = session.objectTable().get(resolvedObjectDescriptionId);
+            renderInspectorReadOnlyField(
+                "Resolved Visual Descriptor",
+                pObjectEntry != nullptr && !pObjectEntry->internalName.empty()
+                    ? pObjectEntry->internalName + " (#" + std::to_string(resolvedObjectDescriptionId) + ")"
+                    : "Object #" + std::to_string(resolvedObjectDescriptionId));
             changed = editUInt16Field(session, "Yaw Angle", spriteObject.yawAngle) || changed;
             changed = editUInt16Field(session, "Sound Id", spriteObject.soundId) || changed;
-            renderInspectorReadOnlyField("Object Description Id", std::to_string(spriteObject.objectDescriptionId));
             renderInspectorReadOnlyField("Sprite Id", std::to_string(spriteObject.spriteId));
             ImGui::EndTable();
         }
@@ -13970,10 +14101,25 @@ void EditorMainWindow::renderSpriteObjectInspector(EditorSession &session, size_
     {
         if (beginInspectorPropertyTable("SpriteObjectLegacyPayload"))
         {
-            changed = editUInt16Field(session, "Object Description Id Raw", spriteObject.objectDescriptionId) || changed;
+            const uint16_t originalObjectDescriptionId = spriteObject.objectDescriptionId;
+            const bool objectDescriptionChanged = renderObjectSelector(
+                session,
+                "Visual Object Descriptor Raw",
+                spriteObject.objectDescriptionId,
+                false);
+            changed = objectDescriptionChanged || changed;
+
+            if (objectDescriptionChanged || spriteObject.objectDescriptionId != originalObjectDescriptionId)
+            {
+                applySpriteObjectVisualDescriptor(session, spriteObject);
+            }
+
             changed = editUInt16Field(session, "Sprite Id Raw", spriteObject.spriteId) || changed;
             changed = editInt16Field(session, "Sector Id", spriteObject.sectorId) || changed;
             changed = editUInt16Field(session, "Attributes Raw", spriteObject.attributes) || changed;
+            renderInspectorReadOnlyField(
+                "Contained Item Raw",
+                std::to_string(Game::spriteObjectContainedItemId(spriteObject.rawContainingItem)));
             renderInspectorReadOnlyField("Containing Item Bytes", std::to_string(spriteObject.rawContainingItem.size()));
             ImGui::EndTable();
         }
@@ -13982,6 +14128,7 @@ void EditorMainWindow::renderSpriteObjectInspector(EditorSession &session, size_
 
     if (changed)
     {
+        session.setPendingSpriteObjectItemId(Game::spriteObjectContainedItemId(spriteObject.rawContainingItem));
         session.setPendingSpriteObjectDescriptionId(spriteObject.objectDescriptionId);
         session.noteDocumentMutated({});
     }
@@ -14494,7 +14641,7 @@ void EditorMainWindow::renderIndoorSpawnInspector(EditorSession &session, size_t
             }
             else if (editableSpawn.typeId == 2)
             {
-                changed = renderObjectSelector(session, "Object Description", editableSpawn.index, false) || changed;
+                changed = editSpawnTreasureLevelField(session, editableSpawn) || changed;
             }
             else
             {
@@ -14504,13 +14651,6 @@ void EditorMainWindow::renderIndoorSpawnInspector(EditorSession &session, size_t
             renderInspectorReadOnlyField("Type Label", preview.typeName.empty() ? "<unknown>" : preview.typeName);
             renderInspectorReadOnlyField("Summary", preview.summary.empty() ? "<unresolved>" : preview.summary);
             renderInspectorReadOnlyField("Detail", preview.detail.empty() ? "<none>" : preview.detail);
-            const Game::ObjectEntry *pObjectEntry =
-                editableSpawn.typeId == 2 ? session.objectTable().get(editableSpawn.index) : nullptr;
-            renderInspectorReadOnlyField(
-                "Object Label",
-                pObjectEntry != nullptr && !pObjectEntry->internalName.empty()
-                    ? pObjectEntry->internalName
-                    : "<none>");
             ImGui::EndTable();
         }
         endInspectorSectionBlock();

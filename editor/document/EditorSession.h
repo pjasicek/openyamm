@@ -4,6 +4,7 @@
 #include "editor/document/OutdoorGeometryMetadata.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/tables/ChestTable.h"
+#include "game/tables/ItemTable.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/ObjectTable.h"
@@ -236,6 +237,7 @@ public:
     const Game::MapStatsEntry *currentMapStatsEntry() const;
     const Game::ObjectTable &objectTable() const;
     const Game::DecorationTable &decorationTable() const;
+    const Game::ItemTable &itemTable() const;
     const std::vector<EditorIdLabelOption> &monsterOptions() const;
     const std::vector<EditorIdLabelOption> &chestOptions() const;
     const std::vector<EditorIdLabelOption> &decorationOptions() const;
@@ -250,8 +252,12 @@ public:
     const Game::MapDeltaActor &pendingActor() const;
     Game::MapDeltaActor &mutablePendingActor();
     void setPendingActor(const Game::MapDeltaActor &actor);
+    uint32_t pendingSpriteObjectItemId() const;
+    void setPendingSpriteObjectItemId(uint32_t itemId);
     uint16_t pendingSpriteObjectDescriptionId() const;
     void setPendingSpriteObjectDescriptionId(uint16_t objectDescriptionId);
+    std::optional<uint16_t> objectDescriptionIdForItem(uint32_t itemId) const;
+    uint16_t resolvedSpriteObjectObjectDescriptionId(const Game::MapDeltaSpriteObject &spriteObject) const;
     std::optional<EditorBModelImportSource> bmodelImportSource(size_t bmodelIndex) const;
     std::vector<std::string> usedBitmapTextureNamesInMap() const;
     std::vector<std::string> usedBitmapTextureNamesForBModel(size_t bmodelIndex) const;
@@ -329,6 +335,7 @@ private:
     Game::MapStats m_mapStats;
     Game::ObjectTable m_objectTable;
     Game::DecorationTable m_decorationTable;
+    Game::ItemTable m_itemTable;
     Game::SpriteFrameTable m_entityBillboardSpriteFrameTable;
     std::unordered_map<uint32_t, std::string> m_itemNames;
     std::vector<EditorIdLabelOption> m_monsterOptions;
@@ -386,6 +393,7 @@ private:
     uint16_t m_pendingEntityDecorationListId = 0;
     Game::OutdoorSpawn m_pendingSpawn = {};
     Game::MapDeltaActor m_pendingActor = {};
+    uint32_t m_pendingSpriteObjectItemId = 0;
     uint16_t m_pendingSpriteObjectDescriptionId = 0;
     bool m_hasEntityBillboardSpriteFrameTable = false;
     bool m_hasDecorationTable = false;

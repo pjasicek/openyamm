@@ -10541,12 +10541,14 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
                         spriteObject.sectorId))
                 {
                     continue;
-                }
+            }
 
-                const Game::ObjectEntry *pObjectEntry = session.objectTable().get(spriteObject.objectDescriptionId);
+                const uint16_t objectDescriptionId =
+                    session.resolvedSpriteObjectObjectDescriptionId(spriteObject);
+                const Game::ObjectEntry *pObjectEntry = session.objectTable().get(objectDescriptionId);
                 const uint16_t spriteId = pObjectEntry != nullptr ? pObjectEntry->spriteId : spriteObject.spriteId;
                 appendSpriteObjectBillboard(
-                    spriteObject.objectDescriptionId,
+                    objectDescriptionId,
                     spriteId,
                     spriteObject.x,
                     spriteObject.y,
@@ -10863,10 +10865,12 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
     {
         for (const Game::MapDeltaSpriteObject &spriteObject : sceneData.initialState.spriteObjects)
         {
-            const Game::ObjectEntry *pObjectEntry = session.objectTable().get(spriteObject.objectDescriptionId);
+            const uint16_t objectDescriptionId =
+                session.resolvedSpriteObjectObjectDescriptionId(spriteObject);
+            const Game::ObjectEntry *pObjectEntry = session.objectTable().get(objectDescriptionId);
             const uint16_t spriteId = pObjectEntry != nullptr ? pObjectEntry->spriteId : spriteObject.spriteId;
             appendSpriteObjectBillboard(
-                spriteObject.objectDescriptionId,
+                objectDescriptionId,
                 spriteId,
                 spriteObject.x,
                 spriteObject.y,
@@ -11883,7 +11887,9 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             candidate.worldPosition = {center.x, center.y, center.z + 72.0f};
             candidate.pickRadiusPixels = 18.0f;
 
-            const Game::ObjectEntry *pObjectEntry = session.objectTable().get(spriteObject.objectDescriptionId);
+            const uint16_t objectDescriptionId =
+                session.resolvedSpriteObjectObjectDescriptionId(spriteObject);
+            const Game::ObjectEntry *pObjectEntry = session.objectTable().get(objectDescriptionId);
             const uint16_t spriteId = pObjectEntry != nullptr ? pObjectEntry->spriteId : spriteObject.spriteId;
             const Game::SpriteFrameTable *pSpriteFrameTable = session.entityBillboardSpriteFrameTable();
 
