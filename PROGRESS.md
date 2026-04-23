@@ -2,66 +2,71 @@
 
 ## Current status
 
-- Overall completion: reopened for OE-like indoor BLV collision/physics implementation.
-- Current focus: replace simplified indoor destination collision with swept iterative OE-like collision.
-- Last validated at: not yet validated for this slice.
+- Overall completion: new Wiggum loop initialized for regression test suite refactoring.
+- Current focus: migrate as many slow headless diagnostics as possible into fast doctest unit tests.
 - Hard blocker: NO
 
 ## Done definition satisfied: NO
 
-## Authoritative subsystem plan
+## Authoritative source
 
-- Indoor collision/physics: `docs/indoor_oe_collision_physics_plan.md`
-
-Architectural background:
-
-- `docs/indoor_outdoor_shared_gameplay_extraction_plan.md`
+- `docs/headless_to_doctest_migration_inventory.md`
 
 ## Chosen migration order
 
-1. Audit OE/OpenYAMM indoor collision deltas.
-2. Build private indoor swept collision primitives and state shape.
-3. Add pure primitive tests where practical.
-4. Implement portal-aware sector candidate collection.
-5. Implement iterative face collision loop.
-6. Convert indoor actor movement.
-7. Restore authored actor wall/body radius and keep OE-like actor contact radius.
-8. Convert indoor party movement.
-9. Finalize collision category responses.
-10. Remove temporary heuristics/noisy diagnostics and close acceptance.
+1. Lock the loop to the headless inventory and record the baseline.
+2. Exhaust the remaining `doctest-direct` families first.
+3. Extract the smallest reusable fixtures needed for the highest-value `doctest-with-adaptation` families.
+4. Only then optimize or condense the remaining headless coverage.
+5. Close by recounting doctest/headless distribution and removing dead migrated headless cases.
 
 Reason:
 
-- outdoor actor movement is already structurally close to OE's swept iterative approach;
-- indoor actor movement is the current larger parity gap;
-- reduced indoor actor navigation radius currently works as a gameplay unblocker but is not a structural fix;
-- the correct long-term fix is an OE-like swept BLV resolver inside indoor world-specific code.
+- the inventory already classifies what should move and what should stay;
+- `doctest-direct` gives the best speedup for the least structural work;
+- `doctest-with-adaptation` should be unlocked by a few reusable seams, not one-off hacks;
+- headless condensation only makes sense after the pure/unit candidates are removed.
+
+## Current baseline from inventory
+
+- Original headless cases inventoried: 275
+- Already moved to doctest: 19
+- Remaining classified headless cases: 256
+- Remaining `doctest-direct`: 40
+- Remaining `doctest-with-adaptation`: 80
+- Remaining `stay-headless`: 136
+
+## First ownership / structure targets
+
+- Move remaining `doctest-direct` cases out of `game/outdoor/HeadlessOutdoorDiagnostics.cpp` into `tests/`.
+- Avoid duplicating test helpers in every doctest file; extract narrow reusable fixtures only when a family needs them.
+- Treat `stay-headless` cases as intentionally integration-level until reclassified with explicit reason.
+- If condensing headless sessions, preserve case identity and failure clarity.
+
+## Expected first migration families
+
+- chest / loot / item-use deterministic checks
+- character-sheet / equip-rule checks
+- recovery / experience / simple data-rule checks
+- navigation-rule checks that do not require real map/world loading
+
+## Validation baseline
+
+Primary:
+
+- `cmake --build build --target openyamm_unit_tests -j25`
+- `ctest --test-dir build --output-on-failure`
+
+Secondary when touching headless code:
+
+- `cmake --build build --target openyamm -j25`
+- targeted headless suite or targeted headless case relevant to the migrated batch
 
 ## Current slice evidence
 
-- 2026-04-22: Created the active indoor collision/physics Wiggum plan. The new authoritative subsystem document is
-  `docs/indoor_oe_collision_physics_plan.md`.
-- 2026-04-22: Reset `PLAN.md`, `ACCEPTANCE.md`, `TASK_QUEUE.md`, and `PROGRESS.md` to the indoor OE-like collision
-  implementation slice.
-
-## First ownership leaks / temporary workarounds to attack
-
-- `IndoorMovementController::resolveMove` still contains destination-position wall collision plus wall/axis fallback
-  logic. This should be replaced by swept nearest-hit iteration.
-- Indoor actor movement currently uses a reduced non-flying navigation radius for wall movement. This must not remain
-  the final solution once the swept resolver is active.
-- `IndoorActorMoveBlocked` diagnostics are useful during implementation but should be removed or gated before
-  completion.
-- Indoor actor movement and party movement should converge on the same indoor collision engine rather than separate
-  ad-hoc code paths.
-
-## Validation history
-
-- No validation run yet after resetting this slice.
-
-## Manual smoke status
-
-- Pending: `blv18` Naga Vault large actors passing through portals.
-- Pending: opened door pocket movement without party jitter.
-- Pending: actors blocked by closed doors/walls.
-- Pending: hostile actor collision with indoor party.
+- 2026-04-23: Reset `PLAN.md`, `ACCEPTANCE.md`, `TASK_QUEUE.md`, and `PROGRESS.md` to the test-suite refactoring loop.
+- 2026-04-23: Set `docs/headless_to_doctest_migration_inventory.md` as the authoritative classification source.
+- 2026-04-23: Replaced the old indoor-collision execution scaffolding in `scripts/run_refactor.sh` with the new
+  test-suite migration loop prompt.
+- 2026-04-23: Updated the last section of `AGENTS.md` so future refactor sessions follow the test-suite migration loop
+  instead of the previous subsystem slices.

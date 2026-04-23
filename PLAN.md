@@ -2,76 +2,64 @@
 
 ## Objective
 
-Implement OE-like indoor BLV collision and physics structurally, not by portal-specific heuristics or reduced-radius
-workarounds.
+Refactor the regression test suite so that as many current slow headless diagnostics as possible become fast doctest
+unit tests, while preserving only the headless cases that truly need full application/world integration.
 
 Authoritative detailed plan:
 
-- `docs/indoor_oe_collision_physics_plan.md`
-
-Architectural background:
-
-- `docs/indoor_outdoor_shared_gameplay_extraction_plan.md`
+- `docs/headless_to_doctest_migration_inventory.md`
 
 ## Target
 
-Indoor movement should converge to an OE-shaped collision model:
+The end state should look like this:
 
-```cpp
-IndoorMoveResult result = indoorMovementController.resolveMove(request);
-world.applyIndoorMoveResult(result);
-sharedActorAi.updateActorAfterWorldMovement(worldMovementFacts);
-```
-
-The indoor movement controller owns BLV-specific physics:
-
-- swept low/high body spheres;
-- nearest collision along the movement segment;
-- bounded iterative movement;
-- face, portal, actor, party, decoration, and sprite-object collision categories;
-- sector transitions through portals;
-- floor/ceiling/step-up handling;
-- moving mechanism / door blocking state.
-
-Shared gameplay remains outside BLV collision:
-
-- shared actor AI owns behavior decisions;
-- indoor world provides movement/contact facts;
-- indoor world applies movement results to BLV/DLV runtime state.
-
-## Current Known Problem
-
-The current indoor resolver still contains simplified destination-position collision logic. It was temporarily made
-usable by giving non-flying indoor actors a reduced navigation radius. That unblocks Naga Vault portals, but it is not
-the final structural solution.
-
-The final implementation must remove the need for reduced-radius wall navigation by making the solver behave like OE:
-move to nearest hit, respond, then continue with remaining movement.
+- deterministic pure-rule, table, party, item, service, and small runtime checks live in `tests/`
+- headless regression remains only for real integration scenarios:
+  - application startup/lifecycle
+  - real map/world loading
+  - real BLV/ODM geometry and collision
+  - save/load roundtrips
+  - cross-map transitions
+  - event-script execution that still requires full runtime wiring
+- remaining headless execution is more condensed where safe:
+  - multiple related assertions may run in one headless session only if that does not blur failure identity
+  - if condensation would make failures ambiguous, keep separate cases
 
 ## Current Priority
 
-1. Build the OE-like swept indoor collision core.
-2. Replace actor indoor movement first.
-3. Replace party indoor movement second.
-4. Remove temporary reduced-radius and noisy diagnostic code.
-5. Validate Naga Vault and opened-door pocket cases.
+1. Move the remaining `doctest-direct` cases first.
+2. Extract the smallest reusable seams needed for `doctest-with-adaptation`.
+3. Keep `stay-headless` cases headless, but reduce redundant startup/session cost where structurally safe.
+4. Reduce total wall-clock regression time without weakening coverage identity.
+
+## Migration Rules
+
+- Use `TASK_QUEUE.md` as the executable queue.
+- Use `docs/headless_to_doctest_migration_inventory.md` as the authoritative classification source.
+- Do not execute the inventory linearly from top to bottom.
+- Work in coherent batches by subsystem or fixture family.
+- Prefer moving tests before inventing new headless helpers.
+- Extract reusable test helpers only when they unlock multiple doctest migrations.
+- Do not keep behavior assertions duplicated in both doctest and headless unless the headless version is still needed as
+  a genuine integration smoke.
+- Keep the repository buildable after each meaningful slice.
+- Update `TASK_QUEUE.md` and `PROGRESS.md` after each meaningful slice.
+
+## Validation
+
+Primary validation:
+
+- `cmake --build build --target openyamm_unit_tests -j25`
+- `ctest --test-dir build --output-on-failure`
+
+Secondary validation when headless code or migrated coverage is touched:
+
+- `cmake --build build --target openyamm -j25`
+- targeted headless suite or targeted headless case relevant to the migrated batch
 
 ## Anti-Goals
 
-- Do not copy OpenEnroth code.
-- Do not move BLV collision into shared gameplay.
-- Do not create callback bags or adapter layers to hide ownership.
-- Do not rewrite outdoor movement unless a clearly reusable primitive can be shared safely.
-- Do not change actor AI decisions unless the collision result facts are insufficient.
-- Do not keep `radius=40` indoor wall navigation as the final fix.
-
-## Rules
-
-- Use `TASK_QUEUE.md` as the executable queue.
-- Use `docs/indoor_oe_collision_physics_plan.md` for detailed requirements and acceptance.
-- Keep the repository buildable after each meaningful slice.
-- Update `TASK_QUEUE.md` and `PROGRESS.md` after each meaningful slice.
-- Prefer doctest/unit coverage for pure collision math and deterministic resolver behavior.
-- Use headless tests for integrated BLV behavior only when a unit test would be artificial or too coupled to runtime
-  setup.
-- Record manual smoke status for BLV integration cases in `PROGRESS.md` when no reliable automated test exists yet.
+- Do not rewrite gameplay/runtime architecture just to move tests.
+- Do not keep large callback bags or fake application layers only for tests.
+- Do not condense headless coverage so aggressively that failures lose clear identity.
+- Do not move real integration coverage out of headless when the inventory says it should stay there.

@@ -3,146 +3,116 @@
 ## Execution Rules
 
 - Use this file as the executable queue.
-- Use `docs/indoor_oe_collision_physics_plan.md` as the authoritative detailed plan.
-- Use `docs/indoor_outdoor_shared_gameplay_extraction_plan.md` only for ownership background.
-- Do not execute the detailed plan linearly from top to bottom; execute the next coherent unfinished task here.
+- Use `docs/headless_to_doctest_migration_inventory.md` as the authoritative classification source.
+- Do not execute the inventory linearly from top to bottom.
+- Work in coherent batches by fixture family or subsystem.
+- Prefer moving `doctest-direct` cases first.
+- For `doctest-with-adaptation`, extract the smallest seam that unlocks multiple cases.
 - Keep changes coherent and reviewable.
 - Keep the repository buildable after each meaningful slice.
-- Run `cmake --build build --target openyamm -j25` after each meaningful implementation slice.
-- Run `ctest --test-dir build --output-on-failure` after each meaningful implementation slice.
-- Prefer doctest/unit tests for deterministic collision math and resolver pieces.
-- Add headless tests only for integrated BLV behavior that cannot be isolated cleanly in doctest.
+- Run `cmake --build build --target openyamm_unit_tests -j25` after each meaningful doctest migration slice.
+- Run `ctest --test-dir build --output-on-failure` after each meaningful doctest migration slice.
+- Run `cmake --build build --target openyamm -j25` and targeted headless validation when headless code changes.
 - Update this file and `PROGRESS.md` after each meaningful slice.
+- Do not weaken assertion scope silently.
 - Do not copy OpenEnroth code.
-- Do not move BLV collision into shared gameplay.
-- Do not add callback bags or adapters that hide ownership.
-- Do not keep the temporary reduced indoor actor navigation radius as the final solution.
 
 ## Current Migration Order
 
-1. IC1 - Audit and document OE/OpenYAMM indoor collision deltas.
-2. IC2 - Introduce private indoor swept collision state/result types.
-3. IC3 - Implement pure swept sphere/face collision helpers with doctest coverage.
-4. IC4 - Implement sector-limited face candidate collection with portal-adjacent sector inclusion.
-5. IC5 - Implement the iterative indoor face collision loop.
-6. IC6 - Convert indoor actor movement to the swept iterative resolver.
-7. IC7 - Restore authored actor wall/body radius for indoor actor movement and keep OE-like actor contact radius.
-8. IC8 - Convert indoor party movement to the swept iterative resolver.
-9. IC9 - Add collision category responses for actor, party, decoration, sprite object, floor, steep face, and portal.
-10. IC10 - Remove temporary heuristics/noisy diagnostics and finalize acceptance.
+1. TS1 - Lock the execution loop to the inventory and record current counts/baseline.
+2. TS2 - Move the remaining `doctest-direct` chest, item-use, character-sheet, and equip-rule cases.
+3. TS3 - Move the remaining `doctest-direct` navigation, recovery, experience, audio-safety, and simple event-rule
+   cases.
+4. TS4 - Extract reusable Arcomage doctest harnesses and migrate the Arcomage `doctest-with-adaptation` set.
+5. TS5 - Extract reusable spell backend / fake-world fixtures and migrate spell backend cases.
+6. TS6 - Extract reusable house/dialogue fixtures and migrate the highest-value dialogue/service cases.
+7. TS7 - Re-evaluate remaining headless suites and condense startup/session cost where it does not blur failure
+   identity.
+8. TS8 - Recount doctest/headless distribution, remove obsolete duplicated headless cases, and close acceptance.
 
 ## Ready
 
-### IC1 - Collision Delta Audit
+### TS1 - Inventory Lock And Baseline
 
-- [ ] Inspect OE reference behavior in `reference/OpenEnroth-git/src/Engine/Graphics/Collisions.cpp`.
-- [ ] Inspect current OpenYAMM indoor movement paths in `game/indoor/IndoorMovementController.*`,
-  `game/indoor/IndoorWorldRuntime.*`, and `game/indoor/IndoorPartyRuntime.*`.
-- [ ] Record conceptual deltas in `PROGRESS.md`.
-- [ ] Identify current temporary workarounds to remove later, including reduced indoor actor wall-navigation radius and
-  noisy `IndoorActorMoveBlocked` diagnostics.
-- [ ] Do not change behavior unless the audit finds a tiny cleanup that is required before implementation.
+- [ ] Confirm `docs/headless_to_doctest_migration_inventory.md` is the active source of truth.
+- [ ] Record the current inventory counts in `PROGRESS.md`:
+  - remaining `doctest-direct`
+  - remaining `doctest-with-adaptation`
+  - remaining `stay-headless`
+- [ ] Record the current test entry points and default validation commands in `PROGRESS.md`.
+- [ ] Identify the first concrete `doctest-direct` family to migrate.
 - [ ] Build only if code changed.
 - [ ] Update `PROGRESS.md`.
 
-### IC2 - Private Indoor Collision Shape
+### TS2 - Direct Migration Batch A
 
-- [ ] Add private or indoor-owned collision request/state/result types.
-- [ ] Represent low sphere, high sphere, movement direction, move distance, adjusted move distance, hit type, hit face,
-  hit collider, collision point, height offset, and sector id.
-- [ ] Keep headers minimal; prefer implementation-private types unless callers need them.
-- [ ] Keep existing public movement calls working initially.
-- [ ] Do not introduce callback bags.
-- [ ] Build `openyamm`.
+- [ ] Move a coherent batch of remaining `doctest-direct` cases into `tests/`.
+- [ ] Prefer chest, item-use, character-sheet, equip-rule, and similar deterministic rule checks first.
+- [ ] Keep migrated tests grouped in sensible files; do not dump unrelated checks into one giant file.
+- [ ] Remove the migrated headless cases or mark them inactive once equivalent doctest coverage exists.
+- [ ] Build `openyamm_unit_tests`.
 - [ ] Run ctest.
+- [ ] If headless definitions were touched, build `openyamm`.
 - [ ] Update `PROGRESS.md`.
 
-### IC3 - Swept Sphere / Face Primitives
+### TS3 - Direct Migration Batch B
 
-- [ ] Implement swept sphere against indoor face geometry.
-- [ ] Select nearest hit along movement distance.
-- [ ] Support low sphere, high sphere, midpoint sphere, and face-center-height sphere checks.
-- [ ] Respect untouchable/ethereal/non-blocking faces.
-- [ ] Add doctest coverage for miss, direct hit, nearest-hit selection, and velocity projection primitives.
-- [ ] Do not defer pure geometry behavior to headless tests.
-- [ ] Build `openyamm`.
+- [ ] Move another coherent `doctest-direct` batch.
+- [ ] Prefer navigation-rule, recovery, experience, simple event-rule, and audio-safety checks.
+- [ ] Reuse fixtures created in TS2 where practical.
+- [ ] Remove or deactivate superseded headless cases.
+- [ ] Build `openyamm_unit_tests`.
 - [ ] Run ctest.
+- [ ] If headless definitions were touched, build `openyamm`.
 - [ ] Update `PROGRESS.md`.
 
-### IC4 - Portal-Aware Sector Candidate Collection
+### TS4 - Arcomage Adaptation Batch
 
-- [ ] Implement swept-body bounds for face candidate collection.
-- [ ] Include current sector and portal-adjacent sector when swept body touches portal bounds/plane closely enough.
-- [ ] Preserve moving mechanism adjusted vertices and door blocking masks.
-- [ ] Add doctest coverage where geometry can be isolated.
-- [ ] Add or adapt a headless test only if the portal behavior requires loaded BLV data.
-- [ ] Build `openyamm`.
+- [ ] Extract a small reusable Arcomage test harness from headless diagnostics or equivalent shared helper.
+- [ ] Migrate multiple Arcomage `doctest-with-adaptation` cases in one coherent slice.
+- [ ] Keep card-effect expectations readable and local to the tests.
+- [ ] Remove or deactivate superseded headless cases.
+- [ ] Build `openyamm_unit_tests`.
 - [ ] Run ctest.
+- [ ] Build `openyamm` if headless harness code changed.
 - [ ] Update `PROGRESS.md`.
 
-### IC5 - Iterative Indoor Face Collision Loop
+### TS5 - Spell Backend Adaptation Batch
 
-- [ ] Add an internal iterative loop that advances to adjusted collision distance.
-- [ ] On face hit, compute OE-like slide-plane projection for remaining velocity.
-- [ ] Apply damping where appropriate.
-- [ ] Handle floor hits, step-up, ceiling hits, and unsupported moves.
-- [ ] Keep the current destination resolver available only as fallback during this step if needed.
-- [ ] Build `openyamm`.
+- [ ] Extract a minimal fake/shared world runtime fixture for spell backend tests.
+- [ ] Migrate the spell backend `doctest-with-adaptation` cases that do not require full authored map integration.
+- [ ] Keep projectile/world assertions limited to what the backend actually owns.
+- [ ] Keep full map/runtime projectile integration headless when still needed.
+- [ ] Build `openyamm_unit_tests`.
 - [ ] Run ctest.
+- [ ] Build `openyamm` if headless or shared test seams changed.
 - [ ] Update `PROGRESS.md`.
 
-### IC6 - Actor Movement Conversion
+### TS6 - House / Dialogue Adaptation Batch
 
-- [ ] Route `IndoorWorldRuntime::applyIndoorActorMovementIntegration` through the swept iterative resolver.
-- [ ] Preserve shared AI post-movement fact reporting: contacted actor count, movement blocked, target edge distance,
-  and movement intent updates.
-- [ ] Preserve party collider participation.
-- [ ] Preserve actor sector id updates.
-- [ ] Validate manually or with focused diagnostics in `blv18` Naga Vault.
-- [ ] Add headless coverage for `blv18` actor portal movement if it can be asserted without fragile timing.
-- [ ] Build `openyamm`.
+- [ ] Extract reusable house/dialogue fixtures only where they unlock multiple cases.
+- [ ] Migrate a coherent subset of house/dialogue `doctest-with-adaptation` cases.
+- [ ] Keep real map-script and application-lifecycle dialogue cases headless when required.
+- [ ] Remove or deactivate superseded headless cases.
+- [ ] Build `openyamm_unit_tests`.
 - [ ] Run ctest.
+- [ ] Build `openyamm` if headless code changed.
 - [ ] Update `PROGRESS.md`.
 
-### IC7 - Restore Authored Actor Wall Radius
+### TS7 - Headless Condensation
 
-- [ ] Remove or bypass the temporary reduced indoor wall-navigation radius workaround.
-- [ ] Use authored actor radius for BLV actor-vs-wall/body collision once the swept resolver is active.
-- [ ] Keep OE-like `40` override radius for actor-vs-actor contact/crowd probing.
-- [ ] Confirm Naga Warrior / Naga Queen movement logs no longer need `radius=40` for wall collision to pass portals.
+- [ ] Audit remaining `stay-headless` suites for startup/session duplication.
+- [ ] Condense only where multiple assertions can share one session without weakening per-case identity.
+- [ ] Preserve clear case naming and failure reporting.
+- [ ] Do not collapse unrelated world/application scenarios into one opaque mega-case.
 - [ ] Build `openyamm`.
-- [ ] Run ctest.
+- [ ] Run targeted headless validation for condensed groups.
 - [ ] Update `PROGRESS.md`.
 
-### IC8 - Party Movement Conversion
+### TS8 - Final Recount And Cleanup
 
-- [ ] Route indoor party movement through the swept iterative resolver or a shared variant of it.
-- [ ] Preserve current input semantics, jump, gravity, and camera-independent gameplay behavior.
-- [ ] Preserve party-vs-hostile-actor blocking.
-- [ ] Validate opened-door pocket movement does not jitter.
-- [ ] Add headless coverage for opened-door pocket movement if it can be asserted deterministically.
-- [ ] Build `openyamm`.
-- [ ] Run ctest.
-- [ ] Update `PROGRESS.md`.
-
-### IC9 - Collision Category Responses
-
-- [ ] Finalize response handling for face, actor, party, decoration, sprite object, and portal hits.
-- [ ] Ensure actor/party contacts produce world movement facts, not gameplay behavior duplication.
-- [ ] Ensure floor/steep-face responses match OE-like behavior closely enough for indoor gameplay.
-- [ ] Validate closed/open doors and moving mechanisms.
-- [ ] Build `openyamm`.
-- [ ] Run ctest.
-- [ ] Update `PROGRESS.md`.
-
-### IC10 - Cleanup And Acceptance
-
-- [ ] Remove obsolete destination-only wall-slide and axis-fallback code.
-- [ ] Remove or explicitly gate temporary `IndoorActorMoveBlocked` diagnostics.
-- [ ] Remove temporary radius workaround constants if no longer needed.
-- [ ] Run static scans for leftover collision hacks.
-- [ ] Run `cmake --build build --target openyamm -j25`.
-- [ ] Run `ctest --test-dir build --output-on-failure`.
-- [ ] Record manual smoke status in `PROGRESS.md`.
+- [ ] Recount doctest/headless totals against the inventory.
+- [ ] Remove dead migrated headless cases and dead helper code.
+- [ ] Verify remaining headless cases are truly integration-level.
 - [ ] Update `ACCEPTANCE.md`.
-- [ ] Set `PROGRESS.md` to `## Done definition satisfied: YES` only when all acceptance criteria are satisfied.
+- [ ] Set `PROGRESS.md` to `## Done definition satisfied: YES` only when acceptance is satisfied.

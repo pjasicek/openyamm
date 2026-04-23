@@ -241,70 +241,58 @@ Avoid duplicating gameplay logic.
 
 ---
 
-# Current subsystem refactor loop
+# Current subsystem refactor loops
 
-Architectural background:
-- docs/indoor_outdoor_shared_gameplay_extraction_plan.md
+Authoritative source:
 
-Current subsystem plan:
-- docs/indoor_oe_collision_physics_plan.md
+- `docs/headless_to_doctest_migration_inventory.md`
 
 Execution control files:
-- PLAN.md
-- ACCEPTANCE.md
-- TASK_QUEUE.md
-- PROGRESS.md
+
+- `PLAN.md`
+- `ACCEPTANCE.md`
+- `TASK_QUEUE.md`
+- `PROGRESS.md`
 
 Execution rules:
-- `docs/indoor_oe_collision_physics_plan.md` is authoritative for the current indoor BLV collision/physics work.
-- `docs/indoor_outdoor_shared_gameplay_extraction_plan.md` is architectural background and ownership context.
-- Do not execute any plan linearly from top to bottom.
-- Use PLAN.md for condensed goals.
-- Use TASK_QUEUE.md as the executable work queue.
-- Use the relevant subsystem document for detailed task requirements and acceptance.
-- If task intent is unclear, consult only the relevant sections of the subsystem plan and architectural background, then
-  continue.
-- Work in small coherent slices.
-- Prefer finishing one collision ownership path before starting another.
+
+- `docs/headless_to_doctest_migration_inventory.md` is authoritative for the current refactor loop.
+- Do not execute the inventory linearly from top to bottom.
+- Use `PLAN.md` for condensed goals.
+- Use `TASK_QUEUE.md` as the executable work queue.
+- Work in small coherent migration batches.
+- Prefer moving remaining `doctest-direct` cases before extracting new headless helpers.
+- For `doctest-with-adaptation`, extract the smallest reusable seam that unlocks multiple tests.
+- Keep true application/world integration cases headless unless they are intentionally reclassified and documented.
+- If condensing headless coverage, preserve failure identity and clear per-case reporting.
 - Keep the repository buildable after each meaningful slice.
-- Update TASK_QUEUE.md and PROGRESS.md after each meaningful slice.
-- Do not reintroduce shared gameplay semantics into OutdoorGameView or IndoorGameView.
-- Shared gameplay owns what should happen.
-- Active world owns world facts and world-specific application.
-- For indoor collision: indoor world code owns BLV geometry, sectors, portals, floor/ceiling queries, moving
-  mechanisms, collision categories, and movement integration.
-- Shared actor AI owns behavior decisions and should only receive movement/contact facts from indoor collision.
-- Do not move BLV collision into shared gameplay.
-- Do not replace collision ownership with callback bags or adapters that hide ownership.
-- Do not copy OpenEnroth code. Use the local checkout only as a behavioral/structural reference.
-- The current reduced indoor actor navigation radius is a temporary workaround and must not be treated as the final
-  solution.
-- The target is an OE-like swept iterative indoor resolver, not destination-position collision plus portal-specific
-  heuristics.
+- Update `TASK_QUEUE.md` and `PROGRESS.md` after each meaningful slice.
+- Do not weaken a test assertion silently during migration.
 
 Validation commands:
-- cmake --build build --target openyamm -j25
-- ctest --test-dir build --output-on-failure
 
-Test rules:
-- Prefer doctest/unit tests for pure collision math and deterministic indoor resolver behavior.
-- Use headless tests for integrated BLV behavior that requires loaded map data, mechanisms, actor runtime state, or
-  sector transitions.
-- Manual smoke is acceptable only when the behavior is not practical to assert automatically in the current harness.
+- `cmake --build build --target openyamm_unit_tests -j25`
+- `ctest --test-dir build --output-on-failure`
+- `cmake --build build --target openyamm -j25`
 
-Manual smoke tests to note in PROGRESS.md when relevant:
-- `blv18` Naga Vault: large Naga actors can pass through portals without perfect center alignment
-- indoor actors do not pass through closed doors/walls
-- indoor actors slide along walls/portal frames instead of getting pinned
-- indoor actor-vs-actor crowding blocks overlap without jamming every portal
-- indoor party collides with hostile actors
-- opened-door pocket movement does not jitter
+Headless validation guidance:
+
+- Run targeted headless validation only for the migrated batch or for headless-condensation changes.
+- Prefer focused suites/cases over rerunning every headless scenario after each small doctest migration.
 
 Stopping conditions:
-- Stop only if all acceptance criteria are satisfied and recorded in PROGRESS.md
-- Or if PROGRESS.md contains exactly: - Hard blocker: YES
+
+- Stop only if all acceptance criteria are satisfied and recorded in `PROGRESS.md`.
+- Or if `PROGRESS.md` contains exactly: `- Hard blocker: YES`
 
 Context recovery:
-- If context becomes compressed or unclear, re-read AGENTS.md, PLAN.md, ACCEPTANCE.md, TASK_QUEUE.md, PROGRESS.md, and:
-  - docs/indoor_oe_collision_physics_plan.md
-  - docs/indoor_outdoor_shared_gameplay_extraction_plan.md
+
+- If context becomes compressed or unclear, re-read:
+  - `AGENTS.md`
+  - `PLAN.md`
+  - `ACCEPTANCE.md`
+  - `TASK_QUEUE.md`
+  - `PROGRESS.md`
+  - `docs/headless_to_doctest_migration_inventory.md`
+
+---

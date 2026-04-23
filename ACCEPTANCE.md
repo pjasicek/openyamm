@@ -2,61 +2,51 @@
 
 ## Authoritative Plan
 
-- [ ] `docs/indoor_oe_collision_physics_plan.md` is the active subsystem plan.
-- [ ] `TASK_QUEUE.md` contains the executable Wiggum queue for this collision slice.
-- [ ] `PROGRESS.md` records evidence after each meaningful slice.
+- [ ] `docs/headless_to_doctest_migration_inventory.md` is the active authoritative source for this loop.
+- [ ] `TASK_QUEUE.md` is aligned with the inventory and drives execution by coherent migration batches.
+- [ ] `PROGRESS.md` records moved cases, remaining blockers, and validation evidence after each meaningful slice.
 
 ## Structural Acceptance
 
-- [ ] Indoor actor movement no longer uses destination-only wall collision as the primary solver.
-- [ ] Indoor actor movement uses swept movement to the nearest collision point.
-- [ ] Indoor movement uses low/high body spheres and midpoint/extra sphere checks where needed for BLV faces.
-- [ ] Indoor movement uses a bounded iterative loop that adjusts velocity after each hit.
-- [ ] Indoor face hits project remaining movement along a slide plane.
-- [ ] Indoor sector/portal transitions are resolved inside the movement solver.
-- [ ] Moving mechanism / door state is respected by the collision face set.
-- [ ] Actor-vs-actor collision/contact uses OE-like override radius semantics for crowd probing.
-- [ ] Party-vs-actor collision is handled by the indoor collision system, not by UI/gameplay code.
-- [ ] Shared actor AI remains shared and receives only movement/contact facts.
-- [ ] No callback bags, ownership-hiding adapters, or indoor/outdoor gameplay duplication are introduced.
-- [ ] No OpenEnroth code is copied.
+- [ ] Remaining `doctest-direct` cases are steadily moved into `tests/` instead of remaining in headless by inertia.
+- [ ] `doctest-with-adaptation` migrations use small reusable test seams or fixtures, not broad fake application layers.
+- [ ] Reusable helpers extracted from `HeadlessOutdoorDiagnostics.cpp` are moved to test-friendly locations when needed
+  by more than one migrated case.
+- [ ] `stay-headless` cases remain headless unless their classification is intentionally re-evaluated and documented in
+  `PROGRESS.md`.
+- [ ] Headless condensation, when applied, preserves failure identity and does not hide which logical scenario failed.
+- [ ] No OpenEnroth or mm_mapview2 code is copied.
+
+## Suite-Shape Acceptance
+
+- [ ] The doctest suite materially grows from the current baseline.
+- [ ] The headless suite materially shrinks from the current baseline, except for cases explicitly recorded as still
+  needing integration coverage.
+- [ ] The execution cost of common validation shifts toward `openyamm_unit_tests` and away from full headless runs.
+- [ ] Any remaining headless cases grouped into a condensed session are still individually named or individually
+  reported on failure.
 
 ## Behavioral Acceptance
 
-- [ ] Non-flying indoor actors can use authored BLV actor radius for wall/body collision without portal over-blocking.
-- [ ] The temporary reduced indoor wall-navigation radius workaround is removed or no longer used for final behavior.
-- [ ] Large actors in `blv18` Naga Vault can pass through portals without requiring perfect center alignment.
-- [ ] Actors still cannot pass through closed doors, walls, or blocking mechanisms.
-- [ ] Actors slide along walls instead of being pinned by portal frames.
-- [ ] Actor-vs-actor crowding blocks overlap but does not jam every portal.
-- [ ] Hostile actors collide with the party indoors.
-- [ ] Party movement through opened door pockets does not jitter.
-- [ ] Indoor buttons/mechanisms continue to open/close/move doors correctly.
-- [ ] Indoor actor AI post-movement facts still trigger crowd steering/fallback behavior when blocked.
+- [ ] Every migrated case preserves the original assertion intent.
+- [ ] A headless case is removed only after equivalent doctest coverage or a documented replacement exists.
+- [ ] Test-specific seams do not change gameplay behavior in production builds.
+- [ ] No migrated test silently weakens coverage from integration behavior to a narrower unit assertion without that
+  reduction being documented in `PROGRESS.md`.
 
-## Test Acceptance
+## Validation Acceptance
 
-- [ ] Unit/doctest tests are preferred over headless tests for deterministic collision primitives.
-- [ ] Doctest coverage exists for pure swept collision math where practical.
-- [ ] Doctest coverage exists for nearest-hit selection where practical.
-- [ ] Doctest coverage exists for wall velocity projection where practical.
-- [ ] Doctest coverage exists for portal-adjacent sector selection where practical.
-- [ ] Doctest coverage exists for actor contact override radius where practical.
-- [ ] Headless tests cover integrated BLV collision behavior where practical and not cheaply unit-testable.
-- [ ] Headless or manual smoke for `blv18` Naga Vault is recorded in `PROGRESS.md`.
-- [ ] Headless or manual smoke for opened-door pocket movement is recorded in `PROGRESS.md`.
-
-## Validation
-
-- [ ] `cmake --build build --target openyamm -j25`
+- [ ] `cmake --build build --target openyamm_unit_tests -j25`
 - [ ] `ctest --test-dir build --output-on-failure`
+- [ ] `cmake --build build --target openyamm -j25` when headless code or shared runtime test seams change
+- [ ] targeted headless validation for batches that still touch headless diagnostics or integrated behavior
 
 ## Done Definition
 
-This slice is done only when:
+This loop is done only when:
 
-- all structural acceptance criteria are satisfied;
-- all behavioral acceptance criteria are satisfied or explicitly documented as intentionally different from OE;
-- required validation commands pass;
-- temporary noisy diagnostics are removed or gated;
+- all remaining `doctest-direct` inventory items are moved or explicitly reclassified with reason;
+- the highest-value `doctest-with-adaptation` families have been migrated or are blocked with concrete seam needs;
+- the remaining headless suite is intentionally integration-level rather than a mixed bag of pure logic checks;
+- validation evidence is recorded in `PROGRESS.md`;
 - `PROGRESS.md` contains `## Done definition satisfied: YES`.
