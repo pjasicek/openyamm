@@ -4988,14 +4988,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
 
-        if (drawItem.hovered
-            && bgfx::isValid(m_billboardProgramHandle)
-            && bgfx::isValid(m_billboardAmbientUniformHandle)
-            && bgfx::isValid(m_billboardOverrideColorUniformHandle)
-            && bgfx::isValid(m_billboardOutlineParamsUniformHandle)
-            && bgfx::isValid(m_billboardFogColorUniformHandle)
-            && bgfx::isValid(m_billboardFogDensitiesUniformHandle)
-            && bgfx::isValid(m_billboardFogDistancesUniformHandle))
+        if (drawItem.hovered)
         {
             const float paddingU = HoveredActorOutlineThicknessPixels / static_cast<float>(texture.width);
             const float paddingV = HoveredActorOutlineThicknessPixels / static_cast<float>(texture.height);
@@ -6915,18 +6908,12 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
             [&](
                 const RuntimeSpriteObjectBillboard &object,
                 float &distance,
-                bool &billboardTested,
-                std::string *pDiagnostic) -> bool
+                bool &billboardTested) -> bool
             {
                 billboardTested = false;
 
                 if (pSpriteFrameTable == nullptr)
                 {
-                    if (pDiagnostic != nullptr)
-                    {
-                        *pDiagnostic = "result=fail reason=no_sprite_frame_table";
-                    }
-
                     return false;
                 }
 
@@ -6935,11 +6922,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                 if (pFrame == nullptr)
                 {
-                    if (pDiagnostic != nullptr)
-                    {
-                        *pDiagnostic = "result=fail reason=no_sprite_frame";
-                    }
-
                     return false;
                 }
 
@@ -6949,12 +6931,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                 if (pTexture == nullptr || pTexture->width <= 0 || pTexture->height <= 0)
                 {
-                    if (pDiagnostic != nullptr)
-                    {
-                        *pDiagnostic =
-                            "result=fail reason=no_texture texture=\"" + resolvedTexture.textureName + "\"";
-                    }
-
                     return false;
                 }
 
@@ -6976,11 +6952,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                 if (std::fabs(denominator) <= InspectRayEpsilon)
                 {
-                    if (pDiagnostic != nullptr)
-                    {
-                        *pDiagnostic = "result=fail reason=parallel_to_billboard";
-                    }
-
                     return false;
                 }
 
@@ -6988,13 +6959,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                 if (distance <= InspectRayEpsilon)
                 {
-                    if (pDiagnostic != nullptr)
-                    {
-                        std::ostringstream stream;
-                        stream << "result=fail reason=behind_camera distance=" << distance;
-                        *pDiagnostic = stream.str();
-                    }
-
                     return false;
                 }
 
@@ -7076,20 +7040,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                             || pPickRequest->screenY < paddedMinY
                             || pPickRequest->screenY > paddedMaxY)
                         {
-                            if (pDiagnostic != nullptr)
-                            {
-                                std::ostringstream stream;
-                                stream
-                                    << "result=fail reason=outside_projected_rect"
-                                    << " cursor=(" << pPickRequest->screenX << "," << pPickRequest->screenY << ")"
-                                    << " rect=(" << minX << "," << minY << ")->(" << maxX << "," << maxY << ")"
-                                    << " distance=" << distance
-                                    << " texture=\"" << resolvedTexture.textureName << "\""
-                                    << " size=" << pTexture->width << "x" << pTexture->height
-                                    << " scale=" << spriteScale;
-                                *pDiagnostic = stream.str();
-                            }
-
                             return false;
                         }
 
@@ -7098,17 +7048,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                         if (std::fabs(screenWidth) < 5.0f || std::fabs(screenHeight) < 5.0f)
                         {
-                            if (pDiagnostic != nullptr)
-                            {
-                                std::ostringstream stream;
-                                stream
-                                    << "result=success reason=small_projected_rect"
-                                    << " cursor=(" << pPickRequest->screenX << "," << pPickRequest->screenY << ")"
-                                    << " rect=(" << minX << "," << minY << ")->(" << maxX << "," << maxY << ")"
-                                    << " distance=" << distance;
-                                *pDiagnostic = stream.str();
-                            }
-
                             return true;
                         }
 
@@ -7122,24 +7061,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                         const bool isOpaque = isOpaqueBillboardPixel(*pTexture, normalizedU, normalizedV);
 
-                        if (pDiagnostic != nullptr)
-                        {
-                            std::ostringstream stream;
-                            stream
-                                << "result=" << (isOpaque ? "success" : "fail")
-                                << " reason=" << (isOpaque ? "alpha_hit" : "transparent_pixel")
-                                << " cursor=(" << pPickRequest->screenX << "," << pPickRequest->screenY << ")"
-                                << " rect=(" << minX << "," << minY << ")->(" << maxX << "," << maxY << ")"
-                                << " uv=(" << normalizedU << "," << normalizedV << ")"
-                                << " distance=" << distance
-                                << " texture=\"" << resolvedTexture.textureName << "\""
-                                << " size=" << pTexture->width << "x" << pTexture->height
-                                << " physical=" << pTexture->physicalWidth << "x" << pTexture->physicalHeight
-                                << " scale=" << spriteScale
-                                << " mirrored=" << resolvedTexture.mirrored;
-                            *pDiagnostic = stream.str();
-                        }
-
                         if (!isOpaque)
                         {
                             return false;
@@ -7147,23 +7068,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                         if (object.hasContainingItem)
                         {
-                            if (pDiagnostic != nullptr)
-                            {
-                                std::ostringstream stream;
-                                stream
-                                    << "result=success reason=alpha_hit_item_skip_occlusion"
-                                    << " cursor=(" << pPickRequest->screenX << "," << pPickRequest->screenY << ")"
-                                    << " rect=(" << minX << "," << minY << ")->(" << maxX << "," << maxY << ")"
-                                    << " uv=(" << normalizedU << "," << normalizedV << ")"
-                                    << " distance=" << distance
-                                    << " texture=\"" << resolvedTexture.textureName << "\""
-                                    << " size=" << pTexture->width << "x" << pTexture->height
-                                    << " physical=" << pTexture->physicalWidth << "x" << pTexture->physicalHeight
-                                    << " scale=" << spriteScale
-                                    << " mirrored=" << resolvedTexture.mirrored;
-                                *pDiagnostic = stream.str();
-                            }
-
                             return true;
                         }
 
@@ -7200,33 +7104,10 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                             && !bottomRightMissesLevel
                             && !bottomCenterMissesLevel)
                         {
-                            if (pDiagnostic != nullptr)
-                            {
-                                std::ostringstream stream;
-                                stream
-                                    << "result=fail reason=occluded_by_level"
-                                    << " cursor=(" << pPickRequest->screenX << "," << pPickRequest->screenY << ")"
-                                    << " rect=(" << minX << "," << minY << ")->(" << maxX << "," << maxY << ")"
-                                    << " distance=" << distance
-                                    << " samples=cursor:" << cursorMissesLevel
-                                    << ",center:" << centerMissesLevel
-                                    << ",tl:" << topLeftMissesLevel
-                                    << ",bl:" << bottomLeftMissesLevel
-                                    << ",tr:" << topRightMissesLevel
-                                    << ",br:" << bottomRightMissesLevel
-                                    << ",bc:" << bottomCenterMissesLevel;
-                                *pDiagnostic = stream.str();
-                            }
-
                             return false;
                         }
 
                         return true;
-                    }
-
-                    if (pDiagnostic != nullptr)
-                    {
-                        *pDiagnostic = "result=fail reason=projection_failed";
                     }
                 }
 
@@ -7243,17 +7124,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
                 if (std::fabs(localX) > halfWidth || std::fabs(localY) > halfHeight)
                 {
-                    if (pDiagnostic != nullptr)
-                    {
-                        std::ostringstream stream;
-                        stream
-                            << "result=fail reason=outside_ray_plane_rect"
-                            << " local=(" << localX << "," << localY << ")"
-                            << " half=(" << halfWidth << "," << halfHeight << ")"
-                            << " distance=" << distance;
-                        *pDiagnostic = stream.str();
-                    }
-
                     return false;
                 }
 
@@ -7265,21 +7135,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                     normalizedU = 1.0f - normalizedU;
                 }
 
-                const bool isOpaque = isOpaqueBillboardPixel(*pTexture, normalizedU, normalizedV);
-
-                if (pDiagnostic != nullptr)
-                {
-                    std::ostringstream stream;
-                    stream
-                        << "result=" << (isOpaque ? "success" : "fail")
-                        << " reason=" << (isOpaque ? "fallback_alpha_hit" : "fallback_transparent_pixel")
-                        << " local=(" << localX << "," << localY << ")"
-                        << " uv=(" << normalizedU << "," << normalizedV << ")"
-                        << " distance=" << distance;
-                    *pDiagnostic = stream.str();
-                }
-
-                return isOpaque;
+                return isOpaqueBillboardPixel(*pTexture, normalizedU, normalizedV);
             };
 
         for (const RuntimeSpriteObjectBillboard &object : runtimeObjects)
@@ -7291,8 +7147,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
             float distance = 0.0f;
             bool billboardTested = false;
-            const bool usedBillboardHit =
-                hitTestSpriteObjectBillboard(object, distance, billboardTested, nullptr);
+            const bool usedBillboardHit = hitTestSpriteObjectBillboard(object, distance, billboardTested);
 
             if (usedBillboardHit
                 && (distance < bestDistance || (object.hasContainingItem && bestHit.kind == "face")))
