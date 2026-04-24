@@ -21,26 +21,6 @@ constexpr float GravityPerSecond = 960.0f;
 constexpr float JumpVelocity = 420.0f;
 constexpr float GroundSnapSlack = 8.0f;
 
-bool doorFaceUsesMovedVertex(const IndoorMapData &indoorMapData, const MapDeltaDoor &door, uint16_t faceId)
-{
-    if (faceId >= indoorMapData.faces.size() || door.vertexIds.empty())
-    {
-        return false;
-    }
-
-    const IndoorFace &face = indoorMapData.faces[faceId];
-
-    for (uint16_t faceVertexId : face.vertexIndices)
-    {
-        if (std::find(door.vertexIds.begin(), door.vertexIds.end(), faceVertexId) != door.vertexIds.end())
-        {
-            return true;
-        }
-    }
-
-    return false;
-}
-
 float resolveDoorDistance(
     const MapDeltaDoor &door,
     const std::optional<EventRuntimeState> *pEventRuntimeState
@@ -68,42 +48,6 @@ float resolveDoorDistance(
     return runtimeMechanism.isMoving
         ? EventRuntime::calculateMechanismDistance(door, runtimeMechanism)
         : runtimeMechanism.currentDistance;
-}
-
-std::vector<std::pair<float, float>> buildSupportProbeOffsets(float radius)
-{
-    const float effectiveRadius = std::max(8.0f, radius);
-    const std::array<float, 7> normalizedOffsets = {
-        -1.0f,
-        -0.66666667f,
-        -0.33333334f,
-        0.0f,
-        0.33333334f,
-        0.66666667f,
-        1.0f
-    };
-    std::vector<std::pair<float, float>> result;
-    result.reserve(normalizedOffsets.size() * normalizedOffsets.size());
-
-    for (float offsetY : normalizedOffsets)
-    {
-        for (float offsetX : normalizedOffsets)
-        {
-            if (offsetX == 0.0f && offsetY == 0.0f)
-            {
-                continue;
-            }
-
-            if (offsetX * offsetX + offsetY * offsetY > 1.0f)
-            {
-                continue;
-            }
-
-            result.emplace_back(offsetX * effectiveRadius, offsetY * effectiveRadius);
-        }
-    }
-
-    return result;
 }
 
 std::vector<uint32_t> buildDoorStateSignature(
@@ -222,6 +166,22 @@ void IndoorMovementController::setActorColliders(const std::vector<IndoorActorCo
     m_actorColliders = actorColliders;
 }
 
+void IndoorMovementController::updateActorColliderPosition(size_t actorIndex, float x, float y, float z)
+{
+    for (IndoorActorCollision &collider : m_actorColliders)
+    {
+        if (collider.actorIndex != actorIndex)
+        {
+            continue;
+        }
+
+        collider.x = x;
+        collider.y = y;
+        collider.z = z;
+        return;
+    }
+}
+
 void IndoorMovementController::setDecorationColliders(const std::vector<IndoorCylinderCollision> &decorationColliders)
 {
     m_decorationColliders = decorationColliders;
@@ -252,14 +212,49 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
     const EventRuntimeState *pEventRuntimeState =
         m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
 
+    const bool wasValid = m_runtimeGeometryCache.valid;
+    const std::vector<uint32_t> previousDoorStateSignature = m_runtimeGeometryCache.doorStateSignature;
     m_runtimeGeometryCache.vertices = buildIndoorMechanismAdjustedVertices(
         *m_pIndoorMapData,
         pMapDeltaData,
         pEventRuntimeState);
-    m_runtimeGeometryCache.nonBlockingMechanismFaceMask = buildNonBlockingMechanismFaceMask();
-    m_runtimeGeometryCache.mechanismBlockingFaceMask = buildMechanismBlockingFaceMask();
-    m_runtimeGeometryCache.collisionFaceMask = buildCollisionFaceMask();
-    m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
+    // OE updates moved mechanism vertices in-place, then floor and wall collision use that current geometry.
+    // Do not add open/closed masking here: platforms, stairs, plates, and doors all need their moved faces sampled.
+    m_runtimeGeometryCache.nonBlockingMechanismFaceMask.clear();
+    m_runtimeGeometryCache.mechanismBlockingFaceMask.clear();
+
+    if (!wasValid)
+    {
+        m_runtimeGeometryCache.collisionFaceMask = buildCollisionFaceMask();
+        m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
+    }
+    else if (pMapDeltaData != nullptr)
+    {
+        const bool canCompareDoorSignatures =
+            previousDoorStateSignature.size() == doorStateSignature.size()
+            && previousDoorStateSignature.size() == pMapDeltaData->doors.size() * 2;
+
+        for (size_t doorIndex = 0; doorIndex < pMapDeltaData->doors.size(); ++doorIndex)
+        {
+            const MapDeltaDoor &door = pMapDeltaData->doors[doorIndex];
+            const size_t signatureIndex = doorIndex * 2;
+            const bool doorGeometryChanged =
+                !canCompareDoorSignatures
+                || previousDoorStateSignature[signatureIndex] != doorStateSignature[signatureIndex]
+                || previousDoorStateSignature[signatureIndex + 1] != doorStateSignature[signatureIndex + 1];
+
+            if (!doorGeometryChanged)
+            {
+                continue;
+            }
+
+            for (uint16_t faceId : door.faceIds)
+            {
+                m_runtimeGeometryCache.geometryCache.invalidateFace(faceId);
+            }
+        }
+    }
+
     m_runtimeGeometryCache.doorStateSignature = doorStateSignature;
     m_runtimeGeometryCache.valid = true;
 }
@@ -268,17 +263,6 @@ const IndoorMovementController::RuntimeGeometryCache &IndoorMovementController::
 {
     refreshRuntimeGeometryCache();
     return m_runtimeGeometryCache;
-}
-
-const std::vector<std::pair<float, float>> &IndoorMovementController::supportProbeOffsets(float radius) const
-{
-    if (m_cachedSupportProbeRadius < 0.0f || std::fabs(m_cachedSupportProbeRadius - radius) > 0.001f)
-    {
-        m_cachedSupportProbeRadius = radius;
-        m_cachedSupportProbeOffsets = buildSupportProbeOffsets(radius);
-    }
-
-    return m_cachedSupportProbeOffsets;
 }
 
 IndoorMovementController::SweptCollisionRequest IndoorMovementController::buildSweptCollisionRequest(
@@ -372,6 +356,8 @@ IndoorFloorSample IndoorMovementController::sampleSupportedFloor(
     const std::vector<uint8_t> *pFaceExclusionMask
 ) const
 {
+    (void)body;
+
     if (m_pIndoorMapData == nullptr)
     {
         return {};
@@ -389,31 +375,6 @@ IndoorFloorSample IndoorMovementController::sampleSupportedFloor(
         pFaceExclusionMask,
         &geometryCache);
 
-    for (const std::pair<float, float> &offset : supportProbeOffsets(body.radius))
-    {
-        IndoorFloorSample candidate = sampleIndoorFloor(
-            *m_pIndoorMapData,
-            vertices,
-            x + offset.first,
-            y + offset.second,
-            z,
-            maxRise,
-            maxDrop,
-            preferredSectorId,
-            pFaceExclusionMask,
-            &geometryCache);
-
-        if (!candidate.hasFloor)
-        {
-            continue;
-        }
-
-        if (!bestSample.hasFloor || candidate.height > bestSample.height)
-        {
-            bestSample = candidate;
-        }
-    }
-
     return bestSample;
 }
 
@@ -430,6 +391,8 @@ IndoorFloorSample IndoorMovementController::sampleSupportedFloorOnFace(
     const std::vector<uint8_t> *pFaceExclusionMask
 ) const
 {
+    (void)body;
+
     if (m_pIndoorMapData == nullptr)
     {
         return {};
@@ -446,31 +409,6 @@ IndoorFloorSample IndoorMovementController::sampleSupportedFloorOnFace(
         maxDrop,
         pFaceExclusionMask,
         &geometryCache);
-
-    for (const std::pair<float, float> &offset : supportProbeOffsets(body.radius))
-    {
-        IndoorFloorSample candidate = sampleIndoorFloorOnFace(
-            *m_pIndoorMapData,
-            vertices,
-            faceIndex,
-            x + offset.first,
-            y + offset.second,
-            z,
-            maxRise,
-            maxDrop,
-            pFaceExclusionMask,
-            &geometryCache);
-
-        if (!candidate.hasFloor)
-        {
-            continue;
-        }
-
-        if (!bestSample.hasFloor || candidate.height > bestSample.height)
-        {
-            bestSample = candidate;
-        }
-    }
 
     return bestSample;
 }
@@ -928,11 +866,6 @@ IndoorMoveState IndoorMovementController::resolveMove(
             floor = approximateFloor;
         }
 
-        if (!floor.hasFloor)
-        {
-            return false;
-        }
-
         if (floor.hasFloor
             && !sweptRequest.jumpRequested
             && floor.height > state.footZ + MaximumStepUpFromCurrentFootZ)
@@ -946,9 +879,13 @@ IndoorMoveState IndoorMovementController::resolveMove(
 
         if (floor.hasFloor)
         {
+            const bool closeEnoughToSnapToFloor =
+                positionFootZ <= floor.height + GroundSnapSlack
+                && positionFootZ >= floor.height - MaximumDrop;
             const bool shouldSnapToFloor =
-                (state.grounded && !jumpRequested && positionVerticalVelocity <= 0.0f)
-                || (positionVerticalVelocity <= 0.0f && positionFootZ <= floor.height + GroundSnapSlack);
+                positionVerticalVelocity <= 0.0f
+                && closeEnoughToSnapToFloor
+                && (state.grounded || positionFootZ <= floor.height + GroundSnapSlack);
 
             if (shouldSnapToFloor)
             {
@@ -1024,14 +961,6 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 pContactedActorIndices,
                 sweptRequest.ignoredActorIndex,
                 pHitActor))
-        {
-            return false;
-        }
-
-        const bool stateWasSpatiallyValid =
-            state.grounded || state.sectorId >= 0 || state.eyeSectorId >= 0;
-
-        if (stateWasSpatiallyValid && !resolvedGrounded && !floor.hasFloor && !eyeSectorId.has_value())
         {
             return false;
         }
@@ -1240,6 +1169,33 @@ IndoorMoveState IndoorMovementController::resolveMove(
 
         return scaleVec(slideDirection, projectedStepDistance * SlideFactor);
     };
+
+    if (movementDistance(remainingStep.x, remainingStep.y, remainingStep.z) <= 0.0001f)
+    {
+        IndoorMoveState stationaryState = {};
+
+        if (tryResolvePosition(
+                state.x,
+                state.y,
+                state.x,
+                state.y,
+                candidateFootZ,
+                candidateVerticalVelocity,
+                stationaryState,
+                false,
+                nullptr,
+                nullptr))
+        {
+            if (pDebugInfo != nullptr)
+            {
+                pDebugInfo->fullMoveSucceeded = true;
+            }
+
+            return stationaryState;
+        }
+
+        return state;
+    }
 
     for (int iteration = 0; iteration < MaxSweptIterations; ++iteration)
     {
@@ -1510,41 +1466,6 @@ IndoorMoveState IndoorMovementController::resolveMove(
     return iterativeState;
 }
 
-std::vector<uint8_t> IndoorMovementController::buildNonBlockingMechanismFaceMask() const
-{
-    std::vector<uint8_t> result;
-
-    if (m_pIndoorMapData == nullptr)
-    {
-        return result;
-    }
-
-    result.assign(m_pIndoorMapData->faces.size(), 0);
-
-    if (m_pMapDeltaData == nullptr || !m_pMapDeltaData->has_value())
-    {
-        return result;
-    }
-
-    for (const MapDeltaDoor &door : (*m_pMapDeltaData)->doors)
-    {
-        if (resolveDoorDistance(door, m_pEventRuntimeState) > 1.0f)
-        {
-            continue;
-        }
-
-        for (uint16_t faceId : door.faceIds)
-        {
-            if (faceId < result.size() && doorFaceUsesMovedVertex(*m_pIndoorMapData, door, faceId))
-            {
-                result[faceId] = 1;
-            }
-        }
-    }
-
-    return result;
-}
-
 bool IndoorMovementController::collidesAtPosition(
     const std::vector<IndoorVertex> &vertices,
     IndoorFaceGeometryCache &geometryCache,
@@ -1791,22 +1712,64 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
             != collisionSectorIds.end();
     };
 
-    candidates.reserve(m_pIndoorMapData->faces.size());
+    const bool useSectorFilteredFaces = !collisionSectorIds.empty();
+    std::vector<uint16_t> sectorFaceIds;
 
-    for (size_t faceIndex = 0; faceIndex < m_pIndoorMapData->faces.size(); ++faceIndex)
+    if (useSectorFilteredFaces)
     {
+        const bool useCollisionFaceMask = pCollisionFaceMask != nullptr && !pCollisionFaceMask->empty();
+        const auto appendFaceIds = [&sectorFaceIds](const std::vector<uint16_t> &faceIds)
+        {
+            for (uint16_t faceId : faceIds)
+            {
+                sectorFaceIds.push_back(faceId);
+            }
+        };
+
+        for (int16_t sectorId : collisionSectorIds)
+        {
+            if (sectorId < 0 || static_cast<size_t>(sectorId) >= m_pIndoorMapData->sectors.size())
+            {
+                continue;
+            }
+
+            const IndoorSector &sector = m_pIndoorMapData->sectors[sectorId];
+            appendFaceIds(sector.floorFaceIds);
+            appendFaceIds(sector.wallFaceIds);
+            appendFaceIds(sector.ceilingFaceIds);
+
+            if (useCollisionFaceMask)
+            {
+                appendFaceIds(sector.cylinderFaceIds);
+            }
+        }
+
+        candidates.reserve(sectorFaceIds.size());
+    }
+    else
+    {
+        candidates.reserve(m_pIndoorMapData->faces.size());
+    }
+
+    const auto appendCandidateFace = [&](size_t faceIndex)
+    {
+        if (faceIndex >= m_pIndoorMapData->faces.size())
+        {
+            return;
+        }
+
         if (pCollisionFaceMask != nullptr
             && !pCollisionFaceMask->empty()
             && (faceIndex >= pCollisionFaceMask->size() || (*pCollisionFaceMask)[faceIndex] == 0))
         {
-            continue;
+            return;
         }
 
         if (pMechanismBlockingFaceMask != nullptr
             && faceIndex < pMechanismBlockingFaceMask->size()
             && (*pMechanismBlockingFaceMask)[faceIndex] == 0)
         {
-            continue;
+            return;
         }
 
         const IndoorFaceGeometryData *pGeometry = geometryCache.geometryForFace(
@@ -1819,10 +1782,25 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
                 && !sectorIsRelevant(pGeometry->sectorId)
                 && !sectorIsRelevant(pGeometry->backSectorId)))
         {
-            continue;
+            return;
         }
 
         candidates.push_back(pGeometry);
+    };
+
+    if (useSectorFilteredFaces)
+    {
+        for (uint16_t faceId : sectorFaceIds)
+        {
+            appendCandidateFace(faceId);
+        }
+    }
+    else
+    {
+        for (size_t faceIndex = 0; faceIndex < m_pIndoorMapData->faces.size(); ++faceIndex)
+        {
+            appendCandidateFace(faceIndex);
+        }
     }
 
     return candidates;
@@ -1900,38 +1878,6 @@ bool IndoorMovementController::collidesWithActors(
     }
 
     return false;
-}
-
-std::vector<uint8_t> IndoorMovementController::buildMechanismBlockingFaceMask() const
-{
-    std::vector<uint8_t> result;
-
-    if (m_pIndoorMapData == nullptr)
-    {
-        return result;
-    }
-
-    result.assign(m_pIndoorMapData->faces.size(), 1);
-
-    if (m_pMapDeltaData == nullptr || !m_pMapDeltaData->has_value())
-    {
-        return result;
-    }
-
-    for (const MapDeltaDoor &door : (*m_pMapDeltaData)->doors)
-    {
-        const uint8_t blocksMovement = resolveDoorDistance(door, m_pEventRuntimeState) > 1.0f ? 1 : 0;
-
-        for (uint16_t faceId : door.faceIds)
-        {
-            if (faceId < result.size() && doorFaceUsesMovedVertex(*m_pIndoorMapData, door, faceId))
-            {
-                result[faceId] = blocksMovement;
-            }
-        }
-    }
-
-    return result;
 }
 
 std::vector<uint8_t> IndoorMovementController::buildCollisionFaceMask() const

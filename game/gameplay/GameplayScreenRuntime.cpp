@@ -2009,7 +2009,7 @@ void GameplayScreenRuntime::consumePendingEventRuntimeAudioRequests()
             position = GameAudioSystem::WorldPosition{
                 static_cast<float>(request.x),
                 static_cast<float>(request.y),
-                partyFootZ() + 96.0f
+                request.hasExplicitZ ? static_cast<float>(request.z) : partyFootZ() + 96.0f
             };
         }
 

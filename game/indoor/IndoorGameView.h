@@ -65,6 +65,7 @@ public:
     void render(int width, int height, const GameplayInputFrame &input, float deltaSeconds);
     void shutdown();
     void reopenMenuScreen();
+    bool requestQuickSave();
 
     IndoorPartyRuntime *partyRuntime() const;
     IGameplayWorldRuntime *worldRuntime() const;
@@ -88,6 +89,22 @@ private:
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
     void updateItemInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     void updateActorInspectOverlayState(int width, int height, const GameplayInputFrame &input);
+    void updateFootstepAudio(float deltaSeconds);
+    bool beginSaveWithPreview(
+        const std::filesystem::path &path,
+        const std::string &saveName,
+        bool closeUiOnSuccess);
+
+    struct PendingSavePreviewCaptureState
+    {
+        bool active = false;
+        bool screenshotRequested = false;
+        std::filesystem::path savePath;
+        std::string requestId;
+        std::string saveName;
+        bool closeUiOnSuccess = false;
+        uint64_t startedTicks = 0;
+    };
 
     const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
     IndoorRenderer *m_pIndoorRenderer = nullptr;
@@ -98,5 +115,12 @@ private:
     GameSession &m_gameSession;
     int m_lastRenderWidth = 0;
     int m_lastRenderHeight = 0;
+    bool m_renderGameplayUiThisFrame = true;
+    PendingSavePreviewCaptureState m_pendingSavePreviewCapture = {};
+    bool m_hasLastFootstepPosition = false;
+    float m_lastFootstepX = 0.0f;
+    float m_lastFootstepY = 0.0f;
+    float m_walkingMotionHoldSeconds = 0.0f;
+    std::optional<uint32_t> m_activeWalkingSoundId;
 };
 } // namespace OpenYAMM::Game

@@ -109,6 +109,7 @@ public:
         IndoorMoveDebugInfo *pDebugInfo = nullptr
     ) const;
     void setActorColliders(const std::vector<IndoorActorCollision> &actorColliders);
+    void updateActorColliderPosition(size_t actorIndex, float x, float y, float z);
     void setDecorationColliders(const std::vector<IndoorCylinderCollision> &decorationColliders);
     void setSpriteObjectColliders(const std::vector<IndoorCylinderCollision> &spriteObjectColliders);
 
@@ -241,16 +242,11 @@ private:
 
     void refreshRuntimeGeometryCache() const;
     const RuntimeGeometryCache &runtimeGeometryCache() const;
-    const std::vector<std::pair<float, float>> &supportProbeOffsets(float radius) const;
     const IndoorMapData *m_pIndoorMapData = nullptr;
     const std::optional<MapDeltaData> *m_pMapDeltaData = nullptr;
     const std::optional<EventRuntimeState> *m_pEventRuntimeState = nullptr;
     mutable RuntimeGeometryCache m_runtimeGeometryCache;
-    mutable float m_cachedSupportProbeRadius = -1.0f;
-    mutable std::vector<std::pair<float, float>> m_cachedSupportProbeOffsets;
 
-    std::vector<uint8_t> buildNonBlockingMechanismFaceMask() const;
-    std::vector<uint8_t> buildMechanismBlockingFaceMask() const;
     std::vector<uint8_t> buildCollisionFaceMask() const;
     SweptCollisionRequest buildSweptCollisionRequest(
         const IndoorMoveState &state,

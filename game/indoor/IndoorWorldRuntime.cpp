@@ -2088,6 +2088,32 @@ void IndoorWorldRuntime::invalidateRuntimeGeometryCache()
     m_runtimeGeometryCache.geometryCache = IndoorFaceGeometryCache();
 }
 
+void IndoorWorldRuntime::refreshMechanismRuntimeGeometryCache()
+{
+    if (!m_runtimeGeometryCache.valid || m_pIndoorMapData == nullptr)
+    {
+        return;
+    }
+
+    m_runtimeGeometryCache.vertices =
+        buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, mapDeltaData(), eventRuntimeState());
+
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    for (const MapDeltaDoor &door : pMapDeltaData->doors)
+    {
+        for (uint16_t faceId : door.faceIds)
+        {
+            m_runtimeGeometryCache.geometryCache.invalidateFace(faceId);
+        }
+    }
+}
+
 IndoorWorldRuntime::RuntimeGeometryCache &IndoorWorldRuntime::runtimeGeometryCache() const
 {
     if (m_runtimeGeometryCache.valid)
@@ -2317,8 +2343,26 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
     }
 
     IndoorMovementController movementController(*m_pIndoorMapData, m_pMapDeltaData, m_pEventRuntimeState);
+    std::vector<IndoorActorCollision> actorColliders = actorMovementCollidersForActorMovement();
     const std::vector<IndoorCylinderCollision> decorationColliders = decorationMovementColliders();
     const std::vector<IndoorCylinderCollision> spriteObjectColliders = spriteObjectMovementColliders();
+
+    if (m_pPartyRuntime != nullptr)
+    {
+        const IndoorMoveState &partyMoveState = m_pPartyRuntime->movementState();
+        actorColliders.push_back(IndoorActorCollision{
+            static_cast<size_t>(-1),
+            partyMoveState.x,
+            partyMoveState.y,
+            partyMoveState.footZ,
+            PartyCollisionRadius * 2.0f,
+            PartyCollisionHeight,
+            false});
+    }
+
+    movementController.setActorColliders(actorColliders);
+    movementController.setDecorationColliders(decorationColliders);
+    movementController.setSpriteObjectColliders(spriteObjectColliders);
 
     for (const ActorAiUpdate &update : result.actorUpdates)
     {
@@ -2517,9 +2561,7 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
                 movementController,
                 update.actorIndex,
                 update,
-                actorAiSystem,
-                decorationColliders,
-                spriteObjectColliders);
+                actorAiSystem);
         }
 
         if (update.attackRequest)
@@ -3907,9 +3949,7 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     IndoorMovementController &movementController,
     size_t actorIndex,
     const ActorAiUpdate &update,
-    const GameplayActorAiSystem &actorAiSystem,
-    const std::vector<IndoorCylinderCollision> &decorationColliders,
-    const std::vector<IndoorCylinderCollision> &spriteObjectColliders)
+    const GameplayActorAiSystem &actorAiSystem)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
 
@@ -3946,24 +3986,6 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     const float oldX = aiState.preciseX;
     const float oldY = aiState.preciseY;
     const float oldZ = aiState.preciseZ;
-    std::vector<IndoorActorCollision> actorColliders = actorMovementCollidersForActorMovement();
-
-    if (m_pPartyRuntime != nullptr)
-    {
-        const IndoorMoveState &partyMoveState = m_pPartyRuntime->movementState();
-        actorColliders.push_back(IndoorActorCollision{
-            static_cast<size_t>(-1),
-            partyMoveState.x,
-            partyMoveState.y,
-            partyMoveState.footZ,
-            PartyCollisionRadius * 2.0f,
-            PartyCollisionHeight,
-            false});
-    }
-
-    movementController.setActorColliders(actorColliders);
-    movementController.setDecorationColliders(decorationColliders);
-    movementController.setSpriteObjectColliders(spriteObjectColliders);
     IndoorBodyDimensions body = {};
     body.radius = collisionRadius;
     body.height = collisionHeight;
@@ -4031,6 +4053,7 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     aiState.eyeSectorId = finalMoveState.eyeSectorId;
     aiState.supportFaceIndex = finalMoveState.supportFaceIndex;
     aiState.grounded = finalMoveState.grounded;
+    movementController.updateActorColliderPosition(actorIndex, aiState.preciseX, aiState.preciseY, aiState.preciseZ);
 
     actor.x = static_cast<int>(std::lround(aiState.preciseX));
     actor.y = static_cast<int>(std::lround(aiState.preciseY));

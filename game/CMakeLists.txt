@@ -55,6 +55,7 @@ add_executable(openyamm
     gameplay/GenericActorDialog.cpp
     gameplay/HouseInteraction.cpp
     gameplay/HouseServiceRuntime.cpp
+    gameplay/SavePreviewImage.cpp
     gameplay/StoryTextFormatter.cpp
     gameplay/TreasureRuntime.cpp
     audio/HouseVideoPlayer.cpp

@@ -5021,8 +5021,29 @@ void EventRuntime::advanceMechanisms(
         runtimeMechanism.currentDistance =
             calculateMechanismDistance(door, runtimeMechanism);
 
+        if (door.moveLength <= 0)
+        {
+            runtimeMechanism.state =
+                runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing)
+                    ? static_cast<uint16_t>(EvtMechanismState::Closed)
+                    : static_cast<uint16_t>(EvtMechanismState::Open);
+            runtimeMechanism.timeSinceTriggeredMs = 0.0f;
+            runtimeMechanism.currentDistance = 0.0f;
+            runtimeMechanism.isMoving = false;
+            continue;
+        }
+
         if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Closing))
         {
+            if (door.closeSpeed <= 0)
+            {
+                runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closed);
+                runtimeMechanism.timeSinceTriggeredMs = 0.0f;
+                runtimeMechanism.currentDistance = static_cast<float>(door.moveLength);
+                runtimeMechanism.isMoving = false;
+                continue;
+            }
+
             const float closedDistance = runtimeMechanism.timeSinceTriggeredMs * float(door.closeSpeed) / 1000.0f;
 
             if (closedDistance >= float(door.moveLength))
@@ -5035,6 +5056,15 @@ void EventRuntime::advanceMechanisms(
         }
         else if (runtimeMechanism.state == static_cast<uint16_t>(EvtMechanismState::Opening))
         {
+            if (door.openSpeed <= 0)
+            {
+                runtimeMechanism.state = static_cast<uint16_t>(EvtMechanismState::Open);
+                runtimeMechanism.timeSinceTriggeredMs = 0.0f;
+                runtimeMechanism.currentDistance = 0.0f;
+                runtimeMechanism.isMoving = false;
+                continue;
+            }
+
             const float openedDistance = runtimeMechanism.timeSinceTriggeredMs * float(door.openSpeed) / 1000.0f;
 
             if (openedDistance >= float(door.moveLength))

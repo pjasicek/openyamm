@@ -21,6 +21,11 @@ float vecLength(const bx::Vec3 &value)
     return std::sqrt(vecDot(value, value));
 }
 
+float vecLengthSquared(const bx::Vec3 &value)
+{
+    return vecDot(value, value);
+}
+
 bx::Vec3 vecNormalize(const bx::Vec3 &value)
 {
     const float length = vecLength(value);
@@ -574,9 +579,11 @@ bool canSweepAgainstIndoorFace(
     return maskAllowsFace(options.pMechanismBlockingFaceMask, geometry.faceIndex, true);
 }
 
-std::optional<IndoorSweptFaceHit> sweepIndoorSphereAgainstFace(
+namespace
+{
+std::optional<IndoorSweptFaceHit> sweepIndoorSphereAgainstFaceWithNormalizedDirection(
     const IndoorSweptSphere &sphere,
-    const bx::Vec3 &direction,
+    const bx::Vec3 &normalizedDirection,
     float moveDistance,
     const IndoorFaceGeometryData &geometry,
     const IndoorFaceSweepOptions &options
@@ -587,18 +594,16 @@ std::optional<IndoorSweptFaceHit> sweepIndoorSphereAgainstFace(
         return std::nullopt;
     }
 
-    const bx::Vec3 normalizedDirection = vecNormalize(direction);
-
-    if (vecLength(normalizedDirection) <= CollisionEpsilon
+    if (vecLengthSquared(normalizedDirection) <= CollisionEpsilon * CollisionEpsilon
         || !sweptSphereBoundsTouchFace(sphere, normalizedDirection, moveDistance, geometry))
     {
         return std::nullopt;
     }
 
     std::optional<IndoorSweptFaceHit> bestHit;
-    bx::Vec3 collisionNormal = vecNormalize(geometry.normal);
+    bx::Vec3 collisionNormal = geometry.normal;
 
-    if (vecLength(collisionNormal) > CollisionEpsilon)
+    if (vecLengthSquared(collisionNormal) > CollisionEpsilon * CollisionEpsilon)
     {
         const float rawStartDistance = vecDot(vecSubtract(sphere.center, geometry.vertices.front()), collisionNormal);
         const float rawEndDistance = rawStartDistance + vecDot(normalizedDirection, collisionNormal) * moveDistance;
@@ -675,6 +680,75 @@ std::optional<IndoorSweptFaceHit> sweepIndoorSphereAgainstFace(
     return bestHit;
 }
 
+std::optional<IndoorSweptFaceHit> sweepIndoorBodyAgainstFaceWithNormalizedDirection(
+    const IndoorSweptBody &body,
+    const bx::Vec3 &normalizedDirection,
+    float moveDistance,
+    const IndoorFaceGeometryData &geometry,
+    const IndoorFaceSweepOptions &options
+)
+{
+    std::optional<IndoorSweptFaceHit> bestHit;
+
+    keepNearestHit(
+        bestHit,
+        sweepIndoorSphereAgainstFaceWithNormalizedDirection(
+            body.lowSphere,
+            normalizedDirection,
+            moveDistance,
+            geometry,
+            options));
+    keepNearestHit(
+        bestHit,
+        sweepIndoorSphereAgainstFaceWithNormalizedDirection(
+            body.highSphere,
+            normalizedDirection,
+            moveDistance,
+            geometry,
+            options));
+    keepNearestHit(
+        bestHit,
+        sweepIndoorSphereAgainstFaceWithNormalizedDirection(
+            buildMidSphere(body),
+            normalizedDirection,
+            moveDistance,
+            geometry,
+            options));
+
+    const std::optional<IndoorSweptSphere> faceCenterSphere = buildFaceCenterHeightSphere(body, geometry);
+
+    if (faceCenterSphere)
+    {
+        keepNearestHit(
+            bestHit,
+            sweepIndoorSphereAgainstFaceWithNormalizedDirection(
+                *faceCenterSphere,
+                normalizedDirection,
+                moveDistance,
+                geometry,
+                options));
+    }
+
+    return bestHit;
+}
+}
+
+std::optional<IndoorSweptFaceHit> sweepIndoorSphereAgainstFace(
+    const IndoorSweptSphere &sphere,
+    const bx::Vec3 &direction,
+    float moveDistance,
+    const IndoorFaceGeometryData &geometry,
+    const IndoorFaceSweepOptions &options
+)
+{
+    return sweepIndoorSphereAgainstFaceWithNormalizedDirection(
+        sphere,
+        vecNormalize(direction),
+        moveDistance,
+        geometry,
+        options);
+}
+
 std::optional<IndoorSweptFaceHit> sweepIndoorBodyAgainstFace(
     const IndoorSweptBody &body,
     const bx::Vec3 &direction,
@@ -683,24 +757,12 @@ std::optional<IndoorSweptFaceHit> sweepIndoorBodyAgainstFace(
     const IndoorFaceSweepOptions &options
 )
 {
-    std::optional<IndoorSweptFaceHit> bestHit;
-
-    keepNearestHit(bestHit, sweepIndoorSphereAgainstFace(body.lowSphere, direction, moveDistance, geometry, options));
-    keepNearestHit(bestHit, sweepIndoorSphereAgainstFace(body.highSphere, direction, moveDistance, geometry, options));
-    keepNearestHit(
-        bestHit,
-        sweepIndoorSphereAgainstFace(buildMidSphere(body), direction, moveDistance, geometry, options));
-
-    const std::optional<IndoorSweptSphere> faceCenterSphere = buildFaceCenterHeightSphere(body, geometry);
-
-    if (faceCenterSphere)
-    {
-        keepNearestHit(
-            bestHit,
-            sweepIndoorSphereAgainstFace(*faceCenterSphere, direction, moveDistance, geometry, options));
-    }
-
-    return bestHit;
+    return sweepIndoorBodyAgainstFaceWithNormalizedDirection(
+        body,
+        vecNormalize(direction),
+        moveDistance,
+        geometry,
+        options);
 }
 
 std::optional<IndoorSweptFaceHit> selectNearestIndoorFaceHit(
@@ -712,6 +774,12 @@ std::optional<IndoorSweptFaceHit> selectNearestIndoorFaceHit(
 )
 {
     std::optional<IndoorSweptFaceHit> bestHit;
+    const bx::Vec3 normalizedDirection = vecNormalize(direction);
+
+    if (vecLengthSquared(normalizedDirection) <= CollisionEpsilon * CollisionEpsilon)
+    {
+        return bestHit;
+    }
 
     for (const IndoorFaceGeometryData *pFace : faces)
     {
@@ -720,15 +788,19 @@ std::optional<IndoorSweptFaceHit> selectNearestIndoorFaceHit(
             continue;
         }
 
-        keepNearestHit(bestHit, sweepIndoorBodyAgainstFace(body, direction, moveDistance, *pFace, options));
+        keepNearestHit(
+            bestHit,
+            sweepIndoorBodyAgainstFaceWithNormalizedDirection(body, normalizedDirection, moveDistance, *pFace, options));
     }
 
     return bestHit;
 }
 
-std::optional<IndoorSweptCylinderHit> sweepIndoorSphereAgainstCylinder(
+namespace
+{
+std::optional<IndoorSweptCylinderHit> sweepIndoorSphereAgainstCylinderWithNormalizedDirection(
     const IndoorSweptSphere &sphere,
-    const bx::Vec3 &direction,
+    const bx::Vec3 &normalizedDirection,
     float moveDistance,
     const IndoorSweptCylinder &cylinder,
     float backoffDistance
@@ -742,7 +814,6 @@ std::optional<IndoorSweptCylinderHit> sweepIndoorSphereAgainstCylinder(
         return std::nullopt;
     }
 
-    const bx::Vec3 normalizedDirection = vecNormalize(direction);
     const float horizontalA =
         normalizedDirection.x * normalizedDirection.x + normalizedDirection.y * normalizedDirection.y;
 
@@ -818,9 +889,9 @@ std::optional<IndoorSweptCylinderHit> sweepIndoorSphereAgainstCylinder(
     return hit;
 }
 
-std::optional<IndoorSweptCylinderHit> sweepIndoorBodyAgainstCylinder(
+std::optional<IndoorSweptCylinderHit> sweepIndoorBodyAgainstCylinderWithNormalizedDirection(
     const IndoorSweptBody &body,
-    const bx::Vec3 &direction,
+    const bx::Vec3 &normalizedDirection,
     float moveDistance,
     const IndoorSweptCylinder &cylinder,
     float backoffDistance
@@ -830,14 +901,62 @@ std::optional<IndoorSweptCylinderHit> sweepIndoorBodyAgainstCylinder(
 
     keepNearestCylinderHit(
         bestHit,
-        sweepIndoorSphereAgainstCylinder(body.lowSphere, direction, moveDistance, cylinder, backoffDistance));
+        sweepIndoorSphereAgainstCylinderWithNormalizedDirection(
+            body.lowSphere,
+            normalizedDirection,
+            moveDistance,
+            cylinder,
+            backoffDistance));
     keepNearestCylinderHit(
         bestHit,
-        sweepIndoorSphereAgainstCylinder(body.highSphere, direction, moveDistance, cylinder, backoffDistance));
+        sweepIndoorSphereAgainstCylinderWithNormalizedDirection(
+            body.highSphere,
+            normalizedDirection,
+            moveDistance,
+            cylinder,
+            backoffDistance));
     keepNearestCylinderHit(
         bestHit,
-        sweepIndoorSphereAgainstCylinder(buildMidSphere(body), direction, moveDistance, cylinder, backoffDistance));
+        sweepIndoorSphereAgainstCylinderWithNormalizedDirection(
+            buildMidSphere(body),
+            normalizedDirection,
+            moveDistance,
+            cylinder,
+            backoffDistance));
     return bestHit;
+}
+}
+
+std::optional<IndoorSweptCylinderHit> sweepIndoorSphereAgainstCylinder(
+    const IndoorSweptSphere &sphere,
+    const bx::Vec3 &direction,
+    float moveDistance,
+    const IndoorSweptCylinder &cylinder,
+    float backoffDistance
+)
+{
+    return sweepIndoorSphereAgainstCylinderWithNormalizedDirection(
+        sphere,
+        vecNormalize(direction),
+        moveDistance,
+        cylinder,
+        backoffDistance);
+}
+
+std::optional<IndoorSweptCylinderHit> sweepIndoorBodyAgainstCylinder(
+    const IndoorSweptBody &body,
+    const bx::Vec3 &direction,
+    float moveDistance,
+    const IndoorSweptCylinder &cylinder,
+    float backoffDistance
+)
+{
+    return sweepIndoorBodyAgainstCylinderWithNormalizedDirection(
+        body,
+        vecNormalize(direction),
+        moveDistance,
+        cylinder,
+        backoffDistance);
 }
 
 bx::Vec3 projectIndoorVelocityAlongPlane(
@@ -858,5 +977,4 @@ bx::Vec3 projectIndoorVelocityAlongPlane(
     const float clampedDamping = std::max(0.0f, damping);
     return vecScale(projected, clampedDamping);
 }
-
 }

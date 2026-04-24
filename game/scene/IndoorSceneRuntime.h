@@ -11,6 +11,7 @@
 #include <cstddef>
 #include <optional>
 #include <string>
+#include <unordered_map>
 
 namespace OpenYAMM::Game
 {
@@ -109,9 +110,18 @@ public:
     bool activateEvent(uint16_t eventId, const std::string &sourceKind, size_t sourceIndex);
 
 private:
+    struct MechanismAudioState
+    {
+        float movementSoundElapsedMilliseconds = 1000.0f;
+    };
+
     bool updateTimers(float deltaGameMinutes);
     bool updatePartyFaceTriggers();
+    void updateMechanismAudio(
+        const std::unordered_map<uint32_t, RuntimeMechanismState> &previousMechanisms,
+        float deltaMilliseconds);
 
+    MapStatsEntry m_map;
     std::string m_mapFileName;
     Party *m_pSessionParty = nullptr;
     std::optional<MapDeltaData> m_mapDeltaData;
@@ -123,6 +133,7 @@ private:
     IndoorWorldRuntime m_worldRuntime;
     std::vector<TimerState> m_timers;
     std::optional<IndoorMoveState> m_lastProcessedPartyMoveStateForFaceTriggers;
+    std::unordered_map<uint32_t, MechanismAudioState> m_mechanismAudioStates;
     float m_mechanismAccumulatorMilliseconds = 0.0f;
 };
 }

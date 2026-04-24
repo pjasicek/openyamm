@@ -1,12 +1,14 @@
 #include "doctest/doctest.h"
 
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/GameplayTorchLight.h"
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
 
 using OpenYAMM::Game::EventRuntimeState;
+using OpenYAMM::Game::GameplayTorchLight;
 using OpenYAMM::Game::IndoorLight;
 using OpenYAMM::Game::IndoorLightingFrame;
 using OpenYAMM::Game::IndoorLightingFrameInput;
@@ -18,6 +20,9 @@ using OpenYAMM::Game::IndoorSector;
 using OpenYAMM::Game::MaxIndoorRenderLights;
 using OpenYAMM::Game::Party;
 using OpenYAMM::Game::PartyBuffId;
+using OpenYAMM::Game::gameplayTorchLightBaseRadius;
+using OpenYAMM::Game::gameplayTorchLightColorAbgr;
+using OpenYAMM::Game::resolveGameplayTorchLight;
 using OpenYAMM::Game::SkillMastery;
 using OpenYAMM::Game::SpellId;
 using OpenYAMM::Game::spellIdValue;
@@ -117,6 +122,60 @@ TEST_CASE("indoor lighting gives Torchlight priority and scales radius by buff p
     REQUIRE_FALSE(frame.lights.empty());
     CHECK(frame.lights.front().kind == IndoorRenderLightKind::Torch);
     CHECK_EQ(frame.lights.front().radius, 2400.0f);
+    CHECK_EQ(frame.lights.front().intensity, 1.0f);
+    CHECK_EQ(frame.lights.front().colorAbgr, gameplayTorchLightColorAbgr());
+}
+
+TEST_CASE("gameplay Torchlight follows OE indoor and outdoor light distances")
+{
+    Party party = {};
+    party.applyPartyBuff(
+        PartyBuffId::TorchLight,
+        120.0f,
+        4,
+        spellIdValue(SpellId::TorchLight),
+        1,
+        SkillMastery::Master,
+        0);
+
+    const std::optional<GameplayTorchLight> indoorLight = resolveGameplayTorchLight(party, false, true);
+    const std::optional<GameplayTorchLight> outdoorNightLight = resolveGameplayTorchLight(party, true, true);
+    const std::optional<GameplayTorchLight> outdoorDayLight = resolveGameplayTorchLight(party, true, false);
+
+    REQUIRE(indoorLight.has_value());
+    REQUIRE(outdoorNightLight.has_value());
+    CHECK_EQ(gameplayTorchLightBaseRadius(false), 800.0f);
+    CHECK_EQ(gameplayTorchLightBaseRadius(true), 1024.0f);
+    CHECK_EQ(indoorLight->radius, 3200.0f);
+    CHECK_EQ(indoorLight->intensity, 1.0f);
+    CHECK_EQ(outdoorNightLight->radius, 4096.0f);
+    CHECK_FALSE(outdoorDayLight.has_value());
+}
+
+TEST_CASE("indoor Torchlight visibly raises sampled lighting near the party")
+{
+    Party party = {};
+    party.applyPartyBuff(
+        PartyBuffId::TorchLight,
+        120.0f,
+        2,
+        spellIdValue(SpellId::TorchLight),
+        1,
+        SkillMastery::Normal,
+        0);
+
+    IndoorLightingFrameInput input = {};
+    input.pParty = &party;
+    input.cameraPosition = {0.0f, 0.0f, 0.0f};
+
+    IndoorLightingRuntime runtime;
+    const IndoorLightingFrame frame = runtime.buildFrame(input);
+    const std::array<float, 3> atParty = IndoorLightingRuntime::sampleLightingRgb(frame, {0.0f, 0.0f, 0.0f});
+    const std::array<float, 3> farFromParty = IndoorLightingRuntime::sampleLightingRgb(frame, {5000.0f, 0.0f, 0.0f});
+
+    CHECK(atParty[0] > farFromParty[0] + 0.4f);
+    CHECK(atParty[1] > farFromParty[1] + 0.4f);
+    CHECK(atParty[2] > farFromParty[2] + 0.4f);
 }
 
 TEST_CASE("indoor lighting ranks and truncates BLV lights")

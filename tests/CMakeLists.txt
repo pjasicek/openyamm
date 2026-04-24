@@ -10,6 +10,7 @@ add_executable(openyamm_unit_tests
     GameplayRuleRegressionTests.cpp
     GameplayProjectileServiceTests.cpp
     IndoorCollisionPrimitivesTests.cpp
+    IndoorLightingRuntimeTests.cpp
     InventoryEquipRegressionTests.cpp
     MapStatsRegressionTests.cpp
     MonsterTableRegressionTests.cpp
@@ -53,6 +54,7 @@ add_executable(openyamm_unit_tests
     ../game/maps/OutdoorSceneYml.cpp
     ../game/maps/TerrainTileData.cpp
     ../game/indoor/IndoorCollisionPrimitives.cpp
+    ../game/indoor/IndoorLightingRuntime.cpp
     ../game/indoor/IndoorMapData.cpp
     ../game/fx/ParticleRecipes.cpp
     ../game/fx/ParticleSystem.cpp

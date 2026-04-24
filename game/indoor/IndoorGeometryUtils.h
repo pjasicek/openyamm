@@ -64,6 +64,7 @@ public:
     explicit IndoorFaceGeometryCache(size_t faceCount);
 
     void reset(size_t faceCount);
+    void invalidateFace(size_t faceIndex);
     const IndoorFaceGeometryData *geometryForFace(
         const IndoorMapData &indoorMapData,
         const std::vector<IndoorVertex> &vertices,

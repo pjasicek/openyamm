@@ -1341,6 +1341,11 @@ bool GameApplication::quickSave()
         return m_outdoorGameView.requestQuickSave();
     }
 
+    if (m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Indoor)
+    {
+        return m_indoorGameView.requestQuickSave();
+    }
+
     return quickSaveToPath(std::filesystem::path("saves") / "quicksave.oysav");
 }
 

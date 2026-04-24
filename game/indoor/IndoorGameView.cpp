@@ -1,5 +1,6 @@
 #include "game/indoor/IndoorGameView.h"
 
+#include "engine/BgfxContext.h"
 #include "game/app/GameSession.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameMechanics.h"
@@ -7,6 +8,8 @@
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/GameplaySpellService.h"
+#include "game/gameplay/SavePreviewImage.h"
+#include "game/audio/SoundIds.h"
 #include "game/items/ItemRuntime.h"
 #include "game/indoor/IndoorPartyRuntime.h"
 #include "game/indoor/IndoorRenderer.h"
@@ -23,6 +26,7 @@
 
 #include <SDL3/SDL.h>
 #include <bx/math.h>
+#include <bgfx/bgfx.h>
 
 #include <algorithm>
 #include <array>
@@ -46,6 +50,8 @@ constexpr float HudReferenceWidth = 640.0f;
 constexpr float HudReferenceHeight = 480.0f;
 constexpr float HudFontIntegerSnapThreshold = 0.1f;
 constexpr float MaxUiViewportAspect = 4.0f / 3.0f;
+constexpr float WalkingSoundMovementSpeedThreshold = 20.0f;
+constexpr float WalkingMotionHoldSeconds = 0.125f;
 constexpr uint16_t HudViewId = 2;
 using SpellbookPointerTargetType = IndoorSpellbookPointerTargetType;
 using SpellbookPointerTarget = IndoorSpellbookPointerTarget;
@@ -916,6 +922,7 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
 {
     m_lastRenderWidth = width;
     m_lastRenderHeight = height;
+    m_renderGameplayUiThisFrame = true;
 
     GameplayHudRenderBackend hudRenderBackend = {};
     bgfx::ProgramHandle invalidProgramHandle = BGFX_INVALID_HANDLE;
@@ -942,6 +949,54 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
     }
 
     GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
+
+    if (m_pendingSavePreviewCapture.active
+        && m_pendingSavePreviewCapture.screenshotRequested
+        && m_gameSession.canSaveGameToPath())
+    {
+        const std::optional<Engine::BgfxContext::ScreenshotCapture> screenshot =
+            Engine::BgfxContext::consumeScreenshot(m_pendingSavePreviewCapture.requestId);
+
+        if (screenshot)
+        {
+            const std::vector<uint8_t> previewPixels =
+                SavePreviewImage::cropAndScaleBgraPreview(
+                    screenshot->bgraPixels,
+                    static_cast<int>(screenshot->width),
+                    static_cast<int>(screenshot->height),
+                    410,
+                    253);
+            const std::vector<uint8_t> previewBmp = SavePreviewImage::encodeBgraToBmp(410, 253, previewPixels);
+            std::string error;
+
+            if (!previewBmp.empty()
+                && m_gameSession.saveGameToPath(
+                    m_pendingSavePreviewCapture.savePath,
+                    m_pendingSavePreviewCapture.saveName,
+                    previewBmp,
+                    error))
+            {
+                GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+                screenRuntime.refreshSaveGameOverlaySlots();
+
+                if (m_pendingSavePreviewCapture.closeUiOnSuccess)
+                {
+                    screenRuntime.saveGameScreenState() = {};
+                    screenRuntime.closeMenuOverlay();
+                }
+            }
+
+            m_pendingSavePreviewCapture = {};
+        }
+        else if (SDL_GetTicks() - m_pendingSavePreviewCapture.startedTicks > 3000u)
+        {
+            m_pendingSavePreviewCapture = {};
+        }
+    }
+
+    const bool captureSavePreviewThisFrame =
+        m_pendingSavePreviewCapture.active && !m_pendingSavePreviewCapture.screenshotRequested;
+    m_renderGameplayUiThisFrame = !captureSavePreviewThisFrame;
 
     updateItemInspectOverlayState(width, height, input);
 
@@ -972,6 +1027,14 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
             allowWorldInput);
     }
 
+    if (captureSavePreviewThisFrame)
+    {
+        bgfx::requestScreenShot(BGFX_INVALID_HANDLE, m_pendingSavePreviewCapture.requestId.c_str());
+        m_pendingSavePreviewCapture.screenshotRequested = true;
+    }
+
+    updateFootstepAudio(deltaSeconds);
+
     m_gameSession.gameplayScreenRuntime().ensurePendingEventDialogPresented(
         true,
         [this](EventRuntimeState &eventRuntimeState)
@@ -986,10 +1049,13 @@ GameplayWorldUiRenderState IndoorGameView::gameplayUiRenderState(int width, int 
 {
     return GameplayWorldUiRenderState{
         .canRenderHudOverlays =
+            m_renderGameplayUiThisFrame
+            &&
             m_pIndoorRenderer != nullptr
             && m_pIndoorRenderer->hasHudRenderResources()
             && width > 0
             && height > 0,
+        .renderGameplayHud = m_renderGameplayUiThisFrame,
         .renderDebugFallbacks = true,
     };
 }
@@ -1009,6 +1075,11 @@ void IndoorGameView::shutdown()
         m_pIndoorRenderer->setGameplayMouseLookMode(false, false);
     }
 
+    if (m_pGameAudioSystem != nullptr)
+    {
+        m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+    }
+
     m_pAssetFileSystem = nullptr;
     m_pIndoorRenderer = nullptr;
     m_pIndoorSceneRuntime = nullptr;
@@ -1024,6 +1095,9 @@ void IndoorGameView::shutdown()
     m_gameSession.gameplayScreenState().gameplayMouseLookState().clear();
     m_gameSession.previousKeyboardState().fill(0);
     m_gameSession.gameplayScreenRuntime().resetHudTransientState();
+    m_hasLastFootstepPosition = false;
+    m_walkingMotionHoldSeconds = 0.0f;
+    m_activeWalkingSoundId = std::nullopt;
 }
 
 void IndoorGameView::reopenMenuScreen()
@@ -1186,20 +1260,102 @@ bool IndoorGameView::trySaveToSelectedGameSlot()
     return m_gameSession.gameplayScreenRuntime().trySaveToSelectedGameSlot(
         [this](const GameplayScreenRuntime::PreparedSaveGameRequest &request)
         {
-            std::string error;
-            const bool saved = m_gameSession.saveGameToPath(
-                request.path,
-                request.saveName,
-                {},
-                error);
-
-            if (saved)
-            {
-                m_gameSession.gameplayScreenRuntime().closeSaveGameOverlay();
-            }
-
-            return saved;
+            return beginSaveWithPreview(request.path, request.saveName, true);
         });
+}
+
+bool IndoorGameView::requestQuickSave()
+{
+    return beginSaveWithPreview(std::filesystem::path("saves") / "quicksave.oysav", "", false);
+}
+
+bool IndoorGameView::beginSaveWithPreview(
+    const std::filesystem::path &path,
+    const std::string &saveName,
+    bool closeUiOnSuccess)
+{
+    if (!m_gameSession.canSaveGameToPath())
+    {
+        return false;
+    }
+
+    m_pendingSavePreviewCapture = {};
+    m_pendingSavePreviewCapture.active = true;
+    m_pendingSavePreviewCapture.screenshotRequested = false;
+    m_pendingSavePreviewCapture.savePath = path;
+    m_pendingSavePreviewCapture.requestId =
+        "save_preview_" + std::to_string(SDL_GetTicks()) + "_" + std::to_string(path.generic_string().size());
+    m_pendingSavePreviewCapture.saveName = saveName;
+    m_pendingSavePreviewCapture.closeUiOnSuccess = closeUiOnSuccess;
+    m_pendingSavePreviewCapture.startedTicks = SDL_GetTicks();
+    return true;
+}
+
+void IndoorGameView::updateFootstepAudio(float deltaSeconds)
+{
+    if (deltaSeconds <= 0.0f || m_pGameAudioSystem == nullptr || m_pIndoorSceneRuntime == nullptr)
+    {
+        return;
+    }
+
+    if (resolveGameplayHudScreenState(
+            m_gameSession.gameplayUiController(),
+            m_gameSession.gameplayScreenRuntime().activeEventDialog(),
+            worldRuntime())
+        != GameplayHudScreenState::Gameplay)
+    {
+        m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+        m_walkingMotionHoldSeconds = 0.0f;
+        m_activeWalkingSoundId = std::nullopt;
+        return;
+    }
+
+    const IndoorMoveState &moveState = m_pIndoorSceneRuntime->partyRuntime().movementState();
+
+    if (!m_hasLastFootstepPosition)
+    {
+        m_lastFootstepX = moveState.x;
+        m_lastFootstepY = moveState.y;
+        m_hasLastFootstepPosition = true;
+        m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+        m_activeWalkingSoundId = std::nullopt;
+        return;
+    }
+
+    const float deltaX = moveState.x - m_lastFootstepX;
+    const float deltaY = moveState.y - m_lastFootstepY;
+    m_lastFootstepX = moveState.x;
+    m_lastFootstepY = moveState.y;
+    const float movedDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+    const float movementSpeed = movedDistance / std::max(deltaSeconds, 0.0001f);
+
+    if (movementSpeed >= WalkingSoundMovementSpeedThreshold)
+    {
+        m_walkingMotionHoldSeconds = WalkingMotionHoldSeconds;
+    }
+    else
+    {
+        m_walkingMotionHoldSeconds = std::max(0.0f, m_walkingMotionHoldSeconds - deltaSeconds);
+    }
+
+    if (!moveState.grounded || m_walkingMotionHoldSeconds <= 0.0f)
+    {
+        m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+        m_activeWalkingSoundId = std::nullopt;
+        return;
+    }
+
+    const uint32_t desiredSoundId = static_cast<uint32_t>(SoundId::WalkStoneHall);
+
+    if (m_activeWalkingSoundId == desiredSoundId)
+    {
+        return;
+    }
+
+    m_pGameAudioSystem->stopGroup(GameAudioSystem::PlaybackGroup::Walking);
+    const bool played =
+        m_pGameAudioSystem->playLoopingSound(desiredSoundId, GameAudioSystem::PlaybackGroup::Walking);
+    m_activeWalkingSoundId = played ? std::optional<uint32_t>(desiredSoundId) : std::nullopt;
 }
 
 const GameSettings &IndoorGameView::settingsSnapshot() const

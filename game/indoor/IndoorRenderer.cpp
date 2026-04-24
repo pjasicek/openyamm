@@ -37,6 +37,26 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+bool hasMovingMechanism(const EventRuntimeState *pEventRuntimeState)
+{
+    if (pEventRuntimeState == nullptr)
+    {
+        return false;
+    }
+
+    for (const auto &entry : pEventRuntimeState->mechanisms)
+    {
+        const RuntimeMechanismState &mechanism = entry.second;
+
+        if (mechanism.isMoving)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 int snapIndoorSpawnZToFloor(const IndoorMapData &indoorMapData, int x, int y, int z)
 {
     IndoorFaceGeometryCache geometryCache(indoorMapData.faces.size());
@@ -2135,7 +2155,16 @@ void IndoorRenderer::render(
 
     if (allowWorldInput && m_pSceneRuntime != nullptr && m_pSceneRuntime->advanceSimulation(deltaMilliseconds))
     {
-        rebuildDerivedGeometryResources();
+        const bool mechanismsStillMoving = hasMovingMechanism(runtimeEventRuntimeState());
+
+        if (mechanismsStillMoving)
+        {
+            updateMovingMechanismGeometryResources();
+        }
+        else
+        {
+            rebuildDerivedGeometryResources();
+        }
     }
 
     m_worldFxSystem.setShadowsEnabled(gameSession.gameplayScreenRuntime().settingsSnapshot().shadows);
@@ -5850,18 +5879,21 @@ const bgfx::TextureHandle *IndoorRenderer::findIndoorTextureHandle(const std::st
     return nullptr;
 }
 
-bool IndoorRenderer::hasScriptVisualOverrides() const
+uint64_t IndoorRenderer::currentTexturedBatchVisualRevision() const
 {
     const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
 
     if (pEventRuntimeState == nullptr)
     {
-        return false;
+        return 0;
     }
 
-    return !pEventRuntimeState->textureOverrides.empty()
-        || !pEventRuntimeState->facetSetMasks.empty()
-        || !pEventRuntimeState->facetClearMasks.empty();
+    return pEventRuntimeState->outdoorSurfaceRevision;
+}
+
+bool IndoorRenderer::texturedBatchesNeedFullRebuild() const
+{
+    return m_texturedBatches.empty() || m_texturedBatchVisualRevision != currentTexturedBatchVisualRevision();
 }
 
 void IndoorRenderer::rebuildMechanismBindings()
@@ -6009,6 +6041,7 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         m_faceBatchIndices.clear();
         m_faceVertexOffsets.clear();
         m_faceVertexCounts.clear();
+        m_texturedBatchVisualRevision = currentTexturedBatchVisualRevision();
         return true;
     }
 
@@ -6210,6 +6243,7 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         }
     }
 
+    m_texturedBatchVisualRevision = currentTexturedBatchVisualRevision();
     return true;
 }
 
@@ -6424,11 +6458,7 @@ bool IndoorRenderer::rebuildDerivedGeometryResources()
 
     if (m_indoorTextureSet)
     {
-        const bool requiresFullTexturedRebuild =
-            m_texturedBatches.empty()
-            || hasScriptVisualOverrides();
-
-        if (requiresFullTexturedRebuild)
+        if (texturedBatchesNeedFullRebuild())
         {
             uint64_t texturedBuildNanoseconds = 0;
             if (!rebuildAllTexturedBatches(texturedBuildNanoseconds))
@@ -6456,6 +6486,42 @@ bool IndoorRenderer::rebuildDerivedGeometryResources()
                 }
             }
         }
+    }
+
+    ++m_inspectGeometryRevision;
+    m_cachedInspectHitValid = false;
+    return true;
+}
+
+bool IndoorRenderer::updateMovingMechanismGeometryResources()
+{
+    if (!m_indoorMapData)
+    {
+        return false;
+    }
+
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+    const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
+    m_renderVertices = buildMechanismAdjustedVertices(*m_indoorMapData, mapDeltaData, eventRuntimeState);
+
+    if (bgfx::getRendererType() == bgfx::RendererType::Noop)
+    {
+        ++m_inspectGeometryRevision;
+        m_cachedInspectHitValid = false;
+        return true;
+    }
+
+    if (!m_indoorTextureSet || texturedBatchesNeedFullRebuild())
+    {
+        return rebuildDerivedGeometryResources();
+    }
+
+    uint64_t texturedBuildNanoseconds = 0;
+    uint64_t uploadNanoseconds = 0;
+
+    if (!updateMovingMechanismFaceVertices(texturedBuildNanoseconds, uploadNanoseconds))
+    {
+        return rebuildDerivedGeometryResources();
     }
 
     ++m_inspectGeometryRevision;

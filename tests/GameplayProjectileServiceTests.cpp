@@ -106,7 +106,7 @@ TEST_CASE("projectile direct actor impact separates party and monster damage pat
     CHECK_EQ(actorImpact.damage, 5);
 }
 
-TEST_CASE("projectile collision filters dead source and friendly actors")
+TEST_CASE("projectile collision filters dead actor-source and friendly actors")
 {
     GameplayProjectileService service;
     GameplayProjectileService::ProjectileCollisionActorFacts actorFacts = {};
@@ -115,7 +115,8 @@ TEST_CASE("projectile collision filters dead source and friendly actors")
     CHECK(service.canProjectileCollideWithActor(makePartyProjectile(), actorFacts));
 
     actorFacts.actorId = 1;
-    CHECK_FALSE(service.canProjectileCollideWithActor(makePartyProjectile(), actorFacts));
+    CHECK(service.canProjectileCollideWithActor(makePartyProjectile(), actorFacts));
+    CHECK_FALSE(service.canProjectileCollideWithActor(makeActorProjectile(1), actorFacts));
 
     actorFacts.actorId = 20;
     actorFacts.dead = true;

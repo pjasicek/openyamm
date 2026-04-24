@@ -108,7 +108,9 @@ struct EventRuntimeState
         uint32_t soundId = 0;
         int32_t x = 0;
         int32_t y = 0;
+        int32_t z = 0;
         bool positional = false;
+        bool hasExplicitZ = false;
     };
 
     struct SpriteOverride

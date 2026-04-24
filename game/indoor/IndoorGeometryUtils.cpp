@@ -552,6 +552,14 @@ void IndoorFaceGeometryCache::reset(size_t faceCount)
     m_entries.resize(faceCount);
 }
 
+void IndoorFaceGeometryCache::invalidateFace(size_t faceIndex)
+{
+    if (faceIndex < m_entryStates.size())
+    {
+        m_entryStates[faceIndex] = 0;
+    }
+}
+
 const IndoorFaceGeometryData *IndoorFaceGeometryCache::geometryForFace(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,

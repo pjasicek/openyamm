@@ -283,6 +283,7 @@ private:
     void destroyDerivedGeometryResources();
     void destroyIndoorTextureHandles();
     bool rebuildDerivedGeometryResources();
+    bool updateMovingMechanismGeometryResources();
     bool tryActivateInspectEvent(const InspectHit &inspectHit);
     InspectHit inspectAtCursor(
         const IndoorMapData &indoorMapData,
@@ -332,7 +333,8 @@ private:
     const std::optional<EventRuntimeState> &runtimeEventRuntimeStateStorage() const;
     EventRuntimeState *runtimeEventRuntimeState();
     const EventRuntimeState *runtimeEventRuntimeState() const;
-    bool hasScriptVisualOverrides() const;
+    uint64_t currentTexturedBatchVisualRevision() const;
+    bool texturedBatchesNeedFullRebuild() const;
     void rebuildMechanismBindings();
     bool rebuildAllTexturedBatches(uint64_t &texturedBuildNanoseconds);
     bool updateMovingMechanismFaceVertices(uint64_t &texturedBuildNanoseconds, uint64_t &uploadNanoseconds);
@@ -395,6 +397,7 @@ private:
     std::vector<TexturedBatch> m_texturedBatches;
     std::vector<IndoorTextureHandle> m_indoorTextureHandles;
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
+    uint64_t m_texturedBatchVisualRevision = std::numeric_limits<uint64_t>::max();
     WorldFxRenderResources m_worldFxRenderResources;
     WorldFxSystem m_worldFxSystem;
     IndoorLightingRuntime m_indoorLightingRuntime;

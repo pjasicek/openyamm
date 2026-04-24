@@ -369,6 +369,8 @@ public:
     ) const override;
 
     void applyEventRuntimeState();
+    void invalidateRuntimeGeometryCache();
+    void refreshMechanismRuntimeGeometryCache();
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
 
@@ -395,7 +397,6 @@ private:
     bool materializeTreasureSpawn(size_t spawnIndex, const IndoorSpawn &spawn);
     void materializeInitialMonsterSpawns();
     void syncMapActorAiStates();
-    void invalidateRuntimeGeometryCache();
     RuntimeGeometryCache &runtimeGeometryCache() const;
     std::vector<bool> selectIndoorActiveActors(
         const ActorPartyFacts &partyFacts,
@@ -410,9 +411,7 @@ private:
         IndoorMovementController &movementController,
         size_t actorIndex,
         const ActorAiUpdate &update,
-        const GameplayActorAiSystem &actorAiSystem,
-        const std::vector<IndoorCylinderCollision> &decorationColliders,
-        const std::vector<IndoorCylinderCollision> &spriteObjectColliders);
+        const GameplayActorAiSystem &actorAiSystem);
     bool applyIndoorActorProjectileRequest(const ActorProjectileRequest &projectileRequest);
     bool addBloodSplat(uint32_t sourceActorId, float x, float y, float z, float radius);
     void bakeBloodSplatGeometry(BloodSplatState &splat) const;

@@ -3,6 +3,7 @@
 #include "game/gameplay/GameplayActorService.h"
 
 #include <algorithm>
+#include <cctype>
 #include <iostream>
 
 namespace OpenYAMM::Game
@@ -11,6 +12,12 @@ namespace
 {
 constexpr float GameMinutesPerRealSecond = 0.5f;
 constexpr float SecondsPerMillisecond = 0.001f;
+constexpr uint32_t DoorNoSoundAttribute = 0x4;
+constexpr uint32_t WoodDoor01SoundId = 167;
+constexpr uint32_t StoneDoor01SoundId = 177;
+constexpr uint32_t StoneDoor03SoundId = 181;
+constexpr uint32_t StoneDoor04SoundId = 183;
+constexpr float MechanismMovementSoundRepeatMilliseconds = 350.0f;
 
 bool hasMovingMechanism(const EventRuntimeState &eventRuntimeState)
 {
@@ -58,6 +65,73 @@ bool enteredIndoorPressurePlateFace(
     return !previousState.grounded
         || previousState.supportFaceIndex != currentState.supportFaceIndex;
 }
+
+std::string uppercaseCopy(const std::string &value)
+{
+    std::string result = value;
+
+    for (char &character : result)
+    {
+        character = static_cast<char>(std::toupper(static_cast<unsigned char>(character)));
+    }
+
+    return result;
+}
+
+uint32_t resolveIndoorMechanismMovementSoundId(const MapStatsEntry &map)
+{
+    const std::string environmentName = uppercaseCopy(map.environmentName);
+
+    if (environmentName == "MOUNTAIN")
+    {
+        return StoneDoor04SoundId;
+    }
+
+    if (environmentName == "CAVE")
+    {
+        return StoneDoor03SoundId;
+    }
+
+    if (environmentName == "STONEROOM")
+    {
+        return StoneDoor01SoundId;
+    }
+
+    return WoodDoor01SoundId;
+}
+
+bool mechanismReachedFinalState(const RuntimeMechanismState &mechanism)
+{
+    return mechanism.state == static_cast<uint16_t>(EvtMechanismState::Open)
+        || mechanism.state == static_cast<uint16_t>(EvtMechanismState::Closed);
+}
+
+EventRuntimeState::PendingSound buildMechanismSound(
+    uint32_t soundId,
+    const MapDeltaDoor &door)
+{
+    EventRuntimeState::PendingSound sound = {};
+    sound.soundId = soundId;
+    sound.positional = true;
+
+    if (!door.xOffsets.empty())
+    {
+        sound.x = door.xOffsets.front();
+    }
+
+    if (!door.yOffsets.empty())
+    {
+        sound.y = door.yOffsets.front();
+    }
+
+    if (!door.zOffsets.empty())
+    {
+        sound.z = door.zOffsets.front();
+        sound.hasExplicitZ = true;
+    }
+
+    return sound;
+}
 }
 
 IndoorSceneRuntime::IndoorSceneRuntime(
@@ -81,7 +155,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const SpriteFrameTable *pActorSpriteFrameTable,
     const SpriteFrameTable *pProjectileSpriteFrameTable,
     const DecorationBillboardSet *pIndoorDecorationBillboardSet)
-    : m_mapFileName(mapFileName)
+    : m_map(map)
+    , m_mapFileName(mapFileName)
     , m_pSessionParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
     , m_eventRuntimeState(eventRuntimeState)
@@ -157,7 +232,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     GameplayActorService *pGameplayActorService,
     const SpriteFrameTable *pActorSpriteFrameTable,
     const DecorationBillboardSet *pIndoorDecorationBillboardSet)
-    : m_mapFileName(mapFileName)
+    : m_map(map)
+    , m_mapFileName(mapFileName)
     , m_pSessionParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
     , m_eventRuntimeState(eventRuntimeState)
@@ -321,6 +397,7 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_partyRuntime.setParty(*m_pSessionParty);
     m_timers = snapshot.timers;
     m_lastProcessedPartyMoveStateForFaceTriggers = snapshot.lastProcessedPartyMoveStateForFaceTriggers;
+    m_mechanismAudioStates.clear();
     m_mechanismAccumulatorMilliseconds = snapshot.mechanismAccumulatorMilliseconds;
 }
 
@@ -356,9 +433,17 @@ bool IndoorSceneRuntime::advanceSimulation(float deltaMilliseconds)
         && mechanismSteps < MaximumMechanismStepsPerFrame
     )
     {
+        const std::unordered_map<uint32_t, RuntimeMechanismState> previousMechanisms =
+            m_eventRuntimeState->mechanisms;
         m_eventRuntime.advanceMechanisms(m_mapDeltaData, MechanismStepMilliseconds, *m_eventRuntimeState);
+        updateMechanismAudio(previousMechanisms, MechanismStepMilliseconds);
         m_mechanismAccumulatorMilliseconds -= MechanismStepMilliseconds;
         ++mechanismSteps;
+    }
+
+    if (mechanismSteps > 0)
+    {
+        m_worldRuntime.refreshMechanismRuntimeGeometryCache();
     }
 
     if (
@@ -370,6 +455,66 @@ bool IndoorSceneRuntime::advanceSimulation(float deltaMilliseconds)
     }
 
     return stateChanged || mechanismSteps > 0;
+}
+
+void IndoorSceneRuntime::updateMechanismAudio(
+    const std::unordered_map<uint32_t, RuntimeMechanismState> &previousMechanisms,
+    float deltaMilliseconds)
+{
+    if (!m_eventRuntimeState || !m_mapDeltaData)
+    {
+        return;
+    }
+
+    const uint32_t movementSoundId = resolveIndoorMechanismMovementSoundId(m_map);
+    const uint32_t finalSoundId = movementSoundId + 1;
+
+    for (const MapDeltaDoor &door : m_mapDeltaData->doors)
+    {
+        const std::unordered_map<uint32_t, RuntimeMechanismState>::const_iterator currentIterator =
+            m_eventRuntimeState->mechanisms.find(door.doorId);
+
+        if (currentIterator == m_eventRuntimeState->mechanisms.end())
+        {
+            m_mechanismAudioStates.erase(door.doorId);
+            continue;
+        }
+
+        const RuntimeMechanismState &currentMechanism = currentIterator->second;
+        const bool canPlaySound = (door.attributes & DoorNoSoundAttribute) == 0 && door.numVertices != 0;
+
+        if (!canPlaySound)
+        {
+            m_mechanismAudioStates.erase(door.doorId);
+            continue;
+        }
+
+        const std::unordered_map<uint32_t, RuntimeMechanismState>::const_iterator previousIterator =
+            previousMechanisms.find(door.doorId);
+        const bool wasMoving =
+            previousIterator != previousMechanisms.end() && previousIterator->second.isMoving;
+
+        if (currentMechanism.isMoving)
+        {
+            MechanismAudioState &audioState = m_mechanismAudioStates[door.doorId];
+            audioState.movementSoundElapsedMilliseconds += deltaMilliseconds;
+
+            if (audioState.movementSoundElapsedMilliseconds >= MechanismMovementSoundRepeatMilliseconds)
+            {
+                m_eventRuntimeState->pendingSounds.push_back(buildMechanismSound(movementSoundId, door));
+                audioState.movementSoundElapsedMilliseconds = 0.0f;
+            }
+
+            continue;
+        }
+
+        m_mechanismAudioStates.erase(door.doorId);
+
+        if (wasMoving && mechanismReachedFinalState(currentMechanism))
+        {
+            m_eventRuntimeState->pendingSounds.push_back(buildMechanismSound(finalSoundId, door));
+        }
+    }
 }
 
 bool IndoorSceneRuntime::updatePartyFaceTriggers()

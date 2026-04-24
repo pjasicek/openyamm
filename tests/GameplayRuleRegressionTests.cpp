@@ -3,6 +3,7 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
 #include "engine/AudioSystem.h"
+#include "game/FaceEnums.h"
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/items/ItemRuntime.h"
@@ -413,6 +414,43 @@ TEST_CASE("lua event runtime supports evt jump alias")
     REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr));
     REQUIRE_FALSE(runtimeState.statusMessages.empty());
     CHECK_EQ(runtimeState.statusMessages.back(), "jump ok");
+}
+
+TEST_CASE("lua event runtime treats explicit hint-only events as handled no-ops")
+{
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram =
+        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+        "evt.meta.map.hint = {[42] = \"Bookshelf\"}\n"
+        "evt.meta.map.summary = {[42] = \"Bookshelf\"}\n",
+        "@SyntheticHintOnlyEvent.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map,
+        error);
+    REQUIRE(scriptedProgram.has_value());
+    CHECK(scriptedProgram->isHintOnlyEvent(42));
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    CHECK(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 42, runtimeState, nullptr, nullptr));
+}
+
+TEST_CASE("event runtime caches facet invisible override state")
+{
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    const uint32_t invisibleBit = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Invisible);
+
+    runtimeState.facetSetMasks[12] = invisibleBit;
+    CHECK(runtimeState.hasFacetInvisibleOverride(12));
+    CHECK_FALSE(runtimeState.hasFacetInvisibleOverride(13));
+
+    runtimeState.facetClearMasks[12] = invisibleBit;
+    ++runtimeState.outdoorSurfaceRevision;
+    CHECK_FALSE(runtimeState.hasFacetInvisibleOverride(12));
+
+    runtimeState.facetClearMasks.erase(12);
+    ++runtimeState.outdoorSurfaceRevision;
+    CHECK(runtimeState.hasFacetInvisibleOverride(12));
 }
 
 TEST_CASE("resolve character attack sound id uses shared weapon family mapping")
