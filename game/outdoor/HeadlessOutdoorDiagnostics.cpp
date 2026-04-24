@@ -68,6 +68,190 @@ GameplayActorService buildBoundGameplayActorService(const GameDataLoader &gameDa
     service.bindTables(&gameDataLoader.getMonsterTable(), &gameDataLoader.getSpellTable());
     return service;
 }
+
+bool textContains(const std::string &text, const std::string &needle)
+{
+    return text.find(needle) != std::string::npos;
+}
+
+bool isKnownHeadlessRegressionSuite(const std::string &suiteName)
+{
+    static constexpr std::array<const char *, 19> KnownSuites = {{
+        "dialogue",
+        "chest",
+        "arcomage",
+        "indoor",
+        "outdoor",
+        "actors",
+        "combat",
+        "projectiles",
+        "events",
+        "scripts",
+        "maps",
+        "app",
+        "audio",
+        "movement",
+        "weather",
+        "items",
+        "houses",
+        "transitions",
+        "save",
+    }};
+
+    return std::find(KnownSuites.begin(), KnownSuites.end(), suiteName) != KnownSuites.end();
+}
+
+void printHeadlessRegressionSuites()
+{
+    std::cerr
+        << "Known regression suites: dialogue, chest, arcomage, indoor, outdoor, actors, combat, projectiles, "
+        << "events, scripts, maps, app, audio, movement, weather, items, houses, transitions, save\n";
+}
+
+bool headlessRegressionCaseMatchesSuite(const std::string &suiteName, const std::string &caseName)
+{
+    if (suiteName == "indoor")
+    {
+        return true;
+    }
+
+    if (suiteName == "chest")
+    {
+        return textContains(caseName, "chest");
+    }
+
+    if (suiteName == "arcomage")
+    {
+        return textContains(caseName, "arcomage");
+    }
+
+    if (suiteName == "dialogue" || suiteName == "outdoor")
+    {
+        return true;
+    }
+
+    if (suiteName == "actors")
+    {
+        return textContains(caseName, "actor") || textContains(caseName, "monster");
+    }
+
+    if (suiteName == "combat")
+    {
+        return textContains(caseName, "attack")
+            || textContains(caseName, "damage")
+            || textContains(caseName, "kill")
+            || textContains(caseName, "killed")
+            || textContains(caseName, "death")
+            || textContains(caseName, "hostile")
+            || textContains(caseName, "aggro");
+    }
+
+    if (suiteName == "projectiles")
+    {
+        return textContains(caseName, "projectile")
+            || textContains(caseName, "fireball")
+            || textContains(caseName, "cannonball")
+            || textContains(caseName, "arrow")
+            || textContains(caseName, "meteor");
+    }
+
+    if (suiteName == "events")
+    {
+        return textContains(caseName, "event")
+            || textContains(caseName, "qbit")
+            || textContains(caseName, "barrel")
+            || textContains(caseName, "campfire");
+    }
+
+    if (suiteName == "scripts")
+    {
+        return textContains(caseName, "lua")
+            || textContains(caseName, "script")
+            || textContains(caseName, "generated_lua");
+    }
+
+    if (suiteName == "maps")
+    {
+        return textContains(caseName, "map")
+            || textContains(caseName, "scene")
+            || textContains(caseName, "terrain")
+            || textContains(caseName, "support_floor")
+            || textContains(caseName, "startup")
+            || textContains(caseName, "boundary")
+            || textContains(caseName, "transition");
+    }
+
+    if (suiteName == "app")
+    {
+        return textContains(caseName, "app_") || textContains(caseName, "startup");
+    }
+
+    if (suiteName == "audio")
+    {
+        return textContains(caseName, "audio")
+            || textContains(caseName, "music")
+            || textContains(caseName, "sound");
+    }
+
+    if (suiteName == "movement")
+    {
+        return textContains(caseName, "movement")
+            || textContains(caseName, "motion")
+            || textContains(caseName, "move")
+            || textContains(caseName, "floor")
+            || textContains(caseName, "support")
+            || textContains(caseName, "collision")
+            || textContains(caseName, "overlap")
+            || textContains(caseName, "snaps");
+    }
+
+    if (suiteName == "weather")
+    {
+        return textContains(caseName, "atmosphere")
+            || textContains(caseName, "fog")
+            || textContains(caseName, "rain")
+            || textContains(caseName, "snow")
+            || textContains(caseName, "weather");
+    }
+
+    if (suiteName == "items")
+    {
+        return textContains(caseName, "item")
+            || textContains(caseName, "loot")
+            || textContains(caseName, "chest")
+            || textContains(caseName, "treasure")
+            || textContains(caseName, "inventory")
+            || textContains(caseName, "granted_item");
+    }
+
+    if (suiteName == "houses")
+    {
+        return textContains(caseName, "house")
+            || textContains(caseName, "tavern")
+            || textContains(caseName, "teacher")
+            || textContains(caseName, "adventurers_inn")
+            || textContains(caseName, "service");
+    }
+
+    if (suiteName == "transitions")
+    {
+        return textContains(caseName, "transition")
+            || textContains(caseName, "transport")
+            || textContains(caseName, "pending_map_move")
+            || textContains(caseName, "boundary");
+    }
+
+    if (suiteName == "save")
+    {
+        return textContains(caseName, "save")
+            || textContains(caseName, "quickload")
+            || textContains(caseName, "quicksave")
+            || textContains(caseName, "snapshot")
+            || textContains(caseName, "roundtrip");
+    }
+
+    return false;
+}
 }
 
 struct GameApplicationTestAccess
@@ -1796,6 +1980,61 @@ bool loadOutdoorMapWithCompanionOptions(
 
     mapAssetInfo = *loadedMap;
     return true;
+}
+
+bool hasMapGeometryAsset(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &fileName)
+{
+    const std::vector<std::string> entries = assetFileSystem.enumerate("Data/games");
+    const std::string normalizedFileName = toLowerCopy(fileName);
+
+    for (const std::string &entry : entries)
+    {
+        if (toLowerCopy(entry) == normalizedFileName)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::vector<std::string> collectScriptedMapFileNames(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const GameDataLoader &gameDataLoader)
+{
+    std::vector<std::string> scriptedMapFileNames;
+
+    for (const MapStatsEntry &entry : gameDataLoader.getMapStats().getEntries())
+    {
+        if (entry.fileName.empty())
+        {
+            continue;
+        }
+
+        const std::string extension = toLowerCopy(std::filesystem::path(entry.fileName).extension().string());
+
+        if (extension != ".odm" && extension != ".blv")
+        {
+            continue;
+        }
+
+        if (!hasMapGeometryAsset(assetFileSystem, entry.fileName))
+        {
+            continue;
+        }
+
+        const std::string scriptPath =
+            "Data/scripts/maps/" + toLowerCopy(std::filesystem::path(entry.fileName).stem().string()) + ".lua";
+
+        if (assetFileSystem.exists(scriptPath))
+        {
+            scriptedMapFileNames.push_back(entry.fileName);
+        }
+    }
+
+    return scriptedMapFileNames;
 }
 
 EventDialogContent buildScenarioDialog(
@@ -4148,9 +4387,10 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     const std::string &suiteName
 ) const
 {
-    if (suiteName != "dialogue" && suiteName != "chest" && suiteName != "arcomage" && suiteName != "indoor")
+    if (!isKnownHeadlessRegressionSuite(suiteName))
     {
         std::cerr << "Unknown regression suite: " << suiteName << '\n';
+        printHeadlessRegressionSuites();
         return 2;
     }
 
@@ -4202,6 +4442,11 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     auto runCase =
         [&](const std::string &caseName, auto &&fn)
         {
+            if (!headlessRegressionCaseMatchesSuite(suiteName, caseName))
+            {
+                return;
+            }
+
             if (!caseFilter.empty() && caseName.find(caseFilter) == std::string::npos)
             {
                 return;
@@ -7035,7 +7280,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         return failedCount == 0 ? 0 : 1;
     }
 
-    if (suiteName == "chest")
+    if (suiteName == "chest" || suiteName == "items" || suiteName == "outdoor")
     {
         runCase(
             "dwi_chest_events_materialize_non_empty_layouts",
@@ -7148,12 +7393,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             }
         );
 
-        std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
-        return failedCount == 0 ? 0 : 1;
-    }
-
-    if (suiteName == "arcomage")
-    {
         std::cout << "Regression suite summary: passed=" << passedCount << " failed=" << failedCount << '\n';
         return failedCount == 0 ? 0 : 1;
     }
@@ -16030,6 +16269,367 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             {
                 failure = "granted item ids were not consumed after the held-item handoff";
                 return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "generated_lua_event_scripts_load_for_every_scripted_map",
+        [&](std::string &failure)
+        {
+            const std::vector<std::string> scriptedMapFileNames =
+                collectScriptedMapFileNames(assetFileSystem, gameDataLoader);
+
+            if (scriptedMapFileNames.empty())
+            {
+                failure = "no scripted maps were discovered";
+                return false;
+            }
+
+            GameDataLoader loader = gameDataLoader;
+            EventRuntime eventRuntime = {};
+
+            for (const std::string &mapFileName : scriptedMapFileNames)
+            {
+                if (!loader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+                {
+                    failure = "failed to load scripted map " + mapFileName;
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = loader.getSelectedMap();
+
+                if (!loadedMap.has_value())
+                {
+                    failure = "loaded map was missing for " + mapFileName;
+                    return false;
+                }
+
+                if (!loadedMap->globalEventProgram.has_value()
+                    || !loadedMap->globalEventProgram->luaSourceText().has_value()
+                    || !loadedMap->localEventProgram.has_value()
+                    || !loadedMap->localEventProgram->luaSourceText().has_value())
+                {
+                    failure = "scripted map was missing Lua sources for " + mapFileName;
+                    return false;
+                }
+
+                const std::optional<MapDeltaData> mapDeltaData =
+                    loadedMap->outdoorMapDeltaData ? loadedMap->outdoorMapDeltaData : loadedMap->indoorMapDeltaData;
+                EventRuntimeState runtimeState = {};
+
+                if (!eventRuntime.buildOnLoadState(
+                        loadedMap->localEventProgram,
+                        loadedMap->globalEventProgram,
+                        mapDeltaData,
+                        runtimeState))
+                {
+                    failure = "buildOnLoadState failed for " + mapFileName;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_terrain_texture_atlas_builds_for_non_default_master_tiles",
+        [&](std::string &failure)
+        {
+            static constexpr std::array<const char *, 2> requiredMaps = {
+                "out04.odm",
+                "out06.odm",
+            };
+
+            for (const char *pMapFileName : requiredMaps)
+            {
+                MapAssetInfo loadedMap = {};
+
+                if (!loadOutdoorMapWithCompanionOptions(
+                        assetFileSystem,
+                        gameDataLoader,
+                        pMapFileName,
+                        MapLoadPurpose::Full,
+                        MapCompanionLoadOptions{.allowSceneYml = true, .allowLegacyCompanion = true},
+                        loadedMap,
+                        failure))
+                {
+                    return false;
+                }
+
+                if (!loadedMap.outdoorMapData.has_value() || !loadedMap.outdoorTerrainTextureAtlas.has_value())
+                {
+                    failure = std::string("loaded map missing terrain atlas for ") + pMapFileName;
+                    return false;
+                }
+
+                size_t validTileCount = 0;
+
+                for (const OutdoorTerrainAtlasRegion &region : loadedMap.outdoorTerrainTextureAtlas->tileRegions)
+                {
+                    if (region.isValid)
+                    {
+                        ++validTileCount;
+                    }
+                }
+
+                if (validTileCount == 0)
+                {
+                    failure = std::string("terrain atlas did not contain any valid tiles for ") + pMapFileName;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "lua_event_runtime_has_complete_handler_inventory_for_every_scripted_map",
+        [&](std::string &failure)
+        {
+            const std::vector<std::string> scriptedMapFileNames =
+                collectScriptedMapFileNames(assetFileSystem, gameDataLoader);
+
+            if (scriptedMapFileNames.empty())
+            {
+                failure = "no scripted maps were discovered";
+                return false;
+            }
+
+            GameDataLoader loader = gameDataLoader;
+
+            for (const std::string &mapFileName : scriptedMapFileNames)
+            {
+                if (!loader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+                {
+                    failure = "failed to load scripted map " + mapFileName;
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = loader.getSelectedMap();
+
+                if (!loadedMap.has_value())
+                {
+                    failure = "loaded map was missing for " + mapFileName;
+                    return false;
+                }
+
+                EventRuntime eventRuntime = {};
+                EventRuntimeBindingReport report = {};
+
+                if (!eventRuntime.validateProgramBindings(
+                        loadedMap->localEventProgram,
+                        loadedMap->globalEventProgram,
+                        report))
+                {
+                    failure = "validateProgramBindings failed for " + mapFileName;
+                    return false;
+                }
+
+                if (!report.missingLocalHandlerEventIds.empty()
+                    || !report.missingGlobalHandlerEventIds.empty()
+                    || !report.missingCanShowTopicEventIds.empty()
+                    || report.errorMessage.has_value())
+                {
+                    failure = "script binding report was incomplete for " + mapFileName;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "lua_event_runtime_executes_scripted_map_handlers_without_errors",
+        [&](std::string &failure)
+        {
+            const std::vector<std::string> scriptedMapFileNames =
+                collectScriptedMapFileNames(assetFileSystem, gameDataLoader);
+
+            if (scriptedMapFileNames.empty())
+            {
+                failure = "no scripted maps were discovered";
+                return false;
+            }
+
+            GameDataLoader loader = gameDataLoader;
+            bool executedGlobalHandlers = false;
+
+            for (const std::string &mapFileName : scriptedMapFileNames)
+            {
+                if (!loader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, mapFileName))
+                {
+                    failure = "failed to load scripted map " + mapFileName;
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = loader.getSelectedMap();
+
+                if (!loadedMap.has_value())
+                {
+                    failure = "loaded map was missing for " + mapFileName;
+                    return false;
+                }
+
+                EventRuntime eventRuntime = {};
+                const std::optional<MapDeltaData> mapDeltaData =
+                    loadedMap->outdoorMapDeltaData ? loadedMap->outdoorMapDeltaData : loadedMap->indoorMapDeltaData;
+                EventRuntimeState baseState = {};
+
+                if (!eventRuntime.buildOnLoadState(
+                        loadedMap->localEventProgram,
+                        loadedMap->globalEventProgram,
+                        mapDeltaData,
+                        baseState))
+                {
+                    failure = "buildOnLoadState failed for " + mapFileName;
+                    return false;
+                }
+
+                if (!executedGlobalHandlers && loadedMap->globalEventProgram.has_value())
+                {
+                    for (uint16_t eventId : loadedMap->globalEventProgram->eventIds())
+                    {
+                        EventRuntimeState eventState = baseState;
+
+                        if (!eventRuntime.executeEventById(
+                                std::nullopt,
+                                loadedMap->globalEventProgram,
+                                eventId,
+                                eventState,
+                                nullptr,
+                                nullptr))
+                        {
+                            failure = "global event " + std::to_string(eventId) + " failed for " + mapFileName;
+                            return false;
+                        }
+                    }
+
+                    executedGlobalHandlers = true;
+                }
+
+                if (loadedMap->localEventProgram.has_value())
+                {
+                    for (uint16_t eventId : loadedMap->localEventProgram->eventIds())
+                    {
+                        EventRuntimeState eventState = baseState;
+
+                        if (!eventRuntime.executeEventById(
+                                loadedMap->localEventProgram,
+                                loadedMap->globalEventProgram,
+                                eventId,
+                                eventState,
+                                nullptr,
+                                nullptr))
+                        {
+                            failure = "local event " + std::to_string(eventId) + " failed for " + mapFileName;
+                            return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_scene_yml_matches_legacy_ddm_authored_state",
+        [&](std::string &failure)
+        {
+            static constexpr std::array<const char *, 4> requiredMaps = {
+                "out01.odm",
+                "out02.odm",
+                "out05.odm",
+                "out13.odm",
+            };
+
+            for (const char *pMapFileName : requiredMaps)
+            {
+                MapAssetInfo legacyMap = {};
+
+                if (!loadOutdoorMapWithCompanionOptions(
+                        assetFileSystem,
+                        gameDataLoader,
+                        pMapFileName,
+                        MapLoadPurpose::HeadlessGameplay,
+                        MapCompanionLoadOptions{
+                            .allowSceneYml = false,
+                            .allowLegacyCompanion = true,
+                        },
+                        legacyMap,
+                        failure))
+                {
+                    return false;
+                }
+
+                MapAssetInfo migratedMap = {};
+
+                if (!loadOutdoorMapWithCompanionOptions(
+                        assetFileSystem,
+                        gameDataLoader,
+                        pMapFileName,
+                        MapLoadPurpose::HeadlessGameplay,
+                        MapCompanionLoadOptions{
+                            .allowSceneYml = true,
+                            .allowLegacyCompanion = false,
+                        },
+                        migratedMap,
+                        failure))
+                {
+                    return false;
+                }
+
+                if (migratedMap.authoredCompanionSource != AuthoredCompanionSource::SceneYml)
+                {
+                    failure = std::string("migrated scene companion source was wrong for ") + pMapFileName;
+                    return false;
+                }
+
+                const std::string legacySnapshot = buildNormalizedOutdoorAuthoredSnapshot(legacyMap);
+                const std::string migratedSnapshot = buildNormalizedOutdoorAuthoredSnapshot(migratedMap);
+
+                if (legacySnapshot != migratedSnapshot)
+                {
+                    failure = std::string("legacy and scene-authored outdoor state diverged for ") + pMapFileName;
+                    return false;
+                }
+
+                MapAssetInfo mixedMap = {};
+
+                if (!loadOutdoorMapWithCompanionOptions(
+                        assetFileSystem,
+                        gameDataLoader,
+                        pMapFileName,
+                        MapLoadPurpose::HeadlessGameplay,
+                        MapCompanionLoadOptions{
+                            .allowSceneYml = true,
+                            .allowLegacyCompanion = true,
+                        },
+                        mixedMap,
+                        failure))
+                {
+                    return false;
+                }
+
+                if (mixedMap.authoredCompanionSource != AuthoredCompanionSource::SceneYml)
+                {
+                    failure = std::string("mixed companion loading did not prefer scene yml for ") + pMapFileName;
+                    return false;
+                }
+
+                const std::string mixedSnapshot = buildNormalizedOutdoorAuthoredSnapshot(mixedMap);
+
+                if (mixedSnapshot != migratedSnapshot)
+                {
+                    failure = std::string("mixed companion loading diverged for ") + pMapFileName;
+                    return false;
+                }
             }
 
             return true;
