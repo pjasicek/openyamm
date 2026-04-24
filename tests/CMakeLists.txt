@@ -1,27 +1,107 @@
 add_executable(openyamm_unit_tests
+    AudioRegressionTests.cpp
+    ArcomageRegressionTests.cpp
+    ChestRegressionTests.cpp
+    HouseDialogueRegressionTests.cpp
+    ScriptedMapRegressionTests.cpp
     UnitTestMain.cpp
+    CharacterSheetRegressionTests.cpp
     GameplayActorAiSystemTests.cpp
+    GameplayRuleRegressionTests.cpp
     GameplayProjectileServiceTests.cpp
+    IndoorCollisionPrimitivesTests.cpp
+    InventoryEquipRegressionTests.cpp
     MapStatsRegressionTests.cpp
     MonsterTableRegressionTests.cpp
     PartyRegressionTests.cpp
+    RegressionMapLoader.cpp
+    SpellRegressionTests.cpp
+    RegressionGameData.cpp
     SpellbookUiLayoutTests.cpp
-    TestGameStubs.cpp
+    TableRegressionTests.cpp
+    GameplayScreenRuntimeTestStubs.cpp
+    ../engine/AudioSystem.cpp
+    ../engine/AssetFileSystem.cpp
+    ../engine/AssetScaleTier.cpp
     ../engine/TextTable.cpp
+    ../game/arcomage/ArcomageAi.cpp
+    ../game/arcomage/ArcomageLoader.cpp
+    ../game/arcomage/ArcomageRules.cpp
+    ../game/audio/GameAudioSystem.cpp
+    ../game/audio/SoundCatalog.cpp
+    ../game/data/ActorNameResolver.cpp
+    ../game/data/GameDataLoader.cpp
+    ../engine/scripting/LuaStateOwner.cpp
+    ../game/events/EventRuntime.cpp
+    ../game/events/EventDialogContent.cpp
+    ../game/events/ScriptedEventProgram.cpp
     ../game/gameplay/GameplayActorAiSystem.cpp
     ../game/gameplay/GameplayActorService.cpp
+    ../game/gameplay/GameplayDialogController.cpp
+    ../game/gameplay/GameplaySpeechRules.cpp
+    ../game/gameplay/GameMechanics.cpp
+    ../game/gameplay/GenericActorDialog.cpp
+    ../game/gameplay/HouseInteraction.cpp
+    ../game/gameplay/HouseServiceRuntime.cpp
+    ../game/gameplay/MasteryTeacherDialog.cpp
+    ../game/items/ItemEquipPosTable.cpp
     ../game/gameplay/GameplayProjectileService.cpp
+    ../game/maps/MapDeltaData.cpp
+    ../game/maps/MapAssetLoader.cpp
+    ../game/maps/MapRegistry.cpp
+    ../game/maps/IndoorSceneYml.cpp
+    ../game/maps/OutdoorSceneYml.cpp
+    ../game/maps/TerrainTileData.cpp
+    ../game/indoor/IndoorCollisionPrimitives.cpp
+    ../game/indoor/IndoorMapData.cpp
     ../game/fx/ParticleRecipes.cpp
     ../game/fx/ParticleSystem.cpp
+    ../game/items/InventoryItemUseRuntime.cpp
+    ../game/items/ItemEnchantRuntime.cpp
+    ../game/items/ItemEnchantTables.cpp
+    ../game/items/ItemGenerator.cpp
+    ../game/items/PriceCalculator.cpp
+    ../game/items/ItemRuntime.cpp
     ../game/party/Party.cpp
+    ../game/party/EventSpellBuffs.cpp
+    ../game/party/PartySpellSystem.cpp
     ../game/party/SkillData.cpp
     ../game/party/SpellSchool.cpp
-    ../game/ui/SpellbookUiLayout.cpp
+    ../game/tables/ChestTable.cpp
+    ../game/tables/CharacterDollTable.cpp
+    ../game/tables/CharacterInspectTable.cpp
+    ../game/tables/ClassSkillTable.cpp
+    ../game/tables/FaceAnimationTable.cpp
+    ../game/tables/HouseTable.cpp
+    ../game/tables/IconFrameTable.cpp
+    ../game/tables/ItemTable.cpp
+    ../game/tables/JournalAutonoteTable.cpp
+    ../game/tables/JournalHistoryTable.cpp
+    ../game/tables/JournalQuestTable.cpp
     ../game/tables/MonsterTable.cpp
+    ../game/tables/MonsterProjectileTable.cpp
     ../game/tables/MapStats.cpp
+    ../game/tables/NpcDialogTable.cpp
     ../game/tables/ObjectTable.cpp
+    ../game/tables/PortraitEnums.cpp
+    ../game/tables/PortraitFrameTable.cpp
+    ../game/tables/PortraitFxEventTable.cpp
+    ../game/tables/RaceStartingStatsTable.cpp
+    ../game/tables/RosterTable.cpp
+    ../game/tables/ReadableScrollTable.cpp
     ../game/tables/SpellTable.cpp
+    ../game/tables/SpellFxTable.cpp
+    ../game/tables/SpeechReactionTable.cpp
     ../game/tables/SpriteTables.cpp
+    ../game/tables/SurfaceMaterialTable.cpp
+    ../game/tables/TextureFrameTable.cpp
+    ../game/ui/GameplayUiController.cpp
+    ../game/ui/SpellbookUiLayout.cpp
+    ../game/outdoor/OutdoorGeometryUtils.cpp
+    ../game/outdoor/OutdoorMapData.cpp
+    ../game/outdoor/OutdoorMovementController.cpp
+    ../game/outdoor/OutdoorMovementDriver.cpp
+    ../game/outdoor/OutdoorPartyRuntime.cpp
 )
 
 target_include_directories(openyamm_unit_tests
@@ -44,7 +124,32 @@ target_link_libraries(openyamm_unit_tests
     PRIVATE
         openyamm_bgfx
         SDL3::SDL3
+        physfs-static
+        ${OPENYAMM_LUA_TARGET}
         yaml-cpp::yaml-cpp
 )
+
+target_include_directories(openyamm_unit_tests
+    PRIVATE
+        "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/include"
+)
+
+target_link_libraries(openyamm_unit_tests
+    PRIVATE
+        "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libavformat.a"
+        "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libavcodec.a"
+        "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libswresample.a"
+        "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libswscale.a"
+        "${CMAKE_BINARY_DIR}/_deps/ffmpeg-install/lib/libavutil.a"
+)
+
+add_dependencies(openyamm_unit_tests openyamm_ffmpeg_build)
+
+if (UNIX AND NOT APPLE)
+    target_link_options(openyamm_unit_tests
+        PRIVATE
+            "-Wl,-rpath,$ORIGIN/../_deps/sdl3-build"
+    )
+endif()
 
 add_test(NAME openyamm_unit_tests COMMAND openyamm_unit_tests)

@@ -4,6 +4,7 @@
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/CharacterDollTable.h"
+#include "tests/RegressionGameData.h"
 
 #include <algorithm>
 #include <array>
@@ -134,9 +135,12 @@ TEST_CASE("monster target selection skips invalid preferred members")
 
 TEST_CASE("default seed monster target selection matches female preference")
 {
-    OpenYAMM::Game::CharacterDollTable characterDollTable = {};
+    REQUIRE_MESSAGE(
+        OpenYAMM::Tests::regressionGameDataLoaded(),
+        OpenYAMM::Tests::regressionGameDataFailure().c_str());
+
     OpenYAMM::Game::Party party = {};
-    party.setCharacterDollTable(&characterDollTable);
+    party.setCharacterDollTable(&OpenYAMM::Tests::regressionGameData().characterDollTable);
     party.seed(OpenYAMM::Game::Party::createDefaultSeed());
 
     const std::optional<size_t> targetIndex = party.chooseMonsterAttackTarget(0x0400, 3);

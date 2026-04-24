@@ -80,6 +80,104 @@ void enforceMinimumWindowAspect(SDL_Window *pWindow)
         SDL_SetWindowSize(pWindow, correctedWidth, windowHeight);
     }
 }
+
+uint64_t initialWindowFlagsForMode(WindowMode mode)
+{
+    uint64_t flags = 0;
+
+    if (mode == WindowMode::Windowed)
+    {
+        flags |= SDL_WINDOW_RESIZABLE;
+    }
+
+    return flags;
+}
+
+bool applyWindowMode(SDL_Window *pWindow, const ApplicationConfig &config)
+{
+    if (pWindow == nullptr)
+    {
+        return false;
+    }
+
+    switch (config.windowMode)
+    {
+    case WindowMode::Windowed:
+        return true;
+
+    case WindowMode::WindowedFullscreen:
+        if (!SDL_SetWindowBordered(pWindow, false))
+        {
+            std::cerr << "SDL_SetWindowBordered failed: " << SDL_GetError() << '\n';
+            return false;
+        }
+
+        if (!SDL_SetWindowFullscreen(pWindow, true))
+        {
+            std::cerr << "SDL_SetWindowFullscreen failed: " << SDL_GetError() << '\n';
+            return false;
+        }
+
+        return true;
+
+    case WindowMode::Fullscreen:
+    {
+        const SDL_DisplayID displayId = SDL_GetPrimaryDisplay();
+        const SDL_DisplayMode requestedMode = {
+            .displayID = displayId,
+            .format = SDL_PIXELFORMAT_UNKNOWN,
+            .w = config.windowWidth,
+            .h = config.windowHeight,
+            .pixel_density = 0.0f,
+            .refresh_rate = 0.0f,
+            .refresh_rate_numerator = 0,
+            .refresh_rate_denominator = 0,
+            .internal = nullptr
+        };
+
+        if (!SDL_SetWindowFullscreenMode(pWindow, &requestedMode))
+        {
+            std::cerr << "SDL_SetWindowFullscreenMode failed: " << SDL_GetError() << '\n';
+            return false;
+        }
+
+        if (!SDL_SetWindowFullscreen(pWindow, true))
+        {
+            std::cerr << "SDL_SetWindowFullscreen failed: " << SDL_GetError() << '\n';
+            return false;
+        }
+
+        return true;
+    }
+    }
+
+    return true;
+}
+
+const char *windowModeName(WindowMode mode)
+{
+    switch (mode)
+    {
+    case WindowMode::Windowed:
+        return "windowed";
+
+    case WindowMode::WindowedFullscreen:
+        return "windowed_fullscreen";
+
+    case WindowMode::Fullscreen:
+        return "fullscreen";
+    }
+
+    return "windowed";
+}
+
+void invokeShutdownCallback(const EngineApplication::ShutdownCallback &shutdownCallback)
+{
+    if (shutdownCallback)
+    {
+        shutdownCallback();
+    }
+}
 }
 
 EngineApplication::EngineApplication(
@@ -129,33 +227,51 @@ int EngineApplication::run() const
         m_config.appName.c_str(),
         m_config.windowWidth,
         m_config.windowHeight,
-        SDL_WINDOW_RESIZABLE
+        initialWindowFlagsForMode(m_config.windowMode)
     );
 
     if (pRawWindow == nullptr)
     {
         std::cerr << "SDL_CreateWindow failed: " << SDL_GetError() << '\n';
+        invokeShutdownCallback(m_shutdownCallback);
         return 1;
     }
 
     std::unique_ptr<SDL_Window, SdlWindowDeleter> pWindow(pRawWindow);
-    enforceMinimumWindowAspect(pWindow.get());
-    BgfxContext bgfxContext;
-
-    if (!bgfxContext.initialize(pWindow.get(), m_config.windowWidth, m_config.windowHeight))
+    if (!applyWindowMode(pWindow.get(), m_config))
     {
+        invokeShutdownCallback(m_shutdownCallback);
+        return 1;
+    }
+
+    if (m_config.windowMode == WindowMode::Windowed)
+    {
+        enforceMinimumWindowAspect(pWindow.get());
+    }
+
+    BgfxContext bgfxContext;
+    int drawableWidth = 0;
+    int drawableHeight = 0;
+    SDL_GetWindowSizeInPixels(pWindow.get(), &drawableWidth, &drawableHeight);
+
+    if (!bgfxContext.initialize(pWindow.get(), drawableWidth, drawableHeight))
+    {
+        invokeShutdownCallback(m_shutdownCallback);
         return 1;
     }
 
     if (m_renderSetupCallback && !m_renderSetupCallback())
     {
+        invokeShutdownCallback(m_shutdownCallback);
         return 1;
     }
 
     std::cout << m_config.appName << '\n';
     std::cout << "Development assets: " << m_config.assetRoot << '\n';
     std::cout << "Asset scale: " << assetScaleTierToString(m_config.assetScaleTier) << '\n';
-    std::cout << "Window: " << m_config.windowWidth << "x" << m_config.windowHeight << '\n';
+    std::cout << "Window mode: " << windowModeName(m_config.windowMode) << '\n';
+    std::cout << "Window requested: " << m_config.windowWidth << "x" << m_config.windowHeight << '\n';
+    std::cout << "Window drawable: " << drawableWidth << "x" << drawableHeight << '\n';
     std::cout << "Renderer: " << bgfx::getRendererName(bgfxContext.getRendererType()) << '\n';
     std::cout << "Mounted search paths:\n";
 
@@ -252,12 +368,14 @@ int EngineApplication::run() const
         }
     }
 
-    if (m_shutdownCallback)
-    {
-        m_shutdownCallback();
-    }
+    invokeShutdownCallback(m_shutdownCallback);
 
     return 0;
+}
+
+void EngineApplication::setConfiguration(const ApplicationConfig &config)
+{
+    m_config = config;
 }
 
 bool EngineApplication::validateConfiguration() const

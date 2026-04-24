@@ -28,6 +28,7 @@ public:
     );
 
     int run() const;
+    void setConfiguration(const ApplicationConfig &config);
 
 private:
     bool initializeAssetFileSystem(AssetFileSystem &assetFileSystem) const;

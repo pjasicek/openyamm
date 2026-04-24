@@ -2,6 +2,7 @@
 
 #include "game/app/GameSession.h"
 #include "game/gameplay/GameplayItemService.h"
+#include "game/gameplay/GameplaySpeechRules.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GameplayDialogUiFlow.h"
 #include "game/gameplay/GameMechanics.h"
@@ -1810,39 +1811,11 @@ void GameplayScreenRuntime::triggerPortraitFaceAnimationForAllLivingMembers(Face
 
 bool GameplayScreenRuntime::canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks)
 {
-    const GameplayPortraitPresentationState &presentationState = uiRuntime().portraitPresentationState();
-
-    if (memberIndex >= presentationState.memberSpeechCooldownUntilTicks.size())
-    {
-        return true;
-    }
-
-    if (bypassSpeechCooldown(speechId))
-    {
-        return true;
-    }
-
-    if (nowTicks < presentationState.memberSpeechCooldownUntilTicks[memberIndex])
-    {
-        return false;
-    }
-
-    switch (speechId)
-    {
-        case SpeechId::KillWeakEnemy:
-        case SpeechId::KillStrongEnemy:
-            return true;
-
-        case SpeechId::AttackHit:
-        case SpeechId::AttackMiss:
-        case SpeechId::Shoot:
-        case SpeechId::CastSpell:
-        case SpeechId::DamagedParty:
-            return nowTicks >= presentationState.memberCombatSpeechCooldownUntilTicks[memberIndex];
-
-        default:
-            return true;
-    }
+    return canPlaySpeechReactionForPresentationState(
+        uiRuntime().portraitPresentationState(),
+        memberIndex,
+        speechId,
+        nowTicks);
 }
 
 void GameplayScreenRuntime::playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation)

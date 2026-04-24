@@ -6,6 +6,13 @@
 
 namespace OpenYAMM::Engine
 {
+enum class WindowMode
+{
+    Windowed,
+    WindowedFullscreen,
+    Fullscreen
+};
+
 struct ApplicationConfig
 {
     std::string appName;
@@ -14,6 +21,7 @@ struct ApplicationConfig
     AssetScaleTier assetScaleTier;
     int windowWidth;
     int windowHeight;
+    WindowMode windowMode;
 
     static ApplicationConfig createDefault();
 };

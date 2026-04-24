@@ -13,6 +13,7 @@ ApplicationConfig ApplicationConfig::createDefault()
     config.assetScaleTier = AssetScaleTier::X1;
     config.windowWidth = OPENYAMM_WINDOW_WIDTH;
     config.windowHeight = OPENYAMM_WINDOW_HEIGHT;
+    config.windowMode = WindowMode::Windowed;
     return config;
 }
 }

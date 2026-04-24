@@ -99,6 +99,7 @@ add_executable(openyamm
     outdoor/OutdoorPartyRuntime.cpp
     outdoor/OutdoorWorldRuntime.cpp
     party/Party.cpp
+    party/EventSpellBuffs.cpp
     party/PartySpellSystem.cpp
     items/PriceCalculator.cpp
     tables/ReadableScrollTable.cpp
@@ -129,6 +130,7 @@ add_executable(openyamm
     ui/GameplayDebugOverlayRenderer.cpp
     ui/GameplaySpellTargetingOverlayRenderer.cpp
     ui/GameplayUiRenderer.cpp
+    gameplay/GameplaySpeechRules.cpp
     gameplay/GameplayScreenRuntime.cpp
     ui/GameplayPartyOverlayRenderer.cpp
     ui/GameplayUiOverlayOrchestrator.cpp
