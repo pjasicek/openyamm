@@ -1,65 +1,65 @@
 # Acceptance Criteria
 
-## Authoritative Plan
+## Authoritative Loop
 
-- [ ] `docs/world_particle_fx_extraction_plan.md` is the active authoritative source for this loop.
-- [ ] `PLAN.md`, `TASK_QUEUE.md`, `PROGRESS.md`, `AGENTS.md`, and `scripts/run_refactor.sh` all point to the same
-  particle FX extraction loop.
-- [ ] `TASK_QUEUE.md` is concrete enough for autonomous execution in coherent slices.
+- [x] `implementation_plan.md` is the active authoritative plan for this overnight loop.
+- [x] `PLAN.md`, `TASK_QUEUE.md`, `PROGRESS.md`, `AGENTS.md`, and `scripts/run_refactor.sh` point to the same loop.
+- [x] `TASK_QUEUE.md` is concrete enough for autonomous execution without reading the plan linearly.
 
 ## Structural Acceptance
 
-- [ ] `ParticleRenderer` no longer depends on `OutdoorGameView`.
-- [ ] Particle render resources live in shared FX code, not in outdoor-only view members.
-- [ ] `ParticleSystem` ownership lives in shared FX runtime, not in `OutdoorGameView`.
-- [ ] Projectile trail cooldowns and seen projectile impact ids live in shared FX runtime.
-- [ ] Projectile trail particles and impact particles are spawned by shared FX code from shared projectile presentation
-  state.
-- [ ] Party spell world particles are spawned by shared FX code for both indoor and outdoor.
-- [ ] Indoor does not keep a separate renderer-local spell/projectile FX fallback once the shared path is wired.
-- [ ] Outdoor-specific FX code, if any remains, only handles truly outdoor-specific facts such as weather or decoration
-  emitters.
-- [ ] No new callback bag or adapter layer is added only to hide ownership.
+- [ ] Shared gameplay fixes are implemented in shared gameplay systems unless the behavior depends on BLV/ODM world
+  representation.
+- [ ] Indoor/outdoor-specific changes are limited to world hooks, data collection, collision/picking/LOS/floor facts,
+  map loading, geometry, mechanisms, decals, and world collision.
+- [ ] No new callback bag, forwarding adapter, or duplicate indoor/outdoor gameplay path is introduced only to hide
+  ownership.
 - [ ] No OpenEnroth or mm_mapview2 code is copied.
+- [ ] Temporary diagnostics, noisy logs, local debug spawn skips, and profiling-only branches are removed before a task
+  is marked done.
 
-## Readability Acceptance
+## Feature Acceptance
 
-- [ ] The shared FX frame update is readable as direct high-level steps: update particles, sync projectile FX, sync
-  world emitters, render particles.
-- [ ] New public types are coarse domain types, not phase/control-flow micro-structs.
-- [ ] New names avoid `Decision`, `Patch`, `EffectDecision`, and similar extraction-plumbing vocabulary.
-- [ ] Outdoor and indoor render loops show obvious shared FX update/render calls rather than large inline composition
-  blocks.
+- [ ] Lloyd's Beacon has a shared gameplay implementation, save data support, and the requested YML-driven screen.
+- [ ] Wands can be equipped and fired through the shared attack/spell action path, consume charges, and handle empty
+  charges correctly.
+- [ ] Recharge Item targets wand items and restores charges according to spell skill/mastery behavior.
+- [ ] Inventory item mixing supports valid potion/reagent combinations and invalid-combination reactions.
+- [ ] Summon Wisp creates one wisp per cast and respects the summon limit.
+- [ ] Monster faction/relation overrides work for authored special actors such as the out05 Dragon Hunter Pet case.
+- [ ] Unique actor guaranteed drops work for authored special actors such as Jeric Whistlebone.
+- [ ] Save game and load game screens display saved screenshot previews consistently.
+- [ ] Dungeon transition dialogue uses the shared dialogue/video screen path and consumes MoveToMap transition data.
 
-## Behavioral Acceptance
+## Indoor Parity Acceptance
 
-- [ ] Outdoor projectile trails remain visible.
-- [ ] Outdoor projectile impact particles remain visible.
-- [ ] Outdoor party spell world FX remain visible.
-- [ ] Indoor projectile trails are visible for representative spells such as Fire Bolt, Sparks, and Dragon Breath.
-- [ ] Indoor projectile impact particles are visible.
-- [ ] Indoor party spell world FX use the same shared particle recipes as outdoor.
-- [ ] Indoor projectile sprite billboards and impact sprite billboards continue to render.
-- [ ] `NoGravity` projectile behavior and projectile collision behavior are not changed by the FX refactor.
-- [ ] Particle updates pause/resume consistently with current gameplay pause/cursor-mode behavior.
+- [ ] Indoor-only spell restrictions are enforced through shared spell rules, not duplicated UI/world checks.
+- [ ] Prismatic Light works indoors with correct victim collection, damage rules, and FX.
+- [ ] Soul Drinker works indoors through shared spell logic with indoor-specific victim collection only where needed.
+- [ ] Indoor Lua/status text events display through the shared status bar path.
+- [ ] Indoor face/decor/event dialogue activation opens the shared dialogue/house/NPC UI path.
+- [ ] Indoor save/load preserves spawned actors, placed actors, corpse state, NPC animation state, mechanisms, and
+  relevant runtime data.
+- [ ] Indoor non-lethal actor damage shows appropriate hit reaction when it is not blocked by dying/dead/active attack
+  state.
+- [ ] Indoor projectile damage, impact FX, impact status text, corpse loot, world-item inspect/identify/repair, and
+  outlines behave through the same shared gameplay services as outdoor.
 
 ## Validation Acceptance
 
 - [ ] `cmake --build build --target openyamm_unit_tests -j25`
 - [ ] `ctest --test-dir build --output-on-failure`
 - [ ] `cmake --build build --target openyamm -j25`
-- [ ] `timeout 300s build/game/openyamm --headless-run-regression-suite projectiles`
-- [ ] `timeout 300s build/game/openyamm --headless-run-regression-suite indoor`
-- [ ] Manual outdoor FX smoke recorded in `PROGRESS.md`.
-- [ ] Manual indoor FX smoke recorded in `PROGRESS.md`.
+- [ ] Relevant doctest coverage is added or updated for pure gameplay logic changed in this loop.
+- [ ] Relevant focused headless coverage is added or updated for map/runtime behavior that cannot be unit-tested.
+- [ ] Manual smoke notes are recorded in `PROGRESS.md` for behavior that cannot be validated headlessly.
+- [ ] Any intentionally deferred issue is recorded in `PROGRESS.md` with the reason it was not safe to continue.
 
 ## Done Definition
 
 This loop is done only when:
 
-- spell/projectile particle FX are shared by indoor and outdoor;
-- outdoor no longer owns generic particle system/rendering state;
-- indoor no longer uses a separate fallback for spell/projectile world FX;
-- the shared architecture is documented as complete in `PROGRESS.md`;
-- validation evidence is recorded in `PROGRESS.md`;
-- `PROGRESS.md` contains `## Done definition satisfied: YES`.
+- the executable queue in `TASK_QUEUE.md` has no unfinished high-priority tasks;
+- implemented gameplay fixes respect the shared indoor/outdoor architecture;
+- build, unit, and relevant focused runtime validation evidence is recorded in `PROGRESS.md`;
+- root `PROGRESS.md` contains `## Done definition satisfied: YES`.

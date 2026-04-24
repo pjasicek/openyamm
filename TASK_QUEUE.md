@@ -3,160 +3,176 @@
 ## Execution Rules
 
 - Use this file as the executable queue.
-- Use `docs/world_particle_fx_extraction_plan.md` as the authoritative detailed source.
-- Do not execute the detailed plan linearly if a smaller coherent slice is safer.
-- Keep slices reviewable and buildable.
-- Preserve outdoor behavior before wiring indoor.
-- Prefer coarse, direct shared ownership over callback-heavy purity.
-- Do not add indoor-only particle recipe code.
-- Do not refactor projectile gameplay/collision unless required by FX presentation wiring.
-- Run validation relevant to each slice.
-- Update this file and `PROGRESS.md` after each meaningful slice.
-- Do not copy OpenEnroth or mm_mapview2 code.
+- Use `implementation_plan.md` as the authoritative detailed source.
+- Do not execute the detailed plan linearly.
+- Work one coherent task or tightly related micro-batch at a time.
+- Prefer unit tests for pure logic and headless tests for runtime/map behavior.
+- Keep shared gameplay shared. Do not duplicate outdoor logic into indoor.
+- Consult local OpenEnroth only for behavior when needed. Do not copy code.
+- Keep the repository buildable after each meaningful slice.
+- Update `PROGRESS.md` after each meaningful slice.
+- Update this file when task status changes.
 
 ## Current Migration Order
 
-1. FX1 - Bootstrap shared world FX files and document current ownership leaks.
-2. FX2 - Extract particle render resources and renderer API away from `OutdoorGameView`.
-3. FX3 - Move `ParticleSystem` ownership and particle update cadence into shared `WorldFxSystem`.
-4. FX4 - Move projectile trail and impact particle spawning into shared `WorldFxSystem`.
-5. FX5 - Move party spell world FX spawning into shared `WorldFxSystem`.
-6. FX6 - Wire indoor rendering/update to the shared FX path.
-7. FX7 - Remove obsolete outdoor/indoor fallback ownership and simplify loops.
-8. FX8 - Validate, manually smoke indoor/outdoor FX, and close acceptance.
+1. BUG1 - Stabilize active indoor combat regressions and validate hit reactions.
+2. BUG2 - Stabilize indoor corpse/world-item interaction parity.
+3. BUG3 - Fix indoor event/status/dialogue activation gaps.
+4. FEATURE1 - Implement shared wand attack behavior.
+5. FEATURE2 - Implement Recharge Item and inventory item mixing.
+6. FEATURE3 - Implement Lloyd's Beacon screen, state, and save data.
+7. FEATURE4 - Implement remaining spell gaps: Summon Wisp, Prismatic Light, Soul Drinker, indoor-only spell gates.
+8. FEATURE5 - Implement monster relation overrides and unique actor guaranteed drops.
+9. FEATURE6 - Implement save screenshot preview and dungeon transition dialogue.
+10. SAVE1 - Implement indoor save/load parity for spawned/placed actors, corpses, mechanisms, and NPC animation state.
+11. FINAL - Cleanup, validation, and progress closeout.
+
+Reason:
+
+- active regressions should be fixed before adding feature surface area;
+- item/spell features should be shared before more indoor-specific parity work;
+- save/load parity is large and should happen after core runtime state is stable enough to serialize confidently.
 
 ## Ready
 
-### FX1 - Bootstrap Shared World FX Plan And Ownership Audit
+### BUG1 - Stabilize Indoor Combat Hit Reactions
 
-- [ ] Add shared files if needed:
-  - `game/fx/WorldFxSystem.h`
-  - `game/fx/WorldFxSystem.cpp`
-  - `game/fx/WorldFxRenderer.h`
-  - `game/fx/WorldFxRenderer.cpp`
-  - `game/fx/WorldFxRenderResources.h`
-  - `game/fx/WorldFxRenderResources.cpp`
-- [ ] Register new files in `game/CMakeLists.txt`.
-- [ ] Keep bootstrap empty/light if that makes the first slice easier to review.
-- [ ] Record current ownership leaks in `PROGRESS.md`:
-  - `OutdoorGameView::m_particleSystem`
-  - `ParticleRenderer` taking `OutdoorGameView &`
-  - particle shader/resource handles stored in outdoor view
-  - `OutdoorFxRuntime::syncRuntimeProjectiles`
-  - `OutdoorFxRuntime::triggerPartySpellFx`
-  - indoor `PendingSpellWorldFx`
-- [ ] Build if code changed.
+- [ ] Verify current behavior for indoor non-lethal damage from:
+  - party melee;
+  - party ranged/projectile spell;
+  - actor projectile;
+  - actor melee;
+  - area/collateral damage.
+- [ ] Identify whether hit reactions are missing because shared combat does not request them, indoor world hook drops
+  them, actor AI overwrites them, or animation selection/rendering ignores them.
+- [ ] Fix the smallest structural owner:
+  - shared combat if the reaction rule is shared;
+  - indoor world hook only if indoor actor animation state is not being translated correctly.
+- [ ] Preserve dying/dead animations and do not interrupt active attacks unless OpenEnroth behavior indicates that it
+  should.
+- [ ] Add doctest coverage for any pure hit-reaction rule.
+- [ ] Add or update focused headless coverage if runtime actor state is observable.
+- [ ] Build and run relevant validation.
 - [ ] Update `PROGRESS.md`.
 
-### FX2 - Extract Particle Renderer Resources
+### BUG2 - Stabilize Indoor Corpse And World-Item Interaction Parity
 
-- [ ] Introduce `WorldFxRenderResources` with:
-  - particle program handle;
-  - particle parameter uniform;
-  - texture sampler handle needed by particles;
-  - generated particle material textures;
-  - particle material texture handle indices;
-  - reusable particle vertex batches.
-- [ ] Change particle resource initialization to operate on `WorldFxRenderResources`, not `OutdoorGameView`.
-- [ ] Keep generated particle textures shared and still sourced from current procedural builders.
-- [ ] Make outdoor initialize and shutdown the shared render resources.
-- [ ] Keep outdoor rendering unchanged visually.
-- [ ] Build `openyamm`.
+- [ ] Verify corpse looting, corpse disappearance, corpse outline, corpse inspect, and Space/E target selection.
+- [ ] Verify world item pickup, inspect, identify/repair service use, outline, and billboard ray picking.
+- [ ] Ensure item/corpse gameplay actions use shared item/interaction services where possible.
+- [ ] Keep indoor-specific code limited to world hit facts, billboard picking, corpse/world-item lookup, and removal from
+  BLV runtime state.
+- [ ] Add unit tests for shared item/interaction decision logic if changed.
+- [ ] Add focused headless coverage if corpse/world-item runtime state is observable.
+- [ ] Build and run relevant validation.
 - [ ] Update `PROGRESS.md`.
 
-### FX3 - Extract Particle Renderer API
+### BUG3 - Fix Indoor Event, Status Text, And Dialogue Activation Gaps
 
-- [ ] Replace `ParticleRenderer::renderParticles(OutdoorGameView &, ...)` with a shared renderer call taking:
-  - `WorldFxRenderResources &`;
-  - `const ParticleSystem &`;
-  - view id;
-  - view matrix;
-  - camera position;
-  - aspect ratio.
-- [ ] Keep the render batching and sorting logic in shared renderer code.
-- [ ] Remove direct access to outdoor billboard texture arrays from particle rendering.
-- [ ] Keep outdoor render loop readable with a single shared particle render call.
-- [ ] Build `openyamm`.
-- [ ] Run `ctest --test-dir build --output-on-failure` if unit-test build is affected.
+- [ ] Audit indoor hover-only faces and Lua status text routing.
+- [ ] Ensure status text reaches the shared status bar path.
+- [ ] Audit indoor face/decor/door dialogue activation.
+- [ ] Reuse the shared dialogue/house/NPC UI path; do not create an indoor dialogue renderer.
+- [ ] Include pressure plates, event-spawned spell handling, and missing indoor event opcodes if they are directly tied
+  to activation flow.
+- [ ] Add headless coverage for event/status/dialogue cases where feasible.
+- [ ] Build and run relevant validation.
 - [ ] Update `PROGRESS.md`.
 
-### FX4 - Move ParticleSystem To Shared WorldFxSystem
+### FEATURE1 - Implement Shared Wand Attack Behavior
 
-- [ ] Add `WorldFxSystem` ownership for `ParticleSystem`.
-- [ ] Move particle update accumulator/cadence out of `OutdoorGameView`.
-- [ ] Preserve current cadence:
-  - update at `1.0f / 30.0f`;
-  - clamp accumulated particle time to `0.25f`;
-  - do not update while gameplay cursor-mode pause is active.
-- [ ] Outdoor uses `WorldFxSystem::updateParticles(...)` or equivalent direct readable method.
-- [ ] Remove `OutdoorGameView::m_particleSystem`.
-- [ ] Remove `OutdoorWorldRuntime::setParticleSystem` if only generic spell FX still needs it.
-- [ ] Build `openyamm`.
+- [ ] Inspect data tables and local OpenEnroth behavior for wand item type, charges, spell mapping, mastery/skill, and
+  empty-charge behavior.
+- [ ] Implement wand equip/use as shared item/combat/spell action behavior.
+- [ ] Route wand firing through the shared attack/spell projectile path, not an outdoor-only branch.
+- [ ] Consume one charge per successful wand fire.
+- [ ] Handle zero charges consistently with broken/empty behavior.
+- [ ] Add doctest coverage for wand selection, charge consumption, and empty-charge behavior.
+- [ ] Build and run relevant validation.
 - [ ] Update `PROGRESS.md`.
 
-### FX5 - Move Projectile Trail / Impact Particles To Shared WorldFxSystem
+### FEATURE2 - Implement Recharge Item And Inventory Item Mixing
 
-- [ ] Move projectile trail cooldown map from `OutdoorFxRuntime` to `WorldFxSystem`.
-- [ ] Move seen impact id set from `OutdoorFxRuntime` to `WorldFxSystem`.
-- [ ] Move projectile trail particle spawning from `OutdoorFxRuntime::syncRuntimeProjectiles` to shared FX code.
-- [ ] Move dedicated projectile impact particle spawning from `OutdoorFxRuntime::syncRuntimeProjectiles` to shared FX
-  code.
-- [ ] Pull projectile presentation state from `GameplayFxService` or `GameplayProjectileService` directly.
-- [ ] Keep contact shadows/lights/glow as shared renderable FX state if they are still used by outdoor.
-- [ ] Do not add a large projectile-FX request/decision API.
-- [ ] Build `openyamm`.
-- [ ] Run `timeout 300s build/game/openyamm --headless-run-regression-suite projectiles`.
+- [ ] Implement Recharge Item as shared spell/item targeting for wand items.
+- [ ] Restore charges according to spell skill/mastery behavior from data/reference behavior.
+- [ ] Implement inventory mixing as shared inventory held-item-over-target behavior.
+- [ ] Use `data_tables/english/potion.txt` or loaded repository data for valid potion/reagent combinations.
+- [ ] Handle invalid combinations and character reactions.
+- [ ] Add doctest coverage for valid recharge, invalid recharge target, valid mix, invalid mix, and consumed/created
+  item state.
+- [ ] Build and run relevant validation.
 - [ ] Update `PROGRESS.md`.
 
-### FX6 - Move Party Spell World FX To Shared WorldFxSystem
+### FEATURE3 - Implement Lloyd's Beacon
 
-- [ ] Move `OutdoorFxRuntime::triggerPartySpellFx(ParticleSystem &, const PartySpellCastResult &)` into shared FX code.
-- [ ] Expose a direct shared call such as `WorldFxSystem::triggerPartySpellFx(const PartySpellCastResult &)`.
-- [ ] Outdoor successful spell casts call the shared FX system.
-- [ ] Indoor `applyPendingSpellCastWorldEffects` calls the same shared FX system.
-- [ ] Keep portrait spell FX in shared UI/gameplay UI code; this task is only world particles.
-- [ ] Build `openyamm`.
+- [ ] Add `lloyds_beacon.yml` with the requested full-screen layout, Recall, Set, Close, and five beacon slot buttons.
+- [ ] Implement shared Lloyd's Beacon UI state:
+  - recall mode;
+  - set mode;
+  - five saved beacon slots;
+  - location name;
+  - remaining duration;
+  - screenshot preview.
+- [ ] Implement set-beacon duration based on Water skill/mastery.
+- [ ] Implement recall teleport and exit back to gameplay.
+- [ ] Persist beacon data in save files.
+- [ ] Add doctest coverage for duration/state calculations and save data round-trip if feasible.
+- [ ] Build and run relevant validation.
 - [ ] Update `PROGRESS.md`.
 
-### FX7 - Wire Indoor Shared Particle Rendering
+### FEATURE4 - Implement Remaining Spell Gaps
 
-- [ ] Indoor initializes `WorldFxRenderResources`.
-- [ ] Indoor calls shared `WorldFxSystem` update once per frame with the same pause/cursor-mode behavior as outdoor.
-- [ ] Indoor render loop calls shared particle renderer after indoor world geometry/billboards and before HUD.
-- [ ] Indoor projectile trails appear from shared projectile presentation state.
-- [ ] Indoor impact particles appear from shared impact presentation state.
-- [ ] Indoor party spell world particles appear from shared spell FX calls.
-- [ ] Build `openyamm`.
-- [ ] Run `timeout 300s build/game/openyamm --headless-run-regression-suite indoor`.
+- [ ] Fix Summon Wisp to summon one wisp per cast while respecting the limit.
+- [ ] Add indoor/outdoor spell availability gates for spells such as Meteor Shower and Starburst through shared spell
+  rules.
+- [ ] Implement Prismatic Light with correct damage/victim collection and shared FX.
+- [ ] Enable/fix Soul Drinker indoors using shared spell logic and indoor victim collection.
+- [ ] Add doctest coverage for spell availability and pure spell outcomes.
+- [ ] Add focused headless coverage for summon and indoor spell effects if feasible.
+- [ ] Build and run relevant validation.
 - [ ] Update `PROGRESS.md`.
 
-### FX8 - Cleanup Obsolete FX Ownership
+### FEATURE5 - Monster Relations And Unique Drops
 
-- [ ] Remove indoor `PendingSpellWorldFx` data, update, render, and trigger methods if the shared path replaces them.
-- [ ] Delete or reduce `OutdoorFxRuntime` to only truly outdoor-specific weather/decoration emitters.
-- [ ] Remove unused outdoor particle members, friend declarations, and resource plumbing.
-- [ ] Remove redundant projectile impact fallback paths that now duplicate shared FX.
-- [ ] Static-audit for dead references:
-  - `rg "PendingSpellWorldFx|triggerPendingSpellWorldFx|m_particleSystem|setParticleSystem|syncRuntimeProjectiles"`
-- [ ] Build `openyamm_unit_tests`.
-- [ ] Run ctest.
-- [ ] Build `openyamm`.
+- [ ] Inspect authored actor override data and local OpenEnroth behavior for monster relation overrides.
+- [ ] Fix relation/faction resolution for special authored actors such as out05 Dragon Hunter Pet.
+- [ ] Inspect authored actor special drop data and local OpenEnroth behavior.
+- [ ] Fix guaranteed drops for special authored actors such as Jeric Whistlebone.
+- [ ] Add unit/headless coverage for relation override and guaranteed-drop cases where feasible.
+- [ ] Build and run relevant validation.
 - [ ] Update `PROGRESS.md`.
 
-### FX9 - Final Validation And Manual Smoke
+### FEATURE6 - Save Screenshot Preview And Dungeon Transition Dialogue
 
-- [ ] Run `cmake --build build --target openyamm_unit_tests -j25`.
-- [ ] Run `ctest --test-dir build --output-on-failure`.
-- [ ] Run `cmake --build build --target openyamm -j25`.
-- [ ] Run `timeout 300s build/game/openyamm --headless-run-regression-suite projectiles`.
-- [ ] Run `timeout 300s build/game/openyamm --headless-run-regression-suite indoor`.
-- [ ] Record manual outdoor smoke:
-  - projectile trails visible;
-  - projectile impacts visible;
-  - party spell world FX visible.
-- [ ] Record manual indoor smoke:
-  - Fire Bolt / Sparks / Dragon Breath trails visible;
-  - impacts visible;
-  - party spell world FX visible;
-  - projectile billboards still visible.
-- [ ] Mark acceptance done only if all criteria are satisfied.
+- [ ] Fix save-game screen preview display for existing saves using the same screenshot data path as load game.
+- [ ] Implement dungeon transition dialogue from Lua `MoveToMap` data using the shared dialogue screen.
+- [ ] Reuse transition videos from `assets_dev/Videos/Transitions/`.
+- [ ] Resolve transition text from `trans.txt`.
+- [ ] Use a small mapping table only if no authored data maps dungeons to transition videos/images.
+- [ ] Add tests for non-render logic where feasible.
+- [ ] Build and run relevant validation.
+- [ ] Update `PROGRESS.md`.
+
+### SAVE1 - Indoor Save/Load Parity
+
+- [ ] Audit current indoor save/load gaps:
+  - spawned actors;
+  - placed actors;
+  - corpse and loot exhaustion state;
+  - NPC animation state;
+  - mechanisms/doors;
+  - map event state needed after reload.
+- [ ] Inspect local OpenEnroth for which BLV/DLV runtime fields are persisted.
+- [ ] Persist only real runtime state, not renderer-derived state.
+- [ ] Add headless save/load coverage for representative indoor actors, corpses, and mechanisms.
+- [ ] Build and run relevant validation.
+- [ ] Update `PROGRESS.md`.
+
+### FINAL - Cleanup And Validation Closeout
+
+- [ ] Static-audit for stale diagnostics and temporary logs.
+- [ ] Static-audit for new indoor/outdoor duplication in shared gameplay areas.
+- [ ] Run default validation.
+- [ ] Run relevant focused headless suites.
+- [ ] Update `ACCEPTANCE.md`.
+- [ ] Set `PROGRESS.md` done definition to YES only if acceptance is satisfied.

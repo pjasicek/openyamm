@@ -141,6 +141,38 @@ Indoor/outdoor shared gameplay rule:
 
 ---
 
+# Current Wiggum Loop
+
+Active loop:
+
+* Overnight missing-features and bugfixes.
+
+Authoritative files:
+
+* Master plan: `implementation_plan.md`
+* Executable queue: `TASK_QUEUE.md`
+* Acceptance: `ACCEPTANCE.md`
+* Progress: `PROGRESS.md`
+* Runner: `scripts/run_refactor.sh`
+
+Loop rules:
+
+* Do not execute `implementation_plan.md` linearly.
+* Use `TASK_QUEUE.md` as the executable task order.
+* Work one coherent implementation slice at a time, or a tightly related micro-batch when needed to keep the build
+  passing.
+* Prioritize active regressions before larger features.
+* Keep shared gameplay fixes in shared gameplay systems unless the behavior truly depends on BLV/ODM world data.
+* Do not duplicate outdoor gameplay paths into indoor.
+* Do not add callback bags or forwarding adapters that only hide duplicated ownership.
+* Add doctest/unit coverage for pure logic when feasible.
+* Add focused headless coverage for runtime/map behavior when unit tests are not enough.
+* Update `PROGRESS.md` and `TASK_QUEUE.md` after each meaningful slice.
+* Update `ACCEPTANCE.md` only when criteria are actually satisfied.
+* Remove temporary diagnostics and noisy logs before marking a task complete.
+
+---
+
 # Asset Formats
 
 OpenYAMM keeps original formats whenever possible.
@@ -238,73 +270,5 @@ Video system responsibilities:
 Editor must reuse runtime engine systems.
 
 Avoid duplicating gameplay logic.
-
----
-
-# Current subsystem refactor loops
-
-Authoritative source:
-
-- `docs/world_particle_fx_extraction_plan.md`
-
-Execution control files:
-
-- `PLAN.md`
-- `ACCEPTANCE.md`
-- `TASK_QUEUE.md`
-- `PROGRESS.md`
-
-Execution rules:
-
-- `docs/world_particle_fx_extraction_plan.md` is authoritative for the current refactor loop.
-- Do not execute the detailed plan linearly if a smaller coherent slice is safer.
-- Use `PLAN.md` for condensed goals.
-- Use `TASK_QUEUE.md` as the executable work queue.
-- Work in small coherent extraction batches.
-- Keep particle FX shared by default.
-- Extract `ParticleRenderer`, particle render resources, `ParticleSystem` ownership, projectile trail/impact particles,
-  and party spell world particles into shared FX code.
-- Outdoor/indoor should only supply genuinely world-specific facts such as view/camera, floor placement, visibility, or
-  world-specific emitters.
-- Do not add indoor-only spell/projectile particle recipes.
-- Do not add callback bags or adapter layers that only hide duplicated ownership.
-- Keep the implementation coarse and readable; avoid `Decision`, `Patch`, `EffectDecision`, command-vector, or
-  micro-struct extraction plumbing unless it is truly necessary.
-- Preserve outdoor particle behavior before wiring indoor.
-- Keep the repository buildable after each meaningful slice.
-- Update `TASK_QUEUE.md` and `PROGRESS.md` after each meaningful slice.
-
-Validation commands:
-
-- `cmake --build build --target openyamm_unit_tests -j25`
-- `ctest --test-dir build --output-on-failure`
-- `cmake --build build --target openyamm -j25`
-
-Focused validation guidance:
-
-- Run `timeout 300s build/game/openyamm --headless-run-regression-suite projectiles` after projectile FX ownership
-  changes.
-- Run `timeout 300s build/game/openyamm --headless-run-regression-suite indoor` after indoor FX wiring changes.
-- Manual smoke is required before closing the loop:
-  - outdoor projectile trails and impact particles visible;
-  - outdoor party spell world particles visible;
-  - indoor Fire Bolt / Sparks / Dragon Breath trails visible;
-  - indoor projectile impact particles visible;
-  - indoor party spell world particles visible.
-
-Stopping conditions:
-
-- Stop only if all acceptance criteria are satisfied and recorded in `PROGRESS.md`.
-- Or if `PROGRESS.md` contains exactly: `- Hard blocker: YES`
-
-Context recovery:
-
-- If context becomes compressed or unclear, re-read:
-  - `AGENTS.md`
-  - `PLAN.md`
-  - `ACCEPTANCE.md`
-  - `TASK_QUEUE.md`
-  - `PROGRESS.md`
-  - `docs/world_particle_fx_extraction_plan.md`
 
 ---

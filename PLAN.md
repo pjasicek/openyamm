@@ -2,87 +2,72 @@
 
 ## Objective
 
-Extract spell/projectile particle FX into a shared world FX subsystem used by both outdoor and indoor runtime/rendering.
-Outdoor behavior should remain visually equivalent, while indoor gains the same projectile trail, projectile impact, and
-party spell world particle FX path instead of renderer-local fallback quads.
+Execute the overnight missing-features and bugfix loop from `implementation_plan.md` in coherent, reviewable slices.
+The target is not broad architecture churn; it is closing concrete gameplay gaps while preserving the shared
+indoor/outdoor ownership model.
 
 Authoritative detailed plan:
 
-- `docs/world_particle_fx_extraction_plan.md`
+- `implementation_plan.md`
 
-## Target Architecture
+Executable queue:
 
-The end state should be easy to read in the frame loop:
+- `TASK_QUEUE.md`
 
-```cpp
-activeWorld->updateWorld(deltaSeconds);
-worldFxSystem.update(gameSession, *activeWorld, cameraState, deltaSeconds, gameplayPaused);
-activeWorld->renderWorldGeometry();
-worldFxRenderer.render(worldFxSystem, cameraState);
-gameplayUi.render();
-```
+## Current Scope
 
-Shared ownership:
+This loop covers the missing gameplay features and regressions currently blocking indoor/outdoor parity work:
 
-- `WorldFxSystem` owns `ParticleSystem`, projectile trail cooldowns, seen impact ids, shared glow billboards, shared
-  light emitters, shared contact shadows, party spell FX spawning, and projectile trail/impact particle spawning.
-- `WorldFxRenderer` owns particle rendering against shared render resources, not `OutdoorGameView`.
-- `WorldFxRenderResources` owns particle shaders, generated particle textures, material texture handles, and particle
-  vertex batches.
+- shared spell/item feature gaps such as Lloyd's Beacon, wands, Recharge Item, item mixing, Summon Wisp, monster
+  relations, unique actor drops, save screenshot handling, and dungeon transition dialogue;
+- indoor parity gaps such as disabled-indoor spell gates, Prismatic Light, Soul Drinker, status text from events,
+  dialogue activation, and save/load runtime state;
+- active indoor combat and interaction regressions discovered during BLV work, including hit reactions, projectile
+  impact feedback, corpse/world-item interaction, actor picking/outline behavior, and event/mechanism behavior.
 
-World-specific ownership:
+## Architecture Rules
 
-- outdoor/indoor provide camera state, render view ids, world visibility/floor facts where actually needed, and
-  world-specific geometry/decal/collision behavior.
-- outdoor/indoor do not own spell/projectile particle recipes or duplicate particle spawning logic.
+- Treat shared gameplay as shared by default.
+- Do not add indoor-only or outdoor-only gameplay fixes unless the behavior truly depends on BLV/ODM world data.
+- Prefer fixing shared gameplay services or active-world hooks over adding branches to `IndoorGameView` or
+  `OutdoorGameView`.
+- Keep world-specific code limited to map loading, geometry, visibility, picking, LOS, collision, floor resolution,
+  movement integration, projectile collision against world geometry, mechanism/event/decor lookup, and decal placement.
+- Do not add adapter/callback layers that only hide duplicated ownership.
+- Use local OpenEnroth only as a behavioral reference. Do not copy code.
 
-## Current Priority
+## Execution Rules
 
-1. Make the renderer and resources independent of `OutdoorGameView`.
-2. Move `ParticleSystem` ownership out of `OutdoorGameView` into shared FX runtime.
-3. Move projectile trail/impact and party spell world FX spawning from `OutdoorFxRuntime`/indoor fallback into shared
-   `WorldFxSystem`.
-4. Wire outdoor first without visual regression, then wire indoor to the same shared path.
-5. Remove obsolete indoor fallback FX and obsolete outdoor-only particle ownership.
-
-## Rules
-
-- Use `TASK_QUEUE.md` as the executable queue.
-- Use `docs/world_particle_fx_extraction_plan.md` as the authoritative source of truth for this loop.
-- Do not execute the detailed plan linearly if a different coherent slice is safer.
-- Keep implementation coarse and readable; avoid micro-structs, `Decision`/`Patch`/`EffectDecision` vocabulary, and
-  callback bags that only hide ownership.
-- Do not copy OpenEnroth or mm_mapview2 code.
-- Preserve outdoor visuals while moving ownership.
-- Implement indoor using the same shared particle FX system, not an indoor-specific duplicate.
-- Keep the repository buildable after each meaningful slice.
-- Update `TASK_QUEUE.md` and `PROGRESS.md` after each meaningful slice.
+- Do not execute `implementation_plan.md` linearly.
+- Use `TASK_QUEUE.md` as the executable migration order.
+- Work one coherent task or tightly related micro-batch at a time.
+- Update `PROGRESS.md` after each meaningful slice with behavior changed, files touched at a high level, validation,
+  and residual risk.
+- Update `ACCEPTANCE.md` only when criteria are actually satisfied.
+- Prefer doctest/unit coverage for pure logic. Use headless tests for runtime/map behavior that cannot be isolated.
+- Remove temporary diagnostics, noisy logs, and profiling hooks before considering a slice done.
 
 ## Validation
 
-Primary validation:
+Default validation after runtime C++ changes:
 
-- `cmake --build build --target openyamm_unit_tests -j25`
-- `ctest --test-dir build --output-on-failure`
-- `cmake --build build --target openyamm -j25`
+```bash
+cmake --build build --target openyamm_unit_tests -j25
+ctest --test-dir build --output-on-failure
+cmake --build build --target openyamm -j25
+```
 
-Focused validation:
+Focused validation should match the touched subsystem:
 
-- `timeout 300s build/game/openyamm --headless-run-regression-suite projectiles`
-- `timeout 300s build/game/openyamm --headless-run-regression-suite indoor`
-
-Manual smoke expected before final acceptance:
-
-- outdoor projectile trails and impact particles still visible;
-- outdoor party spell world FX still visible;
-- indoor Fire Bolt / Sparks / Dragon Breath trails visible;
-- indoor spell/projectile impact particles visible;
-- indoor projectile billboards still render as before.
+- spell/item logic: unit tests first, then focused headless spell/item coverage if available;
+- indoor world behavior: focused indoor headless coverage where possible, plus manual BLV smoke notes in `PROGRESS.md`;
+- dialogue/save/event behavior: focused headless coverage where available;
+- performance-sensitive fixes: capture the relevant `gprof.txt` observation before and after only when performance is
+  the task.
 
 ## Anti-Goals
 
-- Do not rewrite projectile gameplay or collision as part of this slice.
-- Do not introduce a large abstract FX graph.
-- Do not add dozens of structs/enums to make the seam artificially pure.
-- Do not add an indoor-only particle implementation.
-- Do not move unrelated weather/decoration FX before projectile/spell parity is stable.
+- Do not run a broad cleanup/refactor without a direct bugfix or feature target.
+- Do not duplicate outdoor gameplay paths into indoor.
+- Do not add speculative rendering/physics rewrites while implementing unrelated gameplay features.
+- Do not leave debug behavior enabled by default.

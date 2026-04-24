@@ -2,78 +2,67 @@
 
 ## Current status
 
-- Overall completion: not started.
-- Current focus: shared world particle FX extraction for indoor/outdoor parity.
+- Overall completion: new overnight missing-features/bugfixes loop initialized.
+- Current focus: BUG1, stabilizing active indoor combat hit reactions and confirming the correct owner for any
+  remaining missing reaction behavior.
 - Hard blocker: NO
 
 ## Done definition satisfied: NO
 
 ## Authoritative source
 
-- `docs/world_particle_fx_extraction_plan.md`
+- `implementation_plan.md`
 
 ## Chosen migration order
 
-1. Bootstrap shared FX files and lock ownership expectations.
-2. Extract particle render resources/API out of `OutdoorGameView`.
-3. Move `ParticleSystem` ownership and update cadence into shared `WorldFxSystem`.
-4. Move projectile trail/impact particle spawning into shared `WorldFxSystem`.
-5. Move party spell world FX spawning into shared `WorldFxSystem`.
-6. Wire indoor to the same shared update/render path.
-7. Remove obsolete outdoor/indoor fallback ownership.
-8. Validate with unit, focused headless, and manual smoke.
+1. Stabilize active indoor combat regressions and validate hit reactions.
+2. Stabilize indoor corpse/world-item interaction parity.
+3. Fix indoor event/status/dialogue activation gaps.
+4. Implement shared wand attack behavior.
+5. Implement Recharge Item and inventory item mixing.
+6. Implement Lloyd's Beacon.
+7. Implement remaining spell gaps: Summon Wisp, Prismatic Light, Soul Drinker, and indoor-only spell gates.
+8. Implement monster relation overrides and unique actor guaranteed drops.
+9. Implement save screenshot preview and dungeon transition dialogue.
+10. Implement indoor save/load parity.
+11. Cleanup, validation, and closeout.
 
 Reason:
 
-- outdoor currently has the only real particle stack;
-- indoor currently has only renderer-local fallback quads for spell/impact FX;
-- projectile/spell FX are gameplay presentation systems and should be shared by default;
-- extracting render resources first reduces risk because outdoor can stay visually stable while ownership moves;
-- indoor should plug into the finished shared path rather than receive duplicate particle recipe code.
+- active regressions should be removed before adding larger feature state;
+- shared item/spell/combat mechanics should be implemented once before indoor-specific parity depends on them;
+- save/load should be handled after the relevant runtime state is stable enough to serialize.
 
 ## First ownership leaks to attack
 
-- `game/outdoor/OutdoorGameView.h`: `m_particleSystem` is outdoor-owned even though particles are shared gameplay FX.
-- `game/fx/ParticleRenderer.h`: renderer API takes `OutdoorGameView &`.
-- `game/outdoor/OutdoorGameView.h`: particle shader handles, texture indices, and vertex batches are outdoor-owned.
-- `game/outdoor/OutdoorFxRuntime.cpp`: projectile trail/impact particles are outdoor-owned in
-  `syncRuntimeProjectiles`.
-- `game/outdoor/OutdoorFxRuntime.cpp`: party spell world particles are outdoor-owned in `triggerPartySpellFx`.
-- `game/indoor/IndoorRenderer.cpp`: `PendingSpellWorldFx` is an indoor-only fallback and should disappear after shared
-  particle FX are wired.
-- `game/indoor/IndoorWorldRuntime.cpp`: indoor routes impact visuals to the fallback renderer path instead of shared
-  particle FX.
-
-## Current expected end state
-
-- `WorldFxSystem` owns `ParticleSystem`, projectile trail cooldowns, seen impact ids, and shared FX renderable state.
-- `WorldFxRenderer` renders particles from `ParticleSystem` without knowing indoor/outdoor view classes.
-- `WorldFxRenderResources` owns particle shaders, uniforms, procedural particle textures, material texture handles, and
-  render batches.
-- Outdoor and indoor call the same shared FX update/render functions.
-- Indoor and outdoor spell/projectile particle FX are visually driven by the same `FxRecipes`.
+- Indoor actor hit reaction still risks living as indoor-only damage glue. Confirm whether the rule belongs in shared
+  combat and leave indoor responsible only for applying world actor animation state.
+- Indoor corpse/world-item interaction still risks diverging from outdoor. The shared item/interaction service should
+  decide inspect, identify, repair, pickup, transfer, and loot actions; indoor should only supply hit facts and mutate
+  BLV runtime storage.
+- Indoor status/dialogue activation still risks bypassing shared UI. Event activation should feed shared status text
+  and dialogue systems, with indoor only resolving faces/decor/mechanisms/events.
+- Wand, Recharge Item, item mixing, Lloyd's Beacon, and spell gating are shared gameplay features and should not be
+  implemented under outdoor or indoor views.
 
 ## Validation baseline
 
-Primary:
+Default:
 
-- `cmake --build build --target openyamm_unit_tests -j25`
-- `ctest --test-dir build --output-on-failure`
-- `cmake --build build --target openyamm -j25`
+```bash
+cmake --build build --target openyamm_unit_tests -j25
+ctest --test-dir build --output-on-failure
+cmake --build build --target openyamm -j25
+```
 
-Focused:
+Focused validation should be selected by the task:
 
-- `timeout 300s build/game/openyamm --headless-run-regression-suite projectiles`
-- `timeout 300s build/game/openyamm --headless-run-regression-suite indoor`
-
-Manual:
-
-- outdoor projectile trail/impact/party spell FX smoke;
-- indoor projectile trail/impact/party spell FX smoke.
+- doctest/unit tests for pure item/spell/combat decision logic;
+- focused headless tests for map/runtime/save/event behavior;
+- manual BLV/ODM smoke notes only for behavior that cannot be validated automatically.
 
 ## Current slice evidence
 
-- 2026-04-24: Reset `PLAN.md`, `ACCEPTANCE.md`, `TASK_QUEUE.md`, `PROGRESS.md`, `scripts/run_refactor.sh`, and the
-  current subsystem section of `AGENTS.md` to the world particle FX extraction loop.
-- 2026-04-24: Added `docs/world_particle_fx_extraction_plan.md` as the authoritative detailed source for this loop.
-- 2026-04-24: No implementation refactor has started yet.
+- 2026-04-25: Reset the wiggum-loop control docs to the overnight missing-features/bugfixes loop.
+- 2026-04-25: `implementation_plan.md` is now the authoritative detailed source.
+- 2026-04-25: `TASK_QUEUE.md` defines the executable order and first concrete ownership leaks.
