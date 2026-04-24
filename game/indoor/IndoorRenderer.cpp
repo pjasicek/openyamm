@@ -136,7 +136,7 @@ bool updateDynamicVertexBuffer(
 
 constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 2;
-constexpr size_t MaxIndoorShaderLights = MaxIndoorRenderLights;
+constexpr size_t MaxIndoorShaderLights = MaxIndoorDrawLights;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float HoveredActorOutlineThicknessPixels = 2.0f;
@@ -1287,99 +1287,6 @@ float alphaChannel(uint32_t colorAbgr)
     return static_cast<float>((colorAbgr >> 24) & 0xffu) / 255.0f;
 }
 
-float indoorShaderLightKindWeight(IndoorRenderLightKind kind)
-{
-    switch (kind)
-    {
-    case IndoorRenderLightKind::Fx:
-        return 12.0f;
-    case IndoorRenderLightKind::Torch:
-        return 10.0f;
-    case IndoorRenderLightKind::Decoration:
-        return 8.0f;
-    case IndoorRenderLightKind::Static:
-        return 1.0f;
-    }
-
-    return 1.0f;
-}
-
-bool indoorLightMatchesFocusSector(const IndoorRenderLight &light, int16_t focusSectorId, int16_t focusBackSectorId)
-{
-    return light.sectorId >= 0
-        && (light.sectorId == focusSectorId || light.sectorId == focusBackSectorId);
-}
-
-float indoorShaderLightScore(
-    const IndoorRenderLight &light,
-    const bx::Vec3 &cameraPosition,
-    int16_t focusSectorId,
-    int16_t focusBackSectorId)
-{
-    const float dx = light.position.x - cameraPosition.x;
-    const float dy = light.position.y - cameraPosition.y;
-    const float dz = light.position.z - cameraPosition.z;
-    const float distance = std::max(std::sqrt(dx * dx + dy * dy + dz * dz), 1.0f);
-    const float sectorPriority =
-        indoorLightMatchesFocusSector(light, focusSectorId, focusBackSectorId) ? 1000000.0f : 0.0f;
-    return sectorPriority + light.radius * light.intensity * indoorShaderLightKindWeight(light.kind) / distance;
-}
-
-void fillIndoorLightUniformArrays(
-    const IndoorLightingFrame &lightingFrame,
-    const bx::Vec3 &cameraPosition,
-    std::array<float, MaxIndoorShaderLights * 4> &positions,
-    std::array<float, MaxIndoorShaderLights * 4> &colors,
-    std::array<float, 4> &params,
-    int16_t focusSectorId = -1,
-    int16_t focusBackSectorId = -1)
-{
-    positions.fill(0.0f);
-    colors.fill(0.0f);
-
-    const std::vector<IndoorRenderLight> *pShaderLights = &lightingFrame.lights;
-    std::vector<IndoorRenderLight> rankedLights;
-
-    if (lightingFrame.lights.size() > MaxIndoorShaderLights)
-    {
-        rankedLights = lightingFrame.lights;
-        std::sort(
-            rankedLights.begin(),
-            rankedLights.end(),
-            [&cameraPosition, focusSectorId, focusBackSectorId](
-                const IndoorRenderLight &left,
-                const IndoorRenderLight &right)
-            {
-                return indoorShaderLightScore(left, cameraPosition, focusSectorId, focusBackSectorId)
-                    > indoorShaderLightScore(right, cameraPosition, focusSectorId, focusBackSectorId);
-            });
-        pShaderLights = &rankedLights;
-    }
-
-    const size_t lightCount = std::min(pShaderLights->size(), MaxIndoorShaderLights);
-
-    for (size_t index = 0; index < lightCount; ++index)
-    {
-        const IndoorRenderLight &light = (*pShaderLights)[index];
-        const size_t base = index * 4;
-        positions[base + 0] = light.position.x;
-        positions[base + 1] = light.position.y;
-        positions[base + 2] = light.position.z;
-        positions[base + 3] = light.radius;
-        colors[base + 0] = redChannel(light.colorAbgr);
-        colors[base + 1] = greenChannel(light.colorAbgr);
-        colors[base + 2] = blueChannel(light.colorAbgr);
-        colors[base + 3] = alphaChannel(light.colorAbgr) * light.intensity;
-    }
-
-    params = {{
-        static_cast<float>(lightCount),
-        lightingFrame.ambient,
-        1.35f,
-        0.0f
-    }};
-}
-
 std::array<float, 4> billboardAmbientUniform(
     const IndoorLightingFrame &lightingFrame,
     const bx::Vec3 &position)
@@ -2085,10 +1992,11 @@ std::vector<int16_t> IndoorRenderer::visibleIndoorMapRevealSectorIds(int16_t sec
     const float cosYaw = std::cos(m_cameraYawRadians);
     const float sinYaw = std::sin(m_cameraYawRadians);
     const bx::Vec3 eye = {m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ};
+    const bx::Vec3 viewForward = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
     const bx::Vec3 at = {
-        m_cameraPositionX + cosYaw * cosPitch,
-        m_cameraPositionY + sinYaw * cosPitch,
-        m_cameraPositionZ + sinPitch
+        m_cameraPositionX + viewForward.x,
+        m_cameraPositionY + viewForward.y,
+        m_cameraPositionZ + viewForward.z
     };
     const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
     float viewMatrix[16] = {};
@@ -2346,12 +2254,13 @@ void IndoorRenderer::render(
     const float sinPitch = std::sin(m_cameraPitchRadians);
     const float cosYaw = std::cos(m_cameraYawRadians);
     const float sinYaw = std::sin(m_cameraYawRadians);
+    const bx::Vec3 viewForward = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
 
     const bx::Vec3 eye = {m_cameraPositionX, m_cameraPositionY, m_cameraPositionZ};
     const bx::Vec3 at = {
-        m_cameraPositionX + cosYaw * cosPitch,
-        m_cameraPositionY + sinYaw * cosPitch,
-        m_cameraPositionZ + sinPitch
+        m_cameraPositionX + viewForward.x,
+        m_cameraPositionY + viewForward.y,
+        m_cameraPositionZ + viewForward.z
     };
     const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
 
@@ -2384,10 +2293,8 @@ void IndoorRenderer::render(
     lightingInput.cameraPosition = eye;
     lightingInput.coloredLights = settings.coloredLights;
     const IndoorLightingFrame lightingFrame = m_indoorLightingRuntime.buildFrame(lightingInput);
-    std::array<float, MaxIndoorShaderLights * 4> indoorLightPositions = {};
-    std::array<float, MaxIndoorShaderLights * 4> indoorLightColors = {};
-    std::array<float, 4> indoorLightParams = {};
-    fillIndoorLightUniformArrays(lightingFrame, eye, indoorLightPositions, indoorLightColors, indoorLightParams);
+    const IndoorDrawLightSet defaultLightSet =
+        IndoorLightingRuntime::selectDrawLightSetForPoint(lightingFrame, eye, viewForward);
 
     InspectHit inspectHit = {};
     float mouseX = input.pointerX;
@@ -2498,6 +2405,31 @@ void IndoorRenderer::render(
 
     float modelMatrix[16] = {};
     bx::mtxIdentity(modelMatrix);
+    std::unordered_map<uint32_t, IndoorDrawLightSet> batchLightSetBySectorKey;
+    const auto drawLightSetForBatch =
+        [&](const TexturedBatch &batch) -> const IndoorDrawLightSet &
+        {
+            const uint32_t sectorKey =
+                (static_cast<uint32_t>(static_cast<uint16_t>(batch.sectorId)) << 16)
+                | static_cast<uint32_t>(static_cast<uint16_t>(batch.backSectorId));
+            const auto existingIterator = batchLightSetBySectorKey.find(sectorKey);
+
+            if (existingIterator != batchLightSetBySectorKey.end())
+            {
+                return existingIterator->second;
+            }
+
+            const auto inserted =
+                batchLightSetBySectorKey.emplace(
+                    sectorKey,
+                    IndoorLightingRuntime::selectDrawLightSetForSectors(
+                        lightingFrame,
+                        eye,
+                        viewForward,
+                        batch.sectorId,
+                        batch.backSectorId));
+            return inserted.first->second;
+        };
 
     if (bgfx::isValid(m_indoorLitProgramHandle)
         && bgfx::isValid(m_textureSamplerHandle)
@@ -2535,15 +2467,16 @@ void IndoorRenderer::render(
                 m_textureSamplerHandle,
                 batch.frameTextureHandles[frameIndex],
                 TextureFilterProfile::BModel);
+            const IndoorDrawLightSet &batchLightSet = drawLightSetForBatch(batch);
             bgfx::setUniform(
                 m_indoorLightPositionsUniformHandle,
-                indoorLightPositions.data(),
+                batchLightSet.positions.data(),
                 MaxIndoorShaderLights);
             bgfx::setUniform(
                 m_indoorLightColorsUniformHandle,
-                indoorLightColors.data(),
+                batchLightSet.colors.data(),
                 MaxIndoorShaderLights);
-            bgfx::setUniform(m_indoorLightParamsUniformHandle, indoorLightParams.data());
+            bgfx::setUniform(m_indoorLightParamsUniformHandle, batchLightSet.params.data());
             bgfx::setState(
                 BGFX_STATE_WRITE_RGB
                 | BGFX_STATE_WRITE_A
@@ -2559,9 +2492,7 @@ void IndoorRenderer::render(
     {
         renderBloodSplats(
             MainViewId,
-            indoorLightPositions,
-            indoorLightColors,
-            indoorLightParams);
+            defaultLightSet);
     }
 
     renderDecorationBillboards(MainViewId, viewMatrix, eye, visibleSectorMask, lightingFrame);
@@ -4629,9 +4560,7 @@ void IndoorRenderer::ensureBloodSplatVertexBuffer()
 
 void IndoorRenderer::renderBloodSplats(
     uint16_t viewId,
-    const std::array<float, MaxIndoorShaderLights * 4> &indoorLightPositions,
-    const std::array<float, MaxIndoorShaderLights * 4> &indoorLightColors,
-    const std::array<float, 4> &indoorLightParams)
+    const IndoorDrawLightSet &lightSet)
 {
     if (m_pSceneRuntime == nullptr
         || !bgfx::isValid(m_indoorLitProgramHandle)
@@ -4668,9 +4597,9 @@ void IndoorRenderer::renderBloodSplats(
         textureHandle,
         TextureFilterProfile::BModel,
         BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-    bgfx::setUniform(m_indoorLightPositionsUniformHandle, indoorLightPositions.data(), MaxIndoorShaderLights);
-    bgfx::setUniform(m_indoorLightColorsUniformHandle, indoorLightColors.data(), MaxIndoorShaderLights);
-    bgfx::setUniform(m_indoorLightParamsUniformHandle, indoorLightParams.data());
+    bgfx::setUniform(m_indoorLightPositionsUniformHandle, lightSet.positions.data(), MaxIndoorShaderLights);
+    bgfx::setUniform(m_indoorLightColorsUniformHandle, lightSet.colors.data(), MaxIndoorShaderLights);
+    bgfx::setUniform(m_indoorLightParamsUniformHandle, lightSet.params.data());
     bgfx::setState(
         BGFX_STATE_WRITE_RGB
         | BGFX_STATE_WRITE_A

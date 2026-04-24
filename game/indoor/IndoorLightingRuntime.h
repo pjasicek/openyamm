@@ -16,6 +16,7 @@ struct EventRuntimeState;
 struct IndoorMapData;
 
 static constexpr size_t MaxIndoorRenderLights = 40;
+static constexpr size_t MaxIndoorDrawLights = 12;
 
 enum class IndoorRenderLightKind : uint8_t
 {
@@ -41,6 +42,14 @@ struct IndoorLightingFrame
     std::vector<IndoorRenderLight> lights;
 };
 
+struct IndoorDrawLightSet
+{
+    std::array<float, MaxIndoorDrawLights * 4> positions = {};
+    std::array<float, MaxIndoorDrawLights * 4> colors = {};
+    std::array<float, 4> params = {};
+    size_t lightCount = 0;
+};
+
 struct IndoorLightingFrameInput
 {
     const IndoorMapData *pMapData = nullptr;
@@ -63,6 +72,16 @@ public:
     static std::array<float, 3> sampleLightingRgb(
         const IndoorLightingFrame &frame,
         const bx::Vec3 &position);
+    static IndoorDrawLightSet selectDrawLightSetForPoint(
+        const IndoorLightingFrame &frame,
+        const bx::Vec3 &position,
+        const bx::Vec3 &viewForward);
+    static IndoorDrawLightSet selectDrawLightSetForSectors(
+        const IndoorLightingFrame &frame,
+        const bx::Vec3 &referencePosition,
+        const bx::Vec3 &viewForward,
+        int16_t sectorId,
+        int16_t backSectorId);
 
 private:
     static uint32_t lightColorAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha, bool coloredLights);

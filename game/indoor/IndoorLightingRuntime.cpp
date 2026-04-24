@@ -23,6 +23,26 @@ constexpr float IndoorLightScale = 1.35f;
 constexpr uint8_t DefaultLightAlpha = 224;
 constexpr uint8_t FxLightAlphaFallback = 208;
 
+float indoorRenderLightKindWeight(IndoorRenderLightKind kind)
+{
+    switch (kind)
+    {
+        case IndoorRenderLightKind::Fx:
+            return 12.0f;
+
+        case IndoorRenderLightKind::Torch:
+            return 10.0f;
+
+        case IndoorRenderLightKind::Decoration:
+            return 4.0f;
+
+        case IndoorRenderLightKind::Static:
+            return 1.0f;
+    }
+
+    return 1.0f;
+}
+
 float redChannel(uint32_t colorAbgr)
 {
     return static_cast<float>(colorAbgr & 0xffu) / 255.0f;
@@ -103,6 +123,99 @@ void appendRankedLight(
 
     lights.push_back(light);
 }
+
+bool lightMatchesSector(const IndoorRenderLight &light, int16_t sectorId, int16_t backSectorId)
+{
+    return light.sectorId < 0 || light.sectorId == sectorId || light.sectorId == backSectorId;
+}
+
+float vectorLength(const bx::Vec3 &value)
+{
+    return std::sqrt(value.x * value.x + value.y * value.y + value.z * value.z);
+}
+
+bx::Vec3 normalizedVector(const bx::Vec3 &value)
+{
+    const float length = vectorLength(value);
+
+    if (length <= 0.0001f)
+    {
+        return {0.0f, 0.0f, 0.0f};
+    }
+
+    return {value.x / length, value.y / length, value.z / length};
+}
+
+float dotProduct(const bx::Vec3 &left, const bx::Vec3 &right)
+{
+    return left.x * right.x + left.y * right.y + left.z * right.z;
+}
+
+float lightDrawScore(
+    const IndoorRenderLight &light,
+    const bx::Vec3 &position,
+    const bx::Vec3 &normalizedViewForward,
+    int16_t sectorId,
+    int16_t backSectorId)
+{
+    if (light.radius <= 1.0f || light.intensity <= 0.0f)
+    {
+        return -1.0f;
+    }
+
+    const float distance = std::sqrt(distanceSquared(light.position, position));
+    const bool affectsReferencePoint = distance <= light.radius;
+    const bool matchesSector = lightMatchesSector(light, sectorId, backSectorId);
+    const bx::Vec3 toLight = normalizedVector({
+        light.position.x - position.x,
+        light.position.y - position.y,
+        light.position.z - position.z
+    });
+    const float forwardDot = dotProduct(toLight, normalizedViewForward);
+    const float frontScore = std::clamp((forwardDot + 0.25f) / 1.25f, 0.0f, 1.0f);
+    const bool plausiblyVisible = frontScore > 0.0f;
+
+    if (!affectsReferencePoint && !matchesSector && !plausiblyVisible)
+    {
+        return -1.0f;
+    }
+
+    const float distanceScore = light.radius * light.intensity / std::max(distance, 1.0f);
+    const float sectorScore = matchesSector ? 200.0f : 0.0f;
+    const float pointScore = affectsReferencePoint ? 500.0f : 0.0f;
+    const float viewScore = frontScore * 1000.0f;
+
+    return sectorScore + pointScore + viewScore + distanceScore * indoorRenderLightKindWeight(light.kind);
+}
+
+IndoorDrawLightSet packDrawLightSet(const IndoorLightingFrame &frame, const std::vector<IndoorRenderLight> &lights)
+{
+    IndoorDrawLightSet lightSet = {};
+    const size_t lightCount = std::min(lights.size(), MaxIndoorDrawLights);
+
+    for (size_t index = 0; index < lightCount; ++index)
+    {
+        const IndoorRenderLight &light = lights[index];
+        const size_t base = index * 4;
+        lightSet.positions[base + 0] = light.position.x;
+        lightSet.positions[base + 1] = light.position.y;
+        lightSet.positions[base + 2] = light.position.z;
+        lightSet.positions[base + 3] = light.radius;
+        lightSet.colors[base + 0] = redChannel(light.colorAbgr);
+        lightSet.colors[base + 1] = greenChannel(light.colorAbgr);
+        lightSet.colors[base + 2] = blueChannel(light.colorAbgr);
+        lightSet.colors[base + 3] = alphaChannel(light.colorAbgr) * light.intensity;
+    }
+
+    lightSet.lightCount = lightCount;
+    lightSet.params = {{
+        static_cast<float>(lightCount),
+        frame.ambient,
+        IndoorLightScale,
+        0.0f
+    }};
+    return lightSet;
+}
 }
 
 bool IndoorLightingRuntime::isBlvLightEnabledByState(
@@ -158,6 +271,70 @@ std::array<float, 3> IndoorLightingRuntime::sampleLightingRgb(
     rgb[1] = std::clamp(rgb[1], 0.0f, 2.0f);
     rgb[2] = std::clamp(rgb[2], 0.0f, 2.0f);
     return rgb;
+}
+
+IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForPoint(
+    const IndoorLightingFrame &frame,
+    const bx::Vec3 &position,
+    const bx::Vec3 &viewForward)
+{
+    return selectDrawLightSetForSectors(frame, position, viewForward, -1, -1);
+}
+
+IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForSectors(
+    const IndoorLightingFrame &frame,
+    const bx::Vec3 &referencePosition,
+    const bx::Vec3 &viewForward,
+    int16_t sectorId,
+    int16_t backSectorId)
+{
+    struct RankedLight
+    {
+        const IndoorRenderLight *pLight = nullptr;
+        float score = 0.0f;
+    };
+
+    std::vector<RankedLight> rankedLights;
+    rankedLights.reserve(frame.lights.size());
+    const bx::Vec3 normalizedViewForward = normalizedVector(viewForward);
+
+    for (const IndoorRenderLight &light : frame.lights)
+    {
+        const float score = lightDrawScore(light, referencePosition, normalizedViewForward, sectorId, backSectorId);
+
+        if (score <= 0.0f)
+        {
+            continue;
+        }
+
+        rankedLights.push_back(RankedLight{&light, score});
+    }
+
+    std::sort(
+        rankedLights.begin(),
+        rankedLights.end(),
+        [](const RankedLight &left, const RankedLight &right)
+        {
+            return left.score > right.score;
+        });
+
+    std::vector<IndoorRenderLight> selectedLights;
+    selectedLights.reserve(std::min(rankedLights.size(), MaxIndoorDrawLights));
+
+    for (const RankedLight &rankedLight : rankedLights)
+    {
+        if (selectedLights.size() >= MaxIndoorDrawLights)
+        {
+            break;
+        }
+
+        if (rankedLight.pLight != nullptr)
+        {
+            selectedLights.push_back(*rankedLight.pLight);
+        }
+    }
+
+    return packDrawLightSet(frame, selectedLights);
 }
 
 uint32_t IndoorLightingRuntime::lightColorAbgr(

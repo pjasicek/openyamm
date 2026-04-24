@@ -4,15 +4,15 @@ $input v_texcoord0, v_worldPosition
 
 SAMPLER2D(s_texColor, 0);
 
-uniform vec4 u_indoorLightPositions[40];
-uniform vec4 u_indoorLightColors[40];
+uniform vec4 u_indoorLightPositions[12];
+uniform vec4 u_indoorLightColors[12];
 uniform vec4 u_indoorLightParams;
 
 vec3 getIndoorLighting()
 {
     vec3 lighting = vec3(u_indoorLightParams.y);
 
-    for (int i = 0; i < 40; ++i)
+    for (int i = 0; i < 12; ++i)
     {
         if (float(i) >= u_indoorLightParams.x)
         {

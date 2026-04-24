@@ -348,9 +348,7 @@ private:
     void ensureBloodSplatVertexBuffer();
     void renderBloodSplats(
         uint16_t viewId,
-        const std::array<float, MaxIndoorRenderLights * 4> &indoorLightPositions,
-        const std::array<float, MaxIndoorRenderLights * 4> &indoorLightColors,
-        const std::array<float, 4> &indoorLightParams);
+        const IndoorDrawLightSet &lightSet);
     const bgfx::TextureHandle *findIndoorTextureHandle(const std::string &textureName) const;
     static BillboardTextureLookupKey makeBillboardTextureLookupKey(
         const std::string &textureName,
