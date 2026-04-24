@@ -964,6 +964,7 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
         m_pIndoorRenderer->render(
             width,
             height,
+            m_gameSession,
             input,
             deltaSeconds,
             allowWorldInput);

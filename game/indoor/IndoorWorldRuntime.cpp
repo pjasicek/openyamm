@@ -2497,7 +2497,7 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
         }
         else if (fxRequest.kind == ActorAiFxRequestKind::Hit || fxRequest.kind == ActorAiFxRequestKind::Spell)
         {
-            triggerProjectileImpactVisual(fxRequest.actorIndex, fxRequest.spellId);
+            spawnImmediateSpellImpactVisual(fxRequest.actorIndex, fxRequest.spellId);
         }
     }
 
@@ -2616,9 +2616,10 @@ bool IndoorWorldRuntime::applyIndoorActorProjectileRequest(const ActorProjectile
 
     if (spawnEffects.spawnInstantImpact)
     {
-        triggerProjectileImpactVisualAt(
+        spawnIndoorProjectileImpactVisual(
+            spawnResult.projectile,
             {spawnEffects.impactX, spawnEffects.impactY, spawnEffects.impactZ},
-            static_cast<uint32_t>(definition.spellId));
+            false);
     }
 
     return true;
@@ -3047,9 +3048,19 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
 
     if (frameResult.fxRequest)
     {
-        triggerProjectileImpactVisualAt(
-            frameResult.fxRequest->point,
-            static_cast<uint32_t>(std::max(projectile.spellId, 0)));
+        switch (frameResult.fxRequest->kind)
+        {
+            case GameplayProjectileService::ProjectileFrameFxKind::WaterSplash:
+                spawnIndoorWaterSplashImpactVisual(frameResult.fxRequest->point);
+                break;
+
+            case GameplayProjectileService::ProjectileFrameFxKind::ProjectileImpact:
+                spawnIndoorProjectileImpactVisual(
+                    projectile,
+                    frameResult.fxRequest->point,
+                    frameResult.fxRequest->centerVertically);
+                break;
+        }
     }
 
     if (frameResult.audioRequest)
@@ -4341,8 +4352,8 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
     state.preciseX = pAiState != nullptr ? pAiState->preciseX : static_cast<float>(actor.x);
     state.preciseY = pAiState != nullptr ? pAiState->preciseY : static_cast<float>(actor.y);
     state.preciseZ = pAiState != nullptr ? pAiState->preciseZ : static_cast<float>(actor.z);
-    state.radius = pAiState != nullptr ? pAiState->collisionRadius : actor.radius;
-    state.height = pAiState != nullptr ? pAiState->collisionHeight : actor.height;
+    state.radius = actor.radius;
+    state.height = actor.height;
     state.isDead = pAiState != nullptr
         ? pAiState->motionState == ActorAiMotionState::Dead
         : actor.hp <= 0;
@@ -4555,9 +4566,10 @@ bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjec
 
     if (spawnEffects.spawnInstantImpact)
     {
-        triggerProjectileImpactVisualAt(
+        spawnIndoorProjectileImpactVisual(
+            spawnResult.projectile,
             {spawnEffects.impactX, spawnEffects.impactY, spawnEffects.impactZ},
-            request.spellId);
+            false);
     }
 
     return true;
@@ -4574,9 +4586,6 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
     float partyZ,
     uint32_t sourcePartyMemberIndex)
 {
-    (void)partyX;
-    (void)partyY;
-    (void)partyZ;
     (void)sourcePartyMemberIndex;
 
     MapDeltaData *pMapDeltaData = mapDeltaData();
@@ -4595,6 +4604,12 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
     }
 
     syncMapActorAiStates();
+    if (actorIndex >= m_mapActorAiStates.size())
+    {
+        return false;
+    }
+
+    MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
     GameplayActorSpellEffectState &effectState = m_mapActorAiStates[actorIndex].spellEffects;
     const int16_t resolvedMonsterId = actor.monsterInfoId > 0 ? actor.monsterInfoId : actor.monsterId;
     const bool defaultHostileToParty =
@@ -4603,14 +4618,61 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
             && resolvedMonsterId > 0
             && m_pMonsterTable->isHostileToParty(resolvedMonsterId));
 
-    if (m_pGameplayActorService != nullptr)
+    GameplayActorService fallbackActorService = {};
+    const GameplayActorService *pActorService = m_pGameplayActorService;
+
+    if (pActorService == nullptr)
     {
+        fallbackActorService.bindTables(m_pMonsterTable, m_pSpellTable);
+        pActorService = &fallbackActorService;
+    }
+
+    if (pActorService != nullptr)
+    {
+        const GameplayActorService::DirectSpellImpactResult directImpact =
+            pActorService->resolveDirectSpellImpact(
+                spellId,
+                skillLevel,
+                damage,
+                actor.hp,
+                pActorService->actorLooksUndead(resolvedMonsterId));
+
+        if (directImpact.disposition == GameplayActorService::DirectSpellImpactDisposition::Rejected)
+        {
+            return false;
+        }
+
+        if (directImpact.disposition == GameplayActorService::DirectSpellImpactDisposition::ApplyDamage)
+        {
+            if (directImpact.visualKind == GameplayActorService::DirectSpellImpactVisualKind::ActorCenter)
+            {
+                spawnImmediateSpellImpactVisualAt(
+                    {aiState.preciseX, aiState.preciseY, aiState.preciseZ + aiState.collisionHeight * 0.5f},
+                    spellId,
+                    directImpact.centerVisual,
+                    directImpact.preferImpactObject);
+            }
+            else if (directImpact.visualKind == GameplayActorService::DirectSpellImpactVisualKind::ActorUpperBody)
+            {
+                spawnImmediateSpellImpactVisualAt(
+                    {aiState.preciseX, aiState.preciseY, aiState.preciseZ + aiState.collisionHeight * 0.8f},
+                    spellId,
+                    directImpact.centerVisual,
+                    directImpact.preferImpactObject);
+            }
+
+            return applyPartyAttackMeleeDamage(
+                actorIndex,
+                directImpact.damage,
+                {partyX, partyY, partyZ});
+        }
+
         const GameplayActorService::SharedSpellEffectResult effectResult =
-            m_pGameplayActorService->tryApplySharedSpellEffect(
+            pActorService->tryApplySharedSpellEffect(
                 spellId,
                 skillLevel,
                 skillMastery,
-                m_pGameplayActorService->actorLooksUndead(resolvedMonsterId),
+                pActorService->actorLooksUndead(resolvedMonsterId),
                 defaultHostileToParty,
                 effectState);
 
@@ -4621,6 +4683,28 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
 
         if (effectResult.disposition == GameplayActorService::SharedSpellDisposition::Applied)
         {
+            if (effectResult.effectKind != GameplayActorService::SharedSpellEffectKind::DispelMagic
+                && m_pRenderer != nullptr)
+            {
+                const uint32_t sequence =
+                    m_pGameplayProjectileService != nullptr
+                        ? m_pGameplayProjectileService->allocateProjectileImpactId()
+                        : static_cast<uint32_t>(actorIndex + 1);
+                const uint32_t seed =
+                    aiState.actorId * 2246822519u
+                    ^ spellId * 3266489917u
+                    ^ sequence;
+                m_pRenderer->worldFxSystem().spawnActorDebuffFx(
+                    spellId,
+                    seed,
+                    aiState.preciseX,
+                    aiState.preciseY,
+                    aiState.preciseZ,
+                    static_cast<float>(aiState.collisionHeight),
+                    aiState.preciseX - partyX,
+                    aiState.preciseY - partyY);
+            }
+
             return true;
         }
     }
@@ -5122,7 +5206,7 @@ bool IndoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackPro
 
     if (applied)
     {
-        triggerProjectileImpactVisual(*actorIndex, 0);
+        spawnImmediateSpellImpactVisual(*actorIndex, 0);
     }
 
     return applied;
@@ -5147,11 +5231,6 @@ bool IndoorWorldRuntime::castPartyAttackSpell(const GameplayPartyAttackSpellRequ
         request.source.y,
         request.source.z,
         static_cast<uint32_t>(request.sourcePartyMemberIndex));
-
-    if (applied)
-    {
-        triggerProjectileImpactVisual(*actorIndex, request.spellId);
-    }
 
     return applied;
 }
@@ -5442,7 +5521,7 @@ void IndoorWorldRuntime::applyPendingSpellCastWorldEffects(const PartySpellCastR
 {
     if (m_pRenderer != nullptr)
     {
-        m_pRenderer->triggerPendingSpellWorldFx(castResult);
+        m_pRenderer->worldFxSystem().triggerPartySpellFx(castResult);
     }
 }
 
@@ -5825,7 +5904,8 @@ bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
 
     if (actor.hp > 0
         || pAiState == nullptr
-        || pAiState->motionState != ActorAiMotionState::Dead
+        || (pAiState->motionState != ActorAiMotionState::Dying
+            && pAiState->motionState != ActorAiMotionState::Dead)
         || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
     {
         return false;
@@ -6592,17 +6672,131 @@ std::optional<GameplayWorldPoint> IndoorWorldRuntime::actorImpactPoint(size_t ac
     };
 }
 
-void IndoorWorldRuntime::triggerProjectileImpactVisualAt(const GameplayWorldPoint &point, uint32_t spellId)
+bool IndoorWorldRuntime::spawnIndoorProjectileImpactVisual(
+    const GameplayProjectileService::ProjectileState &projectile,
+    const GameplayWorldPoint &point,
+    bool centerVertically)
 {
-    if (m_pRenderer == nullptr)
+    if (m_pGameplayProjectileService == nullptr
+        || m_pObjectTable == nullptr
+        || projectile.impactObjectDescriptionId == 0)
     {
-        return;
+        return false;
     }
 
-    m_pRenderer->triggerProjectileImpactWorldFx(point.x, point.y, point.z, spellId);
+    const std::optional<GameplayProjectileService::ProjectileImpactVisualDefinition> impactDefinition =
+        m_pGameplayProjectileService->buildProjectileImpactVisualDefinition(
+            projectile.impactObjectDescriptionId,
+            m_pObjectTable,
+            m_pProjectileSpriteFrameTable);
+
+    if (!impactDefinition)
+    {
+        return false;
+    }
+
+    const GameplayProjectileService::ProjectileImpactSpawnResult result =
+        m_pGameplayProjectileService->spawnProjectileImpactVisual(
+            projectile,
+            *impactDefinition,
+            point.x,
+            point.y,
+            point.z,
+            centerVertically);
+    return result.spawned;
 }
 
-void IndoorWorldRuntime::triggerProjectileImpactVisual(size_t actorIndex, uint32_t spellId)
+bool IndoorWorldRuntime::spawnIndoorWaterSplashImpactVisual(const GameplayWorldPoint &point)
+{
+    if (m_pGameplayProjectileService == nullptr || m_pObjectTable == nullptr)
+    {
+        return false;
+    }
+
+    const std::optional<GameplayProjectileService::ProjectileImpactVisualDefinition> splashDefinition =
+        m_pGameplayProjectileService->buildWaterSplashImpactVisualDefinition(
+            m_pObjectTable,
+            m_pProjectileSpriteFrameTable);
+
+    if (!splashDefinition)
+    {
+        return false;
+    }
+
+    const GameplayProjectileService::ProjectileImpactSpawnResult result =
+        m_pGameplayProjectileService->spawnWaterSplashImpactVisual(
+            *splashDefinition,
+            point.x,
+            point.y,
+            point.z);
+    return result.spawned;
+}
+
+bool IndoorWorldRuntime::spawnImmediateSpellImpactVisualAt(
+    const GameplayWorldPoint &point,
+    uint32_t spellId,
+    bool centerVertically,
+    bool preferImpactObject)
+{
+    if (spellId == 0
+        || m_pGameplayProjectileService == nullptr
+        || m_pObjectTable == nullptr
+        || m_pSpellTable == nullptr)
+    {
+        return false;
+    }
+
+    const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(spellId));
+
+    if (pSpellEntry == nullptr)
+    {
+        return false;
+    }
+
+    IndoorResolvedProjectileDefinition sourceDefinition = {};
+
+    if (!fillIndoorProjectileDefinitionFromSpell(*pSpellEntry, *m_pObjectTable, sourceDefinition))
+    {
+        return false;
+    }
+
+    uint16_t impactObjectDescriptionId =
+        preferImpactObject && sourceDefinition.impactObjectDescriptionId != 0
+            ? sourceDefinition.impactObjectDescriptionId
+            : sourceDefinition.objectDescriptionId;
+
+    if (impactObjectDescriptionId == 0)
+    {
+        impactObjectDescriptionId = sourceDefinition.impactObjectDescriptionId;
+    }
+
+    const std::optional<GameplayProjectileService::ProjectileImpactVisualDefinition> impactDefinition =
+        m_pGameplayProjectileService->buildProjectileImpactVisualDefinition(
+            impactObjectDescriptionId,
+            m_pObjectTable,
+            m_pProjectileSpriteFrameTable);
+
+    if (!impactDefinition)
+    {
+        return false;
+    }
+
+    const bool freezeAnimation = impactObjectDescriptionId == sourceDefinition.objectDescriptionId;
+    const GameplayProjectileService::ProjectileImpactSpawnResult result =
+        m_pGameplayProjectileService->spawnImmediateSpellImpactVisual(
+            *impactDefinition,
+            static_cast<int>(spellId),
+            sourceDefinition.objectName,
+            sourceDefinition.objectSpriteName,
+            point.x,
+            point.y,
+            point.z,
+            centerVertically,
+            freezeAnimation);
+    return result.spawned;
+}
+
+void IndoorWorldRuntime::spawnImmediateSpellImpactVisual(size_t actorIndex, uint32_t spellId)
 {
     const std::optional<GameplayWorldPoint> impactPoint = actorImpactPoint(actorIndex);
 
@@ -6611,7 +6805,7 @@ void IndoorWorldRuntime::triggerProjectileImpactVisual(size_t actorIndex, uint32
         return;
     }
 
-    triggerProjectileImpactVisualAt(*impactPoint, spellId);
+    spawnImmediateSpellImpactVisualAt(*impactPoint, spellId);
 }
 
 const MapEncounterInfo *IndoorWorldRuntime::encounterInfo(uint32_t typeIndexInMapStats) const

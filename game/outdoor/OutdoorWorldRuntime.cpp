@@ -2,7 +2,7 @@
 
 #include "game/tables/ChestTable.h"
 #include "game/fx/ParticleRecipes.h"
-#include "game/outdoor/OutdoorFxRuntime.h"
+#include "game/fx/WorldFxSystem.h"
 #include "game/gameplay/ChestRuntime.h"
 #include "game/gameplay/CorpseLootRuntime.h"
 #include "game/gameplay/GameplayActorAiSystem.h"
@@ -3382,7 +3382,7 @@ void OutdoorWorldRuntime::initialize(
     m_pProjectileSpriteFrameTable = outdoorSpriteObjectBillboardSet
         ? &outdoorSpriteObjectBillboardSet->spriteFrameTable
         : m_pActorSpriteFrameTable;
-    m_pParticleSystem = nullptr;
+    m_pWorldFxSystem = nullptr;
     m_monsterVisualsById.clear();
     m_outdoorFaces.clear();
     m_outdoorFaceGridCells.clear();
@@ -3613,9 +3613,9 @@ void OutdoorWorldRuntime::initialize(
     applyEventRuntimeState();
 }
 
-void OutdoorWorldRuntime::setParticleSystem(ParticleSystem *pParticleSystem)
+void OutdoorWorldRuntime::setWorldFxSystem(WorldFxSystem *pWorldFxSystem)
 {
-    m_pParticleSystem = pParticleSystem;
+    m_pWorldFxSystem = pWorldFxSystem;
 }
 
 bool OutdoorWorldRuntime::resolveWorldItemVisual(
@@ -9311,7 +9311,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
     const std::string &spellName = pSpellEntry->normalizedName;
     const auto spawnTargetDebuffParticles = [this, spellId, &actor, partyX, partyY]()
     {
-        if (m_pParticleSystem == nullptr)
+        if (m_pWorldFxSystem == nullptr)
         {
             return;
         }
@@ -9322,8 +9322,7 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
             actor.actorId * 2246822519u
             ^ spellId * 3266489917u
             ^ projectileService().allocateProjectileImpactId();
-        FxRecipes::spawnActorDebuffParticles(
-            *m_pParticleSystem,
+        m_pWorldFxSystem->spawnActorDebuffFx(
             spellId,
             seed,
             actor.preciseX,
@@ -11260,12 +11259,12 @@ bool OutdoorWorldRuntime::useHeldItemOnWorld(const GameplayWorldHit &hit)
 
 void OutdoorWorldRuntime::applyPendingSpellCastWorldEffects(const PartySpellCastResult &castResult)
 {
-    if (m_pParticleSystem == nullptr)
+    if (m_pWorldFxSystem == nullptr)
     {
         return;
     }
 
-    OutdoorFxRuntime::triggerPartySpellFx(*m_pParticleSystem, castResult);
+    m_pWorldFxSystem->triggerPartySpellFx(castResult);
 }
 
 bool OutdoorWorldRuntime::dropHeldItemToWorld(const GameplayHeldItemDropRequest &request)

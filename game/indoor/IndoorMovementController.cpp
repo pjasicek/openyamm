@@ -1617,9 +1617,9 @@ bool IndoorMovementController::collidesAtPosition(
             oldSignedDistance == 0.0f
             || newSignedDistance == 0.0f
             || (oldSignedDistance > 0.0f) == (newSignedDistance > 0.0f);
-        const bool movedAwayFromWall = newDistance > oldDistance + 0.5f;
+        const bool didNotMoveTowardWall = newDistance >= oldDistance - 0.5f;
 
-        if (startedInsideWallRadius && stayedOnSameSide && movedAwayFromWall)
+        if (startedInsideWallRadius && stayedOnSameSide && didNotMoveTowardWall)
         {
             continue;
         }

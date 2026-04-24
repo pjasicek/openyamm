@@ -1,9 +1,10 @@
 #pragma once
 
 #include "game/app/GameSettings.h"
-#include "game/fx/ParticleSystem.h"
+#include "game/fx/WorldFxRenderResources.h"
+#include "game/fx/WorldFxSystem.h"
 #include "game/outdoor/OutdoorCollisionData.h"
-#include "game/outdoor/OutdoorFxRuntime.h"
+#include "game/outdoor/OutdoorSpatialFxRuntime.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
@@ -68,7 +69,6 @@ struct GameplayInputFrame;
 class OutdoorInteractionController;
 class OutdoorRenderer;
 class OutdoorPresentationController;
-class ParticleRenderer;
 class GameplayDialogueRenderer;
 class GameplayHudRenderer;
 class GameplayPartyOverlayRenderer;
@@ -125,12 +125,11 @@ private:
     friend class GameplayPartyOverlayRenderer;
     friend class GameplayPartyOverlayInputController;
     friend class OutdoorBillboardRenderer;
-    friend class OutdoorFxRuntime;
+    friend class OutdoorSpatialFxRuntime;
     friend class OutdoorGameplayInputController;
     friend class OutdoorInteractionController;
     friend class OutdoorRenderer;
     friend class OutdoorPresentationController;
-    friend class ParticleRenderer;
 
     struct TerrainVertex
     {
@@ -504,7 +503,7 @@ private:
     GameAudioSystem *m_pGameAudioSystem;
     OutdoorSceneRuntime *m_pOutdoorSceneRuntime;
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
-    OutdoorFxRuntime m_outdoorFxRuntime;
+    OutdoorSpatialFxRuntime m_outdoorSpatialFxRuntime;
     bgfx::VertexBufferHandle m_vertexBufferHandle;
     bgfx::IndexBufferHandle m_indexBufferHandle;
     bgfx::DynamicVertexBufferHandle m_skyVertexBufferHandle;
@@ -519,14 +518,12 @@ private:
     bgfx::ProgramHandle m_texturedTerrainProgramHandle;
     bgfx::ProgramHandle m_spellAreaPreviewProgramHandle;
     bgfx::ProgramHandle m_outdoorLitBillboardProgramHandle;
-    bgfx::ProgramHandle m_particleProgramHandle;
     bgfx::ProgramHandle m_outdoorTexturedFogProgramHandle;
     bgfx::ProgramHandle m_outdoorForcePerspectiveProgramHandle;
     bgfx::TextureHandle m_terrainTextureAtlasHandle;
     bgfx::TextureHandle m_bloodSplatTextureHandle;
     bgfx::TextureHandle m_forcePerspectiveSolidTextureHandle;
     bgfx::UniformHandle m_terrainTextureSamplerHandle;
-    bgfx::UniformHandle m_particleParamsUniformHandle;
     bgfx::UniformHandle m_outdoorBillboardAmbientUniformHandle;
     bgfx::UniformHandle m_outdoorBillboardOverrideColorUniformHandle;
     bgfx::UniformHandle m_outdoorBillboardOutlineParamsUniformHandle;
@@ -555,19 +552,11 @@ private:
     uint64_t m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
     uint64_t m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
+    WorldFxRenderResources m_worldFxRenderResources;
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightPositions = {};
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightColors = {};
     std::array<float, 4> m_cachedOutdoorFxLightParams = {};
     std::unordered_map<int16_t, std::unordered_map<std::string, size_t>> m_billboardTextureIndexByPalette;
-    std::array<uint16_t, 6> m_particleTextureHandleIndices = {{
-        bgfx::kInvalidHandle,
-        bgfx::kInvalidHandle,
-        bgfx::kInvalidHandle,
-        bgfx::kInvalidHandle,
-        bgfx::kInvalidHandle,
-        bgfx::kInvalidHandle
-    }};
-    std::array<std::vector<LitBillboardVertex>, 12> m_particleVertexBatches;
     std::unordered_map<std::string, size_t> m_decorationBitmapTextureIndexByName;
     std::vector<SkyTextureHandle> m_skyTextureHandles;
     std::unordered_map<std::string, size_t> m_skyTextureIndexByName;
@@ -580,8 +569,7 @@ private:
     std::vector<bool> m_queuedSpriteFrameWarmups;
     size_t m_nextPendingSpriteFrameWarmupIndex;
     size_t m_runtimeActorBillboardTexturesQueuedCount;
-    float m_particleUpdateAccumulatorSeconds = 0.0f;
-    ParticleSystem m_particleSystem;
+    WorldFxSystem m_worldFxSystem;
     std::vector<std::vector<size_t>> m_decorationBillboardGridCells;
     std::vector<InteractiveDecorationBinding> m_interactiveDecorationBindings;
     std::vector<KeyboardInteractionBillboardCandidate> m_keyboardInteractionBillboardCandidates;

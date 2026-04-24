@@ -25,6 +25,9 @@ add_executable(openyamm
     fx/ParticleRecipes.cpp
     fx/ParticleRenderer.cpp
     fx/ParticleSystem.cpp
+    fx/WorldFxRenderer.cpp
+    fx/WorldFxRenderResources.cpp
+    fx/WorldFxSystem.cpp
     gameplay/GameMechanics.cpp
     gameplay/GameplayActionController.cpp
     gameplay/GameplayCombatController.cpp
@@ -87,7 +90,7 @@ add_executable(openyamm
     tables/NpcDialogTable.cpp
     tables/ObjectTable.cpp
     outdoor/OutdoorBillboardRenderer.cpp
-    outdoor/OutdoorFxRuntime.cpp
+    outdoor/OutdoorSpatialFxRuntime.cpp
     outdoor/OutdoorGameplayInputController.cpp
     outdoor/OutdoorInteractionController.cpp
     outdoor/OutdoorMapData.cpp

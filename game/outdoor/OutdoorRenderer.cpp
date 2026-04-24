@@ -705,14 +705,14 @@ void OutdoorRenderer::applyOutdoorFxLightUniforms(OutdoorGameView &view, const b
     {
         struct RankedLight
         {
-            const OutdoorFxRuntime::LightEmitterState *pLight = nullptr;
+            const WorldFxLightEmitter *pLight = nullptr;
             float score = 0.0f;
         };
 
         std::vector<RankedLight> rankedLights;
-        rankedLights.reserve(view.m_outdoorFxRuntime.lightEmitters().size());
+        rankedLights.reserve(view.m_worldFxSystem.lightEmitters().size());
 
-        for (const OutdoorFxRuntime::LightEmitterState &light : view.m_outdoorFxRuntime.lightEmitters())
+        for (const WorldFxLightEmitter &light : view.m_worldFxSystem.lightEmitters())
         {
             if (light.radius <= 1.0f)
             {
@@ -750,7 +750,7 @@ void OutdoorRenderer::applyOutdoorFxLightUniforms(OutdoorGameView &view, const b
 
         for (size_t index = 0; index < rankedLights.size() && lightCount < MaxOutdoorFxLights; ++index)
         {
-            const OutdoorFxRuntime::LightEmitterState &light = *rankedLights[index].pLight;
+            const WorldFxLightEmitter &light = *rankedLights[index].pLight;
             const size_t baseIndex = static_cast<size_t>(lightCount) * 4;
 
             view.m_cachedOutdoorFxLightPositions[baseIndex + 0] = light.x;
@@ -1690,7 +1690,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     view.m_spellAreaPreviewProgramHandle = loadProgramHandle("vs_spell_area_preview", "fs_spell_area_preview");
     view.m_outdoorLitBillboardProgramHandle =
         loadProgramHandle("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");
-    view.m_particleProgramHandle = loadProgramHandle("vs_particle", "fs_particle");
+    view.m_worldFxRenderResources.setParticleProgramHandle(loadProgramHandle("vs_particle", "fs_particle"));
     view.m_outdoorTexturedFogProgramHandle =
         loadProgramHandle("vs_outdoor_textured_fog", "fs_outdoor_textured_fog");
     view.m_outdoorForcePerspectiveProgramHandle =
@@ -2302,7 +2302,7 @@ void OutdoorRenderer::renderWorldPasses(
 
     renderBloodSplats(view, MainViewId, cameraPosition, farClipDistance);
 
-    if (view.m_showSpriteObjects || view.m_showActors)
+    if (view.m_gameSettings.shadows && (view.m_showSpriteObjects || view.m_showActors))
     {
         OutdoorBillboardRenderer::renderFxContactShadows(view, MainViewId);
     }
@@ -2351,7 +2351,13 @@ void OutdoorRenderer::renderWorldPasses(
 
     if (view.m_showSpriteObjects || view.m_showActors || view.m_showDecorationBillboards)
     {
-        ParticleRenderer::renderParticles(view, MainViewId, pViewMatrix, cameraPosition, aspectRatio);
+        ParticleRenderer::renderParticles(
+            view.m_worldFxRenderResources,
+            view.m_worldFxSystem.particles(),
+            MainViewId,
+            pViewMatrix,
+            cameraPosition,
+            aspectRatio);
     }
 
     if (pAtmosphereState != nullptr && pAtmosphereState->darknessOverlayAlpha > 0.001f)

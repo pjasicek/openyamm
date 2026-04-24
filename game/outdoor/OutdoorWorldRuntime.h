@@ -38,7 +38,7 @@ class GameplayProjectileService;
 class OutdoorGameView;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
-class ParticleSystem;
+class WorldFxSystem;
 class OutdoorPartyRuntime;
 
 class OutdoorWorldRuntime : public ISceneEventContext, public IGameplayWorldRuntime
@@ -743,7 +743,7 @@ public:
         float y,
         float z
     ) override;
-    void setParticleSystem(ParticleSystem *pParticleSystem);
+    void setWorldFxSystem(WorldFxSystem *pWorldFxSystem);
     bool checkMonstersKilled(uint32_t checkType, uint32_t id, uint32_t count, bool invisibleAsDead) const override;
 
 public:
@@ -1061,7 +1061,7 @@ private:
     GameplayFxService *m_pGameplayFxService = nullptr;
     const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
     const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
-    ParticleSystem *m_pParticleSystem = nullptr;
+    WorldFxSystem *m_pWorldFxSystem = nullptr;
     OutdoorGameView *m_pInteractionView = nullptr;
     std::optional<std::vector<uint8_t>> m_outdoorLandMask;
     std::vector<OutdoorFaceGeometryData> m_outdoorFaces;

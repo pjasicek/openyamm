@@ -467,6 +467,16 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "video", "shadows"))
+    {
+        bool parsed = settings.shadows;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.shadows = parsed;
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "video", "texture_filtering"))
     {
         bool parsed = settings.textureFiltering;
@@ -716,6 +726,7 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "blood_splats=" << (settings.bloodSplats ? "true" : "false") << '\n'
         << "colored_lights=" << (settings.coloredLights ? "true" : "false") << '\n'
         << "tinting=" << (settings.tinting ? "true" : "false") << '\n'
+        << "shadows=" << (settings.shadows ? "true" : "false") << '\n'
         << "texture_filtering=" << (settings.textureFiltering ? "true" : "false") << '\n'
         << "terrain_filtering=" << settings.terrainFiltering << '\n'
         << "terrain_anisotropy=" << settings.terrainAnisotropy << '\n'

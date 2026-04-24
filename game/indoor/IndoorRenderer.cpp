@@ -1,10 +1,11 @@
 #include "game/indoor/IndoorRenderer.h"
 
+#include "game/app/GameSession.h"
 #include "game/data/ActorNameResolver.h"
 #include "game/FaceEnums.h"
+#include "game/fx/ParticleRenderer.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/indoor/IndoorGeometryUtils.h"
-#include "game/party/PartySpellSystem.h"
 #include "game/render/TextureFiltering.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/SpriteObjectDefs.h"
@@ -87,11 +88,7 @@ constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 2;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float InspectRayEpsilon = 0.0001f;
-constexpr float PendingSpellWorldFxDurationSeconds = 0.72f;
-constexpr float PendingSpellWorldFxRingRadius = 28.0f;
-constexpr float ProjectileImpactWorldFxDurationSeconds = 0.48f;
 constexpr float HoveredActorOutlineThicknessPixels = 2.0f;
-constexpr size_t MaxPendingSpellWorldFx = 48;
 
 struct RuntimeActorBillboard
 {
@@ -1172,11 +1169,6 @@ uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
         | static_cast<uint32_t>(red);
 }
 
-uint32_t withAlpha(uint32_t colorAbgr, uint8_t alpha)
-{
-    return (colorAbgr & 0x00ffffffu) | (static_cast<uint32_t>(alpha) << 24);
-}
-
 float redChannel(uint32_t colorAbgr)
 {
     return static_cast<float>(colorAbgr & 0xffu) / 255.0f;
@@ -1213,32 +1205,6 @@ uint32_t resolveHoveredIndoorActorOutlineColor(
 uint32_t hoveredIndoorWorldItemOutlineColor()
 {
     return makeAbgr(64, 128, 255);
-}
-
-bool shouldTriggerPendingSpellWorldFx(PartySpellCastEffectKind effectKind)
-{
-    return effectKind == PartySpellCastEffectKind::PartyBuff
-        || effectKind == PartySpellCastEffectKind::CharacterBuff
-        || effectKind == PartySpellCastEffectKind::CharacterRestore
-        || effectKind == PartySpellCastEffectKind::PartyRestore;
-}
-
-uint32_t pendingSpellWorldFxColorAbgr(PartySpellCastEffectKind effectKind)
-{
-    if (effectKind == PartySpellCastEffectKind::CharacterRestore
-        || effectKind == PartySpellCastEffectKind::PartyRestore)
-    {
-        return withAlpha(makeAbgr(192, 255, 192), 220);
-    }
-
-    return withAlpha(makeAbgr(180, 220, 255), 210);
-}
-
-uint32_t projectileImpactWorldFxColorAbgr(uint32_t spellId)
-{
-    return spellId == 0
-        ? withAlpha(makeAbgr(232, 216, 106), 204)
-        : withAlpha(makeAbgr(116, 199, 255), 204);
 }
 
 float fixedDoorDirectionComponentToFloat(int value)
@@ -1516,6 +1482,8 @@ bool IndoorRenderer::initialize(
     m_programHandle = loadProgram("vs_cubes", "fs_cubes");
     m_texturedProgramHandle = loadProgram("vs_shadowmaps_texture", "fs_shadowmaps_texture");
     m_billboardProgramHandle = loadProgram("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");
+    m_worldFxRenderResources.setParticleProgramHandle(loadProgram("vs_particle", "fs_particle"));
+    ParticleRenderer::initializeResources(m_worldFxRenderResources);
     m_textureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
     m_billboardAmbientUniformHandle = bgfx::createUniform("u_billboardAmbient", bgfx::UniformType::Vec4);
     m_billboardOverrideColorUniformHandle =
@@ -1547,7 +1515,8 @@ bool IndoorRenderer::initialize(
         return false;
     }
 
-    if (!bgfx::isValid(m_textureSamplerHandle)
+    if (!m_worldFxRenderResources.isReady()
+        || !bgfx::isValid(m_textureSamplerHandle)
         || !bgfx::isValid(m_billboardAmbientUniformHandle)
         || !bgfx::isValid(m_billboardOverrideColorUniformHandle)
         || !bgfx::isValid(m_billboardOutlineParamsUniformHandle)
@@ -2011,6 +1980,7 @@ std::vector<int16_t> IndoorRenderer::visibleIndoorMapRevealSectorIds(int16_t sec
 void IndoorRenderer::render(
     int width,
     int height,
+    GameSession &gameSession,
     const GameplayInputFrame &input,
     float deltaSeconds,
     bool allowWorldInput)
@@ -2037,6 +2007,15 @@ void IndoorRenderer::render(
     if (allowWorldInput && m_pSceneRuntime != nullptr && m_pSceneRuntime->advanceSimulation(deltaMilliseconds))
     {
         rebuildDerivedGeometryResources();
+    }
+
+    m_worldFxSystem.setShadowsEnabled(gameSession.gameplayScreenRuntime().settingsSnapshot().shadows);
+    m_worldFxSystem.updateParticles(deltaSeconds, m_gameplayCursorMode);
+
+    if (!m_gameplayCursorMode)
+    {
+        m_worldFxSystem.clearSpatialFx();
+        m_worldFxSystem.syncProjectileFx(gameSession, deltaSeconds, true);
     }
 
     const float cosPitch = std::cos(m_cameraPitchRadians);
@@ -2232,14 +2211,28 @@ void IndoorRenderer::render(
     renderActorPreviewBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
     renderSpriteObjectBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
 
-    renderPendingSpellWorldFx(MainViewId, viewMatrix, eye);
-    advancePendingSpellWorldFx(deltaSeconds);
-
+    ParticleRenderer::renderParticles(
+        m_worldFxRenderResources,
+        m_worldFxSystem.particles(),
+        MainViewId,
+        viewMatrix,
+        eye,
+        static_cast<float>(viewWidth) / static_cast<float>(viewHeight));
 }
 
 bool IndoorRenderer::hasHudRenderResources() const
 {
     return bgfx::isValid(m_texturedProgramHandle) && bgfx::isValid(m_textureSamplerHandle);
+}
+
+WorldFxSystem &IndoorRenderer::worldFxSystem()
+{
+    return m_worldFxSystem;
+}
+
+const WorldFxSystem &IndoorRenderer::worldFxSystem() const
+{
+    return m_worldFxSystem;
 }
 
 bgfx::ProgramHandle IndoorRenderer::hudTexturedProgramHandle() const
@@ -2337,65 +2330,6 @@ void IndoorRenderer::setGameplayMouseLookMode(bool enabled, bool cursorMode)
 {
     m_gameplayMouseLookEnabled = enabled;
     m_gameplayCursorMode = cursorMode;
-}
-
-void IndoorRenderer::triggerPendingSpellWorldFx(const PartySpellCastResult &castResult)
-{
-    if (!castResult.succeeded()
-        || !castResult.hasSourcePoint
-        || !shouldTriggerPendingSpellWorldFx(castResult.effectKind))
-    {
-        return;
-    }
-
-    const size_t affectedCharacterCount =
-        castResult.affectedCharacterIndices.empty() ? 1 : castResult.affectedCharacterIndices.size();
-    const size_t effectCount = std::max<size_t>(1, affectedCharacterCount);
-    const uint32_t colorAbgr = pendingSpellWorldFxColorAbgr(castResult.effectKind);
-
-    for (size_t effectIndex = 0; effectIndex < effectCount; ++effectIndex)
-    {
-        const float angleRadians =
-            (Pi * 2.0f * static_cast<float>(effectIndex)) / static_cast<float>(effectCount);
-        const float offsetRadius = effectCount > 1 ? PendingSpellWorldFxRingRadius : 0.0f;
-
-        PendingSpellWorldFx effect = {};
-        effect.x = castResult.sourceX + std::cos(angleRadians) * offsetRadius;
-        effect.y = castResult.sourceY + std::sin(angleRadians) * offsetRadius;
-        effect.z = castResult.sourceZ + (effectCount > 1 ? static_cast<float>(effectIndex % 2) * 10.0f : 0.0f);
-        effect.durationSeconds = PendingSpellWorldFxDurationSeconds;
-        effect.radius = castResult.effectKind == PartySpellCastEffectKind::PartyRestore ? 34.0f : 28.0f;
-        effect.colorAbgr = colorAbgr;
-        m_pendingSpellWorldFx.push_back(effect);
-    }
-
-    if (m_pendingSpellWorldFx.size() > MaxPendingSpellWorldFx)
-    {
-        const size_t eraseCount = m_pendingSpellWorldFx.size() - MaxPendingSpellWorldFx;
-        m_pendingSpellWorldFx.erase(
-            m_pendingSpellWorldFx.begin(),
-            m_pendingSpellWorldFx.begin() + static_cast<std::ptrdiff_t>(eraseCount));
-    }
-}
-
-void IndoorRenderer::triggerProjectileImpactWorldFx(float x, float y, float z, uint32_t spellId)
-{
-    PendingSpellWorldFx effect = {};
-    effect.x = x;
-    effect.y = y;
-    effect.z = z;
-    effect.durationSeconds = ProjectileImpactWorldFxDurationSeconds;
-    effect.radius = spellId == 0 ? 18.0f : 26.0f;
-    effect.colorAbgr = projectileImpactWorldFxColorAbgr(spellId);
-    m_pendingSpellWorldFx.push_back(effect);
-
-    if (m_pendingSpellWorldFx.size() > MaxPendingSpellWorldFx)
-    {
-        const size_t eraseCount = m_pendingSpellWorldFx.size() - MaxPendingSpellWorldFx;
-        m_pendingSpellWorldFx.erase(
-            m_pendingSpellWorldFx.begin(),
-            m_pendingSpellWorldFx.begin() + static_cast<std::ptrdiff_t>(eraseCount));
-    }
 }
 
 std::optional<IndoorRenderer::GameplayActorPick>
@@ -3649,7 +3583,8 @@ void IndoorRenderer::shutdown()
     m_indoorSpriteObjectBillboardSet.reset();
     m_houseTable.reset();
     m_mechanismBindings.clear();
-    m_pendingSpellWorldFx.clear();
+    m_worldFxSystem.reset();
+    ParticleRenderer::shutdownResources(m_worldFxRenderResources);
 
     if (bgfx::isValid(m_programHandle))
     {
@@ -5193,131 +5128,6 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             | BGFX_STATE_BLEND_ALPHA
         );
         bgfx::submit(viewId, m_texturedProgramHandle);
-    }
-}
-
-void IndoorRenderer::advancePendingSpellWorldFx(float deltaSeconds)
-{
-    const float clampedDeltaSeconds = std::max(deltaSeconds, 0.0f);
-
-    for (PendingSpellWorldFx &effect : m_pendingSpellWorldFx)
-    {
-        effect.ageSeconds += clampedDeltaSeconds;
-    }
-
-    m_pendingSpellWorldFx.erase(
-        std::remove_if(
-            m_pendingSpellWorldFx.begin(),
-            m_pendingSpellWorldFx.end(),
-            [](const PendingSpellWorldFx &effect)
-            {
-                return effect.durationSeconds <= 0.0f || effect.ageSeconds >= effect.durationSeconds;
-            }),
-        m_pendingSpellWorldFx.end());
-}
-
-void IndoorRenderer::renderPendingSpellWorldFx(
-    uint16_t viewId,
-    const float *pViewMatrix,
-    const bx::Vec3 &cameraPosition)
-{
-    if (m_pendingSpellWorldFx.empty() || !bgfx::isValid(m_programHandle))
-    {
-        return;
-    }
-
-    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
-    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
-
-    struct DrawItem
-    {
-        const PendingSpellWorldFx *pEffect = nullptr;
-        float distanceSquared = 0.0f;
-    };
-
-    std::vector<DrawItem> drawItems;
-    drawItems.reserve(m_pendingSpellWorldFx.size());
-
-    for (const PendingSpellWorldFx &effect : m_pendingSpellWorldFx)
-    {
-        const float deltaX = effect.x - cameraPosition.x;
-        const float deltaY = effect.y - cameraPosition.y;
-        const float deltaZ = effect.z - cameraPosition.z;
-
-        DrawItem item = {};
-        item.pEffect = &effect;
-        item.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
-        drawItems.push_back(item);
-    }
-
-    std::sort(
-        drawItems.begin(),
-        drawItems.end(),
-        [](const DrawItem &left, const DrawItem &right)
-        {
-            return left.distanceSquared > right.distanceSquared;
-        });
-
-    for (const DrawItem &item : drawItems)
-    {
-        const PendingSpellWorldFx &effect = *item.pEffect;
-        const float normalizedAge = std::clamp(effect.ageSeconds / effect.durationSeconds, 0.0f, 1.0f);
-        const float fade = 1.0f - normalizedAge;
-        const uint8_t baseAlpha = static_cast<uint8_t>((effect.colorAbgr >> 24) & 0xffu);
-        const uint8_t alpha =
-            static_cast<uint8_t>(std::clamp(std::lround(static_cast<float>(baseAlpha) * fade), 0l, 255l));
-
-        if (alpha == 0)
-        {
-            continue;
-        }
-
-        const uint32_t colorAbgr = withAlpha(effect.colorAbgr, alpha);
-        const float radius = effect.radius * (1.0f + normalizedAge * 0.45f);
-        const bx::Vec3 center = {
-            effect.x,
-            effect.y,
-            effect.z + normalizedAge * 32.0f
-        };
-        const bx::Vec3 right = {cameraRight.x * radius, cameraRight.y * radius, cameraRight.z * radius};
-        const bx::Vec3 up = {cameraUp.x * radius, cameraUp.y * radius, cameraUp.z * radius};
-
-        std::array<TerrainVertex, 6> vertices = {{
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, colorAbgr},
-            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, colorAbgr},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, colorAbgr},
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, colorAbgr},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, colorAbgr},
-            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, colorAbgr}
-        }};
-
-        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), TerrainVertex::ms_layout)
-            < vertices.size())
-        {
-            continue;
-        }
-
-        bgfx::TransientVertexBuffer transientVertexBuffer = {};
-        bgfx::allocTransientVertexBuffer(
-            &transientVertexBuffer,
-            static_cast<uint32_t>(vertices.size()),
-            TerrainVertex::ms_layout
-        );
-        std::memcpy(
-            transientVertexBuffer.data,
-            vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(TerrainVertex)));
-
-        float modelMatrix[16] = {};
-        bx::mtxIdentity(modelMatrix);
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bgfx::setState(
-            BGFX_STATE_WRITE_RGB
-            | BGFX_STATE_WRITE_A
-            | BGFX_STATE_DEPTH_TEST_LEQUAL
-            | BGFX_STATE_BLEND_ALPHA);
-        bgfx::submit(viewId, m_programHandle);
     }
 }
 

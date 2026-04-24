@@ -75,6 +75,7 @@ struct GameSettings
     bool bloodSplats = true;
     bool coloredLights = true;
     bool tinting = true;
+    bool shadows = false;
     bool textureFiltering = true;
     std::string terrainFiltering = "anisotropic";
     std::string terrainAnisotropy = "8x";

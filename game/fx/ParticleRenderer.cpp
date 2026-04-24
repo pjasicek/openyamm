@@ -2,7 +2,7 @@
 
 #include "game/fx/FxSharedTypes.h"
 #include "game/fx/ParticleSystem.h"
-#include "game/outdoor/OutdoorGameView.h"
+#include "game/fx/WorldFxRenderResources.h"
 #include "game/render/TextureFiltering.h"
 
 #include <bgfx/bgfx.h>
@@ -302,23 +302,20 @@ bool shouldRenderParticle(
 }
 }
 
-void ParticleRenderer::initializeResources(OutdoorGameView &view)
+void ParticleRenderer::initializeResources(WorldFxRenderResources &resources)
 {
     auto ensureParticleTexture =
-        [&view](const char *pTextureName, int width, int height, const std::vector<uint8_t> &pixels)
+        [&resources](const char *pTextureName, int width, int height, const std::vector<uint8_t> &pixels)
         {
-            if (view.findBillboardTexture(pTextureName) != nullptr)
+            if (resources.findParticleTexture(pTextureName) != nullptr)
             {
                 return;
             }
 
-            OutdoorGameView::BillboardTextureHandle particleTexture = {};
+            WorldFxParticleTexture particleTexture = {};
             particleTexture.textureName = pTextureName;
-            particleTexture.paletteId = 0;
             particleTexture.width = width;
             particleTexture.height = height;
-            particleTexture.physicalWidth = width;
-            particleTexture.physicalHeight = height;
             particleTexture.textureHandle = createBgraTexture2D(
                 static_cast<uint16_t>(width),
                 static_cast<uint16_t>(height),
@@ -329,11 +326,13 @@ void ParticleRenderer::initializeResources(OutdoorGameView &view)
 
             if (bgfx::isValid(particleTexture.textureHandle))
             {
-                view.m_billboardTextureHandles.push_back(std::move(particleTexture));
-                view.m_billboardTextureIndexByPalette[0][pTextureName] =
-                    view.m_billboardTextureHandles.size() - 1;
+                resources.addParticleTexture(std::move(particleTexture));
             }
         };
+
+    WorldFxParticleVertex::init();
+    resources.setTextureSamplerHandle(bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler));
+    resources.setParticleParamsUniformHandle(bgfx::createUniform("u_particleParams", bgfx::UniformType::Vec4));
 
     ensureParticleTexture(ParticleSoftBlobTextureName, 64, 64, buildRadialPixels(64, 64, 2.6f, 0.0f, 1.0f));
     ensureParticleTexture(ParticleHardBlobTextureName, 64, 64, buildRadialPixels(64, 64, 6.5f, 0.08f, 1.10f));
@@ -344,26 +343,32 @@ void ParticleRenderer::initializeResources(OutdoorGameView &view)
 
     for (size_t material = 0; material < ParticleMaterialCount; ++material)
     {
-        const OutdoorGameView::BillboardTextureHandle *pTexture =
-            view.findBillboardTexture(textureNameForMaterial(static_cast<FxParticleMaterial>(material)));
-        view.m_particleTextureHandleIndices[material] =
+        const WorldFxParticleTexture *pTexture =
+            resources.findParticleTexture(textureNameForMaterial(static_cast<FxParticleMaterial>(material)));
+        resources.particleTextureHandleIndices()[material] =
             pTexture != nullptr ? pTexture->textureHandle.idx : bgfx::kInvalidHandle;
     }
 }
 
+void ParticleRenderer::shutdownResources(WorldFxRenderResources &resources)
+{
+    resources.shutdown();
+}
+
 void ParticleRenderer::renderParticles(
-    OutdoorGameView &view,
+    WorldFxRenderResources &resources,
+    const ParticleSystem &particleSystem,
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition,
     float aspectRatio)
 {
-    if (!bgfx::isValid(view.m_particleProgramHandle) || !bgfx::isValid(view.m_terrainTextureSamplerHandle))
+    if (!resources.isReady())
     {
         return;
     }
 
-    const std::vector<FxParticleState> &particles = view.m_particleSystem.particles();
+    const std::vector<FxParticleState> &particles = particleSystem.particles();
 
     if (particles.empty())
     {
@@ -374,12 +379,12 @@ void ParticleRenderer::renderParticles(
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
     const bx::Vec3 cameraForward =
         normalizeOrFallback(bx::mul(bx::cross(cameraRight, cameraUp), -1.0f), {0.0f, 0.0f, 1.0f});
-    std::array<std::vector<OutdoorGameView::LitBillboardVertex>, ParticleMaterialCount * ParticleBlendModeCount>
-        &batches = view.m_particleVertexBatches;
+    std::array<std::vector<WorldFxParticleVertex>, ParticleMaterialCount * ParticleBlendModeCount> &batches =
+        resources.particleVertexBatches();
     std::vector<const FxParticleState *> visibleParticles;
     visibleParticles.reserve(particles.size());
     auto writeParticleQuad =
-        [](OutdoorGameView::LitBillboardVertex *pVertices,
+        [](WorldFxParticleVertex *pVertices,
            const bx::Vec3 &center,
            const bx::Vec3 &right,
            const bx::Vec3 &up,
@@ -439,7 +444,7 @@ void ParticleRenderer::renderParticles(
 
     for (size_t batchIndexValue = 0; batchIndexValue < batches.size(); ++batchIndexValue)
     {
-        std::vector<OutdoorGameView::LitBillboardVertex> &batch = batches[batchIndexValue];
+        std::vector<WorldFxParticleVertex> &batch = batches[batchIndexValue];
         const size_t batchVertexCount = batchVertexCounts[batchIndexValue];
 
         if (batch.capacity() < batchVertexCount)
@@ -554,20 +559,19 @@ void ParticleRenderer::renderParticles(
         }
 
         const size_t particleBatchIndex = batchIndex(particle.material, particle.blendMode);
-        std::vector<OutdoorGameView::LitBillboardVertex> &batch = batches[particleBatchIndex];
-        OutdoorGameView::LitBillboardVertex *pWrite =
-            batch.data() + batchWriteOffsets[particleBatchIndex];
+        std::vector<WorldFxParticleVertex> &batch = batches[particleBatchIndex];
+        WorldFxParticleVertex *pWrite = batch.data() + batchWriteOffsets[particleBatchIndex];
         writeParticleQuad(pWrite, center, right, up, finalColorAbgr);
         batchWriteOffsets[particleBatchIndex] += 6;
     }
 
     auto submitParticleBatch =
-        [&](const std::vector<OutdoorGameView::LitBillboardVertex> &vertices,
+        [&](const std::vector<WorldFxParticleVertex> &vertices,
             uint64_t renderState,
             size_t material,
             bool additiveBlend)
         {
-            bgfx::TextureHandle textureHandle = {view.m_particleTextureHandleIndices[material]};
+            bgfx::TextureHandle textureHandle = {resources.particleTextureHandleIndices()[material]};
 
             if (vertices.empty() || !bgfx::isValid(textureHandle))
             {
@@ -576,7 +580,7 @@ void ParticleRenderer::renderParticles(
 
             if (bgfx::getAvailTransientVertexBuffer(
                     static_cast<uint32_t>(vertices.size()),
-                    OutdoorGameView::LitBillboardVertex::ms_layout) < vertices.size())
+                    WorldFxParticleVertex::ms_layout) < vertices.size())
             {
                 return;
             }
@@ -585,11 +589,11 @@ void ParticleRenderer::renderParticles(
             bgfx::allocTransientVertexBuffer(
                 &transientVertexBuffer,
                 static_cast<uint32_t>(vertices.size()),
-                OutdoorGameView::LitBillboardVertex::ms_layout);
+                WorldFxParticleVertex::ms_layout);
             std::memcpy(
                 transientVertexBuffer.data,
                 vertices.data(),
-                static_cast<size_t>(vertices.size() * sizeof(OutdoorGameView::LitBillboardVertex)));
+                static_cast<size_t>(vertices.size() * sizeof(WorldFxParticleVertex)));
 
             float modelMatrix[16] = {};
             bx::mtxIdentity(modelMatrix);
@@ -598,13 +602,13 @@ void ParticleRenderer::renderParticles(
             bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
             bindTexture(
                 0,
-                view.m_terrainTextureSamplerHandle,
+                resources.textureSamplerHandle(),
                 textureHandle,
                 TextureFilterProfile::Billboard,
                 BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-            bgfx::setUniform(view.m_particleParamsUniformHandle, particleParams);
+            bgfx::setUniform(resources.particleParamsUniformHandle(), particleParams);
             bgfx::setState(renderState);
-            bgfx::submit(viewId, view.m_particleProgramHandle);
+            bgfx::submit(viewId, resources.particleProgramHandle());
         };
 
     for (size_t material = 0; material < ParticleMaterialCount; ++material)

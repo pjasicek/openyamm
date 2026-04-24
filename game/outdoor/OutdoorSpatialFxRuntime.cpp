@@ -1,12 +1,10 @@
-#include "game/outdoor/OutdoorFxRuntime.h"
+#include "game/outdoor/OutdoorSpatialFxRuntime.h"
 
 #include "game/app/GameSession.h"
+#include "game/fx/FxSharedTypes.h"
 #include "game/fx/ParticleRecipes.h"
-#include "game/party/SpellIds.h"
 #include "game/StringUtils.h"
-#include "game/fx/ParticleSystem.h"
 #include "game/outdoor/OutdoorGameView.h"
-#include "game/data/GameDataRepository.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/tables/SpriteTables.h"
@@ -19,13 +17,10 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr float ProjectileTrailCooldownSeconds = 0.018f;
 constexpr float DecorationEmitterCooldownSeconds = 0.045f;
 constexpr float DecorationSmokeEmitterCooldownSeconds = 0.14f;
 constexpr float SpatialFxRefreshIntervalSeconds = 1.0f / 60.0f;
 constexpr float ShadowHeightFadeDistance = 512.0f;
-constexpr float PartySpellFxRingRadius = 28.0f;
-constexpr uint32_t CannonballPseudoSpellId = 136;
 constexpr int32_t MapWeatherSnowing = 2;
 constexpr int32_t MapWeatherRaining = 4;
 constexpr float WeatherSnowParticlesPerSecond = 52.0f;
@@ -184,80 +179,12 @@ void applyDecorationLightPulse(
         255));
 }
 
-uint32_t partySpellFxColorAbgr(const PartySpellCastResult &result)
-{
-    if (result.effectKind == PartySpellCastEffectKind::CharacterRestore
-        || result.effectKind == PartySpellCastEffectKind::PartyRestore)
-    {
-        return makeAbgr(192, 255, 192, 224);
-    }
-
-    if (spellIdInRange(result.spellId, SpellId::LightBolt, SpellId::DivineIntervention))
-    {
-        return makeAbgr(255, 240, 180, 224);
-    }
-
-    if (spellIdInRange(result.spellId, SpellId::Reanimate, SpellId::SoulDrinker))
-    {
-        return makeAbgr(180, 112, 255, 224);
-    }
-
-    if (spellIdInRange(result.spellId, SpellId::CureWeakness, SpellId::PowerCure))
-    {
-        return makeAbgr(132, 224, 120, 220);
-    }
-
-    if (spellIdInRange(result.spellId, SpellId::Telepathy, SpellId::Enslave))
-    {
-        return makeAbgr(224, 132, 255, 220);
-    }
-
-    if (spellIdInRange(result.spellId, SpellId::DetectLife, SpellId::Resurrection))
-    {
-        return makeAbgr(208, 192, 255, 220);
-    }
-
-    if (spellIdInRange(result.spellId, SpellId::Stun, SpellId::MassDistortion))
-    {
-        return makeAbgr(180, 220, 132, 220);
-    }
-
-    if (spellIdInRange(result.spellId, SpellId::Awaken, SpellId::LloydsBeacon))
-    {
-        return makeAbgr(160, 224, 255, 220);
-    }
-
-    if (spellIdInRange(result.spellId, SpellId::WizardEye, SpellId::Starburst))
-    {
-        return makeAbgr(255, 228, 132, 220);
-    }
-
-    if (spellIdInRange(result.spellId, SpellId::TorchLight, SpellId::Incinerate))
-    {
-        return makeAbgr(255, 144, 72, 224);
-    }
-
-    return makeAbgr(255, 255, 255, 208);
 }
 
-bool shouldTriggerPartySpellSparkles(PartySpellCastEffectKind effectKind)
+void OutdoorSpatialFxRuntime::reset()
 {
-    return effectKind == PartySpellCastEffectKind::PartyBuff
-        || effectKind == PartySpellCastEffectKind::CharacterBuff
-        || effectKind == PartySpellCastEffectKind::CharacterRestore
-        || effectKind == PartySpellCastEffectKind::PartyRestore;
-}
-}
-
-void OutdoorFxRuntime::reset()
-{
-    m_glowBillboards.clear();
-    m_lightEmitters.clear();
-    m_contactShadows.clear();
     m_emitterCooldownBySourceKey.clear();
     m_emitterSequenceBySourceKey.clear();
-    m_trailCooldownByProjectileId.clear();
-    m_seenImpactIds.clear();
     m_spatialRefreshAccumulatorSeconds = 0.0f;
     m_snowEmissionAccumulator = 0.0f;
     m_rainEmissionAccumulator = 0.0f;
@@ -265,22 +192,8 @@ void OutdoorFxRuntime::reset()
     m_hasSpatialSnapshot = false;
 }
 
-void OutdoorFxRuntime::update(OutdoorGameView &view, float deltaSeconds)
+bool OutdoorSpatialFxRuntime::beginFrame(OutdoorGameView &view, float deltaSeconds)
 {
-    for (auto it = m_trailCooldownByProjectileId.begin(); it != m_trailCooldownByProjectileId.end();)
-    {
-        it->second = std::max(0.0f, it->second - deltaSeconds);
-
-        if (it->second <= 0.0f)
-        {
-            it = m_trailCooldownByProjectileId.erase(it);
-        }
-        else
-        {
-            ++it;
-        }
-    }
-
     for (auto it = m_emitterCooldownBySourceKey.begin(); it != m_emitterCooldownBySourceKey.end();)
     {
         it->second = std::max(0.0f, it->second - deltaSeconds);
@@ -304,232 +217,47 @@ void OutdoorFxRuntime::update(OutdoorGameView &view, float deltaSeconds)
     if (refreshSpatialFx)
     {
         m_spatialRefreshAccumulatorSeconds = 0.0f;
-        m_glowBillboards.clear();
-        m_lightEmitters.clear();
-        m_contactShadows.clear();
+        view.m_worldFxSystem.clearSpatialFx();
         m_hasSpatialSnapshot = true;
     }
 
-    syncRuntimeProjectiles(view, refreshSpatialFx);
+    return refreshSpatialFx;
+}
+
+void OutdoorSpatialFxRuntime::syncSpatialFx(OutdoorGameView &view, bool refreshSpatialFx)
+{
+    syncOutdoorProjectileContactShadows(view, refreshSpatialFx);
 
     if (refreshSpatialFx)
     {
-        syncRuntimeActors(view);
-        syncRuntimeDecorations(view);
-        syncRuntimeSpriteObjects(view);
+        syncActorSpatialFx(view);
+        syncDecorationEmitters(view);
+        syncSpriteObjectSpatialFx(view);
     }
-
-    cleanupSeenIds(view);
 }
 
-void OutdoorFxRuntime::triggerPartySpellFx(OutdoorGameView &view, const PartySpellCastResult &result)
+void OutdoorSpatialFxRuntime::syncOutdoorProjectileContactShadows(OutdoorGameView &view, bool refreshSpatialFx)
 {
-    triggerPartySpellFx(view.m_particleSystem, result);
-}
-
-void OutdoorFxRuntime::triggerPartySpellFx(ParticleSystem &particleSystem, const PartySpellCastResult &result)
-{
-    if (!result.succeeded() || !result.hasSourcePoint || !shouldTriggerPartySpellSparkles(result.effectKind))
+    if (!refreshSpatialFx || !view.m_gameSettings.shadows)
     {
         return;
     }
 
-    const uint32_t sparkleColorAbgr = partySpellFxColorAbgr(result);
-    const size_t sparkleCount = std::max<size_t>(1, result.affectedCharacterIndices.empty() ? 1 : result.affectedCharacterIndices.size());
-
-    for (size_t sparkleIndex = 0; sparkleIndex < sparkleCount; ++sparkleIndex)
-    {
-        const float angleRadians =
-            (6.28318530717958647692f * static_cast<float>(sparkleIndex)) / static_cast<float>(sparkleCount);
-        const float offsetRadius = sparkleCount > 1 ? PartySpellFxRingRadius : 0.0f;
-        const float sparkleX = result.sourceX + std::cos(angleRadians) * offsetRadius;
-        const float sparkleY = result.sourceY + std::sin(angleRadians) * offsetRadius;
-        const float sparkleZ = result.sourceZ + (sparkleCount > 1 ? static_cast<float>(sparkleIndex % 2) * 10.0f : 0.0f);
-        const float sparkleRadius = result.effectKind == PartySpellCastEffectKind::PartyRestore ? 30.0f : 24.0f;
-        const uint32_t sparkleSeed =
-            (result.spellId * 2654435761u) ^ static_cast<uint32_t>(sparkleIndex * 2246822519u);
-
-        FxRecipes::spawnBuffSparkles(
-            particleSystem,
-            sparkleSeed,
-            sparkleX,
-            sparkleY,
-            sparkleZ,
-            sparkleRadius,
-            sparkleColorAbgr);
-    }
-}
-
-const std::vector<OutdoorFxRuntime::GlowBillboardState> &OutdoorFxRuntime::glowBillboards() const
-{
-    return m_glowBillboards;
-}
-
-const std::vector<OutdoorFxRuntime::LightEmitterState> &OutdoorFxRuntime::lightEmitters() const
-{
-    return m_lightEmitters;
-}
-
-const std::vector<OutdoorFxRuntime::ContactShadowState> &OutdoorFxRuntime::contactShadows() const
-{
-    return m_contactShadows;
-}
-
-void OutdoorFxRuntime::syncRuntimeProjectiles(OutdoorGameView &view, bool refreshSpatialFx)
-{
-    const ObjectTable &objectTable = view.data().objectTable();
     const std::vector<GameplayProjectilePresentationState> &projectiles =
         view.m_gameSession.gameplayFxService().activeProjectilePresentationStates();
-    const std::vector<GameplayProjectileImpactPresentationState> &impacts =
-        view.m_gameSession.gameplayFxService().activeProjectileImpactPresentationStates();
-
     for (const GameplayProjectilePresentationState &projectile : projectiles)
     {
-        const ObjectEntry *pObjectEntry = objectTable.get(projectile.objectDescriptionId);
-
-        if (pObjectEntry != nullptr)
-        {
-            if (projectile.spellId == CannonballPseudoSpellId
-                || projectile.objectName == "Cannonball"
-                || projectile.objectSpriteName == "CANNBL")
-            {
-                if (refreshSpatialFx)
-                {
-                    addContactShadow(
-                        view,
-                        projectile.x,
-                        projectile.y,
-                        projectile.z,
-                        std::max(24.0f, projectile.radius * 0.75f),
-                        0.0f);
-                }
-
-                continue;
-            }
-
-            const FxRecipes::ProjectileRecipe recipe = FxRecipes::classifyProjectileRecipe(
-                projectile.spellId,
-                projectile.objectName,
-                projectile.objectSpriteName,
-                pObjectEntry->flags);
-            const uint32_t trailColor = FxRecipes::projectileRecipeColorAbgr(recipe);
-            const float velocityLength = std::sqrt(
-                projectile.velocityX * projectile.velocityX
-                + projectile.velocityY * projectile.velocityY
-                + projectile.velocityZ * projectile.velocityZ);
-            float directionX = 0.0f;
-            float directionY = 0.0f;
-            float directionZ = 1.0f;
-
-            if (velocityLength > 0.001f)
-            {
-                directionX = projectile.velocityX / velocityLength;
-                directionY = projectile.velocityY / velocityLength;
-                directionZ = projectile.velocityZ / velocityLength;
-            }
-
-            const float backOffset = FxRecipes::projectileRecipeBackOffset(recipe, projectile.radius);
-            const float anchoredX = projectile.x - directionX * backOffset;
-            const float anchoredY = projectile.y - directionY * backOffset;
-            const float projectileCenterZ =
-                projectile.z + FxRecipes::projectileRecipeAnchorOffset(
-                    recipe,
-                    projectile.radius,
-                    projectile.height);
-
-            FxRecipes::ProjectileSpawnContext trailContext = {};
-            trailContext.projectileId = projectile.projectileId;
-            trailContext.objectFlags = pObjectEntry->flags;
-            trailContext.radius = projectile.radius;
-            trailContext.height = projectile.height;
-            trailContext.spellId = projectile.spellId;
-            trailContext.objectName = projectile.objectName;
-            trailContext.spriteName = projectile.objectSpriteName;
-            trailContext.x = anchoredX;
-            trailContext.y = anchoredY;
-            trailContext.z = projectileCenterZ;
-            trailContext.velocityX = projectile.velocityX;
-            trailContext.velocityY = projectile.velocityY;
-            trailContext.velocityZ = projectile.velocityZ;
-            float &cooldown = m_trailCooldownByProjectileId[projectile.projectileId];
-
-            if (cooldown <= 0.0f)
-            {
-                cooldown = ProjectileTrailCooldownSeconds;
-                FxRecipes::spawnProjectileTrailParticles(view.m_particleSystem, trailContext, recipe);
-            }
-
-            const float glowRadius = FxRecipes::projectileRecipeGlowRadius(recipe);
-
-            if (refreshSpatialFx && glowRadius > 0.0f)
-            {
-                addLightEmitter(
-                    projectile.x,
-                    projectile.y,
-                    projectileCenterZ,
-                    glowRadius,
-                    makeAbgr(
-                        static_cast<uint8_t>(trailColor & 0xffu),
-                        static_cast<uint8_t>((trailColor >> 8) & 0xffu),
-                        static_cast<uint8_t>((trailColor >> 16) & 0xffu),
-                        255));
-                addGlowBillboard(projectile.x, projectile.y, projectile.z, glowRadius, trailColor, false);
-            }
-        }
-
-        if (refreshSpatialFx)
-        {
-            addContactShadow(
-                view,
-                projectile.x,
-                projectile.y,
-                projectile.z,
-                std::max(24.0f, projectile.radius * 0.75f),
-                0.0f);
-        }
-    }
-
-    for (const GameplayProjectileImpactPresentationState &impact : impacts)
-    {
-        if (m_seenImpactIds.insert(impact.effectId).second)
-        {
-            const FxRecipes::ProjectileRecipe recipe = FxRecipes::classifyProjectileRecipe(
-                impact.sourceSpellId,
-                impact.sourceObjectName,
-                impact.sourceObjectSpriteName,
-                impact.sourceObjectFlags);
-
-            if (FxRecipes::projectileRecipeUsesDedicatedImpactFx(recipe))
-            {
-                FxRecipes::ImpactSpawnContext impactContext = {};
-                impactContext.recipe = recipe;
-                impactContext.objectName = impact.objectName;
-                impactContext.spriteName = impact.objectSpriteName;
-                impactContext.x = impact.x;
-                impactContext.y = impact.y;
-                impactContext.z = impact.z;
-                FxRecipes::spawnImpactParticles(view.m_particleSystem, impactContext);
-
-                const float impactLightRadius =
-                    recipe == FxRecipes::ProjectileRecipe::MeteorShower ? 128.0f
-                        : recipe == FxRecipes::ProjectileRecipe::Starburst
-                        ? 136.0f
-                        : recipe == FxRecipes::ProjectileRecipe::Implosion
-                        ? 152.0f
-                        : 96.0f;
-
-                addLightEmitter(
-                    impact.x,
-                    impact.y,
-                    impact.z + 16.0f,
-                    impactLightRadius,
-                    FxRecipes::projectileRecipeColorAbgr(recipe));
-            }
-        }
+        addContactShadow(
+            view,
+            projectile.x,
+            projectile.y,
+            projectile.z,
+            std::max(24.0f, projectile.radius * 0.75f),
+            0.0f);
     }
 }
 
-void OutdoorFxRuntime::syncRuntimeActors(OutdoorGameView &view)
+void OutdoorSpatialFxRuntime::syncActorSpatialFx(OutdoorGameView &view)
 {
     if (view.m_pOutdoorWorldRuntime == nullptr || !view.m_outdoorActorPreviewBillboardSet.has_value())
     {
@@ -560,6 +288,7 @@ void OutdoorFxRuntime::syncRuntimeActors(OutdoorGameView &view)
         if (pFrame != nullptr && pFrame->glowRadius > 0)
         {
             addLightEmitter(
+                view,
                 pActor->preciseX,
                 pActor->preciseY,
                 pActor->preciseZ + static_cast<float>(pActor->height) * 0.5f,
@@ -569,7 +298,7 @@ void OutdoorFxRuntime::syncRuntimeActors(OutdoorGameView &view)
     }
 }
 
-void OutdoorFxRuntime::syncRuntimeDecorations(OutdoorGameView &view)
+void OutdoorSpatialFxRuntime::syncDecorationEmitters(OutdoorGameView &view)
 {
     if (!view.m_outdoorDecorationBillboardSet.has_value())
     {
@@ -628,7 +357,7 @@ void OutdoorFxRuntime::syncRuntimeDecorations(OutdoorGameView &view)
                 lightEmitterRadius,
                 lightAlpha);
             const uint32_t lightEmitterColorAbgr = makeAbgr(lightRed, lightGreen, lightBlue, lightAlpha);
-            addLightEmitter(lightX, lightY, lightZ, lightEmitterRadius, lightEmitterColorAbgr);
+            addLightEmitter(view, lightX, lightY, lightZ, lightEmitterRadius, lightEmitterColorAbgr);
         }
 
         const uint64_t emitterKey = makeDecorationEmitterKey(billboard);
@@ -644,7 +373,7 @@ void OutdoorFxRuntime::syncRuntimeDecorations(OutdoorGameView &view)
                     static_cast<uint32_t>(emitterKey)
                     ^ (++m_emitterSequenceBySourceKey[emitterKey] * 2654435761u);
                 FxRecipes::spawnDecorationFireParticles(
-                    view.m_particleSystem,
+                    view.m_worldFxSystem.particles(),
                     emissionSeed,
                     lightX,
                     lightY,
@@ -665,7 +394,7 @@ void OutdoorFxRuntime::syncRuntimeDecorations(OutdoorGameView &view)
                     static_cast<uint32_t>(smokeEmitterKey)
                     ^ (++m_emitterSequenceBySourceKey[smokeEmitterKey] * 2246822519u);
                 FxRecipes::spawnDecorationSmokeParticles(
-                    view.m_particleSystem,
+                    view.m_worldFxSystem.particles(),
                     emissionSeed,
                     lightX,
                     lightY,
@@ -676,7 +405,7 @@ void OutdoorFxRuntime::syncRuntimeDecorations(OutdoorGameView &view)
     }
 }
 
-void OutdoorFxRuntime::syncRuntimeSpriteObjects(OutdoorGameView &view)
+void OutdoorSpatialFxRuntime::syncSpriteObjectSpatialFx(OutdoorGameView &view)
 {
     if (!view.m_outdoorSpriteObjectBillboardSet.has_value())
     {
@@ -701,12 +430,14 @@ void OutdoorFxRuntime::syncRuntimeSpriteObjects(OutdoorGameView &view)
         }
 
         addLightEmitter(
+            view,
             static_cast<float>(billboard.x),
             static_cast<float>(billboard.y),
             static_cast<float>(billboard.z) + static_cast<float>(billboard.height) * 0.5f,
             static_cast<float>(pFrame->glowRadius * billboard.glowRadiusMultiplier),
             makeAbgr(255, 255, 255, 120));
         addGlowBillboard(
+            view,
             static_cast<float>(billboard.x),
             static_cast<float>(billboard.y),
             static_cast<float>(billboard.z) + static_cast<float>(billboard.height) * 0.5f,
@@ -715,7 +446,7 @@ void OutdoorFxRuntime::syncRuntimeSpriteObjects(OutdoorGameView &view)
     }
 }
 
-void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSeconds)
+void OutdoorSpatialFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSeconds)
 {
     if (view.m_pOutdoorWorldRuntime == nullptr)
     {
@@ -752,7 +483,8 @@ void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSe
     const float cameraX = view.m_cameraTargetX;
     const float cameraY = view.m_cameraTargetY;
     const float cameraZ = view.m_cameraTargetZ;
-    const float spawnVolumeScale = 1.0f + std::max(0.0f, rainIntensity - 1.0f) * WeatherSpawnVolumeExpansionPerIntensity;
+    const float spawnVolumeScale =
+        1.0f + std::max(0.0f, rainIntensity - 1.0f) * WeatherSpawnVolumeExpansionPerIntensity;
     const float spawnForwardDistance = WeatherSpawnForwardDistance * spawnVolumeScale;
     const float rainNearForwardDistance = WeatherRainNearForwardDistance * spawnVolumeScale;
     const float spawnHalfWidth = WeatherSpawnHalfWidth * spawnVolumeScale;
@@ -793,7 +525,7 @@ void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSe
             particle.alignment = FxParticleAlignment::CameraFacing;
             particle.material = FxParticleMaterial::SoftBlob;
             particle.tag = FxParticleTag::Misc;
-            view.m_particleSystem.addParticle(particle);
+            view.m_worldFxSystem.particles().addParticle(particle);
         };
 
     auto emitRainParticle =
@@ -834,7 +566,7 @@ void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSe
             particle.alignment = FxParticleAlignment::VelocityStretched;
             particle.material = FxParticleMaterial::HardBlob;
             particle.tag = FxParticleTag::Misc;
-            view.m_particleSystem.addParticle(particle);
+            view.m_worldFxSystem.particles().addParticle(particle);
         };
 
     if (snowing)
@@ -862,32 +594,7 @@ void OutdoorFxRuntime::syncWeatherParticles(OutdoorGameView &view, float deltaSe
     }
 }
 
-void OutdoorFxRuntime::cleanupSeenIds(const OutdoorGameView &view)
-{
-    std::unordered_set<uint32_t> activeImpactIds;
-    const std::vector<GameplayProjectileImpactPresentationState> &impacts =
-        view.m_gameSession.gameplayFxService().activeProjectileImpactPresentationStates();
-    activeImpactIds.reserve(impacts.size());
-
-    for (const GameplayProjectileImpactPresentationState &impact : impacts)
-    {
-        activeImpactIds.insert(impact.effectId);
-    }
-
-    for (auto it = m_seenImpactIds.begin(); it != m_seenImpactIds.end();)
-    {
-        if (activeImpactIds.find(*it) == activeImpactIds.end())
-        {
-            it = m_seenImpactIds.erase(it);
-        }
-        else
-        {
-            ++it;
-        }
-    }
-}
-
-void OutdoorFxRuntime::addContactShadow(
+void OutdoorSpatialFxRuntime::addContactShadow(
     OutdoorGameView &view,
     float x,
     float y,
@@ -895,7 +602,7 @@ void OutdoorFxRuntime::addContactShadow(
     float radius,
     float heightScale)
 {
-    if (!view.m_outdoorMapData.has_value())
+    if (!view.m_gameSettings.shadows || !view.m_outdoorMapData.has_value())
     {
         return;
     }
@@ -919,46 +626,31 @@ void OutdoorFxRuntime::addContactShadow(
         return;
     }
 
-    ContactShadowState shadow = {};
-    shadow.x = x;
-    shadow.y = y;
-    shadow.z = floorHeight + 1.0f;
-    shadow.radius = std::max(12.0f, radius * (1.0f - clamp01(heightAboveFloor / std::max(64.0f, heightScale + 64.0f))));
-    shadow.colorAbgr = makeAbgr(0, 0, 0, static_cast<uint8_t>(std::lround(96.0f * alphaScale)));
-    m_contactShadows.push_back(shadow);
+    const float shadowRadius =
+        std::max(12.0f, radius * (1.0f - clamp01(heightAboveFloor / std::max(64.0f, heightScale + 64.0f))));
+    const uint32_t shadowColorAbgr = makeAbgr(0, 0, 0, static_cast<uint8_t>(std::lround(96.0f * alphaScale)));
+    view.m_worldFxSystem.addContactShadow(x, y, floorHeight + 1.0f, shadowRadius, shadowColorAbgr);
 }
 
-void OutdoorFxRuntime::addGlowBillboard(
-    float x,
-    float y,
-    float z,
-    float radius,
-    uint32_t colorAbgr,
-    bool renderVisibleBillboard)
-{
-    GlowBillboardState light = {};
-    light.x = x;
-    light.y = y;
-    light.z = z;
-    light.radius = radius;
-    light.colorAbgr = colorAbgr;
-    light.renderVisibleBillboard = renderVisibleBillboard;
-    m_glowBillboards.push_back(light);
-}
-
-void OutdoorFxRuntime::addLightEmitter(
+void OutdoorSpatialFxRuntime::addGlowBillboard(
+    OutdoorGameView &view,
     float x,
     float y,
     float z,
     float radius,
     uint32_t colorAbgr)
 {
-    LightEmitterState light = {};
-    light.x = x;
-    light.y = y;
-    light.z = z;
-    light.radius = radius;
-    light.colorAbgr = colorAbgr;
-    m_lightEmitters.push_back(light);
+    view.m_worldFxSystem.addGlowBillboard(x, y, z, radius, colorAbgr);
+}
+
+void OutdoorSpatialFxRuntime::addLightEmitter(
+    OutdoorGameView &view,
+    float x,
+    float y,
+    float z,
+    float radius,
+    uint32_t colorAbgr)
+{
+    view.m_worldFxSystem.addLightEmitter(x, y, z, radius, colorAbgr);
 }
 }

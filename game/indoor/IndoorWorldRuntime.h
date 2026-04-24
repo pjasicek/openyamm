@@ -408,8 +408,17 @@ private:
     void activateChestView(uint32_t chestId);
     void beginMapActorDyingState(size_t actorIndex, MapDeltaActor &actor);
     std::optional<GameplayWorldPoint> actorImpactPoint(size_t actorIndex) const;
-    void triggerProjectileImpactVisualAt(const GameplayWorldPoint &point, uint32_t spellId);
-    void triggerProjectileImpactVisual(size_t actorIndex, uint32_t spellId);
+    bool spawnIndoorProjectileImpactVisual(
+        const GameplayProjectileService::ProjectileState &projectile,
+        const GameplayWorldPoint &point,
+        bool centerVertically);
+    bool spawnIndoorWaterSplashImpactVisual(const GameplayWorldPoint &point);
+    bool spawnImmediateSpellImpactVisualAt(
+        const GameplayWorldPoint &point,
+        uint32_t spellId,
+        bool centerVertically = false,
+        bool preferImpactObject = true);
+    void spawnImmediateSpellImpactVisual(size_t actorIndex, uint32_t spellId);
 
     std::optional<MapStatsEntry> m_map;
     const MonsterTable *m_pMonsterTable = nullptr;

@@ -3478,8 +3478,7 @@ void OutdoorBillboardRenderer::renderFxContactShadows(
         return;
     }
 
-    const std::vector<OutdoorFxRuntime::ContactShadowState> &shadows =
-        view.m_outdoorFxRuntime.contactShadows();
+    const std::vector<WorldFxContactShadow> &shadows = view.m_worldFxSystem.contactShadows();
 
     if (shadows.empty())
     {
@@ -3498,7 +3497,7 @@ void OutdoorBillboardRenderer::renderFxContactShadows(
     std::vector<OutdoorGameView::LitBillboardVertex> vertices;
     vertices.reserve(shadows.size() * 6);
 
-    for (const OutdoorFxRuntime::ContactShadowState &shadow : shadows)
+    for (const WorldFxContactShadow &shadow : shadows)
     {
         const bx::Vec3 center = {shadow.x, shadow.y, shadow.z};
         const bx::Vec3 right = {shadow.radius, 0.0f, 0.0f};
@@ -3550,8 +3549,7 @@ void OutdoorBillboardRenderer::renderFxGlowBillboards(
     uint16_t viewId,
     const float *pViewMatrix)
 {
-    const std::vector<OutdoorFxRuntime::GlowBillboardState> &glowBillboards =
-        view.m_outdoorFxRuntime.glowBillboards();
+    const std::vector<WorldFxGlowBillboard> &glowBillboards = view.m_worldFxSystem.glowBillboards();
 
     if (glowBillboards.empty())
     {
@@ -3563,7 +3561,7 @@ void OutdoorBillboardRenderer::renderFxGlowBillboards(
     std::vector<OutdoorGameView::TerrainVertex> vertices;
     vertices.reserve(glowBillboards.size() * 6);
 
-    for (const OutdoorFxRuntime::GlowBillboardState &glow : glowBillboards)
+    for (const WorldFxGlowBillboard &glow : glowBillboards)
     {
         if (!glow.renderVisibleBillboard)
         {

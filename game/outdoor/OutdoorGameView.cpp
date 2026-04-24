@@ -16,7 +16,7 @@
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
-#include "game/outdoor/OutdoorFxRuntime.h"
+#include "game/outdoor/OutdoorSpatialFxRuntime.h"
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
@@ -3014,14 +3014,12 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_texturedTerrainProgramHandle(BGFX_INVALID_HANDLE)
     , m_spellAreaPreviewProgramHandle(BGFX_INVALID_HANDLE)
     , m_outdoorLitBillboardProgramHandle(BGFX_INVALID_HANDLE)
-    , m_particleProgramHandle(BGFX_INVALID_HANDLE)
     , m_outdoorTexturedFogProgramHandle(BGFX_INVALID_HANDLE)
     , m_outdoorForcePerspectiveProgramHandle(BGFX_INVALID_HANDLE)
     , m_terrainTextureAtlasHandle(BGFX_INVALID_HANDLE)
     , m_bloodSplatTextureHandle(BGFX_INVALID_HANDLE)
     , m_forcePerspectiveSolidTextureHandle(BGFX_INVALID_HANDLE)
     , m_terrainTextureSamplerHandle(BGFX_INVALID_HANDLE)
-    , m_particleParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorBillboardAmbientUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorBillboardOverrideColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorBillboardOutlineParamsUniformHandle(BGFX_INVALID_HANDLE)
@@ -3155,7 +3153,7 @@ bool OutdoorGameView::initialize(
     m_pOutdoorPartyRuntime = &sceneRuntime.partyRuntime();
     m_pOutdoorWorldRuntime = &sceneRuntime.worldRuntime();
     m_pOutdoorWorldRuntime->bindInteractionView(this);
-    m_pOutdoorWorldRuntime->setParticleSystem(&m_particleSystem);
+    m_pOutdoorWorldRuntime->setWorldFxSystem(&m_worldFxSystem);
     m_gameSettings = settings;
     m_gameSession.gameplayScreenRuntime().bindSceneAdapter(this);
     m_gameSession.gameplayScreenRuntime().bindAudioSystem(m_pGameAudioSystem);
@@ -3231,7 +3229,7 @@ bool OutdoorGameView::initialize(
     }
 
     OutdoorBillboardRenderer::initializeBillboardResources(*this);
-    ParticleRenderer::initializeResources(*this);
+    ParticleRenderer::initializeResources(m_worldFxRenderResources);
 
     if (!sharedUiBootstrap.layoutsLoaded)
     {
@@ -3239,7 +3237,6 @@ bool OutdoorGameView::initialize(
     }
 
     m_terrainTextureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
-    m_particleParamsUniformHandle = bgfx::createUniform("u_particleParams", bgfx::UniformType::Vec4);
     m_outdoorBillboardAmbientUniformHandle = bgfx::createUniform("u_billboardAmbient", bgfx::UniformType::Vec4);
     m_outdoorBillboardOverrideColorUniformHandle =
         bgfx::createUniform("u_billboardOverrideColor", bgfx::UniformType::Vec4);
@@ -3260,10 +3257,9 @@ bool OutdoorGameView::initialize(
         || !bgfx::isValid(m_indexBufferHandle)
         || !bgfx::isValid(m_programHandle)
         || !bgfx::isValid(m_outdoorLitBillboardProgramHandle)
-        || !bgfx::isValid(m_particleProgramHandle)
+        || !m_worldFxRenderResources.isReady()
         || !bgfx::isValid(m_outdoorTexturedFogProgramHandle)
         || !bgfx::isValid(m_outdoorForcePerspectiveProgramHandle)
-        || !bgfx::isValid(m_particleParamsUniformHandle)
         || !bgfx::isValid(m_outdoorBillboardAmbientUniformHandle)
         || !bgfx::isValid(m_outdoorBillboardOverrideColorUniformHandle)
         || !bgfx::isValid(m_outdoorBillboardOutlineParamsUniformHandle)
@@ -3462,25 +3458,14 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         inspectHit = m_cachedHoverInspectHit;
     }
 
-    constexpr float ParticleUpdateStepSeconds = 1.0f / 30.0f;
-    constexpr float MaxParticleUpdateAccumulationSeconds = 0.25f;
-
-    m_particleSystem.beginFrame();
-    if (!gameplayMouseLookState.cursorModeActive)
-    {
-        m_particleUpdateAccumulatorSeconds =
-            std::min(MaxParticleUpdateAccumulationSeconds, m_particleUpdateAccumulatorSeconds + deltaSeconds);
-
-        while (m_particleUpdateAccumulatorSeconds >= ParticleUpdateStepSeconds)
-        {
-            m_particleSystem.update(ParticleUpdateStepSeconds);
-            m_particleUpdateAccumulatorSeconds -= ParticleUpdateStepSeconds;
-        }
-    }
+    m_worldFxSystem.setShadowsEnabled(m_gameSettings.shadows);
+    m_worldFxSystem.updateParticles(deltaSeconds, gameplayMouseLookState.cursorModeActive);
 
     if (!gameplayMouseLookState.cursorModeActive)
     {
-        m_outdoorFxRuntime.update(*this, deltaSeconds);
+        const bool refreshSpatialFx = m_outdoorSpatialFxRuntime.beginFrame(*this, deltaSeconds);
+        m_worldFxSystem.syncProjectileFx(m_gameSession, deltaSeconds, refreshSpatialFx);
+        m_outdoorSpatialFxRuntime.syncSpatialFx(*this, refreshSpatialFx);
     }
 
     OutdoorRenderer::renderWorldPasses(
@@ -4123,15 +4108,15 @@ void OutdoorGameView::shutdown()
         if (m_pOutdoorWorldRuntime != nullptr)
         {
             m_pOutdoorWorldRuntime->bindInteractionView(nullptr);
-            m_pOutdoorWorldRuntime->setParticleSystem(nullptr);
+            m_pOutdoorWorldRuntime->setWorldFxSystem(nullptr);
         }
         m_pOutdoorWorldRuntime = nullptr;
     };
 
     screenRuntime.clearUiControllerRuntimeState();
     screenRuntime.shutdownHouseVideoPlayer();
-    m_outdoorFxRuntime.reset();
-    m_particleSystem.reset();
+    m_outdoorSpatialFxRuntime.reset();
+    m_worldFxSystem.reset();
 
     if (bgfx::getInternalData() == nullptr)
     {
@@ -4139,7 +4124,7 @@ void OutdoorGameView::shutdown()
         m_texturedTerrainProgramHandle = BGFX_INVALID_HANDLE;
         m_spellAreaPreviewProgramHandle = BGFX_INVALID_HANDLE;
         m_outdoorLitBillboardProgramHandle = BGFX_INVALID_HANDLE;
-        m_particleProgramHandle = BGFX_INVALID_HANDLE;
+        m_worldFxRenderResources.reset();
         m_outdoorTexturedFogProgramHandle = BGFX_INVALID_HANDLE;
         m_outdoorForcePerspectiveProgramHandle = BGFX_INVALID_HANDLE;
         m_bloodSplatVertexBufferHandle = BGFX_INVALID_HANDLE;
@@ -4210,11 +4195,7 @@ void OutdoorGameView::shutdown()
         m_outdoorLitBillboardProgramHandle = BGFX_INVALID_HANDLE;
     }
 
-    if (bgfx::isValid(m_particleProgramHandle))
-    {
-        bgfx::destroy(m_particleProgramHandle);
-        m_particleProgramHandle = BGFX_INVALID_HANDLE;
-    }
+    ParticleRenderer::shutdownResources(m_worldFxRenderResources);
 
     if (bgfx::isValid(m_outdoorTexturedFogProgramHandle))
     {
@@ -4250,12 +4231,6 @@ void OutdoorGameView::shutdown()
     {
         bgfx::destroy(m_terrainTextureSamplerHandle);
         m_terrainTextureSamplerHandle = BGFX_INVALID_HANDLE;
-    }
-
-    if (bgfx::isValid(m_particleParamsUniformHandle))
-    {
-        bgfx::destroy(m_particleParamsUniformHandle);
-        m_particleParamsUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_outdoorBillboardAmbientUniformHandle))
@@ -4995,7 +4970,7 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
 
     if (resolution.disposition == GameplaySpellService::SpellRequestDisposition::CastSucceeded)
     {
-        m_outdoorFxRuntime.triggerPartySpellFx(*this, resolution.castResult);
+        m_worldFxSystem.triggerPartySpellFx(resolution.castResult);
         m_gameSession.gameplaySpellService().clearPendingTargetSelection(
             screenRuntime,
             "Cast " + spellName);

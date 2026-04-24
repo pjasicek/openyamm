@@ -9,6 +9,8 @@
 #include "game/maps/MapAssetLoader.h"
 #include "game/render/TextureFiltering.h"
 #include "game/tables/ItemTable.h"
+#include "game/fx/WorldFxRenderResources.h"
+#include "game/fx/WorldFxSystem.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/MonsterTable.h"
 #include "game/events/EventRuntime.h"
@@ -26,6 +28,7 @@
 
 namespace OpenYAMM::Game
 {
+class GameSession;
 struct GameplayInputFrame;
 struct PartySpellCastResult;
 class IndoorSceneRuntime;
@@ -67,6 +70,7 @@ public:
     void render(
         int width,
         int height,
+        GameSession &gameSession,
         const GameplayInputFrame &input,
         float deltaSeconds,
         bool allowWorldInput = true);
@@ -91,8 +95,8 @@ public:
         float v1,
         TextureFilterProfile filterProfile = TextureFilterProfile::Ui) const;
     void setGameplayMouseLookMode(bool enabled, bool cursorMode);
-    void triggerPendingSpellWorldFx(const PartySpellCastResult &castResult);
-    void triggerProjectileImpactWorldFx(float x, float y, float z, uint32_t spellId);
+    WorldFxSystem &worldFxSystem();
+    const WorldFxSystem &worldFxSystem() const;
     std::optional<GameplayActorPick> gameplayActorPickAtCursor(
         int viewWidth,
         int viewHeight,
@@ -229,17 +233,6 @@ private:
         std::string mechanismLinkedEventSummary;
     };
 
-    struct PendingSpellWorldFx
-    {
-        float x = 0.0f;
-        float y = 0.0f;
-        float z = 0.0f;
-        float ageSeconds = 0.0f;
-        float durationSeconds = 0.0f;
-        float radius = 0.0f;
-        uint32_t colorAbgr = 0xffffffffu;
-    };
-
     static bgfx::ProgramHandle loadProgram(const char *pVertexShaderName, const char *pFragmentShaderName);
     static bgfx::ShaderHandle loadShader(const char *pShaderName);
     static std::vector<IndoorVertex> buildMechanismAdjustedVertices(
@@ -319,12 +312,6 @@ private:
         const bx::Vec3 &cameraPosition,
         const std::vector<uint8_t> &visibleSectorMask
     );
-    void advancePendingSpellWorldFx(float deltaSeconds);
-    void renderPendingSpellWorldFx(
-        uint16_t viewId,
-        const float *pViewMatrix,
-        const bx::Vec3 &cameraPosition
-    );
     const bgfx::TextureHandle *findIndoorTextureHandle(const std::string &textureName) const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     const BillboardTextureHandle *ensureSpriteBillboardTexture(const std::string &textureName, int16_t paletteId);
@@ -387,7 +374,8 @@ private:
     std::vector<TexturedBatch> m_texturedBatches;
     std::vector<IndoorTextureHandle> m_indoorTextureHandles;
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
-    std::vector<PendingSpellWorldFx> m_pendingSpellWorldFx;
+    WorldFxRenderResources m_worldFxRenderResources;
+    WorldFxSystem m_worldFxSystem;
     std::vector<MechanismBinding> m_mechanismBindings;
     std::vector<int32_t> m_faceBatchIndices;
     std::vector<uint32_t> m_faceVertexOffsets;
