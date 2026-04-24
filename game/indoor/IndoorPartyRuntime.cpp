@@ -2,6 +2,8 @@
 
 #include "game/tables/ItemTable.h"
 
+#include <algorithm>
+
 namespace OpenYAMM::Game
 {
 namespace
@@ -29,6 +31,9 @@ void IndoorPartyRuntime::initializeEyePosition(float x, float y, float z, bool r
     m_movementState = m_movementController.initializeStateFromEyePosition(x, y, z, body);
     m_movementAccumulatorSeconds = 0.0f;
     m_pendingJumpRequested = false;
+    m_pendingImpulseVelocityX = 0.0f;
+    m_pendingImpulseVelocityY = 0.0f;
+    m_pendingImpulseVelocityZ = 0.0f;
 }
 
 void IndoorPartyRuntime::initializePartyPosition(float x, float y, float z, bool resetParty)
@@ -43,6 +48,9 @@ void IndoorPartyRuntime::teleportEyePosition(float x, float y, float z)
     m_movementState = m_movementController.initializeStateFromEyePosition(x, y, z, body);
     m_movementAccumulatorSeconds = 0.0f;
     m_pendingJumpRequested = false;
+    m_pendingImpulseVelocityX = 0.0f;
+    m_pendingImpulseVelocityY = 0.0f;
+    m_pendingImpulseVelocityZ = 0.0f;
 }
 
 void IndoorPartyRuntime::teleportPartyPosition(float x, float y, float z)
@@ -67,14 +75,27 @@ void IndoorPartyRuntime::update(float desiredVelocityX, float desiredVelocityY, 
     m_pendingJumpRequested = m_pendingJumpRequested || jumpRequested;
     m_movementAccumulatorSeconds =
         std::min(m_movementAccumulatorSeconds + deltaSeconds, MaxAccumulatedMovementSeconds);
+    const float impulseVelocityX = m_pendingImpulseVelocityX;
+    const float impulseVelocityY = m_pendingImpulseVelocityY;
+    const float impulseVelocityZ = m_pendingImpulseVelocityZ;
+    const bool hasPendingImpulse =
+        impulseVelocityX != 0.0f || impulseVelocityY != 0.0f || impulseVelocityZ != 0.0f;
+
+    if (hasPendingImpulse)
+    {
+        m_movementState.verticalVelocity = std::max(m_movementState.verticalVelocity, impulseVelocityZ);
+        m_pendingImpulseVelocityX = 0.0f;
+        m_pendingImpulseVelocityY = 0.0f;
+        m_pendingImpulseVelocityZ = 0.0f;
+    }
 
     while (m_movementAccumulatorSeconds >= IndoorMovementStepSeconds)
     {
         m_movementState = m_movementController.resolveMove(
             m_movementState,
             body,
-            desiredVelocityX * m_movementSpeedMultiplier,
-            desiredVelocityY * m_movementSpeedMultiplier,
+            desiredVelocityX * m_movementSpeedMultiplier + impulseVelocityX,
+            desiredVelocityY * m_movementSpeedMultiplier + impulseVelocityY,
             m_pendingJumpRequested,
             IndoorMovementStepSeconds,
             nullptr,
@@ -142,6 +163,9 @@ IndoorPartyRuntime::Snapshot IndoorPartyRuntime::snapshot() const
     snapshot.movementState = m_movementState;
     snapshot.movementAccumulatorSeconds = m_movementAccumulatorSeconds;
     snapshot.pendingJumpRequested = m_pendingJumpRequested;
+    snapshot.pendingImpulseVelocityX = m_pendingImpulseVelocityX;
+    snapshot.pendingImpulseVelocityY = m_pendingImpulseVelocityY;
+    snapshot.pendingImpulseVelocityZ = m_pendingImpulseVelocityZ;
     return snapshot;
 }
 
@@ -150,6 +174,9 @@ void IndoorPartyRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_movementState = snapshot.movementState;
     m_movementAccumulatorSeconds = snapshot.movementAccumulatorSeconds;
     m_pendingJumpRequested = snapshot.pendingJumpRequested;
+    m_pendingImpulseVelocityX = snapshot.pendingImpulseVelocityX;
+    m_pendingImpulseVelocityY = snapshot.pendingImpulseVelocityY;
+    m_pendingImpulseVelocityZ = snapshot.pendingImpulseVelocityZ;
 }
 
 void IndoorPartyRuntime::setMovementSpeedMultiplier(float multiplier)
@@ -164,5 +191,12 @@ void IndoorPartyRuntime::syncSpellMovementStatesFromPartyBuffs()
 void IndoorPartyRuntime::requestJump()
 {
     m_pendingJumpRequested = true;
+}
+
+void IndoorPartyRuntime::requestSpecialJump(float velocityX, float velocityY, float velocityZ)
+{
+    m_pendingImpulseVelocityX = velocityX;
+    m_pendingImpulseVelocityY = velocityY;
+    m_pendingImpulseVelocityZ = velocityZ;
 }
 }

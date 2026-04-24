@@ -20,6 +20,7 @@
 #include "game/indoor/IndoorPartyRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/maps/MapAssetLoader.h"
+#include "game/party/EventSpellBuffs.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/SpriteTables.h"
 #include "game/tables/MonsterProjectileTable.h"
@@ -42,6 +43,7 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr float Pi = 3.14159265358979323846f;
+constexpr float SpecialJumpAngleUnitsPerTurn = 2048.0f;
 constexpr uint32_t RawContainingItemSize = 0x24;
 constexpr float IndoorMinimapWorldHalfExtent = 32768.0f;
 constexpr float IndoorMinimapWorldExtent = IndoorMinimapWorldHalfExtent * 2.0f;
@@ -51,9 +53,14 @@ constexpr float ActorUpdateStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
 constexpr float WorldItemUpdateStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedWorldItemUpdateSeconds = 0.1f;
+constexpr uint32_t EventSpellSourceId = std::numeric_limits<uint32_t>::max();
 constexpr float ActiveActorUpdateRange = 10240.0f;
 constexpr float IndoorActorDetectRange = 5120.0f;
 constexpr int IndoorActorDetectPortalLimit = 30;
+constexpr size_t MaxIndoorBloodSplats = 64;
+constexpr size_t BloodSplatGridResolution = 10;
+constexpr float BloodSplatHeightOffset = 2.0f;
+constexpr float BloodSplatMinSurfaceHeightTolerance = 32.0f;
 
 void resetIndoorActorCrowdSteeringState(IndoorWorldRuntime::MapActorAiState &aiState)
 {
@@ -892,6 +899,29 @@ SkillMastery normalizeRuntimeSkillMastery(uint32_t rawSkillMastery)
     }
 
     return static_cast<SkillMastery>(rawSkillMastery);
+}
+
+SkillMastery normalizeIndoorEventSkillMastery(uint32_t rawSkillMastery)
+{
+    if (rawSkillMastery >= static_cast<uint32_t>(SkillMastery::Grandmaster))
+    {
+        return SkillMastery::Grandmaster;
+    }
+
+    return static_cast<SkillMastery>(rawSkillMastery);
+}
+
+std::vector<size_t> buildAllIndoorPartyMemberIndices(const Party &party)
+{
+    std::vector<size_t> memberIndices;
+    memberIndices.reserve(party.members().size());
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        memberIndices.push_back(memberIndex);
+    }
+
+    return memberIndices;
 }
 
 std::optional<size_t> findActorOnAttackLine(
@@ -1915,6 +1945,8 @@ void IndoorWorldRuntime::initialize(
     m_mapActorCorpseViews.clear();
     m_activeCorpseView.reset();
     m_mapActorAiStates.clear();
+    m_bloodSplats.clear();
+    ++m_bloodSplatRevision;
     m_actorUpdateAccumulatorSeconds = 0.0f;
     invalidateRuntimeGeometryCache();
     materializeInitialMonsterSpawns();
@@ -1964,6 +1996,8 @@ void IndoorWorldRuntime::initialize(
     m_mapActorCorpseViews.clear();
     m_activeCorpseView.reset();
     m_mapActorAiStates.clear();
+    m_bloodSplats.clear();
+    ++m_bloodSplatRevision;
     m_actorUpdateAccumulatorSeconds = 0.0f;
     invalidateRuntimeGeometryCache();
     materializeInitialMonsterSpawns();
@@ -1978,6 +2012,73 @@ void IndoorWorldRuntime::bindRenderer(IndoorRenderer *pRenderer)
 void IndoorWorldRuntime::bindGameplayView(IndoorGameView *pView)
 {
     m_pGameplayView = pView;
+}
+
+void IndoorWorldRuntime::bindEventExecution(
+    const EventRuntime *pEventRuntime,
+    const std::optional<ScriptedEventProgram> *pLocalEventProgram,
+    const std::optional<ScriptedEventProgram> *pGlobalEventProgram)
+{
+    m_pEventRuntime = pEventRuntime;
+    m_pLocalEventProgram = pLocalEventProgram;
+    m_pGlobalEventProgram = pGlobalEventProgram;
+}
+
+bool IndoorWorldRuntime::executeFaceTriggeredEvent(
+    size_t faceIndex,
+    FaceAttribute triggerAttribute,
+    bool grantItemsToInventory)
+{
+    EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (m_pEventRuntime == nullptr
+        || pEventRuntimeState == nullptr
+        || m_pIndoorMapData == nullptr
+        || faceIndex >= m_pIndoorMapData->faces.size())
+    {
+        return false;
+    }
+
+    const IndoorFace &face = m_pIndoorMapData->faces[faceIndex];
+
+    if (face.cogTriggered == 0)
+    {
+        return false;
+    }
+
+    const uint32_t attributes = effectiveIndoorFaceAttributes(face, pMapDeltaData, faceIndex);
+
+    if (!hasFaceAttribute(attributes, triggerAttribute))
+    {
+        return false;
+    }
+
+    const bool executed = m_pEventRuntime->executeEventById(
+        m_pLocalEventProgram != nullptr ? *m_pLocalEventProgram : std::optional<ScriptedEventProgram>{},
+        m_pGlobalEventProgram != nullptr ? *m_pGlobalEventProgram : std::optional<ScriptedEventProgram>{},
+        face.cogTriggered,
+        *pEventRuntimeState,
+        m_pParty,
+        this);
+
+    if (!executed)
+    {
+        pEventRuntimeState->lastActivationResult =
+            "event " + std::to_string(face.cogTriggered) + " unresolved";
+        return false;
+    }
+
+    applyEventRuntimeState();
+
+    if (m_pParty != nullptr)
+    {
+        m_pParty->applyEventRuntimeState(*pEventRuntimeState, grantItemsToInventory);
+    }
+
+    pEventRuntimeState->lastActivationResult =
+        "event " + std::to_string(face.cogTriggered) + " executed";
+    return true;
 }
 
 void IndoorWorldRuntime::invalidateRuntimeGeometryCache()
@@ -2265,7 +2366,15 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
 
         if (update.state.bloodSplatSpawned)
         {
-            aiState.bloodSplatSpawned = *update.state.bloodSplatSpawned;
+            if (*update.state.bloodSplatSpawned)
+            {
+                spawnBloodSplatForActorIfNeeded(update.actorIndex);
+            }
+            else
+            {
+                aiState.bloodSplatSpawned = false;
+                removeBloodSplat(aiState.actorId);
+            }
         }
 
         if (update.state.motionState)
@@ -2520,7 +2629,7 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
 
         if (fxRequest.kind == ActorAiFxRequestKind::Death)
         {
-            m_mapActorAiStates[fxRequest.actorIndex].bloodSplatSpawned = true;
+            spawnBloodSplatForActorIfNeeded(fxRequest.actorIndex);
         }
         else if (fxRequest.kind == ActorAiFxRequestKind::Hit || fxRequest.kind == ActorAiFxRequestKind::Spell)
         {
@@ -2654,6 +2763,257 @@ bool IndoorWorldRuntime::applyIndoorActorProjectileRequest(const ActorProjectile
     return true;
 }
 
+bool IndoorWorldRuntime::addBloodSplat(uint32_t sourceActorId, float x, float y, float z, float radius)
+{
+    if (radius <= 0.0f)
+    {
+        return false;
+    }
+
+    removeBloodSplat(sourceActorId);
+
+    BloodSplatState splat = {};
+    splat.sourceActorId = sourceActorId;
+    splat.x = x;
+    splat.y = y;
+    splat.z = z;
+    splat.radius = radius;
+    bakeBloodSplatGeometry(splat);
+
+    if (splat.vertices.empty())
+    {
+        return false;
+    }
+
+    if (m_bloodSplats.size() >= MaxIndoorBloodSplats)
+    {
+        m_bloodSplats.erase(m_bloodSplats.begin());
+    }
+
+    m_bloodSplats.push_back(std::move(splat));
+    ++m_bloodSplatRevision;
+    return true;
+}
+
+void IndoorWorldRuntime::bakeBloodSplatGeometry(BloodSplatState &splat) const
+{
+    splat.vertices.clear();
+
+    if (splat.radius <= 0.0f || m_pIndoorMapData == nullptr)
+    {
+        return;
+    }
+
+    RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+
+    if (runtimeGeometry.vertices.empty())
+    {
+        return;
+    }
+
+    const float diameter = splat.radius * 2.0f;
+    const float cellSize = diameter / static_cast<float>(BloodSplatGridResolution);
+    const float cellHalfSize = cellSize * 0.5f;
+    const float surfaceHeightTolerance =
+        std::max(BloodSplatMinSurfaceHeightTolerance, splat.radius * 0.5f);
+
+    splat.vertices.reserve(BloodSplatGridResolution * BloodSplatGridResolution * 12);
+
+    const auto appendVertex =
+        [&splat](const bx::Vec3 &position, float u, float v)
+        {
+            BloodSplatState::Vertex vertex = {};
+            vertex.x = position.x;
+            vertex.y = position.y;
+            vertex.z = position.z;
+            vertex.u = u;
+            vertex.v = v;
+            splat.vertices.push_back(vertex);
+        };
+
+    const auto sampleWorldPoint =
+        [this, &splat, &runtimeGeometry, surfaceHeightTolerance](float x, float y, bx::Vec3 &point) -> bool
+        {
+            const IndoorFloorSample floor = sampleIndoorFloor(
+                *m_pIndoorMapData,
+                runtimeGeometry.vertices,
+                x,
+                y,
+                splat.z + 64.0f,
+                128.0f,
+                256.0f,
+                std::nullopt,
+                nullptr,
+                &runtimeGeometry.geometryCache);
+
+            if (!floor.hasFloor || std::abs(floor.height - splat.z) > surfaceHeightTolerance)
+            {
+                return false;
+            }
+
+            point = {x, y, floor.height + BloodSplatHeightOffset + 1.0f};
+            return true;
+        };
+
+    for (size_t yIndex = 0; yIndex < BloodSplatGridResolution; ++yIndex)
+    {
+        const float v0 = static_cast<float>(yIndex) / static_cast<float>(BloodSplatGridResolution);
+        const float v1 = static_cast<float>(yIndex + 1) / static_cast<float>(BloodSplatGridResolution);
+        const float localY0 = (v0 - 0.5f) * diameter;
+        const float localY1 = (v1 - 0.5f) * diameter;
+
+        for (size_t xIndex = 0; xIndex < BloodSplatGridResolution; ++xIndex)
+        {
+            const float u0 = static_cast<float>(xIndex) / static_cast<float>(BloodSplatGridResolution);
+            const float u1 = static_cast<float>(xIndex + 1) / static_cast<float>(BloodSplatGridResolution);
+            const float localX0 = (u0 - 0.5f) * diameter;
+            const float localX1 = (u1 - 0.5f) * diameter;
+            const float localCenterX = (localX0 + localX1) * 0.5f;
+            const float localCenterY = (localY0 + localY1) * 0.5f;
+            const float nearestX = std::max(std::abs(localCenterX) - cellHalfSize, 0.0f);
+            const float nearestY = std::max(std::abs(localCenterY) - cellHalfSize, 0.0f);
+
+            if (nearestX * nearestX + nearestY * nearestY > splat.radius * splat.radius)
+            {
+                continue;
+            }
+
+            bx::Vec3 topLeft = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 topRight = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 bottomLeft = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 bottomRight = {0.0f, 0.0f, 0.0f};
+            bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+            const float centerU = (u0 + u1) * 0.5f;
+            const float centerV = (v0 + v1) * 0.5f;
+
+            if (!sampleWorldPoint(splat.x + localX0, splat.y + localY0, topLeft)
+                || !sampleWorldPoint(splat.x + localX1, splat.y + localY0, topRight)
+                || !sampleWorldPoint(splat.x + localX0, splat.y + localY1, bottomLeft)
+                || !sampleWorldPoint(splat.x + localX1, splat.y + localY1, bottomRight)
+                || !sampleWorldPoint(splat.x + localCenterX, splat.y + localCenterY, center))
+            {
+                continue;
+            }
+
+            appendVertex(topLeft, u0, v0);
+            appendVertex(topRight, u1, v0);
+            appendVertex(center, centerU, centerV);
+
+            appendVertex(topRight, u1, v0);
+            appendVertex(bottomRight, u1, v1);
+            appendVertex(center, centerU, centerV);
+
+            appendVertex(bottomRight, u1, v1);
+            appendVertex(bottomLeft, u0, v1);
+            appendVertex(center, centerU, centerV);
+
+            appendVertex(bottomLeft, u0, v1);
+            appendVertex(topLeft, u0, v0);
+            appendVertex(center, centerU, centerV);
+        }
+    }
+}
+
+void IndoorWorldRuntime::spawnBloodSplatForActorIfNeeded(size_t actorIndex)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr
+        || actorIndex >= pMapDeltaData->actors.size()
+        || actorIndex >= m_mapActorAiStates.size()
+        || m_pMonsterTable == nullptr)
+    {
+        return;
+    }
+
+    MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+
+    if (aiState.bloodSplatSpawned)
+    {
+        return;
+    }
+
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(aiState.monsterId);
+
+    if (pStats == nullptr || !pStats->bloodSplatOnDeath)
+    {
+        return;
+    }
+
+    float splatZ = aiState.preciseZ;
+
+    if (m_pIndoorMapData != nullptr)
+    {
+        RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+        const std::optional<int16_t> preferredSector =
+            aiState.sectorId >= 0 ? std::optional<int16_t>(aiState.sectorId) : std::nullopt;
+
+        IndoorFloorSample floor = {};
+
+        if (aiState.supportFaceIndex != static_cast<size_t>(-1)
+            && aiState.supportFaceIndex < m_pIndoorMapData->faces.size())
+        {
+            floor = sampleIndoorFloorOnFace(
+                *m_pIndoorMapData,
+                runtimeGeometry.vertices,
+                aiState.supportFaceIndex,
+                aiState.preciseX,
+                aiState.preciseY,
+                aiState.preciseZ + 64.0f,
+                128.0f,
+                512.0f,
+                nullptr,
+                &runtimeGeometry.geometryCache);
+        }
+
+        if (!floor.hasFloor)
+        {
+            floor = sampleIndoorFloor(
+                *m_pIndoorMapData,
+                runtimeGeometry.vertices,
+                aiState.preciseX,
+                aiState.preciseY,
+                aiState.preciseZ + 64.0f,
+                128.0f,
+                512.0f,
+                preferredSector,
+                nullptr,
+                &runtimeGeometry.geometryCache);
+        }
+
+        if (floor.hasFloor)
+        {
+            splatZ = floor.height;
+        }
+    }
+
+    const float splatRadius = std::max(32.0f, static_cast<float>(aiState.collisionRadius) * 1.5f);
+
+    if (addBloodSplat(aiState.actorId, aiState.preciseX, aiState.preciseY, splatZ, splatRadius))
+    {
+        aiState.bloodSplatSpawned = true;
+    }
+}
+
+void IndoorWorldRuntime::removeBloodSplat(uint32_t sourceActorId)
+{
+    const size_t previousCount = m_bloodSplats.size();
+    m_bloodSplats.erase(
+        std::remove_if(
+            m_bloodSplats.begin(),
+            m_bloodSplats.end(),
+            [sourceActorId](const BloodSplatState &splat)
+            {
+                return splat.sourceActorId == sourceActorId;
+            }),
+        m_bloodSplats.end());
+
+    if (m_bloodSplats.size() != previousCount)
+    {
+        ++m_bloodSplatRevision;
+    }
+}
+
 void IndoorWorldRuntime::pushIndoorProjectileAudioEvent(
     const GameplayProjectileService::ProjectileAudioRequest &audioRequest)
 {
@@ -2675,6 +3035,7 @@ bool IndoorWorldRuntime::projectileSourceIsFriendlyToActor(
     const MapActorAiState &actor) const
 {
     GameplayProjectileService::ProjectileActorRelationFacts facts = {};
+    facts.eventSource = projectile.sourceId == EventSpellSourceId;
     facts.targetHostileToParty = actor.spellEffects.controlMode != GameplayActorControlMode::None
         ? actor.spellEffects.hostileToParty
         : actor.hostileToParty;
@@ -2723,6 +3084,7 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
 
     GameplayProjectileService::ProjectilePartyImpactDamageInput damageInput = {};
     damageInput.sourceKind = projectile.sourceKind;
+    damageInput.eventSource = projectile.sourceId == EventSpellSourceId;
     damageInput.projectileDamage = projectile.damage;
     damageInput.spellId = projectile.spellId;
     damageInput.skillLevel = projectile.skillLevel;
@@ -2948,6 +3310,7 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
             if (bestCollision->kind == GameplayProjectileService::ProjectileFrameCollisionKind::World)
             {
                 facts.collision.colliderName = "indoor face";
+                facts.collision.worldFaceIndex = bestCollision->faceIndex;
                 facts.collision.bounceSurface.canBounce = true;
                 facts.collision.bounceSurface.requiresDownwardVelocity =
                     bestCollision->requiresDownwardVelocityToBounce;
@@ -3016,9 +3379,17 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
 
 void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
     GameplayProjectileService::ProjectileState &projectile,
+    const GameplayProjectileService::ProjectileFrameFacts &facts,
     const GameplayProjectileService::ProjectileFrameResult &frameResult)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (facts.hasCollision
+        && facts.collision.kind == GameplayProjectileService::ProjectileFrameCollisionKind::World
+        && facts.collision.worldFaceIndex != static_cast<size_t>(-1))
+    {
+        executeFaceTriggeredEvent(facts.collision.worldFaceIndex, FaceAttribute::TriggerByObject, false);
+    }
 
     if (frameResult.directPartyDamage && m_pParty != nullptr)
     {
@@ -3272,7 +3643,7 @@ void IndoorWorldRuntime::updateIndoorProjectiles(float deltaSeconds)
                 << '\n';
         }
 
-        applyIndoorProjectileFrameResult(projectile, frameResult);
+        applyIndoorProjectileFrameResult(projectile, facts, frameResult);
     }
 
     m_pGameplayProjectileService->eraseExpiredProjectiles();
@@ -3348,6 +3719,7 @@ bool IndoorWorldRuntime::updateWorldItemsStep(
 
         if (faceHit && faceHit->faceIndex < m_pIndoorMapData->faces.size())
         {
+            executeFaceTriggeredEvent(faceHit->faceIndex, FaceAttribute::TriggerByObject, false);
             resolvedPoint = faceHit->point;
             const IndoorFaceGeometryData *pGeometry =
                 geometryCache.geometryForFace(*m_pIndoorMapData, vertices, faceHit->faceIndex);
@@ -3616,6 +3988,7 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
     const float desiredVelocityX = update.movementIntent.desiredMoveX * effectiveMoveSpeed;
     const float desiredVelocityY = update.movementIntent.desiredMoveY * effectiveMoveSpeed;
     std::vector<size_t> contactedActorIndices;
+    IndoorMoveDebugInfo moveDebugInfo = {};
     const IndoorMoveState resolvedMoveState =
         movementController.resolveMove(
             moveState,
@@ -3626,7 +3999,14 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
             ActorUpdateStepSeconds,
             &contactedActorIndices,
             actorIndex,
-            true);
+            true,
+            &moveDebugInfo);
+
+    if (moveDebugInfo.primaryBlockKind == IndoorMoveBlockKind::Wall
+        && moveDebugInfo.hitFaceIndex != static_cast<size_t>(-1))
+    {
+        executeFaceTriggeredEvent(moveDebugInfo.hitFaceIndex, FaceAttribute::TriggerByMonster, false);
+    }
 
     IndoorMoveState finalMoveState = resolvedMoveState;
     std::sort(contactedActorIndices.begin(), contactedActorIndices.end());
@@ -4349,9 +4729,36 @@ void IndoorWorldRuntime::cancelPendingMapTransition()
 
 bool IndoorWorldRuntime::executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount)
 {
-    (void)eventId;
-    (void)previousMessageCount;
-    return false;
+    EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+
+    if (m_pEventRuntime == nullptr || pEventRuntimeState == nullptr || eventId == 0)
+    {
+        return false;
+    }
+
+    previousMessageCount = pEventRuntimeState->messages.size();
+
+    const bool executed = m_pEventRuntime->executeEventById(
+        m_pLocalEventProgram != nullptr ? *m_pLocalEventProgram : std::optional<ScriptedEventProgram>{},
+        m_pGlobalEventProgram != nullptr ? *m_pGlobalEventProgram : std::optional<ScriptedEventProgram>{},
+        eventId,
+        *pEventRuntimeState,
+        m_pParty,
+        this);
+
+    if (!executed)
+    {
+        return false;
+    }
+
+    applyEventRuntimeState();
+
+    if (m_pParty != nullptr)
+    {
+        m_pParty->applyEventRuntimeState(*pEventRuntimeState, false);
+    }
+
+    return true;
 }
 
 bool IndoorWorldRuntime::castEventSpell(
@@ -4366,33 +4773,123 @@ bool IndoorWorldRuntime::castEventSpell(
     int32_t toZ
 )
 {
-    (void)skillLevel;
-    (void)skillMastery;
-    (void)fromX;
-    (void)fromY;
-    (void)fromZ;
-    (void)toX;
-    (void)toY;
-    (void)toZ;
+    if (m_pParty != nullptr
+        && tryApplyEventSpellBuffs(*m_pParty, spellId, skillLevel, skillMastery))
+    {
+        if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
+        {
+            EventRuntimeState::SpellFxRequest request = {};
+            request.spellId = spellId;
+            request.memberIndices = buildAllIndoorPartyMemberIndices(*m_pParty);
+            (*m_pEventRuntimeState)->spellFxRequests.push_back(std::move(request));
+        }
 
-    if (m_pEventRuntimeState == nullptr || !*m_pEventRuntimeState || m_pParty == nullptr)
+        return true;
+    }
+
+    if (m_pGameplayProjectileService == nullptr || m_pObjectTable == nullptr || m_pSpellTable == nullptr)
     {
         return false;
     }
 
-    EventRuntimeState::SpellFxRequest request = {};
-    request.spellId = spellId;
-    request.memberIndices.reserve(m_pParty->members().size());
+    const SpellEntry *pSpellEntry = m_pSpellTable->findById(static_cast<int>(spellId));
 
-    for (size_t memberIndex = 0; memberIndex < m_pParty->members().size(); ++memberIndex)
+    if (pSpellEntry == nullptr)
     {
-        request.memberIndices.push_back(memberIndex);
+        return false;
     }
 
-    (*m_pEventRuntimeState)->spellFxRequests.push_back(std::move(request));
+    IndoorResolvedProjectileDefinition definition = {};
 
-    std::cout << "IndoorWorldRuntime: event spell " << spellId
-              << " queued as FX only; projectile runtime support is pending\n";
+    if (!fillIndoorProjectileDefinitionFromSpell(*pSpellEntry, *m_pObjectTable, definition))
+    {
+        return false;
+    }
+
+    const uint16_t objectSpriteFrameIndex = resolveRuntimeProjectileSpriteFrameIndex(
+        m_pProjectileSpriteFrameTable,
+        definition.objectSpriteId,
+        definition.objectSpriteName);
+    GameplayProjectileService::ProjectileSpawnRequest spawnRequest = {};
+    spawnRequest.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Event;
+    spawnRequest.sourceId = EventSpellSourceId;
+    spawnRequest.ability = GameplayProjectileService::MonsterAttackAbility::Spell1;
+    spawnRequest.definition = buildIndoorGameplayProjectileDefinition(definition, objectSpriteFrameIndex);
+    spawnRequest.skillLevel = skillLevel;
+    spawnRequest.skillMastery = static_cast<uint32_t>(normalizeIndoorEventSkillMastery(skillMastery));
+    spawnRequest.sourceX = static_cast<float>(fromX);
+    spawnRequest.sourceY = static_cast<float>(fromY);
+    spawnRequest.sourceZ = static_cast<float>(fromZ);
+    spawnRequest.targetX = static_cast<float>(toX);
+    spawnRequest.targetY = static_cast<float>(toY);
+    spawnRequest.targetZ = static_cast<float>(toZ);
+    spawnRequest.allowInstantImpact = true;
+
+    const GameplayProjectileService::ProjectileSpawnResult spawnResult =
+        m_pGameplayProjectileService->spawnProjectile(spawnRequest);
+    const GameplayProjectileService::ProjectileSpawnEffects spawnEffects =
+        m_pGameplayProjectileService->buildProjectileSpawnEffects(spawnResult);
+
+    if (indoorProjectileDebugEnabled())
+    {
+        std::cout
+            << "IndoorProjectileSpawn"
+            << " source=event"
+            << " kind=" << indoorProjectileSpawnKindName(spawnResult.kind)
+            << " accepted=" << (spawnEffects.accepted ? 1 : 0)
+            << " projectileId=" << spawnResult.projectile.projectileId
+            << " spell=" << definition.spellId
+            << " object=\"" << definition.objectName << "\""
+            << " sprite=\"" << definition.objectSpriteName << "\""
+            << " flags=0x" << std::hex << definition.objectFlags << std::dec
+            << " radius=" << definition.radius
+            << " height=" << definition.height
+            << " speed=" << definition.speed
+            << " source=(" << spawnRequest.sourceX << "," << spawnRequest.sourceY << ","
+            << spawnRequest.sourceZ << ")"
+            << " target=(" << spawnRequest.targetX << "," << spawnRequest.targetY << ","
+            << spawnRequest.targetZ << ")"
+            << " dir=(" << spawnResult.directionX << "," << spawnResult.directionY << ","
+            << spawnResult.directionZ << ")"
+            << '\n';
+    }
+
+    if (!spawnEffects.accepted)
+    {
+        return false;
+    }
+
+    if (spawnEffects.playReleaseAudio && spawnEffects.releaseAudioRequest)
+    {
+        pushIndoorProjectileAudioEvent(*spawnEffects.releaseAudioRequest);
+    }
+
+    if (spawnEffects.spawnInstantImpact)
+    {
+        spawnIndoorProjectileImpactVisual(
+            spawnResult.projectile,
+            {spawnEffects.impactX, spawnEffects.impactY, spawnEffects.impactZ},
+            false);
+    }
+
+    return true;
+}
+
+bool IndoorWorldRuntime::specialJump(uint32_t encodedHorizontalVelocity, uint32_t verticalVelocity)
+{
+    if (m_pPartyRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const float horizontalSpeed = static_cast<float>(encodedHorizontalVelocity >> 16);
+    const float angleRadians =
+        static_cast<float>(encodedHorizontalVelocity & 0xffffu) * (Pi * 2.0f / SpecialJumpAngleUnitsPerTurn);
+
+    m_pPartyRuntime->requestSpecialJump(
+        std::cos(angleRadians) * horizontalSpeed,
+        std::sin(angleRadians) * horizontalSpeed,
+        static_cast<float>(verticalVelocity));
     return true;
 }
 
@@ -4410,6 +4907,26 @@ const IndoorWorldRuntime::MapActorAiState *IndoorWorldRuntime::mapActorAiState(s
     }
 
     return &m_mapActorAiStates[actorIndex];
+}
+
+size_t IndoorWorldRuntime::bloodSplatCount() const
+{
+    return m_bloodSplats.size();
+}
+
+const IndoorWorldRuntime::BloodSplatState *IndoorWorldRuntime::bloodSplatState(size_t splatIndex) const
+{
+    if (splatIndex >= m_bloodSplats.size())
+    {
+        return nullptr;
+    }
+
+    return &m_bloodSplats[splatIndex];
+}
+
+uint64_t IndoorWorldRuntime::bloodSplatRevision() const
+{
+    return m_bloodSplatRevision;
 }
 
 void IndoorWorldRuntime::collectProjectilePresentationState(
@@ -6747,6 +7264,7 @@ IndoorWorldRuntime::Snapshot IndoorWorldRuntime::snapshot() const
     snapshot.mapActorCorpseViews = m_mapActorCorpseViews;
     snapshot.activeCorpseView = m_activeCorpseView;
     snapshot.mapActorAiStates = m_mapActorAiStates;
+    snapshot.bloodSplats = m_bloodSplats;
     snapshot.actorUpdateAccumulatorSeconds = m_actorUpdateAccumulatorSeconds;
     return snapshot;
 }
@@ -6761,6 +7279,8 @@ void IndoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_mapActorCorpseViews = snapshot.mapActorCorpseViews;
     m_activeCorpseView = snapshot.activeCorpseView;
     m_mapActorAiStates = snapshot.mapActorAiStates;
+    m_bloodSplats = snapshot.bloodSplats;
+    ++m_bloodSplatRevision;
     m_actorUpdateAccumulatorSeconds = snapshot.actorUpdateAccumulatorSeconds;
     invalidateRuntimeGeometryCache();
     syncMapActorAiStates();

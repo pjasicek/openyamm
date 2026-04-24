@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/FaceEnums.h"
 #include "game/events/EventRuntime.h"
 #include "game/events/ISceneEventContext.h"
 #include "game/gameplay/GameplayActorAiTypes.h"
@@ -96,6 +97,25 @@ public:
         bool attackImpactTriggered = false;
     };
 
+    struct BloodSplatState
+    {
+        struct Vertex
+        {
+            float x = 0.0f;
+            float y = 0.0f;
+            float z = 0.0f;
+            float u = 0.0f;
+            float v = 0.0f;
+        };
+
+        uint32_t sourceActorId = 0;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float radius = 0.0f;
+        std::vector<Vertex> vertices;
+    };
+
     struct Snapshot
     {
         float gameMinutes = 9.0f * 60.0f;
@@ -107,6 +127,7 @@ public:
         std::optional<CorpseViewState> activeCorpseView;
         std::vector<GameplayActorSpellEffectState> mapActorSpellEffectStates;
         std::vector<MapActorAiState> mapActorAiStates;
+        std::vector<BloodSplatState> bloodSplats;
         float actorUpdateAccumulatorSeconds = 0.0f;
     };
 
@@ -114,6 +135,14 @@ public:
 
     void bindRenderer(IndoorRenderer *pRenderer);
     void bindGameplayView(IndoorGameView *pView);
+    void bindEventExecution(
+        const EventRuntime *pEventRuntime,
+        const std::optional<ScriptedEventProgram> *pLocalEventProgram,
+        const std::optional<ScriptedEventProgram> *pGlobalEventProgram);
+    bool executeFaceTriggeredEvent(
+        size_t faceIndex,
+        FaceAttribute triggerAttribute,
+        bool grantItemsToInventory);
 
     void initialize(
         const MapStatsEntry &map,
@@ -198,8 +227,12 @@ public:
         int32_t toY,
         int32_t toZ
     ) override;
+    bool specialJump(uint32_t encodedHorizontalVelocity, uint32_t verticalVelocity) override;
     size_t mapActorCount() const override;
     const MapActorAiState *mapActorAiState(size_t actorIndex) const;
+    size_t bloodSplatCount() const;
+    const BloodSplatState *bloodSplatState(size_t splatIndex) const;
+    uint64_t bloodSplatRevision() const;
     void collectProjectilePresentationState(
         std::vector<GameplayProjectilePresentationState> &projectiles,
         std::vector<GameplayProjectileImpactPresentationState> &impacts) const;
@@ -381,6 +414,10 @@ private:
         const std::vector<IndoorCylinderCollision> &decorationColliders,
         const std::vector<IndoorCylinderCollision> &spriteObjectColliders);
     bool applyIndoorActorProjectileRequest(const ActorProjectileRequest &projectileRequest);
+    bool addBloodSplat(uint32_t sourceActorId, float x, float y, float z, float radius);
+    void bakeBloodSplatGeometry(BloodSplatState &splat) const;
+    void spawnBloodSplatForActorIfNeeded(size_t actorIndex);
+    void removeBloodSplat(uint32_t sourceActorId);
     void pushIndoorProjectileAudioEvent(
         const GameplayProjectileService::ProjectileAudioRequest &audioRequest);
     bool projectileSourceIsFriendlyToActor(
@@ -393,6 +430,7 @@ private:
         IndoorFaceGeometryCache &projectileGeometryCache) const;
     void applyIndoorProjectileFrameResult(
         GameplayProjectileService::ProjectileState &projectile,
+        const GameplayProjectileService::ProjectileFrameFacts &facts,
         const GameplayProjectileService::ProjectileFrameResult &frameResult);
     void updateIndoorProjectiles(float deltaSeconds);
     void updateWorldItems(float deltaSeconds);
@@ -438,6 +476,9 @@ private:
     IndoorPartyRuntime *m_pPartyRuntime = nullptr;
     std::optional<MapDeltaData> *m_pMapDeltaData = nullptr;
     std::optional<EventRuntimeState> *m_pEventRuntimeState = nullptr;
+    const EventRuntime *m_pEventRuntime = nullptr;
+    const std::optional<ScriptedEventProgram> *m_pLocalEventProgram = nullptr;
+    const std::optional<ScriptedEventProgram> *m_pGlobalEventProgram = nullptr;
     GameplayActorService *m_pGameplayActorService = nullptr;
     GameplayProjectileService *m_pGameplayProjectileService = nullptr;
     GameplayCombatController *m_pGameplayCombatController = nullptr;
@@ -452,6 +493,8 @@ private:
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<MapActorAiState> m_mapActorAiStates;
+    std::vector<BloodSplatState> m_bloodSplats;
+    uint64_t m_bloodSplatRevision = 0;
     float m_actorUpdateAccumulatorSeconds = 0.0f;
     float m_worldItemUpdateAccumulatorSeconds = 0.0f;
     mutable RuntimeGeometryCache m_runtimeGeometryCache;

@@ -3976,7 +3976,16 @@ int luaPressAnyKey(lua_State *pLuaState)
 
 int luaSpecialJump(lua_State *pLuaState)
 {
-    (void)pLuaState;
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext == nullptr || pExecutionContext->pSceneEventContext == nullptr)
+    {
+        return 0;
+    }
+
+    pExecutionContext->pSceneEventContext->specialJump(
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)),
+        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2)));
     return 0;
 }
 
@@ -4930,6 +4939,12 @@ bool EventRuntime::executeEventById(
     if (globalIterator != m_luaSessionCache->globalScope.handlers.end())
     {
         return invokeLuaHandler(*this, globalIterator->second, executionContext);
+    }
+
+    if ((localProgram && localProgram->isHintOnlyEvent(eventId))
+        || (globalProgram && globalProgram->isHintOnlyEvent(eventId)))
+    {
+        return true;
     }
 
     return false;

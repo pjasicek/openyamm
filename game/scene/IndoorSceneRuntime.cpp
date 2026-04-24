@@ -2,12 +2,16 @@
 
 #include "game/gameplay/GameplayActorService.h"
 
+#include <algorithm>
 #include <iostream>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr float GameMinutesPerRealSecond = 0.5f;
+constexpr float SecondsPerMillisecond = 0.001f;
+
 bool hasMovingMechanism(const EventRuntimeState &eventRuntimeState)
 {
     for (const auto &entry : eventRuntimeState.mechanisms)
@@ -19,6 +23,40 @@ bool hasMovingMechanism(const EventRuntimeState &eventRuntimeState)
     }
 
     return false;
+}
+
+void appendTimersFromProgram(
+    const std::optional<ScriptedEventProgram> &program,
+    std::vector<IndoorSceneRuntime::TimerState> &timers)
+{
+    if (!program)
+    {
+        return;
+    }
+
+    for (const ScriptedEventProgram::TimerTrigger &trigger : program->timerTriggers())
+    {
+        IndoorSceneRuntime::TimerState timer = {};
+        timer.eventId = trigger.eventId;
+        timer.repeating = trigger.repeating;
+        timer.targetHour = trigger.targetHour;
+        timer.intervalGameMinutes = trigger.intervalGameMinutes;
+        timer.remainingGameMinutes = trigger.remainingGameMinutes;
+        timers.push_back(std::move(timer));
+    }
+}
+
+bool enteredIndoorPressurePlateFace(
+    const IndoorMoveState &previousState,
+    const IndoorMoveState &currentState)
+{
+    if (!currentState.grounded || currentState.supportFaceIndex == static_cast<size_t>(-1))
+    {
+        return false;
+    }
+
+    return !previousState.grounded
+        || previousState.supportFaceIndex != currentState.supportFaceIndex;
 }
 }
 
@@ -74,6 +112,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         &indoorMapData,
         pIndoorDecorationBillboardSet
     );
+    m_worldRuntime.bindEventExecution(&m_eventRuntime, &m_localEventProgram, &m_globalEventProgram);
 
     if (!indoorMapData.vertices.empty())
     {
@@ -144,6 +183,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         &indoorMapData,
         pIndoorDecorationBillboardSet
     );
+    m_worldRuntime.bindEventExecution(&m_eventRuntime, &m_localEventProgram, &m_globalEventProgram);
 
     if (!indoorMapData.vertices.empty())
     {
@@ -266,6 +306,8 @@ IndoorSceneRuntime::Snapshot IndoorSceneRuntime::snapshot() const
     snapshot.eventRuntimeState = m_eventRuntimeState;
     snapshot.worldRuntime = m_worldRuntime.snapshot();
     snapshot.partyRuntime = m_partyRuntime.snapshot();
+    snapshot.timers = m_timers;
+    snapshot.lastProcessedPartyMoveStateForFaceTriggers = m_lastProcessedPartyMoveStateForFaceTriggers;
     snapshot.mechanismAccumulatorMilliseconds = m_mechanismAccumulatorMilliseconds;
     return snapshot;
 }
@@ -277,6 +319,8 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_worldRuntime.restoreSnapshot(snapshot.worldRuntime);
     m_partyRuntime.restoreSnapshot(snapshot.partyRuntime);
     m_partyRuntime.setParty(*m_pSessionParty);
+    m_timers = snapshot.timers;
+    m_lastProcessedPartyMoveStateForFaceTriggers = snapshot.lastProcessedPartyMoveStateForFaceTriggers;
     m_mechanismAccumulatorMilliseconds = snapshot.mechanismAccumulatorMilliseconds;
 }
 
@@ -287,10 +331,19 @@ bool IndoorSceneRuntime::advanceSimulation(float deltaMilliseconds)
         return false;
     }
 
+    const float deltaGameMinutes = deltaMilliseconds * SecondsPerMillisecond * GameMinutesPerRealSecond;
+    bool stateChanged = updateTimers(deltaGameMinutes);
+    stateChanged = updatePartyFaceTriggers() || stateChanged;
+
+    if (deltaGameMinutes > 0.0f)
+    {
+        m_worldRuntime.advanceGameMinutes(deltaGameMinutes);
+    }
+
     if (!hasMovingMechanism(*m_eventRuntimeState))
     {
         m_mechanismAccumulatorMilliseconds = 0.0f;
-        return false;
+        return stateChanged;
     }
 
     int mechanismSteps = 0;
@@ -316,7 +369,91 @@ bool IndoorSceneRuntime::advanceSimulation(float deltaMilliseconds)
         m_mechanismAccumulatorMilliseconds = MechanismStepMilliseconds;
     }
 
-    return mechanismSteps > 0;
+    return stateChanged || mechanismSteps > 0;
+}
+
+bool IndoorSceneRuntime::updatePartyFaceTriggers()
+{
+    const IndoorMoveState currentMoveState = m_partyRuntime.movementState();
+
+    if (!m_lastProcessedPartyMoveStateForFaceTriggers)
+    {
+        m_lastProcessedPartyMoveStateForFaceTriggers = currentMoveState;
+        return false;
+    }
+
+    const IndoorMoveState previousMoveState = *m_lastProcessedPartyMoveStateForFaceTriggers;
+    m_lastProcessedPartyMoveStateForFaceTriggers = currentMoveState;
+
+    if (!enteredIndoorPressurePlateFace(previousMoveState, currentMoveState))
+    {
+        return false;
+    }
+
+    return m_worldRuntime.executeFaceTriggeredEvent(
+        currentMoveState.supportFaceIndex,
+        FaceAttribute::PressurePlate,
+        false);
+}
+
+bool IndoorSceneRuntime::updateTimers(float deltaGameMinutes)
+{
+    if (!m_eventRuntimeState || deltaGameMinutes <= 0.0f)
+    {
+        return false;
+    }
+
+    if (m_timers.empty())
+    {
+        appendTimersFromProgram(m_localEventProgram, m_timers);
+        appendTimersFromProgram(m_globalEventProgram, m_timers);
+    }
+
+    if (m_timers.empty())
+    {
+        return false;
+    }
+
+    bool executedAny = false;
+
+    for (TimerState &timer : m_timers)
+    {
+        if (timer.hasFired && !timer.repeating)
+        {
+            continue;
+        }
+
+        timer.remainingGameMinutes -= deltaGameMinutes;
+
+        if (timer.remainingGameMinutes > 0.0f)
+        {
+            continue;
+        }
+
+        if (m_eventRuntime.executeEventById(
+                m_localEventProgram,
+                m_globalEventProgram,
+                timer.eventId,
+                *m_eventRuntimeState,
+                &m_partyRuntime.party(),
+                &m_worldRuntime))
+        {
+            executedAny = true;
+            m_worldRuntime.applyEventRuntimeState();
+            m_partyRuntime.party().applyEventRuntimeState(*m_eventRuntimeState, false);
+        }
+
+        if (timer.repeating)
+        {
+            timer.remainingGameMinutes += std::max(0.5f, timer.intervalGameMinutes);
+        }
+        else
+        {
+            timer.hasFired = true;
+        }
+    }
+
+    return executedAny;
 }
 
 bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sourceKind, size_t sourceIndex)

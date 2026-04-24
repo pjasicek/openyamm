@@ -15,6 +15,9 @@ public:
         IndoorMoveState movementState = {};
         float movementAccumulatorSeconds = 0.0f;
         bool pendingJumpRequested = false;
+        float pendingImpulseVelocityX = 0.0f;
+        float pendingImpulseVelocityY = 0.0f;
+        float pendingImpulseVelocityZ = 0.0f;
     };
 
     IndoorPartyRuntime(IndoorMovementController movementController, const ItemTable &itemTable);
@@ -40,6 +43,7 @@ public:
     void setMovementSpeedMultiplier(float multiplier);
     void syncSpellMovementStatesFromPartyBuffs();
     void requestJump();
+    void requestSpecialJump(float velocityX, float velocityY, float velocityZ);
 
 private:
     IndoorMovementController m_movementController;
@@ -48,5 +52,8 @@ private:
     float m_movementSpeedMultiplier = 1.0f;
     float m_movementAccumulatorSeconds = 0.0f;
     bool m_pendingJumpRequested = false;
+    float m_pendingImpulseVelocityX = 0.0f;
+    float m_pendingImpulseVelocityY = 0.0f;
+    float m_pendingImpulseVelocityZ = 0.0f;
 };
 }

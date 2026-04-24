@@ -22,7 +22,9 @@
 #include <bgfx/bgfx.h>
 #include <bx/math.h>
 
+#include <array>
 #include <cstdint>
+#include <limits>
 #include <optional>
 #include <string>
 #include <vector>
@@ -316,6 +318,13 @@ private:
         const std::vector<uint8_t> &visibleSectorMask,
         const IndoorLightingFrame &lightingFrame
     );
+    bgfx::TextureHandle ensureBloodSplatTexture();
+    void ensureBloodSplatVertexBuffer();
+    void renderBloodSplats(
+        uint16_t viewId,
+        const std::array<float, 32> &indoorLightPositions,
+        const std::array<float, 32> &indoorLightColors,
+        const std::array<float, 4> &indoorLightParams);
     const bgfx::TextureHandle *findIndoorTextureHandle(const std::string &textureName) const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     const BillboardTextureHandle *ensureSpriteBillboardTexture(const std::string &textureName, int16_t paletteId);
@@ -359,6 +368,8 @@ private:
     bgfx::ProgramHandle m_texturedProgramHandle;
     bgfx::ProgramHandle m_indoorLitProgramHandle;
     bgfx::ProgramHandle m_billboardProgramHandle;
+    bgfx::VertexBufferHandle m_bloodSplatVertexBufferHandle;
+    bgfx::TextureHandle m_bloodSplatTextureHandle;
     bgfx::UniformHandle m_textureSamplerHandle;
     bgfx::UniformHandle m_indoorLightPositionsUniformHandle;
     bgfx::UniformHandle m_indoorLightColorsUniformHandle;
@@ -379,6 +390,8 @@ private:
     uint32_t m_spawnMarkerVertexCount;
     uint32_t m_doorMarkerVertexCount;
     uint32_t m_doorMarkerVertexCapacity;
+    uint32_t m_bloodSplatVertexCount = 0;
+    uint64_t m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
     std::vector<TexturedBatch> m_texturedBatches;
     std::vector<IndoorTextureHandle> m_indoorTextureHandles;
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;

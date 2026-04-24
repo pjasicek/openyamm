@@ -331,6 +331,7 @@ public:
         ProjectileFrameCollisionKind kind = ProjectileFrameCollisionKind::None;
         GameplayWorldPoint point;
         std::string colliderName;
+        size_t worldFaceIndex = static_cast<size_t>(-1);
         size_t actorIndex = static_cast<size_t>(-1);
         uint32_t actorId = 0;
         int targetArmorClass = 0;

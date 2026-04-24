@@ -25,12 +25,24 @@ class SpellTable;
 class IndoorSceneRuntime : public IMapSceneRuntime
 {
 public:
+    struct TimerState
+    {
+        uint16_t eventId = 0;
+        bool repeating = false;
+        int targetHour = 0;
+        float intervalGameMinutes = 0.0f;
+        float remainingGameMinutes = 0.0f;
+        bool hasFired = false;
+    };
+
     struct Snapshot
     {
         std::optional<MapDeltaData> mapDeltaData;
         std::optional<EventRuntimeState> eventRuntimeState;
         IndoorWorldRuntime::Snapshot worldRuntime;
         IndoorPartyRuntime::Snapshot partyRuntime;
+        std::vector<TimerState> timers;
+        std::optional<IndoorMoveState> lastProcessedPartyMoveStateForFaceTriggers;
         float mechanismAccumulatorMilliseconds = 0.0f;
     };
 
@@ -97,6 +109,9 @@ public:
     bool activateEvent(uint16_t eventId, const std::string &sourceKind, size_t sourceIndex);
 
 private:
+    bool updateTimers(float deltaGameMinutes);
+    bool updatePartyFaceTriggers();
+
     std::string m_mapFileName;
     Party *m_pSessionParty = nullptr;
     std::optional<MapDeltaData> m_mapDeltaData;
@@ -106,6 +121,8 @@ private:
     EventRuntime m_eventRuntime;
     IndoorPartyRuntime m_partyRuntime;
     IndoorWorldRuntime m_worldRuntime;
+    std::vector<TimerState> m_timers;
+    std::optional<IndoorMoveState> m_lastProcessedPartyMoveStateForFaceTriggers;
     float m_mechanismAccumulatorMilliseconds = 0.0f;
 };
 }

@@ -53,5 +53,12 @@ public:
         uint32_t count,
         bool invisibleAsDead
     ) const = 0;
+
+    virtual bool specialJump(uint32_t encodedHorizontalVelocity, uint32_t verticalVelocity)
+    {
+        (void)encodedHorizontalVelocity;
+        (void)verticalVelocity;
+        return false;
+    }
 };
 }

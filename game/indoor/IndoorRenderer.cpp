@@ -1368,6 +1368,8 @@ IndoorRenderer::IndoorRenderer()
     , m_texturedProgramHandle(BGFX_INVALID_HANDLE)
     , m_indoorLitProgramHandle(BGFX_INVALID_HANDLE)
     , m_billboardProgramHandle(BGFX_INVALID_HANDLE)
+    , m_bloodSplatVertexBufferHandle(BGFX_INVALID_HANDLE)
+    , m_bloodSplatTextureHandle(BGFX_INVALID_HANDLE)
     , m_textureSamplerHandle(BGFX_INVALID_HANDLE)
     , m_indoorLightPositionsUniformHandle(BGFX_INVALID_HANDLE)
     , m_indoorLightColorsUniformHandle(BGFX_INVALID_HANDLE)
@@ -2361,6 +2363,15 @@ void IndoorRenderer::render(
             );
             bgfx::submit(MainViewId, m_indoorLitProgramHandle);
         }
+    }
+
+    if (settings.bloodSplats)
+    {
+        renderBloodSplats(
+            MainViewId,
+            indoorLightPositions,
+            indoorLightColors,
+            indoorLightParams);
     }
 
     renderDecorationBillboards(MainViewId, viewMatrix, eye, visibleSectorMask, lightingFrame);
@@ -3927,6 +3938,21 @@ void IndoorRenderer::shutdown()
         m_billboardProgramHandle = BGFX_INVALID_HANDLE;
     }
 
+    if (bgfx::isValid(m_bloodSplatVertexBufferHandle))
+    {
+        bgfx::destroy(m_bloodSplatVertexBufferHandle);
+        m_bloodSplatVertexBufferHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_bloodSplatTextureHandle))
+    {
+        bgfx::destroy(m_bloodSplatTextureHandle);
+        m_bloodSplatTextureHandle = BGFX_INVALID_HANDLE;
+    }
+
+    m_bloodSplatVertexCount = 0;
+    m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
+
     if (bgfx::isValid(m_entityMarkerVertexBufferHandle))
     {
         bgfx::destroy(m_entityMarkerVertexBufferHandle);
@@ -4219,6 +4245,226 @@ const IndoorRenderer::BillboardTextureHandle *IndoorRenderer::ensureSpriteBillbo
 
     m_billboardTextureHandles.push_back(std::move(billboardTexture));
     return &m_billboardTextureHandles.back();
+}
+
+bgfx::TextureHandle IndoorRenderer::ensureBloodSplatTexture()
+{
+    if (bgfx::isValid(m_bloodSplatTextureHandle))
+    {
+        return m_bloodSplatTextureHandle;
+    }
+
+    const std::optional<std::string> bitmapPath =
+        GameplayHudCommon::findCachedAssetPath(
+            m_pAssetFileSystem,
+            m_spriteLoadCache,
+            "Data/bitmaps",
+            "hwsplat04.bmp");
+
+    if (!bitmapPath)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    const std::optional<std::vector<uint8_t>> bitmapBytes =
+        GameplayHudCommon::readCachedBinaryFile(m_pAssetFileSystem, m_spriteLoadCache, *bitmapPath);
+
+    if (!bitmapBytes || bitmapBytes->empty())
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+
+    if (pIoStream == nullptr)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
+
+    if (pLoadedSurface == nullptr)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
+    SDL_DestroySurface(pLoadedSurface);
+
+    if (pConvertedSurface == nullptr)
+    {
+        return BGFX_INVALID_HANDLE;
+    }
+
+    const int textureWidth = pConvertedSurface->w;
+    const int textureHeight = pConvertedSurface->h;
+    const size_t pixelCount = size_t(textureWidth) * size_t(textureHeight) * 4;
+    std::vector<uint8_t> pixels(pixelCount);
+    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
+    SDL_DestroySurface(pConvertedSurface);
+
+    for (size_t offset = 0; offset + 3 < pixels.size(); offset += 4)
+    {
+        const uint8_t intensity = std::max({pixels[offset + 0], pixels[offset + 1], pixels[offset + 2]});
+
+        if (intensity == 0)
+        {
+            pixels[offset + 0] = 0;
+            pixels[offset + 1] = 0;
+            pixels[offset + 2] = 0;
+            pixels[offset + 3] = 0;
+            continue;
+        }
+
+        const float factor = static_cast<float>(intensity) / 255.0f;
+        pixels[offset + 0] = static_cast<uint8_t>(std::lround(4.0f + 14.0f * factor));
+        pixels[offset + 1] = static_cast<uint8_t>(std::lround(8.0f + 20.0f * factor));
+        pixels[offset + 2] = static_cast<uint8_t>(std::lround(72.0f + 120.0f * factor));
+        pixels[offset + 3] = intensity;
+    }
+
+    m_bloodSplatTextureHandle = createBgraTexture2D(
+        uint16_t(textureWidth),
+        uint16_t(textureHeight),
+        pixels.data(),
+        uint32_t(pixels.size()),
+        TextureFilterProfile::BModel,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+
+    return m_bloodSplatTextureHandle;
+}
+
+void IndoorRenderer::ensureBloodSplatVertexBuffer()
+{
+    if (m_pSceneRuntime == nullptr)
+    {
+        if (bgfx::isValid(m_bloodSplatVertexBufferHandle))
+        {
+            bgfx::destroy(m_bloodSplatVertexBufferHandle);
+            m_bloodSplatVertexBufferHandle = BGFX_INVALID_HANDLE;
+        }
+
+        m_bloodSplatVertexCount = 0;
+        m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
+        return;
+    }
+
+    const IndoorWorldRuntime &worldRuntime = m_pSceneRuntime->worldRuntime();
+    const uint64_t revision = worldRuntime.bloodSplatRevision();
+
+    if (m_bloodSplatVertexBufferRevision == revision)
+    {
+        return;
+    }
+
+    m_bloodSplatVertexBufferRevision = revision;
+
+    if (bgfx::isValid(m_bloodSplatVertexBufferHandle))
+    {
+        bgfx::destroy(m_bloodSplatVertexBufferHandle);
+        m_bloodSplatVertexBufferHandle = BGFX_INVALID_HANDLE;
+    }
+
+    m_bloodSplatVertexCount = 0;
+    size_t totalVertexCount = 0;
+
+    for (size_t splatIndex = 0; splatIndex < worldRuntime.bloodSplatCount(); ++splatIndex)
+    {
+        const IndoorWorldRuntime::BloodSplatState *pSplat = worldRuntime.bloodSplatState(splatIndex);
+
+        if (pSplat != nullptr)
+        {
+            totalVertexCount += pSplat->vertices.size();
+        }
+    }
+
+    if (totalVertexCount == 0)
+    {
+        return;
+    }
+
+    std::vector<TexturedVertex> vertices;
+    vertices.reserve(totalVertexCount);
+
+    for (size_t splatIndex = 0; splatIndex < worldRuntime.bloodSplatCount(); ++splatIndex)
+    {
+        const IndoorWorldRuntime::BloodSplatState *pSplat = worldRuntime.bloodSplatState(splatIndex);
+
+        if (pSplat == nullptr || pSplat->vertices.empty())
+        {
+            continue;
+        }
+
+        for (const IndoorWorldRuntime::BloodSplatState::Vertex &sourceVertex : pSplat->vertices)
+        {
+            TexturedVertex vertex = {};
+            vertex.x = sourceVertex.x;
+            vertex.y = sourceVertex.y;
+            vertex.z = sourceVertex.z;
+            vertex.u = sourceVertex.u;
+            vertex.v = sourceVertex.v;
+            vertices.push_back(vertex);
+        }
+    }
+
+    const bgfx::Memory *pVertexMemory = bgfx::copy(
+        vertices.data(),
+        uint32_t(vertices.size() * sizeof(TexturedVertex)));
+    m_bloodSplatVertexBufferHandle = bgfx::createVertexBuffer(pVertexMemory, TexturedVertex::ms_layout);
+    m_bloodSplatVertexCount = uint32_t(vertices.size());
+}
+
+void IndoorRenderer::renderBloodSplats(
+    uint16_t viewId,
+    const std::array<float, 32> &indoorLightPositions,
+    const std::array<float, 32> &indoorLightColors,
+    const std::array<float, 4> &indoorLightParams)
+{
+    if (m_pSceneRuntime == nullptr
+        || !bgfx::isValid(m_indoorLitProgramHandle)
+        || !bgfx::isValid(m_textureSamplerHandle)
+        || !bgfx::isValid(m_indoorLightPositionsUniformHandle)
+        || !bgfx::isValid(m_indoorLightColorsUniformHandle)
+        || !bgfx::isValid(m_indoorLightParamsUniformHandle)
+        || m_pSceneRuntime->worldRuntime().bloodSplatCount() == 0)
+    {
+        return;
+    }
+
+    const bgfx::TextureHandle textureHandle = ensureBloodSplatTexture();
+
+    if (!bgfx::isValid(textureHandle))
+    {
+        return;
+    }
+
+    ensureBloodSplatVertexBuffer();
+
+    if (!bgfx::isValid(m_bloodSplatVertexBufferHandle) || m_bloodSplatVertexCount == 0)
+    {
+        return;
+    }
+
+    float modelMatrix[16] = {};
+    bx::mtxIdentity(modelMatrix);
+    bgfx::setTransform(modelMatrix);
+    bgfx::setVertexBuffer(0, m_bloodSplatVertexBufferHandle, 0, m_bloodSplatVertexCount);
+    bindTexture(
+        0,
+        m_textureSamplerHandle,
+        textureHandle,
+        TextureFilterProfile::BModel,
+        BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+    bgfx::setUniform(m_indoorLightPositionsUniformHandle, indoorLightPositions.data(), MaxIndoorShaderLights);
+    bgfx::setUniform(m_indoorLightColorsUniformHandle, indoorLightColors.data(), MaxIndoorShaderLights);
+    bgfx::setUniform(m_indoorLightParamsUniformHandle, indoorLightParams.data());
+    bgfx::setState(
+        BGFX_STATE_WRITE_RGB
+        | BGFX_STATE_WRITE_A
+        | BGFX_STATE_WRITE_Z
+        | BGFX_STATE_DEPTH_TEST_LEQUAL
+        | BGFX_STATE_BLEND_ALPHA);
+    bgfx::submit(viewId, m_indoorLitProgramHandle);
 }
 
 void IndoorRenderer::renderDecorationBillboards(
