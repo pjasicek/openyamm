@@ -3,6 +3,7 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
 #include "game/indoor/IndoorMapData.h"
+#include "game/indoor/IndoorLightingRuntime.h"
 #include "game/tables/ChestTable.h"
 #include "game/tables/ObjectTable.h"
 #include "game/maps/MapDeltaData.h"
@@ -298,19 +299,22 @@ private:
         uint16_t viewId,
         const float *pViewMatrix,
         const bx::Vec3 &cameraPosition,
-        const std::vector<uint8_t> &visibleSectorMask
+        const std::vector<uint8_t> &visibleSectorMask,
+        const IndoorLightingFrame &lightingFrame
     );
     void renderActorPreviewBillboards(
         uint16_t viewId,
         const float *pViewMatrix,
         const bx::Vec3 &cameraPosition,
-        const std::vector<uint8_t> &visibleSectorMask
+        const std::vector<uint8_t> &visibleSectorMask,
+        const IndoorLightingFrame &lightingFrame
     );
     void renderSpriteObjectBillboards(
         uint16_t viewId,
         const float *pViewMatrix,
         const bx::Vec3 &cameraPosition,
-        const std::vector<uint8_t> &visibleSectorMask
+        const std::vector<uint8_t> &visibleSectorMask,
+        const IndoorLightingFrame &lightingFrame
     );
     const bgfx::TextureHandle *findIndoorTextureHandle(const std::string &textureName) const;
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
@@ -353,8 +357,12 @@ private:
     bgfx::DynamicVertexBufferHandle m_doorMarkerVertexBufferHandle;
     bgfx::ProgramHandle m_programHandle;
     bgfx::ProgramHandle m_texturedProgramHandle;
+    bgfx::ProgramHandle m_indoorLitProgramHandle;
     bgfx::ProgramHandle m_billboardProgramHandle;
     bgfx::UniformHandle m_textureSamplerHandle;
+    bgfx::UniformHandle m_indoorLightPositionsUniformHandle;
+    bgfx::UniformHandle m_indoorLightColorsUniformHandle;
+    bgfx::UniformHandle m_indoorLightParamsUniformHandle;
     bgfx::UniformHandle m_billboardAmbientUniformHandle;
     bgfx::UniformHandle m_billboardOverrideColorUniformHandle;
     bgfx::UniformHandle m_billboardOutlineParamsUniformHandle;
@@ -376,6 +384,7 @@ private:
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
     WorldFxRenderResources m_worldFxRenderResources;
     WorldFxSystem m_worldFxSystem;
+    IndoorLightingRuntime m_indoorLightingRuntime;
     std::vector<MechanismBinding> m_mechanismBindings;
     std::vector<int32_t> m_faceBatchIndices;
     std::vector<uint32_t> m_faceVertexOffsets;

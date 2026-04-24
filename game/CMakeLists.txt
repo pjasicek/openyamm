@@ -77,6 +77,7 @@ add_executable(openyamm
     indoor/IndoorGameView.cpp
     indoor/IndoorCollisionPrimitives.cpp
     indoor/IndoorGeometryUtils.cpp
+    indoor/IndoorLightingRuntime.cpp
     indoor/IndoorMapData.cpp
     indoor/IndoorMovementController.cpp
     indoor/IndoorPartyRuntime.cpp

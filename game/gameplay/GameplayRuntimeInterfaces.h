@@ -227,6 +227,7 @@ struct GameplayProjectileImpactPresentationState
     float y = 0.0f;
     float z = 0.0f;
     uint32_t timeSinceCreatedTicks = 0;
+    uint32_t lifetimeTicks = 0;
     bool freezeAnimation = false;
 };
 

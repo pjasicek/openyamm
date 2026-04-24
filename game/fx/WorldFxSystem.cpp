@@ -19,6 +19,8 @@ constexpr float ParticleUpdateStepSeconds = 1.0f / 30.0f;
 constexpr float MaxParticleUpdateAccumulationSeconds = 0.25f;
 constexpr float ProjectileTrailCooldownSeconds = 0.018f;
 constexpr float PartySpellFxRingRadius = 28.0f;
+constexpr float ImpactLightRadiusScale = 1.18f;
+constexpr float ImpactLightIntensityScale = 1.35f;
 constexpr uint32_t CannonballPseudoSpellId = 136;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
@@ -92,6 +94,74 @@ uint32_t partySpellFxColorAbgr(const PartySpellCastResult &result)
     return makeAbgr(255, 255, 255, 208);
 }
 
+uint32_t withScaledAlpha(uint32_t colorAbgr, float alphaScale)
+{
+    const float clampedScale = std::clamp(alphaScale, 0.0f, 1.0f);
+    const uint8_t red = static_cast<uint8_t>(colorAbgr & 0xffu);
+    const uint8_t green = static_cast<uint8_t>((colorAbgr >> 8) & 0xffu);
+    const uint8_t blue = static_cast<uint8_t>((colorAbgr >> 16) & 0xffu);
+    const uint8_t alpha = static_cast<uint8_t>(
+        std::clamp(
+            static_cast<int>(std::lround(static_cast<float>((colorAbgr >> 24) & 0xffu) * clampedScale)),
+            0,
+            255));
+
+    return makeAbgr(red, green, blue, alpha);
+}
+
+float impactLightDurationSeconds(
+    FxRecipes::ProjectileRecipe recipe,
+    const GameplayProjectileImpactPresentationState &impact)
+{
+    const float presentationSeconds =
+        impact.lifetimeTicks > 0
+            ? static_cast<float>(impact.lifetimeTicks) / 128.0f
+            : 0.0f;
+    float recipeSeconds = 0.68f;
+
+    switch (recipe)
+    {
+    case FxRecipes::ProjectileRecipe::Fireball:
+    case FxRecipes::ProjectileRecipe::DragonBreath:
+        recipeSeconds = 0.92f;
+        break;
+    case FxRecipes::ProjectileRecipe::MeteorShower:
+    case FxRecipes::ProjectileRecipe::Starburst:
+    case FxRecipes::ProjectileRecipe::Implosion:
+        recipeSeconds = 1.08f;
+        break;
+    case FxRecipes::ProjectileRecipe::ToxicCloud:
+        recipeSeconds = 1.0f;
+        break;
+    case FxRecipes::ProjectileRecipe::None:
+        recipeSeconds = 0.0f;
+        break;
+    default:
+        break;
+    }
+
+    return std::max(recipeSeconds, presentationSeconds);
+}
+
+float impactLightRadius(FxRecipes::ProjectileRecipe recipe)
+{
+    const float recipeGlowRadius = FxRecipes::projectileRecipeGlowRadius(recipe);
+
+    switch (recipe)
+    {
+    case FxRecipes::ProjectileRecipe::MeteorShower:
+        return std::max(recipeGlowRadius, 128.0f) * ImpactLightRadiusScale;
+    case FxRecipes::ProjectileRecipe::Starburst:
+        return std::max(recipeGlowRadius, 136.0f) * ImpactLightRadiusScale;
+    case FxRecipes::ProjectileRecipe::Implosion:
+        return std::max(recipeGlowRadius, 152.0f) * ImpactLightRadiusScale;
+    case FxRecipes::ProjectileRecipe::None:
+        return 0.0f;
+    default:
+        return std::max(recipeGlowRadius, 96.0f) * ImpactLightRadiusScale;
+    }
+}
+
 bool shouldTriggerPartySpellSparkles(PartySpellCastEffectKind effectKind)
 {
     return effectKind == PartySpellCastEffectKind::PartyBuff
@@ -109,6 +179,7 @@ void WorldFxSystem::reset()
     m_lightEmitters.clear();
     m_contactShadows.clear();
     m_trailCooldownByProjectileId.clear();
+    m_persistentImpactLights.clear();
     m_seenImpactIds.clear();
 }
 
@@ -139,8 +210,10 @@ void WorldFxSystem::updateParticles(float deltaSeconds, bool paused)
 void WorldFxSystem::syncProjectileFx(GameSession &session, float deltaSeconds, bool refreshSpatialFx)
 {
     updateProjectileTrailCooldowns(deltaSeconds);
+    updatePersistentImpactLights(deltaSeconds);
     syncProjectileTrails(session, refreshSpatialFx);
     syncProjectileImpacts(session);
+    emitPersistentImpactLights(refreshSpatialFx);
     cleanupSeenProjectileImpactIds(session);
 }
 
@@ -278,11 +351,6 @@ const std::vector<WorldFxGlowBillboard> &WorldFxSystem::glowBillboards() const
     return m_glowBillboards;
 }
 
-const std::vector<WorldFxLightEmitter> &WorldFxSystem::lightEmitters() const
-{
-    return m_lightEmitters;
-}
-
 const std::vector<WorldFxContactShadow> &WorldFxSystem::contactShadows() const
 {
     return m_contactShadows;
@@ -303,6 +371,61 @@ void WorldFxSystem::updateProjectileTrailCooldowns(float deltaSeconds)
         {
             ++it;
         }
+    }
+}
+
+void WorldFxSystem::updatePersistentImpactLights(float deltaSeconds)
+{
+    if (deltaSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    for (std::unordered_map<uint32_t, PersistentImpactLight>::iterator it = m_persistentImpactLights.begin();
+        it != m_persistentImpactLights.end();)
+    {
+        it->second.elapsedSeconds += deltaSeconds;
+
+        if (it->second.elapsedSeconds >= it->second.durationSeconds)
+        {
+            it = m_persistentImpactLights.erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+}
+
+void WorldFxSystem::emitPersistentImpactLights(bool refreshSpatialFx)
+{
+    if (!refreshSpatialFx)
+    {
+        return;
+    }
+
+    for (const std::pair<const uint32_t, PersistentImpactLight> &entry : m_persistentImpactLights)
+    {
+        const PersistentImpactLight &light = entry.second;
+
+        if (light.radius <= 0.0f || light.durationSeconds <= 0.0f)
+        {
+            continue;
+        }
+
+        const float fade = std::clamp(1.0f - light.elapsedSeconds / light.durationSeconds, 0.0f, 1.0f);
+
+        if (fade <= 0.0f)
+        {
+            continue;
+        }
+
+        addLightEmitter(
+            light.x,
+            light.y,
+            light.z,
+            light.radius,
+            withScaledAlpha(light.colorAbgr, fade * ImpactLightIntensityScale));
     }
 }
 
@@ -399,11 +522,6 @@ void WorldFxSystem::syncProjectileImpacts(GameSession &session)
 
     for (const GameplayProjectileImpactPresentationState &impact : impacts)
     {
-        if (!m_seenImpactIds.insert(impact.effectId).second)
-        {
-            continue;
-        }
-
         const FxRecipes::ProjectileRecipe recipe = FxRecipes::classifyProjectileRecipe(
             impact.sourceSpellId,
             impact.sourceObjectName,
@@ -415,29 +533,34 @@ void WorldFxSystem::syncProjectileImpacts(GameSession &session)
             continue;
         }
 
-        FxRecipes::ImpactSpawnContext impactContext = {};
-        impactContext.recipe = recipe;
-        impactContext.objectName = impact.objectName;
-        impactContext.spriteName = impact.objectSpriteName;
-        impactContext.x = impact.x;
-        impactContext.y = impact.y;
-        impactContext.z = impact.z;
-        FxRecipes::spawnImpactParticles(m_particleSystem, impactContext);
+        const bool isNewImpact = m_seenImpactIds.insert(impact.effectId).second;
 
-        const float impactLightRadius =
-            recipe == FxRecipes::ProjectileRecipe::MeteorShower ? 128.0f
-                : recipe == FxRecipes::ProjectileRecipe::Starburst
-                ? 136.0f
-                : recipe == FxRecipes::ProjectileRecipe::Implosion
-                ? 152.0f
-                : 96.0f;
+        if (isNewImpact)
+        {
+            FxRecipes::ImpactSpawnContext impactContext = {};
+            impactContext.recipe = recipe;
+            impactContext.objectName = impact.objectName;
+            impactContext.spriteName = impact.objectSpriteName;
+            impactContext.x = impact.x;
+            impactContext.y = impact.y;
+            impactContext.z = impact.z;
+            FxRecipes::spawnImpactParticles(m_particleSystem, impactContext);
+        }
 
-        addLightEmitter(
-            impact.x,
-            impact.y,
-            impact.z + 16.0f,
-            impactLightRadius,
-            FxRecipes::projectileRecipeColorAbgr(recipe));
+        const float lightRadius = impactLightRadius(recipe);
+        const float lightDuration = impactLightDurationSeconds(recipe, impact);
+
+        if (isNewImpact && lightRadius > 0.0f && lightDuration > 0.0f)
+        {
+            PersistentImpactLight light = {};
+            light.x = impact.x;
+            light.y = impact.y;
+            light.z = impact.z + 16.0f;
+            light.radius = lightRadius;
+            light.durationSeconds = lightDuration;
+            light.colorAbgr = FxRecipes::projectileRecipeColorAbgr(recipe);
+            m_persistentImpactLights[impact.effectId] = light;
+        }
     }
 }
 

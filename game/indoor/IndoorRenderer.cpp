@@ -115,6 +115,7 @@ bool updateDynamicVertexBuffer(
 
 constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 2;
+constexpr size_t MaxIndoorShaderLights = 8;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float HoveredActorOutlineThicknessPixels = 2.0f;
@@ -1213,6 +1214,101 @@ float blueChannel(uint32_t colorAbgr)
     return static_cast<float>((colorAbgr >> 16) & 0xffu) / 255.0f;
 }
 
+float alphaChannel(uint32_t colorAbgr)
+{
+    return static_cast<float>((colorAbgr >> 24) & 0xffu) / 255.0f;
+}
+
+float indoorShaderLightKindWeight(IndoorRenderLightKind kind)
+{
+    switch (kind)
+    {
+    case IndoorRenderLightKind::Fx:
+        return 12.0f;
+    case IndoorRenderLightKind::Torch:
+        return 10.0f;
+    case IndoorRenderLightKind::Decoration:
+        return 8.0f;
+    case IndoorRenderLightKind::Static:
+        return 1.0f;
+    }
+
+    return 1.0f;
+}
+
+float indoorShaderLightScore(const IndoorRenderLight &light, const bx::Vec3 &cameraPosition)
+{
+    const float dx = light.position.x - cameraPosition.x;
+    const float dy = light.position.y - cameraPosition.y;
+    const float dz = light.position.z - cameraPosition.z;
+    const float distance = std::max(std::sqrt(dx * dx + dy * dy + dz * dz), 1.0f);
+    return light.radius * light.intensity * indoorShaderLightKindWeight(light.kind) / distance;
+}
+
+void fillIndoorLightUniformArrays(
+    const IndoorLightingFrame &lightingFrame,
+    const bx::Vec3 &cameraPosition,
+    std::array<float, MaxIndoorShaderLights * 4> &positions,
+    std::array<float, MaxIndoorShaderLights * 4> &colors,
+    std::array<float, 4> &params)
+{
+    positions.fill(0.0f);
+    colors.fill(0.0f);
+
+    std::vector<IndoorRenderLight> shaderLights = lightingFrame.lights;
+    std::sort(
+        shaderLights.begin(),
+        shaderLights.end(),
+        [&cameraPosition](const IndoorRenderLight &left, const IndoorRenderLight &right)
+        {
+            return indoorShaderLightScore(left, cameraPosition) > indoorShaderLightScore(right, cameraPosition);
+        });
+
+    const size_t lightCount = std::min(shaderLights.size(), MaxIndoorShaderLights);
+
+    for (size_t index = 0; index < lightCount; ++index)
+    {
+        const IndoorRenderLight &light = shaderLights[index];
+        const size_t base = index * 4;
+        positions[base + 0] = light.position.x;
+        positions[base + 1] = light.position.y;
+        positions[base + 2] = light.position.z;
+        positions[base + 3] = light.radius;
+        colors[base + 0] = redChannel(light.colorAbgr);
+        colors[base + 1] = greenChannel(light.colorAbgr);
+        colors[base + 2] = blueChannel(light.colorAbgr);
+        colors[base + 3] = alphaChannel(light.colorAbgr) * light.intensity;
+    }
+
+    params = {{
+        static_cast<float>(lightCount),
+        lightingFrame.ambient,
+        1.35f,
+        0.0f
+    }};
+}
+
+std::array<float, 4> billboardAmbientUniform(
+    const IndoorLightingFrame &lightingFrame,
+    const bx::Vec3 &position)
+{
+    const std::array<float, 3> rgb = IndoorLightingRuntime::sampleLightingRgb(lightingFrame, position);
+    return {{rgb[0], rgb[1], rgb[2], 0.0f}};
+}
+
+std::array<float, 4> billboardLightingUniform(
+    const IndoorLightingFrame &lightingFrame,
+    const SpriteFrameEntry &frame,
+    const bx::Vec3 &position)
+{
+    if (SpriteFrameTable::hasFlag(frame.flags, SpriteFrameFlag::Lit))
+    {
+        return {{1.0f, 1.0f, 1.0f, 0.0f}};
+    }
+
+    return billboardAmbientUniform(lightingFrame, position);
+}
+
 uint32_t resolveHoveredIndoorActorOutlineColor(
     const MapDeltaActor &actor,
     const IndoorWorldRuntime::MapActorAiState *pAiState)
@@ -1288,8 +1384,12 @@ IndoorRenderer::IndoorRenderer()
     , m_doorMarkerVertexBufferHandle(BGFX_INVALID_HANDLE)
     , m_programHandle(BGFX_INVALID_HANDLE)
     , m_texturedProgramHandle(BGFX_INVALID_HANDLE)
+    , m_indoorLitProgramHandle(BGFX_INVALID_HANDLE)
     , m_billboardProgramHandle(BGFX_INVALID_HANDLE)
     , m_textureSamplerHandle(BGFX_INVALID_HANDLE)
+    , m_indoorLightPositionsUniformHandle(BGFX_INVALID_HANDLE)
+    , m_indoorLightColorsUniformHandle(BGFX_INVALID_HANDLE)
+    , m_indoorLightParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardAmbientUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardOverrideColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardOutlineParamsUniformHandle(BGFX_INVALID_HANDLE)
@@ -1510,10 +1610,16 @@ bool IndoorRenderer::initialize(
     m_faceCount = static_cast<uint32_t>(indoorMapData.faces.size());
     m_programHandle = loadProgram("vs_cubes", "fs_cubes");
     m_texturedProgramHandle = loadProgram("vs_shadowmaps_texture", "fs_shadowmaps_texture");
+    m_indoorLitProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_lit");
     m_billboardProgramHandle = loadProgram("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");
     m_worldFxRenderResources.setParticleProgramHandle(loadProgram("vs_particle", "fs_particle"));
     ParticleRenderer::initializeResources(m_worldFxRenderResources);
     m_textureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
+    m_indoorLightPositionsUniformHandle =
+        bgfx::createUniform("u_indoorLightPositions", bgfx::UniformType::Vec4, MaxIndoorShaderLights);
+    m_indoorLightColorsUniformHandle =
+        bgfx::createUniform("u_indoorLightColors", bgfx::UniformType::Vec4, MaxIndoorShaderLights);
+    m_indoorLightParamsUniformHandle = bgfx::createUniform("u_indoorLightParams", bgfx::UniformType::Vec4);
     m_billboardAmbientUniformHandle = bgfx::createUniform("u_billboardAmbient", bgfx::UniformType::Vec4);
     m_billboardOverrideColorUniformHandle =
         bgfx::createUniform("u_billboardOverrideColor", bgfx::UniformType::Vec4);
@@ -1537,6 +1643,13 @@ bool IndoorRenderer::initialize(
         return false;
     }
 
+    if (!bgfx::isValid(m_indoorLitProgramHandle))
+    {
+        std::cerr << "IndoorRenderer: failed to create indoor lit program handle\n";
+        shutdown();
+        return false;
+    }
+
     if (!bgfx::isValid(m_billboardProgramHandle))
     {
         std::cerr << "IndoorRenderer: failed to create billboard program handle\n";
@@ -1546,6 +1659,9 @@ bool IndoorRenderer::initialize(
 
     if (!m_worldFxRenderResources.isReady()
         || !bgfx::isValid(m_textureSamplerHandle)
+        || !bgfx::isValid(m_indoorLightPositionsUniformHandle)
+        || !bgfx::isValid(m_indoorLightColorsUniformHandle)
+        || !bgfx::isValid(m_indoorLightParamsUniformHandle)
         || !bgfx::isValid(m_billboardAmbientUniformHandle)
         || !bgfx::isValid(m_billboardOverrideColorUniformHandle)
         || !bgfx::isValid(m_billboardOutlineParamsUniformHandle)
@@ -2076,6 +2192,22 @@ void IndoorRenderer::render(
     bgfx::setViewTransform(MainViewId, viewMatrix, projectionMatrix);
     bgfx::touch(MainViewId);
     const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(eye);
+    const GameSettings &settings = gameSession.gameplayScreenRuntime().settingsSnapshot();
+    IndoorLightingFrameInput lightingInput = {};
+    lightingInput.pMapData = m_indoorMapData ? &m_indoorMapData.value() : nullptr;
+    lightingInput.pEventRuntimeState = runtimeEventRuntimeState();
+    lightingInput.pDecorationBillboardSet =
+        m_indoorDecorationBillboardSet ? &m_indoorDecorationBillboardSet.value() : nullptr;
+    lightingInput.pWorldFxSystem = &m_worldFxSystem;
+    lightingInput.pParty = gameSession.partyState() ? &gameSession.partyState().value() : nullptr;
+    lightingInput.pVisibleSectorMask = &visibleSectorMask;
+    lightingInput.cameraPosition = eye;
+    lightingInput.coloredLights = settings.coloredLights;
+    const IndoorLightingFrame lightingFrame = m_indoorLightingRuntime.buildFrame(lightingInput);
+    std::array<float, MaxIndoorShaderLights * 4> indoorLightPositions = {};
+    std::array<float, MaxIndoorShaderLights * 4> indoorLightColors = {};
+    std::array<float, 4> indoorLightParams = {};
+    fillIndoorLightUniformArrays(lightingFrame, eye, indoorLightPositions, indoorLightColors, indoorLightParams);
 
     InspectHit inspectHit = {};
     float mouseX = input.pointerX;
@@ -2193,7 +2325,11 @@ void IndoorRenderer::render(
     float modelMatrix[16] = {};
     bx::mtxIdentity(modelMatrix);
 
-    if (bgfx::isValid(m_texturedProgramHandle) && bgfx::isValid(m_textureSamplerHandle))
+    if (bgfx::isValid(m_indoorLitProgramHandle)
+        && bgfx::isValid(m_textureSamplerHandle)
+        && bgfx::isValid(m_indoorLightPositionsUniformHandle)
+        && bgfx::isValid(m_indoorLightColorsUniformHandle)
+        && bgfx::isValid(m_indoorLightParamsUniformHandle))
     {
         for (const TexturedBatch &batch : m_texturedBatches)
         {
@@ -2225,6 +2361,15 @@ void IndoorRenderer::render(
                 m_textureSamplerHandle,
                 batch.frameTextureHandles[frameIndex],
                 TextureFilterProfile::BModel);
+            bgfx::setUniform(
+                m_indoorLightPositionsUniformHandle,
+                indoorLightPositions.data(),
+                MaxIndoorShaderLights);
+            bgfx::setUniform(
+                m_indoorLightColorsUniformHandle,
+                indoorLightColors.data(),
+                MaxIndoorShaderLights);
+            bgfx::setUniform(m_indoorLightParamsUniformHandle, indoorLightParams.data());
             bgfx::setState(
                 BGFX_STATE_WRITE_RGB
                 | BGFX_STATE_WRITE_A
@@ -2232,13 +2377,13 @@ void IndoorRenderer::render(
                 | BGFX_STATE_DEPTH_TEST_LEQUAL
                 | BGFX_STATE_BLEND_ALPHA
             );
-            bgfx::submit(MainViewId, m_texturedProgramHandle);
+            bgfx::submit(MainViewId, m_indoorLitProgramHandle);
         }
     }
 
-    renderDecorationBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
-    renderActorPreviewBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
-    renderSpriteObjectBillboards(MainViewId, viewMatrix, eye, visibleSectorMask);
+    renderDecorationBillboards(MainViewId, viewMatrix, eye, visibleSectorMask, lightingFrame);
+    renderActorPreviewBillboards(MainViewId, viewMatrix, eye, visibleSectorMask, lightingFrame);
+    renderSpriteObjectBillboards(MainViewId, viewMatrix, eye, visibleSectorMask, lightingFrame);
 
     ParticleRenderer::renderParticles(
         m_worldFxRenderResources,
@@ -3788,6 +3933,12 @@ void IndoorRenderer::shutdown()
         m_texturedProgramHandle = BGFX_INVALID_HANDLE;
     }
 
+    if (bgfx::isValid(m_indoorLitProgramHandle))
+    {
+        bgfx::destroy(m_indoorLitProgramHandle);
+        m_indoorLitProgramHandle = BGFX_INVALID_HANDLE;
+    }
+
     if (bgfx::isValid(m_billboardProgramHandle))
     {
         bgfx::destroy(m_billboardProgramHandle);
@@ -3822,6 +3973,24 @@ void IndoorRenderer::shutdown()
     {
         bgfx::destroy(m_textureSamplerHandle);
         m_textureSamplerHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_indoorLightPositionsUniformHandle))
+    {
+        bgfx::destroy(m_indoorLightPositionsUniformHandle);
+        m_indoorLightPositionsUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_indoorLightColorsUniformHandle))
+    {
+        bgfx::destroy(m_indoorLightColorsUniformHandle);
+        m_indoorLightColorsUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_indoorLightParamsUniformHandle))
+    {
+        bgfx::destroy(m_indoorLightParamsUniformHandle);
+        m_indoorLightParamsUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_billboardAmbientUniformHandle))
@@ -4074,12 +4243,19 @@ void IndoorRenderer::renderDecorationBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition,
-    const std::vector<uint8_t> &visibleSectorMask
+    const std::vector<uint8_t> &visibleSectorMask,
+    const IndoorLightingFrame &lightingFrame
 )
 {
     if (!m_indoorDecorationBillboardSet
-        || !bgfx::isValid(m_texturedProgramHandle)
-        || !bgfx::isValid(m_textureSamplerHandle))
+        || !bgfx::isValid(m_billboardProgramHandle)
+        || !bgfx::isValid(m_textureSamplerHandle)
+        || !bgfx::isValid(m_billboardAmbientUniformHandle)
+        || !bgfx::isValid(m_billboardOverrideColorUniformHandle)
+        || !bgfx::isValid(m_billboardOutlineParamsUniformHandle)
+        || !bgfx::isValid(m_billboardFogColorUniformHandle)
+        || !bgfx::isValid(m_billboardFogDensitiesUniformHandle)
+        || !bgfx::isValid(m_billboardFogDistancesUniformHandle))
     {
         return;
     }
@@ -4171,7 +4347,10 @@ void IndoorRenderer::renderDecorationBillboards(
         const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
         const BillboardTextureHandle *pTexture = findBillboardTexture(resolvedTexture.textureName);
 
-        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle) || pTexture->width <= 0 || pTexture->height <= 0)
+        if (pTexture == nullptr
+            || !bgfx::isValid(pTexture->textureHandle)
+            || pTexture->width <= 0
+            || pTexture->height <= 0)
         {
             continue;
         }
@@ -4227,16 +4406,50 @@ void IndoorRenderer::renderDecorationBillboards(
         };
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
-        std::array<TexturedVertex, 6> vertices = {{
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, 1.0f}
-        }};
+        const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
+        const std::array<float, 4> ambient = billboardLightingUniform(lightingFrame, frame, center);
+        const float clearOverrideColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float clearOutlineParams[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float fogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float fogDensities[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float fogDistances[4] = {4096.0f, 4096.0f, 4096.0f, 0.0f};
+        std::array<LitBillboardVertex, 6> vertices = {};
+        vertices[0] = {
+            center.x - right.x - up.x,
+            center.y - right.y - up.y,
+            center.z - right.z - up.z,
+            u0,
+            1.0f,
+            vertexColorAbgr
+        };
+        vertices[1] = {
+            center.x - right.x + up.x,
+            center.y - right.y + up.y,
+            center.z - right.z + up.z,
+            u0,
+            0.0f,
+            vertexColorAbgr
+        };
+        vertices[2] = {
+            center.x + right.x + up.x,
+            center.y + right.y + up.y,
+            center.z + right.z + up.z,
+            u1,
+            0.0f,
+            vertexColorAbgr
+        };
+        vertices[3] = vertices[0];
+        vertices[4] = vertices[2];
+        vertices[5] = {
+            center.x + right.x - up.x,
+            center.y + right.y - up.y,
+            center.z + right.z - up.z,
+            u1,
+            1.0f,
+            vertexColorAbgr
+        };
 
-        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), TexturedVertex::ms_layout)
+        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), LitBillboardVertex::ms_layout)
             < vertices.size())
         {
             continue;
@@ -4246,12 +4459,12 @@ void IndoorRenderer::renderDecorationBillboards(
         bgfx::allocTransientVertexBuffer(
             &transientVertexBuffer,
             static_cast<uint32_t>(vertices.size()),
-            TexturedVertex::ms_layout
+            LitBillboardVertex::ms_layout
         );
         std::memcpy(
             transientVertexBuffer.data,
             vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(TexturedVertex))
+            static_cast<size_t>(vertices.size() * sizeof(LitBillboardVertex))
         );
 
         float modelMatrix[16] = {};
@@ -4264,13 +4477,19 @@ void IndoorRenderer::renderDecorationBillboards(
             texture.textureHandle,
             TextureFilterProfile::Billboard,
             BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+        bgfx::setUniform(m_billboardAmbientUniformHandle, ambient.data());
+        bgfx::setUniform(m_billboardOverrideColorUniformHandle, clearOverrideColor);
+        bgfx::setUniform(m_billboardOutlineParamsUniformHandle, clearOutlineParams);
+        bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+        bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
+        bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
         bgfx::setState(
             BGFX_STATE_WRITE_RGB
             | BGFX_STATE_WRITE_A
             | BGFX_STATE_DEPTH_TEST_LEQUAL
             | BGFX_STATE_BLEND_ALPHA
         );
-        bgfx::submit(viewId, m_texturedProgramHandle);
+        bgfx::submit(viewId, m_billboardProgramHandle);
     }
 }
 
@@ -4278,7 +4497,8 @@ void IndoorRenderer::renderActorPreviewBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition,
-    const std::vector<uint8_t> &visibleSectorMask
+    const std::vector<uint8_t> &visibleSectorMask,
+    const IndoorLightingFrame &lightingFrame
 )
 {
     if (!m_indoorActorPreviewBillboardSet
@@ -4485,7 +4705,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
         const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
-        const float ambient[4] = {1.0f, 1.0f, 1.0f, 0.0f};
+        const std::array<float, 4> ambient = billboardLightingUniform(lightingFrame, frame, center);
         const float clearOverrideColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
         const float clearOutlineParams[4] = {0.0f, 0.0f, 0.0f, 0.0f};
         const float fogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -4607,7 +4827,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
                     texture.textureHandle,
                     TextureFilterProfile::Billboard,
                     BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-                bgfx::setUniform(m_billboardAmbientUniformHandle, ambient);
+                bgfx::setUniform(m_billboardAmbientUniformHandle, ambient.data());
                 bgfx::setUniform(m_billboardOverrideColorUniformHandle, overrideColor);
                 bgfx::setUniform(m_billboardOutlineParamsUniformHandle, outlineParams);
                 bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
@@ -4687,7 +4907,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
             texture.textureHandle,
             TextureFilterProfile::Billboard,
             BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-        bgfx::setUniform(m_billboardAmbientUniformHandle, ambient);
+        bgfx::setUniform(m_billboardAmbientUniformHandle, ambient.data());
         bgfx::setUniform(m_billboardOverrideColorUniformHandle, clearOverrideColor);
         bgfx::setUniform(m_billboardOutlineParamsUniformHandle, clearOutlineParams);
         bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
@@ -4708,11 +4928,11 @@ void IndoorRenderer::renderSpriteObjectBillboards(
     uint16_t viewId,
     const float *pViewMatrix,
     const bx::Vec3 &cameraPosition,
-    const std::vector<uint8_t> &visibleSectorMask
+    const std::vector<uint8_t> &visibleSectorMask,
+    const IndoorLightingFrame &lightingFrame
 )
 {
-    if (!bgfx::isValid(m_texturedProgramHandle)
-        || !bgfx::isValid(m_billboardProgramHandle)
+    if (!bgfx::isValid(m_billboardProgramHandle)
         || !bgfx::isValid(m_textureSamplerHandle)
         || !bgfx::isValid(m_billboardAmbientUniformHandle)
         || !bgfx::isValid(m_billboardOverrideColorUniformHandle)
@@ -5285,16 +5505,65 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             }
         }
 
-        std::array<TexturedVertex, 6> vertices = {{
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x - right.x + up.x, center.y - right.y + up.y, center.z - right.z + up.z, u0, 0.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x - right.x - up.x, center.y - right.y - up.y, center.z - right.z - up.z, u0, 1.0f},
-            {center.x + right.x + up.x, center.y + right.y + up.y, center.z + right.z + up.z, u1, 0.0f},
-            {center.x + right.x - up.x, center.y + right.y - up.y, center.z + right.z - up.z, u1, 1.0f}
+        const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
+        const std::array<float, 4> ambient = billboardLightingUniform(lightingFrame, frame, center);
+        const float clearOverrideColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float clearOutlineParams[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float fogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float fogDensities[4] = {0.0f, 0.0f, 0.0f, 0.0f};
+        const float fogDistances[4] = {4096.0f, 4096.0f, 4096.0f, 0.0f};
+        std::array<LitBillboardVertex, 6> vertices = {{
+            {
+                center.x - right.x - up.x,
+                center.y - right.y - up.y,
+                center.z - right.z - up.z,
+                u0,
+                1.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x - right.x + up.x,
+                center.y - right.y + up.y,
+                center.z - right.z + up.z,
+                u0,
+                0.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x + right.x + up.x,
+                center.y + right.y + up.y,
+                center.z + right.z + up.z,
+                u1,
+                0.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x - right.x - up.x,
+                center.y - right.y - up.y,
+                center.z - right.z - up.z,
+                u0,
+                1.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x + right.x + up.x,
+                center.y + right.y + up.y,
+                center.z + right.z + up.z,
+                u1,
+                0.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x + right.x - up.x,
+                center.y + right.y - up.y,
+                center.z + right.z - up.z,
+                u1,
+                1.0f,
+                vertexColorAbgr
+            }
         }};
 
-        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), TexturedVertex::ms_layout)
+        if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), LitBillboardVertex::ms_layout)
             < vertices.size())
         {
             continue;
@@ -5304,12 +5573,12 @@ void IndoorRenderer::renderSpriteObjectBillboards(
         bgfx::allocTransientVertexBuffer(
             &transientVertexBuffer,
             static_cast<uint32_t>(vertices.size()),
-            TexturedVertex::ms_layout
+            LitBillboardVertex::ms_layout
         );
         std::memcpy(
             transientVertexBuffer.data,
             vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(TexturedVertex))
+            static_cast<size_t>(vertices.size() * sizeof(LitBillboardVertex))
         );
 
         float modelMatrix[16] = {};
@@ -5322,13 +5591,19 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             texture.textureHandle,
             TextureFilterProfile::Billboard,
             BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+        bgfx::setUniform(m_billboardAmbientUniformHandle, ambient.data());
+        bgfx::setUniform(m_billboardOverrideColorUniformHandle, clearOverrideColor);
+        bgfx::setUniform(m_billboardOutlineParamsUniformHandle, clearOutlineParams);
+        bgfx::setUniform(m_billboardFogColorUniformHandle, fogColor);
+        bgfx::setUniform(m_billboardFogDensitiesUniformHandle, fogDensities);
+        bgfx::setUniform(m_billboardFogDistancesUniformHandle, fogDistances);
         bgfx::setState(
             BGFX_STATE_WRITE_RGB
             | BGFX_STATE_WRITE_A
             | BGFX_STATE_DEPTH_TEST_LEQUAL
             | BGFX_STATE_BLEND_ALPHA
         );
-        bgfx::submit(viewId, m_texturedProgramHandle);
+        bgfx::submit(viewId, m_billboardProgramHandle);
     }
 }
 

@@ -1636,6 +1636,7 @@ void GameplayProjectileService::collectProjectilePresentationState(
         state.y = impact.y;
         state.z = impact.z;
         state.timeSinceCreatedTicks = impact.timeSinceCreatedTicks;
+        state.lifetimeTicks = impact.lifetimeTicks;
         state.freezeAnimation = impact.freezeAnimation;
         impacts.push_back(std::move(state));
     }

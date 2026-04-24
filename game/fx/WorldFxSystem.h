@@ -73,11 +73,27 @@ public:
     ParticleSystem &particles();
     const ParticleSystem &particles() const;
     const std::vector<WorldFxGlowBillboard> &glowBillboards() const;
-    const std::vector<WorldFxLightEmitter> &lightEmitters() const;
+    const std::vector<WorldFxLightEmitter> &lightEmitters() const
+    {
+        return m_lightEmitters;
+    }
     const std::vector<WorldFxContactShadow> &contactShadows() const;
 
 private:
+    struct PersistentImpactLight
+    {
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float radius = 0.0f;
+        float elapsedSeconds = 0.0f;
+        float durationSeconds = 0.0f;
+        uint32_t colorAbgr = 0xffffffffu;
+    };
+
     void updateProjectileTrailCooldowns(float deltaSeconds);
+    void updatePersistentImpactLights(float deltaSeconds);
+    void emitPersistentImpactLights(bool refreshSpatialFx);
     void syncProjectileTrails(GameSession &session, bool refreshSpatialFx);
     void syncProjectileImpacts(GameSession &session);
     void cleanupSeenProjectileImpactIds(GameSession &session);
@@ -88,6 +104,7 @@ private:
     std::vector<WorldFxLightEmitter> m_lightEmitters;
     std::vector<WorldFxContactShadow> m_contactShadows;
     std::unordered_map<uint32_t, float> m_trailCooldownByProjectileId;
+    std::unordered_map<uint32_t, PersistentImpactLight> m_persistentImpactLights;
     std::unordered_set<uint32_t> m_seenImpactIds;
     bool m_shadowsEnabled = false;
 };
