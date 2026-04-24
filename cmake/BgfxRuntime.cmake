@@ -241,6 +241,14 @@ function(openyamm_configure_runtime_shaders)
         "fragment"
         "fs_outdoor_billboard_lit.bin")
     openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_indoor_textured_lit.sc"
+        "vertex"
+        "vs_indoor_textured_lit.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_indoor_textured_lit.sc"
+        "fragment"
+        "fs_indoor_textured_lit.bin")
+    openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_outdoor_force_perspective.sc"
         "vertex"
         "vs_outdoor_force_perspective.bin")
@@ -283,6 +291,8 @@ function(openyamm_configure_runtime_shaders)
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_outdoor_billboard_lit.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_outdoor_textured_fog.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_outdoor_billboard_lit.bin"
+            "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_indoor_textured_lit.bin"
+            "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_indoor_textured_lit.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_outdoor_force_perspective.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/fs_outdoor_force_perspective.bin"
             "${OPENYAMM_RUNTIME_SHADER_DIR}/glsl/vs_particle.bin"
