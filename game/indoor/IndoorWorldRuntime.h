@@ -21,6 +21,7 @@ namespace OpenYAMM::Game
 {
 class GameplayActorAiSystem;
 class GameplayActorService;
+class GameplayCombatController;
 class GameplayProjectileService;
 struct DecorationBillboardSet;
 class IndoorRenderer;
@@ -128,6 +129,7 @@ public:
         std::optional<EventRuntimeState> *pEventRuntimeState,
         GameplayActorService *pGameplayActorService,
         GameplayProjectileService *pGameplayProjectileService,
+        GameplayCombatController *pGameplayCombatController = nullptr,
         const SpriteFrameTable *pActorSpriteFrameTable = nullptr,
         const SpriteFrameTable *pProjectileSpriteFrameTable = nullptr,
         const IndoorMapData *pIndoorMapData = nullptr,
@@ -356,6 +358,7 @@ private:
         uint32_t typeIndexInMapStats,
         uint32_t level
     ) const;
+    bool autoLootMapActorCorpse(size_t actorIndex);
     bool materializeTreasureSpawn(size_t spawnIndex, const IndoorSpawn &spawn);
     void materializeInitialMonsterSpawns();
     void syncMapActorAiStates();
@@ -437,6 +440,7 @@ private:
     std::optional<EventRuntimeState> *m_pEventRuntimeState = nullptr;
     GameplayActorService *m_pGameplayActorService = nullptr;
     GameplayProjectileService *m_pGameplayProjectileService = nullptr;
+    GameplayCombatController *m_pGameplayCombatController = nullptr;
     IndoorRenderer *m_pRenderer = nullptr;
     IndoorGameView *m_pGameplayView = nullptr;
     std::string m_mapName;

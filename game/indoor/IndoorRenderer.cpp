@@ -3,6 +3,7 @@
 #include "game/app/GameSession.h"
 #include "game/data/ActorNameResolver.h"
 #include "game/FaceEnums.h"
+#include "game/fx/ParticleRecipes.h"
 #include "game/fx/ParticleRenderer.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/indoor/IndoorGeometryUtils.h"
@@ -36,6 +37,34 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+int snapIndoorSpawnZToFloor(const IndoorMapData &indoorMapData, int x, int y, int z)
+{
+    IndoorFaceGeometryCache geometryCache(indoorMapData.faces.size());
+    const std::optional<int16_t> sectorId = findIndoorSectorForPoint(
+        indoorMapData,
+        indoorMapData.vertices,
+        {static_cast<float>(x), static_cast<float>(y), static_cast<float>(z)},
+        &geometryCache);
+    const IndoorFloorSample floor = sampleIndoorFloor(
+        indoorMapData,
+        indoorMapData.vertices,
+        static_cast<float>(x),
+        static_cast<float>(y),
+        static_cast<float>(z),
+        131072.0f,
+        0.0f,
+        sectorId,
+        nullptr,
+        &geometryCache);
+
+    if (!floor.hasFloor || floor.height <= static_cast<float>(z))
+    {
+        return z;
+    }
+
+    return static_cast<int>(std::lround(floor.height));
+}
+
 template <typename TVertex>
 bool updateDynamicVertexBuffer(
     bgfx::DynamicVertexBufferHandle &vertexBufferHandle,
@@ -2931,17 +2960,8 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
     const auto isSelectableHit =
         [this](const GameplayWorldHit &hit) -> bool
         {
-            if (!hit.hasHit)
-            {
-                return false;
-            }
-
-            if (hit.kind == GameplayWorldHitKind::Actor || hit.kind == GameplayWorldHitKind::WorldItem)
-            {
-                return true;
-            }
-
-            return canActivateGameplayWorldHit(hit);
+            return m_pSceneRuntime != nullptr
+                && m_pSceneRuntime->worldRuntime().canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard);
         };
 
     const GameplayWorldHit directHit = pickGameplayWorldHit(rayRequest);
@@ -2968,10 +2988,93 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
         float screenX = 0.0f;
         float screenY = 0.0f;
         float score = 0.0f;
+        bool hasWorldHit = false;
+        GameplayWorldHit worldHit = {};
     };
 
     std::vector<KeyboardCandidate> candidates;
     const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(rayRequest.eye);
+
+    const auto levelBlocksWorldPoint =
+        [&](const bx::Vec3 &worldPoint) -> bool
+        {
+            const bx::Vec3 toPoint = vecSubtract(worldPoint, rayRequest.eye);
+            const float pointDistance = vecLength(toPoint);
+
+            if (pointDistance <= InspectRayEpsilon)
+            {
+                return false;
+            }
+
+            const bx::Vec3 rayDirection = vecNormalize(toPoint);
+
+            for (size_t faceIndex = 0; faceIndex < m_indoorMapData->faces.size(); ++faceIndex)
+            {
+                const IndoorFace &face = m_indoorMapData->faces[faceIndex];
+
+                if (face.vertexIndices.size() < 3
+                    || face.isPortal
+                    || hasFaceAttribute(face.attributes, FaceAttribute::IsPortal)
+                    || !isFaceVisible(faceIndex, face, runtimeEventRuntimeStateStorage())
+                    || (!visibleSectorMask.empty()
+                        && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
+                        && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask)))
+                {
+                    continue;
+                }
+
+                for (size_t triangleIndex = 1; triangleIndex + 1 < face.vertexIndices.size(); ++triangleIndex)
+                {
+                    const size_t triangleVertexIndices[3] = {0, triangleIndex, triangleIndex + 1};
+                    bx::Vec3 triangleVertices[3] = {
+                        {0.0f, 0.0f, 0.0f},
+                        {0.0f, 0.0f, 0.0f},
+                        {0.0f, 0.0f, 0.0f}
+                    };
+                    bool isTriangleValid = true;
+
+                    for (size_t vertexSlot = 0; vertexSlot < 3; ++vertexSlot)
+                    {
+                        const uint16_t vertexIndex = face.vertexIndices[triangleVertexIndices[vertexSlot]];
+
+                        if (vertexIndex >= m_renderVertices.size())
+                        {
+                            isTriangleValid = false;
+                            break;
+                        }
+
+                        const IndoorVertex &vertex = m_renderVertices[vertexIndex];
+                        triangleVertices[vertexSlot] = {
+                            static_cast<float>(vertex.x),
+                            static_cast<float>(vertex.y),
+                            static_cast<float>(vertex.z)
+                        };
+                    }
+
+                    if (!isTriangleValid)
+                    {
+                        continue;
+                    }
+
+                    float distance = 0.0f;
+
+                    if (intersectRayTriangle(
+                            rayRequest.eye,
+                            rayDirection,
+                            triangleVertices[0],
+                            triangleVertices[1],
+                            triangleVertices[2],
+                            distance)
+                        && distance > InspectRayEpsilon
+                        && distance + 1.0f < pointDistance)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        };
 
     const auto appendProjectedCandidate =
         [&](const bx::Vec3 &worldPoint, float screenRadius)
@@ -2988,11 +3091,19 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
                 return;
             }
 
+            if (projected.x < 0.0f
+                || projected.x > static_cast<float>(rayRequest.viewWidth)
+                || projected.y < 0.0f
+                || projected.y > static_cast<float>(rayRequest.viewHeight))
+            {
+                return;
+            }
+
             const float deltaX = projected.x - rayRequest.screenX;
             const float deltaY = projected.y - rayRequest.screenY;
             const float screenDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
 
-            if (screenDistance > screenRadius)
+            if (screenRadius >= 0.0f && screenDistance > screenRadius)
             {
                 return;
             }
@@ -3001,7 +3112,50 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
             candidates.push_back(KeyboardCandidate{
                 .screenX = projected.x,
                 .screenY = projected.y,
-                .score = screenDistance * 64.0f + worldDistance,
+                .score = screenDistance * 4.0f + worldDistance,
+            });
+        };
+
+    const auto appendProjectedWorldHitCandidate =
+        [&](const bx::Vec3 &worldPoint, GameplayWorldHit worldHit)
+        {
+            if (!isSelectableHit(worldHit))
+            {
+                return;
+            }
+
+            ProjectedPoint projected = {};
+
+            if (!projectWorldPointToScreen(
+                    worldPoint,
+                    rayRequest.viewWidth,
+                    rayRequest.viewHeight,
+                    viewProjectionMatrix,
+                    projected))
+            {
+                return;
+            }
+
+            if (projected.x < 0.0f
+                || projected.x > static_cast<float>(rayRequest.viewWidth)
+                || projected.y < 0.0f
+                || projected.y > static_cast<float>(rayRequest.viewHeight)
+                || levelBlocksWorldPoint(worldPoint))
+            {
+                return;
+            }
+
+            const float deltaX = projected.x - rayRequest.screenX;
+            const float deltaY = projected.y - rayRequest.screenY;
+            const float screenDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+            const float worldDistance = vecLength(vecSubtract(worldPoint, rayRequest.eye));
+
+            candidates.push_back(KeyboardCandidate{
+                .screenX = projected.x,
+                .screenY = projected.y,
+                .score = screenDistance * 4.0f + worldDistance,
+                .hasWorldHit = true,
+                .worldHit = worldHit,
             });
         };
 
@@ -3023,13 +3177,23 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
                 continue;
             }
 
-            appendProjectedCandidate(
-                {
-                    static_cast<float>(actor.x),
-                    static_cast<float>(actor.y),
-                    static_cast<float>(actor.z) + static_cast<float>(std::max<uint16_t>(actor.height, 96)) * 0.5f
-                },
-                112.0f);
+            const bx::Vec3 hitPoint = {
+                static_cast<float>(actor.x),
+                static_cast<float>(actor.y),
+                static_cast<float>(actor.z) + static_cast<float>(std::max<uint16_t>(actor.height, 96)) * 0.5f
+            };
+            GameplayActorTargetHit actorHit = {};
+            actorHit.actorIndex = actor.actorIndex;
+            actorHit.displayName = actor.actorName;
+            actorHit.isFriendly = actor.isFriendly;
+            actorHit.hitPoint = hitPoint;
+            actorHit.distance = vecLength(vecSubtract(hitPoint, rayRequest.eye));
+
+            GameplayWorldHit worldHit = {};
+            worldHit.hasHit = true;
+            worldHit.kind = GameplayWorldHitKind::Actor;
+            worldHit.actor = actorHit;
+            appendProjectedWorldHitCandidate(hitPoint, worldHit);
         }
     }
 
@@ -3040,18 +3204,33 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
 
         for (const RuntimeSpriteObjectBillboard &object : runtimeObjects)
         {
+            if (!object.hasContainingItem)
+            {
+                continue;
+            }
+
             if (!isSectorVisible(object.sectorId, visibleSectorMask))
             {
                 continue;
             }
 
-            appendProjectedCandidate(
-                {
-                    static_cast<float>(object.x),
-                    static_cast<float>(object.y),
-                    static_cast<float>(object.z) + static_cast<float>(std::max<int16_t>(object.height, 64)) * 0.5f
-                },
-                96.0f);
+            const bx::Vec3 hitPoint = {
+                static_cast<float>(object.x),
+                static_cast<float>(object.y),
+                static_cast<float>(object.z) + static_cast<float>(std::max<int16_t>(object.height, 64)) * 0.5f
+            };
+            GameplayWorldItemTargetHit worldItemHit = {};
+            worldItemHit.worldItemIndex = object.objectIndex;
+            worldItemHit.objectDescriptionId = object.objectDescriptionId;
+            worldItemHit.objectSpriteId = object.objectSpriteId;
+            worldItemHit.hitPoint = hitPoint;
+            worldItemHit.distance = vecLength(vecSubtract(hitPoint, rayRequest.eye));
+
+            GameplayWorldHit worldHit = {};
+            worldHit.hasHit = true;
+            worldHit.kind = GameplayWorldHitKind::WorldItem;
+            worldHit.worldItem = worldItemHit;
+            appendProjectedWorldHitCandidate(hitPoint, worldHit);
         }
     }
 
@@ -3168,6 +3347,17 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
     for (size_t candidateIndex = 0; candidateIndex < candidateProbeCount; ++candidateIndex)
     {
         const KeyboardCandidate &candidate = candidates[candidateIndex];
+
+        if (candidate.hasWorldHit)
+        {
+            if (isSelectableHit(candidate.worldHit))
+            {
+                return candidate.worldHit;
+            }
+
+            continue;
+        }
+
         const GameplayWorldPickRequest candidateRequest =
             buildGameplayWorldPickRequest(
                 GameplayWorldPickRequestInput{
@@ -4768,6 +4958,17 @@ void IndoorRenderer::renderSpriteObjectBillboards(
 
         for (const GameplayProjectileImpactPresentationState &impact : impacts)
         {
+            const FxRecipes::ProjectileRecipe recipe = FxRecipes::classifyProjectileRecipe(
+                impact.sourceSpellId,
+                impact.sourceObjectName,
+                impact.sourceObjectSpriteName,
+                impact.sourceObjectFlags);
+
+            if (FxRecipes::projectileRecipeUsesDedicatedImpactFx(recipe))
+            {
+                continue;
+            }
+
             appendProjectileDrawItem(
                 impact.objectSpriteFrameIndex,
                 impact.objectSpriteId,
@@ -6109,7 +6310,8 @@ std::vector<IndoorRenderer::TerrainVertex> IndoorRenderer::buildSpawnMarkerVerti
         const float centerX = static_cast<float>(spawn.x);
         const float centerY = static_cast<float>(spawn.y);
         const float halfExtent = static_cast<float>(std::max<uint16_t>(spawn.radius, 32));
-        const float centerZ = static_cast<float>(spawn.z) + halfExtent;
+        const float centerZ =
+            static_cast<float>(snapIndoorSpawnZToFloor(indoorMapData, spawn.x, spawn.y, spawn.z)) + halfExtent;
 
         vertices.push_back({centerX - halfExtent, centerY, centerZ, color});
         vertices.push_back({centerX + halfExtent, centerY, centerZ, color});
@@ -6208,6 +6410,11 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
         const IndoorFace &face = indoorMapData.faces[faceIndex];
 
         if (face.vertexIndices.size() < 3)
+        {
+            continue;
+        }
+
+        if (face.isPortal || hasFaceAttribute(face.attributes, FaceAttribute::IsPortal))
         {
             continue;
         }
@@ -6617,6 +6824,11 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                     const IndoorFace &face = indoorMapData.faces[faceIndex];
 
                     if (face.vertexIndices.size() < 3)
+                    {
+                        continue;
+                    }
+
+                    if (face.isPortal || hasFaceAttribute(face.attributes, FaceAttribute::IsPortal))
                     {
                         continue;
                     }

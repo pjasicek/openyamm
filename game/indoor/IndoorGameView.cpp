@@ -957,10 +957,12 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
 
     if (m_pIndoorRenderer != nullptr)
     {
+        const bool pendingSpellTargetActive = m_gameSession.gameplayScreenState().pendingSpellTarget().active;
         const bool allowWorldInput =
             !sharedInputFrameResult.mouseLookPolicy.cursorModeActive
             && !sharedInputFrameResult.journalInputConsumed
-            && !sharedInputFrameResult.worldInputBlocked;
+            && !sharedInputFrameResult.worldInputBlocked
+            && !pendingSpellTargetActive;
         m_pIndoorRenderer->render(
             width,
             height,

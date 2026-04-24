@@ -176,7 +176,7 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
                 logicalStatusBarWidth = std::clamp(
                     context.measureHudTextWidth(pStatusBarLayout->fontName, statusBarLabel)
                         * std::max(0.1f, pStatusBarLayout->textScale)
-                        + 6.0f,
+                        + 16.0f,
                     24.0f,
                     483.0f);
             }

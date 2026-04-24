@@ -385,13 +385,22 @@ void GameSession::updateGameplay(const GameplayInputFrame &input, float deltaSec
                 });
 
         const bool gameplayCursorModeActive = m_sharedInputFrameResult.mouseLookPolicy.cursorModeActive;
+        const bool pendingSpellTargetActive = m_gameplayScreenState.pendingSpellTarget().active;
+        const bool standardWorldInputBlocked =
+            gameplayCursorModeActive
+            || m_sharedInputFrameResult.journalInputConsumed
+            || m_sharedInputFrameResult.worldInputBlocked;
         const bool allowWorldMovementInput =
-            !gameplayCursorModeActive
-            && !m_sharedInputFrameResult.journalInputConsumed
-            && !m_sharedInputFrameResult.worldInputBlocked;
+            !standardWorldInputBlocked
+            && !pendingSpellTargetActive;
         pWorldRuntime->updateWorldMovement(input, deltaSeconds, allowWorldMovementInput);
 
-        if (!gameplayCursorModeActive)
+        const bool gameplayWorldPaused =
+            standardWorldInputBlocked
+            || pendingSpellTargetActive
+            || m_sharedWorldInteractionBlockedThisFrame;
+
+        if (!gameplayWorldPaused)
         {
             pWorldRuntime->updateActorAi(deltaSeconds);
         }
@@ -409,7 +418,7 @@ void GameSession::updateGameplay(const GameplayInputFrame &input, float deltaSec
 
         const bool worldInputBlocked =
             m_currentSceneKind == SceneKind::Indoor
-                ? !allowWorldMovementInput
+                ? standardWorldInputBlocked
                 : m_sharedWorldInteractionBlockedThisFrame;
         GameplayInteractionController::updateWorldInteractionFrame(
             m_gameplayScreenState,

@@ -1345,9 +1345,12 @@ bool GameplayProjectileService::canProjectileCollideWithActor(
     const ProjectileState &projectile,
     const ProjectileCollisionActorFacts &actorFacts) const
 {
-    if (actorFacts.dead
-        || actorFacts.unavailableForCombat
-        || actorFacts.actorId == projectile.sourceId)
+    if (actorFacts.dead || actorFacts.unavailableForCombat)
+    {
+        return false;
+    }
+
+    if (projectile.sourceKind == ProjectileState::SourceKind::Actor && actorFacts.actorId == projectile.sourceId)
     {
         return false;
     }

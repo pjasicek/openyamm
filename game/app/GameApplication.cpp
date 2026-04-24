@@ -897,6 +897,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             selectedMap->globalEventProgram,
             &m_gameSession.gameplayActorService(),
             &m_gameSession.gameplayProjectileService(),
+            &m_gameSession.gameplayCombatController(),
             pIndoorActorSpriteFrameTable,
             pIndoorProjectileSpriteFrameTable,
             selectedMap->indoorDecorationBillboardSet ? &*selectedMap->indoorDecorationBillboardSet : nullptr
@@ -1912,7 +1913,15 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
 
     if (pWorldRuntime != nullptr && m_pMapSceneRuntime != nullptr && selectedMap)
     {
-        if (!m_gameSession.sharedInputFrameResult().mouseLookPolicy.cursorModeActive)
+        const GameplaySharedInputFrameResult &sharedInput = m_gameSession.sharedInputFrameResult();
+        const bool pendingSpellTargetActive = m_gameSession.gameplayScreenState().pendingSpellTarget().active;
+        const bool gameplayWorldPaused =
+            sharedInput.mouseLookPolicy.cursorModeActive
+            || sharedInput.worldInputBlocked
+            || pendingSpellTargetActive
+            || m_gameSession.sharedWorldInteractionBlockedThisFrame();
+
+        if (!gameplayWorldPaused)
         {
             pWorldRuntime->updateWorld(deltaSeconds);
         }

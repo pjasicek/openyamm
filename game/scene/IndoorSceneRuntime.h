@@ -16,6 +16,7 @@ namespace OpenYAMM::Game
 {
 struct DecorationBillboardSet;
 class GameplayActorService;
+class GameplayCombatController;
 class GameplayProjectileService;
 class MonsterProjectileTable;
 class SpriteFrameTable;
@@ -50,6 +51,7 @@ public:
         const std::optional<ScriptedEventProgram> &globalEventProgram,
         GameplayActorService *pGameplayActorService,
         GameplayProjectileService *pGameplayProjectileService,
+        GameplayCombatController *pGameplayCombatController = nullptr,
         const SpriteFrameTable *pActorSpriteFrameTable = nullptr,
         const SpriteFrameTable *pProjectileSpriteFrameTable = nullptr,
         const DecorationBillboardSet *pIndoorDecorationBillboardSet = nullptr

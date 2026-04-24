@@ -39,6 +39,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const std::optional<ScriptedEventProgram> &globalEventProgram,
     GameplayActorService *pGameplayActorService,
     GameplayProjectileService *pGameplayProjectileService,
+    GameplayCombatController *pGameplayCombatController,
     const SpriteFrameTable *pActorSpriteFrameTable,
     const SpriteFrameTable *pProjectileSpriteFrameTable,
     const DecorationBillboardSet *pIndoorDecorationBillboardSet)
@@ -67,6 +68,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         &m_eventRuntimeState,
         pGameplayActorService,
         pGameplayProjectileService,
+        pGameplayCombatController,
         pActorSpriteFrameTable,
         pProjectileSpriteFrameTable,
         &indoorMapData,

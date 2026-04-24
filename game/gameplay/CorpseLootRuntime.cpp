@@ -1,5 +1,6 @@
 #include "game/gameplay/CorpseLootRuntime.h"
 
+#include "game/audio/SoundIds.h"
 #include "game/items/ItemGenerator.h"
 #include "game/party/Party.h"
 #include "game/tables/ItemTable.h"
@@ -142,6 +143,70 @@ bool itemMatchesLootKind(const ItemDefinition &item, MonsterTable::LootItemKind 
 
     return false;
 }
+
+std::string foundGoldStatusText(int goldAmount)
+{
+    return goldAmount == 1
+        ? "Found 1 gold piece"
+        : "Found " + std::to_string(goldAmount) + " gold pieces";
+}
+
+std::string foundItemStatusText(int goldAmount, const std::string &itemName)
+{
+    if (goldAmount <= 0)
+    {
+        return "Found " + itemName;
+    }
+
+    return foundGoldStatusText(goldAmount) + " and " + itemName;
+}
+
+std::string corpseLootItemName(const GameplayChestItemState &item, const ItemTable *pItemTable)
+{
+    const ItemDefinition *pItemDefinition =
+        pItemTable != nullptr ? pItemTable->get(item.itemId) : nullptr;
+
+    if (pItemDefinition == nullptr)
+    {
+        return "item";
+    }
+
+    if (!pItemDefinition->unidentifiedName.empty()
+        && pItemDefinition->unidentifiedName != "0"
+        && pItemDefinition->unidentifiedName != "N / A")
+    {
+        return pItemDefinition->unidentifiedName;
+    }
+
+    return !pItemDefinition->name.empty() ? pItemDefinition->name : "item";
+}
+
+InventoryItem normalizedCorpseInventoryItem(const GameplayChestItemState &item)
+{
+    InventoryItem inventoryItem = item.item;
+
+    if (inventoryItem.objectDescriptionId == 0)
+    {
+        inventoryItem.objectDescriptionId = item.itemId;
+    }
+
+    if (inventoryItem.quantity == 0)
+    {
+        inventoryItem.quantity = item.quantity;
+    }
+
+    if (inventoryItem.width == 0)
+    {
+        inventoryItem.width = item.width;
+    }
+
+    if (inventoryItem.height == 0)
+    {
+        inventoryItem.height = item.height;
+    }
+
+    return inventoryItem;
+}
 }
 
 GameplayCorpseViewState buildMonsterCorpseView(
@@ -210,5 +275,85 @@ GameplayCorpseViewState buildMonsterCorpseView(
     }
 
     return view;
+}
+
+GameplayCorpseAutoLootResult autoLootActiveCorpseView(
+    IGameplayWorldRuntime &worldRuntime,
+    Party &party,
+    const ItemTable *pItemTable)
+{
+    GameplayCorpseAutoLootResult result = {};
+
+    while (const GameplayCorpseViewState *pCorpseView = worldRuntime.activeCorpseView())
+    {
+        if (pCorpseView->items.empty())
+        {
+            break;
+        }
+
+        const GameplayChestItemState &item = pCorpseView->items.front();
+
+        if (item.isGold)
+        {
+            GameplayChestItemState removedItem = {};
+
+            if (!worldRuntime.takeActiveCorpseItem(0, removedItem))
+            {
+                break;
+            }
+
+            const int goldAmount = static_cast<int>(removedItem.goldAmount);
+            party.addGold(goldAmount);
+            party.requestSound(SoundId::Gold);
+            result.goldAmount += goldAmount;
+            result.lootedAny = result.lootedAny || goldAmount > 0;
+            continue;
+        }
+
+        const InventoryItem inventoryItem = normalizedCorpseInventoryItem(item);
+        const std::string itemName = corpseLootItemName(item, pItemTable);
+
+        if (party.tryGrantInventoryItem(inventoryItem))
+        {
+            GameplayChestItemState removedItem = {};
+
+            if (!worldRuntime.takeActiveCorpseItem(0, removedItem))
+            {
+                break;
+            }
+
+            if (result.firstItemName.empty())
+            {
+                result.firstItemName = itemName;
+            }
+
+            result.lootedAny = true;
+            continue;
+        }
+
+        result.blockedByInventory = true;
+        break;
+    }
+
+    if (!result.firstItemName.empty())
+    {
+        result.statusText = foundItemStatusText(result.goldAmount, result.firstItemName);
+    }
+    else if (result.goldAmount > 0)
+    {
+        result.statusText = foundGoldStatusText(result.goldAmount);
+    }
+    else if (result.blockedByInventory)
+    {
+        result.statusText = party.lastStatus().empty() ? "Pack is Full!" : party.lastStatus();
+    }
+    else
+    {
+        result.empty = true;
+        result.statusText = "Nothing here";
+    }
+
+    worldRuntime.closeActiveCorpseView();
+    return result;
 }
 }
