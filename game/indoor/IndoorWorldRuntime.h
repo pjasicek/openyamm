@@ -448,6 +448,7 @@ private:
     ) const;
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
+    void beginMapActorHitReaction(size_t actorIndex, MapDeltaActor &actor, const GameplayWorldPoint *pSource);
     void beginMapActorDyingState(size_t actorIndex, MapDeltaActor &actor);
     std::optional<GameplayWorldPoint> actorImpactPoint(size_t actorIndex) const;
     bool spawnIndoorProjectileImpactVisual(

@@ -79,6 +79,7 @@ constexpr size_t MaxActiveActorUpdates = 48;
 constexpr float HostilityLongRange = 10240.0f;
 constexpr float ActorMeleeRange = 307.2f;
 constexpr float IndoorActorContactProbeRadius = 40.0f;
+constexpr float IndoorActorVsActorMovementRadius = 10.0f;
 constexpr float PartyCollisionRadius = 37.0f;
 constexpr float PartyCollisionHeight = 192.0f;
 constexpr uint16_t LevelDecorationInvisible = 0x0020;
@@ -2788,6 +2789,11 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
                     {
                         beginMapActorDyingState(attackRequest.targetActorIndex, targetActor);
                     }
+                    else if (previousHp > 0 && targetActor.hp < previousHp)
+                    {
+                        const GameplayWorldPoint sourcePoint = {aiState.preciseX, aiState.preciseY, aiState.preciseZ};
+                        beginMapActorHitReaction(attackRequest.targetActorIndex, targetActor, &sourcePoint);
+                    }
                 }
             }
         }
@@ -3691,6 +3697,11 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
             {
                 beginMapActorDyingState(impact.actorIndex, targetActor);
             }
+            else if (previousHp > 0 && targetActor.hp < previousHp)
+            {
+                const GameplayWorldPoint sourcePoint = {projectile.sourceX, projectile.sourceY, projectile.sourceZ};
+                beginMapActorHitReaction(impact.actorIndex, targetActor, &sourcePoint);
+            }
         }
     }
 
@@ -3750,6 +3761,12 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                         if (previousHp > 0 && targetActor.hp <= 0)
                         {
                             beginMapActorDyingState(actorHit.actorIndex, targetActor);
+                        }
+                        else if (previousHp > 0 && targetActor.hp < previousHp)
+                        {
+                            const GameplayWorldPoint sourcePoint =
+                                {projectile.sourceX, projectile.sourceY, projectile.sourceZ};
+                            beginMapActorHitReaction(actorHit.actorIndex, targetActor, &sourcePoint);
                         }
                     }
                 }
@@ -5607,6 +5624,11 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
     {
         beginMapActorDyingState(actorIndex, actor);
     }
+    else if (previousHp > 0 && actor.hp < previousHp)
+    {
+        const GameplayWorldPoint sourcePoint = {partyX, partyY, partyZ};
+        beginMapActorHitReaction(actorIndex, actor, &sourcePoint);
+    }
 
     return actor.hp != previousHp;
 }
@@ -5792,6 +5814,64 @@ void IndoorWorldRuntime::beginMapActorDyingState(size_t actorIndex, MapDeltaActo
     aiState.velocityY = 0.0f;
     aiState.velocityZ = 0.0f;
     actor.currentActionAnimation = indoorActionAnimationFromActorAi(ActorAiAnimationState::Dying);
+}
+
+void IndoorWorldRuntime::beginMapActorHitReaction(
+    size_t actorIndex,
+    MapDeltaActor &actor,
+    const GameplayWorldPoint *pSource)
+{
+    syncMapActorAiStates();
+
+    if (actorIndex >= m_mapActorAiStates.size())
+    {
+        return;
+    }
+
+    MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+    const bool invisible = (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0;
+    GameplayActorService fallbackActorService = {};
+    const GameplayActorService *pActorService =
+        m_pGameplayActorService != nullptr ? m_pGameplayActorService : &fallbackActorService;
+    const bool canEnterHitReaction =
+        pActorService->canActorEnterHitReaction(
+            invisible,
+            actor.hp <= 0 || aiState.motionState == ActorAiMotionState::Dead,
+            actor.hp <= 0,
+            aiState.motionState == ActorAiMotionState::Dying,
+            aiState.motionState == ActorAiMotionState::Dead,
+            aiState.motionState == ActorAiMotionState::Stunned,
+            aiState.motionState == ActorAiMotionState::Attacking);
+
+    if (!canEnterHitReaction)
+    {
+        return;
+    }
+
+    if (pSource != nullptr)
+    {
+        const float deltaX = pSource->x - aiState.preciseX;
+        const float deltaY = pSource->y - aiState.preciseY;
+
+        if (deltaX * deltaX + deltaY * deltaY > 0.0001f)
+        {
+            aiState.yawRadians = std::atan2(deltaY, deltaX);
+        }
+    }
+
+    const MonsterEntry *pMonsterEntry =
+        m_pMonsterTable != nullptr ? resolveRuntimeMonsterEntry(*m_pMonsterTable, actor) : nullptr;
+    aiState.motionState = ActorAiMotionState::Stunned;
+    aiState.animationState = ActorAiAnimationState::GotHit;
+    aiState.animationTimeTicks = 0.0f;
+    aiState.actionSeconds =
+        actorAnimationSeconds(m_pActorSpriteFrameTable, pMonsterEntry, ActorAiAnimationState::GotHit, 0.25f);
+    aiState.idleDecisionSeconds = std::max(aiState.idleDecisionSeconds, aiState.actionSeconds);
+    aiState.attackImpactTriggered = false;
+    aiState.velocityX = 0.0f;
+    aiState.velocityY = 0.0f;
+    aiState.velocityZ = 0.0f;
+    actor.currentActionAnimation = indoorActionAnimationFromActorAi(ActorAiAnimationState::GotHit);
 }
 
 bool IndoorWorldRuntime::canActivateWorldHit(
@@ -6054,6 +6134,11 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
         aiState.hasDetectedParty = true;
         aiState.spellEffects.hostileToParty = true;
         aiState.spellEffects.hasDetectedParty = true;
+    }
+
+    if (previousHp > 0 && nextHp > 0)
+    {
+        beginMapActorHitReaction(actorIndex, actor, &source);
     }
 
     if (previousHp > 0 && nextHp <= 0 && m_pMonsterTable != nullptr && m_pParty != nullptr)
@@ -7349,7 +7434,7 @@ std::vector<IndoorActorCollision> IndoorWorldRuntime::actorMovementCollidersForA
             continue;
         }
 
-        const float radius = IndoorActorContactProbeRadius;
+        const float radius = IndoorActorVsActorMovementRadius;
         const float actorCollisionRadius = indoorActorCollisionRadius(actor);
         const float height = indoorActorCollisionHeight(actor, actorCollisionRadius);
 

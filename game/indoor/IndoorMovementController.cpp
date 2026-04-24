@@ -50,6 +50,44 @@ float resolveDoorDistance(
         : runtimeMechanism.currentDistance;
 }
 
+bool shouldTolerateExistingActorOverlap(
+    float currentX,
+    float currentY,
+    float candidateX,
+    float candidateY,
+    const IndoorBodyDimensions &body,
+    const IndoorActorCollision &collider,
+    bool actorVsActor)
+{
+    if (!actorVsActor)
+    {
+        return false;
+    }
+
+    const float minimumDistance = body.radius + collider.radius;
+
+    if (minimumDistance <= 0.0f)
+    {
+        return false;
+    }
+
+    const float currentDeltaX = currentX - collider.x;
+    const float currentDeltaY = currentY - collider.y;
+    const float currentDistanceSquared = currentDeltaX * currentDeltaX + currentDeltaY * currentDeltaY;
+    const float minimumDistanceSquared = minimumDistance * minimumDistance;
+
+    if (currentDistanceSquared >= minimumDistanceSquared)
+    {
+        return false;
+    }
+
+    const float candidateDeltaX = candidateX - collider.x;
+    const float candidateDeltaY = candidateY - collider.y;
+    const float candidateDistanceSquared = candidateDeltaX * candidateDeltaX + candidateDeltaY * candidateDeltaY;
+
+    return candidateDistanceSquared + 1.0f >= currentDistanceSquared;
+}
+
 std::vector<uint32_t> buildDoorStateSignature(
     const std::optional<MapDeltaData> *pMapDeltaData,
     const std::optional<EventRuntimeState> *pEventRuntimeState)
@@ -1044,6 +1082,23 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 appendContactedActorIndex(collider.actorIndex);
             }
 
+            const bool actorVsActor =
+                sweptRequest.ignoredActorIndex.has_value() && collider.reportActorContact;
+            const float candidateX = moveState.x + direction.x * distance;
+            const float candidateY = moveState.y + direction.y * distance;
+
+            if (shouldTolerateExistingActorOverlap(
+                    moveState.x,
+                    moveState.y,
+                    candidateX,
+                    candidateY,
+                    body,
+                    collider,
+                    actorVsActor))
+            {
+                continue;
+            }
+
             if (bestHit && cylinderHit->adjustedMoveDistance >= bestHit->adjustedMoveDistance)
             {
                 continue;
@@ -1885,11 +1940,6 @@ bool IndoorMovementController::collidesWithActors(
         const float currentDeltaY = currentY - collider.y;
         const float currentDistanceSquared = currentDeltaX * currentDeltaX + currentDeltaY * currentDeltaY;
 
-        if (candidateDistanceSquared > currentDistanceSquared + 1.0f)
-        {
-            continue;
-        }
-
         if (pContactedActorIndices != nullptr
             && collider.reportActorContact
             && std::find(
@@ -1898,6 +1948,25 @@ bool IndoorMovementController::collidesWithActors(
                 collider.actorIndex) == pContactedActorIndices->end())
         {
             pContactedActorIndices->push_back(collider.actorIndex);
+        }
+
+        const bool actorVsActor = ignoredActorIndex.has_value() && collider.reportActorContact;
+
+        if (shouldTolerateExistingActorOverlap(
+                currentX,
+                currentY,
+                candidateX,
+                candidateY,
+                body,
+                collider,
+                actorVsActor))
+        {
+            continue;
+        }
+
+        if (candidateDistanceSquared > currentDistanceSquared + 1.0f)
+        {
+            continue;
         }
 
         if (pHitActor != nullptr)
