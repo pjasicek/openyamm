@@ -3253,6 +3253,7 @@ void updateActiveActors(const ActorAiFrameFacts &facts, ActorAiFrameResult &resu
 {
     for (const ActorAiFacts &actor : facts.activeActors)
     {
+        result.activeActorIndices.push_back(actor.actorIndex);
         appendActorUpdate(result, updateActor(actor, facts));
     }
 }

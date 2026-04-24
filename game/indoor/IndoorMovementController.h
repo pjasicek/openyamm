@@ -36,6 +36,7 @@ struct IndoorBodyDimensions
 struct IndoorActorCollision
 {
     size_t actorIndex = 0;
+    int16_t sectorId = -1;
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;
@@ -47,6 +48,7 @@ struct IndoorActorCollision
 struct IndoorCylinderCollision
 {
     size_t sourceIndex = 0;
+    int16_t sectorId = -1;
     float x = 0.0f;
     float y = 0.0f;
     float z = 0.0f;
@@ -109,7 +111,7 @@ public:
         IndoorMoveDebugInfo *pDebugInfo = nullptr
     ) const;
     void setActorColliders(const std::vector<IndoorActorCollision> &actorColliders);
-    void updateActorColliderPosition(size_t actorIndex, float x, float y, float z);
+    void updateActorColliderPosition(size_t actorIndex, int16_t sectorId, float x, float y, float z);
     void setDecorationColliders(const std::vector<IndoorCylinderCollision> &decorationColliders);
     void setSpriteObjectColliders(const std::vector<IndoorCylinderCollision> &spriteObjectColliders);
 

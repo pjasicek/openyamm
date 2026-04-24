@@ -375,7 +375,8 @@ public:
     void restoreSnapshot(const Snapshot &snapshot);
 
     MapDeltaData *mapDeltaData();
-    std::vector<IndoorActorCollision> actorMovementCollidersForActorMovement() const;
+    std::vector<IndoorActorCollision> actorMovementCollidersForActorMovement(
+        const std::vector<size_t> &activeActorIndices) const;
     std::vector<IndoorActorCollision> actorMovementCollidersForPartyMovement() const;
     std::vector<IndoorCylinderCollision> decorationMovementColliders() const;
     std::vector<IndoorCylinderCollision> spriteObjectMovementColliders() const;

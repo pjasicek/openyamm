@@ -375,6 +375,7 @@ struct ActorAiFrameFacts
 struct ActorAiFrameResult
 {
     std::vector<ActorAiUpdate> actorUpdates;
+    std::vector<size_t> activeActorIndices;
     std::vector<ActorProjectileRequest> projectileRequests;
     std::vector<ActorAudioRequest> audioRequests;
     std::vector<ActorFxRequest> fxRequests;

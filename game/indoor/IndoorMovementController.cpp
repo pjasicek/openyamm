@@ -166,7 +166,7 @@ void IndoorMovementController::setActorColliders(const std::vector<IndoorActorCo
     m_actorColliders = actorColliders;
 }
 
-void IndoorMovementController::updateActorColliderPosition(size_t actorIndex, float x, float y, float z)
+void IndoorMovementController::updateActorColliderPosition(size_t actorIndex, int16_t sectorId, float x, float y, float z)
 {
     for (IndoorActorCollision &collider : m_actorColliders)
     {
@@ -175,6 +175,7 @@ void IndoorMovementController::updateActorColliderPosition(size_t actorIndex, fl
             continue;
         }
 
+        collider.sectorId = sectorId;
         collider.x = x;
         collider.y = y;
         collider.z = z;
@@ -1018,6 +1019,13 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 continue;
             }
 
+            if (collider.sectorId >= 0
+                && collider.sectorId != moveState.sectorId
+                && collider.sectorId != moveState.eyeSectorId)
+            {
+                continue;
+            }
+
             IndoorSweptCylinder cylinder = {};
             cylinder.baseCenter = {collider.x, collider.y, collider.z};
             cylinder.radius = collider.radius;
@@ -1070,6 +1078,13 @@ IndoorMoveState IndoorMovementController::resolveMove(
         for (size_t colliderIndex = 0; colliderIndex < colliders.size(); ++colliderIndex)
         {
             const IndoorCylinderCollision &collider = colliders[colliderIndex];
+
+            if (collider.sectorId >= 0
+                && collider.sectorId != moveState.sectorId
+                && collider.sectorId != moveState.eyeSectorId)
+            {
+                continue;
+            }
 
             IndoorSweptCylinder cylinder = {};
             cylinder.baseCenter = {collider.x, collider.y, collider.z};
@@ -1706,6 +1721,11 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
         movementZ,
         primarySectorId,
         secondarySectorId);
+    const IndoorSweptBody sweptBody = buildPrimitiveSweptBody(startX, startY, startFootZ, body);
+    const bx::Vec3 sweepDirection = movementDirection(movementX, movementY, movementZ);
+    const float sweepDistance = movementDistance(movementX, movementY, movementZ);
+    const IndoorSweptBodyBounds sweptBounds =
+        buildIndoorSweptBodyBounds(sweptBody, sweepDirection, sweepDistance);
     const auto sectorIsRelevant = [&collisionSectorIds](uint16_t sectorId) -> bool
     {
         return std::find(collisionSectorIds.begin(), collisionSectorIds.end(), static_cast<int16_t>(sectorId))
@@ -1781,6 +1801,17 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
             || (!collisionSectorIds.empty()
                 && !sectorIsRelevant(pGeometry->sectorId)
                 && !sectorIsRelevant(pGeometry->backSectorId)))
+        {
+            return;
+        }
+
+        IndoorFaceSweepOptions sweepOptions = {};
+        sweepOptions.pCollisionFaceMask = pCollisionFaceMask;
+        sweepOptions.pMechanismBlockingFaceMask = pMechanismBlockingFaceMask;
+        sweepOptions.includePortalFaces = false;
+
+        if (!canSweepAgainstIndoorFace(*pGeometry, sweepOptions)
+            || !indoorSweptBodyBoundsTouchFace(sweptBounds, *pGeometry))
         {
             return;
         }

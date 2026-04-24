@@ -5104,6 +5104,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     controller.initializeStateFromEyePosition(128.0f, 512.0f, largeActorBody.height, largeActorBody);
                 controller.setActorColliders({IndoorActorCollision{
                     0,
+                    largeActorStart.sectorId,
                     360.0f,
                     512.0f,
                     0.0f,
@@ -5130,6 +5131,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 controller.setActorColliders({
                     IndoorActorCollision{
                         11,
+                        largeActorStart.sectorId,
                         360.0f,
                         512.0f,
                         0.0f,
@@ -5137,6 +5139,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                         220.0f},
                     IndoorActorCollision{
                         22,
+                        largeActorStart.sectorId,
                         360.0f,
                         560.0f,
                         0.0f,
@@ -5172,6 +5175,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     controller.initializeStateFromEyePosition(128.0f, 512.0f, body.height, body);
                 controller.setActorColliders({IndoorActorCollision{
                     0,
+                    partyStart.sectorId,
                     360.0f,
                     512.0f,
                     0.0f,

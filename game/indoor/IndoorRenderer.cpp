@@ -2256,7 +2256,7 @@ void IndoorRenderer::render(
         std::copy(std::begin(projectionMatrix), std::end(projectionMatrix), inspectPickRequest.projectionMatrix.begin());
 
         const uint64_t inspectTick = SDL_GetTicks();
-        constexpr uint64_t InspectRefreshIntervalMs = 16;
+        constexpr uint64_t InspectRefreshIntervalMs = 33;
         const bool inspectViewChanged =
             !m_cachedInspectHitValid
             || m_cachedInspectGeometryRevision != m_inspectGeometryRevision
@@ -2268,39 +2268,8 @@ void IndoorRenderer::render(
             || std::fabs(m_cachedInspectYawRadians - m_cameraYawRadians) > 0.0005f
             || std::fabs(m_cachedInspectPitchRadians - m_cameraPitchRadians) > 0.0005f;
 
-        if (inspectViewChanged
-            && (inspectTick - m_lastInspectUpdateTick >= InspectRefreshIntervalMs || !m_cachedInspectHitValid))
-        {
-            m_cachedInspectHit = inspectAtCursor(
-                *m_indoorMapData,
-                m_renderVertices,
-                visibleSectorMask,
-                rayOrigin,
-                rayDirection,
-                &inspectPickRequest);
-            m_cachedInspectHitValid = true;
-            m_cachedGameplayWorldPickRequest = inspectPickRequest;
-            m_cachedInspectMouseX = mouseX;
-            m_cachedInspectMouseY = mouseY;
-            m_cachedInspectCameraX = eye.x;
-            m_cachedInspectCameraY = eye.y;
-            m_cachedInspectCameraZ = eye.z;
-            m_cachedInspectYawRadians = m_cameraYawRadians;
-            m_cachedInspectPitchRadians = m_cameraPitchRadians;
-            m_cachedInspectGeometryRevision = m_inspectGeometryRevision;
-            m_lastInspectUpdateTick = inspectTick;
-        }
-
-        inspectHit = m_cachedInspectHit;
-
-        const bool isActivationPressed =
-            input.isScancodeHeld(SDL_SCANCODE_E)
-            && !input.rightMouseButton.held;
-        const bool isLeftMousePressed = input.leftMouseButton.held;
-
-        if ((isActivationPressed || isLeftMousePressed) && !m_activateInspectLatch)
-        {
-            if (tryActivateInspectEvent(inspectHit))
+        const auto updateCachedInspectHit =
+            [&]() -> const InspectHit &
             {
                 m_cachedInspectHit = inspectAtCursor(
                     *m_indoorMapData,
@@ -2320,7 +2289,32 @@ void IndoorRenderer::render(
                 m_cachedInspectPitchRadians = m_cameraPitchRadians;
                 m_cachedInspectGeometryRevision = m_inspectGeometryRevision;
                 m_lastInspectUpdateTick = inspectTick;
-                inspectHit = m_cachedInspectHit;
+                return m_cachedInspectHit;
+            };
+
+        if (inspectViewChanged
+            && (inspectTick - m_lastInspectUpdateTick >= InspectRefreshIntervalMs || !m_cachedInspectHitValid))
+        {
+            updateCachedInspectHit();
+        }
+
+        inspectHit = m_cachedInspectHit;
+
+        const bool isActivationPressed =
+            input.isScancodeHeld(SDL_SCANCODE_E)
+            && !input.rightMouseButton.held;
+        const bool isLeftMousePressed = input.leftMouseButton.held;
+
+        if ((isActivationPressed || isLeftMousePressed) && !m_activateInspectLatch)
+        {
+            if (inspectViewChanged)
+            {
+                inspectHit = updateCachedInspectHit();
+            }
+
+            if (tryActivateInspectEvent(inspectHit))
+            {
+                inspectHit = updateCachedInspectHit();
             }
 
             m_activateInspectLatch = true;
@@ -3596,7 +3590,7 @@ GameplayHoverStatusPayload IndoorRenderer::refreshGameplayWorldHover(const Gamep
     if (inspectHit)
     {
         m_cachedInspectHit = *inspectHit;
-        m_cachedInspectHitValid = inspectHit->hasHit;
+        m_cachedInspectHitValid = true;
         m_cachedGameplayWorldPickRequest = pickRequest;
         m_lastInspectUpdateTick = request.updateTickNanoseconds / 1000000ULL;
         payload.worldHit = pickGameplayWorldHit(pickRequest);
