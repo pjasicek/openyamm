@@ -245,7 +245,7 @@ Avoid duplicating gameplay logic.
 
 Authoritative source:
 
-- `docs/headless_to_doctest_migration_inventory.md`
+- `docs/world_particle_fx_extraction_plan.md`
 
 Execution control files:
 
@@ -256,18 +256,23 @@ Execution control files:
 
 Execution rules:
 
-- `docs/headless_to_doctest_migration_inventory.md` is authoritative for the current refactor loop.
-- Do not execute the inventory linearly from top to bottom.
+- `docs/world_particle_fx_extraction_plan.md` is authoritative for the current refactor loop.
+- Do not execute the detailed plan linearly if a smaller coherent slice is safer.
 - Use `PLAN.md` for condensed goals.
 - Use `TASK_QUEUE.md` as the executable work queue.
-- Work in small coherent migration batches.
-- Prefer moving remaining `doctest-direct` cases before extracting new headless helpers.
-- For `doctest-with-adaptation`, extract the smallest reusable seam that unlocks multiple tests.
-- Keep true application/world integration cases headless unless they are intentionally reclassified and documented.
-- If condensing headless coverage, preserve failure identity and clear per-case reporting.
+- Work in small coherent extraction batches.
+- Keep particle FX shared by default.
+- Extract `ParticleRenderer`, particle render resources, `ParticleSystem` ownership, projectile trail/impact particles,
+  and party spell world particles into shared FX code.
+- Outdoor/indoor should only supply genuinely world-specific facts such as view/camera, floor placement, visibility, or
+  world-specific emitters.
+- Do not add indoor-only spell/projectile particle recipes.
+- Do not add callback bags or adapter layers that only hide duplicated ownership.
+- Keep the implementation coarse and readable; avoid `Decision`, `Patch`, `EffectDecision`, command-vector, or
+  micro-struct extraction plumbing unless it is truly necessary.
+- Preserve outdoor particle behavior before wiring indoor.
 - Keep the repository buildable after each meaningful slice.
 - Update `TASK_QUEUE.md` and `PROGRESS.md` after each meaningful slice.
-- Do not weaken a test assertion silently during migration.
 
 Validation commands:
 
@@ -275,10 +280,17 @@ Validation commands:
 - `ctest --test-dir build --output-on-failure`
 - `cmake --build build --target openyamm -j25`
 
-Headless validation guidance:
+Focused validation guidance:
 
-- Run targeted headless validation only for the migrated batch or for headless-condensation changes.
-- Prefer focused suites/cases over rerunning every headless scenario after each small doctest migration.
+- Run `timeout 300s build/game/openyamm --headless-run-regression-suite projectiles` after projectile FX ownership
+  changes.
+- Run `timeout 300s build/game/openyamm --headless-run-regression-suite indoor` after indoor FX wiring changes.
+- Manual smoke is required before closing the loop:
+  - outdoor projectile trails and impact particles visible;
+  - outdoor party spell world particles visible;
+  - indoor Fire Bolt / Sparks / Dragon Breath trails visible;
+  - indoor projectile impact particles visible;
+  - indoor party spell world particles visible.
 
 Stopping conditions:
 
@@ -293,6 +305,6 @@ Context recovery:
   - `ACCEPTANCE.md`
   - `TASK_QUEUE.md`
   - `PROGRESS.md`
-  - `docs/headless_to_doctest_migration_inventory.md`
+  - `docs/world_particle_fx_extraction_plan.md`
 
 ---

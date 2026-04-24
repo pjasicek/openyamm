@@ -2,46 +2,59 @@
 
 ## Objective
 
-Refactor the regression test suite so that as many current slow headless diagnostics as possible become fast doctest
-unit tests, while preserving only the headless cases that truly need full application/world integration.
+Extract spell/projectile particle FX into a shared world FX subsystem used by both outdoor and indoor runtime/rendering.
+Outdoor behavior should remain visually equivalent, while indoor gains the same projectile trail, projectile impact, and
+party spell world particle FX path instead of renderer-local fallback quads.
 
 Authoritative detailed plan:
 
-- `docs/headless_to_doctest_migration_inventory.md`
+- `docs/world_particle_fx_extraction_plan.md`
 
-## Target
+## Target Architecture
 
-The end state should look like this:
+The end state should be easy to read in the frame loop:
 
-- deterministic pure-rule, table, party, item, service, and small runtime checks live in `tests/`
-- headless regression remains only for real integration scenarios:
-  - application startup/lifecycle
-  - real map/world loading
-  - real BLV/ODM geometry and collision
-  - save/load roundtrips
-  - cross-map transitions
-  - event-script execution that still requires full runtime wiring
-- remaining headless execution is more condensed where safe:
-  - multiple related assertions may run in one headless session only if that does not blur failure identity
-  - if condensation would make failures ambiguous, keep separate cases
+```cpp
+activeWorld->updateWorld(deltaSeconds);
+worldFxSystem.update(gameSession, *activeWorld, cameraState, deltaSeconds, gameplayPaused);
+activeWorld->renderWorldGeometry();
+worldFxRenderer.render(worldFxSystem, cameraState);
+gameplayUi.render();
+```
+
+Shared ownership:
+
+- `WorldFxSystem` owns `ParticleSystem`, projectile trail cooldowns, seen impact ids, shared glow billboards, shared
+  light emitters, shared contact shadows, party spell FX spawning, and projectile trail/impact particle spawning.
+- `WorldFxRenderer` owns particle rendering against shared render resources, not `OutdoorGameView`.
+- `WorldFxRenderResources` owns particle shaders, generated particle textures, material texture handles, and particle
+  vertex batches.
+
+World-specific ownership:
+
+- outdoor/indoor provide camera state, render view ids, world visibility/floor facts where actually needed, and
+  world-specific geometry/decal/collision behavior.
+- outdoor/indoor do not own spell/projectile particle recipes or duplicate particle spawning logic.
 
 ## Current Priority
 
-1. Move the remaining `doctest-direct` cases first.
-2. Extract the smallest reusable seams needed for `doctest-with-adaptation`.
-3. Keep `stay-headless` cases headless, but reduce redundant startup/session cost where structurally safe.
-4. Reduce total wall-clock regression time without weakening coverage identity.
+1. Make the renderer and resources independent of `OutdoorGameView`.
+2. Move `ParticleSystem` ownership out of `OutdoorGameView` into shared FX runtime.
+3. Move projectile trail/impact and party spell world FX spawning from `OutdoorFxRuntime`/indoor fallback into shared
+   `WorldFxSystem`.
+4. Wire outdoor first without visual regression, then wire indoor to the same shared path.
+5. Remove obsolete indoor fallback FX and obsolete outdoor-only particle ownership.
 
-## Migration Rules
+## Rules
 
 - Use `TASK_QUEUE.md` as the executable queue.
-- Use `docs/headless_to_doctest_migration_inventory.md` as the authoritative classification source.
-- Do not execute the inventory linearly from top to bottom.
-- Work in coherent batches by subsystem or fixture family.
-- Prefer moving tests before inventing new headless helpers.
-- Extract reusable test helpers only when they unlock multiple doctest migrations.
-- Do not keep behavior assertions duplicated in both doctest and headless unless the headless version is still needed as
-  a genuine integration smoke.
+- Use `docs/world_particle_fx_extraction_plan.md` as the authoritative source of truth for this loop.
+- Do not execute the detailed plan linearly if a different coherent slice is safer.
+- Keep implementation coarse and readable; avoid micro-structs, `Decision`/`Patch`/`EffectDecision` vocabulary, and
+  callback bags that only hide ownership.
+- Do not copy OpenEnroth or mm_mapview2 code.
+- Preserve outdoor visuals while moving ownership.
+- Implement indoor using the same shared particle FX system, not an indoor-specific duplicate.
 - Keep the repository buildable after each meaningful slice.
 - Update `TASK_QUEUE.md` and `PROGRESS.md` after each meaningful slice.
 
@@ -51,15 +64,25 @@ Primary validation:
 
 - `cmake --build build --target openyamm_unit_tests -j25`
 - `ctest --test-dir build --output-on-failure`
-
-Secondary validation when headless code or migrated coverage is touched:
-
 - `cmake --build build --target openyamm -j25`
-- targeted headless suite or targeted headless case relevant to the migrated batch
+
+Focused validation:
+
+- `timeout 300s build/game/openyamm --headless-run-regression-suite projectiles`
+- `timeout 300s build/game/openyamm --headless-run-regression-suite indoor`
+
+Manual smoke expected before final acceptance:
+
+- outdoor projectile trails and impact particles still visible;
+- outdoor party spell world FX still visible;
+- indoor Fire Bolt / Sparks / Dragon Breath trails visible;
+- indoor spell/projectile impact particles visible;
+- indoor projectile billboards still render as before.
 
 ## Anti-Goals
 
-- Do not rewrite gameplay/runtime architecture just to move tests.
-- Do not keep large callback bags or fake application layers only for tests.
-- Do not condense headless coverage so aggressively that failures lose clear identity.
-- Do not move real integration coverage out of headless when the inventory says it should stay there.
+- Do not rewrite projectile gameplay or collision as part of this slice.
+- Do not introduce a large abstract FX graph.
+- Do not add dozens of structs/enums to make the seam artificially pure.
+- Do not add an indoor-only particle implementation.
+- Do not move unrelated weather/decoration FX before projectile/spell parity is stable.

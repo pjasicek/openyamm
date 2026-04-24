@@ -3,116 +3,160 @@
 ## Execution Rules
 
 - Use this file as the executable queue.
-- Use `docs/headless_to_doctest_migration_inventory.md` as the authoritative classification source.
-- Do not execute the inventory linearly from top to bottom.
-- Work in coherent batches by fixture family or subsystem.
-- Prefer moving `doctest-direct` cases first.
-- For `doctest-with-adaptation`, extract the smallest seam that unlocks multiple cases.
-- Keep changes coherent and reviewable.
-- Keep the repository buildable after each meaningful slice.
-- Run `cmake --build build --target openyamm_unit_tests -j25` after each meaningful doctest migration slice.
-- Run `ctest --test-dir build --output-on-failure` after each meaningful doctest migration slice.
-- Run `cmake --build build --target openyamm -j25` and targeted headless validation when headless code changes.
+- Use `docs/world_particle_fx_extraction_plan.md` as the authoritative detailed source.
+- Do not execute the detailed plan linearly if a smaller coherent slice is safer.
+- Keep slices reviewable and buildable.
+- Preserve outdoor behavior before wiring indoor.
+- Prefer coarse, direct shared ownership over callback-heavy purity.
+- Do not add indoor-only particle recipe code.
+- Do not refactor projectile gameplay/collision unless required by FX presentation wiring.
+- Run validation relevant to each slice.
 - Update this file and `PROGRESS.md` after each meaningful slice.
-- Do not weaken assertion scope silently.
-- Do not copy OpenEnroth code.
+- Do not copy OpenEnroth or mm_mapview2 code.
 
 ## Current Migration Order
 
-1. TS1 - Lock the execution loop to the inventory and record current counts/baseline.
-2. TS2 - Move the remaining `doctest-direct` chest, item-use, character-sheet, and equip-rule cases.
-3. TS3 - Move the remaining `doctest-direct` navigation, recovery, experience, audio-safety, and simple event-rule
-   cases.
-4. TS4 - Extract reusable Arcomage doctest harnesses and migrate the Arcomage `doctest-with-adaptation` set.
-5. TS5 - Extract reusable spell backend / fake-world fixtures and migrate spell backend cases.
-6. TS6 - Extract reusable house/dialogue fixtures and migrate the highest-value dialogue/service cases.
-7. TS7 - Re-evaluate remaining headless suites and condense startup/session cost where it does not blur failure
-   identity.
-8. TS8 - Recount doctest/headless distribution, remove obsolete duplicated headless cases, and close acceptance.
+1. FX1 - Bootstrap shared world FX files and document current ownership leaks.
+2. FX2 - Extract particle render resources and renderer API away from `OutdoorGameView`.
+3. FX3 - Move `ParticleSystem` ownership and particle update cadence into shared `WorldFxSystem`.
+4. FX4 - Move projectile trail and impact particle spawning into shared `WorldFxSystem`.
+5. FX5 - Move party spell world FX spawning into shared `WorldFxSystem`.
+6. FX6 - Wire indoor rendering/update to the shared FX path.
+7. FX7 - Remove obsolete outdoor/indoor fallback ownership and simplify loops.
+8. FX8 - Validate, manually smoke indoor/outdoor FX, and close acceptance.
 
 ## Ready
 
-### TS1 - Inventory Lock And Baseline
+### FX1 - Bootstrap Shared World FX Plan And Ownership Audit
 
-- [ ] Confirm `docs/headless_to_doctest_migration_inventory.md` is the active source of truth.
-- [ ] Record the current inventory counts in `PROGRESS.md`:
-  - remaining `doctest-direct`
-  - remaining `doctest-with-adaptation`
-  - remaining `stay-headless`
-- [ ] Record the current test entry points and default validation commands in `PROGRESS.md`.
-- [ ] Identify the first concrete `doctest-direct` family to migrate.
-- [ ] Build only if code changed.
+- [ ] Add shared files if needed:
+  - `game/fx/WorldFxSystem.h`
+  - `game/fx/WorldFxSystem.cpp`
+  - `game/fx/WorldFxRenderer.h`
+  - `game/fx/WorldFxRenderer.cpp`
+  - `game/fx/WorldFxRenderResources.h`
+  - `game/fx/WorldFxRenderResources.cpp`
+- [ ] Register new files in `game/CMakeLists.txt`.
+- [ ] Keep bootstrap empty/light if that makes the first slice easier to review.
+- [ ] Record current ownership leaks in `PROGRESS.md`:
+  - `OutdoorGameView::m_particleSystem`
+  - `ParticleRenderer` taking `OutdoorGameView &`
+  - particle shader/resource handles stored in outdoor view
+  - `OutdoorFxRuntime::syncRuntimeProjectiles`
+  - `OutdoorFxRuntime::triggerPartySpellFx`
+  - indoor `PendingSpellWorldFx`
+- [ ] Build if code changed.
 - [ ] Update `PROGRESS.md`.
 
-### TS2 - Direct Migration Batch A
+### FX2 - Extract Particle Renderer Resources
 
-- [ ] Move a coherent batch of remaining `doctest-direct` cases into `tests/`.
-- [ ] Prefer chest, item-use, character-sheet, equip-rule, and similar deterministic rule checks first.
-- [ ] Keep migrated tests grouped in sensible files; do not dump unrelated checks into one giant file.
-- [ ] Remove the migrated headless cases or mark them inactive once equivalent doctest coverage exists.
-- [ ] Build `openyamm_unit_tests`.
-- [ ] Run ctest.
-- [ ] If headless definitions were touched, build `openyamm`.
-- [ ] Update `PROGRESS.md`.
-
-### TS3 - Direct Migration Batch B
-
-- [ ] Move another coherent `doctest-direct` batch.
-- [ ] Prefer navigation-rule, recovery, experience, simple event-rule, and audio-safety checks.
-- [ ] Reuse fixtures created in TS2 where practical.
-- [ ] Remove or deactivate superseded headless cases.
-- [ ] Build `openyamm_unit_tests`.
-- [ ] Run ctest.
-- [ ] If headless definitions were touched, build `openyamm`.
-- [ ] Update `PROGRESS.md`.
-
-### TS4 - Arcomage Adaptation Batch
-
-- [ ] Extract a small reusable Arcomage test harness from headless diagnostics or equivalent shared helper.
-- [ ] Migrate multiple Arcomage `doctest-with-adaptation` cases in one coherent slice.
-- [ ] Keep card-effect expectations readable and local to the tests.
-- [ ] Remove or deactivate superseded headless cases.
-- [ ] Build `openyamm_unit_tests`.
-- [ ] Run ctest.
-- [ ] Build `openyamm` if headless harness code changed.
-- [ ] Update `PROGRESS.md`.
-
-### TS5 - Spell Backend Adaptation Batch
-
-- [ ] Extract a minimal fake/shared world runtime fixture for spell backend tests.
-- [ ] Migrate the spell backend `doctest-with-adaptation` cases that do not require full authored map integration.
-- [ ] Keep projectile/world assertions limited to what the backend actually owns.
-- [ ] Keep full map/runtime projectile integration headless when still needed.
-- [ ] Build `openyamm_unit_tests`.
-- [ ] Run ctest.
-- [ ] Build `openyamm` if headless or shared test seams changed.
-- [ ] Update `PROGRESS.md`.
-
-### TS6 - House / Dialogue Adaptation Batch
-
-- [ ] Extract reusable house/dialogue fixtures only where they unlock multiple cases.
-- [ ] Migrate a coherent subset of house/dialogue `doctest-with-adaptation` cases.
-- [ ] Keep real map-script and application-lifecycle dialogue cases headless when required.
-- [ ] Remove or deactivate superseded headless cases.
-- [ ] Build `openyamm_unit_tests`.
-- [ ] Run ctest.
-- [ ] Build `openyamm` if headless code changed.
-- [ ] Update `PROGRESS.md`.
-
-### TS7 - Headless Condensation
-
-- [ ] Audit remaining `stay-headless` suites for startup/session duplication.
-- [ ] Condense only where multiple assertions can share one session without weakening per-case identity.
-- [ ] Preserve clear case naming and failure reporting.
-- [ ] Do not collapse unrelated world/application scenarios into one opaque mega-case.
+- [ ] Introduce `WorldFxRenderResources` with:
+  - particle program handle;
+  - particle parameter uniform;
+  - texture sampler handle needed by particles;
+  - generated particle material textures;
+  - particle material texture handle indices;
+  - reusable particle vertex batches.
+- [ ] Change particle resource initialization to operate on `WorldFxRenderResources`, not `OutdoorGameView`.
+- [ ] Keep generated particle textures shared and still sourced from current procedural builders.
+- [ ] Make outdoor initialize and shutdown the shared render resources.
+- [ ] Keep outdoor rendering unchanged visually.
 - [ ] Build `openyamm`.
-- [ ] Run targeted headless validation for condensed groups.
 - [ ] Update `PROGRESS.md`.
 
-### TS8 - Final Recount And Cleanup
+### FX3 - Extract Particle Renderer API
 
-- [ ] Recount doctest/headless totals against the inventory.
-- [ ] Remove dead migrated headless cases and dead helper code.
-- [ ] Verify remaining headless cases are truly integration-level.
-- [ ] Update `ACCEPTANCE.md`.
-- [ ] Set `PROGRESS.md` to `## Done definition satisfied: YES` only when acceptance is satisfied.
+- [ ] Replace `ParticleRenderer::renderParticles(OutdoorGameView &, ...)` with a shared renderer call taking:
+  - `WorldFxRenderResources &`;
+  - `const ParticleSystem &`;
+  - view id;
+  - view matrix;
+  - camera position;
+  - aspect ratio.
+- [ ] Keep the render batching and sorting logic in shared renderer code.
+- [ ] Remove direct access to outdoor billboard texture arrays from particle rendering.
+- [ ] Keep outdoor render loop readable with a single shared particle render call.
+- [ ] Build `openyamm`.
+- [ ] Run `ctest --test-dir build --output-on-failure` if unit-test build is affected.
+- [ ] Update `PROGRESS.md`.
+
+### FX4 - Move ParticleSystem To Shared WorldFxSystem
+
+- [ ] Add `WorldFxSystem` ownership for `ParticleSystem`.
+- [ ] Move particle update accumulator/cadence out of `OutdoorGameView`.
+- [ ] Preserve current cadence:
+  - update at `1.0f / 30.0f`;
+  - clamp accumulated particle time to `0.25f`;
+  - do not update while gameplay cursor-mode pause is active.
+- [ ] Outdoor uses `WorldFxSystem::updateParticles(...)` or equivalent direct readable method.
+- [ ] Remove `OutdoorGameView::m_particleSystem`.
+- [ ] Remove `OutdoorWorldRuntime::setParticleSystem` if only generic spell FX still needs it.
+- [ ] Build `openyamm`.
+- [ ] Update `PROGRESS.md`.
+
+### FX5 - Move Projectile Trail / Impact Particles To Shared WorldFxSystem
+
+- [ ] Move projectile trail cooldown map from `OutdoorFxRuntime` to `WorldFxSystem`.
+- [ ] Move seen impact id set from `OutdoorFxRuntime` to `WorldFxSystem`.
+- [ ] Move projectile trail particle spawning from `OutdoorFxRuntime::syncRuntimeProjectiles` to shared FX code.
+- [ ] Move dedicated projectile impact particle spawning from `OutdoorFxRuntime::syncRuntimeProjectiles` to shared FX
+  code.
+- [ ] Pull projectile presentation state from `GameplayFxService` or `GameplayProjectileService` directly.
+- [ ] Keep contact shadows/lights/glow as shared renderable FX state if they are still used by outdoor.
+- [ ] Do not add a large projectile-FX request/decision API.
+- [ ] Build `openyamm`.
+- [ ] Run `timeout 300s build/game/openyamm --headless-run-regression-suite projectiles`.
+- [ ] Update `PROGRESS.md`.
+
+### FX6 - Move Party Spell World FX To Shared WorldFxSystem
+
+- [ ] Move `OutdoorFxRuntime::triggerPartySpellFx(ParticleSystem &, const PartySpellCastResult &)` into shared FX code.
+- [ ] Expose a direct shared call such as `WorldFxSystem::triggerPartySpellFx(const PartySpellCastResult &)`.
+- [ ] Outdoor successful spell casts call the shared FX system.
+- [ ] Indoor `applyPendingSpellCastWorldEffects` calls the same shared FX system.
+- [ ] Keep portrait spell FX in shared UI/gameplay UI code; this task is only world particles.
+- [ ] Build `openyamm`.
+- [ ] Update `PROGRESS.md`.
+
+### FX7 - Wire Indoor Shared Particle Rendering
+
+- [ ] Indoor initializes `WorldFxRenderResources`.
+- [ ] Indoor calls shared `WorldFxSystem` update once per frame with the same pause/cursor-mode behavior as outdoor.
+- [ ] Indoor render loop calls shared particle renderer after indoor world geometry/billboards and before HUD.
+- [ ] Indoor projectile trails appear from shared projectile presentation state.
+- [ ] Indoor impact particles appear from shared impact presentation state.
+- [ ] Indoor party spell world particles appear from shared spell FX calls.
+- [ ] Build `openyamm`.
+- [ ] Run `timeout 300s build/game/openyamm --headless-run-regression-suite indoor`.
+- [ ] Update `PROGRESS.md`.
+
+### FX8 - Cleanup Obsolete FX Ownership
+
+- [ ] Remove indoor `PendingSpellWorldFx` data, update, render, and trigger methods if the shared path replaces them.
+- [ ] Delete or reduce `OutdoorFxRuntime` to only truly outdoor-specific weather/decoration emitters.
+- [ ] Remove unused outdoor particle members, friend declarations, and resource plumbing.
+- [ ] Remove redundant projectile impact fallback paths that now duplicate shared FX.
+- [ ] Static-audit for dead references:
+  - `rg "PendingSpellWorldFx|triggerPendingSpellWorldFx|m_particleSystem|setParticleSystem|syncRuntimeProjectiles"`
+- [ ] Build `openyamm_unit_tests`.
+- [ ] Run ctest.
+- [ ] Build `openyamm`.
+- [ ] Update `PROGRESS.md`.
+
+### FX9 - Final Validation And Manual Smoke
+
+- [ ] Run `cmake --build build --target openyamm_unit_tests -j25`.
+- [ ] Run `ctest --test-dir build --output-on-failure`.
+- [ ] Run `cmake --build build --target openyamm -j25`.
+- [ ] Run `timeout 300s build/game/openyamm --headless-run-regression-suite projectiles`.
+- [ ] Run `timeout 300s build/game/openyamm --headless-run-regression-suite indoor`.
+- [ ] Record manual outdoor smoke:
+  - projectile trails visible;
+  - projectile impacts visible;
+  - party spell world FX visible.
+- [ ] Record manual indoor smoke:
+  - Fire Bolt / Sparks / Dragon Breath trails visible;
+  - impacts visible;
+  - party spell world FX visible;
+  - projectile billboards still visible.
+- [ ] Mark acceptance done only if all criteria are satisfied.
