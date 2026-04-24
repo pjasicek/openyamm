@@ -70,6 +70,7 @@ public:
         int attackBonus = 0;
         bool useActorHitChance = false;
         uint32_t timeSinceCreatedTicks = 0;
+        float lifetimeTickAccumulator = 0.0f;
         uint32_t lifetimeTicks = 0;
         bool isExpired = false;
     };
@@ -548,7 +549,7 @@ public:
 
     void advanceProjectileImpactLifetimes(uint32_t deltaTicks);
     void updateProjectileImpactPresentation(float deltaSeconds);
-    bool advanceProjectileLifetime(ProjectileState &projectile, uint32_t deltaTicks) const;
+    bool advanceProjectileLifetime(ProjectileState &projectile, float deltaSeconds) const;
     ProjectileMotionSegment advanceProjectileMotion(
         ProjectileState &projectile,
         float deltaSeconds,

@@ -46,7 +46,6 @@ struct GameplayUiOverlayRenderConfig
     bool renderDialogueAboveHud = false;
     bool renderCharacterBelowHud = false;
     bool renderCharacterAboveHud = false;
-    bool renderDebugLootFallback = false;
     bool renderDebugDialogueFallback = false;
 };
 

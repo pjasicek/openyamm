@@ -842,7 +842,6 @@ void GameplayScreenController::renderStandardUi(
                     .renderDialogueAboveHud = true,
                     .renderCharacterBelowHud = true,
                     .renderCharacterAboveHud = true,
-                    .renderDebugLootFallback = config.renderDebugFallbacks && hasActiveLootView,
                     .renderDebugDialogueFallback = config.renderDebugFallbacks,
                 },
             .renderDeferredInventoryOverlay = deferDialogueInventoryServiceOverlay,

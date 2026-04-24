@@ -237,3 +237,49 @@ TEST_CASE("projectile frame without collision advances motion without expiring")
     CHECK_EQ(result.motion.endX, doctest::Approx(35.0f));
     CHECK_EQ(result.motion.endZ, doctest::Approx(32.0f));
 }
+
+TEST_CASE("projectile lifetime advances at 128hz instead of render-frame rate")
+{
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectileState projectile = makePartyProjectile();
+    projectile.velocityY = 4000.0f;
+    projectile.lifetimeTicks = 8;
+
+    GameplayProjectileService::ProjectileFrameFacts facts = {};
+    facts.deltaSeconds = 1.0f / 5000.0f;
+
+    for (int frameIndex = 0; frameIndex < 8; ++frameIndex)
+    {
+        const GameplayProjectileService::ProjectileFrameResult result =
+            service.updateProjectileFrame(projectile, facts);
+
+        CHECK_FALSE(result.expireProjectile);
+
+        if (result.applyMotionEnd)
+        {
+            service.applyProjectileMotionEnd(projectile, result.motion);
+        }
+    }
+
+    CHECK(projectile.timeSinceCreatedTicks < projectile.lifetimeTicks);
+
+    bool expired = false;
+    for (int frameIndex = 0; frameIndex < 400; ++frameIndex)
+    {
+        const GameplayProjectileService::ProjectileFrameResult result =
+            service.updateProjectileFrame(projectile, facts);
+
+        if (result.expireProjectile)
+        {
+            expired = true;
+            break;
+        }
+
+        if (result.applyMotionEnd)
+        {
+            service.applyProjectileMotionEnd(projectile, result.motion);
+        }
+    }
+
+    CHECK(expired);
+}

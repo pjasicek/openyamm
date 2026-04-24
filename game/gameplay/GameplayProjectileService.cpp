@@ -510,13 +510,23 @@ void GameplayProjectileService::updateProjectileImpactPresentation(float deltaSe
 
 bool GameplayProjectileService::advanceProjectileLifetime(
     ProjectileState &projectile,
-    uint32_t deltaTicks) const
+    float deltaSeconds) const
 {
-    if (deltaTicks == 0 || projectile.isExpired)
+    if (deltaSeconds <= 0.0f || projectile.isExpired)
     {
         return projectile.isExpired;
     }
 
+    projectile.lifetimeTickAccumulator += deltaSeconds * ProjectileTicksPerSecond;
+
+    const uint32_t deltaTicks = static_cast<uint32_t>(std::floor(projectile.lifetimeTickAccumulator));
+
+    if (deltaTicks == 0)
+    {
+        return false;
+    }
+
+    projectile.lifetimeTickAccumulator -= static_cast<float>(deltaTicks);
     projectile.timeSinceCreatedTicks += deltaTicks;
     return projectile.timeSinceCreatedTicks >= projectile.lifetimeTicks;
 }
@@ -1159,9 +1169,7 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
     const ProjectileFrameFacts &facts) const
 {
     ProjectileFrameResult result = {};
-    const uint32_t deltaTicks = ticksFromDeltaSeconds(facts.deltaSeconds);
-
-    if (advanceProjectileLifetime(projectile, deltaTicks))
+    if (advanceProjectileLifetime(projectile, facts.deltaSeconds))
     {
         const GameplayWorldPoint impactPoint = {projectile.x, projectile.y, projectile.z};
 

@@ -7560,8 +7560,7 @@ OutdoorWorldRuntime::ProjectileFrameWorldFacts OutdoorWorldRuntime::collectProje
     float partyZ) const
 {
     ProjectileState predictedProjectile = projectile;
-    const uint32_t deltaTicks = GameplayProjectileService::ticksFromDeltaSeconds(deltaSeconds);
-    const bool lifetimeExpired = projectileService().advanceProjectileLifetime(predictedProjectile, deltaTicks);
+    const bool lifetimeExpired = projectileService().advanceProjectileLifetime(predictedProjectile, deltaSeconds);
 
     ProjectileFrameWorldFacts worldFacts = {};
     worldFacts.frame.deltaSeconds = deltaSeconds;

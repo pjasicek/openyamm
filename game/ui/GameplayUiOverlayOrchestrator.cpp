@@ -175,11 +175,6 @@ void GameplayUiOverlayOrchestrator::renderStandardOverlays(
         return;
     }
 
-    if (config.hasActiveLootView && config.renderDebugLootFallback)
-    {
-        GameplayDebugOverlayRenderer::renderChestPanel(overlayContext, width, height);
-    }
-
     if (config.renderDebugDialogueFallback)
     {
         overlayContext.ensurePendingEventDialogPresented(true);
