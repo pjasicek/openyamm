@@ -11394,8 +11394,12 @@ void OutdoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMini
 
             if (m_eventRuntimeState)
             {
-                const auto overrideIterator =
-                    m_eventRuntimeState->spriteOverrides.find(static_cast<uint32_t>(entityIndex));
+                const OutdoorEntity &entity = m_pOutdoorMapData->entities[entityIndex];
+                const uint32_t overrideKey =
+                    entity.eventIdPrimary != 0 ? entity.eventIdPrimary : entity.eventIdSecondary;
+                const auto overrideIterator = overrideKey != 0
+                    ? m_eventRuntimeState->spriteOverrides.find(overrideKey)
+                    : m_eventRuntimeState->spriteOverrides.end();
 
                 if (overrideIterator != m_eventRuntimeState->spriteOverrides.end() && overrideIterator->second.hidden)
                 {

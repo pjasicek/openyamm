@@ -24,9 +24,11 @@
 
 #include <array>
 #include <cstdint>
+#include <functional>
 #include <limits>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -192,6 +194,29 @@ private:
         bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
     };
 
+    struct BillboardTextureLookupKey
+    {
+        std::string textureName;
+        int16_t paletteId = 0;
+
+        bool operator==(const BillboardTextureLookupKey &other) const
+        {
+            return textureName == other.textureName && paletteId == other.paletteId;
+        }
+    };
+
+    struct BillboardTextureLookupKeyHash
+    {
+        size_t operator()(const BillboardTextureLookupKey &key) const
+        {
+            const size_t textureHash = std::hash<std::string>{}(key.textureName);
+            const size_t paletteHash = std::hash<int16_t>{}(key.paletteId);
+            const size_t hashSeed = 0x9e3779b97f4a7c15ull;
+
+            return textureHash ^ (paletteHash + hashSeed + (textureHash << 6) + (textureHash >> 2));
+        }
+    };
+
     struct MechanismBinding
     {
         uint16_t linkedEventId = 0;
@@ -323,10 +348,14 @@ private:
     void ensureBloodSplatVertexBuffer();
     void renderBloodSplats(
         uint16_t viewId,
-        const std::array<float, 32> &indoorLightPositions,
-        const std::array<float, 32> &indoorLightColors,
+        const std::array<float, MaxIndoorRenderLights * 4> &indoorLightPositions,
+        const std::array<float, MaxIndoorRenderLights * 4> &indoorLightColors,
         const std::array<float, 4> &indoorLightParams);
     const bgfx::TextureHandle *findIndoorTextureHandle(const std::string &textureName) const;
+    static BillboardTextureLookupKey makeBillboardTextureLookupKey(
+        const std::string &textureName,
+        int16_t paletteId);
+    void registerBillboardTextureIndex(size_t textureIndex);
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     const BillboardTextureHandle *ensureSpriteBillboardTexture(const std::string &textureName, int16_t paletteId);
     const std::optional<MapDeltaData> &runtimeMapDeltaData() const;
@@ -340,6 +369,7 @@ private:
     bool updateMovingMechanismFaceVertices(uint64_t &texturedBuildNanoseconds, uint64_t &uploadNanoseconds);
     std::vector<size_t> collectMovingMechanismFaceIndices() const;
     std::vector<uint8_t> buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const;
+    std::vector<uint8_t> buildLightingSectorMask() const;
     bool isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const;
     bool isBatchVisible(const TexturedBatch &batch, const std::vector<uint8_t> &visibleSectorMask) const;
 
@@ -397,6 +427,8 @@ private:
     std::vector<TexturedBatch> m_texturedBatches;
     std::vector<IndoorTextureHandle> m_indoorTextureHandles;
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
+    std::unordered_map<BillboardTextureLookupKey, size_t, BillboardTextureLookupKeyHash>
+        m_billboardTextureIndexByKey;
     uint64_t m_texturedBatchVisualRevision = std::numeric_limits<uint64_t>::max();
     WorldFxRenderResources m_worldFxRenderResources;
     WorldFxSystem m_worldFxSystem;

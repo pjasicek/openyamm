@@ -178,7 +178,7 @@ bool BgfxContext::initialize(SDL_Window *pWindow, int windowWidth, int windowHei
     m_isInitialized = true;
     m_rendererType = bgfx::getRendererType();
 
-    bgfx::setDebug(BGFX_DEBUG_TEXT);
+    bgfx::setDebug(BGFX_DEBUG_NONE);
     bgfx::setViewClear(0, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ff, 1.0f, 0);
 
     return true;

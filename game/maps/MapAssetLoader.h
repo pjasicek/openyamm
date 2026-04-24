@@ -82,6 +82,9 @@ struct DecorationBillboard
     int y = 0;
     int z = 0;
     int facing = 0;
+    uint16_t eventIdPrimary = 0;
+    uint16_t eventIdSecondary = 0;
+    int16_t sectorId = -1;
     std::string name;
 };
 

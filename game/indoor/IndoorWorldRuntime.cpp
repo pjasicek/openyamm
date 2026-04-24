@@ -457,6 +457,64 @@ bool indoorMinimapFaceVisible(
     return !indoorFaceHasInvisibleOverride(faceIndex, pEventRuntimeState);
 }
 
+uint64_t mixIndoorMinimapSignature(uint64_t seed, uint64_t value)
+{
+    seed ^= value + 0x9e3779b97f4a7c15ull + (seed << 6) + (seed >> 2);
+    return seed;
+}
+
+uint64_t indoorMinimapByteVectorSignature(const std::vector<uint8_t> &values)
+{
+    uint64_t result = 1469598103934665603ull;
+
+    for (uint8_t value : values)
+    {
+        result ^= value;
+        result *= 1099511628211ull;
+    }
+
+    return result;
+}
+
+uint64_t indoorMinimapUIntVectorSignature(const std::vector<uint32_t> &values)
+{
+    uint64_t result = 1469598103934665603ull;
+
+    for (uint32_t value : values)
+    {
+        result ^= value;
+        result *= 1099511628211ull;
+    }
+
+    return result;
+}
+
+uint64_t indoorMinimapLineSignature(
+    const IndoorMapData &indoorMapData,
+    const MapDeltaData &mapDeltaData,
+    const EventRuntimeState *pEventRuntimeState,
+    float partyFootZ,
+    bool showEventOutlines)
+{
+    uint64_t signature = 0x4f59494d4d415055ull;
+    signature = mixIndoorMinimapSignature(signature, reinterpret_cast<uintptr_t>(&indoorMapData));
+    signature = mixIndoorMinimapSignature(signature, indoorMapData.faces.size());
+    signature = mixIndoorMinimapSignature(signature, indoorMapData.outlines.size());
+    signature = mixIndoorMinimapSignature(signature, indoorMinimapByteVectorSignature(mapDeltaData.visibleOutlines));
+    signature = mixIndoorMinimapSignature(signature, indoorMinimapUIntVectorSignature(mapDeltaData.faceAttributes));
+    signature = mixIndoorMinimapSignature(signature, static_cast<int32_t>(std::round(partyFootZ)));
+    signature = mixIndoorMinimapSignature(signature, showEventOutlines ? 1u : 0u);
+
+    if (pEventRuntimeState != nullptr)
+    {
+        signature = mixIndoorMinimapSignature(signature, pEventRuntimeState->outdoorSurfaceRevision);
+        signature = mixIndoorMinimapSignature(signature, pEventRuntimeState->facetSetMasks.size());
+        signature = mixIndoorMinimapSignature(signature, pEventRuntimeState->facetClearMasks.size());
+    }
+
+    return signature;
+}
+
 void ensureIndoorMapRevealState(const IndoorMapData &indoorMapData, MapDeltaData &mapDeltaData)
 {
     while (mapDeltaData.faceAttributes.size() < indoorMapData.faces.size())
@@ -2077,6 +2135,8 @@ void IndoorWorldRuntime::initialize(
     m_bloodSplats.clear();
     ++m_bloodSplatRevision;
     m_actorUpdateAccumulatorSeconds = 0.0f;
+    m_indoorJournalRevealStateValid = false;
+    m_cachedGameplayMinimapLinesValid = false;
     invalidateRuntimeGeometryCache();
     materializeInitialMonsterSpawns();
     syncMapActorAiStates();
@@ -2128,6 +2188,8 @@ void IndoorWorldRuntime::initialize(
     m_bloodSplats.clear();
     ++m_bloodSplatRevision;
     m_actorUpdateAccumulatorSeconds = 0.0f;
+    m_indoorJournalRevealStateValid = false;
+    m_cachedGameplayMinimapLinesValid = false;
     invalidateRuntimeGeometryCache();
     materializeInitialMonsterSpawns();
     syncMapActorAiStates();
@@ -4865,18 +4927,45 @@ void IndoorWorldRuntime::renderWorld(
         m_pGameplayView->render(width, height, input, deltaSeconds);
     }
 
+    updateIndoorJournalRevealIfNeeded();
+}
+
+void IndoorWorldRuntime::updateIndoorJournalRevealIfNeeded()
+{
     MapDeltaData *pMapDeltaData = mapDeltaData();
 
     if (m_pIndoorMapData != nullptr && m_pRenderer != nullptr && m_pPartyRuntime != nullptr && pMapDeltaData != nullptr)
     {
         const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
+        const EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+        const uint64_t surfaceRevision =
+            pEventRuntimeState != nullptr ? pEventRuntimeState->outdoorSurfaceRevision : 0;
+        const bool needsRevealUpdate =
+            !m_indoorJournalRevealStateValid
+            || m_lastIndoorJournalRevealSectorId != moveState.sectorId
+            || m_lastIndoorJournalRevealEyeSectorId != moveState.eyeSectorId
+            || m_lastIndoorJournalRevealSurfaceRevision != surfaceRevision
+            || m_lastIndoorJournalRevealFaceCount != m_pIndoorMapData->faces.size()
+            || m_lastIndoorJournalRevealOutlineCount != m_pIndoorMapData->outlines.size();
+
+        if (!needsRevealUpdate)
+        {
+            return;
+        }
+
         const std::vector<int16_t> revealSectorIds =
             m_pRenderer->visibleIndoorMapRevealSectorIds(moveState.sectorId, moveState.eyeSectorId);
         updateIndoorJournalRevealMask(
             *m_pIndoorMapData,
             revealSectorIds,
-            eventRuntimeState(),
+            pEventRuntimeState,
             *pMapDeltaData);
+        m_indoorJournalRevealStateValid = true;
+        m_lastIndoorJournalRevealSectorId = moveState.sectorId;
+        m_lastIndoorJournalRevealEyeSectorId = moveState.eyeSectorId;
+        m_lastIndoorJournalRevealSurfaceRevision = surfaceRevision;
+        m_lastIndoorJournalRevealFaceCount = m_pIndoorMapData->faces.size();
+        m_lastIndoorJournalRevealOutlineCount = m_pIndoorMapData->outlines.size();
     }
 }
 
@@ -6424,6 +6513,19 @@ void IndoorWorldRuntime::collectGameplayMinimapLines(std::vector<GameplayMinimap
         pWizardEyeBuff != nullptr && pWizardEyeBuff->skillMastery >= SkillMastery::Master;
     const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
     const EventRuntimeState *pEventRuntimeState = eventRuntimeState();
+    const uint64_t signature = indoorMinimapLineSignature(
+        *m_pIndoorMapData,
+        *pMapDeltaData,
+        pEventRuntimeState,
+        moveState.footZ,
+        showEventOutlines);
+
+    if (m_cachedGameplayMinimapLinesValid && m_cachedGameplayMinimapLineSignature == signature)
+    {
+        lines = m_cachedGameplayMinimapLines;
+        return;
+    }
+
     std::vector<uint8_t> visibleFaceMask(m_pIndoorMapData->faces.size(), 0);
 
     for (size_t faceIndex = 0; faceIndex < m_pIndoorMapData->faces.size(); ++faceIndex)
@@ -6488,6 +6590,10 @@ void IndoorWorldRuntime::collectGameplayMinimapLines(std::vector<GameplayMinimap
             : indoorMinimapGreyLineColor(outline.z - moveState.footZ);
         lines.push_back(line);
     }
+
+    m_cachedGameplayMinimapLineSignature = signature;
+    m_cachedGameplayMinimapLines = lines;
+    m_cachedGameplayMinimapLinesValid = true;
 }
 
 void IndoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinimapMarkerState> &markers) const
@@ -7326,20 +7432,6 @@ std::vector<IndoorCylinderCollision> IndoorWorldRuntime::decorationMovementColli
     }
 
     colliders.reserve(m_pIndoorDecorationBillboardSet->billboards.size());
-    std::vector<int16_t> entitySectorIds(m_pIndoorMapData->entities.size(), -1);
-
-    for (size_t sectorIndex = 0; sectorIndex < m_pIndoorMapData->sectors.size(); ++sectorIndex)
-    {
-        const IndoorSector &sector = m_pIndoorMapData->sectors[sectorIndex];
-
-        for (uint16_t decorationId : sector.decorationIds)
-        {
-            if (decorationId < entitySectorIds.size())
-            {
-                entitySectorIds[decorationId] = static_cast<int16_t>(sectorIndex);
-            }
-        }
-    }
 
     for (const DecorationBillboard &billboard : m_pIndoorDecorationBillboardSet->billboards)
     {
@@ -7366,7 +7458,7 @@ std::vector<IndoorCylinderCollision> IndoorWorldRuntime::decorationMovementColli
 
         colliders.push_back(IndoorCylinderCollision{
             billboard.entityIndex,
-            billboard.entityIndex < entitySectorIds.size() ? entitySectorIds[billboard.entityIndex] : int16_t(-1),
+            billboard.sectorId,
             static_cast<float>(billboard.x),
             static_cast<float>(billboard.y),
             static_cast<float>(billboard.z),
@@ -7485,6 +7577,8 @@ void IndoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_bloodSplats = snapshot.bloodSplats;
     ++m_bloodSplatRevision;
     m_actorUpdateAccumulatorSeconds = snapshot.actorUpdateAccumulatorSeconds;
+    m_indoorJournalRevealStateValid = false;
+    m_cachedGameplayMinimapLinesValid = false;
     invalidateRuntimeGeometryCache();
     syncMapActorAiStates();
 

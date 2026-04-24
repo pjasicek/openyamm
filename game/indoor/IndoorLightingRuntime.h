@@ -31,6 +31,7 @@ struct IndoorRenderLight
     float radius = 0.0f;
     uint32_t colorAbgr = 0xffffffffu;
     float intensity = 1.0f;
+    int16_t sectorId = -1;
     IndoorRenderLightKind kind = IndoorRenderLightKind::Static;
 };
 

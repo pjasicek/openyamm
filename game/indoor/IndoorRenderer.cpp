@@ -19,6 +19,7 @@
 #include <algorithm>
 #include <array>
 #include <bit>
+#include <cctype>
 #include <cmath>
 #include <cstring>
 #include <cstdint>
@@ -135,7 +136,7 @@ bool updateDynamicVertexBuffer(
 
 constexpr uint16_t MainViewId = 0;
 constexpr uint16_t HudViewId = 2;
-constexpr size_t MaxIndoorShaderLights = 8;
+constexpr size_t MaxIndoorShaderLights = MaxIndoorRenderLights;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float HoveredActorOutlineThicknessPixels = 2.0f;
@@ -1154,6 +1155,53 @@ bool intersectRayAabb(
     return true;
 }
 
+bool indoorFaceRayBoundsHit(
+    const IndoorFace &face,
+    const std::vector<IndoorVertex> &vertices,
+    const bx::Vec3 &rayOrigin,
+    const bx::Vec3 &rayDirection,
+    float bestDistance)
+{
+    bx::Vec3 minBounds = {
+        std::numeric_limits<float>::max(),
+        std::numeric_limits<float>::max(),
+        std::numeric_limits<float>::max()
+    };
+    bx::Vec3 maxBounds = {
+        -std::numeric_limits<float>::max(),
+        -std::numeric_limits<float>::max(),
+        -std::numeric_limits<float>::max()
+    };
+
+    for (uint16_t vertexIndex : face.vertexIndices)
+    {
+        if (vertexIndex >= vertices.size())
+        {
+            return false;
+        }
+
+        const IndoorVertex &vertex = vertices[vertexIndex];
+        minBounds.x = std::min(minBounds.x, static_cast<float>(vertex.x));
+        minBounds.y = std::min(minBounds.y, static_cast<float>(vertex.y));
+        minBounds.z = std::min(minBounds.z, static_cast<float>(vertex.z));
+        maxBounds.x = std::max(maxBounds.x, static_cast<float>(vertex.x));
+        maxBounds.y = std::max(maxBounds.y, static_cast<float>(vertex.y));
+        maxBounds.z = std::max(maxBounds.z, static_cast<float>(vertex.z));
+    }
+
+    constexpr float BoundsPadding = 1.0f;
+    minBounds.x -= BoundsPadding;
+    minBounds.y -= BoundsPadding;
+    minBounds.z -= BoundsPadding;
+    maxBounds.x += BoundsPadding;
+    maxBounds.y += BoundsPadding;
+    maxBounds.z += BoundsPadding;
+
+    float boundsDistance = 0.0f;
+    return intersectRayAabb(rayOrigin, rayDirection, minBounds, maxBounds, boundsDistance)
+        && boundsDistance <= bestDistance;
+}
+
 std::filesystem::path getShaderPath(bgfx::RendererType::Enum rendererType, const char *pShaderName)
 {
     std::filesystem::path shaderRoot = OPENYAMM_BGFX_SHADER_DIR;
@@ -1256,13 +1304,25 @@ float indoorShaderLightKindWeight(IndoorRenderLightKind kind)
     return 1.0f;
 }
 
-float indoorShaderLightScore(const IndoorRenderLight &light, const bx::Vec3 &cameraPosition)
+bool indoorLightMatchesFocusSector(const IndoorRenderLight &light, int16_t focusSectorId, int16_t focusBackSectorId)
+{
+    return light.sectorId >= 0
+        && (light.sectorId == focusSectorId || light.sectorId == focusBackSectorId);
+}
+
+float indoorShaderLightScore(
+    const IndoorRenderLight &light,
+    const bx::Vec3 &cameraPosition,
+    int16_t focusSectorId,
+    int16_t focusBackSectorId)
 {
     const float dx = light.position.x - cameraPosition.x;
     const float dy = light.position.y - cameraPosition.y;
     const float dz = light.position.z - cameraPosition.z;
     const float distance = std::max(std::sqrt(dx * dx + dy * dy + dz * dz), 1.0f);
-    return light.radius * light.intensity * indoorShaderLightKindWeight(light.kind) / distance;
+    const float sectorPriority =
+        indoorLightMatchesFocusSector(light, focusSectorId, focusBackSectorId) ? 1000000.0f : 0.0f;
+    return sectorPriority + light.radius * light.intensity * indoorShaderLightKindWeight(light.kind) / distance;
 }
 
 void fillIndoorLightUniformArrays(
@@ -1270,25 +1330,37 @@ void fillIndoorLightUniformArrays(
     const bx::Vec3 &cameraPosition,
     std::array<float, MaxIndoorShaderLights * 4> &positions,
     std::array<float, MaxIndoorShaderLights * 4> &colors,
-    std::array<float, 4> &params)
+    std::array<float, 4> &params,
+    int16_t focusSectorId = -1,
+    int16_t focusBackSectorId = -1)
 {
     positions.fill(0.0f);
     colors.fill(0.0f);
 
-    std::vector<IndoorRenderLight> shaderLights = lightingFrame.lights;
-    std::sort(
-        shaderLights.begin(),
-        shaderLights.end(),
-        [&cameraPosition](const IndoorRenderLight &left, const IndoorRenderLight &right)
-        {
-            return indoorShaderLightScore(left, cameraPosition) > indoorShaderLightScore(right, cameraPosition);
-        });
+    const std::vector<IndoorRenderLight> *pShaderLights = &lightingFrame.lights;
+    std::vector<IndoorRenderLight> rankedLights;
 
-    const size_t lightCount = std::min(shaderLights.size(), MaxIndoorShaderLights);
+    if (lightingFrame.lights.size() > MaxIndoorShaderLights)
+    {
+        rankedLights = lightingFrame.lights;
+        std::sort(
+            rankedLights.begin(),
+            rankedLights.end(),
+            [&cameraPosition, focusSectorId, focusBackSectorId](
+                const IndoorRenderLight &left,
+                const IndoorRenderLight &right)
+            {
+                return indoorShaderLightScore(left, cameraPosition, focusSectorId, focusBackSectorId)
+                    > indoorShaderLightScore(right, cameraPosition, focusSectorId, focusBackSectorId);
+            });
+        pShaderLights = &rankedLights;
+    }
+
+    const size_t lightCount = std::min(pShaderLights->size(), MaxIndoorShaderLights);
 
     for (size_t index = 0; index < lightCount; ++index)
     {
-        const IndoorRenderLight &light = shaderLights[index];
+        const IndoorRenderLight &light = (*pShaderLights)[index];
         const size_t base = index * 4;
         positions[base + 0] = light.position.x;
         positions[base + 1] = light.position.y;
@@ -1350,6 +1422,19 @@ uint32_t resolveHoveredIndoorActorOutlineColor(
 uint32_t hoveredIndoorWorldItemOutlineColor()
 {
     return makeAbgr(64, 128, 255);
+}
+
+std::string normalizeBillboardTextureName(const std::string &textureName)
+{
+    for (const char character : textureName)
+    {
+        if (std::isupper(static_cast<unsigned char>(character)) != 0)
+        {
+            return toLowerCopy(textureName);
+        }
+    }
+
+    return textureName;
 }
 
 float fixedDoorDirectionComponentToFloat(int value)
@@ -1541,6 +1626,7 @@ bool IndoorRenderer::initialize(
             if (bgfx::isValid(billboardTexture.textureHandle))
             {
                 m_billboardTextureHandles.push_back(std::move(billboardTexture));
+                registerBillboardTextureIndex(m_billboardTextureHandles.size() - 1);
             }
         }
     }
@@ -1574,6 +1660,7 @@ bool IndoorRenderer::initialize(
             if (bgfx::isValid(billboardTexture.textureHandle))
             {
                 m_billboardTextureHandles.push_back(std::move(billboardTexture));
+                registerBillboardTextureIndex(m_billboardTextureHandles.size() - 1);
             }
         }
     }
@@ -1607,6 +1694,7 @@ bool IndoorRenderer::initialize(
             if (bgfx::isValid(billboardTexture.textureHandle))
             {
                 m_billboardTextureHandles.push_back(std::move(billboardTexture));
+                registerBillboardTextureIndex(m_billboardTextureHandles.size() - 1);
             }
         }
     }
@@ -1851,6 +1939,83 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
     m_cachedVisibleDoorStateSignature = doorStateSignature;
     m_cachedVisibleSectorMask = visibleSectorMask;
     return visibleSectorMask;
+}
+
+std::vector<uint8_t> IndoorRenderer::buildLightingSectorMask() const
+{
+    if (!m_indoorMapData || m_indoorMapData->sectors.empty())
+    {
+        return {};
+    }
+
+    std::vector<uint8_t> lightingSectorMask(m_indoorMapData->sectors.size(), 0);
+    int16_t startSectorId = -1;
+
+    if (m_pSceneRuntime != nullptr)
+    {
+        const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
+
+        if (moveState.eyeSectorId >= 0 && static_cast<size_t>(moveState.eyeSectorId) < lightingSectorMask.size())
+        {
+            startSectorId = moveState.eyeSectorId;
+        }
+        else if (moveState.sectorId >= 0 && static_cast<size_t>(moveState.sectorId) < lightingSectorMask.size())
+        {
+            startSectorId = moveState.sectorId;
+        }
+    }
+
+    if (startSectorId < 0)
+    {
+        return {};
+    }
+
+    const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
+    lightingSectorMask[startSectorId] = 1;
+
+    const auto appendPortalConnectedSectors = [&](const std::vector<uint16_t> &faceIds)
+    {
+        for (uint16_t faceId : faceIds)
+        {
+            if (faceId >= m_indoorMapData->faces.size())
+            {
+                continue;
+            }
+
+            const IndoorFace &face = m_indoorMapData->faces[faceId];
+
+            if (!face.isPortal && !hasFaceAttribute(face.attributes, FaceAttribute::IsPortal))
+            {
+                continue;
+            }
+
+            if (!isFaceVisible(faceId, face, eventRuntimeState))
+            {
+                continue;
+            }
+
+            int16_t connectedSectorId = -1;
+
+            if (face.roomNumber == static_cast<uint16_t>(startSectorId))
+            {
+                connectedSectorId = static_cast<int16_t>(face.roomBehindNumber);
+            }
+            else if (face.roomBehindNumber == static_cast<uint16_t>(startSectorId))
+            {
+                connectedSectorId = static_cast<int16_t>(face.roomNumber);
+            }
+
+            if (connectedSectorId >= 0 && static_cast<size_t>(connectedSectorId) < lightingSectorMask.size())
+            {
+                lightingSectorMask[connectedSectorId] = 1;
+            }
+        }
+    };
+
+    const IndoorSector &startSector = m_indoorMapData->sectors[startSectorId];
+    appendPortalConnectedSectors(startSector.portalFaceIds);
+    appendPortalConnectedSectors(startSector.faceIds);
+    return lightingSectorMask;
 }
 
 bool IndoorRenderer::isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const
@@ -2144,6 +2309,7 @@ void IndoorRenderer::render(
     m_lastRenderWidth = viewWidth;
     m_lastRenderHeight = viewHeight;
     bgfx::setViewRect(MainViewId, 0, 0, viewWidth, viewHeight);
+    bgfx::setViewMode(MainViewId, bgfx::ViewMode::Sequential);
 
     if (!m_isRenderable)
     {
@@ -2205,6 +2371,7 @@ void IndoorRenderer::render(
     bgfx::setViewTransform(MainViewId, viewMatrix, projectionMatrix);
     bgfx::touch(MainViewId);
     const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(eye);
+    const std::vector<uint8_t> lightingSectorMask = buildLightingSectorMask();
     const GameSettings &settings = gameSession.gameplayScreenRuntime().settingsSnapshot();
     IndoorLightingFrameInput lightingInput = {};
     lightingInput.pMapData = m_indoorMapData ? &m_indoorMapData.value() : nullptr;
@@ -2213,7 +2380,7 @@ void IndoorRenderer::render(
         m_indoorDecorationBillboardSet ? &m_indoorDecorationBillboardSet.value() : nullptr;
     lightingInput.pWorldFxSystem = &m_worldFxSystem;
     lightingInput.pParty = m_pSceneRuntime != nullptr ? &m_pSceneRuntime->partyRuntime().party() : nullptr;
-    lightingInput.pVisibleSectorMask = &visibleSectorMask;
+    lightingInput.pVisibleSectorMask = &lightingSectorMask;
     lightingInput.cameraPosition = eye;
     lightingInput.coloredLights = settings.coloredLights;
     const IndoorLightingFrame lightingFrame = m_indoorLightingRuntime.buildFrame(lightingInput);
@@ -4072,6 +4239,7 @@ void IndoorRenderer::shutdown()
     }
 
     m_billboardTextureHandles.clear();
+    m_billboardTextureIndexByKey.clear();
 
     if (bgfx::isValid(m_wireframeVertexBufferHandle))
     {
@@ -4205,17 +4373,38 @@ const IndoorRenderer::BillboardTextureHandle *IndoorRenderer::findBillboardTextu
     int16_t paletteId
 ) const
 {
-    const std::string normalizedTextureName = toLowerCopy(textureName);
+    const BillboardTextureLookupKey textureKey = makeBillboardTextureLookupKey(textureName, paletteId);
+    const auto textureIterator = m_billboardTextureIndexByKey.find(textureKey);
 
-    for (const BillboardTextureHandle &textureHandle : m_billboardTextureHandles)
+    if (textureIterator == m_billboardTextureIndexByKey.end()
+        || textureIterator->second >= m_billboardTextureHandles.size())
     {
-        if (textureHandle.textureName == normalizedTextureName && textureHandle.paletteId == paletteId)
-        {
-            return &textureHandle;
-        }
+        return nullptr;
     }
 
-    return nullptr;
+    return &m_billboardTextureHandles[textureIterator->second];
+}
+
+IndoorRenderer::BillboardTextureLookupKey IndoorRenderer::makeBillboardTextureLookupKey(
+    const std::string &textureName,
+    int16_t paletteId)
+{
+    BillboardTextureLookupKey key = {};
+    key.textureName = normalizeBillboardTextureName(textureName);
+    key.paletteId = paletteId;
+
+    return key;
+}
+
+void IndoorRenderer::registerBillboardTextureIndex(size_t textureIndex)
+{
+    if (textureIndex >= m_billboardTextureHandles.size())
+    {
+        return;
+    }
+
+    const BillboardTextureHandle &texture = m_billboardTextureHandles[textureIndex];
+    m_billboardTextureIndexByKey[makeBillboardTextureLookupKey(texture.textureName, texture.paletteId)] = textureIndex;
 }
 
 const IndoorRenderer::BillboardTextureHandle *IndoorRenderer::ensureSpriteBillboardTexture(
@@ -4267,6 +4456,7 @@ const IndoorRenderer::BillboardTextureHandle *IndoorRenderer::ensureSpriteBillbo
     }
 
     m_billboardTextureHandles.push_back(std::move(billboardTexture));
+    registerBillboardTextureIndex(m_billboardTextureHandles.size() - 1);
     return &m_billboardTextureHandles.back();
 }
 
@@ -4439,8 +4629,8 @@ void IndoorRenderer::ensureBloodSplatVertexBuffer()
 
 void IndoorRenderer::renderBloodSplats(
     uint16_t viewId,
-    const std::array<float, 32> &indoorLightPositions,
-    const std::array<float, 32> &indoorLightColors,
+    const std::array<float, MaxIndoorShaderLights * 4> &indoorLightPositions,
+    const std::array<float, MaxIndoorShaderLights * 4> &indoorLightColors,
     const std::array<float, 4> &indoorLightParams)
 {
     if (m_pSceneRuntime == nullptr
@@ -4537,8 +4727,15 @@ void IndoorRenderer::renderDecorationBillboards(
             return billboard.spriteId;
         }
 
-        const auto overrideIterator =
-            eventRuntimeState->spriteOverrides.find(static_cast<uint32_t>(billboard.entityIndex));
+        const uint32_t overrideKey =
+            billboard.eventIdPrimary != 0 ? billboard.eventIdPrimary : billboard.eventIdSecondary;
+
+        if (overrideKey == 0)
+        {
+            return billboard.spriteId;
+        }
+
+        const auto overrideIterator = eventRuntimeState->spriteOverrides.find(overrideKey);
 
         if (overrideIterator == eventRuntimeState->spriteOverrides.end())
         {
@@ -4570,6 +4767,11 @@ void IndoorRenderer::renderDecorationBillboards(
 
     for (const DecorationBillboard &billboard : m_indoorDecorationBillboardSet->billboards)
     {
+        if (!isSectorVisible(billboard.sectorId, visibleSectorMask))
+        {
+            continue;
+        }
+
         bool hidden = false;
         const uint16_t spriteId = resolveBillboardSpriteId(billboard, hidden);
 
@@ -4619,6 +4821,7 @@ void IndoorRenderer::renderDecorationBillboards(
         drawItems.push_back(drawItem);
     }
 
+    constexpr float BillboardDepthBias = 128.0f;
     std::sort(
         drawItems.begin(),
         drawItems.end(),
@@ -4630,7 +4833,6 @@ void IndoorRenderer::renderDecorationBillboards(
 
     for (const BillboardDrawItem &drawItem : drawItems)
     {
-        constexpr float BillboardDepthBias = 128.0f;
         const DecorationBillboard &billboard = *drawItem.pBillboard;
         const SpriteFrameEntry &frame = *drawItem.pFrame;
         const BillboardTextureHandle &texture = *drawItem.pTexture;
@@ -4664,41 +4866,56 @@ void IndoorRenderer::renderDecorationBillboards(
         const float fogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
         const float fogDensities[4] = {0.0f, 0.0f, 0.0f, 0.0f};
         const float fogDistances[4] = {4096.0f, 4096.0f, 4096.0f, 0.0f};
-        std::array<LitBillboardVertex, 6> vertices = {};
-        vertices[0] = {
-            center.x - right.x - up.x,
-            center.y - right.y - up.y,
-            center.z - right.z - up.z,
-            u0,
-            1.0f,
-            vertexColorAbgr
-        };
-        vertices[1] = {
-            center.x - right.x + up.x,
-            center.y - right.y + up.y,
-            center.z - right.z + up.z,
-            u0,
-            0.0f,
-            vertexColorAbgr
-        };
-        vertices[2] = {
-            center.x + right.x + up.x,
-            center.y + right.y + up.y,
-            center.z + right.z + up.z,
-            u1,
-            0.0f,
-            vertexColorAbgr
-        };
-        vertices[3] = vertices[0];
-        vertices[4] = vertices[2];
-        vertices[5] = {
-            center.x + right.x - up.x,
-            center.y + right.y - up.y,
-            center.z + right.z - up.z,
-            u1,
-            1.0f,
-            vertexColorAbgr
-        };
+        std::array<LitBillboardVertex, 6> vertices = {{
+            {
+                center.x - right.x - up.x,
+                center.y - right.y - up.y,
+                center.z - right.z - up.z,
+                u0,
+                1.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x - right.x + up.x,
+                center.y - right.y + up.y,
+                center.z - right.z + up.z,
+                u0,
+                0.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x + right.x + up.x,
+                center.y + right.y + up.y,
+                center.z + right.z + up.z,
+                u1,
+                0.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x - right.x - up.x,
+                center.y - right.y - up.y,
+                center.z - right.z - up.z,
+                u0,
+                1.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x + right.x + up.x,
+                center.y + right.y + up.y,
+                center.z + right.z + up.z,
+                u1,
+                0.0f,
+                vertexColorAbgr
+            },
+            {
+                center.x + right.x - up.x,
+                center.y + right.y - up.y,
+                center.z + right.z - up.z,
+                u1,
+                1.0f,
+                vertexColorAbgr
+            }
+        }};
 
         if (bgfx::getAvailTransientVertexBuffer(static_cast<uint32_t>(vertices.size()), LitBillboardVertex::ms_layout)
             < vertices.size())
@@ -6990,6 +7207,11 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
         if (!visibleSectorMask.empty()
             && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
             && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask))
+        {
+            continue;
+        }
+
+        if (!indoorFaceRayBoundsHit(face, vertices, rayOrigin, rayDirection, bestDistance))
         {
             continue;
         }

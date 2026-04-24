@@ -1248,8 +1248,15 @@ uint16_t OutdoorInteractionController::resolveDecorationBillboardSpriteId(
         return spriteId;
     }
 
-    const auto overrideIterator =
-        pEventRuntimeState->spriteOverrides.find(static_cast<uint32_t>(billboard.entityIndex));
+    const uint32_t overrideKey =
+        billboard.eventIdPrimary != 0 ? billboard.eventIdPrimary : billboard.eventIdSecondary;
+
+    if (overrideKey == 0)
+    {
+        return spriteId;
+    }
+
+    const auto overrideIterator = pEventRuntimeState->spriteOverrides.find(overrideKey);
 
     if (overrideIterator == pEventRuntimeState->spriteOverrides.end())
     {
@@ -3298,8 +3305,15 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 return spriteId;
             }
 
-            const auto overrideIterator =
-                pEventRuntimeState->spriteOverrides.find(static_cast<uint32_t>(billboard.entityIndex));
+            const uint32_t overrideKey =
+                billboard.eventIdPrimary != 0 ? billboard.eventIdPrimary : billboard.eventIdSecondary;
+
+            if (overrideKey == 0)
+            {
+                return spriteId;
+            }
+
+            const auto overrideIterator = pEventRuntimeState->spriteOverrides.find(overrideKey);
 
             if (overrideIterator == pEventRuntimeState->spriteOverrides.end())
             {

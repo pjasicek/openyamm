@@ -66,6 +66,12 @@ bool sectorVisible(const std::vector<uint8_t> *pVisibleSectorMask, size_t sector
         || (*pVisibleSectorMask)[sectorId] != 0;
 }
 
+bool sectorVisible(const std::vector<uint8_t> *pVisibleSectorMask, int16_t sectorId)
+{
+    return sectorId < 0
+        || sectorVisible(pVisibleSectorMask, static_cast<size_t>(sectorId));
+}
+
 bool decorationHidden(const EventRuntimeState *pState, const DecorationBillboard &billboard)
 {
     if (pState == nullptr)
@@ -73,7 +79,15 @@ bool decorationHidden(const EventRuntimeState *pState, const DecorationBillboard
         return false;
     }
 
-    const auto iterator = pState->spriteOverrides.find(static_cast<uint32_t>(billboard.entityIndex));
+    const uint32_t overrideKey =
+        billboard.eventIdPrimary != 0 ? billboard.eventIdPrimary : billboard.eventIdSecondary;
+
+    if (overrideKey == 0)
+    {
+        return false;
+    }
+
+    const auto iterator = pState->spriteOverrides.find(overrideKey);
 
     return iterator != pState->spriteOverrides.end() && iterator->second.hidden;
 }
@@ -269,6 +283,7 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
                 light.colorAbgr =
                     lightColorAbgr(source.red, source.green, source.blue, DefaultLightAlpha, input.coloredLights);
                 light.intensity = 1.0f;
+                light.sectorId = static_cast<int16_t>(sectorId);
                 light.kind = IndoorRenderLightKind::Static;
                 appendRankedLight(candidates, light);
                 appendedLightIds.insert(lightId);
@@ -280,6 +295,11 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
     {
         for (const DecorationBillboard &billboard : input.pDecorationBillboardSet->billboards)
         {
+            if (!sectorVisible(input.pVisibleSectorMask, billboard.sectorId))
+            {
+                continue;
+            }
+
             if (decorationHidden(input.pEventRuntimeState, billboard))
             {
                 continue;
@@ -333,6 +353,7 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
             light.radius = radius;
             light.colorAbgr = lightColorAbgr(red, green, blue, 208, input.coloredLights);
             light.intensity = 1.0f;
+            light.sectorId = billboard.sectorId;
             light.kind = IndoorRenderLightKind::Decoration;
             appendRankedLight(candidates, light);
         }

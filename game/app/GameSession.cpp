@@ -487,14 +487,17 @@ void GameSession::renderGameplayUi(int width, int height)
         return;
     }
 
-    GameplaySpellTargetingOverlayRenderer::renderPendingSpellTargetingOverlay(
-        m_gameplayScreenRuntime,
-        m_gameplaySpellService,
-        pendingSpellCast,
-        width,
-        height,
-        pInputFrame->pointerX,
-        pInputFrame->pointerY);
+    if (pendingSpellCast.active)
+    {
+        GameplaySpellTargetingOverlayRenderer::renderPendingSpellTargetingOverlay(
+            m_gameplayScreenRuntime,
+            m_gameplaySpellService,
+            pendingSpellCast,
+            width,
+            height,
+            pInputFrame->pointerX,
+            pInputFrame->pointerY);
+    }
 }
 
 const GameplaySharedInputFrameResult &GameSession::sharedInputFrameResult() const

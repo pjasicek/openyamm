@@ -24,7 +24,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t MinimapFactRefreshMilliseconds = 16;
+constexpr uint32_t MinimapFactRefreshMilliseconds = 100;
 constexpr int GameplayMinimapMinZoomStep = 0;
 constexpr int GameplayMinimapDefaultZoomStep = 1;
 constexpr int GameplayMinimapMaxZoomStep = 2;

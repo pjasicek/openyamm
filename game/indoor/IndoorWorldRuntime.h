@@ -6,6 +6,7 @@
 #include "game/gameplay/GameplayActorAiTypes.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
+#include "game/ui/GameplayOverlayTypes.h"
 #include "game/indoor/IndoorMovementController.h"
 #include "game/maps/MapDeltaData.h"
 #include "game/tables/ChestTable.h"
@@ -460,6 +461,7 @@ private:
         bool centerVertically = false,
         bool preferImpactObject = true);
     void spawnImmediateSpellImpactVisual(size_t actorIndex, uint32_t spellId);
+    void updateIndoorJournalRevealIfNeeded();
 
     std::optional<MapStatsEntry> m_map;
     const MonsterTable *m_pMonsterTable = nullptr;
@@ -497,6 +499,15 @@ private:
     uint64_t m_bloodSplatRevision = 0;
     float m_actorUpdateAccumulatorSeconds = 0.0f;
     float m_worldItemUpdateAccumulatorSeconds = 0.0f;
+    bool m_indoorJournalRevealStateValid = false;
+    int16_t m_lastIndoorJournalRevealSectorId = -1;
+    int16_t m_lastIndoorJournalRevealEyeSectorId = -1;
+    uint64_t m_lastIndoorJournalRevealSurfaceRevision = 0;
+    size_t m_lastIndoorJournalRevealFaceCount = 0;
+    size_t m_lastIndoorJournalRevealOutlineCount = 0;
     mutable RuntimeGeometryCache m_runtimeGeometryCache;
+    bool m_cachedGameplayMinimapLinesValid = false;
+    uint64_t m_cachedGameplayMinimapLineSignature = 0;
+    std::vector<GameplayMinimapLineState> m_cachedGameplayMinimapLines;
 };
 }

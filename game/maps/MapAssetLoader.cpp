@@ -1339,6 +1339,8 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
         billboard.y = entity.y;
         billboard.z = entity.z;
         billboard.facing = entity.facing;
+        billboard.eventIdPrimary = entity.eventIdPrimary;
+        billboard.eventIdSecondary = entity.eventIdSecondary;
         billboard.name = entity.name;
         billboardSet.billboards.push_back(std::move(billboard));
 
@@ -1609,7 +1611,38 @@ std::optional<DecorationBillboardSet> buildIndoorDecorationBillboardSet(
     BitmapLoadCache &bitmapLoadCache
 )
 {
-    return buildDecorationBillboardSet(assetFileSystem, indoorMapData.entities, bitmapLoadCache);
+    std::optional<DecorationBillboardSet> billboardSet =
+        buildDecorationBillboardSet(assetFileSystem, indoorMapData.entities, bitmapLoadCache);
+
+    if (!billboardSet)
+    {
+        return std::nullopt;
+    }
+
+    std::vector<int16_t> entitySectorIds(indoorMapData.entities.size(), -1);
+
+    for (size_t sectorIndex = 0; sectorIndex < indoorMapData.sectors.size(); ++sectorIndex)
+    {
+        const IndoorSector &sector = indoorMapData.sectors[sectorIndex];
+
+        for (uint16_t decorationId : sector.decorationIds)
+        {
+            if (decorationId < entitySectorIds.size())
+            {
+                entitySectorIds[decorationId] = static_cast<int16_t>(sectorIndex);
+            }
+        }
+    }
+
+    for (DecorationBillboard &billboard : billboardSet->billboards)
+    {
+        if (billboard.entityIndex < entitySectorIds.size())
+        {
+            billboard.sectorId = entitySectorIds[billboard.entityIndex];
+        }
+    }
+
+    return billboardSet;
 }
 
 std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
