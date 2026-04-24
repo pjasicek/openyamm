@@ -16,6 +16,7 @@ public:
 
 private:
     void syncOutdoorProjectileContactShadows(OutdoorGameView &view, bool refreshSpatialFx);
+    void syncPartyTorchLight(OutdoorGameView &view);
     void syncActorSpatialFx(OutdoorGameView &view);
     void syncDecorationEmitters(OutdoorGameView &view);
     void syncSpriteObjectSpatialFx(OutdoorGameView &view);

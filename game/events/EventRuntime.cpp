@@ -277,6 +277,23 @@ void markOutdoorSurfaceStateChanged(EventRuntimeState &runtimeState)
     ++runtimeState.outdoorSurfaceRevision;
 }
 
+uint32_t maxFacetOverrideId(const std::unordered_map<uint32_t, uint32_t> &masks)
+{
+    uint32_t maxId = 0;
+
+    for (const std::pair<const uint32_t, uint32_t> &entry : masks)
+    {
+        if ((entry.second & faceAttributeBit(FaceAttribute::Invisible)) == 0)
+        {
+            continue;
+        }
+
+        maxId = std::max(maxId, entry.first);
+    }
+
+    return maxId;
+}
+
 std::vector<size_t> resolveTargetMemberIndices(const PartySelector &selector, const Party *pParty)
 {
     std::vector<size_t> result;
@@ -4688,6 +4705,48 @@ bool invokeLuaHandler(
 
     return true;
 }
+}
+
+bool EventRuntimeState::hasFacetInvisibleOverride(uint32_t faceId) const
+{
+    if (facetSetMasks.empty() && facetClearMasks.empty())
+    {
+        return false;
+    }
+
+    if (facetInvisibleOverrideCacheRevision != outdoorSurfaceRevision
+        || facetInvisibleOverrideCacheSetSize != facetSetMasks.size()
+        || facetInvisibleOverrideCacheClearSize != facetClearMasks.size())
+    {
+        const uint32_t maxSetId = maxFacetOverrideId(facetSetMasks);
+        const uint32_t maxClearId = maxFacetOverrideId(facetClearMasks);
+        const uint32_t maxId = std::max(maxSetId, maxClearId);
+
+        facetInvisibleOverrideCache.assign(static_cast<size_t>(maxId) + 1u, 0u);
+
+        for (const std::pair<const uint32_t, uint32_t> &entry : facetSetMasks)
+        {
+            if ((entry.second & faceAttributeBit(FaceAttribute::Invisible)) != 0)
+            {
+                facetInvisibleOverrideCache[entry.first] = 1u;
+            }
+        }
+
+        for (const std::pair<const uint32_t, uint32_t> &entry : facetClearMasks)
+        {
+            if ((entry.second & faceAttributeBit(FaceAttribute::Invisible)) != 0
+                && entry.first < facetInvisibleOverrideCache.size())
+            {
+                facetInvisibleOverrideCache[entry.first] = 0u;
+            }
+        }
+
+        facetInvisibleOverrideCacheRevision = outdoorSurfaceRevision;
+        facetInvisibleOverrideCacheSetSize = facetSetMasks.size();
+        facetInvisibleOverrideCacheClearSize = facetClearMasks.size();
+    }
+
+    return faceId < facetInvisibleOverrideCache.size() && facetInvisibleOverrideCache[faceId] != 0u;
 }
 
 EventRuntime::EventRuntime() = default;

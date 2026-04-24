@@ -8,6 +8,7 @@
 
 #include <array>
 #include <cstdint>
+#include <limits>
 #include <optional>
 #include <memory>
 #include <string>
@@ -166,6 +167,10 @@ struct EventRuntimeState
     std::unordered_map<uint32_t, uint32_t> facetSetMasks;
     std::unordered_map<uint32_t, uint32_t> facetClearMasks;
     uint64_t outdoorSurfaceRevision = 0;
+    mutable uint64_t facetInvisibleOverrideCacheRevision = std::numeric_limits<uint64_t>::max();
+    mutable size_t facetInvisibleOverrideCacheSetSize = 0;
+    mutable size_t facetInvisibleOverrideCacheClearSize = 0;
+    mutable std::vector<uint8_t> facetInvisibleOverrideCache;
     std::unordered_map<uint32_t, RuntimeMechanismState> mechanisms;
     std::unordered_map<uint32_t, std::string> textureOverrides;
     std::unordered_map<uint32_t, SpriteOverride> spriteOverrides;
@@ -212,6 +217,8 @@ struct EventRuntimeState
     std::optional<std::string> lastActivationResult;
     size_t localOnLoadEventsExecuted = 0;
     size_t globalOnLoadEventsExecuted = 0;
+
+    bool hasFacetInvisibleOverride(uint32_t faceId) const;
 };
 
 struct EventRuntimeBindingReport

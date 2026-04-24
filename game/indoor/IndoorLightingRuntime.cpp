@@ -2,6 +2,7 @@
 
 #include "game/events/EventRuntime.h"
 #include "game/fx/WorldFxSystem.h"
+#include "game/gameplay/GameplayTorchLight.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/party/Party.h"
@@ -19,7 +20,6 @@ constexpr uint32_t BlvLightDisabledAttribute = 0x08u;
 constexpr float IndoorAmbientMin = 0.18f;
 constexpr float IndoorAmbientMax = 1.0f;
 constexpr float IndoorLightScale = 1.35f;
-constexpr float TorchBaseRadius = 800.0f;
 constexpr uint8_t DefaultLightAlpha = 224;
 constexpr uint8_t FxLightAlphaFallback = 208;
 
@@ -198,14 +198,14 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
 
     if (input.pParty != nullptr)
     {
-        if (const PartyBuffState *pTorchBuff = input.pParty->partyBuff(PartyBuffId::TorchLight))
+        if (const std::optional<GameplayTorchLight> torchLight =
+                resolveGameplayTorchLight(*input.pParty, false, true))
         {
-            const int torchPower = std::max(pTorchBuff->power, 1);
             IndoorRenderLight torch = {};
             torch.position = input.cameraPosition;
-            torch.radius = TorchBaseRadius * static_cast<float>(torchPower);
-            torch.colorAbgr = makeAbgr(220, 220, 220, 232);
-            torch.intensity = 1.0f;
+            torch.radius = torchLight->radius;
+            torch.colorAbgr = torchLight->colorAbgr;
+            torch.intensity = torchLight->intensity;
             torch.kind = IndoorRenderLightKind::Torch;
             appendRankedLight(frame.lights, torch);
         }

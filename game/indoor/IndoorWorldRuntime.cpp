@@ -433,23 +433,7 @@ bool indoorFaceHasInvisibleOverride(size_t faceIndex, const EventRuntimeState *p
         return false;
     }
 
-    const uint32_t faceId = static_cast<uint32_t>(faceIndex);
-    uint32_t invisibleMask = 0;
-    const auto setIterator = pEventRuntimeState->facetSetMasks.find(faceId);
-
-    if (setIterator != pEventRuntimeState->facetSetMasks.end())
-    {
-        invisibleMask |= setIterator->second;
-    }
-
-    const auto clearIterator = pEventRuntimeState->facetClearMasks.find(faceId);
-
-    if (clearIterator != pEventRuntimeState->facetClearMasks.end())
-    {
-        invisibleMask &= ~clearIterator->second;
-    }
-
-    return hasFaceAttribute(invisibleMask, FaceAttribute::Invisible);
+    return pEventRuntimeState->hasFacetInvisibleOverride(static_cast<uint32_t>(faceIndex));
 }
 
 bool indoorMinimapFaceVisible(

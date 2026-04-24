@@ -1347,25 +1347,7 @@ bool faceHasInvisibleOverride(
         return false;
     }
 
-    const uint32_t faceId = static_cast<uint32_t>(faceIndex);
-    uint32_t invisibleMask = 0;
-    const std::unordered_map<uint32_t, uint32_t>::const_iterator setIterator =
-        eventRuntimeState->facetSetMasks.find(faceId);
-
-    if (setIterator != eventRuntimeState->facetSetMasks.end())
-    {
-        invisibleMask |= setIterator->second;
-    }
-
-    const std::unordered_map<uint32_t, uint32_t>::const_iterator clearIterator =
-        eventRuntimeState->facetClearMasks.find(faceId);
-
-    if (clearIterator != eventRuntimeState->facetClearMasks.end())
-    {
-        invisibleMask &= ~clearIterator->second;
-    }
-
-    return hasFaceAttribute(invisibleMask, FaceAttribute::Invisible);
+    return eventRuntimeState->hasFacetInvisibleOverride(static_cast<uint32_t>(faceIndex));
 }
 }
 
@@ -2199,7 +2181,7 @@ void IndoorRenderer::render(
     lightingInput.pDecorationBillboardSet =
         m_indoorDecorationBillboardSet ? &m_indoorDecorationBillboardSet.value() : nullptr;
     lightingInput.pWorldFxSystem = &m_worldFxSystem;
-    lightingInput.pParty = gameSession.partyState() ? &gameSession.partyState().value() : nullptr;
+    lightingInput.pParty = m_pSceneRuntime != nullptr ? &m_pSceneRuntime->partyRuntime().party() : nullptr;
     lightingInput.pVisibleSectorMask = &visibleSectorMask;
     lightingInput.cameraPosition = eye;
     lightingInput.coloredLights = settings.coloredLights;

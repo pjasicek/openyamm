@@ -522,22 +522,7 @@ bool outdoorFaceHiddenByEventRuntime(
         return false;
     }
 
-    uint32_t mask = 0;
-    const auto setIterator = pEventRuntimeState->facetSetMasks.find(faceId);
-
-    if (setIterator != pEventRuntimeState->facetSetMasks.end())
-    {
-        mask |= setIterator->second;
-    }
-
-    const auto clearIterator = pEventRuntimeState->facetClearMasks.find(faceId);
-
-    if (clearIterator != pEventRuntimeState->facetClearMasks.end())
-    {
-        mask &= ~clearIterator->second;
-    }
-
-    return hasFaceAttribute(mask, FaceAttribute::Invisible);
+    return pEventRuntimeState->hasFacetInvisibleOverride(faceId);
 }
 
 OutdoorFogParameters buildOutdoorWorldFogParameters(

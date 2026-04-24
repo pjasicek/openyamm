@@ -2,7 +2,9 @@
 
 #include "game/app/GameSession.h"
 #include "game/fx/FxSharedTypes.h"
+#include "game/gameplay/GameplayTorchLight.h"
 #include "game/fx/ParticleRecipes.h"
+#include "game/party/Party.h"
 #include "game/StringUtils.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
@@ -230,6 +232,7 @@ void OutdoorSpatialFxRuntime::syncSpatialFx(OutdoorGameView &view, bool refreshS
 
     if (refreshSpatialFx)
     {
+        syncPartyTorchLight(view);
         syncActorSpatialFx(view);
         syncDecorationEmitters(view);
         syncSpriteObjectSpatialFx(view);
@@ -255,6 +258,31 @@ void OutdoorSpatialFxRuntime::syncOutdoorProjectileContactShadows(OutdoorGameVie
             std::max(24.0f, projectile.radius * 0.75f),
             0.0f);
     }
+}
+
+void OutdoorSpatialFxRuntime::syncPartyTorchLight(OutdoorGameView &view)
+{
+    if (view.m_pOutdoorPartyRuntime == nullptr || view.m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const Party &party = view.m_pOutdoorPartyRuntime->party();
+    const std::optional<GameplayTorchLight> torchLight =
+        resolveGameplayTorchLight(party, true, view.m_pOutdoorWorldRuntime->atmosphereState().isNight);
+
+    if (!torchLight)
+    {
+        return;
+    }
+
+    addLightEmitter(
+        view,
+        view.m_cameraTargetX,
+        view.m_cameraTargetY,
+        view.m_cameraTargetZ,
+        torchLight->radius,
+        torchLight->colorAbgr);
 }
 
 void OutdoorSpatialFxRuntime::syncActorSpatialFx(OutdoorGameView &view)
