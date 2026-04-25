@@ -4008,6 +4008,8 @@ void EditorOutdoorViewport::shutdown()
     }
 
     m_entityBillboardTextures.clear();
+    m_cachedOutdoorTerrainGridKey.clear();
+    m_cachedOutdoorTerrainGridVertices.clear();
 
     if (bgfx::isValid(m_programHandle))
     {
@@ -4746,6 +4748,273 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
         }
 
         return;
+    }
+
+    {
+        ImDrawList *pDrawList = ImGui::GetForegroundDrawList();
+        const Game::OutdoorSceneData &sceneData = session.document().outdoorSceneData();
+        const auto outdoorHandleVisualScale =
+            [this](const bx::Vec3 &center)
+        {
+            const float distance = std::sqrt(
+                squaredLength2(center.x - m_cameraPosition.x, center.y - m_cameraPosition.y)
+                + (center.z - m_cameraPosition.z) * (center.z - m_cameraPosition.z));
+
+            if (distance <= 3000.0f)
+            {
+                return 1.0f;
+            }
+
+            if (distance >= 18000.0f)
+            {
+                return 0.38f;
+            }
+
+            const float t = (distance - 3000.0f) / 15000.0f;
+            return std::lerp(1.0f, 0.38f, std::clamp(t, 0.0f, 1.0f));
+        };
+        const auto outdoorHandleVisualAlpha =
+            [this](const bx::Vec3 &center)
+        {
+            const float distance = std::sqrt(
+                squaredLength2(center.x - m_cameraPosition.x, center.y - m_cameraPosition.y)
+                + (center.z - m_cameraPosition.z) * (center.z - m_cameraPosition.z));
+
+            if (distance <= 3000.0f)
+            {
+                return uint8_t(255);
+            }
+
+            if (distance >= 18000.0f)
+            {
+                return uint8_t(108);
+            }
+
+            const float t = (distance - 3000.0f) / 15000.0f;
+            return static_cast<uint8_t>(std::lround(std::lerp(255.0f, 108.0f, std::clamp(t, 0.0f, 1.0f))));
+        };
+        const auto outdoorHandleRelevantForCurrentMode =
+            [this](EditorSelectionKind kind)
+        {
+            if (m_placementKind == kind)
+            {
+                return true;
+            }
+
+            if (m_placementKind == EditorSelectionKind::None)
+            {
+                return kind == EditorSelectionKind::Entity
+                    || kind == EditorSelectionKind::Spawn
+                    || kind == EditorSelectionKind::Actor
+                    || kind == EditorSelectionKind::SpriteObject;
+            }
+
+            return false;
+        };
+        const auto drawProjectedHandle =
+            [this, pDrawList](
+                const bx::Vec3 &center,
+                ImU32 color,
+                bool selected,
+                bool lightBulb,
+                float scale)
+        {
+            float screenX = 0.0f;
+            float screenY = 0.0f;
+            float clipW = 0.0f;
+
+            if (!projectWorldPoint(
+                    center,
+                    m_viewProjectionMatrix,
+                    m_viewportWidth,
+                    m_viewportHeight,
+                    screenX,
+                    screenY,
+                    clipW))
+            {
+                return;
+            }
+
+            const ImVec2 handleCenter = {
+                static_cast<float>(m_viewportX) + screenX,
+                static_cast<float>(m_viewportY) + screenY};
+            const float radius = std::max(4.0f, (selected ? 12.0f : 10.0f) * scale);
+
+            if (!selected && radius <= 5.5f)
+            {
+                const float halfExtent = std::max(2.0f, radius * 0.5f);
+                pDrawList->AddRectFilled(
+                    {handleCenter.x - halfExtent - 1.0f, handleCenter.y - halfExtent - 1.0f},
+                    {handleCenter.x + halfExtent + 1.0f, handleCenter.y + halfExtent + 1.0f},
+                    IM_COL32(0, 0, 0, 112),
+                    2.0f);
+                pDrawList->AddRectFilled(
+                    {handleCenter.x - halfExtent, handleCenter.y - halfExtent},
+                    {handleCenter.x + halfExtent, handleCenter.y + halfExtent},
+                    color,
+                    2.0f);
+                return;
+            }
+
+            if (lightBulb)
+            {
+                drawLightBulbCenterHandle(pDrawList, handleCenter, radius, color, selected);
+                return;
+            }
+
+            drawEditorCenterHandle(pDrawList, handleCenter, radius, color, selected);
+        };
+
+        for (const MarkerCandidate &candidate : m_markerCandidates)
+        {
+            const bool selected = session.selection().kind == candidate.selectionKind
+                && session.selection().index == candidate.selectionIndex;
+            const bool emphasized = selected || outdoorHandleRelevantForCurrentMode(candidate.selectionKind);
+            float scale = outdoorHandleVisualScale(candidate.worldPosition);
+            uint8_t alpha = outdoorHandleVisualAlpha(candidate.worldPosition);
+
+            if (!emphasized)
+            {
+                scale *= 0.82f;
+                alpha = static_cast<uint8_t>(std::max(48, static_cast<int>(alpha) * 55 / 100));
+            }
+
+            if (selected)
+            {
+                scale = std::max(scale, 1.0f);
+                alpha = 255;
+            }
+
+            if (candidate.selectionKind == EditorSelectionKind::Entity)
+            {
+                drawProjectedHandle(candidate.worldPosition, IM_COL32(255, 214, 96, alpha), selected, false, scale);
+                continue;
+            }
+
+            if (candidate.selectionKind == EditorSelectionKind::Actor)
+            {
+                drawProjectedHandle(candidate.worldPosition, IM_COL32(255, 96, 96, alpha), selected, false, scale);
+                continue;
+            }
+
+            if (candidate.selectionKind == EditorSelectionKind::Spawn)
+            {
+                if (candidate.selectionIndex >= sceneData.spawns.size())
+                {
+                    continue;
+                }
+
+                const Game::OutdoorSceneSpawn &spawn = sceneData.spawns[candidate.selectionIndex];
+                drawProjectedHandle(
+                    candidate.worldPosition,
+                    spawn.spawn.typeId == 3 ? IM_COL32(255, 96, 220, alpha) : IM_COL32(96, 144, 255, alpha),
+                    selected,
+                    false,
+                    scale);
+                continue;
+            }
+
+            if (candidate.selectionKind == EditorSelectionKind::SpriteObject)
+            {
+                drawProjectedHandle(candidate.worldPosition, IM_COL32(64, 216, 208, alpha), selected, false, scale);
+            }
+        }
+
+        const EditorSelection selection = session.selection();
+        const bool useScreenSpaceTranslateGizmo =
+            m_transformGizmoMode == TransformGizmoMode::Translate
+            && (selection.kind == EditorSelectionKind::BModel || isIndoorMovableSelectionKind(selection.kind));
+
+        if (useScreenSpaceTranslateGizmo)
+        {
+            const std::optional<bx::Vec3> selectedPosition = selectedWorldPosition(session.document(), selection);
+
+            if (selectedPosition)
+            {
+                const auto projectToOverlay =
+                    [this](const bx::Vec3 &point, ImVec2 &screenPoint)
+                {
+                    float screenX = 0.0f;
+                    float screenY = 0.0f;
+                    float clipW = 0.0f;
+
+                    if (!projectWorldPoint(
+                            point,
+                            m_viewProjectionMatrix,
+                            m_viewportWidth,
+                            m_viewportHeight,
+                            screenX,
+                            screenY,
+                            clipW))
+                    {
+                        return false;
+                    }
+
+                    screenPoint = {
+                        static_cast<float>(m_viewportX) + screenX,
+                        static_cast<float>(m_viewportY) + screenY
+                    };
+                    return true;
+                };
+
+                bx::Vec3 xAxisWorld = {1.0f, 0.0f, 0.0f};
+                bx::Vec3 yAxisWorld = {0.0f, 1.0f, 0.0f};
+                bx::Vec3 zAxisWorld = {0.0f, 0.0f, 1.0f};
+                computeTransformBasis(
+                    session.document(),
+                    selection,
+                    m_transformSpaceMode,
+                    xAxisWorld,
+                    yAxisWorld,
+                    zAxisWorld);
+
+                const bx::Vec3 xAxisEnd =
+                    vecAdd(*selectedPosition, vecScale(xAxisWorld, IndoorGizmoAxisWorldLength));
+                const bx::Vec3 yAxisEnd =
+                    vecAdd(*selectedPosition, vecScale(yAxisWorld, IndoorGizmoAxisWorldLength));
+                const bx::Vec3 zAxisEnd =
+                    vecAdd(*selectedPosition, vecScale(zAxisWorld, IndoorGizmoAxisWorldLength));
+                ImVec2 origin = {};
+                ImVec2 xEnd = {};
+                ImVec2 yEnd = {};
+                ImVec2 zEnd = {};
+                const auto screenAxisEnd =
+                    [&projectToOverlay, &origin](const bx::Vec3 &worldEnd, float fallbackX, float fallbackY)
+                {
+                    ImVec2 projectedEnd = {};
+                    float directionX = fallbackX;
+                    float directionY = fallbackY;
+
+                    if (projectToOverlay(worldEnd, projectedEnd))
+                    {
+                        const float deltaX = projectedEnd.x - origin.x;
+                        const float deltaY = projectedEnd.y - origin.y;
+                        const float length = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+                        if (length >= 8.0f)
+                        {
+                            directionX = deltaX / length;
+                            directionY = deltaY / length;
+                        }
+                    }
+
+                    return ImVec2{
+                        origin.x + directionX * IndoorGizmoScreenAxisLength,
+                        origin.y + directionY * IndoorGizmoScreenAxisLength
+                    };
+                };
+
+                if (projectToOverlay(*selectedPosition, origin))
+                {
+                    xEnd = screenAxisEnd(xAxisEnd, 1.0f, 0.0f);
+                    yEnd = screenAxisEnd(yAxisEnd, 0.0f, 1.0f);
+                    zEnd = screenAxisEnd(zAxisEnd, 0.0f, -1.0f);
+                    drawTranslateAxisOverlay(pDrawList, origin, xEnd, IM_COL32(255, 96, 96, 255), "X");
+                    drawTranslateAxisOverlay(pDrawList, origin, yEnd, IM_COL32(96, 255, 96, 255), "Y");
+                    drawTranslateAxisOverlay(pDrawList, origin, zEnd, IM_COL32(96, 160, 255, 255), "Z");
+                }
+            }
+        }
     }
 
     std::string modeLabel = placementKindLabel(m_placementKind);
@@ -9173,9 +9442,10 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
     bx::Vec3 yAxisWorld = {0.0f, 1.0f, 0.0f};
     bx::Vec3 zAxisWorld = {0.0f, 0.0f, 1.0f};
     computeTransformBasis(session.document(), selection, m_transformSpaceMode, xAxisWorld, yAxisWorld, zAxisWorld);
-    const bool isIndoorMovableSelection =
-        session.document().kind() == EditorDocument::Kind::Indoor && isIndoorMovableSelectionKind(selection.kind);
-    const float axisWorldLength = isIndoorMovableSelection ? IndoorGizmoAxisWorldLength : GizmoAxisWorldLength;
+    const bool useScreenSpaceTranslateGizmo =
+        m_transformGizmoMode == TransformGizmoMode::Translate
+        && (selection.kind == EditorSelectionKind::BModel || isIndoorMovableSelectionKind(selection.kind));
+    const float axisWorldLength = useScreenSpaceTranslateGizmo ? IndoorGizmoAxisWorldLength : GizmoAxisWorldLength;
     const bx::Vec3 xAxisPoint = vecAdd(*selectedPosition, vecScale(xAxisWorld, axisWorldLength));
     const bx::Vec3 yAxisPoint = vecAdd(*selectedPosition, vecScale(yAxisWorld, axisWorldLength));
     const bx::Vec3 zAxisPoint = vecAdd(*selectedPosition, vecScale(zAxisWorld, axisWorldLength));
@@ -9211,7 +9481,7 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
         zAxisScreenY,
         axisClipW);
 
-    if (isIndoorMovableSelection)
+    if (useScreenSpaceTranslateGizmo)
     {
         const auto fitIndoorAxisToScreen =
             [centerScreenX, centerScreenY](
@@ -9369,10 +9639,10 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
 
     GizmoDragMode mode = GizmoDragMode::None;
 
-    const float axisPickSlack = isIndoorMovableSelection ? IndoorGizmoAxisPickSlackPixels : GizmoAxisPickSlackPixels;
-    const float zAxisPickSlack = isIndoorMovableSelection ? IndoorGizmoAxisPickSlackPixels : GizmoZAxisPickSlackPixels;
+    const float axisPickSlack = useScreenSpaceTranslateGizmo ? IndoorGizmoAxisPickSlackPixels : GizmoAxisPickSlackPixels;
+    const float zAxisPickSlack = useScreenSpaceTranslateGizmo ? IndoorGizmoAxisPickSlackPixels : GizmoZAxisPickSlackPixels;
     const float endpointPickRadius =
-        isIndoorMovableSelection ? IndoorGizmoAxisEndpointPickRadiusPixels : GizmoAxisEndpointPickRadiusPixels;
+        useScreenSpaceTranslateGizmo ? IndoorGizmoAxisEndpointPickRadiusPixels : GizmoAxisEndpointPickRadiusPixels;
 
     if (useRotateGizmo)
     {
@@ -9388,7 +9658,7 @@ bool EditorOutdoorViewport::tryBeginGizmoDrag(
     {
         mode = GizmoDragMode::TranslateZ;
     }
-    else if (!isIndoorMovableSelection
+    else if (!useScreenSpaceTranslateGizmo
         && squaredLength2(localMouseX - centerScreenX, localMouseY - centerScreenY)
         <= GizmoCenterPickRadiusPixels * GizmoCenterPickRadiusPixels)
     {
@@ -10150,10 +10420,25 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
     };
 
     BitmapLoadCache bitmapLoadCache = {};
+    const Game::SpriteFrameTable *pEntityBillboardSpriteFrameTable =
+        ((m_showEntities && m_showEntityBillboards)
+            || m_pendingEntityPlacementPreview != std::nullopt
+            || m_showSpriteObjects
+            || m_pendingSpriteObjectPlacementPreview != std::nullopt)
+            ? session.entityBillboardSpriteFrameTable()
+            : nullptr;
+    const std::vector<EditorEntityBillboardPreview> *pEntityBillboardPreviews =
+        (m_showEntities && m_showEntityBillboards) ? &session.entityBillboardPreviews() : nullptr;
+    const Game::SpriteFrameTable *pActorBillboardSpriteFrameTable =
+        ((m_showActors && m_showActorBillboards) || (m_showSpawns && m_showSpawnActorBillboards))
+            ? session.actorBillboardSpriteFrameTable()
+            : nullptr;
+    const std::vector<EditorActorBillboardPreview> *pActorBillboardPreviews =
+        pActorBillboardSpriteFrameTable != nullptr ? &session.actorBillboardPreviews() : nullptr;
     std::vector<BillboardDrawItem> drawItems;
     drawItems.reserve(
-        session.entityBillboardPreviews().size()
-        + session.actorBillboardPreviews().size()
+        (pEntityBillboardPreviews != nullptr ? pEntityBillboardPreviews->size() : 0u)
+        + (pActorBillboardPreviews != nullptr ? pActorBillboardPreviews->size() : 0u)
         + (m_pendingEntityPlacementPreview ? 1u : 0u)
         + (m_pendingActorPlacementPreview ? 1u : 0u)
         + (m_pendingSpawnPlacementPreview ? 1u : 0u)
@@ -10163,7 +10448,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
             const std::string &textureName,
             int16_t paletteId) -> const SpriteBillboardTexture *
     {
-        const std::string textureKey = toLowerCopy(textureName) + "|" + std::to_string(static_cast<int>(paletteId));
+        const SpriteBillboardTextureKey textureKey = {textureName, paletteId};
         const auto existingTextureIt = m_entityBillboardTextures.find(textureKey);
 
         if (existingTextureIt != m_entityBillboardTextures.end())
@@ -10213,7 +10498,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
     };
 
     const auto appendSpriteObjectBillboard =
-        [this, &session, &forward, &ensureTexture, &drawItems](
+        [this, &session, &forward, &ensureTexture, &drawItems, pEntityBillboardSpriteFrameTable](
             uint16_t objectDescriptionId,
             uint16_t spriteId,
             int x,
@@ -10228,9 +10513,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
             return;
         }
 
-        const Game::SpriteFrameTable *pSpriteFrameTable = session.entityBillboardSpriteFrameTable();
-
-        if (pSpriteFrameTable == nullptr)
+        if (pEntityBillboardSpriteFrameTable == nullptr)
         {
             return;
         }
@@ -10245,7 +10528,8 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
             return;
         }
 
-        const Game::SpriteFrameEntry *pFrame = pSpriteFrameTable->getFrame(spriteId, animationTimeTicks);
+        const Game::SpriteFrameEntry *pFrame =
+            pEntityBillboardSpriteFrameTable->getFrame(spriteId, animationTimeTicks);
 
         if (pFrame == nullptr)
         {
@@ -10387,11 +10671,9 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
 
         if (m_showEntities && m_showEntityBillboards)
         {
-            const Game::SpriteFrameTable *pEntitySpriteFrameTable = session.entityBillboardSpriteFrameTable();
-
-            if (pEntitySpriteFrameTable != nullptr)
+            if (pEntityBillboardSpriteFrameTable != nullptr && pEntityBillboardPreviews != nullptr)
             {
-                for (const EditorEntityBillboardPreview &preview : session.entityBillboardPreviews())
+                for (const EditorEntityBillboardPreview &preview : *pEntityBillboardPreviews)
                 {
                     if (preview.entityIndex >= indoorGeometry.entities.size())
                     {
@@ -10430,7 +10712,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
                     const uint32_t animationOffsetTicks =
                         animationTicks + static_cast<uint32_t>(std::abs(preview.x + preview.y));
                     const Game::SpriteFrameEntry *pFrame =
-                        pEntitySpriteFrameTable->getFrame(preview.spriteId, animationOffsetTicks);
+                        pEntityBillboardSpriteFrameTable->getFrame(preview.spriteId, animationOffsetTicks);
 
                     if (pFrame == nullptr)
                     {
@@ -10470,12 +10752,9 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
             }
         }
 
-        const Game::SpriteFrameTable *pActorSpriteFrameTable = session.actorBillboardSpriteFrameTable();
-
-        if (pActorSpriteFrameTable != nullptr
-            && ((m_showActors && m_showActorBillboards) || (m_showSpawns && m_showSpawnActorBillboards)))
+        if (pActorBillboardSpriteFrameTable != nullptr && pActorBillboardPreviews != nullptr)
         {
-            for (const EditorActorBillboardPreview &preview : session.actorBillboardPreviews())
+            for (const EditorActorBillboardPreview &preview : *pActorBillboardPreviews)
             {
                 const bool isActor = preview.source == EditorActorBillboardPreview::Source::Actor;
 
@@ -10506,7 +10785,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
                 }
 
                 const Game::SpriteFrameEntry *pFrame =
-                    pActorSpriteFrameTable->getFrame(preview.spriteFrameIndex, 0);
+                    pActorBillboardSpriteFrameTable->getFrame(preview.spriteFrameIndex, 0);
 
                 if (pFrame == nullptr)
                 {
@@ -10579,10 +10858,9 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
         {
             const Game::DecorationEntry *pDecoration =
                 session.decorationTable().get(session.pendingEntityDecorationListId());
-            const Game::SpriteFrameTable *pEntitySpriteFrameTable = session.entityBillboardSpriteFrameTable();
 
             if (pDecoration != nullptr
-                && pEntitySpriteFrameTable != nullptr
+                && pEntityBillboardSpriteFrameTable != nullptr
                 && (pDecoration->flags & DecorationDescDontDraw) == 0
                 && pDecoration->spriteId != 0)
             {
@@ -10591,7 +10869,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
                     + static_cast<uint32_t>(
                         std::abs(m_pendingEntityPlacementPreview->x + m_pendingEntityPlacementPreview->y));
                 const Game::SpriteFrameEntry *pFrame =
-                    pEntitySpriteFrameTable->getFrame(pDecoration->spriteId, animationOffsetTicks);
+                    pEntityBillboardSpriteFrameTable->getFrame(pDecoration->spriteId, animationOffsetTicks);
 
                 if (pFrame != nullptr)
                 {
@@ -10669,12 +10947,10 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
         const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
 
         if (m_showEntities && m_showEntityBillboards)
-    {
-        const Game::SpriteFrameTable *pEntitySpriteFrameTable = session.entityBillboardSpriteFrameTable();
-
-        if (pEntitySpriteFrameTable != nullptr)
         {
-            for (const EditorEntityBillboardPreview &preview : session.entityBillboardPreviews())
+        if (pEntityBillboardSpriteFrameTable != nullptr && pEntityBillboardPreviews != nullptr)
+        {
+            for (const EditorEntityBillboardPreview &preview : *pEntityBillboardPreviews)
             {
                 if (preview.entityIndex >= sceneData.entities.size())
                 {
@@ -10703,7 +10979,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
                 const uint32_t animationOffsetTicks =
                     animationTicks + static_cast<uint32_t>(std::abs(preview.x + preview.y));
                 const Game::SpriteFrameEntry *pFrame =
-                    pEntitySpriteFrameTable->getFrame(preview.spriteId, animationOffsetTicks);
+                    pEntityBillboardSpriteFrameTable->getFrame(preview.spriteId, animationOffsetTicks);
 
                 if (pFrame == nullptr)
                 {
@@ -10741,16 +11017,15 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
                 drawItems.push_back(drawItem);
             }
         }
-    }
+        }
 
     if (m_pendingEntityPlacementPreview)
     {
         const Game::DecorationEntry *pDecoration =
             session.decorationTable().get(session.pendingEntityDecorationListId());
-        const Game::SpriteFrameTable *pEntitySpriteFrameTable = session.entityBillboardSpriteFrameTable();
 
         if (pDecoration != nullptr
-            && pEntitySpriteFrameTable != nullptr
+            && pEntityBillboardSpriteFrameTable != nullptr
             && (pDecoration->flags & DecorationDescDontDraw) == 0
             && pDecoration->spriteId != 0)
         {
@@ -10766,7 +11041,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
                     + static_cast<uint32_t>(
                         std::abs(m_pendingEntityPlacementPreview->x + m_pendingEntityPlacementPreview->y));
                 const Game::SpriteFrameEntry *pFrame =
-                    pEntitySpriteFrameTable->getFrame(pDecoration->spriteId, animationOffsetTicks);
+                    pEntityBillboardSpriteFrameTable->getFrame(pDecoration->spriteId, animationOffsetTicks);
 
                 if (pFrame != nullptr)
                 {
@@ -10797,12 +11072,9 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
         }
     }
 
-    const Game::SpriteFrameTable *pActorSpriteFrameTable = session.actorBillboardSpriteFrameTable();
-
-    if (pActorSpriteFrameTable != nullptr
-        && ((m_showActors && m_showActorBillboards) || (m_showSpawns && m_showSpawnActorBillboards)))
+    if (pActorBillboardSpriteFrameTable != nullptr && pActorBillboardPreviews != nullptr)
     {
-        for (const EditorActorBillboardPreview &preview : session.actorBillboardPreviews())
+        for (const EditorActorBillboardPreview &preview : *pActorBillboardPreviews)
         {
             const bool isActor = preview.source == EditorActorBillboardPreview::Source::Actor;
 
@@ -10823,7 +11095,7 @@ void EditorOutdoorViewport::submitEntityBillboardGeometry(
             }
 
             const Game::SpriteFrameEntry *pFrame =
-                pActorSpriteFrameTable->getFrame(preview.spriteFrameIndex, 0);
+                pActorBillboardSpriteFrameTable->getFrame(preview.spriteFrameIndex, 0);
 
             if (pFrame == nullptr)
             {
@@ -11590,7 +11862,7 @@ void EditorOutdoorViewport::submitMarkerGeometry(
     const auto tryGetCachedBillboardSize =
         [this](const std::string &textureName, int16_t paletteId, float scale, float &worldWidth, float &worldHeight)
     {
-        const std::string textureKey = toLowerCopy(textureName) + "|" + std::to_string(static_cast<int>(paletteId));
+        const SpriteBillboardTextureKey textureKey = {textureName, paletteId};
         const auto textureIt = m_entityBillboardTextures.find(textureKey);
 
         if (textureIt == m_entityBillboardTextures.end() || !bgfx::isValid(textureIt->second.textureHandle))
@@ -11605,6 +11877,74 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
     const Game::OutdoorSceneData &sceneData = document.outdoorSceneData();
     const Game::OutdoorMapData &outdoorGeometry = document.outdoorGeometry();
+    const std::vector<std::vector<uint16_t>> &effectiveFaceEvents = session.effectiveOutdoorFaceEvents();
+    const std::vector<std::optional<uint16_t>> &defaultBModelEvents = session.derivedOutdoorBModelDefaultEvents();
+    const uint32_t animationTicks = currentAnimationTicks();
+    const Game::SpriteFrameTable *pEntitySpriteFrameTable =
+        m_showEntities && m_showEntityBillboards ? session.entityBillboardSpriteFrameTable() : nullptr;
+    const Game::SpriteFrameTable *pActorSpriteFrameTable =
+        m_showActors && m_showActorBillboards ? session.actorBillboardSpriteFrameTable() : nullptr;
+    std::vector<const EditorEntityBillboardPreview *> entityPreviewByIndex;
+    std::vector<const EditorActorBillboardPreview *> actorPreviewByIndex;
+
+    if (pEntitySpriteFrameTable != nullptr)
+    {
+        const std::vector<EditorEntityBillboardPreview> &entityBillboardPreviews = session.entityBillboardPreviews();
+        entityPreviewByIndex.assign(sceneData.entities.size(), nullptr);
+
+        for (const EditorEntityBillboardPreview &preview : entityBillboardPreviews)
+        {
+            if (preview.entityIndex < entityPreviewByIndex.size())
+            {
+                entityPreviewByIndex[preview.entityIndex] = &preview;
+            }
+        }
+    }
+
+    if (pActorSpriteFrameTable != nullptr)
+    {
+        const std::vector<EditorActorBillboardPreview> &actorBillboardPreviews = session.actorBillboardPreviews();
+        actorPreviewByIndex.assign(sceneData.initialState.actors.size(), nullptr);
+
+        for (const EditorActorBillboardPreview &preview : actorBillboardPreviews)
+        {
+            if (preview.source != EditorActorBillboardPreview::Source::Actor
+                || preview.sourceIndex >= actorPreviewByIndex.size())
+            {
+                continue;
+            }
+
+            actorPreviewByIndex[preview.sourceIndex] = &preview;
+        }
+    }
+
+    size_t outdoorMarkerCandidateReserve = 0;
+
+    if (m_showEntities)
+    {
+        outdoorMarkerCandidateReserve += sceneData.entities.size();
+    }
+
+    if (m_showSpawns)
+    {
+        outdoorMarkerCandidateReserve += sceneData.spawns.size();
+    }
+
+    if (m_showActors)
+    {
+        outdoorMarkerCandidateReserve += sceneData.initialState.actors.size();
+    }
+
+    if (m_showSpriteObjects)
+    {
+        outdoorMarkerCandidateReserve += sceneData.initialState.spriteObjects.size();
+    }
+
+    if (outdoorMarkerCandidateReserve > 0)
+    {
+        m_markerCandidates.reserve(outdoorMarkerCandidateReserve);
+    }
+
     const auto appendTerrainCellOutline =
         [&vertices, &outdoorGeometry](int cellX, int cellY, float zOffset, uint32_t color)
     {
@@ -11639,57 +11979,67 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
     if (m_showTerrainGrid)
     {
-        const uint32_t terrainGridColor = makeAbgr(144, 164, 192);
+        const std::string terrainGridKey = documentGeometryKey(document) + "|terrain_grid";
 
-        for (int gridY = 0; gridY < Game::OutdoorMapData::TerrainHeight; ++gridY)
+        if (terrainGridKey != m_cachedOutdoorTerrainGridKey)
         {
-            for (int gridX = 0; gridX < (Game::OutdoorMapData::TerrainWidth - 1); ++gridX)
+            const uint32_t terrainGridColor = makeAbgr(144, 164, 192);
+            m_cachedOutdoorTerrainGridKey = terrainGridKey;
+            m_cachedOutdoorTerrainGridVertices.clear();
+            m_cachedOutdoorTerrainGridVertices.reserve(
+                static_cast<size_t>(Game::OutdoorMapData::TerrainHeight)
+                    * static_cast<size_t>(Game::OutdoorMapData::TerrainWidth - 1)
+                    * 2u
+                + static_cast<size_t>(Game::OutdoorMapData::TerrainWidth)
+                    * static_cast<size_t>(Game::OutdoorMapData::TerrainHeight - 1)
+                    * 2u);
+
+            for (int gridY = 0; gridY < Game::OutdoorMapData::TerrainHeight; ++gridY)
             {
-                const size_t startIndex = static_cast<size_t>(gridY * Game::OutdoorMapData::TerrainWidth + gridX);
-                const size_t endIndex = startIndex + 1;
-                const bx::Vec3 start =
-                    worldPointFromTerrainGrid(gridX, gridY, outdoorGeometry.heightMap[startIndex]);
-                const bx::Vec3 end =
-                    worldPointFromTerrainGrid(gridX + 1, gridY, outdoorGeometry.heightMap[endIndex]);
-                vertices.push_back({start.x, start.y, start.z + 4.0f, terrainGridColor});
-                vertices.push_back({end.x, end.y, end.z + 4.0f, terrainGridColor});
+                for (int gridX = 0; gridX < (Game::OutdoorMapData::TerrainWidth - 1); ++gridX)
+                {
+                    const size_t startIndex = static_cast<size_t>(gridY * Game::OutdoorMapData::TerrainWidth + gridX);
+                    const size_t endIndex = startIndex + 1;
+                    const bx::Vec3 start =
+                        worldPointFromTerrainGrid(gridX, gridY, outdoorGeometry.heightMap[startIndex]);
+                    const bx::Vec3 end =
+                        worldPointFromTerrainGrid(gridX + 1, gridY, outdoorGeometry.heightMap[endIndex]);
+                    m_cachedOutdoorTerrainGridVertices.push_back({start.x, start.y, start.z + 4.0f, terrainGridColor});
+                    m_cachedOutdoorTerrainGridVertices.push_back({end.x, end.y, end.z + 4.0f, terrainGridColor});
+                }
+            }
+
+            for (int gridX = 0; gridX < Game::OutdoorMapData::TerrainWidth; ++gridX)
+            {
+                for (int gridY = 0; gridY < (Game::OutdoorMapData::TerrainHeight - 1); ++gridY)
+                {
+                    const size_t startIndex = static_cast<size_t>(gridY * Game::OutdoorMapData::TerrainWidth + gridX);
+                    const size_t endIndex = startIndex + Game::OutdoorMapData::TerrainWidth;
+                    const bx::Vec3 start =
+                        worldPointFromTerrainGrid(gridX, gridY, outdoorGeometry.heightMap[startIndex]);
+                    const bx::Vec3 end =
+                        worldPointFromTerrainGrid(gridX, gridY + 1, outdoorGeometry.heightMap[endIndex]);
+                    m_cachedOutdoorTerrainGridVertices.push_back({start.x, start.y, start.z + 4.0f, terrainGridColor});
+                    m_cachedOutdoorTerrainGridVertices.push_back({end.x, end.y, end.z + 4.0f, terrainGridColor});
+                }
             }
         }
 
-        for (int gridX = 0; gridX < Game::OutdoorMapData::TerrainWidth; ++gridX)
-        {
-            for (int gridY = 0; gridY < (Game::OutdoorMapData::TerrainHeight - 1); ++gridY)
-            {
-                const size_t startIndex = static_cast<size_t>(gridY * Game::OutdoorMapData::TerrainWidth + gridX);
-                const size_t endIndex = startIndex + Game::OutdoorMapData::TerrainWidth;
-                const bx::Vec3 start =
-                    worldPointFromTerrainGrid(gridX, gridY, outdoorGeometry.heightMap[startIndex]);
-                const bx::Vec3 end =
-                    worldPointFromTerrainGrid(gridX, gridY + 1, outdoorGeometry.heightMap[endIndex]);
-                vertices.push_back({start.x, start.y, start.z + 4.0f, terrainGridColor});
-                vertices.push_back({end.x, end.y, end.z + 4.0f, terrainGridColor});
-            }
-        }
+        vertices.insert(
+            vertices.end(),
+            m_cachedOutdoorTerrainGridVertices.begin(),
+            m_cachedOutdoorTerrainGridVertices.end());
     }
 
     if (m_showEntities)
     {
-        const uint32_t entityColor = makeAbgr(255, 208, 64);
-        const uint32_t selectedEntityColor = makeAbgr(255, 255, 255);
         const uint32_t eventEntityColor = makeAbgr(96, 255, 255);
 
         for (size_t entityIndex = 0; entityIndex < sceneData.entities.size(); ++entityIndex)
         {
             const Game::OutdoorSceneEntity &entity = sceneData.entities[entityIndex];
-            const bool isSelected =
-                selection.kind == EditorSelectionKind::Entity && selection.index == entityIndex;
             const bx::Vec3 center =
                 worldPointFromLegacyPosition(entity.entity.x, entity.entity.y, entity.entity.z);
-
-            if (!m_showEntityBillboards || isSelected)
-            {
-                appendCrossMarker(vertices, center, 96.0f, 192.0f, isSelected ? selectedEntityColor : entityColor);
-            }
             MarkerCandidate candidate = {};
             candidate.selectionKind = EditorSelectionKind::Entity;
             candidate.selectionIndex = entityIndex;
@@ -11698,24 +12048,14 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
             if (m_showEntityBillboards)
             {
-                const Game::SpriteFrameTable *pEntitySpriteFrameTable = session.entityBillboardSpriteFrameTable();
-                const EditorEntityBillboardPreview *pPreview = nullptr;
-
-                for (const EditorEntityBillboardPreview &preview : session.entityBillboardPreviews())
-                {
-                    if (preview.entityIndex == entityIndex)
-                    {
-                        pPreview = &preview;
-                        break;
-                    }
-                }
+                const EditorEntityBillboardPreview *pPreview =
+                    entityIndex < entityPreviewByIndex.size() ? entityPreviewByIndex[entityIndex] : nullptr;
 
                 if (pEntitySpriteFrameTable != nullptr
                     && pPreview != nullptr
                     && pPreview->spriteId != 0
                     && (pPreview->flags & DecorationDescDontDraw) == 0)
                 {
-                    const uint32_t animationTicks = currentAnimationTicks();
                     const uint32_t animationOffsetTicks =
                         animationTicks + static_cast<uint32_t>(std::abs(pPreview->x + pPreview->y));
                     const Game::SpriteFrameEntry *pFrame =
@@ -11760,13 +12100,10 @@ void EditorOutdoorViewport::submitMarkerGeometry(
     {
         const uint32_t spawnColor = makeAbgr(96, 144, 255);
         const uint32_t actorSpawnColor = makeAbgr(255, 96, 220);
-        const uint32_t selectedSpawnColor = makeAbgr(255, 255, 255);
 
         for (size_t spawnIndex = 0; spawnIndex < sceneData.spawns.size(); ++spawnIndex)
         {
             const Game::OutdoorSceneSpawn &spawn = sceneData.spawns[spawnIndex];
-            const bool isSelected =
-                selection.kind == EditorSelectionKind::Spawn && selection.index == spawnIndex;
             const float halfExtent = static_cast<float>(std::max<uint16_t>(spawn.spawn.radius, 96));
             const bx::Vec3 center = {
                 static_cast<float>(spawn.spawn.x),
@@ -11782,12 +12119,6 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
             const uint32_t markerColor =
                 spawn.spawn.typeId == 3 ? actorSpawnColor : spawnColor;
-            appendCrossMarker(
-                vertices,
-                center,
-                halfExtent,
-                halfExtent * 2.0f,
-                isSelected ? selectedSpawnColor : markerColor);
 
             const float spawnPickRadius =
                 spawn.spawn.typeId == 3 ? 34.0f : 26.0f;
@@ -11811,19 +12142,12 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
     if (m_showActors)
     {
-        const uint32_t actorColor = makeAbgr(255, 96, 96);
-        const uint32_t selectedActorColor = makeAbgr(255, 255, 255);
-
         for (size_t actorIndex = 0; actorIndex < sceneData.initialState.actors.size(); ++actorIndex)
         {
             const Game::MapDeltaActor &actor = sceneData.initialState.actors[actorIndex];
-            const bool isSelected =
-                selection.kind == EditorSelectionKind::Actor && selection.index == actorIndex;
             const float halfExtent = static_cast<float>(std::max<uint16_t>(actor.radius, 96));
             const float height = static_cast<float>(std::max<uint16_t>(actor.height, 256));
             const bx::Vec3 center = worldPointFromLegacyPosition(actor.x, actor.y, actor.z);
-
-            appendCrossMarker(vertices, center, halfExtent, height, isSelected ? selectedActorColor : actorColor);
             MarkerCandidate candidate = {};
             candidate.selectionKind = EditorSelectionKind::Actor;
             candidate.selectionIndex = actorIndex;
@@ -11832,18 +12156,8 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
             if (m_showActorBillboards)
             {
-                const Game::SpriteFrameTable *pActorSpriteFrameTable = session.actorBillboardSpriteFrameTable();
-                const EditorActorBillboardPreview *pPreview = nullptr;
-
-                for (const EditorActorBillboardPreview &preview : session.actorBillboardPreviews())
-                {
-                    if (preview.source == EditorActorBillboardPreview::Source::Actor
-                        && preview.sourceIndex == actorIndex)
-                    {
-                        pPreview = &preview;
-                        break;
-                    }
-                }
+                const EditorActorBillboardPreview *pPreview =
+                    actorIndex < actorPreviewByIndex.size() ? actorPreviewByIndex[actorIndex] : nullptr;
 
                 if (pActorSpriteFrameTable != nullptr && pPreview != nullptr)
                 {
@@ -11879,21 +12193,10 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
     if (m_showSpriteObjects)
     {
-        const uint32_t spriteObjectColor = makeAbgr(64, 216, 208);
-        const uint32_t selectedSpriteObjectColor = makeAbgr(255, 255, 255);
-
         for (size_t objectIndex = 0; objectIndex < sceneData.initialState.spriteObjects.size(); ++objectIndex)
         {
             const Game::MapDeltaSpriteObject &spriteObject = sceneData.initialState.spriteObjects[objectIndex];
-            const bool isSelected =
-                selection.kind == EditorSelectionKind::SpriteObject && selection.index == objectIndex;
             const bx::Vec3 center = worldPointFromLegacyPosition(spriteObject.x, spriteObject.y, spriteObject.z);
-            appendCrossMarker(
-                vertices,
-                center,
-                72.0f,
-                144.0f,
-                isSelected ? selectedSpriteObjectColor : spriteObjectColor);
             MarkerCandidate candidate = {};
             candidate.selectionKind = EditorSelectionKind::SpriteObject;
             candidate.selectionIndex = objectIndex;
@@ -11904,12 +12207,10 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                 session.resolvedSpriteObjectObjectDescriptionId(spriteObject);
             const Game::ObjectEntry *pObjectEntry = session.objectTable().get(objectDescriptionId);
             const uint16_t spriteId = pObjectEntry != nullptr ? pObjectEntry->spriteId : spriteObject.spriteId;
-            const Game::SpriteFrameTable *pSpriteFrameTable = session.entityBillboardSpriteFrameTable();
-
-            if (m_showSpriteObjects && pSpriteFrameTable != nullptr && spriteId != 0)
+            if (m_showSpriteObjects && pEntitySpriteFrameTable != nullptr && spriteId != 0)
             {
                 const Game::SpriteFrameEntry *pFrame =
-                    pSpriteFrameTable->getFrame(spriteId, static_cast<uint32_t>(spriteObject.timeSinceCreated) * 8u);
+                    pEntitySpriteFrameTable->getFrame(spriteId, static_cast<uint32_t>(spriteObject.timeSinceCreated) * 8u);
 
                 if (pFrame != nullptr)
                 {
@@ -12159,7 +12460,10 @@ void EditorOutdoorViewport::submitMarkerGeometry(
         for (size_t bmodelIndex = 0; bmodelIndex < outdoorGeometry.bmodels.size(); ++bmodelIndex)
         {
             const Game::OutdoorBModel &bmodel = outdoorGeometry.bmodels[bmodelIndex];
-            const std::optional<uint16_t> defaultEventId = session.derivedBModelDefaultEventId(bmodelIndex);
+            const std::optional<uint16_t> defaultEventId =
+                bmodelIndex < defaultBModelEvents.size() ? defaultBModelEvents[bmodelIndex] : std::nullopt;
+            const std::vector<uint16_t> *pFaceEvents =
+                bmodelIndex < effectiveFaceEvents.size() ? &effectiveFaceEvents[bmodelIndex] : nullptr;
 
             if (defaultEventId)
             {
@@ -12190,7 +12494,8 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
             for (size_t faceIndex = 0; faceIndex < bmodel.faces.size(); ++faceIndex)
             {
-                const uint16_t eventId = session.effectiveOutdoorFaceEventId(bmodelIndex, faceIndex);
+                const uint16_t eventId =
+                    pFaceEvents != nullptr && faceIndex < pFaceEvents->size() ? (*pFaceEvents)[faceIndex] : 0;
 
                 if (eventId == 0 || (defaultEventId && eventId == *defaultEventId))
                 {
@@ -12326,12 +12631,15 @@ void EditorOutdoorViewport::submitMarkerGeometry(
         const bx::Vec3 center = *selectedPosition;
         const bool showTranslateGizmo =
             selection.kind != EditorSelectionKind::BModel || m_transformGizmoMode == TransformGizmoMode::Translate;
+        const bool useScreenSpaceTranslateGizmo =
+            m_transformGizmoMode == TransformGizmoMode::Translate
+            && (selection.kind == EditorSelectionKind::BModel || isIndoorMovableSelectionKind(selection.kind));
         bx::Vec3 xAxisWorld = {1.0f, 0.0f, 0.0f};
         bx::Vec3 yAxisWorld = {0.0f, 1.0f, 0.0f};
         bx::Vec3 zAxisWorld = {0.0f, 0.0f, 1.0f};
         computeTransformBasis(document, selection, m_transformSpaceMode, xAxisWorld, yAxisWorld, zAxisWorld);
 
-        if (showTranslateGizmo)
+        if (showTranslateGizmo && !useScreenSpaceTranslateGizmo)
         {
             const uint32_t xAxisColor = makeAbgr(255, 96, 96);
             const uint32_t yAxisColor = makeAbgr(96, 255, 96);
@@ -12361,9 +12669,8 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             vertices.push_back({planeY.x, planeY.y, planeY.z, planeColor});
             vertices.push_back({planeY.x, planeY.y, planeY.z, planeColor});
             vertices.push_back({center.x, center.y, center.z, planeColor});
+            appendCrossMarker(vertices, center, 144.0f, 256.0f, makeAbgr(255, 255, 255));
         }
-
-        appendCrossMarker(vertices, center, 144.0f, 256.0f, makeAbgr(255, 255, 255));
     }
 
     if (vertices.empty() && fillVertices.empty() && xrayVertices.empty() && xrayFillVertices.empty())

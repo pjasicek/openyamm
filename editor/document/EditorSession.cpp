@@ -5221,6 +5221,18 @@ const std::vector<EditorActorBillboardPreview> &EditorSession::actorBillboardPre
     return m_cachedActorBillboardPreviews;
 }
 
+const std::vector<std::vector<uint16_t>> &EditorSession::effectiveOutdoorFaceEvents() const
+{
+    ensureOutdoorDerivedCaches();
+    return m_cachedEffectiveFaceEvents;
+}
+
+const std::vector<std::optional<uint16_t>> &EditorSession::derivedOutdoorBModelDefaultEvents() const
+{
+    ensureOutdoorDerivedCaches();
+    return m_cachedDefaultBModelEvents;
+}
+
 std::optional<std::pair<std::string, int16_t>> EditorSession::previewDecorationTexture(uint16_t decorationListId) const
 {
     const Game::DecorationEntry *pDecoration = m_decorationTable.get(decorationListId);
@@ -5723,7 +5735,13 @@ void EditorSession::ensureOutdoorDerivedCaches() const
 {
     if (!hasDocument())
     {
-        m_cachedOutdoorDerivedKey.clear();
+        m_hasCachedOutdoorDerivedState = false;
+        m_cachedOutdoorDerivedKind = EditorDocument::Kind::None;
+        m_cachedOutdoorDerivedSceneRevision = 0;
+        m_cachedOutdoorDerivedPendingActorMonsterInfoId = 0;
+        m_cachedOutdoorDerivedPendingActorMonsterId = 0;
+        m_cachedOutdoorDerivedPendingSpawnTypeId = 0;
+        m_cachedOutdoorDerivedPendingSpawnIndex = 0;
         m_cachedEntityBillboardPreviews.clear();
         m_cachedActorBillboardPreviews.clear();
         m_cachedEffectiveFaceEvents.clear();
@@ -5736,16 +5754,13 @@ void EditorSession::ensureOutdoorDerivedCaches() const
         return;
     }
 
-    const std::string cacheKey =
-        m_document.sceneVirtualPath()
-        + "|" + std::to_string(static_cast<int>(m_document.kind()))
-        + "|" + std::to_string(static_cast<unsigned long long>(m_document.sceneRevision()))
-        + "|" + std::to_string(m_pendingActor.monsterInfoId)
-        + "|" + std::to_string(m_pendingActor.monsterId)
-        + "|" + std::to_string(m_pendingSpawn.typeId)
-        + "|" + std::to_string(m_pendingSpawn.index);
-
-    if (cacheKey == m_cachedOutdoorDerivedKey)
+    if (m_hasCachedOutdoorDerivedState
+        && m_cachedOutdoorDerivedKind == m_document.kind()
+        && m_cachedOutdoorDerivedSceneRevision == m_document.sceneRevision()
+        && m_cachedOutdoorDerivedPendingActorMonsterInfoId == m_pendingActor.monsterInfoId
+        && m_cachedOutdoorDerivedPendingActorMonsterId == m_pendingActor.monsterId
+        && m_cachedOutdoorDerivedPendingSpawnTypeId == m_pendingSpawn.typeId
+        && m_cachedOutdoorDerivedPendingSpawnIndex == m_pendingSpawn.index)
     {
         return;
     }
@@ -5982,13 +5997,25 @@ void EditorSession::ensureOutdoorDerivedCaches() const
             }
         }
 
-        m_cachedOutdoorDerivedKey = cacheKey;
+        m_hasCachedOutdoorDerivedState = true;
+        m_cachedOutdoorDerivedKind = m_document.kind();
+        m_cachedOutdoorDerivedSceneRevision = m_document.sceneRevision();
+        m_cachedOutdoorDerivedPendingActorMonsterInfoId = m_pendingActor.monsterInfoId;
+        m_cachedOutdoorDerivedPendingActorMonsterId = m_pendingActor.monsterId;
+        m_cachedOutdoorDerivedPendingSpawnTypeId = m_pendingSpawn.typeId;
+        m_cachedOutdoorDerivedPendingSpawnIndex = m_pendingSpawn.index;
         return;
     }
 
     if (m_document.kind() != EditorDocument::Kind::Outdoor)
     {
-        m_cachedOutdoorDerivedKey = cacheKey;
+        m_hasCachedOutdoorDerivedState = true;
+        m_cachedOutdoorDerivedKind = m_document.kind();
+        m_cachedOutdoorDerivedSceneRevision = m_document.sceneRevision();
+        m_cachedOutdoorDerivedPendingActorMonsterInfoId = m_pendingActor.monsterInfoId;
+        m_cachedOutdoorDerivedPendingActorMonsterId = m_pendingActor.monsterId;
+        m_cachedOutdoorDerivedPendingSpawnTypeId = m_pendingSpawn.typeId;
+        m_cachedOutdoorDerivedPendingSpawnIndex = m_pendingSpawn.index;
         return;
     }
 
@@ -6338,7 +6365,13 @@ void EditorSession::ensureOutdoorDerivedCaches() const
         }
     }
 
-    m_cachedOutdoorDerivedKey = cacheKey;
+    m_hasCachedOutdoorDerivedState = true;
+    m_cachedOutdoorDerivedKind = m_document.kind();
+    m_cachedOutdoorDerivedSceneRevision = m_document.sceneRevision();
+    m_cachedOutdoorDerivedPendingActorMonsterInfoId = m_pendingActor.monsterInfoId;
+    m_cachedOutdoorDerivedPendingActorMonsterId = m_pendingActor.monsterId;
+    m_cachedOutdoorDerivedPendingSpawnTypeId = m_pendingSpawn.typeId;
+    m_cachedOutdoorDerivedPendingSpawnIndex = m_pendingSpawn.index;
 }
 
 uint16_t EditorSession::effectiveOutdoorFaceEventId(size_t bmodelIndex, size_t faceIndex) const

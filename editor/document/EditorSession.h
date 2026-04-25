@@ -267,6 +267,8 @@ public:
     const std::vector<EditorEntityBillboardPreview> &entityBillboardPreviews() const;
     const Game::SpriteFrameTable *actorBillboardSpriteFrameTable() const;
     const std::vector<EditorActorBillboardPreview> &actorBillboardPreviews() const;
+    const std::vector<std::vector<uint16_t>> &effectiveOutdoorFaceEvents() const;
+    const std::vector<std::optional<uint16_t>> &derivedOutdoorBModelDefaultEvents() const;
     std::optional<std::pair<std::string, int16_t>> previewDecorationTexture(uint16_t decorationListId) const;
     std::optional<std::pair<std::string, int16_t>> previewObjectTexture(uint16_t objectDescriptionId) const;
     std::optional<std::pair<std::string, int16_t>> previewMonsterTexture(int16_t monsterInfoId, int16_t monsterId) const;
@@ -366,7 +368,13 @@ private:
     std::vector<std::string> m_validationMessages;
     std::vector<std::string> m_undoSnapshots;
     std::vector<std::string> m_redoSnapshots;
-    mutable std::string m_cachedOutdoorDerivedKey;
+    mutable bool m_hasCachedOutdoorDerivedState = false;
+    mutable EditorDocument::Kind m_cachedOutdoorDerivedKind = EditorDocument::Kind::None;
+    mutable uint64_t m_cachedOutdoorDerivedSceneRevision = 0;
+    mutable uint16_t m_cachedOutdoorDerivedPendingActorMonsterInfoId = 0;
+    mutable uint16_t m_cachedOutdoorDerivedPendingActorMonsterId = 0;
+    mutable uint16_t m_cachedOutdoorDerivedPendingSpawnTypeId = 0;
+    mutable uint16_t m_cachedOutdoorDerivedPendingSpawnIndex = 0;
     mutable std::vector<EditorEntityBillboardPreview> m_cachedEntityBillboardPreviews;
     mutable std::vector<EditorActorBillboardPreview> m_cachedActorBillboardPreviews;
     mutable Game::SpriteFrameTable m_cachedActorBillboardSpriteFrameTable;

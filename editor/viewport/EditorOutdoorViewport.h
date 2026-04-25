@@ -450,6 +450,27 @@ private:
         int height = 0;
     };
 
+    struct SpriteBillboardTextureKey
+    {
+        std::string textureName;
+        int16_t paletteId = 0;
+
+        bool operator==(const SpriteBillboardTextureKey &other) const
+        {
+            return paletteId == other.paletteId && textureName == other.textureName;
+        }
+    };
+
+    struct SpriteBillboardTextureKeyHash
+    {
+        size_t operator()(const SpriteBillboardTextureKey &key) const
+        {
+            const size_t textureHash = std::hash<std::string>{}(key.textureName);
+            const size_t paletteHash = std::hash<int16_t>{}(key.paletteId);
+            return textureHash ^ (paletteHash + 0x9e3779b9u + (textureHash << 6) + (textureHash >> 2));
+        }
+    };
+
     std::string m_geometryKey;
     std::string m_cameraDocumentKey;
     bgfx::ProgramHandle m_programHandle = BGFX_INVALID_HANDLE;
@@ -485,7 +506,10 @@ private:
     std::optional<ImportedModelPreviewRequest> m_importedModelPreviewRequest;
     std::string m_importedModelPreviewKey;
     ProceduralBatch m_importedModelPreviewBatch = {};
-    mutable std::unordered_map<std::string, SpriteBillboardTexture> m_entityBillboardTextures;
+    mutable std::unordered_map<SpriteBillboardTextureKey, SpriteBillboardTexture, SpriteBillboardTextureKeyHash>
+        m_entityBillboardTextures;
+    std::string m_cachedOutdoorTerrainGridKey;
+    std::vector<PreviewVertex> m_cachedOutdoorTerrainGridVertices;
     bx::Vec3 m_cameraPosition = {0.0f, -24000.0f, 9000.0f};
     float m_cameraYawRadians = 0.0f;
     float m_cameraPitchRadians = -0.35f;

@@ -5356,12 +5356,6 @@ void EditorMainWindow::persistEditorStateIfNeeded(const EditorSession &session)
     if (session.hasDocument() && !session.document().scenePhysicalPath().empty())
     {
         m_lastLoadedMapPath = session.document().scenePhysicalPath();
-        const std::filesystem::path parentPath = m_lastLoadedMapPath.parent_path();
-
-        if (!parentPath.empty())
-        {
-            m_openMapBrowserDirectory = parentPath;
-        }
     }
 
     std::ostringstream output;
@@ -8006,9 +8000,14 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
         m_openMapBrowserDirectory = std::filesystem::current_path();
     }
 
-    const std::vector<std::filesystem::path> childDirectories = collectChildDirectories(m_openMapBrowserDirectory);
-    const std::vector<OpenableMapEntry> mapFiles = collectOpenableMapEntries(m_openMapBrowserDirectory);
-    const std::string currentDirectoryLabel = m_openMapBrowserDirectory.generic_string();
+    std::error_code pathError;
+    const std::filesystem::path normalizedDirectory =
+        std::filesystem::weakly_canonical(std::filesystem::absolute(m_openMapBrowserDirectory), pathError);
+
+    if (!pathError && !normalizedDirectory.empty())
+    {
+        m_openMapBrowserDirectory = normalizedDirectory;
+    }
 
     auto openSelectedMap = [&](const std::string &selectedPath) -> bool
     {
@@ -8037,13 +8036,15 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
 
     ImGui::TextUnformatted("Open an authored outdoor or indoor scene package.");
     ImGui::Separator();
-    ImGui::TextWrapped("Directory: %s", currentDirectoryLabel.c_str());
+    ImGui::TextWrapped("Directory: %s", m_openMapBrowserDirectory.generic_string().c_str());
 
     if (ImGui::Button("Up", ImVec2(80.0f, 0.0f)))
     {
-        if (m_openMapBrowserDirectory.has_parent_path())
+        const std::filesystem::path parentPath = m_openMapBrowserDirectory.parent_path();
+
+        if (!parentPath.empty() && parentPath != m_openMapBrowserDirectory)
         {
-            m_openMapBrowserDirectory = m_openMapBrowserDirectory.parent_path();
+            m_openMapBrowserDirectory = parentPath;
             m_openMapSelectedRelativePath.clear();
         }
     }
@@ -8052,7 +8053,9 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
 
     if (ImGui::Button("Root", ImVec2(80.0f, 0.0f)))
     {
-        const std::filesystem::path rootPath = m_openMapBrowserDirectory.root_path();
+        const std::filesystem::path absolutePath = std::filesystem::absolute(m_openMapBrowserDirectory);
+        const std::filesystem::path rootPath = absolutePath.root_path();
+
         m_openMapBrowserDirectory = rootPath.empty() ? m_openMapBrowserDirectory : rootPath;
         m_openMapSelectedRelativePath.clear();
     }
@@ -8061,6 +8064,8 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
     ImGui::SetNextItemWidth(360.0f);
     ImGui::InputTextWithHint("##OpenOutdoorMapFilter", "Filter maps", m_openOutdoorMapFilter, sizeof(m_openOutdoorMapFilter));
     const std::string filter = toLowerCopy(trimCopy(m_openOutdoorMapFilter));
+    const std::vector<std::filesystem::path> childDirectories = collectChildDirectories(m_openMapBrowserDirectory);
+    const std::vector<OpenableMapEntry> mapFiles = collectOpenableMapEntries(m_openMapBrowserDirectory);
 
     if (ImGui::BeginChild("OpenOutdoorMapList", ImVec2(640.0f, 360.0f), ImGuiChildFlags_Borders))
     {
