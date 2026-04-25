@@ -156,6 +156,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const DecorationBillboardSet *pIndoorDecorationBillboardSet)
     : m_map(map)
     , m_mapFileName(mapFileName)
+    , m_pIndoorMapData(&indoorMapData)
     , m_pSessionParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
     , m_eventRuntimeState(eventRuntimeState)
@@ -165,6 +166,11 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         IndoorMovementController(indoorMapData, &m_mapDeltaData, &m_eventRuntimeState),
         itemTable)
 {
+    if (m_mapDeltaData)
+    {
+        normalizeIndoorDoorTextureDeltas(*m_mapDeltaData, indoorMapData);
+    }
+
     m_partyRuntime.setParty(*m_pSessionParty);
     m_worldRuntime.initialize(
         map,
@@ -233,6 +239,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const DecorationBillboardSet *pIndoorDecorationBillboardSet)
     : m_map(map)
     , m_mapFileName(mapFileName)
+    , m_pIndoorMapData(&indoorMapData)
     , m_pSessionParty(&party)
     , m_mapDeltaData(indoorMapDeltaData)
     , m_eventRuntimeState(eventRuntimeState)
@@ -242,6 +249,11 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         IndoorMovementController(indoorMapData, &m_mapDeltaData, &m_eventRuntimeState),
         itemTable)
 {
+    if (m_mapDeltaData)
+    {
+        normalizeIndoorDoorTextureDeltas(*m_mapDeltaData, indoorMapData);
+    }
+
     m_partyRuntime.setParty(*m_pSessionParty);
     m_worldRuntime.initialize(
         map,
@@ -394,6 +406,11 @@ IndoorSceneRuntime::Snapshot IndoorSceneRuntime::snapshot() const
 void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
     m_mapDeltaData = snapshot.mapDeltaData;
+    if (m_mapDeltaData && m_pIndoorMapData != nullptr)
+    {
+        normalizeIndoorDoorTextureDeltas(*m_mapDeltaData, *m_pIndoorMapData);
+    }
+
     m_eventRuntimeState = snapshot.eventRuntimeState;
     if (m_eventRuntimeState)
     {

@@ -1013,6 +1013,8 @@ bool buildIndoorMapStateFromScene(
         mapDeltaData.doors.push_back(std::move(door));
     }
 
+    normalizeIndoorDoorTextureDeltas(mapDeltaData, indoorMapData);
+
     for (const MapDeltaDoor &door : mapDeltaData.doors)
     {
         for (uint16_t value : door.vertexIds)

@@ -46,6 +46,31 @@ uint32_t ticksToRealtimeMilliseconds(uint32_t ticks)
     return ticks * 1000u / TicksPerRealtimeSecond;
 }
 
+void normalizeDoorTextureDeltas(std::vector<MapDeltaDoor> &doors, const IndoorMapData &indoorMapData)
+{
+    for (MapDeltaDoor &door : doors)
+    {
+        // The per-face texture extras are authoritative; legacy door arrays can contain stale aligned-face deltas.
+        const size_t faceCount = std::min(
+            door.faceIds.size(),
+            std::min(door.deltaUs.size(), door.deltaVs.size()));
+
+        for (size_t faceOffset = 0; faceOffset < faceCount; ++faceOffset)
+        {
+            const uint16_t faceId = door.faceIds[faceOffset];
+
+            if (faceId >= indoorMapData.faces.size())
+            {
+                continue;
+            }
+
+            const IndoorFace &face = indoorMapData.faces[faceId];
+            door.deltaUs[faceOffset] = face.textureDeltaU;
+            door.deltaVs[faceOffset] = face.textureDeltaV;
+        }
+    }
+}
+
 bool readLocationHeader(const ByteReader &reader, MapDeltaLocationInfo &locationInfo)
 {
     return reader.readInt32(0x00, locationInfo.respawnCount)
@@ -469,7 +494,10 @@ bool parseDoors(
         {
             door.zOffsets.push_back(mapDeltaData.doorsData[cursor++]);
         }
+
     }
+
+    normalizeDoorTextureDeltas(doors, indoorMapData);
 
     std::vector<MapDeltaDoor> activeDoors;
     activeDoors.reserve(doors.size());
@@ -655,6 +683,11 @@ bool parseIndoorTail(
 
     return true;
 }
+}
+
+void normalizeIndoorDoorTextureDeltas(MapDeltaData &mapDeltaData, const IndoorMapData &indoorMapData)
+{
+    normalizeDoorTextureDeltas(mapDeltaData.doors, indoorMapData);
 }
 
 std::optional<MapDeltaData> MapDeltaDataLoader::loadOutdoorFromBytes(

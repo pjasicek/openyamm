@@ -673,6 +673,54 @@ ProjectedFacePoint projectFacePoint(const bx::Vec3 &normal, const IndoorVertex &
     return {static_cast<float>(vertex.x), static_cast<float>(vertex.y)};
 }
 
+bool calculateFaceTextureAxes(
+    const IndoorFace &face,
+    const bx::Vec3 &normal,
+    bx::Vec3 &axisU,
+    bx::Vec3 &axisV
+)
+{
+    if (face.facetType == 1)
+    {
+        axisU = {-normal.y, normal.x, 0.0f};
+        axisV = {0.0f, 0.0f, -1.0f};
+    }
+    else if (face.facetType == 3 || face.facetType == 5)
+    {
+        axisU = {1.0f, 0.0f, 0.0f};
+        axisV = {0.0f, -1.0f, 0.0f};
+    }
+    else if (face.facetType == 4 || face.facetType == 6)
+    {
+        if (std::abs(normal.z) < 0.70863342285f)
+        {
+            axisU = vecNormalize({-normal.y, normal.x, 0.0f});
+            axisV = {0.0f, 0.0f, -1.0f};
+        }
+        else
+        {
+            axisU = {1.0f, 0.0f, 0.0f};
+            axisV = {0.0f, -1.0f, 0.0f};
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    if (hasFaceAttribute(face.attributes, FaceAttribute::FlipNormalU))
+    {
+        axisU = {-axisU.x, -axisU.y, -axisU.z};
+    }
+
+    if (hasFaceAttribute(face.attributes, FaceAttribute::FlipNormalV))
+    {
+        axisV = {-axisV.x, -axisV.y, -axisV.z};
+    }
+
+    return true;
+}
+
 float resolveMechanismDistance(
     const MapDeltaDoor &baseDoor,
     const std::optional<EventRuntimeState> &eventRuntimeState
@@ -6944,53 +6992,91 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
 
     const std::optional<MechanismFaceTextureState> mechanismFaceTextureState =
         findMechanismFaceTextureState(faceIndex, indoorMapDeltaData, eventRuntimeState);
-    IndoorFaceTextureProjection textureProjection = {};
-    const bool hasTextureProjection =
-        calculateIndoorFaceAlignedTextureProjection(
-            transformedVertices,
-            face,
-            texture.width,
-            texture.height,
-            textureProjection);
+    const bool useGeometryTextureCoordinates = mechanismFaceTextureState.has_value();
+    std::vector<float> geometryUs;
+    std::vector<float> geometryVs;
+    float geometryDeltaU = 0.0f;
+    float geometryDeltaV = 0.0f;
 
-    if (mechanismFaceTextureState && hasTextureProjection && hasFaceAttribute(face.attributes, FaceAttribute::TextureMoveByDoor))
+    if (useGeometryTextureCoordinates)
     {
-        const float alignedBaseDeltaU = textureProjection.deltaU;
-        const float alignedBaseDeltaV = textureProjection.deltaV;
-        bool hasExplicitDoorTextureDelta = false;
-        float doorDeltaU = 0.0f;
-        float doorDeltaV = 0.0f;
+        const bx::Vec3 faceNormal = computeFaceNormal(transformedVertices, face);
+        bx::Vec3 axisU = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 axisV = {0.0f, 0.0f, 0.0f};
 
-        if (mechanismFaceTextureState->pDoor != nullptr)
+        if (vecDot(faceNormal, faceNormal) <= 0.0001f
+            || !calculateFaceTextureAxes(face, vecNormalize(faceNormal), axisU, axisV))
         {
-            if (mechanismFaceTextureState->faceOffset < mechanismFaceTextureState->pDoor->deltaUs.size())
-            {
-                doorDeltaU =
-                    static_cast<float>(mechanismFaceTextureState->pDoor->deltaUs[mechanismFaceTextureState->faceOffset]);
-                hasExplicitDoorTextureDelta = hasExplicitDoorTextureDelta || std::abs(doorDeltaU) > 0.0001f;
-            }
-
-            if (mechanismFaceTextureState->faceOffset < mechanismFaceTextureState->pDoor->deltaVs.size())
-            {
-                doorDeltaV =
-                    static_cast<float>(mechanismFaceTextureState->pDoor->deltaVs[mechanismFaceTextureState->faceOffset]);
-                hasExplicitDoorTextureDelta = hasExplicitDoorTextureDelta || std::abs(doorDeltaV) > 0.0001f;
-            }
+            return vertices;
         }
 
-        if (hasExplicitDoorTextureDelta)
+        geometryUs.reserve(face.vertexIndices.size());
+        geometryVs.reserve(face.vertexIndices.size());
+        float minU = std::numeric_limits<float>::infinity();
+        float minV = std::numeric_limits<float>::infinity();
+        float maxU = -std::numeric_limits<float>::infinity();
+        float maxV = -std::numeric_limits<float>::infinity();
+
+        for (uint16_t vertexIndex : face.vertexIndices)
         {
-            textureProjection.deltaU =
-                -vecDot(mechanismFaceTextureState->direction, textureProjection.axisU) * mechanismFaceTextureState->distance
-                + doorDeltaU;
-            textureProjection.deltaV =
-                -vecDot(mechanismFaceTextureState->direction, textureProjection.axisV) * mechanismFaceTextureState->distance
-                + doorDeltaV;
+            if (vertexIndex >= transformedVertices.size())
+            {
+                return vertices;
+            }
+
+            const IndoorVertex &vertex = transformedVertices[vertexIndex];
+            const bx::Vec3 point = {
+                static_cast<float>(vertex.x),
+                static_cast<float>(vertex.y),
+                static_cast<float>(vertex.z)
+            };
+            const float pointU = vecDot(point, axisU);
+            const float pointV = vecDot(point, axisV);
+            geometryUs.push_back(pointU);
+            geometryVs.push_back(pointV);
+            minU = std::min(minU, pointU);
+            minV = std::min(minV, pointV);
+            maxU = std::max(maxU, pointU);
+            maxV = std::max(maxV, pointV);
         }
-        else
+
+        if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignLeft))
         {
-            textureProjection.deltaU = alignedBaseDeltaU;
-            textureProjection.deltaV = alignedBaseDeltaV;
+            geometryDeltaU -= minU;
+        }
+        else if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignRight))
+        {
+            geometryDeltaU -= maxU + static_cast<float>(texture.width);
+        }
+
+        if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignDown))
+        {
+            geometryDeltaV -= minV;
+        }
+        else if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignBottom))
+        {
+            geometryDeltaV -= maxV + static_cast<float>(texture.height);
+        }
+
+        if (mechanismFaceTextureState && hasFaceAttribute(face.attributes, FaceAttribute::TextureMoveByDoor))
+        {
+            geometryDeltaU = -vecDot(mechanismFaceTextureState->direction, axisU) * mechanismFaceTextureState->distance;
+            geometryDeltaV = -vecDot(mechanismFaceTextureState->direction, axisV) * mechanismFaceTextureState->distance;
+
+            if (mechanismFaceTextureState->pDoor != nullptr)
+            {
+                if (mechanismFaceTextureState->faceOffset < mechanismFaceTextureState->pDoor->deltaUs.size())
+                {
+                    geometryDeltaU += static_cast<float>(
+                        mechanismFaceTextureState->pDoor->deltaUs[mechanismFaceTextureState->faceOffset]);
+                }
+
+                if (mechanismFaceTextureState->faceOffset < mechanismFaceTextureState->pDoor->deltaVs.size())
+                {
+                    geometryDeltaV += static_cast<float>(
+                        mechanismFaceTextureState->pDoor->deltaVs[mechanismFaceTextureState->faceOffset]);
+                }
+            }
         }
     }
 
@@ -7028,16 +7114,12 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
             texturedVertex.y = static_cast<float>(vertex.y);
             texturedVertex.z = static_cast<float>(vertex.z);
 
-            if (hasTextureProjection
-                && faceVertexIndex < textureProjection.projectedUs.size()
-                && faceVertexIndex < textureProjection.projectedVs.size())
+            if (useGeometryTextureCoordinates
+                && faceVertexIndex < geometryUs.size()
+                && faceVertexIndex < geometryVs.size())
             {
-                texturedVertex.u =
-                    (textureProjection.projectedUs[faceVertexIndex] + textureProjection.deltaU)
-                    / static_cast<float>(texture.width);
-                texturedVertex.v =
-                    (textureProjection.projectedVs[faceVertexIndex] + textureProjection.deltaV)
-                    / static_cast<float>(texture.height);
+                texturedVertex.u = (geometryUs[faceVertexIndex] + geometryDeltaU) / static_cast<float>(texture.width);
+                texturedVertex.v = (geometryVs[faceVertexIndex] + geometryDeltaV) / static_cast<float>(texture.height);
             }
             else
             {

@@ -146,6 +146,8 @@ struct MapDeltaData
     MapDeltaLocationTime locationTime = {};
 };
 
+void normalizeIndoorDoorTextureDeltas(MapDeltaData &mapDeltaData, const IndoorMapData &indoorMapData);
+
 class MapDeltaDataLoader
 {
 public:
