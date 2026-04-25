@@ -2095,16 +2095,6 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         0,
                         Character::InventoryHeight - 1));
 
-                    if (!isReadOnlyAdventurersInnView && context.heldInventoryItem().active)
-                    {
-                        GameplayCharacterPointerTarget target = {};
-                        target.type = GameplayCharacterPointerTargetType::InventoryCell;
-                        target.page = GameplayUiController::CharacterPage::Inventory;
-                        target.gridX = gridX;
-                        target.gridY = gridY;
-                        return target;
-                    }
-
                     if (pActiveCharacter != nullptr)
                     {
                         const InventoryItem *pItem = pActiveCharacter->inventoryItemAt(gridX, gridY);
@@ -2118,6 +2108,16 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                             target.gridY = pItem->gridY;
                             return target;
                         }
+                    }
+
+                    if (!isReadOnlyAdventurersInnView && context.heldInventoryItem().active)
+                    {
+                        GameplayCharacterPointerTarget target = {};
+                        target.type = GameplayCharacterPointerTargetType::InventoryCell;
+                        target.page = GameplayUiController::CharacterPage::Inventory;
+                        target.gridX = gridX;
+                        target.gridY = gridY;
+                        return target;
                     }
                 }
             }
@@ -2687,6 +2687,34 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                 if (heldReplacement.has_value())
                 {
                     setHeldItem(*heldReplacement);
+                }
+                else
+                {
+                    context.heldInventoryItem() = {};
+                }
+
+                return;
+            }
+
+            if (target.type == GameplayCharacterPointerTargetType::InventoryItem && context.heldInventoryItem().active)
+            {
+                std::optional<InventoryItem> replacedItem;
+
+                if (!pParty->tryPlaceItemInMemberInventoryCell(
+                        memberIndex,
+                        context.heldInventoryItem().item,
+                        target.gridX,
+                        target.gridY,
+                        replacedItem))
+                {
+                    context.setStatusBarEvent(
+                        pParty->lastStatus().empty() ? "Can't place item" : pParty->lastStatus());
+                    return;
+                }
+
+                if (replacedItem.has_value())
+                {
+                    setHeldItem(*replacedItem);
                 }
                 else
                 {

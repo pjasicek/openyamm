@@ -1292,28 +1292,37 @@ bool Character::tryPlaceInventoryItemAt(
         return false;
     }
 
-    std::vector<size_t> overlappingItemIndices;
+    std::optional<size_t> targetItemIndex;
 
     for (size_t itemIndex = 0; itemIndex < inventory.size(); ++itemIndex)
     {
-        if (inventoryItemsOverlap(inventory[itemIndex], placedItem))
+        if (inventoryItemContainsCell(inventory[itemIndex], gridX, gridY))
         {
-            overlappingItemIndices.push_back(itemIndex);
+            targetItemIndex = itemIndex;
+            break;
         }
     }
 
-    if (overlappingItemIndices.size() > 1)
+    if (!targetItemIndex)
     {
+        return addInventoryItemAt(placedItem, gridX, gridY);
+    }
+
+    replacedItem = inventory[*targetItemIndex];
+    inventory.erase(inventory.begin() + *targetItemIndex);
+
+    const bool placedAtReplacedItemOrigin =
+        addInventoryItemAt(placedItem, replacedItem->gridX, replacedItem->gridY);
+    const bool placedInFirstFreeSlot =
+        !placedAtReplacedItemOrigin && addInventoryItem(placedItem);
+
+    if (!placedAtReplacedItemOrigin && !placedInFirstFreeSlot)
+    {
+        inventory.push_back(*replacedItem);
+        replacedItem.reset();
         return false;
     }
 
-    if (overlappingItemIndices.size() == 1)
-    {
-        replacedItem = inventory[overlappingItemIndices.front()];
-        inventory.erase(inventory.begin() + overlappingItemIndices.front());
-    }
-
-    inventory.push_back(placedItem);
     return true;
 }
 

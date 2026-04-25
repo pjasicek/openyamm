@@ -1500,7 +1500,6 @@ IndoorRenderer::IndoorRenderer()
     , m_isRotatingCamera(false)
     , m_lastMouseX(0.0f)
     , m_lastMouseY(0.0f)
-    , m_activateInspectLatch(false)
     , m_jumpHeld(false)
 {
 }
@@ -2463,34 +2462,6 @@ void IndoorRenderer::render(
         }
 
         inspectHit = m_cachedInspectHit;
-
-        const bool isActivationPressed =
-            input.isScancodeHeld(SDL_SCANCODE_E)
-            && !input.rightMouseButton.held;
-        const bool isLeftMousePressed = input.leftMouseButton.held;
-
-        if ((isActivationPressed || isLeftMousePressed) && !m_activateInspectLatch)
-        {
-            if (inspectViewChanged)
-            {
-                inspectHit = updateCachedInspectHit();
-            }
-
-            if (tryActivateInspectEvent(inspectHit))
-            {
-                inspectHit = updateCachedInspectHit();
-            }
-
-            m_activateInspectLatch = true;
-        }
-        else if (!isActivationPressed && !isLeftMousePressed)
-        {
-            m_activateInspectLatch = false;
-        }
-    }
-    else
-    {
-        m_activateInspectLatch = false;
     }
 
     float modelMatrix[16] = {};

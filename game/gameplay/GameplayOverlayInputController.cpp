@@ -316,22 +316,23 @@ std::optional<std::pair<int, int>> computeHeldInventoryPlacement(
 {
     const float centerX = drawX + itemWidthPixels * 0.5f;
     const float centerY = drawY + itemHeightPixels * 0.5f;
-    const float localX = centerX - gridMetrics.x;
-    const float localY = centerY - gridMetrics.y;
 
     if (gridMetrics.cellWidth <= 0.0f || gridMetrics.cellHeight <= 0.0f)
     {
         return std::nullopt;
     }
 
-    const int centerCellX = static_cast<int>(std::floor(localX / gridMetrics.cellWidth));
-    const int centerCellY = static_cast<int>(std::floor(localY / gridMetrics.cellHeight));
     const int itemWidth = std::max<int>(1, itemWidthCells);
     const int itemHeight = std::max<int>(1, itemHeightCells);
-    const int targetGridX = centerCellX - itemWidth / 2;
-    const int targetGridY = centerCellY - itemHeight / 2;
-
-    return std::pair<int, int>{targetGridX, targetGridY};
+    const float slotSpanWidth = static_cast<float>(itemWidth) * gridMetrics.cellWidth;
+    const float slotSpanHeight = static_cast<float>(itemHeight) * gridMetrics.cellHeight;
+    const int gridX = static_cast<int>(std::floor(
+        (centerX - gridMetrics.x - slotSpanWidth * 0.5f + gridMetrics.cellWidth * 0.5f)
+        / gridMetrics.cellWidth));
+    const int gridY = static_cast<int>(std::floor(
+        (centerY - gridMetrics.y - slotSpanHeight * 0.5f + gridMetrics.cellHeight * 0.5f)
+        / gridMetrics.cellHeight));
+    return std::pair<int, int>{gridX, gridY};
 }
 
 HouseShopVisualLayout buildHouseShopVisualLayout(const HouseEntry &houseEntry, bool spellbookMode)

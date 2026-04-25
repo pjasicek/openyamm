@@ -3351,6 +3351,7 @@ struct LuaExecutionContext
     std::optional<bool> canShowTopicVisible;
     uint16_t currentEventId = 0;
     bool readonly = false;
+    bool preservePendingOutputsOnBegin = false;
 };
 
 }
@@ -3366,7 +3367,10 @@ struct LuaSessionCache
 
 namespace
 {
-void prepareRuntimeStateForEventExecution(EventRuntimeState &runtimeState, const ISceneEventContext *pSceneEventContext)
+void prepareRuntimeStateForEventExecution(
+    EventRuntimeState &runtimeState,
+    const ISceneEventContext *pSceneEventContext,
+    bool clearPendingOutputs)
 {
     runtimeState.lastAffectedMechanismIds.clear();
     runtimeState.openedChestIds.clear();
@@ -3375,10 +3379,15 @@ void prepareRuntimeStateForEventExecution(EventRuntimeState &runtimeState, const
     runtimeState.removedItemIds.clear();
     runtimeState.grantedAwardIds.clear();
     runtimeState.removedAwardIds.clear();
-    runtimeState.pendingDialogueContext.reset();
-    runtimeState.pendingMapMove.reset();
-    runtimeState.pendingMovie.reset();
-    runtimeState.pendingInputPrompt.reset();
+
+    if (clearPendingOutputs)
+    {
+        runtimeState.pendingDialogueContext.reset();
+        runtimeState.pendingMapMove.reset();
+        runtimeState.pendingMovie.reset();
+        runtimeState.pendingInputPrompt.reset();
+    }
+
     runtimeState.pendingSounds.clear();
     runtimeState.actorHostilityRequests.clear();
     runtimeState.actorGroupHostilityRequests.clear();
@@ -3481,7 +3490,10 @@ int luaBeginEvent(lua_State *pLuaState)
         pExecutionContext->currentEventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
         pExecutionContext->selector = {};
         pExecutionContext->pendingMessageText.reset();
-        prepareRuntimeStateForEventExecution(*pRuntimeState, pExecutionContext->pSceneEventContext);
+        prepareRuntimeStateForEventExecution(
+            *pRuntimeState,
+            pExecutionContext->pSceneEventContext,
+            !pExecutionContext->preservePendingOutputsOnBegin);
     }
 
     return 0;
@@ -4885,6 +4897,8 @@ bool EventRuntime::buildOnLoadState(
 
     LuaExecutionContext executionContext = {};
     executionContext.pRuntimeState = &runtimeState;
+    // Some maps queue first-entry UI from an early on-load handler and run setup handlers afterwards.
+    executionContext.preservePendingOutputsOnBegin = true;
 
     for (uint16_t eventId : m_luaSessionCache->globalScope.onLoadEventIds)
     {

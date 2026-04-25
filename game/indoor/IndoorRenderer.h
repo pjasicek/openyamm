@@ -450,7 +450,6 @@ private:
     int m_lastRenderHeight = 0;
     bool m_gameplayMouseLookEnabled = false;
     bool m_gameplayCursorMode = false;
-    bool m_activateInspectLatch;
     bool m_jumpHeld;
     InspectHit m_cachedInspectHit = {};
     bool m_cachedInspectHitValid = false;

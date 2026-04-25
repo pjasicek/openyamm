@@ -416,10 +416,7 @@ void GameSession::updateGameplay(const GameplayInputFrame &input, float deltaSec
             m_gameplayCombatController.handleAndClearPendingCombatEvents(combatEventContext);
         }
 
-        const bool worldInputBlocked =
-            m_currentSceneKind == SceneKind::Indoor
-                ? standardWorldInputBlocked
-                : m_sharedWorldInteractionBlockedThisFrame;
+        const bool worldInputBlocked = standardWorldInputBlocked || m_sharedWorldInteractionBlockedThisFrame;
         GameplayInteractionController::updateWorldInteractionFrame(
             m_gameplayScreenState,
             m_overlayInteractionState,

@@ -989,8 +989,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
             return currentHit;
         };
 
-    if (pointerPolicy.activationPressed
-        || pointerPolicy.attackPressed
+    if (pointerPolicy.attackPressed
         || pointerPolicy.leftMousePressed
         || worldInteractionInputState.inspectMouseActivateLatch)
     {
@@ -998,6 +997,21 @@ GameplayInteractionController::updateWorldInteractionFrame(
     }
 
     const bool hadLootViewBeforeActivation = hasActiveLootView(runtime);
+    GameplayWorldHit keyboardActivationHit = {};
+
+    if (pointerPolicy.activationPressed && worldReady && pWorldRuntime != nullptr)
+    {
+        const GameplayWorldPickRequest keyboardActivationPickRequest =
+            pWorldRuntime->buildWorldPickRequest(
+                GameplayWorldPickRequestInput{
+                    .screenX = pointerPolicy.inspectScreenX,
+                    .screenY = pointerPolicy.inspectScreenY,
+                    .screenWidth = input.screenWidth,
+                    .screenHeight = input.screenHeight,
+                    .includeRay = true,
+                });
+        keyboardActivationHit = pWorldRuntime->pickKeyboardInteractionTarget(keyboardActivationPickRequest);
+    }
 
     const KeyboardActivationInteractionResult keyboardActivationResult =
         updateKeyboardActivationInteraction(
@@ -1005,10 +1019,10 @@ GameplayInteractionController::updateWorldInteractionFrame(
             KeyboardActivationInteractionInput{
                 .activationPressed = pointerPolicy.activationPressed,
                 .allowInteraction = worldReady,
-                .currentHit = currentHit,
+                .currentHit = keyboardActivationHit,
                 .pRuntime = &runtime,
                 .pWorldRuntime = pWorldRuntime,
-                .interactionMethod = GameplayInteractionMethod::Mouse,
+                .interactionMethod = GameplayInteractionMethod::Keyboard,
             });
 
     if (keyboardActivationResult.latched)
@@ -1031,24 +1045,6 @@ GameplayInteractionController::updateWorldInteractionFrame(
         {
             overlayInteractionState.lootChestItemLatch = true;
         }
-    }
-
-    const MouseClickInteractionResult mouseInteractionResult =
-        updateMouseClickInteraction(
-            worldInteractionInputState,
-            MouseClickInteractionInput{
-                .leftMousePressed = pointerPolicy.leftMousePressed,
-                .pointerOverPartyPortrait = pointerPolicy.pointerOverPartyPortrait,
-                .currentHit = currentHit,
-                .pRuntime = &runtime,
-                .pWorldRuntime = pWorldRuntime,
-                .interactionMethod = GameplayInteractionMethod::Mouse,
-            });
-
-    if (mouseInteractionResult.activated)
-    {
-        result.mouseActivationActivated = true;
-        refreshWorldHover(standardHoverInput, pWorldRuntime);
     }
 
     const GameplayActionController::AttackActionDecision attackActionDecision =
