@@ -3703,7 +3703,29 @@ int luaMoveToMap(lua_State *pLuaState)
         }
     }
 
-    pRuntimeState->pendingMapMove = std::move(move);
+    const uint32_t transitionTextId =
+        argumentCount >= 7 && lua_type(pLuaState, 7) != LUA_TNIL
+            ? static_cast<uint32_t>(std::max(0, static_cast<int>(luaL_checkinteger(pLuaState, 7))))
+            : 0u;
+    const uint32_t transitionImageId =
+        argumentCount >= 8 && lua_type(pLuaState, 8) != LUA_TNIL
+            ? static_cast<uint32_t>(std::max(0, static_cast<int>(luaL_checkinteger(pLuaState, 8))))
+            : 0u;
+
+    if (transitionTextId != 0 || transitionImageId != 0)
+    {
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = DialogueContextKind::MapTransition;
+        context.transitionMapMove = std::move(move);
+        context.transitionTextId = transitionTextId;
+        context.transitionImageId = transitionImageId;
+        pRuntimeState->pendingDialogueContext = std::move(context);
+    }
+    else
+    {
+        pRuntimeState->pendingMapMove = std::move(move);
+    }
+
     return 0;
 }
 

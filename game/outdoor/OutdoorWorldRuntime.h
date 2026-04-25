@@ -470,6 +470,7 @@ public:
     void bindInteractionView(OutdoorGameView *pView);
     int mapId() const;
     const std::string &mapName() const override;
+    bool isIndoorMap() const override;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     float currentGameMinutes() const override;
@@ -649,6 +650,7 @@ public:
     GameplayWorldHit pickMouseInteractionTarget(const GameplayWorldPickRequest &request) override;
     bool worldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state) const override;
     bool updateWorldItemInspectState(size_t worldItemIndex, const InventoryItem &item) override;
+    bool takeWorldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state) override;
     GameplayWorldHoverCacheState worldHoverCacheState() const override;
     GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) override;
     GameplayHoverStatusPayload readCachedWorldHover() override;

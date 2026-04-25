@@ -42,6 +42,7 @@ public:
         bool leftMousePressed = false;
         bool pointerOverPartyPortrait = false;
         GameplayWorldHit currentHit;
+        GameplayScreenRuntime *pRuntime = nullptr;
         IGameplayWorldRuntime *pWorldRuntime = nullptr;
         GameplayInteractionMethod interactionMethod = GameplayInteractionMethod::Mouse;
     };
@@ -60,6 +61,7 @@ public:
         bool allowInteraction = false;
         GameplayWorldHit pickedHit;
         bool hasPickedHit = false;
+        GameplayScreenRuntime *pRuntime = nullptr;
         IGameplayWorldRuntime *pWorldRuntime = nullptr;
         GameplayInteractionMethod interactionMethod = GameplayInteractionMethod::Keyboard;
     };
@@ -77,6 +79,7 @@ public:
         bool activationPressed = false;
         bool allowInteraction = false;
         GameplayWorldHit currentHit;
+        GameplayScreenRuntime *pRuntime = nullptr;
         IGameplayWorldRuntime *pWorldRuntime = nullptr;
         GameplayInteractionMethod interactionMethod = GameplayInteractionMethod::Keyboard;
     };

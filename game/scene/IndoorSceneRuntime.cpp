@@ -4,7 +4,6 @@
 
 #include <algorithm>
 #include <cctype>
-#include <iostream>
 
 namespace OpenYAMM::Game
 {
@@ -603,6 +602,9 @@ bool IndoorSceneRuntime::updateTimers(float deltaGameMinutes)
 
 bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sourceKind, size_t sourceIndex)
 {
+    static_cast<void>(sourceKind);
+    static_cast<void>(sourceIndex);
+
     if (!m_eventRuntimeState)
     {
         return false;
@@ -613,10 +615,6 @@ bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sour
         m_eventRuntimeState->lastActivationResult = "no event on hovered target";
         return false;
     }
-
-    std::cout << "Activating indoor event " << eventId
-              << " from " << sourceKind
-              << " index=" << sourceIndex << '\n';
 
     const bool executed = m_eventRuntime.executeEventById(
         m_localEventProgram,

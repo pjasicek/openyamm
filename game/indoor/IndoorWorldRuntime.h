@@ -182,6 +182,7 @@ public:
     );
 
     const std::string &mapName() const override;
+    bool isIndoorMap() const override;
     float currentGameMinutes() const override;
     const MapDeltaData *mapDeltaData() const override;
     float gameMinutes() const override;
@@ -319,6 +320,7 @@ public:
     GameplayWorldHit pickMouseInteractionTarget(const GameplayWorldPickRequest &request) override;
     bool worldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state) const override;
     bool updateWorldItemInspectState(size_t worldItemIndex, const InventoryItem &item) override;
+    bool takeWorldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state) override;
     GameplayWorldHoverCacheState worldHoverCacheState() const override;
     GameplayHoverStatusPayload refreshWorldHover(const GameplayWorldHoverRequest &request) override;
     GameplayHoverStatusPayload readCachedWorldHover() override;
@@ -448,7 +450,10 @@ private:
     ) const;
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
-    void beginMapActorHitReaction(size_t actorIndex, MapDeltaActor &actor, const GameplayWorldPoint *pSource);
+    void beginMapActorHitReaction(
+        size_t actorIndex,
+        MapDeltaActor &actor,
+        const GameplayWorldPoint *pSource);
     void beginMapActorDyingState(size_t actorIndex, MapDeltaActor &actor);
     std::optional<GameplayWorldPoint> actorImpactPoint(size_t actorIndex) const;
     bool spawnIndoorProjectileImpactVisual(

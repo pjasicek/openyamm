@@ -40,6 +40,7 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/GameplayActorService.cpp
     ../game/gameplay/GameplayDialogController.cpp
     ../game/gameplay/GameplaySpeechRules.cpp
+    ../game/gameplay/GameplayWorldItemInteraction.cpp
     ../game/gameplay/GameMechanics.cpp
     ../game/gameplay/GenericActorDialog.cpp
     ../game/gameplay/HouseInteraction.cpp
@@ -47,8 +48,11 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/MasteryTeacherDialog.cpp
     ../game/items/ItemEquipPosTable.cpp
     ../game/gameplay/GameplayProjectileService.cpp
+    ../game/gameplay/CorpseLootRuntime.cpp
+    ../game/gameplay/SavePreviewImage.cpp
     ../game/maps/MapDeltaData.cpp
     ../game/maps/MapAssetLoader.cpp
+    ../game/maps/SaveGame.cpp
     ../game/maps/MapRegistry.cpp
     ../game/maps/IndoorSceneYml.cpp
     ../game/maps/OutdoorSceneYml.cpp
@@ -58,6 +62,7 @@ add_executable(openyamm_unit_tests
     ../game/indoor/IndoorMapData.cpp
     ../game/fx/ParticleRecipes.cpp
     ../game/fx/ParticleSystem.cpp
+    ../game/items/InventoryItemMixingRuntime.cpp
     ../game/items/InventoryItemUseRuntime.cpp
     ../game/items/ItemEnchantRuntime.cpp
     ../game/items/ItemEnchantTables.cpp
@@ -66,6 +71,7 @@ add_executable(openyamm_unit_tests
     ../game/items/ItemRuntime.cpp
     ../game/party/Party.cpp
     ../game/party/EventSpellBuffs.cpp
+    ../game/party/LloydsBeaconRuntime.cpp
     ../game/party/PartySpellSystem.cpp
     ../game/party/SkillData.cpp
     ../game/party/SpellSchool.cpp
@@ -88,12 +94,14 @@ add_executable(openyamm_unit_tests
     ../game/tables/PortraitEnums.cpp
     ../game/tables/PortraitFrameTable.cpp
     ../game/tables/PortraitFxEventTable.cpp
+    ../game/tables/PotionMixingTable.cpp
     ../game/tables/RaceStartingStatsTable.cpp
     ../game/tables/RosterTable.cpp
     ../game/tables/ReadableScrollTable.cpp
     ../game/tables/SpellTable.cpp
     ../game/tables/SpellFxTable.cpp
     ../game/tables/SpeechReactionTable.cpp
+    ../game/tables/TransitionTable.cpp
     ../game/tables/SpriteTables.cpp
     ../game/tables/SurfaceMaterialTable.cpp
     ../game/tables/TextureFrameTable.cpp

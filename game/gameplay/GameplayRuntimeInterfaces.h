@@ -69,6 +69,7 @@ struct GameplayWorldItemInspectState
 
 struct GameplayRuntimeActorState
 {
+    int16_t monsterId = 0;
     float preciseX = 0.0f;
     float preciseY = 0.0f;
     float preciseZ = 0.0f;
@@ -147,6 +148,7 @@ struct GameplayActorSpellEffectState
 struct GameplayActorTargetPolicyState
 {
     int16_t monsterId = 0;
+    int16_t relationMonsterId = 0;
     float preciseZ = 0.0f;
     uint16_t height = 0;
     bool hostileToParty = false;
@@ -326,6 +328,7 @@ public:
     virtual ~IGameplayWorldRuntime() = default;
 
     virtual const std::string &mapName() const = 0;
+    virtual bool isIndoorMap() const = 0;
     virtual float gameMinutes() const = 0;
     virtual int currentHour() const = 0;
     virtual const std::vector<uint8_t> *journalMapFullyRevealedCells() const = 0;
@@ -460,6 +463,12 @@ public:
     {
         (void)worldItemIndex;
         (void)item;
+        return false;
+    }
+    virtual bool takeWorldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state)
+    {
+        (void)worldItemIndex;
+        (void)state;
         return false;
     }
     virtual GameplayWorldHoverCacheState worldHoverCacheState() const = 0;

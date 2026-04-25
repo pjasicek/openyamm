@@ -7,6 +7,7 @@
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/items/PriceCalculator.h"
+#include "game/party/LloydsBeaconRuntime.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/ui/GameplayHudCommon.h"
@@ -1736,9 +1737,19 @@ std::string resolveItemInspectDetailText(const InventoryItem *pItemState, const 
 
     if (equipStat == "WeaponW")
     {
-        if (hasMod2Int && mod2Value > 0)
+        const int currentCharges =
+            pItemState != nullptr
+                ? pItemState->currentCharges
+                : (hasMod2Int ? mod2Value : 0);
+        const int maxCharges =
+            pItemState != nullptr && pItemState->maxCharges > 0
+                ? pItemState->maxCharges
+                : (hasMod2Int ? mod2Value : currentCharges);
+
+        if (maxCharges > 0)
         {
-            const std::string detail = "Charges: " + std::to_string(mod2Value);
+            const std::string detail =
+                "Charges: " + std::to_string(currentCharges) + "/" + std::to_string(maxCharges);
             return isBroken ? "Broken   " + detail : detail;
         }
 
@@ -3615,6 +3626,287 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayScreenRunti
             }
 
             context.submitHudTexturedQuad(*texture, resolved->x, resolved->y, resolved->width, resolved->height);
+        }
+
+        return;
+    }
+
+    if (context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::LloydsBeacon)
+    {
+        const std::vector<std::string> orderedLayoutIds = context.sortedHudLayoutIdsForScreen("LloydsBeacon");
+        const auto resolveLayout =
+            [&context, width, height](
+                const std::string &layoutId) -> std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement>
+            {
+                const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
+
+                if (pLayout == nullptr)
+                {
+                    return std::nullopt;
+                }
+
+                return context.resolveHudLayoutElement(layoutId, width, height, pLayout->width, pLayout->height);
+            };
+        const auto loadHudTexture =
+            [&context](const std::string &textureName) -> std::optional<GameplayScreenRuntime::HudTextureHandle>
+            {
+                return context.gameplayUiRuntime().ensureHudTextureLoaded(textureName);
+            };
+        const auto submitSolidQuad =
+            [&context](float x, float y, float quadWidth, float quadHeight, uint32_t abgr)
+            {
+                if (quadWidth <= 0.0f || quadHeight <= 0.0f)
+                {
+                    return;
+                }
+
+                const std::string textureName = "__lloyds_beacon_solid_" + std::to_string(abgr);
+                const std::optional<GameplayScreenRuntime::HudTextureHandle> texture =
+                    context.gameplayUiRuntime().ensureSolidHudTextureLoaded(textureName, abgr);
+
+                if (texture.has_value())
+                {
+                    context.submitHudTexturedQuad(*texture, x, y, quadWidth, quadHeight);
+                }
+            };
+        const auto renderLabel =
+            [&context](const std::string &text,
+                float x,
+                float y,
+                float rectWidth,
+                float rectHeight,
+                float scale,
+                const char *pFontName,
+                uint32_t colorAbgr,
+                UiLayoutManager::TextAlignX alignX,
+                UiLayoutManager::TextAlignY alignY)
+            {
+                GameplayScreenRuntime::HudLayoutElement labelLayout = {};
+                labelLayout.fontName = pFontName;
+                labelLayout.textColorAbgr = colorAbgr;
+                labelLayout.textAlignX = alignX;
+                labelLayout.textAlignY = alignY;
+
+                GameplayScreenRuntime::ResolvedHudLayoutElement labelRect = {};
+                labelRect.x = x;
+                labelRect.y = y;
+                labelRect.width = rectWidth;
+                labelRect.height = rectHeight;
+                labelRect.scale = scale;
+                context.renderLayoutLabel(labelLayout, labelRect, text);
+            };
+        const Character *pCaster =
+            context.partyReadOnly() != nullptr
+                ? context.partyReadOnly()->member(context.utilitySpellOverlayReadOnly().casterMemberIndex)
+                : nullptr;
+        const size_t slotCount = lloydsBeaconMaxSlotsForCharacter(pCaster);
+        const bool recallMode = context.utilitySpellOverlayReadOnly().lloydRecallMode;
+        const uint32_t slotBorderColor = makeAbgrColor(42, 32, 20);
+        const uint32_t slotBackgroundColor = makeAbgrColor(9, 8, 7);
+
+        for (const std::string &layoutId : orderedLayoutIds)
+        {
+            const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
+
+            if (pLayout == nullptr || !pLayout->visible)
+            {
+                continue;
+            }
+
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+            if (!resolved.has_value())
+            {
+                continue;
+            }
+
+            if ((layoutId == "LloydsBeaconSetModeText" && recallMode)
+                || (layoutId == "LloydsBeaconRecallModeText" && !recallMode))
+            {
+                continue;
+            }
+
+            if (!pLayout->labelText.empty())
+            {
+                context.renderLayoutLabel(*pLayout, *resolved, pLayout->labelText);
+                continue;
+            }
+
+            if (layoutId.rfind("LloydsBeaconSlot", 0) == 0)
+            {
+                const size_t slotIndex = static_cast<size_t>(std::max(0, std::atoi(layoutId.c_str() + 16)));
+
+                if (slotIndex == 0 || slotIndex > slotCount)
+                {
+                    continue;
+                }
+
+                if (recallMode
+                    && (pCaster == nullptr
+                        || slotIndex > pCaster->lloydsBeacons.size()
+                        || !pCaster->lloydsBeacons[slotIndex - 1].has_value()))
+                {
+                    continue;
+                }
+            }
+
+            const bool forcePressed =
+                (layoutId == "LloydsBeaconRecallBeacon" && recallMode)
+                || (layoutId == "LloydsBeaconSetBeacon" && !recallMode);
+            const std::string *pAssetName = nullptr;
+
+            if (forcePressed && !pLayout->pressedAsset.empty())
+            {
+                pAssetName = &pLayout->pressedAsset;
+            }
+            else
+            {
+                pAssetName =
+                    pLayout->interactive
+                        ? context.resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed)
+                        : &pLayout->primaryAsset;
+            }
+
+            if (pAssetName == nullptr || pAssetName->empty())
+            {
+                continue;
+            }
+
+            const std::optional<GameplayScreenRuntime::HudTextureHandle> texture = loadHudTexture(*pAssetName);
+
+            if (texture.has_value())
+            {
+                context.submitHudTexturedQuad(*texture, resolved->x, resolved->y, resolved->width, resolved->height);
+            }
+        }
+
+        const uint32_t textColor = makeAbgrColor(0, 0, 0);
+        const uint32_t whiteSlotBorderColor = makeAbgrColor(255, 255, 255);
+
+        const auto submitSlotBorder =
+            [&submitSolidQuad](
+                const GameplayScreenRuntime::ResolvedHudLayoutElement &slotRect,
+                float thickness,
+                uint32_t colorAbgr)
+            {
+                submitSolidQuad(slotRect.x, slotRect.y, slotRect.width, thickness, colorAbgr);
+                submitSolidQuad(
+                    slotRect.x,
+                    slotRect.y + slotRect.height - thickness,
+                    slotRect.width,
+                    thickness,
+                    colorAbgr);
+                submitSolidQuad(slotRect.x, slotRect.y, thickness, slotRect.height, colorAbgr);
+                submitSolidQuad(
+                    slotRect.x + slotRect.width - thickness,
+                    slotRect.y,
+                    thickness,
+                    slotRect.height,
+                    colorAbgr);
+            };
+
+        for (size_t index = 0; index < slotCount; ++index)
+        {
+            const std::string layoutId = "LloydsBeaconSlot" + std::to_string(index + 1);
+            const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> slotRect = resolveLayout(layoutId);
+
+            if (!slotRect.has_value())
+            {
+                continue;
+            }
+
+            const LloydBeacon *pBeacon =
+                pCaster != nullptr && index < pCaster->lloydsBeacons.size() && pCaster->lloydsBeacons[index].has_value()
+                    ? &*pCaster->lloydsBeacons[index]
+                    : nullptr;
+
+            if (pBeacon == nullptr && recallMode)
+            {
+                continue;
+            }
+
+            const float borderThickness = std::max(1.0f, std::round(2.0f * slotRect->scale));
+            const float previewInset = borderThickness;
+            const float previewX = slotRect->x + previewInset;
+            const float previewY = slotRect->y + previewInset;
+            const float previewWidth = std::max(1.0f, slotRect->width - previewInset * 2.0f);
+            const float previewHeight = std::max(1.0f, slotRect->height - previewInset * 2.0f);
+            const bool useSetModeBorder = !recallMode;
+            submitSlotBorder(*slotRect, borderThickness, useSetModeBorder ? whiteSlotBorderColor : slotBorderColor);
+
+            if (!useSetModeBorder)
+            {
+                submitSolidQuad(previewX, previewY, previewWidth, previewHeight, slotBackgroundColor);
+            }
+
+            if (pBeacon != nullptr
+                && pBeacon->previewWidth > 0
+                && pBeacon->previewHeight > 0
+                && !pBeacon->previewPixelsBgra.empty())
+            {
+                const std::string cacheName =
+                    "__lloyds_beacon_preview_" + std::to_string(context.utilitySpellOverlayReadOnly().casterMemberIndex)
+                    + "_" + std::to_string(index);
+                const std::optional<GameplayScreenRuntime::HudTextureHandle> previewTexture =
+                    context.gameplayUiRuntime().ensureDynamicHudTexture(
+                        cacheName,
+                        pBeacon->previewWidth,
+                        pBeacon->previewHeight,
+                        pBeacon->previewPixelsBgra);
+
+                if (previewTexture && bgfx::isValid(previewTexture->textureHandle))
+                {
+                    context.submitHudTexturedQuad(
+                        *previewTexture,
+                        previewX,
+                        previewY,
+                        previewWidth,
+                        previewHeight);
+                }
+            }
+            else if (!recallMode)
+            {
+                renderLabel(
+                    "Available",
+                    previewX,
+                    previewY,
+                    previewWidth,
+                    previewHeight,
+                    slotRect->scale,
+                    "SPELL",
+                    textColor,
+                    UiLayoutManager::TextAlignX::Center,
+                    UiLayoutManager::TextAlignY::Middle);
+            }
+
+            if (pBeacon == nullptr)
+            {
+                continue;
+            }
+
+            const std::string locationName = pBeacon->locationName.empty() ? pBeacon->mapName : pBeacon->locationName;
+            renderLabel(
+                locationName,
+                slotRect->x - 10.0f * slotRect->scale,
+                slotRect->y - 20.0f * slotRect->scale,
+                slotRect->width + 20.0f * slotRect->scale,
+                18.0f * slotRect->scale,
+                slotRect->scale,
+                "SPELL",
+                textColor,
+                UiLayoutManager::TextAlignX::Center,
+                UiLayoutManager::TextAlignY::Middle);
+            renderLabel(
+                formatUtilityDurationText(pBeacon->remainingSeconds),
+                slotRect->x - 10.0f * slotRect->scale,
+                slotRect->y + slotRect->height + 4.0f * slotRect->scale,
+                slotRect->width + 20.0f * slotRect->scale,
+                18.0f * slotRect->scale,
+                slotRect->scale,
+                "SPELL",
+                textColor,
+                UiLayoutManager::TextAlignX::Center,
+                UiLayoutManager::TextAlignY::Middle);
         }
 
         return;

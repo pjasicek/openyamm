@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cstddef>
+#include <cstdlib>
 #include <cstring>
 
 namespace OpenYAMM::Game::SavePreviewImage
@@ -60,6 +61,79 @@ std::vector<uint8_t> cropAndScaleBgraPreview(
     }
 
     return scaledPixels;
+}
+
+bool decodeBmpBytesToBgra(
+    const std::vector<uint8_t> &bmpBytes,
+    int &width,
+    int &height,
+    std::vector<uint8_t> &pixels)
+{
+    width = 0;
+    height = 0;
+    pixels.clear();
+
+    if (bmpBytes.size() < 54 || bmpBytes[0] != 'B' || bmpBytes[1] != 'M')
+    {
+        return false;
+    }
+
+    const auto readUint32Le =
+        [&bmpBytes](size_t offset) -> uint32_t
+        {
+            return static_cast<uint32_t>(bmpBytes[offset])
+                | (static_cast<uint32_t>(bmpBytes[offset + 1]) << 8)
+                | (static_cast<uint32_t>(bmpBytes[offset + 2]) << 16)
+                | (static_cast<uint32_t>(bmpBytes[offset + 3]) << 24);
+        };
+    const auto readInt32Le =
+        [&readUint32Le](size_t offset) -> int32_t
+        {
+            return static_cast<int32_t>(readUint32Le(offset));
+        };
+
+    const uint32_t pixelOffset = readUint32Le(10);
+    const int32_t signedWidth = readInt32Le(18);
+    const int32_t signedHeight = readInt32Le(22);
+    const uint16_t bitsPerPixel =
+        static_cast<uint16_t>(bmpBytes[28]) | (static_cast<uint16_t>(bmpBytes[29]) << 8);
+    const bool topDown = signedHeight < 0;
+    width = std::abs(signedWidth);
+    height = std::abs(signedHeight);
+
+    if (width <= 0 || height <= 0 || (bitsPerPixel != 24 && bitsPerPixel != 32))
+    {
+        return false;
+    }
+
+    const size_t bytesPerPixel = bitsPerPixel / 8u;
+    const size_t rowStride = ((static_cast<size_t>(width) * bytesPerPixel) + 3u) & ~3u;
+
+    if (pixelOffset + rowStride * static_cast<size_t>(height) > bmpBytes.size())
+    {
+        return false;
+    }
+
+    pixels.resize(static_cast<size_t>(width) * static_cast<size_t>(height) * 4u);
+
+    for (int y = 0; y < height; ++y)
+    {
+        const int sourceY = topDown ? y : (height - 1 - y);
+        const size_t sourceRow = pixelOffset + rowStride * static_cast<size_t>(sourceY);
+
+        for (int x = 0; x < width; ++x)
+        {
+            const size_t sourceIndex = sourceRow + static_cast<size_t>(x) * bytesPerPixel;
+            const size_t targetIndex =
+                (static_cast<size_t>(y) * static_cast<size_t>(width) + static_cast<size_t>(x)) * 4u;
+            pixels[targetIndex + 0] = bmpBytes[sourceIndex + 0];
+            pixels[targetIndex + 1] = bmpBytes[sourceIndex + 1];
+            pixels[targetIndex + 2] = bmpBytes[sourceIndex + 2];
+            pixels[targetIndex + 3] = bitsPerPixel == 32 ? bmpBytes[sourceIndex + 3] : 255u;
+        }
+    }
+
+    return true;
 }
 
 std::vector<uint8_t> encodeBgraToBmp(int width, int height, const std::vector<uint8_t> &pixels)

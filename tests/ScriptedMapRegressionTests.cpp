@@ -1,6 +1,8 @@
 #include "doctest/doctest.h"
 
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/CorpseLootRuntime.h"
+#include "game/gameplay/GameplayActorService.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/StringUtils.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
@@ -420,6 +422,65 @@ TEST_CASE("generated_lua_event_scripts_are_loaded_from_files")
         + ".lua";
 
     CHECK_EQ(*selectedMap->localEventProgram->luaSourceName(), expectedLocalSourceName);
+}
+
+TEST_CASE("out05 authored special actors preserve relation override and carried item")
+{
+    const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
+    OpenYAMM::Game::MapAssetInfo loadedMap = {};
+
+    REQUIRE(loadOutdoorMapWithCompanionOptions(
+        mapLoader.assetFileSystem,
+        mapLoader.gameDataLoader,
+        "out05.odm",
+        OpenYAMM::Game::MapLoadPurpose::HeadlessGameplay,
+        OpenYAMM::Game::MapCompanionLoadOptions{
+            .allowSceneYml = true,
+            .allowLegacyCompanion = true,
+        },
+        loadedMap));
+    REQUIRE(loadedMap.outdoorMapDeltaData.has_value());
+    REQUIRE_GT(loadedMap.outdoorMapDeltaData->actors.size(), 3u);
+
+    CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[0].monsterInfoId, 72);
+    CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[0].ally, 15u);
+    CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[1].ally, 15u);
+    CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[2].ally, 15u);
+    CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[3].monsterInfoId, 45);
+    CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[3].carriedItemId, 540u);
+
+    OpenYAMM::Game::GameplayActorService actorService = {};
+    actorService.bindTables(&mapLoader.gameDataLoader.getMonsterTable(), &mapLoader.gameDataLoader.getSpellTable());
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState dragonslayer = {};
+    dragonslayer.monsterId = 45;
+    dragonslayer.relationMonsterId = actorService.relationMonsterId(dragonslayer.monsterId, 15);
+    dragonslayer.height = 160;
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState pet = {};
+    pet.monsterId = 72;
+    pet.relationMonsterId = actorService.relationMonsterId(pet.monsterId, 15);
+    pet.height = 500;
+
+    CHECK_GT(mapLoader.gameDataLoader.getMonsterTable().getRelationBetweenMonsters(45, 72), 0);
+    CHECK_FALSE(actorService.resolveActorTargetPolicy(dragonslayer, pet).canTarget);
+}
+
+TEST_CASE("corpse loot includes authored guaranteed carried item")
+{
+    const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
+    OpenYAMM::Game::MonsterTable::LootPrototype noRandomLoot = {};
+
+    const OpenYAMM::Game::GameplayCorpseViewState corpse = OpenYAMM::Game::buildMonsterCorpseView(
+        "Jeric Whistlebone",
+        noRandomLoot,
+        &mapLoader.gameDataLoader.getItemTable(),
+        nullptr,
+        540);
+
+    REQUIRE_EQ(corpse.items.size(), 1u);
+    CHECK_EQ(corpse.items.front().itemId, 540u);
+    CHECK_EQ(corpse.items.front().item.objectDescriptionId, 540u);
 }
 
 TEST_CASE("outdoor_party_runtime_wait_advances_buff_durations_with_game_clock")

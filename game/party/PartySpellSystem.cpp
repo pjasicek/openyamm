@@ -3,6 +3,8 @@
 #include "game/gameplay/GameMechanics.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemEnchantTables.h"
+#include "game/items/InventoryItemMixingRuntime.h"
+#include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/SpellSchool.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/SpellTable.h"
@@ -22,6 +24,13 @@ constexpr float SoulDrinkerOutdoorRange = 10240.0f;
 constexpr float CameraVerticalFovRadians = Pi / 3.0f;
 constexpr uint32_t FirstBaseSpellId = spellIdValue(SpellId::TorchLight);
 constexpr uint32_t LastBaseSpellId = spellIdValue(SpellId::SoulDrinker);
+constexpr int16_t SummonWispNormalMonsterId = 97;
+constexpr int16_t SummonWispMasterMonsterId = 98;
+constexpr int16_t SummonWispGrandmasterMonsterId = 99;
+constexpr size_t SummonWispActiveLimit = 5;
+
+float secondsFromHours(float hours);
+float secondsFromMinutes(float minutes);
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -146,6 +155,114 @@ bool hasNearbyHostileActor(const IGameplayWorldRuntime &worldRuntime)
     return false;
 }
 
+bool isSummonWispMonsterId(int16_t monsterId)
+{
+    return monsterId == SummonWispNormalMonsterId
+        || monsterId == SummonWispMasterMonsterId
+        || monsterId == SummonWispGrandmasterMonsterId;
+}
+
+size_t activeFriendlyWispCount(const IGameplayWorldRuntime &worldRuntime)
+{
+    size_t count = 0;
+
+    for (size_t actorIndex = 0; actorIndex < worldRuntime.mapActorCount(); ++actorIndex)
+    {
+        GameplayRuntimeActorState actor = {};
+
+        if (worldRuntime.actorRuntimeState(actorIndex, actor)
+            && isSummonWispMonsterId(actor.monsterId)
+            && !actor.isDead
+            && !actor.isInvisible
+            && !actor.hostileToParty)
+        {
+            ++count;
+        }
+    }
+
+    return count;
+}
+
+int16_t summonWispMonsterIdForMastery(SkillMastery skillMastery)
+{
+    return skillMastery == SkillMastery::Grandmaster
+        ? SummonWispGrandmasterMonsterId
+        : skillMastery == SkillMastery::Master
+        ? SummonWispMasterMonsterId
+        : SummonWispNormalMonsterId;
+}
+
+float summonWispDurationSeconds(uint32_t skillLevel, SkillMastery skillMastery)
+{
+    if (skillMastery == SkillMastery::Grandmaster)
+    {
+        return secondsFromHours(static_cast<float>(skillLevel));
+    }
+
+    if (skillMastery == SkillMastery::Master)
+    {
+        return secondsFromMinutes(static_cast<float>(15 * skillLevel));
+    }
+
+    return secondsFromMinutes(static_cast<float>(5 * skillLevel));
+}
+
+bool isSpellOutdoorOnly(SpellId spellId)
+{
+    return spellId == SpellId::MeteorShower
+        || spellId == SpellId::Starburst
+        || spellId == SpellId::DeathBlossom
+        || spellId == SpellId::Sunray
+        || spellId == SpellId::Armageddon
+        || spellId == SpellId::Fly;
+}
+
+bool isSpellIndoorOnly(SpellId spellId)
+{
+    return spellId == SpellId::Inferno || spellId == SpellId::PrismaticLight;
+}
+
+std::string spellWorldUnavailableText(SpellId spellId, bool indoorMap)
+{
+    if (indoorMap)
+    {
+        switch (spellId)
+        {
+            case SpellId::MeteorShower:
+                return "Can't cast Meteor Shower indoors!";
+            case SpellId::Starburst:
+                return "Can't cast Starburst indoors!";
+            case SpellId::Fly:
+                return "Can not cast Fly indoors!";
+            case SpellId::Armageddon:
+                return "Can't cast Armageddon indoors!";
+            default:
+                return "Spell failed";
+        }
+    }
+
+    switch (spellId)
+    {
+        case SpellId::Inferno:
+            return "Can't cast Inferno outdoors!";
+        case SpellId::PrismaticLight:
+            return "Can't cast Prismatic Light outdoors!";
+        default:
+            return "Spell failed";
+    }
+}
+
+std::optional<std::string> spellWorldAvailabilityFailure(SpellId spellId, bool indoorMap)
+{
+    if ((indoorMap && isSpellOutdoorOnly(spellId))
+        || (!indoorMap && isSpellIndoorOnly(spellId)))
+    {
+        return spellWorldUnavailableText(spellId, indoorMap);
+    }
+
+    return std::nullopt;
+}
+
 bool isActorPointInsideSpellView(
     const PartySpellCastRequest &request,
     float actorX,
@@ -186,6 +303,11 @@ bool isActorPointInsideSpellView(
     const float verticalDistance = std::abs(deltaX * upX + deltaY * upY + deltaZ * upZ);
     return lateralDistance <= forwardDistance * halfHorizontalFovTan
         && verticalDistance <= forwardDistance * halfVerticalFovTan;
+}
+
+bool areaSpellAffectsVisibleCreatures(SpellId spellId)
+{
+    return spellId == SpellId::PrismaticLight || spellId == SpellId::SoulDrinker;
 }
 
 struct BackendSpellRule
@@ -649,7 +771,17 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::DayOfGods:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {30, 30, 30, 30}, {500, 500, 500, 500}, PartyBuffId::DayOfGods);
         case SpellId::PrismaticLight:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::AreaEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 25, 1, true);
+            return makeBackendSpellRule(
+                spellId,
+                PartySpellCastTargetKind::None,
+                PartySpellCastEffectKind::AreaEffect,
+                SkillMastery::Expert,
+                {},
+                {},
+                PartyBuffId::TorchLight,
+                25,
+                1,
+                true);
         case SpellId::DayOfProtection:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Master, {40, 40, 40, 40}, {500, 500, 500, 500}, PartyBuffId::BodyResistance);
         case SpellId::HourOfPower:
@@ -1229,7 +1361,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             ? rule->requiredMastery
             : defaultRequiredMasteryForSpellId(request.spellId);
 
-    if (skillMastery < requiredMastery)
+    if (!request.bypassRequiredMastery && skillMastery < requiredMastery)
     {
         return makeFailure(
             request.spellId,
@@ -1261,6 +1393,18 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
     bx::Vec3 targetPoint = {0.0f, 0.0f, 0.0f};
     const SpellId spellId = spellIdFromValue(request.spellId);
+    const std::optional<std::string> worldAvailabilityFailure =
+        spellWorldAvailabilityFailure(spellId, worldRuntime.isIndoorMap());
+
+    if (worldAvailabilityFailure.has_value())
+    {
+        return makeFailure(
+            request.spellId,
+            PartySpellCastStatus::Failed,
+            rule->targetKind,
+            rule->effectKind,
+            *worldAvailabilityFailure);
+    }
 
     if (rule->targetKind == PartySpellCastTargetKind::Actor)
     {
@@ -1790,6 +1934,59 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 appendAffectedCharacterIndex(result.affectedCharacterIndices, targetMemberIndex);
                 castSucceeded = true;
             }
+            else if (spellId == SpellId::RechargeItem)
+            {
+                if (!InventoryItemMixingRuntime::isWandItem(*pTargetItemDefinition)
+                    || (pMutableInventoryItem != nullptr && pMutableInventoryItem->broken)
+                    || (pTargetEquippedRuntime != nullptr && pTargetEquippedRuntime->broken)
+                    || (pMutableInventoryItem == nullptr && pTargetEquippedRuntime == nullptr))
+                {
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Spell failed");
+                }
+
+                const uint16_t currentCharges =
+                    pMutableInventoryItem != nullptr
+                        ? pMutableInventoryItem->currentCharges
+                        : pTargetEquippedRuntime->currentCharges;
+                const uint16_t maxCharges =
+                    pMutableInventoryItem != nullptr
+                        ? pMutableInventoryItem->maxCharges
+                        : pTargetEquippedRuntime->maxCharges;
+                const uint16_t newCharges = InventoryItemMixingRuntime::calculateSpellRechargeCharges(
+                    maxCharges,
+                    currentCharges,
+                    skillLevel,
+                    skillMastery);
+
+                if (newCharges == 0)
+                {
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Wand already charged");
+                }
+
+                if (pMutableInventoryItem != nullptr)
+                {
+                    pMutableInventoryItem->maxCharges = newCharges;
+                    pMutableInventoryItem->currentCharges = newCharges;
+                }
+                else if (pTargetEquippedRuntime != nullptr)
+                {
+                    pTargetEquippedRuntime->maxCharges = newCharges;
+                    pTargetEquippedRuntime->currentCharges = newCharges;
+                }
+
+                appendAffectedCharacterIndex(result.affectedCharacterIndices, targetMemberIndex);
+                castSucceeded = true;
+            }
             else if (spellId == SpellId::EnchantItem)
             {
                 if (pMutableInventoryItem == nullptr || !canApplyEnchantItemSpell(*pTargetItemDefinition, *pMutableInventoryItem))
@@ -1962,7 +2159,20 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     beacon.z = footZ;
                     beacon.directionDegrees = request.utilityMapMoveDirectionDegrees.value_or(
                         static_cast<int32_t>(std::round(request.viewYawRadians * 180.0f / Pi)));
-                    beacon.remainingSeconds = secondsFromHours(static_cast<float>(24 * 7 * std::max<uint32_t>(1, skillLevel)));
+                    beacon.remainingSeconds = lloydsBeaconDurationSeconds(skillLevel);
+
+                    if (request.utilityPreviewWidth > 0
+                        && request.utilityPreviewHeight > 0
+                        && request.utilityPreviewPixelsBgra.size()
+                            == static_cast<size_t>(request.utilityPreviewWidth)
+                                * static_cast<size_t>(request.utilityPreviewHeight)
+                                * 4u)
+                    {
+                        beacon.previewWidth = request.utilityPreviewWidth;
+                        beacon.previewHeight = request.utilityPreviewHeight;
+                        beacon.previewPixelsBgra = request.utilityPreviewPixelsBgra;
+                    }
+
                     pTargetMember->lloydsBeacons[request.utilitySlotIndex] = std::move(beacon);
                     castSucceeded = true;
                 }
@@ -2171,46 +2381,26 @@ PartySpellCastResult PartySpellSystem::castSpell(
         {
             if (spellId == SpellId::SummonWisp)
             {
-                const int16_t monsterId =
-                    skillMastery == SkillMastery::Grandmaster
-                        ? 99
-                        : skillMastery == SkillMastery::Master
-                        ? 98
-                        : 97;
-                const uint32_t count =
-                    skillMastery == SkillMastery::Grandmaster
-                        ? 5
-                        : skillMastery == SkillMastery::Master
-                        ? 3
-                        : 1;
-                const float durationSeconds =
-                    skillMastery == SkillMastery::Grandmaster
-                        ? secondsFromHours(static_cast<float>(skillLevel))
-                        : skillMastery == SkillMastery::Master
-                        ? secondsFromMinutes(static_cast<float>(15 * skillLevel))
-                        : secondsFromMinutes(static_cast<float>(5 * skillLevel));
+                if (activeFriendlyWispCount(worldRuntime) >= SummonWispActiveLimit)
+                {
+                    return makeFailure(
+                        request.spellId,
+                        PartySpellCastStatus::Failed,
+                        rule->targetKind,
+                        rule->effectKind,
+                        "Too many summoned wisps");
+                }
+
                 castSucceeded = worldRuntime.summonFriendlyMonsterById(
-                    monsterId,
-                    count,
-                    durationSeconds,
+                    summonWispMonsterIdForMastery(skillMastery),
+                    1,
+                    summonWispDurationSeconds(skillLevel, skillMastery),
                     sourceX,
                     sourceY,
                     footZ);
             }
 
-            const bool outdoorsOnly =
-                spellId == SpellId::MeteorShower
-                || spellId == SpellId::Starburst
-                || spellId == SpellId::DeathBlossom
-                || spellId == SpellId::Sunray
-                || spellId == SpellId::Armageddon;
-            const bool indoorsOnly = spellId == SpellId::Inferno || spellId == SpellId::PrismaticLight;
             const bool daylightOnly = spellId == SpellId::Sunray;
-
-            if (indoorsOnly)
-            {
-                return makeFailure(request.spellId, PartySpellCastStatus::Failed, rule->targetKind, rule->effectKind, "Spell failed");
-            }
 
             if (daylightOnly && (worldRuntime.currentHour() < 5 || worldRuntime.currentHour() >= 21))
             {
@@ -2269,12 +2459,17 @@ PartySpellCastResult PartySpellSystem::castSpell(
             {
                 GameplayRuntimeActorState actor = {};
 
-                if (!worldRuntime.actorRuntimeState(actorIndex, actor) || !actor.hostileToParty)
+                if (!worldRuntime.actorRuntimeState(actorIndex, actor))
                 {
                     continue;
                 }
 
-                if (spellId == SpellId::SoulDrinker)
+                if (!areaSpellAffectsVisibleCreatures(spellId) && !actor.hostileToParty)
+                {
+                    continue;
+                }
+
+                if (areaSpellAffectsVisibleCreatures(spellId))
                 {
                     const float actorTargetZ =
                         actor.preciseZ + std::max(48.0f, static_cast<float>(actor.height) * 0.6f);
@@ -2355,6 +2550,14 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     .peakAlpha = 0.65f
                 };
             }
+            else if (spellId == SpellId::PrismaticLight && castSucceeded)
+            {
+                result.screenOverlayRequest = PartySpellCastResult::ScreenOverlayRequest{
+                    .colorAbgr = makeAbgr(255, 255, 224),
+                    .durationSeconds = 0.52f,
+                    .peakAlpha = 0.55f
+                };
+            }
             else if (spellId == SpellId::Armageddon)
             {
                 castSucceeded = true;
@@ -2403,7 +2606,6 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 castSucceeded = true;
             }
 
-            static_cast<void>(outdoorsOnly);
         }
     }
 

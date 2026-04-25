@@ -1521,6 +1521,7 @@ GameplayDialogController::Context OutdoorInteractionController::createGameplayDi
         &view.data().houseTable(),
         &view.data().classSkillTable(),
         &view.data().npcDialogTable(),
+        &view.data().transitionTable(),
         view.m_map ? &*view.m_map : nullptr,
         &view.data().mapEntries(),
         &view.data().rosterTable(),

@@ -41,6 +41,8 @@ constexpr int LoadingOverlayBackgroundCount = 5;
 constexpr uint32_t BronzeRingItemId = 137;
 constexpr uint32_t GoldRingItemId = 138;
 constexpr uint32_t PotionBottleItemId = 220;
+constexpr uint32_t FirstDebugWandItemId = 152;
+constexpr uint32_t LastDebugWandItemId = 176;
 constexpr const char *DwiRespawnMapFile = "out01.odm";
 constexpr const char *RavenshoreRespawnMapFile = "out02.odm";
 constexpr const char *PartyDefeatCutsceneDirectory = "Videos/Cutscenes";
@@ -335,6 +337,50 @@ void seedSimulatedPartyFromRoster(
         if (pRosterEntry != nullptr)
         {
             party.replaceMemberWithRosterEntry(memberIndex + 1, *pRosterEntry);
+        }
+    }
+}
+
+bool partyMemberHasInventoryItem(const Character &character, uint32_t itemId)
+{
+    return std::any_of(
+        character.inventory.begin(),
+        character.inventory.end(),
+        [itemId](const InventoryItem &item)
+        {
+            return item.objectDescriptionId == itemId;
+        });
+}
+
+void seedDebugWandsIntoParty(Party &party, const ItemTable &itemTable)
+{
+    Character *pPrimaryMember = party.member(1);
+    Character *pOverflowMember = party.member(2);
+
+    if (pPrimaryMember == nullptr)
+    {
+        return;
+    }
+
+    for (uint32_t itemId = FirstDebugWandItemId; itemId <= LastDebugWandItemId; ++itemId)
+    {
+        if (partyMemberHasInventoryItem(*pPrimaryMember, itemId)
+            || (pOverflowMember != nullptr && partyMemberHasInventoryItem(*pOverflowMember, itemId)))
+        {
+            continue;
+        }
+
+        InventoryItem item = ItemGenerator::makeInventoryItem(itemId, itemTable, ItemGenerationMode::Generic);
+        item.identified = true;
+
+        if (pPrimaryMember->addInventoryItem(item))
+        {
+            continue;
+        }
+
+        if (pOverflowMember != nullptr)
+        {
+            pOverflowMember->addInventoryItem(item);
         }
     }
 }
@@ -1629,6 +1675,7 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
                 m_gameDataLoader.getRosterTable(),
                 m_gameDataLoader.getNpcDialogTable(),
                 std::nullopt);
+            seedDebugWandsIntoParty(party, m_gameDataLoader.getItemTable());
         }
         else
         {
@@ -1641,6 +1688,7 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
                 m_gameDataLoader.getRosterTable(),
                 m_gameDataLoader.getNpcDialogTable(),
                 effectiveRosterId);
+            seedDebugWandsIntoParty(party, m_gameDataLoader.getItemTable());
         }
     }
 

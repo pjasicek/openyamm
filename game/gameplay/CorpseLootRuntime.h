@@ -3,6 +3,7 @@
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/tables/MonsterTable.h"
 
+#include <cstdint>
 #include <string>
 
 namespace OpenYAMM::Game
@@ -24,7 +25,8 @@ GameplayCorpseViewState buildMonsterCorpseView(
     const std::string &title,
     const MonsterTable::LootPrototype &loot,
     const ItemTable *pItemTable,
-    Party *pParty);
+    Party *pParty,
+    uint32_t guaranteedItemId = 0);
 
 GameplayCorpseAutoLootResult autoLootActiveCorpseView(
     IGameplayWorldRuntime &worldRuntime,

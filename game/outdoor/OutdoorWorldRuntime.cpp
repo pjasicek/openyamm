@@ -1846,6 +1846,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.monsterId = resolveMapActorMonsterId(actor);
     state.group = actor.group;
     state.ally = actor.ally;
+    state.specialItemId = actor.carriedItemId;
 
     const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(state.monsterId);
     const MonsterEntry *pMonsterEntry = resolveMonsterEntry(monsterTable, state.monsterId, pStats);
@@ -1867,8 +1868,10 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.radius = actor.radius;
     state.height = actor.height;
     state.moveSpeed = pMonsterEntry != nullptr ? pMonsterEntry->movementSpeed : 0;
+    GameplayActorService actorService = {};
+    const int16_t relationMonsterId = actorService.relationMonsterId(state.monsterId, state.ally);
     state.hostileToParty =
-        (actor.attributes & ActorAggressorBit) != 0 || monsterTable.isHostileToParty(state.monsterId);
+        (actor.attributes & ActorAggressorBit) != 0 || monsterTable.isHostileToParty(relationMonsterId);
     state.hostilityType = actor.hostilityType;
 
     if (state.hostilityType == 0 && state.hostileToParty && pStats != nullptr)
@@ -1882,7 +1885,6 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.aiState = actor.hp <= 0 ? OutdoorWorldRuntime::ActorAiState::Dead : OutdoorWorldRuntime::ActorAiState::Standing;
     state.recoverySeconds = monsterRecoverySeconds(pStats != nullptr ? pStats->recovery : 100);
     state.attackAnimationSeconds = std::max(0.1f, attackAnimationSeconds);
-    GameplayActorService actorService = {};
     state.attackCooldownSeconds = actorService.initialAttackCooldownSeconds(actorId, state.recoverySeconds);
     state.idleDecisionSeconds = actorService.initialIdleDecisionSeconds(actorId);
 
@@ -2391,6 +2393,8 @@ GameplayActorTargetPolicyState buildGameplayActorTargetPolicyState(const Outdoor
 {
     GameplayActorTargetPolicyState state = {};
     state.monsterId = actor.monsterId;
+    GameplayActorService actorService = {};
+    state.relationMonsterId = actorService.relationMonsterId(actor.monsterId, actor.ally);
     state.preciseZ = actor.preciseZ;
     state.height = actor.height;
     state.hostileToParty = actor.hostileToParty;
@@ -4442,6 +4446,11 @@ const std::string &OutdoorWorldRuntime::mapName() const
     return m_mapName;
 }
 
+bool OutdoorWorldRuntime::isIndoorMap() const
+{
+    return false;
+}
+
 const std::vector<uint8_t> *OutdoorWorldRuntime::journalMapFullyRevealedCells() const
 {
     return m_pOutdoorMapDeltaData != nullptr ? &m_pOutdoorMapDeltaData->fullyRevealedCells : nullptr;
@@ -5370,7 +5379,9 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     facts.status.hostileToParty = actor.hostileToParty;
     facts.status.bloodSplatSpawned = actor.bloodSplatSpawned;
     facts.status.hasDetectedParty = actor.hasDetectedParty;
-    facts.status.defaultHostileToParty = m_pMonsterTable->isHostileToParty(actor.monsterId);
+    const int16_t actorRelationMonsterId =
+        m_pGameplayActorService->relationMonsterId(actor.monsterId, actor.ally);
+    facts.status.defaultHostileToParty = m_pMonsterTable->isHostileToParty(actorRelationMonsterId);
 
     facts.target.currentKind = actorAiTargetKindFromOutdoorTarget(combatTarget.kind);
     facts.target.currentActorIndex = combatTarget.actorIndex;
@@ -8244,6 +8255,7 @@ bool OutdoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAc
         return false;
     }
 
+    state.monsterId = pActor->monsterId;
     state.preciseX = pActor->preciseX;
     state.preciseY = pActor->preciseY;
     state.preciseZ = pActor->preciseZ;
@@ -9371,7 +9383,8 @@ bool OutdoorWorldRuntime::applyPartySpellToMapActor(
 
         const bool defaultHostileToParty =
             m_pMonsterTable != nullptr
-            && m_pMonsterTable->isHostileToParty(actor.monsterId);
+            && pActorService->relationMonsterId(actor.monsterId, actor.ally) > 0
+            && m_pMonsterTable->isHostileToParty(pActorService->relationMonsterId(actor.monsterId, actor.ally));
         GameplayActorSpellEffectState effectState = buildGameplayActorSpellEffectState(actor);
         const GameplayActorService::SharedSpellEffectResult effectResult =
             pActorService->tryApplySharedSpellEffect(
@@ -9688,7 +9701,8 @@ bool OutdoorWorldRuntime::resurrectMapActor(size_t actorIndex, int health, bool 
     actor.controlRemainingSeconds = friendlyToParty ? hoursToSeconds(24.0f) : 0.0f;
     actor.hostileToParty = !friendlyToParty
         && m_pMonsterTable != nullptr
-        && m_pMonsterTable->isHostileToParty(actor.monsterId);
+        && m_pGameplayActorService != nullptr
+        && m_pMonsterTable->isHostileToParty(m_pGameplayActorService->relationMonsterId(actor.monsterId, actor.ally));
     actor.hasDetectedParty = false;
     return true;
 }
@@ -9709,7 +9723,7 @@ bool OutdoorWorldRuntime::clearMapActorSpellEffects(size_t actorIndex)
     GameplayActorSpellEffectState effectState = buildGameplayActorSpellEffectState(actor);
     const bool defaultHostileToParty =
         m_pMonsterTable != nullptr
-        && m_pMonsterTable->isHostileToParty(actor.monsterId);
+        && m_pMonsterTable->isHostileToParty(m_pGameplayActorService->relationMonsterId(actor.monsterId, actor.ally));
     m_pGameplayActorService->clearSpellEffects(effectState, defaultHostileToParty);
     applyGameplayActorSpellEffectState(effectState, actor);
     return true;
@@ -10000,7 +10014,8 @@ bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
             return false;
         }
 
-        CorpseViewState corpse = buildMonsterCorpseView(actor.displayName, pStats->loot, m_pItemTable, m_pParty);
+        CorpseViewState corpse =
+            buildMonsterCorpseView(actor.displayName, pStats->loot, m_pItemTable, m_pParty, actor.specialItemId);
 
         if (corpse.items.empty())
         {
@@ -10149,6 +10164,24 @@ bool OutdoorWorldRuntime::updateWorldItemInspectState(size_t worldItemIndex, con
 
     pWorldItem->item = item;
     return true;
+}
+
+bool OutdoorWorldRuntime::takeWorldItemInspectState(size_t worldItemIndex, GameplayWorldItemInspectState &state)
+{
+    const WorldItemState *pWorldItem = worldItemState(worldItemIndex);
+
+    if (pWorldItem == nullptr)
+    {
+        return false;
+    }
+
+    state = {};
+    state.item = pWorldItem->item;
+    state.goldAmount = pWorldItem->goldAmount;
+    state.isGold = pWorldItem->isGold;
+
+    WorldItemState removedItem = {};
+    return takeWorldItem(worldItemIndex, removedItem);
 }
 
 size_t OutdoorWorldRuntime::projectileCount() const

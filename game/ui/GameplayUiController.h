@@ -381,6 +381,12 @@ public:
         uint32_t spellId = 0;
         size_t casterMemberIndex = 0;
         bool lloydRecallMode = false;
+        bool lloydSetPreviewCapturePending = false;
+        bool lloydSetPreviewScreenshotRequested = false;
+        uint32_t lloydSetPreviewStartedTicks = 0;
+        std::string lloydSetPreviewRequestId;
+        std::string lloydSetPreviewSpellName;
+        PartySpellCastRequest lloydSetPreviewRequest = {};
     };
 
     struct StatusBarState

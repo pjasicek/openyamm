@@ -35,6 +35,7 @@ constexpr size_t ActorPositionOffset = 0x96;
 constexpr size_t ActorSpriteIdsOffset = 0xd4;
 constexpr size_t ActorSectorIdOffset = 0xdc;
 constexpr size_t ActorCurrentActionAnimationOffset = 0xde;
+constexpr size_t ActorCarriedItemIdOffset = 0xb8;
 constexpr size_t ActorAllyOffset = 0x340;
 constexpr size_t ActorGroupOffset = 0x34c;
 constexpr size_t ActorUniqueNameIndexOffset = 0x3bc;
@@ -92,6 +93,7 @@ bool parseActorVector(const ByteReader &reader, size_t offset, MapDeltaData &map
             || !reader.readUInt16(actorOffset + ActorMoveSpeedOffset, actor.moveSpeed)
             || !reader.readInt16(actorOffset + ActorSectorIdOffset, actor.sectorId)
             || !reader.readUInt16(actorOffset + ActorCurrentActionAnimationOffset, actor.currentActionAnimation)
+            || !reader.readUInt32(actorOffset + ActorCarriedItemIdOffset, actor.carriedItemId)
             || !reader.readUInt32(actorOffset + ActorAllyOffset, actor.ally)
             || !reader.readUInt32(actorOffset + ActorGroupOffset, actor.group)
             || !reader.readInt32(actorOffset + ActorUniqueNameIndexOffset, actor.uniqueNameIndex))

@@ -379,7 +379,7 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         (currentDialogueHostHouseId(pEventRuntimeState) != 0 && view.houseTable() != nullptr)
         ? view.houseTable()->get(currentDialogueHostHouseId(pEventRuntimeState))
         : nullptr;
-    const bool showDialogueVideoArea = pHostHouseEntry != nullptr;
+    const bool showDialogueVideoArea = pHostHouseEntry != nullptr || !view.activeEventDialog().videoName.empty();
     const bool hasDialogueParticipantIdentity =
         !view.activeEventDialog().title.empty()
         || view.activeEventDialog().participantPictureId != 0
@@ -390,7 +390,9 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         || pHostHouseEntry != nullptr
         || hasDialogueParticipantIdentity;
     const std::vector<std::string> &dialogueBodyLines = view.activeEventDialog().lines;
-    const bool showDialogueTextFrame = !dialogueBodyLines.empty();
+    const bool isTransitionDialog =
+        view.activeEventDialog().presentation == EventDialogPresentation::Transition;
+    const bool showDialogueTextFrame = !isTransitionDialog && !dialogueBodyLines.empty();
     std::optional<std::string> hoveredHouseServiceTopicText;
     const bool suppressServiceTopicsForShopOverlay =
         (view.houseShopOverlay().active
@@ -660,12 +662,15 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         pHostHouseEntry,
         hoveredHouseServiceTopicText,
         suppressServiceTopicsForShopOverlay);
-    renderDialogueBodyText(
-        view,
-        width,
-        height,
-        renderAboveHud,
-        dialogueBodyLines);
+    if (!isTransitionDialog)
+    {
+        renderDialogueBodyText(
+            view,
+            width,
+            height,
+            renderAboveHud,
+            dialogueBodyLines);
+    }
 
     view.clearHudLayoutRuntimeHeightOverrides();
 }
@@ -1281,7 +1286,10 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
         ? (resolvedNpcNameTemplate->y - resolvedPortraitTemplate->y)
         : portraitBorderSize + 2.0f * panelScale;
 
-    if (pHostHouseEntry != nullptr && pEffectiveHouseTitleLayout != nullptr)
+    const bool isTransitionDialog =
+        view.activeEventDialog().presentation == EventDialogPresentation::Transition;
+
+    if ((pHostHouseEntry != nullptr || isTransitionDialog) && pEffectiveHouseTitleLayout != nullptr)
     {
         GameplayScreenRuntime::ResolvedHudLayoutElement resolvedHouseTitle = {};
         resolvedHouseTitle.x = resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->x : panelInnerX;
@@ -1292,9 +1300,12 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
 
         if (shouldRenderInCurrentPass(renderAboveHud, hudZThreshold, pEffectiveHouseTitleLayout->zIndex))
         {
-            const std::string &houseTitle = !view.activeEventDialog().houseTitle.empty()
-                ? view.activeEventDialog().houseTitle
-                : pHostHouseEntry->name;
+            const std::string houseTitle =
+                isTransitionDialog
+                    ? view.activeEventDialog().title
+                    : (!view.activeEventDialog().houseTitle.empty()
+                        ? view.activeEventDialog().houseTitle
+                        : pHostHouseEntry->name);
             view.renderLayoutLabel(*pEffectiveHouseTitleLayout, resolvedHouseTitle, houseTitle);
         }
 
@@ -1311,6 +1322,7 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
          nameScale,
          nameWidth,
          nameX,
+         panelScale,
          portraitAreaHeight,
          portraitAreaWidth,
          portraitAreaX,
@@ -1327,95 +1339,51 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             const float portraitY = std::round(startY);
             const float portraitX = std::round(portraitAreaX + (portraitAreaWidth - portraitBorderSize) * 0.5f);
             const float portraitBorderY = std::round(portraitY + (portraitAreaHeight - portraitBorderSize) * 0.5f);
-            const std::optional<GameplayScreenRuntime::HudTextureHandle> portraitBorder =
-                view.gameplayUiRuntime().ensureHudTextureLoaded("evtnpc");
+            float nextY = portraitY + portraitAreaHeight;
 
-            if (portraitBorder)
+            if (participantVisual != EventDialogParticipantVisual::MapIcon)
             {
-                view.submitHudTexturedQuad(*portraitBorder, portraitX, portraitBorderY, portraitBorderSize, portraitBorderSize);
+                const std::optional<GameplayScreenRuntime::HudTextureHandle> portraitBorder =
+                    view.gameplayUiRuntime().ensureHudTextureLoaded("evtnpc");
+
+                if (portraitBorder)
+                {
+                    view.submitHudTexturedQuad(
+                        *portraitBorder,
+                        portraitX,
+                        portraitBorderY,
+                        portraitBorderSize,
+                        portraitBorderSize);
+                }
             }
 
             if (participantVisual == EventDialogParticipantVisual::MapIcon)
             {
-                const float innerX = std::round(portraitX + portraitInset);
-                const float innerY = std::round(portraitBorderY + portraitInset);
-                const float innerSize = std::round(portraitBorderSize - portraitInset * 2.0f);
+                const bool hasTransitionIconName = !view.activeEventDialog().participantTextureName.empty();
                 const std::optional<GameplayScreenRuntime::HudTextureHandle> transitionIcon =
-                    view.gameplayUiRuntime().ensureHudTextureLoaded("Outside");
+                    hasTransitionIconName
+                        ? view.gameplayUiRuntime().ensureHudTextureLoaded(view.activeEventDialog().participantTextureName)
+                        : std::nullopt;
 
                 if (transitionIcon)
                 {
-                    const float imageWidth = static_cast<float>(transitionIcon->width);
-                    const float imageHeight = static_cast<float>(transitionIcon->height);
-                    const float iconScale = std::max(
-                        innerSize / std::max(1.0f, imageWidth),
-                        innerSize / std::max(1.0f, imageHeight));
-                    const float scaledWidth = imageWidth * iconScale;
-                    const float scaledHeight = imageHeight * iconScale;
-                    float u0 = 0.0f;
-                    float v0 = 0.0f;
-                    float u1 = 1.0f;
-                    float v1 = 1.0f;
-
-                    if (scaledWidth > innerSize)
-                    {
-                        const float croppedFraction = (scaledWidth - innerSize) / scaledWidth;
-                        u0 = croppedFraction * 0.5f;
-                        u1 = 1.0f - croppedFraction * 0.5f;
-                    }
-
-                    if (scaledHeight > innerSize)
-                    {
-                        const float croppedFraction = (scaledHeight - innerSize) / scaledHeight;
-                        v0 = croppedFraction * 0.5f;
-                        v1 = 1.0f - croppedFraction * 0.5f;
-                    }
+                    const float imageWidth = static_cast<float>(transitionIcon->width) * panelScale;
+                    const float imageHeight = static_cast<float>(transitionIcon->height) * panelScale;
+                    const float iconX = std::round(portraitAreaX + (portraitAreaWidth - imageWidth) * 0.5f);
+                    const float iconY = std::round(portraitY);
 
                     submitTextureHandleQuadUv(
                         view,
                         transitionIcon->textureHandle,
-                        innerX,
-                        innerY,
-                        innerSize,
-                        innerSize,
-                        u0,
-                        v0,
-                        u1,
-                        v1);
-                }
-                else
-                {
-                    const std::optional<GameplayScreenRuntime::HudTextureHandle> parchment =
-                        view.gameplayUiRuntime().ensureSolidHudTextureLoaded("__dialogue_map_icon_bg__", 0xffcdb07aU);
-                    const std::optional<GameplayScreenRuntime::HudTextureHandle> lineTexture =
-                        view.gameplayUiRuntime().ensureSolidHudTextureLoaded("__dialogue_map_icon_line__", 0xff5c4228U);
-
-                    if (parchment)
-                    {
-                        view.submitHudTexturedQuad(*parchment, innerX, innerY, innerSize, innerSize);
-                    }
-
-                    if (lineTexture)
-                    {
-                        view.submitHudTexturedQuad(
-                            *lineTexture,
-                            innerX + innerSize * 0.18f,
-                            innerY + innerSize * 0.58f,
-                            innerSize * 0.64f,
-                            innerSize * 0.08f);
-                        view.submitHudTexturedQuad(
-                            *lineTexture,
-                            innerX + innerSize * 0.52f,
-                            innerY + innerSize * 0.20f,
-                            innerSize * 0.08f,
-                            innerSize * 0.54f);
-                        view.submitHudTexturedQuad(
-                            *lineTexture,
-                            innerX + innerSize * 0.26f,
-                            innerY + innerSize * 0.24f,
-                            innerSize * 0.18f,
-                            innerSize * 0.18f);
-                    }
+                        iconX,
+                        iconY,
+                        imageWidth,
+                        imageHeight,
+                        0.0f,
+                        0.0f,
+                        1.0f,
+                        1.0f);
+                    nextY = iconY + imageHeight;
                 }
             }
             else if (pictureId > 0)
@@ -1483,9 +1451,8 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                 }
             }
 
-            float nextY = portraitY + portraitAreaHeight;
-
             if (pNpcNameLayout != nullptr
+                && !name.empty()
                 && shouldRenderInCurrentPass(renderAboveHud, hudZThreshold, pNpcNameLayout->zIndex))
             {
                 GameplayScreenRuntime::ResolvedHudLayoutElement resolvedName = {};
@@ -1532,14 +1499,75 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
 
         contentY = drawEventNpcCard(
             contentY,
-            view.activeEventDialog().title,
+            isTransitionDialog ? std::string() : view.activeEventDialog().title,
             pictureId,
             view.activeEventDialog().participantVisual,
             false);
-        contentY += sectionGap;
+        contentY += isTransitionDialog ? 15.0f * panelScale : sectionGap;
 
-        if (view.activeEventDialog().presentation != EventDialogPresentation::Transition
-            && pTopicRowLayout != nullptr
+        if (isTransitionDialog)
+        {
+            const GameplayScreenRuntime::HudLayoutElement *pTransitionTextLayout =
+                pEffectiveHouseTitleLayout != nullptr ? pEffectiveHouseTitleLayout : pTopicRowLayout;
+
+            if (pTransitionTextLayout == nullptr || view.activeEventDialog().lines.empty())
+            {
+                return;
+            }
+
+            const std::optional<GameplayScreenRuntime::HudFontHandle> topicFont =
+                view.findHudFont(pTransitionTextLayout->fontName);
+
+            if (!topicFont || !shouldRenderInCurrentPass(renderAboveHud, hudZThreshold, pTransitionTextLayout->zIndex))
+            {
+                return;
+            }
+
+            const float topicFontScale = snappedHudFontScale(
+                resolvedHouseTitleTemplate ? resolvedHouseTitleTemplate->scale : panelScale);
+            const float topicLineHeight = static_cast<float>(topicFont->fontHeight) * topicFontScale;
+            const float textWidth = std::max(0.0f, panelInnerWidth - 5.0f * panelScale);
+            const float textWrapWidth = std::max(0.0f, textWidth / std::max(1.0f, topicFontScale));
+            std::vector<std::string> wrappedLines;
+
+            for (const std::string &sourceLine : view.activeEventDialog().lines)
+            {
+                std::vector<std::string> lineParts = view.wrapHudTextToWidth(*topicFont, sourceLine, textWrapWidth);
+
+                if (lineParts.empty())
+                {
+                    lineParts.push_back(sourceLine);
+                }
+
+                wrappedLines.insert(wrappedLines.end(), lineParts.begin(), lineParts.end());
+            }
+
+            const float availableBottom = resolvedEventDialog->y + resolvedEventDialog->height - panelPaddingY;
+            float lineY = contentY;
+            GameplayScreenRuntime::HudLayoutElement transitionTextLayout = *pTransitionTextLayout;
+            transitionTextLayout.textAlignY = UiLayoutManager::TextAlignY::Top;
+
+            for (const std::string &line : wrappedLines)
+            {
+                if (lineY + topicLineHeight > availableBottom)
+                {
+                    break;
+                }
+
+                GameplayScreenRuntime::ResolvedHudLayoutElement resolvedLine = {};
+                resolvedLine.x = std::round(panelInnerX + (panelInnerWidth - textWidth) * 0.5f);
+                resolvedLine.y = std::round(lineY);
+                resolvedLine.width = textWidth;
+                resolvedLine.height = topicLineHeight;
+                resolvedLine.scale = topicFontScale;
+                view.renderLayoutLabel(transitionTextLayout, resolvedLine, line);
+                lineY += topicLineHeight;
+            }
+
+            return;
+        }
+
+        if (pTopicRowLayout != nullptr
             && ((!suppressServiceTopicsForShopOverlay && !view.activeEventDialog().actions.empty())
                 || hoveredHouseServiceTopicText.has_value()))
         {

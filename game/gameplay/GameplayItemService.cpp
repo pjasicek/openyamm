@@ -4,6 +4,7 @@
 #include "game/audio/GameAudioSystem.h"
 #include "game/items/ItemRuntime.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/items/InventoryItemMixingRuntime.h"
 #include "game/items/InventoryItemUseRuntime.h"
 
 namespace OpenYAMM::Game
@@ -251,6 +252,86 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
         GameplayUiController::CharacterScreenState &characterScreen = m_session.gameplayScreenState().characterScreen();
         characterScreen.open = false;
         characterScreen.dollJewelryOverlayOpen = false;
+    }
+
+    return true;
+}
+
+bool GameplayItemService::tryUseHeldItemOnInventoryItem(
+    GameplayScreenRuntime &runtime,
+    size_t memberIndex,
+    uint8_t targetGridX,
+    uint8_t targetGridY)
+{
+    GameplayUiController::HeldInventoryItemState &heldItem = m_session.gameplayUiController().heldInventoryItem();
+    Party *pParty = runtime.party();
+    const ItemTable *pItemTable = m_session.hasDataRepository() ? &m_session.data().itemTable() : nullptr;
+    const PotionMixingTable *pPotionMixingTable =
+        m_session.hasDataRepository() ? &m_session.data().potionMixingTable() : nullptr;
+
+    if (!heldItem.active || pParty == nullptr || pItemTable == nullptr || pPotionMixingTable == nullptr)
+    {
+        return false;
+    }
+
+    const InventoryItemMixResult mixResult = InventoryItemMixingRuntime::tryApplyHeldItemToInventoryItem(
+        *pParty,
+        memberIndex,
+        heldItem.item,
+        targetGridX,
+        targetGridY,
+        *pItemTable,
+        *pPotionMixingTable);
+
+    if (!mixResult.handled)
+    {
+        return false;
+    }
+
+    if (mixResult.heldItemReplacement.has_value())
+    {
+        heldItem.item = *mixResult.heldItemReplacement;
+        heldItem.grabCellOffsetX = 0;
+        heldItem.grabCellOffsetY = 0;
+        heldItem.grabOffsetX = 0.0f;
+        heldItem.grabOffsetY = 0.0f;
+    }
+    else if (mixResult.heldItemConsumed)
+    {
+        heldItem = {};
+    }
+
+    if (runtime.audioSystem() != nullptr)
+    {
+        if (mixResult.success && mixResult.action == InventoryItemMixAction::PotionMix)
+        {
+            runtime.audioSystem()->playCommonSound(SoundId::MixPotion, GameAudioSystem::PlaybackGroup::Ui);
+        }
+        else if (!mixResult.success)
+        {
+            runtime.audioSystem()->playCommonSound(SoundId::Error, GameAudioSystem::PlaybackGroup::Ui);
+        }
+    }
+
+    if (mixResult.action == InventoryItemMixAction::PotionMix
+        || mixResult.action == InventoryItemMixAction::ReagentBottleMix)
+    {
+        runtime.triggerPortraitFaceAnimation(
+            memberIndex,
+            mixResult.success ? FaceAnimationId::MixPotion : FaceAnimationId::PotionExplode);
+        runtime.playSpeechReaction(
+            memberIndex,
+            mixResult.success ? SpeechId::PotionSuccess : SpeechId::PotionFail,
+            true);
+    }
+    else if (mixResult.action == InventoryItemMixAction::RechargePotion && !mixResult.success)
+    {
+        runtime.playSpeechReaction(memberIndex, SpeechId::PotionFail, true);
+    }
+
+    if (!mixResult.statusText.empty())
+    {
+        runtime.setStatusBarEvent(mixResult.statusText);
     }
 
     return true;

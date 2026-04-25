@@ -39,12 +39,14 @@ void GameDataRepository::clear()
     m_pCharacterInspectTable = nullptr;
     m_pRaceStartingStatsTable = nullptr;
     m_pReadableScrollTable = nullptr;
+    m_pPotionMixingTable = nullptr;
     m_pArcomageLibrary = nullptr;
     m_pPortraitFrameTable = nullptr;
     m_pIconFrameTable = nullptr;
     m_pSpellFxTable = nullptr;
     m_pPortraitFxEventTable = nullptr;
     m_pFaceAnimationTable = nullptr;
+    m_pTransitionTable = nullptr;
 }
 
 void GameDataRepository::bind(const GameDataLoader &loader)
@@ -70,12 +72,14 @@ void GameDataRepository::bind(const GameDataLoader &loader)
     m_pCharacterInspectTable = &loader.getCharacterInspectTable();
     m_pRaceStartingStatsTable = &loader.getRaceStartingStatsTable();
     m_pReadableScrollTable = &loader.getReadableScrollTable();
+    m_pPotionMixingTable = &loader.getPotionMixingTable();
     m_pArcomageLibrary = &loader.getArcomageLibrary();
     m_pPortraitFrameTable = &loader.getPortraitFrameTable();
     m_pIconFrameTable = &loader.getIconFrameTable();
     m_pSpellFxTable = &loader.getSpellFxTable();
     m_pPortraitFxEventTable = &loader.getPortraitFxEventTable();
     m_pFaceAnimationTable = &loader.getFaceAnimationTable();
+    m_pTransitionTable = &loader.getTransitionTable();
 }
 
 bool GameDataRepository::isBound() const
@@ -193,6 +197,11 @@ const ReadableScrollTable &GameDataRepository::readableScrollTable() const
     return requireBound(m_pReadableScrollTable);
 }
 
+const PotionMixingTable &GameDataRepository::potionMixingTable() const
+{
+    return requireBound(m_pPotionMixingTable);
+}
+
 const ArcomageLibrary &GameDataRepository::arcomageLibrary() const
 {
     return requireBound(m_pArcomageLibrary);
@@ -221,5 +230,10 @@ const PortraitFxEventTable &GameDataRepository::portraitFxEventTable() const
 const FaceAnimationTable &GameDataRepository::faceAnimationTable() const
 {
     return requireBound(m_pFaceAnimationTable);
+}
+
+const TransitionTable &GameDataRepository::transitionTable() const
+{
+    return requireBound(m_pTransitionTable);
 }
 } // namespace OpenYAMM::Game

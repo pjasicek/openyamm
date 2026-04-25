@@ -329,6 +329,44 @@ TEST_CASE("default party seed grants every member full spell access and preserve
     }
 }
 
+TEST_CASE("default party reset seeds all wand types into second member with third member overflow")
+{
+    REQUIRE_MESSAGE(
+        OpenYAMM::Tests::regressionGameDataLoaded(),
+        OpenYAMM::Tests::regressionGameDataFailure().c_str());
+
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&OpenYAMM::Tests::regressionGameData().itemTable);
+    party.reset();
+
+    const OpenYAMM::Game::Character *pSecondMember = party.member(1);
+    const OpenYAMM::Game::Character *pThirdMember = party.member(2);
+    REQUIRE(pSecondMember != nullptr);
+    REQUIRE(pThirdMember != nullptr);
+
+    for (uint32_t itemId = 152; itemId <= 176; ++itemId)
+    {
+        const auto isRequestedWand =
+            [itemId](const OpenYAMM::Game::InventoryItem &item)
+            {
+                return item.objectDescriptionId == itemId;
+            };
+
+        const auto secondIt =
+            std::find_if(pSecondMember->inventory.begin(), pSecondMember->inventory.end(), isRequestedWand);
+        const auto thirdIt =
+            std::find_if(pThirdMember->inventory.begin(), pThirdMember->inventory.end(), isRequestedWand);
+        const bool found = secondIt != pSecondMember->inventory.end() || thirdIt != pThirdMember->inventory.end();
+        REQUIRE(found);
+
+        const OpenYAMM::Game::InventoryItem &wand =
+            secondIt != pSecondMember->inventory.end() ? *secondIt : *thirdIt;
+        CHECK(wand.identified);
+        CHECK_GT(wand.currentCharges, 0);
+        CHECK_EQ(wand.currentCharges, wand.maxCharges);
+    }
+}
+
 TEST_CASE("inventory auto placement uses grid rules")
 {
     OpenYAMM::Game::Character member = {};

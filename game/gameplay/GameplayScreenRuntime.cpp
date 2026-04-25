@@ -319,6 +319,7 @@ GameplayDialogController::Context GameplayScreenRuntime::buildDialogContext(Even
         houseTable(),
         classSkillTable(),
         npcDialogTable(),
+        &m_session.data().transitionTable(),
         pCurrentMap,
         &m_session.data().mapEntries(),
         rosterTable(),
@@ -2267,6 +2268,11 @@ void GameplayScreenRuntime::stopHouseVideoPlayback()
 bool GameplayScreenRuntime::playHouseVideo(const std::string &videoStem)
 {
     return uiRuntime().playHouseVideo(videoStem);
+}
+
+bool GameplayScreenRuntime::playHouseVideo(const std::string &videoStem, const std::string &videoDirectory)
+{
+    return uiRuntime().playHouseVideo(videoStem, videoDirectory);
 }
 
 void GameplayScreenRuntime::queueBackgroundHouseVideoPreload(const std::string &videoStem)

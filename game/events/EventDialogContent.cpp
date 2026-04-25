@@ -6,11 +6,179 @@
 #include "game/StringUtils.h"
 
 #include <algorithm>
+#include <array>
+#include <utility>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr const char *TransitionVideoDirectory = "Videos/Transitions";
+
+const char *transitionImageName(uint32_t imageId)
+{
+    static constexpr std::array<const char *, 11> ImageNames = {{
+        "",
+        "Ticon01",
+        "Ticon02",
+        "Ticon03",
+        "Ticon04",
+        "Ticon05",
+        "ISTAIRUP",
+        "ITRAP",
+        "Outside",
+        "IDOOR",
+        "ISECDOOR"
+    }};
+
+    return imageId < ImageNames.size() ? ImageNames[imageId] : "";
+}
+
+const char *defaultDungeonTransitionImageName()
+{
+    // TODO: Replace this with data-accurate Ticon01..Ticon05 selection per dungeon transition.
+    return "Ticon01";
+}
+
+std::string lowerMapFileName(const std::string &fileName)
+{
+    return toLowerCopy(fileName);
+}
+
+std::string lowerTransitionTitle(const std::string &title)
+{
+    std::string normalized = toLowerCopy(title);
+    normalized.erase(
+        std::remove(normalized.begin(), normalized.end(), '"'),
+        normalized.end());
+
+    return normalized;
+}
+
+std::string transitionVideoNameForTransitionTitle(const std::string &title)
+{
+    const std::string normalized = lowerTransitionTitle(title);
+
+    static constexpr std::pair<const char *, const char *> TitleVideos[] = {
+        {"abandoned temple", "ab_temp"},
+        {"pirate outpost", "p_outpst"},
+        {"smuggler's cove", "smg_cove"},
+        {"dire wolf lair", "dire_lr"},
+        {"dire wolf den", "dire_lr"},
+        {"merchanthouse of alvar", "mrch_hs"},
+        {"merchant house of alvar", "mrch_hs"},
+        {"inside the crystal", "in_cryst"},
+        {"escaton's crystal", "in_cryst"},
+        {"wasp nest", "wasp_nst"},
+        {"ogre raiding fort", "ogre_ft"},
+        {"ogre fortress", "ogre_ft"},
+        {"troll tomb", "trol_tmb"},
+        {"ancient troll home", "trol_tmb"},
+        {"cyclops larder", "cyc_lr"},
+        {"chain of fire", "ch_fire"},
+        {"dragon hunter camp", "dh_camp"},
+        {"dragon hunter's camp", "dh_camp"},
+        {"dragon cave", "drgn_cav"},
+        {"ilsingore's cave", "drgn_cav"},
+        {"yaardrake's cave", "drgn_cav"},
+        {"old loeb's cave", "drgn_cav"},
+        {"naga vault", "naga_vlt"},
+        {"temple of the sun", "tpl_sun"},
+        {"abandoned druid circle", "ab_druid"},
+        {"druid circle", "ab_druid"},
+        {"minotaur lair", "mino_lr"},
+        {"balthazar lair", "mino_lr"},
+        {"barbarian fortress", "barb_frt"},
+        {"pirate stronghold", "p_strong"},
+        {"abandoned pirate keep", "a_p_keep"},
+        {"small sub pen", "s_subpen"},
+        {"hand-cranked submarine", "s_subpen"},
+        {"passage under regna", "rsub"},
+        {"necromancers' guild", "nec_gild"},
+        {"mad necromancer's lab", "mad_lab"},
+        {"castle of air", "cstl_air"},
+        {"castle of fire", "cstl_fir"},
+        {"war camp", "war_camp"},
+        {"eschaton's palace", "esch_pal"},
+        {"prison of the lord of air", "pr_elords"},
+        {"prison of the lord of earth", "pr_lorde"},
+        {"prison of the lord of fire", "pr_lordf"},
+        {"prison of the lord of water", "pr_lordw"},
+        {"gateway to the plane of air", "gw_air"},
+        {"gateway to the plane of earth", "gw_earth"},
+        {"gateway to the plane of fire", "gw_fire"},
+        {"gateway to the plane of water", "gw_water"}
+    };
+
+    for (const std::pair<const char *, const char *> &entry : TitleVideos)
+    {
+        if (normalized == entry.first)
+        {
+            return entry.second;
+        }
+    }
+
+    return {};
+}
+
+std::string transitionVideoNameForMap(const std::string &mapFileName)
+{
+    const std::string normalized = lowerMapFileName(mapFileName);
+
+    static constexpr std::pair<const char *, const char *> MapVideos[] = {
+        {"d05.blv", "ab_temp"},
+        {"d06.blv", "p_outpst"},
+        {"d07.blv", "smg_cove"},
+        {"d08.blv", "dire_lr"},
+        {"d09.blv", "mrch_hs"},
+        {"d10.blv", "in_cryst"},
+        {"d11.blv", "wasp_nst"},
+        {"d12.blv", "ogre_ft"},
+        {"d13.blv", "trol_tmb"},
+        {"d14.blv", "cyc_lr"},
+        {"d15.blv", "ch_fire"},
+        {"d16.blv", "dh_camp"},
+        {"d17.blv", "drgn_cav"},
+        {"d18.blv", "naga_vlt"},
+        {"d19.blv", "nec_gild"},
+        {"d20.blv", "mad_lab"},
+        {"d22.blv", "tpl_sun"},
+        {"d23.blv", "ab_druid"},
+        {"d24.blv", "mino_lr"},
+        {"d25.blv", "barb_frt"},
+        {"d27.blv", "cstl_air"},
+        {"d29.blv", "cstl_fir"},
+        {"d30.blv", "war_camp"},
+        {"d31.blv", "p_strong"},
+        {"d32.blv", "a_p_keep"},
+        {"d33.blv", "rsub"},
+        {"d34.blv", "s_subpen"},
+        {"d35.blv", "esch_pal"},
+        {"d36.blv", "pr_elords"},
+        {"d37.blv", "pr_lordf"},
+        {"d38.blv", "pr_lordw"},
+        {"d39.blv", "pr_lorde"},
+        {"d43.blv", "trol_tmb"},
+        {"d47.blv", "drgn_cav"},
+        {"d48.blv", "drgn_cav"},
+        {"d49.blv", "drgn_cav"},
+        {"elema.odm", "gw_air"},
+        {"eleme.odm", "gw_earth"},
+        {"elemf.odm", "gw_fire"},
+        {"elemw.odm", "gw_water"}
+    };
+
+    for (const std::pair<const char *, const char *> &entry : MapVideos)
+    {
+        if (normalized == entry.first)
+        {
+            return entry.second;
+        }
+    }
+
+    return {};
+}
+
 const MapStatsEntry *findMapEntryByFileName(
     const std::vector<MapStatsEntry> *pMapEntries,
     const std::string &fileName)
@@ -238,6 +406,7 @@ EventDialogContent buildEventDialogContent(
     const HouseTable *pHouseTable,
     const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
+    const TransitionTable *pTransitionTable,
     const MapStatsEntry *pCurrentMap,
     const std::vector<MapStatsEntry> *pMapEntries,
     const Party *pParty,
@@ -314,19 +483,50 @@ EventDialogContent buildEventDialogContent(
         dialog.participantVisual = EventDialogParticipantVisual::MapIcon;
         dialog.presentation = EventDialogPresentation::Transition;
         dialog.participantPictureId = 0;
-        const std::optional<MapEdgeTransition> *pTransition =
-            currentMapTransitionForContext(context, pCurrentMap);
+        const std::optional<MapEdgeTransition> *pTransition = context.transitionMapMove.has_value()
+            ? nullptr
+            : currentMapTransitionForContext(context, pCurrentMap);
+        const std::string transitionMapName =
+            context.transitionMapMove.has_value() && context.transitionMapMove->mapName.has_value()
+                ? *context.transitionMapMove->mapName
+                : ((pTransition != nullptr && pTransition->has_value())
+                    ? (*pTransition)->destinationMapFileName
+                    : std::string());
+        const bool isDungeonTransition =
+            !transitionMapName.empty() && toLowerCopy(transitionMapName).find(".blv") != std::string::npos;
+        dialog.participantTextureName =
+            isDungeonTransition
+                ? defaultDungeonTransitionImageName()
+                : transitionImageName(context.transitionImageId);
         const MapStatsEntry *pDestinationMap =
-            (pTransition != nullptr && pTransition->has_value())
-                ? findMapEntryByFileName(pMapEntries, (*pTransition)->destinationMapFileName)
+            !transitionMapName.empty()
+                ? findMapEntryByFileName(pMapEntries, transitionMapName)
+                : nullptr;
+        const TransitionEntry *pTransitionText =
+            pTransitionTable != nullptr && context.transitionTextId != 0
+                ? pTransitionTable->get(context.transitionTextId)
                 : nullptr;
         dialog.title = pDestinationMap != nullptr
             ? pDestinationMap->name
             : (context.titleOverride.has_value()
                 ? *context.titleOverride
-                : ((pTransition != nullptr && pTransition->has_value())
-                    ? (*pTransition)->destinationMapFileName
-                    : "Travel"));
+                : (pTransitionText != nullptr && !pTransitionText->title.empty()
+                    ? pTransitionText->title
+                    : (!transitionMapName.empty()
+                        ? transitionMapName
+                        : "Travel")));
+        dialog.videoName = pTransitionText != nullptr && !pTransitionText->title.empty()
+            ? transitionVideoNameForTransitionTitle(pTransitionText->title)
+            : std::string();
+        if (dialog.videoName.empty() && !dialog.title.empty())
+        {
+            dialog.videoName = transitionVideoNameForTransitionTitle(dialog.title);
+        }
+        if (dialog.videoName.empty())
+        {
+            dialog.videoName = transitionVideoNameForMap(transitionMapName);
+        }
+        dialog.videoDirectory = !dialog.videoName.empty() ? TransitionVideoDirectory : std::string();
 
         if (pTransition != nullptr && pTransition->has_value() && (*pTransition)->travelDays > 0)
         {
@@ -341,7 +541,15 @@ EventDialogContent buildEventDialogContent(
                 + ".");
         }
 
-        if (pCurrentMap != nullptr && !pCurrentMap->name.empty())
+        if (pTransitionText != nullptr && !pTransitionText->description.empty())
+        {
+            dialog.lines.push_back(pTransitionText->description);
+        }
+        else if (context.transitionMapMove.has_value())
+        {
+            dialog.lines.push_back("Do you wish to enter " + dialog.title + "?");
+        }
+        else if (pCurrentMap != nullptr && !pCurrentMap->name.empty())
         {
             dialog.lines.push_back("Do you wish to leave " + pCurrentMap->name + "?");
         }

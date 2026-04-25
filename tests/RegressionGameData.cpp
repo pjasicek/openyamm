@@ -198,6 +198,19 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         return false;
     }
 
+    std::vector<std::vector<std::string>> potionRows;
+
+    if (!loadTextTableRows(assetFileSystem, englishDataTablePath("potion.txt"), potionRows, failure))
+    {
+        return false;
+    }
+
+    if (!data.potionMixingTable.loadFromRows(potionRows))
+    {
+        failure = "could not load potion mixing table for regression tests";
+        return false;
+    }
+
     std::vector<std::vector<std::string>> standardEnchantRows;
 
     if (!loadTextTableRows(
@@ -242,6 +255,19 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
     if (!data.readableScrollTable.loadFromRows(readableScrollRows))
     {
         failure = "could not load readable scroll table for regression tests";
+        return false;
+    }
+
+    std::vector<std::vector<std::string>> transitionRows;
+
+    if (!loadTextTableRows(assetFileSystem, englishDataTablePath("trans.txt"), transitionRows, failure))
+    {
+        return false;
+    }
+
+    if (!data.transitionTable.loadFromRows(transitionRows))
+    {
+        failure = "could not load transition table for regression tests";
         return false;
     }
 

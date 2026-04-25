@@ -154,6 +154,7 @@ struct RuntimeActorBillboard
     std::array<uint16_t, 8> actionSpriteFrameIndices = {};
     bool useStaticFrame = false;
     bool isFriendly = false;
+    float heightScale = 1.0f;
     std::string actorName;
 };
 
@@ -432,6 +433,10 @@ std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
         billboard.actionSpriteFrameIndices = pActorAiState != nullptr
             ? pActorAiState->actionSpriteFrameIndices
             : buildRuntimeActorActionSpriteFrameIndices(spriteFrameTable, pMonsterEntry);
+        if (pActorAiState != nullptr && pActorAiState->spellEffects.shrinkRemainingSeconds > 0.0f)
+        {
+            billboard.heightScale = std::clamp(pActorAiState->spellEffects.shrinkDamageMultiplier, 0.25f, 1.0f);
+        }
         billboard.useStaticFrame = false;
         billboard.isFriendly = (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) == 0;
         billboard.actorName = pActorAiState != nullptr
@@ -982,6 +987,50 @@ std::string summarizeLinkedEvent(
     }
 
     return std::to_string(eventId) + ":unresolved";
+}
+
+std::optional<std::string> resolveIndoorEventHintText(
+    const IndoorSceneRuntime *pSceneRuntime,
+    uint16_t eventId)
+{
+    if (pSceneRuntime == nullptr || eventId == 0)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<ScriptedEventProgram> &localEventProgram = pSceneRuntime->localEventProgram();
+
+    if (localEventProgram)
+    {
+        const std::optional<std::string> hint = localEventProgram->getHint(eventId);
+
+        if (hint && !hint->empty())
+        {
+            return hint;
+        }
+    }
+
+    const std::optional<ScriptedEventProgram> &globalEventProgram = pSceneRuntime->globalEventProgram();
+
+    if (globalEventProgram)
+    {
+        const std::optional<std::string> hint = globalEventProgram->getHint(eventId);
+
+        if (hint && !hint->empty())
+        {
+            return hint;
+        }
+    }
+
+    return std::nullopt;
+}
+
+bool indoorFaceIsInteractionActivatable(uint32_t attributes, uint16_t eventId)
+{
+    return eventId != 0
+        && hasFaceAttribute(attributes, FaceAttribute::Clickable)
+        && !hasFaceAttribute(attributes, FaceAttribute::HasHint)
+        && !hasFaceAttribute(attributes, FaceAttribute::Invisible);
 }
 
 size_t countChestItemSlots(const MapDeltaChest &chest)
@@ -3174,6 +3223,46 @@ GameplayWorldHit IndoorRenderer::translateInspectHitToGameplayWorldHit(
     return worldHit;
 }
 
+uint16_t IndoorRenderer::inspectHitEventId(const InspectHit &inspectHit) const
+{
+    if (inspectHit.kind == "entity")
+    {
+        return inspectHit.eventIdPrimary != 0 ? inspectHit.eventIdPrimary : inspectHit.eventIdSecondary;
+    }
+
+    if (inspectHit.kind == "face")
+    {
+        return inspectHit.cogTriggered;
+    }
+
+    if (inspectHit.kind == "mechanism")
+    {
+        return inspectHit.mechanismLinkedEventId != 0
+            ? inspectHit.mechanismLinkedEventId
+            : static_cast<uint16_t>(inspectHit.doorId);
+    }
+
+    return 0;
+}
+
+std::optional<std::string> IndoorRenderer::resolveEventTargetHoverStatusText(const InspectHit &inspectHit) const
+{
+    if (inspectHit.kind == "entity")
+    {
+        const std::optional<std::string> primaryHint =
+            resolveIndoorEventHintText(m_pSceneRuntime, inspectHit.eventIdPrimary);
+
+        if (primaryHint && !primaryHint->empty())
+        {
+            return primaryHint;
+        }
+
+        return resolveIndoorEventHintText(m_pSceneRuntime, inspectHit.eventIdSecondary);
+    }
+
+    return resolveIndoorEventHintText(m_pSceneRuntime, inspectHitEventId(inspectHit));
+}
+
 GameplayWorldHit IndoorRenderer::pickGameplayWorldHit(const GameplayWorldPickRequest &request) const
 {
     const std::optional<InspectHit> inspectHit = inspectGameplayWorldHit(request);
@@ -3692,6 +3781,7 @@ GameplayHoverStatusPayload IndoorRenderer::refreshGameplayWorldHover(const Gamep
         m_cachedGameplayWorldPickRequest = pickRequest;
         m_lastInspectUpdateTick = request.updateTickNanoseconds / 1000000ULL;
         payload.worldHit = pickGameplayWorldHit(pickRequest);
+        payload.eventTargetStatusText = resolveEventTargetHoverStatusText(*inspectHit);
     }
     else
     {
@@ -3711,6 +3801,7 @@ GameplayHoverStatusPayload IndoorRenderer::readCachedGameplayWorldHover() const
     }
 
     payload.worldHit = translateInspectHitToGameplayWorldHit(m_cachedInspectHit, m_cachedGameplayWorldPickRequest);
+    payload.eventTargetStatusText = resolveEventTargetHoverStatusText(m_cachedInspectHit);
     return payload;
 }
 
@@ -3992,7 +4083,7 @@ bool IndoorRenderer::canActivateGameplayWorldHit(const GameplayWorldHit &hit) co
 
     if (inspectHit->kind == "face")
     {
-        return inspectHit->cogTriggered != 0;
+        return indoorFaceIsInteractionActivatable(inspectHit->attributes, inspectHit->cogTriggered);
     }
 
     if (inspectHit->kind == "mechanism")
@@ -4926,6 +5017,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
         bool mirrored = false;
         bool hovered = false;
         uint32_t hoveredOutlineColorAbgr = 0;
+        float heightScale = 1.0f;
         float distanceSquared = 0.0f;
     };
 
@@ -5015,6 +5107,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
             drawItem.hovered = hoveredActorIndex && *hoveredActorIndex == billboard.actorIndex;
+            drawItem.heightScale = billboard.heightScale;
             if (drawItem.hovered && mapDeltaData && billboard.actorIndex < mapDeltaData->actors.size())
             {
                 drawItem.hoveredOutlineColorAbgr =
@@ -5083,7 +5176,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
     {
         const SpriteFrameEntry &frame = *drawItem.pFrame;
         const BillboardTextureHandle &texture = *drawItem.pTexture;
-        const float spriteScale = std::max(frame.scale, 0.01f);
+        const float spriteScale = std::max(frame.scale * drawItem.heightScale, 0.01f);
         const float worldWidth = static_cast<float>(texture.width) * spriteScale;
         const float worldHeight = static_cast<float>(texture.height) * spriteScale;
         const float halfWidth = worldWidth * 0.5f;
@@ -6676,24 +6769,30 @@ bool IndoorRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
         return false;
     }
 
-    uint16_t eventId = 0;
+    if (inspectHit.kind == "face"
+        && !indoorFaceIsInteractionActivatable(inspectHit.attributes, inspectHit.cogTriggered))
+    {
+        EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
 
-    if (inspectHit.kind == "entity")
-    {
-        eventId = inspectHit.eventIdPrimary != 0 ? inspectHit.eventIdPrimary : inspectHit.eventIdSecondary;
+        if (pEventRuntimeState != nullptr)
+        {
+            pEventRuntimeState->lastActivationResult = "face target is hover-only or non-clickable";
+        }
+
+        return false;
     }
-    else if (inspectHit.kind == "face")
+
+    const uint16_t eventId = inspectHitEventId(inspectHit);
+
+    if (eventId == 0)
     {
-        eventId = inspectHit.cogTriggered;
-    }
-    else if (inspectHit.kind == "mechanism")
-    {
-        eventId = inspectHit.mechanismLinkedEventId != 0
-            ? inspectHit.mechanismLinkedEventId
-            : static_cast<uint16_t>(inspectHit.doorId);
-    }
-    else
-    {
+        EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
+
+        if (pEventRuntimeState != nullptr)
+        {
+            pEventRuntimeState->lastActivationResult = "no activatable event on hovered target";
+        }
+
         return false;
     }
 

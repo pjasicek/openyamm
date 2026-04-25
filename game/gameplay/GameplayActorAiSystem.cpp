@@ -466,6 +466,13 @@ AttackStartOutcome startAttack(
         0x0b91f2a3u,
         0.9f,
         1.2f);
+
+    if (!abilityIsRanged && result.attackCooldownSeconds <= result.actionSeconds)
+    {
+        // TODO: revisit this once actor action length and monster recovery are modelled as OE-style separate timers.
+        result.attackCooldownSeconds = result.actionSeconds + 0.25f;
+    }
+
     return result;
 }
 

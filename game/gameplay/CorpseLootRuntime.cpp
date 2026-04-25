@@ -213,7 +213,8 @@ GameplayCorpseViewState buildMonsterCorpseView(
     const std::string &title,
     const MonsterTable::LootPrototype &loot,
     const ItemTable *pItemTable,
-    Party *pParty)
+    Party *pParty,
+    uint32_t guaranteedItemId)
 {
     GameplayCorpseViewState view = {};
     view.title = title;
@@ -270,6 +271,23 @@ GameplayCorpseViewState buildMonsterCorpseView(
             item.item = *generatedItem;
             item.itemId = item.item.objectDescriptionId;
             item.quantity = item.item.quantity;
+            view.items.push_back(item);
+        }
+    }
+
+    if (guaranteedItemId != 0 && pItemTable != nullptr)
+    {
+        InventoryItem inventoryItem =
+            ItemGenerator::makeInventoryItem(guaranteedItemId, *pItemTable, ItemGenerationMode::MonsterLoot);
+
+        if (inventoryItem.objectDescriptionId != 0)
+        {
+            GameplayChestItemState item = {};
+            item.item = inventoryItem;
+            item.itemId = inventoryItem.objectDescriptionId;
+            item.quantity = inventoryItem.quantity;
+            item.width = inventoryItem.width;
+            item.height = inventoryItem.height;
             view.items.push_back(item);
         }
     }

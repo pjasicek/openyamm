@@ -51,7 +51,6 @@ constexpr uint64_t BillboardAlphaRenderState =
 constexpr bool DebugActorRenderHitchLogging = false;
 constexpr size_t PreloadDecodeWorkerCount = 4;
 constexpr bool DebugSpritePreloadLogging = false;
-constexpr bool DebugWispTextureLogging = true;
 constexpr uint64_t ColoredAlphaRenderState =
     BGFX_STATE_WRITE_RGB
     | BGFX_STATE_WRITE_A
@@ -1762,32 +1761,7 @@ const OutdoorGameView::BillboardTextureHandle *OutdoorBillboardRenderer::ensureS
 
     if (!pixels || textureWidth <= 0 || textureHeight <= 0)
     {
-        if (DebugWispTextureLogging && textureName.rfind("m528w", 0) == 0)
-        {
-            std::cout << "WispTextureLoad texture=\"" << textureName << "\" palette=" << paletteId
-                      << " reason=decode_failed\n";
-        }
         return nullptr;
-    }
-
-    if (DebugWispTextureLogging && textureName.rfind("m528w", 0) == 0)
-    {
-        size_t transparentPixelCount = 0;
-
-        for (size_t pixelOffset = 3; pixelOffset < pixels->size(); pixelOffset += 4)
-        {
-            if ((*pixels)[pixelOffset] == 0)
-            {
-                ++transparentPixelCount;
-            }
-        }
-
-        const size_t totalPixelCount = static_cast<size_t>(textureWidth) * static_cast<size_t>(textureHeight);
-        std::cout << "WispTextureLoad texture=\"" << textureName << "\" palette=" << paletteId
-                  << " size=" << textureWidth << "x" << textureHeight
-                  << " transparent=" << transparentPixelCount
-                  << " opaque=" << (totalPixelCount - transparentPixelCount)
-                  << '\n';
     }
 
     OutdoorGameView::BillboardTextureHandle billboardTexture = {};

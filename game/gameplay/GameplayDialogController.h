@@ -23,6 +23,7 @@ struct MapStatsEntry;
 class NpcDialogTable;
 class Party;
 class RosterTable;
+class TransitionTable;
 struct HouseEntry;
 class GameplayScreenRuntime;
 
@@ -42,6 +43,7 @@ public:
         const HouseTable *pHouseTable = nullptr;
         const ClassSkillTable *pClassSkillTable = nullptr;
         const NpcDialogTable *pNpcDialogTable = nullptr;
+        const TransitionTable *pTransitionTable = nullptr;
         const MapStatsEntry *pCurrentMap = nullptr;
         const std::vector<MapStatsEntry> *pMapEntries = nullptr;
         const RosterTable *pRosterTable = nullptr;

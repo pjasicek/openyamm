@@ -14,12 +14,17 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 24;
+constexpr uint32_t SaveVersion = 29;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
 constexpr uint32_t SaveVersionIndoorActorSpellEffects = 23;
 constexpr uint32_t SaveVersionIndoorActorAiStates = 24;
+constexpr uint32_t SaveVersionWandCharges = 25;
+constexpr uint32_t SaveVersionLloydBeaconPreview = 26;
+constexpr uint32_t SaveVersionActorCarriedItem = 27;
+constexpr uint32_t SaveVersionDungeonTransitionDialogue = 28;
+constexpr uint32_t SaveVersionIndoorSaveLoadParity = 29;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -418,6 +423,8 @@ void writeValue(BinaryWriter &writer, const InventoryItem &value)
     writeValue(writer, value.specialEnchantId);
     writeValue(writer, value.artifactId);
     writeValue(writer, value.rarity);
+    writeValue(writer, value.currentCharges);
+    writeValue(writer, value.maxCharges);
     writeValue(writer, value.temporaryBonusRemainingSeconds);
 }
 
@@ -437,6 +444,8 @@ bool readValue(BinaryReader &reader, InventoryItem &value)
         && readValue(reader, value.specialEnchantId)
         && readValue(reader, value.artifactId)
         && readValue(reader, value.rarity)
+        && (reader.version() < SaveVersionWandCharges || readValue(reader, value.currentCharges))
+        && (reader.version() < SaveVersionWandCharges || readValue(reader, value.maxCharges))
         && readValue(reader, value.temporaryBonusRemainingSeconds);
 }
 
@@ -449,6 +458,9 @@ void writeValue(BinaryWriter &writer, const LloydBeacon &value)
     writeValue(writer, value.z);
     writeValue(writer, value.directionDegrees);
     writeValue(writer, value.remainingSeconds);
+    writeValue(writer, value.previewWidth);
+    writeValue(writer, value.previewHeight);
+    writeValue(writer, value.previewPixelsBgra);
 }
 
 bool readValue(BinaryReader &reader, LloydBeacon &value)
@@ -459,7 +471,10 @@ bool readValue(BinaryReader &reader, LloydBeacon &value)
         && readValue(reader, value.y)
         && readValue(reader, value.z)
         && readValue(reader, value.directionDegrees)
-        && readValue(reader, value.remainingSeconds);
+        && readValue(reader, value.remainingSeconds)
+        && (reader.version() < SaveVersionLloydBeaconPreview || readValue(reader, value.previewWidth))
+        && (reader.version() < SaveVersionLloydBeaconPreview || readValue(reader, value.previewHeight))
+        && (reader.version() < SaveVersionLloydBeaconPreview || readValue(reader, value.previewPixelsBgra));
 }
 
 void writeValue(BinaryWriter &writer, const CharacterResistanceSet &value)
@@ -594,6 +609,8 @@ void writeValue(BinaryWriter &writer, const EquippedItemRuntimeState &value)
     writeValue(writer, value.specialEnchantId);
     writeValue(writer, value.artifactId);
     writeValue(writer, value.rarity);
+    writeValue(writer, value.currentCharges);
+    writeValue(writer, value.maxCharges);
     writeValue(writer, value.temporaryBonusRemainingSeconds);
 }
 
@@ -607,6 +624,8 @@ bool readValue(BinaryReader &reader, EquippedItemRuntimeState &value)
         && readValue(reader, value.specialEnchantId)
         && readValue(reader, value.artifactId)
         && readValue(reader, value.rarity)
+        && (reader.version() < SaveVersionWandCharges || readValue(reader, value.currentCharges))
+        && (reader.version() < SaveVersionWandCharges || readValue(reader, value.maxCharges))
         && readValue(reader, value.temporaryBonusRemainingSeconds);
 }
 
@@ -1028,6 +1047,44 @@ bool readValue(BinaryReader &reader, GameplayActorSpellEffectState &value)
         && readValue(reader, value.hasDetectedParty);
 }
 
+void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::BloodSplatState::Vertex &value)
+{
+    writeValue(writer, value.x);
+    writeValue(writer, value.y);
+    writeValue(writer, value.z);
+    writeValue(writer, value.u);
+    writeValue(writer, value.v);
+}
+
+bool readValue(BinaryReader &reader, IndoorWorldRuntime::BloodSplatState::Vertex &value)
+{
+    return readValue(reader, value.x)
+        && readValue(reader, value.y)
+        && readValue(reader, value.z)
+        && readValue(reader, value.u)
+        && readValue(reader, value.v);
+}
+
+void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::BloodSplatState &value)
+{
+    writeValue(writer, value.sourceActorId);
+    writeValue(writer, value.x);
+    writeValue(writer, value.y);
+    writeValue(writer, value.z);
+    writeValue(writer, value.radius);
+    writeValue(writer, value.vertices);
+}
+
+bool readValue(BinaryReader &reader, IndoorWorldRuntime::BloodSplatState &value)
+{
+    return readValue(reader, value.sourceActorId)
+        && readValue(reader, value.x)
+        && readValue(reader, value.y)
+        && readValue(reader, value.z)
+        && readValue(reader, value.radius)
+        && readValue(reader, value.vertices);
+}
+
 void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::MapActorAiState &value)
 {
     writeValue(writer, value.actorId);
@@ -1062,6 +1119,27 @@ void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::MapActorAiState 
     writeValue(writer, value.pursueDecisionCount);
     writeValue(writer, value.attackDecisionCount);
     writeValue(writer, value.attackImpactTriggered);
+    writeValue(writer, value.spriteFrameIndex);
+    writeValue(writer, value.actionSpriteFrameIndices);
+    writeValue(writer, value.collisionRadius);
+    writeValue(writer, value.collisionHeight);
+    writeValue(writer, value.movementSpeed);
+    writeValue(writer, value.sectorId);
+    writeValue(writer, value.eyeSectorId);
+    writeValue(writer, value.supportFaceIndex);
+    writeValue(writer, value.grounded);
+    writeValue(writer, value.meleeAttackAnimationSeconds);
+    writeValue(writer, value.rangedAttackAnimationSeconds);
+    writeValue(writer, value.dyingAnimationSeconds);
+    writeValue(writer, value.crowdSideLockRemainingSeconds);
+    writeValue(writer, value.crowdNoProgressSeconds);
+    writeValue(writer, value.crowdLastEdgeDistance);
+    writeValue(writer, value.crowdRetreatRemainingSeconds);
+    writeValue(writer, value.crowdStandRemainingSeconds);
+    writeValue(writer, value.crowdProbeEdgeDistance);
+    writeValue(writer, value.crowdProbeElapsedSeconds);
+    writeValue(writer, value.crowdEscapeAttempts);
+    writeValue(writer, value.crowdSideSign);
 }
 
 bool readValue(BinaryReader &reader, IndoorWorldRuntime::MapActorAiState &value)
@@ -1097,7 +1175,30 @@ bool readValue(BinaryReader &reader, IndoorWorldRuntime::MapActorAiState &value)
         && readValue(reader, value.idleDecisionCount)
         && readValue(reader, value.pursueDecisionCount)
         && readValue(reader, value.attackDecisionCount)
-        && readValue(reader, value.attackImpactTriggered);
+        && readValue(reader, value.attackImpactTriggered)
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.spriteFrameIndex))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.actionSpriteFrameIndices))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.collisionRadius))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.collisionHeight))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.movementSpeed))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.sectorId))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.eyeSectorId))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.supportFaceIndex))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.grounded))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.meleeAttackAnimationSeconds))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.rangedAttackAnimationSeconds))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.dyingAnimationSeconds))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity
+            || readValue(reader, value.crowdSideLockRemainingSeconds))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.crowdNoProgressSeconds))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.crowdLastEdgeDistance))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity
+            || readValue(reader, value.crowdRetreatRemainingSeconds))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.crowdStandRemainingSeconds))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.crowdProbeEdgeDistance))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.crowdProbeElapsedSeconds))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.crowdEscapeAttempts))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.crowdSideSign));
 }
 
 void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::Snapshot &value)
@@ -1110,6 +1211,8 @@ void writeValue(BinaryWriter &writer, const IndoorWorldRuntime::Snapshot &value)
     writeValue(writer, value.mapActorCorpseViews);
     writeValue(writer, value.activeCorpseView);
     writeValue(writer, value.mapActorAiStates);
+    writeValue(writer, value.bloodSplats);
+    writeValue(writer, value.actorUpdateAccumulatorSeconds);
 }
 
 bool readValue(BinaryReader &reader, IndoorWorldRuntime::Snapshot &value)
@@ -1124,7 +1227,10 @@ bool readValue(BinaryReader &reader, IndoorWorldRuntime::Snapshot &value)
         && (reader.version() < SaveVersionIndoorActorSpellEffects
             || reader.version() >= SaveVersionIndoorActorAiStates
             || readValue(reader, value.mapActorSpellEffectStates))
-        && (reader.version() < SaveVersionIndoorActorAiStates || readValue(reader, value.mapActorAiStates));
+        && (reader.version() < SaveVersionIndoorActorAiStates || readValue(reader, value.mapActorAiStates))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.bloodSplats))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity
+            || readValue(reader, value.actorUpdateAccumulatorSeconds));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorPartyRuntime::Snapshot &value)
@@ -1155,24 +1261,6 @@ bool readValue(BinaryReader &reader, RuntimeMechanismState &value)
         && readValue(reader, value.isMoving);
 }
 
-void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingDialogueContext &value)
-{
-    writeValue(writer, value.kind);
-    writeValue(writer, value.sourceId);
-    writeValue(writer, value.hostHouseId);
-    writeValue(writer, value.newsId);
-    writeValue(writer, value.titleOverride);
-}
-
-bool readValue(BinaryReader &reader, EventRuntimeState::PendingDialogueContext &value)
-{
-    return readValue(reader, value.kind)
-        && readValue(reader, value.sourceId)
-        && readValue(reader, value.hostHouseId)
-        && readValue(reader, value.newsId)
-        && readValue(reader, value.titleOverride);
-}
-
 void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingMapMove &value)
 {
     writeValue(writer, value.x);
@@ -1191,6 +1279,30 @@ bool readValue(BinaryReader &reader, EventRuntimeState::PendingMapMove &value)
         && readValue(reader, value.mapName)
         && readValue(reader, value.directionDegrees)
         && readValue(reader, value.useMapStartPosition);
+}
+
+void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingDialogueContext &value)
+{
+    writeValue(writer, value.kind);
+    writeValue(writer, value.sourceId);
+    writeValue(writer, value.hostHouseId);
+    writeValue(writer, value.newsId);
+    writeValue(writer, value.titleOverride);
+    writeValue(writer, value.transitionMapMove);
+    writeValue(writer, value.transitionTextId);
+    writeValue(writer, value.transitionImageId);
+}
+
+bool readValue(BinaryReader &reader, EventRuntimeState::PendingDialogueContext &value)
+{
+    return readValue(reader, value.kind)
+        && readValue(reader, value.sourceId)
+        && readValue(reader, value.hostHouseId)
+        && readValue(reader, value.newsId)
+        && readValue(reader, value.titleOverride)
+        && (reader.version() < SaveVersionDungeonTransitionDialogue || readValue(reader, value.transitionMapMove))
+        && (reader.version() < SaveVersionDungeonTransitionDialogue || readValue(reader, value.transitionTextId))
+        && (reader.version() < SaveVersionDungeonTransitionDialogue || readValue(reader, value.transitionImageId));
 }
 
 void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingMovie &value)
@@ -1228,7 +1340,9 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingSound &val
     writeValue(writer, value.soundId);
     writeValue(writer, value.x);
     writeValue(writer, value.y);
+    writeValue(writer, value.z);
     writeValue(writer, value.positional);
+    writeValue(writer, value.hasExplicitZ);
 }
 
 bool readValue(BinaryReader &reader, EventRuntimeState::PendingSound &value)
@@ -1236,7 +1350,9 @@ bool readValue(BinaryReader &reader, EventRuntimeState::PendingSound &value)
     return readValue(reader, value.soundId)
         && readValue(reader, value.x)
         && readValue(reader, value.y)
-        && readValue(reader, value.positional);
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.z))
+        && readValue(reader, value.positional)
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.hasExplicitZ));
 }
 
 void writeValue(BinaryWriter &writer, const EventRuntimeState::SpriteOverride &value)
@@ -1535,6 +1651,7 @@ void writeValue(BinaryWriter &writer, const MapDeltaActor &value)
     writeValue(writer, value.spriteIds);
     writeValue(writer, value.sectorId);
     writeValue(writer, value.currentActionAnimation);
+    writeValue(writer, value.carriedItemId);
     writeValue(writer, value.group);
     writeValue(writer, value.ally);
     writeValue(writer, value.uniqueNameIndex);
@@ -1558,6 +1675,7 @@ bool readValue(BinaryReader &reader, MapDeltaActor &value)
         && readValue(reader, value.spriteIds)
         && readValue(reader, value.sectorId)
         && readValue(reader, value.currentActionAnimation)
+        && (reader.version() < SaveVersionActorCarriedItem || readValue(reader, value.carriedItemId))
         && readValue(reader, value.group)
         && readValue(reader, value.ally)
         && readValue(reader, value.uniqueNameIndex);
@@ -1732,6 +1850,26 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::TimerState &value)
         && readValue(reader, value.intervalGameMinutes)
         && readValue(reader, value.remainingGameMinutes)
         && readValue(reader, value.targetHour)
+        && readValue(reader, value.hasFired);
+}
+
+void writeValue(BinaryWriter &writer, const IndoorSceneRuntime::TimerState &value)
+{
+    writeValue(writer, value.eventId);
+    writeValue(writer, value.repeating);
+    writeValue(writer, value.targetHour);
+    writeValue(writer, value.intervalGameMinutes);
+    writeValue(writer, value.remainingGameMinutes);
+    writeValue(writer, value.hasFired);
+}
+
+bool readValue(BinaryReader &reader, IndoorSceneRuntime::TimerState &value)
+{
+    return readValue(reader, value.eventId)
+        && readValue(reader, value.repeating)
+        && readValue(reader, value.targetHour)
+        && readValue(reader, value.intervalGameMinutes)
+        && readValue(reader, value.remainingGameMinutes)
         && readValue(reader, value.hasFired);
 }
 
@@ -2213,6 +2351,8 @@ void writeValue(BinaryWriter &writer, const IndoorSceneRuntime::Snapshot &value)
     writeValue(writer, value.eventRuntimeState);
     writeValue(writer, value.worldRuntime);
     writeValue(writer, value.partyRuntime);
+    writeValue(writer, value.timers);
+    writeValue(writer, value.lastProcessedPartyMoveStateForFaceTriggers);
     writeValue(writer, value.mechanismAccumulatorMilliseconds);
 }
 
@@ -2222,6 +2362,9 @@ bool readValue(BinaryReader &reader, IndoorSceneRuntime::Snapshot &value)
         && readValue(reader, value.eventRuntimeState)
         && (reader.version() < 20 || readValue(reader, value.worldRuntime))
         && (reader.version() < 20 || readValue(reader, value.partyRuntime))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity || readValue(reader, value.timers))
+        && (reader.version() < SaveVersionIndoorSaveLoadParity
+            || readValue(reader, value.lastProcessedPartyMoveStateForFaceTriggers))
         && readValue(reader, value.mechanismAccumulatorMilliseconds);
 }
 
@@ -2339,6 +2482,11 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         && version != 21
         && version != 22
         && version != 23
+        && version != 24
+        && version != 25
+        && version != 26
+        && version != 27
+        && version != 28
         && version != SaveVersion)
     {
         error = "unsupported save version";

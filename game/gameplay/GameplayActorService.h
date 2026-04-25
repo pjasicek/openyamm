@@ -68,6 +68,7 @@ public:
     void bindTables(const MonsterTable *pMonsterTable, const SpellTable *pSpellTable);
     bool isBound() const;
     bool actorLooksUndead(int16_t monsterId) const;
+    int16_t relationMonsterId(int16_t monsterId, uint32_t allyMonsterType) const;
 
     DirectSpellImpactResult resolveDirectSpellImpact(
         uint32_t spellId,

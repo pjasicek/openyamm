@@ -82,6 +82,8 @@ struct PartySpellCastRequest
     float targetZ = 0.0f;
     uint32_t skillLevelOverride = 0;
     SkillMastery skillMasteryOverride = SkillMastery::None;
+    // Wands provide their own fixed spell power and do not require the caster to know the spell mastery.
+    bool bypassRequiredMastery = false;
     bool spendMana = true;
     bool applyRecovery = true;
     bool hasViewTransform = false;
@@ -102,6 +104,9 @@ struct PartySpellCastRequest
     std::optional<int32_t> utilityMapMoveDirectionDegrees;
     bool utilityMapMoveUseMapStartPosition = false;
     std::string utilityStatusText;
+    int utilityPreviewWidth = 0;
+    int utilityPreviewHeight = 0;
+    std::vector<uint8_t> utilityPreviewPixelsBgra;
 };
 
 struct PartySpellCastResult

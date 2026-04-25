@@ -63,15 +63,6 @@ struct RuntimeMechanismState
 
 struct EventRuntimeState
 {
-    struct PendingDialogueContext
-    {
-        DialogueContextKind kind = DialogueContextKind::None;
-        uint32_t sourceId = 0;
-        uint32_t hostHouseId = 0;
-        uint32_t newsId = 0;
-        std::optional<std::string> titleOverride;
-    };
-
     struct PendingMapMove
     {
         int32_t x = 0;
@@ -80,6 +71,18 @@ struct EventRuntimeState
         std::optional<std::string> mapName;
         std::optional<int32_t> directionDegrees;
         bool useMapStartPosition = false;
+    };
+
+    struct PendingDialogueContext
+    {
+        DialogueContextKind kind = DialogueContextKind::None;
+        uint32_t sourceId = 0;
+        uint32_t hostHouseId = 0;
+        uint32_t newsId = 0;
+        std::optional<std::string> titleOverride;
+        std::optional<PendingMapMove> transitionMapMove;
+        uint32_t transitionTextId = 0;
+        uint32_t transitionImageId = 0;
     };
 
     struct PendingMovie

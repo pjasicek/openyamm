@@ -1,6 +1,7 @@
 #include "doctest/doctest.h"
 
 #include "game/gameplay/GameplayActorAiSystem.h"
+#include "game/gameplay/GameplayActorService.h"
 
 #include <cmath>
 
@@ -10,7 +11,10 @@ using OpenYAMM::Game::ActorAiFrameFacts;
 using OpenYAMM::Game::ActorAiFxRequestKind;
 using OpenYAMM::Game::ActorAiMovementAction;
 using OpenYAMM::Game::ActorAiMotionState;
+using OpenYAMM::Game::ActorAiTargetKind;
+using OpenYAMM::Game::GameplayActorAiType;
 using OpenYAMM::Game::GameplayActorAiSystem;
+using OpenYAMM::Game::GameplayActorService;
 
 namespace
 {
@@ -84,6 +88,63 @@ TEST_CASE("shared actor AI keeps already dead active actors on the dead frame")
     REQUIRE(update.animation.animationState.has_value());
     CHECK(*update.animation.animationState == ActorAiAnimationState::Dead);
     CHECK(update.fxRequests.empty());
+}
+
+TEST_CASE("shared actor AI exposes a melee recovery window after the attack animation")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(11, 108);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.moveSpeed = 200;
+    actor.stats.attack1Damage.diceRolls = 1;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.runtime.recoverySeconds = 0.8f;
+    actor.runtime.meleeAttackAnimationSeconds = 1.0f;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+    actor.movement.distanceToParty = 96.0f;
+    actor.movement.edgeDistanceToParty = 0.0f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {132.0f, 200.0f, 64.0f};
+    actor.target.currentDistance = 96.0f;
+    actor.target.currentEdgeDistance = 0.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult attackResult = system.updateActors(frame);
+
+    REQUIRE_EQ(attackResult.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &attackUpdate = attackResult.actorUpdates.front();
+    REQUIRE(attackUpdate.state.motionState.has_value());
+    CHECK(*attackUpdate.state.motionState == ActorAiMotionState::Attacking);
+    REQUIRE(attackUpdate.state.actionSeconds.has_value());
+    CHECK(*attackUpdate.state.actionSeconds == doctest::Approx(1.0f));
+    REQUIRE(attackUpdate.state.attackCooldownSeconds.has_value());
+    CHECK(*attackUpdate.state.attackCooldownSeconds == doctest::Approx(1.25f));
+
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackMelee;
+    actor.runtime.actionSeconds = 1.0f / 256.0f;
+    actor.runtime.attackCooldownSeconds = 0.25f;
+    actor.runtime.queuedAttackAbility = OpenYAMM::Game::GameplayActorAttackAbility::Attack1;
+    actor.runtime.attackImpactTriggered = true;
+    frame.activeActors.clear();
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult recoveryResult = system.updateActors(frame);
+
+    REQUIRE_EQ(recoveryResult.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &recoveryUpdate = recoveryResult.actorUpdates.front();
+    REQUIRE(recoveryUpdate.state.motionState.has_value());
+    CHECK(*recoveryUpdate.state.motionState == ActorAiMotionState::Standing);
+    REQUIRE(recoveryUpdate.state.attackCooldownSeconds.has_value());
+    CHECK(*recoveryUpdate.state.attackCooldownSeconds > 0.0f);
 }
 
 TEST_CASE("shared actor AI stands briefly when actor movement is crowded after collision")
@@ -234,4 +295,18 @@ TEST_CASE("shared actor AI advances dying actors until the final dead frame")
     CHECK(*update.state.motionState == ActorAiMotionState::Dead);
     REQUIRE(update.animation.animationState.has_value());
     CHECK(*update.animation.animationState == ActorAiAnimationState::Dead);
+}
+
+TEST_CASE("shared actor hit reaction gate blocks terminal and active attack states")
+{
+    GameplayActorService service = {};
+
+    CHECK(service.canActorEnterHitReaction(false, false, false, false, false, false, false));
+    CHECK_FALSE(service.canActorEnterHitReaction(true, false, false, false, false, false, false));
+    CHECK_FALSE(service.canActorEnterHitReaction(false, true, false, false, false, false, false));
+    CHECK_FALSE(service.canActorEnterHitReaction(false, false, true, false, false, false, false));
+    CHECK_FALSE(service.canActorEnterHitReaction(false, false, false, true, false, false, false));
+    CHECK_FALSE(service.canActorEnterHitReaction(false, false, false, false, true, false, false));
+    CHECK_FALSE(service.canActorEnterHitReaction(false, false, false, false, false, true, false));
+    CHECK_FALSE(service.canActorEnterHitReaction(false, false, false, false, false, false, true));
 }

@@ -5,7 +5,6 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 #include <limits>
 
 namespace OpenYAMM::Game
@@ -445,14 +444,6 @@ void GameplayCombatController::handlePendingCombatEvents(
             {
                 triggerPortraitFaceAnimation(context.pRuntime, *targetMemberIndex, FaceAnimationId::Damaged);
             }
-
-            std::cout << "Party damaged source=" << sourceName
-                      << " damage=" << event.damage
-                      << " kind="
-                      << (event.type == CombatEventType::MonsterMeleeImpact
-                              ? "melee"
-                              : (event.spellId > 0 ? "spell" : "projectile"))
-                      << '\n';
         }
     }
 }

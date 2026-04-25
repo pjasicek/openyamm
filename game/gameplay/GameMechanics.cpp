@@ -22,6 +22,7 @@ constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
 constexpr int OeMinimumMeleeRecoveryTicks = 30;
 constexpr int OeMinimumRangedRecoveryTicks = 5;
 constexpr int OeMinimumBlasterRecoveryTicks = 5;
+constexpr uint32_t WandAttackSkillLevel = 8;
 
 constexpr int ParameterBonusThresholds[29] = {
     500, 400, 350, 300, 275, 250, 225, 200, 175, 150, 125, 100, 75, 50, 40,
@@ -547,13 +548,22 @@ const ItemDefinition *getEquippedItem(const Character &character, EquipmentSlot 
             break;
     }
 
+    const uint32_t itemId = equippedItemId(character.equipment, slot);
+    const ItemDefinition *pItemDefinition = itemId != 0 ? pItemTable->get(itemId) : nullptr;
+
     if (pRuntimeState != nullptr && pRuntimeState->broken)
     {
         return nullptr;
     }
 
-    const uint32_t itemId = equippedItemId(character.equipment, slot);
-    return itemId != 0 ? pItemTable->get(itemId) : nullptr;
+    if (pItemDefinition != nullptr
+        && pItemDefinition->equipStat == "WeaponW"
+        && (pRuntimeState == nullptr || pRuntimeState->currentCharges == 0))
+    {
+        return nullptr;
+    }
+
+    return pItemDefinition;
 }
 
 EquippedItems resolveEquippedItems(const Character &character, const ItemTable *pItemTable)
@@ -1985,7 +1995,25 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
             + character.permanentBonuses.meleeDamage
             + character.magicalBonuses.meleeDamage);
 
-    if (summary.combat.shoot.has_value())
+    if (profile.hasWand)
+    {
+        profile.rangedAttackBonus = summary.combat.attack;
+        profile.rangedSkillLevel = WandAttackSkillLevel;
+        profile.rangedSkillMastery = static_cast<uint32_t>(SkillMastery::Normal);
+        profile.rangedMinDamage = profile.meleeMinDamage;
+        profile.rangedMaxDamage = profile.meleeMaxDamage;
+
+        if (equippedItems.pMainHand != nullptr)
+        {
+            int spellId = 0;
+
+            if (tryParseSpellIdToken(equippedItems.pMainHand->mod1, spellId))
+            {
+                profile.wandSpellId = spellId;
+            }
+        }
+    }
+    else if (summary.combat.shoot.has_value())
     {
         profile.rangedAttackBonus = summary.combat.shoot;
         const std::string rangedSkillName = canonicalSkillName(
@@ -2007,26 +2035,15 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
                 + character.permanentBonuses.rangedDamage
                 + character.magicalBonuses.rangedDamage);
     }
-    else if (profile.hasWand || profile.hasBlaster)
+    else if (profile.hasBlaster)
     {
         profile.rangedAttackBonus = summary.combat.attack;
         const std::string rangedSkillName =
-            profile.hasBlaster ? "Blaster" : canonicalSkillName(
-                equippedItems.pMainHand != nullptr ? equippedItems.pMainHand->skillGroup : std::string());
+            canonicalSkillName(equippedItems.pMainHand != nullptr ? equippedItems.pMainHand->skillGroup : std::string());
         profile.rangedSkillLevel = static_cast<uint32_t>(std::max(0, skillLevel(character, rangedSkillName)));
         profile.rangedSkillMastery = static_cast<uint32_t>(skillMastery(character, rangedSkillName));
         profile.rangedMinDamage = profile.meleeMinDamage;
         profile.rangedMaxDamage = profile.meleeMaxDamage;
-
-        if (profile.hasWand && equippedItems.pMainHand != nullptr)
-        {
-            int spellId = 0;
-
-            if (tryParseSpellIdToken(equippedItems.pMainHand->mod1, spellId))
-            {
-                profile.wandSpellId = spellId;
-            }
-        }
     }
 
     return profile;

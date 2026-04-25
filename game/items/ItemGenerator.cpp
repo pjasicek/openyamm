@@ -6,6 +6,8 @@
 #include "game/tables/ItemTable.h"
 
 #include <algorithm>
+#include <cctype>
+#include <random>
 
 namespace OpenYAMM::Game
 {
@@ -72,6 +74,49 @@ std::optional<uint32_t> chooseRandomRareItem(
     const size_t index = std::uniform_int_distribution<size_t>(0, candidateIds.size() - 1)(rng);
     return candidateIds[index];
 }
+
+int parsePositiveInteger(const std::string &value)
+{
+    int result = 0;
+    bool hasDigit = false;
+
+    for (char character : value)
+    {
+        if (!std::isdigit(static_cast<unsigned char>(character)))
+        {
+            break;
+        }
+
+        hasDigit = true;
+        result = result * 10 + character - '0';
+    }
+
+    return hasDigit ? std::max(0, result) : 0;
+}
+
+uint16_t baseWandCharges(const ItemDefinition &itemDefinition)
+{
+    if (itemDefinition.equipStat != "WeaponW")
+    {
+        return 0;
+    }
+
+    return static_cast<uint16_t>(std::clamp(parsePositiveInteger(itemDefinition.mod2) + 1, 1, 0xFFFF));
+}
+
+void initializeWandCharges(InventoryItem &item, const ItemDefinition &itemDefinition, int randomBonus)
+{
+    const uint16_t baseCharges = baseWandCharges(itemDefinition);
+
+    if (baseCharges == 0)
+    {
+        return;
+    }
+
+    const int maxCharges = std::clamp(static_cast<int>(baseCharges) + std::max(0, randomBonus), 1, 0xFFFF);
+    item.currentCharges = static_cast<uint16_t>(maxCharges);
+    item.maxCharges = static_cast<uint16_t>(maxCharges);
+}
 }
 
 InventoryItem ItemGenerator::makeInventoryItem(
@@ -90,6 +135,7 @@ InventoryItem ItemGenerator::makeInventoryItem(
         item.height = std::max<uint8_t>(1, pItemDefinition->inventoryHeight);
         item.identified = defaultIdentifiedState(*pItemDefinition, mode);
         item.rarity = pItemDefinition->rarity;
+        initializeWandCharges(item, *pItemDefinition, 0);
 
         if (ItemRuntime::isRareItem(*pItemDefinition))
         {
@@ -159,6 +205,11 @@ std::optional<InventoryItem> ItemGenerator::generateRandomInventoryItem(
 
     InventoryItem item = makeInventoryItem(*itemId, itemTable, request.mode);
     const ItemDefinition *pItemDefinition = itemTable.get(*itemId);
+
+    if (pItemDefinition != nullptr && pItemDefinition->equipStat == "WeaponW")
+    {
+        initializeWandCharges(item, *pItemDefinition, std::uniform_int_distribution<int>(0, 5)(rng));
+    }
 
     if (pItemDefinition == nullptr
         || ItemRuntime::isRareItem(*pItemDefinition)

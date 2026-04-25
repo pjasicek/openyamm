@@ -4,6 +4,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/items/ItemEnchantRuntime.h"
+#include "game/party/PartySpellSystem.h"
 #include "game/tables/MonsterTable.h"
 
 #include <algorithm>
@@ -579,22 +580,36 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
             rangedTarget = config.rayRangedTarget;
         }
 
-        if (attack.mode == CharacterAttackMode::Wand
-            && attack.spellId > 0
-            && config.pWorldRuntime != nullptr)
+        if (attack.mode == CharacterAttackMode::Wand)
         {
-            attacked = config.pWorldRuntime->castPartyAttackSpell(
-                GameplayPartyAttackSpellRequest{
-                    .sourcePartyMemberIndex = actingMemberIndex,
-                    .spellId = static_cast<uint32_t>(attack.spellId),
-                    .skillLevel = attack.skillLevel,
-                    .skillMastery = attack.skillMastery,
-                    .damage = attack.damage,
-                    .attackBonus = attack.attackBonus,
-                    .useActorHitChance = true,
-                    .source = toRuntimeWorldPoint(config.rangedSource),
-                    .target = toRuntimeWorldPoint(rangedTarget),
-                });
+            if (attack.spellId > 0 && config.pSpellTable != nullptr && config.pWorldRuntime != nullptr)
+            {
+                PartySpellCastRequest spellRequest = {};
+                spellRequest.casterMemberIndex = actingMemberIndex;
+                spellRequest.spellId = static_cast<uint32_t>(attack.spellId);
+                spellRequest.quickCast = true;
+                spellRequest.targetActorIndex = target ? std::optional<size_t>(target->actorIndex) : std::nullopt;
+                spellRequest.hasTargetPoint = true;
+                spellRequest.targetX = rangedTarget.x;
+                spellRequest.targetY = rangedTarget.y;
+                spellRequest.targetZ = rangedTarget.z;
+                spellRequest.skillLevelOverride = attack.skillLevel;
+                spellRequest.skillMasteryOverride = static_cast<SkillMastery>(attack.skillMastery);
+                // Wands cast at fixed wand power; the spell mastery gate is for learned spell casting.
+                spellRequest.bypassRequiredMastery = true;
+                spellRequest.spendMana = false;
+                spellRequest.applyRecovery = false;
+
+                const PartySpellCastResult spellResult =
+                    PartySpellSystem::castSpell(party, *config.pWorldRuntime, *config.pSpellTable, spellRequest);
+                attacked = spellResult.status == PartySpellCastStatus::Succeeded;
+
+                if (attacked)
+                {
+                    config.pWorldRuntime->applyPendingSpellCastWorldEffects(spellResult);
+                    party.consumeEquippedWandCharge(actingMemberIndex);
+                }
+            }
         }
         else if (config.pWorldRuntime != nullptr)
         {

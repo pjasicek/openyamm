@@ -19,6 +19,12 @@ public:
         size_t memberIndex,
         bool keepCharacterScreenOpen);
 
+    bool tryUseHeldItemOnInventoryItem(
+        GameplayScreenRuntime &runtime,
+        size_t memberIndex,
+        uint8_t targetGridX,
+        uint8_t targetGridY);
+
     void updateReadableScrollOverlayForHeldItem(
         size_t memberIndex,
         const GameplayCharacterPointerTarget &pointerTarget,

@@ -27,6 +27,8 @@ constexpr uint32_t OeMaxCharacterExperience = 4000000000u;
 constexpr uint32_t ArcomageChampionAwardId = 41;
 constexpr size_t ArcomageTavernCount = 11;
 constexpr uint32_t RosterNpcPortraitBaseId = 2901;
+constexpr uint32_t FirstDefaultSeedWandItemId = 152;
+constexpr uint32_t LastDefaultSeedWandItemId = 176;
 
 uint32_t resolveAdventurersInnPortraitPictureId(const Character &character, uint32_t portraitPictureId)
 {
@@ -958,6 +960,26 @@ InventoryItem makeInventoryItem(
     return ItemGenerator::makeInventoryItem(objectDescriptionId, *pItemTable, mode);
 }
 
+void grantSeedWandItem(Character &character, uint32_t itemId)
+{
+    InventoryItem item = {};
+    item.objectDescriptionId = itemId;
+    item.quantity = 1;
+    item.width = 0;
+    item.height = 0;
+    item.identified = true;
+    character.inventory.push_back(item);
+}
+
+void grantDefaultSeedWands(Character &primaryMember, Character &overflowMember)
+{
+    for (uint32_t itemId = FirstDefaultSeedWandItemId; itemId <= LastDefaultSeedWandItemId; ++itemId)
+    {
+        Character &targetMember = itemId <= 171 ? primaryMember : overflowMember;
+        grantSeedWandItem(targetMember, itemId);
+    }
+}
+
 InventoryItem makeInventoryItem(
     const ItemTable *pItemTable,
     uint32_t objectDescriptionId,
@@ -972,6 +994,8 @@ InventoryItem makeInventoryItem(
     item.specialEnchantId = runtimeState.specialEnchantId;
     item.artifactId = runtimeState.artifactId;
     item.rarity = runtimeState.rarity;
+    item.currentCharges = runtimeState.currentCharges;
+    item.maxCharges = runtimeState.maxCharges;
     item.temporaryBonusRemainingSeconds = runtimeState.temporaryBonusRemainingSeconds;
 
     if (pItemTable != nullptr)
@@ -1511,9 +1535,6 @@ PartySeed Party::createDefaultSeed()
     femaleKnight.maxHealth = 115;
     femaleKnight.health = 115;
     grantDefaultEquipmentSkills(femaleKnight);
-    grantSeedInventoryLoadout(femaleKnight);
-    grantSeedSpellAccess(femaleKnight);
-    seed.members.push_back(femaleKnight);
 
     Character minotaur = {};
     minotaur.name = "Arius";
@@ -1536,6 +1557,10 @@ PartySeed Party::createDefaultSeed()
     minotaur.maxHealth = 130;
     minotaur.health = 130;
     grantDefaultEquipmentSkills(minotaur);
+    grantDefaultSeedWands(femaleKnight, minotaur);
+    grantSeedInventoryLoadout(femaleKnight);
+    grantSeedSpellAccess(femaleKnight);
+    seed.members.push_back(femaleKnight);
     grantSeedInventoryLoadout(minotaur);
     grantSeedSpellAccess(minotaur);
     seed.members.push_back(minotaur);
@@ -1810,7 +1835,26 @@ void Party::seed(const PartySeed &seed)
 
         for (const InventoryItem &seededItem : seededInventory)
         {
-            InventoryItem resolvedItem = seededItem;
+            InventoryItem resolvedItem = makeInventoryItem(m_pItemTable, seededItem.objectDescriptionId);
+            resolvedItem.quantity = seededItem.quantity;
+            resolvedItem.gridX = seededItem.gridX;
+            resolvedItem.gridY = seededItem.gridY;
+            resolvedItem.identified = seededItem.identified;
+            resolvedItem.broken = seededItem.broken;
+            resolvedItem.stolen = seededItem.stolen;
+            resolvedItem.standardEnchantId = seededItem.standardEnchantId;
+            resolvedItem.standardEnchantPower = seededItem.standardEnchantPower;
+            resolvedItem.specialEnchantId = seededItem.specialEnchantId;
+            resolvedItem.artifactId = seededItem.artifactId;
+            resolvedItem.rarity = seededItem.rarity;
+            resolvedItem.temporaryBonusRemainingSeconds = seededItem.temporaryBonusRemainingSeconds;
+
+            if (seededItem.currentCharges != 0 || seededItem.maxCharges != 0)
+            {
+                resolvedItem.currentCharges = seededItem.currentCharges;
+                resolvedItem.maxCharges = seededItem.maxCharges;
+            }
+
             resolvedItem.width = resolveInventoryWidth(seededItem.objectDescriptionId);
             resolvedItem.height = resolveInventoryHeight(seededItem.objectDescriptionId);
 
@@ -3265,6 +3309,8 @@ bool Party::tryEquipItemOnMember(
     targetRuntimeState.specialEnchantId = item.specialEnchantId;
     targetRuntimeState.artifactId = item.artifactId;
     targetRuntimeState.rarity = item.rarity;
+    targetRuntimeState.currentCharges = item.currentCharges;
+    targetRuntimeState.maxCharges = item.maxCharges;
     targetRuntimeState.temporaryBonusRemainingSeconds = item.temporaryBonusRemainingSeconds;
 
     if (targetRuntimeState.rarity == ItemRarity::Common && ItemRuntime::isRareItem(*pItemDefinition))
@@ -3340,6 +3386,29 @@ EquippedItemRuntimeState *Party::equippedItemRuntimeMutable(size_t memberIndex, 
 {
     Character *pMember = member(memberIndex);
     return pMember != nullptr ? &equippedItemRuntimeState(pMember->equipmentRuntime, slot) : nullptr;
+}
+
+bool Party::consumeEquippedWandCharge(size_t memberIndex)
+{
+    Character *pMember = member(memberIndex);
+
+    if (pMember == nullptr || m_pItemTable == nullptr || pMember->equipment.mainHand == 0)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pItemDefinition = m_pItemTable->get(pMember->equipment.mainHand);
+
+    if (pItemDefinition == nullptr
+        || pItemDefinition->equipStat != "WeaponW"
+        || pMember->equipmentRuntime.mainHand.broken
+        || pMember->equipmentRuntime.mainHand.currentCharges == 0)
+    {
+        return false;
+    }
+
+    --pMember->equipmentRuntime.mainHand.currentCharges;
+    return true;
 }
 
 void Party::refreshDerivedState()

@@ -416,6 +416,24 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             return result;
         }
 
+        if (context.eventRuntimeState.pendingDialogueContext->transitionMapMove.has_value())
+        {
+            if (context.pScreenRuntime != nullptr)
+            {
+                context.pScreenRuntime->stopAllAudioPlayback();
+            }
+
+            if (context.pWorldRuntime != nullptr)
+            {
+                context.pWorldRuntime->requestTravelAutosave();
+            }
+
+            context.eventRuntimeState.pendingMapMove =
+                *context.eventRuntimeState.pendingDialogueContext->transitionMapMove;
+            result.shouldCloseActiveDialog = true;
+            return result;
+        }
+
         const std::optional<MapEdgeTransition> *pTransition =
             currentMapTransitionForContext(context, *context.eventRuntimeState.pendingDialogueContext);
 
@@ -983,6 +1001,7 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
         context.pHouseTable,
         context.pClassSkillTable,
         context.pNpcDialogTable,
+        context.pTransitionTable,
         context.pCurrentMap,
         context.pMapEntries,
         context.pParty,

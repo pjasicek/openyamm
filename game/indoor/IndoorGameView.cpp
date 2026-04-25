@@ -934,12 +934,7 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
     hudRenderBackend.viewId = HudViewId;
     m_gameSession.gameplayScreenRuntime().bindHudRenderBackend(hudRenderBackend);
 
-    m_gameSession.gameplayScreenRuntime().ensurePendingEventDialogPresented(
-        true,
-        [this](EventRuntimeState &eventRuntimeState)
-        {
-            return buildDialogContext(eventRuntimeState);
-        });
+    presentPendingEventFeedback();
 
     SDL_Window *pWindow = SDL_GetMouseFocus();
 
@@ -994,9 +989,53 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
         }
     }
 
+    GameplayUiController::UtilitySpellOverlayState &utilityOverlay = overlayContext.utilitySpellOverlay();
+
+    if (utilityOverlay.lloydSetPreviewCapturePending && utilityOverlay.lloydSetPreviewScreenshotRequested)
+    {
+        const std::optional<Engine::BgfxContext::ScreenshotCapture> screenshot =
+            Engine::BgfxContext::consumeScreenshot(utilityOverlay.lloydSetPreviewRequestId);
+        const bool timedOut = SDL_GetTicks() - utilityOverlay.lloydSetPreviewStartedTicks > 3000u;
+
+        if (screenshot || timedOut)
+        {
+            PartySpellCastRequest request = utilityOverlay.lloydSetPreviewRequest;
+            const std::string spellName = utilityOverlay.lloydSetPreviewSpellName;
+
+            if (screenshot)
+            {
+                request.utilityPreviewPixelsBgra =
+                    SavePreviewImage::cropAndScaleBgraPreview(
+                        screenshot->bgraPixels,
+                        static_cast<int>(screenshot->width),
+                        static_cast<int>(screenshot->height),
+                        92,
+                        68);
+
+                if (!request.utilityPreviewPixelsBgra.empty())
+                {
+                    request.utilityPreviewWidth = 92;
+                    request.utilityPreviewHeight = 68;
+                }
+            }
+
+            utilityOverlay.lloydSetPreviewCapturePending = false;
+            utilityOverlay.lloydSetPreviewScreenshotRequested = false;
+            utilityOverlay.lloydSetPreviewStartedTicks = 0;
+            utilityOverlay.lloydSetPreviewRequestId.clear();
+            utilityOverlay.lloydSetPreviewSpellName.clear();
+            utilityOverlay.lloydSetPreviewRequest = {};
+            overlayContext.tryCastSpellRequest(request, spellName);
+        }
+    }
+
     const bool captureSavePreviewThisFrame =
         m_pendingSavePreviewCapture.active && !m_pendingSavePreviewCapture.screenshotRequested;
-    m_renderGameplayUiThisFrame = !captureSavePreviewThisFrame;
+    const bool captureLloydsBeaconPreviewThisFrame =
+        !captureSavePreviewThisFrame
+        && utilityOverlay.lloydSetPreviewCapturePending
+        && !utilityOverlay.lloydSetPreviewScreenshotRequested;
+    m_renderGameplayUiThisFrame = !captureSavePreviewThisFrame && !captureLloydsBeaconPreviewThisFrame;
 
     updateItemInspectOverlayState(width, height, input);
 
@@ -1032,15 +1071,16 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
         bgfx::requestScreenShot(BGFX_INVALID_HANDLE, m_pendingSavePreviewCapture.requestId.c_str());
         m_pendingSavePreviewCapture.screenshotRequested = true;
     }
+    else if (captureLloydsBeaconPreviewThisFrame)
+    {
+        bgfx::requestScreenShot(BGFX_INVALID_HANDLE, utilityOverlay.lloydSetPreviewRequestId.c_str());
+        utilityOverlay.lloydSetPreviewScreenshotRequested = true;
+    }
 
     updateFootstepAudio(deltaSeconds);
+    updateDialogueVideoPlayback(deltaSeconds);
 
-    m_gameSession.gameplayScreenRuntime().ensurePendingEventDialogPresented(
-        true,
-        [this](EventRuntimeState &eventRuntimeState)
-        {
-            return buildDialogContext(eventRuntimeState);
-        });
+    presentPendingEventFeedback();
 
     updateActorInspectOverlayState(width, height, input);
 }
@@ -1169,6 +1209,47 @@ bool IndoorGameView::activeMemberHasSpellbookSchool(GameplayUiController::Spellb
 void IndoorGameView::setStatusBarEvent(const std::string &text, float durationSeconds)
 {
     m_gameSession.gameplayScreenRuntime().setStatusBarEvent(text, durationSeconds);
+}
+
+void IndoorGameView::updateDialogueVideoPlayback(float deltaSeconds)
+{
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    const EventDialogContent &activeDialog = screenRuntime.activeEventDialog();
+
+    if (!activeDialog.isActive
+        || activeDialog.videoName.empty()
+        || activeDialog.videoDirectory.empty()
+        || screenRuntime.currentHudScreenState() != GameplayHudScreenState::Dialogue)
+    {
+        screenRuntime.stopHouseVideoPlayback();
+        return;
+    }
+
+    screenRuntime.playHouseVideo(activeDialog.videoName, activeDialog.videoDirectory);
+    screenRuntime.updateHouseVideoPlayback(deltaSeconds);
+}
+
+void IndoorGameView::presentPendingEventFeedback()
+{
+    EventRuntimeState *pEventRuntimeState =
+        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+
+    if (pEventRuntimeState != nullptr)
+    {
+        for (const std::string &statusMessage : pEventRuntimeState->statusMessages)
+        {
+            setStatusBarEvent(statusMessage);
+        }
+
+        pEventRuntimeState->statusMessages.clear();
+    }
+
+    m_gameSession.gameplayScreenRuntime().ensurePendingEventDialogPresented(
+        true,
+        [this](EventRuntimeState &eventRuntimeState)
+        {
+            return buildDialogContext(eventRuntimeState);
+        });
 }
 
 void IndoorGameView::executeActiveDialogAction()
@@ -1555,6 +1636,7 @@ GameplayDialogController::Context IndoorGameView::buildDialogContext(EventRuntim
         &m_gameSession.data().houseTable(),
         &m_gameSession.data().classSkillTable(),
         &m_gameSession.data().npcDialogTable(),
+        &m_gameSession.data().transitionTable(),
         m_map ? &*m_map : nullptr,
         &m_gameSession.data().mapEntries(),
         &m_gameSession.data().rosterTable(),

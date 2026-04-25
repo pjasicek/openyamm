@@ -6,6 +6,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplaySpellActionController.h"
 #include "game/gameplay/GameplaySpellService.h"
+#include "game/gameplay/GameplayWorldItemInteraction.h"
 #include "game/tables/ItemTable.h"
 
 #include <SDL3/SDL_timer.h>
@@ -78,6 +79,142 @@ bool dropHeldItemToActiveWorld(
     runtime.setStatusBarEvent("Dropped " + itemName);
     GameplayHeldItemController::clearHeldInventoryItem(heldItem);
     return true;
+}
+
+std::string worldItemDisplayName(
+    const GameplayWorldItemInspectState &worldItemState,
+    const ItemTable *pItemTable)
+{
+    const ItemDefinition *pItemDefinition =
+        pItemTable != nullptr ? pItemTable->get(worldItemState.item.objectDescriptionId) : nullptr;
+
+    return pItemDefinition != nullptr && !pItemDefinition->name.empty()
+        ? pItemDefinition->name
+        : "item";
+}
+
+bool canStoreWorldItemInInventory(
+    Party &party,
+    const InventoryItem &item,
+    size_t &recipientMemberIndex)
+{
+    const Party::Snapshot snapshot = party.snapshot();
+    const bool canStore = party.tryGrantInventoryItem(item, &recipientMemberIndex);
+    party.restoreSnapshot(snapshot);
+    return canStore;
+}
+
+void recordWorldItemActivationResult(
+    IGameplayWorldRuntime &worldRuntime,
+    const std::string &result)
+{
+    EventRuntimeState *pEventRuntimeState = worldRuntime.eventRuntimeState();
+
+    if (pEventRuntimeState != nullptr)
+    {
+        pEventRuntimeState->lastActivationResult = result;
+    }
+}
+
+bool tryActivateWorldItem(
+    GameplayScreenRuntime &runtime,
+    IGameplayWorldRuntime &worldRuntime,
+    size_t worldItemIndex)
+{
+    Party *pParty = runtime.party();
+
+    if (pParty == nullptr)
+    {
+        return false;
+    }
+
+    GameplayWorldItemInspectState worldItemState = {};
+
+    if (!worldRuntime.worldItemInspectState(worldItemIndex, worldItemState))
+    {
+        return false;
+    }
+
+    GameplayUiController::HeldInventoryItemState &heldItem = runtime.heldInventoryItem();
+    size_t recipientMemberIndex = 0;
+    const bool canStoreInInventory =
+        !worldItemState.isGold
+        && canStoreWorldItemInInventory(*pParty, worldItemState.item, recipientMemberIndex);
+    const GameplayWorldItemPickupDecision pickupDecision =
+        GameplayWorldItemInteraction::decidePickupDestination(
+            GameplayWorldItemPickupDecisionInput{
+                .isGold = worldItemState.isGold,
+                .goldAmount = worldItemState.goldAmount,
+                .canStoreInInventory = canStoreInInventory,
+                .heldItemActive = heldItem.active,
+            });
+
+    if (pickupDecision.destination == GameplayWorldItemPickupDestination::None)
+    {
+        return false;
+    }
+
+    GameplayWorldItemInspectState removedItemState = {};
+
+    if (!worldRuntime.takeWorldItemInspectState(worldItemIndex, removedItemState))
+    {
+        return false;
+    }
+
+    if (pickupDecision.destination == GameplayWorldItemPickupDestination::Gold)
+    {
+        pParty->addGold(pickupDecision.goldAmount);
+        pParty->requestSound(SoundId::Gold);
+        const std::string statusText = "Picked up " + std::to_string(pickupDecision.goldAmount) + " gold";
+        runtime.setStatusBarEvent(statusText);
+        recordWorldItemActivationResult(
+            worldRuntime,
+            "picked up " + std::to_string(pickupDecision.goldAmount) + " gold");
+        return true;
+    }
+
+    const std::string itemName = worldItemDisplayName(removedItemState, runtime.itemTable());
+
+    if (pickupDecision.destination == GameplayWorldItemPickupDestination::Inventory)
+    {
+        if (!pParty->tryGrantInventoryItem(removedItemState.item, &recipientMemberIndex))
+        {
+            return false;
+        }
+
+        pParty->requestSound(SoundId::Gold);
+        runtime.playSpeechReaction(recipientMemberIndex, SpeechId::FoundItem, true);
+        runtime.setStatusBarEvent("Picked up " + itemName);
+        recordWorldItemActivationResult(worldRuntime, "picked up " + itemName);
+        return true;
+    }
+
+    GameplayHeldItemController::setHeldInventoryItem(heldItem, removedItemState.item);
+    pParty->requestSound(SoundId::Gold);
+    runtime.playSpeechReaction(pParty->activeMemberIndex(), SpeechId::FoundItem, true);
+    runtime.setStatusBarEvent("Picked up " + itemName);
+    recordWorldItemActivationResult(worldRuntime, "picked up " + itemName + " into hand");
+    return true;
+}
+
+bool tryActivateWorldHit(
+    GameplayScreenRuntime *pRuntime,
+    IGameplayWorldRuntime *pWorldRuntime,
+    const GameplayWorldHit &hit,
+    GameplayInteractionMethod interactionMethod)
+{
+    if (pWorldRuntime == nullptr || !pWorldRuntime->canActivateWorldHit(hit, interactionMethod))
+    {
+        return false;
+    }
+
+    if (hit.kind == GameplayWorldHitKind::WorldItem && hit.worldItem)
+    {
+        return pRuntime != nullptr
+            && tryActivateWorldItem(*pRuntime, *pWorldRuntime, hit.worldItem->worldItemIndex);
+    }
+
+    return pWorldRuntime->activateWorldHit(hit);
 }
 
 void clearWorldHover(IGameplayWorldRuntime *pWorldRuntime)
@@ -297,11 +434,14 @@ GameplayInteractionController::MouseClickInteractionResult GameplayInteractionCo
     if (!input.pointerOverPartyPortrait && isSameActivationTarget(state.pressedWorldHit, input.currentHit))
     {
         const bool canActivate =
-            input.pWorldRuntime != nullptr
-            && input.pWorldRuntime->canActivateWorldHit(input.currentHit, input.interactionMethod);
+            tryActivateWorldHit(
+                input.pRuntime,
+                input.pWorldRuntime,
+                input.currentHit,
+                input.interactionMethod);
         if (canActivate)
         {
-            result.activated = input.pWorldRuntime->activateWorldHit(input.currentHit);
+            result.activated = true;
         }
     }
 
@@ -350,11 +490,14 @@ GameplayInteractionController::KeyboardInteractionResult GameplayInteractionCont
     }
 
     const bool canActivate =
-        input.pWorldRuntime != nullptr
-        && input.pWorldRuntime->canActivateWorldHit(hit, input.interactionMethod);
+        tryActivateWorldHit(
+            input.pRuntime,
+            input.pWorldRuntime,
+            hit,
+            input.interactionMethod);
     if (canActivate)
     {
-        result.activated = input.pWorldRuntime->activateWorldHit(hit);
+        result.activated = true;
     }
 
     return result;
@@ -397,11 +540,14 @@ GameplayInteractionController::updateKeyboardActivationInteraction(
     }
 
     const bool canActivate =
-        input.pWorldRuntime != nullptr
-        && input.pWorldRuntime->canActivateWorldHit(input.currentHit, input.interactionMethod);
+        tryActivateWorldHit(
+            input.pRuntime,
+            input.pWorldRuntime,
+            input.currentHit,
+            input.interactionMethod);
     if (canActivate)
     {
-        result.activated = input.pWorldRuntime->activateWorldHit(input.currentHit);
+        result.activated = true;
     }
 
     return result;
@@ -451,7 +597,7 @@ GameplayInteractionController::updateHeldItemWorldInteraction(
         const GameplayWorldHit &hit = input.pickedHit;
         result.picked = input.hasPickedHit;
 
-        if (hit.hasHit)
+        if (hit.hasHit && hit.kind != GameplayWorldHitKind::WorldItem)
         {
             const bool canUseOnWorld =
                 input.pWorldRuntime != nullptr
@@ -737,6 +883,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
                 .allowInteraction = worldReady,
                 .pickedHit = keyboardUseHit,
                 .hasPickedHit = hasKeyboardUseHit,
+                .pRuntime = &runtime,
                 .pWorldRuntime = pWorldRuntime,
                 .interactionMethod = GameplayInteractionMethod::Keyboard,
             });
@@ -859,6 +1006,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
                 .activationPressed = pointerPolicy.activationPressed,
                 .allowInteraction = worldReady,
                 .currentHit = currentHit,
+                .pRuntime = &runtime,
                 .pWorldRuntime = pWorldRuntime,
                 .interactionMethod = GameplayInteractionMethod::Mouse,
             });
@@ -892,6 +1040,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
                 .leftMousePressed = pointerPolicy.leftMousePressed,
                 .pointerOverPartyPortrait = pointerPolicy.pointerOverPartyPortrait,
                 .currentHit = currentHit,
+                .pRuntime = &runtime,
                 .pWorldRuntime = pWorldRuntime,
                 .interactionMethod = GameplayInteractionMethod::Mouse,
             });

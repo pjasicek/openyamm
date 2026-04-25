@@ -5,16 +5,22 @@
 #include "engine/AudioSystem.h"
 #include "game/FaceEnums.h"
 #include "game/events/EventRuntime.h"
+#include "game/events/EventDialogContent.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayWorldItemInteraction.h"
+#include "game/gameplay/SavePreviewImage.h"
+#include "game/items/InventoryItemMixingRuntime.h"
 #include "game/items/ItemRuntime.h"
 #include "game/outdoor/OutdoorMovementController.h"
 #include "game/party/Party.h"
+#include "game/party/SpellIds.h"
 
 #include "tests/RegressionGameData.h"
 
 #include <algorithm>
 #include <cmath>
 #include <filesystem>
+#include <random>
 
 namespace
 {
@@ -276,6 +282,272 @@ TEST_CASE("party ground movement blocks water entry without water walk")
     CHECK_FALSE(isOutdoorPositionWaterForDiagnostics(boundary.mapData, std::nullopt, resolved.x, resolved.y));
 }
 
+TEST_CASE("world item pickup decision prefers inventory before held item")
+{
+    const OpenYAMM::Game::GameplayWorldItemPickupDecision decision =
+        OpenYAMM::Game::GameplayWorldItemInteraction::decidePickupDestination(
+            OpenYAMM::Game::GameplayWorldItemPickupDecisionInput{
+                .isGold = false,
+                .goldAmount = 0,
+                .canStoreInInventory = true,
+                .heldItemActive = false,
+            });
+
+    CHECK(decision.destination == OpenYAMM::Game::GameplayWorldItemPickupDestination::Inventory);
+    CHECK(decision.goldAmount == 0);
+}
+
+TEST_CASE("world item pickup decision falls back to held item only when hand is empty")
+{
+    const OpenYAMM::Game::GameplayWorldItemPickupDecision emptyHandDecision =
+        OpenYAMM::Game::GameplayWorldItemInteraction::decidePickupDestination(
+            OpenYAMM::Game::GameplayWorldItemPickupDecisionInput{
+                .isGold = false,
+                .goldAmount = 0,
+                .canStoreInInventory = false,
+                .heldItemActive = false,
+            });
+    const OpenYAMM::Game::GameplayWorldItemPickupDecision occupiedHandDecision =
+        OpenYAMM::Game::GameplayWorldItemInteraction::decidePickupDestination(
+            OpenYAMM::Game::GameplayWorldItemPickupDecisionInput{
+                .isGold = false,
+                .goldAmount = 0,
+                .canStoreInInventory = false,
+                .heldItemActive = true,
+            });
+
+    CHECK(emptyHandDecision.destination == OpenYAMM::Game::GameplayWorldItemPickupDestination::HeldItem);
+    CHECK(occupiedHandDecision.destination == OpenYAMM::Game::GameplayWorldItemPickupDestination::None);
+}
+
+TEST_CASE("world item pickup decision always accepts gold")
+{
+    const OpenYAMM::Game::GameplayWorldItemPickupDecision decision =
+        OpenYAMM::Game::GameplayWorldItemInteraction::decidePickupDestination(
+            OpenYAMM::Game::GameplayWorldItemPickupDecisionInput{
+                .isGold = true,
+                .goldAmount = 0,
+                .canStoreInInventory = false,
+                .heldItemActive = true,
+            });
+
+    CHECK(decision.destination == OpenYAMM::Game::GameplayWorldItemPickupDestination::Gold);
+    CHECK(decision.goldAmount == 1);
+}
+
+TEST_CASE("charged wand attack profile prefers wand over equipped bow")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Character member = makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1);
+    member.equipment.mainHand = 152;
+    member.equipmentRuntime.mainHand.currentCharges = 3;
+    member.equipmentRuntime.mainHand.maxCharges = 3;
+    member.equipment.bow = findFirstItemIdBySkillGroup(gameData.itemTable, "Bow");
+    member.equipmentRuntime.bow = {};
+
+    const OpenYAMM::Game::CharacterAttackProfile profile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(
+            member,
+            &gameData.itemTable,
+            &gameData.spellTable);
+    std::mt19937 rng(7);
+    const OpenYAMM::Game::CharacterAttackResult attack =
+        OpenYAMM::Game::GameMechanics::resolveCharacterAttackAgainstArmorClass(
+            member,
+            &gameData.itemTable,
+            &gameData.spellTable,
+            10,
+            1024.0f,
+            rng);
+
+    CHECK(profile.hasWand);
+    CHECK(profile.hasBow);
+    CHECK_EQ(profile.wandSpellId, OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::FireBolt));
+    CHECK_EQ(profile.rangedSkillLevel, 8u);
+    CHECK_EQ(profile.rangedSkillMastery, static_cast<uint32_t>(OpenYAMM::Game::SkillMastery::Normal));
+    CHECK(attack.mode == OpenYAMM::Game::CharacterAttackMode::Wand);
+}
+
+TEST_CASE("empty wand falls back to bow attack profile")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Character member = makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1);
+    member.equipment.mainHand = 152;
+    member.equipmentRuntime.mainHand.currentCharges = 0;
+    member.equipmentRuntime.mainHand.maxCharges = 3;
+    member.equipment.bow = findFirstItemIdBySkillGroup(gameData.itemTable, "Bow");
+    member.equipmentRuntime.bow = {};
+
+    const OpenYAMM::Game::CharacterAttackProfile profile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(
+            member,
+            &gameData.itemTable,
+            &gameData.spellTable);
+    std::mt19937 rng(7);
+    const OpenYAMM::Game::CharacterAttackResult attack =
+        OpenYAMM::Game::GameMechanics::resolveCharacterAttackAgainstArmorClass(
+            member,
+            &gameData.itemTable,
+            &gameData.spellTable,
+            10,
+            1024.0f,
+            rng);
+
+    CHECK_FALSE(profile.hasWand);
+    CHECK(profile.hasBow);
+    CHECK(attack.mode == OpenYAMM::Game::CharacterAttackMode::Bow);
+}
+
+TEST_CASE("equipped wand charge consumption decrements to empty and then stops")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.push_back(makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1));
+
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&gameData.itemTable);
+    party.seed(seed);
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    pMember->equipment.mainHand = 152;
+    pMember->equipmentRuntime.mainHand.currentCharges = 2;
+    pMember->equipmentRuntime.mainHand.maxCharges = 2;
+
+    CHECK(party.consumeEquippedWandCharge(0));
+    CHECK_EQ(pMember->equipmentRuntime.mainHand.currentCharges, 1u);
+    CHECK(party.consumeEquippedWandCharge(0));
+    CHECK_EQ(pMember->equipmentRuntime.mainHand.currentCharges, 0u);
+    CHECK_FALSE(party.consumeEquippedWandCharge(0));
+}
+
+TEST_CASE("inventory mixing creates reagent potion in target bottle")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.push_back(makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1));
+
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&gameData.itemTable);
+    party.seed(seed);
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    pMember->skills["Alchemy"] = {"Alchemy", 2, OpenYAMM::Game::SkillMastery::Normal};
+
+    OpenYAMM::Game::InventoryItem bottle = {};
+    bottle.objectDescriptionId = 220;
+    REQUIRE(pMember->addInventoryItemAt(bottle, 0, 0));
+
+    OpenYAMM::Game::InventoryItem heldReagent = {};
+    heldReagent.objectDescriptionId = 200;
+
+    const OpenYAMM::Game::InventoryItemMixResult result =
+        OpenYAMM::Game::InventoryItemMixingRuntime::tryApplyHeldItemToInventoryItem(
+            party,
+            0,
+            heldReagent,
+            0,
+            0,
+            gameData.itemTable,
+            gameData.potionMixingTable);
+
+    REQUIRE(result.handled);
+    CHECK(result.success);
+    CHECK(result.heldItemConsumed);
+
+    const OpenYAMM::Game::InventoryItem *pMixedPotion = pMember->inventoryItemAt(0, 0);
+    REQUIRE(pMixedPotion != nullptr);
+    CHECK_EQ(pMixedPotion->objectDescriptionId, 222u);
+    CHECK_EQ(pMixedPotion->standardEnchantPower, 3u);
+}
+
+TEST_CASE("inventory mixing combines valid potions and returns an empty bottle")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.push_back(makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1));
+
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&gameData.itemTable);
+    party.seed(seed);
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    pMember->skills["Alchemy"] = {"Alchemy", 2, OpenYAMM::Game::SkillMastery::Expert};
+
+    OpenYAMM::Game::InventoryItem targetPotion = {};
+    targetPotion.objectDescriptionId = 223;
+    targetPotion.standardEnchantPower = 20;
+    REQUIRE(pMember->addInventoryItemAt(targetPotion, 0, 0));
+
+    OpenYAMM::Game::InventoryItem heldPotion = {};
+    heldPotion.objectDescriptionId = 222;
+    heldPotion.standardEnchantPower = 10;
+
+    const OpenYAMM::Game::InventoryItemMixResult result =
+        OpenYAMM::Game::InventoryItemMixingRuntime::tryApplyHeldItemToInventoryItem(
+            party,
+            0,
+            heldPotion,
+            0,
+            0,
+            gameData.itemTable,
+            gameData.potionMixingTable);
+
+    REQUIRE(result.handled);
+    CHECK(result.success);
+    CHECK(result.heldItemConsumed);
+    CHECK_FALSE(result.heldItemReplacement.has_value());
+
+    const OpenYAMM::Game::InventoryItem *pMixedPotion = pMember->inventoryItemAt(0, 0);
+    REQUIRE(pMixedPotion != nullptr);
+    CHECK_EQ(pMixedPotion->objectDescriptionId, 226u);
+    CHECK_EQ(pMixedPotion->standardEnchantPower, 15u);
+    const bool hasReturnedBottle =
+        pMember->inventoryItemAt(1, 0) != nullptr
+        || pMember->inventoryItemAt(0, 1) != nullptr;
+    CHECK(hasReturnedBottle);
+}
+
+TEST_CASE("inventory mixing invalid potion combination consumes both items")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.push_back(makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1));
+
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&gameData.itemTable);
+    party.seed(seed);
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+
+    OpenYAMM::Game::InventoryItem targetPotion = {};
+    targetPotion.objectDescriptionId = 226;
+    REQUIRE(pMember->addInventoryItemAt(targetPotion, 0, 0));
+
+    OpenYAMM::Game::InventoryItem heldPotion = {};
+    heldPotion.objectDescriptionId = 240;
+
+    const OpenYAMM::Game::InventoryItemMixResult result =
+        OpenYAMM::Game::InventoryItemMixingRuntime::tryApplyHeldItemToInventoryItem(
+            party,
+            0,
+            heldPotion,
+            0,
+            0,
+            gameData.itemTable,
+            gameData.potionMixingTable);
+
+    REQUIRE(result.handled);
+    CHECK_FALSE(result.success);
+    CHECK(result.heldItemConsumed);
+    CHECK(result.targetItemRemoved);
+    CHECK_EQ(result.failureDamageLevel, 3u);
+    CHECK(pMember->inventoryItemAt(0, 0) == nullptr);
+}
+
 TEST_CASE("party airborne movement allows water entry without water walk")
 {
     const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();
@@ -414,6 +686,95 @@ TEST_CASE("lua event runtime supports evt jump alias")
     REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr));
     REQUIRE_FALSE(runtimeState.statusMessages.empty());
     CHECK_EQ(runtimeState.statusMessages.back(), "jump ok");
+}
+
+TEST_CASE("save preview bmp decoder accepts current 32 bit preview payloads")
+{
+    const std::vector<uint8_t> sourcePixels = {
+        10, 20, 30, 255,
+        40, 50, 60, 128
+    };
+    const std::vector<uint8_t> bmp = OpenYAMM::Game::SavePreviewImage::encodeBgraToBmp(2, 1, sourcePixels);
+    REQUIRE_FALSE(bmp.empty());
+
+    int width = 0;
+    int height = 0;
+    std::vector<uint8_t> decodedPixels;
+    CHECK(OpenYAMM::Game::SavePreviewImage::decodeBmpBytesToBgra(bmp, width, height, decodedPixels));
+    CHECK_EQ(width, 2);
+    CHECK_EQ(height, 1);
+    CHECK_EQ(decodedPixels, sourcePixels);
+}
+
+TEST_CASE("lua MoveToMap with transition ids opens shared transition dialog instead of immediate move")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[1] = function()\n"
+        "    evt._BeginEvent(1)\n"
+        "    evt.MoveToMap(-500, -1567, -63, 512, 0, 0, 204, 9, \"\1D18.blv\")\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticDungeonTransition.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr));
+    CHECK_FALSE(runtimeState.pendingMapMove.has_value());
+    REQUIRE(runtimeState.pendingDialogueContext.has_value());
+    CHECK_EQ(runtimeState.pendingDialogueContext->kind, OpenYAMM::Game::DialogueContextKind::MapTransition);
+    REQUIRE(runtimeState.pendingDialogueContext->transitionMapMove.has_value());
+    CHECK_EQ(runtimeState.pendingDialogueContext->transitionMapMove->mapName, std::optional<std::string>("D18.blv"));
+    CHECK_EQ(runtimeState.pendingDialogueContext->transitionMapMove->x, -500);
+    CHECK_EQ(runtimeState.pendingDialogueContext->transitionTextId, 204u);
+    CHECK_EQ(runtimeState.pendingDialogueContext->transitionImageId, 9u);
+}
+
+TEST_CASE("dungeon transition dialog uses trans table title text icon and transition video metadata")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    OpenYAMM::Game::EventRuntimeState::PendingMapMove mapMove = {};
+    mapMove.mapName = std::string("D18.blv");
+    mapMove.x = -500;
+    mapMove.y = -1567;
+    mapMove.z = -63;
+
+    OpenYAMM::Game::EventRuntimeState::PendingDialogueContext context = {};
+    context.kind = OpenYAMM::Game::DialogueContextKind::MapTransition;
+    context.transitionMapMove = mapMove;
+    context.transitionTextId = 204;
+    context.transitionImageId = 9;
+    runtimeState.pendingDialogueContext = context;
+
+    const OpenYAMM::Game::EventDialogContent dialog = OpenYAMM::Game::buildEventDialogContent(
+        runtimeState,
+        0,
+        true,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        &gameData.transitionTable,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        0.0f);
+
+    REQUIRE(dialog.isActive);
+    CHECK_EQ(dialog.presentation, OpenYAMM::Game::EventDialogPresentation::Transition);
+    CHECK_EQ(dialog.title, "Naga Vault");
+    REQUIRE_FALSE(dialog.lines.empty());
+    CHECK(dialog.lines.front().find("stonework") != std::string::npos);
+    CHECK_EQ(dialog.participantTextureName, "IDOOR");
+    CHECK_EQ(dialog.videoName, "naga_vlt");
+    CHECK_EQ(dialog.videoDirectory, "Videos/Transitions");
+    REQUIRE_EQ(dialog.actions.size(), 2u);
+    CHECK_EQ(dialog.actions[0].kind, OpenYAMM::Game::EventDialogActionKind::MapTransitionConfirm);
+    CHECK_EQ(dialog.actions[1].kind, OpenYAMM::Game::EventDialogActionKind::MapTransitionCancel);
 }
 
 TEST_CASE("lua event runtime treats explicit hint-only events as handled no-ops")

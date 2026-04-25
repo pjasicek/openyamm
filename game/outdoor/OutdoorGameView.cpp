@@ -3222,6 +3222,8 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         m_elapsedTime += deltaSeconds;
     }
 
+    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
+
     if (m_pendingSavePreviewCapture.active
         && m_pendingSavePreviewCapture.screenshotRequested
         && m_gameSession.canSaveGameToPath())
@@ -3266,6 +3268,46 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         }
     }
 
+    GameplayUiController::UtilitySpellOverlayState &utilityOverlay = overlayContext.utilitySpellOverlay();
+
+    if (utilityOverlay.lloydSetPreviewCapturePending && utilityOverlay.lloydSetPreviewScreenshotRequested)
+    {
+        const std::optional<Engine::BgfxContext::ScreenshotCapture> screenshot =
+            Engine::BgfxContext::consumeScreenshot(utilityOverlay.lloydSetPreviewRequestId);
+        const bool timedOut = SDL_GetTicks() - utilityOverlay.lloydSetPreviewStartedTicks > 3000u;
+
+        if (screenshot || timedOut)
+        {
+            PartySpellCastRequest request = utilityOverlay.lloydSetPreviewRequest;
+            const std::string spellName = utilityOverlay.lloydSetPreviewSpellName;
+
+            if (screenshot)
+            {
+                request.utilityPreviewPixelsBgra =
+                    SavePreviewImage::cropAndScaleBgraPreview(
+                        screenshot->bgraPixels,
+                        static_cast<int>(screenshot->width),
+                        static_cast<int>(screenshot->height),
+                        92,
+                        68);
+
+                if (!request.utilityPreviewPixelsBgra.empty())
+                {
+                    request.utilityPreviewWidth = 92;
+                    request.utilityPreviewHeight = 68;
+                }
+            }
+
+            utilityOverlay.lloydSetPreviewCapturePending = false;
+            utilityOverlay.lloydSetPreviewScreenshotRequested = false;
+            utilityOverlay.lloydSetPreviewStartedTicks = 0;
+            utilityOverlay.lloydSetPreviewRequestId.clear();
+            utilityOverlay.lloydSetPreviewSpellName.clear();
+            utilityOverlay.lloydSetPreviewRequest = {};
+            overlayContext.tryCastSpellRequest(request, spellName);
+        }
+    }
+
     const uint16_t viewWidth = static_cast<uint16_t>(std::max(width, 1));
     const uint16_t viewHeight = static_cast<uint16_t>(std::max(height, 1));
     m_lastRenderWidth = width;
@@ -3276,7 +3318,11 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
     const float farClipDistance = DefaultOutdoorFarClip;
     const bool captureSavePreviewThisFrame =
         m_pendingSavePreviewCapture.active && !m_pendingSavePreviewCapture.screenshotRequested;
-    m_renderGameplayUiThisFrame = !captureSavePreviewThisFrame;
+    const bool captureLloydsBeaconPreviewThisFrame =
+        !captureSavePreviewThisFrame
+        && utilityOverlay.lloydSetPreviewCapturePending
+        && !utilityOverlay.lloydSetPreviewScreenshotRequested;
+    m_renderGameplayUiThisFrame = !captureSavePreviewThisFrame && !captureLloydsBeaconPreviewThisFrame;
 
     bgfx::setViewRect(SkyViewId, 0, 0, viewWidth, viewHeight);
     bgfx::setViewClear(SkyViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, clearColorAbgr, 1.0f, 0);
@@ -3286,6 +3332,19 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
 
     if (!m_isRenderable)
     {
+        if (captureLloydsBeaconPreviewThisFrame)
+        {
+            PartySpellCastRequest request = utilityOverlay.lloydSetPreviewRequest;
+            const std::string spellName = utilityOverlay.lloydSetPreviewSpellName;
+            utilityOverlay.lloydSetPreviewCapturePending = false;
+            utilityOverlay.lloydSetPreviewScreenshotRequested = false;
+            utilityOverlay.lloydSetPreviewStartedTicks = 0;
+            utilityOverlay.lloydSetPreviewRequestId.clear();
+            utilityOverlay.lloydSetPreviewSpellName.clear();
+            utilityOverlay.lloydSetPreviewRequest = {};
+            overlayContext.tryCastSpellRequest(request, spellName);
+        }
+
         m_renderGameplayUiThisFrame = false;
         bgfx::touch(SkyViewId);
         bgfx::touch(MainViewId);
@@ -3294,7 +3353,6 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         return;
     }
 
-    GameplayScreenRuntime &overlayContext = m_gameSession.gameplayScreenRuntime();
     const GameplayUiController::SaveGameScreenState &saveGameScreen = overlayContext.saveGameScreenState();
     const GameplayUiController::LoadGameScreenState &loadGameScreen = overlayContext.loadGameScreenState();
 
@@ -3388,8 +3446,13 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         bgfx::requestScreenShot(BGFX_INVALID_HANDLE, m_pendingSavePreviewCapture.requestId.c_str());
         m_pendingSavePreviewCapture.screenshotRequested = true;
     }
+    else if (captureLloydsBeaconPreviewThisFrame)
+    {
+        bgfx::requestScreenShot(BGFX_INVALID_HANDLE, utilityOverlay.lloydSetPreviewRequestId.c_str());
+        utilityOverlay.lloydSetPreviewScreenshotRequested = true;
+    }
 
-    if (!captureSavePreviewThisFrame)
+    if (!captureSavePreviewThisFrame && !captureLloydsBeaconPreviewThisFrame)
     {
         bgfx::dbgTextClear();
 
@@ -4478,16 +4541,41 @@ void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
     const HouseEntry *pHostHouseEntry =
         hostHouseId != 0 ? m_gameSession.data().houseTable().get(hostHouseId) : nullptr;
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    const EventDialogContent &activeDialog = screenRuntime.activeEventDialog();
 
     if (resolveGameplayHudScreenState(
             m_gameSession.gameplayUiController(),
-            screenRuntime.activeEventDialog(),
+            activeDialog,
             m_pOutdoorWorldRuntime)
             != GameplayHudScreenState::Dialogue
-        || !screenRuntime.activeEventDialog().isActive
-        || pHostHouseEntry == nullptr
-        || pHostHouseEntry->videoName.empty()
+        || !activeDialog.isActive
         || m_pAssetFileSystem == nullptr)
+    {
+        if (m_activeHouseAudioHostId != 0 && m_pGameAudioSystem != nullptr)
+        {
+            m_pGameAudioSystem->playCommonSound(SoundId::WoodDoorClosing, GameAudioSystem::PlaybackGroup::HouseDoor);
+            m_pGameAudioSystem->resumeBackgroundMusic();
+        }
+
+        m_activeHouseAudioHostId = 0;
+        m_gameSession.gameplayScreenRuntime().stopHouseVideoPlayback();
+        return;
+    }
+
+    if (!activeDialog.videoName.empty())
+    {
+        if (m_activeHouseAudioHostId != 0 && m_pGameAudioSystem != nullptr)
+        {
+            m_pGameAudioSystem->resumeBackgroundMusic();
+        }
+
+        m_activeHouseAudioHostId = 0;
+        m_gameSession.gameplayScreenRuntime().playHouseVideo(activeDialog.videoName, activeDialog.videoDirectory);
+        m_gameSession.gameplayScreenRuntime().updateHouseVideoPlayback(deltaSeconds);
+        return;
+    }
+
+    if (pHostHouseEntry == nullptr || pHostHouseEntry->videoName.empty())
     {
         if (m_activeHouseAudioHostId != 0 && m_pGameAudioSystem != nullptr)
         {

@@ -84,6 +84,16 @@ public:
         uint32_t sourcePartyMemberIndex = 0;
     };
 
+    struct FriendlySummonRequest
+    {
+        int16_t monsterId = 0;
+        uint32_t count = 0;
+        float durationSeconds = 0.0f;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+    };
+
     PartySpellTestWorldRuntime()
     {
         m_mapName = "spell_test.odm";
@@ -122,6 +132,12 @@ public:
         m_currentHour = hour;
     }
 
+    void setIndoorMap(bool indoorMap)
+    {
+        m_indoorMap = indoorMap;
+        m_mapName = indoorMap ? "spell_test.blv" : "spell_test.odm";
+    }
+
     const std::vector<Game::GameplayPartySpellProjectileRequest> &projectileRequests() const
     {
         return m_projectileRequests;
@@ -130,6 +146,11 @@ public:
     const std::vector<AppliedSpellToActor> &appliedSpellRequests() const
     {
         return m_appliedSpellRequests;
+    }
+
+    const std::vector<FriendlySummonRequest> &friendlySummonRequests() const
+    {
+        return m_friendlySummonRequests;
     }
 
     const std::vector<size_t> &radiusQueryActorIndices() const
@@ -150,6 +171,11 @@ public:
     const std::string &mapName() const override
     {
         return m_mapName;
+    }
+
+    bool isIndoorMap() const override
+    {
+        return m_indoorMap;
     }
 
     float gameMinutes() const override
@@ -487,12 +513,29 @@ public:
         float y,
         float z) override
     {
-        (void)monsterId;
-        (void)count;
-        (void)durationSeconds;
-        (void)x;
-        (void)y;
-        (void)z;
+        m_friendlySummonRequests.push_back({
+            .monsterId = monsterId,
+            .count = count,
+            .durationSeconds = durationSeconds,
+            .x = x,
+            .y = y,
+            .z = z
+        });
+
+        for (uint32_t summonIndex = 0; summonIndex < count; ++summonIndex)
+        {
+            Game::GameplayRuntimeActorState actor = {};
+            actor.monsterId = monsterId;
+            actor.preciseX = x;
+            actor.preciseY = y;
+            actor.preciseZ = z;
+            actor.radius = 32;
+            actor.height = 96;
+            actor.hostileToParty = false;
+            actor.hasDetectedParty = false;
+            m_actors.push_back(actor);
+        }
+
         return true;
     }
 
@@ -798,6 +841,7 @@ public:
 private:
     mutable std::vector<size_t> m_radiusQueryActorIndices;
     std::string m_mapName;
+    bool m_indoorMap = false;
     Game::Party *m_pParty = nullptr;
     Game::EventRuntimeState m_eventRuntimeState = {};
     Game::EventRuntimeState *m_pEventRuntimeState = nullptr;
@@ -805,6 +849,7 @@ private:
     std::vector<Game::GameplayRuntimeActorState> m_actors;
     std::vector<Game::GameplayPartySpellProjectileRequest> m_projectileRequests;
     std::vector<AppliedSpellToActor> m_appliedSpellRequests;
+    std::vector<FriendlySummonRequest> m_friendlySummonRequests;
     float m_gameMinutes = 0.0f;
     float m_partyX = 0.0f;
     float m_partyY = 0.0f;

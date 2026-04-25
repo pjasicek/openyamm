@@ -7,6 +7,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/app/KeyboardBindings.h"
 #include "game/items/InventoryItemUseRuntime.h"
+#include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/party/SkillData.h"
 #include "game/ui/GameplayHudCommon.h"
@@ -612,6 +613,11 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
         return;
     }
 
+    if (context.utilitySpellOverlayReadOnly().lloydSetPreviewCapturePending)
+    {
+        return;
+    }
+
     const bool closePressed = pKeyboardState[SDL_SCANCODE_ESCAPE];
 
     if (closePressed)
@@ -801,6 +807,201 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
     }
 
     context.mutableStatusBarHoverText().clear();
+
+    if (context.utilitySpellOverlayReadOnly().mode == GameplayUiController::UtilitySpellOverlayMode::LloydsBeacon)
+    {
+        const auto resolveLayout =
+            [&context, screenWidth, screenHeight](
+                const std::string &layoutId) -> std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement>
+            {
+                const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
+
+                if (pLayout == nullptr)
+                {
+                    return std::nullopt;
+                }
+
+                return context.resolveHudLayoutElement(
+                    layoutId,
+                    screenWidth,
+                    screenHeight,
+                    pLayout->width,
+                    pLayout->height);
+            };
+        const auto pointInsideLayout =
+            [&resolveLayout](float pointerX, float pointerY, const std::string &layoutId) -> bool
+            {
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> resolved = resolveLayout(layoutId);
+
+                return resolved.has_value()
+                    && pointInsideRect(pointerX, pointerY, resolved->x, resolved->y, resolved->width, resolved->height);
+            };
+        const auto slotLayoutId =
+            [](size_t index) -> std::string
+            {
+                return "LloydsBeaconSlot" + std::to_string(index + 1);
+            };
+        const auto findLloydTarget =
+            [&context, &pointInsideLayout, &slotLayoutId](
+                float pointerX,
+                float pointerY) -> GameplayUtilitySpellPointerTarget
+            {
+                if (pointInsideLayout(pointerX, pointerY, "LloydsBeaconCloseButton"))
+                {
+                    return {GameplayUtilitySpellPointerTargetType::Close, 0};
+                }
+
+                if (pointInsideLayout(pointerX, pointerY, "LloydsBeaconSetBeacon"))
+                {
+                    return {GameplayUtilitySpellPointerTargetType::LloydSetTab, 0};
+                }
+
+                if (pointInsideLayout(pointerX, pointerY, "LloydsBeaconRecallBeacon"))
+                {
+                    return {GameplayUtilitySpellPointerTargetType::LloydRecallTab, 0};
+                }
+
+                const Character *pCaster =
+                    context.partyReadOnly() != nullptr
+                        ? context.partyReadOnly()->member(context.utilitySpellOverlayReadOnly().casterMemberIndex)
+                        : nullptr;
+                const size_t slotCount = lloydsBeaconMaxSlotsForCharacter(pCaster);
+
+                for (size_t index = 0; index < slotCount; ++index)
+                {
+                    if (pointInsideLayout(pointerX, pointerY, slotLayoutId(index)))
+                    {
+                        return {GameplayUtilitySpellPointerTargetType::LloydSlot, index};
+                    }
+                }
+
+                return {};
+            };
+
+        const GameplayUtilitySpellPointerTarget hoveredTarget =
+            findLloydTarget(pointerState.x, pointerState.y);
+
+        if (hoveredTarget.type == GameplayUtilitySpellPointerTargetType::LloydSlot)
+        {
+            const Character *pCaster =
+                context.partyReadOnly() != nullptr
+                    ? context.partyReadOnly()->member(context.utilitySpellOverlayReadOnly().casterMemberIndex)
+                    : nullptr;
+
+            if (pCaster != nullptr && hoveredTarget.index < pCaster->lloydsBeacons.size())
+            {
+                if (context.utilitySpellOverlayReadOnly().lloydRecallMode)
+                {
+                    const std::optional<LloydBeacon> &beacon = pCaster->lloydsBeacons[hoveredTarget.index];
+
+                    if (beacon.has_value())
+                    {
+                        const std::string locationName =
+                            beacon->locationName.empty() ? beacon->mapName : beacon->locationName;
+                        context.mutableStatusBarHoverText() = "Recall to " + locationName;
+                    }
+                }
+                else
+                {
+                    const std::string currentLocationName =
+                        context.worldRuntime() != nullptr
+                            ? context.resolveMapLocationName(context.worldRuntime()->mapName())
+                            : std::string("current location");
+                    const std::optional<LloydBeacon> &beacon = pCaster->lloydsBeacons[hoveredTarget.index];
+
+                    if (beacon.has_value())
+                    {
+                        const std::string locationName =
+                            beacon->locationName.empty() ? beacon->mapName : beacon->locationName;
+                        context.mutableStatusBarHoverText() = "Set " + currentLocationName + " over " + locationName;
+                    }
+                    else
+                    {
+                        context.mutableStatusBarHoverText() = "Set beacon to " + currentLocationName;
+                    }
+                }
+            }
+        }
+
+        handlePointerClickRelease(
+            pointerState,
+            context.interactionState().utilitySpellClickLatch,
+            context.interactionState().utilitySpellPressedTarget,
+            noneTarget,
+            findLloydTarget,
+            [&context, &resolveSpellName](const GameplayUtilitySpellPointerTarget &target)
+            {
+                if (target.type == GameplayUtilitySpellPointerTargetType::Close)
+                {
+                    context.utilitySpellOverlay() = {};
+                    context.resetUtilitySpellOverlayInteractionState();
+                    context.setStatusBarEvent("Spell cancelled", 2.0f);
+                    return;
+                }
+
+                if (target.type == GameplayUtilitySpellPointerTargetType::LloydSetTab)
+                {
+                    context.utilitySpellOverlay().lloydRecallMode = false;
+                    return;
+                }
+
+                if (target.type == GameplayUtilitySpellPointerTargetType::LloydRecallTab)
+                {
+                    context.utilitySpellOverlay().lloydRecallMode = true;
+                    return;
+                }
+
+                if (target.type != GameplayUtilitySpellPointerTargetType::LloydSlot
+                    || context.partyReadOnly() == nullptr
+                    || context.worldRuntime() == nullptr)
+                {
+                    return;
+                }
+
+                const Character *pCaster =
+                    context.partyReadOnly()->member(context.utilitySpellOverlayReadOnly().casterMemberIndex);
+
+                if (pCaster == nullptr || target.index >= pCaster->lloydsBeacons.size())
+                {
+                    return;
+                }
+
+                PartySpellCastRequest request = {};
+                request.casterMemberIndex = context.utilitySpellOverlayReadOnly().casterMemberIndex;
+                request.spellId = context.utilitySpellOverlayReadOnly().spellId;
+                request.utilitySlotIndex = static_cast<uint8_t>(target.index);
+
+                if (context.utilitySpellOverlayReadOnly().lloydRecallMode)
+                {
+                    if (!pCaster->lloydsBeacons[target.index].has_value())
+                    {
+                        return;
+                    }
+
+                    request.utilityAction = PartySpellUtilityActionKind::LloydsBeaconRecall;
+                    context.tryCastSpellRequest(request, resolveSpellName());
+                    return;
+                }
+
+                request.utilityAction = PartySpellUtilityActionKind::LloydsBeaconSet;
+                request.utilityStatusText = context.resolveMapLocationName(context.worldRuntime()->mapName());
+                request.utilityMapMoveDirectionDegrees =
+                    static_cast<int32_t>(std::lround(
+                        context.gameplayCameraYawRadians() * 180.0f / 3.14159265358979323846f));
+
+                GameplayUiController::UtilitySpellOverlayState &overlay = context.utilitySpellOverlay();
+                overlay.lloydSetPreviewCapturePending = true;
+                overlay.lloydSetPreviewScreenshotRequested = false;
+                overlay.lloydSetPreviewStartedTicks = SDL_GetTicks();
+                overlay.lloydSetPreviewRequestId =
+                    "lloyds_beacon_" + std::to_string(overlay.lloydSetPreviewStartedTicks)
+                    + "_" + std::to_string(target.index);
+                overlay.lloydSetPreviewSpellName = resolveSpellName();
+                overlay.lloydSetPreviewRequest = request;
+                context.setStatusBarEvent("Setting beacon", 2.0f);
+            });
+        return;
+    }
 
     const UtilityOverlayLayout layout = computeUtilityOverlayLayout(screenWidth, screenHeight);
     const auto findPointerTarget =
@@ -1432,6 +1633,7 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
     const float mouseX = input.pointerX;
     const float mouseY = input.pointerY;
     const bool isLeftMousePressed = input.leftMouseButton.held;
+    const bool rightMousePressed = input.rightMouseButton.pressed;
 
     const auto resolveCharacterInventoryGrid =
         [&context, screenWidth, screenHeight]() -> std::optional<GameplayResolvedHudLayoutElement>
@@ -2042,6 +2244,28 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
             pParty->activeMemberIndex(),
             hoveredCharacterTarget,
             isLeftMousePressed);
+
+        if (rightMousePressed
+            && context.heldInventoryItem().active
+            && !isInventorySpellTargetMode
+            && hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryCell)
+        {
+            const Character *pHoveredCharacter = pParty->activeMember();
+            const InventoryItem *pTargetItem =
+                pHoveredCharacter != nullptr
+                    ? pHoveredCharacter->inventoryItemAt(hoveredCharacterTarget.gridX, hoveredCharacterTarget.gridY)
+                    : nullptr;
+
+            if (pTargetItem != nullptr
+                && context.itemService().tryUseHeldItemOnInventoryItem(
+                    context,
+                    pParty->activeMemberIndex(),
+                    pTargetItem->gridX,
+                    pTargetItem->gridY))
+            {
+                return;
+            }
+        }
     }
     else
     {

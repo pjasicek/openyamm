@@ -24,11 +24,13 @@
 #include "game/tables/ObjectTable.h"
 #include "game/tables/PortraitFrameTable.h"
 #include "game/tables/PortraitFxEventTable.h"
+#include "game/tables/PotionMixingTable.h"
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RaceStartingStatsTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
 #include "game/tables/SpellFxTable.h"
+#include "game/tables/TransitionTable.h"
 
 #include <cstddef>
 #include <string>
@@ -81,12 +83,14 @@ public:
     const CharacterInspectTable &getCharacterInspectTable() const;
     const RaceStartingStatsTable &getRaceStartingStatsTable() const;
     const ReadableScrollTable &getReadableScrollTable() const;
+    const PotionMixingTable &getPotionMixingTable() const;
     const ArcomageLibrary &getArcomageLibrary() const;
     const PortraitFrameTable &getPortraitFrameTable() const;
     const IconFrameTable &getIconFrameTable() const;
     const SpellFxTable &getSpellFxTable() const;
     const PortraitFxEventTable &getPortraitFxEventTable() const;
     const FaceAnimationTable &getFaceAnimationTable() const;
+    const TransitionTable &getTransitionTable() const;
 
 private:
     bool loadInternal(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose);
@@ -117,12 +121,14 @@ private:
     bool loadCharacterInspectTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRaceStartingStatsTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadReadableScrollTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadPotionMixingTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadArcomageLibrary(const Engine::AssetFileSystem &assetFileSystem);
     bool loadPortraitFrameTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadIconFrameTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadSpellFxTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadPortraitFxEventTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadFaceAnimationTable(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadTransitionTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadFirstTextTableRows(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::vector<std::string> &virtualPaths,
@@ -157,12 +163,14 @@ private:
     CharacterInspectTable m_characterInspectTable;
     RaceStartingStatsTable m_raceStartingStatsTable;
     ReadableScrollTable m_readableScrollTable;
+    PotionMixingTable m_potionMixingTable;
     ArcomageLibrary m_arcomageLibrary;
     PortraitFrameTable m_portraitFrameTable;
     IconFrameTable m_iconFrameTable;
     SpellFxTable m_spellFxTable;
     PortraitFxEventTable m_portraitFxEventTable;
     FaceAnimationTable m_faceAnimationTable;
+    TransitionTable m_transitionTable;
     std::optional<MapAssetInfo> m_selectedMap;
 };
 }

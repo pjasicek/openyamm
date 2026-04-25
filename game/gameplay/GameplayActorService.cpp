@@ -154,6 +154,23 @@ bool GameplayActorService::actorLooksUndead(int16_t monsterId) const
     return pStats != nullptr && looksUndeadByName(pStats->name, pStats->pictureName);
 }
 
+int16_t GameplayActorService::relationMonsterId(int16_t monsterId, uint32_t allyMonsterType) const
+{
+    if (allyMonsterType == 0)
+    {
+        return monsterId;
+    }
+
+    const uint32_t representativeMonsterId = (allyMonsterType - 1u) * 3u + 1u;
+
+    if (representativeMonsterId > 0x7fffu)
+    {
+        return monsterId;
+    }
+
+    return int16_t(representativeMonsterId);
+}
+
 GameplayActorService::DirectSpellImpactResult GameplayActorService::resolveDirectSpellImpact(
     uint32_t spellId,
     uint32_t skillLevel,
@@ -192,7 +209,9 @@ GameplayActorService::DirectSpellImpactResult GameplayActorService::resolveDirec
         return result;
     }
 
-    if (resolvedSpellId == SpellId::SpiritLash || resolvedSpellId == SpellId::SoulDrinker)
+    if (resolvedSpellId == SpellId::SpiritLash
+        || resolvedSpellId == SpellId::PrismaticLight
+        || resolvedSpellId == SpellId::SoulDrinker)
     {
         result.disposition = DirectSpellImpactDisposition::ApplyDamage;
         result.visualKind = DirectSpellImpactVisualKind::ActorUpperBody;
@@ -542,7 +561,8 @@ float GameplayActorService::partyEngagementRange(const GameplayActorTargetPolicy
         return HostilityLongRange;
     }
 
-    return hostilityRangeForRelation(m_pMonsterTable->getRelationToParty(actor.monsterId));
+    const int16_t actorRelationMonsterId = actor.relationMonsterId > 0 ? actor.relationMonsterId : actor.monsterId;
+    return hostilityRangeForRelation(m_pMonsterTable->getRelationToParty(actorRelationMonsterId));
 }
 
 float GameplayActorService::hostilityPromotionRangeForFriendlyActor(int relation) const
@@ -671,8 +691,11 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
     }
 
     const bool hostileToSummon = actor.hostileToParty && targetIsPartyControlled;
-    const int factionRelation =
-        m_pMonsterTable != nullptr ? m_pMonsterTable->getRelationBetweenMonsters(actor.monsterId, target.monsterId) : 0;
+    const int16_t actorRelationMonsterId = actor.relationMonsterId > 0 ? actor.relationMonsterId : actor.monsterId;
+    const int16_t targetRelationMonsterId = target.relationMonsterId > 0 ? target.relationMonsterId : target.monsterId;
+    const int factionRelation = m_pMonsterTable != nullptr
+        ? m_pMonsterTable->getRelationBetweenMonsters(actorRelationMonsterId, targetRelationMonsterId)
+        : 0;
     const bool hostileByFaction = factionRelation > 0;
 
     if (!hostileByFaction && !hostileToSummon)

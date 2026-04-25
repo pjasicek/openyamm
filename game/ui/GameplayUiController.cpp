@@ -8,7 +8,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-const std::array<std::string, 21> GameplayLayoutFiles = {
+const std::array<std::string, 22> GameplayLayoutFiles = {
     "Data/ui/gameplay/gameplay.yml",
     "Data/ui/gameplay/chest.yml",
     "Data/ui/gameplay/dialogue.yml",
@@ -24,6 +24,7 @@ const std::array<std::string, 21> GameplayLayoutFiles = {
     "Data/ui/gameplay/load_game.yml",
     "Data/ui/gameplay/journal.yml",
     "Data/ui/gameplay/town_portal.yml",
+    "Data/ui/gameplay/lloyds_beacon.yml",
     "Data/ui/gameplay/item_inspect.yml",
     "Data/ui/gameplay/character_inspect.yml",
     "Data/ui/gameplay/buff_inspect.yml",

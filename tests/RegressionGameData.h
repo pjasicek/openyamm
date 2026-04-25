@@ -8,9 +8,11 @@
 #include "game/tables/HouseTable.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/NpcDialogTable.h"
+#include "game/tables/PotionMixingTable.h"
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
+#include "game/tables/TransitionTable.h"
 
 #include <optional>
 #include <string>
@@ -25,6 +27,7 @@ struct RegressionGameData
     Game::ItemTable itemTable = {};
     Game::StandardItemEnchantTable standardItemEnchantTable = {};
     Game::SpecialItemEnchantTable specialItemEnchantTable = {};
+    Game::PotionMixingTable potionMixingTable = {};
     Game::ReadableScrollTable readableScrollTable = {};
     Game::SpellTable spellTable = {};
     Game::CharacterDollTable characterDollTable = {};
@@ -32,6 +35,7 @@ struct RegressionGameData
     Game::HouseTable houseTable = {};
     Game::NpcDialogTable npcDialogTable = {};
     Game::RosterTable rosterTable = {};
+    Game::TransitionTable transitionTable = {};
 };
 
 bool regressionGameDataLoaded();

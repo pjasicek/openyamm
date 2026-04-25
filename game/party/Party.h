@@ -41,6 +41,8 @@ struct InventoryItem
     uint16_t specialEnchantId = 0;
     uint16_t artifactId = 0;
     ItemRarity rarity = ItemRarity::Common;
+    uint16_t currentCharges = 0;
+    uint16_t maxCharges = 0;
     float temporaryBonusRemainingSeconds = 0.0f;
 };
 
@@ -53,6 +55,9 @@ struct LloydBeacon
     float z = 0.0f;
     float directionDegrees = 0.0f;
     float remainingSeconds = 0.0f;
+    int previewWidth = 0;
+    int previewHeight = 0;
+    std::vector<uint8_t> previewPixelsBgra;
 };
 
 struct Character
@@ -398,6 +403,7 @@ public:
     uint32_t equippedItemId(size_t memberIndex, EquipmentSlot slot) const;
     const EquippedItemRuntimeState *equippedItemRuntime(size_t memberIndex, EquipmentSlot slot) const;
     EquippedItemRuntimeState *equippedItemRuntimeMutable(size_t memberIndex, EquipmentSlot slot);
+    bool consumeEquippedWandCharge(size_t memberIndex);
     void refreshDerivedState();
     bool tryIdentifyMemberInventoryItem(
         size_t memberIndex,

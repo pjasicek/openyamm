@@ -135,6 +135,8 @@ struct EquippedItemRuntimeState
     uint16_t specialEnchantId = 0;
     uint16_t artifactId = 0;
     ItemRarity rarity = ItemRarity::Common;
+    uint16_t currentCharges = 0;
+    uint16_t maxCharges = 0;
     float temporaryBonusRemainingSeconds = 0.0f;
 };
 

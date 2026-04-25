@@ -21,11 +21,13 @@
 #include "game/tables/ObjectTable.h"
 #include "game/tables/PortraitFrameTable.h"
 #include "game/tables/PortraitFxEventTable.h"
+#include "game/tables/PotionMixingTable.h"
 #include "game/tables/RaceStartingStatsTable.h"
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/tables/SpellTable.h"
 #include "game/tables/SpellFxTable.h"
+#include "game/tables/TransitionTable.h"
 
 #include <vector>
 
@@ -62,12 +64,14 @@ public:
     const CharacterInspectTable &characterInspectTable() const;
     const RaceStartingStatsTable &raceStartingStatsTable() const;
     const ReadableScrollTable &readableScrollTable() const;
+    const PotionMixingTable &potionMixingTable() const;
     const ArcomageLibrary &arcomageLibrary() const;
     const PortraitFrameTable &portraitFrameTable() const;
     const IconFrameTable &iconFrameTable() const;
     const SpellFxTable &spellFxTable() const;
     const PortraitFxEventTable &portraitFxEventTable() const;
     const FaceAnimationTable &faceAnimationTable() const;
+    const TransitionTable &transitionTable() const;
 
 private:
     const MapStats *m_pMapStats = nullptr;
@@ -91,11 +95,13 @@ private:
     const CharacterInspectTable *m_pCharacterInspectTable = nullptr;
     const RaceStartingStatsTable *m_pRaceStartingStatsTable = nullptr;
     const ReadableScrollTable *m_pReadableScrollTable = nullptr;
+    const PotionMixingTable *m_pPotionMixingTable = nullptr;
     const ArcomageLibrary *m_pArcomageLibrary = nullptr;
     const PortraitFrameTable *m_pPortraitFrameTable = nullptr;
     const IconFrameTable *m_pIconFrameTable = nullptr;
     const SpellFxTable *m_pSpellFxTable = nullptr;
     const PortraitFxEventTable *m_pPortraitFxEventTable = nullptr;
     const FaceAnimationTable *m_pFaceAnimationTable = nullptr;
+    const TransitionTable *m_pTransitionTable = nullptr;
 };
 } // namespace OpenYAMM::Game

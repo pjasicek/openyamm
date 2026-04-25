@@ -7,6 +7,7 @@
 #include "game/tables/HouseTable.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/NpcDialogTable.h"
+#include "game/tables/TransitionTable.h"
 
 #include <cstddef>
 #include <cstdint>
@@ -64,6 +65,9 @@ struct EventDialogContent
     uint32_t participantPictureId = 0;
     EventDialogParticipantVisual participantVisual = EventDialogParticipantVisual::Portrait;
     EventDialogPresentation presentation = EventDialogPresentation::Standard;
+    std::string participantTextureName;
+    std::string videoName;
+    std::string videoDirectory;
     std::string houseTitle;
     std::string title;
     std::vector<std::string> lines;
@@ -84,6 +88,7 @@ EventDialogContent buildEventDialogContent(
     const HouseTable *pHouseTable,
     const ClassSkillTable *pClassSkillTable,
     const NpcDialogTable *pNpcDialogTable,
+    const TransitionTable *pTransitionTable,
     const MapStatsEntry *pCurrentMap,
     const std::vector<MapStatsEntry> *pMapEntries,
     const Party *pParty,

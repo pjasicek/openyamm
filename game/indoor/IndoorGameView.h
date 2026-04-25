@@ -84,12 +84,14 @@ public:
     GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const;
 private:
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
+    void presentPendingEventFeedback();
     std::optional<std::string> findCachedAssetPath(const std::string &directoryPath, const std::string &fileName) const;
     std::optional<std::vector<uint8_t>> readCachedBinaryFile(const std::string &assetPath) const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
     void updateItemInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     void updateActorInspectOverlayState(int width, int height, const GameplayInputFrame &input);
     void updateFootstepAudio(float deltaSeconds);
+    void updateDialogueVideoPlayback(float deltaSeconds);
     bool beginSaveWithPreview(
         const std::filesystem::path &path,
         const std::string &saveName,

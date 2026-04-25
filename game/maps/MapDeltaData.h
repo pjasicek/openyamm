@@ -56,6 +56,7 @@ struct MapDeltaActor
     std::array<uint16_t, 4> spriteIds = {};
     int16_t sectorId = 0;
     uint16_t currentActionAnimation = 0;
+    uint32_t carriedItemId = 0;
     uint32_t group = 0;
     uint32_t ally = 0;
     int32_t uniqueNameIndex = 0;

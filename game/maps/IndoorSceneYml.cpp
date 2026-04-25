@@ -614,6 +614,11 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
             return std::nullopt;
         }
 
+        if (!readScalarNode(actorNode, "carried_item_id", actor.carriedItemId, errorMessage, false))
+        {
+            actor.carriedItemId = 0;
+        }
+
         const YAML::Node spriteIdsNode = actorNode["sprite_ids"];
 
         if (!spriteIdsNode || !spriteIdsNode.IsSequence() || spriteIdsNode.size() != actor.spriteIds.size())

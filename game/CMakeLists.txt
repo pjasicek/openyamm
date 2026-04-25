@@ -44,6 +44,7 @@ add_executable(openyamm
     gameplay/GameplayInputController.cpp
     gameplay/GameplayInteractionController.cpp
     gameplay/GameplayItemService.cpp
+    gameplay/GameplayWorldItemInteraction.cpp
     gameplay/GameplayOverlayInputController.cpp
     gameplay/GameplayPartyOverlayInputController.cpp
     gameplay/GameplayProjectileService.cpp
@@ -60,6 +61,7 @@ add_executable(openyamm
     gameplay/TreasureRuntime.cpp
     audio/HouseVideoPlayer.cpp
     items/InventoryItemUseRuntime.cpp
+    items/InventoryItemMixingRuntime.cpp
     maps/IndoorSceneYml.cpp
     maps/MapDeltaData.cpp
     maps/OutdoorSceneYml.cpp
@@ -105,11 +107,13 @@ add_executable(openyamm
     outdoor/OutdoorWorldRuntime.cpp
     party/Party.cpp
     party/EventSpellBuffs.cpp
+    party/LloydsBeaconRuntime.cpp
     party/PartySpellSystem.cpp
     items/PriceCalculator.cpp
     tables/ReadableScrollTable.cpp
     render/TextureFiltering.cpp
     tables/PortraitFxEventTable.cpp
+    tables/PotionMixingTable.cpp
     tables/PortraitEnums.cpp
     tables/PortraitFrameTable.cpp
     tables/RaceStartingStatsTable.cpp
@@ -123,6 +127,7 @@ add_executable(openyamm
     party/SpellSchool.cpp
     tables/SpellTable.cpp
     tables/SpellFxTable.cpp
+    tables/TransitionTable.cpp
     tables/SpriteTables.cpp
     tables/SurfaceMaterialTable.cpp
     tables/TextureFrameTable.cpp

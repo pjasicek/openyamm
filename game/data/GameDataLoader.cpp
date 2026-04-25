@@ -1040,6 +1040,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadPotionMixingTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadArcomageLibrary(assetFileSystem))
     {
         return false;
@@ -1066,6 +1071,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
     }
 
     if (!loadFaceAnimationTable(assetFileSystem))
+    {
+        return false;
+    }
+
+    if (!loadTransitionTable(assetFileSystem))
     {
         return false;
     }
@@ -1296,6 +1306,11 @@ const ReadableScrollTable &GameDataLoader::getReadableScrollTable() const
     return m_readableScrollTable;
 }
 
+const PotionMixingTable &GameDataLoader::getPotionMixingTable() const
+{
+    return m_potionMixingTable;
+}
+
 const ArcomageLibrary &GameDataLoader::getArcomageLibrary() const
 {
     return m_arcomageLibrary;
@@ -1324,6 +1339,11 @@ const PortraitFxEventTable &GameDataLoader::getPortraitFxEventTable() const
 const FaceAnimationTable &GameDataLoader::getFaceAnimationTable() const
 {
     return m_faceAnimationTable;
+}
+
+const TransitionTable &GameDataLoader::getTransitionTable() const
+{
+    return m_transitionTable;
 }
 
 bool GameDataLoader::loadTable(
@@ -1831,6 +1851,42 @@ bool GameDataLoader::loadReadableScrollTable(const Engine::AssetFileSystem &asse
     if (!m_readableScrollTable.loadFromRows(rows))
     {
         std::cerr << "Failed to parse readable scroll table\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadPotionMixingTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadFirstTextTableRows(assetFileSystem, {englishDataTablePath("potion.txt")}, rows))
+    {
+        return false;
+    }
+
+    if (!m_potionMixingTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse potion mixing table\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadTransitionTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadFirstTextTableRows(assetFileSystem, {englishDataTablePath("trans.txt")}, rows))
+    {
+        return false;
+    }
+
+    if (!m_transitionTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse transition table.\n";
         return false;
     }
 

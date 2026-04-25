@@ -322,6 +322,8 @@ private:
         const InspectHit &inspectHit,
         const GameplayWorldPickRequest &request) const;
     std::optional<InspectHit> inspectHitFromGameplayWorldHit(const GameplayWorldHit &hit) const;
+    uint16_t inspectHitEventId(const InspectHit &inspectHit) const;
+    std::optional<std::string> resolveEventTargetHoverStatusText(const InspectHit &inspectHit) const;
     void updateCameraFromInput(const GameplayInputFrame &input, float deltaSeconds, bool allowWorldInput);
     void renderDecorationBillboards(
         uint16_t viewId,
