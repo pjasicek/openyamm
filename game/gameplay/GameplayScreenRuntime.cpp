@@ -28,6 +28,7 @@ constexpr uint32_t MinimapFactRefreshMilliseconds = 100;
 constexpr int GameplayMinimapMinZoomStep = 0;
 constexpr int GameplayMinimapDefaultZoomStep = 1;
 constexpr int GameplayMinimapMaxZoomStep = 2;
+constexpr int DefaultJournalMapZoomStep = 0;
 
 bool isBodyEquipmentVisualSlot(EquipmentSlot slot)
 {
@@ -201,6 +202,8 @@ bool bypassSpeechCooldown(SpeechId speechId)
         case SpeechId::RepairFail:
         case SpeechId::CantLearnSpell:
         case SpeechId::LearnSpell:
+        case SpeechId::LeaveDungeon:
+        case SpeechId::EnterDungeon:
             return true;
 
         default:
@@ -337,7 +340,7 @@ void GameplayScreenRuntime::presentPendingEventDialog(
     GameplayDialogUiFlowState state = dialogUiFlowState();
     GameplayDialogUiFlowPresentOptions options = {};
     options.pInputFrame = m_session.currentGameplayInputFrame();
-    options.suppressInitialAcceptIfActivationKeysHeld = m_session.currentSceneKind() == SceneKind::Outdoor;
+    options.suppressInitialAcceptIfActivationKeysHeld = true;
     EventRuntimeState *pEventRuntimeState = worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
 
     if (pEventRuntimeState == nullptr)
@@ -1337,6 +1340,10 @@ void GameplayScreenRuntime::openJournalOverlay()
     journalScreen.mapDragStartCenterX = 0.0f;
     journalScreen.mapDragStartCenterY = 0.0f;
     journalScreen.cachedMapValid = false;
+    journalScreen.mapZoomStep =
+        m_session.currentSceneKind() == SceneKind::Indoor
+            ? static_cast<int>(GameplayJournalMapZoomLevels.size()) - 1
+            : DefaultJournalMapZoomStep;
     journalScreen.mapCenterX = partyX();
     journalScreen.mapCenterY = partyY();
     clampJournalMapState(journalScreen);
@@ -1477,6 +1484,12 @@ void GameplayScreenRuntime::executeActiveDialogAction(
     }
 
     closeActiveDialogActionResult(result, closeActiveDialog);
+
+    if (result.shouldCloseActiveDialog && pEventRuntimeState->pendingMapMove.has_value())
+    {
+        m_session.setPendingMapMove(std::move(*pEventRuntimeState->pendingMapMove));
+        pEventRuntimeState->pendingMapMove.reset();
+    }
 
     if (afterCloseContinuation)
     {
@@ -1896,6 +1909,53 @@ void GameplayScreenRuntime::playSpeechReaction(size_t memberIndex, SpeechId spee
     {
         triggerPortraitFaceAnimation(memberIndex, *pReaction->faceAnimationId);
     }
+}
+
+void GameplayScreenRuntime::queueDelayedSpeechReaction(size_t memberIndex, SpeechId speechId, float delaySeconds)
+{
+    if (speechId == SpeechId::None)
+    {
+        return;
+    }
+
+    Party *pParty = party();
+
+    if (pParty == nullptr || pParty->member(memberIndex) == nullptr)
+    {
+        return;
+    }
+
+    m_delayedSpeechReaction = DelayedSpeechReaction{
+        memberIndex,
+        speechId,
+        std::max(0.0f, delaySeconds)
+    };
+}
+
+void GameplayScreenRuntime::updateDelayedSpeechReactions(float deltaSeconds)
+{
+    if (!m_delayedSpeechReaction.has_value())
+    {
+        return;
+    }
+
+    DelayedSpeechReaction &reaction = *m_delayedSpeechReaction;
+    reaction.remainingSeconds = std::max(0.0f, reaction.remainingSeconds - std::max(0.0f, deltaSeconds));
+
+    if (reaction.remainingSeconds > 0.0f)
+    {
+        return;
+    }
+
+    Party *pParty = party();
+    const Character *pMember = pParty != nullptr ? pParty->member(reaction.memberIndex) : nullptr;
+
+    if (pMember != nullptr && GameMechanics::canAct(*pMember))
+    {
+        pParty->requestSpeech(reaction.memberIndex, reaction.speechId);
+    }
+
+    m_delayedSpeechReaction.reset();
 }
 
 void GameplayScreenRuntime::playHouseSound(uint32_t soundId)

@@ -1189,6 +1189,12 @@ std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::decodeClip(
             continue;
         }
 
+        if (pPacket->size <= 0)
+        {
+            av_packet_unref(pPacket.get());
+            continue;
+        }
+
         result = avcodec_send_packet(pTargetCodecContext, pPacket.get());
         av_packet_unref(pPacket.get());
 

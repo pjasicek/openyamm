@@ -236,6 +236,8 @@ public:
     void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
     bool canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks);
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
+    void queueDelayedSpeechReaction(size_t memberIndex, SpeechId speechId, float delaySeconds);
+    void updateDelayedSpeechReactions(float deltaSeconds);
     void playHouseSound(uint32_t soundId);
     void playCommonUiSound(SoundId soundId);
     void stopAllAudioPlayback();
@@ -412,6 +414,13 @@ public:
     bool renderHouseVideoFrame(float x, float y, float quadWidth, float quadHeight) const;
 
 private:
+    struct DelayedSpeechReaction
+    {
+        size_t memberIndex = 0;
+        SpeechId speechId = SpeechId::None;
+        float remainingSeconds = 0.0f;
+    };
+
     IGameplayOverlaySceneAdapter &sceneAdapter() const;
     GameplayUiController &uiController() const;
     GameplayUiRuntime &uiRuntime() const;
@@ -425,6 +434,7 @@ private:
     GameAudioSystem *m_pAudioSystem = nullptr;
     GameSettings *m_pSettings = nullptr;
     IGameplayOverlaySceneAdapter *m_pSceneAdapter = nullptr;
+    std::optional<DelayedSpeechReaction> m_delayedSpeechReaction;
     uint64_t m_lastSpellFailSoundTicks = 0;
     mutable std::optional<std::string> m_resolvedInteractiveAssetName;
     mutable IGameplayWorldRuntime *m_pCachedMinimapWorldRuntime = nullptr;

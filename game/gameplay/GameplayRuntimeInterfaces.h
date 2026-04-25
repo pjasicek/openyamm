@@ -149,6 +149,7 @@ struct GameplayActorTargetPolicyState
 {
     int16_t monsterId = 0;
     int16_t relationMonsterId = 0;
+    uint32_t group = 0;
     float preciseZ = 0.0f;
     uint16_t height = 0;
     bool hostileToParty = false;

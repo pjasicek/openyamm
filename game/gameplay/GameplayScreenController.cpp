@@ -41,6 +41,7 @@ void GameplayScreenController::updateSharedFrameState(
     context.fxService().syncProjectilePresentation();
     context.fxService().advanceGameplayScreenOverlay(deltaSeconds);
     context.updatePartyPortraitAnimations(deltaSeconds);
+    context.updateDelayedSpeechReactions(deltaSeconds);
     context.consumePendingPartyAudioRequests();
 
     GameplayUiController::JournalScreenState &journalScreen = context.journalScreenState();

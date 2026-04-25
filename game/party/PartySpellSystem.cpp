@@ -2152,8 +2152,14 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 if (request.utilityAction == PartySpellUtilityActionKind::LloydsBeaconSet)
                 {
                     LloydBeacon beacon = {};
-                    beacon.mapName = worldRuntime.mapName();
-                    beacon.locationName = request.utilityStatusText.empty() ? worldRuntime.mapName() : request.utilityStatusText;
+                    beacon.mapName =
+                        request.utilityMapMoveMapName.empty()
+                            ? worldRuntime.mapName()
+                            : request.utilityMapMoveMapName;
+                    beacon.locationName =
+                        request.utilityStatusText.empty()
+                            ? worldRuntime.mapName()
+                            : request.utilityStatusText;
                     beacon.x = sourceX;
                     beacon.y = sourceY;
                     beacon.z = footZ;

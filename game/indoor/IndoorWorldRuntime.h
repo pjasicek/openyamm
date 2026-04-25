@@ -468,6 +468,8 @@ private:
         bool preferImpactObject = true);
     void spawnImmediateSpellImpactVisual(size_t actorIndex, uint32_t spellId);
     void updateIndoorJournalRevealIfNeeded();
+    void setMapActorHostilityFromEvent(size_t actorIndex, bool hostileToParty);
+    void aggroNearbyMapActorFaction(size_t actorIndex);
 
     std::optional<MapStatsEntry> m_map;
     const MonsterTable *m_pMonsterTable = nullptr;

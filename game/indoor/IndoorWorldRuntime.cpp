@@ -57,6 +57,7 @@ constexpr uint32_t EventSpellSourceId = std::numeric_limits<uint32_t>::max();
 constexpr float ActiveActorUpdateRange = 10240.0f;
 constexpr float IndoorActorDetectRange = 5120.0f;
 constexpr int IndoorActorDetectPortalLimit = 30;
+constexpr float IndoorFactionAggroRange = 4096.0f;
 constexpr size_t MaxIndoorBloodSplats = 64;
 constexpr size_t BloodSplatGridResolution = 10;
 constexpr float BloodSplatHeightOffset = 2.0f;
@@ -909,7 +910,7 @@ bool defaultActorHostileToParty(const MapDeltaActor &actor, const MonsterTable *
     GameplayActorService actorService = {};
     const int16_t relationMonsterId = actorService.relationMonsterId(resolvedMonsterId, actor.ally);
 
-    return (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) != 0
+    return (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Aggressor)) != 0
         || (pMonsterTable != nullptr
             && relationMonsterId > 0
             && pMonsterTable->isHostileToParty(relationMonsterId));
@@ -1634,12 +1635,14 @@ GameplayActorTargetPolicyState buildIndoorActorTargetPolicyState(
     const GameplayActorSpellEffectState &spellEffects,
     uint16_t height,
     bool hostileToParty,
+    uint32_t group,
     uint32_t ally)
 {
     GameplayActorService actorService = {};
     GameplayActorTargetPolicyState state = {};
     state.monsterId = aiState.monsterId;
     state.relationMonsterId = actorService.relationMonsterId(aiState.monsterId, ally);
+    state.group = group;
     state.preciseZ = aiState.preciseZ;
     state.height = height;
     state.hostileToParty = hostileToParty;
@@ -4517,7 +4520,13 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
         ? aiState.spellEffects.hasDetectedParty
         : aiState.hasDetectedParty || defaultActorHasDetectedParty(actor, hostileToParty);
     const GameplayActorTargetPolicyState actorPolicyState =
-        buildIndoorActorTargetPolicyState(aiState, aiState.spellEffects, height, hostileToParty, actor.ally);
+        buildIndoorActorTargetPolicyState(
+            aiState,
+            aiState.spellEffects,
+            height,
+            hostileToParty,
+            actor.group,
+            actor.ally);
     const float actorTargetZ = aiState.preciseZ + std::max(24.0f, static_cast<float>(height) * 0.7f);
     const int16_t actorSectorId =
         aiState.sectorId >= 0 ? aiState.sectorId : actor.sectorId;
@@ -4683,6 +4692,7 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
                     otherAiState.spellEffects,
                     otherHeight,
                     otherHostileToParty,
+                    otherActor.group,
                     otherActor.ally);
             const float otherTargetZ =
                 otherAiState.preciseZ + std::max(24.0f, static_cast<float>(otherHeight) * 0.7f);
@@ -5043,6 +5053,108 @@ void IndoorWorldRuntime::updateIndoorJournalRevealIfNeeded()
     }
 }
 
+void IndoorWorldRuntime::setMapActorHostilityFromEvent(size_t actorIndex, bool hostileToParty)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size())
+    {
+        return;
+    }
+
+    syncMapActorAiStates();
+
+    MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+    if (hostileToParty)
+    {
+        actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Hostile)
+            | static_cast<uint32_t>(EvtActorAttribute::Aggressor)
+            | static_cast<uint32_t>(EvtActorAttribute::Active)
+            | static_cast<uint32_t>(EvtActorAttribute::FullAi);
+    }
+    else
+    {
+        actor.attributes &= ~(static_cast<uint32_t>(EvtActorAttribute::Hostile)
+            | static_cast<uint32_t>(EvtActorAttribute::Aggressor));
+    }
+
+    const bool resolvedHostileToParty = defaultActorHostileToParty(actor, m_pMonsterTable);
+    const bool detectedParty = hostileToParty || defaultActorHasDetectedParty(actor, resolvedHostileToParty);
+
+    if (actorIndex < m_mapActorAiStates.size())
+    {
+        MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+        aiState.hostileToParty = resolvedHostileToParty;
+        aiState.hasDetectedParty = detectedParty;
+        aiState.spellEffects.hostileToParty = resolvedHostileToParty;
+        aiState.spellEffects.hasDetectedParty = detectedParty;
+    }
+}
+
+void IndoorWorldRuntime::aggroNearbyMapActorFaction(size_t actorIndex)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size() || m_pMonsterTable == nullptr)
+    {
+        return;
+    }
+
+    syncMapActorAiStates();
+
+    const MapDeltaActor &victim = pMapDeltaData->actors[actorIndex];
+    const int16_t victimMonsterId = resolveIndoorActorStatsId(victim);
+    const float victimX =
+        actorIndex < m_mapActorAiStates.size() ? m_mapActorAiStates[actorIndex].preciseX : static_cast<float>(victim.x);
+    const float victimY =
+        actorIndex < m_mapActorAiStates.size() ? m_mapActorAiStates[actorIndex].preciseY : static_cast<float>(victim.y);
+    const float victimZ =
+        actorIndex < m_mapActorAiStates.size() ? m_mapActorAiStates[actorIndex].preciseZ : static_cast<float>(victim.z);
+
+    for (size_t otherActorIndex = 0; otherActorIndex < pMapDeltaData->actors.size(); ++otherActorIndex)
+    {
+        if (otherActorIndex == actorIndex)
+        {
+            continue;
+        }
+
+        const MapDeltaActor &otherActor = pMapDeltaData->actors[otherActorIndex];
+
+        if (otherActor.hp <= 0
+            || (otherActor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
+        {
+            continue;
+        }
+
+        const bool sameEventGroup = victim.group != 0 && victim.group == otherActor.group;
+        const bool sameMonsterFaction =
+            m_pMonsterTable->isLikelySameFaction(victimMonsterId, resolveIndoorActorStatsId(otherActor));
+
+        if (!sameEventGroup && !sameMonsterFaction)
+        {
+            continue;
+        }
+
+        const float otherX = otherActorIndex < m_mapActorAiStates.size()
+            ? m_mapActorAiStates[otherActorIndex].preciseX
+            : static_cast<float>(otherActor.x);
+        const float otherY = otherActorIndex < m_mapActorAiStates.size()
+            ? m_mapActorAiStates[otherActorIndex].preciseY
+            : static_cast<float>(otherActor.y);
+        const float otherZ = otherActorIndex < m_mapActorAiStates.size()
+            ? m_mapActorAiStates[otherActorIndex].preciseZ
+            : static_cast<float>(otherActor.z);
+        const float distance = length3d(otherX - victimX, otherY - victimY, otherZ - victimZ);
+
+        if (distance > IndoorFactionAggroRange)
+        {
+            continue;
+        }
+
+        setMapActorHostilityFromEvent(otherActorIndex, true);
+    }
+}
+
 GameplayWorldUiRenderState IndoorWorldRuntime::gameplayUiRenderState(int width, int height) const
 {
     if (m_pGameplayView == nullptr)
@@ -5294,11 +5406,13 @@ bool IndoorWorldRuntime::actorRuntimeState(size_t actorIndex, GameplayRuntimeAct
         (actor.attributes & (static_cast<uint32_t>(EvtActorAttribute::Nearby)
             | static_cast<uint32_t>(EvtActorAttribute::Aggressor))) != 0;
     const int16_t resolvedMonsterId = resolveIndoorActorStatsId(actor);
+    GameplayActorService actorService = {};
+    const int16_t relationMonsterId = actorService.relationMonsterId(resolvedMonsterId, actor.ally);
     const bool hostileToParty =
-        (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) != 0
+        (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Aggressor)) != 0
         || (m_pMonsterTable != nullptr
-            && resolvedMonsterId > 0
-            && m_pMonsterTable->isHostileToParty(resolvedMonsterId));
+            && relationMonsterId > 0
+            && m_pMonsterTable->isHostileToParty(relationMonsterId));
     const bool defaultDetectedParty = hostileToParty && isAggressive;
     const MapActorAiState *pAiState =
         actorIndex < m_mapActorAiStates.size() ? &m_mapActorAiStates[actorIndex] : nullptr;
@@ -6278,7 +6392,7 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
         }
     }
 
-    (void)source;
+    aggroNearbyMapActorFaction(actorIndex);
     return actor.hp != previousHp;
 }
 
@@ -6848,6 +6962,9 @@ void IndoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinim
         return;
     }
 
+    const IndoorMoveState *pMoveState =
+        m_pPartyRuntime != nullptr ? &m_pPartyRuntime->movementState() : nullptr;
+
     for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
     {
         GameplayRuntimeActorState actorState = {};
@@ -6857,7 +6974,13 @@ void IndoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinim
             continue;
         }
 
-        if (!actorState.isDead && !actorState.hasDetectedParty)
+        const bool actorNearby = pMoveState != nullptr
+            && length3d(
+                actorState.preciseX - pMoveState->x,
+                actorState.preciseY - pMoveState->y,
+                actorState.preciseZ - pMoveState->footZ) <= ActiveActorUpdateRange;
+
+        if (!actorState.isDead && !actorState.hasDetectedParty && !actorNearby)
         {
             continue;
         }
@@ -7467,8 +7590,10 @@ void IndoorWorldRuntime::applyEventRuntimeState()
 
     for (const auto &[groupId, setMask] : pEventRuntimeState->actorGroupSetMasks)
     {
-        for (MapDeltaActor &actor : pMapDeltaData->actors)
+        for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
         {
+            MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+
             if (actor.group == groupId)
             {
                 actor.attributes |= setMask;
@@ -7478,11 +7603,34 @@ void IndoorWorldRuntime::applyEventRuntimeState()
 
     for (const auto &[groupId, clearMask] : pEventRuntimeState->actorGroupClearMasks)
     {
-        for (MapDeltaActor &actor : pMapDeltaData->actors)
+        for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
         {
+            MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+
             if (actor.group == groupId)
             {
                 actor.attributes &= ~clearMask;
+            }
+        }
+    }
+
+    for (const auto &[actorId, hostileToParty] : pEventRuntimeState->actorHostilityRequests)
+    {
+        if (actorId < pMapDeltaData->actors.size())
+        {
+            setMapActorHostilityFromEvent(actorId, hostileToParty);
+        }
+    }
+
+    for (const auto &[groupId, hostileToParty] : pEventRuntimeState->actorGroupHostilityRequests)
+    {
+        for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
+        {
+            const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+
+            if (actor.group == groupId)
+            {
+                setMapActorHostilityFromEvent(actorIndex, hostileToParty);
             }
         }
     }
@@ -8330,7 +8478,8 @@ void IndoorWorldRuntime::materializeInitialMonsterSpawns()
             actor.y = static_cast<int>(std::lround(spawnPosition.y));
             actor.z = static_cast<int>(std::lround(spawnPosition.z));
             actor.group = spawn.group;
-            actor.ally = hostileToParty ? 0u : spawn.group;
+            // Spawn group is AI grouping, not an ally/faction override.
+            actor.ally = 0u;
             pMapDeltaData->actors.push_back(std::move(actor));
         }
     }

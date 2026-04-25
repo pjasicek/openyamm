@@ -1142,6 +1142,15 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
     variable.tag = static_cast<uint16_t>(rawId & 0xFFFF);
     variable.index = rawId >> 16;
 
+    if (variable.tag == 0x013Cu)
+    {
+        variable.tag = static_cast<uint16_t>(EvtVariable::Invisible);
+    }
+    else if (variable.tag == 0x013Du)
+    {
+        variable.tag = static_cast<uint16_t>(EvtVariable::ItemEquipped);
+    }
+
     const EvtVariable variableId = static_cast<EvtVariable>(variable.tag);
 
     if (variableId == EvtVariable::QBits)
@@ -3372,6 +3381,8 @@ void prepareRuntimeStateForEventExecution(EventRuntimeState &runtimeState, const
     runtimeState.pendingMovie.reset();
     runtimeState.pendingInputPrompt.reset();
     runtimeState.pendingSounds.clear();
+    runtimeState.actorHostilityRequests.clear();
+    runtimeState.actorGroupHostilityRequests.clear();
     syncTimeVariablesFromSceneContext(runtimeState, pSceneEventContext);
 }
 
@@ -4321,11 +4332,24 @@ int luaSetMonsterBit(lua_State *pLuaState)
     {
         pRuntimeState->actorSetMasks[actorId] |= bit;
         pRuntimeState->actorClearMasks[actorId] &= ~bit;
+        if (pRuntimeState->actorClearMasks[actorId] == 0)
+        {
+            pRuntimeState->actorClearMasks.erase(actorId);
+        }
     }
     else
     {
         pRuntimeState->actorClearMasks[actorId] |= bit;
         pRuntimeState->actorSetMasks[actorId] &= ~bit;
+        if (pRuntimeState->actorSetMasks[actorId] == 0)
+        {
+            pRuntimeState->actorSetMasks.erase(actorId);
+        }
+    }
+
+    if (bit == static_cast<uint32_t>(EvtActorAttribute::Hostile))
+    {
+        pRuntimeState->actorHostilityRequests[actorId] = isOn;
     }
 
     return 0;
@@ -4342,11 +4366,24 @@ int luaSetMonGroupBit(lua_State *pLuaState)
     {
         pRuntimeState->actorGroupSetMasks[groupId] |= bit;
         pRuntimeState->actorGroupClearMasks[groupId] &= ~bit;
+        if (pRuntimeState->actorGroupClearMasks[groupId] == 0)
+        {
+            pRuntimeState->actorGroupClearMasks.erase(groupId);
+        }
     }
     else
     {
         pRuntimeState->actorGroupClearMasks[groupId] |= bit;
         pRuntimeState->actorGroupSetMasks[groupId] &= ~bit;
+        if (pRuntimeState->actorGroupSetMasks[groupId] == 0)
+        {
+            pRuntimeState->actorGroupSetMasks.erase(groupId);
+        }
+    }
+
+    if (bit == static_cast<uint32_t>(EvtActorAttribute::Hostile))
+    {
+        pRuntimeState->actorGroupHostilityRequests[groupId] = isOn;
     }
 
     return 0;
@@ -5268,6 +5305,13 @@ bool evaluateCompareValue(
         return currentValue != 0;
     }
 
+    if (variable.kind == EventRuntime::VariableKind::Generic)
+    {
+        const std::unordered_map<uint32_t, int32_t>::const_iterator iterator =
+            runtimeState.variables.find(variable.rawId);
+        return iterator != runtimeState.variables.end() && iterator->second >= compareValue;
+    }
+
     if (variable.kind == EventRuntime::VariableKind::AutoNote
         || variable.kind == EventRuntime::VariableKind::History
         || variable.kind == EventRuntime::VariableKind::QBits
@@ -5329,6 +5373,11 @@ bool evaluateCompareValue(
         if (variableId == EvtVariable::Unknown1)
         {
             return currentValue == compareValue;
+        }
+
+        if (variableId == EvtVariable::Invisible || variableId == EvtVariable::IsFlying)
+        {
+            return currentValue != 0;
         }
 
         if (variableId == EvtVariable::ItemEquipped)

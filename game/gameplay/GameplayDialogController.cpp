@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayDialogController.h"
 
+#include "game/StringUtils.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
@@ -8,6 +9,8 @@
 #include "game/party/Party.h"
 #include "game/tables/RosterTable.h"
 
+#include <algorithm>
+#include <cmath>
 #include <cstdlib>
 #include <optional>
 #include <string>
@@ -27,6 +30,85 @@ constexpr uint32_t TeacherHintTopicIdLast = 530;
 constexpr uint32_t TrainerAutoNoteIdFirst = 128;
 constexpr uint32_t HeroismEffectSoundId = 14060;
 constexpr float MinutesPerDay = 24.0f * 60.0f;
+constexpr float OeYellowAlertDistance = 5120.0f;
+
+bool isDungeonMapFileName(const std::string &mapFileName)
+{
+    return toLowerCopy(mapFileName).ends_with(".blv");
+}
+
+bool isCurrentMapDungeon(const GameplayDialogController::Context &context)
+{
+    if (context.pCurrentMap != nullptr)
+    {
+        return isDungeonMapFileName(context.pCurrentMap->fileName);
+    }
+
+    return context.pWorldRuntime != nullptr && context.pWorldRuntime->isIndoorMap();
+}
+
+bool partyHasIndoorExitAlert(const GameplayDialogController::Context &context)
+{
+    if (context.pWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const float partyX = context.pWorldRuntime->partyX();
+    const float partyY = context.pWorldRuntime->partyY();
+    const float partyFootZ = context.pWorldRuntime->partyFootZ();
+
+    for (size_t actorIndex = 0; actorIndex < context.pWorldRuntime->mapActorCount(); ++actorIndex)
+    {
+        GameplayRuntimeActorState actorState = {};
+
+        if (!context.pWorldRuntime->actorRuntimeState(actorIndex, actorState)
+            || actorState.isDead
+            || actorState.isInvisible
+            || !actorState.hostileToParty
+            || !actorState.hasDetectedParty)
+        {
+            continue;
+        }
+
+        const float deltaX = actorState.preciseX - partyX;
+        const float deltaY = actorState.preciseY - partyY;
+        const float deltaZ = actorState.preciseZ - partyFootZ;
+        const float centerDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+        const float edgeDistance = std::max(0.0f, centerDistance - static_cast<float>(actorState.radius));
+
+        if (edgeDistance < OeYellowAlertDistance)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void playSpeechReaction(
+    GameplayDialogController::Context &context,
+    size_t memberIndex,
+    SpeechId speechId,
+    bool triggerFaceAnimation);
+
+void playIndoorExitReactionIfNeeded(
+    GameplayDialogController::Context &context,
+    const EventRuntimeState::PendingDialogueContext &originalContext,
+    bool wasDialogAlreadyActive)
+{
+    if (wasDialogAlreadyActive
+        || originalContext.kind != DialogueContextKind::MapTransition
+        || context.pParty == nullptr
+        || context.pParty->activeMember() == nullptr
+        || !isCurrentMapDungeon(context)
+        || !partyHasIndoorExitAlert(context))
+    {
+        return;
+    }
+
+    playSpeechReaction(context, context.pParty->activeMemberIndex(), SpeechId::LeaveDungeon, true);
+}
 
 DialogueMenuId dialogueMenuIdForHouseAction(HouseActionId actionId)
 {
@@ -67,6 +149,54 @@ void setPendingDialogueContext(
     context.sourceId = sourceId;
     context.hostHouseId = hostHouseId;
     eventRuntimeState.pendingDialogueContext = std::move(context);
+}
+
+bool samePendingMapMove(
+    const EventRuntimeState::PendingMapMove &left,
+    const EventRuntimeState::PendingMapMove &right)
+{
+    return left.x == right.x
+        && left.y == right.y
+        && left.z == right.z
+        && left.mapName == right.mapName
+        && left.directionDegrees == right.directionDegrees
+        && left.useMapStartPosition == right.useMapStartPosition;
+}
+
+bool samePendingMapMove(
+    const std::optional<EventRuntimeState::PendingMapMove> &left,
+    const std::optional<EventRuntimeState::PendingMapMove> &right)
+{
+    if (left.has_value() != right.has_value())
+    {
+        return false;
+    }
+
+    return !left.has_value() || samePendingMapMove(*left, *right);
+}
+
+bool samePendingDialogueContext(
+    const std::optional<EventRuntimeState::PendingDialogueContext> &left,
+    const std::optional<EventRuntimeState::PendingDialogueContext> &right)
+{
+    if (left.has_value() != right.has_value())
+    {
+        return false;
+    }
+
+    if (!left.has_value())
+    {
+        return true;
+    }
+
+    return left->kind == right->kind
+        && left->sourceId == right->sourceId
+        && left->hostHouseId == right->hostHouseId
+        && left->newsId == right->newsId
+        && left->titleOverride == right->titleOverride
+        && samePendingMapMove(left->transitionMapMove, right->transitionMapMove)
+        && left->transitionTextId == right->transitionTextId
+        && left->transitionImageId == right->transitionImageId;
 }
 
 void refreshCurrentHouseServiceDialog(GameplayDialogController::Context &context, uint32_t houseId)
@@ -917,6 +1047,8 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
     if (action.kind == EventDialogActionKind::NpcTopic)
     {
         const uint32_t npcId = context.activeEventDialog.sourceId;
+        const std::optional<EventRuntimeState::PendingDialogueContext> previousPendingDialogueContext =
+            context.eventRuntimeState.pendingDialogueContext;
         bool executed = false;
 
         if (action.textOnly && context.pNpcDialogTable != nullptr)
@@ -942,7 +1074,10 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             context.eventRuntimeState.messages.push_back("That topic does not have an event yet.");
         }
 
-        if (!context.eventRuntimeState.pendingDialogueContext)
+        if (!context.eventRuntimeState.pendingDialogueContext
+            || samePendingDialogueContext(
+                context.eventRuntimeState.pendingDialogueContext,
+                previousPendingDialogueContext))
         {
             setPendingDialogueContext(
                 context.eventRuntimeState,
@@ -1059,6 +1194,7 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
 
     result.dialogOpened = true;
     result.resolvedContext = *context.eventRuntimeState.pendingDialogueContext;
+    playIndoorExitReactionIfNeeded(context, originalContext, result.wasDialogAlreadyActive);
     return result;
 }
 

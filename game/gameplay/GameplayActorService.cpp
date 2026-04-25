@@ -693,6 +693,12 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
     const bool hostileToSummon = actor.hostileToParty && targetIsPartyControlled;
     const int16_t actorRelationMonsterId = actor.relationMonsterId > 0 ? actor.relationMonsterId : actor.monsterId;
     const int16_t targetRelationMonsterId = target.relationMonsterId > 0 ? target.relationMonsterId : target.monsterId;
+
+    if (actor.group != 0 && actor.group == target.group)
+    {
+        return result;
+    }
+
     const int factionRelation = m_pMonsterTable != nullptr
         ? m_pMonsterTable->getRelationBetweenMonsters(actorRelationMonsterId, targetRelationMonsterId)
         : 0;

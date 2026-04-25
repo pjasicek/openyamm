@@ -438,7 +438,11 @@ std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
             billboard.heightScale = std::clamp(pActorAiState->spellEffects.shrinkDamageMultiplier, 0.25f, 1.0f);
         }
         billboard.useStaticFrame = false;
-        billboard.isFriendly = (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) == 0;
+        GameplayRuntimeActorState runtimeActorState = {};
+        billboard.isFriendly =
+            pWorldRuntime == nullptr
+            || !pWorldRuntime->actorRuntimeState(actorIndex, runtimeActorState)
+            || !runtimeActorState.hostileToParty;
         billboard.actorName = pActorAiState != nullptr
             ? pActorAiState->displayName
             : resolveMapDeltaActorName(monsterTable, actor);
@@ -1008,6 +1012,13 @@ std::optional<std::string> resolveIndoorEventHintText(
         {
             return hint;
         }
+
+        const std::optional<std::string> summary = localEventProgram->summarizeEvent(eventId);
+
+        if (summary && !summary->empty())
+        {
+            return summary;
+        }
     }
 
     const std::optional<ScriptedEventProgram> &globalEventProgram = pSceneRuntime->globalEventProgram();
@@ -1020,6 +1031,13 @@ std::optional<std::string> resolveIndoorEventHintText(
         {
             return hint;
         }
+
+        const std::optional<std::string> summary = globalEventProgram->summarizeEvent(eventId);
+
+        if (summary && !summary->empty())
+        {
+            return summary;
+        }
     }
 
     return std::nullopt;
@@ -1031,6 +1049,29 @@ bool indoorFaceIsInteractionActivatable(uint32_t attributes, uint16_t eventId)
         && hasFaceAttribute(attributes, FaceAttribute::Clickable)
         && !hasFaceAttribute(attributes, FaceAttribute::HasHint)
         && !hasFaceAttribute(attributes, FaceAttribute::Invisible);
+}
+
+bool pendingMoveTargetsAnotherMap(const EventRuntimeState::PendingMapMove &pendingMapMove)
+{
+    return pendingMapMove.mapName.has_value()
+        && !pendingMapMove.mapName->empty()
+        && *pendingMapMove.mapName != "0";
+}
+
+void promoteActivatedMapMoveToTransitionDialog(EventRuntimeState &eventRuntimeState)
+{
+    if (eventRuntimeState.pendingDialogueContext
+        || !eventRuntimeState.pendingMapMove
+        || !pendingMoveTargetsAnotherMap(*eventRuntimeState.pendingMapMove))
+    {
+        return;
+    }
+
+    EventRuntimeState::PendingDialogueContext context = {};
+    context.kind = DialogueContextKind::MapTransition;
+    context.transitionMapMove = std::move(eventRuntimeState.pendingMapMove);
+    eventRuntimeState.pendingMapMove.reset();
+    eventRuntimeState.pendingDialogueContext = std::move(context);
 }
 
 size_t countChestItemSlots(const MapDeltaChest &chest)
@@ -1366,7 +1407,7 @@ uint32_t resolveHoveredIndoorActorOutlineColor(
         return makeAbgr(255, 224, 64);
     }
 
-    if ((actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Hostile)) != 0
+    if ((actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Aggressor)) != 0
         || (pAiState != nullptr && pAiState->hostileToParty))
     {
         return makeAbgr(255, 64, 64);
@@ -6801,10 +6842,15 @@ bool IndoorRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
         return false;
     }
 
+    EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
+
+    if (pEventRuntimeState != nullptr)
+    {
+        promoteActivatedMapMoveToTransitionDialog(*pEventRuntimeState);
+    }
+
     if (!rebuildDerivedGeometryResources())
     {
-        EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
-
         if (pEventRuntimeState != nullptr)
         {
             pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " execute failed";

@@ -49,6 +49,41 @@ constexpr const char *PartyDefeatCutsceneDirectory = "Videos/Cutscenes";
 constexpr const char *PartyDefeatCutsceneStem = "LoseGame";
 constexpr std::array<uint32_t, 3> Level1ReagentItemIds = {{200, 205, 210}};
 constexpr std::array<uint32_t, 6> DebugUnlockedTownPortalQBits = {{180, 181, 182, 183, 184, 185}};
+constexpr float EnterDungeonSpeechDelaySeconds = 2.0f;
+
+bool sameMapFileName(const std::string &left, const std::string &right)
+{
+    return toLowerCopy(left) == toLowerCopy(right);
+}
+
+bool isDungeonMapFileName(const std::string &mapFileName)
+{
+    return toLowerCopy(mapFileName).ends_with(".blv");
+}
+
+std::optional<size_t> chooseRandomActablePartyMember(const Party &party)
+{
+    std::vector<size_t> actableMemberIndices;
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        const Character *pMember = party.member(memberIndex);
+
+        if (pMember != nullptr && GameMechanics::canAct(*pMember))
+        {
+            actableMemberIndices.push_back(memberIndex);
+        }
+    }
+
+    if (actableMemberIndices.empty())
+    {
+        return std::nullopt;
+    }
+
+    static thread_local std::mt19937 rng(std::random_device{}());
+    std::uniform_int_distribution<size_t> distribution(0, actableMemberIndices.size() - 1);
+    return actableMemberIndices[distribution(rng)];
+}
 
 int remapLoadingProgress(int localProgress, int startProgress, int endProgress)
 {
@@ -2046,7 +2081,11 @@ bool GameApplication::processPendingMapMove()
     synchronizeSessionFromRuntime();
 
     const bool isSameMapTeleport =
-        !pendingMapMove->mapName || pendingMapMove->mapName->empty() || *pendingMapMove->mapName == "0";
+        !pendingMapMove->mapName
+        || pendingMapMove->mapName->empty()
+        || *pendingMapMove->mapName == "0"
+        || (!pendingMapMove->useMapStartPosition
+            && sameMapFileName(*pendingMapMove->mapName, m_gameSession.currentMapFileName()));
 
     if (isSameMapTeleport)
     {
@@ -2131,6 +2170,21 @@ bool GameApplication::processPendingMapMove()
     {
         const float yawRadians = mapMoveHeadingDegreesToOutdoorYawRadians(*pendingMapMove->directionDegrees);
         m_outdoorGameView.setCameraAngles(yawRadians, m_outdoorGameView.cameraPitchRadians());
+    }
+
+    if (isDungeonMapFileName(targetMapName) && !sameMapFileName(previousMapFileName, targetMapName))
+    {
+        Party *pParty = m_pMapSceneRuntime != nullptr ? &m_pMapSceneRuntime->party() : nullptr;
+        const std::optional<size_t> memberIndex =
+            pParty != nullptr ? chooseRandomActablePartyMember(*pParty) : std::nullopt;
+
+        if (memberIndex.has_value())
+        {
+            m_gameSession.gameplayScreenRuntime().queueDelayedSpeechReaction(
+                *memberIndex,
+                SpeechId::EnterDungeon,
+                EnterDungeonSpeechDelaySeconds);
+        }
     }
 
     synchronizeSessionFromRuntime();

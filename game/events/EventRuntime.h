@@ -186,6 +186,8 @@ struct EventRuntimeState
     std::unordered_map<uint32_t, uint32_t> actorClearMasks;
     std::unordered_map<uint32_t, uint32_t> actorGroupSetMasks;
     std::unordered_map<uint32_t, uint32_t> actorGroupClearMasks;
+    std::unordered_map<uint32_t, bool> actorHostilityRequests;
+    std::unordered_map<uint32_t, bool> actorGroupHostilityRequests;
     std::unordered_map<uint32_t, uint32_t> actorIdGroupOverrides;
     std::unordered_map<uint32_t, uint32_t> actorGroupOverrides;
     std::unordered_map<uint32_t, uint32_t> actorGroupAllyOverrides;

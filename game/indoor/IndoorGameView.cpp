@@ -1213,19 +1213,43 @@ void IndoorGameView::setStatusBarEvent(const std::string &text, float durationSe
 
 void IndoorGameView::updateDialogueVideoPlayback(float deltaSeconds)
 {
+    const EventRuntimeState *pEventRuntimeState =
+        worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+    const uint32_t hostHouseId = currentDialogueHostHouseId(pEventRuntimeState);
+    const HouseEntry *pHostHouseEntry =
+        hostHouseId != 0 ? m_gameSession.data().houseTable().get(hostHouseId) : nullptr;
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
     const EventDialogContent &activeDialog = screenRuntime.activeEventDialog();
 
     if (!activeDialog.isActive
-        || activeDialog.videoName.empty()
-        || activeDialog.videoDirectory.empty()
         || screenRuntime.currentHudScreenState() != GameplayHudScreenState::Dialogue)
     {
         screenRuntime.stopHouseVideoPlayback();
         return;
     }
 
-    screenRuntime.playHouseVideo(activeDialog.videoName, activeDialog.videoDirectory);
+    if (!activeDialog.videoName.empty())
+    {
+        if (activeDialog.videoDirectory.empty())
+        {
+            screenRuntime.playHouseVideo(activeDialog.videoName);
+        }
+        else
+        {
+            screenRuntime.playHouseVideo(activeDialog.videoName, activeDialog.videoDirectory);
+        }
+
+        screenRuntime.updateHouseVideoPlayback(deltaSeconds);
+        return;
+    }
+
+    if (pHostHouseEntry == nullptr || pHostHouseEntry->videoName.empty())
+    {
+        screenRuntime.stopHouseVideoPlayback();
+        return;
+    }
+
+    screenRuntime.playHouseVideo(pHostHouseEntry->videoName);
     screenRuntime.updateHouseVideoPlayback(deltaSeconds);
 }
 

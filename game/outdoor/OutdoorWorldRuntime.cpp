@@ -2395,6 +2395,7 @@ GameplayActorTargetPolicyState buildGameplayActorTargetPolicyState(const Outdoor
     state.monsterId = actor.monsterId;
     GameplayActorService actorService = {};
     state.relationMonsterId = actorService.relationMonsterId(actor.monsterId, actor.ally);
+    state.group = actor.group;
     state.preciseZ = actor.preciseZ;
     state.height = actor.height;
     state.hostileToParty = actor.hostileToParty;
@@ -2689,7 +2690,8 @@ OutdoorWorldRuntime::MapActorState buildSpawnedMapActorState(
     state.fromSpawnPoint = fromSpawnPoint;
     state.spawnPointIndex = spawnPointIndex;
     state.group = group;
-    state.ally = group;
+    // Spawn group is AI grouping, not an ally/faction override.
+    state.ally = 0;
     state.hostilityType = static_cast<uint8_t>(stats.hostility);
     state.maxHp = stats.hitPoints;
     state.currentHp = stats.hitPoints;
@@ -11351,6 +11353,9 @@ void OutdoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMini
         return;
     }
 
+    const OutdoorMoveState *pMoveState =
+        m_pPartyRuntime != nullptr ? &m_pPartyRuntime->movementState() : nullptr;
+
     for (size_t actorIndex = 0; actorIndex < mapActorCount(); ++actorIndex)
     {
         const MapActorState *pActor = mapActorState(actorIndex);
@@ -11360,7 +11365,13 @@ void OutdoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMini
             continue;
         }
 
-        if (!pActor->isDead && !pActor->hasDetectedParty)
+        const bool actorNearby = pMoveState != nullptr
+            && length3d(
+                pActor->preciseX - pMoveState->x,
+                pActor->preciseY - pMoveState->y,
+                pActor->preciseZ - pMoveState->footZ) <= ActiveActorUpdateRange;
+
+        if (!pActor->isDead && !pActor->hasDetectedParty && !actorNearby)
         {
             continue;
         }

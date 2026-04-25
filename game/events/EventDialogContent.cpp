@@ -492,8 +492,12 @@ EventDialogContent buildEventDialogContent(
                 : ((pTransition != nullptr && pTransition->has_value())
                     ? (*pTransition)->destinationMapFileName
                     : std::string());
-        const bool isDungeonTransition =
-            !transitionMapName.empty() && toLowerCopy(transitionMapName).find(".blv") != std::string::npos;
+        const std::string currentMapName = pCurrentMap != nullptr ? pCurrentMap->fileName : std::string();
+        const bool destinationIsDungeon =
+            !transitionMapName.empty() && lowerMapFileName(transitionMapName).find(".blv") != std::string::npos;
+        const bool currentMapIsDungeon =
+            !currentMapName.empty() && lowerMapFileName(currentMapName).find(".blv") != std::string::npos;
+        const bool isDungeonTransition = destinationIsDungeon || currentMapIsDungeon;
         dialog.participantTextureName =
             isDungeonTransition
                 ? defaultDungeonTransitionImageName()
@@ -502,19 +506,33 @@ EventDialogContent buildEventDialogContent(
             !transitionMapName.empty()
                 ? findMapEntryByFileName(pMapEntries, transitionMapName)
                 : nullptr;
+        const bool leavingCurrentDungeon = currentMapIsDungeon && !destinationIsDungeon;
         const TransitionEntry *pTransitionText =
             pTransitionTable != nullptr && context.transitionTextId != 0
                 ? pTransitionTable->get(context.transitionTextId)
                 : nullptr;
-        dialog.title = pDestinationMap != nullptr
-            ? pDestinationMap->name
-            : (context.titleOverride.has_value()
-                ? *context.titleOverride
-                : (pTransitionText != nullptr && !pTransitionText->title.empty()
-                    ? pTransitionText->title
-                    : (!transitionMapName.empty()
-                        ? transitionMapName
-                        : "Travel")));
+
+        if (leavingCurrentDungeon && pCurrentMap != nullptr && !pCurrentMap->name.empty())
+        {
+            dialog.title = pCurrentMap->name;
+        }
+        else if (pDestinationMap != nullptr)
+        {
+            dialog.title = pDestinationMap->name;
+        }
+        else if (context.titleOverride.has_value())
+        {
+            dialog.title = *context.titleOverride;
+        }
+        else if (pTransitionText != nullptr && !pTransitionText->title.empty())
+        {
+            dialog.title = pTransitionText->title;
+        }
+        else
+        {
+            dialog.title = !transitionMapName.empty() ? transitionMapName : "Travel";
+        }
+
         dialog.videoName = pTransitionText != nullptr && !pTransitionText->title.empty()
             ? transitionVideoNameForTransitionTitle(pTransitionText->title)
             : std::string();
@@ -544,6 +562,10 @@ EventDialogContent buildEventDialogContent(
         if (pTransitionText != nullptr && !pTransitionText->description.empty())
         {
             dialog.lines.push_back(pTransitionText->description);
+        }
+        else if (leavingCurrentDungeon)
+        {
+            dialog.lines.push_back("Do you wish to leave " + dialog.title + "?");
         }
         else if (context.transitionMapMove.has_value())
         {

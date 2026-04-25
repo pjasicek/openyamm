@@ -984,6 +984,7 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 }
 
                 request.utilityAction = PartySpellUtilityActionKind::LloydsBeaconSet;
+                request.utilityMapMoveMapName = context.currentMapFileName();
                 request.utilityStatusText = context.resolveMapLocationName(context.worldRuntime()->mapName());
                 request.utilityMapMoveDirectionDegrees =
                     static_cast<int32_t>(std::lround(
@@ -1133,9 +1134,11 @@ void GameplayPartyOverlayInputController::handleUtilitySpellOverlayInput(
                 else
                 {
                     request.utilityAction = PartySpellUtilityActionKind::LloydsBeaconSet;
+                    request.utilityMapMoveMapName = context.currentMapFileName();
                     request.utilityStatusText = context.resolveMapLocationName(context.worldRuntime()->mapName());
                     request.utilityMapMoveDirectionDegrees =
-                        static_cast<int32_t>(std::lround(context.gameplayCameraYawRadians() * 180.0f / 3.14159265358979323846f));
+                        static_cast<int32_t>(std::lround(
+                            context.gameplayCameraYawRadians() * 180.0f / 3.14159265358979323846f));
                 }
 
                 context.tryCastSpellRequest(request, resolveSpellName());
