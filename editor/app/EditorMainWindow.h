@@ -20,6 +20,7 @@ class EditorMainWindow
 {
 public:
     void shutdown();
+    bool restoreLastLoadedMap(EditorSession &session, std::string &errorMessage);
     void render(
         EditorSession &session,
         uint32_t frameNumber,
@@ -279,6 +280,7 @@ private:
     mutable FaceClipboard m_faceClipboard;
     mutable bool m_editorStateLoaded = false;
     mutable std::string m_lastSavedEditorState;
+    mutable std::filesystem::path m_lastLoadedMapPath;
     float m_toolsDockTargetHeight = 0.0f;
     std::string m_statusMessage;
     StatusMessageKind m_statusMessageKind = StatusMessageKind::Info;

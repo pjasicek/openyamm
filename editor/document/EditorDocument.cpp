@@ -4224,6 +4224,7 @@ std::string EditorDocument::serializeOutdoorScene(
         emitSequence(emitter, actor.spriteIds);
         emitter << YAML::Key << "sector_id" << YAML::Value << actor.sectorId;
         emitter << YAML::Key << "current_action_animation" << YAML::Value << actor.currentActionAnimation;
+        emitter << YAML::Key << "carried_item_id" << YAML::Value << actor.carriedItemId;
         emitter << YAML::Key << "group" << YAML::Value << actor.group;
         emitter << YAML::Key << "ally" << YAML::Value << actor.ally;
         emitter << YAML::Key << "unique_name_index" << YAML::Value << actor.uniqueNameIndex;
@@ -4437,6 +4438,7 @@ std::string EditorDocument::serializeIndoorScene(
         emitSequence(emitter, actor.spriteIds);
         emitter << YAML::Key << "sector_id" << YAML::Value << actor.sectorId;
         emitter << YAML::Key << "current_action_animation" << YAML::Value << actor.currentActionAnimation;
+        emitter << YAML::Key << "carried_item_id" << YAML::Value << actor.carriedItemId;
         emitter << YAML::Key << "group" << YAML::Value << actor.group;
         emitter << YAML::Key << "ally" << YAML::Value << actor.ally;
         emitter << YAML::Key << "unique_name_index" << YAML::Value << actor.uniqueNameIndex;

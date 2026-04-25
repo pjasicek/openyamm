@@ -3658,7 +3658,7 @@ bool EditorSession::createOutdoorObject(EditorSelectionKind kind, int x, int y, 
             spawn.index = m_pendingSpawn.index;
             spawn.attributes = m_pendingSpawn.attributes;
             spawn.group = m_pendingSpawn.group;
-            spawn.z = spawn.typeId == 3 ? snapIndoorActorZToFloor(indoorGeometry, x, y, z) : z;
+            spawn.z = snapIndoorActorZToFloor(indoorGeometry, x, y, z);
             indoorGeometry.spawns.push_back(std::move(spawn));
             indoorGeometry.spawnCount = indoorGeometry.spawns.size();
             newSelection = {EditorSelectionKind::Spawn, indoorGeometry.spawns.size() - 1};
@@ -5973,9 +5973,7 @@ void EditorSession::ensureOutdoorDerivedCaches() const
                     preview.spriteFrameIndex = spriteFrameIndex;
                     preview.x = spawn.x;
                     preview.y = spawn.y;
-                    preview.z = spawn.typeId == 3
-                        ? snapIndoorActorZToFloor(indoorGeometry, spawn.x, spawn.y, spawn.z)
-                        : spawn.z;
+                    preview.z = snapIndoorActorZToFloor(indoorGeometry, spawn.x, spawn.y, spawn.z);
                     preview.radius = static_cast<uint16_t>(std::max<int>(pMonsterEntry->radius, 0));
                     preview.height = static_cast<uint16_t>(std::max<int>(pMonsterEntry->height, 0));
                     preview.name = *monsterName;

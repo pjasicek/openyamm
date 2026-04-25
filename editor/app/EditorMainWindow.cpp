@@ -4912,6 +4912,38 @@ void EditorMainWindow::render(
     persistEditorStateIfNeeded(session);
 }
 
+bool EditorMainWindow::restoreLastLoadedMap(EditorSession &session, std::string &errorMessage)
+{
+    ensureEditorStateLoaded(session);
+
+    if (m_lastLoadedMapPath.empty())
+    {
+        return false;
+    }
+
+    std::error_code fileError;
+
+    if (!std::filesystem::exists(m_lastLoadedMapPath, fileError))
+    {
+        errorMessage = "last loaded map no longer exists: " + m_lastLoadedMapPath.string();
+        return false;
+    }
+
+    if (!session.openMapPhysicalPath(m_lastLoadedMapPath, errorMessage))
+    {
+        return false;
+    }
+
+    const std::filesystem::path parentPath = m_lastLoadedMapPath.parent_path();
+
+    if (!parentPath.empty())
+    {
+        m_openMapBrowserDirectory = parentPath;
+    }
+
+    return true;
+}
+
 void EditorMainWindow::syncImportedModelPreview(EditorSession &session)
 {
     const bool importModalVisible =
@@ -5302,10 +5334,36 @@ void EditorMainWindow::ensureEditorStateLoaded(EditorSession &session)
     {
         m_modelBrowserDirectory = iterator->second;
     }
+
+    if (const auto iterator = values.find("open_map_directory"); iterator != values.end())
+    {
+        m_openMapBrowserDirectory = iterator->second;
+    }
+
+    if (const auto iterator = values.find("last_map_path"); iterator != values.end())
+    {
+        m_lastLoadedMapPath = iterator->second;
+
+        if (m_openMapBrowserDirectory.empty())
+        {
+            m_openMapBrowserDirectory = m_lastLoadedMapPath.parent_path();
+        }
+    }
 }
 
 void EditorMainWindow::persistEditorStateIfNeeded(const EditorSession &session)
 {
+    if (session.hasDocument() && !session.document().scenePhysicalPath().empty())
+    {
+        m_lastLoadedMapPath = session.document().scenePhysicalPath();
+        const std::filesystem::path parentPath = m_lastLoadedMapPath.parent_path();
+
+        if (!parentPath.empty())
+        {
+            m_openMapBrowserDirectory = parentPath;
+        }
+    }
+
     std::ostringstream output;
     output << "placement_kind=" << static_cast<int>(m_viewport.placementKind()) << '\n';
     output << "transform_mode=" << static_cast<int>(m_viewport.transformGizmoMode()) << '\n';
@@ -5350,6 +5408,8 @@ void EditorMainWindow::persistEditorStateIfNeeded(const EditorSession &session)
     output << "terrain_flatten_target_height=" << session.terrainFlattenTargetHeight() << '\n';
     output << "terrain_flatten_sampled_valid=" << (session.hasTerrainFlattenSampledTarget() ? 1 : 0) << '\n';
     output << "import_directory=" << m_modelBrowserDirectory.generic_string() << '\n';
+    output << "open_map_directory=" << m_openMapBrowserDirectory.generic_string() << '\n';
+    output << "last_map_path=" << m_lastLoadedMapPath.generic_string() << '\n';
     const std::string serialized = output.str();
 
     if (serialized == m_lastSavedEditorState)
@@ -7782,7 +7842,6 @@ void EditorMainWindow::openNewOutdoorMapModal(EditorSession &session)
 void EditorMainWindow::openOpenOutdoorMapModal() const
 {
     m_openOutdoorMapFilter[0] = '\0';
-    m_openMapBrowserDirectory.clear();
     m_openMapSelectedRelativePath.clear();
     m_openOpenOutdoorMapModal = true;
 }
@@ -7968,6 +8027,9 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
             return false;
         }
 
+        const std::filesystem::path openedPath(selectedPath);
+        m_lastLoadedMapPath = openedPath;
+        m_openMapBrowserDirectory = openedPath.parent_path();
         setStatusMessage(StatusMessageKind::Success, "Opened " + selectedPath + ".");
         ImGui::CloseCurrentPopup();
         return true;
@@ -11473,7 +11535,7 @@ void EditorMainWindow::renderBModelInspector(EditorSession &session, size_t bmod
                 ImGui::EndCombo();
             }
 
-            beginInspectorFieldRow("COG Number");
+            beginInspectorFieldRow("Legacy Event Number");
             int bulkCogNumber = m_bmodelBulkCogNumber;
             if (ImGui::InputInt("##BModelBulkCogNumber", &bulkCogNumber))
             {
@@ -11481,14 +11543,14 @@ void EditorMainWindow::renderBModelInspector(EditorSession &session, size_t bmod
             }
 
             uint16_t bulkCogTriggeredNumber = m_bmodelBulkCogTriggeredNumber;
-            if (editMapEventField(session, "COG Triggered Number", bulkCogTriggeredNumber))
+            if (editMapEventField(session, "Event Id", bulkCogTriggeredNumber))
             {
                 m_bmodelBulkCogTriggeredNumber = bulkCogTriggeredNumber;
             }
 
             renderResolvedMapEventField(session, "Resolved Event", m_bmodelBulkCogTriggeredNumber);
 
-            beginInspectorFieldRow("COG Trigger");
+            beginInspectorFieldRow("Legacy Event Trigger");
             int bulkCogTrigger = m_bmodelBulkCogTrigger;
             if (ImGui::InputInt("##BModelBulkCogTrigger", &bulkCogTrigger))
             {
@@ -12631,8 +12693,8 @@ void EditorMainWindow::renderInteractiveFaceInspector(EditorSession &session)
 
             if (beginInspectorPropertyTable("IndoorFaceTriggerBase"))
             {
-                renderInspectorReadOnlyField("Base COG Number", std::to_string(face.cogNumber));
-                renderInspectorReadOnlyField("Base COG Triggered", std::to_string(face.cogTriggered));
+                renderInspectorReadOnlyField("Base Legacy Event Number", std::to_string(face.cogNumber));
+                renderInspectorReadOnlyField("Base Event Id", std::to_string(face.cogTriggered));
                 renderResolvedMapEventField(session, "Base Event", face.cogTriggered);
                 renderInspectorReadOnlyField("Base Trigger Type", std::to_string(face.cogTriggerType));
                 renderInspectorReadOnlyField("Base Texture Frame Cog", std::to_string(face.textureFrameTableCog));
@@ -12642,12 +12704,12 @@ void EditorMainWindow::renderInteractiveFaceInspector(EditorSession &session)
             if (beginInspectorPropertyTable("IndoorFaceTriggerOverrides"))
             {
                 renderInspectorReadOnlyField("Trigger Source", hasTriggerOverride ? "Scene Override" : "Base BLV");
-                triggerChanged = editUInt16Field(session, "Scene COG Number", effectiveCogNumber) || triggerChanged;
                 triggerChanged =
-                    editUInt16Field(session, "Scene COG Triggered", effectiveCogTriggered) || triggerChanged;
+                    editUInt16Field(session, "Scene Legacy Event Number", effectiveCogNumber) || triggerChanged;
+                triggerChanged = editUInt16Field(session, "Scene Event Id", effectiveCogTriggered) || triggerChanged;
                 renderResolvedMapEventField(session, "Effective Event", effectiveCogTriggered);
                 triggerChanged =
-                    editUInt16Field(session, "Scene COG Trigger Type", effectiveCogTriggerType) || triggerChanged;
+                    editUInt16Field(session, "Scene Event Trigger Type", effectiveCogTriggerType) || triggerChanged;
                 triggerChanged =
                     editUInt16Field(session, "Scene Texture Frame Cog", effectiveTextureFrameTableCog) || triggerChanged;
                 ImGui::EndTable();
@@ -13169,13 +13231,13 @@ void EditorMainWindow::renderInteractiveFaceInspector(EditorSession &session)
                 pInteractiveFace->legacyAttributes,
                 FaceAttributeUntouchable) || changed;
             changed = editUInt32Field(session, "Legacy Attributes", pInteractiveFace->legacyAttributes) || changed;
-            changed = editUInt16Field(session, "COG Number", pInteractiveFace->cogNumber) || changed;
+            changed = editUInt16Field(session, "Legacy Event Number", pInteractiveFace->cogNumber) || changed;
             changed = editMapEventField(
                 session,
-                "COG Triggered Number",
+                "Event Id",
                 pInteractiveFace->cogTriggeredNumber) || changed;
             renderResolvedMapEventField(session, "Resolved Event", pInteractiveFace->cogTriggeredNumber);
-            changed = editUInt16Field(session, "COG Trigger", pInteractiveFace->cogTrigger) || changed;
+            changed = editUInt16Field(session, "Legacy Event Trigger", pInteractiveFace->cogTrigger) || changed;
             ImGui::EndTable();
         }
         ImGui::PopID();
@@ -13205,9 +13267,9 @@ void EditorMainWindow::renderInteractiveFaceInspector(EditorSession &session)
                     + std::to_string(baseNormal.z).substr(0, 5));
             renderInspectorReadOnlyField("Outward Dot", std::to_string(outwardDot));
             renderInspectorReadOnlyField("Legacy Attributes Raw", std::to_string(baseFace.attributes));
-            renderInspectorReadOnlyField("COG Number", std::to_string(baseFace.cogNumber));
-            renderInspectorReadOnlyField("COG Triggered Number", std::to_string(baseFace.cogTriggeredNumber));
-            renderInspectorReadOnlyField("COG Trigger", std::to_string(baseFace.cogTrigger));
+            renderInspectorReadOnlyField("Legacy Event Number", std::to_string(baseFace.cogNumber));
+            renderInspectorReadOnlyField("Event Id", std::to_string(baseFace.cogTriggeredNumber));
+            renderInspectorReadOnlyField("Legacy Event Trigger", std::to_string(baseFace.cogTrigger));
             renderInspectorReadOnlyField("Fluid", (baseFace.attributes & FaceAttributeFluid) != 0 ? "true" : "false");
             renderInspectorReadOnlyField(
                 "Invisible",
@@ -13797,6 +13859,7 @@ void EditorMainWindow::renderActorInspector(EditorSession &session, size_t actor
     {
         if (beginInspectorPropertyTable("ActorIdentityFields"))
         {
+            renderInspectorReadOnlyField("Actor Index", std::to_string(actorIndex));
             changed = renderMonsterTemplateSelector(session, "Monster Template", actor, false) || changed;
             changed = editInt16Field(session, "NPC Id", actor.npcId) || changed;
             changed = editIntField(
@@ -14694,14 +14757,11 @@ void EditorMainWindow::renderIndoorSpawnInspector(EditorSession &session, size_t
 
     if (changed)
     {
-        if (editableSpawn.typeId == 3)
-        {
-            editableSpawn.z = snapIndoorActorZToFloor(
-                indoorGeometry,
-                editableSpawn.x,
-                editableSpawn.y,
-                editableSpawn.z);
-        }
+        editableSpawn.z = snapIndoorActorZToFloor(
+            indoorGeometry,
+            editableSpawn.x,
+            editableSpawn.y,
+            editableSpawn.z);
 
         applyEditableSpawn();
         session.setPendingSpawn(editableSpawn);

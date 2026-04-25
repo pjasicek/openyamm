@@ -131,9 +131,18 @@ bool EditorApplication::startup(const Engine::AssetFileSystem &assetFileSystem)
 
     std::string errorMessage;
 
-    if (!m_session.openDefaultOutdoorDocument(errorMessage))
+    if (!m_mainWindow.restoreLastLoadedMap(m_session, errorMessage))
     {
-        m_session.logError(errorMessage);
+        if (!errorMessage.empty())
+        {
+            m_session.logError(errorMessage);
+            errorMessage.clear();
+        }
+
+        if (!m_session.openDefaultOutdoorDocument(errorMessage))
+        {
+            m_session.logError(errorMessage);
+        }
     }
 
     return true;

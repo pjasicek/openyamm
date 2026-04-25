@@ -4632,7 +4632,19 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
                         continue;
                     }
 
-                    drawProjectedHandle(candidate.worldPosition, IM_COL32(255, 96, 220, alpha), selected, false);
+                    if (candidate.selectionKind == EditorSelectionKind::Actor)
+                    {
+                        drawProjectedHandle(candidate.worldPosition, IM_COL32(255, 96, 96, alpha), selected, false);
+                    }
+                    else
+                    {
+                        const Game::IndoorSpawn &spawn = indoorGeometry.spawns[candidate.selectionIndex];
+                        drawProjectedHandle(
+                            candidate.worldPosition,
+                            spawn.typeId == 3 ? IM_COL32(255, 96, 220, alpha) : IM_COL32(96, 144, 255, alpha),
+                            selected,
+                            false);
+                    }
                     continue;
                 }
 
@@ -4644,6 +4656,17 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
                     }
 
                     drawProjectedHandle(candidate.worldPosition, IM_COL32(96, 255, 180, alpha), selected, false);
+                    continue;
+                }
+
+                if (candidate.selectionKind == EditorSelectionKind::SpriteObject)
+                {
+                    if (candidate.selectionIndex >= sceneData.initialState.spriteObjects.size())
+                    {
+                        continue;
+                    }
+
+                    drawProjectedHandle(candidate.worldPosition, IM_COL32(64, 216, 208, alpha), selected, false);
                 }
             }
 
@@ -8099,13 +8122,11 @@ bool EditorOutdoorViewport::tryPlaceObject(
     {
         const int previewX = static_cast<int>(std::lround(worldPosition.x));
         const int previewY = static_cast<int>(std::lround(worldPosition.y));
-        const int previewZ = session.pendingSpawn().typeId == 3
-            ? snapIndoorActorZToFloor(
-                session.document(),
-                previewX,
-                previewY,
-                static_cast<int>(std::lround(worldPosition.z)))
-            : static_cast<int>(std::lround(worldPosition.z));
+        const int previewZ = snapIndoorActorZToFloor(
+            session.document(),
+            previewX,
+            previewY,
+            static_cast<int>(std::lround(worldPosition.z)));
         m_pendingSpawnPlacementPreview = PendingSpawnPlacementPreview{
             previewX,
             previewY,
@@ -8162,9 +8183,7 @@ std::optional<bx::Vec3> EditorOutdoorViewport::selectedWorldPosition(
             if (selection.index < indoorGeometry.spawns.size())
             {
                 const Game::IndoorSpawn &spawn = indoorGeometry.spawns[selection.index];
-                const int displayZ = spawn.typeId == 3
-                    ? snapIndoorActorZToFloor(document, spawn.x, spawn.y, spawn.z)
-                    : spawn.z;
+                const int displayZ = snapIndoorActorZToFloor(document, spawn.x, spawn.y, spawn.z);
                 return bx::Vec3{static_cast<float>(spawn.x), static_cast<float>(spawn.y), static_cast<float>(displayZ)};
             }
             break;
@@ -8912,8 +8931,7 @@ bool EditorOutdoorViewport::setSelectedWorldPosition(EditorSession &session, con
             if (session.selection().index < indoorGeometry.spawns.size())
             {
                 Game::IndoorSpawn &spawn = indoorGeometry.spawns[session.selection().index];
-                const int snappedTargetZ =
-                    spawn.typeId == 3 ? snapIndoorActorZToFloor(document, targetX, targetY, targetZ) : targetZ;
+                const int snappedTargetZ = snapIndoorActorZToFloor(document, targetX, targetY, targetZ);
                 changed = spawn.x != targetX || spawn.y != targetY || spawn.z != snappedTargetZ;
                 spawn.x = targetX;
                 spawn.y = targetY;
@@ -10986,9 +11004,10 @@ void EditorOutdoorViewport::submitMarkerGeometry(
         const std::vector<Game::IndoorVertex> &indoorVertices = indoorRenderVertices(document);
         const uint32_t entityColor = makeAbgr(255, 208, 64);
         const uint32_t lightColor = makeAbgr(255, 192, 96);
-        const uint32_t spawnColor = makeAbgr(96, 192, 255);
-        const uint32_t actorColor = makeAbgr(224, 100, 80);
-        const uint32_t spriteColor = makeAbgr(216, 96, 255);
+        const uint32_t spawnColor = makeAbgr(96, 144, 255);
+        const uint32_t actorSpawnColor = makeAbgr(255, 96, 220);
+        const uint32_t actorColor = makeAbgr(255, 96, 96);
+        const uint32_t spriteColor = makeAbgr(64, 216, 208);
         const uint32_t doorColor = makeAbgr(96, 255, 180);
         const uint32_t selectedColor = makeAbgr(255, 255, 255);
         const uint32_t faceSelectionColor = makeAbgr(255, 96, 255);
@@ -11211,9 +11230,7 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             for (size_t spawnIndex = 0; spawnIndex < indoorGeometry.spawns.size(); ++spawnIndex)
             {
                 const Game::IndoorSpawn &spawn = indoorGeometry.spawns[spawnIndex];
-                const int displayZ = spawn.typeId == 3
-                    ? snapIndoorActorZToFloor(document, spawn.x, spawn.y, spawn.z)
-                    : spawn.z;
+                const int displayZ = snapIndoorActorZToFloor(document, spawn.x, spawn.y, spawn.z);
                 const bx::Vec3 center = {
                     static_cast<float>(spawn.x),
                     static_cast<float>(spawn.y),
@@ -11247,7 +11264,8 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
         if (m_pendingSpawnPlacementPreview)
         {
-            const uint32_t pendingSpawnColor = makeAbgr(96, 255, 160);
+            const uint32_t pendingSpawnColor =
+                session.pendingSpawn().typeId == 3 ? actorSpawnColor : spawnColor;
             const bx::Vec3 center = {
                 static_cast<float>(m_pendingSpawnPlacementPreview->x),
                 static_cast<float>(m_pendingSpawnPlacementPreview->y),
@@ -11307,14 +11325,6 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                     continue;
                 }
 
-                appendCrossMarker(
-                    vertices,
-                    center,
-                    48.0f,
-                    96.0f,
-                    selection.kind == EditorSelectionKind::SpriteObject && selection.index == objectIndex
-                        ? selectedColor
-                        : spriteColor);
                 m_markerCandidates.push_back({EditorSelectionKind::SpriteObject, objectIndex, center, 18.0f});
             }
         }
@@ -11748,8 +11758,8 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
     if (m_showSpawns)
     {
-        const uint32_t spawnColor = makeAbgr(96, 192, 255);
-        const uint32_t actorSpawnColor = makeAbgr(96, 255, 96);
+        const uint32_t spawnColor = makeAbgr(96, 144, 255);
+        const uint32_t actorSpawnColor = makeAbgr(255, 96, 220);
         const uint32_t selectedSpawnColor = makeAbgr(255, 255, 255);
 
         for (size_t spawnIndex = 0; spawnIndex < sceneData.spawns.size(); ++spawnIndex)
@@ -11787,7 +11797,10 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
     if (m_pendingSpawnPlacementPreview)
     {
-        const uint32_t pendingSpawnColor = makeAbgr(96, 255, 160);
+        const uint32_t spawnColor = makeAbgr(96, 144, 255);
+        const uint32_t actorSpawnColor = makeAbgr(255, 96, 220);
+        const uint32_t pendingSpawnColor =
+            session.pendingSpawn().typeId == 3 ? actorSpawnColor : spawnColor;
         const float halfExtent = static_cast<float>(std::max<uint16_t>(session.pendingSpawn().radius, 96));
         const bx::Vec3 center = {
             static_cast<float>(m_pendingSpawnPlacementPreview->x),
@@ -11798,7 +11811,7 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
     if (m_showActors)
     {
-        const uint32_t actorColor = makeAbgr(224, 100, 80);
+        const uint32_t actorColor = makeAbgr(255, 96, 96);
         const uint32_t selectedActorColor = makeAbgr(255, 255, 255);
 
         for (size_t actorIndex = 0; actorIndex < sceneData.initialState.actors.size(); ++actorIndex)
@@ -11866,7 +11879,7 @@ void EditorOutdoorViewport::submitMarkerGeometry(
 
     if (m_showSpriteObjects)
     {
-        const uint32_t spriteObjectColor = makeAbgr(216, 96, 255);
+        const uint32_t spriteObjectColor = makeAbgr(64, 216, 208);
         const uint32_t selectedSpriteObjectColor = makeAbgr(255, 255, 255);
 
         for (size_t objectIndex = 0; objectIndex < sceneData.initialState.spriteObjects.size(); ++objectIndex)
