@@ -91,7 +91,7 @@ int remapLoadingProgress(int localProgress, int startProgress, int endProgress)
     return startProgress + (endProgress - startProgress) * clampedLocal / 100;
 }
 
-float mapMoveHeadingDegreesToOutdoorYawRadians(int32_t directionDegrees)
+float mapMoveHeadingDegreesToYawRadians(int32_t directionDegrees)
 {
     return static_cast<float>(directionDegrees) * Pi / 180.0f;
 }
@@ -2087,6 +2087,24 @@ bool GameApplication::processPendingMapMove()
         || (!pendingMapMove->useMapStartPosition
             && sameMapFileName(*pendingMapMove->mapName, m_gameSession.currentMapFileName()));
 
+    const auto applyMapMoveDirection = [this, &pendingMapMove]()
+    {
+        if (!pendingMapMove->directionDegrees.has_value() || m_pMapSceneRuntime == nullptr)
+        {
+            return;
+        }
+
+        const float yawRadians = mapMoveHeadingDegreesToYawRadians(*pendingMapMove->directionDegrees);
+
+        if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
+        {
+            m_outdoorGameView.setCameraAngles(yawRadians, m_outdoorGameView.cameraPitchRadians());
+        }
+        else if (m_pMapSceneRuntime->kind() == SceneKind::Indoor)
+        {
+            m_indoorRenderer.setCameraAngles(yawRadians, m_indoorRenderer.cameraPitchRadians());
+        }
+    };
     if (isSameMapTeleport)
     {
         if (m_pMapSceneRuntime != nullptr
@@ -2108,13 +2126,7 @@ bool GameApplication::processPendingMapMove()
                 static_cast<float>(pendingMapMove->z));
         }
 
-        if (pendingMapMove->directionDegrees.has_value()
-            && m_pMapSceneRuntime != nullptr
-            && m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
-        {
-            const float yawRadians = mapMoveHeadingDegreesToOutdoorYawRadians(*pendingMapMove->directionDegrees);
-            m_outdoorGameView.setCameraAngles(yawRadians, m_outdoorGameView.cameraPitchRadians());
-        }
+        applyMapMoveDirection();
 
         m_gameAudioSystem.playCommonSound(SoundId::Teleport, GameAudioSystem::PlaybackGroup::Ui);
         synchronizeSessionFromRuntime();
@@ -2164,13 +2176,7 @@ bool GameApplication::processPendingMapMove()
             static_cast<float>(pendingMapMove->z));
     }
 
-    if (pendingMapMove->directionDegrees.has_value()
-        && m_pMapSceneRuntime != nullptr
-        && m_pMapSceneRuntime->kind() == SceneKind::Outdoor)
-    {
-        const float yawRadians = mapMoveHeadingDegreesToOutdoorYawRadians(*pendingMapMove->directionDegrees);
-        m_outdoorGameView.setCameraAngles(yawRadians, m_outdoorGameView.cameraPitchRadians());
-    }
+    applyMapMoveDirection();
 
     if (isDungeonMapFileName(targetMapName) && !sameMapFileName(previousMapFileName, targetMapName))
     {

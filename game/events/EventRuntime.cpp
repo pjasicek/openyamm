@@ -6,7 +6,6 @@
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
 
-#include <iostream>
 #include <algorithm>
 #include <cmath>
 #include <limits>
@@ -4815,6 +4814,31 @@ bool EventRuntimeState::hasFacetInvisibleOverride(uint32_t faceId) const
     }
 
     return faceId < facetInvisibleOverrideCache.size() && facetInvisibleOverrideCache[faceId] != 0u;
+}
+
+void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
+{
+    runtimeState.actorHostilityRequests.clear();
+    runtimeState.actorGroupHostilityRequests.clear();
+    runtimeState.dialogueState = {};
+    runtimeState.activeDecorationContext.reset();
+    runtimeState.messages.clear();
+    runtimeState.statusMessages.clear();
+    runtimeState.grantedItems.clear();
+    runtimeState.grantedItemIds.clear();
+    runtimeState.removedItemIds.clear();
+    runtimeState.grantedAwardIds.clear();
+    runtimeState.removedAwardIds.clear();
+    runtimeState.portraitFxRequests.clear();
+    runtimeState.spellFxRequests.clear();
+    runtimeState.pendingDialogueContext.reset();
+    runtimeState.pendingMapMove.reset();
+    runtimeState.pendingMovie.reset();
+    runtimeState.pendingInputPrompt.reset();
+    runtimeState.pendingArcomageGame.reset();
+    runtimeState.pendingSounds.clear();
+    runtimeState.lastAffectedMechanismIds.clear();
+    runtimeState.lastActivationResult.reset();
 }
 
 EventRuntime::EventRuntime() = default;

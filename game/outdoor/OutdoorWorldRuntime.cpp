@@ -4531,6 +4531,10 @@ OutdoorWorldRuntime::Snapshot OutdoorWorldRuntime::snapshot() const
     snapshot.materializedChestViews = m_materializedChestViews;
     snapshot.activeChestView = m_activeChestView;
     snapshot.eventRuntimeState = m_eventRuntimeState;
+    if (snapshot.eventRuntimeState)
+    {
+        clearTransientEventRuntimeState(*snapshot.eventRuntimeState);
+    }
     snapshot.actorUpdateAccumulatorSeconds = m_actorUpdateAccumulatorSeconds;
     snapshot.sessionChestSeed = m_sessionChestSeed;
     snapshot.nextActorId = m_nextActorId;
@@ -4578,6 +4582,10 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_materializedChestViews = snapshot.materializedChestViews;
     m_activeChestView = snapshot.activeChestView;
     m_eventRuntimeState = snapshot.eventRuntimeState;
+    if (m_eventRuntimeState)
+    {
+        clearTransientEventRuntimeState(*m_eventRuntimeState);
+    }
     m_actorUpdateAccumulatorSeconds = snapshot.actorUpdateAccumulatorSeconds;
     m_sessionChestSeed = snapshot.sessionChestSeed;
     m_nextActorId = snapshot.nextActorId;

@@ -4431,6 +4431,23 @@ void IndoorRenderer::setCameraPosition(float x, float y, float z)
     }
 }
 
+void IndoorRenderer::setCameraAngles(float yawRadians, float pitchRadians)
+{
+    m_cameraYawRadians = yawRadians;
+    m_cameraPitchRadians = pitchRadians;
+
+    if (m_cameraYawRadians > Pi)
+    {
+        m_cameraYawRadians -= Pi * 2.0f;
+    }
+    else if (m_cameraYawRadians < -Pi)
+    {
+        m_cameraYawRadians += Pi * 2.0f;
+    }
+
+    m_cameraPitchRadians = std::clamp(m_cameraPitchRadians, -1.55f, 1.55f);
+}
+
 const IndoorRenderer::BillboardTextureHandle *IndoorRenderer::findBillboardTexture(
     const std::string &textureName,
     int16_t paletteId

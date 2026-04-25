@@ -84,6 +84,7 @@ public:
         float deltaSeconds,
         bool allowWorldInput);
     void setCameraPosition(float x, float y, float z);
+    void setCameraAngles(float yawRadians, float pitchRadians);
     bool hasHudRenderResources() const;
     bgfx::ProgramHandle hudTexturedProgramHandle() const;
     bgfx::UniformHandle hudTextureSamplerHandle() const;

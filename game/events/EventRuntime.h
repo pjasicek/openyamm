@@ -242,6 +242,8 @@ struct EventRuntimeBindingReport
     std::optional<std::string> errorMessage;
 };
 
+void clearTransientEventRuntimeState(EventRuntimeState &runtimeState);
+
 class EventRuntime
 {
 public:

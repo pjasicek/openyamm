@@ -379,6 +379,10 @@ IndoorSceneRuntime::Snapshot IndoorSceneRuntime::snapshot() const
     Snapshot snapshot = {};
     snapshot.mapDeltaData = m_mapDeltaData;
     snapshot.eventRuntimeState = m_eventRuntimeState;
+    if (snapshot.eventRuntimeState)
+    {
+        clearTransientEventRuntimeState(*snapshot.eventRuntimeState);
+    }
     snapshot.worldRuntime = m_worldRuntime.snapshot();
     snapshot.partyRuntime = m_partyRuntime.snapshot();
     snapshot.timers = m_timers;
@@ -391,6 +395,10 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
 {
     m_mapDeltaData = snapshot.mapDeltaData;
     m_eventRuntimeState = snapshot.eventRuntimeState;
+    if (m_eventRuntimeState)
+    {
+        clearTransientEventRuntimeState(*m_eventRuntimeState);
+    }
     m_worldRuntime.restoreSnapshot(snapshot.worldRuntime);
     m_partyRuntime.restoreSnapshot(snapshot.partyRuntime);
     m_partyRuntime.setParty(*m_pSessionParty);
