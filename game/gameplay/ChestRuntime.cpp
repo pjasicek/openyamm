@@ -166,6 +166,27 @@ std::optional<std::pair<uint8_t, uint8_t>> findFirstFreeChestSlot(
     return std::nullopt;
 }
 
+void tryPlaceHiddenChestItems(GameplayChestViewState &view)
+{
+    for (auto it = view.hiddenItems.begin(); it != view.hiddenItems.end();)
+    {
+        const std::optional<std::pair<uint8_t, uint8_t>> slot =
+            findFirstFreeChestSlot(view.items, it->width, it->height, view.gridWidth, view.gridHeight);
+
+        if (!slot.has_value())
+        {
+            ++it;
+            continue;
+        }
+
+        GameplayChestItemState item = *it;
+        item.gridX = slot->first;
+        item.gridY = slot->second;
+        view.items.push_back(item);
+        it = view.hiddenItems.erase(it);
+    }
+}
+
 uint32_t makeChestSeed(uint32_t sessionSeed, int mapId, uint32_t chestId, uint32_t salt)
 {
     return sessionSeed
@@ -304,6 +325,40 @@ GameplayChestViewState buildMaterializedChestView(
 
             std::mt19937 rng(makeChestSeed(sessionChestSeed, mapId, chestId, uint32_t(recordIndex)));
             const int resolvedTreasureLevel = sampleRemappedTreasureLevel(-rawItemId, normalizedMapTreasureLevel, rng);
+
+            if (resolvedTreasureLevel == RandomChestItemMaxLevel)
+            {
+                if (pItemTable == nullptr || pStandardItemEnchantTable == nullptr || pSpecialItemEnchantTable == nullptr)
+                {
+                    return generatedItems;
+                }
+
+                const std::optional<InventoryItem> generatedItem =
+                    ItemGenerator::generateRandomInventoryItem(
+                        *pItemTable,
+                        *pStandardItemEnchantTable,
+                        *pSpecialItemEnchantTable,
+                        ItemGenerationRequest{
+                            SpawnableItemTreasureLevels,
+                            ItemGenerationMode::ChestLoot,
+                            true,
+                            true},
+                        pParty,
+                        rng);
+
+                if (generatedItem.has_value())
+                {
+                    GameplayChestItemState item = {};
+                    item.item = *generatedItem;
+                    item.itemId = item.item.objectDescriptionId;
+                    item.quantity = item.item.quantity;
+                    resolveChestItemSize(item);
+                    generatedItems.push_back(item);
+                }
+
+                return generatedItems;
+            }
+
             const int generatedCount = std::uniform_int_distribution<int>(1, 5)(rng);
 
             for (int generatedIndex = 0; generatedIndex < generatedCount; ++generatedIndex)
@@ -368,6 +423,7 @@ GameplayChestViewState buildMaterializedChestView(
     std::vector<std::vector<GameplayChestItemState>> materializedRecordItems(rawItemIds.size());
     std::vector<bool> placedRecords(rawItemIds.size(), false);
     std::vector<GameplayChestItemState> deferredItems;
+    std::vector<GameplayChestItemState> anchoredRandomItems;
 
     for (size_t recordIndex = 0; recordIndex < rawItemIds.size(); ++recordIndex)
     {
@@ -416,7 +472,11 @@ GameplayChestViewState buildMaterializedChestView(
             anchoredItem.gridX = gridX;
             anchoredItem.gridY = gridY;
 
-            if (canPlaceChestItem(anchoredItem, view.items, view.gridWidth, view.gridHeight))
+            if (rawItemIds[recordIndex] < 0 && rawItemIds[recordIndex] != -RandomChestItemMaxLevel)
+            {
+                anchoredRandomItems.push_back(anchoredItem);
+            }
+            else if (canPlaceChestItem(anchoredItem, view.items, view.gridWidth, view.gridHeight))
             {
                 view.items.push_back(anchoredItem);
             }
@@ -429,6 +489,18 @@ GameplayChestViewState buildMaterializedChestView(
             {
                 deferredItems.push_back(recordItems[itemIndex]);
             }
+        }
+    }
+
+    for (const GameplayChestItemState &anchoredRandomItem : anchoredRandomItems)
+    {
+        if (canPlaceChestItem(anchoredRandomItem, view.items, view.gridWidth, view.gridHeight))
+        {
+            view.items.push_back(anchoredRandomItem);
+        }
+        else
+        {
+            deferredItems.push_back(anchoredRandomItem);
         }
     }
 
@@ -450,6 +522,8 @@ GameplayChestViewState buildMaterializedChestView(
 
     for (const GameplayChestItemState &deferredItem : deferredItems)
     {
+        bool placed = false;
+
         for (uint8_t cellIndex : placementCellOrder)
         {
             GameplayChestItemState candidate = deferredItem;
@@ -462,7 +536,13 @@ GameplayChestViewState buildMaterializedChestView(
             }
 
             view.items.push_back(candidate);
+            placed = true;
             break;
+        }
+
+        if (!placed)
+        {
+            view.hiddenItems.push_back(deferredItem);
         }
     }
 
@@ -478,6 +558,7 @@ bool takeChestItem(GameplayChestViewState &view, size_t itemIndex, GameplayChest
 
     item = view.items[itemIndex];
     view.items.erase(view.items.begin() + ptrdiff_t(itemIndex));
+    tryPlaceHiddenChestItems(view);
     return true;
 }
 
@@ -492,6 +573,7 @@ bool takeChestItemAt(GameplayChestViewState &view, uint8_t gridX, uint8_t gridY,
 
         item = view.items[itemIndex];
         view.items.erase(view.items.begin() + ptrdiff_t(itemIndex));
+        tryPlaceHiddenChestItems(view);
         return true;
     }
 

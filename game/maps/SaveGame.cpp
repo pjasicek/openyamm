@@ -2055,6 +2055,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::ChestViewState 
     writeValue(writer, value.gridWidth);
     writeValue(writer, value.gridHeight);
     writeValue(writer, value.items);
+    writeValue(writer, value.hiddenItems);
 }
 
 bool readValue(BinaryReader &reader, OutdoorWorldRuntime::ChestViewState &value)
@@ -2064,7 +2065,8 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::ChestViewState &value)
         && readValue(reader, value.flags)
         && readValue(reader, value.gridWidth)
         && readValue(reader, value.gridHeight)
-        && readValue(reader, value.items);
+        && readValue(reader, value.items)
+        && readValue(reader, value.hiddenItems);
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::CorpseViewState &value)

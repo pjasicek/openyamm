@@ -50,6 +50,7 @@ struct GameplayChestViewState
     uint8_t gridWidth = 0;
     uint8_t gridHeight = 0;
     std::vector<GameplayChestItemState> items;
+    std::vector<GameplayChestItemState> hiddenItems;
 };
 
 struct GameplayCorpseViewState
