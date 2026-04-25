@@ -1,5 +1,6 @@
 #include "game/ui/GameplayUiRuntime.h"
 
+#include "engine/BgfxContext.h"
 #include "engine/TextTable.h"
 #include "game/StringUtils.h"
 #include "game/render/TextureFiltering.h"
@@ -19,8 +20,7 @@ namespace
 {
 bool canUseBgfxResources()
 {
-    const bgfx::InternalData *pInternalData = bgfx::getInternalData();
-    return pInternalData != nullptr && pInternalData->caps != nullptr;
+    return Engine::BgfxContext::isBgfxInitialized();
 }
 
 std::string dataTablePath(std::string_view fileName)
@@ -1467,6 +1467,37 @@ void GameplayUiRuntime::clearPortraitRuntime()
 
 void GameplayUiRuntime::clearHudResources()
 {
+    if (!canUseBgfxResources())
+    {
+        for (GameplayHudTextureData &textureHandle : m_hudTextureHandles)
+        {
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        for (GameplayHudFontData &fontHandle : m_hudFontHandles)
+        {
+            fontHandle.mainTextureHandle = BGFX_INVALID_HANDLE;
+            fontHandle.shadowTextureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        for (GameplayHudFontColorTextureData &textureHandle : m_hudFontColorTextureHandles)
+        {
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        for (GameplayHudTextureColorTextureData &textureHandle : m_hudTextureColorTextureHandles)
+        {
+            textureHandle.textureHandle = BGFX_INVALID_HANDLE;
+        }
+
+        m_hudTextureHandles.clear();
+        m_hudTextureIndexByName.clear();
+        m_hudFontHandles.clear();
+        m_hudFontColorTextureHandles.clear();
+        m_hudTextureColorTextureHandles.clear();
+        return;
+    }
+
     for (GameplayHudTextureData &textureHandle : m_hudTextureHandles)
     {
         if (bgfx::isValid(textureHandle.textureHandle))

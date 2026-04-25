@@ -386,10 +386,12 @@ void GameSession::updateGameplay(const GameplayInputFrame &input, float deltaSec
 
         const bool gameplayCursorModeActive = m_sharedInputFrameResult.mouseLookPolicy.cursorModeActive;
         const bool pendingSpellTargetActive = m_gameplayScreenState.pendingSpellTarget().active;
+        const bool modalWorldInputBlocked =
+            m_sharedInputFrameResult.journalInputConsumed
+            || m_sharedInputFrameResult.worldInputBlocked;
         const bool standardWorldInputBlocked =
             gameplayCursorModeActive
-            || m_sharedInputFrameResult.journalInputConsumed
-            || m_sharedInputFrameResult.worldInputBlocked;
+            || modalWorldInputBlocked;
         const bool allowWorldMovementInput =
             !standardWorldInputBlocked
             && !pendingSpellTargetActive;
@@ -416,7 +418,7 @@ void GameSession::updateGameplay(const GameplayInputFrame &input, float deltaSec
             m_gameplayCombatController.handleAndClearPendingCombatEvents(combatEventContext);
         }
 
-        const bool worldInputBlocked = standardWorldInputBlocked || m_sharedWorldInteractionBlockedThisFrame;
+        const bool worldInputBlocked = modalWorldInputBlocked || m_sharedWorldInteractionBlockedThisFrame;
         GameplayInteractionController::updateWorldInteractionFrame(
             m_gameplayScreenState,
             m_overlayInteractionState,

@@ -1,4 +1,5 @@
 #include "game/ui/MenuScreenBase.h"
+#include "engine/BgfxContext.h"
 #include "game/render/TextureFiltering.h"
 
 #include <SDL3/SDL.h>
@@ -1121,6 +1122,23 @@ void MenuScreenBase::ensureRendererInitialized()
 
 void MenuScreenBase::destroyRendererResources()
 {
+    if (!Engine::BgfxContext::isBgfxInitialized())
+    {
+        m_textureHandles.clear();
+        m_textureIndexByName.clear();
+        m_resolvedTexturePaths.clear();
+        m_textureColorHandles.clear();
+        m_dynamicTextureHandles.clear();
+        m_fontHandles.clear();
+        m_fontIndexByName.clear();
+        m_resolvedFontPaths.clear();
+        m_fontColorHandles.clear();
+        m_texturedProgramHandle = BGFX_INVALID_HANDLE;
+        m_textureUniformHandle = BGFX_INVALID_HANDLE;
+        m_rendererInitialized = false;
+        return;
+    }
+
     for (TextureHandle &textureHandle : m_textureHandles)
     {
         if (bgfx::isValid(textureHandle.handle))

@@ -4083,7 +4083,7 @@ void OutdoorGameView::shutdown()
     m_outdoorSpatialFxRuntime.reset();
     m_worldFxSystem.reset();
 
-    if (bgfx::getInternalData() == nullptr)
+    if (!Engine::BgfxContext::isBgfxInitialized())
     {
         m_programHandle = BGFX_INVALID_HANDLE;
         m_texturedTerrainProgramHandle = BGFX_INVALID_HANDLE;

@@ -5,6 +5,7 @@
 #include <cstdint>
 #include <cstring>
 #include <fstream>
+#include <limits>
 #include <type_traits>
 #include <unordered_map>
 #include <unordered_set>
@@ -90,7 +91,7 @@ public:
 
     bool readBytes(void *pData, size_t size)
     {
-        if (m_offset + size > m_bytes.size())
+        if (size > remainingBytes())
         {
             m_failed = true;
             return false;
@@ -112,6 +113,16 @@ public:
         return m_failed;
     }
 
+    size_t remainingBytes() const
+    {
+        if (m_offset >= m_bytes.size())
+        {
+            return 0;
+        }
+
+        return m_bytes.size() - m_offset;
+    }
+
     void setVersion(uint32_t version)
     {
         m_version = version;
@@ -128,6 +139,16 @@ private:
     bool m_failed = false;
     uint32_t m_version = SaveVersion;
 };
+
+bool canReadSerializedElementCount(const BinaryReader &reader, uint64_t count)
+{
+    if (count > std::numeric_limits<size_t>::max())
+    {
+        return false;
+    }
+
+    return count <= reader.remainingBytes();
+}
 
 template <typename T>
 requires(std::is_arithmetic_v<T>)
@@ -182,6 +203,11 @@ bool readValue(BinaryReader &reader, std::string &value)
     uint64_t size = 0;
 
     if (!readValue(reader, size))
+    {
+        return false;
+    }
+
+    if (!canReadSerializedElementCount(reader, size))
     {
         return false;
     }
@@ -270,6 +296,11 @@ bool readValue(BinaryReader &reader, std::vector<T> &value)
         return false;
     }
 
+    if (!canReadSerializedElementCount(reader, size))
+    {
+        return false;
+    }
+
     value.clear();
     value.reserve(static_cast<size_t>(size));
 
@@ -334,6 +365,11 @@ bool readValue(BinaryReader &reader, std::unordered_map<K, V> &value)
         return false;
     }
 
+    if (!canReadSerializedElementCount(reader, size))
+    {
+        return false;
+    }
+
     value.clear();
     value.reserve(static_cast<size_t>(size));
 
@@ -371,6 +407,11 @@ bool readValue(BinaryReader &reader, std::unordered_set<T> &value)
     uint64_t size = 0;
 
     if (!readValue(reader, size))
+    {
+        return false;
+    }
+
+    if (!canReadSerializedElementCount(reader, size))
     {
         return false;
     }
@@ -2478,18 +2519,7 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
         return std::nullopt;
     }
 
-    if (version != 18
-        && version != 19
-        && version != 20
-        && version != 21
-        && version != 22
-        && version != 23
-        && version != 24
-        && version != 25
-        && version != 26
-        && version != 27
-        && version != 28
-        && version != SaveVersion)
+    if (version != SaveVersion)
     {
         error = "unsupported save version";
         return std::nullopt;
@@ -2498,7 +2528,17 @@ std::optional<GameSaveData> loadGameDataFromPath(const std::filesystem::path &pa
     reader.setVersion(version);
 
     GameSaveData data = {};
-    const bool decoded = reader.read(data);
+    bool decoded = false;
+
+    try
+    {
+        decoded = reader.read(data);
+    }
+    catch (const std::exception &exception)
+    {
+        error = std::string("save data is corrupted: ") + exception.what();
+        return std::nullopt;
+    }
 
     if (!decoded || reader.failed())
     {

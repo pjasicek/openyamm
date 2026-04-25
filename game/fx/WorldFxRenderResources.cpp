@@ -1,5 +1,7 @@
 #include "game/fx/WorldFxRenderResources.h"
 
+#include "engine/BgfxContext.h"
+
 #include <algorithm>
 #include <utility>
 
@@ -28,6 +30,12 @@ void WorldFxRenderResources::reset()
 
 void WorldFxRenderResources::shutdown()
 {
+    if (!Engine::BgfxContext::isBgfxInitialized())
+    {
+        reset();
+        return;
+    }
+
     if (bgfx::isValid(m_particleProgramHandle))
     {
         bgfx::destroy(m_particleProgramHandle);

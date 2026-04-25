@@ -45,7 +45,6 @@ std::string monsterSpriteFrameFamilyPath(std::string_view familyRoot)
     return "Data/rendering/sprite_frames/monsters/" + std::string(familyRoot) + ".yml";
 }
 
-constexpr uint8_t WaterTileName[] = {'w', 't', 'r', 't', 'y', 'l', 0};
 constexpr int TerrainTextureTileSize = 128;
 constexpr int TerrainTextureAtlasColumns = 16;
 constexpr int TerrainTextureAtlasTilePadding = 2;
@@ -275,25 +274,164 @@ bool shouldSkipSpriteObjectCollision(const MapDeltaSpriteObject &spriteObject, c
     return false;
 }
 
-bool isWaterTransitionTerrainTexture(const std::string &textureName)
+bool hasTerrainTileFlag(const TerrainTileDescriptor &descriptor, uint16_t flag)
 {
-    const std::string normalizedTextureName = toLowerCopy(textureName);
-    return normalizedTextureName.starts_with("wtrdr") || normalizedTextureName.starts_with("hwtrdr");
+    return (descriptor.flags & flag) != 0;
 }
 
-bool isAnimatedWaterTerrainTexture(const std::string &textureName)
+bool isTerrainDescriptorLiquid(const TerrainTileDescriptor &descriptor)
 {
-    const std::string normalizedTextureName = toLowerCopy(textureName);
-    return normalizedTextureName == "wtrtyl"
-        || normalizedTextureName == "hwtrtyl"
-        || normalizedTextureName.starts_with("wtrdr")
-        || normalizedTextureName.starts_with("hwtrdr");
+    return (descriptor.flags & (TerrainTileFlagBurn | TerrainTileFlagWater)) != 0;
 }
 
-std::string waterBaseTextureNameForTerrainTexture(const std::string &textureName)
+bool isTerrainDescriptorTransition(const TerrainTileDescriptor &descriptor)
 {
-    const std::string normalizedTextureName = toLowerCopy(textureName);
-    return normalizedTextureName.starts_with("hwtr") ? "hWTRTYL" : std::string(reinterpret_cast<const char *>(WaterTileName));
+    return hasTerrainTileFlag(descriptor, TerrainTileFlagTransition);
+}
+
+const TerrainTileDescriptor *findLiquidBaseTerrainDescriptor(
+    const std::vector<TerrainTileDescriptor> &tileDescriptors,
+    const TerrainTileDescriptor &descriptor)
+{
+    const TerrainTileDescriptor *pFallback = nullptr;
+
+    for (const TerrainTileDescriptor &candidate : tileDescriptors)
+    {
+        if (candidate.tileset != descriptor.tileset
+            || candidate.textureName.empty()
+            || candidate.textureName == "pending"
+            || !isTerrainDescriptorLiquid(candidate)
+            || isTerrainDescriptorTransition(candidate))
+        {
+            continue;
+        }
+
+        if (pFallback == nullptr)
+        {
+            pFallback = &candidate;
+        }
+
+        if (candidate.variant == 0)
+        {
+            return &candidate;
+        }
+    }
+
+    return pFallback;
+}
+
+const SurfaceMaterialDefinition *findTerrainSurfaceMaterialForDescriptor(
+    const TerrainTileDescriptor &descriptor,
+    const std::vector<TerrainTileDescriptor> &tileDescriptors,
+    const SurfaceMaterialTable *pSurfaceMaterialTable,
+    const TerrainTileDescriptor **ppBaseDescriptor)
+{
+    if (ppBaseDescriptor != nullptr)
+    {
+        *ppBaseDescriptor = nullptr;
+    }
+
+    if (pSurfaceMaterialTable == nullptr)
+    {
+        return nullptr;
+    }
+
+    if (const SurfaceMaterialDefinition *pMaterial =
+            pSurfaceMaterialTable->findMatch(descriptor.textureName, 0, true))
+    {
+        return pMaterial;
+    }
+
+    const TerrainTileDescriptor *pBaseDescriptor =
+        findLiquidBaseTerrainDescriptor(tileDescriptors, descriptor);
+
+    if (pBaseDescriptor == nullptr)
+    {
+        return nullptr;
+    }
+
+    if (ppBaseDescriptor != nullptr)
+    {
+        *ppBaseDescriptor = pBaseDescriptor;
+    }
+
+    return pSurfaceMaterialTable->findMatch(pBaseDescriptor->textureName, 0, true);
+}
+
+std::vector<uint8_t> scrollTerrainPixels(
+    const std::vector<uint8_t> &sourcePixels,
+    int width,
+    int height,
+    int offsetX,
+    int offsetY)
+{
+    if (width <= 0 || height <= 0 || sourcePixels.size() < static_cast<size_t>(width * height * 4))
+    {
+        return sourcePixels;
+    }
+
+    std::vector<uint8_t> scrolledPixels(sourcePixels.size(), 0);
+
+    for (int y = 0; y < height; ++y)
+    {
+        const int sourceY = (y + offsetY + height) % height;
+
+        for (int x = 0; x < width; ++x)
+        {
+            const int sourceX = (x + offsetX + width) % width;
+            const size_t sourceOffset = static_cast<size_t>((sourceY * width + sourceX) * 4);
+            const size_t targetOffset = static_cast<size_t>((y * width + x) * 4);
+            std::memcpy(
+                scrolledPixels.data() + static_cast<ptrdiff_t>(targetOffset),
+                sourcePixels.data() + static_cast<ptrdiff_t>(sourceOffset),
+                4);
+        }
+    }
+
+    return scrolledPixels;
+}
+
+SurfaceAnimationSequence fallbackLiquidSurfaceAnimation()
+{
+    constexpr uint32_t FallbackAnimationTicks = 128;
+    constexpr int FallbackFrameCount = 7;
+
+    SurfaceAnimationSequence animation = {};
+    animation.animationLengthTicks = FallbackAnimationTicks;
+
+    for (int frameIndex = 0; frameIndex < FallbackFrameCount; ++frameIndex)
+    {
+        SurfaceAnimationFrame frame = {};
+        frame.textureName = "generated_liquid_scroll_" + std::to_string(frameIndex);
+        frame.frameLengthTicks = FallbackAnimationTicks / FallbackFrameCount;
+        animation.frames.push_back(std::move(frame));
+    }
+
+    return animation;
+}
+
+std::vector<std::vector<uint8_t>> buildFallbackLiquidAnimationFrames(
+    const std::vector<uint8_t> &basePixels,
+    int width,
+    int height,
+    SurfaceAnimationSequence &animation)
+{
+    std::vector<std::vector<uint8_t>> frames;
+    animation = fallbackLiquidSurfaceAnimation();
+    frames.reserve(animation.frames.size());
+
+    for (size_t frameIndex = 0; frameIndex < animation.frames.size(); ++frameIndex)
+    {
+        frames.push_back(
+            scrollTerrainPixels(
+                basePixels,
+                width,
+                height,
+                static_cast<int>(frameIndex) * 3,
+                static_cast<int>(frameIndex) * 2));
+    }
+
+    return frames;
 }
 
 std::vector<uint8_t> compositeTerrainOverlayOverBase(
@@ -2326,10 +2464,10 @@ std::optional<std::vector<uint8_t>> buildOutdoorLandMask(
     const OutdoorMapData &outdoorMapData
 )
 {
-    const std::optional<std::vector<std::string>> tileTextureNames =
-        loadTerrainTileTextureNames(assetFileSystem, outdoorMapData);
+    const std::optional<std::vector<TerrainTileDescriptor>> tileDescriptors =
+        loadTerrainTileDescriptors(assetFileSystem, outdoorMapData);
 
-    if (!tileTextureNames)
+    if (!tileDescriptors)
     {
         return std::nullopt;
     }
@@ -2346,8 +2484,8 @@ std::optional<std::vector<uint8_t>> buildOutdoorLandMask(
             const size_t tileMapIndex =
                 static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
             const uint8_t rawTileId = outdoorMapData.tileMap[tileMapIndex];
-            const std::string &textureName = (*tileTextureNames)[rawTileId];
-            const bool isWaterTile = textureName == reinterpret_cast<const char *>(WaterTileName);
+            const bool isWaterTile =
+                hasTerrainTileFlag((*tileDescriptors)[rawTileId], TerrainTileFlagWater);
             landMask[static_cast<size_t>(gridY * (OutdoorMapData::TerrainWidth - 1) + gridX)] = isWaterTile ? 0 : 1;
         }
     }
@@ -2360,10 +2498,10 @@ std::optional<std::vector<uint32_t>> buildOutdoorTileColors(
     const OutdoorMapData &outdoorMapData
 )
 {
-    const std::optional<std::vector<std::string>> tileTextureNames =
-        loadTerrainTileTextureNames(assetFileSystem, outdoorMapData);
+    const std::optional<std::vector<TerrainTileDescriptor>> tileDescriptors =
+        loadTerrainTileDescriptors(assetFileSystem, outdoorMapData);
 
-    if (!tileTextureNames)
+    if (!tileDescriptors)
     {
         return std::nullopt;
     }
@@ -2380,7 +2518,7 @@ std::optional<std::vector<uint32_t>> buildOutdoorTileColors(
             const size_t tileMapIndex =
                 static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
             const uint8_t rawTileId = outdoorMapData.tileMap[tileMapIndex];
-            const std::string &textureName = (*tileTextureNames)[rawTileId];
+            const std::string &textureName = (*tileDescriptors)[rawTileId].textureName;
             tileColors[static_cast<size_t>(gridY * (OutdoorMapData::TerrainWidth - 1) + gridX)] =
                 colorFromTextureName(textureName);
         }
@@ -2448,10 +2586,10 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     const SurfaceMaterialTable *pSurfaceMaterialTable
 )
 {
-    const std::optional<std::vector<std::string>> tileTextureNames =
-        loadTerrainTileTextureNames(assetFileSystem, outdoorMapData);
+    const std::optional<std::vector<TerrainTileDescriptor>> tileDescriptors =
+        loadTerrainTileDescriptors(assetFileSystem, outdoorMapData);
 
-    if (!tileTextureNames)
+    if (!tileDescriptors)
     {
         return std::nullopt;
     }
@@ -2473,7 +2611,8 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
 
     for (int tileIndex = 0; tileIndex < 256; ++tileIndex)
     {
-        const std::string &textureName = (*tileTextureNames)[tileIndex];
+        const TerrainTileDescriptor &descriptor = (*tileDescriptors)[tileIndex];
+        const std::string &textureName = descriptor.textureName;
 
         if (textureName.empty() || textureName == "pending")
         {
@@ -2508,19 +2647,66 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
         }
 
         std::vector<uint8_t> resolvedTilePixels = *tilePixels;
+        std::vector<uint8_t> fallbackLiquidBasePixels = resolvedTilePixels;
         std::vector<std::vector<uint8_t>> animatedSurfaceFrames;
         SurfaceAnimationSequence surfaceAnimation = staticSurfaceAnimation(textureName);
+        const TerrainTileDescriptor *pBaseDescriptor = nullptr;
         const SurfaceMaterialDefinition *pSurfaceMaterial =
-            pSurfaceMaterialTable != nullptr ? pSurfaceMaterialTable->findMatch(textureName, 0, true) : nullptr;
+            findTerrainSurfaceMaterialForDescriptor(
+                descriptor,
+                *tileDescriptors,
+                pSurfaceMaterialTable,
+                &pBaseDescriptor);
+        std::vector<uint8_t> transitionOverlayPixels;
+        bool useTransitionOverlay = pSurfaceMaterial != nullptr
+            && pSurfaceMaterial->terrainTransitionOverlay
+            && isTerrainDescriptorTransition(descriptor)
+            && pBaseDescriptor != nullptr
+            && pBaseDescriptor->textureName != textureName;
+
+        if (useTransitionOverlay)
+        {
+            int baseTextureWidth = 0;
+            int baseTextureHeight = 0;
+            const std::optional<std::vector<uint8_t>> baseTilePixels =
+                loadBitmapPixelsBgra(
+                    assetFileSystem,
+                    "Data/bitmaps",
+                    pBaseDescriptor->textureName,
+                    baseTextureWidth,
+                    baseTextureHeight,
+                    true,
+                    false,
+                    bitmapLoadCache
+                );
+
+            if (baseTilePixels && baseTextureWidth == terrainTileSize && baseTextureHeight == terrainTileSize)
+            {
+                transitionOverlayPixels = *tilePixels;
+                fallbackLiquidBasePixels = *baseTilePixels;
+                resolvedTilePixels = compositeTerrainOverlayOverBase(*baseTilePixels, transitionOverlayPixels);
+            }
+            else
+            {
+                useTransitionOverlay = false;
+            }
+        }
 
         if (pSurfaceMaterial != nullptr && !pSurfaceMaterial->animation.empty())
         {
             surfaceAnimation = pSurfaceMaterial->animation;
-            const std::string cacheKey = pSurfaceMaterial->id + "|" + toLowerCopy(textureName);
+            const std::string cacheKey = pSurfaceMaterial->id
+                + "|"
+                + toLowerCopy(useTransitionOverlay && pBaseDescriptor != nullptr
+                    ? pBaseDescriptor->textureName
+                    : textureName)
+                + "|"
+                + (useTransitionOverlay ? toLowerCopy(textureName) : std::string());
             const auto cachedFramesIt = animatedTerrainFramesByKey.find(cacheKey);
 
             if (cachedFramesIt != animatedTerrainFramesByKey.end())
             {
+                surfaceAnimation = fallbackLiquidSurfaceAnimation();
                 animatedSurfaceFrames = cachedFramesIt->second;
             }
             else
@@ -2549,10 +2735,10 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
                         break;
                     }
 
-                    if (pSurfaceMaterial->terrainTransitionOverlay && isWaterTransitionTerrainTexture(textureName))
+                    if (useTransitionOverlay)
                     {
                         animatedSurfaceFrames.push_back(
-                            compositeTerrainOverlayOverBase(*framePixels, *tilePixels));
+                            compositeTerrainOverlayOverBase(*framePixels, transitionOverlayPixels));
                     }
                     else
                     {
@@ -2564,6 +2750,48 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
                 {
                     animatedTerrainFramesByKey.emplace(cacheKey, animatedSurfaceFrames);
                 }
+            }
+
+            if (!animatedSurfaceFrames.empty())
+            {
+                resolvedTilePixels = animatedSurfaceFrames.front();
+            }
+        }
+        else if (pSurfaceMaterial != nullptr
+            && (pSurfaceMaterial->semantic == SurfaceMaterialSemantic::Water
+                || pSurfaceMaterial->semantic == SurfaceMaterialSemantic::Lava))
+        {
+            surfaceAnimation = staticSurfaceAnimation(textureName);
+            const std::string cacheKey = pSurfaceMaterial->id
+                + "|fallback|"
+                + toLowerCopy(useTransitionOverlay && pBaseDescriptor != nullptr
+                    ? pBaseDescriptor->textureName
+                    : textureName)
+                + "|"
+                + (useTransitionOverlay ? toLowerCopy(textureName) : std::string());
+            const auto cachedFramesIt = animatedTerrainFramesByKey.find(cacheKey);
+
+            if (cachedFramesIt != animatedTerrainFramesByKey.end())
+            {
+                animatedSurfaceFrames = cachedFramesIt->second;
+            }
+            else
+            {
+                animatedSurfaceFrames = buildFallbackLiquidAnimationFrames(
+                    fallbackLiquidBasePixels,
+                    terrainTileSize,
+                    terrainTileSize,
+                    surfaceAnimation);
+
+                if (useTransitionOverlay)
+                {
+                    for (std::vector<uint8_t> &framePixels : animatedSurfaceFrames)
+                    {
+                        framePixels = compositeTerrainOverlayOverBase(framePixels, transitionOverlayPixels);
+                    }
+                }
+
+                animatedTerrainFramesByKey.emplace(cacheKey, animatedSurfaceFrames);
             }
 
             if (!animatedSurfaceFrames.empty())
@@ -2593,8 +2821,8 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
         region.u1 = static_cast<float>(atlasX + terrainTileSize) / static_cast<float>(textureAtlas.width);
         region.v1 = static_cast<float>(atlasY + terrainTileSize) / static_cast<float>(textureAtlas.height);
         region.isValid = true;
-        region.isWater = pSurfaceMaterial != nullptr
-            && pSurfaceMaterial->semantic == SurfaceMaterialSemantic::Water;
+        region.isWater = hasTerrainTileFlag(descriptor, TerrainTileFlagWater)
+            || (pSurfaceMaterial != nullptr && pSurfaceMaterial->semantic == SurfaceMaterialSemantic::Water);
         textureAtlas.tileRegions[static_cast<size_t>(tileIndex)] = region;
 
         if (!animatedSurfaceFrames.empty())
@@ -2959,6 +3187,11 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                     assetInfo.authoredCompanionSource = AuthoredCompanionSource::LegacyCompanion;
                     logStageComplete("outdoor map delta parsed");
                 }
+            }
+
+            if (!applyTerrainTileDescriptorAttributes(assetFileSystem, *assetInfo.outdoorMapData))
+            {
+                std::cerr << "Failed to apply outdoor terrain tile flags for " << map.fileName << '\n';
             }
 
             if (purpose == MapLoadPurpose::Full || purpose == MapLoadPurpose::FullGameplay)

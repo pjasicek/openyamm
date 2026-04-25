@@ -57,6 +57,16 @@ struct IndoorFaceGeometryData
     std::vector<IndoorProjectedFacePoint> projectedVertices;
 };
 
+struct IndoorFaceTextureProjection
+{
+    std::vector<float> projectedUs;
+    std::vector<float> projectedVs;
+    bx::Vec3 axisU = {0.0f, 0.0f, 0.0f};
+    bx::Vec3 axisV = {0.0f, 0.0f, 0.0f};
+    float deltaU = 0.0f;
+    float deltaV = 0.0f;
+};
+
 class IndoorFaceGeometryCache
 {
 public:
@@ -104,6 +114,14 @@ bool buildIndoorFaceGeometry(
     const std::vector<IndoorVertex> &vertices,
     size_t faceIndex,
     IndoorFaceGeometryData &geometry
+);
+bool calculateIndoorFaceTextureAxes(const IndoorFace &face, const bx::Vec3 &normal, bx::Vec3 &axisU, bx::Vec3 &axisV);
+bool calculateIndoorFaceAlignedTextureProjection(
+    const std::vector<IndoorVertex> &vertices,
+    const IndoorFace &face,
+    int textureWidth,
+    int textureHeight,
+    IndoorFaceTextureProjection &projection
 );
 bool isPointInsideIndoorPolygonProjected(
     const bx::Vec3 &point,

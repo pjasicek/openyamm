@@ -1235,12 +1235,14 @@ void GameApplication::completeLoadingOverlay()
     renderLoadingOverlayProgress(100);
     m_loadingOverlayActive = false;
     m_loadingOverlayBackgroundTextureName.clear();
+    m_pLoadingOverlayScreen.reset();
 }
 
 void GameApplication::cancelLoadingOverlay()
 {
     m_loadingOverlayActive = false;
     m_loadingOverlayBackgroundTextureName.clear();
+    m_pLoadingOverlayScreen.reset();
 }
 
 bool GameApplication::applyCurrentSessionToRuntime(bool initializeView)

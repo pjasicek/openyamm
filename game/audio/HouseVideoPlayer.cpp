@@ -1,4 +1,5 @@
 #include "game/audio/HouseVideoPlayer.h"
+#include "engine/BgfxContext.h"
 #include "game/render/TextureFiltering.h"
 
 #include <bgfx/bgfx.h>
@@ -40,8 +41,7 @@ constexpr const char *DefaultHouseVideoDirectory = "Videos/Houses";
 
 bool canUseBgfxResources()
 {
-    const bgfx::InternalData *pInternalData = bgfx::getInternalData();
-    return pInternalData != nullptr && pInternalData->caps != nullptr;
+    return Engine::BgfxContext::isBgfxInitialized();
 }
 
 std::string makeClipKey(const std::string &videoDirectory, const std::string &videoStem)

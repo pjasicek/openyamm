@@ -541,6 +541,166 @@ IndoorFloorSample evaluateIndoorFloorFace(
 }
 }
 
+bool calculateIndoorFaceTextureAxes(const IndoorFace &face, const bx::Vec3 &normal, bx::Vec3 &axisU, bx::Vec3 &axisV)
+{
+    const auto normalize =
+        [](const bx::Vec3 &value)
+    {
+        const float length = std::sqrt(value.x * value.x + value.y * value.y + value.z * value.z);
+
+        if (length <= 0.0001f)
+        {
+            return bx::Vec3{0.0f, 0.0f, 0.0f};
+        }
+
+        return bx::Vec3{value.x / length, value.y / length, value.z / length};
+    };
+
+    if (face.facetType == 1)
+    {
+        axisU = {-normal.y, normal.x, 0.0f};
+        axisV = {0.0f, 0.0f, -1.0f};
+    }
+    else if (face.facetType == 3 || face.facetType == 5)
+    {
+        axisU = {1.0f, 0.0f, 0.0f};
+        axisV = {0.0f, -1.0f, 0.0f};
+    }
+    else if (face.facetType == 4 || face.facetType == 6)
+    {
+        if (std::abs(normal.z) < 0.70863342285f)
+        {
+            axisU = normalize({-normal.y, normal.x, 0.0f});
+            axisV = {0.0f, 0.0f, -1.0f};
+        }
+        else
+        {
+            axisU = {1.0f, 0.0f, 0.0f};
+            axisV = {0.0f, -1.0f, 0.0f};
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    if (hasFaceAttribute(face.attributes, FaceAttribute::FlipNormalU))
+    {
+        axisU = {-axisU.x, -axisU.y, -axisU.z};
+    }
+
+    if (hasFaceAttribute(face.attributes, FaceAttribute::FlipNormalV))
+    {
+        axisV = {-axisV.x, -axisV.y, -axisV.z};
+    }
+
+    return true;
+}
+
+bool calculateIndoorFaceAlignedTextureProjection(
+    const std::vector<IndoorVertex> &vertices,
+    const IndoorFace &face,
+    int textureWidth,
+    int textureHeight,
+    IndoorFaceTextureProjection &projection
+)
+{
+    if (textureWidth <= 0 || textureHeight <= 0 || face.vertexIndices.size() < 3)
+    {
+        return false;
+    }
+
+    bx::Vec3 normal = {0.0f, 0.0f, 0.0f};
+
+    for (size_t index = 0; index < face.vertexIndices.size(); ++index)
+    {
+        const uint16_t currentVertexIndex = face.vertexIndices[index];
+        const uint16_t nextVertexIndex = face.vertexIndices[(index + 1) % face.vertexIndices.size()];
+
+        if (currentVertexIndex >= vertices.size() || nextVertexIndex >= vertices.size())
+        {
+            return false;
+        }
+
+        const IndoorVertex &currentVertex = vertices[currentVertexIndex];
+        const IndoorVertex &nextVertex = vertices[nextVertexIndex];
+        normal.x += (static_cast<float>(currentVertex.y) - static_cast<float>(nextVertex.y))
+            * (static_cast<float>(currentVertex.z) + static_cast<float>(nextVertex.z));
+        normal.y += (static_cast<float>(currentVertex.z) - static_cast<float>(nextVertex.z))
+            * (static_cast<float>(currentVertex.x) + static_cast<float>(nextVertex.x));
+        normal.z += (static_cast<float>(currentVertex.x) - static_cast<float>(nextVertex.x))
+            * (static_cast<float>(currentVertex.y) + static_cast<float>(nextVertex.y));
+    }
+
+    const float normalLength = std::sqrt(normal.x * normal.x + normal.y * normal.y + normal.z * normal.z);
+
+    if (normalLength <= 0.0001f)
+    {
+        return false;
+    }
+
+    normal = {normal.x / normalLength, normal.y / normalLength, normal.z / normalLength};
+
+    if (!calculateIndoorFaceTextureAxes(face, normal, projection.axisU, projection.axisV))
+    {
+        return false;
+    }
+
+    projection.projectedUs.clear();
+    projection.projectedVs.clear();
+    projection.projectedUs.reserve(face.vertexIndices.size());
+    projection.projectedVs.reserve(face.vertexIndices.size());
+    projection.deltaU = 0.0f;
+    projection.deltaV = 0.0f;
+    float minU = std::numeric_limits<float>::infinity();
+    float minV = std::numeric_limits<float>::infinity();
+    float maxU = -std::numeric_limits<float>::infinity();
+    float maxV = -std::numeric_limits<float>::infinity();
+
+    for (uint16_t vertexIndex : face.vertexIndices)
+    {
+        if (vertexIndex >= vertices.size())
+        {
+            projection.projectedUs.clear();
+            projection.projectedVs.clear();
+            return false;
+        }
+
+        const IndoorVertex &vertex = vertices[vertexIndex];
+        const bx::Vec3 point = {static_cast<float>(vertex.x), static_cast<float>(vertex.y), static_cast<float>(vertex.z)};
+        const float pointU =
+            point.x * projection.axisU.x + point.y * projection.axisU.y + point.z * projection.axisU.z;
+        const float pointV =
+            point.x * projection.axisV.x + point.y * projection.axisV.y + point.z * projection.axisV.z;
+        projection.projectedUs.push_back(pointU);
+        projection.projectedVs.push_back(pointV);
+        minU = std::min(minU, pointU);
+        minV = std::min(minV, pointV);
+        maxU = std::max(maxU, pointU);
+        maxV = std::max(maxV, pointV);
+    }
+
+    if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignLeft))
+    {
+        projection.deltaU -= minU;
+    }
+    else if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignRight))
+    {
+        projection.deltaU -= maxU + static_cast<float>(textureWidth);
+    }
+
+    if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignDown))
+    {
+        projection.deltaV -= minV;
+    }
+    else if (hasFaceAttribute(face.attributes, FaceAttribute::TextureAlignBottom))
+    {
+        projection.deltaV -= maxV + static_cast<float>(textureHeight);
+    }
+
+    return true;
+}
+
 IndoorFaceGeometryCache::IndoorFaceGeometryCache(size_t faceCount)
 {
     reset(faceCount);
