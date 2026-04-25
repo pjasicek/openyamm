@@ -1938,6 +1938,31 @@ std::optional<std::string> summarizeResolvedEvent(
     return std::nullopt;
 }
 
+bool isResolvedHintOnlyEvent(
+    uint16_t eventId,
+    const std::optional<Game::ScriptedEventProgram> &localScriptedEventProgram,
+    const std::optional<Game::ScriptedEventProgram> &globalScriptedEventProgram)
+{
+    if (eventId == 0)
+    {
+        return false;
+    }
+
+    if (localScriptedEventProgram
+        && (localScriptedEventProgram->hasEvent(eventId) || localScriptedEventProgram->isHintOnlyEvent(eventId)))
+    {
+        return localScriptedEventProgram->isHintOnlyEvent(eventId);
+    }
+
+    if (globalScriptedEventProgram
+        && (globalScriptedEventProgram->hasEvent(eventId) || globalScriptedEventProgram->isHintOnlyEvent(eventId)))
+    {
+        return globalScriptedEventProgram->isHintOnlyEvent(eventId);
+    }
+
+    return false;
+}
+
 void appendScriptedEventOptions(
     const std::optional<Game::ScriptedEventProgram> &program,
     const char *pScopeLabel,
@@ -5016,6 +5041,11 @@ uint16_t EditorSession::resolvedSpriteObjectObjectDescriptionId(
     }
 
     return spriteObject.objectDescriptionId;
+}
+
+bool EditorSession::isHintOnlyEvent(uint16_t eventId) const
+{
+    return isResolvedHintOnlyEvent(eventId, m_localScriptedEventProgram, m_globalScriptedEventProgram);
 }
 
 std::string EditorSession::itemDisplayName(uint32_t itemId) const

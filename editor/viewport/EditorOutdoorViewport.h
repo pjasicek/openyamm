@@ -212,6 +212,8 @@ private:
         bool hasBillboardBounds = false;
         float billboardWorldWidth = 0.0f;
         float billboardWorldHeight = 0.0f;
+        bool hasEventOverlay = false;
+        bool hintOnlyEventOverlay = false;
         bool blockedByLineOfSight = false;
     };
 
@@ -510,6 +512,9 @@ private:
         m_entityBillboardTextures;
     std::string m_cachedOutdoorTerrainGridKey;
     std::vector<PreviewVertex> m_cachedOutdoorTerrainGridVertices;
+    std::string m_cachedOutdoorEventOverlayKey;
+    std::vector<PreviewVertex> m_cachedOutdoorEventOverlayVertices;
+    std::vector<PreviewVertex> m_cachedOutdoorEventOverlayFillVertices;
     bx::Vec3 m_cameraPosition = {0.0f, -24000.0f, 9000.0f};
     float m_cameraYawRadians = 0.0f;
     float m_cameraPitchRadians = -0.35f;

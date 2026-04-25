@@ -258,6 +258,7 @@ public:
     void setPendingSpriteObjectDescriptionId(uint16_t objectDescriptionId);
     std::optional<uint16_t> objectDescriptionIdForItem(uint32_t itemId) const;
     uint16_t resolvedSpriteObjectObjectDescriptionId(const Game::MapDeltaSpriteObject &spriteObject) const;
+    bool isHintOnlyEvent(uint16_t eventId) const;
     std::optional<EditorBModelImportSource> bmodelImportSource(size_t bmodelIndex) const;
     std::vector<std::string> usedBitmapTextureNamesInMap() const;
     std::vector<std::string> usedBitmapTextureNamesForBModel(size_t bmodelIndex) const;

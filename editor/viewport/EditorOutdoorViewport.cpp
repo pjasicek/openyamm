@@ -80,7 +80,7 @@ struct BitmapLoadCache
     std::unordered_map<int16_t, std::optional<std::array<uint8_t, 256 * 3>>> actPalettesById;
 };
 
-struct EditorIndoorMechanismTextureState
+struct IndoorEditorMechanismTextureState
 {
     const Game::MapDeltaDoor *pDoor = nullptr;
     size_t faceOffset = 0;
@@ -799,144 +799,6 @@ bx::Vec3 vecLerp(const bx::Vec3 &start, const bx::Vec3 &end, float t)
         start.y + (end.y - start.y) * t,
         start.z + (end.z - start.z) * t
     };
-}
-
-bool calculateIndoorEditorTextureAxes(
-    const Game::IndoorFace &face,
-    const bx::Vec3 &normal,
-    bx::Vec3 &axisU,
-    bx::Vec3 &axisV)
-{
-    if (face.facetType == 1)
-    {
-        axisU = {-normal.y, normal.x, 0.0f};
-        axisV = {0.0f, 0.0f, -1.0f};
-    }
-    else if (face.facetType == 3 || face.facetType == 5)
-    {
-        axisU = {1.0f, 0.0f, 0.0f};
-        axisV = {0.0f, -1.0f, 0.0f};
-    }
-    else if (face.facetType == 4 || face.facetType == 6)
-    {
-        if (std::abs(normal.z) < 0.70863342285f)
-        {
-            axisU = vecNormalize({-normal.y, normal.x, 0.0f});
-            axisV = {0.0f, 0.0f, -1.0f};
-        }
-        else
-        {
-            axisU = {1.0f, 0.0f, 0.0f};
-            axisV = {0.0f, -1.0f, 0.0f};
-        }
-    }
-    else
-    {
-        return false;
-    }
-
-    if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::FlipNormalU))
-    {
-        axisU = {-axisU.x, -axisU.y, -axisU.z};
-    }
-
-    if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::FlipNormalV))
-    {
-        axisV = {-axisV.x, -axisV.y, -axisV.z};
-    }
-
-    return true;
-}
-
-float resolveIndoorEditorMechanismDistance(
-    const Game::MapDeltaDoor &door,
-    const Game::EventRuntimeState *pEventRuntimeState)
-{
-    const auto calculateDistance = [&door](const Game::RuntimeMechanismState &state)
-    {
-        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Open))
-        {
-            return 0.0f;
-        }
-
-        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Closed) || (door.attributes & 0x2) != 0)
-        {
-            return static_cast<float>(door.moveLength);
-        }
-
-        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing))
-        {
-            const float closingDistance = state.timeSinceTriggeredMs * static_cast<float>(door.closeSpeed) / 1000.0f;
-            return std::min(closingDistance, static_cast<float>(door.moveLength));
-        }
-
-        if (state.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening))
-        {
-            const float openingDistance = state.timeSinceTriggeredMs * static_cast<float>(door.openSpeed) / 1000.0f;
-            return std::max(0.0f, static_cast<float>(door.moveLength) - openingDistance);
-        }
-
-        return 0.0f;
-    };
-
-    Game::RuntimeMechanismState baseState = {};
-    baseState.state = door.state;
-    baseState.timeSinceTriggeredMs = static_cast<float>(door.timeSinceTriggered);
-    baseState.currentDistance = calculateDistance(baseState);
-    baseState.isMoving =
-        door.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening)
-        || door.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing);
-
-    if (pEventRuntimeState == nullptr)
-    {
-        return baseState.currentDistance;
-    }
-
-    const auto mechanismIterator = pEventRuntimeState->mechanisms.find(door.doorId);
-
-    if (mechanismIterator == pEventRuntimeState->mechanisms.end())
-    {
-        return baseState.currentDistance;
-    }
-
-    return mechanismIterator->second.isMoving
-        ? calculateDistance(mechanismIterator->second)
-        : mechanismIterator->second.currentDistance;
-}
-
-std::optional<EditorIndoorMechanismTextureState> findIndoorEditorMechanismTextureState(
-    size_t faceIndex,
-    const Game::MapDeltaData *pIndoorMapDeltaData,
-    const Game::EventRuntimeState *pEventRuntimeState)
-{
-    if (pIndoorMapDeltaData == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    for (const Game::MapDeltaDoor &door : pIndoorMapDeltaData->doors)
-    {
-        for (size_t doorFaceOffset = 0; doorFaceOffset < door.faceIds.size(); ++doorFaceOffset)
-        {
-            if (door.faceIds[doorFaceOffset] != faceIndex)
-            {
-                continue;
-            }
-
-            EditorIndoorMechanismTextureState state = {};
-            state.pDoor = &door;
-            state.faceOffset = doorFaceOffset;
-            state.distance = resolveIndoorEditorMechanismDistance(door, pEventRuntimeState);
-            state.direction = {
-                static_cast<float>(door.directionX) / 65536.0f,
-                static_cast<float>(door.directionY) / 65536.0f,
-                static_cast<float>(door.directionZ) / 65536.0f
-            };
-            return state;
-        }
-    }
-
-    return std::nullopt;
 }
 
 float lerpFloat(float start, float end, float t)
@@ -3055,6 +2917,154 @@ std::vector<EditorOutdoorViewport::ProceduralPreviewVertex> buildProceduralBMode
     return buildProceduralBModelFaceVertices(outdoorMapData.bmodels[bmodelIndex], faceIndex, origin);
 }
 
+bool calculateIndoorEditorFaceTextureAxes(
+    const Game::IndoorFace &face,
+    const bx::Vec3 &normal,
+    bx::Vec3 &axisU,
+    bx::Vec3 &axisV)
+{
+    if (face.facetType == 1)
+    {
+        axisU = {-normal.y, normal.x, 0.0f};
+        axisV = {0.0f, 0.0f, -1.0f};
+    }
+    else if (face.facetType == 3 || face.facetType == 5)
+    {
+        axisU = {1.0f, 0.0f, 0.0f};
+        axisV = {0.0f, -1.0f, 0.0f};
+    }
+    else if (face.facetType == 4 || face.facetType == 6)
+    {
+        if (std::abs(normal.z) < 0.70863342285f)
+        {
+            axisU = vecNormalize({-normal.y, normal.x, 0.0f});
+            axisV = {0.0f, 0.0f, -1.0f};
+        }
+        else
+        {
+            axisU = {1.0f, 0.0f, 0.0f};
+            axisV = {0.0f, -1.0f, 0.0f};
+        }
+    }
+    else
+    {
+        return false;
+    }
+
+    if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::FlipNormalU))
+    {
+        axisU = {-axisU.x, -axisU.y, -axisU.z};
+    }
+
+    if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::FlipNormalV))
+    {
+        axisV = {-axisV.x, -axisV.y, -axisV.z};
+    }
+
+    return true;
+}
+
+float indoorEditorMechanismDistanceForState(
+    const Game::MapDeltaDoor &door,
+    uint16_t state,
+    float timeSinceTriggeredMs)
+{
+    if (state == static_cast<uint16_t>(Game::EvtMechanismState::Open))
+    {
+        return 0.0f;
+    }
+
+    if (state == static_cast<uint16_t>(Game::EvtMechanismState::Closed) || (door.attributes & 0x2) != 0)
+    {
+        return static_cast<float>(door.moveLength);
+    }
+
+    if (state == static_cast<uint16_t>(Game::EvtMechanismState::Closing))
+    {
+        const float closingDistance = timeSinceTriggeredMs * static_cast<float>(door.closeSpeed) / 1000.0f;
+        return std::min(closingDistance, static_cast<float>(door.moveLength));
+    }
+
+    if (state == static_cast<uint16_t>(Game::EvtMechanismState::Opening))
+    {
+        const float openingDistance = timeSinceTriggeredMs * static_cast<float>(door.openSpeed) / 1000.0f;
+        return std::max(0.0f, static_cast<float>(door.moveLength) - openingDistance);
+    }
+
+    return 0.0f;
+}
+
+float resolveIndoorEditorMechanismDistance(
+    const Game::MapDeltaDoor &baseDoor,
+    const Game::EventRuntimeState *pEventRuntimeState)
+{
+    Game::MapDeltaDoor door = baseDoor;
+    Game::RuntimeMechanismState runtimeMechanism = {};
+    runtimeMechanism.state = door.state;
+    runtimeMechanism.timeSinceTriggeredMs = static_cast<float>(door.timeSinceTriggered);
+    runtimeMechanism.currentDistance =
+        indoorEditorMechanismDistanceForState(door, runtimeMechanism.state, runtimeMechanism.timeSinceTriggeredMs);
+    runtimeMechanism.isMoving =
+        door.state == static_cast<uint16_t>(Game::EvtMechanismState::Opening)
+        || door.state == static_cast<uint16_t>(Game::EvtMechanismState::Closing);
+
+    if (pEventRuntimeState == nullptr)
+    {
+        return runtimeMechanism.currentDistance;
+    }
+
+    const std::unordered_map<uint32_t, Game::RuntimeMechanismState>::const_iterator mechanismIterator =
+        pEventRuntimeState->mechanisms.find(door.doorId);
+
+    if (mechanismIterator == pEventRuntimeState->mechanisms.end())
+    {
+        return runtimeMechanism.currentDistance;
+    }
+
+    door.state = mechanismIterator->second.state;
+    return mechanismIterator->second.isMoving
+        ? indoorEditorMechanismDistanceForState(
+            door,
+            mechanismIterator->second.state,
+            mechanismIterator->second.timeSinceTriggeredMs)
+        : mechanismIterator->second.currentDistance;
+}
+
+std::optional<IndoorEditorMechanismTextureState> findIndoorEditorMechanismTextureState(
+    size_t faceIndex,
+    const Game::MapDeltaData *pIndoorMapDeltaData,
+    const Game::EventRuntimeState *pEventRuntimeState)
+{
+    if (pIndoorMapDeltaData == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    for (const Game::MapDeltaDoor &door : pIndoorMapDeltaData->doors)
+    {
+        for (size_t doorFaceIndex = 0; doorFaceIndex < door.faceIds.size(); ++doorFaceIndex)
+        {
+            if (door.faceIds[doorFaceIndex] != faceIndex)
+            {
+                continue;
+            }
+
+            IndoorEditorMechanismTextureState state = {};
+            state.pDoor = &door;
+            state.faceOffset = doorFaceIndex;
+            state.distance = resolveIndoorEditorMechanismDistance(door, pEventRuntimeState);
+            state.direction = {
+                static_cast<float>(door.directionX) / 65536.0f,
+                static_cast<float>(door.directionY) / 65536.0f,
+                static_cast<float>(door.directionZ) / 65536.0f
+            };
+            return state;
+        }
+    }
+
+    return std::nullopt;
+}
+
 std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedIndoorFaceVertices(
     const Game::IndoorMapData &indoorMapData,
     const std::vector<Game::IndoorVertex> &indoorVertices,
@@ -3078,14 +3088,15 @@ std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedIndoorFac
         return vertices;
     }
 
-    const std::optional<EditorIndoorMechanismTextureState> mechanismTextureState =
+    const std::optional<IndoorEditorMechanismTextureState> mechanismTextureState =
         findIndoorEditorMechanismTextureState(faceIndex, pIndoorMapDeltaData, pEventRuntimeState);
-    std::vector<float> projectedUs;
-    std::vector<float> projectedVs;
-    float projectedDeltaU = 0.0f;
-    float projectedDeltaV = 0.0f;
+    const bool useGeometryTextureCoordinates = mechanismTextureState.has_value();
+    std::vector<float> geometryUs;
+    std::vector<float> geometryVs;
+    float geometryDeltaU = 0.0f;
+    float geometryDeltaV = 0.0f;
 
-    if (mechanismTextureState)
+    if (useGeometryTextureCoordinates)
     {
         Game::IndoorFaceGeometryData geometry = {};
 
@@ -3098,24 +3109,35 @@ std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedIndoorFac
         bx::Vec3 axisU = {0.0f, 0.0f, 0.0f};
         bx::Vec3 axisV = {0.0f, 0.0f, 0.0f};
 
-        if (!calculateIndoorEditorTextureAxes(face, geometry.normal, axisU, axisV))
+        if (!calculateIndoorEditorFaceTextureAxes(face, vecNormalize(geometry.normal), axisU, axisV))
         {
             return vertices;
         }
 
-        projectedUs.reserve(face.vertexIndices.size());
-        projectedVs.reserve(face.vertexIndices.size());
+        geometryUs.reserve(face.vertexIndices.size());
+        geometryVs.reserve(face.vertexIndices.size());
         float minU = std::numeric_limits<float>::infinity();
         float minV = std::numeric_limits<float>::infinity();
         float maxU = -std::numeric_limits<float>::infinity();
         float maxV = -std::numeric_limits<float>::infinity();
 
-        for (const bx::Vec3 &point : geometry.vertices)
+        for (uint16_t vertexIndex : face.vertexIndices)
         {
+            if (vertexIndex >= indoorVertices.size())
+            {
+                return vertices;
+            }
+
+            const Game::IndoorVertex &vertex = indoorVertices[vertexIndex];
+            const bx::Vec3 point = {
+                static_cast<float>(vertex.x),
+                static_cast<float>(vertex.y),
+                static_cast<float>(vertex.z)
+            };
             const float pointU = vecDot(point, axisU);
             const float pointV = vecDot(point, axisV);
-            projectedUs.push_back(pointU);
-            projectedVs.push_back(pointV);
+            geometryUs.push_back(pointU);
+            geometryVs.push_back(pointV);
             minU = std::min(minU, pointU);
             minV = std::min(minV, pointV);
             maxU = std::max(maxU, pointU);
@@ -3124,38 +3146,38 @@ std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedIndoorFac
 
         if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::TextureAlignLeft))
         {
-            projectedDeltaU -= minU;
+            geometryDeltaU -= minU;
         }
         else if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::TextureAlignRight))
         {
-            projectedDeltaU -= maxU + static_cast<float>(textureWidth);
+            geometryDeltaU -= maxU + static_cast<float>(textureWidth);
         }
 
         if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::TextureAlignDown))
         {
-            projectedDeltaV -= minV;
+            geometryDeltaV -= minV;
         }
         else if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::TextureAlignBottom))
         {
-            projectedDeltaV -= maxV + static_cast<float>(textureHeight);
+            geometryDeltaV -= maxV + static_cast<float>(textureHeight);
         }
 
         if (Game::hasFaceAttribute(face.attributes, Game::FaceAttribute::TextureMoveByDoor))
         {
-            projectedDeltaU = -vecDot(mechanismTextureState->direction, axisU) * mechanismTextureState->distance;
-            projectedDeltaV = -vecDot(mechanismTextureState->direction, axisV) * mechanismTextureState->distance;
+            geometryDeltaU = -vecDot(mechanismTextureState->direction, axisU) * mechanismTextureState->distance;
+            geometryDeltaV = -vecDot(mechanismTextureState->direction, axisV) * mechanismTextureState->distance;
 
             if (mechanismTextureState->pDoor != nullptr)
             {
                 if (mechanismTextureState->faceOffset < mechanismTextureState->pDoor->deltaUs.size())
                 {
-                    projectedDeltaU +=
+                    geometryDeltaU +=
                         static_cast<float>(mechanismTextureState->pDoor->deltaUs[mechanismTextureState->faceOffset]);
                 }
 
                 if (mechanismTextureState->faceOffset < mechanismTextureState->pDoor->deltaVs.size())
                 {
-                    projectedDeltaV +=
+                    geometryDeltaV +=
                         static_cast<float>(mechanismTextureState->pDoor->deltaVs[mechanismTextureState->faceOffset]);
                 }
             }
@@ -3182,21 +3204,26 @@ std::vector<EditorOutdoorViewport::TexturedPreviewVertex> buildTexturedIndoorFac
             }
 
             const bx::Vec3 worldVertex = Game::indoorVertexToWorld(indoorVertices[modelVertexIndex]);
-            float normalizedU =
-                static_cast<float>(face.textureUs[localTriangleVertexIndex] + face.textureDeltaU)
-                    / static_cast<float>(textureWidth);
-            float normalizedV =
-                static_cast<float>(face.textureVs[localTriangleVertexIndex] + face.textureDeltaV)
-                    / static_cast<float>(textureHeight);
+            float normalizedU = 0.0f;
+            float normalizedV = 0.0f;
 
-            if (mechanismTextureState
-                && localTriangleVertexIndex < projectedUs.size()
-                && localTriangleVertexIndex < projectedVs.size())
+            if (useGeometryTextureCoordinates
+                && localTriangleVertexIndex < geometryUs.size()
+                && localTriangleVertexIndex < geometryVs.size())
             {
                 normalizedU =
-                    (projectedUs[localTriangleVertexIndex] + projectedDeltaU) / static_cast<float>(textureWidth);
+                    (geometryUs[localTriangleVertexIndex] + geometryDeltaU) / static_cast<float>(textureWidth);
                 normalizedV =
-                    (projectedVs[localTriangleVertexIndex] + projectedDeltaV) / static_cast<float>(textureHeight);
+                    (geometryVs[localTriangleVertexIndex] + geometryDeltaV) / static_cast<float>(textureHeight);
+            }
+            else
+            {
+                normalizedU =
+                    static_cast<float>(face.textureUs[localTriangleVertexIndex] + face.textureDeltaU)
+                    / static_cast<float>(textureWidth);
+                normalizedV =
+                    static_cast<float>(face.textureVs[localTriangleVertexIndex] + face.textureDeltaV)
+                    / static_cast<float>(textureHeight);
             }
 
             triangleVertices[triangleVertexSlot] =
@@ -4803,7 +4830,8 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
 
             if (m_placementKind == EditorSelectionKind::None)
             {
-                return kind == EditorSelectionKind::Entity
+                return kind == EditorSelectionKind::BModel
+                    || kind == EditorSelectionKind::Entity
                     || kind == EditorSelectionKind::Spawn
                     || kind == EditorSelectionKind::Actor
                     || kind == EditorSelectionKind::SpriteObject;
@@ -4864,6 +4892,80 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
 
             drawEditorCenterHandle(pDrawList, handleCenter, radius, color, selected);
         };
+        const bx::Vec3 forward = vecNormalize({
+            std::sin(m_cameraYawRadians) * std::cos(m_cameraPitchRadians),
+            std::cos(m_cameraYawRadians) * std::cos(m_cameraPitchRadians),
+            std::sin(m_cameraPitchRadians)
+        });
+        const bx::Vec3 worldUp = {0.0f, 0.0f, 1.0f};
+        const bx::Vec3 cameraRight = vecNormalize(vecCross(forward, worldUp));
+        const bx::Vec3 cameraUp = vecNormalize(vecCross(cameraRight, forward));
+        const auto drawBillboardEventOverlay =
+            [this, pDrawList, cameraRight, cameraUp](
+                const MarkerCandidate &candidate,
+                ImU32 fillColor,
+                ImU32 borderColor)
+        {
+            if (!candidate.hasBillboardBounds || !candidate.hasEventOverlay)
+            {
+                return;
+            }
+
+            const float halfWidth = candidate.billboardWorldWidth * 0.5f;
+            const float halfHeight = candidate.billboardWorldHeight * 0.5f;
+            const bx::Vec3 right = vecScale(cameraRight, halfWidth);
+            const bx::Vec3 up = vecScale(cameraUp, halfHeight);
+            const std::array<bx::Vec3, 4> corners = {{
+                {
+                    candidate.worldPosition.x - right.x - up.x,
+                    candidate.worldPosition.y - right.y - up.y,
+                    candidate.worldPosition.z - right.z - up.z
+                },
+                {
+                    candidate.worldPosition.x - right.x + up.x,
+                    candidate.worldPosition.y - right.y + up.y,
+                    candidate.worldPosition.z - right.z + up.z
+                },
+                {
+                    candidate.worldPosition.x + right.x + up.x,
+                    candidate.worldPosition.y + right.y + up.y,
+                    candidate.worldPosition.z + right.z + up.z
+                },
+                {
+                    candidate.worldPosition.x + right.x - up.x,
+                    candidate.worldPosition.y + right.y - up.y,
+                    candidate.worldPosition.z + right.z - up.z
+                }
+            }};
+
+            ImVec2 projectedCorners[4] = {};
+
+            for (size_t cornerIndex = 0; cornerIndex < 4; ++cornerIndex)
+            {
+                float screenX = 0.0f;
+                float screenY = 0.0f;
+                float clipW = 0.0f;
+
+                if (!projectWorldPoint(
+                        corners[cornerIndex],
+                        m_viewProjectionMatrix,
+                        m_viewportWidth,
+                        m_viewportHeight,
+                        screenX,
+                        screenY,
+                        clipW))
+                {
+                    return;
+                }
+
+                projectedCorners[cornerIndex] = {
+                    static_cast<float>(m_viewportX) + screenX,
+                    static_cast<float>(m_viewportY) + screenY};
+            }
+
+            pDrawList->AddConvexPolyFilled(projectedCorners, 4, fillColor);
+            pDrawList->AddPolyline(projectedCorners, 4, borderColor, ImDrawFlags_Closed, 1.5f);
+        };
 
         for (const MarkerCandidate &candidate : m_markerCandidates)
         {
@@ -4885,9 +4987,30 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
                 alpha = 255;
             }
 
+            if (m_showEventMarkers && candidate.selectionKind == EditorSelectionKind::Entity && candidate.hasEventOverlay)
+            {
+                const bool hintOnly = candidate.hintOnlyEventOverlay;
+                const uint8_t fillAlpha = static_cast<uint8_t>(std::max(
+                    hintOnly ? 28 : 34,
+                    static_cast<int>(alpha) * (hintOnly ? 24 : 32) / 100));
+                const uint8_t borderAlpha = static_cast<uint8_t>(std::max(
+                    hintOnly ? 92 : 112,
+                    static_cast<int>(alpha) * (hintOnly ? 48 : 60) / 100));
+                drawBillboardEventOverlay(
+                    candidate,
+                    hintOnly ? IM_COL32(112, 220, 208, fillAlpha) : IM_COL32(72, 220, 208, fillAlpha),
+                    hintOnly ? IM_COL32(112, 220, 208, borderAlpha) : IM_COL32(72, 220, 208, borderAlpha));
+            }
+
             if (candidate.selectionKind == EditorSelectionKind::Entity)
             {
                 drawProjectedHandle(candidate.worldPosition, IM_COL32(255, 214, 96, alpha), selected, false, scale);
+                continue;
+            }
+
+            if (candidate.selectionKind == EditorSelectionKind::BModel)
+            {
+                drawProjectedHandle(candidate.worldPosition, IM_COL32(208, 112, 255, alpha), selected, false, scale);
                 continue;
             }
 
@@ -4921,6 +5044,7 @@ void EditorOutdoorViewport::renderOverlayUi(const EditorSession &session)
         }
 
         const EditorSelection selection = session.selection();
+
         const bool useScreenSpaceTranslateGizmo =
             m_transformGizmoMode == TransformGizmoMode::Translate
             && (selection.kind == EditorSelectionKind::BModel || isIndoorMovableSelectionKind(selection.kind));
@@ -5866,6 +5990,8 @@ const std::vector<Game::IndoorVertex> &EditorOutdoorViewport::indoorRenderVertic
         previewMapDeltaData.doors.push_back(door.door);
     }
 
+    Game::normalizeIndoorDoorTextureDeltas(previewMapDeltaData, indoorGeometry);
+
     Game::EventRuntimeState previewRuntimeState = {};
     const Game::EventRuntimeState *pPreviewRuntimeState = nullptr;
 
@@ -5928,6 +6054,8 @@ void EditorOutdoorViewport::refreshIndoorPreviewGeometryBuffers(const EditorDocu
     {
         previewMapDeltaData.doors.push_back(door.door);
     }
+
+    Game::normalizeIndoorDoorTextureDeltas(previewMapDeltaData, indoorGeometry);
 
     Game::EventRuntimeState previewRuntimeState = {};
     const Game::EventRuntimeState *pPreviewRuntimeState = nullptr;
@@ -6383,6 +6511,8 @@ void EditorOutdoorViewport::ensureGeometryBuffers(const EditorSession &session)
         {
             previewMapDeltaData.doors.push_back(door.door);
         }
+
+        Game::normalizeIndoorDoorTextureDeltas(previewMapDeltaData, indoorGeometry);
 
         Game::EventRuntimeState previewRuntimeState = {};
         const Game::EventRuntimeState *pPreviewRuntimeState = nullptr;
@@ -11976,6 +12106,71 @@ void EditorOutdoorViewport::submitMarkerGeometry(
         vertices.push_back({bottomLeft.x, bottomLeft.y, bottomLeft.z + zOffset, color});
         vertices.push_back({topLeft.x, topLeft.y, topLeft.z + zOffset, color});
     };
+    const auto appendOutdoorFaceOverlay =
+        [](std::vector<PreviewVertex> &targetVertices,
+           std::vector<PreviewVertex> &targetFillVertices,
+           const Game::OutdoorFaceGeometryData &geometry,
+           uint32_t edgeColor,
+           uint32_t fillColor,
+           float edgeOffset,
+           float fillOffset)
+    {
+        if (geometry.vertices.size() < 3)
+        {
+            return;
+        }
+
+        const bx::Vec3 edgeOffsetVector =
+            geometry.hasPlane ? vecScale(geometry.normal, edgeOffset) : bx::Vec3{0.0f, 0.0f, edgeOffset};
+        const bx::Vec3 fillOffsetVector =
+            geometry.hasPlane ? vecScale(geometry.normal, fillOffset) : bx::Vec3{0.0f, 0.0f, fillOffset};
+        const std::array<float, 2> sides = {{1.0f, -1.0f}};
+
+        for (float side : sides)
+        {
+            const bx::Vec3 sideEdgeOffset = vecScale(edgeOffsetVector, side);
+            const bx::Vec3 sideFillOffset = vecScale(fillOffsetVector, side);
+
+            for (size_t vertexIndex = 0; vertexIndex < geometry.vertices.size(); ++vertexIndex)
+            {
+                const bx::Vec3 &start = geometry.vertices[vertexIndex];
+                const bx::Vec3 &end = geometry.vertices[(vertexIndex + 1) % geometry.vertices.size()];
+                targetVertices.push_back({
+                    start.x + sideEdgeOffset.x,
+                    start.y + sideEdgeOffset.y,
+                    start.z + sideEdgeOffset.z,
+                    edgeColor});
+                targetVertices.push_back({
+                    end.x + sideEdgeOffset.x,
+                    end.y + sideEdgeOffset.y,
+                    end.z + sideEdgeOffset.z,
+                    edgeColor});
+            }
+
+            const bx::Vec3 &base = geometry.vertices[0];
+
+            for (size_t vertexIndex = 1; vertexIndex + 1 < geometry.vertices.size(); ++vertexIndex)
+            {
+                const bx::Vec3 &middle = geometry.vertices[vertexIndex];
+                const bx::Vec3 &end = geometry.vertices[vertexIndex + 1];
+                targetFillVertices.push_back({
+                    base.x + sideFillOffset.x,
+                    base.y + sideFillOffset.y,
+                    base.z + sideFillOffset.z,
+                    fillColor});
+                targetFillVertices.push_back({
+                    middle.x + sideFillOffset.x,
+                    middle.y + sideFillOffset.y,
+                    middle.z + sideFillOffset.z,
+                    fillColor});
+                targetFillVertices.push_back({
+                    end.x + sideFillOffset.x,
+                    end.y + sideFillOffset.y,
+                    end.z + sideFillOffset.z,
+                    fillColor});
+            }
+        }
+    };
 
     if (m_showTerrainGrid)
     {
@@ -12031,10 +12226,30 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             m_cachedOutdoorTerrainGridVertices.end());
     }
 
+    if (m_showBModels)
+    {
+        for (size_t bmodelIndex = 0; bmodelIndex < outdoorGeometry.bmodels.size(); ++bmodelIndex)
+        {
+            const std::optional<bx::Vec3> center =
+                selectedWorldPosition(document, {EditorSelectionKind::BModel, bmodelIndex});
+
+            if (!center)
+            {
+                continue;
+            }
+
+            MarkerCandidate candidate = {};
+            candidate.selectionKind = EditorSelectionKind::BModel;
+            candidate.selectionIndex = bmodelIndex;
+            candidate.worldPosition = *center;
+            candidate.pickRadiusPixels =
+                selection.kind == EditorSelectionKind::BModel && selection.index == bmodelIndex ? 32.0f : 24.0f;
+            m_markerCandidates.push_back(candidate);
+        }
+    }
+
     if (m_showEntities)
     {
-        const uint32_t eventEntityColor = makeAbgr(96, 255, 255);
-
         for (size_t entityIndex = 0; entityIndex < sceneData.entities.size(); ++entityIndex)
         {
             const Game::OutdoorSceneEntity &entity = sceneData.entities[entityIndex];
@@ -12045,6 +12260,12 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             candidate.selectionIndex = entityIndex;
             candidate.worldPosition = {center.x, center.y, center.z + 96.0f};
             candidate.pickRadiusPixels = 18.0f;
+            candidate.hasEventOverlay =
+                entity.entity.eventIdPrimary != 0 || entity.entity.eventIdSecondary != 0;
+            candidate.hintOnlyEventOverlay =
+                candidate.hasEventOverlay
+                && (entity.entity.eventIdPrimary == 0 || session.isHintOnlyEvent(entity.entity.eventIdPrimary))
+                && (entity.entity.eventIdSecondary == 0 || session.isHintOnlyEvent(entity.entity.eventIdSecondary));
 
             if (m_showEntityBillboards)
             {
@@ -12087,12 +12308,6 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             }
 
             m_markerCandidates.push_back(candidate);
-
-            if (m_showEventMarkers && (entity.entity.eventIdPrimary != 0 || entity.entity.eventIdSecondary != 0))
-            {
-                const bx::Vec3 eventMarkerCenter = {center.x, center.y, center.z + 192.0f};
-                appendCrossMarker(vertices, eventMarkerCenter, 48.0f, 64.0f, eventEntityColor);
-            }
         }
     }
 
@@ -12368,164 +12583,103 @@ void EditorOutdoorViewport::submitMarkerGeometry(
         }
     }
 
-    if (selection.kind == EditorSelectionKind::BModel && selection.index < outdoorGeometry.bmodels.size())
-    {
-        const Game::OutdoorBModel &bmodel = outdoorGeometry.bmodels[selection.index];
-        const uint32_t bmodelSelectionColor = makeAbgr(255, 224, 96);
-
-        for (const Game::OutdoorBModelFace &face : bmodel.faces)
-        {
-            if (face.vertexIndices.size() < 2)
-            {
-                continue;
-            }
-
-            for (size_t vertexIndex = 0; vertexIndex < face.vertexIndices.size(); ++vertexIndex)
-            {
-                const uint16_t startIndex = face.vertexIndices[vertexIndex];
-                const uint16_t endIndex = face.vertexIndices[(vertexIndex + 1) % face.vertexIndices.size()];
-
-                if (startIndex >= bmodel.vertices.size() || endIndex >= bmodel.vertices.size())
-                {
-                    continue;
-                }
-
-                const bx::Vec3 start = Game::outdoorBModelVertexToWorld(bmodel.vertices[startIndex]);
-                const bx::Vec3 end = Game::outdoorBModelVertexToWorld(bmodel.vertices[endIndex]);
-                vertices.push_back({start.x, start.y, start.z + 8.0f, bmodelSelectionColor});
-                vertices.push_back({end.x, end.y, end.z + 8.0f, bmodelSelectionColor});
-            }
-        }
-
-        if (const std::optional<bx::Vec3> bmodelCenter = selectedWorldPosition(document, selection))
-        {
-            const float radius = bmodelRotationHandleRadius(bmodel);
-            bx::Vec3 xAxisWorld = {1.0f, 0.0f, 0.0f};
-            bx::Vec3 yAxisWorld = {0.0f, 1.0f, 0.0f};
-            bx::Vec3 zAxisWorld = {0.0f, 0.0f, 1.0f};
-            computeTransformBasis(document, selection, m_transformSpaceMode, xAxisWorld, yAxisWorld, zAxisWorld);
-            const auto appendRotationRing =
-                [&vertices, bmodelCenter, radius](const bx::Vec3 &axis, uint32_t color)
-            {
-                for (int segmentIndex = 0; segmentIndex < GizmoRotationSegments; ++segmentIndex)
-                {
-                    const float angle0 =
-                        (static_cast<float>(segmentIndex) / static_cast<float>(GizmoRotationSegments)) * bx::kPi2;
-                    const float angle1 =
-                        (static_cast<float>(segmentIndex + 1) / static_cast<float>(GizmoRotationSegments)) * bx::kPi2;
-                    bx::Vec3 point0 = *bmodelCenter;
-                    bx::Vec3 point1 = *bmodelCenter;
-
-                    if (std::fabs(axis.x) > 0.5f)
-                    {
-                        point0.y += std::cos(angle0) * radius;
-                        point0.z += std::sin(angle0) * radius;
-                        point1.y += std::cos(angle1) * radius;
-                        point1.z += std::sin(angle1) * radius;
-                    }
-                    else if (std::fabs(axis.y) > 0.5f)
-                    {
-                        point0.x += std::cos(angle0) * radius;
-                        point0.z += std::sin(angle0) * radius;
-                        point1.x += std::cos(angle1) * radius;
-                        point1.z += std::sin(angle1) * radius;
-                    }
-                    else
-                    {
-                        point0.x += std::cos(angle0) * radius;
-                        point0.y += std::sin(angle0) * radius;
-                        point1.x += std::cos(angle1) * radius;
-                        point1.y += std::sin(angle1) * radius;
-                    }
-
-                    vertices.push_back({point0.x, point0.y, point0.z, color});
-                    vertices.push_back({point1.x, point1.y, point1.z, color});
-                }
-            };
-
-            if (m_transformGizmoMode == TransformGizmoMode::Rotate)
-            {
-                appendRotationRing(xAxisWorld, makeAbgr(255, 96, 96));
-                appendRotationRing(yAxisWorld, makeAbgr(96, 255, 96));
-                appendRotationRing(zAxisWorld, makeAbgr(96, 160, 255));
-            }
-        }
-    }
-
     if (m_showEventMarkers)
     {
-        const uint32_t defaultEventColor = makeAbgr(96, 255, 255);
-        const uint32_t explicitEventColor = makeAbgr(255, 176, 96);
+        const std::string eventOverlayKey = documentGeometryKey(document) + "|outdoor_event_overlay";
 
-        for (size_t bmodelIndex = 0; bmodelIndex < outdoorGeometry.bmodels.size(); ++bmodelIndex)
+        if (eventOverlayKey != m_cachedOutdoorEventOverlayKey)
         {
-            const Game::OutdoorBModel &bmodel = outdoorGeometry.bmodels[bmodelIndex];
-            const std::optional<uint16_t> defaultEventId =
-                bmodelIndex < defaultBModelEvents.size() ? defaultBModelEvents[bmodelIndex] : std::nullopt;
-            const std::vector<uint16_t> *pFaceEvents =
-                bmodelIndex < effectiveFaceEvents.size() ? &effectiveFaceEvents[bmodelIndex] : nullptr;
+            const uint32_t defaultEventEdgeColor = makeAbgrAlpha(72, 220, 208, 148);
+            const uint32_t defaultEventFillColor = makeAbgrAlpha(72, 220, 208, 50);
+            const uint32_t explicitEventEdgeColor = makeAbgrAlpha(72, 220, 208, 192);
+            const uint32_t explicitEventFillColor = makeAbgrAlpha(72, 220, 208, 82);
+            const uint32_t hintOnlyDefaultEventEdgeColor = makeAbgrAlpha(108, 212, 202, 124);
+            const uint32_t hintOnlyDefaultEventFillColor = makeAbgrAlpha(108, 212, 202, 38);
+            const uint32_t hintOnlyExplicitEventEdgeColor = makeAbgrAlpha(112, 220, 208, 152);
+            const uint32_t hintOnlyExplicitEventFillColor = makeAbgrAlpha(112, 220, 208, 58);
+            m_cachedOutdoorEventOverlayKey = eventOverlayKey;
+            m_cachedOutdoorEventOverlayVertices.clear();
+            m_cachedOutdoorEventOverlayFillVertices.clear();
 
-            if (defaultEventId)
+            for (size_t bmodelIndex = 0; bmodelIndex < outdoorGeometry.bmodels.size(); ++bmodelIndex)
             {
-                float centerX = 0.0f;
-                float centerY = 0.0f;
-                float centerZ = 0.0f;
-                int vertexCount = 0;
+                const Game::OutdoorBModel &bmodel = outdoorGeometry.bmodels[bmodelIndex];
+                const std::optional<uint16_t> defaultEventId =
+                    bmodelIndex < defaultBModelEvents.size() ? defaultBModelEvents[bmodelIndex] : std::nullopt;
+                const std::vector<uint16_t> *pFaceEvents =
+                    bmodelIndex < effectiveFaceEvents.size() ? &effectiveFaceEvents[bmodelIndex] : nullptr;
+                const bool defaultEventHintOnly = defaultEventId && session.isHintOnlyEvent(*defaultEventId);
 
-                for (const Game::OutdoorBModelVertex &vertex : bmodel.vertices)
+                if (defaultEventId)
                 {
-                    centerX += static_cast<float>(vertex.x);
-                    centerY += static_cast<float>(vertex.y);
-                    centerZ += static_cast<float>(vertex.z);
-                    ++vertexCount;
+                    for (size_t faceIndex = 0; faceIndex < bmodel.faces.size(); ++faceIndex)
+                    {
+                        Game::OutdoorFaceGeometryData geometry = {};
+
+                        if (!Game::buildOutdoorFaceGeometry(
+                                bmodel,
+                                bmodelIndex,
+                                bmodel.faces[faceIndex],
+                                faceIndex,
+                                geometry))
+                        {
+                            continue;
+                        }
+
+                        appendOutdoorFaceOverlay(
+                            m_cachedOutdoorEventOverlayVertices,
+                            m_cachedOutdoorEventOverlayFillVertices,
+                            geometry,
+                            defaultEventHintOnly ? hintOnlyDefaultEventEdgeColor : defaultEventEdgeColor,
+                            defaultEventHintOnly ? hintOnlyDefaultEventFillColor : defaultEventFillColor,
+                            5.0f,
+                            3.0f);
+                    }
                 }
 
-                if (vertexCount > 0)
+                for (size_t faceIndex = 0; faceIndex < bmodel.faces.size(); ++faceIndex)
                 {
-                    const float invCount = 1.0f / static_cast<float>(vertexCount);
-                    appendCrossMarker(
-                        vertices,
-                        {centerX * invCount, centerY * invCount, centerZ * invCount + 96.0f},
-                        72.0f,
-                        96.0f,
-                        defaultEventColor);
+                    const uint16_t eventId =
+                        pFaceEvents != nullptr && faceIndex < pFaceEvents->size() ? (*pFaceEvents)[faceIndex] : 0;
+
+                    if (eventId == 0 || (defaultEventId && eventId == *defaultEventId))
+                    {
+                        continue;
+                    }
+
+                    Game::OutdoorFaceGeometryData geometry = {};
+
+                    if (!Game::buildOutdoorFaceGeometry(
+                            bmodel,
+                            bmodelIndex,
+                            bmodel.faces[faceIndex],
+                            faceIndex,
+                            geometry)
+                        || geometry.vertices.empty())
+                    {
+                        continue;
+                    }
+
+                    appendOutdoorFaceOverlay(
+                        m_cachedOutdoorEventOverlayVertices,
+                        m_cachedOutdoorEventOverlayFillVertices,
+                        geometry,
+                        session.isHintOnlyEvent(eventId) ? hintOnlyExplicitEventEdgeColor : explicitEventEdgeColor,
+                        session.isHintOnlyEvent(eventId) ? hintOnlyExplicitEventFillColor : explicitEventFillColor,
+                        8.0f,
+                        6.0f);
                 }
-            }
-
-            for (size_t faceIndex = 0; faceIndex < bmodel.faces.size(); ++faceIndex)
-            {
-                const uint16_t eventId =
-                    pFaceEvents != nullptr && faceIndex < pFaceEvents->size() ? (*pFaceEvents)[faceIndex] : 0;
-
-                if (eventId == 0 || (defaultEventId && eventId == *defaultEventId))
-                {
-                    continue;
-                }
-
-                Game::OutdoorFaceGeometryData geometry = {};
-
-                if (!Game::buildOutdoorFaceGeometry(bmodel, bmodelIndex, bmodel.faces[faceIndex], faceIndex, geometry)
-                    || geometry.vertices.empty())
-                {
-                    continue;
-                }
-
-                bx::Vec3 center = {0.0f, 0.0f, 0.0f};
-
-                for (const bx::Vec3 &vertex : geometry.vertices)
-                {
-                    center.x += vertex.x;
-                    center.y += vertex.y;
-                    center.z += vertex.z;
-                }
-
-                const float invCount = 1.0f / static_cast<float>(geometry.vertices.size());
-                center.x *= invCount;
-                center.y *= invCount;
-                center.z *= invCount;
-                appendCrossMarker(vertices, {center.x, center.y, center.z + 56.0f}, 48.0f, 64.0f, explicitEventColor);
             }
         }
+
+        vertices.insert(
+            vertices.end(),
+            m_cachedOutdoorEventOverlayVertices.begin(),
+            m_cachedOutdoorEventOverlayVertices.end());
+        fillVertices.insert(
+            fillVertices.end(),
+            m_cachedOutdoorEventOverlayFillVertices.begin(),
+            m_cachedOutdoorEventOverlayFillVertices.end());
     }
 
     const uint32_t faceSelectionColor = makeAbgr(255, 96, 255);
@@ -12623,6 +12777,65 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                     xrayVertices.push_back({end.x, end.y, end.z + 10.0f, chestLinkColor});
                 }
             }
+        }
+    }
+
+    if (selection.kind == EditorSelectionKind::BModel
+        && selection.index < outdoorGeometry.bmodels.size()
+        && m_transformGizmoMode == TransformGizmoMode::Rotate)
+    {
+        const Game::OutdoorBModel &bmodel = outdoorGeometry.bmodels[selection.index];
+        const std::optional<bx::Vec3> bmodelCenter = selectedWorldPosition(document, selection);
+
+        if (bmodelCenter)
+        {
+            const float radius = bmodelRotationHandleRadius(bmodel);
+            bx::Vec3 xAxisWorld = {1.0f, 0.0f, 0.0f};
+            bx::Vec3 yAxisWorld = {0.0f, 1.0f, 0.0f};
+            bx::Vec3 zAxisWorld = {0.0f, 0.0f, 1.0f};
+            computeTransformBasis(document, selection, m_transformSpaceMode, xAxisWorld, yAxisWorld, zAxisWorld);
+            const auto appendRotationRing =
+                [&vertices, &bmodelCenter, radius](const bx::Vec3 &axis, uint32_t color)
+            {
+                for (int segmentIndex = 0; segmentIndex < GizmoRotationSegments; ++segmentIndex)
+                {
+                    const float angle0 =
+                        (static_cast<float>(segmentIndex) / static_cast<float>(GizmoRotationSegments)) * bx::kPi2;
+                    const float angle1 =
+                        (static_cast<float>(segmentIndex + 1) / static_cast<float>(GizmoRotationSegments)) * bx::kPi2;
+                    bx::Vec3 point0 = *bmodelCenter;
+                    bx::Vec3 point1 = *bmodelCenter;
+
+                    if (std::fabs(axis.x) > 0.5f)
+                    {
+                        point0.y += std::cos(angle0) * radius;
+                        point0.z += std::sin(angle0) * radius;
+                        point1.y += std::cos(angle1) * radius;
+                        point1.z += std::sin(angle1) * radius;
+                    }
+                    else if (std::fabs(axis.y) > 0.5f)
+                    {
+                        point0.x += std::cos(angle0) * radius;
+                        point0.z += std::sin(angle0) * radius;
+                        point1.x += std::cos(angle1) * radius;
+                        point1.z += std::sin(angle1) * radius;
+                    }
+                    else
+                    {
+                        point0.x += std::cos(angle0) * radius;
+                        point0.y += std::sin(angle0) * radius;
+                        point1.x += std::cos(angle1) * radius;
+                        point1.y += std::sin(angle1) * radius;
+                    }
+
+                    vertices.push_back({point0.x, point0.y, point0.z, color});
+                    vertices.push_back({point1.x, point1.y, point1.z, color});
+                }
+            };
+
+            appendRotationRing(xAxisWorld, makeAbgr(255, 96, 96));
+            appendRotationRing(yAxisWorld, makeAbgr(96, 255, 96));
+            appendRotationRing(zAxisWorld, makeAbgr(96, 160, 255));
         }
     }
 
