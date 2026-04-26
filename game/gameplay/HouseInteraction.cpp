@@ -182,6 +182,22 @@ bool routeAvailableToday(const HouseEntry::TransportRoute &route, float currentG
     return route.daysAvailable[dayOfWeekFromGameMinutes(currentGameMinutes)];
 }
 
+int adjustedTransportTravelDays(const HouseEntry::TransportRoute &route)
+{
+    // OE also applies hired-NPC profession reductions here. OpenYAMM does not model those hirelings yet.
+    if (route.travelDays == 0)
+    {
+        return 1;
+    }
+
+    return static_cast<int>(route.travelDays);
+}
+
+std::string transportTravelDaysText(int travelDays)
+{
+    return std::to_string(travelDays) + (travelDays == 1 ? " day" : " days");
+}
+
 const HouseEntry::TransportRoute *findTransportRoute(const HouseEntry &houseEntry, const std::string &argument)
 {
     if (argument.empty())
@@ -719,26 +735,33 @@ std::vector<HouseActionOption> buildHouseActionOptions(
     {
         const Character *pMember = selectedMember(pParty);
         bool anyRouteVisible = false;
-        bool anyRouteSkippedForDay = false;
+        bool anyRouteHidden = false;
 
         for (const HouseEntry::TransportRoute &route : houseEntry.transportRoutes)
         {
             if (!routeQBitSatisfied(route, pWorldRuntime))
             {
+                anyRouteHidden = true;
                 continue;
             }
 
             if (!routeAvailableToday(route, currentGameMinutes))
             {
-                anyRouteSkippedForDay = true;
+                anyRouteHidden = true;
                 continue;
             }
 
             anyRouteVisible = true;
             const int price = PriceCalculator::transportPrice(pMember, houseEntry, isBoatHouse(houseEntry));
+            const int travelDays = adjustedTransportTravelDays(route);
             HouseActionOption transport = makeOption(
                 HouseActionId::TransportRoute,
-                "Travel to " + route.destinationName + " for " + std::to_string(price) + " gold",
+                transportTravelDaysText(travelDays)
+                    + " to "
+                    + route.destinationName
+                    + " for "
+                    + std::to_string(price)
+                    + " gold",
                 isHouseOpenNow,
                 closedReason
             );
@@ -746,7 +769,7 @@ std::vector<HouseActionOption> buildHouseActionOptions(
             options.push_back(std::move(transport));
         }
 
-        if (!anyRouteVisible && anyRouteSkippedForDay)
+        if (!anyRouteVisible && anyRouteHidden)
         {
             HouseActionOption noRoute = {};
             noRoute.id = HouseActionId::TransportRoute;
@@ -1076,7 +1099,8 @@ HouseActionResult performHouseAction(
 
             party.addGold(-price);
             party.restAndHealAll();
-            pWorldRuntime->advanceGameMinutes(static_cast<float>(pRoute->travelDays * MinutesPerDay));
+            const int travelDays = adjustedTransportTravelDays(*pRoute);
+            pWorldRuntime->advanceGameMinutes(static_cast<float>(travelDays * MinutesPerDay));
 
             EventRuntimeState::PendingMapMove pendingMapMove = {};
             pendingMapMove.mapName = pRoute->mapFileName;
@@ -1089,8 +1113,8 @@ HouseActionResult performHouseAction(
 
             result.messages.push_back(
                 "It will take "
-                + std::to_string(pRoute->travelDays)
-                + " days to travel to "
+                + transportTravelDaysText(travelDays)
+                + " to travel to "
                 + pRoute->destinationName
                 + "."
             );

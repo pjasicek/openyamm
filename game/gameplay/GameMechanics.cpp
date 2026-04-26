@@ -2327,12 +2327,14 @@ bool GameMechanics::canAct(const Character &character)
 
 int GameMechanics::resolveCharacterPerceptionValue(const Character &character)
 {
+    static const std::string PerceptionSkillName = "Perception";
+
     if (!canAct(character))
     {
         return 0;
     }
 
-    const CharacterSkill *pSkill = character.findSkillByCanonicalName("Perception");
+    const CharacterSkill *pSkill = character.findSkillByCanonicalName(PerceptionSkillName);
 
     if (pSkill == nullptr || pSkill->mastery == SkillMastery::None || pSkill->level == 0)
     {
@@ -2349,14 +2351,17 @@ int GameMechanics::resolveCharacterPerceptionValue(const Character &character)
 
 bool GameMechanics::partyDetectsSecretFaces(const Party &party, const MapStatsEntry &map)
 {
-    int bestPerception = 0;
+    const int requiredPerception = map.perceptionDifficulty * 2;
 
     for (const Character &member : party.members())
     {
-        bestPerception = std::max(bestPerception, resolveCharacterPerceptionValue(member));
+        if (resolveCharacterPerceptionValue(member) >= requiredPerception)
+        {
+            return true;
+        }
     }
 
-    return bestPerception >= map.perceptionDifficulty * 2;
+    return false;
 }
 
 bool GameMechanics::canSelectInGameplay(const Character &character)

@@ -107,7 +107,11 @@ public:
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     bool advanceSimulation(float deltaMilliseconds);
-    bool activateEvent(uint16_t eventId, const std::string &sourceKind, size_t sourceIndex);
+    bool activateEvent(
+        uint16_t eventId,
+        const std::string &sourceKind,
+        size_t sourceIndex,
+        const std::optional<EventRuntimeState::ActiveDecorationContext> &activeDecorationContext = std::nullopt);
 
 private:
     struct MechanismAudioState

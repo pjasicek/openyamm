@@ -336,14 +336,28 @@ const SurfaceMaterialDefinition *findTerrainSurfaceMaterialForDescriptor(
         return nullptr;
     }
 
+    const TerrainTileDescriptor *pBaseDescriptor = nullptr;
+
+    if (isTerrainDescriptorTransition(descriptor))
+    {
+        pBaseDescriptor = findLiquidBaseTerrainDescriptor(tileDescriptors, descriptor);
+
+        if (ppBaseDescriptor != nullptr)
+        {
+            *ppBaseDescriptor = pBaseDescriptor;
+        }
+    }
+
     if (const SurfaceMaterialDefinition *pMaterial =
             pSurfaceMaterialTable->findMatch(descriptor.textureName, 0, true))
     {
         return pMaterial;
     }
 
-    const TerrainTileDescriptor *pBaseDescriptor =
-        findLiquidBaseTerrainDescriptor(tileDescriptors, descriptor);
+    if (pBaseDescriptor == nullptr)
+    {
+        pBaseDescriptor = findLiquidBaseTerrainDescriptor(tileDescriptors, descriptor);
+    }
 
     if (pBaseDescriptor == nullptr)
     {

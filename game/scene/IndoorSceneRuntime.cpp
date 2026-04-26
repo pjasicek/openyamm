@@ -1,6 +1,8 @@
 #include "game/scene/IndoorSceneRuntime.h"
 
 #include "game/gameplay/GameplayActorService.h"
+#include "game/gameplay/InteractiveDecorationRules.h"
+#include "game/maps/MapAssetLoader.h"
 
 #include <algorithm>
 #include <cctype>
@@ -49,6 +51,103 @@ void appendTimersFromProgram(
         timer.intervalGameMinutes = trigger.intervalGameMinutes;
         timer.remainingGameMinutes = trigger.remainingGameMinutes;
         timers.push_back(std::move(timer));
+    }
+}
+
+bool hasPersistedDecorationState(const std::optional<MapDeltaData> &mapDeltaData)
+{
+    if (!mapDeltaData)
+    {
+        return false;
+    }
+
+    for (uint8_t value : mapDeltaData->eventVariables.decorVars)
+    {
+        if (value != 0)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void seedIndoorInteractiveDecorationRuntimeStateIfNeeded(
+    const IndoorMapData &indoorMapData,
+    const DecorationBillboardSet *pDecorationBillboardSet,
+    const std::optional<MapDeltaData> &mapDeltaData,
+    std::optional<EventRuntimeState> &eventRuntimeState)
+{
+    if (pDecorationBillboardSet == nullptr || !eventRuntimeState || hasPersistedDecorationState(mapDeltaData))
+    {
+        return;
+    }
+
+    for (uint8_t value : eventRuntimeState->decorVars)
+    {
+        if (value != 0)
+        {
+            return;
+        }
+    }
+
+    uint8_t decorVarIndex = 0;
+    constexpr uint8_t MaxDecorationVarCount = 125;
+
+    for (size_t entityIndex = 0; entityIndex < indoorMapData.entities.size(); ++entityIndex)
+    {
+        const IndoorEntity &entity = indoorMapData.entities[entityIndex];
+
+        if (entity.eventIdPrimary != 0 || entity.eventIdSecondary != 0)
+        {
+            continue;
+        }
+
+        const DecorationEntry *pDecoration =
+            pDecorationBillboardSet->decorationTable.get(entity.decorationListId);
+
+        if ((pDecoration == nullptr || pDecoration->spriteId == 0) && !entity.name.empty())
+        {
+            pDecoration = pDecorationBillboardSet->decorationTable.findByInternalName(entity.name);
+        }
+
+        if (pDecoration == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<InteractiveDecorationBindingSpec> bindingSpec =
+            resolveInteractiveDecorationBindingSpec(*pDecoration, entity.name);
+
+        if (!bindingSpec || decorVarIndex >= MaxDecorationVarCount)
+        {
+            continue;
+        }
+
+        uint8_t initialState = bindingSpec->initialState;
+        const uint32_t seed =
+            makeInteractiveDecorationSeed(
+                entityIndex,
+                entity.decorationListId,
+                entity.x,
+                entity.y,
+                entity.z);
+
+        if (bindingSpec->useSeededInitialState)
+        {
+            initialState = static_cast<uint8_t>(seed % bindingSpec->eventCount);
+        }
+        else if (bindingSpec->family != InteractiveDecorationFamily::None)
+        {
+            initialState = initialInteractiveDecorationState(bindingSpec->family, seed);
+        }
+
+        if (initialState != 0)
+        {
+            eventRuntimeState->decorVars[decorVarIndex] = initialState;
+        }
+
+        ++decorVarIndex;
     }
 }
 
@@ -171,6 +270,12 @@ IndoorSceneRuntime::IndoorSceneRuntime(
         normalizeIndoorDoorTextureDeltas(*m_mapDeltaData, indoorMapData);
     }
 
+    seedIndoorInteractiveDecorationRuntimeStateIfNeeded(
+        indoorMapData,
+        pIndoorDecorationBillboardSet,
+        m_mapDeltaData,
+        m_eventRuntimeState);
+
     m_partyRuntime.setParty(*m_pSessionParty);
     m_worldRuntime.initialize(
         map,
@@ -253,6 +358,12 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     {
         normalizeIndoorDoorTextureDeltas(*m_mapDeltaData, indoorMapData);
     }
+
+    seedIndoorInteractiveDecorationRuntimeStateIfNeeded(
+        indoorMapData,
+        pIndoorDecorationBillboardSet,
+        m_mapDeltaData,
+        m_eventRuntimeState);
 
     m_partyRuntime.setParty(*m_pSessionParty);
     m_worldRuntime.initialize(
@@ -625,7 +736,11 @@ bool IndoorSceneRuntime::updateTimers(float deltaGameMinutes)
     return executedAny;
 }
 
-bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sourceKind, size_t sourceIndex)
+bool IndoorSceneRuntime::activateEvent(
+    uint16_t eventId,
+    const std::string &sourceKind,
+    size_t sourceIndex,
+    const std::optional<EventRuntimeState::ActiveDecorationContext> &activeDecorationContext)
 {
     static_cast<void>(sourceKind);
     static_cast<void>(sourceIndex);
@@ -641,6 +756,8 @@ bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sour
         return false;
     }
 
+    m_eventRuntimeState->activeDecorationContext = activeDecorationContext;
+
     const bool executed = m_eventRuntime.executeEventById(
         m_localEventProgram,
         m_globalEventProgram,
@@ -649,6 +766,7 @@ bool IndoorSceneRuntime::activateEvent(uint16_t eventId, const std::string &sour
         &m_partyRuntime.party(),
         &m_worldRuntime
     );
+    m_eventRuntimeState->activeDecorationContext.reset();
 
     if (!executed)
     {

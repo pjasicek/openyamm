@@ -8,6 +8,7 @@
 #include "game/fx/ParticleRenderer.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/render/TextureFiltering.h"
 #include "game/scene/IndoorSceneRuntime.h"
@@ -608,6 +609,86 @@ bx::Vec3 bottomAnchoredBillboardCenter(float x, float y, float z, const bx::Vec3
         y + cameraUp.y * halfHeight,
         z + cameraUp.z * halfHeight
     };
+}
+
+struct IndoorInteractiveDecorationBinding
+{
+    uint8_t decorVarIndex = 0;
+    uint16_t baseEventId = 0;
+    uint8_t eventCount = 0;
+    bool hideWhenCleared = false;
+};
+
+std::optional<IndoorInteractiveDecorationBinding> resolveIndoorInteractiveDecorationBinding(
+    const IndoorMapData &indoorMapData,
+    const DecorationBillboardSet &billboardSet,
+    size_t targetEntityIndex)
+{
+    uint8_t decorVarIndex = 0;
+    constexpr uint8_t MaxDecorationVarCount = 125;
+
+    for (size_t entityIndex = 0; entityIndex < indoorMapData.entities.size(); ++entityIndex)
+    {
+        const IndoorEntity &entity = indoorMapData.entities[entityIndex];
+
+        if (entity.eventIdPrimary != 0 || entity.eventIdSecondary != 0)
+        {
+            continue;
+        }
+
+        const DecorationEntry *pDecoration = billboardSet.decorationTable.get(entity.decorationListId);
+
+        if ((pDecoration == nullptr || pDecoration->spriteId == 0) && !entity.name.empty())
+        {
+            pDecoration = billboardSet.decorationTable.findByInternalName(entity.name);
+        }
+
+        if (pDecoration == nullptr)
+        {
+            continue;
+        }
+
+        const std::optional<InteractiveDecorationBindingSpec> bindingSpec =
+            resolveInteractiveDecorationBindingSpec(*pDecoration, entity.name);
+
+        if (!bindingSpec || decorVarIndex >= MaxDecorationVarCount)
+        {
+            continue;
+        }
+
+        if (entityIndex == targetEntityIndex)
+        {
+            IndoorInteractiveDecorationBinding binding = {};
+            binding.decorVarIndex = decorVarIndex;
+            binding.baseEventId = bindingSpec->baseEventId;
+            binding.eventCount = bindingSpec->eventCount;
+            binding.hideWhenCleared = bindingSpec->hideWhenCleared;
+            return binding;
+        }
+
+        ++decorVarIndex;
+    }
+
+    return std::nullopt;
+}
+
+std::optional<uint16_t> resolveIndoorInteractiveDecorationEventId(
+    const EventRuntimeState &eventRuntimeState,
+    const IndoorInteractiveDecorationBinding &binding)
+{
+    uint8_t state = eventRuntimeState.decorVars[binding.decorVarIndex];
+
+    if (binding.hideWhenCleared && state == binding.eventCount)
+    {
+        return std::nullopt;
+    }
+
+    if (state >= binding.eventCount)
+    {
+        state = 0;
+    }
+
+    return static_cast<uint16_t>(binding.baseEventId + state);
 }
 
 struct ProjectedFacePoint
@@ -3269,7 +3350,36 @@ uint16_t IndoorRenderer::inspectHitEventId(const InspectHit &inspectHit) const
 {
     if (inspectHit.kind == "entity")
     {
-        return inspectHit.eventIdPrimary != 0 ? inspectHit.eventIdPrimary : inspectHit.eventIdSecondary;
+        const uint16_t directEventId =
+            inspectHit.eventIdPrimary != 0 ? inspectHit.eventIdPrimary : inspectHit.eventIdSecondary;
+
+        if (directEventId != 0)
+        {
+            return directEventId;
+        }
+
+        const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
+
+        if (!m_indoorMapData || !m_indoorDecorationBillboardSet || pEventRuntimeState == nullptr)
+        {
+            return 0;
+        }
+
+        const std::optional<IndoorInteractiveDecorationBinding> binding =
+            resolveIndoorInteractiveDecorationBinding(
+                *m_indoorMapData,
+                *m_indoorDecorationBillboardSet,
+                inspectHit.index);
+
+        if (!binding)
+        {
+            return 0;
+        }
+
+        const std::optional<uint16_t> eventId =
+            resolveIndoorInteractiveDecorationEventId(*pEventRuntimeState, *binding);
+
+        return eventId.value_or(0);
     }
 
     if (inspectHit.kind == "face")
@@ -3291,15 +3401,19 @@ std::optional<std::string> IndoorRenderer::resolveEventTargetHoverStatusText(con
 {
     if (inspectHit.kind == "entity")
     {
-        const std::optional<std::string> primaryHint =
-            resolveIndoorEventHintText(m_pSceneRuntime, inspectHit.eventIdPrimary);
+        const uint16_t directEventId =
+            inspectHit.eventIdPrimary != 0 ? inspectHit.eventIdPrimary : inspectHit.eventIdSecondary;
 
-        if (primaryHint && !primaryHint->empty())
+        if (directEventId != 0)
         {
-            return primaryHint;
-        }
+            const std::optional<std::string> directHint =
+                resolveIndoorEventHintText(m_pSceneRuntime, directEventId);
 
-        return resolveIndoorEventHintText(m_pSceneRuntime, inspectHit.eventIdSecondary);
+            if (directHint && !directHint->empty())
+            {
+                return directHint;
+            }
+        }
     }
 
     return resolveIndoorEventHintText(m_pSceneRuntime, inspectHitEventId(inspectHit));
@@ -4120,7 +4234,7 @@ bool IndoorRenderer::canActivateGameplayWorldHit(const GameplayWorldHit &hit) co
 
     if (inspectHit->kind == "entity")
     {
-        return inspectHit->eventIdPrimary != 0 || inspectHit->eventIdSecondary != 0;
+        return inspectHitEventId(*inspectHit) != 0;
     }
 
     if (inspectHit->kind == "face")
@@ -4961,7 +5075,6 @@ void IndoorRenderer::renderDecorationBillboards(
         drawItems.push_back(drawItem);
     }
 
-    constexpr float BillboardDepthBias = 128.0f;
     std::sort(
         drawItems.begin(),
         drawItems.end(),
@@ -4980,16 +5093,10 @@ void IndoorRenderer::renderDecorationBillboards(
         const float worldWidth = static_cast<float>(texture.width) * spriteScale;
         const float worldHeight = static_cast<float>(texture.height) * spriteScale;
         const float halfWidth = worldWidth * 0.5f;
-        const float centerOffset = worldHeight * 0.5f;
-        const bx::Vec3 toCamera = vecNormalize({
-            cameraPosition.x - static_cast<float>(billboard.x),
-            cameraPosition.y - static_cast<float>(billboard.y),
-            cameraPosition.z - (static_cast<float>(billboard.z) + centerOffset)
-        });
         const bx::Vec3 center = {
-            static_cast<float>(billboard.x) + toCamera.x * BillboardDepthBias,
-            static_cast<float>(billboard.y) + toCamera.y * BillboardDepthBias,
-            static_cast<float>(billboard.z) + centerOffset + toCamera.z * BillboardDepthBias
+            static_cast<float>(billboard.x),
+            static_cast<float>(billboard.y),
+            static_cast<float>(billboard.z) + worldHeight * 0.5f
         };
         const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
         const bx::Vec3 up = {
@@ -6902,7 +7009,32 @@ bool IndoorRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
         return false;
     }
 
+    std::optional<EventRuntimeState::ActiveDecorationContext> decorationContext;
     const uint16_t eventId = inspectHitEventId(inspectHit);
+
+    if (inspectHit.kind == "entity"
+        && inspectHit.eventIdPrimary == 0
+        && inspectHit.eventIdSecondary == 0
+        && m_indoorMapData
+        && m_indoorDecorationBillboardSet)
+    {
+        const std::optional<IndoorInteractiveDecorationBinding> binding =
+            resolveIndoorInteractiveDecorationBinding(
+                *m_indoorMapData,
+                *m_indoorDecorationBillboardSet,
+                inspectHit.index);
+
+        if (binding && eventId != 0)
+        {
+            EventRuntimeState::ActiveDecorationContext context = {};
+            context.decorVarIndex = binding->decorVarIndex;
+            context.baseEventId = binding->baseEventId;
+            context.currentEventId = eventId;
+            context.eventCount = binding->eventCount;
+            context.hideWhenCleared = binding->hideWhenCleared;
+            decorationContext = context;
+        }
+    }
 
     if (eventId == 0)
     {
@@ -6916,7 +7048,7 @@ bool IndoorRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
         return false;
     }
 
-    if (!m_pSceneRuntime->activateEvent(eventId, inspectHit.kind, inspectHit.index))
+    if (!m_pSceneRuntime->activateEvent(eventId, inspectHit.kind, inspectHit.index, decorationContext))
     {
         return false;
     }

@@ -45,6 +45,7 @@ add_executable(openyamm
     gameplay/GameplayInteractionController.cpp
     gameplay/GameplayItemService.cpp
     gameplay/GameplayWorldItemInteraction.cpp
+    gameplay/InteractiveDecorationRules.cpp
     gameplay/GameplayOverlayInputController.cpp
     gameplay/GameplayPartyOverlayInputController.cpp
     gameplay/GameplayProjectileService.cpp
