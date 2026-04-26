@@ -19,6 +19,7 @@ namespace
 {
 std::mutex g_screenshotMutex;
 std::optional<BgfxContext::ScreenshotCapture> g_screenshotCapture;
+bool g_bgfxInitialized = false;
 }
 
 class BgfxContext::Callback final : public bgfx::CallbackI
@@ -175,6 +176,7 @@ bool BgfxContext::initialize(SDL_Window *pWindow, int windowWidth, int windowHei
         return false;
     }
 
+    g_bgfxInitialized = true;
     m_isInitialized = true;
     m_rendererType = bgfx::getRendererType();
 
@@ -207,11 +209,17 @@ void BgfxContext::shutdown()
     bgfx::shutdown();
     m_isInitialized = false;
     m_rendererType = bgfx::RendererType::Noop;
+    g_bgfxInitialized = false;
 }
 
 bool BgfxContext::isInitialized() const
 {
     return m_isInitialized;
+}
+
+bool BgfxContext::isBgfxInitialized()
+{
+    return g_bgfxInitialized;
 }
 
 bgfx::RendererType::Enum BgfxContext::getRendererType() const

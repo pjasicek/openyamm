@@ -34,6 +34,7 @@ public:
 
     bool isInitialized() const;
     bgfx::RendererType::Enum getRendererType() const;
+    static bool isBgfxInitialized();
     static std::optional<ScreenshotCapture> consumeScreenshot(const std::string &token);
 
 private:
