@@ -2,6 +2,7 @@
 
 #include "game/app/GameSession.h"
 #include "game/events/EvtEnums.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/ui/GameplaySpellTargetingOverlayRenderer.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
@@ -56,6 +57,11 @@ constexpr float OutdoorWorldFogNearOpacity = 0.04f;
 constexpr float OutdoorWorldFogStrongOpacity = 176.0f / 255.0f;
 constexpr float OutdoorSkyFogNearOpacity = 0.02f;
 constexpr float OutdoorSkyFogStrongOpacity = 208.0f / 255.0f;
+
+float secretFaceVertexFlag(uint32_t attributes)
+{
+    return hasFaceAttribute(attributes, FaceAttribute::IsSecret) ? 1.0f : 0.0f;
+}
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -673,6 +679,26 @@ void applyOutdoorFogUniforms(
 
 } // namespace
 
+void OutdoorRenderer::applySecretPulseUniforms(OutdoorGameView &view)
+{
+    if (!bgfx::isValid(view.m_secretPulseParamsUniformHandle))
+    {
+        return;
+    }
+
+    const bool secretFacesDetected =
+        view.m_map.has_value()
+        && view.m_pOutdoorPartyRuntime != nullptr
+        && GameMechanics::partyDetectsSecretFaces(view.m_pOutdoorPartyRuntime->party(), view.m_map.value());
+    const std::array<float, 4> params = {
+        secretFacesDetected ? 1.0f : 0.0f,
+        view.m_elapsedTime,
+        0.0f,
+        0.0f
+    };
+    bgfx::setUniform(view.m_secretPulseParamsUniformHandle, params.data());
+}
+
 void OutdoorRenderer::applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition)
 {
     if (!bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
@@ -803,6 +829,8 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
 
     const EventRuntimeState *pEventRuntimeState =
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+    const MapDeltaData *pMapDeltaData =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
     const uint64_t targetRevision = pEventRuntimeState != nullptr ? pEventRuntimeState->outdoorSurfaceRevision : 0;
     const std::unordered_map<uint32_t, std::string> *pTextureOverrides =
         pEventRuntimeState != nullptr ? &pEventRuntimeState->textureOverrides : nullptr;
@@ -851,7 +879,20 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         }
 
         std::vector<OutdoorGameView::TexturedTerrainVertex> &groupVertices = verticesByAnimationIndex[animationIndex];
+        float secretPulse = batch.vertices.empty() ? 0.0f : batch.vertices.front().secretPulse;
+
+        if (pMapDeltaData != nullptr && batch.faceId < pMapDeltaData->faceAttributes.size())
+        {
+            secretPulse = secretFaceVertexFlag(pMapDeltaData->faceAttributes[batch.faceId]);
+        }
+
+        const size_t oldSize = groupVertices.size();
         groupVertices.insert(groupVertices.end(), batch.vertices.begin(), batch.vertices.end());
+
+        for (size_t vertexIndex = oldSize; vertexIndex < groupVertices.size(); ++vertexIndex)
+        {
+            groupVertices[vertexIndex].secretPulse = secretPulse;
+        }
     }
 
     view.m_resolvedBModelDrawGroups.reserve(view.m_bmodelTextureAnimations.size());
@@ -1164,6 +1205,7 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTextur
             vertex.z = worldVertex.z;
             vertex.u = normalizedU;
             vertex.v = normalizedV;
+            vertex.secretPulse = secretFaceVertexFlag(face.attributes);
             triangleVertices[triangleVertexSlot] = vertex;
         }
 
@@ -1992,7 +2034,8 @@ void OutdoorRenderer::renderBloodSplats(
         || !bgfx::isValid(view.m_outdoorFogDistancesUniformHandle)
         || !bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
         || !bgfx::isValid(view.m_outdoorFxLightColorsUniformHandle)
-        || !bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle))
+        || !bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle)
+        || !bgfx::isValid(view.m_secretPulseParamsUniformHandle))
     {
         return;
     }
@@ -2031,6 +2074,7 @@ void OutdoorRenderer::renderBloodSplats(
         view.m_outdoorFogDensitiesUniformHandle,
         view.m_outdoorFogDistancesUniformHandle,
         fogParameters);
+    applySecretPulseUniforms(view);
     bgfx::setState(
         BGFX_STATE_WRITE_RGB
         | BGFX_STATE_WRITE_A
@@ -2120,7 +2164,8 @@ void OutdoorRenderer::renderWorldPasses(
             && bgfx::isValid(view.m_terrainTextureSamplerHandle)
             && bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
             && bgfx::isValid(view.m_outdoorFxLightColorsUniformHandle)
-            && bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle))
+            && bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle)
+            && bgfx::isValid(view.m_secretPulseParamsUniformHandle))
         {
             updateAnimatedWaterTileTexture(view);
 
@@ -2137,6 +2182,7 @@ void OutdoorRenderer::renderWorldPasses(
                 view.m_outdoorFogDensitiesUniformHandle,
                 view.m_outdoorFogDistancesUniformHandle,
                 worldFogParameters);
+            applySecretPulseUniforms(view);
             bgfx::setState(
                 BGFX_STATE_WRITE_RGB
                 | BGFX_STATE_WRITE_A
@@ -2175,7 +2221,8 @@ void OutdoorRenderer::renderWorldPasses(
                 && bgfx::isValid(view.m_terrainTextureSamplerHandle)
                 && bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
                 && bgfx::isValid(view.m_outdoorFxLightColorsUniformHandle)
-                && bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle))
+                && bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle)
+                && bgfx::isValid(view.m_secretPulseParamsUniformHandle))
             {
                 if (view.m_resolvedBModelDrawGroupRevision != targetRevision)
                 {
@@ -2223,6 +2270,7 @@ void OutdoorRenderer::renderWorldPasses(
                         view.m_outdoorFogDensitiesUniformHandle,
                         view.m_outdoorFogDistancesUniformHandle,
                         worldFogParameters);
+                    applySecretPulseUniforms(view);
                     bgfx::setState(
                         BGFX_STATE_WRITE_RGB
                         | BGFX_STATE_WRITE_A

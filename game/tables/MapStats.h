@@ -50,6 +50,7 @@ struct MapStatsEntry
     int id;
     std::string name;
     std::string fileName;
+    int perceptionDifficulty = 0;
     int treasureLevel;
     int encounterChance;
     MapEncounterInfo encounter1;

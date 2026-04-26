@@ -1,4 +1,4 @@
-$input v_texcoord0, v_worldPosition
+$input v_texcoord0, v_worldPosition, v_texcoord1
 
 #include "common.sh"
 
@@ -7,6 +7,7 @@ SAMPLER2D(s_texColor, 0);
 uniform vec4 u_indoorLightPositions[12];
 uniform vec4 u_indoorLightColors[12];
 uniform vec4 u_indoorLightParams;
+uniform vec4 u_secretPulseParams;
 
 vec3 getIndoorLighting()
 {
@@ -40,5 +41,13 @@ void main()
         discard;
     }
 
-    gl_FragColor = vec4(textureColor.rgb * getIndoorLighting(), textureColor.a);
+    vec3 color = textureColor.rgb * getIndoorLighting();
+
+    if (v_texcoord1.x > 0.5 && u_secretPulseParams.x > 0.5)
+    {
+        float pulse = 0.5 + 0.5 * sin(u_secretPulseParams.y * 4.0);
+        color *= vec3(1.0, pulse, pulse);
+    }
+
+    gl_FragColor = vec4(color, textureColor.a);
 }

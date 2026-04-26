@@ -1,4 +1,4 @@
-$input v_texcoord0, v_depth, v_worldPosition
+$input v_texcoord0, v_depth, v_worldPosition, v_texcoord1
 
 #include "common.sh"
 
@@ -10,6 +10,7 @@ uniform vec4 u_fogDistances;
 uniform vec4 u_fxLightPositions[8];
 uniform vec4 u_fxLightColors[8];
 uniform vec4 u_fxLightParams;
+uniform vec4 u_secretPulseParams;
 
 float safeSmoothstep(float edge0, float edge1, float value)
 {
@@ -60,6 +61,13 @@ void main()
 {
     vec4 textureColor = texture2D(s_texColor, v_texcoord0);
     vec4 litTextureColor = vec4(textureColor.rgb * getFxLighting(), textureColor.a);
+
+    if (v_texcoord1.x > 0.5 && u_secretPulseParams.x > 0.5)
+    {
+        float pulse = 0.5 + 0.5 * sin(u_secretPulseParams.y * 4.0);
+        litTextureColor.rgb *= vec3(1.0, pulse, pulse);
+    }
+
     float fogRatio = getFogRatio(v_depth);
     float fogAlpha = getFogAlpha(v_depth);
     vec4 fogColor = vec4(u_fogColor.rgb, fogAlpha);

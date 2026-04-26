@@ -145,6 +145,7 @@ private:
         float z;
         float u;
         float v;
+        float secretPulse;
 
         static void init();
         static bgfx::VertexLayout ms_layout;
@@ -407,12 +408,14 @@ private:
     bgfx::UniformHandle m_indoorLightPositionsUniformHandle;
     bgfx::UniformHandle m_indoorLightColorsUniformHandle;
     bgfx::UniformHandle m_indoorLightParamsUniformHandle;
+    bgfx::UniformHandle m_secretPulseParamsUniformHandle;
     bgfx::UniformHandle m_billboardAmbientUniformHandle;
     bgfx::UniformHandle m_billboardOverrideColorUniformHandle;
     bgfx::UniformHandle m_billboardOutlineParamsUniformHandle;
     bgfx::UniformHandle m_billboardFogColorUniformHandle;
     bgfx::UniformHandle m_billboardFogDensitiesUniformHandle;
     bgfx::UniformHandle m_billboardFogDistancesUniformHandle;
+    float m_elapsedTime;
     float m_framesPerSecond;
     uint32_t m_wireframeVertexCount;
     uint32_t m_wireframeVertexCapacity;

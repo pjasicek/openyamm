@@ -1,5 +1,5 @@
-$input a_position, a_texcoord0
-$output v_texcoord0, v_worldPosition
+$input a_position, a_texcoord0, a_texcoord1
+$output v_texcoord0, v_worldPosition, v_texcoord1
 
 #include "common.sh"
 
@@ -9,4 +9,5 @@ void main()
     gl_Position = mul(u_modelViewProj, worldPosition);
     v_texcoord0 = a_texcoord0;
     v_worldPosition = worldPosition.xyz;
+    v_texcoord1 = a_texcoord1;
 }

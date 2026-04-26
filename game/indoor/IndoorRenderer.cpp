@@ -6,6 +6,7 @@
 #include "game/FaceEnums.h"
 #include "game/fx/ParticleRecipes.h"
 #include "game/fx/ParticleRenderer.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/render/TextureFiltering.h"
@@ -39,6 +40,11 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+float secretFaceVertexFlag(uint32_t attributes)
+{
+    return hasFaceAttribute(attributes, FaceAttribute::IsSecret) ? 1.0f : 0.0f;
+}
+
 bool hasMovingMechanism(const EventRuntimeState *pEventRuntimeState)
 {
     if (pEventRuntimeState == nullptr)
@@ -1482,12 +1488,14 @@ IndoorRenderer::IndoorRenderer()
     , m_indoorLightPositionsUniformHandle(BGFX_INVALID_HANDLE)
     , m_indoorLightColorsUniformHandle(BGFX_INVALID_HANDLE)
     , m_indoorLightParamsUniformHandle(BGFX_INVALID_HANDLE)
+    , m_secretPulseParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardAmbientUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardOverrideColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardOutlineParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardFogColorUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardFogDensitiesUniformHandle(BGFX_INVALID_HANDLE)
     , m_billboardFogDistancesUniformHandle(BGFX_INVALID_HANDLE)
+    , m_elapsedTime(0.0f)
     , m_framesPerSecond(0.0f)
     , m_wireframeVertexCount(0)
     , m_wireframeVertexCapacity(0)
@@ -1714,6 +1722,7 @@ bool IndoorRenderer::initialize(
     m_indoorLightColorsUniformHandle =
         bgfx::createUniform("u_indoorLightColors", bgfx::UniformType::Vec4, MaxIndoorShaderLights);
     m_indoorLightParamsUniformHandle = bgfx::createUniform("u_indoorLightParams", bgfx::UniformType::Vec4);
+    m_secretPulseParamsUniformHandle = bgfx::createUniform("u_secretPulseParams", bgfx::UniformType::Vec4);
     m_billboardAmbientUniformHandle = bgfx::createUniform("u_billboardAmbient", bgfx::UniformType::Vec4);
     m_billboardOverrideColorUniformHandle =
         bgfx::createUniform("u_billboardOverrideColor", bgfx::UniformType::Vec4);
@@ -1756,6 +1765,7 @@ bool IndoorRenderer::initialize(
         || !bgfx::isValid(m_indoorLightPositionsUniformHandle)
         || !bgfx::isValid(m_indoorLightColorsUniformHandle)
         || !bgfx::isValid(m_indoorLightParamsUniformHandle)
+        || !bgfx::isValid(m_secretPulseParamsUniformHandle)
         || !bgfx::isValid(m_billboardAmbientUniformHandle)
         || !bgfx::isValid(m_billboardOverrideColorUniformHandle)
         || !bgfx::isValid(m_billboardOutlineParamsUniformHandle)
@@ -2321,6 +2331,7 @@ void IndoorRenderer::render(
     }
 
     const float deltaMilliseconds = deltaSeconds * 1000.0f;
+    m_elapsedTime += std::max(deltaSeconds, 0.0f);
 
     if (allowWorldInput && m_pSceneRuntime != nullptr && m_pSceneRuntime->advanceSimulation(deltaMilliseconds))
     {
@@ -2502,8 +2513,20 @@ void IndoorRenderer::render(
         && bgfx::isValid(m_textureSamplerHandle)
         && bgfx::isValid(m_indoorLightPositionsUniformHandle)
         && bgfx::isValid(m_indoorLightColorsUniformHandle)
-        && bgfx::isValid(m_indoorLightParamsUniformHandle))
+        && bgfx::isValid(m_indoorLightParamsUniformHandle)
+        && bgfx::isValid(m_secretPulseParamsUniformHandle))
     {
+        const bool secretFacesDetected =
+            m_map.has_value()
+            && m_pSceneRuntime != nullptr
+            && GameMechanics::partyDetectsSecretFaces(m_pSceneRuntime->partyRuntime().party(), m_map.value());
+        const std::array<float, 4> secretPulseParams = {
+            secretFacesDetected ? 1.0f : 0.0f,
+            m_elapsedTime,
+            0.0f,
+            0.0f
+        };
+
         for (const TexturedBatch &batch : m_texturedBatches)
         {
             if (!bgfx::isValid(batch.vertexBufferHandle) || batch.frameTextureHandles.empty() || batch.vertexCount == 0)
@@ -2544,6 +2567,7 @@ void IndoorRenderer::render(
                 batchLightSet.colors.data(),
                 MaxIndoorShaderLights);
             bgfx::setUniform(m_indoorLightParamsUniformHandle, batchLightSet.params.data());
+            bgfx::setUniform(m_secretPulseParamsUniformHandle, secretPulseParams.data());
             bgfx::setState(
                 BGFX_STATE_WRITE_RGB
                 | BGFX_STATE_WRITE_A
@@ -4160,6 +4184,7 @@ void IndoorRenderer::shutdown()
         m_indoorLightPositionsUniformHandle = BGFX_INVALID_HANDLE;
         m_indoorLightColorsUniformHandle = BGFX_INVALID_HANDLE;
         m_indoorLightParamsUniformHandle = BGFX_INVALID_HANDLE;
+        m_secretPulseParamsUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardAmbientUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardOverrideColorUniformHandle = BGFX_INVALID_HANDLE;
         m_billboardOutlineParamsUniformHandle = BGFX_INVALID_HANDLE;
@@ -4173,6 +4198,7 @@ void IndoorRenderer::shutdown()
         m_texturedBatches.clear();
         m_faceBatchIndices.clear();
         m_texturedBatchVisualRevision = std::numeric_limits<uint64_t>::max();
+        m_elapsedTime = 0.0f;
         m_framesPerSecond = 0.0f;
         m_wireframeVertexCount = 0;
         m_wireframeVertexCapacity = 0;
@@ -4278,6 +4304,12 @@ void IndoorRenderer::shutdown()
     {
         bgfx::destroy(m_indoorLightParamsUniformHandle);
         m_indoorLightParamsUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
+    if (bgfx::isValid(m_secretPulseParamsUniformHandle))
+    {
+        bgfx::destroy(m_secretPulseParamsUniformHandle);
+        m_secretPulseParamsUniformHandle = BGFX_INVALID_HANDLE;
     }
 
     if (bgfx::isValid(m_billboardAmbientUniformHandle))
@@ -4388,6 +4420,7 @@ void IndoorRenderer::TexturedVertex::init()
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord1, 1, bgfx::AttribType::Float)
         .end();
 }
 
@@ -4743,6 +4776,7 @@ void IndoorRenderer::renderBloodSplats(
         || !bgfx::isValid(m_indoorLightPositionsUniformHandle)
         || !bgfx::isValid(m_indoorLightColorsUniformHandle)
         || !bgfx::isValid(m_indoorLightParamsUniformHandle)
+        || !bgfx::isValid(m_secretPulseParamsUniformHandle)
         || m_pSceneRuntime->worldRuntime().bloodSplatCount() == 0)
     {
         return;
@@ -4775,6 +4809,8 @@ void IndoorRenderer::renderBloodSplats(
     bgfx::setUniform(m_indoorLightPositionsUniformHandle, lightSet.positions.data(), MaxIndoorShaderLights);
     bgfx::setUniform(m_indoorLightColorsUniformHandle, lightSet.colors.data(), MaxIndoorShaderLights);
     bgfx::setUniform(m_indoorLightParamsUniformHandle, lightSet.params.data());
+    const std::array<float, 4> secretPulseParams = {0.0f, m_elapsedTime, 0.0f, 0.0f};
+    bgfx::setUniform(m_secretPulseParamsUniformHandle, secretPulseParams.data());
     bgfx::setState(
         BGFX_STATE_WRITE_RGB
         | BGFX_STATE_WRITE_A
@@ -6973,6 +7009,10 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
     }
 
     const IndoorFace &face = indoorMapData.faces[faceIndex];
+    const uint32_t effectiveAttributes =
+        indoorMapDeltaData && faceIndex < indoorMapDeltaData->faceAttributes.size()
+            ? indoorMapDeltaData->faceAttributes[faceIndex]
+            : face.attributes;
     const std::string effectiveTextureName = resolveFaceTextureName(face, eventRuntimeState);
 
     if (face.isPortal || effectiveTextureName.empty() || face.vertexIndices.size() < 3)
@@ -7113,6 +7153,7 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
             texturedVertex.x = static_cast<float>(vertex.x);
             texturedVertex.y = static_cast<float>(vertex.y);
             texturedVertex.z = static_cast<float>(vertex.z);
+            texturedVertex.secretPulse = secretFaceVertexFlag(effectiveAttributes);
 
             if (useGeometryTextureCoordinates
                 && faceVertexIndex < geometryUs.size()

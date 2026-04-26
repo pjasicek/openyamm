@@ -12,6 +12,7 @@ class ItemTable;
 class SpellTable;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
+struct MapStatsEntry;
 struct ItemDefinition;
 struct CharacterDollTypeEntry;
 
@@ -166,6 +167,8 @@ public:
         std::mt19937 &rng);
     static std::optional<CharacterCondition> displayedCondition(const Character &character);
     static bool canAct(const Character &character);
+    static int resolveCharacterPerceptionValue(const Character &character);
+    static bool partyDetectsSecretFaces(const Party &party, const MapStatsEntry &map);
     static bool canSelectInGameplay(const Character &character);
     static bool canTakeGameplayAction(const Character &character);
     static bool canCharacterEquipItem(

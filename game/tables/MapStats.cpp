@@ -14,6 +14,7 @@ namespace
 constexpr size_t MapIdColumn = 0;
 constexpr size_t NameColumn = 1;
 constexpr size_t FileNameColumn = 2;
+constexpr size_t PerceptionDifficultyColumn = 5;
 constexpr size_t NavigationMapFileNameColumn = 0;
 constexpr size_t NavigationMinXColumn = 1;
 constexpr size_t NavigationMaxXColumn = 2;
@@ -372,6 +373,12 @@ bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 
         const std::string encounterChanceValue = getColumnValue(row, EncounterChanceColumn);
         const std::string redbookTrackValue = getColumnValue(row, RedbookTrackColumn);
+
+        if (!parseInteger(getColumnValue(row, PerceptionDifficultyColumn), entry.perceptionDifficulty))
+        {
+            std::cerr << "MapStats row has invalid perception difficulty for map id " << entry.id << '\n';
+            return false;
+        }
 
         if (!parseInteger(getColumnValue(row, TreasureLevelColumn), entry.treasureLevel))
         {

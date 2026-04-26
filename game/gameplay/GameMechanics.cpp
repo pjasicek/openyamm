@@ -5,6 +5,7 @@
 #include "game/tables/CharacterDollTable.h"
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
+#include "game/tables/MapStats.h"
 #include "game/tables/SpellTable.h"
 
 #include <algorithm>
@@ -2322,6 +2323,40 @@ bool GameMechanics::canAct(const Character &character)
         && !hasCondition(character, CharacterCondition::Dead)
         && !hasCondition(character, CharacterCondition::Petrified)
         && !hasCondition(character, CharacterCondition::Eradicated);
+}
+
+int GameMechanics::resolveCharacterPerceptionValue(const Character &character)
+{
+    if (!canAct(character))
+    {
+        return 0;
+    }
+
+    const CharacterSkill *pSkill = character.findSkillByCanonicalName("Perception");
+
+    if (pSkill == nullptr || pSkill->mastery == SkillMastery::None || pSkill->level == 0)
+    {
+        return 0;
+    }
+
+    if (pSkill->mastery == SkillMastery::Grandmaster)
+    {
+        return 10000;
+    }
+
+    return static_cast<int>(pSkill->level) * masteryMultiplier(pSkill->mastery, 1, 2, 3, 5);
+}
+
+bool GameMechanics::partyDetectsSecretFaces(const Party &party, const MapStatsEntry &map)
+{
+    int bestPerception = 0;
+
+    for (const Character &member : party.members())
+    {
+        bestPerception = std::max(bestPerception, resolveCharacterPerceptionValue(member));
+    }
+
+    return bestPerception >= map.perceptionDifficulty * 2;
 }
 
 bool GameMechanics::canSelectInGameplay(const Character &character)
