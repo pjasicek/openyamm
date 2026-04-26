@@ -515,6 +515,9 @@ private:
     std::string m_cachedOutdoorEventOverlayKey;
     std::vector<PreviewVertex> m_cachedOutdoorEventOverlayVertices;
     std::vector<PreviewVertex> m_cachedOutdoorEventOverlayFillVertices;
+    std::string m_cachedIndoorEventOverlayKey;
+    std::vector<PreviewVertex> m_cachedIndoorEventOverlayVertices;
+    std::vector<PreviewVertex> m_cachedIndoorEventOverlayFillVertices;
     bx::Vec3 m_cameraPosition = {0.0f, -24000.0f, 9000.0f};
     float m_cameraYawRadians = 0.0f;
     float m_cameraPitchRadians = -0.35f;

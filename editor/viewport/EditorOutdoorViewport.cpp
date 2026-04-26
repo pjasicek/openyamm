@@ -11442,8 +11442,14 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             m_indoorMarkerLineOfSightBlockedByKey.clear();
         }
 
-        const auto appendIndoorFaceOverlay =
-            [&](size_t faceId, uint32_t edgeColor, uint32_t fillColor, float edgeOffset, float fillOffset)
+        const auto appendIndoorFaceOverlayTo =
+            [&](std::vector<PreviewVertex> &targetVertices,
+                std::vector<PreviewVertex> &targetFillVertices,
+                size_t faceId,
+                uint32_t edgeColor,
+                uint32_t fillColor,
+                float edgeOffset,
+                float fillOffset)
         {
             if (faceId >= indoorGeometry.faces.size())
             {
@@ -11474,28 +11480,40 @@ void EditorOutdoorViewport::submitMarkerGeometry(
             {
                 const bx::Vec3 &start = pGeometry->vertices[vertexIndex];
                 const bx::Vec3 &end = pGeometry->vertices[(vertexIndex + 1) % pGeometry->vertices.size()];
-                xrayVertices.push_back({start.x, start.y, start.z + edgeOffset, edgeColor});
-                xrayVertices.push_back({end.x, end.y, end.z + edgeOffset, edgeColor});
+                targetVertices.push_back({start.x, start.y, start.z + edgeOffset, edgeColor});
+                targetVertices.push_back({end.x, end.y, end.z + edgeOffset, edgeColor});
             }
 
             for (size_t vertexIndex = 1; vertexIndex + 1 < pGeometry->vertices.size(); ++vertexIndex)
             {
-                xrayFillVertices.push_back({
+                targetFillVertices.push_back({
                     pGeometry->vertices[0].x,
                     pGeometry->vertices[0].y,
                     pGeometry->vertices[0].z + fillOffset,
                     fillColor});
-                xrayFillVertices.push_back({
+                targetFillVertices.push_back({
                     pGeometry->vertices[vertexIndex].x,
                     pGeometry->vertices[vertexIndex].y,
                     pGeometry->vertices[vertexIndex].z + fillOffset,
                     fillColor});
-                xrayFillVertices.push_back({
+                targetFillVertices.push_back({
                     pGeometry->vertices[vertexIndex + 1].x,
                     pGeometry->vertices[vertexIndex + 1].y,
                     pGeometry->vertices[vertexIndex + 1].z + fillOffset,
                     fillColor});
             }
+        };
+        const auto appendIndoorFaceOverlay =
+            [&](size_t faceId, uint32_t edgeColor, uint32_t fillColor, float edgeOffset, float fillOffset)
+        {
+            appendIndoorFaceOverlayTo(
+                xrayVertices,
+                xrayFillVertices,
+                faceId,
+                edgeColor,
+                fillColor,
+                edgeOffset,
+                fillOffset);
         };
 
         if (m_showIndoorPortals)
@@ -11531,6 +11549,69 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                     isPortalFace ? 1.0f : 0.75f);
             }
         }
+
+        if (m_showEventMarkers)
+        {
+            char eventOverlayKeyBuffer[384] = {};
+            std::snprintf(
+                eventOverlayKeyBuffer,
+                sizeof(eventOverlayKeyBuffer),
+                "%s|preview=%llu|floors=%d|ceilings=%d|room=%d|indoor_event_overlay",
+                documentGeometryKey(document).c_str(),
+                static_cast<unsigned long long>(m_indoorMechanismPreviewRevision),
+                m_showIndoorFloors ? 1 : 0,
+                m_showIndoorCeilings ? 1 : 0,
+                m_isolatedIndoorRoomId.has_value() ? static_cast<int>(*m_isolatedIndoorRoomId) : -1);
+            const std::string eventOverlayKey = eventOverlayKeyBuffer;
+
+            if (eventOverlayKey != m_cachedIndoorEventOverlayKey)
+            {
+                const uint32_t explicitEventEdgeColor = makeAbgrAlpha(72, 220, 208, 192);
+                const uint32_t explicitEventFillColor = makeAbgrAlpha(72, 220, 208, 82);
+                const uint32_t hintOnlyEventEdgeColor = makeAbgrAlpha(112, 220, 208, 152);
+                const uint32_t hintOnlyEventFillColor = makeAbgrAlpha(112, 220, 208, 58);
+
+                m_cachedIndoorEventOverlayKey = eventOverlayKey;
+                m_cachedIndoorEventOverlayVertices.clear();
+                m_cachedIndoorEventOverlayFillVertices.clear();
+
+                for (size_t faceId = 0; faceId < indoorGeometry.faces.size(); ++faceId)
+                {
+                    Game::IndoorFace effectiveFace = indoorGeometry.faces[faceId];
+
+                    if (const Game::IndoorSceneFaceAttributeOverride *pOverride =
+                            Game::findIndoorSceneFaceOverride(sceneData, faceId))
+                    {
+                        Game::applyIndoorSceneFaceOverride(*pOverride, effectiveFace);
+                    }
+
+                    if (effectiveFace.cogTriggered == 0)
+                    {
+                        continue;
+                    }
+
+                    const bool hintOnlyEvent = session.isHintOnlyEvent(effectiveFace.cogTriggered);
+                    appendIndoorFaceOverlayTo(
+                        m_cachedIndoorEventOverlayVertices,
+                        m_cachedIndoorEventOverlayFillVertices,
+                        faceId,
+                        hintOnlyEvent ? hintOnlyEventEdgeColor : explicitEventEdgeColor,
+                        hintOnlyEvent ? hintOnlyEventFillColor : explicitEventFillColor,
+                        hintOnlyEvent ? 4.0f : 5.0f,
+                        hintOnlyEvent ? 2.0f : 3.0f);
+                }
+            }
+
+            xrayVertices.insert(
+                xrayVertices.end(),
+                m_cachedIndoorEventOverlayVertices.begin(),
+                m_cachedIndoorEventOverlayVertices.end());
+            xrayFillVertices.insert(
+                xrayFillVertices.end(),
+                m_cachedIndoorEventOverlayFillVertices.begin(),
+                m_cachedIndoorEventOverlayFillVertices.end());
+        }
+
         const auto markerLineOfSightBlocked = [&](const bx::Vec3 &center)
         {
             char centerKeyBuffer[96] = {};

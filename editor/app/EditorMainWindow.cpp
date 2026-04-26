@@ -5599,6 +5599,8 @@ void EditorMainWindow::renderMenuBar(EditorSession &session)
 void EditorMainWindow::renderToolbar(EditorSession &session)
 {
     ImGui::SetNextWindowDockID(editorDockspaceId(), ImGuiCond_FirstUseEver);
+    const bool isIndoorDocument =
+        session.hasDocument() && session.document().kind() == EditorDocument::Kind::Indoor;
 
     const ImGuiWindowFlags windowFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar |
         ImGuiWindowFlags_NoScrollWithMouse;
@@ -5666,7 +5668,7 @@ void EditorMainWindow::renderToolbar(EditorSession &session)
             iconPillWidth("Clay"),
             iconPillWidth("Entities"),
             iconPillWidth("Actors"),
-            iconPillWidth("Events")
+            iconPillWidth(isIndoorDocument ? "Event Faces" : "Events")
         }),
         rowWidth({
             iconPillWidth("BModels"),
@@ -6120,7 +6122,7 @@ void EditorMainWindow::renderViewToolbar(const EditorSession &session)
 
     samePrimaryLine();
     bool showEvents = m_viewport.showEventMarkers();
-    if (renderIconTogglePill("ViewEvents", "Events", UiIcon::Select, showEvents))
+    if (renderIconTogglePill("ViewEvents", isIndoorDocument ? "Event Faces" : "Events", UiIcon::Select, showEvents))
     {
         m_viewport.setShowEventMarkers(!showEvents);
     }
