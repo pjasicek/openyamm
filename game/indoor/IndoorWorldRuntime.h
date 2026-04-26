@@ -50,6 +50,7 @@ public:
         std::array<uint16_t, 8> actionSpriteFrameIndices = {};
         uint16_t collisionRadius = 32;
         uint16_t collisionHeight = 128;
+        uint16_t projectileHitRadius = 32;
         uint16_t movementSpeed = 0;
         bool hostileToParty = false;
         bool hasDetectedParty = false;
@@ -506,6 +507,7 @@ private:
     std::vector<BloodSplatState> m_bloodSplats;
     uint64_t m_bloodSplatRevision = 0;
     float m_actorUpdateAccumulatorSeconds = 0.0f;
+    float m_projectileUpdateAccumulatorSeconds = 0.0f;
     float m_worldItemUpdateAccumulatorSeconds = 0.0f;
     bool m_indoorJournalRevealStateValid = false;
     int16_t m_lastIndoorJournalRevealSectorId = -1;

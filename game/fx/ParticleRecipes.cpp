@@ -606,6 +606,7 @@ void spawnProjectileTrailParticles(
     if (spellId == SpellId::MindBlast
         || spellId == SpellId::PsychicShock
         || spellId == SpellId::Harm
+        || spellId == SpellId::Sparks
         || spellId == SpellId::ToxicCloud
         || spellId == SpellId::Incinerate)
     {
@@ -871,7 +872,7 @@ void spawnProjectileTrailParticles(
         sparkLayer.startColorAbgr = colorAbgr;
         sparkLayer.endColorAbgr = makeAbgr(255, 255, 220, 0);
         sparkLayer.count = recipe == ProjectileRecipe::GenericLineTrail ? 4u
-            : (recipe == ProjectileRecipe::Sparks ? 5u : 8u);
+            : (recipe == ProjectileRecipe::Sparks ? 2u : 8u);
         sparkLayer.startOffset = 5.0f;
         sparkLayer.offsetStep = 3.6f;
         sparkLayer.lateralSpread = 1.2f;
@@ -880,7 +881,7 @@ void spawnProjectileTrailParticles(
         sparkLayer.startSize = recipe == ProjectileRecipe::GenericLineTrail ? 4.0f
             : (recipe == ProjectileRecipe::Sparks ? 4.6f : 5.5f);
         sparkLayer.endSize = 1.8f;
-        sparkLayer.lifetimeSeconds = 0.16f;
+        sparkLayer.lifetimeSeconds = recipe == ProjectileRecipe::Sparks ? 0.10f : 0.16f;
         sparkLayer.drag = 8.0f;
         sparkLayer.stretch = 2.4f;
         sparkLayer.motion = FxParticleMotion::VelocityTrail;

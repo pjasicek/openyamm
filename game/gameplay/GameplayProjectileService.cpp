@@ -278,6 +278,7 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
         projectile.attackBonus = request.attackBonus;
         projectile.useActorHitChance = request.useActorHitChance;
         projectile.lifetimeTicks = request.definition.lifetimeTicks;
+        projectile.sectorId = request.sectorId;
 
         result.kind = ProjectileSpawnResult::Kind::InstantImpact;
         result.projectile = std::move(projectile);
@@ -323,6 +324,7 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
     projectile.attackBonus = request.attackBonus;
     projectile.useActorHitChance = request.useActorHitChance;
     projectile.lifetimeTicks = request.definition.lifetimeTicks;
+    projectile.sectorId = request.sectorId;
 
     m_projectiles.push_back(std::move(projectile));
 
@@ -607,6 +609,14 @@ void GameplayProjectileService::applyProjectileBounce(
     projectile.velocityY *= groundDamping;
 }
 
+void GameplayProjectileService::settleProjectile(ProjectileState &projectile) const
+{
+    projectile.velocityX = 0.0f;
+    projectile.velocityY = 0.0f;
+    projectile.velocityZ = 0.0f;
+    projectile.isSettled = true;
+}
+
 std::vector<GameplayProjectileService::ProjectileSpawnRequest>
 GameplayProjectileService::buildDeathBlossomFalloutSpawnRequests(
     const ProjectileState &projectile,
@@ -657,6 +667,7 @@ GameplayProjectileService::buildDeathBlossomFalloutSpawnRequests(
         request.targetX = x + std::cos(yaw) * distance;
         request.targetY = y + std::sin(yaw) * distance;
         request.targetZ = z;
+        request.sectorId = projectile.sectorId;
         request.allowInstantImpact = true;
         requests.push_back(std::move(request));
     }
@@ -797,6 +808,7 @@ GameplayProjectileService::spawnProjectileImpactVisual(
         ? z - static_cast<float>(std::max<int16_t>(definition.objectHeight, 0)) * 0.5f
         : z;
     impactState.lifetimeTicks = definition.lifetimeTicks;
+    impactState.sectorId = projectile.sectorId;
 
     const ProjectileImpactState &impact = addProjectileImpact(std::move(impactState));
     result.spawned = true;
@@ -1611,6 +1623,8 @@ void GameplayProjectileService::collectProjectilePresentationState(
         state.velocityY = projectile.velocityY;
         state.velocityZ = projectile.velocityZ;
         state.timeSinceCreatedTicks = projectile.timeSinceCreatedTicks;
+        state.sectorId = projectile.sectorId;
+        state.isSettled = projectile.isSettled;
         projectiles.push_back(std::move(state));
     }
 
@@ -1637,6 +1651,7 @@ void GameplayProjectileService::collectProjectilePresentationState(
         state.z = impact.z;
         state.timeSinceCreatedTicks = impact.timeSinceCreatedTicks;
         state.lifetimeTicks = impact.lifetimeTicks;
+        state.sectorId = impact.sectorId;
         state.freezeAnimation = impact.freezeAnimation;
         impacts.push_back(std::move(state));
     }

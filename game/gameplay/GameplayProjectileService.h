@@ -72,6 +72,8 @@ public:
         uint32_t timeSinceCreatedTicks = 0;
         float lifetimeTickAccumulator = 0.0f;
         uint32_t lifetimeTicks = 0;
+        int16_t sectorId = -1;
+        bool isSettled = false;
         bool isExpired = false;
     };
 
@@ -92,6 +94,7 @@ public:
         float z = 0.0f;
         uint32_t timeSinceCreatedTicks = 0;
         uint32_t lifetimeTicks = 0;
+        int16_t sectorId = -1;
         bool freezeAnimation = false;
         bool isExpired = false;
     };
@@ -134,6 +137,7 @@ public:
         float targetY = 0.0f;
         float targetZ = 0.0f;
         float spawnForwardOffset = 0.0f;
+        int16_t sectorId = -1;
         bool allowInstantImpact = false;
     };
 
@@ -572,6 +576,7 @@ public:
         float bounceFactor,
         float stopVelocity,
         float groundDamping) const;
+    void settleProjectile(ProjectileState &projectile) const;
     std::vector<ProjectileSpawnRequest> buildDeathBlossomFalloutSpawnRequests(
         const ProjectileState &projectile,
         const ProjectileDefinition &shardDefinition,

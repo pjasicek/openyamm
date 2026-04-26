@@ -51,6 +51,10 @@ constexpr float TicksPerSecond = 128.0f;
 constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
 constexpr float ActorUpdateStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
+constexpr float ProjectileUpdateStepSeconds = 1.0f / 60.0f;
+constexpr int MaxProjectileUpdateStepsPerFrame = 4;
+constexpr float MaxAccumulatedProjectileUpdateSeconds =
+    ProjectileUpdateStepSeconds * static_cast<float>(MaxProjectileUpdateStepsPerFrame);
 constexpr float WorldItemUpdateStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedWorldItemUpdateSeconds = 0.1f;
 constexpr uint32_t EventSpellSourceId = std::numeric_limits<uint32_t>::max();
@@ -88,6 +92,47 @@ constexpr float PartyTargetHeightOffset = 96.0f;
 constexpr float IndoorFloorSampleRise = 96.0f;
 constexpr float IndoorFloorSampleDrop = 512.0f;
 constexpr float IndoorInitialActorFloorSampleRise = 4096.0f;
+
+int16_t resolveIndoorPointSector(
+    const IndoorMapData *pMapData,
+    const std::vector<IndoorVertex> &vertices,
+    IndoorFaceGeometryCache *pGeometryCache,
+    const bx::Vec3 &point,
+    int16_t fallbackSectorId)
+{
+    if (pMapData == nullptr || vertices.empty())
+    {
+        return fallbackSectorId;
+    }
+
+    return findIndoorSectorForPoint(
+        *pMapData,
+        vertices,
+        point,
+        pGeometryCache,
+        false).value_or(fallbackSectorId);
+}
+
+bool indoorPointInsideSectorBounds(
+    const IndoorMapData &mapData,
+    const GameplayWorldPoint &point,
+    int16_t sectorId,
+    float slack)
+{
+    if (sectorId < 0 || static_cast<size_t>(sectorId) >= mapData.sectors.size())
+    {
+        return false;
+    }
+
+    const IndoorSector &sector = mapData.sectors[sectorId];
+    return point.x >= static_cast<float>(sector.minX) - slack
+        && point.x <= static_cast<float>(sector.maxX) + slack
+        && point.y >= static_cast<float>(sector.minY) - slack
+        && point.y <= static_cast<float>(sector.maxY) + slack
+        && point.z >= static_cast<float>(sector.minZ) - slack
+        && point.z <= static_cast<float>(sector.maxZ) + slack;
+}
+
 constexpr float IndoorInitialActorFloorSampleDrop = 4096.0f;
 constexpr float IndoorWorldItemThrowPitchRadians = Pi * 2.0f * (184.0f / 2048.0f);
 constexpr float IndoorWorldItemThrowSpeed = 200.0f;
@@ -201,12 +246,25 @@ const char *indoorProjectileSpawnKindName(GameplayProjectileService::ProjectileS
 constexpr float IndoorProjectileBounceFactor = IndoorWorldItemBounceFactor;
 constexpr float IndoorProjectileBounceStopVelocity = IndoorWorldItemBounceStopVelocity;
 constexpr float IndoorProjectileGroundDamping = IndoorWorldItemGroundDamping;
+constexpr float IndoorProjectileSettledHorizontalSpeedSquared = IndoorWorldItemRestingHorizontalSpeedSquared;
 constexpr std::array<std::array<int, 3>, 4> IndoorEncounterDifficultyTierWeights = {{
     {60, 30, 10},
     {30, 50, 20},
     {10, 40, 50},
     {0, 25, 75}
 }};
+
+bool indoorProjectileShouldSettle(const GameplayProjectileService::ProjectileState &projectile)
+{
+    if ((projectile.objectFlags & ObjectDescBounce) == 0)
+    {
+        return false;
+    }
+
+    const float horizontalSpeedSquared =
+        projectile.velocityX * projectile.velocityX + projectile.velocityY * projectile.velocityY;
+    return projectile.velocityZ == 0.0f && horizontalSpeedSquared <= IndoorProjectileSettledHorizontalSpeedSquared;
+}
 
 struct IndoorResolvedProjectileDefinition
 {
@@ -1178,13 +1236,20 @@ std::vector<size_t> collectProjectileIndoorFaceCandidates(
                 false).value_or(-1));
     }
 
-    appendSectorId(
-        findIndoorSectorForPoint(
-            indoorMapData,
-            vertices,
-            {segmentEnd.x, segmentEnd.y, segmentEnd.z},
-            &geometryCache,
-            false).value_or(-1));
+    const bool resolveEndSector =
+        !sourceSectorId
+        || !indoorPointInsideSectorBounds(indoorMapData, segmentEnd, *sourceSectorId, padding);
+
+    if (resolveEndSector)
+    {
+        appendSectorId(
+            findIndoorSectorForPoint(
+                indoorMapData,
+                vertices,
+                {segmentEnd.x, segmentEnd.y, segmentEnd.z},
+                &geometryCache,
+                false).value_or(-1));
+    }
 
     const size_t baseSectorCount = sectorIds.size();
 
@@ -1855,6 +1920,10 @@ IndoorWorldRuntime::MapActorAiState buildIndoorMapActorAiState(
         2.0f,
         actor.height != 0 ? indoorActorCollisionHeight(actor, static_cast<float>(state.collisionRadius))
                           : fallbackCollisionHeight));
+    state.projectileHitRadius =
+        pMonsterEntry != nullptr && pMonsterEntry->toHitRadius > 0
+            ? static_cast<uint16_t>(pMonsterEntry->toHitRadius)
+            : state.collisionRadius;
     state.movementSpeed = actor.moveSpeed != 0
         ? actor.moveSpeed
         : pMonsterEntry != nullptr ? pMonsterEntry->movementSpeed : uint16_t(pStats != nullptr ? pStats->speed : 0);
@@ -1910,6 +1979,7 @@ void refreshIndoorMapActorAiStaticFields(
     state.actionSpriteFrameIndices = defaults.actionSpriteFrameIndices;
     state.collisionRadius = defaults.collisionRadius;
     state.collisionHeight = defaults.collisionHeight;
+    state.projectileHitRadius = defaults.projectileHitRadius;
     state.movementSpeed = defaults.movementSpeed;
     state.meleeAttackAnimationSeconds = defaults.meleeAttackAnimationSeconds;
     state.rangedAttackAnimationSeconds = defaults.rangedAttackAnimationSeconds;
@@ -3010,6 +3080,7 @@ bool IndoorWorldRuntime::applyIndoorActorProjectileRequest(const ActorProjectile
     spawnRequest.targetZ = projectileRequest.target.z;
     spawnRequest.spawnForwardOffset =
         static_cast<float>(std::max<uint16_t>(sourceState.collisionRadius, 8)) + 8.0f;
+    spawnRequest.sectorId = sourceState.sectorId;
     spawnRequest.allowInstantImpact = true;
 
     const GameplayProjectileService::ProjectileSpawnResult spawnResult =
@@ -3463,7 +3534,9 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
                     projectile,
                     segmentStart,
                     segmentEnd,
-                    std::nullopt);
+                    projectile.sectorId >= 0
+                        ? std::optional<int16_t>(projectile.sectorId)
+                        : std::nullopt);
         }
 
         if (facts.canHitParty && m_pGameplayProjectileService->canProjectileCollideWithParty(projectile))
@@ -3530,7 +3603,9 @@ GameplayProjectileService::ProjectileFrameFacts IndoorWorldRuntime::collectIndoo
                     actorState.preciseZ + static_cast<float>(actorState.height) * 0.5f
                 };
                 const float hitRadius =
-                    indoorProjectileActorHitRadius(m_pMonsterTable, pMapDeltaData->actors[actorIndex], actorState);
+                    actorIndex < m_mapActorAiStates.size()
+                        ? static_cast<float>(m_mapActorAiStates[actorIndex].projectileHitRadius)
+                        : indoorProjectileActorHitRadius(m_pMonsterTable, pMapDeltaData->actors[actorIndex], actorState);
                 std::optional<IndoorProjectileCollisionCandidate> actorHit =
                     findProjectileCylinderHit(
                         segmentStart,
@@ -3852,8 +3927,46 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
 
     for (const GameplayProjectileService::ProjectileSpawnRequest &spawnRequest : frameResult.spawnedProjectiles)
     {
-        m_pGameplayProjectileService->spawnProjectile(spawnRequest);
+        GameplayProjectileService::ProjectileSpawnRequest childSpawnRequest = spawnRequest;
+
+        if (childSpawnRequest.sectorId < 0)
+        {
+            childSpawnRequest.sectorId = projectile.sectorId;
+        }
+
+        m_pGameplayProjectileService->spawnProjectile(childSpawnRequest);
     }
+
+    const auto refreshProjectileSector =
+        [&]()
+        {
+            if (m_pIndoorMapData == nullptr)
+            {
+                return;
+            }
+
+            const GameplayWorldPoint projectilePoint = {projectile.x, projectile.y, projectile.z};
+            const float sectorBoundsSlack =
+                static_cast<float>(std::max<uint16_t>(std::max(projectile.radius, projectile.height), 8)) + 16.0f;
+
+            if (indoorPointInsideSectorBounds(
+                    *m_pIndoorMapData,
+                    projectilePoint,
+                    projectile.sectorId,
+                    sectorBoundsSlack))
+            {
+                return;
+            }
+
+            RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+            projectile.sectorId =
+                resolveIndoorPointSector(
+                    m_pIndoorMapData,
+                    runtimeGeometry.vertices,
+                    &runtimeGeometry.geometryCache,
+                    {projectilePoint.x, projectilePoint.y, projectilePoint.z},
+                    projectile.sectorId);
+        };
 
     if (frameResult.bounce)
     {
@@ -3868,11 +3981,18 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
             frameResult.bounce->bounceFactor,
             frameResult.bounce->stopVelocity,
             frameResult.bounce->groundDamping);
+        refreshProjectileSector();
+
+        if (indoorProjectileShouldSettle(projectile))
+        {
+            m_pGameplayProjectileService->settleProjectile(projectile);
+        }
     }
 
     if (frameResult.applyMotionEnd)
     {
         m_pGameplayProjectileService->applyProjectileMotionEnd(projectile, frameResult.motion);
+        refreshProjectileSector();
     }
 
     if (frameResult.expireProjectile)
@@ -3885,6 +4005,45 @@ void IndoorWorldRuntime::updateIndoorProjectiles(float deltaSeconds)
 {
     if (deltaSeconds <= 0.0f || m_pGameplayProjectileService == nullptr)
     {
+        return;
+    }
+
+    const bool hasActiveProjectile =
+        std::any_of(
+            m_pGameplayProjectileService->projectiles().begin(),
+            m_pGameplayProjectileService->projectiles().end(),
+            [](const GameplayProjectileService::ProjectileState &projectile)
+            {
+                return !projectile.isExpired;
+            });
+    const bool hasMovingProjectile =
+        std::any_of(
+            m_pGameplayProjectileService->projectiles().begin(),
+            m_pGameplayProjectileService->projectiles().end(),
+            [](const GameplayProjectileService::ProjectileState &projectile)
+            {
+                return !projectile.isExpired && !projectile.isSettled;
+            });
+
+    if (!hasActiveProjectile)
+    {
+        m_projectileUpdateAccumulatorSeconds = 0.0f;
+        return;
+    }
+
+    if (!hasMovingProjectile)
+    {
+        for (GameplayProjectileService::ProjectileState &projectile : m_pGameplayProjectileService->projectiles())
+        {
+            if (!projectile.isExpired && projectile.isSettled
+                && m_pGameplayProjectileService->advanceProjectileLifetime(projectile, deltaSeconds))
+            {
+                m_pGameplayProjectileService->expireProjectile(projectile);
+            }
+        }
+
+        m_pGameplayProjectileService->eraseExpiredProjectiles();
+        m_projectileUpdateAccumulatorSeconds = 0.0f;
         return;
     }
 
@@ -3902,62 +4061,84 @@ void IndoorWorldRuntime::updateIndoorProjectiles(float deltaSeconds)
         pProjectileGeometryCache = &runtimeGeometry.geometryCache;
     }
 
-    for (GameplayProjectileService::ProjectileState &projectile : m_pGameplayProjectileService->projectiles())
+    m_projectileUpdateAccumulatorSeconds =
+        std::min(m_projectileUpdateAccumulatorSeconds + deltaSeconds, MaxAccumulatedProjectileUpdateSeconds);
+
+    int projectileUpdateStepCount = 0;
+
+    while (m_projectileUpdateAccumulatorSeconds >= ProjectileUpdateStepSeconds
+        && projectileUpdateStepCount < MaxProjectileUpdateStepsPerFrame)
     {
-        if (projectile.isExpired)
+        for (GameplayProjectileService::ProjectileState &projectile : m_pGameplayProjectileService->projectiles())
         {
-            continue;
+            if (projectile.isExpired)
+            {
+                continue;
+            }
+
+            if (projectile.isSettled)
+            {
+                if (m_pGameplayProjectileService->advanceProjectileLifetime(projectile, ProjectileUpdateStepSeconds))
+                {
+                    m_pGameplayProjectileService->expireProjectile(projectile);
+                }
+
+                continue;
+            }
+
+            const GameplayProjectileService::ProjectileFrameFacts facts =
+                collectIndoorProjectileFrameFacts(
+                    projectile,
+                    ProjectileUpdateStepSeconds,
+                    *pProjectileVertices,
+                    *pProjectileGeometryCache);
+            const GameplayProjectileService::ProjectileFrameResult frameResult =
+                m_pGameplayProjectileService->updateProjectileFrame(projectile, facts);
+
+            if (indoorProjectileDebugEnabled())
+            {
+                const GameplayProjectileService::ProjectileFrameCollisionFacts &collision = facts.collision;
+                const GameplayProjectileService::ProjectileBounceSurfaceFacts &bounceSurface =
+                    collision.bounceSurface;
+                std::cout
+                    << "IndoorProjectileFrame"
+                    << " id=" << projectile.projectileId
+                    << " spell=" << projectile.spellId
+                    << " object=\"" << projectile.objectName << "\""
+                    << " sprite=\"" << projectile.objectSpriteName << "\""
+                    << " flags=0x" << std::hex << projectile.objectFlags << std::dec
+                    << " pos=(" << projectile.x << "," << projectile.y << "," << projectile.z << ")"
+                    << " vel=(" << projectile.velocityX << "," << projectile.velocityY << ","
+                    << projectile.velocityZ << ")"
+                    << " gravity=" << facts.gravity
+                    << " motion=(" << facts.motion.startX << "," << facts.motion.startY << ","
+                    << facts.motion.startZ << ")->(" << facts.motion.endX << "," << facts.motion.endY
+                    << "," << facts.motion.endZ << ")"
+                    << " hasCollision=" << (facts.hasCollision ? 1 : 0)
+                    << " collision=" << indoorProjectileCollisionKindName(collision.kind)
+                    << " actorIndex=" << collision.actorIndex
+                    << " point=(" << collision.point.x << "," << collision.point.y << ","
+                    << collision.point.z << ")"
+                    << " bounceSurface=" << (bounceSurface.canBounce ? 1 : 0)
+                    << " requiresDownward=" << (bounceSurface.requiresDownwardVelocity ? 1 : 0)
+                    << " bounceNormal=(" << bounceSurface.normalX << "," << bounceSurface.normalY << ","
+                    << bounceSurface.normalZ << ")"
+                    << " bounceStopVelocity=" << facts.bounceStopVelocity
+                    << " resultBounce=" << (frameResult.bounce ? 1 : 0)
+                    << " resultMotionEnd=" << (frameResult.applyMotionEnd ? 1 : 0)
+                    << " resultExpire=" << (frameResult.expireProjectile ? 1 : 0)
+                    << " resultDirectActor=" << (frameResult.directActorImpact ? 1 : 0)
+                    << " resultDirectParty=" << (frameResult.directPartyDamage ? 1 : 0)
+                    << " resultArea=" << (frameResult.areaImpact ? 1 : 0)
+                    << " resultFx=" << (frameResult.fxRequest ? 1 : 0)
+                    << '\n';
+            }
+
+            applyIndoorProjectileFrameResult(projectile, facts, frameResult);
         }
 
-        const GameplayProjectileService::ProjectileFrameFacts facts =
-            collectIndoorProjectileFrameFacts(
-                projectile,
-                deltaSeconds,
-                *pProjectileVertices,
-                *pProjectileGeometryCache);
-        const GameplayProjectileService::ProjectileFrameResult frameResult =
-            m_pGameplayProjectileService->updateProjectileFrame(projectile, facts);
-
-        if (indoorProjectileDebugEnabled())
-        {
-            const GameplayProjectileService::ProjectileFrameCollisionFacts &collision = facts.collision;
-            const GameplayProjectileService::ProjectileBounceSurfaceFacts &bounceSurface =
-                collision.bounceSurface;
-            std::cout
-                << "IndoorProjectileFrame"
-                << " id=" << projectile.projectileId
-                << " spell=" << projectile.spellId
-                << " object=\"" << projectile.objectName << "\""
-                << " sprite=\"" << projectile.objectSpriteName << "\""
-                << " flags=0x" << std::hex << projectile.objectFlags << std::dec
-                << " pos=(" << projectile.x << "," << projectile.y << "," << projectile.z << ")"
-                << " vel=(" << projectile.velocityX << "," << projectile.velocityY << ","
-                << projectile.velocityZ << ")"
-                << " gravity=" << facts.gravity
-                << " motion=(" << facts.motion.startX << "," << facts.motion.startY << ","
-                << facts.motion.startZ << ")->(" << facts.motion.endX << "," << facts.motion.endY
-                << "," << facts.motion.endZ << ")"
-                << " hasCollision=" << (facts.hasCollision ? 1 : 0)
-                << " collision=" << indoorProjectileCollisionKindName(collision.kind)
-                << " actorIndex=" << collision.actorIndex
-                << " point=(" << collision.point.x << "," << collision.point.y << ","
-                << collision.point.z << ")"
-                << " bounceSurface=" << (bounceSurface.canBounce ? 1 : 0)
-                << " requiresDownward=" << (bounceSurface.requiresDownwardVelocity ? 1 : 0)
-                << " bounceNormal=(" << bounceSurface.normalX << "," << bounceSurface.normalY << ","
-                << bounceSurface.normalZ << ")"
-                << " bounceStopVelocity=" << facts.bounceStopVelocity
-                << " resultBounce=" << (frameResult.bounce ? 1 : 0)
-                << " resultMotionEnd=" << (frameResult.applyMotionEnd ? 1 : 0)
-                << " resultExpire=" << (frameResult.expireProjectile ? 1 : 0)
-                << " resultDirectActor=" << (frameResult.directActorImpact ? 1 : 0)
-                << " resultDirectParty=" << (frameResult.directPartyDamage ? 1 : 0)
-                << " resultArea=" << (frameResult.areaImpact ? 1 : 0)
-                << " resultFx=" << (frameResult.fxRequest ? 1 : 0)
-                << '\n';
-        }
-
-        applyIndoorProjectileFrameResult(projectile, facts, frameResult);
+        m_projectileUpdateAccumulatorSeconds -= ProjectileUpdateStepSeconds;
+        ++projectileUpdateStepCount;
     }
 
     m_pGameplayProjectileService->eraseExpiredProjectiles();
@@ -5270,6 +5451,17 @@ bool IndoorWorldRuntime::castEventSpell(
     spawnRequest.targetX = static_cast<float>(toX);
     spawnRequest.targetY = static_cast<float>(toY);
     spawnRequest.targetZ = static_cast<float>(toZ);
+    if (m_pIndoorMapData != nullptr)
+    {
+        RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+        spawnRequest.sectorId =
+            resolveIndoorPointSector(
+                m_pIndoorMapData,
+                runtimeGeometry.vertices,
+                &runtimeGeometry.geometryCache,
+                {spawnRequest.sourceX, spawnRequest.sourceY, spawnRequest.sourceZ},
+                -1);
+    }
     spawnRequest.allowInstantImpact = true;
 
     const GameplayProjectileService::ProjectileSpawnResult spawnResult =
@@ -5594,6 +5786,11 @@ bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjec
     spawnRequest.targetX = request.targetX;
     spawnRequest.targetY = request.targetY;
     spawnRequest.targetZ = request.targetZ;
+    if (m_pPartyRuntime != nullptr)
+    {
+        const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
+        spawnRequest.sectorId = moveState.eyeSectorId >= 0 ? moveState.eyeSectorId : moveState.sectorId;
+    }
     spawnRequest.allowInstantImpact = true;
 
     const GameplayProjectileService::ProjectileSpawnResult spawnResult =
@@ -8075,9 +8272,23 @@ bool IndoorWorldRuntime::spawnIndoorProjectileImpactVisual(
         return false;
     }
 
+    GameplayProjectileService::ProjectileState impactProjectile = projectile;
+
+    if (m_pIndoorMapData != nullptr)
+    {
+        RuntimeGeometryCache &runtimeGeometry = runtimeGeometryCache();
+        impactProjectile.sectorId =
+            resolveIndoorPointSector(
+                m_pIndoorMapData,
+                runtimeGeometry.vertices,
+                &runtimeGeometry.geometryCache,
+                {point.x, point.y, point.z},
+                projectile.sectorId);
+    }
+
     const GameplayProjectileService::ProjectileImpactSpawnResult result =
         m_pGameplayProjectileService->spawnProjectileImpactVisual(
-            projectile,
+            impactProjectile,
             *impactDefinition,
             point.x,
             point.y,

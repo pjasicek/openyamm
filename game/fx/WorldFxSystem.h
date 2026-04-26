@@ -29,6 +29,7 @@ struct WorldFxLightEmitter
     float z = 0.0f;
     float radius = 0.0f;
     uint32_t colorAbgr = 0xffffffffu;
+    int16_t sectorId = -1;
 };
 
 struct WorldFxContactShadow
@@ -68,7 +69,7 @@ public:
         float radius,
         uint32_t colorAbgr,
         bool renderVisibleBillboard = true);
-    void addLightEmitter(float x, float y, float z, float radius, uint32_t colorAbgr);
+    void addLightEmitter(float x, float y, float z, float radius, uint32_t colorAbgr, int16_t sectorId = -1);
 
     ParticleSystem &particles();
     const ParticleSystem &particles() const;
@@ -89,6 +90,7 @@ private:
         float elapsedSeconds = 0.0f;
         float durationSeconds = 0.0f;
         uint32_t colorAbgr = 0xffffffffu;
+        int16_t sectorId = -1;
     };
 
     void updateProjectileTrailCooldowns(float deltaSeconds);

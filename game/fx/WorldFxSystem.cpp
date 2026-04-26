@@ -17,7 +17,8 @@ namespace
 {
 constexpr float ParticleUpdateStepSeconds = 1.0f / 30.0f;
 constexpr float MaxParticleUpdateAccumulationSeconds = 0.25f;
-constexpr float ProjectileTrailCooldownSeconds = 0.018f;
+constexpr float DefaultProjectileTrailCooldownSeconds = 1.0f / 30.0f;
+constexpr float SparksProjectileTrailCooldownSeconds = 0.10f;
 constexpr float PartySpellFxRingRadius = 28.0f;
 constexpr float ImpactLightRadiusScale = 1.18f;
 constexpr float ImpactLightIntensityScale = 1.35f;
@@ -168,6 +169,18 @@ bool shouldTriggerPartySpellSparkles(PartySpellCastEffectKind effectKind)
         || effectKind == PartySpellCastEffectKind::CharacterBuff
         || effectKind == PartySpellCastEffectKind::CharacterRestore
         || effectKind == PartySpellCastEffectKind::PartyRestore;
+}
+
+float projectileTrailCooldownSeconds(FxRecipes::ProjectileRecipe recipe)
+{
+    switch (recipe)
+    {
+        case FxRecipes::ProjectileRecipe::Sparks:
+            return SparksProjectileTrailCooldownSeconds;
+
+        default:
+            return DefaultProjectileTrailCooldownSeconds;
+    }
 }
 }
 
@@ -325,7 +338,7 @@ void WorldFxSystem::addGlowBillboard(
     m_glowBillboards.push_back(billboard);
 }
 
-void WorldFxSystem::addLightEmitter(float x, float y, float z, float radius, uint32_t colorAbgr)
+void WorldFxSystem::addLightEmitter(float x, float y, float z, float radius, uint32_t colorAbgr, int16_t sectorId)
 {
     WorldFxLightEmitter light = {};
     light.x = x;
@@ -333,6 +346,7 @@ void WorldFxSystem::addLightEmitter(float x, float y, float z, float radius, uin
     light.z = z;
     light.radius = radius;
     light.colorAbgr = colorAbgr;
+    light.sectorId = sectorId;
     m_lightEmitters.push_back(light);
 }
 
@@ -425,7 +439,8 @@ void WorldFxSystem::emitPersistentImpactLights(bool refreshSpatialFx)
             light.y,
             light.z,
             light.radius,
-            withScaledAlpha(light.colorAbgr, fade * ImpactLightIntensityScale));
+            withScaledAlpha(light.colorAbgr, fade * ImpactLightIntensityScale),
+            light.sectorId);
     }
 }
 
@@ -490,9 +505,9 @@ void WorldFxSystem::syncProjectileTrails(GameSession &session, bool refreshSpati
         trailContext.velocityZ = projectile.velocityZ;
         float &cooldown = m_trailCooldownByProjectileId[projectile.projectileId];
 
-        if (cooldown <= 0.0f)
+        if (!projectile.isSettled && cooldown <= 0.0f)
         {
-            cooldown = ProjectileTrailCooldownSeconds;
+            cooldown = projectileTrailCooldownSeconds(recipe);
             FxRecipes::spawnProjectileTrailParticles(m_particleSystem, trailContext, recipe);
         }
 
@@ -509,7 +524,8 @@ void WorldFxSystem::syncProjectileTrails(GameSession &session, bool refreshSpati
                     static_cast<uint8_t>(trailColor & 0xffu),
                     static_cast<uint8_t>((trailColor >> 8) & 0xffu),
                     static_cast<uint8_t>((trailColor >> 16) & 0xffu),
-                    255));
+                    255),
+                projectile.sectorId);
             addGlowBillboard(projectile.x, projectile.y, projectile.z, glowRadius, trailColor, false);
         }
     }
@@ -559,6 +575,7 @@ void WorldFxSystem::syncProjectileImpacts(GameSession &session)
             light.radius = lightRadius;
             light.durationSeconds = lightDuration;
             light.colorAbgr = FxRecipes::projectileRecipeColorAbgr(recipe);
+            light.sectorId = impact.sectorId;
             m_persistentImpactLights[impact.effectId] = light;
         }
     }

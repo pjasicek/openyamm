@@ -1472,23 +1472,26 @@ float alphaChannel(uint32_t colorAbgr)
 
 std::array<float, 4> billboardAmbientUniform(
     const IndoorLightingFrame &lightingFrame,
-    const bx::Vec3 &position)
+    const bx::Vec3 &position,
+    int16_t sectorId)
 {
-    const std::array<float, 3> rgb = IndoorLightingRuntime::sampleLightingRgb(lightingFrame, position);
+    const std::array<float, 3> rgb =
+        IndoorLightingRuntime::sampleLightingRgbForSectors(lightingFrame, position, sectorId);
     return {{rgb[0], rgb[1], rgb[2], 0.0f}};
 }
 
 std::array<float, 4> billboardLightingUniform(
     const IndoorLightingFrame &lightingFrame,
     const SpriteFrameEntry &frame,
-    const bx::Vec3 &position)
+    const bx::Vec3 &position,
+    int16_t sectorId)
 {
     if (SpriteFrameTable::hasFlag(frame.flags, SpriteFrameFlag::Lit))
     {
         return {{1.0f, 1.0f, 1.0f, 0.0f}};
     }
 
-    return billboardAmbientUniform(lightingFrame, position);
+    return billboardAmbientUniform(lightingFrame, position, sectorId);
 }
 
 uint32_t resolveHoveredIndoorActorOutlineColor(
@@ -1639,6 +1642,9 @@ bool IndoorRenderer::initialize(
     m_indoorDecorationBillboardSet = indoorDecorationBillboardSet;
     m_indoorActorPreviewBillboardSet = indoorActorPreviewBillboardSet;
     m_indoorSpriteObjectBillboardSet = indoorSpriteObjectBillboardSet;
+    m_indoorLightingRuntime.rebuildStaticCache(
+        indoorMapData,
+        m_indoorDecorationBillboardSet ? &m_indoorDecorationBillboardSet.value() : nullptr);
     m_chestTable = chestTable;
     m_houseTable = houseTable;
     rebuildMechanismBindings();
@@ -2564,30 +2570,21 @@ void IndoorRenderer::render(
 
     float modelMatrix[16] = {};
     bx::mtxIdentity(modelMatrix);
-    std::unordered_map<uint32_t, IndoorDrawLightSet> batchLightSetBySectorKey;
     const auto drawLightSetForBatch =
-        [&](const TexturedBatch &batch) -> const IndoorDrawLightSet &
+        [&](const TexturedBatch &batch) -> IndoorDrawLightSet
         {
-            const uint32_t sectorKey =
-                (static_cast<uint32_t>(static_cast<uint16_t>(batch.sectorId)) << 16)
-                | static_cast<uint32_t>(static_cast<uint16_t>(batch.backSectorId));
-            const auto existingIterator = batchLightSetBySectorKey.find(sectorKey);
+            IndoorLightSelectionBounds bounds = {};
+            bounds.min = batch.boundsMin;
+            bounds.max = batch.boundsMax;
+            bounds.valid = batch.hasBounds;
 
-            if (existingIterator != batchLightSetBySectorKey.end())
-            {
-                return existingIterator->second;
-            }
-
-            const auto inserted =
-                batchLightSetBySectorKey.emplace(
-                    sectorKey,
-                    IndoorLightingRuntime::selectDrawLightSetForSectors(
-                        lightingFrame,
-                        eye,
-                        viewForward,
-                        batch.sectorId,
-                        batch.backSectorId));
-            return inserted.first->second;
+            return IndoorLightingRuntime::selectDrawLightSetForBounds(
+                lightingFrame,
+                eye,
+                viewForward,
+                batch.sectorId,
+                batch.backSectorId,
+                bounds);
         };
 
     if (bgfx::isValid(m_indoorLitProgramHandle)
@@ -2638,7 +2635,7 @@ void IndoorRenderer::render(
                 m_textureSamplerHandle,
                 batch.frameTextureHandles[frameIndex],
                 TextureFilterProfile::BModel);
-            const IndoorDrawLightSet &batchLightSet = drawLightSetForBatch(batch);
+            const IndoorDrawLightSet batchLightSet = drawLightSetForBatch(batch);
             bgfx::setUniform(
                 m_indoorLightPositionsUniformHandle,
                 batchLightSet.positions.data(),
@@ -4265,6 +4262,7 @@ bool IndoorRenderer::activateGameplayWorldHit(const GameplayWorldHit &hit)
 void IndoorRenderer::shutdown()
 {
     m_indoorMapData.reset();
+    m_indoorLightingRuntime.clearStaticCache();
     m_renderVertices.clear();
     m_pSceneRuntime = nullptr;
     m_pAssetFileSystem = nullptr;
@@ -5107,7 +5105,8 @@ void IndoorRenderer::renderDecorationBillboards(
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
         const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
-        const std::array<float, 4> ambient = billboardLightingUniform(lightingFrame, frame, center);
+        const std::array<float, 4> ambient =
+            billboardLightingUniform(lightingFrame, frame, center, billboard.sectorId);
         const float clearOverrideColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
         const float clearOutlineParams[4] = {0.0f, 0.0f, 0.0f, 0.0f};
         const float fogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -5239,6 +5238,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
         int x = 0;
         int y = 0;
         int z = 0;
+        int16_t sectorId = -1;
         const SpriteFrameEntry *pFrame = nullptr;
         const BillboardTextureHandle *pTexture = nullptr;
         bool mirrored = false;
@@ -5330,6 +5330,7 @@ void IndoorRenderer::renderActorPreviewBillboards(
             drawItem.x = billboard.x;
             drawItem.y = billboard.y;
             drawItem.z = billboard.z;
+            drawItem.sectorId = billboard.sectorId;
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
@@ -5422,7 +5423,8 @@ void IndoorRenderer::renderActorPreviewBillboards(
         const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
         const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
         const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
-        const std::array<float, 4> ambient = billboardLightingUniform(lightingFrame, frame, center);
+        const std::array<float, 4> ambient =
+            billboardLightingUniform(lightingFrame, frame, center, drawItem.sectorId);
         const float clearOverrideColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
         const float clearOutlineParams[4] = {0.0f, 0.0f, 0.0f, 0.0f};
         const float fogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -5690,6 +5692,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
         float x = 0.0f;
         float y = 0.0f;
         float z = 0.0f;
+        int16_t sectorId = -1;
         const SpriteFrameEntry *pFrame = nullptr;
         const BillboardTextureHandle *pTexture = nullptr;
         bool mirrored = false;
@@ -5722,6 +5725,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             float x,
             float y,
             float z,
+            int16_t sectorId,
             uint32_t timeTicks)
         {
             uint16_t spriteFrameIndex = cachedSpriteFrameIndex;
@@ -5772,6 +5776,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             drawItem.x = x;
             drawItem.y = y;
             drawItem.z = z;
+            drawItem.sectorId = sectorId;
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
@@ -5817,6 +5822,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             drawItem.x = static_cast<float>(billboard.x);
             drawItem.y = static_cast<float>(billboard.y);
             drawItem.z = static_cast<float>(billboard.z);
+            drawItem.sectorId = billboard.sectorId;
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
@@ -5866,6 +5872,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                 drawItem.x = static_cast<float>(billboard.x);
                 drawItem.y = static_cast<float>(billboard.y);
                 drawItem.z = static_cast<float>(billboard.z);
+                drawItem.sectorId = billboard.sectorId;
                 drawItem.pFrame = pFrame;
                 drawItem.pTexture = pTexture;
                 drawItem.mirrored = resolvedTexture.mirrored;
@@ -5890,6 +5897,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                 projectile.x,
                 projectile.y,
                 projectile.z,
+                projectile.sectorId,
                 projectile.timeSinceCreatedTicks);
         }
 
@@ -5913,6 +5921,7 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                 impact.x,
                 impact.y,
                 impact.z,
+                impact.sectorId,
                 impact.freezeAnimation ? 0u : impact.timeSinceCreatedTicks);
         }
     }
@@ -6223,7 +6232,8 @@ void IndoorRenderer::renderSpriteObjectBillboards(
         }
 
         const uint32_t vertexColorAbgr = makeAbgr(0, 0, 0);
-        const std::array<float, 4> ambient = billboardLightingUniform(lightingFrame, frame, center);
+        const std::array<float, 4> ambient =
+            billboardLightingUniform(lightingFrame, frame, center, drawItem.sectorId);
         const float clearOverrideColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
         const float clearOutlineParams[4] = {0.0f, 0.0f, 0.0f, 0.0f};
         const float fogColor[4] = {0.0f, 0.0f, 0.0f, 0.0f};
@@ -6349,6 +6359,41 @@ uint64_t IndoorRenderer::currentTexturedBatchVisualRevision() const
     }
 
     return pEventRuntimeState->outdoorSurfaceRevision;
+}
+
+void IndoorRenderer::rebuildTexturedBatchBounds(TexturedBatch &batch)
+{
+    batch.hasBounds = false;
+
+    if (batch.vertices.empty())
+    {
+        batch.boundsMin = {0.0f, 0.0f, 0.0f};
+        batch.boundsMax = {0.0f, 0.0f, 0.0f};
+        return;
+    }
+
+    batch.boundsMin = {
+        std::numeric_limits<float>::infinity(),
+        std::numeric_limits<float>::infinity(),
+        std::numeric_limits<float>::infinity()
+    };
+    batch.boundsMax = {
+        -std::numeric_limits<float>::infinity(),
+        -std::numeric_limits<float>::infinity(),
+        -std::numeric_limits<float>::infinity()
+    };
+
+    for (const TexturedVertex &vertex : batch.vertices)
+    {
+        batch.boundsMin.x = std::min(batch.boundsMin.x, vertex.x);
+        batch.boundsMin.y = std::min(batch.boundsMin.y, vertex.y);
+        batch.boundsMin.z = std::min(batch.boundsMin.z, vertex.z);
+        batch.boundsMax.x = std::max(batch.boundsMax.x, vertex.x);
+        batch.boundsMax.y = std::max(batch.boundsMax.y, vertex.y);
+        batch.boundsMax.z = std::max(batch.boundsMax.z, vertex.z);
+    }
+
+    batch.hasBounds = true;
 }
 
 bool IndoorRenderer::texturedBatchesNeedFullRebuild() const
@@ -6679,6 +6724,7 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
     for (TexturedBatch &batch : m_texturedBatches)
     {
         batch.vertexCount = static_cast<uint32_t>(batch.vertices.size());
+        rebuildTexturedBatchBounds(batch);
 
         if (batch.vertices.empty())
         {
@@ -6778,6 +6824,7 @@ bool IndoorRenderer::updateMovingMechanismFaceVertices(
         }
 
         std::copy(faceVertices.begin(), faceVertices.end(), batch.vertices.begin() + vertexOffset);
+        rebuildTexturedBatchBounds(batch);
 
         const uint64_t uploadBeginTickCount = SDL_GetTicksNS();
         bgfx::update(

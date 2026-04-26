@@ -76,6 +76,10 @@ constexpr float GroundSnapHeight = 1.0f;
 constexpr float OeNonFlyingActorRadius = 40.0f;
 constexpr float ActorUpdateStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedActorUpdateSeconds = 0.1f;
+constexpr float ProjectileUpdateStepSeconds = 1.0f / 60.0f;
+constexpr int MaxProjectileUpdateStepsPerFrame = 4;
+constexpr float MaxAccumulatedProjectileUpdateSeconds =
+    ProjectileUpdateStepSeconds * static_cast<float>(MaxProjectileUpdateStepsPerFrame);
 constexpr int JournalRevealWidth = 88;
 constexpr int JournalRevealHeight = 88;
 constexpr int JournalRevealBytesPerRow = 11;
@@ -8009,18 +8013,45 @@ void OutdoorWorldRuntime::updateProjectiles(float deltaSeconds, float partyX, fl
         return;
     }
 
-    for (ProjectileState &projectile : projectileService().projectiles())
+    const bool hasActiveProjectile =
+        std::any_of(
+            projectileService().projectiles().begin(),
+            projectileService().projectiles().end(),
+            [](const ProjectileState &projectile)
+            {
+                return !projectile.isExpired;
+            });
+
+    if (!hasActiveProjectile)
     {
-        if (projectile.isExpired)
+        m_projectileUpdateAccumulatorSeconds = 0.0f;
+        return;
+    }
+
+    m_projectileUpdateAccumulatorSeconds =
+        std::min(m_projectileUpdateAccumulatorSeconds + deltaSeconds, MaxAccumulatedProjectileUpdateSeconds);
+
+    int projectileUpdateStepCount = 0;
+
+    while (m_projectileUpdateAccumulatorSeconds >= ProjectileUpdateStepSeconds
+        && projectileUpdateStepCount < MaxProjectileUpdateStepsPerFrame)
+    {
+        for (ProjectileState &projectile : projectileService().projectiles())
         {
-            continue;
+            if (projectile.isExpired)
+            {
+                continue;
+            }
+
+            const ProjectileFrameWorldFacts worldFacts =
+                collectProjectileFrameFacts(projectile, ProjectileUpdateStepSeconds, partyX, partyY, partyZ);
+            const GameplayProjectileService::ProjectileFrameResult frameResult =
+                projectileService().updateProjectileFrame(projectile, worldFacts.frame);
+            applyProjectileFrameResult(projectile, worldFacts.collision, frameResult);
         }
 
-        const ProjectileFrameWorldFacts worldFacts =
-            collectProjectileFrameFacts(projectile, deltaSeconds, partyX, partyY, partyZ);
-        const GameplayProjectileService::ProjectileFrameResult frameResult =
-            projectileService().updateProjectileFrame(projectile, worldFacts.frame);
-        applyProjectileFrameResult(projectile, worldFacts.collision, frameResult);
+        m_projectileUpdateAccumulatorSeconds -= ProjectileUpdateStepSeconds;
+        ++projectileUpdateStepCount;
     }
 
     projectileService().eraseExpiredProjectiles();

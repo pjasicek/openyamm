@@ -175,6 +175,9 @@ private:
         uint32_t animationLengthTicks = 0;
         uint32_t vertexCapacity = 0;
         uint32_t vertexCount = 0;
+        bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
+        bool hasBounds = false;
         std::vector<TexturedVertex> vertices;
     };
 
@@ -369,6 +372,7 @@ private:
     void rebuildMechanismBindings();
     bool rebuildAllTexturedBatches(uint64_t &texturedBuildNanoseconds);
     bool updateMovingMechanismFaceVertices(uint64_t &texturedBuildNanoseconds, uint64_t &uploadNanoseconds);
+    static void rebuildTexturedBatchBounds(TexturedBatch &batch);
     std::vector<size_t> collectMovingMechanismFaceIndices() const;
     std::vector<uint8_t> buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const;
     std::vector<uint8_t> buildLightingSectorMask() const;

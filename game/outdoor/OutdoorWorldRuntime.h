@@ -1077,6 +1077,7 @@ private:
     std::optional<OutdoorMovementController> m_outdoorMovementController;
     std::unordered_map<int16_t, MonsterVisualState> m_monsterVisualsById;
     float m_actorUpdateAccumulatorSeconds = 0.0f;
+    float m_projectileUpdateAccumulatorSeconds = 0.0f;
     bool m_actorAiUpdateQueued = false;
     float m_queuedActorAiDeltaSeconds = 0.0f;
     float m_queuedActorAiPartyX = 0.0f;

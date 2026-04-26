@@ -11,22 +11,22 @@ uniform vec4 u_secretPulseParams;
 
 vec3 getIndoorLighting()
 {
-    vec3 lighting = vec3(u_indoorLightParams.y);
+    vec3 lighting = u_indoorLightParams.yzw;
 
     for (int i = 0; i < 12; ++i)
     {
         if (float(i) >= u_indoorLightParams.x)
         {
-            continue;
+            break;
         }
 
         vec3 toLight = u_indoorLightPositions[i].xyz - v_worldPosition;
         float radius = max(u_indoorLightPositions[i].w, 1.0);
-        float dist = length(toLight);
-        float ratio = clamp(dist / radius, 0.0, 1.0);
-        float attenuation = 1.0 - ratio * ratio;
+        float distanceSquared = dot(toLight, toLight);
+        float inverseRadiusSquared = 1.0 / (radius * radius);
+        float attenuation = 1.0 - clamp(distanceSquared * inverseRadiusSquared, 0.0, 1.0);
         attenuation *= attenuation;
-        lighting += u_indoorLightColors[i].rgb * (u_indoorLightColors[i].w * attenuation * u_indoorLightParams.z);
+        lighting += u_indoorLightColors[i].rgb * (u_indoorLightColors[i].w * attenuation);
     }
 
     return clamp(lighting, vec3(0.0), vec3(2.0));

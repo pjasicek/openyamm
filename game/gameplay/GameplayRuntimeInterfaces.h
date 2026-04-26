@@ -213,6 +213,8 @@ struct GameplayProjectilePresentationState
     float velocityY = 0.0f;
     float velocityZ = 0.0f;
     uint32_t timeSinceCreatedTicks = 0;
+    int16_t sectorId = -1;
+    bool isSettled = false;
 };
 
 struct GameplayProjectileImpactPresentationState
@@ -232,6 +234,7 @@ struct GameplayProjectileImpactPresentationState
     float z = 0.0f;
     uint32_t timeSinceCreatedTicks = 0;
     uint32_t lifetimeTicks = 0;
+    int16_t sectorId = -1;
     bool freezeAnimation = false;
 };
 
