@@ -18,7 +18,12 @@ constexpr uint32_t WoodDoor01SoundId = 167;
 constexpr uint32_t StoneDoor01SoundId = 177;
 constexpr uint32_t StoneDoor03SoundId = 181;
 constexpr uint32_t StoneDoor04SoundId = 183;
-constexpr float MechanismMovementSoundRepeatMilliseconds = 350.0f;
+
+uint64_t mechanismAudioKey(uint32_t doorId)
+{
+    constexpr uint64_t MechanismAudioKeyPrefix = uint64_t{0x4d454348} << 32; // "MECH"
+    return MechanismAudioKeyPrefix | uint64_t{doorId};
+}
 
 bool hasMovingMechanism(const EventRuntimeState &eventRuntimeState)
 {
@@ -228,6 +233,24 @@ EventRuntimeState::PendingSound buildMechanismSound(
         sound.hasExplicitZ = true;
     }
 
+    return sound;
+}
+
+EventRuntimeState::PendingSound buildMechanismLoopSound(
+    uint32_t soundId,
+    const MapDeltaDoor &door)
+{
+    EventRuntimeState::PendingSound sound = buildMechanismSound(soundId, door);
+    sound.kind = EventRuntimeState::PendingSound::Kind::PlayLoopingKeyed;
+    sound.key = mechanismAudioKey(door.doorId);
+    return sound;
+}
+
+EventRuntimeState::PendingSound buildStopMechanismSound(uint32_t doorId)
+{
+    EventRuntimeState::PendingSound sound = {};
+    sound.kind = EventRuntimeState::PendingSound::Kind::StopKeyed;
+    sound.key = mechanismAudioKey(doorId);
     return sound;
 }
 }
@@ -594,7 +617,7 @@ bool IndoorSceneRuntime::advanceSimulation(float deltaMilliseconds)
 
 void IndoorSceneRuntime::updateMechanismAudio(
     const std::unordered_map<uint32_t, RuntimeMechanismState> &previousMechanisms,
-    float deltaMilliseconds)
+    float)
 {
     if (!m_eventRuntimeState || !m_mapDeltaData)
     {
@@ -611,7 +634,11 @@ void IndoorSceneRuntime::updateMechanismAudio(
 
         if (currentIterator == m_eventRuntimeState->mechanisms.end())
         {
-            m_mechanismAudioStates.erase(door.doorId);
+            if (m_mechanismAudioStates.erase(door.doorId) > 0)
+            {
+                m_eventRuntimeState->pendingSounds.push_back(buildStopMechanismSound(door.doorId));
+            }
+
             continue;
         }
 
@@ -620,7 +647,11 @@ void IndoorSceneRuntime::updateMechanismAudio(
 
         if (!canPlaySound)
         {
-            m_mechanismAudioStates.erase(door.doorId);
+            if (m_mechanismAudioStates.erase(door.doorId) > 0)
+            {
+                m_eventRuntimeState->pendingSounds.push_back(buildStopMechanismSound(door.doorId));
+            }
+
             continue;
         }
 
@@ -632,21 +663,25 @@ void IndoorSceneRuntime::updateMechanismAudio(
         if (currentMechanism.isMoving)
         {
             MechanismAudioState &audioState = m_mechanismAudioStates[door.doorId];
-            audioState.movementSoundElapsedMilliseconds += deltaMilliseconds;
 
-            if (audioState.movementSoundElapsedMilliseconds >= MechanismMovementSoundRepeatMilliseconds)
+            if (!audioState.loopStarted)
             {
-                m_eventRuntimeState->pendingSounds.push_back(buildMechanismSound(movementSoundId, door));
-                audioState.movementSoundElapsedMilliseconds = 0.0f;
+                m_eventRuntimeState->pendingSounds.push_back(buildMechanismLoopSound(movementSoundId, door));
+                audioState.loopStarted = true;
             }
 
             continue;
         }
 
-        m_mechanismAudioStates.erase(door.doorId);
+        const bool hadLoopState = m_mechanismAudioStates.erase(door.doorId) > 0;
 
         if (wasMoving && mechanismReachedFinalState(currentMechanism))
         {
+            if (hadLoopState)
+            {
+                m_eventRuntimeState->pendingSounds.push_back(buildStopMechanismSound(door.doorId));
+            }
+
             m_eventRuntimeState->pendingSounds.push_back(buildMechanismSound(finalSoundId, door));
         }
     }

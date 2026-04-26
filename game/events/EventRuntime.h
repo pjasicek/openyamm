@@ -108,7 +108,16 @@ struct EventRuntimeState
 
     struct PendingSound
     {
+        enum class Kind
+        {
+            PlayOneShot,
+            PlayLoopingKeyed,
+            StopKeyed,
+        };
+
+        Kind kind = Kind::PlayOneShot;
         uint32_t soundId = 0;
+        uint64_t key = 0;
         int32_t x = 0;
         int32_t y = 0;
         int32_t z = 0;

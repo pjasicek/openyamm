@@ -17,6 +17,16 @@ namespace FxRecipes
 {
 namespace
 {
+constexpr float ProjectileTrailParticleSizeScale = 1.18f;
+constexpr float ProjectileTrailParticleLifetimeScale = 1.20f;
+constexpr float ImpactBurstParticleSizeScale = 1.24f;
+constexpr float ImpactBurstParticleVelocityScale = 1.32f;
+constexpr float ImpactBurstParticleLifetimeScale = 1.18f;
+constexpr float ImpactCloudSpreadScale = 1.35f;
+constexpr float ImpactCloudSizeScale = 1.22f;
+constexpr float LightningTrailParticleSizeScale = 3.0f;
+constexpr float LightningTrailParticleLifetimeScale = 2.0f;
+
 struct LayerRecipe
 {
     uint32_t startColorAbgr = 0xffffffffu;
@@ -42,6 +52,13 @@ struct LayerRecipe
     FxParticleMaterial material = FxParticleMaterial::SoftBlob;
     FxParticleTag tag = FxParticleTag::Misc;
 };
+
+void tuneProjectileTrailLayer(LayerRecipe &layer)
+{
+    layer.startSize *= ProjectileTrailParticleSizeScale;
+    layer.endSize *= ProjectileTrailParticleSizeScale;
+    layer.lifetimeSeconds *= ProjectileTrailParticleLifetimeScale;
+}
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
 {
@@ -144,19 +161,21 @@ void emitBurstParticle(
     particle.x = x;
     particle.y = y;
     particle.z = z;
-    const float spreadVelocityScale = velocityScale * 1.5f;
+    const float spreadVelocityScale = velocityScale * ImpactBurstParticleVelocityScale;
     particle.velocityX = std::cos(angle) * spreadVelocityScale * radial;
     particle.velocityY = std::sin(angle) * spreadVelocityScale * radial;
     particle.velocityZ =
         spreadVelocityScale * (0.2f + static_cast<float>((seed >> 18) & 0xffu) / 255.0f * 0.8f);
-    particle.size = size;
-    particle.endSize = size * 0.4f;
+    particle.size = size * ImpactBurstParticleSizeScale;
+    particle.endSize = size * 0.48f * ImpactBurstParticleSizeScale;
     particle.drag = 2.2f;
     particle.rotationRadians = swirl * 0.7f;
     particle.angularVelocityRadians = swirl * 3.2f;
     particle.stretch = stretch;
     particle.ageSeconds = 0.0f;
-    particle.lifetimeSeconds = 0.45f + static_cast<float>((seed >> 26) & 0x1fu) / 31.0f * 0.35f;
+    particle.lifetimeSeconds =
+        (0.45f + static_cast<float>((seed >> 26) & 0x1fu) / 31.0f * 0.35f)
+        * ImpactBurstParticleLifetimeScale;
     particle.startColorAbgr = startColorAbgr;
     particle.endColorAbgr = endColorAbgr;
     particle.motion = FxParticleMotion::Burst;
@@ -606,7 +625,6 @@ void spawnProjectileTrailParticles(
     if (spellId == SpellId::MindBlast
         || spellId == SpellId::PsychicShock
         || spellId == SpellId::Harm
-        || spellId == SpellId::Sparks
         || spellId == SpellId::ToxicCloud
         || spellId == SpellId::Incinerate)
     {
@@ -674,6 +692,7 @@ void spawnProjectileTrailParticles(
         emberTrail.alignment = FxParticleAlignment::CameraFacing;
         emberTrail.material = FxParticleMaterial::Smoke;
         emberTrail.tag = FxParticleTag::Trail;
+        tuneProjectileTrailLayer(emberTrail);
         emitLayerParticles(
             particleSystem,
             baseSeed,
@@ -726,6 +745,7 @@ void spawnProjectileTrailParticles(
         emberLayer.material = FxParticleMaterial::HardBlob;
         emberLayer.tag = FxParticleTag::Trail;
         applyGravityTrailTuning(emberLayer);
+        tuneProjectileTrailLayer(emberLayer);
         emitLayerParticles(
             particleSystem,
             baseSeed,
@@ -776,6 +796,7 @@ void spawnProjectileTrailParticles(
         smokeLayer.material = FxParticleMaterial::Smoke;
         smokeLayer.tag = FxParticleTag::Trail;
         applyGravityTrailTuning(smokeLayer);
+        tuneProjectileTrailLayer(smokeLayer);
         emitLayerParticles(
             particleSystem,
             baseSeed ^ 0x9e3779b9u,
@@ -814,6 +835,7 @@ void spawnProjectileTrailParticles(
         sparkLayer.alignment = FxParticleAlignment::CameraFacing;
         sparkLayer.material = FxParticleMaterial::SoftBlob;
         sparkLayer.tag = FxParticleTag::Trail;
+        tuneProjectileTrailLayer(sparkLayer);
         emitLayerParticles(
             particleSystem,
             baseSeed,
@@ -847,6 +869,7 @@ void spawnProjectileTrailParticles(
         moteLayer.alignment = FxParticleAlignment::CameraFacing;
         moteLayer.material = FxParticleMaterial::SoftBlob;
         moteLayer.tag = FxParticleTag::Trail;
+        tuneProjectileTrailLayer(moteLayer);
         emitLayerParticles(
             particleSystem,
             baseSeed ^ 0x3c6ef372u,
@@ -881,7 +904,10 @@ void spawnProjectileTrailParticles(
         sparkLayer.startSize = recipe == ProjectileRecipe::GenericLineTrail ? 4.0f
             : (recipe == ProjectileRecipe::Sparks ? 4.6f : 5.5f);
         sparkLayer.endSize = 1.8f;
-        sparkLayer.lifetimeSeconds = recipe == ProjectileRecipe::Sparks ? 0.10f : 0.16f;
+        sparkLayer.lifetimeSeconds = recipe == ProjectileRecipe::Sparks ? 0.16f : 0.18f;
+        sparkLayer.startSize *= LightningTrailParticleSizeScale;
+        sparkLayer.endSize *= LightningTrailParticleSizeScale;
+        sparkLayer.lifetimeSeconds *= LightningTrailParticleLifetimeScale;
         sparkLayer.drag = 8.0f;
         sparkLayer.stretch = 2.4f;
         sparkLayer.motion = FxParticleMotion::VelocityTrail;
@@ -890,6 +916,7 @@ void spawnProjectileTrailParticles(
         sparkLayer.material = FxParticleMaterial::Spark;
         sparkLayer.tag = FxParticleTag::Trail;
         applyGravityTrailTuning(sparkLayer);
+        tuneProjectileTrailLayer(sparkLayer);
         emitLayerParticles(
             particleSystem,
             baseSeed,
@@ -931,6 +958,7 @@ void spawnProjectileTrailParticles(
             : FxParticleMaterial::HardBlob;
         moteLayer.tag = FxParticleTag::Trail;
         applyGravityTrailTuning(moteLayer);
+        tuneProjectileTrailLayer(moteLayer);
         emitLayerParticles(
             particleSystem,
             baseSeed,
@@ -969,6 +997,7 @@ void spawnProjectileTrailParticles(
             mistLayer.material = FxParticleMaterial::Mist;
             mistLayer.tag = FxParticleTag::Trail;
             applyGravityTrailTuning(mistLayer);
+            tuneProjectileTrailLayer(mistLayer);
             emitLayerParticles(
                 particleSystem,
                 baseSeed ^ 0x3c6ef372u,
@@ -1015,6 +1044,7 @@ void spawnProjectileTrailParticles(
         hazeLayer.material = FxParticleMaterial::Mist;
         hazeLayer.tag = FxParticleTag::Trail;
         applyGravityTrailTuning(hazeLayer);
+        tuneProjectileTrailLayer(hazeLayer);
         emitLayerParticles(
             particleSystem,
             baseSeed,
@@ -1050,6 +1080,7 @@ void spawnProjectileTrailParticles(
         moteLayer.material = FxParticleMaterial::SoftBlob;
         moteLayer.tag = FxParticleTag::Trail;
         applyGravityTrailTuning(moteLayer);
+        tuneProjectileTrailLayer(moteLayer);
         emitLayerParticles(
             particleSystem,
             baseSeed ^ 0xbb67ae85u,
@@ -1203,14 +1234,14 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
             cloudLayer.endColorAbgr = endColor;
             cloudLayer.count = count;
             cloudLayer.startOffset = 0.0f;
-            cloudLayer.offsetStep = 2.5f;
-            cloudLayer.lateralSpread = 9.0f;
-            cloudLayer.verticalSpread = 5.0f;
+            cloudLayer.offsetStep = 2.5f * ImpactCloudSpreadScale;
+            cloudLayer.lateralSpread = 9.0f * ImpactCloudSpreadScale;
+            cloudLayer.verticalSpread = 5.0f * ImpactCloudSpreadScale;
             cloudLayer.inheritedVelocity = 0.0f;
-            cloudLayer.upwardVelocity = upwardVelocity;
-            cloudLayer.startSize = startSize;
-            cloudLayer.endSize = endSize;
-            cloudLayer.lifetimeSeconds = lifetimeSeconds;
+            cloudLayer.upwardVelocity = upwardVelocity * 1.12f;
+            cloudLayer.startSize = startSize * ImpactCloudSizeScale;
+            cloudLayer.endSize = endSize * ImpactCloudSizeScale;
+            cloudLayer.lifetimeSeconds = lifetimeSeconds * ImpactBurstParticleLifetimeScale;
             cloudLayer.drag = 2.2f;
             cloudLayer.rotationJitterRadians = 0.9f;
             cloudLayer.angularVelocityRadians = 0.8f;

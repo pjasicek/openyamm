@@ -2063,6 +2063,20 @@ void GameplayScreenRuntime::consumePendingEventRuntimeAudioRequests()
 
     for (const EventRuntimeState::PendingSound &request : pEventRuntimeState->pendingSounds)
     {
+        if (request.kind == EventRuntimeState::PendingSound::Kind::StopKeyed)
+        {
+            const std::unordered_map<uint64_t, uint64_t>::iterator iterator =
+                m_keyedAudioInstances.find(request.key);
+
+            if (iterator != m_keyedAudioInstances.end())
+            {
+                m_pAudioSystem->stopSoundInstance(iterator->second);
+                m_keyedAudioInstances.erase(iterator);
+            }
+
+            continue;
+        }
+
         std::optional<GameAudioSystem::WorldPosition> position = std::nullopt;
 
         if (request.positional)
@@ -2074,10 +2088,25 @@ void GameplayScreenRuntime::consumePendingEventRuntimeAudioRequests()
             };
         }
 
-        m_pAudioSystem->playSound(
-            request.soundId,
-            request.positional ? GameAudioSystem::PlaybackGroup::World : GameAudioSystem::PlaybackGroup::Ui,
-            position);
+        const GameAudioSystem::PlaybackGroup group =
+            request.positional ? GameAudioSystem::PlaybackGroup::World : GameAudioSystem::PlaybackGroup::Ui;
+
+        if (request.kind == EventRuntimeState::PendingSound::Kind::PlayLoopingKeyed)
+        {
+            if (m_keyedAudioInstances.find(request.key) == m_keyedAudioInstances.end())
+            {
+                const uint64_t instanceId = m_pAudioSystem->playSoundInstance(request.soundId, group, position, true);
+
+                if (instanceId != 0)
+                {
+                    m_keyedAudioInstances[request.key] = instanceId;
+                }
+            }
+
+            continue;
+        }
+
+        m_pAudioSystem->playSound(request.soundId, group, position);
     }
 
     pEventRuntimeState->pendingSounds.clear();

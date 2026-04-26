@@ -712,6 +712,22 @@ bool GameAudioSystem::playSound(
     return playResolvedSound(*virtualPath, group, position, false) != 0;
 }
 
+uint64_t GameAudioSystem::playSoundInstance(
+    uint32_t soundId,
+    PlaybackGroup group,
+    const std::optional<WorldPosition> &position,
+    bool loop)
+{
+    const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPath(soundId);
+
+    if (!virtualPath)
+    {
+        return 0;
+    }
+
+    return playResolvedSound(*virtualPath, group, position, loop);
+}
+
 bool GameAudioSystem::playLoopingSound(
     uint32_t soundId,
     PlaybackGroup group,
@@ -915,6 +931,16 @@ bool GameAudioSystem::isExclusiveGroup(PlaybackGroup group)
     return group == PlaybackGroup::Walking
         || group == PlaybackGroup::HouseDoor
         || group == PlaybackGroup::HouseSpeech;
+}
+
+void GameAudioSystem::stopSoundInstance(uint64_t instanceId)
+{
+    if (instanceId == 0)
+    {
+        return;
+    }
+
+    m_audioSystem.stopClip(instanceId);
 }
 
 void GameAudioSystem::stopGroup(PlaybackGroup group)

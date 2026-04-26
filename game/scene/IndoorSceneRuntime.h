@@ -116,7 +116,7 @@ public:
 private:
     struct MechanismAudioState
     {
-        float movementSoundElapsedMilliseconds = 1000.0f;
+        bool loopStarted = false;
     };
 
     bool updateTimers(float deltaGameMinutes);

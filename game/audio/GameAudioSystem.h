@@ -57,6 +57,11 @@ public:
         uint32_t soundId,
         PlaybackGroup group,
         const std::optional<WorldPosition> &position = std::nullopt);
+    uint64_t playSoundInstance(
+        uint32_t soundId,
+        PlaybackGroup group,
+        const std::optional<WorldPosition> &position,
+        bool loop);
     bool playLoopingSound(
         uint32_t soundId,
         PlaybackGroup group,
@@ -71,6 +76,7 @@ public:
         const std::optional<WorldPosition> &position = std::nullopt);
     bool playSpeech(const Character &character, SpeechId speechId, uint32_t seed = 0, uint32_t speakerKey = 0);
     const SpeechReactionEntry *findSpeechReaction(SpeechId speechId) const;
+    void stopSoundInstance(uint64_t instanceId);
     void stopGroup(PlaybackGroup group);
     void stopAllPlayback();
 

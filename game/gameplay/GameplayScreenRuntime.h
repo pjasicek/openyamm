@@ -22,6 +22,7 @@
 #include <functional>
 #include <optional>
 #include <string>
+#include <unordered_map>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -444,5 +445,6 @@ private:
     mutable bool m_cachedMinimapMarkersValid = false;
     mutable std::vector<GameplayMinimapLineState> m_cachedMinimapLines;
     mutable std::vector<GameplayMinimapMarkerState> m_cachedMinimapMarkers;
+    std::unordered_map<uint64_t, uint64_t> m_keyedAudioInstances;
 };
 } // namespace OpenYAMM::Game
