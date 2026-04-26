@@ -13,7 +13,7 @@ void main()
 
     if (u_particleParams.x > 0.5)
     {
-        color *= textureColor.a;
+        color *= alpha;
     }
 
     gl_FragColor = vec4(color, alpha);

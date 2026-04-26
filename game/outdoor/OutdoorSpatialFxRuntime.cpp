@@ -8,6 +8,7 @@
 #include "game/StringUtils.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
+#include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/tables/SpriteTables.h"
 
@@ -336,6 +337,11 @@ void OutdoorSpatialFxRuntime::syncDecorationEmitters(OutdoorGameView &view)
     const DecorationBillboardSet &billboardSet = *view.m_outdoorDecorationBillboardSet;
     for (const DecorationBillboard &billboard : billboardSet.billboards)
     {
+        if (OutdoorInteractionController::isInteractiveDecorationHidden(view, billboard.entityIndex))
+        {
+            continue;
+        }
+
         const DecorationEntry *pDecoration = billboardSet.decorationTable.get(billboard.decorationId);
 
         if (pDecoration == nullptr)

@@ -93,6 +93,7 @@ public:
         float y = 0.0f;
         float z = 0.0f;
         uint32_t timeSinceCreatedTicks = 0;
+        float lifetimeTickAccumulator = 0.0f;
         uint32_t lifetimeTicks = 0;
         int16_t sectorId = -1;
         bool freezeAnimation = false;
@@ -552,7 +553,7 @@ public:
     std::vector<ProjectileImpactState> &projectileImpacts();
     const std::vector<ProjectileImpactState> &projectileImpacts() const;
 
-    void advanceProjectileImpactLifetimes(uint32_t deltaTicks);
+    void advanceProjectileImpactLifetimes(float deltaSeconds);
     void updateProjectileImpactPresentation(float deltaSeconds);
     bool advanceProjectileLifetime(ProjectileState &projectile, float deltaSeconds) const;
     ProjectileMotionSegment advanceProjectileMotion(

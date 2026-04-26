@@ -31,6 +31,7 @@ materials:
     match:
       texture_names:
         - lavtyl
+    terrain_transition_overlay: true
     animation:
       animation_length_ticks: 128
       frames:
@@ -41,3 +42,12 @@ materials:
         - HDLAV004
         - HDLAV005
         - HDLAV006
+
+  - id: tar
+    semantic: water
+    applies_to:
+      - terrain
+    match:
+      texture_names:
+        - tartyl
+    terrain_transition_overlay: true

@@ -26,6 +26,7 @@ extern "C"
 #include <cstring>
 #include <iostream>
 #include <limits>
+#include <optional>
 #include <string>
 #include <vector>
 
@@ -47,6 +48,39 @@ bool canUseBgfxResources()
 std::string makeClipKey(const std::string &videoDirectory, const std::string &videoStem)
 {
     return videoDirectory + "/" + videoStem;
+}
+
+struct ClipBytes
+{
+    std::string virtualPath;
+    std::vector<uint8_t> bytes;
+};
+
+std::optional<ClipBytes> readVideoClipBytes(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &videoStem,
+    const std::string &videoDirectory)
+{
+    const bool allowLegacyFallbacks = videoDirectory == DefaultHouseVideoDirectory;
+    const std::array<const char *, 3> candidateDirectories = {{
+        videoDirectory.c_str(),
+        "Anims/mightdod",
+        "Videos/Transitions"
+    }};
+    const size_t candidateCount = allowLegacyFallbacks ? candidateDirectories.size() : 1;
+
+    for (size_t index = 0; index < candidateCount; ++index)
+    {
+        const std::string virtualPath = std::string(candidateDirectories[index]) + "/" + videoStem + ".ogv";
+        std::optional<std::vector<uint8_t>> clipBytes = assetFileSystem.readBinaryFile(virtualPath);
+
+        if (clipBytes && !clipBytes->empty())
+        {
+            return ClipBytes{virtualPath, std::move(*clipBytes)};
+        }
+    }
+
+    return std::nullopt;
 }
 
 bool isAudioSubsystemInitialized()
@@ -968,17 +1002,17 @@ std::shared_ptr<HouseVideoPlayer::DecodedClip> HouseVideoPlayer::decodeClip(
     const std::string &videoStem,
     const std::string &videoDirectory)
 {
-    const std::string virtualPath = videoDirectory + "/" + videoStem + ".ogv";
-    const std::optional<std::vector<uint8_t>> clipBytes = assetFileSystem.readBinaryFile(virtualPath);
+    const std::optional<ClipBytes> clipBytes = readVideoClipBytes(assetFileSystem, videoStem, videoDirectory);
 
-    if (!clipBytes || clipBytes->empty())
+    if (!clipBytes)
     {
         std::cerr << "HouseVideoPlayer: missing clip bytes for stem " << videoStem << '\n';
         return nullptr;
     }
 
     MemoryClipReader memoryClipReader = {};
-    memoryClipReader.pBytes = &*clipBytes;
+    memoryClipReader.pBytes = &clipBytes->bytes;
+    const std::string &virtualPath = clipBytes->virtualPath;
     constexpr int AvioBufferSize = 4096;
     uint8_t *pAvioBuffer = static_cast<uint8_t *>(av_malloc(AvioBufferSize));
 

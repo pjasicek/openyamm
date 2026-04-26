@@ -18,7 +18,8 @@ namespace FxRecipes
 namespace
 {
 constexpr float ProjectileTrailParticleSizeScale = 1.18f;
-constexpr float ProjectileTrailParticleLifetimeScale = 1.20f;
+constexpr float ProjectileTrailParticleDensityScale = 1.33f;
+constexpr float ProjectileTrailParticleLifetimeScale = 1.60f;
 constexpr float ImpactBurstParticleSizeScale = 1.24f;
 constexpr float ImpactBurstParticleVelocityScale = 1.32f;
 constexpr float ImpactBurstParticleLifetimeScale = 1.18f;
@@ -55,6 +56,9 @@ struct LayerRecipe
 
 void tuneProjectileTrailLayer(LayerRecipe &layer)
 {
+    layer.count = std::max<uint32_t>(
+        1u,
+        static_cast<uint32_t>(std::lround(static_cast<float>(layer.count) * ProjectileTrailParticleDensityScale)));
     layer.startSize *= ProjectileTrailParticleSizeScale;
     layer.endSize *= ProjectileTrailParticleSizeScale;
     layer.lifetimeSeconds *= ProjectileTrailParticleLifetimeScale;
@@ -314,6 +318,34 @@ uint32_t deriveImpactColorAbgr(const std::string &objectName, const std::string 
     }
 
     return makeAbgr(192, 192, 192, 200);
+}
+
+bool shouldSpawnExpandingFireAreaPulse(ProjectileRecipe recipe)
+{
+    return recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath;
+}
+
+void emitExpandingFireAreaPulse(
+    ParticleSystem &particleSystem,
+    const ImpactSpawnContext &context)
+{
+    FxParticleState particle = {};
+    particle.x = context.x;
+    particle.y = context.y;
+    particle.z = context.z + 28.0f;
+    particle.size = 132.0f;
+    particle.endSize = 132.0f;
+    particle.ageSeconds = 0.0f;
+    particle.fadeOutStartSeconds = 0.001f;
+    particle.lifetimeSeconds = 0.62f;
+    particle.startColorAbgr = makeAbgr(255, 82, 8, 236);
+    particle.endColorAbgr = particle.startColorAbgr;
+    particle.motion = FxParticleMotion::StaticFade;
+    particle.blendMode = FxParticleBlendMode::Additive;
+    particle.alignment = FxParticleAlignment::CameraFacing;
+    particle.material = FxParticleMaterial::SoftBlob;
+    particle.tag = FxParticleTag::Impact;
+    particleSystem.addParticle(particle);
 }
 
 }
@@ -1389,6 +1421,11 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
             isCannonball ? 0.48f : (isFireBolt ? 0.28f : (isMeteorShower ? 0.34f : 0.38f)),
             isCannonball ? 12.0f : (isFireBolt ? 12.0f : (isMeteorShower ? 14.0f : 16.0f)),
             FxParticleMaterial::Smoke);
+
+        if (shouldSpawnExpandingFireAreaPulse(recipe))
+        {
+            emitExpandingFireAreaPulse(particleSystem, context);
+        }
 
         if (isFireBolt)
         {

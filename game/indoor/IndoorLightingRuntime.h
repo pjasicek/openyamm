@@ -123,6 +123,9 @@ private:
         uint32_t sourceAttributes = 0;
         uint32_t runtimeOverrideKey = 0;
         size_t sourceLightId = static_cast<size_t>(-1);
+        size_t decorationDecorVarIndex = static_cast<size_t>(-1);
+        uint8_t decorationClearedState = 0;
+        bool hideDecorationWhenCleared = false;
     };
 
     struct StaticLightCache

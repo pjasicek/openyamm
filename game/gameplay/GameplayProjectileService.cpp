@@ -475,9 +475,9 @@ GameplayProjectileService::projectileImpacts() const
     return m_projectileImpacts;
 }
 
-void GameplayProjectileService::advanceProjectileImpactLifetimes(uint32_t deltaTicks)
+void GameplayProjectileService::advanceProjectileImpactLifetimes(float deltaSeconds)
 {
-    if (deltaTicks == 0)
+    if (deltaSeconds <= 0.0f)
     {
         return;
     }
@@ -489,6 +489,15 @@ void GameplayProjectileService::advanceProjectileImpactLifetimes(uint32_t deltaT
             continue;
         }
 
+        impact.lifetimeTickAccumulator += deltaSeconds * ProjectileTicksPerSecond;
+        const uint32_t deltaTicks = static_cast<uint32_t>(std::floor(impact.lifetimeTickAccumulator));
+
+        if (deltaTicks == 0)
+        {
+            continue;
+        }
+
+        impact.lifetimeTickAccumulator -= static_cast<float>(deltaTicks);
         impact.timeSinceCreatedTicks += deltaTicks;
 
         if (impact.timeSinceCreatedTicks >= impact.lifetimeTicks)
@@ -505,8 +514,7 @@ void GameplayProjectileService::updateProjectileImpactPresentation(float deltaSe
         return;
     }
 
-    const uint32_t deltaTicks = ticksFromDeltaSeconds(deltaSeconds);
-    advanceProjectileImpactLifetimes(deltaTicks);
+    advanceProjectileImpactLifetimes(deltaSeconds);
     eraseExpiredProjectileImpacts();
 }
 

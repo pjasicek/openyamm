@@ -2,6 +2,7 @@
 
 #include "game/events/EventRuntime.h"
 #include "game/fx/WorldFxSystem.h"
+#include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/gameplay/GameplayTorchLight.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/MapAssetLoader.h"
@@ -22,6 +23,8 @@ constexpr float IndoorAmbientMax = 1.0f;
 constexpr float IndoorLightScale = 1.35f;
 constexpr uint8_t DefaultLightAlpha = 224;
 constexpr uint8_t FxLightAlphaFallback = 208;
+constexpr size_t InvalidDecorationDecorVarIndex = static_cast<size_t>(-1);
+constexpr size_t MaxDecorationDecorVarCount = 125;
 
 float indoorRenderLightKindWeight(IndoorRenderLightKind kind)
 {
@@ -41,6 +44,55 @@ float indoorRenderLightKindWeight(IndoorRenderLightKind kind)
     }
 
     return 1.0f;
+}
+
+std::vector<size_t> buildIndoorInteractiveDecorationDecorVarIndices(
+    const IndoorMapData &mapData,
+    const DecorationBillboardSet *pDecorationBillboardSet)
+{
+    std::vector<size_t> decorVarIndices(mapData.entities.size(), InvalidDecorationDecorVarIndex);
+
+    if (pDecorationBillboardSet == nullptr)
+    {
+        return decorVarIndices;
+    }
+
+    size_t decorVarIndex = 0;
+
+    for (size_t entityIndex = 0; entityIndex < mapData.entities.size(); ++entityIndex)
+    {
+        const IndoorEntity &entity = mapData.entities[entityIndex];
+
+        if (entity.eventIdPrimary != 0 || entity.eventIdSecondary != 0)
+        {
+            continue;
+        }
+
+        const DecorationEntry *pDecoration =
+            pDecorationBillboardSet->decorationTable.get(entity.decorationListId);
+
+        if ((pDecoration == nullptr || pDecoration->spriteId == 0) && !entity.name.empty())
+        {
+            pDecoration = pDecorationBillboardSet->decorationTable.findByInternalName(entity.name);
+        }
+
+        if (pDecoration == nullptr)
+        {
+            continue;
+        }
+
+        if (resolveInteractiveDecorationBindingSpec(*pDecoration, entity.name))
+        {
+            if (decorVarIndex < MaxDecorationDecorVarCount)
+            {
+                decorVarIndices[entityIndex] = decorVarIndex;
+            }
+
+            ++decorVarIndex;
+        }
+    }
+
+    return decorVarIndices;
 }
 
 bool isFxLight(IndoorRenderLightKind kind)
@@ -736,6 +788,8 @@ IndoorLightingRuntime::StaticLightCache IndoorLightingRuntime::buildStaticCache(
 {
     StaticLightCache cache = {};
     cache.sourceIndicesBySector.resize(mapData.sectors.size());
+    const std::vector<size_t> decorationDecorVarIndices =
+        buildIndoorInteractiveDecorationDecorVarIndices(mapData, pDecorationBillboardSet);
 
     const auto appendCachedLight =
         [&cache](const CachedLightSource &source)
@@ -838,6 +892,26 @@ IndoorLightingRuntime::StaticLightCache IndoorLightingRuntime::buildStaticCache(
             light.kind = IndoorRenderLightKind::Decoration;
             light.runtimeOverrideKey =
                 billboard.eventIdPrimary != 0 ? billboard.eventIdPrimary : billboard.eventIdSecondary;
+
+            if (billboard.entityIndex < mapData.entities.size()
+                && billboard.entityIndex < decorationDecorVarIndices.size())
+            {
+                const size_t decorVarIndex = decorationDecorVarIndices[billboard.entityIndex];
+
+                if (decorVarIndex != InvalidDecorationDecorVarIndex)
+                {
+                    const IndoorEntity &entity = mapData.entities[billboard.entityIndex];
+                    const std::optional<InteractiveDecorationBindingSpec> bindingSpec =
+                        resolveInteractiveDecorationBindingSpec(*pDecoration, entity.name);
+
+                    if (bindingSpec && bindingSpec->hideWhenCleared)
+                    {
+                        light.decorationDecorVarIndex = decorVarIndex;
+                        light.decorationClearedState = bindingSpec->eventCount;
+                        light.hideDecorationWhenCleared = true;
+                    }
+                }
+            }
 
             if (pDecoration->lightRed != 0 || pDecoration->lightGreen != 0 || pDecoration->lightBlue != 0)
             {
@@ -975,6 +1049,16 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
                     {
                         return;
                     }
+                }
+
+                if (source.kind == IndoorRenderLightKind::Decoration
+                    && source.hideDecorationWhenCleared
+                    && input.pEventRuntimeState != nullptr
+                    && source.decorationDecorVarIndex < input.pEventRuntimeState->decorVars.size()
+                    && input.pEventRuntimeState->decorVars[source.decorationDecorVarIndex]
+                        == source.decorationClearedState)
+                {
+                    return;
                 }
 
                 IndoorRenderLight light = {};
