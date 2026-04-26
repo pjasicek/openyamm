@@ -99,6 +99,20 @@ elements:
           highlighted: TP_BalthazarLair
           pressed: TP_BalthazarLair
 
+      - id: TownPortalDestinationLabel
+        anchor: bottom_right
+        offset_x: -60
+        offset_y: -50
+        width: 240
+        height: 28
+        z_index: 250
+        text:
+          value: "{destination}"
+          font: Book2
+          align_x: center
+          align_y: middle
+          scale: 1.0
+
       - id: TownPortalCloseButton
         anchor: bottom_right
         offset_x: -3
