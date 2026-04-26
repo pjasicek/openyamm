@@ -13,7 +13,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr float MaximumRise = 48.0f;
+constexpr float MaximumRise = 50.0f;
 constexpr float MaximumDrop = 160.0f;
 constexpr float MaximumStepUpFromCurrentFootZ = 128.0f;
 constexpr float SlideFactor = 0.89263916f;

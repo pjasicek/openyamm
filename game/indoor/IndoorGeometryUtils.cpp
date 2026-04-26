@@ -13,7 +13,8 @@ namespace
 {
 constexpr float GeometryEpsilon = 0.0001f;
 constexpr float FloorSlack = 8.0f;
-constexpr float WalkableSlopeNormalZ = 0.70767211914f;
+constexpr float FloorContainmentSlack = 3.0f;
+constexpr float WalkableSlopeNormalZ = 0.68664550781f;
 
 struct ProjectedFacePoint
 {
@@ -407,16 +408,39 @@ bool isPointInsideFaceXYPolygon(const bx::Vec3 &point, const std::vector<bx::Vec
             (point.x - start.x) * (end.y - start.y)
             - (point.y - start.y) * (end.x - start.x);
 
-        if (std::fabs(cross) > GeometryEpsilon)
-        {
-            return false;
-        }
-
         const float minX = std::min(start.x, end.x) - GeometryEpsilon;
         const float maxX = std::max(start.x, end.x) + GeometryEpsilon;
         const float minY = std::min(start.y, end.y) - GeometryEpsilon;
         const float maxY = std::max(start.y, end.y) + GeometryEpsilon;
-        return point.x >= minX && point.x <= maxX && point.y >= minY && point.y <= maxY;
+
+        if (std::fabs(cross) <= GeometryEpsilon
+            && point.x >= minX
+            && point.x <= maxX
+            && point.y >= minY
+            && point.y <= maxY)
+        {
+            return true;
+        }
+
+        const float segmentX = end.x - start.x;
+        const float segmentY = end.y - start.y;
+        const float segmentLengthSquared = segmentX * segmentX + segmentY * segmentY;
+
+        if (segmentLengthSquared <= GeometryEpsilon)
+        {
+            const float deltaX = point.x - start.x;
+            const float deltaY = point.y - start.y;
+            return deltaX * deltaX + deltaY * deltaY <= FloorContainmentSlack * FloorContainmentSlack;
+        }
+
+        const float projected =
+            ((point.x - start.x) * segmentX + (point.y - start.y) * segmentY) / segmentLengthSquared;
+        const float clampedProjected = std::clamp(projected, 0.0f, 1.0f);
+        const float closestX = start.x + segmentX * clampedProjected;
+        const float closestY = start.y + segmentY * clampedProjected;
+        const float deltaX = point.x - closestX;
+        const float deltaY = point.y - closestY;
+        return deltaX * deltaX + deltaY * deltaY <= FloorContainmentSlack * FloorContainmentSlack;
     };
 
     bool inside = false;
