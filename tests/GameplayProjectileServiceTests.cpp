@@ -1,12 +1,16 @@
 #include "doctest/doctest.h"
 
 #include "game/gameplay/GameplayProjectileService.h"
+#include "game/fx/FxSharedTypes.h"
+#include "game/fx/ParticleRecipes.h"
+#include "game/fx/ParticleSystem.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpellIds.h"
 
 using OpenYAMM::Game::GameplayProjectileService;
 using OpenYAMM::Game::SkillMastery;
 using OpenYAMM::Game::SpellId;
+using OpenYAMM::Game::FxRecipes::ProjectileRecipe;
 
 namespace
 {
@@ -76,6 +80,63 @@ TEST_CASE("projectile area impact hits party and filters actors without map runt
     REQUIRE_EQ(impact.actorHits.size(), 1u);
     CHECK_EQ(impact.actorHits.front().actorIndex, 3u);
     CHECK_EQ(impact.actorHits.front().damage, 12);
+}
+
+TEST_CASE("sparks projectile uses shared lightning-style fx and light recipe")
+{
+    const ProjectileRecipe recipe = OpenYAMM::Game::FxRecipes::classifyProjectileRecipe(
+        static_cast<int>(SpellId::Sparks),
+        "Sparks",
+        "spell02",
+        0);
+
+    CHECK(recipe == ProjectileRecipe::Sparks);
+    CHECK(OpenYAMM::Game::FxRecipes::projectileRecipeUsesDedicatedImpactFx(recipe));
+    CHECK(OpenYAMM::Game::FxRecipes::projectileRecipeGlowRadius(recipe) > 0.0f);
+}
+
+TEST_CASE("fireball and dragon breath impacts add full size red area pulse")
+{
+    const ProjectileRecipe recipes[] = {ProjectileRecipe::Fireball, ProjectileRecipe::DragonBreath};
+
+    for (const ProjectileRecipe recipe : recipes)
+    {
+        OpenYAMM::Game::ParticleSystem particleSystem;
+        OpenYAMM::Game::FxRecipes::ImpactSpawnContext context = {};
+        context.recipe = recipe;
+        context.objectName = recipe == ProjectileRecipe::Fireball ? "Fireball" : "Dragon Breath";
+        context.spriteName = recipe == ProjectileRecipe::Fireball ? "fire04" : "spell97";
+
+        OpenYAMM::Game::FxRecipes::spawnImpactParticles(particleSystem, context);
+
+        const OpenYAMM::Game::FxParticleState *pPulse = nullptr;
+
+        for (const OpenYAMM::Game::FxParticleState &particle : particleSystem.particles())
+        {
+            if (particle.motion == OpenYAMM::Game::FxParticleMotion::StaticFade
+                && particle.blendMode == OpenYAMM::Game::FxParticleBlendMode::Additive
+                && particle.alignment == OpenYAMM::Game::FxParticleAlignment::CameraFacing
+                && particle.material == OpenYAMM::Game::FxParticleMaterial::SoftBlob
+                && particle.tag == OpenYAMM::Game::FxParticleTag::Impact
+                && particle.size >= 130.0f
+                && particle.size < 140.0f
+                && particle.endSize == particle.size)
+            {
+                pPulse = &particle;
+                break;
+            }
+        }
+
+        REQUIRE(pPulse != nullptr);
+        CHECK_EQ(pPulse->startColorAbgr & 0xffu, 255u);
+        CHECK_GT((pPulse->startColorAbgr >> 8) & 0xffu, 64u);
+        CHECK_LT((pPulse->startColorAbgr >> 8) & 0xffu, 100u);
+        CHECK_GT((pPulse->startColorAbgr >> 24) & 0xffu, 220u);
+        CHECK_EQ(pPulse->endColorAbgr, pPulse->startColorAbgr);
+        CHECK_GT(pPulse->fadeOutStartSeconds, 0.0f);
+        CHECK_LT(pPulse->fadeOutStartSeconds, 0.01f);
+        CHECK_LT(pPulse->lifetimeSeconds, 0.7f);
+    }
 }
 
 TEST_CASE("projectile direct actor impact separates party and monster damage paths")
@@ -283,4 +344,40 @@ TEST_CASE("projectile lifetime advances at 128hz instead of render-frame rate")
     }
 
     CHECK(expired);
+}
+
+TEST_CASE("projectile impact lifetime advances at 128hz instead of render-frame rate")
+{
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectileImpactVisualDefinition definition = {};
+    definition.objectDescriptionId = 1;
+    definition.objectSpriteId = 158;
+    definition.objectSpriteFrameIndex = 158;
+    definition.lifetimeTicks = 8;
+    definition.hasVisual = true;
+    definition.objectName = "Splash";
+    definition.objectSpriteName = "splash";
+
+    const GameplayProjectileService::ProjectileImpactSpawnResult spawnResult =
+        service.spawnWaterSplashImpactVisual(definition, 0.0f, 0.0f, 0.0f);
+    REQUIRE(spawnResult.spawned);
+
+    const float highFrameRateDeltaSeconds = 1.0f / 5000.0f;
+
+    for (int frameIndex = 0; frameIndex < 8; ++frameIndex)
+    {
+        service.updateProjectileImpactPresentation(highFrameRateDeltaSeconds);
+    }
+
+    CHECK_EQ(service.projectileImpactCount(), 1u);
+    const GameplayProjectileService::ProjectileImpactState *pImpact = service.projectileImpactState(0);
+    REQUIRE(pImpact != nullptr);
+    CHECK(pImpact->timeSinceCreatedTicks < definition.lifetimeTicks);
+
+    for (int frameIndex = 0; frameIndex < 400; ++frameIndex)
+    {
+        service.updateProjectileImpactPresentation(highFrameRateDeltaSeconds);
+    }
+
+    CHECK_EQ(service.projectileImpactCount(), 0u);
 }

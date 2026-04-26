@@ -464,6 +464,20 @@ TEST_CASE("out05 authored special actors preserve relation override and carried 
 
     CHECK_GT(mapLoader.gameDataLoader.getMonsterTable().getRelationBetweenMonsters(45, 72), 0);
     CHECK_FALSE(actorService.resolveActorTargetPolicy(dragonslayer, pet).canTarget);
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState naturalDragonslayer = dragonslayer;
+    naturalDragonslayer.relationMonsterId =
+        actorService.relationMonsterId(naturalDragonslayer.monsterId, 0);
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState naturalDragon = pet;
+    naturalDragon.relationMonsterId = actorService.relationMonsterId(naturalDragon.monsterId, 0);
+
+    CHECK(actorService.resolveActorTargetPolicy(naturalDragonslayer, naturalDragon).canTarget);
+    CHECK_FALSE(actorService.resolveActorTargetPolicy(naturalDragon, naturalDragonslayer).canTarget);
+
+    naturalDragonslayer.group = 24;
+    naturalDragon.group = 24;
+    CHECK_FALSE(actorService.resolveActorTargetPolicy(naturalDragonslayer, naturalDragon).canTarget);
 }
 
 TEST_CASE("corpse loot includes authored guaranteed carried item")

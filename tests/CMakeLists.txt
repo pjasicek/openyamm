@@ -13,6 +13,7 @@ add_executable(openyamm_unit_tests
     IndoorLightingRuntimeTests.cpp
     InventoryEquipRegressionTests.cpp
     MapStatsRegressionTests.cpp
+    MapDeltaDataTests.cpp
     MonsterTableRegressionTests.cpp
     PartyRegressionTests.cpp
     RegressionMapLoader.cpp
@@ -36,11 +37,13 @@ add_executable(openyamm_unit_tests
     ../game/events/EventRuntime.cpp
     ../game/events/EventDialogContent.cpp
     ../game/events/ScriptedEventProgram.cpp
+    ../game/gameplay/ChestRuntime.cpp
     ../game/gameplay/GameplayActorAiSystem.cpp
     ../game/gameplay/GameplayActorService.cpp
     ../game/gameplay/GameplayDialogController.cpp
     ../game/gameplay/GameplaySpeechRules.cpp
     ../game/gameplay/GameplayWorldItemInteraction.cpp
+    ../game/gameplay/InteractiveDecorationRules.cpp
     ../game/gameplay/GameMechanics.cpp
     ../game/gameplay/GenericActorDialog.cpp
     ../game/gameplay/HouseInteraction.cpp

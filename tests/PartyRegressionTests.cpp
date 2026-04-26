@@ -440,6 +440,60 @@ TEST_CASE("inventory move accepts rejects and swaps by grid rules")
     CHECK_EQ(pMovedItem->objectDescriptionId, 104u);
 }
 
+TEST_CASE("inventory swap stores held item in first free slot when target origin is blocked")
+{
+    OpenYAMM::Game::Party party = makeInventoryParty();
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    REQUIRE(pMember->addInventoryItemAt(makeInventoryItem(109, 1, 1), 0, 0));
+    REQUIRE(pMember->addInventoryItemAt(makeInventoryItem(111, 1, 1), 1, 0));
+
+    std::optional<OpenYAMM::Game::InventoryItem> replacedItem;
+    const OpenYAMM::Game::InventoryItem heldItem = makeInventoryItem(104, 2, 2);
+
+    REQUIRE(party.tryPlaceItemInMemberInventoryCell(0, heldItem, 0, 0, replacedItem));
+    REQUIRE(replacedItem.has_value());
+    CHECK_EQ(replacedItem->objectDescriptionId, 109u);
+
+    const OpenYAMM::Game::InventoryItem *pFallbackPlacedItem = pMember->inventoryItemAt(0, 1);
+    REQUIRE(pFallbackPlacedItem != nullptr);
+    CHECK_EQ(pFallbackPlacedItem->objectDescriptionId, 104u);
+
+    const OpenYAMM::Game::InventoryItem *pBlockingItem = pMember->inventoryItemAt(1, 0);
+    REQUIRE(pBlockingItem != nullptr);
+    CHECK_EQ(pBlockingItem->objectDescriptionId, 111u);
+}
+
+TEST_CASE("inventory swap restores clicked item when held item has no fallback slot")
+{
+    OpenYAMM::Game::Party party = makeInventoryParty();
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+
+    for (int gridY = 0; gridY < OpenYAMM::Game::Character::InventoryHeight; ++gridY)
+    {
+        for (int gridX = 0; gridX < OpenYAMM::Game::Character::InventoryWidth; ++gridX)
+        {
+            const uint32_t itemId = gridX == 0 && gridY == 0 ? 109u : 111u;
+            REQUIRE(pMember->addInventoryItemAt(
+                makeInventoryItem(itemId, 1, 1),
+                static_cast<uint8_t>(gridX),
+                static_cast<uint8_t>(gridY)));
+        }
+    }
+
+    std::optional<OpenYAMM::Game::InventoryItem> replacedItem;
+    const OpenYAMM::Game::InventoryItem heldItem = makeInventoryItem(104, 2, 2);
+
+    CHECK_FALSE(party.tryPlaceItemInMemberInventoryCell(0, heldItem, 0, 0, replacedItem));
+    CHECK_FALSE(replacedItem.has_value());
+
+    const OpenYAMM::Game::InventoryItem *pRestoredItem = pMember->inventoryItemAt(0, 0);
+    REQUIRE(pRestoredItem != nullptr);
+    CHECK_EQ(pRestoredItem->objectDescriptionId, 109u);
+    CHECK_EQ(pMember->inventoryItemCount(), pMember->inventoryCapacity());
+}
+
 TEST_CASE("inventory cross member move and full destination rejection")
 {
     OpenYAMM::Game::Party party = makeInventoryParty();

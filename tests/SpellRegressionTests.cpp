@@ -632,6 +632,24 @@ TEST_CASE("lloyds beacon slots and duration follow water mastery and skill level
         14.0f * 24.0f * 60.0f * 60.0f);
 }
 
+TEST_CASE("lloyds beacon recall mode availability follows active beacons")
+{
+    OpenYAMM::Game::Character caster = {};
+    caster.skills["WaterMagic"] = {"WaterMagic", 10, OpenYAMM::Game::SkillMastery::Master};
+
+    CHECK_FALSE(OpenYAMM::Game::lloydsBeaconHasRecallableBeacon(&caster));
+
+    OpenYAMM::Game::LloydBeacon expiredBeacon = {};
+    expiredBeacon.remainingSeconds = 0.0f;
+    caster.lloydsBeacons[0] = expiredBeacon;
+    CHECK_FALSE(OpenYAMM::Game::lloydsBeaconHasRecallableBeacon(&caster));
+
+    OpenYAMM::Game::LloydBeacon activeBeacon = {};
+    activeBeacon.remainingSeconds = 60.0f;
+    caster.lloydsBeacons[0] = activeBeacon;
+    CHECK(OpenYAMM::Game::lloydsBeaconHasRecallableBeacon(&caster));
+}
+
 TEST_CASE("lloyds beacon set stores location preview and recall queues map move")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -648,6 +666,7 @@ TEST_CASE("lloyds beacon set stores location preview and recall queues map move"
     setRequest.spendMana = false;
     setRequest.utilityAction = OpenYAMM::Game::PartySpellUtilityActionKind::LloydsBeaconSet;
     setRequest.utilitySlotIndex = 0;
+    setRequest.utilityMapMoveMapName = "d05.blv";
     setRequest.utilityStatusText = "Spell Test";
     setRequest.utilityMapMoveDirectionDegrees = 90;
     setRequest.utilityPreviewWidth = 2;
@@ -667,7 +686,7 @@ TEST_CASE("lloyds beacon set stores location preview and recall queues map move"
     REQUIRE(pCaster->lloydsBeacons[0].has_value());
 
     const OpenYAMM::Game::LloydBeacon &beacon = *pCaster->lloydsBeacons[0];
-    CHECK_EQ(beacon.mapName, "spell_test.odm");
+    CHECK_EQ(beacon.mapName, "d05.blv");
     CHECK_EQ(beacon.locationName, "Spell Test");
     CHECK_EQ(beacon.x, 10.0f);
     CHECK_EQ(beacon.y, 20.0f);
@@ -695,7 +714,7 @@ TEST_CASE("lloyds beacon set stores location preview and recall queues map move"
 
     REQUIRE(recallResult.succeeded());
     REQUIRE(worldRuntime.eventRuntimeState()->pendingMapMove.has_value());
-    CHECK_EQ(worldRuntime.eventRuntimeState()->pendingMapMove->mapName, std::optional<std::string>("spell_test.odm"));
+    CHECK_EQ(worldRuntime.eventRuntimeState()->pendingMapMove->mapName, std::optional<std::string>("d05.blv"));
     CHECK_EQ(worldRuntime.eventRuntimeState()->pendingMapMove->x, 10);
     CHECK_EQ(worldRuntime.eventRuntimeState()->pendingMapMove->y, 20);
     CHECK_EQ(worldRuntime.eventRuntimeState()->pendingMapMove->z, 30);

@@ -1,14 +1,19 @@
 #include "doctest/doctest.h"
 
+#include "game/gameplay/ChestRuntime.h"
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
+#include "game/maps/MapDeltaData.h"
+#include "game/tables/ChestTable.h"
 
 #include "tests/RegressionGameData.h"
 
 #include <algorithm>
 #include <array>
+#include <cstring>
 #include <optional>
 #include <random>
+#include <string>
 
 namespace
 {
@@ -69,6 +74,48 @@ std::optional<uint32_t> findChestLootCandidateItemId(
     return std::nullopt;
 }
 
+std::optional<uint32_t> findSmallChestLootCandidateItemId(
+    const OpenYAMM::Game::ItemTable &itemTable,
+    uint32_t excludedItemId = 0)
+{
+    for (const OpenYAMM::Game::ItemDefinition &itemDefinition : itemTable.entries())
+    {
+        if (itemDefinition.itemId != 0
+            && itemDefinition.itemId != excludedItemId
+            && itemDefinition.inventoryWidth <= 1
+            && itemDefinition.inventoryHeight <= 1
+            && !OpenYAMM::Game::ItemRuntime::isRareItem(itemDefinition))
+        {
+            return itemDefinition.itemId;
+        }
+    }
+
+    return std::nullopt;
+}
+
+const OpenYAMM::Game::GameplayChestItemState *firstChestItem(const OpenYAMM::Game::GameplayChestViewState &view)
+{
+    if (!view.items.empty())
+    {
+        return &view.items.front();
+    }
+
+    if (!view.hiddenItems.empty())
+    {
+        return &view.hiddenItems.front();
+    }
+
+    return nullptr;
+}
+
+OpenYAMM::Game::Party makeChestTestParty(const OpenYAMM::Tests::RegressionGameData &gameData)
+{
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&gameData.itemTable);
+    party.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
+    return party;
+}
+
 struct GoldHeapExpectation
 {
     uint8_t width = 1;
@@ -88,6 +135,38 @@ GoldHeapExpectation expectedGoldHeapForAmount(uint32_t goldAmount)
     }
 
     return {2, 1};
+}
+
+OpenYAMM::Game::ChestTable makeChestTable(uint8_t gridWidth, uint8_t gridHeight)
+{
+    OpenYAMM::Game::ChestTable chestTable;
+    REQUIRE(chestTable.loadRows({
+        {
+            "0",
+            "Test",
+            "1",
+            "1",
+            "1",
+            "chest01",
+            "0",
+            "0",
+            std::to_string(gridWidth),
+            std::to_string(gridHeight),
+        },
+    }));
+    return chestTable;
+}
+
+void writeRawChestItemId(OpenYAMM::Game::MapDeltaChest &chest, size_t recordIndex, int32_t rawItemId)
+{
+    constexpr size_t RecordSize = 36;
+
+    if (chest.rawItems.size() < (recordIndex + 1) * RecordSize)
+    {
+        chest.rawItems.resize((recordIndex + 1) * RecordSize, 0);
+    }
+
+    std::memcpy(chest.rawItems.data() + recordIndex * RecordSize, &rawItemId, sizeof(rawItemId));
 }
 }
 
@@ -172,4 +251,87 @@ TEST_CASE("chest loot random generation follows item identification rule")
     CHECK_EQ(identifiedItem->objectDescriptionId, *identifiedItemId);
     CHECK_FALSE(unidentifiedItem->identified);
     CHECK(identifiedItem->identified);
+}
+
+TEST_CASE("chest materialization keeps unplaced guaranteed items hidden instead of dropping them")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    const std::optional<uint32_t> firstItemId = findSmallChestLootCandidateItemId(gameData.itemTable);
+    REQUIRE(firstItemId.has_value());
+    const std::optional<uint32_t> secondItemId = findSmallChestLootCandidateItemId(gameData.itemTable, *firstItemId);
+    REQUIRE(secondItemId.has_value());
+    OpenYAMM::Game::Party party = makeChestTestParty(gameData);
+    OpenYAMM::Game::ChestTable chestTable = makeChestTable(1, 1);
+    OpenYAMM::Game::MapDeltaChest chest = {};
+    chest.chestTypeId = 0;
+    chest.inventoryMatrix.assign(140, 0);
+    chest.inventoryMatrix[0] = 1;
+    writeRawChestItemId(chest, 0, static_cast<int32_t>(*firstItemId));
+    writeRawChestItemId(chest, 1, static_cast<int32_t>(*secondItemId));
+
+    OpenYAMM::Game::GameplayChestViewState view =
+        OpenYAMM::Game::buildMaterializedChestView(
+            0,
+            chest,
+            6,
+            0,
+            1234,
+            &chestTable,
+            &gameData.itemTable,
+            &party);
+
+    REQUIRE_EQ(view.items.size(), 1u);
+    REQUIRE_EQ(view.hiddenItems.size(), 1u);
+    CHECK_EQ(view.items.front().itemId, *firstItemId);
+    CHECK_EQ(view.hiddenItems.front().itemId, *secondItemId);
+
+    OpenYAMM::Game::GameplayChestItemState removedItem = {};
+    REQUIRE(OpenYAMM::Game::takeChestItem(view, 0, removedItem));
+    REQUIRE_EQ(view.items.size(), 1u);
+    CHECK(view.hiddenItems.empty());
+    CHECK_EQ(view.items.front().itemId, *secondItemId);
+}
+
+TEST_CASE("chest level seven random placeholder generates a guaranteed rare item")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    std::mt19937 directRng(4321);
+    const std::optional<OpenYAMM::Game::InventoryItem> directRare =
+        OpenYAMM::Game::ItemGenerator::generateRandomInventoryItem(
+            gameData.itemTable,
+            gameData.standardItemEnchantTable,
+            gameData.specialItemEnchantTable,
+            OpenYAMM::Game::ItemGenerationRequest{
+                6,
+                OpenYAMM::Game::ItemGenerationMode::ChestLoot,
+                true,
+                true},
+            nullptr,
+            directRng);
+    REQUIRE(directRare.has_value());
+
+    OpenYAMM::Game::Party party = makeChestTestParty(gameData);
+    OpenYAMM::Game::ChestTable chestTable = makeChestTable(9, 9);
+    OpenYAMM::Game::MapDeltaChest chest = {};
+    chest.chestTypeId = 0;
+    chest.inventoryMatrix.assign(140, 0);
+    chest.inventoryMatrix[0] = 1;
+    writeRawChestItemId(chest, 0, -7);
+
+    OpenYAMM::Game::GameplayChestViewState view =
+        OpenYAMM::Game::buildMaterializedChestView(
+            0,
+            chest,
+            6,
+            0,
+            4321,
+            &chestTable,
+            &gameData.itemTable,
+            &party);
+
+    const OpenYAMM::Game::GameplayChestItemState *pGeneratedItem = firstChestItem(view);
+    REQUIRE(pGeneratedItem != nullptr);
+    const OpenYAMM::Game::ItemDefinition *pItemDefinition = gameData.itemTable.get(pGeneratedItem->itemId);
+    REQUIRE(pItemDefinition != nullptr);
+    CHECK(OpenYAMM::Game::ItemRuntime::isRareItem(*pItemDefinition));
 }

@@ -94,6 +94,18 @@ TEST_CASE("map navigation matches authoritative world map")
     }
 }
 
+TEST_CASE("map stats parse perception difficulty")
+{
+    const OpenYAMM::Game::MapStats mapStats = loadMapStats();
+    const OpenYAMM::Game::MapStatsEntry *pDaggerWound = mapStats.findByFileName("Out01.odm");
+    const OpenYAMM::Game::MapStatsEntry *pRavenshore = mapStats.findByFileName("Out02.odm");
+
+    REQUIRE(pDaggerWound != nullptr);
+    REQUIRE(pRavenshore != nullptr);
+    CHECK_EQ(pDaggerWound->perceptionDifficulty, 0);
+    CHECK_EQ(pRavenshore->perceptionDifficulty, 1);
+}
+
 TEST_CASE("map navigation rows apply explicit arrival positions")
 {
     const OpenYAMM::Game::MapStats mapStats = loadMapStats();

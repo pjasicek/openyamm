@@ -940,7 +940,9 @@ TEST_CASE("transport routes filter by weekday and qbit")
         harness.worldRuntime().gameMinutes(),
         OpenYAMM::Game::DialogueMenuId::None);
 
-    CHECK(lockedActions.empty());
+    REQUIRE_EQ(lockedActions.size(), 1u);
+    CHECK_EQ(lockedActions.front().label, "Sorry, come back another day");
+    CHECK_FALSE(lockedActions.front().enabled);
 
     harness.party().setQuestBit(900, true);
 
@@ -1511,6 +1513,115 @@ TEST_CASE("transport action spends gold advances time and queues map move")
     REQUIRE(pendingMapMove->directionDegrees.has_value());
     CHECK_EQ(*pendingMapMove->directionDegrees, 180);
     CHECK(pendingMapMove->useMapStartPosition);
+}
+
+TEST_CASE("transport route schedule is driven by transport_schedules table")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    const OpenYAMM::Game::HouseEntry *pHouseEntry = gameData.houseTable.get(67);
+
+    REQUIRE(pHouseEntry != nullptr);
+
+    std::vector<OpenYAMM::Game::HouseActionOption> actions = OpenYAMM::Game::buildHouseActionOptions(
+        *pHouseEntry,
+        &harness.party(),
+        &gameData.classSkillTable,
+        &harness.worldRuntime(),
+        harness.worldRuntime().gameMinutes(),
+        OpenYAMM::Game::DialogueMenuId::None);
+
+    CHECK(houseActionsContainDestination(actions, "Ravenshore"));
+    CHECK_FALSE(houseActionsContainDestination(actions, "Regna"));
+
+    harness.worldRuntime().advanceGameMinutes(5.0f * 24.0f * 60.0f);
+    actions = OpenYAMM::Game::buildHouseActionOptions(
+        *pHouseEntry,
+        &harness.party(),
+        &gameData.classSkillTable,
+        &harness.worldRuntime(),
+        harness.worldRuntime().gameMinutes(),
+        OpenYAMM::Game::DialogueMenuId::None);
+
+    CHECK_FALSE(houseActionsContainDestination(actions, "Ravenshore"));
+    CHECK(houseActionsContainDestination(actions, "Regna"));
+}
+
+TEST_CASE("transport route quest bit gates show unavailable fallback until unlocked")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    const OpenYAMM::Game::HouseEntry *pHouseEntry = gameData.houseTable.get(69);
+
+    REQUIRE(pHouseEntry != nullptr);
+
+    std::vector<OpenYAMM::Game::HouseActionOption> actions = OpenYAMM::Game::buildHouseActionOptions(
+        *pHouseEntry,
+        &harness.party(),
+        &gameData.classSkillTable,
+        &harness.worldRuntime(),
+        harness.worldRuntime().gameMinutes(),
+        OpenYAMM::Game::DialogueMenuId::None);
+
+    REQUIRE_EQ(actions.size(), 1);
+    CHECK_EQ(actions.front().label, "Sorry, come back another day");
+    CHECK_FALSE(actions.front().enabled);
+
+    harness.party().setQuestBit(900, true);
+    actions = OpenYAMM::Game::buildHouseActionOptions(
+        *pHouseEntry,
+        &harness.party(),
+        &gameData.classSkillTable,
+        &harness.worldRuntime(),
+        harness.worldRuntime().gameMinutes(),
+        OpenYAMM::Game::DialogueMenuId::None);
+
+    REQUIRE_EQ(actions.size(), 1);
+    CHECK(actions.front().enabled);
+    CHECK(houseActionsContainDestination(actions, "Ravenshore"));
+}
+
+TEST_CASE("transport route travel time is clamped to at least one day")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+    OpenYAMM::Game::HouseEntry houseEntry = {};
+    houseEntry.id = 99999;
+    houseEntry.type = "Boats";
+    houseEntry.priceMultiplier = 1.0f;
+
+    OpenYAMM::Game::HouseEntry::TransportRoute route = {};
+    route.routeIndex = 1;
+    route.destinationName = "Test Harbor";
+    route.mapFileName = "Out02.odm";
+    route.travelDays = 0;
+    route.useMapStartPosition = true;
+    houseEntry.transportRoutes.push_back(route);
+
+    harness.party().addGold(1000);
+    const float initialGameMinutes = harness.worldRuntime().gameMinutes();
+    const std::vector<OpenYAMM::Game::HouseActionOption> actions = OpenYAMM::Game::buildHouseActionOptions(
+        houseEntry,
+        &harness.party(),
+        &gameData.classSkillTable,
+        &harness.worldRuntime(),
+        harness.worldRuntime().gameMinutes(),
+        OpenYAMM::Game::DialogueMenuId::None);
+
+    REQUIRE_EQ(actions.size(), 1);
+    CHECK(actions.front().label.find("1 day to Test Harbor") != std::string::npos);
+
+    const OpenYAMM::Game::HouseActionResult result = OpenYAMM::Game::performHouseAction(
+        actions.front(),
+        houseEntry,
+        harness.party(),
+        &gameData.classSkillTable,
+        &harness.worldRuntime());
+
+    CHECK(result.succeeded);
+    CHECK_EQ(harness.worldRuntime().gameMinutes(), doctest::Approx(initialGameMinutes + 24.0f * 60.0f));
+    REQUIRE_FALSE(result.messages.empty());
+    CHECK_EQ(result.messages.front(), "It will take 1 day to travel to Test Harbor.");
 }
 
 TEST_CASE("tavern rent room defers recovery until rest screen")

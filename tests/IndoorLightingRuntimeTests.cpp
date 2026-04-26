@@ -4,6 +4,7 @@
 #include "game/gameplay/GameplayTorchLight.h"
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/indoor/IndoorMapData.h"
+#include "game/maps/MapAssetLoader.h"
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
 
@@ -13,11 +14,14 @@ using OpenYAMM::Game::IndoorLight;
 using OpenYAMM::Game::IndoorLightingFrame;
 using OpenYAMM::Game::IndoorLightingFrameInput;
 using OpenYAMM::Game::IndoorLightingRuntime;
+using OpenYAMM::Game::IndoorLightSelectionBounds;
 using OpenYAMM::Game::IndoorMapData;
 using OpenYAMM::Game::IndoorRenderLight;
 using OpenYAMM::Game::IndoorRenderLightKind;
 using OpenYAMM::Game::IndoorSector;
-using OpenYAMM::Game::MaxIndoorRenderLights;
+using OpenYAMM::Game::DecorationBillboard;
+using OpenYAMM::Game::DecorationBillboardSet;
+using OpenYAMM::Game::MaxIndoorDrawLights;
 using OpenYAMM::Game::Party;
 using OpenYAMM::Game::PartyBuffId;
 using OpenYAMM::Game::gameplayTorchLightBaseRadius;
@@ -49,9 +53,9 @@ IndoorMapData makeMapWithOneSector()
 }
 }
 
-TEST_CASE("indoor lighting uses OE-sized indoor render light budget")
+TEST_CASE("indoor lighting keeps shader draw light budget local to each draw")
 {
-    CHECK_EQ(MaxIndoorRenderLights, 40u);
+    CHECK_EQ(MaxIndoorDrawLights, 12u);
 }
 
 TEST_CASE("indoor lighting resolves BLV light enabled state from attributes and runtime overrides")
@@ -94,6 +98,54 @@ TEST_CASE("indoor lighting builds BLV lights and respects runtime SetLight state
     CHECK_EQ(frame.lights.front().radius, 400.0f);
 
     state.indoorLightsEnabled[0] = false;
+    frame = runtime.buildFrame(input);
+    CHECK(frame.lights.empty());
+}
+
+TEST_CASE("indoor decoration light is hidden when consumable decoration is cleared")
+{
+    IndoorMapData map = {};
+    map.sectors.push_back({});
+
+    OpenYAMM::Game::IndoorEntity campfire = {};
+    campfire.decorationListId = 0;
+    campfire.x = 100;
+    campfire.y = 200;
+    campfire.z = 300;
+    campfire.name = "dec24";
+    map.entities.push_back(campfire);
+
+    DecorationBillboardSet billboardSet = {};
+    REQUIRE(billboardSet.decorationTable.loadRows({
+        {"1", "dec24", "campfire", "0", "52", "56", "128", "200", "30", "30", "0", "0", "216"}
+    }));
+
+    DecorationBillboard billboard = {};
+    billboard.entityIndex = 0;
+    billboard.decorationId = 0;
+    billboard.spriteId = 216;
+    billboard.height = 56;
+    billboard.x = 100;
+    billboard.y = 200;
+    billboard.z = 300;
+    billboard.sectorId = 0;
+    billboard.name = "dec24";
+    billboardSet.billboards.push_back(billboard);
+
+    IndoorLightingRuntime runtime;
+    runtime.rebuildStaticCache(map, &billboardSet);
+
+    EventRuntimeState state = {};
+    IndoorLightingFrameInput input = {};
+    input.pMapData = &map;
+    input.pDecorationBillboardSet = &billboardSet;
+    input.pEventRuntimeState = &state;
+
+    IndoorLightingFrame frame = runtime.buildFrame(input);
+    REQUIRE_EQ(frame.lights.size(), 1u);
+    CHECK(frame.lights.front().kind == IndoorRenderLightKind::Decoration);
+
+    state.decorVars[0] = 2;
     frame = runtime.buildFrame(input);
     CHECK(frame.lights.empty());
 }
@@ -178,12 +230,12 @@ TEST_CASE("indoor Torchlight visibly raises sampled lighting near the party")
     CHECK(atParty[2] > farFromParty[2] + 0.4f);
 }
 
-TEST_CASE("indoor lighting ranks and truncates BLV lights")
+TEST_CASE("indoor lighting keeps all visible BLV lights and caps only draw selection")
 {
     IndoorMapData map = {};
     IndoorSector sector = {};
 
-    for (size_t index = 0; index < MaxIndoorRenderLights + 4; ++index)
+    for (size_t index = 0; index < MaxIndoorDrawLights + 4; ++index)
     {
         IndoorLight light = {};
         light.x = static_cast<int16_t>(index * 100);
@@ -202,10 +254,146 @@ TEST_CASE("indoor lighting ranks and truncates BLV lights")
     input.cameraPosition = {0.0f, 0.0f, 0.0f};
 
     IndoorLightingRuntime runtime;
+    runtime.rebuildStaticCache(map, nullptr);
     const IndoorLightingFrame frame = runtime.buildFrame(input);
 
-    CHECK_EQ(frame.lights.size(), MaxIndoorRenderLights);
+    CHECK_EQ(frame.lights.size(), MaxIndoorDrawLights + 4u);
     CHECK(frame.lights.front().kind == IndoorRenderLightKind::Static);
+
+    const OpenYAMM::Game::IndoorDrawLightSet drawLights =
+        IndoorLightingRuntime::selectDrawLightSetForSectors(frame, {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, 0, -1);
+
+    CHECK_EQ(drawLights.lightCount, MaxIndoorDrawLights);
+}
+
+TEST_CASE("indoor lighting selects static lights from the requested sector")
+{
+    IndoorMapData map = {};
+    map.sectors.resize(2);
+
+    IndoorLight firstSectorLight = {};
+    firstSectorLight.x = 100;
+    firstSectorLight.radius = 300;
+    firstSectorLight.red = 255;
+    firstSectorLight.green = 255;
+    firstSectorLight.blue = 255;
+    map.lights.push_back(firstSectorLight);
+    map.sectors[0].lightIds.push_back(0);
+
+    IndoorLight secondSectorLight = {};
+    secondSectorLight.x = 5000;
+    secondSectorLight.radius = 300;
+    secondSectorLight.red = 255;
+    secondSectorLight.green = 255;
+    secondSectorLight.blue = 255;
+    map.lights.push_back(secondSectorLight);
+    map.sectors[1].lightIds.push_back(1);
+
+    IndoorLightingRuntime runtime;
+    runtime.rebuildStaticCache(map, nullptr);
+
+    IndoorLightingFrameInput input = {};
+    input.pMapData = &map;
+    const IndoorLightingFrame frame = runtime.buildFrame(input);
+    const OpenYAMM::Game::IndoorDrawLightSet firstSectorDrawLights =
+        IndoorLightingRuntime::selectDrawLightSetForSectors(frame, {0.0f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f}, 0, -1);
+
+    REQUIRE_EQ(firstSectorDrawLights.lightCount, 1u);
+    CHECK_EQ(firstSectorDrawLights.positions[0], doctest::Approx(100.0f));
+}
+
+TEST_CASE("indoor lighting approximates non-detail lights instead of dropping them")
+{
+    IndoorLightingFrame frame = {};
+    frame.ambient = 0.25f;
+    frame.lightIndicesBySector.resize(1);
+
+    for (size_t index = 0; index < MaxIndoorDrawLights + 1; ++index)
+    {
+        IndoorRenderLight light = {};
+        light.position = {static_cast<float>(index * 8), 0.0f, 0.0f};
+        light.radius = 250.0f;
+        light.colorAbgr = 0xffffffffu;
+        light.intensity = 1.0f;
+        light.sectorId = 0;
+        frame.lightIndicesBySector[0].push_back(static_cast<uint32_t>(frame.lights.size()));
+        frame.lights.push_back(light);
+    }
+
+    IndoorLightSelectionBounds bounds = {};
+    bounds.min = {-32.0f, -32.0f, -32.0f};
+    bounds.max = {128.0f, 32.0f, 32.0f};
+    bounds.valid = true;
+
+    const OpenYAMM::Game::IndoorDrawLightSet drawLights =
+        IndoorLightingRuntime::selectDrawLightSetForBounds(
+            frame,
+            {0.0f, 0.0f, 0.0f},
+            {1.0f, 0.0f, 0.0f},
+            0,
+            -1,
+            bounds);
+
+    CHECK_EQ(drawLights.lightCount, MaxIndoorDrawLights);
+    CHECK(drawLights.params[1] > frame.ambient);
+}
+
+TEST_CASE("indoor lighting keeps static detail lights when many FX lights are present")
+{
+    IndoorLightingFrame frame = {};
+    frame.ambient = 0.25f;
+    frame.lightIndicesBySector.resize(1);
+
+    IndoorRenderLight staticLight = {};
+    staticLight.position = {100.0f, 0.0f, 0.0f};
+    staticLight.radius = 300.0f;
+    staticLight.colorAbgr = 0xffffffffu;
+    staticLight.intensity = 1.0f;
+    staticLight.sectorId = 0;
+    staticLight.kind = IndoorRenderLightKind::Static;
+    frame.lightIndicesBySector[0].push_back(static_cast<uint32_t>(frame.lights.size()));
+    frame.lights.push_back(staticLight);
+
+    for (size_t index = 0; index < MaxIndoorDrawLights + 4; ++index)
+    {
+        IndoorRenderLight fxLight = {};
+        fxLight.position = {static_cast<float>(index * 6), 0.0f, 0.0f};
+        fxLight.radius = 500.0f;
+        fxLight.colorAbgr = 0xffffffffu;
+        fxLight.intensity = 1.0f;
+        fxLight.kind = IndoorRenderLightKind::Fx;
+        frame.globalLightIndices.push_back(static_cast<uint32_t>(frame.lights.size()));
+        frame.lights.push_back(fxLight);
+    }
+
+    IndoorLightSelectionBounds bounds = {};
+    bounds.min = {-32.0f, -32.0f, -32.0f};
+    bounds.max = {160.0f, 32.0f, 32.0f};
+    bounds.valid = true;
+
+    const OpenYAMM::Game::IndoorDrawLightSet drawLights =
+        IndoorLightingRuntime::selectDrawLightSetForBounds(
+            frame,
+            {0.0f, 0.0f, 0.0f},
+            {1.0f, 0.0f, 0.0f},
+            0,
+            -1,
+            bounds);
+
+    bool foundStaticLight = false;
+
+    for (size_t index = 0; index < drawLights.lightCount; ++index)
+    {
+        const size_t base = index * 4;
+
+        if (drawLights.positions[base] == doctest::Approx(staticLight.position.x))
+        {
+            foundStaticLight = true;
+            break;
+        }
+    }
+
+    CHECK(foundStaticLight);
 }
 
 TEST_CASE("indoor lighting samples ambient plus nearby point lights")
