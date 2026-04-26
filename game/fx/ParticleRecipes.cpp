@@ -341,6 +341,13 @@ ProjectileRecipe classifyProjectileRecipe(
         return ProjectileRecipe::Implosion;
     }
 
+    if (spellId == 15
+        || containsToken(objectName, "sparks")
+        || containsToken(spriteName, "spell02"))
+    {
+        return ProjectileRecipe::Sparks;
+    }
+
     if (spellId == 18
         || containsToken(objectName, "lightning bolt")
         || containsToken(objectName, "laser")
@@ -453,6 +460,8 @@ uint32_t projectileRecipeColorAbgr(ProjectileRecipe recipe)
         return makeAbgr(255, 244, 180, 220);
     case ProjectileRecipe::Implosion:
         return makeAbgr(176, 216, 255, 208);
+    case ProjectileRecipe::Sparks:
+        return makeAbgr(255, 220, 90, 216);
     case ProjectileRecipe::LightningBolt:
         return makeAbgr(255, 220, 90, 220);
     case ProjectileRecipe::IceBolt:
@@ -489,6 +498,8 @@ float projectileRecipeGlowRadius(ProjectileRecipe recipe)
         return 192.0f;
     case ProjectileRecipe::Implosion:
         return 168.0f;
+    case ProjectileRecipe::Sparks:
+        return 112.0f;
     case ProjectileRecipe::LightBolt:
     case ProjectileRecipe::LightningBolt:
         return 176.0f;
@@ -532,6 +543,7 @@ float projectileRecipeAnchorOffset(ProjectileRecipe recipe, uint16_t radius, uin
         return std::max(baselineOffset, 14.0f);
     case ProjectileRecipe::IceBolt:
     case ProjectileRecipe::LightBolt:
+    case ProjectileRecipe::Sparks:
     case ProjectileRecipe::LightningBolt:
     case ProjectileRecipe::DarkFireBolt:
     case ProjectileRecipe::FireBolt:
@@ -565,6 +577,7 @@ float projectileRecipeBackOffset(ProjectileRecipe recipe, uint16_t radius)
     case ProjectileRecipe::Fireball:
         return 6.0f;
     case ProjectileRecipe::FireBolt:
+    case ProjectileRecipe::Sparks:
     case ProjectileRecipe::LightningBolt:
     case ProjectileRecipe::IceBolt:
     case ProjectileRecipe::LightBolt:
@@ -849,20 +862,23 @@ void spawnProjectileTrailParticles(
         return;
     }
 
-    if (recipe == ProjectileRecipe::LightningBolt
+    if (recipe == ProjectileRecipe::Sparks
+        || recipe == ProjectileRecipe::LightningBolt
         || recipe == ProjectileRecipe::GenericLineTrail
         || (context.objectFlags & ObjectDescTrailLine) != 0)
     {
         LayerRecipe sparkLayer = {};
         sparkLayer.startColorAbgr = colorAbgr;
         sparkLayer.endColorAbgr = makeAbgr(255, 255, 220, 0);
-        sparkLayer.count = recipe == ProjectileRecipe::GenericLineTrail ? 4u : 8u;
+        sparkLayer.count = recipe == ProjectileRecipe::GenericLineTrail ? 4u
+            : (recipe == ProjectileRecipe::Sparks ? 5u : 8u);
         sparkLayer.startOffset = 5.0f;
         sparkLayer.offsetStep = 3.6f;
         sparkLayer.lateralSpread = 1.2f;
         sparkLayer.verticalSpread = 1.0f;
         sparkLayer.inheritedVelocity = 0.28f;
-        sparkLayer.startSize = recipe == ProjectileRecipe::GenericLineTrail ? 4.0f : 5.5f;
+        sparkLayer.startSize = recipe == ProjectileRecipe::GenericLineTrail ? 4.0f
+            : (recipe == ProjectileRecipe::Sparks ? 4.6f : 5.5f);
         sparkLayer.endSize = 1.8f;
         sparkLayer.lifetimeSeconds = 0.16f;
         sparkLayer.drag = 8.0f;
@@ -1074,7 +1090,8 @@ void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnConte
         || recipe == ProjectileRecipe::DragonBreath
         || recipe == ProjectileRecipe::DarkFireBolt;
     const bool isLightning =
-        recipe == ProjectileRecipe::LightningBolt
+        recipe == ProjectileRecipe::Sparks
+        || recipe == ProjectileRecipe::LightningBolt
         || recipe == ProjectileRecipe::GenericLineTrail
         || (recipe == ProjectileRecipe::None
             && (containsToken(context.objectName, "lightning")

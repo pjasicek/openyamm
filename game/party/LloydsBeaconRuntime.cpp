@@ -35,6 +35,28 @@ size_t lloydsBeaconMaxSlotsForCharacter(const Character *pCharacter)
     return lloydsBeaconMaxSlotsForMastery(pWaterSkill != nullptr ? pWaterSkill->mastery : SkillMastery::None);
 }
 
+bool lloydsBeaconHasRecallableBeacon(const Character *pCharacter)
+{
+    if (pCharacter == nullptr)
+    {
+        return false;
+    }
+
+    const size_t slotCount = std::min(lloydsBeaconMaxSlotsForCharacter(pCharacter), pCharacter->lloydsBeacons.size());
+
+    for (size_t slotIndex = 0; slotIndex < slotCount; ++slotIndex)
+    {
+        const std::optional<LloydBeacon> &beacon = pCharacter->lloydsBeacons[slotIndex];
+
+        if (beacon.has_value() && beacon->remainingSeconds > 0.0f)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 float lloydsBeaconDurationSeconds(uint32_t waterSkillLevel)
 {
     const uint32_t clampedSkillLevel = std::max<uint32_t>(1, waterSkillLevel);

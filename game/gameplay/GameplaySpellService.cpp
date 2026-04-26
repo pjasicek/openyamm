@@ -4,6 +4,7 @@
 #include "game/audio/GameAudioSystem.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/SpellIds.h"
 
 namespace OpenYAMM::Game
@@ -613,11 +614,14 @@ bool GameplaySpellService::tryOpenSelectionUi(
 
     if (isSpellId(request.spellId, SpellId::LloydsBeacon))
     {
+        const Party *pParty = runtime.partyReadOnly();
+        const Character *pCaster = pParty != nullptr ? pParty->member(request.casterMemberIndex) : nullptr;
+
         runtime.openUtilitySpellOverlay(
             GameplayUiController::UtilitySpellOverlayMode::LloydsBeacon,
             request.spellId,
             request.casterMemberIndex,
-            false);
+            lloydsBeaconHasRecallableBeacon(pCaster));
         runtime.resetUtilitySpellOverlayInteractionState();
         runtime.setStatusBarEvent("Set or recall beacon", 4.0f);
         return true;

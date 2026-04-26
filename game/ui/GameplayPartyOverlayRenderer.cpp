@@ -3584,6 +3584,8 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayScreenRunti
                 return context.resolveHudLayoutElement(layoutId, width, height, pLayout->width, pLayout->height);
             };
 
+        std::string hoveredDestinationLabel;
+
         for (const std::string &layoutId : orderedLayoutIds)
         {
             const GameplayScreenRuntime::HudLayoutElement *pLayout = context.findHudLayoutElement(layoutId);
@@ -3607,6 +3609,13 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayScreenRunti
                 continue;
             }
 
+            if (pDestination != nullptr
+                && hoveredDestinationLabel.empty()
+                && context.isPointerInsideResolvedElement(*resolved, mouseX, mouseY))
+            {
+                hoveredDestinationLabel = pDestination->label;
+            }
+
             const std::string *pAssetName =
                 pLayout->interactive
                     ? context.resolveInteractiveAssetName(*pLayout, *resolved, mouseX, mouseY, isLeftMousePressed)
@@ -3626,6 +3635,23 @@ void GameplayPartyOverlayRenderer::renderUtilitySpellOverlay(GameplayScreenRunti
             }
 
             context.submitHudTexturedQuad(*texture, resolved->x, resolved->y, resolved->width, resolved->height);
+        }
+
+        if (!hoveredDestinationLabel.empty())
+        {
+            const GameplayScreenRuntime::HudLayoutElement *pLabelLayout =
+                context.findHudLayoutElement("TownPortalDestinationLabel");
+
+            if (pLabelLayout != nullptr && pLabelLayout->visible)
+            {
+                const std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> labelResolved =
+                    resolveLayout("TownPortalDestinationLabel");
+
+                if (labelResolved.has_value())
+                {
+                    context.renderLayoutLabel(*pLabelLayout, *labelResolved, hoveredDestinationLabel);
+                }
+            }
         }
 
         return;
