@@ -26,6 +26,10 @@ struct OutdoorBspNode
 
 struct OutdoorBModelFace
 {
+    int32_t planeNormalX = 0;
+    int32_t planeNormalY = 0;
+    int32_t planeNormalZ = 0;
+    int32_t planeDistance = 0;
     uint32_t attributes = 0;
     std::vector<uint16_t> vertexIndices;
     std::vector<int16_t> textureUs;

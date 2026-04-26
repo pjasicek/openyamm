@@ -30,6 +30,10 @@ constexpr size_t BModelFaceSize = 0x134;
 constexpr size_t BModelFaceFlagsSize = 2;
 constexpr size_t BModelTextureNameSize = 10;
 constexpr size_t BModelBspNodeSize = 8;
+constexpr size_t BModelFacePlaneNormalXOffset = 0x00;
+constexpr size_t BModelFacePlaneNormalYOffset = 0x04;
+constexpr size_t BModelFacePlaneNormalZOffset = 0x08;
+constexpr size_t BModelFacePlaneDistanceOffset = 0x0c;
 constexpr size_t BModelFaceVertexIndicesOffset = 0x20;
 constexpr size_t BModelFaceTextureUOffset = 0x48;
 constexpr size_t BModelFaceTextureVOffset = 0x70;
@@ -202,6 +206,10 @@ bool appendOutdoorDynamicSections(std::vector<uint8_t> &bytes, const OutdoorMapD
         for (const OutdoorBModelFace &face : bmodel.faces)
         {
             std::vector<uint8_t> faceBytes(BModelFaceSize, 0);
+            writeValue<int32_t>(faceBytes, BModelFacePlaneNormalXOffset, face.planeNormalX);
+            writeValue<int32_t>(faceBytes, BModelFacePlaneNormalYOffset, face.planeNormalY);
+            writeValue<int32_t>(faceBytes, BModelFacePlaneNormalZOffset, face.planeNormalZ);
+            writeValue<int32_t>(faceBytes, BModelFacePlaneDistanceOffset, face.planeDistance);
             writeValue<uint32_t>(faceBytes, BModelFaceAttributesOffset, face.attributes);
             writeValue<int16_t>(faceBytes, BModelFaceBitmapIndexOffset, face.bitmapIndex);
             writeValue<int16_t>(faceBytes, BModelFaceTextureDeltaUOffset, face.textureDeltaU);
@@ -583,7 +591,11 @@ std::optional<OutdoorMapData> OutdoorMapDataLoader::loadFromBytes(const std::vec
             face.textureUs.reserve(numVertices);
             face.textureVs.reserve(numVertices);
 
-            if (!reader.readUInt32(faceOffset + BModelFaceAttributesOffset, face.attributes)
+            if (!reader.readInt32(faceOffset + BModelFacePlaneNormalXOffset, face.planeNormalX)
+                || !reader.readInt32(faceOffset + BModelFacePlaneNormalYOffset, face.planeNormalY)
+                || !reader.readInt32(faceOffset + BModelFacePlaneNormalZOffset, face.planeNormalZ)
+                || !reader.readInt32(faceOffset + BModelFacePlaneDistanceOffset, face.planeDistance)
+                || !reader.readUInt32(faceOffset + BModelFaceAttributesOffset, face.attributes)
                 || !reader.readInt16(faceOffset + BModelFaceBitmapIndexOffset, face.bitmapIndex)
                 || !reader.readInt16(faceOffset + BModelFaceTextureDeltaUOffset, face.textureDeltaU)
                 || !reader.readInt16(faceOffset + BModelFaceTextureDeltaVOffset, face.textureDeltaV))

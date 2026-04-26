@@ -11,6 +11,8 @@
 #include "game/gameplay/SavePreviewImage.h"
 #include "game/items/InventoryItemMixingRuntime.h"
 #include "game/items/ItemRuntime.h"
+#include "game/maps/TerrainTileData.h"
+#include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMovementController.h"
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
@@ -86,7 +88,8 @@ OpenYAMM::Game::PartySeed createRegressionPartySeed()
 std::optional<OpenYAMM::Game::ScriptedEventProgram> loadSyntheticScriptedProgram(
     const std::string &body,
     const std::string &chunkName,
-    OpenYAMM::Game::ScriptedEventScope scope)
+    OpenYAMM::Game::ScriptedEventScope scope,
+    const std::vector<uint16_t> &onLoadEventIds = {})
 {
     std::string error;
     std::string luaSourceText = body;
@@ -99,7 +102,19 @@ std::optional<OpenYAMM::Game::ScriptedEventProgram> loadSyntheticScriptedProgram
     const char *pScopeName = scope == OpenYAMM::Game::ScriptedEventScope::Global ? "global" : "map";
     luaSourceText += "evt.meta.";
     luaSourceText += pScopeName;
-    luaSourceText += ".onLoad = {}\n";
+    luaSourceText += ".onLoad = {";
+
+    for (size_t index = 0; index < onLoadEventIds.size(); ++index)
+    {
+        if (index != 0)
+        {
+            luaSourceText += ", ";
+        }
+
+        luaSourceText += std::to_string(onLoadEventIds[index]);
+    }
+
+    luaSourceText += "}\n";
     luaSourceText += "evt.meta.";
     luaSourceText += pScopeName;
     luaSourceText += ".hint = {}\n";
@@ -280,6 +295,62 @@ TEST_CASE("party ground movement blocks water entry without water walk")
 
     CHECK_FALSE(resolved.supportOnWater);
     CHECK_FALSE(isOutdoorPositionWaterForDiagnostics(boundary.mapData, std::nullopt, resolved.x, resolved.y));
+}
+
+TEST_CASE("outdoor terrain descriptors expose liquid flags for non-default tilesets")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    REQUIRE(initializeTestAssetFileSystem(assetFileSystem));
+
+    OpenYAMM::Game::OutdoorMapData ironsand = {};
+    ironsand.fileName = "out04.odm";
+    ironsand.masterTile = 1;
+    ironsand.tileSetLookupIndices = {234, 198, 270, 414};
+
+    const std::optional<std::vector<OpenYAMM::Game::TerrainTileDescriptor>> ironsandDescriptors =
+        OpenYAMM::Game::loadTerrainTileDescriptors(assetFileSystem, ironsand);
+    REQUIRE(ironsandDescriptors.has_value());
+    CHECK((*ironsandDescriptors)[126].textureName == "lavtyl");
+    CHECK(((*ironsandDescriptors)[126].flags & OpenYAMM::Game::TerrainTileFlagWater) != 0);
+    CHECK(((*ironsandDescriptors)[126].flags & OpenYAMM::Game::TerrainTileFlagBurn) != 0);
+
+    OpenYAMM::Game::OutdoorMapData shadowspire = {};
+    shadowspire.fileName = "out06.odm";
+    shadowspire.masterTile = 2;
+    shadowspire.tileSetLookupIndices = {162, 126, 198, 414};
+
+    const std::optional<std::vector<OpenYAMM::Game::TerrainTileDescriptor>> shadowspireDescriptors =
+        OpenYAMM::Game::loadTerrainTileDescriptors(assetFileSystem, shadowspire);
+    REQUIRE(shadowspireDescriptors.has_value());
+    CHECK((*shadowspireDescriptors)[162].textureName == "tartyl");
+    CHECK(((*shadowspireDescriptors)[162].flags & OpenYAMM::Game::TerrainTileFlagWater) != 0);
+    CHECK(((*shadowspireDescriptors)[162].flags & OpenYAMM::Game::TerrainTileFlagBurn) == 0);
+    CHECK((*shadowspireDescriptors)[174].textureName == "trne");
+    CHECK(((*shadowspireDescriptors)[174].flags & OpenYAMM::Game::TerrainTileFlagTransition) != 0);
+}
+
+TEST_CASE("outdoor terrain descriptor flags are applied to movement attributes")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    REQUIRE(initializeTestAssetFileSystem(assetFileSystem));
+
+    OpenYAMM::Game::OutdoorMapData mapData = {};
+    mapData.fileName = "out04.odm";
+    mapData.masterTile = 1;
+    mapData.tileSetLookupIndices = {234, 198, 270, 414};
+    mapData.tileMap.assign(
+        static_cast<size_t>(OpenYAMM::Game::OutdoorMapData::TerrainWidth)
+            * static_cast<size_t>(OpenYAMM::Game::OutdoorMapData::TerrainHeight),
+        90);
+    mapData.attributeMap.assign(mapData.tileMap.size(), 0);
+
+    const size_t lavaCellIndex =
+        static_cast<size_t>(63 * OpenYAMM::Game::OutdoorMapData::TerrainWidth + 63);
+    mapData.tileMap[lavaCellIndex] = 126;
+
+    REQUIRE(OpenYAMM::Game::applyTerrainTileDescriptorAttributes(assetFileSystem, mapData));
+    CHECK((mapData.attributeMap[lavaCellIndex] & 0x02) != 0);
+    CHECK((mapData.attributeMap[lavaCellIndex] & 0x01) != 0);
 }
 
 TEST_CASE("world item pickup decision prefers inventory before held item")
@@ -688,6 +759,130 @@ TEST_CASE("lua event runtime supports evt jump alias")
     CHECK_EQ(runtimeState.statusMessages.back(), "jump ok");
 }
 
+TEST_CASE("lua event runtime SpeakNPC opens pending npc talk dialogue")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[451] = function()\n"
+        "    evt._BeginEvent(451)\n"
+        "    evt.SpeakNPC(39)\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticSpeakNpc.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 451, runtimeState, nullptr, nullptr));
+    REQUIRE(runtimeState.pendingDialogueContext.has_value());
+    CHECK_EQ(runtimeState.pendingDialogueContext->kind, OpenYAMM::Game::DialogueContextKind::NpcTalk);
+    CHECK_EQ(runtimeState.pendingDialogueContext->sourceId, 39u);
+    CHECK_EQ(runtimeState.pendingDialogueContext->hostHouseId, 0u);
+}
+
+TEST_CASE("lua event runtime onload executes SpeakNPC handlers")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[451] = function()\n"
+        "    evt._BeginEvent(451)\n"
+        "    evt.SpeakNPC(39)\n"
+        "    return\n"
+        "end\n"
+        "evt.map[452] = function()\n"
+        "    evt._BeginEvent(452)\n"
+        "    evt.StatusText(\"setup still ran\")\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticOnLoadSpeakNpc.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map,
+        {451, 452});
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.buildOnLoadState(scriptedProgram, std::nullopt, std::nullopt, runtimeState));
+    CHECK_EQ(runtimeState.localOnLoadEventsExecuted, 2u);
+    CHECK_EQ(runtimeState.globalOnLoadEventsExecuted, 0u);
+    REQUIRE(runtimeState.pendingDialogueContext.has_value());
+    CHECK_EQ(runtimeState.pendingDialogueContext->kind, OpenYAMM::Game::DialogueContextKind::NpcTalk);
+    CHECK_EQ(runtimeState.pendingDialogueContext->sourceId, 39u);
+}
+
+TEST_CASE("lua event runtime resolves MM8 invisible event variable alias")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[1] = function()\n"
+        "    evt._BeginEvent(1)\n"
+        "    if evt.Cmp(316, 0) then\n"
+        "        evt.StatusText(\"blocked\")\n"
+        "        return\n"
+        "    end\n"
+        "    evt.StatusText(\"warning\")\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticMm8InvisibleAlias.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, &party, nullptr));
+    REQUIRE_FALSE(runtimeState.statusMessages.empty());
+    CHECK_EQ(runtimeState.statusMessages.back(), "warning");
+
+    runtimeState.statusMessages.clear();
+    party.applyPartyBuff(
+        OpenYAMM::Game::PartyBuffId::Invisibility,
+        60.0f,
+        0,
+        0,
+        0,
+        OpenYAMM::Game::SkillMastery::Normal,
+        0);
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, &party, nullptr));
+    REQUIRE_FALSE(runtimeState.statusMessages.empty());
+    CHECK_EQ(runtimeState.statusMessages.back(), "blocked");
+}
+
+TEST_CASE("lua event runtime separates persistent actor masks from current hostility requests")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[1] = function()\n"
+        "    evt._BeginEvent(1)\n"
+        "    evt.SetMonGroupBit(44, 0x01000000, 1)\n"
+        "    return\n"
+        "end\n"
+        "evt.map[2] = function()\n"
+        "    evt._BeginEvent(2)\n"
+        "    evt.StatusText(\"plate reset\")\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticHostilityRequests.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    const uint32_t hostileBit = static_cast<uint32_t>(OpenYAMM::Game::EvtActorAttribute::Hostile);
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr));
+    REQUIRE(runtimeState.actorGroupSetMasks.contains(44));
+    CHECK((runtimeState.actorGroupSetMasks.at(44) & hostileBit) != 0);
+    REQUIRE(runtimeState.actorGroupHostilityRequests.contains(44));
+    CHECK(runtimeState.actorGroupHostilityRequests.at(44));
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 2, runtimeState, nullptr, nullptr));
+    REQUIRE(runtimeState.actorGroupSetMasks.contains(44));
+    CHECK((runtimeState.actorGroupSetMasks.at(44) & hostileBit) != 0);
+    CHECK(runtimeState.actorGroupHostilityRequests.empty());
+}
+
 TEST_CASE("save preview bmp decoder accepts current 32 bit preview payloads")
 {
     const std::vector<uint8_t> sourcePixels = {
@@ -812,6 +1007,30 @@ TEST_CASE("event runtime caches facet invisible override state")
     runtimeState.facetClearMasks.erase(12);
     ++runtimeState.outdoorSurfaceRevision;
     CHECK(runtimeState.hasFacetInvisibleOverride(12));
+}
+
+TEST_CASE("outdoor bmodel collision geometry keeps invisible faces and uses authored planes")
+{
+    OpenYAMM::Game::OutdoorBModel bmodel = {};
+    bmodel.vertices.push_back({0, 0, 0});
+    bmodel.vertices.push_back({128, 0, 0});
+    bmodel.vertices.push_back({128, 128, 0});
+    bmodel.vertices.push_back({0, 128, 0});
+
+    OpenYAMM::Game::OutdoorBModelFace face = {};
+    face.attributes = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Invisible);
+    face.vertexIndices = {0, 1, 2, 3};
+    face.planeNormalX = 65536;
+    face.planeNormalY = 0;
+    face.planeNormalZ = 0;
+
+    OpenYAMM::Game::OutdoorFaceGeometryData geometry = {};
+    REQUIRE(OpenYAMM::Game::buildOutdoorFaceGeometry(bmodel, 0, face, 0, geometry));
+    CHECK(geometry.normal.x > 0.99f);
+    CHECK(std::abs(geometry.normal.z) < 0.01f);
+
+    face.attributes = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Untouchable);
+    CHECK_FALSE(OpenYAMM::Game::buildOutdoorFaceGeometry(bmodel, 0, face, 0, geometry));
 }
 
 TEST_CASE("resolve character attack sound id uses shared weapon family mapping")

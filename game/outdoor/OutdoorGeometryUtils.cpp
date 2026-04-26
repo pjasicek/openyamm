@@ -17,10 +17,11 @@ constexpr uint8_t TerrainTileWater = 0x02;
 constexpr float FloorCheckSlack = 5.0f;
 constexpr float FloorSelectionHeightTolerance = 5.0f;
 constexpr float TerrainSteepTileHeight = static_cast<float>(OutdoorMapData::TerrainTileSize);
+constexpr float OutdoorFacePlaneScale = 65536.0f;
 
-bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
+bool outdoorFaceIsEthereal(uint32_t attributes)
 {
-    return hasFaceAttribute(attributes, FaceAttribute::Invisible);
+    return hasFaceAttribute(attributes, FaceAttribute::Untouchable);
 }
 
 bx::Vec3 vecSubtract(const bx::Vec3 &left, const bx::Vec3 &right)
@@ -57,6 +58,20 @@ bx::Vec3 vecNormalize(const bx::Vec3 &value)
     }
 
     return {value.x / length, value.y / length, value.z / length};
+}
+
+bool hasAuthoredPlaneNormal(const OutdoorBModelFace &face)
+{
+    return face.planeNormalX != 0 || face.planeNormalY != 0 || face.planeNormalZ != 0;
+}
+
+bx::Vec3 authoredPlaneNormal(const OutdoorBModelFace &face)
+{
+    return vecNormalize({
+        static_cast<float>(face.planeNormalX) / OutdoorFacePlaneScale,
+        static_cast<float>(face.planeNormalY) / OutdoorFacePlaneScale,
+        static_cast<float>(face.planeNormalZ) / OutdoorFacePlaneScale
+    });
 }
 }
 
@@ -218,7 +233,7 @@ bool buildOutdoorFaceGeometry(
     OutdoorFaceGeometryData &geometry
 )
 {
-    if (outdoorFaceHasInvisibleAttribute(face.attributes))
+    if (outdoorFaceIsEthereal(face.attributes))
     {
         return false;
     }
@@ -269,7 +284,7 @@ bool buildOutdoorFaceGeometry(
 
     const bx::Vec3 edge1 = vecSubtract(geometry.vertices[1], geometry.vertices[0]);
     const bx::Vec3 edge2 = vecSubtract(geometry.vertices[2], geometry.vertices[0]);
-    geometry.normal = vecNormalize(vecCross(edge1, edge2));
+    geometry.normal = hasAuthoredPlaneNormal(face) ? authoredPlaneNormal(face) : vecNormalize(vecCross(edge1, edge2));
     geometry.hasPlane = vecLength(geometry.normal) > GeometryEpsilon;
     return true;
 }
