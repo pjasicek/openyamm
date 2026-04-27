@@ -1,162 +1,148 @@
-
 # OpenYAMM
-Open Yet Another Might and Magic
 
-OpenYAMM is a modern cross-platform reimplementation of the Might and Magic VIII engine written in modern C++.
+OpenYAMM is a modern C++ reimplementation of the Might and Magic VIII game engine.
 
-The project loads the original MM8 assets while replacing only obsolete container or codec technologies.
-The goal is to remain faithful to the original game while providing a clean and maintainable modern engine.
+The goal is to keep the original game data and gameplay feel while providing a clean,
+maintainable, cross-platform engine with modern rendering, audio, UI, save/load, tooling,
+and editor support.
 
-This is NOT a decompilation project. The engine is implemented from scratch.
+## Status
 
----
+OpenYAMM is in active development. It currently includes:
 
-# Key Principles
+- outdoor and indoor gameplay runtime work
+- map loading and rendering
+- party, inventory, combat, spells, projectiles, shops, houses, chests, dialogue, quests, and save/load systems
+- SDL3 audio with music, sound effects, and video playback
+- bgfx rendering
+- data-driven gameplay tables and UI layouts
+- regression tests and headless diagnostics
+- an editor target for map and content workflows
 
-* Modern C++20 codebase
-* Cross-platform runtime
-* Preserve original gameplay data formats
-* Replace obsolete containers/codecs only
-* Deterministic gameplay logic
-* Data-driven architecture
-* Future editor support
-* Modding support
+Expect missing features, bugs, and ongoing data compatibility work.
 
----
+## Features
 
-# Asset Strategy
+- C++20 codebase
+- SDL3 platform, input, and audio layer
+- bgfx renderer
+- PhysicsFS asset filesystem
+- FFmpeg-backed video playback
+- Lua-powered event scripts
+- tab-separated gameplay tables
+- YAML scene and UI layout data
+- unit and regression test coverage for gameplay systems
 
-OpenYAMM intentionally preserves most original data formats.
+## Assets
 
-Only container formats or obsolete codecs are replaced.
+OpenYAMM requires game assets from a legally owned copy of Might and Magic VIII.
 
-| Original | OpenYAMM |
-|--------|--------|
-| LOD archives | ZIP |
-| SMK video | OGV |
-| BINK video | OGV |
+Development assets are loaded from:
 
-Preserved formats:
-
-| Asset Type | Format |
-|-----------|--------|
-| gameplay tables | TXT (tab-separated) |
-| textures | original bitmap formats |
-| sound effects | WAV |
-| music | MP3 / FLAC |
-| videos | OGV |
-
----
-
-# Original Data Layout
-
-Original extracted MM8 assets are stored in:
-
-```
-data/
+```text
+assets_dev/
 ```
 
-Example structure:
+The default development layout is:
 
-```
-data/
-    Anims/
-    Data/
-    Music/
-```
-
-These files come directly from extracted LOD archives and remain unchanged.
-
----
-
-# Runtime Asset Packaging
-
-The runtime does not use LOD archives.
-
-Instead assets are packaged in ZIP containers.
-
-Example:
-
-```
-assets/base.zip
-assets/patch01.zip
-mods/example.zip
+```text
+assets_dev/
+  Anims/
+  Data/
+  Music/
 ```
 
-ZIP archives contain original files reorganized for runtime loading.
+Runtime packages can be distributed as ZIP archives under:
 
-For development, assets are loaded directly from `assets_dev/` on the plain filesystem so iteration does not
-require ZIP repacking.
-
-Example:
-
-```
-assets_dev/Anims/
-assets_dev/Data/
-assets_dev/Music/
+```text
+assets/
 ```
 
-The bootstrap build uses `assets_dev/` as the default development asset root.
+The engine keeps practical original asset formats such as TXT gameplay tables, BMP-style
+art assets, WAV sound effects, MP3/FLAC music, and OGV video. Legacy archive and video
+container formats are replaced for runtime use.
 
----
+## Building
 
-# Reference Implementation
+Requirements:
 
-The repository includes OpenEnroth as a reference:
+- CMake 3.24 or newer
+- C++20 compiler
+- Lua 5.3 or 5.4 development package
+- standard native build tools for your platform
 
-```
-reference/OpenEnroth-git
-```
+Configure and build:
 
-It is used only for:
-
-* reverse engineering reference
-* validating asset parsing
-* comparing gameplay behavior
-
-OpenEnroth code must NOT be copied directly.
-
-The repository also includes a mm_mapview2-master as reference for *.odm (outdoor) and *.blv (indoor) map format parsing and rendering:
-
-```
-reference/mm_mapview2-master
+```sh
+cmake -S . -B build
+cmake --build build --target openyamm -j25
 ```
 
-mm_mapview2 code must NOT be copied directly.
+Run:
 
----
+```sh
+./build/game/openyamm
+```
 
-# Technology Stack
+Build tests:
 
-Core language:
+```sh
+cmake --build build --target openyamm_unit_tests -j25
+./build/tests/openyamm_unit_tests
+```
 
-* C++20
+Build the editor:
 
-Build system:
+```sh
+cmake -S . -B build -DOPENYAMM_BUILD_EDITOR=ON
+cmake --build build --target openyamm-editor -j25
+```
 
-* CMake
+Run the editor:
 
-Libraries:
+```sh
+./build/editor/openyamm-editor
+```
 
-* SDL3 — platform, windowing, input, audio
-* bgfx — rendering abstraction
-* Dear ImGui (docking) — debug tools and future editor UI
-* PhysicsFS — virtual filesystem and ZIP archive support
-* FreeType — font rendering
-* spdlog + fmt — logging and formatting
-* FFmpeg — video decoding (OGV playback)
+## Useful CMake Options
 
----
+```text
+OPENYAMM_BUILD_EDITOR=ON      Build the editor target
+OPENYAMM_BUILD_TOOLS=ON       Build asset and data tooling
+OPENYAMM_BUILD_TESTS=ON       Build unit tests
+OPENYAMM_DEV_ASSETS_DIR=...   Override the development asset directory
+OPENYAMM_USE_SYSTEM_SDL3=ON   Use an installed SDL3 package
+```
 
-# Target Platforms
+## Repository Layout
 
-* Linux
-* Windows
-* macOS
-* Steam Deck (future)
+```text
+engine/              shared runtime systems
+game/                game application and gameplay systems
+editor/              editor application
+tools/               asset and data tools
+tests/               unit and regression tests
+assets_dev/          development asset root
+assets_editor_dev/   editor development asset root
+res/                 README screenshots
+```
 
----
+## License
 
-# Project Status
+No license has been declared yet.
 
-Early development.
+## Screenshots
+
+![Gameplay screenshot 1](res/ss_1.webp)
+![Gameplay screenshot 2](res/ss_2.webp)
+![Gameplay screenshot 3](res/ss_3.webp)
+![Gameplay screenshot 4](res/ss_4.webp)
+![Gameplay screenshot 5](res/ss_5.webp)
+![Gameplay screenshot 6](res/ss_6.webp)
+![Gameplay screenshot 7](res/ss_7.webp)
+![Gameplay screenshot 8](res/ss_8.webp)
+
+## Editor Screenshots
+
+![Editor screenshot 1](res/editor_1.webp)
+![Editor screenshot 2](res/editor_2.webp)
