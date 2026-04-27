@@ -103,6 +103,9 @@ enum class SoundId : uint32_t
     CloseBook = 164,
     Teleport = 165,
     ChestClose = 439,
+    Heroism = 14060,
+    DragonBreath = 18080,
+    DragonBreathImpact = 18081,
     Quest = 20001,
 };
 }

@@ -1,6 +1,7 @@
 #include "doctest/doctest.h"
 
 #include "game/party/Party.h"
+#include "game/tables/MonsterTable.h"
 
 #include "tests/RegressionGameData.h"
 
@@ -90,6 +91,46 @@ TEST_CASE("house data magic guild types are explicit")
     CHECK_EQ(pElementalGuild->type, "Elemental Guild");
     CHECK_EQ(pLightGuild->type, "Light Guild");
     CHECK_EQ(pDarkGuild->type, "Dark Guild");
+}
+
+TEST_CASE("monster spell descriptors preserve skill mastery and level")
+{
+    OpenYAMM::Game::MonsterTable monsterTable;
+    std::vector<std::string> row(37, "0");
+    row[0] = "999";
+    row[1] = "Test Caster";
+    row[2] = "test caster";
+    row[3] = "12";
+    row[4] = "40";
+    row[5] = "3";
+    row[12] = "2";
+    row[13] = "200";
+    row[14] = "80";
+    row[24] = "35";
+    row[25] = "Lightning Bolt,M,7";
+    row[26] = "45";
+    row[27] = "Fireball,G,9";
+
+    REQUIRE(monsterTable.loadStatsFromRows({row}));
+
+    const OpenYAMM::Game::MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(999);
+    REQUIRE(pStats != nullptr);
+    CHECK_EQ(pStats->spell1Name, "lightning bolt");
+    CHECK_EQ(pStats->spell1SkillMastery, OpenYAMM::Game::SkillMastery::Master);
+    CHECK_EQ(pStats->spell1SkillLevel, 7u);
+    CHECK_EQ(pStats->spell2Name, "fireball");
+    CHECK_EQ(pStats->spell2SkillMastery, OpenYAMM::Game::SkillMastery::Grandmaster);
+    CHECK_EQ(pStats->spell2SkillLevel, 9u);
+}
+
+TEST_CASE("monster vampire family is hostile to the party by default")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    CHECK_FALSE(gameData.monsterTable.isHostileToParty(49));
+    CHECK(gameData.monsterTable.isHostileToParty(52));
+    CHECK(gameData.monsterTable.isHostileToParty(53));
+    CHECK(gameData.monsterTable.isHostileToParty(54));
 }
 
 TEST_CASE("roster join offer mapping samples")

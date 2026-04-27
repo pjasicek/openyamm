@@ -1360,6 +1360,7 @@ float hoursToSeconds(float hours)
 GameplayProjectileService::ProjectilePartyImpactDamageInput buildProjectilePartyImpactDamageInput(
     const OutdoorWorldRuntime::ProjectileState &projectile,
     const MonsterTable *pMonsterTable,
+    const SpellTable *pSpellTable,
     const std::vector<OutdoorWorldRuntime::MapActorState> &mapActors)
 {
     GameplayProjectileService::ProjectilePartyImpactDamageInput input = {};
@@ -1413,6 +1414,26 @@ GameplayProjectileService::ProjectilePartyImpactDamageInput buildProjectileParty
     input.attack2Damage.diceRolls = pStats->attack2Damage.diceRolls;
     input.attack2Damage.diceSides = pStats->attack2Damage.diceSides;
     input.attack2Damage.bonus = pStats->attack2Damage.bonus;
+
+    if (pSpellTable != nullptr)
+    {
+        if (const SpellEntry *pSpellEntry = pSpellTable->findByName(pStats->spell1Name))
+        {
+            input.spell1Damage.baseDamage = pSpellEntry->damageBase;
+            input.spell1Damage.diceSides = pSpellEntry->damageDiceSides;
+            input.spell1Damage.skillLevel = pStats->spell1SkillLevel;
+            input.spell1Damage.skillMastery = pStats->spell1SkillMastery;
+        }
+
+        if (const SpellEntry *pSpellEntry = pSpellTable->findByName(pStats->spell2Name))
+        {
+            input.spell2Damage.baseDamage = pSpellEntry->damageBase;
+            input.spell2Damage.diceSides = pSpellEntry->damageDiceSides;
+            input.spell2Damage.skillLevel = pStats->spell2SkillLevel;
+            input.spell2Damage.skillMastery = pStats->spell2SkillMastery;
+        }
+    }
+
     return input;
 }
 
@@ -3303,12 +3324,19 @@ void OutdoorWorldRuntime::activateChestView(uint32_t chestId)
         return;
     }
 
-    if (!m_materializedChestViews[chestId].has_value())
+    const bool cached = m_materializedChestViews[chestId].has_value();
+
+    if (!cached)
     {
         m_materializedChestViews[chestId] = buildChestView(chestId);
     }
 
     m_activeChestView = *m_materializedChestViews[chestId];
+    std::cout << "Chest activate world=outdoor chest=" << chestId
+              << " cached=" << (cached ? "yes" : "no")
+              << " visible=" << m_activeChestView->items.size()
+              << " hidden=" << m_activeChestView->hiddenItems.size()
+              << '\n';
     pushAudioEvent(
         static_cast<uint32_t>(SoundId::OpenChest),
         chestId,
@@ -6869,6 +6897,11 @@ bool OutdoorWorldRuntime::spawnSpellProjectile(
     spawnRequest.fromSummonedMonster = request.fromSummonedMonster;
     spawnRequest.ability = request.ability;
     spawnRequest.definition = buildGameplayProjectileDefinition(definition, objectSpriteFrameIndex);
+    if (request.effectSoundIdOverride > 0)
+    {
+        spawnRequest.definition.effectSoundId = static_cast<int>(request.effectSoundIdOverride);
+    }
+    spawnRequest.impactSoundIdOverride = request.impactSoundIdOverride;
     spawnRequest.skillLevel = request.skillLevel;
     spawnRequest.skillMastery = request.skillMastery;
     spawnRequest.damage = request.damage;
@@ -6980,7 +7013,7 @@ bool OutdoorWorldRuntime::projectileSourceIsFriendlyToActor(
 int OutdoorWorldRuntime::resolveProjectilePartyImpactDamage(const ProjectileState &projectile) const
 {
     const GameplayProjectileService::ProjectilePartyImpactDamageInput input =
-        buildProjectilePartyImpactDamageInput(projectile, m_pMonsterTable, m_mapActors);
+        buildProjectilePartyImpactDamageInput(projectile, m_pMonsterTable, m_pSpellTable, m_mapActors);
     return projectileService().resolveProjectilePartyImpactDamage(input);
 }
 
@@ -8412,6 +8445,7 @@ std::optional<GameplayCombatActorInfo> OutdoorWorldRuntime::combatActorInfoById(
 
         if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
         {
+            info.monsterLevel = pStats->level;
             info.attackPreferences = pStats->attackPreferences;
         }
 
@@ -11100,6 +11134,8 @@ bool OutdoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProje
     worldRequest.targetX = request.targetX;
     worldRequest.targetY = request.targetY;
     worldRequest.targetZ = request.targetZ;
+    worldRequest.effectSoundIdOverride = request.effectSoundIdOverride;
+    worldRequest.impactSoundIdOverride = request.impactSoundIdOverride;
     return castPartySpell(worldRequest);
 }
 

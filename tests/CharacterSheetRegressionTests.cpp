@@ -4,6 +4,8 @@
 
 #include "tests/RegressionGameData.h"
 
+#include <random>
+
 namespace
 {
 const OpenYAMM::Tests::RegressionGameData &requireRegressionGameData()
@@ -49,6 +51,58 @@ TEST_CASE("character sheet uses equipped items for combat and armor class")
     CHECK_EQ(summary.combat.rangedDamageText, "4 - 8");
     CHECK_EQ(summary.armorClass.actual, 29);
     CHECK_EQ(summary.armorClass.base, 29);
+}
+
+TEST_CASE("monster incoming attack hit chance uses armor class and monster level")
+{
+    std::mt19937 lowLevelRng(1234u);
+    std::mt19937 highLevelRng(1234u);
+    int lowLevelHits = 0;
+    int highLevelHits = 0;
+
+    for (int i = 0; i < 512; ++i)
+    {
+        if (OpenYAMM::Game::GameMechanics::monsterAttackHitsArmorClass(30, 1, lowLevelRng))
+        {
+            ++lowLevelHits;
+        }
+
+        if (OpenYAMM::Game::GameMechanics::monsterAttackHitsArmorClass(30, 20, highLevelRng))
+        {
+            ++highLevelHits;
+        }
+    }
+
+    CHECK_GT(lowLevelHits, 0);
+    CHECK_LT(lowLevelHits, highLevelHits);
+    CHECK_LT(highLevelHits, 512);
+}
+
+TEST_CASE("dragon character sheet uses dragon ability attack and spell points")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    OpenYAMM::Game::Character dragon = {};
+    dragon.className = "Dragon";
+    dragon.role = "Dragon";
+    dragon.level = 5;
+    dragon.health = 40;
+    dragon.maxHealth = 40;
+    dragon.skills["DragonAbility"] = {"DragonAbility", 9, OpenYAMM::Game::SkillMastery::Master};
+
+    dragon.maxSpellPoints = OpenYAMM::Game::GameMechanics::calculateBaseCharacterMaxSpellPoints(dragon);
+    dragon.spellPoints = dragon.maxSpellPoints;
+
+    const OpenYAMM::Game::CharacterSheetSummary summary =
+        OpenYAMM::Game::GameMechanics::buildCharacterSheetSummary(dragon, &gameData.itemTable);
+
+    CHECK_EQ(dragon.maxSpellPoints, 15);
+    CHECK_EQ(summary.spellPoints.maximum, 15);
+    CHECK_EQ(summary.combat.attack, 9);
+    REQUIRE(summary.combat.shoot.has_value());
+    CHECK_EQ(*summary.combat.shoot, 9);
+    CHECK_EQ(summary.combat.meleeDamageText, "9 - 90");
+    CHECK_EQ(summary.combat.rangedDamageText, "9 - 90");
 }
 
 TEST_CASE("character sheet primary stats do not double count equipment bonuses")

@@ -1,6 +1,7 @@
 #include "game/events/ISceneEventContext.h"
 #include "game/events/EventRuntime.h"
 #include "engine/scripting/LuaStateOwner.h"
+#include "game/audio/SoundIds.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/items/ItemGenerator.h"
 #include "game/party/Party.h"
@@ -8,6 +9,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <iostream>
 #include <limits>
 #include <sstream>
 #include <string_view>
@@ -365,6 +367,27 @@ std::vector<size_t> resolvePortraitFxTargetMemberIndices(const Party *pParty, co
     return {pParty->activeMemberIndex()};
 }
 
+std::optional<SoundId> soundIdForPortraitFxEvent(PortraitFxEventKind kind)
+{
+    switch (kind)
+    {
+        case PortraitFxEventKind::AutoNote:
+        case PortraitFxEventKind::QuestComplete:
+        case PortraitFxEventKind::StatIncrease:
+            return SoundId::Quest;
+
+        case PortraitFxEventKind::AwardGain:
+            return SoundId::Chimes;
+
+        case PortraitFxEventKind::StatDecrease:
+        case PortraitFxEventKind::Disease:
+        case PortraitFxEventKind::None:
+            return std::nullopt;
+    }
+
+    return std::nullopt;
+}
+
 void queuePortraitFxRequest(
     EventRuntimeState &runtimeState,
     PortraitFxEventKind kind,
@@ -406,6 +429,14 @@ void queuePortraitFxRequest(
     request.kind = kind;
     request.memberIndices = memberIndices;
     runtimeState.portraitFxRequests.push_back(std::move(request));
+
+    if (const std::optional<SoundId> soundId = soundIdForPortraitFxEvent(kind))
+    {
+        EventRuntimeState::PendingSound sound = {};
+        sound.soundId = static_cast<uint32_t>(*soundId);
+        sound.positional = false;
+        runtimeState.pendingSounds.push_back(sound);
+    }
 }
 
 std::optional<std::string> permanentVariableDisplayName(uint32_t rawId)
@@ -3965,6 +3996,7 @@ int luaCheckSeason(lua_State *pLuaState)
 
 int luaSetChestBit(lua_State *pLuaState)
 {
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t chestId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t flag = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
@@ -3983,6 +4015,10 @@ int luaSetChestBit(lua_State *pLuaState)
 
     if ((flag & static_cast<uint32_t>(EvtChestFlag::Opened)) != 0 && isOn)
     {
+        const uint16_t eventId = pExecutionContext != nullptr ? pExecutionContext->currentEventId : 0;
+        std::cout << "Chest open event=" << eventId
+                  << " chest=" << chestId
+                  << " source=SetChestBit\n";
         pRuntimeState->openedChestIds.push_back(chestId);
     }
 
@@ -4174,8 +4210,14 @@ int luaStatusText(lua_State *pLuaState)
 
 int luaOpenChest(lua_State *pLuaState)
 {
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    pRuntimeState->openedChestIds.push_back(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)));
+    const uint32_t chestId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint16_t eventId = pExecutionContext != nullptr ? pExecutionContext->currentEventId : 0;
+    std::cout << "Chest open event=" << eventId
+              << " chest=" << chestId
+              << " source=OpenChest\n";
+    pRuntimeState->openedChestIds.push_back(chestId);
     return 0;
 }
 
@@ -5023,6 +5065,7 @@ bool EventRuntime::executeEventById(
     executionContext.pRuntimeState = &runtimeState;
     executionContext.pParty = pParty;
     executionContext.pSceneEventContext = pSceneEventContext;
+    executionContext.currentEventId = eventId;
 
     const auto localIterator = m_luaSessionCache->localScope.handlers.find(eventId);
 

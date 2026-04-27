@@ -1,5 +1,6 @@
 #include "doctest/doctest.h"
 
+#include "game/audio/SoundIds.h"
 #include "game/gameplay/GameplayProjectileService.h"
 #include "game/fx/FxSharedTypes.h"
 #include "game/fx/ParticleRecipes.h"
@@ -8,6 +9,7 @@
 #include "game/party/SpellIds.h"
 
 using OpenYAMM::Game::GameplayProjectileService;
+using OpenYAMM::Game::SoundId;
 using OpenYAMM::Game::SkillMastery;
 using OpenYAMM::Game::SpellId;
 using OpenYAMM::Game::FxRecipes::ProjectileRecipe;
@@ -80,6 +82,27 @@ TEST_CASE("projectile area impact hits party and filters actors without map runt
     REQUIRE_EQ(impact.actorHits.size(), 1u);
     CHECK_EQ(impact.actorHits.front().actorIndex, 3u);
     CHECK_EQ(impact.actorHits.front().damage, 12);
+}
+
+TEST_CASE("monster spell projectile damage uses spell dice instead of monster level fallback")
+{
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectilePartyImpactDamageInput input = {};
+    input.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Actor;
+    input.hasMonsterFacts = true;
+    input.monsterLevel = 25;
+    input.monsterAbility = GameplayProjectileService::MonsterAttackAbility::Spell1;
+    input.spellId = static_cast<int>(SpellId::LightningBolt);
+    input.spell1Damage.diceSides = 8;
+    input.spell1Damage.skillLevel = 7;
+    input.spell1Damage.skillMastery = SkillMastery::Master;
+
+    for (int rollIndex = 0; rollIndex < 32; ++rollIndex)
+    {
+        const int damage = service.resolveProjectilePartyImpactDamage(input);
+        CHECK_GE(damage, 7);
+        CHECK_LE(damage, 56);
+    }
 }
 
 TEST_CASE("sparks projectile uses shared lightning-style fx and light recipe")
@@ -344,6 +367,25 @@ TEST_CASE("projectile lifetime advances at 128hz instead of render-frame rate")
     }
 
     CHECK(expired);
+}
+
+TEST_CASE("dragon breath projectile sound pair uses dragon release and impact ids")
+{
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectileState projectile = makePartyProjectile();
+    projectile.spellId = static_cast<int>(OpenYAMM::Game::spellIdValue(SpellId::FireBolt));
+    projectile.effectSoundId = static_cast<int>(SoundId::DragonBreath);
+    projectile.impactSoundIdOverride = static_cast<uint32_t>(SoundId::DragonBreathImpact);
+
+    const std::optional<GameplayProjectileService::ProjectileAudioRequest> releaseAudio =
+        service.buildProjectileReleaseAudioRequest(projectile, 10.0f, 20.0f, 30.0f);
+    REQUIRE(releaseAudio);
+    CHECK_EQ(releaseAudio->soundId, static_cast<uint32_t>(SoundId::DragonBreath));
+
+    const std::optional<GameplayProjectileService::ProjectileAudioRequest> impactAudio =
+        service.buildProjectileImpactAudioRequest(projectile, 40.0f, 50.0f, 60.0f);
+    REQUIRE(impactAudio);
+    CHECK_EQ(impactAudio->soundId, static_cast<uint32_t>(SoundId::DragonBreathImpact));
 }
 
 TEST_CASE("projectile impact lifetime advances at 128hz instead of render-frame rate")

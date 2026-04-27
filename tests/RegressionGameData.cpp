@@ -271,6 +271,19 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         return false;
     }
 
+    std::vector<std::vector<std::string>> monsterRelationRows;
+
+    if (!loadTextTableRows(assetFileSystem, dataTablePath("monster_relation_data.txt"), monsterRelationRows, failure))
+    {
+        return false;
+    }
+
+    if (!data.monsterTable.loadRelationsFromRows(monsterRelationRows))
+    {
+        failure = "could not load monster relation table for regression tests";
+        return false;
+    }
+
     std::vector<std::vector<std::string>> spellRows;
 
     if (!loadTextTableRows(assetFileSystem, dataTablePath("spells.txt"), spellRows, failure))

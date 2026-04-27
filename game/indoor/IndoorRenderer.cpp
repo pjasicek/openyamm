@@ -8585,8 +8585,10 @@ void IndoorRenderer::updateCameraFromInput(
 
     const bool *pKeyboardState = input.keyboardState();
 
-    const float moveSpeed = 320.0f;
-    const float fastMoveMultiplier = 4.0f;
+    const float walkSpeed = 384.0f;
+    const float runForwardMultiplier = 2.0f;
+    const float indoorStrafeMultiplier = 0.5f;
+    const float turboMultiplier = 12.0f;
     const float mouseRotateSpeed = 0.0045f;
     const float mouseX = input.pointerX;
     const float mouseY = input.pointerY;
@@ -8626,43 +8628,52 @@ void IndoorRenderer::updateCameraFromInput(
     const float sinYaw = std::sin(m_cameraYawRadians);
     const bx::Vec3 forward = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
     const bx::Vec3 right = {sinYaw, -cosYaw, 0.0f};
-    const bool isFastMovePressed =
+    const bool runWalkModifier =
         pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
+    const bool turboPressed =
+        pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL];
     const bool jumpPressed = pKeyboardState[SDL_SCANCODE_X];
     const bool jumpRequested = allowWorldInput && jumpPressed && !m_jumpHeld;
     m_jumpHeld = jumpPressed;
-    const float currentMoveSpeed = isFastMovePressed ? moveSpeed * fastMoveMultiplier : moveSpeed;
     float desiredVelocityX = 0.0f;
     float desiredVelocityY = 0.0f;
-
-    if (allowWorldInput && pKeyboardState[SDL_SCANCODE_W])
-    {
-        desiredVelocityX += cosYaw * currentMoveSpeed;
-        desiredVelocityY += sinYaw * currentMoveSpeed;
-    }
-
-    if (allowWorldInput && pKeyboardState[SDL_SCANCODE_S])
-    {
-        desiredVelocityX -= cosYaw * currentMoveSpeed;
-        desiredVelocityY -= sinYaw * currentMoveSpeed;
-    }
-
-    if (allowWorldInput && pKeyboardState[SDL_SCANCODE_A])
-    {
-        desiredVelocityX -= right.x * currentMoveSpeed;
-        desiredVelocityY -= right.y * currentMoveSpeed;
-    }
-
-    if (allowWorldInput && pKeyboardState[SDL_SCANCODE_D])
-    {
-        desiredVelocityX += right.x * currentMoveSpeed;
-        desiredVelocityY += right.y * currentMoveSpeed;
-    }
 
     if (m_pSceneRuntime != nullptr)
     {
         IndoorPartyRuntime &partyRuntime = m_pSceneRuntime->partyRuntime();
         const IndoorWorldRuntime &worldRuntime = m_pSceneRuntime->worldRuntime();
+        const bool running =
+            runWalkModifier ? !partyRuntime.alwaysRunEnabled() : partyRuntime.alwaysRunEnabled();
+        const float turboScale = turboPressed ? turboMultiplier : 1.0f;
+        const float runScale = running ? runForwardMultiplier : 1.0f;
+        const float forwardMoveSpeed = walkSpeed * runScale * turboScale;
+        const float backwardMoveSpeed = walkSpeed * turboScale;
+        const float strafeMoveSpeed = walkSpeed * indoorStrafeMultiplier * runScale * turboScale;
+
+        if (allowWorldInput && pKeyboardState[SDL_SCANCODE_W])
+        {
+            desiredVelocityX += cosYaw * forwardMoveSpeed;
+            desiredVelocityY += sinYaw * forwardMoveSpeed;
+        }
+
+        if (allowWorldInput && pKeyboardState[SDL_SCANCODE_S])
+        {
+            desiredVelocityX -= cosYaw * backwardMoveSpeed;
+            desiredVelocityY -= sinYaw * backwardMoveSpeed;
+        }
+
+        if (allowWorldInput && pKeyboardState[SDL_SCANCODE_A])
+        {
+            desiredVelocityX -= right.x * strafeMoveSpeed;
+            desiredVelocityY -= right.y * strafeMoveSpeed;
+        }
+
+        if (allowWorldInput && pKeyboardState[SDL_SCANCODE_D])
+        {
+            desiredVelocityX += right.x * strafeMoveSpeed;
+            desiredVelocityY += right.y * strafeMoveSpeed;
+        }
+
         partyRuntime.setActorColliders(worldRuntime.actorMovementCollidersForPartyMovement());
         partyRuntime.setDecorationColliders(worldRuntime.decorationMovementColliders());
         partyRuntime.setSpriteObjectColliders(worldRuntime.spriteObjectMovementColliders());
@@ -8674,6 +8685,8 @@ void IndoorRenderer::updateCameraFromInput(
     }
     else
     {
+        const float currentMoveSpeed = walkSpeed * (turboPressed ? turboMultiplier : 1.5f);
+
         if (allowWorldInput && pKeyboardState[SDL_SCANCODE_W])
         {
             m_cameraPositionX += forward.x * currentMoveSpeed * deltaSeconds;

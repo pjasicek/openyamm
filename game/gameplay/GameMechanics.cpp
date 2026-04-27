@@ -1,6 +1,7 @@
 #include "game/gameplay/GameMechanics.h"
 
 #include "game/items/ItemEnchantRuntime.h"
+#include "game/party/SpellIds.h"
 #include "game/party/SkillData.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/items/ItemRuntime.h"
@@ -41,6 +42,7 @@ enum class ResourceManaMode
     Intellect,
     Personality,
     Mixed,
+    Level,
 };
 
 struct CharacterResourceProgression
@@ -297,7 +299,7 @@ std::optional<CharacterResourceProgression> resourceProgressionForClassName(cons
     if (canonicalClass == "Dragon"
         || canonicalClass == "GreatWyrm")
     {
-        return CharacterResourceProgression{40, 5, 0, 0, ResourceManaMode::None};
+        return CharacterResourceProgression{40, 5, 0, 3, ResourceManaMode::Level};
     }
 
     return std::nullopt;
@@ -311,6 +313,12 @@ int levelWithBonus(uint32_t level, int statBonus)
 bool hasCondition(const Character &character, CharacterCondition condition)
 {
     return character.conditions.test(static_cast<size_t>(condition));
+}
+
+bool isDragonClass(const Character &character)
+{
+    const std::string canonicalClass = canonicalClassName(character.className);
+    return canonicalClass == "Dragon" || canonicalClass == "GreatWyrm";
 }
 
 int skillLevel(const Character &character, std::string_view skillName)
@@ -347,6 +355,26 @@ int masteryMultiplier(SkillMastery mastery, int novice, int expert, int master, 
         default:
             return 0;
     }
+}
+
+std::optional<std::pair<int, int>> dragonBasicAttackDamageRange(const Character &character)
+{
+    if (!isDragonClass(character))
+    {
+        return std::nullopt;
+    }
+
+    const int dragonSkillLevel = skillLevel(character, "DragonAbility");
+    const SkillMastery dragonMastery = skillMastery(character, "DragonAbility");
+
+    if (dragonSkillLevel <= 0 || dragonMastery == SkillMastery::None)
+    {
+        return std::nullopt;
+    }
+
+    const int minimumDamage = std::max(1, dragonSkillLevel);
+    const int maximumDamage = std::max(minimumDamage, dragonSkillLevel * 10);
+    return {{minimumDamage, maximumDamage}};
 }
 
 float ticksToRecoverySeconds(int ticks)
@@ -1460,6 +1488,7 @@ float resolveAttackRecoverySeconds(
 {
     bool usesBow = mode == CharacterAttackMode::Bow;
     bool usesBlaster = mode == CharacterAttackMode::Blaster;
+    bool usesDragonBreath = mode == CharacterAttackMode::DragonBreath;
     const ItemDefinition *pWeapon = nullptr;
     int weaponRecoveryTicks = baseRecoveryTicksForSkillName("Staff");
 
@@ -1470,6 +1499,18 @@ float resolveAttackRecoverySeconds(
         if (pWeapon != nullptr)
         {
             weaponRecoveryTicks = baseRecoveryTicksForSkillName(canonicalSkillName(pWeapon->skillGroup));
+        }
+    }
+    else if (usesDragonBreath)
+    {
+        if (pSpellTable != nullptr)
+        {
+            const SpellEntry *pSpellEntry = pSpellTable->findById(spellIdValue(SpellId::FireBolt));
+
+            if (pSpellEntry != nullptr)
+            {
+                weaponRecoveryTicks = std::max(pSpellEntry->normalRecoveryTicks, 1);
+            }
         }
     }
     else if (isUnarmed(equippedItems) && skillLevel(character, "Unarmed") > 0)
@@ -1550,7 +1591,7 @@ float resolveAttackRecoverySeconds(
 
     int armsmasterRecoveryReduction = 0;
 
-    if (!usesBow && !usesBlaster)
+    if (!usesBow && !usesBlaster && !usesDragonBreath)
     {
         armsmasterRecoveryReduction = skillLevel(character, "Armsmaster");
 
@@ -1569,7 +1610,9 @@ float resolveAttackRecoverySeconds(
     {
         minimumRecoveryTicks = OeMinimumBlasterRecoveryTicks;
     }
-    else if (mode == CharacterAttackMode::Bow || mode == CharacterAttackMode::Wand)
+    else if (mode == CharacterAttackMode::Bow
+        || mode == CharacterAttackMode::Wand
+        || mode == CharacterAttackMode::DragonBreath)
     {
         minimumRecoveryTicks = OeMinimumRangedRecoveryTicks;
     }
@@ -1676,6 +1719,10 @@ int GameMechanics::calculateBaseCharacterMaxSpellPoints(const Character &charact
         case ResourceManaMode::Mixed:
             statBonus = parameterBonus(static_cast<int>(character.intellect))
                 + parameterBonus(static_cast<int>(character.personality));
+            break;
+
+        case ResourceManaMode::Level:
+            statBonus = 0;
             break;
 
         case ResourceManaMode::None:
@@ -1883,6 +1930,7 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
         + character.permanentBonuses.meleeAttack
         + character.magicalBonuses.meleeAttack;
     summary.combat.attack = meleeAttack;
+    const std::optional<std::pair<int, int>> dragonDamageRange = dragonBasicAttackDamageRange(character);
 
     const int meleeMightBonus = parameterBonus(actualMight);
     const int meleeMinDamage = std::max(
@@ -1906,6 +1954,11 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
     {
         summary.combat.meleeDamageText = "Wand";
     }
+    else if (dragonDamageRange.has_value())
+    {
+        summary.combat.attack = skillLevel(character, "DragonAbility");
+        summary.combat.meleeDamageText = formatDamageRange(dragonDamageRange->first, dragonDamageRange->second);
+    }
     else
     {
         summary.combat.meleeDamageText = formatDamageRange(meleeMinDamage, meleeMaxDamage);
@@ -1913,7 +1966,12 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
 
     summary.combat.shoot = resolveRangedAttack(character, equippedItems);
 
-    if (summary.combat.shoot)
+    if (dragonDamageRange.has_value())
+    {
+        summary.combat.shoot = skillLevel(character, "DragonAbility");
+        summary.combat.rangedDamageText = formatDamageRange(dragonDamageRange->first, dragonDamageRange->second);
+    }
+    else if (summary.combat.shoot)
     {
         const int rangedMinDamage = std::max(
             0,
@@ -1960,8 +2018,30 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
         !character.physicalAttackDisabled
         && ((equippedItems.pBow != nullptr && canonicalSkillName(equippedItems.pBow->skillGroup) == "Blaster")
             || (equippedItems.pMainHand != nullptr && canonicalSkillName(equippedItems.pMainHand->skillGroup) == "Blaster"));
-    profile.canShoot = profile.hasBow || profile.hasWand || profile.hasBlaster;
+    const CharacterSkill *pDragonAbility = character.findSkill("DragonAbility");
+    profile.hasDragonBreath =
+        !character.physicalAttackDisabled
+        && isDragonClass(character)
+        && pDragonAbility != nullptr
+        && pDragonAbility->level > 0
+        && pDragonAbility->mastery != SkillMastery::None;
+    profile.canShoot = profile.hasBow || profile.hasWand || profile.hasBlaster || profile.hasDragonBreath;
     profile.meleeAttackBonus = summary.combat.attack;
+    CharacterAttackMode rangedRecoveryMode = CharacterAttackMode::Bow;
+
+    if (profile.hasDragonBreath)
+    {
+        rangedRecoveryMode = CharacterAttackMode::DragonBreath;
+    }
+    else if (profile.hasBlaster)
+    {
+        rangedRecoveryMode = CharacterAttackMode::Blaster;
+    }
+    else if (profile.hasWand)
+    {
+        rangedRecoveryMode = CharacterAttackMode::Wand;
+    }
+
     profile.meleeRecoverySeconds = resolveAttackRecoverySeconds(
         character,
         equippedItems,
@@ -1971,9 +2051,7 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
         character,
         equippedItems,
         pSpellTable,
-        profile.hasBlaster
-            ? CharacterAttackMode::Blaster
-            : (profile.hasWand ? CharacterAttackMode::Wand : CharacterAttackMode::Bow));
+        rangedRecoveryMode);
 
     const int actualMight = static_cast<int>(character.might)
         + character.permanentBonuses.might
@@ -1996,7 +2074,18 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
             + character.permanentBonuses.meleeDamage
             + character.magicalBonuses.meleeDamage);
 
-    if (profile.hasWand)
+    if (profile.hasDragonBreath && pDragonAbility != nullptr)
+    {
+        const int dragonSkillLevel = skillLevel(character, "DragonAbility");
+        const std::optional<std::pair<int, int>> dragonDamageRange = dragonBasicAttackDamageRange(character);
+        profile.rangedAttackBonus = dragonSkillLevel;
+        profile.rangedSkillLevel = static_cast<uint32_t>(std::max(0, dragonSkillLevel));
+        profile.rangedSkillMastery = static_cast<uint32_t>(pDragonAbility->mastery);
+        profile.rangedMinDamage = dragonDamageRange ? dragonDamageRange->first : std::max(1, dragonSkillLevel);
+        profile.rangedMaxDamage = dragonDamageRange ? dragonDamageRange->second : profile.rangedMinDamage;
+        profile.rangedSpellId = spellIdValue(SpellId::FireBolt);
+    }
+    else if (profile.hasWand)
     {
         profile.rangedAttackBonus = summary.combat.attack;
         profile.rangedSkillLevel = WandAttackSkillLevel;
@@ -2011,6 +2100,7 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
             if (tryParseSpellIdToken(equippedItems.pMainHand->mod1, spellId))
             {
                 profile.wandSpellId = spellId;
+                profile.rangedSpellId = spellId;
             }
         }
     }
@@ -2065,7 +2155,11 @@ CharacterAttackResult GameMechanics::resolveCharacterAttackAgainstArmorClass(
     result.targetArmorClass = std::max(0, targetArmorClass);
     result.targetDistance = std::max(0.0f, targetDistance);
 
-    if (profile.hasBlaster && profile.rangedAttackBonus.has_value())
+    if (profile.hasDragonBreath && profile.rangedAttackBonus.has_value())
+    {
+        result.mode = CharacterAttackMode::DragonBreath;
+    }
+    else if (profile.hasBlaster && profile.rangedAttackBonus.has_value())
     {
         result.mode = CharacterAttackMode::Blaster;
     }
@@ -2106,11 +2200,17 @@ CharacterAttackResult GameMechanics::resolveCharacterAttackAgainstArmorClass(
         result.resolvesOnImpact = true;
         result.skillLevel = profile.rangedSkillLevel;
         result.skillMastery = profile.rangedSkillMastery;
-        result.spellId = profile.wandSpellId;
-        result.attackSoundHook =
-            result.mode == CharacterAttackMode::Bow
-                ? "bow_shot"
-                : (result.mode == CharacterAttackMode::Blaster ? "blaster_shot" : "wand_cast");
+        result.spellId = profile.rangedSpellId;
+        result.attackSoundHook = "wand_cast";
+
+        if (result.mode == CharacterAttackMode::Bow)
+        {
+            result.attackSoundHook = "bow_shot";
+        }
+        else if (result.mode == CharacterAttackMode::Blaster)
+        {
+            result.attackSoundHook = "blaster_shot";
+        }
     }
 
     result.voiceHook = "attack";
@@ -2120,7 +2220,11 @@ CharacterAttackResult GameMechanics::resolveCharacterAttackAgainstArmorClass(
         return result;
     }
 
-    if (result.mode != CharacterAttackMode::Melee)
+    if (result.mode == CharacterAttackMode::DragonBreath)
+    {
+        result.hit = true;
+    }
+    else if (result.mode != CharacterAttackMode::Melee)
     {
         result.hit = characterRangedAttackHitsArmorClass(result.targetArmorClass, result.attackBonus, targetDistance, rng);
     }
@@ -2167,6 +2271,11 @@ SoundId GameMechanics::resolveCharacterAttackSoundId(
     if (attackMode == CharacterAttackMode::Blaster)
     {
         return SoundId::ShootBlaster;
+    }
+
+    if (attackMode == CharacterAttackMode::DragonBreath)
+    {
+        return SoundId::DragonBreath;
     }
 
     if (attackMode != CharacterAttackMode::Melee || pItemTable == nullptr)
@@ -2234,6 +2343,18 @@ bool GameMechanics::characterRangedAttackHitsArmorClass(
     }
 
     return characterAttackHitsArmorClass(std::max(0, targetArmorClass), attackBonus, distanceMode, 0, rng);
+}
+
+bool GameMechanics::monsterAttackHitsArmorClass(
+    int targetArmorClass,
+    int monsterLevel,
+    std::mt19937 &rng)
+{
+    const int armorClass = std::max(0, targetArmorClass);
+    const int level = std::max(0, monsterLevel);
+    const int rollUpperBound = std::max(1, armorClass + 2 * level + 10);
+    const int hitRoll = std::uniform_int_distribution<int>(1, rollUpperBound)(rng);
+    return hitRoll > armorClass + 5;
 }
 
 std::optional<CharacterCondition> GameMechanics::displayedCondition(const Character &character)

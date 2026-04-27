@@ -1,6 +1,7 @@
 #include "game/gameplay/GameplayDialogController.h"
 
 #include "game/StringUtils.h"
+#include "game/audio/SoundIds.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
@@ -31,6 +32,27 @@ constexpr uint32_t TrainerAutoNoteIdFirst = 128;
 constexpr uint32_t HeroismEffectSoundId = 14060;
 constexpr float MinutesPerDay = 24.0f * 60.0f;
 constexpr float OeYellowAlertDistance = 5120.0f;
+
+std::optional<SoundId> soundIdForPortraitFxEvent(PortraitFxEventKind kind)
+{
+    switch (kind)
+    {
+        case PortraitFxEventKind::AutoNote:
+        case PortraitFxEventKind::QuestComplete:
+        case PortraitFxEventKind::StatIncrease:
+            return SoundId::Quest;
+
+        case PortraitFxEventKind::AwardGain:
+            return SoundId::Chimes;
+
+        case PortraitFxEventKind::StatDecrease:
+        case PortraitFxEventKind::Disease:
+        case PortraitFxEventKind::None:
+            return std::nullopt;
+    }
+
+    return std::nullopt;
+}
 
 bool isDungeonMapFileName(const std::string &mapFileName)
 {
@@ -244,6 +266,14 @@ void queuePortraitFxRequest(
     request.kind = kind;
     request.memberIndices.push_back(pParty->activeMemberIndex());
     eventRuntimeState.portraitFxRequests.push_back(std::move(request));
+
+    if (const std::optional<SoundId> soundId = soundIdForPortraitFxEvent(kind))
+    {
+        EventRuntimeState::PendingSound sound = {};
+        sound.soundId = static_cast<uint32_t>(*soundId);
+        sound.positional = false;
+        eventRuntimeState.pendingSounds.push_back(sound);
+    }
 }
 
 bool tryUnlockTrainerAutoNote(

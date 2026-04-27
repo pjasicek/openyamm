@@ -2626,33 +2626,33 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
     }
 
     const ChestEntry *pChestEntry = chestTable()->get(pChestView->chestTypeId);
-    const HudLayoutElement *pChestBackgroundLayout = findHudLayoutElement("ChestBackground");
+    const HudLayoutElement *pChestRootLayout = findHudLayoutElement("ChestRoot");
 
-    if (pChestEntry == nullptr || pChestBackgroundLayout == nullptr)
+    if (pChestEntry == nullptr || pChestRootLayout == nullptr)
     {
         return std::nullopt;
     }
 
-    const std::optional<ResolvedHudLayoutElement> resolvedBackground = resolveHudLayoutElement(
-        "ChestBackground",
+    const std::optional<ResolvedHudLayoutElement> resolvedRoot = resolveHudLayoutElement(
+        "ChestRoot",
         width,
         height,
-        pChestBackgroundLayout->width,
-        pChestBackgroundLayout->height);
+        pChestRootLayout->width,
+        pChestRootLayout->height);
 
-    if (!resolvedBackground)
+    if (!resolvedRoot)
     {
         return std::nullopt;
     }
 
     ResolvedHudLayoutElement resolved = {};
     resolved.x = std::round(
-        resolvedBackground->x + static_cast<float>(pChestEntry->gridOffsetX) * resolvedBackground->scale);
+        resolvedRoot->x + static_cast<float>(pChestEntry->gridOffsetX) * resolvedRoot->scale);
     resolved.y = std::round(
-        resolvedBackground->y + static_cast<float>(pChestEntry->gridOffsetY) * resolvedBackground->scale);
-    resolved.width = 32.0f * static_cast<float>(pChestView->gridWidth) * resolvedBackground->scale;
-    resolved.height = 32.0f * static_cast<float>(pChestView->gridHeight) * resolvedBackground->scale;
-    resolved.scale = resolvedBackground->scale;
+        resolvedRoot->y + static_cast<float>(pChestEntry->gridOffsetY) * resolvedRoot->scale);
+    resolved.width = 32.0f * static_cast<float>(pChestView->gridWidth) * resolvedRoot->scale;
+    resolved.height = 32.0f * static_cast<float>(pChestView->gridHeight) * resolvedRoot->scale;
+    resolved.scale = resolvedRoot->scale;
     return resolved;
 }
 

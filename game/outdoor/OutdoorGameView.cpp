@@ -3500,7 +3500,7 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
             0,
             6,
             0x0f,
-            "Move: WASD  Space use  X jump  Ctrl down  Shift turbo  R run F fly T waterwalk G feather"
+            "Move: WASD  Space use  X jump  Shift walk/run  Ctrl turbo  F fly T waterwalk G feather"
         );
 
         nextHudLine = 7;

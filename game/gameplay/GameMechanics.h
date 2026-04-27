@@ -45,6 +45,7 @@ enum class CharacterAttackMode
     Bow,
     Wand,
     Blaster,
+    DragonBreath,
 };
 
 struct CharacterAttackProfile
@@ -54,6 +55,7 @@ struct CharacterAttackProfile
     bool hasBow = false;
     bool hasWand = false;
     bool hasBlaster = false;
+    bool hasDragonBreath = false;
     int meleeAttackBonus = 0;
     int meleeMinDamage = 0;
     int meleeMaxDamage = 0;
@@ -63,6 +65,7 @@ struct CharacterAttackProfile
     uint32_t rangedSkillLevel = 0;
     uint32_t rangedSkillMastery = 0;
     int wandSpellId = 0;
+    int rangedSpellId = 0;
     float meleeRecoverySeconds = 1.0f;
     float rangedRecoverySeconds = 1.0f;
 };
@@ -164,6 +167,10 @@ public:
         int targetArmorClass,
         int attackBonus,
         float targetDistance,
+        std::mt19937 &rng);
+    static bool monsterAttackHitsArmorClass(
+        int targetArmorClass,
+        int monsterLevel,
         std::mt19937 &rng);
     static std::optional<CharacterCondition> displayedCondition(const Character &character);
     static bool canAct(const Character &character);

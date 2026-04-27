@@ -100,6 +100,7 @@ public:
         std::string directTargetName;
         WorldPoint partyPosition = {};
         WorldPoint rangedSource = {};
+        WorldPoint rangedRight = {};
         WorldPoint defaultRangedTarget = {};
         WorldPoint rayRangedTarget = {};
         bool hasRayRangedTarget = false;

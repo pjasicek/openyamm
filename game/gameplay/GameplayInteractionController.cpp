@@ -320,6 +320,7 @@ void executePartyAttack(
             .directTargetName = directTargetName,
             .partyPosition = toActionWorldPoint(partyAttackInput.partyPosition),
             .rangedSource = toActionWorldPoint(partyAttackInput.rangedSource),
+            .rangedRight = toActionWorldPoint(partyAttackInput.rangedRight),
             .defaultRangedTarget = toActionWorldPoint(partyAttackInput.defaultRangedTarget),
             .rayRangedTarget = toActionWorldPoint(partyAttackInput.rayRangedTarget),
             .hasRayRangedTarget = partyAttackInput.hasRayRangedTarget,

@@ -1,5 +1,6 @@
 #include "doctest/doctest.h"
 
+#include "game/audio/SoundIds.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/HouseServiceRuntime.h"
@@ -1510,9 +1511,12 @@ TEST_CASE("transport action spends gold advances time and queues map move")
     REQUIRE(pendingMapMove.has_value());
     REQUIRE(pendingMapMove->mapName.has_value());
     CHECK_EQ(*pendingMapMove->mapName, "Out02.odm");
+    CHECK_EQ(pendingMapMove->x, 8528);
+    CHECK_EQ(pendingMapMove->y, -16528);
+    CHECK_EQ(pendingMapMove->z, 262);
     REQUIRE(pendingMapMove->directionDegrees.has_value());
-    CHECK_EQ(*pendingMapMove->directionDegrees, 180);
-    CHECK(pendingMapMove->useMapStartPosition);
+    CHECK_EQ(*pendingMapMove->directionDegrees, 162);
+    CHECK_FALSE(pendingMapMove->useMapStartPosition);
 }
 
 TEST_CASE("transport route schedule is driven by transport_schedules table")
@@ -2042,6 +2046,10 @@ TEST_CASE("event palm tree requires perception skill")
 
     REQUIRE(rewardHarness.executeOut01LocalEvent(494));
     CHECK(rewardHarness.party().hasQuestBit(270));
+    REQUIRE_FALSE(rewardHarness.eventRuntimeState().pendingSounds.empty());
+    CHECK_EQ(
+        rewardHarness.eventRuntimeState().pendingSounds.back().soundId,
+        static_cast<uint32_t>(OpenYAMM::Game::SoundId::Quest));
 }
 
 TEST_CASE("long tail tobersk buy topic remains available after purchase")
@@ -2116,6 +2124,10 @@ TEST_CASE("event teacher hint sets autonote and note fx")
     }
 
     CHECK(sawAutoNoteFx);
+    REQUIRE_FALSE(harness.eventRuntimeState().pendingSounds.empty());
+    CHECK_EQ(
+        harness.eventRuntimeState().pendingSounds.back().soundId,
+        static_cast<uint32_t>(OpenYAMM::Game::SoundId::Quest));
     REQUIRE_FALSE(harness.eventRuntimeState().messages.empty());
     CHECK_NE(
         harness.eventRuntimeState().messages.front().find("Ashandra Withersmythe"),

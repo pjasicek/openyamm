@@ -257,6 +257,25 @@ TEST_CASE("member experience mutation clamps like OE")
     CHECK_EQ(party.addExperienceToMember(0, -5000000000ll), 0u);
 }
 
+TEST_CASE("dragon ability mastery grants innate dragon spells")
+{
+    OpenYAMM::Game::Character dragon = makeRegressionPartyMember("Duroth", "Dragon", "PC13-01", 13);
+    dragon.skills["DragonAbility"] = {"DragonAbility", 10, OpenYAMM::Game::SkillMastery::Normal};
+
+    CHECK(dragon.setSkillMastery("DragonAbility", OpenYAMM::Game::SkillMastery::Expert));
+    CHECK(dragon.knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Fear)));
+    CHECK(dragon.knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::FlameBlast)));
+    CHECK_FALSE(dragon.knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Flight)));
+    CHECK_FALSE(dragon.knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::WingBuffet)));
+
+    CHECK(dragon.setSkillMastery("DragonAbility", OpenYAMM::Game::SkillMastery::Master));
+    CHECK(dragon.knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Flight)));
+    CHECK_FALSE(dragon.knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::WingBuffet)));
+
+    CHECK(dragon.setSkillMastery("DragonAbility", OpenYAMM::Game::SkillMastery::Grandmaster));
+    CHECK(dragon.knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::WingBuffet)));
+}
+
 TEST_CASE("default party seed grants every member full spell access and preserves inventory")
 {
     OpenYAMM::Game::Party party = {};

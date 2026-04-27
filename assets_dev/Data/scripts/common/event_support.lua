@@ -506,10 +506,22 @@ function support.isAtLeast(selector, value)
 end
 
 function support.addValue(selector, value)
+    if selector == support.varTag.IsIntellectMoreThanBase then
+        local packedSelector = support.packSelector(selector, value)
+        evt.Add(packedSelector, value)
+        return
+    end
+
     evt.Add(selector, value)
 end
 
 function support.setValue(selector, value)
+    if selector == support.varTag.IsIntellectMoreThanBase then
+        local packedSelector = support.packSelector(selector, value)
+        evt.Set(packedSelector, value)
+        return
+    end
+
     evt.Set(selector, value)
 end
 

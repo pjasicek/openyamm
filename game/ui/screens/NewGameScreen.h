@@ -38,6 +38,7 @@ public:
         DarkElf,
         Minotaur,
         Troll,
+        Dragon,
     };
 
     struct CreationCandidate

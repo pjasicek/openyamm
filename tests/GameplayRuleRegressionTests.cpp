@@ -469,6 +469,67 @@ TEST_CASE("empty wand falls back to bow attack profile")
     CHECK(attack.mode == OpenYAMM::Game::CharacterAttackMode::Bow);
 }
 
+TEST_CASE("dragon character normal attack uses dragon ability firebolt profile")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Character member = makeRegressionPartyMember("Duroth", "Dragon", "PC13-01", 13);
+    member.skills["DragonAbility"] = {"DragonAbility", 9, OpenYAMM::Game::SkillMastery::Master};
+    member.equipment.mainHand = 152;
+    member.equipmentRuntime.mainHand.currentCharges = 3;
+    member.equipmentRuntime.mainHand.maxCharges = 3;
+    member.equipment.bow = findFirstItemIdBySkillGroup(gameData.itemTable, "Bow");
+
+    const OpenYAMM::Game::CharacterAttackProfile profile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(
+            member,
+            &gameData.itemTable,
+            &gameData.spellTable);
+    std::mt19937 rng(7);
+    const OpenYAMM::Game::CharacterAttackResult attack =
+        OpenYAMM::Game::GameMechanics::resolveCharacterAttackAgainstArmorClass(
+            member,
+            &gameData.itemTable,
+            &gameData.spellTable,
+            100,
+            1024.0f,
+            rng);
+
+    CHECK(profile.hasDragonBreath);
+    CHECK_EQ(profile.rangedAttackBonus, 9);
+    CHECK_EQ(profile.rangedMinDamage, 9);
+    CHECK_EQ(profile.rangedMaxDamage, 90);
+    CHECK_EQ(
+        profile.rangedSpellId,
+        OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::FireBolt));
+    CHECK(attack.mode == OpenYAMM::Game::CharacterAttackMode::DragonBreath);
+    CHECK(attack.resolvesOnImpact);
+    CHECK(attack.hit);
+    CHECK_EQ(
+        attack.spellId,
+        OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::FireBolt));
+    CHECK(attack.attackBonus == 9);
+    CHECK(attack.damage >= 9);
+    CHECK(attack.damage <= 90);
+}
+
+TEST_CASE("starting dragon ability deals one to ten damage")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Character member = makeRegressionPartyMember("Duroth", "Dragon", "PC13-01", 13);
+    member.skills["DragonAbility"] = {"DragonAbility", 1, OpenYAMM::Game::SkillMastery::Normal};
+
+    const OpenYAMM::Game::CharacterAttackProfile profile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(
+            member,
+            &gameData.itemTable,
+            &gameData.spellTable);
+
+    CHECK(profile.hasDragonBreath);
+    CHECK_EQ(profile.rangedAttackBonus, 1);
+    CHECK_EQ(profile.rangedMinDamage, 1);
+    CHECK_EQ(profile.rangedMaxDamage, 10);
+}
+
 TEST_CASE("equipped wand charge consumption decrements to empty and then stops")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -1103,6 +1164,12 @@ TEST_CASE("resolve character attack sound id uses shared weapon family mapping")
             &itemTable,
             OpenYAMM::Game::CharacterAttackMode::Blaster),
         OpenYAMM::Game::SoundId::ShootBlaster);
+    CHECK_EQ(
+        OpenYAMM::Game::GameMechanics::resolveCharacterAttackSoundId(
+            character,
+            &itemTable,
+            OpenYAMM::Game::CharacterAttackMode::DragonBreath),
+        OpenYAMM::Game::SoundId::DragonBreath);
 }
 
 TEST_CASE("audio shutdown remains safe after SDL quit")

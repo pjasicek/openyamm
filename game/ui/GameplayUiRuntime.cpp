@@ -1308,7 +1308,7 @@ void GameplayUiRuntime::triggerPortraitSpellFx(const PartySpellCastResult &resul
 
 const PortraitFxEventEntry *GameplayUiRuntime::findPortraitFxEvent(PortraitFxEventKind kind) const
 {
-    return m_portraitRuntimeLoaded ? m_pDataRepository->portraitFxEventTable().findByKind(kind) : nullptr;
+    return m_pDataRepository != nullptr ? m_pDataRepository->portraitFxEventTable().findByKind(kind) : nullptr;
 }
 
 const FaceAnimationEntry *GameplayUiRuntime::findFaceAnimation(FaceAnimationId animationId) const

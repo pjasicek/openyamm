@@ -729,6 +729,7 @@ std::optional<MapDeltaData> MapDeltaDataLoader::loadIndoorFromBytes(
         return std::nullopt;
     }
 
+    normalizeIndoorDoorTextureDeltas(mapDeltaData, indoorMapData);
     return mapDeltaData;
 }
 }

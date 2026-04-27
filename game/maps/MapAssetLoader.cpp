@@ -15,7 +15,6 @@
 
 #include <algorithm>
 #include <array>
-#include <chrono>
 #include <cctype>
 #include <cmath>
 #include <cstddef>
@@ -3048,16 +3047,12 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
     const MapCompanionLoadOptions &companionLoadOptions
 ) const
 {
-    const auto loadStart = std::chrono::steady_clock::now();
     BitmapLoadCache bitmapLoadCache = {};
-    auto logStageComplete = [&loadStart](const std::string &stageName)
+    auto logStageComplete = [](const std::string &stageName)
     {
-        const auto now = std::chrono::steady_clock::now();
-        const auto elapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - loadStart).count();
-        std::cout << "  [" << elapsedMs << " ms] " << stageName << '\n';
+        static_cast<void>(stageName);
     };
 
-    std::cout << "Loading map assets for " << map.fileName << "...\n";
     const std::optional<std::string> geometryPath = findAssetPath(assetFileSystem, map.fileName);
 
     if (!geometryPath)
@@ -3086,27 +3081,6 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
     std::optional<std::vector<uint8_t>> companionBytes;
     std::optional<std::string> sceneText;
 
-    const std::optional<std::string> companionFileName =
-        companionLoadOptions.allowLegacyCompanion ? buildCompanionFileName(map.fileName) : std::nullopt;
-
-    if (companionFileName)
-    {
-        const std::optional<std::string> companionPath =
-            findCompanionAssetPath(assetFileSystem, *companionFileName);
-
-        if (companionPath)
-        {
-            companionBytes = assetFileSystem.readBinaryFile(*companionPath);
-
-            if (companionBytes)
-            {
-                assetInfo.companionPath = companionPath;
-                assetInfo.companionSize = companionBytes->size();
-                logStageComplete("companion bytes loaded");
-            }
-        }
-    }
-
     const std::optional<std::string> sceneFileName =
         companionLoadOptions.allowSceneYml ? buildSceneFileName(map.fileName) : std::nullopt;
 
@@ -3123,6 +3097,27 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                 assetInfo.scenePath = scenePath;
                 assetInfo.sceneSize = sceneText->size();
                 logStageComplete("scene yml loaded");
+            }
+        }
+    }
+
+    const std::optional<std::string> companionFileName =
+        !sceneText && companionLoadOptions.allowLegacyCompanion ? buildCompanionFileName(map.fileName) : std::nullopt;
+
+    if (companionFileName)
+    {
+        const std::optional<std::string> companionPath =
+            findCompanionAssetPath(assetFileSystem, *companionFileName);
+
+        if (companionPath)
+        {
+            companionBytes = assetFileSystem.readBinaryFile(*companionPath);
+
+            if (companionBytes)
+            {
+                assetInfo.companionPath = companionPath;
+                assetInfo.companionSize = companionBytes->size();
+                logStageComplete("companion bytes loaded");
             }
         }
     }
@@ -3316,9 +3311,6 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
             }
             else
             {
-                std::cout
-                    << "  headless gameplay load: skipped outdoor render assets"
-                        << '\n';
             }
         }
     }
@@ -3463,9 +3455,6 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
             }
             else
             {
-                std::cout
-                    << "  headless gameplay load: skipped indoor render assets"
-                        << '\n';
             }
         }
     }

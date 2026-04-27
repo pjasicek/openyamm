@@ -3697,18 +3697,11 @@ void GameplayOverlayInputController::handleLootOverlayInput(
         view.interactionState().chestSelectDownLatch = false;
     }
 
-    const bool spacePressed = pKeyboardState[SDL_SCANCODE_SPACE];
-    const bool lootPressed = pKeyboardState[SDL_SCANCODE_RETURN] || spacePressed;
-    const bool spaceConsumedByOpeningLootView =
-        spacePressed && view.interactionState().activateInspectLatch;
+    const bool lootPressed = pKeyboardState[SDL_SCANCODE_RETURN];
 
     if (lootPressed)
     {
-        if (spaceConsumedByOpeningLootView)
-        {
-            view.interactionState().lootChestItemLatch = true;
-        }
-        else if (!view.interactionState().lootChestItemLatch
+        if (!view.interactionState().lootChestItemLatch
             && !view.inventoryNestedOverlay().active
             && itemCount > 0
             && view.party() != nullptr)

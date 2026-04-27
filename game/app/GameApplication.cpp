@@ -682,6 +682,7 @@ void GameApplication::applyCurrentSettingsToActiveRuntime()
     if (m_pMapSceneRuntime != nullptr && m_pMapSceneRuntime->kind() == SceneKind::Indoor)
     {
         IndoorSceneRuntime *pIndoorRuntime = static_cast<IndoorSceneRuntime *>(m_pMapSceneRuntime.get());
+        pIndoorRuntime->partyRuntime().setAlwaysRunEnabled(m_settings.alwaysRun);
         pIndoorRuntime->partyRuntime().setMovementSpeedMultiplier(m_settings.movementSpeedMultiplier);
     }
 }
@@ -992,6 +993,7 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         }
 
         pIndoorSceneRuntime->partyRuntime().setMovementSpeedMultiplier(m_settings.movementSpeedMultiplier);
+        pIndoorSceneRuntime->partyRuntime().setAlwaysRunEnabled(m_settings.alwaysRun);
 
         if (initializeView
             && !m_indoorRenderer.initialize(

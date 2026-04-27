@@ -7,6 +7,7 @@
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/ItemTable.h"
+#include "game/tables/MonsterTable.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/tables/PotionMixingTable.h"
 #include "game/tables/ReadableScrollTable.h"
@@ -33,6 +34,7 @@ struct RegressionGameData
     Game::CharacterDollTable characterDollTable = {};
     Game::ClassSkillTable classSkillTable = {};
     Game::HouseTable houseTable = {};
+    Game::MonsterTable monsterTable = {};
     Game::NpcDialogTable npcDialogTable = {};
     Game::RosterTable rosterTable = {};
     Game::TransitionTable transitionTable = {};

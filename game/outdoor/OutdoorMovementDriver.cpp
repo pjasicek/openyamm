@@ -140,54 +140,86 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
     const bx::Vec3 forward = {cosYaw, sinYaw, 0.0f};
     const bx::Vec3 forwardFlying = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
     const bx::Vec3 right = {sinYaw, -cosYaw, 0.0f};
+    const bool effectiveRunning =
+        input.runWalkModifier ? !m_partyMovementState.running : m_partyMovementState.running;
     float moveVelocityX = 0.0f;
     float moveVelocityY = 0.0f;
     float moveVelocityZ = 0.0f;
 
     if (input.turbo)
     {
+        const float forwardTurboMultiplier =
+            m_partyMovementState.flying && effectiveRunning
+                ? m_tuning.flyingRunTurboMultiplier
+                : m_tuning.turboMultiplier;
+        const float backwardTurboMultiplier =
+            m_partyMovementState.flying && effectiveRunning
+                ? m_tuning.flyingRunTurboMultiplier
+                : m_tuning.turboMultiplier;
+        const float sideTurboMultiplier =
+            m_partyMovementState.flying && effectiveRunning
+                ? m_tuning.flyingRunTurboMultiplier
+                : m_tuning.turboMultiplier;
+        const float sideTurboSpeed =
+            m_tuning.walkSpeed * m_tuning.strafeMultiplier * sideTurboMultiplier * speedMultiplier;
+
         if (input.forward)
         {
             const bx::Vec3 &forwardVector = m_partyMovementState.flying ? forwardFlying : forward;
-            moveVelocityX += forwardVector.x * m_tuning.turboMoveSpeed * speedMultiplier;
-            moveVelocityY += forwardVector.y * m_tuning.turboMoveSpeed * speedMultiplier;
-            moveVelocityZ += forwardVector.z * m_tuning.turboMoveSpeed * speedMultiplier;
+            const float forwardSpeed = m_tuning.walkSpeed * forwardTurboMultiplier * speedMultiplier;
+            moveVelocityX += forwardVector.x * forwardSpeed;
+            moveVelocityY += forwardVector.y * forwardSpeed;
+            moveVelocityZ += forwardVector.z * forwardSpeed;
         }
 
         if (input.backward)
         {
             const bx::Vec3 &forwardVector = m_partyMovementState.flying ? forwardFlying : forward;
-            moveVelocityX -= forwardVector.x * m_tuning.turboMoveSpeed * speedMultiplier;
-            moveVelocityY -= forwardVector.y * m_tuning.turboMoveSpeed * speedMultiplier;
-            moveVelocityZ -= forwardVector.z * m_tuning.turboMoveSpeed * speedMultiplier;
+            const float backwardSpeed = m_tuning.walkSpeed * backwardTurboMultiplier * speedMultiplier;
+            moveVelocityX -= forwardVector.x * backwardSpeed;
+            moveVelocityY -= forwardVector.y * backwardSpeed;
+            moveVelocityZ -= forwardVector.z * backwardSpeed;
         }
 
         if (input.left)
         {
-            moveVelocityX -= right.x * m_tuning.turboMoveSpeed * speedMultiplier;
-            moveVelocityY -= right.y * m_tuning.turboMoveSpeed * speedMultiplier;
+            moveVelocityX -= right.x * sideTurboSpeed;
+            moveVelocityY -= right.y * sideTurboSpeed;
         }
 
         if (input.right)
         {
-            moveVelocityX += right.x * m_tuning.turboMoveSpeed * speedMultiplier;
-            moveVelocityY += right.y * m_tuning.turboMoveSpeed * speedMultiplier;
+            moveVelocityX += right.x * sideTurboSpeed;
+            moveVelocityY += right.y * sideTurboSpeed;
         }
     }
     else
     {
-        const float forwardSpeedMultiplier = m_partyMovementState.running ? m_tuning.runForwardMultiplier : 1.0f;
+        const float forwardSpeedMultiplier =
+            effectiveRunning
+                ? (m_partyMovementState.flying ? m_tuning.flyingRunMultiplier : m_tuning.runForwardMultiplier)
+                : 1.0f;
+        const float backwardSpeedMultiplier =
+            m_partyMovementState.flying && effectiveRunning
+                ? m_tuning.flyingRunMultiplier
+                : m_tuning.backwardWalkMultiplier;
+        const float sideSpeedMultiplier =
+            effectiveRunning
+                ? (m_partyMovementState.flying ? m_tuning.flyingRunMultiplier : m_tuning.runForwardMultiplier)
+                : 1.0f;
+        const float sideSpeed =
+            m_tuning.walkSpeed * m_tuning.strafeMultiplier * sideSpeedMultiplier * speedMultiplier;
 
         if (input.left)
         {
-            moveVelocityX -= right.x * m_tuning.walkSpeed * m_tuning.strafeMultiplier * speedMultiplier;
-            moveVelocityY -= right.y * m_tuning.walkSpeed * m_tuning.strafeMultiplier * speedMultiplier;
+            moveVelocityX -= right.x * sideSpeed;
+            moveVelocityY -= right.y * sideSpeed;
         }
 
         if (input.right)
         {
-            moveVelocityX += right.x * m_tuning.walkSpeed * m_tuning.strafeMultiplier * speedMultiplier;
-            moveVelocityY += right.y * m_tuning.walkSpeed * m_tuning.strafeMultiplier * speedMultiplier;
+            moveVelocityX += right.x * sideSpeed;
+            moveVelocityY += right.y * sideSpeed;
         }
 
         if (input.forward)
@@ -201,9 +233,9 @@ void OutdoorMovementDriver::update(const OutdoorMovementInput &input, float delt
         if (input.backward)
         {
             const bx::Vec3 &forwardVector = m_partyMovementState.flying ? forwardFlying : forward;
-            moveVelocityX -= forwardVector.x * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier * speedMultiplier;
-            moveVelocityY -= forwardVector.y * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier * speedMultiplier;
-            moveVelocityZ -= forwardVector.z * m_tuning.walkSpeed * m_tuning.backwardWalkMultiplier * speedMultiplier;
+            moveVelocityX -= forwardVector.x * m_tuning.walkSpeed * backwardSpeedMultiplier * speedMultiplier;
+            moveVelocityY -= forwardVector.y * m_tuning.walkSpeed * backwardSpeedMultiplier * speedMultiplier;
+            moveVelocityZ -= forwardVector.z * m_tuning.walkSpeed * backwardSpeedMultiplier * speedMultiplier;
         }
     }
 

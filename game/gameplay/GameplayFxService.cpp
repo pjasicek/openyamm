@@ -272,33 +272,17 @@ void GameplayFxService::consumePendingPortraitEventFxRequest(
     switch (request.kind)
     {
         case PortraitFxEventKind::AutoNote:
-            if (runtime.audioSystem() != nullptr)
-            {
-                runtime.audioSystem()->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-            }
             break;
 
         case PortraitFxEventKind::AwardGain:
-            if (runtime.audioSystem() != nullptr)
-            {
-                runtime.audioSystem()->playCommonSound(SoundId::Chimes, GameAudioSystem::PlaybackGroup::Ui);
-            }
             runtime.playSpeechReaction(request.memberIndices.front(), SpeechId::AwardGot, false);
             break;
 
         case PortraitFxEventKind::QuestComplete:
-            if (runtime.audioSystem() != nullptr)
-            {
-                runtime.audioSystem()->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-            }
             runtime.playSpeechReaction(request.memberIndices.front(), SpeechId::QuestGot, false);
             break;
 
         case PortraitFxEventKind::StatIncrease:
-            if (runtime.audioSystem() != nullptr)
-            {
-                runtime.audioSystem()->playCommonSound(SoundId::Quest, GameAudioSystem::PlaybackGroup::Ui);
-            }
             break;
 
         case PortraitFxEventKind::StatDecrease:

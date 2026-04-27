@@ -66,7 +66,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
         return;
     }
 
-    const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
+    const bool runWalkModifier = pKeyboardState[SDL_SCANCODE_LSHIFT] || pKeyboardState[SDL_SCANCODE_RSHIFT];
+    const bool turboSpeed = pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL];
     const bool blockCameraRotation =
         overlayContext.buffInspectOverlayReadOnly().active
         || overlayContext.characterDetailOverlayReadOnly().active;
@@ -129,7 +130,8 @@ void OutdoorGameplayInputController::updateCameraFromInput(
                     strafeRightPressed,
                     jumpPressed,
                     flyUpPressed,
-                    (pKeyboardState[SDL_SCANCODE_LCTRL] || pKeyboardState[SDL_SCANCODE_RCTRL]) || flyDownPressed,
+                    flyDownPressed,
+                    runWalkModifier,
                     turboSpeed,
                     view.m_cameraYawRadians,
                     view.m_cameraPitchRadians

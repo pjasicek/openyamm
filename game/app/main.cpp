@@ -6,6 +6,11 @@
 
 #include <SDL3/SDL.h>
 
+extern "C"
+{
+#include <libavutil/log.h>
+}
+
 #include <cctype>
 #include <cstdlib>
 #include <cstdint>
@@ -77,6 +82,8 @@ bool parseCommonArguments(
 
 int runApplication(int argc, char **argv)
 {
+    av_log_set_level(AV_LOG_ERROR);
+
     OpenYAMM::Engine::ApplicationConfig config = OpenYAMM::Engine::ApplicationConfig::createDefault();
     std::vector<std::string> arguments;
 

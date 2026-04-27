@@ -74,6 +74,7 @@ ACTOR_POSITION_OFFSET = 0x96
 ACTOR_SPRITE_IDS_OFFSET = 0xD4
 ACTOR_SECTOR_ID_OFFSET = 0xDC
 ACTOR_CURRENT_ACTION_ANIMATION_OFFSET = 0xDE
+ACTOR_CARRIED_ITEM_ID_OFFSET = 0xB8
 ACTOR_ALLY_OFFSET = 0x340
 ACTOR_GROUP_OFFSET = 0x34C
 ACTOR_UNIQUE_NAME_INDEX_OFFSET = 0x3BC
@@ -606,6 +607,10 @@ def parse_actor_vector(reader: ByteReader, offset: int) -> tuple[list[dict[str, 
                 actor_offset + ACTOR_CURRENT_ACTION_ANIMATION_OFFSET,
                 f"actor {actor_index} current action animation"
             ),
+            "carried_item_id": reader.read_u32(
+                actor_offset + ACTOR_CARRIED_ITEM_ID_OFFSET,
+                f"actor {actor_index} carried item id"
+            ),
             "group": reader.read_u32(actor_offset + ACTOR_GROUP_OFFSET, f"actor {actor_index} group"),
             "ally": reader.read_u32(actor_offset + ACTOR_ALLY_OFFSET, f"actor {actor_index} ally"),
             "unique_name_index": reader.read_i32(
@@ -1112,6 +1117,7 @@ def render_scene_yaml(scene_model: dict[str, object]) -> str:
             append_int_list(lines, "      ", "sprite_ids", actor["sprite_ids"])
             lines.append(f"      sector_id: {actor['sector_id']}")
             lines.append(f"      current_action_animation: {actor['current_action_animation']}")
+            lines.append(f"      carried_item_id: {actor['carried_item_id']}")
             lines.append(f"      group: {actor['group']}")
             lines.append(f"      ally: {actor['ally']}")
             lines.append(f"      unique_name_index: {actor['unique_name_index']}")

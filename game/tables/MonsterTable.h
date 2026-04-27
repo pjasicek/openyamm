@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/party/SkillData.h"
+
 #include <array>
 #include <cstdint>
 #include <optional>
@@ -127,10 +129,14 @@ public:
         std::string spell1Name;
         bool hasSpell1 = false;
         int spell1UseChance = 0;
+        uint32_t spell1SkillLevel = 0;
+        SkillMastery spell1SkillMastery = SkillMastery::None;
         std::string spell2Descriptor;
         std::string spell2Name;
         bool hasSpell2 = false;
         int spell2UseChance = 0;
+        uint32_t spell2SkillLevel = 0;
+        SkillMastery spell2SkillMastery = SkillMastery::None;
         MonsterAttackStyle attackStyle = MonsterAttackStyle::MeleeOnly;
         int fireResistance = 0;
         int airResistance = 0;

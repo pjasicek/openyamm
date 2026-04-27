@@ -2438,6 +2438,11 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
 
                 if (pParty->hireAdventurersInnMember(innIndex))
                 {
+                    if (context.audioSystem() != nullptr)
+                    {
+                        context.audioSystem()->playCommonSound(SoundId::Heroism, GameAudioSystem::PlaybackGroup::Ui);
+                    }
+
                     if (pParty->adventurersInnMembers().empty())
                     {
                         context.characterScreen().open = false;

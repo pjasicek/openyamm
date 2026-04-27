@@ -18,6 +18,9 @@ namespace
 {
 constexpr float CharacterMeleeAttackDistance = 407.2f;
 constexpr float CharacterRangedAttackDistance = 5120.0f;
+constexpr float DragonBreathSourceHeight = 96.0f;
+constexpr float PartyMemberProjectileLateralSpacing = 28.0f;
+constexpr float ProjectileRightVectorEpsilon = 0.0001f;
 
 void resetQuickCastRepeatState(GameplayScreenState::QuickSpellState &quickSpellState)
 {
@@ -62,10 +65,77 @@ GameplayWorldPoint toRuntimeWorldPoint(const GameplayActionController::WorldPoin
     };
 }
 
+float partyMemberProjectileLateralOffset(size_t memberIndex, size_t memberCount)
+{
+    if (memberCount <= 1 || memberIndex >= memberCount)
+    {
+        return 0.0f;
+    }
+
+    const float centerIndex = (static_cast<float>(memberCount) - 1.0f) * 0.5f;
+    return (centerIndex - static_cast<float>(memberIndex)) * PartyMemberProjectileLateralSpacing;
+}
+
+GameplayActionController::WorldPoint offsetPartyProjectileSourceForMember(
+    const GameplayActionController::PartyAttackConfig &config,
+    const GameplayActionController::WorldPoint &target,
+    size_t memberIndex,
+    size_t memberCount)
+{
+    const float lateralOffset = partyMemberProjectileLateralOffset(memberIndex, memberCount);
+
+    if (lateralOffset == 0.0f)
+    {
+        return config.rangedSource;
+    }
+
+    float rightX = config.rangedRight.x;
+    float rightY = config.rangedRight.y;
+    float rightZ = config.rangedRight.z;
+    float rightLength = std::sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+
+    if (rightLength <= ProjectileRightVectorEpsilon)
+    {
+        const float forwardX = target.x - config.rangedSource.x;
+        const float forwardY = target.y - config.rangedSource.y;
+        const float forwardLength = std::sqrt(forwardX * forwardX + forwardY * forwardY);
+
+        if (forwardLength <= ProjectileRightVectorEpsilon)
+        {
+            return config.rangedSource;
+        }
+
+        rightX = -forwardY / forwardLength;
+        rightY = forwardX / forwardLength;
+        rightZ = 0.0f;
+        rightLength = 1.0f;
+    }
+
+    GameplayActionController::WorldPoint source = config.rangedSource;
+    source.x += rightX / rightLength * lateralOffset;
+    source.y += rightY / rightLength * lateralOffset;
+    source.z += rightZ / rightLength * lateralOffset;
+    return source;
+}
+
+GameplayActionController::WorldPoint dragonBreathSourcePoint(
+    const GameplayActionController::WorldPoint &rangedSource,
+    const GameplayActionController::PartyAttackConfig &config)
+{
+    GameplayActionController::WorldPoint source = rangedSource;
+    source.z = std::min(source.z, config.partyPosition.z + DragonBreathSourceHeight);
+    return source;
+}
+
 CharacterAttackMode choosePartyAttackMode(
     const CharacterAttackProfile &profile,
     bool targetInMeleeRange)
 {
+    if (profile.hasDragonBreath && profile.rangedAttackBonus.has_value())
+    {
+        return CharacterAttackMode::DragonBreath;
+    }
+
     if (profile.hasBlaster && profile.rangedAttackBonus.has_value())
     {
         return CharacterAttackMode::Blaster;
@@ -116,11 +186,18 @@ CharacterAttackResult buildRangedReleaseAttack(
     attack.recoverySeconds = profile.rangedRecoverySeconds;
     attack.skillLevel = profile.rangedSkillLevel;
     attack.skillMastery = profile.rangedSkillMastery;
-    attack.spellId = profile.wandSpellId;
-    attack.attackSoundHook =
-        mode == CharacterAttackMode::Bow
-            ? "bow_shot"
-            : (mode == CharacterAttackMode::Blaster ? "blaster_shot" : "wand_cast");
+    attack.spellId = profile.rangedSpellId;
+    attack.attackSoundHook = "wand_cast";
+
+    if (mode == CharacterAttackMode::Bow)
+    {
+        attack.attackSoundHook = "bow_shot";
+    }
+    else if (mode == CharacterAttackMode::Blaster)
+    {
+        attack.attackSoundHook = "blaster_shot";
+    }
+
     attack.voiceHook = "attack";
 
     if (attack.canAttack)
@@ -580,7 +657,36 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
             rangedTarget = config.rayRangedTarget;
         }
 
-        if (attack.mode == CharacterAttackMode::Wand)
+        const WorldPoint rangedSource = offsetPartyProjectileSourceForMember(
+            config,
+            rangedTarget,
+            actingMemberIndex,
+            party.members().size());
+
+        if (attack.mode == CharacterAttackMode::DragonBreath)
+        {
+            if (attack.spellId > 0 && config.pWorldRuntime != nullptr)
+            {
+                const WorldPoint source = dragonBreathSourcePoint(rangedSource, config);
+                attacked = config.pWorldRuntime->castPartySpellProjectile(
+                    GameplayPartySpellProjectileRequest{
+                        .casterMemberIndex = static_cast<uint32_t>(actingMemberIndex),
+                        .spellId = static_cast<uint32_t>(attack.spellId),
+                        .skillLevel = attack.skillLevel,
+                        .skillMastery = static_cast<SkillMastery>(attack.skillMastery),
+                        .damage = attack.damage,
+                        .sourceX = source.x,
+                        .sourceY = source.y,
+                        .sourceZ = source.z,
+                        .targetX = rangedTarget.x,
+                        .targetY = rangedTarget.y,
+                        .targetZ = rangedTarget.z,
+                        .effectSoundIdOverride = static_cast<uint32_t>(SoundId::DragonBreath),
+                        .impactSoundIdOverride = static_cast<uint32_t>(SoundId::DragonBreathImpact),
+                    });
+            }
+        }
+        else if (attack.mode == CharacterAttackMode::Wand)
         {
             if (attack.spellId > 0 && config.pSpellTable != nullptr && config.pWorldRuntime != nullptr)
             {
@@ -623,7 +729,7 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
                     .damage = attack.damage,
                     .attackBonus = attack.attackBonus,
                     .useActorHitChance = true,
-                    .source = toRuntimeWorldPoint(config.rangedSource),
+                    .source = toRuntimeWorldPoint(rangedSource),
                     .target = toRuntimeWorldPoint(rangedTarget),
                 });
         }

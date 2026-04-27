@@ -6,6 +6,7 @@
 #include <algorithm>
 #include <cmath>
 #include <limits>
+#include <random>
 
 namespace OpenYAMM::Game
 {
@@ -76,6 +77,80 @@ uint32_t animationTicks(const GameplayScreenRuntime *pRuntime)
     }
 
     return 0;
+}
+
+int incomingAttackArmorClass(
+    const Character &member,
+    const GameplayScreenRuntime *pRuntime)
+{
+    const ItemTable *pItemTable = pRuntime != nullptr ? pRuntime->itemTable() : nullptr;
+    const StandardItemEnchantTable *pStandardItemEnchantTable =
+        pRuntime != nullptr ? pRuntime->standardItemEnchantTable() : nullptr;
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable =
+        pRuntime != nullptr ? pRuntime->specialItemEnchantTable() : nullptr;
+    const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
+        member,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+
+    return std::max(0, summary.armorClass.actual + member.armorClassModifier);
+}
+
+std::mt19937 buildMonsterAttackRng(
+    const GameplayCombatController::CombatEvent &event,
+    size_t targetMemberIndex,
+    uint32_t frameTicks)
+{
+    uint32_t seed = frameTicks
+        ^ (event.sourceId * 2654435761u)
+        ^ (static_cast<uint32_t>(targetMemberIndex + 1) * 40503u)
+        ^ (static_cast<uint32_t>(std::max(0, event.damage)) * 1103515245u)
+        ^ (static_cast<uint32_t>(std::max(0, event.spellId)) * 2246822519u);
+
+    if (seed == 0)
+    {
+        seed = 1;
+    }
+
+    return std::mt19937(seed);
+}
+
+bool monsterImpactRequiresArmorHitRoll(
+    const GameplayCombatController::CombatEvent &event,
+    const std::optional<GameplayCombatActorInfo> &sourceActor)
+{
+    if (!sourceActor)
+    {
+        return false;
+    }
+
+    if (event.type == GameplayCombatController::CombatEventType::MonsterMeleeImpact)
+    {
+        return true;
+    }
+
+    return event.type == GameplayCombatController::CombatEventType::PartyProjectileImpact
+        && !event.affectsAllParty
+        && event.spellId == 0;
+}
+
+bool monsterImpactHitsMember(
+    const GameplayCombatController::PendingCombatEventContext &context,
+    const GameplayCombatController::CombatEvent &event,
+    const GameplayCombatActorInfo &sourceActor,
+    size_t targetMemberIndex)
+{
+    const Character *pMember = context.party.member(targetMemberIndex);
+
+    if (pMember == nullptr)
+    {
+        return false;
+    }
+
+    const int armorClass = incomingAttackArmorClass(*pMember, context.pRuntime);
+    std::mt19937 rng = buildMonsterAttackRng(event, targetMemberIndex, animationTicks(context.pRuntime));
+    return GameMechanics::monsterAttackHitsArmorClass(armorClass, sourceActor.monsterLevel, rng);
 }
 
 } // namespace
@@ -176,7 +251,8 @@ std::string GameplayCombatController::formatPartyAttackStatusText(
 
     if (attack.mode == CharacterAttackMode::Bow
         || attack.mode == CharacterAttackMode::Wand
-        || attack.mode == CharacterAttackMode::Blaster)
+        || attack.mode == CharacterAttackMode::Blaster
+        || attack.mode == CharacterAttackMode::DragonBreath)
     {
         return attackerName + " shoots " + targetName + " for " + std::to_string(attack.damage) + " points";
     }
@@ -352,6 +428,17 @@ void GameplayCombatController::handlePendingCombatEvents(
         }
 
         Character *pTargetMember = targetMemberIndex ? context.party.member(*targetMemberIndex) : nullptr;
+        const bool needsArmorHitRoll = monsterImpactRequiresArmorHitRoll(event, sourceActor);
+
+        if (needsArmorHitRoll && targetMemberIndex.has_value() && sourceActor
+            && !monsterImpactHitsMember(context, event, *sourceActor, *targetMemberIndex))
+        {
+            const std::string targetName =
+                pTargetMember != nullptr && !pTargetMember->name.empty() ? pTargetMember->name : "party";
+            showCombatStatus(context.pRuntime, sourceName + " misses " + targetName);
+            continue;
+        }
+
         const bool ignorePhysicalDamage =
             pTargetMember != nullptr
             && pTargetMember->physicalDamageImmune

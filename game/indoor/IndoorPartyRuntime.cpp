@@ -166,6 +166,7 @@ IndoorPartyRuntime::Snapshot IndoorPartyRuntime::snapshot() const
     snapshot.pendingImpulseVelocityX = m_pendingImpulseVelocityX;
     snapshot.pendingImpulseVelocityY = m_pendingImpulseVelocityY;
     snapshot.pendingImpulseVelocityZ = m_pendingImpulseVelocityZ;
+    snapshot.alwaysRunEnabled = m_alwaysRunEnabled;
     return snapshot;
 }
 
@@ -177,11 +178,22 @@ void IndoorPartyRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_pendingImpulseVelocityX = snapshot.pendingImpulseVelocityX;
     m_pendingImpulseVelocityY = snapshot.pendingImpulseVelocityY;
     m_pendingImpulseVelocityZ = snapshot.pendingImpulseVelocityZ;
+    m_alwaysRunEnabled = snapshot.alwaysRunEnabled;
 }
 
 void IndoorPartyRuntime::setMovementSpeedMultiplier(float multiplier)
 {
     m_movementSpeedMultiplier = multiplier;
+}
+
+void IndoorPartyRuntime::setAlwaysRunEnabled(bool enabled)
+{
+    m_alwaysRunEnabled = enabled;
+}
+
+bool IndoorPartyRuntime::alwaysRunEnabled() const
+{
+    return m_alwaysRunEnabled;
 }
 
 void IndoorPartyRuntime::syncSpellMovementStatesFromPartyBuffs()

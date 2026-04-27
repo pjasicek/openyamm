@@ -153,6 +153,61 @@ std::string parseMonsterSpellName(const std::string &value)
     return toLowerCopy(spellName);
 }
 
+std::vector<std::string> parseMonsterSpellDescriptorTokens(const std::string &value)
+{
+    std::vector<std::string> tokens;
+    size_t tokenBegin = 0;
+
+    while (tokenBegin <= value.size())
+    {
+        const size_t tokenEnd = value.find(',', tokenBegin);
+        tokens.push_back(trimCopy(value.substr(
+            tokenBegin,
+            tokenEnd == std::string::npos ? std::string::npos : tokenEnd - tokenBegin)));
+
+        if (tokenEnd == std::string::npos)
+        {
+            break;
+        }
+
+        tokenBegin = tokenEnd + 1;
+    }
+
+    return tokens;
+}
+
+uint32_t parseMonsterSpellSkillLevel(const std::string &value)
+{
+    const std::vector<std::string> tokens = parseMonsterSpellDescriptorTokens(value);
+
+    if (tokens.size() < 3 || tokens[2].empty())
+    {
+        return 0;
+    }
+
+    for (unsigned char character : tokens[2])
+    {
+        if (std::isdigit(character) == 0)
+        {
+            return 0;
+        }
+    }
+
+    return static_cast<uint32_t>(std::stoul(tokens[2]));
+}
+
+SkillMastery parseMonsterSpellSkillMastery(const std::string &value)
+{
+    const std::vector<std::string> tokens = parseMonsterSpellDescriptorTokens(value);
+
+    if (tokens.size() < 2)
+    {
+        return SkillMastery::None;
+    }
+
+    return parseSkillMasteryToken(tokens[1]);
+}
+
 bool isNumericString(const std::string &value)
 {
     if (value.empty())
@@ -607,10 +662,14 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.spell1Name = parseMonsterSpellName(entry.spell1Descriptor);
         entry.hasSpell1 = hasMonsterAbilityDescriptor(entry.spell1Descriptor);
         entry.spell1UseChance = row.size() > 24 && !row[24].empty() ? std::stoi(row[24]) : 0;
+        entry.spell1SkillLevel = parseMonsterSpellSkillLevel(entry.spell1Descriptor);
+        entry.spell1SkillMastery = parseMonsterSpellSkillMastery(entry.spell1Descriptor);
         entry.spell2Descriptor = row.size() > 27 ? row[27] : std::string();
         entry.spell2Name = parseMonsterSpellName(entry.spell2Descriptor);
         entry.hasSpell2 = hasMonsterAbilityDescriptor(entry.spell2Descriptor);
         entry.spell2UseChance = row.size() > 26 && !row[26].empty() ? std::stoi(row[26]) : 0;
+        entry.spell2SkillLevel = parseMonsterSpellSkillLevel(entry.spell2Descriptor);
+        entry.spell2SkillMastery = parseMonsterSpellSkillMastery(entry.spell2Descriptor);
         entry.fireResistance = row.size() > 28 ? parseMonsterResistanceValue(row[28]) : 0;
         entry.airResistance = row.size() > 29 ? parseMonsterResistanceValue(row[29]) : 0;
         entry.waterResistance = row.size() > 30 ? parseMonsterResistanceValue(row[30]) : 0;

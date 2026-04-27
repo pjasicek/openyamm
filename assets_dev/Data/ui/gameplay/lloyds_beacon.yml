@@ -1,0 +1,154 @@
+screen: LloydsBeacon
+
+elements:
+  - id: LloydsBeaconRoot
+    anchor: center
+    width: 640
+    height: 480
+    z_index: 440
+    visible: true
+    scale:
+      min: 1.0
+      max: 3.0
+    children:
+      - id: LloydsBeaconBackground
+        anchor: top_left
+        offset_x: 0
+        offset_y: 0
+        width: 640
+        height: 480
+        z_index: 0
+        asset:
+          default: IRBgrnd
+
+      - id: LloydsBeaconSetModeText
+        anchor: top_left
+        offset_x: 131
+        offset_y: 60
+        width: 300
+        height: 28
+        z_index: 20
+        text:
+          value: "Set Beacon"
+          font: Book2
+          align_x: center
+          align_y: middle
+          scale: 1.0
+
+      - id: LloydsBeaconRecallModeText
+        anchor: top_left
+        offset_x: 131
+        offset_y: 60
+        width: 300
+        height: 28
+        z_index: 20
+        text:
+          value: "Recall Beacon"
+          font: Book2
+          align_x: center
+          align_y: middle
+          scale: 1.0
+
+      - id: LloydsBeaconSlot1
+        anchor: top_left
+        offset_x: 115
+        offset_y: 110
+        width: 120
+        height: 90
+        z_index: 20
+        interactive: true
+        asset:
+          default: ""
+          highlighted: ""
+          pressed: ""
+
+      - id: LloydsBeaconSlot2
+        anchor: top_left
+        offset_x: 335
+        offset_y: 110
+        width: 120
+        height: 90
+        z_index: 20
+        interactive: true
+        asset:
+          default: ""
+          highlighted: ""
+          pressed: ""
+
+      - id: LloydsBeaconSlot3
+        anchor: top_left
+        offset_x: 115
+        offset_y: 330
+        width: 120
+        height: 90
+        z_index: 20
+        interactive: true
+        asset:
+          default: ""
+          highlighted: ""
+          pressed: ""
+
+      - id: LloydsBeaconSlot4
+        anchor: top_left
+        offset_x: 335
+        offset_y: 330
+        width: 120
+        height: 90
+        z_index: 20
+        interactive: true
+        asset:
+          default: ""
+          highlighted: ""
+          pressed: ""
+
+      - id: LloydsBeaconSlot5
+        anchor: top_left
+        offset_x: 225
+        offset_y: 220
+        width: 120
+        height: 90
+        z_index: 20
+        interactive: true
+        asset:
+          default: ""
+          highlighted: ""
+          pressed: ""
+
+      - id: LloydsBeaconRecallBeacon
+        anchor: top_left
+        offset_x: 484
+        offset_y: 38
+        width: 61
+        height: 47
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT01r
+          highlighted: IRT01r
+          pressed: IRT01b
+
+      - id: LloydsBeaconSetBeacon
+        anchor: top_left
+        offset_x: 484
+        offset_y: 91
+        width: 72
+        height: 54
+        z_index: 30
+        interactive: true
+        asset:
+          default: IRT02r
+          highlighted: IRT02r
+          pressed: IRT02b
+
+      - id: LloydsBeaconCloseButton
+        anchor: bottom_right
+        offset_x: -3
+        offset_y: -3
+        width: 83
+        height: 30
+        z_index: 300
+        interactive: true
+        asset:
+          default: c_close_up
+          pressed: c_close_DN
+          highlighted: c_close_ht

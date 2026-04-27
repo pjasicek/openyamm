@@ -53,6 +53,7 @@ public:
         uint16_t height = 0;
         int spellId = 0;
         int effectSoundId = 0;
+        uint32_t impactSoundIdOverride = 0;
         uint32_t skillLevel = 0;
         uint32_t skillMastery = 0;
         std::string objectName;
@@ -131,6 +132,7 @@ public:
         int damage = 0;
         int attackBonus = 0;
         bool useActorHitChance = false;
+        uint32_t impactSoundIdOverride = 0;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceZ = 0.0f;
@@ -245,6 +247,14 @@ public:
         int bonus = 0;
     };
 
+    struct MonsterSpellDamageProfile
+    {
+        int baseDamage = 0;
+        int diceSides = 0;
+        uint32_t skillLevel = 0;
+        SkillMastery skillMastery = SkillMastery::None;
+    };
+
     struct ProjectilePartyImpactDamageInput
     {
         ProjectileState::SourceKind sourceKind = ProjectileState::SourceKind::Actor;
@@ -257,6 +267,8 @@ public:
         MonsterAttackAbility monsterAbility = MonsterAttackAbility::Attack1;
         MonsterProjectileDamageProfile attack1Damage;
         MonsterProjectileDamageProfile attack2Damage;
+        MonsterSpellDamageProfile spell1Damage;
+        MonsterSpellDamageProfile spell2Damage;
     };
 
     struct ProjectileAreaImpactActorFacts

@@ -45,7 +45,17 @@ std::string quote(const std::string &value)
 
 std::string decodeVariableRef(uint32_t rawValue)
 {
-    const EvtVariable variableId = static_cast<EvtVariable>(rawValue & 0xFFFFu);
+    uint32_t variableTag = rawValue & 0xFFFFu;
+    if (variableTag == 0x013Cu)
+    {
+        variableTag = static_cast<uint32_t>(EvtVariable::Invisible);
+    }
+    else if (variableTag == 0x013Du)
+    {
+        variableTag = static_cast<uint32_t>(EvtVariable::ItemEquipped);
+    }
+
+    const EvtVariable variableId = static_cast<EvtVariable>(variableTag);
     const uint32_t index = rawValue >> 16;
 
     if (variableId == EvtVariable::QBits)

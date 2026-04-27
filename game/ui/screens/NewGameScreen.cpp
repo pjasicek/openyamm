@@ -76,7 +76,7 @@ constexpr std::array<const char *, static_cast<size_t>(StatId::Count)> StatLabel
     "Luck",
 };
 
-constexpr std::array<CreationCandidate, 24> CreationCandidates = {{
+constexpr std::array<CreationCandidate, 26> CreationCandidates = {{
     {1, "Gareth", "Knight", CreationRace::Human, true, {18, 9, 9, 15, 15, 15, 11}, {{"Bow", "RepairItem"}}},
     {2, "Kiir", "Knight", CreationRace::Human},
     {3, "Gareth", "Knight", CreationRace::Human},
@@ -101,6 +101,8 @@ constexpr std::array<CreationCandidate, 24> CreationCandidates = {{
     {22, "Karn", "Minotaur", CreationRace::Minotaur},
     {23, "Overdune", "Troll", CreationRace::Troll},
     {24, "Brakka", "Troll", CreationRace::Troll},
+    {25, "Aleton", "Dragon", CreationRace::Dragon},
+    {26, "Beren", "Dragon", CreationRace::Dragon},
 }};
 
 constexpr std::array<SkillSlotPosition, 4> SelectedSkillPositions = {{
@@ -502,6 +504,9 @@ std::string creationRaceName(CreationRace race)
 
         case CreationRace::Troll:
             return "Troll";
+
+        case CreationRace::Dragon:
+            return "Dragon";
 
         case CreationRace::Human:
         default:

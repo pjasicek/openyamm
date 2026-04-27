@@ -22,6 +22,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr bool VerboseMapLoadLogging = false;
+
 std::optional<std::string> readFirstExistingText(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::vector<std::string> &candidates,
@@ -1121,15 +1123,18 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         m_loadedTables.push_back({tablePath, dataRowCount, columnCount});
     }
 
-    std::cout << "Loaded gameplay tables:\n";
-    std::cout << "  " << dataTablePath("map_stats.txt")
-              << " entries=" << m_mapStats.getEntries().size() << '\n';
-
-    for (const LoadedTableSummary &loadedTable : m_loadedTables)
+    if constexpr (VerboseMapLoadLogging)
     {
-        std::cout << "  " << loadedTable.virtualPath
-                  << " rows=" << loadedTable.dataRowCount
-                  << " columns=" << loadedTable.columnCount << '\n';
+        std::cout << "Loaded gameplay tables:\n";
+        std::cout << "  " << dataTablePath("map_stats.txt")
+                  << " entries=" << m_mapStats.getEntries().size() << '\n';
+
+        for (const LoadedTableSummary &loadedTable : m_loadedTables)
+        {
+            std::cout << "  " << loadedTable.virtualPath
+                      << " rows=" << loadedTable.dataRowCount
+                      << " columns=" << loadedTable.columnCount << '\n';
+        }
     }
 
     return true;
@@ -2420,184 +2425,188 @@ bool GameDataLoader::loadSelectedMap(
         m_selectedMap->eventRuntimeState = std::move(runtimeState);
     }
 
-    std::cout << "Selected map:\n";
-    std::cout << "  id=" << m_selectedMap->map.id << '\n';
-    std::cout << "  name=" << m_selectedMap->map.name << '\n';
-    std::cout << "  file=" << m_selectedMap->geometryPath << '\n';
-    std::cout << "  size=" << m_selectedMap->geometrySize << " bytes\n";
-    std::cout << "  environment=" << m_selectedMap->map.environmentName << '\n';
-    std::cout << "  top_level_area=" << (m_selectedMap->map.isTopLevelArea ? "yes" : "no") << '\n';
-
-    if (m_selectedMap->companionPath && m_selectedMap->companionSize)
+    if constexpr (VerboseMapLoadLogging)
     {
-        std::cout << "  legacy_companion=" << *m_selectedMap->companionPath
-                  << " (" << *m_selectedMap->companionSize << " bytes)\n";
-    }
+        std::cout << "Selected map:\n";
+        std::cout << "  id=" << m_selectedMap->map.id << '\n';
+        std::cout << "  name=" << m_selectedMap->map.name << '\n';
+        std::cout << "  file=" << m_selectedMap->geometryPath << '\n';
+        std::cout << "  size=" << m_selectedMap->geometrySize << " bytes\n";
+        std::cout << "  environment=" << m_selectedMap->map.environmentName << '\n';
+        std::cout << "  top_level_area=" << (m_selectedMap->map.isTopLevelArea ? "yes" : "no") << '\n';
 
-    if (m_selectedMap->scenePath && m_selectedMap->sceneSize)
-    {
-        std::cout << "  scene=" << *m_selectedMap->scenePath
-                  << " (" << *m_selectedMap->sceneSize << " bytes)\n";
-    }
-
-    if (m_selectedMap->authoredCompanionSource == AuthoredCompanionSource::SceneYml)
-    {
-        std::cout << "  authored_source=scene_yml\n";
-    }
-    else if (m_selectedMap->authoredCompanionSource == AuthoredCompanionSource::LegacyCompanion)
-    {
-        std::cout << "  authored_source=legacy_companion\n";
-    }
-
-    if (m_selectedMap->localEventProgram)
-    {
-        std::cout << "  local_lua_events=" << m_selectedMap->localEventProgram->eventIds().size() << '\n';
-
-        if (m_selectedMap->localEventProgram->luaSourceName())
+        if (m_selectedMap->companionPath && m_selectedMap->companionSize)
         {
-            std::cout << "  local_lua_source=" << *m_selectedMap->localEventProgram->luaSourceName() << '\n';
-        }
-    }
-
-    if (m_selectedMap->globalEventProgram)
-    {
-        std::cout << "  global_lua_events=" << m_selectedMap->globalEventProgram->eventIds().size() << '\n';
-
-        if (m_selectedMap->globalEventProgram->luaSourceName())
-        {
-            std::cout << "  global_lua_source=" << *m_selectedMap->globalEventProgram->luaSourceName() << '\n';
-        }
-    }
-
-    if (m_selectedMap->eventRuntimeState)
-    {
-        std::cout << "  onload_local_events=" << m_selectedMap->eventRuntimeState->localOnLoadEventsExecuted << '\n';
-        std::cout << "  onload_global_events=" << m_selectedMap->eventRuntimeState->globalOnLoadEventsExecuted << '\n';
-        std::cout << "  onload_facet_overrides=" << m_selectedMap->eventRuntimeState->facetSetMasks.size() << '\n';
-        std::cout << "  onload_mechanisms=" << m_selectedMap->eventRuntimeState->mechanisms.size() << '\n';
-        std::cout << "  onload_texture_overrides=" << m_selectedMap->eventRuntimeState->textureOverrides.size() << '\n';
-        std::cout << "  onload_light_overrides=" << m_selectedMap->eventRuntimeState->indoorLightsEnabled.size() << '\n';
-        std::cout << "  onload_npc_topic_overrides="
-                  << m_selectedMap->eventRuntimeState->npcTopicOverrides.size() << '\n';
-        std::cout << "  onload_messages=" << m_selectedMap->eventRuntimeState->messages.size() << '\n';
-
-        for (const std::string &message : m_selectedMap->eventRuntimeState->messages)
-        {
-            std::cout << "    message=" << message << '\n';
-        }
-    }
-
-    if (m_selectedMap->outdoorMapData)
-    {
-        const OutdoorMapData &outdoorMapData = *m_selectedMap->outdoorMapData;
-        size_t outdoorBModelVertexCount = 0;
-        size_t outdoorBModelFaceCount = 0;
-
-        for (const OutdoorBModel &bmodel : outdoorMapData.bmodels)
-        {
-            outdoorBModelVertexCount += bmodel.vertices.size();
-            outdoorBModelFaceCount += bmodel.faces.size();
+            std::cout << "  legacy_companion=" << *m_selectedMap->companionPath
+                      << " (" << *m_selectedMap->companionSize << " bytes)\n";
         }
 
-        std::cout << "Outdoor terrain:\n";
-        std::cout << "  version=" << outdoorMapData.version << '\n';
-        std::cout << "  terrain=" << OutdoorMapData::TerrainWidth
-                  << "x" << OutdoorMapData::TerrainHeight << '\n';
-        std::cout << "  tile_size=" << OutdoorMapData::TerrainTileSize << '\n';
-        std::cout << "  height_range_samples=" << outdoorMapData.minHeightSample
-                  << ".." << outdoorMapData.maxHeightSample << '\n';
-        std::cout << "  height_range_world=" << (outdoorMapData.minHeightSample * OutdoorMapData::TerrainHeightScale)
-                  << ".." << (outdoorMapData.maxHeightSample * OutdoorMapData::TerrainHeightScale) << '\n';
-        std::cout << "  unique_tiles=" << outdoorMapData.uniqueTileCount << '\n';
-        std::cout << "  terrain_normals=" << outdoorMapData.terrainNormalCount << '\n';
-        std::cout << "  bmodels=" << outdoorMapData.bmodelCount << '\n';
-        std::cout << "  bmodel_vertices=" << outdoorBModelVertexCount << '\n';
-        std::cout << "  bmodel_faces=" << outdoorBModelFaceCount << '\n';
-        std::cout << "  entities=" << outdoorMapData.entityCount << '\n';
-        std::cout << "  id_list=" << outdoorMapData.idListCount << '\n';
-        std::cout << "  spawns=" << outdoorMapData.spawnCount << '\n';
-
-        if (m_selectedMap->outdoorMapDeltaData)
+        if (m_selectedMap->scenePath && m_selectedMap->sceneSize)
         {
-            std::cout << "Outdoor map delta:\n";
-            std::cout << "  respawn_count=" << m_selectedMap->outdoorMapDeltaData->locationInfo.respawnCount << '\n';
-            std::cout << "  last_respawn_day=" << m_selectedMap->outdoorMapDeltaData->locationInfo.lastRespawnDay << '\n';
-            std::cout << "  reputation=" << m_selectedMap->outdoorMapDeltaData->locationInfo.reputation << '\n';
-            std::cout << "  alert_status=" << m_selectedMap->outdoorMapDeltaData->locationInfo.alertStatus << '\n';
-            std::cout << "  sprite_objects=" << m_selectedMap->outdoorMapDeltaData->spriteObjects.size() << '\n';
-            std::cout << "  chests=" << m_selectedMap->outdoorMapDeltaData->chests.size() << '\n';
+            std::cout << "  scene=" << *m_selectedMap->scenePath
+                      << " (" << *m_selectedMap->sceneSize << " bytes)\n";
+        }
 
-            for (size_t chestIndex = 0; chestIndex < m_selectedMap->outdoorMapDeltaData->chests.size(); ++chestIndex)
+        if (m_selectedMap->authoredCompanionSource == AuthoredCompanionSource::SceneYml)
+        {
+            std::cout << "  authored_source=scene_yml\n";
+        }
+        else if (m_selectedMap->authoredCompanionSource == AuthoredCompanionSource::LegacyCompanion)
+        {
+            std::cout << "  authored_source=legacy_companion\n";
+        }
+
+        if (m_selectedMap->localEventProgram)
+        {
+            std::cout << "  local_lua_events=" << m_selectedMap->localEventProgram->eventIds().size() << '\n';
+
+            if (m_selectedMap->localEventProgram->luaSourceName())
             {
-                const MapDeltaChest &chest = m_selectedMap->outdoorMapDeltaData->chests[chestIndex];
-                const ChestEntry *pChestEntry = m_chestTable.get(chest.chestTypeId);
-                std::cout << "    chest=" << chestIndex
-                          << " type=" << chest.chestTypeId
-                          << " flags=0x" << std::hex << chest.flags << std::dec
-                          << " slots=" << countChestItemSlots(chest);
-
-                if (pChestEntry != nullptr)
-                {
-                    std::cout << " name=" << pChestEntry->name
-                              << " size=" << static_cast<unsigned>(pChestEntry->width)
-                              << "x" << static_cast<unsigned>(pChestEntry->height)
-                              << " tex=" << pChestEntry->textureName
-                              << " grid=" << pChestEntry->gridOffsetX
-                              << "," << pChestEntry->gridOffsetY;
-                }
-
-                std::cout << '\n';
+                std::cout << "  local_lua_source=" << *m_selectedMap->localEventProgram->luaSourceName() << '\n';
             }
         }
-    }
 
-    if (m_selectedMap->indoorMapData)
-    {
-        const IndoorMapData &indoorMapData = *m_selectedMap->indoorMapData;
-        std::cout << "Indoor geometry:\n";
-        std::cout << "  version=" << indoorMapData.version << '\n';
-        std::cout << "  vertices=" << indoorMapData.vertices.size() << '\n';
-        std::cout << "  faces=" << indoorMapData.faces.size() << '\n';
-        std::cout << "  sectors=" << indoorMapData.sectorCount << '\n';
-        std::cout << "  sprites=" << indoorMapData.spriteCount << '\n';
-        std::cout << "  entities=" << indoorMapData.entities.size() << '\n';
-        std::cout << "  lights=" << indoorMapData.lightCount << '\n';
-        std::cout << "  spawns=" << indoorMapData.spawns.size() << '\n';
-
-        if (m_selectedMap->indoorMapDeltaData)
+        if (m_selectedMap->globalEventProgram)
         {
-            std::cout << "Indoor map delta:\n";
-            std::cout << "  respawn_count=" << m_selectedMap->indoorMapDeltaData->locationInfo.respawnCount << '\n';
-            std::cout << "  last_respawn_day=" << m_selectedMap->indoorMapDeltaData->locationInfo.lastRespawnDay << '\n';
-            std::cout << "  reputation=" << m_selectedMap->indoorMapDeltaData->locationInfo.reputation << '\n';
-            std::cout << "  alert_status=" << m_selectedMap->indoorMapDeltaData->locationInfo.alertStatus << '\n';
-            std::cout << "  sprite_objects=" << m_selectedMap->indoorMapDeltaData->spriteObjects.size() << '\n';
-            std::cout << "  chests=" << m_selectedMap->indoorMapDeltaData->chests.size() << '\n';
-            std::cout << "  door_slots=" << m_selectedMap->indoorMapDeltaData->doorSlotCount << '\n';
-            std::cout << "  doors=" << m_selectedMap->indoorMapDeltaData->doors.size() << '\n';
+            std::cout << "  global_lua_events=" << m_selectedMap->globalEventProgram->eventIds().size() << '\n';
 
-            for (size_t chestIndex = 0; chestIndex < m_selectedMap->indoorMapDeltaData->chests.size(); ++chestIndex)
+            if (m_selectedMap->globalEventProgram->luaSourceName())
             {
-                const MapDeltaChest &chest = m_selectedMap->indoorMapDeltaData->chests[chestIndex];
-                const ChestEntry *pChestEntry = m_chestTable.get(chest.chestTypeId);
-                std::cout << "    chest=" << chestIndex
-                          << " type=" << chest.chestTypeId
-                          << " flags=0x" << std::hex << chest.flags << std::dec
-                          << " slots=" << countChestItemSlots(chest);
-
-                if (pChestEntry != nullptr)
-                {
-                    std::cout << " name=" << pChestEntry->name
-                              << " size=" << static_cast<unsigned>(pChestEntry->width)
-                              << "x" << static_cast<unsigned>(pChestEntry->height)
-                              << " tex=" << pChestEntry->textureName
-                              << " grid=" << pChestEntry->gridOffsetX
-                              << "," << pChestEntry->gridOffsetY;
-                }
-
-                std::cout << '\n';
+                std::cout << "  global_lua_source=" << *m_selectedMap->globalEventProgram->luaSourceName() << '\n';
             }
-            logIndoorDoors(indoorMapData, *m_selectedMap->indoorMapDeltaData);
+        }
+
+        if (m_selectedMap->eventRuntimeState)
+        {
+            std::cout << "  onload_local_events=" << m_selectedMap->eventRuntimeState->localOnLoadEventsExecuted << '\n';
+            std::cout << "  onload_global_events=" << m_selectedMap->eventRuntimeState->globalOnLoadEventsExecuted << '\n';
+            std::cout << "  onload_facet_overrides=" << m_selectedMap->eventRuntimeState->facetSetMasks.size() << '\n';
+            std::cout << "  onload_mechanisms=" << m_selectedMap->eventRuntimeState->mechanisms.size() << '\n';
+            std::cout << "  onload_texture_overrides=" << m_selectedMap->eventRuntimeState->textureOverrides.size() << '\n';
+            std::cout << "  onload_light_overrides=" << m_selectedMap->eventRuntimeState->indoorLightsEnabled.size() << '\n';
+            std::cout << "  onload_npc_topic_overrides="
+                      << m_selectedMap->eventRuntimeState->npcTopicOverrides.size() << '\n';
+            std::cout << "  onload_messages=" << m_selectedMap->eventRuntimeState->messages.size() << '\n';
+
+            for (const std::string &message : m_selectedMap->eventRuntimeState->messages)
+            {
+                std::cout << "    message=" << message << '\n';
+            }
+        }
+
+        if (m_selectedMap->outdoorMapData)
+        {
+            const OutdoorMapData &outdoorMapData = *m_selectedMap->outdoorMapData;
+            size_t outdoorBModelVertexCount = 0;
+            size_t outdoorBModelFaceCount = 0;
+
+            for (const OutdoorBModel &bmodel : outdoorMapData.bmodels)
+            {
+                outdoorBModelVertexCount += bmodel.vertices.size();
+                outdoorBModelFaceCount += bmodel.faces.size();
+            }
+
+            std::cout << "Outdoor terrain:\n";
+            std::cout << "  version=" << outdoorMapData.version << '\n';
+            std::cout << "  terrain=" << OutdoorMapData::TerrainWidth
+                      << "x" << OutdoorMapData::TerrainHeight << '\n';
+            std::cout << "  tile_size=" << OutdoorMapData::TerrainTileSize << '\n';
+            std::cout << "  height_range_samples=" << outdoorMapData.minHeightSample
+                      << ".." << outdoorMapData.maxHeightSample << '\n';
+            std::cout << "  height_range_world="
+                      << (outdoorMapData.minHeightSample * OutdoorMapData::TerrainHeightScale)
+                      << ".." << (outdoorMapData.maxHeightSample * OutdoorMapData::TerrainHeightScale) << '\n';
+            std::cout << "  unique_tiles=" << outdoorMapData.uniqueTileCount << '\n';
+            std::cout << "  terrain_normals=" << outdoorMapData.terrainNormalCount << '\n';
+            std::cout << "  bmodels=" << outdoorMapData.bmodelCount << '\n';
+            std::cout << "  bmodel_vertices=" << outdoorBModelVertexCount << '\n';
+            std::cout << "  bmodel_faces=" << outdoorBModelFaceCount << '\n';
+            std::cout << "  entities=" << outdoorMapData.entityCount << '\n';
+            std::cout << "  id_list=" << outdoorMapData.idListCount << '\n';
+            std::cout << "  spawns=" << outdoorMapData.spawnCount << '\n';
+
+            if (m_selectedMap->outdoorMapDeltaData)
+            {
+                std::cout << "Outdoor map delta:\n";
+                std::cout << "  respawn_count=" << m_selectedMap->outdoorMapDeltaData->locationInfo.respawnCount << '\n';
+                std::cout << "  last_respawn_day=" << m_selectedMap->outdoorMapDeltaData->locationInfo.lastRespawnDay << '\n';
+                std::cout << "  reputation=" << m_selectedMap->outdoorMapDeltaData->locationInfo.reputation << '\n';
+                std::cout << "  alert_status=" << m_selectedMap->outdoorMapDeltaData->locationInfo.alertStatus << '\n';
+                std::cout << "  sprite_objects=" << m_selectedMap->outdoorMapDeltaData->spriteObjects.size() << '\n';
+                std::cout << "  chests=" << m_selectedMap->outdoorMapDeltaData->chests.size() << '\n';
+
+                for (size_t chestIndex = 0; chestIndex < m_selectedMap->outdoorMapDeltaData->chests.size(); ++chestIndex)
+                {
+                    const MapDeltaChest &chest = m_selectedMap->outdoorMapDeltaData->chests[chestIndex];
+                    const ChestEntry *pChestEntry = m_chestTable.get(chest.chestTypeId);
+                    std::cout << "    chest=" << chestIndex
+                              << " type=" << chest.chestTypeId
+                              << " flags=0x" << std::hex << chest.flags << std::dec
+                              << " slots=" << countChestItemSlots(chest);
+
+                    if (pChestEntry != nullptr)
+                    {
+                        std::cout << " name=" << pChestEntry->name
+                                  << " size=" << static_cast<unsigned>(pChestEntry->width)
+                                  << "x" << static_cast<unsigned>(pChestEntry->height)
+                                  << " tex=" << pChestEntry->textureName
+                                  << " grid=" << pChestEntry->gridOffsetX
+                                  << "," << pChestEntry->gridOffsetY;
+                    }
+
+                    std::cout << '\n';
+                }
+            }
+        }
+
+        if (m_selectedMap->indoorMapData)
+        {
+            const IndoorMapData &indoorMapData = *m_selectedMap->indoorMapData;
+            std::cout << "Indoor geometry:\n";
+            std::cout << "  version=" << indoorMapData.version << '\n';
+            std::cout << "  vertices=" << indoorMapData.vertices.size() << '\n';
+            std::cout << "  faces=" << indoorMapData.faces.size() << '\n';
+            std::cout << "  sectors=" << indoorMapData.sectorCount << '\n';
+            std::cout << "  sprites=" << indoorMapData.spriteCount << '\n';
+            std::cout << "  entities=" << indoorMapData.entities.size() << '\n';
+            std::cout << "  lights=" << indoorMapData.lightCount << '\n';
+            std::cout << "  spawns=" << indoorMapData.spawns.size() << '\n';
+
+            if (m_selectedMap->indoorMapDeltaData)
+            {
+                std::cout << "Indoor map delta:\n";
+                std::cout << "  respawn_count=" << m_selectedMap->indoorMapDeltaData->locationInfo.respawnCount << '\n';
+                std::cout << "  last_respawn_day=" << m_selectedMap->indoorMapDeltaData->locationInfo.lastRespawnDay << '\n';
+                std::cout << "  reputation=" << m_selectedMap->indoorMapDeltaData->locationInfo.reputation << '\n';
+                std::cout << "  alert_status=" << m_selectedMap->indoorMapDeltaData->locationInfo.alertStatus << '\n';
+                std::cout << "  sprite_objects=" << m_selectedMap->indoorMapDeltaData->spriteObjects.size() << '\n';
+                std::cout << "  chests=" << m_selectedMap->indoorMapDeltaData->chests.size() << '\n';
+                std::cout << "  door_slots=" << m_selectedMap->indoorMapDeltaData->doorSlotCount << '\n';
+                std::cout << "  doors=" << m_selectedMap->indoorMapDeltaData->doors.size() << '\n';
+
+                for (size_t chestIndex = 0; chestIndex < m_selectedMap->indoorMapDeltaData->chests.size(); ++chestIndex)
+                {
+                    const MapDeltaChest &chest = m_selectedMap->indoorMapDeltaData->chests[chestIndex];
+                    const ChestEntry *pChestEntry = m_chestTable.get(chest.chestTypeId);
+                    std::cout << "    chest=" << chestIndex
+                              << " type=" << chest.chestTypeId
+                              << " flags=0x" << std::hex << chest.flags << std::dec
+                              << " slots=" << countChestItemSlots(chest);
+
+                    if (pChestEntry != nullptr)
+                    {
+                        std::cout << " name=" << pChestEntry->name
+                                  << " size=" << static_cast<unsigned>(pChestEntry->width)
+                                  << "x" << static_cast<unsigned>(pChestEntry->height)
+                                  << " tex=" << pChestEntry->textureName
+                                  << " grid=" << pChestEntry->gridOffsetX
+                                  << "," << pChestEntry->gridOffsetY;
+                    }
+
+                    std::cout << '\n';
+                }
+                logIndoorDoors(indoorMapData, *m_selectedMap->indoorMapDeltaData);
+            }
         }
     }
 

@@ -19,7 +19,7 @@ namespace
 {
 constexpr float ProjectileTrailParticleSizeScale = 1.18f;
 constexpr float ProjectileTrailParticleDensityScale = 1.33f;
-constexpr float ProjectileTrailParticleLifetimeScale = 1.60f;
+constexpr float ProjectileTrailParticleLifetimeScale = 2.05f;
 constexpr float ImpactBurstParticleSizeScale = 1.24f;
 constexpr float ImpactBurstParticleVelocityScale = 1.32f;
 constexpr float ImpactBurstParticleLifetimeScale = 1.18f;
@@ -501,6 +501,7 @@ uint32_t projectileRecipeColorAbgr(ProjectileRecipe recipe)
     switch (recipe)
     {
     case ProjectileRecipe::FireBolt:
+        return makeAbgr(255, 58, 24, 232);
     case ProjectileRecipe::Fireball:
     case ProjectileRecipe::MeteorShower:
     case ProjectileRecipe::Cannonball:
@@ -748,25 +749,27 @@ void spawnProjectileTrailParticles(
         || recipe == ProjectileRecipe::DarkFireBolt
         || (context.objectFlags & ObjectDescTrailFire) != 0)
     {
+        const bool isFireBoltTrail = recipe == ProjectileRecipe::FireBolt;
+
         LayerRecipe emberLayer = {};
         emberLayer.startColorAbgr = colorAbgr;
-        emberLayer.endColorAbgr = makeAbgr(255, 180, 64, 0);
+        emberLayer.endColorAbgr = isFireBoltTrail ? makeAbgr(255, 72, 28, 0) : makeAbgr(255, 180, 64, 0);
         emberLayer.count =
             recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 10u
-                : (recipe == ProjectileRecipe::MeteorShower ? 5u : 7u);
+                : (recipe == ProjectileRecipe::MeteorShower ? 5u : (isFireBoltTrail ? 11u : 7u));
         emberLayer.startOffset = 7.0f;
-        emberLayer.offsetStep = 5.8f;
-        emberLayer.lateralSpread = 2.6f;
-        emberLayer.verticalSpread = 1.4f;
+        emberLayer.offsetStep = isFireBoltTrail ? 5.2f : 5.8f;
+        emberLayer.lateralSpread = isFireBoltTrail ? 3.0f : 2.6f;
+        emberLayer.verticalSpread = isFireBoltTrail ? 1.8f : 1.4f;
         emberLayer.inheritedVelocity = 0.18f;
         emberLayer.upwardVelocity = 10.0f;
         emberLayer.startSize =
             recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 9.0f
-                : (recipe == ProjectileRecipe::MeteorShower ? 7.5f : 7.0f);
+                : (recipe == ProjectileRecipe::MeteorShower ? 7.5f : (isFireBoltTrail ? 8.8f : 7.0f));
         emberLayer.endSize = emberLayer.startSize * 0.38f;
         emberLayer.lifetimeSeconds =
             recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 0.36f
-                : (recipe == ProjectileRecipe::MeteorShower ? 0.26f : 0.30f);
+                : (recipe == ProjectileRecipe::MeteorShower ? 0.26f : (isFireBoltTrail ? 0.38f : 0.30f));
         emberLayer.drag = 4.5f;
         emberLayer.rotationJitterRadians = 0.5f;
         emberLayer.angularVelocityRadians = 4.0f;
@@ -799,11 +802,13 @@ void spawnProjectileTrailParticles(
 
         LayerRecipe smokeLayer = {};
         smokeLayer.startColorAbgr =
-            recipe == ProjectileRecipe::DarkFireBolt ? makeAbgr(112, 72, 144, 96) : makeAbgr(84, 84, 84, 88);
+            recipe == ProjectileRecipe::DarkFireBolt ? makeAbgr(112, 72, 144, 96)
+                : (isFireBoltTrail ? makeAbgr(112, 52, 44, 76) : makeAbgr(84, 84, 84, 88));
         smokeLayer.endColorAbgr = makeAbgr(84, 84, 84, 0);
         smokeLayer.count =
             recipe == ProjectileRecipe::Fireball || recipe == ProjectileRecipe::DragonBreath ? 5u
-                : (recipe == ProjectileRecipe::MeteorShower ? 2u : (recipe == ProjectileRecipe::Cannonball ? 4u : 3u));
+                : (recipe == ProjectileRecipe::MeteorShower ? 2u
+                    : (recipe == ProjectileRecipe::Cannonball ? 4u : (isFireBoltTrail ? 4u : 3u)));
         smokeLayer.startOffset =
             recipe == ProjectileRecipe::MeteorShower ? 5.0f : (recipe == ProjectileRecipe::Cannonball ? 6.0f : 10.0f);
         smokeLayer.offsetStep =

@@ -1393,6 +1393,27 @@ bool Character::setSkillMastery(const std::string &skillName, SkillMastery maste
     }
 
     pSkill->mastery = mastery;
+
+    if (canonicalSkillName(skillName) == "DragonAbility")
+    {
+        learnSpell(spellIdValue(SpellId::Fear));
+
+        if (mastery >= SkillMastery::Expert)
+        {
+            learnSpell(spellIdValue(SpellId::FlameBlast));
+        }
+
+        if (mastery >= SkillMastery::Master)
+        {
+            learnSpell(spellIdValue(SpellId::Flight));
+        }
+
+        if (mastery >= SkillMastery::Grandmaster)
+        {
+            learnSpell(spellIdValue(SpellId::WingBuffet));
+        }
+    }
+
     return true;
 }
 

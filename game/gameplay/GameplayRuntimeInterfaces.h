@@ -192,6 +192,8 @@ struct GameplayPartySpellProjectileRequest
     float targetX = 0.0f;
     float targetY = 0.0f;
     float targetZ = 0.0f;
+    uint32_t effectSoundIdOverride = 0;
+    uint32_t impactSoundIdOverride = 0;
 };
 
 struct GameplayProjectilePresentationState
@@ -275,6 +277,7 @@ struct GameplayCombatActorInfo
 {
     uint32_t actorId = 0;
     int16_t monsterId = 0;
+    int monsterLevel = 0;
     int maxHp = 0;
     uint32_t attackPreferences = 0;
     std::string displayName;
@@ -315,6 +318,7 @@ struct GameplayPartyAttackFrameInput
     bool enabled = false;
     GameplayWorldPoint partyPosition = {};
     GameplayWorldPoint rangedSource = {};
+    GameplayWorldPoint rangedRight = {};
     GameplayWorldPoint defaultRangedTarget = {};
     GameplayWorldPoint rayRangedTarget = {};
     bool hasRayRangedTarget = false;

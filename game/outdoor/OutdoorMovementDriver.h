@@ -16,6 +16,7 @@ struct OutdoorMovementInput
     bool jump = false;
     bool flyUp = false;
     bool flyDown = false;
+    bool runWalkModifier = false;
     bool turbo = false;
     float yawRadians = 0.0f;
     float pitchRadians = 0.0f;
@@ -54,11 +55,13 @@ struct OutdoorMovementTuning
 {
     float walkSpeed = 384.0f;
     float runForwardMultiplier = 2.0f;
+    float flyingRunMultiplier = 4.0f;
     float backwardWalkMultiplier = 1.0f;
     float strafeMultiplier = 0.75f;
-    float turboMoveSpeed = 4000.0f;
+    float turboMultiplier = 12.0f;
+    float flyingRunTurboMultiplier = 24.0f;
     float jumpVelocity = 480.0f;
-    float flyVerticalSpeed = 900.0f;
+    float flyVerticalSpeed = 1536.0f;
     float maxFlightHeight = 4000.0f;
 };
 

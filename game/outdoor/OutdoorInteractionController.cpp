@@ -1567,8 +1567,6 @@ void OutdoorInteractionController::executeActiveDialogAction(OutdoorGameView &vi
 
             if (useHouseTradeItemReaction)
             {
-                pEventRuntimeState->portraitFxRequests.clear();
-
                 if (pParty != nullptr)
                 {
                     view.m_gameSession.gameplayScreenRuntime().triggerPortraitFaceAnimation(
@@ -2117,6 +2115,8 @@ GameplayPartyAttackFrameInput OutdoorInteractionController::buildPartyAttackFram
     const float attackSourceZ = moveState.footZ + 96.0f;
     const float attackCameraYawRadians = view.effectiveCameraYawRadians();
     const float attackCameraPitchRadians = view.effectiveCameraPitchRadians();
+    const float attackRightX = -std::sin(attackCameraYawRadians);
+    const float attackRightY = std::cos(attackCameraYawRadians);
 
     GameplayPartyAttackFrameInput input = {};
     input.enabled = true;
@@ -2131,6 +2131,12 @@ GameplayPartyAttackFrameInput OutdoorInteractionController::buildPartyAttackFram
             .x = attackSourceX,
             .y = attackSourceY,
             .z = attackSourceZ,
+        };
+    input.rangedRight =
+        GameplayWorldPoint{
+            .x = attackRightX,
+            .y = attackRightY,
+            .z = 0.0f,
         };
     input.defaultRangedTarget =
         GameplayWorldPoint{

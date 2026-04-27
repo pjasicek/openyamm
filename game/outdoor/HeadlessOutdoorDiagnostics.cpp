@@ -1942,7 +1942,255 @@ std::string buildNormalizedOutdoorAuthoredSnapshot(const MapAssetInfo &mapAssetI
     return stream.str();
 }
 
-bool loadOutdoorMapWithCompanionOptions(
+std::string buildNormalizedIndoorAuthoredSnapshot(const MapAssetInfo &mapAssetInfo)
+{
+    std::ostringstream stream;
+
+    if (!mapAssetInfo.indoorMapData || !mapAssetInfo.indoorMapDeltaData)
+    {
+        stream << "missing_indoor_state\n";
+        return stream.str();
+    }
+
+    const IndoorMapData &indoorMapData = *mapAssetInfo.indoorMapData;
+    const MapDeltaData &mapDeltaData = *mapAssetInfo.indoorMapDeltaData;
+    uint32_t mapExtraBitsRaw = 0;
+    int32_t ceiling = 0;
+
+    if (mapDeltaData.locationTime.reserved.size() >= sizeof(mapExtraBitsRaw) + sizeof(ceiling))
+    {
+        std::memcpy(&mapExtraBitsRaw, mapDeltaData.locationTime.reserved.data(), sizeof(mapExtraBitsRaw));
+        std::memcpy(
+            &ceiling,
+            mapDeltaData.locationTime.reserved.data() + sizeof(mapExtraBitsRaw),
+            sizeof(ceiling));
+    }
+
+    stream << "environment\n";
+    stream << "sky_texture=" << mapDeltaData.locationTime.skyTextureName << '\n';
+    stream << "day_bits_raw=" << mapDeltaData.locationTime.weatherFlags << '\n';
+    stream << "map_extra_bits_raw=" << mapExtraBitsRaw << '\n';
+    stream << "fog_weak_distance=" << mapDeltaData.locationTime.fogWeakDistance << '\n';
+    stream << "fog_strong_distance=" << mapDeltaData.locationTime.fogStrongDistance << '\n';
+    stream << "ceiling=" << ceiling << '\n';
+
+    stream << "location\n";
+    stream << mapDeltaData.locationInfo.respawnCount << '|'
+           << mapDeltaData.locationInfo.lastRespawnDay << '|'
+           << mapDeltaData.locationInfo.reputation << '|'
+           << mapDeltaData.locationInfo.alertStatus << '\n';
+
+    stream << "visible_outlines\n";
+    stream << bytesToUpperHex(mapDeltaData.visibleOutlines) << '\n';
+
+    stream << "face_attributes\n";
+
+    for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
+    {
+        const uint32_t authoredValue =
+            faceIndex < mapDeltaData.faceAttributes.size()
+            ? mapDeltaData.faceAttributes[faceIndex]
+            : indoorMapData.faces[faceIndex].attributes;
+        stream << faceIndex << '|'
+               << authoredValue << '|'
+               << indoorMapData.faces[faceIndex].attributes << '|'
+               << indoorMapData.faces[faceIndex].cogNumber << '|'
+               << indoorMapData.faces[faceIndex].cogTriggered << '|'
+               << indoorMapData.faces[faceIndex].cogTriggerType << '\n';
+    }
+
+    stream << "decoration_flags\n";
+
+    for (size_t index = 0; index < mapDeltaData.decorationFlags.size(); ++index)
+    {
+        stream << index << '|' << mapDeltaData.decorationFlags[index] << '\n';
+    }
+
+    stream << "actors\n";
+
+    for (const MapDeltaActor &actor : mapDeltaData.actors)
+    {
+        stream << actor.name << '|'
+               << actor.npcId << '|'
+               << actor.attributes << '|'
+               << actor.hp << '|'
+               << static_cast<int>(actor.hostilityType) << '|'
+               << actor.monsterInfoId << '|'
+               << actor.monsterId << '|'
+               << actor.radius << '|'
+               << actor.height << '|'
+               << actor.moveSpeed << '|';
+        appendNormalizedPosition(stream, actor.x, actor.y, actor.z);
+        stream << '|'
+               << actor.spriteIds[0] << ','
+               << actor.spriteIds[1] << ','
+               << actor.spriteIds[2] << ','
+               << actor.spriteIds[3] << '|'
+               << actor.sectorId << '|'
+               << actor.currentActionAnimation << '|'
+               << actor.carriedItemId << '|'
+               << actor.group << '|'
+               << actor.ally << '|'
+               << actor.uniqueNameIndex << '\n';
+    }
+
+    stream << "sprite_objects\n";
+
+    for (const MapDeltaSpriteObject &spriteObject : mapDeltaData.spriteObjects)
+    {
+        stream << spriteObject.spriteId << '|'
+               << spriteObject.objectDescriptionId << '|';
+        appendNormalizedPosition(stream, spriteObject.x, spriteObject.y, spriteObject.z);
+        stream << '|';
+        appendNormalizedPosition(stream, spriteObject.velocityX, spriteObject.velocityY, spriteObject.velocityZ);
+        stream << '|'
+               << spriteObject.yawAngle << '|'
+               << spriteObject.soundId << '|'
+               << spriteObject.attributes << '|'
+               << spriteObject.sectorId << '|'
+               << spriteObject.timeSinceCreated << '|'
+               << spriteObject.temporaryLifetime << '|'
+               << spriteObject.glowRadiusMultiplier << '|'
+               << spriteObject.spellId << '|'
+               << spriteObject.spellLevel << '|'
+               << spriteObject.spellSkill << '|'
+               << spriteObject.field54 << '|'
+               << spriteObject.spellCasterPid << '|'
+               << spriteObject.spellTargetPid << '|'
+               << static_cast<int>(spriteObject.lodDistance) << '|'
+               << static_cast<int>(spriteObject.spellCasterAbility) << '|';
+        appendNormalizedPosition(stream, spriteObject.initialX, spriteObject.initialY, spriteObject.initialZ);
+        stream << '|'
+               << bytesToUpperHex(spriteObject.rawContainingItem) << '\n';
+    }
+
+    stream << "chests\n";
+
+    for (const MapDeltaChest &chest : mapDeltaData.chests)
+    {
+        stream << chest.chestTypeId << '|'
+               << chest.flags << '|'
+               << bytesToUpperHex(chest.rawItems) << '|';
+
+        for (size_t index = 0; index < chest.inventoryMatrix.size(); ++index)
+        {
+            if (index > 0)
+            {
+                stream << ',';
+            }
+
+            stream << chest.inventoryMatrix[index];
+        }
+
+        stream << '\n';
+    }
+
+    stream << "doors\n";
+
+    for (const MapDeltaDoor &door : mapDeltaData.doors)
+    {
+        stream << door.slotIndex << '|'
+               << door.attributes << '|'
+               << door.doorId << '|'
+               << door.timeSinceTriggered << '|';
+        appendNormalizedPosition(stream, door.directionX, door.directionY, door.directionZ);
+        stream << '|'
+               << door.moveLength << '|'
+               << door.openSpeed << '|'
+               << door.closeSpeed << '|'
+               << door.state << '|';
+
+        const auto appendVector = [&stream](const auto &values)
+        {
+            for (size_t index = 0; index < values.size(); ++index)
+            {
+                if (index > 0)
+                {
+                    stream << ',';
+                }
+
+                stream << values[index];
+            }
+        };
+
+        appendVector(door.vertexIds);
+        stream << '|';
+        appendVector(door.faceIds);
+        stream << '|';
+        appendVector(door.sectorIds);
+        stream << '|';
+        appendVector(door.deltaUs);
+        stream << '|';
+        appendVector(door.deltaVs);
+        stream << '|';
+        appendVector(door.xOffsets);
+        stream << '|';
+        appendVector(door.yOffsets);
+        stream << '|';
+        appendVector(door.zOffsets);
+        stream << '\n';
+    }
+
+    stream << "variables_map\n";
+
+    for (size_t index = 0; index < mapDeltaData.eventVariables.mapVars.size(); ++index)
+    {
+        if (index > 0)
+        {
+            stream << ',';
+        }
+
+        stream << static_cast<int>(mapDeltaData.eventVariables.mapVars[index]);
+    }
+
+    stream << "\nvariables_decor\n";
+
+    for (size_t index = 0; index < mapDeltaData.eventVariables.decorVars.size(); ++index)
+    {
+        if (index > 0)
+        {
+            stream << ',';
+        }
+
+        stream << static_cast<int>(mapDeltaData.eventVariables.decorVars[index]);
+    }
+
+    stream << '\n';
+    return stream.str();
+}
+
+std::string firstSnapshotDifference(
+    const std::string &left,
+    const std::string &right)
+{
+    std::istringstream leftStream(left);
+    std::istringstream rightStream(right);
+    std::string leftLine;
+    std::string rightLine;
+    size_t lineNumber = 1;
+
+    while (true)
+    {
+        const bool hasLeftLine = static_cast<bool>(std::getline(leftStream, leftLine));
+        const bool hasRightLine = static_cast<bool>(std::getline(rightStream, rightLine));
+
+        if (!hasLeftLine && !hasRightLine)
+        {
+            return std::string();
+        }
+
+        if (!hasLeftLine || !hasRightLine || leftLine != rightLine)
+        {
+            return "line " + std::to_string(lineNumber)
+                + " legacy=\"" + (hasLeftLine ? leftLine : "<eof>")
+                + "\" scene=\"" + (hasRightLine ? rightLine : "<eof>") + "\"";
+        }
+
+        ++lineNumber;
+    }
+}
+
+bool loadMapWithCompanionOptions(
     const Engine::AssetFileSystem &assetFileSystem,
     const GameDataLoader &gameDataLoader,
     const std::string &mapFileName,
@@ -1974,13 +2222,40 @@ bool loadOutdoorMapWithCompanionOptions(
         return false;
     }
 
-    if (!loadedMap->outdoorMapData || !loadedMap->outdoorMapDeltaData)
+    mapAssetInfo = *loadedMap;
+    return true;
+}
+
+bool loadOutdoorMapWithCompanionOptions(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const GameDataLoader &gameDataLoader,
+    const std::string &mapFileName,
+    MapLoadPurpose loadPurpose,
+    const MapCompanionLoadOptions &loadOptions,
+    MapAssetInfo &mapAssetInfo,
+    std::string &failure)
+{
+    MapAssetInfo loadedMap = {};
+
+    if (!loadMapWithCompanionOptions(
+        assetFileSystem,
+        gameDataLoader,
+        mapFileName,
+        loadPurpose,
+        loadOptions,
+        loadedMap,
+        failure))
+    {
+        return false;
+    }
+
+    if (!loadedMap.outdoorMapData || !loadedMap.outdoorMapDeltaData)
     {
         failure = "loaded map missing outdoor authored state for " + mapFileName;
         return false;
     }
 
-    mapAssetInfo = *loadedMap;
+    mapAssetInfo = std::move(loadedMap);
     return true;
 }
 
@@ -13695,6 +13970,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     false,
                     false,
                     false,
+                    false,
                     yawRadians,
                     0.0f
                 };
@@ -14155,6 +14431,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             const OutdoorMoveState startState = pPartyRuntime->movementState();
             const OutdoorMovementInput forwardInput = {
                 true,
+                false,
                 false,
                 false,
                 false,
@@ -16603,7 +16880,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 if (legacySnapshot != migratedSnapshot)
                 {
-                    failure = std::string("legacy and scene-authored outdoor state diverged for ") + pMapFileName;
+                    failure = std::string("legacy and scene-authored outdoor state diverged for ")
+                        + pMapFileName + ": " + firstSnapshotDifference(legacySnapshot, migratedSnapshot);
                     return false;
                 }
 
@@ -16635,6 +16913,126 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 if (mixedSnapshot != migratedSnapshot)
                 {
                     failure = std::string("mixed companion loading diverged for ") + pMapFileName;
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "indoor_scene_yml_matches_legacy_dlv_authored_state",
+        [&](std::string &failure)
+        {
+            std::vector<std::string> mapFileNames;
+
+            for (const std::string &entry : assetFileSystem.enumerate("Data/games"))
+            {
+                if (toLowerCopy(entry).ends_with(".blv"))
+                {
+                    mapFileNames.push_back(entry);
+                }
+            }
+
+            if (mapFileNames.empty())
+            {
+                failure = "no indoor .blv maps found for scene yml parity";
+                return false;
+            }
+
+            for (const std::string &mapFileName : mapFileNames)
+            {
+                MapAssetInfo legacyMap = {};
+
+                if (!loadMapWithCompanionOptions(
+                        assetFileSystem,
+                        gameDataLoader,
+                        mapFileName,
+                        MapLoadPurpose::HeadlessGameplay,
+                        MapCompanionLoadOptions{
+                            .allowSceneYml = false,
+                            .allowLegacyCompanion = true,
+                        },
+                        legacyMap,
+                        failure))
+                {
+                    return false;
+                }
+
+                if (!legacyMap.indoorMapData || !legacyMap.indoorMapDeltaData)
+                {
+                    failure = "legacy indoor load missing authored state for " + mapFileName;
+                    return false;
+                }
+
+                MapAssetInfo migratedMap = {};
+
+                if (!loadMapWithCompanionOptions(
+                        assetFileSystem,
+                        gameDataLoader,
+                        mapFileName,
+                        MapLoadPurpose::HeadlessGameplay,
+                        MapCompanionLoadOptions{
+                            .allowSceneYml = true,
+                            .allowLegacyCompanion = false,
+                        },
+                        migratedMap,
+                        failure))
+                {
+                    return false;
+                }
+
+                if (migratedMap.authoredCompanionSource != AuthoredCompanionSource::SceneYml)
+                {
+                    failure = "migrated indoor scene companion source was wrong for " + mapFileName;
+                    return false;
+                }
+
+                const std::string legacySnapshot = buildNormalizedIndoorAuthoredSnapshot(legacyMap);
+                const std::string migratedSnapshot = buildNormalizedIndoorAuthoredSnapshot(migratedMap);
+
+                if (legacySnapshot != migratedSnapshot)
+                {
+                    failure = "legacy and scene-authored indoor state diverged for "
+                        + mapFileName + ": " + firstSnapshotDifference(legacySnapshot, migratedSnapshot);
+                    return false;
+                }
+
+                MapAssetInfo mixedMap = {};
+
+                if (!loadMapWithCompanionOptions(
+                        assetFileSystem,
+                        gameDataLoader,
+                        mapFileName,
+                        MapLoadPurpose::HeadlessGameplay,
+                        MapCompanionLoadOptions{
+                            .allowSceneYml = true,
+                            .allowLegacyCompanion = true,
+                        },
+                        mixedMap,
+                        failure))
+                {
+                    return false;
+                }
+
+                if (mixedMap.authoredCompanionSource != AuthoredCompanionSource::SceneYml)
+                {
+                    failure = "mixed indoor companion loading did not prefer scene yml for " + mapFileName;
+                    return false;
+                }
+
+                if (mixedMap.companionPath.has_value())
+                {
+                    failure = "mixed indoor companion loading read legacy DLV despite scene yml for " + mapFileName;
+                    return false;
+                }
+
+                const std::string mixedSnapshot = buildNormalizedIndoorAuthoredSnapshot(mixedMap);
+
+                if (mixedSnapshot != migratedSnapshot)
+                {
+                    failure = "mixed indoor companion loading diverged for " + mapFileName;
                     return false;
                 }
             }

@@ -52,6 +52,76 @@ int averageMonsterProjectileDamage(const GameplayProjectileService::MonsterProje
     return profile.diceRolls * (profile.diceSides + 1) / 2 + profile.bonus;
 }
 
+int rollDice(uint32_t rollCount, int diceSides)
+{
+    if (rollCount == 0 || diceSides <= 0)
+    {
+        return 0;
+    }
+
+    static thread_local std::mt19937 rng(std::random_device{}());
+    std::uniform_int_distribution<int> distribution(1, diceSides);
+    int result = 0;
+
+    for (uint32_t rollIndex = 0; rollIndex < rollCount; ++rollIndex)
+    {
+        result += distribution(rng);
+    }
+
+    return result;
+}
+
+int rollMonsterSpellDamage(
+    int spellId,
+    const GameplayProjectileService::MonsterSpellDamageProfile &profile)
+{
+    if (profile.skillLevel == 0)
+    {
+        return std::max(0, profile.baseDamage);
+    }
+
+    const SpellId typedSpellId = spellIdFromValue(static_cast<uint32_t>(spellId));
+
+    if (typedSpellId == SpellId::FireSpike)
+    {
+        int diceSides = 0;
+
+        switch (profile.skillMastery)
+        {
+            case SkillMastery::Normal:
+            case SkillMastery::Expert:
+                diceSides = 6;
+                break;
+            case SkillMastery::Master:
+                diceSides = 8;
+                break;
+            case SkillMastery::Grandmaster:
+                diceSides = 10;
+                break;
+            case SkillMastery::None:
+                return 0;
+        }
+
+        return rollDice(profile.skillLevel, diceSides);
+    }
+
+    if (typedSpellId == SpellId::DeathBlossom && profile.skillMastery == SkillMastery::Grandmaster)
+    {
+        return std::max(0, profile.baseDamage + static_cast<int>(profile.skillLevel) * 2);
+    }
+
+    if (typedSpellId == SpellId::SpiritLash)
+    {
+        return std::max(
+            0,
+            profile.baseDamage
+            + static_cast<int>(profile.skillLevel)
+            + rollDice(profile.skillLevel, std::max(1, profile.diceSides - 1)));
+    }
+
+    return std::max(0, profile.baseDamage + rollDice(profile.skillLevel, std::max(1, profile.diceSides)));
+}
+
 int resolveEventProjectileDamage(int spellId, uint32_t skillLevel)
 {
     if (isSpellId(static_cast<uint32_t>(spellId), SpellId::MeteorShower))
@@ -264,6 +334,7 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
         projectile.height = request.definition.height;
         projectile.spellId = request.definition.spellId;
         projectile.effectSoundId = request.definition.effectSoundId;
+        projectile.impactSoundIdOverride = request.impactSoundIdOverride;
         projectile.skillLevel = request.skillLevel;
         projectile.skillMastery = request.skillMastery;
         projectile.objectName = request.definition.objectName;
@@ -307,6 +378,7 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
     projectile.height = request.definition.height;
     projectile.spellId = request.definition.spellId;
     projectile.effectSoundId = request.definition.effectSoundId;
+    projectile.impactSoundIdOverride = request.impactSoundIdOverride;
     projectile.skillLevel = request.skillLevel;
     projectile.skillMastery = request.skillMastery;
     projectile.objectName = request.definition.objectName;
@@ -937,11 +1009,17 @@ GameplayProjectileService::buildProjectileImpactAudioRequest(
 {
     if (projectile.spellId <= 0 || projectile.effectSoundId <= 0)
     {
-        return std::nullopt;
+        if (projectile.impactSoundIdOverride == 0)
+        {
+            return std::nullopt;
+        }
     }
 
     ProjectileAudioRequest request = {};
-    request.soundId = static_cast<uint32_t>(projectile.effectSoundId + 1);
+    request.soundId =
+        projectile.impactSoundIdOverride != 0
+            ? projectile.impactSoundIdOverride
+            : static_cast<uint32_t>(projectile.effectSoundId + 1);
     request.sourceId = projectile.sourceId;
     request.x = x;
     request.y = y;
@@ -1011,7 +1089,6 @@ int GameplayProjectileService::resolveProjectilePartyImpactDamage(
     }
 
     const int fallbackAttackDamage = std::max(1, input.monsterLevel / 2);
-    const int fallbackSpellDamage = std::max(2, input.monsterLevel);
 
     switch (input.monsterAbility)
     {
@@ -1021,8 +1098,9 @@ int GameplayProjectileService::resolveProjectilePartyImpactDamage(
             return std::max(1, damage > 0 ? damage : fallbackAttackDamage);
         }
         case MonsterAttackAbility::Spell1:
+            return std::max(1, rollMonsterSpellDamage(input.spellId, input.spell1Damage));
         case MonsterAttackAbility::Spell2:
-            return fallbackSpellDamage;
+            return std::max(1, rollMonsterSpellDamage(input.spellId, input.spell2Damage));
         case MonsterAttackAbility::Attack1:
         default:
         {

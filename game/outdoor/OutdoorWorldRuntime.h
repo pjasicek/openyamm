@@ -795,6 +795,8 @@ public:
         float targetX = 0.0f;
         float targetY = 0.0f;
         float targetZ = 0.0f;
+        uint32_t effectSoundIdOverride = 0;
+        uint32_t impactSoundIdOverride = 0;
     };
 
     struct PartyProjectileRequest

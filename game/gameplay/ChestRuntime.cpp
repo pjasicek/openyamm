@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <cstring>
+#include <iostream>
 #include <numeric>
 #include <optional>
 #include <random>
@@ -166,6 +167,22 @@ std::optional<std::pair<uint8_t, uint8_t>> findFirstFreeChestSlot(
     return std::nullopt;
 }
 
+void resolveChestItemSize(GameplayChestItemState &item, const ItemTable *pItemTable)
+{
+    if (item.isGold)
+    {
+        const GoldHeapVisual goldVisual = classifyGoldHeapVisual(item.goldAmount);
+        item.width = goldVisual.width;
+        item.height = goldVisual.height;
+        return;
+    }
+
+    item.itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
+    const ItemDefinition *pItemDefinition = pItemTable != nullptr ? pItemTable->get(item.itemId) : nullptr;
+    item.width = pItemDefinition != nullptr ? std::max<uint8_t>(1, pItemDefinition->inventoryWidth) : 1;
+    item.height = pItemDefinition != nullptr ? std::max<uint8_t>(1, pItemDefinition->inventoryHeight) : 1;
+}
+
 void tryPlaceHiddenChestItems(GameplayChestViewState &view)
 {
     for (auto it = view.hiddenItems.begin(); it != view.hiddenItems.end();)
@@ -233,6 +250,100 @@ int sampleRemappedTreasureLevel(int itemTreasureLevel, int mapTreasureLevel, std
     const auto [minimumLevel, maximumLevel] = remapTreasureLevelRange(itemTreasureLevel, mapTreasureLevel);
     return std::uniform_int_distribution<int>(minimumLevel, maximumLevel)(rng);
 }
+
+void writeChestItemDebug(
+    std::ostream &stream,
+    const GameplayChestItemState &item,
+    const ItemTable *pItemTable)
+{
+    if (item.isGold)
+    {
+        stream << "gold=" << item.goldAmount;
+        return;
+    }
+
+    const uint32_t itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
+    stream << "item=" << itemId;
+
+    const ItemDefinition *pItemDefinition = pItemTable != nullptr ? pItemTable->get(itemId) : nullptr;
+
+    if (pItemDefinition != nullptr)
+    {
+        stream << ":\"" << pItemDefinition->name << "\"";
+    }
+
+    stream << "@(" << static_cast<unsigned>(item.gridX)
+           << "," << static_cast<unsigned>(item.gridY)
+           << ") " << static_cast<unsigned>(item.width)
+           << "x" << static_cast<unsigned>(item.height);
+}
+
+void writeChestItemListDebug(
+    std::ostream &stream,
+    const std::vector<GameplayChestItemState> &items,
+    const ItemTable *pItemTable)
+{
+    stream << '[';
+
+    for (size_t itemIndex = 0; itemIndex < items.size(); ++itemIndex)
+    {
+        if (itemIndex > 0)
+        {
+            stream << ", ";
+        }
+
+        writeChestItemDebug(stream, items[itemIndex], pItemTable);
+    }
+
+    stream << ']';
+}
+
+void logChestMaterializationDebug(
+    const GameplayChestViewState &view,
+    const std::vector<int32_t> &rawItemIds,
+    int mapTreasureLevel,
+    int mapId,
+    const ItemTable *pItemTable)
+{
+    std::cout << "Chest populate chest=" << view.chestId
+              << " map=" << mapId
+              << " type=" << view.chestTypeId
+              << " treasure=" << mapTreasureLevel
+              << " grid=" << static_cast<unsigned>(view.gridWidth)
+              << "x" << static_cast<unsigned>(view.gridHeight)
+              << " fixed=[";
+
+    bool wroteFixed = false;
+
+    for (int32_t rawItemId : rawItemIds)
+    {
+        if (rawItemId <= 0)
+        {
+            continue;
+        }
+
+        if (wroteFixed)
+        {
+            std::cout << ", ";
+        }
+
+        std::cout << rawItemId;
+        const ItemDefinition *pItemDefinition = pItemTable != nullptr ? pItemTable->get(static_cast<uint32_t>(rawItemId)) : nullptr;
+
+        if (pItemDefinition != nullptr)
+        {
+            std::cout << ":\"" << pItemDefinition->name << "\"";
+        }
+
+        wroteFixed = true;
+    }
+
+    std::cout << "] visible=";
+    writeChestItemListDebug(std::cout, view.items, pItemTable);
+    std::cout << " hidden=";
+    writeChestItemListDebug(std::cout, view.hiddenItems, pItemTable);
+    std::cout << '\n';
+}
 }
 
 GameplayChestViewState buildMaterializedChestView(
@@ -269,28 +380,12 @@ GameplayChestViewState buildMaterializedChestView(
             sizeof(int32_t));
     }
 
-    const int normalizedMapTreasureLevel = std::clamp(mapTreasureLevel + 1, RandomChestItemMinLevel, RandomChestItemMaxLevel);
+    const int normalizedMapTreasureLevel =
+        std::clamp(mapTreasureLevel + 1, RandomChestItemMinLevel, RandomChestItemMaxLevel);
     const StandardItemEnchantTable *pStandardItemEnchantTable =
         pParty != nullptr ? pParty->standardItemEnchantTable() : nullptr;
     const SpecialItemEnchantTable *pSpecialItemEnchantTable =
         pParty != nullptr ? pParty->specialItemEnchantTable() : nullptr;
-
-    const auto resolveChestItemSize =
-        [pItemTable](GameplayChestItemState &item)
-        {
-            if (item.isGold)
-            {
-                const GoldHeapVisual goldVisual = classifyGoldHeapVisual(item.goldAmount);
-                item.width = goldVisual.width;
-                item.height = goldVisual.height;
-                return;
-            }
-
-            item.itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
-            const ItemDefinition *pItemDefinition = pItemTable != nullptr ? pItemTable->get(item.itemId) : nullptr;
-            item.width = pItemDefinition != nullptr ? std::max<uint8_t>(1, pItemDefinition->inventoryWidth) : 1;
-            item.height = pItemDefinition != nullptr ? std::max<uint8_t>(1, pItemDefinition->inventoryHeight) : 1;
-        };
 
     const auto materializeChestRecord =
         [&](int32_t rawItemId, size_t recordIndex)
@@ -310,10 +405,13 @@ GameplayChestViewState buildMaterializedChestView(
                 }
 
                 GameplayChestItemState item = {};
-                item.item = ItemGenerator::makeInventoryItem(uint32_t(rawItemId), *pItemTable, ItemGenerationMode::ChestLoot);
+                item.item = ItemGenerator::makeInventoryItem(
+                    uint32_t(rawItemId),
+                    *pItemTable,
+                    ItemGenerationMode::ChestLoot);
                 item.itemId = item.item.objectDescriptionId;
                 item.quantity = item.item.quantity;
-                resolveChestItemSize(item);
+                resolveChestItemSize(item, pItemTable);
                 generatedItems.push_back(item);
                 return generatedItems;
             }
@@ -328,7 +426,9 @@ GameplayChestViewState buildMaterializedChestView(
 
             if (resolvedTreasureLevel == RandomChestItemMaxLevel)
             {
-                if (pItemTable == nullptr || pStandardItemEnchantTable == nullptr || pSpecialItemEnchantTable == nullptr)
+                if (pItemTable == nullptr
+                    || pStandardItemEnchantTable == nullptr
+                    || pSpecialItemEnchantTable == nullptr)
                 {
                     return generatedItems;
                 }
@@ -352,7 +452,7 @@ GameplayChestViewState buildMaterializedChestView(
                     item.item = *generatedItem;
                     item.itemId = item.item.objectDescriptionId;
                     item.quantity = item.item.quantity;
-                    resolveChestItemSize(item);
+                    resolveChestItemSize(item, pItemTable);
                     generatedItems.push_back(item);
                 }
 
@@ -387,7 +487,9 @@ GameplayChestViewState buildMaterializedChestView(
                 }
                 else
                 {
-                    if (pItemTable == nullptr || pStandardItemEnchantTable == nullptr || pSpecialItemEnchantTable == nullptr)
+                    if (pItemTable == nullptr
+                        || pStandardItemEnchantTable == nullptr
+                        || pSpecialItemEnchantTable == nullptr)
                     {
                         continue;
                     }
@@ -413,7 +515,7 @@ GameplayChestViewState buildMaterializedChestView(
                     item.quantity = item.item.quantity;
                 }
 
-                resolveChestItemSize(item);
+                resolveChestItemSize(item, pItemTable);
                 generatedItems.push_back(item);
             }
 
@@ -422,17 +524,25 @@ GameplayChestViewState buildMaterializedChestView(
 
     std::vector<std::vector<GameplayChestItemState>> materializedRecordItems(rawItemIds.size());
     std::vector<bool> placedRecords(rawItemIds.size(), false);
-    std::vector<GameplayChestItemState> deferredItems;
+    std::vector<GameplayChestItemState> guaranteedDeferredItems;
+    std::vector<GameplayChestItemState> randomDeferredItems;
     std::vector<GameplayChestItemState> anchoredRandomItems;
+
+    const auto deferChestItem =
+        [&](const GameplayChestItemState &item, int32_t rawItemId)
+        {
+            if (rawItemId > 0 || rawItemId == -RandomChestItemMaxLevel)
+            {
+                guaranteedDeferredItems.push_back(item);
+                return;
+            }
+
+            randomDeferredItems.push_back(item);
+        };
 
     for (size_t recordIndex = 0; recordIndex < rawItemIds.size(); ++recordIndex)
     {
         materializedRecordItems[recordIndex] = materializeChestRecord(rawItemIds[recordIndex], recordIndex);
-
-        if (!materializedRecordItems[recordIndex].empty())
-        {
-            deferredItems.reserve(deferredItems.size() + materializedRecordItems[recordIndex].size());
-        }
     }
 
     for (uint8_t gridY = 0; gridY < view.gridHeight; ++gridY)
@@ -482,12 +592,12 @@ GameplayChestViewState buildMaterializedChestView(
             }
             else
             {
-                deferredItems.push_back(anchoredItem);
+                deferChestItem(anchoredItem, rawItemIds[recordIndex]);
             }
 
             for (size_t itemIndex = 1; itemIndex < recordItems.size(); ++itemIndex)
             {
-                deferredItems.push_back(recordItems[itemIndex]);
+                deferChestItem(recordItems[itemIndex], rawItemIds[recordIndex]);
             }
         }
     }
@@ -500,7 +610,7 @@ GameplayChestViewState buildMaterializedChestView(
         }
         else
         {
-            deferredItems.push_back(anchoredRandomItem);
+            randomDeferredItems.push_back(anchoredRandomItem);
         }
     }
 
@@ -513,38 +623,48 @@ GameplayChestViewState buildMaterializedChestView(
 
         for (const GameplayChestItemState &item : materializedRecordItems[recordIndex])
         {
-            deferredItems.push_back(item);
+            deferChestItem(item, rawItemIds[recordIndex]);
         }
     }
 
     std::mt19937 placementRng(makeChestSeed(sessionChestSeed, mapId, chestId, 0xfaceu));
-    const std::vector<uint8_t> placementCellOrder = buildRandomChestCellOrder(view.gridWidth, view.gridHeight, placementRng);
+    const std::vector<uint8_t> placementCellOrder =
+        buildRandomChestCellOrder(view.gridWidth, view.gridHeight, placementRng);
 
-    for (const GameplayChestItemState &deferredItem : deferredItems)
-    {
-        bool placed = false;
-
-        for (uint8_t cellIndex : placementCellOrder)
+    const auto placeDeferredItems =
+        [&](const std::vector<GameplayChestItemState> &deferredItems)
         {
-            GameplayChestItemState candidate = deferredItem;
-            candidate.gridX = uint8_t(cellIndex % view.gridWidth);
-            candidate.gridY = uint8_t(cellIndex / view.gridWidth);
-
-            if (!canPlaceChestItem(candidate, view.items, view.gridWidth, view.gridHeight))
+            for (const GameplayChestItemState &deferredItem : deferredItems)
             {
-                continue;
+                bool placed = false;
+
+                for (uint8_t cellIndex : placementCellOrder)
+                {
+                    GameplayChestItemState candidate = deferredItem;
+                    candidate.gridX = uint8_t(cellIndex % view.gridWidth);
+                    candidate.gridY = uint8_t(cellIndex / view.gridWidth);
+
+                    if (!canPlaceChestItem(candidate, view.items, view.gridWidth, view.gridHeight))
+                    {
+                        continue;
+                    }
+
+                    view.items.push_back(candidate);
+                    placed = true;
+                    break;
+                }
+
+                if (!placed)
+                {
+                    view.hiddenItems.push_back(deferredItem);
+                }
             }
+        };
 
-            view.items.push_back(candidate);
-            placed = true;
-            break;
-        }
+    placeDeferredItems(guaranteedDeferredItems);
+    placeDeferredItems(randomDeferredItems);
 
-        if (!placed)
-        {
-            view.hiddenItems.push_back(deferredItem);
-        }
-    }
+    logChestMaterializationDebug(view, rawItemIds, mapTreasureLevel, mapId, pItemTable);
 
     return view;
 }

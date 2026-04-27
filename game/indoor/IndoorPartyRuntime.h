@@ -18,6 +18,7 @@ public:
         float pendingImpulseVelocityX = 0.0f;
         float pendingImpulseVelocityY = 0.0f;
         float pendingImpulseVelocityZ = 0.0f;
+        bool alwaysRunEnabled = true;
     };
 
     IndoorPartyRuntime(IndoorMovementController movementController, const ItemTable &itemTable);
@@ -41,6 +42,8 @@ public:
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     void setMovementSpeedMultiplier(float multiplier);
+    void setAlwaysRunEnabled(bool enabled);
+    bool alwaysRunEnabled() const;
     void syncSpellMovementStatesFromPartyBuffs();
     void requestJump();
     void requestSpecialJump(float velocityX, float velocityY, float velocityZ);
@@ -50,6 +53,7 @@ private:
     Party m_party;
     IndoorMoveState m_movementState = {};
     float m_movementSpeedMultiplier = 1.0f;
+    bool m_alwaysRunEnabled = true;
     float m_movementAccumulatorSeconds = 0.0f;
     bool m_pendingJumpRequested = false;
     float m_pendingImpulseVelocityX = 0.0f;

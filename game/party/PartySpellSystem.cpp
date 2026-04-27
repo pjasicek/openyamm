@@ -22,6 +22,8 @@ constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float SoulDrinkerOutdoorRange = 10240.0f;
 constexpr float CameraVerticalFovRadians = Pi / 3.0f;
+constexpr float PartyMemberProjectileLateralSpacing = 28.0f;
+constexpr float ProjectileRightVectorEpsilon = 0.0001f;
 constexpr uint32_t FirstBaseSpellId = spellIdValue(SpellId::TorchLight);
 constexpr uint32_t LastBaseSpellId = spellIdValue(SpellId::SoulDrinker);
 constexpr int16_t SummonWispNormalMonsterId = 97;
@@ -31,6 +33,75 @@ constexpr size_t SummonWispActiveLimit = 5;
 
 float secondsFromHours(float hours);
 float secondsFromMinutes(float minutes);
+
+struct SpellSourcePoint
+{
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+};
+
+float partyMemberProjectileLateralOffset(size_t memberIndex, size_t memberCount)
+{
+    if (memberCount <= 1 || memberIndex >= memberCount)
+    {
+        return 0.0f;
+    }
+
+    const float centerIndex = (static_cast<float>(memberCount) - 1.0f) * 0.5f;
+    return (centerIndex - static_cast<float>(memberIndex)) * PartyMemberProjectileLateralSpacing;
+}
+
+SpellSourcePoint offsetPartyProjectileSourceForMember(
+    const PartySpellCastRequest &request,
+    const SpellSourcePoint &source,
+    const SpellSourcePoint &target,
+    size_t memberCount)
+{
+    const float lateralOffset = partyMemberProjectileLateralOffset(request.casterMemberIndex, memberCount);
+
+    if (lateralOffset == 0.0f)
+    {
+        return source;
+    }
+
+    float rightX = 0.0f;
+    float rightY = 0.0f;
+    float rightZ = 0.0f;
+
+    if (request.hasViewTransform)
+    {
+        rightX = -std::sin(request.viewYawRadians);
+        rightY = std::cos(request.viewYawRadians);
+    }
+    else
+    {
+        const float forwardX = target.x - source.x;
+        const float forwardY = target.y - source.y;
+        const float forwardLength = std::sqrt(forwardX * forwardX + forwardY * forwardY);
+
+        if (forwardLength <= ProjectileRightVectorEpsilon)
+        {
+            return source;
+        }
+
+        rightX = -forwardY / forwardLength;
+        rightY = forwardX / forwardLength;
+    }
+
+    const float rightLength = std::sqrt(rightX * rightX + rightY * rightY + rightZ * rightZ);
+
+    if (rightLength <= ProjectileRightVectorEpsilon)
+    {
+        return source;
+    }
+
+    return SpellSourcePoint{
+        .x = source.x + rightX / rightLength * lateralOffset,
+        .y = source.y + rightY / rightLength * lateralOffset,
+        .z = source.z + rightZ / rightLength * lateralOffset,
+    };
+}
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -2223,15 +2294,20 @@ PartySpellCastResult PartySpellSystem::castSpell(
     }
     else if (rule->effectKind == PartySpellCastEffectKind::Projectile)
     {
+        const SpellSourcePoint projectileSource = offsetPartyProjectileSourceForMember(
+            request,
+            SpellSourcePoint{.x = sourceX, .y = sourceY, .z = sourceZ},
+            SpellSourcePoint{.x = targetPoint.x, .y = targetPoint.y, .z = targetPoint.z},
+            party.members().size());
         GameplayPartySpellProjectileRequest worldRequest = {};
         worldRequest.casterMemberIndex = static_cast<uint32_t>(request.casterMemberIndex);
         worldRequest.spellId = request.spellId;
         worldRequest.skillLevel = skillLevel;
         worldRequest.skillMastery = skillMastery;
         worldRequest.damage = rollSpellDamage(*rule, *pSpellEntry, skillLevel);
-        worldRequest.sourceX = sourceX;
-        worldRequest.sourceY = sourceY;
-        worldRequest.sourceZ = sourceZ;
+        worldRequest.sourceX = projectileSource.x;
+        worldRequest.sourceY = projectileSource.y;
+        worldRequest.sourceZ = projectileSource.z;
         worldRequest.targetX = targetPoint.x;
         worldRequest.targetY = targetPoint.y;
         worldRequest.targetZ = targetPoint.z;
@@ -2250,6 +2326,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
             rule->multiProjectileCount > 1
                 ? spreadArcRadians / static_cast<float>(rule->multiProjectileCount - 1)
                 : 0.0f;
+        const SpellSourcePoint projectileSource = offsetPartyProjectileSourceForMember(
+            request,
+            SpellSourcePoint{.x = sourceX, .y = sourceY, .z = sourceZ},
+            SpellSourcePoint{.x = targetPoint.x, .y = targetPoint.y, .z = targetPoint.z},
+            party.members().size());
 
         for (uint32_t projectileIndex = 0; projectileIndex < rule->multiProjectileCount; ++projectileIndex)
         {
@@ -2261,9 +2342,9 @@ PartySpellCastResult PartySpellSystem::castSpell(
             worldRequest.skillLevel = skillLevel;
             worldRequest.skillMastery = skillMastery;
             worldRequest.damage = rollSpellDamage(*rule, *pSpellEntry, skillLevel);
-            worldRequest.sourceX = sourceX;
-            worldRequest.sourceY = sourceY;
-            worldRequest.sourceZ = sourceZ;
+            worldRequest.sourceX = projectileSource.x;
+            worldRequest.sourceY = projectileSource.y;
+            worldRequest.sourceZ = projectileSource.z;
             worldRequest.targetX = sourceX + std::cos(yawRadians) * std::max(512.0f, distance);
             worldRequest.targetY = sourceY + std::sin(yawRadians) * std::max(512.0f, distance);
             worldRequest.targetZ = baseTargetZ;
