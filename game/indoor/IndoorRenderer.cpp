@@ -10,6 +10,7 @@
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/InteractiveDecorationRules.h"
 #include "game/indoor/IndoorGeometryUtils.h"
+#include "game/indoor/IndoorPortalVisibility.h"
 #include "game/render/TextureFiltering.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/SpriteObjectDefs.h"
@@ -148,6 +149,7 @@ constexpr size_t MaxIndoorShaderLights = MaxIndoorDrawLights;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float HoveredActorOutlineThicknessPixels = 2.0f;
+constexpr float BillboardFrustumSlack = 8.0f;
 
 struct RuntimeActorBillboard
 {
@@ -165,65 +167,6 @@ struct RuntimeActorBillboard
     float heightScale = 1.0f;
     std::string actorName;
 };
-
-bool runtimeActorBillboardVisibleFromCamera(
-    const RuntimeActorBillboard &billboard,
-    const IndoorSceneRuntime *pSceneRuntime,
-    const bx::Vec3 &cameraPosition
-)
-{
-    if (pSceneRuntime == nullptr)
-    {
-        return true;
-    }
-
-    const IndoorMoveState &moveState = pSceneRuntime->partyRuntime().movementState();
-    const int16_t cameraSectorId = moveState.eyeSectorId >= 0 ? moveState.eyeSectorId : moveState.sectorId;
-
-    if (cameraSectorId < 0 || billboard.sectorId < 0 || cameraSectorId == billboard.sectorId)
-    {
-        return true;
-    }
-
-    const GameplayWorldPoint cameraPoint =
-    {
-        cameraPosition.x,
-        cameraPosition.y,
-        cameraPosition.z
-    };
-    const auto hasLineOfSightToActorPoint =
-        [pSceneRuntime, &cameraPoint, cameraSectorId, &billboard](float x, float y, float z)
-    {
-        const GameplayWorldPoint actorPoint = {x, y, z};
-        return pSceneRuntime->worldRuntime().hasIndoorVisibilityLineOfSight(
-            cameraPoint,
-            cameraSectorId,
-            actorPoint,
-            billboard.sectorId);
-    };
-
-    const float actorX = static_cast<float>(billboard.x);
-    const float actorY = static_cast<float>(billboard.y);
-    const float actorZ = static_cast<float>(billboard.z);
-    const float actorHeight = static_cast<float>(std::max<uint16_t>(billboard.height, 1));
-    const float actorRadius = static_cast<float>(std::max<uint16_t>(billboard.radius, 16));
-    const float toCameraX = cameraPosition.x - actorX;
-    const float toCameraY = cameraPosition.y - actorY;
-    const float toCameraLength = std::sqrt(toCameraX * toCameraX + toCameraY * toCameraY);
-    const float sideX = toCameraLength > 0.001f ? -toCameraY / toCameraLength : 1.0f;
-    const float sideY = toCameraLength > 0.001f ? toCameraX / toCameraLength : 0.0f;
-    const float sideOffset = std::min(actorRadius, 64.0f);
-    const float lowBodyZ = actorZ + std::max(16.0f, actorHeight * 0.35f);
-    const float midBodyZ = actorZ + std::max(24.0f, actorHeight * 0.55f);
-    const float headZ = actorZ + std::max(32.0f, actorHeight * 0.85f);
-    const bool cameraActorZSeparated = std::abs(cameraPosition.z - actorZ) > actorHeight * 0.35f;
-
-    return hasLineOfSightToActorPoint(actorX, actorY, lowBodyZ)
-        || hasLineOfSightToActorPoint(actorX, actorY, midBodyZ)
-        || (cameraActorZSeparated && hasLineOfSightToActorPoint(actorX, actorY, headZ))
-        || hasLineOfSightToActorPoint(actorX + sideX * sideOffset, actorY + sideY * sideOffset, midBodyZ)
-        || hasLineOfSightToActorPoint(actorX - sideX * sideOffset, actorY - sideY * sideOffset, midBodyZ);
-}
 
 struct RuntimeSpriteObjectBillboard
 {
@@ -256,6 +199,16 @@ struct IndoorBounds
     bx::Vec3 max = {0.0f, 0.0f, 0.0f};
     bool hasPoint = false;
 };
+
+bx::Vec3 vecAdd(const bx::Vec3 &left, const bx::Vec3 &right)
+{
+    return {left.x + right.x, left.y + right.y, left.z + right.z};
+}
+
+bx::Vec3 vecScale(const bx::Vec3 &value, float scale)
+{
+    return {value.x * scale, value.y * scale, value.z * scale};
+}
 
 IndoorBounds makeEmptyIndoorBounds()
 {
@@ -669,6 +622,88 @@ bx::Vec3 bottomAnchoredBillboardCenter(float x, float y, float z, const bx::Vec3
         y + cameraUp.y * halfHeight,
         z + cameraUp.z * halfHeight
     };
+}
+
+float indoorPlaneDistance(const IndoorVisibilityPlane &plane, const bx::Vec3 &point)
+{
+    return vecDot(plane.normal, point) + plane.distance;
+}
+
+IndoorVisibilityPlane makeIndoorFrustumPlane(
+    const bx::Vec3 &a,
+    const bx::Vec3 &b,
+    const bx::Vec3 &c,
+    const bx::Vec3 &insidePoint)
+{
+    IndoorVisibilityPlane plane = {};
+    plane.normal = vecNormalize(vecCross(vecSubtract(b, a), vecSubtract(c, a)));
+    plane.distance = -vecDot(plane.normal, a);
+
+    if (indoorPlaneDistance(plane, insidePoint) < 0.0f)
+    {
+        plane.normal = vecScale(plane.normal, -1.0f);
+        plane.distance = -plane.distance;
+    }
+
+    return plane;
+}
+
+std::array<IndoorVisibilityPlane, 4> buildIndoorBillboardFrustumPlanes(
+    const bx::Vec3 &cameraPosition,
+    float yawRadians,
+    float pitchRadians,
+    float aspectRatio)
+{
+    const float cosPitch = std::cos(pitchRadians);
+    const float sinPitch = std::sin(pitchRadians);
+    const float cosYaw = std::cos(yawRadians);
+    const float sinYaw = std::sin(yawRadians);
+    const bx::Vec3 forward = vecNormalize({cosYaw * cosPitch, sinYaw * cosPitch, sinPitch});
+    const bx::Vec3 worldUp = {0.0f, 0.0f, 1.0f};
+    bx::Vec3 right = vecNormalize(vecCross(forward, worldUp));
+
+    if (vecLength(right) <= InspectRayEpsilon)
+    {
+        right = {0.0f, -1.0f, 0.0f};
+    }
+
+    const bx::Vec3 correctedUp = vecNormalize(vecCross(right, forward));
+    constexpr float VerticalFovDegrees = 60.0f;
+    const float halfHeight = std::tan((VerticalFovDegrees * Pi / 180.0f) * 0.5f);
+    const float halfWidth = halfHeight * std::max(aspectRatio, 0.01f);
+    const bx::Vec3 center = vecAdd(cameraPosition, forward);
+    const bx::Vec3 rightOffset = vecScale(right, halfWidth);
+    const bx::Vec3 upOffset = vecScale(correctedUp, halfHeight);
+    const bx::Vec3 topLeft = vecAdd(vecSubtract(center, rightOffset), upOffset);
+    const bx::Vec3 topRight = vecAdd(vecAdd(center, rightOffset), upOffset);
+    const bx::Vec3 bottomLeft = vecSubtract(vecSubtract(center, rightOffset), upOffset);
+    const bx::Vec3 bottomRight = vecSubtract(vecAdd(center, rightOffset), upOffset);
+    const bx::Vec3 insidePoint = vecAdd(cameraPosition, forward);
+
+    return {
+        makeIndoorFrustumPlane(cameraPosition, topLeft, bottomLeft, insidePoint),
+        makeIndoorFrustumPlane(cameraPosition, bottomRight, topRight, insidePoint),
+        makeIndoorFrustumPlane(cameraPosition, topRight, topLeft, insidePoint),
+        makeIndoorFrustumPlane(cameraPosition, bottomLeft, bottomRight, insidePoint)
+    };
+}
+
+bool billboardSphereInFrustum(
+    const bx::Vec3 &center,
+    float radius,
+    const std::array<IndoorVisibilityPlane, 4> &frustumPlanes)
+{
+    const float effectiveRadius = std::max(radius + BillboardFrustumSlack, 0.0f);
+
+    for (const IndoorVisibilityPlane &plane : frustumPlanes)
+    {
+        if (indoorPlaneDistance(plane, center) < -effectiveRadius)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 struct IndoorInteractiveDecorationBinding
@@ -1693,6 +1728,9 @@ bool IndoorRenderer::initialize(
     m_objectTable = objectTable;
     m_pItemTable = &itemTable;
     m_indoorMapData = indoorMapData;
+    m_cachedPortalVisibleSectorMaskValid = false;
+    m_cachedPortalVisibleSectorMask.clear();
+    m_cachedPortalDoorStateSignature.clear();
     m_pSceneRuntime = &sceneRuntime;
     m_renderVertices = buildMechanismAdjustedVertices(
         indoorMapData,
@@ -1984,25 +2022,23 @@ bool IndoorRenderer::isFaceVisible(
 
 std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const
 {
-    (void)cameraPosition;
-
     if (!m_indoorMapData || m_indoorMapData->sectors.empty())
     {
         return {};
     }
 
-    std::vector<uint8_t> visibleSectorMask(m_indoorMapData->sectors.size(), 0);
     int16_t startSectorId = -1;
 
     if (m_pSceneRuntime != nullptr)
     {
         const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
+        const size_t sectorCount = m_indoorMapData->sectors.size();
 
-        if (moveState.eyeSectorId >= 0 && static_cast<size_t>(moveState.eyeSectorId) < visibleSectorMask.size())
+        if (moveState.eyeSectorId >= 0 && static_cast<size_t>(moveState.eyeSectorId) < sectorCount)
         {
             startSectorId = moveState.eyeSectorId;
         }
-        else if (moveState.sectorId >= 0 && static_cast<size_t>(moveState.sectorId) < visibleSectorMask.size())
+        else if (moveState.sectorId >= 0 && static_cast<size_t>(moveState.sectorId) < sectorCount)
         {
             startSectorId = moveState.sectorId;
         }
@@ -2010,171 +2046,62 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
 
     if (startSectorId < 0)
     {
-        m_cachedVisibleSectorId = -1;
-        m_cachedVisibleDoorStateSignature.clear();
-        m_cachedVisibleSectorMask.clear();
+        m_cachedPortalVisibleSectorMaskValid = false;
+        m_cachedPortalVisibleSectorMask.clear();
+        m_cachedPortalDoorStateSignature.clear();
         return {};
     }
 
     const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
-    const std::vector<uint32_t> doorStateSignature =
-        buildDoorStateSignature(runtimeMapDeltaData(), eventRuntimeState);
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+    const std::vector<uint32_t> doorStateSignature = buildDoorStateSignature(mapDeltaData, eventRuntimeState);
+    const float aspectRatio =
+        m_lastRenderHeight > 0
+        ? static_cast<float>(std::max(m_lastRenderWidth, 1)) / static_cast<float>(m_lastRenderHeight)
+        : 1.0f;
 
-    if (m_cachedVisibleSectorId == startSectorId && m_cachedVisibleDoorStateSignature == doorStateSignature)
+    if (m_cachedPortalVisibleSectorMaskValid
+        && m_cachedPortalVisibleSectorId == startSectorId
+        && m_cachedPortalVisibleSectorMask.size() == m_indoorMapData->sectors.size()
+        && m_cachedPortalDoorStateSignature == doorStateSignature
+        && m_cachedPortalCameraX == cameraPosition.x
+        && m_cachedPortalCameraY == cameraPosition.y
+        && m_cachedPortalCameraZ == cameraPosition.z
+        && m_cachedPortalYawRadians == m_cameraYawRadians
+        && m_cachedPortalPitchRadians == m_cameraPitchRadians
+        && m_cachedPortalAspectRatio == aspectRatio)
     {
-        return m_cachedVisibleSectorMask;
+        return m_cachedPortalVisibleSectorMask;
     }
 
-    std::vector<int16_t> pendingSectorIds;
-    pendingSectorIds.push_back(startSectorId);
+    const float cosPitch = std::cos(m_cameraPitchRadians);
+    const float sinPitch = std::sin(m_cameraPitchRadians);
+    const float cosYaw = std::cos(m_cameraYawRadians);
+    const float sinYaw = std::sin(m_cameraYawRadians);
+    IndoorPortalVisibilityInput input = {};
+    input.pMapData = &m_indoorMapData.value();
+    input.pVertices = &m_renderVertices;
+    input.pMapDeltaData = mapDeltaData ? &mapDeltaData.value() : nullptr;
+    input.pEventRuntimeState = &eventRuntimeState;
+    input.cameraPosition = cameraPosition;
+    input.cameraForward = {cosYaw * cosPitch, sinYaw * cosPitch, sinPitch};
+    input.cameraUp = {0.0f, 0.0f, 1.0f};
+    input.verticalFovDegrees = 60.0f;
+    input.aspectRatio = aspectRatio;
+    input.startSectorId = startSectorId;
 
-    while (!pendingSectorIds.empty())
-    {
-        const int16_t sectorId = pendingSectorIds.back();
-        pendingSectorIds.pop_back();
-
-        if (sectorId < 0 || static_cast<size_t>(sectorId) >= visibleSectorMask.size())
-        {
-            continue;
-        }
-
-        if (visibleSectorMask[sectorId] != 0)
-        {
-            continue;
-        }
-
-        visibleSectorMask[sectorId] = 1;
-        const IndoorSector &sector = m_indoorMapData->sectors[sectorId];
-
-        auto appendPortalConnectedSectors = [&](const std::vector<uint16_t> &faceIds)
-        {
-            for (uint16_t faceId : faceIds)
-            {
-                if (faceId >= m_indoorMapData->faces.size())
-                {
-                    continue;
-                }
-
-                const IndoorFace &face = m_indoorMapData->faces[faceId];
-
-                if (!face.isPortal && !hasFaceAttribute(face.attributes, FaceAttribute::IsPortal))
-                {
-                    continue;
-                }
-
-                if (!isFaceVisible(faceId, face, eventRuntimeState))
-                {
-                    continue;
-                }
-
-                int16_t connectedSectorId = -1;
-
-                if (face.roomNumber == sectorId)
-                {
-                    connectedSectorId = static_cast<int16_t>(face.roomBehindNumber);
-                }
-                else if (face.roomBehindNumber == sectorId)
-                {
-                    connectedSectorId = static_cast<int16_t>(face.roomNumber);
-                }
-
-                if (connectedSectorId < 0 || static_cast<size_t>(connectedSectorId) >= visibleSectorMask.size())
-                {
-                    continue;
-                }
-
-                if (visibleSectorMask[connectedSectorId] == 0)
-                {
-                    pendingSectorIds.push_back(connectedSectorId);
-                }
-            }
-        };
-
-        appendPortalConnectedSectors(sector.portalFaceIds);
-        appendPortalConnectedSectors(sector.faceIds);
-    }
-
-    m_cachedVisibleSectorId = startSectorId;
-    m_cachedVisibleDoorStateSignature = doorStateSignature;
-    m_cachedVisibleSectorMask = visibleSectorMask;
-    return visibleSectorMask;
-}
-
-std::vector<uint8_t> IndoorRenderer::buildLightingSectorMask() const
-{
-    if (!m_indoorMapData || m_indoorMapData->sectors.empty())
-    {
-        return {};
-    }
-
-    std::vector<uint8_t> lightingSectorMask(m_indoorMapData->sectors.size(), 0);
-    int16_t startSectorId = -1;
-
-    if (m_pSceneRuntime != nullptr)
-    {
-        const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
-
-        if (moveState.eyeSectorId >= 0 && static_cast<size_t>(moveState.eyeSectorId) < lightingSectorMask.size())
-        {
-            startSectorId = moveState.eyeSectorId;
-        }
-        else if (moveState.sectorId >= 0 && static_cast<size_t>(moveState.sectorId) < lightingSectorMask.size())
-        {
-            startSectorId = moveState.sectorId;
-        }
-    }
-
-    if (startSectorId < 0)
-    {
-        return {};
-    }
-
-    const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
-    lightingSectorMask[startSectorId] = 1;
-
-    const auto appendPortalConnectedSectors = [&](const std::vector<uint16_t> &faceIds)
-    {
-        for (uint16_t faceId : faceIds)
-        {
-            if (faceId >= m_indoorMapData->faces.size())
-            {
-                continue;
-            }
-
-            const IndoorFace &face = m_indoorMapData->faces[faceId];
-
-            if (!face.isPortal && !hasFaceAttribute(face.attributes, FaceAttribute::IsPortal))
-            {
-                continue;
-            }
-
-            if (!isFaceVisible(faceId, face, eventRuntimeState))
-            {
-                continue;
-            }
-
-            int16_t connectedSectorId = -1;
-
-            if (face.roomNumber == static_cast<uint16_t>(startSectorId))
-            {
-                connectedSectorId = static_cast<int16_t>(face.roomBehindNumber);
-            }
-            else if (face.roomBehindNumber == static_cast<uint16_t>(startSectorId))
-            {
-                connectedSectorId = static_cast<int16_t>(face.roomNumber);
-            }
-
-            if (connectedSectorId >= 0 && static_cast<size_t>(connectedSectorId) < lightingSectorMask.size())
-            {
-                lightingSectorMask[connectedSectorId] = 1;
-            }
-        }
-    };
-
-    const IndoorSector &startSector = m_indoorMapData->sectors[startSectorId];
-    appendPortalConnectedSectors(startSector.portalFaceIds);
-    appendPortalConnectedSectors(startSector.faceIds);
-    return lightingSectorMask;
+    const IndoorPortalVisibilityResult visibility = buildIndoorPortalVisibility(input);
+    m_cachedPortalVisibleSectorMaskValid = true;
+    m_cachedPortalVisibleSectorId = startSectorId;
+    m_cachedPortalCameraX = cameraPosition.x;
+    m_cachedPortalCameraY = cameraPosition.y;
+    m_cachedPortalCameraZ = cameraPosition.z;
+    m_cachedPortalYawRadians = m_cameraYawRadians;
+    m_cachedPortalPitchRadians = m_cameraPitchRadians;
+    m_cachedPortalAspectRatio = aspectRatio;
+    m_cachedPortalDoorStateSignature = doorStateSignature;
+    m_cachedPortalVisibleSectorMask = visibility.visibleSectorMask;
+    return m_cachedPortalVisibleSectorMask;
 }
 
 bool IndoorRenderer::isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const
@@ -2187,24 +2114,6 @@ bool IndoorRenderer::isSectorVisible(int16_t sectorId, const std::vector<uint8_t
     return sectorId >= 0
         && static_cast<size_t>(sectorId) < visibleSectorMask.size()
         && visibleSectorMask[sectorId] != 0;
-}
-
-bool IndoorRenderer::isBatchVisible(
-    const TexturedBatch &batch,
-    const std::vector<uint8_t> &visibleSectorMask
-) const
-{
-    if (visibleSectorMask.empty())
-    {
-        return true;
-    }
-
-    if (isSectorVisible(batch.sectorId, visibleSectorMask) || isSectorVisible(batch.backSectorId, visibleSectorMask))
-    {
-        return true;
-    }
-
-    return batch.sectorId < 0 && batch.backSectorId < 0;
 }
 
 std::vector<int16_t> IndoorRenderer::visibleIndoorMapRevealSectorIds(int16_t sectorId, int16_t eyeSectorId) const
@@ -2533,7 +2442,6 @@ void IndoorRenderer::render(
     bgfx::setViewTransform(MainViewId, viewMatrix, projectionMatrix);
     bgfx::touch(MainViewId);
     const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(eye);
-    const std::vector<uint8_t> lightingSectorMask = buildLightingSectorMask();
     const GameSettings &settings = gameSession.gameplayScreenRuntime().settingsSnapshot();
     IndoorLightingFrameInput lightingInput = {};
     lightingInput.pMapData = m_indoorMapData ? &m_indoorMapData.value() : nullptr;
@@ -2542,7 +2450,7 @@ void IndoorRenderer::render(
         m_indoorDecorationBillboardSet ? &m_indoorDecorationBillboardSet.value() : nullptr;
     lightingInput.pWorldFxSystem = &m_worldFxSystem;
     lightingInput.pParty = m_pSceneRuntime != nullptr ? &m_pSceneRuntime->partyRuntime().party() : nullptr;
-    lightingInput.pVisibleSectorMask = &lightingSectorMask;
+    lightingInput.pVisibleSectorMask = nullptr;
     lightingInput.cameraPosition = eye;
     lightingInput.coloredLights = settings.coloredLights;
     const IndoorLightingFrame lightingFrame = m_indoorLightingRuntime.buildFrame(lightingInput);
@@ -2672,11 +2580,6 @@ void IndoorRenderer::render(
                 continue;
             }
 
-            if (!isBatchVisible(batch, visibleSectorMask))
-            {
-                continue;
-            }
-
             const size_t frameIndex = frameIndexForAnimation(
                 batch.frameLengthTicks,
                 batch.animationLengthTicks,
@@ -2724,9 +2627,12 @@ void IndoorRenderer::render(
             defaultLightSet);
     }
 
-    renderDecorationBillboards(MainViewId, viewMatrix, eye, visibleSectorMask, lightingFrame);
-    renderActorPreviewBillboards(MainViewId, viewMatrix, eye, visibleSectorMask, lightingFrame);
-    renderSpriteObjectBillboards(MainViewId, viewMatrix, eye, visibleSectorMask, lightingFrame);
+    // BLV moving/elevator sectors are not always represented in the static portal graph. Geometry depth testing is a
+    // safer visibility gate for billboard rendering than hard sector culling here.
+    const std::vector<uint8_t> billboardSectorMask;
+    renderDecorationBillboards(MainViewId, viewMatrix, eye, billboardSectorMask, lightingFrame);
+    renderActorPreviewBillboards(MainViewId, viewMatrix, eye, billboardSectorMask, lightingFrame);
+    renderSpriteObjectBillboards(MainViewId, viewMatrix, eye, billboardSectorMask, lightingFrame);
 
     ParticleRenderer::renderParticles(
         m_worldFxRenderResources,
@@ -4337,6 +4243,9 @@ void IndoorRenderer::shutdown()
     m_indoorSpriteObjectBillboardSet.reset();
     m_houseTable.reset();
     m_mechanismBindings.clear();
+    m_cachedPortalVisibleSectorMaskValid = false;
+    m_cachedPortalVisibleSectorMask.clear();
+    m_cachedPortalDoorStateSignature.clear();
     m_worldFxSystem.reset();
 
     if (!Engine::BgfxContext::isBgfxInitialized())
@@ -5015,6 +4924,12 @@ void IndoorRenderer::renderDecorationBillboards(
 
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+    const float aspectRatio =
+        m_lastRenderHeight > 0
+        ? static_cast<float>(std::max(m_lastRenderWidth, 1)) / static_cast<float>(m_lastRenderHeight)
+        : 1.0f;
+    const std::array<IndoorVisibilityPlane, 4> frustumPlanes =
+        buildIndoorBillboardFrustumPlanes(cameraPosition, m_cameraYawRadians, m_cameraPitchRadians, aspectRatio);
     const uint32_t animationTimeTicks = currentAnimationTicks();
 
     struct BillboardDrawItem
@@ -5116,6 +5031,22 @@ void IndoorRenderer::renderDecorationBillboards(
             || !bgfx::isValid(pTexture->textureHandle)
             || pTexture->width <= 0
             || pTexture->height <= 0)
+        {
+            continue;
+        }
+
+        const float spriteScale = std::max(pFrame->scale, 0.01f);
+        const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+        const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+        const bx::Vec3 center = {
+            static_cast<float>(billboard.x),
+            static_cast<float>(billboard.y),
+            static_cast<float>(billboard.z) + worldHeight * 0.5f
+        };
+        const float radius = std::sqrt((worldWidth * 0.5f) * (worldWidth * 0.5f)
+            + (worldHeight * 0.5f) * (worldHeight * 0.5f));
+
+        if (!billboardSphereInFrustum(center, radius, frustumPlanes))
         {
             continue;
         }
@@ -5290,6 +5221,12 @@ void IndoorRenderer::renderActorPreviewBillboards(
 
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+    const float aspectRatio =
+        m_lastRenderHeight > 0
+        ? static_cast<float>(std::max(m_lastRenderWidth, 1)) / static_cast<float>(m_lastRenderHeight)
+        : 1.0f;
+    const std::array<IndoorVisibilityPlane, 4> frustumPlanes =
+        buildIndoorBillboardFrustumPlanes(cameraPosition, m_cameraYawRadians, m_cameraPitchRadians, aspectRatio);
     const uint32_t animationTimeTicks = currentAnimationTicks();
 
     struct BillboardDrawItem
@@ -5337,11 +5274,6 @@ void IndoorRenderer::renderActorPreviewBillboards(
                 continue;
             }
 
-            if (!runtimeActorBillboardVisibleFromCamera(billboard, m_pSceneRuntime, cameraPosition))
-            {
-                continue;
-            }
-
             const IndoorWorldRuntime::MapActorAiState *pActorAiState =
                 m_pSceneRuntime != nullptr
                     ? m_pSceneRuntime->worldRuntime().mapActorAiState(billboard.actorIndex)
@@ -5382,6 +5314,23 @@ void IndoorRenderer::renderActorPreviewBillboards(
                 ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
 
             if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                continue;
+            }
+
+            const float spriteScale = std::max(pFrame->scale * billboard.heightScale, 0.01f);
+            const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+            const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+            const bx::Vec3 center = bottomAnchoredBillboardCenter(
+                static_cast<float>(billboard.x),
+                static_cast<float>(billboard.y),
+                static_cast<float>(billboard.z),
+                cameraUp,
+                worldHeight);
+            const float radius = std::sqrt((worldWidth * 0.5f) * (worldWidth * 0.5f)
+                + (worldHeight * 0.5f) * (worldHeight * 0.5f));
+
+            if (!billboardSphereInFrustum(center, radius, frustumPlanes))
             {
                 continue;
             }
@@ -5436,6 +5385,23 @@ void IndoorRenderer::renderActorPreviewBillboards(
                 ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
 
             if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                continue;
+            }
+
+            const float spriteScale = std::max(pFrame->scale, 0.01f);
+            const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+            const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+            const bx::Vec3 center = bottomAnchoredBillboardCenter(
+                static_cast<float>(billboard.x),
+                static_cast<float>(billboard.y),
+                static_cast<float>(billboard.z),
+                cameraUp,
+                worldHeight);
+            const float radius = std::sqrt((worldWidth * 0.5f) * (worldWidth * 0.5f)
+                + (worldHeight * 0.5f) * (worldHeight * 0.5f));
+
+            if (!billboardSphereInFrustum(center, radius, frustumPlanes))
             {
                 continue;
             }
@@ -5750,6 +5716,33 @@ void IndoorRenderer::renderSpriteObjectBillboards(
 
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+    const float aspectRatio =
+        m_lastRenderHeight > 0
+        ? static_cast<float>(std::max(m_lastRenderWidth, 1)) / static_cast<float>(m_lastRenderHeight)
+        : 1.0f;
+    const std::array<IndoorVisibilityPlane, 4> frustumPlanes =
+        buildIndoorBillboardFrustumPlanes(cameraPosition, m_cameraYawRadians, m_cameraPitchRadians, aspectRatio);
+    const auto spriteBillboardVisible =
+        [&frustumPlanes](float x, float y, float z, const SpriteFrameEntry &frame,
+            const BillboardTextureHandle &texture) -> bool
+        {
+            if (texture.width <= 0 || texture.height <= 0)
+            {
+                return false;
+            }
+
+            const float spriteScale = std::max(frame.scale, 0.01f);
+            const float worldWidth = static_cast<float>(texture.width) * spriteScale;
+            const float worldHeight = static_cast<float>(texture.height) * spriteScale;
+            const bx::Vec3 center = {
+                x,
+                y,
+                z + worldHeight * 0.5f
+            };
+            const float radius = std::sqrt((worldWidth * 0.5f) * (worldWidth * 0.5f)
+                + (worldHeight * 0.5f) * (worldHeight * 0.5f));
+            return billboardSphereInFrustum(center, radius, frustumPlanes);
+        };
 
     struct BillboardDrawItem
     {
@@ -5833,6 +5826,11 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                 return;
             }
 
+            if (!spriteBillboardVisible(x, y, z, *pFrame, *pTexture))
+            {
+                return;
+            }
+
             const float deltaX = x - cameraPosition.x;
             const float deltaY = y - cameraPosition.y;
             const float deltaZ = z - cameraPosition.z;
@@ -5874,6 +5872,16 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                 ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
 
             if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                continue;
+            }
+
+            if (!spriteBillboardVisible(
+                    static_cast<float>(billboard.x),
+                    static_cast<float>(billboard.y),
+                    static_cast<float>(billboard.z),
+                    *pFrame,
+                    *pTexture))
             {
                 continue;
             }
@@ -5925,6 +5933,16 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                     ensureSpriteBillboardTexture(resolvedTexture.textureName, pFrame->paletteId);
 
                 if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+                {
+                    continue;
+                }
+
+                if (!spriteBillboardVisible(
+                        static_cast<float>(billboard.x),
+                        static_cast<float>(billboard.y),
+                        static_cast<float>(billboard.z),
+                        *pFrame,
+                        *pTexture))
                 {
                     continue;
                 }

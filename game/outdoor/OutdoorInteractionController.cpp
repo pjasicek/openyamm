@@ -2475,6 +2475,28 @@ std::optional<size_t> OutdoorInteractionController::resolveRuntimeActorIndexForI
         : std::nullopt;
 }
 
+bool OutdoorInteractionController::inspectHitTargetsLivingHostileActor(
+    const OutdoorGameView &view,
+    const OutdoorGameView::InspectHit &inspectHit)
+{
+    if (inspectHit.kind != "actor" || view.m_pOutdoorWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const std::optional<size_t> runtimeActorIndex = resolveRuntimeActorIndexForInspectHit(view, inspectHit);
+
+    if (!runtimeActorIndex)
+    {
+        return false;
+    }
+
+    const OutdoorWorldRuntime::MapActorState *pActorState =
+        view.m_pOutdoorWorldRuntime->mapActorState(*runtimeActorIndex);
+
+    return pActorState != nullptr && !pActorState->isDead && pActorState->hostileToParty;
+}
+
 void OutdoorInteractionController::handleDialogueCloseRequest(OutdoorGameView &view)
 {
     view.m_gameSession.gameplayScreenRuntime().handleDialogueCloseRequest();
@@ -4407,6 +4429,12 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(
 
     if (inspectHit.kind == "actor" && inspectHit.npcId > 0)
     {
+        if (inspectHitTargetsLivingHostileActor(view, inspectHit))
+        {
+            pEventRuntimeState->lastActivationResult = "hostile npc dialogue blocked";
+            return false;
+        }
+
         faceTalkingActor();
         GameplayDialogController::Context context =
             createGameplayDialogContext(view, *pEventRuntimeState, "activate_actor_npc_dialog");
@@ -4429,6 +4457,12 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(
 
     if (inspectHit.kind == "actor")
     {
+        if (inspectHitTargetsLivingHostileActor(view, inspectHit))
+        {
+            pEventRuntimeState->lastActivationResult = "hostile actor dialogue blocked";
+            return false;
+        }
+
         const std::optional<GenericActorDialogResolution> resolution = resolveGenericActorDialog(
             view.m_map ? view.m_map->fileName : std::string(),
             inspectHit.name,
@@ -4808,7 +4842,12 @@ bool OutdoorInteractionController::canActivateActorInspectEvent(
 
     if (inspectHit.npcId > 0)
     {
-        return true;
+        return !inspectHitTargetsLivingHostileActor(view, inspectHit);
+    }
+
+    if (inspectHitTargetsLivingHostileActor(view, inspectHit))
+    {
+        return false;
     }
 
     return resolveGenericActorDialog(

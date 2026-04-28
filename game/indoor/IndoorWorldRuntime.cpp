@@ -2881,15 +2881,6 @@ bool IndoorWorldRuntime::hasIndoorCombatLineOfSight(
         resolvedToSector);
 }
 
-bool IndoorWorldRuntime::hasIndoorVisibilityLineOfSight(
-    const GameplayWorldPoint &from,
-    int16_t fromSectorId,
-    const GameplayWorldPoint &to,
-    int16_t toSectorId) const
-{
-    return hasIndoorCombatLineOfSight(from, fromSectorId, to, toSectorId);
-}
-
 bool IndoorWorldRuntime::indoorActorCanApplyPartyMeleeImpact(size_t actorIndex) const
 {
     const MapDeltaData *pMapDeltaData = mapDeltaData();

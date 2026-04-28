@@ -375,9 +375,7 @@ private:
     static void rebuildTexturedBatchBounds(TexturedBatch &batch);
     std::vector<size_t> collectMovingMechanismFaceIndices() const;
     std::vector<uint8_t> buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const;
-    std::vector<uint8_t> buildLightingSectorMask() const;
     bool isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const;
-    bool isBatchVisible(const TexturedBatch &batch, const std::vector<uint8_t> &visibleSectorMask) const;
 
     bool m_isInitialized;
     bool m_isRenderable;
@@ -455,6 +453,16 @@ private:
     float m_lastMouseY;
     int m_lastRenderWidth = 0;
     int m_lastRenderHeight = 0;
+    mutable bool m_cachedPortalVisibleSectorMaskValid = false;
+    mutable int16_t m_cachedPortalVisibleSectorId = -1;
+    mutable float m_cachedPortalCameraX = 0.0f;
+    mutable float m_cachedPortalCameraY = 0.0f;
+    mutable float m_cachedPortalCameraZ = 0.0f;
+    mutable float m_cachedPortalYawRadians = 0.0f;
+    mutable float m_cachedPortalPitchRadians = 0.0f;
+    mutable float m_cachedPortalAspectRatio = 1.0f;
+    mutable std::vector<uint32_t> m_cachedPortalDoorStateSignature;
+    mutable std::vector<uint8_t> m_cachedPortalVisibleSectorMask;
     bool m_gameplayMouseLookEnabled = false;
     bool m_gameplayCursorMode = false;
     bool m_jumpHeld;
@@ -471,8 +479,5 @@ private:
     uint64_t m_cachedInspectGeometryRevision = 0;
     uint64_t m_lastInspectUpdateTick = 0;
     GameplayWorldPickRequest m_cachedGameplayWorldPickRequest = {};
-    mutable int16_t m_cachedVisibleSectorId = -1;
-    mutable std::vector<uint32_t> m_cachedVisibleDoorStateSignature;
-    mutable std::vector<uint8_t> m_cachedVisibleSectorMask;
 };
 }

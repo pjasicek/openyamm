@@ -390,11 +390,6 @@ public:
     std::vector<IndoorActorCollision> actorMovementCollidersForPartyMovement() const;
     std::vector<IndoorCylinderCollision> decorationMovementColliders() const;
     std::vector<IndoorCylinderCollision> spriteObjectMovementColliders() const;
-    bool hasIndoorVisibilityLineOfSight(
-        const GameplayWorldPoint &from,
-        int16_t fromSectorId,
-        const GameplayWorldPoint &to,
-        int16_t toSectorId) const;
 
 private:
     struct RuntimeGeometryCache

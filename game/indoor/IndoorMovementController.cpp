@@ -20,6 +20,12 @@ constexpr float SlideFactor = 0.89263916f;
 constexpr float GravityPerSecond = 960.0f;
 constexpr float JumpVelocity = 420.0f;
 constexpr float GroundSnapSlack = 8.0f;
+constexpr float CylinderCollisionHorizontalEpsilon = 0.0001f;
+
+bool hasCylinderCollisionHorizontalComponent(float x, float y)
+{
+    return x * x + y * y > CylinderCollisionHorizontalEpsilon * CylinderCollisionHorizontalEpsilon;
+}
 
 float resolveDoorDistance(
     const MapDeltaDoor &door,
@@ -1047,6 +1053,11 @@ IndoorMoveState IndoorMovementController::resolveMove(
         [&](const IndoorMoveState &moveState, const bx::Vec3 &direction, float distance)
         -> std::optional<SweptCollisionHit>
     {
+        if (!hasCylinderCollisionHorizontalComponent(direction.x, direction.y))
+        {
+            return std::nullopt;
+        }
+
         std::optional<SweptCollisionHit> bestHit;
         const IndoorSweptBody contactSweptBody =
             buildPrimitiveSweptBody(moveState.x, moveState.y, moveState.footZ, body);
@@ -1131,6 +1142,11 @@ IndoorMoveState IndoorMovementController::resolveMove(
             SweptCollisionHitType hitType)
         -> std::optional<SweptCollisionHit>
     {
+        if (!hasCylinderCollisionHorizontalComponent(direction.x, direction.y))
+        {
+            return std::nullopt;
+        }
+
         std::optional<SweptCollisionHit> bestHit;
         const IndoorSweptBody sweptBody = buildPrimitiveSweptBody(moveState.x, moveState.y, moveState.footZ, body);
 
@@ -1908,6 +1924,11 @@ bool IndoorMovementController::collidesWithActors(
     bool *pHitActor
 ) const
 {
+    if (!hasCylinderCollisionHorizontalComponent(candidateX - currentX, candidateY - currentY))
+    {
+        return false;
+    }
+
     const float bodyMinZ = footZ;
     const float bodyMaxZ = footZ + body.height;
 

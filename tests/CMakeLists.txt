@@ -11,6 +11,7 @@ add_executable(openyamm_unit_tests
     GameplayProjectileServiceTests.cpp
     IndoorCollisionPrimitivesTests.cpp
     IndoorLightingRuntimeTests.cpp
+    IndoorPortalVisibilityTests.cpp
     InventoryEquipRegressionTests.cpp
     MapStatsRegressionTests.cpp
     MapDeltaDataTests.cpp
@@ -61,8 +62,10 @@ add_executable(openyamm_unit_tests
     ../game/maps/OutdoorSceneYml.cpp
     ../game/maps/TerrainTileData.cpp
     ../game/indoor/IndoorCollisionPrimitives.cpp
+    ../game/indoor/IndoorGeometryUtils.cpp
     ../game/indoor/IndoorLightingRuntime.cpp
     ../game/indoor/IndoorMapData.cpp
+    ../game/indoor/IndoorPortalVisibility.cpp
     ../game/fx/ParticleRecipes.cpp
     ../game/fx/ParticleSystem.cpp
     ../game/items/InventoryItemMixingRuntime.cpp

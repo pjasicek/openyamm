@@ -157,6 +157,9 @@ private:
     static bool canActivateActorInspectEvent(
         const OutdoorGameView &view,
         const OutdoorGameView::InspectHit &inspectHit);
+    static bool inspectHitTargetsLivingHostileActor(
+        const OutdoorGameView &view,
+        const OutdoorGameView::InspectHit &inspectHit);
     static bool canActivateWorldItemInspectEvent(
         const OutdoorGameView &view,
         const OutdoorGameView::InspectHit &inspectHit);

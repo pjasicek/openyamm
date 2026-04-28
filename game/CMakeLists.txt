@@ -86,6 +86,7 @@ add_executable(openyamm
     indoor/IndoorMapData.cpp
     indoor/IndoorMovementController.cpp
     indoor/IndoorPartyRuntime.cpp
+    indoor/IndoorPortalVisibility.cpp
     indoor/IndoorWorldRuntime.cpp
     maps/MapAssetLoader.cpp
     maps/MapRegistry.cpp

@@ -5488,6 +5488,35 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     return false;
                 }
 
+                IndoorMoveState platformRaisedUnderParty = initialized;
+                platformRaisedUnderParty.footZ = -20.0f;
+                platformRaisedUnderParty.grounded = true;
+                controller.setActorColliders({IndoorActorCollision{
+                    0,
+                    platformRaisedUnderParty.sectorId,
+                    platformRaisedUnderParty.x,
+                    platformRaisedUnderParty.y,
+                    100.0f,
+                    100.0f,
+                    220.0f}});
+                const IndoorMoveState carriedByVerticalPlatform =
+                    controller.resolveMove(
+                        platformRaisedUnderParty,
+                        body,
+                        0.0f,
+                        0.0f,
+                        false,
+                        0.1f,
+                        nullptr,
+                        std::nullopt,
+                        true);
+
+                if (std::fabs(carriedByVerticalPlatform.footZ) > 0.1f)
+                {
+                    failure = "indoor vertical platform correction was blocked by an actor cylinder";
+                    return false;
+                }
+
                 return true;
             }
         );
