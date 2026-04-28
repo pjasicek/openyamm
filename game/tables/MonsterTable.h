@@ -11,6 +11,33 @@
 
 namespace OpenYAMM::Game
 {
+enum class MonsterSpecialAttackKind : uint8_t
+{
+    None,
+    Curse,
+    Weak,
+    Sleep,
+    Fear,
+    Drunk,
+    Insane,
+    PoisonWeak,
+    PoisonMedium,
+    PoisonSevere,
+    DiseaseWeak,
+    DiseaseMedium,
+    DiseaseSevere,
+    Paralyze,
+    Unconscious,
+    Dead,
+    Petrify,
+    Eradicate,
+    BreakAny,
+    BreakArmor,
+    BreakWeapon,
+    Aging,
+    ManaDrain,
+};
+
 struct MonsterEntry
 {
     uint16_t height = 0;
@@ -114,6 +141,9 @@ public:
         int speed = 0;
         int recovery = 0;
         uint32_t attackPreferences = 0;
+        std::string specialAttackDescriptor;
+        MonsterSpecialAttackKind specialAttackKind = MonsterSpecialAttackKind::None;
+        int specialAttackLevel = 0;
         bool canFly = false;
         MonsterMovementType movementType = MonsterMovementType::Short;
         MonsterAiType aiType = MonsterAiType::Suicide;

@@ -182,6 +182,25 @@ TEST_CASE("party damage sets dead below endurance threshold")
     CHECK_FALSE(pMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Unconscious)));
 }
 
+TEST_CASE("debug damage immunity preserves hit handling while leaving health unchanged")
+{
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+
+    pMember->health = 10;
+    pMember->endurance = 5;
+    party.setDebugDamageImmune(true);
+
+    REQUIRE(party.applyDamageToMember(0, 20, "debug hit"));
+    CHECK_EQ(pMember->health, 10);
+    CHECK_FALSE(pMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Dead)));
+    CHECK_FALSE(pMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Unconscious)));
+    CHECK_EQ(party.lastStatus(), "debug hit");
+}
+
 TEST_CASE("gameplay selection blocks impairing conditions")
 {
     OpenYAMM::Game::Party party = {};

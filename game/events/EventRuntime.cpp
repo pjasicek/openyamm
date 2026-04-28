@@ -448,6 +448,18 @@ std::optional<SoundId> soundIdForPortraitFxEvent(PortraitFxEventKind kind)
     return std::nullopt;
 }
 
+std::optional<SpeechId> speechIdForLegacyFaceAnimationId(uint32_t faceAnimationId)
+{
+    switch (faceAnimationId)
+    {
+        case 18:
+            return SpeechId::DoorLocked;
+
+        default:
+            return std::nullopt;
+    }
+}
+
 void queuePortraitFxRequest(
     EventRuntimeState &runtimeState,
     PortraitFxEventKind kind,
@@ -620,6 +632,16 @@ std::optional<CharacterCondition> conditionForEvtVariable(EvtVariable variableId
         case EvtVariable::Eradicated: return CharacterCondition::Eradicated;
         default: return std::nullopt;
     }
+}
+
+bool isPoisonOrDiseaseCondition(CharacterCondition condition)
+{
+    return condition == CharacterCondition::PoisonWeak
+        || condition == CharacterCondition::PoisonMedium
+        || condition == CharacterCondition::PoisonSevere
+        || condition == CharacterCondition::DiseaseWeak
+        || condition == CharacterCondition::DiseaseMedium
+        || condition == CharacterCondition::DiseaseSevere;
 }
 
 std::optional<std::string> skillNameForEvtVariable(EvtVariable variableId)
@@ -2490,16 +2512,28 @@ void EventRuntime::setVariableValue(
             return;
         }
 
+        bool changed = false;
+
         for (size_t targetMemberIndex : targetMemberIndices)
         {
-            Character *pMember = pParty->member(targetMemberIndex);
+            const Character *pMember = pParty->member(targetMemberIndex);
 
             if (pMember == nullptr)
             {
                 continue;
             }
 
-            pMember->conditions.set(static_cast<size_t>(*condition), value != 0);
+            const bool hadCondition = pMember->conditions.test(static_cast<size_t>(*condition));
+
+            if (pParty->applyMemberCondition(targetMemberIndex, *condition) && !hadCondition)
+            {
+                changed = true;
+            }
+        }
+
+        if (changed && isPoisonOrDiseaseCondition(*condition))
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::Disease, pParty, targetMemberIndices);
         }
 
         return;
@@ -2709,6 +2743,47 @@ void EventRuntime::addVariableValue(
         {
             runtimeState.grantedItemIds.push_back(static_cast<uint32_t>(value));
         }
+        return;
+    }
+
+    if (variable.kind == VariableKind::Condition)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        const std::optional<CharacterCondition> condition = conditionForEvtVariable(variableId);
+
+        if (!condition)
+        {
+            return;
+        }
+
+        bool changed = false;
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            const Character *pMember = pParty->member(targetMemberIndex);
+
+            if (pMember == nullptr)
+            {
+                continue;
+            }
+
+            const bool hadCondition = pMember->conditions.test(static_cast<size_t>(*condition));
+
+            if (pParty->applyMemberCondition(targetMemberIndex, *condition) && !hadCondition)
+            {
+                changed = true;
+            }
+        }
+
+        if (changed && isPoisonOrDiseaseCondition(*condition))
+        {
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::Disease, pParty, targetMemberIndices);
+        }
+
         return;
     }
 
@@ -3146,6 +3221,28 @@ void EventRuntime::subtractVariableValue(
         {
             runtimeState.removedItemIds.push_back(static_cast<uint32_t>(value));
         }
+        return;
+    }
+
+    if (variable.kind == VariableKind::Condition)
+    {
+        if (pParty == nullptr || targetMemberIndices.empty())
+        {
+            return;
+        }
+
+        const std::optional<CharacterCondition> condition = conditionForEvtVariable(variableId);
+
+        if (!condition)
+        {
+            return;
+        }
+
+        for (size_t targetMemberIndex : targetMemberIndices)
+        {
+            pParty->clearMemberCondition(targetMemberIndex, *condition);
+        }
+
         return;
     }
 
@@ -4109,11 +4206,23 @@ int luaFaceAnimation(lua_State *pLuaState)
         return 0;
     }
 
-    const SpeechId speechId = static_cast<SpeechId>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t legacyFaceAnimationId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const std::optional<SpeechId> speechId = speechIdForLegacyFaceAnimationId(legacyFaceAnimationId);
+
+    if (!speechId)
+    {
+        return 0;
+    }
+
+    if (legacyFaceAnimationId == static_cast<uint32_t>(FaceAnimationId::DoorLocked))
+    {
+        pParty->requestSpeech(pParty->activeMemberIndex(), *speechId);
+        return 0;
+    }
 
     for (size_t memberIndex : selectedTargetMemberIndices(pLuaState))
     {
-        pParty->requestSpeech(memberIndex, speechId);
+        pParty->requestSpeech(memberIndex, *speechId);
     }
 
     return 0;
@@ -4354,7 +4463,9 @@ int luaChangeEvent(lua_State *pLuaState)
 int luaStatusText(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    pRuntimeState->statusMessages.push_back(luaL_checkstring(pLuaState, 1));
+    const char *pText = luaL_checkstring(pLuaState, 1);
+    std::cout << "Event status text queued text=\"" << pText << "\"\n";
+    pRuntimeState->statusMessages.push_back(pText);
     return 0;
 }
 

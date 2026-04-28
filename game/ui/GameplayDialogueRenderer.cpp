@@ -304,6 +304,11 @@ bool isResidentSelectionMode(const EventDialogContent &dialog)
             });
 }
 
+bool isEmptyHouseDialog(const EventDialogContent &dialog)
+{
+    return dialog.isHouseDialog && dialog.lines.empty() && dialog.actions.empty();
+}
+
 struct InventoryGridMetrics
 {
     float x = 0.0f;
@@ -384,11 +389,13 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         !view.activeEventDialog().title.empty()
         || view.activeEventDialog().participantPictureId != 0
         || view.activeEventDialog().sourceId != 0;
+    const bool emptyHouseDialog = isEmptyHouseDialog(view.activeEventDialog());
     const bool showEventDialogPanel =
-        residentSelectionMode
-        || !view.activeEventDialog().actions.empty()
-        || pHostHouseEntry != nullptr
-        || hasDialogueParticipantIdentity;
+        emptyHouseDialog
+        || (residentSelectionMode
+            || !view.activeEventDialog().actions.empty()
+            || pHostHouseEntry != nullptr
+            || hasDialogueParticipantIdentity);
     const std::vector<std::string> &dialogueBodyLines = view.activeEventDialog().lines;
     const bool isTransitionDialog =
         view.activeEventDialog().presentation == EventDialogPresentation::Transition;
@@ -604,17 +611,6 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         dialogMouseX,
         dialogMouseY,
         dialogueResponseHintText,
-        renderAboveHud);
-
-    renderDialogueLabelById(
-        view,
-        "DialogueGoodbyeButton",
-        (view.activeEventDialog().presentation == EventDialogPresentation::Transition
-            && view.activeEventDialog().actions.size() > 1)
-            ? view.activeEventDialog().actions[1].label
-            : "Close",
-        width,
-        height,
         renderAboveHud);
 
     if (view.activeEventDialog().presentation == EventDialogPresentation::Transition
@@ -1312,6 +1308,11 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
         contentY += resolvedHouseTitle.height + houseTitleToPortraitGap;
     }
 
+    if (isEmptyHouseDialog(view.activeEventDialog()))
+    {
+        return;
+    }
+
     contentY = std::max(contentY, portraitBaseY);
 
     const auto drawEventNpcCard =
@@ -1340,8 +1341,16 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
             const float portraitX = std::round(portraitAreaX + (portraitAreaWidth - portraitBorderSize) * 0.5f);
             const float portraitBorderY = std::round(portraitY + (portraitAreaHeight - portraitBorderSize) * 0.5f);
             float nextY = portraitY + portraitAreaHeight;
+            std::optional<GameplayScreenRuntime::HudTextureHandle> transitionIcon;
+            const bool isMapIcon = participantVisual == EventDialogParticipantVisual::MapIcon;
 
-            if (participantVisual != EventDialogParticipantVisual::MapIcon)
+            if (isMapIcon && !view.activeEventDialog().participantTextureName.empty())
+            {
+                transitionIcon =
+                    view.gameplayUiRuntime().ensureHudTextureLoaded(view.activeEventDialog().participantTextureName);
+            }
+
+            if (!isMapIcon && pictureId > 0)
             {
                 const std::optional<GameplayScreenRuntime::HudTextureHandle> portraitBorder =
                     view.gameplayUiRuntime().ensureHudTextureLoaded("evtnpc");
@@ -1357,14 +1366,8 @@ void GameplayDialogueRenderer::renderDialogueEventPanel(
                 }
             }
 
-            if (participantVisual == EventDialogParticipantVisual::MapIcon)
+            if (isMapIcon)
             {
-                const bool hasTransitionIconName = !view.activeEventDialog().participantTextureName.empty();
-                const std::optional<GameplayScreenRuntime::HudTextureHandle> transitionIcon =
-                    hasTransitionIconName
-                        ? view.gameplayUiRuntime().ensureHudTextureLoaded(view.activeEventDialog().participantTextureName)
-                        : std::nullopt;
-
                 if (transitionIcon)
                 {
                     const float imageWidth = static_cast<float>(transitionIcon->width) * panelScale;

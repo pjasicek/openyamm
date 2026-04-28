@@ -105,6 +105,26 @@ TEST_CASE("monster spell projectile damage uses spell dice instead of monster le
     }
 }
 
+TEST_CASE("monster attack projectile damage rolls monster table dice")
+{
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectilePartyImpactDamageInput input = {};
+    input.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Actor;
+    input.hasMonsterFacts = true;
+    input.monsterLevel = 25;
+    input.monsterAbility = GameplayProjectileService::MonsterAttackAbility::Attack1;
+    input.attack1Damage.diceRolls = 2;
+    input.attack1Damage.diceSides = 4;
+    input.attack1Damage.bonus = 3;
+
+    for (int rollIndex = 0; rollIndex < 32; ++rollIndex)
+    {
+        const int damage = service.resolveProjectilePartyImpactDamage(input);
+        CHECK_GE(damage, 5);
+        CHECK_LE(damage, 11);
+    }
+}
+
 TEST_CASE("sparks projectile uses shared lightning-style fx and light recipe")
 {
     const ProjectileRecipe recipe = OpenYAMM::Game::FxRecipes::classifyProjectileRecipe(
@@ -323,6 +343,35 @@ TEST_CASE("projectile frame without collision advances motion without expiring")
     CHECK_EQ(result.motion.endZ, doctest::Approx(32.0f));
 }
 
+TEST_CASE("direct party projectile impact does not also apply splash to the party")
+{
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectileState projectile = makeActorProjectile();
+    projectile.spellId = static_cast<int>(SpellId::Fireball);
+    projectile.damage = 17;
+    projectile.lifetimeTicks = 1000;
+
+    GameplayProjectileService::ProjectileFrameFacts facts = {};
+    facts.deltaSeconds = 1.0f / 128.0f;
+    facts.hasCollision = true;
+    facts.collision.kind = GameplayProjectileService::ProjectileFrameCollisionKind::Party;
+    facts.collision.point = {0.0f, 0.0f, 64.0f};
+    facts.canHitParty = true;
+    facts.nonPartyProjectileDamage = 17;
+    facts.partyPosition = {0.0f, 0.0f, 64.0f};
+    facts.partyCollisionRadius = 64.0f;
+    facts.partyCollisionHeight = 128.0f;
+
+    const GameplayProjectileService::ProjectileFrameResult result =
+        service.updateProjectileFrame(projectile, facts);
+
+    REQUIRE(result.directPartyDamage.has_value());
+    CHECK_EQ(*result.directPartyDamage, 17);
+    REQUIRE(result.areaImpact.has_value());
+    CHECK_FALSE(result.areaImpact->impact.hitParty);
+    CHECK(result.expireProjectile);
+}
+
 TEST_CASE("projectile lifetime advances at 128hz instead of render-frame rate")
 {
     GameplayProjectileService service;
@@ -422,4 +471,34 @@ TEST_CASE("projectile impact lifetime advances at 128hz instead of render-frame 
     }
 
     CHECK_EQ(service.projectileImpactCount(), 0u);
+}
+
+TEST_CASE("center anchored projectile impact visuals keep the collision point z")
+{
+    GameplayProjectileService service;
+    GameplayProjectileService::ProjectileState projectile = makePartyProjectile();
+
+    GameplayProjectileService::ProjectileImpactVisualDefinition bottomAnchoredDefinition = {};
+    bottomAnchoredDefinition.objectDescriptionId = 1;
+    bottomAnchoredDefinition.objectSpriteId = 158;
+    bottomAnchoredDefinition.objectSpriteFrameIndex = 158;
+    bottomAnchoredDefinition.objectHeight = 64;
+    bottomAnchoredDefinition.lifetimeTicks = 8;
+    bottomAnchoredDefinition.hasVisual = true;
+    bottomAnchoredDefinition.centerAnchored = false;
+
+    const GameplayProjectileService::ProjectileImpactSpawnResult bottomAnchoredResult =
+        service.spawnProjectileImpactVisual(projectile, bottomAnchoredDefinition, 10.0f, 20.0f, 100.0f, true);
+    REQUIRE(bottomAnchoredResult.spawned);
+    REQUIRE(bottomAnchoredResult.pImpact != nullptr);
+    CHECK_EQ(bottomAnchoredResult.pImpact->z, 68.0f);
+
+    GameplayProjectileService::ProjectileImpactVisualDefinition centerAnchoredDefinition = bottomAnchoredDefinition;
+    centerAnchoredDefinition.centerAnchored = true;
+
+    const GameplayProjectileService::ProjectileImpactSpawnResult centerAnchoredResult =
+        service.spawnProjectileImpactVisual(projectile, centerAnchoredDefinition, 10.0f, 20.0f, 100.0f, true);
+    REQUIRE(centerAnchoredResult.spawned);
+    REQUIRE(centerAnchoredResult.pImpact != nullptr);
+    CHECK_EQ(centerAnchoredResult.pImpact->z, 100.0f);
 }

@@ -81,6 +81,90 @@ TEST_CASE("party spell backend rejects cast without spell points")
     CHECK(worldRuntime.projectileRequests().empty());
 }
 
+TEST_CASE("party spell backend applies half recovery on real cast failure")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::GameplayRuntimeActorState actorState = {};
+    actorState.isInvisible = true;
+    const size_t targetActorIndex = worldRuntime.addActor(actorState);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    REQUIRE(pCaster != nullptr);
+    pCaster->skills["FireMagic"] = {"FireMagic", 5, OpenYAMM::Game::SkillMastery::Normal};
+    pCaster->spellPoints = 20;
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::FireBolt);
+    request.targetActorIndex = targetActorIndex;
+
+    const OpenYAMM::Game::PartySpellCastResult result = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+
+    CHECK(result.status == OpenYAMM::Game::PartySpellCastStatus::Failed);
+    CHECK(result.recoverySeconds == doctest::Approx(0.916667f));
+    CHECK(pCaster->recoverySecondsRemaining == doctest::Approx(result.recoverySeconds));
+}
+
+TEST_CASE("dispel magic recovery is reduced by light skill")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    REQUIRE(pCaster != nullptr);
+    pCaster->skills["LightMagic"] = {"LightMagic", 10, OpenYAMM::Game::SkillMastery::Normal};
+    pCaster->spellPoints = 100;
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::DispelMagic);
+
+    const OpenYAMM::Game::PartySpellCastResult result = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+
+    CHECK(result.status == OpenYAMM::Game::PartySpellCastStatus::Succeeded);
+    CHECK(result.recoverySeconds == doctest::Approx(1.833333f));
+}
+
+TEST_CASE("divine intervention recovery is shortened by light skill")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    REQUIRE(pCaster != nullptr);
+    pCaster->skills["LightMagic"] = {"LightMagic", 10, OpenYAMM::Game::SkillMastery::Grandmaster};
+    pCaster->spellPoints = 100;
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::DivineIntervention);
+
+    const OpenYAMM::Game::PartySpellCastResult result = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+
+    CHECK(result.status == OpenYAMM::Game::PartySpellCastStatus::Succeeded);
+    CHECK(result.recoverySeconds == doctest::Approx(0.833333f));
+}
+
 TEST_CASE("party spell backend haste applies party buff and spends mana")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -212,6 +296,124 @@ TEST_CASE("party spell backend bless applies character target buff")
     CHECK(party.hasCharacterBuff(1, OpenYAMM::Game::CharacterBuffId::Bless));
     CHECK_FALSE(party.hasCharacterBuff(0, OpenYAMM::Game::CharacterBuffId::Bless));
     CHECK_LT(pCaster->spellPoints, initialSpellPoints);
+}
+
+TEST_CASE("party spell backend skips character targeting for mastery-wide character buffs")
+{
+    struct MasteryWideBuffCase
+    {
+        OpenYAMM::Game::SpellId spellId;
+        OpenYAMM::Game::CharacterBuffId buffId;
+        OpenYAMM::Game::SkillMastery singleTargetMastery;
+        OpenYAMM::Game::SkillMastery partyTargetMastery;
+    };
+
+    const MasteryWideBuffCase cases[] = {
+        {
+            OpenYAMM::Game::SpellId::Bless,
+            OpenYAMM::Game::CharacterBuffId::Bless,
+            OpenYAMM::Game::SkillMastery::Normal,
+            OpenYAMM::Game::SkillMastery::Expert,
+        },
+        {
+            OpenYAMM::Game::SpellId::Preservation,
+            OpenYAMM::Game::CharacterBuffId::Preservation,
+            OpenYAMM::Game::SkillMastery::Expert,
+            OpenYAMM::Game::SkillMastery::Master,
+        },
+        {
+            OpenYAMM::Game::SpellId::Hammerhands,
+            OpenYAMM::Game::CharacterBuffId::Hammerhands,
+            OpenYAMM::Game::SkillMastery::Expert,
+            OpenYAMM::Game::SkillMastery::Grandmaster,
+        },
+        {
+            OpenYAMM::Game::SpellId::PainReflection,
+            OpenYAMM::Game::CharacterBuffId::PainReflection,
+            OpenYAMM::Game::SkillMastery::Expert,
+            OpenYAMM::Game::SkillMastery::Master,
+        },
+    };
+
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    for (const MasteryWideBuffCase &testCase : cases)
+    {
+        OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+        OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+        worldRuntime.bindParty(&party);
+
+        OpenYAMM::Game::PartySpellCastRequest singleTargetRequest = {};
+        singleTargetRequest.casterMemberIndex = 0;
+        singleTargetRequest.spellId = OpenYAMM::Game::spellIdValue(testCase.spellId);
+        singleTargetRequest.skillLevelOverride = 8;
+        singleTargetRequest.skillMasteryOverride = testCase.singleTargetMastery;
+        singleTargetRequest.spendMana = false;
+        singleTargetRequest.applyRecovery = false;
+
+        const OpenYAMM::Game::PartySpellCastResult singleTargetResult =
+            OpenYAMM::Game::PartySpellSystem::castSpell(
+                party,
+                worldRuntime,
+                gameData.spellTable,
+                singleTargetRequest);
+
+        CHECK(singleTargetResult.status == OpenYAMM::Game::PartySpellCastStatus::NeedCharacterTarget);
+        CHECK(singleTargetResult.targetKind == OpenYAMM::Game::PartySpellCastTargetKind::Character);
+
+        OpenYAMM::Game::PartySpellCastRequest partyTargetRequest = singleTargetRequest;
+        partyTargetRequest.skillMasteryOverride = testCase.partyTargetMastery;
+
+        const OpenYAMM::Game::PartySpellCastResult partyTargetResult =
+            OpenYAMM::Game::PartySpellSystem::castSpell(
+                party,
+                worldRuntime,
+                gameData.spellTable,
+                partyTargetRequest);
+
+        REQUIRE(partyTargetResult.succeeded());
+        CHECK(partyTargetResult.targetKind == OpenYAMM::Game::PartySpellCastTargetKind::None);
+
+        for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+        {
+            CHECK(party.hasCharacterBuff(memberIndex, testCase.buffId));
+        }
+    }
+}
+
+TEST_CASE("party spell backend reanimate turns a dead character into a zombie")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    OpenYAMM::Game::Character *pTarget = party.member(1);
+    REQUIRE(pCaster != nullptr);
+    REQUIRE(pTarget != nullptr);
+
+    pCaster->skills["DarkMagic"] = {"DarkMagic", 6, OpenYAMM::Game::SkillMastery::Expert};
+    pTarget->health = 0;
+    party.applyMemberCondition(1, OpenYAMM::Game::CharacterCondition::Dead);
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Reanimate);
+    request.targetCharacterIndex = 1;
+    request.spendMana = false;
+    request.applyRecovery = false;
+
+    const OpenYAMM::Game::PartySpellCastResult result = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+
+    REQUIRE(result.succeeded());
+    CHECK_FALSE(pTarget->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Dead)));
+    CHECK(pTarget->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Zombie)));
+    CHECK_GT(pTarget->health, 0);
 }
 
 TEST_CASE("party spell backend supports all defined non utility spells")

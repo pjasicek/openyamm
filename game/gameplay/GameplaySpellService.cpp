@@ -188,7 +188,7 @@ bool GameplaySpellService::tryPrepareQuickCastRequest(
         return true;
     }
 
-    runtime.setStatusBarEvent("No target for " + spellName, 3.0f);
+    runtime.setStatusBarEvent("No valid target exists!", 3.0f);
     return false;
 }
 

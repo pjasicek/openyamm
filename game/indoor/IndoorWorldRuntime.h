@@ -246,6 +246,11 @@ public:
         uint32_t animationTicks,
         GameplayActorInspectState &state) const override;
     std::optional<GameplayCombatActorInfo> combatActorInfoById(uint32_t actorId) const override;
+    bool applyReflectedDamageToActor(
+        uint32_t actorId,
+        int damage,
+        CombatDamageType damageType,
+        uint32_t sourcePartyMemberIndex) override;
     bool castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request) override;
     bool applyPartySpellToActor(
         size_t actorIndex,
@@ -298,6 +303,10 @@ public:
     bool applyPartyAttackMeleeDamage(
         size_t actorIndex,
         int damage,
+        const GameplayWorldPoint &source) override;
+    void applyPartyAttackMeleeEffects(
+        size_t actorIndex,
+        const CharacterAttackResult &attack,
         const GameplayWorldPoint &source) override;
     bool spawnPartyAttackProjectile(const GameplayPartyAttackProjectileRequest &request) override;
     bool castPartyAttackSpell(const GameplayPartyAttackSpellRequest &request) override;
@@ -463,6 +472,7 @@ private:
         MapDeltaActor &actor,
         const GameplayWorldPoint *pSource);
     void beginMapActorDyingState(size_t actorIndex, MapDeltaActor &actor);
+    bool applyIndoorActorPhysicsStep(IndoorMovementController &movementController, size_t actorIndex);
     std::optional<GameplayWorldPoint> actorImpactPoint(size_t actorIndex) const;
     bool spawnIndoorProjectileImpactVisual(
         const GameplayProjectileService::ProjectileState &projectile,

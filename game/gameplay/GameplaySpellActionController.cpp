@@ -2,6 +2,7 @@
 
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
+#include "game/party/SpellIds.h"
 #include "game/tables/SpellTable.h"
 
 namespace OpenYAMM::Game
@@ -95,6 +96,7 @@ GameplaySpellActionController::updatePendingTargetSelection(
         if (!pendingTargetState.cancelLatch)
         {
             spellService.clearPendingTargetSelection(runtime, "Spell canceled");
+            runtime.interactionState().menuToggleLatch = true;
             result.targetSelectionConsumed = true;
         }
 
@@ -233,6 +235,7 @@ bool GameplaySpellActionController::resolvePendingActorTarget(
     }
 
     if (pWorldRuntime != nullptr
+        && !isSpellId(request.spellId, SpellId::Reanimate)
         && !pWorldRuntime->spellActionActorTargetPoint(worldHit.actor->actorIndex))
     {
         return false;

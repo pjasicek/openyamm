@@ -17,6 +17,7 @@
 #include <array>
 #include <cstddef>
 #include <cstdint>
+#include <functional>
 #include <optional>
 #include <string>
 #include <utility>
@@ -232,6 +233,8 @@ enum class MapLoadPurpose
     HeadlessGameplay,
 };
 
+using MapLoadProgressPump = std::function<void()>;
+
 class MapAssetLoader
 {
 public:
@@ -241,7 +244,8 @@ public:
         const MonsterTable &monsterTable,
         const ObjectTable &objectTable,
         MapLoadPurpose purpose = MapLoadPurpose::Full,
-        const MapCompanionLoadOptions &companionLoadOptions = {}
+        const MapCompanionLoadOptions &companionLoadOptions = {},
+        const MapLoadProgressPump &progressPump = {}
     ) const;
 
 private:

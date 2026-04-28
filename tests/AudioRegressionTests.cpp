@@ -274,6 +274,28 @@ TEST_CASE("ordinary damage queues minor speech reaction")
     CHECK_EQ(requests[0].speechId, OpenYAMM::Game::SpeechId::DamageMinor);
 }
 
+TEST_CASE("debug damage immunity still queues damage speech reaction")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = makeAudioRegressionParty(gameData);
+    const size_t memberIndex = party.activeMemberIndex();
+    const OpenYAMM::Game::Character *pMember = party.member(memberIndex);
+
+    REQUIRE(pMember != nullptr);
+    const int initialHealth = pMember->health;
+
+    party.setDebugDamageImmune(true);
+    party.clearPendingAudioRequests();
+
+    REQUIRE(party.applyDamageToMember(memberIndex, 5, ""));
+    CHECK_EQ(pMember->health, initialHealth);
+
+    const std::vector<OpenYAMM::Game::Party::PendingAudioRequest> &requests = party.pendingAudioRequests();
+    REQUIRE_EQ(requests.size(), 1u);
+    CHECK_EQ(requests[0].kind, OpenYAMM::Game::Party::PendingAudioRequest::Kind::Speech);
+    CHECK_EQ(requests[0].speechId, OpenYAMM::Game::SpeechId::DamageMinor);
+}
+
 TEST_CASE("major damage threshold queues minor and major speech reactions")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

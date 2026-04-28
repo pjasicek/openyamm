@@ -392,9 +392,9 @@ void GameplayScreenController::applySharedItemInspectSkillInteraction(
                     : SpeechId::IdentifyGreatItem;
             playSingleReaction(speechId);
         }
-        else if (statusText == "Not skilled enough.")
+        else if (statusText == "Identify Failed")
         {
-            context.setStatusBarEvent("Identify failed.");
+            context.setStatusBarEvent(statusText);
             playSingleReaction(SpeechId::IdentifyFailItem);
         }
     }
@@ -408,9 +408,9 @@ void GameplayScreenController::applySharedItemInspectSkillInteraction(
             refreshOverlayItemState();
             playSingleReaction(SpeechId::RepairSuccess);
         }
-        else if (statusText == "Not skilled enough.")
+        else if (statusText == "Repair Failed")
         {
-            context.setStatusBarEvent("Repair failed.");
+            context.setStatusBarEvent(statusText);
             playSingleReaction(SpeechId::RepairFail);
         }
     }

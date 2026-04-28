@@ -149,6 +149,8 @@ bool isTransportHouseType(const HouseEntry &houseEntry)
     return isHouseType(houseEntry, "Stables") || isHouseType(houseEntry, "Boats");
 }
 
+}
+
 bool isBoatHouse(const HouseEntry &houseEntry)
 {
     return isHouseType(houseEntry, "Boats");
@@ -216,8 +218,6 @@ const HouseEntry::TransportRoute *findTransportRoute(const HouseEntry &houseEntr
     }
 
     return nullptr;
-}
-
 }
 
 bool isHouseOpenAtGameMinute(const HouseEntry &houseEntry, float currentGameMinutes)

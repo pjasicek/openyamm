@@ -50,12 +50,7 @@ RegisterEvent(6, "Legacy event 6", function()
     if not evt.CheckMonstersKilled(2, 84, 0, false) then return end
     if not evt.CheckMonstersKilled(2, 85, 0, false) then return end
     if not evt.CheckMonstersKilled(2, 86, 0, false) then return end
-    if not IsQBitSet(QBit(141)) then
-        SetQBit(QBit(141))
-        evt.SummonMonsters(1, 1, 222, -2134, 1, 0, 1, 0)
-        evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
-        return
-    end
+    SetQBit(QBit(141))
     SetQBit(QBit(140))
     evt.StatusText("You have killed all of the Dire Wolves")
     SetQBit(QBit(225))
@@ -425,4 +420,3 @@ RegisterEvent(501, "Leave the Dire Wolf Den", function()
     evt.MoveToMap(-20372, 16365, 2, 0, 0, 0, 0, 0, "out02.odm")
     return
 end, "Leave the Dire Wolf Den")
-

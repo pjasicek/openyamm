@@ -11,6 +11,7 @@
 
 #include <SDL3/SDL_timer.h>
 
+#include <algorithm>
 #include <chrono>
 
 namespace OpenYAMM::Game
@@ -33,6 +34,17 @@ bool hasActiveLootView(const GameplayScreenRuntime &runtime)
     const IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
     return pWorldRuntime != nullptr
         && (pWorldRuntime->activeChestView() != nullptr || pWorldRuntime->activeCorpseView() != nullptr);
+}
+
+std::string formatFoundItemStatusText(const std::string &itemName)
+{
+    const std::string resolvedItemName = itemName.empty() ? "item" : itemName;
+    return "You found an item (" + resolvedItemName + ")!";
+}
+
+std::string formatFoundGoldStatusText(int goldAmount)
+{
+    return "You found " + std::to_string(std::max(0, goldAmount)) + " gold!";
 }
 
 std::string heldItemDisplayName(const GameplayScreenRuntime &runtime)
@@ -165,7 +177,7 @@ bool tryActivateWorldItem(
     {
         pParty->addGold(pickupDecision.goldAmount);
         pParty->requestSound(SoundId::Gold);
-        const std::string statusText = "Picked up " + std::to_string(pickupDecision.goldAmount) + " gold";
+        const std::string statusText = formatFoundGoldStatusText(pickupDecision.goldAmount);
         runtime.setStatusBarEvent(statusText);
         recordWorldItemActivationResult(
             worldRuntime,
@@ -184,7 +196,7 @@ bool tryActivateWorldItem(
 
         pParty->requestSound(SoundId::Gold);
         runtime.playSpeechReaction(recipientMemberIndex, SpeechId::FoundItem, true);
-        runtime.setStatusBarEvent("Picked up " + itemName);
+        runtime.setStatusBarEvent(formatFoundItemStatusText(itemName));
         recordWorldItemActivationResult(worldRuntime, "picked up " + itemName);
         return true;
     }
@@ -192,7 +204,7 @@ bool tryActivateWorldItem(
     GameplayHeldItemController::setHeldInventoryItem(heldItem, removedItemState.item);
     pParty->requestSound(SoundId::Gold);
     runtime.playSpeechReaction(pParty->activeMemberIndex(), SpeechId::FoundItem, true);
-    runtime.setStatusBarEvent("Picked up " + itemName);
+    runtime.setStatusBarEvent(formatFoundItemStatusText(itemName));
     recordWorldItemActivationResult(worldRuntime, "picked up " + itemName + " into hand");
     return true;
 }
@@ -1011,7 +1023,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
                     .screenHeight = input.screenHeight,
                     .includeRay = true,
                 });
-        keyboardActivationHit = pWorldRuntime->pickKeyboardInteractionTarget(keyboardActivationPickRequest);
+        keyboardActivationHit = pWorldRuntime->pickMouseInteractionTarget(keyboardActivationPickRequest);
     }
 
     const KeyboardActivationInteractionResult keyboardActivationResult =

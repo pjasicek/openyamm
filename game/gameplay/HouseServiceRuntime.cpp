@@ -1350,7 +1350,7 @@ bool HouseServiceRuntime::tryIdentifyInventoryItem(
 
     if (!party.identifyMemberInventoryItem(memberIndex, gridX, gridY, identifyStatus))
     {
-        statusText = identifyStatus.empty() ? "Identification failed." : identifyStatus;
+        statusText = identifyStatus.empty() ? "Identify Failed" : identifyStatus;
 
         if (pResult != nullptr)
         {
@@ -1468,7 +1468,7 @@ bool HouseServiceRuntime::tryRepairInventoryItem(
 
     if (!party.repairMemberInventoryItem(memberIndex, gridX, gridY, repairStatus))
     {
-        statusText = repairStatus.empty() ? "Repair failed." : repairStatus;
+        statusText = repairStatus.empty() ? "Repair Failed" : repairStatus;
 
         if (pResult != nullptr)
         {

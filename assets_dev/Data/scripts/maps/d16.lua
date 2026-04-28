@@ -83,12 +83,7 @@ RegisterEvent(9, "Legacy event 9", function()
         if not evt.CheckMonstersKilled(2, 42, 0, false) then return end
         if not evt.CheckMonstersKilled(2, 43, 0, false) then return end
         if not evt.CheckMonstersKilled(2, 44, 0, false) then return end
-        if not IsQBitSet(QBit(159)) then
-            SetQBit(QBit(159))
-            evt.SummonMonsters(1, 1, 64, 1888, 1, 0, 1, 0)
-            evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
-            return
-        end
+        SetQBit(QBit(159))
         SetQBit(QBit(158))
         SetQBit(QBit(225))
         ClearQBit(QBit(225))
@@ -508,4 +503,3 @@ RegisterEvent(501, "Leave the Dragon Hunter's Camp", function()
     evt.MoveToMap(8909, -15194, 640, 512, 0, 0, 0, 0, "Out05.odm")
     return
 end, "Leave the Dragon Hunter's Camp")
-

@@ -36,7 +36,7 @@ void OutdoorPartyRuntime::teleportTo(float x, float y, float footZHint)
 void OutdoorPartyRuntime::update(const OutdoorMovementInput &input, float deltaSeconds)
 {
     m_movementDriver.update(input, deltaSeconds);
-    m_party.updateRecovery(deltaSeconds);
+    m_party.updateRecovery(deltaSeconds, m_movementDriver.partyMovementState().running ? 0.5f : 1.0f);
     m_party.advanceTimedStates(deltaSeconds * GameSecondsPerRealSecond);
     syncSpellMovementStatesFromPartyBuffs();
     m_party.applyMovementEffects(m_movementDriver.consumePendingEffects());

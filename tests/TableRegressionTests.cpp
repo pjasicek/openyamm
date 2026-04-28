@@ -2,8 +2,13 @@
 
 #include "game/party/Party.h"
 #include "game/tables/MonsterTable.h"
+#include "game/tables/SpriteTables.h"
 
 #include "tests/RegressionGameData.h"
+
+#include <filesystem>
+#include <fstream>
+#include <sstream>
 
 namespace
 {
@@ -74,6 +79,50 @@ bool characterHasItem(const OpenYAMM::Game::Character &character, uint32_t itemI
         || character.equipment.ring5 == itemId
         || character.equipment.ring6 == itemId;
 }
+
+std::string readSourceTextFile(const std::filesystem::path &path)
+{
+    std::ifstream stream(path);
+    REQUIRE(stream.is_open());
+
+    std::ostringstream buffer;
+    buffer << stream.rdbuf();
+    return buffer.str();
+}
+
+OpenYAMM::Game::SpriteFrameTable loadCommonSpriteFrameTable()
+{
+    const std::string yamlText =
+        readSourceTextFile(
+            std::filesystem::path(OPENYAMM_SOURCE_DIR)
+            / "assets_dev/Data/rendering/sprite_frame_data_common.yml");
+
+    OpenYAMM::Game::SpriteFrameTable spriteFrameTable;
+    std::string errorMessage;
+    REQUIRE(spriteFrameTable.loadFromYaml(yamlText, errorMessage, false));
+
+    return spriteFrameTable;
+}
+
+void checkFirstSpriteFrameTexture(
+    const OpenYAMM::Game::SpriteFrameTable &spriteFrameTable,
+    const std::string &spriteName,
+    const std::string &expectedTextureName,
+    const std::string &expectedAssetFileName)
+{
+    const std::optional<uint16_t> spriteFrameIndex = spriteFrameTable.findFrameIndexBySpriteName(spriteName);
+    REQUIRE(spriteFrameIndex.has_value());
+
+    const OpenYAMM::Game::SpriteFrameEntry *pFrame = spriteFrameTable.getFrame(*spriteFrameIndex, 0);
+    REQUIRE(pFrame != nullptr);
+
+    const OpenYAMM::Game::ResolvedSpriteTexture texture = OpenYAMM::Game::SpriteFrameTable::resolveTexture(*pFrame, 0);
+    CHECK_EQ(texture.textureName, expectedTextureName);
+    CHECK(std::filesystem::exists(
+        std::filesystem::path(OPENYAMM_SOURCE_DIR)
+        / "assets_dev/Data/sprites"
+        / expectedAssetFileName));
+}
 }
 
 TEST_CASE("house data magic guild types are explicit")
@@ -131,6 +180,21 @@ TEST_CASE("monster vampire family is hostile to the party by default")
     CHECK(gameData.monsterTable.isHostileToParty(52));
     CHECK(gameData.monsterTable.isHostileToParty(53));
     CHECK(gameData.monsterTable.isHostileToParty(54));
+}
+
+TEST_CASE("harm projectile sprite resolves to an existing billboard texture")
+{
+    const OpenYAMM::Game::SpriteFrameTable spriteFrameTable = loadCommonSpriteFrameTable();
+
+    checkFirstSpriteFrameTexture(spriteFrameTable, "spell70", "spell70b10", "Spell70b10.bmp");
+}
+
+TEST_CASE("light bolt sprites resolve to existing billboard textures")
+{
+    const OpenYAMM::Game::SpriteFrameTable spriteFrameTable = loadCommonSpriteFrameTable();
+
+    checkFirstSpriteFrameTexture(spriteFrameTable, "sp78b", "sp78b", "sp78b.bmp");
+    checkFirstSpriteFrameTexture(spriteFrameTable, "sp78c", "sp78c", "sp78c.bmp");
 }
 
 TEST_CASE("roster join offer mapping samples")

@@ -1,6 +1,7 @@
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorBillboardRenderer.h"
+#include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
 #include "game/gameplay/GenericActorDialog.h"
@@ -11,6 +12,7 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/SpawnPreview.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
+#include "game/party/SpellIds.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/MonsterTable.h"
 #include "game/SpriteObjectDefs.h"
@@ -32,6 +34,13 @@ constexpr float InspectRayEpsilon = 0.0001f;
 constexpr float Pi = 3.14159265358979323846f;
 constexpr float CameraVerticalFovDegrees = 60.0f;
 constexpr float DefaultOutdoorFarClip = 16192.0f;
+
+bool pendingSpellAllowsDeadActorTarget(const GameSession &gameSession)
+{
+    const GameplayScreenState::PendingSpellTargetState &pendingSpellTarget =
+        gameSession.gameplayScreenState().pendingSpellTarget();
+    return pendingSpellTarget.active && isSpellId(pendingSpellTarget.spellId, SpellId::Reanimate);
+}
 constexpr float QuickCastForwardFallbackDistance = 8192.0f;
 constexpr float BillboardSpatialCellSize = 2048.0f;
 constexpr float InteractionEntityHalfExtent = 96.0f;
@@ -3535,6 +3544,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
             }
 
             if (view.m_gameSession.gameplayScreenState().pendingSpellTarget().active
+                && !pendingSpellAllowsDeadActorTarget(view.m_gameSession)
                 && pActorState != nullptr
                 && pActorState->isDead)
             {
@@ -3672,7 +3682,9 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                 continue;
             }
 
-            if (view.m_gameSession.gameplayScreenState().pendingSpellTarget().active && pActorState->isDead)
+            if (view.m_gameSession.gameplayScreenState().pendingSpellTarget().active
+                && !pendingSpellAllowsDeadActorTarget(view.m_gameSession)
+                && pActorState->isDead)
             {
                 continue;
             }
@@ -4384,7 +4396,8 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(
                 else if (blockedByInventory)
                 {
                     const std::string partyStatus = view.m_pOutdoorPartyRuntime->party().lastStatus();
-                    view.setStatusBarEvent(partyStatus.empty() ? "Pack is Full!" : partyStatus);
+                    view.setStatusBarEvent(
+                        partyStatus.empty() || partyStatus == "inventory full" ? "Pack is Full!" : partyStatus);
                     pEventRuntimeState->lastActivationResult =
                         "corpse " + std::to_string(*runtimeActorIndex) + " blocked by inventory";
                 }
@@ -4544,7 +4557,7 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
 
         const int goldAmount = static_cast<int>(std::max<uint32_t>(1u, worldItem.goldAmount));
         view.m_pOutdoorPartyRuntime->party().addGold(goldAmount);
-        view.setStatusBarEvent("Picked up " + std::to_string(goldAmount) + " gold");
+        view.setStatusBarEvent(formatFoundGoldStatusText(goldAmount));
 
         if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
         {
@@ -4570,7 +4583,7 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
             recipientMemberIndex,
             SpeechId::FoundItem,
             true);
-        view.setStatusBarEvent("Picked up " + itemName);
+        view.setStatusBarEvent(formatFoundItemStatusText(0, itemName));
 
         if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
         {
@@ -4597,7 +4610,7 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
             view.m_pOutdoorPartyRuntime->party().activeMemberIndex(),
             SpeechId::FoundItem,
             true);
-        view.setStatusBarEvent("Picked up " + itemName);
+        view.setStatusBarEvent(formatFoundItemStatusText(0, itemName));
 
         if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
         {
@@ -4747,6 +4760,8 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
         pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
         return false;
     }
+
+    promotePendingMapMoveToTransitionDialog(*pEventRuntimeState);
 
     for (const std::string &statusMessage : pEventRuntimeState->statusMessages)
     {
@@ -5083,6 +5098,8 @@ bool OutdoorInteractionController::tryTriggerLocalEventById(OutdoorGameView &vie
         pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
         return false;
     }
+
+    promotePendingMapMoveToTransitionDialog(*pEventRuntimeState);
 
     for (const std::string &statusMessage : pEventRuntimeState->statusMessages)
     {

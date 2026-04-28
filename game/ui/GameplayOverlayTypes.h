@@ -187,7 +187,7 @@ struct GameplayMinimapState
     float partyV = 0.5f;
     bool wizardEyeActive = false;
     bool wizardEyeShowsExpertObjects = false;
-    bool wizardEyeShowsMasterDecorations = false;
+    bool wizardEyeShowsDecorations = false;
 };
 
 struct GameplayMinimapLineState

@@ -15,7 +15,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 29;
+constexpr uint32_t SaveVersion = 30;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -26,6 +26,7 @@ constexpr uint32_t SaveVersionLloydBeaconPreview = 26;
 constexpr uint32_t SaveVersionActorCarriedItem = 27;
 constexpr uint32_t SaveVersionDungeonTransitionDialogue = 28;
 constexpr uint32_t SaveVersionIndoorSaveLoadParity = 29;
+constexpr uint32_t SaveVersionCombatEffectState = 30;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -1064,6 +1065,7 @@ void writeValue(BinaryWriter &writer, const GameplayActorSpellEffectState &value
     writeValue(writer, value.shrinkRemainingSeconds);
     writeValue(writer, value.shrinkDamageMultiplier);
     writeValue(writer, value.shrinkArmorClassMultiplier);
+    writeValue(writer, value.armorClassHalvedRemainingSeconds);
     writeValue(writer, value.darkGraspRemainingSeconds);
     writeValue(writer, value.hostileToParty);
     writeValue(writer, value.hasDetectedParty);
@@ -1083,6 +1085,8 @@ bool readValue(BinaryReader &reader, GameplayActorSpellEffectState &value)
         && readValue(reader, value.shrinkRemainingSeconds)
         && readValue(reader, value.shrinkDamageMultiplier)
         && readValue(reader, value.shrinkArmorClassMultiplier)
+        && (reader.version() < SaveVersionCombatEffectState
+            || readValue(reader, value.armorClassHalvedRemainingSeconds))
         && readValue(reader, value.darkGraspRemainingSeconds)
         && readValue(reader, value.hostileToParty)
         && readValue(reader, value.hasDetectedParty);
@@ -1977,6 +1981,7 @@ void writeValue(BinaryWriter &writer, const OutdoorWorldRuntime::MapActorState &
     writeValue(writer, value.shrinkRemainingSeconds);
     writeValue(writer, value.shrinkDamageMultiplier);
     writeValue(writer, value.shrinkArmorClassMultiplier);
+    writeValue(writer, value.armorClassHalvedRemainingSeconds);
     writeValue(writer, value.darkGraspRemainingSeconds);
     writeValue(writer, value.idleDecisionCount);
     writeValue(writer, value.pursueDecisionCount);
@@ -2050,6 +2055,8 @@ bool readValue(BinaryReader &reader, OutdoorWorldRuntime::MapActorState &value)
         && readValue(reader, value.shrinkRemainingSeconds)
         && readValue(reader, value.shrinkDamageMultiplier)
         && readValue(reader, value.shrinkArmorClassMultiplier)
+        && (reader.version() < SaveVersionCombatEffectState
+            || readValue(reader, value.armorClassHalvedRemainingSeconds))
         && readValue(reader, value.darkGraspRemainingSeconds)
         && readValue(reader, value.idleDecisionCount)
         && readValue(reader, value.pursueDecisionCount)

@@ -52,6 +52,7 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         entry.id = std::stoi(row[0]);
         entry.name = row[2];
         entry.normalizedName = normalizeName(entry.name);
+        entry.schoolName = row.size() > 3 ? row[3] : "";
         entry.shortName = row.size() > 4 ? row[4] : "";
         entry.description = row.size() > 5 ? row[5] : "";
         entry.normalText = row.size() > 6 ? row[6] : "";

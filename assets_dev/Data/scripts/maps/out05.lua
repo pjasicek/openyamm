@@ -29,7 +29,7 @@ SetMapMetadata({
     spriteNames = {},
     castSpellIds = {},
     timers = {
-    { eventId = 131, repeating = true, intervalGameMinutes = 10, remainingGameMinutes = 10 },
+    { eventId = 131, repeating = true, intervalGameMinutes = 2.5, remainingGameMinutes = 2.5 },
     { eventId = 479, repeating = true, intervalGameMinutes = 12.5, remainingGameMinutes = 12.5 },
     { eventId = 490, repeating = true, intervalGameMinutes = 7.5, remainingGameMinutes = 7.5 },
     },
@@ -331,16 +331,11 @@ RegisterEvent(131, "Garrote Gorge kill quest tracker", function()
         and evt.CheckMonstersKilled(2, 189, 0, false)
         and evt.CheckMonstersKilled(2, 190, 0, false)
         and evt.CheckMonstersKilled(2, 191, 0, false) then
-        if not IsQBitSet(QBit(156)) then
-            SetQBit(QBit(156))
-            evt.SummonMonsters(2, 1, 1, -30272, -16512, 0, 1, 0)
-            evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
-        else
-            SetQBit(QBit(155))
-            SetQBit(QBit(225))
-            ClearQBit(QBit(225))
-            evt.StatusText("You have killed all of the Dragons")
-        end
+        SetQBit(QBit(156))
+        SetQBit(QBit(155))
+        SetQBit(QBit(225))
+        ClearQBit(QBit(225))
+        evt.StatusText("You have killed all of the Dragons")
     end
 
     if not IsQBitSet(QBit(21))
@@ -348,16 +343,11 @@ RegisterEvent(131, "Garrote Gorge kill quest tracker", function()
         and evt.CheckMonstersKilled(2, 42, 0, false)
         and evt.CheckMonstersKilled(2, 43, 0, false)
         and evt.CheckMonstersKilled(2, 44, 0, false) then
-        if not IsQBitSet(QBit(159)) then
-            SetQBit(QBit(159))
-            evt.SummonMonsters(3, 1, 1, -30272, -16512, 0, 2, 0)
-            evt.SetMonGroupBit(2, MonsterBits.Invisible, 1)
-        else
-            SetQBit(QBit(158))
-            SetQBit(QBit(225))
-            ClearQBit(QBit(225))
-            evt.StatusText("You have killed all of the Dragon Hunters")
-        end
+        SetQBit(QBit(159))
+        SetQBit(QBit(158))
+        SetQBit(QBit(225))
+        ClearQBit(QBit(225))
+        evt.StatusText("You have killed all of the Dragon Hunters")
     end
 
     if not IsQBitSet(QBit(75)) and evt.CheckMonstersKilled(1, 24, 0, false) then

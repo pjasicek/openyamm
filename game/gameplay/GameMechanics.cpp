@@ -12,6 +12,7 @@
 
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <string_view>
 
 namespace OpenYAMM::Game
@@ -302,6 +303,41 @@ SkillMastery skillMastery(const Character &character, std::string_view skillName
     return pSkill != nullptr ? pSkill->mastery : SkillMastery::None;
 }
 
+bool percentRoll(std::mt19937 &rng, int percentChance)
+{
+    if (percentChance <= 0)
+    {
+        return false;
+    }
+
+    if (percentChance >= 100)
+    {
+        return true;
+    }
+
+    return std::uniform_int_distribution<int>(1, 100)(rng) <= percentChance;
+}
+
+std::string normalizedToken(std::string value)
+{
+    value.erase(
+        std::remove_if(
+            value.begin(),
+            value.end(),
+            [](unsigned char character)
+            {
+                return std::isspace(character) || character == '_' || character == '-';
+            }),
+        value.end());
+
+    for (char &character : value)
+    {
+        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
+    }
+
+    return value;
+}
+
 int masteryMultiplier(SkillMastery mastery, int novice, int expert, int master, int grandmaster)
 {
     switch (mastery)
@@ -422,7 +458,18 @@ float armorRecoveryMultiplier(const Character &character, const std::string &ski
 
     if (skillName == "LeatherArmor")
     {
-        return 1.0f;
+        switch (mastery)
+        {
+            case SkillMastery::Grandmaster:
+            case SkillMastery::Master:
+            case SkillMastery::Expert:
+                return 0.0f;
+
+            case SkillMastery::Normal:
+            case SkillMastery::None:
+            default:
+                return 1.0f;
+        }
     }
 
     if (skillName == "ChainArmor")
@@ -1484,11 +1531,30 @@ float resolveAttackRecoverySeconds(
     {
         if (pSpellTable != nullptr)
         {
-            const SpellEntry *pSpellEntry = pSpellTable->findById(spellIdValue(SpellId::FireBolt));
+            const SpellEntry *pSpellEntry = pSpellTable->findById(spellIdValue(SpellId::DragonBreath));
 
             if (pSpellEntry != nullptr)
             {
-                weaponRecoveryTicks = std::max(pSpellEntry->normalRecoveryTicks, 1);
+                switch (skillMastery(character, "DragonAbility"))
+                {
+                    case SkillMastery::Expert:
+                        weaponRecoveryTicks = std::max(pSpellEntry->expertRecoveryTicks, 1);
+                        break;
+
+                    case SkillMastery::Master:
+                        weaponRecoveryTicks = std::max(pSpellEntry->masterRecoveryTicks, 1);
+                        break;
+
+                    case SkillMastery::Grandmaster:
+                        weaponRecoveryTicks = std::max(pSpellEntry->grandmasterRecoveryTicks, 1);
+                        break;
+
+                    case SkillMastery::Normal:
+                    case SkillMastery::None:
+                    default:
+                        weaponRecoveryTicks = std::max(pSpellEntry->normalRecoveryTicks, 1);
+                        break;
+                }
             }
         }
     }
@@ -1631,6 +1697,129 @@ bool characterAttackHitsArmorClass(
     }
 
     return positiveModifier > negativeModifier;
+}
+
+int characterSheetFiniteValue(const CharacterSheetValue &value)
+{
+    return value.infinite ? 200 : value.actual;
+}
+
+int resistanceValueForDamageType(const CharacterSheetSummary &summary, CombatDamageType damageType)
+{
+    switch (damageType)
+    {
+        case CombatDamageType::Fire: return summary.fireResistance.actual;
+        case CombatDamageType::Air: return summary.airResistance.actual;
+        case CombatDamageType::Water: return summary.waterResistance.actual;
+        case CombatDamageType::Earth: return summary.earthResistance.actual;
+        case CombatDamageType::Mind: return summary.mindResistance.actual;
+        case CombatDamageType::Body: return summary.bodyResistance.actual;
+        case CombatDamageType::Spirit: return characterSheetFiniteValue(summary.bodyResistance);
+        case CombatDamageType::Physical:
+        case CombatDamageType::Light:
+        case CombatDamageType::Dark:
+        case CombatDamageType::Irresistible:
+        default:
+            return 0;
+    }
+}
+
+bool resistanceImmuneForDamageType(const CharacterSheetSummary &summary, CombatDamageType damageType)
+{
+    switch (damageType)
+    {
+        case CombatDamageType::Fire: return summary.fireResistance.infinite;
+        case CombatDamageType::Air: return summary.airResistance.infinite;
+        case CombatDamageType::Water: return summary.waterResistance.infinite;
+        case CombatDamageType::Earth: return summary.earthResistance.infinite;
+        case CombatDamageType::Mind: return summary.mindResistance.infinite;
+        case CombatDamageType::Body:
+        case CombatDamageType::Spirit:
+            return summary.bodyResistance.infinite;
+        case CombatDamageType::Physical:
+        case CombatDamageType::Light:
+        case CombatDamageType::Dark:
+        case CombatDamageType::Irresistible:
+        default:
+            return false;
+    }
+}
+
+bool characterWearsArmorSkill(
+    const Character &character,
+    const ItemTable *pItemTable,
+    const std::string &skillName)
+{
+    if (pItemTable == nullptr || character.equipment.armor == 0)
+    {
+        return false;
+    }
+
+    const ItemDefinition *pArmor = pItemTable->get(character.equipment.armor);
+    return pArmor != nullptr && canonicalSkillName(pArmor->skillGroup) == skillName;
+}
+
+bool weaponUsesSkill(const ItemDefinition *pItemDefinition, const std::string &skillName)
+{
+    return pItemDefinition != nullptr && canonicalSkillName(pItemDefinition->skillGroup) == skillName;
+}
+
+void applyMeleeWeaponEffects(
+    const Character &character,
+    const EquippedItems &equippedItems,
+    CharacterAttackResult &result,
+    std::mt19937 &rng)
+{
+    const bool staffHit = weaponUsesSkill(equippedItems.pMainHand, "Staff");
+    const int staffLevel = skillLevel(character, "Staff");
+
+    if (staffHit && staffLevel > 0 && skillMastery(character, "Staff") >= SkillMastery::Master
+        && percentRoll(rng, staffLevel))
+    {
+        result.stunTarget = true;
+        result.skillLevel = std::max<uint32_t>(result.skillLevel, static_cast<uint32_t>(staffLevel));
+    }
+
+    if (weaponUsesSkill(equippedItems.pMainHand, "Mace"))
+    {
+        const int maceLevel = skillLevel(character, "Mace");
+
+        if (maceLevel > 0 && skillMastery(character, "Mace") >= SkillMastery::Master
+            && percentRoll(rng, maceLevel))
+        {
+            result.stunTarget = true;
+            result.skillLevel = std::max<uint32_t>(result.skillLevel, static_cast<uint32_t>(maceLevel));
+        }
+
+        if (maceLevel > 0 && skillMastery(character, "Mace") >= SkillMastery::Grandmaster
+            && percentRoll(rng, maceLevel))
+        {
+            result.paralyzeTarget = true;
+            result.skillLevel = std::max<uint32_t>(result.skillLevel, static_cast<uint32_t>(maceLevel));
+        }
+    }
+
+    if (weaponUsesSkill(equippedItems.pMainHand, "Axe"))
+    {
+        const int axeLevel = skillLevel(character, "Axe");
+
+        if (axeLevel > 0 && skillMastery(character, "Axe") >= SkillMastery::Grandmaster
+            && percentRoll(rng, axeLevel))
+        {
+            result.halveTargetArmorClass = true;
+            result.skillLevel = std::max<uint32_t>(result.skillLevel, static_cast<uint32_t>(axeLevel));
+        }
+    }
+
+    const bool daggerHit =
+        weaponUsesSkill(equippedItems.pMainHand, "Dagger")
+        || weaponUsesSkill(equippedItems.pOffHand, "Dagger");
+
+    if (daggerHit && skillMastery(character, "Dagger") >= SkillMastery::Master && percentRoll(rng, 10))
+    {
+        result.damage *= 3;
+        result.criticalDamage = true;
+    }
 }
 }
 
@@ -1871,18 +2060,29 @@ CharacterSheetSummary GameMechanics::buildCharacterSheetSummary(
         static_cast<int>(character.level),
         static_cast<int>(maximumTrainableLevelFromExperience(character)));
 
+    const bool leatherGrandmaster =
+        equippedItems.pArmor != nullptr
+        && canonicalSkillName(equippedItems.pArmor->skillGroup) == "LeatherArmor"
+        && skillMastery(character, "LeatherArmor") >= SkillMastery::Grandmaster;
+    const int leatherElementalResistanceBonus =
+        leatherGrandmaster ? std::max(0, skillLevel(character, "LeatherArmor")) : 0;
+
     const int fireBase = character.baseResistances.fire
         + character.permanentBonuses.resistances.fire
-        + equippedItemBonuses.resistances.fire;
+        + equippedItemBonuses.resistances.fire
+        + leatherElementalResistanceBonus;
     const int airBase = character.baseResistances.air
         + character.permanentBonuses.resistances.air
-        + equippedItemBonuses.resistances.air;
+        + equippedItemBonuses.resistances.air
+        + leatherElementalResistanceBonus;
     const int waterBase = character.baseResistances.water
         + character.permanentBonuses.resistances.water
-        + equippedItemBonuses.resistances.water;
+        + equippedItemBonuses.resistances.water
+        + leatherElementalResistanceBonus;
     const int earthBase = character.baseResistances.earth
         + character.permanentBonuses.resistances.earth
-        + equippedItemBonuses.resistances.earth;
+        + equippedItemBonuses.resistances.earth
+        + leatherElementalResistanceBonus;
     const int mindBase = character.baseResistances.mind
         + character.permanentBonuses.resistances.mind
         + equippedItemBonuses.resistances.mind;
@@ -2051,6 +2251,10 @@ CharacterAttackProfile GameMechanics::buildCharacterAttackProfile(
         && pDragonAbility->mastery != SkillMastery::None;
     profile.canShoot = profile.hasBow || profile.hasWand || profile.hasBlaster || profile.hasDragonBreath;
     profile.meleeAttackBonus = summary.combat.attack;
+    const std::string meleeSkillName = canonicalSkillName(
+        equippedItems.pMainHand != nullptr ? equippedItems.pMainHand->skillGroup : std::string("Unarmed"));
+    profile.meleeSkillLevel = static_cast<uint32_t>(std::max(0, skillLevel(character, meleeSkillName)));
+    profile.meleeSkillMastery = static_cast<uint32_t>(skillMastery(character, meleeSkillName));
     CharacterAttackMode rangedRecoveryMode = CharacterAttackMode::Bow;
 
     if (profile.hasDragonBreath)
@@ -2173,6 +2377,7 @@ CharacterAttackResult GameMechanics::resolveCharacterAttackAgainstArmorClass(
     std::mt19937 &rng)
 {
     CharacterAttackResult result = {};
+    const EquippedItems equippedItems = resolveEquippedItems(character, pItemTable);
     const CharacterAttackProfile profile = buildCharacterAttackProfile(character, pItemTable, pSpellTable);
     const bool inMeleeRange = targetDistance <= OeCharacterMeleeAttackDistance;
     const bool inRangedRange = targetDistance <= OeCharacterRangedAttackDistance;
@@ -2247,13 +2452,20 @@ CharacterAttackResult GameMechanics::resolveCharacterAttackAgainstArmorClass(
     if (result.mode == CharacterAttackMode::DragonBreath)
     {
         result.hit = true;
+        result.damageType = CombatDamageType::Irresistible;
     }
     else if (result.mode != CharacterAttackMode::Melee)
     {
         result.hit = characterRangedAttackHitsArmorClass(result.targetArmorClass, result.attackBonus, targetDistance, rng);
+
+        if (result.mode == CharacterAttackMode::Wand)
+        {
+            result.damageType = spellCombatDamageType(result.spellId, pSpellTable);
+        }
     }
     else
     {
+        result.damageType = CombatDamageType::Physical;
         result.hit = characterAttackHitsArmorClass(result.targetArmorClass, result.attackBonus, 0, 0, rng);
 
         if (!result.hit)
@@ -2273,6 +2485,18 @@ CharacterAttackResult GameMechanics::resolveCharacterAttackAgainstArmorClass(
     const int maximumDamage =
         result.mode == CharacterAttackMode::Melee ? profile.meleeMaxDamage : profile.rangedMaxDamage;
     result.damage = randomInclusive(rng, minimumDamage, maximumDamage);
+
+    if (hasCondition(character, CharacterCondition::Weak))
+    {
+        result.damage /= 2;
+    }
+
+    if (result.mode == CharacterAttackMode::Melee)
+    {
+        result.skillLevel = profile.meleeSkillLevel;
+        result.skillMastery = profile.meleeSkillMastery;
+        applyMeleeWeaponEffects(character, equippedItems, result, rng);
+    }
 
     if (!result.resolvesOnImpact)
     {
@@ -2381,6 +2605,169 @@ bool GameMechanics::monsterAttackHitsArmorClass(
     const int rollUpperBound = std::max(1, armorClass + 2 * level + 10);
     const int hitRoll = std::uniform_int_distribution<int>(1, rollUpperBound)(rng);
     return hitRoll + bonus > armorClass + 5;
+}
+
+CombatDamageType GameMechanics::parseCombatDamageType(const std::string &value)
+{
+    const std::string normalized = normalizedToken(value);
+
+    if (normalized == "fire") return CombatDamageType::Fire;
+    if (normalized == "air") return CombatDamageType::Air;
+    if (normalized == "water") return CombatDamageType::Water;
+    if (normalized == "earth") return CombatDamageType::Earth;
+    if (normalized == "spirit") return CombatDamageType::Spirit;
+    if (normalized == "mind") return CombatDamageType::Mind;
+    if (normalized == "body") return CombatDamageType::Body;
+    if (normalized == "light") return CombatDamageType::Light;
+    if (normalized == "dark") return CombatDamageType::Dark;
+    if (normalized == "irresistible") return CombatDamageType::Irresistible;
+    return CombatDamageType::Physical;
+}
+
+CombatDamageType GameMechanics::spellCombatDamageType(uint32_t spellId, const SpellTable *pSpellTable)
+{
+    if (spellIdFromValue(spellId) == SpellId::DragonBreath)
+    {
+        return CombatDamageType::Irresistible;
+    }
+
+    const SpellEntry *pSpellEntry =
+        pSpellTable != nullptr ? pSpellTable->findById(static_cast<int>(spellId)) : nullptr;
+
+    if (pSpellEntry == nullptr)
+    {
+        return CombatDamageType::Physical;
+    }
+
+    return parseCombatDamageType(pSpellEntry->schoolName);
+}
+
+int GameMechanics::resolveCharacterIncomingDamage(
+    const Character &character,
+    const ItemTable *pItemTable,
+    const StandardItemEnchantTable *pStandardItemEnchantTable,
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable,
+    int damage,
+    CombatDamageType damageType,
+    std::mt19937 &rng)
+{
+    int resolvedDamage = std::max(0, damage);
+
+    if (resolvedDamage <= 0 || damageType == CombatDamageType::Irresistible)
+    {
+        return resolvedDamage;
+    }
+
+    const CharacterSheetSummary summary = buildCharacterSheetSummary(
+        character,
+        pItemTable,
+        pStandardItemEnchantTable,
+        pSpecialItemEnchantTable);
+
+    const auto directResistance =
+        [&character](int CharacterResistanceSet::*field)
+        {
+            return character.baseResistances.*field
+                + character.permanentBonuses.resistances.*field
+                + character.magicalBonuses.resistances.*field;
+        };
+
+    const bool directImmunity =
+        (damageType == CombatDamageType::Spirit
+            && (character.permanentImmunities.spirit || character.magicalImmunities.spirit))
+        || (damageType == CombatDamageType::Light
+            && (character.permanentImmunities.light || character.magicalImmunities.light))
+        || (damageType == CombatDamageType::Dark
+            && (character.permanentImmunities.dark || character.magicalImmunities.dark));
+
+    if (resistanceImmuneForDamageType(summary, damageType) || directImmunity)
+    {
+        return 0;
+    }
+
+    int resistance = resistanceValueForDamageType(summary, damageType);
+
+    if (damageType == CombatDamageType::Spirit)
+    {
+        resistance = directResistance(&CharacterResistanceSet::spirit);
+    }
+    else if (damageType == CombatDamageType::Light)
+    {
+        resistance = directResistance(&CharacterResistanceSet::light);
+    }
+    else if (damageType == CombatDamageType::Dark)
+    {
+        resistance = directResistance(&CharacterResistanceSet::dark);
+    }
+
+    const int luckBonus = parameterBonus(static_cast<int>(character.luck)
+        + character.permanentBonuses.luck
+        + character.magicalBonuses.luck);
+
+    if (resistance + luckBonus > 0)
+    {
+        const int rollUpperBound = std::max(1, resistance + luckBonus + 30);
+
+        for (int rollIndex = 0; rollIndex < 4; ++rollIndex)
+        {
+            if (std::uniform_int_distribution<int>(0, rollUpperBound - 1)(rng) < 30)
+            {
+                break;
+            }
+
+            resolvedDamage /= 2;
+        }
+    }
+
+    if (damageType == CombatDamageType::Physical)
+    {
+        if (characterWearsArmorSkill(character, pItemTable, "PlateArmor")
+            && skillMastery(character, "PlateArmor") >= SkillMastery::Master)
+        {
+            resolvedDamage /= 2;
+        }
+        else if (characterWearsArmorSkill(character, pItemTable, "ChainArmor")
+            && skillMastery(character, "ChainArmor") >= SkillMastery::Grandmaster)
+        {
+            resolvedDamage = (resolvedDamage * 2) / 3;
+        }
+    }
+
+    return std::max(0, resolvedDamage);
+}
+
+int GameMechanics::resolveMonsterIncomingDamage(
+    int damage,
+    CombatDamageType damageType,
+    int monsterLevel,
+    int resistance,
+    std::mt19937 &rng)
+{
+    int resolvedDamage = std::max(0, damage);
+
+    if (resolvedDamage <= 0 || damageType == CombatDamageType::Irresistible)
+    {
+        return resolvedDamage;
+    }
+
+    if (resistance >= 200)
+    {
+        return 0;
+    }
+
+    const int rollUpperBound = std::max(1, std::max(0, monsterLevel) / 4 + std::max(0, resistance) + 30);
+
+    for (int rollIndex = 0; rollIndex < 4; ++rollIndex)
+    {
+        if (std::uniform_int_distribution<int>(0, rollUpperBound - 1)(rng) < 30)
+        {
+            break;
+        }
+
+        resolvedDamage /= 2;
+    }
+
+    return std::max(0, resolvedDamage);
 }
 
 std::optional<CharacterCondition> GameMechanics::displayedCondition(const Character &character)

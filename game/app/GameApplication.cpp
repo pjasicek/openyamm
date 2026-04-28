@@ -39,6 +39,7 @@ constexpr uint32_t DefaultRosterPartyMemberCount = 3;
 constexpr const char *DefaultStartupMapFile = "out01.odm";
 constexpr int MainMenuMusicTrack = 14;
 constexpr int LoadingOverlayBackgroundCount = 5;
+constexpr uint32_t DungeonTransitionOverlayFrameMilliseconds = 16;
 constexpr uint32_t BronzeRingItemId = 137;
 constexpr uint32_t GoldRingItemId = 138;
 constexpr uint32_t PotionBottleItemId = 220;
@@ -1136,7 +1137,13 @@ bool GameApplication::loadCurrentSessionMap(
         progressCallback(10);
     }
 
-    if (!m_gameDataLoader.loadMapByFileNameForGameplay(*m_pAssetFileSystem, m_gameSession.currentMapFileName()))
+    if (!m_gameDataLoader.loadMapByFileNameForGameplay(
+            *m_pAssetFileSystem,
+            m_gameSession.currentMapFileName(),
+            [this]()
+            {
+                pumpLoadingOverlayAnimation();
+            }))
     {
         std::cerr
             << "GameApplication: loadCurrentSessionMap failed to load map assets for "
@@ -1176,7 +1183,7 @@ bool GameApplication::loadCurrentSessionMap(
     return true;
 }
 
-void GameApplication::beginLoadingOverlay()
+void GameApplication::beginLoadingOverlay(LoadingOverlayScreen::Presentation presentation)
 {
     if (m_pAssetFileSystem == nullptr)
     {
@@ -1204,10 +1211,23 @@ void GameApplication::beginLoadingOverlay()
         m_pLoadingOverlayScreen = std::make_unique<LoadingOverlayScreen>(*m_pAssetFileSystem);
     }
 
-    std::random_device randomDevice;
-    std::mt19937 rng(randomDevice());
-    const int backgroundIndex = std::uniform_int_distribution<int>(1, LoadingOverlayBackgroundCount)(rng);
-    m_loadingOverlayBackgroundTextureName = "loading" + std::to_string(backgroundIndex);
+    m_pLoadingOverlayScreen->setPresentation(presentation);
+    m_loadingOverlayPresentation = presentation;
+    m_loadingOverlayCurrentProgressPercent = 0;
+    m_loadingOverlayNextAnimationFrameTick = 0;
+
+    if (presentation == LoadingOverlayScreen::Presentation::Fullscreen)
+    {
+        std::random_device randomDevice;
+        std::mt19937 rng(randomDevice());
+        const int backgroundIndex = std::uniform_int_distribution<int>(1, LoadingOverlayBackgroundCount)(rng);
+        m_loadingOverlayBackgroundTextureName = "loading" + std::to_string(backgroundIndex);
+    }
+    else
+    {
+        m_loadingOverlayBackgroundTextureName = "bardata";
+    }
+
     m_loadingOverlayActive = true;
     renderLoadingOverlayProgress(0);
 }
@@ -1219,6 +1239,7 @@ void GameApplication::renderLoadingOverlayProgress(int progressPercent)
         return;
     }
 
+    m_loadingOverlayCurrentProgressPercent = std::clamp(progressPercent, 0, 100);
     m_pLoadingOverlayScreen->setBackgroundTextureName(m_loadingOverlayBackgroundTextureName);
     m_pLoadingOverlayScreen->setProgressPercent(progressPercent);
     SDL_PumpEvents();
@@ -1228,6 +1249,25 @@ void GameApplication::renderLoadingOverlayProgress(int progressPercent)
         m_gameInputSystem.frame(),
         1.0f / 60.0f);
     bgfx::frame();
+}
+
+void GameApplication::pumpLoadingOverlayAnimation()
+{
+    if (!m_loadingOverlayActive
+        || m_loadingOverlayPresentation != LoadingOverlayScreen::Presentation::DungeonTransition)
+    {
+        return;
+    }
+
+    const uint64_t now = SDL_GetTicks();
+
+    if (m_loadingOverlayNextAnimationFrameTick != 0 && now < m_loadingOverlayNextAnimationFrameTick)
+    {
+        return;
+    }
+
+    renderLoadingOverlayProgress(m_loadingOverlayCurrentProgressPercent);
+    m_loadingOverlayNextAnimationFrameTick = SDL_GetTicks() + DungeonTransitionOverlayFrameMilliseconds;
 }
 
 void GameApplication::completeLoadingOverlay()
@@ -1240,6 +1280,9 @@ void GameApplication::completeLoadingOverlay()
     renderLoadingOverlayProgress(100);
     m_loadingOverlayActive = false;
     m_loadingOverlayBackgroundTextureName.clear();
+    m_loadingOverlayPresentation = LoadingOverlayScreen::Presentation::Fullscreen;
+    m_loadingOverlayCurrentProgressPercent = 0;
+    m_loadingOverlayNextAnimationFrameTick = 0;
     m_pLoadingOverlayScreen.reset();
 }
 
@@ -1247,6 +1290,9 @@ void GameApplication::cancelLoadingOverlay()
 {
     m_loadingOverlayActive = false;
     m_loadingOverlayBackgroundTextureName.clear();
+    m_loadingOverlayPresentation = LoadingOverlayScreen::Presentation::Fullscreen;
+    m_loadingOverlayCurrentProgressPercent = 0;
+    m_loadingOverlayNextAnimationFrameTick = 0;
     m_pLoadingOverlayScreen.reset();
 }
 
@@ -2147,7 +2193,7 @@ bool GameApplication::processPendingMapMove()
     captureCurrentSceneState();
 
     m_gameSession.setCurrentMapFileName(targetMapName);
-    beginLoadingOverlay();
+    beginLoadingOverlay(LoadingOverlayScreen::Presentation::DungeonTransition);
     renderLoadingOverlayProgress(15);
 
     if (!loadCurrentSessionMap(

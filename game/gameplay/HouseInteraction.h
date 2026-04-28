@@ -100,6 +100,7 @@ HouseServiceType resolveHouseServiceType(const HouseEntry &houseEntry);
 std::optional<uint32_t> deriveHouseSoundId(const HouseEntry &houseEntry, HouseSoundType soundType);
 bool isHouseOpenAtGameMinute(const HouseEntry &houseEntry, float currentGameMinutes);
 std::string buildClosedStatusText(const HouseEntry &houseEntry);
+bool isBoatHouse(const HouseEntry &houseEntry);
 
 std::vector<std::string> buildHouseServiceInfoLines(
     const HouseEntry &houseEntry,

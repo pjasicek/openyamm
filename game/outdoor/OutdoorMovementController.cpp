@@ -2465,7 +2465,7 @@ OutdoorMoveState OutdoorMovementController::resolveOutdoorActorMove(
     result.supportIsFluid = finalFloor.isFluid;
     result.supportOnWater = finalFloor.isFluid;
     result.supportOnBurning = finalFloor.isBurning;
-    result.airborne = flyingActive && actorPosition.z > finalGroundLevel + GroundSnapHeight;
+    result.airborne = actorPosition.z > finalGroundLevel + GroundSnapHeight;
     result.landedThisFrame = false;
     result.fallStartZ = result.footZ;
     result.fallDistance = 0.0f;

@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/party/Party.h"
 #include "game/tables/PortraitEnums.h"
 
@@ -34,6 +35,8 @@ public:
         int damage = 0;
         int attackBonus = 0;
         int spellId = 0;
+        CombatDamageType damageType = CombatDamageType::Physical;
+        GameplayActorAttackAbility ability = GameplayActorAttackAbility::Attack1;
         bool affectsAllParty = false;
         bool hit = false;
         bool killed = false;
@@ -72,12 +75,32 @@ public:
     void clear();
     void recordMonsterMeleeImpact(uint32_t sourceId, int damage);
     void recordMonsterMeleeImpact(uint32_t sourceId, int damage, int attackBonus);
+    void recordMonsterMeleeImpact(
+        uint32_t sourceId,
+        int damage,
+        int attackBonus,
+        CombatDamageType damageType,
+        GameplayActorAttackAbility ability);
     void recordMonsterRangedRelease(uint32_t sourceId, int damage);
+    void recordMonsterRangedRelease(uint32_t sourceId, int damage, CombatDamageType damageType);
     void recordPartyProjectileImpact(
         uint32_t sourceId,
         int damage,
         int spellId,
         bool affectsAllParty);
+    void recordPartyProjectileImpact(
+        uint32_t sourceId,
+        int damage,
+        int spellId,
+        bool affectsAllParty,
+        CombatDamageType damageType);
+    void recordPartyProjectileImpact(
+        uint32_t sourceId,
+        int damage,
+        int attackBonus,
+        int spellId,
+        bool affectsAllParty,
+        CombatDamageType damageType);
     void recordPartyProjectileActorImpact(
         uint32_t sourceId,
         uint32_t sourcePartyMemberIndex,
@@ -91,13 +114,23 @@ public:
     void handleAndClearPendingCombatEvents(PendingCombatEventContext &context);
 
 private:
-    static CombatEvent buildMonsterMeleeImpactEvent(uint32_t sourceId, int damage);
-    static CombatEvent buildMonsterRangedReleaseEvent(uint32_t sourceId, int damage);
+    static CombatEvent buildMonsterMeleeImpactEvent(
+        uint32_t sourceId,
+        int damage,
+        int attackBonus,
+        CombatDamageType damageType,
+        GameplayActorAttackAbility ability);
+    static CombatEvent buildMonsterRangedReleaseEvent(
+        uint32_t sourceId,
+        int damage,
+        CombatDamageType damageType);
     static CombatEvent buildPartyProjectileImpactEvent(
         uint32_t sourceId,
         int damage,
+        int attackBonus,
         int spellId,
-        bool affectsAllParty);
+        bool affectsAllParty,
+        CombatDamageType damageType);
     static CombatEvent buildPartyProjectileActorImpactEvent(
         uint32_t sourceId,
         uint32_t sourcePartyMemberIndex,

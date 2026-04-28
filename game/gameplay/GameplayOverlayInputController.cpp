@@ -82,6 +82,11 @@ struct InventoryItemScreenRect
     float height = 0.0f;
 };
 
+std::string formatFoundGoldStatusText(int goldAmount)
+{
+    return "You found " + std::to_string(std::max(0, goldAmount)) + " gold!";
+}
+
 enum class HouseShopVerticalAlign
 {
     Center,
@@ -3596,7 +3601,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                     if (takenItem.isGold)
                     {
                         view.party()->addGold(static_cast<int>(takenItem.goldAmount));
-                        view.setStatusBarEvent("Picked up " + std::to_string(takenItem.goldAmount) + " gold");
+                        view.setStatusBarEvent(formatFoundGoldStatusText(static_cast<int>(takenItem.goldAmount)));
 
                         if (view.audioSystem() != nullptr)
                         {
@@ -3743,8 +3748,7 @@ void GameplayOverlayInputController::handleLootOverlayInput(
                         if (removedItem.isGold)
                         {
                             view.party()->addGold(static_cast<int>(removedItem.goldAmount));
-                            view.setStatusBarEvent(
-                                "Picked up " + std::to_string(removedItem.goldAmount) + " gold");
+                            view.setStatusBarEvent(formatFoundGoldStatusText(static_cast<int>(removedItem.goldAmount)));
 
                             if (view.audioSystem() != nullptr)
                             {

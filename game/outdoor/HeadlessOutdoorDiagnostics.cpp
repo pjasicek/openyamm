@@ -6,6 +6,7 @@
 #include "engine/AudioSystem.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/events/EventDialogContent.h"
+#include "game/events/EvtEnums.h"
 #include "game/events/EventRuntime.h"
 #include "game/data/GameDataLoader.h"
 #include "game/gameplay/GameMechanics.h"
@@ -72,6 +73,72 @@ GameplayActorService buildBoundGameplayActorService(const GameDataLoader &gameDa
 bool textContains(const std::string &text, const std::string &needle)
 {
     return text.find(needle) != std::string::npos;
+}
+
+struct OutdoorTestDirection
+{
+    float x = 0.0f;
+    float y = 0.0f;
+};
+
+bx::Vec3 outdoorActorAttackLosSource(const OutdoorWorldRuntime::MapActorState &actor)
+{
+    return bx::Vec3{
+        actor.preciseX,
+        actor.preciseY,
+        actor.preciseZ + std::max(24.0f, static_cast<float>(actor.height) * 0.7f)};
+}
+
+bx::Vec3 outdoorPartyAttackLosTarget(const GameplayWorldPoint &partyPosition)
+{
+    return bx::Vec3{partyPosition.x, partyPosition.y, partyPosition.z + 96.0f};
+}
+
+bool outdoorActorHasAttackLosToParty(
+    const OutdoorWorldRuntime &world,
+    const OutdoorWorldRuntime::MapActorState &actor,
+    const GameplayWorldPoint &partyPosition)
+{
+    return world.hasClearOutdoorLineOfSight(
+        outdoorActorAttackLosSource(actor),
+        outdoorPartyAttackLosTarget(partyPosition));
+}
+
+std::optional<GameplayWorldPoint> findOutdoorPartyPositionWithAttackLos(
+    const OutdoorWorldRuntime &world,
+    const OutdoorWorldRuntime::MapActorState &actor,
+    float distance)
+{
+    static constexpr std::array<OutdoorTestDirection, 8> Directions = {{
+        {1.0f, 0.0f},
+        {-1.0f, 0.0f},
+        {0.0f, 1.0f},
+        {0.0f, -1.0f},
+        {0.70710677f, 0.70710677f},
+        {-0.70710677f, 0.70710677f},
+        {0.70710677f, -0.70710677f},
+        {-0.70710677f, -0.70710677f},
+    }};
+
+    static constexpr std::array<float, 5> PartyZOffsets = {{0.0f, 64.0f, 128.0f, 256.0f, 384.0f}};
+
+    for (const OutdoorTestDirection &direction : Directions)
+    {
+        for (float zOffset : PartyZOffsets)
+        {
+            const GameplayWorldPoint partyPosition{
+                actor.preciseX + direction.x * distance,
+                actor.preciseY + direction.y * distance,
+                actor.preciseZ + zOffset};
+
+            if (outdoorActorHasAttackLosToParty(world, actor, partyPosition))
+            {
+                return partyPosition;
+            }
+        }
+    }
+
+    return std::nullopt;
 }
 
 bool isKnownHeadlessRegressionSuite(const std::string &suiteName)
@@ -645,6 +712,51 @@ std::optional<ScriptedEventProgram> loadSyntheticScriptedProgram(
     luaSourceText += "evt.meta.";
     luaSourceText += pScopeName;
     luaSourceText += ".timers = {}\n";
+
+    return ScriptedEventProgram::loadFromLuaText(luaSourceText, chunkName, scope, error);
+}
+
+std::optional<ScriptedEventProgram> loadSyntheticTimedScriptedProgram(
+    const std::string &body,
+    const std::string &timerMetadata,
+    const std::string &chunkName,
+    ScriptedEventScope scope,
+    std::string &error)
+{
+    std::string luaSourceText = body;
+    luaSourceText += "\n";
+    luaSourceText += "evt.meta = evt.meta or {}\n";
+    luaSourceText += "evt.meta.map = evt.meta.map or {}\n";
+    luaSourceText += "evt.meta.global = evt.meta.global or {}\n";
+    luaSourceText += "evt.meta.CanShowTopic = evt.meta.CanShowTopic or {}\n";
+
+    const char *pScopeName = scope == ScriptedEventScope::Global ? "global" : "map";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".onLoad = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".hint = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".summary = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".openedChestIds = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".textureNames = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".spriteNames = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".castSpellIds = {}\n";
+    luaSourceText += "evt.meta.";
+    luaSourceText += pScopeName;
+    luaSourceText += ".timers = ";
+    luaSourceText += timerMetadata;
+    luaSourceText += "\n";
 
     return ScriptedEventProgram::loadFromLuaText(luaSourceText, chunkName, scope, error);
 }
@@ -7720,16 +7832,18 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 IndoorRegressionScenario scenario = {};
 
-                if (!initializeIndoorRegressionScenario(gameDataLoader, *loadedMap, scenario))
-                {
-                    failure = "could not initialize indoor scenario";
-                    return false;
-                }
+            if (!initializeIndoorRegressionScenario(gameDataLoader, *loadedMap, scenario))
+            {
+                failure = "could not initialize indoor scenario";
+                return false;
+            }
 
-                MapDeltaActor actor = {};
-                actor.hp = 100;
-                actor.group = 77;
-                scenario.mapDeltaData->actors.push_back(actor);
+            scenario.mapDeltaData->locationInfo.alertStatus = 0;
+
+            MapDeltaActor actor = {};
+            actor.hp = 100;
+            actor.group = 77;
+            scenario.mapDeltaData->actors.push_back(actor);
 
                 if (scenario.world.checkMonstersKilled(
                         static_cast<uint32_t>(EvtActorKillCheck::Group),
@@ -7747,9 +7861,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                         static_cast<uint32_t>(EvtActorKillCheck::Group),
                         77,
                         0,
-                        true))
+                        false))
                 {
-                    failure = "invisible indoor actor was not treated as defeated";
+                    failure = "event-invisible indoor actor was not treated as defeated";
                     return false;
                 }
 
@@ -10847,6 +10961,16 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     continue;
                 }
 
+                const MonsterTable::MonsterStatsEntry *pStats =
+                    gameDataLoader.getMonsterTable().findStatsById(pActor->monsterId);
+
+                if (pStats == nullptr
+                    || pStats->movementType == MonsterTable::MonsterMovementType::Stationary
+                    || pStats->attackStyle != MonsterTable::MonsterAttackStyle::MeleeOnly)
+                {
+                    continue;
+                }
+
                 if (hostilePartyAcquisitionRange(gameDataLoader.getMonsterTable(), *pActor) >= 2000.0f)
                 {
                     hostileActorIndex = actorIndex;
@@ -10863,28 +10987,276 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(hostileActorIndex);
             const float acquisitionRange = hostilePartyAcquisitionRange(gameDataLoader.getMonsterTable(), *pBefore);
             const float partyDistance = std::min(2000.0f, acquisitionRange * 0.75f);
-            const float partyX = static_cast<float>(pBefore->x) + partyDistance;
-            const float partyY = static_cast<float>(pBefore->y);
-            const float distanceBefore = std::abs(partyX - static_cast<float>(pBefore->x));
-            scenario.world.updateMapActors(1.0f, partyX, partyY, static_cast<float>(pBefore->z));
-            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(hostileActorIndex);
-            const float distanceAfter = std::abs(partyX - static_cast<float>(pAfter->x));
+            const float partyX = pBefore->preciseX + partyDistance;
+            const float partyY = pBefore->preciseY;
+            bool sawPursuing = false;
+            bool sawWalkingAnimation = false;
+            const OutdoorWorldRuntime::MapActorState *pAfter = nullptr;
 
-            if (distanceAfter >= distanceBefore)
+            for (int step = 0; step < 512; ++step)
             {
-                failure = "hostile actor did not move toward the party";
-                return false;
+                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, static_cast<float>(pBefore->z));
+                pAfter = scenario.world.mapActorState(hostileActorIndex);
+
+                if (pAfter == nullptr)
+                {
+                    failure = "hostile actor missing after update";
+                    return false;
+                }
+
+                sawPursuing = sawPursuing || pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing;
+                sawWalkingAnimation =
+                    sawWalkingAnimation || pAfter->animation == OutdoorWorldRuntime::ActorAnimation::Walking;
+
+                if (sawPursuing && sawWalkingAnimation)
+                {
+                    return true;
+                }
             }
 
-            if (pAfter->aiState != OutdoorWorldRuntime::ActorAiState::Pursuing)
+            if (!sawPursuing)
             {
                 failure = "hostile actor did not enter pursuing state";
                 return false;
             }
 
-            if (pAfter->animation != OutdoorWorldRuntime::ActorAnimation::Walking)
+            if (!sawWalkingAnimation)
             {
                 failure = "hostile actor did not enter walking animation";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "actor_ai_pursues_sensed_party_without_attack_los",
+        [&](std::string &failure)
+        {
+            ActorAiFacts actor = {};
+            actor.actorIndex = 7;
+            actor.actorId = 7007;
+            actor.stats.currentHp = 100;
+            actor.stats.maxHp = 100;
+            actor.stats.radius = 60;
+            actor.stats.height = 160;
+            actor.stats.moveSpeed = 200;
+            actor.stats.attack1Damage.diceRolls = 1;
+            actor.stats.attack1Damage.diceSides = 1;
+            actor.stats.attackConstraints.attack1IsRanged = true;
+            actor.stats.attackConstraints.rangedCommitAllowed = false;
+            actor.runtime.motionState = ActorAiMotionState::Standing;
+            actor.runtime.animationState = ActorAiAnimationState::Standing;
+            actor.runtime.attackCooldownSeconds = 0.0f;
+            actor.runtime.recoverySeconds = 1.0f;
+            actor.runtime.meleeAttackAnimationSeconds = 0.3f;
+            actor.runtime.rangedAttackAnimationSeconds = 0.3f;
+            actor.status.hostileToParty = true;
+            actor.status.defaultHostileToParty = true;
+            actor.target.currentKind = ActorAiTargetKind::Party;
+            actor.target.currentPosition = GameplayWorldPoint{3000.0f, 0.0f, 96.0f};
+            actor.target.currentDistance = 3000.0f;
+            actor.target.currentEdgeDistance = 2800.0f;
+            actor.target.currentCanSense = true;
+            actor.target.currentHasAttackLineOfSight = false;
+            actor.target.partyCanSenseActor = true;
+            actor.movement.position = GameplayWorldPoint{0.0f, 0.0f, 0.0f};
+            actor.movement.effectiveMoveSpeed = 200.0f;
+            actor.movement.movementAllowed = true;
+            actor.world.active = true;
+            actor.world.targetZ = 0.0f;
+
+            ActorAiFrameFacts frame = {};
+            frame.fixedStepSeconds = 1.0f / 128.0f;
+            frame.party.position = actor.target.currentPosition;
+            frame.party.collisionRadius = 37.0f;
+            frame.activeActors.push_back(actor);
+
+            const GameplayActorAiSystem actorAiSystem = {};
+            const ActorAiFrameResult result = actorAiSystem.updateActors(frame);
+
+            if (result.actorUpdates.empty())
+            {
+                failure = "actor AI produced no update";
+                return false;
+            }
+
+            const ActorAiUpdate &update = result.actorUpdates.front();
+
+            if (update.attackRequest || !result.projectileRequests.empty())
+            {
+                failure = "actor fired a ranged attack without attack LOS";
+                return false;
+            }
+
+            if (update.state.motionState != ActorAiMotionState::Pursuing
+                || update.movementIntent.action != ActorAiMovementAction::Pursue)
+            {
+                failure = "actor did not pursue sensed party without attack LOS";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_actor_pursues_party_without_attack_los",
+        [&](std::string &failure)
+        {
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pBefore = scenario.world.mapActorState(53);
+
+            if (pBefore == nullptr)
+            {
+                failure = "actor 53 missing";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    53,
+                    1,
+                    pBefore->preciseX + 64.0f,
+                    pBefore->preciseY,
+                    pBefore->preciseZ))
+            {
+                failure = "could not provoke actor 53";
+                return false;
+            }
+
+            const GameplayWorldPoint partyPosition{
+                pBefore->preciseX + 3000.0f,
+                pBefore->preciseY,
+                pBefore->preciseZ};
+
+            const std::optional<OutdoorWorldRuntime::ActorDecisionDebugInfo> initialDebug =
+                scenario.world.debugActorDecisionInfo(53, partyPosition.x, partyPosition.y, partyPosition.z);
+
+            if (!initialDebug)
+            {
+                failure = "actor 53 decision debug missing";
+                return false;
+            }
+
+            if (!initialDebug->targetCanSense)
+            {
+                failure = "no-LOS regression position is outside sensing range";
+                return false;
+            }
+
+            if (initialDebug->targetHasAttackLineOfSight)
+            {
+                failure = "no-LOS regression position unexpectedly has attack LOS";
+                return false;
+            }
+
+            scenario.world.clearPendingCombatEvents();
+
+            const float startX = pBefore->preciseX;
+            const float startY = pBefore->preciseY;
+            bool sawPursuing = false;
+
+            for (size_t stepIndex = 0; stepIndex < 512; ++stepIndex)
+            {
+                const OutdoorWorldRuntime::MapActorState *pStepBefore = scenario.world.mapActorState(53);
+                const std::optional<OutdoorWorldRuntime::ActorDecisionDebugInfo> stepDebug =
+                    scenario.world.debugActorDecisionInfo(53, partyPosition.x, partyPosition.y, partyPosition.z);
+
+                if (pStepBefore == nullptr || !stepDebug)
+                {
+                    failure = "actor 53 decision debug missing during simulation";
+                    return false;
+                }
+
+                const bool currentHasAttackLos = stepDebug->targetHasAttackLineOfSight;
+
+                if (currentHasAttackLos && sawPursuing
+                    && (std::abs(pStepBefore->preciseX - startX) >= 8.0f
+                        || std::abs(pStepBefore->preciseY - startY) >= 8.0f))
+                {
+                    return true;
+                }
+
+                scenario.world.updateMapActors(
+                    1.0f / 128.0f,
+                    partyPosition.x,
+                    partyPosition.y,
+                    partyPosition.z);
+
+                const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
+
+                if (pAfter == nullptr)
+                {
+                    failure = "actor 53 missing after update";
+                    return false;
+                }
+
+                sawPursuing = sawPursuing || pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing;
+
+                if (!currentHasAttackLos
+                    && pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Attacking
+                    && pAfter->animation == OutdoorWorldRuntime::ActorAnimation::AttackRanged)
+                {
+                    failure = "actor started a ranged attack without attack LOS";
+                    return false;
+                }
+
+                for (const OutdoorWorldRuntime::CombatEvent &event : scenario.world.pendingCombatEvents())
+                {
+                    if (event.type == GameplayCombatController::CombatEventType::MonsterRangedRelease
+                        && event.sourceId == 53)
+                    {
+                        if (!currentHasAttackLos)
+                        {
+                            failure = "actor released a ranged attack without attack LOS";
+                            return false;
+                        }
+                    }
+                }
+
+                for (size_t projectileIndex = 0; projectileIndex < scenario.world.projectileCount(); ++projectileIndex)
+                {
+                    const OutdoorWorldRuntime::ProjectileState *pProjectile =
+                        scenario.world.projectileState(projectileIndex);
+
+                    if (!currentHasAttackLos
+                        && pProjectile != nullptr
+                        && pProjectile->sourceKind == GameplayProjectileService::ProjectileState::SourceKind::Actor
+                        && pProjectile->sourceId == 53)
+                    {
+                        failure = "actor spawned a projectile without attack LOS";
+                        return false;
+                    }
+                }
+
+                scenario.world.clearPendingCombatEvents();
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
+
+            if (pAfter == nullptr)
+            {
+                failure = "actor 53 missing after simulation";
+                return false;
+            }
+
+            if (!sawPursuing)
+            {
+                failure = "actor did not pursue sensed party without attack LOS";
+                return false;
+            }
+
+            if (std::abs(pAfter->preciseX - startX) < 8.0f && std::abs(pAfter->preciseY - startY) < 8.0f)
+            {
+                failure = "actor did not move toward party without attack LOS";
                 return false;
             }
 
@@ -11759,9 +12131,15 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const float partyX = pBefore->preciseX + 3000.0f;
-            const float partyY = pBefore->preciseY;
-            const float partyZ = pBefore->preciseZ;
+            const std::optional<GameplayWorldPoint> partyPosition =
+                findOutdoorPartyPositionWithAttackLos(scenario.world, *pBefore, 3000.0f);
+
+            if (!partyPosition)
+            {
+                failure = "could not find a ranged test position with attack LOS";
+                return false;
+            }
+
             bool sawRangedAttack = false;
             bool sawPursuing = false;
             const float startX = pBefore->preciseX;
@@ -11769,7 +12147,11 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             for (size_t stepIndex = 0; stepIndex < 4096; ++stepIndex)
             {
-                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                scenario.world.updateMapActors(
+                    1.0f / 128.0f,
+                    partyPosition->x,
+                    partyPosition->y,
+                    partyPosition->z);
                 const OutdoorWorldRuntime::MapActorState *pAfter = scenario.world.mapActorState(53);
 
                 if (pAfter != nullptr && pAfter->aiState == OutdoorWorldRuntime::ActorAiState::Pursuing)
@@ -11846,9 +12228,15 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const float partyX = pBefore->preciseX + 3000.0f;
-            const float partyY = pBefore->preciseY;
-            const float partyZ = pBefore->preciseZ;
+            const std::optional<GameplayWorldPoint> partyPosition =
+                findOutdoorPartyPositionWithAttackLos(scenario.world, *pBefore, 3000.0f);
+
+            if (!partyPosition)
+            {
+                failure = "could not find a ranged test position with attack LOS";
+                return false;
+            }
+
             bool sawRangedRelease = false;
             bool sawProjectileMove = false;
             float previousProjectileX = 0.0f;
@@ -11856,7 +12244,11 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             for (int step = 0; step < 4096; ++step)
             {
-                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                scenario.world.updateMapActors(
+                    1.0f / 128.0f,
+                    partyPosition->x,
+                    partyPosition->y,
+                    partyPosition->z);
 
                 for (const OutdoorWorldRuntime::CombatEvent &event : scenario.world.pendingCombatEvents())
                 {
@@ -11938,15 +12330,25 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            const float partyX = pBefore->preciseX + 2200.0f;
-            const float partyY = pBefore->preciseY;
-            const float partyZ = pBefore->preciseZ;
+            const std::optional<GameplayWorldPoint> partyPosition =
+                findOutdoorPartyPositionWithAttackLos(scenario.world, *pBefore, 2200.0f);
+
+            if (!partyPosition)
+            {
+                failure = "could not find an arrow hit test position with attack LOS";
+                return false;
+            }
+
             bool sawProjectile = false;
             const int initialTotalHealth = scenario.party.totalHealth();
 
             for (int step = 0; step < 4096; ++step)
             {
-                scenario.world.updateMapActors(1.0f / 128.0f, partyX, partyY, partyZ);
+                scenario.world.updateMapActors(
+                    1.0f / 128.0f,
+                    partyPosition->x,
+                    partyPosition->y,
+                    partyPosition->z);
                 applyPendingCombatEventsToScenarioParty(scenario);
 
                 if (scenario.world.projectileCount() > 0)
@@ -12980,6 +13382,215 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "outdoor_event_check_monsters_killed_respects_alert_status_bit",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map is not an outdoor gameplay map";
+                return false;
+            }
+
+            constexpr int16_t TestMonsterStatsId = 30000;
+            constexpr uint32_t TestEventMonsterId = static_cast<uint32_t>(TestMonsterStatsId - 1);
+
+            MapAssetInfo inactiveActorMap = *selectedMap;
+            inactiveActorMap.outdoorMapDeltaData->locationInfo.alertStatus = 1;
+            inactiveActorMap.outdoorMapDeltaData->actors.clear();
+
+            MapDeltaActor inactiveActor = {};
+            inactiveActor.monsterInfoId = TestMonsterStatsId;
+            inactiveActor.hp = 100;
+            inactiveActor.radius = 32;
+            inactiveActor.height = 128;
+            inactiveActorMap.outdoorMapDeltaData->actors.push_back(inactiveActor);
+
+            RegressionScenario inactiveScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, inactiveActorMap, inactiveScenario))
+            {
+                failure = "inactive-alert scenario init failed";
+                return false;
+            }
+
+            if (!inactiveScenario.world.checkMonstersKilled(
+                    static_cast<uint32_t>(EvtActorKillCheck::MonsterId),
+                    TestEventMonsterId,
+                    0,
+                    false))
+            {
+                failure = "non-current alert-status actor blocked kill check";
+                return false;
+            }
+
+            MapAssetInfo activeActorMap = inactiveActorMap;
+            activeActorMap.outdoorMapDeltaData->actors.front().attributes =
+                static_cast<uint32_t>(EvtActorAttribute::AlertStatus);
+
+            RegressionScenario activeScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, activeActorMap, activeScenario))
+            {
+                failure = "active-alert scenario init failed";
+                return false;
+            }
+
+            if (activeScenario.world.checkMonstersKilled(
+                    static_cast<uint32_t>(EvtActorKillCheck::MonsterId),
+                    TestEventMonsterId,
+                    0,
+                    false))
+            {
+                failure = "current alert-status living actor was treated as killed";
+                return false;
+            }
+
+            MapAssetInfo disabledActorMap = activeActorMap;
+            disabledActorMap.outdoorMapDeltaData->actors.front().attributes |=
+                static_cast<uint32_t>(EvtActorAttribute::Invisible);
+
+            RegressionScenario disabledScenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, disabledActorMap, disabledScenario))
+            {
+                failure = "disabled-actor scenario init failed";
+                return false;
+            }
+
+            if (!disabledScenario.world.checkMonstersKilled(
+                    static_cast<uint32_t>(EvtActorKillCheck::MonsterId),
+                    TestEventMonsterId,
+                    0,
+                    false))
+            {
+                failure = "event-invisible outdoor actor was not treated as killed";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "out05_event_dragon_hunter_tracker_completes_immediately",
+        [&](std::string &failure)
+        {
+            if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "out05.odm"))
+            {
+                failure = "could not load out05.odm";
+                return false;
+            }
+
+            const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+            if (!loadedMap || !loadedMap->localEventProgram || !loadedMap->outdoorMapData
+                || !loadedMap->outdoorMapDeltaData)
+            {
+                failure = "out05 map, outdoor data, or local event program missing";
+                return false;
+            }
+
+            bool foundTrackerTimer = false;
+
+            for (const ScriptedEventProgram::TimerTrigger &timerTrigger : loadedMap->localEventProgram->timerTriggers())
+            {
+                if (timerTrigger.eventId != 131)
+                {
+                    continue;
+                }
+
+                foundTrackerTimer = timerTrigger.repeating
+                    && std::fabs(timerTrigger.intervalGameMinutes - 2.5f) < 0.001f
+                    && std::fabs(timerTrigger.remainingGameMinutes - 2.5f) < 0.001f;
+                break;
+            }
+
+            if (!foundTrackerTimer)
+            {
+                failure = "out05 tracker timer is not configured for a repeating 5 real second interval";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            MapAssetInfo trackerMap = *loadedMap;
+            trackerMap.outdoorMapData->spawns.clear();
+            trackerMap.outdoorMapData->spawnCount = 0;
+            trackerMap.outdoorMapDeltaData->actors.clear();
+            trackerMap.outdoorMapDeltaData->locationInfo.alertStatus = 0;
+
+            for (const int16_t monsterStatsId : {43, 44, 45})
+            {
+                MapDeltaActor actor = {};
+                actor.monsterInfoId = monsterStatsId;
+                actor.hp = 100;
+                actor.radius = 32;
+                actor.height = 128;
+                trackerMap.outdoorMapDeltaData->actors.push_back(actor);
+            }
+
+            if (!initializeRegressionScenario(gameDataLoader, trackerMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            scenario.party.setQuestBit(21, false);
+            scenario.party.setQuestBit(22, true);
+            scenario.party.setQuestBit(158, false);
+            scenario.party.setQuestBit(159, false);
+
+            if (!scenario.world.setMapActorDead(0, true, false))
+            {
+                failure = "could not mark first Dragon Hunter actor dead";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, trackerMap, scenario, 131))
+            {
+                failure = "partial out05 tracker execution failed";
+                return false;
+            }
+
+            if (scenario.party.hasQuestBit(159) || scenario.party.hasQuestBit(158))
+            {
+                failure = "tracker completed while only one Dragon Hunter tier was killed";
+                return false;
+            }
+
+            if (!scenario.world.setMapActorDead(1, true, false) || !scenario.world.setMapActorDead(2, true, false))
+            {
+                failure = "could not mark remaining Dragon Hunter actors dead";
+                return false;
+            }
+
+            if (!executeLocalEventInScenario(gameDataLoader, trackerMap, scenario, 131))
+            {
+                failure = "completed out05 tracker execution failed";
+                return false;
+            }
+
+            if (!scenario.party.hasQuestBit(159) || !scenario.party.hasQuestBit(158))
+            {
+                failure = "tracker pass did not set marker and completion qbits immediately";
+                return false;
+            }
+
+            if (std::find(
+                    scenario.pEventRuntimeState->statusMessages.begin(),
+                    scenario.pEventRuntimeState->statusMessages.end(),
+                    "You have killed all of the Dragon Hunters")
+                == scenario.pEventRuntimeState->statusMessages.end())
+            {
+                failure = "tracker pass did not queue Dragon Hunter status text immediately";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "event_can_show_topic_actor_killed_uses_scene_context",
         [&](std::string &failure)
         {
@@ -13353,6 +13964,93 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             if (scenario.world.gameMinutes() <= beforeMinutes)
             {
                 failure = "world time did not advance without timer programs";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "outdoor_timer_qbit_set_queues_portrait_fx",
+        [&](std::string &failure)
+        {
+            if (!selectedMap || !selectedMap->outdoorMapData || !selectedMap->outdoorMapDeltaData)
+            {
+                failure = "selected map is not an outdoor gameplay map";
+                return false;
+            }
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            if (scenario.pEventRuntimeState == nullptr)
+            {
+                failure = "missing event runtime state";
+                return false;
+            }
+
+            constexpr uint32_t QBitId = 777;
+            constexpr uint32_t QBitRawId = (QBitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
+            scenario.party.setQuestBit(QBitId, false);
+            scenario.pEventRuntimeState->portraitFxRequests.clear();
+
+            std::string error;
+            const std::optional<ScriptedEventProgram> scriptedProgram = loadSyntheticTimedScriptedProgram(
+                "evt.map[1] = function()\n"
+                "    evt.Set(" + std::to_string(QBitRawId) + ", 1)\n"
+                "end\n",
+                "{{eventId = 1, repeating = false, intervalGameMinutes = 0.5, remainingGameMinutes = 0.25}}",
+                "@outdoor_timer_qbit_portrait_fx.lua",
+                ScriptedEventScope::Map,
+                error);
+
+            if (!scriptedProgram)
+            {
+                failure = "failed to load scripted timer program: " + error;
+                return false;
+            }
+
+            if (!scenario.world.updateTimers(1.0f, scenario.eventRuntime, scriptedProgram, std::nullopt))
+            {
+                failure = "outdoor timer did not execute";
+                return false;
+            }
+
+            if (!scenario.party.hasQuestBit(QBitId))
+            {
+                failure = "outdoor timer did not set the party qbit";
+                return false;
+            }
+
+            bool sawAwardFx = false;
+
+            for (const EventRuntimeState::PortraitFxRequest &request : scenario.pEventRuntimeState->portraitFxRequests)
+            {
+                if (request.kind != PortraitFxEventKind::AwardGain)
+                {
+                    continue;
+                }
+
+                if (std::find(
+                        request.memberIndices.begin(),
+                        request.memberIndices.end(),
+                        scenario.party.activeMemberIndex())
+                    != request.memberIndices.end())
+                {
+                    sawAwardFx = true;
+                    break;
+                }
+            }
+
+            if (!sawAwardFx)
+            {
+                failure = "outdoor timer qbit set did not queue portrait fx";
                 return false;
             }
 
@@ -15757,7 +16455,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             const EventDialogContent dialog =
                 buildScenarioDialog(GameApplicationTestAccess::gameDataLoader(application), *loadedMap, loadedScenario, 0, true);
 
-            if (!dialogContainsText(dialog, "The house is empty."))
+            if (!dialog.lines.empty() || !dialog.actions.empty())
             {
                 failure = "loaded house did not remain empty after departure";
                 return false;

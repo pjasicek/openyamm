@@ -82,6 +82,21 @@ bool usesBlackTransparencyKey(std::string_view textureName)
     return normalizedName.rfind("mapdir", 0) == 0 || normalizedName.rfind("micon", 0) == 0;
 }
 
+bool outdoorActorIsPartyControlled(OutdoorWorldRuntime::ActorControlMode mode)
+{
+    switch (mode)
+    {
+        case OutdoorWorldRuntime::ActorControlMode::Charm:
+        case OutdoorWorldRuntime::ActorControlMode::Enslaved:
+        case OutdoorWorldRuntime::ActorControlMode::ControlUndead:
+        case OutdoorWorldRuntime::ActorControlMode::Reanimated:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
 using SpellbookSchool = OutdoorGameView::SpellbookSchool;
 using SpellbookPointerTargetType = OutdoorGameView::SpellbookPointerTargetType;
 constexpr int MinutesPerDay = 24 * 60;
@@ -686,7 +701,11 @@ PortraitAggroIndicator classifyPortraitAggroIndicator(
     {
         const OutdoorWorldRuntime::MapActorState *pActor = pWorldRuntime->mapActorState(actorIndex);
 
-        if (pActor == nullptr || pActor->isDead || pActor->isInvisible || !pActor->hostileToParty)
+        if (pActor == nullptr
+            || pActor->isDead
+            || pActor->isInvisible
+            || !pActor->hostileToParty
+            || outdoorActorIsPartyControlled(pActor->controlMode))
         {
             continue;
         }

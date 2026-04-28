@@ -61,14 +61,19 @@ void IndoorPartyRuntime::teleportPartyPosition(float x, float y, float z)
     m_pendingJumpRequested = false;
 }
 
-void IndoorPartyRuntime::update(float desiredVelocityX, float desiredVelocityY, bool jumpRequested, float deltaSeconds)
+void IndoorPartyRuntime::update(
+    float desiredVelocityX,
+    float desiredVelocityY,
+    bool jumpRequested,
+    bool running,
+    float deltaSeconds)
 {
     if (deltaSeconds <= 0.0f)
     {
         return;
     }
 
-    m_party.updateRecovery(deltaSeconds);
+    m_party.updateRecovery(deltaSeconds, running ? 0.5f : 1.0f);
     m_party.advanceTimedStates(deltaSeconds * GameSecondsPerRealSecond);
 
     const IndoorBodyDimensions body = {};

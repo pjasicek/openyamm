@@ -21,8 +21,6 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint8_t MenuViewId = 0;
-
 struct PcxHeader
 {
     uint8_t manufacturer = 0;
@@ -517,9 +515,14 @@ void MenuScreenBase::renderFrame(
     m_leftMouseDown = inputFrame.leftMouseButton.held;
     m_rightMouseDown = inputFrame.rightMouseButton.held;
 
-    bgfx::setViewRect(MenuViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
-    bgfx::setViewClear(MenuViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ffu, 1.0f, 0);
-    bgfx::touch(MenuViewId);
+    bgfx::setViewRect(m_renderViewId, 0, 0, static_cast<uint16_t>(width), static_cast<uint16_t>(height));
+
+    if (m_clearBackground)
+    {
+        bgfx::setViewClear(m_renderViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ffu, 1.0f, 0);
+    }
+
+    bgfx::touch(m_renderViewId);
     bgfx::dbgTextClear();
 
     float projectionMatrix[16];
@@ -533,7 +536,7 @@ void MenuScreenBase::renderFrame(
         1000.0f,
         0.0f,
         bgfx::getCaps()->homogeneousDepth);
-    bgfx::setViewTransform(MenuViewId, nullptr, projectionMatrix);
+    bgfx::setViewTransform(m_renderViewId, nullptr, projectionMatrix);
 
     drawScreen(deltaSeconds);
     m_leftMouseDownPrevious = m_leftMouseDown;
@@ -604,6 +607,16 @@ bool MenuScreenBase::rightMouseJustReleased() const
 bool MenuScreenBase::isScancodeHeld(SDL_Scancode scancode) const
 {
     return m_pInputFrame != nullptr && m_pInputFrame->isScancodeHeld(scancode);
+}
+
+void MenuScreenBase::setRenderViewId(uint16_t viewId)
+{
+    m_renderViewId = viewId;
+}
+
+void MenuScreenBase::setClearBackground(bool clearBackground)
+{
+    m_clearBackground = clearBackground;
 }
 
 void MenuScreenBase::drawTexture(const std::string &textureName, const Rect &rect)
@@ -679,7 +692,7 @@ void MenuScreenBase::drawPixelsBgra(
         TextureFilterProfile::Ui,
         BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
-    bgfx::submit(MenuViewId, m_texturedProgramHandle);
+    bgfx::submit(m_renderViewId, m_texturedProgramHandle);
 }
 
 void MenuScreenBase::drawTextureHandle(bgfx::TextureHandle textureHandle, const Rect &rect)
@@ -728,7 +741,7 @@ void MenuScreenBase::drawTextureHandle(bgfx::TextureHandle textureHandle, const 
         TextureFilterProfile::Ui,
         BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
-    bgfx::submit(MenuViewId, m_texturedProgramHandle);
+    bgfx::submit(m_renderViewId, m_texturedProgramHandle);
 }
 
 void MenuScreenBase::drawTextureRegionColor(
@@ -795,7 +808,7 @@ void MenuScreenBase::drawTextureRegionColor(
         TextureFilterProfile::Ui,
         BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
-    bgfx::submit(MenuViewId, m_texturedProgramHandle);
+    bgfx::submit(m_renderViewId, m_texturedProgramHandle);
 }
 
 std::optional<MenuScreenBase::TextureSize> MenuScreenBase::textureSize(const std::string &textureName)
@@ -921,7 +934,7 @@ bool MenuScreenBase::drawText(
         bgfx::setVertexBuffer(0, &shadowBuffer);
         bindTexture(0, m_textureUniformHandle, pFont->shadowTextureHandle, TextureFilterProfile::Text);
         bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
-        bgfx::submit(MenuViewId, m_texturedProgramHandle);
+        bgfx::submit(m_renderViewId, m_texturedProgramHandle);
     }
 
     bgfx::TransientVertexBuffer vertexBuffer;
@@ -973,7 +986,7 @@ bool MenuScreenBase::drawText(
     bgfx::setVertexBuffer(0, &vertexBuffer);
     bindTexture(0, m_textureUniformHandle, mainTextureHandle, TextureFilterProfile::Text);
     bgfx::setState(BGFX_STATE_WRITE_RGB | BGFX_STATE_WRITE_A | BGFX_STATE_BLEND_ALPHA | BGFX_STATE_MSAA);
-    bgfx::submit(MenuViewId, m_texturedProgramHandle);
+    bgfx::submit(m_renderViewId, m_texturedProgramHandle);
     return true;
 }
 

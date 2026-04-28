@@ -175,6 +175,7 @@ public:
         bool hostileToParty = false;
         bool isDead = false;
         bool isInvisible = false;
+        bool alertStatusBit = false;
         bool bloodSplatSpawned = false;
         bool hasDetectedParty = false;
         ActorAiState aiState = ActorAiState::Standing;
@@ -203,6 +204,7 @@ public:
         float shrinkRemainingSeconds = 0.0f;
         float shrinkDamageMultiplier = 1.0f;
         float shrinkArmorClassMultiplier = 1.0f;
+        float armorClassHalvedRemainingSeconds = 0.0f;
         float darkGraspRemainingSeconds = 0.0f;
         float dayOfProtectionRemainingSeconds = 0.0f;
         int dayOfProtectionPower = 0;
@@ -270,6 +272,7 @@ public:
         float targetDistance = 0.0f;
         float targetEdgeDistance = 0.0f;
         bool targetCanSense = false;
+        bool targetHasAttackLineOfSight = false;
         bool shouldPromoteHostility = false;
         float promotionRange = 0.0f;
         bool shouldEngageTarget = false;
@@ -489,6 +492,7 @@ public:
     int mapId() const;
     const std::string &mapName() const override;
     bool isIndoorMap() const override;
+    bool isUnderwaterMap() const override;
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
     float currentGameMinutes() const override;
@@ -520,6 +524,11 @@ public:
         uint32_t animationTicks,
         GameplayActorInspectState &state) const override;
     std::optional<GameplayCombatActorInfo> combatActorInfoById(uint32_t actorId) const override;
+    bool applyReflectedDamageToActor(
+        uint32_t actorId,
+        int damage,
+        CombatDamageType damageType,
+        uint32_t sourcePartyMemberIndex) override;
     const MapActorState *mapActorState(size_t actorIndex) const;
     std::optional<GameplayWorldPoint> partyAttackFallbackProjectionPoint(size_t actorIndex) const;
     std::optional<GameplayPartyAttackActorFacts> partyAttackActorFacts(
@@ -545,6 +554,10 @@ public:
     bool applyPartyAttackMeleeDamage(
         size_t actorIndex,
         int damage,
+        const GameplayWorldPoint &source) override;
+    void applyPartyAttackMeleeEffects(
+        size_t actorIndex,
+        const CharacterAttackResult &attack,
         const GameplayWorldPoint &source) override;
     bool spawnPartyAttackProjectile(const GameplayPartyAttackProjectileRequest &request) override;
     bool castPartyAttackSpell(const GameplayPartyAttackSpellRequest &request) override;
@@ -808,6 +821,7 @@ public:
         int damage = 0;
         int attackBonus = 0;
         bool useActorHitChance = false;
+        CombatDamageType damageType = CombatDamageType::Physical;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceZ = 0.0f;
@@ -826,6 +840,7 @@ public:
         int damage = 0;
         int attackBonus = 0;
         bool useActorHitChance = false;
+        CombatDamageType damageType = CombatDamageType::Physical;
         float sourceX = 0.0f;
         float sourceY = 0.0f;
         float sourceZ = 0.0f;
@@ -862,6 +877,7 @@ public:
 
     void collectOutdoorFaceCandidates(float minX, float minY, float maxX, float maxY, std::vector<size_t> &indices) const;
     const OutdoorFaceGeometryData *outdoorFace(size_t faceIndex) const;
+    bool hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const;
     size_t bloodSplatCount() const;
     const BloodSplatState *bloodSplatState(size_t splatIndex) const;
     uint64_t bloodSplatRevision() const;
@@ -948,7 +964,6 @@ private:
         float targetZ,
         float spawnForwardOffset
     );
-    bool hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const;
     void buildOutdoorFaceSpatialIndex();
     bool materializeTreasureSpawnFromSpawnPoint(size_t spawnPointIndex);
     bool resolveWorldItemVisual(
@@ -1176,6 +1191,10 @@ private:
     bool outdoorActorCanApplyPartyMeleeImpact(const MapActorState &actor) const;
     void applyOutdoorActorTerminalUpdate(size_t actorIndex, MapActorState &actor, const ActorAiUpdate &update);
     void syncOutdoorActorIntegerPosition(MapActorState &actor) const;
+    bool applyOutdoorActorPhysicsStep(
+        size_t actorIndex,
+        const MonsterTable::MonsterStatsEntry &stats,
+        const std::vector<bool> &activeActorMask);
     void applyOutdoorActorPostMovementAiUpdate(
         MapActorState &actor,
         const ActorAiUpdate &movementUpdate,

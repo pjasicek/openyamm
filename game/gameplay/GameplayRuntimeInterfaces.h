@@ -1,9 +1,11 @@
 #pragma once
 
 #include "game/events/EventRuntime.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayWorldInteraction.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
+#include "game/tables/MonsterTable.h"
 
 #include <array>
 #include <cstddef>
@@ -152,6 +154,7 @@ struct GameplayActorSpellEffectState
     float shrinkRemainingSeconds = 0.0f;
     float shrinkDamageMultiplier = 1.0f;
     float shrinkArmorClassMultiplier = 1.0f;
+    float armorClassHalvedRemainingSeconds = 0.0f;
     float darkGraspRemainingSeconds = 0.0f;
     float dayOfProtectionRemainingSeconds = 0.0f;
     int dayOfProtectionPower = 0;
@@ -309,6 +312,8 @@ struct GameplayCombatActorInfo
     int maxHp = 0;
     uint32_t attackPreferences = 0;
     int attackBonus = 0;
+    MonsterSpecialAttackKind specialAttackKind = MonsterSpecialAttackKind::None;
+    int specialAttackLevel = 0;
     std::string displayName;
 };
 
@@ -332,6 +337,7 @@ struct GameplayPartyAttackProjectileRequest
     int damage = 0;
     int attackBonus = 0;
     bool useActorHitChance = false;
+    CombatDamageType damageType = CombatDamageType::Physical;
     GameplayWorldPoint source = {};
     GameplayWorldPoint target = {};
 };
@@ -367,6 +373,10 @@ public:
 
     virtual const std::string &mapName() const = 0;
     virtual bool isIndoorMap() const = 0;
+    virtual bool isUnderwaterMap() const
+    {
+        return false;
+    }
     virtual float gameMinutes() const = 0;
     virtual int currentHour() const = 0;
     virtual const std::vector<uint8_t> *journalMapFullyRevealedCells() const = 0;
@@ -418,6 +428,18 @@ public:
         uint32_t animationTicks,
         GameplayActorInspectState &state) const = 0;
     virtual std::optional<GameplayCombatActorInfo> combatActorInfoById(uint32_t actorId) const = 0;
+    virtual bool applyReflectedDamageToActor(
+        uint32_t actorId,
+        int damage,
+        CombatDamageType damageType,
+        uint32_t sourcePartyMemberIndex)
+    {
+        (void)actorId;
+        (void)damage;
+        (void)damageType;
+        (void)sourcePartyMemberIndex;
+        return false;
+    }
     virtual bool castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request) = 0;
     virtual bool applyPartySpellToActor(
         size_t actorIndex,
@@ -471,6 +493,15 @@ public:
         size_t actorIndex,
         int damage,
         const GameplayWorldPoint &source) = 0;
+    virtual void applyPartyAttackMeleeEffects(
+        size_t actorIndex,
+        const CharacterAttackResult &attack,
+        const GameplayWorldPoint &source)
+    {
+        (void)actorIndex;
+        (void)attack;
+        (void)source;
+    }
     virtual bool spawnPartyAttackProjectile(const GameplayPartyAttackProjectileRequest &request) = 0;
     virtual bool castPartyAttackSpell(const GameplayPartyAttackSpellRequest &request) = 0;
     virtual void recordPartyAttackWorldResult(

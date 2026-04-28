@@ -2013,7 +2013,8 @@ TEST_CASE("empty house after departure")
 
     const OpenYAMM::Game::EventDialogContent &dialog = harness.presentPendingDialog(0, true);
 
-    CHECK(dialogContainsText(dialog, "The house is empty."));
+    CHECK(dialog.lines.empty());
+    CHECK(dialog.actions.empty());
 }
 
 TEST_CASE("event fountain heal and refresh status work")

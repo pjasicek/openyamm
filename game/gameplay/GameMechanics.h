@@ -49,6 +49,21 @@ enum class CharacterAttackMode
     DragonBreath,
 };
 
+enum class CombatDamageType
+{
+    Physical,
+    Fire,
+    Air,
+    Water,
+    Earth,
+    Spirit,
+    Mind,
+    Body,
+    Light,
+    Dark,
+    Irresistible,
+};
+
 struct CharacterAttackProfile
 {
     bool canMelee = false;
@@ -60,6 +75,8 @@ struct CharacterAttackProfile
     int meleeAttackBonus = 0;
     int meleeMinDamage = 0;
     int meleeMaxDamage = 0;
+    uint32_t meleeSkillLevel = 0;
+    uint32_t meleeSkillMastery = 0;
     std::optional<int> rangedAttackBonus;
     int rangedMinDamage = 0;
     int rangedMaxDamage = 0;
@@ -85,6 +102,11 @@ struct CharacterAttackResult
     uint32_t skillLevel = 0;
     uint32_t skillMastery = 0;
     int spellId = 0;
+    CombatDamageType damageType = CombatDamageType::Physical;
+    bool criticalDamage = false;
+    bool stunTarget = false;
+    bool paralyzeTarget = false;
+    bool halveTargetArmorClass = false;
     std::string attackSoundHook;
     std::string damageSoundHook;
     std::string voiceHook;
@@ -177,6 +199,22 @@ public:
         int targetArmorClass,
         int attackBonus,
         float targetDistance,
+        std::mt19937 &rng);
+    static CombatDamageType parseCombatDamageType(const std::string &value);
+    static CombatDamageType spellCombatDamageType(uint32_t spellId, const SpellTable *pSpellTable);
+    static int resolveCharacterIncomingDamage(
+        const Character &character,
+        const ItemTable *pItemTable,
+        const StandardItemEnchantTable *pStandardItemEnchantTable,
+        const SpecialItemEnchantTable *pSpecialItemEnchantTable,
+        int damage,
+        CombatDamageType damageType,
+        std::mt19937 &rng);
+    static int resolveMonsterIncomingDamage(
+        int damage,
+        CombatDamageType damageType,
+        int monsterLevel,
+        int resistance,
         std::mt19937 &rng);
     static bool monsterAttackHitsArmorClass(
         int targetArmorClass,

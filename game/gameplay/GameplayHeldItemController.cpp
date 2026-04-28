@@ -155,7 +155,9 @@ bool GameplayHeldItemController::tryAutoPlaceHeldInventoryItemOnPartyMember(
 
     if (!party.tryAutoPlaceItemInMemberInventory(memberIndex, heldInventoryItem.item))
     {
-        failureStatus = party.lastStatus().empty() ? "Inventory full" : party.lastStatus();
+        failureStatus = party.lastStatus().empty() || party.lastStatus() == "inventory full"
+            ? "Pack is Full!"
+            : party.lastStatus();
         return false;
     }
 

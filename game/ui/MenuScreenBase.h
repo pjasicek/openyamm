@@ -103,6 +103,8 @@ protected:
         bool drawShadow = true);
     float measureTextWidth(const std::string &fontName, const std::string &text, float scale = 1.0f);
     int fontHeight(const std::string &fontName);
+    void setRenderViewId(uint16_t viewId);
+    void setClearBackground(bool clearBackground);
     ButtonState drawButton(const ButtonVisualSet &visuals, const Rect &rect);
     void drawDebugText(int pixelX, int pixelY, uint8_t color, const std::string &text) const;
     bool hitTest(const Rect &rect) const;
@@ -207,6 +209,8 @@ private:
     bool m_rightMouseDown = false;
     bool m_rightMouseDownPrevious = false;
     bool m_rendererInitialized = false;
+    uint16_t m_renderViewId = 0;
+    bool m_clearBackground = true;
     bgfx::ProgramHandle m_texturedProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_textureUniformHandle = BGFX_INVALID_HANDLE;
     std::vector<TextureHandle> m_textureHandles;

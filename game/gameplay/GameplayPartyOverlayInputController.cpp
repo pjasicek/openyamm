@@ -1372,10 +1372,8 @@ void GameplayPartyOverlayInputController::handleSpellbookOverlayInput(
                     const size_t casterMemberIndex =
                         context.partyReadOnly() != nullptr ? context.partyReadOnly()->activeMemberIndex() : 0;
 
-                    if (context.tryCastSpellFromMember(casterMemberIndex, target.spellId, spellName))
-                    {
-                        context.closeSpellbookOverlay();
-                    }
+                    context.tryCastSpellFromMember(casterMemberIndex, target.spellId, spellName);
+                    context.closeSpellbookOverlay();
                 }
 
                 return;
@@ -2609,8 +2607,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         plan->autoStoreDisplacedItem,
                         heldReplacement))
                 {
+                    const std::string &partyStatus = pParty->lastStatus();
                     context.setStatusBarEvent(
-                        pParty->lastStatus().empty() ? "Can't equip that item" : pParty->lastStatus());
+                        partyStatus.empty() || partyStatus == "inventory full" ? "Pack is Full!" : partyStatus);
                     return;
                 }
 
@@ -2684,8 +2683,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         plan->autoStoreDisplacedItem,
                         heldReplacement))
                 {
+                    const std::string &partyStatus = pParty->lastStatus();
                     context.setStatusBarEvent(
-                        pParty->lastStatus().empty() ? "Can't equip that item" : pParty->lastStatus());
+                        partyStatus.empty() || partyStatus == "inventory full" ? "Pack is Full!" : partyStatus);
                     return;
                 }
 
@@ -2712,8 +2712,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         target.gridY,
                         replacedItem))
                 {
+                    const std::string &partyStatus = pParty->lastStatus();
                     context.setStatusBarEvent(
-                        pParty->lastStatus().empty() ? "Can't place item" : pParty->lastStatus());
+                        partyStatus.empty() || partyStatus == "inventory full" ? "Pack is Full!" : partyStatus);
                     return;
                 }
 
@@ -2783,8 +2784,9 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
                         static_cast<uint8_t>(placement->second),
                         replacedItem))
                 {
+                    const std::string &partyStatus = pParty->lastStatus();
                     context.setStatusBarEvent(
-                        pParty->lastStatus().empty() ? "Can't place item" : pParty->lastStatus());
+                        partyStatus.empty() || partyStatus == "inventory full" ? "Pack is Full!" : partyStatus);
                     return;
                 }
 

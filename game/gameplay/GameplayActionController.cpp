@@ -197,6 +197,10 @@ CharacterAttackResult buildRangedReleaseAttack(
     {
         attack.attackSoundHook = "blaster_shot";
     }
+    else if (mode == CharacterAttackMode::DragonBreath)
+    {
+        attack.damageType = CombatDamageType::Irresistible;
+    }
 
     attack.voiceHook = "attack";
 
@@ -351,7 +355,8 @@ int resolveMeleeAppliedDamage(
     const GameplayActionController::PartyAttackConfig &config,
     const Character &attacker,
     const GameplayActionController::PartyAttackActorFacts &target,
-    const CharacterAttackResult &attack)
+    const CharacterAttackResult &attack,
+    std::mt19937 &rng)
 {
     int appliedDamage = attack.damage;
 
@@ -376,7 +381,33 @@ int resolveMeleeAppliedDamage(
             pStats->name,
             pStats->pictureName);
     appliedDamage *= multiplier;
-    return appliedDamage;
+
+    int resistance = pStats->physicalResistance;
+
+    switch (attack.damageType)
+    {
+        case CombatDamageType::Fire: resistance = pStats->fireResistance; break;
+        case CombatDamageType::Air: resistance = pStats->airResistance; break;
+        case CombatDamageType::Water: resistance = pStats->waterResistance; break;
+        case CombatDamageType::Earth: resistance = pStats->earthResistance; break;
+        case CombatDamageType::Spirit: resistance = pStats->spiritResistance; break;
+        case CombatDamageType::Mind: resistance = pStats->mindResistance; break;
+        case CombatDamageType::Body: resistance = pStats->bodyResistance; break;
+        case CombatDamageType::Light: resistance = pStats->lightResistance; break;
+        case CombatDamageType::Dark: resistance = pStats->darkResistance; break;
+        case CombatDamageType::Irresistible: resistance = 0; break;
+        case CombatDamageType::Physical:
+        default:
+            resistance = pStats->physicalResistance;
+            break;
+    }
+
+    return GameMechanics::resolveMonsterIncomingDamage(
+        appliedDamage,
+        attack.damageType,
+        pStats->level,
+        resistance,
+        rng);
 }
 
 std::mt19937 buildPartyAttackRng(
@@ -601,6 +632,14 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
     }
 
     result.attack = attack;
+
+    if (attack.canAttack && attack.mode != CharacterAttackMode::Melee
+        && pAttacker->conditions.test(static_cast<size_t>(CharacterCondition::Weak)))
+    {
+        attack.damage /= 2;
+        result.attack = attack;
+    }
+
     bool actionPerformed = false;
     bool attacked = false;
     bool killed = false;
@@ -616,7 +655,7 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
             && attack.damage > 0
             && config.pWorldRuntime != nullptr)
         {
-            const int appliedDamage = resolveMeleeAppliedDamage(config, *pAttacker, *target, attack);
+            const int appliedDamage = resolveMeleeAppliedDamage(config, *pAttacker, *target, attack, rng);
             const int beforeHp = target->currentHp;
             attacked = config.pWorldRuntime->applyPartyAttackMeleeDamage(
                 target->actorIndex,
@@ -625,6 +664,11 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
 
             if (attacked)
             {
+                config.pWorldRuntime->applyPartyAttackMeleeEffects(
+                    target->actorIndex,
+                    attack,
+                    toRuntimeWorldPoint(config.partyPosition));
+
                 const std::optional<PartyAttackActorFacts> afterTarget =
                     resolveUsableActorTarget(config, target->actorIndex);
                 killed = beforeHp > 0 && afterTarget && afterTarget->currentHp <= 0;
@@ -719,19 +763,32 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
         }
         else if (config.pWorldRuntime != nullptr)
         {
-            attacked = config.pWorldRuntime->spawnPartyAttackProjectile(
-                GameplayPartyAttackProjectileRequest{
-                    .sourcePartyMemberIndex = actingMemberIndex,
-                    .objectId =
-                        attack.mode == CharacterAttackMode::Blaster
-                            ? config.blasterProjectileObjectId
-                            : config.arrowProjectileObjectId,
-                    .damage = attack.damage,
-                    .attackBonus = attack.attackBonus,
-                    .useActorHitChance = true,
-                    .source = toRuntimeWorldPoint(rangedSource),
-                    .target = toRuntimeWorldPoint(rangedTarget),
-                });
+            GameplayPartyAttackProjectileRequest projectileRequest = {
+                .sourcePartyMemberIndex = actingMemberIndex,
+                .objectId =
+                    attack.mode == CharacterAttackMode::Blaster
+                        ? config.blasterProjectileObjectId
+                        : config.arrowProjectileObjectId,
+                .damage = attack.damage,
+                .attackBonus = attack.attackBonus,
+                .useActorHitChance = true,
+                .damageType = attack.damageType,
+                .source = toRuntimeWorldPoint(rangedSource),
+                .target = toRuntimeWorldPoint(rangedTarget),
+            };
+            attacked = config.pWorldRuntime->spawnPartyAttackProjectile(projectileRequest);
+
+            if (attack.mode == CharacterAttackMode::Bow
+                && static_cast<SkillMastery>(attack.skillMastery) >= SkillMastery::Master)
+            {
+                const WorldPoint secondSource = offsetPartyProjectileSourceForMember(
+                    config,
+                    rangedTarget,
+                    actingMemberIndex + 1,
+                    party.members().size() + 1);
+                projectileRequest.source = toRuntimeWorldPoint(secondSource);
+                attacked = config.pWorldRuntime->spawnPartyAttackProjectile(projectileRequest) || attacked;
+            }
         }
 
         actionPerformed = attacked;

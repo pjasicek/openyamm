@@ -459,7 +459,7 @@ public:
     bool spendSpellPoints(size_t memberIndex, int amount);
     bool spendSpellPointsOnActiveMember(int amount);
     void advanceTimedStates(float deltaSeconds);
-    void updateRecovery(float deltaSeconds);
+    void updateRecovery(float deltaSeconds, float progressScale = 1.0f);
     bool applyRecoveryToMember(size_t memberIndex, float recoverySeconds);
     bool applyRecoveryToActiveMember(float recoverySeconds);
     bool switchToNextReadyMember();

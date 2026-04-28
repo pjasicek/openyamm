@@ -42,16 +42,6 @@ bool isPrimaryDeathBlossomProjectile(const GameplayProjectileService::Projectile
         && toLowerCopy(projectile.objectName) != "shard";
 }
 
-int averageMonsterProjectileDamage(const GameplayProjectileService::MonsterProjectileDamageProfile &profile)
-{
-    if (profile.diceRolls <= 0 || profile.diceSides <= 0)
-    {
-        return std::max(0, profile.bonus);
-    }
-
-    return profile.diceRolls * (profile.diceSides + 1) / 2 + profile.bonus;
-}
-
 int rollDice(uint32_t rollCount, int diceSides)
 {
     if (rollCount == 0 || diceSides <= 0)
@@ -69,6 +59,16 @@ int rollDice(uint32_t rollCount, int diceSides)
     }
 
     return result;
+}
+
+int rollMonsterProjectileDamage(const GameplayProjectileService::MonsterProjectileDamageProfile &profile)
+{
+    if (profile.diceRolls <= 0 || profile.diceSides <= 0)
+    {
+        return std::max(0, profile.bonus);
+    }
+
+    return std::max(0, profile.bonus) + rollDice(static_cast<uint32_t>(profile.diceRolls), profile.diceSides);
 }
 
 int rollMonsterSpellDamage(
@@ -347,6 +347,7 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
         projectile.z = request.sourceZ;
         projectile.damage = request.damage;
         projectile.attackBonus = request.attackBonus;
+        projectile.damageType = request.damageType;
         projectile.useActorHitChance = request.useActorHitChance;
         projectile.lifetimeTicks = request.definition.lifetimeTicks;
         projectile.sectorId = request.sectorId;
@@ -394,6 +395,7 @@ GameplayProjectileService::ProjectileSpawnResult GameplayProjectileService::spaw
     projectile.velocityZ = directionZ * request.definition.speed;
     projectile.damage = request.damage;
     projectile.attackBonus = request.attackBonus;
+    projectile.damageType = request.damageType;
     projectile.useActorHitChance = request.useActorHitChance;
     projectile.lifetimeTicks = request.definition.lifetimeTicks;
     projectile.sectorId = request.sectorId;
@@ -741,6 +743,7 @@ GameplayProjectileService::buildDeathBlossomFalloutSpawnRequests(
         request.skillMastery = projectile.skillMastery;
         request.damage = projectile.damage;
         request.attackBonus = projectile.attackBonus;
+        request.damageType = projectile.damageType;
         request.sourceX = x;
         request.sourceY = y;
         request.sourceZ = z + DeathBlossomFalloutSourceHeightOffset;
@@ -809,6 +812,12 @@ GameplayProjectileService::buildProjectileImpactVisualDefinition(
     definition.objectHeight = objectEntry.height;
     definition.lifetimeTicks = static_cast<uint32_t>(std::max<int>(objectEntry.lifetimeTicks, 32));
     definition.hasVisual = objectEntry.spriteId != 0 || !objectEntry.spriteName.empty();
+    if (pSpriteFrameTable != nullptr && definition.objectSpriteFrameIndex != 0)
+    {
+        const SpriteFrameEntry *pFrame = pSpriteFrameTable->getFrame(definition.objectSpriteFrameIndex, 0);
+        definition.centerAnchored =
+            pFrame != nullptr && SpriteFrameTable::hasFlag(pFrame->flags, SpriteFrameFlag::Center);
+    }
     definition.objectName = objectEntry.internalName;
     definition.objectSpriteName = objectEntry.spriteName;
     return definition;
@@ -884,7 +893,7 @@ GameplayProjectileService::spawnProjectileImpactVisual(
     impactState.sourceObjectSpriteName = projectile.objectSpriteName;
     impactState.x = x;
     impactState.y = y;
-    impactState.z = centerVertically
+    impactState.z = centerVertically && !definition.centerAnchored
         ? z - static_cast<float>(std::max<int16_t>(definition.objectHeight, 0)) * 0.5f
         : z;
     impactState.lifetimeTicks = definition.lifetimeTicks;
@@ -951,7 +960,7 @@ GameplayProjectileService::spawnImmediateSpellImpactVisual(
     impactState.sourceObjectSpriteName = sourceObjectSpriteName;
     impactState.x = x;
     impactState.y = y;
-    impactState.z = centerVertically
+    impactState.z = centerVertically && !definition.centerAnchored
         ? z - static_cast<float>(std::max<int16_t>(definition.objectHeight, 0)) * 0.5f
         : z;
     impactState.lifetimeTicks = definition.lifetimeTicks;
@@ -1099,7 +1108,7 @@ int GameplayProjectileService::resolveProjectilePartyImpactDamage(
     {
         case MonsterAttackAbility::Attack2:
         {
-            const int damage = averageMonsterProjectileDamage(input.attack2Damage);
+            const int damage = rollMonsterProjectileDamage(input.attack2Damage);
             return std::max(1, damage > 0 ? damage : fallbackAttackDamage);
         }
         case MonsterAttackAbility::Spell1:
@@ -1109,7 +1118,7 @@ int GameplayProjectileService::resolveProjectilePartyImpactDamage(
         case MonsterAttackAbility::Attack1:
         default:
         {
-            const int damage = averageMonsterProjectileDamage(input.attack1Damage);
+            const int damage = rollMonsterProjectileDamage(input.attack1Damage);
             return std::max(1, damage > 0 ? damage : fallbackAttackDamage);
         }
     }
@@ -1625,6 +1634,9 @@ GameplayProjectileService::ProjectileState GameplayProjectileService::buildFireS
     projectile.y = input.y;
     projectile.z = input.z;
     projectile.damage = input.damage;
+    projectile.damageType = spellIdFromValue(input.spellId) == SpellId::FireSpike
+        ? CombatDamageType::Fire
+        : CombatDamageType::Physical;
     return projectile;
 }
 

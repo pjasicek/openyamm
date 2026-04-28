@@ -14,6 +14,7 @@
 #include <string>
 #include <unordered_map>
 #include <unordered_set>
+#include <utility>
 #include <vector>
 
 namespace OpenYAMM::Game
@@ -236,6 +237,30 @@ struct EventRuntimeState
 
     bool hasFacetInvisibleOverride(uint32_t faceId) const;
 };
+
+inline bool pendingMapMoveTargetsAnotherMap(const EventRuntimeState::PendingMapMove &pendingMapMove)
+{
+    return pendingMapMove.mapName.has_value()
+        && !pendingMapMove.mapName->empty()
+        && *pendingMapMove.mapName != "0";
+}
+
+inline bool promotePendingMapMoveToTransitionDialog(EventRuntimeState &eventRuntimeState)
+{
+    if (eventRuntimeState.pendingDialogueContext
+        || !eventRuntimeState.pendingMapMove
+        || !pendingMapMoveTargetsAnotherMap(*eventRuntimeState.pendingMapMove))
+    {
+        return false;
+    }
+
+    EventRuntimeState::PendingDialogueContext context = {};
+    context.kind = DialogueContextKind::MapTransition;
+    context.transitionMapMove = std::move(eventRuntimeState.pendingMapMove);
+    eventRuntimeState.pendingMapMove.reset();
+    eventRuntimeState.pendingDialogueContext = std::move(context);
+    return true;
+}
 
 struct EventRuntimeBindingReport
 {

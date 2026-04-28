@@ -53,12 +53,7 @@ RegisterEvent(6, "Legacy event 6", function()
     if not evt.CheckMonstersKilled(2, 105, 0, false) then return end
     if not evt.CheckMonstersKilled(2, 106, 0, false) then return end
     if not evt.CheckMonstersKilled(2, 107, 0, false) then return end
-    if not IsQBitSet(QBit(131)) then
-        SetQBit(QBit(131))
-        evt.SummonMonsters(1, 1, 160, 32, 0, 0, 1, 0)
-        evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
-        return
-    end
+    SetQBit(QBit(131))
     SetQBit(QBit(130))
     SetQBit(QBit(225))
     ClearQBit(QBit(225))
@@ -488,4 +483,3 @@ RegisterEvent(501, "Leave the Ogre Raiding Fortress", function()
     evt.MoveToMap(-20450, 1451, 1056, 1536, 0, 0, 0, 0, "Out03.odm")
     return
 end, "Leave the Ogre Raiding Fortress")
-

@@ -69,6 +69,7 @@ public:
         float velocityZ = 0.0f;
         int damage = 0;
         int attackBonus = 0;
+        CombatDamageType damageType = CombatDamageType::Physical;
         bool useActorHitChance = false;
         uint32_t timeSinceCreatedTicks = 0;
         float lifetimeTickAccumulator = 0.0f;
@@ -131,6 +132,7 @@ public:
         uint32_t skillMastery = 0;
         int damage = 0;
         int attackBonus = 0;
+        CombatDamageType damageType = CombatDamageType::Physical;
         bool useActorHitChance = false;
         uint32_t impactSoundIdOverride = 0;
         float sourceX = 0.0f;
@@ -169,6 +171,7 @@ public:
         int16_t objectHeight = 0;
         uint32_t lifetimeTicks = 0;
         bool hasVisual = false;
+        bool centerAnchored = false;
         std::string objectName;
         std::string objectSpriteName;
     };

@@ -12,6 +12,7 @@ struct SpellEntry
     int id = 0;
     std::string name;
     std::string normalizedName;
+    std::string schoolName;
     std::string shortName;
     std::string description;
     std::string normalText;

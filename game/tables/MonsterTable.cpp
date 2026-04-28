@@ -99,23 +99,29 @@ MonsterTable::MonsterStatsEntry::DamageProfile parseDamageProfile(const std::str
 {
     MonsterTable::MonsterStatsEntry::DamageProfile profile = {};
     static const std::regex damagePattern(R"(^\s*(\d+)\s*[dD]\s*(\d+)\s*(?:([+-])\s*(\d+))?\s*$)");
+    static const std::regex flatDamagePattern(R"(^\s*(\d+)\s*$)");
     std::smatch match;
 
-    if (!std::regex_match(value, match, damagePattern))
+    if (std::regex_match(value, match, flatDamagePattern))
     {
+        profile.diceRolls = std::stoi(match[1].str());
+        profile.diceSides = 1;
         return profile;
     }
 
-    profile.diceRolls = std::stoi(match[1].str());
-    profile.diceSides = std::stoi(match[2].str());
-
-    if (match[4].matched)
+    if (std::regex_match(value, match, damagePattern))
     {
-        profile.bonus = std::stoi(match[4].str());
+        profile.diceRolls = std::stoi(match[1].str());
+        profile.diceSides = std::stoi(match[2].str());
 
-        if (match[3].matched && match[3].str() == "-")
+        if (match[4].matched)
         {
-            profile.bonus = -profile.bonus;
+            profile.bonus = std::stoi(match[4].str());
+
+            if (match[3].matched && match[3].str() == "-")
+            {
+                profile.bonus = -profile.bonus;
+            }
         }
     }
 
@@ -226,6 +232,143 @@ SkillMastery parseMonsterSpellSkillMastery(const std::string &value)
     }
 
     return parseSkillMasteryToken(tokens[1]);
+}
+
+struct MonsterSpecialAttackParseResult
+{
+    MonsterSpecialAttackKind kind = MonsterSpecialAttackKind::None;
+    int level = 0;
+};
+
+MonsterSpecialAttackParseResult parseMonsterSpecialAttack(const std::string &value)
+{
+    MonsterSpecialAttackParseResult result = {};
+    std::string token = toLowerCopy(trimCopy(value));
+
+    if (token.empty() || token == "0" || token == "none")
+    {
+        return result;
+    }
+
+    token.erase(
+        std::remove_if(
+            token.begin(),
+            token.end(),
+            [](unsigned char character)
+            {
+                return std::isspace(character) != 0 || character == '_' || character == '-' || character == '"';
+            }),
+        token.end());
+
+    result.level = 1;
+    const size_t multiplierIndex = token.rfind('x');
+
+    if (multiplierIndex != std::string::npos && multiplierIndex + 1 < token.size())
+    {
+        const std::string multiplierText = token.substr(multiplierIndex + 1);
+
+        if (isNumericString(multiplierText))
+        {
+            result.level = std::max(1, std::stoi(multiplierText));
+            token = token.substr(0, multiplierIndex);
+        }
+    }
+
+    if (token.rfind("curse", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Curse;
+    }
+    else if (token.rfind("weak", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Weak;
+    }
+    else if (token.rfind("asleep", 0) == 0 || token.rfind("sleep", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Sleep;
+    }
+    else if (token.rfind("afraid", 0) == 0 || token.rfind("fear", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Fear;
+    }
+    else if (token.rfind("drunk", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Drunk;
+    }
+    else if (token.rfind("insane", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Insane;
+    }
+    else if (token.rfind("poisonweak", 0) == 0 || token.rfind("poison1", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::PoisonWeak;
+    }
+    else if (token.rfind("poisonmedium", 0) == 0 || token.rfind("poison2", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::PoisonMedium;
+    }
+    else if (token.rfind("poisonsevere", 0) == 0 || token.rfind("poison3", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::PoisonSevere;
+    }
+    else if (token.rfind("diseaseweak", 0) == 0 || token.rfind("disease1", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::DiseaseWeak;
+    }
+    else if (token.rfind("diseasemedium", 0) == 0 || token.rfind("disease2", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::DiseaseMedium;
+    }
+    else if (token.rfind("diseasesevere", 0) == 0 || token.rfind("disease3", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::DiseaseSevere;
+    }
+    else if (token.rfind("paralyze", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Paralyze;
+    }
+    else if (token.rfind("uncon", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Unconscious;
+    }
+    else if (token.rfind("dead", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Dead;
+    }
+    else if (token.rfind("stone", 0) == 0 || token.rfind("petrify", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Petrify;
+    }
+    else if (token.rfind("erad", 0) == 0 || token.rfind("errad", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Eradicate;
+    }
+    else if (token.rfind("brkitem", 0) == 0 || token.rfind("breakitem", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::BreakAny;
+    }
+    else if (token.rfind("brkarmor", 0) == 0 || token.rfind("breakarmor", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::BreakArmor;
+    }
+    else if (token.rfind("brkweapon", 0) == 0 || token.rfind("breakweapon", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::BreakWeapon;
+    }
+    else if (token.rfind("age", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::Aging;
+    }
+    else if (token.rfind("drainsp", 0) == 0 || token.rfind("manadrain", 0) == 0)
+    {
+        result.kind = MonsterSpecialAttackKind::ManaDrain;
+    }
+
+    if (result.kind == MonsterSpecialAttackKind::None)
+    {
+        result.level = 0;
+    }
+
+    return result;
 }
 
 bool isNumericString(const std::string &value)
@@ -670,6 +813,11 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.recovery = row[14].empty() ? 0 : std::stoi(row[14]);
         entry.attackPreferences =
             row.size() > 15 && isNumericString(row[15]) ? static_cast<uint32_t>(std::stoul(row[15])) : 0;
+        entry.specialAttackDescriptor = row.size() > 16 ? row[16] : std::string();
+        const MonsterSpecialAttackParseResult specialAttack =
+            parseMonsterSpecialAttack(entry.specialAttackDescriptor);
+        entry.specialAttackKind = specialAttack.kind;
+        entry.specialAttackLevel = specialAttack.level;
         entry.attack1MissileType = row.size() > 19 ? row[19] : std::string();
         entry.attack1HasMissile = isSupportedMonsterMissileToken(entry.attack1MissileType);
         entry.attack1Damage = row.size() > 18 ? parseDamageProfile(row[18]) : MonsterStatsEntry::DamageProfile();

@@ -29,7 +29,7 @@ SetMapMetadata({
     spriteNames = {},
     castSpellIds = {},
     timers = {
-    { eventId = 131, repeating = true, intervalGameMinutes = 10, remainingGameMinutes = 10 },
+    { eventId = 131, repeating = true, intervalGameMinutes = 2.5, remainingGameMinutes = 2.5 },
     { eventId = 479, repeating = true, intervalGameMinutes = 12.5, remainingGameMinutes = 12.5 },
     { eventId = 490, repeating = true, intervalGameMinutes = 7.5, remainingGameMinutes = 7.5 },
     },
@@ -442,12 +442,7 @@ RegisterEvent(131, "Legacy event 131", function()
     if not evt.CheckMonstersKilled(2, 30, 0, false) then return end
     if not evt.CheckMonstersKilled(2, 31, 0, false) then return end
     if not evt.CheckMonstersKilled(2, 32, 0, false) then return end
-    if not IsQBitSet(QBit(131)) then
-        SetQBit(QBit(131))
-        evt.SummonMonsters(2, 1, 1, -30272, -16512, 0, 1, 0)
-        evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
-        return
-    end
+    SetQBit(QBit(131))
     SetQBit(QBit(130))
     SetQBit(QBit(225))
     ClearQBit(QBit(225))
@@ -748,4 +743,3 @@ RegisterEvent(504, "Enter the Wasp Nest", function()
     evt.MoveToMap(301, 2162, 513, 161, 0, 0, 197, 0, "d11.blv")
     return
 end, "Enter the Wasp Nest")
-

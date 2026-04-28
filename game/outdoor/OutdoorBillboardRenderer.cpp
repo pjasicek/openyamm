@@ -3255,6 +3255,7 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
             const float spriteScale = std::max(pFrame->scale, 0.01f);
             const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
             const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+            const bool centerAnchored = SpriteFrameTable::hasFlag(pFrame->flags, SpriteFrameFlag::Center);
 
             if (shouldLog)
             {
@@ -3286,7 +3287,7 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
                 view,
                 x,
                 y,
-                z + static_cast<float>(pTexture->height) * std::max(pFrame->scale, 0.01f) * 0.5f);
+                centerAnchored ? z : z + worldHeight * 0.5f);
             drawItems.push_back(drawItem);
         };
 
@@ -3404,7 +3405,12 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
             const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
             const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
             const float halfWidth = worldWidth * 0.5f;
-            const bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.z + worldHeight * 0.5f};
+            const bool centerAnchored = SpriteFrameTable::hasFlag(frame.flags, SpriteFrameFlag::Center);
+            const bx::Vec3 center = {
+                drawItem.x,
+                drawItem.y,
+                centerAnchored ? drawItem.z : drawItem.z + worldHeight * 0.5f
+            };
             const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
             const bx::Vec3 up = {
                 cameraUp.x * worldHeight * 0.5f,

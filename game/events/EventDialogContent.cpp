@@ -40,6 +40,11 @@ const char *defaultDungeonTransitionImageName()
     return "Ticon01";
 }
 
+const char *defaultOutdoorTransitionImageName()
+{
+    return "Outside";
+}
+
 std::string lowerMapFileName(const std::string &fileName)
 {
     return toLowerCopy(fileName);
@@ -499,9 +504,11 @@ EventDialogContent buildEventDialogContent(
             !currentMapName.empty() && lowerMapFileName(currentMapName).find(".blv") != std::string::npos;
         const bool isDungeonTransition = destinationIsDungeon || currentMapIsDungeon;
         dialog.participantTextureName =
-            isDungeonTransition
-                ? defaultDungeonTransitionImageName()
-                : transitionImageName(context.transitionImageId);
+            context.transitionImageId != 0
+                ? transitionImageName(context.transitionImageId)
+                : (isDungeonTransition
+                    ? defaultDungeonTransitionImageName()
+                    : defaultOutdoorTransitionImageName());
         const MapStatsEntry *pDestinationMap =
             !transitionMapName.empty()
                 ? findMapEntryByFileName(pMapEntries, transitionMapName)
@@ -894,10 +901,6 @@ EventDialogContent buildEventDialogContent(
                 dialog.lines = buildHouseServiceInfoLines(*pHouseEntry, pParty, pClassSkillTable, menuId);
             }
         }
-        else
-        {
-            dialog.lines.push_back("The house is empty.");
-        }
     }
     else
     {
@@ -920,11 +923,7 @@ EventDialogContent buildEventDialogContent(
 
     if (dialog.lines.empty() && dialog.actions.empty())
     {
-        if (dialog.isHouseDialog)
-        {
-            dialog.lines.push_back("The house is empty.");
-        }
-        else
+        if (!dialog.isHouseDialog)
         {
             dialog.lines.push_back("NPC interaction UI is not implemented yet.");
         }

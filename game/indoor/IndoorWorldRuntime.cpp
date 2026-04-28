@@ -58,11 +58,127 @@ constexpr float MaxAccumulatedProjectileUpdateSeconds =
 constexpr float WorldItemUpdateStepSeconds = 1.0f / 128.0f;
 constexpr float MaxAccumulatedWorldItemUpdateSeconds = 0.1f;
 constexpr uint32_t EventSpellSourceId = std::numeric_limits<uint32_t>::max();
+constexpr float ActorInertiaVelocityDecay = 0.8392334f;
+constexpr float ActorInertiaReferenceFrameRate = 60.0f;
+constexpr float ActorStopVelocitySquared = 400.0f;
+constexpr float ActorKnockbackVelocityStep = 50.0f;
+constexpr int ActorMaxKnockbackSteps = 10;
+
+float actorInertiaDecayForStep(float deltaSeconds)
+{
+    return std::pow(ActorInertiaVelocityDecay, deltaSeconds * ActorInertiaReferenceFrameRate);
+}
+
+float actorDamageKnockbackMagnitude(int damage, int maxHp)
+{
+    if (damage <= 0 || maxHp <= 0)
+    {
+        return 0.0f;
+    }
+
+    const int knockbackSteps =
+        std::min(ActorMaxKnockbackSteps, static_cast<int>((20LL * damage) / maxHp));
+    return ActorKnockbackVelocityStep * static_cast<float>(knockbackSteps);
+}
+
+bx::Vec3 actorKnockbackVelocityFromMagnitude(
+    float actorX,
+    float actorY,
+    float actorZ,
+    float sourceX,
+    float sourceY,
+    float sourceZ,
+    float magnitude)
+{
+    if (magnitude <= 0.0f)
+    {
+        return {0.0f, 0.0f, 0.0f};
+    }
+
+    bx::Vec3 direction = {actorX - sourceX, actorY - sourceY, actorZ - sourceZ};
+    const float length = std::sqrt(direction.x * direction.x + direction.y * direction.y + direction.z * direction.z);
+
+    if (length <= 0.001f)
+    {
+        direction = {1.0f, 0.0f, 0.0f};
+    }
+    else
+    {
+        direction.x /= length;
+        direction.y /= length;
+        direction.z /= length;
+    }
+
+    return {direction.x * magnitude, direction.y * magnitude, direction.z * magnitude};
+}
+
+bx::Vec3 actorKnockbackVelocity(
+    float actorX,
+    float actorY,
+    float actorZ,
+    float sourceX,
+    float sourceY,
+    float sourceZ,
+    int damage,
+    int maxHp)
+{
+    return actorKnockbackVelocityFromMagnitude(
+        actorX,
+        actorY,
+        actorZ,
+        sourceX,
+        sourceY,
+        sourceZ,
+        actorDamageKnockbackMagnitude(damage, maxHp));
+}
+
+int monsterResistanceForDamageType(
+    const MonsterTable::MonsterStatsEntry &stats,
+    CombatDamageType damageType)
+{
+    switch (damageType)
+    {
+        case CombatDamageType::Fire: return stats.fireResistance;
+        case CombatDamageType::Air: return stats.airResistance;
+        case CombatDamageType::Water: return stats.waterResistance;
+        case CombatDamageType::Earth: return stats.earthResistance;
+        case CombatDamageType::Spirit: return stats.spiritResistance;
+        case CombatDamageType::Mind: return stats.mindResistance;
+        case CombatDamageType::Body: return stats.bodyResistance;
+        case CombatDamageType::Light: return stats.lightResistance;
+        case CombatDamageType::Dark: return stats.darkResistance;
+        case CombatDamageType::Irresistible: return 0;
+        case CombatDamageType::Physical:
+        default:
+            return stats.physicalResistance;
+    }
+}
+
+std::string formatFoundItemStatusText(const std::string &itemName)
+{
+    const std::string resolvedItemName = itemName.empty() ? "item" : itemName;
+    return "You found an item (" + resolvedItemName + ")!";
+}
+
+std::string formatFoundGoldStatusText(int goldAmount)
+{
+    return "You found " + std::to_string(std::max(0, goldAmount)) + " gold!";
+}
 constexpr float ActiveActorUpdateRange = 10240.0f;
 constexpr float IndoorActorDetectRange = 5120.0f;
 constexpr int IndoorActorDetectPortalLimit = 30;
 constexpr float IndoorFactionAggroRange = 4096.0f;
 constexpr size_t MaxIndoorBloodSplats = 64;
+
+int16_t legacyEventMonsterIdToStatsId(uint32_t eventMonsterId)
+{
+    if (eventMonsterId >= static_cast<uint32_t>(std::numeric_limits<int16_t>::max()))
+    {
+        return 0;
+    }
+
+    return static_cast<int16_t>(eventMonsterId + 1u);
+}
 constexpr size_t BloodSplatGridResolution = 10;
 constexpr float BloodSplatHeightOffset = 2.0f;
 constexpr float BloodSplatMinSurfaceHeightTolerance = 32.0f;
@@ -87,6 +203,7 @@ constexpr float IndoorActorContactProbeRadius = 40.0f;
 constexpr float IndoorActorVsActorMovementRadius = 10.0f;
 constexpr float PartyCollisionRadius = 37.0f;
 constexpr float PartyCollisionHeight = 192.0f;
+constexpr uint16_t LevelDecorationVisibleOnMap = 0x0008;
 constexpr uint16_t LevelDecorationInvisible = 0x0020;
 constexpr float PartyTargetHeightOffset = 96.0f;
 constexpr float IndoorFloorSampleRise = 96.0f;
@@ -1083,6 +1200,7 @@ bool hasActiveActorSpellEffectOverride(const GameplayActorSpellEffectState &stat
         || state.controlRemainingSeconds > 0.0f
         || state.controlMode != GameplayActorControlMode::None
         || state.shrinkRemainingSeconds > 0.0f
+        || state.armorClassHalvedRemainingSeconds > 0.0f
         || state.darkGraspRemainingSeconds > 0.0f
         || state.dayOfProtectionRemainingSeconds > 0.0f
         || state.hourOfPowerRemainingSeconds > 0.0f
@@ -3211,6 +3329,7 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
         if (update.state.hasDetectedParty)
         {
             aiState.hasDetectedParty = *update.state.hasDetectedParty;
+            aiState.spellEffects.hasDetectedParty = *update.state.hasDetectedParty;
 
             if (*update.state.hasDetectedParty)
             {
@@ -3358,11 +3477,22 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
             resetIndoorActorCrowdSteeringState(aiState);
         }
 
-        if (update.movementIntent.clearVelocity)
+        if (update.movementIntent.clearVelocity
+            && aiState.motionState != ActorAiMotionState::Dying
+            && aiState.motionState != ActorAiMotionState::Stunned)
         {
+            const MonsterTable::MonsterStatsEntry *pStats =
+                m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(aiState.monsterId) : nullptr;
             aiState.velocityX = 0.0f;
             aiState.velocityY = 0.0f;
-            aiState.velocityZ = 0.0f;
+
+            if (pStats == nullptr
+                || pStats->canFly
+                || aiState.grounded
+                || aiState.motionState == ActorAiMotionState::Dead)
+            {
+                aiState.velocityZ = 0.0f;
+            }
         }
 
         if (update.movementIntent.applyMovement)
@@ -3372,6 +3502,10 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
                 update.actorIndex,
                 update,
                 actorAiSystem);
+        }
+        else
+        {
+            applyIndoorActorPhysicsStep(movementController, update.actorIndex);
         }
 
         if (update.attackRequest
@@ -3414,7 +3548,9 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
                 m_pGameplayCombatController->recordMonsterMeleeImpact(
                     deferredAttackRequest.sourceActorId,
                     attackRequest.damage,
-                    attackRequest.attackBonus);
+                    attackRequest.attackBonus,
+                    attackRequest.damageType,
+                    attackRequest.ability);
             }
             else if (m_pParty != nullptr)
             {
@@ -3622,6 +3758,7 @@ bool IndoorWorldRuntime::applyIndoorActorProjectileRequest(const ActorProjectile
     spawnRequest.definition = buildIndoorGameplayProjectileDefinition(definition, objectSpriteFrameIndex);
     spawnRequest.damage = projectileRequest.damage;
     spawnRequest.attackBonus = projectileRequest.attackBonus;
+    spawnRequest.damageType = projectileRequest.damageType;
     spawnRequest.sourceX = sourceState.preciseX;
     spawnRequest.sourceY = sourceState.preciseY;
     spawnRequest.sourceZ =
@@ -4355,9 +4492,22 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
         executeFaceTriggeredEvent(facts.collision.worldFaceIndex, FaceAttribute::TriggerByObject, false);
     }
 
-    if (frameResult.directPartyDamage && m_pParty != nullptr)
+    if (frameResult.directPartyDamage)
     {
-        m_pParty->applyDamageToActiveMember(*frameResult.directPartyDamage, "monster projectile");
+        if (m_pGameplayCombatController != nullptr)
+        {
+            m_pGameplayCombatController->recordPartyProjectileImpact(
+                projectile.sourceId,
+                *frameResult.directPartyDamage,
+                projectile.attackBonus,
+                projectile.spellId,
+                false,
+                projectile.damageType);
+        }
+        else if (m_pParty != nullptr)
+        {
+            m_pParty->applyDamageToActiveMember(*frameResult.directPartyDamage, "monster projectile");
+        }
     }
 
     if (frameResult.directActorImpact
@@ -4369,11 +4519,32 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
 
         if (impact.applyPartyProjectileDamage)
         {
+            int appliedDamage = impact.damage;
+            const MonsterTable::MonsterStatsEntry *pStats = nullptr;
+            if (impact.actorIndex < pMapDeltaData->actors.size() && m_pMonsterTable != nullptr)
+            {
+                pStats = m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(pMapDeltaData->actors[impact.actorIndex]));
+            }
+
+            if (pStats != nullptr)
+            {
+                std::mt19937 rng(
+                    projectile.projectileId
+                    ^ static_cast<uint32_t>(impact.actorId * 2654435761u)
+                    ^ static_cast<uint32_t>(std::max(0, impact.damage)));
+                appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
+                    impact.damage,
+                    projectile.damageType,
+                    pStats->level,
+                    monsterResistanceForDamageType(*pStats, projectile.damageType),
+                    rng);
+            }
+
             const int beforeHp =
                 impact.actorIndex < pMapDeltaData->actors.size() ? pMapDeltaData->actors[impact.actorIndex].hp : 0;
             applyPartyAttackMeleeDamage(
                 impact.actorIndex,
-                impact.damage,
+                appliedDamage,
                 {projectile.sourceX, projectile.sourceY, projectile.sourceZ});
             const int afterHp =
                 impact.actorIndex < pMapDeltaData->actors.size() ? pMapDeltaData->actors[impact.actorIndex].hp : 0;
@@ -4384,7 +4555,7 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                     projectile.sourceId,
                     projectile.sourcePartyMemberIndex,
                     impact.actorId,
-                    impact.damage,
+                    appliedDamage,
                     projectile.spellId,
                     impact.hit,
                     beforeHp > 0 && afterHp <= 0);
@@ -4483,7 +4654,20 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
 
             if (areaImpactHasLineOfSight(partyTarget, partySectorId))
             {
-                m_pParty->applyDamageToActiveMember(areaImpact.impact.partyDamage, "projectile splash");
+                if (m_pGameplayCombatController != nullptr)
+                {
+                    m_pGameplayCombatController->recordPartyProjectileImpact(
+                        projectile.sourceId,
+                        areaImpact.impact.partyDamage,
+                        projectile.attackBonus,
+                        projectile.spellId,
+                        true,
+                        projectile.damageType);
+                }
+                else if (m_pParty != nullptr)
+                {
+                    m_pParty->applyDamageToActiveMember(areaImpact.impact.partyDamage, "projectile splash");
+                }
             }
         }
 
@@ -4527,10 +4711,30 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                 {
                     if (projectile.sourceKind == GameplayProjectileService::ProjectileState::SourceKind::Party)
                     {
+                        int appliedDamage = actorHit.damage;
+                        const MonsterTable::MonsterStatsEntry *pStats =
+                            m_pMonsterTable != nullptr
+                                ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(targetActor))
+                                : nullptr;
+
+                        if (pStats != nullptr)
+                        {
+                            std::mt19937 rng(
+                                projectile.projectileId
+                                ^ static_cast<uint32_t>((actorHit.actorIndex + 1) * 2654435761u)
+                                ^ static_cast<uint32_t>(std::max(0, actorHit.damage)));
+                            appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
+                                actorHit.damage,
+                                projectile.damageType,
+                                pStats->level,
+                                monsterResistanceForDamageType(*pStats, projectile.damageType),
+                                rng);
+                        }
+
                         const int previousHp = targetActor.hp;
                         applyPartyAttackMeleeDamage(
                             actorHit.actorIndex,
-                            actorHit.damage,
+                            appliedDamage,
                             {projectile.sourceX, projectile.sourceY, projectile.sourceZ});
 
                         if (m_pGameplayCombatController != nullptr)
@@ -4543,7 +4747,7 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                                 projectile.sourceId,
                                 projectile.sourcePartyMemberIndex,
                                 actorId,
-                                actorHit.damage,
+                                appliedDamage,
                                 projectile.spellId,
                                 true,
                                 previousHp > 0 && targetActor.hp <= 0);
@@ -4591,18 +4795,6 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
     if (frameResult.audioRequest)
     {
         pushIndoorProjectileAudioEvent(*frameResult.audioRequest);
-    }
-
-    for (const GameplayProjectileService::ProjectileSpawnRequest &spawnRequest : frameResult.spawnedProjectiles)
-    {
-        GameplayProjectileService::ProjectileSpawnRequest childSpawnRequest = spawnRequest;
-
-        if (childSpawnRequest.sectorId < 0)
-        {
-            childSpawnRequest.sectorId = projectile.sectorId;
-        }
-
-        m_pGameplayProjectileService->spawnProjectile(childSpawnRequest);
     }
 
     const auto refreshProjectileSector =
@@ -4666,6 +4858,18 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
     if (frameResult.expireProjectile)
     {
         m_pGameplayProjectileService->expireProjectile(projectile);
+    }
+
+    for (const GameplayProjectileService::ProjectileSpawnRequest &spawnRequest : frameResult.spawnedProjectiles)
+    {
+        GameplayProjectileService::ProjectileSpawnRequest childSpawnRequest = spawnRequest;
+
+        if (childSpawnRequest.sectorId < 0)
+        {
+            childSpawnRequest.sectorId = projectile.sectorId;
+        }
+
+        m_pGameplayProjectileService->spawnProjectile(childSpawnRequest);
     }
 }
 
@@ -4737,8 +4941,16 @@ void IndoorWorldRuntime::updateIndoorProjectiles(float deltaSeconds)
     while (m_projectileUpdateAccumulatorSeconds >= ProjectileUpdateStepSeconds
         && projectileUpdateStepCount < MaxProjectileUpdateStepsPerFrame)
     {
-        for (GameplayProjectileService::ProjectileState &projectile : m_pGameplayProjectileService->projectiles())
+        std::vector<GameplayProjectileService::ProjectileState> &projectiles =
+            m_pGameplayProjectileService->projectiles();
+        const size_t projectileCount = projectiles.size();
+
+        for (size_t projectileIndex = 0;
+             projectileIndex < projectileCount && projectileIndex < projectiles.size();
+             ++projectileIndex)
         {
+            GameplayProjectileService::ProjectileState &projectile = projectiles[projectileIndex];
+
             if (projectile.isExpired)
             {
                 continue;
@@ -5425,6 +5637,8 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     facts.stats.hasSpell2 = pStats->hasSpell2;
     facts.stats.spell1Name = pStats->spell1Name;
     facts.stats.spell2Name = pStats->spell2Name;
+    facts.stats.attack1DamageType = GameMechanics::parseCombatDamageType(pStats->attack1Type);
+    facts.stats.attack2DamageType = GameMechanics::parseCombatDamageType(pStats->attack2Type);
     facts.stats.spell1CastSupported = indoorMonsterSpellCastSupported(pStats->spell1Name);
     facts.stats.spell2CastSupported = indoorMonsterSpellCastSupported(pStats->spell2Name);
     if (m_pSpellTable != nullptr)
@@ -5432,11 +5646,13 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
         if (const SpellEntry *pSpellEntry = m_pSpellTable->findByName(pStats->spell1Name))
         {
             facts.stats.spell1Id = static_cast<uint32_t>(std::max(pSpellEntry->id, 0));
+            facts.stats.spell1DamageType = GameMechanics::spellCombatDamageType(facts.stats.spell1Id, m_pSpellTable);
         }
 
         if (const SpellEntry *pSpellEntry = m_pSpellTable->findByName(pStats->spell2Name))
         {
             facts.stats.spell2Id = static_cast<uint32_t>(std::max(pSpellEntry->id, 0));
+            facts.stats.spell2DamageType = GameMechanics::spellCombatDamageType(facts.stats.spell2Id, m_pSpellTable);
         }
     }
     facts.stats.spell1SkillLevel = pStats->spell1SkillLevel;
@@ -6136,6 +6352,7 @@ bool IndoorWorldRuntime::castEventSpell(
     spawnRequest.definition = buildIndoorGameplayProjectileDefinition(definition, objectSpriteFrameIndex);
     spawnRequest.skillLevel = skillLevel;
     spawnRequest.skillMastery = static_cast<uint32_t>(normalizeIndoorEventSkillMastery(skillMastery));
+    spawnRequest.damageType = GameMechanics::spellCombatDamageType(spellId, m_pSpellTable);
     spawnRequest.sourceX = static_cast<float>(fromX);
     spawnRequest.sourceY = static_cast<float>(fromY);
     spawnRequest.sourceZ = static_cast<float>(fromZ);
@@ -6468,9 +6685,94 @@ std::optional<GameplayCombatActorInfo> IndoorWorldRuntime::combatActorInfoById(u
     {
         info.monsterLevel = pStats->level;
         info.attackPreferences = pStats->attackPreferences;
+        info.specialAttackKind = pStats->specialAttackKind;
+        info.specialAttackLevel = pStats->specialAttackLevel;
     }
 
     return info;
+}
+
+bool IndoorWorldRuntime::applyReflectedDamageToActor(
+    uint32_t actorId,
+    int damage,
+    CombatDamageType damageType,
+    uint32_t sourcePartyMemberIndex)
+{
+    (void)sourcePartyMemberIndex;
+
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorId >= pMapDeltaData->actors.size() || damage <= 0)
+    {
+        return false;
+    }
+
+    const size_t actorIndex = actorId;
+    MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+
+    if ((actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
+    {
+        return false;
+    }
+
+    int appliedDamage = damage;
+    const int16_t resolvedMonsterId = resolveIndoorActorStatsId(actor);
+    const MonsterTable::MonsterStatsEntry *pStats =
+        m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(resolvedMonsterId) : nullptr;
+
+    if (pStats != nullptr)
+    {
+        std::mt19937 rng(
+            actorId
+            ^ static_cast<uint32_t>(std::max(0, damage)) * 2246822519u
+            ^ static_cast<uint32_t>(damageType) * 3266489917u);
+        appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
+            damage,
+            damageType,
+            pStats->level,
+            monsterResistanceForDamageType(*pStats, damageType),
+            rng);
+    }
+
+    const int previousHp = actor.hp;
+    const int nextHp = std::max(0, previousHp - appliedDamage);
+    actor.hp = static_cast<int16_t>(nextHp);
+
+    syncMapActorAiStates();
+
+    if (previousHp > 0 && nextHp <= 0)
+    {
+        beginMapActorDyingState(actorIndex, actor);
+        const int maxHp = pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : previousHp;
+        const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+        const bx::Vec3 knockback = actorKnockbackVelocity(
+            aiState.preciseX,
+            aiState.preciseY,
+            aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f,
+            partyX(),
+            partyY(),
+            partyFootZ(),
+            appliedDamage,
+            maxHp);
+        m_mapActorAiStates[actorIndex].velocityX = knockback.x;
+        m_mapActorAiStates[actorIndex].velocityY = knockback.y;
+        m_mapActorAiStates[actorIndex].velocityZ = knockback.z;
+
+        if (pStats != nullptr && pStats->experience > 0 && m_pParty != nullptr)
+        {
+            m_pParty->grantSharedExperience(static_cast<uint32_t>(pStats->experience));
+        }
+    }
+    else if (previousHp > 0 && nextHp > 0)
+    {
+        GameplayWorldPoint source = {};
+        source.x = partyX();
+        source.y = partyY();
+        source.z = partyFootZ();
+        beginMapActorHitReaction(actorIndex, actor, &source);
+    }
+
+    return actor.hp != previousHp;
 }
 
 bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjectileRequest &request)
@@ -6513,6 +6815,7 @@ bool IndoorWorldRuntime::castPartySpellProjectile(const GameplayPartySpellProjec
     spawnRequest.damage = request.damage;
     spawnRequest.attackBonus = 0;
     spawnRequest.useActorHitChance = false;
+    spawnRequest.damageType = GameMechanics::spellCombatDamageType(request.spellId, m_pSpellTable);
     spawnRequest.sourceX = request.sourceX;
     spawnRequest.sourceY = request.sourceY;
     spawnRequest.sourceZ = request.sourceZ;
@@ -6598,9 +6901,9 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
     }
 
     MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+    const SpellId resolvedSpellId = spellIdFromValue(spellId);
 
-    if (actor.hp <= 0
-        || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
+    if ((actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
     {
         return false;
     }
@@ -6615,7 +6918,8 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
     GameplayActorSpellEffectState &effectState = m_mapActorAiStates[actorIndex].spellEffects;
     const int16_t resolvedMonsterId = resolveIndoorActorStatsId(actor);
     const bool baselineHostileToParty = aiState.hostileToParty;
-
+    const MonsterTable::MonsterStatsEntry *pStats =
+        m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(resolvedMonsterId) : nullptr;
     GameplayActorService fallbackActorService = {};
     const GameplayActorService *pActorService = m_pGameplayActorService;
 
@@ -6623,6 +6927,62 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
     {
         fallbackActorService.bindTables(m_pMonsterTable, m_pSpellTable);
         pActorService = &fallbackActorService;
+    }
+
+    if (resolvedSpellId == SpellId::Reanimate)
+    {
+        if (actor.hp > 0)
+        {
+            return false;
+        }
+
+        const int targetMonsterLevel =
+            skillMastery == SkillMastery::Grandmaster
+                ? static_cast<int>(5 * skillLevel)
+                : skillMastery == SkillMastery::Master
+                ? static_cast<int>(4 * skillLevel)
+                : skillMastery == SkillMastery::Expert
+                ? static_cast<int>(3 * skillLevel)
+                : static_cast<int>(2 * skillLevel);
+
+        spawnImmediateSpellImpactVisualAt(
+            {aiState.preciseX, aiState.preciseY, aiState.preciseZ + aiState.collisionHeight * 0.8f},
+            spellId,
+            false,
+            false);
+
+        if (pStats != nullptr && pStats->level > targetMonsterLevel)
+        {
+            return true;
+        }
+
+        const int hpLimit = std::max(1, targetMonsterLevel * 10);
+        const int maxHp = pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : hpLimit;
+        actor.hp = static_cast<int16_t>(std::clamp(hpLimit, 1, maxHp));
+        actor.currentActionAnimation = indoorActionAnimationFromActorAi(ActorAiAnimationState::Standing);
+        actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Active)
+            | static_cast<uint32_t>(EvtActorAttribute::FullAi);
+        actor.attributes &= ~(static_cast<uint32_t>(EvtActorAttribute::Hostile)
+            | static_cast<uint32_t>(EvtActorAttribute::Aggressor)
+            | static_cast<uint32_t>(EvtActorAttribute::Nearby));
+        aiState.motionState = ActorAiMotionState::Standing;
+        aiState.animationState = ActorAiAnimationState::Standing;
+        aiState.animationTimeTicks = 0.0f;
+        aiState.actionSeconds = 0.0f;
+        aiState.attackCooldownSeconds = aiState.recoverySeconds;
+        aiState.hostileToParty = false;
+        aiState.hasDetectedParty = false;
+        pActorService->clearSpellEffects(effectState, false);
+        effectState.hostileToParty = false;
+        effectState.hasDetectedParty = false;
+        effectState.controlMode = GameplayActorControlMode::Reanimated;
+        effectState.controlRemainingSeconds = 24.0f * 60.0f * 60.0f;
+        return true;
+    }
+
+    if (actor.hp <= 0)
+    {
+        return false;
     }
 
     if (pActorService != nullptr)
@@ -6642,6 +7002,23 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
 
         if (directImpact.disposition == GameplayActorService::DirectSpellImpactDisposition::ApplyDamage)
         {
+            int appliedDamage = directImpact.damage;
+            const CombatDamageType damageType = GameMechanics::spellCombatDamageType(spellId, m_pSpellTable);
+
+            if (pStats != nullptr)
+            {
+                std::mt19937 rng(
+                    aiState.actorId
+                    ^ spellId * 3266489917u
+                    ^ static_cast<uint32_t>(std::max(0, directImpact.damage)));
+                appliedDamage = GameMechanics::resolveMonsterIncomingDamage(
+                    directImpact.damage,
+                    damageType,
+                    pStats->level,
+                    monsterResistanceForDamageType(*pStats, damageType),
+                    rng);
+            }
+
             if (directImpact.visualKind == GameplayActorService::DirectSpellImpactVisualKind::ActorCenter)
             {
                 spawnImmediateSpellImpactVisualAt(
@@ -6661,7 +7038,7 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
 
             return applyPartyAttackMeleeDamage(
                 actorIndex,
-                directImpact.damage,
+                appliedDamage,
                 {partyX, partyY, partyZ});
         }
 
@@ -6721,6 +7098,19 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
     if (previousHp > 0 && actor.hp <= 0)
     {
         beginMapActorDyingState(actorIndex, actor);
+        const int maxHp = pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : previousHp;
+        const bx::Vec3 knockback = actorKnockbackVelocity(
+            aiState.preciseX,
+            aiState.preciseY,
+            aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f,
+            partyX,
+            partyY,
+            partyZ,
+            damage,
+            maxHp);
+        aiState.velocityX = knockback.x;
+        aiState.velocityY = knockback.y;
+        aiState.velocityZ = knockback.z;
     }
     else if (previousHp > 0 && actor.hp < previousHp)
     {
@@ -6980,6 +7370,8 @@ void IndoorWorldRuntime::beginMapActorDyingState(size_t actorIndex, MapDeltaActo
     aiState.actionSeconds = aiState.dyingAnimationSeconds;
     aiState.animationTimeTicks = 0.0f;
     aiState.attackImpactTriggered = false;
+    aiState.spellEffects.stunRemainingSeconds = 0.0f;
+    aiState.spellEffects.paralyzeRemainingSeconds = 0.0f;
     aiState.velocityX = 0.0f;
     aiState.velocityY = 0.0f;
     aiState.velocityZ = 0.0f;
@@ -7042,6 +7434,114 @@ void IndoorWorldRuntime::beginMapActorHitReaction(
     aiState.velocityY = 0.0f;
     aiState.velocityZ = 0.0f;
     actor.currentActionAnimation = indoorActionAnimationFromActorAi(ActorAiAnimationState::GotHit);
+}
+
+bool IndoorWorldRuntime::applyIndoorActorPhysicsStep(IndoorMovementController &movementController, size_t actorIndex)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr
+        || m_pIndoorMapData == nullptr
+        || m_pMonsterTable == nullptr
+        || actorIndex >= pMapDeltaData->actors.size()
+        || actorIndex >= m_mapActorAiStates.size())
+    {
+        return false;
+    }
+
+    MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+    MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+    const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(aiState.monsterId);
+
+    if (pStats == nullptr)
+    {
+        return false;
+    }
+
+    const bool dying = aiState.motionState == ActorAiMotionState::Dying && actor.hp <= 0;
+    const bool airborne = !pStats->canFly && !aiState.grounded;
+    const bool hasVelocity =
+        std::abs(aiState.velocityX) > 0.001f
+        || std::abs(aiState.velocityY) > 0.001f
+        || std::abs(aiState.velocityZ) > 0.001f;
+
+    if (!dying && !airborne && !hasVelocity)
+    {
+        return false;
+    }
+
+    IndoorBodyDimensions body = {};
+    body.radius = static_cast<float>(aiState.collisionRadius);
+    body.height = static_cast<float>(aiState.collisionHeight);
+
+    IndoorMoveState moveState = {};
+    moveState.x = aiState.preciseX;
+    moveState.y = aiState.preciseY;
+    moveState.footZ = aiState.preciseZ;
+    moveState.eyeHeight = body.height;
+    moveState.verticalVelocity = aiState.velocityZ;
+    moveState.sectorId = aiState.sectorId;
+    moveState.eyeSectorId = aiState.eyeSectorId;
+    moveState.supportFaceIndex = aiState.supportFaceIndex;
+    moveState.grounded = aiState.grounded;
+
+    const IndoorMoveState resolvedMoveState =
+        movementController.resolveMove(
+            moveState,
+            body,
+            aiState.velocityX,
+            aiState.velocityY,
+            false,
+            ActorUpdateStepSeconds,
+            nullptr,
+            actorIndex,
+            true,
+            nullptr,
+            pStats->canFly);
+
+    const float deltaX = resolvedMoveState.x - aiState.preciseX;
+    const float deltaY = resolvedMoveState.y - aiState.preciseY;
+    aiState.preciseX = resolvedMoveState.x;
+    aiState.preciseY = resolvedMoveState.y;
+    aiState.preciseZ = resolvedMoveState.footZ;
+    aiState.velocityX = deltaX / ActorUpdateStepSeconds;
+    aiState.velocityY = deltaY / ActorUpdateStepSeconds;
+    aiState.velocityZ = resolvedMoveState.verticalVelocity;
+    const float inertiaDecay = actorInertiaDecayForStep(ActorUpdateStepSeconds);
+    aiState.velocityX *= inertiaDecay;
+    aiState.velocityY *= inertiaDecay;
+
+    if (pStats->canFly)
+    {
+        aiState.velocityZ *= inertiaDecay;
+    }
+
+    if (aiState.velocityX * aiState.velocityX + aiState.velocityY * aiState.velocityY < ActorStopVelocitySquared)
+    {
+        aiState.velocityX = 0.0f;
+        aiState.velocityY = 0.0f;
+    }
+
+    if (pStats->canFly && aiState.velocityZ * aiState.velocityZ < ActorStopVelocitySquared)
+    {
+        aiState.velocityZ = 0.0f;
+    }
+
+    aiState.sectorId = resolvedMoveState.sectorId;
+    aiState.eyeSectorId = resolvedMoveState.eyeSectorId;
+    aiState.supportFaceIndex = resolvedMoveState.supportFaceIndex;
+    aiState.grounded = resolvedMoveState.grounded;
+    movementController.updateActorColliderPosition(
+        actorIndex,
+        aiState.sectorId,
+        aiState.preciseX,
+        aiState.preciseY,
+        aiState.preciseZ);
+
+    actor.x = static_cast<int>(std::lround(aiState.preciseX));
+    actor.y = static_cast<int>(std::lround(aiState.preciseY));
+    actor.z = static_cast<int>(std::lround(aiState.preciseZ));
+    return true;
 }
 
 bool IndoorWorldRuntime::canActivateWorldHit(
@@ -7131,7 +7631,7 @@ bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
             pMapDeltaData->spriteObjects.erase(
                 pMapDeltaData->spriteObjects.begin() + std::ptrdiff_t(hit.worldItem->worldItemIndex));
 
-            const std::string statusText = "Picked up " + std::to_string(goldAmount) + " gold";
+            const std::string statusText = formatFoundGoldStatusText(static_cast<int>(goldAmount));
 
             if (m_pGameplayView != nullptr)
             {
@@ -7164,7 +7664,7 @@ bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
 
         if (m_pGameplayView != nullptr)
         {
-            m_pGameplayView->setStatusBarEvent("Picked up " + itemName);
+            m_pGameplayView->setStatusBarEvent(formatFoundItemStatusText(itemName));
         }
 
         if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
@@ -7295,6 +7795,22 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
     if (previousHp > 0 && nextHp <= 0)
     {
         beginMapActorDyingState(actorIndex, actor);
+        const MonsterTable::MonsterStatsEntry *pStats =
+            m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(actor)) : nullptr;
+        const int maxHp = pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : previousHp;
+        const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+        const bx::Vec3 knockback = actorKnockbackVelocity(
+            aiState.preciseX,
+            aiState.preciseY,
+            aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f,
+            source.x,
+            source.y,
+            source.z,
+            damage,
+            maxHp);
+        m_mapActorAiStates[actorIndex].velocityX = knockback.x;
+        m_mapActorAiStates[actorIndex].velocityY = knockback.y;
+        m_mapActorAiStates[actorIndex].velocityZ = knockback.z;
     }
 
     if (actorIndex < m_mapActorAiStates.size())
@@ -7316,6 +7832,22 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
     if (previousHp > 0 && nextHp > 0)
     {
         beginMapActorHitReaction(actorIndex, actor, &source);
+        const MonsterTable::MonsterStatsEntry *pStats =
+            m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(actor)) : nullptr;
+        const int maxHp = pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : previousHp;
+        const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+        const bx::Vec3 knockback = actorKnockbackVelocity(
+            aiState.preciseX,
+            aiState.preciseY,
+            aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f,
+            source.x,
+            source.y,
+            source.z,
+            damage,
+            maxHp);
+        m_mapActorAiStates[actorIndex].velocityX = knockback.x;
+        m_mapActorAiStates[actorIndex].velocityY = knockback.y;
+        m_mapActorAiStates[actorIndex].velocityZ = knockback.z;
     }
 
     if (previousHp > 0 && nextHp <= 0 && m_pMonsterTable != nullptr && m_pParty != nullptr)
@@ -7331,6 +7863,68 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
 
     aggroNearbyMapActorFaction(actorIndex);
     return actor.hp != previousHp;
+}
+
+void IndoorWorldRuntime::applyPartyAttackMeleeEffects(
+    size_t actorIndex,
+    const CharacterAttackResult &attack,
+    const GameplayWorldPoint &source)
+{
+    const MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr
+        || actorIndex >= pMapDeltaData->actors.size()
+        || actorIndex >= m_mapActorAiStates.size()
+        || (!attack.stunTarget && !attack.paralyzeTarget && !attack.halveTargetArmorClass))
+    {
+        return;
+    }
+
+    const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+    const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+
+    if (actor.hp <= 0
+        || aiState.motionState == ActorAiMotionState::Dying
+        || aiState.motionState == ActorAiMotionState::Dead)
+    {
+        return;
+    }
+
+    const uint32_t skillLevel = std::max<uint32_t>(1, attack.skillLevel);
+    const float skillSeconds = static_cast<float>(skillLevel) * 60.0f;
+    GameplayActorSpellEffectState &spellEffects = m_mapActorAiStates[actorIndex].spellEffects;
+
+    if (attack.stunTarget)
+    {
+        spellEffects.stunRemainingSeconds =
+            std::max(spellEffects.stunRemainingSeconds, 0.5f + 0.35f * static_cast<float>(skillLevel));
+        const MonsterTable::MonsterStatsEntry *pStats =
+            m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(actor)) : nullptr;
+        const int maxHp = pStats != nullptr && pStats->hitPoints > 0 ? pStats->hitPoints : std::max<int>(1, actor.hp);
+        const bx::Vec3 knockback = actorKnockbackVelocity(
+            aiState.preciseX,
+            aiState.preciseY,
+            aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f,
+            source.x,
+            source.y,
+            source.z,
+            maxHp,
+            maxHp);
+        m_mapActorAiStates[actorIndex].velocityX = knockback.x;
+        m_mapActorAiStates[actorIndex].velocityY = knockback.y;
+        m_mapActorAiStates[actorIndex].velocityZ = knockback.z;
+    }
+
+    if (attack.paralyzeTarget)
+    {
+        spellEffects.paralyzeRemainingSeconds = std::max(spellEffects.paralyzeRemainingSeconds, skillSeconds);
+    }
+
+    if (attack.halveTargetArmorClass)
+    {
+        spellEffects.armorClassHalvedRemainingSeconds =
+            std::max(spellEffects.armorClassHalvedRemainingSeconds, skillSeconds);
+    }
 }
 
 bool IndoorWorldRuntime::spawnPartyAttackProjectile(const GameplayPartyAttackProjectileRequest &request)
@@ -7779,7 +8373,7 @@ bool IndoorWorldRuntime::tryGetGameplayMinimapState(GameplayMinimapState &state)
     state.partyV = indoorMinimapV(moveState.y);
     state.wizardEyeActive = pWizardEyeBuff != nullptr;
     state.wizardEyeShowsExpertObjects = wizardEyeMastery >= SkillMastery::Expert;
-    state.wizardEyeShowsMasterDecorations = wizardEyeMastery >= SkillMastery::Master;
+    state.wizardEyeShowsDecorations = state.wizardEyeActive;
     return true;
 }
 
@@ -7940,56 +8534,89 @@ void IndoorWorldRuntime::collectGameplayMinimapMarkers(std::vector<GameplayMinim
         markers.push_back(marker);
     }
 
-    if (!minimapState.wizardEyeShowsExpertObjects)
+    if (minimapState.wizardEyeShowsExpertObjects && m_pObjectTable != nullptr)
     {
-        return;
-    }
-
-    if (m_pObjectTable == nullptr)
-    {
-        return;
-    }
-
-    for (const MapDeltaSpriteObject &spriteObject : pMapDeltaData->spriteObjects)
-    {
-        const ObjectEntry *pObjectEntry = m_pObjectTable->get(spriteObject.objectDescriptionId);
-
-        if (pObjectEntry == nullptr
-            || spriteObject.objectDescriptionId == 0
-            || (spriteObject.attributes & SpriteAttrRemoved) != 0
-            || (pObjectEntry->flags & ObjectDescNoSprite) != 0
-            || pObjectEntry->spriteId == 0)
+        for (const MapDeltaSpriteObject &spriteObject : pMapDeltaData->spriteObjects)
         {
-            continue;
-        }
+            const ObjectEntry *pObjectEntry = m_pObjectTable->get(spriteObject.objectDescriptionId);
 
-        GameplayMinimapMarkerState marker = {};
-        marker.type = (pObjectEntry->flags & ObjectDescUnpickable) != 0
-            ? GameplayMinimapMarkerType::Projectile
-            : GameplayMinimapMarkerType::WorldItem;
-        marker.u = indoorMinimapU(static_cast<float>(spriteObject.x));
-        marker.v = indoorMinimapV(static_cast<float>(spriteObject.y));
-        markers.push_back(marker);
-    }
-
-    if (m_pGameplayProjectileService != nullptr)
-    {
-        const size_t projectileCount = m_pGameplayProjectileService->projectileCount();
-
-        for (size_t projectileIndex = 0; projectileIndex < projectileCount; ++projectileIndex)
-        {
-            const GameplayProjectileService::ProjectileState *pProjectile =
-                m_pGameplayProjectileService->projectileState(projectileIndex);
-
-            if (pProjectile == nullptr || pProjectile->isExpired)
+            if (pObjectEntry == nullptr
+                || spriteObject.objectDescriptionId == 0
+                || (spriteObject.attributes & SpriteAttrRemoved) != 0
+                || (pObjectEntry->flags & ObjectDescNoSprite) != 0
+                || pObjectEntry->spriteId == 0)
             {
                 continue;
             }
 
             GameplayMinimapMarkerState marker = {};
-            marker.type = GameplayMinimapMarkerType::Projectile;
-            marker.u = indoorMinimapU(pProjectile->x);
-            marker.v = indoorMinimapV(pProjectile->y);
+            marker.type = (pObjectEntry->flags & ObjectDescUnpickable) != 0
+                ? GameplayMinimapMarkerType::Projectile
+                : GameplayMinimapMarkerType::WorldItem;
+            marker.u = indoorMinimapU(static_cast<float>(spriteObject.x));
+            marker.v = indoorMinimapV(static_cast<float>(spriteObject.y));
+            markers.push_back(marker);
+        }
+
+        if (m_pGameplayProjectileService != nullptr)
+        {
+            const size_t projectileCount = m_pGameplayProjectileService->projectileCount();
+
+            for (size_t projectileIndex = 0; projectileIndex < projectileCount; ++projectileIndex)
+            {
+                const GameplayProjectileService::ProjectileState *pProjectile =
+                    m_pGameplayProjectileService->projectileState(projectileIndex);
+
+                if (pProjectile == nullptr || pProjectile->isExpired)
+                {
+                    continue;
+                }
+
+                GameplayMinimapMarkerState marker = {};
+                marker.type = GameplayMinimapMarkerType::Projectile;
+                marker.u = indoorMinimapU(pProjectile->x);
+                marker.v = indoorMinimapV(pProjectile->y);
+                markers.push_back(marker);
+            }
+        }
+    }
+
+    if (minimapState.wizardEyeShowsDecorations && m_pIndoorMapData != nullptr)
+    {
+        for (size_t entityIndex = 0; entityIndex < m_pIndoorMapData->entities.size(); ++entityIndex)
+        {
+            if (entityIndex >= pMapDeltaData->decorationFlags.size()
+                || (pMapDeltaData->decorationFlags[entityIndex] & LevelDecorationVisibleOnMap) == 0)
+            {
+                continue;
+            }
+
+            const IndoorEntity &entity = m_pIndoorMapData->entities[entityIndex];
+
+            if (m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value())
+            {
+                const uint32_t overrideKey =
+                    entity.eventIdPrimary != 0 ? entity.eventIdPrimary : entity.eventIdSecondary;
+                const auto overrideIterator = overrideKey != 0
+                    ? (*m_pEventRuntimeState)->spriteOverrides.find(overrideKey)
+                    : (*m_pEventRuntimeState)->spriteOverrides.end();
+
+                if (overrideIterator != (*m_pEventRuntimeState)->spriteOverrides.end()
+                    && overrideIterator->second.hidden)
+                {
+                    continue;
+                }
+            }
+
+            if ((pMapDeltaData->decorationFlags[entityIndex] & LevelDecorationInvisible) != 0)
+            {
+                continue;
+            }
+
+            GameplayMinimapMarkerState marker = {};
+            marker.type = GameplayMinimapMarkerType::Decoration;
+            marker.u = indoorMinimapU(static_cast<float>(entity.x));
+            marker.v = indoorMinimapV(static_cast<float>(entity.y));
             markers.push_back(marker);
         }
     }
@@ -8423,10 +9050,18 @@ bool IndoorWorldRuntime::checkMonstersKilled(
 
     int totalActors = 0;
     int defeatedActors = 0;
+    const bool currentAlertStatus = pMapDeltaData->locationInfo.alertStatus != 0;
+    constexpr uint32_t ActorAlertStatusBit = static_cast<uint32_t>(EvtActorAttribute::AlertStatus);
 
     for (size_t actorIndex = 0; actorIndex < pMapDeltaData->actors.size(); ++actorIndex)
     {
         const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+
+        if (((actor.attributes & ActorAlertStatusBit) != 0) != currentAlertStatus)
+        {
+            continue;
+        }
+
         bool matches = false;
 
         switch (static_cast<EvtActorKillCheck>(checkType))
@@ -8440,7 +9075,7 @@ bool IndoorWorldRuntime::checkMonstersKilled(
                 break;
 
             case EvtActorKillCheck::MonsterId:
-                matches = resolveIndoorActorStatsId(actor) == static_cast<int16_t>(id);
+                matches = resolveIndoorActorStatsId(actor) == legacyEventMonsterIdToStatsId(id);
                 break;
 
             case EvtActorKillCheck::ActorIdOe:
@@ -8458,11 +9093,13 @@ bool IndoorWorldRuntime::checkMonstersKilled(
         const bool isInvisible =
             (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0;
 
-        if (actor.hp <= 0 || (invisibleAsDead && isInvisible))
+        if (actor.hp <= 0 || isInvisible)
         {
             ++defeatedActors;
         }
     }
+
+    (void)invisibleAsDead;
 
     if (count > 0)
     {

@@ -24,12 +24,20 @@ constexpr float SoulDrinkerOutdoorRange = 10240.0f;
 constexpr float CameraVerticalFovRadians = Pi / 3.0f;
 constexpr float PartyMemberProjectileLateralSpacing = 28.0f;
 constexpr float ProjectileRightVectorEpsilon = 0.0001f;
+constexpr float SpellFailureRecoveryScale = 0.5f;
 constexpr uint32_t FirstBaseSpellId = spellIdValue(SpellId::TorchLight);
 constexpr uint32_t LastBaseSpellId = spellIdValue(SpellId::SoulDrinker);
 constexpr int16_t SummonWispNormalMonsterId = 97;
 constexpr int16_t SummonWispMasterMonsterId = 98;
 constexpr int16_t SummonWispGrandmasterMonsterId = 99;
 constexpr size_t SummonWispActiveLimit = 5;
+
+constexpr const char *SpellFailedText = "Spell failed";
+constexpr const char *NoValidTargetText = "No valid target exists!";
+constexpr const char *HostileCreaturesNearbyText = "There are hostile creatures nearby!";
+constexpr const char *SummonLimitText = "This character can't summon any more monsters!";
+constexpr const char *WandAlreadyChargedText = "Wand already charged!";
+constexpr const char *ItemQualityTooLowText = "Item is not of high enough quality";
 
 float secondsFromHours(float hours);
 float secondsFromMinutes(float minutes);
@@ -308,7 +316,7 @@ std::string spellWorldUnavailableText(SpellId spellId, bool indoorMap)
             case SpellId::Armageddon:
                 return "Can't cast Armageddon indoors!";
             default:
-                return "Spell failed";
+                return SpellFailedText;
         }
     }
 
@@ -319,7 +327,7 @@ std::string spellWorldUnavailableText(SpellId spellId, bool indoorMap)
         case SpellId::PrismaticLight:
             return "Can't cast Prismatic Light outdoors!";
         default:
-            return "Spell failed";
+            return SpellFailedText;
     }
 }
 
@@ -600,20 +608,20 @@ int manaCostForSpellEntry(const SpellEntry &spellEntry, SkillMastery mastery)
     }
 }
 
-float recoverySecondsForSpellEntry(const SpellEntry &spellEntry, SkillMastery mastery)
+int recoveryTicksForSpellEntry(const SpellEntry &spellEntry, SkillMastery mastery)
 {
     switch (mastery)
     {
         case SkillMastery::Expert:
-            return ticksToRecoverySeconds(spellEntry.expertRecoveryTicks);
+            return spellEntry.expertRecoveryTicks;
         case SkillMastery::Master:
-            return ticksToRecoverySeconds(spellEntry.masterRecoveryTicks);
+            return spellEntry.masterRecoveryTicks;
         case SkillMastery::Grandmaster:
-            return ticksToRecoverySeconds(spellEntry.grandmasterRecoveryTicks);
+            return spellEntry.grandmasterRecoveryTicks;
         case SkillMastery::Normal:
         case SkillMastery::None:
         default:
-            return ticksToRecoverySeconds(spellEntry.normalRecoveryTicks);
+            return spellEntry.normalRecoveryTicks;
     }
 }
 
@@ -623,10 +631,10 @@ int manaCostForRule(const BackendSpellRule &rule, SkillMastery mastery)
     return index >= 0 ? rule.manaByMastery[static_cast<size_t>(index)] : 0;
 }
 
-float recoverySecondsForRule(const BackendSpellRule &rule, SkillMastery mastery)
+int recoveryTicksForRule(const BackendSpellRule &rule, SkillMastery mastery)
 {
     const int index = masteryIndex(mastery);
-    return index >= 0 ? ticksToRecoverySeconds(rule.recoveryTicksByMastery[static_cast<size_t>(index)]) : 0.0f;
+    return index >= 0 ? rule.recoveryTicksByMastery[static_cast<size_t>(index)] : 0;
 }
 
 float secondsFromHours(float hours)
@@ -766,7 +774,16 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::DetectLife:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {}, {}, PartyBuffId::DetectLife);
         case SpellId::Bless:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
+            return makeBackendSpellRule(
+                spellId,
+                mastery == SkillMastery::Normal
+                    ? PartySpellCastTargetKind::Character
+                    : PartySpellCastTargetKind::None,
+                PartySpellCastEffectKind::CharacterBuff,
+                SkillMastery::Normal,
+                {},
+                {},
+                PartyBuffId::TorchLight);
         case SpellId::Fate:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::ActorOrCharacter, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
         case SpellId::TurnUndead:
@@ -774,7 +791,16 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::RemoveCurse:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Preservation:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Normal, {}, {}, PartyBuffId::TorchLight);
+            return makeBackendSpellRule(
+                spellId,
+                mastery == SkillMastery::Master || mastery == SkillMastery::Grandmaster
+                    ? PartySpellCastTargetKind::None
+                    : PartySpellCastTargetKind::Character,
+                PartySpellCastEffectKind::CharacterBuff,
+                SkillMastery::Normal,
+                {},
+                {},
+                PartyBuffId::TorchLight);
         case SpellId::Heroism:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Expert, {10, 10, 10, 10}, {120, 120, 120, 120}, PartyBuffId::Heroism);
         case SpellId::SpiritLash:
@@ -820,7 +846,16 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::CurePoison:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::Hammerhands:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
+            return makeBackendSpellRule(
+                spellId,
+                mastery == SkillMastery::Grandmaster
+                    ? PartySpellCastTargetKind::None
+                    : PartySpellCastTargetKind::Character,
+                PartySpellCastEffectKind::CharacterBuff,
+                SkillMastery::Expert,
+                {},
+                {},
+                PartyBuffId::TorchLight);
         case SpellId::CureDisease:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight);
         case SpellId::ProtectionFromMagic:
@@ -874,7 +909,16 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::ControlUndead:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::PainReflection:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
+            return makeBackendSpellRule(
+                spellId,
+                mastery == SkillMastery::Master || mastery == SkillMastery::Grandmaster
+                    ? PartySpellCastTargetKind::None
+                    : PartySpellCastTargetKind::Character,
+                PartySpellCastEffectKind::CharacterBuff,
+                SkillMastery::Expert,
+                {},
+                {},
+                PartyBuffId::TorchLight);
         case SpellId::DarkGrasp:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight);
         case SpellId::DragonBreath:
@@ -1382,7 +1426,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             PartySpellCastStatus::InvalidCaster,
             PartySpellCastTargetKind::None,
             PartySpellCastEffectKind::Unsupported,
-            "Spell failed");
+            SpellFailedText);
     }
 
     const SpellEntry *pSpellEntry = spellTable.findById(static_cast<int>(request.spellId));
@@ -1394,7 +1438,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             PartySpellCastStatus::InvalidSpell,
             PartySpellCastTargetKind::None,
             PartySpellCastEffectKind::Unsupported,
-            "Spell failed");
+            SpellFailedText);
     }
 
     uint32_t skillLevel = 0;
@@ -1419,7 +1463,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
             PartySpellCastStatus::Unsupported,
             PartySpellCastTargetKind::None,
             PartySpellCastEffectKind::Unsupported,
-            "Spell failed");
+            SpellFailedText);
     }
 
     result.targetKind = rule->targetKind;
@@ -1447,10 +1491,41 @@ PartySpellCastResult PartySpellSystem::castSpell(
         ruleHasExplicitManaCost(*rule)
             ? manaCostForRule(*rule, skillMastery)
             : std::max(manaCostForSpellEntry(*pSpellEntry, skillMastery), defaultManaCostForSpellId(request.spellId))));
-    result.recoverySeconds =
+    const int baseSpellRecoveryTicks =
         ruleHasExplicitRecovery(*rule)
-            ? recoverySecondsForRule(*rule, skillMastery)
-            : recoverySecondsForSpellEntry(*pSpellEntry, skillMastery);
+            ? recoveryTicksForRule(*rule, skillMastery)
+            : recoveryTicksForSpellEntry(*pSpellEntry, skillMastery);
+    int spellRecoveryTicks = baseSpellRecoveryTicks;
+
+    if (spellIdFromValue(request.spellId) == SpellId::DispelMagic)
+    {
+        spellRecoveryTicks = std::max(0, spellRecoveryTicks - static_cast<int>(skillLevel));
+    }
+    else if (spellIdFromValue(request.spellId) == SpellId::DivineIntervention)
+    {
+        spellRecoveryTicks = std::max(0, 5 * static_cast<int>(skillLevel));
+    }
+
+    result.recoverySeconds = ticksToRecoverySeconds(spellRecoveryTicks);
+    const float failureRecoverySeconds = ticksToRecoverySeconds(baseSpellRecoveryTicks) * SpellFailureRecoveryScale;
+    const auto makeFailureWithRecovery =
+        [&](PartySpellCastStatus status,
+            PartySpellCastTargetKind targetKind,
+            PartySpellCastEffectKind effectKind,
+            const std::string &statusText) -> PartySpellCastResult
+        {
+            PartySpellCastResult failure = makeFailure(request.spellId, status, targetKind, effectKind, statusText);
+            failure.skillLevel = skillLevel;
+            failure.skillMastery = skillMastery;
+            failure.recoverySeconds = failureRecoverySeconds;
+
+            if (request.applyRecovery && failureRecoverySeconds > 0.0f)
+            {
+                party.applyRecoveryToMember(request.casterMemberIndex, failureRecoverySeconds);
+            }
+
+            return failure;
+        };
 
     if (request.spendMana && !party.canSpendSpellPoints(request.casterMemberIndex, static_cast<int>(result.manaCost)))
     {
@@ -1462,6 +1537,26 @@ PartySpellCastResult PartySpellSystem::castSpell(
             "Not enough spell points");
     }
 
+    if (request.spendMana
+        && request.applyRecovery
+        && request.skillLevelOverride == 0
+        && !request.bypassRequiredMastery
+        && spellIdFromValue(request.spellId) != SpellId::None
+        && pCaster->conditions.test(static_cast<size_t>(CharacterCondition::Cursed)))
+    {
+        static thread_local std::mt19937 rng(std::random_device{}());
+
+        if (std::uniform_int_distribution<int>(0, 99)(rng) < 50)
+        {
+            party.spendSpellPoints(request.casterMemberIndex, static_cast<int>(result.manaCost));
+            return makeFailureWithRecovery(
+                PartySpellCastStatus::Failed,
+                rule->targetKind,
+                rule->effectKind,
+                SpellFailedText);
+        }
+    }
+
     bx::Vec3 targetPoint = {0.0f, 0.0f, 0.0f};
     const SpellId spellId = spellIdFromValue(request.spellId);
     const std::optional<std::string> worldAvailabilityFailure =
@@ -1469,8 +1564,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
     if (worldAvailabilityFailure.has_value())
     {
-        return makeFailure(
-            request.spellId,
+        return makeFailureWithRecovery(
             PartySpellCastStatus::Failed,
             rule->targetKind,
             rule->effectKind,
@@ -1494,7 +1588,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     PartySpellCastStatus::NeedActorTarget,
                     rule->targetKind,
                     rule->effectKind,
-                    "Need actor target");
+                    NoValidTargetText);
             }
         }
         else
@@ -1505,12 +1599,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 || actor.isDead
                 || actor.isInvisible)
             {
-                return makeFailure(
-                    request.spellId,
+                return makeFailureWithRecovery(
                     PartySpellCastStatus::Failed,
                     rule->targetKind,
                     rule->effectKind,
-                    "Spell failed");
+                    SpellFailedText);
             }
 
             targetPoint = resolveActorTargetPoint(actor);
@@ -1543,7 +1636,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 PartySpellCastStatus::NeedActorOrCharacterTarget,
                 rule->targetKind,
                 rule->effectKind,
-                "Need spell target");
+                NoValidTargetText);
         }
 
         if (hasActorTarget)
@@ -1560,7 +1653,7 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 PartySpellCastStatus::NeedGroundPoint,
                 rule->targetKind,
                 rule->effectKind,
-                "Need ground target");
+                NoValidTargetText);
         }
 
         targetPoint = {request.targetX, request.targetY, request.targetZ};
@@ -1584,12 +1677,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
         {
             if (skillMastery < SkillMastery::Grandmaster && hasNearbyHostileActor(worldRuntime))
             {
-                return makeFailure(
-                    request.spellId,
+                return makeFailureWithRecovery(
                     PartySpellCastStatus::Failed,
                     rule->targetKind,
                     rule->effectKind,
-                    "Hostile monsters are nearby");
+                    SpellFailedText);
             }
 
             if (request.utilityAction == PartySpellUtilityActionKind::None)
@@ -1602,12 +1694,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
                     if (distribution(rng) > successChancePercent)
                     {
-                        return makeFailure(
-                            request.spellId,
+                        return makeFailureWithRecovery(
                             PartySpellCastStatus::Failed,
                             rule->targetKind,
                             rule->effectKind,
-                            "Town Portal failed");
+                            SpellFailedText);
                     }
                 }
 
@@ -1652,6 +1743,15 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
     if (rule->effectKind == PartySpellCastEffectKind::PartyBuff)
     {
+        if (spellId == SpellId::Invisibility && hasNearbyHostileActor(worldRuntime))
+        {
+            return makeFailureWithRecovery(
+                PartySpellCastStatus::Failed,
+                rule->targetKind,
+                rule->effectKind,
+                HostileCreaturesNearbyText);
+        }
+
         const float durationSeconds = resolvePartyBuffDurationSeconds(request.spellId, skillLevel, skillMastery);
         const int power = resolvePartyBuffPower(request.spellId, skillLevel, skillMastery);
 
@@ -1937,12 +2037,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
             if (pTargetItemDefinition == nullptr)
             {
-                return makeFailure(
-                    request.spellId,
+                return makeFailureWithRecovery(
                     PartySpellCastStatus::Failed,
                     rule->targetKind,
                     rule->effectKind,
-                    "Spell failed");
+                    SpellFailedText);
             }
 
             InventoryItem *pMutableInventoryItem =
@@ -1957,12 +2056,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
             {
                 if (!canApplySpellWeaponEnchant(*pTargetItemDefinition, pTargetInventoryItem, pTargetEquippedRuntime))
                 {
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        "Spell failed");
+                        SpellFailedText);
                 }
 
                 const SpecialItemEnchantKind enchantKind =
@@ -1977,12 +2075,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
                 if (enchantId == 0)
                 {
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        "Spell failed");
+                        SpellFailedText);
                 }
 
                 const float durationSeconds =
@@ -2012,12 +2109,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     || (pTargetEquippedRuntime != nullptr && pTargetEquippedRuntime->broken)
                     || (pMutableInventoryItem == nullptr && pTargetEquippedRuntime == nullptr))
                 {
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        "Spell failed");
+                        SpellFailedText);
                 }
 
                 const uint16_t currentCharges =
@@ -2036,12 +2132,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
                 if (newCharges == 0)
                 {
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        "Wand already charged");
+                        WandAlreadyChargedText);
                 }
 
                 if (pMutableInventoryItem != nullptr)
@@ -2062,12 +2157,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
             {
                 if (pMutableInventoryItem == nullptr || !canApplyEnchantItemSpell(*pTargetItemDefinition, *pMutableInventoryItem))
                 {
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        "Spell failed");
+                        SpellFailedText);
                 }
 
                 static thread_local std::mt19937 rng(std::random_device{}());
@@ -2087,12 +2181,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 if (itemValue < qualityThreshold)
                 {
                     pMutableInventoryItem->broken = true;
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        "Item is not of high enough quality");
+                        ItemQualityTooLowText);
                 }
 
                 std::uniform_int_distribution<int> distribution(1, 100);
@@ -2101,12 +2194,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 if (roll > successChancePercent)
                 {
                     pMutableInventoryItem->broken = true;
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        "Spell failed");
+                        SpellFailedText);
                 }
 
                 const bool preferStandardEnchant =
@@ -2122,12 +2214,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
                     if (!standardEnchantId.has_value())
                     {
-                        return makeFailure(
-                            request.spellId,
+                        return makeFailureWithRecovery(
                             PartySpellCastStatus::Failed,
                             rule->targetKind,
                             rule->effectKind,
-                            "Spell failed");
+                            SpellFailedText);
                     }
 
                     pMutableInventoryItem->standardEnchantId = *standardEnchantId;
@@ -2150,12 +2241,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
                     if (!specialEnchantId.has_value())
                     {
-                        return makeFailure(
-                            request.spellId,
+                        return makeFailureWithRecovery(
                             PartySpellCastStatus::Failed,
                             rule->targetKind,
                             rule->effectKind,
-                            "Spell failed");
+                            SpellFailedText);
                     }
 
                     pMutableInventoryItem->specialEnchantId = *specialEnchantId;
@@ -2185,12 +2275,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
                 if (pEventRuntimeState == nullptr)
                 {
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        "Spell failed");
+                        SpellFailedText);
                 }
 
                 EventRuntimeState::PendingMapMove move = {};
@@ -2212,12 +2301,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
                 if (pTargetMember == nullptr || request.utilitySlotIndex >= pTargetMember->lloydsBeacons.size())
                 {
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        "Spell failed");
+                        SpellFailedText);
                 }
 
                 if (request.utilityAction == PartySpellUtilityActionKind::LloydsBeaconSet)
@@ -2259,24 +2347,22 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
                     if (!beacon.has_value())
                     {
-                        return makeFailure(
-                            request.spellId,
+                        return makeFailureWithRecovery(
                             PartySpellCastStatus::Failed,
                             rule->targetKind,
                             rule->effectKind,
-                            "Spell failed");
+                            SpellFailedText);
                     }
 
                     EventRuntimeState *pEventRuntimeState = worldRuntime.eventRuntimeState();
 
                     if (pEventRuntimeState == nullptr)
                     {
-                        return makeFailure(
-                            request.spellId,
+                        return makeFailureWithRecovery(
                             PartySpellCastStatus::Failed,
                             rule->targetKind,
                             rule->effectKind,
-                            "Spell failed");
+                            SpellFailedText);
                     }
 
                     EventRuntimeState::PendingMapMove move = {};
@@ -2355,7 +2441,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
     {
         if (spellId == SpellId::Sunray && (worldRuntime.currentHour() < 5 || worldRuntime.currentHour() >= 21))
         {
-            return makeFailure(request.spellId, PartySpellCastStatus::Failed, rule->targetKind, rule->effectKind, "Spell failed");
+            return makeFailureWithRecovery(
+                PartySpellCastStatus::Failed,
+                rule->targetKind,
+                rule->effectKind,
+                SpellFailedText);
         }
 
         if (request.targetActorIndex)
@@ -2435,10 +2525,20 @@ PartySpellCastResult PartySpellSystem::castSpell(
             }
             else if (spellId == SpellId::Reanimate)
             {
-                castSucceeded = party.reviveMember(
-                    *request.targetCharacterIndex,
-                    std::max(1, static_cast<int>(skillLevel) * 20),
-                    false);
+                Character *pTargetMember = party.member(*request.targetCharacterIndex);
+                castSucceeded =
+                    pTargetMember != nullptr
+                    && pTargetMember->conditions.test(static_cast<size_t>(CharacterCondition::Dead));
+
+                if (castSucceeded)
+                {
+                    party.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Unconscious);
+                    party.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Dead);
+                    party.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Petrified);
+                    party.clearMemberCondition(*request.targetCharacterIndex, CharacterCondition::Eradicated);
+                    party.applyMemberCondition(*request.targetCharacterIndex, CharacterCondition::Zombie);
+                    pTargetMember->health = std::max(1, static_cast<int>(skillLevel) * 20);
+                }
 
                 if (castSucceeded)
                 {
@@ -2470,12 +2570,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
             {
                 if (activeFriendlyWispCount(worldRuntime) >= SummonWispActiveLimit)
                 {
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        "Too many summoned wisps");
+                        SummonLimitText);
                 }
 
                 castSucceeded = worldRuntime.summonFriendlyMonsterById(
@@ -2491,7 +2590,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
             if (daylightOnly && (worldRuntime.currentHour() < 5 || worldRuntime.currentHour() >= 21))
             {
-                return makeFailure(request.spellId, PartySpellCastStatus::Failed, rule->targetKind, rule->effectKind, "Spell failed");
+                return makeFailureWithRecovery(
+                    PartySpellCastStatus::Failed,
+                    rule->targetKind,
+                    rule->effectKind,
+                    SpellFailedText);
             }
 
             if (spellId == SpellId::Armageddon)
@@ -2504,12 +2607,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
                         skillMastery,
                         failureText))
                 {
-                    return makeFailure(
-                        request.spellId,
+                    return makeFailureWithRecovery(
                         PartySpellCastStatus::Failed,
                         rule->targetKind,
                         rule->effectKind,
-                        failureText.empty() ? "Spell failed" : failureText);
+                        failureText.empty() ? SpellFailedText : failureText);
                 }
 
                 castSucceeded = true;
@@ -2698,12 +2800,11 @@ PartySpellCastResult PartySpellSystem::castSpell(
 
     if (!castSucceeded)
     {
-        return makeFailure(
-            request.spellId,
+        return makeFailureWithRecovery(
             PartySpellCastStatus::Failed,
             rule->targetKind,
             rule->effectKind,
-            "Spell failed");
+            SpellFailedText);
     }
 
     if (request.spendMana)

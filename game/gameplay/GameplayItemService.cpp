@@ -7,10 +7,18 @@
 #include "game/items/InventoryItemMixingRuntime.h"
 #include "game/items/InventoryItemUseRuntime.h"
 
+#include <algorithm>
+#include <cctype>
+#include <utility>
+
 namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr const char *IdentifyFailedText = "Identify Failed";
+constexpr const char *RepairFailedText = "Repair Failed";
+constexpr const char *NwcDungeonMapName = "nwc.blv";
+
 enum class ActiveLootOperation
 {
     ForceIdentify,
@@ -62,7 +70,7 @@ bool applyLootOperation(
 
             if (pInspector == nullptr || !ItemRuntime::canCharacterIdentifyItem(*pInspector, *pItemDefinition))
             {
-                statusText = "Not skilled enough.";
+                statusText = IdentifyFailedText;
                 return false;
             }
 
@@ -79,7 +87,7 @@ bool applyLootOperation(
 
             if (pInspector == nullptr || !ItemRuntime::canCharacterRepairItem(*pInspector, *pItemDefinition))
             {
-                statusText = "Not skilled enough.";
+                statusText = RepairFailedText;
                 return false;
             }
 
@@ -123,6 +131,36 @@ bool applyWorldItemOperation(
 
     return worldRuntime.updateWorldItemInspectState(worldItemIndex, lootItem.item);
 }
+
+std::string lowerAscii(std::string value)
+{
+    std::transform(
+        value.begin(),
+        value.end(),
+        value.begin(),
+        [](unsigned char c) { return static_cast<char>(std::tolower(c)); });
+    return value;
+}
+
+bool isNwcDungeonMapName(const std::string &mapFileName)
+{
+    const std::string normalized = lowerAscii(mapFileName);
+    return normalized == NwcDungeonMapName || normalized == std::string("data/games/") + NwcDungeonMapName;
+}
+
+InventoryItemUseContext buildInventoryItemUseContext(const GameplayScreenRuntime &runtime)
+{
+    InventoryItemUseContext context = {};
+    const IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
+
+    if (pWorldRuntime != nullptr)
+    {
+        context.underwater = pWorldRuntime->isUnderwaterMap();
+        context.gameMinutes = pWorldRuntime->gameMinutes();
+    }
+
+    return context;
+}
 }
 
 GameplayItemService::GameplayItemService(GameSession &session)
@@ -153,7 +191,8 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
             memberIndex,
             heldItem.item,
             *pItemTable,
-            pReadableScrollTable);
+            pReadableScrollTable,
+            buildInventoryItemUseContext(runtime));
 
     if (!useResult.handled)
     {
@@ -162,37 +201,44 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
 
     if (useResult.action == InventoryItemUseAction::CastScroll)
     {
-        const SpellTable *pSpellTable = m_session.hasDataRepository() ? &m_session.data().spellTable() : nullptr;
-
-        if (pSpellTable == nullptr)
+        if (!useResult.consumed)
         {
-            runtime.setStatusBarEvent("Spell data missing");
-            return true;
+            if (runtime.audioSystem() != nullptr)
+            {
+                runtime.audioSystem()->playCommonSound(SoundId::Error, GameAudioSystem::PlaybackGroup::Ui);
+            }
         }
-
-        const SpellEntry *pSpellEntry = pSpellTable->findById(useResult.spellId);
-
-        if (pSpellEntry == nullptr)
+        else
         {
-            runtime.setStatusBarEvent("Unknown scroll spell");
-            return true;
-        }
+            const SpellTable *pSpellTable = m_session.hasDataRepository() ? &m_session.data().spellTable() : nullptr;
 
-        PartySpellCastRequest request = {};
-        request.casterMemberIndex = memberIndex;
-        request.spellId = useResult.spellId;
-        request.skillLevelOverride = useResult.spellSkillLevelOverride;
-        request.skillMasteryOverride = useResult.spellSkillMasteryOverride;
-        request.spendMana = false;
-        request.applyRecovery = true;
+            if (pSpellTable == nullptr)
+            {
+                runtime.setStatusBarEvent("Spell data missing");
+                return true;
+            }
 
-        if (!runtime.tryCastSpellRequest(request, pSpellEntry->name))
-        {
-            return true;
-        }
+            const SpellEntry *pSpellEntry = pSpellTable->findById(useResult.spellId);
 
-        if (useResult.consumed)
-        {
+            if (pSpellEntry == nullptr)
+            {
+                runtime.setStatusBarEvent("Unknown scroll spell");
+                return true;
+            }
+
+            PartySpellCastRequest request = {};
+            request.casterMemberIndex = memberIndex;
+            request.spellId = useResult.spellId;
+            request.skillLevelOverride = useResult.spellSkillLevelOverride;
+            request.skillMasteryOverride = useResult.spellSkillMasteryOverride;
+            request.spendMana = false;
+            request.applyRecovery = true;
+
+            if (!runtime.tryCastSpellRequest(request, pSpellEntry->name))
+            {
+                return true;
+            }
+
             heldItem = {};
         }
     }
@@ -225,6 +271,13 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
                 memberIndex,
                 PortraitFxEventKind::QuestComplete);
         }
+        else if (useResult.action == InventoryItemUseAction::UseGenieLamp && useResult.consumed)
+        {
+            m_session.gameplayFxService().triggerPortraitEventFxWithoutSpeech(
+                runtime,
+                memberIndex,
+                PortraitFxEventKind::QuestComplete);
+        }
         else if (useResult.action == InventoryItemUseAction::LearnSpell
                  && !useResult.consumed
                  && useResult.alreadyKnown
@@ -237,6 +290,20 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
         {
             runtime.playSpeechReaction(memberIndex, *useResult.speechId, true);
         }
+
+        if (useResult.soundId.has_value() && runtime.audioSystem() != nullptr)
+        {
+            runtime.audioSystem()->playCommonSound(*useResult.soundId, GameAudioSystem::PlaybackGroup::Ui);
+        }
+
+        if (useResult.action == InventoryItemUseAction::UseTempleInABottle
+            && !isNwcDungeonMapName(m_session.currentMapFileName()))
+        {
+            EventRuntimeState::PendingMapMove pendingMapMove = {};
+            pendingMapMove.mapName = NwcDungeonMapName;
+            pendingMapMove.useMapStartPosition = true;
+            m_session.setPendingMapMove(std::move(pendingMapMove));
+        }
     }
 
     if (!useResult.statusText.empty())
@@ -245,7 +312,9 @@ bool GameplayItemService::tryUseHeldItemOnPartyMember(
     }
 
     const bool closeCharacterScreen =
-        !keepCharacterScreenOpen || useResult.action == InventoryItemUseAction::CastScroll;
+        !keepCharacterScreenOpen
+        || (useResult.action == InventoryItemUseAction::CastScroll && useResult.consumed)
+        || useResult.action == InventoryItemUseAction::UseTempleInABottle;
 
     if (closeCharacterScreen)
     {

@@ -146,19 +146,19 @@ bool itemMatchesLootKind(const ItemDefinition &item, MonsterTable::LootItemKind 
 
 std::string foundGoldStatusText(int goldAmount)
 {
-    return goldAmount == 1
-        ? "Found 1 gold piece"
-        : "Found " + std::to_string(goldAmount) + " gold pieces";
+    return "You found " + std::to_string(std::max(0, goldAmount)) + " gold!";
 }
 
 std::string foundItemStatusText(int goldAmount, const std::string &itemName)
 {
+    const std::string resolvedItemName = itemName.empty() ? "item" : itemName;
+
     if (goldAmount <= 0)
     {
-        return "Found " + itemName;
+        return "You found an item (" + resolvedItemName + ")!";
     }
 
-    return foundGoldStatusText(goldAmount) + " and " + itemName;
+    return "You found " + std::to_string(goldAmount) + " gold and an item (" + resolvedItemName + ")!";
 }
 
 std::string corpseLootItemName(const GameplayChestItemState &item, const ItemTable *pItemTable)
@@ -363,7 +363,9 @@ GameplayCorpseAutoLootResult autoLootActiveCorpseView(
     }
     else if (result.blockedByInventory)
     {
-        result.statusText = party.lastStatus().empty() ? "Pack is Full!" : party.lastStatus();
+        result.statusText = party.lastStatus().empty() || party.lastStatus() == "inventory full"
+            ? "Pack is Full!"
+            : party.lastStatus();
     }
     else
     {

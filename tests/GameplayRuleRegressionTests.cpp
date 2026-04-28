@@ -530,6 +530,22 @@ TEST_CASE("starting dragon ability deals one to ten damage")
     CHECK_EQ(profile.rangedMaxDamage, 10);
 }
 
+TEST_CASE("dragon breath ranged recovery uses dragon breath spell data")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Character member = makeRegressionPartyMember("Duroth", "Dragon", "PC13-01", 13);
+    member.skills["DragonAbility"] = {"DragonAbility", 9, OpenYAMM::Game::SkillMastery::Master};
+
+    const OpenYAMM::Game::CharacterAttackProfile profile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(
+            member,
+            &gameData.itemTable,
+            &gameData.spellTable);
+
+    CHECK(profile.hasDragonBreath);
+    CHECK(profile.rangedRecoverySeconds == doctest::Approx(2.0f));
+}
+
 TEST_CASE("equipped wand charge consumption decrements to empty and then stops")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -807,6 +823,84 @@ TEST_CASE("recovery enchant increases recovery progress")
     CHECK(std::abs(pMember->recoverySecondsRemaining - 0.5f) < 0.001f);
 }
 
+TEST_CASE("running halves party recovery progress")
+{
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+
+    pMember->recoverySecondsRemaining = 2.0f;
+    party.updateRecovery(1.0f, 0.5f);
+
+    CHECK(pMember->recoverySecondsRemaining == doctest::Approx(1.5f));
+}
+
+TEST_CASE("leather expertise removes leather recovery penalty")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Character normal = makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1);
+    OpenYAMM::Game::Character expert = normal;
+    const uint32_t leatherArmorId = findFirstItemIdBySkillGroup(gameData.itemTable, "Leather");
+    REQUIRE(leatherArmorId != 0);
+
+    normal.equipment.armor = leatherArmorId;
+    normal.skills["LeatherArmor"] = {"LeatherArmor", 1, OpenYAMM::Game::SkillMastery::Normal};
+    expert.equipment.armor = leatherArmorId;
+    expert.skills["LeatherArmor"] = {"LeatherArmor", 1, OpenYAMM::Game::SkillMastery::Expert};
+
+    const OpenYAMM::Game::CharacterAttackProfile normalProfile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(
+            normal,
+            &gameData.itemTable,
+            &gameData.spellTable);
+    const OpenYAMM::Game::CharacterAttackProfile expertProfile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(
+            expert,
+            &gameData.itemTable,
+            &gameData.spellTable);
+
+    CHECK(normalProfile.meleeRecoverySeconds > expertProfile.meleeRecoverySeconds);
+}
+
+TEST_CASE("haste reduces player attack recovery")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&gameData.itemTable);
+    party.seed(createRegressionPartySeed());
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    pMember->equipment.mainHand = findFirstItemIdBySkillGroup(gameData.itemTable, "Sword");
+    REQUIRE(pMember->equipment.mainHand != 0);
+    pMember->skills["Sword"] = {"Sword", 1, OpenYAMM::Game::SkillMastery::Normal};
+
+    const OpenYAMM::Game::CharacterAttackProfile baseProfile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(
+            *pMember,
+            &gameData.itemTable,
+            &gameData.spellTable);
+
+    party.applyPartyBuff(
+        OpenYAMM::Game::PartyBuffId::Haste,
+        60.0f,
+        0,
+        OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Haste),
+        1,
+        OpenYAMM::Game::SkillMastery::Expert,
+        0);
+
+    const OpenYAMM::Game::CharacterAttackProfile hastedProfile =
+        OpenYAMM::Game::GameMechanics::buildCharacterAttackProfile(
+            *pMember,
+            &gameData.itemTable,
+            &gameData.spellTable);
+
+    CHECK(hastedProfile.meleeRecoverySeconds < baseProfile.meleeRecoverySeconds);
+}
+
 TEST_CASE("event experience variable awards direct member experience without learning bonus")
 {
     OpenYAMM::Game::Party party = {};
@@ -858,6 +952,89 @@ TEST_CASE("lua event runtime supports evt jump alias")
     REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr));
     REQUIRE_FALSE(runtimeState.statusMessages.empty());
     CHECK_EQ(runtimeState.statusMessages.back(), "jump ok");
+}
+
+TEST_CASE("lua event runtime Set applies condition variables")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[1] = function()\n"
+        "    evt._BeginEvent(1)\n"
+        "    evt.Set(0x72, 0)\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticSetCondition.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+    party.setActiveMemberIndex(1);
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, &party, nullptr));
+    const OpenYAMM::Game::Character *pActiveMember = party.member(1);
+    REQUIRE(pActiveMember != nullptr);
+    CHECK(pActiveMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::DiseaseMedium)));
+    REQUIRE_EQ(runtimeState.portraitFxRequests.size(), 1u);
+    CHECK_EQ(runtimeState.portraitFxRequests.front().kind, OpenYAMM::Game::PortraitFxEventKind::Disease);
+    REQUIRE_EQ(runtimeState.portraitFxRequests.front().memberIndices.size(), 1u);
+    CHECK_EQ(runtimeState.portraitFxRequests.front().memberIndices.front(), 1u);
+}
+
+TEST_CASE("lua event runtime Subtract clears condition variables")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[1] = function()\n"
+        "    evt._BeginEvent(1)\n"
+        "    evt.Subtract(0x72, 0)\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticSubtractCondition.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+    party.setActiveMemberIndex(1);
+    OpenYAMM::Game::Character *pActiveMember = party.member(1);
+    REQUIRE(pActiveMember != nullptr);
+    pActiveMember->conditions.set(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::DiseaseMedium));
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, &party, nullptr));
+    CHECK_FALSE(pActiveMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::DiseaseMedium)));
+}
+
+TEST_CASE("lua event runtime door locked reaction targets active member")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[1] = function()\n"
+        "    evt._BeginEvent(1)\n"
+        "    evt.ForPlayer(5)\n"
+        "    evt.FaceAnimation(18)\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticDoorLockedReaction.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+    party.setActiveMemberIndex(2);
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, &party, nullptr));
+    const std::vector<OpenYAMM::Game::Party::PendingAudioRequest> &requests = party.pendingAudioRequests();
+    REQUIRE_EQ(requests.size(), 1u);
+    CHECK_EQ(requests.front().kind, OpenYAMM::Game::Party::PendingAudioRequest::Kind::Speech);
+    CHECK_EQ(requests.front().memberIndex, 2u);
+    CHECK_EQ(requests.front().speechId, OpenYAMM::Game::SpeechId::DoorLocked);
 }
 
 TEST_CASE("lua event runtime SpeakNPC opens pending npc talk dialogue")
@@ -1095,6 +1272,89 @@ TEST_CASE("dungeon transition dialog uses trans table title text icon and transi
     REQUIRE_EQ(dialog.actions.size(), 2u);
     CHECK_EQ(dialog.actions[0].kind, OpenYAMM::Game::EventDialogActionKind::MapTransitionConfirm);
     CHECK_EQ(dialog.actions[1].kind, OpenYAMM::Game::EventDialogActionKind::MapTransitionCancel);
+}
+
+TEST_CASE("outdoor boundary transition dialog uses default outdoor map icon")
+{
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    OpenYAMM::Game::MapStatsEntry originMap = {};
+    originMap.name = "Ravenshore";
+    originMap.fileName = "Out02.odm";
+    OpenYAMM::Game::MapEdgeTransition eastTransition = {};
+    eastTransition.destinationMapFileName = "Out06.odm";
+    eastTransition.travelDays = 1;
+    originMap.eastTransition = eastTransition;
+
+    OpenYAMM::Game::MapStatsEntry destinationMap = {};
+    destinationMap.name = "Garrote Gorge";
+    destinationMap.fileName = "Out06.odm";
+    const std::vector<OpenYAMM::Game::MapStatsEntry> mapEntries = {originMap, destinationMap};
+
+    OpenYAMM::Game::EventRuntimeState::PendingDialogueContext context = {};
+    context.kind = OpenYAMM::Game::DialogueContextKind::MapTransition;
+    context.sourceId = static_cast<uint32_t>(OpenYAMM::Game::MapBoundaryEdge::East);
+    runtimeState.pendingDialogueContext = context;
+
+    const OpenYAMM::Game::EventDialogContent dialog = OpenYAMM::Game::buildEventDialogContent(
+        runtimeState,
+        0,
+        true,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        &originMap,
+        &mapEntries,
+        nullptr,
+        nullptr,
+        0.0f);
+
+    REQUIRE(dialog.isActive);
+    CHECK_EQ(dialog.presentation, OpenYAMM::Game::EventDialogPresentation::Transition);
+    CHECK_EQ(dialog.participantVisual, OpenYAMM::Game::EventDialogParticipantVisual::MapIcon);
+    CHECK_EQ(dialog.title, "Garrote Gorge");
+    CHECK_EQ(dialog.participantTextureName, "Outside");
+}
+
+TEST_CASE("dungeon to outdoor transition dialog keeps dungeon transition icon")
+{
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    OpenYAMM::Game::EventRuntimeState::PendingMapMove mapMove = {};
+    mapMove.mapName = std::string("Out02.odm");
+
+    OpenYAMM::Game::EventRuntimeState::PendingDialogueContext context = {};
+    context.kind = OpenYAMM::Game::DialogueContextKind::MapTransition;
+    context.transitionMapMove = mapMove;
+    runtimeState.pendingDialogueContext = context;
+
+    OpenYAMM::Game::MapStatsEntry currentMap = {};
+    currentMap.name = "Abandoned Temple";
+    currentMap.fileName = "D18.blv";
+    OpenYAMM::Game::MapStatsEntry destinationMap = {};
+    destinationMap.name = "Ravenshore";
+    destinationMap.fileName = "Out02.odm";
+    const std::vector<OpenYAMM::Game::MapStatsEntry> mapEntries = {currentMap, destinationMap};
+
+    const OpenYAMM::Game::EventDialogContent dialog = OpenYAMM::Game::buildEventDialogContent(
+        runtimeState,
+        0,
+        true,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        nullptr,
+        &currentMap,
+        &mapEntries,
+        nullptr,
+        nullptr,
+        0.0f);
+
+    REQUIRE(dialog.isActive);
+    CHECK_EQ(dialog.presentation, OpenYAMM::Game::EventDialogPresentation::Transition);
+    CHECK_EQ(dialog.title, "Abandoned Temple");
+    CHECK_EQ(dialog.participantTextureName, "Ticon01");
 }
 
 TEST_CASE("lua event runtime treats explicit hint-only events as handled no-ops")

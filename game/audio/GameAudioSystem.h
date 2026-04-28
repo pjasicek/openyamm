@@ -92,7 +92,9 @@ private:
         const std::string &virtualPath,
         PlaybackGroup group,
         const std::optional<WorldPosition> &position,
-        bool loop);
+        bool loop,
+        uint32_t soundId = 0,
+        const char *pSource = "resolved");
     std::optional<uint32_t> resolveCharacterVoiceId(const Character &character) const;
 
     const CharacterDollTable *m_pCharacterDollTable = nullptr;

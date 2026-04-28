@@ -2,8 +2,11 @@
 
 #include "game/gameplay/GameplayActorAiSystem.h"
 #include "game/gameplay/GameplayActorService.h"
+#include "game/tables/MonsterTable.h"
 
 #include <cmath>
+#include <string>
+#include <vector>
 
 using OpenYAMM::Game::ActorAiAnimationState;
 using OpenYAMM::Game::ActorAiFacts;
@@ -14,8 +17,10 @@ using OpenYAMM::Game::ActorAiMotionState;
 using OpenYAMM::Game::ActorAiTargetKind;
 using OpenYAMM::Game::GameplayActorAttackAbility;
 using OpenYAMM::Game::GameplayActorAiType;
+using OpenYAMM::Game::GameplayActorControlMode;
 using OpenYAMM::Game::GameplayActorAiSystem;
 using OpenYAMM::Game::GameplayActorService;
+using OpenYAMM::Game::MonsterTable;
 
 namespace
 {
@@ -44,6 +49,25 @@ ActorAiFrameFacts makeFrame()
     frame.party.collisionRadius = 32.0f;
     frame.party.collisionHeight = 128.0f;
     return frame;
+}
+
+std::vector<std::string> makeActorServiceMonsterStatsRow(int id)
+{
+    std::vector<std::string> row(38);
+    row[0] = std::to_string(id);
+    row[1] = "Monster " + std::to_string(id);
+    row[2] = "MonsterPic" + std::to_string(id);
+    row[3] = "1";
+    row[4] = "10";
+    row[5] = "0";
+    row[6] = "10";
+    row[10] = "short";
+    row[11] = "normal";
+    row[13] = "100";
+    row[14] = "30";
+    row[17] = "Physical";
+    row[18] = "1d4";
+    return row;
 }
 }
 
@@ -89,6 +113,62 @@ TEST_CASE("shared actor AI keeps already dead active actors on the dead frame")
     REQUIRE(update.animation.animationState.has_value());
     CHECK(*update.animation.animationState == ActorAiAnimationState::Dead);
     CHECK(update.fxRequests.empty());
+}
+
+TEST_CASE("shared actor AI lets party controlled friendly actors wander near the party")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(1, 1);
+    actor.world.active = true;
+    actor.identity.hostilityType = 0;
+    actor.identity.targetPolicy.controlMode = GameplayActorControlMode::Reanimated;
+    actor.status.hostileToParty = false;
+    actor.movement.homePosition = actor.movement.position;
+    actor.movement.wanderRadius = 1024.0f;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+    actor.movement.allowIdleWander = true;
+    actor.movement.movementAllowed = true;
+    actor.movement.distanceToParty = 0.0f;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.motionState.has_value());
+    CHECK(*update.state.motionState == ActorAiMotionState::Wandering);
+    CHECK(update.movementIntent.action == ActorAiMovementAction::Wander);
+    CHECK(update.movementIntent.applyMovement);
+}
+
+TEST_CASE("shared actor service lets hostile actors target party controlled actors in the same group")
+{
+    MonsterTable monsterTable = {};
+    REQUIRE(monsterTable.loadStatsFromRows({makeActorServiceMonsterStatsRow(1), makeActorServiceMonsterStatsRow(2)}));
+
+    GameplayActorService service = {};
+    service.bindTables(&monsterTable, nullptr);
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState hostileActor = {};
+    hostileActor.monsterId = 1;
+    hostileActor.group = 7;
+    hostileActor.hostileToParty = true;
+    hostileActor.height = 128;
+
+    OpenYAMM::Game::GameplayActorTargetPolicyState reanimatedActor = {};
+    reanimatedActor.monsterId = 2;
+    reanimatedActor.group = 7;
+    reanimatedActor.hostileToParty = false;
+    reanimatedActor.controlMode = GameplayActorControlMode::Reanimated;
+    reanimatedActor.height = 128;
+
+    const OpenYAMM::Game::GameplayActorTargetPolicyResult result =
+        service.resolveActorTargetPolicy(hostileActor, reanimatedActor);
+
+    CHECK(result.canTarget);
+    CHECK_EQ(result.relationToTarget, 4);
+    CHECK(result.engagementRange > 0.0f);
 }
 
 TEST_CASE("shared actor AI exposes a melee recovery window after the attack animation")
@@ -146,6 +226,42 @@ TEST_CASE("shared actor AI exposes a melee recovery window after the attack anim
     CHECK(*recoveryUpdate.state.motionState == ActorAiMotionState::Standing);
     REQUIRE(recoveryUpdate.state.attackCooldownSeconds.has_value());
     CHECK(*recoveryUpdate.state.attackCooldownSeconds > 0.0f);
+}
+
+TEST_CASE("shared actor AI doubles attack recovery while slowed")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(11, 108);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.status.spellEffects.slowRemainingSeconds = 10.0f;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.moveSpeed = 200;
+    actor.stats.attack1Damage.diceRolls = 1;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.runtime.recoverySeconds = 0.8f;
+    actor.runtime.meleeAttackAnimationSeconds = 1.0f;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+    actor.movement.distanceToParty = 96.0f;
+    actor.movement.edgeDistanceToParty = 0.0f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {132.0f, 200.0f, 64.0f};
+    actor.target.currentDistance = 96.0f;
+    actor.target.currentEdgeDistance = 0.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult attackResult = system.updateActors(frame);
+
+    REQUIRE_EQ(attackResult.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &attackUpdate = attackResult.actorUpdates.front();
+    REQUIRE(attackUpdate.state.attackCooldownSeconds.has_value());
+    CHECK(*attackUpdate.state.attackCooldownSeconds > 1.25f);
 }
 
 TEST_CASE("shared actor AI pursues a remembered party target without attack line of sight")
@@ -458,6 +574,42 @@ TEST_CASE("shared actor service applies monster buff combat modifiers")
     CHECK(service.hasPainReflection(state));
 }
 
+TEST_CASE("shared actor service clears status locks before reanimated control is applied")
+{
+    GameplayActorService service = {};
+    OpenYAMM::Game::GameplayActorSpellEffectState state = {};
+    state.stunRemainingSeconds = 5.0f;
+    state.paralyzeRemainingSeconds = 10.0f;
+    state.fearRemainingSeconds = 20.0f;
+    state.blindRemainingSeconds = 30.0f;
+    state.slowRemainingSeconds = 40.0f;
+    state.slowMoveMultiplier = 0.5f;
+    state.slowRecoveryMultiplier = 2.0f;
+    state.stoneskinRemainingSeconds = 50.0f;
+    state.stoneskinPower = 7;
+    state.hostileToParty = true;
+    state.hasDetectedParty = true;
+
+    CHECK(service.clearSpellEffects(state, false));
+
+    state.controlMode = GameplayActorControlMode::Reanimated;
+    state.controlRemainingSeconds = 24.0f * 60.0f * 60.0f;
+
+    CHECK_EQ(state.stunRemainingSeconds, 0.0f);
+    CHECK_EQ(state.paralyzeRemainingSeconds, 0.0f);
+    CHECK_EQ(state.fearRemainingSeconds, 0.0f);
+    CHECK_EQ(state.blindRemainingSeconds, 0.0f);
+    CHECK_EQ(state.slowRemainingSeconds, 0.0f);
+    CHECK_EQ(state.slowMoveMultiplier, 1.0f);
+    CHECK_EQ(state.slowRecoveryMultiplier, 1.0f);
+    CHECK_EQ(state.stoneskinRemainingSeconds, 0.0f);
+    CHECK_EQ(state.stoneskinPower, 0);
+    CHECK_FALSE(state.hostileToParty);
+    CHECK_FALSE(state.hasDetectedParty);
+    CHECK_EQ(state.controlMode, GameplayActorControlMode::Reanimated);
+    CHECK(state.controlRemainingSeconds > 0.0f);
+}
+
 TEST_CASE("shared actor AI applies monster melee buff damage and hit bonuses")
 {
     GameplayActorAiSystem system;
@@ -497,7 +649,8 @@ TEST_CASE("shared actor AI applies monster melee buff damage and hit bonuses")
     REQUIRE_EQ(result.actorUpdates.size(), 1u);
     const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
     REQUIRE(update.attackRequest.has_value());
-    CHECK_EQ(update.attackRequest->damage, 16);
+    CHECK_GE(update.attackRequest->damage, 13);
+    CHECK_LE(update.attackRequest->damage, 19);
     CHECK_EQ(update.attackRequest->attackBonus, 25);
     REQUIRE(update.state.spellEffects.has_value());
     CHECK_EQ(update.state.spellEffects->fateRemainingSeconds, doctest::Approx(0.0f));

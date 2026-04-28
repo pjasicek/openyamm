@@ -2,6 +2,7 @@
 
 #include <array>
 #include <algorithm>
+#include <iostream>
 #include <optional>
 
 namespace OpenYAMM::Game
@@ -449,6 +450,10 @@ void GameplayUiController::setStatusBarEvent(const std::string &text, float dura
     }
 
     State &state = resolvedState();
+    std::cout << "Status text set previous=\"" << state.statusBar.eventText
+              << "\" current=\"" << text
+              << "\" duration=" << durationSeconds
+              << '\n';
     state.statusBar.eventText = text;
     state.statusBar.eventRemainingSeconds = std::max(0.0f, durationSeconds);
 }
@@ -467,6 +472,11 @@ void GameplayUiController::updateStatusBarEvent(float deltaSeconds)
 
     if (state.statusBar.eventRemainingSeconds <= 0.0f)
     {
+        if (!state.statusBar.eventText.empty())
+        {
+            std::cout << "Status text clear previous=\"" << state.statusBar.eventText << "\" reason=expired\n";
+        }
+
         state.statusBar.eventText.clear();
     }
 }

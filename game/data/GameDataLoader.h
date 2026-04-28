@@ -34,6 +34,7 @@
 #include "game/tables/TransitionTable.h"
 
 #include <cstddef>
+#include <functional>
 #include <string>
 #include <vector>
 
@@ -56,7 +57,10 @@ public:
     bool loadMapByIdForGameplay(const Engine::AssetFileSystem &assetFileSystem, int mapId);
     bool loadMapByIdForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem, int mapId);
     bool loadMapByFileName(const Engine::AssetFileSystem &assetFileSystem, const std::string &fileName);
-    bool loadMapByFileNameForGameplay(const Engine::AssetFileSystem &assetFileSystem, const std::string &fileName);
+    bool loadMapByFileNameForGameplay(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &fileName,
+        const MapLoadProgressPump &progressPump = {});
     bool loadMapByFileNameForHeadlessGameplay(
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &fileName
@@ -104,7 +108,11 @@ private:
     );
     static bool isDataRow(const std::vector<std::string> &row);
     bool loadInitialMap(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose);
-    bool loadSelectedMap(const Engine::AssetFileSystem &assetFileSystem, int mapId, MapLoadPurpose mapLoadPurpose);
+    bool loadSelectedMap(
+        const Engine::AssetFileSystem &assetFileSystem,
+        int mapId,
+        MapLoadPurpose mapLoadPurpose,
+        const MapLoadProgressPump &progressPump = {});
     bool loadMapStats(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMonsterTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadMonsterProjectileTable(const Engine::AssetFileSystem &assetFileSystem);

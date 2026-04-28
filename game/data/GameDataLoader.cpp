@@ -1174,7 +1174,8 @@ bool GameDataLoader::loadMapByFileName(const Engine::AssetFileSystem &assetFileS
 
 bool GameDataLoader::loadMapByFileNameForGameplay(
     const Engine::AssetFileSystem &assetFileSystem,
-    const std::string &fileName)
+    const std::string &fileName,
+    const MapLoadProgressPump &progressPump)
 {
     const std::optional<MapStatsEntry> selectedMap = m_mapRegistry.findByFileName(fileName);
 
@@ -1183,7 +1184,7 @@ bool GameDataLoader::loadMapByFileNameForGameplay(
         return false;
     }
 
-    return loadSelectedMap(assetFileSystem, selectedMap->id, MapLoadPurpose::FullGameplay);
+    return loadSelectedMap(assetFileSystem, selectedMap->id, MapLoadPurpose::FullGameplay, progressPump);
 }
 
 bool GameDataLoader::loadMapByFileNameForHeadlessGameplay(
@@ -2320,7 +2321,8 @@ bool GameDataLoader::loadInitialMap(const Engine::AssetFileSystem &assetFileSyst
 bool GameDataLoader::loadSelectedMap(
     const Engine::AssetFileSystem &assetFileSystem,
     int mapId,
-    MapLoadPurpose mapLoadPurpose
+    MapLoadPurpose mapLoadPurpose,
+    const MapLoadProgressPump &progressPump
 )
 {
     const std::optional<MapStatsEntry> selectedMap = m_mapRegistry.findById(mapId);
@@ -2332,7 +2334,14 @@ bool GameDataLoader::loadSelectedMap(
     }
 
     const MapAssetLoader mapAssetLoader;
-    m_selectedMap = mapAssetLoader.load(assetFileSystem, *selectedMap, m_monsterTable, m_objectTable, mapLoadPurpose);
+    m_selectedMap = mapAssetLoader.load(
+        assetFileSystem,
+        *selectedMap,
+        m_monsterTable,
+        m_objectTable,
+        mapLoadPurpose,
+        {},
+        progressPump);
 
     if (!m_selectedMap)
     {

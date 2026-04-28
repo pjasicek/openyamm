@@ -60,6 +60,26 @@ TEST_CASE("monster stats parser preserves blood splat on death flag")
     CHECK_FALSE(pWisp->bloodSplatOnDeath);
 }
 
+TEST_CASE("monster stats parser treats plain numeric damage like OE Nd1 damage")
+{
+    OpenYAMM::Game::MonsterTable table = {};
+    std::vector<std::string> row = makeMonsterStatsRow(1, "FlatDamage", true, "", 0, "", 0, "");
+    row[18] = "5";
+    row[22] = "3";
+
+    REQUIRE(table.loadStatsFromRows({row}));
+
+    const OpenYAMM::Game::MonsterTable::MonsterStatsEntry *pMonster = table.findStatsById(1);
+
+    REQUIRE(pMonster != nullptr);
+    CHECK_EQ(pMonster->attack1Damage.diceRolls, 5);
+    CHECK_EQ(pMonster->attack1Damage.diceSides, 1);
+    CHECK_EQ(pMonster->attack1Damage.bonus, 0);
+    CHECK_EQ(pMonster->attack2Damage.diceRolls, 3);
+    CHECK_EQ(pMonster->attack2Damage.diceSides, 1);
+    CHECK_EQ(pMonster->attack2Damage.bonus, 0);
+}
+
 TEST_CASE("monster stats parser classifies melee mixed and ranged attack styles")
 {
     OpenYAMM::Game::MonsterTable table = {};

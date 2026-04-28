@@ -3,6 +3,7 @@
 #include "engine/BgfxContext.h"
 #include "game/app/GameSession.h"
 #include "game/data/ActorNameResolver.h"
+#include "game/events/EventRuntime.h"
 #include "game/FaceEnums.h"
 #include "game/fx/ParticleRecipes.h"
 #include "game/fx/ParticleRenderer.h"
@@ -624,6 +625,22 @@ bx::Vec3 bottomAnchoredBillboardCenter(float x, float y, float z, const bx::Vec3
     };
 }
 
+bx::Vec3 spriteFrameBillboardCenter(
+    float x,
+    float y,
+    float z,
+    const SpriteFrameEntry &frame,
+    const bx::Vec3 &cameraUp,
+    float worldHeight)
+{
+    if (SpriteFrameTable::hasFlag(frame.flags, SpriteFrameFlag::Center))
+    {
+        return {x, y, z};
+    }
+
+    return bottomAnchoredBillboardCenter(x, y, z, cameraUp, worldHeight);
+}
+
 float indoorPlaneDistance(const IndoorVisibilityPlane &plane, const bx::Vec3 &point)
 {
     return vecDot(plane.normal, point) + plane.distance;
@@ -1237,29 +1254,6 @@ bool indoorFaceIsInteractionActivatable(uint32_t attributes, uint16_t eventId)
         && hasFaceAttribute(attributes, FaceAttribute::Clickable)
         && !hasFaceAttribute(attributes, FaceAttribute::HasHint)
         && !hasFaceAttribute(attributes, FaceAttribute::Invisible);
-}
-
-bool pendingMoveTargetsAnotherMap(const EventRuntimeState::PendingMapMove &pendingMapMove)
-{
-    return pendingMapMove.mapName.has_value()
-        && !pendingMapMove.mapName->empty()
-        && *pendingMapMove.mapName != "0";
-}
-
-void promoteActivatedMapMoveToTransitionDialog(EventRuntimeState &eventRuntimeState)
-{
-    if (eventRuntimeState.pendingDialogueContext
-        || !eventRuntimeState.pendingMapMove
-        || !pendingMoveTargetsAnotherMap(*eventRuntimeState.pendingMapMove))
-    {
-        return;
-    }
-
-    EventRuntimeState::PendingDialogueContext context = {};
-    context.kind = DialogueContextKind::MapTransition;
-    context.transitionMapMove = std::move(eventRuntimeState.pendingMapMove);
-    eventRuntimeState.pendingMapMove.reset();
-    eventRuntimeState.pendingDialogueContext = std::move(context);
 }
 
 size_t countChestItemSlots(const MapDeltaChest &chest)
@@ -5734,10 +5728,11 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             const float spriteScale = std::max(frame.scale, 0.01f);
             const float worldWidth = static_cast<float>(texture.width) * spriteScale;
             const float worldHeight = static_cast<float>(texture.height) * spriteScale;
+            const bool centerAnchored = SpriteFrameTable::hasFlag(frame.flags, SpriteFrameFlag::Center);
             const bx::Vec3 center = {
                 x,
                 y,
-                z + worldHeight * 0.5f
+                centerAnchored ? z : z + worldHeight * 0.5f
             };
             const float radius = std::sqrt((worldWidth * 0.5f) * (worldWidth * 0.5f)
                 + (worldHeight * 0.5f) * (worldHeight * 0.5f));
@@ -6044,11 +6039,13 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             const float worldWidth = float(texture.width) * spriteScale;
             const float worldHeight = float(texture.height) * spriteScale;
             const float halfWidth = worldWidth * 0.5f;
-            const bx::Vec3 center = {
+            const bx::Vec3 center = spriteFrameBillboardCenter(
                 drawItem.x,
                 drawItem.y,
-                drawItem.z + worldHeight * 0.5f
-            };
+                drawItem.z,
+                frame,
+                cameraUp,
+                worldHeight);
             const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
             const bx::Vec3 up = {
                 cameraUp.x * worldHeight * 0.5f,
@@ -6165,11 +6162,13 @@ void IndoorRenderer::renderSpriteObjectBillboards(
         const float worldWidth = float(texture.width) * spriteScale;
         const float worldHeight = float(texture.height) * spriteScale;
         const float halfWidth = worldWidth * 0.5f;
-        const bx::Vec3 center = {
+        const bx::Vec3 center = spriteFrameBillboardCenter(
             drawItem.x,
             drawItem.y,
-            drawItem.z + worldHeight * 0.5f
-        };
+            drawItem.z,
+            frame,
+            cameraUp,
+            worldHeight);
         const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
         const bx::Vec3 up = {
             cameraUp.x * worldHeight * 0.5f,
@@ -7187,7 +7186,7 @@ bool IndoorRenderer::tryActivateInspectEvent(const InspectHit &inspectHit)
 
     if (pEventRuntimeState != nullptr)
     {
-        promoteActivatedMapMoveToTransitionDialog(*pEventRuntimeState);
+        promotePendingMapMoveToTransitionDialog(*pEventRuntimeState);
     }
 
     if (!rebuildDerivedGeometryResources())
@@ -8760,7 +8759,7 @@ void IndoorRenderer::updateCameraFromInput(
         partyRuntime.setActorColliders(worldRuntime.actorMovementCollidersForPartyMovement());
         partyRuntime.setDecorationColliders(worldRuntime.decorationMovementColliders());
         partyRuntime.setSpriteObjectColliders(worldRuntime.spriteObjectMovementColliders());
-        partyRuntime.update(desiredVelocityX, desiredVelocityY, jumpRequested, deltaSeconds);
+        partyRuntime.update(desiredVelocityX, desiredVelocityY, jumpRequested, running, deltaSeconds);
         const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
         m_cameraPositionX = moveState.x;
         m_cameraPositionY = moveState.y;

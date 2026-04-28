@@ -1566,7 +1566,7 @@ bool GameplayScreenRuntime::tryAutoPlaceHeldInventoryItemOnPartyMember(size_t me
     {
         if (showFailureStatus)
         {
-            setStatusBarEvent(failureStatus.empty() ? "Inventory full" : failureStatus);
+            setStatusBarEvent(failureStatus.empty() ? "Pack is Full!" : failureStatus);
         }
 
         return false;

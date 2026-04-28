@@ -251,7 +251,7 @@ InventoryItemMixResult InventoryItemMixingRuntime::tryApplyHeldItemToInventoryIt
 
         if (newCharges == 0)
         {
-            result.statusText = "Wand already charged";
+            result.statusText = "Wand already charged!";
             return result;
         }
 
@@ -259,7 +259,6 @@ InventoryItemMixResult InventoryItemMixingRuntime::tryApplyHeldItemToInventoryIt
         pTargetItem->currentCharges = newCharges;
         result.success = true;
         result.targetItemChanged = true;
-        result.statusText = "Recharged wand";
         return result;
     }
 

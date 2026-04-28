@@ -2272,16 +2272,6 @@ bool Party::applyDamageToMember(size_t memberIndex, int damage, const std::strin
         return false;
     }
 
-    if (m_debugDamageImmune)
-    {
-        if (!status.empty())
-        {
-            m_lastStatus = status;
-        }
-
-        return false;
-    }
-
     Character &member = m_members[memberIndex];
     const int previousHealth = member.health;
 
@@ -2290,10 +2280,13 @@ bool Party::applyDamageToMember(size_t memberIndex, int damage, const std::strin
         return false;
     }
 
-    member.health -= damage;
-    const bool preservationActive =
-        m_characterBuffs[memberIndex][static_cast<size_t>(CharacterBuffId::Preservation)].active();
-    updateMemberIncapacitatedCondition(member, preservationActive);
+    if (!m_debugDamageImmune)
+    {
+        member.health -= damage;
+        const bool preservationActive =
+            m_characterBuffs[memberIndex][static_cast<size_t>(CharacterBuffId::Preservation)].active();
+        updateMemberIncapacitatedCondition(member, preservationActive);
+    }
 
     const bool crossedMajorDamageThreshold =
         member.maxHealth > 0
@@ -3661,7 +3654,7 @@ bool Party::tryIdentifyMemberInventoryItem(
 
     if (!ItemRuntime::canCharacterIdentifyItem(*pInspector, *pItemDefinition))
     {
-        statusText = "Not skilled enough.";
+        statusText = "Identify Failed";
         logItemInteractionResult(
             "identify",
             pInspector,
@@ -3756,7 +3749,7 @@ bool Party::tryRepairMemberInventoryItem(
 
     if (!ItemRuntime::canCharacterRepairItem(*pInspector, *pItemDefinition))
     {
-        statusText = "Not skilled enough.";
+        statusText = "Repair Failed";
         logItemInteractionResult(
             "repair",
             pInspector,
@@ -3983,7 +3976,7 @@ bool Party::tryIdentifyEquippedItem(
 
     if (!ItemRuntime::canCharacterIdentifyItem(*pInspector, *pItemDefinition))
     {
-        statusText = "Not skilled enough.";
+        statusText = "Identify Failed";
         logItemInteractionResult(
             "identify",
             pInspector,
@@ -4078,7 +4071,7 @@ bool Party::tryRepairEquippedItem(
 
     if (!ItemRuntime::canCharacterRepairItem(*pInspector, *pItemDefinition))
     {
-        statusText = "Not skilled enough.";
+        statusText = "Repair Failed";
         logItemInteractionResult(
             "repair",
             pInspector,
@@ -4607,16 +4600,19 @@ void Party::advanceTimedStates(float deltaSeconds)
     }
 }
 
-void Party::updateRecovery(float deltaSeconds)
+void Party::updateRecovery(float deltaSeconds, float progressScale)
 {
     if (deltaSeconds <= 0.0f)
     {
         return;
     }
 
+    const float clampedProgressScale = std::max(0.0f, progressScale);
+
     for (Character &member : m_members)
     {
-        const float recoveryDelta = deltaSeconds * std::max(0.0f, member.recoveryProgressMultiplier);
+        const float recoveryDelta =
+            deltaSeconds * clampedProgressScale * std::max(0.0f, member.recoveryProgressMultiplier);
         member.recoverySecondsRemaining = std::max(0.0f, member.recoverySecondsRemaining - recoveryDelta);
 
         if (member.healthRegenPerSecond > 0.0f)
@@ -5231,6 +5227,22 @@ void Party::rebuildMagicalBonusesFromBuffs()
         }
     }
 
+    if (partyBuff(PartyBuffId::Haste) != nullptr)
+    {
+        for (Character &member : m_members)
+        {
+            member.attackRecoveryReductionTicks += 25;
+        }
+    }
+
+    if (partyBuff(PartyBuffId::Shield) != nullptr)
+    {
+        for (Character &member : m_members)
+        {
+            member.halfMissileDamage = true;
+        }
+    }
+
     if (const PartyBuffState *pBuff = partyBuff(PartyBuffId::DayOfGods))
     {
         for (Character &member : m_members)
@@ -5331,6 +5343,20 @@ void Party::rebuildMagicalBonusesFromBuffs()
 
     for (Character &member : m_members)
     {
+        if (member.equipment.offHand != 0 && !member.equipmentRuntime.offHand.broken)
+        {
+            const ItemDefinition *pOffHand = m_pItemTable->get(member.equipment.offHand);
+            const CharacterSkill *pShieldSkill = member.findSkill("Shield");
+
+            if (pOffHand != nullptr
+                && pOffHand->skillGroup == "Shield"
+                && pShieldSkill != nullptr
+                && pShieldSkill->mastery >= SkillMastery::Grandmaster)
+            {
+                member.halfMissileDamage = true;
+            }
+        }
+
         applyEquippedItemEnchant(member, member.equipment.offHand, member.equipmentRuntime.offHand);
         applyEquippedItemEnchant(member, member.equipment.mainHand, member.equipmentRuntime.mainHand);
         applyEquippedItemEnchant(member, member.equipment.bow, member.equipmentRuntime.bow);

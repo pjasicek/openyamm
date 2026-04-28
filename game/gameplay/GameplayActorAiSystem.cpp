@@ -5,6 +5,7 @@
 #include <algorithm>
 #include <cmath>
 #include <optional>
+#include <random>
 
 namespace OpenYAMM::Game
 {
@@ -315,6 +316,27 @@ AttackDamageProfile attackDamageProfileFromFacts(const ActorStatsFacts::AttackDa
     return profile;
 }
 
+CombatDamageType attackDamageTypeFromFacts(
+    GameplayActorAttackAbility ability,
+    const ActorStatsFacts &stats)
+{
+    switch (ability)
+    {
+        case GameplayActorAttackAbility::Attack2:
+            return stats.attack2DamageType;
+
+        case GameplayActorAttackAbility::Spell1:
+            return stats.spell1DamageType;
+
+        case GameplayActorAttackAbility::Spell2:
+            return stats.spell2DamageType;
+
+        case GameplayActorAttackAbility::Attack1:
+        default:
+            return stats.attack1DamageType;
+    }
+}
+
 uint32_t mixActorDecisionSeed(uint32_t actorId, uint32_t counter, uint32_t salt)
 {
     return static_cast<uint32_t>(actorId + 1) * 1103515245u
@@ -412,14 +434,23 @@ IdleBehaviorResult resolveIdleBehavior(
     return result;
 }
 
-int averageAttackDamage(const AttackDamageProfile &profile)
+int rollAttackDamage(const AttackDamageProfile &profile)
 {
     if (profile.diceRolls <= 0 || profile.diceSides <= 0)
     {
         return std::max(0, profile.bonus);
     }
 
-    return profile.diceRolls * (profile.diceSides + 1) / 2 + profile.bonus;
+    static thread_local std::mt19937 rng(std::random_device{}());
+    std::uniform_int_distribution<int> distribution(1, profile.diceSides);
+    int damage = std::max(0, profile.bonus);
+
+    for (int rollIndex = 0; rollIndex < profile.diceRolls; ++rollIndex)
+    {
+        damage += distribution(rng);
+    }
+
+    return damage;
 }
 
 int resolveBaseAttackImpactDamage(
@@ -435,7 +466,7 @@ int resolveBaseAttackImpactDamage(
     {
         case GameplayActorAttackAbility::Attack2:
         {
-            const int damage = averageAttackDamage(attack2Damage);
+            const int damage = rollAttackDamage(attack2Damage);
             return std::max(1, damage > 0 ? damage : fallbackAttackDamage);
         }
         case GameplayActorAttackAbility::Spell1:
@@ -444,7 +475,7 @@ int resolveBaseAttackImpactDamage(
         case GameplayActorAttackAbility::Attack1:
         default:
         {
-            const int damage = averageAttackDamage(attack1Damage);
+            const int damage = rollAttackDamage(attack1Damage);
             return std::max(1, damage > 0 ? damage : fallbackAttackDamage);
         }
     }
@@ -1256,6 +1287,7 @@ ActorEngagementState resolveActorEngagement(
     result.friendlyNearParty =
         !result.shouldEngageTarget
         && !actor.status.hostileToParty
+        && !actorService.isPartyControlledActor(actor.identity.targetPolicy.controlMode)
         && partyIsVeryNearActor;
     return result;
 }
@@ -2887,6 +2919,12 @@ void applyAttackImpactOutcome(const ActorAiFacts &actor, ActorAiUpdate &update)
         return;
     }
 
+    if (attackImpact.action == AttackImpactAction::RangedRelease
+        && !actor.target.currentHasAttackLineOfSight)
+    {
+        return;
+    }
+
     if (attackBonus > 0 && spellEffects.fateRemainingSeconds > 0.0f)
     {
         spellEffects.fateRemainingSeconds = 0.0f;
@@ -2919,6 +2957,7 @@ void applyAttackImpactOutcome(const ActorAiFacts &actor, ActorAiUpdate &update)
     request.targetActorIndex = actor.target.currentActorIndex;
     request.damage = attackImpact.damage;
     request.attackBonus = attackBonus;
+    request.damageType = attackDamageTypeFromFacts(actor.runtime.queuedAttackAbility, actor.stats);
     request.source = actor.movement.position;
     request.target = actor.target.currentPosition;
 
@@ -3023,12 +3062,14 @@ void AI_StartAttack(ActorAiCommandContext &ai, const CombatAbilityChoiceResult &
         abilityChoice.ability,
         actor.stats.attackConstraints);
 
+    const float effectiveRecoverySeconds =
+        actor.runtime.recoverySeconds * (actor.status.spellEffects.slowRemainingSeconds > 0.0f ? 2.0f : 1.0f);
     const AttackStartOutcome attackStart = startAttack(
         actor.actorId,
         abilityChoice.nextAttackDecisionCount,
         abilityChoice.abilityIsRanged,
         attackAnimationSeconds,
-        actor.runtime.recoverySeconds);
+        effectiveRecoverySeconds);
 
     ai.setMotionState(ActorAiMotionState::Attacking);
     ai.setQueuedAttackAbility(abilityChoice.ability);
@@ -3720,6 +3761,7 @@ void appendActorUpdate(ActorAiFrameResult &result, const ActorAiUpdate &update)
             projectileRequest.targetKind = update.attackRequest->targetKind;
             projectileRequest.damage = update.attackRequest->damage;
             projectileRequest.attackBonus = update.attackRequest->attackBonus;
+            projectileRequest.damageType = update.attackRequest->damageType;
             projectileRequest.source = update.attackRequest->source;
             projectileRequest.target = update.attackRequest->target;
             result.projectileRequests.push_back(projectileRequest);

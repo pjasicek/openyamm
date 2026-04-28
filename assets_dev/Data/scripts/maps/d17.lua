@@ -29,7 +29,7 @@ SetMapMetadata({
     spriteNames = {},
     castSpellIds = {},
     timers = {
-    { eventId = 9, repeating = true, intervalGameMinutes = 10, remainingGameMinutes = 10 },
+    { eventId = 9, repeating = true, intervalGameMinutes = 2.5, remainingGameMinutes = 2.5 },
     },
 })
 
@@ -103,12 +103,7 @@ RegisterEvent(9, "Legacy event 9", function()
         if not evt.CheckMonstersKilled(2, 69, 0, false) then return end
         if not evt.CheckMonstersKilled(2, 70, 0, false) then return end
         if not evt.CheckMonstersKilled(2, 71, 0, false) then return end
-        if not IsQBitSet(QBit(156)) then
-            SetQBit(QBit(156))
-            evt.SummonMonsters(2, 1, 223, -8, 170, 0, 1, 0)
-            evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
-            return
-        end
+        SetQBit(QBit(156))
         SetQBit(QBit(155))
         SetQBit(QBit(225))
         ClearQBit(QBit(225))
@@ -272,4 +267,3 @@ RegisterEvent(501, "Leave the dragon cave", function()
     evt.MoveToMap(6376, 12420, 1616, 0, 0, 0, 0, 0, "Out05.odm")
     return
 end, "Leave the dragon cave")
-

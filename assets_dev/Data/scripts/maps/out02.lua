@@ -30,7 +30,7 @@ SetMapMetadata({
     castSpellIds = {},
     timers = {
         { eventId = 131, repeating = true, intervalGameMinutes = 7.5, remainingGameMinutes = 7.5 },
-        { eventId = 132, repeating = true, intervalGameMinutes = 10, remainingGameMinutes = 10 },
+        { eventId = 132, repeating = true, intervalGameMinutes = 2.5, remainingGameMinutes = 2.5 },
         { eventId = 478, repeating = true, intervalGameMinutes = 7.5, remainingGameMinutes = 7.5 },
         { eventId = 479, repeating = true, intervalGameMinutes = 10, remainingGameMinutes = 10 },
     },
@@ -496,13 +496,7 @@ RegisterEvent(132, "Check whether the Dire Wolves are cleared", function()
     if not evt.CheckMonstersKilled(2, 85, 0, false) then return end
     if not evt.CheckMonstersKilled(2, 86, 0, false) then return end
 
-    if not IsQBitSet(QBIT_DIRE_WOLF_LEADER_SUMMONED) then
-        SetQBit(QBIT_DIRE_WOLF_LEADER_SUMMONED)
-        evt.SummonMonsters(3, 1, 1, -18208, 16256, 8, 1, 0)
-        evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
-        return
-    end
-
+    SetQBit(QBIT_DIRE_WOLF_LEADER_SUMMONED)
     SetQBit(QBIT_DIRE_WOLF_DEN_CLEARED)
     evt.StatusText("You have killed all of the Dire Wolves")
     SetQBit(QBit(225))

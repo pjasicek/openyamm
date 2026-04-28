@@ -1175,7 +1175,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 ? context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__minimap_marker_projectile__", 0xff0000ffu)
                 : std::nullopt;
         const std::optional<GameplayHudTextureHandle> decorationMarkerTexture =
-            minimapState.wizardEyeShowsMasterDecorations
+            minimapState.wizardEyeShowsDecorations
                 ? context.gameplayUiRuntime().ensureSolidHudTextureLoaded("__minimap_marker_decoration__", 0xffffffffu)
                 : std::nullopt;
         std::vector<GameplayMinimapMarkerState> markers;

@@ -58,6 +58,21 @@ constexpr float OutdoorWorldFogStrongOpacity = 176.0f / 255.0f;
 constexpr float OutdoorSkyFogNearOpacity = 0.02f;
 constexpr float OutdoorSkyFogStrongOpacity = 208.0f / 255.0f;
 
+bool outdoorActorIsPartyControlled(OutdoorWorldRuntime::ActorControlMode mode)
+{
+    switch (mode)
+    {
+        case OutdoorWorldRuntime::ActorControlMode::Charm:
+        case OutdoorWorldRuntime::ActorControlMode::Enslaved:
+        case OutdoorWorldRuntime::ActorControlMode::ControlUndead:
+        case OutdoorWorldRuntime::ActorControlMode::Reanimated:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
 float secretFaceVertexFlag(uint32_t attributes)
 {
     return hasFaceAttribute(attributes, FaceAttribute::IsSecret) ? 1.0f : 0.0f;
@@ -3433,7 +3448,9 @@ void OutdoorRenderer::renderActorCollisionOverlays(
                 pRuntimeActor != nullptr ? pRuntimeActor->radius : billboard.radius,
                 pRuntimeActor != nullptr ? pRuntimeActor->height : billboard.height,
                 pRuntimeActor != nullptr ? pRuntimeActor->isDead : false,
-                pRuntimeActor != nullptr ? pRuntimeActor->hostileToParty : !billboard.isFriendly);
+                pRuntimeActor != nullptr
+                    ? pRuntimeActor->hostileToParty && !outdoorActorIsPartyControlled(pRuntimeActor->controlMode)
+                    : !billboard.isFriendly);
         }
     }
 
@@ -3471,7 +3488,7 @@ void OutdoorRenderer::renderActorCollisionOverlays(
                 pRuntimeActor->radius,
                 pRuntimeActor->height,
                 pRuntimeActor->isDead,
-                pRuntimeActor->hostileToParty);
+                pRuntimeActor->hostileToParty && !outdoorActorIsPartyControlled(pRuntimeActor->controlMode));
         }
     }
 

@@ -122,18 +122,22 @@ struct ActorStatsFacts
     std::string spell1Name;
     uint32_t spell1SkillLevel = 0;
     SkillMastery spell1SkillMastery = SkillMastery::None;
+    CombatDamageType spell1DamageType = CombatDamageType::Physical;
     bool spell1CastSupported = true;
     bool hasSpell2 = false;
     uint32_t spell2Id = 0;
     std::string spell2Name;
     uint32_t spell2SkillLevel = 0;
     SkillMastery spell2SkillMastery = SkillMastery::None;
+    CombatDamageType spell2DamageType = CombatDamageType::Physical;
     bool spell2CastSupported = true;
     int spell1UseChance = 0;
     int spell2UseChance = 0;
     int attack2Chance = 0;
     AttackDamageFacts attack1Damage = {};
     AttackDamageFacts attack2Damage = {};
+    CombatDamageType attack1DamageType = CombatDamageType::Physical;
+    CombatDamageType attack2DamageType = CombatDamageType::Physical;
     GameplayActorAttackConstraintState attackConstraints = {};
 };
 
@@ -332,6 +336,7 @@ struct ActorAttackRequest
     SkillMastery skillMastery = SkillMastery::None;
     int damage = 0;
     int attackBonus = 0;
+    CombatDamageType damageType = CombatDamageType::Physical;
     GameplayWorldPoint source = {};
     GameplayWorldPoint target = {};
 };
@@ -347,6 +352,7 @@ struct ActorProjectileRequest
     SkillMastery skillMastery = SkillMastery::None;
     int damage = 0;
     int attackBonus = 0;
+    CombatDamageType damageType = CombatDamageType::Physical;
     GameplayWorldPoint source = {};
     GameplayWorldPoint target = {};
 };

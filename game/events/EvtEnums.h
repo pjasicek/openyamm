@@ -187,6 +187,7 @@ enum class EvtActorAttribute : uint32_t
     Nearby = 0x00008000,
     Fleeing = 0x00020000,
     Aggressor = 0x00080000,
+    AlertStatus = 0x00100000,
     HasItem = 0x00800000,
     Hostile = 0x01000000,
 };

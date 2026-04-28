@@ -18,6 +18,7 @@ extern "C"
 
 #include <array>
 #include <algorithm>
+#include <cstdlib>
 #include <cstring>
 #include <iostream>
 #include <memory>
@@ -31,6 +32,115 @@ namespace
 constexpr float MusicVolume = 0.34f;
 constexpr float MusicFadeInSeconds = 1.25f;
 constexpr float MusicFadeOutSeconds = 0.6f;
+
+bool audioTraceEnabled()
+{
+    static const bool enabled = []()
+    {
+        const char *pValue = std::getenv("OPENYAMM_AUDIO_TRACE");
+
+        if (pValue == nullptr || pValue[0] == '\0')
+        {
+            return false;
+        }
+
+        return std::string_view(pValue) != "0";
+    }();
+    return enabled;
+}
+
+const char *playbackGroupName(GameAudioSystem::PlaybackGroup group)
+{
+    switch (group)
+    {
+    case GameAudioSystem::PlaybackGroup::Ui:
+        return "Ui";
+
+    case GameAudioSystem::PlaybackGroup::World:
+        return "World";
+
+    case GameAudioSystem::PlaybackGroup::Speech:
+        return "Speech";
+
+    case GameAudioSystem::PlaybackGroup::Music:
+        return "Music";
+
+    case GameAudioSystem::PlaybackGroup::Walking:
+        return "Walking";
+
+    case GameAudioSystem::PlaybackGroup::HouseDoor:
+        return "HouseDoor";
+
+    case GameAudioSystem::PlaybackGroup::HouseSpeech:
+        return "HouseSpeech";
+    }
+
+    return "Unknown";
+}
+
+void logAudioTracePrefix(const char *pEvent, const char *pSource)
+{
+    std::cerr << "[AudioTrace t=" << SDL_GetTicks() << "] " << pEvent << " source=" << pSource;
+}
+
+void logAudioTracePosition(const std::optional<GameAudioSystem::WorldPosition> &position)
+{
+    if (!position)
+    {
+        std::cerr << " positional=0";
+        return;
+    }
+
+    std::cerr << " positional=1 pos=(" << position->x << ',' << position->y << ',' << position->z << ')';
+}
+
+void logAudioTraceResolvedSound(
+    const char *pEvent,
+    const char *pSource,
+    uint32_t soundId,
+    const std::string &virtualPath,
+    GameAudioSystem::PlaybackGroup group,
+    const std::optional<GameAudioSystem::WorldPosition> &position,
+    bool loop,
+    uint64_t instanceId,
+    const char *pResult)
+{
+    if (!audioTraceEnabled())
+    {
+        return;
+    }
+
+    logAudioTracePrefix(pEvent, pSource);
+    std::cerr << " soundId=" << soundId
+              << " group=" << playbackGroupName(group)
+              << " loop=" << (loop ? 1 : 0)
+              << " path=\"" << virtualPath << "\""
+              << " result=" << pResult
+              << " instance=" << instanceId;
+    logAudioTracePosition(position);
+    std::cerr << '\n';
+}
+
+void logAudioTraceUnresolvedSound(
+    const char *pSource,
+    uint32_t soundId,
+    GameAudioSystem::PlaybackGroup group,
+    const std::optional<GameAudioSystem::WorldPosition> &position,
+    bool loop)
+{
+    if (!audioTraceEnabled())
+    {
+        return;
+    }
+
+    logAudioTracePrefix("request", pSource);
+    std::cerr << " soundId=" << soundId
+              << " group=" << playbackGroupName(group)
+              << " loop=" << (loop ? 1 : 0)
+              << " result=unresolved";
+    logAudioTracePosition(position);
+    std::cerr << '\n';
+}
 
 std::string dataTablePath(std::string_view fileName)
 {
@@ -706,10 +816,11 @@ bool GameAudioSystem::playSound(
 
     if (!virtualPath)
     {
+        logAudioTraceUnresolvedSound("playSound", soundId, group, position, false);
         return false;
     }
 
-    return playResolvedSound(*virtualPath, group, position, false) != 0;
+    return playResolvedSound(*virtualPath, group, position, false, soundId, "playSound") != 0;
 }
 
 uint64_t GameAudioSystem::playSoundInstance(
@@ -722,10 +833,11 @@ uint64_t GameAudioSystem::playSoundInstance(
 
     if (!virtualPath)
     {
+        logAudioTraceUnresolvedSound("playSoundInstance", soundId, group, position, loop);
         return 0;
     }
 
-    return playResolvedSound(*virtualPath, group, position, loop);
+    return playResolvedSound(*virtualPath, group, position, loop, soundId, "playSoundInstance");
 }
 
 bool GameAudioSystem::playLoopingSound(
@@ -737,24 +849,36 @@ bool GameAudioSystem::playLoopingSound(
 
     if (!virtualPath)
     {
+        logAudioTraceUnresolvedSound("playLoopingSound", soundId, group, position, true);
         return false;
     }
 
-    return playResolvedSound(*virtualPath, group, position, true) != 0;
+    return playResolvedSound(*virtualPath, group, position, true, soundId, "playLoopingSound") != 0;
 }
 
 uint64_t GameAudioSystem::playResolvedSound(
     const std::string &virtualPath,
     PlaybackGroup group,
     const std::optional<WorldPosition> &position,
-    bool loop)
+    bool loop,
+    uint32_t soundId,
+    const char *pSource)
 {
     if (isExclusiveGroup(group))
     {
-        const std::unordered_map<PlaybackGroup, uint64_t>::const_iterator activeIt = m_activeGroupInstanceIds.find(group);
+        const std::unordered_map<PlaybackGroup, uint64_t>::const_iterator activeIt =
+            m_activeGroupInstanceIds.find(group);
 
         if (activeIt != m_activeGroupInstanceIds.end())
         {
+            if (audioTraceEnabled())
+            {
+                logAudioTracePrefix("stop-exclusive", pSource);
+                std::cerr << " soundId=" << soundId
+                          << " group=" << playbackGroupName(group)
+                          << " stoppedInstance=" << activeIt->second << '\n';
+            }
+
             m_audioSystem.stopClip(activeIt->second);
         }
     }
@@ -775,8 +899,29 @@ uint64_t GameAudioSystem::playResolvedSound(
 
     if (instanceId == 0)
     {
+        logAudioTraceResolvedSound(
+            "request",
+            pSource,
+            soundId,
+            virtualPath,
+            group,
+            position,
+            loop,
+            instanceId,
+            "failed");
         return 0;
     }
+
+    logAudioTraceResolvedSound(
+        "request",
+        pSource,
+        soundId,
+        virtualPath,
+        group,
+        position,
+        loop,
+        instanceId,
+        "queued");
 
     if (isExclusiveGroup(group))
     {
@@ -831,6 +976,16 @@ bool GameAudioSystem::playCommonSoundNonResettable(
 
     if (activeIt != m_activeNonResettableSoundInstanceIds.end() && m_audioSystem.isClipPlaying(activeIt->second))
     {
+        if (audioTraceEnabled())
+        {
+            logAudioTracePrefix("request", "playCommonSoundNonResettable");
+            std::cerr << " soundId=" << soundKey
+                      << " group=" << playbackGroupName(group)
+                      << " loop=0 result=skipped-active instance=" << activeIt->second;
+            logAudioTracePosition(position);
+            std::cerr << '\n';
+        }
+
         return false;
     }
 
@@ -839,10 +994,12 @@ bool GameAudioSystem::playCommonSoundNonResettable(
 
     if (!virtualPath)
     {
+        logAudioTraceUnresolvedSound("playCommonSoundNonResettable", soundKey, group, position, false);
         return false;
     }
 
-    const uint64_t instanceId = playResolvedSound(*virtualPath, group, position, false);
+    const uint64_t instanceId =
+        playResolvedSound(*virtualPath, group, position, false, soundKey, "playCommonSoundNonResettable");
 
     if (instanceId == 0)
     {
@@ -888,20 +1045,32 @@ bool GameAudioSystem::playSpeech(const Character &character, SpeechId speechId, 
 
     if (!virtualPath)
     {
+        logAudioTraceUnresolvedSound("playSpeech", *soundId, PlaybackGroup::Speech, std::nullopt, false);
         return false;
     }
 
     if (speakerKey != 0)
     {
-        const std::unordered_map<uint32_t, uint64_t>::const_iterator activeIt = m_activeSpeechInstanceIds.find(speakerKey);
+        const std::unordered_map<uint32_t, uint64_t>::const_iterator activeIt =
+            m_activeSpeechInstanceIds.find(speakerKey);
 
         if (activeIt != m_activeSpeechInstanceIds.end())
         {
+            if (audioTraceEnabled())
+            {
+                logAudioTracePrefix("stop-speech", "playSpeech");
+                std::cerr << " soundId=" << *soundId
+                          << " speechId=" << static_cast<uint32_t>(speechId)
+                          << " speakerKey=" << speakerKey
+                          << " stoppedInstance=" << activeIt->second << '\n';
+            }
+
             m_audioSystem.stopClip(activeIt->second);
         }
     }
 
-    const uint64_t instanceId = playResolvedSound(*virtualPath, PlaybackGroup::Speech, std::nullopt, false);
+    const uint64_t instanceId =
+        playResolvedSound(*virtualPath, PlaybackGroup::Speech, std::nullopt, false, *soundId, "playSpeech");
 
     if (instanceId == 0)
     {
@@ -940,6 +1109,12 @@ void GameAudioSystem::stopSoundInstance(uint64_t instanceId)
         return;
     }
 
+    if (audioTraceEnabled())
+    {
+        logAudioTracePrefix("stop-instance", "stopSoundInstance");
+        std::cerr << " instance=" << instanceId << '\n';
+    }
+
     m_audioSystem.stopClip(instanceId);
 }
 
@@ -952,12 +1127,28 @@ void GameAudioSystem::stopGroup(PlaybackGroup group)
         return;
     }
 
+    if (audioTraceEnabled())
+    {
+        logAudioTracePrefix("stop-group", "stopGroup");
+        std::cerr << " group=" << playbackGroupName(group)
+                  << " instance=" << activeIt->second << '\n';
+    }
+
     m_audioSystem.stopClip(activeIt->second);
     m_activeGroupInstanceIds.erase(activeIt);
 }
 
 void GameAudioSystem::stopAllPlayback()
 {
+    if (audioTraceEnabled())
+    {
+        logAudioTracePrefix("stop-all", "stopAllPlayback");
+        std::cerr << " activeMusicTrack=" << m_activeMusicTrack
+                  << " activeMusicInstance=" << m_activeMusicInstanceId
+                  << " exclusiveGroups=" << m_activeGroupInstanceIds.size()
+                  << " speechInstances=" << m_activeSpeechInstanceIds.size() << '\n';
+    }
+
     m_audioSystem.stopAll();
     m_activeGroupInstanceIds.clear();
     m_activeSpeechInstanceIds.clear();
@@ -996,6 +1187,15 @@ void GameAudioSystem::setBackgroundMusicTrack(int redbookTrack)
 {
     const int normalizedTrack = std::max(redbookTrack, 0);
 
+    if (audioTraceEnabled())
+    {
+        logAudioTracePrefix("music-set", "setBackgroundMusicTrack");
+        std::cerr << " track=" << normalizedTrack
+                  << " activeTrack=" << m_activeMusicTrack
+                  << " activeInstance=" << m_activeMusicInstanceId
+                  << " paused=" << (m_backgroundMusicPaused ? 1 : 0) << '\n';
+    }
+
     if (normalizedTrack == 0)
     {
         stopBackgroundMusic();
@@ -1028,6 +1228,13 @@ void GameAudioSystem::setBackgroundMusicTrack(int redbookTrack)
 
 void GameAudioSystem::stopBackgroundMusic()
 {
+    if (audioTraceEnabled())
+    {
+        logAudioTracePrefix("music-stop", "stopBackgroundMusic");
+        std::cerr << " activeTrack=" << m_activeMusicTrack
+                  << " activeInstance=" << m_activeMusicInstanceId << '\n';
+    }
+
     m_pendingMusicTrack = 0;
     m_backgroundMusicPaused = false;
 
@@ -1044,6 +1251,13 @@ void GameAudioSystem::stopBackgroundMusic()
 
 void GameAudioSystem::stopBackgroundMusicImmediate()
 {
+    if (audioTraceEnabled())
+    {
+        logAudioTracePrefix("music-stop-immediate", "stopBackgroundMusicImmediate");
+        std::cerr << " activeTrack=" << m_activeMusicTrack
+                  << " activeInstance=" << m_activeMusicInstanceId << '\n';
+    }
+
     m_pendingMusicTrack = 0;
     m_backgroundMusicPaused = false;
 
@@ -1065,6 +1279,13 @@ void GameAudioSystem::pauseBackgroundMusic()
         return;
     }
 
+    if (audioTraceEnabled())
+    {
+        logAudioTracePrefix("music-pause", "pauseBackgroundMusic");
+        std::cerr << " activeTrack=" << m_activeMusicTrack
+                  << " activeInstance=" << m_activeMusicInstanceId << '\n';
+    }
+
     m_audioSystem.pauseClip(m_activeMusicInstanceId);
     m_backgroundMusicPaused = true;
 }
@@ -1074,6 +1295,13 @@ void GameAudioSystem::resumeBackgroundMusic()
     if (m_activeMusicInstanceId == 0 || !m_backgroundMusicPaused)
     {
         return;
+    }
+
+    if (audioTraceEnabled())
+    {
+        logAudioTracePrefix("music-resume", "resumeBackgroundMusic");
+        std::cerr << " activeTrack=" << m_activeMusicTrack
+                  << " activeInstance=" << m_activeMusicInstanceId << '\n';
     }
 
     m_audioSystem.resumeClip(m_activeMusicInstanceId);
@@ -1148,7 +1376,21 @@ bool GameAudioSystem::startBackgroundMusicTrack(int redbookTrack)
 
     if (instanceId == 0)
     {
+        if (audioTraceEnabled())
+        {
+            logAudioTracePrefix("music-start", "startBackgroundMusicTrack");
+            std::cerr << " track=" << redbookTrack
+                      << " path=\"" << clipKey << "\" result=failed instance=0\n";
+        }
+
         return false;
+    }
+
+    if (audioTraceEnabled())
+    {
+        logAudioTracePrefix("music-start", "startBackgroundMusicTrack");
+        std::cerr << " track=" << redbookTrack
+                  << " path=\"" << clipKey << "\" result=queued instance=" << instanceId << '\n';
     }
 
     m_activeMusicTrack = redbookTrack;

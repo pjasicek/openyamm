@@ -23,6 +23,7 @@ namespace
 constexpr float HudReferenceWidth = 640.0f;
 constexpr float HudReferenceHeight = 480.0f;
 constexpr uint16_t HudViewId = 2;
+constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
 
 uint32_t packHudColorAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
@@ -50,6 +51,46 @@ void appendPopupBodyLine(std::string &body, const std::string &line)
     }
 
     body += line;
+}
+
+int recoveryTicksFromSeconds(float recoverySeconds)
+{
+    return std::max(
+        0,
+        int(std::lround(std::max(0.0f, recoverySeconds) / OeRealtimeRecoveryScale * 128.0f)));
+}
+
+std::string attackRecoveryInspectSupplement(
+    const Character &character,
+    const GameplayScreenRuntime &context,
+    std::string_view statName)
+{
+    if (statName != "Attack" && statName != "Shoot")
+    {
+        return {};
+    }
+
+    if (context.itemTable() == nullptr)
+    {
+        return {};
+    }
+
+    const CharacterAttackProfile profile = GameMechanics::buildCharacterAttackProfile(
+        character,
+        context.itemTable(),
+        context.spellTable());
+
+    if (statName == "Attack")
+    {
+        return "Recovery time: " + std::to_string(recoveryTicksFromSeconds(profile.meleeRecoverySeconds));
+    }
+
+    if (!profile.canShoot)
+    {
+        return "Recovery time: N/A";
+    }
+
+    return "Recovery time: " + std::to_string(recoveryTicksFromSeconds(profile.rangedRecoverySeconds));
 }
 
 std::string formatRemainingDuration(float remainingSeconds)
@@ -558,6 +599,14 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
                 {
                     overlay.body += "\n" + supplement;
                 }
+            }
+
+            const std::string recoverySupplement =
+                attackRecoveryInspectSupplement(*pCharacter, context, row.pStatName);
+
+            if (!recoverySupplement.empty())
+            {
+                overlay.body += "\n\n" + recoverySupplement;
             }
 
             overlay.sourceX = rowRect.x;

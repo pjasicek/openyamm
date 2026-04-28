@@ -87,8 +87,10 @@ private:
     bool startNewSession(std::optional<uint32_t> rosterId, bool initializeView = true);
     bool startNewSessionFromCharacterCreation(const Character &character, bool initializeView = true);
     bool loadSessionFromPath(const std::filesystem::path &path);
-    void beginLoadingOverlay();
+    void beginLoadingOverlay(
+        LoadingOverlayScreen::Presentation presentation = LoadingOverlayScreen::Presentation::Fullscreen);
     void renderLoadingOverlayProgress(int progressPercent);
+    void pumpLoadingOverlayAnimation();
     void completeLoadingOverlay();
     void cancelLoadingOverlay();
     std::filesystem::path settingsFilePath() const;
@@ -133,7 +135,10 @@ private:
     uint64_t m_pickerNextDownRepeatTick;
     std::unique_ptr<LoadingOverlayScreen> m_pLoadingOverlayScreen;
     std::string m_loadingOverlayBackgroundTextureName;
+    LoadingOverlayScreen::Presentation m_loadingOverlayPresentation = LoadingOverlayScreen::Presentation::Fullscreen;
     bool m_loadingOverlayActive = false;
+    int m_loadingOverlayCurrentProgressPercent = 0;
+    uint64_t m_loadingOverlayNextAnimationFrameTick = 0;
     int m_lastFrameWidth = 640;
     int m_lastFrameHeight = 480;
     std::optional<std::string> m_pendingPartyDefeatRespawnMapFileName;

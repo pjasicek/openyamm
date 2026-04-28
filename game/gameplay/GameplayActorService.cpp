@@ -500,6 +500,8 @@ void GameplayActorService::updateSpellEffectTimers(
     state.blindRemainingSeconds = std::max(0.0f, state.blindRemainingSeconds - deltaSeconds);
     state.controlRemainingSeconds = std::max(0.0f, state.controlRemainingSeconds - deltaSeconds);
     state.shrinkRemainingSeconds = std::max(0.0f, state.shrinkRemainingSeconds - deltaSeconds);
+    state.armorClassHalvedRemainingSeconds =
+        std::max(0.0f, state.armorClassHalvedRemainingSeconds - deltaSeconds);
     state.darkGraspRemainingSeconds = std::max(0.0f, state.darkGraspRemainingSeconds - deltaSeconds);
     state.dayOfProtectionRemainingSeconds = std::max(0.0f, state.dayOfProtectionRemainingSeconds - deltaSeconds);
     state.hourOfPowerRemainingSeconds = std::max(0.0f, state.hourOfPowerRemainingSeconds - deltaSeconds);
@@ -812,7 +814,7 @@ GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
     const int16_t actorRelationMonsterId = actor.relationMonsterId > 0 ? actor.relationMonsterId : actor.monsterId;
     const int16_t targetRelationMonsterId = target.relationMonsterId > 0 ? target.relationMonsterId : target.monsterId;
 
-    if (actor.group != 0 && actor.group == target.group)
+    if (!hostileToSummon && actor.group != 0 && actor.group == target.group)
     {
         return result;
     }
@@ -859,6 +861,7 @@ bool GameplayActorService::clearSpellEffects(
         || state.controlRemainingSeconds > 0.0f
         || state.controlMode != GameplayActorControlMode::None
         || state.shrinkRemainingSeconds > 0.0f
+        || state.armorClassHalvedRemainingSeconds > 0.0f
         || state.darkGraspRemainingSeconds > 0.0f
         || state.dayOfProtectionRemainingSeconds > 0.0f
         || state.hourOfPowerRemainingSeconds > 0.0f
@@ -887,6 +890,7 @@ bool GameplayActorService::clearSpellEffects(
     state.shrinkRemainingSeconds = 0.0f;
     state.shrinkDamageMultiplier = 1.0f;
     state.shrinkArmorClassMultiplier = 1.0f;
+    state.armorClassHalvedRemainingSeconds = 0.0f;
     state.darkGraspRemainingSeconds = 0.0f;
     state.dayOfProtectionRemainingSeconds = 0.0f;
     state.dayOfProtectionPower = 0;
@@ -920,6 +924,11 @@ int GameplayActorService::effectiveArmorClass(int baseArmorClass, const Gameplay
     }
 
     if (state.darkGraspRemainingSeconds > 0.0f)
+    {
+        armorClass /= 2;
+    }
+
+    if (state.armorClassHalvedRemainingSeconds > 0.0f)
     {
         armorClass /= 2;
     }

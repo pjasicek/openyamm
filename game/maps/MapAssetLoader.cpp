@@ -34,6 +34,14 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+void pumpMapLoadProgress(const MapLoadProgressPump &progressPump)
+{
+    if (progressPump)
+    {
+        progressPump();
+    }
+}
+
 std::string dataTablePath(std::string_view fileName)
 {
     return "Data/data_tables/" + std::string(fileName);
@@ -1435,7 +1443,8 @@ template <typename EntityType>
 std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::vector<EntityType> &entities,
-    BitmapLoadCache &bitmapLoadCache
+    BitmapLoadCache &bitmapLoadCache,
+    const MapLoadProgressPump &progressPump
 )
 {
     DecorationBillboardSet billboardSet = {};
@@ -1517,6 +1526,7 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
 
     for (const std::string &textureName : textureNames)
     {
+        pumpMapLoadProgress(progressPump);
         int textureWidth = 0;
         int textureHeight = 0;
         const std::optional<std::vector<uint8_t>> pixels =
@@ -1726,11 +1736,12 @@ std::optional<OutdoorActorCollisionSet> buildOutdoorActorCollisionSet(
 std::optional<DecorationBillboardSet> buildOutdoorDecorationBillboardSet(
     const Engine::AssetFileSystem &assetFileSystem,
     const OutdoorMapData &outdoorMapData,
-    BitmapLoadCache &bitmapLoadCache
+    BitmapLoadCache &bitmapLoadCache,
+    const MapLoadProgressPump &progressPump
 )
 {
     std::optional<DecorationBillboardSet> billboardSet =
-        buildDecorationBillboardSet(assetFileSystem, outdoorMapData.entities, bitmapLoadCache);
+        buildDecorationBillboardSet(assetFileSystem, outdoorMapData.entities, bitmapLoadCache, progressPump);
 
     if (!billboardSet)
     {
@@ -1759,11 +1770,12 @@ std::optional<DecorationBillboardSet> buildOutdoorDecorationBillboardSet(
 std::optional<DecorationBillboardSet> buildIndoorDecorationBillboardSet(
     const Engine::AssetFileSystem &assetFileSystem,
     const IndoorMapData &indoorMapData,
-    BitmapLoadCache &bitmapLoadCache
+    BitmapLoadCache &bitmapLoadCache,
+    const MapLoadProgressPump &progressPump
 )
 {
     std::optional<DecorationBillboardSet> billboardSet =
-        buildDecorationBillboardSet(assetFileSystem, indoorMapData.entities, bitmapLoadCache);
+        buildDecorationBillboardSet(assetFileSystem, indoorMapData.entities, bitmapLoadCache, progressPump);
 
     if (!billboardSet)
     {
@@ -1800,7 +1812,8 @@ std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
     const Engine::AssetFileSystem &assetFileSystem,
     const ObjectTable &objectTable,
     const std::optional<MapDeltaData> &mapDeltaData,
-    BitmapLoadCache &bitmapLoadCache
+    BitmapLoadCache &bitmapLoadCache,
+    const MapLoadProgressPump &progressPump
 )
 {
     if (!mapDeltaData || mapDeltaData->spriteObjects.empty())
@@ -1885,6 +1898,7 @@ std::optional<SpriteObjectBillboardSet> buildSpriteObjectBillboardSet(
 
     for (const std::string &textureName : textureNames)
     {
+        pumpMapLoadProgress(progressPump);
         int textureWidth = 0;
         int textureHeight = 0;
         const std::optional<std::vector<uint8_t>> pixels =
@@ -2362,7 +2376,8 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     const std::vector<SpawnType> &spawns,
     BitmapLoadCache &bitmapLoadCache,
     const OutdoorMapData *pOutdoorMapData = nullptr,
-    bool decodeTextures = true
+    bool decodeTextures = true,
+    const MapLoadProgressPump &progressPump = {}
 )
 {
     ActorPreviewBillboardSet billboardSet = {};
@@ -2401,6 +2416,7 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     {
         for (const BitmapTextureRequest &textureRequest : textureRequests)
         {
+            pumpMapLoadProgress(progressPump);
             int textureWidth = 0;
             int textureHeight = 0;
             const std::optional<std::vector<uint8_t>> pixels =
@@ -2596,7 +2612,8 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
     const Engine::AssetFileSystem &assetFileSystem,
     const OutdoorMapData &outdoorMapData,
     BitmapLoadCache &bitmapLoadCache,
-    const SurfaceMaterialTable *pSurfaceMaterialTable
+    const SurfaceMaterialTable *pSurfaceMaterialTable,
+    const MapLoadProgressPump &progressPump
 )
 {
     const std::optional<std::vector<TerrainTileDescriptor>> tileDescriptors =
@@ -2624,6 +2641,7 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
 
     for (int tileIndex = 0; tileIndex < 256; ++tileIndex)
     {
+        pumpMapLoadProgress(progressPump);
         const TerrainTileDescriptor &descriptor = (*tileDescriptors)[tileIndex];
         const std::string &textureName = descriptor.textureName;
 
@@ -2728,6 +2746,7 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
 
                 for (const SurfaceAnimationFrame &frame : pSurfaceMaterial->animation.frames)
                 {
+                    pumpMapLoadProgress(progressPump);
                     int frameWidth = 0;
                     int frameHeight = 0;
                     const std::optional<std::vector<uint8_t>> framePixels =
@@ -2878,7 +2897,8 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
     const OutdoorMapData &outdoorMapData,
     BitmapLoadCache &bitmapLoadCache,
     const TextureFrameTable *pTextureFrameTable,
-    const SurfaceMaterialTable *pSurfaceMaterialTable
+    const SurfaceMaterialTable *pSurfaceMaterialTable,
+    const MapLoadProgressPump &progressPump
 )
 {
     std::vector<std::string> textureNames;
@@ -2918,6 +2938,7 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
 
     for (const std::string &textureName : textureNames)
     {
+        pumpMapLoadProgress(progressPump);
         int textureWidth = 0;
         int textureHeight = 0;
         const std::optional<std::vector<uint8_t>> pixels =
@@ -2960,7 +2981,8 @@ std::optional<IndoorTextureSet> buildIndoorTextureSet(
     const IndoorMapData &indoorMapData,
     BitmapLoadCache &bitmapLoadCache,
     const TextureFrameTable *pTextureFrameTable,
-    const SurfaceMaterialTable *pSurfaceMaterialTable
+    const SurfaceMaterialTable *pSurfaceMaterialTable,
+    const MapLoadProgressPump &progressPump
 )
 {
     std::vector<std::string> textureNames;
@@ -3000,6 +3022,7 @@ std::optional<IndoorTextureSet> buildIndoorTextureSet(
 
     for (const std::string &textureName : textureNames)
     {
+        pumpMapLoadProgress(progressPump);
         int textureWidth = 0;
         int textureHeight = 0;
         const std::optional<std::vector<uint8_t>> pixels =
@@ -3044,13 +3067,15 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
     const MonsterTable &monsterTable,
     const ObjectTable &objectTable,
     MapLoadPurpose purpose,
-    const MapCompanionLoadOptions &companionLoadOptions
+    const MapCompanionLoadOptions &companionLoadOptions,
+    const MapLoadProgressPump &progressPump
 ) const
 {
     BitmapLoadCache bitmapLoadCache = {};
-    auto logStageComplete = [](const std::string &stageName)
+    auto logStageComplete = [&progressPump](const std::string &stageName)
     {
         static_cast<void>(stageName);
+        pumpMapLoadProgress(progressPump);
     };
 
     const std::optional<std::string> geometryPath = findAssetPath(assetFileSystem, map.fileName);
@@ -3214,7 +3239,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         assetFileSystem,
                         *assetInfo.outdoorMapData,
                         bitmapLoadCache,
-                        surfaceMaterialTable ? &*surfaceMaterialTable : nullptr);
+                        surfaceMaterialTable ? &*surfaceMaterialTable : nullptr,
+                        progressPump);
                 logStageComplete("outdoor terrain textures built");
                 assetInfo.outdoorBModelTextureSet =
                     buildOutdoorBModelTextureSet(
@@ -3222,7 +3248,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         *assetInfo.outdoorMapData,
                         bitmapLoadCache,
                         textureFrameTable ? &*textureFrameTable : nullptr,
-                        surfaceMaterialTable ? &*surfaceMaterialTable : nullptr);
+                        surfaceMaterialTable ? &*surfaceMaterialTable : nullptr,
+                        progressPump);
                 logStageComplete("outdoor bmodel textures built");
                 assetInfo.outdoorDecorationCollisionSet =
                     buildOutdoorDecorationCollisionSet(assetFileSystem, assetInfo.outdoorMapData->entities);
@@ -3240,7 +3267,11 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                     buildOutdoorSpriteObjectCollisionSet(objectTable, assetInfo.outdoorMapDeltaData);
                 logStageComplete("outdoor sprite object collisions built");
                 assetInfo.outdoorDecorationBillboardSet =
-                    buildOutdoorDecorationBillboardSet(assetFileSystem, *assetInfo.outdoorMapData, bitmapLoadCache);
+                    buildOutdoorDecorationBillboardSet(
+                        assetFileSystem,
+                        *assetInfo.outdoorMapData,
+                        bitmapLoadCache,
+                        progressPump);
                 logStageComplete("outdoor decoration billboards built");
                 assetInfo.outdoorActorPreviewBillboardSet =
                     buildActorPreviewBillboardSet(
@@ -3251,7 +3282,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         assetInfo.outdoorMapData->spawns,
                         bitmapLoadCache,
                         &*assetInfo.outdoorMapData,
-                        purpose == MapLoadPurpose::Full
+                        purpose == MapLoadPurpose::Full,
+                        progressPump
                     );
                 logStageComplete("outdoor actor previews built");
                 assetInfo.outdoorSpriteObjectBillboardSet =
@@ -3259,7 +3291,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         assetFileSystem,
                         objectTable,
                         assetInfo.outdoorMapDeltaData,
-                        bitmapLoadCache
+                        bitmapLoadCache,
+                        progressPump
                     );
                 logStageComplete("outdoor sprite objects built");
 
@@ -3380,11 +3413,16 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                     *assetInfo.indoorMapData,
                     bitmapLoadCache,
                     textureFrameTable ? &*textureFrameTable : nullptr,
-                    surfaceMaterialTable ? &*surfaceMaterialTable : nullptr
+                    surfaceMaterialTable ? &*surfaceMaterialTable : nullptr,
+                    progressPump
                 );
                 logStageComplete("indoor textures built");
                 assetInfo.indoorDecorationBillboardSet =
-                    buildIndoorDecorationBillboardSet(assetFileSystem, *assetInfo.indoorMapData, bitmapLoadCache);
+                    buildIndoorDecorationBillboardSet(
+                        assetFileSystem,
+                        *assetInfo.indoorMapData,
+                        bitmapLoadCache,
+                        progressPump);
                 logStageComplete("indoor decoration billboards built");
                 assetInfo.indoorActorPreviewBillboardSet =
                     buildActorPreviewBillboardSet(
@@ -3395,7 +3433,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         assetInfo.indoorMapData->spawns,
                         bitmapLoadCache,
                         nullptr,
-                        true
+                        true,
+                        progressPump
                     );
                 logStageComplete("indoor actor previews built");
                 assetInfo.indoorSpriteObjectBillboardSet =
@@ -3403,7 +3442,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
                         assetFileSystem,
                         objectTable,
                         assetInfo.indoorMapDeltaData,
-                        bitmapLoadCache
+                        bitmapLoadCache,
+                        progressPump
                     );
                 logStageComplete("indoor sprite objects built");
 

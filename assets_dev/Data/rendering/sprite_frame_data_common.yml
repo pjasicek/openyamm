@@ -5306,42 +5306,42 @@ sprites:
     sprite_name: "spell70"
     animation_length_raw: 8
     frames:
-      - texture_name: "spell70b1"
+      - texture_name: "spell70b10"
         frame_length_raw: 1
         flags: [HasMore, Lit, First, Center, Mirror5, Mirror6, Mirror7]
         glow_radius: 64
         palette_id: 5
-      - texture_name: "spell70b2"
+      - texture_name: "spell70b20"
         frame_length_raw: 1
         flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
         glow_radius: 128
         palette_id: 5
-      - texture_name: "spell70b3"
+      - texture_name: "spell70b30"
         frame_length_raw: 1
         flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
         glow_radius: 64
         palette_id: 5
-      - texture_name: "spell70b4"
+      - texture_name: "spell70b40"
         frame_length_raw: 1
         flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
         glow_radius: 128
         palette_id: 5
-      - texture_name: "spell70b5"
+      - texture_name: "spell70b50"
         frame_length_raw: 1
         flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
         glow_radius: 64
         palette_id: 5
-      - texture_name: "spell70b6"
+      - texture_name: "spell70b60"
         frame_length_raw: 1
         flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
         glow_radius: 128
         palette_id: 5
-      - texture_name: "spell70b7"
+      - texture_name: "spell70b70"
         frame_length_raw: 1
         flags: [HasMore, Lit, Center, Mirror5, Mirror6, Mirror7]
         glow_radius: 64
         palette_id: 5
-      - texture_name: "spell70b8"
+      - texture_name: "spell70b80"
         frame_length_raw: 1
         flags: [Lit, Center, Mirror5, Mirror6, Mirror7]
         glow_radius: 128
@@ -5400,21 +5400,21 @@ sprites:
         glow_radius: 32
         palette_id: 6
   - sprite_id: 784
-    sprite_name: "spell78b"
+    sprite_name: "sp78b"
     animation_length_raw: 1
     frames:
       - texture_name: "sp78b"
         frame_length_raw: 1
-        flags: [Lit, First, Center, Mirror5, Mirror6, Mirror7]
+        flags: [Lit, First, Image1, Center, Mirror5, Mirror6, Mirror7]
         glow_radius: 80
         palette_id: 5
   - sprite_id: 785
-    sprite_name: "spell78c"
+    sprite_name: "sp78c"
     animation_length_raw: 1
     frames:
       - texture_name: "sp78c"
         frame_length_raw: 1
-        flags: [Lit, First, Center, Mirror5, Mirror6, Mirror7]
+        flags: [Lit, First, Image1, Center, Mirror5, Mirror6, Mirror7]
         glow_radius: 256
         palette_id: 5
   - sprite_id: 786

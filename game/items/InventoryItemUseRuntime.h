@@ -4,6 +4,7 @@
 #include "game/tables/ReadableScrollTable.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpeechIds.h"
+#include "game/audio/SoundIds.h"
 
 #include <cstdint>
 #include <optional>
@@ -22,6 +23,17 @@ enum class InventoryItemUseAction : uint8_t
     ConsumePotion,
     ReadMessageScroll,
     UseHorseshoe,
+    UseGenieLamp,
+    EatFoodItem,
+    PlayInstrument,
+    UseTempleInABottle,
+    UseReagent,
+};
+
+struct InventoryItemUseContext
+{
+    bool underwater = false;
+    float gameMinutes = 0.0f;
 };
 
 struct InventoryItemUseResult
@@ -35,6 +47,7 @@ struct InventoryItemUseResult
     SkillMastery spellSkillMasteryOverride = SkillMastery::None;
     std::string statusText;
     std::optional<SpeechId> speechId;
+    std::optional<SoundId> soundId;
     std::string readableTitle;
     std::string readableBody;
 };
@@ -49,6 +62,7 @@ public:
         size_t targetMemberIndex,
         const InventoryItem &item,
         const ItemTable &itemTable,
-        const ReadableScrollTable *pReadableScrollTable);
+        const ReadableScrollTable *pReadableScrollTable,
+        const InventoryItemUseContext &context = {});
 };
 }
