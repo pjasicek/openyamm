@@ -3,11 +3,19 @@
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/tables/CharacterDollTable.h"
+#include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/ItemTable.h"
 
+#include <algorithm>
+
 namespace OpenYAMM::Game
 {
+void GameMechanics::bindClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable)
+{
+    (void)pClassMultiplierTable;
+}
+
 bool GameMechanics::characterRangedAttackHitsArmorClass(
     int targetArmorClass,
     int attackBonus,
@@ -21,14 +29,38 @@ bool GameMechanics::characterRangedAttackHitsArmorClass(
     return true;
 }
 
-int GameMechanics::calculateBaseCharacterMaxHealth(const Character &character)
+int GameMechanics::calculateBaseCharacterMaxHealth(
+    const Character &character,
+    const ClassMultiplierTable *pClassMultiplierTable)
 {
+    (void)pClassMultiplierTable;
     return std::max(1, character.maxHealth);
 }
 
-int GameMechanics::calculateBaseCharacterMaxSpellPoints(const Character &character)
+int GameMechanics::calculateBaseCharacterMaxSpellPoints(
+    const Character &character,
+    const ClassMultiplierTable *pClassMultiplierTable)
 {
+    (void)pClassMultiplierTable;
     return std::max(0, character.maxSpellPoints);
+}
+
+void GameMechanics::refreshCharacterBaseResources(
+    Character &character,
+    bool restoreCurrentToMaximum,
+    const ClassMultiplierTable *pClassMultiplierTable)
+{
+    (void)pClassMultiplierTable;
+
+    if (restoreCurrentToMaximum)
+    {
+        character.health = std::max(1, character.maxHealth);
+        character.spellPoints = std::max(0, character.maxSpellPoints);
+        return;
+    }
+
+    character.health = std::clamp(character.health, 0, std::max(1, character.maxHealth));
+    character.spellPoints = std::clamp(character.spellPoints, 0, std::max(0, character.maxSpellPoints));
 }
 
 std::optional<CharacterEquipPlan> GameMechanics::resolveCharacterEquipPlan(

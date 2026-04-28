@@ -124,6 +124,17 @@ struct GameplayActorInspectState
     float fearRemainingSeconds = 0.0f;
     float shrinkRemainingSeconds = 0.0f;
     float darkGraspRemainingSeconds = 0.0f;
+    float dayOfProtectionRemainingSeconds = 0.0f;
+    float hourOfPowerRemainingSeconds = 0.0f;
+    float painReflectionRemainingSeconds = 0.0f;
+    float hammerhandsRemainingSeconds = 0.0f;
+    float hasteRemainingSeconds = 0.0f;
+    float shieldRemainingSeconds = 0.0f;
+    float stoneskinRemainingSeconds = 0.0f;
+    float blessRemainingSeconds = 0.0f;
+    float fateRemainingSeconds = 0.0f;
+    float heroismRemainingSeconds = 0.0f;
+    std::string pendingSelfBuffName;
     GameplayActorControlMode controlMode = GameplayActorControlMode::None;
 };
 
@@ -142,6 +153,23 @@ struct GameplayActorSpellEffectState
     float shrinkDamageMultiplier = 1.0f;
     float shrinkArmorClassMultiplier = 1.0f;
     float darkGraspRemainingSeconds = 0.0f;
+    float dayOfProtectionRemainingSeconds = 0.0f;
+    int dayOfProtectionPower = 0;
+    float hourOfPowerRemainingSeconds = 0.0f;
+    int hourOfPowerPower = 0;
+    float painReflectionRemainingSeconds = 0.0f;
+    float hammerhandsRemainingSeconds = 0.0f;
+    int hammerhandsPower = 0;
+    float hasteRemainingSeconds = 0.0f;
+    float shieldRemainingSeconds = 0.0f;
+    float stoneskinRemainingSeconds = 0.0f;
+    int stoneskinPower = 0;
+    float blessRemainingSeconds = 0.0f;
+    int blessPower = 0;
+    float fateRemainingSeconds = 0.0f;
+    int fatePower = 0;
+    float heroismRemainingSeconds = 0.0f;
+    int heroismPower = 0;
     bool hostileToParty = false;
     bool hasDetectedParty = false;
 };
@@ -280,6 +308,7 @@ struct GameplayCombatActorInfo
     int monsterLevel = 0;
     int maxHp = 0;
     uint32_t attackPreferences = 0;
+    int attackBonus = 0;
     std::string displayName;
 };
 
@@ -369,6 +398,7 @@ public:
     virtual bool requestTravelAutosave() = 0;
     virtual void cancelPendingMapTransition() = 0;
     virtual bool executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount) = 0;
+    virtual const std::optional<ScriptedEventProgram> *globalEventProgram() const = 0;
     virtual EventRuntimeState *eventRuntimeState() = 0;
     virtual const EventRuntimeState *eventRuntimeState() const = 0;
     virtual bool castEventSpell(

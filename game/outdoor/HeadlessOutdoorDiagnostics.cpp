@@ -2370,6 +2370,7 @@ bool initializeRegressionScenario(
     scenario.party.setItemEnchantTables(
         &gameDataLoader.getStandardItemEnchantTable(),
         &gameDataLoader.getSpecialItemEnchantTable());
+    scenario.party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
     scenario.party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     scenario.party.seed(createRegressionPartySeed());
     scenario.pEventRuntimeState = scenario.world.eventRuntimeState();
@@ -2393,6 +2394,7 @@ bool initializeIndoorRegressionScenario(
     scenario.party.setItemEnchantTables(
         &gameDataLoader.getStandardItemEnchantTable(),
         &gameDataLoader.getSpecialItemEnchantTable());
+    scenario.party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
     scenario.party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     scenario.party.seed(createRegressionPartySeed());
     scenario.mapDeltaData = *selectedMap.indoorMapDeltaData;
@@ -2630,6 +2632,8 @@ bool initializeRegressionScenarioFromApplication(
     scenario.party.setItemEnchantTables(
         &GameApplicationTestAccess::gameDataLoader(application).getStandardItemEnchantTable(),
         &GameApplicationTestAccess::gameDataLoader(application).getSpecialItemEnchantTable());
+    scenario.party.setClassMultiplierTable(
+        &GameApplicationTestAccess::gameDataLoader(application).getClassMultiplierTable());
     scenario.party.setClassSkillTable(&GameApplicationTestAccess::gameDataLoader(application).getClassSkillTable());
     scenario.actorService = buildBoundGameplayActorService(GameApplicationTestAccess::gameDataLoader(application));
 
@@ -3961,6 +3965,7 @@ int HeadlessGameplayDiagnostics::runOpenEvent(
     party.setItemEnchantTables(
         &gameDataLoader.getStandardItemEnchantTable(),
         &gameDataLoader.getSpecialItemEnchantTable());
+    party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
     party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     party.reset();
 
@@ -4187,6 +4192,7 @@ int HeadlessGameplayDiagnostics::runOpenActor(
     party.setItemEnchantTables(
         &gameDataLoader.getStandardItemEnchantTable(),
         &gameDataLoader.getSpecialItemEnchantTable());
+    party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
     party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     party.reset();
 
@@ -4346,6 +4352,7 @@ int HeadlessGameplayDiagnostics::runDialogSequence(
     party.setItemEnchantTables(
         &gameDataLoader.getStandardItemEnchantTable(),
         &gameDataLoader.getSpecialItemEnchantTable());
+    party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
     party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
     party.reset();
 
@@ -4780,6 +4787,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setItemEnchantTables(
                     &gameDataLoader.getStandardItemEnchantTable(),
                     &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
 
@@ -4845,6 +4853,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setItemEnchantTables(
                     &gameDataLoader.getStandardItemEnchantTable(),
                     &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
 
@@ -4969,6 +4978,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setItemEnchantTables(
                     &gameDataLoader.getStandardItemEnchantTable(),
                     &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
                 partyRuntime.initializePartyPosition(-661.0f, -1059.0f, -39.0f, false);
@@ -5101,6 +5111,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setItemEnchantTables(
                     &gameDataLoader.getStandardItemEnchantTable(),
                     &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
                 party.setQuestBit(42, true);
@@ -6203,6 +6214,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setItemEnchantTables(
                     &gameDataLoader.getStandardItemEnchantTable(),
                     &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
 
@@ -6284,6 +6296,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setItemEnchantTables(
                     &gameDataLoader.getStandardItemEnchantTable(),
                     &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
 
@@ -6490,6 +6503,233 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         );
 
         runCase(
+            "indoor_d17_dragon_cave_hostility_stays_friendly_after_reload_restore",
+            [&](std::string &failure)
+            {
+                if (!gameDataLoader.loadMapByFileNameForHeadlessGameplay(assetFileSystem, "d17.blv"))
+                {
+                    failure = "could not load d17.blv";
+                    return false;
+                }
+
+                const std::optional<MapAssetInfo> &loadedMap = gameDataLoader.getSelectedMap();
+
+                if (!loadedMap || !loadedMap->indoorMapData)
+                {
+                    failure = "selected map missing indoor data";
+                    return false;
+                }
+
+                IndoorRegressionScenario scenario = {};
+
+                if (!initializeIndoorRegressionScenario(gameDataLoader, *loadedMap, scenario))
+                {
+                    failure = "could not initialize d17 indoor scenario";
+                    return false;
+                }
+
+                const uint32_t hostileMask = static_cast<uint32_t>(EvtActorAttribute::Hostile);
+
+                for (uint32_t groupId : {uint32_t(44), uint32_t(45), uint32_t(11)})
+                {
+                    const auto clearIt = scenario.eventRuntimeState->actorGroupClearMasks.find(groupId);
+
+                    if (clearIt == scenario.eventRuntimeState->actorGroupClearMasks.end()
+                        || (clearIt->second & hostileMask) == 0)
+                    {
+                        failure = "d17 on-load state did not persist Hostile clear mask for group "
+                            + std::to_string(groupId);
+                        return false;
+                    }
+                }
+
+                auto assertDragonGroupsFriendly =
+                    [](const IndoorWorldRuntime &world,
+                       const std::optional<MapDeltaData> &mapDeltaData,
+                       const std::string &phase,
+                       std::string &failure) -> bool
+                    {
+                        if (!mapDeltaData)
+                        {
+                            failure = phase + ": map delta missing";
+                            return false;
+                        }
+
+                        size_t checkedActorCount = 0;
+
+                        for (size_t actorIndex = 0; actorIndex < mapDeltaData->actors.size(); ++actorIndex)
+                        {
+                            const MapDeltaActor &actor = mapDeltaData->actors[actorIndex];
+
+                            if (actor.group != 11 && actor.group != 44 && actor.group != 45)
+                            {
+                                continue;
+                            }
+
+                            GameplayRuntimeActorState actorState = {};
+
+                            if (!world.actorRuntimeState(actorIndex, actorState))
+                            {
+                                failure = phase + ": actorRuntimeState failed";
+                                return false;
+                            }
+
+                            if (actorState.hostileToParty || actorState.hasDetectedParty)
+                            {
+                                std::ostringstream stream;
+                                stream << phase
+                                       << ": actor=" << actorIndex
+                                       << " group=" << actor.group
+                                       << " hostile=" << actorState.hostileToParty
+                                       << " detected=" << actorState.hasDetectedParty;
+                                failure = stream.str();
+                                return false;
+                            }
+
+                            ++checkedActorCount;
+                        }
+
+                        if (checkedActorCount == 0)
+                        {
+                            failure = phase + ": no dragon cave group actors checked";
+                            return false;
+                        }
+
+                        return true;
+                    };
+
+                if (!assertDragonGroupsFriendly(scenario.world, scenario.mapDeltaData, "initial load", failure))
+                {
+                    return false;
+                }
+
+                IndoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
+
+                for (size_t actorIndex = 0;
+                     actorIndex < snapshot.mapActorAiStates.size() && actorIndex < scenario.mapDeltaData->actors.size();
+                     ++actorIndex)
+                {
+                    const MapDeltaActor &actor = scenario.mapDeltaData->actors[actorIndex];
+
+                    if (actor.group != 11 && actor.group != 44 && actor.group != 45)
+                    {
+                        continue;
+                    }
+
+                    snapshot.mapActorAiStates[actorIndex].hostileToParty = true;
+                    snapshot.mapActorAiStates[actorIndex].hasDetectedParty = true;
+                    snapshot.mapActorAiStates[actorIndex].spellEffects.hostileToParty = true;
+                    snapshot.mapActorAiStates[actorIndex].spellEffects.hasDetectedParty = true;
+                }
+
+                std::optional<MapDeltaData> restoredMapDelta = scenario.mapDeltaData;
+                std::optional<EventRuntimeState> restoredEventRuntimeState = scenario.eventRuntimeState;
+
+                if (!restoredEventRuntimeState)
+                {
+                    failure = "restored event runtime state missing";
+                    return false;
+                }
+
+                clearTransientEventRuntimeState(*restoredEventRuntimeState);
+
+                GameplayActorService actorService = buildBoundGameplayActorService(gameDataLoader);
+                IndoorWorldRuntime restoredWorld = {};
+                restoredWorld.initialize(
+                    loadedMap->map,
+                    gameDataLoader.getMonsterTable(),
+                    gameDataLoader.getObjectTable(),
+                    gameDataLoader.getItemTable(),
+                    gameDataLoader.getChestTable(),
+                    &scenario.party,
+                    nullptr,
+                    &restoredMapDelta,
+                    &restoredEventRuntimeState,
+                    &actorService,
+                    nullptr,
+                    &*loadedMap->indoorMapData);
+
+                if (!assertDragonGroupsFriendly(
+                        restoredWorld,
+                        restoredMapDelta,
+                        "reload without transient hostility requests",
+                        failure))
+                {
+                    return false;
+                }
+
+                restoredWorld.restoreSnapshot(snapshot);
+
+                if (!assertDragonGroupsFriendly(restoredWorld, restoredMapDelta, "snapshot restore", failure))
+                {
+                    return false;
+                }
+
+                std::optional<size_t> attackedActorIndex;
+
+                for (size_t actorIndex = 0; actorIndex < restoredMapDelta->actors.size(); ++actorIndex)
+                {
+                    const MapDeltaActor &actor = restoredMapDelta->actors[actorIndex];
+
+                    if (actor.group == 44 && actor.hp > 1)
+                    {
+                        attackedActorIndex = actorIndex;
+                        break;
+                    }
+                }
+
+                if (!attackedActorIndex.has_value())
+                {
+                    failure = "could not find a group 44 dragon to attack";
+                    return false;
+                }
+
+                if (!restoredWorld.applyPartyAttackMeleeDamage(
+                        *attackedActorIndex,
+                        1,
+                        GameplayWorldPoint{0.0f, 0.0f, 0.0f}))
+                {
+                    failure = "party attack did not apply to d17 dragon";
+                    return false;
+                }
+
+                GameplayRuntimeActorState attackedState = {};
+
+                if (!restoredWorld.actorRuntimeState(*attackedActorIndex, attackedState)
+                    || !attackedState.hostileToParty
+                    || !attackedState.hasDetectedParty)
+                {
+                    failure = "attacked d17 dragon did not become hostile";
+                    return false;
+                }
+
+                if (!scenario.eventRuntime.executeEventById(
+                        loadedMap->localEventProgram,
+                        loadedMap->globalEventProgram,
+                        452,
+                        *restoredEventRuntimeState,
+                        &scenario.party,
+                        &restoredWorld))
+                {
+                    failure = "could not execute d17 initial room pressure plate event";
+                    return false;
+                }
+
+                restoredWorld.applyEventRuntimeState();
+
+                if (!restoredWorld.actorRuntimeState(*attackedActorIndex, attackedState)
+                    || !attackedState.hostileToParty
+                    || !attackedState.hasDetectedParty)
+                {
+                    failure = "initial room pressure plate cleared attack hostility";
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
             "indoor_world_runtime_exposes_actor_queries_and_direct_damage",
             [&](std::string &failure)
             {
@@ -6515,6 +6755,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setItemEnchantTables(
                     &gameDataLoader.getStandardItemEnchantTable(),
                     &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
 
@@ -6656,6 +6897,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 party.setItemEnchantTables(
                     &gameDataLoader.getStandardItemEnchantTable(),
                     &gameDataLoader.getSpecialItemEnchantTable());
+                party.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
                 party.setClassSkillTable(&gameDataLoader.getClassSkillTable());
                 party.seed(createRegressionPartySeed());
                 partyRuntime.initializePartyPosition(-661.0f, -1059.0f, -39.0f, false);
@@ -7564,6 +7806,159 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
     if (suiteName == "chest" || suiteName == "items" || suiteName == "outdoor")
     {
+        runCase(
+            "outdoor_event_hostility_requests_update_actor_runtime_state",
+            [&](std::string &failure)
+            {
+                RegressionScenario scenario = {};
+
+                if (!initializeRegressionScenario(gameDataLoader, *selectedMap, scenario))
+                {
+                    failure = "scenario init failed";
+                    return false;
+                }
+
+                std::optional<size_t> actorIndex;
+
+                for (size_t candidateIndex = 0; candidateIndex < scenario.world.mapActorCount(); ++candidateIndex)
+                {
+                    const OutdoorWorldRuntime::MapActorState *pActor = scenario.world.mapActorState(candidateIndex);
+
+                    if (pActor != nullptr && pActor->hostileToParty)
+                    {
+                        actorIndex = candidateIndex;
+                        break;
+                    }
+                }
+
+                if (!actorIndex.has_value())
+                {
+                    failure = "selected outdoor map has no default-hostile actor";
+                    return false;
+                }
+
+                const std::string scriptSource =
+                    "evt.map[1] = function()\n"
+                    "    evt.SetMonsterBit(" + std::to_string(*actorIndex) + ", 0x01000000, 0)\n"
+                    "end\n"
+                    "evt.map[2] = function()\n"
+                    "    evt.SetMonsterBit(" + std::to_string(*actorIndex) + ", 0x01000000, 1)\n"
+                    "end\n";
+                std::string error;
+                const std::optional<ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+                    scriptSource,
+                    "outdoor_hostility_requests.lua",
+                    ScriptedEventScope::Map,
+                    error);
+
+                if (!scriptedProgram)
+                {
+                    failure = "could not build synthetic hostility script: " + error;
+                    return false;
+                }
+
+                auto actorHostility =
+                    [&scenario, actorIndex](std::string &failure) -> std::optional<bool>
+                    {
+                        GameplayRuntimeActorState actorState = {};
+
+                        if (!scenario.world.actorRuntimeState(*actorIndex, actorState))
+                        {
+                            failure = "actorRuntimeState failed for outdoor hostility test actor";
+                            return std::nullopt;
+                        }
+
+                        return actorState.hostileToParty;
+                    };
+
+                if (!scenario.eventRuntime.executeEventById(
+                        scriptedProgram,
+                        std::nullopt,
+                        1,
+                        *scenario.pEventRuntimeState,
+                        &scenario.party,
+                        &scenario.world))
+                {
+                    failure = "clear-hostility event did not execute";
+                    return false;
+                }
+
+                scenario.world.applyEventRuntimeState();
+                std::optional<bool> hostile = actorHostility(failure);
+
+                if (!hostile.has_value() || *hostile)
+                {
+                    if (failure.empty())
+                    {
+                        failure = "clear-hostility event did not make outdoor actor friendly";
+                    }
+
+                    return false;
+                }
+
+                if (!scenario.world.clearMapActorSpellEffects(*actorIndex))
+                {
+                    failure = "clearMapActorSpellEffects failed for event-friendly outdoor actor";
+                    return false;
+                }
+
+                hostile = actorHostility(failure);
+
+                if (!hostile.has_value() || *hostile)
+                {
+                    if (failure.empty())
+                    {
+                        failure = "clearMapActorSpellEffects reverted event-friendly outdoor actor to hostile";
+                    }
+
+                    return false;
+                }
+
+                if (!scenario.eventRuntime.executeEventById(
+                        scriptedProgram,
+                        std::nullopt,
+                        2,
+                        *scenario.pEventRuntimeState,
+                        &scenario.party,
+                        &scenario.world))
+                {
+                    failure = "set-hostility event did not execute";
+                    return false;
+                }
+
+                scenario.world.applyEventRuntimeState();
+                hostile = actorHostility(failure);
+
+                if (!hostile.has_value() || !*hostile)
+                {
+                    if (failure.empty())
+                    {
+                        failure = "set-hostility event did not make outdoor actor hostile";
+                    }
+
+                    return false;
+                }
+
+                OutdoorWorldRuntime::Snapshot snapshot = scenario.world.snapshot();
+                snapshot.mapActors[*actorIndex].hostileToParty = false;
+                snapshot.mapActors[*actorIndex].hasDetectedParty = false;
+                scenario.world.restoreSnapshot(snapshot);
+                hostile = actorHostility(failure);
+
+                if (!hostile.has_value() || !*hostile)
+                {
+                    if (failure.empty())
+                    {
+                        failure = "persistent Hostile set mask was not applied after outdoor restore";
+                    }
+
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
         runCase(
             "dwi_chest_events_materialize_non_empty_layouts",
             [&](std::string &failure)
@@ -13119,6 +13514,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             restoredParty.setItemEnchantTables(
                 &gameDataLoader.getStandardItemEnchantTable(),
                 &gameDataLoader.getSpecialItemEnchantTable());
+            restoredParty.setClassMultiplierTable(&gameDataLoader.getClassMultiplierTable());
             restoredParty.setClassSkillTable(&gameDataLoader.getClassSkillTable());
             restoredParty.restoreSnapshot(loadedSave->party);
 

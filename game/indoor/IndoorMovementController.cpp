@@ -81,11 +81,7 @@ bool shouldTolerateExistingActorOverlap(
         return false;
     }
 
-    const float candidateDeltaX = candidateX - collider.x;
-    const float candidateDeltaY = candidateY - collider.y;
-    const float candidateDistanceSquared = candidateDeltaX * candidateDeltaX + candidateDeltaY * candidateDeltaY;
-
-    return candidateDistanceSquared + 1.0f >= currentDistanceSquared;
+    return true;
 }
 
 std::vector<uint32_t> buildDoorStateSignature(
@@ -733,7 +729,8 @@ IndoorMoveState IndoorMovementController::resolveMove(
     std::vector<size_t> *pContactedActorIndices,
     std::optional<size_t> ignoredActorIndex,
     bool blockActorSlide,
-    IndoorMoveDebugInfo *pDebugInfo
+    IndoorMoveDebugInfo *pDebugInfo,
+    bool flyingActive
 ) const
 {
     if (m_pIndoorMapData == nullptr || deltaSeconds <= 0.0f)
@@ -761,6 +758,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
     IndoorMoveState resolved = state;
     const float stepX = sweptState.velocity.x * sweptRequest.deltaSeconds;
     const float stepY = sweptState.velocity.y * sweptRequest.deltaSeconds;
+    const bool flying = flyingActive && !jumpRequested;
     const std::optional<int16_t> preferredSectorId =
         state.sectorId >= 0 ? std::optional<int16_t>(state.sectorId) : std::nullopt;
     const IndoorFloorSample currentFloor = sampleSupportedFloor(
@@ -794,10 +792,10 @@ IndoorMoveState IndoorMovementController::resolveMove(
         ? preferredCurrentFloor
         : currentFloor;
     const bool supportedByCurrentFloor =
-        effectiveCurrentFloor.hasFloor && state.footZ <= effectiveCurrentFloor.height + GroundSnapSlack;
+        !flying && effectiveCurrentFloor.hasFloor && state.footZ <= effectiveCurrentFloor.height + GroundSnapSlack;
     float candidateFootZ = state.footZ;
     float candidateVerticalVelocity = state.verticalVelocity;
-    bool candidateGrounded = state.grounded && supportedByCurrentFloor;
+    bool candidateGrounded = !flying && state.grounded && supportedByCurrentFloor;
     bool fullMoveBlockedByActor = false;
     IndoorWallCollision fullMoveWallCollision = {};
 
@@ -836,9 +834,13 @@ IndoorMoveState IndoorMovementController::resolveMove(
         }
     }
 
-    if (!candidateGrounded)
+    if (!candidateGrounded && !flying)
     {
         candidateVerticalVelocity -= GravityPerSecond * deltaSeconds;
+        candidateFootZ += candidateVerticalVelocity * deltaSeconds;
+    }
+    else if (flying)
+    {
         candidateFootZ += candidateVerticalVelocity * deltaSeconds;
     }
 
@@ -906,6 +908,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
         }
 
         if (floor.hasFloor
+            && !flying
             && !sweptRequest.jumpRequested
             && floor.height > state.footZ + MaximumStepUpFromCurrentFootZ)
         {
@@ -922,7 +925,8 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 positionFootZ <= floor.height + GroundSnapSlack
                 && positionFootZ >= floor.height - MaximumDrop;
             const bool shouldSnapToFloor =
-                positionVerticalVelocity <= 0.0f
+                !flying
+                && positionVerticalVelocity <= 0.0f
                 && closeEnoughToSnapToFloor
                 && (state.grounded || positionFootZ <= floor.height + GroundSnapSlack);
 
@@ -954,7 +958,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
         {
             resolvedFootZ = floor.height;
             resolvedVerticalVelocity = 0.0f;
-            resolvedGrounded = true;
+            resolvedGrounded = !flying;
         }
 
         const float resolvedEyeZ = resolvedFootZ + body.height;
@@ -1077,11 +1081,6 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 continue;
             }
 
-            if (collider.reportActorContact)
-            {
-                appendContactedActorIndex(collider.actorIndex);
-            }
-
             const bool actorVsActor =
                 sweptRequest.ignoredActorIndex.has_value() && collider.reportActorContact;
             const float candidateX = moveState.x + direction.x * distance;
@@ -1097,6 +1096,11 @@ IndoorMoveState IndoorMovementController::resolveMove(
                     actorVsActor))
             {
                 continue;
+            }
+
+            if (collider.reportActorContact)
+            {
+                appendContactedActorIndex(collider.actorIndex);
             }
 
             if (bestHit && cylinderHit->adjustedMoveDistance >= bestHit->adjustedMoveDistance)
@@ -1940,16 +1944,6 @@ bool IndoorMovementController::collidesWithActors(
         const float currentDeltaY = currentY - collider.y;
         const float currentDistanceSquared = currentDeltaX * currentDeltaX + currentDeltaY * currentDeltaY;
 
-        if (pContactedActorIndices != nullptr
-            && collider.reportActorContact
-            && std::find(
-                pContactedActorIndices->begin(),
-                pContactedActorIndices->end(),
-                collider.actorIndex) == pContactedActorIndices->end())
-        {
-            pContactedActorIndices->push_back(collider.actorIndex);
-        }
-
         const bool actorVsActor = ignoredActorIndex.has_value() && collider.reportActorContact;
 
         if (shouldTolerateExistingActorOverlap(
@@ -1962,6 +1956,16 @@ bool IndoorMovementController::collidesWithActors(
                 actorVsActor))
         {
             continue;
+        }
+
+        if (pContactedActorIndices != nullptr
+            && collider.reportActorContact
+            && std::find(
+                pContactedActorIndices->begin(),
+                pContactedActorIndices->end(),
+                collider.actorIndex) == pContactedActorIndices->end())
+        {
+            pContactedActorIndices->push_back(collider.actorIndex);
         }
 
         if (candidateDistanceSquared > currentDistanceSquared + 1.0f)

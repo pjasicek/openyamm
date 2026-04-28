@@ -1022,6 +1022,11 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
         return false;
     }
 
+    if (!loadClassMultiplierTable(assetFileSystem))
+    {
+        return false;
+    }
+
     if (!loadClassSkillTable(assetFileSystem))
     {
         return false;
@@ -1274,6 +1279,11 @@ const JournalHistoryTable &GameDataLoader::getJournalHistoryTable() const
 const JournalAutonoteTable &GameDataLoader::getJournalAutonoteTable() const
 {
     return m_journalAutonoteTable;
+}
+
+const ClassMultiplierTable &GameDataLoader::getClassMultiplierTable() const
+{
+    return m_classMultiplierTable;
 }
 
 const ClassSkillTable &GameDataLoader::getClassSkillTable() const
@@ -1729,6 +1739,24 @@ bool GameDataLoader::loadClassSkillTable(const Engine::AssetFileSystem &assetFil
     if (!m_classSkillTable.loadCapsFromRows(capRows) || !m_classSkillTable.loadStartingSkillsFromRows(startingRows))
     {
         std::cerr << "Failed to parse class skill tables\n";
+        return false;
+    }
+
+    return true;
+}
+
+bool GameDataLoader::loadClassMultiplierTable(const Engine::AssetFileSystem &assetFileSystem)
+{
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, dataTablePath("class_multipliers.txt"), rows))
+    {
+        return false;
+    }
+
+    if (!m_classMultiplierTable.loadFromRows(rows))
+    {
+        std::cerr << "Failed to parse class multiplier table\n";
         return false;
     }
 

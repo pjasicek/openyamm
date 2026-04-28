@@ -81,6 +81,22 @@ bool parseUnsigned(const std::string &text, uint32_t &value)
     value = static_cast<uint32_t>(parsed);
     return true;
 }
+
+RosterEntry::StartingItem decodeRosterStartingItem(uint32_t rawValue)
+{
+    RosterEntry::StartingItem item = {};
+    item.rawValue = rawValue;
+    item.itemId = rawValue % 1000u;
+    item.enchantmentLevel = rawValue / 1000u;
+
+    if (item.itemId == 0)
+    {
+        item.itemId = rawValue;
+        item.enchantmentLevel = 0;
+    }
+
+    return item;
+}
 }
 
 bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
@@ -168,6 +184,10 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
         entry.baseResistances.mind = static_cast<int>(mindResistance);
         entry.baseResistances.body = static_cast<int>(bodyResistance);
         parseUnsigned(row[21], entry.skillPoints);
+        if (row.size() > 112)
+        {
+            parseUnsigned(row[112], entry.unlockQuestBitId);
+        }
         entry.level = std::max<uint32_t>(1, entry.level);
 
         for (size_t skillIndex = 0; skillIndex < skillColumns.size(); ++skillIndex)
@@ -222,7 +242,9 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
 
                 if (parseUnsigned(row[columnIndex], itemId) && itemId != 0)
                 {
-                    entry.startingInventoryItemIds.push_back(itemId);
+                    RosterEntry::StartingItem item = decodeRosterStartingItem(itemId);
+                    entry.startingItems.push_back(item);
+                    entry.startingInventoryItemIds.push_back(item.itemId);
                 }
             }
         }

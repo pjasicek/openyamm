@@ -959,23 +959,7 @@ void GameplayHudOverlaySupport::updateCharacterDetailOverlay(
 
     if (context.characterScreenReadOnly().open)
     {
-        pCharacter = context.selectedCharacterScreenCharacter();
-        const GameplayScreenRuntime::HudLayoutElement *pDollLayout = context.findHudLayoutElement("CharacterDollPanel");
-
-        if (!context.isAdventurersInnCharacterSourceActive())
-        {
-            memberIndex = party.activeMemberIndex();
-        }
-
-        if (pCharacter != nullptr && pDollLayout != nullptr)
-        {
-            sourceRect = context.resolveHudLayoutElement(
-                "CharacterDollPanel",
-                width,
-                height,
-                pDollLayout->width,
-                pDollLayout->height);
-        }
+        return;
     }
     else if (context.currentHudScreenState() == GameplayHudScreenState::Gameplay)
     {

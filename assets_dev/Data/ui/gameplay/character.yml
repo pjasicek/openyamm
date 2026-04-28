@@ -1266,7 +1266,6 @@ elements:
             offset_y: 0
             width: 0
             height: 0
-            z_index: 9990
             z_index: 75
             notes: Right hand fingers
 
@@ -1294,7 +1293,7 @@ elements:
             offset_y: 0
             width: 0
             height: 0
-            z_index: 65
+            z_index: 63
             notes: Armor slot
 
           - id: CharacterDollBootsSlot
@@ -1303,7 +1302,7 @@ elements:
             offset_y: 0
             width: 0
             height: 0
-            z_index: 65
+            z_index: 64
             notes: Boots slot
 
           - id: CharacterDollHelmetSlot
@@ -1312,8 +1311,7 @@ elements:
             offset_y: 0
             width: 0
             height: 0
-            z_index: 800
-            z_index: 65
+            z_index: 66
             notes: Helmet slot
 
           - id: CharacterDollBeltSlot
@@ -1322,7 +1320,7 @@ elements:
             offset_y: 0
             width: 0
             height: 0
-            z_index: 70
+            z_index: 67
             notes: Belt slot
 
           - id: CharacterMagnifyButton

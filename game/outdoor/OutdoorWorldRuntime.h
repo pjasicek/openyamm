@@ -204,6 +204,23 @@ public:
         float shrinkDamageMultiplier = 1.0f;
         float shrinkArmorClassMultiplier = 1.0f;
         float darkGraspRemainingSeconds = 0.0f;
+        float dayOfProtectionRemainingSeconds = 0.0f;
+        int dayOfProtectionPower = 0;
+        float hourOfPowerRemainingSeconds = 0.0f;
+        int hourOfPowerPower = 0;
+        float painReflectionRemainingSeconds = 0.0f;
+        float hammerhandsRemainingSeconds = 0.0f;
+        int hammerhandsPower = 0;
+        float hasteRemainingSeconds = 0.0f;
+        float shieldRemainingSeconds = 0.0f;
+        float stoneskinRemainingSeconds = 0.0f;
+        int stoneskinPower = 0;
+        float blessRemainingSeconds = 0.0f;
+        int blessPower = 0;
+        float fateRemainingSeconds = 0.0f;
+        int fatePower = 0;
+        float heroismRemainingSeconds = 0.0f;
+        int heroismPower = 0;
         uint32_t idleDecisionCount = 0;
         uint32_t pursueDecisionCount = 0;
         uint32_t attackDecisionCount = 0;
@@ -468,6 +485,7 @@ public:
 
     bool isInitialized() const;
     void bindInteractionView(OutdoorGameView *pView);
+    void bindGlobalEventProgram(const std::optional<ScriptedEventProgram> *pGlobalEventProgram);
     int mapId() const;
     const std::string &mapName() const override;
     bool isIndoorMap() const override;
@@ -487,7 +505,7 @@ public:
     void updateMapActors(float deltaSeconds, float partyX, float partyY, float partyZ);
     void queueActorAiUpdate(float deltaSeconds, float partyX, float partyY, float partyZ);
 
-    void applyEventRuntimeState();
+    void applyEventRuntimeState(bool syncPersistentHostilityMasks = false);
     bool updateTimers(
         float deltaSeconds,
         const EventRuntime &eventRuntime,
@@ -701,6 +719,7 @@ public:
     bool tryTriggerLocalEventById(uint16_t eventId);
     void cancelPendingMapTransition() override;
     bool executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount) override;
+    const std::optional<ScriptedEventProgram> *globalEventProgram() const override;
     const MapDeltaData *mapDeltaData() const override;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
@@ -883,7 +902,9 @@ private:
         MonsterAttackAbility ability,
         float targetX,
         float targetY,
-        float targetZ
+        float targetZ,
+        int damage = 0,
+        int attackBonus = 0
     );
     bool castSpellFromMapActor(
         const MapActorState &actor,
@@ -1063,6 +1084,7 @@ private:
     GameplayProjectileService m_fallbackGameplayProjectileService;
     GameplayCombatController *m_pGameplayCombatController = nullptr;
     GameplayFxService *m_pGameplayFxService = nullptr;
+    const std::optional<ScriptedEventProgram> *m_pGlobalEventProgram = nullptr;
     const SpriteFrameTable *m_pActorSpriteFrameTable = nullptr;
     const SpriteFrameTable *m_pProjectileSpriteFrameTable = nullptr;
     WorldFxSystem *m_pWorldFxSystem = nullptr;
@@ -1148,7 +1170,10 @@ private:
         const ActorMovementIntent &movementIntent,
         const std::vector<bool> &activeActorMask,
         const GameplayActorAiSystem &actorAiSystem);
-    void applyOutdoorActorAttackRequest(MapActorState &actor, const std::optional<ActorAttackRequest> &attackRequest);
+    void applyOutdoorActorAttackRequest(
+        MapActorState &actor,
+        const std::optional<ActorAttackRequest> &attackRequest);
+    bool outdoorActorCanApplyPartyMeleeImpact(const MapActorState &actor) const;
     void applyOutdoorActorTerminalUpdate(size_t actorIndex, MapActorState &actor, const ActorAiUpdate &update);
     void syncOutdoorActorIntegerPosition(MapActorState &actor) const;
     void applyOutdoorActorPostMovementAiUpdate(

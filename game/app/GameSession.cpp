@@ -21,6 +21,7 @@ Party buildConfiguredParty(
     Party party = {};
     party.setItemTable(&data.itemTable());
     party.setItemEnchantTables(&data.standardItemEnchantTable(), &data.specialItemEnchantTable());
+    party.setClassMultiplierTable(&data.classMultiplierTable());
     party.setClassSkillTable(&data.classSkillTable());
     party.restoreSnapshot(snapshot);
     return party;
@@ -69,6 +70,8 @@ void GameSession::bindDataRepository(const GameDataRepository *pDataRepository)
 {
     m_pDataRepository = pDataRepository;
     m_gameplayUiRuntime.bindDataRepository(pDataRepository);
+    GameMechanics::bindClassMultiplierTable(
+        pDataRepository != nullptr && pDataRepository->isBound() ? &pDataRepository->classMultiplierTable() : nullptr);
 
     if (m_pDataRepository != nullptr && m_pDataRepository->isBound())
     {

@@ -32,6 +32,7 @@ public:
         uint32_t sourcePartyMemberIndex = 0;
         uint32_t targetActorId = 0;
         int damage = 0;
+        int attackBonus = 0;
         int spellId = 0;
         bool affectsAllParty = false;
         bool hit = false;
@@ -70,6 +71,7 @@ public:
 
     void clear();
     void recordMonsterMeleeImpact(uint32_t sourceId, int damage);
+    void recordMonsterMeleeImpact(uint32_t sourceId, int damage, int attackBonus);
     void recordMonsterRangedRelease(uint32_t sourceId, int damage);
     void recordPartyProjectileImpact(
         uint32_t sourceId,

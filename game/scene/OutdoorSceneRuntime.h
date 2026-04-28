@@ -51,6 +51,7 @@ public:
         const std::optional<EventRuntimeState::ActiveDecorationContext> &activeDecorationContext,
         size_t &previousMessageCount
     );
+    bool executeNpcTopicEventById(uint16_t eventId, size_t &previousMessageCount);
 
 private:
     std::string m_mapFileName;

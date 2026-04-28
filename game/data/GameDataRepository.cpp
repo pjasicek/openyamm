@@ -32,6 +32,7 @@ void GameDataRepository::clear()
     m_pJournalQuestTable = nullptr;
     m_pJournalHistoryTable = nullptr;
     m_pJournalAutonoteTable = nullptr;
+    m_pClassMultiplierTable = nullptr;
     m_pClassSkillTable = nullptr;
     m_pNpcDialogTable = nullptr;
     m_pRosterTable = nullptr;
@@ -65,6 +66,7 @@ void GameDataRepository::bind(const GameDataLoader &loader)
     m_pJournalQuestTable = &loader.getJournalQuestTable();
     m_pJournalHistoryTable = &loader.getJournalHistoryTable();
     m_pJournalAutonoteTable = &loader.getJournalAutonoteTable();
+    m_pClassMultiplierTable = &loader.getClassMultiplierTable();
     m_pClassSkillTable = &loader.getClassSkillTable();
     m_pNpcDialogTable = &loader.getNpcDialogTable();
     m_pRosterTable = &loader.getRosterTable();
@@ -160,6 +162,11 @@ const JournalHistoryTable &GameDataRepository::journalHistoryTable() const
 const JournalAutonoteTable &GameDataRepository::journalAutonoteTable() const
 {
     return requireBound(m_pJournalAutonoteTable);
+}
+
+const ClassMultiplierTable &GameDataRepository::classMultiplierTable() const
+{
+    return requireBound(m_pClassMultiplierTable);
 }
 
 const ClassSkillTable &GameDataRepository::classSkillTable() const

@@ -81,6 +81,7 @@ add_executable(openyamm_unit_tests
     ../game/tables/ChestTable.cpp
     ../game/tables/CharacterDollTable.cpp
     ../game/tables/CharacterInspectTable.cpp
+    ../game/tables/ClassMultiplierTable.cpp
     ../game/tables/ClassSkillTable.cpp
     ../game/tables/FaceAnimationTable.cpp
     ../game/tables/HouseTable.cpp

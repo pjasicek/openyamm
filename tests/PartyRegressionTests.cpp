@@ -141,6 +141,7 @@ TEST_CASE("default seed monster target selection matches female preference")
 
     OpenYAMM::Game::Party party = {};
     party.setCharacterDollTable(&OpenYAMM::Tests::regressionGameData().characterDollTable);
+    party.setClassMultiplierTable(&OpenYAMM::Tests::regressionGameData().classMultiplierTable);
     party.seed(OpenYAMM::Game::Party::createDefaultSeed());
 
     const std::optional<size_t> targetIndex = party.chooseMonsterAttackTarget(0x0400, 3);
@@ -278,7 +279,12 @@ TEST_CASE("dragon ability mastery grants innate dragon spells")
 
 TEST_CASE("default party seed grants every member full spell access and preserves inventory")
 {
+    REQUIRE_MESSAGE(
+        OpenYAMM::Tests::regressionGameDataLoaded(),
+        OpenYAMM::Tests::regressionGameDataFailure().c_str());
+
     OpenYAMM::Game::Party party = {};
+    party.setClassMultiplierTable(&OpenYAMM::Tests::regressionGameData().classMultiplierTable);
     party.seed(OpenYAMM::Game::Party::createDefaultSeed());
 
     const OpenYAMM::Game::Character *pMember = party.member(0);
@@ -308,7 +314,7 @@ TEST_CASE("default party seed grants every member full spell access and preserve
         {
             const OpenYAMM::Game::CharacterSkill *pSkill = pSeedMember->findSkill(pSkillName);
             REQUIRE(pSkill != nullptr);
-            CHECK(pSkill->level == 10);
+            CHECK(pSkill->level == (memberIndex == 0 ? 200u : 10u));
             CHECK(pSkill->mastery == OpenYAMM::Game::SkillMastery::Grandmaster);
         }
 
@@ -320,6 +326,19 @@ TEST_CASE("default party seed grants every member full spell access and preserve
         CHECK(pSeedMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Mistform)));
         CHECK(pSeedMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::WingBuffet)));
     }
+
+    for (const std::string &skillName : OpenYAMM::Game::allCanonicalSkillNames())
+    {
+        const OpenYAMM::Game::CharacterSkill *pSkill = pMember->findSkill(skillName);
+        REQUIRE(pSkill != nullptr);
+        CHECK(pSkill->level == 200);
+        CHECK(pSkill->mastery == OpenYAMM::Game::SkillMastery::Grandmaster);
+    }
+
+    CHECK_EQ(pMember->maxHealth, 2037);
+    CHECK_EQ(pMember->health, pMember->maxHealth);
+    CHECK_EQ(pMember->maxSpellPoints, 3034);
+    CHECK_EQ(pMember->spellPoints, pMember->maxSpellPoints);
 
     static constexpr std::array<uint32_t, 10> ExpectedInventoryIds = {{
         401,

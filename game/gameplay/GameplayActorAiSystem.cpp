@@ -95,6 +95,7 @@ struct ActorTargetState
     float distanceToTarget = 0.0f;
     float edgeDistance = 0.0f;
     bool canSense = false;
+    bool attackLineOfSight = false;
     bool partyCanSense = false;
 };
 
@@ -128,6 +129,7 @@ enum class PursueActionMode : uint8_t
     OffsetShort = 0,
     Direct = 1,
     OffsetWide = 2,
+    RangedOrbit = 3,
 };
 
 enum class CombatEngageAction : uint8_t
@@ -233,8 +235,10 @@ struct CombatAbilityChoiceInput
     uint32_t actorId = 0;
     uint32_t attackDecisionCount = 0;
     bool hasSpell1 = false;
+    bool spell1IsOkToCast = false;
     int spell1UseChance = 0;
     bool hasSpell2 = false;
+    bool spell2IsOkToCast = false;
     int spell2UseChance = 0;
     int attack2Chance = 0;
     GameplayActorAttackConstraintState constraintState = {};
@@ -487,10 +491,12 @@ AttackImpactOutcome finishAttackImpact(
     bool targetIsActor,
     bool shrinkActive,
     float shrinkDamageMultiplier,
-    bool darkGraspActive)
+    bool darkGraspActive,
+    int damageBonus)
 {
     AttackImpactOutcome result = {};
-    result.damage = resolveBaseAttackImpactDamage(ability, monsterLevel, attack1Damage, attack2Damage);
+    result.damage = resolveBaseAttackImpactDamage(ability, monsterLevel, attack1Damage, attack2Damage)
+        + std::max(0, damageBonus);
 
     if (shrinkActive)
     {
@@ -545,9 +551,356 @@ bool attackAbilityIsSpell(GameplayActorAttackAbility ability)
     return ability == GameplayActorAttackAbility::Spell1 || ability == GameplayActorAttackAbility::Spell2;
 }
 
+float monsterBuffDurationHours(float hours)
+{
+    return hours * 3600.0f;
+}
+
+float monsterBuffDurationMinutes(float minutes)
+{
+    return minutes * 60.0f;
+}
+
+float monsterSelfBuffDurationSeconds(
+    const std::string &spellName,
+    uint32_t skillLevel,
+    SkillMastery skillMastery)
+{
+    const float level = static_cast<float>(std::max<uint32_t>(1, skillLevel));
+
+    if (spellName == "haste")
+    {
+        if (skillMastery == SkillMastery::Grandmaster)
+        {
+            return monsterBuffDurationMinutes(45.0f + 3.0f * level);
+        }
+
+        if (skillMastery == SkillMastery::Master)
+        {
+            return monsterBuffDurationMinutes(40.0f + 2.0f * level);
+        }
+
+        return monsterBuffDurationHours(1.0f) + monsterBuffDurationMinutes(level);
+    }
+
+    if (spellName == "shield" || spellName == "stoneskin")
+    {
+        if (skillMastery == SkillMastery::Grandmaster)
+        {
+            return monsterBuffDurationHours(64.0f + level);
+        }
+
+        if (skillMastery == SkillMastery::Master)
+        {
+            return monsterBuffDurationHours(1.0f) + monsterBuffDurationMinutes(4.0f + 15.0f * level);
+        }
+
+        return monsterBuffDurationHours(1.0f) + monsterBuffDurationMinutes(4.0f + 5.0f * level);
+    }
+
+    if (spellName == "bless" || spellName == "heroism")
+    {
+        if (skillMastery == SkillMastery::Grandmaster)
+        {
+            return monsterBuffDurationHours(1.0f) + monsterBuffDurationMinutes(4.0f + 20.0f * level);
+        }
+
+        if (skillMastery == SkillMastery::Master)
+        {
+            return monsterBuffDurationHours(1.0f) + monsterBuffDurationMinutes(4.0f + 15.0f * level);
+        }
+
+        return monsterBuffDurationHours(1.0f) + monsterBuffDurationMinutes(4.0f + 5.0f * level);
+    }
+
+    if (spellName == "fate")
+    {
+        return monsterBuffDurationMinutes(5.0f);
+    }
+
+    if (spellName == "hammerhands")
+    {
+        return monsterBuffDurationHours(level);
+    }
+
+    if (spellName == "day of protection" || spellName == "hour of power")
+    {
+        if (skillMastery == SkillMastery::Grandmaster)
+        {
+            return monsterBuffDurationMinutes(64.0f + 20.0f * level);
+        }
+
+        if (skillMastery == SkillMastery::Master)
+        {
+            return monsterBuffDurationMinutes(64.0f + 15.0f * level);
+        }
+
+        return monsterBuffDurationMinutes(64.0f + 5.0f * level);
+    }
+
+    if (spellName == "pain reflection")
+    {
+        if (skillMastery == SkillMastery::Grandmaster)
+        {
+            return monsterBuffDurationMinutes(64.0f) + 450.0f * level;
+        }
+
+        return monsterBuffDurationMinutes(64.0f) + 150.0f * level;
+    }
+
+    return monsterBuffDurationMinutes(5.0f);
+}
+
+float *monsterSelfBuffTimer(GameplayActorSpellEffectState &state, const std::string &spellName)
+{
+    if (spellName == "day of protection")
+    {
+        return &state.dayOfProtectionRemainingSeconds;
+    }
+
+    if (spellName == "hour of power")
+    {
+        return &state.hourOfPowerRemainingSeconds;
+    }
+
+    if (spellName == "pain reflection")
+    {
+        return &state.painReflectionRemainingSeconds;
+    }
+
+    if (spellName == "hammerhands")
+    {
+        return &state.hammerhandsRemainingSeconds;
+    }
+
+    if (spellName == "haste")
+    {
+        return &state.hasteRemainingSeconds;
+    }
+
+    if (spellName == "shield")
+    {
+        return &state.shieldRemainingSeconds;
+    }
+
+    if (spellName == "stoneskin")
+    {
+        return &state.stoneskinRemainingSeconds;
+    }
+
+    if (spellName == "bless")
+    {
+        return &state.blessRemainingSeconds;
+    }
+
+    if (spellName == "fate")
+    {
+        return &state.fateRemainingSeconds;
+    }
+
+    if (spellName == "heroism")
+    {
+        return &state.heroismRemainingSeconds;
+    }
+
+    return nullptr;
+}
+
+const float *monsterSelfBuffTimer(const GameplayActorSpellEffectState &state, const std::string &spellName)
+{
+    if (spellName == "day of protection")
+    {
+        return &state.dayOfProtectionRemainingSeconds;
+    }
+
+    if (spellName == "hour of power")
+    {
+        return &state.hourOfPowerRemainingSeconds;
+    }
+
+    if (spellName == "pain reflection")
+    {
+        return &state.painReflectionRemainingSeconds;
+    }
+
+    if (spellName == "hammerhands")
+    {
+        return &state.hammerhandsRemainingSeconds;
+    }
+
+    if (spellName == "haste")
+    {
+        return &state.hasteRemainingSeconds;
+    }
+
+    if (spellName == "shield")
+    {
+        return &state.shieldRemainingSeconds;
+    }
+
+    if (spellName == "stoneskin")
+    {
+        return &state.stoneskinRemainingSeconds;
+    }
+
+    if (spellName == "bless")
+    {
+        return &state.blessRemainingSeconds;
+    }
+
+    if (spellName == "fate")
+    {
+        return &state.fateRemainingSeconds;
+    }
+
+    if (spellName == "heroism")
+    {
+        return &state.heroismRemainingSeconds;
+    }
+
+    return nullptr;
+}
+
+bool monsterSpellIsOkToCast(
+    const std::string &spellName,
+    const ActorStatsFacts &stats,
+    const ActorStatusFacts &status,
+    const ActorPartyFacts &party)
+{
+    if (spellName.empty())
+    {
+        return false;
+    }
+
+    if (spellName == "power cure")
+    {
+        return stats.currentHp < stats.maxHp;
+    }
+
+    if (spellName == "dispel magic")
+    {
+        return party.hasDispellableBuffs;
+    }
+
+    const float *pSelfBuffTimer = monsterSelfBuffTimer(status.spellEffects, spellName);
+
+    if (pSelfBuffTimer != nullptr)
+    {
+        return *pSelfBuffTimer <= 0.0f;
+    }
+
+    return true;
+}
+
+int monsterSelfBuffPower(
+    const std::string &spellName,
+    uint32_t skillLevel,
+    SkillMastery skillMastery)
+{
+    const int level = static_cast<int>(std::max<uint32_t>(1, skillLevel));
+
+    if (spellName == "day of protection")
+    {
+        return skillMastery == SkillMastery::Master ? 4 * level : 5 * level;
+    }
+
+    if (spellName == "hour of power"
+        || spellName == "stoneskin"
+        || spellName == "bless"
+        || spellName == "heroism")
+    {
+        return level + 5;
+    }
+
+    if (spellName == "fate")
+    {
+        if (skillMastery == SkillMastery::Grandmaster)
+        {
+            return 120 + 6 * level;
+        }
+
+        if (skillMastery == SkillMastery::Master)
+        {
+            return 60 + 3 * level;
+        }
+
+        return 40 + 2 * level;
+    }
+
+    if (spellName == "hammerhands")
+    {
+        return level;
+    }
+
+    return 0;
+}
+
+void setMonsterSelfBuffPower(
+    GameplayActorSpellEffectState &state,
+    const std::string &spellName,
+    int power)
+{
+    if (spellName == "day of protection")
+    {
+        state.dayOfProtectionPower = std::max(state.dayOfProtectionPower, power);
+    }
+    else if (spellName == "hour of power")
+    {
+        state.hourOfPowerPower = std::max(state.hourOfPowerPower, power);
+    }
+    else if (spellName == "hammerhands")
+    {
+        state.hammerhandsPower = std::max(state.hammerhandsPower, power);
+    }
+    else if (spellName == "stoneskin")
+    {
+        state.stoneskinPower = std::max(state.stoneskinPower, power);
+    }
+    else if (spellName == "bless")
+    {
+        state.blessPower = std::max(state.blessPower, power);
+    }
+    else if (spellName == "fate")
+    {
+        state.fatePower = std::max(state.fatePower, power);
+    }
+    else if (spellName == "heroism")
+    {
+        state.heroismPower = std::max(state.heroismPower, power);
+    }
+}
+
+bool applyMonsterSelfBuffSpell(
+    GameplayActorAttackAbility ability,
+    const ActorStatsFacts &stats,
+    GameplayActorSpellEffectState &nextEffects)
+{
+    const std::string &spellName =
+        ability == GameplayActorAttackAbility::Spell1
+            ? stats.spell1Name
+            : ability == GameplayActorAttackAbility::Spell2 ? stats.spell2Name : std::string();
+    float *pTimer = monsterSelfBuffTimer(nextEffects, spellName);
+
+    if (pTimer == nullptr)
+    {
+        return false;
+    }
+
+    const uint32_t skillLevel =
+        ability == GameplayActorAttackAbility::Spell1 ? stats.spell1SkillLevel : stats.spell2SkillLevel;
+    const SkillMastery skillMastery =
+        ability == GameplayActorAttackAbility::Spell1 ? stats.spell1SkillMastery : stats.spell2SkillMastery;
+    *pTimer = std::max(
+        *pTimer,
+        monsterSelfBuffDurationSeconds(spellName, skillLevel, skillMastery));
+    setMonsterSelfBuffPower(nextEffects, spellName, monsterSelfBuffPower(spellName, skillLevel, skillMastery));
+    return true;
+}
+
 GameplayActorAttackAbility fallbackMeleeAttackAbility(
     GameplayActorAttackAbility chosenAbility,
-    const GameplayActorAttackConstraintState &constraints)
+    const GameplayActorAttackConstraintState &constraints,
+    int attack2Chance)
 {
     if (chosenAbility == GameplayActorAttackAbility::Attack1 && !constraints.attack1IsRanged)
     {
@@ -559,7 +912,7 @@ GameplayActorAttackAbility fallbackMeleeAttackAbility(
         return GameplayActorAttackAbility::Attack1;
     }
 
-    if (!constraints.attack2IsRanged)
+    if (attack2Chance > 0 && !constraints.attack2IsRanged)
     {
         return GameplayActorAttackAbility::Attack2;
     }
@@ -576,8 +929,10 @@ GameplayActorAttackChoiceResult chooseAttackAbility(
     uint32_t actorId,
     uint32_t attackDecisionCount,
     bool hasSpell1,
+    bool spell1IsOkToCast,
     int spell1UseChance,
     bool hasSpell2,
+    bool spell2IsOkToCast,
     int spell2UseChance,
     int attack2Chance)
 {
@@ -597,13 +952,13 @@ GameplayActorAttackChoiceResult chooseAttackAbility(
             return ((baseSeed ^ salt) % 100u) < static_cast<uint32_t>(chance);
         };
 
-    if (hasSpell1 && passesChance(spell1UseChance, 0x13579bdfu))
+    if (hasSpell1 && spell1IsOkToCast && passesChance(spell1UseChance, 0x13579bdfu))
     {
         result.ability = GameplayActorAttackAbility::Spell1;
         return result;
     }
 
-    if (hasSpell2 && passesChance(spell2UseChance, 0x2468ace0u))
+    if (hasSpell2 && spell2IsOkToCast && passesChance(spell2UseChance, 0x2468ace0u))
     {
         result.ability = GameplayActorAttackAbility::Spell2;
         return result;
@@ -621,7 +976,8 @@ GameplayActorAttackChoiceResult chooseAttackAbility(
 
 GameplayActorAttackAbility resolveAttackAbilityConstraints(
     GameplayActorAttackAbility chosenAbility,
-    const GameplayActorAttackConstraintState &constraints)
+    const GameplayActorAttackConstraintState &constraints,
+    int attack2Chance)
 {
     if (!attackAbilityIsRanged(chosenAbility, constraints))
     {
@@ -630,7 +986,7 @@ GameplayActorAttackAbility resolveAttackAbilityConstraints(
 
     if (constraints.blindActive || constraints.darkGraspActive || !constraints.rangedCommitAllowed)
     {
-        return fallbackMeleeAttackAbility(chosenAbility, constraints);
+        return fallbackMeleeAttackAbility(chosenAbility, constraints, attack2Chance);
     }
 
     return chosenAbility;
@@ -717,8 +1073,10 @@ CombatAbilityChoiceResult chooseCombatAbility(const CombatAbilityChoiceInput &in
                 input.actorId,
                 input.attackDecisionCount,
                 input.hasSpell1,
+                input.spell1IsOkToCast,
                 input.spell1UseChance,
                 input.hasSpell2,
+                input.spell2IsOkToCast,
                 input.spell2UseChance,
                 input.attack2Chance);
         result.nextAttackDecisionCount = attackChoice.nextDecisionCount;
@@ -726,6 +1084,10 @@ CombatAbilityChoiceResult chooseCombatAbility(const CombatAbilityChoiceInput &in
     }
 
     GameplayActorAttackConstraintState constraintState = input.constraintState;
+    const bool hardRangedAbilityBlocked =
+        input.constraintState.darkGraspActive
+        || input.constraintState.blindActive
+        || !input.constraintState.rangedCommitAllowed;
 
     if (attackAbilityIsRanged(chosenAbility, constraintState))
     {
@@ -746,17 +1108,18 @@ CombatAbilityChoiceResult chooseCombatAbility(const CombatAbilityChoiceInput &in
 
     if (input.applyAbilityConstraints)
     {
-        chosenAbility = resolveAttackAbilityConstraints(chosenAbility, constraintState);
+        chosenAbility = resolveAttackAbilityConstraints(chosenAbility, constraintState, input.attack2Chance);
     }
 
-    const bool rawAbilityIsRanged = attackAbilityIsRanged(chosenAbility, input.constraintState);
+    const bool resolvedAbilityIsRanged = attackAbilityIsRanged(chosenAbility, constraintState);
     result.ability = chosenAbility;
     result.abilityIsRanged =
-        rawAbilityIsRanged
-        && !input.constraintState.darkGraspActive
-        && !input.constraintState.blindActive;
-    result.abilityIsMelee = !rawAbilityIsRanged;
-    result.stationaryOrTooCloseForRangedPursuit = !input.movementAllowed || input.inMeleeRange;
+        resolvedAbilityIsRanged
+        && !hardRangedAbilityBlocked;
+    result.abilityIsMelee = !resolvedAbilityIsRanged;
+    result.stationaryOrTooCloseForRangedPursuit =
+        result.abilityIsRanged
+        && (!input.movementAllowed || input.inMeleeRange);
     return result;
 }
 
@@ -795,6 +1158,7 @@ ActorTargetState buildActorTargetStateFromFacts(const ActorAiFacts &actor)
     target.distanceToTarget = actor.target.currentDistance;
     target.edgeDistance = actor.target.currentEdgeDistance;
     target.canSense = actor.target.currentCanSense;
+    target.attackLineOfSight = actor.target.currentHasAttackLineOfSight;
     target.partyCanSense = actor.target.partyCanSenseActor;
 
     return target;
@@ -848,7 +1212,9 @@ ActorEngagementState resolveActorEngagement(
     result.targetIsParty = combatTarget.kind == ActorAiTargetKind::Party;
     result.targetIsActor = combatTarget.kind == ActorAiTargetKind::Actor;
     result.shouldEngageTarget = result.hasCombatTarget && combatTarget.canSense;
-    result.inMeleeRange = combatTarget.edgeDistance <= meleeRangeForCombatTarget(result.targetIsActor);
+    result.inMeleeRange =
+        combatTarget.edgeDistance <= meleeRangeForCombatTarget(result.targetIsActor)
+        && combatTarget.attackLineOfSight;
 
     if (result.targetIsActor)
     {
@@ -903,7 +1269,17 @@ bool hasActiveSpellEffectTimer(const GameplayActorSpellEffectState &state)
         || state.blindRemainingSeconds > 0.0f
         || state.controlRemainingSeconds > 0.0f
         || state.shrinkRemainingSeconds > 0.0f
-        || state.darkGraspRemainingSeconds > 0.0f;
+        || state.darkGraspRemainingSeconds > 0.0f
+        || state.dayOfProtectionRemainingSeconds > 0.0f
+        || state.hourOfPowerRemainingSeconds > 0.0f
+        || state.painReflectionRemainingSeconds > 0.0f
+        || state.hammerhandsRemainingSeconds > 0.0f
+        || state.hasteRemainingSeconds > 0.0f
+        || state.shieldRemainingSeconds > 0.0f
+        || state.stoneskinRemainingSeconds > 0.0f
+        || state.blessRemainingSeconds > 0.0f
+        || state.fateRemainingSeconds > 0.0f
+        || state.heroismRemainingSeconds > 0.0f;
 }
 
 class ActorAiCommandContext
@@ -1373,8 +1749,9 @@ ActorFrameTimerAging ageActorFrameTimers(const ActorAiFacts &actor, const ActorA
 {
     ActorFrameTimerAging result = {};
     const float deltaSeconds = std::max(0.0f, frame.fixedStepSeconds);
+    const GameplayActorService actorService = {};
     const float recoveryStepSeconds =
-        deltaSeconds / std::max(1.0f, actor.status.spellEffects.slowRecoveryMultiplier);
+        deltaSeconds * actorService.effectiveRecoveryProgressMultiplier(actor.status.spellEffects);
     const bool attacking = actor.runtime.motionState == ActorAiMotionState::Attacking;
 
     result.idleDecisionSeconds = std::max(0.0f, actor.runtime.idleDecisionSeconds - deltaSeconds);
@@ -1400,11 +1777,17 @@ ActorMovementCommit buildActiveMovementCommit(
     bool preserveCrowdSteering)
 {
     ActorMovementCommit result = {};
+    const float verticalTargetDelta = actor.target.currentPosition.z - actor.world.targetZ;
+    const bool flyingVerticalMove =
+        actor.stats.canFly
+        && std::abs(verticalTargetDelta) > 8.0f;
+
     result.resetCrowdSteering = !preserveCrowdSteering;
     result.applyMovement =
         actor.movement.movementAllowed
         && (std::abs(update.movementIntent.desiredMoveX) > 0.001f
-            || std::abs(update.movementIntent.desiredMoveY) > 0.001f);
+            || std::abs(update.movementIntent.desiredMoveY) > 0.001f
+            || flyingVerticalMove);
     return result;
 }
 
@@ -1754,7 +2137,7 @@ CombatEngagePlan chooseCombatEngagePlan(const CombatEngagePlanInput &input)
         }
 
         result.action = CombatEngageAction::StartRangedPursuit;
-        result.pursueMode = PursueActionMode::OffsetShort;
+        result.pursueMode = PursueActionMode::RangedOrbit;
         result.useRecoveryFloorForPursuit = true;
         return result;
     }
@@ -1809,7 +2192,18 @@ PursueActionResult resolvePursueAction(const PursueActionInput &input)
     result.yawRadians = std::atan2(input.deltaTargetY, input.deltaTargetX);
     result.actionSeconds = input.distanceToTarget / input.moveSpeed;
 
-    if (input.mode == PursueActionMode::OffsetShort)
+    if (input.mode == PursueActionMode::RangedOrbit)
+    {
+        const float sideSign = (decisionSeed & 1u) == 0u ? 1.0f : -1.0f;
+        const float targetYaw = std::atan2(input.deltaTargetY, input.deltaTargetX);
+        const float inwardWeight = 0.16f;
+        const float sideYaw = targetYaw + sideSign * (Pi * 0.5f);
+        const float moveX = std::cos(sideYaw) + std::cos(targetYaw) * inwardWeight;
+        const float moveY = std::sin(sideYaw) + std::sin(targetYaw) * inwardWeight;
+        result.yawRadians = std::atan2(moveY, moveX);
+        result.actionSeconds = 0.5f;
+    }
+    else if (input.mode == PursueActionMode::OffsetShort)
     {
         const float offset = (decisionSeed & 1u) == 0u ? (Pi / 64.0f) : (-Pi / 64.0f);
         result.yawRadians = normalizeAngleRadians(result.yawRadians + offset);
@@ -1905,6 +2299,24 @@ void applyActiveMovementCommit(
     update.movementIntent.targetPosition = actor.target.currentPosition;
     update.movementIntent.targetEdgeDistance = actor.target.currentEdgeDistance;
     update.movementIntent.inMeleeRange = actor.movement.inMeleeRange;
+
+    if (actor.stats.canFly)
+    {
+        const float verticalTargetDelta = actor.target.currentPosition.z - actor.world.targetZ;
+        const float horizontalDistance =
+            std::sqrt(
+                (actor.target.currentPosition.x - actor.movement.position.x)
+                    * (actor.target.currentPosition.x - actor.movement.position.x)
+                + (actor.target.currentPosition.y - actor.movement.position.y)
+                    * (actor.target.currentPosition.y - actor.movement.position.y));
+        const float distance =
+            std::sqrt(horizontalDistance * horizontalDistance + verticalTargetDelta * verticalTargetDelta);
+
+        if (distance > 0.001f && std::abs(verticalTargetDelta) > 8.0f)
+        {
+            update.movementIntent.desiredMoveZ = std::clamp(verticalTargetDelta / distance, -1.0f, 1.0f);
+        }
+    }
 }
 
 bool AI_CombatFlow(ActorAiCommandContext &ai, bool attackInProgress)
@@ -1978,7 +2390,7 @@ std::optional<ActorTargetCandidateFacts> chooseTarget(const ActorAiFacts &actor,
             ? frame.party.position
             : actor.target.currentPosition;
         target.audioPosition = actor.target.currentAudioPosition;
-        target.hasLineOfSight = true;
+        target.hasLineOfSight = actor.target.currentHasAttackLineOfSight;
         return target;
     }
 
@@ -2448,6 +2860,12 @@ void applyAttackImpactOutcome(const ActorAiFacts &actor, ActorAiUpdate &update)
     const bool abilityIsRanged =
         attackAbilityIsRanged(actor.runtime.queuedAttackAbility, actor.stats.attackConstraints);
     const bool abilityIsMelee = !abilityIsRanged;
+    const GameplayActorService actorService = {};
+    GameplayActorSpellEffectState spellEffects = update.state.spellEffects.value_or(actor.status.spellEffects);
+    const int attackBonus =
+        attackAbilityIsSpell(actor.runtime.queuedAttackAbility)
+            ? 0
+            : actorService.effectiveAttackHitBonus(spellEffects);
     const AttackImpactOutcome attackImpact = finishAttackImpact(
         actor.runtime.queuedAttackAbility,
         actor.stats.monsterLevel,
@@ -2459,7 +2877,8 @@ void applyAttackImpactOutcome(const ActorAiFacts &actor, ActorAiUpdate &update)
         actor.target.currentKind == ActorAiTargetKind::Actor,
         actor.status.spellEffects.shrinkRemainingSeconds > 0.0f,
         actor.status.spellEffects.shrinkDamageMultiplier,
-        actor.status.spellEffects.darkGraspRemainingSeconds > 0.0f);
+        actor.status.spellEffects.darkGraspRemainingSeconds > 0.0f,
+        actorService.effectiveAttackDamageBonus(actor.runtime.queuedAttackAbility, spellEffects));
 
     update.state.attackImpactTriggered = true;
 
@@ -2468,11 +2887,38 @@ void applyAttackImpactOutcome(const ActorAiFacts &actor, ActorAiUpdate &update)
         return;
     }
 
+    if (attackBonus > 0 && spellEffects.fateRemainingSeconds > 0.0f)
+    {
+        spellEffects.fateRemainingSeconds = 0.0f;
+        spellEffects.fatePower = 0;
+        update.state.spellEffects = spellEffects;
+    }
+
+    if (attackAbilityIsSpell(actor.runtime.queuedAttackAbility))
+    {
+        if (applyMonsterSelfBuffSpell(
+                actor.runtime.queuedAttackAbility,
+                actor.stats,
+                spellEffects))
+        {
+            const bool spell1 = actor.runtime.queuedAttackAbility == GameplayActorAttackAbility::Spell1;
+            ActorFxRequest buffFx = {};
+            buffFx.kind = ActorAiFxRequestKind::Buff;
+            buffFx.actorIndex = actor.actorIndex;
+            buffFx.spellId = spell1 ? actor.stats.spell1Id : actor.stats.spell2Id;
+            buffFx.position = actor.movement.position;
+            update.fxRequests.push_back(buffFx);
+            update.state.spellEffects = spellEffects;
+            return;
+        }
+    }
+
     ActorAttackRequest request = {};
     request.ability = actor.runtime.queuedAttackAbility;
     request.targetKind = actor.target.currentKind;
     request.targetActorIndex = actor.target.currentActorIndex;
     request.damage = attackImpact.damage;
+    request.attackBonus = attackBonus;
     request.source = actor.movement.position;
     request.target = actor.target.currentPosition;
 
@@ -2531,6 +2977,21 @@ void AI_Pursue(ActorAiCommandContext &ai, PursueActionMode mode, float minimumAc
         ai.setMoveDirection(pursueAction.moveDirectionX, pursueAction.moveDirectionY);
         ai.setDesiredMovement(pursueAction.moveDirectionX, pursueAction.moveDirectionY);
         ai.setActionSeconds(pursueAction.actionSeconds);
+        ai.setAttackImpactTriggered(false);
+        return;
+    }
+
+    const float verticalTargetDelta = actor.target.currentPosition.z - actor.world.targetZ;
+    if (actor.stats.canFly
+        && std::abs(verticalTargetDelta) > 8.0f
+        && actor.movement.effectiveMoveSpeed > 0.0f)
+    {
+        ai.setMotionState(ActorAiMotionState::Pursuing);
+        ai.setAnimationState(ActorAiAnimationState::Walking);
+        ai.setMovementAction(ActorAiMovementAction::Pursue);
+        ai.setActionSeconds(std::max(
+            std::abs(verticalTargetDelta) / actor.movement.effectiveMoveSpeed,
+            minimumActionSeconds));
         ai.setAttackImpactTriggered(false);
         return;
     }
@@ -2655,6 +3116,12 @@ void AI_PursueByMode(ActorAiCommandContext &ai, PursueActionMode mode, float min
         return;
     }
 
+    if (mode == PursueActionMode::RangedOrbit)
+    {
+        AI_Pursue(ai, PursueActionMode::RangedOrbit, minimumActionSeconds);
+        return;
+    }
+
     AI_Pursue1(ai, minimumActionSeconds);
 }
 
@@ -2681,8 +3148,22 @@ bool AI_AttackOrPursue(ActorAiCommandContext &ai)
     abilityInput.actorId = actor.actorId;
     abilityInput.attackDecisionCount = actor.runtime.attackDecisionCount;
     abilityInput.hasSpell1 = actor.stats.hasSpell1;
+    abilityInput.spell1IsOkToCast =
+        actor.stats.spell1CastSupported
+        && monsterSpellIsOkToCast(
+            actor.stats.spell1Name,
+            actor.stats,
+            actor.status,
+            pFrame->party);
     abilityInput.spell1UseChance = actor.stats.spell1UseChance;
     abilityInput.hasSpell2 = actor.stats.hasSpell2;
+    abilityInput.spell2IsOkToCast =
+        actor.stats.spell2CastSupported
+        && monsterSpellIsOkToCast(
+            actor.stats.spell2Name,
+            actor.stats,
+            actor.status,
+            pFrame->party);
     abilityInput.spell2UseChance = actor.stats.spell2UseChance;
     abilityInput.attack2Chance = actor.stats.attack2Chance;
     abilityInput.constraintState = actor.stats.attackConstraints;
@@ -3122,8 +3603,15 @@ ActorAiUpdate AI_ActiveCurrentAction(
     ActorAiUpdate update = ai.finish();
     applyActiveAgingUpdates(actor, frame, statusContinuation, update);
     applyAttackImpactOutcome(actor, update);
+    const bool attackImpactResolved =
+        update.state.attackImpactTriggered.value_or(false) && !actor.runtime.attackImpactTriggered;
     applyCombatEngagementUpdate(actor, frame, update);
     ai.replaceUpdate(update);
+
+    if (attackImpactResolved)
+    {
+        return ai.finish();
+    }
 
     const bool attackInProgress = ai.update().state.actionSeconds.value_or(actor.runtime.actionSeconds) > 0.0f;
 
@@ -3231,6 +3719,7 @@ void appendActorUpdate(ActorAiFrameResult &result, const ActorAiUpdate &update)
             projectileRequest.ability = update.attackRequest->ability;
             projectileRequest.targetKind = update.attackRequest->targetKind;
             projectileRequest.damage = update.attackRequest->damage;
+            projectileRequest.attackBonus = update.attackRequest->attackBonus;
             projectileRequest.source = update.attackRequest->source;
             projectileRequest.target = update.attackRequest->target;
             result.projectileRequests.push_back(projectileRequest);

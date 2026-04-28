@@ -528,6 +528,7 @@ TEST_CASE("outdoor_party_runtime_wait_advances_buff_durations_with_game_clock")
     party.setItemEnchantTables(
         &mapLoader.gameDataLoader.getStandardItemEnchantTable(),
         &mapLoader.gameDataLoader.getSpecialItemEnchantTable());
+    party.setClassMultiplierTable(&mapLoader.gameDataLoader.getClassMultiplierTable());
     party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
     party.seed(createRegressionPartySeed());
     party.applyPartyBuff(

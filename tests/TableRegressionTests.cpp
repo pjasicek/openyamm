@@ -145,7 +145,7 @@ TEST_CASE("roster join offer mapping samples")
         uint32_t partyFullTextId = 0;
     };
 
-    const std::array<ExpectedRosterJoinOffer, 7> expectedOffers = {{
+    const std::array<ExpectedRosterJoinOffer, 8> expectedOffers = {{
         {602, 2, 202, 203},
         {606, 6, 210, 211},
         {611, 11, 220, 221},
@@ -153,6 +153,7 @@ TEST_CASE("roster join offer mapping samples")
         {630, 30, 258, 259},
         {632, 32, 262, 263},
         {634, 34, 266, 267},
+        {635, 35, 268, 269},
     }};
 
     for (const ExpectedRosterJoinOffer &expectedOffer : expectedOffers)
@@ -174,11 +175,16 @@ TEST_CASE("recruit roster member loads birth experience resistances and items")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     const OpenYAMM::Game::RosterEntry *pRosterEntry = gameData.rosterTable.get(3);
+    const OpenYAMM::Game::RosterEntry *pBlazenRosterEntry = gameData.rosterTable.get(35);
 
     REQUIRE(pRosterEntry != nullptr);
+    REQUIRE(pBlazenRosterEntry != nullptr);
+    CHECK_EQ(pRosterEntry->unlockQuestBitId, 403u);
+    CHECK_EQ(pBlazenRosterEntry->unlockQuestBitId, 435u);
 
     OpenYAMM::Game::Party party = {};
     party.setItemTable(&gameData.itemTable);
+    party.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
 
     REQUIRE(party.recruitRosterMember(*pRosterEntry));
 
@@ -216,5 +222,25 @@ TEST_CASE("recruit roster member loads birth experience resistances and items")
     for (uint32_t itemId : pRosterEntry->startingInventoryItemIds)
     {
         CHECK(characterHasItem(*pMember, itemId));
+    }
+
+    REQUIRE_FALSE(pBlazenRosterEntry->startingItems.empty());
+    CHECK_EQ(pBlazenRosterEntry->startingItems[0].rawValue, 5005u);
+    CHECK_EQ(pBlazenRosterEntry->startingItems[0].itemId, 5u);
+    CHECK_EQ(pBlazenRosterEntry->startingItems[0].enchantmentLevel, 5u);
+
+    OpenYAMM::Game::Party blazenParty = {};
+    blazenParty.setItemTable(&gameData.itemTable);
+    blazenParty.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
+
+    REQUIRE(blazenParty.recruitRosterMember(*pBlazenRosterEntry));
+
+    const OpenYAMM::Game::Character *pBlazen = blazenParty.member(0);
+    REQUIRE(pBlazen != nullptr);
+    CHECK(characterHasAnyEquippedItem(*pBlazen));
+
+    for (uint32_t itemId : pBlazenRosterEntry->startingInventoryItemIds)
+    {
+        CHECK(characterHasItem(*pBlazen, itemId));
     }
 }

@@ -76,6 +76,7 @@ enum class ActorAiFxRequestKind : uint8_t
     Hit = 1,
     Death = 2,
     Spell = 3,
+    Buff = 4,
 };
 
 struct ActorPartyFacts
@@ -84,6 +85,7 @@ struct ActorPartyFacts
     float collisionRadius = 0.0f;
     float collisionHeight = 0.0f;
     bool invisible = false;
+    bool hasDispellableBuffs = false;
 };
 
 struct ActorIdentityFacts
@@ -116,7 +118,17 @@ struct ActorStatsFacts
     uint16_t moveSpeed = 0;
     bool canFly = false;
     bool hasSpell1 = false;
+    uint32_t spell1Id = 0;
+    std::string spell1Name;
+    uint32_t spell1SkillLevel = 0;
+    SkillMastery spell1SkillMastery = SkillMastery::None;
+    bool spell1CastSupported = true;
     bool hasSpell2 = false;
+    uint32_t spell2Id = 0;
+    std::string spell2Name;
+    uint32_t spell2SkillLevel = 0;
+    SkillMastery spell2SkillMastery = SkillMastery::None;
+    bool spell2CastSupported = true;
     int spell1UseChance = 0;
     int spell2UseChance = 0;
     int attack2Chance = 0;
@@ -192,6 +204,7 @@ struct ActorTargetFacts
     float currentDistance = 0.0f;
     float currentEdgeDistance = 0.0f;
     bool currentCanSense = false;
+    bool currentHasAttackLineOfSight = true;
     bool partyCanSenseActor = false;
     std::vector<ActorTargetCandidateFacts> candidates;
 };
@@ -294,6 +307,7 @@ struct ActorMovementIntent
     float moveDirectionY = 0.0f;
     float desiredMoveX = 0.0f;
     float desiredMoveY = 0.0f;
+    float desiredMoveZ = 0.0f;
     float yawRadians = 0.0f;
     float actionSeconds = 0.0f;
     float moveSpeed = 0.0f;
@@ -317,6 +331,7 @@ struct ActorAttackRequest
     uint32_t skillLevel = 0;
     SkillMastery skillMastery = SkillMastery::None;
     int damage = 0;
+    int attackBonus = 0;
     GameplayWorldPoint source = {};
     GameplayWorldPoint target = {};
 };
@@ -331,6 +346,7 @@ struct ActorProjectileRequest
     uint32_t skillLevel = 0;
     SkillMastery skillMastery = SkillMastery::None;
     int damage = 0;
+    int attackBonus = 0;
     GameplayWorldPoint source = {};
     GameplayWorldPoint target = {};
 };

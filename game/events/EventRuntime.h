@@ -285,6 +285,14 @@ public:
         Party *pParty = nullptr,
         ISceneEventContext *pSceneEventContext = nullptr
     ) const;
+    bool executeNpcTopicEventById(
+        const std::optional<ScriptedEventProgram> &localProgram,
+        const std::optional<ScriptedEventProgram> &globalProgram,
+        uint16_t eventId,
+        EventRuntimeState &runtimeState,
+        Party *pParty = nullptr,
+        ISceneEventContext *pSceneEventContext = nullptr
+    ) const;
     bool canShowTopic(
         const std::optional<ScriptedEventProgram> &globalProgram,
         uint16_t topicId,

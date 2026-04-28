@@ -7,6 +7,7 @@
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/MapStats.h"
+#include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/SpellTable.h"
 
 #include <algorithm>
@@ -36,23 +37,7 @@ constexpr int ParameterBonusValues[29] = {
     7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6,
 };
 
-enum class ResourceManaMode
-{
-    None,
-    Intellect,
-    Personality,
-    Mixed,
-    Level,
-};
-
-struct CharacterResourceProgression
-{
-    int baseHealth = 0;
-    int healthPerLevel = 0;
-    int baseMana = 0;
-    int manaPerLevel = 0;
-    ResourceManaMode manaMode = ResourceManaMode::None;
-};
+const ClassMultiplierTable *g_pClassMultiplierTable = nullptr;
 
 uint64_t experienceRequiredForNextLevel(uint32_t currentLevel)
 {
@@ -260,46 +245,28 @@ int parameterBonus(int value)
     return ParameterBonusValues[std::size(ParameterBonusValues) - 1];
 }
 
-std::optional<CharacterResourceProgression> resourceProgressionForClassName(const std::string &className)
+std::optional<ClassMultiplierEntry> classMultiplierForClassName(
+    const std::string &className,
+    const ClassMultiplierTable *pClassMultiplierTable)
 {
-    const std::string canonicalClass = canonicalClassName(className);
-
-    if (canonicalClass == "Knight"
-        || canonicalClass == "Cavalier"
-        || canonicalClass == "Champion"
-        || canonicalClass == "BlackKnight"
-        || canonicalClass == "Minotaur"
-        || canonicalClass == "MinotaurLord"
-        || canonicalClass == "Troll"
-        || canonicalClass == "WarTroll")
+    if (pClassMultiplierTable != nullptr)
     {
-        return CharacterResourceProgression{40, 5, 0, 0, ResourceManaMode::None};
+        const ClassMultiplierEntry *pEntry = pClassMultiplierTable->get(className);
+
+        if (pEntry != nullptr)
+        {
+            return *pEntry;
+        }
     }
 
-    if (canonicalClass == "Cleric"
-        || canonicalClass == "Priest")
+    if (g_pClassMultiplierTable != nullptr)
     {
-        return CharacterResourceProgression{25, 2, 10, 3, ResourceManaMode::Personality};
-    }
+        const ClassMultiplierEntry *pEntry = g_pClassMultiplierTable->get(className);
 
-    if (canonicalClass == "Necromancer"
-        || canonicalClass == "Lich"
-        || canonicalClass == "Vampire"
-        || canonicalClass == "Nosferatu")
-    {
-        return CharacterResourceProgression{20, 2, 15, 3, ResourceManaMode::Intellect};
-    }
-
-    if (canonicalClass == "DarkElf"
-        || canonicalClass == "Patriarch")
-    {
-        return CharacterResourceProgression{30, 3, 5, 2, ResourceManaMode::Intellect};
-    }
-
-    if (canonicalClass == "Dragon"
-        || canonicalClass == "GreatWyrm")
-    {
-        return CharacterResourceProgression{40, 5, 0, 3, ResourceManaMode::Level};
+        if (pEntry != nullptr)
+        {
+            return *pEntry;
+        }
     }
 
     return std::nullopt;
@@ -355,6 +322,18 @@ int masteryMultiplier(SkillMastery mastery, int novice, int expert, int master, 
         default:
             return 0;
     }
+}
+
+int resourceSkillBonus(const Character &character, std::string_view skillName, int resourcePerLevel)
+{
+    if (resourcePerLevel == 0)
+    {
+        return 0;
+    }
+
+    const int level = skillLevel(character, skillName);
+    const int multiplier = masteryMultiplier(skillMastery(character, skillName), 1, 2, 3, 5);
+    return resourcePerLevel * level * multiplier;
 }
 
 std::optional<std::pair<int, int>> dragonBasicAttackDamageRange(const Character &character)
@@ -1660,6 +1639,11 @@ uint64_t GameMechanics::experienceRequiredForNextLevel(uint32_t currentLevel)
     return OpenYAMM::Game::experienceRequiredForNextLevel(currentLevel);
 }
 
+void GameMechanics::bindClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable)
+{
+    g_pClassMultiplierTable = pClassMultiplierTable;
+}
+
 uint32_t GameMechanics::maximumTrainableLevelFromExperience(const Character &character)
 {
     uint32_t trainableLevel = character.level;
@@ -1672,12 +1656,15 @@ uint32_t GameMechanics::maximumTrainableLevelFromExperience(const Character &cha
     return trainableLevel;
 }
 
-int GameMechanics::calculateBaseCharacterMaxHealth(const Character &character)
+int GameMechanics::calculateBaseCharacterMaxHealth(
+    const Character &character,
+    const ClassMultiplierTable *pClassMultiplierTable)
 {
     const std::string className = character.className.empty() ? character.role : character.className;
-    const std::optional<CharacterResourceProgression> progression = resourceProgressionForClassName(className);
+    const std::optional<ClassMultiplierEntry> multiplier =
+        classMultiplierForClassName(className, pClassMultiplierTable);
 
-    if (!progression.has_value())
+    if (!multiplier.has_value())
     {
         const int endurance = std::max(10, static_cast<int>(character.endurance));
         return std::max(1, 40 + endurance * 2 + static_cast<int>(character.level) * 5);
@@ -1685,16 +1672,20 @@ int GameMechanics::calculateBaseCharacterMaxHealth(const Character &character)
 
     const int enduranceBonus = parameterBonus(static_cast<int>(character.endurance));
     const int healthByLevel =
-        progression->healthPerLevel * levelWithBonus(std::max(character.level, 1u), enduranceBonus);
-    return std::max(0, progression->baseHealth + healthByLevel);
+        multiplier->healthPerLevel * levelWithBonus(std::max(character.level, 1u), enduranceBonus);
+    const int healthBySkill = resourceSkillBonus(character, "Bodybuilding", multiplier->healthPerLevel);
+    return std::max(0, multiplier->baseHealth + healthByLevel + healthBySkill);
 }
 
-int GameMechanics::calculateBaseCharacterMaxSpellPoints(const Character &character)
+int GameMechanics::calculateBaseCharacterMaxSpellPoints(
+    const Character &character,
+    const ClassMultiplierTable *pClassMultiplierTable)
 {
     const std::string className = character.className.empty() ? character.role : character.className;
-    const std::optional<CharacterResourceProgression> progression = resourceProgressionForClassName(className);
+    const std::optional<ClassMultiplierEntry> multiplier =
+        classMultiplierForClassName(className, pClassMultiplierTable);
 
-    if (!progression.has_value())
+    if (!multiplier.has_value())
     {
         const int intellect = std::max(0, static_cast<int>(character.intellect));
         const int personality = std::max(0, static_cast<int>(character.personality));
@@ -1706,33 +1697,66 @@ int GameMechanics::calculateBaseCharacterMaxSpellPoints(const Character &charact
 
     int statBonus = 0;
 
-    switch (progression->manaMode)
+    switch (multiplier->manaMode)
     {
-        case ResourceManaMode::Intellect:
+        case ClassManaMode::Intellect:
             statBonus = parameterBonus(static_cast<int>(character.intellect));
             break;
 
-        case ResourceManaMode::Personality:
+        case ClassManaMode::Personality:
             statBonus = parameterBonus(static_cast<int>(character.personality));
             break;
 
-        case ResourceManaMode::Mixed:
+        case ClassManaMode::Mixed:
             statBonus = parameterBonus(static_cast<int>(character.intellect))
                 + parameterBonus(static_cast<int>(character.personality));
             break;
 
-        case ResourceManaMode::Level:
+        case ClassManaMode::Level:
             statBonus = 0;
             break;
 
-        case ResourceManaMode::None:
+        case ClassManaMode::None:
         default:
             return 0;
     }
 
     const int manaByLevel =
-        progression->manaPerLevel * levelWithBonus(std::max(character.level, 1u), statBonus);
-    return std::max(0, progression->baseMana + manaByLevel);
+        multiplier->manaPerLevel * levelWithBonus(std::max(character.level, 1u), statBonus);
+    const int manaBySkill = resourceSkillBonus(character, "Meditation", multiplier->manaPerLevel);
+    return std::max(0, multiplier->baseMana + manaByLevel + manaBySkill);
+}
+
+void GameMechanics::refreshCharacterBaseResources(
+    Character &character,
+    bool restoreCurrentToMaximum,
+    const ClassMultiplierTable *pClassMultiplierTable)
+{
+    const int previousMaxHealth = std::max(1, character.maxHealth);
+    const int previousMaxSpellPoints = std::max(0, character.maxSpellPoints);
+    const bool wasAtMaxHealth = character.health >= previousMaxHealth;
+    const bool wasAtMaxSpellPoints = character.spellPoints >= previousMaxSpellPoints;
+
+    character.maxHealth = calculateBaseCharacterMaxHealth(character, pClassMultiplierTable);
+    character.maxSpellPoints = calculateBaseCharacterMaxSpellPoints(character, pClassMultiplierTable);
+
+    if (restoreCurrentToMaximum || wasAtMaxHealth)
+    {
+        character.health = character.maxHealth;
+    }
+    else
+    {
+        character.health = std::clamp(character.health, 0, std::max(1, character.maxHealth));
+    }
+
+    if (restoreCurrentToMaximum || wasAtMaxSpellPoints)
+    {
+        character.spellPoints = character.maxSpellPoints;
+    }
+    else
+    {
+        character.spellPoints = std::clamp(character.spellPoints, 0, std::max(0, character.maxSpellPoints));
+    }
 }
 
 std::string GameMechanics::buildExperienceInspectSupplement(const Character &character)
@@ -2348,13 +2372,15 @@ bool GameMechanics::characterRangedAttackHitsArmorClass(
 bool GameMechanics::monsterAttackHitsArmorClass(
     int targetArmorClass,
     int monsterLevel,
+    int attackBonus,
     std::mt19937 &rng)
 {
     const int armorClass = std::max(0, targetArmorClass);
     const int level = std::max(0, monsterLevel);
+    const int bonus = std::max(0, attackBonus);
     const int rollUpperBound = std::max(1, armorClass + 2 * level + 10);
     const int hitRoll = std::uniform_int_distribution<int>(1, rollUpperBound)(rng);
-    return hitRoll > armorClass + 5;
+    return hitRoll + bonus > armorClass + 5;
 }
 
 std::optional<CharacterCondition> GameMechanics::displayedCondition(const Character &character)

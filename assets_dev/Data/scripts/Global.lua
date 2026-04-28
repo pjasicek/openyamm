@@ -6853,7 +6853,7 @@ RegisterGlobalEvent(733, "Promote Dark Elves", function()
     if HasAward(Award(19)) then
         evt.SimpleMessage("Cauri told me of how you helped her with the curse of the Basilisk.  She has instructed me to promote any Dark Elves that travel with you to Patriarch.")
         ClearQBit(QBit(39))
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 10) then
                 SetValue(ClassId, 11)
@@ -6866,7 +6866,7 @@ RegisterGlobalEvent(733, "Promote Dark Elves", function()
     elseif HasAward(Award(20)) then
         evt.SimpleMessage("Cauri told me of how you helped her with the curse of the Basilisk.  She has instructed me to promote any Dark Elves that travel with you to Patriarch.")
         ClearQBit(QBit(39))
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 10) then
                 SetValue(ClassId, 11)
@@ -6885,7 +6885,7 @@ RegisterGlobalEvent(734, "Promote Trolls", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(21)) then
         evt.SimpleMessage("Before Volog left, he instructed me to promote any Trolls that travel with you to War Troll.  The village of Rust will be forever thankful to you!")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 6) then
                 SetValue(ClassId, 7)
@@ -6897,7 +6897,7 @@ RegisterGlobalEvent(734, "Promote Trolls", function()
         return
     elseif HasAward(Award(22)) then
         evt.SimpleMessage("Before Volog left, he instructed me to promote any Trolls that travel with you to War Troll.  The village of Rust will be forever thankful to you!")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 6) then
                 SetValue(ClassId, 7)
@@ -6916,7 +6916,7 @@ RegisterGlobalEvent(735, "Promote Knights", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(23)) then
         evt.SimpleMessage("Thanks for you help recovering the spear Ebonest!  I can promote any Knights that travel with you to Champion.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 4) then
                 SetValue(ClassId, 5)
@@ -6928,7 +6928,7 @@ RegisterGlobalEvent(735, "Promote Knights", function()
         return
     elseif HasAward(Award(24)) then
         evt.SimpleMessage("Thanks for you help recovering the spear Ebonest!  I can promote any Knights that travel with you to Champion.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 4) then
                 SetValue(ClassId, 5)
@@ -6947,7 +6947,7 @@ RegisterGlobalEvent(736, "Promote Dragons", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(26)) then
         evt.SimpleMessage("You have proven yourself and I will promote any Dragons that travel with you to Great Wyrm.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 14) then
                 SetValue(ClassId, 15)
@@ -6959,7 +6959,7 @@ RegisterGlobalEvent(736, "Promote Dragons", function()
         return
     elseif HasAward(Award(27)) then
         evt.SimpleMessage("You have proven yourself and I will promote any Dragons that travel with you to Great Wyrm.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 14) then
                 SetValue(ClassId, 15)
@@ -6978,7 +6978,7 @@ RegisterGlobalEvent(737, "Promote Clerics", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(30)) then
         evt.SimpleMessage("You are always welcome here!  Of course I will promote any Clerics that travel with you to Priest of the Sun!  ")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 2) then
                 SetValue(ClassId, 3)
@@ -6990,7 +6990,7 @@ RegisterGlobalEvent(737, "Promote Clerics", function()
         return
     elseif HasAward(Award(31)) then
         evt.SimpleMessage("You are always welcome here!  Of course I will promote any Clerics that travel with you to Priest of the Sun!  ")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 2) then
                 SetValue(ClassId, 3)
@@ -7009,7 +7009,7 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(34)) then
         evt.SimpleMessage("Ah, you return seeking promotion for others in your party?  I have not forgotten your help in recovering the Lost Book of Kehl!  All Necromancers in your party will be promoted to Lich.  Be sure each Necromancer has a Lich Jar in his possession.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if not IsAtLeast(ClassId, 0) then
                 if not HasItem(628) then -- Lich Jar
@@ -7018,7 +7018,7 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
                 end
             end
         end
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 0) then
                 SetValue(ClassId, 1)
@@ -7031,7 +7031,7 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
         return
     elseif HasAward(Award(35)) then
         evt.SimpleMessage("Ah, you return seeking promotion for others in your party?  I have not forgotten your help in recovering the Lost Book of Kehl!  All Necromancers in your party will be promoted to Lich.  Be sure each Necromancer has a Lich Jar in his possession.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if not IsAtLeast(ClassId, 0) then
                 if not HasItem(628) then -- Lich Jar
@@ -7040,7 +7040,7 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
                 end
             end
         end
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 0) then
                 SetValue(ClassId, 1)
@@ -7060,7 +7060,7 @@ RegisterGlobalEvent(739, "Promote Vampires", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(32)) then
         evt.SimpleMessage("Any Vampires among you will be promoted to Nosferatu!  I remember those who helped in the recovery of the Remains of Korbu.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 12) then
                 SetValue(ClassId, 13)
@@ -7072,7 +7072,7 @@ RegisterGlobalEvent(739, "Promote Vampires", function()
         return
     elseif HasAward(Award(33)) then
         evt.SimpleMessage("Any Vampires among you will be promoted to Nosferatu!  I remember those who helped in the recovery of the Remains of Korbu.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 12) then
                 SetValue(ClassId, 13)
@@ -7091,7 +7091,7 @@ RegisterGlobalEvent(740, "Promote Minotuars", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(28)) then
         evt.SimpleMessage("The Herd of Masul is in debt to you.  Any Minotaurs in your party are promoted to Minotaur Lord!")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 8) then
                 SetValue(ClassId, 9)
@@ -7103,7 +7103,7 @@ RegisterGlobalEvent(740, "Promote Minotuars", function()
         return
     elseif HasAward(Award(29)) then
         evt.SimpleMessage("The Herd of Masul is in debt to you.  Any Minotaurs in your party are promoted to Minotaur Lord!")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 8) then
                 SetValue(ClassId, 9)
@@ -7166,4 +7166,3 @@ RegisterGlobalEvent(744, "Rescue", function()
     evt.SetNPCTopic(70, 2, 0)
     return
 end)
-

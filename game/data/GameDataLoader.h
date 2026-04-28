@@ -5,6 +5,7 @@
 #include "game/tables/ChestTable.h"
 #include "game/tables/CharacterInspectTable.h"
 #include "game/tables/CharacterDollTable.h"
+#include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/FaceAnimationTable.h"
 #include "game/tables/HouseTable.h"
@@ -76,6 +77,7 @@ public:
     const JournalQuestTable &getJournalQuestTable() const;
     const JournalHistoryTable &getJournalHistoryTable() const;
     const JournalAutonoteTable &getJournalAutonoteTable() const;
+    const ClassMultiplierTable &getClassMultiplierTable() const;
     const ClassSkillTable &getClassSkillTable() const;
     const NpcDialogTable &getNpcDialogTable() const;
     const RosterTable &getRosterTable() const;
@@ -114,6 +116,7 @@ private:
     bool loadChestTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadHouseTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadJournalTables(const Engine::AssetFileSystem &assetFileSystem);
+    bool loadClassMultiplierTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadClassSkillTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadNpcDialogTable(const Engine::AssetFileSystem &assetFileSystem);
     bool loadRosterTable(const Engine::AssetFileSystem &assetFileSystem);
@@ -156,6 +159,7 @@ private:
     JournalQuestTable m_journalQuestTable;
     JournalHistoryTable m_journalHistoryTable;
     JournalAutonoteTable m_journalAutonoteTable;
+    ClassMultiplierTable m_classMultiplierTable;
     ClassSkillTable m_classSkillTable;
     NpcDialogTable m_npcDialogTable;
     RosterTable m_rosterTable;

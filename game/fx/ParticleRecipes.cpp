@@ -227,7 +227,8 @@ void emitDebuffAuraLayer(
         const uint32_t seed = baseSeed ^ (particleIndex * 2654435761u);
         const float forwardDistance = forwardExtent * (0.08f + hashToUnit(seed) * 0.92f);
         const float sideDistance = sideExtent * (hashToUnit(seed >> 7) * 2.0f - 1.0f);
-        const float heightFraction = minHeightFraction + (maxHeightFraction - minHeightFraction) * hashToUnit(seed >> 13);
+        const float heightFraction =
+            minHeightFraction + (maxHeightFraction - minHeightFraction) * hashToUnit(seed >> 13);
         const float tangent = hashToUnit(seed >> 19) * 2.0f - 1.0f;
         const float sizeJitter = 0.72f + hashToUnit(seed >> 23) * 0.56f;
         const float offsetX = normalizedFrontX * forwardDistance + sideX * sideDistance;
@@ -1860,6 +1861,129 @@ void spawnActorDebuffParticles(
         secondaryLifetime,
         0.42f,
         varyAlpha(secondaryStart, 1.2f),
+        secondaryEnd,
+        FxParticleMaterial::HardBlob,
+        FxParticleBlendMode::Alpha);
+}
+
+void spawnActorBuffParticles(
+    ParticleSystem &particleSystem,
+    uint32_t spellId,
+    uint32_t seed,
+    float x,
+    float y,
+    float z,
+    float actorHeight,
+    float frontDirectionX,
+    float frontDirectionY)
+{
+    const SpellId resolvedSpellId = spellIdFromValue(spellId);
+
+    uint32_t primaryStart = makeAbgr(94, 230, 142, 206);
+    uint32_t primaryEnd = makeAbgr(166, 255, 188, 0);
+    uint32_t secondaryStart = makeAbgr(210, 255, 118, 184);
+    uint32_t secondaryEnd = makeAbgr(232, 255, 170, 0);
+    float lateralRadius = std::max(58.0f, actorHeight * 0.38f);
+    float upwardVelocity = 28.0f;
+    float primaryStartSize = 54.0f;
+    float primaryEndSize = 26.0f;
+    float secondaryStartSize = 34.0f;
+    float secondaryEndSize = 14.0f;
+    float primaryLifetime = 2.35f;
+    float secondaryLifetime = 2.15f;
+    uint32_t primaryCount = 38u;
+    uint32_t secondaryCount = 30u;
+
+    switch (resolvedSpellId)
+    {
+        case SpellId::Haste:
+        case SpellId::Heroism:
+        case SpellId::Bless:
+            primaryStart = makeAbgr(124, 244, 104, 208);
+            primaryEnd = makeAbgr(210, 255, 154, 0);
+            secondaryStart = makeAbgr(238, 255, 116, 190);
+            secondaryEnd = makeAbgr(250, 255, 174, 0);
+            upwardVelocity = 32.0f;
+            primaryStartSize = 50.0f;
+            secondaryStartSize = 32.0f;
+            primaryLifetime = 2.2f;
+            secondaryLifetime = 2.05f;
+            break;
+
+        case SpellId::Shield:
+        case SpellId::StoneSkin:
+        case SpellId::DayOfProtection:
+        case SpellId::HourOfPower:
+            primaryStart = makeAbgr(104, 224, 176, 206);
+            primaryEnd = makeAbgr(176, 255, 216, 0);
+            secondaryStart = makeAbgr(154, 248, 132, 186);
+            secondaryEnd = makeAbgr(210, 255, 178, 0);
+            lateralRadius = std::max(62.0f, actorHeight * 0.40f);
+            upwardVelocity = 24.0f;
+            primaryStartSize = 60.0f;
+            primaryEndSize = 30.0f;
+            primaryLifetime = 2.55f;
+            secondaryLifetime = 2.35f;
+            break;
+
+        case SpellId::Hammerhands:
+        case SpellId::PainReflection:
+        case SpellId::Fate:
+            primaryStart = makeAbgr(116, 232, 126, 204);
+            primaryEnd = makeAbgr(196, 255, 176, 0);
+            secondaryStart = makeAbgr(178, 244, 96, 184);
+            secondaryEnd = makeAbgr(230, 255, 156, 0);
+            upwardVelocity = 30.0f;
+            primaryLifetime = 2.35f;
+            secondaryLifetime = 2.2f;
+            break;
+
+        default:
+            break;
+    }
+
+    emitDebuffAuraLayer(
+        particleSystem,
+        seed,
+        x,
+        y,
+        z,
+        actorHeight,
+        frontDirectionX,
+        frontDirectionY,
+        primaryCount,
+        lateralRadius,
+        0.08f,
+        0.92f,
+        upwardVelocity,
+        primaryStartSize,
+        primaryEndSize,
+        primaryLifetime,
+        0.50f,
+        primaryStart,
+        primaryEnd,
+        FxParticleMaterial::HardBlob,
+        FxParticleBlendMode::Alpha);
+
+    emitDebuffAuraLayer(
+        particleSystem,
+        seed ^ 0x85ebca6bu,
+        x,
+        y,
+        z,
+        actorHeight,
+        frontDirectionX,
+        frontDirectionY,
+        secondaryCount,
+        lateralRadius * 0.82f,
+        0.14f,
+        0.98f,
+        upwardVelocity + 6.0f,
+        secondaryStartSize,
+        secondaryEndSize,
+        secondaryLifetime,
+        0.36f,
+        varyAlpha(secondaryStart, 1.16f),
         secondaryEnd,
         FxParticleMaterial::HardBlob,
         FxParticleBlendMode::Alpha);

@@ -81,3 +81,28 @@ TEST_CASE("monster stats parser classifies melee mixed and ranged attack styles"
     CHECK(pMixed->attackStyle == OpenYAMM::Game::MonsterTable::MonsterAttackStyle::MixedMeleeRanged);
     CHECK(pRanged->attackStyle == OpenYAMM::Game::MonsterTable::MonsterAttackStyle::Ranged);
 }
+
+TEST_CASE("monster stats parser ignores unsupported missile tokens for attack style")
+{
+    OpenYAMM::Game::MonsterTable table = {};
+
+    REQUIRE(table.loadStatsFromRows({
+        makeMonsterStatsRow(71, "Dragon Flightleader", true, "Cold", 0, "", 0, ""),
+        makeMonsterStatsRow(72, "Great Wyrm", true, "Elec", 0, "", 0, ""),
+        makeMonsterStatsRow(112, "Emerald Dragon", true, "Ener", 0, "", 0, "")
+    }));
+
+    const OpenYAMM::Game::MonsterTable::MonsterStatsEntry *pFlightleader = table.findStatsById(71);
+    const OpenYAMM::Game::MonsterTable::MonsterStatsEntry *pGreatWyrm = table.findStatsById(72);
+    const OpenYAMM::Game::MonsterTable::MonsterStatsEntry *pEmeraldDragon = table.findStatsById(112);
+
+    REQUIRE(pFlightleader != nullptr);
+    REQUIRE(pGreatWyrm != nullptr);
+    REQUIRE(pEmeraldDragon != nullptr);
+    CHECK_FALSE(pFlightleader->attack1HasMissile);
+    CHECK_FALSE(pGreatWyrm->attack1HasMissile);
+    CHECK(pEmeraldDragon->attack1HasMissile);
+    CHECK(pFlightleader->attackStyle == OpenYAMM::Game::MonsterTable::MonsterAttackStyle::MeleeOnly);
+    CHECK(pGreatWyrm->attackStyle == OpenYAMM::Game::MonsterTable::MonsterAttackStyle::MeleeOnly);
+    CHECK(pEmeraldDragon->attackStyle == OpenYAMM::Game::MonsterTable::MonsterAttackStyle::Ranged);
+}

@@ -501,6 +501,16 @@ void GameplayActorService::updateSpellEffectTimers(
     state.controlRemainingSeconds = std::max(0.0f, state.controlRemainingSeconds - deltaSeconds);
     state.shrinkRemainingSeconds = std::max(0.0f, state.shrinkRemainingSeconds - deltaSeconds);
     state.darkGraspRemainingSeconds = std::max(0.0f, state.darkGraspRemainingSeconds - deltaSeconds);
+    state.dayOfProtectionRemainingSeconds = std::max(0.0f, state.dayOfProtectionRemainingSeconds - deltaSeconds);
+    state.hourOfPowerRemainingSeconds = std::max(0.0f, state.hourOfPowerRemainingSeconds - deltaSeconds);
+    state.painReflectionRemainingSeconds = std::max(0.0f, state.painReflectionRemainingSeconds - deltaSeconds);
+    state.hammerhandsRemainingSeconds = std::max(0.0f, state.hammerhandsRemainingSeconds - deltaSeconds);
+    state.hasteRemainingSeconds = std::max(0.0f, state.hasteRemainingSeconds - deltaSeconds);
+    state.shieldRemainingSeconds = std::max(0.0f, state.shieldRemainingSeconds - deltaSeconds);
+    state.stoneskinRemainingSeconds = std::max(0.0f, state.stoneskinRemainingSeconds - deltaSeconds);
+    state.blessRemainingSeconds = std::max(0.0f, state.blessRemainingSeconds - deltaSeconds);
+    state.fateRemainingSeconds = std::max(0.0f, state.fateRemainingSeconds - deltaSeconds);
+    state.heroismRemainingSeconds = std::max(0.0f, state.heroismRemainingSeconds - deltaSeconds);
 
     if (state.slowRemainingSeconds <= 0.0f)
     {
@@ -519,6 +529,41 @@ void GameplayActorService::updateSpellEffectTimers(
     {
         state.shrinkDamageMultiplier = 1.0f;
         state.shrinkArmorClassMultiplier = 1.0f;
+    }
+
+    if (state.dayOfProtectionRemainingSeconds <= 0.0f)
+    {
+        state.dayOfProtectionPower = 0;
+    }
+
+    if (state.hourOfPowerRemainingSeconds <= 0.0f)
+    {
+        state.hourOfPowerPower = 0;
+    }
+
+    if (state.hammerhandsRemainingSeconds <= 0.0f)
+    {
+        state.hammerhandsPower = 0;
+    }
+
+    if (state.stoneskinRemainingSeconds <= 0.0f)
+    {
+        state.stoneskinPower = 0;
+    }
+
+    if (state.blessRemainingSeconds <= 0.0f)
+    {
+        state.blessPower = 0;
+    }
+
+    if (state.fateRemainingSeconds <= 0.0f)
+    {
+        state.fatePower = 0;
+    }
+
+    if (state.heroismRemainingSeconds <= 0.0f)
+    {
+        state.heroismPower = 0;
     }
 }
 
@@ -669,6 +714,79 @@ float GameplayActorService::effectiveActorMoveSpeed(
     return baseMoveSpeed * slowMoveMultiplier * (darkGraspActive ? 0.5f : 1.0f);
 }
 
+float GameplayActorService::effectiveRecoveryProgressMultiplier(const GameplayActorSpellEffectState &state) const
+{
+    float multiplier = 1.0f / std::max(1.0f, state.slowRecoveryMultiplier);
+
+    if (state.hasteRemainingSeconds > 0.0f || state.hourOfPowerRemainingSeconds > 0.0f)
+    {
+        multiplier *= 1.5f;
+    }
+
+    return std::max(0.125f, multiplier);
+}
+
+int GameplayActorService::effectiveAttackDamageBonus(
+    GameplayActorAttackAbility ability,
+    const GameplayActorSpellEffectState &state) const
+{
+    if (ability != GameplayActorAttackAbility::Attack1)
+    {
+        return 0;
+    }
+
+    int bonus = 0;
+
+    if (state.hourOfPowerRemainingSeconds > 0.0f)
+    {
+        bonus = std::max(bonus, state.hourOfPowerPower);
+    }
+
+    if (state.heroismRemainingSeconds > 0.0f)
+    {
+        bonus = std::max(bonus, state.heroismPower);
+    }
+
+    if (state.hammerhandsRemainingSeconds > 0.0f)
+    {
+        bonus += state.hammerhandsPower;
+    }
+
+    return std::max(0, bonus);
+}
+
+int GameplayActorService::effectiveAttackHitBonus(const GameplayActorSpellEffectState &state) const
+{
+    int bonus = 0;
+
+    if (state.hourOfPowerRemainingSeconds > 0.0f)
+    {
+        bonus = std::max(bonus, state.hourOfPowerPower);
+    }
+
+    if (state.blessRemainingSeconds > 0.0f)
+    {
+        bonus = std::max(bonus, state.blessPower);
+    }
+
+    if (state.fateRemainingSeconds > 0.0f)
+    {
+        bonus += state.fatePower;
+    }
+
+    return std::max(0, bonus);
+}
+
+bool GameplayActorService::halveIncomingMissileDamage(const GameplayActorSpellEffectState &state) const
+{
+    return state.shieldRemainingSeconds > 0.0f;
+}
+
+bool GameplayActorService::hasPainReflection(const GameplayActorSpellEffectState &state) const
+{
+    return state.painReflectionRemainingSeconds > 0.0f;
+}
+
 GameplayActorTargetPolicyResult GameplayActorService::resolveActorTargetPolicy(
     const GameplayActorTargetPolicyState &actor,
     const GameplayActorTargetPolicyState &target) const
@@ -742,6 +860,16 @@ bool GameplayActorService::clearSpellEffects(
         || state.controlMode != GameplayActorControlMode::None
         || state.shrinkRemainingSeconds > 0.0f
         || state.darkGraspRemainingSeconds > 0.0f
+        || state.dayOfProtectionRemainingSeconds > 0.0f
+        || state.hourOfPowerRemainingSeconds > 0.0f
+        || state.painReflectionRemainingSeconds > 0.0f
+        || state.hammerhandsRemainingSeconds > 0.0f
+        || state.hasteRemainingSeconds > 0.0f
+        || state.shieldRemainingSeconds > 0.0f
+        || state.stoneskinRemainingSeconds > 0.0f
+        || state.blessRemainingSeconds > 0.0f
+        || state.fateRemainingSeconds > 0.0f
+        || state.heroismRemainingSeconds > 0.0f
         || state.slowMoveMultiplier != 1.0f
         || state.slowRecoveryMultiplier != 1.0f
         || state.shrinkDamageMultiplier != 1.0f
@@ -760,6 +888,23 @@ bool GameplayActorService::clearSpellEffects(
     state.shrinkDamageMultiplier = 1.0f;
     state.shrinkArmorClassMultiplier = 1.0f;
     state.darkGraspRemainingSeconds = 0.0f;
+    state.dayOfProtectionRemainingSeconds = 0.0f;
+    state.dayOfProtectionPower = 0;
+    state.hourOfPowerRemainingSeconds = 0.0f;
+    state.hourOfPowerPower = 0;
+    state.painReflectionRemainingSeconds = 0.0f;
+    state.hammerhandsRemainingSeconds = 0.0f;
+    state.hammerhandsPower = 0;
+    state.hasteRemainingSeconds = 0.0f;
+    state.shieldRemainingSeconds = 0.0f;
+    state.stoneskinRemainingSeconds = 0.0f;
+    state.stoneskinPower = 0;
+    state.blessRemainingSeconds = 0.0f;
+    state.blessPower = 0;
+    state.fateRemainingSeconds = 0.0f;
+    state.fatePower = 0;
+    state.heroismRemainingSeconds = 0.0f;
+    state.heroismPower = 0;
     state.hostileToParty = defaultHostileToParty;
     state.hasDetectedParty = false;
     return hadEffect;
@@ -779,6 +924,18 @@ int GameplayActorService::effectiveArmorClass(int baseArmorClass, const Gameplay
         armorClass /= 2;
     }
 
-    return std::max(0, armorClass);
+    int armorBonus = 0;
+
+    if (state.hourOfPowerRemainingSeconds > 0.0f)
+    {
+        armorBonus = std::max(armorBonus, state.hourOfPowerPower);
+    }
+
+    if (state.stoneskinRemainingSeconds > 0.0f)
+    {
+        armorBonus = std::max(armorBonus, state.stoneskinPower);
+    }
+
+    return std::max(0, armorClass + armorBonus);
 }
 }

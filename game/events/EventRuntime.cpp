@@ -352,6 +352,66 @@ std::optional<size_t> singleTargetMemberIndex(const std::vector<size_t> &targetM
     return std::nullopt;
 }
 
+std::string debugMemberLabel(const Party *pParty, size_t memberIndex)
+{
+    std::ostringstream stream;
+    stream << "#" << (memberIndex + 1);
+
+    const Character *pMember = pParty != nullptr ? pParty->member(memberIndex) : nullptr;
+
+    if (pMember != nullptr && !pMember->name.empty())
+    {
+        stream << ":\"" << pMember->name << "\"";
+    }
+
+    return stream.str();
+}
+
+void logQBitChange(uint32_t qbitId, bool set, int32_t previousValue, int32_t currentValue)
+{
+    std::cout << "Event qbit " << (set ? "set" : "clear")
+              << " qbit=" << qbitId
+              << " previous=" << previousValue
+              << " current=" << currentValue
+              << " changed=" << (previousValue != currentValue ? "yes" : "no")
+              << '\n';
+}
+
+void logAwardChange(
+    uint32_t awardId,
+    bool set,
+    const Party *pParty,
+    std::optional<size_t> memberIndex,
+    bool changed)
+{
+    std::cout << "Event award " << (set ? "set" : "clear")
+              << " award=" << awardId;
+
+    if (memberIndex)
+    {
+        std::cout << " member=" << debugMemberLabel(pParty, *memberIndex);
+    }
+    else
+    {
+        std::cout << " member=runtime";
+    }
+
+    std::cout << " changed=" << (changed ? "yes" : "no") << '\n';
+}
+
+bool classIdMatchesPromotionFamily(int32_t currentClassId, int32_t compareClassId)
+{
+    if (currentClassId == compareClassId)
+    {
+        return true;
+    }
+
+    return compareClassId >= 0
+        && compareClassId <= 14
+        && (compareClassId % 2) == 0
+        && currentClassId == compareClassId + 1;
+}
+
 std::vector<size_t> resolvePortraitFxTargetMemberIndices(const Party *pParty, const std::vector<size_t> &targetMemberIndices)
 {
     if (pParty == nullptr || pParty->members().empty())
@@ -2005,23 +2065,41 @@ void EventRuntime::setVariableValue(
 
     if (variable.kind == VariableKind::Awards)
     {
-        if (pParty != nullptr && !targetMemberIndices.empty())
+        if (pParty != nullptr)
         {
+            std::vector<size_t> changedMemberIndices;
+
             for (size_t memberIndex : targetMemberIndices)
             {
                 if (value != 0)
                 {
+                    if (pParty->hasAward(memberIndex, variable.index))
+                    {
+                        logAwardChange(variable.index, true, pParty, memberIndex, false);
+                        continue;
+                    }
+
                     pParty->addAward(memberIndex, variable.index);
+                    changedMemberIndices.push_back(memberIndex);
+                    logAwardChange(variable.index, true, pParty, memberIndex, true);
                 }
                 else
                 {
+                    if (!pParty->hasAward(memberIndex, variable.index))
+                    {
+                        logAwardChange(variable.index, false, pParty, memberIndex, false);
+                        continue;
+                    }
+
                     pParty->removeAward(memberIndex, variable.index);
+                    changedMemberIndices.push_back(memberIndex);
+                    logAwardChange(variable.index, false, pParty, memberIndex, true);
                 }
             }
 
-            if (value != 0)
+            if (value != 0 && !changedMemberIndices.empty())
             {
-                queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+                queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, changedMemberIndices);
             }
 
             return;
@@ -2031,11 +2109,13 @@ void EventRuntime::setVariableValue(
         {
             runtimeState.variables[variable.rawId] = static_cast<int32_t>(variable.index);
             runtimeState.grantedAwardIds.push_back(variable.index);
+            logAwardChange(variable.index, true, nullptr, std::nullopt, previousValue == 0);
         }
         else
         {
             runtimeState.variables[variable.rawId] = 0;
             runtimeState.removedAwardIds.push_back(variable.index);
+            logAwardChange(variable.index, false, nullptr, std::nullopt, previousValue != 0);
         }
 
         return;
@@ -2085,14 +2165,26 @@ void EventRuntime::setVariableValue(
             return;
         }
 
+        std::vector<size_t> changedMemberIndices;
+
         for (size_t memberIndex : targetMemberIndices)
         {
-            pParty->setMemberClassName(memberIndex, *className);
+            const Character *pMember = pParty->member(memberIndex);
+
+            if (pMember == nullptr || pMember->className == *className)
+            {
+                continue;
+            }
+
+            if (pParty->setMemberClassName(memberIndex, *className))
+            {
+                changedMemberIndices.push_back(memberIndex);
+            }
         }
 
-        if (!targetMemberIndices.empty())
+        if (!changedMemberIndices.empty())
         {
-            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, changedMemberIndices);
         }
 
         return;
@@ -2364,6 +2456,10 @@ void EventRuntime::setVariableValue(
             if (level == 0 || mastery == SkillMastery::None)
             {
                 pMember->skills.erase(*skillName);
+                GameMechanics::refreshCharacterBaseResources(
+                    *pMember,
+                    false,
+                    pParty != nullptr ? pParty->classMultiplierTable() : nullptr);
                 continue;
             }
 
@@ -2371,6 +2467,10 @@ void EventRuntime::setVariableValue(
             skill.name = *skillName;
             skill.level = level;
             skill.mastery = mastery;
+            GameMechanics::refreshCharacterBaseResources(
+                *pMember,
+                false,
+                pParty != nullptr ? pParty->classMultiplierTable() : nullptr);
         }
 
         return;
@@ -2534,6 +2634,11 @@ void EventRuntime::setVariableValue(
             runtimeState.variables[variable.rawId] = normalizedValue;
         }
 
+        if (variable.kind == VariableKind::QBits)
+        {
+            logQBitChange(variable.rawId, normalizedValue != 0, previousValue, normalizedValue);
+        }
+
         if (variable.kind == VariableKind::QBits && value != 0 && previousValue == 0)
         {
             queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
@@ -2628,19 +2733,29 @@ void EventRuntime::addVariableValue(
 
     if (variable.kind == VariableKind::Awards)
     {
-        if (pParty != nullptr && !targetMemberIndices.empty())
+        if (pParty != nullptr)
         {
+            std::vector<size_t> changedMemberIndices;
+
             for (size_t memberIndex : targetMemberIndices)
             {
                 if (value > 0)
                 {
+                    if (pParty->hasAward(memberIndex, variable.index))
+                    {
+                        logAwardChange(variable.index, true, pParty, memberIndex, false);
+                        continue;
+                    }
+
                     pParty->addAward(memberIndex, variable.index);
+                    changedMemberIndices.push_back(memberIndex);
+                    logAwardChange(variable.index, true, pParty, memberIndex, true);
                 }
             }
 
-            if (value > 0)
+            if (value > 0 && !changedMemberIndices.empty())
             {
-                queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, targetMemberIndices);
+                queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, changedMemberIndices);
             }
 
             return;
@@ -2650,6 +2765,7 @@ void EventRuntime::addVariableValue(
         {
             runtimeState.variables[variable.rawId] = static_cast<int32_t>(variable.index);
             runtimeState.grantedAwardIds.push_back(variable.index);
+            logAwardChange(variable.index, true, nullptr, std::nullopt, previousValue == 0);
         }
 
         return;
@@ -2903,6 +3019,11 @@ void EventRuntime::addVariableValue(
             {
                 skill.mastery = SkillMastery::Normal;
             }
+
+            GameMechanics::refreshCharacterBaseResources(
+                *pMember,
+                false,
+                pParty != nullptr ? pParty->classMultiplierTable() : nullptr);
         }
 
         return;
@@ -2961,6 +3082,11 @@ void EventRuntime::addVariableValue(
             runtimeState.variables[variable.rawId] = normalizedValue;
         }
 
+        if (variable.kind == VariableKind::QBits)
+        {
+            logQBitChange(variable.rawId, normalizedValue != 0, previousValue, normalizedValue);
+        }
+
         if (variable.kind == VariableKind::QBits && value != 0 && previousValue == 0)
         {
             queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, targetMemberIndices);
@@ -3002,6 +3128,9 @@ void EventRuntime::subtractVariableValue(
 )
 {
     const EvtVariable variableId = static_cast<EvtVariable>(variable.tag);
+    const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
+    const int32_t previousValue = getVariableValue(runtimeState, variable, pParty, memberIndex);
+
     if (variable.kind == VariableKind::Inventory)
     {
         if (pParty != nullptr && !targetMemberIndices.empty())
@@ -3062,13 +3191,15 @@ void EventRuntime::subtractVariableValue(
 
     if (variable.kind == VariableKind::Awards)
     {
-        if (pParty != nullptr && !targetMemberIndices.empty())
+        if (pParty != nullptr)
         {
             for (size_t memberIndex : targetMemberIndices)
             {
                 if (value > 0)
                 {
+                    const bool hadAward = pParty->hasAward(memberIndex, variable.index);
                     pParty->removeAward(memberIndex, variable.index);
+                    logAwardChange(variable.index, false, pParty, memberIndex, hadAward);
                 }
             }
 
@@ -3079,6 +3210,7 @@ void EventRuntime::subtractVariableValue(
         {
             runtimeState.variables[variable.rawId] = 0;
             runtimeState.removedAwardIds.push_back(variable.index);
+            logAwardChange(variable.index, false, nullptr, std::nullopt, previousValue != 0);
         }
 
         return;
@@ -3274,6 +3406,11 @@ void EventRuntime::subtractVariableValue(
             {
                 pMember->skills.erase(*skillName);
             }
+
+            GameMechanics::refreshCharacterBaseResources(
+                *pMember,
+                false,
+                pParty != nullptr ? pParty->classMultiplierTable() : nullptr);
         }
 
         return;
@@ -3326,10 +3463,13 @@ void EventRuntime::subtractVariableValue(
             runtimeState.variables[variable.rawId] = 0;
         }
 
+        if (variable.kind == VariableKind::QBits)
+        {
+            logQBitChange(variable.rawId, false, previousValue, 0);
+        }
+
         return;
     }
-
-    const std::optional<size_t> memberIndex = singleTargetMemberIndex(targetMemberIndices);
 
     if (pParty != nullptr && memberIndex)
     {
@@ -3438,6 +3578,16 @@ LuaExecutionContext *executionContextFromLua(lua_State *pLuaState)
 {
     LuaSessionCache *pSession = luaSessionFromLua(pLuaState);
     return pSession != nullptr ? pSession->pExecutionContext : nullptr;
+}
+
+bool luaEventBoolean(lua_State *pLuaState, int index)
+{
+    if (lua_type(pLuaState, index) == LUA_TNUMBER)
+    {
+        return lua_tonumber(pLuaState, index) != 0.0;
+    }
+
+    return lua_toboolean(pLuaState, index) != 0;
 }
 
 const Party *readonlyParty(const LuaExecutionContext *pExecutionContext)
@@ -3652,7 +3802,7 @@ int luaSetSnow(lua_State *pLuaState)
 
     if (static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)) == 0)
     {
-        pRuntimeState->snowEnabled = lua_toboolean(pLuaState, 2) != 0;
+        pRuntimeState->snowEnabled = luaEventBoolean(pLuaState, 2);
     }
 
     return 0;
@@ -3664,7 +3814,7 @@ int luaSetRain(lua_State *pLuaState)
 
     if (static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)) == 0)
     {
-        pRuntimeState->rainEnabled = lua_toboolean(pLuaState, 2) != 0;
+        pRuntimeState->rainEnabled = luaEventBoolean(pLuaState, 2);
     }
 
     return 0;
@@ -3675,7 +3825,7 @@ int luaShowMovie(lua_State *pLuaState)
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     EventRuntimeState::PendingMovie movie = {};
     movie.movieName = sanitizeEventString(luaL_checkstring(pLuaState, 1));
-    movie.restoreAfterPlayback = lua_toboolean(pLuaState, 2) != 0;
+    movie.restoreAfterPlayback = luaEventBoolean(pLuaState, 2);
     pRuntimeState->pendingMovie = std::move(movie);
     return 0;
 }
@@ -3685,7 +3835,7 @@ int luaSetSprite(lua_State *pLuaState)
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t cogNumber = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     EventRuntimeState::SpriteOverride spriteOverride = {};
-    spriteOverride.hidden = lua_toboolean(pLuaState, 2) != 0;
+    spriteOverride.hidden = luaEventBoolean(pLuaState, 2);
 
     if (lua_gettop(pLuaState) >= 3 && lua_type(pLuaState, 3) == LUA_TSTRING)
     {
@@ -3896,7 +4046,7 @@ int luaSummonItem(lua_State *pLuaState)
         static_cast<int32_t>(luaL_checkinteger(pLuaState, 4)),
         static_cast<int32_t>(luaL_checkinteger(pLuaState, 5)),
         static_cast<uint32_t>(luaL_optinteger(pLuaState, 6, 1)),
-        lua_toboolean(pLuaState, 7) != 0);
+        luaEventBoolean(pLuaState, 7));
     return 0;
 }
 
@@ -3922,7 +4072,7 @@ int luaSetNpcItem(lua_State *pLuaState)
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t npcId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t itemId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
-    const bool isGive = lua_gettop(pLuaState) < 3 || lua_toboolean(pLuaState, 3) != 0;
+    const bool isGive = lua_gettop(pLuaState) < 3 || luaEventBoolean(pLuaState, 3);
     pRuntimeState->npcItemOverrides[npcId] = isGive ? itemId : 0;
     return 0;
 }
@@ -3932,7 +4082,7 @@ int luaSetMonsterItem(lua_State *pLuaState)
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t actorId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t itemId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
-    const bool isGive = lua_gettop(pLuaState) < 3 || lua_toboolean(pLuaState, 3) != 0;
+    const bool isGive = lua_gettop(pLuaState) < 3 || luaEventBoolean(pLuaState, 3);
 
     if (isGive && itemId != 0)
     {
@@ -4000,7 +4150,7 @@ int luaSetChestBit(lua_State *pLuaState)
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t chestId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t flag = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
-    const bool isOn = lua_toboolean(pLuaState, 3) != 0;
+    const bool isOn = luaEventBoolean(pLuaState, 3);
 
     if (isOn)
     {
@@ -4111,7 +4261,7 @@ int luaCheckMonstersKilled(lua_State *pLuaState)
             static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1)),
             static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2)),
             static_cast<uint32_t>(luaL_checkinteger(pLuaState, 3)),
-            lua_toboolean(pLuaState, 4) != 0));
+            luaEventBoolean(pLuaState, 4)));
     return 1;
 }
 
@@ -4348,7 +4498,7 @@ int luaSetLight(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     pRuntimeState->indoorLightsEnabled[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))] =
-        lua_toboolean(pLuaState, 2) != 0;
+        luaEventBoolean(pLuaState, 2);
     return 0;
 }
 
@@ -4357,7 +4507,7 @@ int luaSetFacetBit(lua_State *pLuaState)
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t faceId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t bit = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
-    const bool isOn = lua_toboolean(pLuaState, 3) != 0;
+    const bool isOn = luaEventBoolean(pLuaState, 3);
 
     if (isOn)
     {
@@ -4379,7 +4529,7 @@ int luaSetMonsterBit(lua_State *pLuaState)
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t actorId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t bit = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
-    const bool isOn = lua_toboolean(pLuaState, 3) != 0;
+    const bool isOn = luaEventBoolean(pLuaState, 3);
 
     if (isOn)
     {
@@ -4413,7 +4563,7 @@ int luaSetMonGroupBit(lua_State *pLuaState)
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t groupId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t bit = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
-    const bool isOn = lua_toboolean(pLuaState, 3) != 0;
+    const bool isOn = luaEventBoolean(pLuaState, 3);
 
     if (isOn)
     {
@@ -5090,6 +5240,54 @@ bool EventRuntime::executeEventById(
     return false;
 }
 
+bool EventRuntime::executeNpcTopicEventById(
+    const std::optional<ScriptedEventProgram> &localProgram,
+    const std::optional<ScriptedEventProgram> &globalProgram,
+    uint16_t eventId,
+    EventRuntimeState &runtimeState,
+    Party *pParty,
+    ISceneEventContext *pSceneEventContext
+) const
+{
+    if (eventId == 0)
+    {
+        return false;
+    }
+
+    if (!ensureLuaSession(*this, localProgram, globalProgram) || m_luaSessionCache == nullptr)
+    {
+        return false;
+    }
+
+    LuaExecutionContext executionContext = {};
+    executionContext.pRuntimeState = &runtimeState;
+    executionContext.pParty = pParty;
+    executionContext.pSceneEventContext = pSceneEventContext;
+    executionContext.currentEventId = eventId;
+
+    const auto globalIterator = m_luaSessionCache->globalScope.handlers.find(eventId);
+
+    if (globalIterator != m_luaSessionCache->globalScope.handlers.end())
+    {
+        return invokeLuaHandler(*this, globalIterator->second, executionContext);
+    }
+
+    const auto localIterator = m_luaSessionCache->localScope.handlers.find(eventId);
+
+    if (localIterator != m_luaSessionCache->localScope.handlers.end())
+    {
+        return invokeLuaHandler(*this, localIterator->second, executionContext);
+    }
+
+    if ((globalProgram && globalProgram->isHintOnlyEvent(eventId))
+        || (localProgram && localProgram->isHintOnlyEvent(eventId)))
+    {
+        return true;
+    }
+
+    return false;
+}
+
 bool EventRuntime::canShowTopic(
     const std::optional<ScriptedEventProgram> &globalProgram,
     uint16_t topicId,
@@ -5366,12 +5564,15 @@ bool evaluateCompareValue(
     {
         if (targetMemberIndices.empty())
         {
-            return currentValue == compareValue;
+            return classIdMatchesPromotionFamily(currentValue, compareValue);
         }
 
         for (size_t targetMemberIndex : targetMemberIndices)
         {
-            if (EventRuntime::getVariableValue(runtimeState, variable, pParty, targetMemberIndex) == compareValue)
+            const int32_t targetValue =
+                EventRuntime::getVariableValue(runtimeState, variable, pParty, targetMemberIndex);
+
+            if (classIdMatchesPromotionFamily(targetValue, compareValue))
             {
                 return true;
             }

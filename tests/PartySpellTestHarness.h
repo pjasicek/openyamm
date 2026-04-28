@@ -63,8 +63,16 @@ inline Game::Party makeSpellRegressionParty(const RegressionGameData &gameData)
     party.setItemEnchantTables(
         &gameData.standardItemEnchantTable,
         &gameData.specialItemEnchantTable);
+    party.setClassMultiplierTable(&gameData.classMultiplierTable);
     party.setClassSkillTable(&gameData.classSkillTable);
     party.seed(createSpellRegressionPartySeed());
+
+    if (Game::Character *pCaster = party.member(0))
+    {
+        pCaster->maxSpellPoints = 20;
+        pCaster->spellPoints = 20;
+    }
+
     return party;
 }
 
@@ -316,7 +324,7 @@ public:
         const std::optional<Game::ScriptedEventProgram> emptyGlobalEventProgram = std::nullopt;
         const std::optional<Game::ScriptedEventProgram> &globalEventProgram =
             m_pGlobalEventProgram != nullptr ? *m_pGlobalEventProgram : emptyGlobalEventProgram;
-        const bool executed = eventRuntime.executeEventById(
+        const bool executed = eventRuntime.executeNpcTopicEventById(
             std::nullopt,
             globalEventProgram,
             eventId,
@@ -329,6 +337,11 @@ public:
         }
 
         return executed;
+    }
+
+    const std::optional<Game::ScriptedEventProgram> *globalEventProgram() const override
+    {
+        return m_pGlobalEventProgram;
     }
 
     Game::EventRuntimeState *eventRuntimeState() override

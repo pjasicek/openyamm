@@ -217,6 +217,7 @@ public:
     bool requestTravelAutosave() override;
     void cancelPendingMapTransition() override;
     bool executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount) override;
+    const std::optional<ScriptedEventProgram> *globalEventProgram() const override;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
     bool castEventSpell(
@@ -372,18 +373,28 @@ public:
         bool invisibleAsDead
     ) const override;
 
-    void applyEventRuntimeState();
+    void applyEventRuntimeState(bool syncPersistentHostilityMasks = false);
     void invalidateRuntimeGeometryCache();
     void refreshMechanismRuntimeGeometryCache();
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
 
     MapDeltaData *mapDeltaData();
+    bool hasIndoorCombatLineOfSight(
+        const GameplayWorldPoint &from,
+        int16_t fromSectorId,
+        const GameplayWorldPoint &to,
+        int16_t toSectorId) const;
     std::vector<IndoorActorCollision> actorMovementCollidersForActorMovement(
         const std::vector<size_t> &activeActorIndices) const;
     std::vector<IndoorActorCollision> actorMovementCollidersForPartyMovement() const;
     std::vector<IndoorCylinderCollision> decorationMovementColliders() const;
     std::vector<IndoorCylinderCollision> spriteObjectMovementColliders() const;
+    bool hasIndoorVisibilityLineOfSight(
+        const GameplayWorldPoint &from,
+        int16_t fromSectorId,
+        const GameplayWorldPoint &to,
+        int16_t toSectorId) const;
 
 private:
     struct RuntimeGeometryCache
@@ -449,6 +460,7 @@ private:
         const std::vector<IndoorVertex> &vertices,
         IndoorFaceGeometryCache &geometryCache
     ) const;
+    bool indoorActorCanApplyPartyMeleeImpact(size_t actorIndex) const;
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
     void beginMapActorHitReaction(

@@ -6,6 +6,7 @@
 #include "game/tables/CharacterDollTable.h"
 #include "game/tables/CharacterInspectTable.h"
 #include "game/tables/ChestTable.h"
+#include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/FaceAnimationTable.h"
 #include "game/tables/HouseTable.h"
@@ -57,6 +58,7 @@ public:
     const JournalQuestTable &journalQuestTable() const;
     const JournalHistoryTable &journalHistoryTable() const;
     const JournalAutonoteTable &journalAutonoteTable() const;
+    const ClassMultiplierTable &classMultiplierTable() const;
     const ClassSkillTable &classSkillTable() const;
     const NpcDialogTable &npcDialogTable() const;
     const RosterTable &rosterTable() const;
@@ -88,6 +90,7 @@ private:
     const JournalQuestTable *m_pJournalQuestTable = nullptr;
     const JournalHistoryTable *m_pJournalHistoryTable = nullptr;
     const JournalAutonoteTable *m_pJournalAutonoteTable = nullptr;
+    const ClassMultiplierTable *m_pClassMultiplierTable = nullptr;
     const ClassSkillTable *m_pClassSkillTable = nullptr;
     const NpcDialogTable *m_pNpcDialogTable = nullptr;
     const RosterTable *m_pRosterTable = nullptr;

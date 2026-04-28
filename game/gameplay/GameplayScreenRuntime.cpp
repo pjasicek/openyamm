@@ -311,14 +311,16 @@ GameplayDialogController::Context GameplayScreenRuntime::buildDialogContext(Even
         ? m_session.data().mapStats().findByFileName(m_session.currentMapFileName())
         : nullptr;
 
+    IGameplayWorldRuntime *pWorldRuntime = worldRuntime();
+
     return buildGameplayDialogContext(
         uiController(),
         eventRuntimeState,
         activeEventDialog(),
         eventDialogSelectionIndex(),
         party(),
-        worldRuntime(),
-        nullptr,
+        pWorldRuntime,
+        pWorldRuntime != nullptr ? pWorldRuntime->globalEventProgram() : nullptr,
         houseTable(),
         classSkillTable(),
         npcDialogTable(),

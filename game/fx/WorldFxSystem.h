@@ -59,6 +59,15 @@ public:
         float actorHeight,
         float frontDirectionX,
         float frontDirectionY);
+    void spawnActorBuffFx(
+        uint32_t spellId,
+        uint32_t seed,
+        float x,
+        float y,
+        float z,
+        float actorHeight,
+        float frontDirectionX,
+        float frontDirectionY);
 
     void clearSpatialFx();
     void addContactShadow(float x, float y, float z, float radius, uint32_t colorAbgr = 0x50000000u);

@@ -115,5 +115,16 @@ void spawnActorDebuffParticles(
     float actorHeight,
     float frontDirectionX,
     float frontDirectionY);
+
+void spawnActorBuffParticles(
+    ParticleSystem &particleSystem,
+    uint32_t spellId,
+    uint32_t seed,
+    float x,
+    float y,
+    float z,
+    float actorHeight,
+    float frontDirectionX,
+    float frontDirectionY);
 }
 }

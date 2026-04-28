@@ -1083,6 +1083,11 @@ int GameplayProjectileService::resolveProjectilePartyImpactDamage(
         return resolveEventProjectileDamage(input.spellId, input.skillLevel);
     }
 
+    if (input.sourceKind == ProjectileState::SourceKind::Actor && input.projectileDamage > 0)
+    {
+        return input.projectileDamage;
+    }
+
     if (!input.hasMonsterFacts)
     {
         return 1;
@@ -1245,6 +1250,11 @@ GameplayProjectileService::buildProjectileDirectActorImpact(
         if (impact.hit && impact.damage > 0)
         {
             impact.damage *= input.damageMultiplier;
+
+            if (input.halfIncomingMissileDamage)
+            {
+                impact.damage = std::max(1, (impact.damage + 1) / 2);
+            }
         }
 
         impact.applyPartyProjectileDamage = impact.hit && impact.damage > 0;
@@ -1362,6 +1372,7 @@ GameplayProjectileService::ProjectileFrameResult GameplayProjectileService::upda
         input.actorId = facts.collision.actorId;
         input.targetArmorClass = facts.collision.targetArmorClass;
         input.damageMultiplier = facts.collision.damageMultiplier;
+        input.halfIncomingMissileDamage = facts.collision.halfIncomingMissileDamage;
         input.targetDistance = facts.collision.targetDistance;
         input.nonPartyProjectileDamage = facts.nonPartyProjectileDamage;
         result.directActorImpact = buildProjectileDirectActorImpact(projectile, input);

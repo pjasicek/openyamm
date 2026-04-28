@@ -716,6 +716,46 @@ TEST_CASE("party airborne movement allows water entry without water walk")
     CHECK(isOutdoorPositionWaterForDiagnostics(boundary.mapData, std::nullopt, resolved.x, resolved.y));
 }
 
+TEST_CASE("outdoor actor movement ignores pre-existing actor overlap")
+{
+    const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();
+    OpenYAMM::Game::OutdoorMovementController movementController(
+        boundary.mapData,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt);
+
+    OpenYAMM::Game::OutdoorMoveState state = movementController.initializeState(boundary.landX, boundary.landY, 0.0f);
+    OpenYAMM::Game::OutdoorActorCollision overlappedActor = {};
+    overlappedActor.source = OpenYAMM::Game::OutdoorActorCollisionSource::MapDelta;
+    overlappedActor.sourceIndex = 42;
+    overlappedActor.radius = 64;
+    overlappedActor.height = 160;
+    overlappedActor.worldX = static_cast<int>(std::lround(state.x));
+    overlappedActor.worldY = static_cast<int>(std::lround(state.y));
+    overlappedActor.worldZ = static_cast<int>(std::lround(state.footZ));
+    movementController.setActorColliders({overlappedActor});
+
+    std::vector<size_t> contactedActorIndices;
+    const OpenYAMM::Game::OutdoorMoveState resolved =
+        movementController.resolveOutdoorActorMove(
+            state,
+            OpenYAMM::Game::OutdoorBodyDimensions{64.0f, 160.0f},
+            256.0f,
+            0.0f,
+            0.0f,
+            false,
+            0.5f,
+            &contactedActorIndices,
+            OpenYAMM::Game::OutdoorIgnoredActorCollider{
+                OpenYAMM::Game::OutdoorActorCollisionSource::MapDelta,
+                7});
+
+    CHECK(contactedActorIndices.empty());
+    CHECK(resolved.x > state.x + 32.0f);
+}
+
 TEST_CASE("recovery enchant increases recovery progress")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -942,6 +982,30 @@ TEST_CASE("lua event runtime separates persistent actor masks from current hosti
     REQUIRE(runtimeState.actorGroupSetMasks.contains(44));
     CHECK((runtimeState.actorGroupSetMasks.at(44) & hostileBit) != 0);
     CHECK(runtimeState.actorGroupHostilityRequests.empty());
+}
+
+TEST_CASE("lua event runtime treats numeric zero as false for actor group bits")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[1] = function()\n"
+        "    evt._BeginEvent(1)\n"
+        "    evt.SetMonGroupBit(44, 0x01000000, 0)\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticNumericZeroActorGroupBit.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    const uint32_t hostileBit = static_cast<uint32_t>(OpenYAMM::Game::EvtActorAttribute::Hostile);
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr));
+    REQUIRE(runtimeState.actorGroupClearMasks.contains(44));
+    CHECK((runtimeState.actorGroupClearMasks.at(44) & hostileBit) != 0);
+    CHECK_FALSE(runtimeState.actorGroupSetMasks.contains(44));
+    REQUIRE(runtimeState.actorGroupHostilityRequests.contains(44));
+    CHECK_FALSE(runtimeState.actorGroupHostilityRequests.at(44));
 }
 
 TEST_CASE("save preview bmp decoder accepts current 32 bit preview payloads")

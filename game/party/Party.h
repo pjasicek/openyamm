@@ -20,6 +20,7 @@ namespace OpenYAMM::Game
 {
 class ItemTable;
 class CharacterDollTable;
+class ClassMultiplierTable;
 struct RosterEntry;
 struct EventRuntimeState;
 class StandardItemEnchantTable;
@@ -321,6 +322,8 @@ public:
     void setEventVariableValue(uint16_t variableId, int32_t value);
     void addEventVariableValue(uint16_t variableId, int32_t value);
     void subtractEventVariableValue(uint16_t variableId, int32_t value);
+    void setClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable);
+    const ClassMultiplierTable *classMultiplierTable() const;
     void setClassSkillTable(const ClassSkillTable *pClassSkillTable);
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
@@ -546,6 +549,7 @@ private:
     const CharacterDollTable *m_pCharacterDollTable = nullptr;
     const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;
+    const ClassMultiplierTable *m_pClassMultiplierTable = nullptr;
     const ClassSkillTable *m_pClassSkillTable = nullptr;
     std::vector<Character> m_members;
     std::vector<AdventurersInnMember> m_adventurersInnMembers;

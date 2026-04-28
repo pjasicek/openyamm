@@ -2,6 +2,7 @@
 
 #include "game/events/EventRuntime.h"
 #include "game/gameplay/ChestRuntime.h"
+#include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/maps/MapDeltaData.h"
@@ -205,6 +206,30 @@ OpenYAMM::Game::OutdoorSceneData loadOut01Scene()
     return *sceneData;
 }
 
+int chestItemValue(
+    const OpenYAMM::Game::GameplayChestItemState &item,
+    const OpenYAMM::Tests::RegressionGameData &gameData)
+{
+    if (item.isGold)
+    {
+        return static_cast<int>(item.goldAmount);
+    }
+
+    const uint32_t itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
+    const OpenYAMM::Game::ItemDefinition *pItemDefinition = gameData.itemTable.get(itemId);
+
+    if (pItemDefinition == nullptr)
+    {
+        return 0;
+    }
+
+    return OpenYAMM::Game::ItemEnchantRuntime::itemValue(
+        item.item,
+        *pItemDefinition,
+        &gameData.standardItemEnchantTable,
+        &gameData.specialItemEnchantTable) * std::max(1u, item.quantity);
+}
+
 OpenYAMM::Game::GameplayChestViewState materializeOut01Chest(
     const OpenYAMM::Game::OutdoorSceneData &sceneData,
     const OpenYAMM::Tests::RegressionGameData &gameData,
@@ -346,6 +371,78 @@ TEST_CASE("chest materialization keeps unplaced guaranteed items hidden instead 
     REQUIRE_EQ(view.items.size(), 1u);
     CHECK(view.hiddenItems.empty());
     CHECK_EQ(view.items.front().itemId, *secondItemId);
+}
+
+TEST_CASE("chest materialization discards random overflow instead of hiding it")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = makeChestTestParty(gameData);
+    OpenYAMM::Game::ChestTable chestTable = makeChestTable(1, 1);
+    OpenYAMM::Game::MapDeltaChest chest = {};
+    chest.chestTypeId = 0;
+    chest.inventoryMatrix.assign(140, 0);
+
+    for (size_t recordIndex = 0; recordIndex < 20; ++recordIndex)
+    {
+        writeRawChestItemId(chest, recordIndex, -6);
+    }
+
+    OpenYAMM::Game::GameplayChestViewState view =
+        OpenYAMM::Game::buildMaterializedChestView(
+            0,
+            chest,
+            6,
+            0,
+            1234,
+            &chestTable,
+            &gameData.itemTable,
+            &party);
+
+    REQUIRE_EQ(view.items.size(), 1u);
+    CHECK(view.hiddenItems.empty());
+
+    OpenYAMM::Game::GameplayChestItemState removedItem = {};
+    REQUIRE(OpenYAMM::Game::takeChestItem(view, 0, removedItem));
+    CHECK(view.items.empty());
+    CHECK(view.hiddenItems.empty());
+}
+
+TEST_CASE("chest materialization places random loot in descending value order")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = makeChestTestParty(gameData);
+    OpenYAMM::Game::ChestTable chestTable = makeChestTable(9, 9);
+    OpenYAMM::Game::MapDeltaChest chest = {};
+    chest.chestTypeId = 0;
+    chest.inventoryMatrix.assign(140, 0);
+
+    for (size_t recordIndex = 0; recordIndex < 20; ++recordIndex)
+    {
+        writeRawChestItemId(chest, recordIndex, -6);
+    }
+
+    OpenYAMM::Game::GameplayChestViewState view =
+        OpenYAMM::Game::buildMaterializedChestView(
+            0,
+            chest,
+            6,
+            0,
+            1234,
+            &chestTable,
+            &gameData.itemTable,
+            &party);
+
+    REQUIRE_GT(view.items.size(), 1u);
+    CHECK(view.hiddenItems.empty());
+
+    int previousValue = chestItemValue(view.items.front(), gameData);
+
+    for (size_t itemIndex = 1; itemIndex < view.items.size(); ++itemIndex)
+    {
+        const int currentValue = chestItemValue(view.items[itemIndex], gameData);
+        CHECK_GE(previousValue, currentValue);
+        previousValue = currentValue;
+    }
 }
 
 TEST_CASE("chest level seven random placeholder generates a guaranteed rare item")

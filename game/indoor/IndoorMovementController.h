@@ -108,7 +108,8 @@ public:
         std::vector<size_t> *pContactedActorIndices = nullptr,
         std::optional<size_t> ignoredActorIndex = std::nullopt,
         bool blockActorSlide = false,
-        IndoorMoveDebugInfo *pDebugInfo = nullptr
+        IndoorMoveDebugInfo *pDebugInfo = nullptr,
+        bool flyingActive = false
     ) const;
     void setActorColliders(const std::vector<IndoorActorCollision> &actorColliders);
     void updateActorColliderPosition(size_t actorIndex, int16_t sectorId, float x, float y, float z);

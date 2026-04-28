@@ -569,6 +569,42 @@ bool rangesOverlap(float minA, float maxA, float minB, float maxB)
     return !(maxA < minB || minA > maxB);
 }
 
+bool actorMovementStartsInsideActorOverlap(
+    const bx::Vec3 &bodyPosition,
+    float bodyRadius,
+    float bodyHeight,
+    const OutdoorActorCollision &collider,
+    bool actorVsActor)
+{
+    if (!actorVsActor)
+    {
+        return false;
+    }
+
+    const float actorRadius = static_cast<float>(collider.radius);
+    const float combinedRadius = bodyRadius + actorRadius;
+
+    if (combinedRadius <= 0.0f)
+    {
+        return false;
+    }
+
+    const float deltaX = bodyPosition.x - static_cast<float>(collider.worldX);
+    const float deltaY = bodyPosition.y - static_cast<float>(collider.worldY);
+    const float distanceSquared = deltaX * deltaX + deltaY * deltaY;
+
+    if (distanceSquared >= combinedRadius * combinedRadius)
+    {
+        return false;
+    }
+
+    const float bodyMinZ = bodyPosition.z;
+    const float bodyMaxZ = bodyPosition.z + bodyHeight;
+    const float actorMinZ = static_cast<float>(collider.worldZ);
+    const float actorMaxZ = actorMinZ + static_cast<float>(collider.height);
+    return rangesOverlap(bodyMinZ, bodyMaxZ, actorMinZ, actorMaxZ);
+}
+
 void resolveActorCylinderOverlaps(
     bx::Vec3 &bodyPosition,
     float bodyRadius,
@@ -607,6 +643,16 @@ void resolveActorCylinderOverlaps(
             const float actorMaxZ = actorMinZ + static_cast<float>(collider.height);
 
             if (!rangesOverlap(partyMinZ, partyMaxZ, actorMinZ, actorMaxZ))
+            {
+                continue;
+            }
+
+            if (actorMovementStartsInsideActorOverlap(
+                    bodyPosition,
+                    bodyRadius,
+                    bodyHeight,
+                    collider,
+                    ignoredActorCollider.has_value()))
             {
                 continue;
             }
@@ -988,6 +1034,16 @@ void collideOutdoorWithActors(
                     cylinderMaxX,
                     cylinderMaxY,
                     cylinderMaxZ))
+            {
+                continue;
+            }
+
+            if (actorMovementStartsInsideActorOverlap(
+                    bx::Vec3{position.x, position.y, position.z - radius},
+                    radius,
+                    radius * 2.0f,
+                    collider,
+                    ignoredActorCollider.has_value()))
             {
                 continue;
             }

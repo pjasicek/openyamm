@@ -150,7 +150,12 @@ bool monsterImpactHitsMember(
 
     const int armorClass = incomingAttackArmorClass(*pMember, context.pRuntime);
     std::mt19937 rng = buildMonsterAttackRng(event, targetMemberIndex, animationTicks(context.pRuntime));
-    return GameMechanics::monsterAttackHitsArmorClass(armorClass, sourceActor.monsterLevel, rng);
+    const int attackBonus = event.attackBonus > 0 ? event.attackBonus : sourceActor.attackBonus;
+    return GameMechanics::monsterAttackHitsArmorClass(
+        armorClass,
+        sourceActor.monsterLevel,
+        attackBonus,
+        rng);
 }
 
 } // namespace
@@ -543,6 +548,13 @@ void GameplayCombatController::clear()
 void GameplayCombatController::recordMonsterMeleeImpact(uint32_t sourceId, int damage)
 {
     m_pendingCombatEvents.push_back(buildMonsterMeleeImpactEvent(sourceId, damage));
+}
+
+void GameplayCombatController::recordMonsterMeleeImpact(uint32_t sourceId, int damage, int attackBonus)
+{
+    CombatEvent event = buildMonsterMeleeImpactEvent(sourceId, damage);
+    event.attackBonus = attackBonus;
+    m_pendingCombatEvents.push_back(event);
 }
 
 void GameplayCombatController::recordMonsterRangedRelease(uint32_t sourceId, int damage)

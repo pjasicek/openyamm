@@ -338,6 +338,19 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         return false;
     }
 
+    std::vector<std::vector<std::string>> classMultiplierRows;
+
+    if (!loadTextTableRows(assetFileSystem, dataTablePath("class_multipliers.txt"), classMultiplierRows, failure))
+    {
+        return false;
+    }
+
+    if (!data.classMultiplierTable.loadFromRows(classMultiplierRows))
+    {
+        failure = "could not load class multipliers for regression tests";
+        return false;
+    }
+
     std::vector<std::vector<std::string>> classSkillRows;
 
     if (!loadTextTableRows(assetFileSystem, dataTablePath("class_skills.txt"), classSkillRows, failure))

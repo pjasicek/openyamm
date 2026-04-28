@@ -73,6 +73,26 @@ bool hasMonsterAbilityDescriptor(const std::string &value)
     return !value.empty() && value != "0";
 }
 
+bool isSupportedMonsterMissileToken(const std::string &value)
+{
+    const std::string token = toLowerCopy(trimCopy(value));
+
+    return token == "arrow"
+        || token == "arrowf"
+        || token == "firear"
+        || token == "air"
+        || token == "earth"
+        || token == "fire"
+        || token == "water"
+        || token == "body"
+        || token == "mind"
+        || token == "spirit"
+        || token == "light"
+        || token == "dark"
+        || token == "ener"
+        || token == "rock";
+}
+
 bool isNumericString(const std::string &value);
 
 MonsterTable::MonsterStatsEntry::DamageProfile parseDamageProfile(const std::string &value)
@@ -651,12 +671,12 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
         entry.attackPreferences =
             row.size() > 15 && isNumericString(row[15]) ? static_cast<uint32_t>(std::stoul(row[15])) : 0;
         entry.attack1MissileType = row.size() > 19 ? row[19] : std::string();
-        entry.attack1HasMissile = hasMonsterAbilityDescriptor(entry.attack1MissileType);
+        entry.attack1HasMissile = isSupportedMonsterMissileToken(entry.attack1MissileType);
         entry.attack1Damage = row.size() > 18 ? parseDamageProfile(row[18]) : MonsterStatsEntry::DamageProfile();
         entry.attack2Chance = row.size() > 20 && !row[20].empty() ? std::stoi(row[20]) : 0;
         entry.attack2Type = row.size() > 21 ? row[21] : std::string();
         entry.attack2MissileType = row.size() > 23 ? row[23] : std::string();
-        entry.attack2HasMissile = hasMonsterAbilityDescriptor(entry.attack2MissileType);
+        entry.attack2HasMissile = isSupportedMonsterMissileToken(entry.attack2MissileType);
         entry.attack2Damage = row.size() > 22 ? parseDamageProfile(row[22]) : MonsterStatsEntry::DamageProfile();
         entry.spell1Descriptor = row.size() > 25 ? row[25] : std::string();
         entry.spell1Name = parseMonsterSpellName(entry.spell1Descriptor);

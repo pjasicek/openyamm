@@ -1588,7 +1588,9 @@ bool isJewelryOverlayEquipmentSlot(EquipmentSlot slot)
 
 bool isVisibleInCharacterDollOverlay(EquipmentSlot slot, bool jewelryOverlayOpen)
 {
-    return jewelryOverlayOpen ? isJewelryOverlayEquipmentSlot(slot) : !isJewelryOverlayEquipmentSlot(slot);
+    return jewelryOverlayOpen
+        ? isBodyEquipmentVisualSlot(slot) || isJewelryOverlayEquipmentSlot(slot)
+        : !isJewelryOverlayEquipmentSlot(slot);
 }
 
 bool usesAlternateCloakBeltEquippedVariant(EquipmentSlot slot)
@@ -1647,6 +1649,63 @@ std::string joinNonEmptyTexts(const std::vector<std::string> &parts)
     }
 
     return result.empty() ? "-" : result;
+}
+
+std::string actorInspectSpellDisplayName(const std::string &spellName)
+{
+    const std::string lowerName = toLowerCopy(spellName);
+
+    if (lowerName == "day of protection")
+    {
+        return "Day of Protection";
+    }
+
+    if (lowerName == "hour of power")
+    {
+        return "Hour of Power";
+    }
+
+    if (lowerName == "pain reflection")
+    {
+        return "Pain Reflection";
+    }
+
+    if (lowerName == "hammerhands")
+    {
+        return "Hammerhands";
+    }
+
+    if (lowerName == "haste")
+    {
+        return "Haste";
+    }
+
+    if (lowerName == "shield")
+    {
+        return "Shield";
+    }
+
+    if (lowerName == "stoneskin")
+    {
+        return "Stoneskin";
+    }
+
+    if (lowerName == "bless")
+    {
+        return "Bless";
+    }
+
+    if (lowerName == "fate")
+    {
+        return "Fate";
+    }
+
+    if (lowerName == "heroism")
+    {
+        return "Heroism";
+    }
+
+    return spellName;
 }
 
 std::string formatMonsterResistanceText(int value)
@@ -7223,6 +7282,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
 
         if (normalizedLayoutId == "characterdollrighthand"
+            && !characterScreen.dollJewelryOverlayOpen
             && pCharacterDollEntry != nullptr
             && pCharacterDollType != nullptr)
         {
@@ -7236,6 +7296,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
 
         if (normalizedLayoutId == "characterdolllefthand"
+            && !characterScreen.dollJewelryOverlayOpen
             && pCharacterDollEntry != nullptr
             && pCharacterDollType != nullptr)
         {
@@ -7271,6 +7332,7 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
         }
 
         if (normalizedLayoutId == "characterdollrighthandfingers"
+            && !characterScreen.dollJewelryOverlayOpen
             && pCharacterDollEntry != nullptr
             && pCharacterDollType != nullptr
             && pMainHandItem != nullptr)
@@ -7370,26 +7432,32 @@ void GameplayPartyOverlayRenderer::renderCharacterOverlay(
                             iconRect->width,
                             iconRect->height);
 
-                        GameplayRenderedInspectableHudItem inspectableItem = {};
-                        inspectableItem.objectDescriptionId = pItemDefinition->itemId;
-                        inspectableItem.hasItemState = true;
-                        const std::optional<InventoryItem> equippedItemState =
-                            context.partyReadOnly()->equippedItem(characterSourceIndex, *slot);
+                        const bool equipmentSlotInteractive =
+                            !characterScreen.dollJewelryOverlayOpen || isJewelryOverlayEquipmentSlot(*slot);
 
-                        if (equippedItemState.has_value())
+                        if (equipmentSlotInteractive)
                         {
-                            inspectableItem.itemState = *equippedItemState;
-                        }
+                            GameplayRenderedInspectableHudItem inspectableItem = {};
+                            inspectableItem.objectDescriptionId = pItemDefinition->itemId;
+                            inspectableItem.hasItemState = true;
+                            const std::optional<InventoryItem> equippedItemState =
+                                context.partyReadOnly()->equippedItem(characterSourceIndex, *slot);
 
-                        inspectableItem.sourceType = GameplayUiController::ItemInspectSourceType::Equipment;
-                        inspectableItem.sourceMemberIndex = characterSourceIndex;
-                        inspectableItem.equipmentSlot = *slot;
-                        inspectableItem.textureName = textureName;
-                        inspectableItem.x = iconRect->x;
-                        inspectableItem.y = iconRect->y;
-                        inspectableItem.width = iconRect->width;
-                        inspectableItem.height = iconRect->height;
-                        context.addRenderedInspectableHudItem(inspectableItem);
+                            if (equippedItemState.has_value())
+                            {
+                                inspectableItem.itemState = *equippedItemState;
+                            }
+
+                            inspectableItem.sourceType = GameplayUiController::ItemInspectSourceType::Equipment;
+                            inspectableItem.sourceMemberIndex = characterSourceIndex;
+                            inspectableItem.equipmentSlot = *slot;
+                            inspectableItem.textureName = textureName;
+                            inspectableItem.x = iconRect->x;
+                            inspectableItem.y = iconRect->y;
+                            inspectableItem.width = iconRect->width;
+                            inspectableItem.height = iconRect->height;
+                            context.addRenderedInspectableHudItem(inspectableItem);
+                        }
                     }
                 }
             }
@@ -8306,6 +8374,61 @@ void GameplayPartyOverlayRenderer::renderActorInspectOverlay(GameplayScreenRunti
         if (actorState.darkGraspRemainingSeconds > 0.0f)
         {
             activeEffects.push_back("Dark Grasp");
+        }
+
+        if (actorState.dayOfProtectionRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Day of Protection");
+        }
+
+        if (actorState.hourOfPowerRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Hour of Power");
+        }
+
+        if (actorState.painReflectionRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Pain Reflection");
+        }
+
+        if (actorState.hammerhandsRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Hammerhands");
+        }
+
+        if (actorState.hasteRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Haste");
+        }
+
+        if (actorState.shieldRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Shield");
+        }
+
+        if (actorState.stoneskinRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Stoneskin");
+        }
+
+        if (actorState.blessRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Bless");
+        }
+
+        if (actorState.fateRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Fate");
+        }
+
+        if (actorState.heroismRemainingSeconds > 0.0f)
+        {
+            activeEffects.push_back("Heroism");
+        }
+
+        if (!actorState.pendingSelfBuffName.empty())
+        {
+            activeEffects.push_back("Casting " + actorInspectSpellDisplayName(actorState.pendingSelfBuffName));
         }
 
         switch (actorState.controlMode)

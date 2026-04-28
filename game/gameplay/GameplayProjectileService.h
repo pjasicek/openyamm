@@ -320,6 +320,7 @@ public:
         uint32_t actorId = 0;
         int targetArmorClass = 0;
         int damageMultiplier = 1;
+        bool halfIncomingMissileDamage = false;
         float targetDistance = 0.0f;
         int nonPartyProjectileDamage = 0;
     };
@@ -353,6 +354,7 @@ public:
         uint32_t actorId = 0;
         int targetArmorClass = 0;
         int damageMultiplier = 1;
+        bool halfIncomingMissileDamage = false;
         float targetDistance = 0.0f;
         bool waterTerrainImpact = false;
         ProjectileBounceSurfaceFacts bounceSurface;

@@ -165,10 +165,14 @@ float impactLightRadius(FxRecipes::ProjectileRecipe recipe)
 
 bool shouldTriggerPartySpellSparkles(PartySpellCastEffectKind effectKind)
 {
-    return effectKind == PartySpellCastEffectKind::PartyBuff
-        || effectKind == PartySpellCastEffectKind::CharacterBuff
-        || effectKind == PartySpellCastEffectKind::CharacterRestore
+    return effectKind == PartySpellCastEffectKind::CharacterRestore
         || effectKind == PartySpellCastEffectKind::PartyRestore;
+}
+
+bool shouldTriggerPartySpellBuffAura(PartySpellCastEffectKind effectKind)
+{
+    return effectKind == PartySpellCastEffectKind::PartyBuff
+        || effectKind == PartySpellCastEffectKind::CharacterBuff;
 }
 
 float projectileTrailCooldownSeconds(FxRecipes::ProjectileRecipe recipe)
@@ -232,7 +236,7 @@ void WorldFxSystem::syncProjectileFx(GameSession &session, float deltaSeconds, b
 
 void WorldFxSystem::triggerPartySpellFx(const PartySpellCastResult &result)
 {
-    if (!result.succeeded() || !result.hasSourcePoint || !shouldTriggerPartySpellSparkles(result.effectKind))
+    if (!result.succeeded() || !result.hasSourcePoint)
     {
         return;
     }
@@ -254,14 +258,30 @@ void WorldFxSystem::triggerPartySpellFx(const PartySpellCastResult &result)
         const uint32_t sparkleSeed =
             (result.spellId * 2654435761u) ^ static_cast<uint32_t>(sparkleIndex * 2246822519u);
 
-        FxRecipes::spawnBuffSparkles(
-            m_particleSystem,
-            sparkleSeed,
-            sparkleX,
-            sparkleY,
-            sparkleZ,
-            sparkleRadius,
-            sparkleColorAbgr);
+        if (shouldTriggerPartySpellBuffAura(result.effectKind))
+        {
+            FxRecipes::spawnActorBuffParticles(
+                m_particleSystem,
+                result.spellId,
+                sparkleSeed,
+                sparkleX,
+                sparkleY,
+                sparkleZ - 44.0f,
+                148.0f,
+                std::cos(angleRadians),
+                std::sin(angleRadians));
+        }
+        else if (shouldTriggerPartySpellSparkles(result.effectKind))
+        {
+            FxRecipes::spawnBuffSparkles(
+                m_particleSystem,
+                sparkleSeed,
+                sparkleX,
+                sparkleY,
+                sparkleZ,
+                sparkleRadius,
+                sparkleColorAbgr);
+        }
     }
 }
 
@@ -286,6 +306,28 @@ void WorldFxSystem::spawnActorDebuffFx(
     float frontDirectionY)
 {
     FxRecipes::spawnActorDebuffParticles(
+        m_particleSystem,
+        spellId,
+        seed,
+        x,
+        y,
+        z,
+        actorHeight,
+        frontDirectionX,
+        frontDirectionY);
+}
+
+void WorldFxSystem::spawnActorBuffFx(
+    uint32_t spellId,
+    uint32_t seed,
+    float x,
+    float y,
+    float z,
+    float actorHeight,
+    float frontDirectionX,
+    float frontDirectionY)
+{
+    FxRecipes::spawnActorBuffParticles(
         m_particleSystem,
         spellId,
         seed,

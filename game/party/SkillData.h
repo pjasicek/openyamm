@@ -35,6 +35,7 @@ std::string canonicalSkillName(const std::string &name);
 std::string displayClassName(const std::string &className);
 std::string displaySkillName(const std::string &skillName);
 std::string masteryDisplayName(SkillMastery mastery);
+std::vector<std::string> allCanonicalSkillNames();
 std::optional<std::string> nextPromotionClassName(const std::string &className);
 std::vector<std::string> promotionClassNames(const std::string &className);
 std::optional<uint32_t> mm8ClassIdForClassName(const std::string &className);

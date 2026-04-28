@@ -1715,12 +1715,7 @@ bool OutdoorInteractionController::executeNpcTopicEvent(
     size_t &previousMessageCount)
 {
     return view.m_pOutdoorSceneRuntime != nullptr
-        && view.m_pOutdoorSceneRuntime->executeEventById(
-            std::nullopt,
-            eventId,
-            std::nullopt,
-            previousMessageCount
-        );
+        && view.m_pOutdoorSceneRuntime->executeNpcTopicEventById(eventId, previousMessageCount);
 }
 
 

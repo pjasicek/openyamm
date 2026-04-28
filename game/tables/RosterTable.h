@@ -30,9 +30,17 @@ struct RosterEntry
     uint32_t luck = 0;
     CharacterResistanceSet baseResistances = {};
     uint32_t skillPoints = 0;
+    uint32_t unlockQuestBitId = 0;
     std::unordered_map<std::string, CharacterSkill> skills;
     std::unordered_map<std::string, uint32_t> knownSpellCounts;
     std::vector<uint32_t> startingInventoryItemIds;
+    struct StartingItem
+    {
+        uint32_t itemId = 0;
+        uint32_t enchantmentLevel = 0;
+        uint32_t rawValue = 0;
+    };
+    std::vector<StartingItem> startingItems;
 };
 
 class RosterTable

@@ -79,6 +79,7 @@ OpenYAMM::Game::Party makeAudioRegressionParty(const OpenYAMM::Tests::Regression
     party.setItemEnchantTables(
         &gameData.standardItemEnchantTable,
         &gameData.specialItemEnchantTable);
+    party.setClassMultiplierTable(&gameData.classMultiplierTable);
     party.setClassSkillTable(&gameData.classSkillTable);
     party.seed(OpenYAMM::Game::Party::createDefaultSeed());
     return party;

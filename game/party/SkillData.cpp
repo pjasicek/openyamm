@@ -333,6 +333,11 @@ std::string masteryDisplayName(SkillMastery mastery)
     }
 }
 
+std::vector<std::string> allCanonicalSkillNames()
+{
+    return {CanonicalSkillNames.begin(), CanonicalSkillNames.end()};
+}
+
 std::optional<std::string> nextPromotionClassName(const std::string &className)
 {
     const std::string canonicalName = canonicalClassName(className);

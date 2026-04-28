@@ -1519,10 +1519,10 @@ Character NewGameScreen::buildCharacter() const
         character.skills[skillName] = {skillName, 1, SkillMastery::Normal};
     }
 
-    character.maxHealth = GameMechanics::calculateBaseCharacterMaxHealth(character);
-    character.health = character.maxHealth;
-    character.maxSpellPoints = GameMechanics::calculateBaseCharacterMaxSpellPoints(character);
-    character.spellPoints = character.maxSpellPoints;
+    GameMechanics::refreshCharacterBaseResources(
+        character,
+        true,
+        m_pGameData != nullptr ? &m_pGameData->classMultiplierTable() : nullptr);
 
     return character;
 }

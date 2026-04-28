@@ -313,12 +313,91 @@ void queueUiSound(EventRuntimeState &eventRuntimeState, uint32_t soundId)
     eventRuntimeState.pendingSounds.push_back(request);
 }
 
+bool partyHasAdventurersInnRosterMember(const Party &party, uint32_t rosterId)
+{
+    for (const AdventurersInnMember &member : party.adventurersInnMembers())
+    {
+        if (member.character.rosterId == rosterId)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void syncAvailableRosterMembersToAdventurersInn(GameplayDialogController::Context &context)
+{
+    if (context.pParty == nullptr || context.pRosterTable == nullptr)
+    {
+        return;
+    }
+
+    const std::vector<const RosterEntry *> rosterEntries = context.pRosterTable->getEntriesSortedById();
+
+    for (const RosterEntry *pRosterEntry : rosterEntries)
+    {
+        if (pRosterEntry == nullptr
+            || pRosterEntry->unlockQuestBitId == 0
+            || !context.pParty->hasQuestBit(pRosterEntry->unlockQuestBitId)
+            || context.pParty->hasRosterMember(pRosterEntry->id)
+            || partyHasAdventurersInnRosterMember(*context.pParty, pRosterEntry->id))
+        {
+            continue;
+        }
+
+        context.pParty->addAdventurersInnMember(*pRosterEntry, 0);
+    }
+
+    if (context.pNpcDialogTable == nullptr)
+    {
+        return;
+    }
+
+    for (const auto &[npcId, houseId] : context.eventRuntimeState.npcHouseOverrides)
+    {
+        if (houseId != AdventurersInnHouseId || context.eventRuntimeState.unavailableNpcIds.contains(npcId))
+        {
+            continue;
+        }
+
+        const NpcEntry *pNpcEntry = context.pNpcDialogTable->getNpc(npcId);
+
+        if (pNpcEntry == nullptr)
+        {
+            continue;
+        }
+
+        for (uint32_t topicId : pNpcEntry->topicIds)
+        {
+            const std::optional<NpcDialogTable::RosterJoinOffer> offer =
+                context.pNpcDialogTable->getRosterJoinOfferForTopic(topicId);
+
+            if (!offer.has_value()
+                || context.pParty->hasRosterMember(offer->rosterId)
+                || partyHasAdventurersInnRosterMember(*context.pParty, offer->rosterId))
+            {
+                continue;
+            }
+
+            const RosterEntry *pRosterEntry = context.pRosterTable->get(offer->rosterId);
+
+            if (pRosterEntry != nullptr)
+            {
+                context.pParty->addAdventurersInnMember(*pRosterEntry, pNpcEntry->pictureId);
+            }
+        }
+    }
+}
+
 bool tryOpenAdventurersInnOverlay(GameplayDialogController::Context &context, uint32_t houseId)
 {
     if (houseId != AdventurersInnHouseId || context.pParty == nullptr)
     {
         return false;
     }
+
+    syncAvailableRosterMembersToAdventurersInn(context);
 
     context.eventRuntimeState.pendingDialogueContext.reset();
     context.eventRuntimeState.dialogueState = {};

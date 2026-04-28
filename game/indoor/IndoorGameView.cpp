@@ -440,17 +440,17 @@ bool isBodyEquipmentVisualSlot(EquipmentSlot slot)
 {
     switch (slot)
     {
-        case EquipmentSlot::OffHand:
-        case EquipmentSlot::MainHand:
-        case EquipmentSlot::Bow:
         case EquipmentSlot::Armor:
         case EquipmentSlot::Helm:
         case EquipmentSlot::Belt:
         case EquipmentSlot::Cloak:
-        case EquipmentSlot::Gauntlets:
         case EquipmentSlot::Boots:
             return true;
 
+        case EquipmentSlot::OffHand:
+        case EquipmentSlot::MainHand:
+        case EquipmentSlot::Bow:
+        case EquipmentSlot::Gauntlets:
         case EquipmentSlot::Amulet:
         case EquipmentSlot::Ring1:
         case EquipmentSlot::Ring2:
@@ -494,7 +494,9 @@ bool isJewelryOverlayEquipmentSlot(EquipmentSlot slot)
 
 bool isVisibleInCharacterDollOverlay(EquipmentSlot slot, bool jewelryOverlayOpen)
 {
-    return jewelryOverlayOpen ? isJewelryOverlayEquipmentSlot(slot) : !isJewelryOverlayEquipmentSlot(slot);
+    return jewelryOverlayOpen
+        ? isBodyEquipmentVisualSlot(slot) || isJewelryOverlayEquipmentSlot(slot)
+        : !isJewelryOverlayEquipmentSlot(slot);
 }
 
 bool usesAlternateCloakBeltEquippedVariant(EquipmentSlot slot)

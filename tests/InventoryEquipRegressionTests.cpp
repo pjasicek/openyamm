@@ -67,6 +67,7 @@ OpenYAMM::Game::Party makeRegressionParty(const OpenYAMM::Tests::RegressionGameD
     party.setItemTable(&gameData.itemTable);
     party.setCharacterDollTable(&gameData.characterDollTable);
     party.setItemEnchantTables(&gameData.standardItemEnchantTable, &gameData.specialItemEnchantTable);
+    party.setClassMultiplierTable(&gameData.classMultiplierTable);
     party.setClassSkillTable(&gameData.classSkillTable);
     party.seed(createRegressionPartySeed());
     return party;
@@ -251,6 +252,7 @@ TEST_CASE("inventory item use potions and horseshoe apply the expected effects")
     REQUIRE(pMember != nullptr);
 
     pMember->health = 10;
+    pMember->maxSpellPoints = 20;
     pMember->spellPoints = 0;
     pMember->skillPoints = 3;
     pMember->permanentBonuses.intellect = 0;

@@ -114,6 +114,16 @@ void grantAllMagicSchools(Character &character, uint32_t level, SkillMastery mas
     }
 }
 
+void grantAllSkills(Character &character, uint32_t level, SkillMastery mastery)
+{
+    const std::vector<std::string> skillNames = allCanonicalSkillNames();
+
+    for (const std::string &skillName : skillNames)
+    {
+        grantSeedSkill(character, skillName, level, mastery);
+    }
+}
+
 void grantAllSpellsForMagicSkill(Character &character, const std::string &skillName)
 {
     const std::optional<std::pair<uint32_t, uint32_t>> spellRange = spellIdRangeForMagicSkill(skillName);
@@ -304,7 +314,9 @@ std::optional<uint32_t> tryParsePictureIdFromPortraitTextureName(const std::stri
     return faceNumber - 1;
 }
 
-Character buildCharacterFromRosterEntry(const RosterEntry &rosterEntry)
+Character buildCharacterFromRosterEntry(
+    const RosterEntry &rosterEntry,
+    const ClassMultiplierTable *pClassMultiplierTable)
 {
     Character member = {};
     member.name = rosterEntry.name;
@@ -330,10 +342,7 @@ Character buildCharacterFromRosterEntry(const RosterEntry &rosterEntry)
     member.skills = rosterEntry.skills;
     applyRosterSpellKnowledge(member, rosterEntry);
 
-    member.maxHealth = GameMechanics::calculateBaseCharacterMaxHealth(member);
-    member.health = member.maxHealth;
-    member.maxSpellPoints = GameMechanics::calculateBaseCharacterMaxSpellPoints(member);
-    member.spellPoints = member.maxSpellPoints;
+    GameMechanics::refreshCharacterBaseResources(member, true, pClassMultiplierTable);
     return member;
 }
 
@@ -1019,20 +1028,128 @@ InventoryItem makeInventoryItem(
     return item;
 }
 
+uint32_t rosterItemSeed(const RosterEntry &rosterEntry, const RosterEntry::StartingItem &rosterItem, size_t itemIndex)
+{
+    uint32_t seed = 0x9e3779b9u;
+    seed ^= rosterEntry.id + 0x85ebca6bu + (seed << 6) + (seed >> 2);
+    seed ^= rosterItem.rawValue + 0xc2b2ae35u + (seed << 6) + (seed >> 2);
+    seed ^= static_cast<uint32_t>(itemIndex) + 0x27d4eb2fu + (seed << 6) + (seed >> 2);
+    return seed;
+}
+
+InventoryItem makeRosterInventoryItem(
+    const RosterEntry &rosterEntry,
+    const RosterEntry::StartingItem &rosterItem,
+    size_t itemIndex,
+    const ItemTable *pItemTable,
+    const StandardItemEnchantTable *pStandardEnchantTable,
+    const SpecialItemEnchantTable *pSpecialEnchantTable)
+{
+    InventoryItem item = makeInventoryItem(pItemTable, rosterItem.itemId);
+    item.identified = true;
+
+    if (pItemTable == nullptr
+        || pStandardEnchantTable == nullptr
+        || pSpecialEnchantTable == nullptr
+        || rosterItem.enchantmentLevel == 0)
+    {
+        return item;
+    }
+
+    const ItemDefinition *pItemDefinition = pItemTable->get(rosterItem.itemId);
+
+    if (pItemDefinition == nullptr
+        || ItemRuntime::isRareItem(*pItemDefinition)
+        || !ItemEnchantRuntime::isEnchantable(*pItemDefinition))
+    {
+        return item;
+    }
+
+    const int treasureLevel = std::clamp(static_cast<int>(rosterItem.enchantmentLevel), 1, 6);
+    const bool canHaveStandardEnchant = ItemEnchantRuntime::canHaveStandardEnchant(*pItemDefinition);
+    const bool canHaveSpecialEnchant = ItemEnchantRuntime::canHaveSpecialEnchant(*pItemDefinition);
+    const int standardChance =
+        canHaveStandardEnchant ? ItemEnchantRuntime::standardEnchantChance(treasureLevel) : 0;
+    const int specialChance =
+        canHaveSpecialEnchant ? ItemEnchantRuntime::specialEnchantChance(*pItemDefinition, treasureLevel) : 0;
+
+    if (standardChance <= 0 && specialChance <= 0)
+    {
+        return item;
+    }
+
+    std::mt19937 rng(rosterItemSeed(rosterEntry, rosterItem, itemIndex));
+    const int roll = std::uniform_int_distribution<int>(0, 99)(rng);
+
+    if (roll < standardChance)
+    {
+        const std::optional<uint16_t> standardEnchantId =
+            ItemEnchantRuntime::chooseStandardEnchantId(*pItemDefinition, *pStandardEnchantTable, rng);
+
+        if (standardEnchantId)
+        {
+            item.standardEnchantId = *standardEnchantId;
+
+            const StandardItemEnchantEntry *pEntry = pStandardEnchantTable->get(*standardEnchantId);
+
+            if (pEntry != nullptr)
+            {
+                item.standardEnchantPower =
+                    static_cast<uint16_t>(ItemEnchantRuntime::generateStandardEnchantPower(
+                        pEntry->kind,
+                        treasureLevel,
+                        rng));
+            }
+        }
+
+        return item;
+    }
+
+    if (roll < standardChance + specialChance)
+    {
+        const std::optional<uint16_t> specialEnchantId =
+            ItemEnchantRuntime::chooseSpecialEnchantId(*pItemDefinition, *pSpecialEnchantTable, treasureLevel, rng);
+
+        if (specialEnchantId)
+        {
+            item.specialEnchantId = *specialEnchantId;
+        }
+    }
+
+    return item;
+}
+
+void copyItemToEquippedRuntimeState(const InventoryItem &item, EquippedItemRuntimeState &runtimeState)
+{
+    runtimeState.identified = item.identified;
+    runtimeState.broken = item.broken;
+    runtimeState.stolen = item.stolen;
+    runtimeState.standardEnchantId = item.standardEnchantId;
+    runtimeState.standardEnchantPower = item.standardEnchantPower;
+    runtimeState.specialEnchantId = item.specialEnchantId;
+    runtimeState.artifactId = item.artifactId;
+    runtimeState.rarity = item.rarity;
+    runtimeState.currentCharges = item.currentCharges;
+    runtimeState.maxCharges = item.maxCharges;
+    runtimeState.temporaryBonusRemainingSeconds = item.temporaryBonusRemainingSeconds;
+}
+
 void grantRosterInventoryToCharacter(
     Character &character,
     const RosterEntry &rosterEntry,
-    const ItemTable *pItemTable)
+    const ItemTable *pItemTable,
+    const StandardItemEnchantTable *pStandardEnchantTable,
+    const SpecialItemEnchantTable *pSpecialEnchantTable)
 {
     const auto tryEquipRosterItem =
-        [pItemTable](Character &targetCharacter, uint32_t itemId) -> bool
+        [pItemTable](Character &targetCharacter, const InventoryItem &item) -> bool
         {
             if (pItemTable == nullptr)
             {
                 return false;
             }
 
-            const ItemDefinition *pItemDefinition = pItemTable->get(itemId);
+            const ItemDefinition *pItemDefinition = pItemTable->get(item.objectDescriptionId);
 
             if (pItemDefinition == nullptr || pItemDefinition->equipStat.empty() || pItemDefinition->equipStat == "0")
             {
@@ -1052,31 +1169,28 @@ void grantRosterInventoryToCharacter(
                 return false;
             }
 
-            InventoryItem item = makeInventoryItem(pItemTable, itemId);
-            item.identified = true;
             equippedItemId(targetCharacter.equipment, equipPlan->targetSlot) = item.objectDescriptionId;
             EquippedItemRuntimeState &runtimeState =
                 equippedItemRuntimeState(targetCharacter.equipmentRuntime, equipPlan->targetSlot);
-            runtimeState.identified = item.identified;
-            runtimeState.broken = item.broken;
-            runtimeState.stolen = item.stolen;
-            runtimeState.standardEnchantId = item.standardEnchantId;
-            runtimeState.standardEnchantPower = item.standardEnchantPower;
-            runtimeState.specialEnchantId = item.specialEnchantId;
-            runtimeState.artifactId = item.artifactId;
-            runtimeState.rarity = item.rarity;
+            copyItemToEquippedRuntimeState(item, runtimeState);
             return true;
         };
 
-    for (uint32_t itemId : rosterEntry.startingInventoryItemIds)
+    for (size_t itemIndex = 0; itemIndex < rosterEntry.startingItems.size(); ++itemIndex)
     {
-        if (tryEquipRosterItem(character, itemId))
+        const InventoryItem item = makeRosterInventoryItem(
+            rosterEntry,
+            rosterEntry.startingItems[itemIndex],
+            itemIndex,
+            pItemTable,
+            pStandardEnchantTable,
+            pSpecialEnchantTable);
+
+        if (tryEquipRosterItem(character, item))
         {
             continue;
         }
 
-        InventoryItem item = makeInventoryItem(pItemTable, itemId);
-        item.identified = true;
         character.addInventoryItem(item);
     }
 }
@@ -1414,6 +1528,7 @@ bool Character::setSkillMastery(const std::string &skillName, SkillMastery maste
         }
     }
 
+    GameMechanics::refreshCharacterBaseResources(*this);
     return true;
 }
 
@@ -1542,6 +1657,7 @@ PartySeed Party::createDefaultSeed()
     grantSeedInventoryItem(cleric, 253, true, false);
     grantSeedInventoryItem(cleric, 656, true, false);
     grantSeedSpellAccess(cleric);
+    grantAllSkills(cleric, 200, SkillMastery::Grandmaster);
     seed.members.push_back(cleric);
 
     Character femaleKnight = {};
@@ -1721,6 +1837,11 @@ void Party::setClassSkillTable(const ClassSkillTable *pClassSkillTable)
             applyDefaultStartingSkills(member);
         }
 
+        if (m_pClassMultiplierTable != nullptr)
+        {
+            GameMechanics::refreshCharacterBaseResources(member, false, m_pClassMultiplierTable);
+        }
+
         initializePortraitRuntimeState(member);
     }
 
@@ -1737,6 +1858,16 @@ void Party::setClassSkillTable(const ClassSkillTable *pClassSkillTable)
         initializePortraitRuntimeState(member.character);
         member.portraitPictureId = resolveAdventurersInnPortraitPictureId(member.character, member.portraitPictureId);
     }
+}
+
+void Party::setClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable)
+{
+    m_pClassMultiplierTable = pClassMultiplierTable;
+}
+
+const ClassMultiplierTable *Party::classMultiplierTable() const
+{
+    return m_pClassMultiplierTable;
 }
 
 Party::Snapshot Party::snapshot() const
@@ -1932,6 +2063,11 @@ void Party::seed(const PartySeed &seed)
 
             markArtifactItemFoundIfRelevant(
                 makeInventoryItem(m_pItemTable, itemId, equippedItemRuntimeState(member.equipmentRuntime, slot)));
+        }
+
+        if (m_pClassMultiplierTable != nullptr)
+        {
+            GameMechanics::refreshCharacterBaseResources(member, false, m_pClassMultiplierTable);
         }
 
         initializePortraitRuntimeState(member);
@@ -2653,8 +2789,7 @@ bool Party::trainLeader(uint32_t maxLevel, uint32_t &newLevel, uint32_t &skillPo
     leader.level += 1;
     skillPointsEarned = 5 + leader.level / 10;
     leader.skillPoints += skillPointsEarned;
-    leader.health = leader.maxHealth;
-    leader.spellPoints = leader.maxSpellPoints;
+    GameMechanics::refreshCharacterBaseResources(leader, true, m_pClassMultiplierTable);
     newLevel = leader.level;
     return true;
 }
@@ -2684,8 +2819,7 @@ bool Party::trainActiveMember(uint32_t maxLevel, uint32_t &newLevel, uint32_t &s
     pMember->level += 1;
     skillPointsEarned = 5 + pMember->level / 10;
     pMember->skillPoints += skillPointsEarned;
-    pMember->health = pMember->maxHealth;
-    pMember->spellPoints = pMember->maxSpellPoints;
+    GameMechanics::refreshCharacterBaseResources(*pMember, true, m_pClassMultiplierTable);
     newLevel = pMember->level;
     return true;
 }
@@ -2722,6 +2856,7 @@ bool Party::learnActiveMemberSkill(const std::string &skillName)
     skill.level = 1;
     skill.mastery = SkillMastery::Normal;
     pMember->skills[skill.name] = skill;
+    GameMechanics::refreshCharacterBaseResources(*pMember, false, m_pClassMultiplierTable);
     return true;
 }
 
@@ -2769,6 +2904,7 @@ bool Party::increaseActiveMemberSkillLevel(const std::string &skillName)
     const uint32_t newSkillLevel = pSkill->level + 1;
     pSkill->level = newSkillLevel;
     pMember->skillPoints -= newSkillLevel;
+    GameMechanics::refreshCharacterBaseResources(*pMember, false, m_pClassMultiplierTable);
     return true;
 }
 
@@ -2822,9 +2958,14 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
         return false;
     }
 
-    m_members.push_back(buildCharacterFromRosterEntry(rosterEntry));
+    m_members.push_back(buildCharacterFromRosterEntry(rosterEntry, m_pClassMultiplierTable));
     initializePortraitRuntimeState(m_members.back());
-    grantRosterInventoryToCharacter(m_members.back(), rosterEntry, m_pItemTable);
+    grantRosterInventoryToCharacter(
+        m_members.back(),
+        rosterEntry,
+        m_pItemTable,
+        m_pStandardItemEnchantTable,
+        m_pSpecialItemEnchantTable);
 
     m_lastStatus = "party member recruited";
     return true;
@@ -2832,8 +2973,13 @@ bool Party::recruitRosterMember(const RosterEntry &rosterEntry)
 
 bool Party::addAdventurersInnMember(const RosterEntry &rosterEntry, uint32_t portraitPictureId)
 {
-    Character character = buildCharacterFromRosterEntry(rosterEntry);
-    grantRosterInventoryToCharacter(character, rosterEntry, m_pItemTable);
+    Character character = buildCharacterFromRosterEntry(rosterEntry, m_pClassMultiplierTable);
+    grantRosterInventoryToCharacter(
+        character,
+        rosterEntry,
+        m_pItemTable,
+        m_pStandardItemEnchantTable,
+        m_pSpecialItemEnchantTable);
     const uint32_t resolvedPortraitPictureId = resolveAdventurersInnPortraitPictureId(character, portraitPictureId);
     return addAdventurersInnMember(character, resolvedPortraitPictureId);
 }
@@ -2961,10 +3107,15 @@ bool Party::replaceMemberWithRosterEntry(size_t memberIndex, const RosterEntry &
         return false;
     }
 
-    m_members[memberIndex] = buildCharacterFromRosterEntry(rosterEntry);
+    m_members[memberIndex] = buildCharacterFromRosterEntry(rosterEntry, m_pClassMultiplierTable);
     applyCharacterIdentityFromDollTable(m_members[memberIndex], m_pCharacterDollTable);
     initializePortraitRuntimeState(m_members[memberIndex]);
-    grantRosterInventoryToCharacter(m_members[memberIndex], rosterEntry, m_pItemTable);
+    grantRosterInventoryToCharacter(
+        m_members[memberIndex],
+        rosterEntry,
+        m_pItemTable,
+        m_pStandardItemEnchantTable,
+        m_pSpecialItemEnchantTable);
 
     rebuildMagicalBonusesFromBuffs();
     m_lastStatus = "party member replaced from roster";
@@ -4093,6 +4244,7 @@ bool Party::setMemberClassName(size_t memberIndex, const std::string &className)
 
     pMember->className = canonicalClassName(className);
     pMember->role = normalizeRoleName(pMember->className);
+    GameMechanics::refreshCharacterBaseResources(*pMember, false, m_pClassMultiplierTable);
     m_lastStatus = "class changed";
     return true;
 }

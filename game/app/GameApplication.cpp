@@ -10,6 +10,7 @@
 #include "game/party/SpellSchool.h"
 #include "game/render/TextureFiltering.h"
 #include "game/events/EvtEnums.h"
+#include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/ItemTable.h"
 #include "game/ui/screens/ArcomageScreen.h"
 #include "game/ui/screens/CutsceneVideoScreen.h"
@@ -496,6 +497,7 @@ float mouseRotateSpeedForTurnRate(TurnRateMode turnRate)
 
 Character buildFreshCreatedCharacter(
     const Character &sourceCharacter,
+    const ClassMultiplierTable &classMultiplierTable,
     const ItemTable &itemTable,
     const StandardItemEnchantTable &standardItemEnchantTable,
     const SpecialItemEnchantTable &specialItemEnchantTable)
@@ -544,9 +546,9 @@ Character buildFreshCreatedCharacter(
     character.itemSkillBonuses.clear();
     character.inventory.clear();
 
-    character.maxHealth = GameMechanics::calculateBaseCharacterMaxHealth(character);
+    character.maxHealth = GameMechanics::calculateBaseCharacterMaxHealth(character, &classMultiplierTable);
     character.health = character.maxHealth;
-    character.maxSpellPoints = GameMechanics::calculateBaseCharacterMaxSpellPoints(character);
+    character.maxSpellPoints = GameMechanics::calculateBaseCharacterMaxSpellPoints(character, &classMultiplierTable);
     character.spellPoints = character.maxSpellPoints;
     grantCreatedCharacterStarterItems(character, itemTable, standardItemEnchantTable, specialItemEnchantTable);
     return character;
@@ -1076,6 +1078,7 @@ void GameApplication::bindPartyDependencies(Party &party) const
     party.setItemTable(&data.itemTable());
     party.setCharacterDollTable(&data.characterDollTable());
     party.setItemEnchantTables(&data.standardItemEnchantTable(), &data.specialItemEnchantTable());
+    party.setClassMultiplierTable(&data.classMultiplierTable());
     party.setClassSkillTable(&data.classSkillTable());
 }
 
@@ -1778,6 +1781,7 @@ bool GameApplication::startNewSessionFromCharacterCreation(const Character &char
     seed.members.push_back(
         buildFreshCreatedCharacter(
             character,
+            m_gameDataLoader.getClassMultiplierTable(),
             m_gameDataLoader.getItemTable(),
             m_gameDataLoader.getStandardItemEnchantTable(),
             m_gameDataLoader.getSpecialItemEnchantTable()));

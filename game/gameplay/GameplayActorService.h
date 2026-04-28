@@ -123,6 +123,13 @@ public:
         int defaultMoveSpeed,
         float slowMoveMultiplier,
         bool darkGraspActive) const;
+    float effectiveRecoveryProgressMultiplier(const GameplayActorSpellEffectState &state) const;
+    int effectiveAttackDamageBonus(
+        GameplayActorAttackAbility ability,
+        const GameplayActorSpellEffectState &state) const;
+    int effectiveAttackHitBonus(const GameplayActorSpellEffectState &state) const;
+    bool halveIncomingMissileDamage(const GameplayActorSpellEffectState &state) const;
+    bool hasPainReflection(const GameplayActorSpellEffectState &state) const;
     GameplayActorTargetPolicyResult resolveActorTargetPolicy(
         const GameplayActorTargetPolicyState &actor,
         const GameplayActorTargetPolicyState &target) const;

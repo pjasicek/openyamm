@@ -12,6 +12,7 @@ using OpenYAMM::Game::ActorAiFxRequestKind;
 using OpenYAMM::Game::ActorAiMovementAction;
 using OpenYAMM::Game::ActorAiMotionState;
 using OpenYAMM::Game::ActorAiTargetKind;
+using OpenYAMM::Game::GameplayActorAttackAbility;
 using OpenYAMM::Game::GameplayActorAiType;
 using OpenYAMM::Game::GameplayActorAiSystem;
 using OpenYAMM::Game::GameplayActorService;
@@ -145,6 +146,402 @@ TEST_CASE("shared actor AI exposes a melee recovery window after the attack anim
     CHECK(*recoveryUpdate.state.motionState == ActorAiMotionState::Standing);
     REQUIRE(recoveryUpdate.state.attackCooldownSeconds.has_value());
     CHECK(*recoveryUpdate.state.attackCooldownSeconds > 0.0f);
+}
+
+TEST_CASE("shared actor AI pursues a remembered party target without attack line of sight")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(21, 121);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.moveSpeed = 200;
+    actor.stats.attack1Damage.diceRolls = 1;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {132.0f, 200.0f, 64.0f};
+    actor.target.currentDistance = 96.0f;
+    actor.target.currentEdgeDistance = 0.0f;
+    actor.target.currentCanSense = true;
+    actor.target.currentHasAttackLineOfSight = false;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.motionState.has_value());
+    CHECK(*update.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(update.movementIntent.action == ActorAiMovementAction::Pursue);
+    CHECK(update.movementIntent.applyMovement);
+    CHECK_FALSE(update.attackRequest.has_value());
+}
+
+TEST_CASE("shared actor AI emits vertical movement for flying actors pursuing above or below")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(22, 122);
+    actor.world.active = true;
+    actor.world.targetZ = 96.0f;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.canFly = true;
+    actor.stats.moveSpeed = 200;
+    actor.stats.attack1Damage.diceRolls = 1;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {100.0f, 200.0f, 400.0f};
+    actor.target.currentDistance = 1024.0f;
+    actor.target.currentEdgeDistance = 1024.0f;
+    actor.target.currentCanSense = true;
+    actor.target.currentHasAttackLineOfSight = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.motionState.has_value());
+    CHECK(*update.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(update.movementIntent.action == ActorAiMovementAction::Pursue);
+    CHECK(update.movementIntent.applyMovement);
+    CHECK(update.movementIntent.desiredMoveZ > 0.99f);
+    CHECK_FALSE(update.attackRequest.has_value());
+}
+
+TEST_CASE("shared actor AI pursues instead of firing blocked ranged attacks")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(23, 123);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.moveSpeed = 200;
+    actor.stats.attack1Damage.diceRolls = 1;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.stats.attackConstraints.attack1IsRanged = true;
+    actor.stats.attackConstraints.rangedCommitAllowed = false;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {400.0f, 200.0f, 64.0f};
+    actor.target.currentDistance = 300.0f;
+    actor.target.currentEdgeDistance = 300.0f;
+    actor.target.currentCanSense = true;
+    actor.target.currentHasAttackLineOfSight = false;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.motionState.has_value());
+    CHECK(*update.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(update.movementIntent.action == ActorAiMovementAction::Pursue);
+    CHECK(update.movementIntent.applyMovement);
+    CHECK_FALSE(update.attackRequest.has_value());
+}
+
+TEST_CASE("shared actor AI skips monster power cure at full health")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(12, 109);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.currentHp = 10;
+    actor.stats.maxHp = 10;
+    actor.stats.hasSpell1 = true;
+    actor.stats.spell1Name = "power cure";
+    actor.stats.spell1UseChance = 100;
+    actor.stats.attackConstraints.attack1IsRanged = true;
+    actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 512.0f;
+    actor.target.currentEdgeDistance = 512.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.queuedAttackAbility.has_value());
+    CHECK(*update.state.queuedAttackAbility == GameplayActorAttackAbility::Attack1);
+}
+
+TEST_CASE("shared actor AI allows monster power cure when wounded")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(13, 110);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.currentHp = 5;
+    actor.stats.maxHp = 10;
+    actor.stats.hasSpell1 = true;
+    actor.stats.spell1Name = "power cure";
+    actor.stats.spell1UseChance = 100;
+    actor.stats.attackConstraints.attack1IsRanged = true;
+    actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 512.0f;
+    actor.target.currentEdgeDistance = 512.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.queuedAttackAbility.has_value());
+    CHECK(*update.state.queuedAttackAbility == GameplayActorAttackAbility::Spell1);
+}
+
+TEST_CASE("shared actor AI skips spell attacks that the world cannot resolve")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(16, 113);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.hasSpell1 = true;
+    actor.stats.spell1Name = "spirit lash";
+    actor.stats.spell1UseChance = 100;
+    actor.stats.spell1CastSupported = false;
+    actor.stats.attackConstraints.attack1IsRanged = true;
+    actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 512.0f;
+    actor.target.currentEdgeDistance = 512.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.queuedAttackAbility.has_value());
+    CHECK(*update.state.queuedAttackAbility == GameplayActorAttackAbility::Attack1);
+}
+
+TEST_CASE("shared actor AI skips monster self buff while already active")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(14, 111);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.status.spellEffects.heroismRemainingSeconds = 60.0f;
+    actor.stats.hasSpell1 = true;
+    actor.stats.spell1Name = "heroism";
+    actor.stats.spell1UseChance = 100;
+    actor.stats.attackConstraints.attack1IsRanged = true;
+    actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 512.0f;
+    actor.target.currentEdgeDistance = 512.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.queuedAttackAbility.has_value());
+    CHECK(*update.state.queuedAttackAbility == GameplayActorAttackAbility::Attack1);
+}
+
+TEST_CASE("shared actor AI applies monster self buff when spell attack completes")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(15, 112);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.hasSpell1 = true;
+    actor.stats.spell1Id = 51;
+    actor.stats.spell1Name = "heroism";
+    actor.stats.spell1SkillLevel = 4;
+    actor.stats.spell1SkillMastery = OpenYAMM::Game::SkillMastery::Master;
+    actor.stats.spell1UseChance = 100;
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackRanged;
+    actor.runtime.queuedAttackAbility = GameplayActorAttackAbility::Spell1;
+    actor.runtime.actionSeconds = 0.0f;
+    actor.runtime.attackImpactTriggered = false;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 512.0f;
+    actor.target.currentEdgeDistance = 512.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.spellEffects.has_value());
+    CHECK(update.state.spellEffects->heroismRemainingSeconds > 0.0f);
+    CHECK_EQ(update.state.spellEffects->heroismPower, 9);
+    REQUIRE(update.state.attackImpactTriggered.has_value());
+    CHECK(*update.state.attackImpactTriggered);
+    CHECK(!update.state.queuedAttackAbility.has_value());
+    REQUIRE_EQ(update.fxRequests.size(), 1u);
+    CHECK(update.fxRequests.front().kind == ActorAiFxRequestKind::Buff);
+    CHECK(update.fxRequests.front().spellId == 51u);
+    CHECK(result.projectileRequests.empty());
+    CHECK(result.audioRequests.empty());
+}
+
+TEST_CASE("shared actor service applies monster buff combat modifiers")
+{
+    GameplayActorService service = {};
+    OpenYAMM::Game::GameplayActorSpellEffectState state = {};
+    state.stoneskinRemainingSeconds = 60.0f;
+    state.stoneskinPower = 8;
+    state.hourOfPowerRemainingSeconds = 60.0f;
+    state.hourOfPowerPower = 10;
+    state.heroismRemainingSeconds = 60.0f;
+    state.heroismPower = 7;
+    state.hammerhandsRemainingSeconds = 60.0f;
+    state.hammerhandsPower = 3;
+    state.blessRemainingSeconds = 60.0f;
+    state.blessPower = 5;
+    state.fateRemainingSeconds = 60.0f;
+    state.fatePower = 20;
+    state.hasteRemainingSeconds = 60.0f;
+    state.shieldRemainingSeconds = 60.0f;
+    state.painReflectionRemainingSeconds = 60.0f;
+
+    CHECK_EQ(service.effectiveArmorClass(12, state), 22);
+    CHECK_EQ(service.effectiveAttackDamageBonus(GameplayActorAttackAbility::Attack1, state), 13);
+    CHECK_EQ(service.effectiveAttackDamageBonus(GameplayActorAttackAbility::Attack2, state), 0);
+    CHECK_EQ(service.effectiveAttackHitBonus(state), 30);
+    CHECK(service.effectiveRecoveryProgressMultiplier(state) > 1.0f);
+    CHECK(service.halveIncomingMissileDamage(state));
+    CHECK(service.hasPainReflection(state));
+}
+
+TEST_CASE("shared actor AI applies monster melee buff damage and hit bonuses")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(17, 114);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.monsterLevel = 12;
+    actor.stats.attack1Damage.diceRolls = 2;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.stats.attack1Damage.bonus = 1;
+    actor.status.spellEffects.heroismRemainingSeconds = 60.0f;
+    actor.status.spellEffects.heroismPower = 7;
+    actor.status.spellEffects.hammerhandsRemainingSeconds = 60.0f;
+    actor.status.spellEffects.hammerhandsPower = 3;
+    actor.status.spellEffects.blessRemainingSeconds = 60.0f;
+    actor.status.spellEffects.blessPower = 5;
+    actor.status.spellEffects.fateRemainingSeconds = 60.0f;
+    actor.status.spellEffects.fatePower = 20;
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackMelee;
+    actor.runtime.queuedAttackAbility = GameplayActorAttackAbility::Attack1;
+    actor.runtime.actionSeconds = 0.0f;
+    actor.runtime.attackImpactTriggered = false;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 96.0f;
+    actor.target.currentEdgeDistance = 0.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.attackRequest.has_value());
+    CHECK_EQ(update.attackRequest->damage, 16);
+    CHECK_EQ(update.attackRequest->attackBonus, 25);
+    REQUIRE(update.state.spellEffects.has_value());
+    CHECK_EQ(update.state.spellEffects->fateRemainingSeconds, doctest::Approx(0.0f));
+    CHECK_EQ(update.state.spellEffects->fatePower, 0);
+}
+
+TEST_CASE("shared actor AI orbits during ranged recovery instead of closing to melee")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(16, 113);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.moveSpeed = 160;
+    actor.stats.attackConstraints.attack1IsRanged = true;
+    actor.runtime.attackCooldownSeconds = 0.5f;
+    actor.runtime.recoverySeconds = 0.5f;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 160.0f;
+    actor.movement.position = {1000.0f, 0.0f, 0.0f};
+    actor.movement.distanceToParty = 1000.0f;
+    actor.movement.edgeDistanceToParty = 936.0f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 1000.0f;
+    actor.target.currentEdgeDistance = 936.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.motionState.has_value());
+    CHECK(*update.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(update.movementIntent.applyMovement);
+    CHECK(update.movementIntent.action == ActorAiMovementAction::Pursue);
+    CHECK(std::abs(update.movementIntent.desiredMoveY) > 0.9f);
+    CHECK(update.movementIntent.desiredMoveX < 0.0f);
+    CHECK(std::abs(update.movementIntent.desiredMoveX) < 0.25f);
 }
 
 TEST_CASE("shared actor AI stands briefly when actor movement is crowded after collision")

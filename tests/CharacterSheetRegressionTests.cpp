@@ -62,12 +62,12 @@ TEST_CASE("monster incoming attack hit chance uses armor class and monster level
 
     for (int i = 0; i < 512; ++i)
     {
-        if (OpenYAMM::Game::GameMechanics::monsterAttackHitsArmorClass(30, 1, lowLevelRng))
+        if (OpenYAMM::Game::GameMechanics::monsterAttackHitsArmorClass(30, 1, 0, lowLevelRng))
         {
             ++lowLevelHits;
         }
 
-        if (OpenYAMM::Game::GameMechanics::monsterAttackHitsArmorClass(30, 20, highLevelRng))
+        if (OpenYAMM::Game::GameMechanics::monsterAttackHitsArmorClass(30, 20, 0, highLevelRng))
         {
             ++highLevelHits;
         }
@@ -90,19 +90,70 @@ TEST_CASE("dragon character sheet uses dragon ability attack and spell points")
     dragon.maxHealth = 40;
     dragon.skills["DragonAbility"] = {"DragonAbility", 9, OpenYAMM::Game::SkillMastery::Master};
 
-    dragon.maxSpellPoints = OpenYAMM::Game::GameMechanics::calculateBaseCharacterMaxSpellPoints(dragon);
+    dragon.maxSpellPoints = OpenYAMM::Game::GameMechanics::calculateBaseCharacterMaxSpellPoints(
+        dragon,
+        &gameData.classMultiplierTable);
     dragon.spellPoints = dragon.maxSpellPoints;
 
     const OpenYAMM::Game::CharacterSheetSummary summary =
         OpenYAMM::Game::GameMechanics::buildCharacterSheetSummary(dragon, &gameData.itemTable);
 
-    CHECK_EQ(dragon.maxSpellPoints, 15);
-    CHECK_EQ(summary.spellPoints.maximum, 15);
+    CHECK_EQ(dragon.maxSpellPoints, 25);
+    CHECK_EQ(summary.spellPoints.maximum, 25);
     CHECK_EQ(summary.combat.attack, 9);
     REQUIRE(summary.combat.shoot.has_value());
     CHECK_EQ(*summary.combat.shoot, 9);
     CHECK_EQ(summary.combat.meleeDamageText, "9 - 90");
     CHECK_EQ(summary.combat.rangedDamageText, "9 - 90");
+}
+
+TEST_CASE("base resource formulas include bodybuilding and meditation skill bonuses")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    OpenYAMM::Game::Character dragon = {};
+    dragon.className = "Dragon";
+    dragon.role = "Dragon";
+    dragon.level = 5;
+    dragon.endurance = 21;
+    dragon.skills["Bodybuilding"] = {"Bodybuilding", 1, OpenYAMM::Game::SkillMastery::Normal};
+    dragon.skills["Meditation"] = {"Meditation", 2, OpenYAMM::Game::SkillMastery::Expert};
+
+    CHECK_EQ(OpenYAMM::Game::GameMechanics::calculateBaseCharacterMaxHealth(
+        dragon,
+        &gameData.classMultiplierTable), 90);
+    CHECK_EQ(OpenYAMM::Game::GameMechanics::calculateBaseCharacterMaxSpellPoints(
+        dragon,
+        &gameData.classMultiplierTable), 45);
+}
+
+TEST_CASE("class multiplier table drives promoted class resource progression")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    const OpenYAMM::Game::ClassMultiplierEntry *pKnight = gameData.classMultiplierTable.get("Knight");
+    const OpenYAMM::Game::ClassMultiplierEntry *pChampion = gameData.classMultiplierTable.get("Champion");
+    const OpenYAMM::Game::ClassMultiplierEntry *pDragon = gameData.classMultiplierTable.get("Dragon");
+    const OpenYAMM::Game::ClassMultiplierEntry *pGreatWyrm = gameData.classMultiplierTable.get("GreatWyrm");
+
+    REQUIRE(pKnight != nullptr);
+    REQUIRE(pChampion != nullptr);
+    REQUIRE(pDragon != nullptr);
+    REQUIRE(pGreatWyrm != nullptr);
+    CHECK_EQ(pKnight->healthPerLevel, 5);
+    CHECK_EQ(pChampion->healthPerLevel, 9);
+    CHECK_GT(pGreatWyrm->healthPerLevel, pDragon->healthPerLevel);
+    CHECK_GT(pGreatWyrm->manaPerLevel, pDragon->manaPerLevel);
+
+    OpenYAMM::Game::Character character = {};
+    character.className = "Champion";
+    character.role = "Champion";
+    character.level = 1;
+    character.endurance = 14;
+
+    CHECK_EQ(OpenYAMM::Game::GameMechanics::calculateBaseCharacterMaxHealth(
+        character,
+        &gameData.classMultiplierTable), 49);
 }
 
 TEST_CASE("character sheet primary stats do not double count equipment bonuses")

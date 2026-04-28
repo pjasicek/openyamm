@@ -9,6 +9,7 @@
 namespace OpenYAMM::Game
 {
 class ItemTable;
+class ClassMultiplierTable;
 class SpellTable;
 class StandardItemEnchantTable;
 class SpecialItemEnchantTable;
@@ -126,10 +127,19 @@ struct CharacterEquipPlan
 class GameMechanics
 {
 public:
+    static void bindClassMultiplierTable(const ClassMultiplierTable *pClassMultiplierTable);
     static uint64_t experienceRequiredForNextLevel(uint32_t currentLevel);
     static uint32_t maximumTrainableLevelFromExperience(const Character &character);
-    static int calculateBaseCharacterMaxHealth(const Character &character);
-    static int calculateBaseCharacterMaxSpellPoints(const Character &character);
+    static int calculateBaseCharacterMaxHealth(
+        const Character &character,
+        const ClassMultiplierTable *pClassMultiplierTable = nullptr);
+    static int calculateBaseCharacterMaxSpellPoints(
+        const Character &character,
+        const ClassMultiplierTable *pClassMultiplierTable = nullptr);
+    static void refreshCharacterBaseResources(
+        Character &character,
+        bool restoreCurrentToMaximum = false,
+        const ClassMultiplierTable *pClassMultiplierTable = nullptr);
     static std::string buildExperienceInspectSupplement(const Character &character);
     static int resolveCharacterDisplayedBasePrimaryStat(
         const Character &character,
@@ -171,6 +181,7 @@ public:
     static bool monsterAttackHitsArmorClass(
         int targetArmorClass,
         int monsterLevel,
+        int attackBonus,
         std::mt19937 &rng);
     static std::optional<CharacterCondition> displayedCondition(const Character &character);
     static bool canAct(const Character &character);

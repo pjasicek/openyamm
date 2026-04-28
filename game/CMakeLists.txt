@@ -17,6 +17,7 @@ add_executable(openyamm
     tables/JournalQuestTable.cpp
     tables/CharacterInspectTable.cpp
     tables/CharacterDollTable.cpp
+    tables/ClassMultiplierTable.cpp
     tables/ClassSkillTable.cpp
     events/EventDialogContent.cpp
     events/EventRuntime.cpp

@@ -1043,7 +1043,9 @@ bool isJewelryOverlayEquipmentSlot(EquipmentSlot slot)
 
 bool isVisibleInCharacterDollOverlay(EquipmentSlot slot, bool jewelryOverlayOpen)
 {
-    return jewelryOverlayOpen ? isJewelryOverlayEquipmentSlot(slot) : !isJewelryOverlayEquipmentSlot(slot);
+    return jewelryOverlayOpen
+        ? isBodyEquipmentVisualSlot(slot) || isJewelryOverlayEquipmentSlot(slot)
+        : !isJewelryOverlayEquipmentSlot(slot);
 }
 
 bool usesAlternateCloakBeltEquippedVariant(EquipmentSlot slot)
@@ -3056,6 +3058,7 @@ bool OutdoorGameView::initialize(
     m_pOutdoorPartyRuntime = &sceneRuntime.partyRuntime();
     m_pOutdoorWorldRuntime = &sceneRuntime.worldRuntime();
     m_pOutdoorWorldRuntime->bindInteractionView(this);
+    m_pOutdoorWorldRuntime->bindGlobalEventProgram(&sceneRuntime.globalEventProgram());
     m_pOutdoorWorldRuntime->setWorldFxSystem(&m_worldFxSystem);
     m_gameSettings = settings;
     m_gameSession.gameplayScreenRuntime().bindSceneAdapter(this);
@@ -4076,6 +4079,7 @@ void OutdoorGameView::shutdown()
         if (m_pOutdoorWorldRuntime != nullptr)
         {
             m_pOutdoorWorldRuntime->bindInteractionView(nullptr);
+            m_pOutdoorWorldRuntime->bindGlobalEventProgram(nullptr);
             m_pOutdoorWorldRuntime->setWorldFxSystem(nullptr);
         }
         m_pOutdoorWorldRuntime = nullptr;

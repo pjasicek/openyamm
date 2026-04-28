@@ -166,6 +166,65 @@ struct RuntimeActorBillboard
     std::string actorName;
 };
 
+bool runtimeActorBillboardVisibleFromCamera(
+    const RuntimeActorBillboard &billboard,
+    const IndoorSceneRuntime *pSceneRuntime,
+    const bx::Vec3 &cameraPosition
+)
+{
+    if (pSceneRuntime == nullptr)
+    {
+        return true;
+    }
+
+    const IndoorMoveState &moveState = pSceneRuntime->partyRuntime().movementState();
+    const int16_t cameraSectorId = moveState.eyeSectorId >= 0 ? moveState.eyeSectorId : moveState.sectorId;
+
+    if (cameraSectorId < 0 || billboard.sectorId < 0 || cameraSectorId == billboard.sectorId)
+    {
+        return true;
+    }
+
+    const GameplayWorldPoint cameraPoint =
+    {
+        cameraPosition.x,
+        cameraPosition.y,
+        cameraPosition.z
+    };
+    const auto hasLineOfSightToActorPoint =
+        [pSceneRuntime, &cameraPoint, cameraSectorId, &billboard](float x, float y, float z)
+    {
+        const GameplayWorldPoint actorPoint = {x, y, z};
+        return pSceneRuntime->worldRuntime().hasIndoorVisibilityLineOfSight(
+            cameraPoint,
+            cameraSectorId,
+            actorPoint,
+            billboard.sectorId);
+    };
+
+    const float actorX = static_cast<float>(billboard.x);
+    const float actorY = static_cast<float>(billboard.y);
+    const float actorZ = static_cast<float>(billboard.z);
+    const float actorHeight = static_cast<float>(std::max<uint16_t>(billboard.height, 1));
+    const float actorRadius = static_cast<float>(std::max<uint16_t>(billboard.radius, 16));
+    const float toCameraX = cameraPosition.x - actorX;
+    const float toCameraY = cameraPosition.y - actorY;
+    const float toCameraLength = std::sqrt(toCameraX * toCameraX + toCameraY * toCameraY);
+    const float sideX = toCameraLength > 0.001f ? -toCameraY / toCameraLength : 1.0f;
+    const float sideY = toCameraLength > 0.001f ? toCameraX / toCameraLength : 0.0f;
+    const float sideOffset = std::min(actorRadius, 64.0f);
+    const float lowBodyZ = actorZ + std::max(16.0f, actorHeight * 0.35f);
+    const float midBodyZ = actorZ + std::max(24.0f, actorHeight * 0.55f);
+    const float headZ = actorZ + std::max(32.0f, actorHeight * 0.85f);
+    const bool cameraActorZSeparated = std::abs(cameraPosition.z - actorZ) > actorHeight * 0.35f;
+
+    return hasLineOfSightToActorPoint(actorX, actorY, lowBodyZ)
+        || hasLineOfSightToActorPoint(actorX, actorY, midBodyZ)
+        || (cameraActorZSeparated && hasLineOfSightToActorPoint(actorX, actorY, headZ))
+        || hasLineOfSightToActorPoint(actorX + sideX * sideOffset, actorY + sideY * sideOffset, midBodyZ)
+        || hasLineOfSightToActorPoint(actorX - sideX * sideOffset, actorY - sideY * sideOffset, midBodyZ);
+}
+
 struct RuntimeSpriteObjectBillboard
 {
     size_t objectIndex = static_cast<size_t>(-1);
@@ -434,7 +493,8 @@ std::vector<RuntimeActorBillboard> buildRuntimeActorBillboards(
         billboard.x = pActorAiState != nullptr ? int(std::lround(pActorAiState->preciseX)) : actor.x;
         billboard.y = pActorAiState != nullptr ? int(std::lround(pActorAiState->preciseY)) : actor.y;
         billboard.z = pActorAiState != nullptr ? int(std::lround(pActorAiState->preciseZ)) : actor.z;
-        billboard.sectorId = actor.sectorId;
+        billboard.sectorId =
+            pActorAiState != nullptr && pActorAiState->sectorId >= 0 ? pActorAiState->sectorId : actor.sectorId;
         billboard.radius = pActorAiState != nullptr ? pActorAiState->collisionRadius : actor.radius;
         billboard.height = pActorAiState != nullptr ? pActorAiState->collisionHeight : actor.height;
         billboard.spriteFrameIndex = spriteFrameIndex;
@@ -5273,6 +5333,11 @@ void IndoorRenderer::renderActorPreviewBillboards(
         for (const RuntimeActorBillboard &billboard : runtimeBillboards)
         {
             if (!isSectorVisible(billboard.sectorId, visibleSectorMask))
+            {
+                continue;
+            }
+
+            if (!runtimeActorBillboardVisibleFromCamera(billboard, m_pSceneRuntime, cameraPosition))
             {
                 continue;
             }

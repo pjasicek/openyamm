@@ -32,8 +32,12 @@ constexpr uint32_t DysonNpcId = 11;
 constexpr uint32_t LongTailNpcId = 279;
 constexpr uint32_t FredrickNpcId = 32;
 constexpr uint32_t DysonDirectNpcId = 483;
+constexpr uint32_t BlazenQuestNpcId = 295;
+constexpr uint32_t BlazenJoinNpcId = 484;
 constexpr uint32_t RohaniNpcId = 455;
 constexpr uint32_t StephenNpcId = 72;
+constexpr uint32_t BlazenRosterId = 35;
+constexpr uint32_t GemOfRestorationItemId = 623;
 
 const OpenYAMM::Game::Character *findPartyMemberByRosterId(
     const OpenYAMM::Game::Party &party,
@@ -57,12 +61,93 @@ bool innEquipmentItemIdentified(
     return equippedItemId == 0 || runtimeState.identified;
 }
 
+bool characterHasAnyEquippedItem(const OpenYAMM::Game::Character &character)
+{
+    return character.equipment.mainHand != 0
+        || character.equipment.offHand != 0
+        || character.equipment.bow != 0
+        || character.equipment.armor != 0
+        || character.equipment.helm != 0
+        || character.equipment.belt != 0
+        || character.equipment.cloak != 0
+        || character.equipment.gauntlets != 0
+        || character.equipment.boots != 0
+        || character.equipment.amulet != 0
+        || character.equipment.ring1 != 0
+        || character.equipment.ring2 != 0
+        || character.equipment.ring3 != 0
+        || character.equipment.ring4 != 0
+        || character.equipment.ring5 != 0
+        || character.equipment.ring6 != 0;
+}
+
+bool characterHasItem(const OpenYAMM::Game::Character &character, uint32_t itemId)
+{
+    if (itemId == 0)
+    {
+        return false;
+    }
+
+    for (const OpenYAMM::Game::InventoryItem &item : character.inventory)
+    {
+        if (item.objectDescriptionId == itemId)
+        {
+            return true;
+        }
+    }
+
+    return character.equipment.mainHand == itemId
+        || character.equipment.offHand == itemId
+        || character.equipment.bow == itemId
+        || character.equipment.armor == itemId
+        || character.equipment.helm == itemId
+        || character.equipment.belt == itemId
+        || character.equipment.cloak == itemId
+        || character.equipment.gauntlets == itemId
+        || character.equipment.boots == itemId
+        || character.equipment.amulet == itemId
+        || character.equipment.ring1 == itemId
+        || character.equipment.ring2 == itemId
+        || character.equipment.ring3 == itemId
+        || character.equipment.ring4 == itemId
+        || character.equipment.ring5 == itemId
+        || character.equipment.ring6 == itemId;
+}
+
 const OpenYAMM::Tests::RegressionGameData &requireRegressionGameData()
 {
     REQUIRE_MESSAGE(
         OpenYAMM::Tests::regressionGameDataLoaded(),
         OpenYAMM::Tests::regressionGameDataFailure().c_str());
     return OpenYAMM::Tests::regressionGameData();
+}
+
+std::optional<OpenYAMM::Game::ScriptedEventProgram> loadSyntheticMapEventProgram(
+    const std::string &body,
+    const std::string &chunkName)
+{
+    std::string luaSourceText = body;
+    luaSourceText += "\n";
+    luaSourceText += "evt.meta = evt.meta or {}\n";
+    luaSourceText += "evt.meta.map = evt.meta.map or {}\n";
+    luaSourceText += "evt.meta.map.onLoad = {}\n";
+    luaSourceText += "evt.meta.map.hint = {}\n";
+    luaSourceText += "evt.meta.map.summary = {}\n";
+    luaSourceText += "evt.meta.map.openedChestIds = {}\n";
+    luaSourceText += "evt.meta.map.textureNames = {}\n";
+    luaSourceText += "evt.meta.map.spriteNames = {}\n";
+    luaSourceText += "evt.meta.map.castSpellIds = {}\n";
+    luaSourceText += "evt.meta.map.timers = {}\n";
+
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> program =
+        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+            luaSourceText,
+            chunkName,
+            OpenYAMM::Game::ScriptedEventScope::Map,
+            error);
+    INFO(error);
+    return program;
 }
 
 bool dialogContainsText(const OpenYAMM::Game::EventDialogContent &dialog, const std::string &text)
@@ -83,6 +168,28 @@ bool dialogHasActionLabel(const OpenYAMM::Game::EventDialogContent &dialog, cons
     for (const OpenYAMM::Game::EventDialogAction &action : dialog.actions)
     {
         if (action.label == label)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool portraitFxContainsMember(
+    const OpenYAMM::Game::EventRuntimeState &runtimeState,
+    OpenYAMM::Game::PortraitFxEventKind kind,
+    size_t memberIndex)
+{
+    for (const OpenYAMM::Game::EventRuntimeState::PortraitFxRequest &request : runtimeState.portraitFxRequests)
+    {
+        if (request.kind != kind)
+        {
+            continue;
+        }
+
+        if (std::find(request.memberIndices.begin(), request.memberIndices.end(), memberIndex)
+            != request.memberIndices.end())
         {
             return true;
         }
@@ -1190,6 +1297,104 @@ TEST_CASE("actual roster join dyson direct")
     CHECK(harness.party().hasRosterMember(34));
 }
 
+TEST_CASE("blazen cure unlocks roster entry in ravenshore inn")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    harness.party().grantItem(GemOfRestorationItemId);
+
+    REQUIRE(harness.executeGlobalEvent(54));
+
+    CHECK(harness.party().hasQuestBit(435));
+    CHECK_FALSE(harness.eventRuntimeState().npcHouseOverrides.contains(BlazenJoinNpcId));
+    CHECK_EQ(harness.party().inventoryItemCount(GemOfRestorationItemId), 0);
+
+    harness.eventRuntimeState().messages.clear();
+    harness.openHouseDialog(AdventurersInnHouseId);
+
+    const std::vector<OpenYAMM::Game::AdventurersInnMember> &innMembers =
+        harness.party().adventurersInnMembers();
+    const auto blazenInnIt = std::find_if(
+        innMembers.begin(),
+        innMembers.end(),
+        [](const OpenYAMM::Game::AdventurersInnMember &member)
+        {
+            return member.character.rosterId == BlazenRosterId;
+        });
+    REQUIRE(blazenInnIt != innMembers.end());
+    CHECK_EQ(blazenInnIt->character.name, "Blazen Stormlance");
+    CHECK(characterHasAnyEquippedItem(blazenInnIt->character));
+    CHECK(characterHasItem(blazenInnIt->character, 5));
+    CHECK(characterHasItem(blazenInnIt->character, 45));
+    CHECK(characterHasItem(blazenInnIt->character, 63));
+    CHECK(characterHasItem(blazenInnIt->character, 97));
+    CHECK(characterHasItem(blazenInnIt->character, 103));
+
+    const size_t blazenInnIndex = static_cast<size_t>(std::distance(innMembers.begin(), blazenInnIt));
+    REQUIRE(harness.party().hireAdventurersInnMember(blazenInnIndex));
+    CHECK(harness.party().hasRosterMember(BlazenRosterId));
+}
+
+TEST_CASE("blazen cure keeps placed quest npc on original post-cure topics")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    harness.party().grantItem(GemOfRestorationItemId);
+
+    REQUIRE(harness.executeGlobalEvent(54));
+
+    harness.eventRuntimeState().messages.clear();
+
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openNpcDialogue(BlazenQuestNpcId);
+    CHECK_FALSE(dialogHasActionLabel(dialog, "Cure"));
+    CHECK(dialogHasActionLabel(dialog, "Ebonest"));
+    CHECK(dialogHasActionLabel(dialog, "Mad Necromancer"));
+    CHECK_FALSE(dialogHasActionLabel(dialog, "Join"));
+}
+
+TEST_CASE("actual roster join blazen direct")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openNpcDialogue(BlazenJoinNpcId);
+    const std::optional<size_t> joinIndex = findActionIndexByLabel(dialog, "Join");
+
+    REQUIRE(joinIndex.has_value());
+    const OpenYAMM::Game::EventDialogContent &offerDialog = harness.executeAndPresent(*joinIndex);
+    CHECK(dialogContainsText(offerDialog, "I will be forever in your debt."));
+
+    const std::optional<size_t> yesIndex = findActionIndexByLabel(offerDialog, "Yes");
+    REQUIRE(yesIndex.has_value());
+    harness.executeAndPresent(*yesIndex);
+
+    CHECK(harness.party().hasRosterMember(BlazenRosterId));
+}
+
+TEST_CASE("moved roster join npcs populate adventurers inn overlay")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    harness.eventRuntimeState().npcHouseOverrides[BlazenJoinNpcId] = AdventurersInnHouseId;
+
+    harness.openHouseDialog(AdventurersInnHouseId);
+
+    bool foundBlazen = false;
+
+    for (const OpenYAMM::Game::AdventurersInnMember &member : harness.party().adventurersInnMembers())
+    {
+        if (member.character.rosterId == BlazenRosterId)
+        {
+            foundBlazen = true;
+        }
+    }
+
+    CHECK(foundBlazen);
+}
+
 TEST_CASE("roster join mapping and players can show topic")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -1953,6 +2158,8 @@ TEST_CASE("promotion champion event primary knight")
     REQUIRE(pMember0 != nullptr);
     REQUIRE(pMember1 != nullptr);
     CHECK_EQ(pMember0->className, "Champion");
+    CHECK_EQ(pMember0->maxHealth, 49);
+    CHECK_EQ(pMember0->health, pMember0->maxHealth);
     CHECK_EQ(pMember1->className, "Cleric");
     CHECK(harness.party().hasAward(0, 23));
     CHECK_FALSE(harness.party().hasAward(1, 23));
@@ -1990,6 +2197,122 @@ TEST_CASE("promotion champion event multiple member indices")
     CHECK_FALSE(harness.party().hasAward(0, 23));
     CHECK_FALSE(harness.party().hasAward(3, 23));
     CHECK_EQ(harness.party().inventoryItemCount(539), 0u);
+}
+
+TEST_CASE("promote dragons includes first member and suppresses repeated no-op fx")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    REQUIRE(harness.party().setMemberClassName(0, "Dragon"));
+    REQUIRE(harness.party().setMemberClassName(1, "Dragon"));
+    harness.party().addAward(0, 26);
+
+    REQUIRE(harness.executeGlobalEvent(736));
+
+    const OpenYAMM::Game::Character *pMember0 = harness.party().member(0);
+    const OpenYAMM::Game::Character *pMember1 = harness.party().member(1);
+
+    REQUIRE(pMember0 != nullptr);
+    REQUIRE(pMember1 != nullptr);
+    CHECK_EQ(pMember0->className, "GreatWyrm");
+    CHECK_EQ(pMember1->className, "GreatWyrm");
+    CHECK(harness.party().hasAward(0, 26));
+    CHECK(harness.party().hasAward(1, 26));
+    CHECK(portraitFxContainsMember(
+        harness.eventRuntimeState(),
+        OpenYAMM::Game::PortraitFxEventKind::AwardGain,
+        0));
+
+    harness.eventRuntimeState().portraitFxRequests.clear();
+
+    REQUIRE(harness.executeGlobalEvent(736));
+
+    CHECK(harness.eventRuntimeState().portraitFxRequests.empty());
+}
+
+TEST_CASE("repeat promotion events include first member")
+{
+    struct RepeatPromotionCase
+    {
+        uint16_t eventId = 0;
+        const char *baseClassName = nullptr;
+        const char *promotedClassName = nullptr;
+        uint32_t promotionAwardId = 0;
+    };
+
+    const std::vector<RepeatPromotionCase> cases = {
+        {733, "DarkElf", "Patriarch", 19},
+        {734, "Troll", "WarTroll", 21},
+        {735, "Knight", "Champion", 23},
+        {736, "Dragon", "GreatWyrm", 26},
+        {737, "Cleric", "Priest", 30},
+        {738, "Necromancer", "Lich", 34},
+        {739, "Vampire", "Nosferatu", 32},
+        {740, "Minotaur", "MinotaurLord", 28},
+    };
+
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    for (const RepeatPromotionCase &testCase : cases)
+    {
+        CAPTURE(testCase.eventId);
+        OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+        REQUIRE(harness.party().setMemberClassName(0, testCase.baseClassName));
+
+        if (testCase.eventId == 738)
+        {
+            for (size_t memberIndex = 1; memberIndex < harness.party().members().size(); ++memberIndex)
+            {
+                REQUIRE(harness.party().setMemberClassName(memberIndex, testCase.baseClassName));
+            }
+        }
+
+        harness.party().addAward(0, testCase.promotionAwardId);
+
+        REQUIRE(harness.executeGlobalEvent(testCase.eventId));
+
+        const OpenYAMM::Game::Character *pMember0 = harness.party().member(0);
+
+        REQUIRE(pMember0 != nullptr);
+        CHECK_EQ(pMember0->className, testCase.promotedClassName);
+        CHECK(harness.party().hasAward(0, testCase.promotionAwardId));
+        CHECK(portraitFxContainsMember(
+            harness.eventRuntimeState(),
+            OpenYAMM::Game::PortraitFxEventKind::AwardGain,
+            0));
+
+        harness.eventRuntimeState().portraitFxRequests.clear();
+
+        REQUIRE(harness.executeGlobalEvent(testCase.eventId));
+
+        CHECK(harness.eventRuntimeState().portraitFxRequests.empty());
+    }
+}
+
+TEST_CASE("deftclaw visible topics do not depend on active member refresh")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    constexpr uint32_t DeftclawNpcId = 21;
+    harness.party().setQuestBit(17, true);
+    harness.party().setQuestBit(75, true);
+    harness.eventRuntimeState().npcTopicOverrides[DeftclawNpcId][1] = 61;
+    REQUIRE(harness.party().setActiveMemberIndex(3));
+
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openNpcDialogue(DeftclawNpcId);
+    const std::vector<std::string> labelsBeforeRefresh = collectActionLabels(dialog);
+
+    REQUIRE(harness.party().setActiveMemberIndex(0));
+    const OpenYAMM::Game::EventDialogContent &refreshedDialog = harness.refreshCurrentNpcDialog();
+    const std::vector<std::string> labelsAfterRefresh = collectActionLabels(refreshedDialog);
+
+    CHECK_EQ(labelsBeforeRefresh, labelsAfterRefresh);
+    CHECK(dialogHasActionLabel(refreshedDialog, "Alliance"));
+    CHECK_FALSE(dialogHasActionLabel(refreshedDialog, "Dragon Slayers"));
+    CHECK(dialogHasActionLabel(refreshedDialog, "Sword of the Slayer"));
 }
 
 TEST_CASE("event buoys grant skill points")
@@ -2132,4 +2455,38 @@ TEST_CASE("event teacher hint sets autonote and note fx")
     CHECK_NE(
         harness.eventRuntimeState().messages.front().find("Ashandra Withersmythe"),
         std::string::npos);
+}
+
+TEST_CASE("npc topic execution prefers global dialogue handler over colliding local map event")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    REQUIRE(gameData.globalEventProgram.has_value());
+
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> localEventProgram = loadSyntheticMapEventProgram(
+        "evt.map[53] = function()\n"
+        "    evt.SimpleMessage(\"LOCAL DOOR HANDLER\")\n"
+        "end\n",
+        "@SyntheticLocalTopicCollision.lua");
+    REQUIRE(localEventProgram.has_value());
+
+    OpenYAMM::Game::EventRuntimeState genericState = {};
+    OpenYAMM::Game::EventRuntime genericRuntime = {};
+    REQUIRE(genericRuntime.executeEventById(
+        localEventProgram,
+        gameData.globalEventProgram,
+        53,
+        genericState));
+    REQUIRE_FALSE(genericState.messages.empty());
+    CHECK_EQ(genericState.messages.back(), "LOCAL DOOR HANDLER");
+
+    OpenYAMM::Game::EventRuntimeState topicState = {};
+    OpenYAMM::Game::EventRuntime topicRuntime = {};
+    REQUIRE(topicRuntime.executeNpcTopicEventById(
+        localEventProgram,
+        gameData.globalEventProgram,
+        53,
+        topicState));
+    REQUIRE_FALSE(topicState.messages.empty());
+    CHECK_NE(topicState.messages.back().find("I was captured"), std::string::npos);
+    CHECK_EQ(topicState.messages.back().find("LOCAL DOOR HANDLER"), std::string::npos);
 }

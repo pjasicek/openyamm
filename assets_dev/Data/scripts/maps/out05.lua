@@ -325,245 +325,47 @@ RegisterEvent(103, "Drink from the well", function()
     return
 end, "Drink from the well")
 
-RegisterEvent(131, "Legacy event 131", function()
-    if IsQBitSet(QBit(22)) then
-        if IsQBitSet(QBit(21)) then
-            if not IsQBitSet(QBit(75)) then
-                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                    SetQBit(QBit(75))
-                end
-            end
-            if IsQBitSet(QBit(200)) then return end
-            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-            SetQBit(QBit(200))
-            return
-        elseif IsQBitSet(QBit(158)) then
-            if not IsQBitSet(QBit(75)) then
-                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                    SetQBit(QBit(75))
-                end
-            end
-            if IsQBitSet(QBit(200)) then return end
-            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-            SetQBit(QBit(200))
-            return
+RegisterEvent(131, "Garrote Gorge kill quest tracker", function()
+    if not IsQBitSet(QBit(22))
+        and not IsQBitSet(QBit(155))
+        and evt.CheckMonstersKilled(2, 189, 0, false)
+        and evt.CheckMonstersKilled(2, 190, 0, false)
+        and evt.CheckMonstersKilled(2, 191, 0, false) then
+        if not IsQBitSet(QBit(156)) then
+            SetQBit(QBit(156))
+            evt.SummonMonsters(2, 1, 1, -30272, -16512, 0, 1, 0)
+            evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
         else
-            if evt.CheckMonstersKilled(2, 42, 0, false) then
-                if evt.CheckMonstersKilled(2, 43, 0, false) then
-                    if evt.CheckMonstersKilled(2, 44, 0, false) then
-                        if not IsQBitSet(QBit(159)) then
-                            SetQBit(QBit(159))
-                            evt.SummonMonsters(3, 1, 1, -30272, -16512, 0, 2, 0)
-                            evt.SetMonGroupBit(2, MonsterBits.Invisible, 1)
-                            if not IsQBitSet(QBit(75)) then
-                                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                                    SetQBit(QBit(75))
-                                end
-                            end
-                            if IsQBitSet(QBit(200)) then return end
-                            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-                            SetQBit(QBit(200))
-                            return
-                        end
-                        SetQBit(QBit(158))
-                        SetQBit(QBit(225))
-                        ClearQBit(QBit(225))
-                        evt.StatusText("You have killed all of the Dragon Hunters")
-                    end
-                end
-            end
-            if not IsQBitSet(QBit(75)) then
-                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                    SetQBit(QBit(75))
-                end
-            end
-            if IsQBitSet(QBit(200)) then return end
-            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-            SetQBit(QBit(200))
-            return
+            SetQBit(QBit(155))
+            SetQBit(QBit(225))
+            ClearQBit(QBit(225))
+            evt.StatusText("You have killed all of the Dragons")
         end
-    elseif IsQBitSet(QBit(155)) then
-        if IsQBitSet(QBit(21)) then
-            if not IsQBitSet(QBit(75)) then
-                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                    SetQBit(QBit(75))
-                end
-            end
-            if IsQBitSet(QBit(200)) then return end
-            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-            SetQBit(QBit(200))
-            return
-        elseif IsQBitSet(QBit(158)) then
-            if not IsQBitSet(QBit(75)) then
-                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                    SetQBit(QBit(75))
-                end
-            end
-            if IsQBitSet(QBit(200)) then return end
-            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-            SetQBit(QBit(200))
-            return
+    end
+
+    if not IsQBitSet(QBit(21))
+        and not IsQBitSet(QBit(158))
+        and evt.CheckMonstersKilled(2, 42, 0, false)
+        and evt.CheckMonstersKilled(2, 43, 0, false)
+        and evt.CheckMonstersKilled(2, 44, 0, false) then
+        if not IsQBitSet(QBit(159)) then
+            SetQBit(QBit(159))
+            evt.SummonMonsters(3, 1, 1, -30272, -16512, 0, 2, 0)
+            evt.SetMonGroupBit(2, MonsterBits.Invisible, 1)
         else
-            if evt.CheckMonstersKilled(2, 42, 0, false) then
-                if evt.CheckMonstersKilled(2, 43, 0, false) then
-                    if evt.CheckMonstersKilled(2, 44, 0, false) then
-                        if not IsQBitSet(QBit(159)) then
-                            SetQBit(QBit(159))
-                            evt.SummonMonsters(3, 1, 1, -30272, -16512, 0, 2, 0)
-                            evt.SetMonGroupBit(2, MonsterBits.Invisible, 1)
-                            if not IsQBitSet(QBit(75)) then
-                                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                                    SetQBit(QBit(75))
-                                end
-                            end
-                            if IsQBitSet(QBit(200)) then return end
-                            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-                            SetQBit(QBit(200))
-                            return
-                        end
-                        SetQBit(QBit(158))
-                        SetQBit(QBit(225))
-                        ClearQBit(QBit(225))
-                        evt.StatusText("You have killed all of the Dragon Hunters")
-                    end
-                end
-            end
-            if not IsQBitSet(QBit(75)) then
-                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                    SetQBit(QBit(75))
-                end
-            end
-            if IsQBitSet(QBit(200)) then return end
-            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-            SetQBit(QBit(200))
-            return
+            SetQBit(QBit(158))
+            SetQBit(QBit(225))
+            ClearQBit(QBit(225))
+            evt.StatusText("You have killed all of the Dragon Hunters")
         end
-    else
-        if evt.CheckMonstersKilled(2, 189, 0, false) then
-            if evt.CheckMonstersKilled(2, 190, 0, false) then
-                if evt.CheckMonstersKilled(2, 191, 0, false) then
-                    if not IsQBitSet(QBit(156)) then
-                        SetQBit(QBit(156))
-                        evt.SummonMonsters(2, 1, 1, -30272, -16512, 0, 1, 0)
-                        evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
-                        if IsQBitSet(QBit(21)) then
-                            if not IsQBitSet(QBit(75)) then
-                                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                                    SetQBit(QBit(75))
-                                end
-                            end
-                            if IsQBitSet(QBit(200)) then return end
-                            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-                            SetQBit(QBit(200))
-                            return
-                        elseif IsQBitSet(QBit(158)) then
-                            if not IsQBitSet(QBit(75)) then
-                                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                                    SetQBit(QBit(75))
-                                end
-                            end
-                            if IsQBitSet(QBit(200)) then return end
-                            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-                            SetQBit(QBit(200))
-                            return
-                        else
-                            if evt.CheckMonstersKilled(2, 42, 0, false) then
-                                if evt.CheckMonstersKilled(2, 43, 0, false) then
-                                    if evt.CheckMonstersKilled(2, 44, 0, false) then
-                                        if not IsQBitSet(QBit(159)) then
-                                            SetQBit(QBit(159))
-                                            evt.SummonMonsters(3, 1, 1, -30272, -16512, 0, 2, 0)
-                                            evt.SetMonGroupBit(2, MonsterBits.Invisible, 1)
-                                            if not IsQBitSet(QBit(75)) then
-                                                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                                                    SetQBit(QBit(75))
-                                                end
-                                            end
-                                            if IsQBitSet(QBit(200)) then return end
-                                            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-                                            SetQBit(QBit(200))
-                                            return
-                                        end
-                                        SetQBit(QBit(158))
-                                        SetQBit(QBit(225))
-                                        ClearQBit(QBit(225))
-                                        evt.StatusText("You have killed all of the Dragon Hunters")
-                                    end
-                                end
-                            end
-                            if not IsQBitSet(QBit(75)) then
-                                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                                    SetQBit(QBit(75))
-                                end
-                            end
-                            if IsQBitSet(QBit(200)) then return end
-                            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-                            SetQBit(QBit(200))
-                            return
-                        end
-                    end
-                    SetQBit(QBit(155))
-                    SetQBit(QBit(225))
-                    ClearQBit(QBit(225))
-                    evt.StatusText("You have killed all of the Dragons")
-                end
-            end
-        end
-        if IsQBitSet(QBit(21)) then
-            if not IsQBitSet(QBit(75)) then
-                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                    SetQBit(QBit(75))
-                end
-            end
-            if IsQBitSet(QBit(200)) then return end
-            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-            SetQBit(QBit(200))
-            return
-        elseif IsQBitSet(QBit(158)) then
-            if not IsQBitSet(QBit(75)) then
-                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                    SetQBit(QBit(75))
-                end
-            end
-            if IsQBitSet(QBit(200)) then return end
-            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-            SetQBit(QBit(200))
-            return
-        else
-            if evt.CheckMonstersKilled(2, 42, 0, false) then
-                if evt.CheckMonstersKilled(2, 43, 0, false) then
-                    if evt.CheckMonstersKilled(2, 44, 0, false) then
-                        if not IsQBitSet(QBit(159)) then
-                            SetQBit(QBit(159))
-                            evt.SummonMonsters(3, 1, 1, -30272, -16512, 0, 2, 0)
-                            evt.SetMonGroupBit(2, MonsterBits.Invisible, 1)
-                            if not IsQBitSet(QBit(75)) then
-                                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                                    SetQBit(QBit(75))
-                                end
-                            end
-                            if IsQBitSet(QBit(200)) then return end
-                            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-                            SetQBit(QBit(200))
-                            return
-                        end
-                        SetQBit(QBit(158))
-                        SetQBit(QBit(225))
-                        ClearQBit(QBit(225))
-                        evt.StatusText("You have killed all of the Dragon Hunters")
-                    end
-                end
-            end
-            if not IsQBitSet(QBit(75)) then
-                if evt.CheckMonstersKilled(1, 24, 0, false) then
-                    SetQBit(QBit(75))
-                end
-            end
-            if IsQBitSet(QBit(200)) then return end
-            if not evt.CheckMonstersKilled(4, 2, 1, false) then return end
-            SetQBit(QBit(200))
-            return
-        end
+    end
+
+    if not IsQBitSet(QBit(75)) and evt.CheckMonstersKilled(1, 24, 0, false) then
+        SetQBit(QBit(75))
+    end
+
+    if not IsQBitSet(QBit(200)) and evt.CheckMonstersKilled(4, 2, 1, false) then
+        SetQBit(QBit(200))
     end
 end)
 
@@ -692,4 +494,3 @@ RegisterEvent(504, "Enter the Grand Temple of Eep", function()
     evt.MoveToMap(-2812, 726, 1, 1536, 0, 0, 0, 0, "D44.blv")
     return
 end, "Enter the Grand Temple of Eep")
-
