@@ -504,6 +504,7 @@ TEST_CASE("dragon character normal attack uses dragon ability firebolt profile")
     CHECK(attack.mode == OpenYAMM::Game::CharacterAttackMode::DragonBreath);
     CHECK(attack.resolvesOnImpact);
     CHECK(attack.hit);
+    CHECK(attack.damageType == OpenYAMM::Game::CombatDamageType::Irresistible);
     CHECK_EQ(
         attack.spellId,
         OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::FireBolt));
@@ -906,6 +907,26 @@ TEST_CASE("running halves party recovery progress")
     party.updateRecovery(1.0f, 0.5f);
 
     CHECK(pMember->recoverySecondsRemaining == doctest::Approx(1.5f));
+}
+
+TEST_CASE("passive regeneration skill restores hit points over time")
+{
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+
+    pMember->maxHealth = 200;
+    pMember->health = 1;
+    pMember->skills["Regeneration"] = {"Regeneration", 200, OpenYAMM::Game::SkillMastery::Grandmaster};
+    party.refreshDerivedState();
+
+    CHECK(pMember->healthRegenPerSecond == doctest::Approx(80.0f));
+
+    party.updateRecovery(1.0f);
+
+    CHECK_EQ(pMember->health, 81);
 }
 
 TEST_CASE("leather expertise removes leather recovery penalty")

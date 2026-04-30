@@ -607,6 +607,32 @@ bool memberSavesAgainstMonsterSpecialAttack(
     return std::uniform_int_distribution<int>(0, saveCheck - 1)(rng) >= 30;
 }
 
+bool memberImmuneToMonsterSpecialAttack(
+    const CharacterSheetSummary &summary,
+    MonsterSpecialAttackKind specialAttackKind)
+{
+    switch (specialAttackKind)
+    {
+        case MonsterSpecialAttackKind::Insane:
+        case MonsterSpecialAttackKind::Paralyze:
+        case MonsterSpecialAttackKind::Fear:
+            return summary.mindResistance.infinite;
+
+        case MonsterSpecialAttackKind::Petrify:
+            return summary.earthResistance.infinite;
+
+        case MonsterSpecialAttackKind::PoisonWeak:
+        case MonsterSpecialAttackKind::PoisonMedium:
+        case MonsterSpecialAttackKind::PoisonSevere:
+        case MonsterSpecialAttackKind::Dead:
+        case MonsterSpecialAttackKind::Eradicate:
+            return summary.bodyResistance.infinite;
+
+        default:
+            return false;
+    }
+}
+
 bool shouldApplyMonsterSpecialAttack(
     const GameplayCombatController::CombatEvent &event,
     const GameplayCombatActorInfo &sourceActor,
@@ -675,6 +701,11 @@ bool applyMonsterSpecialAttack(
         context.pRuntime != nullptr ? context.pRuntime->itemTable() : nullptr,
         context.pRuntime != nullptr ? context.pRuntime->standardItemEnchantTable() : nullptr,
         context.pRuntime != nullptr ? context.pRuntime->specialItemEnchantTable() : nullptr);
+
+    if (memberImmuneToMonsterSpecialAttack(summary, sourceActor.specialAttackKind))
+    {
+        return false;
+    }
 
     if (memberSavesAgainstMonsterSpecialAttack(
             *pMember,

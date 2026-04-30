@@ -2628,7 +2628,7 @@ CombatDamageType GameMechanics::spellCombatDamageType(uint32_t spellId, const Sp
 {
     if (spellIdFromValue(spellId) == SpellId::DragonBreath)
     {
-        return CombatDamageType::Irresistible;
+        return CombatDamageType::Fire;
     }
 
     const SpellEntry *pSpellEntry =

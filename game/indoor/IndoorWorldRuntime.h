@@ -97,6 +97,7 @@ public:
         uint8_t crowdEscapeAttempts = 0;
         int8_t crowdSideSign = 0;
         bool attackImpactTriggered = false;
+        bool suppressLowHealthFlee = false;
     };
 
     struct BloodSplatState

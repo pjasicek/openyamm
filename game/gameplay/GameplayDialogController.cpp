@@ -39,6 +39,7 @@ constexpr uint32_t DeftclawDragonCaveNpcId = 21;
 constexpr uint32_t DeftclawCouncilNpcId = 66;
 constexpr float MinutesPerDay = 24.0f * 60.0f;
 constexpr float OeYellowAlertDistance = 5120.0f;
+constexpr int OutdoorMapTravelFoodCost = 5;
 
 std::string joinIds(const std::vector<uint32_t> &ids)
 {
@@ -160,6 +161,25 @@ std::optional<SoundId> soundIdForPortraitFxEvent(PortraitFxEventKind kind)
 bool isDungeonMapFileName(const std::string &mapFileName)
 {
     return toLowerCopy(mapFileName).ends_with(".blv");
+}
+
+bool isOutdoorMapFileName(const std::string &mapFileName)
+{
+    return toLowerCopy(mapFileName).ends_with(".odm");
+}
+
+int mapTransitionTravelFoodRequired(
+    const GameplayDialogController::Context &context,
+    const MapEdgeTransition &transition)
+{
+    if (context.pCurrentMap != nullptr
+        && isOutdoorMapFileName(context.pCurrentMap->fileName)
+        && isOutdoorMapFileName(transition.destinationMapFileName))
+    {
+        return OutdoorMapTravelFoodCost;
+    }
+
+    return std::max(0, transition.travelDays);
 }
 
 bool isCurrentMapDungeon(const GameplayDialogController::Context &context)
@@ -599,9 +619,9 @@ int boundaryTravelHeadingDegrees(MapBoundaryEdge edge)
     return 0;
 }
 
-void applyTravelFoodAndFatigue(Party &party, int travelDays)
+void applyTravelFoodAndFatigue(Party &party, int foodRequired)
 {
-    if (travelDays <= 0)
+    if (foodRequired <= 0)
     {
         return;
     }
@@ -610,10 +630,10 @@ void applyTravelFoodAndFatigue(Party &party, int travelDays)
 
     if (availableFood > 0)
     {
-        party.addFood(-travelDays);
+        party.addFood(-foodRequired);
     }
 
-    if (availableFood >= travelDays)
+    if (availableFood >= foodRequired)
     {
         return;
     }
@@ -653,7 +673,7 @@ void applyMapTransitionTravelSideEffects(
     if (context.pParty != nullptr)
     {
         context.pParty->restAndHealAll();
-        applyTravelFoodAndFatigue(*context.pParty, transition.travelDays);
+        applyTravelFoodAndFatigue(*context.pParty, mapTransitionTravelFoodRequired(context, transition));
     }
 }
 

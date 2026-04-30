@@ -241,6 +241,7 @@ public:
         float crowdProbeElapsedSeconds = 0.0f;
         uint8_t crowdEscapeAttempts = 0;
         int8_t crowdSideSign = 0;
+        bool suppressLowHealthFlee = false;
     };
 
     using CombatEvent = GameplayCombatController::CombatEvent;
@@ -708,6 +709,7 @@ public:
     float partyX() const override;
     float partyY() const override;
     float partyFootZ() const override;
+    bool partyIsAirborneForRest() const override;
     void syncSpellMovementStatesFromPartyBuffs() override;
     void requestPartyJump() override;
     void setAlwaysRunEnabled(bool enabled) override;

@@ -78,7 +78,46 @@ int worstConditionSeverity(const Character &member)
 
 int classTierForClassName(const std::string &className)
 {
-    static_cast<void>(className);
+    const std::string canonicalClass = canonicalClassName(className);
+
+    if (canonicalClass == "PriestLight"
+        || canonicalClass == "PriestDark"
+        || canonicalClass == "Warlock"
+        || canonicalClass == "ArchDruid"
+        || canonicalClass == "Cavalier"
+        || canonicalClass == "BlackKnight"
+        || canonicalClass == "Master"
+        || canonicalClass == "Ninja"
+        || canonicalClass == "Hero"
+        || canonicalClass == "Villain"
+        || canonicalClass == "BountyHunter"
+        || canonicalClass == "RangerLord"
+        || canonicalClass == "Assassin"
+        || canonicalClass == "Spy"
+        || canonicalClass == "ArchMage")
+    {
+        return 3;
+    }
+
+    if (canonicalClass == "MasterArcher"
+        || canonicalClass == "Priest"
+        || canonicalClass == "Patriarch"
+        || canonicalClass == "GreatWyrm"
+        || canonicalClass == "GreatDruid"
+        || canonicalClass == "Champion"
+        || canonicalClass == "MinotaurLord"
+        || canonicalClass == "Initiate"
+        || canonicalClass == "Crusader"
+        || canonicalClass == "Hunter"
+        || canonicalClass == "Rogue"
+        || canonicalClass == "WarTroll"
+        || canonicalClass == "Nosferatu"
+        || canonicalClass == "Wizard"
+        || canonicalClass == "Lich")
+    {
+        return 2;
+    }
+
     return 1;
 }
 }

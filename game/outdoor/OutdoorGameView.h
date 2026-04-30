@@ -152,6 +152,10 @@ private:
         float u;
         float v;
         float secretPulse;
+        float flowUPerSecond;
+        float flowVPerSecond;
+        float lavaFlow;
+        float fluidFlow;
 
         static void init();
 
@@ -197,6 +201,8 @@ private:
         uint32_t baseAttributes = 0;
         size_t bModelIndex = 0;
         size_t faceIndex = 0;
+        int textureWidth = 0;
+        int textureHeight = 0;
         std::string textureName;
         size_t defaultAnimationIndex = static_cast<size_t>(-1);
     };
@@ -496,6 +502,7 @@ private:
     void clearWorldInteractionInputLatches();
     float innRestDurationMinutes(uint32_t houseId) const;
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
+    void syncCursorToGameplayCrosshair();
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     bool m_isInitialized;
     bool m_isRenderable;

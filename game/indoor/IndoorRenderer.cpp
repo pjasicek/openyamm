@@ -1619,6 +1619,42 @@ std::string normalizeBillboardTextureName(const std::string &textureName)
     return textureName;
 }
 
+std::array<float, 4> indoorFaceFlowInfo(
+    uint32_t effectiveAttributes,
+    int textureWidth,
+    int textureHeight)
+{
+    constexpr float FlowPixelsPerSecond = 62.5f;
+    std::array<float, 4> flowInfo = {0.0f, 0.0f, 0.0f, 0.0f};
+
+    if (textureWidth <= 0 || textureHeight <= 0)
+    {
+        return flowInfo;
+    }
+
+    if (hasFaceAttribute(effectiveAttributes, FaceAttribute::FlowDown))
+    {
+        flowInfo[1] = -FlowPixelsPerSecond / static_cast<float>(textureHeight);
+    }
+    else if (hasFaceAttribute(effectiveAttributes, FaceAttribute::FlowUp))
+    {
+        flowInfo[1] = FlowPixelsPerSecond / static_cast<float>(textureHeight);
+    }
+
+    if (hasFaceAttribute(effectiveAttributes, FaceAttribute::FlowRight))
+    {
+        flowInfo[0] = FlowPixelsPerSecond / static_cast<float>(textureWidth);
+    }
+    else if (hasFaceAttribute(effectiveAttributes, FaceAttribute::FlowLeft))
+    {
+        flowInfo[0] = -FlowPixelsPerSecond / static_cast<float>(textureWidth);
+    }
+
+    flowInfo[2] = hasFaceAttribute(effectiveAttributes, FaceAttribute::Lava) ? 1.0f : 0.0f;
+    flowInfo[3] = hasFaceAttribute(effectiveAttributes, FaceAttribute::Fluid) ? 1.0f : 0.0f;
+    return flowInfo;
+}
+
 float fixedDoorDirectionComponentToFloat(int value)
 {
     return static_cast<float>(value) / 65536.0f;
@@ -4504,6 +4540,7 @@ void IndoorRenderer::TexturedVertex::init()
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord1, 4, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord2, 1, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord3, 4, bgfx::AttribType::Float)
         .end();
 }
 
@@ -7301,6 +7338,10 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
         return vertices;
     }
 
+    const bx::Vec3 faceNormal = computeFaceNormal(transformedVertices, face);
+    const std::array<float, 4> flowInfo =
+        indoorFaceFlowInfo(effectiveAttributes, texture.width, texture.height);
+
     const std::optional<MechanismFaceTextureState> mechanismFaceTextureState =
         findMechanismFaceTextureState(faceIndex, indoorMapDeltaData, eventRuntimeState);
     const bool useGeometryTextureCoordinates = mechanismFaceTextureState.has_value();
@@ -7311,7 +7352,6 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
 
     if (useGeometryTextureCoordinates)
     {
-        const bx::Vec3 faceNormal = computeFaceNormal(transformedVertices, face);
         bx::Vec3 axisU = {0.0f, 0.0f, 0.0f};
         bx::Vec3 axisV = {0.0f, 0.0f, 0.0f};
 
@@ -7451,6 +7491,10 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
             texturedVertex.barycentric1 = triangleVertexSlot == 1 ? 1.0f : 0.0f;
             texturedVertex.barycentric2 = triangleVertexSlot == 2 ? 1.0f : 0.0f;
             texturedVertex.boundaryEdgeMask = boundaryEdgeMask;
+            texturedVertex.flowUPerSecond = flowInfo[0];
+            texturedVertex.flowVPerSecond = flowInfo[1];
+            texturedVertex.lavaFlow = flowInfo[2];
+            texturedVertex.fluidFlow = flowInfo[3];
 
             if (useGeometryTextureCoordinates
                 && faceVertexIndex < geometryUs.size()

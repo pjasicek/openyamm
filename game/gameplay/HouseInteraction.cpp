@@ -273,10 +273,7 @@ int skillLearningCost(const HouseEntry &houseEntry, bool isGuild)
 
 int trainingCost(const HouseEntry &houseEntry, const Party &party)
 {
-    const Character *pMember = party.activeMember();
-    const uint32_t level = pMember != nullptr ? pMember->level : 1;
-    const int scaledCost = static_cast<int>(level) * roundPrice(houseEntry.priceMultiplier, 10, 5);
-    return std::max(10, scaledCost);
+    return PriceCalculator::trainingPrice(party.activeMember(), houseEntry);
 }
 
 uint64_t experienceRequiredForNextLevel(uint32_t currentLevel)

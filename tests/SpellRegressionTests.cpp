@@ -1,6 +1,8 @@
 #include "doctest/doctest.h"
 
 #include "game/StringUtils.h"
+#include "game/gameplay/GameplayActorService.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/maps/SaveGame.h"
 #include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/PartySpellSystem.h"
@@ -79,6 +81,40 @@ TEST_CASE("party spell backend rejects cast without spell points")
     CHECK(
         result.status == OpenYAMM::Game::PartySpellCastStatus::NotEnoughSpellPoints);
     CHECK(worldRuntime.projectileRequests().empty());
+}
+
+TEST_CASE("dark magic dragon breath spell uses fire damage so monster fire immunity can resist it")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    CHECK(
+        OpenYAMM::Game::GameMechanics::spellCombatDamageType(
+            OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::DragonBreath),
+            &gameData.spellTable)
+        == OpenYAMM::Game::CombatDamageType::Fire);
+}
+
+TEST_CASE("shared actor mind spell effects are rejected by mind immunity")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::GameplayActorService service = {};
+    OpenYAMM::Game::GameplayActorSpellEffectState state = {};
+    service.bindTables(&gameData.monsterTable, &gameData.spellTable);
+
+    const OpenYAMM::Game::GameplayActorService::SharedSpellEffectResult result =
+        service.tryApplySharedSpellEffect(
+            OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Fear),
+            5,
+            OpenYAMM::Game::SkillMastery::Expert,
+            false,
+            true,
+            200,
+            state);
+
+    CHECK(
+        result.disposition
+        == OpenYAMM::Game::GameplayActorService::SharedSpellDisposition::Rejected);
+    CHECK_EQ(state.fearRemainingSeconds, 0.0f);
 }
 
 TEST_CASE("party spell backend applies half recovery on real cast failure")
@@ -193,6 +229,134 @@ TEST_CASE("party spell backend haste applies party buff and spends mana")
     CHECK(party.hasPartyBuff(OpenYAMM::Game::PartyBuffId::Haste));
     CHECK_EQ(pCaster->spellPoints, initialSpellPoints - 5);
     CHECK(worldRuntime.syncSpellMovementStatesCalled());
+}
+
+TEST_CASE("grandmaster fear casts without target and affects hostile actors in sight")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    REQUIRE(pCaster != nullptr);
+    pCaster->skills["DragonAbility"] = {"DragonAbility", 11, OpenYAMM::Game::SkillMastery::Grandmaster};
+
+    OpenYAMM::Game::GameplayRuntimeActorState visibleHostile = {};
+    visibleHostile.preciseX = 512.0f;
+    visibleHostile.preciseY = 0.0f;
+    visibleHostile.preciseZ = 0.0f;
+    visibleHostile.radius = 32;
+    visibleHostile.height = 128;
+    visibleHostile.hostileToParty = true;
+    worldRuntime.addActor(visibleHostile);
+
+    OpenYAMM::Game::GameplayRuntimeActorState visibleFriendly = visibleHostile;
+    visibleFriendly.preciseY = 64.0f;
+    visibleFriendly.hostileToParty = false;
+    worldRuntime.addActor(visibleFriendly);
+
+    OpenYAMM::Game::GameplayRuntimeActorState hiddenHostile = visibleHostile;
+    hiddenHostile.preciseX = -512.0f;
+    worldRuntime.addActor(hiddenHostile);
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Fear);
+    request.spendMana = false;
+    request.applyRecovery = false;
+    request.hasViewTransform = true;
+    request.viewX = 0.0f;
+    request.viewY = 0.0f;
+    request.viewZ = 96.0f;
+    request.viewYawRadians = 0.0f;
+    request.viewPitchRadians = 0.0f;
+    request.viewAspectRatio = 4.0f / 3.0f;
+
+    const OpenYAMM::Game::PartySpellCastResult result = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+
+    REQUIRE(result.succeeded());
+    CHECK(result.targetKind == OpenYAMM::Game::PartySpellCastTargetKind::None);
+    CHECK(result.effectKind == OpenYAMM::Game::PartySpellCastEffectKind::AreaEffect);
+    REQUIRE_EQ(worldRuntime.appliedSpellRequests().size(), 1u);
+    CHECK_EQ(worldRuntime.appliedSpellRequests().front().actorIndex, 0u);
+}
+
+TEST_CASE("master fear still requires an actor target")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    REQUIRE(pCaster != nullptr);
+    pCaster->skills["DragonAbility"] = {"DragonAbility", 8, OpenYAMM::Game::SkillMastery::Master};
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Fear);
+    request.spendMana = false;
+    request.applyRecovery = false;
+
+    const OpenYAMM::Game::PartySpellCastResult result = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+
+    CHECK(result.status == OpenYAMM::Game::PartySpellCastStatus::NeedActorTarget);
+    CHECK(result.targetKind == OpenYAMM::Game::PartySpellCastTargetKind::Actor);
+}
+
+TEST_CASE("day of the gods stat bonus increases derived resources")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    OpenYAMM::Game::Character *pCleric = party.member(1);
+    REQUIRE(pCaster != nullptr);
+    REQUIRE(pCleric != nullptr);
+
+    pCaster->skills["LightMagic"] = {"LightMagic", 250, OpenYAMM::Game::SkillMastery::Grandmaster};
+    pCaster->maxSpellPoints = 1000;
+    pCaster->spellPoints = 1000;
+
+    const int initialCasterMaximumHealth =
+        pCaster->maxHealth + pCaster->permanentBonuses.maxHealth + pCaster->magicalBonuses.maxHealth;
+    const int initialClericMaximumSpellPoints =
+        pCleric->maxSpellPoints + pCleric->permanentBonuses.maxSpellPoints + pCleric->magicalBonuses.maxSpellPoints;
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::DayOfGods);
+
+    const OpenYAMM::Game::PartySpellCastResult result = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+
+    REQUIRE(result.succeeded());
+    CHECK_GT(pCaster->magicalBonuses.endurance, 0);
+    CHECK_GT(
+        pCaster->maxHealth + pCaster->permanentBonuses.maxHealth + pCaster->magicalBonuses.maxHealth,
+        initialCasterMaximumHealth);
+    CHECK_GT(
+        pCleric->maxSpellPoints + pCleric->permanentBonuses.maxSpellPoints + pCleric->magicalBonuses.maxSpellPoints,
+        initialClericMaximumSpellPoints);
+
+    const OpenYAMM::Game::CharacterSheetSummary casterSummary =
+        OpenYAMM::Game::GameMechanics::buildCharacterSheetSummary(*pCaster, &gameData.itemTable);
+    CHECK_EQ(casterSummary.health.maximum,
+        pCaster->maxHealth + pCaster->permanentBonuses.maxHealth + pCaster->magicalBonuses.maxHealth);
 }
 
 TEST_CASE("party spell backend fire bolt spawns projectile")

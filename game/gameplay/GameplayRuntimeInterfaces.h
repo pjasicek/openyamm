@@ -390,6 +390,10 @@ public:
     virtual float partyX() const = 0;
     virtual float partyY() const = 0;
     virtual float partyFootZ() const = 0;
+    virtual bool partyIsAirborneForRest() const
+    {
+        return false;
+    }
     virtual void syncSpellMovementStatesFromPartyBuffs() = 0;
     virtual void requestPartyJump() = 0;
     virtual void setAlwaysRunEnabled(bool enabled) = 0;

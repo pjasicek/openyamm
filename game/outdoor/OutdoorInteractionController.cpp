@@ -41,6 +41,7 @@ bool pendingSpellAllowsDeadActorTarget(const GameSession &gameSession)
         gameSession.gameplayScreenState().pendingSpellTarget();
     return pendingSpellTarget.active && isSpellId(pendingSpellTarget.spellId, SpellId::Reanimate);
 }
+
 constexpr float QuickCastForwardFallbackDistance = 8192.0f;
 constexpr float BillboardSpatialCellSize = 2048.0f;
 constexpr float InteractionEntityHalfExtent = 96.0f;
@@ -2546,6 +2547,8 @@ void OutdoorInteractionController::applyGrantedEventItemsToHeldInventory(Outdoor
     {
         return;
     }
+
+    view.syncCursorToGameplayCrosshair();
 
     GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
         view.m_gameSession.gameplayScreenRuntime(),

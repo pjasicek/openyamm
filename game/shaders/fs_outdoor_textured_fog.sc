@@ -1,4 +1,4 @@
-$input v_texcoord0, v_depth, v_worldPosition, v_texcoord1
+$input v_texcoord0, v_depth, v_worldPosition, v_texcoord1, v_flowInfo
 
 #include "common.sh"
 
@@ -59,7 +59,16 @@ vec3 getFxLighting()
 
 void main()
 {
-    vec4 textureColor = texture2D(s_texColor, v_texcoord0);
+    vec2 texcoord = v_texcoord0;
+    texcoord.xy += v_flowInfo.xy * u_secretPulseParams.y;
+
+    if (v_flowInfo.z > 0.5)
+    {
+        float lavaPhase = sin(mod(u_secretPulseParams.y, 8.0) * 6.2831853 / 8.0);
+        texcoord.y += lavaPhase;
+    }
+
+    vec4 textureColor = texture2D(s_texColor, texcoord);
     vec4 litTextureColor = vec4(textureColor.rgb * getFxLighting(), textureColor.a);
 
     if (v_texcoord1.x > 0.5 && u_secretPulseParams.x > 0.5)

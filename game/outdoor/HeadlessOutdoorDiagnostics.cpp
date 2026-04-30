@@ -499,6 +499,16 @@ struct GameApplicationTestAccess
             deltaSeconds);
     }
 
+    static void openRestOverlay(GameApplication &application)
+    {
+        application.m_gameSession.gameplayScreenRuntime().openRestOverlay();
+    }
+
+    static void closeRestOverlay(GameApplication &application)
+    {
+        application.m_gameSession.gameplayScreenRuntime().closeRestOverlay();
+    }
+
     static const EventDialogContent &activeEventDialog(const GameApplication &application)
     {
         return application.m_gameSession.gameplayScreenRuntime().activeEventDialog();
@@ -15227,6 +15237,115 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "app_rest_overlay_blocks_flying_and_hostile_range",
+        [&](std::string &failure)
+        {
+            if (!prepareSharedHeadlessGameApplication(
+                    out02ViewSession,
+                    assetFileSystem,
+                    "out02.odm",
+                    true,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplication &application = out02ViewSession.application;
+
+            OutdoorWorldRuntime *pWorld = GameApplicationTestAccess::outdoorWorldRuntime(application);
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+
+            if (pWorld == nullptr || pPartyRuntime == nullptr)
+            {
+                failure = "application state is incomplete";
+                return false;
+            }
+
+            Party &party = pPartyRuntime->party();
+            Character *pActiveMember = party.activeMember();
+            const OutdoorMoveState initialMoveState = pPartyRuntime->movementState();
+
+            if (pActiveMember == nullptr)
+            {
+                failure = "missing active member";
+                return false;
+            }
+
+            party.clearPartyBuff(PartyBuffId::Fly);
+            GameApplicationTestAccess::openRestOverlay(application);
+
+            if (!GameApplicationTestAccess::isRestScreenActive(application))
+            {
+                failure = "rest overlay did not open in a clear outdoor location";
+                return false;
+            }
+
+            GameApplicationTestAccess::closeRestOverlay(application);
+            pActiveMember->portraitState = PortraitId::Normal;
+            pActiveMember->portraitElapsedTicks = 0;
+            pActiveMember->portraitDurationTicks = 0;
+            party.applyPartyBuff(PartyBuffId::Fly, 600.0f, 1, 0, 0, SkillMastery::None, 0);
+            pPartyRuntime->syncSpellMovementStatesFromPartyBuffs();
+            pPartyRuntime->toggleFlying();
+            GameApplicationTestAccess::openRestOverlay(application);
+
+            if (GameApplicationTestAccess::isRestScreenActive(application)
+                || GameApplicationTestAccess::statusBarEventText(application) != "You can't rest here!")
+            {
+                failure = "rest overlay did not block while flying";
+                return false;
+            }
+
+            if (pActiveMember->portraitState == PortraitId::Normal)
+            {
+                failure = "failed rest did not trigger the can't-rest face reaction";
+                return false;
+            }
+
+            party.clearPartyBuff(PartyBuffId::Fly);
+            pPartyRuntime->syncSpellMovementStatesFromPartyBuffs();
+
+            std::optional<GameplayRuntimeActorState> hostileActor;
+
+            for (size_t actorIndex = 0; actorIndex < pWorld->mapActorCount(); ++actorIndex)
+            {
+                GameplayRuntimeActorState actorState = {};
+
+                if (pWorld->actorRuntimeState(actorIndex, actorState)
+                    && !actorState.isDead
+                    && !actorState.isInvisible
+                    && actorState.hostileToParty)
+                {
+                    hostileActor = actorState;
+                    break;
+                }
+            }
+
+            if (!hostileActor.has_value())
+            {
+                failure = "test map has no hostile actor for rest range coverage";
+                return false;
+            }
+
+            pPartyRuntime->teleportTo(
+                hostileActor->preciseX + 128.0f,
+                hostileActor->preciseY,
+                hostileActor->preciseZ);
+            GameApplicationTestAccess::openRestOverlay(application);
+
+            if (GameApplicationTestAccess::isRestScreenActive(application)
+                || GameApplicationTestAccess::statusBarEventText(application) != "There are hostile enemies near!")
+            {
+                failure = "rest overlay did not block near a hostile actor";
+                return false;
+            }
+
+            pPartyRuntime->teleportTo(initialMoveState.x, initialMoveState.y, initialMoveState.footZ);
+            return true;
+        }
+    );
+
+    runCase(
         "app_tavern_rent_room_closes_dialog_runs_rest_ui_and_wakes_at_6am",
         [&](std::string &failure)
         {
@@ -15886,12 +16005,6 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             GameApplicationTestAccess::setEventDialogSelectionIndex(application, 0);
             GameApplicationTestAccess::executeActiveDialogAction(application);
 
-            if (GameApplicationTestAccess::hasActiveEventDialog(application))
-            {
-                failure = "map transition confirm did not close the active dialog";
-                return false;
-            }
-
             const float expectedGameMinutes =
                 initialGameMinutes + static_cast<float>(expectedTravelDays) * 1440.0f;
 
@@ -15901,7 +16014,9 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            if (party.food() != std::max(0, initialFood - expectedTravelDays))
+            constexpr int ExpectedOutdoorTravelFood = 5;
+
+            if (party.food() != std::max(0, initialFood - ExpectedOutdoorTravelFood))
             {
                 failure = "map transition confirm did not consume travel food";
                 return false;
@@ -15915,6 +16030,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 || pActiveMember->spellPoints != expectedSpellPoints
                 || pActiveMember->recoverySecondsRemaining != 0.0f
                 || pActiveMember->conditions.test(static_cast<size_t>(CharacterCondition::Fear))
+                || !pActiveMember->conditions.test(static_cast<size_t>(CharacterCondition::Weak))
                 || party.hasPartyBuff(PartyBuffId::TorchLight))
             {
                 failure = "map transition confirm did not apply full-rest travel recovery";

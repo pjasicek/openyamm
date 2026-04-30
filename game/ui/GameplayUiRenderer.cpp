@@ -818,11 +818,17 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
             const float leftFillX = barFrameX + 1.0f * uiScale;
             const float rightFillX = barFrameX + 5.0f * uiScale;
             const float fillWidth = 3.0f * uiScale;
-            const float healthPercent = (member.maxHealth > 0)
-                ? std::clamp(static_cast<float>(member.health) / static_cast<float>(member.maxHealth), 0.0f, 1.0f)
+            const int maxHealth = std::max(
+                1,
+                member.maxHealth + member.permanentBonuses.maxHealth + member.magicalBonuses.maxHealth);
+            const int maxSpellPoints = std::max(
+                0,
+                member.maxSpellPoints + member.permanentBonuses.maxSpellPoints + member.magicalBonuses.maxSpellPoints);
+            const float healthPercent = (maxHealth > 0)
+                ? std::clamp(static_cast<float>(member.health) / static_cast<float>(maxHealth), 0.0f, 1.0f)
                 : 0.0f;
-            const float manaPercent = (member.maxSpellPoints > 0)
-                ? std::clamp(static_cast<float>(member.spellPoints) / static_cast<float>(member.maxSpellPoints), 0.0f, 1.0f)
+            const float manaPercent = (maxSpellPoints > 0)
+                ? std::clamp(static_cast<float>(member.spellPoints) / static_cast<float>(maxSpellPoints), 0.0f, 1.0f)
                 : 0.0f;
             const GameplayHudTextureHandle *pResolvedHealthBar = healthBar ? &*healthBar : nullptr;
 

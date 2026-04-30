@@ -17,6 +17,7 @@
 #include <array>
 #include <cctype>
 #include <iostream>
+#include <limits>
 #include <random>
 
 namespace OpenYAMM::Game
@@ -27,6 +28,7 @@ constexpr uint32_t OeMaxCharacterExperience = 4000000000u;
 constexpr uint32_t ArcomageChampionAwardId = 41;
 constexpr size_t ArcomageTavernCount = 11;
 constexpr uint32_t RosterNpcPortraitBaseId = 2901;
+constexpr float OeFiveGameMinuteTickRealSeconds = 10.0f;
 
 uint32_t resolveAdventurersInnPortraitPictureId(const Character &character, uint32_t portraitPictureId)
 {
@@ -64,6 +66,81 @@ bool characterNeedsTempleHealing(const Character &member)
     }
 
     return false;
+}
+
+uint32_t primaryStatWithMagicalBonus(uint32_t baseValue, int magicalBonus)
+{
+    const int64_t adjustedValue = static_cast<int64_t>(baseValue) + magicalBonus;
+    return static_cast<uint32_t>(std::clamp<int64_t>(adjustedValue, 0, std::numeric_limits<int>::max()));
+}
+
+int currentMaximumHealth(const Character &member)
+{
+    return std::max(1, member.maxHealth + member.permanentBonuses.maxHealth + member.magicalBonuses.maxHealth);
+}
+
+int currentMaximumSpellPoints(const Character &member)
+{
+    return std::max(
+        0,
+        member.maxSpellPoints + member.permanentBonuses.maxSpellPoints + member.magicalBonuses.maxSpellPoints);
+}
+
+void applyMagicalPrimaryStatResourceBonuses(
+    Character &member,
+    const ClassMultiplierTable *pClassMultiplierTable)
+{
+    Character adjustedMember = member;
+    adjustedMember.intellect = primaryStatWithMagicalBonus(member.intellect, member.magicalBonuses.intellect);
+    adjustedMember.personality = primaryStatWithMagicalBonus(member.personality, member.magicalBonuses.personality);
+    adjustedMember.endurance = primaryStatWithMagicalBonus(member.endurance, member.magicalBonuses.endurance);
+
+    const int baseMaxHealth = GameMechanics::calculateBaseCharacterMaxHealth(member, pClassMultiplierTable);
+    const int adjustedMaxHealth = GameMechanics::calculateBaseCharacterMaxHealth(adjustedMember, pClassMultiplierTable);
+    member.magicalBonuses.maxHealth += adjustedMaxHealth - baseMaxHealth;
+
+    const int baseMaxSpellPoints = GameMechanics::calculateBaseCharacterMaxSpellPoints(member, pClassMultiplierTable);
+    const int adjustedMaxSpellPoints =
+        GameMechanics::calculateBaseCharacterMaxSpellPoints(adjustedMember, pClassMultiplierTable);
+    member.magicalBonuses.maxSpellPoints += adjustedMaxSpellPoints - baseMaxSpellPoints;
+}
+
+void clampCurrentResourcesToMaximum(Character &member)
+{
+    member.health = std::clamp(member.health, 0, currentMaximumHealth(member));
+    member.spellPoints = std::clamp(member.spellPoints, 0, currentMaximumSpellPoints(member));
+}
+
+int regenerationSkillMultiplier(SkillMastery mastery)
+{
+    switch (mastery)
+    {
+        case SkillMastery::Normal:
+            return 1;
+        case SkillMastery::Expert:
+            return 2;
+        case SkillMastery::Master:
+            return 3;
+        case SkillMastery::Grandmaster:
+            return 4;
+        case SkillMastery::None:
+        default:
+            return 0;
+    }
+}
+
+float regenerationSkillHealthPerSecond(const Character &member)
+{
+    const CharacterSkill *pSkill = member.findSkill("Regeneration");
+
+    if (pSkill == nullptr || pSkill->level == 0)
+    {
+        return 0.0f;
+    }
+
+    const int multiplier = regenerationSkillMultiplier(pSkill->mastery);
+    const float healthPerFiveGameMinutes = static_cast<float>(pSkill->level * multiplier);
+    return healthPerFiveGameMinutes / OeFiveGameMinuteTickRealSeconds;
 }
 
 void grantSeedSkill(Character &character, const std::string &skillName, uint32_t level = 1)
@@ -2567,8 +2644,8 @@ void Party::reviveAndRestoreAll()
         member.recoverySecondsRemaining = 0.0f;
         member.healthRegenAccumulator = 0.0f;
         member.spellRegenAccumulator = 0.0f;
-        member.health = std::max(1, member.maxHealth + member.magicalBonuses.maxHealth);
-        member.spellPoints = std::max(0, member.maxSpellPoints + member.magicalBonuses.maxSpellPoints);
+        member.health = currentMaximumHealth(member);
+        member.spellPoints = currentMaximumSpellPoints(member);
     }
 
     if (!canSelectMemberInGameplay(m_activeMemberIndex))
@@ -2600,10 +2677,8 @@ void Party::restAndHealAll()
         member.conditions.reset(static_cast<size_t>(CharacterCondition::Weak));
         member.recoverySecondsRemaining = 0.0f;
 
-        const int maxHealth = std::max(1, member.maxHealth + member.magicalBonuses.maxHealth);
-        const int maxSpellPoints = std::max(0, member.maxSpellPoints + member.magicalBonuses.maxSpellPoints);
-        member.health = maxHealth;
-        member.spellPoints = maxSpellPoints;
+        member.health = currentMaximumHealth(member);
+        member.spellPoints = currentMaximumSpellPoints(member);
 
         if (member.conditions.test(static_cast<size_t>(CharacterCondition::Zombie)))
         {
@@ -4601,7 +4676,7 @@ void Party::updateRecovery(float deltaSeconds, float progressScale)
             if (healAmount > 0)
             {
                 member.healthRegenAccumulator -= static_cast<float>(healAmount);
-                member.health = std::min(member.maxHealth + member.magicalBonuses.maxHealth, member.health + healAmount);
+                member.health = std::min(currentMaximumHealth(member), member.health + healAmount);
             }
         }
 
@@ -4613,9 +4688,7 @@ void Party::updateRecovery(float deltaSeconds, float progressScale)
             if (spellAmount > 0)
             {
                 member.spellRegenAccumulator -= static_cast<float>(spellAmount);
-                member.spellPoints = std::min(
-                    member.maxSpellPoints + member.magicalBonuses.maxSpellPoints,
-                    member.spellPoints + spellAmount);
+                member.spellPoints = std::min(currentMaximumSpellPoints(member), member.spellPoints + spellAmount);
             }
         }
     }
@@ -4870,7 +4943,7 @@ int Party::totalMaxHealth() const
 
     for (const Character &member : m_members)
     {
-        totalMaxHealth += member.maxHealth;
+        totalMaxHealth += currentMaximumHealth(member);
     }
 
     return totalMaxHealth;
@@ -5165,6 +5238,11 @@ void Party::rebuildMagicalBonusesFromBuffs()
         member.itemSkillBonuses.clear();
     }
 
+    for (Character &member : m_members)
+    {
+        member.healthRegenPerSecond += regenerationSkillHealthPerSecond(member);
+    }
+
     const auto applyResistanceBonus =
         [this](PartyBuffId buffId, auto CharacterResistanceSet::*field)
         {
@@ -5291,11 +5369,6 @@ void Party::rebuildMagicalBonusesFromBuffs()
         }
     }
 
-    if (m_pItemTable == nullptr)
-    {
-        return;
-    }
-
     const auto applyEquippedItemEnchant =
         [this](Character &member, uint32_t itemId, const EquippedItemRuntimeState &runtimeState)
         {
@@ -5319,38 +5392,47 @@ void Party::rebuildMagicalBonusesFromBuffs()
                 member);
         };
 
+    if (m_pItemTable != nullptr)
+    {
+        for (Character &member : m_members)
+        {
+            if (member.equipment.offHand != 0 && !member.equipmentRuntime.offHand.broken)
+            {
+                const ItemDefinition *pOffHand = m_pItemTable->get(member.equipment.offHand);
+                const CharacterSkill *pShieldSkill = member.findSkill("Shield");
+
+                if (pOffHand != nullptr
+                    && pOffHand->skillGroup == "Shield"
+                    && pShieldSkill != nullptr
+                    && pShieldSkill->mastery >= SkillMastery::Grandmaster)
+                {
+                    member.halfMissileDamage = true;
+                }
+            }
+
+            applyEquippedItemEnchant(member, member.equipment.offHand, member.equipmentRuntime.offHand);
+            applyEquippedItemEnchant(member, member.equipment.mainHand, member.equipmentRuntime.mainHand);
+            applyEquippedItemEnchant(member, member.equipment.bow, member.equipmentRuntime.bow);
+            applyEquippedItemEnchant(member, member.equipment.armor, member.equipmentRuntime.armor);
+            applyEquippedItemEnchant(member, member.equipment.helm, member.equipmentRuntime.helm);
+            applyEquippedItemEnchant(member, member.equipment.belt, member.equipmentRuntime.belt);
+            applyEquippedItemEnchant(member, member.equipment.cloak, member.equipmentRuntime.cloak);
+            applyEquippedItemEnchant(member, member.equipment.gauntlets, member.equipmentRuntime.gauntlets);
+            applyEquippedItemEnchant(member, member.equipment.boots, member.equipmentRuntime.boots);
+            applyEquippedItemEnchant(member, member.equipment.amulet, member.equipmentRuntime.amulet);
+            applyEquippedItemEnchant(member, member.equipment.ring1, member.equipmentRuntime.ring1);
+            applyEquippedItemEnchant(member, member.equipment.ring2, member.equipmentRuntime.ring2);
+            applyEquippedItemEnchant(member, member.equipment.ring3, member.equipmentRuntime.ring3);
+            applyEquippedItemEnchant(member, member.equipment.ring4, member.equipmentRuntime.ring4);
+            applyEquippedItemEnchant(member, member.equipment.ring5, member.equipmentRuntime.ring5);
+            applyEquippedItemEnchant(member, member.equipment.ring6, member.equipmentRuntime.ring6);
+        }
+    }
+
     for (Character &member : m_members)
     {
-        if (member.equipment.offHand != 0 && !member.equipmentRuntime.offHand.broken)
-        {
-            const ItemDefinition *pOffHand = m_pItemTable->get(member.equipment.offHand);
-            const CharacterSkill *pShieldSkill = member.findSkill("Shield");
-
-            if (pOffHand != nullptr
-                && pOffHand->skillGroup == "Shield"
-                && pShieldSkill != nullptr
-                && pShieldSkill->mastery >= SkillMastery::Grandmaster)
-            {
-                member.halfMissileDamage = true;
-            }
-        }
-
-        applyEquippedItemEnchant(member, member.equipment.offHand, member.equipmentRuntime.offHand);
-        applyEquippedItemEnchant(member, member.equipment.mainHand, member.equipmentRuntime.mainHand);
-        applyEquippedItemEnchant(member, member.equipment.bow, member.equipmentRuntime.bow);
-        applyEquippedItemEnchant(member, member.equipment.armor, member.equipmentRuntime.armor);
-        applyEquippedItemEnchant(member, member.equipment.helm, member.equipmentRuntime.helm);
-        applyEquippedItemEnchant(member, member.equipment.belt, member.equipmentRuntime.belt);
-        applyEquippedItemEnchant(member, member.equipment.cloak, member.equipmentRuntime.cloak);
-        applyEquippedItemEnchant(member, member.equipment.gauntlets, member.equipmentRuntime.gauntlets);
-        applyEquippedItemEnchant(member, member.equipment.boots, member.equipmentRuntime.boots);
-        applyEquippedItemEnchant(member, member.equipment.amulet, member.equipmentRuntime.amulet);
-        applyEquippedItemEnchant(member, member.equipment.ring1, member.equipmentRuntime.ring1);
-        applyEquippedItemEnchant(member, member.equipment.ring2, member.equipmentRuntime.ring2);
-        applyEquippedItemEnchant(member, member.equipment.ring3, member.equipmentRuntime.ring3);
-        applyEquippedItemEnchant(member, member.equipment.ring4, member.equipmentRuntime.ring4);
-        applyEquippedItemEnchant(member, member.equipment.ring5, member.equipmentRuntime.ring5);
-        applyEquippedItemEnchant(member, member.equipment.ring6, member.equipmentRuntime.ring6);
+        applyMagicalPrimaryStatResourceBonuses(member, m_pClassMultiplierTable);
+        clampCurrentResourcesToMaximum(member);
     }
 }
 

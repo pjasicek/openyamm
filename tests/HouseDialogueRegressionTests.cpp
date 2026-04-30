@@ -984,6 +984,32 @@ TEST_CASE("dwi training service uses active member")
     CHECK(findActionIndexByLabelPrefix(refreshedDialog, "Train to level ").has_value());
 }
 
+TEST_CASE("dwi training service applies merchant discount")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    const OpenYAMM::Game::HouseEntry *pTrainingHall = gameData.houseTable.get(TrainingHallHouseId);
+    REQUIRE(pTrainingHall != nullptr);
+
+    OpenYAMM::Game::Character *pMember = harness.party().activeMember();
+    REQUIRE(pMember != nullptr);
+    pMember->level = 10;
+    pMember->experience = 55000;
+    pMember->skills.erase("Merchant");
+
+    const int undiscountedPrice = OpenYAMM::Game::PriceCalculator::trainingPrice(pMember, *pTrainingHall);
+    REQUIRE(setCharacterSkill(*pMember, "Merchant", 10, OpenYAMM::Game::SkillMastery::Normal) != nullptr);
+
+    const int discountedPrice = OpenYAMM::Game::PriceCalculator::trainingPrice(pMember, *pTrainingHall);
+    CHECK_LT(discountedPrice, undiscountedPrice);
+
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openHouseDialog(TrainingHallHouseId);
+    CHECK(dialogHasActionLabel(
+        dialog,
+        "Train to level 11 for " + std::to_string(discountedPrice) + " gold"));
+}
+
 TEST_CASE("dwi training service stays open after success")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

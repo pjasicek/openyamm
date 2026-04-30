@@ -179,6 +179,7 @@ struct ActorStatusFacts
     bool bloodSplatSpawned = false;
     bool hasDetectedParty = false;
     bool defaultHostileToParty = false;
+    bool suppressLowHealthFlee = false;
 };
 
 struct ActorTargetCandidateFacts

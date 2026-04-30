@@ -24,6 +24,14 @@ bool isFollowupSpellUiActive(
 {
     return screenState.pendingSpellTarget().active || runtime.utilitySpellOverlayReadOnly().active;
 }
+
+SkillMastery dragonAbilityMasteryForCaster(const GameplayScreenRuntime &runtime, size_t casterMemberIndex)
+{
+    const Party *pParty = runtime.partyReadOnly();
+    const Character *pCaster = pParty != nullptr ? pParty->member(casterMemberIndex) : nullptr;
+    const CharacterSkill *pDragonAbility = pCaster != nullptr ? pCaster->findSkill("DragonAbility") : nullptr;
+    return pDragonAbility != nullptr ? pDragonAbility->mastery : SkillMastery::None;
+}
 }
 
 GameplaySpellService::GameplaySpellService(GameSession &session)
@@ -174,6 +182,30 @@ bool GameplaySpellService::tryPrepareQuickCastRequest(
     const std::string &spellName,
     const TargetQueries &targetQueries) const
 {
+    if (spellIdFromValue(request.spellId) == SpellId::Fear)
+    {
+        request.quickCast = true;
+
+        if (dragonAbilityMasteryForCaster(runtime, request.casterMemberIndex) >= SkillMastery::Grandmaster)
+        {
+            return true;
+        }
+
+        const PartySpellDescriptor fearTargetDescriptor = {
+            request.spellId,
+            PartySpellCastTargetKind::Actor,
+            PartySpellCastEffectKind::ActorEffect
+        };
+
+        if (tryResolveQuickCastRequest(runtime, request, fearTargetDescriptor, targetQueries))
+        {
+            return true;
+        }
+
+        runtime.setStatusBarEvent("No valid target exists!", 3.0f);
+        return false;
+    }
+
     const std::optional<PartySpellDescriptor> descriptor = PartySpellSystem::describeSpell(request.spellId);
 
     if (!descriptor || !isQuickCastable(*descriptor))

@@ -610,6 +610,59 @@ TEST_CASE("shared actor service clears status locks before reanimated control is
     CHECK(state.controlRemainingSeconds > 0.0f);
 }
 
+TEST_CASE("shared actor service breaks fear and control when damaged by the party")
+{
+    GameplayActorService service = {};
+    OpenYAMM::Game::GameplayActorSpellEffectState state = {};
+    state.fearRemainingSeconds = 20.0f;
+    state.controlRemainingSeconds = 60.0f;
+    state.controlMode = GameplayActorControlMode::Enslaved;
+    state.hostileToParty = false;
+    state.hasDetectedParty = false;
+
+    CHECK(service.breakFearAndControlOnPartyDamage(state));
+
+    CHECK_EQ(state.fearRemainingSeconds, 0.0f);
+    CHECK_EQ(state.controlRemainingSeconds, 0.0f);
+    CHECK(state.controlMode == GameplayActorControlMode::None);
+    CHECK(state.hostileToParty);
+    CHECK(state.hasDetectedParty);
+}
+
+TEST_CASE("shared actor AI suppresses repeat low health fleeing for non-wimps")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(18, 115);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.status.suppressLowHealthFlee = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.currentHp = 1;
+    actor.stats.maxHp = 20;
+    actor.stats.moveSpeed = 200;
+    actor.stats.attack1Damage.diceRolls = 1;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 200.0f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {132.0f, 200.0f, 64.0f};
+    actor.target.currentDistance = 96.0f;
+    actor.target.currentEdgeDistance = 0.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.motionState.has_value());
+    CHECK(*update.state.motionState == ActorAiMotionState::Attacking);
+}
+
 TEST_CASE("shared actor AI applies monster melee buff damage and hit bonuses")
 {
     GameplayActorAiSystem system;

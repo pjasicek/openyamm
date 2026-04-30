@@ -150,6 +150,10 @@ private:
         float barycentric1;
         float barycentric2;
         float boundaryEdgeMask;
+        float flowUPerSecond;
+        float flowVPerSecond;
+        float lavaFlow;
+        float fluidFlow;
 
         static void init();
         static bgfx::VertexLayout ms_layout;

@@ -19,6 +19,7 @@
 
 #include <cassert>
 #include <cmath>
+#include <optional>
 
 namespace OpenYAMM::Game
 {
@@ -29,6 +30,7 @@ constexpr int GameplayMinimapMinZoomStep = 0;
 constexpr int GameplayMinimapDefaultZoomStep = 1;
 constexpr int GameplayMinimapMaxZoomStep = 2;
 constexpr int DefaultJournalMapZoomStep = 0;
+constexpr float OeRestHostileAlertDistance = 5120.0f;
 
 bool isBodyEquipmentVisualSlot(EquipmentSlot slot)
 {
@@ -59,6 +61,59 @@ uint32_t currentAnimationTicks()
 uint32_t currentMilliseconds()
 {
     return SDL_GetTicks();
+}
+
+bool partyHasHostileActorInRestRange(const IGameplayWorldRuntime *pWorldRuntime)
+{
+    if (pWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const float partyX = pWorldRuntime->partyX();
+    const float partyY = pWorldRuntime->partyY();
+    const float partyFootZ = pWorldRuntime->partyFootZ();
+
+    for (size_t actorIndex = 0; actorIndex < pWorldRuntime->mapActorCount(); ++actorIndex)
+    {
+        GameplayRuntimeActorState actorState = {};
+
+        if (!pWorldRuntime->actorRuntimeState(actorIndex, actorState)
+            || actorState.isDead
+            || actorState.isInvisible
+            || !actorState.hostileToParty)
+        {
+            continue;
+        }
+
+        const float deltaX = actorState.preciseX - partyX;
+        const float deltaY = actorState.preciseY - partyY;
+        const float deltaZ = actorState.preciseZ - partyFootZ;
+        const float centerDistance = std::sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+        const float edgeDistance = std::max(0.0f, centerDistance - static_cast<float>(actorState.radius));
+
+        if (edgeDistance < OeRestHostileAlertDistance)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+std::optional<std::string> restWorldRestrictionStatusText(const IGameplayWorldRuntime *pWorldRuntime)
+{
+    if (pWorldRuntime != nullptr && pWorldRuntime->partyIsAirborneForRest())
+    {
+        return "You can't rest here!";
+    }
+
+    if (partyHasHostileActorInRestRange(pWorldRuntime))
+    {
+        return "There are hostile enemies near!";
+    }
+
+    return std::nullopt;
 }
 
 uint32_t mixPortraitSequenceValue(uint32_t value)
@@ -848,11 +903,24 @@ void GameplayScreenRuntime::setStatusBarEvent(const std::string &text, float dur
     uiController().setStatusBarEvent(text, durationSeconds);
 }
 
-void GameplayScreenRuntime::openRestOverlay()
+void GameplayScreenRuntime::openRestOverlay(bool enforceWorldRestrictions)
 {
     if (party() == nullptr || worldRuntime() == nullptr)
     {
         return;
+    }
+
+    if (enforceWorldRestrictions)
+    {
+        const std::optional<std::string> restrictionStatus =
+            restWorldRestrictionStatusText(worldRuntime());
+
+        if (restrictionStatus.has_value())
+        {
+            setStatusBarEvent(*restrictionStatus);
+            playCantRestHereReaction();
+            return;
+        }
     }
 
     closeSpellbookOverlay();
@@ -885,6 +953,19 @@ void GameplayScreenRuntime::beginRestAction(
         return;
     }
 
+    if (consumeFood)
+    {
+        const std::optional<std::string> restrictionStatus =
+            restWorldRestrictionStatusText(worldRuntime());
+
+        if (restrictionStatus.has_value())
+        {
+            setStatusBarEvent(*restrictionStatus);
+            playCantRestHereReaction();
+            return;
+        }
+    }
+
     if (mode == GameplayUiController::RestMode::Heal && consumeFood)
     {
         const int foodRequired = restFoodRequired();
@@ -893,6 +974,7 @@ void GameplayScreenRuntime::beginRestAction(
         if (currentParty.food() < foodRequired)
         {
             setStatusBarEvent("You don't have enough food to rest.");
+            playCantRestHereReaction();
             return;
         }
 
@@ -916,7 +998,7 @@ void GameplayScreenRuntime::startRestAction(GameplayUiController::RestMode mode,
 
 void GameplayScreenRuntime::startInnRest(float durationMinutes)
 {
-    openRestOverlay();
+    openRestOverlay(false);
     beginRestAction(GameplayUiController::RestMode::Heal, durationMinutes, false);
 }
 
@@ -1911,6 +1993,20 @@ void GameplayScreenRuntime::playSpeechReaction(size_t memberIndex, SpeechId spee
     {
         triggerPortraitFaceAnimation(memberIndex, *pReaction->faceAnimationId);
     }
+}
+
+void GameplayScreenRuntime::playCantRestHereReaction()
+{
+    const Party *pParty = partyReadOnly();
+
+    if (pParty == nullptr || pParty->activeMember() == nullptr)
+    {
+        return;
+    }
+
+    const size_t activeMemberIndex = pParty->activeMemberIndex();
+    triggerPortraitFaceAnimation(activeMemberIndex, FaceAnimationId::CantRestHere);
+    playSpeechReaction(activeMemberIndex, SpeechId::CantRestHere, false);
 }
 
 void GameplayScreenRuntime::queueDelayedSpeechReaction(size_t memberIndex, SpeechId speechId, float delaySeconds)

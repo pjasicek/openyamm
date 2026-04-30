@@ -263,6 +263,7 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
     SkillMastery skillMastery,
     bool actorLooksUndead,
     bool defaultHostileToParty,
+    int spellResistance,
     GameplayActorSpellEffectState &state) const
 {
     SharedSpellEffectResult result = {};
@@ -280,6 +281,13 @@ GameplayActorService::SharedSpellEffectResult GameplayActorService::tryApplyShar
     }
 
     const std::string &spellName = pSpellEntry->normalizedName;
+    const CombatDamageType damageType = GameMechanics::parseCombatDamageType(pSpellEntry->schoolName);
+
+    if (damageType != CombatDamageType::Irresistible && spellResistance >= 200)
+    {
+        result.disposition = SharedSpellDisposition::Rejected;
+        return result;
+    }
 
     if (spellName == "stun")
     {
@@ -912,6 +920,25 @@ bool GameplayActorService::clearSpellEffects(
     state.hostileToParty = defaultHostileToParty;
     state.hasDetectedParty = false;
     return hadEffect;
+}
+
+bool GameplayActorService::breakFearAndControlOnPartyDamage(GameplayActorSpellEffectState &state) const
+{
+    const bool hadFear = state.fearRemainingSeconds > 0.0f;
+    const bool hadControl =
+        state.controlRemainingSeconds > 0.0f || state.controlMode != GameplayActorControlMode::None;
+
+    if (!hadFear && !hadControl)
+    {
+        return false;
+    }
+
+    state.fearRemainingSeconds = 0.0f;
+    state.controlRemainingSeconds = 0.0f;
+    state.controlMode = GameplayActorControlMode::None;
+    state.hostileToParty = true;
+    state.hasDetectedParty = true;
+    return true;
 }
 
 int GameplayActorService::effectiveArmorClass(int baseArmorClass, const GameplayActorSpellEffectState &state) const

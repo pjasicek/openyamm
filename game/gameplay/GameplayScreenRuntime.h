@@ -163,7 +163,7 @@ public:
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
-    void openRestOverlay();
+    void openRestOverlay(bool enforceWorldRestrictions = true);
     void beginRestAction(GameplayUiController::RestMode mode, float minutes, bool consumeFood);
     void startRestAction(GameplayUiController::RestMode mode, float minutes);
     void startInnRest(float durationMinutes);
@@ -237,6 +237,7 @@ public:
     void triggerPortraitFaceAnimationForAllLivingMembers(FaceAnimationId animationId);
     bool canPlaySpeechReaction(size_t memberIndex, SpeechId speechId, uint32_t nowTicks);
     void playSpeechReaction(size_t memberIndex, SpeechId speechId, bool triggerFaceAnimation);
+    void playCantRestHereReaction();
     void queueDelayedSpeechReaction(size_t memberIndex, SpeechId speechId, float delaySeconds);
     void updateDelayedSpeechReactions(float deltaSeconds);
     void playHouseSound(uint32_t soundId);

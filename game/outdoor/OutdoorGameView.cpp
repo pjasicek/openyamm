@@ -4671,6 +4671,53 @@ void OutdoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enable
     }
 }
 
+void OutdoorGameView::syncCursorToGameplayCrosshair()
+{
+    const GameplayScreenState::GameplayMouseLookState &mouseLookState =
+        m_gameSession.gameplayScreenState().gameplayMouseLookState();
+
+    if (!mouseLookState.mouseLookActive || mouseLookState.cursorModeActive)
+    {
+        return;
+    }
+
+    SDL_Window *pWindow = SDL_GetMouseFocus();
+
+    if (pWindow == nullptr)
+    {
+        pWindow = SDL_GetKeyboardFocus();
+    }
+
+    if (pWindow == nullptr)
+    {
+        return;
+    }
+
+    int windowWidth = 0;
+    int windowHeight = 0;
+    SDL_GetWindowSizeInPixels(pWindow, &windowWidth, &windowHeight);
+
+    if (windowWidth <= 0 || windowHeight <= 0)
+    {
+        const GameplayInputFrame *pInputFrame = m_gameSession.currentGameplayInputFrame();
+
+        if (pInputFrame == nullptr || pInputFrame->screenWidth <= 0 || pInputFrame->screenHeight <= 0)
+        {
+            return;
+        }
+
+        windowWidth = pInputFrame->screenWidth;
+        windowHeight = pInputFrame->screenHeight;
+    }
+
+    const float cursorX = static_cast<float>(windowWidth) * 0.5f;
+    const float cursorY = static_cast<float>(windowHeight) * 0.5f;
+    SDL_WarpMouseInWindow(pWindow, cursorX, cursorY);
+    m_lastMouseX = cursorX;
+    m_lastMouseY = cursorY;
+    m_gameSession.requestRelativeMouseMotionReset();
+}
+
 float OutdoorGameView::effectiveCameraYawRadians() const
 {
     if (m_pOutdoorWorldRuntime == nullptr)
@@ -5530,6 +5577,7 @@ void OutdoorGameView::TexturedTerrainVertex::init()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord1, 1, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord3, 4, bgfx::AttribType::Float)
         .end();
 }
 

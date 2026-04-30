@@ -386,7 +386,7 @@ bool isActorPointInsideSpellView(
 
 bool areaSpellAffectsVisibleCreatures(SpellId spellId)
 {
-    return spellId == SpellId::PrismaticLight || spellId == SpellId::SoulDrinker;
+    return spellId == SpellId::Fear || spellId == SpellId::PrismaticLight || spellId == SpellId::SoulDrinker;
 }
 
 struct BackendSpellRule
@@ -944,7 +944,18 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::Mistform:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterBuff, SkillMastery::Grandmaster, {30, 30, 30, 30}, {110, 110, 110, 110}, PartyBuffId::TorchLight);
         case SpellId::Fear:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Normal, {5, 5, 5, 5}, {100, 100, 100, 100}, PartyBuffId::TorchLight);
+            return makeBackendSpellRule(
+                spellId,
+                mastery == SkillMastery::Grandmaster
+                    ? PartySpellCastTargetKind::None
+                    : PartySpellCastTargetKind::Actor,
+                mastery == SkillMastery::Grandmaster
+                    ? PartySpellCastEffectKind::AreaEffect
+                    : PartySpellCastEffectKind::ActorEffect,
+                SkillMastery::Normal,
+                {5, 5, 5, 5},
+                {100, 100, 100, 100},
+                PartyBuffId::TorchLight);
         case SpellId::FlameBlast:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::Projectile, SkillMastery::Expert, {10, 10, 10, 10}, {100, 100, 100, 100}, PartyBuffId::TorchLight, 10, 10, false);
         case SpellId::Flight:
@@ -2620,6 +2631,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
             const float effectRadius =
                 spellId == SpellId::WingBuffet
                     ? 768.0f
+                    : spellId == SpellId::Fear
+                    ? 4096.0f
                     : spellId == SpellId::SummonWisp
                     ? 0.0f
                     : spellId == SpellId::SpiritLash
@@ -2653,7 +2666,8 @@ PartySpellCastResult PartySpellSystem::castSpell(
                     continue;
                 }
 
-                if (!areaSpellAffectsVisibleCreatures(spellId) && !actor.hostileToParty)
+                if ((spellId == SpellId::Fear || !areaSpellAffectsVisibleCreatures(spellId))
+                    && !actor.hostileToParty)
                 {
                     continue;
                 }

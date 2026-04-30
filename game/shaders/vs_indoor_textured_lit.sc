@@ -1,5 +1,5 @@
-$input a_position, a_texcoord0, a_texcoord1, a_texcoord2
-$output v_texcoord0, v_worldPosition, v_texcoord1, v_screenspace
+$input a_position, a_texcoord0, a_texcoord1, a_texcoord2, a_texcoord3
+$output v_texcoord0, v_worldPosition, v_texcoord1, v_screenspace, v_flowInfo
 
 #include "common.sh"
 
@@ -11,4 +11,5 @@ void main()
     v_worldPosition = worldPosition.xyz;
     v_texcoord1 = a_texcoord1;
     v_screenspace = a_texcoord2;
+    v_flowInfo = a_texcoord3;
 }

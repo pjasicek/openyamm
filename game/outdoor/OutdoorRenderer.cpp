@@ -534,6 +534,42 @@ SurfaceAnimationSequence staticSurfaceAnimation(const std::string &textureName)
     return animation;
 }
 
+std::array<float, 4> outdoorFaceFlowInfo(
+    const OutdoorBModelFace &face,
+    int textureWidth,
+    int textureHeight)
+{
+    constexpr float FlowPixelsPerSecond = 62.5f;
+    std::array<float, 4> flowInfo = {0.0f, 0.0f, 0.0f, 0.0f};
+
+    if (textureWidth <= 0 || textureHeight <= 0)
+    {
+        return flowInfo;
+    }
+
+    if (hasFaceAttribute(face.attributes, FaceAttribute::FlowDown))
+    {
+        flowInfo[1] = -FlowPixelsPerSecond / static_cast<float>(textureHeight);
+    }
+    else if (hasFaceAttribute(face.attributes, FaceAttribute::FlowUp))
+    {
+        flowInfo[1] = FlowPixelsPerSecond / static_cast<float>(textureHeight);
+    }
+
+    if (hasFaceAttribute(face.attributes, FaceAttribute::FlowRight))
+    {
+        flowInfo[0] = FlowPixelsPerSecond / static_cast<float>(textureWidth);
+    }
+    else if (hasFaceAttribute(face.attributes, FaceAttribute::FlowLeft))
+    {
+        flowInfo[0] = -FlowPixelsPerSecond / static_cast<float>(textureWidth);
+    }
+
+    flowInfo[2] = hasFaceAttribute(face.attributes, FaceAttribute::Lava) ? 1.0f : 0.0f;
+    flowInfo[3] = hasFaceAttribute(face.attributes, FaceAttribute::Fluid) ? 1.0f : 0.0f;
+    return flowInfo;
+}
+
 bool outdoorFaceHiddenByEventRuntime(
     uint32_t faceId,
     uint32_t baseAttributes,
@@ -934,12 +970,43 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         }
 
         std::vector<OutdoorGameView::TexturedTerrainVertex> &groupVertices = verticesByAnimationIndex[animationIndex];
-        float secretPulse = batch.vertices.empty() ? 0.0f : batch.vertices.front().secretPulse;
+        uint32_t effectiveAttributes = batch.baseAttributes;
 
         if (pMapDeltaData != nullptr && batch.faceId < pMapDeltaData->faceAttributes.size())
         {
-            secretPulse = secretFaceVertexFlag(pMapDeltaData->faceAttributes[batch.faceId]);
+            effectiveAttributes = pMapDeltaData->faceAttributes[batch.faceId];
         }
+        else if (pEventRuntimeState != nullptr)
+        {
+            const auto setIt = pEventRuntimeState->facetSetMasks.find(batch.faceId);
+
+            if (setIt != pEventRuntimeState->facetSetMasks.end())
+            {
+                effectiveAttributes |= setIt->second;
+            }
+
+            const auto clearIt = pEventRuntimeState->facetClearMasks.find(batch.faceId);
+
+            if (clearIt != pEventRuntimeState->facetClearMasks.end())
+            {
+                effectiveAttributes &= ~clearIt->second;
+            }
+        }
+
+        float secretPulse = batch.vertices.empty() ? 0.0f : batch.vertices.front().secretPulse;
+        std::array<float, 4> flowInfo = {0.0f, 0.0f, 0.0f, 0.0f};
+
+        if (view.m_outdoorMapData
+            && batch.bModelIndex < view.m_outdoorMapData->bmodels.size()
+            && batch.faceIndex < view.m_outdoorMapData->bmodels[batch.bModelIndex].faces.size())
+        {
+            OutdoorBModelFace effectiveFace =
+                view.m_outdoorMapData->bmodels[batch.bModelIndex].faces[batch.faceIndex];
+            effectiveFace.attributes = effectiveAttributes;
+            flowInfo = outdoorFaceFlowInfo(effectiveFace, batch.textureWidth, batch.textureHeight);
+        }
+
+        secretPulse = secretFaceVertexFlag(effectiveAttributes);
 
         const size_t oldSize = groupVertices.size();
         groupVertices.insert(groupVertices.end(), batch.vertices.begin(), batch.vertices.end());
@@ -947,6 +1014,10 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         for (size_t vertexIndex = oldSize; vertexIndex < groupVertices.size(); ++vertexIndex)
         {
             groupVertices[vertexIndex].secretPulse = secretPulse;
+            groupVertices[vertexIndex].flowUPerSecond = flowInfo[0];
+            groupVertices[vertexIndex].flowVPerSecond = flowInfo[1];
+            groupVertices[vertexIndex].lavaFlow = flowInfo[2];
+            groupVertices[vertexIndex].fluidFlow = flowInfo[3];
         }
     }
 
@@ -1219,6 +1290,7 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTextur
 
     const OutdoorBModel &bmodel = mapData.bmodels[bModelIndex];
     const OutdoorBModelFace &face = bmodel.faces[faceIndex];
+    const std::array<float, 4> flowInfo = outdoorFaceFlowInfo(face, textureWidth, textureHeight);
 
     if (face.vertexIndices.size() < 3
         || face.textureName.empty())
@@ -1260,6 +1332,10 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTextur
             vertex.u = normalizedU;
             vertex.v = normalizedV;
             vertex.secretPulse = secretFaceVertexFlag(face.attributes);
+            vertex.flowUPerSecond = flowInfo[0];
+            vertex.flowVPerSecond = flowInfo[1];
+            vertex.lavaFlow = flowInfo[2];
+            vertex.fluidFlow = flowInfo[3];
             triangleVertices[triangleVertexSlot] = vertex;
         }
 
@@ -1634,6 +1710,8 @@ void OutdoorRenderer::createBModelTextureBatches(
             batch.baseAttributes = face.attributes;
             batch.bModelIndex = bModelIndex;
             batch.faceIndex = localFaceIndex;
+            batch.textureWidth = pBaseTexture->width;
+            batch.textureHeight = pBaseTexture->height;
             batch.textureName = toLowerCopy(face.textureName);
             const auto animationIndexIterator = animationIndexByTextureName.find(batch.textureName);
 

@@ -83,6 +83,7 @@ public:
         SkillMastery skillMastery,
         bool actorLooksUndead,
         bool defaultHostileToParty,
+        int spellResistance,
         GameplayActorSpellEffectState &state) const;
 
     void updateSpellEffectTimers(
@@ -137,6 +138,8 @@ public:
     bool clearSpellEffects(
         GameplayActorSpellEffectState &state,
         bool defaultHostileToParty) const;
+
+    bool breakFearAndControlOnPartyDamage(GameplayActorSpellEffectState &state) const;
 
     int effectiveArmorClass(int baseArmorClass, const GameplayActorSpellEffectState &state) const;
 

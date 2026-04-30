@@ -1,4 +1,4 @@
-$input v_texcoord0, v_worldPosition, v_texcoord1, v_screenspace
+$input v_texcoord0, v_worldPosition, v_texcoord1, v_screenspace, v_flowInfo
 
 #include "common.sh"
 
@@ -34,7 +34,25 @@ vec3 getIndoorLighting()
 
 void main()
 {
-    vec4 textureColor = texture2D(s_texColor, v_texcoord0);
+    vec2 texcoord = v_texcoord0;
+    texcoord.xy += v_flowInfo.xy * u_secretPulseParams.y;
+
+    if (v_flowInfo.z > 0.5 || v_flowInfo.w > 0.5)
+    {
+        float pongPhase = sin(mod(u_secretPulseParams.y, 8.0) * 6.2831853 / 8.0);
+        float swirlPhase = mod(u_secretPulseParams.y, 5.0) * 6.2831853 / 5.0;
+        float ripplePhase = mod(u_secretPulseParams.y, 2.0) * 6.2831853 / 2.0;
+
+        vec2 delta = vec2(0.0, 0.0);
+        delta.x += pongPhase * 0.01 * sin(texcoord.x * 6.2831853);
+        delta.y += pongPhase * 0.01 * sin(texcoord.y * 6.2831853);
+        delta.x += 0.01 * sin(swirlPhase + texcoord.y * 6.2831853);
+        delta.y += 0.01 * cos(swirlPhase + texcoord.x * 6.2831853);
+        delta.x -= 0.005 * cos(ripplePhase + (texcoord.y + delta.y) * 6.2831853 * 24.0);
+        texcoord += delta;
+    }
+
+    vec4 textureColor = texture2D(s_texColor, texcoord);
 
     if (textureColor.a <= 0.001)
     {

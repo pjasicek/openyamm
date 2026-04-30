@@ -1283,7 +1283,8 @@ ActorEngagementState resolveActorEngagement(
     result.shouldFlee =
         result.shouldEngageTarget
         && combatTarget.distanceToTarget <= HostilityLongRange
-        && actorService.shouldFleeForAiType(actor.stats.aiType, actor.stats.currentHp, actor.stats.maxHp);
+        && actorService.shouldFleeForAiType(actor.stats.aiType, actor.stats.currentHp, actor.stats.maxHp)
+        && !(actor.status.suppressLowHealthFlee && actor.stats.aiType != GameplayActorAiType::Wimp);
     result.friendlyNearParty =
         !result.shouldEngageTarget
         && !actor.status.hostileToParty

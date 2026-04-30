@@ -2048,6 +2048,47 @@ std::array<uint16_t, 8> buildRuntimeActorActionSpriteFrameIndices(
     return spriteFrameIndices;
 }
 
+bool monsterEntryHasCorpseSprite(const MonsterEntry *pMonsterEntry)
+{
+    const size_t actionIndex = static_cast<size_t>(ActorAiAnimationState::Dead);
+
+    if (pMonsterEntry == nullptr || actionIndex >= pMonsterEntry->spriteNames.size())
+    {
+        return false;
+    }
+
+    const std::string spriteName = toLowerCopy(pMonsterEntry->spriteNames[actionIndex]);
+    return !spriteName.empty() && spriteName != "null";
+}
+
+bool actorShouldLeaveCorpse(const MonsterTable *pMonsterTable, const MapDeltaActor &actor)
+{
+    return pMonsterTable == nullptr || monsterEntryHasCorpseSprite(resolveRuntimeMonsterEntry(*pMonsterTable, actor));
+}
+
+bool actorShouldLeaveCorpse(const MonsterTable *pMonsterTable, int16_t monsterId)
+{
+    if (pMonsterTable == nullptr)
+    {
+        return true;
+    }
+
+    const MonsterTable::MonsterStatsEntry *pStats = pMonsterTable->findStatsById(monsterId);
+    const MonsterEntry *pMonsterEntry = nullptr;
+
+    if (pStats != nullptr && !pStats->pictureName.empty())
+    {
+        pMonsterEntry = pMonsterTable->findByInternalName(pStats->pictureName);
+    }
+
+    if (pMonsterEntry == nullptr)
+    {
+        pMonsterEntry = pMonsterTable->findById(monsterId);
+    }
+
+    return monsterEntryHasCorpseSprite(pMonsterEntry);
+}
+
 float animationSecondsForSpriteFrame(
     const SpriteFrameTable *pSpriteFrameTable,
     uint16_t spriteFrameIndex,
@@ -3534,6 +3575,11 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
             aiState.animationState = ActorAiAnimationState::Dead;
             aiState.attackImpactTriggered = false;
             actor.currentActionAnimation = indoorActionAnimationFromActorAi(ActorAiAnimationState::Dead);
+
+            if (!actorShouldLeaveCorpse(m_pMonsterTable, actor))
+            {
+                actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
+            }
         }
 
         actor.x = static_cast<int>(std::lround(aiState.preciseX));
@@ -4008,6 +4054,11 @@ void IndoorWorldRuntime::spawnBloodSplatForActorIfNeeded(size_t actorIndex)
     const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(aiState.monsterId);
 
     if (pStats == nullptr || !pStats->bloodSplatOnDeath)
+    {
+        return;
+    }
+
+    if (!actorShouldLeaveCorpse(m_pMonsterTable, aiState.monsterId))
     {
         return;
     }
@@ -5716,6 +5767,7 @@ std::optional<ActorAiFacts> IndoorWorldRuntime::collectIndoorActorAiFacts(
     facts.status.bloodSplatSpawned = aiState.bloodSplatSpawned;
     facts.status.hasDetectedParty = hasDetectedParty;
     facts.status.defaultHostileToParty = defaultHostile;
+    facts.status.suppressLowHealthFlee = aiState.suppressLowHealthFlee;
 
     const float partyDeltaX = partyFacts.position.x - aiState.preciseX;
     const float partyDeltaY = partyFacts.position.y - aiState.preciseY;
@@ -7067,6 +7119,11 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
                 skillMastery,
                 pActorService->actorLooksUndead(resolvedMonsterId),
                 baselineHostileToParty,
+                pStats != nullptr
+                    ? monsterResistanceForDamageType(
+                        *pStats,
+                        GameMechanics::spellCombatDamageType(spellId, m_pSpellTable))
+                    : 0,
                 effectState);
 
         if (effectResult.disposition == GameplayActorService::SharedSpellDisposition::Rejected)
@@ -7839,6 +7896,28 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
             && m_pParty != nullptr)
         {
             m_pParty->applyDamageToActiveMember(damage, "pain reflection");
+        }
+
+        const MonsterTable::MonsterStatsEntry *pStats =
+            m_pMonsterTable != nullptr ? m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(actor)) : nullptr;
+        const bool suppressLowHealthFlee =
+            aiState.motionState == ActorAiMotionState::Fleeing
+            && pStats != nullptr
+            && gameplayActorAiTypeFromMonster(pStats->aiType) != GameplayActorAiType::Wimp;
+
+        GameplayActorService fallbackActorService = {};
+        const GameplayActorService *pActorService =
+            m_pGameplayActorService != nullptr ? m_pGameplayActorService : &fallbackActorService;
+        pActorService->breakFearAndControlOnPartyDamage(aiState.spellEffects);
+
+        if (suppressLowHealthFlee)
+        {
+            aiState.suppressLowHealthFlee = true;
+            aiState.motionState = ActorAiMotionState::Standing;
+            aiState.animationState = ActorAiAnimationState::Standing;
+            aiState.actionSeconds = 0.0f;
+            aiState.moveDirectionX = 0.0f;
+            aiState.moveDirectionY = 0.0f;
         }
 
         aiState.hostileToParty = true;
@@ -8764,6 +8843,7 @@ bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
         || pAiState == nullptr
         || (pAiState->motionState != ActorAiMotionState::Dying
             && pAiState->motionState != ActorAiMotionState::Dead)
+        || !actorShouldLeaveCorpse(m_pMonsterTable, actor)
         || (actor.attributes & static_cast<uint32_t>(EvtActorAttribute::Invisible)) != 0)
     {
         return false;

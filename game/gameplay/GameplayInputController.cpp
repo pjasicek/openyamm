@@ -123,6 +123,27 @@ void GameplayInputController::handleStandardUiHotkeys(
     const bool journalActive = context.journalScreenState().active;
     const bool houseShopActive = context.houseShopOverlay().active;
     const bool houseBankInputActive = context.houseBankState().inputActive();
+    const bool gameplayHudActive = context.currentHudScreenState() == GameplayHudScreenState::Gameplay;
+    const bool canOpenRestFromGameplay =
+        config.canOpenRest
+        && gameplayHudActive
+        && !activeEventDialog
+        && !hasActiveLootView
+        && !characterScreenOpen
+        && !spellbookActive
+        && !restActive
+        && !menuActive
+        && !controlsActive
+        && !keyboardActive
+        && !videoOptionsActive
+        && !saveGameActive
+        && !loadGameActive
+        && !journalActive
+        && !context.inventoryNestedOverlay().active
+        && !context.readableScrollOverlayReadOnly().active
+        && !context.utilitySpellOverlayReadOnly().active
+        && !houseShopActive
+        && !houseBankInputActive;
 
     if (isEscapeNewlyPressed(context, config.pKeyboardState))
     {
@@ -188,7 +209,7 @@ void GameplayInputController::handleStandardUiHotkeys(
             }
         }
 
-        if (config.canOpenRest)
+        if (canOpenRestFromGameplay)
         {
             if (isActionHeld(context, KeyboardAction::Rest, config.pInputFrame, config.pKeyboardState))
             {
@@ -586,7 +607,7 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 .height = config.screenHeight,
             });
 
-    frameResult.worldInputBlocked = worldInputGateResult.blocked;
+    frameResult.worldInputBlocked = hasActiveLootView || worldInputGateResult.blocked;
     return frameResult;
 }
 } // namespace OpenYAMM::Game
