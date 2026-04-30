@@ -410,6 +410,7 @@ HouseVideoPlayer::HouseVideoPlayer()
     , m_uploadedFrameIndex(InvalidFrameIndex)
     , m_nextAudioSampleIndex(0)
     , m_totalQueuedAudioFrames(0)
+    , m_loopPlayback(true)
 {
 }
 
@@ -504,6 +505,15 @@ bool HouseVideoPlayer::play(
     const std::string &videoStem,
     const std::string &videoDirectory)
 {
+    return play(assetFileSystem, videoStem, videoDirectory, true);
+}
+
+bool HouseVideoPlayer::play(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &videoStem,
+    const std::string &videoDirectory,
+    bool loopPlayback)
+{
     if (videoStem.empty())
     {
         stop();
@@ -521,6 +531,7 @@ bool HouseVideoPlayer::play(
 
     if (m_pActiveClip != nullptr && m_activeClipKey == clipKey)
     {
+        m_loopPlayback = loopPlayback;
         return true;
     }
 
@@ -538,6 +549,7 @@ bool HouseVideoPlayer::play(
     m_uploadedFrameIndex = InvalidFrameIndex;
     m_nextAudioSampleIndex = 0;
     m_totalQueuedAudioFrames = 0;
+    m_loopPlayback = loopPlayback;
     ensureVideoTexture(pClip->width, pClip->height);
     uploadVideoFrame(0);
 
@@ -671,7 +683,8 @@ bool HouseVideoPlayer::hasActiveFrame() const
 
 bool HouseVideoPlayer::hasFinishedPlayback() const
 {
-    return m_pActiveClip != nullptr
+    return !m_loopPlayback
+        && m_pActiveClip != nullptr
         && m_pActiveClip->durationSeconds > 0.0f
         && m_playbackSeconds >= m_pActiveClip->durationSeconds;
 }
@@ -870,6 +883,12 @@ void HouseVideoPlayer::advancePlaybackWithoutAudio(float deltaSeconds)
 
     m_playbackSeconds += std::max(0.0f, deltaSeconds);
 
+    if (!m_loopPlayback)
+    {
+        m_playbackSeconds = std::min(m_playbackSeconds, m_pActiveClip->durationSeconds);
+        return;
+    }
+
     while (m_playbackSeconds >= m_pActiveClip->durationSeconds)
     {
         m_playbackSeconds -= m_pActiveClip->durationSeconds;
@@ -909,6 +928,11 @@ std::optional<float> HouseVideoPlayer::playbackSecondsFromAudioQueue() const
     if (clipAudioFrameCount == 0)
     {
         return std::nullopt;
+    }
+
+    if (!m_loopPlayback && playedAudioFrames >= clipAudioFrameCount)
+    {
+        return m_pActiveClip->durationSeconds;
     }
 
     const uint64_t loopedAudioFrame = playedAudioFrames % clipAudioFrameCount;

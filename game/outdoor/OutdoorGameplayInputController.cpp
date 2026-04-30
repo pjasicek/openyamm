@@ -1,6 +1,7 @@
 #include "game/outdoor/OutdoorGameplayInputController.h"
 
 #include "game/app/GameSession.h"
+#include "game/gameplay/GameplayDebugDumper.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
@@ -413,22 +414,17 @@ void OutdoorGameplayInputController::updateCameraFromInput(
 
     if (pKeyboardState[SDL_SCANCODE_F5])
     {
-        if (!view.m_toggleRainLatch)
+        if (!view.m_dumpGameplayStateLatch)
         {
-            if (view.m_pOutdoorWorldRuntime != nullptr)
-            {
-                view.m_pOutdoorWorldRuntime->cycleRainIntensityPreset();
-                view.showStatusBarEvent(
-                    std::string("Rain: ") + view.m_pOutdoorWorldRuntime->rainIntensityPresetName(),
-                    2.0f);
-            }
-
-            view.m_toggleRainLatch = true;
+            GameplayDebugDumper::dumpStateToConsole(view.m_gameSession);
+            view.dumpDebugBModelRenderStateToConsole(25);
+            view.dumpDebugBModelRenderStateToConsole(26);
+            view.m_dumpGameplayStateLatch = true;
         }
     }
     else
     {
-        view.m_toggleRainLatch = false;
+        view.m_dumpGameplayStateLatch = false;
     }
 
     if (pKeyboardState[SDL_SCANCODE_MINUS])

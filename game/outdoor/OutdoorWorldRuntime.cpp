@@ -1763,6 +1763,11 @@ void syncActorFromMovementState(OutdoorWorldRuntime::MapActorState &actor)
     actor.z = static_cast<int>(std::lround(actor.preciseZ));
 }
 
+bool outdoorFaceBlocksMovement(const OutdoorFaceGeometryData &face)
+{
+    return !hasFaceAttribute(face.attributes, FaceAttribute::Untouchable);
+}
+
 bool tryMoveActorInWorld(
     OutdoorWorldRuntime::MapActorState &actor,
     const OutdoorMapData &outdoorMapData,
@@ -1798,7 +1803,7 @@ bool tryMoveActorInWorld(
 
     for (const OutdoorFaceGeometryData &face : faces)
     {
-        if (face.isWalkable)
+        if (!outdoorFaceBlocksMovement(face) || face.isWalkable)
         {
             continue;
         }
@@ -2006,6 +2011,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     OutdoorWorldRuntime::MapActorState state = {};
     state.actorId = actorId;
     state.monsterId = resolveMapActorMonsterId(actor);
+    state.uniqueNameId = static_cast<uint32_t>(std::max(0, actor.uniqueNameIndex));
     state.group = actor.group;
     state.ally = actor.ally;
     state.specialItemId = actor.carriedItemId;
@@ -3634,6 +3640,10 @@ void OutdoorWorldRuntime::initialize(
     m_eventRuntimeState = eventRuntimeState;
     m_pItemTable = &itemTable;
     m_pParty = pParty;
+    if (m_eventRuntimeState && m_pParty != nullptr)
+    {
+        m_pParty->applyGlobalNpcStateTo(*m_eventRuntimeState);
+    }
     m_pPartyRuntime = pPartyRuntime;
     m_pStandardItemEnchantTable = &standardItemEnchantTable;
     m_pSpecialItemEnchantTable = &specialItemEnchantTable;
@@ -3642,7 +3652,7 @@ void OutdoorWorldRuntime::initialize(
     m_pMonsterProjectileTable = &monsterProjectileTable;
     m_pObjectTable = &objectTable;
     m_pOutdoorMapData = outdoorMapData ? &*outdoorMapData : nullptr;
-    m_pOutdoorMapDeltaData = outdoorMapDeltaData ? &*outdoorMapDeltaData : nullptr;
+    m_pOutdoorMapDeltaData = outdoorMapDeltaData ? const_cast<MapDeltaData *>(&*outdoorMapDeltaData) : nullptr;
     m_outdoorLandMask = outdoorLandMask;
     m_pSpellTable = &spellTable;
     m_pGameplayActorService = pGameplayActorService;
@@ -3712,7 +3722,7 @@ void OutdoorWorldRuntime::initialize(
             {
                 OutdoorFaceGeometryData geometry = {};
 
-                if (buildOutdoorFaceGeometry(bModel, bModelIndex, bModel.faces[faceIndex], faceIndex, geometry))
+                if (buildOutdoorFaceGeometry(bModel, bModelIndex, bModel.faces[faceIndex], faceIndex, geometry, true))
                 {
                     m_outdoorFaces.push_back(std::move(geometry));
                 }
@@ -3730,6 +3740,7 @@ void OutdoorWorldRuntime::initialize(
             outdoorDecorationCollisionSet,
             outdoorActorCollisionSet,
             outdoorSpriteObjectCollisionSet);
+        syncOutdoorFaceGeometryAttributesFromMapDelta();
     }
     m_nextActorId = 0;
     projectileService().clear();
@@ -4654,7 +4665,7 @@ void OutdoorWorldRuntime::updateWorld(float deltaSeconds)
 
     if (m_pOutdoorMapDeltaData != nullptr && m_pPartyRuntime != nullptr)
     {
-        updateOutdoorJournalRevealMask(*m_pPartyRuntime, *const_cast<MapDeltaData *>(m_pOutdoorMapDeltaData));
+        updateOutdoorJournalRevealMask(*m_pPartyRuntime, *m_pOutdoorMapDeltaData);
     }
 }
 
@@ -4891,6 +4902,10 @@ void OutdoorWorldRuntime::restoreSnapshot(const Snapshot &snapshot)
     if (m_eventRuntimeState)
     {
         clearTransientEventRuntimeState(*m_eventRuntimeState);
+        if (m_pParty != nullptr)
+        {
+            m_pParty->applyGlobalNpcStateTo(*m_eventRuntimeState);
+        }
     }
     m_actorUpdateAccumulatorSeconds = snapshot.actorUpdateAccumulatorSeconds;
     m_sessionChestSeed = snapshot.sessionChestSeed;
@@ -4966,8 +4981,7 @@ void OutdoorWorldRuntime::setCurrentLocationReputation(int reputation)
         return;
     }
 
-    MapDeltaData *pMutableMapDeltaData = const_cast<MapDeltaData *>(m_pOutdoorMapDeltaData);
-    pMutableMapDeltaData->locationInfo.reputation = reputation;
+    m_pOutdoorMapDeltaData->locationInfo.reputation = reputation;
 }
 
 const OutdoorWorldRuntime::AtmosphereState &OutdoorWorldRuntime::atmosphereState() const
@@ -5166,10 +5180,9 @@ void OutdoorWorldRuntime::syncAtmosphereStateToMapDelta()
         return;
     }
 
-    MapDeltaData *pMutableMapDeltaData = const_cast<MapDeltaData *>(m_pOutdoorMapDeltaData);
-    pMutableMapDeltaData->locationTime.weatherFlags = m_atmosphereState.weatherFlags;
-    pMutableMapDeltaData->locationTime.fogWeakDistance = m_atmosphereState.fogWeakDistance;
-    pMutableMapDeltaData->locationTime.fogStrongDistance = m_atmosphereState.fogStrongDistance;
+    m_pOutdoorMapDeltaData->locationTime.weatherFlags = m_atmosphereState.weatherFlags;
+    m_pOutdoorMapDeltaData->locationTime.fogWeakDistance = m_atmosphereState.fogWeakDistance;
+    m_pOutdoorMapDeltaData->locationTime.fogStrongDistance = m_atmosphereState.fogStrongDistance;
 }
 
 int OutdoorWorldRuntime::weatherDayIndexForMinutes(float gameMinutes) const
@@ -7763,6 +7776,74 @@ const OutdoorFaceGeometryData *OutdoorWorldRuntime::outdoorFace(size_t faceIndex
     return &m_outdoorFaces[faceIndex];
 }
 
+void OutdoorWorldRuntime::syncOutdoorFaceGeometryAttributesFromMapDelta()
+{
+    if (m_pOutdoorMapData == nullptr || m_pOutdoorMapDeltaData == nullptr)
+    {
+        return;
+    }
+
+    std::vector<size_t> bModelFaceOffsets;
+    bModelFaceOffsets.reserve(m_pOutdoorMapData->bmodels.size());
+    size_t flattenedFaceIndex = 0;
+
+    for (const OutdoorBModel &bmodel : m_pOutdoorMapData->bmodels)
+    {
+        bModelFaceOffsets.push_back(flattenedFaceIndex);
+        flattenedFaceIndex += bmodel.faces.size();
+    }
+
+    for (OutdoorFaceGeometryData &geometry : m_outdoorFaces)
+    {
+        if (geometry.bModelIndex >= bModelFaceOffsets.size())
+        {
+            continue;
+        }
+
+        const size_t effectiveFaceIndex = bModelFaceOffsets[geometry.bModelIndex] + geometry.faceIndex;
+
+        if (effectiveFaceIndex >= m_pOutdoorMapDeltaData->faceAttributes.size())
+        {
+            continue;
+        }
+
+        const uint32_t attributes = m_pOutdoorMapDeltaData->faceAttributes[effectiveFaceIndex];
+        geometry.attributes = attributes;
+
+        if (m_outdoorMovementController)
+        {
+            m_outdoorMovementController->setFaceAttributes(geometry.bModelIndex, geometry.faceIndex, attributes);
+        }
+
+        if (m_pPartyRuntime != nullptr)
+        {
+            m_pPartyRuntime->setFaceAttributes(geometry.bModelIndex, geometry.faceIndex, attributes);
+        }
+    }
+}
+
+void OutdoorWorldRuntime::setOutdoorFaceGeometryAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes)
+{
+    for (OutdoorFaceGeometryData &geometry : m_outdoorFaces)
+    {
+        if (geometry.bModelIndex == bModelIndex && geometry.faceIndex == faceIndex)
+        {
+            geometry.attributes = attributes;
+            break;
+        }
+    }
+
+    if (m_outdoorMovementController)
+    {
+        m_outdoorMovementController->setFaceAttributes(bModelIndex, faceIndex, attributes);
+    }
+
+    if (m_pPartyRuntime != nullptr)
+    {
+        m_pPartyRuntime->setFaceAttributes(bModelIndex, faceIndex, attributes);
+    }
+}
+
 bool OutdoorWorldRuntime::hasClearOutdoorLineOfSight(const bx::Vec3 &start, const bx::Vec3 &end) const
 {
     if (m_pOutdoorMapData != nullptr)
@@ -7818,7 +7899,7 @@ bool OutdoorWorldRuntime::hasClearOutdoorLineOfSight(const bx::Vec3 &start, cons
 
         const OutdoorFaceGeometryData &face = m_outdoorFaces[faceIndex];
 
-        if (!face.hasPlane || face.isWalkable)
+        if (!outdoorFaceBlocksMovement(face) || !face.hasPlane || face.isWalkable)
         {
             continue;
         }
@@ -7863,7 +7944,8 @@ float OutdoorWorldRuntime::sampleSupportFloorHeight(float x, float y, float z, f
 
         const OutdoorFaceGeometryData &geometry = m_outdoorFaces[faceIndex];
 
-        if (!geometry.isWalkable
+        if (!outdoorFaceBlocksMovement(geometry)
+            || !geometry.isWalkable
             || x < geometry.minX - xySlack
             || x > geometry.maxX + xySlack
             || y < geometry.minY - xySlack
@@ -8037,7 +8119,8 @@ OutdoorWorldRuntime::ProjectileCollisionFacts OutdoorWorldRuntime::buildProjecti
 
         const OutdoorFaceGeometryData &face = m_outdoorFaces[faceIndex];
 
-        if (!segmentMayTouchFaceBounds(segmentStart, segmentEnd, face, faceCollisionPadding))
+        if (!outdoorFaceBlocksMovement(face)
+            || !segmentMayTouchFaceBounds(segmentStart, segmentEnd, face, faceCollisionPadding))
         {
             continue;
         }
@@ -8639,6 +8722,41 @@ void OutdoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMas
     if (!m_eventRuntimeState)
     {
         return;
+    }
+
+    if (m_pOutdoorMapDeltaData != nullptr)
+    {
+        std::vector<uint32_t> appliedFacetSetMasks;
+        appliedFacetSetMasks.reserve(m_eventRuntimeState->facetSetMasks.size());
+
+        for (const std::pair<const uint32_t, uint32_t> &entry : m_eventRuntimeState->facetSetMasks)
+        {
+            if (setFacetBit(entry.first, entry.second, true))
+            {
+                appliedFacetSetMasks.push_back(entry.first);
+            }
+        }
+
+        for (uint32_t cogNumber : appliedFacetSetMasks)
+        {
+            m_eventRuntimeState->facetSetMasks.erase(cogNumber);
+        }
+
+        std::vector<uint32_t> appliedFacetClearMasks;
+        appliedFacetClearMasks.reserve(m_eventRuntimeState->facetClearMasks.size());
+
+        for (const std::pair<const uint32_t, uint32_t> &entry : m_eventRuntimeState->facetClearMasks)
+        {
+            if (setFacetBit(entry.first, entry.second, false))
+            {
+                appliedFacetClearMasks.push_back(entry.first);
+            }
+        }
+
+        for (uint32_t cogNumber : appliedFacetClearMasks)
+        {
+            m_eventRuntimeState->facetClearMasks.erase(cogNumber);
+        }
     }
 
     std::vector<std::optional<bool>> persistentHostilityOverrides(m_mapActors.size(), std::nullopt);
@@ -11875,8 +11993,11 @@ bool OutdoorWorldRuntime::checkMonstersKilled(
                 break;
 
             case static_cast<uint32_t>(EvtActorKillCheck::ActorIdOe):
-            case static_cast<uint32_t>(EvtActorKillCheck::ActorIdMm8):
                 matches = actor.actorId == id;
+                break;
+
+            case static_cast<uint32_t>(EvtActorKillCheck::UniqueNameId):
+                matches = actor.uniqueNameId == id;
                 break;
 
             default:
@@ -12004,15 +12125,207 @@ void OutdoorWorldRuntime::cancelPendingMapTransition()
     m_pPartyRuntime->teleportTo(clampedX, clampedY, moveState.footZ);
 }
 
-bool OutdoorWorldRuntime::executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount)
+bool OutdoorWorldRuntime::executeNpcTopicEvent(
+    uint16_t eventId,
+    size_t &previousMessageCount,
+    std::optional<uint8_t> continueStep)
 {
     return m_pInteractionView != nullptr
-        && OutdoorInteractionController::executeNpcTopicEvent(*m_pInteractionView, eventId, previousMessageCount);
+        && OutdoorInteractionController::executeNpcTopicEvent(
+            *m_pInteractionView,
+            eventId,
+            previousMessageCount,
+            continueStep);
 }
 
 const MapDeltaData *OutdoorWorldRuntime::mapDeltaData() const
 {
     return m_pOutdoorMapDeltaData;
+}
+
+MapDeltaData *OutdoorWorldRuntime::mapDeltaData()
+{
+    return m_pOutdoorMapDeltaData;
+}
+
+bool OutdoorWorldRuntime::setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn)
+{
+    if (cogNumber == 0 || m_pOutdoorMapData == nullptr || m_pOutdoorMapDeltaData == nullptr)
+    {
+        return false;
+    }
+
+    size_t totalFaceCount = 0;
+
+    for (const OutdoorBModel &bmodel : m_pOutdoorMapData->bmodels)
+    {
+        totalFaceCount += bmodel.faces.size();
+    }
+
+    while (m_pOutdoorMapDeltaData->faceAttributes.size() < totalFaceCount)
+    {
+        size_t remainingFaceIndex = m_pOutdoorMapDeltaData->faceAttributes.size();
+
+        for (const OutdoorBModel &bmodel : m_pOutdoorMapData->bmodels)
+        {
+            if (remainingFaceIndex < bmodel.faces.size())
+            {
+                m_pOutdoorMapDeltaData->faceAttributes.push_back(bmodel.faces[remainingFaceIndex].attributes);
+                break;
+            }
+
+            remainingFaceIndex -= bmodel.faces.size();
+        }
+    }
+
+    bool matchedAny = false;
+    bool changedAny = false;
+    size_t flattenedFaceIndex = 0;
+
+    for (size_t bModelIndex = 0; bModelIndex < m_pOutdoorMapData->bmodels.size(); ++bModelIndex)
+    {
+        const OutdoorBModel &bmodel = m_pOutdoorMapData->bmodels[bModelIndex];
+
+        for (size_t faceIndex = 0; faceIndex < bmodel.faces.size(); ++faceIndex)
+        {
+            const OutdoorBModelFace &face = bmodel.faces[faceIndex];
+
+            if (face.cogNumber == cogNumber && flattenedFaceIndex < m_pOutdoorMapDeltaData->faceAttributes.size())
+            {
+                matchedAny = true;
+                uint32_t &attributes = m_pOutdoorMapDeltaData->faceAttributes[flattenedFaceIndex];
+                const uint32_t oldAttributes = attributes;
+
+                if (isOn)
+                {
+                    attributes |= bit;
+                }
+                else
+                {
+                    attributes &= ~bit;
+                }
+
+                changedAny = changedAny || attributes != oldAttributes;
+                setOutdoorFaceGeometryAttributes(bModelIndex, faceIndex, attributes);
+            }
+
+            ++flattenedFaceIndex;
+        }
+    }
+
+    if (changedAny)
+    {
+        ++m_pOutdoorMapDeltaData->surfaceRevision;
+    }
+
+    return matchedAny;
+}
+
+void OutdoorWorldRuntime::dumpDebugFacetCogStateToConsole(uint32_t cogNumber) const
+{
+    const uint32_t invisibleBit = faceAttributeBit(FaceAttribute::Invisible);
+    const uint32_t untouchableBit = faceAttributeBit(FaceAttribute::Untouchable);
+    const uint32_t pendingSetMask =
+        m_eventRuntimeState && m_eventRuntimeState->facetSetMasks.contains(cogNumber)
+            ? m_eventRuntimeState->facetSetMasks.at(cogNumber)
+            : 0u;
+    const uint32_t pendingClearMask =
+        m_eventRuntimeState && m_eventRuntimeState->facetClearMasks.contains(cogNumber)
+            ? m_eventRuntimeState->facetClearMasks.at(cogNumber)
+            : 0u;
+
+    size_t matchedFaces = 0;
+    size_t texturedFaces = 0;
+    size_t baseInvisibleFaces = 0;
+    size_t currentInvisibleFaces = 0;
+    size_t baseUntouchableFaces = 0;
+    size_t currentUntouchableFaces = 0;
+    size_t flattenedFaceIndex = 0;
+    size_t sampleCount = 0;
+
+    std::cout << "F5 Outdoor facet cog=" << cogNumber
+              << " onload.local=" << (m_eventRuntimeState ? m_eventRuntimeState->localOnLoadEventsExecuted : 0u)
+              << " onload.global=" << (m_eventRuntimeState ? m_eventRuntimeState->globalOnLoadEventsExecuted : 0u)
+              << " surfaceRevision=" << (m_pOutdoorMapDeltaData != nullptr ? m_pOutdoorMapDeltaData->surfaceRevision : 0u)
+              << " faceAttributes.count="
+              << (m_pOutdoorMapDeltaData != nullptr ? m_pOutdoorMapDeltaData->faceAttributes.size() : 0u)
+              << " pending.set=0x" << std::hex << pendingSetMask
+              << " pending.clear=0x" << pendingClearMask << std::dec
+              << '\n';
+
+    if (m_pOutdoorMapData == nullptr)
+    {
+        std::cout << "  outdoor map data missing\n";
+        return;
+    }
+
+    for (size_t bModelIndex = 0; bModelIndex < m_pOutdoorMapData->bmodels.size(); ++bModelIndex)
+    {
+        const OutdoorBModel &bmodel = m_pOutdoorMapData->bmodels[bModelIndex];
+
+        for (size_t faceIndex = 0; faceIndex < bmodel.faces.size(); ++faceIndex, ++flattenedFaceIndex)
+        {
+            const OutdoorBModelFace &face = bmodel.faces[faceIndex];
+
+            if (face.cogNumber != cogNumber)
+            {
+                continue;
+            }
+
+            ++matchedFaces;
+
+            if (!face.textureName.empty())
+            {
+                ++texturedFaces;
+            }
+
+            const uint32_t baseAttributes = face.attributes;
+            const uint32_t currentAttributes =
+                m_pOutdoorMapDeltaData != nullptr && flattenedFaceIndex < m_pOutdoorMapDeltaData->faceAttributes.size()
+                    ? m_pOutdoorMapDeltaData->faceAttributes[flattenedFaceIndex]
+                    : baseAttributes;
+
+            if ((baseAttributes & invisibleBit) != 0)
+            {
+                ++baseInvisibleFaces;
+            }
+
+            if ((currentAttributes & invisibleBit) != 0)
+            {
+                ++currentInvisibleFaces;
+            }
+
+            if ((baseAttributes & untouchableBit) != 0)
+            {
+                ++baseUntouchableFaces;
+            }
+
+            if ((currentAttributes & untouchableBit) != 0)
+            {
+                ++currentUntouchableFaces;
+            }
+
+            if (sampleCount < 16)
+            {
+                std::cout << "  faceId=" << flattenedFaceIndex
+                          << " bmodel=" << bModelIndex
+                          << " face=" << faceIndex
+                          << " texture=\"" << face.textureName << '"'
+                          << " base=0x" << std::hex << baseAttributes
+                          << " current=0x" << currentAttributes << std::dec
+                          << '\n';
+                ++sampleCount;
+            }
+        }
+    }
+
+    std::cout << "  matched=" << matchedFaces
+              << " textured=" << texturedFaces
+              << " base.invisible=" << baseInvisibleFaces
+              << " current.invisible=" << currentInvisibleFaces
+              << " base.untouchable=" << baseUntouchableFaces
+              << " current.untouchable=" << currentUntouchableFaces
+              << '\n';
 }
 
 EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState()

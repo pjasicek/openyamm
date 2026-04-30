@@ -3,8 +3,10 @@
 #include "engine/BgfxContext.h"
 #include "game/app/GameSession.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
+#include "game/gameplay/GameplayDebugDumper.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/GameplayHeldItemController.h"
 #include "game/gameplay/GameplayScreenController.h"
 #include "game/gameplay/GameplaySaveLoadUiSupport.h"
 #include "game/gameplay/GameplaySpellService.h"
@@ -926,6 +928,19 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
     m_lastRenderHeight = height;
     m_renderGameplayUiThisFrame = true;
 
+    if (input.isScancodeHeld(SDL_SCANCODE_F5))
+    {
+        if (!m_dumpGameplayStateLatch)
+        {
+            GameplayDebugDumper::dumpStateToConsole(m_gameSession);
+            m_dumpGameplayStateLatch = true;
+        }
+    }
+    else
+    {
+        m_dumpGameplayStateLatch = false;
+    }
+
     GameplayHudRenderBackend hudRenderBackend = {};
     bgfx::ProgramHandle invalidProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle invalidSamplerHandle = BGFX_INVALID_HANDLE;
@@ -1285,7 +1300,21 @@ void IndoorGameView::executeActiveDialogAction()
         {
             return buildDialogContext(eventRuntimeState);
         },
-        {},
+        [this](const GameplayDialogController::Result &)
+        {
+            EventRuntimeState *pEventRuntimeState =
+                worldRuntime() != nullptr ? worldRuntime()->eventRuntimeState() : nullptr;
+
+            if (pEventRuntimeState == nullptr)
+            {
+                return;
+            }
+
+            GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
+                m_gameSession.gameplayScreenRuntime(),
+                *pEventRuntimeState,
+                m_gameSession.data().itemTable());
+        },
         {},
         {},
         [this](size_t previousMessageCount, bool allowNpcFallbackContent)

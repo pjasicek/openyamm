@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -268,7 +269,7 @@ RegisterEvent(101, "Drink from the well", function()
     if not IsAtLeast(BaseSpeed, 16) then
         AddValue(BaseSpeed, 2)
         evt.StatusText("Speed +2 (Permanent)")
-        AddValue(IsIntellectMoreThanBase, 271)
+        SetAutonote(271) -- Well on the Island of Regna gives a permanent Speed bonus up to a Speed of 16.
         return
     end
     evt.StatusText("Refreshing")
@@ -287,16 +288,16 @@ end, "Drink from the well")
 
 RegisterEvent(104, "Drink from the fountain", function()
     evt.StatusText("Refreshing")
-    if IsQBitSet(QBit(183)) then return end
-    SetQBit(QBit(183))
+    if IsQBitSet(QBit(183)) then return end -- Hareckburg Town Portal
+    SetQBit(QBit(183)) -- Hareckburg Town Portal
     return
 end, "Drink from the fountain")
 
 RegisterEvent(150, "Obelisk", function()
-    if IsQBitSet(QBit(194)) then return end
+    if IsQBitSet(QBit(194)) then return end -- Obelisk Area 13
     evt.StatusText("gholdsold")
-    AddValue(IsIntellectMoreThanBase, 18)
-    SetQBit(QBit(194))
+    SetAutonote(18) -- Obelisk message #2: gholdsold
+    SetQBit(QBit(194)) -- Obelisk Area 13
     return
 end, "Obelisk")
 
@@ -375,7 +376,7 @@ RegisterEvent(449, "Fountain", nil, "Fountain")
 RegisterEvent(450, "Well", nil, "Well")
 
 RegisterEvent(451, "Fire the cannon !", function()
-    if not IsQBitSet(QBit(37)) then
+    if not IsQBitSet(QBit(37)) then -- Regnan Pirate Fleet is sunk.
         evt.ForPlayer(Players.All)
         if HasItem(662) then -- Cannonball of Dominion
             RemoveItem(662) -- Cannonball of Dominion
@@ -383,7 +384,7 @@ RegisterEvent(451, "Fire the cannon !", function()
             evt.StatusText("You hear a low rumbling noise")
             AddValue(MapVar(41), 1)
             evt.PlaySound(473, -12945, 12015)
-            ClearQBit(QBit(224))
+            ClearQBit(QBit(224)) -- Cannonball of Dominion - I lost it
             return
         end
     end
@@ -392,13 +393,13 @@ RegisterEvent(451, "Fire the cannon !", function()
 end, "Fire the cannon !")
 
 RegisterEvent(452, "Legacy event 452", function()
-    if IsQBitSet(QBit(37)) then
+    if IsQBitSet(QBit(37)) then -- Regnan Pirate Fleet is sunk.
         return
     elseif IsAtLeast(MapVar(41), 3) then
-        SetQBit(QBit(37))
-        evt.MoveNPC(77, 276)
-        evt.MoveNPC(24, 277)
-        evt.MoveNPC(25, 277)
+        SetQBit(QBit(37)) -- Regnan Pirate Fleet is sunk.
+        evt.MoveNPC(77, 276) -- Derrin Delver -> Hostel
+        evt.MoveNPC(24, 277) -- Queen Catherine -> Hostel
+        evt.MoveNPC(25, 277) -- King Roland -> Hostel
         AddValue(History(15), 0)
         SetValue(MapVar(41), 0)
         evt.SetFacetBit(31, FacetBits.Invisible, 0)
@@ -455,9 +456,9 @@ RegisterEvent(453, "Legacy event 453", function()
 end)
 
 RegisterEvent(454, "Tree", function()
-    if IsQBitSet(QBit(285)) then return end
+    if IsQBitSet(QBit(285)) then return end -- Got the Tele scroll in area 13
     AddValue(InventoryItem(341), 341) -- Telekinesis
-    SetQBit(QBit(285))
+    SetQBit(QBit(285)) -- Got the Tele scroll in area 13
     return
 end, "Tree")
 
@@ -501,7 +502,7 @@ RegisterEvent(502, "Enter the Abandoned Pirate Keep", function()
 end, "Enter the Abandoned Pirate Keep")
 
 RegisterEvent(503, "Enter the Tower", function()
-    if not IsQBitSet(QBit(197)) then
+    if not IsQBitSet(QBit(197)) then -- Door to the passage under regna from the northern watch tower is unlocked
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
@@ -520,7 +521,7 @@ RegisterEvent(505, "Enter the Cave", function()
 end, "Enter the Cave")
 
 RegisterEvent(506, "Enter the Tower", function()
-    if not IsQBitSet(QBit(198)) then
+    if not IsQBitSet(QBit(198)) then -- Door to the passage under regna from the southern watch tower is unlocked
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end

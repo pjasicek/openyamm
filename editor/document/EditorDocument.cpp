@@ -5,6 +5,7 @@
 #include <yaml-cpp/yaml.h>
 #include <SDL3/SDL.h>
 
+#include <array>
 #include <cctype>
 #include <cmath>
 #include <cstring>
@@ -54,6 +55,53 @@ std::string bytesToUpperHex(const std::vector<uint8_t> &bytes)
     }
 
     return text;
+}
+
+std::string bytesToUpperHex(const std::array<uint8_t, 24> &bytes)
+{
+    return bytesToUpperHex(std::vector<uint8_t>(bytes.begin(), bytes.end()));
+}
+
+std::vector<Game::IndoorSceneSpawn> buildIndoorSceneSpawnsFromGeometry(const Game::IndoorMapData &indoorGeometry)
+{
+    std::vector<Game::IndoorSceneSpawn> sceneSpawns;
+    sceneSpawns.reserve(indoorGeometry.spawns.size());
+
+    for (size_t spawnIndex = 0; spawnIndex < indoorGeometry.spawns.size(); ++spawnIndex)
+    {
+        Game::IndoorSceneSpawn sceneSpawn = {};
+        sceneSpawn.spawnIndex = spawnIndex;
+        sceneSpawn.spawn = indoorGeometry.spawns[spawnIndex];
+        sceneSpawns.push_back(std::move(sceneSpawn));
+    }
+
+    return sceneSpawns;
+}
+
+void normalizeIndoorSceneSpawnsWithGeometry(
+    Game::IndoorSceneData &sceneData,
+    Game::IndoorMapData &indoorGeometry)
+{
+    if (!sceneData.hasSpawns)
+    {
+        sceneData.hasSpawns = true;
+        sceneData.spawns = buildIndoorSceneSpawnsFromGeometry(indoorGeometry);
+        return;
+    }
+
+    indoorGeometry.spawns.assign(sceneData.spawns.size(), {});
+
+    for (const Game::IndoorSceneSpawn &sceneSpawn : sceneData.spawns)
+    {
+        if (sceneSpawn.spawnIndex >= indoorGeometry.spawns.size())
+        {
+            continue;
+        }
+
+        indoorGeometry.spawns[sceneSpawn.spawnIndex] = sceneSpawn.spawn;
+    }
+
+    indoorGeometry.spawnCount = indoorGeometry.spawns.size();
 }
 
 bool upperHexToBytes(const std::string &text, std::vector<uint8_t> &bytes)
@@ -1572,6 +1620,11 @@ std::string buildOutdoorMapScriptStub(const EditorOutdoorMapPackageMetadata &met
     return stream.str();
 }
 
+bool physicalVirtualPathExists(const std::filesystem::path &root, const std::string &virtualPath)
+{
+    return !root.empty() && !virtualPath.empty() && std::filesystem::exists(root / std::filesystem::path(virtualPath));
+}
+
 Game::OutdoorSceneEntity buildDefaultPartyStartSceneEntity()
 {
     Game::OutdoorSceneEntity entity = {};
@@ -1983,7 +2036,10 @@ bool EditorDocument::saveSourceAs(const std::filesystem::path &scenePhysicalPath
         const std::filesystem::path targetGeometryPath = scenePhysicalPath.parent_path() / targetGeometryFileName;
         const std::filesystem::path targetGeometryMetadataPath =
             deriveGeometryMetadataPathForScenePath(scenePhysicalPath);
-        const std::string yamlText = serializeIndoorScene(m_indoorSceneData, targetGeometryFileName);
+        Game::IndoorSceneData sceneDataForSave = m_indoorSceneData;
+        sceneDataForSave.hasSpawns = true;
+        sceneDataForSave.spawns = buildIndoorSceneSpawnsFromGeometry(m_indoorGeometry);
+        const std::string yamlText = serializeIndoorScene(sceneDataForSave, targetGeometryFileName);
         Game::IndoorMapDataWriter geometryWriter = {};
         const std::optional<std::vector<uint8_t>> geometryBytes = geometryWriter.buildBytes(m_indoorGeometry);
 
@@ -2141,8 +2197,10 @@ bool EditorDocument::saveSourceAs(const std::filesystem::path &scenePhysicalPath
     {
         const std::filesystem::path scriptModulePath =
             m_editorDevelopmentRoot / std::filesystem::path(packageMetadata.scriptModule);
+        const bool scriptExistsInBaseDevelopmentRoot =
+            physicalVirtualPathExists(m_developmentRoot, packageMetadata.scriptModule);
 
-        if (!std::filesystem::exists(scriptModulePath))
+        if (!std::filesystem::exists(scriptModulePath) && !scriptExistsInBaseDevelopmentRoot)
         {
             std::error_code createDirectoriesError;
             std::filesystem::create_directories(scriptModulePath.parent_path(), createDirectoriesError);
@@ -2943,12 +3001,14 @@ bool EditorDocument::loadIndoorScenePhysicalPath(
         normalizeIndoorGeometryMetadata(*geometryMetadata, sceneData->geometryFile);
     }
 
+    Game::IndoorMapData normalizedIndoorGeometry = *indoorGeometry;
     Game::IndoorSceneData normalizedSceneData = *sceneData;
+    normalizeIndoorSceneSpawnsWithGeometry(normalizedSceneData, normalizedIndoorGeometry);
     synthesizeIndoorFaceAttributeOverridesFromLegacyCompanion(
         assetFileSystem,
         scenePhysicalPath,
         displayPathForDocument(editorDevelopmentRoot, scenePhysicalPath),
-        *indoorGeometry,
+        normalizedIndoorGeometry,
         normalizedSceneData);
 
     m_kind = Kind::Indoor;
@@ -2962,7 +3022,7 @@ bool EditorDocument::loadIndoorScenePhysicalPath(
     m_outdoorMapPackageMetadata = {};
     m_outdoorTerrainMetadata = {};
     m_outdoorGeometrySourceBytes.clear();
-    m_indoorGeometry = *indoorGeometry;
+    m_indoorGeometry = std::move(normalizedIndoorGeometry);
     m_indoorGeometrySourceBytes = geometryBytes;
     m_indoorSceneData = std::move(normalizedSceneData);
     m_hasIndoorGeometryMetadata = hasGeometryMetadataText;
@@ -3095,6 +3155,28 @@ std::vector<std::string> EditorDocument::validate() const
         if (m_indoorSceneData.environment.fogStrongDistance < m_indoorSceneData.environment.fogWeakDistance)
         {
             issues.push_back("Environment fog strong distance must be greater than or equal to weak distance.");
+        }
+
+        if (m_indoorSceneData.hasSpawns)
+        {
+            std::vector<uint8_t> seenSpawnIndices(m_indoorSceneData.spawns.size(), 0);
+
+            for (const Game::IndoorSceneSpawn &spawn : m_indoorSceneData.spawns)
+            {
+                if (spawn.spawnIndex >= m_indoorSceneData.spawns.size())
+                {
+                    issues.push_back("Spawn " + std::to_string(spawn.spawnIndex) + " is out of range.");
+                    continue;
+                }
+
+                if (seenSpawnIndices[spawn.spawnIndex] != 0)
+                {
+                    issues.push_back("Spawn " + std::to_string(spawn.spawnIndex) + " is duplicated.");
+                    continue;
+                }
+
+                seenSpawnIndices[spawn.spawnIndex] = 1;
+            }
         }
 
         std::vector<uint8_t> seenFaceOverrides(m_indoorGeometry.faces.size(), 0);
@@ -3890,12 +3972,14 @@ bool EditorDocument::loadIndoorSceneText(
         normalizeIndoorGeometryMetadata(*geometryMetadata, sceneData->geometryFile);
     }
 
+    Game::IndoorMapData normalizedIndoorGeometry = *indoorGeometry;
     Game::IndoorSceneData normalizedSceneData = *sceneData;
+    normalizeIndoorSceneSpawnsWithGeometry(normalizedSceneData, normalizedIndoorGeometry);
     synthesizeIndoorFaceAttributeOverridesFromLegacyCompanion(
         assetFileSystem,
         scenePhysicalPath,
         sceneVirtualPath,
-        *indoorGeometry,
+        normalizedIndoorGeometry,
         normalizedSceneData);
 
     m_kind = Kind::Indoor;
@@ -3909,7 +3993,7 @@ bool EditorDocument::loadIndoorSceneText(
     m_outdoorMapPackageMetadata = {};
     m_outdoorTerrainMetadata = {};
     m_outdoorGeometrySourceBytes.clear();
-    m_indoorGeometry = *indoorGeometry;
+    m_indoorGeometry = std::move(normalizedIndoorGeometry);
     m_indoorGeometrySourceBytes = *geometryBytes;
     m_indoorSceneData = std::move(normalizedSceneData);
     m_hasIndoorGeometryMetadata = geometryMetadataText.has_value();
@@ -4329,6 +4413,7 @@ std::string EditorDocument::serializeIndoorScene(
     emitter << YAML::EndMap;
 
     emitter << YAML::Key << "environment" << YAML::Value << YAML::BeginMap;
+    emitter << YAML::Key << "last_visit_time" << YAML::Value << sceneData.environment.lastVisitTime;
     emitter << YAML::Key << "sky_texture" << YAML::Value << sceneData.environment.skyTexture;
     emitter << YAML::Key << "day_bits_raw" << YAML::Value << sceneData.environment.dayBitsRaw;
     emitter << YAML::Key << "map_extra_bits_raw" << YAML::Value << sceneData.environment.mapExtraBitsRaw;
@@ -4356,7 +4441,30 @@ std::string EditorDocument::serializeIndoorScene(
     emitter << YAML::Key << "strong_distance" << YAML::Value << sceneData.environment.fogStrongDistance;
     emitter << YAML::EndMap;
     emitter << YAML::Key << "ceiling" << YAML::Value << sceneData.environment.ceiling;
+    emitter << YAML::Key << "map_extra_reserved_hex" << YAML::Value
+            << bytesToUpperHex(sceneData.environment.mapExtraReserved);
     emitter << YAML::EndMap;
+
+    if (sceneData.hasSpawns)
+    {
+        emitter << YAML::Key << "spawns" << YAML::Value << YAML::BeginSeq;
+
+        for (const Game::IndoorSceneSpawn &spawn : sceneData.spawns)
+        {
+            emitter << YAML::BeginMap;
+            emitter << YAML::Key << "spawn_index" << YAML::Value << spawn.spawnIndex;
+            emitter << YAML::Key << "position" << YAML::Value;
+            emitPositionMap(emitter, spawn.spawn.x, spawn.spawn.y, spawn.spawn.z);
+            emitter << YAML::Key << "radius" << YAML::Value << spawn.spawn.radius;
+            emitter << YAML::Key << "type_id" << YAML::Value << spawn.spawn.typeId;
+            emitter << YAML::Key << "index" << YAML::Value << spawn.spawn.index;
+            emitter << YAML::Key << "attributes" << YAML::Value << spawn.spawn.attributes;
+            emitter << YAML::Key << "group" << YAML::Value << spawn.spawn.group;
+            emitter << YAML::EndMap;
+        }
+
+        emitter << YAML::EndSeq;
+    }
 
     emitter << YAML::Key << "initial_state" << YAML::Value << YAML::BeginMap;
     emitter << YAML::Key << "location" << YAML::Value << YAML::BeginMap;

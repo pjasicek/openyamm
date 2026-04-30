@@ -182,6 +182,22 @@ bool parseHexBytes(
     return true;
 }
 
+bool parseHexByteArray(
+    const std::string &text,
+    std::array<uint8_t, 24> &bytes,
+    std::string &errorMessage)
+{
+    std::vector<uint8_t> parsedBytes;
+
+    if (!parseHexBytes(text, bytes.size(), parsedBytes, errorMessage))
+    {
+        return false;
+    }
+
+    std::copy(parsedBytes.begin(), parsedBytes.end(), bytes.begin());
+    return true;
+}
+
 template <typename ValueType>
 bool parseIntegerSequence(
     const YAML::Node &node,
@@ -381,7 +397,8 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
         return std::nullopt;
     }
 
-    if (!readScalarNode(environmentNode, "sky_texture", sceneData.environment.skyTexture, errorMessage)
+    if (!readScalarNode(environmentNode, "last_visit_time", sceneData.environment.lastVisitTime, errorMessage, false)
+        || !readScalarNode(environmentNode, "sky_texture", sceneData.environment.skyTexture, errorMessage)
         || !readScalarNode(environmentNode, "day_bits_raw", sceneData.environment.dayBitsRaw, errorMessage)
         || !readScalarNode(
             environmentNode,
@@ -391,6 +408,29 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
         || !readScalarNode(environmentNode, "ceiling", sceneData.environment.ceiling, errorMessage))
     {
         return std::nullopt;
+    }
+
+    const YAML::Node mapExtraReservedNode = environmentNode["map_extra_reserved_hex"];
+
+    if (mapExtraReservedNode)
+    {
+        std::string mapExtraReservedHex;
+
+        if (!readScalarNode(environmentNode, "map_extra_reserved_hex", mapExtraReservedHex, errorMessage)
+            || !parseHexByteArray(
+                mapExtraReservedHex,
+                sceneData.environment.mapExtraReserved,
+                errorMessage))
+        {
+            return std::nullopt;
+        }
+    }
+    else
+    {
+        encodeSceneMapExtra(
+            sceneData.environment.mapExtraBitsRaw,
+            sceneData.environment.ceiling,
+            sceneData.environment.mapExtraReserved);
     }
 
     const YAML::Node flagsNode = environmentNode["flags"];
@@ -457,6 +497,44 @@ std::optional<IndoorSceneData> IndoorSceneYmlLoader::loadFromText(
             errorMessage))
     {
         return std::nullopt;
+    }
+
+    const YAML::Node spawnsNode = rootNode["spawns"];
+
+    if (spawnsNode)
+    {
+        if (!spawnsNode.IsSequence())
+        {
+            errorMessage = "spawns must be a sequence";
+            return std::nullopt;
+        }
+
+        sceneData.hasSpawns = true;
+        sceneData.spawns.reserve(spawnsNode.size());
+
+        for (const YAML::Node &spawnNode : spawnsNode)
+        {
+            if (!spawnNode.IsMap())
+            {
+                errorMessage = "spawn entry must be a map";
+                return std::nullopt;
+            }
+
+            IndoorSceneSpawn spawn = {};
+
+            if (!readScalarNode(spawnNode, "spawn_index", spawn.spawnIndex, errorMessage)
+                || !readScalarNode(spawnNode, "radius", spawn.spawn.radius, errorMessage)
+                || !readScalarNode(spawnNode, "type_id", spawn.spawn.typeId, errorMessage)
+                || !readScalarNode(spawnNode, "index", spawn.spawn.index, errorMessage)
+                || !readScalarNode(spawnNode, "attributes", spawn.spawn.attributes, errorMessage)
+                || !readScalarNode(spawnNode, "group", spawn.spawn.group, errorMessage)
+                || !parsePositionNode(spawnNode["position"], spawn.spawn.x, spawn.spawn.y, spawn.spawn.z, errorMessage))
+            {
+                return std::nullopt;
+            }
+
+            sceneData.spawns.push_back(std::move(spawn));
+        }
     }
 
     const YAML::Node initialStateNode = rootNode["initial_state"];
@@ -881,6 +959,24 @@ bool buildIndoorMapStateFromScene(
     mapDeltaData.locationInfo.decorationCount = indoorMapData.entities.size();
     mapDeltaData.locationInfo.bmodelCount = 0;
 
+    if (sceneData.hasSpawns)
+    {
+        indoorMapData.spawns.assign(sceneData.spawns.size(), {});
+
+        for (const IndoorSceneSpawn &spawn : sceneData.spawns)
+        {
+            if (spawn.spawnIndex >= indoorMapData.spawns.size())
+            {
+                errorMessage = "scene spawn_index is out of bounds";
+                return false;
+            }
+
+            indoorMapData.spawns[spawn.spawnIndex] = spawn.spawn;
+        }
+
+        indoorMapData.spawnCount = indoorMapData.spawns.size();
+    }
+
     if (sceneData.initialState.visibleOutlines.size() != IndoorVisibleOutlinesBytes)
     {
         errorMessage = "scene visible outline bitset has wrong size";
@@ -1039,14 +1135,20 @@ bool buildIndoorMapStateFromScene(
         mapDeltaData.doorsData.insert(mapDeltaData.doorsData.end(), door.zOffsets.begin(), door.zOffsets.end());
     }
 
+    mapDeltaData.locationTime.lastVisitTime = sceneData.environment.lastVisitTime;
     mapDeltaData.locationTime.skyTextureName = sceneData.environment.skyTexture;
     mapDeltaData.locationTime.weatherFlags = sceneData.environment.dayBitsRaw;
     mapDeltaData.locationTime.fogWeakDistance = sceneData.environment.fogWeakDistance;
     mapDeltaData.locationTime.fogStrongDistance = sceneData.environment.fogStrongDistance;
-    encodeSceneMapExtra(
-        sceneData.environment.mapExtraBitsRaw,
-        sceneData.environment.ceiling,
-        mapDeltaData.locationTime.reserved);
+    mapDeltaData.locationTime.reserved = sceneData.environment.mapExtraReserved;
+    std::memcpy(
+        mapDeltaData.locationTime.reserved.data(),
+        &sceneData.environment.mapExtraBitsRaw,
+        sizeof(sceneData.environment.mapExtraBitsRaw));
+    std::memcpy(
+        mapDeltaData.locationTime.reserved.data() + sizeof(sceneData.environment.mapExtraBitsRaw),
+        &sceneData.environment.ceiling,
+        sizeof(sceneData.environment.ceiling));
     return true;
 }
 }

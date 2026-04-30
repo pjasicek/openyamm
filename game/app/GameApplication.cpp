@@ -2,6 +2,7 @@
 
 #include "game/StringUtils.h"
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/GameplayHeldItemController.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/items/ItemGenerator.h"
@@ -9,6 +10,8 @@
 #include "game/party/SpellIds.h"
 #include "game/party/SpellSchool.h"
 #include "game/render/TextureFiltering.h"
+#include "game/events/EventDialogContent.h"
+#include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
 #include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/ItemTable.h"
@@ -18,17 +21,21 @@
 #include "game/ui/screens/LoadingOverlayScreen.h"
 #include "game/ui/screens/MainMenuScreen.h"
 #include "game/ui/screens/NewGameScreen.h"
+#include "game/ui/screens/WinGameScreen.h"
 
 #include <SDL3/SDL.h>
 #include <bgfx/bgfx.h>
 
 #include <algorithm>
 #include <array>
+#include <cctype>
 #include <cstdlib>
+#include <cstring>
 #include <filesystem>
 #include <functional>
 #include <iostream>
 #include <random>
+#include <string_view>
 
 namespace OpenYAMM::Game
 {
@@ -49,6 +56,9 @@ constexpr const char *DwiRespawnMapFile = "out01.odm";
 constexpr const char *RavenshoreRespawnMapFile = "out02.odm";
 constexpr const char *PartyDefeatCutsceneDirectory = "Videos/Cutscenes";
 constexpr const char *PartyDefeatCutsceneStem = "LoseGame";
+constexpr const char *EventMovieCutsceneDirectory = "Videos/Cutscenes";
+constexpr const char *WinGameCutsceneStem = "wingame";
+constexpr size_t MaxPendingInputLength = 64;
 constexpr std::array<uint32_t, 3> Level1ReagentItemIds = {{200, 205, 210}};
 constexpr std::array<uint32_t, 6> DebugUnlockedTownPortalQBits = {{180, 181, 182, 183, 184, 185}};
 constexpr float EnterDungeonSpeechDelaySeconds = 2.0f;
@@ -61,6 +71,157 @@ bool sameMapFileName(const std::string &left, const std::string &right)
 bool isDungeonMapFileName(const std::string &mapFileName)
 {
     return toLowerCopy(mapFileName).ends_with(".blv");
+}
+
+std::string trimCopy(std::string_view value)
+{
+    size_t first = 0;
+
+    while (first < value.size() && std::isspace(static_cast<unsigned char>(value[first])) != 0)
+    {
+        ++first;
+    }
+
+    size_t last = value.size();
+
+    while (last > first && std::isspace(static_cast<unsigned char>(value[last - 1])) != 0)
+    {
+        --last;
+    }
+
+    return std::string(value.substr(first, last - first));
+}
+
+std::string normalizePromptAnswer(const std::string &value)
+{
+    return toLowerCopy(trimCopy(value));
+}
+
+std::string trimEventMovieName(const std::string &movieName)
+{
+    size_t first = 0;
+    while (first < movieName.size() && std::isspace(static_cast<unsigned char>(movieName[first])) != 0)
+    {
+        ++first;
+    }
+
+    size_t last = movieName.size();
+    while (last > first && std::isspace(static_cast<unsigned char>(movieName[last - 1])) != 0)
+    {
+        --last;
+    }
+
+    std::string trimmed = movieName.substr(first, last - first);
+    while (trimmed.size() >= 2 && trimmed.front() == '"' && trimmed.back() == '"')
+    {
+        trimmed = trimmed.substr(1, trimmed.size() - 2);
+    }
+
+    return trimmed;
+}
+
+std::string eventMovieStemFromName(const std::string &movieName)
+{
+    std::string stem = trimEventMovieName(movieName);
+    std::replace(stem.begin(), stem.end(), '\\', '/');
+
+    const size_t slashPosition = stem.find_last_of('/');
+    if (slashPosition != std::string::npos)
+    {
+        stem = stem.substr(slashPosition + 1);
+    }
+
+    if (toLowerCopy(stem).ends_with(".ogv"))
+    {
+        stem.resize(stem.size() - 4);
+    }
+
+    return trimEventMovieName(stem);
+}
+
+std::string pluralizedUnit(uint64_t value, const char *pSingular, const char *pPlural)
+{
+    return value == 1 ? pSingular : pPlural;
+}
+
+std::string formatWinGameDuration(float currentGameMinutes)
+{
+    constexpr float GameStartMinutes = 9.0f * 60.0f;
+    constexpr uint64_t MinutesPerDay = 24u * 60u;
+    constexpr uint64_t DaysPerMonth = 28u;
+    constexpr uint64_t MonthsPerYear = 12u;
+
+    const float elapsedGameMinutes = std::max(0.0f, currentGameMinutes - GameStartMinutes);
+    uint64_t totalDays = static_cast<uint64_t>(std::floor(elapsedGameMinutes / static_cast<float>(MinutesPerDay)));
+    const uint64_t years = totalDays / (DaysPerMonth * MonthsPerYear);
+    totalDays %= DaysPerMonth * MonthsPerYear;
+    const uint64_t months = totalDays / DaysPerMonth;
+    const uint64_t days = totalDays % DaysPerMonth;
+
+    return "Total Time: " + std::to_string(years) + " " + pluralizedUnit(years, "Year", "Years")
+        + ", " + std::to_string(months) + " " + pluralizedUnit(months, "Month", "Months")
+        + ", " + std::to_string(days) + " " + pluralizedUnit(days, "Day", "Days");
+}
+
+uint64_t calculateWinGameScore(const Party &party, float currentGameMinutes)
+{
+    constexpr float GameStartMinutes = 9.0f * 60.0f;
+    constexpr uint64_t MinutesPerDay = 24u * 60u;
+
+    const float elapsedGameMinutes = std::max(0.0f, currentGameMinutes - GameStartMinutes);
+    const uint64_t totalDays = std::max<uint64_t>(
+        1u,
+        static_cast<uint64_t>(std::floor(elapsedGameMinutes / static_cast<float>(MinutesPerDay))));
+    uint64_t totalExperience = 0;
+
+    for (const Character &member : party.members())
+    {
+        totalExperience += member.experience;
+    }
+
+    return totalExperience / totalDays;
+}
+
+std::string winGameCharacterLine(const Party &party)
+{
+    const std::vector<Character> &members = party.members();
+
+    if (members.empty())
+    {
+        return "Adventurer the Level 1 Adventurer";
+    }
+
+    const Character &leader = members.front();
+    const std::string className = !leader.className.empty() ? leader.className : leader.role;
+    const std::string displayClass = !className.empty() ? displayClassName(className) : "Adventurer";
+    const uint32_t level = std::max<uint32_t>(1u, leader.level);
+
+    return leader.name + " the Level " + std::to_string(level) + " " + displayClass;
+}
+
+std::string resolveEventMovieStem(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &movieName)
+{
+    const std::string requestedStem = eventMovieStemFromName(movieName);
+
+    if (requestedStem.empty())
+    {
+        return {};
+    }
+
+    const std::string requestedFileName = toLowerCopy(requestedStem + ".ogv");
+    const std::vector<std::string> entries = assetFileSystem.enumerate(EventMovieCutsceneDirectory);
+
+    for (const std::string &entry : entries)
+    {
+        if (toLowerCopy(entry) == requestedFileName)
+        {
+            return std::filesystem::path(entry).stem().string();
+        }
+    }
+
+    return requestedStem;
 }
 
 std::optional<size_t> chooseRandomActablePartyMember(const Party &party)
@@ -618,12 +779,288 @@ int GameApplication::run()
 
 void GameApplication::handleSdlEvent(const SDL_Event &event)
 {
+    if (handlePendingInputPromptSdlEvent(event))
+    {
+        return;
+    }
+
     IScreen *pActiveScreen = m_screenManager.activeScreen();
 
     if (pActiveScreen != nullptr)
     {
         pActiveScreen->handleSdlEvent(event);
     }
+}
+
+bool GameApplication::pendingInputPromptActive() const
+{
+    if (m_screenManager.activeScreen() != nullptr)
+    {
+        return false;
+    }
+
+    const IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+    const EventRuntimeState *pRuntimeState = pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+    const EventDialogContent &activeDialog = m_gameSession.gameplayScreenRuntime().activeEventDialog();
+
+    return activeDialog.isActive
+        && pRuntimeState != nullptr
+        && pRuntimeState->pendingInputPrompt
+        && pRuntimeState->pendingInputPrompt->kind == EventRuntimeState::PendingInputPrompt::Kind::InputString;
+}
+
+bool GameApplication::handlePendingInputPromptSdlEvent(const SDL_Event &event)
+{
+    if (!pendingInputPromptActive())
+    {
+        return false;
+    }
+
+    if (event.type == SDL_EVENT_TEXT_INPUT)
+    {
+        if (event.text.text != nullptr && m_pendingInputText.size() < MaxPendingInputLength)
+        {
+            const size_t remaining = MaxPendingInputLength - m_pendingInputText.size();
+            m_pendingInputText.append(event.text.text, std::min(remaining, std::strlen(event.text.text)));
+        }
+
+        return true;
+    }
+
+    if (event.type != SDL_EVENT_KEY_DOWN)
+    {
+        return false;
+    }
+
+    if (event.key.repeat)
+    {
+        return true;
+    }
+
+    switch (event.key.key)
+    {
+        case SDLK_RETURN:
+        case SDLK_KP_ENTER:
+            finishPendingInputPrompt(true);
+            return true;
+
+        case SDLK_ESCAPE:
+            finishPendingInputPrompt(false);
+            return true;
+
+        case SDLK_BACKSPACE:
+            if (!m_pendingInputText.empty())
+            {
+                m_pendingInputText.pop_back();
+            }
+            return true;
+
+        default:
+            return true;
+    }
+}
+
+void GameApplication::clearPendingInputPromptUi(bool clearStatusBar)
+{
+    if (m_pendingInputTextActive)
+    {
+        SDL_Window *pWindow = SDL_GetKeyboardFocus();
+
+        if (pWindow != nullptr)
+        {
+            SDL_StopTextInput(pWindow);
+        }
+    }
+
+    m_pendingInputTextActive = false;
+    m_pendingInputText.clear();
+    m_pendingInputStatusText.clear();
+
+    if (clearStatusBar)
+    {
+        m_gameSession.gameplayScreenRuntime().setStatusBarEvent(" ", 0.01f);
+    }
+}
+
+void GameApplication::updatePendingInputPrompt()
+{
+    if (!pendingInputPromptActive())
+    {
+        IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+        EventRuntimeState *pRuntimeState = pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+
+        if (pRuntimeState != nullptr && pRuntimeState->pendingInputPrompt
+            && !m_gameSession.gameplayScreenRuntime().activeEventDialog().isActive)
+        {
+            pRuntimeState->pendingInputPrompt.reset();
+        }
+
+        clearPendingInputPromptUi(m_pendingInputTextActive || !m_pendingInputStatusText.empty());
+        return;
+    }
+
+    if (!m_pendingInputTextActive)
+    {
+        SDL_Window *pWindow = SDL_GetKeyboardFocus();
+
+        if (pWindow != nullptr)
+        {
+            SDL_StartTextInput(pWindow);
+        }
+
+        m_pendingInputTextActive = true;
+    }
+
+    const std::string statusText = m_pendingInputText + "_";
+
+    if (statusText != m_pendingInputStatusText)
+    {
+        m_pendingInputStatusText = statusText;
+        m_gameSession.gameplayScreenRuntime().setStatusBarEvent(statusText, 3600.0f);
+    }
+}
+
+void GameApplication::finishPendingInputPrompt(bool accepted)
+{
+    IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+    EventRuntimeState *pRuntimeState = pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pWorldRuntime == nullptr || pRuntimeState == nullptr || !pRuntimeState->pendingInputPrompt)
+    {
+        clearPendingInputPromptUi(false);
+        return;
+    }
+
+    const EventRuntimeState::PendingInputPrompt prompt = *pRuntimeState->pendingInputPrompt;
+    pRuntimeState->pendingInputPrompt.reset();
+    const std::string submittedInput = m_pendingInputText;
+
+    clearPendingInputPromptUi(true);
+
+    if (!accepted)
+    {
+        m_skipGameplayUpdateUntilPromptSubmitKeysReleased = true;
+        std::cout << "AskQuestion submit cancelled event=" << prompt.eventId << '\n';
+        return;
+    }
+
+    const std::string normalizedInput = normalizePromptAnswer(submittedInput);
+
+    bool matchedAnswer = false;
+    const std::vector<std::string> answers = resolvePendingInputAnswers(prompt);
+
+    std::cout << "AskQuestion submit event=" << prompt.eventId
+              << " wrongStep=" << static_cast<unsigned>(prompt.continueStep)
+              << " correctStep=" << static_cast<unsigned>(prompt.correctStep)
+              << " input=\"" << normalizedInput
+              << "\" answers=" << answers.size();
+
+    for (const std::string &answer : answers)
+    {
+        const std::string normalizedAnswer = normalizePromptAnswer(answer);
+        std::cout << " [\"" << normalizedAnswer << "\"]";
+
+        if (!answer.empty() && normalizedAnswer == normalizedInput)
+        {
+            matchedAnswer = true;
+        }
+    }
+
+    const uint8_t continueStep = matchedAnswer && prompt.correctStep != 0
+        ? prompt.correctStep
+        : prompt.continueStep;
+    const EventDialogContent previousDialog = m_gameSession.gameplayScreenRuntime().activeEventDialog();
+    size_t previousMessageCount = 0;
+    const bool executed = pWorldRuntime->executeNpcTopicEvent(prompt.eventId, previousMessageCount, continueStep);
+
+    if (executed && !pRuntimeState->pendingDialogueContext && previousDialog.isActive && previousDialog.sourceId != 0)
+    {
+        EventRuntimeState::PendingDialogueContext context = {};
+        context.kind = previousDialog.isHouseDialog ? DialogueContextKind::HouseService : DialogueContextKind::NpcTalk;
+        context.sourceId = previousDialog.sourceId;
+        context.hostHouseId = pRuntimeState->dialogueState.hostHouseId;
+
+        if (context.kind == DialogueContextKind::HouseService && context.hostHouseId == 0)
+        {
+            context.hostHouseId = context.sourceId;
+        }
+
+        pRuntimeState->pendingDialogueContext = std::move(context);
+    }
+
+    if (executed)
+    {
+        GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
+            m_gameSession.gameplayScreenRuntime(),
+            *pRuntimeState,
+            m_gameSession.data().itemTable());
+    }
+
+    m_skipGameplayUpdateUntilPromptSubmitKeysReleased = true;
+    std::cout << " matched=" << (matchedAnswer ? "yes" : "no")
+              << " resumeStep=" << static_cast<unsigned>(continueStep)
+              << " executed=" << (executed ? "yes" : "no")
+              << " previousMessages=" << previousMessageCount
+              << " currentMessages=" << pRuntimeState->messages.size()
+              << " promptAfter=" << (pRuntimeState->pendingInputPrompt ? "yes" : "no");
+
+    if (pRuntimeState->pendingDialogueContext)
+    {
+        std::cout << " dialogContextSource=" << pRuntimeState->pendingDialogueContext->sourceId;
+    }
+
+    std::cout << '\n';
+
+    if (executed)
+    {
+        presentPendingInputPromptDialogResult(previousMessageCount);
+    }
+}
+
+void GameApplication::presentPendingInputPromptDialogResult(size_t previousMessageCount)
+{
+    IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+    EventRuntimeState *pRuntimeState = pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+
+    if (pWorldRuntime == nullptr || pRuntimeState == nullptr || !pRuntimeState->pendingDialogueContext)
+    {
+        return;
+    }
+
+    const MapStatsEntry *pCurrentMap =
+        m_gameDataLoader.getMapStats().findByFileName(m_gameSession.currentMapFileName());
+
+    std::cout << "AskQuestion present dialog previousMessages=" << previousMessageCount
+              << " totalMessages=" << pRuntimeState->messages.size()
+              << " activeBefore=" << (m_gameSession.gameplayScreenRuntime().activeEventDialog().isActive ? "yes" : "no")
+              << '\n';
+
+    m_gameSession.gameplayScreenRuntime().activeEventDialog() = buildEventDialogContent(
+        *pRuntimeState,
+        previousMessageCount,
+        true,
+        pWorldRuntime->globalEventProgram(),
+        &m_gameDataLoader.getHouseTable(),
+        &m_gameDataLoader.getClassSkillTable(),
+        &m_gameDataLoader.getNpcDialogTable(),
+        &m_gameDataLoader.getTransitionTable(),
+        pCurrentMap,
+        &m_gameDataLoader.getMapStats().getEntries(),
+        pWorldRuntime->party(),
+        pWorldRuntime,
+        pWorldRuntime->gameMinutes());
+
+    std::cout << "AskQuestion dialog lines="
+              << m_gameSession.gameplayScreenRuntime().activeEventDialog().lines.size()
+              << " actions=" << m_gameSession.gameplayScreenRuntime().activeEventDialog().actions.size()
+              << " promptAfterBuild=" << (pRuntimeState->pendingInputPrompt ? "yes" : "no")
+              << '\n';
+}
+
+std::vector<std::string> GameApplication::resolvePendingInputAnswers(
+    const EventRuntimeState::PendingInputPrompt &prompt) const
+{
+    return prompt.answers;
 }
 
 std::filesystem::path GameApplication::settingsFilePath() const
@@ -901,6 +1338,20 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
         );
 
         restoreSavedOutdoorWorldStateForSelectedMap();
+        if (EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState())
+        {
+            EventRuntime eventRuntime = {};
+
+            eventRuntime.executeOnLoadEvents(
+                selectedMap->localEventProgram,
+                selectedMap->globalEventProgram,
+                *pEventRuntimeState,
+                &m_pOutdoorPartyRuntime->party(),
+                m_pOutdoorWorldRuntime.get());
+            m_pOutdoorWorldRuntime->applyEventRuntimeState(true);
+            m_pOutdoorPartyRuntime->applyEventRuntimeState(*pEventRuntimeState, false);
+        }
+
         m_pMapSceneRuntime = std::make_unique<OutdoorSceneRuntime>(
             selectedMap->map.fileName,
             selectedMap->map,
@@ -2028,6 +2479,8 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     {
         pActiveScreen->renderFrame(width, height, m_gameInputSystem.frame(), deltaSeconds);
         handleCompletedPartyDefeatScreen();
+        handleCompletedEventMovieScreen();
+        handleCompletedWinGameScreen();
         handleCompletedArcomageScreen();
         m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
         return;
@@ -2042,6 +2495,34 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         {
             pActiveScreen->renderFrame(width, height, m_gameInputSystem.frame(), deltaSeconds);
             handleCompletedPartyDefeatScreen();
+            handleCompletedEventMovieScreen();
+            handleCompletedWinGameScreen();
+        }
+
+        m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
+        return;
+    }
+
+    if (processPendingWinGame())
+    {
+        if (IScreen *pActiveScreen = m_screenManager.activeScreen())
+        {
+            pActiveScreen->renderFrame(width, height, m_gameInputSystem.frame(), deltaSeconds);
+            handleCompletedEventMovieScreen();
+            handleCompletedWinGameScreen();
+        }
+
+        m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
+        return;
+    }
+
+    if (processPendingEventMovie())
+    {
+        if (IScreen *pActiveScreen = m_screenManager.activeScreen())
+        {
+            pActiveScreen->renderFrame(width, height, m_gameInputSystem.frame(), deltaSeconds);
+            handleCompletedEventMovieScreen();
+            handleCompletedWinGameScreen();
         }
 
         m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
@@ -2049,7 +2530,28 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     }
 
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
-    m_gameSession.updateGameplay(m_gameInputSystem.frame(), deltaSeconds);
+    const bool *pKeyboardState = m_gameInputSystem.frame().keyboardState();
+    bool skipGameplayUpdateAfterInputPrompt = false;
+
+    if (m_skipGameplayUpdateUntilPromptSubmitKeysReleased)
+    {
+        skipGameplayUpdateAfterInputPrompt =
+            pKeyboardState[SDL_SCANCODE_RETURN]
+            || pKeyboardState[SDL_SCANCODE_KP_ENTER]
+            || pKeyboardState[SDL_SCANCODE_SPACE];
+
+        if (!skipGameplayUpdateAfterInputPrompt)
+        {
+            m_skipGameplayUpdateUntilPromptSubmitKeysReleased = false;
+        }
+    }
+
+    if (!skipGameplayUpdateAfterInputPrompt)
+    {
+        m_gameSession.updateGameplay(m_gameInputSystem.frame(), deltaSeconds);
+    }
+
+    updatePendingInputPrompt();
 
     IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
 
@@ -2104,6 +2606,16 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         else
         {
             m_gameAudioSystem.update(0.0f, 0.0f, 0.0f, deltaSeconds);
+        }
+
+        if (processPendingWinGame())
+        {
+            return;
+        }
+
+        if (processPendingEventMovie())
+        {
+            return;
         }
 
         processPendingMapMove();
@@ -2186,6 +2698,8 @@ bool GameApplication::processPendingMapMove()
         synchronizeSessionFromRuntime();
         return true;
     }
+
+    executeCurrentMapOnLeaveEvents();
 
     const std::string targetMapName = *pendingMapMove->mapName;
     const std::string previousMapFileName = m_gameSession.currentMapFileName();
@@ -2338,8 +2852,142 @@ bool GameApplication::processPendingPartyDefeat()
     return true;
 }
 
+bool GameApplication::executeCurrentMapOnLeaveEvents()
+{
+    if (m_pMapSceneRuntime == nullptr)
+    {
+        return false;
+    }
+
+    EventRuntimeState *pRuntimeState = m_pMapSceneRuntime->eventRuntimeState();
+
+    if (pRuntimeState == nullptr)
+    {
+        return false;
+    }
+
+    EventRuntime eventRuntime = {};
+    return eventRuntime.executeOnLeaveEvents(
+        m_pMapSceneRuntime->localEventProgram(),
+        m_pMapSceneRuntime->globalEventProgram(),
+        *pRuntimeState,
+        &m_pMapSceneRuntime->party(),
+        m_pMapSceneRuntime->sceneEventContext());
+}
+
+WinGameCertificate GameApplication::buildWinGameCertificate() const
+{
+    WinGameCertificate certificate = {};
+    const Party *pParty = nullptr;
+
+    if (m_pMapSceneRuntime != nullptr)
+    {
+        pParty = &m_pMapSceneRuntime->party();
+    }
+    else if (m_gameSession.partyState().has_value())
+    {
+        pParty = &*m_gameSession.partyState();
+    }
+
+    const IGameplayWorldRuntime *pWorldRuntime = m_gameSession.activeWorldRuntime();
+    const float currentGameMinutes = pWorldRuntime != nullptr ? pWorldRuntime->gameMinutes() : 9.0f * 60.0f;
+
+    if (pParty != nullptr)
+    {
+        certificate.characterLine = winGameCharacterLine(*pParty);
+        certificate.scoreLine = "Your score: " + std::to_string(calculateWinGameScore(*pParty, currentGameMinutes));
+    }
+    else
+    {
+        certificate.characterLine = "Adventurer the Level 1 Adventurer";
+        certificate.scoreLine = "Your score: 0";
+    }
+
+    certificate.endingText =
+        "Excellent work! By thwarting the Destroyer of Worlds, you have pulled your world from the brink of "
+        "unending oblivion. Not only may life continue, but a new peace reigns over Jadame. The mighty alliance "
+        "you forged will see to the land's restoration and eventual prosperity.";
+    certificate.totalTimeLine = formatWinGameDuration(currentGameMinutes);
+    return certificate;
+}
+
+bool GameApplication::processPendingWinGame()
+{
+    if (m_pAssetFileSystem == nullptr || m_screenManager.activeScreen() != nullptr)
+    {
+        return false;
+    }
+
+    EventRuntimeState *pRuntimeState = m_gameplayController.eventRuntimeState();
+
+    if (pRuntimeState == nullptr || !pRuntimeState->pendingWinGame.has_value())
+    {
+        return false;
+    }
+
+    pRuntimeState->pendingWinGame.reset();
+    m_gameSession.gameplayScreenRuntime().closeActiveEventDialog();
+    m_pendingWinGameCertificateAfterMovie = true;
+
+    if (resolveEventMovieStem(*m_pAssetFileSystem, WinGameCutsceneStem).empty())
+    {
+        m_screenManager.setActiveScreen(std::make_unique<WinGameScreen>(
+            *m_pAssetFileSystem,
+            buildWinGameCertificate(),
+            m_screenManager.currentMode()));
+        m_pendingWinGameCertificateAfterMovie = false;
+        return true;
+    }
+
+    m_screenManager.setActiveScreen(std::make_unique<CutsceneVideoScreen>(
+        *m_pAssetFileSystem,
+        &m_gameAudioSystem,
+        EventMovieCutsceneDirectory,
+        WinGameCutsceneStem,
+        m_screenManager.currentMode()));
+    return true;
+}
+
+bool GameApplication::processPendingEventMovie()
+{
+    if (m_pAssetFileSystem == nullptr || m_screenManager.activeScreen() != nullptr)
+    {
+        return false;
+    }
+
+    EventRuntimeState *pRuntimeState = m_gameplayController.eventRuntimeState();
+
+    if (pRuntimeState == nullptr || !pRuntimeState->pendingMovie.has_value())
+    {
+        return false;
+    }
+
+    std::optional<EventRuntimeState::PendingMovie> pendingMovie = std::move(pRuntimeState->pendingMovie);
+    pRuntimeState->pendingMovie.reset();
+
+    const std::string movieStem = resolveEventMovieStem(*m_pAssetFileSystem, pendingMovie->movieName);
+
+    if (movieStem.empty())
+    {
+        return false;
+    }
+
+    m_screenManager.setActiveScreen(std::make_unique<CutsceneVideoScreen>(
+        *m_pAssetFileSystem,
+        &m_gameAudioSystem,
+        EventMovieCutsceneDirectory,
+        movieStem,
+        m_screenManager.currentMode()));
+    return true;
+}
+
 void GameApplication::handleCompletedPartyDefeatScreen()
 {
+    if (!m_pendingPartyDefeatRespawnMapFileName.has_value())
+    {
+        return;
+    }
+
     CutsceneVideoScreen *pCutsceneScreen = dynamic_cast<CutsceneVideoScreen *>(m_screenManager.activeScreen());
 
     if (pCutsceneScreen == nullptr || !pCutsceneScreen->shouldClose())
@@ -2351,6 +2999,45 @@ void GameApplication::handleCompletedPartyDefeatScreen()
     applyPartyDefeatConsequences();
     respawnPartyAfterDefeat(true);
     m_pendingPartyDefeatRespawnMapFileName.reset();
+}
+
+void GameApplication::handleCompletedEventMovieScreen()
+{
+    if (m_pendingPartyDefeatRespawnMapFileName.has_value())
+    {
+        return;
+    }
+
+    CutsceneVideoScreen *pCutsceneScreen = dynamic_cast<CutsceneVideoScreen *>(m_screenManager.activeScreen());
+
+    if (pCutsceneScreen == nullptr || !pCutsceneScreen->shouldClose())
+    {
+        return;
+    }
+
+    if (m_pendingWinGameCertificateAfterMovie && m_pAssetFileSystem != nullptr)
+    {
+        m_screenManager.setActiveScreen(std::make_unique<WinGameScreen>(
+            *m_pAssetFileSystem,
+            buildWinGameCertificate(),
+            pCutsceneScreen->mode()));
+        m_pendingWinGameCertificateAfterMovie = false;
+        return;
+    }
+
+    m_screenManager.setActiveScreen(nullptr);
+}
+
+void GameApplication::handleCompletedWinGameScreen()
+{
+    WinGameScreen *pWinGameScreen = dynamic_cast<WinGameScreen *>(m_screenManager.activeScreen());
+
+    if (pWinGameScreen == nullptr || !pWinGameScreen->shouldClose())
+    {
+        return;
+    }
+
+    m_screenManager.setActiveScreen(nullptr);
 }
 
 bool GameApplication::shouldTriggerPartyDefeat() const
@@ -2419,6 +3106,12 @@ bool GameApplication::respawnPartyAfterDefeat(bool initializeView)
     }
 
     const std::string previousMapFileName = m_gameSession.currentMapFileName();
+
+    if (!sameMapFileName(previousMapFileName, *m_pendingPartyDefeatRespawnMapFileName))
+    {
+        executeCurrentMapOnLeaveEvents();
+    }
+
     captureCurrentSceneState();
     m_gameSession.setCurrentMapFileName(*m_pendingPartyDefeatRespawnMapFileName);
     beginLoadingOverlay();

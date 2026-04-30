@@ -2,6 +2,7 @@
 
 #include "game/app/GameSession.h"
 #include "engine/BgfxContext.h"
+#include "game/FaceEnums.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/fx/ParticleRenderer.h"
 #include "game/gameplay/GameMechanics.h"
@@ -2919,6 +2920,150 @@ bgfx::VertexLayout OutdoorGameView::TexturedTerrainVertex::ms_layout;
 bgfx::VertexLayout OutdoorGameView::LitBillboardVertex::ms_layout;
 bgfx::VertexLayout OutdoorGameView::ForcePerspectiveVertex::ms_layout;
 
+void OutdoorGameView::dumpDebugBModelRenderStateToConsole(uint32_t cogNumber) const
+{
+    const MapDeltaData *pMapDeltaData =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
+    const EventRuntimeState *pEventRuntimeState =
+        m_pOutdoorWorldRuntime != nullptr ? m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+    const uint32_t invisibleBit = faceAttributeBit(FaceAttribute::Invisible);
+
+    size_t matchedBatchCount = 0;
+    size_t hiddenBatchCount = 0;
+    size_t visibleBatchCount = 0;
+    size_t missingAnimationCount = 0;
+    size_t matchedVertexCount = 0;
+    size_t visibleVertexCount = 0;
+    bool hasVisibleBounds = false;
+    float minX = std::numeric_limits<float>::max();
+    float minY = std::numeric_limits<float>::max();
+    float minZ = std::numeric_limits<float>::max();
+    float maxX = std::numeric_limits<float>::lowest();
+    float maxY = std::numeric_limits<float>::lowest();
+    float maxZ = std::numeric_limits<float>::lowest();
+
+    std::vector<const TexturedBModelBatch *> samples;
+    samples.reserve(8);
+
+    for (const TexturedBModelBatch &batch : m_texturedBModelBatches)
+    {
+        if (batch.cogNumber != cogNumber)
+        {
+            continue;
+        }
+
+        ++matchedBatchCount;
+        matchedVertexCount += batch.vertices.size();
+
+        if (batch.defaultAnimationIndex >= m_bmodelTextureAnimations.size())
+        {
+            ++missingAnimationCount;
+        }
+
+        uint32_t attributes = batch.baseAttributes;
+
+        if (pMapDeltaData != nullptr && batch.faceId < pMapDeltaData->faceAttributes.size())
+        {
+            attributes = pMapDeltaData->faceAttributes[batch.faceId];
+        }
+        else if (pEventRuntimeState != nullptr)
+        {
+            const auto setIt = pEventRuntimeState->facetSetMasks.find(batch.faceId);
+
+            if (setIt != pEventRuntimeState->facetSetMasks.end())
+            {
+                attributes |= setIt->second;
+            }
+
+            const auto clearIt = pEventRuntimeState->facetClearMasks.find(batch.faceId);
+
+            if (clearIt != pEventRuntimeState->facetClearMasks.end())
+            {
+                attributes &= ~clearIt->second;
+            }
+        }
+
+        if ((attributes & invisibleBit) != 0)
+        {
+            ++hiddenBatchCount;
+        }
+        else
+        {
+            ++visibleBatchCount;
+            visibleVertexCount += batch.vertices.size();
+
+            for (const TexturedTerrainVertex &vertex : batch.vertices)
+            {
+                minX = std::min(minX, vertex.x);
+                minY = std::min(minY, vertex.y);
+                minZ = std::min(minZ, vertex.z);
+                maxX = std::max(maxX, vertex.x);
+                maxY = std::max(maxY, vertex.y);
+                maxZ = std::max(maxZ, vertex.z);
+            }
+
+            hasVisibleBounds = true;
+        }
+
+        if (samples.size() < 8)
+        {
+            samples.push_back(&batch);
+        }
+    }
+
+    size_t resolvedVertexCount = 0;
+
+    for (const ResolvedBModelDrawGroup &drawGroup : m_resolvedBModelDrawGroups)
+    {
+        resolvedVertexCount += drawGroup.vertexCount;
+    }
+
+    std::cout
+        << "F5 Outdoor bmodel render cog=" << cogNumber
+        << " showBModels=" << (m_showBModels ? 1 : 0)
+        << " batches.total=" << m_texturedBModelBatches.size()
+        << " matched=" << matchedBatchCount
+        << " hidden=" << hiddenBatchCount
+        << " visible=" << visibleBatchCount
+        << " missingAnimation=" << missingAnimationCount
+        << " matched.vertices=" << matchedVertexCount
+        << " visible.vertices=" << visibleVertexCount
+        << " animations=" << m_bmodelTextureAnimations.size()
+        << " resolved.groups=" << m_resolvedBModelDrawGroups.size()
+        << " resolved.vertices=" << resolvedVertexCount
+        << " resolved.revision=" << m_resolvedBModelDrawGroupRevision
+        << '\n';
+
+    if (hasVisibleBounds)
+    {
+        std::cout
+            << "  visible.bounds min=(" << minX << "," << minY << "," << minZ << ")"
+            << " max=(" << maxX << "," << maxY << "," << maxZ << ")"
+            << '\n';
+    }
+
+    for (const TexturedBModelBatch *pBatch : samples)
+    {
+        uint32_t currentAttributes = pBatch->baseAttributes;
+
+        if (pMapDeltaData != nullptr && pBatch->faceId < pMapDeltaData->faceAttributes.size())
+        {
+            currentAttributes = pMapDeltaData->faceAttributes[pBatch->faceId];
+        }
+
+        std::cout
+            << "  batch faceId=" << pBatch->faceId
+            << " bmodel=" << pBatch->bModelIndex
+            << " face=" << pBatch->faceIndex
+            << " texture=\"" << pBatch->textureName << "\""
+            << " vertices=" << pBatch->vertices.size()
+            << " animation=" << pBatch->defaultAnimationIndex
+            << " base=0x" << std::hex << pBatch->baseAttributes
+            << " current=0x" << currentAttributes << std::dec
+            << '\n';
+    }
+}
+
 OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     : m_isInitialized(false)
     , m_isRenderable(false)
@@ -3007,7 +3152,7 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_toggleTextureFilteringLatch(false)
     , m_toggleInspectLatch(false)
     , m_triggerMeteorLatch(false)
-    , m_toggleRainLatch(false)
+    , m_dumpGameplayStateLatch(false)
     , m_toggleFlyingLatch(false)
     , m_toggleWaterWalkLatch(false)
     , m_toggleFeatherFallLatch(false)
@@ -3499,7 +3644,9 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
             0,
             5,
             0x0f,
-            "Modes: 1 filled=%s  2 wire=%s  3 bmodels=%s  4 bmwire=%s  5 coll=%s  6 actorcoll=%s  7 actors=%s  8 objs=%s  9 ents=%s  0 spawns=%s  -=inspect=%s  F2 debug=%s  F3 decor=%s  F4 hud=%s  F5 rain  F7 filter=%s  textured=%s/%s",
+            "Modes: 1 filled=%s  2 wire=%s  3 bmodels=%s  4 bmwire=%s  5 coll=%s  "
+            "6 actorcoll=%s  7 actors=%s  8 objs=%s  9 ents=%s  0 spawns=%s  "
+            "-=inspect=%s  F2 debug=%s  F3 decor=%s  F4 hud=%s  F5 dump  F7 filter=%s  textured=%s/%s",
             m_showFilledTerrain ? "on" : "off",
             m_showTerrainWireframe ? "on" : "off",
             m_showBModels ? "on" : "off",

@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -29,7 +30,7 @@ SetMapMetadata({
     spriteNames = {},
     castSpellIds = {},
     timers = {
-    { eventId = 131, repeating = true, intervalGameMinutes = 2.5, remainingGameMinutes = 2.5 },
+    { eventId = 131, repeating = true, intervalGameMinutes = 10, remainingGameMinutes = 10 },
     { eventId = 479, repeating = true, intervalGameMinutes = 12.5, remainingGameMinutes = 12.5 },
     { eventId = 490, repeating = true, intervalGameMinutes = 7.5, remainingGameMinutes = 7.5 },
     },
@@ -400,7 +401,7 @@ RegisterEvent(101, "Drink from the well", function()
     if not IsAtLeast(PersonalityBonus, 25) then
         AddValue(PersonalityBonus, 25)
         evt.StatusText("Personality +25 (Temporary)")
-        AddValue(IsIntellectMoreThanBase, 251)
+        SetAutonote(251) -- Well in the city of Alvar gives a temporary Personality bonus of 25.
         return
     end
     evt.StatusText("Refreshing")
@@ -411,7 +412,7 @@ RegisterEvent(102, "Drink from the well", function()
     if not IsAtLeast(BaseMight, 16) then
         AddValue(BaseMight, 2)
         evt.StatusText("Might +2 (Permanent)")
-        AddValue(IsIntellectMoreThanBase, 252)
+        SetAutonote(252) -- Well in the city of Alvar gives a permanent Strength bonus up to a Strength of 16.
         return
     end
     evt.StatusText("Refreshing")
@@ -424,13 +425,13 @@ RegisterEvent(103, "Drink from the well", function()
 end, "Drink from the well")
 
 RegisterEvent(104, "Drink from the fountain", function()
-    if not IsQBitSet(QBit(181)) then
-        SetQBit(QBit(181))
+    if not IsQBitSet(QBit(181)) then -- Alvar Town Portal
+        SetQBit(QBit(181)) -- Alvar Town Portal
     end
     if not IsAtLeast(MaxSpellPoints, 0) then
         AddValue(CurrentSpellPoints, 25)
         evt.StatusText("You mind clears, and you recover some Mana")
-        AddValue(IsIntellectMoreThanBase, 253)
+        SetAutonote(253) -- Fountain in the city of Alvar restores Spell Points.
         return
     end
     evt.StatusText("Refreshing")
@@ -438,23 +439,28 @@ RegisterEvent(104, "Drink from the fountain", function()
 end, "Drink from the fountain")
 
 RegisterEvent(131, "Legacy event 131", function()
-    if IsQBitSet(QBit(130)) then return end
-    if not evt.CheckMonstersKilled(2, 30, 0, false) then return end
-    if not evt.CheckMonstersKilled(2, 31, 0, false) then return end
-    if not evt.CheckMonstersKilled(2, 32, 0, false) then return end
-    SetQBit(QBit(131))
-    SetQBit(QBit(130))
-    SetQBit(QBit(225))
-    ClearQBit(QBit(225))
+    if IsQBitSet(QBit(130)) then return end -- Killed all Ogres in Alvar canyon area and in Ogre Fortress
+    if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 30, 0, false) then return end -- monster 30 "Ogre Brawler"; all matching actors defeated
+    if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 31, 0, false) then return end -- monster 31 "Ogre Warrior"; all matching actors defeated
+    if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 32, 0, false) then return end -- monster 32 "Ogre Warleader"; all matching actors defeated
+    if not IsQBitSet(QBit(131)) then -- Ogre Questbit set for Riki
+        SetQBit(QBit(131)) -- Ogre Questbit set for Riki
+        evt.SummonMonsters(2, 1, 1, -30272, -16512, 0, 1, 0) -- encounter slot 2 "Ogre Warrior" tier A, count 1, pos=(-30272, -16512, 0), actor group 1, no unique actor name
+        evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
+        return
+    end
+    SetQBit(QBit(130)) -- Killed all Ogres in Alvar canyon area and in Ogre Fortress
+    SetQBit(QBit(225)) -- dead questbit for internal use(bling)
+    ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
     evt.StatusText("You have killed all of the Ogres")
     return
 end)
 
 RegisterEvent(150, "Obelisk", function()
-    if IsQBitSet(QBit(188)) then return end
+    if IsQBitSet(QBit(188)) then return end -- Obelisk Area 3
     evt.StatusText("ubjectsap")
-    AddValue(IsIntellectMoreThanBase, 21)
-    SetQBit(QBit(188))
+    SetAutonote(21) -- Obelisk message #5: ubjectsap
+    SetQBit(QBit(188)) -- Obelisk Area 3
     return
 end, "Obelisk")
 
@@ -543,29 +549,29 @@ end, "Miho's Roadhouse")
 RegisterEvent(196, "Miho's Roadhouse", nil, "Miho's Roadhouse")
 
 RegisterEvent(197, "Merchant Guildhouse", function()
-    if IsQBitSet(QBit(59)) then
+    if IsQBitSet(QBit(59)) then -- Returned to the Merchant guild in Alvar with overdune. Quest 25 done.
         evt.EnterHouse(176) -- Merchant Guildhouse
         return
-    elseif IsAtLeast(Player(4), 4) then
+    elseif HasPlayer(4) then -- Overdune Snapfinger
         if evt._IsNpcInParty(4) then
-            evt.ShowMovie("\"overrept\" ", false)
-            evt.SetNPCTopic(5, 0, 43)
-            evt.SetNPCGreeting(5, 15)
+            evt.ShowMovie("\"overrept\" ", true)
+            evt.SetNPCTopic(5, 0, 43) -- Bastian Loudrin topic 0: Quest
+            evt.SetNPCGreeting(5, 15) -- Bastian Loudrin greeting: We have identified those we believe would join an alliance to stand against the crisis. These are: the Minotaurs of Ravage Roaming, the Clerics of the Temple of the Sun in Murmurwoods, the Dragons of Garrote Gorge, the Necromancers' Guild in Shadowspire, and Charles Quixote's Dragon hunting camp in Garrote Gorge. Now none of us believe that you can get all of them to work together, but with us and the Trolls already with the alliance, it should suffice if three of the five join us. Perhaps you should begin by speaking with Sahil Ittalle who lives at the north end of the town. He is our guild's historian and the best person to brief you on our potential allies' various dispositions.
             evt.ForPlayer(Players.All)
             AddValue(Experience, 10000)
-            SetAward(Award(5))
+            SetAward(Award(5)) -- Found a witness to the cataclysm in the Ironsand Desert.
             AddValue(History(8), 0)
             evt.ForPlayer(Players.Current)
-            ClearQBit(QBit(25))
-            SetQBit(QBit(13))
-            SetQBit(QBit(14))
-            SetQBit(QBit(15))
-            SetQBit(QBit(16))
-            SetQBit(QBit(17))
-            SetQBit(QBit(18))
-            SetQBit(QBit(59))
+            ClearQBit(QBit(25)) -- Find a witness to the lake of fire's formation. Bring him back to the merchant guild in Alvar. - Given and taken by Bastian Lourdrin (area 3).
+            SetQBit(QBit(13)) -- Form an alliance among the major factions of Jadame. - Given by Bastian Lourdrin (area 3). Activates Merchanthouse in Alvar. Checked as each alliance is formed. Taken when three are formed.
+            SetQBit(QBit(14)) -- Form an alliance with the Necromancers' Guild in Shadowspire. - Given by Bastian Lourdrin (area 3). Activates Merchanthouse in Alvar. Taken by Sandro (area 6) or when quest 15 is done.
+            SetQBit(QBit(15)) -- Form an alliance with the Temple of the Sun in Murmurwoods. - Given by Bastian Lourdrin (area 3). Activates Merchanthouse in Alvar. Taken by Oskar Tyre (area 7), or when quest 27 is done.
+            SetQBit(QBit(16)) -- Form an alliance with the Dragon hunters of Garrote Gorge. - Given by Bastian Lourdrin (area 3). Activates Merchanthouse in Alvar. Taken when Dragon Egg (item 605) delivered to Charles Quixote or dragon leader.
+            SetQBit(QBit(17)) -- Form an alliance with the Dragons of Garrote Gorge. - Given by Bastian Lourdrin (area 3). Activates Merchanthouse in Alvar. Taken when Dragon Egg (item 605) delivered to Charles Quixote or dragon leader.
+            SetQBit(QBit(18)) -- Form an alliance with the Minotaurs of Ravage Roaming. - Given by Bastian Lourdrin (area 3). Activates Merchanthouse in Alvar. Taken when minotaurs rescued.
+            SetQBit(QBit(59)) -- Returned to the Merchant guild in Alvar with overdune. Quest 25 done.
             AddValue(Gold, 4000)
-            evt.SetNPCTopic(13, 0, 65)
+            evt.SetNPCTopic(13, 0, 65) -- Masul topic 0: Alliance
         end
         evt.EnterHouse(176) -- Merchant Guildhouse
         return
@@ -678,12 +684,12 @@ RegisterEvent(490, "Legacy event 490", function()
 end)
 
 RegisterEvent(491, "Ogre Raiding Fort", function()
-    evt.MoveToMap(-20497, 1169, 1051, 1536, 0, 0, 0, 0)
+    evt.MoveToMap(-20497, 1169, 1051, 1536, 0, 0, 0, 0, "0")
     return
 end, "Ogre Raiding Fort")
 
 RegisterEvent(495, "Pine tree", function()
-    if IsQBitSet(QBit(276)) then return end
+    if IsQBitSet(QBit(276)) then return end -- Reagant spout area 3
     if not IsAtLeast(PerceptionSkill, 5) then return end
     local randomStep = PickRandomOption(495, 4, {5, 7, 9, 11})
     if randomStep == 5 then
@@ -695,12 +701,12 @@ RegisterEvent(495, "Pine tree", function()
     elseif randomStep == 11 then
         evt.SummonItem(2141, 14624, -160, 3296, 1000, 1, true)
     end
-    SetQBit(QBit(276))
+    SetQBit(QBit(276)) -- Reagant spout area 3
     return
 end, "Pine tree")
 
 RegisterEvent(496, "Pine tree", function()
-    if IsQBitSet(QBit(275)) then
+    if IsQBitSet(QBit(275)) then -- Reagant spout area 3
         return
     elseif IsAtLeast(PerceptionSkill, 7) then
         local randomStep = PickRandomOption(496, 4, {5, 7, 9, 11, 13, 15})
@@ -717,7 +723,7 @@ RegisterEvent(496, "Pine tree", function()
         elseif randomStep == 15 then
             evt.SummonItem(245, -15104, 19808, 3698, 1000, 1, true) -- Accuracy Boost
         end
-        SetQBit(QBit(276))
+        SetQBit(QBit(276)) -- Reagant spout area 3
         return
     else
         return
@@ -743,3 +749,4 @@ RegisterEvent(504, "Enter the Wasp Nest", function()
     evt.MoveToMap(301, 2162, 513, 161, 0, 0, 197, 0, "d11.blv")
     return
 end, "Enter the Wasp Nest")
+

@@ -89,6 +89,11 @@ struct CollisionState
     std::optional<CollisionHit> hit;
 };
 
+bool outdoorFaceBlocksMovement(const OutdoorFaceGeometryData &geometry)
+{
+    return !hasFaceAttribute(geometry.attributes, FaceAttribute::Untouchable);
+}
+
 bx::Vec3 vecAdd(const bx::Vec3 &left, const bx::Vec3 &right)
 {
     return {left.x + right.x, left.y + right.y, left.z + right.z};
@@ -837,6 +842,11 @@ void collideOutdoorWithModels(
     auto collideFace =
         [&collisionState](const OutdoorFaceGeometryData &geometry)
     {
+        if (!outdoorFaceBlocksMovement(geometry))
+        {
+            return;
+        }
+
         if (!bboxIntersects(
                 collisionState.bboxMinX,
                 collisionState.bboxMinY,
@@ -1310,6 +1320,7 @@ std::optional<FloorSample> queryPreferredSupportFloor(
         findFaceGeometry(faces, state.supportBModelIndex, state.supportFaceIndex);
 
     if (pGeometry == nullptr
+        || !outdoorFaceBlocksMovement(*pGeometry)
         || !pGeometry->isWalkable
         || x < pGeometry->minX - bodyRadius
         || x > pGeometry->maxX + bodyRadius
@@ -1366,7 +1377,8 @@ FloorSample queryFloorLevel(
     auto appendFloorSample =
         [&](const OutdoorFaceGeometryData &geometry)
     {
-        if (!geometry.isWalkable
+        if (!outdoorFaceBlocksMovement(geometry)
+            || !geometry.isWalkable
             || x < geometry.minX
             || x > geometry.maxX
             || y < geometry.minY
@@ -2515,7 +2527,7 @@ void OutdoorMovementController::buildFaceCache()
 
             OutdoorFaceGeometryData geometry = {};
 
-            if (!buildOutdoorFaceGeometry(bModel, bModelIndex, face, faceIndex, geometry))
+            if (!buildOutdoorFaceGeometry(bModel, bModelIndex, face, faceIndex, geometry, true))
             {
                 continue;
             }
@@ -2694,6 +2706,20 @@ const OutdoorFaceGeometryData *OutdoorMovementController::findFaceGeometry(size_
     }
 
     return &m_faces[iterator->second];
+}
+
+void OutdoorMovementController::setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes)
+{
+    const uint64_t faceId =
+        (static_cast<uint64_t>(bModelIndex) << 32) | static_cast<uint32_t>(faceIndex);
+    const auto iterator = m_faceIndexById.find(faceId);
+
+    if (iterator == m_faceIndexById.end() || iterator->second >= m_faces.size())
+    {
+        return;
+    }
+
+    m_faces[iterator->second].attributes = attributes;
 }
 
 void OutdoorMovementController::buildDecorationColliderCache(

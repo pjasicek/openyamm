@@ -4,6 +4,7 @@ source:
   geometry_file: "d10.blv"
   legacy_companion_file: "d10.dlv"
 environment:
+  last_visit_time: 0
   sky_texture: ""
   day_bits_raw: 0
   map_extra_bits_raw: 0
@@ -21,6 +22,128 @@ environment:
     weak_distance: 0
     strong_distance: 0
   ceiling: 0
+  map_extra_reserved_hex: "000000000000000000000000000000000000000000000000"
+spawns:
+  - spawn_index: 0
+    position:
+      x: -344
+      y: -1168
+      z: 80
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 1
+    position:
+      x: 1000
+      y: -384
+      z: 224
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 2
+    position:
+      x: 928
+      y: 904
+      z: 288
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 3
+    position:
+      x: -112
+      y: 1048
+      z: 352
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 4
+    position:
+      x: -3352
+      y: 1992
+      z: 640
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 5
+    position:
+      x: -3920
+      y: -272
+      z: 592
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 6
+    position:
+      x: -5256
+      y: -264
+      z: 608
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 7
+    position:
+      x: -7312
+      y: -48
+      z: 672
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 8
+    position:
+      x: -10336
+      y: 1792
+      z: 736
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 9
+    position:
+      x: -10312
+      y: 1112
+      z: 736
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 10
+    position:
+      x: -10776
+      y: 5968
+      z: 864
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 11
+    position:
+      x: -12928
+      y: -896
+      z: 784
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
 initial_state:
   location:
     respawn_count: 0

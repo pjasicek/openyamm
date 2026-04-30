@@ -339,6 +339,7 @@ bool ScriptedEventProgram::populateMetadataFromLua(
     }
 
     program.m_onLoadEventIds = readIntegerArrayFromField<uint16_t>(pLuaState, -1, "onLoad");
+    program.m_onLeaveEventIds = readIntegerArrayFromField<uint16_t>(pLuaState, -1, "onLeave");
     program.m_hints = readStringMapFromField(pLuaState, -1, "hint");
     program.m_summaries = readStringMapFromField(pLuaState, -1, "title");
 
@@ -423,6 +424,11 @@ const std::vector<uint16_t> &ScriptedEventProgram::canShowTopicEventIds() const
 const std::vector<uint16_t> &ScriptedEventProgram::onLoadEventIds() const
 {
     return m_onLoadEventIds;
+}
+
+const std::vector<uint16_t> &ScriptedEventProgram::onLeaveEventIds() const
+{
+    return m_onLeaveEventIds;
 }
 
 const std::vector<std::string> &ScriptedEventProgram::textureNames() const

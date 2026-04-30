@@ -73,7 +73,8 @@ bool buildOutdoorFaceGeometry(
     size_t bModelIndex,
     const OutdoorBModelFace &face,
     size_t faceIndex,
-    OutdoorFaceGeometryData &geometry
+    OutdoorFaceGeometryData &geometry,
+    bool includeEtherealFaces = false
 );
 bool isPointInsideOutdoorPolygon(float x, float y, const std::vector<bx::Vec3> &vertices);
 bool isPointInsideOrNearOutdoorPolygon(float x, float y, const std::vector<bx::Vec3> &vertices, float slack);

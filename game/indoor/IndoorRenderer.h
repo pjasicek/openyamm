@@ -146,6 +146,10 @@ private:
         float u;
         float v;
         float secretPulse;
+        float barycentric0;
+        float barycentric1;
+        float barycentric2;
+        float boundaryEdgeMask;
 
         static void init();
         static bgfx::VertexLayout ms_layout;
@@ -276,6 +280,7 @@ private:
     static bool isFaceVisible(
         size_t faceIndex,
         const IndoorFace &face,
+        const std::optional<MapDeltaData> &indoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState
     );
     static std::vector<TexturedVertex> buildTexturedVertices(
@@ -297,6 +302,7 @@ private:
     static std::vector<TerrainVertex> buildWireframeVertices(
         const IndoorMapData &indoorMapData,
         const std::vector<IndoorVertex> &vertices,
+        const std::optional<MapDeltaData> &indoorMapDeltaData,
         const std::optional<EventRuntimeState> &eventRuntimeState
     );
     static std::vector<TerrainVertex> buildPortalVertices(
@@ -374,7 +380,33 @@ private:
     bool updateMovingMechanismFaceVertices(uint64_t &texturedBuildNanoseconds, uint64_t &uploadNanoseconds);
     static void rebuildTexturedBatchBounds(TexturedBatch &batch);
     std::vector<size_t> collectMovingMechanismFaceIndices() const;
-    std::vector<uint8_t> buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const;
+    struct PortalVisibilityCache
+    {
+        bool valid = false;
+        int16_t sectorId = -1;
+        float cameraX = 0.0f;
+        float cameraY = 0.0f;
+        float cameraZ = 0.0f;
+        float yawRadians = 0.0f;
+        float pitchRadians = 0.0f;
+        float aspectRatio = 1.0f;
+        std::vector<uint32_t> doorStateSignature;
+        std::vector<uint8_t> visibleSectorMask;
+
+        void clear()
+        {
+            valid = false;
+            sectorId = -1;
+            doorStateSignature.clear();
+            visibleSectorMask.clear();
+        }
+    };
+    PortalVisibilityCache &portalVisibilityCache(bool ignoreMechanismBlockers) const;
+    void clearPortalVisibilityCaches() const;
+    std::vector<uint8_t> buildVisibleSectorMask(
+        const bx::Vec3 &cameraPosition,
+        bool ignoreMechanismBlockers = false
+    ) const;
     bool isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const;
 
     bool m_isInitialized;
@@ -453,16 +485,8 @@ private:
     float m_lastMouseY;
     int m_lastRenderWidth = 0;
     int m_lastRenderHeight = 0;
-    mutable bool m_cachedPortalVisibleSectorMaskValid = false;
-    mutable int16_t m_cachedPortalVisibleSectorId = -1;
-    mutable float m_cachedPortalCameraX = 0.0f;
-    mutable float m_cachedPortalCameraY = 0.0f;
-    mutable float m_cachedPortalCameraZ = 0.0f;
-    mutable float m_cachedPortalYawRadians = 0.0f;
-    mutable float m_cachedPortalPitchRadians = 0.0f;
-    mutable float m_cachedPortalAspectRatio = 1.0f;
-    mutable std::vector<uint32_t> m_cachedPortalDoorStateSignature;
-    mutable std::vector<uint8_t> m_cachedPortalVisibleSectorMask;
+    mutable PortalVisibilityCache m_renderPortalVisibilityCache;
+    mutable PortalVisibilityCache m_interactionPortalVisibilityCache;
     bool m_gameplayMouseLookEnabled = false;
     bool m_gameplayCursorMode = false;
     bool m_jumpHeld;

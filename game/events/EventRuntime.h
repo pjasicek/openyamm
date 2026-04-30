@@ -92,6 +92,11 @@ struct EventRuntimeState
         bool restoreAfterPlayback = false;
     };
 
+    struct PendingWinGame
+    {
+        uint32_t houseId = 0;
+    };
+
     struct PendingInputPrompt
     {
         enum class Kind : uint8_t
@@ -103,7 +108,10 @@ struct EventRuntimeState
         Kind kind = Kind::InputString;
         uint16_t eventId = 0;
         uint8_t continueStep = 0;
+        uint8_t correctStep = 0;
         uint32_t textId = 0;
+        std::vector<uint32_t> answerTextIds;
+        std::vector<std::string> answers;
         std::optional<std::string> text;
     };
 
@@ -227,6 +235,7 @@ struct EventRuntimeState
     std::optional<PendingDialogueContext> pendingDialogueContext;
     std::optional<PendingMapMove> pendingMapMove;
     std::optional<PendingMovie> pendingMovie;
+    std::optional<PendingWinGame> pendingWinGame;
     std::optional<PendingInputPrompt> pendingInputPrompt;
     std::optional<PendingArcomageGame> pendingArcomageGame;
     std::vector<PendingSound> pendingSounds;
@@ -295,7 +304,23 @@ public:
         const std::optional<ScriptedEventProgram> &localProgram,
         const std::optional<ScriptedEventProgram> &globalProgram,
         const std::optional<MapDeltaData> &mapDeltaData,
-        EventRuntimeState &runtimeState
+        EventRuntimeState &runtimeState,
+        Party *pParty = nullptr,
+        ISceneEventContext *pSceneEventContext = nullptr
+    ) const;
+    bool executeOnLoadEvents(
+        const std::optional<ScriptedEventProgram> &localProgram,
+        const std::optional<ScriptedEventProgram> &globalProgram,
+        EventRuntimeState &runtimeState,
+        Party *pParty = nullptr,
+        ISceneEventContext *pSceneEventContext = nullptr
+    ) const;
+    bool executeOnLeaveEvents(
+        const std::optional<ScriptedEventProgram> &localProgram,
+        const std::optional<ScriptedEventProgram> &globalProgram,
+        EventRuntimeState &runtimeState,
+        Party *pParty = nullptr,
+        ISceneEventContext *pSceneEventContext = nullptr
     ) const;
     bool validateProgramBindings(
         const std::optional<ScriptedEventProgram> &localProgram,
@@ -308,7 +333,8 @@ public:
         uint16_t eventId,
         EventRuntimeState &runtimeState,
         Party *pParty = nullptr,
-        ISceneEventContext *pSceneEventContext = nullptr
+        ISceneEventContext *pSceneEventContext = nullptr,
+        std::optional<uint8_t> continueStep = std::nullopt
     ) const;
     bool executeNpcTopicEventById(
         const std::optional<ScriptedEventProgram> &localProgram,
@@ -316,7 +342,8 @@ public:
         uint16_t eventId,
         EventRuntimeState &runtimeState,
         Party *pParty = nullptr,
-        ISceneEventContext *pSceneEventContext = nullptr
+        ISceneEventContext *pSceneEventContext = nullptr,
+        std::optional<uint8_t> continueStep = std::nullopt
     ) const;
     bool canShowTopic(
         const std::optional<ScriptedEventProgram> &globalProgram,

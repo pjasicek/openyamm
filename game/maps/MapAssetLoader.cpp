@@ -63,11 +63,6 @@ constexpr uint32_t EnvironmentFlagAlwaysFoggy = 0x40;
 constexpr uint32_t EnvironmentFlagRedFog = 0x80;
 constexpr uint32_t MapWeatherFoggy = 0x01;
 
-bool faceHasInvisibleAttribute(uint32_t attributes)
-{
-    return hasFaceAttribute(attributes, FaceAttribute::Invisible);
-}
-
 bool decodeOutdoorMapExtra(
     const MapDeltaLocationTime &locationTime,
     uint32_t &mapExtraBitsRaw,
@@ -2908,7 +2903,7 @@ std::optional<OutdoorBModelTextureSet> buildOutdoorBModelTextureSet(
     {
         for (const OutdoorBModelFace &face : bmodel.faces)
         {
-            if (faceHasInvisibleAttribute(face.attributes) || face.textureName.empty())
+            if (face.textureName.empty())
             {
                 continue;
             }
@@ -2990,7 +2985,7 @@ std::optional<IndoorTextureSet> buildIndoorTextureSet(
 
     for (const IndoorFace &face : indoorMapData.faces)
     {
-        if (faceHasInvisibleAttribute(face.attributes) || face.isPortal || face.textureName.empty())
+        if (face.isPortal || face.textureName.empty())
         {
             continue;
         }

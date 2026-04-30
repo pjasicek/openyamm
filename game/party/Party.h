@@ -292,6 +292,13 @@ public:
         std::vector<HouseStockState> houseStockStates;
         std::unordered_set<uint32_t> questBits;
         std::unordered_map<uint16_t, int32_t> eventVariables;
+        std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> npcTopicOverrides;
+        std::unordered_map<uint32_t, uint32_t> npcGroupNews;
+        std::unordered_map<uint32_t, uint32_t> npcGreetingOverrides;
+        std::unordered_map<uint32_t, uint32_t> npcGreetingDisplayCounts;
+        std::unordered_map<uint32_t, uint32_t> npcHouseOverrides;
+        std::unordered_map<uint32_t, uint32_t> npcItemOverrides;
+        std::unordered_set<uint32_t> unavailableNpcIds;
     };
 
     struct PendingAudioRequest
@@ -347,6 +354,14 @@ public:
     void requestSpeech(size_t memberIndex, SpeechId speechId);
     bool hasQuestBit(uint32_t questBitId) const;
     void setQuestBit(uint32_t questBitId, bool value);
+    void applyGlobalNpcStateTo(EventRuntimeState &runtimeState) const;
+    void setNpcTopicOverride(uint32_t npcId, uint32_t topicSlotIndex, uint32_t topicId);
+    void setNpcGroupNews(uint32_t groupId, uint32_t newsId);
+    void setNpcGreetingOverride(uint32_t npcId, uint32_t greetingId);
+    void setNpcHouseOverride(uint32_t npcId, uint32_t houseId);
+    void clearNpcHouseOverride(uint32_t npcId);
+    void setNpcItemOverride(uint32_t npcId, uint32_t itemId);
+    void setNpcUnavailable(uint32_t npcId, bool unavailable);
     bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool tryGrantInventoryItem(const InventoryItem &item, size_t *pRecipientMemberIndex = nullptr);
     void grantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
@@ -577,6 +592,13 @@ private:
     bool m_debugUnlimitedMana = false;
     std::unordered_map<uint32_t, HouseStockState> m_houseStockStates;
     std::unordered_map<uint16_t, int32_t> m_eventVariables;
+    std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>> m_npcTopicOverrides;
+    std::unordered_map<uint32_t, uint32_t> m_npcGroupNews;
+    std::unordered_map<uint32_t, uint32_t> m_npcGreetingOverrides;
+    std::unordered_map<uint32_t, uint32_t> m_npcGreetingDisplayCounts;
+    std::unordered_map<uint32_t, uint32_t> m_npcHouseOverrides;
+    std::unordered_map<uint32_t, uint32_t> m_npcItemOverrides;
+    std::unordered_set<uint32_t> m_unavailableNpcIds;
     std::vector<PendingAudioRequest> m_pendingAudioRequests;
 };
 }

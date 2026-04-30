@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4, 5},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},

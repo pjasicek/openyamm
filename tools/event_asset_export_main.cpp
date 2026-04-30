@@ -2,6 +2,7 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
 #include "engine/TextTable.h"
+#include "game/indoor/IndoorMapData.h"
 #include "game/tables/MapStats.h"
 #include "tools/EventIr.h"
 #include "tools/EventIrLegacyImport.h"
@@ -9,14 +10,18 @@
 #include "tools/legacy_events/EvtProgram.h"
 #include "tools/legacy_events/StrTable.h"
 
+#include <yaml-cpp/yaml.h>
+
 #include <algorithm>
 #include <cstdlib>
 #include <cctype>
 #include <cstdint>
+#include <exception>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <optional>
+#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <vector>
@@ -28,8 +33,12 @@ using OpenYAMM::Engine::ApplicationConfig;
 using OpenYAMM::Engine::TextTable;
 using OpenYAMM::Game::EventIrProgram;
 using OpenYAMM::Game::EvtProgram;
+using OpenYAMM::Game::IndoorMapData;
+using OpenYAMM::Game::IndoorMapDataLoader;
+using OpenYAMM::Game::IndoorSpawn;
 using OpenYAMM::Game::LegacyLuaExportLookups;
 using OpenYAMM::Game::LegacyLuaExportScope;
+using OpenYAMM::Game::MapEncounterInfo;
 using OpenYAMM::Game::MapStats;
 using OpenYAMM::Game::MapStatsEntry;
 using OpenYAMM::Game::StrTable;
@@ -165,13 +174,21 @@ struct LuaExportTablePaths
     std::string mapStats = "Data/data_tables/map_stats.txt";
     std::string houseData = "Data/data_tables/house_data.txt";
     std::string npcTopicText = "Data/data_tables/npc_topic_text.txt";
+    std::string npcTopic = "Data/data_tables/npc_topic.txt";
+    std::string npcGreeting = "Data/data_tables/npc_greet.txt";
     std::string items = "Data/data_tables/items.txt";
     std::string objectList = "Data/data_tables/object_list.txt";
+    std::string monsterData = "Data/data_tables/monster_data.txt";
+    std::string placeMon = "Data/data_tables/english/place_mon.txt";
     std::string spells = "Data/data_tables/spells.txt";
     std::string spellsSupplemental = "Data/data_tables/spells_supplemental.txt";
     std::string npc = "Data/data_tables/npc.txt";
+    std::string roster = "Data/data_tables/roster.txt";
     std::string npcGroup = "Data/data_tables/english/npc_group.txt";
     std::string npcNews = "Data/data_tables/npc_news.txt";
+    std::string quests = "Data/data_tables/english/quests.txt";
+    std::string autonote = "Data/data_tables/english/autonote.txt";
+    std::string awards = "Data/data_tables/english/awards.txt";
     std::string legacyEventsDir = "_legacy/events";
     std::string decompiledScriptsDir;
 };
@@ -230,6 +247,14 @@ bool loadLuaExportConfig(const std::filesystem::path &path, LuaExportTablePaths 
         {
             tablePaths.npcTopicText = value;
         }
+        else if (key == "npc_topic")
+        {
+            tablePaths.npcTopic = value;
+        }
+        else if (key == "npc_greeting")
+        {
+            tablePaths.npcGreeting = value;
+        }
         else if (key == "items")
         {
             tablePaths.items = value;
@@ -237,6 +262,14 @@ bool loadLuaExportConfig(const std::filesystem::path &path, LuaExportTablePaths 
         else if (key == "object_list")
         {
             tablePaths.objectList = value;
+        }
+        else if (key == "monster_data")
+        {
+            tablePaths.monsterData = value;
+        }
+        else if (key == "place_mon")
+        {
+            tablePaths.placeMon = value;
         }
         else if (key == "spells")
         {
@@ -250,6 +283,10 @@ bool loadLuaExportConfig(const std::filesystem::path &path, LuaExportTablePaths 
         {
             tablePaths.npc = value;
         }
+        else if (key == "roster")
+        {
+            tablePaths.roster = value;
+        }
         else if (key == "npc_group")
         {
             tablePaths.npcGroup = value;
@@ -257,6 +294,18 @@ bool loadLuaExportConfig(const std::filesystem::path &path, LuaExportTablePaths 
         else if (key == "npc_news")
         {
             tablePaths.npcNews = value;
+        }
+        else if (key == "quests")
+        {
+            tablePaths.quests = value;
+        }
+        else if (key == "autonote")
+        {
+            tablePaths.autonote = value;
+        }
+        else if (key == "awards")
+        {
+            tablePaths.awards = value;
         }
         else if (key == "legacy_events_dir")
         {
@@ -568,6 +617,38 @@ std::unordered_map<uint32_t, std::string> loadObjectPayloadNames(
     return names;
 }
 
+std::unordered_map<uint32_t, std::string> loadMonsterNames(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &virtualPath)
+{
+    std::unordered_map<uint32_t, std::string> names;
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, virtualPath, rows))
+    {
+        return names;
+    }
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() <= 1)
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> parsedId = parseUint32Field(row[0]);
+
+        if (!parsedId || row[1].empty())
+        {
+            continue;
+        }
+
+        names[*parsedId] = row[1];
+    }
+
+    return names;
+}
+
 void appendSpellNamesFromPath(
     const AssetFileSystem &assetFileSystem,
     const std::string &virtualPath,
@@ -646,6 +727,70 @@ std::unordered_map<uint32_t, std::string> loadNpcNames(
     return names;
 }
 
+std::unordered_map<uint32_t, std::string> loadRosterNames(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &virtualPath)
+{
+    std::unordered_map<uint32_t, std::string> names;
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, virtualPath, rows))
+    {
+        return names;
+    }
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() <= 1)
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> parsedId = parseUint32Field(row[0]);
+
+        if (!parsedId || row[1].empty())
+        {
+            continue;
+        }
+
+        names[*parsedId] = row[1];
+    }
+
+    return names;
+}
+
+std::unordered_map<uint32_t, std::string> loadPlacedMonsterNames(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &virtualPath)
+{
+    std::unordered_map<uint32_t, std::string> names;
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, virtualPath, rows))
+    {
+        return names;
+    }
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() <= 1)
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> parsedId = parseUint32Field(row[0]);
+
+        if (!parsedId || row[1].empty())
+        {
+            continue;
+        }
+
+        names[*parsedId] = row[1];
+    }
+
+    return names;
+}
+
 std::unordered_map<uint32_t, std::string> loadNpcGroupNames(
     const AssetFileSystem &assetFileSystem,
     const std::string &virtualPath)
@@ -667,12 +812,21 @@ std::unordered_map<uint32_t, std::string> loadNpcGroupNames(
 
         const std::optional<uint32_t> parsedId = parseUint32Field(row[0]);
 
-        if (!parsedId || row[2].empty())
+        if (!parsedId)
         {
             continue;
         }
 
-        names[*parsedId] = row[2];
+        for (size_t columnIndex = 2; columnIndex < row.size(); ++columnIndex)
+        {
+            const std::string groupName = trimCopy(row[columnIndex]);
+
+            if (!groupName.empty())
+            {
+                names[*parsedId] = groupName;
+                break;
+            }
+        }
     }
 
     return names;
@@ -705,6 +859,247 @@ std::unordered_map<uint32_t, std::string> loadNpcNewsTexts(
         }
 
         texts[*parsedId] = row[1];
+    }
+
+    return texts;
+}
+
+std::string normalizeWhitespace(const std::string &value);
+
+std::unordered_map<uint32_t, std::string> loadNpcTopicNames(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &virtualPath)
+{
+    std::unordered_map<uint32_t, std::string> names;
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, virtualPath, rows))
+    {
+        return names;
+    }
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() <= 1)
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> parsedId = parseUint32Field(row[0]);
+        const std::string topicName = normalizeWhitespace(row[1]);
+
+        if (parsedId && !topicName.empty() && topicName != "0")
+        {
+            names[*parsedId] = topicName;
+        }
+    }
+
+    return names;
+}
+
+std::unordered_map<uint32_t, std::string> loadNpcGreetingTexts(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &virtualPath)
+{
+    std::unordered_map<uint32_t, std::string> texts;
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, virtualPath, rows))
+    {
+        return texts;
+    }
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() <= 2)
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> parsedId = parseUint32Field(row[0]);
+        std::string greetingText = normalizeWhitespace(row[1]);
+
+        if (greetingText.empty() || greetingText == "0")
+        {
+            greetingText = normalizeWhitespace(row[2]);
+        }
+
+        if (parsedId && !greetingText.empty() && greetingText != "0")
+        {
+            texts[*parsedId] = greetingText;
+        }
+    }
+
+    return texts;
+}
+
+bool isMeaningfulQuestField(const std::string &value)
+{
+    const std::string trimmed = trimCopy(value);
+    return !trimmed.empty() && trimmed != "0";
+}
+
+std::unordered_map<uint32_t, std::string> loadQuestNotes(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &virtualPath)
+{
+    std::unordered_map<uint32_t, std::string> notes;
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, virtualPath, rows))
+    {
+        return notes;
+    }
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() <= 2)
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> parsedId = parseUint32Field(row[0]);
+
+        if (!parsedId)
+        {
+            continue;
+        }
+
+        const std::string questText = normalizeWhitespace(row[1]);
+        const std::string noteText = normalizeWhitespace(row[2]);
+        std::string comment;
+
+        if (isMeaningfulQuestField(questText))
+        {
+            comment = questText;
+        }
+
+        if (isMeaningfulQuestField(noteText))
+        {
+            if (!comment.empty())
+            {
+                comment += " - ";
+            }
+
+            comment += noteText;
+        }
+
+        if (!comment.empty())
+        {
+            notes[*parsedId] = comment;
+        }
+    }
+
+    return notes;
+}
+
+std::unordered_map<uint32_t, std::string> loadAutonoteTexts(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &virtualPath)
+{
+    std::unordered_map<uint32_t, std::string> texts;
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, virtualPath, rows))
+    {
+        return texts;
+    }
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() <= 1)
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> parsedId = parseUint32Field(row[0]);
+
+        if (!parsedId)
+        {
+            continue;
+        }
+
+        const std::string autonoteText = normalizeWhitespace(row[1]);
+
+        if (!autonoteText.empty() && autonoteText != "0")
+        {
+            texts[*parsedId] = autonoteText;
+        }
+    }
+
+    return texts;
+}
+
+std::unordered_map<uint32_t, std::string> loadAwardTexts(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &virtualPath)
+{
+    std::unordered_map<uint32_t, std::string> texts;
+    std::vector<std::vector<std::string>> rows;
+
+    if (!loadTextTableRows(assetFileSystem, virtualPath, rows))
+    {
+        return texts;
+    }
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() <= 1)
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> parsedId = parseUint32Field(row[0]);
+        const std::string awardText = normalizeWhitespace(row[1]);
+
+        if (parsedId && !awardText.empty() && awardText != "0")
+        {
+            texts[*parsedId] = awardText;
+        }
+    }
+
+    return texts;
+}
+
+std::unordered_map<uint32_t, std::string> loadLegacyInputStringAnswerTexts(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &legacyEventsDir)
+{
+    std::unordered_map<uint32_t, std::string> texts;
+
+    for (const std::string &entryName : assetFileSystem.enumerate(legacyEventsDir))
+    {
+        if (toLowerCopy(std::filesystem::path(entryName).extension().string()) != ".str")
+        {
+            continue;
+        }
+
+        const std::optional<std::vector<uint8_t>> bytes =
+            assetFileSystem.readBinaryFile(legacyEventsDir + "/" + entryName);
+
+        if (!bytes)
+        {
+            continue;
+        }
+
+        StrTable strTable = {};
+
+        if (!strTable.loadFromBytes(*bytes))
+        {
+            continue;
+        }
+
+        const std::vector<std::string> &entries = strTable.getEntries();
+
+        for (size_t index = 0; index < entries.size(); ++index)
+        {
+            const uint32_t textId = static_cast<uint32_t>(index);
+
+            if (!entries[index].empty() && !texts.contains(textId))
+            {
+                texts.emplace(textId, entries[index]);
+            }
+        }
     }
 
     return texts;
@@ -827,6 +1222,351 @@ std::unordered_map<std::string, std::unordered_map<uint32_t, std::string>> loadD
     return titlesByScriptStem;
 }
 
+std::optional<uint32_t> readYamlUint32(const YAML::Node &node, const char *key)
+{
+    const YAML::Node childNode = node[key];
+
+    if (!childNode || !childNode.IsScalar())
+    {
+        return std::nullopt;
+    }
+
+    try
+    {
+        return childNode.as<uint32_t>();
+    }
+    catch (const std::exception &)
+    {
+        return std::nullopt;
+    }
+}
+
+std::string lookupMonsterName(
+    const std::unordered_map<uint32_t, std::string> &monsterNames,
+    uint32_t monsterInfoId)
+{
+    const auto iterator = monsterNames.find(monsterInfoId);
+
+    if (iterator != monsterNames.end() && !iterator->second.empty())
+    {
+        return iterator->second;
+    }
+
+    return "monster info " + std::to_string(monsterInfoId);
+}
+
+void addActorGroupLabel(
+    std::unordered_map<uint32_t, std::vector<std::string>> &labelsByGroup,
+    uint32_t groupId,
+    const std::string &label)
+{
+    if (label.empty())
+    {
+        return;
+    }
+
+    std::vector<std::string> &labels = labelsByGroup[groupId];
+
+    if (std::find(labels.begin(), labels.end(), label) == labels.end())
+    {
+        labels.push_back(label);
+    }
+}
+
+void collectActorGroupLabelFromActor(
+    std::unordered_map<uint32_t, std::vector<std::string>> &labelsByGroup,
+    const std::unordered_map<uint32_t, std::string> &monsterNames,
+    const YAML::Node &actorNode)
+{
+    const std::optional<uint32_t> groupId = readYamlUint32(actorNode, "group");
+
+    if (!groupId || *groupId == 0)
+    {
+        return;
+    }
+
+    const std::optional<uint32_t> monsterInfoId = readYamlUint32(actorNode, "monster_info_id");
+
+    if (monsterInfoId && *monsterInfoId != 0)
+    {
+        addActorGroupLabel(labelsByGroup, *groupId, lookupMonsterName(monsterNames, *monsterInfoId));
+    }
+}
+
+void collectActorGroupLabelsFromActors(
+    std::unordered_map<uint32_t, std::vector<std::string>> &labelsByGroup,
+    const std::unordered_map<uint32_t, std::string> &monsterNames,
+    const YAML::Node &actorsNode)
+{
+    if (!actorsNode || !actorsNode.IsSequence())
+    {
+        return;
+    }
+
+    for (const YAML::Node &actorNode : actorsNode)
+    {
+        if (actorNode.IsMap())
+        {
+            collectActorGroupLabelFromActor(labelsByGroup, monsterNames, actorNode);
+        }
+    }
+}
+
+std::string formatSpawnLabel(const MapStatsEntry &mapEntry, uint16_t typeId, uint16_t index);
+
+void collectActorGroupLabelsFromSpawns(
+    std::unordered_map<uint32_t, std::vector<std::string>> &labelsByGroup,
+    const YAML::Node &spawnsNode,
+    const MapStatsEntry *pMapEntry)
+{
+    if (!spawnsNode || !spawnsNode.IsSequence())
+    {
+        return;
+    }
+
+    for (const YAML::Node &spawnNode : spawnsNode)
+    {
+        if (!spawnNode.IsMap())
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> groupId = readYamlUint32(spawnNode, "group");
+        const std::optional<uint32_t> typeId = readYamlUint32(spawnNode, "type_id");
+        const std::optional<uint32_t> index = readYamlUint32(spawnNode, "index");
+
+        if (groupId && *groupId != 0 && typeId)
+        {
+            if (pMapEntry != nullptr && index)
+            {
+                addActorGroupLabel(
+                    labelsByGroup,
+                    *groupId,
+                    formatSpawnLabel(*pMapEntry, static_cast<uint16_t>(*typeId), static_cast<uint16_t>(*index)));
+            }
+            else
+            {
+                addActorGroupLabel(labelsByGroup, *groupId, "outdoor spawn type " + std::to_string(*typeId));
+            }
+        }
+    }
+}
+
+const MapEncounterInfo *encounterForSpawnIndex(const MapStatsEntry &mapEntry, uint16_t index)
+{
+    if (index == 1)
+    {
+        return &mapEntry.encounter1;
+    }
+
+    if (index == 2)
+    {
+        return &mapEntry.encounter2;
+    }
+
+    if (index == 3)
+    {
+        return &mapEntry.encounter3;
+    }
+
+    if (index >= 4 && index <= 12)
+    {
+        const uint16_t encounterSlot = static_cast<uint16_t>(((index - 4) % 3) + 1);
+        return encounterForSpawnIndex(mapEntry, encounterSlot);
+    }
+
+    return nullptr;
+}
+
+std::optional<std::string> resolveSpawnMonsterLabel(const MapStatsEntry &mapEntry, uint16_t typeId, uint16_t index)
+{
+    if (typeId != 3)
+    {
+        return std::nullopt;
+    }
+
+    const MapEncounterInfo *pEncounter = encounterForSpawnIndex(mapEntry, index);
+
+    if (pEncounter == nullptr || pEncounter->monsterName.empty())
+    {
+        return std::nullopt;
+    }
+
+    char tierSuffix = 'A';
+
+    if (index >= 4 && index <= 12)
+    {
+        tierSuffix = static_cast<char>('A' + ((index - 4) / 3));
+    }
+
+    return pEncounter->monsterName + " " + std::string(1, tierSuffix);
+}
+
+std::string formatSpawnLabel(const MapStatsEntry &mapEntry, uint16_t typeId, uint16_t index)
+{
+    const std::optional<std::string> monsterLabel = resolveSpawnMonsterLabel(mapEntry, typeId, index);
+
+    if (monsterLabel)
+    {
+        return "spawn " + *monsterLabel;
+    }
+
+    return "spawn type " + std::to_string(typeId) + " index " + std::to_string(index);
+}
+
+void collectActorGroupLabelsFromIndoorBlvSpawns(
+    std::unordered_map<uint32_t, std::vector<std::string>> &labelsByGroup,
+    const AssetFileSystem &assetFileSystem,
+    const std::string &outputStem,
+    const MapStatsEntry &mapEntry)
+{
+    const std::string fileName = mapEntry.fileName.empty() ? (outputStem + ".blv") : mapEntry.fileName;
+    const std::string lowerFileName = toLowerCopy(fileName);
+    const std::vector<std::string> candidates = {
+        "Data/games/" + fileName,
+        "Data/games/" + lowerFileName,
+        "Data/games/" + outputStem + ".blv",
+        "Data/games/" + toLowerCopy(outputStem) + ".blv",
+    };
+    std::string resolvedPath;
+    const std::optional<std::vector<uint8_t>> bytes =
+        readFirstExistingBinary(assetFileSystem, candidates, resolvedPath);
+
+    if (!bytes)
+    {
+        return;
+    }
+
+    const IndoorMapDataLoader loader;
+    const std::optional<IndoorMapData> indoorMapData = loader.loadFromBytes(*bytes);
+
+    if (!indoorMapData)
+    {
+        return;
+    }
+
+    for (const IndoorSpawn &spawn : indoorMapData->spawns)
+    {
+        if (spawn.group == 0)
+        {
+            continue;
+        }
+
+        addActorGroupLabel(
+            labelsByGroup,
+            spawn.group,
+            formatSpawnLabel(mapEntry, spawn.typeId, spawn.index));
+    }
+}
+
+std::string formatActorGroupLabels(std::vector<std::string> labels)
+{
+    std::sort(labels.begin(), labels.end());
+
+    constexpr size_t MaxLabelsToShow = 4;
+    std::ostringstream stream;
+
+    for (size_t index = 0; index < labels.size() && index < MaxLabelsToShow; ++index)
+    {
+        if (index != 0)
+        {
+            stream << ", ";
+        }
+
+        stream << labels[index];
+    }
+
+    if (labels.size() > MaxLabelsToShow)
+    {
+        stream << ", +" << (labels.size() - MaxLabelsToShow) << " more";
+    }
+
+    return stream.str();
+}
+
+std::unordered_map<uint32_t, std::string> buildActorGroupNameLookup(
+    const AssetFileSystem &assetFileSystem,
+    const std::string &outputStem,
+    const std::unordered_map<uint32_t, std::string> &monsterNames,
+    const MapStatsEntry *pMapEntry)
+{
+    std::unordered_map<uint32_t, std::string> groupNames;
+    const std::string scenePath = "Data/games/" + toLowerCopy(outputStem) + ".scene.yml";
+    const std::optional<std::string> sceneText = assetFileSystem.readTextFile(scenePath);
+
+    if (!sceneText)
+    {
+        return groupNames;
+    }
+
+    YAML::Node sceneNode;
+
+    try
+    {
+        sceneNode = YAML::Load(*sceneText);
+    }
+    catch (const std::exception &)
+    {
+        return groupNames;
+    }
+
+    std::unordered_map<uint32_t, std::vector<std::string>> labelsByGroup;
+    collectActorGroupLabelsFromActors(labelsByGroup, monsterNames, sceneNode["initial_state"]["actors"]);
+    collectActorGroupLabelsFromSpawns(labelsByGroup, sceneNode["spawns"], pMapEntry);
+
+    if (pMapEntry != nullptr && toLowerCopy(std::filesystem::path(pMapEntry->fileName).extension().string()) == ".blv")
+    {
+        collectActorGroupLabelsFromIndoorBlvSpawns(labelsByGroup, assetFileSystem, outputStem, *pMapEntry);
+    }
+
+    for (const auto &entry : labelsByGroup)
+    {
+        groupNames[entry.first] = formatActorGroupLabels(entry.second);
+    }
+
+    return groupNames;
+}
+
+std::string encounterDisplayName(const MapEncounterInfo &encounter)
+{
+    if (!encounter.monsterName.empty())
+    {
+        return encounter.monsterName;
+    }
+
+    return encounter.pictureName;
+}
+
+void populateMapEncounterNames(LegacyLuaExportLookups &lookups, const MapStatsEntry *pMapEntry)
+{
+    lookups.mapEncounterNames.clear();
+
+    if (pMapEntry == nullptr)
+    {
+        return;
+    }
+
+    const MapEncounterInfo *encounters[] = {
+        &pMapEntry->encounter1,
+        &pMapEntry->encounter2,
+        &pMapEntry->encounter3,
+    };
+
+    constexpr size_t EncounterCount = sizeof(encounters) / sizeof(encounters[0]);
+
+    for (size_t index = 0; index < EncounterCount; ++index)
+    {
+        const std::string name = encounterDisplayName(*encounters[index]);
+
+        if (name.empty())
+        {
+            continue;
+        }
+
+        lookups.mapEncounterNames[static_cast<uint32_t>(index + 1)] = name;
+    }
+}
+
 bool exportLegacyProgram(
     const AssetFileSystem &assetFileSystem,
     const std::filesystem::path &scriptsRoot,
@@ -836,6 +1576,7 @@ bool exportLegacyProgram(
     const std::string &outputStem,
     const LegacyLuaExportLookups &baseLookups,
     const std::unordered_map<std::string, std::unordered_map<uint32_t, std::string>> &decompiledEventTitles,
+    const MapStatsEntry *pMapEntry,
     bool globalScope)
 {
     std::string resolvedEvtPath;
@@ -877,7 +1618,13 @@ bool exportLegacyProgram(
         [&baseLookups](uint32_t houseId) -> std::optional<std::string>
         {
             const auto iterator = baseLookups.houseNames.find(houseId);
-            return iterator != baseLookups.houseNames.end() ? std::optional<std::string>(iterator->second) : std::nullopt;
+
+            if (iterator != baseLookups.houseNames.end())
+            {
+                return iterator->second;
+            }
+
+            return std::nullopt;
         };
     const auto resolveNpcText =
         [&baseLookups](uint32_t textId) -> std::optional<std::string>
@@ -907,6 +1654,13 @@ bool exportLegacyProgram(
         {
             lookups.mapName = iterator->second;
         }
+
+        lookups.actorGroupNames = buildActorGroupNameLookup(
+            assetFileSystem,
+            outputStem,
+            lookups.monsterNames,
+            pMapEntry);
+        populateMapEncounterNames(lookups, pMapEntry);
     }
 
     const auto titleIterator = decompiledEventTitles.find(toLowerCopy(outputStem));
@@ -989,11 +1743,21 @@ int main(int argc, char **argv)
     lookups.houseNames = loadHouseNames(assetFileSystem, tablePaths.houseData);
     lookups.npcTexts = loadNpcTexts(assetFileSystem, tablePaths.npcTopicText);
     lookups.npcNames = loadNpcNames(assetFileSystem, tablePaths.npc);
+    lookups.rosterNames = loadRosterNames(assetFileSystem, tablePaths.roster);
+    lookups.npcTopicNames = loadNpcTopicNames(assetFileSystem, tablePaths.npcTopic);
+    lookups.npcGreetingTexts = loadNpcGreetingTexts(assetFileSystem, tablePaths.npcGreeting);
     lookups.npcGroupNames = loadNpcGroupNames(assetFileSystem, tablePaths.npcGroup);
     lookups.npcNewsTexts = loadNpcNewsTexts(assetFileSystem, tablePaths.npcNews);
     lookups.itemNames = loadItemNames(assetFileSystem, tablePaths.items);
     lookups.objectPayloadNames = loadObjectPayloadNames(assetFileSystem, tablePaths.objectList);
+    lookups.monsterNames = loadMonsterNames(assetFileSystem, tablePaths.monsterData);
+    lookups.placedMonsterNames = loadPlacedMonsterNames(assetFileSystem, tablePaths.placeMon);
     lookups.spellNames = loadSpellNames(assetFileSystem, tablePaths.spells, tablePaths.spellsSupplemental);
+    lookups.questNotes = loadQuestNotes(assetFileSystem, tablePaths.quests);
+    lookups.autonoteTexts = loadAutonoteTexts(assetFileSystem, tablePaths.autonote);
+    lookups.awardTexts = loadAwardTexts(assetFileSystem, tablePaths.awards);
+    lookups.inputStringAnswerTexts =
+        loadLegacyInputStringAnswerTexts(assetFileSystem, tablePaths.legacyEventsDir);
     const std::unordered_map<std::string, std::unordered_map<uint32_t, std::string>> decompiledEventTitles =
         loadDecompiledEventTitles(tablePaths.decompiledScriptsDir);
     const std::filesystem::path scriptsRoot = assetFileSystem.getDevelopmentRoot() / "Data" / "scripts";
@@ -1008,6 +1772,7 @@ int main(int argc, char **argv)
             "Global",
             lookups,
             decompiledEventTitles,
+            nullptr,
             true))
     {
         return 1;
@@ -1039,6 +1804,7 @@ int main(int argc, char **argv)
                 lowerMapStem,
                 lookups,
                 decompiledEventTitles,
+                &entry,
                 false))
         {
             return 1;

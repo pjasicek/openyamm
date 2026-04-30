@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -40,7 +41,7 @@ RegisterNoOpEvent(2, "Legacy event 2")
 RegisterNoOpEvent(3, "Legacy event 3")
 
 RegisterEvent(4, "Legacy event 4", function()
-    if not IsQBitSet(QBit(23)) then return end
+    if not IsQBitSet(QBit(23)) then return end -- Allied with Minotaurs. Rescue the Minotaurs done.
     evt.SetFacetBit(10, FacetBits.Invisible, 0)
     evt.SetFacetBit(10, FacetBits.Untouchable, 0)
     evt.SetFacetBit(11, FacetBits.Untouchable, 1)
@@ -152,37 +153,37 @@ end, "Rock")
 
 RegisterEvent(91, "Chest", function()
     evt.OpenChest(10)
-    SetQBit(QBit(168))
+    SetQBit(QBit(168)) -- Found the treasure of the Dread Pirate Stanley!
     return
 end, "Chest")
 
 RegisterEvent(92, "Chest", function()
     evt.OpenChest(11)
-    SetQBit(QBit(168))
+    SetQBit(QBit(168)) -- Found the treasure of the Dread Pirate Stanley!
     return
 end, "Chest")
 
 RegisterEvent(93, "Chest", function()
     evt.OpenChest(12)
-    SetQBit(QBit(168))
+    SetQBit(QBit(168)) -- Found the treasure of the Dread Pirate Stanley!
     return
 end, "Chest")
 
 RegisterEvent(94, "Chest", function()
     evt.OpenChest(13)
-    SetQBit(QBit(168))
+    SetQBit(QBit(168)) -- Found the treasure of the Dread Pirate Stanley!
     return
 end, "Chest")
 
 RegisterEvent(95, "Chest", function()
     evt.OpenChest(14)
-    SetQBit(QBit(168))
+    SetQBit(QBit(168)) -- Found the treasure of the Dread Pirate Stanley!
     return
 end, "Chest")
 
 RegisterEvent(96, "Chest", function()
     evt.OpenChest(15)
-    SetQBit(QBit(168))
+    SetQBit(QBit(168)) -- Found the treasure of the Dread Pirate Stanley!
     return
 end, "Chest")
 
@@ -239,10 +240,10 @@ RegisterEvent(103, "Drink from the well", function()
 end, "Drink from the well")
 
 RegisterEvent(150, "Obelisk", function()
-    if IsQBitSet(QBit(193)) then return end
+    if IsQBitSet(QBit(193)) then return end -- Obelisk Area 8
     evt.StatusText("amonghiss")
-    AddValue(IsIntellectMoreThanBase, 20)
-    SetQBit(QBit(193))
+    SetAutonote(20) -- Obelisk message #4: amonghiss
+    SetQBit(QBit(193)) -- Obelisk Area 8
     return
 end, "Obelisk")
 

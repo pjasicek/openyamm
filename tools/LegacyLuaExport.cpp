@@ -123,6 +123,7 @@ struct LegacyLuaInstruction
     std::vector<uint32_t> arguments;
     std::optional<uint8_t> jumpTargetStep;
     std::optional<std::string> text;
+    std::vector<std::string> inputAnswers;
 };
 
 struct LegacyLuaEvent
@@ -378,6 +379,84 @@ std::optional<std::string> lookupText(
     return iterator->second;
 }
 
+std::string formatNpcReference(const LegacyLuaExportLookups &lookups, uint32_t npcId)
+{
+    const std::optional<std::string> npcName = lookupText(lookups.npcNames, npcId);
+
+    if (npcName)
+    {
+        return *npcName;
+    }
+
+    return "NPC " + std::to_string(npcId);
+}
+
+std::optional<std::string> formatMoveNpcComment(
+    const LegacyLuaExportLookups &lookups,
+    uint32_t npcId,
+    uint32_t houseId)
+{
+    std::string destination;
+
+    if (houseId == 0)
+    {
+        destination = "removed";
+    }
+    else
+    {
+        const std::optional<std::string> houseName = lookupText(lookups.houseNames, houseId);
+        destination = houseName ? *houseName : "house " + std::to_string(houseId);
+    }
+
+    return formatNpcReference(lookups, npcId) + " -> " + destination;
+}
+
+std::optional<std::string> formatSetNpcTopicComment(
+    const LegacyLuaExportLookups &lookups,
+    uint32_t npcId,
+    uint32_t topicSlot,
+    uint32_t topicId)
+{
+    const std::string npcName = formatNpcReference(lookups, npcId);
+    const std::string slotText = " topic " + std::to_string(topicSlot);
+
+    if (topicId == 0)
+    {
+        return npcName + slotText + " cleared";
+    }
+
+    const std::optional<std::string> topicName = lookupText(lookups.npcTopicNames, topicId);
+
+    if (topicName)
+    {
+        return npcName + slotText + ": " + *topicName;
+    }
+
+    return npcName + slotText + " -> topic " + std::to_string(topicId);
+}
+
+std::optional<std::string> formatSetNpcGreetingComment(
+    const LegacyLuaExportLookups &lookups,
+    uint32_t npcId,
+    uint32_t greetingId)
+{
+    const std::string npcName = formatNpcReference(lookups, npcId);
+
+    if (greetingId == 0)
+    {
+        return npcName + " greeting cleared";
+    }
+
+    const std::optional<std::string> greetingText = lookupText(lookups.npcGreetingTexts, greetingId);
+
+    if (greetingText)
+    {
+        return npcName + " greeting: " + *greetingText;
+    }
+
+    return npcName + " greeting " + std::to_string(greetingId);
+}
+
 std::optional<std::string> lookupMapName(
     const std::unordered_map<std::string, std::string> &table,
     std::string_view pathOrStem)
@@ -437,6 +516,106 @@ std::string formatMonsterBit(uint32_t value)
     }
 }
 
+std::string formatActorKillCheck(uint32_t value)
+{
+    switch (static_cast<EvtActorKillCheck>(value))
+    {
+        case EvtActorKillCheck::Any: return "ActorKillCheck.Any";
+        case EvtActorKillCheck::Group: return "ActorKillCheck.Group";
+        case EvtActorKillCheck::MonsterId: return "ActorKillCheck.MonsterId";
+        case EvtActorKillCheck::ActorIdOe: return "ActorKillCheck.ActorIdOe";
+        case EvtActorKillCheck::UniqueNameId: return "ActorKillCheck.UniqueNameId";
+    }
+
+    return std::to_string(value);
+}
+
+std::string formatActorKilledCountComment(uint32_t count)
+{
+    if (count == 0)
+    {
+        return "all matching actors defeated";
+    }
+
+    return "at least " + std::to_string(count) + " matching actor" + (count == 1 ? "" : "s") + " defeated";
+}
+
+std::optional<std::string> formatActorKilledComment(
+    uint32_t checkType,
+    uint32_t id,
+    uint32_t count,
+    const LegacyLuaExportLookups &lookups)
+{
+    std::string target;
+
+    switch (static_cast<EvtActorKillCheck>(checkType))
+    {
+        case EvtActorKillCheck::Any:
+            target = "any actor";
+            break;
+
+        case EvtActorKillCheck::Group:
+            target = "actor group " + std::to_string(id);
+
+            if (const std::optional<std::string> groupName = lookupText(lookups.actorGroupNames, id))
+            {
+                target += ": " + *groupName;
+            }
+
+            break;
+
+        case EvtActorKillCheck::MonsterId:
+        {
+            const uint32_t monsterStatsId = id + 1u;
+            target = "monster " + std::to_string(id);
+
+            const std::optional<std::string> monsterName = lookupText(lookups.monsterNames, monsterStatsId);
+
+            if (monsterName)
+            {
+                target += " \"" + *monsterName + "\"";
+            }
+
+            break;
+        }
+
+        case EvtActorKillCheck::ActorIdOe:
+            target = "OE actor " + std::to_string(id);
+            break;
+
+        case EvtActorKillCheck::UniqueNameId:
+        {
+            target = "unique actor " + std::to_string(id);
+            const std::optional<std::string> uniqueName = lookupText(lookups.placedMonsterNames, id);
+
+            if (uniqueName)
+            {
+                target += " \"" + *uniqueName + "\"";
+            }
+
+            break;
+        }
+    }
+
+    if (target.empty())
+    {
+        return std::nullopt;
+    }
+
+    return target + "; " + formatActorKilledCountComment(count);
+}
+
+std::string formatDoorAction(uint32_t value)
+{
+    switch (value)
+    {
+        case 0: return "DoorAction.Open";
+        case 1: return "DoorAction.Close";
+        case 2: return "DoorAction.Trigger";
+        default: return std::to_string(value);
+    }
+}
+
 std::string formatPartySelector(uint32_t value)
 {
     switch (value)
@@ -485,7 +664,8 @@ FormattedSelector formatSelector(uint32_t rawValue)
         return {"Award(" + std::to_string(index) + ")", SelectorSemantic::Award, index};
     }
 
-    if (variableId == EvtVariable::AutoNotes)
+    if (variableId == EvtVariable::AutoNotes
+        || (variableId == EvtVariable::IsIntellectMoreThanBase && index != 0))
     {
         return {"AutonoteBit(" + std::to_string(index) + ")", SelectorSemantic::Autonote, index};
     }
@@ -701,6 +881,26 @@ std::optional<std::string> resolveSelectorComment(
         return lookupText(lookups.itemNames, selector.index);
     }
 
+    if (selector.semantic == SelectorSemantic::QBit)
+    {
+        return lookupText(lookups.questNotes, selector.index);
+    }
+
+    if (selector.semantic == SelectorSemantic::Award)
+    {
+        return lookupText(lookups.awardTexts, selector.index);
+    }
+
+    if (selector.semantic == SelectorSemantic::PlayerValue)
+    {
+        return lookupText(lookups.rosterNames, selector.index);
+    }
+
+    if (selector.semantic == SelectorSemantic::Autonote)
+    {
+        return lookupText(lookups.autonoteTexts, selector.index);
+    }
+
     return std::nullopt;
 }
 
@@ -718,7 +918,7 @@ std::string formatCompareExpression(
         {
             case SelectorSemantic::QBit: return "IsQBitSet(" + selector.expression + ")";
             case SelectorSemantic::Award: return "HasAward(" + selector.expression + ")";
-            case SelectorSemantic::Autonote: return "IsAutonoteSet(" + selector.expression + ")";
+            case SelectorSemantic::Autonote: return "IsAutonoteSet(" + std::to_string(selector.index) + ")";
             case SelectorSemantic::PlayerBit: return "IsPlayerBitSet(" + selector.expression + ")";
             default: break;
         }
@@ -727,6 +927,11 @@ std::string formatCompareExpression(
     if (selector.semantic == SelectorSemantic::InventoryItem && value == selector.index)
     {
         return "HasItem(" + std::to_string(selector.index) + ")";
+    }
+
+    if (selector.semantic == SelectorSemantic::PlayerValue && value == selector.index)
+    {
+        return "HasPlayer(" + std::to_string(selector.index) + ")";
     }
 
     return "IsAtLeast(" + selector.expression + ", " + std::to_string(static_cast<int32_t>(value)) + ")";
@@ -742,7 +947,7 @@ std::string formatAddExpression(
         {
             case SelectorSemantic::QBit: return "SetQBit(" + selector.expression + ")";
             case SelectorSemantic::Award: return "SetAward(" + selector.expression + ")";
-            case SelectorSemantic::Autonote: return "SetAutonote(" + selector.expression + ")";
+            case SelectorSemantic::Autonote: return "SetAutonote(" + std::to_string(selector.index) + ")";
             case SelectorSemantic::PlayerBit: return "SetPlayerBit(" + selector.expression + ")";
             default: break;
         }
@@ -761,7 +966,7 @@ std::string formatSubtractExpression(
         {
             case SelectorSemantic::QBit: return "ClearQBit(" + selector.expression + ")";
             case SelectorSemantic::Award: return "ClearAward(" + selector.expression + ")";
-            case SelectorSemantic::Autonote: return "ClearAutonote(" + selector.expression + ")";
+            case SelectorSemantic::Autonote: return "ClearAutonote(" + std::to_string(selector.index) + ")";
             case SelectorSemantic::PlayerBit: return "ClearPlayerBit(" + selector.expression + ")";
             default: break;
         }
@@ -785,7 +990,7 @@ std::string formatSetExpression(
         {
             case SelectorSemantic::QBit: return "SetQBit(" + selector.expression + ")";
             case SelectorSemantic::Award: return "SetAward(" + selector.expression + ")";
-            case SelectorSemantic::Autonote: return "SetAutonote(" + selector.expression + ")";
+            case SelectorSemantic::Autonote: return "SetAutonote(" + std::to_string(selector.index) + ")";
             case SelectorSemantic::PlayerBit: return "SetPlayerBit(" + selector.expression + ")";
             default: break;
         }
@@ -903,12 +1108,25 @@ bool hasOnLoadTrigger(const EvtEvent &event)
         });
 }
 
+bool hasOnLeaveTrigger(const EvtEvent &event)
+{
+    return std::any_of(
+        event.instructions.begin(),
+        event.instructions.end(),
+        [](const EvtInstruction &instruction)
+        {
+            return instruction.opcode == EvtOpcode::OnMapLeave;
+        });
+}
+
 std::optional<std::string> resolveInstructionText(
     const EvtInstruction &instruction,
     const StrTable &strTable,
     const LegacyLuaExportLookups &lookups)
 {
-    if (instruction.opcode == EvtOpcode::ShowMessage || instruction.opcode == EvtOpcode::StatusText)
+    if (instruction.opcode == EvtOpcode::ShowMessage
+        || instruction.opcode == EvtOpcode::StatusText
+        || instruction.opcode == EvtOpcode::InputString)
     {
         if (instruction.value1)
         {
@@ -992,6 +1210,25 @@ LegacyLuaInstruction decodeInstruction(
     }
 
     decoded.text = resolveInstructionText(instruction, strTable, lookups);
+
+    if (decoded.operation == LegacyLuaOperation::InputString && decoded.arguments.size() >= 2)
+    {
+        for (size_t argumentIndex = 1; argumentIndex < decoded.arguments.size(); ++argumentIndex)
+        {
+            const uint32_t answerTextId = decoded.arguments[argumentIndex];
+            std::optional<std::string> answer = strTable.get(answerTextId);
+
+            if (!answer)
+            {
+                answer = lookupText(lookups.inputStringAnswerTexts, answerTextId);
+            }
+
+            if (answer && !answer->empty())
+            {
+                decoded.inputAnswers.push_back(*answer);
+            }
+        }
+    }
 
     if (decoded.operation == LegacyLuaOperation::ForPartyMember)
     {
@@ -1553,36 +1790,109 @@ bool formatGiveItemCall(
     return true;
 }
 
-void emitNpcGroupNewsComments(
-    std::ostringstream &stream,
+std::optional<std::string> formatNpcGroupNewsComment(
     uint32_t groupId,
     uint32_t newsId,
-    const LegacyLuaExportLookups &lookups,
-    int indentLevel)
+    const LegacyLuaExportLookups &lookups)
 {
     const std::optional<std::string> groupName = lookupText(lookups.npcGroupNames, groupId);
     const std::optional<std::string> newsText = lookupText(lookups.npcNewsTexts, newsId);
+    std::string comment;
 
     if (groupName && !groupName->empty())
     {
-        for (int indentIndex = 0; indentIndex < indentLevel; ++indentIndex)
-        {
-            stream << "    ";
-        }
-
-        stream << "-- NPC group " << groupId << " \"" << sanitizeLuaCommentText(*groupName)
-               << "\" -> news " << newsId << '\n';
+        comment = "NPC group " + std::to_string(groupId) + " \"" + *groupName + "\" -> news "
+            + std::to_string(newsId);
     }
 
     if (newsText && !newsText->empty())
     {
-        for (int indentIndex = 0; indentIndex < indentLevel; ++indentIndex)
+        if (!comment.empty())
         {
-            stream << "    ";
+            comment += ": ";
         }
 
-        stream << "-- \"" << sanitizeLuaCommentText(*newsText) << "\"\n";
+        comment += "\"" + *newsText + "\"";
     }
+
+    if (comment.empty())
+    {
+        return std::nullopt;
+    }
+
+    return comment;
+}
+
+std::optional<std::string> formatActorGroupComment(
+    uint32_t groupId,
+    const LegacyLuaExportLookups &lookups)
+{
+    const std::optional<std::string> groupName = lookupText(lookups.actorGroupNames, groupId);
+
+    if (!groupName || groupName->empty())
+    {
+        return std::nullopt;
+    }
+
+    return "actor group " + std::to_string(groupId) + ": " + *groupName;
+}
+
+char summonMonsterTierLetter(uint32_t level)
+{
+    const uint32_t clampedLevel = std::clamp(level, 1u, 3u);
+    return static_cast<char>('A' + clampedLevel - 1u);
+}
+
+std::optional<std::string> formatSummonMonstersComment(
+    const std::vector<uint32_t> &arguments,
+    const LegacyLuaExportLookups &lookups)
+{
+    if (arguments.size() < 8)
+    {
+        return std::nullopt;
+    }
+
+    const uint32_t typeIndex = arguments[0];
+    const uint32_t level = arguments[1];
+    const uint32_t count = arguments[2];
+    const int32_t x = static_cast<int32_t>(arguments[3]);
+    const int32_t y = static_cast<int32_t>(arguments[4]);
+    const int32_t z = static_cast<int32_t>(arguments[5]);
+    const uint32_t groupId = arguments[6];
+    const uint32_t uniqueNameId = arguments[7];
+    std::ostringstream comment;
+    comment << "encounter slot " << typeIndex;
+
+    if (const std::optional<std::string> encounterName = lookupText(lookups.mapEncounterNames, typeIndex))
+    {
+        comment << " \"" << *encounterName << "\"";
+    }
+
+    comment << " tier " << summonMonsterTierLetter(level)
+            << ", count " << count
+            << ", pos=(" << x << ", " << y << ", " << z << ")"
+            << ", actor group " << groupId;
+
+    if (const std::optional<std::string> groupName = lookupText(lookups.actorGroupNames, groupId))
+    {
+        comment << ": " << *groupName;
+    }
+
+    if (uniqueNameId != 0)
+    {
+        comment << ", unique actor " << uniqueNameId;
+
+        if (const std::optional<std::string> uniqueName = lookupText(lookups.placedMonsterNames, uniqueNameId))
+        {
+            comment << " \"" << *uniqueName << "\"";
+        }
+    }
+    else
+    {
+        comment << ", no unique actor name";
+    }
+
+    return comment.str();
 }
 
 void emitEventRegistrationHeader(
@@ -2192,11 +2502,15 @@ bool formatReadableConditionInstruction(
                 return false;
             }
 
-            condition = "evt.CheckMonstersKilled(" + std::to_string(instruction.arguments[0]) + ", "
+            condition = "evt.CheckMonstersKilled(" + formatActorKillCheck(instruction.arguments[0]) + ", "
                 + std::to_string(instruction.arguments[1]) + ", "
                 + std::to_string(instruction.arguments[2]) + ", "
                 + (instruction.arguments[3] != 0 ? std::string("true") : std::string("false")) + ")";
-            comment = std::nullopt;
+            comment = formatActorKilledComment(
+                instruction.arguments[0],
+                instruction.arguments[1],
+                instruction.arguments[2],
+                lookups);
             return true;
 
         case LegacyLuaOperation::CheckSeason:
@@ -2416,7 +2730,7 @@ bool emitReadableActionInstruction(
                     stream,
                     "evt.MoveNPC(" + std::to_string(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ")",
-                    std::nullopt,
+                    formatMoveNpcComment(lookups, instruction.arguments[0], instruction.arguments[1]),
                     indentLevel);
                 return true;
             }
@@ -2530,7 +2844,7 @@ bool emitReadableActionInstruction(
                     + std::to_string(static_cast<int32_t>(instruction.arguments[5])) + ", "
                     + std::to_string(instruction.arguments[6]) + ", "
                     + std::to_string(instruction.arguments[7]) + ")",
-                    std::nullopt,
+                    formatSummonMonstersComment(instruction.arguments, lookups),
                     indentLevel);
                 return true;
             }
@@ -2619,7 +2933,7 @@ bool emitReadableActionInstruction(
                 emitIndentedLineWithComment(
                     stream,
                     "evt.SetDoorState(" + std::to_string(instruction.arguments[0]) + ", "
-                    + std::to_string(instruction.arguments[1]) + ")",
+                    + formatDoorAction(instruction.arguments[1]) + ")",
                     std::nullopt,
                     indentLevel);
                 return true;
@@ -2710,7 +3024,7 @@ bool emitReadableActionInstruction(
                     "evt.SetMonGroupBit(" + std::to_string(instruction.arguments[0]) + ", "
                     + formatMonsterBit(instruction.arguments[1]) + ", "
                     + std::to_string(instruction.arguments[2]) + ")",
-                    std::nullopt,
+                    formatActorGroupComment(instruction.arguments[0], lookups),
                     indentLevel);
                 return true;
             }
@@ -2739,7 +3053,11 @@ bool emitReadableActionInstruction(
                     "evt.SetNPCTopic(" + std::to_string(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ", "
                     + std::to_string(instruction.arguments[2]) + ")",
-                    std::nullopt,
+                    formatSetNpcTopicComment(
+                        lookups,
+                        instruction.arguments[0],
+                        instruction.arguments[1],
+                        instruction.arguments[2]),
                     indentLevel);
                 return true;
             }
@@ -2749,12 +3067,11 @@ bool emitReadableActionInstruction(
         case LegacyLuaOperation::SetNpcGroupNews:
             if (instruction.arguments.size() >= 2)
             {
-                emitNpcGroupNewsComments(stream, instruction.arguments[0], instruction.arguments[1], lookups, indentLevel);
                 emitIndentedLineWithComment(
                     stream,
                     "evt.SetNPCGroupNews(" + std::to_string(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ")",
-                    std::nullopt,
+                    formatNpcGroupNewsComment(instruction.arguments[0], instruction.arguments[1], lookups),
                     indentLevel);
                 return true;
             }
@@ -2768,7 +3085,7 @@ bool emitReadableActionInstruction(
                     stream,
                     "evt.SetNPCGreeting(" + std::to_string(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ")",
-                    std::nullopt,
+                    formatSetNpcGreetingComment(lookups, instruction.arguments[0], instruction.arguments[1]),
                     indentLevel);
                 return true;
             }
@@ -4452,6 +4769,44 @@ struct PromptContinuation
     std::optional<std::string> text;
 };
 
+void addPromptContinuation(
+    std::vector<PromptContinuation> &continuations,
+    const LegacyLuaInstruction &instruction,
+    uint8_t continueStep)
+{
+    const auto duplicate = std::find_if(
+        continuations.begin(),
+        continuations.end(),
+        [&](const PromptContinuation &existing)
+        {
+            return existing.promptStep == instruction.step
+                && existing.continueStep == continueStep
+                && existing.operation == instruction.operation;
+        });
+
+    if (duplicate != continuations.end())
+    {
+        return;
+    }
+
+    PromptContinuation continuation = {};
+    continuation.promptStep = instruction.step;
+    continuation.continueStep = continueStep;
+    continuation.operation = instruction.operation;
+
+    if (!instruction.arguments.empty())
+    {
+        continuation.textId = instruction.arguments[0];
+    }
+
+    if (instruction.text && !instruction.text->empty())
+    {
+        continuation.text = *instruction.text;
+    }
+
+    continuations.push_back(std::move(continuation));
+}
+
 std::vector<PromptContinuation> collectPromptContinuations(const LegacyLuaEvent &event)
 {
     std::vector<PromptContinuation> continuations;
@@ -4464,25 +4819,70 @@ std::vector<PromptContinuation> collectPromptContinuations(const LegacyLuaEvent 
             continue;
         }
 
-        PromptContinuation continuation = {};
-        continuation.promptStep = instruction.step;
-        continuation.continueStep = static_cast<uint8_t>(instruction.step + 1);
-        continuation.operation = instruction.operation;
+        addPromptContinuation(continuations, instruction, static_cast<uint8_t>(instruction.step + 1));
 
-        if (!instruction.arguments.empty())
+        if (instruction.operation == LegacyLuaOperation::InputString && instruction.jumpTargetStep)
         {
-            continuation.textId = instruction.arguments[0];
+            addPromptContinuation(continuations, instruction, *instruction.jumpTargetStep);
         }
-
-        if (instruction.text && !instruction.text->empty())
-        {
-            continuation.text = *instruction.text;
-        }
-
-        continuations.push_back(std::move(continuation));
     }
 
     return continuations;
+}
+
+std::string formatInputStringCall(const LegacyLuaEvent &event, const LegacyLuaInstruction &instruction)
+{
+    std::ostringstream line;
+    line << "evt.AskQuestion(" << event.eventId << ", " << static_cast<unsigned>(instruction.step + 1);
+
+    if (!instruction.arguments.empty())
+    {
+        line << ", " << instruction.arguments[0];
+    }
+    else
+    {
+        line << ", 0";
+    }
+
+    if (instruction.jumpTargetStep)
+    {
+        line << ", " << static_cast<unsigned>(*instruction.jumpTargetStep);
+
+        if (instruction.arguments.size() >= 2)
+        {
+            line << ", " << instruction.arguments[1];
+        }
+
+        if (instruction.arguments.size() >= 3)
+        {
+            line << ", " << instruction.arguments[2];
+        }
+    }
+
+    if (instruction.text && !instruction.text->empty())
+    {
+        line << ", " << luaQuoted(*instruction.text);
+    }
+
+    if (!instruction.inputAnswers.empty())
+    {
+        line << ", {";
+
+        for (size_t answerIndex = 0; answerIndex < instruction.inputAnswers.size(); ++answerIndex)
+        {
+            if (answerIndex > 0)
+            {
+                line << ", ";
+            }
+
+            line << luaQuoted(instruction.inputAnswers[answerIndex]);
+        }
+
+        line << "}";
+    }
+
+    line << ")";
+    return line.str();
 }
 
 bool emitReadableBlock(
@@ -4557,26 +4957,8 @@ bool emitReadableBlock(
 
         if (instruction.operation == LegacyLuaOperation::InputString)
         {
-            std::ostringstream line;
-            line << "evt._InputString(" << event.eventId << ", " << static_cast<unsigned>(instruction.step + 1);
-
-            if (!instruction.arguments.empty())
-            {
-                line << ", " << instruction.arguments[0];
-            }
-
-            if (instruction.text && !instruction.text->empty())
-            {
-                if (instruction.arguments.empty())
-                {
-                    line << ", 0";
-                }
-
-                line << ", " << luaQuoted(*instruction.text);
-            }
-
-            line << ")";
-            emitIndentedLineWithComment(stream, line.str(), std::nullopt, indentLevel);
+            emitIndentedLineWithComment(stream, formatInputStringCall(event, instruction), std::nullopt, indentLevel);
+            emitIndentedLineWithComment(stream, "return nil", std::nullopt, indentLevel);
             currentStep = std::nullopt;
             continue;
         }
@@ -6172,7 +6554,7 @@ void emitNormalInstruction(
                     stream,
                     "evt.MoveNPC(" + std::to_string(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ")",
-                    std::nullopt,
+                    formatMoveNpcComment(lookups, instruction.arguments[0], instruction.arguments[1]),
                     2);
             }
             break;
@@ -6386,7 +6768,7 @@ void emitNormalInstruction(
                     + std::to_string(static_cast<int32_t>(instruction.arguments[5])) + ", "
                     + std::to_string(instruction.arguments[6]) + ", "
                     + std::to_string(instruction.arguments[7]) + ")",
-                    std::nullopt,
+                    formatSummonMonstersComment(instruction.arguments, lookups),
                     2);
             }
             break;
@@ -6522,7 +6904,7 @@ void emitNormalInstruction(
                 emitIndentedLineWithComment(
                     stream,
                     "evt.SetDoorState(" + std::to_string(instruction.arguments[0]) + ", "
-                    + std::to_string(instruction.arguments[1]) + ")",
+                    + formatDoorAction(instruction.arguments[1]) + ")",
                     std::nullopt,
                     2);
             }
@@ -6597,7 +6979,7 @@ void emitNormalInstruction(
                     "evt.SetMonGroupBit(" + std::to_string(instruction.arguments[0]) + ", "
                     + formatMonsterBit(instruction.arguments[1]) + ", "
                     + std::to_string(instruction.arguments[2]) + ")",
-                    std::nullopt,
+                    formatActorGroupComment(instruction.arguments[0], lookups),
                     2);
             }
             break;
@@ -6622,7 +7004,11 @@ void emitNormalInstruction(
                     "evt.SetNPCTopic(" + std::to_string(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ", "
                     + std::to_string(instruction.arguments[2]) + ")",
-                    std::nullopt,
+                    formatSetNpcTopicComment(
+                        lookups,
+                        instruction.arguments[0],
+                        instruction.arguments[1],
+                        instruction.arguments[2]),
                     2);
             }
             break;
@@ -6630,12 +7016,11 @@ void emitNormalInstruction(
         case LegacyLuaOperation::SetNpcGroupNews:
             if (instruction.arguments.size() >= 2)
             {
-                emitNpcGroupNewsComments(stream, instruction.arguments[0], instruction.arguments[1], lookups, 2);
                 emitIndentedLineWithComment(
                     stream,
                     "evt.SetNPCGroupNews(" + std::to_string(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ")",
-                    std::nullopt,
+                    formatNpcGroupNewsComment(instruction.arguments[0], instruction.arguments[1], lookups),
                     2);
             }
             break;
@@ -6647,7 +7032,7 @@ void emitNormalInstruction(
                     stream,
                     "evt.SetNPCGreeting(" + std::to_string(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ")",
-                    std::nullopt,
+                    formatSetNpcGreetingComment(lookups, instruction.arguments[0], instruction.arguments[1]),
                     2);
             }
             break;
@@ -6734,12 +7119,16 @@ void emitNormalInstruction(
             {
                 emitIndentedLineWithComment(
                     stream,
-                    "if evt.CheckMonstersKilled(" + std::to_string(instruction.arguments[0]) + ", "
+                    "if evt.CheckMonstersKilled(" + formatActorKillCheck(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ", "
                     + std::to_string(instruction.arguments[2]) + ", "
                     + (instruction.arguments[3] != 0 ? "true" : "false") + ") then return "
                     + std::to_string(*instruction.jumpTargetStep) + " end",
-                    std::nullopt,
+                    formatActorKilledComment(
+                        instruction.arguments[0],
+                        instruction.arguments[1],
+                        instruction.arguments[2],
+                        lookups),
                     2);
             }
             break;
@@ -6795,25 +7184,7 @@ void emitNormalInstruction(
 
         case LegacyLuaOperation::InputString:
         {
-            std::ostringstream line;
-            line << "evt._InputString(" << event.eventId << ", " << static_cast<unsigned>(instruction.step + 1);
-
-            if (!instruction.arguments.empty())
-            {
-                line << ", " << instruction.arguments[0];
-            }
-            else
-            {
-                line << ", 0";
-            }
-
-            if (instruction.text && !instruction.text->empty())
-            {
-                line << ", " << luaQuoted(*instruction.text);
-            }
-
-            line << ")";
-            emitIndentedLineWithComment(stream, line.str(), std::nullopt, 2);
+            emitIndentedLineWithComment(stream, formatInputStringCall(event, instruction), std::nullopt, 2);
             emitIndentedLineWithComment(stream, "return nil", std::nullopt, 2);
             stepTerminated = true;
             return;
@@ -7601,12 +7972,16 @@ void emitCanShowTopicFunction(
                         emitIndentedLineWithComment(stream, "_saw = true", std::nullopt, 2);
                         emitIndentedLineWithComment(
                             stream,
-                            "if evt.CheckMonstersKilled(" + std::to_string(instruction.arguments[0]) + ", "
+                            "if evt.CheckMonstersKilled(" + formatActorKillCheck(instruction.arguments[0]) + ", "
                             + std::to_string(instruction.arguments[1]) + ", "
                             + std::to_string(instruction.arguments[2]) + ", "
                             + (instruction.arguments[3] != 0 ? "true" : "false") + ") then return "
                             + std::to_string(*instruction.jumpTargetStep) + " end",
-                            std::nullopt,
+                            formatActorKilledComment(
+                                instruction.arguments[0],
+                                instruction.arguments[1],
+                                instruction.arguments[2],
+                                lookups),
                             2);
                     }
                     break;
@@ -7695,6 +8070,27 @@ void emitMetadata(
     for (const EvtEvent &event : evtProgram.getEvents())
     {
         if (!hasOnLoadTrigger(event))
+        {
+            continue;
+        }
+
+        if (wroteEntry)
+        {
+            stream << ", ";
+        }
+
+        stream << event.eventId;
+        wroteEntry = true;
+    }
+
+    stream << "},\n";
+    stream << "    onLeave = {";
+
+    wroteEntry = false;
+
+    for (const EvtEvent &event : evtProgram.getEvents())
+    {
+        if (!hasOnLeaveTrigger(event))
         {
             continue;
         }

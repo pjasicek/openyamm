@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -41,12 +42,12 @@ RegisterNoOpEvent(3, "Legacy event 3")
 RegisterNoOpEvent(4, "Legacy event 4")
 
 RegisterEvent(6, "Legacy event 6", function()
-    if IsQBitSet(QBit(243)) then return end
+    if IsQBitSet(QBit(243)) then return end -- Got the heart of air
     evt.ForPlayer(Players.All)
     if not HasItem(608) then return end -- Heart of Air
-    SetQBit(QBit(243))
+    SetQBit(QBit(243)) -- Got the heart of air
     AddValue(Experience, 100000)
-    SetQBit(QBit(207))
+    SetQBit(QBit(207)) -- Heart of Air - I lost it
     return
 end)
 
@@ -224,7 +225,7 @@ RegisterEvent(451, "Take a Drink", function()
     if not IsAtLeast(AirResistance, 10) then
         AddValue(AirResistance, 2)
         evt.StatusText("Air Resistance +10 (Permanent)")
-        AddValue(IsIntellectMoreThanBase, 268)
+        SetAutonote(268) -- Well in the Plane of Air gives a permanent Air Resistance bonus up to an Air Resistance of 10.
         return
     end
     evt.StatusText("Refreshing")

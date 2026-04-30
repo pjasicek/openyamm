@@ -13348,7 +13348,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     );
 
     runCase(
-        "world_actor_killed_policy_actor_id_mm8",
+        "world_actor_killed_policy_unique_name_id",
         [&](std::string &failure)
         {
             RegressionScenario scenario = {};
@@ -13361,19 +13361,19 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             if (scenario.world.checkMonstersKilled(4, 8, 1, true))
             {
-                failure = "actor 8 should not start as killed";
+                failure = "unique-name actor 8 should not start as killed";
                 return false;
             }
 
-            if (!scenario.world.setMapActorDead(8, true))
+            if (!scenario.world.setMapActorDead(39, true))
             {
-                failure = "could not mark actor 8 dead";
+                failure = "could not mark unique-name actor 8 dead";
                 return false;
             }
 
             if (!scenario.world.checkMonstersKilled(4, 8, 1, true))
             {
-                failure = "actor-id kill check did not detect dead actor 8";
+                failure = "unique-name kill check did not detect dead actor 8";
                 return false;
             }
 
@@ -13604,9 +13604,10 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
             std::string error;
             std::optional<ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+                "local ActorKillCheck = { UniqueNameId = 4 }\n"
                 "evt.CanShowTopic[1] = function()\n"
                 "    evt._BeginCanShowTopic(1)\n"
-                "    if evt.CheckMonstersKilled(4, 8, 1, true) then\n"
+                "    if evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 8, 1, true) then\n"
                 "        return true\n"
                 "    end\n"
                 "    return false\n"
@@ -13629,13 +13630,13 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     &scenario.party,
                     &scenario.world))
             {
-                failure = "topic should start hidden while actor 8 is alive";
+                failure = "topic should start hidden while unique-name actor 8 is alive";
                 return false;
             }
 
-            if (!scenario.world.setMapActorDead(8, true))
+            if (!scenario.world.setMapActorDead(39, true))
             {
-                failure = "could not kill actor 8";
+                failure = "could not kill unique-name actor 8";
                 return false;
             }
 
@@ -13646,7 +13647,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                     &scenario.party,
                     &scenario.world))
             {
-                failure = "topic should become visible once actor 8 is dead";
+                failure = "topic should become visible once unique-name actor 8 is dead";
                 return false;
             }
 
@@ -17432,6 +17433,78 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             if (pOut02State == nullptr || !pOut02State->variables.contains(0x2345u) || pOut02State->variables[0x2345u] != 88)
             {
                 failure = "current-map out02 state did not persist across app quick load";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
+        "app_global_npc_group_news_applies_when_restoring_visited_outdoor_map",
+        [&](std::string &failure)
+        {
+            if (!prepareSharedHeadlessGameApplication(
+                    out01QuicksaveSession,
+                    assetFileSystem,
+                    "out03.odm",
+                    false,
+                    failure))
+            {
+                return false;
+            }
+
+            GameApplication &application = out01QuicksaveSession.application;
+            EventRuntimeState *pOut03State = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pOut03State == nullptr)
+            {
+                failure = "missing initial out03 event runtime state";
+                return false;
+            }
+
+            pOut03State->variables[0x3456u] = 99;
+
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "out02.odm", failure))
+            {
+                return false;
+            }
+
+            OutdoorPartyRuntime *pPartyRuntime = GameApplicationTestAccess::outdoorPartyRuntime(application);
+
+            if (pPartyRuntime == nullptr)
+            {
+                failure = "missing outdoor party runtime";
+                return false;
+            }
+
+            pPartyRuntime->party().setNpcGroupNews(16, 10);
+
+            if (!loadHeadlessGameApplicationMap(application, assetFileSystem, "out03.odm", failure))
+            {
+                return false;
+            }
+
+            pOut03State = GameApplicationTestAccess::outdoorWorldRuntime(application)->eventRuntimeState();
+
+            if (pOut03State == nullptr)
+            {
+                failure = "missing restored out03 event runtime state";
+                return false;
+            }
+
+            if (!pOut03State->variables.contains(0x3456u) || pOut03State->variables[0x3456u] != 99)
+            {
+                failure = "out03 visited state was not restored";
+                return false;
+            }
+
+            const std::unordered_map<uint32_t, uint32_t>::const_iterator newsIt =
+                pOut03State->npcGroupNews.find(16);
+
+            if (newsIt == pOut03State->npcGroupNews.end() || newsIt->second != 10)
+            {
+                failure = "party-global npc group news was not merged into restored out03 runtime";
                 return false;
             }
 

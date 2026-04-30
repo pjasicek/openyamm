@@ -21,6 +21,7 @@ constexpr uint32_t BlvLightDisabledAttribute = 0x08u;
 constexpr float IndoorAmbientMin = 0.18f;
 constexpr float IndoorAmbientMax = 1.0f;
 constexpr float IndoorLightScale = 1.35f;
+constexpr float IndoorTorchLightIntensityScale = 1.5f;
 constexpr uint8_t DefaultLightAlpha = 224;
 constexpr uint8_t FxLightAlphaFallback = 208;
 constexpr size_t InvalidDecorationDecorVarIndex = static_cast<size_t>(-1);
@@ -978,7 +979,7 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
             torch.position = input.cameraPosition;
             torch.radius = torchLight->radius;
             torch.colorAbgr = torchLight->colorAbgr;
-            torch.intensity = torchLight->intensity;
+            torch.intensity = torchLight->intensity * IndoorTorchLightIntensityScale;
             torch.kind = IndoorRenderLightKind::Torch;
             appendFrameLight(frame, torch, true);
         }

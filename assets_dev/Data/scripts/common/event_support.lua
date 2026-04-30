@@ -147,7 +147,7 @@ support.varTag = support.varTag or {
     DecorVarBegin = 0x00C6,
     DecorVarEnd = 0x00DE,
     AutoNotes = 0x00DF,
-    AutonotesBits = 0x00DF,
+    AutonotesBits = 0x00E1,
     IsMightMoreThanBase = 0x00E0,
     IsIntellectMoreThanBase = 0x00E1,
     IsPersonalityMoreThanBase = 0x00E2,
@@ -191,6 +191,11 @@ support.varTag = support.varTag or {
     Invisible = 0x013A,
     ItemEquipped = 0x013B,
     Players = 0x013E,
+}
+
+support.houseId = support.houseId or {
+    ThroneroomWinGood = 600,
+    ThroneroomWinEvil = 601,
 }
 
 support.faceAttribute = support.faceAttribute or {
@@ -337,13 +342,14 @@ support.mechanismAction = support.mechanismAction or {
     Close = 1,
     Trigger = 2,
 }
+support.doorAction = support.doorAction or support.mechanismAction
 
 support.actorKillCheck = support.actorKillCheck or {
     Any = 0,
     Group = 1,
     MonsterId = 2,
     ActorIdOe = 3,
-    ActorIdMm8 = 4,
+    UniqueNameId = 4,
 }
 
 support.skillJoinedMask = support.skillJoinedMask or {
@@ -358,6 +364,8 @@ local function ensureMetaScope(scopeName)
     evt.meta[scopeName] = evt.meta[scopeName] or {}
 
     local meta = evt.meta[scopeName]
+    meta.onLoad = meta.onLoad or {}
+    meta.onLeave = meta.onLeave or {}
     meta.title = meta.title or {}
     meta.hint = meta.hint or {}
     meta.openedChestIds = meta.openedChestIds or {}
@@ -549,9 +557,9 @@ function support.registerScopeEvent(scopeName, tableName, eventId, title, handle
     end
 
     if handler ~= nil then
-        evt[tableName][eventId] = function()
+        evt[tableName][eventId] = function(...)
             evt._BeginEvent(eventId)
-            handler()
+            handler(...)
         end
     end
 end
@@ -639,7 +647,9 @@ MonsterBits = support.monsterBits
 ItemType = support.itemType
 MechanismState = support.mechanismState
 MechanismAction = support.mechanismAction
+DoorAction = support.doorAction
 ActorKillCheck = support.actorKillCheck
+HouseId = support.houseId
 SkillJoinedMask = support.skillJoinedMask
 PackSelector = support.packSelector
 EnsurePackedSelector = support.ensurePackedSelector
@@ -693,11 +703,16 @@ Players = support.players
 FacetBits = support.facetBits
 MonsterBits = support.monsterBits
 ItemType = support.itemType
+DoorAction = support.doorAction
+ActorKillCheck = support.actorKillCheck
 
 const = const or {}
 const.FacetBits = support.facetBits
 const.MonsterBits = support.monsterBits
 const.ItemType = support.itemType
+const.DoorAction = support.doorAction
+const.ActorKillCheck = support.actorKillCheck
+const.HouseId = support.houseId
 
 -- Compatibility aliases for older/generated scripts. New authored scripts should use CamelCase globals.
 isQBitSet = support.isQBitSet

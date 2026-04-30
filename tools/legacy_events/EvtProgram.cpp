@@ -61,6 +61,17 @@ std::string quote(const std::string &value)
 {
     return "\"" + value + "\"";
 }
+
+std::string formatDoorAction(uint32_t value)
+{
+    switch (value)
+    {
+        case 0: return "DoorAction.Open";
+        case 1: return "DoorAction.Close";
+        case 2: return "DoorAction.Trigger";
+        default: return std::to_string(value);
+    }
+}
 }
 
 bool EvtProgram::loadFromBytes(const std::vector<uint8_t> &bytes)
@@ -621,7 +632,7 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
             break;
 
         case EvtOpcode::ShowMovie:
-            if (const std::optional<uint8_t> value = tryReadU8(3))
+            if (const std::optional<uint8_t> value = tryReadU8(2))
             {
                 instruction.booleanValue = *value;
             }
@@ -645,6 +656,10 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
                 instruction.value3 = *value;
             }
             instruction.stringValue = readNullTerminatedString(record, 28);
+            if (instruction.stringValue && instruction.stringValue->empty())
+            {
+                instruction.stringValue = readNullTerminatedString(record, 29);
+            }
             break;
 
         case EvtOpcode::Compare:
@@ -706,6 +721,21 @@ bool EvtProgram::parseInstruction(const std::vector<uint8_t> &record, EvtInstruc
             if (const std::optional<uint32_t> value = tryReadU32(2))
             {
                 instruction.value1 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(6))
+            {
+                instruction.value2 = *value;
+            }
+
+            if (const std::optional<uint32_t> value = tryReadU32(10))
+            {
+                instruction.value3 = *value;
+            }
+
+            if (const std::optional<uint8_t> value = tryReadU8(14))
+            {
+                instruction.targetStep = *value;
             }
             break;
 
@@ -1015,7 +1045,7 @@ std::string EvtProgram::formatInstruction(const EvtInstruction &instruction, con
 
         case EvtOpcode::ChangeDoorState:
             stream << " {Id=" << (instruction.value1 ? *instruction.value1 : 0)
-                   << " Action=" << (instruction.value2 ? *instruction.value2 : 0) << "}";
+                   << " Action=" << formatDoorAction(instruction.value2 ? *instruction.value2 : 0) << "}";
             break;
 
         case EvtOpcode::StopAnimation:
@@ -1025,6 +1055,15 @@ std::string EvtProgram::formatInstruction(const EvtInstruction &instruction, con
         case EvtOpcode::ToggleIndoorLight:
             stream << " {Id=" << (instruction.value1 ? *instruction.value1 : 0)
                    << " On=" << (instruction.booleanValue ? static_cast<unsigned>(*instruction.booleanValue) : 0)
+                   << "}";
+            break;
+
+        case EvtOpcode::InputString:
+            stream << " {Question=" << (instruction.value1 ? *instruction.value1 : 0)
+                   << " Answer1=" << (instruction.value2 ? *instruction.value2 : 0)
+                   << " Answer2=" << (instruction.value3 ? *instruction.value3 : 0)
+                   << " jump(ok)="
+                   << (instruction.targetStep ? static_cast<unsigned>(*instruction.targetStep) : 0)
                    << "}";
             break;
 

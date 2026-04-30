@@ -5,6 +5,7 @@
 
 #include <cstdint>
 #include <optional>
+#include <array>
 #include <string>
 #include <vector>
 
@@ -12,12 +13,14 @@ namespace OpenYAMM::Game
 {
 struct IndoorSceneEnvironment
 {
+    int64_t lastVisitTime = 0;
     std::string skyTexture;
     int32_t dayBitsRaw = 0;
     uint32_t mapExtraBitsRaw = 0;
     int32_t fogWeakDistance = 0;
     int32_t fogStrongDistance = 0;
     int32_t ceiling = 0;
+    std::array<uint8_t, 24> mapExtraReserved = {};
 };
 
 struct IndoorSceneDecorationFlag
@@ -42,6 +45,12 @@ struct IndoorSceneDoor
     MapDeltaDoor door = {};
 };
 
+struct IndoorSceneSpawn
+{
+    size_t spawnIndex = 0;
+    IndoorSpawn spawn = {};
+};
+
 struct IndoorSceneInitialState
 {
     MapDeltaLocationInfo locationInfo = {};
@@ -61,6 +70,8 @@ struct IndoorSceneData
     std::string geometryFile;
     std::optional<std::string> legacyCompanionFile;
     IndoorSceneEnvironment environment = {};
+    bool hasSpawns = false;
+    std::vector<IndoorSceneSpawn> spawns;
     IndoorSceneInitialState initialState = {};
 };
 

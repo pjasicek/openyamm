@@ -1722,9 +1722,7 @@ bool IndoorRenderer::initialize(
     m_objectTable = objectTable;
     m_pItemTable = &itemTable;
     m_indoorMapData = indoorMapData;
-    m_cachedPortalVisibleSectorMaskValid = false;
-    m_cachedPortalVisibleSectorMask.clear();
-    m_cachedPortalDoorStateSignature.clear();
+    clearPortalVisibilityCaches();
     m_pSceneRuntime = &sceneRuntime;
     m_renderVertices = buildMechanismAdjustedVertices(
         indoorMapData,
@@ -2003,10 +2001,16 @@ bool IndoorRenderer::initialize(
 bool IndoorRenderer::isFaceVisible(
     size_t faceIndex,
     const IndoorFace &face,
+    const std::optional<MapDeltaData> &indoorMapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState
 )
 {
-    if (hasFaceAttribute(face.attributes, FaceAttribute::Invisible))
+    const uint32_t effectiveAttributes =
+        indoorMapDeltaData && faceIndex < indoorMapDeltaData->faceAttributes.size()
+            ? indoorMapDeltaData->faceAttributes[faceIndex]
+            : face.attributes;
+
+    if (hasFaceAttribute(effectiveAttributes, FaceAttribute::Invisible))
     {
         return false;
     }
@@ -2014,7 +2018,21 @@ bool IndoorRenderer::isFaceVisible(
     return !faceHasInvisibleOverride(faceIndex, eventRuntimeState);
 }
 
-std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const
+IndoorRenderer::PortalVisibilityCache &IndoorRenderer::portalVisibilityCache(bool ignoreMechanismBlockers) const
+{
+    return ignoreMechanismBlockers ? m_interactionPortalVisibilityCache : m_renderPortalVisibilityCache;
+}
+
+void IndoorRenderer::clearPortalVisibilityCaches() const
+{
+    m_renderPortalVisibilityCache.clear();
+    m_interactionPortalVisibilityCache.clear();
+}
+
+std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(
+    const bx::Vec3 &cameraPosition,
+    bool ignoreMechanismBlockers
+) const
 {
     if (!m_indoorMapData || m_indoorMapData->sectors.empty())
     {
@@ -2040,32 +2058,31 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
 
     if (startSectorId < 0)
     {
-        m_cachedPortalVisibleSectorMaskValid = false;
-        m_cachedPortalVisibleSectorMask.clear();
-        m_cachedPortalDoorStateSignature.clear();
+        clearPortalVisibilityCaches();
         return {};
     }
 
     const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
     const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
     const std::vector<uint32_t> doorStateSignature = buildDoorStateSignature(mapDeltaData, eventRuntimeState);
+    PortalVisibilityCache &cache = portalVisibilityCache(ignoreMechanismBlockers);
     const float aspectRatio =
         m_lastRenderHeight > 0
         ? static_cast<float>(std::max(m_lastRenderWidth, 1)) / static_cast<float>(m_lastRenderHeight)
         : 1.0f;
 
-    if (m_cachedPortalVisibleSectorMaskValid
-        && m_cachedPortalVisibleSectorId == startSectorId
-        && m_cachedPortalVisibleSectorMask.size() == m_indoorMapData->sectors.size()
-        && m_cachedPortalDoorStateSignature == doorStateSignature
-        && m_cachedPortalCameraX == cameraPosition.x
-        && m_cachedPortalCameraY == cameraPosition.y
-        && m_cachedPortalCameraZ == cameraPosition.z
-        && m_cachedPortalYawRadians == m_cameraYawRadians
-        && m_cachedPortalPitchRadians == m_cameraPitchRadians
-        && m_cachedPortalAspectRatio == aspectRatio)
+    if (cache.valid
+        && cache.sectorId == startSectorId
+        && cache.visibleSectorMask.size() == m_indoorMapData->sectors.size()
+        && cache.doorStateSignature == doorStateSignature
+        && cache.cameraX == cameraPosition.x
+        && cache.cameraY == cameraPosition.y
+        && cache.cameraZ == cameraPosition.z
+        && cache.yawRadians == m_cameraYawRadians
+        && cache.pitchRadians == m_cameraPitchRadians
+        && cache.aspectRatio == aspectRatio)
     {
-        return m_cachedPortalVisibleSectorMask;
+        return cache.visibleSectorMask;
     }
 
     const float cosPitch = std::cos(m_cameraPitchRadians);
@@ -2083,19 +2100,21 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
     input.verticalFovDegrees = 60.0f;
     input.aspectRatio = aspectRatio;
     input.startSectorId = startSectorId;
+    input.ignoreMechanismBlockers = ignoreMechanismBlockers;
 
     const IndoorPortalVisibilityResult visibility = buildIndoorPortalVisibility(input);
-    m_cachedPortalVisibleSectorMaskValid = true;
-    m_cachedPortalVisibleSectorId = startSectorId;
-    m_cachedPortalCameraX = cameraPosition.x;
-    m_cachedPortalCameraY = cameraPosition.y;
-    m_cachedPortalCameraZ = cameraPosition.z;
-    m_cachedPortalYawRadians = m_cameraYawRadians;
-    m_cachedPortalPitchRadians = m_cameraPitchRadians;
-    m_cachedPortalAspectRatio = aspectRatio;
-    m_cachedPortalDoorStateSignature = doorStateSignature;
-    m_cachedPortalVisibleSectorMask = visibility.visibleSectorMask;
-    return m_cachedPortalVisibleSectorMask;
+
+    cache.valid = true;
+    cache.sectorId = startSectorId;
+    cache.cameraX = cameraPosition.x;
+    cache.cameraY = cameraPosition.y;
+    cache.cameraZ = cameraPosition.z;
+    cache.yawRadians = m_cameraYawRadians;
+    cache.pitchRadians = m_cameraPitchRadians;
+    cache.aspectRatio = aspectRatio;
+    cache.doorStateSignature = doorStateSignature;
+    cache.visibleSectorMask = visibility.visibleSectorMask;
+    return cache.visibleSectorMask;
 }
 
 bool IndoorRenderer::isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const
@@ -2253,7 +2272,7 @@ std::vector<int16_t> IndoorRenderer::visibleIndoorMapRevealSectorIds(int16_t sec
 
         if (!face.isPortal
             || face.vertexIndices.empty()
-            || !isFaceVisible(faceId, face, runtimeEventRuntimeStateStorage()))
+            || !isFaceVisible(faceId, face, runtimeMapDeltaData(), runtimeEventRuntimeStateStorage()))
         {
             return false;
         }
@@ -2373,6 +2392,7 @@ void IndoorRenderer::render(
     m_lastRenderHeight = viewHeight;
     bgfx::setViewRect(MainViewId, 0, 0, viewWidth, viewHeight);
     bgfx::setViewMode(MainViewId, bgfx::ViewMode::Sequential);
+    bgfx::setViewClear(MainViewId, BGFX_CLEAR_COLOR | BGFX_CLEAR_DEPTH, 0x000000ffu, 1.0f, 0);
 
     if (!m_isRenderable)
     {
@@ -2435,7 +2455,6 @@ void IndoorRenderer::render(
 
     bgfx::setViewTransform(MainViewId, viewMatrix, projectionMatrix);
     bgfx::touch(MainViewId);
-    const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(eye);
     const GameSettings &settings = gameSession.gameplayScreenRuntime().settingsSnapshot();
     IndoorLightingFrameInput lightingInput = {};
     lightingInput.pMapData = m_indoorMapData ? &m_indoorMapData.value() : nullptr;
@@ -2500,10 +2519,11 @@ void IndoorRenderer::render(
         const auto updateCachedInspectHit =
             [&]() -> const InspectHit &
             {
+                const std::vector<uint8_t> interactionVisibleSectorMask = buildVisibleSectorMask(eye, true);
                 m_cachedInspectHit = inspectAtCursor(
                     *m_indoorMapData,
                     m_renderVertices,
-                    visibleSectorMask,
+                    interactionVisibleSectorMask,
                     rayOrigin,
                     rayDirection,
                     &inspectPickRequest);
@@ -2608,7 +2628,6 @@ void IndoorRenderer::render(
                 | BGFX_STATE_WRITE_A
                 | BGFX_STATE_WRITE_Z
                 | BGFX_STATE_DEPTH_TEST_LEQUAL
-                | BGFX_STATE_BLEND_ALPHA
             );
             bgfx::submit(MainViewId, m_indoorLitProgramHandle);
         }
@@ -2715,10 +2734,10 @@ void IndoorRenderer::submitHudTextureQuad(
     }
 
     TexturedVertex *pVertices = reinterpret_cast<TexturedVertex *>(vertexBuffer.data);
-    pVertices[0] = {x, y, 0.0f, u0, v0};
-    pVertices[1] = {x + quadWidth, y, 0.0f, u1, v0};
-    pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, u1, v1};
-    pVertices[3] = {x, y + quadHeight, 0.0f, u0, v1};
+    pVertices[0] = {x, y, 0.0f, u0, v0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    pVertices[1] = {x + quadWidth, y, 0.0f, u1, v0, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    pVertices[2] = {x + quadWidth, y + quadHeight, 0.0f, u1, v1, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
+    pVertices[3] = {x, y + quadHeight, 0.0f, u0, v1, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f};
 
     uint16_t *pIndices = reinterpret_cast<uint16_t *>(indexBuffer.data);
     pIndices[0] = 0;
@@ -3186,7 +3205,7 @@ std::optional<IndoorRenderer::InspectHit> IndoorRenderer::inspectGameplayWorldHi
         return std::nullopt;
     }
 
-    const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(rayRequest.eye);
+    const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(rayRequest.eye, true);
     return inspectAtCursor(
         *m_indoorMapData,
         m_renderVertices,
@@ -3286,10 +3305,9 @@ GameplayWorldHit IndoorRenderer::translateInspectHitToGameplayWorldHit(
     }
     else if (inspectHit.kind == "mechanism")
     {
-        eventTargetHit.targetKind = GameplayWorldEventTargetKind::Object;
-        eventTargetHit.triggeredEventId = inspectHit.mechanismLinkedEventId != 0
-            ? inspectHit.mechanismLinkedEventId
-            : static_cast<uint16_t>(inspectHit.doorId);
+        worldHit.hasHit = false;
+        worldHit.kind = GameplayWorldHitKind::None;
+        return worldHit;
     }
     else
     {
@@ -3346,9 +3364,7 @@ uint16_t IndoorRenderer::inspectHitEventId(const InspectHit &inspectHit) const
 
     if (inspectHit.kind == "mechanism")
     {
-        return inspectHit.mechanismLinkedEventId != 0
-            ? inspectHit.mechanismLinkedEventId
-            : static_cast<uint16_t>(inspectHit.doorId);
+        return 0;
     }
 
     return 0;
@@ -3454,7 +3470,7 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
     };
 
     std::vector<KeyboardCandidate> candidates;
-    const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(rayRequest.eye);
+    const std::vector<uint8_t> visibleSectorMask = buildVisibleSectorMask(rayRequest.eye, true);
 
     const auto levelBlocksWorldPoint =
         [&](const bx::Vec3 &worldPoint) -> bool
@@ -3476,7 +3492,7 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
                 if (face.vertexIndices.size() < 3
                     || face.isPortal
                     || hasFaceAttribute(face.attributes, FaceAttribute::IsPortal)
-                    || !isFaceVisible(faceIndex, face, runtimeEventRuntimeStateStorage())
+                    || !isFaceVisible(faceIndex, face, runtimeMapDeltaData(), runtimeEventRuntimeStateStorage())
                     || (!visibleSectorMask.empty()
                         && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
                         && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask)))
@@ -3701,7 +3717,7 @@ GameplayWorldHit IndoorRenderer::pickKeyboardGameplayWorldHit(const GameplayWorl
 
         if (face.vertexIndices.empty()
             || (face.cogTriggered == 0 && face.cogNumber == 0)
-            || !isFaceVisible(faceIndex, face, runtimeEventRuntimeStateStorage())
+            || !isFaceVisible(faceIndex, face, runtimeMapDeltaData(), runtimeEventRuntimeStateStorage())
             || (!visibleSectorMask.empty()
                 && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
                 && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask)))
@@ -4168,9 +4184,7 @@ std::optional<IndoorRenderer::InspectHit> IndoorRenderer::inspectHitFromGameplay
     }
     else if (eventTarget.targetKind == GameplayWorldEventTargetKind::Object)
     {
-        inspectHit.kind = "mechanism";
-        inspectHit.doorId = eventTarget.triggeredEventId;
-        inspectHit.mechanismLinkedEventId = eventTarget.triggeredEventId;
+        return std::nullopt;
     }
     else
     {
@@ -4197,11 +4211,6 @@ bool IndoorRenderer::canActivateGameplayWorldHit(const GameplayWorldHit &hit) co
     if (inspectHit->kind == "face")
     {
         return indoorFaceIsInteractionActivatable(inspectHit->attributes, inspectHit->cogTriggered);
-    }
-
-    if (inspectHit->kind == "mechanism")
-    {
-        return inspectHit->mechanismLinkedEventId != 0 || inspectHit->doorId != 0;
     }
 
     return false;
@@ -4237,9 +4246,7 @@ void IndoorRenderer::shutdown()
     m_indoorSpriteObjectBillboardSet.reset();
     m_houseTable.reset();
     m_mechanismBindings.clear();
-    m_cachedPortalVisibleSectorMaskValid = false;
-    m_cachedPortalVisibleSectorMask.clear();
-    m_cachedPortalDoorStateSignature.clear();
+    clearPortalVisibilityCaches();
     m_worldFxSystem.reset();
 
     if (!Engine::BgfxContext::isBgfxInitialized())
@@ -4495,7 +4502,8 @@ void IndoorRenderer::TexturedVertex::init()
     ms_layout.begin()
         .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
         .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
-        .add(bgfx::Attrib::TexCoord1, 1, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord1, 4, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord2, 1, bgfx::AttribType::Float)
         .end();
 }
 
@@ -6434,13 +6442,15 @@ const bgfx::TextureHandle *IndoorRenderer::findIndoorTextureHandle(const std::st
 uint64_t IndoorRenderer::currentTexturedBatchVisualRevision() const
 {
     const EventRuntimeState *pEventRuntimeState = runtimeEventRuntimeState();
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
+    uint64_t revision = mapDeltaData ? mapDeltaData->surfaceRevision : 0;
 
-    if (pEventRuntimeState == nullptr)
+    if (pEventRuntimeState != nullptr)
     {
-        return 0;
+        revision ^= pEventRuntimeState->outdoorSurfaceRevision + 0x9e3779b97f4a7c15ull + (revision << 6) + (revision >> 2);
     }
 
-    return pEventRuntimeState->outdoorSurfaceRevision;
+    return revision;
 }
 
 void IndoorRenderer::rebuildTexturedBatchBounds(TexturedBatch &batch)
@@ -6651,7 +6661,7 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
             continue;
         }
 
-        if (!isFaceVisible(faceIndex, face, eventRuntimeState))
+        if (!isFaceVisible(faceIndex, face, runtimeMapDeltaData(), eventRuntimeState))
         {
             continue;
         }
@@ -7005,7 +7015,7 @@ bool IndoorRenderer::rebuildDerivedGeometryResources()
     }
 
     const std::vector<TerrainVertex> wireframeVertices =
-        buildWireframeVertices(*m_indoorMapData, m_renderVertices, eventRuntimeState);
+        buildWireframeVertices(*m_indoorMapData, m_renderVertices, mapDeltaData, eventRuntimeState);
     const std::vector<TerrainVertex> portalVertices = buildPortalVertices(*m_indoorMapData, m_renderVertices);
     const std::vector<TerrainVertex> doorMarkerVertices =
         mapDeltaData
@@ -7281,7 +7291,7 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
         return vertices;
     }
 
-    if (!isFaceVisible(faceIndex, face, eventRuntimeState))
+    if (!isFaceVisible(faceIndex, face, indoorMapDeltaData, eventRuntimeState))
     {
         return vertices;
     }
@@ -7395,6 +7405,28 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
     {
         TexturedVertex triangleVertices[3] = {};
         bool isTriangleValid = true;
+        const auto faceVerticesAreAdjacent =
+            [&face](size_t first, size_t second) -> bool
+            {
+                const size_t vertexCount = face.vertexIndices.size();
+                return (first + 1) % vertexCount == second || (second + 1) % vertexCount == first;
+            };
+        float boundaryEdgeMask = 0.0f;
+
+        if (faceVerticesAreAdjacent(triangleVertexIndices[1], triangleVertexIndices[2]))
+        {
+            boundaryEdgeMask += 1.0f;
+        }
+
+        if (faceVerticesAreAdjacent(triangleVertexIndices[2], triangleVertexIndices[0]))
+        {
+            boundaryEdgeMask += 2.0f;
+        }
+
+        if (faceVerticesAreAdjacent(triangleVertexIndices[0], triangleVertexIndices[1]))
+        {
+            boundaryEdgeMask += 4.0f;
+        }
 
         for (size_t triangleVertexSlot = 0; triangleVertexSlot < 3; ++triangleVertexSlot)
         {
@@ -7415,6 +7447,10 @@ std::vector<IndoorRenderer::TexturedVertex> IndoorRenderer::buildFaceTexturedVer
             texturedVertex.y = static_cast<float>(vertex.y);
             texturedVertex.z = static_cast<float>(vertex.z);
             texturedVertex.secretPulse = secretFaceVertexFlag(effectiveAttributes);
+            texturedVertex.barycentric0 = triangleVertexSlot == 0 ? 1.0f : 0.0f;
+            texturedVertex.barycentric1 = triangleVertexSlot == 1 ? 1.0f : 0.0f;
+            texturedVertex.barycentric2 = triangleVertexSlot == 2 ? 1.0f : 0.0f;
+            texturedVertex.boundaryEdgeMask = boundaryEdgeMask;
 
             if (useGeometryTextureCoordinates
                 && faceVertexIndex < geometryUs.size()
@@ -7601,6 +7637,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
     InspectHit bestHit = {};
     float bestDistance = std::numeric_limits<float>::max();
     const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
+    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
 
     for (size_t faceIndex = 0; faceIndex < indoorMapData.faces.size(); ++faceIndex)
     {
@@ -7611,12 +7648,18 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
             continue;
         }
 
-        if (face.isPortal || hasFaceAttribute(face.attributes, FaceAttribute::IsPortal))
+        const uint32_t effectiveAttributes =
+            mapDeltaData && faceIndex < mapDeltaData->faceAttributes.size()
+                ? mapDeltaData->faceAttributes[faceIndex]
+                : face.attributes;
+
+        if (face.isPortal || hasFaceAttribute(effectiveAttributes, FaceAttribute::IsPortal))
         {
             continue;
         }
 
-        if (!isFaceVisible(faceIndex, face, eventRuntimeState))
+        if (hasFaceAttribute(effectiveAttributes, FaceAttribute::Invisible)
+            || !isFaceVisible(faceIndex, face, mapDeltaData, eventRuntimeState))
         {
             continue;
         }
@@ -7684,7 +7727,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                 bestHit.textureName = face.textureName;
                 bestHit.name.clear();
                 bestHit.distance = distance;
-                bestHit.attributes = face.attributes;
+                bestHit.attributes = effectiveAttributes;
                 bestHit.cogNumber = face.cogNumber;
                 bestHit.cogTriggered = face.cogTriggered;
                 bestHit.cogTriggerType = face.cogTriggerType;
@@ -7728,8 +7771,6 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
             bestHit.specialTrigger = entity.specialTrigger;
         }
     }
-
-    const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
 
     if (mapDeltaData && m_monsterTable && m_indoorActorPreviewBillboardSet)
     {
@@ -8035,7 +8076,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                         continue;
                     }
 
-                    if (!isFaceVisible(faceIndex, face, eventRuntimeState))
+                    if (!isFaceVisible(faceIndex, face, mapDeltaData, eventRuntimeState))
                     {
                         continue;
                     }
@@ -8442,7 +8483,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 
     const bool objectLoopSelectedWorldItem = bestHit.kind == "object" && bestHit.hasContainingItem;
 
-    if (mapDeltaData && !objectLoopSelectedWorldItem)
+    if (mapDeltaData && !objectLoopSelectedWorldItem && !bestHit.hasHit)
     {
         for (size_t doorIndex = 0; doorIndex < mapDeltaData->doors.size(); ++doorIndex)
         {
@@ -8533,6 +8574,7 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
 std::vector<IndoorRenderer::TerrainVertex> IndoorRenderer::buildWireframeVertices(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &transformedVertices,
+    const std::optional<MapDeltaData> &mapDeltaData,
     const std::optional<EventRuntimeState> &eventRuntimeState
 )
 {
@@ -8548,7 +8590,7 @@ std::vector<IndoorRenderer::TerrainVertex> IndoorRenderer::buildWireframeVertice
             continue;
         }
 
-        if (!isFaceVisible(faceIndex, face, eventRuntimeState))
+        if (!isFaceVisible(faceIndex, face, mapDeltaData, eventRuntimeState))
         {
             continue;
         }

@@ -914,6 +914,24 @@ int resolveCharacterMajorConditionValue(const Character &member)
     return 0;
 }
 
+bool activePartyHasRosterMember(const Party *pParty, uint32_t rosterId)
+{
+    if (pParty == nullptr || rosterId == 0)
+    {
+        return false;
+    }
+
+    for (const Character &member : pParty->members())
+    {
+        if (member.rosterId == rosterId)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 int32_t readCharacterVariableValue(const Character &member, uint32_t rawId)
 {
     switch (static_cast<EvtVariable>(rawId & 0xFFFFu))
@@ -3604,6 +3622,7 @@ struct LuaScopeProgram
     std::unordered_map<uint16_t, int> handlers;
     std::unordered_map<uint16_t, int> canShowTopicHandlers;
     std::vector<uint16_t> onLoadEventIds;
+    std::vector<uint16_t> onLeaveEventIds;
 };
 
 struct LuaExecutionContext
@@ -3832,8 +3851,16 @@ int luaPlaySound(lua_State *pLuaState)
 int luaMoveNpc(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    pRuntimeState->npcHouseOverrides[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))] =
-        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const uint32_t npcId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t houseId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    pRuntimeState->npcHouseOverrides[npcId] = houseId;
+
+    if (pExecutionContext->pParty != nullptr)
+    {
+        pExecutionContext->pParty->setNpcHouseOverride(npcId, houseId);
+    }
+
     return 0;
 }
 
@@ -3946,10 +3973,22 @@ int luaSetSprite(lua_State *pLuaState)
 int luaEnterHouse(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    const uint32_t houseId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     pRuntimeState->messages.clear();
+
+    if (houseId == PseudoHouseId::ThroneroomWinGood || houseId == PseudoHouseId::ThroneroomWinEvil)
+    {
+        EventRuntimeState::PendingWinGame ending = {};
+        ending.houseId = houseId;
+        pRuntimeState->pendingDialogueContext.reset();
+        pRuntimeState->dialogueState = {};
+        pRuntimeState->pendingWinGame = ending;
+        return 0;
+    }
+
     EventRuntimeState::PendingDialogueContext context = {};
     context.kind = DialogueContextKind::HouseService;
-    context.sourceId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    context.sourceId = houseId;
     context.hostHouseId = context.sourceId;
     pRuntimeState->dialogueState.hostHouseId = context.sourceId;
     pRuntimeState->pendingDialogueContext = std::move(context);
@@ -4158,19 +4197,34 @@ int luaSetMonsterGroup(lua_State *pLuaState)
 int luaSetNpcGreeting(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     const uint32_t npcId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
-    pRuntimeState->npcGreetingOverrides[npcId] = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    const uint32_t greetingId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    pRuntimeState->npcGreetingOverrides[npcId] = greetingId;
     pRuntimeState->npcGreetingDisplayCounts[npcId] = 0;
+
+    if (pExecutionContext->pParty != nullptr)
+    {
+        pExecutionContext->pParty->setNpcGreetingOverride(npcId, greetingId);
+    }
+
     return 0;
 }
 
 int luaSetNpcItem(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     const uint32_t npcId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t itemId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
     const bool isGive = lua_gettop(pLuaState) < 3 || luaEventBoolean(pLuaState, 3);
     pRuntimeState->npcItemOverrides[npcId] = isGive ? itemId : 0;
+
+    if (pExecutionContext->pParty != nullptr)
+    {
+        pExecutionContext->pParty->setNpcItemOverride(npcId, isGive ? itemId : 0);
+    }
+
     return 0;
 }
 
@@ -4284,18 +4338,86 @@ int luaSetChestBit(lua_State *pLuaState)
     return 0;
 }
 
-int luaInputString(lua_State *pLuaState)
+void appendLuaStringTable(lua_State *pLuaState, int tableIndex, std::vector<std::string> &values)
+{
+    const lua_Integer tableLength = static_cast<lua_Integer>(lua_rawlen(pLuaState, tableIndex));
+
+    for (lua_Integer index = 1; index <= tableLength; ++index)
+    {
+        lua_rawgeti(pLuaState, tableIndex, index);
+
+        if (lua_type(pLuaState, -1) == LUA_TSTRING)
+        {
+            const char *pValue = lua_tostring(pLuaState, -1);
+            values.emplace_back(pValue != nullptr ? pValue : "");
+        }
+
+        lua_pop(pLuaState, 1);
+    }
+}
+
+int luaAskQuestion(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
+
+    if (pRuntimeState == nullptr)
+    {
+        return 0;
+    }
+
     EventRuntimeState::PendingInputPrompt prompt = {};
     prompt.kind = EventRuntimeState::PendingInputPrompt::Kind::InputString;
     prompt.eventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
     prompt.continueStep = static_cast<uint8_t>(luaL_checkinteger(pLuaState, 2));
     prompt.textId = static_cast<uint32_t>(luaL_optinteger(pLuaState, 3, 0));
 
-    if (lua_gettop(pLuaState) >= 4 && lua_type(pLuaState, 4) == LUA_TSTRING)
+    const int argumentCount = lua_gettop(pLuaState);
+    int textArgumentIndex = 4;
+
+    if (argumentCount >= 4 && lua_type(pLuaState, 4) == LUA_TNUMBER)
     {
-        prompt.text = lua_tostring(pLuaState, 4);
+        prompt.correctStep = static_cast<uint8_t>(lua_tointeger(pLuaState, 4));
+        textArgumentIndex = 5;
+
+        for (int argumentIndex = 5; argumentIndex <= argumentCount; ++argumentIndex)
+        {
+            if (lua_type(pLuaState, argumentIndex) == LUA_TNUMBER)
+            {
+                prompt.answerTextIds.push_back(static_cast<uint32_t>(lua_tointeger(pLuaState, argumentIndex)));
+                textArgumentIndex = argumentIndex + 1;
+                continue;
+            }
+
+            break;
+        }
+    }
+
+    for (int argumentIndex = textArgumentIndex; argumentIndex <= argumentCount; ++argumentIndex)
+    {
+        if (lua_type(pLuaState, argumentIndex) == LUA_TTABLE && prompt.text)
+        {
+            appendLuaStringTable(pLuaState, argumentIndex, prompt.answers);
+            continue;
+        }
+
+        if (lua_type(pLuaState, argumentIndex) == LUA_TSTRING)
+        {
+            const char *pText = lua_tostring(pLuaState, argumentIndex);
+
+            if (prompt.text)
+            {
+                prompt.answers.emplace_back(pText != nullptr ? pText : "");
+            }
+            else
+            {
+                prompt.text = pText != nullptr ? pText : "";
+            }
+        }
+    }
+
+    if (prompt.text && !prompt.text->empty())
+    {
+        pRuntimeState->messages.push_back(*prompt.text);
     }
 
     pRuntimeState->pendingInputPrompt = std::move(prompt);
@@ -4347,10 +4469,9 @@ int luaIsTotalBountyInRange(lua_State *pLuaState)
 
 int luaIsNpcInParty(lua_State *pLuaState)
 {
-    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
     lua_pushboolean(
         pLuaState,
-        pRuntimeState->unavailableNpcIds.contains(static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))));
+        activePartyHasRosterMember(readableParty(pLuaState), static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))));
     return 1;
 }
 
@@ -4615,20 +4736,29 @@ int luaSetLight(lua_State *pLuaState)
 
 int luaSetFacetBit(lua_State *pLuaState)
 {
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    const uint32_t faceId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t cogNumber = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t bit = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
     const bool isOn = luaEventBoolean(pLuaState, 3);
 
+    if (pExecutionContext != nullptr
+        && pExecutionContext->pSceneEventContext != nullptr
+        && pExecutionContext->pSceneEventContext->setFacetBit(cogNumber, bit, isOn))
+    {
+        markOutdoorSurfaceStateChanged(*pRuntimeState);
+        return 0;
+    }
+
     if (isOn)
     {
-        pRuntimeState->facetSetMasks[faceId] |= bit;
-        pRuntimeState->facetClearMasks[faceId] &= ~bit;
+        pRuntimeState->facetSetMasks[cogNumber] |= bit;
+        pRuntimeState->facetClearMasks[cogNumber] &= ~bit;
     }
     else
     {
-        pRuntimeState->facetClearMasks[faceId] |= bit;
-        pRuntimeState->facetSetMasks[faceId] &= ~bit;
+        pRuntimeState->facetClearMasks[cogNumber] |= bit;
+        pRuntimeState->facetSetMasks[cogNumber] &= ~bit;
     }
 
     markOutdoorSurfaceStateChanged(*pRuntimeState);
@@ -4706,17 +4836,33 @@ int luaSetMonGroupBit(lua_State *pLuaState)
 int luaSetNpcTopic(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    pRuntimeState->npcTopicOverrides[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))]
-                                  [static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2))] =
-        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 3));
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const uint32_t npcId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t topicSlotIndex = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    const uint32_t topicId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 3));
+    pRuntimeState->npcTopicOverrides[npcId][topicSlotIndex] = topicId;
+
+    if (pExecutionContext->pParty != nullptr)
+    {
+        pExecutionContext->pParty->setNpcTopicOverride(npcId, topicSlotIndex, topicId);
+    }
+
     return 0;
 }
 
 int luaSetNpcGroupNews(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    pRuntimeState->npcGroupNews[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))] =
-        static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+    const uint32_t groupId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t newsId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
+    pRuntimeState->npcGroupNews[groupId] = newsId;
+
+    if (pExecutionContext->pParty != nullptr)
+    {
+        pExecutionContext->pParty->setNpcGroupNews(groupId, newsId);
+    }
+
     return 0;
 }
 
@@ -4811,7 +4957,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "_BeginEvent", luaBeginEvent);
     registerLuaFunction(pLuaState, "_BeginCanShowTopic", luaBeginCanShowTopic);
     registerLuaFunction(pLuaState, "_RandomJump", luaRandomJump);
-    registerLuaFunction(pLuaState, "_InputString", luaInputString);
+    registerLuaFunction(pLuaState, "AskQuestion", luaAskQuestion);
     registerLuaFunction(pLuaState, "_PressAnyKey", luaPressAnyKey);
     registerLuaFunction(pLuaState, "_SpecialJump", luaSpecialJump);
     registerLuaFunction(pLuaState, "_IsNpcInParty", luaIsNpcInParty);
@@ -4936,6 +5082,7 @@ void releaseScopeProgram(Engine::LuaStateOwner &lua, LuaScopeProgram &scopeProgr
     scopeProgram.handlers.clear();
     scopeProgram.canShowTopicHandlers.clear();
     scopeProgram.onLoadEventIds.clear();
+    scopeProgram.onLeaveEventIds.clear();
 }
 
 void freezeHandlerTable(
@@ -4994,6 +5141,7 @@ LuaScopeProgram buildScopeProgram(
     }
 
     scopeProgram.onLoadEventIds = program.onLoadEventIds();
+    scopeProgram.onLeaveEventIds = program.onLeaveEventIds();
 
     return scopeProgram;
 }
@@ -5058,6 +5206,7 @@ bool invokeLuaHandler(
     const EventRuntime &eventRuntime,
     int handlerReference,
     LuaExecutionContext &executionContext,
+    std::optional<uint8_t> continueStep = std::nullopt,
     std::optional<bool> *pBooleanResult = nullptr)
 {
     if (eventRuntime.m_luaSessionCache == nullptr)
@@ -5069,8 +5218,14 @@ bool invokeLuaHandler(
     session.pExecutionContext = &executionContext;
     lua_State *pLuaState = session.lua.state();
     session.lua.pushRegistryReference(handlerReference);
+
+    if (continueStep)
+    {
+        lua_pushinteger(pLuaState, *continueStep);
+    }
+
     std::optional<std::string> errorMessage;
-    const bool ok = session.lua.call(0, pBooleanResult != nullptr ? 1 : 0, errorMessage);
+    const bool ok = session.lua.call(continueStep ? 1 : 0, pBooleanResult != nullptr ? 1 : 0, errorMessage);
     session.pExecutionContext = nullptr;
 
     if (!ok)
@@ -5149,6 +5304,7 @@ void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
     runtimeState.pendingDialogueContext.reset();
     runtimeState.pendingMapMove.reset();
     runtimeState.pendingMovie.reset();
+    runtimeState.pendingWinGame.reset();
     runtimeState.pendingInputPrompt.reset();
     runtimeState.pendingArcomageGame.reset();
     runtimeState.pendingSounds.clear();
@@ -5166,7 +5322,9 @@ bool EventRuntime::buildOnLoadState(
     const std::optional<ScriptedEventProgram> &localProgram,
     const std::optional<ScriptedEventProgram> &globalProgram,
     const std::optional<MapDeltaData> &mapDeltaData,
-    EventRuntimeState &runtimeState
+    EventRuntimeState &runtimeState,
+    Party *pParty,
+    ISceneEventContext *pSceneEventContext
 ) const
 {
     runtimeState = {};
@@ -5188,6 +5346,17 @@ bool EventRuntime::buildOnLoadState(
         }
     }
 
+    return executeOnLoadEvents(localProgram, globalProgram, runtimeState, pParty, pSceneEventContext);
+}
+
+bool EventRuntime::executeOnLoadEvents(
+    const std::optional<ScriptedEventProgram> &localProgram,
+    const std::optional<ScriptedEventProgram> &globalProgram,
+    EventRuntimeState &runtimeState,
+    Party *pParty,
+    ISceneEventContext *pSceneEventContext
+) const
+{
     if (!ensureLuaSession(*this, localProgram, globalProgram))
     {
         return false;
@@ -5200,6 +5369,8 @@ bool EventRuntime::buildOnLoadState(
 
     LuaExecutionContext executionContext = {};
     executionContext.pRuntimeState = &runtimeState;
+    executionContext.pParty = pParty;
+    executionContext.pSceneEventContext = pSceneEventContext;
     // Some maps queue first-entry UI from an early on-load handler and run setup handlers afterwards.
     executionContext.preservePendingOutputsOnBegin = true;
 
@@ -5234,6 +5405,44 @@ bool EventRuntime::buildOnLoadState(
     }
 
     return true;
+}
+
+bool EventRuntime::executeOnLeaveEvents(
+    const std::optional<ScriptedEventProgram> &localProgram,
+    const std::optional<ScriptedEventProgram> &globalProgram,
+    EventRuntimeState &runtimeState,
+    Party *pParty,
+    ISceneEventContext *pSceneEventContext
+) const
+{
+    if (!localProgram || !ensureLuaSession(*this, localProgram, globalProgram) || m_luaSessionCache == nullptr)
+    {
+        return false;
+    }
+
+    LuaExecutionContext executionContext = {};
+    executionContext.pRuntimeState = &runtimeState;
+    executionContext.pParty = pParty;
+    executionContext.pSceneEventContext = pSceneEventContext;
+
+    bool executedAny = false;
+
+    for (uint16_t eventId : m_luaSessionCache->localScope.onLeaveEventIds)
+    {
+        const auto iterator = m_luaSessionCache->localScope.handlers.find(eventId);
+
+        if (iterator == m_luaSessionCache->localScope.handlers.end())
+        {
+            continue;
+        }
+
+        if (invokeLuaHandler(*this, iterator->second, executionContext))
+        {
+            executedAny = true;
+        }
+    }
+
+    return executedAny;
 }
 
 bool EventRuntime::validateProgramBindings(
@@ -5309,7 +5518,8 @@ bool EventRuntime::executeEventById(
     uint16_t eventId,
     EventRuntimeState &runtimeState,
     Party *pParty,
-    ISceneEventContext *pSceneEventContext
+    ISceneEventContext *pSceneEventContext,
+    std::optional<uint8_t> continueStep
 ) const
 {
     if (eventId == 0)
@@ -5332,14 +5542,14 @@ bool EventRuntime::executeEventById(
 
     if (localIterator != m_luaSessionCache->localScope.handlers.end())
     {
-        return invokeLuaHandler(*this, localIterator->second, executionContext);
+        return invokeLuaHandler(*this, localIterator->second, executionContext, continueStep);
     }
 
     const auto globalIterator = m_luaSessionCache->globalScope.handlers.find(eventId);
 
     if (globalIterator != m_luaSessionCache->globalScope.handlers.end())
     {
-        return invokeLuaHandler(*this, globalIterator->second, executionContext);
+        return invokeLuaHandler(*this, globalIterator->second, executionContext, continueStep);
     }
 
     if ((localProgram && localProgram->isHintOnlyEvent(eventId))
@@ -5357,7 +5567,8 @@ bool EventRuntime::executeNpcTopicEventById(
     uint16_t eventId,
     EventRuntimeState &runtimeState,
     Party *pParty,
-    ISceneEventContext *pSceneEventContext
+    ISceneEventContext *pSceneEventContext,
+    std::optional<uint8_t> continueStep
 ) const
 {
     if (eventId == 0)
@@ -5380,14 +5591,14 @@ bool EventRuntime::executeNpcTopicEventById(
 
     if (globalIterator != m_luaSessionCache->globalScope.handlers.end())
     {
-        return invokeLuaHandler(*this, globalIterator->second, executionContext);
+        return invokeLuaHandler(*this, globalIterator->second, executionContext, continueStep);
     }
 
     const auto localIterator = m_luaSessionCache->localScope.handlers.find(eventId);
 
     if (localIterator != m_luaSessionCache->localScope.handlers.end())
     {
-        return invokeLuaHandler(*this, localIterator->second, executionContext);
+        return invokeLuaHandler(*this, localIterator->second, executionContext, continueStep);
     }
 
     if ((globalProgram && globalProgram->isHintOnlyEvent(eventId))
@@ -5436,7 +5647,7 @@ bool EventRuntime::canShowTopic(
     executionContext.readonly = true;
     std::optional<bool> visible = std::nullopt;
 
-    if (!invokeLuaHandler(*this, iterator->second, executionContext, &visible))
+    if (!invokeLuaHandler(*this, iterator->second, executionContext, std::nullopt, &visible))
     {
         return false;
     }

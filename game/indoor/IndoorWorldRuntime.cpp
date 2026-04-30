@@ -2724,6 +2724,10 @@ void IndoorWorldRuntime::initialize(
     m_pPartyRuntime = pPartyRuntime;
     m_pMapDeltaData = pMapDeltaData;
     m_pEventRuntimeState = pEventRuntimeState;
+    if (m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() && m_pParty != nullptr)
+    {
+        m_pParty->applyGlobalNpcStateTo(**m_pEventRuntimeState);
+    }
     m_pGameplayActorService = pGameplayActorService;
     m_pGameplayProjectileService = pGameplayProjectileService;
     m_pGameplayCombatController = pGameplayCombatController;
@@ -2784,6 +2788,10 @@ void IndoorWorldRuntime::initialize(
     m_pPartyRuntime = pPartyRuntime;
     m_pMapDeltaData = pMapDeltaData;
     m_pEventRuntimeState = pEventRuntimeState;
+    if (m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() && m_pParty != nullptr)
+    {
+        m_pParty->applyGlobalNpcStateTo(**m_pEventRuntimeState);
+    }
     m_pGameplayActorService = pGameplayActorService;
     m_pGameplayProjectileService = nullptr;
     m_pGameplayCombatController = nullptr;
@@ -2936,6 +2944,7 @@ IndoorWorldRuntime::RuntimeGeometryCache &IndoorWorldRuntime::runtimeGeometryCac
         m_runtimeGeometryCache.vertices =
             buildIndoorMechanismAdjustedVertices(*m_pIndoorMapData, mapDeltaData(), eventRuntimeState());
         m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
+        m_runtimeGeometryCache.geometryCache.setAttributeOverrides(mapDeltaData());
     }
 
     m_runtimeGeometryCache.valid = true;
@@ -6105,8 +6114,13 @@ void IndoorWorldRuntime::updateIndoorJournalRevealIfNeeded()
     {
         const IndoorMoveState &moveState = m_pPartyRuntime->movementState();
         const EventRuntimeState *pEventRuntimeState = eventRuntimeState();
-        const uint64_t surfaceRevision =
-            pEventRuntimeState != nullptr ? pEventRuntimeState->outdoorSurfaceRevision : 0;
+        uint64_t surfaceRevision = pMapDeltaData->surfaceRevision;
+
+        if (pEventRuntimeState != nullptr)
+        {
+            surfaceRevision = mixIndoorMinimapSignature(surfaceRevision, pEventRuntimeState->outdoorSurfaceRevision);
+        }
+
         const bool needsRevealUpdate =
             !m_indoorJournalRevealStateValid
             || m_lastIndoorJournalRevealSectorId != moveState.sectorId
@@ -6257,7 +6271,10 @@ void IndoorWorldRuntime::cancelPendingMapTransition()
 {
 }
 
-bool IndoorWorldRuntime::executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount)
+bool IndoorWorldRuntime::executeNpcTopicEvent(
+    uint16_t eventId,
+    size_t &previousMessageCount,
+    std::optional<uint8_t> continueStep)
 {
     EventRuntimeState *pEventRuntimeState = eventRuntimeState();
 
@@ -6274,7 +6291,8 @@ bool IndoorWorldRuntime::executeNpcTopicEvent(uint16_t eventId, size_t &previous
         eventId,
         *pEventRuntimeState,
         m_pParty,
-        this);
+        this,
+        continueStep);
 
     if (!executed)
     {
@@ -9079,8 +9097,11 @@ bool IndoorWorldRuntime::checkMonstersKilled(
                 break;
 
             case EvtActorKillCheck::ActorIdOe:
-            case EvtActorKillCheck::ActorIdMm8:
                 matches = actorIndex == id;
+                break;
+
+            case EvtActorKillCheck::UniqueNameId:
+                matches = actor.uniqueNameIndex == static_cast<int32_t>(id);
                 break;
         }
 
@@ -9121,6 +9142,38 @@ void IndoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMask
         return;
     }
 
+    std::vector<uint32_t> appliedFacetSetMasks;
+    appliedFacetSetMasks.reserve(pEventRuntimeState->facetSetMasks.size());
+
+    for (const std::pair<const uint32_t, uint32_t> &entry : pEventRuntimeState->facetSetMasks)
+    {
+        if (setFacetBit(entry.first, entry.second, true))
+        {
+            appliedFacetSetMasks.push_back(entry.first);
+        }
+    }
+
+    for (uint32_t cogNumber : appliedFacetSetMasks)
+    {
+        pEventRuntimeState->facetSetMasks.erase(cogNumber);
+    }
+
+    std::vector<uint32_t> appliedFacetClearMasks;
+    appliedFacetClearMasks.reserve(pEventRuntimeState->facetClearMasks.size());
+
+    for (const std::pair<const uint32_t, uint32_t> &entry : pEventRuntimeState->facetClearMasks)
+    {
+        if (setFacetBit(entry.first, entry.second, false))
+        {
+            appliedFacetClearMasks.push_back(entry.first);
+        }
+    }
+
+    for (uint32_t cogNumber : appliedFacetClearMasks)
+    {
+        pEventRuntimeState->facetClearMasks.erase(cogNumber);
+    }
+
     pMapDeltaData->eventVariables.mapVars = pEventRuntimeState->mapVars;
     const uint32_t hostileMask = static_cast<uint32_t>(EvtActorAttribute::Hostile);
     std::vector<bool> persistentHostilityMaskTouched(pMapDeltaData->actors.size(), false);
@@ -9130,6 +9183,14 @@ void IndoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMask
         if (actorId < pMapDeltaData->actors.size())
         {
             pMapDeltaData->actors[actorId].attributes |= setMask;
+            if ((setMask & static_cast<uint32_t>(EvtActorAttribute::HasItem)) != 0)
+            {
+                pMapDeltaData->actors[actorId].carriedItemId =
+                    pEventRuntimeState->actorItemOverrides.contains(actorId)
+                        ? pEventRuntimeState->actorItemOverrides.at(actorId)
+                        : 0;
+            }
+
             if ((setMask & hostileMask) != 0)
             {
                 persistentHostilityMaskTouched[actorId] = true;
@@ -9142,6 +9203,11 @@ void IndoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMask
         if (actorId < pMapDeltaData->actors.size())
         {
             pMapDeltaData->actors[actorId].attributes &= ~clearMask;
+            if ((clearMask & static_cast<uint32_t>(EvtActorAttribute::HasItem)) != 0)
+            {
+                pMapDeltaData->actors[actorId].carriedItemId = 0;
+            }
+
             if ((clearMask & hostileMask) != 0)
             {
                 persistentHostilityMaskTouched[actorId] = true;
@@ -9311,6 +9377,65 @@ MapDeltaData *IndoorWorldRuntime::mapDeltaData()
     }
 
     return &**m_pMapDeltaData;
+}
+
+bool IndoorWorldRuntime::setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn)
+{
+    if (cogNumber == 0 || m_pIndoorMapData == nullptr)
+    {
+        return false;
+    }
+
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return false;
+    }
+
+    while (pMapDeltaData->faceAttributes.size() < m_pIndoorMapData->faces.size())
+    {
+        const size_t faceIndex = pMapDeltaData->faceAttributes.size();
+        pMapDeltaData->faceAttributes.push_back(m_pIndoorMapData->faces[faceIndex].attributes);
+    }
+
+    bool matchedAny = false;
+    bool changedAny = false;
+
+    for (size_t faceIndex = 0; faceIndex < m_pIndoorMapData->faces.size(); ++faceIndex)
+    {
+        const IndoorFace &face = m_pIndoorMapData->faces[faceIndex];
+
+        if (face.cogNumber != cogNumber)
+        {
+            continue;
+        }
+
+        matchedAny = true;
+        uint32_t &attributes = pMapDeltaData->faceAttributes[faceIndex];
+        const uint32_t oldAttributes = attributes;
+
+        if (isOn)
+        {
+            attributes |= bit;
+        }
+        else
+        {
+            attributes &= ~bit;
+        }
+
+        changedAny = changedAny || attributes != oldAttributes;
+    }
+
+    if (changedAny)
+    {
+        ++pMapDeltaData->surfaceRevision;
+        invalidateRuntimeGeometryCache();
+        m_indoorJournalRevealStateValid = false;
+        m_cachedGameplayMinimapLinesValid = false;
+    }
+
+    return matchedAny;
 }
 
 std::vector<IndoorActorCollision> IndoorWorldRuntime::actorMovementCollidersForActorMovement(

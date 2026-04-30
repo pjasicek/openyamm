@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4, 5},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -43,12 +44,12 @@ RegisterNoOpEvent(4, "Legacy event 4")
 RegisterNoOpEvent(5, "Legacy event 5")
 
 RegisterEvent(6, "Legacy event 6", function()
-    if IsQBitSet(QBit(242)) then return end
+    if IsQBitSet(QBit(242)) then return end -- Got the heart of fire
     evt.ForPlayer(Players.All)
     if not HasItem(606) then return end -- Heart of Fire
-    SetQBit(QBit(242))
+    SetQBit(QBit(242)) -- Got the heart of fire
     AddValue(Experience, 100000)
-    SetQBit(QBit(205))
+    SetQBit(QBit(205)) -- Heart of Fire - I lost it
     return
 end)
 
@@ -212,7 +213,7 @@ RegisterEvent(451, "Take a Drink", function()
     if not IsAtLeast(FireResistanceBonus, 25) then
         AddValue(FireResistanceBonus, 25)
         evt.StatusText("Fire Resistance +25 (Temporary)")
-        AddValue(IsIntellectMoreThanBase, 270)
+        SetAutonote(270) -- Well in the Plane of Fire gives a temporary Fire Resistance bonus of 25.
         return
     end
     evt.StatusText("Refreshing")

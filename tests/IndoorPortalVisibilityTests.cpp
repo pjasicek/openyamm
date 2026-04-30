@@ -91,6 +91,25 @@ TEST_CASE("indoor portal visibility only traverses portals inside the camera fru
     CHECK_EQ(result.nodes.size(), 2);
 }
 
+TEST_CASE("indoor portal visibility traverses portal faces missing from sector portal lists")
+{
+    IndoorMapData mapData = {};
+    mapData.sectors.resize(2);
+
+    addPortalFace(mapData, 0, 1, 100, -40, 40, -40, 40);
+    mapData.sectors[0].portalFaceIds.clear();
+    mapData.sectors[0].faceIds.clear();
+    mapData.sectors[1].portalFaceIds.clear();
+    mapData.sectors[1].faceIds.clear();
+
+    const IndoorPortalVisibilityResult result = buildIndoorPortalVisibility(makeVisibilityInput(mapData));
+
+    REQUIRE_EQ(result.visibleSectorMask.size(), 2);
+    CHECK_EQ(result.visibleSectorMask[0], 1);
+    CHECK_EQ(result.visibleSectorMask[1], 1);
+    CHECK_EQ(result.acceptedPortalCount, 1);
+}
+
 TEST_CASE("indoor portal visibility carries narrowed portal frustum into child sectors")
 {
     IndoorMapData mapData = {};
@@ -283,6 +302,31 @@ TEST_CASE("indoor portal visibility blocks traversal through closed mechanism do
     REQUIRE_EQ(result.visibleSectorMask.size(), 2);
     CHECK_EQ(result.visibleSectorMask[0], 1);
     CHECK_EQ(result.visibleSectorMask[1], 0);
+}
+
+TEST_CASE("indoor portal visibility can ignore closed mechanism doors for interaction picking")
+{
+    IndoorMapData mapData = {};
+    mapData.sectors.resize(2);
+
+    const uint16_t faceId = addPortalFace(mapData, 0, 1, 100, -40, 40, -40, 40);
+
+    MapDeltaData mapDeltaData = {};
+    mapDeltaData.doors.push_back(makeDoorBlockingFace(
+        1,
+        mapData.faces[faceId].vertexIndices,
+        static_cast<uint16_t>(EvtMechanismState::Closed)
+    ));
+
+    IndoorPortalVisibilityInput input = makeVisibilityInput(mapData);
+    input.pMapDeltaData = &mapDeltaData;
+    input.ignoreMechanismBlockers = true;
+
+    const IndoorPortalVisibilityResult result = buildIndoorPortalVisibility(input);
+
+    REQUIRE_EQ(result.visibleSectorMask.size(), 2);
+    CHECK_EQ(result.visibleSectorMask[0], 1);
+    CHECK_EQ(result.visibleSectorMask[1], 1);
 }
 
 TEST_CASE("indoor portal visibility allows traversal through open mechanism doors")

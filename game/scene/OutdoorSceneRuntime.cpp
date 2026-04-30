@@ -129,6 +129,11 @@ const EventRuntimeState *OutdoorSceneRuntime::eventRuntimeState() const
     return m_pWorldRuntime->eventRuntimeState();
 }
 
+ISceneEventContext *OutdoorSceneRuntime::sceneEventContext()
+{
+    return m_pWorldRuntime;
+}
+
 std::optional<EventRuntimeState::PendingMapMove> OutdoorSceneRuntime::consumePendingMapMove()
 {
     return m_pWorldRuntime->consumePendingMapMove();
@@ -291,7 +296,10 @@ bool OutdoorSceneRuntime::executeEventById(
     return true;
 }
 
-bool OutdoorSceneRuntime::executeNpcTopicEventById(uint16_t eventId, size_t &previousMessageCount)
+bool OutdoorSceneRuntime::executeNpcTopicEventById(
+    uint16_t eventId,
+    size_t &previousMessageCount,
+    std::optional<uint8_t> continueStep)
 {
     EventRuntimeState *pEventRuntimeState = m_pWorldRuntime->eventRuntimeState();
 
@@ -308,7 +316,8 @@ bool OutdoorSceneRuntime::executeNpcTopicEventById(uint16_t eventId, size_t &pre
         eventId,
         *pEventRuntimeState,
         &m_pPartyRuntime->party(),
-        m_pWorldRuntime
+        m_pWorldRuntime,
+        continueStep
     );
 
     if (!executed)

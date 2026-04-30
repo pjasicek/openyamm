@@ -4,6 +4,7 @@ source:
   geometry_file: "d34.blv"
   legacy_companion_file: "d34.dlv"
 environment:
+  last_visit_time: 0
   sky_texture: ""
   day_bits_raw: 0
   map_extra_bits_raw: 0
@@ -21,6 +22,58 @@ environment:
     weak_distance: 0
     strong_distance: 0
   ceiling: 0
+  map_extra_reserved_hex: "000000000000000000000000000000000000000000000000"
+spawns:
+  - spawn_index: 0
+    position:
+      x: -2112
+      y: 2336
+      z: -624
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 1
+    position:
+      x: -1824
+      y: 2016
+      z: -714
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 0
+  - spawn_index: 2
+    position:
+      x: -2656
+      y: 2400
+      z: -706
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 3
+    position:
+      x: -1152
+      y: 832
+      z: -111
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 4
+    position:
+      x: -1280
+      y: 704
+      z: -140
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
 initial_state:
   location:
     respawn_count: 0

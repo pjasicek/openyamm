@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -33,15 +34,15 @@ SetMapMetadata({
 })
 
 RegisterEvent(1, "Legacy event 1", function()
-    if IsQBitSet(QBit(23)) then
-        evt.SetMonGroupBit(35, MonsterBits.Invisible, 0)
-        evt.SetMonGroupBit(36, MonsterBits.Invisible, 0)
-        evt.SetMonGroupBit(37, MonsterBits.Invisible, 0)
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
+        evt.SetMonGroupBit(35, MonsterBits.Invisible, 0) -- actor group 35: Minotaur Peasant
+        evt.SetMonGroupBit(36, MonsterBits.Invisible, 0) -- actor group 36: Minotaur Peasant
+        evt.SetMonGroupBit(37, MonsterBits.Invisible, 0) -- actor group 37: Minotaur Peasant
         evt.SetFacetBit(14, FacetBits.Invisible, 1)
         evt.SetFacetBit(14, FacetBits.Untouchable, 1)
         evt.SetFacetBit(15, FacetBits.Invisible, 0)
         evt.SetFacetBit(15, FacetBits.Untouchable, 0)
-        evt.SetMonGroupBit(38, MonsterBits.Invisible, 0)
+        evt.SetMonGroupBit(38, MonsterBits.Invisible, 0) -- actor group 38: Minotaur Warrior
         evt.SetFacetBit(6, FacetBits.Invisible, 1)
         evt.SetFacetBit(6, FacetBits.Untouchable, 1)
         evt.SetFacetBit(7, FacetBits.Invisible, 1)
@@ -93,10 +94,10 @@ RegisterEvent(1, "Legacy event 1", function()
         evt.SetFacetBit(5, FacetBits.Invisible, 1)
         evt.SetFacetBit(5, FacetBits.Untouchable, 1)
     else
-        evt.SetMonGroupBit(35, MonsterBits.Invisible, 1)
-        evt.SetMonGroupBit(36, MonsterBits.Invisible, 1)
-        evt.SetMonGroupBit(37, MonsterBits.Invisible, 1)
-        evt.SetMonGroupBit(38, MonsterBits.Invisible, 1)
+        evt.SetMonGroupBit(35, MonsterBits.Invisible, 1) -- actor group 35: Minotaur Peasant
+        evt.SetMonGroupBit(36, MonsterBits.Invisible, 1) -- actor group 36: Minotaur Peasant
+        evt.SetMonGroupBit(37, MonsterBits.Invisible, 1) -- actor group 37: Minotaur Peasant
+        evt.SetMonGroupBit(38, MonsterBits.Invisible, 1) -- actor group 38: Minotaur Warrior
     end
 return
 end)
@@ -108,9 +109,9 @@ RegisterNoOpEvent(3, "Legacy event 3")
 RegisterNoOpEvent(4, "Legacy event 4")
 
 RegisterEvent(6, "Legacy event 6", function()
-    if not IsQBitSet(QBit(23)) then return end
-    evt.MoveNPC(13, 0)
-    evt.MoveNPC(68, 175)
+    if not IsQBitSet(QBit(23)) then return end -- Allied with Minotaurs. Rescue the Minotaurs done.
+    evt.MoveNPC(13, 0) -- Masul -> removed
+    evt.MoveNPC(68, 175) -- Masul -> Council Chamber Door
     return
 end)
 
@@ -148,21 +149,21 @@ RegisterEvent(11, "Lever", function()
         evt.SetFacetBit(10, FacetBits.Untouchable, 0)
         evt.SetFacetBit(11, FacetBits.Invisible, 0)
         evt.SetFacetBit(11, FacetBits.Untouchable, 0)
-        evt.SetDoorState(1, 1)
-        evt.SetDoorState(2, 1)
-        evt.SetDoorState(3, 1)
-        evt.SetDoorState(4, 1)
-        evt.SetDoorState(5, 1)
-        evt.SetDoorState(6, 1)
-        evt.SetDoorState(7, 1)
-        evt.SetDoorState(8, 1)
-        evt.SetDoorState(9, 1)
-        evt.SetDoorState(10, 1)
-        evt.SetDoorState(11, 1)
-        evt.SetDoorState(12, 1)
+        evt.SetDoorState(1, DoorAction.Close)
+        evt.SetDoorState(2, DoorAction.Close)
+        evt.SetDoorState(3, DoorAction.Close)
+        evt.SetDoorState(4, DoorAction.Close)
+        evt.SetDoorState(5, DoorAction.Close)
+        evt.SetDoorState(6, DoorAction.Close)
+        evt.SetDoorState(7, DoorAction.Close)
+        evt.SetDoorState(8, DoorAction.Close)
+        evt.SetDoorState(9, DoorAction.Close)
+        evt.SetDoorState(10, DoorAction.Close)
+        evt.SetDoorState(11, DoorAction.Close)
+        evt.SetDoorState(12, DoorAction.Close)
         SetValue(MapVar(12), 0)
     else
-        evt.SetDoorState(1, 0)
+        evt.SetDoorState(1, DoorAction.Open)
         evt.SetFacetBit(1, FacetBits.Invisible, 1)
         evt.SetFacetBit(1, FacetBits.Untouchable, 1)
         SetValue(MapVar(12), 1)
@@ -172,7 +173,7 @@ end, "Lever")
 
 RegisterEvent(12, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(2, 0)
+    evt.SetDoorState(2, DoorAction.Open)
     evt.SetFacetBit(2, FacetBits.Invisible, 1)
     evt.SetFacetBit(2, FacetBits.Untouchable, 1)
     SetValue(MapVar(12), 1)
@@ -181,8 +182,8 @@ end, "Lever")
 
 RegisterEvent(13, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(3, 0)
-    evt.SetDoorState(4, 1)
+    evt.SetDoorState(3, DoorAction.Open)
+    evt.SetDoorState(4, DoorAction.Close)
     evt.SetFacetBit(3, FacetBits.Invisible, 1)
     evt.SetFacetBit(3, FacetBits.Untouchable, 1)
     evt.SetFacetBit(4, FacetBits.Invisible, 0)
@@ -193,8 +194,8 @@ end, "Lever")
 
 RegisterEvent(14, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(4, 0)
-    evt.SetDoorState(3, 1)
+    evt.SetDoorState(4, DoorAction.Open)
+    evt.SetDoorState(3, DoorAction.Close)
     evt.SetFacetBit(4, FacetBits.Invisible, 1)
     evt.SetFacetBit(4, FacetBits.Untouchable, 1)
     evt.SetFacetBit(3, FacetBits.Invisible, 0)
@@ -205,7 +206,7 @@ end, "Lever")
 
 RegisterEvent(15, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(5, 0)
+    evt.SetDoorState(5, DoorAction.Open)
     evt.SetFacetBit(5, FacetBits.Invisible, 1)
     evt.SetFacetBit(5, FacetBits.Untouchable, 1)
     SetValue(MapVar(12), 1)
@@ -214,9 +215,9 @@ end, "Lever")
 
 RegisterEvent(16, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(6, 0)
-    evt.SetDoorState(7, 1)
-    evt.SetDoorState(8, 1)
+    evt.SetDoorState(6, DoorAction.Open)
+    evt.SetDoorState(7, DoorAction.Close)
+    evt.SetDoorState(8, DoorAction.Close)
     evt.SetFacetBit(6, FacetBits.Invisible, 1)
     evt.SetFacetBit(6, FacetBits.Untouchable, 1)
     evt.SetFacetBit(7, FacetBits.Invisible, 0)
@@ -229,9 +230,9 @@ end, "Lever")
 
 RegisterEvent(17, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(6, 1)
-    evt.SetDoorState(7, 0)
-    evt.SetDoorState(8, 1)
+    evt.SetDoorState(6, DoorAction.Close)
+    evt.SetDoorState(7, DoorAction.Open)
+    evt.SetDoorState(8, DoorAction.Close)
     evt.SetFacetBit(6, FacetBits.Invisible, 0)
     evt.SetFacetBit(6, FacetBits.Untouchable, 0)
     evt.SetFacetBit(7, FacetBits.Invisible, 1)
@@ -244,9 +245,9 @@ end, "Lever")
 
 RegisterEvent(18, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(6, 1)
-    evt.SetDoorState(7, 1)
-    evt.SetDoorState(8, 0)
+    evt.SetDoorState(6, DoorAction.Close)
+    evt.SetDoorState(7, DoorAction.Close)
+    evt.SetDoorState(8, DoorAction.Open)
     evt.SetFacetBit(6, FacetBits.Invisible, 0)
     evt.SetFacetBit(6, FacetBits.Untouchable, 0)
     evt.SetFacetBit(7, FacetBits.Invisible, 0)
@@ -259,8 +260,8 @@ end, "Lever")
 
 RegisterEvent(19, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(9, 0)
-    evt.SetDoorState(5, 1)
+    evt.SetDoorState(9, DoorAction.Open)
+    evt.SetDoorState(5, DoorAction.Close)
     evt.SetFacetBit(9, FacetBits.Invisible, 1)
     evt.SetFacetBit(9, FacetBits.Untouchable, 1)
     evt.SetFacetBit(5, FacetBits.Invisible, 0)
@@ -271,8 +272,8 @@ end, "Lever")
 
 RegisterEvent(20, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(10, 0)
-    evt.SetDoorState(5, 1)
+    evt.SetDoorState(10, DoorAction.Open)
+    evt.SetDoorState(5, DoorAction.Close)
     evt.SetFacetBit(10, FacetBits.Invisible, 1)
     evt.SetFacetBit(10, FacetBits.Untouchable, 1)
     evt.SetFacetBit(5, FacetBits.Invisible, 0)
@@ -283,8 +284,8 @@ end, "Lever")
 
 RegisterEvent(21, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(11, 0)
-    evt.SetDoorState(5, 1)
+    evt.SetDoorState(11, DoorAction.Open)
+    evt.SetDoorState(5, DoorAction.Close)
     evt.SetFacetBit(11, FacetBits.Invisible, 1)
     evt.SetFacetBit(11, FacetBits.Untouchable, 1)
     evt.SetFacetBit(5, FacetBits.Invisible, 0)
@@ -295,8 +296,8 @@ end, "Lever")
 
 RegisterEvent(22, "Lever", function()
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SetDoorState(12, 0)
-    evt.SetDoorState(13, 0)
+    evt.SetDoorState(12, DoorAction.Open)
+    evt.SetDoorState(13, DoorAction.Open)
     evt.SetFacetBit(1, FacetBits.Invisible, 1)
     evt.SetFacetBit(1, FacetBits.Untouchable, 1)
     evt.SetFacetBit(2, FacetBits.Invisible, 1)
@@ -321,199 +322,199 @@ RegisterEvent(22, "Lever", function()
     evt.SetFacetBit(11, FacetBits.Untouchable, 1)
     evt.SetFacetBit(13, FacetBits.Invisible, 1)
     evt.SetFacetBit(13, FacetBits.Untouchable, 1)
-    ClearQBit(QBit(30))
-    evt.ShowMovie("\"savemino\" ", false)
+    ClearQBit(QBit(30)) -- Rescue the Minotaurs trapped in their lair in Ravage Roaming. - Given by MINOTAUR CLUE GUY (area 8). Turned off when minotaur leader is reached in Minotaur lair dungeon.
+    evt.ShowMovie("\"savemino\" ", true)
     SetValue(MapVar(11), 1)
     return
 end, "Lever")
 
 RegisterEvent(23, "Door", function()
-    evt.SetDoorState(13, 0)
+    evt.SetDoorState(13, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(24, "Door", function()
-    evt.SetDoorState(14, 0)
+    evt.SetDoorState(14, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(25, "Door", function()
-    evt.SetDoorState(15, 0)
+    evt.SetDoorState(15, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(26, "Door", function()
-    evt.SetDoorState(16, 0)
+    evt.SetDoorState(16, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(27, "Door", function()
-    evt.SetDoorState(17, 0)
+    evt.SetDoorState(17, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(28, "Door", function()
-    evt.SetDoorState(18, 0)
+    evt.SetDoorState(18, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(29, "Door", function()
-    evt.SetDoorState(19, 0)
+    evt.SetDoorState(19, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(30, "Door", function()
-    evt.SetDoorState(20, 0)
+    evt.SetDoorState(20, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(31, "Door", function()
-    evt.SetDoorState(21, 0)
+    evt.SetDoorState(21, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(32, "Door", function()
-    evt.SetDoorState(22, 0)
+    evt.SetDoorState(22, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(33, "Door", function()
-    evt.SetDoorState(23, 0)
+    evt.SetDoorState(23, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(34, "Door", function()
-    evt.SetDoorState(24, 0)
+    evt.SetDoorState(24, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(35, "Door", function()
-    evt.SetDoorState(25, 0)
+    evt.SetDoorState(25, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(36, "Door", function()
-    evt.SetDoorState(26, 0)
+    evt.SetDoorState(26, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(37, "Door", function()
-    evt.SetDoorState(27, 0)
+    evt.SetDoorState(27, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(38, "Door", function()
-    evt.SetDoorState(28, 0)
+    evt.SetDoorState(28, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(39, "Door", function()
-    evt.SetDoorState(29, 0)
+    evt.SetDoorState(29, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(40, "Door", function()
-    evt.SetDoorState(30, 0)
+    evt.SetDoorState(30, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(41, "Door", function()
-    evt.SetDoorState(31, 0)
+    evt.SetDoorState(31, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(42, "Door", function()
-    evt.SetDoorState(32, 0)
+    evt.SetDoorState(32, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(43, "Door", function()
-    evt.SetDoorState(33, 0)
+    evt.SetDoorState(33, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(44, "Door", function()
-    evt.SetDoorState(34, 0)
+    evt.SetDoorState(34, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(45, "Door", function()
-    evt.SetDoorState(35, 0)
+    evt.SetDoorState(35, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(46, "Door", function()
-    evt.SetDoorState(36, 0)
+    evt.SetDoorState(36, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(47, "Door", function()
-    evt.SetDoorState(37, 0)
+    evt.SetDoorState(37, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(48, "Door", function()
-    evt.SetDoorState(38, 0)
+    evt.SetDoorState(38, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(49, "Door", function()
-    evt.SetDoorState(39, 0)
+    evt.SetDoorState(39, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(50, "Door", function()
-    evt.SetDoorState(40, 0)
+    evt.SetDoorState(40, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(51, "Door", function()
-    evt.SetDoorState(41, 0)
+    evt.SetDoorState(41, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(52, "Door", function()
-    evt.SetDoorState(42, 0)
+    evt.SetDoorState(42, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(53, "Door", function()
-    evt.SetDoorState(43, 0)
+    evt.SetDoorState(43, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(54, "Door", function()
-    evt.SetDoorState(44, 0)
+    evt.SetDoorState(44, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(55, "Door", function()
-    evt.SetDoorState(45, 0)
+    evt.SetDoorState(45, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(56, "Door", function()
-    evt.SetDoorState(46, 0)
+    evt.SetDoorState(46, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(57, "Door", function()
-    evt.SetDoorState(47, 0)
+    evt.SetDoorState(47, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(58, "Door", function()
-    evt.SetDoorState(48, 0)
+    evt.SetDoorState(48, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(59, "Door", function()
-    evt.SetDoorState(49, 0)
+    evt.SetDoorState(49, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(60, "Door", function()
-    evt.SetDoorState(50, 0)
+    evt.SetDoorState(50, DoorAction.Open)
     return
 end, "Door")
 
@@ -630,7 +631,7 @@ end, "Thanys' House")
 RegisterEvent(204, "Thanys' House", nil, "Thanys' House")
 
 RegisterEvent(205, "Ferris' House", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(403) -- Ferris' House
         return
     end
@@ -655,7 +656,7 @@ end, "Flooded House")
 RegisterEvent(210, "Flooded House", nil, "Flooded House")
 
 RegisterEvent(211, "Weapon shop placeholder", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(406) -- Weapon shop placeholder
         return
     end
@@ -666,7 +667,7 @@ end, "Weapon shop placeholder")
 RegisterEvent(212, "Weapon shop placeholder", nil, "Weapon shop placeholder")
 
 RegisterEvent(213, "Suretail House", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(407) -- Suretail House
         return
     end
@@ -677,7 +678,7 @@ end, "Suretail House")
 RegisterEvent(214, "Suretail House", nil, "Suretail House")
 
 RegisterEvent(215, "Rionel's House", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(408) -- Rionel's House
         return
     end
@@ -688,7 +689,7 @@ end, "Rionel's House")
 RegisterEvent(216, "Rionel's House", nil, "Rionel's House")
 
 RegisterEvent(217, "Armor shop placeholder", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(409) -- Armor shop placeholder
         return
     end
@@ -699,7 +700,7 @@ end, "Armor shop placeholder")
 RegisterEvent(218, "Armor shop placeholder", nil, "Armor shop placeholder")
 
 RegisterEvent(219, "Magic shop placeholder", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(410) -- Magic shop placeholder
         return
     end
@@ -710,7 +711,7 @@ end, "Magic shop placeholder")
 RegisterEvent(220, "Magic shop placeholder", nil, "Magic shop placeholder")
 
 RegisterEvent(221, "Spell shop placeholder", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(411) -- Spell shop placeholder
         return
     end
@@ -721,7 +722,7 @@ end, "Spell shop placeholder")
 RegisterEvent(222, "Spell shop placeholder", nil, "Spell shop placeholder")
 
 RegisterEvent(223, "Ulbrecht's House", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(412) -- Ulbrecht's House
         return
     end
@@ -732,7 +733,7 @@ end, "Ulbrecht's House")
 RegisterEvent(224, "Ulbrecht's House", nil, "Ulbrecht's House")
 
 RegisterEvent(225, "Senjac's House", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(413) -- Senjac's House
         return
     end
@@ -743,7 +744,7 @@ end, "Senjac's House")
 RegisterEvent(226, "Senjac's House", nil, "Senjac's House")
 
 RegisterEvent(227, "Alchemist placeholder", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(414) -- Alchemist placeholder
         return
     end
@@ -754,7 +755,7 @@ end, "Alchemist placeholder")
 RegisterEvent(228, "Alchemist placeholder", nil, "Alchemist placeholder")
 
 RegisterEvent(229, "Temple placeholder", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(415) -- Temple placeholder
         return
     end
@@ -767,18 +768,18 @@ RegisterEvent(230, "Temple placeholder", nil, "Temple placeholder")
 RegisterEvent(401, "Fountain", nil, "Fountain")
 
 RegisterEvent(451, "Drink from the Fountain", function()
-    if not IsQBitSet(QBit(184)) then
-        SetQBit(QBit(184))
+    if not IsQBitSet(QBit(184)) then -- Balthazar Town Portal
+        SetQBit(QBit(184)) -- Balthazar Town Portal
     end
     if IsAtLeast(MaxHealth, 0) then return end
     AddValue(CurrentHealth, 25)
     evt.StatusText("Your wounds begin to heal")
-    AddValue(IsIntellectMoreThanBase, 266)
+    SetAutonote(266) -- Fountain in Balthazar Lair restores Hit Points.
     return
 end, "Drink from the Fountain")
 
 RegisterEvent(452, "Lotts' House", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(416) -- Lotts' House
         return
     end
@@ -789,7 +790,7 @@ end, "Lotts' House")
 RegisterEvent(453, "Lotts' House", nil, "Lotts' House")
 
 RegisterEvent(454, "Hollyfield House", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(417) -- Hollyfield House
         return
     end
@@ -800,7 +801,7 @@ end, "Hollyfield House")
 RegisterEvent(455, "Hollyfield House", nil, "Hollyfield House")
 
 RegisterEvent(456, "Tessalar's House", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(418) -- Tessalar's House
         return
     end
@@ -811,7 +812,7 @@ end, "Tessalar's House")
 RegisterEvent(457, "Tessalar's House", nil, "Tessalar's House")
 
 RegisterEvent(458, "Stormeye's House", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(419) -- Stormeye's House
         return
     end
@@ -822,7 +823,7 @@ end, "Stormeye's House")
 RegisterEvent(459, "Stormeye's House", nil, "Stormeye's House")
 
 RegisterEvent(460, "Bank placeholder", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(420) -- Bank placeholder
         return
     end
@@ -833,7 +834,7 @@ end, "Bank placeholder")
 RegisterEvent(461, "Bank placeholder", nil, "Bank placeholder")
 
 RegisterEvent(462, "Training hall placeholder", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(421) -- Training hall placeholder
         return
     end
@@ -844,7 +845,7 @@ end, "Training hall placeholder")
 RegisterEvent(463, "Training hall placeholder", nil, "Training hall placeholder")
 
 RegisterEvent(464, "Ayzar's Axes", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(6) -- Ayzar's Axes
         return
     end
@@ -855,7 +856,7 @@ end, "Ayzar's Axes")
 RegisterEvent(465, "Ayzar's Axes", nil, "Ayzar's Axes")
 
 RegisterEvent(466, "Linked Mail", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(20) -- Linked Mail
         return
     end
@@ -866,7 +867,7 @@ end, "Linked Mail")
 RegisterEvent(467, "Linked Mail", nil, "Linked Mail")
 
 RegisterEvent(468, "Amulets of Power", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(34) -- Amulets of Power
         return
     end
@@ -877,7 +878,7 @@ end, "Amulets of Power")
 RegisterEvent(469, "Amulets of Power", nil, "Amulets of Power")
 
 RegisterEvent(470, "Perius' Powders", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(47) -- Perius' Powders
         return
     end
@@ -888,7 +889,7 @@ end, "Perius' Powders")
 RegisterEvent(471, "Perius' Powders", nil, "Perius' Powders")
 
 RegisterEvent(472, "The Shaman", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(79) -- The Shaman
         return
     end
@@ -899,7 +900,7 @@ end, "The Shaman")
 RegisterEvent(473, "The Shaman", nil, "The Shaman")
 
 RegisterEvent(474, "Balthazar Academy", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(94) -- Balthazar Academy
         return
     end
@@ -910,7 +911,7 @@ end, "Balthazar Academy")
 RegisterEvent(475, "Balthazar Academy", nil, "Balthazar Academy")
 
 RegisterEvent(476, "Bank of Balthazar", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(132) -- Bank of Balthazar
         return
     end
@@ -921,7 +922,7 @@ end, "Bank of Balthazar")
 RegisterEvent(477, "Bank of Balthazar", nil, "Bank of Balthazar")
 
 RegisterEvent(478, "Guild of Mind", function()
-    if IsQBitSet(QBit(23)) then
+    if IsQBitSet(QBit(23)) then -- Allied with Minotaurs. Rescue the Minotaurs done.
         evt.EnterHouse(145) -- Guild of Mind
         return
     end

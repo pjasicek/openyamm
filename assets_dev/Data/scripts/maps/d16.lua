@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4, 5},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -41,29 +42,29 @@ RegisterNoOpEvent(3, "Legacy event 3")
 RegisterNoOpEvent(4, "Legacy event 4")
 
 RegisterEvent(5, "Legacy event 5", function()
-    if IsQBitSet(QBit(22)) then
-        evt.SetMonGroupBit(22, MonsterBits.Hostile, 1)
-        evt.SetMonGroupBit(23, MonsterBits.Hostile, 1)
-        evt.SetMonGroupBit(43, MonsterBits.Hostile, 1)
+    if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
+        evt.SetMonGroupBit(22, MonsterBits.Hostile, 1) -- actor group 22: spawn Dragon Hunter A
+        evt.SetMonGroupBit(23, MonsterBits.Hostile, 1) -- actor group 23: Crusader, Dragonslayer, spawn Dragon Hunter A
+        evt.SetMonGroupBit(43, MonsterBits.Hostile, 1) -- actor group 43: spawn Human Mercenary A
         SetValue(MapVar(11), 2)
         return
-    elseif IsQBitSet(QBit(234)) then
+    elseif IsQBitSet(QBit(234)) then -- You have Pissed of the Dragon hunters
         if not IsAtLeast(Counter(9), 1344) then
-            evt.SetMonGroupBit(22, MonsterBits.Hostile, 1)
-            evt.SetMonGroupBit(23, MonsterBits.Hostile, 1)
-            evt.SetMonGroupBit(43, MonsterBits.Hostile, 1)
+            evt.SetMonGroupBit(22, MonsterBits.Hostile, 1) -- actor group 22: spawn Dragon Hunter A
+            evt.SetMonGroupBit(23, MonsterBits.Hostile, 1) -- actor group 23: Crusader, Dragonslayer, spawn Dragon Hunter A
+            evt.SetMonGroupBit(43, MonsterBits.Hostile, 1) -- actor group 43: spawn Human Mercenary A
             SetValue(MapVar(11), 2)
             return
         end
-        evt.SetMonGroupBit(22, MonsterBits.Hostile, 0)
-        evt.SetMonGroupBit(23, MonsterBits.Hostile, 0)
-        evt.SetMonGroupBit(43, MonsterBits.Hostile, 0)
-        ClearQBit(QBit(234))
+        evt.SetMonGroupBit(22, MonsterBits.Hostile, 0) -- actor group 22: spawn Dragon Hunter A
+        evt.SetMonGroupBit(23, MonsterBits.Hostile, 0) -- actor group 23: Crusader, Dragonslayer, spawn Dragon Hunter A
+        evt.SetMonGroupBit(43, MonsterBits.Hostile, 0) -- actor group 43: spawn Human Mercenary A
+        ClearQBit(QBit(234)) -- You have Pissed of the Dragon hunters
     else
-        evt.SetMonGroupBit(22, MonsterBits.Hostile, 0)
-        evt.SetMonGroupBit(23, MonsterBits.Hostile, 0)
-        evt.SetMonGroupBit(43, MonsterBits.Hostile, 0)
-        ClearQBit(QBit(234))
+        evt.SetMonGroupBit(22, MonsterBits.Hostile, 0) -- actor group 22: spawn Dragon Hunter A
+        evt.SetMonGroupBit(23, MonsterBits.Hostile, 0) -- actor group 23: Crusader, Dragonslayer, spawn Dragon Hunter A
+        evt.SetMonGroupBit(43, MonsterBits.Hostile, 0) -- actor group 43: spawn Human Mercenary A
+        ClearQBit(QBit(234)) -- You have Pissed of the Dragon hunters
     end
 return
 end)
@@ -75,41 +76,46 @@ RegisterNoOpEvent(7, "Legacy event 7")
 RegisterNoOpEvent(8, "Legacy event 8")
 
 RegisterEvent(9, "Legacy event 9", function()
-    if IsQBitSet(QBit(21)) then
+    if IsQBitSet(QBit(21)) then -- Allied with Charles Quioxte's Dragon Hunters. Return Dragon Egg to Quixote done.
         return
-    elseif IsQBitSet(QBit(158)) then
+    elseif IsQBitSet(QBit(158)) then -- Killed all Dragon Hunters in Garrote Gorge wilderness area
         return
     else
-        if not evt.CheckMonstersKilled(2, 42, 0, false) then return end
-        if not evt.CheckMonstersKilled(2, 43, 0, false) then return end
-        if not evt.CheckMonstersKilled(2, 44, 0, false) then return end
-        SetQBit(QBit(159))
-        SetQBit(QBit(158))
-        SetQBit(QBit(225))
-        ClearQBit(QBit(225))
+        if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 42, 0, false) then return end -- monster 42 "Dragon Hunter"; all matching actors defeated
+        if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 43, 0, false) then return end -- monster 43 "Crusader"; all matching actors defeated
+        if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 44, 0, false) then return end -- monster 44 "Dragonslayer"; all matching actors defeated
+        if not IsQBitSet(QBit(159)) then -- Questbit set for Riki
+            SetQBit(QBit(159)) -- Questbit set for Riki
+            evt.SummonMonsters(1, 1, 64, 1888, 1, 0, 1, 0) -- encounter slot 1 "Dragon Hunter" tier A, count 64, pos=(1888, 1, 0), actor group 1, no unique actor name
+            evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
+            return
+        end
+        SetQBit(QBit(158)) -- Killed all Dragon Hunters in Garrote Gorge wilderness area
+        SetQBit(QBit(225)) -- dead questbit for internal use(bling)
+        ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
         evt.StatusText("You have killed all of the Dragon Hunters")
         return
     end
 end)
 
 RegisterEvent(10, "Legacy event 10", function()
-    if IsQBitSet(QBit(21)) then
-        evt.MoveNPC(19, 0)
-        evt.MoveNPC(65, 175)
-        evt.MoveNPC(64, 179)
-        if IsQBitSet(QBit(234)) then
+    if IsQBitSet(QBit(21)) then -- Allied with Charles Quioxte's Dragon Hunters. Return Dragon Egg to Quixote done.
+        evt.MoveNPC(19, 0) -- Sir Charles Quixote -> removed
+        evt.MoveNPC(65, 175) -- Sir Charles Quixote -> Council Chamber Door
+        evt.MoveNPC(64, 179) -- Garret Deverro -> Charles Quixote's House
+        if IsQBitSet(QBit(234)) then -- You have Pissed of the Dragon hunters
             return
         elseif IsAtLeast(MapVar(11), 2) then
-            SetQBit(QBit(234))
+            SetQBit(QBit(234)) -- You have Pissed of the Dragon hunters
             SetValue(Counter(9), 0)
             return
         else
             return
         end
-    elseif IsQBitSet(QBit(234)) then
+    elseif IsQBitSet(QBit(234)) then -- You have Pissed of the Dragon hunters
         return
     elseif IsAtLeast(MapVar(11), 2) then
-        SetQBit(QBit(234))
+        SetQBit(QBit(234)) -- You have Pissed of the Dragon hunters
         SetValue(Counter(9), 0)
         return
     else
@@ -118,252 +124,252 @@ RegisterEvent(10, "Legacy event 10", function()
 end)
 
 RegisterEvent(11, "Bookshelf", function()
-    evt.SetDoorState(1, 0)
+    evt.SetDoorState(1, DoorAction.Open)
     return
 end, "Bookshelf")
 
 RegisterEvent(12, "Door", function()
-    evt.SetDoorState(2, 0)
+    evt.SetDoorState(2, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(13, "Door", function()
-    evt.SetDoorState(3, 0)
+    evt.SetDoorState(3, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(14, "Door", function()
-    evt.SetDoorState(4, 0)
+    evt.SetDoorState(4, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(15, "Door", function()
-    evt.SetDoorState(5, 0)
+    evt.SetDoorState(5, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(16, "Door", function()
-    evt.SetDoorState(6, 0)
+    evt.SetDoorState(6, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(17, "Door", function()
-    evt.SetDoorState(7, 0)
+    evt.SetDoorState(7, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(18, "Door", function()
-    evt.SetDoorState(8, 0)
+    evt.SetDoorState(8, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(19, "Door", function()
-    evt.SetDoorState(9, 0)
+    evt.SetDoorState(9, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(20, "Door", function()
-    evt.SetDoorState(10, 0)
+    evt.SetDoorState(10, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(21, "Door", function()
-    evt.SetDoorState(11, 0)
+    evt.SetDoorState(11, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(22, "Door", function()
-    evt.SetDoorState(12, 0)
+    evt.SetDoorState(12, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(23, "Door", function()
-    evt.SetDoorState(13, 0)
+    evt.SetDoorState(13, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(24, "Door", function()
-    evt.SetDoorState(14, 0)
+    evt.SetDoorState(14, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(25, "Door", function()
-    evt.SetDoorState(15, 0)
+    evt.SetDoorState(15, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(26, "Door", function()
-    evt.SetDoorState(16, 0)
+    evt.SetDoorState(16, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(27, "Door", function()
-    evt.SetDoorState(17, 0)
+    evt.SetDoorState(17, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(28, "Door", function()
-    evt.SetDoorState(18, 0)
+    evt.SetDoorState(18, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(29, "Door", function()
-    evt.SetDoorState(19, 0)
+    evt.SetDoorState(19, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(30, "Door", function()
-    evt.SetDoorState(20, 0)
+    evt.SetDoorState(20, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(31, "Door", function()
-    evt.SetDoorState(21, 0)
+    evt.SetDoorState(21, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(32, "Door", function()
-    evt.SetDoorState(22, 0)
+    evt.SetDoorState(22, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(33, "Door", function()
-    evt.SetDoorState(23, 0)
+    evt.SetDoorState(23, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(34, "Door", function()
-    evt.SetDoorState(24, 0)
+    evt.SetDoorState(24, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(35, "Door", function()
-    evt.SetDoorState(25, 0)
+    evt.SetDoorState(25, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(36, "Door", function()
-    evt.SetDoorState(26, 0)
+    evt.SetDoorState(26, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(37, "Door", function()
-    evt.SetDoorState(27, 0)
+    evt.SetDoorState(27, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(38, "Door", function()
-    evt.SetDoorState(28, 0)
+    evt.SetDoorState(28, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(39, "Door", function()
-    evt.SetDoorState(29, 0)
+    evt.SetDoorState(29, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(40, "Door", function()
-    evt.SetDoorState(30, 0)
+    evt.SetDoorState(30, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(41, "Door", function()
-    evt.SetDoorState(31, 0)
+    evt.SetDoorState(31, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(42, "Door", function()
-    evt.SetDoorState(32, 0)
+    evt.SetDoorState(32, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(43, "Door", function()
-    evt.SetDoorState(33, 0)
+    evt.SetDoorState(33, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(44, "Door", function()
-    evt.SetDoorState(34, 0)
+    evt.SetDoorState(34, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(45, "Door", function()
-    evt.SetDoorState(35, 0)
+    evt.SetDoorState(35, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(46, "Door", function()
-    evt.SetDoorState(36, 0)
+    evt.SetDoorState(36, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(47, "Door", function()
-    evt.SetDoorState(37, 0)
+    evt.SetDoorState(37, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(48, "Door", function()
-    evt.SetDoorState(38, 0)
+    evt.SetDoorState(38, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(49, "Door", function()
-    evt.SetDoorState(39, 0)
+    evt.SetDoorState(39, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(50, "Door", function()
-    evt.SetDoorState(40, 0)
+    evt.SetDoorState(40, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(51, "Door", function()
-    evt.SetDoorState(41, 0)
+    evt.SetDoorState(41, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(52, "Door", function()
-    evt.SetDoorState(42, 0)
+    evt.SetDoorState(42, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(53, "Door", function()
-    evt.SetDoorState(43, 0)
+    evt.SetDoorState(43, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(54, "Door", function()
-    evt.SetDoorState(44, 0)
+    evt.SetDoorState(44, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(55, "Door", function()
-    evt.SetDoorState(45, 0)
+    evt.SetDoorState(45, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(56, "Door", function()
-    evt.SetDoorState(46, 0)
+    evt.SetDoorState(46, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(57, "Door", function()
-    evt.SetDoorState(47, 0)
+    evt.SetDoorState(47, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(58, "Door", function()
-    evt.SetDoorState(48, 0)
+    evt.SetDoorState(48, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(59, "Door", function()
-    evt.SetDoorState(49, 0)
+    evt.SetDoorState(49, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(60, "Door", function()
-    evt.SetDoorState(50, 0)
+    evt.SetDoorState(50, DoorAction.Open)
     return
 end, "Door")
 
@@ -492,9 +498,9 @@ end)
 
 RegisterEvent(453, "Legacy event 453", function()
     if IsAtLeast(MapVar(11), 2) then return end
-    evt.SetMonGroupBit(22, MonsterBits.Hostile, 1)
-    evt.SetMonGroupBit(23, MonsterBits.Hostile, 1)
-    evt.SetMonGroupBit(43, MonsterBits.Hostile, 1)
+    evt.SetMonGroupBit(22, MonsterBits.Hostile, 1) -- actor group 22: spawn Dragon Hunter A
+    evt.SetMonGroupBit(23, MonsterBits.Hostile, 1) -- actor group 23: Crusader, Dragonslayer, spawn Dragon Hunter A
+    evt.SetMonGroupBit(43, MonsterBits.Hostile, 1) -- actor group 43: spawn Human Mercenary A
     SetValue(MapVar(11), 2)
     return
 end)
@@ -503,3 +509,4 @@ RegisterEvent(501, "Leave the Dragon Hunter's Camp", function()
     evt.MoveToMap(8909, -15194, 640, 512, 0, 0, 0, 0, "Out05.odm")
     return
 end, "Leave the Dragon Hunter's Camp")
+

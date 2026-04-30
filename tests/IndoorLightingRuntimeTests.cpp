@@ -150,7 +150,7 @@ TEST_CASE("indoor decoration light is hidden when consumable decoration is clear
     CHECK(frame.lights.empty());
 }
 
-TEST_CASE("indoor lighting gives Torchlight priority and scales radius by buff power")
+TEST_CASE("indoor lighting gives Torchlight priority and boosts indoor intensity")
 {
     IndoorMapData map = makeMapWithOneSector();
     Party party = {};
@@ -174,7 +174,7 @@ TEST_CASE("indoor lighting gives Torchlight priority and scales radius by buff p
     REQUIRE_FALSE(frame.lights.empty());
     CHECK(frame.lights.front().kind == IndoorRenderLightKind::Torch);
     CHECK_EQ(frame.lights.front().radius, 2400.0f);
-    CHECK_EQ(frame.lights.front().intensity, 1.0f);
+    CHECK_EQ(frame.lights.front().intensity, 1.5f);
     CHECK_EQ(frame.lights.front().colorAbgr, gameplayTorchLightColorAbgr());
 }
 

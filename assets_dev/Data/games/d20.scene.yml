@@ -4,6 +4,7 @@ source:
   geometry_file: "d20.blv"
   legacy_companion_file: "d20.dlv"
 environment:
+  last_visit_time: 0
   sky_texture: ""
   day_bits_raw: 0
   map_extra_bits_raw: 0
@@ -21,6 +22,268 @@ environment:
     weak_distance: 0
     strong_distance: 0
   ceiling: 0
+  map_extra_reserved_hex: "000000000000000000000000000000000000000000000000"
+spawns:
+  - spawn_index: 0
+    position:
+      x: -2288
+      y: -192
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 1
+    position:
+      x: -2272
+      y: -944
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 2
+    position:
+      x: 648
+      y: -200
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 3
+    position:
+      x: 544
+      y: -1224
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 4
+    position:
+      x: -544
+      y: 728
+      z: 545
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 5
+    position:
+      x: -1312
+      y: 256
+      z: 545
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 6
+    position:
+      x: -2088
+      y: 672
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 7
+    position:
+      x: -1400
+      y: 512
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 8
+    position:
+      x: -456
+      y: 464
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 9
+    position:
+      x: -704
+      y: 5360
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 10
+    position:
+      x: -216
+      y: 5384
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 11
+    position:
+      x: -408
+      y: 4960
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 12
+    position:
+      x: 328
+      y: 2584
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 13
+    position:
+      x: -224
+      y: 608
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 14
+    position:
+      x: 1128
+      y: 848
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 15
+    position:
+      x: -2368
+      y: -304
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 16
+    position:
+      x: 3400
+      y: -2496
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 17
+    position:
+      x: 3544
+      y: -5296
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 18
+    position:
+      x: 4720
+      y: -3856
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 19
+    position:
+      x: 4984
+      y: -320
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 20
+    position:
+      x: 4096
+      y: 264
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 21
+    position:
+      x: 3195
+      y: 1952
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 10
+  - spawn_index: 22
+    position:
+      x: 5384
+      y: 148
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 10
+  - spawn_index: 23
+    position:
+      x: 2955
+      y: -3699
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 10
+  - spawn_index: 24
+    position:
+      x: 44
+      y: 5103
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 10
+  - spawn_index: 25
+    position:
+      x: 357
+      y: 1712
+      z: -1024
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 10
 initial_state:
   location:
     respawn_count: 0

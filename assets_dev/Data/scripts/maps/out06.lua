@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -41,7 +42,7 @@ RegisterNoOpEvent(2, "Legacy event 2")
 RegisterNoOpEvent(3, "Legacy event 3")
 
 RegisterEvent(4, "Legacy event 4", function()
-    evt.SetMonGroupBit(10, MonsterBits.Hostile, 1)
+    evt.SetMonGroupBit(10, MonsterBits.Hostile, 1) -- actor group 10: spawn Skeletons Archer A, spawn Vampire (monster) A, spawn type 2 index 2
     return
 end)
 
@@ -390,7 +391,7 @@ RegisterEvent(101, "Drink from the well", function()
     if not IsAtLeast(BaseIntellect, 16) then
         AddValue(BaseIntellect, 2)
         evt.StatusText("Intellect +2 (permanent)")
-        AddValue(IsIntellectMoreThanBase, 259)
+        SetAutonote(259) -- Will in the city of Twilight under the Shadowspire gives a permanent Intellect bonus up to an Intellect of 16.
         return
     end
     evt.StatusText("Refreshing")
@@ -407,7 +408,7 @@ RegisterEvent(102, "Drink from the well", function()
         else
             AddValue(Gold, 200)
             AddValue(MapVar(31), 1)
-            AddValue(IsIntellectMoreThanBase, 260)
+            SetAutonote(260) -- Well in the city of Twilight under the Shadowspire gives 200 gold if the total gold on party and in the bank is less than 100.
         end
     return
     end
@@ -421,13 +422,13 @@ RegisterEvent(103, "Drink from the well", function()
 end, "Drink from the well")
 
 RegisterEvent(104, "Drink from the fountain", function()
-    if not IsQBitSet(QBit(182)) then
-        SetQBit(QBit(182))
+    if not IsQBitSet(QBit(182)) then -- Twiling Town Portal
+        SetQBit(QBit(182)) -- Twiling Town Portal
     end
     if not IsAtLeast(MaxSpellPoints, 0) then
         AddValue(CurrentSpellPoints, 25)
         evt.StatusText("You mind clears, and you recover some Mana")
-        AddValue(IsIntellectMoreThanBase, 261)
+        SetAutonote(261) -- Fountain in the city of Twilight under the Shadowspire restores Spell Points.
         return
     end
     evt.StatusText("Refreshing")
@@ -435,10 +436,10 @@ RegisterEvent(104, "Drink from the fountain", function()
 end, "Drink from the fountain")
 
 RegisterEvent(150, "Obelisk", function()
-    if IsQBitSet(QBit(191)) then return end
+    if IsQBitSet(QBit(191)) then return end -- Obelisk Area 6
     evt.StatusText("inesonmid")
-    AddValue(IsIntellectMoreThanBase, 24)
-    SetQBit(QBit(191))
+    SetAutonote(24) -- Obelisk message #8: inesonmid
+    SetQBit(QBit(191)) -- Obelisk Area 6
     return
 end, "Obelisk")
 
@@ -532,9 +533,9 @@ RegisterEvent(449, "Fountain", nil, "Fountain")
 RegisterEvent(450, "Legacy event 450", nil)
 
 RegisterEvent(454, "Wolves' Bane", function()
-    if IsQBitSet(QBit(239)) then return end
+    if IsQBitSet(QBit(239)) then return end -- for riki
     AddValue(InventoryItem(332), 332) -- Lloyd's Beacon
-    SetQBit(QBit(239))
+    SetQBit(QBit(239)) -- for riki
     return
 end, "Wolves' Bane")
 
@@ -563,7 +564,7 @@ RegisterEvent(490, "Legacy event 490", function()
 end)
 
 RegisterEvent(494, "Rune post", function()
-    if IsQBitSet(QBit(281)) then
+    if IsQBitSet(QBit(281)) then -- Reagant spout area 6
         return
     elseif IsAtLeast(PerceptionSkill, 3) then
         local randomStep = PickRandomOption(494, 4, {5, 7, 9, 11, 13})
@@ -578,7 +579,7 @@ RegisterEvent(494, "Rune post", function()
         elseif randomStep == 13 then
             evt.SummonItem(220, 5504, -12224, 96, 1000, 1, true) -- Potion Bottle
         end
-        SetQBit(QBit(281))
+        SetQBit(QBit(281)) -- Reagant spout area 6
         return
     else
         return
@@ -586,7 +587,7 @@ RegisterEvent(494, "Rune post", function()
 end, "Rune post")
 
 RegisterEvent(495, "Rune post", function()
-    if IsQBitSet(QBit(279)) then return end
+    if IsQBitSet(QBit(279)) then return end -- Reagant spout area 6
     if not IsAtLeast(PerceptionSkill, 5) then return end
     local randomStep = PickRandomOption(495, 4, {5, 7, 9, 11})
     if randomStep == 5 then
@@ -598,12 +599,12 @@ RegisterEvent(495, "Rune post", function()
     elseif randomStep == 11 then
         evt.SummonItem(2141, -3136, -4032, 348, 1000, 1, true)
     end
-    SetQBit(QBit(279))
+    SetQBit(QBit(279)) -- Reagant spout area 6
     return
 end, "Rune post")
 
 RegisterEvent(496, "Rune post", function()
-    if IsQBitSet(QBit(280)) then
+    if IsQBitSet(QBit(280)) then -- Reagant spout area 6
         return
     elseif IsAtLeast(PerceptionSkill, 7) then
         local randomStep = PickRandomOption(496, 4, {5, 7, 9, 11, 13, 15})
@@ -620,7 +621,7 @@ RegisterEvent(496, "Rune post", function()
         elseif randomStep == 15 then
             evt.SummonItem(245, -12288, 7744, 988, 1000, 1, true) -- Accuracy Boost
         end
-        SetQBit(QBit(280))
+        SetQBit(QBit(280)) -- Reagant spout area 6
         return
     else
         return

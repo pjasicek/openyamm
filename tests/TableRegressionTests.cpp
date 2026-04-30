@@ -209,8 +209,9 @@ TEST_CASE("roster join offer mapping samples")
         uint32_t partyFullTextId = 0;
     };
 
-    const std::array<ExpectedRosterJoinOffer, 8> expectedOffers = {{
+    const std::array<ExpectedRosterJoinOffer, 9> expectedOffers = {{
         {602, 2, 202, 203},
+        {604, 4, 206, 207},
         {606, 6, 210, 211},
         {611, 11, 220, 221},
         {627, 27, 252, 253},

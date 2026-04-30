@@ -427,6 +427,12 @@ EventDialogContent buildEventDialogContent(
         return dialog;
     }
 
+    EventRuntimeState npcRuntimeState = eventRuntimeState;
+    if (pParty != nullptr)
+    {
+        pParty->applyGlobalNpcStateTo(npcRuntimeState);
+    }
+
     if (eventRuntimeState.pendingDialogueContext->kind == DialogueContextKind::HouseService
         && pHouseTable != nullptr
         && pNpcDialogTable != nullptr)
@@ -446,7 +452,7 @@ EventDialogContent buildEventDialogContent(
             const std::optional<uint32_t> residentNpcId = singleSelectableResidentNpcId(
                 *pHouseEntry,
                 *pNpcDialogTable,
-                eventRuntimeState
+                npcRuntimeState
             );
 
             if (residentNpcId && houseActions.empty())
@@ -464,6 +470,7 @@ EventDialogContent buildEventDialogContent(
     dialog.isActive = true;
     dialog.isHouseDialog = context.kind == DialogueContextKind::HouseService;
     dialog.sourceId = context.sourceId;
+    bool allowEmptyNpcTalkDialog = false;
 
     constexpr size_t MaxLineWidth = 58;
     std::vector<std::string> eventMessageLines;
@@ -631,7 +638,7 @@ EventDialogContent buildEventDialogContent(
             if (pNpcDialogTable != nullptr)
             {
                 const std::vector<uint32_t> residentNpcIds =
-                    pNpcDialogTable->getNpcIdsForHouse(pHouseEntry->id, &eventRuntimeState.npcHouseOverrides);
+                    pNpcDialogTable->getNpcIdsForHouse(pHouseEntry->id, &npcRuntimeState.npcHouseOverrides);
                 std::vector<uint32_t> combinedResidentNpcIds = pHouseEntry->residentNpcIds;
 
                 for (uint32_t npcId : residentNpcIds)
@@ -645,9 +652,9 @@ EventDialogContent buildEventDialogContent(
 
                 for (uint32_t residentNpcId : combinedResidentNpcIds)
                 {
-                    const auto overrideIt = eventRuntimeState.npcHouseOverrides.find(residentNpcId);
+                    const auto overrideIt = npcRuntimeState.npcHouseOverrides.find(residentNpcId);
 
-                    if (overrideIt != eventRuntimeState.npcHouseOverrides.end() && overrideIt->second != pHouseEntry->id)
+                    if (overrideIt != npcRuntimeState.npcHouseOverrides.end() && overrideIt->second != pHouseEntry->id)
                     {
                         continue;
                     }
@@ -656,7 +663,7 @@ EventDialogContent buildEventDialogContent(
 
                     if (pResident != nullptr && !pResident->name.empty())
                     {
-                        if (eventRuntimeState.unavailableNpcIds.contains(residentNpcId))
+                        if (npcRuntimeState.unavailableNpcIds.contains(residentNpcId))
                         {
                             continue;
                         }
@@ -682,8 +689,8 @@ EventDialogContent buildEventDialogContent(
         dialog.title = "NPC #" + std::to_string(dialog.sourceId);
 
         const uint32_t overriddenGreetingId =
-            eventRuntimeState.npcGreetingOverrides.contains(dialog.sourceId)
-                ? eventRuntimeState.npcGreetingOverrides.at(dialog.sourceId)
+            npcRuntimeState.npcGreetingOverrides.contains(dialog.sourceId)
+                ? npcRuntimeState.npcGreetingOverrides.at(dialog.sourceId)
                 : 0;
         const NpcGreetingEntry *pGreeting = pNpcDialogTable != nullptr
             ? (overriddenGreetingId != 0
@@ -702,6 +709,10 @@ EventDialogContent buildEventDialogContent(
             && pCurrentOffer->kind == DialogueOfferKind::MasteryTeacher
             && pCurrentOffer->npcId == dialog.sourceId;
         const bool hasEventMessageLines = !eventMessageLines.empty();
+        allowEmptyNpcTalkDialog =
+            context.kind == DialogueContextKind::NpcTalk
+            && allowNpcFallbackContent
+            && (pNpc != nullptr || pGreeting != nullptr);
 
         if (context.kind == DialogueContextKind::NpcNews && dialog.sourceId == 0)
         {
@@ -730,7 +741,7 @@ EventDialogContent buildEventDialogContent(
             && !hasEventMessageLines
             && pGreeting != nullptr)
         {
-            const uint32_t greetingDisplayCount = eventRuntimeState.npcGreetingDisplayCounts[dialog.sourceId];
+            const uint32_t greetingDisplayCount = npcRuntimeState.npcGreetingDisplayCounts[dialog.sourceId];
             const std::string &greetingText =
                 (greetingDisplayCount == 0 || pGreeting->greetingSecondary.empty())
                 ? pGreeting->greetingPrimary
@@ -753,9 +764,9 @@ EventDialogContent buildEventDialogContent(
             const std::optional<ScriptedEventProgram> &globalProgram =
                 pGlobalEventProgram != nullptr ? *pGlobalEventProgram : emptyGlobalProgram;
             const std::unordered_map<uint32_t, std::unordered_map<uint32_t, uint32_t>>::const_iterator overrideIt =
-                eventRuntimeState.npcTopicOverrides.find(dialog.sourceId);
+                npcRuntimeState.npcTopicOverrides.find(dialog.sourceId);
             const std::unordered_map<uint32_t, uint32_t> *pTopicOverrides =
-                overrideIt != eventRuntimeState.npcTopicOverrides.end() ? &overrideIt->second : nullptr;
+                overrideIt != npcRuntimeState.npcTopicOverrides.end() ? &overrideIt->second : nullptr;
             const std::vector<NpcDialogTable::ResolvedTopic> topics =
                 pNpcDialogTable->getTopicsForNpc(dialog.sourceId, pTopicOverrides);
             const EventRuntime eventRuntime = {};
@@ -805,7 +816,7 @@ EventDialogContent buildEventDialogContent(
                     if (!eventRuntime.canShowTopic(
                             globalProgram,
                             static_cast<uint16_t>(topic.id),
-                            eventRuntimeState,
+                            npcRuntimeState,
                             pParty,
                             pSceneEventContext))
                     {
@@ -923,7 +934,7 @@ EventDialogContent buildEventDialogContent(
 
     if (dialog.lines.empty() && dialog.actions.empty())
     {
-        if (!dialog.isHouseDialog)
+        if (!dialog.isHouseDialog && !allowEmptyNpcTalkDialog)
         {
             dialog.lines.push_back("NPC interaction UI is not implemented yet.");
         }

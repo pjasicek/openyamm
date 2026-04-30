@@ -128,6 +128,7 @@ public:
         float desiredVelocityX,
         float desiredVelocityY) const;
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
+    void setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes);
 
 private:
     const OutdoorMapData *m_pOutdoorMapData;

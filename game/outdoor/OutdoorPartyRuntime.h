@@ -25,6 +25,7 @@ public:
     void teleportTo(float x, float y, float footZHint);
     void update(const OutdoorMovementInput &input, float deltaSeconds);
     void setActorColliders(const std::vector<OutdoorActorCollision> &actorColliders);
+    void setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes);
     void applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory = true);
 
     const OutdoorMoveState &movementState() const;

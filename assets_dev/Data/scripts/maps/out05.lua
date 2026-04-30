@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -29,21 +30,21 @@ SetMapMetadata({
     spriteNames = {},
     castSpellIds = {},
     timers = {
-    { eventId = 131, repeating = true, intervalGameMinutes = 2.5, remainingGameMinutes = 2.5 },
+    { eventId = 131, repeating = true, intervalGameMinutes = 10, remainingGameMinutes = 10 },
     { eventId = 479, repeating = true, intervalGameMinutes = 12.5, remainingGameMinutes = 12.5 },
     { eventId = 490, repeating = true, intervalGameMinutes = 7.5, remainingGameMinutes = 7.5 },
     },
 })
 
 RegisterEvent(1, "Legacy event 1", function()
-    if IsQBitSet(QBit(22)) then
-        evt.SetMonGroupBit(22, MonsterBits.Hostile, 1)
-        evt.SetMonGroupBit(23, MonsterBits.Hostile, 1)
-        evt.SetMonGroupBit(24, MonsterBits.Hostile, 1)
+    if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
+        evt.SetMonGroupBit(22, MonsterBits.Hostile, 1) -- actor group 22: spawn Dragon Hunter A
+        evt.SetMonGroupBit(23, MonsterBits.Hostile, 1) -- actor group 23: spawn Dragon Hunter A
+        evt.SetMonGroupBit(24, MonsterBits.Hostile, 1) -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B
         return
-    elseif IsQBitSet(QBit(21)) then
-        evt.SetMonGroupBit(44, MonsterBits.Hostile, 1)
-        evt.SetMonGroupBit(45, MonsterBits.Hostile, 1)
+    elseif IsQBitSet(QBit(21)) then -- Allied with Charles Quioxte's Dragon Hunters. Return Dragon Egg to Quixote done.
+        evt.SetMonGroupBit(44, MonsterBits.Hostile, 1) -- actor group 44: spawn Wimpy Dragon A
+        evt.SetMonGroupBit(45, MonsterBits.Hostile, 1) -- actor group 45: spawn Wimpy Dragon A
         return
     else
         return
@@ -295,7 +296,7 @@ RegisterEvent(101, "Drink from the well", function()
         else
             AddValue(Gold, 200)
             AddValue(MapVar(31), 1)
-            AddValue(IsIntellectMoreThanBase, 256)
+            SetAutonote(256) -- Well at the Dragon Hunters Camp in Garrote Gorge gives 200 gold if the total gold on party and in the bank is less than 100.
         end
     return
     end
@@ -307,7 +308,7 @@ RegisterEvent(102, "Drink from the well", function()
     if not IsAtLeast(FireResistance, 10) then
         AddValue(FireResistance, 2)
         evt.StatusText("Fire Resistance +2 (Permanent)")
-        AddValue(IsIntellectMoreThanBase, 257)
+        SetAutonote(257) -- Well at the Dragon Hunters Camp in Garrote Gorge gives a permanent Fire Resistance bonus up to a Fire Resistance of 10.
         return
     end
     evt.StatusText("Refreshing")
@@ -318,57 +319,265 @@ RegisterEvent(103, "Drink from the well", function()
     if not IsAtLeast(BaseAccuracy, 16) then
         AddValue(BaseAccuracy, 2)
         evt.StatusText("Accuracy +2 (Permanent)")
-        AddValue(IsIntellectMoreThanBase, 258)
+        SetAutonote(258) -- Well at the Dragon Hunters Camp in Garrote Gorge gives a permanent Accuracy bonus up to an Accuracy of 16.
         return
     end
     evt.StatusText("Refreshing")
     return
 end, "Drink from the well")
 
-RegisterEvent(131, "Garrote Gorge kill quest tracker", function()
-    if not IsQBitSet(QBit(22))
-        and not IsQBitSet(QBit(155))
-        and evt.CheckMonstersKilled(2, 189, 0, false)
-        and evt.CheckMonstersKilled(2, 190, 0, false)
-        and evt.CheckMonstersKilled(2, 191, 0, false) then
-        SetQBit(QBit(156))
-        SetQBit(QBit(155))
-        SetQBit(QBit(225))
-        ClearQBit(QBit(225))
-        evt.StatusText("You have killed all of the Dragons")
-    end
-
-    if not IsQBitSet(QBit(21))
-        and not IsQBitSet(QBit(158))
-        and evt.CheckMonstersKilled(2, 42, 0, false)
-        and evt.CheckMonstersKilled(2, 43, 0, false)
-        and evt.CheckMonstersKilled(2, 44, 0, false) then
-        SetQBit(QBit(159))
-        SetQBit(QBit(158))
-        SetQBit(QBit(225))
-        ClearQBit(QBit(225))
-        evt.StatusText("You have killed all of the Dragon Hunters")
-    end
-
-    if not IsQBitSet(QBit(75)) and evt.CheckMonstersKilled(1, 24, 0, false) then
-        SetQBit(QBit(75))
-    end
-
-    if not IsQBitSet(QBit(200)) and evt.CheckMonstersKilled(4, 2, 1, false) then
-        SetQBit(QBit(200))
+RegisterEvent(131, "Legacy event 131", function()
+    if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
+        if IsQBitSet(QBit(21)) then -- Allied with Charles Quioxte's Dragon Hunters. Return Dragon Egg to Quixote done.
+            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                end
+            end
+            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+            return
+        elseif IsQBitSet(QBit(158)) then -- Killed all Dragon Hunters in Garrote Gorge wilderness area
+            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                end
+            end
+            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+            return
+        else
+            if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 42, 0, false) then -- monster 42 "Dragon Hunter"; all matching actors defeated
+                if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 43, 0, false) then -- monster 43 "Crusader"; all matching actors defeated
+                    if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 44, 0, false) then -- monster 44 "Dragonslayer"; all matching actors defeated
+                        if not IsQBitSet(QBit(159)) then -- Questbit set for Riki
+                            SetQBit(QBit(159)) -- Questbit set for Riki
+                            evt.SummonMonsters(3, 1, 1, -30272, -16512, 0, 2, 0) -- encounter slot 3 "Dragon Hunter" tier A, count 1, pos=(-30272, -16512, 0), actor group 2, no unique actor name
+                            evt.SetMonGroupBit(2, MonsterBits.Invisible, 1)
+                            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                end
+                            end
+                            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+                            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+                            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+                            return
+                        end
+                        SetQBit(QBit(158)) -- Killed all Dragon Hunters in Garrote Gorge wilderness area
+                        SetQBit(QBit(225)) -- dead questbit for internal use(bling)
+                        ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
+                        evt.StatusText("You have killed all of the Dragon Hunters")
+                    end
+                end
+            end
+            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                end
+            end
+            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+            return
+        end
+    elseif IsQBitSet(QBit(155)) then -- Killed all Dragons in Garrote Gorge Area
+        if IsQBitSet(QBit(21)) then -- Allied with Charles Quioxte's Dragon Hunters. Return Dragon Egg to Quixote done.
+            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                end
+            end
+            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+            return
+        elseif IsQBitSet(QBit(158)) then -- Killed all Dragon Hunters in Garrote Gorge wilderness area
+            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                end
+            end
+            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+            return
+        else
+            if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 42, 0, false) then -- monster 42 "Dragon Hunter"; all matching actors defeated
+                if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 43, 0, false) then -- monster 43 "Crusader"; all matching actors defeated
+                    if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 44, 0, false) then -- monster 44 "Dragonslayer"; all matching actors defeated
+                        if not IsQBitSet(QBit(159)) then -- Questbit set for Riki
+                            SetQBit(QBit(159)) -- Questbit set for Riki
+                            evt.SummonMonsters(3, 1, 1, -30272, -16512, 0, 2, 0) -- encounter slot 3 "Dragon Hunter" tier A, count 1, pos=(-30272, -16512, 0), actor group 2, no unique actor name
+                            evt.SetMonGroupBit(2, MonsterBits.Invisible, 1)
+                            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                end
+                            end
+                            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+                            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+                            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+                            return
+                        end
+                        SetQBit(QBit(158)) -- Killed all Dragon Hunters in Garrote Gorge wilderness area
+                        SetQBit(QBit(225)) -- dead questbit for internal use(bling)
+                        ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
+                        evt.StatusText("You have killed all of the Dragon Hunters")
+                    end
+                end
+            end
+            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                end
+            end
+            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+            return
+        end
+    else
+        if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 189, 0, false) then -- monster 189 "Hatchling"; all matching actors defeated
+            if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 190, 0, false) then -- monster 190 "Dragonette"; all matching actors defeated
+                if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 191, 0, false) then -- monster 191 "Young Dragon"; all matching actors defeated
+                    if not IsQBitSet(QBit(156)) then -- Questbit set for Riki
+                        SetQBit(QBit(156)) -- Questbit set for Riki
+                        evt.SummonMonsters(2, 1, 1, -30272, -16512, 0, 1, 0) -- encounter slot 2 "Wimpy Dragon" tier A, count 1, pos=(-30272, -16512, 0), actor group 1, no unique actor name
+                        evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
+                        if IsQBitSet(QBit(21)) then -- Allied with Charles Quioxte's Dragon Hunters. Return Dragon Egg to Quixote done.
+                            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                end
+                            end
+                            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+                            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+                            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+                            return
+                        elseif IsQBitSet(QBit(158)) then -- Killed all Dragon Hunters in Garrote Gorge wilderness area
+                            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                end
+                            end
+                            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+                            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+                            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+                            return
+                        else
+                            if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 42, 0, false) then -- monster 42 "Dragon Hunter"; all matching actors defeated
+                                if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 43, 0, false) then -- monster 43 "Crusader"; all matching actors defeated
+                                    if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 44, 0, false) then -- monster 44 "Dragonslayer"; all matching actors defeated
+                                        if not IsQBitSet(QBit(159)) then -- Questbit set for Riki
+                                            SetQBit(QBit(159)) -- Questbit set for Riki
+                                            evt.SummonMonsters(3, 1, 1, -30272, -16512, 0, 2, 0) -- encounter slot 3 "Dragon Hunter" tier A, count 1, pos=(-30272, -16512, 0), actor group 2, no unique actor name
+                                            evt.SetMonGroupBit(2, MonsterBits.Invisible, 1)
+                                            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                                                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                                end
+                                            end
+                                            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+                                            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+                                            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+                                            return
+                                        end
+                                        SetQBit(QBit(158)) -- Killed all Dragon Hunters in Garrote Gorge wilderness area
+                                        SetQBit(QBit(225)) -- dead questbit for internal use(bling)
+                                        ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
+                                        evt.StatusText("You have killed all of the Dragon Hunters")
+                                    end
+                                end
+                            end
+                            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                end
+                            end
+                            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+                            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+                            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+                            return
+                        end
+                    end
+                    SetQBit(QBit(155)) -- Killed all Dragons in Garrote Gorge Area
+                    SetQBit(QBit(225)) -- dead questbit for internal use(bling)
+                    ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
+                    evt.StatusText("You have killed all of the Dragons")
+                end
+            end
+        end
+        if IsQBitSet(QBit(21)) then -- Allied with Charles Quioxte's Dragon Hunters. Return Dragon Egg to Quixote done.
+            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                end
+            end
+            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+            return
+        elseif IsQBitSet(QBit(158)) then -- Killed all Dragon Hunters in Garrote Gorge wilderness area
+            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                end
+            end
+            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+            return
+        else
+            if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 42, 0, false) then -- monster 42 "Dragon Hunter"; all matching actors defeated
+                if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 43, 0, false) then -- monster 43 "Crusader"; all matching actors defeated
+                    if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 44, 0, false) then -- monster 44 "Dragonslayer"; all matching actors defeated
+                        if not IsQBitSet(QBit(159)) then -- Questbit set for Riki
+                            SetQBit(QBit(159)) -- Questbit set for Riki
+                            evt.SummonMonsters(3, 1, 1, -30272, -16512, 0, 2, 0) -- encounter slot 3 "Dragon Hunter" tier A, count 1, pos=(-30272, -16512, 0), actor group 2, no unique actor name
+                            evt.SetMonGroupBit(2, MonsterBits.Invisible, 1)
+                            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                                end
+                            end
+                            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+                            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+                            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+                            return
+                        end
+                        SetQBit(QBit(158)) -- Killed all Dragon Hunters in Garrote Gorge wilderness area
+                        SetQBit(QBit(225)) -- dead questbit for internal use(bling)
+                        ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
+                        evt.StatusText("You have killed all of the Dragon Hunters")
+                    end
+                end
+            end
+            if not IsQBitSet(QBit(75)) then -- Killed all Dragon Slayers in southwest encampment in Area 5
+                if evt.CheckMonstersKilled(ActorKillCheck.Group, 24, 0, false) then -- actor group 24: Dragonslayer, spawn Dragon Hunter A, spawn Dragon Hunter B; all matching actors defeated
+                    SetQBit(QBit(75)) -- Killed all Dragon Slayers in southwest encampment in Area 5
+                end
+            end
+            if IsQBitSet(QBit(200)) then return end -- Sword of Whistlebone - I lost it
+            if not evt.CheckMonstersKilled(ActorKillCheck.UniqueNameId, 2, 1, false) then return end -- unique actor 2 "Jeric Whistlebone"; at least 1 matching actor defeated
+            SetQBit(QBit(200)) -- Sword of Whistlebone - I lost it
+            return
+        end
     end
 end)
 
 RegisterEvent(150, "Obelisk", function()
-    if IsQBitSet(QBit(190)) then return end
+    if IsQBitSet(QBit(190)) then return end -- Obelisk Area 5
     evt.StatusText("theunicornkin")
-    AddValue(IsIntellectMoreThanBase, 17)
-    SetQBit(QBit(190))
+    SetAutonote(17) -- Obelisk message #1: theunicornkin
+    SetQBit(QBit(190)) -- Obelisk Area 5
     return
 end, "Obelisk")
 
 RegisterEvent(171, "Lance's Spears", function()
-    if IsQBitSet(QBit(22)) then
+    if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
@@ -379,7 +588,7 @@ end, "Lance's Spears")
 RegisterEvent(172, "Lance's Spears", nil, "Lance's Spears")
 
 RegisterEvent(173, "Plated Protection", function()
-    if IsQBitSet(QBit(22)) then
+    if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
@@ -390,7 +599,7 @@ end, "Plated Protection")
 RegisterEvent(174, "Plated Protection", nil, "Plated Protection")
 
 RegisterEvent(175, "Wards and Pendants", function()
-    if IsQBitSet(QBit(22)) then
+    if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
@@ -401,7 +610,7 @@ end, "Wards and Pendants")
 RegisterEvent(176, "Wards and Pendants", nil, "Wards and Pendants")
 
 RegisterEvent(181, "Guild Caravans", function()
-    if IsQBitSet(QBit(22)) then
+    if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
@@ -412,7 +621,7 @@ end, "Guild Caravans")
 RegisterEvent(182, "Guild Caravans", nil, "Guild Caravans")
 
 RegisterEvent(185, "Sacred Steel", function()
-    if IsQBitSet(QBit(22)) then
+    if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
@@ -423,7 +632,7 @@ end, "Sacred Steel")
 RegisterEvent(186, "Sacred Steel", nil, "Sacred Steel")
 
 RegisterEvent(187, "Godric's Gauntlet", function()
-    if IsQBitSet(QBit(22)) then
+    if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
@@ -484,3 +693,4 @@ RegisterEvent(504, "Enter the Grand Temple of Eep", function()
     evt.MoveToMap(-2812, 726, 1, 1536, 0, 0, 0, 0, "D44.blv")
     return
 end, "Enter the Grand Temple of Eep")
+

@@ -4,6 +4,7 @@ source:
   geometry_file: "d31.blv"
   legacy_companion_file: "d31.dlv"
 environment:
+  last_visit_time: 0
   sky_texture: ""
   day_bits_raw: 0
   map_extra_bits_raw: 0
@@ -21,6 +22,188 @@ environment:
     weak_distance: 0
     strong_distance: 0
   ceiling: 0
+  map_extra_reserved_hex: "000000000000000000000000000000000000000000000000"
+spawns:
+  - spawn_index: 0
+    position:
+      x: -1128
+      y: 4920
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 1
+    position:
+      x: 32
+      y: 4736
+      z: 8
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 2
+    position:
+      x: -904
+      y: 5792
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 3
+    position:
+      x: -184
+      y: 5696
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 4
+    position:
+      x: -768
+      y: 5008
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 5
+    position:
+      x: 64
+      y: 4952
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 6
+    position:
+      x: -776
+      y: 4160
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 7
+    position:
+      x: -488
+      y: 3224
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 8
+    position:
+      x: -3064
+      y: 3448
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 9
+    position:
+      x: -2936
+      y: 4712
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 10
+    position:
+      x: -1880
+      y: 5104
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 11
+    position:
+      x: 1808
+      y: 5848
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 12
+    position:
+      x: 1584
+      y: 7408
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 13
+    position:
+      x: 1598
+      y: 6009
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 0
+  - spawn_index: 14
+    position:
+      x: 1891
+      y: 7240
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 0
+  - spawn_index: 15
+    position:
+      x: -1904
+      y: 4812
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 0
+  - spawn_index: 16
+    position:
+      x: -3057
+      y: 4898
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 0
+  - spawn_index: 17
+    position:
+      x: -3633
+      y: 3426
+      z: -896
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 0
 initial_state:
   location:
     respawn_count: 0

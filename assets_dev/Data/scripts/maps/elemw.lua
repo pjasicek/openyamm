@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4, 5},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -43,12 +44,12 @@ RegisterNoOpEvent(4, "Legacy event 4")
 RegisterNoOpEvent(5, "Legacy event 5")
 
 RegisterEvent(6, "Legacy event 6", function()
-    if IsQBitSet(QBit(241)) then return end
+    if IsQBitSet(QBit(241)) then return end -- Got the heart of water
     evt.ForPlayer(Players.All)
     if not HasItem(607) then return end -- Heart of Water
-    SetQBit(QBit(241))
+    SetQBit(QBit(241)) -- Got the heart of water
     AddValue(Experience, 100000)
-    SetQBit(QBit(206))
+    SetQBit(QBit(206)) -- Heart of Water - I lost it
     return
 end)
 
@@ -208,7 +209,7 @@ RegisterEvent(451, "Take a Drink", function()
     if not IsAtLeast(WaterResistance, 10) then
         AddValue(WaterResistance, 2)
         evt.StatusText("Water Resistance +10 (Permanent)")
-        AddValue(IsIntellectMoreThanBase, 269)
+        SetAutonote(269) -- Well in the Plane of Water gives a permanent Water Resistance bonus up to an Water Resistance of 10.
         return
     end
     evt.StatusText("Refreshing")

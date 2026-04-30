@@ -24,10 +24,13 @@ constexpr uint32_t TrainingHallHouseId = 91;
 constexpr uint32_t BankHouseId = 128;
 constexpr uint32_t AdventurersInnHouseId = 185;
 constexpr uint32_t BrekishHallHouseId = 173;
+constexpr uint32_t SandroThantThroneRoomHouseId = 180;
 constexpr uint32_t FredrickHouseId = 237;
 constexpr uint32_t HissHouseId = 224;
 constexpr uint32_t MasterIdentifyItemTeacherNpcId = 388;
 constexpr uint32_t SandroNpcId = 9;
+constexpr uint32_t ThantNpcId = 10;
+constexpr uint32_t RelocatedThantNpcId = 76;
 constexpr uint32_t DysonNpcId = 11;
 constexpr uint32_t LongTailNpcId = 279;
 constexpr uint32_t FredrickNpcId = 32;
@@ -36,7 +39,9 @@ constexpr uint32_t BlazenQuestNpcId = 295;
 constexpr uint32_t BlazenJoinNpcId = 484;
 constexpr uint32_t RohaniNpcId = 455;
 constexpr uint32_t StephenNpcId = 72;
+constexpr uint32_t OverduneNpcId = 7;
 constexpr uint32_t BlazenRosterId = 35;
+constexpr uint32_t OverduneRosterId = 4;
 constexpr uint32_t GemOfRestorationItemId = 623;
 
 const OpenYAMM::Game::Character *findPartyMemberByRosterId(
@@ -466,6 +471,56 @@ TEST_CASE("multi resident house selection")
     CHECK_EQ(dialog.title, "Clan Leader's Hall");
     CHECK(dialogHasActionLabel(dialog, "Brekish Onefang"));
     CHECK(dialogHasActionLabel(dialog, "Dadeross"));
+}
+
+TEST_CASE("sandro thant throne room residents")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openHouseDialog(SandroThantThroneRoomHouseId);
+    const std::optional<size_t> sandroIndex = findActionIndexByLabel(dialog, "Sandro");
+    const std::optional<size_t> thantIndex = findActionIndexByLabel(dialog, "Thant");
+
+    CHECK_EQ(dialog.title, "Sandro/Thant's Throne Room");
+    REQUIRE(sandroIndex.has_value());
+    CHECK_EQ(dialog.actions[*sandroIndex].id, SandroNpcId);
+    REQUIRE(thantIndex.has_value());
+    CHECK_EQ(dialog.actions[*thantIndex].id, ThantNpcId);
+    CHECK_FALSE(dialogHasActionLabel(dialog, "Brekish Onefang"));
+}
+
+TEST_CASE("relocated thant is silent after necromancer alliance")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    harness.eventRuntimeState().npcHouseOverrides[SandroNpcId] = 0;
+    harness.eventRuntimeState().npcHouseOverrides[ThantNpcId] = 0;
+    harness.eventRuntimeState().npcHouseOverrides[RelocatedThantNpcId] = SandroThantThroneRoomHouseId;
+
+    const OpenYAMM::Game::EventDialogContent &thantDialog =
+        harness.openHouseDialog(SandroThantThroneRoomHouseId);
+
+    CHECK_EQ(thantDialog.title, "Thant");
+    CHECK_EQ(thantDialog.sourceId, RelocatedThantNpcId);
+    CHECK(thantDialog.lines.empty());
+    CHECK(thantDialog.actions.empty());
+}
+
+TEST_CASE("global npc move populates overdune house after changing maps")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    REQUIRE(harness.executeGlobalEvent(42));
+    harness.eventRuntimeState() = {};
+
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openHouseDialog(177);
+
+    CHECK_EQ(dialog.title, "Overdune's House");
+    CHECK(dialogHasActionLabel(dialog, "Overdune Snapfinger"));
+    CHECK(dialogHasActionLabel(dialog, "Farhill Snapfinger"));
 }
 
 TEST_CASE("brekish topic mutation")
@@ -1250,6 +1305,52 @@ TEST_CASE("actual roster join rohani")
     CHECK(harness.party().hasRosterMember(6));
     CHECK(harness.eventRuntimeState().unavailableNpcIds.contains(RohaniNpcId));
     CHECK(dialogContainsText(resultDialog, "joined the party"));
+}
+
+TEST_CASE("overdune quest completion unlocks roster join")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    harness.party().setQuestBit(62, true);
+    REQUIRE(harness.executeGlobalEvent(46));
+
+    const OpenYAMM::Game::EventDialogContent &dialog = harness.openNpcDialogue(OverduneNpcId);
+    const std::optional<size_t> joinIndex = findActionIndexByLabel(dialog, "Join");
+
+    REQUIRE(joinIndex.has_value());
+    const OpenYAMM::Game::EventDialogContent &offerDialog = harness.executeAndPresent(*joinIndex);
+    CHECK(dialogContainsText(offerDialog, "Shall we be off?"));
+
+    const std::optional<size_t> yesIndex = findActionIndexByLabel(offerDialog, "Yes");
+    REQUIRE(yesIndex.has_value());
+    const OpenYAMM::Game::EventDialogContent &resultDialog = harness.executeAndPresent(*yesIndex);
+
+    CHECK(harness.party().hasRosterMember(OverduneRosterId));
+    CHECK(harness.eventRuntimeState().unavailableNpcIds.contains(OverduneNpcId));
+    CHECK(dialogContainsText(resultDialog, "joined the party"));
+
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> localEventProgram = loadSyntheticMapEventProgram(
+        "evt.map[1] = function()\n"
+        "    if evt._IsNpcInParty(4) then\n"
+        "        evt.SimpleMessage(\"Overdune active\")\n"
+        "    else\n"
+        "        evt.SimpleMessage(\"Overdune missing\")\n"
+        "    end\n"
+        "end\n",
+        "@SyntheticOverduneActiveRosterCheck.lua");
+    REQUIRE(localEventProgram.has_value());
+
+    OpenYAMM::Game::EventRuntimeState rosterCheckState = {};
+    OpenYAMM::Game::EventRuntime rosterCheckRuntime = {};
+    REQUIRE(rosterCheckRuntime.executeEventById(
+        localEventProgram,
+        std::nullopt,
+        1,
+        rosterCheckState,
+        &harness.party()));
+    REQUIRE_FALSE(rosterCheckState.messages.empty());
+    CHECK_EQ(rosterCheckState.messages.back(), "Overdune active");
 }
 
 TEST_CASE("actual roster join rohani full party")

@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4, 5},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -34,15 +35,15 @@ SetMapMetadata({
 })
 
 RegisterEvent(1, "Legacy event 1", function()
-    if IsQBitSet(QBit(403)) then return end
+    if IsQBitSet(QBit(403)) then return end -- Roster Character In Party 4
     evt.SpeakNPC(452) -- Simon Templar
     return
 end)
 
 RegisterEvent(2, "Legacy event 2", function()
     if not IsAtLeast(MapVar(12), 15) then
-        evt.SetDoorState(108, 1)
-        evt.SetDoorState(109, 1)
+        evt.SetDoorState(108, DoorAction.Close)
+        evt.SetDoorState(109, DoorAction.Close)
         SetValue(MapVar(2), 0)
         SetValue(MapVar(3), 0)
         SetValue(MapVar(4), 0)
@@ -52,18 +53,18 @@ RegisterEvent(2, "Legacy event 2", function()
         SetValue(MapVar(8), 0)
         SetValue(MapVar(9), 0)
         SetValue(MapVar(12), 0)
-        evt.SetDoorState(110, 1)
-        evt.SetDoorState(111, 1)
-        evt.SetDoorState(112, 1)
-        evt.SetDoorState(113, 1)
+        evt.SetDoorState(110, DoorAction.Close)
+        evt.SetDoorState(111, DoorAction.Close)
+        evt.SetDoorState(112, DoorAction.Close)
+        evt.SetDoorState(113, DoorAction.Close)
         return
     end
-    evt.SetDoorState(108, 0)
-    evt.SetDoorState(109, 0)
-    evt.SetDoorState(110, 1)
-    evt.SetDoorState(111, 1)
-    evt.SetDoorState(112, 1)
-    evt.SetDoorState(113, 1)
+    evt.SetDoorState(108, DoorAction.Open)
+    evt.SetDoorState(109, DoorAction.Open)
+    evt.SetDoorState(110, DoorAction.Close)
+    evt.SetDoorState(111, DoorAction.Close)
+    evt.SetDoorState(112, DoorAction.Close)
+    evt.SetDoorState(113, DoorAction.Close)
     return
 end)
 
@@ -76,7 +77,7 @@ RegisterNoOpEvent(5, "Legacy event 5")
 RegisterEvent(6, "Legacy event 6", function()
     evt.ForPlayer(Players.All)
     if not HasItem(626) then return end -- Prophecies of the Sun
-    SetQBit(QBit(218))
+    SetQBit(QBit(218)) -- Prophesies of the Sun - I lost it
     return
 end)
 
@@ -87,11 +88,11 @@ RegisterNoOpEvent(8, "Legacy event 8")
 RegisterNoOpEvent(9, "Legacy event 9")
 
 RegisterEvent(10, "Legacy event 10", function()
-    if IsQBitSet(QBit(136)) then
+    if IsQBitSet(QBit(136)) then -- Found Prophiecies of the Snake
         return
     elseif HasItem(652) then -- Prophecies of the Snake
-        SetQBit(QBit(136))
-        ClearQBit(QBit(135))
+        SetQBit(QBit(136)) -- Found Prophiecies of the Snake
+        ClearQBit(QBit(135)) -- Find the Prophecies of the Snake for Pascella Tisk.
         return
     else
         return
@@ -99,558 +100,558 @@ RegisterEvent(10, "Legacy event 10", function()
 end)
 
 RegisterEvent(11, "Door", function()
-    evt.SetDoorState(1, 0)
+    evt.SetDoorState(1, DoorAction.Open)
     evt.SetTexture(10, "t65a05bl")
     evt.SetTexture(11, "t65a05br")
     return
 end, "Door")
 
 RegisterEvent(12, "Legacy event 12", function()
-    evt.SetDoorState(2, 0)
+    evt.SetDoorState(2, DoorAction.Open)
     return
 end)
 
 RegisterEvent(13, "Door", function()
-    evt.SetDoorState(3, 0)
+    evt.SetDoorState(3, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(14, "Door", function()
-    evt.SetDoorState(4, 0)
+    evt.SetDoorState(4, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(15, "Door", function()
-    evt.SetDoorState(5, 0)
+    evt.SetDoorState(5, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(16, "Door", function()
-    evt.SetDoorState(6, 0)
+    evt.SetDoorState(6, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(17, "Door", function()
-    evt.SetDoorState(7, 0)
+    evt.SetDoorState(7, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(18, "Door", function()
-    evt.SetDoorState(8, 0)
+    evt.SetDoorState(8, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(19, "Door", function()
-    evt.SetDoorState(9, 0)
+    evt.SetDoorState(9, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(20, "Button", function()
-    evt.SetDoorState(10, 0)
-    evt.SetDoorState(52, 0)
-    evt.SetDoorState(11, 1)
-    evt.SetDoorState(53, 1)
+    evt.SetDoorState(10, DoorAction.Open)
+    evt.SetDoorState(52, DoorAction.Open)
+    evt.SetDoorState(11, DoorAction.Close)
+    evt.SetDoorState(53, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(21, "Button", function()
-    evt.SetDoorState(11, 0)
-    evt.SetDoorState(53, 0)
-    evt.SetDoorState(10, 1)
-    evt.SetDoorState(52, 1)
+    evt.SetDoorState(11, DoorAction.Open)
+    evt.SetDoorState(53, DoorAction.Open)
+    evt.SetDoorState(10, DoorAction.Close)
+    evt.SetDoorState(52, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(22, "Button", function()
-    evt.SetDoorState(12, 0)
-    evt.SetDoorState(54, 0)
-    evt.SetDoorState(13, 1)
-    evt.SetDoorState(55, 1)
+    evt.SetDoorState(12, DoorAction.Open)
+    evt.SetDoorState(54, DoorAction.Open)
+    evt.SetDoorState(13, DoorAction.Close)
+    evt.SetDoorState(55, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(23, "Button", function()
     if not IsAtLeast(MapVar(22), 1) then
-        evt.SummonMonsters(1, 3, 1, 8000, 640, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 8000, 640, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(8000, 640, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(13, 0)
-    evt.SetDoorState(55, 0)
-    evt.SetDoorState(12, 1)
-    evt.SetDoorState(54, 1)
+    evt.SetDoorState(13, DoorAction.Open)
+    evt.SetDoorState(55, DoorAction.Open)
+    evt.SetDoorState(12, DoorAction.Close)
+    evt.SetDoorState(54, DoorAction.Close)
     SetValue(MapVar(22), 1)
     return
 end, "Button")
 
 RegisterEvent(24, "Button", function()
-    evt.SetDoorState(14, 0)
-    evt.SetDoorState(56, 0)
-    evt.SetDoorState(15, 1)
-    evt.SetDoorState(57, 1)
+    evt.SetDoorState(14, DoorAction.Open)
+    evt.SetDoorState(56, DoorAction.Open)
+    evt.SetDoorState(15, DoorAction.Close)
+    evt.SetDoorState(57, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(25, "Button", function()
-    evt.SetDoorState(15, 0)
-    evt.SetDoorState(57, 0)
-    evt.SetDoorState(14, 1)
-    evt.SetDoorState(56, 1)
+    evt.SetDoorState(15, DoorAction.Open)
+    evt.SetDoorState(57, DoorAction.Open)
+    evt.SetDoorState(14, DoorAction.Close)
+    evt.SetDoorState(56, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(26, "Button", function()
-    evt.SetDoorState(16, 0)
-    evt.SetDoorState(58, 0)
-    evt.SetDoorState(17, 1)
-    evt.SetDoorState(59, 1)
+    evt.SetDoorState(16, DoorAction.Open)
+    evt.SetDoorState(58, DoorAction.Open)
+    evt.SetDoorState(17, DoorAction.Close)
+    evt.SetDoorState(59, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(27, "Button", function()
-    evt.SetDoorState(17, 0)
-    evt.SetDoorState(59, 0)
-    evt.SetDoorState(16, 1)
-    evt.SetDoorState(58, 1)
+    evt.SetDoorState(17, DoorAction.Open)
+    evt.SetDoorState(59, DoorAction.Open)
+    evt.SetDoorState(16, DoorAction.Close)
+    evt.SetDoorState(58, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(28, "Button", function()
     if not IsAtLeast(MapVar(21), 1) then
-        evt.SummonMonsters(1, 3, 1, 9600, -192, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 9600, -192, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(9600, -192, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(18, 0)
-    evt.SetDoorState(60, 0)
-    evt.SetDoorState(19, 1)
-    evt.SetDoorState(61, 1)
+    evt.SetDoorState(18, DoorAction.Open)
+    evt.SetDoorState(60, DoorAction.Open)
+    evt.SetDoorState(19, DoorAction.Close)
+    evt.SetDoorState(61, DoorAction.Close)
     SetValue(MapVar(21), 1)
     return
 end, "Button")
 
 RegisterEvent(29, "Button", function()
-    evt.SetDoorState(19, 0)
-    evt.SetDoorState(61, 0)
-    evt.SetDoorState(18, 1)
-    evt.SetDoorState(60, 1)
+    evt.SetDoorState(19, DoorAction.Open)
+    evt.SetDoorState(61, DoorAction.Open)
+    evt.SetDoorState(18, DoorAction.Close)
+    evt.SetDoorState(60, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(30, "Button", function()
-    evt.SetDoorState(20, 0)
-    evt.SetDoorState(62, 0)
-    evt.SetDoorState(21, 1)
-    evt.SetDoorState(63, 1)
+    evt.SetDoorState(20, DoorAction.Open)
+    evt.SetDoorState(62, DoorAction.Open)
+    evt.SetDoorState(21, DoorAction.Close)
+    evt.SetDoorState(63, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(31, "Button", function()
     if not IsAtLeast(MapVar(23), 1) then
-        evt.SummonMonsters(1, 3, 1, 6784, -896, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 6784, -896, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(6784, -896, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(21, 0)
-    evt.SetDoorState(63, 0)
-    evt.SetDoorState(20, 1)
-    evt.SetDoorState(62, 1)
+    evt.SetDoorState(21, DoorAction.Open)
+    evt.SetDoorState(63, DoorAction.Open)
+    evt.SetDoorState(20, DoorAction.Close)
+    evt.SetDoorState(62, DoorAction.Close)
     SetValue(MapVar(23), 1)
     return
 end, "Button")
 
 RegisterEvent(32, "Button", function()
-    evt.SetDoorState(22, 0)
-    evt.SetDoorState(64, 0)
-    evt.SetDoorState(23, 1)
-    evt.SetDoorState(65, 1)
+    evt.SetDoorState(22, DoorAction.Open)
+    evt.SetDoorState(64, DoorAction.Open)
+    evt.SetDoorState(23, DoorAction.Close)
+    evt.SetDoorState(65, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(33, "Button", function()
     if not IsAtLeast(MapVar(24), 1) then
-        evt.SummonMonsters(1, 3, 1, 8256, -896, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 8256, -896, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(8256, -896, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(23, 0)
-    evt.SetDoorState(65, 0)
-    evt.SetDoorState(22, 1)
-    evt.SetDoorState(64, 1)
+    evt.SetDoorState(23, DoorAction.Open)
+    evt.SetDoorState(65, DoorAction.Open)
+    evt.SetDoorState(22, DoorAction.Close)
+    evt.SetDoorState(64, DoorAction.Close)
     SetValue(MapVar(24), 1)
     return
 end, "Button")
 
 RegisterEvent(34, "Button", function()
     if not IsAtLeast(MapVar(25), 1) then
-        evt.SummonMonsters(1, 3, 1, 8832, -960, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 8832, -960, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(8832, -960, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(24, 0)
-    evt.SetDoorState(66, 0)
-    evt.SetDoorState(25, 1)
-    evt.SetDoorState(67, 1)
+    evt.SetDoorState(24, DoorAction.Open)
+    evt.SetDoorState(66, DoorAction.Open)
+    evt.SetDoorState(25, DoorAction.Close)
+    evt.SetDoorState(67, DoorAction.Close)
     SetValue(MapVar(25), 1)
     return
 end, "Button")
 
 RegisterEvent(35, "Button", function()
-    evt.SetDoorState(25, 0)
-    evt.SetDoorState(67, 0)
-    evt.SetDoorState(24, 1)
-    evt.SetDoorState(66, 1)
+    evt.SetDoorState(25, DoorAction.Open)
+    evt.SetDoorState(67, DoorAction.Open)
+    evt.SetDoorState(24, DoorAction.Close)
+    evt.SetDoorState(66, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(36, "Button", function()
     if not IsAtLeast(MapVar(26), 1) then
-        evt.SummonMonsters(1, 3, 1, 9792, -960, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 9792, -960, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(9792, -960, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(26, 0)
-    evt.SetDoorState(68, 0)
-    evt.SetDoorState(27, 1)
-    evt.SetDoorState(69, 1)
+    evt.SetDoorState(26, DoorAction.Open)
+    evt.SetDoorState(68, DoorAction.Open)
+    evt.SetDoorState(27, DoorAction.Close)
+    evt.SetDoorState(69, DoorAction.Close)
     SetValue(MapVar(26), 1)
     return
 end, "Button")
 
 RegisterEvent(37, "Button", function()
     if not IsAtLeast(MapVar(27), 1) then
-        evt.SummonMonsters(1, 3, 1, 10176, -960, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 10176, -960, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(10176, -960, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(27, 0)
-    evt.SetDoorState(69, 0)
-    evt.SetDoorState(26, 1)
-    evt.SetDoorState(68, 1)
+    evt.SetDoorState(27, DoorAction.Open)
+    evt.SetDoorState(69, DoorAction.Open)
+    evt.SetDoorState(26, DoorAction.Close)
+    evt.SetDoorState(68, DoorAction.Close)
     SetValue(MapVar(27), 1)
     return
 end, "Button")
 
 RegisterEvent(38, "Button", function()
     if not IsAtLeast(MapVar(28), 1) then
-        evt.SummonMonsters(1, 3, 1, 6208, -1664, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 6208, -1664, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(6208, -1664, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(28, 0)
-    evt.SetDoorState(70, 0)
-    evt.SetDoorState(29, 1)
-    evt.SetDoorState(71, 1)
+    evt.SetDoorState(28, DoorAction.Open)
+    evt.SetDoorState(70, DoorAction.Open)
+    evt.SetDoorState(29, DoorAction.Close)
+    evt.SetDoorState(71, DoorAction.Close)
     SetValue(MapVar(28), 1)
     return
 end, "Button")
 
 RegisterEvent(39, "Button", function()
     if not IsAtLeast(MapVar(29), 1) then
-        evt.SummonMonsters(1, 3, 1, 6592, -1664, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 6592, -1664, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(6592, -1664, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(29, 0)
-    evt.SetDoorState(71, 0)
-    evt.SetDoorState(28, 1)
-    evt.SetDoorState(70, 1)
+    evt.SetDoorState(29, DoorAction.Open)
+    evt.SetDoorState(71, DoorAction.Open)
+    evt.SetDoorState(28, DoorAction.Close)
+    evt.SetDoorState(70, DoorAction.Close)
     SetValue(MapVar(29), 1)
     return
 end, "Button")
 
 RegisterEvent(40, "Button", function()
-    evt.SetDoorState(30, 0)
-    evt.SetDoorState(72, 0)
-    evt.SetDoorState(31, 1)
-    evt.SetDoorState(73, 1)
+    evt.SetDoorState(30, DoorAction.Open)
+    evt.SetDoorState(72, DoorAction.Open)
+    evt.SetDoorState(31, DoorAction.Close)
+    evt.SetDoorState(73, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(41, "Button", function()
-    evt.SetDoorState(31, 0)
-    evt.SetDoorState(73, 0)
-    evt.SetDoorState(30, 1)
-    evt.SetDoorState(72, 1)
+    evt.SetDoorState(31, DoorAction.Open)
+    evt.SetDoorState(73, DoorAction.Open)
+    evt.SetDoorState(30, DoorAction.Close)
+    evt.SetDoorState(72, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(42, "Button", function()
-    evt.SetDoorState(32, 0)
-    evt.SetDoorState(74, 0)
-    evt.SetDoorState(33, 1)
-    evt.SetDoorState(34, 1)
-    evt.SetDoorState(35, 1)
-    evt.SetDoorState(75, 1)
-    evt.SetDoorState(76, 1)
-    evt.SetDoorState(77, 1)
+    evt.SetDoorState(32, DoorAction.Open)
+    evt.SetDoorState(74, DoorAction.Open)
+    evt.SetDoorState(33, DoorAction.Close)
+    evt.SetDoorState(34, DoorAction.Close)
+    evt.SetDoorState(35, DoorAction.Close)
+    evt.SetDoorState(75, DoorAction.Close)
+    evt.SetDoorState(76, DoorAction.Close)
+    evt.SetDoorState(77, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(43, "Button", function()
     if not IsAtLeast(MapVar(32), 1) then
-        evt.SummonMonsters(1, 3, 1, 9024, -1728, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 9024, -1728, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(9024, -1728, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(32, 1)
-    evt.SetDoorState(33, 0)
-    evt.SetDoorState(34, 1)
-    evt.SetDoorState(35, 1)
-    evt.SetDoorState(74, 1)
-    evt.SetDoorState(75, 0)
-    evt.SetDoorState(76, 1)
-    evt.SetDoorState(77, 1)
+    evt.SetDoorState(32, DoorAction.Close)
+    evt.SetDoorState(33, DoorAction.Open)
+    evt.SetDoorState(34, DoorAction.Close)
+    evt.SetDoorState(35, DoorAction.Close)
+    evt.SetDoorState(74, DoorAction.Close)
+    evt.SetDoorState(75, DoorAction.Open)
+    evt.SetDoorState(76, DoorAction.Close)
+    evt.SetDoorState(77, DoorAction.Close)
     SetValue(MapVar(32), 1)
     return
 end, "Button")
 
 RegisterEvent(44, "Button", function()
     if not IsAtLeast(MapVar(33), 1) then
-        evt.SummonMonsters(1, 3, 1, 9408, -1728, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 9408, -1728, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(9408, -1728, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(32, 1)
-    evt.SetDoorState(33, 1)
-    evt.SetDoorState(34, 0)
-    evt.SetDoorState(35, 1)
-    evt.SetDoorState(74, 1)
-    evt.SetDoorState(75, 1)
-    evt.SetDoorState(76, 0)
-    evt.SetDoorState(77, 1)
+    evt.SetDoorState(32, DoorAction.Close)
+    evt.SetDoorState(33, DoorAction.Close)
+    evt.SetDoorState(34, DoorAction.Open)
+    evt.SetDoorState(35, DoorAction.Close)
+    evt.SetDoorState(74, DoorAction.Close)
+    evt.SetDoorState(75, DoorAction.Close)
+    evt.SetDoorState(76, DoorAction.Open)
+    evt.SetDoorState(77, DoorAction.Close)
     SetValue(MapVar(33), 1)
     return
 end, "Button")
 
 RegisterEvent(45, "Button", function()
-    evt.SetDoorState(32, 1)
-    evt.SetDoorState(33, 1)
-    evt.SetDoorState(34, 1)
-    evt.SetDoorState(35, 0)
-    evt.SetDoorState(74, 1)
-    evt.SetDoorState(75, 1)
-    evt.SetDoorState(76, 1)
-    evt.SetDoorState(77, 0)
+    evt.SetDoorState(32, DoorAction.Close)
+    evt.SetDoorState(33, DoorAction.Close)
+    evt.SetDoorState(34, DoorAction.Close)
+    evt.SetDoorState(35, DoorAction.Open)
+    evt.SetDoorState(74, DoorAction.Close)
+    evt.SetDoorState(75, DoorAction.Close)
+    evt.SetDoorState(76, DoorAction.Close)
+    evt.SetDoorState(77, DoorAction.Open)
     SetValue(MapVar(33), 0)
     return
 end, "Button")
 
 RegisterEvent(46, "Button", function()
     if not IsAtLeast(MapVar(34), 1) then
-        evt.SummonMonsters(1, 3, 1, 7104, -2432, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 7104, -2432, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(7104, -2432, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(36, 0)
-    evt.SetDoorState(78, 0)
-    evt.SetDoorState(37, 1)
-    evt.SetDoorState(79, 1)
+    evt.SetDoorState(36, DoorAction.Open)
+    evt.SetDoorState(78, DoorAction.Open)
+    evt.SetDoorState(37, DoorAction.Close)
+    evt.SetDoorState(79, DoorAction.Close)
     SetValue(MapVar(34), 1)
     return
 end, "Button")
 
 RegisterEvent(47, "Button", function()
     if not IsAtLeast(MapVar(35), 1) then
-        evt.SummonMonsters(1, 3, 1, 7488, -2432, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 7488, -2432, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(7488, -2432, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(37, 0)
-    evt.SetDoorState(79, 0)
-    evt.SetDoorState(36, 1)
-    evt.SetDoorState(78, 1)
+    evt.SetDoorState(37, DoorAction.Open)
+    evt.SetDoorState(79, DoorAction.Open)
+    evt.SetDoorState(36, DoorAction.Close)
+    evt.SetDoorState(78, DoorAction.Close)
     SetValue(MapVar(35), 1)
     return
 end, "Button")
 
 RegisterEvent(48, "Button", function()
-    evt.SetDoorState(38, 0)
-    evt.SetDoorState(80, 0)
-    evt.SetDoorState(39, 1)
-    evt.SetDoorState(81, 1)
+    evt.SetDoorState(38, DoorAction.Open)
+    evt.SetDoorState(80, DoorAction.Open)
+    evt.SetDoorState(39, DoorAction.Close)
+    evt.SetDoorState(81, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(49, "Button", function()
     if not IsAtLeast(MapVar(36), 1) then
-        evt.SummonMonsters(1, 3, 1, 8832, -2496, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 8832, -2496, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(8832, -2496, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(39, 0)
-    evt.SetDoorState(81, 0)
-    evt.SetDoorState(38, 1)
-    evt.SetDoorState(80, 1)
+    evt.SetDoorState(39, DoorAction.Open)
+    evt.SetDoorState(81, DoorAction.Open)
+    evt.SetDoorState(38, DoorAction.Close)
+    evt.SetDoorState(80, DoorAction.Close)
     SetValue(MapVar(36), 1)
     return
 end, "Button")
 
 RegisterEvent(50, "Button", function()
     if not IsAtLeast(MapVar(37), 1) then
-        evt.SummonMonsters(1, 3, 1, 9600, -2496, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 9600, -2496, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(9600, -2496, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(40, 0)
-    evt.SetDoorState(82, 0)
-    evt.SetDoorState(41, 1)
-    evt.SetDoorState(83, 1)
+    evt.SetDoorState(40, DoorAction.Open)
+    evt.SetDoorState(82, DoorAction.Open)
+    evt.SetDoorState(41, DoorAction.Close)
+    evt.SetDoorState(83, DoorAction.Close)
     SetValue(MapVar(37), 1)
     return
 end, "Button")
 
 RegisterEvent(51, "Button", function()
     if not IsAtLeast(MapVar(38), 1) then
-        evt.SummonMonsters(1, 3, 1, 9984, -2496, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 9984, -2496, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(9984, -2496, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(41, 0)
-    evt.SetDoorState(83, 0)
-    evt.SetDoorState(40, 1)
-    evt.SetDoorState(82, 1)
+    evt.SetDoorState(41, DoorAction.Open)
+    evt.SetDoorState(83, DoorAction.Open)
+    evt.SetDoorState(40, DoorAction.Close)
+    evt.SetDoorState(82, DoorAction.Close)
     SetValue(MapVar(38), 1)
     return
 end, "Button")
 
 RegisterEvent(52, "Button", function()
-    evt.SetDoorState(42, 0)
-    evt.SetDoorState(43, 1)
-    evt.SetDoorState(44, 1)
-    evt.SetDoorState(45, 1)
-    evt.SetDoorState(46, 1)
-    evt.SetDoorState(47, 1)
-    evt.SetDoorState(84, 0)
-    evt.SetDoorState(85, 1)
-    evt.SetDoorState(86, 1)
-    evt.SetDoorState(87, 1)
-    evt.SetDoorState(88, 1)
-    evt.SetDoorState(89, 1)
+    evt.SetDoorState(42, DoorAction.Open)
+    evt.SetDoorState(43, DoorAction.Close)
+    evt.SetDoorState(44, DoorAction.Close)
+    evt.SetDoorState(45, DoorAction.Close)
+    evt.SetDoorState(46, DoorAction.Close)
+    evt.SetDoorState(47, DoorAction.Close)
+    evt.SetDoorState(84, DoorAction.Open)
+    evt.SetDoorState(85, DoorAction.Close)
+    evt.SetDoorState(86, DoorAction.Close)
+    evt.SetDoorState(87, DoorAction.Close)
+    evt.SetDoorState(88, DoorAction.Close)
+    evt.SetDoorState(89, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(53, "Button", function()
     if not IsAtLeast(MapVar(39), 1) then
-        evt.SummonMonsters(1, 3, 1, 7872, -3264, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 7872, -3264, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(7872, -3264, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(42, 1)
-    evt.SetDoorState(43, 0)
-    evt.SetDoorState(44, 1)
-    evt.SetDoorState(45, 1)
-    evt.SetDoorState(46, 1)
-    evt.SetDoorState(47, 1)
-    evt.SetDoorState(84, 1)
-    evt.SetDoorState(85, 0)
-    evt.SetDoorState(86, 1)
-    evt.SetDoorState(87, 1)
-    evt.SetDoorState(88, 1)
-    evt.SetDoorState(89, 1)
+    evt.SetDoorState(42, DoorAction.Close)
+    evt.SetDoorState(43, DoorAction.Open)
+    evt.SetDoorState(44, DoorAction.Close)
+    evt.SetDoorState(45, DoorAction.Close)
+    evt.SetDoorState(46, DoorAction.Close)
+    evt.SetDoorState(47, DoorAction.Close)
+    evt.SetDoorState(84, DoorAction.Close)
+    evt.SetDoorState(85, DoorAction.Open)
+    evt.SetDoorState(86, DoorAction.Close)
+    evt.SetDoorState(87, DoorAction.Close)
+    evt.SetDoorState(88, DoorAction.Close)
+    evt.SetDoorState(89, DoorAction.Close)
     SetValue(MapVar(39), 1)
     return
 end, "Button")
 
 RegisterEvent(54, "Button", function()
     if not IsAtLeast(MapVar(40), 1) then
-        evt.SummonMonsters(1, 3, 1, 8256, -3264, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 8256, -3264, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(8256, -3264, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(42, 1)
-    evt.SetDoorState(43, 1)
-    evt.SetDoorState(44, 0)
-    evt.SetDoorState(45, 1)
-    evt.SetDoorState(46, 1)
-    evt.SetDoorState(47, 1)
-    evt.SetDoorState(84, 1)
-    evt.SetDoorState(85, 1)
-    evt.SetDoorState(86, 0)
-    evt.SetDoorState(87, 1)
-    evt.SetDoorState(88, 1)
-    evt.SetDoorState(89, 1)
+    evt.SetDoorState(42, DoorAction.Close)
+    evt.SetDoorState(43, DoorAction.Close)
+    evt.SetDoorState(44, DoorAction.Open)
+    evt.SetDoorState(45, DoorAction.Close)
+    evt.SetDoorState(46, DoorAction.Close)
+    evt.SetDoorState(47, DoorAction.Close)
+    evt.SetDoorState(84, DoorAction.Close)
+    evt.SetDoorState(85, DoorAction.Close)
+    evt.SetDoorState(86, DoorAction.Open)
+    evt.SetDoorState(87, DoorAction.Close)
+    evt.SetDoorState(88, DoorAction.Close)
+    evt.SetDoorState(89, DoorAction.Close)
     SetValue(MapVar(40), 1)
     return
 end, "Button")
 
 RegisterEvent(55, "Button", function()
-    evt.SetDoorState(42, 1)
-    evt.SetDoorState(43, 1)
-    evt.SetDoorState(44, 1)
-    evt.SetDoorState(45, 0)
-    evt.SetDoorState(46, 1)
-    evt.SetDoorState(47, 1)
-    evt.SetDoorState(84, 1)
-    evt.SetDoorState(85, 1)
-    evt.SetDoorState(86, 1)
-    evt.SetDoorState(87, 0)
-    evt.SetDoorState(88, 1)
-    evt.SetDoorState(89, 1)
+    evt.SetDoorState(42, DoorAction.Close)
+    evt.SetDoorState(43, DoorAction.Close)
+    evt.SetDoorState(44, DoorAction.Close)
+    evt.SetDoorState(45, DoorAction.Open)
+    evt.SetDoorState(46, DoorAction.Close)
+    evt.SetDoorState(47, DoorAction.Close)
+    evt.SetDoorState(84, DoorAction.Close)
+    evt.SetDoorState(85, DoorAction.Close)
+    evt.SetDoorState(86, DoorAction.Close)
+    evt.SetDoorState(87, DoorAction.Open)
+    evt.SetDoorState(88, DoorAction.Close)
+    evt.SetDoorState(89, DoorAction.Close)
     return
 end, "Button")
 
 RegisterEvent(56, "Button", function()
     if not IsAtLeast(MapVar(41), 1) then
-        evt.SummonMonsters(1, 3, 1, 9024, -3264, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 9024, -3264, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(9024, -3264, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(42, 1)
-    evt.SetDoorState(43, 1)
-    evt.SetDoorState(44, 1)
-    evt.SetDoorState(45, 1)
-    evt.SetDoorState(46, 0)
-    evt.SetDoorState(47, 1)
-    evt.SetDoorState(84, 1)
-    evt.SetDoorState(85, 1)
-    evt.SetDoorState(86, 1)
-    evt.SetDoorState(87, 1)
-    evt.SetDoorState(88, 0)
-    evt.SetDoorState(89, 1)
+    evt.SetDoorState(42, DoorAction.Close)
+    evt.SetDoorState(43, DoorAction.Close)
+    evt.SetDoorState(44, DoorAction.Close)
+    evt.SetDoorState(45, DoorAction.Close)
+    evt.SetDoorState(46, DoorAction.Open)
+    evt.SetDoorState(47, DoorAction.Close)
+    evt.SetDoorState(84, DoorAction.Close)
+    evt.SetDoorState(85, DoorAction.Close)
+    evt.SetDoorState(86, DoorAction.Close)
+    evt.SetDoorState(87, DoorAction.Close)
+    evt.SetDoorState(88, DoorAction.Open)
+    evt.SetDoorState(89, DoorAction.Close)
     SetValue(MapVar(41), 1)
     return
 end, "Button")
 
 RegisterEvent(57, "Button", function()
-    evt.SetDoorState(42, 1)
-    evt.SetDoorState(43, 1)
-    evt.SetDoorState(44, 1)
-    evt.SetDoorState(45, 1)
-    evt.SetDoorState(46, 1)
-    evt.SetDoorState(47, 0)
-    evt.SetDoorState(84, 1)
-    evt.SetDoorState(85, 1)
-    evt.SetDoorState(86, 1)
-    evt.SetDoorState(87, 1)
-    evt.SetDoorState(88, 1)
-    evt.SetDoorState(89, 0)
+    evt.SetDoorState(42, DoorAction.Close)
+    evt.SetDoorState(43, DoorAction.Close)
+    evt.SetDoorState(44, DoorAction.Close)
+    evt.SetDoorState(45, DoorAction.Close)
+    evt.SetDoorState(46, DoorAction.Close)
+    evt.SetDoorState(47, DoorAction.Open)
+    evt.SetDoorState(84, DoorAction.Close)
+    evt.SetDoorState(85, DoorAction.Close)
+    evt.SetDoorState(86, DoorAction.Close)
+    evt.SetDoorState(87, DoorAction.Close)
+    evt.SetDoorState(88, DoorAction.Close)
+    evt.SetDoorState(89, DoorAction.Open)
     return
 end, "Button")
 
 RegisterEvent(58, "Button", function()
     if not IsAtLeast(MapVar(42), 1) then
-        evt.SummonMonsters(1, 3, 1, 7296, -4032, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 7296, -4032, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(7296, -4032, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(48, 0)
-    evt.SetDoorState(90, 0)
-    evt.SetDoorState(49, 1)
-    evt.SetDoorState(91, 1)
+    evt.SetDoorState(48, DoorAction.Open)
+    evt.SetDoorState(90, DoorAction.Open)
+    evt.SetDoorState(49, DoorAction.Close)
+    evt.SetDoorState(91, DoorAction.Close)
     SetValue(MapVar(42), 1)
     return
 end, "Button")
 
 RegisterEvent(59, "Button", function()
     if not IsAtLeast(MapVar(43), 1) then
-        evt.SummonMonsters(1, 3, 1, 7680, -4032, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 7680, -4032, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(7680, -4032, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(49, 0)
-    evt.SetDoorState(91, 0)
-    evt.SetDoorState(48, 1)
-    evt.SetDoorState(90, 1)
+    evt.SetDoorState(49, DoorAction.Open)
+    evt.SetDoorState(91, DoorAction.Open)
+    evt.SetDoorState(48, DoorAction.Close)
+    evt.SetDoorState(90, DoorAction.Close)
     SetValue(MapVar(43), 1)
     return
 end, "Button")
 
 RegisterEvent(60, "Button", function()
     if not IsAtLeast(MapVar(44), 1) then
-        evt.SummonMonsters(1, 3, 1, 8448, -4032, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 8448, -4032, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(8448, -4032, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(50, 0)
-    evt.SetDoorState(92, 0)
-    evt.SetDoorState(51, 1)
-    evt.SetDoorState(93, 1)
+    evt.SetDoorState(50, DoorAction.Open)
+    evt.SetDoorState(92, DoorAction.Open)
+    evt.SetDoorState(51, DoorAction.Close)
+    evt.SetDoorState(93, DoorAction.Close)
     SetValue(MapVar(44), 1)
     return
 end, "Button")
 
 RegisterEvent(61, "Button", function()
     if not IsAtLeast(MapVar(45), 1) then
-        evt.SummonMonsters(1, 3, 1, 8832, -4032, -640, 0, 0)
+        evt.SummonMonsters(1, 3, 1, 8832, -4032, -640, 0, 0) -- encounter slot 1 "Serpentmen" tier C, count 1, pos=(8832, -4032, -640), actor group 0, no unique actor name
     end
-    evt.SetDoorState(51, 0)
-    evt.SetDoorState(93, 0)
-    evt.SetDoorState(50, 1)
-    evt.SetDoorState(92, 1)
+    evt.SetDoorState(51, DoorAction.Open)
+    evt.SetDoorState(93, DoorAction.Open)
+    evt.SetDoorState(50, DoorAction.Close)
+    evt.SetDoorState(92, DoorAction.Close)
     SetValue(MapVar(45), 1)
     return
 end, "Button")
 
 RegisterEvent(62, "Door", function()
-    evt.SetDoorState(108, 0)
+    evt.SetDoorState(108, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(63, "Door", function()
     if IsAtLeast(MapVar(12), 1) then return end
-    evt.SetDoorState(109, 1)
-    evt.SetDoorState(108, 1)
-    evt.SetDoorState(110, 0)
-    evt.SetDoorState(111, 0)
-    evt.SetDoorState(112, 0)
-    evt.SetDoorState(113, 0)
+    evt.SetDoorState(109, DoorAction.Close)
+    evt.SetDoorState(108, DoorAction.Close)
+    evt.SetDoorState(110, DoorAction.Open)
+    evt.SetDoorState(111, DoorAction.Open)
+    evt.SetDoorState(112, DoorAction.Open)
+    evt.SetDoorState(113, DoorAction.Open)
     evt.SetTexture(1, "t65b11c")
     evt.SetTexture(2, "t65b11c")
     evt.SetTexture(3, "t65b11c")
@@ -672,7 +673,7 @@ RegisterEvent(63, "Door", function()
 end, "Door")
 
 RegisterEvent(64, "Leave the Abandoned Temple", function()
-    evt.SetDoorState(109, 0)
+    evt.SetDoorState(109, DoorAction.Open)
     return
 end, "Leave the Abandoned Temple")
 
@@ -926,8 +927,8 @@ RegisterEvent(110, "Legacy event 110", function()
         evt.StopDoor(111)
         evt.StopDoor(112)
         evt.StopDoor(113)
-        evt.SetDoorState(108, 0)
-        evt.SetDoorState(109, 0)
+        evt.SetDoorState(108, DoorAction.Open)
+        evt.SetDoorState(109, DoorAction.Open)
         SetValue(MapVar(12), 15)
         return
     else
@@ -998,7 +999,7 @@ RegisterEvent(452, "Legacy event 452", function()
 end)
 
 RegisterEvent(453, "Legacy event 453", function()
-    evt.SetDoorState(115, 0)
+    evt.SetDoorState(115, DoorAction.Open)
     return
 end)
 
@@ -1013,49 +1014,49 @@ RegisterEvent(502, "Leave the Abandoned Temple", function()
 end, "Leave the Abandoned Temple")
 
 RegisterEvent(506, "Legacy event 506", function()
-    evt.SetDoorState(94, 0)
+    evt.SetDoorState(94, DoorAction.Open)
     return
 end)
 
 RegisterEvent(507, "Legacy event 507", function()
-    evt.SetDoorState(95, 0)
+    evt.SetDoorState(95, DoorAction.Open)
     return
 end)
 
 RegisterEvent(508, "Legacy event 508", function()
-    evt.SetDoorState(96, 0)
+    evt.SetDoorState(96, DoorAction.Open)
     return
 end)
 
 RegisterEvent(509, "Legacy event 509", function()
-    evt.SetDoorState(97, 0)
+    evt.SetDoorState(97, DoorAction.Open)
     return
 end)
 
 RegisterEvent(510, "Legacy event 510", function()
-    evt.SetDoorState(98, 0)
+    evt.SetDoorState(98, DoorAction.Open)
     return
 end)
 
 RegisterEvent(511, "Legacy event 511", function()
-    evt.SetDoorState(99, 0)
+    evt.SetDoorState(99, DoorAction.Open)
     return
 end)
 
 RegisterEvent(512, "Legacy event 512", function()
-    evt.SetDoorState(94, 1)
-    evt.SetDoorState(95, 1)
-    evt.SetDoorState(96, 1)
-    evt.SetDoorState(97, 1)
-    evt.SetDoorState(98, 1)
-    evt.SetDoorState(99, 1)
+    evt.SetDoorState(94, DoorAction.Close)
+    evt.SetDoorState(95, DoorAction.Close)
+    evt.SetDoorState(96, DoorAction.Close)
+    evt.SetDoorState(97, DoorAction.Close)
+    evt.SetDoorState(98, DoorAction.Close)
+    evt.SetDoorState(99, DoorAction.Close)
     return
 end)
 
 RegisterEvent(513, "Button", function()
     if IsAtLeast(MapVar(31), 1) then return end
-    evt.SetDoorState(100, 1)
-    evt.SetDoorState(101, 0)
+    evt.SetDoorState(100, DoorAction.Close)
+    evt.SetDoorState(101, DoorAction.Open)
     evt.SetFacetBit(100, FacetBits.Untouchable, 1)
     evt.SetFacetBit(101, FacetBits.MoveByDoor, 1)
     SetValue(MapVar(31), 1)
@@ -1068,8 +1069,8 @@ RegisterEvent(514, "Button", function()
         evt.StatusText("The button will not move")
         return
     end
-    evt.SetDoorState(102, 1)
-    evt.SetDoorState(103, 0)
+    evt.SetDoorState(102, DoorAction.Close)
+    evt.SetDoorState(103, DoorAction.Open)
     evt.SetFacetBit(101, FacetBits.Untouchable, 1)
     evt.SetFacetBit(101, FacetBits.MoveByDoor, 0)
     evt.SetFacetBit(102, FacetBits.MoveByDoor, 1)
@@ -1083,8 +1084,8 @@ RegisterEvent(515, "Button", function()
         evt.StatusText("The button will not move")
         return
     end
-    evt.SetDoorState(104, 1)
-    evt.SetDoorState(105, 0)
+    evt.SetDoorState(104, DoorAction.Close)
+    evt.SetDoorState(105, DoorAction.Open)
     evt.SetFacetBit(102, FacetBits.Untouchable, 1)
     evt.SetFacetBit(102, FacetBits.MoveByDoor, 0)
     evt.SetFacetBit(103, FacetBits.MoveByDoor, 1)
@@ -1098,8 +1099,8 @@ RegisterEvent(516, "Button", function()
         evt.StatusText("The button will not move")
         return
     end
-    evt.SetDoorState(106, 1)
-    evt.SetDoorState(107, 0)
+    evt.SetDoorState(106, DoorAction.Close)
+    evt.SetDoorState(107, DoorAction.Open)
     evt.SetFacetBit(103, FacetBits.Untouchable, 1)
     evt.SetFacetBit(103, FacetBits.MoveByDoor, 0)
     SetValue(MapVar(31), 4)
@@ -1107,7 +1108,7 @@ RegisterEvent(516, "Button", function()
 end, "Button")
 
 RegisterEvent(517, "Legacy event 517", function()
-    evt.SetDoorState(114, 0)
+    evt.SetDoorState(114, DoorAction.Open)
     return
 end)
 

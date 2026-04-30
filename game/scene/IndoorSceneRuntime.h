@@ -93,13 +93,14 @@ public:
     const Party &party() const override;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
+    ISceneEventContext *sceneEventContext() override;
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove() override;
     void advanceGameMinutes(float minutes) override;
 
     const std::optional<MapDeltaData> &mapDeltaData() const;
     const std::optional<EventRuntimeState> &eventRuntimeStateStorage() const;
-    const std::optional<ScriptedEventProgram> &localEventProgram() const;
-    const std::optional<ScriptedEventProgram> &globalEventProgram() const;
+    const std::optional<ScriptedEventProgram> &localEventProgram() const override;
+    const std::optional<ScriptedEventProgram> &globalEventProgram() const override;
     IndoorPartyRuntime &partyRuntime();
     const IndoorPartyRuntime &partyRuntime() const;
     IndoorWorldRuntime &worldRuntime();

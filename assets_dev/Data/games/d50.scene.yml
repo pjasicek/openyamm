@@ -4,6 +4,7 @@ source:
   geometry_file: "d50.blv"
   legacy_companion_file: "d50.dlv"
 environment:
+  last_visit_time: 0
   sky_texture: ""
   day_bits_raw: 0
   map_extra_bits_raw: 0
@@ -21,6 +22,8 @@ environment:
     weak_distance: 0
     strong_distance: 0
   ceiling: 0
+  map_extra_reserved_hex: "000000000000000000000000000000000000000000000000"
+spawns: []
 initial_state:
   location:
     respawn_count: 0

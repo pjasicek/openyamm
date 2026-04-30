@@ -131,6 +131,7 @@ struct MapDeltaDoor
 struct MapDeltaData
 {
     MapDeltaLocationInfo locationInfo = {};
+    uint64_t surfaceRevision = 0;
     std::vector<uint8_t> fullyRevealedCells;
     std::vector<uint8_t> partiallyRevealedCells;
     std::vector<uint8_t> visibleOutlines;

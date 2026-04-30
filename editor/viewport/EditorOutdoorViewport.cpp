@@ -4222,7 +4222,9 @@ void EditorOutdoorViewport::updateAndRender(
     }
 
     const bool isOutdoorDocument = document.kind() == EditorDocument::Kind::Outdoor;
-    const bool startedGizmoDrag = tryBeginGizmoDrag(session, leftMouseClicked, mouseX, mouseY);
+    const bool selectModeActive = m_placementKind == EditorSelectionKind::None;
+    const bool startedGizmoDrag =
+        selectModeActive && tryBeginGizmoDrag(session, leftMouseClicked, mouseX, mouseY);
     const bool pickedBeforeEdit = !startedGizmoDrag && tryPick(session, leftMouseClicked, mouseX, mouseY);
     const bool selectedTerrainCell =
         !startedGizmoDrag && isOutdoorDocument && trySelectTerrainCell(session, leftMouseClicked, mouseX, mouseY);
@@ -7304,7 +7306,7 @@ bool EditorOutdoorViewport::tryPick(
     float mouseX,
     float mouseY)
 {
-    if (!leftMouseClicked || !m_isHovered || !session.hasDocument())
+    if (!leftMouseClicked || !m_isHovered || !session.hasDocument() || m_placementKind != EditorSelectionKind::None)
     {
         return false;
     }
@@ -7454,11 +7456,6 @@ bool EditorOutdoorViewport::tryPick(
         return true;
     }
 
-    if (m_placementKind != EditorSelectionKind::None)
-    {
-        return false;
-    }
-
     if (session.document().kind() == EditorDocument::Kind::Indoor)
     {
         bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
@@ -7554,7 +7551,13 @@ bool EditorOutdoorViewport::tryPick(
         {
             Game::OutdoorFaceGeometryData geometry = {};
 
-            if (!Game::buildOutdoorFaceGeometry(bmodel, bmodelIndex, bmodel.faces[faceIndex], faceIndex, geometry))
+            if (!Game::buildOutdoorFaceGeometry(
+                    bmodel,
+                    bmodelIndex,
+                    bmodel.faces[faceIndex],
+                    faceIndex,
+                    geometry,
+                    true))
             {
                 continue;
             }
@@ -8189,7 +8192,13 @@ bool EditorOutdoorViewport::trySelectInteractiveFace(
         {
             Game::OutdoorFaceGeometryData geometry = {};
 
-            if (!Game::buildOutdoorFaceGeometry(bmodel, bmodelIndex, bmodel.faces[faceIndex], faceIndex, geometry))
+            if (!Game::buildOutdoorFaceGeometry(
+                    bmodel,
+                    bmodelIndex,
+                    bmodel.faces[faceIndex],
+                    faceIndex,
+                    geometry,
+                    true))
             {
                 continue;
             }
@@ -8232,7 +8241,13 @@ bool EditorOutdoorViewport::trySelectInteractiveFace(
             {
                 Game::OutdoorFaceGeometryData geometry = {};
 
-                if (!Game::buildOutdoorFaceGeometry(bmodel, bmodelIndex, bmodel.faces[faceIndex], faceIndex, geometry))
+                if (!Game::buildOutdoorFaceGeometry(
+                        bmodel,
+                        bmodelIndex,
+                        bmodel.faces[faceIndex],
+                        faceIndex,
+                        geometry,
+                        true))
                 {
                     continue;
                 }
@@ -12702,7 +12717,8 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                                 bmodelIndex,
                                 bmodel.faces[faceIndex],
                                 faceIndex,
-                                geometry))
+                                geometry,
+                                true))
                         {
                             continue;
                         }
@@ -12735,7 +12751,8 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                             bmodelIndex,
                             bmodel.faces[faceIndex],
                             faceIndex,
-                            geometry)
+                            geometry,
+                            true)
                         || geometry.vertices.empty())
                     {
                         continue;
@@ -12782,7 +12799,8 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                     bmodelIndex,
                     outdoorGeometry.bmodels[bmodelIndex].faces[faceIndex],
                     faceIndex,
-                    geometry))
+                    geometry,
+                    true))
             {
                 const uint32_t color =
                     selection.kind == EditorSelectionKind::InteractiveFace && selection.index == flatIndex
@@ -12845,7 +12863,8 @@ void EditorOutdoorViewport::submitMarkerGeometry(
                         link.bmodelIndex,
                         outdoorGeometry.bmodels[link.bmodelIndex].faces[link.faceIndex],
                         link.faceIndex,
-                        geometry))
+                        geometry,
+                        true))
                 {
                     continue;
                 }

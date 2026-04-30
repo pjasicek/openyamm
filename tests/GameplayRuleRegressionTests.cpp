@@ -772,6 +772,77 @@ TEST_CASE("outdoor actor movement ignores pre-existing actor overlap")
     CHECK(resolved.x > state.x + 32.0f);
 }
 
+TEST_CASE("event revealed outdoor bmodel collision updates party and actor movement caches")
+{
+    OpenYAMM::Game::OutdoorMapData mapData = {};
+    mapData.heightMap.assign(
+        OpenYAMM::Game::OutdoorMapData::TerrainWidth * OpenYAMM::Game::OutdoorMapData::TerrainHeight,
+        0);
+    mapData.attributeMap.assign(
+        OpenYAMM::Game::OutdoorMapData::TerrainWidth * OpenYAMM::Game::OutdoorMapData::TerrainHeight,
+        0);
+
+    OpenYAMM::Game::OutdoorBModel bmodel = {};
+    bmodel.vertices.push_back({128, -128, 0});
+    bmodel.vertices.push_back({128, 128, 0});
+    bmodel.vertices.push_back({128, 128, 256});
+    bmodel.vertices.push_back({128, -128, 256});
+
+    OpenYAMM::Game::OutdoorBModelFace face = {};
+    face.attributes =
+        OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Invisible)
+        | OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Untouchable);
+    face.vertexIndices = {0, 1, 2, 3};
+    face.planeNormalX = -65536;
+    face.planeNormalY = 0;
+    face.planeNormalZ = 0;
+    face.polygonType = 1;
+    bmodel.faces.push_back(face);
+    mapData.bmodels.push_back(bmodel);
+
+    OpenYAMM::Game::OutdoorMovementController movementController(
+        mapData,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt);
+    const uint32_t revealedAttributes =
+        OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Invisible);
+    movementController.setFaceAttributes(0, 0, revealedAttributes);
+
+    const OpenYAMM::Game::OutdoorMoveState partyStart = movementController.initializeState(0.0f, 0.0f, 0.0f);
+    const OpenYAMM::Game::OutdoorMoveState partyResolved = movementController.resolveMove(
+        partyStart,
+        512.0f,
+        0.0f,
+        0.0f,
+        false,
+        false,
+        false,
+        false,
+        false,
+        512.0f,
+        0.0f,
+        4000.0f,
+        0.5f);
+
+    CHECK(partyResolved.x < 128.0f);
+
+    OpenYAMM::Game::OutdoorMoveState actorStart = movementController.initializeStateForBody(0.0f, 32.0f, 0.0f, 40.0f);
+    std::vector<size_t> contactedActorIndices;
+    const OpenYAMM::Game::OutdoorMoveState actorResolved = movementController.resolveOutdoorActorMove(
+        actorStart,
+        OpenYAMM::Game::OutdoorBodyDimensions{40.0f, 128.0f},
+        512.0f,
+        0.0f,
+        0.0f,
+        false,
+        0.5f,
+        &contactedActorIndices);
+
+    CHECK(actorResolved.x < 128.0f);
+}
+
 TEST_CASE("recovery enchant increases recovery progress")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -954,6 +1025,51 @@ TEST_CASE("lua event runtime supports evt jump alias")
     CHECK_EQ(runtimeState.statusMessages.back(), "jump ok");
 }
 
+TEST_CASE("lua event runtime stores question answer metadata and resumes continuation step")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[166] = function(continueStep)\n"
+        "    evt._BeginEvent(166)\n"
+        "    if continueStep == 4 then\n"
+        "        evt.SimpleMessage(\"ok\")\n"
+        "        return\n"
+        "    end\n"
+        "    if continueStep == 2 then\n"
+        "        evt.SimpleMessage(\"bad\")\n"
+        "        return\n"
+        "    end\n"
+        "    evt.AskQuestion(166, 2, 603, 4, 104, 105, \"question\", {\"egg\", \"an egg\"})\n"
+        "    return nil\n"
+        "end\n",
+        "@SyntheticAskQuestion.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 166, runtimeState, nullptr, nullptr));
+    REQUIRE(runtimeState.pendingInputPrompt.has_value());
+    CHECK_EQ(runtimeState.pendingInputPrompt->eventId, 166);
+    CHECK_EQ(runtimeState.pendingInputPrompt->continueStep, 2);
+    CHECK_EQ(runtimeState.pendingInputPrompt->correctStep, 4);
+    CHECK_EQ(runtimeState.pendingInputPrompt->textId, 603u);
+    REQUIRE_EQ(runtimeState.pendingInputPrompt->answerTextIds.size(), 2u);
+    CHECK_EQ(runtimeState.pendingInputPrompt->answerTextIds[0], 104u);
+    CHECK_EQ(runtimeState.pendingInputPrompt->answerTextIds[1], 105u);
+    REQUIRE_EQ(runtimeState.pendingInputPrompt->answers.size(), 2u);
+    CHECK_EQ(runtimeState.pendingInputPrompt->answers[0], "egg");
+    CHECK_EQ(runtimeState.pendingInputPrompt->answers[1], "an egg");
+    REQUIRE_FALSE(runtimeState.messages.empty());
+    CHECK_EQ(runtimeState.messages.back(), "question");
+
+    runtimeState.pendingInputPrompt.reset();
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 166, runtimeState, nullptr, nullptr, 4));
+    REQUIRE_FALSE(runtimeState.messages.empty());
+    CHECK_EQ(runtimeState.messages.back(), "ok");
+}
+
 TEST_CASE("lua event runtime Set applies condition variables")
 {
     const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
@@ -1088,6 +1204,42 @@ TEST_CASE("lua event runtime onload executes SpeakNPC handlers")
     CHECK_EQ(runtimeState.pendingDialogueContext->sourceId, 39u);
 }
 
+TEST_CASE("lua event runtime onload sees party quest bits")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[2] = function()\n"
+        "    evt._BeginEvent(2)\n"
+        "    if evt.Cmp(2359312, 36) then\n"
+        "        evt.SetFacetBit(25, 0x00002000, 0)\n"
+        "    else\n"
+        "        evt.SetFacetBit(25, 0x00002000, 1)\n"
+        "    end\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticOnLoadPartyQuestBit.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map,
+        {2});
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+    party.setQuestBit(36, true);
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    const uint32_t invisibleBit = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Invisible);
+
+    REQUIRE(eventRuntime.executeOnLoadEvents(scriptedProgram, std::nullopt, runtimeState, &party, nullptr));
+    CHECK_EQ(runtimeState.localOnLoadEventsExecuted, 1u);
+    REQUIRE(runtimeState.facetClearMasks.contains(25));
+    CHECK((runtimeState.facetClearMasks.at(25) & invisibleBit) != 0);
+
+    const auto setIt = runtimeState.facetSetMasks.find(25);
+    const bool invisibleBitWasSet =
+        setIt != runtimeState.facetSetMasks.end() && (setIt->second & invisibleBit) != 0;
+    CHECK_FALSE(invisibleBitWasSet);
+}
+
 TEST_CASE("lua event runtime resolves MM8 invisible event variable alias")
 {
     const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
@@ -1183,6 +1335,32 @@ TEST_CASE("lua event runtime treats numeric zero as false for actor group bits")
     CHECK_FALSE(runtimeState.actorGroupSetMasks.contains(44));
     REQUIRE(runtimeState.actorGroupHostilityRequests.contains(44));
     CHECK_FALSE(runtimeState.actorGroupHostilityRequests.at(44));
+}
+
+TEST_CASE("lua event runtime treats numeric zero as false for facet bits")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[1] = function()\n"
+        "    evt._BeginEvent(1)\n"
+        "    evt.SetFacetBit(25, 0x00002000, 0)\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticNumericZeroFacetBit.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    const uint32_t invisibleBit = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Invisible);
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr));
+    REQUIRE(runtimeState.facetClearMasks.contains(25));
+    CHECK((runtimeState.facetClearMasks.at(25) & invisibleBit) != 0);
+
+    const auto setIt = runtimeState.facetSetMasks.find(25);
+    const bool invisibleBitWasSet =
+        setIt != runtimeState.facetSetMasks.end() && (setIt->second & invisibleBit) != 0;
+    CHECK_FALSE(invisibleBitWasSet);
 }
 
 TEST_CASE("save preview bmp decoder accepts current 32 bit preview payloads")
@@ -1416,6 +1594,7 @@ TEST_CASE("outdoor bmodel collision geometry keeps invisible faces and uses auth
 
     face.attributes = OpenYAMM::Game::faceAttributeBit(OpenYAMM::Game::FaceAttribute::Untouchable);
     CHECK_FALSE(OpenYAMM::Game::buildOutdoorFaceGeometry(bmodel, 0, face, 0, geometry));
+    CHECK(OpenYAMM::Game::buildOutdoorFaceGeometry(bmodel, 0, face, 0, geometry, true));
 }
 
 TEST_CASE("resolve character attack sound id uses shared weapon family mapping")

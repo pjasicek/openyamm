@@ -27,8 +27,6 @@ constexpr uint32_t OeMaxCharacterExperience = 4000000000u;
 constexpr uint32_t ArcomageChampionAwardId = 41;
 constexpr size_t ArcomageTavernCount = 11;
 constexpr uint32_t RosterNpcPortraitBaseId = 2901;
-constexpr uint32_t FirstDefaultSeedWandItemId = 152;
-constexpr uint32_t LastDefaultSeedWandItemId = 176;
 
 uint32_t resolveAdventurersInnPortraitPictureId(const Character &character, uint32_t portraitPictureId)
 {
@@ -204,35 +202,6 @@ void grantDefaultEquipmentSkills(Character &character)
     for (const char *pSkillName : skillNames)
     {
         grantSeedSkill(character, pSkillName);
-    }
-}
-
-void grantSeedInventoryLoadout(Character &character)
-{
-    static const std::array<uint32_t, 29> itemIds = {
-        84,
-        89,
-        94,
-        41,
-        1,
-        56,
-        21,
-        66,
-        31,
-        79,
-        99,
-        109,
-        117,
-        132,
-        124,
-        137, 138, 139, 140, 141, 142, 143, 144, 145, 146,
-        127, 129,
-        147, 148
-    };
-
-    for (uint32_t itemId : itemIds)
-    {
-        character.inventory.push_back({itemId, 1, 0, 0, 0, 0});
     }
 }
 
@@ -969,26 +938,6 @@ InventoryItem makeInventoryItem(
     return ItemGenerator::makeInventoryItem(objectDescriptionId, *pItemTable, mode);
 }
 
-void grantSeedWandItem(Character &character, uint32_t itemId)
-{
-    InventoryItem item = {};
-    item.objectDescriptionId = itemId;
-    item.quantity = 1;
-    item.width = 0;
-    item.height = 0;
-    item.identified = true;
-    character.inventory.push_back(item);
-}
-
-void grantDefaultSeedWands(Character &primaryMember, Character &overflowMember)
-{
-    for (uint32_t itemId = FirstDefaultSeedWandItemId; itemId <= LastDefaultSeedWandItemId; ++itemId)
-    {
-        Character &targetMember = itemId <= 171 ? primaryMember : overflowMember;
-        grantSeedWandItem(targetMember, itemId);
-    }
-}
-
 InventoryItem makeInventoryItem(
     const ItemTable *pItemTable,
     uint32_t objectDescriptionId,
@@ -1660,82 +1609,6 @@ PartySeed Party::createDefaultSeed()
     grantAllSkills(cleric, 200, SkillMastery::Grandmaster);
     seed.members.push_back(cleric);
 
-    Character femaleKnight = {};
-    femaleKnight.name = "Leane";
-    femaleKnight.className = "Knight";
-    femaleKnight.role = "Knight";
-    femaleKnight.portraitTextureName = "PC02-01";
-    femaleKnight.portraitPictureId = 1;
-    femaleKnight.characterDataId = 2;
-    femaleKnight.birthYear = 1144;
-    femaleKnight.experience = 50000;
-    femaleKnight.level = 1;
-    femaleKnight.skillPoints = 30;
-    femaleKnight.might = 16;
-    femaleKnight.intellect = 9;
-    femaleKnight.personality = 11;
-    femaleKnight.endurance = 16;
-    femaleKnight.speed = 13;
-    femaleKnight.accuracy = 15;
-    femaleKnight.luck = 12;
-    femaleKnight.maxHealth = 115;
-    femaleKnight.health = 115;
-    grantDefaultEquipmentSkills(femaleKnight);
-
-    Character minotaur = {};
-    minotaur.name = "Arius";
-    minotaur.className = "Minotaur";
-    minotaur.role = "Minotaur";
-    minotaur.portraitTextureName = "PC21-01";
-    minotaur.portraitPictureId = 20;
-    minotaur.characterDataId = 21;
-    minotaur.birthYear = 1155;
-    minotaur.experience = 10000;
-    minotaur.level = 5;
-    minotaur.skillPoints = 30;
-    minotaur.might = 21;
-    minotaur.intellect = 11;
-    minotaur.personality = 17;
-    minotaur.endurance = 18;
-    minotaur.speed = 10;
-    minotaur.accuracy = 16;
-    minotaur.luck = 12;
-    minotaur.maxHealth = 130;
-    minotaur.health = 130;
-    grantDefaultEquipmentSkills(minotaur);
-    grantDefaultSeedWands(femaleKnight, minotaur);
-    grantSeedInventoryLoadout(femaleKnight);
-    grantSeedSpellAccess(femaleKnight);
-    seed.members.push_back(femaleKnight);
-    grantSeedInventoryLoadout(minotaur);
-    grantSeedSpellAccess(minotaur);
-    seed.members.push_back(minotaur);
-
-    Character troll = {};
-    troll.name = "Overdune";
-    troll.className = "Troll";
-    troll.role = "Troll";
-    troll.portraitTextureName = "PC23-01";
-    troll.portraitPictureId = 22;
-    troll.characterDataId = 23;
-    troll.birthYear = 1149;
-    troll.experience = 10000;
-    troll.level = 5;
-    troll.skillPoints = 30;
-    troll.might = 20;
-    troll.intellect = 8;
-    troll.personality = 8;
-    troll.endurance = 20;
-    troll.speed = 14;
-    troll.accuracy = 16;
-    troll.luck = 12;
-    troll.maxHealth = 140;
-    troll.health = 140;
-    grantDefaultEquipmentSkills(troll);
-    grantSeedInventoryLoadout(troll);
-    grantSeedSpellAccess(troll);
-    seed.members.push_back(troll);
-
     return seed;
 }
 
@@ -1895,6 +1768,13 @@ Party::Snapshot Party::snapshot() const
     snapshot.arcomageLossCount = m_arcomageLossCount;
     snapshot.questBits = m_questBits;
     snapshot.eventVariables = m_eventVariables;
+    snapshot.npcTopicOverrides = m_npcTopicOverrides;
+    snapshot.npcGroupNews = m_npcGroupNews;
+    snapshot.npcGreetingOverrides = m_npcGreetingOverrides;
+    snapshot.npcGreetingDisplayCounts = m_npcGreetingDisplayCounts;
+    snapshot.npcHouseOverrides = m_npcHouseOverrides;
+    snapshot.npcItemOverrides = m_npcItemOverrides;
+    snapshot.unavailableNpcIds = m_unavailableNpcIds;
 
     for (const auto &[houseId, state] : m_houseStockStates)
     {
@@ -1929,6 +1809,13 @@ void Party::restoreSnapshot(const Snapshot &snapshot)
     m_arcomageLossCount = snapshot.arcomageLossCount;
     m_questBits = snapshot.questBits;
     m_eventVariables = snapshot.eventVariables;
+    m_npcTopicOverrides = snapshot.npcTopicOverrides;
+    m_npcGroupNews = snapshot.npcGroupNews;
+    m_npcGreetingOverrides = snapshot.npcGreetingOverrides;
+    m_npcGreetingDisplayCounts = snapshot.npcGreetingDisplayCounts;
+    m_npcHouseOverrides = snapshot.npcHouseOverrides;
+    m_npcItemOverrides = snapshot.npcItemOverrides;
+    m_unavailableNpcIds = snapshot.unavailableNpcIds;
     m_houseStockStates.clear();
 
     for (const HouseStockState &state : snapshot.houseStockStates)
@@ -1978,6 +1865,13 @@ void Party::seed(const PartySeed &seed)
     m_foundArtifactItems.clear();
     m_questBits.clear();
     m_eventVariables.clear();
+    m_npcTopicOverrides.clear();
+    m_npcGroupNews.clear();
+    m_npcGreetingOverrides.clear();
+    m_npcGreetingDisplayCounts.clear();
+    m_npcHouseOverrides.clear();
+    m_npcItemOverrides.clear();
+    m_unavailableNpcIds.clear();
     m_houseStockStates.clear();
 
     for (Character &member : m_members)
@@ -3160,6 +3054,90 @@ void Party::setQuestBit(uint32_t questBitId, bool value)
     else
     {
         m_questBits.erase(questBitId);
+    }
+}
+
+void Party::applyGlobalNpcStateTo(EventRuntimeState &runtimeState) const
+{
+    for (const auto &[npcId, topicOverrides] : m_npcTopicOverrides)
+    {
+        for (const auto &[topicSlotIndex, topicId] : topicOverrides)
+        {
+            runtimeState.npcTopicOverrides[npcId][topicSlotIndex] = topicId;
+        }
+    }
+
+    for (const auto &[groupId, newsId] : m_npcGroupNews)
+    {
+        runtimeState.npcGroupNews[groupId] = newsId;
+    }
+
+    for (const auto &[npcId, greetingId] : m_npcGreetingOverrides)
+    {
+        runtimeState.npcGreetingOverrides[npcId] = greetingId;
+    }
+
+    for (const auto &[npcId, displayCount] : m_npcGreetingDisplayCounts)
+    {
+        runtimeState.npcGreetingDisplayCounts[npcId] = displayCount;
+    }
+
+    for (const auto &[npcId, houseId] : m_npcHouseOverrides)
+    {
+        runtimeState.npcHouseOverrides[npcId] = houseId;
+    }
+
+    for (const auto &[npcId, itemId] : m_npcItemOverrides)
+    {
+        runtimeState.npcItemOverrides[npcId] = itemId;
+    }
+
+    for (uint32_t npcId : m_unavailableNpcIds)
+    {
+        runtimeState.unavailableNpcIds.insert(npcId);
+    }
+}
+
+void Party::setNpcTopicOverride(uint32_t npcId, uint32_t topicSlotIndex, uint32_t topicId)
+{
+    m_npcTopicOverrides[npcId][topicSlotIndex] = topicId;
+}
+
+void Party::setNpcGroupNews(uint32_t groupId, uint32_t newsId)
+{
+    m_npcGroupNews[groupId] = newsId;
+}
+
+void Party::setNpcGreetingOverride(uint32_t npcId, uint32_t greetingId)
+{
+    m_npcGreetingOverrides[npcId] = greetingId;
+    m_npcGreetingDisplayCounts[npcId] = 0;
+}
+
+void Party::setNpcHouseOverride(uint32_t npcId, uint32_t houseId)
+{
+    m_npcHouseOverrides[npcId] = houseId;
+}
+
+void Party::clearNpcHouseOverride(uint32_t npcId)
+{
+    m_npcHouseOverrides.erase(npcId);
+}
+
+void Party::setNpcItemOverride(uint32_t npcId, uint32_t itemId)
+{
+    m_npcItemOverrides[npcId] = itemId;
+}
+
+void Party::setNpcUnavailable(uint32_t npcId, bool unavailable)
+{
+    if (unavailable)
+    {
+        m_unavailableNpcIds.insert(npcId);
+    }
+    else
+    {
+        m_unavailableNpcIds.erase(npcId);
     }
 }
 

@@ -46,9 +46,9 @@ ACTOR_HEIGHT_OFFSET = 0x92
 ACTOR_MOVE_SPEED_OFFSET = 0x94
 ACTOR_POSITION_OFFSET = 0x96
 ACTOR_SPRITE_IDS_OFFSET = 0xD4
-ACTOR_SECTOR_ID_OFFSET = 0xDC
-ACTOR_CURRENT_ACTION_ANIMATION_OFFSET = 0xDE
-ACTOR_CARRIED_ITEM_ID_OFFSET = 0xB8
+ACTOR_SECTOR_ID_OFFSET = 0xA6
+ACTOR_CURRENT_ACTION_ANIMATION_OFFSET = 0xBA
+ACTOR_CARRIED_ITEM_ID_OFFSET = 0xBC
 ACTOR_ALLY_OFFSET = 0x340
 ACTOR_GROUP_OFFSET = 0x34C
 ACTOR_UNIQUE_NAME_INDEX_OFFSET = 0x3BC
@@ -394,6 +394,7 @@ def parse_location_time_optional(reader: ByteReader, offset: int) -> dict[str, o
         "fog_strong_distance": 0,
         "map_extra_bits_raw": 0,
         "ceiling": 0,
+        "map_extra_reserved_hex": "000000000000000000000000000000000000000000000000",
     }
 
     if not reader.can_read(offset, LOCATION_TIME_SIZE):
@@ -408,6 +409,7 @@ def parse_location_time_optional(reader: ByteReader, offset: int) -> dict[str, o
     map_extra_bits_raw, ceiling = decode_map_extra(reserved)
     location_time["map_extra_bits_raw"] = map_extra_bits_raw
     location_time["ceiling"] = ceiling
+    location_time["map_extra_reserved_hex"] = bytes_to_hex(reserved)
     return location_time
 
 
@@ -445,7 +447,18 @@ def parse_indoor_doors(
         })
 
     data_offset = offset + door_count * DOOR_RECORD_SIZE
-    doors_data_count = max(doors_data_size_bytes, 0) // 2
+    minimum_doors_data_count = 0
+
+    for door in door_headers:
+        minimum_doors_data_count += (
+            door["num_vertices"]
+            + door["num_faces"]
+            + door["num_sectors"]
+            + door["num_faces"] * 2
+            + door["num_offsets"] * 3
+        )
+
+    doors_data_count = max(max(doors_data_size_bytes, 0) // 2, minimum_doors_data_count)
     reader.require(data_offset, doors_data_count * 2, "door data vectors")
     doors_data: list[int] = []
 
@@ -641,6 +654,36 @@ def parse_indoor_blv(path: Path) -> dict[str, object]:
     door_count = reader.read_i32(offset, "door count")
     offset += 4
     entity_count = reader.read_i32(offset, "entity count")
+    offset += 4 + entity_count * layout["sprite_record_size"]
+    offset += entity_count * SPRITE_NAME_SIZE
+    light_count = reader.read_i32(offset, "light count")
+    offset += 4 + light_count * layout["light_record_size"]
+    unknown9_count = reader.read_i32(offset, "unknown9 count")
+    offset += 4 + unknown9_count * UNKNOWN9_RECORD_SIZE
+    spawn_count = reader.read_i32(offset, "spawn count")
+    offset += 4
+    spawns: list[dict[str, object]] = []
+
+    for spawn_index in range(spawn_count):
+        spawn_offset = offset + spawn_index * layout["spawn_record_size"]
+        spawn = {
+            "spawn_index": spawn_index,
+            "position": {
+                "x": reader.read_i32(spawn_offset + 0x00, f"spawn {spawn_index} x"),
+                "y": reader.read_i32(spawn_offset + 0x04, f"spawn {spawn_index} y"),
+                "z": reader.read_i32(spawn_offset + 0x08, f"spawn {spawn_index} z"),
+            },
+            "radius": reader.read_u16(spawn_offset + 0x0C, f"spawn {spawn_index} radius"),
+            "type_id": reader.read_u16(spawn_offset + 0x0E, f"spawn {spawn_index} type id"),
+            "index": reader.read_u16(spawn_offset + 0x10, f"spawn {spawn_index} index"),
+            "attributes": reader.read_u16(spawn_offset + 0x12, f"spawn {spawn_index} attributes"),
+            "group": 0,
+        }
+
+        if layout["version"] > 6:
+            spawn["group"] = reader.read_u32(spawn_offset + 0x14, f"spawn {spawn_index} group")
+
+        spawns.append(spawn)
 
     return {
         "path": path,
@@ -655,6 +698,7 @@ def parse_indoor_blv(path: Path) -> dict[str, object]:
         "sector_count": sector_count,
         "door_count": door_count,
         "entity_count": entity_count,
+        "spawns": spawns,
     }
 
 
@@ -734,6 +778,7 @@ def build_scene_model(blv_model: dict[str, object], dlv_model: dict[str, object]
             "legacy_companion_file": dlv_model["path"].name,
         },
         "environment": {
+            "last_visit_time": location_time["last_visit_time"],
             "sky_texture": location_time["sky_texture_name"],
             "day_bits_raw": location_time["day_bits_raw"],
             "map_extra_bits_raw": location_time["map_extra_bits_raw"],
@@ -753,7 +798,9 @@ def build_scene_model(blv_model: dict[str, object], dlv_model: dict[str, object]
                 "strong_distance": location_time["fog_strong_distance"],
             },
             "ceiling": location_time["ceiling"],
+            "map_extra_reserved_hex": location_time["map_extra_reserved_hex"],
         },
+        "spawns": blv_model["spawns"],
         "initial_state": {
             "location": {
                 "respawn_count": dlv_model["location"]["respawn_count"],
@@ -785,6 +832,7 @@ def render_scene_yaml(scene_model: dict[str, object]) -> str:
 
     environment = scene_model["environment"]
     lines.append("environment:")
+    write_yaml_scalar(lines, "  ", "last_visit_time", environment["last_visit_time"])
     write_yaml_scalar(lines, "  ", "sky_texture", environment["sky_texture"])
     write_yaml_scalar(lines, "  ", "day_bits_raw", environment["day_bits_raw"])
     write_yaml_scalar(lines, "  ", "map_extra_bits_raw", environment["map_extra_bits_raw"])
@@ -807,6 +855,21 @@ def render_scene_yaml(scene_model: dict[str, object]) -> str:
     write_yaml_scalar(lines, "    ", "weak_distance", environment["fog"]["weak_distance"])
     write_yaml_scalar(lines, "    ", "strong_distance", environment["fog"]["strong_distance"])
     write_yaml_scalar(lines, "  ", "ceiling", environment["ceiling"])
+    write_yaml_scalar(lines, "  ", "map_extra_reserved_hex", environment["map_extra_reserved_hex"])
+
+    spawns = scene_model["spawns"]
+    if not spawns:
+        lines.append("spawns: []")
+    else:
+        lines.append("spawns:")
+        for spawn in spawns:
+            lines.append(f"  - spawn_index: {spawn['spawn_index']}")
+            append_position_block(lines, "    ", "position", spawn["position"])
+            lines.append(f"    radius: {spawn['radius']}")
+            lines.append(f"    type_id: {spawn['type_id']}")
+            lines.append(f"    index: {spawn['index']}")
+            lines.append(f"    attributes: {spawn['attributes']}")
+            lines.append(f"    group: {spawn['group']}")
 
     initial_state = scene_model["initial_state"]
     lines.append("initial_state:")

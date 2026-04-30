@@ -163,6 +163,7 @@ private:
         std::vector<uint8_t> mechanismBlockingFaceMask;
         std::vector<uint8_t> collisionFaceMask;
         IndoorFaceGeometryCache geometryCache;
+        uint64_t surfaceRevision = 0;
     };
     struct IndoorWallCollision
     {

@@ -77,7 +77,7 @@ void CutsceneVideoScreen::drawScreen(float deltaSeconds)
     if (!m_playAttempted)
     {
         m_playAttempted = true;
-        m_startedPlayback = m_videoPlayer.play(assetFileSystem(), m_videoStem, m_videoDirectory);
+        m_startedPlayback = m_videoPlayer.play(assetFileSystem(), m_videoStem, m_videoDirectory, false);
 
         if (!m_startedPlayback)
         {

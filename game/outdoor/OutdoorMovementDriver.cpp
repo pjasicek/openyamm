@@ -559,4 +559,9 @@ void OutdoorMovementDriver::setActorColliders(const std::vector<OutdoorActorColl
     m_movementController.setActorColliders(actorColliders);
 }
 
+void OutdoorMovementDriver::setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes)
+{
+    m_movementController.setFaceAttributes(bModelIndex, faceIndex, attributes);
+}
+
 }

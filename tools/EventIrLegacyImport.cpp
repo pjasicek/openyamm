@@ -33,6 +33,17 @@ std::string quote(const std::string &value)
     return "\"" + value + "\"";
 }
 
+std::string decodeDoorAction(uint32_t value)
+{
+    switch (value)
+    {
+        case 0: return "DoorAction.Open";
+        case 1: return "DoorAction.Close";
+        case 2: return "DoorAction.Trigger";
+        default: return std::to_string(value);
+    }
+}
+
 std::string decodeVariableRef(uint32_t rawValue)
 {
     uint32_t variableTag = rawValue & 0xFFFFu;
@@ -746,7 +757,7 @@ EventIrInstruction convertInstruction(
             if (evtInstruction.value1 && evtInstruction.value2)
             {
                 irInstruction.note = "mechanism=" + std::to_string(*evtInstruction.value1)
-                    + " action=" + std::to_string(*evtInstruction.value2);
+                    + " action=" + decodeDoorAction(*evtInstruction.value2);
             }
             break;
 

@@ -15,7 +15,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t SaveVersion = 30;
+constexpr uint32_t SaveVersion = 31;
 constexpr uint32_t SaveVersionAttackSpell = 19;
 constexpr uint32_t SaveVersionIndoorCorpseViews = 21;
 constexpr uint32_t SaveVersionIndoorChestViews = 22;
@@ -27,6 +27,8 @@ constexpr uint32_t SaveVersionActorCarriedItem = 27;
 constexpr uint32_t SaveVersionDungeonTransitionDialogue = 28;
 constexpr uint32_t SaveVersionIndoorSaveLoadParity = 29;
 constexpr uint32_t SaveVersionCombatEffectState = 30;
+constexpr uint32_t SaveVersionGlobalNpcState = 31;
+constexpr uint32_t SaveVersionInputPromptAnswers = 32;
 constexpr char SaveMagic[8] = {'O', 'Y', 'S', 'A', 'V', 'E', '1', '\0'};
 
 std::string toLowerCopy(const std::string &value)
@@ -930,6 +932,13 @@ void writeValue(BinaryWriter &writer, const Party::Snapshot &value)
     writeValue(writer, value.houseStockStates);
     writeValue(writer, value.questBits);
     writeValue(writer, value.eventVariables);
+    writeValue(writer, value.npcTopicOverrides);
+    writeValue(writer, value.npcGroupNews);
+    writeValue(writer, value.npcGreetingOverrides);
+    writeValue(writer, value.npcGreetingDisplayCounts);
+    writeValue(writer, value.npcHouseOverrides);
+    writeValue(writer, value.npcItemOverrides);
+    writeValue(writer, value.unavailableNpcIds);
 }
 
 bool readValue(BinaryReader &reader, Party::Snapshot &value)
@@ -956,7 +965,14 @@ bool readValue(BinaryReader &reader, Party::Snapshot &value)
         && readValue(reader, value.arcomageLossCount)
         && readValue(reader, value.houseStockStates)
         && readValue(reader, value.questBits)
-        && readValue(reader, value.eventVariables);
+        && readValue(reader, value.eventVariables)
+        && (reader.version() < SaveVersionGlobalNpcState || readValue(reader, value.npcTopicOverrides))
+        && (reader.version() < SaveVersionGlobalNpcState || readValue(reader, value.npcGroupNews))
+        && (reader.version() < SaveVersionGlobalNpcState || readValue(reader, value.npcGreetingOverrides))
+        && (reader.version() < SaveVersionGlobalNpcState || readValue(reader, value.npcGreetingDisplayCounts))
+        && (reader.version() < SaveVersionGlobalNpcState || readValue(reader, value.npcHouseOverrides))
+        && (reader.version() < SaveVersionGlobalNpcState || readValue(reader, value.npcItemOverrides))
+        && (reader.version() < SaveVersionGlobalNpcState || readValue(reader, value.unavailableNpcIds));
 }
 
 void writeValue(BinaryWriter &writer, const OutdoorMoveState &value)
@@ -1367,7 +1383,10 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingInputPromp
     writeValue(writer, value.kind);
     writeValue(writer, value.eventId);
     writeValue(writer, value.continueStep);
+    writeValue(writer, value.correctStep);
     writeValue(writer, value.textId);
+    writeValue(writer, value.answerTextIds);
+    writeValue(writer, value.answers);
     writeValue(writer, value.text);
 }
 
@@ -1376,8 +1395,31 @@ bool readValue(BinaryReader &reader, EventRuntimeState::PendingInputPrompt &valu
     return readValue(reader, value.kind)
         && readValue(reader, value.eventId)
         && readValue(reader, value.continueStep)
+        && (reader.version() < SaveVersionInputPromptAnswers || readValue(reader, value.correctStep))
         && readValue(reader, value.textId)
+        && (reader.version() < SaveVersionInputPromptAnswers || readValue(reader, value.answerTextIds))
+        && (reader.version() < SaveVersionInputPromptAnswers || readValue(reader, value.answers))
         && readValue(reader, value.text);
+}
+
+void writePendingInputPromptForSave(BinaryWriter &writer, const EventRuntimeState &value)
+{
+    (void)value;
+    const std::optional<EventRuntimeState::PendingInputPrompt> emptyPrompt = std::nullopt;
+    writeValue(writer, emptyPrompt);
+}
+
+bool readPendingInputPromptForSave(BinaryReader &reader, EventRuntimeState &value)
+{
+    std::optional<EventRuntimeState::PendingInputPrompt> discardedPrompt;
+
+    if (!readValue(reader, discardedPrompt))
+    {
+        return false;
+    }
+
+    value.pendingInputPrompt.reset();
+    return true;
 }
 
 void writeValue(BinaryWriter &writer, const EventRuntimeState::PendingSound &value)
@@ -1544,7 +1586,7 @@ void writeValue(BinaryWriter &writer, const EventRuntimeState &value)
     writeValue(writer, value.pendingDialogueContext);
     writeValue(writer, value.pendingMapMove);
     writeValue(writer, value.pendingMovie);
-    writeValue(writer, value.pendingInputPrompt);
+    writePendingInputPromptForSave(writer, value);
     writeValue(writer, value.pendingArcomageGame);
     writeValue(writer, value.pendingSounds);
     writeValue(writer, value.lastAffectedMechanismIds);
@@ -1599,7 +1641,7 @@ bool readValue(BinaryReader &reader, EventRuntimeState &value)
         && readValue(reader, value.pendingDialogueContext)
         && readValue(reader, value.pendingMapMove)
         && readValue(reader, value.pendingMovie)
-        && readValue(reader, value.pendingInputPrompt)
+        && readPendingInputPromptForSave(reader, value)
         && readValue(reader, value.pendingArcomageGame)
         && readValue(reader, value.pendingSounds)
         && readValue(reader, value.lastAffectedMechanismIds)

@@ -65,6 +65,7 @@ public:
 
     void reset(size_t faceCount);
     void invalidateFace(size_t faceIndex);
+    void setAttributeOverrides(const MapDeltaData *pMapDeltaData);
     const IndoorFaceGeometryData *geometryForFace(
         const IndoorMapData &indoorMapData,
         const std::vector<IndoorVertex> &vertices,
@@ -72,6 +73,8 @@ public:
     );
 
 private:
+    const MapDeltaData *m_pAttributeOverrides = nullptr;
+    uint64_t m_attributeRevision = 0;
     std::vector<uint8_t> m_entryStates;
     std::vector<IndoorFaceGeometryData> m_entries;
 };
@@ -103,7 +106,8 @@ bool buildIndoorFaceGeometry(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,
     size_t faceIndex,
-    IndoorFaceGeometryData &geometry
+    IndoorFaceGeometryData &geometry,
+    const MapDeltaData *pMapDeltaData = nullptr
 );
 bool isPointInsideIndoorPolygonProjected(
     const bx::Vec3 &point,

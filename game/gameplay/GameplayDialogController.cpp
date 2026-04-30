@@ -1114,6 +1114,7 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
             }
 
             context.eventRuntimeState.npcHouseOverrides[invite.npcId] = AdventurersInnHouseId;
+            context.pParty->setNpcHouseOverride(invite.npcId, AdventurersInnHouseId);
 
             if (context.pNpcDialogTable != nullptr)
             {
@@ -1150,6 +1151,8 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
 
         context.eventRuntimeState.unavailableNpcIds.insert(invite.npcId);
         context.eventRuntimeState.npcHouseOverrides.erase(invite.npcId);
+        context.pParty->setNpcUnavailable(invite.npcId, true);
+        context.pParty->clearNpcHouseOverride(invite.npcId);
         context.eventRuntimeState.messages.push_back(pRosterEntry->name + " joined the party.");
         queueUiSound(context.eventRuntimeState, HeroismEffectSoundId);
         setPendingDialogueContext(
@@ -1279,6 +1282,12 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         if (!executed)
         {
             context.eventRuntimeState.messages.push_back("That topic does not have an event yet.");
+        }
+
+        if (context.eventRuntimeState.pendingWinGame)
+        {
+            result.shouldCloseActiveDialog = true;
+            return result;
         }
 
         if (!context.eventRuntimeState.pendingDialogueContext

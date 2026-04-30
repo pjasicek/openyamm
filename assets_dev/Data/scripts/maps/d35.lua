@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4, 5},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -53,310 +54,310 @@ RegisterNoOpEvent(9, "prison", "prison")
 RegisterNoOpEvent(10, "prison", "prison")
 
 RegisterEvent(11, "Door", function()
-    evt.SetDoorState(1, 0)
+    evt.SetDoorState(1, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(12, "Door", function()
-    evt.SetDoorState(2, 0)
+    evt.SetDoorState(2, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(13, "Door", function()
-    evt.SetDoorState(3, 0)
+    evt.SetDoorState(3, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(14, "Door", function()
-    evt.SetDoorState(4, 0)
+    evt.SetDoorState(4, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(15, "Door", function()
-    evt.SetDoorState(5, 0)
+    evt.SetDoorState(5, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(16, "Door", function()
-    evt.SetDoorState(6, 0)
+    evt.SetDoorState(6, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(17, "Door", function()
-    evt.SetDoorState(7, 0)
+    evt.SetDoorState(7, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(18, "Door", function()
-    evt.SetDoorState(8, 0)
+    evt.SetDoorState(8, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(19, "Door", function()
-    evt.SetDoorState(9, 0)
+    evt.SetDoorState(9, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(20, "Door", function()
-    evt.SetDoorState(10, 0)
+    evt.SetDoorState(10, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(21, "Door", function()
-    evt.SetDoorState(11, 0)
+    evt.SetDoorState(11, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(22, "Door", function()
-    evt.SetDoorState(12, 0)
+    evt.SetDoorState(12, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(23, "Door", function()
-    evt.SetDoorState(13, 0)
+    evt.SetDoorState(13, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(24, "Door", function()
-    evt.SetDoorState(14, 0)
+    evt.SetDoorState(14, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(25, "Door", function()
-    evt.SetDoorState(15, 0)
+    evt.SetDoorState(15, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(26, "Door", function()
-    evt.SetDoorState(16, 0)
+    evt.SetDoorState(16, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(27, "Door", function()
-    evt.SetDoorState(17, 0)
+    evt.SetDoorState(17, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(28, "Door", function()
-    evt.SetDoorState(18, 0)
+    evt.SetDoorState(18, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(29, "Door", function()
-    evt.SetDoorState(19, 0)
+    evt.SetDoorState(19, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(30, "Door", function()
-    evt.SetDoorState(20, 0)
+    evt.SetDoorState(20, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(31, "Door", function()
-    evt.SetDoorState(21, 0)
+    evt.SetDoorState(21, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(32, "Door", function()
-    evt.SetDoorState(22, 0)
+    evt.SetDoorState(22, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(33, "Door", function()
-    evt.SetDoorState(23, 0)
+    evt.SetDoorState(23, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(34, "Door", function()
-    evt.SetDoorState(24, 0)
+    evt.SetDoorState(24, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(35, "Door", function()
-    evt.SetDoorState(25, 0)
+    evt.SetDoorState(25, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(36, "Door", function()
-    evt.SetDoorState(26, 0)
+    evt.SetDoorState(26, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(37, "Door", function()
-    evt.SetDoorState(27, 0)
+    evt.SetDoorState(27, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(38, "Door", function()
-    evt.SetDoorState(28, 0)
+    evt.SetDoorState(28, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(50, "Lever", function()
-    evt.SetDoorState(29, 0)
-    evt.SetDoorState(30, 0)
+    evt.SetDoorState(29, DoorAction.Open)
+    evt.SetDoorState(30, DoorAction.Open)
     return
 end, "Lever")
 
 RegisterEvent(51, "Lever", function()
-    evt.SetDoorState(31, 0)
-    evt.SetDoorState(32, 0)
+    evt.SetDoorState(31, DoorAction.Open)
+    evt.SetDoorState(32, DoorAction.Open)
     return
 end, "Lever")
 
 RegisterEvent(52, "Lever", function()
-    evt.SetDoorState(33, 0)
-    evt.SetDoorState(34, 0)
+    evt.SetDoorState(33, DoorAction.Open)
+    evt.SetDoorState(34, DoorAction.Open)
     return
 end, "Lever")
 
 RegisterEvent(53, "Lever", function()
-    evt.SetDoorState(35, 0)
-    evt.SetDoorState(36, 0)
+    evt.SetDoorState(35, DoorAction.Open)
+    evt.SetDoorState(36, DoorAction.Open)
     return
 end, "Lever")
 
 RegisterEvent(54, "Lever", function()
-    evt.SetDoorState(37, 0)
-    evt.SetDoorState(38, 0)
+    evt.SetDoorState(37, DoorAction.Open)
+    evt.SetDoorState(38, DoorAction.Open)
     return
 end, "Lever")
 
 RegisterEvent(55, "Button", function()
-    evt.SetDoorState(39, 0)
-    evt.SetDoorState(40, 0)
+    evt.SetDoorState(39, DoorAction.Open)
+    evt.SetDoorState(40, DoorAction.Open)
     return
 end, "Button")
 
 RegisterEvent(56, "Lever", function()
-    evt.SetDoorState(41, 0)
-    evt.SetDoorState(42, 0)
+    evt.SetDoorState(41, DoorAction.Open)
+    evt.SetDoorState(42, DoorAction.Open)
     return
 end, "Lever")
 
 RegisterEvent(57, "Lever", function()
-    evt.SetDoorState(43, 0)
-    evt.SetDoorState(44, 0)
+    evt.SetDoorState(43, DoorAction.Open)
+    evt.SetDoorState(44, DoorAction.Open)
     return
 end, "Lever")
 
 RegisterEvent(58, "Button", function()
-    evt.SetDoorState(45, 0)
-    evt.SetDoorState(46, 0)
+    evt.SetDoorState(45, DoorAction.Open)
+    evt.SetDoorState(46, DoorAction.Open)
     return
 end, "Button")
 
 RegisterEvent(59, "Lever", function()
-    evt.SetDoorState(47, 0)
-    evt.SetDoorState(48, 0)
+    evt.SetDoorState(47, DoorAction.Open)
+    evt.SetDoorState(48, DoorAction.Open)
     return
 end, "Lever")
 
 RegisterEvent(60, "Button", function()
-    evt.SetDoorState(49, 0)
-    evt.SetDoorState(50, 0)
+    evt.SetDoorState(49, DoorAction.Open)
+    evt.SetDoorState(50, DoorAction.Open)
     return
 end, "Button")
 
 RegisterEvent(61, "Lever", function()
-    evt.SetDoorState(51, 0)
-    evt.SetDoorState(52, 0)
+    evt.SetDoorState(51, DoorAction.Open)
+    evt.SetDoorState(52, DoorAction.Open)
     return
 end, "Lever")
 
 RegisterEvent(62, "Lever", function()
-    evt.SetDoorState(53, 0)
-    evt.SetDoorState(54, 0)
+    evt.SetDoorState(53, DoorAction.Open)
+    evt.SetDoorState(54, DoorAction.Open)
     return
 end, "Lever")
 
 RegisterEvent(63, "Button", function()
-    evt.SetDoorState(55, 0)
-    evt.SetDoorState(56, 0)
+    evt.SetDoorState(55, DoorAction.Open)
+    evt.SetDoorState(56, DoorAction.Open)
     return
 end, "Button")
 
 RegisterEvent(64, "Door", function()
-    evt.SetDoorState(57, 0)
-    evt.SetDoorState(58, 0)
+    evt.SetDoorState(57, DoorAction.Open)
+    evt.SetDoorState(58, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(65, "Door", function()
-    evt.SetDoorState(59, 0)
-    evt.SetDoorState(60, 0)
+    evt.SetDoorState(59, DoorAction.Open)
+    evt.SetDoorState(60, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(66, "Door", function()
-    evt.SetDoorState(61, 0)
-    evt.SetDoorState(62, 0)
+    evt.SetDoorState(61, DoorAction.Open)
+    evt.SetDoorState(62, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(67, "Door", function()
-    evt.SetDoorState(63, 0)
-    evt.SetDoorState(64, 0)
+    evt.SetDoorState(63, DoorAction.Open)
+    evt.SetDoorState(64, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(68, "Door", function()
-    evt.SetDoorState(65, 0)
-    evt.SetDoorState(66, 0)
+    evt.SetDoorState(65, DoorAction.Open)
+    evt.SetDoorState(66, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(69, "Door", function()
-    evt.SetDoorState(67, 0)
-    evt.SetDoorState(68, 0)
+    evt.SetDoorState(67, DoorAction.Open)
+    evt.SetDoorState(68, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(70, "Door", function()
-    evt.SetDoorState(69, 0)
-    evt.SetDoorState(70, 0)
+    evt.SetDoorState(69, DoorAction.Open)
+    evt.SetDoorState(70, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(71, "Door", function()
-    evt.SetDoorState(71, 0)
-    evt.SetDoorState(72, 0)
+    evt.SetDoorState(71, DoorAction.Open)
+    evt.SetDoorState(72, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(72, "Door", function()
-    evt.SetDoorState(73, 0)
-    evt.SetDoorState(74, 0)
+    evt.SetDoorState(73, DoorAction.Open)
+    evt.SetDoorState(74, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(73, "Door", function()
-    evt.SetDoorState(75, 0)
-    evt.SetDoorState(76, 0)
+    evt.SetDoorState(75, DoorAction.Open)
+    evt.SetDoorState(76, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(74, "Door", function()
-    evt.SetDoorState(77, 0)
-    evt.SetDoorState(78, 0)
+    evt.SetDoorState(77, DoorAction.Open)
+    evt.SetDoorState(78, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(75, "Door", function()
-    evt.SetDoorState(79, 0)
-    evt.SetDoorState(80, 0)
+    evt.SetDoorState(79, DoorAction.Open)
+    evt.SetDoorState(80, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(76, "Door", function()
-    evt.SetDoorState(81, 0)
-    evt.SetDoorState(82, 0)
+    evt.SetDoorState(81, DoorAction.Open)
+    evt.SetDoorState(82, DoorAction.Open)
     return
 end, "Door")
 
 RegisterEvent(77, "Door", function()
-    evt.SetDoorState(83, 0)
-    evt.SetDoorState(84, 0)
+    evt.SetDoorState(83, DoorAction.Open)
+    evt.SetDoorState(84, DoorAction.Open)
     return
 end, "Door")
 

@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4, 5},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -51,369 +52,369 @@ RegisterNoOpEvent(8, "Legacy event 8")
 RegisterNoOpEvent(9, "Legacy event 9")
 
 RegisterEvent(10, "Legacy event 10", function()
-    if IsQBitSet(QBit(69)) then return end
-    if evt.CheckMonstersKilled(2, 87, 0, true) and evt.CheckMonstersKilled(2, 88, 0, true) and evt.CheckMonstersKilled(2, 89, 0, true) then
-        SetQBit(QBit(69))
-        SetQBit(QBit(225))
-        ClearQBit(QBit(225))
-        evt.StatusText("Cauri returned and informed us of this assistance you provided her.  She also notified us of your promotion.  Congratulations, may your profits bring you much joy!")
+    if IsQBitSet(QBit(69)) then return end -- Ancient Troll Homeland Found
+    if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 87, 0, true) and evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 88, 0, true) and evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 89, 0, true) then -- monster 87 "Young Basilisk"; all matching actors defeated
+        SetQBit(QBit(69)) -- Ancient Troll Homeland Found
+        SetQBit(QBit(225)) -- dead questbit for internal use(bling)
+        ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
+        evt.StatusText("You have Killed all of the Basilisks in this Ancient Troll Home")
     else
     end
     return
 end)
 
-RegisterEvent(11, "Legacy event 11", function()
-    evt.SetDoorState(1, 0)
+RegisterEvent(11, "Door", function()
+    evt.SetDoorState(1, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(12, "Legacy event 12", function()
-    evt.SetDoorState(2, 0)
+RegisterEvent(12, "Door", function()
+    evt.SetDoorState(2, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(13, "Legacy event 13", function()
-    evt.SetDoorState(3, 0)
+RegisterEvent(13, "Door", function()
+    evt.SetDoorState(3, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(14, "Legacy event 14", function()
-    evt.SetDoorState(4, 0)
+RegisterEvent(14, "Door", function()
+    evt.SetDoorState(4, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(15, "Legacy event 15", function()
-    evt.SetDoorState(5, 0)
+RegisterEvent(15, "Door", function()
+    evt.SetDoorState(5, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(16, "Legacy event 16", function()
-    evt.SetDoorState(6, 0)
+RegisterEvent(16, "Door", function()
+    evt.SetDoorState(6, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(17, "Legacy event 17", function()
-    evt.SetDoorState(7, 0)
+RegisterEvent(17, "Door", function()
+    evt.SetDoorState(7, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(18, "Legacy event 18", function()
-    evt.SetDoorState(8, 0)
+RegisterEvent(18, "Door", function()
+    evt.SetDoorState(8, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(19, "Legacy event 19", function()
-    evt.SetDoorState(9, 0)
+RegisterEvent(19, "Door", function()
+    evt.SetDoorState(9, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(20, "Legacy event 20", function()
-    evt.SetDoorState(10, 0)
+RegisterEvent(20, "Door", function()
+    evt.SetDoorState(10, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(21, "Legacy event 21", function()
-    evt.SetDoorState(11, 0)
+RegisterEvent(21, "Door", function()
+    evt.SetDoorState(11, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(22, "Legacy event 22", function()
-    evt.SetDoorState(12, 0)
+RegisterEvent(22, "Door", function()
+    evt.SetDoorState(12, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(23, "Legacy event 23", function()
-    evt.SetDoorState(13, 0)
+RegisterEvent(23, "Door", function()
+    evt.SetDoorState(13, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(24, "Legacy event 24", function()
-    evt.SetDoorState(14, 0)
+RegisterEvent(24, "Door", function()
+    evt.SetDoorState(14, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(25, "Legacy event 25", function()
-    evt.SetDoorState(15, 0)
+RegisterEvent(25, "Door", function()
+    evt.SetDoorState(15, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(26, "Legacy event 26", function()
-    evt.SetDoorState(16, 0)
+RegisterEvent(26, "Door", function()
+    evt.SetDoorState(16, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(27, "Legacy event 27", function()
-    evt.SetDoorState(17, 0)
+RegisterEvent(27, "Door", function()
+    evt.SetDoorState(17, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(28, "Legacy event 28", function()
-    evt.SetDoorState(18, 0)
+RegisterEvent(28, "Door", function()
+    evt.SetDoorState(18, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(29, "Legacy event 29", function()
-    evt.SetDoorState(19, 0)
+RegisterEvent(29, "Door", function()
+    evt.SetDoorState(19, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(30, "Legacy event 30", function()
-    evt.SetDoorState(20, 0)
+RegisterEvent(30, "Door", function()
+    evt.SetDoorState(20, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(31, "Legacy event 31", function()
-    evt.SetDoorState(21, 0)
+RegisterEvent(31, "Door", function()
+    evt.SetDoorState(21, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(32, "Legacy event 32", function()
-    evt.SetDoorState(22, 0)
+RegisterEvent(32, "Door", function()
+    evt.SetDoorState(22, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(33, "Legacy event 33", function()
-    evt.SetDoorState(23, 0)
+RegisterEvent(33, "Door", function()
+    evt.SetDoorState(23, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(34, "Legacy event 34", function()
-    evt.SetDoorState(24, 0)
+RegisterEvent(34, "Door", function()
+    evt.SetDoorState(24, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(35, "Legacy event 35", function()
-    evt.SetDoorState(25, 0)
+RegisterEvent(35, "Door", function()
+    evt.SetDoorState(25, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(36, "Legacy event 36", function()
-    evt.SetDoorState(26, 0)
+RegisterEvent(36, "Door", function()
+    evt.SetDoorState(26, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(37, "Legacy event 37", function()
-    evt.SetDoorState(27, 0)
+RegisterEvent(37, "Door", function()
+    evt.SetDoorState(27, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(38, "Legacy event 38", function()
-    evt.SetDoorState(28, 0)
+RegisterEvent(38, "Door", function()
+    evt.SetDoorState(28, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(39, "Legacy event 39", function()
-    evt.SetDoorState(29, 0)
+RegisterEvent(39, "Door", function()
+    evt.SetDoorState(29, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(40, "Legacy event 40", function()
-    evt.SetDoorState(30, 0)
+RegisterEvent(40, "Door", function()
+    evt.SetDoorState(30, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(41, "Legacy event 41", function()
-    evt.SetDoorState(31, 0)
+RegisterEvent(41, "Door", function()
+    evt.SetDoorState(31, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(42, "Legacy event 42", function()
-    evt.SetDoorState(32, 0)
+RegisterEvent(42, "Door", function()
+    evt.SetDoorState(32, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(43, "Legacy event 43", function()
-    evt.SetDoorState(33, 0)
+RegisterEvent(43, "Door", function()
+    evt.SetDoorState(33, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(44, "Legacy event 44", function()
-    evt.SetDoorState(34, 0)
+RegisterEvent(44, "Door", function()
+    evt.SetDoorState(34, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(45, "Legacy event 45", function()
-    evt.SetDoorState(35, 0)
+RegisterEvent(45, "Door", function()
+    evt.SetDoorState(35, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(46, "Legacy event 46", function()
-    evt.SetDoorState(36, 0)
+RegisterEvent(46, "Door", function()
+    evt.SetDoorState(36, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(47, "Legacy event 47", function()
-    evt.SetDoorState(37, 0)
+RegisterEvent(47, "Door", function()
+    evt.SetDoorState(37, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(48, "Legacy event 48", function()
-    evt.SetDoorState(38, 0)
+RegisterEvent(48, "Door", function()
+    evt.SetDoorState(38, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(49, "Legacy event 49", function()
-    evt.SetDoorState(39, 0)
+RegisterEvent(49, "Door", function()
+    evt.SetDoorState(39, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(50, "Legacy event 50", function()
-    evt.SetDoorState(40, 0)
+RegisterEvent(50, "Door", function()
+    evt.SetDoorState(40, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(51, "Legacy event 51", function()
-    evt.SetDoorState(41, 0)
+RegisterEvent(51, "Door", function()
+    evt.SetDoorState(41, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(52, "Legacy event 52", function()
-    evt.SetDoorState(42, 0)
+RegisterEvent(52, "Door", function()
+    evt.SetDoorState(42, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(53, "Legacy event 53", function()
-    evt.SetDoorState(43, 0)
+RegisterEvent(53, "Door", function()
+    evt.SetDoorState(43, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(54, "Legacy event 54", function()
-    evt.SetDoorState(44, 0)
+RegisterEvent(54, "Door", function()
+    evt.SetDoorState(44, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(55, "Legacy event 55", function()
-    evt.SetDoorState(45, 0)
+RegisterEvent(55, "Door", function()
+    evt.SetDoorState(45, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(56, "Legacy event 56", function()
-    evt.SetDoorState(46, 0)
+RegisterEvent(56, "Door", function()
+    evt.SetDoorState(46, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(57, "Legacy event 57", function()
-    evt.SetDoorState(47, 0)
+RegisterEvent(57, "Door", function()
+    evt.SetDoorState(47, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(58, "Legacy event 58", function()
-    evt.SetDoorState(48, 0)
+RegisterEvent(58, "Door", function()
+    evt.SetDoorState(48, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(59, "Legacy event 59", function()
-    evt.SetDoorState(49, 0)
+RegisterEvent(59, "Door", function()
+    evt.SetDoorState(49, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(60, "Legacy event 60", function()
-    evt.SetDoorState(50, 0)
+RegisterEvent(60, "Door", function()
+    evt.SetDoorState(50, DoorAction.Open)
     return
-end)
+end, "Door")
 
-RegisterEvent(81, "Legacy event 81", function()
+RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
     return
-end)
+end, "Chest")
 
-RegisterEvent(82, "Legacy event 82", function()
+RegisterEvent(82, "Chest", function()
     evt.OpenChest(1)
     return
-end)
+end, "Chest")
 
-RegisterEvent(83, "Legacy event 83", function()
+RegisterEvent(83, "Chest", function()
     evt.OpenChest(2)
     return
-end)
+end, "Chest")
 
-RegisterEvent(84, "Legacy event 84", function()
+RegisterEvent(84, "Chest", function()
     evt.OpenChest(3)
     return
-end)
+end, "Chest")
 
-RegisterEvent(85, "Legacy event 85", function()
+RegisterEvent(85, "Chest", function()
     evt.OpenChest(4)
     return
-end)
+end, "Chest")
 
-RegisterEvent(86, "Legacy event 86", function()
+RegisterEvent(86, "Chest", function()
     evt.OpenChest(5)
     return
-end)
+end, "Chest")
 
-RegisterEvent(87, "Legacy event 87", function()
+RegisterEvent(87, "Chest", function()
     evt.OpenChest(6)
     return
-end)
+end, "Chest")
 
-RegisterEvent(88, "Legacy event 88", function()
+RegisterEvent(88, "Chest", function()
     evt.OpenChest(7)
     return
-end)
+end, "Chest")
 
-RegisterEvent(89, "Legacy event 89", function()
+RegisterEvent(89, "Chest", function()
     evt.OpenChest(8)
     return
-end)
+end, "Chest")
 
-RegisterEvent(90, "Legacy event 90", function()
+RegisterEvent(90, "Chest", function()
     evt.OpenChest(9)
     return
-end)
+end, "Chest")
 
-RegisterEvent(91, "Legacy event 91", function()
+RegisterEvent(91, "Chest", function()
     evt.OpenChest(10)
     return
-end)
+end, "Chest")
 
-RegisterEvent(92, "Legacy event 92", function()
+RegisterEvent(92, "Chest", function()
     evt.OpenChest(11)
     return
-end)
+end, "Chest")
 
-RegisterEvent(93, "Legacy event 93", function()
+RegisterEvent(93, "Chest", function()
     evt.OpenChest(12)
     return
-end)
+end, "Chest")
 
-RegisterEvent(94, "Legacy event 94", function()
+RegisterEvent(94, "Chest", function()
     evt.OpenChest(13)
     return
-end)
+end, "Chest")
 
-RegisterEvent(95, "Legacy event 95", function()
+RegisterEvent(95, "Chest", function()
     evt.OpenChest(14)
     return
-end)
+end, "Chest")
 
-RegisterEvent(96, "Legacy event 96", function()
+RegisterEvent(96, "Chest", function()
     evt.OpenChest(15)
     return
-end)
+end, "Chest")
 
-RegisterEvent(97, "Legacy event 97", function()
+RegisterEvent(97, "Chest", function()
     evt.OpenChest(16)
     return
-end)
+end, "Chest")
 
-RegisterEvent(98, "Legacy event 98", function()
+RegisterEvent(98, "Chest", function()
     evt.OpenChest(17)
     return
-end)
+end, "Chest")
 
-RegisterEvent(99, "Legacy event 99", function()
+RegisterEvent(99, "Chest", function()
     evt.OpenChest(18)
     return
-end)
+end, "Chest")
 
-RegisterEvent(100, "Legacy event 100", function()
+RegisterEvent(100, "Chest", function()
     evt.OpenChest(19)
     return
-end)
+end, "Chest")
 
-RegisterEvent(501, "Legacy event 501", function()
+RegisterEvent(501, "Leave the Ancient Troll Home", function()
     evt.MoveToMap(-20346, 480, 187, 0, 0, 0, 0, 0, "out07.odm")
     return
-end)
+end, "Leave the Ancient Troll Home")
 

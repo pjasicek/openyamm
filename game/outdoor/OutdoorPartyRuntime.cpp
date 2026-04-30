@@ -47,6 +47,11 @@ void OutdoorPartyRuntime::setActorColliders(const std::vector<OutdoorActorCollis
     m_movementDriver.setActorColliders(actorColliders);
 }
 
+void OutdoorPartyRuntime::setFaceAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes)
+{
+    m_movementDriver.setFaceAttributes(bModelIndex, faceIndex, attributes);
+}
+
 void OutdoorPartyRuntime::applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory)
 {
     m_party.applyEventRuntimeState(runtimeState, grantItemsToInventory);

@@ -36,14 +36,15 @@ public:
     const Party &party() const override;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
+    ISceneEventContext *sceneEventContext() override;
     std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove() override;
     void advanceGameMinutes(float minutes) override;
     OutdoorPartyRuntime &partyRuntime();
     const OutdoorPartyRuntime &partyRuntime() const;
     OutdoorWorldRuntime &worldRuntime();
     const OutdoorWorldRuntime &worldRuntime() const;
-    const std::optional<ScriptedEventProgram> &localEventProgram() const;
-    const std::optional<ScriptedEventProgram> &globalEventProgram() const;
+    const std::optional<ScriptedEventProgram> &localEventProgram() const override;
+    const std::optional<ScriptedEventProgram> &globalEventProgram() const override;
     AdvanceFrameResult advanceFrame(const OutdoorMovementInput &movementInput, float deltaSeconds);
     bool executeEventById(
         const std::optional<ScriptedEventProgram> &localEventProgram,
@@ -51,7 +52,10 @@ public:
         const std::optional<EventRuntimeState::ActiveDecorationContext> &activeDecorationContext,
         size_t &previousMessageCount
     );
-    bool executeNpcTopicEventById(uint16_t eventId, size_t &previousMessageCount);
+    bool executeNpcTopicEventById(
+        uint16_t eventId,
+        size_t &previousMessageCount,
+        std::optional<uint8_t> continueStep = std::nullopt);
 
 private:
     std::string m_mapFileName;

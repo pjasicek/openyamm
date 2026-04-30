@@ -221,7 +221,11 @@ private:
     static void applyGrantedEventItemsToHeldInventory(OutdoorGameView &view);
     static bool requestTravelAutosave(OutdoorGameView &view);
     static void cancelPendingMapTransition(OutdoorGameView &view);
-    static bool executeNpcTopicEvent(OutdoorGameView &view, uint16_t eventId, size_t &previousMessageCount);
+    static bool executeNpcTopicEvent(
+        OutdoorGameView &view,
+        uint16_t eventId,
+        size_t &previousMessageCount,
+        std::optional<uint8_t> continueStep = std::nullopt);
     static bool tryTriggerLocalEventById(OutdoorGameView &view, uint16_t eventId);
 
     static bool buildQuickCastInspectRayForScreenPoint(

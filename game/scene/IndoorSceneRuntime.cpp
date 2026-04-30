@@ -463,6 +463,11 @@ const EventRuntimeState *IndoorSceneRuntime::eventRuntimeState() const
     return m_eventRuntimeState ? &*m_eventRuntimeState : nullptr;
 }
 
+ISceneEventContext *IndoorSceneRuntime::sceneEventContext()
+{
+    return &m_worldRuntime;
+}
+
 std::optional<EventRuntimeState::PendingMapMove> IndoorSceneRuntime::consumePendingMapMove()
 {
     if (!m_eventRuntimeState || !m_eventRuntimeState->pendingMapMove)
@@ -553,6 +558,10 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
     m_worldRuntime.restoreSnapshot(snapshot.worldRuntime);
     m_partyRuntime.restoreSnapshot(snapshot.partyRuntime);
     m_partyRuntime.setParty(*m_pSessionParty);
+    if (m_eventRuntimeState)
+    {
+        m_partyRuntime.party().applyGlobalNpcStateTo(*m_eventRuntimeState);
+    }
     m_timers = snapshot.timers;
     m_lastProcessedPartyMoveStateForFaceTriggers = snapshot.lastProcessedPartyMoveStateForFaceTriggers;
     m_mechanismAudioStates.clear();

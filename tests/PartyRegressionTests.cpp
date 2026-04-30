@@ -1,13 +1,18 @@
 #include "doctest/doctest.h"
 
 #include "game/gameplay/GameMechanics.h"
+#include "game/gameplay/JournalQuestRuntime.h"
+#include "game/maps/SaveGame.h"
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/CharacterDollTable.h"
+#include "game/tables/JournalQuestTable.h"
 #include "tests/RegressionGameData.h"
 
 #include <algorithm>
 #include <array>
+#include <filesystem>
+#include <optional>
 
 namespace
 {
@@ -83,21 +88,70 @@ OpenYAMM::Game::Party makeInventoryParty()
 }
 }
 
-TEST_CASE("default party seed preserves unique portrait picture ids")
+TEST_CASE("default party seed only creates the first test member")
 {
     OpenYAMM::Game::Party party = {};
     party.reset();
 
     const std::vector<OpenYAMM::Game::Character> &members = party.members();
 
-    REQUIRE_GE(members.size(), 4u);
+    REQUIRE_EQ(members.size(), 1u);
+    CHECK_EQ(members[0].name, "Ariel");
+    CHECK_EQ(members[0].portraitPictureId, 2u);
+    CHECK_EQ(members[0].characterDataId, 3u);
+}
 
-    static constexpr std::array<uint32_t, 4> ExpectedPictureIds = {{2, 1, 20, 22}};
+TEST_CASE("current quest journal entries come from party qbits and non-empty quest text")
+{
+    OpenYAMM::Game::JournalQuestTable questTable = {};
+    REQUIRE(questTable.loadFromRows({
+        {"1", "Recover the crystal.", "Shown while active.", "test"},
+        {"2", "Find the hidden port.", "Not active.", "test"},
+        {"3", "", "Internal completion bit.", "test"},
+    }));
 
-    for (size_t memberIndex = 0; memberIndex < ExpectedPictureIds.size(); ++memberIndex)
-    {
-        CHECK_EQ(members[memberIndex].portraitPictureId, ExpectedPictureIds[memberIndex]);
-    }
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+    party.setQuestBit(1, true);
+    party.setQuestBit(3, true);
+    party.setQuestBit(999, true);
+
+    const std::vector<std::string> questTexts =
+        OpenYAMM::Game::buildCurrentQuestTexts(questTable, party);
+
+    REQUIRE_EQ(questTexts.size(), 1u);
+    CHECK_EQ(questTexts[0], "Recover the crystal.");
+}
+
+TEST_CASE("party quest bits survive save data round trip")
+{
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+    party.setQuestBit(6, true);
+    party.setQuestBit(36, true);
+
+    OpenYAMM::Game::GameSaveData saveData = {};
+    saveData.mapFileName = "quest_roundtrip.odm";
+    saveData.party = party.snapshot();
+
+    const std::filesystem::path savePath =
+        std::filesystem::temp_directory_path() / "openyamm_quest_bits_roundtrip.oysav";
+    std::string error;
+    REQUIRE(OpenYAMM::Game::saveGameDataToPath(savePath, saveData, error));
+
+    const std::optional<OpenYAMM::Game::GameSaveData> loaded =
+        OpenYAMM::Game::loadGameDataFromPath(savePath, error);
+    std::filesystem::remove(savePath);
+
+    REQUIRE(loaded.has_value());
+
+    OpenYAMM::Game::Party restoredParty = {};
+    restoredParty.seed(createRegressionPartySeed());
+    restoredParty.restoreSnapshot(loaded->party);
+
+    CHECK(restoredParty.hasQuestBit(6));
+    CHECK(restoredParty.hasQuestBit(36));
+    CHECK_FALSE(restoredParty.hasQuestBit(37));
 }
 
 TEST_CASE("monster target selection prefers matching living members")
@@ -147,7 +201,7 @@ TEST_CASE("default seed monster target selection matches female preference")
     const std::optional<size_t> targetIndex = party.chooseMonsterAttackTarget(0x0400, 3);
 
     REQUIRE(targetIndex.has_value());
-    CHECK_EQ(*targetIndex, 1u);
+    CHECK_EQ(*targetIndex, 0u);
 }
 
 TEST_CASE("party damage sets unconscious within endurance threshold")
@@ -296,7 +350,7 @@ TEST_CASE("dragon ability mastery grants innate dragon spells")
     CHECK(dragon.knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::WingBuffet)));
 }
 
-TEST_CASE("default party seed grants every member full spell access and preserves inventory")
+TEST_CASE("default party seed grants first member full spell access and preserves inventory")
 {
     REQUIRE_MESSAGE(
         OpenYAMM::Tests::regressionGameDataLoaded(),
@@ -324,27 +378,23 @@ TEST_CASE("default party seed grants every member full spell access and preserve
         "DragonAbility",
     }};
 
-    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    REQUIRE_EQ(party.members().size(), 1u);
+
+    for (const char *pSkillName : ExpectedSpellSkills)
     {
-        const OpenYAMM::Game::Character *pSeedMember = party.member(memberIndex);
-        REQUIRE(pSeedMember != nullptr);
-
-        for (const char *pSkillName : ExpectedSpellSkills)
-        {
-            const OpenYAMM::Game::CharacterSkill *pSkill = pSeedMember->findSkill(pSkillName);
-            REQUIRE(pSkill != nullptr);
-            CHECK(pSkill->level == (memberIndex == 0 ? 200u : 10u));
-            CHECK(pSkill->mastery == OpenYAMM::Game::SkillMastery::Grandmaster);
-        }
-
-        CHECK(pSeedMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::TorchLight)));
-        CHECK(pSeedMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Incinerate)));
-        CHECK(pSeedMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Starburst)));
-        CHECK(pSeedMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::SoulDrinker)));
-        CHECK(pSeedMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::DarkfireBolt)));
-        CHECK(pSeedMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Mistform)));
-        CHECK(pSeedMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::WingBuffet)));
+        const OpenYAMM::Game::CharacterSkill *pSkill = pMember->findSkill(pSkillName);
+        REQUIRE(pSkill != nullptr);
+        CHECK(pSkill->level == 200u);
+        CHECK(pSkill->mastery == OpenYAMM::Game::SkillMastery::Grandmaster);
     }
+
+    CHECK(pMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::TorchLight)));
+    CHECK(pMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Incinerate)));
+    CHECK(pMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Starburst)));
+    CHECK(pMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::SoulDrinker)));
+    CHECK(pMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::DarkfireBolt)));
+    CHECK(pMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Mistform)));
+    CHECK(pMember->knowsSpell(OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::WingBuffet)));
 
     for (const std::string &skillName : OpenYAMM::Game::allCanonicalSkillNames())
     {
@@ -386,7 +436,7 @@ TEST_CASE("default party seed grants every member full spell access and preserve
     }
 }
 
-TEST_CASE("default party reset seeds all wand types into second member with third member overflow")
+TEST_CASE("default party reset does not seed secondary test members")
 {
     REQUIRE_MESSAGE(
         OpenYAMM::Tests::regressionGameDataLoaded(),
@@ -396,32 +446,9 @@ TEST_CASE("default party reset seeds all wand types into second member with thir
     party.setItemTable(&OpenYAMM::Tests::regressionGameData().itemTable);
     party.reset();
 
-    const OpenYAMM::Game::Character *pSecondMember = party.member(1);
-    const OpenYAMM::Game::Character *pThirdMember = party.member(2);
-    REQUIRE(pSecondMember != nullptr);
-    REQUIRE(pThirdMember != nullptr);
-
-    for (uint32_t itemId = 152; itemId <= 176; ++itemId)
-    {
-        const auto isRequestedWand =
-            [itemId](const OpenYAMM::Game::InventoryItem &item)
-            {
-                return item.objectDescriptionId == itemId;
-            };
-
-        const auto secondIt =
-            std::find_if(pSecondMember->inventory.begin(), pSecondMember->inventory.end(), isRequestedWand);
-        const auto thirdIt =
-            std::find_if(pThirdMember->inventory.begin(), pThirdMember->inventory.end(), isRequestedWand);
-        const bool found = secondIt != pSecondMember->inventory.end() || thirdIt != pThirdMember->inventory.end();
-        REQUIRE(found);
-
-        const OpenYAMM::Game::InventoryItem &wand =
-            secondIt != pSecondMember->inventory.end() ? *secondIt : *thirdIt;
-        CHECK(wand.identified);
-        CHECK_GT(wand.currentCharges, 0);
-        CHECK_EQ(wand.currentCharges, wand.maxCharges);
-    }
+    CHECK_EQ(party.members().size(), 1u);
+    CHECK(party.member(1) == nullptr);
+    CHECK(party.member(2) == nullptr);
 }
 
 TEST_CASE("inventory auto placement uses grid rules")

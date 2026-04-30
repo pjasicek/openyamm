@@ -1,0 +1,21 @@
+format_version: 1
+kind: outdoor_map_package
+package_id: out01
+display_name: out01
+map_file: out01.odm
+scene_file: out01.scene.yml
+geometry_metadata_file: out01.geometry.yml
+terrain_metadata_file: out01.terrain.yml
+script_module: Data/scripts/maps/out01.lua
+map_stats_id: 86
+redbook_track: 4
+environment_name: FOREST
+is_top_level_area: true
+outdoor_bounds:
+  enabled: true
+  min_x: -23143
+  max_x: 23143
+  min_y: -23143
+  max_y: 23143
+source_fingerprint: 6CE294875795DF65
+built_source_fingerprint: ""

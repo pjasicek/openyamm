@@ -5,8 +5,8 @@ These scripts export OpenYAMM-relevant binary data files into JSON for inspectio
 Usage examples:
 
 ```bash
-python3 util/dmonlist_export.py assets_dev/Data/EnglishT/dmonlist.bin -o /tmp/dmonlist.json
-python3 util/dtile_export.py assets_dev/Data/EnglishT/dtile.bin -o /tmp/dtile.json
+python3 util/dmonlist_export.py assets_dev/_legacy/bin_tables/dmonlist.bin -o /tmp/dmonlist.json
+python3 util/dtile_export.py assets_dev/_legacy/tile_tables/dtile.bin -o /tmp/dtile.json
 python3 util/ddm_export.py assets_dev/Data/games/out01.ddm -o /tmp/out01.ddm.json
 ```
 
@@ -33,6 +33,6 @@ Available exporters:
 There is also a shared generic entry point:
 
 ```bash
-python3 util/mm_bin_export.py dmonlist assets_dev/Data/EnglishT/dmonlist.bin -o /tmp/dmonlist.json
+python3 util/mm_bin_export.py dmonlist assets_dev/_legacy/bin_tables/dmonlist.bin -o /tmp/dmonlist.json
 python3 util/map_export.py odm assets_dev/Data/games/out01.odm -o /tmp/out01.odm.json
 ```

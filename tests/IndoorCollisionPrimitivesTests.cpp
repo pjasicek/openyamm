@@ -2,6 +2,8 @@
 
 #include "game/FaceEnums.h"
 #include "game/indoor/IndoorCollisionPrimitives.h"
+#include "game/indoor/IndoorGeometryUtils.h"
+#include "game/maps/MapDeltaData.h"
 
 #include <cmath>
 #include <optional>
@@ -9,8 +11,10 @@
 
 using OpenYAMM::Game::FaceAttribute;
 using OpenYAMM::Game::IndoorFaceGeometryData;
+using OpenYAMM::Game::IndoorFaceGeometryCache;
 using OpenYAMM::Game::IndoorFaceKind;
 using OpenYAMM::Game::IndoorFaceSweepOptions;
+using OpenYAMM::Game::IndoorMapData;
 using OpenYAMM::Game::IndoorProjectionAxis;
 using OpenYAMM::Game::IndoorSweptBody;
 using OpenYAMM::Game::IndoorSweptBodyBounds;
@@ -18,6 +22,7 @@ using OpenYAMM::Game::IndoorSweptCylinder;
 using OpenYAMM::Game::IndoorSweptCylinderHit;
 using OpenYAMM::Game::IndoorSweptFaceHit;
 using OpenYAMM::Game::IndoorSweptSphere;
+using OpenYAMM::Game::MapDeltaData;
 using OpenYAMM::Game::buildIndoorSweptBodyBounds;
 using OpenYAMM::Game::faceAttributeBit;
 using OpenYAMM::Game::indoorSweptBodyBoundsTouchFace;
@@ -273,6 +278,44 @@ TEST_CASE("swept indoor face collision ignores untouchable and masked faces")
     options.pMechanismBlockingFaceMask = &mechanismMask;
 
     CHECK_FALSE(sweepIndoorSphereAgainstFace(sphere, {1.0f, 0.0f, 0.0f}, 150.0f, wall, options).has_value());
+}
+
+TEST_CASE("indoor face geometry cache uses runtime untouchable overrides")
+{
+    IndoorMapData mapData = {};
+    mapData.vertices = {
+        {100, -100, 0},
+        {100, 100, 0},
+        {100, 100, 200},
+        {100, -100, 200}
+    };
+
+    OpenYAMM::Game::IndoorFace wall = {};
+    wall.vertexIndices = {0, 1, 2, 3};
+    wall.facetType = 1;
+    mapData.faces.push_back(wall);
+
+    MapDeltaData mapDeltaData = {};
+    mapDeltaData.faceAttributes = {faceAttributeBit(FaceAttribute::Untouchable)};
+    mapDeltaData.surfaceRevision = 1;
+
+    IndoorFaceGeometryCache geometryCache(1);
+    geometryCache.setAttributeOverrides(&mapDeltaData);
+
+    const IndoorFaceGeometryData *pGeometry = geometryCache.geometryForFace(mapData, mapData.vertices, 0);
+    REQUIRE(pGeometry != nullptr);
+    CHECK((pGeometry->attributes & faceAttributeBit(FaceAttribute::Untouchable)) != 0);
+    const IndoorSweptSphere sphere = makeSphere(0.0f, 0.0f, 80.0f, 20.0f);
+    CHECK_FALSE(sweepIndoorSphereAgainstFace(sphere, {1.0f, 0.0f, 0.0f}, 150.0f, *pGeometry).has_value());
+
+    mapDeltaData.faceAttributes[0] = 0;
+    ++mapDeltaData.surfaceRevision;
+    geometryCache.setAttributeOverrides(&mapDeltaData);
+
+    pGeometry = geometryCache.geometryForFace(mapData, mapData.vertices, 0);
+    REQUIRE(pGeometry != nullptr);
+    CHECK((pGeometry->attributes & faceAttributeBit(FaceAttribute::Untouchable)) == 0);
+    CHECK(sweepIndoorSphereAgainstFace(sphere, {1.0f, 0.0f, 0.0f}, 150.0f, *pGeometry).has_value());
 }
 
 TEST_CASE("wall velocity projection removes movement into plane")

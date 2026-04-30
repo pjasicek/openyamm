@@ -117,6 +117,7 @@ public:
     void reopenMenuScreen();
     bool requestQuickSave();
     void setSettingsSnapshot(const GameSettings &settings);
+    void dumpDebugBModelRenderStateToConsole(uint32_t cogNumber) const;
 
 private:
     friend struct GameApplicationTestAccess;
@@ -193,6 +194,9 @@ private:
         std::vector<TexturedTerrainVertex> vertices;
         uint32_t faceId = 0;
         uint32_t cogNumber = 0;
+        uint32_t baseAttributes = 0;
+        size_t bModelIndex = 0;
+        size_t faceIndex = 0;
         std::string textureName;
         size_t defaultAnimationIndex = static_cast<size_t>(-1);
     };
@@ -631,7 +635,7 @@ private:
     bool m_toggleTextureFilteringLatch;
     bool m_toggleInspectLatch;
     bool m_triggerMeteorLatch;
-    bool m_toggleRainLatch;
+    bool m_dumpGameplayStateLatch;
     bool m_toggleFlyingLatch;
     bool m_toggleWaterWalkLatch;
     bool m_toggleFeatherFallLatch;

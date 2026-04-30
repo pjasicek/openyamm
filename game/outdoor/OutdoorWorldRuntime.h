@@ -731,9 +731,15 @@ public:
     void applyGrantedEventItemsToHeldInventory();
     bool tryTriggerLocalEventById(uint16_t eventId);
     void cancelPendingMapTransition() override;
-    bool executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount) override;
+    bool executeNpcTopicEvent(
+        uint16_t eventId,
+        size_t &previousMessageCount,
+        std::optional<uint8_t> continueStep = std::nullopt) override;
     const std::optional<ScriptedEventProgram> *globalEventProgram() const override;
     const MapDeltaData *mapDeltaData() const override;
+    MapDeltaData *mapDeltaData() override;
+    bool setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn) override;
+    void dumpDebugFacetCogStateToConsole(uint32_t cogNumber) const;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
     bool castEventSpell(
@@ -965,6 +971,8 @@ private:
         float spawnForwardOffset
     );
     void buildOutdoorFaceSpatialIndex();
+    void syncOutdoorFaceGeometryAttributesFromMapDelta();
+    void setOutdoorFaceGeometryAttributes(size_t bModelIndex, size_t faceIndex, uint32_t attributes);
     bool materializeTreasureSpawnFromSpawnPoint(size_t spawnPointIndex);
     bool resolveWorldItemVisual(
         uint32_t itemId,
@@ -1092,7 +1100,7 @@ private:
     const MonsterProjectileTable *m_pMonsterProjectileTable = nullptr;
     const ObjectTable *m_pObjectTable = nullptr;
     const OutdoorMapData *m_pOutdoorMapData = nullptr;
-    const MapDeltaData *m_pOutdoorMapDeltaData = nullptr;
+    MapDeltaData *m_pOutdoorMapDeltaData = nullptr;
     const SpellTable *m_pSpellTable = nullptr;
     GameplayActorService *m_pGameplayActorService = nullptr;
     GameplayProjectileService *m_pGameplayProjectileService = nullptr;

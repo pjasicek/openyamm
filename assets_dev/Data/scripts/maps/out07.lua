@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -35,30 +36,30 @@ SetMapMetadata({
 })
 
 RegisterEvent(1, "Legacy event 1", function()
-    if IsQBitSet(QBit(40)) then
+    if IsQBitSet(QBit(40)) then -- Found and Rescued Cauri Blackthorne
         evt.SetSprite(20, 0, "on")
         evt.SetSprite(21, 0, "on")
         evt.SetSprite(22, 0, "on")
         evt.SetSprite(23, 0, "on")
         evt.SetSprite(24, 0, "on")
-        if IsQBitSet(QBit(19)) then
-            evt.SetMonGroupBit(39, MonsterBits.Hostile, 1)
-            evt.SetMonGroupBit(40, MonsterBits.Hostile, 1)
+        if IsQBitSet(QBit(19)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
+            evt.SetMonGroupBit(39, MonsterBits.Hostile, 1) -- actor group 39: Cleric of the Sun
+            evt.SetMonGroupBit(40, MonsterBits.Hostile, 1) -- actor group 40: Cleric of the Sun
             return
-        elseif IsQBitSet(QBit(230)) then
-            evt.SetMonGroupBit(39, MonsterBits.Hostile, 1)
-            evt.SetMonGroupBit(40, MonsterBits.Hostile, 1)
+        elseif IsQBitSet(QBit(230)) then -- You have Pissed off the clerics
+            evt.SetMonGroupBit(39, MonsterBits.Hostile, 1) -- actor group 39: Cleric of the Sun
+            evt.SetMonGroupBit(40, MonsterBits.Hostile, 1) -- actor group 40: Cleric of the Sun
             return
         else
             return
         end
-    elseif IsQBitSet(QBit(19)) then
-        evt.SetMonGroupBit(39, MonsterBits.Hostile, 1)
-        evt.SetMonGroupBit(40, MonsterBits.Hostile, 1)
+    elseif IsQBitSet(QBit(19)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
+        evt.SetMonGroupBit(39, MonsterBits.Hostile, 1) -- actor group 39: Cleric of the Sun
+        evt.SetMonGroupBit(40, MonsterBits.Hostile, 1) -- actor group 40: Cleric of the Sun
         return
-    elseif IsQBitSet(QBit(230)) then
-        evt.SetMonGroupBit(39, MonsterBits.Hostile, 1)
-        evt.SetMonGroupBit(40, MonsterBits.Hostile, 1)
+    elseif IsQBitSet(QBit(230)) then -- You have Pissed off the clerics
+        evt.SetMonGroupBit(39, MonsterBits.Hostile, 1) -- actor group 39: Cleric of the Sun
+        evt.SetMonGroupBit(40, MonsterBits.Hostile, 1) -- actor group 40: Cleric of the Sun
         return
     else
         return
@@ -254,8 +255,8 @@ end, "Chest")
 RegisterEvent(101, "Drink from the well", function()
     evt.StatusText("That was not so refreshing")
     SetValue(PoisonedRed, 0)
-    if IsAtLeast(IsIntellectMoreThanBase, 263) then return end
-    AddValue(IsIntellectMoreThanBase, 263)
+    if IsAutonoteSet(263) then return end -- Well near the Temple of the Sun in the Murmurwoods is poison!
+    SetAutonote(263) -- Well near the Temple of the Sun in the Murmurwoods is poison!
     return
 end, "Drink from the well")
 
@@ -263,7 +264,7 @@ RegisterEvent(102, "Drink from the well", function()
     if not IsAtLeast(BasePersonality, 16) then
         AddValue(BasePersonality, 2)
         evt.StatusText("Personality +2 (Permanent)")
-        AddValue(IsIntellectMoreThanBase, 265)
+        SetAutonote(265) -- Well in the Ravage Roaming region gives a permanent Endurance bonus up to an Endurance of 16.
         return
     end
     evt.StatusText("Refreshing")
@@ -276,12 +277,12 @@ RegisterEvent(103, "Drink from the well", function()
 end, "Drink from the well")
 
 RegisterEvent(131, "Legacy event 131", function()
-    if IsQBitSet(QBit(69)) then return end
-    if not IsQBitSet(QBit(68)) then return end
+    if IsQBitSet(QBit(69)) then return end -- Ancient Troll Homeland Found
+    if not IsQBitSet(QBit(68)) then return end -- Find the Ancient Troll Homeland and return to Volog Sandwind in the Ironsand Desert. - Given By ? In area 4
     evt.ForPlayer(Players.All)
     if not HasItem(0) then return end -- 0
     RemoveItem(0) -- 0
-    SetQBit(QBit(69))
+    SetQBit(QBit(69)) -- Ancient Troll Homeland Found
     return
 end)
 
@@ -289,9 +290,9 @@ RegisterEvent(132, "Statue", function()
     evt.ForPlayer(Players.All)
     if not HasItem(339) then return end -- Stone to Flesh
     evt.SpeakNPC(55) -- Cauri Blackthorne
-    SetQBit(QBit(40))
+    SetQBit(QBit(40)) -- Found and Rescued Cauri Blackthorne
     RemoveItem(339) -- Stone to Flesh
-    SetQBit(QBit(430))
+    SetQBit(QBit(430)) -- Roster Character In Party 31
     evt.SetSprite(20, 0, "on")
     return
 end, "Statue")
@@ -333,10 +334,10 @@ RegisterEvent(136, "Statue", function()
 end, "Statue")
 
 RegisterEvent(150, "Obelisk", function()
-    if IsQBitSet(QBit(192)) then return end
+    if IsQBitSet(QBit(192)) then return end -- Obelisk Area 7
     evt.StatusText("pearswhil")
-    AddValue(IsIntellectMoreThanBase, 22)
-    SetQBit(QBit(192))
+    SetAutonote(22) -- Obelisk message #6: pearswhil
+    SetQBit(QBit(192)) -- Obelisk Area 7
     return
 end, "Obelisk")
 
@@ -429,9 +430,9 @@ RegisterEvent(452, "Legacy event 452", function()
 end)
 
 RegisterEvent(454, "Legacy event 454", function()
-    if IsQBitSet(QBit(240)) then return end
+    if IsQBitSet(QBit(240)) then return end -- for riki
     AddValue(InventoryItem(332), 332) -- Lloyd's Beacon
-    SetQBit(QBit(240))
+    SetQBit(QBit(240)) -- for riki
     return
 end)
 
@@ -508,8 +509,8 @@ RegisterEvent(503, "Enter the Plane of Air", function()
 end, "Enter the Plane of Air")
 
 RegisterEvent(504, "Enter the Ancient Troll Home", function()
-    if not IsQBitSet(QBit(69)) then
-        SetQBit(QBit(69))
+    if not IsQBitSet(QBit(69)) then -- Ancient Troll Homeland Found
+        SetQBit(QBit(69)) -- Ancient Troll Homeland Found
     end
     evt.MoveToMap(448, -224, 0, 512, 0, 0, 0, 0, "D43.blv")
     return

@@ -536,14 +536,53 @@ SurfaceAnimationSequence staticSurfaceAnimation(const std::string &textureName)
 
 bool outdoorFaceHiddenByEventRuntime(
     uint32_t faceId,
+    uint32_t baseAttributes,
+    const MapDeltaData *pMapDeltaData,
     const EventRuntimeState *pEventRuntimeState)
 {
-    if (pEventRuntimeState == nullptr)
+    if (pMapDeltaData != nullptr
+        && faceId < pMapDeltaData->faceAttributes.size())
     {
-        return false;
+        return hasFaceAttribute(pMapDeltaData->faceAttributes[faceId], FaceAttribute::Invisible);
     }
 
-    return pEventRuntimeState->hasFacetInvisibleOverride(faceId);
+    uint32_t attributes = baseAttributes;
+
+    if (pEventRuntimeState != nullptr)
+    {
+        const auto setIt = pEventRuntimeState->facetSetMasks.find(faceId);
+
+        if (setIt != pEventRuntimeState->facetSetMasks.end())
+        {
+            attributes |= setIt->second;
+        }
+
+        const auto clearIt = pEventRuntimeState->facetClearMasks.find(faceId);
+
+        if (clearIt != pEventRuntimeState->facetClearMasks.end())
+        {
+            attributes &= ~clearIt->second;
+        }
+    }
+
+    return hasFaceAttribute(attributes, FaceAttribute::Invisible);
+}
+
+uint64_t outdoorSurfaceVisualRevision(
+    const MapDeltaData *pMapDeltaData,
+    const EventRuntimeState *pEventRuntimeState)
+{
+    uint64_t revision = pMapDeltaData != nullptr ? pMapDeltaData->surfaceRevision : 0;
+
+    if (pEventRuntimeState != nullptr)
+    {
+        revision ^= pEventRuntimeState->outdoorSurfaceRevision
+            + 0x9e3779b97f4a7c15ull
+            + (revision << 6)
+            + (revision >> 2);
+    }
+
+    return revision;
 }
 
 OutdoorFogParameters buildOutdoorWorldFogParameters(
@@ -835,10 +874,11 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
 
     if (view.m_texturedBModelBatches.empty() || view.m_bmodelTextureAnimations.empty())
     {
-        view.m_resolvedBModelDrawGroupRevision =
-            view.m_pOutdoorWorldRuntime != nullptr && view.m_pOutdoorWorldRuntime->eventRuntimeState() != nullptr
-                ? view.m_pOutdoorWorldRuntime->eventRuntimeState()->outdoorSurfaceRevision
-                : 0;
+        const EventRuntimeState *pEventRuntimeState =
+            view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+        const MapDeltaData *pMapDeltaData =
+            view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
+        view.m_resolvedBModelDrawGroupRevision = outdoorSurfaceVisualRevision(pMapDeltaData, pEventRuntimeState);
         return;
     }
 
@@ -846,7 +886,7 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
     const MapDeltaData *pMapDeltaData =
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
-    const uint64_t targetRevision = pEventRuntimeState != nullptr ? pEventRuntimeState->outdoorSurfaceRevision : 0;
+    const uint64_t targetRevision = outdoorSurfaceVisualRevision(pMapDeltaData, pEventRuntimeState);
     const std::unordered_map<uint32_t, std::string> *pTextureOverrides =
         pEventRuntimeState != nullptr ? &pEventRuntimeState->textureOverrides : nullptr;
 
@@ -863,7 +903,7 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
 
     for (const OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
     {
-        if (outdoorFaceHiddenByEventRuntime(batch.faceId, pEventRuntimeState))
+        if (outdoorFaceHiddenByEventRuntime(batch.faceId, batch.baseAttributes, pMapDeltaData, pEventRuntimeState))
         {
             continue;
         }
@@ -1180,8 +1220,7 @@ std::vector<OutdoorGameView::TexturedTerrainVertex> OutdoorRenderer::buildTextur
     const OutdoorBModel &bmodel = mapData.bmodels[bModelIndex];
     const OutdoorBModelFace &face = bmodel.faces[faceIndex];
 
-    if (outdoorFaceHasInvisibleAttribute(face.attributes)
-        || face.vertexIndices.size() < 3
+    if (face.vertexIndices.size() < 3
         || face.textureName.empty())
     {
         return vertices;
@@ -1562,7 +1601,7 @@ void OutdoorRenderer::createBModelTextureBatches(
         {
             const OutdoorBModelFace &face = bmodel.faces[localFaceIndex];
 
-            if (outdoorFaceHasInvisibleAttribute(face.attributes) || face.textureName.empty())
+            if (face.textureName.empty())
             {
                 continue;
             }
@@ -1592,6 +1631,9 @@ void OutdoorRenderer::createBModelTextureBatches(
             batch.vertices = texturedBModelVertices;
             batch.faceId = faceId;
             batch.cogNumber = face.cogNumber;
+            batch.baseAttributes = face.attributes;
+            batch.bModelIndex = bModelIndex;
+            batch.faceIndex = localFaceIndex;
             batch.textureName = toLowerCopy(face.textureName);
             const auto animationIndexIterator = animationIndexByTextureName.find(batch.textureName);
 
@@ -2230,7 +2272,9 @@ void OutdoorRenderer::renderWorldPasses(
         {
             const EventRuntimeState *pEventRuntimeState =
                 view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-            const uint64_t targetRevision = pEventRuntimeState != nullptr ? pEventRuntimeState->outdoorSurfaceRevision : 0;
+            const MapDeltaData *pMapDeltaData =
+                view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
+            const uint64_t targetRevision = outdoorSurfaceVisualRevision(pMapDeltaData, pEventRuntimeState);
 
             if (bgfx::isValid(view.m_outdoorTexturedFogProgramHandle)
                 && bgfx::isValid(view.m_terrainTextureSamplerHandle)

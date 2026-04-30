@@ -4,6 +4,7 @@ source:
   geometry_file: "d15.blv"
   legacy_companion_file: "d15.dlv"
 environment:
+  last_visit_time: 0
   sky_texture: ""
   day_bits_raw: 0
   map_extra_bits_raw: 0
@@ -21,6 +22,78 @@ environment:
     weak_distance: 0
     strong_distance: 0
   ceiling: 0
+  map_extra_reserved_hex: "000000000000000000000000000000000000000000000000"
+spawns:
+  - spawn_index: 0
+    position:
+      x: -2216
+      y: 2400
+      z: -136
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 1
+    position:
+      x: -2216
+      y: 1384
+      z: -136
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 2
+    position:
+      x: -4104
+      y: 1464
+      z: -136
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 3
+    position:
+      x: -9296
+      y: 5056
+      z: -136
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 4
+    position:
+      x: -8256
+      y: 4864
+      z: -136
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 5
+    position:
+      x: -9120
+      y: 4592
+      z: -136
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 6
+    position:
+      x: -9344
+      y: 1904
+      z: -136
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
 initial_state:
   location:
     respawn_count: 0

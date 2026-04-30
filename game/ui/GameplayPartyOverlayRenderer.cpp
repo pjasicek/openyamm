@@ -2,6 +2,7 @@
 
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/JournalQuestRuntime.h"
 #include "game/gameplay/StoryTextFormatter.h"
 #include "game/events/EvtEnums.h"
 #include "game/items/ItemEnchantRuntime.h"
@@ -3403,7 +3404,8 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
             ? snappedHudFontScale(textResolved->scale)
             : std::max(0.5f, textResolved->scale);
         const IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
-        const EventRuntimeState *pEventRuntimeState = pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
+        const EventRuntimeState *pEventRuntimeState =
+            pWorldRuntime != nullptr ? pWorldRuntime->eventRuntimeState() : nullptr;
         const Party *pParty = context.partyReadOnly();
         std::vector<std::string> bodyLines;
         std::string titleText;
@@ -3417,17 +3419,9 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
             std::vector<std::string> questTexts;
             const JournalQuestTable *pJournalQuestTable = context.journalQuestTable();
 
-            if (pJournalQuestTable != nullptr && pEventRuntimeState != nullptr)
+            if (pJournalQuestTable != nullptr && pParty != nullptr)
             {
-                for (const JournalQuestEntry &entry : pJournalQuestTable->entries())
-                {
-                    const auto variableIt = pEventRuntimeState->variables.find(entry.qbitId);
-
-                    if (variableIt != pEventRuntimeState->variables.end() && variableIt->second != 0)
-                    {
-                        questTexts.push_back(entry.text);
-                    }
-                }
+                questTexts = buildCurrentQuestTexts(*pJournalQuestTable, *pParty);
             }
 
             const std::vector<JournalStackedPage> pages = buildJournalStackedPages(

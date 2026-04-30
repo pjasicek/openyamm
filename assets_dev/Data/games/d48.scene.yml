@@ -4,6 +4,7 @@ source:
   geometry_file: "d48.blv"
   legacy_companion_file: "d48.dlv"
 environment:
+  last_visit_time: 0
   sky_texture: ""
   day_bits_raw: 0
   map_extra_bits_raw: 0
@@ -21,6 +22,58 @@ environment:
     weak_distance: 0
     strong_distance: 0
   ceiling: 0
+  map_extra_reserved_hex: "000000000000000000000000000000000000000000000000"
+spawns:
+  - spawn_index: 0
+    position:
+      x: -1000
+      y: 7170
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 1
+    position:
+      x: 3850
+      y: 6200
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 2
+    position:
+      x: 362
+      y: 4884
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 10
+  - spawn_index: 3
+    position:
+      x: 4392
+      y: -5028
+      z: 436
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
+  - spawn_index: 4
+    position:
+      x: -502
+      y: -5008
+      z: 436
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 10
 initial_state:
   location:
     respawn_count: 0

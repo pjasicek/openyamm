@@ -60,6 +60,39 @@ bool loadOutdoorMapWithCompanionOptions(
     return true;
 }
 
+bool loadIndoorMapWithCompanionOptions(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const OpenYAMM::Game::GameDataLoader &gameDataLoader,
+    const std::string &mapFileName,
+    OpenYAMM::Game::MapLoadPurpose loadPurpose,
+    const OpenYAMM::Game::MapCompanionLoadOptions &loadOptions,
+    OpenYAMM::Game::MapAssetInfo &mapAssetInfo)
+{
+    const OpenYAMM::Game::MapStatsEntry *pMapEntry = gameDataLoader.getMapStats().findByFileName(mapFileName);
+
+    if (pMapEntry == nullptr)
+    {
+        return false;
+    }
+
+    OpenYAMM::Game::MapAssetLoader loader = {};
+    const std::optional<OpenYAMM::Game::MapAssetInfo> loadedMap = loader.load(
+        assetFileSystem,
+        *pMapEntry,
+        gameDataLoader.getMonsterTable(),
+        gameDataLoader.getObjectTable(),
+        loadPurpose,
+        loadOptions);
+
+    if (!loadedMap || !loadedMap->indoorMapData || !loadedMap->indoorMapDeltaData)
+    {
+        return false;
+    }
+
+    mapAssetInfo = *loadedMap;
+    return true;
+}
+
 OpenYAMM::Game::Character makeRegressionPartyMember(
     const std::string &name,
     const std::string &className,
@@ -424,6 +457,113 @@ TEST_CASE("generated_lua_event_scripts_are_loaded_from_files")
     CHECK_EQ(*selectedMap->localEventProgram->luaSourceName(), expectedLocalSourceName);
 }
 
+TEST_CASE("d19 blv MoveNPC updates party global npc house overrides")
+{
+    const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
+    const OpenYAMM::Game::MapStatsEntry *pMapEntry =
+        mapLoader.gameDataLoader.getMapStats().findByFileName("d19.blv");
+    const std::optional<std::string> supportLua =
+        mapLoader.assetFileSystem.readTextFile("Data/scripts/common/event_support.lua");
+    const std::optional<std::string> d19Lua =
+        mapLoader.assetFileSystem.readTextFile("Data/scripts/maps/d19.lua");
+
+    REQUIRE(pMapEntry != nullptr);
+    REQUIRE(supportLua.has_value());
+    REQUIRE(d19Lua.has_value());
+
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> localEventProgram =
+        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+            *supportLua + "\n\n" + *d19Lua,
+            "@Data/scripts/maps/d19.lua",
+            OpenYAMM::Game::ScriptedEventScope::Map,
+            error);
+
+    REQUIRE_MESSAGE(localEventProgram.has_value(), error.c_str());
+
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&mapLoader.gameDataLoader.getItemTable());
+    party.setItemEnchantTables(
+        &mapLoader.gameDataLoader.getStandardItemEnchantTable(),
+        &mapLoader.gameDataLoader.getSpecialItemEnchantTable());
+    party.setClassMultiplierTable(&mapLoader.gameDataLoader.getClassMultiplierTable());
+    party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
+    party.seed(createRegressionPartySeed());
+    party.setQuestBit(19, true);
+
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+
+    REQUIRE(eventRuntime.executeEventById(
+        localEventProgram,
+        std::nullopt,
+        6,
+        runtimeState,
+        &party));
+
+    CHECK_EQ(runtimeState.npcHouseOverrides[9], 0u);
+    CHECK_EQ(runtimeState.npcHouseOverrides[69], 175u);
+    CHECK_EQ(runtimeState.npcHouseOverrides[76], 180u);
+
+    OpenYAMM::Game::EventRuntimeState seededRuntimeState = {};
+    party.applyGlobalNpcStateTo(seededRuntimeState);
+
+    CHECK_EQ(seededRuntimeState.npcHouseOverrides[9], 0u);
+    CHECK_EQ(seededRuntimeState.npcHouseOverrides[69], 175u);
+    CHECK_EQ(seededRuntimeState.npcHouseOverrides[76], 180u);
+}
+
+TEST_CASE("d16 on-leave events move allied dragon hunters before map exit")
+{
+    const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
+    const std::optional<std::string> supportLua =
+        mapLoader.assetFileSystem.readTextFile("Data/scripts/common/event_support.lua");
+    const std::optional<std::string> d16Lua =
+        mapLoader.assetFileSystem.readTextFile("Data/scripts/maps/d16.lua");
+
+    REQUIRE(supportLua.has_value());
+    REQUIRE(d16Lua.has_value());
+
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> localEventProgram =
+        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+            *supportLua + "\n\n" + *d16Lua,
+            "@Data/scripts/maps/d16.lua",
+            OpenYAMM::Game::ScriptedEventScope::Map,
+            error);
+
+    REQUIRE_MESSAGE(localEventProgram.has_value(), error.c_str());
+    REQUIRE_EQ(localEventProgram->onLeaveEventIds().size(), 5u);
+    CHECK_EQ(localEventProgram->onLeaveEventIds()[0], 6u);
+    CHECK_EQ(localEventProgram->onLeaveEventIds()[4], 10u);
+
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&mapLoader.gameDataLoader.getItemTable());
+    party.setItemEnchantTables(
+        &mapLoader.gameDataLoader.getStandardItemEnchantTable(),
+        &mapLoader.gameDataLoader.getSpecialItemEnchantTable());
+    party.setClassMultiplierTable(&mapLoader.gameDataLoader.getClassMultiplierTable());
+    party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
+    party.seed(createRegressionPartySeed());
+    party.setQuestBit(21, true);
+
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+
+    REQUIRE(eventRuntime.executeOnLeaveEvents(localEventProgram, std::nullopt, runtimeState, &party));
+
+    CHECK_EQ(runtimeState.npcHouseOverrides[19], 0u);
+    CHECK_EQ(runtimeState.npcHouseOverrides[65], 175u);
+    CHECK_EQ(runtimeState.npcHouseOverrides[64], 179u);
+
+    OpenYAMM::Game::EventRuntimeState seededRuntimeState = {};
+    party.applyGlobalNpcStateTo(seededRuntimeState);
+
+    CHECK_EQ(seededRuntimeState.npcHouseOverrides[19], 0u);
+    CHECK_EQ(seededRuntimeState.npcHouseOverrides[65], 175u);
+    CHECK_EQ(seededRuntimeState.npcHouseOverrides[64], 179u);
+}
+
 TEST_CASE("out05 authored special actors preserve relation override and carried item")
 {
     const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
@@ -443,10 +583,12 @@ TEST_CASE("out05 authored special actors preserve relation override and carried 
     REQUIRE_GT(loadedMap.outdoorMapDeltaData->actors.size(), 3u);
 
     CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[0].monsterInfoId, 72);
+    CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[0].uniqueNameIndex, 3);
     CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[0].ally, 15u);
     CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[1].ally, 15u);
     CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[2].ally, 15u);
     CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[3].monsterInfoId, 45);
+    CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[3].uniqueNameIndex, 2);
     CHECK_EQ(loadedMap.outdoorMapDeltaData->actors[3].carriedItemId, 540u);
 
     OpenYAMM::Game::GameplayActorService actorService = {};
@@ -478,6 +620,92 @@ TEST_CASE("out05 authored special actors preserve relation override and carried 
     naturalDragonslayer.group = 24;
     naturalDragon.group = 24;
     CHECK_FALSE(actorService.resolveActorTargetPolicy(naturalDragonslayer, naturalDragon).canTarget);
+}
+
+TEST_CASE("d06 indoor actor loader preserves Blackwell Cooper guaranteed key drop")
+{
+    const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
+    OpenYAMM::Game::MapAssetInfo loadedMap = {};
+
+    REQUIRE(loadIndoorMapWithCompanionOptions(
+        mapLoader.assetFileSystem,
+        mapLoader.gameDataLoader,
+        "d06.blv",
+        OpenYAMM::Game::MapLoadPurpose::HeadlessGameplay,
+        OpenYAMM::Game::MapCompanionLoadOptions{
+            .allowSceneYml = false,
+            .allowLegacyCompanion = true,
+        },
+        loadedMap));
+    REQUIRE(loadedMap.indoorMapDeltaData.has_value());
+    REQUIRE_GT(loadedMap.indoorMapDeltaData->actors.size(), 0u);
+
+    const OpenYAMM::Game::MapDeltaActor &blackwell = loadedMap.indoorMapDeltaData->actors[0];
+    CHECK_EQ(blackwell.uniqueNameIndex, 1);
+    CHECK_EQ(blackwell.sectorId, 11);
+    CHECK_EQ(blackwell.carriedItemId, 619u);
+
+    OpenYAMM::Game::MapAssetInfo sceneLoadedMap = {};
+    REQUIRE(loadIndoorMapWithCompanionOptions(
+        mapLoader.assetFileSystem,
+        mapLoader.gameDataLoader,
+        "d06.blv",
+        OpenYAMM::Game::MapLoadPurpose::HeadlessGameplay,
+        OpenYAMM::Game::MapCompanionLoadOptions{
+            .allowSceneYml = true,
+            .allowLegacyCompanion = true,
+        },
+        sceneLoadedMap));
+    REQUIRE(sceneLoadedMap.indoorMapDeltaData.has_value());
+    REQUIRE_GT(sceneLoadedMap.indoorMapDeltaData->actors.size(), 0u);
+    CHECK_EQ(sceneLoadedMap.indoorMapDeltaData->actors[0].carriedItemId, 619u);
+}
+
+TEST_CASE("d06 submarine event plays cutscene and moves to small sub pen")
+{
+    const OpenYAMM::Tests::RegressionMapLoader &mapLoader = requireRegressionMapLoader();
+    const std::optional<std::string> supportLua =
+        mapLoader.assetFileSystem.readTextFile("Data/scripts/common/event_support.lua");
+    const std::optional<std::string> d06Lua =
+        mapLoader.assetFileSystem.readTextFile("Data/scripts/maps/d06.lua");
+
+    REQUIRE(supportLua.has_value());
+    REQUIRE(d06Lua.has_value());
+
+    std::string error;
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> localEventProgram =
+        OpenYAMM::Game::ScriptedEventProgram::loadFromLuaText(
+            *supportLua + "\n\n" + *d06Lua,
+            "@Data/scripts/maps/d06.lua",
+            OpenYAMM::Game::ScriptedEventScope::Map,
+            error);
+    REQUIRE_MESSAGE(localEventProgram.has_value(), error.c_str());
+
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&mapLoader.gameDataLoader.getItemTable());
+    party.setItemEnchantTables(
+        &mapLoader.gameDataLoader.getStandardItemEnchantTable(),
+        &mapLoader.gameDataLoader.getSpecialItemEnchantTable());
+    party.setClassMultiplierTable(&mapLoader.gameDataLoader.getClassMultiplierTable());
+    party.setClassSkillTable(&mapLoader.gameDataLoader.getClassSkillTable());
+    party.seed(createRegressionPartySeed());
+
+    OpenYAMM::Game::InventoryItem pirateLeaderKey = {};
+    pirateLeaderKey.objectDescriptionId = 619;
+    REQUIRE(party.tryGrantInventoryItem(pirateLeaderKey));
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 451, runtimeState, &party, nullptr));
+    REQUIRE(runtimeState.pendingMovie.has_value());
+    CHECK_EQ(runtimeState.pendingMovie->movieName, "\"Subcut\" ");
+    CHECK(runtimeState.pendingMovie->restoreAfterPlayback);
+    REQUIRE(runtimeState.pendingMapMove.has_value());
+    CHECK_EQ(runtimeState.pendingMapMove->mapName, std::optional<std::string>("D34.blv"));
+    CHECK_EQ(runtimeState.pendingMapMove->x, -2416);
+    CHECK_EQ(runtimeState.pendingMapMove->y, 1850);
+    CHECK_EQ(runtimeState.pendingMapMove->z, -687);
 }
 
 TEST_CASE("corpse loot includes authored guaranteed carried item")

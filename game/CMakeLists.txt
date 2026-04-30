@@ -38,6 +38,7 @@ add_executable(openyamm
     gameplay/GameplayActorAiSystem.cpp
     gameplay/GameplayActorService.cpp
     gameplay/GameplayDialogController.cpp
+    gameplay/GameplayDebugDumper.cpp
     gameplay/GameplayDialogUiFlow.cpp
     gameplay/GameplayFxService.cpp
     gameplay/GameplayHeldItemController.cpp
@@ -58,6 +59,7 @@ add_executable(openyamm
     gameplay/GenericActorDialog.cpp
     gameplay/HouseInteraction.cpp
     gameplay/HouseServiceRuntime.cpp
+    gameplay/JournalQuestRuntime.cpp
     gameplay/SavePreviewImage.cpp
     gameplay/StoryTextFormatter.cpp
     gameplay/TreasureRuntime.cpp
@@ -158,6 +160,7 @@ add_executable(openyamm
     ui/screens/LoadGameScreen.cpp
     ui/screens/LoadingOverlayScreen.cpp
     ui/screens/NewGameScreen.cpp
+    ui/screens/WinGameScreen.cpp
     scene/IndoorSceneRuntime.cpp
     scene/OutdoorSceneRuntime.cpp
     app/main.cpp

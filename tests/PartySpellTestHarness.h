@@ -316,7 +316,10 @@ public:
     {
     }
 
-    bool executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount) override
+    bool executeNpcTopicEvent(
+        uint16_t eventId,
+        size_t &previousMessageCount,
+        std::optional<uint8_t> continueStep = std::nullopt) override
     {
         (void)previousMessageCount;
 
@@ -329,7 +332,9 @@ public:
             globalEventProgram,
             eventId,
             *eventRuntimeState(),
-            m_pParty);
+            m_pParty,
+            nullptr,
+            continueStep);
 
         if (executed && m_pParty != nullptr)
         {

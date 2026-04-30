@@ -76,6 +76,7 @@ void closeActiveEventDialog(
 {
     if (pEventRuntimeState != nullptr)
     {
+        pEventRuntimeState->pendingInputPrompt.reset();
         pEventRuntimeState->pendingDialogueContext.reset();
         pEventRuntimeState->dialogueState = {};
     }

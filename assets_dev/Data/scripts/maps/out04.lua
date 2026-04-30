@@ -3,6 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4},
+    onLeave = {6, 7, 8, 9, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -35,10 +36,10 @@ SetMapMetadata({
 })
 
 RegisterEvent(1, "Legacy event 1", function()
-    if IsQBitSet(QBit(60)) then
+    if IsQBitSet(QBit(60)) then -- Party visits Ironsand After QuestBit 25 set.
         return
-    elseif IsQBitSet(QBit(25)) then
-        SetQBit(QBit(60))
+    elseif IsQBitSet(QBit(25)) then -- Find a witness to the lake of fire's formation. Bring him back to the merchant guild in Alvar. - Given and taken by Bastian Lourdrin (area 3).
+        SetQBit(QBit(60)) -- Party visits Ironsand After QuestBit 25 set.
         return
     else
         return
@@ -242,7 +243,7 @@ RegisterEvent(101, "Drink from the well", function()
     if not IsAtLeast(BaseEndurance, 16) then
         AddValue(BaseEndurance, 2)
         evt.StatusText("Endurance +2 (Permanent)")
-        AddValue(IsIntellectMoreThanBase, 254)
+        SetAutonote(254) -- Well in the village of Rust gives a permanent Endurance bonus up to an Endurance of 16.
         return
     end
     evt.StatusText("Refreshing")
@@ -259,7 +260,7 @@ RegisterEvent(102, "Drink from the well", function()
         else
             AddValue(Gold, 200)
             AddValue(MapVar(31), 1)
-            AddValue(IsIntellectMoreThanBase, 255)
+            SetAutonote(255) -- Fountain in the village of Rust in the Ironsand Desert gives 200 gold if the total gold on party and in the bank is less than 100.
         end
     return
     end
@@ -273,10 +274,10 @@ RegisterEvent(103, "Drink from the well", function()
 end, "Drink from the well")
 
 RegisterEvent(150, "Obelisk", function()
-    if IsQBitSet(QBit(189)) then return end
+    if IsQBitSet(QBit(189)) then return end -- Obelisk Area 4
     evt.StatusText("thornskey")
-    AddValue(IsIntellectMoreThanBase, 19)
-    SetQBit(QBit(189))
+    SetAutonote(19) -- Obelisk message #3: thornskey
+    SetQBit(QBit(189)) -- Obelisk Area 4
     return
 end, "Obelisk")
 
@@ -345,7 +346,7 @@ RegisterEvent(490, "Legacy event 490", function()
 end)
 
 RegisterEvent(494, "Cactus", function()
-    if IsQBitSet(QBit(278)) then
+    if IsQBitSet(QBit(278)) then -- Reagant spout area 4
         return
     elseif IsAtLeast(PerceptionSkill, 3) then
         local randomStep = PickRandomOption(494, 4, {5, 7, 9, 11, 13})
@@ -360,7 +361,7 @@ RegisterEvent(494, "Cactus", function()
         elseif randomStep == 13 then
             evt.SummonItem(220, -7616, -4160, 504, 1000, 1, true) -- Potion Bottle
         end
-        SetQBit(QBit(278))
+        SetQBit(QBit(278)) -- Reagant spout area 4
         return
     else
         return
@@ -368,7 +369,7 @@ RegisterEvent(494, "Cactus", function()
 end, "Cactus")
 
 RegisterEvent(495, "Rock", function()
-    if IsQBitSet(QBit(277)) then return end
+    if IsQBitSet(QBit(277)) then return end -- Reagant spout area 4
     if not IsAtLeast(PerceptionSkill, 5) then return end
     local randomStep = PickRandomOption(495, 4, {5, 7, 9, 11})
     if randomStep == 5 then
@@ -380,7 +381,7 @@ RegisterEvent(495, "Rock", function()
     elseif randomStep == 11 then
         evt.SummonItem(2141, 1728, -3776, 1008, 1000, 1, true)
     end
-    SetQBit(QBit(277))
+    SetQBit(QBit(277)) -- Reagant spout area 4
     return
 end, "Rock")
 

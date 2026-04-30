@@ -10,6 +10,7 @@
 #include "game/data/GameDataRepository.h"
 #include "game/data/GameDataLoader.h"
 #include "game/audio/GameAudioSystem.h"
+#include "game/events/EventRuntime.h"
 #include "game/indoor/IndoorRenderer.h"
 #include "game/indoor/IndoorGameView.h"
 #include "game/outdoor/OutdoorGameView.h"
@@ -33,6 +34,7 @@ namespace OpenYAMM::Game
 {
 class HeadlessGameplayDiagnostics;
 struct GameApplicationTestAccess;
+struct WinGameCertificate;
 
 class GameApplication
 {
@@ -60,8 +62,14 @@ private:
     bool applyCurrentSessionToRuntime(bool initializeView);
     void syncMapPickerToSelectedMap();
     bool processPendingMapMove();
+    bool processPendingWinGame();
+    bool processPendingEventMovie();
+    bool executeCurrentMapOnLeaveEvents();
     bool processPendingPartyDefeat();
     void handleCompletedPartyDefeatScreen();
+    void handleCompletedEventMovieScreen();
+    void handleCompletedWinGameScreen();
+    WinGameCertificate buildWinGameCertificate() const;
     bool shouldTriggerPartyDefeat() const;
     std::string resolvePartyDefeatRespawnMapFileName() const;
     void applyPartyDefeatConsequences();
@@ -101,6 +109,14 @@ private:
     void reportQuickSaveStatus(const std::string &status);
     void renderMapPickerOverlay() const;
     void handleSdlEvent(const SDL_Event &event);
+    bool handlePendingInputPromptSdlEvent(const SDL_Event &event);
+    bool pendingInputPromptActive() const;
+    void clearPendingInputPromptUi(bool clearStatusBar);
+    void updatePendingInputPrompt();
+    void finishPendingInputPrompt(bool accepted);
+    void presentPendingInputPromptDialogResult(size_t previousMessageCount);
+    std::vector<std::string> resolvePendingInputAnswers(
+        const EventRuntimeState::PendingInputPrompt &prompt) const;
     void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds);
 
     Engine::ApplicationConfig m_config;
@@ -142,5 +158,10 @@ private:
     int m_lastFrameWidth = 640;
     int m_lastFrameHeight = 480;
     std::optional<std::string> m_pendingPartyDefeatRespawnMapFileName;
+    bool m_pendingWinGameCertificateAfterMovie = false;
+    std::string m_pendingInputText;
+    std::string m_pendingInputStatusText;
+    bool m_pendingInputTextActive = false;
+    bool m_skipGameplayUpdateUntilPromptSubmitKeysReleased = false;
 };
 }

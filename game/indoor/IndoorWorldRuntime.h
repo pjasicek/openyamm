@@ -186,6 +186,8 @@ public:
     bool isIndoorMap() const override;
     float currentGameMinutes() const override;
     const MapDeltaData *mapDeltaData() const override;
+    MapDeltaData *mapDeltaData() override;
+    bool setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn) override;
     float gameMinutes() const override;
     int currentHour() const override;
     void advanceGameMinutes(float minutes) override;
@@ -216,7 +218,10 @@ public:
     GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const override;
     bool requestTravelAutosave() override;
     void cancelPendingMapTransition() override;
-    bool executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount) override;
+    bool executeNpcTopicEvent(
+        uint16_t eventId,
+        size_t &previousMessageCount,
+        std::optional<uint8_t> continueStep = std::nullopt) override;
     const std::optional<ScriptedEventProgram> *globalEventProgram() const override;
     EventRuntimeState *eventRuntimeState() override;
     const EventRuntimeState *eventRuntimeState() const override;
@@ -388,7 +393,6 @@ public:
     Snapshot snapshot() const;
     void restoreSnapshot(const Snapshot &snapshot);
 
-    MapDeltaData *mapDeltaData();
     bool hasIndoorCombatLineOfSight(
         const GameplayWorldPoint &from,
         int16_t fromSectorId,

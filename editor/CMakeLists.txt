@@ -30,6 +30,7 @@ add_executable(openyamm-editor
     ${CMAKE_SOURCE_DIR}/game/maps/MapDeltaData.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/OutdoorSceneYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/TerrainTileData.cpp
+    ${CMAKE_SOURCE_DIR}/game/party/SkillData.cpp
     ${CMAKE_SOURCE_DIR}/tools/legacy_events/EvtProgram.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/ChestTable.cpp
     ${CMAKE_SOURCE_DIR}/game/tables/HouseTable.cpp

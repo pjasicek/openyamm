@@ -231,9 +231,15 @@ std::vector<IndoorVisibilityPlane> buildPortalFrustumPlanes(
 bool indoorPortalFaceVisible(
     size_t faceIndex,
     const IndoorFace &face,
+    const MapDeltaData *pMapDeltaData,
     const std::optional<EventRuntimeState> *pEventRuntimeState)
 {
-    if (hasFaceAttribute(face.attributes, FaceAttribute::Invisible))
+    const uint32_t effectiveAttributes =
+        pMapDeltaData != nullptr && faceIndex < pMapDeltaData->faceAttributes.size()
+            ? pMapDeltaData->faceAttributes[faceIndex]
+            : face.attributes;
+
+    if (hasFaceAttribute(effectiveAttributes, FaceAttribute::Invisible))
     {
         return false;
     }
@@ -483,6 +489,46 @@ void appendUniqueFaceId(std::vector<uint16_t> &faceIds, uint16_t faceId)
     }
 }
 
+void appendPortalFacesLinkedToSector(
+    std::vector<uint16_t> &faceIds,
+    const IndoorMapData &mapData,
+    const MapDeltaData *pMapDeltaData,
+    int16_t sectorId)
+{
+    if (sectorId < 0)
+    {
+        return;
+    }
+
+    for (size_t faceIndex = 0; faceIndex < mapData.faces.size(); ++faceIndex)
+    {
+        if (faceIndex > std::numeric_limits<uint16_t>::max())
+        {
+            break;
+        }
+
+        const IndoorFace &face = mapData.faces[faceIndex];
+
+        if (face.roomNumber != static_cast<uint16_t>(sectorId)
+            && face.roomBehindNumber != static_cast<uint16_t>(sectorId))
+        {
+            continue;
+        }
+
+        const uint32_t effectiveAttributes =
+            pMapDeltaData != nullptr && faceIndex < pMapDeltaData->faceAttributes.size()
+                ? pMapDeltaData->faceAttributes[faceIndex]
+                : face.attributes;
+
+        if (!face.isPortal && !hasFaceAttribute(effectiveAttributes, FaceAttribute::IsPortal))
+        {
+            continue;
+        }
+
+        appendUniqueFaceId(faceIds, static_cast<uint16_t>(faceIndex));
+    }
+}
+
 bool sectorHasFaceInsideFrustum(
     const IndoorMapData &mapData,
     const std::vector<IndoorVertex> &vertices,
@@ -643,6 +689,8 @@ IndoorPortalVisibilityResult buildIndoorPortalVisibility(const IndoorPortalVisib
             appendUniqueFaceId(portalFaceIds, faceId);
         }
 
+        appendPortalFacesLinkedToSector(portalFaceIds, mapData, input.pMapDeltaData, currentNode.sectorId);
+
         for (uint16_t faceId : portalFaceIds)
         {
             if (result.nodes.size() >= input.maxNodes || faceId >= mapData.faces.size())
@@ -655,17 +703,22 @@ IndoorPortalVisibilityResult buildIndoorPortalVisibility(const IndoorPortalVisib
 
             ++result.portalCandidateCount;
             const IndoorFace &face = mapData.faces[faceId];
+            const uint32_t effectiveAttributes =
+                input.pMapDeltaData != nullptr && faceId < input.pMapDeltaData->faceAttributes.size()
+                    ? input.pMapDeltaData->faceAttributes[faceId]
+                    : face.attributes;
 
             if (static_cast<int16_t>(faceId) == currentNode.entryPortalFaceId
-                || (!face.isPortal && !hasFaceAttribute(face.attributes, FaceAttribute::IsPortal))
-                || !indoorPortalFaceVisible(faceId, face, input.pEventRuntimeState))
+                || (!face.isPortal && !hasFaceAttribute(effectiveAttributes, FaceAttribute::IsPortal))
+                || !indoorPortalFaceVisible(faceId, face, input.pMapDeltaData, input.pEventRuntimeState))
             {
                 ++result.rejectedPortalCount;
                 ++result.invalidPortalCount;
                 continue;
             }
 
-            if (portalBlockedByClosedDoor(face, vertices, input.pMapDeltaData, input.pEventRuntimeState))
+            if (!input.ignoreMechanismBlockers
+                && portalBlockedByClosedDoor(face, vertices, input.pMapDeltaData, input.pEventRuntimeState))
             {
                 ++result.rejectedPortalCount;
                 ++result.blockedPortalCount;

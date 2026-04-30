@@ -8,6 +8,8 @@
 
 namespace OpenYAMM::Game
 {
+class ISceneEventContext;
+
 class IMapSceneRuntime
 {
 public:
@@ -19,6 +21,9 @@ public:
     virtual const Party &party() const = 0;
     virtual EventRuntimeState *eventRuntimeState() = 0;
     virtual const EventRuntimeState *eventRuntimeState() const = 0;
+    virtual ISceneEventContext *sceneEventContext() = 0;
+    virtual const std::optional<ScriptedEventProgram> &localEventProgram() const = 0;
+    virtual const std::optional<ScriptedEventProgram> &globalEventProgram() const = 0;
     virtual std::optional<EventRuntimeState::PendingMapMove> consumePendingMapMove() = 0;
     virtual void advanceGameMinutes(float minutes) = 0;
 };

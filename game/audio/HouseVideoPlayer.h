@@ -33,6 +33,11 @@ public:
         const Engine::AssetFileSystem &assetFileSystem,
         const std::string &videoStem,
         const std::string &videoDirectory);
+    bool play(
+        const Engine::AssetFileSystem &assetFileSystem,
+        const std::string &videoStem,
+        const std::string &videoDirectory,
+        bool loopPlayback);
     bool preload(const Engine::AssetFileSystem &assetFileSystem, const std::string &videoStem);
     bool preload(
         const Engine::AssetFileSystem &assetFileSystem,
@@ -99,6 +104,7 @@ private:
     size_t m_uploadedFrameIndex;
     size_t m_nextAudioSampleIndex;
     uint64_t m_totalQueuedAudioFrames;
+    bool m_loopPlayback;
     std::unordered_map<std::string, std::shared_ptr<DecodedClip>> m_cachedClipsByKey;
     std::vector<std::string> m_pendingBackgroundPreloadStems;
     std::optional<BackgroundPreloadJob> m_backgroundPreloadJob;

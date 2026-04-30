@@ -42,6 +42,7 @@ struct IndoorPortalVisibilityInput
     int16_t startSectorId = -1;
     uint16_t maxNodes = 256;
     uint16_t maxDepth = 32;
+    bool ignoreMechanismBlockers = false;
 };
 
 struct IndoorPortalVisibilityResult

@@ -40,6 +40,7 @@ public:
     const std::vector<uint16_t> &eventIds() const;
     const std::vector<uint16_t> &canShowTopicEventIds() const;
     const std::vector<uint16_t> &onLoadEventIds() const;
+    const std::vector<uint16_t> &onLeaveEventIds() const;
     const std::vector<std::string> &textureNames() const;
     const std::vector<std::string> &spriteNames() const;
     const std::vector<uint32_t> &castSpellIds() const;
@@ -63,6 +64,7 @@ private:
     std::vector<uint16_t> m_eventIds;
     std::vector<uint16_t> m_canShowTopicEventIds;
     std::vector<uint16_t> m_onLoadEventIds;
+    std::vector<uint16_t> m_onLeaveEventIds;
     std::unordered_map<uint16_t, std::string> m_hints;
     std::unordered_map<uint16_t, std::string> m_summaries;
     std::unordered_map<uint16_t, std::vector<uint32_t>> m_openedChestIdsByEventId;

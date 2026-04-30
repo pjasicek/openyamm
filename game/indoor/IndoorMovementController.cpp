@@ -242,18 +242,22 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
     }
 
     const std::vector<uint32_t> doorStateSignature = buildDoorStateSignature(m_pMapDeltaData, m_pEventRuntimeState);
+    const MapDeltaData *pMapDeltaData =
+        m_pMapDeltaData != nullptr && m_pMapDeltaData->has_value() ? &m_pMapDeltaData->value() : nullptr;
+    const uint64_t surfaceRevision = pMapDeltaData != nullptr ? pMapDeltaData->surfaceRevision : 0;
 
-    if (m_runtimeGeometryCache.valid && m_runtimeGeometryCache.doorStateSignature == doorStateSignature)
+    if (m_runtimeGeometryCache.valid
+        && m_runtimeGeometryCache.doorStateSignature == doorStateSignature
+        && m_runtimeGeometryCache.surfaceRevision == surfaceRevision)
     {
         return;
     }
 
-    const MapDeltaData *pMapDeltaData =
-        m_pMapDeltaData != nullptr && m_pMapDeltaData->has_value() ? &m_pMapDeltaData->value() : nullptr;
     const EventRuntimeState *pEventRuntimeState =
         m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value() ? &m_pEventRuntimeState->value() : nullptr;
 
     const bool wasValid = m_runtimeGeometryCache.valid;
+    const uint64_t previousSurfaceRevision = m_runtimeGeometryCache.surfaceRevision;
     const std::vector<uint32_t> previousDoorStateSignature = m_runtimeGeometryCache.doorStateSignature;
     m_runtimeGeometryCache.vertices = buildIndoorMechanismAdjustedVertices(
         *m_pIndoorMapData,
@@ -264,7 +268,7 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
     m_runtimeGeometryCache.nonBlockingMechanismFaceMask.clear();
     m_runtimeGeometryCache.mechanismBlockingFaceMask.clear();
 
-    if (!wasValid)
+    if (!wasValid || previousSurfaceRevision != surfaceRevision)
     {
         m_runtimeGeometryCache.collisionFaceMask = buildCollisionFaceMask();
         m_runtimeGeometryCache.geometryCache.reset(m_pIndoorMapData->faces.size());
@@ -297,6 +301,8 @@ void IndoorMovementController::refreshRuntimeGeometryCache() const
     }
 
     m_runtimeGeometryCache.doorStateSignature = doorStateSignature;
+    m_runtimeGeometryCache.surfaceRevision = surfaceRevision;
+    m_runtimeGeometryCache.geometryCache.setAttributeOverrides(pMapDeltaData);
     m_runtimeGeometryCache.valid = true;
 }
 

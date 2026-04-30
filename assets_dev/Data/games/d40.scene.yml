@@ -4,6 +4,7 @@ source:
   geometry_file: "d40.blv"
   legacy_companion_file: "d40.dlv"
 environment:
+  last_visit_time: 0
   sky_texture: ""
   day_bits_raw: 0
   map_extra_bits_raw: 0
@@ -21,6 +22,98 @@ environment:
     weak_distance: 0
     strong_distance: 0
   ceiling: 0
+  map_extra_reserved_hex: "000000000000000000000000000000000000000000000000"
+spawns:
+  - spawn_index: 0
+    position:
+      x: 224
+      y: 712
+      z: 1920
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 1
+    position:
+      x: -248
+      y: 352
+      z: 1920
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 2
+    position:
+      x: -232
+      y: 760
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 3
+    position:
+      x: 272
+      y: 736
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 4
+    position:
+      x: -392
+      y: 744
+      z: 1280
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 5
+    position:
+      x: 360
+      y: 352
+      z: 1280
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 6
+    position:
+      x: 296
+      y: 776
+      z: 640
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 7
+    position:
+      x: -344
+      y: 264
+      z: 640
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 8
+    position:
+      x: -176
+      y: 352
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
 initial_state:
   location:
     respawn_count: 0

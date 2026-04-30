@@ -118,6 +118,7 @@ private:
     int m_lastRenderWidth = 0;
     int m_lastRenderHeight = 0;
     bool m_renderGameplayUiThisFrame = true;
+    bool m_dumpGameplayStateLatch = false;
     PendingSavePreviewCaptureState m_pendingSavePreviewCapture = {};
     bool m_hasLastFootstepPosition = false;
     float m_lastFootstepX = 0.0f;

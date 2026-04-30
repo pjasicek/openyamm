@@ -1721,10 +1721,11 @@ void OutdoorInteractionController::cancelPendingMapTransition(OutdoorGameView &v
 bool OutdoorInteractionController::executeNpcTopicEvent(
     OutdoorGameView &view,
     uint16_t eventId,
-    size_t &previousMessageCount)
+    size_t &previousMessageCount,
+    std::optional<uint8_t> continueStep)
 {
     return view.m_pOutdoorSceneRuntime != nullptr
-        && view.m_pOutdoorSceneRuntime->executeNpcTopicEventById(eventId, previousMessageCount);
+        && view.m_pOutdoorSceneRuntime->executeNpcTopicEventById(eventId, previousMessageCount, continueStep);
 }
 
 
@@ -3169,6 +3170,10 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
             return inspectHit.kind == "object";
         };
 
+    const MapDeltaData *pMapDeltaData =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
+    size_t flattenedFaceIndex = 0;
+
     for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
     {
         const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
@@ -3176,14 +3181,19 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
         for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
         {
             const OutdoorBModelFace &face = bModel.faces[faceIndex];
+            const uint32_t effectiveAttributes =
+                pMapDeltaData != nullptr && flattenedFaceIndex < pMapDeltaData->faceAttributes.size()
+                    ? pMapDeltaData->faceAttributes[flattenedFaceIndex]
+                    : face.attributes;
+            ++flattenedFaceIndex;
 
-            if (outdoorFaceHasInvisibleAttribute(face.attributes) || face.vertexIndices.size() < 3)
+            if (outdoorFaceHasInvisibleAttribute(effectiveAttributes) || face.vertexIndices.size() < 3)
             {
                 continue;
             }
 
             if (facePickMode == FacePickMode::InteractionActivatable
-                && !outdoorFaceIsInteractionActivatable(face.attributes, face.cogTriggeredNumber))
+                && !outdoorFaceIsInteractionActivatable(effectiveAttributes, face.cogTriggeredNumber))
             {
                 continue;
             }
@@ -3242,7 +3252,7 @@ OutdoorGameView::InspectHit OutdoorInteractionController::inspectBModelFace(
                     bestHit.faceIndex = faceIndex;
                     bestHit.textureName = face.textureName;
                     bestHit.distance = distance;
-                    bestHit.attributes = face.attributes;
+                    bestHit.attributes = effectiveAttributes;
                     bestHit.bitmapIndex = face.bitmapIndex;
                     bestHit.cogNumber = face.cogNumber;
                     bestHit.cogTriggeredNumber = face.cogTriggeredNumber;

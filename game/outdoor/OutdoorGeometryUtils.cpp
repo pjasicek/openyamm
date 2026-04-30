@@ -230,10 +230,11 @@ bool buildOutdoorFaceGeometry(
     size_t bModelIndex,
     const OutdoorBModelFace &face,
     size_t faceIndex,
-    OutdoorFaceGeometryData &geometry
+    OutdoorFaceGeometryData &geometry,
+    bool includeEtherealFaces
 )
 {
-    if (outdoorFaceIsEthereal(face.attributes))
+    if (!includeEtherealFaces && outdoorFaceIsEthereal(face.attributes))
     {
         return false;
     }

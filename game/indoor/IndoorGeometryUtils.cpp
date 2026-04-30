@@ -584,6 +584,20 @@ void IndoorFaceGeometryCache::invalidateFace(size_t faceIndex)
     }
 }
 
+void IndoorFaceGeometryCache::setAttributeOverrides(const MapDeltaData *pMapDeltaData)
+{
+    const uint64_t attributeRevision = pMapDeltaData != nullptr ? pMapDeltaData->surfaceRevision : 0;
+
+    if (m_pAttributeOverrides == pMapDeltaData && m_attributeRevision == attributeRevision)
+    {
+        return;
+    }
+
+    m_pAttributeOverrides = pMapDeltaData;
+    m_attributeRevision = attributeRevision;
+    std::fill(m_entryStates.begin(), m_entryStates.end(), 0);
+}
+
 const IndoorFaceGeometryData *IndoorFaceGeometryCache::geometryForFace(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,
@@ -597,7 +611,8 @@ const IndoorFaceGeometryData *IndoorFaceGeometryCache::geometryForFace(
 
     if (m_entryStates[faceIndex] == 0)
     {
-        const bool valid = buildIndoorFaceGeometry(indoorMapData, vertices, faceIndex, m_entries[faceIndex]);
+        const bool valid =
+            buildIndoorFaceGeometry(indoorMapData, vertices, faceIndex, m_entries[faceIndex], m_pAttributeOverrides);
         m_entryStates[faceIndex] = valid ? 2 : 1;
     }
 
@@ -692,7 +707,8 @@ bool buildIndoorFaceGeometry(
     const IndoorMapData &indoorMapData,
     const std::vector<IndoorVertex> &vertices,
     size_t faceIndex,
-    IndoorFaceGeometryData &geometry
+    IndoorFaceGeometryData &geometry,
+    const MapDeltaData *pMapDeltaData
 )
 {
     if (faceIndex >= indoorMapData.faces.size())
@@ -701,19 +717,23 @@ bool buildIndoorFaceGeometry(
     }
 
     const IndoorFace &face = indoorMapData.faces[faceIndex];
+    const uint32_t attributes =
+        pMapDeltaData != nullptr && faceIndex < pMapDeltaData->faceAttributes.size()
+            ? pMapDeltaData->faceAttributes[faceIndex]
+            : face.attributes;
 
-    if (hasFaceAttribute(face.attributes, FaceAttribute::Invisible) || face.vertexIndices.size() < 3)
+    if (hasFaceAttribute(attributes, FaceAttribute::Invisible) || face.vertexIndices.size() < 3)
     {
         return false;
     }
 
     geometry = {};
     geometry.faceIndex = faceIndex;
-    geometry.attributes = face.attributes;
+    geometry.attributes = attributes;
     geometry.sectorId = face.roomNumber;
     geometry.backSectorId = face.roomBehindNumber;
     geometry.facetType = face.facetType;
-    geometry.isPortal = face.isPortal || hasFaceAttribute(face.attributes, FaceAttribute::IsPortal);
+    geometry.isPortal = face.isPortal || hasFaceAttribute(attributes, FaceAttribute::IsPortal);
     geometry.vertices.reserve(face.vertexIndices.size());
     geometry.projectedVertices.reserve(face.vertexIndices.size());
 
@@ -747,7 +767,7 @@ bool buildIndoorFaceGeometry(
     geometry.hasPlane = vecLength(geometry.normal) > GeometryEpsilon;
     geometry.kind = classifyFaceKind(face, geometry.normal);
     geometry.isWalkable =
-        !hasFaceAttribute(face.attributes, FaceAttribute::Untouchable) && faceIsWalkable(face, geometry.normal);
+        !hasFaceAttribute(attributes, FaceAttribute::Untouchable) && faceIsWalkable(face, geometry.normal);
 
     for (const bx::Vec3 &vertex : geometry.vertices)
     {

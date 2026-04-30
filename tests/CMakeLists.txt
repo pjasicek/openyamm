@@ -49,6 +49,7 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/GenericActorDialog.cpp
     ../game/gameplay/HouseInteraction.cpp
     ../game/gameplay/HouseServiceRuntime.cpp
+    ../game/gameplay/JournalQuestRuntime.cpp
     ../game/gameplay/MasteryTeacherDialog.cpp
     ../game/items/ItemEquipPosTable.cpp
     ../game/gameplay/GameplayProjectileService.cpp

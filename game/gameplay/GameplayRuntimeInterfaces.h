@@ -407,7 +407,10 @@ public:
     virtual GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const = 0;
     virtual bool requestTravelAutosave() = 0;
     virtual void cancelPendingMapTransition() = 0;
-    virtual bool executeNpcTopicEvent(uint16_t eventId, size_t &previousMessageCount) = 0;
+    virtual bool executeNpcTopicEvent(
+        uint16_t eventId,
+        size_t &previousMessageCount,
+        std::optional<uint8_t> continueStep = std::nullopt) = 0;
     virtual const std::optional<ScriptedEventProgram> *globalEventProgram() const = 0;
     virtual EventRuntimeState *eventRuntimeState() = 0;
     virtual const EventRuntimeState *eventRuntimeState() const = 0;

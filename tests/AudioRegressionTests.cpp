@@ -228,7 +228,7 @@ TEST_CASE("damage speech audio resolves for roster seeded party members")
         const OpenYAMM::Game::RosterEntry *pRosterEntry = gameData.rosterTable.get(rosterIds[rosterIndex]);
 
         REQUIRE(pRosterEntry != nullptr);
-        REQUIRE(party.replaceMemberWithRosterEntry(rosterIndex + 1, *pRosterEntry));
+        REQUIRE(party.recruitRosterMember(*pRosterEntry));
     }
 
     for (size_t memberIndex = 1; memberIndex < party.members().size(); ++memberIndex)

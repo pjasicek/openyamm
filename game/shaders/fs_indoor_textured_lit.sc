@@ -1,4 +1,4 @@
-$input v_texcoord0, v_worldPosition, v_texcoord1
+$input v_texcoord0, v_worldPosition, v_texcoord1, v_screenspace
 
 #include "common.sh"
 
@@ -46,7 +46,29 @@ void main()
     if (v_texcoord1.x > 0.5 && u_secretPulseParams.x > 0.5)
     {
         float pulse = 0.5 + 0.5 * sin(u_secretPulseParams.y * 4.0);
-        color *= vec3(1.0, pulse, pulse);
+        vec3 secretTint = color * vec3(1.0, pulse, pulse);
+        float edgeMask = floor(v_screenspace + 0.5);
+        float boundaryFade = 1.0;
+
+        if (mod(edgeMask, 2.0) >= 1.0)
+        {
+            float edgeWidth = max(fwidth(v_texcoord1.y) * 8.0, 0.004);
+            boundaryFade = min(boundaryFade, smoothstep(edgeWidth, edgeWidth * 2.5, v_texcoord1.y));
+        }
+
+        if (mod(floor(edgeMask / 2.0), 2.0) >= 1.0)
+        {
+            float edgeWidth = max(fwidth(v_texcoord1.z) * 8.0, 0.004);
+            boundaryFade = min(boundaryFade, smoothstep(edgeWidth, edgeWidth * 2.5, v_texcoord1.z));
+        }
+
+        if (mod(floor(edgeMask / 4.0), 2.0) >= 1.0)
+        {
+            float edgeWidth = max(fwidth(v_texcoord1.w) * 8.0, 0.004);
+            boundaryFade = min(boundaryFade, smoothstep(edgeWidth, edgeWidth * 2.5, v_texcoord1.w));
+        }
+
+        color = mix(color, secretTint, boundaryFade);
     }
 
     gl_FragColor = vec4(color, textureColor.a);
