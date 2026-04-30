@@ -215,6 +215,12 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
 
             if (hasFaceAttribute(face.attributes, FaceAttribute::PressurePlate) && face.cogTriggeredNumber != 0)
             {
+                m_pWorldRuntime->setPendingEventSourcePoint(GameplayWorldPoint{
+                    .x = moveState.x,
+                    .y = moveState.y,
+                    .z = moveState.footZ,
+                });
+
                 const bool executed = m_eventRuntime.executeEventById(
                     m_localEventProgram,
                     m_globalEventProgram,
@@ -231,6 +237,10 @@ OutdoorSceneRuntime::AdvanceFrameResult OutdoorSceneRuntime::advanceFrame(
                     result.shouldOpenEventDialog = result.shouldOpenEventDialog
                         || pEventRuntimeState->pendingDialogueContext.has_value()
                         || pEventRuntimeState->messages.size() > result.previousMessageCount;
+                }
+                else
+                {
+                    m_pWorldRuntime->setPendingEventSourcePoint(std::nullopt);
                 }
             }
         }

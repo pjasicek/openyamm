@@ -5986,7 +5986,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 std::optional<EventRuntimeState> eventRuntimeState = EventRuntimeState {};
                 RuntimeMechanismState closedMechanism = {};
                 closedMechanism.state = static_cast<uint16_t>(EvtMechanismState::Closed);
-                closedMechanism.currentDistance = 128.0f;
+                closedMechanism.currentDistance = 512.0f;
                 closedMechanism.isMoving = false;
                 eventRuntimeState->mechanisms[77] = closedMechanism;
 

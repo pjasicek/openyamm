@@ -25,6 +25,7 @@ class GameplayActorAiSystem;
 class GameplayActorService;
 class GameplayCombatController;
 class GameplayProjectileService;
+struct ChestTrapOpenResult;
 struct DecorationBillboardSet;
 class IndoorRenderer;
 class IndoorFaceGeometryCache;
@@ -472,6 +473,11 @@ private:
     bool indoorActorCanApplyPartyMeleeImpact(size_t actorIndex) const;
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
+    bool attemptOpenChest(uint32_t chestId);
+    GameplayWorldPoint chestTrapSourcePoint() const;
+    GameplayWorldPoint chestTrapVisualPoint(const GameplayWorldPoint &sourcePoint) const;
+    void applyChestTrapState(uint32_t chestId, const ChestTrapOpenResult &trapResult);
+    void spawnChestTrapVisual(const GameplayWorldPoint &point, const ChestTrapOpenResult &trapResult);
     void beginMapActorHitReaction(
         size_t actorIndex,
         MapDeltaActor &actor,
@@ -531,6 +537,7 @@ private:
     uint32_t m_sessionChestSeed = 0;
     std::vector<std::optional<ChestViewState>> m_materializedChestViews;
     std::optional<ChestViewState> m_activeChestView;
+    std::optional<GameplayWorldPoint> m_pendingEventSourcePoint;
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<MapActorAiState> m_mapActorAiStates;

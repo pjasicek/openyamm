@@ -2883,6 +2883,38 @@ int GameMechanics::resolveCharacterPerceptionValue(const Character &character)
     return static_cast<int>(pSkill->level) * masteryMultiplier(pSkill->mastery, 1, 2, 3, 5);
 }
 
+int GameMechanics::resolveCharacterDisarmTrapValue(const Character &character)
+{
+    static const std::string DisarmTrapSkillName = "DisarmTraps";
+
+    const CharacterSkill *pSkill = character.findSkillByCanonicalName(DisarmTrapSkillName);
+
+    if (pSkill == nullptr || pSkill->mastery == SkillMastery::None || pSkill->level == 0)
+    {
+        return 0;
+    }
+
+    if (pSkill->mastery == SkillMastery::Grandmaster)
+    {
+        return 10000;
+    }
+
+    const auto bonusForName =
+        [&character](const char *pSkillName)
+        {
+            const auto iterator = character.itemSkillBonuses.find(pSkillName);
+            return iterator != character.itemSkillBonuses.end() ? iterator->second : 0;
+        };
+
+    const int itemBonus =
+        bonusForName("Disarm")
+        + bonusForName("DisarmTrap")
+        + bonusForName("DisarmTraps");
+
+    const int effectiveLevel = std::max(0, static_cast<int>(pSkill->level) + itemBonus);
+    return effectiveLevel * masteryMultiplier(pSkill->mastery, 1, 2, 3, 5);
+}
+
 bool GameMechanics::partyDetectsSecretFaces(const Party &party, const MapStatsEntry &map)
 {
     const int requiredPerception = map.perceptionDifficulty * 2;

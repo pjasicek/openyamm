@@ -5824,9 +5824,11 @@ void IndoorRenderer::renderSpriteObjectBillboards(
             float y,
             float z,
             int16_t sectorId,
-            uint32_t timeTicks)
+            uint32_t timeTicks,
+            bool forceLog = false)
         {
             uint16_t spriteFrameIndex = cachedSpriteFrameIndex;
+            const char *pResolutionSource = cachedSpriteFrameIndex != 0 ? "cached" : "none";
 
             if (spriteFrameIndex == 0 && !spriteName.empty())
             {
@@ -5836,16 +5838,25 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                 if (spriteFrameIndexByName)
                 {
                     spriteFrameIndex = *spriteFrameIndexByName;
+                    pResolutionSource = "name";
                 }
             }
 
             if (spriteFrameIndex == 0)
             {
                 spriteFrameIndex = spriteId;
+                pResolutionSource = "id";
             }
 
             if (spriteFrameIndex == 0)
             {
+                if (forceLog)
+                {
+                    std::cout << "Indoor projectile draw skipped"
+                              << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
+                              << " spriteId=" << spriteId
+                              << " reason=no_frame_index\n";
+                }
                 return;
             }
 
@@ -5854,6 +5865,15 @@ void IndoorRenderer::renderSpriteObjectBillboards(
 
             if (pFrame == nullptr)
             {
+                if (forceLog)
+                {
+                    std::cout << "Indoor projectile draw skipped"
+                              << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
+                              << " spriteId=" << spriteId
+                              << " frameIndex=" << spriteFrameIndex
+                              << " source=" << pResolutionSource
+                              << " reason=frame_missing\n";
+                }
                 return;
             }
 
@@ -5863,12 +5883,49 @@ void IndoorRenderer::renderSpriteObjectBillboards(
 
             if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
             {
+                if (forceLog)
+                {
+                    std::cout << "Indoor projectile draw skipped"
+                              << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
+                              << " spriteId=" << spriteId
+                              << " frameIndex=" << spriteFrameIndex
+                              << " source=" << pResolutionSource
+                              << " texture=\"" << resolvedTexture.textureName << "\""
+                              << " palette=" << pFrame->paletteId
+                              << " reason=texture_missing\n";
+                }
                 return;
             }
 
             if (!spriteBillboardVisible(x, y, z, *pFrame, *pTexture))
             {
+                if (forceLog)
+                {
+                    std::cout << "Indoor projectile draw skipped"
+                              << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
+                              << " spriteId=" << spriteId
+                              << " frameIndex=" << spriteFrameIndex
+                              << " source=" << pResolutionSource
+                              << " pos=(" << x << ", " << y << ", " << z << ")"
+                              << " reason=not_visible\n";
+                }
                 return;
+            }
+
+            if (forceLog)
+            {
+                std::cout << "Indoor projectile draw"
+                          << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
+                          << " spriteId=" << spriteId
+                          << " frameIndex=" << spriteFrameIndex
+                          << " source=" << pResolutionSource
+                          << " texture=\"" << resolvedTexture.textureName << "\""
+                          << " palette=" << pFrame->paletteId
+                          << " texSize=(" << pTexture->width << ", " << pTexture->height << ")"
+                          << " pos=(" << x << ", " << y << ", " << z << ")"
+                          << " sectorId=" << sectorId
+                          << " ageTicks=" << timeTicks
+                          << '\n';
             }
 
             const float deltaX = x - cameraPosition.x;
@@ -6045,7 +6102,8 @@ void IndoorRenderer::renderSpriteObjectBillboards(
                 impact.y,
                 impact.z,
                 impact.sectorId,
-                impact.freezeAnimation ? 0u : impact.timeSinceCreatedTicks);
+                impact.freezeAnimation ? 0u : impact.timeSinceCreatedTicks,
+                impact.objectName.find("Trap") != std::string::npos);
         }
     }
 

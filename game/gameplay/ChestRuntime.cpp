@@ -1,5 +1,6 @@
 #include "game/gameplay/ChestRuntime.h"
 
+#include "game/events/EvtEnums.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemGenerator.h"
 #include "game/party/Party.h"
@@ -7,7 +8,10 @@
 #include "game/tables/ItemTable.h"
 
 #include <algorithm>
+#include <array>
+#include <cmath>
 #include <cstring>
+#include <functional>
 #include <iostream>
 #include <limits>
 #include <numeric>
@@ -23,6 +27,55 @@ constexpr size_t ChestItemRecordSize = 36;
 constexpr int RandomChestItemMinLevel = 1;
 constexpr int RandomChestItemMaxLevel = 7;
 constexpr int SpawnableItemTreasureLevels = 6;
+constexpr uint16_t ChestTrapFlag = static_cast<uint16_t>(EvtChestFlag::Trapped);
+constexpr uint16_t FireTrapObjectDescriptionId = 811;
+constexpr uint16_t LightningTrapObjectDescriptionId = 812;
+constexpr uint16_t ColdTrapObjectDescriptionId = 813;
+constexpr uint16_t BodyTrapObjectDescriptionId = 814;
+constexpr float ChestTrapDamageRadius = 768.0f;
+
+struct ChestTrapDefinition
+{
+    uint16_t objectId = 0;
+    CombatDamageType damageType = CombatDamageType::Physical;
+};
+
+const std::array<ChestTrapDefinition, 4> &chestTrapDefinitions()
+{
+    static const std::array<ChestTrapDefinition, 4> Definitions = {{
+        {FireTrapObjectDescriptionId, CombatDamageType::Fire},
+        {LightningTrapObjectDescriptionId, CombatDamageType::Air},
+        {ColdTrapObjectDescriptionId, CombatDamageType::Water},
+        {BodyTrapObjectDescriptionId, CombatDamageType::Body},
+    }};
+
+    return Definitions;
+}
+
+float chestTrapDistanceMetric(const ChestTrapOpenContext &context)
+{
+    std::array<float, 3> distances = {{
+        std::abs(context.partyX - context.trapX),
+        std::abs(context.partyY - context.trapY),
+        std::abs(context.partyZ - context.trapZ),
+    }};
+
+    std::sort(distances.begin(), distances.end(), std::greater<float>());
+    return distances[0] + distances[1] * (11.0f / 32.0f) + distances[2] * 0.25f;
+}
+
+bool canReceiveChestTrapDamage(const Character &member)
+{
+    if (member.conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+        || member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
+        || member.conditions.test(static_cast<size_t>(CharacterCondition::Eradicated)))
+    {
+        return false;
+    }
+
+    return member.health > 0
+        || member.conditions.test(static_cast<size_t>(CharacterCondition::Unconscious));
+}
 
 bool chestItemContainsCell(const GameplayChestItemState &item, uint8_t gridX, uint8_t gridY)
 {
@@ -782,5 +835,118 @@ bool tryPlaceChestItemAt(
 
     view.items.push_back(placedItem);
     return true;
+}
+
+ChestTrapOpenResult resolveChestTrapOpen(
+    const Party &party,
+    const MapStatsEntry &map,
+    uint16_t chestFlags,
+    const ChestTrapOpenContext &context,
+    const ItemTable *pItemTable,
+    const StandardItemEnchantTable *pStandardItemEnchantTable,
+    const SpecialItemEnchantTable *pSpecialItemEnchantTable)
+{
+    ChestTrapOpenResult result = {};
+
+    if ((chestFlags & ChestTrapFlag) == 0)
+    {
+        return result;
+    }
+
+    result.trapWasPresent = true;
+
+    const Character *pActiveMember = party.activeMember();
+    const int disarmValue = pActiveMember != nullptr
+        ? GameMechanics::resolveCharacterDisarmTrapValue(*pActiveMember)
+        : 0;
+
+    if (disarmValue >= map.disarmDifficulty * 2)
+    {
+        result.trapDisarmed = true;
+        return result;
+    }
+
+    std::mt19937 rng(context.seed);
+    const std::array<ChestTrapDefinition, 4> &definitions = chestTrapDefinitions();
+    const ChestTrapDefinition &trapDefinition =
+        definitions[static_cast<size_t>(std::uniform_int_distribution<int>(0, 3)(rng))];
+
+    result.shouldOpenChest = false;
+    result.trapDischarged = true;
+    result.trapObjectId = trapDefinition.objectId;
+    result.damageType = trapDefinition.damageType;
+    result.trapDamage = 5;
+
+    if (map.trapDamageD20DiceCount > 0)
+    {
+        for (int diceIndex = 0; diceIndex < map.trapDamageD20DiceCount; ++diceIndex)
+        {
+            result.trapDamage += std::uniform_int_distribution<int>(1, 20)(rng);
+        }
+    }
+
+    if (chestTrapDistanceMetric(context) > ChestTrapDamageRadius)
+    {
+        return result;
+    }
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        const Character *pMember = party.member(memberIndex);
+
+        if (pMember == nullptr || !canReceiveChestTrapDamage(*pMember))
+        {
+            continue;
+        }
+
+        ChestTrapMemberResult memberResult = {};
+        memberResult.memberIndex = memberIndex;
+
+        const int perceptionCheckValue = GameMechanics::resolveCharacterPerceptionValue(*pMember) + 20;
+
+        if (GameMechanics::canAct(*pMember)
+            && perceptionCheckValue > 0
+            && std::uniform_int_distribution<int>(0, perceptionCheckValue - 1)(rng) > 20)
+        {
+            memberResult.avoided = true;
+        }
+        else
+        {
+            memberResult.damage = GameMechanics::resolveCharacterIncomingDamage(
+                *pMember,
+                pItemTable,
+                pStandardItemEnchantTable,
+                pSpecialItemEnchantTable,
+                result.trapDamage,
+                result.damageType,
+                rng);
+        }
+
+        result.memberResults.push_back(memberResult);
+    }
+
+    return result;
+}
+
+void applyChestTrapOpenResultToParty(Party &party, const ChestTrapOpenResult &result)
+{
+    if (result.trapDisarmed)
+    {
+        party.requestSpeech(party.activeMemberIndex(), SpeechId::DisarmTrap);
+    }
+    else if (result.trapDischarged)
+    {
+        party.requestSpeech(party.activeMemberIndex(), SpeechId::TrapExploded);
+    }
+
+    for (const ChestTrapMemberResult &memberResult : result.memberResults)
+    {
+        if (memberResult.avoided || memberResult.damage <= 0)
+        {
+            continue;
+        }
+
+        party.applyDamageToMember(memberResult.memberIndex, memberResult.damage, "chest trap", true);
+    }
 }
 }

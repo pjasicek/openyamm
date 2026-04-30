@@ -2724,33 +2724,33 @@ std::optional<GameplayScreenRuntime::ResolvedHudLayoutElement> GameplayScreenRun
     }
 
     const ChestEntry *pChestEntry = chestTable()->get(pChestView->chestTypeId);
-    const HudLayoutElement *pChestRootLayout = findHudLayoutElement("ChestRoot");
+    const HudLayoutElement *pChestBackgroundLayout = findHudLayoutElement("ChestBackground");
 
-    if (pChestEntry == nullptr || pChestRootLayout == nullptr)
+    if (pChestEntry == nullptr || pChestBackgroundLayout == nullptr)
     {
         return std::nullopt;
     }
 
-    const std::optional<ResolvedHudLayoutElement> resolvedRoot = resolveHudLayoutElement(
-        "ChestRoot",
+    const std::optional<ResolvedHudLayoutElement> resolvedBackground = resolveHudLayoutElement(
+        "ChestBackground",
         width,
         height,
-        pChestRootLayout->width,
-        pChestRootLayout->height);
+        pChestBackgroundLayout->width,
+        pChestBackgroundLayout->height);
 
-    if (!resolvedRoot)
+    if (!resolvedBackground)
     {
         return std::nullopt;
     }
 
     ResolvedHudLayoutElement resolved = {};
     resolved.x = std::round(
-        resolvedRoot->x + static_cast<float>(pChestEntry->gridOffsetX) * resolvedRoot->scale);
+        resolvedBackground->x + static_cast<float>(pChestEntry->gridOffsetX) * resolvedBackground->scale);
     resolved.y = std::round(
-        resolvedRoot->y + static_cast<float>(pChestEntry->gridOffsetY) * resolvedRoot->scale);
-    resolved.width = 32.0f * static_cast<float>(pChestView->gridWidth) * resolvedRoot->scale;
-    resolved.height = 32.0f * static_cast<float>(pChestView->gridHeight) * resolvedRoot->scale;
-    resolved.scale = resolvedRoot->scale;
+        resolvedBackground->y + static_cast<float>(pChestEntry->gridOffsetY) * resolvedBackground->scale);
+    resolved.width = 32.0f * static_cast<float>(pChestView->gridWidth) * resolvedBackground->scale;
+    resolved.height = 32.0f * static_cast<float>(pChestView->gridHeight) * resolvedBackground->scale;
+    resolved.scale = resolvedBackground->scale;
     return resolved;
 }
 

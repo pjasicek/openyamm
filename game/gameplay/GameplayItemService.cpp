@@ -2,13 +2,17 @@
 
 #include "game/app/GameSession.h"
 #include "game/audio/GameAudioSystem.h"
+#include "game/gameplay/GameMechanics.h"
 #include "game/items/ItemRuntime.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/items/InventoryItemMixingRuntime.h"
 #include "game/items/InventoryItemUseRuntime.h"
+#include "game/party/SpellIds.h"
+#include "game/tables/ObjectTable.h"
 
 #include <algorithm>
 #include <cctype>
+#include <cmath>
 #include <utility>
 
 namespace OpenYAMM::Game
@@ -18,6 +22,9 @@ namespace
 constexpr const char *IdentifyFailedText = "Identify Failed";
 constexpr const char *RepairFailedText = "Repair Failed";
 constexpr const char *NwcDungeonMapName = "nwc.blv";
+constexpr int16_t FireballImpactObjectId = 1051;
+constexpr float PotionExplosionForwardOffset = 64.0f;
+constexpr float PotionExplosionHeightOffset = 96.0f;
 
 enum class ActiveLootOperation
 {
@@ -160,6 +167,59 @@ InventoryItemUseContext buildInventoryItemUseContext(const GameplayScreenRuntime
     }
 
     return context;
+}
+
+void closeCharacterInventoryAfterPotionExplosion(GameplayScreenRuntime &runtime)
+{
+    GameplayUiController::CharacterScreenState &characterScreen = runtime.characterScreen();
+    characterScreen.open = false;
+    characterScreen.dollJewelryOverlayOpen = false;
+    characterScreen.adventurersInnRosterOverlayOpen = false;
+    runtime.closeInventoryNestedOverlay();
+    runtime.itemInspectOverlay() = {};
+    runtime.characterDetailOverlay() = {};
+}
+
+void spawnPotionExplosionImpactVisual(GameSession &session, GameplayScreenRuntime &runtime)
+{
+    if (!session.hasDataRepository())
+    {
+        return;
+    }
+
+    GameplayProjectileService &projectileService = session.gameplayProjectileService();
+    const ObjectTable &objectTable = session.data().objectTable();
+    const std::optional<uint16_t> impactDescriptionId =
+        objectTable.findDescriptionIdByObjectId(FireballImpactObjectId);
+
+    if (!impactDescriptionId)
+    {
+        return;
+    }
+
+    const std::optional<GameplayProjectileService::ProjectileImpactVisualDefinition> impactDefinition =
+        projectileService.buildProjectileImpactVisualDefinition(*impactDescriptionId, &objectTable, nullptr);
+
+    if (!impactDefinition)
+    {
+        return;
+    }
+
+    const float yawRadians = runtime.gameplayCameraYawRadians();
+    const float x = runtime.partyX() + std::cos(yawRadians) * PotionExplosionForwardOffset;
+    const float y = runtime.partyY() + std::sin(yawRadians) * PotionExplosionForwardOffset;
+    const float z = runtime.partyFootZ() + PotionExplosionHeightOffset;
+
+    runtime.fxService().spawnImmediateSpellImpactVisual(
+        *impactDefinition,
+        static_cast<int>(spellIdValue(SpellId::Fireball)),
+        "Fireball",
+        "fire04",
+        x,
+        y,
+        z,
+        false,
+        false);
 }
 }
 
@@ -370,11 +430,27 @@ bool GameplayItemService::tryUseHeldItemOnInventoryItem(
         heldItem = {};
     }
 
+    const bool potionExplosion =
+        mixResult.action == InventoryItemMixAction::PotionMix
+        && !mixResult.success
+        && mixResult.failureDamageLevel != 0;
+
+    if (potionExplosion)
+    {
+        pParty->applyPotionExplosionToMember(memberIndex, mixResult.failureDamageLevel);
+        closeCharacterInventoryAfterPotionExplosion(runtime);
+        spawnPotionExplosionImpactVisual(m_session, runtime);
+    }
+
     if (runtime.audioSystem() != nullptr)
     {
         if (mixResult.success && mixResult.action == InventoryItemMixAction::PotionMix)
         {
             runtime.audioSystem()->playCommonSound(SoundId::MixPotion, GameAudioSystem::PlaybackGroup::Ui);
+        }
+        else if (potionExplosion)
+        {
+            runtime.audioSystem()->playCommonSound(SoundId::Fireball, GameAudioSystem::PlaybackGroup::Ui);
         }
         else if (!mixResult.success)
         {
@@ -385,13 +461,22 @@ bool GameplayItemService::tryUseHeldItemOnInventoryItem(
     if (mixResult.action == InventoryItemMixAction::PotionMix
         || mixResult.action == InventoryItemMixAction::ReagentBottleMix)
     {
-        runtime.triggerPortraitFaceAnimation(
-            memberIndex,
-            mixResult.success ? FaceAnimationId::MixPotion : FaceAnimationId::PotionExplode);
-        runtime.playSpeechReaction(
-            memberIndex,
-            mixResult.success ? SpeechId::PotionSuccess : SpeechId::PotionFail,
-            true);
+        Character *pMember = pParty->member(memberIndex);
+        const bool canPlayPotionReaction =
+            mixResult.success
+            || !potionExplosion
+            || (pMember != nullptr && GameMechanics::canAct(*pMember));
+
+        if (canPlayPotionReaction)
+        {
+            runtime.triggerPortraitFaceAnimation(
+                memberIndex,
+                mixResult.success ? FaceAnimationId::MixPotion : FaceAnimationId::PotionExplode);
+            runtime.playSpeechReaction(
+                memberIndex,
+                mixResult.success ? SpeechId::PotionSuccess : SpeechId::PotionFail,
+                true);
+        }
     }
     else if (mixResult.action == InventoryItemMixAction::RechargePotion && !mixResult.success)
     {

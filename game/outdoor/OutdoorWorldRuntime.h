@@ -33,6 +33,7 @@ namespace OpenYAMM::Game
 {
 class ItemTable;
 class ChestTable;
+struct ChestTrapOpenResult;
 class GameplayFxService;
 class GameplayProjectileService;
 class OutdoorGameView;
@@ -623,6 +624,7 @@ public:
     const SpawnPointState *spawnPointState(size_t spawnIndex) const;
     size_t chestCount() const;
     size_t openedChestCount() const;
+    void setPendingEventSourcePoint(std::optional<GameplayWorldPoint> point);
     ChestViewState *activeChestView() override;
     const ChestViewState *activeChestView() const override;
     void commitActiveChestView() override;
@@ -911,6 +913,11 @@ private:
     void aggroNearbyMapActorFaction(size_t actorIndex, float partyX, float partyY, float partyZ);
     ChestViewState buildChestView(uint32_t chestId) const;
     void activateChestView(uint32_t chestId);
+    bool attemptOpenChest(uint32_t chestId);
+    GameplayWorldPoint chestTrapSourcePoint() const;
+    GameplayWorldPoint chestTrapVisualPoint(const GameplayWorldPoint &sourcePoint) const;
+    void applyChestTrapState(uint32_t chestId, const ChestTrapOpenResult &trapResult);
+    void spawnChestTrapVisual(const GameplayWorldPoint &point, const ChestTrapOpenResult &trapResult);
     void pushAudioEvent(
         uint32_t soundId,
         uint32_t sourceId,
@@ -1098,6 +1105,7 @@ private:
     std::vector<bool> m_openedChests;
     std::vector<std::optional<ChestViewState>> m_materializedChestViews;
     std::optional<ChestViewState> m_activeChestView;
+    std::optional<GameplayWorldPoint> m_pendingEventSourcePoint;
     std::optional<EventRuntimeState> m_eventRuntimeState;
     const ItemTable *m_pItemTable = nullptr;
     Party *m_pParty = nullptr;

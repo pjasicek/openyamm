@@ -21,6 +21,7 @@
 #include "game/audio/SoundIds.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/party/SkillData.h"
+#include "game/tables/ObjectTable.h"
 #include "game/StringUtils.h"
 #include "game/ui/GameplayOverlayTypes.h"
 
@@ -265,6 +266,9 @@ int16_t legacyEventMonsterIdToStatsId(uint32_t eventMonsterId)
     return static_cast<int16_t>(eventMonsterId + 1u);
 }
 constexpr float PartyTargetHeightOffset = 96.0f;
+constexpr float ChestTrapForwardDepth = 96.0f;
+constexpr float ChestTrapForwardPitchScale = 0.70710678f;
+constexpr float ChestTrapCenterSpriteZOffset = 32.0f;
 constexpr float OeTurnAwayFromWaterAngleRadians = Pi / 32.0f;
 constexpr int DwiMapId = 1;
 constexpr uint32_t DwiTestActor61 = 61;
@@ -3617,6 +3621,193 @@ void OutdoorWorldRuntime::activateChestView(uint32_t chestId)
         0.0f,
         0.0f,
         false);
+}
+
+void OutdoorWorldRuntime::setPendingEventSourcePoint(std::optional<GameplayWorldPoint> point)
+{
+    m_pendingEventSourcePoint = point;
+}
+
+bool OutdoorWorldRuntime::attemptOpenChest(uint32_t chestId)
+{
+    if (chestId >= m_chests.size() || m_pParty == nullptr)
+    {
+        return false;
+    }
+
+    MapDeltaChest &chest = m_chests[chestId];
+    const GameplayWorldPoint sourcePoint = chestTrapSourcePoint();
+    const GameplayWorldPoint visualPoint = chestTrapVisualPoint(sourcePoint);
+    ChestTrapOpenContext trapContext = {};
+    trapContext.trapX = visualPoint.x;
+    trapContext.trapY = visualPoint.y;
+    trapContext.trapZ = visualPoint.z;
+    trapContext.partyX = partyX();
+    trapContext.partyY = partyY();
+
+    if (m_pPartyRuntime != nullptr)
+    {
+        trapContext.partyZ = m_pPartyRuntime->partyFootZ() + PartyTargetHeightOffset;
+    }
+
+    trapContext.seed =
+        m_sessionChestSeed
+        ^ (chestId + 1u) * 2654435761u
+        ^ static_cast<uint32_t>(std::lround(m_gameMinutes * TicksPerSecond));
+
+    const ChestTrapOpenResult trapResult = resolveChestTrapOpen(
+        *m_pParty,
+        m_map,
+        chest.flags,
+        trapContext,
+        m_pItemTable,
+        m_pStandardItemEnchantTable,
+        m_pSpecialItemEnchantTable);
+
+    if (!trapResult.trapWasPresent)
+    {
+        return true;
+    }
+
+    applyChestTrapState(chestId, trapResult);
+    applyChestTrapOpenResultToParty(*m_pParty, trapResult);
+
+    if (trapResult.trapDischarged)
+    {
+        spawnChestTrapVisual(visualPoint, trapResult);
+    }
+
+    return trapResult.shouldOpenChest;
+}
+
+GameplayWorldPoint OutdoorWorldRuntime::chestTrapSourcePoint() const
+{
+    if (m_pendingEventSourcePoint)
+    {
+        return *m_pendingEventSourcePoint;
+    }
+
+    GameplayWorldPoint point = {};
+    point.x = partyX();
+    point.y = partyY();
+    point.z = partyFootZ() + PartyTargetHeightOffset;
+    return point;
+}
+
+GameplayWorldPoint OutdoorWorldRuntime::chestTrapVisualPoint(const GameplayWorldPoint &sourcePoint) const
+{
+    GameplayWorldPoint point = sourcePoint;
+    const float deltaX = partyX() - sourcePoint.x;
+    const float deltaY = partyY() - sourcePoint.y;
+    const float length = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    if (length > 1.0f)
+    {
+        const float depth = std::min(ChestTrapForwardDepth, length);
+        const float horizontalDepth = depth * ChestTrapForwardPitchScale;
+        point.x += (deltaX / length) * horizontalDepth;
+        point.y += (deltaY / length) * horizontalDepth;
+        point.z += depth * ChestTrapForwardPitchScale;
+    }
+
+    point.z += ChestTrapCenterSpriteZOffset;
+    return point;
+}
+
+void OutdoorWorldRuntime::applyChestTrapState(uint32_t chestId, const ChestTrapOpenResult &trapResult)
+{
+    if (chestId >= m_chests.size())
+    {
+        return;
+    }
+
+    MapDeltaChest &chest = m_chests[chestId];
+    chest.flags &= ~static_cast<uint16_t>(EvtChestFlag::Trapped);
+
+    if (!trapResult.shouldOpenChest)
+    {
+        chest.flags &= ~static_cast<uint16_t>(EvtChestFlag::Opened);
+
+        if (chestId < m_openedChests.size())
+        {
+            m_openedChests[chestId] = false;
+        }
+    }
+
+    if (m_eventRuntimeState)
+    {
+        m_eventRuntimeState->chestSetMasks[chestId] &= ~static_cast<uint32_t>(EvtChestFlag::Trapped);
+        m_eventRuntimeState->chestClearMasks[chestId] |= static_cast<uint32_t>(EvtChestFlag::Trapped);
+
+        if (!trapResult.shouldOpenChest)
+        {
+            m_eventRuntimeState->chestSetMasks[chestId] &= ~static_cast<uint32_t>(EvtChestFlag::Opened);
+            m_eventRuntimeState->chestClearMasks[chestId] |= static_cast<uint32_t>(EvtChestFlag::Opened);
+        }
+    }
+
+    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+    {
+        m_materializedChestViews[chestId]->flags = chest.flags;
+    }
+
+    if (m_activeChestView && m_activeChestView->chestId == chestId)
+    {
+        m_activeChestView->flags = chest.flags;
+    }
+}
+
+void OutdoorWorldRuntime::spawnChestTrapVisual(
+    const GameplayWorldPoint &point,
+    const ChestTrapOpenResult &trapResult)
+{
+    if (trapResult.trapObjectId == 0)
+    {
+        std::cout << "Chest trap visual outdoor skipped reason=missing_object"
+                  << " objectId=" << trapResult.trapObjectId << '\n';
+        return;
+    }
+
+    if (m_pObjectTable == nullptr)
+    {
+        std::cout << "Chest trap visual outdoor skipped reason=missing_object_table"
+                  << " objectId=" << trapResult.trapObjectId << '\n';
+        return;
+    }
+
+    const std::optional<uint16_t> objectDescriptionId =
+        m_pObjectTable->findDescriptionIdByObjectId(static_cast<int16_t>(trapResult.trapObjectId));
+
+    if (!objectDescriptionId)
+    {
+        std::cout << "Chest trap visual outdoor skipped reason=object_id_not_found"
+                  << " objectId=" << trapResult.trapObjectId << '\n';
+        return;
+    }
+
+    ProjectileState projectile = {};
+    projectile.sourceKind = ProjectileState::SourceKind::Event;
+    projectile.sourceId = EventSpellSourceId;
+    projectile.impactObjectDescriptionId = *objectDescriptionId;
+    projectile.impactSoundIdOverride = static_cast<uint32_t>(SoundId::Fireball);
+    projectile.sourceX = point.x;
+    projectile.sourceY = point.y;
+    projectile.sourceZ = point.z;
+    projectile.x = point.x;
+    projectile.y = point.y;
+    projectile.z = point.z;
+    projectile.damageType = trapResult.damageType;
+
+    const size_t previousImpactCount = projectileService().projectileImpactCount();
+    spawnProjectileImpact(projectile, point.x, point.y, point.z, true);
+    const size_t currentImpactCount = projectileService().projectileImpactCount();
+    std::cout << "Chest trap visual outdoor"
+              << " objectId=" << trapResult.trapObjectId
+              << " objectDescriptionId=" << *objectDescriptionId
+              << " spawned=" << (currentImpactCount > previousImpactCount ? "yes" : "no")
+              << " impactCount=" << currentImpactCount
+              << " pos=(" << point.x << ", " << point.y << ", " << point.z << ")"
+              << '\n';
 }
 
 void OutdoorWorldRuntime::initialize(
@@ -9119,10 +9310,16 @@ void OutdoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMas
     {
         if (chestId < m_openedChests.size())
         {
-            m_openedChests[chestId] = true;
-            activateChestView(chestId);
+            if (attemptOpenChest(chestId))
+            {
+                m_openedChests[chestId] = true;
+                m_chests[chestId].flags |= static_cast<uint16_t>(EvtChestFlag::Opened);
+                activateChestView(chestId);
+            }
         }
     }
+
+    m_pendingEventSourcePoint.reset();
 }
 
 bool OutdoorWorldRuntime::updateTimers(

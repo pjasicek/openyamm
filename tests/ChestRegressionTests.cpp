@@ -1,6 +1,7 @@
 #include "doctest/doctest.h"
 
 #include "game/events/EventRuntime.h"
+#include "game/events/EvtEnums.h"
 #include "game/gameplay/ChestRuntime.h"
 #include "game/items/ItemEnchantRuntime.h"
 #include "game/items/ItemGenerator.h"
@@ -249,6 +250,16 @@ OpenYAMM::Game::GameplayChestViewState materializeOut01Chest(
         &gameData.itemTable,
         &party);
 }
+
+OpenYAMM::Game::Party makeTrapTestParty(const OpenYAMM::Game::Character &member)
+{
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.push_back(member);
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(seed);
+    return party;
+}
 }
 
 TEST_CASE("gold heap amount thresholds match oe ranges")
@@ -487,6 +498,107 @@ TEST_CASE("chest level seven random placeholder generates a guaranteed rare item
     const OpenYAMM::Game::ItemDefinition *pItemDefinition = gameData.itemTable.get(pGeneratedItem->itemId);
     REQUIRE(pItemDefinition != nullptr);
     CHECK(OpenYAMM::Game::ItemRuntime::isRareItem(*pItemDefinition));
+}
+
+TEST_CASE("trapped chest opens when active character disarms it")
+{
+    OpenYAMM::Game::Character member = {};
+    member.name = "Disarmer";
+    member.maxHealth = 50;
+    member.health = 50;
+    member.skills["DisarmTraps"] = OpenYAMM::Game::CharacterSkill{
+        .name = "DisarmTraps",
+        .level = 2,
+        .mastery = OpenYAMM::Game::SkillMastery::Normal,
+    };
+    OpenYAMM::Game::Party party = makeTrapTestParty(member);
+
+    OpenYAMM::Game::MapStatsEntry map = {};
+    map.disarmDifficulty = 1;
+    map.trapDamageD20DiceCount = 0;
+
+    OpenYAMM::Game::ChestTrapOpenContext context = {};
+    context.seed = 1234;
+    const OpenYAMM::Game::ChestTrapOpenResult result = OpenYAMM::Game::resolveChestTrapOpen(
+        party,
+        map,
+        static_cast<uint16_t>(OpenYAMM::Game::EvtChestFlag::Trapped),
+        context,
+        nullptr,
+        nullptr,
+        nullptr);
+
+    CHECK(result.trapWasPresent);
+    CHECK(result.trapDisarmed);
+    CHECK_FALSE(result.trapDischarged);
+    CHECK(result.shouldOpenChest);
+    CHECK(result.memberResults.empty());
+}
+
+TEST_CASE("failed trapped chest opening discharges trap and damages nearby party")
+{
+    OpenYAMM::Game::Character member = {};
+    member.name = "Victim";
+    member.maxHealth = 50;
+    member.health = 50;
+
+    OpenYAMM::Game::Character unconsciousMember = {};
+    unconsciousMember.name = "Unconscious";
+    unconsciousMember.maxHealth = 50;
+    unconsciousMember.health = -1;
+    unconsciousMember.endurance = 3;
+    unconsciousMember.conditions.set(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Unconscious));
+
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.push_back(member);
+    seed.members.push_back(unconsciousMember);
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(seed);
+
+    OpenYAMM::Game::MapStatsEntry map = {};
+    map.disarmDifficulty = 5;
+    map.trapDamageD20DiceCount = 0;
+
+    OpenYAMM::Game::ChestTrapOpenContext context = {};
+    context.trapX = 10.0f;
+    context.trapY = 20.0f;
+    context.trapZ = 30.0f;
+    context.partyX = 10.0f;
+    context.partyY = 20.0f;
+    context.partyZ = 30.0f;
+    context.seed = 5678;
+    const OpenYAMM::Game::ChestTrapOpenResult result = OpenYAMM::Game::resolveChestTrapOpen(
+        party,
+        map,
+        static_cast<uint16_t>(OpenYAMM::Game::EvtChestFlag::Trapped),
+        context,
+        nullptr,
+        nullptr,
+        nullptr);
+
+    CHECK(result.trapWasPresent);
+    CHECK_FALSE(result.trapDisarmed);
+    CHECK(result.trapDischarged);
+    CHECK_FALSE(result.shouldOpenChest);
+    CHECK_GE(result.trapObjectId, 811);
+    CHECK_LE(result.trapObjectId, 814);
+    CHECK_EQ(result.trapDamage, 5);
+    REQUIRE_EQ(result.memberResults.size(), 2u);
+    CHECK_EQ(result.memberResults[0].memberIndex, 0u);
+    CHECK_FALSE(result.memberResults[0].avoided);
+    CHECK_EQ(result.memberResults[0].damage, 5);
+    CHECK_EQ(result.memberResults[1].memberIndex, 1u);
+    CHECK_FALSE(result.memberResults[1].avoided);
+    CHECK_EQ(result.memberResults[1].damage, 5);
+
+    OpenYAMM::Game::applyChestTrapOpenResultToParty(party, result);
+    REQUIRE_EQ(party.members().size(), 2u);
+    CHECK_EQ(party.members()[0].health, 45);
+    CHECK_EQ(party.members()[1].health, -5);
+    CHECK(party.members()[1].conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Dead)));
+    CHECK_FALSE(party.members()[1].conditions.test(
+        static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Unconscious)));
 }
 
 TEST_CASE("outdoor Dagger Wound chests retain authored Cure Disease scrolls")

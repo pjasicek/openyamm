@@ -106,6 +106,20 @@ TEST_CASE("map stats parse perception difficulty")
     CHECK_EQ(pRavenshore->perceptionDifficulty, 1);
 }
 
+TEST_CASE("map stats parse chest trap difficulty and damage dice")
+{
+    const OpenYAMM::Game::MapStats mapStats = loadMapStats();
+    const OpenYAMM::Game::MapStatsEntry *pDaggerWound = mapStats.findByFileName("Out01.odm");
+    const OpenYAMM::Game::MapStatsEntry *pRavenshore = mapStats.findByFileName("Out02.odm");
+
+    REQUIRE(pDaggerWound != nullptr);
+    REQUIRE(pRavenshore != nullptr);
+    CHECK_EQ(pDaggerWound->disarmDifficulty, 0);
+    CHECK_EQ(pDaggerWound->trapDamageD20DiceCount, 0);
+    CHECK_EQ(pRavenshore->disarmDifficulty, 1);
+    CHECK_EQ(pRavenshore->trapDamageD20DiceCount, 1);
+}
+
 TEST_CASE("map navigation rows apply explicit arrival positions")
 {
     const OpenYAMM::Game::MapStats mapStats = loadMapStats();

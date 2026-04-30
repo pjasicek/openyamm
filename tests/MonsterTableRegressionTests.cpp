@@ -126,3 +126,27 @@ TEST_CASE("monster stats parser ignores unsupported missile tokens for attack st
     CHECK(pGreatWyrm->attackStyle == OpenYAMM::Game::MonsterTable::MonsterAttackStyle::MeleeOnly);
     CHECK(pEmeraldDragon->attackStyle == OpenYAMM::Game::MonsterTable::MonsterAttackStyle::Ranged);
 }
+
+TEST_CASE("monster death drop parser maps multiple drops to monster id")
+{
+    OpenYAMM::Game::MonsterTable table = {};
+
+    REQUIRE(table.loadDeathDropsFromRows({
+        {"MonsterID", "MonsterName", "ItemID", "ItemName", "ChancePercent", "Description"},
+        {"85", "Dire Wolf Yearling", "201", "Wolf's Eye", "20", "Reagent drop"},
+        {"85", "Dire Wolf Yearling", "633", "Dire Wolf Pelt", "35", "Bounty drop"},
+        {"86", "Dire Wolf", "633", "Dire Wolf Pelt", "0", "Disabled drop"}
+    }));
+
+    const std::vector<OpenYAMM::Game::MonsterTable::MonsterDeathDropEntry> &drops =
+        table.deathDropsForMonsterId(85);
+    const std::vector<OpenYAMM::Game::MonsterTable::MonsterDeathDropEntry> &disabledDrops =
+        table.deathDropsForMonsterId(86);
+
+    REQUIRE_EQ(drops.size(), 2);
+    CHECK_EQ(drops[0].itemId, 201u);
+    CHECK_EQ(drops[0].chancePercent, 20);
+    CHECK_EQ(drops[1].itemId, 633u);
+    CHECK_EQ(drops[1].chancePercent, 35);
+    CHECK(disabledDrops.empty());
+}

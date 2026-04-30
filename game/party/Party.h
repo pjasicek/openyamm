@@ -340,8 +340,13 @@ public:
     void applyEventRuntimeState(const EventRuntimeState &runtimeState, bool grantItemsToInventory = true);
     void setDebugDamageImmune(bool enabled);
     void setDebugUnlimitedMana(bool enabled);
-    bool applyDamageToMember(size_t memberIndex, int damage, const std::string &status);
+    bool applyDamageToMember(
+        size_t memberIndex,
+        int damage,
+        const std::string &status,
+        bool allowUnconscious = false);
     bool applyDamageToActiveMember(int damage, const std::string &status);
+    bool applyPotionExplosionToMember(size_t memberIndex, uint8_t damageLevel);
     bool applyDamageToAllLivingMembers(int damage, const std::string &status);
     uint32_t addExperienceToMember(size_t memberIndex, int64_t amount);
     uint32_t setMemberExperience(size_t memberIndex, uint32_t experience);

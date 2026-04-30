@@ -29,6 +29,8 @@ constexpr uint32_t ArcomageChampionAwardId = 41;
 constexpr size_t ArcomageTavernCount = 11;
 constexpr uint32_t RosterNpcPortraitBaseId = 2901;
 constexpr float OeFiveGameMinuteTickRealSeconds = 10.0f;
+constexpr uint32_t FirstRegularItemId = 1;
+constexpr uint32_t LastRegularItemId = 134;
 
 uint32_t resolveAdventurersInnPortraitPictureId(const Character &character, uint32_t portraitPictureId)
 {
@@ -325,6 +327,68 @@ SoundId pickRandomSoundId(const std::array<SoundId, N> &soundIds)
     static thread_local std::mt19937 rng(std::random_device{}());
     std::uniform_int_distribution<size_t> distribution(0, N - 1);
     return soundIds[distribution(rng)];
+}
+
+bool isPotionExplosionBreakCandidate(const InventoryItem &item)
+{
+    return item.objectDescriptionId >= FirstRegularItemId
+        && item.objectDescriptionId <= LastRegularItemId;
+}
+
+void breakPotionExplosionItems(Character &member, uint8_t count)
+{
+    std::vector<InventoryItem *> candidates;
+
+    for (InventoryItem &item : member.inventory)
+    {
+        if (isPotionExplosionBreakCandidate(item))
+        {
+            candidates.push_back(&item);
+        }
+    }
+
+    if (candidates.empty())
+    {
+        return;
+    }
+
+    if (count == 0)
+    {
+        for (InventoryItem *pItem : candidates)
+        {
+            pItem->broken = true;
+        }
+
+        return;
+    }
+
+    static thread_local std::mt19937 rng(std::random_device{}());
+    std::uniform_int_distribution<size_t> distribution(0, candidates.size() - 1);
+
+    for (uint8_t index = 0; index < count; ++index)
+    {
+        candidates[distribution(rng)]->broken = true;
+    }
+}
+
+int potionExplosionDamage(uint8_t damageLevel)
+{
+    static thread_local std::mt19937 rng(std::random_device{}());
+
+    switch (damageLevel)
+    {
+        case 1:
+            return std::uniform_int_distribution<int>(10, 20)(rng);
+
+        case 2:
+            return std::uniform_int_distribution<int>(30, 100)(rng);
+
+        case 3:
+            return std::uniform_int_distribution<int>(50, 250)(rng);
+
+        default:
+            return 0;
+    }
 }
 
 std::string portraitTextureNameFromPictureId(uint32_t pictureId)
@@ -732,6 +796,14 @@ int learningPercentForExperienceGain(const Character &member)
 bool canReceiveSharedExperience(const Character &member)
 {
     return !member.conditions.test(static_cast<size_t>(CharacterCondition::Unconscious))
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
+        && !member.conditions.test(static_cast<size_t>(CharacterCondition::Eradicated));
+}
+
+bool canReceiveUnconsciousAoeDamage(const Character &member)
+{
+    return member.conditions.test(static_cast<size_t>(CharacterCondition::Unconscious))
         && !member.conditions.test(static_cast<size_t>(CharacterCondition::Dead))
         && !member.conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
         && !member.conditions.test(static_cast<size_t>(CharacterCondition::Eradicated));
@@ -2226,6 +2298,36 @@ bool Party::applyDamageToActiveMember(int damage, const std::string &status)
     return applyDamageToMember(targetIndex, damage, status);
 }
 
+bool Party::applyPotionExplosionToMember(size_t memberIndex, uint8_t damageLevel)
+{
+    if (memberIndex >= m_members.size() || damageLevel == 0)
+    {
+        return false;
+    }
+
+    if (damageLevel >= 4)
+    {
+        applyMemberCondition(memberIndex, CharacterCondition::Eradicated);
+        breakPotionExplosionItems(m_members[memberIndex], 0);
+        return true;
+    }
+
+    bool applied = applyDamageToMember(memberIndex, potionExplosionDamage(damageLevel), "");
+
+    if (damageLevel == 2)
+    {
+        breakPotionExplosionItems(m_members[memberIndex], 1);
+        applied = true;
+    }
+    else if (damageLevel == 3)
+    {
+        breakPotionExplosionItems(m_members[memberIndex], 5);
+        applied = true;
+    }
+
+    return applied;
+}
+
 void Party::setDebugDamageImmune(bool enabled)
 {
     m_debugDamageImmune = enabled;
@@ -2236,7 +2338,11 @@ void Party::setDebugUnlimitedMana(bool enabled)
     m_debugUnlimitedMana = enabled;
 }
 
-bool Party::applyDamageToMember(size_t memberIndex, int damage, const std::string &status)
+bool Party::applyDamageToMember(
+    size_t memberIndex,
+    int damage,
+    const std::string &status,
+    bool allowUnconscious)
 {
     if (damage <= 0 || memberIndex >= m_members.size())
     {
@@ -2246,7 +2352,7 @@ bool Party::applyDamageToMember(size_t memberIndex, int damage, const std::strin
     Character &member = m_members[memberIndex];
     const int previousHealth = member.health;
 
-    if (member.health <= 0)
+    if (member.health <= 0 && (!allowUnconscious || !canReceiveUnconsciousAoeDamage(member)))
     {
         return false;
     }
@@ -2294,12 +2400,12 @@ bool Party::applyDamageToAllLivingMembers(int damage, const std::string &status)
 
     for (size_t memberIndex = 0; memberIndex < m_members.size(); ++memberIndex)
     {
-        if (m_members[memberIndex].health <= 0)
+        if (m_members[memberIndex].health <= 0 && !canReceiveUnconsciousAoeDamage(m_members[memberIndex]))
         {
             continue;
         }
 
-        applied = applyDamageToMember(memberIndex, damage, "") || applied;
+        applied = applyDamageToMember(memberIndex, damage, "", true) || applied;
     }
 
     if (applied && !status.empty())

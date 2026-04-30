@@ -1094,7 +1094,12 @@ void GameplayCombatController::handlePendingCombatEvents(
             {
                 Character *pMember = context.party.member(memberIndex);
 
-                if (pMember == nullptr || pMember->health <= 0)
+                if (pMember == nullptr
+                    || (pMember->health <= 0
+                        && !pMember->conditions.test(static_cast<size_t>(CharacterCondition::Unconscious)))
+                    || pMember->conditions.test(static_cast<size_t>(CharacterCondition::Dead))
+                    || pMember->conditions.test(static_cast<size_t>(CharacterCondition::Petrified))
+                    || pMember->conditions.test(static_cast<size_t>(CharacterCondition::Eradicated)))
                 {
                     continue;
                 }
@@ -1117,7 +1122,7 @@ void GameplayCombatController::handlePendingCombatEvents(
 
                 const int adjustedDamage =
                     adjustedIncomingDamageForMember(context, event, *pMember, memberIndex, isPhysicalProjectile);
-                const bool applied = context.party.applyDamageToMember(memberIndex, adjustedDamage, "");
+                const bool applied = context.party.applyDamageToMember(memberIndex, adjustedDamage, "", true);
                 damagedParty = applied || damagedParty;
 
                 if (applied)

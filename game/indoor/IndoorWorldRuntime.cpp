@@ -23,6 +23,7 @@
 #include "game/maps/MapAssetLoader.h"
 #include "game/party/EventSpellBuffs.h"
 #include "game/party/SpellIds.h"
+#include "game/tables/ObjectTable.h"
 #include "game/tables/SpriteTables.h"
 #include "game/tables/MonsterProjectileTable.h"
 #include "game/tables/SpellTable.h"
@@ -207,6 +208,9 @@ constexpr float PartyCollisionHeight = 192.0f;
 constexpr uint16_t LevelDecorationVisibleOnMap = 0x0008;
 constexpr uint16_t LevelDecorationInvisible = 0x0020;
 constexpr float PartyTargetHeightOffset = 96.0f;
+constexpr float ChestTrapForwardDepth = 96.0f;
+constexpr float ChestTrapForwardPitchScale = 0.70710678f;
+constexpr float ChestTrapCenterSpriteZOffset = 32.0f;
 constexpr float IndoorFloorSampleRise = 96.0f;
 constexpr float IndoorFloorSampleDrop = 512.0f;
 constexpr float IndoorInitialActorFloorSampleRise = 4096.0f;
@@ -2913,6 +2917,38 @@ bool IndoorWorldRuntime::executeFaceTriggeredEvent(
         return false;
     }
 
+    const std::optional<GameplayWorldPoint> previousEventSourcePoint = m_pendingEventSourcePoint;
+    m_pendingEventSourcePoint = chestTrapSourcePoint();
+
+    if (!face.vertexIndices.empty())
+    {
+        GameplayWorldPoint sourcePoint = {};
+        size_t validVertexCount = 0;
+
+        for (uint16_t vertexIndex : face.vertexIndices)
+        {
+            if (vertexIndex >= m_pIndoorMapData->vertices.size())
+            {
+                continue;
+            }
+
+            const IndoorVertex &vertex = m_pIndoorMapData->vertices[vertexIndex];
+            sourcePoint.x += static_cast<float>(vertex.x);
+            sourcePoint.y += static_cast<float>(vertex.y);
+            sourcePoint.z += static_cast<float>(vertex.z);
+            ++validVertexCount;
+        }
+
+        if (validVertexCount > 0)
+        {
+            const float vertexCount = static_cast<float>(validVertexCount);
+            sourcePoint.x /= vertexCount;
+            sourcePoint.y /= vertexCount;
+            sourcePoint.z /= vertexCount;
+            m_pendingEventSourcePoint = sourcePoint;
+        }
+    }
+
     const bool executed = m_pEventRuntime->executeEventById(
         m_pLocalEventProgram != nullptr ? *m_pLocalEventProgram : std::optional<ScriptedEventProgram>{},
         m_pGlobalEventProgram != nullptr ? *m_pGlobalEventProgram : std::optional<ScriptedEventProgram>{},
@@ -2925,10 +2961,12 @@ bool IndoorWorldRuntime::executeFaceTriggeredEvent(
     {
         pEventRuntimeState->lastActivationResult =
             "event " + std::to_string(face.cogTriggered) + " unresolved";
+        m_pendingEventSourcePoint = previousEventSourcePoint;
         return false;
     }
 
     applyEventRuntimeState();
+    m_pendingEventSourcePoint = previousEventSourcePoint;
 
     if (m_pParty != nullptr)
     {
@@ -9547,8 +9585,11 @@ void IndoorWorldRuntime::applyEventRuntimeState(bool syncPersistentHostilityMask
     {
         if (openedChestId < pMapDeltaData->chests.size())
         {
-            pMapDeltaData->chests[openedChestId].flags |= static_cast<uint16_t>(EvtChestFlag::Opened);
-            activateChestView(openedChestId);
+            if (attemptOpenChest(openedChestId))
+            {
+                pMapDeltaData->chests[openedChestId].flags |= static_cast<uint16_t>(EvtChestFlag::Opened);
+                activateChestView(openedChestId);
+            }
         }
     }
 }
@@ -9980,6 +10021,191 @@ void IndoorWorldRuntime::activateChestView(uint32_t chestId)
               << " cached=" << (cached ? "yes" : "no")
               << " visible=" << m_activeChestView->items.size()
               << " hidden=" << m_activeChestView->hiddenItems.size()
+              << '\n';
+}
+
+bool IndoorWorldRuntime::attemptOpenChest(uint32_t chestId)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || chestId >= pMapDeltaData->chests.size() || m_pParty == nullptr || !m_map)
+    {
+        return false;
+    }
+
+    MapDeltaChest &chest = pMapDeltaData->chests[chestId];
+    const GameplayWorldPoint sourcePoint = chestTrapSourcePoint();
+    const GameplayWorldPoint visualPoint = chestTrapVisualPoint(sourcePoint);
+    ChestTrapOpenContext trapContext = {};
+    trapContext.trapX = visualPoint.x;
+    trapContext.trapY = visualPoint.y;
+    trapContext.trapZ = visualPoint.z;
+    trapContext.partyX = partyX();
+    trapContext.partyY = partyY();
+
+    if (m_pPartyRuntime != nullptr)
+    {
+        trapContext.partyZ = m_pPartyRuntime->partyFootZ() + PartyTargetHeightOffset;
+    }
+
+    trapContext.seed =
+        m_sessionChestSeed
+        ^ (chestId + 1u) * 2654435761u
+        ^ static_cast<uint32_t>(std::lround(m_gameMinutes * TicksPerSecond));
+
+    const ChestTrapOpenResult trapResult = resolveChestTrapOpen(
+        *m_pParty,
+        *m_map,
+        chest.flags,
+        trapContext,
+        m_pItemTable,
+        m_pParty->standardItemEnchantTable(),
+        m_pParty->specialItemEnchantTable());
+
+    if (!trapResult.trapWasPresent)
+    {
+        return true;
+    }
+
+    applyChestTrapState(chestId, trapResult);
+    applyChestTrapOpenResultToParty(*m_pParty, trapResult);
+
+    if (trapResult.trapDischarged)
+    {
+        spawnChestTrapVisual(visualPoint, trapResult);
+    }
+
+    return trapResult.shouldOpenChest;
+}
+
+GameplayWorldPoint IndoorWorldRuntime::chestTrapSourcePoint() const
+{
+    if (m_pendingEventSourcePoint)
+    {
+        return *m_pendingEventSourcePoint;
+    }
+
+    GameplayWorldPoint point = {};
+    point.x = partyX();
+    point.y = partyY();
+
+    if (m_pPartyRuntime != nullptr)
+    {
+        point.z = m_pPartyRuntime->partyFootZ() + PartyTargetHeightOffset;
+    }
+
+    return point;
+}
+
+GameplayWorldPoint IndoorWorldRuntime::chestTrapVisualPoint(const GameplayWorldPoint &sourcePoint) const
+{
+    GameplayWorldPoint point = sourcePoint;
+    const float deltaX = partyX() - sourcePoint.x;
+    const float deltaY = partyY() - sourcePoint.y;
+    const float length = std::sqrt(deltaX * deltaX + deltaY * deltaY);
+
+    if (length > 1.0f)
+    {
+        const float depth = std::min(ChestTrapForwardDepth, length);
+        const float horizontalDepth = depth * ChestTrapForwardPitchScale;
+        point.x += (deltaX / length) * horizontalDepth;
+        point.y += (deltaY / length) * horizontalDepth;
+        point.z += depth * ChestTrapForwardPitchScale;
+    }
+
+    point.z += ChestTrapCenterSpriteZOffset;
+    return point;
+}
+
+void IndoorWorldRuntime::applyChestTrapState(uint32_t chestId, const ChestTrapOpenResult &trapResult)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || chestId >= pMapDeltaData->chests.size())
+    {
+        return;
+    }
+
+    MapDeltaChest &chest = pMapDeltaData->chests[chestId];
+    chest.flags &= ~static_cast<uint16_t>(EvtChestFlag::Trapped);
+
+    if (!trapResult.shouldOpenChest)
+    {
+        chest.flags &= ~static_cast<uint16_t>(EvtChestFlag::Opened);
+    }
+
+    if (m_pEventRuntimeState != nullptr && m_pEventRuntimeState->has_value())
+    {
+        EventRuntimeState &eventRuntimeState = **m_pEventRuntimeState;
+        eventRuntimeState.chestSetMasks[chestId] &= ~static_cast<uint32_t>(EvtChestFlag::Trapped);
+        eventRuntimeState.chestClearMasks[chestId] |= static_cast<uint32_t>(EvtChestFlag::Trapped);
+
+        if (!trapResult.shouldOpenChest)
+        {
+            eventRuntimeState.chestSetMasks[chestId] &= ~static_cast<uint32_t>(EvtChestFlag::Opened);
+            eventRuntimeState.chestClearMasks[chestId] |= static_cast<uint32_t>(EvtChestFlag::Opened);
+        }
+    }
+
+    if (chestId < m_materializedChestViews.size() && m_materializedChestViews[chestId].has_value())
+    {
+        m_materializedChestViews[chestId]->flags = chest.flags;
+    }
+
+    if (m_activeChestView && m_activeChestView->chestId == chestId)
+    {
+        m_activeChestView->flags = chest.flags;
+    }
+}
+
+void IndoorWorldRuntime::spawnChestTrapVisual(
+    const GameplayWorldPoint &point,
+    const ChestTrapOpenResult &trapResult)
+{
+    if (m_pGameplayProjectileService == nullptr || trapResult.trapObjectId == 0)
+    {
+        std::cout << "Chest trap visual indoor skipped reason=missing_service_or_object"
+                  << " objectId=" << trapResult.trapObjectId << '\n';
+        return;
+    }
+
+    if (m_pObjectTable == nullptr)
+    {
+        std::cout << "Chest trap visual indoor skipped reason=missing_object_table"
+                  << " objectId=" << trapResult.trapObjectId << '\n';
+        return;
+    }
+
+    const std::optional<uint16_t> objectDescriptionId =
+        m_pObjectTable->findDescriptionIdByObjectId(static_cast<int16_t>(trapResult.trapObjectId));
+
+    if (!objectDescriptionId)
+    {
+        std::cout << "Chest trap visual indoor skipped reason=object_id_not_found"
+                  << " objectId=" << trapResult.trapObjectId << '\n';
+        return;
+    }
+
+    GameplayProjectileService::ProjectileState projectile = {};
+    projectile.sourceKind = GameplayProjectileService::ProjectileState::SourceKind::Event;
+    projectile.sourceId = EventSpellSourceId;
+    projectile.impactObjectDescriptionId = *objectDescriptionId;
+    projectile.impactSoundIdOverride = static_cast<uint32_t>(SoundId::Fireball);
+    projectile.sourceX = point.x;
+    projectile.sourceY = point.y;
+    projectile.sourceZ = point.z;
+    projectile.x = point.x;
+    projectile.y = point.y;
+    projectile.z = point.z;
+    projectile.damageType = trapResult.damageType;
+
+    const bool spawned = spawnIndoorProjectileImpactVisual(projectile, point, true);
+    std::cout << "Chest trap visual indoor"
+              << " objectId=" << trapResult.trapObjectId
+              << " objectDescriptionId=" << *objectDescriptionId
+              << " spawned=" << (spawned ? "yes" : "no")
+              << " impactCount=" << m_pGameplayProjectileService->projectileImpactCount()
+              << " pos=(" << point.x << ", " << point.y << ", " << point.z << ")"
               << '\n';
 }
 

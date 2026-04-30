@@ -2249,7 +2249,8 @@ void GameplayPartyOverlayInputController::handleCharacterOverlayInput(
         if (rightMousePressed
             && context.heldInventoryItem().active
             && !isInventorySpellTargetMode
-            && hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryCell)
+            && (hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryItem
+                || hoveredCharacterTarget.type == GameplayCharacterPointerTargetType::InventoryCell))
         {
             const Character *pHoveredCharacter = pParty->activeMember();
             const InventoryItem *pTargetItem =

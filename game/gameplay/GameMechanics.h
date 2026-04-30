@@ -224,6 +224,7 @@ public:
     static std::optional<CharacterCondition> displayedCondition(const Character &character);
     static bool canAct(const Character &character);
     static int resolveCharacterPerceptionValue(const Character &character);
+    static int resolveCharacterDisarmTrapValue(const Character &character);
     static bool partyDetectsSecretFaces(const Party &party, const MapStatsEntry &map);
     static bool canSelectInGameplay(const Character &character);
     static bool canTakeGameplayAction(const Character &character);

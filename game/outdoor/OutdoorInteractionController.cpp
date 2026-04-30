@@ -4760,6 +4760,15 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
 
     size_t previousMessageCount = 0;
 
+    if (view.m_pOutdoorWorldRuntime != nullptr)
+    {
+        view.m_pOutdoorWorldRuntime->setPendingEventSourcePoint(GameplayWorldPoint{
+            .x = inspectHit.hitX,
+            .y = inspectHit.hitY,
+            .z = inspectHit.hitZ,
+        });
+    }
+
     const bool executed = view.m_pOutdoorSceneRuntime != nullptr
         && view.m_pOutdoorSceneRuntime->executeEventById(
             view.m_pOutdoorSceneRuntime->localEventProgram(),
@@ -4770,6 +4779,11 @@ bool OutdoorInteractionController::tryActivateEventTargetInspectEvent(
 
     if (!executed)
     {
+        if (view.m_pOutdoorWorldRuntime != nullptr)
+        {
+            view.m_pOutdoorWorldRuntime->setPendingEventSourcePoint(std::nullopt);
+        }
+
         pEventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " unresolved";
         return false;
     }

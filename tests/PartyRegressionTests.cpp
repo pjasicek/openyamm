@@ -236,6 +236,25 @@ TEST_CASE("party damage sets dead below endurance threshold")
     CHECK_FALSE(pMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Unconscious)));
 }
 
+TEST_CASE("aoe damage can move unconscious member to dead")
+{
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+
+    pMember->health = -1;
+    pMember->endurance = 3;
+    pMember->conditions.set(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Unconscious));
+
+    CHECK_FALSE(party.applyDamageToMember(0, 5, ""));
+    REQUIRE(party.applyDamageToMember(0, 5, "", true));
+    CHECK_EQ(pMember->health, -6);
+    CHECK(pMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Dead)));
+    CHECK_FALSE(pMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Unconscious)));
+}
+
 TEST_CASE("debug damage immunity preserves hit handling while leaving health unchanged")
 {
     OpenYAMM::Game::Party party = {};

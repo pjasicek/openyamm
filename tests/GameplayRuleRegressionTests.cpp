@@ -611,6 +611,47 @@ TEST_CASE("inventory mixing creates reagent potion in target bottle")
     CHECK_EQ(pMixedPotion->standardEnchantPower, 3u);
 }
 
+TEST_CASE("inventory mixing creates reagent potion when held bottle is used on reagent")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.push_back(makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1));
+
+    OpenYAMM::Game::Party party = {};
+    party.setItemTable(&gameData.itemTable);
+    party.seed(seed);
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    pMember->skills["Alchemy"] = {"Alchemy", 2, OpenYAMM::Game::SkillMastery::Normal};
+
+    OpenYAMM::Game::InventoryItem reagent = {};
+    reagent.objectDescriptionId = 200;
+    REQUIRE(pMember->addInventoryItemAt(reagent, 0, 0));
+
+    OpenYAMM::Game::InventoryItem heldBottle = {};
+    heldBottle.objectDescriptionId = 220;
+
+    const OpenYAMM::Game::InventoryItemMixResult result =
+        OpenYAMM::Game::InventoryItemMixingRuntime::tryApplyHeldItemToInventoryItem(
+            party,
+            0,
+            heldBottle,
+            0,
+            0,
+            gameData.itemTable,
+            gameData.potionMixingTable);
+
+    REQUIRE(result.handled);
+    CHECK(result.success);
+    CHECK(result.heldItemConsumed);
+
+    const OpenYAMM::Game::InventoryItem *pMixedPotion = pMember->inventoryItemAt(0, 0);
+    REQUIRE(pMixedPotion != nullptr);
+    CHECK_EQ(pMixedPotion->objectDescriptionId, 222u);
+    CHECK_EQ(pMixedPotion->standardEnchantPower, 3u);
+}
+
 TEST_CASE("inventory mixing combines valid potions and returns an empty bottle")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -695,6 +736,81 @@ TEST_CASE("inventory mixing invalid potion combination consumes both items")
     CHECK(result.targetItemRemoved);
     CHECK_EQ(result.failureDamageLevel, 3u);
     CHECK(pMember->inventoryItemAt(0, 0) == nullptr);
+}
+
+TEST_CASE("potion explosion level two damages the member and breaks one regular item")
+{
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.push_back(makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1));
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(seed);
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+    pMember->health = 500;
+    pMember->maxHealth = 500;
+
+    OpenYAMM::Game::InventoryItem regularItem = {};
+    regularItem.objectDescriptionId = 109;
+    REQUIRE(pMember->addInventoryItemAt(regularItem, 0, 0));
+
+    OpenYAMM::Game::InventoryItem potionItem = {};
+    potionItem.objectDescriptionId = 222;
+    REQUIRE(pMember->addInventoryItemAt(potionItem, 1, 0));
+
+    REQUIRE(party.applyPotionExplosionToMember(0, 2));
+
+    CHECK(pMember->health >= 400);
+    CHECK(pMember->health <= 470);
+
+    const OpenYAMM::Game::InventoryItem *pRegularItem = pMember->inventoryItemAt(0, 0);
+    REQUIRE(pRegularItem != nullptr);
+    CHECK(pRegularItem->broken);
+
+    const OpenYAMM::Game::InventoryItem *pPotionItem = pMember->inventoryItemAt(1, 0);
+    REQUIRE(pPotionItem != nullptr);
+    CHECK_FALSE(pPotionItem->broken);
+}
+
+TEST_CASE("potion explosion level four eradicates the member and breaks all regular inventory items")
+{
+    OpenYAMM::Game::PartySeed seed = {};
+    seed.members.push_back(makeRegressionPartyMember("Ariel", "Knight", "PC01-01", 1));
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(seed);
+
+    OpenYAMM::Game::Character *pMember = party.member(0);
+    REQUIRE(pMember != nullptr);
+
+    OpenYAMM::Game::InventoryItem firstRegularItem = {};
+    firstRegularItem.objectDescriptionId = 109;
+    REQUIRE(pMember->addInventoryItemAt(firstRegularItem, 0, 0));
+
+    OpenYAMM::Game::InventoryItem secondRegularItem = {};
+    secondRegularItem.objectDescriptionId = 111;
+    REQUIRE(pMember->addInventoryItemAt(secondRegularItem, 1, 0));
+
+    OpenYAMM::Game::InventoryItem potionItem = {};
+    potionItem.objectDescriptionId = 222;
+    REQUIRE(pMember->addInventoryItemAt(potionItem, 2, 0));
+
+    REQUIRE(party.applyPotionExplosionToMember(0, 4));
+
+    CHECK(pMember->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Eradicated)));
+
+    const OpenYAMM::Game::InventoryItem *pFirstRegularItem = pMember->inventoryItemAt(0, 0);
+    REQUIRE(pFirstRegularItem != nullptr);
+    CHECK(pFirstRegularItem->broken);
+
+    const OpenYAMM::Game::InventoryItem *pSecondRegularItem = pMember->inventoryItemAt(1, 0);
+    REQUIRE(pSecondRegularItem != nullptr);
+    CHECK(pSecondRegularItem->broken);
+
+    const OpenYAMM::Game::InventoryItem *pPotionItem = pMember->inventoryItemAt(2, 0);
+    REQUIRE(pPotionItem != nullptr);
+    CHECK_FALSE(pPotionItem->broken);
 }
 
 TEST_CASE("party airborne movement allows water entry without water walk")

@@ -3168,10 +3168,11 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
             uint16_t cachedSpriteFrameIndex,
             uint16_t spriteId,
             const std::string &spriteName,
-            uint32_t timeTicks)
+            uint32_t timeTicks,
+            bool forceLog = false)
         {
             uint16_t spriteFrameIndex = cachedSpriteFrameIndex;
-            const bool shouldLog = DebugProjectileDrawLogging && timeTicks <= 16;
+            const bool shouldLog = forceLog || (DebugProjectileDrawLogging && timeTicks <= 16);
             const char *pResolutionSource = cachedSpriteFrameIndex != 0 ? "cached" : "none";
             const float deltaX = x - cameraPosition.x;
             const float deltaY = y - cameraPosition.y;
@@ -3180,6 +3181,15 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
 
             if (distanceSquared > RuntimeProjectileRenderDistanceSquared)
             {
+                if (shouldLog)
+                {
+                    std::cout << "Projectile draw skipped kind=" << kind
+                              << " id=" << runtimeId
+                              << " sprite=\"" << (spriteName.empty() ? "<none>" : spriteName) << "\""
+                              << " spriteId=" << spriteId
+                              << " distanceSquared=" << distanceSquared
+                              << " reason=too_far\n";
+                }
                 return;
             }
 
@@ -3315,6 +3325,13 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
 
         if (FxRecipes::projectileRecipeUsesDedicatedImpactFx(recipe))
         {
+            if (impact.objectName.find("Trap") != std::string::npos)
+            {
+                std::cout << "Projectile draw skipped kind=impact"
+                          << " id=" << impact.effectId
+                          << " objectName=\"" << impact.objectName << "\""
+                          << " reason=dedicated_fx_recipe\n";
+            }
             continue;
         }
 
@@ -3327,7 +3344,8 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
             impact.objectSpriteFrameIndex,
             impact.objectSpriteId,
             impact.objectSpriteName,
-            impact.freezeAnimation ? 0u : impact.timeSinceCreatedTicks);
+            impact.freezeAnimation ? 0u : impact.timeSinceCreatedTicks,
+            impact.objectName.find("Trap") != std::string::npos);
     }
 
     for (size_t trapIndex = 0; trapIndex < view.m_pOutdoorWorldRuntime->fireSpikeTrapCount(); ++trapIndex)

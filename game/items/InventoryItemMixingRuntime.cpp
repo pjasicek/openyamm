@@ -288,6 +288,32 @@ InventoryItemMixResult InventoryItemMixingRuntime::tryApplyHeldItemToInventoryIt
         return result;
     }
 
+    if (heldItem.objectDescriptionId == PotionBottleItemId && isReagent(pTargetItem->objectDescriptionId))
+    {
+        const uint32_t resultItemId = reagentPotionResultItemId(pTargetItem->objectDescriptionId);
+
+        if (resultItemId == 0)
+        {
+            return {};
+        }
+
+        pTargetItem->objectDescriptionId = resultItemId;
+        pTargetItem->standardEnchantPower =
+            static_cast<uint16_t>(std::min<uint32_t>(
+                0xFFFFu,
+                alchemyLevel(*pMember) + reagentPower(*pTargetDefinition)));
+        pTargetItem->identified = true;
+
+        InventoryItemMixResult result = {};
+        result.handled = true;
+        result.success = true;
+        result.heldItemConsumed = true;
+        result.targetItemChanged = true;
+        result.action = InventoryItemMixAction::ReagentBottleMix;
+        result.statusText = "Mixed potion";
+        return result;
+    }
+
     if (!isMixingPotion(heldItem.objectDescriptionId) || !isMixingPotion(pTargetItem->objectDescriptionId))
     {
         return {};

@@ -15,6 +15,8 @@ constexpr size_t MapIdColumn = 0;
 constexpr size_t NameColumn = 1;
 constexpr size_t FileNameColumn = 2;
 constexpr size_t PerceptionDifficultyColumn = 5;
+constexpr size_t DisarmDifficultyColumn = 9;
+constexpr size_t TrapDamageD20DiceCountColumn = 10;
 constexpr size_t NavigationMapFileNameColumn = 0;
 constexpr size_t NavigationMinXColumn = 1;
 constexpr size_t NavigationMaxXColumn = 2;
@@ -377,6 +379,18 @@ bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         if (!parseInteger(getColumnValue(row, PerceptionDifficultyColumn), entry.perceptionDifficulty))
         {
             std::cerr << "MapStats row has invalid perception difficulty for map id " << entry.id << '\n';
+            return false;
+        }
+
+        if (!parseInteger(getColumnValue(row, DisarmDifficultyColumn), entry.disarmDifficulty))
+        {
+            std::cerr << "MapStats row has invalid disarm difficulty for map id " << entry.id << '\n';
+            return false;
+        }
+
+        if (!parseInteger(getColumnValue(row, TrapDamageD20DiceCountColumn), entry.trapDamageD20DiceCount))
+        {
+            std::cerr << "MapStats row has invalid trap damage dice for map id " << entry.id << '\n';
             return false;
         }
 
