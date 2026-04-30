@@ -276,6 +276,8 @@ constexpr uint32_t GoldHeapSmallItemId = 187;
 constexpr uint32_t GoldHeapLargeItemId = 189;
 constexpr float WorldItemThrowPitchRadians = Pi * 2.0f * (184.0f / 2048.0f);
 constexpr float WorldItemThrowSpeed = 200.0f;
+constexpr int MonsterDeathDropMinThrowSpeed = 200;
+constexpr int MonsterDeathDropMaxThrowSpeed = 399;
 constexpr float WorldItemGravity = 900.0f;
 constexpr float WorldItemBounceFactor = 0.5f;
 constexpr float WorldItemGroundDamping = 0.89263916f;
@@ -4262,6 +4264,119 @@ bool OutdoorWorldRuntime::spawnWorldItem(
     worldItem.initialY = sourceY;
     worldItem.initialZ = sourceZ;
     worldItem.spawnedByPlayer = true;
+    m_worldItems.push_back(std::move(worldItem));
+    return true;
+}
+
+void OutdoorWorldRuntime::spawnMonsterDeathDropsForActor(const MapActorState &actor)
+{
+    if (m_pMonsterTable == nullptr || m_pItemTable == nullptr)
+    {
+        return;
+    }
+
+    const std::vector<MonsterTable::MonsterDeathDropEntry> &drops =
+        m_pMonsterTable->deathDropsForMonsterId(actor.monsterId);
+
+    if (drops.empty())
+    {
+        return;
+    }
+
+    const uint32_t timeSeed = static_cast<uint32_t>(std::lround(m_gameMinutes * TicksPerSecond));
+
+    for (size_t dropIndex = 0; dropIndex < drops.size(); ++dropIndex)
+    {
+        const MonsterTable::MonsterDeathDropEntry &drop = drops[dropIndex];
+        const uint32_t seed =
+            m_sessionChestSeed
+            ^ actor.actorId * 2654435761u
+            ^ static_cast<uint32_t>(std::max<int>(0, actor.monsterId) * 2246822519u)
+            ^ drop.itemId * 3266489917u
+            ^ static_cast<uint32_t>((dropIndex + 1u) * 668265263u)
+            ^ timeSeed;
+        std::mt19937 rng(seed);
+
+        if (std::uniform_int_distribution<int>(0, 99)(rng) >= drop.chancePercent)
+        {
+            continue;
+        }
+
+        const InventoryItem item =
+            ItemGenerator::makeInventoryItem(drop.itemId, *m_pItemTable, ItemGenerationMode::Generic);
+        spawnMonsterDeathDropWorldItem(
+            item,
+            actor.preciseX,
+            actor.preciseY,
+            actor.preciseZ + 16.0f,
+            seed ^ 0x9e3779b9u);
+    }
+}
+
+bool OutdoorWorldRuntime::spawnMonsterDeathDropWorldItem(
+    const InventoryItem &item,
+    float x,
+    float y,
+    float z,
+    uint32_t seed)
+{
+    if (item.objectDescriptionId == 0)
+    {
+        return false;
+    }
+
+    uint16_t objectDescriptionId = 0;
+    uint16_t objectSpriteId = 0;
+    uint16_t objectSpriteFrameIndex = 0;
+    uint16_t objectFlags = 0;
+    uint16_t radius = 0;
+    uint16_t height = 0;
+    uint32_t lifetimeTicks = 0;
+    std::string objectName;
+    std::string objectSpriteName;
+
+    if (!resolveWorldItemVisual(
+            item.objectDescriptionId,
+            objectDescriptionId,
+            objectSpriteId,
+            objectSpriteFrameIndex,
+            objectFlags,
+            radius,
+            height,
+            objectName,
+            objectSpriteName))
+    {
+        return false;
+    }
+
+    std::mt19937 rng(seed);
+    const float angleRadians = std::uniform_real_distribution<float>(0.0f, Pi * 2.0f)(rng);
+    const float speed = static_cast<float>(
+        std::uniform_int_distribution<int>(MonsterDeathDropMinThrowSpeed, MonsterDeathDropMaxThrowSpeed)(rng));
+    const float horizontalSpeed = speed * std::cos(WorldItemThrowPitchRadians);
+    const float verticalSpeed = speed * std::sin(WorldItemThrowPitchRadians);
+
+    WorldItemState worldItem = {};
+    worldItem.worldItemId = m_nextWorldItemId++;
+    worldItem.item = item;
+    worldItem.objectDescriptionId = objectDescriptionId;
+    worldItem.objectSpriteId = objectSpriteId;
+    worldItem.objectSpriteFrameIndex = objectSpriteFrameIndex;
+    worldItem.objectFlags = objectFlags;
+    worldItem.radius = radius;
+    worldItem.height = height;
+    worldItem.objectName = objectName;
+    worldItem.objectSpriteName = objectSpriteName;
+    worldItem.x = x;
+    worldItem.y = y;
+    worldItem.z = z;
+    worldItem.velocityX = std::cos(angleRadians) * horizontalSpeed;
+    worldItem.velocityY = std::sin(angleRadians) * horizontalSpeed;
+    worldItem.velocityZ = verticalSpeed;
+    worldItem.initialX = x;
+    worldItem.initialY = y;
+    worldItem.initialZ = z;
+    worldItem.lifetimeTicks = lifetimeTicks;
     m_worldItems.push_back(std::move(worldItem));
     return true;
 }
@@ -9312,6 +9427,7 @@ bool OutdoorWorldRuntime::applyReflectedDamageToActor(
         if (actor.currentHp <= 0)
         {
             beginDyingState(actor, m_pActorSpriteFrameTable);
+            spawnMonsterDeathDropsForActor(actor);
             const bx::Vec3 knockback = actorKnockbackVelocity(
                 actor.preciseX,
                 actor.preciseY,
@@ -9755,6 +9871,7 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
     if (actor.currentHp <= 0)
     {
         beginDyingState(actor, m_pActorSpriteFrameTable);
+        spawnMonsterDeathDropsForActor(actor);
         const float sourceX = pSourceActor != nullptr ? pSourceActor->preciseX : actor.preciseX;
         const float sourceY = pSourceActor != nullptr ? pSourceActor->preciseY : actor.preciseY;
         const float sourceZ =
@@ -10091,6 +10208,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     if (died)
     {
         beginDyingState(actor, m_pActorSpriteFrameTable);
+        spawnMonsterDeathDropsForActor(actor);
         const bx::Vec3 knockback = actorKnockbackVelocity(
             actor.preciseX,
             actor.preciseY,

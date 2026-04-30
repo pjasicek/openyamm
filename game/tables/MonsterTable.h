@@ -193,15 +193,27 @@ public:
         std::string displayName;
     };
 
+    struct MonsterDeathDropEntry
+    {
+        int monsterId = 0;
+        std::string monsterName;
+        uint32_t itemId = 0;
+        std::string itemName;
+        int chancePercent = 0;
+        std::string description;
+    };
+
     bool loadEntriesFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadFromBytes(const std::vector<uint8_t> &bytes);
     bool loadDisplayNamesFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadStatsFromRows(const std::vector<std::vector<std::string>> &rows);
+    bool loadDeathDropsFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadRelationsFromRows(const std::vector<std::vector<std::string>> &rows);
     bool loadUniqueNamesFromRows(const std::vector<std::vector<std::string>> &rows);
     const MonsterEntry *findByInternalName(const std::string &internalName) const;
     const MonsterEntry *findById(int16_t monsterId) const;
     const MonsterStatsEntry *findStatsById(int16_t monsterId) const;
+    const std::vector<MonsterDeathDropEntry> &deathDropsForMonsterId(int16_t monsterId) const;
     const MonsterStatsEntry *findStatsByPictureName(const std::string &pictureName) const;
     const MonsterDisplayNameEntry *findDisplayEntryById(int id) const;
     std::optional<std::string> findDisplayNameByInternalName(const std::string &internalName) const;
@@ -219,6 +231,7 @@ private:
     std::vector<MonsterDisplayNameEntry> m_displayNames;
     std::vector<std::string> m_uniqueNames;
     std::unordered_map<int, MonsterStatsEntry> m_statsById;
+    std::unordered_map<int, std::vector<MonsterDeathDropEntry>> m_deathDropsByMonsterId;
     std::unordered_map<std::string, int> m_statsIdByPictureName;
     std::vector<std::string> m_relationLabels;
     std::vector<std::vector<int>> m_relations;

@@ -4,6 +4,7 @@
 
 #include "engine/AssetFileSystem.h"
 #include "engine/AudioSystem.h"
+#include "game/FaceEnums.h"
 #include "game/tables/CharacterDollTable.h"
 #include "game/events/EventDialogContent.h"
 #include "game/events/EvtEnums.h"
@@ -5739,6 +5740,88 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
         );
 
         runCase(
+            "indoor_movement_controller_steps_onto_tiny_floor_tread",
+            [&](std::string &failure)
+            {
+                IndoorMapData indoorMapData = {};
+                indoorMapData.vertices = {
+                    {0, 0, 0},
+                    {640, 0, 0},
+                    {640, 1024, 0},
+                    {0, 1024, 0},
+                    {640, 0, 24},
+                    {1024, 0, 24},
+                    {1024, 1024, 24},
+                    {640, 1024, 24},
+                    {640, 0, 0},
+                    {640, 1024, 0},
+                };
+
+                IndoorFace lowerFloor = {};
+                lowerFloor.vertexIndices = {0, 1, 2, 3};
+                lowerFloor.facetType = 3;
+
+                IndoorFace upperTread = {};
+                upperTread.vertexIndices = {4, 5, 6, 7};
+                upperTread.facetType = 3;
+
+                IndoorFace untouchableRiser = {};
+                untouchableRiser.vertexIndices = {8, 4, 7, 9};
+                untouchableRiser.facetType = 1;
+                untouchableRiser.attributes = faceAttributeBit(FaceAttribute::Untouchable);
+
+                indoorMapData.faces = {
+                    lowerFloor,
+                    upperTread,
+                    untouchableRiser,
+                };
+
+                IndoorSector sector = {};
+                sector.floorCount = 2;
+                sector.wallCount = 1;
+                sector.faceCount = 3;
+                sector.nonBspFaceCount = 3;
+                sector.minX = 0;
+                sector.maxX = 1024;
+                sector.minY = 0;
+                sector.maxY = 1024;
+                sector.minZ = 0;
+                sector.maxZ = 256;
+                sector.floorFaceIds = {0, 1};
+                sector.wallFaceIds = {2};
+                sector.faceIds = {0, 1, 2};
+                sector.nonBspFaceIds = sector.faceIds;
+                indoorMapData.sectors = {sector};
+
+                std::optional<MapDeltaData> mapDeltaData = MapDeltaData {};
+                std::optional<EventRuntimeState> eventRuntimeState = EventRuntimeState {};
+                IndoorMovementController controller(indoorMapData, &mapDeltaData, &eventRuntimeState);
+                const IndoorBodyDimensions body = {};
+                IndoorMoveState current = controller.initializeStateFromEyePosition(512.0f, 512.0f, 160.0f, body);
+
+                for (int step = 0; step < 8; ++step)
+                {
+                    current = controller.resolveMove(current, body, 240.0f, 0.0f, false, 0.1f);
+                }
+
+                if (current.x <= 640.0f)
+                {
+                    failure = "movement did not cross the untouchable riser edge";
+                    return false;
+                }
+
+                if (current.footZ < 23.0f || current.footZ > 25.0f)
+                {
+                    failure = "movement crossed the stair edge without snapping to the upper tread: footZ="
+                        + std::to_string(current.footZ);
+                    return false;
+                }
+
+                return true;
+            }
+        );
+
+        runCase(
             "indoor_movement_controller_crosses_portals_and_respects_mechanism_blocking",
             [&](std::string &failure)
             {
@@ -5820,9 +5903,10 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 eastNorthWall.roomNumber = 2;
 
                 IndoorFace doorFace = {};
-                doorFace.vertexIndices = {12, 15, 14, 13};
+                doorFace.vertexIndices = {12, 13, 14, 15};
                 doorFace.facetType = 1;
                 doorFace.roomNumber = 2;
+                doorFace.roomBehindNumber = 1;
 
                 indoorMapData.faces = {
                     westFloor,
@@ -5855,10 +5939,10 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 westSector.minZ = 0;
                 westSector.maxZ = 256;
                 westSector.floorFaceIds = {0};
-                westSector.wallFaceIds = {2, 3, 4};
+                westSector.wallFaceIds = {2, 3, 4, 11};
                 westSector.ceilingFaceIds = {1};
                 westSector.portalFaceIds = {5};
-                westSector.faceIds = {0, 1, 2, 3, 4, 5};
+                westSector.faceIds = {0, 1, 2, 3, 4, 5, 11};
                 westSector.nonBspFaceIds = westSector.faceIds;
 
                 IndoorSector eastSector = {};
@@ -5885,16 +5969,16 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 MapDeltaDoor door = {};
                 door.doorId = 77;
-                door.directionX = 65536;
-                door.moveLength = 128;
+                door.directionY = 65536;
+                door.moveLength = 512;
                 door.openSpeed = 128;
                 door.closeSpeed = 128;
                 door.state = static_cast<uint16_t>(EvtMechanismState::Closed);
                 door.vertexIds = {12, 13, 14, 15};
                 door.faceIds = {11};
                 door.sectorIds = {2};
-                door.xOffsets = {1408, 1408, 1408, 1408};
-                door.yOffsets = {256, 768, 768, 256};
+                door.xOffsets = {1536, 1536, 1536, 1536};
+                door.yOffsets = {-256, 256, 256, -256};
                 door.zOffsets = {0, 0, 256, 256};
 
                 std::optional<MapDeltaData> mapDeltaData = MapDeltaData {};
@@ -5946,7 +6030,8 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
                 if (closedDoorMoved.x > 1536.0f - body.radius + 1.0f)
                 {
-                    failure = "closed mechanism face did not block swept indoor movement";
+                    failure = "closed mechanism face did not block swept indoor movement: x="
+                        + std::to_string(closedDoorMoved.x);
                     return false;
                 }
 

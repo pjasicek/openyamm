@@ -1333,11 +1333,6 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 continue;
             }
 
-            if (pFace->kind == IndoorFaceKind::Floor && pFace->isWalkable && remainingStep.z >= -0.0001f)
-            {
-                continue;
-            }
-
             if (pFace->kind == IndoorFaceKind::Wall && pFace->maxZ <= iterativeState.footZ + MaximumRise)
             {
                 continue;
@@ -1373,6 +1368,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
                 m_spriteObjectColliders,
                 SweptCollisionHitType::SpriteObject);
         std::optional<SweptCollisionHit> nearestHit;
+        const IndoorFaceGeometryData *pNearestHitGeometry = nullptr;
 
         if (faceHit)
         {
@@ -1393,24 +1389,28 @@ IndoorMoveState IndoorMovementController::resolveMove(
             hit.moveDistance = faceHit->moveDistance;
             hit.adjustedMoveDistance = faceHit->adjustedMoveDistance;
             nearestHit = hit;
+            pNearestHitGeometry = pHitGeometry;
         }
 
         if (actorBodyHit
             && (!nearestHit || actorBodyHit->adjustedMoveDistance < nearestHit->adjustedMoveDistance))
         {
             nearestHit = actorBodyHit;
+            pNearestHitGeometry = nullptr;
         }
 
         if (decorationBodyHit
             && (!nearestHit || decorationBodyHit->adjustedMoveDistance < nearestHit->adjustedMoveDistance))
         {
             nearestHit = decorationBodyHit;
+            pNearestHitGeometry = nullptr;
         }
 
         if (spriteObjectBodyHit
             && (!nearestHit || spriteObjectBodyHit->adjustedMoveDistance < nearestHit->adjustedMoveDistance))
         {
             nearestHit = spriteObjectBodyHit;
+            pNearestHitGeometry = nullptr;
         }
 
         if (!nearestHit)
@@ -1501,6 +1501,28 @@ IndoorMoveState IndoorMovementController::resolveMove(
         {
             sweptFailed = true;
             break;
+        }
+
+        if (nearestHit->type == SweptCollisionHitType::Floor
+            && nearestHit->boundaryHit
+            && pNearestHitGeometry != nullptr
+            && !pNearestHitGeometry->vertices.empty()
+            && !flying
+            && !sweptRequest.jumpRequested)
+        {
+            const float stepFloorZ = pNearestHitGeometry->vertices.front().z;
+            const float stepDelta = stepFloorZ - iterativeState.footZ;
+
+            if (stepDelta > GroundSnapSlack && stepDelta < MaximumStepUpFromCurrentFootZ)
+            {
+                advancedState.footZ = stepFloorZ;
+                advancedState.verticalVelocity = 0.0f;
+                advancedState.grounded = true;
+                advancedState.supportFaceIndex = nearestHit->faceIndex;
+                advancedState.sectorId = static_cast<int16_t>(pNearestHitGeometry->sectorId);
+                advancedState.eyeSectorId = advancedState.sectorId;
+                iterativeVerticalVelocity = 0.0f;
+            }
         }
 
         iterativeState = advancedState;
@@ -1814,16 +1836,24 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
     };
 
     const bool useSectorFilteredFaces = !collisionSectorIds.empty();
-    std::vector<uint16_t> sectorFaceIds;
+    struct SectorFaceCandidate
+    {
+        uint16_t faceIndex = 0;
+        bool requireCollisionMask = false;
+    };
+
+    std::vector<SectorFaceCandidate> sectorFaceIds;
 
     if (useSectorFilteredFaces)
     {
         const bool useCollisionFaceMask = pCollisionFaceMask != nullptr && !pCollisionFaceMask->empty();
-        const auto appendFaceIds = [&sectorFaceIds](const std::vector<uint16_t> &faceIds)
+        const auto appendFaceIds = [&sectorFaceIds](
+            const std::vector<uint16_t> &faceIds,
+            bool requireCollisionMask)
         {
             for (uint16_t faceId : faceIds)
             {
-                sectorFaceIds.push_back(faceId);
+                sectorFaceIds.push_back({faceId, requireCollisionMask});
             }
         };
 
@@ -1835,13 +1865,13 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
             }
 
             const IndoorSector &sector = m_pIndoorMapData->sectors[sectorId];
-            appendFaceIds(sector.floorFaceIds);
-            appendFaceIds(sector.wallFaceIds);
-            appendFaceIds(sector.ceilingFaceIds);
+            appendFaceIds(sector.floorFaceIds, false);
+            appendFaceIds(sector.wallFaceIds, false);
+            appendFaceIds(sector.ceilingFaceIds, false);
 
             if (useCollisionFaceMask)
             {
-                appendFaceIds(sector.cylinderFaceIds);
+                appendFaceIds(sector.cylinderFaceIds, true);
             }
         }
 
@@ -1852,14 +1882,15 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
         candidates.reserve(m_pIndoorMapData->faces.size());
     }
 
-    const auto appendCandidateFace = [&](size_t faceIndex)
+    const auto appendCandidateFace = [&](size_t faceIndex, bool requireCollisionMask)
     {
         if (faceIndex >= m_pIndoorMapData->faces.size())
         {
             return;
         }
 
-        if (pCollisionFaceMask != nullptr
+        if (requireCollisionMask
+            && pCollisionFaceMask != nullptr
             && !pCollisionFaceMask->empty()
             && (faceIndex >= pCollisionFaceMask->size() || (*pCollisionFaceMask)[faceIndex] == 0))
         {
@@ -1887,7 +1918,7 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
         }
 
         IndoorFaceSweepOptions sweepOptions = {};
-        sweepOptions.pCollisionFaceMask = pCollisionFaceMask;
+        sweepOptions.pCollisionFaceMask = requireCollisionMask ? pCollisionFaceMask : nullptr;
         sweepOptions.pMechanismBlockingFaceMask = pMechanismBlockingFaceMask;
         sweepOptions.includePortalFaces = false;
 
@@ -1902,16 +1933,16 @@ std::vector<const IndoorFaceGeometryData *> IndoorMovementController::collectSwe
 
     if (useSectorFilteredFaces)
     {
-        for (uint16_t faceId : sectorFaceIds)
+        for (const SectorFaceCandidate &candidate : sectorFaceIds)
         {
-            appendCandidateFace(faceId);
+            appendCandidateFace(candidate.faceIndex, candidate.requireCollisionMask);
         }
     }
     else
     {
         for (size_t faceIndex = 0; faceIndex < m_pIndoorMapData->faces.size(); ++faceIndex)
         {
-            appendCandidateFace(faceIndex);
+            appendCandidateFace(faceIndex, false);
         }
     }
 

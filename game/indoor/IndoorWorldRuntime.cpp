@@ -18,6 +18,7 @@
 #include "game/indoor/IndoorGeometryUtils.h"
 #include "game/indoor/IndoorMovementController.h"
 #include "game/indoor/IndoorPartyRuntime.h"
+#include "game/items/ItemGenerator.h"
 #include "game/items/ItemRuntime.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/party/EventSpellBuffs.h"
@@ -253,6 +254,8 @@ bool indoorPointInsideSectorBounds(
 constexpr float IndoorInitialActorFloorSampleDrop = 4096.0f;
 constexpr float IndoorWorldItemThrowPitchRadians = Pi * 2.0f * (184.0f / 2048.0f);
 constexpr float IndoorWorldItemThrowSpeed = 200.0f;
+constexpr int MonsterDeathDropMinThrowSpeed = 200;
+constexpr int MonsterDeathDropMaxThrowSpeed = 399;
 constexpr float IndoorWorldItemGravity = 900.0f;
 constexpr float IndoorProjectileGravity = IndoorWorldItemGravity;
 constexpr float IndoorWorldItemBounceFactor = 0.5f;
@@ -7451,6 +7454,117 @@ void IndoorWorldRuntime::beginMapActorDyingState(size_t actorIndex, MapDeltaActo
     aiState.velocityY = 0.0f;
     aiState.velocityZ = 0.0f;
     actor.currentActionAnimation = indoorActionAnimationFromActorAi(ActorAiAnimationState::Dying);
+
+    spawnMonsterDeathDropsForActor(actorIndex, actor);
+}
+
+void IndoorWorldRuntime::spawnMonsterDeathDropsForActor(size_t actorIndex, const MapDeltaActor &actor)
+{
+    if (m_pMonsterTable == nullptr || m_pItemTable == nullptr || m_pObjectTable == nullptr
+        || actorIndex >= m_mapActorAiStates.size())
+    {
+        return;
+    }
+
+    const int16_t monsterId = resolveIndoorActorStatsId(actor);
+    const std::vector<MonsterTable::MonsterDeathDropEntry> &drops =
+        m_pMonsterTable->deathDropsForMonsterId(monsterId);
+
+    if (drops.empty())
+    {
+        return;
+    }
+
+    const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+    const float dropX = aiState.preciseX;
+    const float dropY = aiState.preciseY;
+    const float dropZ = aiState.preciseZ + 16.0f;
+    const uint32_t timeSeed = static_cast<uint32_t>(std::lround(m_gameMinutes * TicksPerSecond));
+
+    for (size_t dropIndex = 0; dropIndex < drops.size(); ++dropIndex)
+    {
+        const MonsterTable::MonsterDeathDropEntry &drop = drops[dropIndex];
+        const uint32_t seed =
+            m_sessionChestSeed
+            ^ static_cast<uint32_t>((actorIndex + 1u) * 2654435761u)
+            ^ static_cast<uint32_t>(std::max<int>(0, monsterId) * 2246822519u)
+            ^ drop.itemId * 3266489917u
+            ^ static_cast<uint32_t>((dropIndex + 1u) * 668265263u)
+            ^ timeSeed;
+        std::mt19937 rng(seed);
+
+        if (std::uniform_int_distribution<int>(0, 99)(rng) >= drop.chancePercent)
+        {
+            continue;
+        }
+
+        const InventoryItem item =
+            ItemGenerator::makeInventoryItem(drop.itemId, *m_pItemTable, ItemGenerationMode::Generic);
+        spawnMonsterDeathDropItem(item, dropX, dropY, dropZ, actor.sectorId, seed ^ 0x9e3779b9u);
+    }
+}
+
+bool IndoorWorldRuntime::spawnMonsterDeathDropItem(
+    const InventoryItem &item,
+    float x,
+    float y,
+    float z,
+    int16_t sectorId,
+    uint32_t seed)
+{
+    if (m_pObjectTable == nullptr || m_pItemTable == nullptr || item.objectDescriptionId == 0)
+    {
+        return false;
+    }
+
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr)
+    {
+        return false;
+    }
+
+    const std::optional<uint16_t> objectDescriptionId =
+        resolveIndoorItemObjectDescriptionId(item, m_pItemTable, m_pObjectTable);
+
+    if (!objectDescriptionId)
+    {
+        return false;
+    }
+
+    const ObjectEntry *pObjectEntry = m_pObjectTable->get(*objectDescriptionId);
+
+    if (pObjectEntry == nullptr || (pObjectEntry->flags & ObjectDescNoSprite) != 0 || pObjectEntry->spriteId == 0)
+    {
+        return false;
+    }
+
+    std::mt19937 rng(seed);
+    const float angleRadians = std::uniform_real_distribution<float>(0.0f, Pi * 2.0f)(rng);
+    const float speed = static_cast<float>(
+        std::uniform_int_distribution<int>(MonsterDeathDropMinThrowSpeed, MonsterDeathDropMaxThrowSpeed)(rng));
+    const float horizontalSpeed = speed * std::cos(IndoorWorldItemThrowPitchRadians);
+    const float verticalSpeed = speed * std::sin(IndoorWorldItemThrowPitchRadians);
+
+    MapDeltaSpriteObject spriteObject = {};
+    spriteObject.spriteId = pObjectEntry->spriteId;
+    spriteObject.objectDescriptionId = *objectDescriptionId;
+    spriteObject.x = int(std::lround(x));
+    spriteObject.y = int(std::lround(y));
+    spriteObject.z = int(std::lround(z));
+    spriteObject.velocityX = clampToInt16(std::cos(angleRadians) * horizontalSpeed);
+    spriteObject.velocityY = clampToInt16(std::sin(angleRadians) * horizontalSpeed);
+    spriteObject.velocityZ = clampToInt16(verticalSpeed);
+    spriteObject.yawAngle = yawAngleFromRadians(angleRadians);
+    spriteObject.sectorId = sectorId;
+    spriteObject.temporaryLifetime = pObjectEntry->lifetimeTicks;
+    spriteObject.initialX = spriteObject.x;
+    spriteObject.initialY = spriteObject.y;
+    spriteObject.initialZ = spriteObject.z;
+    writeIndoorHeldItemPayload(spriteObject.rawContainingItem, item);
+
+    pMapDeltaData->spriteObjects.push_back(std::move(spriteObject));
+    return true;
 }
 
 void IndoorWorldRuntime::beginMapActorHitReaction(

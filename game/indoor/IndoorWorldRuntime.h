@@ -477,6 +477,14 @@ private:
         MapDeltaActor &actor,
         const GameplayWorldPoint *pSource);
     void beginMapActorDyingState(size_t actorIndex, MapDeltaActor &actor);
+    void spawnMonsterDeathDropsForActor(size_t actorIndex, const MapDeltaActor &actor);
+    bool spawnMonsterDeathDropItem(
+        const InventoryItem &item,
+        float x,
+        float y,
+        float z,
+        int16_t sectorId,
+        uint32_t seed);
     bool applyIndoorActorPhysicsStep(IndoorMovementController &movementController, size_t actorIndex);
     std::optional<GameplayWorldPoint> actorImpactPoint(size_t actorIndex) const;
     bool spawnIndoorProjectileImpactVisual(

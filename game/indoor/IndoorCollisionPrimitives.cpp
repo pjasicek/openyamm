@@ -617,6 +617,17 @@ std::optional<IndoorSweptFaceHit> sweepIndoorSphereAgainstFaceWithNormalizedDire
 
         if (startsInsideFaceRadius && staysOnSameSide && rawEndAbsDistance >= rawStartAbsDistance - CollisionEpsilon)
         {
+            if (geometry.kind == IndoorFaceKind::Floor
+                && std::fabs(vecDot(normalizedDirection, collisionNormal)) <= CollisionEpsilon)
+            {
+                return sweepIndoorSphereAgainstFaceBoundary(
+                    sphere,
+                    normalizedDirection,
+                    moveDistance,
+                    geometry,
+                    options);
+            }
+
             return std::nullopt;
         }
     }

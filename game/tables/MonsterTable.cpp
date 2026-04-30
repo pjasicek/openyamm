@@ -867,6 +867,36 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
     return !m_statsById.empty();
 }
 
+bool MonsterTable::loadDeathDropsFromRows(const std::vector<std::vector<std::string>> &rows)
+{
+    m_deathDropsByMonsterId.clear();
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        if (row.size() < 6 || !isNumericString(trimCopy(row[0])))
+        {
+            continue;
+        }
+
+        MonsterDeathDropEntry entry = {};
+        entry.monsterId = std::stoi(trimCopy(row[0]));
+        entry.monsterName = trimCopy(row[1]);
+        entry.itemId = static_cast<uint32_t>(std::stoul(trimCopy(row[2])));
+        entry.itemName = trimCopy(row[3]);
+        entry.chancePercent = std::clamp(std::stoi(trimCopy(row[4])), 0, 100);
+        entry.description = trimCopy(row[5]);
+
+        if (entry.monsterId <= 0 || entry.itemId == 0 || entry.chancePercent <= 0)
+        {
+            continue;
+        }
+
+        m_deathDropsByMonsterId[entry.monsterId].push_back(std::move(entry));
+    }
+
+    return true;
+}
+
 bool MonsterTable::loadRelationsFromRows(const std::vector<std::vector<std::string>> &rows)
 {
     m_relationLabels.clear();
@@ -987,6 +1017,14 @@ const MonsterTable::MonsterStatsEntry *MonsterTable::findStatsById(int16_t monst
 {
     const auto iterator = m_statsById.find(monsterId);
     return iterator != m_statsById.end() ? &iterator->second : nullptr;
+}
+
+const std::vector<MonsterTable::MonsterDeathDropEntry> &MonsterTable::deathDropsForMonsterId(
+    int16_t monsterId) const
+{
+    static const std::vector<MonsterDeathDropEntry> EmptyDrops = {};
+    const auto iterator = m_deathDropsByMonsterId.find(monsterId);
+    return iterator != m_deathDropsByMonsterId.end() ? iterator->second : EmptyDrops;
 }
 
 const MonsterTable::MonsterStatsEntry *MonsterTable::findStatsByPictureName(const std::string &pictureName) const

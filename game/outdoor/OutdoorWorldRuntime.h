@@ -987,6 +987,13 @@ private:
         std::string &objectName,
         std::string &objectSpriteName) const;
     void materializeMapDeltaWorldItems();
+    void spawnMonsterDeathDropsForActor(const MapActorState &actor);
+    bool spawnMonsterDeathDropWorldItem(
+        const InventoryItem &item,
+        float x,
+        float y,
+        float z,
+        uint32_t seed);
     void updateWorldItems(float deltaSeconds);
     void updateFireSpikeTraps(float deltaSeconds, float partyX, float partyY, float partyZ);
     void applyFireSpikeTrapTriggerResult(

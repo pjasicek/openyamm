@@ -1532,6 +1532,21 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
         return false;
     }
 
+    std::vector<std::vector<std::string>> monsterDeathDropRows;
+
+    const std::string monsterDeathDropPath = dataTablePath("monster_death_drops.txt");
+
+    if (!loadTextTableRows(assetFileSystem, monsterDeathDropPath, monsterDeathDropRows))
+    {
+        return false;
+    }
+
+    if (!m_monsterTable.loadDeathDropsFromRows(monsterDeathDropRows))
+    {
+        std::cerr << "Failed to parse monster death drops: " << monsterDeathDropPath << '\n';
+        return false;
+    }
+
     std::vector<std::vector<std::string>> placedMonsterRows;
 
     const std::string placeMonPath = englishDataTablePath("place_mon.txt");
