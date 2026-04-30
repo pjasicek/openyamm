@@ -117,7 +117,6 @@ public:
     void reopenMenuScreen();
     bool requestQuickSave();
     void setSettingsSnapshot(const GameSettings &settings);
-    void dumpDebugBModelRenderStateToConsole(uint32_t cogNumber) const;
 
 private:
     friend struct GameApplicationTestAccess;
@@ -618,34 +617,12 @@ private:
     bool m_showSpawns;
     bool m_showGameplayHud;
     bool m_renderGameplayUiThisFrame;
-    bool m_showDebugHud;
-    bool m_inspectMode;
     bool m_walkSoundEnabled = true;
     bool m_showHitStatusMessages = true;
     bool m_flipOnExitEnabled = false;
     bool m_isRotatingCamera;
     float m_lastMouseX;
     float m_lastMouseY;
-    bool m_toggleFilledLatch;
-    bool m_toggleWireframeLatch;
-    bool m_toggleBModelsLatch;
-    bool m_toggleBModelWireframeLatch;
-    bool m_toggleBModelCollisionFacesLatch;
-    bool m_toggleActorCollisionBoxesLatch;
-    bool m_toggleDecorationBillboardsLatch;
-    bool m_toggleActorsLatch;
-    bool m_toggleSpriteObjectsLatch;
-    bool m_toggleEntitiesLatch;
-    bool m_toggleSpawnsLatch;
-    bool m_toggleGameplayHudLatch;
-    bool m_toggleDebugHudLatch;
-    bool m_toggleTextureFilteringLatch;
-    bool m_toggleInspectLatch;
-    bool m_triggerMeteorLatch;
-    bool m_dumpGameplayStateLatch;
-    bool m_toggleFlyingLatch;
-    bool m_toggleWaterWalkLatch;
-    bool m_toggleFeatherFallLatch;
     GameSession &m_gameSession;
     uint64_t m_lastAdventurersInnPortraitClickTicks;
     std::optional<size_t> m_lastAdventurersInnPortraitClickedIndex;

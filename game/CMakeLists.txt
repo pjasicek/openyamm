@@ -38,7 +38,6 @@ add_executable(openyamm
     gameplay/GameplayActorAiSystem.cpp
     gameplay/GameplayActorService.cpp
     gameplay/GameplayDialogController.cpp
-    gameplay/GameplayDebugDumper.cpp
     gameplay/GameplayDialogUiFlow.cpp
     gameplay/GameplayFxService.cpp
     gameplay/GameplayHeldItemController.cpp

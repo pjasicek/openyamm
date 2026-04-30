@@ -52,7 +52,6 @@ private:
     bool initializeSelectedMapRuntime(bool initializeView);
     bool initializeRenderer();
     void shutdownRenderer();
-    bool reloadSelectedMap();
     Party &ensureSessionPartyState();
     void bindPartyDependencies(Party &party) const;
     void synchronizeSessionFromRuntime();
@@ -60,7 +59,6 @@ private:
         bool initializeView,
         const std::function<void(int)> &progressCallback = {});
     bool applyCurrentSessionToRuntime(bool initializeView);
-    void syncMapPickerToSelectedMap();
     bool processPendingMapMove();
     bool processPendingWinGame();
     bool processPendingEventMovie();
@@ -76,7 +74,6 @@ private:
     bool respawnPartyAfterDefeat(bool initializeView);
     void captureCurrentSceneState();
     void restoreSavedOutdoorWorldStateForSelectedMap();
-    void updateMapPickerInput();
     void updateQuickSaveInput();
     bool processPendingQuickSaveInput();
     bool quickSave();
@@ -107,7 +104,6 @@ private:
     void applyStartupDebugSettingsToActiveRuntime();
     void requestApplicationQuit() const;
     void reportQuickSaveStatus(const std::string &status);
-    void renderMapPickerOverlay() const;
     void handleSdlEvent(const SDL_Event &event);
     bool handlePendingInputPromptSdlEvent(const SDL_Event &event);
     bool pendingInputPromptActive() const;
@@ -136,10 +132,6 @@ private:
     std::unique_ptr<OutdoorWorldRuntime> m_pOutdoorWorldRuntime;
     std::unique_ptr<IMapSceneRuntime> m_pMapSceneRuntime;
     const Engine::AssetFileSystem *m_pAssetFileSystem;
-    size_t m_mapPickerIndex;
-    bool m_showMapPicker;
-    bool m_pickerToggleLatch;
-    bool m_pickerApplyLatch;
     bool m_quickSaveLatch = false;
     bool m_quickLoadLatch = false;
     bool m_advanceTimeLatch = false;
@@ -147,8 +139,6 @@ private:
     bool m_pendingQuickLoad = false;
     bool m_pendingAdvanceTime = false;
     bool m_bootSeededDwiOnNextRendererInit = false;
-    uint64_t m_pickerNextUpRepeatTick;
-    uint64_t m_pickerNextDownRepeatTick;
     std::unique_ptr<LoadingOverlayScreen> m_pLoadingOverlayScreen;
     std::string m_loadingOverlayBackgroundTextureName;
     LoadingOverlayScreen::Presentation m_loadingOverlayPresentation = LoadingOverlayScreen::Presentation::Fullscreen;

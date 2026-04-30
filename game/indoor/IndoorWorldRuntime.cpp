@@ -2476,9 +2476,8 @@ IndoorWorldRuntime::MapActorAiState buildIndoorMapActorAiState(
         pMonsterEntry != nullptr && pMonsterEntry->toHitRadius > 0
             ? static_cast<uint16_t>(pMonsterEntry->toHitRadius)
             : state.collisionRadius;
-    state.movementSpeed = actor.moveSpeed != 0
-        ? actor.moveSpeed
-        : pMonsterEntry != nullptr ? pMonsterEntry->movementSpeed : uint16_t(pStats != nullptr ? pStats->speed : 0);
+    state.movementSpeed = static_cast<uint16_t>(
+        pStats != nullptr ? pStats->speed : actor.moveSpeed);
     state.hostileToParty = hostileToParty;
     state.hasDetectedParty = defaultActorHasDetectedParty(actor, hostileToParty);
     state.motionState = actor.hp <= 0 ? ActorAiMotionState::Dead : ActorAiMotionState::Standing;
@@ -5442,14 +5441,16 @@ void IndoorWorldRuntime::applyIndoorActorMovementIntegration(
         moveState.verticalVelocity = aiState.velocityZ;
     }
 
+    const float movementIntentSpeed =
+        update.movementIntent.moveSpeed > 0.0f ? update.movementIntent.moveSpeed : effectiveMoveSpeed;
     const bool actorCanFly = pStats->canFly;
     if (actorCanFly)
     {
-        moveState.verticalVelocity = update.movementIntent.desiredMoveZ * effectiveMoveSpeed;
+        moveState.verticalVelocity = update.movementIntent.desiredMoveZ * movementIntentSpeed;
     }
 
-    const float desiredVelocityX = update.movementIntent.desiredMoveX * effectiveMoveSpeed;
-    const float desiredVelocityY = update.movementIntent.desiredMoveY * effectiveMoveSpeed;
+    const float desiredVelocityX = update.movementIntent.desiredMoveX * movementIntentSpeed;
+    const float desiredVelocityY = update.movementIntent.desiredMoveY * movementIntentSpeed;
     std::vector<size_t> contactedActorIndices;
     IndoorMoveDebugInfo moveDebugInfo = {};
     const IndoorMoveState resolvedMoveState =
@@ -7437,7 +7438,7 @@ bool IndoorWorldRuntime::summonFriendlyMonsterById(
         actor.monsterId = int16_t(pStats->id);
         actor.radius = pMonsterEntry->radius;
         actor.height = pMonsterEntry->height;
-        actor.moveSpeed = pMonsterEntry->movementSpeed;
+        actor.moveSpeed = static_cast<uint16_t>(pStats->speed);
         actor.x = int(std::lround(x + std::cos(angleRadians) * radius));
         actor.y = int(std::lround(y + std::sin(angleRadians) * radius));
         actor.z = int(std::lround(z));
@@ -9185,7 +9186,7 @@ bool IndoorWorldRuntime::summonMonsters(
         actor.monsterId = static_cast<int16_t>(pStats->id);
         actor.radius = pMonsterEntry->radius;
         actor.height = pMonsterEntry->height;
-        actor.moveSpeed = pMonsterEntry->movementSpeed;
+        actor.moveSpeed = static_cast<uint16_t>(pStats->speed);
         actor.x = x + static_cast<int>(std::lround(std::cos(angleRadians) * radius));
         actor.y = y + static_cast<int>(std::lround(std::sin(angleRadians) * radius));
         actor.z = z;
@@ -10017,11 +10018,6 @@ void IndoorWorldRuntime::activateChestView(uint32_t chestId)
     }
 
     m_activeChestView = *m_materializedChestViews[chestId];
-    std::cout << "Chest activate world=indoor chest=" << chestId
-              << " cached=" << (cached ? "yes" : "no")
-              << " visible=" << m_activeChestView->items.size()
-              << " hidden=" << m_activeChestView->hiddenItems.size()
-              << '\n';
 }
 
 bool IndoorWorldRuntime::attemptOpenChest(uint32_t chestId)
@@ -10164,15 +10160,11 @@ void IndoorWorldRuntime::spawnChestTrapVisual(
 {
     if (m_pGameplayProjectileService == nullptr || trapResult.trapObjectId == 0)
     {
-        std::cout << "Chest trap visual indoor skipped reason=missing_service_or_object"
-                  << " objectId=" << trapResult.trapObjectId << '\n';
         return;
     }
 
     if (m_pObjectTable == nullptr)
     {
-        std::cout << "Chest trap visual indoor skipped reason=missing_object_table"
-                  << " objectId=" << trapResult.trapObjectId << '\n';
         return;
     }
 
@@ -10181,8 +10173,6 @@ void IndoorWorldRuntime::spawnChestTrapVisual(
 
     if (!objectDescriptionId)
     {
-        std::cout << "Chest trap visual indoor skipped reason=object_id_not_found"
-                  << " objectId=" << trapResult.trapObjectId << '\n';
         return;
     }
 
@@ -10199,14 +10189,7 @@ void IndoorWorldRuntime::spawnChestTrapVisual(
     projectile.z = point.z;
     projectile.damageType = trapResult.damageType;
 
-    const bool spawned = spawnIndoorProjectileImpactVisual(projectile, point, true);
-    std::cout << "Chest trap visual indoor"
-              << " objectId=" << trapResult.trapObjectId
-              << " objectDescriptionId=" << *objectDescriptionId
-              << " spawned=" << (spawned ? "yes" : "no")
-              << " impactCount=" << m_pGameplayProjectileService->projectileImpactCount()
-              << " pos=(" << point.x << ", " << point.y << ", " << point.z << ")"
-              << '\n';
+    spawnIndoorProjectileImpactVisual(projectile, point, true);
 }
 
 std::optional<GameplayWorldPoint> IndoorWorldRuntime::actorImpactPoint(size_t actorIndex) const
@@ -10677,7 +10660,7 @@ void IndoorWorldRuntime::materializeInitialMonsterSpawns()
             actor.monsterId = static_cast<int16_t>(pStats->id);
             actor.radius = pMonsterEntry->radius;
             actor.height = pMonsterEntry->height;
-            actor.moveSpeed = pMonsterEntry->movementSpeed;
+            actor.moveSpeed = static_cast<uint16_t>(pStats->speed);
             actor.x = static_cast<int>(std::lround(spawnPosition.position.x));
             actor.y = static_cast<int>(std::lround(spawnPosition.position.y));
             actor.z = static_cast<int>(std::lround(spawnPosition.position.z));

@@ -12,7 +12,6 @@
 #include <cmath>
 #include <cstring>
 #include <functional>
-#include <iostream>
 #include <limits>
 #include <numeric>
 #include <optional>
@@ -330,100 +329,6 @@ int sampleRemappedTreasureLevel(int itemTreasureLevel, int mapTreasureLevel, std
 {
     const auto [minimumLevel, maximumLevel] = remapTreasureLevelRange(itemTreasureLevel, mapTreasureLevel);
     return std::uniform_int_distribution<int>(minimumLevel, maximumLevel)(rng);
-}
-
-void writeChestItemDebug(
-    std::ostream &stream,
-    const GameplayChestItemState &item,
-    const ItemTable *pItemTable)
-{
-    if (item.isGold)
-    {
-        stream << "gold=" << item.goldAmount;
-        return;
-    }
-
-    const uint32_t itemId = item.item.objectDescriptionId != 0 ? item.item.objectDescriptionId : item.itemId;
-    stream << "item=" << itemId;
-
-    const ItemDefinition *pItemDefinition = pItemTable != nullptr ? pItemTable->get(itemId) : nullptr;
-
-    if (pItemDefinition != nullptr)
-    {
-        stream << ":\"" << pItemDefinition->name << "\"";
-    }
-
-    stream << "@(" << static_cast<unsigned>(item.gridX)
-           << "," << static_cast<unsigned>(item.gridY)
-           << ") " << static_cast<unsigned>(item.width)
-           << "x" << static_cast<unsigned>(item.height);
-}
-
-void writeChestItemListDebug(
-    std::ostream &stream,
-    const std::vector<GameplayChestItemState> &items,
-    const ItemTable *pItemTable)
-{
-    stream << '[';
-
-    for (size_t itemIndex = 0; itemIndex < items.size(); ++itemIndex)
-    {
-        if (itemIndex > 0)
-        {
-            stream << ", ";
-        }
-
-        writeChestItemDebug(stream, items[itemIndex], pItemTable);
-    }
-
-    stream << ']';
-}
-
-void logChestMaterializationDebug(
-    const GameplayChestViewState &view,
-    const std::vector<int32_t> &rawItemIds,
-    int mapTreasureLevel,
-    int mapId,
-    const ItemTable *pItemTable)
-{
-    std::cout << "Chest populate chest=" << view.chestId
-              << " map=" << mapId
-              << " type=" << view.chestTypeId
-              << " treasure=" << mapTreasureLevel
-              << " grid=" << static_cast<unsigned>(view.gridWidth)
-              << "x" << static_cast<unsigned>(view.gridHeight)
-              << " fixed=[";
-
-    bool wroteFixed = false;
-
-    for (int32_t rawItemId : rawItemIds)
-    {
-        if (rawItemId <= 0)
-        {
-            continue;
-        }
-
-        if (wroteFixed)
-        {
-            std::cout << ", ";
-        }
-
-        std::cout << rawItemId;
-        const ItemDefinition *pItemDefinition = pItemTable != nullptr ? pItemTable->get(static_cast<uint32_t>(rawItemId)) : nullptr;
-
-        if (pItemDefinition != nullptr)
-        {
-            std::cout << ":\"" << pItemDefinition->name << "\"";
-        }
-
-        wroteFixed = true;
-    }
-
-    std::cout << "] visible=";
-    writeChestItemListDebug(std::cout, view.items, pItemTable);
-    std::cout << " hidden=";
-    writeChestItemListDebug(std::cout, view.hiddenItems, pItemTable);
-    std::cout << '\n';
 }
 }
 
@@ -751,8 +656,6 @@ GameplayChestViewState buildMaterializedChestView(
 
     placeDeferredItems(guaranteedDeferredItems, true);
     placeDeferredItems(randomDeferredItems, false);
-
-    logChestMaterializationDebug(view, rawItemIds, mapTreasureLevel, mapId, pItemTable);
 
     return view;
 }

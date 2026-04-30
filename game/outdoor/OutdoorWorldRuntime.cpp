@@ -70,7 +70,6 @@ constexpr bool DebugProjectileCollisionLogging = false;
 constexpr bool DebugProjectileLifetimeLogging = false;
 constexpr bool DebugProjectileImpactLogging = false;
 constexpr bool DebugProjectileAoeLogging = false;
-constexpr bool DebugChestPopulateLogging = false;
 constexpr float ActorInertiaVelocityDecay = 0.8392334f;
 constexpr float ActorInertiaReferenceFrameRate = 60.0f;
 constexpr float ActorStopVelocitySquared = 400.0f;
@@ -2041,7 +2040,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
     state.homePreciseZ = static_cast<float>(actor.z);
     state.radius = actor.radius;
     state.height = actor.height;
-    state.moveSpeed = pMonsterEntry != nullptr ? pMonsterEntry->movementSpeed : 0;
+    state.moveSpeed = static_cast<uint16_t>(pStats != nullptr ? pStats->speed : 0);
     GameplayActorService actorService = {};
     const int16_t relationMonsterId = actorService.relationMonsterId(state.monsterId, state.ally);
     state.hostileToParty =
@@ -2995,7 +2994,7 @@ OutdoorWorldRuntime::MapActorState buildSpawnedMapActorState(
     const MonsterEntry *pMonsterEntry = resolveMonsterEntry(monsterTable, state.monsterId, &stats);
     state.radius = pMonsterEntry != nullptr ? pMonsterEntry->radius : 32;
     state.height = pMonsterEntry != nullptr ? pMonsterEntry->height : 128;
-    state.moveSpeed = pMonsterEntry != nullptr ? pMonsterEntry->movementSpeed : 0;
+    state.moveSpeed = static_cast<uint16_t>(stats.speed);
     state.hostileToParty =
         (attributes & ActorAggressorBit) != 0 || monsterTable.isHostileToParty(state.monsterId);
     state.isInvisible = (attributes & ActorInvisibleBit) != 0;
@@ -3608,11 +3607,6 @@ void OutdoorWorldRuntime::activateChestView(uint32_t chestId)
     }
 
     m_activeChestView = *m_materializedChestViews[chestId];
-    std::cout << "Chest activate world=outdoor chest=" << chestId
-              << " cached=" << (cached ? "yes" : "no")
-              << " visible=" << m_activeChestView->items.size()
-              << " hidden=" << m_activeChestView->hiddenItems.size()
-              << '\n';
     pushAudioEvent(
         static_cast<uint32_t>(SoundId::OpenChest),
         chestId,
@@ -3763,15 +3757,11 @@ void OutdoorWorldRuntime::spawnChestTrapVisual(
 {
     if (trapResult.trapObjectId == 0)
     {
-        std::cout << "Chest trap visual outdoor skipped reason=missing_object"
-                  << " objectId=" << trapResult.trapObjectId << '\n';
         return;
     }
 
     if (m_pObjectTable == nullptr)
     {
-        std::cout << "Chest trap visual outdoor skipped reason=missing_object_table"
-                  << " objectId=" << trapResult.trapObjectId << '\n';
         return;
     }
 
@@ -3780,8 +3770,6 @@ void OutdoorWorldRuntime::spawnChestTrapVisual(
 
     if (!objectDescriptionId)
     {
-        std::cout << "Chest trap visual outdoor skipped reason=object_id_not_found"
-                  << " objectId=" << trapResult.trapObjectId << '\n';
         return;
     }
 
@@ -3798,16 +3786,7 @@ void OutdoorWorldRuntime::spawnChestTrapVisual(
     projectile.z = point.z;
     projectile.damageType = trapResult.damageType;
 
-    const size_t previousImpactCount = projectileService().projectileImpactCount();
     spawnProjectileImpact(projectile, point.x, point.y, point.z, true);
-    const size_t currentImpactCount = projectileService().projectileImpactCount();
-    std::cout << "Chest trap visual outdoor"
-              << " objectId=" << trapResult.trapObjectId
-              << " objectDescriptionId=" << *objectDescriptionId
-              << " spawned=" << (currentImpactCount > previousImpactCount ? "yes" : "no")
-              << " impactCount=" << currentImpactCount
-              << " pos=(" << point.x << ", " << point.y << ", " << point.z << ")"
-              << '\n';
 }
 
 void OutdoorWorldRuntime::initialize(
@@ -5982,7 +5961,7 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
     facts.stats.armorClass = effectiveMapActorArmorClass(actorIndex);
     facts.stats.radius = actor.radius;
     facts.stats.height = actor.height;
-    facts.stats.moveSpeed = actor.moveSpeed > 0 ? actor.moveSpeed : static_cast<uint16_t>(pStats->speed);
+    facts.stats.moveSpeed = static_cast<uint16_t>(pStats->speed);
     facts.stats.canFly = pStats->canFly;
     facts.stats.hasSpell1 = pStats->hasSpell1;
     facts.stats.hasSpell2 = pStats->hasSpell2;
@@ -6147,7 +6126,7 @@ std::optional<ActorAiFacts> OutdoorWorldRuntime::collectOutdoorActorAiFacts(
 
         facts.movement.effectiveMoveSpeed =
             pActorService->effectiveActorMoveSpeed(
-                actor.moveSpeed,
+                pStats->speed,
                 pStats->speed,
                 actor.slowMoveMultiplier,
                 actor.darkGraspRemainingSeconds > 0.0f);
@@ -12611,113 +12590,6 @@ bool OutdoorWorldRuntime::setFacetBit(uint32_t cogNumber, uint32_t bit, bool isO
     }
 
     return matchedAny;
-}
-
-void OutdoorWorldRuntime::dumpDebugFacetCogStateToConsole(uint32_t cogNumber) const
-{
-    const uint32_t invisibleBit = faceAttributeBit(FaceAttribute::Invisible);
-    const uint32_t untouchableBit = faceAttributeBit(FaceAttribute::Untouchable);
-    const uint32_t pendingSetMask =
-        m_eventRuntimeState && m_eventRuntimeState->facetSetMasks.contains(cogNumber)
-            ? m_eventRuntimeState->facetSetMasks.at(cogNumber)
-            : 0u;
-    const uint32_t pendingClearMask =
-        m_eventRuntimeState && m_eventRuntimeState->facetClearMasks.contains(cogNumber)
-            ? m_eventRuntimeState->facetClearMasks.at(cogNumber)
-            : 0u;
-
-    size_t matchedFaces = 0;
-    size_t texturedFaces = 0;
-    size_t baseInvisibleFaces = 0;
-    size_t currentInvisibleFaces = 0;
-    size_t baseUntouchableFaces = 0;
-    size_t currentUntouchableFaces = 0;
-    size_t flattenedFaceIndex = 0;
-    size_t sampleCount = 0;
-
-    std::cout << "F5 Outdoor facet cog=" << cogNumber
-              << " onload.local=" << (m_eventRuntimeState ? m_eventRuntimeState->localOnLoadEventsExecuted : 0u)
-              << " onload.global=" << (m_eventRuntimeState ? m_eventRuntimeState->globalOnLoadEventsExecuted : 0u)
-              << " surfaceRevision=" << (m_pOutdoorMapDeltaData != nullptr ? m_pOutdoorMapDeltaData->surfaceRevision : 0u)
-              << " faceAttributes.count="
-              << (m_pOutdoorMapDeltaData != nullptr ? m_pOutdoorMapDeltaData->faceAttributes.size() : 0u)
-              << " pending.set=0x" << std::hex << pendingSetMask
-              << " pending.clear=0x" << pendingClearMask << std::dec
-              << '\n';
-
-    if (m_pOutdoorMapData == nullptr)
-    {
-        std::cout << "  outdoor map data missing\n";
-        return;
-    }
-
-    for (size_t bModelIndex = 0; bModelIndex < m_pOutdoorMapData->bmodels.size(); ++bModelIndex)
-    {
-        const OutdoorBModel &bmodel = m_pOutdoorMapData->bmodels[bModelIndex];
-
-        for (size_t faceIndex = 0; faceIndex < bmodel.faces.size(); ++faceIndex, ++flattenedFaceIndex)
-        {
-            const OutdoorBModelFace &face = bmodel.faces[faceIndex];
-
-            if (face.cogNumber != cogNumber)
-            {
-                continue;
-            }
-
-            ++matchedFaces;
-
-            if (!face.textureName.empty())
-            {
-                ++texturedFaces;
-            }
-
-            const uint32_t baseAttributes = face.attributes;
-            const uint32_t currentAttributes =
-                m_pOutdoorMapDeltaData != nullptr && flattenedFaceIndex < m_pOutdoorMapDeltaData->faceAttributes.size()
-                    ? m_pOutdoorMapDeltaData->faceAttributes[flattenedFaceIndex]
-                    : baseAttributes;
-
-            if ((baseAttributes & invisibleBit) != 0)
-            {
-                ++baseInvisibleFaces;
-            }
-
-            if ((currentAttributes & invisibleBit) != 0)
-            {
-                ++currentInvisibleFaces;
-            }
-
-            if ((baseAttributes & untouchableBit) != 0)
-            {
-                ++baseUntouchableFaces;
-            }
-
-            if ((currentAttributes & untouchableBit) != 0)
-            {
-                ++currentUntouchableFaces;
-            }
-
-            if (sampleCount < 16)
-            {
-                std::cout << "  faceId=" << flattenedFaceIndex
-                          << " bmodel=" << bModelIndex
-                          << " face=" << faceIndex
-                          << " texture=\"" << face.textureName << '"'
-                          << " base=0x" << std::hex << baseAttributes
-                          << " current=0x" << currentAttributes << std::dec
-                          << '\n';
-                ++sampleCount;
-            }
-        }
-    }
-
-    std::cout << "  matched=" << matchedFaces
-              << " textured=" << texturedFaces
-              << " base.invisible=" << baseInvisibleFaces
-              << " current.invisible=" << currentInvisibleFaces
-              << " base.untouchable=" << baseUntouchableFaces
-              << " current.untouchable=" << currentUntouchableFaces
-              << '\n';
 }
 
 EventRuntimeState *OutdoorWorldRuntime::eventRuntimeState()

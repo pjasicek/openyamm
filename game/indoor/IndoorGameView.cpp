@@ -3,7 +3,6 @@
 #include "engine/BgfxContext.h"
 #include "game/app/GameSession.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
-#include "game/gameplay/GameplayDebugDumper.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayInputFrame.h"
 #include "game/gameplay/GameplayHeldItemController.h"
@@ -17,7 +16,6 @@
 #include "game/indoor/IndoorRenderer.h"
 #include "game/party/SkillData.h"
 #include "game/party/SpellSchool.h"
-#include "game/render/TextureFiltering.h"
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/ui/GameplayDebugOverlayRenderer.h"
 #include "game/ui/GameplayDialogueRenderer.h"
@@ -927,19 +925,6 @@ void IndoorGameView::render(int width, int height, const GameplayInputFrame &inp
     m_lastRenderWidth = width;
     m_lastRenderHeight = height;
     m_renderGameplayUiThisFrame = true;
-
-    if (input.isScancodeHeld(SDL_SCANCODE_F5))
-    {
-        if (!m_dumpGameplayStateLatch)
-        {
-            GameplayDebugDumper::dumpStateToConsole(m_gameSession);
-            m_dumpGameplayStateLatch = true;
-        }
-    }
-    else
-    {
-        m_dumpGameplayStateLatch = false;
-    }
 
     GameplayHudRenderBackend hudRenderBackend = {};
     bgfx::ProgramHandle invalidProgramHandle = BGFX_INVALID_HANDLE;

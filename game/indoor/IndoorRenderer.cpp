@@ -33,7 +33,6 @@
 #include <iostream>
 #include <iterator>
 #include <limits>
-#include <sstream>
 #include <string>
 #include <unordered_map>
 #include <utility>
@@ -1161,43 +1160,6 @@ bool triangulateFaceProjected(
     return !triangleVertexOrders.empty();
 }
 
-std::string summarizeLinkedEvent(
-    uint16_t eventId,
-    const std::optional<HouseTable> &houseTable,
-    const std::optional<ScriptedEventProgram> &localEventProgram,
-    const std::optional<ScriptedEventProgram> &globalEventProgram
-)
-{
-    static_cast<void>(houseTable);
-
-    if (eventId == 0)
-    {
-        return "-";
-    }
-
-    if (localEventProgram)
-    {
-        const std::optional<std::string> summary = localEventProgram->summarizeEvent(eventId);
-
-        if (summary)
-        {
-            return "L:" + *summary;
-        }
-    }
-
-    if (globalEventProgram)
-    {
-        const std::optional<std::string> summary = globalEventProgram->summarizeEvent(eventId);
-
-        if (summary)
-        {
-            return "G:" + *summary;
-        }
-    }
-
-    return std::to_string(eventId) + ":unresolved";
-}
-
 std::optional<std::string> resolveIndoorEventHintText(
     const IndoorSceneRuntime *pSceneRuntime,
     uint16_t eventId)
@@ -1254,87 +1216,6 @@ bool indoorFaceIsInteractionActivatable(uint32_t attributes, uint16_t eventId)
         && hasFaceAttribute(attributes, FaceAttribute::Clickable)
         && !hasFaceAttribute(attributes, FaceAttribute::HasHint)
         && !hasFaceAttribute(attributes, FaceAttribute::Invisible);
-}
-
-size_t countChestItemSlots(const MapDeltaChest &chest)
-{
-    size_t occupiedSlots = 0;
-
-    for (int16_t itemIndex : chest.inventoryMatrix)
-    {
-        if (itemIndex > 0)
-        {
-            ++occupiedSlots;
-        }
-    }
-
-    return occupiedSlots;
-}
-
-std::string summarizeLinkedChests(
-    uint16_t eventId,
-    const std::optional<MapDeltaData> &mapDeltaData,
-    const std::optional<ChestTable> &chestTable,
-    const std::optional<ScriptedEventProgram> &localEventProgram,
-    const std::optional<ScriptedEventProgram> &globalEventProgram
-)
-{
-    if (eventId == 0 || !mapDeltaData || !chestTable)
-    {
-        return {};
-    }
-
-    std::vector<uint32_t> chestIds;
-
-    if (localEventProgram && localEventProgram->hasEvent(eventId))
-    {
-        chestIds = localEventProgram->getOpenedChestIds(eventId);
-    }
-    else if (globalEventProgram && globalEventProgram->hasEvent(eventId))
-    {
-        chestIds = globalEventProgram->getOpenedChestIds(eventId);
-    }
-
-    if (chestIds.empty())
-    {
-        return {};
-    }
-
-    std::string summary = "Chest:";
-    const size_t chestCount = std::min<size_t>(chestIds.size(), 2);
-
-    for (size_t chestIndex = 0; chestIndex < chestCount; ++chestIndex)
-    {
-        const uint32_t chestId = chestIds[chestIndex];
-        summary += " #" + std::to_string(chestId);
-
-        if (chestId >= mapDeltaData->chests.size())
-        {
-            summary += ":out";
-            continue;
-        }
-
-        const MapDeltaChest &chest = mapDeltaData->chests[chestId];
-        const ChestEntry *pEntry = chestTable->get(chest.chestTypeId);
-        summary += ":" + std::to_string(chest.chestTypeId);
-
-        if (pEntry != nullptr && !pEntry->name.empty())
-        {
-            summary += ":" + pEntry->name;
-        }
-
-        std::ostringstream flagsStream;
-        flagsStream << std::hex << chest.flags;
-        summary += " f=0x" + flagsStream.str();
-        summary += " s=" + std::to_string(countChestItemSlots(chest));
-    }
-
-    if (chestIds.size() > chestCount)
-    {
-        summary += " ...";
-    }
-
-    return summary;
 }
 
 bool intersectRayTriangle(

@@ -738,12 +738,6 @@ GameApplication::GameApplication(const Engine::ApplicationConfig &config)
     , m_indoorGameView(m_gameSession)
     , m_outdoorGameView(m_gameSession)
     , m_pAssetFileSystem(nullptr)
-    , m_mapPickerIndex(0)
-    , m_showMapPicker(false)
-    , m_pickerToggleLatch(false)
-    , m_pickerApplyLatch(false)
-    , m_pickerNextUpRepeatTick(0)
-    , m_pickerNextDownRepeatTick(0)
     , m_lastFrameWidth(config.windowWidth)
     , m_lastFrameHeight(config.windowHeight)
 {
@@ -940,7 +934,6 @@ void GameApplication::finishPendingInputPrompt(bool accepted)
     if (!accepted)
     {
         m_skipGameplayUpdateUntilPromptSubmitKeysReleased = true;
-        std::cout << "AskQuestion submit cancelled event=" << prompt.eventId << '\n';
         return;
     }
 
@@ -949,16 +942,9 @@ void GameApplication::finishPendingInputPrompt(bool accepted)
     bool matchedAnswer = false;
     const std::vector<std::string> answers = resolvePendingInputAnswers(prompt);
 
-    std::cout << "AskQuestion submit event=" << prompt.eventId
-              << " wrongStep=" << static_cast<unsigned>(prompt.continueStep)
-              << " correctStep=" << static_cast<unsigned>(prompt.correctStep)
-              << " input=\"" << normalizedInput
-              << "\" answers=" << answers.size();
-
     for (const std::string &answer : answers)
     {
         const std::string normalizedAnswer = normalizePromptAnswer(answer);
-        std::cout << " [\"" << normalizedAnswer << "\"]";
 
         if (!answer.empty() && normalizedAnswer == normalizedInput)
         {
@@ -997,19 +983,6 @@ void GameApplication::finishPendingInputPrompt(bool accepted)
     }
 
     m_skipGameplayUpdateUntilPromptSubmitKeysReleased = true;
-    std::cout << " matched=" << (matchedAnswer ? "yes" : "no")
-              << " resumeStep=" << static_cast<unsigned>(continueStep)
-              << " executed=" << (executed ? "yes" : "no")
-              << " previousMessages=" << previousMessageCount
-              << " currentMessages=" << pRuntimeState->messages.size()
-              << " promptAfter=" << (pRuntimeState->pendingInputPrompt ? "yes" : "no");
-
-    if (pRuntimeState->pendingDialogueContext)
-    {
-        std::cout << " dialogContextSource=" << pRuntimeState->pendingDialogueContext->sourceId;
-    }
-
-    std::cout << '\n';
 
     if (executed)
     {
@@ -1030,11 +1003,6 @@ void GameApplication::presentPendingInputPromptDialogResult(size_t previousMessa
     const MapStatsEntry *pCurrentMap =
         m_gameDataLoader.getMapStats().findByFileName(m_gameSession.currentMapFileName());
 
-    std::cout << "AskQuestion present dialog previousMessages=" << previousMessageCount
-              << " totalMessages=" << pRuntimeState->messages.size()
-              << " activeBefore=" << (m_gameSession.gameplayScreenRuntime().activeEventDialog().isActive ? "yes" : "no")
-              << '\n';
-
     m_gameSession.gameplayScreenRuntime().activeEventDialog() = buildEventDialogContent(
         *pRuntimeState,
         previousMessageCount,
@@ -1050,11 +1018,6 @@ void GameApplication::presentPendingInputPromptDialogResult(size_t previousMessa
         pWorldRuntime,
         pWorldRuntime->gameMinutes());
 
-    std::cout << "AskQuestion dialog lines="
-              << m_gameSession.gameplayScreenRuntime().activeEventDialog().lines.size()
-              << " actions=" << m_gameSession.gameplayScreenRuntime().activeEventDialog().actions.size()
-              << " promptAfterBuild=" << (pRuntimeState->pendingInputPrompt ? "yes" : "no")
-              << '\n';
 }
 
 std::vector<std::string> GameApplication::resolvePendingInputAnswers(
@@ -1191,21 +1154,11 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
         return false;
     }
 
-    const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();
     const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
 
-    if (!entries.empty() && selectedMap)
+    if (selectedMap)
     {
         m_gameSession.setCurrentMapFileName(selectedMap->map.fileName);
-
-        for (size_t mapIndex = 0; mapIndex < entries.size(); ++mapIndex)
-        {
-            if (entries[mapIndex].id == selectedMap->map.id)
-            {
-                m_mapPickerIndex = mapIndex;
-                break;
-            }
-        }
     }
 
     applyCurrentSettingsToActiveRuntime();
@@ -1624,8 +1577,6 @@ bool GameApplication::loadCurrentSessionMap(
         progressCallback(90);
     }
 
-    syncMapPickerToSelectedMap();
-
     if (progressCallback)
     {
         progressCallback(100);
@@ -1775,26 +1726,6 @@ bool GameApplication::applyCurrentSessionToRuntime(bool initializeView)
     return true;
 }
 
-void GameApplication::syncMapPickerToSelectedMap()
-{
-    const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();
-    const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
-
-    if (!selectedMap)
-    {
-        return;
-    }
-
-    for (size_t mapIndex = 0; mapIndex < entries.size(); ++mapIndex)
-    {
-        if (entries[mapIndex].id == selectedMap->map.id)
-        {
-            m_mapPickerIndex = mapIndex;
-            break;
-        }
-    }
-}
-
 void GameApplication::captureCurrentSceneState()
 {
     synchronizeSessionFromRuntime();
@@ -1829,30 +1760,6 @@ void GameApplication::shutdownRenderer()
     m_pMapSceneRuntime.reset();
     m_pOutdoorPartyRuntime.reset();
     m_pOutdoorWorldRuntime.reset();
-}
-
-bool GameApplication::reloadSelectedMap()
-{
-    if (m_pAssetFileSystem == nullptr)
-    {
-        return false;
-    }
-
-    captureCurrentSceneState();
-
-    const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();
-
-    if (entries.empty() || m_mapPickerIndex >= entries.size())
-    {
-        return false;
-    }
-
-    if (!m_gameDataLoader.loadMapById(*m_pAssetFileSystem, entries[m_mapPickerIndex].id))
-    {
-        return false;
-    }
-
-    return initializeRenderer();
 }
 
 void GameApplication::updateQuickSaveInput()
@@ -2316,148 +2223,9 @@ void GameApplication::requestApplicationQuit() const
 
 void GameApplication::reportQuickSaveStatus(const std::string &status)
 {
-    std::cout << status << '\n';
-
     if (EventRuntimeState *pEventRuntimeState = m_gameplayController.eventRuntimeState())
     {
         pEventRuntimeState->lastActivationResult = status;
-    }
-}
-
-void GameApplication::updateMapPickerInput()
-{
-    constexpr uint64_t InitialRepeatDelayMs = 300;
-    constexpr uint64_t HeldRepeatIntervalMs = 70;
-
-    const GameplayInputFrame &inputFrame = m_gameInputSystem.frame();
-
-    if (inputFrame.isScancodeHeld(SDL_SCANCODE_F8))
-    {
-        if (!m_pickerToggleLatch)
-        {
-            m_showMapPicker = !m_showMapPicker;
-            m_pickerToggleLatch = true;
-        }
-    }
-    else
-    {
-        m_pickerToggleLatch = false;
-    }
-
-    if (!m_showMapPicker)
-    {
-        m_pickerApplyLatch = false;
-        m_pickerNextUpRepeatTick = 0;
-        m_pickerNextDownRepeatTick = 0;
-        return;
-    }
-
-    const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();
-
-    if (entries.empty())
-    {
-        return;
-    }
-
-    const uint64_t currentTickCount = SDL_GetTicks();
-
-    if (inputFrame.isScancodeHeld(SDL_SCANCODE_UP))
-    {
-        if (m_pickerNextUpRepeatTick == 0 || currentTickCount >= m_pickerNextUpRepeatTick)
-        {
-            m_mapPickerIndex = (m_mapPickerIndex == 0) ? (entries.size() - 1) : (m_mapPickerIndex - 1);
-            m_pickerNextUpRepeatTick = (m_pickerNextUpRepeatTick == 0)
-                ? (currentTickCount + InitialRepeatDelayMs)
-                : (currentTickCount + HeldRepeatIntervalMs);
-        }
-    }
-    else
-    {
-        m_pickerNextUpRepeatTick = 0;
-    }
-
-    if (inputFrame.isScancodeHeld(SDL_SCANCODE_DOWN))
-    {
-        if (m_pickerNextDownRepeatTick == 0 || currentTickCount >= m_pickerNextDownRepeatTick)
-        {
-            m_mapPickerIndex = (m_mapPickerIndex + 1) % entries.size();
-            m_pickerNextDownRepeatTick = (m_pickerNextDownRepeatTick == 0)
-                ? (currentTickCount + InitialRepeatDelayMs)
-                : (currentTickCount + HeldRepeatIntervalMs);
-        }
-    }
-    else
-    {
-        m_pickerNextDownRepeatTick = 0;
-    }
-
-    if (inputFrame.isScancodeHeld(SDL_SCANCODE_RETURN))
-    {
-        if (!m_pickerApplyLatch)
-        {
-            const bool reloadSucceeded = reloadSelectedMap();
-            (void)reloadSucceeded;
-            m_pickerApplyLatch = true;
-        }
-    }
-    else
-    {
-        m_pickerApplyLatch = false;
-    }
-}
-
-void GameApplication::renderMapPickerOverlay() const
-{
-    if (!m_showMapPicker)
-    {
-        return;
-    }
-
-    const std::vector<MapStatsEntry> &entries = m_gameDataLoader.getMapStats().getEntries();
-    const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
-    bgfx::dbgTextPrintf(0, 13, 0x0f, "Map Picker: Up/Down select  Enter load  F8 close");
-
-    if (selectedMap)
-    {
-        bgfx::dbgTextPrintf(
-            0,
-            14,
-            0x0f,
-            "Current: %d %s (%s)",
-            selectedMap->map.id,
-            selectedMap->map.name.c_str(),
-            selectedMap->map.fileName.c_str()
-        );
-    }
-
-    if (entries.empty())
-    {
-        bgfx::dbgTextPrintf(0, 15, 0x0c, "No maps available");
-        return;
-    }
-
-    const size_t visibleLineCount = 10;
-    const size_t startIndex = (m_mapPickerIndex > 4) ? (m_mapPickerIndex - 4) : 0;
-    const size_t endIndex = std::min(entries.size(), startIndex + visibleLineCount);
-
-    for (size_t index = startIndex; index < endIndex; ++index)
-    {
-        const MapStatsEntry &entry = entries[index];
-        const bool isHighlighted = index == m_mapPickerIndex;
-        const uint8_t color = isHighlighted ? 0x0e : 0x0f;
-        const char *pKind = entry.isTopLevelArea ? "ODM" : "BLV";
-
-        bgfx::dbgTextPrintf(
-            0,
-            static_cast<uint16_t>(15 + (index - startIndex)),
-            color,
-            "%c %3d %-3s %-28s %s",
-            isHighlighted ? '>' : ' ',
-            entry.id,
-            pKind,
-            entry.name.c_str(),
-            entry.fileName.c_str()
-        );
     }
 }
 
@@ -2487,7 +2255,6 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
     }
 
     updateQuickSaveInput();
-    updateMapPickerInput();
 
     if (processPendingPartyDefeat())
     {
@@ -2625,7 +2392,6 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
             return;
         }
 
-        renderMapPickerOverlay();
         return;
     }
 }

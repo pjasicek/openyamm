@@ -2,7 +2,6 @@
 
 #include "game/StringUtils.h"
 #include "game/audio/SoundIds.h"
-#include "game/events/EvtEnums.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
@@ -14,11 +13,8 @@
 #include <algorithm>
 #include <cmath>
 #include <cstdlib>
-#include <iostream>
 #include <optional>
-#include <sstream>
 #include <string>
-#include <unordered_set>
 #include <utility>
 #include <vector>
 
@@ -35,107 +31,9 @@ constexpr uint32_t TeacherHintTopicIdFirst = 417;
 constexpr uint32_t TeacherHintTopicIdLast = 530;
 constexpr uint32_t TrainerAutoNoteIdFirst = 128;
 constexpr uint32_t HeroismEffectSoundId = 14060;
-constexpr uint32_t DeftclawDragonCaveNpcId = 21;
-constexpr uint32_t DeftclawCouncilNpcId = 66;
 constexpr float MinutesPerDay = 24.0f * 60.0f;
 constexpr float OeYellowAlertDistance = 5120.0f;
 constexpr int OutdoorMapTravelFoodCost = 5;
-
-std::string joinIds(const std::vector<uint32_t> &ids)
-{
-    std::ostringstream stream;
-    stream << '[';
-
-    for (size_t index = 0; index < ids.size(); ++index)
-    {
-        if (index != 0)
-        {
-            stream << ',';
-        }
-
-        stream << ids[index];
-    }
-
-    stream << ']';
-    return stream.str();
-}
-
-std::vector<uint32_t> sortedIdsFromSet(const std::unordered_set<uint32_t> &ids)
-{
-    std::vector<uint32_t> sortedIds(ids.begin(), ids.end());
-    std::sort(sortedIds.begin(), sortedIds.end());
-    return sortedIds;
-}
-
-bool isDeftclawRedreaverNpc(uint32_t npcId)
-{
-    return npcId == DeftclawDragonCaveNpcId || npcId == DeftclawCouncilNpcId;
-}
-
-void printDeftclawDialogueStateDump(const GameplayDialogController::Context &context, uint32_t npcId)
-{
-    if (!isDeftclawRedreaverNpc(npcId))
-    {
-        return;
-    }
-
-    std::cout << "Deftclaw dialogue state npc=" << npcId;
-
-    if (context.pParty == nullptr)
-    {
-        std::cout << " party=missing\n";
-        return;
-    }
-
-    const Party::Snapshot snapshot = context.pParty->snapshot();
-    const std::vector<uint32_t> qbits = sortedIdsFromSet(snapshot.questBits);
-    std::cout << " activeMember=" << context.pParty->activeMemberIndex()
-              << " qbits.count=" << qbits.size()
-              << " qbits=" << joinIds(qbits)
-              << '\n';
-
-    for (size_t memberIndex = 0; memberIndex < context.pParty->members().size(); ++memberIndex)
-    {
-        const Character &member = context.pParty->members()[memberIndex];
-        const std::vector<uint32_t> awards = sortedIdsFromSet(member.awards);
-        std::cout << "Deftclaw dialogue awards member=" << memberIndex
-                  << " name=\"" << member.name << '"'
-                  << " count=" << awards.size()
-                  << " awards=" << joinIds(awards)
-                  << '\n';
-    }
-
-    std::vector<uint32_t> runtimeQBits;
-    std::vector<uint32_t> runtimeAwards;
-
-    for (const auto &[rawId, value] : context.eventRuntimeState.variables)
-    {
-        if (value == 0)
-        {
-            continue;
-        }
-
-        const uint16_t tag = static_cast<uint16_t>(rawId & 0xFFFFu);
-        const uint32_t index = rawId >> 16;
-
-        if (tag == static_cast<uint16_t>(EvtVariable::QBits))
-        {
-            runtimeQBits.push_back(index);
-        }
-        else if (tag == static_cast<uint16_t>(EvtVariable::Awards))
-        {
-            runtimeAwards.push_back(index);
-        }
-    }
-
-    std::sort(runtimeQBits.begin(), runtimeQBits.end());
-    std::sort(runtimeAwards.begin(), runtimeAwards.end());
-    std::cout << "Deftclaw dialogue runtimeVars qbits.count=" << runtimeQBits.size()
-              << " qbits=" << joinIds(runtimeQBits)
-              << " awards.count=" << runtimeAwards.size()
-              << " awards=" << joinIds(runtimeAwards)
-              << '\n';
-}
 
 std::optional<SoundId> soundIdForPortraitFxEvent(PortraitFxEventKind kind)
 {
@@ -1411,8 +1309,6 @@ GameplayDialogController::PresentPendingDialogResult GameplayDialogController::p
     {
         context.eventRuntimeState.dialogueState.hostHouseId = originalContext.sourceId;
     }
-
-    printDeftclawDialogueStateDump(context, context.activeEventDialog.sourceId);
 
     context.selectionIndex = 0;
 

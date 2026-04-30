@@ -27,6 +27,8 @@ constexpr float ActorMeleeRange = 307.2f;
 constexpr float HostilityLongRange = 10240.0f;
 constexpr float IdleStandSeconds = 1.5f;
 constexpr float IdleBoredSeconds = 2.0f;
+constexpr float PursueFleeMoveSpeedMultiplier = 2.0f;
+constexpr float MaxActorMoveSpeed = 1000.0f;
 constexpr uint32_t IdleStandChancePercent = 25u;
 
 float normalizeAngleRadians(float angle)
@@ -72,6 +74,18 @@ bool isStatusLocked(const ActorAiFacts &actor)
     return actor.runtime.motionState == ActorAiMotionState::Stunned
         || actor.status.spellEffects.stunRemainingSeconds > 0.0f
         || actor.status.spellEffects.paralyzeRemainingSeconds > 0.0f;
+}
+
+float movementSpeedForMotion(float effectiveMoveSpeed, ActorAiMotionState motionState)
+{
+    float moveSpeed = std::max(0.0f, effectiveMoveSpeed);
+
+    if (motionState == ActorAiMotionState::Pursuing || motionState == ActorAiMotionState::Fleeing)
+    {
+        moveSpeed *= PursueFleeMoveSpeedMultiplier;
+    }
+
+    return std::min(moveSpeed, MaxActorMoveSpeed);
 }
 
 struct AttackDamageProfile
@@ -2328,7 +2342,8 @@ void applyActiveMovementCommit(
     update.movementIntent.resetCrowdSteering = movementCommit.resetCrowdSteering;
     update.movementIntent.clearVelocity = movementCommit.clearVelocity;
     update.movementIntent.applyMovement = movementCommit.applyMovement;
-    update.movementIntent.moveSpeed = actor.movement.effectiveMoveSpeed;
+    const ActorAiMotionState motionState = update.state.motionState.value_or(actor.runtime.motionState);
+    update.movementIntent.moveSpeed = movementSpeedForMotion(actor.movement.effectiveMoveSpeed, motionState);
     update.movementIntent.targetPosition = actor.target.currentPosition;
     update.movementIntent.targetEdgeDistance = actor.target.currentEdgeDistance;
     update.movementIntent.inMeleeRange = actor.movement.inMeleeRange;
@@ -3681,7 +3696,7 @@ ActorAiUpdate AI_ActiveBehavior(
 
     if (AI_ContinueFlee(ai))
     {
-        return ai.finish();
+        return finishActiveMovementCommand(ai);
     }
 
     if (AI_CombatFlow(ai, false))

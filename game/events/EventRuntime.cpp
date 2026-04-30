@@ -9,9 +9,7 @@
 
 #include <algorithm>
 #include <cmath>
-#include <iostream>
 #include <limits>
-#include <sstream>
 #include <string_view>
 #include <unordered_map>
 
@@ -350,53 +348,6 @@ std::optional<size_t> singleTargetMemberIndex(const std::vector<size_t> &targetM
     }
 
     return std::nullopt;
-}
-
-std::string debugMemberLabel(const Party *pParty, size_t memberIndex)
-{
-    std::ostringstream stream;
-    stream << "#" << (memberIndex + 1);
-
-    const Character *pMember = pParty != nullptr ? pParty->member(memberIndex) : nullptr;
-
-    if (pMember != nullptr && !pMember->name.empty())
-    {
-        stream << ":\"" << pMember->name << "\"";
-    }
-
-    return stream.str();
-}
-
-void logQBitChange(uint32_t qbitId, bool set, int32_t previousValue, int32_t currentValue)
-{
-    std::cout << "Event qbit " << (set ? "set" : "clear")
-              << " qbit=" << qbitId
-              << " previous=" << previousValue
-              << " current=" << currentValue
-              << " changed=" << (previousValue != currentValue ? "yes" : "no")
-              << '\n';
-}
-
-void logAwardChange(
-    uint32_t awardId,
-    bool set,
-    const Party *pParty,
-    std::optional<size_t> memberIndex,
-    bool changed)
-{
-    std::cout << "Event award " << (set ? "set" : "clear")
-              << " award=" << awardId;
-
-    if (memberIndex)
-    {
-        std::cout << " member=" << debugMemberLabel(pParty, *memberIndex);
-    }
-    else
-    {
-        std::cout << " member=runtime";
-    }
-
-    std::cout << " changed=" << (changed ? "yes" : "no") << '\n';
 }
 
 bool classIdMatchesPromotionFamily(int32_t currentClassId, int32_t compareClassId)
@@ -2115,25 +2066,21 @@ void EventRuntime::setVariableValue(
                 {
                     if (pParty->hasAward(memberIndex, variable.index))
                     {
-                        logAwardChange(variable.index, true, pParty, memberIndex, false);
                         continue;
                     }
 
                     pParty->addAward(memberIndex, variable.index);
                     changedMemberIndices.push_back(memberIndex);
-                    logAwardChange(variable.index, true, pParty, memberIndex, true);
                 }
                 else
                 {
                     if (!pParty->hasAward(memberIndex, variable.index))
                     {
-                        logAwardChange(variable.index, false, pParty, memberIndex, false);
                         continue;
                     }
 
                     pParty->removeAward(memberIndex, variable.index);
                     changedMemberIndices.push_back(memberIndex);
-                    logAwardChange(variable.index, false, pParty, memberIndex, true);
                 }
             }
 
@@ -2149,13 +2096,11 @@ void EventRuntime::setVariableValue(
         {
             runtimeState.variables[variable.rawId] = static_cast<int32_t>(variable.index);
             runtimeState.grantedAwardIds.push_back(variable.index);
-            logAwardChange(variable.index, true, nullptr, std::nullopt, previousValue == 0);
         }
         else
         {
             runtimeState.variables[variable.rawId] = 0;
             runtimeState.removedAwardIds.push_back(variable.index);
-            logAwardChange(variable.index, false, nullptr, std::nullopt, previousValue != 0);
         }
 
         return;
@@ -2686,11 +2631,6 @@ void EventRuntime::setVariableValue(
             runtimeState.variables[variable.rawId] = normalizedValue;
         }
 
-        if (variable.kind == VariableKind::QBits)
-        {
-            logQBitChange(variable.rawId, normalizedValue != 0, previousValue, normalizedValue);
-        }
-
         if (variable.kind == VariableKind::QBits && value != 0 && previousValue == 0)
         {
             queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
@@ -2836,13 +2776,11 @@ void EventRuntime::addVariableValue(
                 {
                     if (pParty->hasAward(memberIndex, variable.index))
                     {
-                        logAwardChange(variable.index, true, pParty, memberIndex, false);
                         continue;
                     }
 
                     pParty->addAward(memberIndex, variable.index);
                     changedMemberIndices.push_back(memberIndex);
-                    logAwardChange(variable.index, true, pParty, memberIndex, true);
                 }
             }
 
@@ -2858,7 +2796,6 @@ void EventRuntime::addVariableValue(
         {
             runtimeState.variables[variable.rawId] = static_cast<int32_t>(variable.index);
             runtimeState.grantedAwardIds.push_back(variable.index);
-            logAwardChange(variable.index, true, nullptr, std::nullopt, previousValue == 0);
         }
 
         return;
@@ -3175,11 +3112,6 @@ void EventRuntime::addVariableValue(
             runtimeState.variables[variable.rawId] = normalizedValue;
         }
 
-        if (variable.kind == VariableKind::QBits)
-        {
-            logQBitChange(variable.rawId, normalizedValue != 0, previousValue, normalizedValue);
-        }
-
         if (variable.kind == VariableKind::QBits && value != 0 && previousValue == 0)
         {
             queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, targetMemberIndices);
@@ -3312,9 +3244,7 @@ void EventRuntime::subtractVariableValue(
             {
                 if (value > 0)
                 {
-                    const bool hadAward = pParty->hasAward(memberIndex, variable.index);
                     pParty->removeAward(memberIndex, variable.index);
-                    logAwardChange(variable.index, false, pParty, memberIndex, hadAward);
                 }
             }
 
@@ -3325,7 +3255,6 @@ void EventRuntime::subtractVariableValue(
         {
             runtimeState.variables[variable.rawId] = 0;
             runtimeState.removedAwardIds.push_back(variable.index);
-            logAwardChange(variable.index, false, nullptr, std::nullopt, previousValue != 0);
         }
 
         return;
@@ -3576,11 +3505,6 @@ void EventRuntime::subtractVariableValue(
         else
         {
             runtimeState.variables[variable.rawId] = 0;
-        }
-
-        if (variable.kind == VariableKind::QBits)
-        {
-            logQBitChange(variable.rawId, false, previousValue, 0);
         }
 
         return;
@@ -4309,7 +4233,6 @@ int luaCheckSeason(lua_State *pLuaState)
 
 int luaSetChestBit(lua_State *pLuaState)
 {
-    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t chestId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
     const uint32_t flag = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
@@ -4328,10 +4251,6 @@ int luaSetChestBit(lua_State *pLuaState)
 
     if ((flag & static_cast<uint32_t>(EvtChestFlag::Opened)) != 0 && isOn)
     {
-        const uint16_t eventId = pExecutionContext != nullptr ? pExecutionContext->currentEventId : 0;
-        std::cout << "Chest open event=" << eventId
-                  << " chest=" << chestId
-                  << " source=SetChestBit\n";
         pRuntimeState->openedChestIds.push_back(chestId);
     }
 
@@ -4585,20 +4504,14 @@ int luaStatusText(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const char *pText = luaL_checkstring(pLuaState, 1);
-    std::cout << "Event status text queued text=\"" << pText << "\"\n";
     pRuntimeState->statusMessages.push_back(pText);
     return 0;
 }
 
 int luaOpenChest(lua_State *pLuaState)
 {
-    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     const uint32_t chestId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
-    const uint16_t eventId = pExecutionContext != nullptr ? pExecutionContext->currentEventId : 0;
-    std::cout << "Chest open event=" << eventId
-              << " chest=" << chestId
-              << " source=OpenChest\n";
     pRuntimeState->openedChestIds.push_back(chestId);
     return 0;
 }
