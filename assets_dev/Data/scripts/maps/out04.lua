@@ -255,7 +255,7 @@ RegisterEvent(102, "Drink from the well", function()
         if IsAtLeast(Gold, 199) then
             evt.StatusText("Refreshing")
             return
-        elseif IsAtLeast(NumBounties, 99) then
+        elseif IsAtLeast(BankGold, 99) then
             evt.StatusText("Refreshing")
         else
             AddValue(Gold, 200)
@@ -414,4 +414,3 @@ RegisterEvent(506, "Enter the Cave", function()
     evt.MoveToMap(2116, 9631, 1, 1296, 0, 0, 0, 0, "D48.blv")
     return
 end, "Enter the Cave")
-

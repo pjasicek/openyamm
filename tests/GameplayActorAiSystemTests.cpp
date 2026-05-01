@@ -1,10 +1,19 @@
 #include "doctest/doctest.h"
 
+#include "engine/TextTable.h"
+#include "game/StringUtils.h"
 #include "game/gameplay/GameplayActorAiSystem.h"
 #include "game/gameplay/GameplayActorService.h"
+#include "game/gameplay/MonsterSpellSupport.h"
 #include "game/tables/MonsterTable.h"
+#include "game/tables/SpellTable.h"
 
 #include <cmath>
+#include <filesystem>
+#include <fstream>
+#include <optional>
+#include <set>
+#include <sstream>
 #include <string>
 #include <vector>
 
@@ -68,6 +77,61 @@ std::vector<std::string> makeActorServiceMonsterStatsRow(int id)
     row[17] = "Physical";
     row[18] = "1d4";
     return row;
+}
+
+std::string trimCopy(const std::string &value)
+{
+    const size_t first = value.find_first_not_of(" \t\r\n");
+
+    if (first == std::string::npos)
+    {
+        return {};
+    }
+
+    const size_t last = value.find_last_not_of(" \t\r\n");
+    return value.substr(first, last - first + 1);
+}
+
+std::optional<std::vector<std::vector<std::string>>> loadAssetTextTableRows(const std::string &relativePath)
+{
+    const std::filesystem::path path = std::filesystem::path(OPENYAMM_SOURCE_DIR) / relativePath;
+    std::ifstream input(path);
+
+    if (!input)
+    {
+        return std::nullopt;
+    }
+
+    std::ostringstream contents;
+    contents << input.rdbuf();
+    const std::optional<OpenYAMM::Engine::TextTable> table =
+        OpenYAMM::Engine::TextTable::parseTabSeparated(contents.str());
+
+    if (!table)
+    {
+        return std::nullopt;
+    }
+
+    std::vector<std::vector<std::string>> rows;
+    rows.reserve(table->getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < table->getRowCount(); ++rowIndex)
+    {
+        rows.push_back(table->getRow(rowIndex));
+    }
+
+    return rows;
+}
+
+std::string monsterSpellNameFromDescriptor(const std::string &descriptor)
+{
+    if (descriptor.empty() || descriptor == "0")
+    {
+        return {};
+    }
+
+    const size_t comma = descriptor.find(',');
+    return OpenYAMM::Game::toLowerCopy(trimCopy(descriptor.substr(0, comma)));
 }
 }
 
@@ -441,6 +505,39 @@ TEST_CASE("shared actor AI skips monster power cure at full health")
     CHECK(*update.state.queuedAttackAbility == GameplayActorAttackAbility::Attack1);
 }
 
+TEST_CASE("shared actor AI skips monster heal at full health")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(17, 114);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.currentHp = 10;
+    actor.stats.maxHp = 10;
+    actor.stats.hasSpell1 = true;
+    actor.stats.spell1Name = "heal";
+    actor.stats.spell1UseChance = 100;
+    actor.stats.spell1CastSupported = true;
+    actor.stats.attackConstraints.attack1IsRanged = true;
+    actor.runtime.rangedAttackAnimationSeconds = 0.5f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 512.0f;
+    actor.target.currentEdgeDistance = 512.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.queuedAttackAbility.has_value());
+    CHECK(*update.state.queuedAttackAbility == GameplayActorAttackAbility::Attack1);
+}
+
 TEST_CASE("shared actor AI allows monster power cure when wounded")
 {
     GameplayActorAiSystem system;
@@ -471,6 +568,102 @@ TEST_CASE("shared actor AI allows monster power cure when wounded")
     const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
     REQUIRE(update.state.queuedAttackAbility.has_value());
     CHECK(*update.state.queuedAttackAbility == GameplayActorAttackAbility::Spell1);
+}
+
+TEST_CASE("monster spell support includes implemented monster-data spells")
+{
+    const std::vector<std::string> projectileSpellNames = {
+        "Acid Burst",
+        "Blades",
+        "Fire Bolt",
+        "Fireball",
+        "Harm",
+        "Ice Blast",
+        "Ice Bolt",
+        "Implosion",
+        "Incinerate",
+        "Light Bolt",
+        "Lightning Bolt",
+        "Mass Distortion",
+        "Mind Blast",
+        "Poison Spray",
+        "Rock Blast",
+        "Sparks",
+        "Spirit Lash",
+        "Toxic Cloud",
+    };
+
+    for (const std::string &spellName : projectileSpellNames)
+    {
+        CHECK(OpenYAMM::Game::isMonsterProjectileSpellName(spellName));
+    }
+
+    const std::vector<std::string> selfActionSpellNames = {
+        "Bless",
+        "Haste",
+        "Heal",
+        "Heroism",
+        "Pain Reflection",
+        "Shield",
+    };
+
+    for (const std::string &spellName : selfActionSpellNames)
+    {
+        CHECK(OpenYAMM::Game::isMonsterSelfActionSpellName(spellName));
+    }
+}
+
+TEST_CASE("monster data spell names resolve and unsupported mechanics stay explicit")
+{
+    const std::optional<std::vector<std::vector<std::string>>> monsterRows =
+        loadAssetTextTableRows("assets_dev/Data/data_tables/monster_data.txt");
+    const std::optional<std::vector<std::vector<std::string>>> spellRows =
+        loadAssetTextTableRows("assets_dev/Data/data_tables/spells.txt");
+    REQUIRE(monsterRows.has_value());
+    REQUIRE(spellRows.has_value());
+
+    OpenYAMM::Game::SpellTable spellTable = {};
+    REQUIRE(spellTable.loadFromRows(*spellRows));
+
+    const std::set<std::string> knownUnsupportedMechanics = {
+        "day of the gods",
+        "paralyze",
+    };
+    std::set<std::string> unsupportedSpellNames;
+    std::set<std::string> unresolvedSpellNames;
+
+    for (const std::vector<std::string> &row : *monsterRows)
+    {
+        if (row.size() <= 27 || row[0].empty() || row[0].find_first_not_of("0123456789") != std::string::npos)
+        {
+            continue;
+        }
+
+        for (size_t column : {25u, 27u})
+        {
+            const std::string spellName = monsterSpellNameFromDescriptor(row[column]);
+
+            if (spellName.empty())
+            {
+                continue;
+            }
+
+            if (spellTable.findByName(spellName) == nullptr)
+            {
+                unresolvedSpellNames.insert(spellName);
+            }
+
+            if (!OpenYAMM::Game::isMonsterProjectileSpellName(spellName)
+                && !OpenYAMM::Game::isMonsterSelfActionSpellName(spellName)
+                && knownUnsupportedMechanics.find(spellName) == knownUnsupportedMechanics.end())
+            {
+                unsupportedSpellNames.insert(spellName);
+            }
+        }
+    }
+
+    CHECK(unresolvedSpellNames.empty());
+    CHECK(unsupportedSpellNames.empty());
 }
 
 TEST_CASE("shared actor AI skips spell attacks that the world cannot resolve")
@@ -576,6 +769,52 @@ TEST_CASE("shared actor AI applies monster self buff when spell attack completes
     REQUIRE_EQ(update.fxRequests.size(), 1u);
     CHECK(update.fxRequests.front().kind == ActorAiFxRequestKind::Buff);
     CHECK(update.fxRequests.front().spellId == 51u);
+    CHECK(result.projectileRequests.empty());
+    CHECK(result.audioRequests.empty());
+}
+
+TEST_CASE("shared actor AI applies monster heal when spell attack completes")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(18, 115);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.currentHp = 5;
+    actor.stats.maxHp = 20;
+    actor.stats.hasSpell1 = true;
+    actor.stats.spell1Id = 68;
+    actor.stats.spell1Name = "heal";
+    actor.stats.spell1SkillLevel = 5;
+    actor.stats.spell1SkillMastery = OpenYAMM::Game::SkillMastery::Expert;
+    actor.stats.spell1UseChance = 100;
+    actor.runtime.motionState = ActorAiMotionState::Attacking;
+    actor.runtime.animationState = ActorAiAnimationState::AttackRanged;
+    actor.runtime.queuedAttackAbility = GameplayActorAttackAbility::Spell1;
+    actor.runtime.actionSeconds = 0.0f;
+    actor.runtime.attackImpactTriggered = false;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {0.0f, 0.0f, 64.0f};
+    actor.target.currentDistance = 512.0f;
+    actor.target.currentEdgeDistance = 512.0f;
+    actor.target.currentCanSense = true;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.currentHp.has_value());
+    CHECK_EQ(*update.state.currentHp, 20);
+    REQUIRE(update.state.attackImpactTriggered.has_value());
+    CHECK(*update.state.attackImpactTriggered);
+    CHECK(!update.state.queuedAttackAbility.has_value());
+    REQUIRE_EQ(update.fxRequests.size(), 1u);
+    CHECK(update.fxRequests.front().kind == ActorAiFxRequestKind::Buff);
+    CHECK(update.fxRequests.front().spellId == 68u);
     CHECK(result.projectileRequests.empty());
     CHECK(result.audioRequests.empty());
 }

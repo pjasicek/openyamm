@@ -6,6 +6,7 @@
 #include "game/FaceEnums.h"
 #include "game/events/EventRuntime.h"
 #include "game/events/EventDialogContent.h"
+#include "game/gameplay/CorpseLootRuntime.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayWorldItemInteraction.h"
 #include "game/gameplay/SavePreviewImage.h"
@@ -16,11 +17,14 @@
 #include "game/outdoor/OutdoorMovementController.h"
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
+#include "game/tables/JournalQuestTable.h"
 
 #include "tests/RegressionGameData.h"
+#include "tests/PartySpellTestHarness.h"
 
 #include <algorithm>
 #include <cmath>
+#include <cstddef>
 #include <filesystem>
 #include <random>
 
@@ -33,6 +37,69 @@ struct SyntheticOutdoorWaterBoundaryScenario
     float landY = 0.0f;
     float waterX = 0.0f;
     float waterY = 0.0f;
+};
+
+class CorpseLootTestWorldRuntime : public OpenYAMM::Tests::PartySpellTestWorldRuntime
+{
+public:
+    OpenYAMM::Game::GameplayCorpseViewState corpseView = {};
+    std::vector<OpenYAMM::Game::GameplayHeldItemDropRequest> dropRequests;
+    bool activeCorpse = true;
+    bool allowDrop = true;
+
+    std::optional<OpenYAMM::Game::GameplayHeldItemDropRequest> buildHeldItemDropRequest() const override
+    {
+        return OpenYAMM::Game::GameplayHeldItemDropRequest{
+            .sourceX = 100.0f,
+            .sourceY = 200.0f,
+            .sourceZ = 300.0f,
+            .yawRadians = 1.0f,
+        };
+    }
+
+    bool dropHeldItemToWorld(const OpenYAMM::Game::GameplayHeldItemDropRequest &request) override
+    {
+        if (!allowDrop)
+        {
+            return false;
+        }
+
+        dropRequests.push_back(request);
+        return true;
+    }
+
+    OpenYAMM::Game::GameplayCorpseViewState *activeCorpseView() override
+    {
+        return activeCorpse ? &corpseView : nullptr;
+    }
+
+    const OpenYAMM::Game::GameplayCorpseViewState *activeCorpseView() const override
+    {
+        return activeCorpse ? &corpseView : nullptr;
+    }
+
+    bool takeActiveCorpseItem(size_t itemIndex, OpenYAMM::Game::GameplayChestItemState &item) override
+    {
+        if (!activeCorpse || itemIndex >= corpseView.items.size())
+        {
+            return false;
+        }
+
+        item = corpseView.items[itemIndex];
+        corpseView.items.erase(corpseView.items.begin() + static_cast<ptrdiff_t>(itemIndex));
+
+        if (corpseView.items.empty())
+        {
+            activeCorpse = false;
+        }
+
+        return true;
+    }
+
+    void closeActiveCorpseView() override
+    {
+        activeCorpse = false;
+    }
 };
 
 const OpenYAMM::Tests::RegressionGameData &requireRegressionGameData()
@@ -83,6 +150,48 @@ OpenYAMM::Game::PartySeed createRegressionPartySeed()
     seed.members.push_back(makeRegressionPartyMember("Cedric", "Druid", "PC05-01", 5));
     seed.members.push_back(makeRegressionPartyMember("Daria", "Sorcerer", "PC07-01", 7));
     return seed;
+}
+
+OpenYAMM::Game::InventoryItem makeTestInventoryItem(uint32_t itemId, uint8_t width = 1, uint8_t height = 1)
+{
+    OpenYAMM::Game::InventoryItem item = {};
+    item.objectDescriptionId = itemId;
+    item.quantity = 1;
+    item.width = width;
+    item.height = height;
+    return item;
+}
+
+OpenYAMM::Game::GameplayChestItemState makeTestCorpseItem(
+    uint32_t itemId,
+    uint8_t width = 1,
+    uint8_t height = 1)
+{
+    OpenYAMM::Game::InventoryItem inventoryItem = makeTestInventoryItem(itemId, width, height);
+    OpenYAMM::Game::GameplayChestItemState corpseItem = {};
+    corpseItem.item = inventoryItem;
+    corpseItem.itemId = itemId;
+    corpseItem.quantity = 1;
+    corpseItem.width = width;
+    corpseItem.height = height;
+    return corpseItem;
+}
+
+void fillMemberInventory(OpenYAMM::Game::Party &party, size_t memberIndex, uint32_t firstItemId)
+{
+    OpenYAMM::Game::Character *pMember = party.member(memberIndex);
+    REQUIRE(pMember != nullptr);
+    pMember->inventory.clear();
+
+    uint32_t itemId = firstItemId;
+
+    for (uint8_t y = 0; y < OpenYAMM::Game::Character::InventoryHeight; ++y)
+    {
+        for (uint8_t x = 0; x < OpenYAMM::Game::Character::InventoryWidth; ++x)
+        {
+            REQUIRE(pMember->addInventoryItemAt(makeTestInventoryItem(itemId++), x, y));
+        }
+    }
 }
 
 std::optional<OpenYAMM::Game::ScriptedEventProgram> loadSyntheticScriptedProgram(
@@ -404,6 +513,72 @@ TEST_CASE("world item pickup decision always accepts gold")
 
     CHECK(decision.destination == OpenYAMM::Game::GameplayWorldItemPickupDestination::Gold);
     CHECK(decision.goldAmount == 1);
+}
+
+TEST_CASE("corpse auto loot tries members from active member before using cursor")
+{
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+    REQUIRE(party.setActiveMemberIndex(1));
+    fillMemberInventory(party, 1, 1000);
+
+    CorpseLootTestWorldRuntime worldRuntime = {};
+    worldRuntime.corpseView.items.push_back(makeTestCorpseItem(2000, 2, 2));
+    OpenYAMM::Game::GameplayUiController::HeldInventoryItemState heldItem = {};
+
+    const OpenYAMM::Game::GameplayCorpseAutoLootResult result =
+        OpenYAMM::Game::autoLootActiveCorpseView(worldRuntime, party, nullptr, &heldItem);
+
+    REQUIRE(result.lootedAny);
+    CHECK_FALSE(heldItem.active);
+    CHECK(worldRuntime.dropRequests.empty());
+
+    const OpenYAMM::Game::Character *pActiveMember = party.member(1);
+    const OpenYAMM::Game::Character *pNextMember = party.member(2);
+
+    REQUIRE(pActiveMember != nullptr);
+    REQUIRE(pNextMember != nullptr);
+    CHECK(std::none_of(
+        pActiveMember->inventory.begin(),
+        pActiveMember->inventory.end(),
+        [](const OpenYAMM::Game::InventoryItem &item)
+        {
+            return item.objectDescriptionId == 2000;
+        }));
+    CHECK(std::any_of(
+        pNextMember->inventory.begin(),
+        pNextMember->inventory.end(),
+        [](const OpenYAMM::Game::InventoryItem &item)
+        {
+            return item.objectDescriptionId == 2000;
+        }));
+}
+
+TEST_CASE("corpse auto loot drops occupied cursor item before holding unplaced corpse item")
+{
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+
+    for (size_t memberIndex = 0; memberIndex < party.members().size(); ++memberIndex)
+    {
+        fillMemberInventory(party, memberIndex, 3000 + static_cast<uint32_t>(memberIndex) * 200);
+    }
+
+    CorpseLootTestWorldRuntime worldRuntime = {};
+    worldRuntime.corpseView.items.push_back(makeTestCorpseItem(5000, 2, 2));
+
+    OpenYAMM::Game::GameplayUiController::HeldInventoryItemState heldItem = {};
+    heldItem.active = true;
+    heldItem.item = makeTestInventoryItem(4000, 1, 1);
+
+    const OpenYAMM::Game::GameplayCorpseAutoLootResult result =
+        OpenYAMM::Game::autoLootActiveCorpseView(worldRuntime, party, nullptr, &heldItem);
+
+    REQUIRE(result.lootedAny);
+    REQUIRE(heldItem.active);
+    CHECK_EQ(heldItem.item.objectDescriptionId, 5000u);
+    REQUIRE_EQ(worldRuntime.dropRequests.size(), 1u);
+    CHECK_EQ(worldRuntime.dropRequests.front().item.objectDescriptionId, 4000u);
 }
 
 TEST_CASE("charged wand attack profile prefers wand over equipped bow")
@@ -1234,6 +1409,50 @@ TEST_CASE("lua event runtime Set applies condition variables")
     CHECK_EQ(runtimeState.portraitFxRequests.front().kind, OpenYAMM::Game::PortraitFxEventKind::Disease);
     REQUIRE_EQ(runtimeState.portraitFxRequests.front().memberIndices.size(), 1u);
     CHECK_EQ(runtimeState.portraitFxRequests.front().memberIndices.front(), 1u);
+}
+
+TEST_CASE("event runtime queues qbit portrait fx only for visible quest entries")
+{
+    OpenYAMM::Game::JournalQuestTable questTable = {};
+    REQUIRE(questTable.loadFromRows({
+        {"5", "Kill the leader of the Regnan Pirate outpost at Dagger Wound.", "", ""},
+        {"777", "", "Internal bookkeeping qbit", ""}
+    }));
+
+    OpenYAMM::Game::Party party = {};
+    party.setJournalQuestTable(&questTable);
+    party.seed(createRegressionPartySeed());
+
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    const OpenYAMM::Game::EventRuntime::VariableRef visibleQbit =
+        OpenYAMM::Game::EventRuntime::decodeVariable(
+            (5u << 16) | static_cast<uint32_t>(OpenYAMM::Game::EvtVariable::QBits));
+    const OpenYAMM::Game::EventRuntime::VariableRef internalQbit =
+        OpenYAMM::Game::EventRuntime::decodeVariable(
+            (777u << 16) | static_cast<uint32_t>(OpenYAMM::Game::EvtVariable::QBits));
+
+    OpenYAMM::Game::EventRuntime::setVariableValue(runtimeState, visibleQbit, 1, &party, {0});
+    REQUIRE_EQ(runtimeState.portraitFxRequests.size(), 1u);
+    CHECK_EQ(runtimeState.portraitFxRequests.front().kind, OpenYAMM::Game::PortraitFxEventKind::QuestComplete);
+    REQUIRE_EQ(runtimeState.pendingSounds.size(), 1u);
+    CHECK_EQ(runtimeState.pendingSounds.front().soundId, static_cast<uint32_t>(OpenYAMM::Game::SoundId::Quest));
+
+    runtimeState.portraitFxRequests.clear();
+    runtimeState.pendingSounds.clear();
+
+    OpenYAMM::Game::EventRuntime::setVariableValue(runtimeState, visibleQbit, 1, &party, {0});
+    CHECK(runtimeState.portraitFxRequests.empty());
+    CHECK(runtimeState.pendingSounds.empty());
+
+    OpenYAMM::Game::EventRuntime::addVariableValue(runtimeState, internalQbit, 777, &party, {0});
+    CHECK(party.hasQuestBit(777));
+    CHECK(runtimeState.portraitFxRequests.empty());
+    CHECK(runtimeState.pendingSounds.empty());
+
+    OpenYAMM::Game::EventRuntime::subtractVariableValue(runtimeState, visibleQbit, 5, &party, {0});
+    CHECK_FALSE(party.hasQuestBit(5));
+    CHECK(runtimeState.portraitFxRequests.empty());
+    CHECK(runtimeState.pendingSounds.empty());
 }
 
 TEST_CASE("lua event runtime Subtract clears condition variables")

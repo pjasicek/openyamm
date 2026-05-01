@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <optional>
 
 namespace OpenYAMM::Game
 {
@@ -69,28 +70,35 @@ std::string normalizeComment(const std::string &value)
     return normalized;
 }
 
-bool isSpeechSoundName(const std::string &name, uint32_t &voiceId, std::string &speechGroupKey)
+struct SpeechSoundInfo
 {
-    if (name.size() < 6 || name[0] != 'p' || name[1] != 'c'
-        || !std::isdigit(static_cast<unsigned char>(name[2]))
-        || !std::isdigit(static_cast<unsigned char>(name[3]))
-        || !std::isdigit(static_cast<unsigned char>(name[4]))
-        || !std::isdigit(static_cast<unsigned char>(name[5])))
+    uint32_t voiceId = 0;
+    std::string groupKey;
+};
+
+std::optional<SpeechSoundInfo> speechSoundInfoForSoundId(uint32_t soundId)
+{
+    constexpr uint32_t SpeechSoundBaseId = 5000;
+    constexpr uint32_t SpeechSoundsPerVoice = 100;
+    constexpr uint32_t SpeechSoundSlotsPerVoice = 94;
+
+    if (soundId < SpeechSoundBaseId)
     {
-        return false;
+        return std::nullopt;
     }
 
-    const uint32_t voiceCode =
-        static_cast<uint32_t>(name[2] - '0') * 10u + static_cast<uint32_t>(name[3] - '0');
+    const uint32_t offset = soundId - SpeechSoundBaseId;
+    const uint32_t voiceOffset = offset % SpeechSoundsPerVoice;
 
-    if (voiceCode < 50)
+    if (voiceOffset >= SpeechSoundSlotsPerVoice)
     {
-        return false;
+        return std::nullopt;
     }
 
-    voiceId = voiceCode - 50u;
-    speechGroupKey = name.substr(0, 6);
-    return true;
+    SpeechSoundInfo info = {};
+    info.voiceId = offset / SpeechSoundsPerVoice;
+    info.groupKey = std::to_string(info.voiceId) + ":" + std::to_string(voiceOffset / 2u);
+    return info;
 }
 }
 
@@ -114,16 +122,15 @@ bool SoundCatalog::loadFromRows(const std::vector<std::vector<std::string>> &row
         entry.soundId = static_cast<uint32_t>(std::strtoul(row[1].c_str(), nullptr, 10));
         entry.positional = row.size() > 3 && normalizeComment(row[3]) == "3d";
 
-        uint32_t speechVoiceId = 0;
-        std::string speechGroupKey;
+        const std::optional<SpeechSoundInfo> speechInfo = speechSoundInfoForSoundId(entry.soundId);
         std::string normalizedComment = row.size() > 4 ? normalizeComment(row[4]) : "";
 
-        if (isSpeechSoundName(entry.name, speechVoiceId, speechGroupKey))
+        if (speechInfo)
         {
             if (normalizedComment.empty())
             {
                 const std::unordered_map<std::string, std::string>::const_iterator commentIt =
-                    inheritedCommentBySpeechGroup.find(speechGroupKey);
+                    inheritedCommentBySpeechGroup.find(speechInfo->groupKey);
 
                 if (commentIt != inheritedCommentBySpeechGroup.end())
                 {
@@ -132,7 +139,7 @@ bool SoundCatalog::loadFromRows(const std::vector<std::vector<std::string>> &row
             }
             else
             {
-                inheritedCommentBySpeechGroup[speechGroupKey] = normalizedComment;
+                inheritedCommentBySpeechGroup[speechInfo->groupKey] = normalizedComment;
             }
         }
 
@@ -140,9 +147,9 @@ bool SoundCatalog::loadFromRows(const std::vector<std::vector<std::string>> &row
         m_entryIndexById[entry.soundId] = m_entries.size();
         m_entries.push_back(entry);
 
-        if (!normalizedComment.empty() && isSpeechSoundName(entry.name, speechVoiceId, speechGroupKey))
+        if (!normalizedComment.empty() && speechInfo)
         {
-            m_speechSoundIdsByVoiceId[speechVoiceId][normalizedComment].push_back(entry.soundId);
+            m_speechSoundIdsByVoiceId[speechInfo->voiceId][normalizedComment].push_back(entry.soundId);
         }
     }
 

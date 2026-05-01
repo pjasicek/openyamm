@@ -366,7 +366,7 @@ RegisterEvent(103, "Drink from the well", function()
         if IsAtLeast(Gold, 99) then
             evt.StatusText("Refreshing")
             return
-        elseif IsAtLeast(NumBounties, 99) then
+        elseif IsAtLeast(BankGold, 99) then
             evt.StatusText("Refreshing")
             return
         elseif IsAtLeast(BaseLuck, 14) then
@@ -862,7 +862,7 @@ RegisterEvent(497, "Buoy", function()
     if IsQBitSet(QBit(268)) then return end -- Area 1 buoy
     if not IsAtLeast(BaseLuck, 13) then return end
     SetQBit(QBit(268)) -- Area 1 buoy
-    AddValue(Counter(1), 2)
+    AddValue(SkillPoints, 2)
     return
 end, "Buoy")
 
@@ -870,7 +870,7 @@ RegisterEvent(498, "Buoy", function()
     if IsQBitSet(QBit(269)) then return end -- Area 1 buoy
     if not IsAtLeast(BaseLuck, 20) then return end
     SetQBit(QBit(269)) -- Area 1 buoy
-    AddValue(Counter(1), 5)
+    AddValue(SkillPoints, 5)
     return
 end, "Buoy")
 
@@ -905,4 +905,3 @@ RegisterEvent(505, "Enter the Plane of Earth", function()
     evt.MoveToMap(0, 0, 49, 512, 0, 0, 221, 0, "ElemE.blv")
     return
 end, "Enter the Plane of Earth")
-

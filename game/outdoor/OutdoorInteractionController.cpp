@@ -4,6 +4,7 @@
 #include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
 #include "game/gameplay/GameplayDialogContextBuilder.h"
+#include "game/gameplay/CorpseLootRuntime.h"
 #include "game/gameplay/GenericActorDialog.h"
 #include "game/gameplay/GameMechanics.h"
 #include "game/gameplay/GameplayHeldItemController.h"
@@ -4301,127 +4302,39 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(
                     return true;
                 }
 
-                int lootedGoldAmount = 0;
-                std::string firstLootedItemName;
-                bool lootedAny = false;
-                bool blockedByInventory = false;
+                GameplayCorpseAutoLootResult lootResult = autoLootActiveCorpseView(
+                    *view.m_pOutdoorWorldRuntime,
+                    view.m_pOutdoorPartyRuntime->party(),
+                    &view.data().itemTable(),
+                    &view.heldInventoryItem());
 
-                while (const OutdoorWorldRuntime::CorpseViewState *pCorpseView =
-                       view.m_pOutdoorWorldRuntime->activeCorpseView())
+                if (!lootResult.statusText.empty())
                 {
-                    if (pCorpseView->items.empty())
-                    {
-                        break;
-                    }
-
-                    const OutdoorWorldRuntime::ChestItemState &item = pCorpseView->items.front();
-
-                    if (item.isGold)
-                    {
-                        OutdoorWorldRuntime::ChestItemState removedItem = {};
-
-                        if (!view.m_pOutdoorWorldRuntime->takeActiveCorpseItem(0, removedItem))
-                        {
-                            break;
-                        }
-
-                        const int goldAmount = static_cast<int>(removedItem.goldAmount);
-                        view.m_pOutdoorPartyRuntime->party().addGold(goldAmount);
-                        lootedGoldAmount += goldAmount;
-                        lootedAny = lootedAny || goldAmount > 0;
-                        continue;
-                    }
-
-                    const ItemDefinition *pItemDefinition = view.data().itemTable().get(item.itemId);
-                    const std::string itemName =
-                        pItemDefinition != nullptr
-                        ? (!pItemDefinition->unidentifiedName.empty()
-                            && pItemDefinition->unidentifiedName != "0"
-                            && pItemDefinition->unidentifiedName != "N / A"
-                            ? pItemDefinition->unidentifiedName
-                            : pItemDefinition->name)
-                        : "item";
-
-                    if (view.m_pOutdoorPartyRuntime->party().tryGrantItem(item.itemId, item.quantity))
-                    {
-                        OutdoorWorldRuntime::ChestItemState removedItem = {};
-
-                        if (!view.m_pOutdoorWorldRuntime->takeActiveCorpseItem(0, removedItem))
-                        {
-                            break;
-                        }
-
-                        if (firstLootedItemName.empty())
-                        {
-                            firstLootedItemName = itemName;
-                        }
-
-                        lootedAny = true;
-                        continue;
-                    }
-
-                    GameplayUiController::HeldInventoryItemState &heldInventoryItem = view.heldInventoryItem();
-
-                    if (!heldInventoryItem.active)
-                    {
-                        OutdoorWorldRuntime::ChestItemState removedItem = {};
-
-                        if (!view.m_pOutdoorWorldRuntime->takeActiveCorpseItem(0, removedItem))
-                        {
-                            break;
-                        }
-
-                        InventoryItem heldItem = {};
-                        heldItem.objectDescriptionId = removedItem.itemId;
-                        heldItem.quantity = removedItem.quantity;
-                        heldItem.width = removedItem.width;
-                        heldItem.height = removedItem.height;
-                        heldItem.gridX = removedItem.gridX;
-                        heldItem.gridY = removedItem.gridY;
-                        GameplayHeldItemController::setHeldInventoryItem(heldInventoryItem, heldItem);
-
-                        if (firstLootedItemName.empty())
-                        {
-                            firstLootedItemName = itemName;
-                        }
-
-                        lootedAny = true;
-                        blockedByInventory = true;
-                        break;
-                    }
-
-                    blockedByInventory = true;
-                    break;
+                    view.setStatusBarEvent(lootResult.statusText);
                 }
 
-                if (!firstLootedItemName.empty())
+                if (lootResult.lootedAny && !lootResult.firstItemName.empty())
                 {
-                    view.setStatusBarEvent(formatFoundItemStatusText(lootedGoldAmount, firstLootedItemName));
                     pEventRuntimeState->lastActivationResult =
                         "corpse " + std::to_string(*runtimeActorIndex) + " auto-looted item";
                 }
-                else if (lootedGoldAmount > 0)
+                else if (lootResult.lootedAny)
                 {
-                    view.setStatusBarEvent(formatFoundGoldStatusText(lootedGoldAmount));
                     pEventRuntimeState->lastActivationResult =
                         "corpse " + std::to_string(*runtimeActorIndex) + " auto-looted gold";
                 }
-                else if (blockedByInventory)
+                else if (lootResult.blockedByInventory)
                 {
-                    const std::string partyStatus = view.m_pOutdoorPartyRuntime->party().lastStatus();
-                    view.setStatusBarEvent(
-                        partyStatus.empty() || partyStatus == "inventory full" ? "Pack is Full!" : partyStatus);
                     pEventRuntimeState->lastActivationResult =
                         "corpse " + std::to_string(*runtimeActorIndex) + " blocked by inventory";
                 }
                 else
                 {
-                    view.setStatusBarEvent("Nothing here");
                     pEventRuntimeState->lastActivationResult =
                         "corpse " + std::to_string(*runtimeActorIndex) + " empty";
                 }
 
-                return lootedAny || blockedByInventory;
+                return lootResult.lootedAny || lootResult.blockedByInventory || lootResult.empty;
             }
         }
     }

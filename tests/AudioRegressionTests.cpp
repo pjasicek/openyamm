@@ -2,7 +2,9 @@
 
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
+#include "engine/TextTable.h"
 #include "game/audio/GameAudioSystem.h"
+#include "game/audio/SoundCatalog.h"
 #include "game/audio/SoundIds.h"
 #include "game/gameplay/GameplaySpeechRules.h"
 #include "game/items/InventoryItemUseRuntime.h"
@@ -256,6 +258,68 @@ TEST_CASE("damage speech audio resolves for roster seeded party members")
             "DamageMajor speech did not resolve for roster seeded member ",
             memberIndex);
     }
+}
+
+TEST_CASE("speech catalog maps lich reaction voices from sound id blocks")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    std::string failure;
+
+    REQUIRE_MESSAGE(initializeRegressionAssetFileSystem(assetFileSystem, failure), failure.c_str());
+
+    const std::optional<std::string> soundCatalogText =
+        assetFileSystem.readTextFile("Data/data_tables/sounds.txt");
+    REQUIRE(soundCatalogText.has_value());
+
+    const std::optional<OpenYAMM::Engine::TextTable> parsedSoundCatalog =
+        OpenYAMM::Engine::TextTable::parseTabSeparated(*soundCatalogText);
+    REQUIRE(parsedSoundCatalog.has_value());
+
+    std::vector<std::vector<std::string>> soundRows;
+    soundRows.reserve(parsedSoundCatalog->getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < parsedSoundCatalog->getRowCount(); ++rowIndex)
+    {
+        soundRows.push_back(parsedSoundCatalog->getRow(rowIndex));
+    }
+
+    OpenYAMM::Game::SoundCatalog soundCatalog;
+    REQUIRE(soundCatalog.loadFromRows(soundRows));
+
+    const std::optional<uint32_t> maleLichTrap =
+        soundCatalog.pickSpeechSoundId(26, "disarm_trap", 0);
+    const std::optional<uint32_t> femaleLichTrap =
+        soundCatalog.pickSpeechSoundId(27, "disarm_trap", 0);
+    const std::optional<uint32_t> ordinaryVoiceTrap =
+        soundCatalog.pickSpeechSoundId(1, "disarm_trap", 2);
+
+    REQUIRE(maleLichTrap.has_value());
+    REQUIRE(femaleLichTrap.has_value());
+    REQUIRE(ordinaryVoiceTrap.has_value());
+    CHECK_EQ(*maleLichTrap, 7600);
+    CHECK_EQ(*femaleLichTrap, 7700);
+    CHECK(*ordinaryVoiceTrap < 5200);
+}
+
+TEST_CASE("lich character speech audio resolves from character data voice ids")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    OpenYAMM::Game::GameAudioSystem audioSystem;
+    std::string failure;
+
+    REQUIRE_MESSAGE(
+        initializeRegressionAudioSystem(gameData, assetFileSystem, audioSystem, failure),
+        failure.c_str());
+
+    OpenYAMM::Game::Character maleLich = {};
+    maleLich.characterDataId = 27;
+
+    OpenYAMM::Game::Character femaleLich = {};
+    femaleLich.characterDataId = 28;
+
+    CHECK(audioSystem.playSpeech(maleLich, OpenYAMM::Game::SpeechId::DamageMinor, 0x5100u, 1u));
+    CHECK(audioSystem.playSpeech(femaleLich, OpenYAMM::Game::SpeechId::DamageMinor, 0x5200u, 2u));
 }
 
 TEST_CASE("ordinary damage queues minor speech reaction")

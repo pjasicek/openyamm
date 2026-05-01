@@ -839,7 +839,7 @@ RegisterEvent(104, "Drink from the fountain", function()
     elseif IsAtLeast(Gold, 199) then
         evt.StatusText("Refreshing")
         return
-    elseif IsAtLeast(NumBounties, 99) then
+    elseif IsAtLeast(BankGold, 99) then
         evt.StatusText("Refreshing")
     else
         AddValue(MapVar(31), 1)
@@ -1286,7 +1286,7 @@ RegisterEvent(499, "Buoy", function()
     if IsQBitSet(QBit(274)) then return end -- Area 2 buoy
     if not IsAtLeast(BaseLuck, 20) then return end
     SetQBit(QBit(274)) -- Area 2 buoy
-    AddValue(Counter(1), 5)
+    AddValue(SkillPoints, 5)
     return
 end, "Buoy")
 
@@ -1333,4 +1333,3 @@ RegisterEvent(507, "Enter the Chapel of Eep", function()
     evt.MoveToMap(-481, -2824, 321, 512, 0, 0, 0, 0, "D45.blv")
     return
 end, "Enter the Chapel of Eep")
-

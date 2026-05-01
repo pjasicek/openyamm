@@ -769,7 +769,7 @@ TEST_CASE("party spell backend recharge item rejects invalid and already charged
             chargedWandRequest);
 
     CHECK(chargedWandResult.status == OpenYAMM::Game::PartySpellCastStatus::Failed);
-    CHECK_EQ(chargedWandResult.statusText, "Wand already charged");
+    CHECK_EQ(chargedWandResult.statusText, "Wand already charged!");
 }
 
 TEST_CASE("party spell backend summon wisp adds one friendly summon per cast up to the active limit")
@@ -809,7 +809,7 @@ TEST_CASE("party spell backend summon wisp adds one friendly summon per cast up 
         request);
 
     CHECK(limitResult.status == OpenYAMM::Game::PartySpellCastStatus::Failed);
-    CHECK_EQ(limitResult.statusText, "Too many summoned wisps");
+    CHECK_EQ(limitResult.statusText, "This character can't summon any more monsters!");
     CHECK_EQ(worldRuntime.friendlySummonRequests().size(), 5u);
 }
 

@@ -644,10 +644,53 @@ std::string formatRandomItemType(uint32_t value)
     }
 }
 
+EvtVariable canonicalMm8Variable(uint32_t rawVariableId, uint32_t index)
+{
+    if (rawVariableId == 0x00E1u && index != 0)
+    {
+        return EvtVariable::AutoNotes;
+    }
+
+    if (rawVariableId == 0x00F5u)
+    {
+        return EvtVariable::NumSkillPoints;
+    }
+
+    if (rawVariableId >= 0x00F7u && rawVariableId <= 0x0100u)
+    {
+        return static_cast<EvtVariable>(
+            static_cast<uint32_t>(EvtVariable::Counter1) + rawVariableId - 0x00F7u);
+    }
+
+    switch (rawVariableId)
+    {
+        case 0x00E9u: return EvtVariable::PlayerBits;
+        case 0x00F2u: return EvtVariable::IsFlying;
+        case 0x00F3u: return EvtVariable::HiredNpcHasSpeciality;
+        case 0x00F4u: return EvtVariable::CircusPrises;
+        case 0x00F6u: return EvtVariable::MonthIs;
+        case 0x0115u: return EvtVariable::ReputationInCurrentLocation;
+        case 0x0133u: return EvtVariable::Unknown1;
+        case 0x0134u: return EvtVariable::GoldInBank;
+        case 0x0135u: return EvtVariable::NumDeaths;
+        case 0x0136u: return EvtVariable::NumBounties;
+        case 0x0137u: return EvtVariable::PrisonTerms;
+        case 0x0138u: return EvtVariable::ArenaWinsPage;
+        case 0x0139u: return EvtVariable::ArenaWinsSquire;
+        case 0x013Au: return EvtVariable::ArenaWinsKnight;
+        case 0x013Bu: return EvtVariable::ArenaWinsLord;
+        case 0x013Cu: return EvtVariable::Invisible;
+        case 0x013Du: return EvtVariable::ItemEquipped;
+        case 0x013Eu: return EvtVariable::Players;
+        default: return static_cast<EvtVariable>(rawVariableId);
+    }
+}
+
 FormattedSelector formatSelector(uint32_t rawValue)
 {
-    const EvtVariable variableId = static_cast<EvtVariable>(rawValue & 0xFFFFu);
+    const uint32_t rawVariableId = rawValue & 0xFFFFu;
     const uint32_t index = rawValue >> 16;
+    const EvtVariable variableId = canonicalMm8Variable(rawVariableId, index);
 
     if (variableId == EvtVariable::QBits)
     {
@@ -664,8 +707,7 @@ FormattedSelector formatSelector(uint32_t rawValue)
         return {"Award(" + std::to_string(index) + ")", SelectorSemantic::Award, index};
     }
 
-    if (variableId == EvtVariable::AutoNotes
-        || (variableId == EvtVariable::IsIntellectMoreThanBase && index != 0))
+    if (variableId == EvtVariable::AutoNotes)
     {
         return {"AutonoteBit(" + std::to_string(index) + ")", SelectorSemantic::Autonote, index};
     }
@@ -3727,10 +3769,20 @@ bool tryEmitReadablePartyMemberLoop(
         return false;
     }
 
+    const bool includePrimaryMemberInRepeatedPromotion =
+        event.eventId >= 733 && event.eventId <= 740 && *firstMember == 1;
+
     auto formatPlayerList = [&]() -> std::string
     {
         std::ostringstream listStream;
         listStream << "{";
+        bool wroteMember = false;
+
+        if (includePrimaryMemberInRepeatedPromotion)
+        {
+            listStream << "Players.Member0";
+            wroteMember = true;
+        }
 
         for (size_t memberIndex = 0; memberIndex < memberSteps.size(); ++memberIndex)
         {
@@ -3741,12 +3793,13 @@ bool tryEmitReadablePartyMemberLoop(
                 return "";
             }
 
-            if (memberIndex > 0)
+            if (wroteMember)
             {
                 listStream << ", ";
             }
 
             listStream << "Players.Member" << *member;
+            wroteMember = true;
         }
 
         listStream << "}";

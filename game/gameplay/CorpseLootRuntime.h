@@ -2,6 +2,7 @@
 
 #include "game/gameplay/GameplayRuntimeInterfaces.h"
 #include "game/tables/MonsterTable.h"
+#include "game/ui/GameplayUiController.h"
 
 #include <cstdint>
 #include <string>
@@ -31,5 +32,6 @@ GameplayCorpseViewState buildMonsterCorpseView(
 GameplayCorpseAutoLootResult autoLootActiveCorpseView(
     IGameplayWorldRuntime &worldRuntime,
     Party &party,
-    const ItemTable *pItemTable);
+    const ItemTable *pItemTable,
+    GameplayUiController::HeldInventoryItemState *pHeldInventoryItem = nullptr);
 }

@@ -212,7 +212,7 @@ RegisterEvent(101, "Drink from the well", function()
         if IsAtLeast(Gold, 199) then
             evt.StatusText("Refreshing")
             return
-        elseif IsAtLeast(NumBounties, 99) then
+        elseif IsAtLeast(BankGold, 99) then
             evt.StatusText("Refreshing")
         else
             AddValue(Gold, 200)
@@ -335,4 +335,3 @@ RegisterEvent(509, "Enter the Church of Eep", function()
     evt.MoveToMap(-21, 5, 1, 0, 0, 0, 0, 0, "D46.blv")
     return
 end, "Enter the Church of Eep")
-

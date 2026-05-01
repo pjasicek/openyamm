@@ -47,6 +47,7 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/GameplaySpeechRules.cpp
     ../game/gameplay/GameplayWorldItemInteraction.cpp
     ../game/gameplay/InteractiveDecorationRules.cpp
+    ../game/gameplay/MonsterSpellSupport.cpp
     ../game/gameplay/GameMechanics.cpp
     ../game/gameplay/GenericActorDialog.cpp
     ../game/gameplay/HouseInteraction.cpp

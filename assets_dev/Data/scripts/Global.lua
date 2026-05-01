@@ -5363,7 +5363,7 @@ RegisterGlobalEvent(543, "Game of Might", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualMight, 25) then
-        AddValue(Counter(1), 3)
+        AddValue(SkillPoints, 3)
         evt.StatusText("You win!  +3 Skill Points")
         AddValue(2031849, 31)
     else
@@ -5377,7 +5377,7 @@ RegisterGlobalEvent(544, "Game of Endurance", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualEndurance, 25) then
-        AddValue(Counter(1), 3)
+        AddValue(SkillPoints, 3)
         evt.StatusText("You win!  +3 Skill Points")
         AddValue(2097385, 32)
     else
@@ -5391,7 +5391,7 @@ RegisterGlobalEvent(545, "Game of Intellect", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualIntellect, 25) then
-        AddValue(Counter(1), 3)
+        AddValue(SkillPoints, 3)
         evt.StatusText("You win!  +3 Skill Points")
         AddValue(2162921, 33)
     else
@@ -5405,7 +5405,7 @@ RegisterGlobalEvent(546, "Game of Personality", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualPersonality, 25) then
-        AddValue(Counter(1), 3)
+        AddValue(SkillPoints, 3)
         evt.StatusText("You win!  +3 Skill Points")
         AddValue(2228457, 34)
     else
@@ -5419,7 +5419,7 @@ RegisterGlobalEvent(547, "Game of Accuracy", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualAccuracy, 25) then
-        AddValue(Counter(1), 3)
+        AddValue(SkillPoints, 3)
         evt.StatusText("You win!  +3 Skill Points")
         AddValue(2293993, 35)
     else
@@ -5433,7 +5433,7 @@ RegisterGlobalEvent(548, "Game of Speed", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualSpeed, 25) then
-        AddValue(Counter(1), 3)
+        AddValue(SkillPoints, 3)
         evt.StatusText("You win!  +3 Skill Points")
         AddValue(2359529, 36)
     else
@@ -5447,7 +5447,7 @@ RegisterGlobalEvent(549, "Game of Luck", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualLuck, 25) then
-        AddValue(Counter(1), 3)
+        AddValue(SkillPoints, 3)
         evt.StatusText("You win!  +3 Skill Points")
         AddValue(2425065, 37)
     else
@@ -5461,7 +5461,7 @@ RegisterGlobalEvent(550, "Contest of Might", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualMight, 50) then
-        AddValue(Counter(1), 5)
+        AddValue(SkillPoints, 5)
         evt.StatusText("You win!  +5 Skill Points")
         AddValue(2490601, 38)
     else
@@ -5475,7 +5475,7 @@ RegisterGlobalEvent(551, "Contest of Endurance", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualEndurance, 50) then
-        AddValue(Counter(1), 5)
+        AddValue(SkillPoints, 5)
         evt.StatusText("You win!  +5 Skill Points")
         AddValue(2556137, 39)
     else
@@ -5489,7 +5489,7 @@ RegisterGlobalEvent(552, "Contest of Intellect", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualIntellect, 50) then
-        AddValue(Counter(1), 5)
+        AddValue(SkillPoints, 5)
         evt.StatusText("You win!  +5 Skill Points")
         AddValue(2621673, 40)
     else
@@ -5503,7 +5503,7 @@ RegisterGlobalEvent(553, "Contest of Personality", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualPersonality, 50) then
-        AddValue(Counter(1), 5)
+        AddValue(SkillPoints, 5)
         evt.StatusText("You win!  +5 Skill Points")
         AddValue(2687209, 41)
     else
@@ -5517,7 +5517,7 @@ RegisterGlobalEvent(554, "Contest of Accuracy", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualAccuracy, 50) then
-        AddValue(Counter(1), 5)
+        AddValue(SkillPoints, 5)
         evt.StatusText("You win!  +5 Skill Points")
         AddValue(2752745, 42)
     else
@@ -5531,7 +5531,7 @@ RegisterGlobalEvent(555, "Contest of Speed", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualSpeed, 50) then
-        AddValue(Counter(1), 5)
+        AddValue(SkillPoints, 5)
         evt.StatusText("You win!  +5 Skill Points")
         AddValue(2818281, 43)
     else
@@ -5545,7 +5545,7 @@ RegisterGlobalEvent(556, "Contest of Luck", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualLuck, 50) then
-        AddValue(Counter(1), 5)
+        AddValue(SkillPoints, 5)
         evt.StatusText("You win!  +5 Skill Points")
         AddValue(2883817, 44)
     else
@@ -5559,7 +5559,7 @@ RegisterGlobalEvent(557, "Test of Might", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualMight, 100) then
-        AddValue(Counter(1), 7)
+        AddValue(SkillPoints, 7)
         evt.StatusText("You win!  +7 Skill Points")
         AddValue(2949353, 45)
     else
@@ -5573,7 +5573,7 @@ RegisterGlobalEvent(558, "Test of Endurance", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualEndurance, 100) then
-        AddValue(Counter(1), 7)
+        AddValue(SkillPoints, 7)
         evt.StatusText("You win!  +7 Skill Points")
         AddValue(3014889, 46)
     else
@@ -5587,7 +5587,7 @@ RegisterGlobalEvent(559, "Test of Intellect", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualIntellect, 100) then
-        AddValue(Counter(1), 7)
+        AddValue(SkillPoints, 7)
         evt.StatusText("You win!  +7 Skill Points")
         AddValue(3080425, 47)
     else
@@ -5601,7 +5601,7 @@ RegisterGlobalEvent(560, "Test of Personality", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualPersonality, 100) then
-        AddValue(Counter(1), 7)
+        AddValue(SkillPoints, 7)
         evt.StatusText("You win!  +7 Skill Points")
         AddValue(3145961, 48)
     else
@@ -5615,7 +5615,7 @@ RegisterGlobalEvent(561, "Test of Accuracy", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualAccuracy, 100) then
-        AddValue(Counter(1), 7)
+        AddValue(SkillPoints, 7)
         evt.StatusText("You win!  +7 Skill Points")
         AddValue(3211497, 49)
     else
@@ -5629,7 +5629,7 @@ RegisterGlobalEvent(562, "Test of Speed", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualSpeed, 100) then
-        AddValue(Counter(1), 7)
+        AddValue(SkillPoints, 7)
         evt.StatusText("You win!  +7 Skill Points")
         AddValue(3277033, 50)
     else
@@ -5643,7 +5643,7 @@ RegisterGlobalEvent(563, "Test of Luck", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualLuck, 100) then
-        AddValue(Counter(1), 7)
+        AddValue(SkillPoints, 7)
         evt.StatusText("You win!  +7 Skill Points")
         AddValue(3342569, 51)
     else
@@ -5657,7 +5657,7 @@ RegisterGlobalEvent(564, "Challenge of Might", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualMight, 200) then
-        AddValue(Counter(1), 10)
+        AddValue(SkillPoints, 10)
         evt.StatusText("You win!  +10 Skill Points")
         AddValue(3408105, 52)
     else
@@ -5671,7 +5671,7 @@ RegisterGlobalEvent(565, "Challenge of Endurance", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualEndurance, 200) then
-        AddValue(Counter(1), 10)
+        AddValue(SkillPoints, 10)
         evt.StatusText("You win!  +10 Skill Points")
         AddValue(3473641, 53)
     else
@@ -5685,7 +5685,7 @@ RegisterGlobalEvent(566, "Challenge of Intellect", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualIntellect, 200) then
-        AddValue(Counter(1), 10)
+        AddValue(SkillPoints, 10)
         evt.StatusText("You win!  +10 Skill Points")
         AddValue(3539177, 54)
     else
@@ -5699,7 +5699,7 @@ RegisterGlobalEvent(567, "Challenge of Personality", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualPersonality, 200) then
-        AddValue(Counter(1), 10)
+        AddValue(SkillPoints, 10)
         evt.StatusText("You win!  +10 Skill Points")
         AddValue(3604713, 55)
     else
@@ -5713,7 +5713,7 @@ RegisterGlobalEvent(568, "Challenge of Accuracy", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualAccuracy, 200) then
-        AddValue(Counter(1), 10)
+        AddValue(SkillPoints, 10)
         evt.StatusText("You win!  +10 Skill Points")
         AddValue(3670249, 56)
     else
@@ -5727,7 +5727,7 @@ RegisterGlobalEvent(569, "Challenge of Speed", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualSpeed, 200) then
-        AddValue(Counter(1), 10)
+        AddValue(SkillPoints, 10)
         evt.StatusText("You win!  +10 Skill Points")
         AddValue(3735785, 57)
     else
@@ -5741,7 +5741,7 @@ RegisterGlobalEvent(570, "Challenge of Luck", function()
         evt.StatusText("You have already won!")
         return
     elseif IsAtLeast(ActualLuck, 200) then
-        AddValue(Counter(1), 10)
+        AddValue(SkillPoints, 10)
         evt.StatusText("You win!  +10 Skill Points")
         AddValue(3801321, 58)
     else
@@ -7055,7 +7055,7 @@ RegisterGlobalEvent(733, "Promote Dark Elves", function()
     if HasAward(Award(19)) then -- Promoted to Elf Patriarch.
         evt.SimpleMessage("Cauri told me of how you helped her with the curse of the Basilisk.  She has instructed me to promote any Dark Elves that travel with you to Patriarch.")
         ClearQBit(QBit(39)) -- Find Cauri Blackthorne then return to Dantillion in Murmurwoods with information of her location. - Dark Elf Promotion to Patriarch
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 10) then
                 SetValue(ClassId, 11)
@@ -7068,7 +7068,7 @@ RegisterGlobalEvent(733, "Promote Dark Elves", function()
     elseif HasAward(Award(20)) then -- Rescued Cauri Blackthorne.
         evt.SimpleMessage("Cauri told me of how you helped her with the curse of the Basilisk.  She has instructed me to promote any Dark Elves that travel with you to Patriarch.")
         ClearQBit(QBit(39)) -- Find Cauri Blackthorne then return to Dantillion in Murmurwoods with information of her location. - Dark Elf Promotion to Patriarch
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 10) then
                 SetValue(ClassId, 11)
@@ -7087,7 +7087,7 @@ RegisterGlobalEvent(734, "Promote Trolls", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(21)) then -- Promoted to War Troll.
         evt.SimpleMessage("Before Volog left, he instructed me to promote any Trolls that travel with you to War Troll.  The village of Rust will be forever thankful to you!")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 6) then
                 SetValue(ClassId, 7)
@@ -7099,7 +7099,7 @@ RegisterGlobalEvent(734, "Promote Trolls", function()
         return
     elseif HasAward(Award(22)) then -- Found Troll Homeland.
         evt.SimpleMessage("Before Volog left, he instructed me to promote any Trolls that travel with you to War Troll.  The village of Rust will be forever thankful to you!")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 6) then
                 SetValue(ClassId, 7)
@@ -7118,7 +7118,7 @@ RegisterGlobalEvent(735, "Promote Knights", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(23)) then -- Promoted to Champion.
         evt.SimpleMessage("Thanks for you help recovering the spear Ebonest!  I can promote any Knights that travel with you to Champion.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 4) then
                 SetValue(ClassId, 5)
@@ -7130,7 +7130,7 @@ RegisterGlobalEvent(735, "Promote Knights", function()
         return
     elseif HasAward(Award(24)) then -- Returned Ebonest to Charles Quixote.
         evt.SimpleMessage("Thanks for you help recovering the spear Ebonest!  I can promote any Knights that travel with you to Champion.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 4) then
                 SetValue(ClassId, 5)
@@ -7149,7 +7149,7 @@ RegisterGlobalEvent(736, "Promote Dragons", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(26)) then -- Promoted to Great Wyrm.
         evt.SimpleMessage("You have proven yourself and I will promote any Dragons that travel with you to Great Wyrm.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 14) then
                 SetValue(ClassId, 15)
@@ -7161,7 +7161,7 @@ RegisterGlobalEvent(736, "Promote Dragons", function()
         return
     elseif HasAward(Award(27)) then -- Gave the Sword of Whistlebone the Slayer to the Deftclaw Redreaver.
         evt.SimpleMessage("You have proven yourself and I will promote any Dragons that travel with you to Great Wyrm.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 14) then
                 SetValue(ClassId, 15)
@@ -7180,7 +7180,7 @@ RegisterGlobalEvent(737, "Promote Clerics", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(30)) then -- Promoted to Cleric of the Sun.
         evt.SimpleMessage("You are always welcome here!  Of course I will promote any Clerics that travel with you to Priest of the Sun!  ")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 2) then
                 SetValue(ClassId, 3)
@@ -7192,7 +7192,7 @@ RegisterGlobalEvent(737, "Promote Clerics", function()
         return
     elseif HasAward(Award(31)) then -- Found the lost Prophecies of the Sun and returned them to the Temple of the Sun.
         evt.SimpleMessage("You are always welcome here!  Of course I will promote any Clerics that travel with you to Priest of the Sun!  ")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 2) then
                 SetValue(ClassId, 3)
@@ -7211,7 +7211,7 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(34)) then -- Promoted to Lich.
         evt.SimpleMessage("Ah, you return seeking promotion for others in your party?  I have not forgotten your help in recovering the Lost Book of Kehl!  All Necromancers in your party will be promoted to Lich.  Be sure each Necromancer has a Lich Jar in his possession.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if not IsAtLeast(ClassId, 0) then
                 if not HasItem(628) then -- Lich Jar
@@ -7220,7 +7220,7 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
                 end
             end
         end
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 0) then
                 SetValue(ClassId, 1)
@@ -7233,7 +7233,7 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
         return
     elseif HasAward(Award(35)) then -- Found the Lost Book of Khel.
         evt.SimpleMessage("Ah, you return seeking promotion for others in your party?  I have not forgotten your help in recovering the Lost Book of Kehl!  All Necromancers in your party will be promoted to Lich.  Be sure each Necromancer has a Lich Jar in his possession.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if not IsAtLeast(ClassId, 0) then
                 if not HasItem(628) then -- Lich Jar
@@ -7242,7 +7242,7 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
                 end
             end
         end
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 0) then
                 SetValue(ClassId, 1)
@@ -7262,7 +7262,7 @@ RegisterGlobalEvent(739, "Promote Vampires", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(32)) then -- Promoted to Nosferatu.
         evt.SimpleMessage("Any Vampires among you will be promoted to Nosferatu!  I remember those who helped in the recovery of the Remains of Korbu.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 12) then
                 SetValue(ClassId, 13)
@@ -7274,7 +7274,7 @@ RegisterGlobalEvent(739, "Promote Vampires", function()
         return
     elseif HasAward(Award(33)) then -- Found the Sarcophagus and Remains of Korbu.
         evt.SimpleMessage("Any Vampires among you will be promoted to Nosferatu!  I remember those who helped in the recovery of the Remains of Korbu.")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 12) then
                 SetValue(ClassId, 13)
@@ -7293,7 +7293,7 @@ RegisterGlobalEvent(740, "Promote Minotuars", function()
     evt.ForPlayer(Players.Member0)
     if HasAward(Award(28)) then -- Promoted to Minotaur Lord.
         evt.SimpleMessage("The Herd of Masul is in debt to you.  Any Minotaurs in your party are promoted to Minotaur Lord!")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 8) then
                 SetValue(ClassId, 9)
@@ -7305,7 +7305,7 @@ RegisterGlobalEvent(740, "Promote Minotuars", function()
         return
     elseif HasAward(Award(29)) then -- Recovered Axe of Balthazar.
         evt.SimpleMessage("The Herd of Masul is in debt to you.  Any Minotaurs in your party are promoted to Minotaur Lord!")
-        for _, player in ipairs({Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
+        for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
             if IsAtLeast(ClassId, 8) then
                 SetValue(ClassId, 9)

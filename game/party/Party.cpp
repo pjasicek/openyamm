@@ -8,6 +8,7 @@
 #include "game/items/ItemRuntime.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/CharacterDollTable.h"
+#include "game/tables/JournalQuestTable.h"
 #include "game/tables/RosterTable.h"
 #include "game/party/SpellSchool.h"
 #include "game/party/SpellIds.h"
@@ -632,6 +633,8 @@ constexpr uint32_t CharacterRaceHuman = 0;
 constexpr uint32_t CharacterRaceDarkElf = 2;
 constexpr uint32_t CharacterRaceElf = 7;
 constexpr uint32_t CharacterRaceGoblin = 8;
+constexpr uint32_t MaleLichCharacterDataId = 27;
+constexpr uint32_t FemaleLichCharacterDataId = 28;
 
 void applyCharacterIdentityFromDollTable(Character &member, const CharacterDollTable *pCharacterDollTable)
 {
@@ -664,6 +667,46 @@ void applyCharacterIdentityFromDollTable(Character &member, const CharacterDollT
     {
         member.raceId = static_cast<uint32_t>(pEntry->raceId);
     }
+}
+
+void applyCharacterDollIdentity(Character &member, const CharacterDollTable *pCharacterDollTable, bool forceVoice)
+{
+    if (pCharacterDollTable == nullptr || member.characterDataId == 0)
+    {
+        return;
+    }
+
+    const CharacterDollEntry *pEntry = pCharacterDollTable->getCharacter(member.characterDataId);
+
+    if (pEntry == nullptr)
+    {
+        return;
+    }
+
+    if (forceVoice || member.voiceId < 0)
+    {
+        member.voiceId = static_cast<int32_t>(pEntry->defaultVoiceId);
+    }
+
+    member.sexId = pEntry->defaultSex;
+
+    if (pEntry->raceId >= 0)
+    {
+        member.raceId = static_cast<uint32_t>(pEntry->raceId);
+    }
+}
+
+void applyLichIdentity(Character &member, const CharacterDollTable *pCharacterDollTable)
+{
+    const bool female = member.sexId == CharacterSexFemale;
+    member.characterDataId = female ? FemaleLichCharacterDataId : MaleLichCharacterDataId;
+    member.portraitPictureId = member.characterDataId - 1;
+    member.portraitTextureName = portraitTextureNameFromPictureId(member.portraitPictureId);
+    member.portraitState = PortraitId::Normal;
+    member.portraitElapsedTicks = 0;
+    member.portraitDurationTicks = 0;
+    member.portraitImageIndex = 0;
+    applyCharacterDollIdentity(member, pCharacterDollTable, true);
 }
 
 bool isValidMonsterAttackTarget(const Character &member)
@@ -1771,6 +1814,11 @@ void Party::setItemTable(const ItemTable *pItemTable)
     m_pItemTable = pItemTable;
 }
 
+void Party::setJournalQuestTable(const JournalQuestTable *pJournalQuestTable)
+{
+    m_pJournalQuestTable = pJournalQuestTable;
+}
+
 void Party::setCharacterDollTable(const CharacterDollTable *pCharacterDollTable)
 {
     m_pCharacterDollTable = pCharacterDollTable;
@@ -1797,6 +1845,11 @@ void Party::setItemEnchantTables(
 const ItemTable *Party::itemTable() const
 {
     return m_pItemTable;
+}
+
+const JournalQuestTable *Party::journalQuestTable() const
+{
+    return m_pJournalQuestTable;
 }
 
 const StandardItemEnchantTable *Party::standardItemEnchantTable() const
@@ -2633,6 +2686,14 @@ bool Party::tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity)
 
 bool Party::tryGrantInventoryItem(const InventoryItem &item, size_t *pRecipientMemberIndex)
 {
+    return tryGrantInventoryItemStartingAt(0, item, pRecipientMemberIndex);
+}
+
+bool Party::tryGrantInventoryItemStartingAt(
+    size_t firstMemberIndex,
+    const InventoryItem &item,
+    size_t *pRecipientMemberIndex)
+{
     if (item.objectDescriptionId == 0 || item.quantity == 0)
     {
         return false;
@@ -2640,8 +2701,17 @@ bool Party::tryGrantInventoryItem(const InventoryItem &item, size_t *pRecipientM
 
     std::vector<Character> testMembers = m_members;
 
-    for (size_t memberIndex = 0; memberIndex < testMembers.size(); ++memberIndex)
+    if (testMembers.empty())
     {
+        m_lastStatus = "inventory full";
+        return false;
+    }
+
+    const size_t firstIndex = std::min(firstMemberIndex, testMembers.size() - 1);
+
+    for (size_t offset = 0; offset < testMembers.size(); ++offset)
+    {
+        const size_t memberIndex = (firstIndex + offset) % testMembers.size();
         Character &member = testMembers[memberIndex];
 
         if (member.addInventoryItem(item))
@@ -4396,6 +4466,12 @@ bool Party::setMemberClassName(size_t memberIndex, const std::string &className)
 
     pMember->className = canonicalClassName(className);
     pMember->role = normalizeRoleName(pMember->className);
+
+    if (pMember->className == "Lich")
+    {
+        applyLichIdentity(*pMember, m_pCharacterDollTable);
+    }
+
     GameMechanics::refreshCharacterBaseResources(*pMember, false, m_pClassMultiplierTable);
     m_lastStatus = "class changed";
     return true;

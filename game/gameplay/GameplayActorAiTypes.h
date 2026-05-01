@@ -274,6 +274,7 @@ struct ActorStateUpdate
     std::optional<bool> hostileToParty;
     std::optional<bool> hasDetectedParty;
     std::optional<bool> dead;
+    std::optional<int> currentHp;
     std::optional<bool> bloodSplatSpawned;
     std::optional<float> recoverySeconds;
     std::optional<float> attackCooldownSeconds;

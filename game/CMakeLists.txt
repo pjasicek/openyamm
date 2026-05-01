@@ -47,6 +47,7 @@ add_executable(openyamm
     gameplay/GameplayItemService.cpp
     gameplay/GameplayWorldItemInteraction.cpp
     gameplay/InteractiveDecorationRules.cpp
+    gameplay/MonsterSpellSupport.cpp
     gameplay/GameplayOverlayInputController.cpp
     gameplay/GameplayPartyOverlayInputController.cpp
     gameplay/GameplayProjectileService.cpp

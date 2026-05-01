@@ -1208,6 +1208,16 @@ bool IndoorGameView::activeMemberHasSpellbookSchool(GameplayUiController::Spellb
     return pSkill != nullptr && pSkill->level > 0 && pSkill->mastery != SkillMastery::None;
 }
 
+GameplayUiController::HeldInventoryItemState &IndoorGameView::heldInventoryItem()
+{
+    return m_gameSession.gameplayScreenRuntime().heldInventoryItem();
+}
+
+const GameplayUiController::HeldInventoryItemState &IndoorGameView::heldInventoryItem() const
+{
+    return m_gameSession.gameplayScreenRuntime().heldInventoryItem();
+}
+
 void IndoorGameView::setStatusBarEvent(const std::string &text, float durationSeconds)
 {
     m_gameSession.gameplayScreenRuntime().setStatusBarEvent(text, durationSeconds);

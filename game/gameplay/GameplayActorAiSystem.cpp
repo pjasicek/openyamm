@@ -817,7 +817,7 @@ bool monsterSpellIsOkToCast(
         return false;
     }
 
-    if (spellName == "power cure")
+    if (spellName == "heal" || spellName == "power cure")
     {
         return stats.currentHp < stats.maxHp;
     }
@@ -913,6 +913,65 @@ void setMonsterSelfBuffPower(
     {
         state.heroismPower = std::max(state.heroismPower, power);
     }
+}
+
+int monsterSelfHealAmount(
+    const std::string &spellName,
+    uint32_t skillLevel,
+    SkillMastery skillMastery)
+{
+    const int level = static_cast<int>(std::max<uint32_t>(1, skillLevel));
+
+    if (spellName == "power cure")
+    {
+        return 10 + 5 * level;
+    }
+
+    if (spellName == "heal")
+    {
+        if (skillMastery == SkillMastery::Grandmaster)
+        {
+            return 5 + 5 * level;
+        }
+
+        if (skillMastery == SkillMastery::Master)
+        {
+            return 5 + 4 * level;
+        }
+
+        if (skillMastery == SkillMastery::Expert)
+        {
+            return 5 + 3 * level;
+        }
+
+        return 5 + 2 * level;
+    }
+
+    return 0;
+}
+
+bool applyMonsterSelfHealSpell(
+    GameplayActorAttackAbility ability,
+    const ActorStatsFacts &stats,
+    int &nextCurrentHp)
+{
+    const std::string &spellName =
+        ability == GameplayActorAttackAbility::Spell1
+            ? stats.spell1Name
+            : ability == GameplayActorAttackAbility::Spell2 ? stats.spell2Name : std::string();
+
+    if (spellName != "heal" && spellName != "power cure")
+    {
+        return false;
+    }
+
+    const uint32_t skillLevel =
+        ability == GameplayActorAttackAbility::Spell1 ? stats.spell1SkillLevel : stats.spell2SkillLevel;
+    const SkillMastery skillMastery =
+        ability == GameplayActorAttackAbility::Spell1 ? stats.spell1SkillMastery : stats.spell2SkillMastery;
+    const int healAmount = monsterSelfHealAmount(spellName, skillLevel, skillMastery);
+    nextCurrentHp = std::clamp(stats.currentHp + healAmount, 0, std::max(1, stats.maxHp));
+    return nextCurrentHp > stats.currentHp;
 }
 
 bool applyMonsterSelfBuffSpell(
@@ -2950,6 +3009,24 @@ void applyAttackImpactOutcome(const ActorAiFacts &actor, ActorAiUpdate &update)
 
     if (attackAbilityIsSpell(actor.runtime.queuedAttackAbility))
     {
+        int healedCurrentHp = actor.stats.currentHp;
+
+        if (applyMonsterSelfHealSpell(
+                actor.runtime.queuedAttackAbility,
+                actor.stats,
+                healedCurrentHp))
+        {
+            const bool spell1 = actor.runtime.queuedAttackAbility == GameplayActorAttackAbility::Spell1;
+            ActorFxRequest healFx = {};
+            healFx.kind = ActorAiFxRequestKind::Buff;
+            healFx.actorIndex = actor.actorIndex;
+            healFx.spellId = spell1 ? actor.stats.spell1Id : actor.stats.spell2Id;
+            healFx.position = actor.movement.position;
+            update.fxRequests.push_back(healFx);
+            update.state.currentHp = healedCurrentHp;
+            return;
+        }
+
         if (applyMonsterSelfBuffSpell(
                 actor.runtime.queuedAttackAbility,
                 actor.stats,

@@ -2187,10 +2187,6 @@ TEST_CASE("event fountain heal and refresh status work")
     REQUIRE_FALSE(harness.eventRuntimeState().statusMessages.empty());
     CHECK_EQ(harness.eventRuntimeState().statusMessages.back(), "Your Wounds begin to Heal");
 
-    constexpr uint32_t FountainHealAutoNoteRawId = (248u << 16) | 0x00dfu;
-
-    CHECK(harness.eventRuntimeState().variables.contains(FountainHealAutoNoteRawId));
-
     harness.eventRuntimeState().statusMessages.clear();
     pMember->health = pMember->maxHealth;
 
@@ -2256,11 +2252,8 @@ TEST_CASE("event hidden well uses bank gold gate and mapvar progress")
 
     REQUIRE(rewardHarness.executeOut01LocalEvent(103));
     CHECK_EQ(rewardHarness.party().gold(), 1000);
-    CHECK_EQ(rewardHarness.eventRuntimeState().mapVars[29], 1);
+    CHECK_EQ(rewardHarness.eventRuntimeState().mapVars[31], 1);
 
-    constexpr uint32_t HiddenWellAutoNoteRawId = (247u << 16) | 0x00dfu;
-
-    CHECK(rewardHarness.eventRuntimeState().variables.contains(HiddenWellAutoNoteRawId));
 }
 
 TEST_CASE("event beacon actual stat checks include temporary bonuses")
@@ -2432,6 +2425,30 @@ TEST_CASE("repeat promotion events include first member")
 
         REQUIRE(pMember0 != nullptr);
         CHECK_EQ(pMember0->className, testCase.promotedClassName);
+
+        if (testCase.eventId == 738)
+        {
+            CHECK_EQ(pMember0->characterDataId, 27u);
+            CHECK_EQ(pMember0->portraitPictureId, 26u);
+            CHECK_EQ(pMember0->portraitTextureName, "PC27-01");
+            CHECK_EQ(pMember0->voiceId, 26);
+
+            for (size_t memberIndex = 0; memberIndex < harness.party().members().size(); ++memberIndex)
+            {
+                const OpenYAMM::Game::Character *pMember = harness.party().member(memberIndex);
+
+                REQUIRE(pMember != nullptr);
+
+                if (pMember->sexId == 1)
+                {
+                    CHECK_EQ(pMember->characterDataId, 28u);
+                    CHECK_EQ(pMember->portraitPictureId, 27u);
+                    CHECK_EQ(pMember->portraitTextureName, "PC28-01");
+                    CHECK_EQ(pMember->voiceId, 27);
+                }
+            }
+        }
+
         CHECK(harness.party().hasAward(0, testCase.promotionAwardId));
         CHECK(portraitFxContainsMember(
             harness.eventRuntimeState(),
@@ -2524,10 +2541,6 @@ TEST_CASE("event palm tree requires perception skill")
 
     REQUIRE(rewardHarness.executeOut01LocalEvent(494));
     CHECK(rewardHarness.party().hasQuestBit(270));
-    REQUIRE_FALSE(rewardHarness.eventRuntimeState().pendingSounds.empty());
-    CHECK_EQ(
-        rewardHarness.eventRuntimeState().pendingSounds.back().soundId,
-        static_cast<uint32_t>(OpenYAMM::Game::SoundId::Quest));
 }
 
 TEST_CASE("long tail tobersk buy topic remains available after purchase")

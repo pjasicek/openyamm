@@ -2489,6 +2489,7 @@ bool initializeRegressionScenario(
 
     scenario.party = {};
     scenario.party.setItemTable(&gameDataLoader.getItemTable());
+    scenario.party.setJournalQuestTable(&gameDataLoader.getJournalQuestTable());
     scenario.party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
     scenario.party.setItemEnchantTables(
         &gameDataLoader.getStandardItemEnchantTable(),
@@ -2513,6 +2514,7 @@ bool initializeIndoorRegressionScenario(
 
     scenario.party = {};
     scenario.party.setItemTable(&gameDataLoader.getItemTable());
+    scenario.party.setJournalQuestTable(&gameDataLoader.getJournalQuestTable());
     scenario.party.setCharacterDollTable(&gameDataLoader.getCharacterDollTable());
     scenario.party.setItemEnchantTables(
         &gameDataLoader.getStandardItemEnchantTable(),
@@ -14091,7 +14093,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            constexpr uint32_t QBitId = 777;
+            constexpr uint32_t QBitId = 5;
             constexpr uint32_t QBitRawId = (QBitId << 16) | static_cast<uint32_t>(EvtVariable::QBits);
             scenario.party.setQuestBit(QBitId, false);
             scenario.pEventRuntimeState->portraitFxRequests.clear();
@@ -14124,11 +14126,11 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                 return false;
             }
 
-            bool sawAwardFx = false;
+            bool sawQuestFx = false;
 
             for (const EventRuntimeState::PortraitFxRequest &request : scenario.pEventRuntimeState->portraitFxRequests)
             {
-                if (request.kind != PortraitFxEventKind::AwardGain)
+                if (request.kind != PortraitFxEventKind::QuestComplete)
                 {
                     continue;
                 }
@@ -14139,12 +14141,12 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
                         scenario.party.activeMemberIndex())
                     != request.memberIndices.end())
                 {
-                    sawAwardFx = true;
+                    sawQuestFx = true;
                     break;
                 }
             }
 
-            if (!sawAwardFx)
+            if (!sawQuestFx)
             {
                 failure = "outdoor timer qbit set did not queue portrait fx";
                 return false;

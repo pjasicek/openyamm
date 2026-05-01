@@ -8,6 +8,7 @@
 #include "game/gameplay/GameplayActorAiSystem.h"
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayFxService.h"
+#include "game/gameplay/MonsterSpellSupport.h"
 #include "game/items/ItemGenerator.h"
 #include "game/gameplay/TreasureRuntime.h"
 #include "game/outdoor/OutdoorGameView.h"
@@ -1176,45 +1177,12 @@ float monsterRecoverySeconds(int recoveryTicks)
 
 bool isProjectileSpellName(const std::string &spellName)
 {
-    static const std::vector<std::string> projectileSpellNames = {
-        "fire bolt",
-        "fireball",
-        "incinerate",
-        "lightning bolt",
-        "ice bolt",
-        "acid burst",
-        "deadly swarm",
-        "blades",
-        "rock blast",
-        "mind blast",
-        "psychic shock",
-        "harm",
-        "light bolt",
-        "toxic cloud",
-        "dragon breath",
-    };
-
-    return std::find(projectileSpellNames.begin(), projectileSpellNames.end(), toLowerCopy(spellName))
-        != projectileSpellNames.end();
+    return isMonsterProjectileSpellName(spellName);
 }
 
 bool outdoorMonsterSelfBuffSpellName(const std::string &spellName)
 {
-    static const std::vector<std::string> selfBuffSpellNames = {
-        "bless",
-        "day of protection",
-        "fate",
-        "hammerhands",
-        "haste",
-        "heroism",
-        "hour of power",
-        "pain reflection",
-        "shield",
-        "stoneskin",
-    };
-
-    return std::find(selfBuffSpellNames.begin(), selfBuffSpellNames.end(), toLowerCopy(spellName))
-        != selfBuffSpellNames.end();
+    return isMonsterSelfActionSpellName(spellName);
 }
 
 bool outdoorMonsterSpellCastSupported(const std::string &spellName)
@@ -6451,6 +6419,11 @@ void OutdoorWorldRuntime::applyOutdoorActorStateUpdate(
     if (state.bloodSplatSpawned)
     {
         actor.bloodSplatSpawned = *state.bloodSplatSpawned;
+    }
+
+    if (state.currentHp)
+    {
+        actor.currentHp = std::clamp(*state.currentHp, 0, std::max(1, actor.maxHp));
     }
 
     if (!activeActor)

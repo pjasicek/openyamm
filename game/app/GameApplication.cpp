@@ -1457,6 +1457,7 @@ void GameApplication::bindPartyDependencies(Party &party) const
 {
     const GameDataRepository &data = m_gameSession.data();
     party.setItemTable(&data.itemTable());
+    party.setJournalQuestTable(&data.journalQuestTable());
     party.setCharacterDollTable(&data.characterDollTable());
     party.setItemEnchantTables(&data.standardItemEnchantTable(), &data.specialItemEnchantTable());
     party.setClassMultiplierTable(&data.classMultiplierTable());

@@ -12,6 +12,7 @@
 #include "game/gameplay/GameplayActorService.h"
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayProjectileService.h"
+#include "game/gameplay/MonsterSpellSupport.h"
 #include "game/gameplay/TreasureRuntime.h"
 #include "game/indoor/IndoorRenderer.h"
 #include "game/indoor/IndoorGameView.h"
@@ -967,45 +968,12 @@ float indoorActorProjectileSourceHeightFactor(GameplayActorAttackAbility ability
 
 bool indoorProjectileSpellName(const std::string &spellName)
 {
-    static const std::vector<std::string> projectileSpellNames = {
-        "fire bolt",
-        "fireball",
-        "incinerate",
-        "lightning bolt",
-        "ice bolt",
-        "acid burst",
-        "deadly swarm",
-        "blades",
-        "rock blast",
-        "mind blast",
-        "psychic shock",
-        "harm",
-        "light bolt",
-        "toxic cloud",
-        "dragon breath",
-    };
-
-    return std::find(projectileSpellNames.begin(), projectileSpellNames.end(), toLowerCopy(spellName))
-        != projectileSpellNames.end();
+    return isMonsterProjectileSpellName(spellName);
 }
 
 bool indoorMonsterSelfBuffSpellName(const std::string &spellName)
 {
-    static const std::vector<std::string> selfBuffSpellNames = {
-        "bless",
-        "day of protection",
-        "fate",
-        "hammerhands",
-        "haste",
-        "heroism",
-        "hour of power",
-        "pain reflection",
-        "shield",
-        "stoneskin",
-    };
-
-    return std::find(selfBuffSpellNames.begin(), selfBuffSpellNames.end(), toLowerCopy(spellName))
-        != selfBuffSpellNames.end();
+    return isMonsterSelfActionSpellName(spellName);
 }
 
 bool indoorMonsterSpellCastSupported(const std::string &spellName)
@@ -3438,6 +3406,11 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
                 aiState.bloodSplatSpawned = false;
                 removeBloodSplat(aiState.actorId);
             }
+        }
+
+        if (update.state.currentHp)
+        {
+            actor.hp = static_cast<int16_t>(std::clamp(*update.state.currentHp, 0, 32767));
         }
 
         if (update.state.motionState)
@@ -9057,8 +9030,10 @@ bool IndoorWorldRuntime::autoLootMapActorCorpse(size_t actorIndex)
         return false;
     }
 
+    GameplayUiController::HeldInventoryItemState *pHeldInventoryItem =
+        m_pGameplayView != nullptr ? &m_pGameplayView->heldInventoryItem() : nullptr;
     const GameplayCorpseAutoLootResult lootResult =
-        autoLootActiveCorpseView(*this, *m_pParty, m_pItemTable);
+        autoLootActiveCorpseView(*this, *m_pParty, m_pItemTable, pHeldInventoryItem);
 
     if (m_pGameplayView != nullptr && !lootResult.statusText.empty())
     {

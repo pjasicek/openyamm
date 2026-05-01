@@ -19,6 +19,7 @@ class JournalQuestTable
 public:
     bool loadFromRows(const std::vector<std::vector<std::string>> &rows);
     const std::vector<JournalQuestEntry> &entries() const;
+    bool hasQuestText(uint32_t qbitId) const;
 
 private:
     std::vector<JournalQuestEntry> m_entries;

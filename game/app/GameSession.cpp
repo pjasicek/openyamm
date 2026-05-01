@@ -20,6 +20,7 @@ Party buildConfiguredParty(
 {
     Party party = {};
     party.setItemTable(&data.itemTable());
+    party.setJournalQuestTable(&data.journalQuestTable());
     party.setItemEnchantTables(&data.standardItemEnchantTable(), &data.specialItemEnchantTable());
     party.setClassMultiplierTable(&data.classMultiplierTable());
     party.setClassSkillTable(&data.classSkillTable());

@@ -73,6 +73,8 @@ public:
     float gameplayCameraYawRadians() const override;
     bool activeMemberKnowsSpell(uint32_t spellId) const;
     bool activeMemberHasSpellbookSchool(GameplayUiController::SpellbookSchool school) const;
+    GameplayUiController::HeldInventoryItemState &heldInventoryItem();
+    const GameplayUiController::HeldInventoryItemState &heldInventoryItem() const;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void executeActiveDialogAction() override;
     bool tryCastSpellRequest(

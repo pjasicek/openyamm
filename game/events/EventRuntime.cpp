@@ -6,6 +6,7 @@
 #include "game/items/ItemGenerator.h"
 #include "game/party/Party.h"
 #include "game/party/SkillData.h"
+#include "game/tables/JournalQuestTable.h"
 
 #include <algorithm>
 #include <cmath>
@@ -397,6 +398,17 @@ std::optional<SoundId> soundIdForPortraitFxEvent(PortraitFxEventKind kind)
     }
 
     return std::nullopt;
+}
+
+bool shouldQueueQuestBitFx(const Party *pParty, uint32_t qbitId, int32_t previousValue, int32_t newValue)
+{
+    if (pParty == nullptr || previousValue != 0 || newValue == 0)
+    {
+        return false;
+    }
+
+    const JournalQuestTable *pQuestTable = pParty->journalQuestTable();
+    return pQuestTable != nullptr && pQuestTable->hasQuestText(qbitId);
 }
 
 std::optional<SpeechId> speechIdForLegacyFaceAnimationId(uint32_t faceAnimationId)
@@ -2631,9 +2643,10 @@ void EventRuntime::setVariableValue(
             runtimeState.variables[variable.rawId] = normalizedValue;
         }
 
-        if (variable.kind == VariableKind::QBits && value != 0 && previousValue == 0)
+        if (variable.kind == VariableKind::QBits
+            && shouldQueueQuestBitFx(pParty, variable.rawId, previousValue, normalizedValue))
         {
-            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::AwardGain, pParty, targetMemberIndices);
+            queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, targetMemberIndices);
         }
 
         return;
@@ -3112,7 +3125,8 @@ void EventRuntime::addVariableValue(
             runtimeState.variables[variable.rawId] = normalizedValue;
         }
 
-        if (variable.kind == VariableKind::QBits && value != 0 && previousValue == 0)
+        if (variable.kind == VariableKind::QBits
+            && shouldQueueQuestBitFx(pParty, variable.rawId, previousValue, normalizedValue))
         {
             queuePortraitFxRequest(runtimeState, PortraitFxEventKind::QuestComplete, pParty, targetMemberIndices);
         }

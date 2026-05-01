@@ -207,6 +207,45 @@ InventoryItem normalizedCorpseInventoryItem(const GameplayChestItemState &item)
 
     return inventoryItem;
 }
+
+bool displaceHeldItemToWorld(
+    IGameplayWorldRuntime &worldRuntime,
+    GameplayUiController::HeldInventoryItemState &heldInventoryItem)
+{
+    if (!heldInventoryItem.active)
+    {
+        return true;
+    }
+
+    std::optional<GameplayHeldItemDropRequest> dropRequest = worldRuntime.buildHeldItemDropRequest();
+
+    if (!dropRequest)
+    {
+        return false;
+    }
+
+    dropRequest->item = heldInventoryItem.item;
+
+    if (!worldRuntime.dropHeldItemToWorld(*dropRequest))
+    {
+        return false;
+    }
+
+    heldInventoryItem = {};
+    return true;
+}
+
+void setHeldInventoryItem(
+    GameplayUiController::HeldInventoryItemState &heldInventoryItem,
+    const InventoryItem &item)
+{
+    heldInventoryItem.active = true;
+    heldInventoryItem.item = item;
+    heldInventoryItem.grabCellOffsetX = 0;
+    heldInventoryItem.grabCellOffsetY = 0;
+    heldInventoryItem.grabOffsetX = 0.0f;
+    heldInventoryItem.grabOffsetY = 0.0f;
+}
 }
 
 GameplayCorpseViewState buildMonsterCorpseView(
@@ -298,7 +337,8 @@ GameplayCorpseViewState buildMonsterCorpseView(
 GameplayCorpseAutoLootResult autoLootActiveCorpseView(
     IGameplayWorldRuntime &worldRuntime,
     Party &party,
-    const ItemTable *pItemTable)
+    const ItemTable *pItemTable,
+    GameplayUiController::HeldInventoryItemState *pHeldInventoryItem)
 {
     GameplayCorpseAutoLootResult result = {};
 
@@ -331,7 +371,7 @@ GameplayCorpseAutoLootResult autoLootActiveCorpseView(
         const InventoryItem inventoryItem = normalizedCorpseInventoryItem(item);
         const std::string itemName = corpseLootItemName(item, pItemTable);
 
-        if (party.tryGrantInventoryItem(inventoryItem))
+        if (party.tryGrantInventoryItemStartingAt(party.activeMemberIndex(), inventoryItem))
         {
             GameplayChestItemState removedItem = {};
 
@@ -347,6 +387,27 @@ GameplayCorpseAutoLootResult autoLootActiveCorpseView(
 
             result.lootedAny = true;
             continue;
+        }
+
+        if (pHeldInventoryItem != nullptr && displaceHeldItemToWorld(worldRuntime, *pHeldInventoryItem))
+        {
+            GameplayChestItemState removedItem = {};
+
+            if (!worldRuntime.takeActiveCorpseItem(0, removedItem))
+            {
+                break;
+            }
+
+            setHeldInventoryItem(*pHeldInventoryItem, normalizedCorpseInventoryItem(removedItem));
+
+            if (result.firstItemName.empty())
+            {
+                result.firstItemName = itemName;
+            }
+
+            result.lootedAny = true;
+            result.blockedByInventory = true;
+            break;
         }
 
         result.blockedByInventory = true;

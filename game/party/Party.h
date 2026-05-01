@@ -21,6 +21,7 @@ namespace OpenYAMM::Game
 class ItemTable;
 class CharacterDollTable;
 class ClassMultiplierTable;
+class JournalQuestTable;
 struct RosterEntry;
 struct EventRuntimeState;
 class StandardItemEnchantTable;
@@ -318,11 +319,13 @@ public:
     static PartySeed createDefaultSeed();
 
     void setItemTable(const ItemTable *pItemTable);
+    void setJournalQuestTable(const JournalQuestTable *pJournalQuestTable);
     void setCharacterDollTable(const CharacterDollTable *pCharacterDollTable);
     void setItemEnchantTables(
         const StandardItemEnchantTable *pStandardItemEnchantTable,
         const SpecialItemEnchantTable *pSpecialItemEnchantTable);
     const ItemTable *itemTable() const;
+    const JournalQuestTable *journalQuestTable() const;
     const StandardItemEnchantTable *standardItemEnchantTable() const;
     const SpecialItemEnchantTable *specialItemEnchantTable() const;
     int32_t eventVariableValue(uint16_t variableId) const;
@@ -369,6 +372,10 @@ public:
     void setNpcUnavailable(uint32_t npcId, bool unavailable);
     bool tryGrantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool tryGrantInventoryItem(const InventoryItem &item, size_t *pRecipientMemberIndex = nullptr);
+    bool tryGrantInventoryItemStartingAt(
+        size_t firstMemberIndex,
+        const InventoryItem &item,
+        size_t *pRecipientMemberIndex = nullptr);
     void grantItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool removeItem(uint32_t objectDescriptionId, uint32_t quantity = 1);
     bool needsHealing() const;
@@ -566,6 +573,7 @@ private:
     SoundId resolveDamageImpactSoundForMember(size_t memberIndex) const;
 
     const ItemTable *m_pItemTable = nullptr;
+    const JournalQuestTable *m_pJournalQuestTable = nullptr;
     const CharacterDollTable *m_pCharacterDollTable = nullptr;
     const StandardItemEnchantTable *m_pStandardItemEnchantTable = nullptr;
     const SpecialItemEnchantTable *m_pSpecialItemEnchantTable = nullptr;

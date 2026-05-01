@@ -61,4 +61,18 @@ const std::vector<JournalQuestEntry> &JournalQuestTable::entries() const
 {
     return m_entries;
 }
+
+bool JournalQuestTable::hasQuestText(uint32_t qbitId) const
+{
+    const std::vector<JournalQuestEntry>::const_iterator iterator = std::lower_bound(
+        m_entries.begin(),
+        m_entries.end(),
+        qbitId,
+        [](const JournalQuestEntry &entry, uint32_t value)
+        {
+            return entry.qbitId < value;
+        });
+
+    return iterator != m_entries.end() && iterator->qbitId == qbitId && !iterator->text.empty();
+}
 }
