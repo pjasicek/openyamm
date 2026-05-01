@@ -3863,7 +3863,7 @@ void OutdoorGameView::updateHouseVideoPlayback(float deltaSeconds)
             if (greetingSoundId.has_value())
             {
                 m_pGameAudioSystem->playSound(
-                    *greetingSoundId,
+                    worldSound(*greetingSoundId),
                     GameAudioSystem::PlaybackGroup::HouseSpeech);
             }
         }

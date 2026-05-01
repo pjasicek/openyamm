@@ -64,6 +64,7 @@ add_executable(openyamm
     gameplay/StoryTextFormatter.cpp
     gameplay/TreasureRuntime.cpp
     audio/HouseVideoPlayer.cpp
+    content/ContentManifest.cpp
     items/InventoryItemUseRuntime.cpp
     items/InventoryItemMixingRuntime.cpp
     maps/IndoorSceneYml.cpp
@@ -91,6 +92,7 @@ add_executable(openyamm
     indoor/IndoorPortalVisibility.cpp
     indoor/IndoorWorldRuntime.cpp
     maps/MapAssetLoader.cpp
+    maps/MapIdentity.cpp
     maps/MapRegistry.cpp
     tables/MapStats.cpp
     gameplay/MasteryTeacherDialog.cpp

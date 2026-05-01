@@ -2,6 +2,7 @@
 
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
+#include "engine/ImageAssetLoader.h"
 #include "game/FaceEnums.h"
 #include "game/events/EventRuntime.h"
 #include "game/indoor/IndoorGeometryUtils.h"
@@ -131,45 +132,12 @@ std::optional<std::string> findBitmapPath(
     const std::string &textureName,
     BitmapLoadCache &bitmapLoadCache)
 {
-    const std::string cacheKey = directoryPath + "|" + toLowerCopy(textureName);
-    const auto cachedIt = bitmapLoadCache.bitmapPathByKey.find(cacheKey);
-
-    if (cachedIt != bitmapLoadCache.bitmapPathByKey.end())
-    {
-        return cachedIt->second;
-    }
-
-    const auto directoryIt = bitmapLoadCache.directoryEntriesByPath.find(directoryPath);
-    const std::unordered_map<std::string, std::string> *pEntries = nullptr;
-
-    if (directoryIt != bitmapLoadCache.directoryEntriesByPath.end())
-    {
-        pEntries = &directoryIt->second;
-    }
-    else
-    {
-        std::vector<std::string> entries = assetFileSystem.enumerate(directoryPath);
-        std::unordered_map<std::string, std::string> resolvedEntries;
-
-        for (const std::string &entry : entries)
-        {
-            resolvedEntries.emplace(toLowerCopy(entry), directoryPath + "/" + entry);
-        }
-
-        pEntries = &bitmapLoadCache.directoryEntriesByPath.emplace(directoryPath, std::move(resolvedEntries)).first->second;
-    }
-
-    const std::string normalizedName = toLowerCopy(textureName) + ".bmp";
-    const auto resolvedIt = pEntries->find(normalizedName);
-
-    if (resolvedIt == pEntries->end())
-    {
-        bitmapLoadCache.bitmapPathByKey[cacheKey] = std::nullopt;
-        return std::nullopt;
-    }
-
-    bitmapLoadCache.bitmapPathByKey[cacheKey] = resolvedIt->second;
-    return resolvedIt->second;
+    return Engine::findImageAssetPath(
+        assetFileSystem,
+        directoryPath,
+        textureName,
+        bitmapLoadCache.directoryEntriesByPath,
+        bitmapLoadCache.bitmapPathByKey);
 }
 
 std::optional<std::string> findDirectoryEntryPath(
@@ -286,7 +254,12 @@ std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgra(
     }
 
     const std::optional<std::string> bitmapPath =
-        findDirectoryEntryPath(assetFileSystem, "Data/sprites", textureName + ".bmp", bitmapLoadCache);
+        Engine::findImageAssetPath(
+            assetFileSystem,
+            "Data/sprites",
+            textureName,
+            bitmapLoadCache.directoryEntriesByPath,
+            bitmapLoadCache.bitmapPathByKey);
 
     if (!bitmapPath)
     {
@@ -313,104 +286,23 @@ std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgra(
         return std::nullopt;
     }
 
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+    Engine::ImageDecodeOptions decodeOptions = {};
+    decodeOptions.overridePalette = loadActPalette(assetFileSystem, paletteId, bitmapLoadCache);
+    decodeOptions.applyMagentaTransparencyKey = true;
+    decodeOptions.applyTealTransparencyKey = true;
 
-    if (pIoStream == nullptr)
+    const std::optional<Engine::ImagePixelsBgra> image =
+        Engine::decodeImagePixelsBgra(*bitmapBytes, *bitmapPath, decodeOptions);
+
+    if (!image)
     {
         bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
         return std::nullopt;
     }
 
-    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
-
-    if (pLoadedSurface == nullptr)
-    {
-        bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
-        return std::nullopt;
-    }
-
-    SDL_Palette *pBasePalette = SDL_GetSurfacePalette(pLoadedSurface);
-    const std::optional<std::array<uint8_t, 256 * 3>> overridePalette =
-        loadActPalette(assetFileSystem, paletteId, bitmapLoadCache);
-    const bool canApplyPalette =
-        overridePalette.has_value()
-        && pLoadedSurface->format == SDL_PIXELFORMAT_INDEX8
-        && pBasePalette != nullptr;
-
-    if (canApplyPalette)
-    {
-        width = pLoadedSurface->w;
-        height = pLoadedSurface->h;
-        std::vector<uint8_t> pixels(static_cast<size_t>(width) * static_cast<size_t>(height) * 4);
-
-        for (int row = 0; row < height; ++row)
-        {
-            const uint8_t *pSourceRow = static_cast<const uint8_t *>(pLoadedSurface->pixels)
-                + static_cast<ptrdiff_t>(row * pLoadedSurface->pitch);
-
-            for (int column = 0; column < width; ++column)
-            {
-                const uint8_t paletteIndex = pSourceRow[column];
-                const SDL_Color sourceColor =
-                    paletteIndex < pBasePalette->ncolors
-                        ? pBasePalette->colors[paletteIndex]
-                        : SDL_Color{0, 0, 0, 255};
-                const bool isMagentaKey =
-                    sourceColor.r >= 248 && sourceColor.g <= 8 && sourceColor.b >= 248;
-                const bool isTealKey =
-                    sourceColor.r <= 8 && sourceColor.g >= 248 && sourceColor.b >= 248;
-                const size_t paletteOffset = static_cast<size_t>(paletteIndex) * 3;
-                const size_t pixelOffset =
-                    (static_cast<size_t>(row) * static_cast<size_t>(width) + static_cast<size_t>(column)) * 4;
-
-                pixels[pixelOffset + 0] = (*overridePalette)[paletteOffset + 2];
-                pixels[pixelOffset + 1] = (*overridePalette)[paletteOffset + 1];
-                pixels[pixelOffset + 2] = (*overridePalette)[paletteOffset + 0];
-                pixels[pixelOffset + 3] = (isMagentaKey || isTealKey) ? 0 : 255;
-            }
-        }
-
-        SDL_DestroySurface(pLoadedSurface);
-        bitmapLoadCache.pixelsByKey[cacheKey] = BitmapPixelsResult{width, height, pixels};
-        return pixels;
-    }
-
-    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
-    SDL_DestroySurface(pLoadedSurface);
-
-    if (pConvertedSurface == nullptr)
-    {
-        bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
-        return std::nullopt;
-    }
-
-    width = pConvertedSurface->w;
-    height = pConvertedSurface->h;
-    std::vector<uint8_t> pixels(static_cast<size_t>(width) * static_cast<size_t>(height) * 4);
-
-    for (int row = 0; row < height; ++row)
-    {
-        const uint8_t *pSourceRow = static_cast<const uint8_t *>(pConvertedSurface->pixels)
-            + static_cast<ptrdiff_t>(row * pConvertedSurface->pitch);
-        uint8_t *pTargetRow = pixels.data() + static_cast<size_t>(row) * static_cast<size_t>(width) * 4;
-        std::memcpy(pTargetRow, pSourceRow, static_cast<size_t>(width) * 4);
-    }
-
-    for (size_t pixelOffset = 0; pixelOffset < pixels.size(); pixelOffset += 4)
-    {
-        const uint8_t blue = pixels[pixelOffset + 0];
-        const uint8_t green = pixels[pixelOffset + 1];
-        const uint8_t red = pixels[pixelOffset + 2];
-        const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
-        const bool isTealKey = red <= 8 && green >= 248 && blue >= 248;
-
-        if (isMagentaKey || isTealKey)
-        {
-            pixels[pixelOffset + 3] = 0;
-        }
-    }
-
-    SDL_DestroySurface(pConvertedSurface);
+    width = image->width;
+    height = image->height;
+    std::vector<uint8_t> pixels = image->pixels;
     bitmapLoadCache.pixelsByKey[cacheKey] = BitmapPixelsResult{width, height, pixels};
     return pixels;
 }
@@ -469,46 +361,25 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
         return std::nullopt;
     }
 
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+    const std::optional<Engine::ImagePixelsBgra> image =
+        Engine::decodeImagePixelsBgra(*bitmapBytes, *bitmapPath);
 
-    if (pIoStream == nullptr)
+    if (!image)
     {
         bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
         return std::nullopt;
     }
 
-    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
-
-    if (pLoadedSurface == nullptr)
-    {
-        bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
-        return std::nullopt;
-    }
-
-    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
-    SDL_DestroySurface(pLoadedSurface);
-
-    if (pConvertedSurface == nullptr)
-    {
-        bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
-        return std::nullopt;
-    }
-
-    width = pConvertedSurface->w;
-    height = pConvertedSurface->h;
+    width = image->width;
+    height = image->height;
 
     if (forceTerrainTileSize && (width != forcedTerrainTileSize || height != forcedTerrainTileSize))
     {
-        SDL_DestroySurface(pConvertedSurface);
         bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
         return std::nullopt;
     }
 
-    const size_t pixelCount = static_cast<size_t>(width * height * 4);
-    std::vector<uint8_t> pixels(pixelCount);
-    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
-    SDL_DestroySurface(pConvertedSurface);
-
+    std::vector<uint8_t> pixels = image->pixels;
     bitmapLoadCache.pixelsByKey[cacheKey] = BitmapPixelsResult{width, height, pixels};
     return pixels;
 }

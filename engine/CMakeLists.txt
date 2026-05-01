@@ -5,6 +5,7 @@ add_library(openyamm_engine
     AssetFileSystem.cpp
     AssetScaleTier.cpp
     AssetPaths.cpp
+    ImageAssetLoader.cpp
     EngineApplication.cpp
     scripting/LuaStateOwner.cpp
     TextTable.cpp

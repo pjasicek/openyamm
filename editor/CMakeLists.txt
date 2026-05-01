@@ -28,6 +28,7 @@ add_executable(openyamm-editor
     ${CMAKE_SOURCE_DIR}/game/events/ScriptedEventProgram.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/IndoorSceneYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/MapDeltaData.cpp
+    ${CMAKE_SOURCE_DIR}/game/maps/MapIdentity.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/OutdoorSceneYml.cpp
     ${CMAKE_SOURCE_DIR}/game/maps/TerrainTileData.cpp
     ${CMAKE_SOURCE_DIR}/game/party/SkillData.cpp

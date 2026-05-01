@@ -2931,7 +2931,7 @@ void GameplayOverlayInputController::handleDialogueOverlayInput(
                     if (soundId.has_value())
                     {
                         view.audioSystem()->playSound(
-                            *soundId,
+                            worldSound(*soundId),
                             GameAudioSystem::PlaybackGroup::HouseSpeech);
                     }
                 }

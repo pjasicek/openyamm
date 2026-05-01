@@ -147,6 +147,19 @@ std::string dataTablePath(std::string_view fileName)
     return "Data/data_tables/" + std::string(fileName);
 }
 
+std::vector<std::vector<std::string>> rowsFromTextTable(const Engine::TextTable &textTable)
+{
+    std::vector<std::vector<std::string>> rows;
+    rows.reserve(textTable.getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < textTable.getRowCount(); ++rowIndex)
+    {
+        rows.push_back(textTable.getRow(rowIndex));
+    }
+
+    return rows;
+}
+
 struct AvFormatContextCloser
 {
     void operator()(AVFormatContext *pFormatContext) const
@@ -563,44 +576,46 @@ bool GameAudioSystem::initialize(
     m_pCharacterDollTable = &characterDollTable;
     m_pAssetFileSystem = &assetFileSystem;
 
-    const std::optional<std::string> soundCatalogText = assetFileSystem.readTextFile(dataTablePath("sounds.txt"));
+    const std::optional<std::string> engineSoundCatalogText =
+        assetFileSystem.readTextFile("engine/data_tables/sounds.txt");
+    const std::optional<std::string> worldSoundCatalogText =
+        assetFileSystem.readTextFile("worlds/" + assetFileSystem.getActiveWorldId() + "/data_tables/sounds.txt");
     const std::optional<std::string> speechReactionText =
         assetFileSystem.readTextFile(dataTablePath("speech_reactions.txt"));
 
-    if (!soundCatalogText || !speechReactionText)
+    if (!engineSoundCatalogText || !speechReactionText)
     {
         return false;
     }
 
-    const std::optional<Engine::TextTable> parsedSoundCatalog = Engine::TextTable::parseTabSeparated(*soundCatalogText);
+    const std::optional<Engine::TextTable> parsedEngineSoundCatalog =
+        Engine::TextTable::parseTabSeparated(*engineSoundCatalogText);
+    const std::optional<Engine::TextTable> parsedWorldSoundCatalog =
+        worldSoundCatalogText ? Engine::TextTable::parseTabSeparated(*worldSoundCatalogText) : std::nullopt;
     const std::optional<Engine::TextTable> parsedSpeechReactions =
         Engine::TextTable::parseTabSeparated(*speechReactionText);
 
-    if (!parsedSoundCatalog || !parsedSpeechReactions)
+    if (!parsedEngineSoundCatalog || (worldSoundCatalogText && !parsedWorldSoundCatalog) || !parsedSpeechReactions)
     {
         return false;
     }
 
-    std::vector<std::vector<std::string>> soundRows;
-    soundRows.reserve(parsedSoundCatalog->getRowCount());
+    const std::vector<std::vector<std::string>> engineSoundRows = rowsFromTextTable(*parsedEngineSoundCatalog);
+    const std::vector<std::vector<std::string>> worldSoundRows =
+        parsedWorldSoundCatalog ? rowsFromTextTable(*parsedWorldSoundCatalog) : std::vector<std::vector<std::string>>();
 
-    for (size_t rowIndex = 0; rowIndex < parsedSoundCatalog->getRowCount(); ++rowIndex)
-    {
-        soundRows.push_back(parsedSoundCatalog->getRow(rowIndex));
-    }
+    const std::vector<std::vector<std::string>> speechRows = rowsFromTextTable(*parsedSpeechReactions);
 
-    std::vector<std::vector<std::string>> speechRows;
-    speechRows.reserve(parsedSpeechReactions->getRowCount());
-
-    for (size_t rowIndex = 0; rowIndex < parsedSpeechReactions->getRowCount(); ++rowIndex)
-    {
-        speechRows.push_back(parsedSpeechReactions->getRow(rowIndex));
-    }
-
-    if (!m_soundCatalog.loadFromRows(soundRows)
+    std::string soundCatalogError;
+    if (!m_soundCatalog.loadFromScopedRows(engineSoundRows, worldSoundRows, soundCatalogError)
         || !m_speechReactionTable.loadFromRows(speechRows)
         || !m_audioSystem.initialize(assetFileSystem))
     {
+        if (!soundCatalogError.empty())
+        {
+            std::cerr << "Failed to load sound catalog: " << soundCatalogError << '\n';
+        }
+
         shutdown();
         return false;
     }
@@ -812,15 +827,23 @@ bool GameAudioSystem::playSound(
     PlaybackGroup group,
     const std::optional<WorldPosition> &position)
 {
-    const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPath(soundId);
+    return playSound(engineSound(soundId), group, position);
+}
+
+bool GameAudioSystem::playSound(
+    SoundRef sound,
+    PlaybackGroup group,
+    const std::optional<WorldPosition> &position)
+{
+    const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPath(sound);
 
     if (!virtualPath)
     {
-        logAudioTraceUnresolvedSound("playSound", soundId, group, position, false);
+        logAudioTraceUnresolvedSound("playSound", sound.id, group, position, false);
         return false;
     }
 
-    return playResolvedSound(*virtualPath, group, position, false, soundId, "playSound") != 0;
+    return playResolvedSound(*virtualPath, group, position, false, sound.id, "playSound") != 0;
 }
 
 uint64_t GameAudioSystem::playSoundInstance(
@@ -829,15 +852,24 @@ uint64_t GameAudioSystem::playSoundInstance(
     const std::optional<WorldPosition> &position,
     bool loop)
 {
-    const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPath(soundId);
+    return playSoundInstance(engineSound(soundId), group, position, loop);
+}
+
+uint64_t GameAudioSystem::playSoundInstance(
+    SoundRef sound,
+    PlaybackGroup group,
+    const std::optional<WorldPosition> &position,
+    bool loop)
+{
+    const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPath(sound);
 
     if (!virtualPath)
     {
-        logAudioTraceUnresolvedSound("playSoundInstance", soundId, group, position, loop);
+        logAudioTraceUnresolvedSound("playSoundInstance", sound.id, group, position, loop);
         return 0;
     }
 
-    return playResolvedSound(*virtualPath, group, position, loop, soundId, "playSoundInstance");
+    return playResolvedSound(*virtualPath, group, position, loop, sound.id, "playSoundInstance");
 }
 
 bool GameAudioSystem::playLoopingSound(
@@ -845,15 +877,23 @@ bool GameAudioSystem::playLoopingSound(
     PlaybackGroup group,
     const std::optional<WorldPosition> &position)
 {
-    const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPath(soundId);
+    return playLoopingSound(engineSound(soundId), group, position);
+}
+
+bool GameAudioSystem::playLoopingSound(
+    SoundRef sound,
+    PlaybackGroup group,
+    const std::optional<WorldPosition> &position)
+{
+    const std::optional<std::string> virtualPath = m_soundCatalog.buildVirtualPath(sound);
 
     if (!virtualPath)
     {
-        logAudioTraceUnresolvedSound("playLoopingSound", soundId, group, position, true);
+        logAudioTraceUnresolvedSound("playLoopingSound", sound.id, group, position, true);
         return false;
     }
 
-    return playResolvedSound(*virtualPath, group, position, true, soundId, "playLoopingSound") != 0;
+    return playResolvedSound(*virtualPath, group, position, true, sound.id, "playLoopingSound") != 0;
 }
 
 uint64_t GameAudioSystem::playResolvedSound(

@@ -51,6 +51,26 @@ bool containsDiagnosticSubstring(const std::vector<std::string> &diagnostics, co
     return false;
 }
 
+std::filesystem::path activeWorldEditorPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &relativePath)
+{
+    return assetFileSystem.getEditorDevelopmentRoot()
+        / std::filesystem::path("worlds")
+        / assetFileSystem.getActiveWorldId()
+        / relativePath;
+}
+
+std::filesystem::path activeWorldDevelopmentPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &relativePath)
+{
+    return assetFileSystem.getDevelopmentRoot()
+        / std::filesystem::path("worlds")
+        / assetFileSystem.getActiveWorldId()
+        / relativePath;
+}
+
 std::string bytesToUpperHex(const std::vector<uint8_t> &bytes)
 {
     static constexpr char HexDigits[] = "0123456789ABCDEF";
@@ -823,8 +843,7 @@ bool verifyOutdoorSceneRoundTrip(
         height = static_cast<uint8_t>(std::clamp(static_cast<int>(height) + 1, 0, 255));
     }
 
-    const std::filesystem::path tempDirectory =
-        assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path tempDirectory = activeWorldEditorPath(assetFileSystem, "maps");
     const std::filesystem::path tempImportPath = tempDirectory / "__editor_headless_import.obj";
     const std::filesystem::path tempGltfPath = tempDirectory / "__editor_headless_import.gltf";
     const std::filesystem::path tempGltfBinPath = tempDirectory / "__editor_headless_import.bin";
@@ -1651,7 +1670,7 @@ bool verifyOutdoorLuaEventDiscovery(
 
     const std::optional<std::string> openPairedChest = session.describeMapEvent(81);
 
-    if (!openPairedChest || openPairedChest->find("paired chest") == std::string::npos)
+    if (!openPairedChest || openPairedChest->find("Chest") == std::string::npos)
     {
         failure = "editor did not resolve chest event 81 from out01.lua";
         return false;
@@ -1677,18 +1696,18 @@ bool verifyNewOutdoorMapCreation(
         return false;
     }
 
-    const std::filesystem::path gamesPath = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path gamesPath = activeWorldEditorPath(assetFileSystem, "maps");
     const std::filesystem::path scenePath = gamesPath / "__editor_headless_new_map.scene.yml";
     const std::filesystem::path mapPath = gamesPath / "__editor_headless_new_map.odm";
     const std::filesystem::path packagePath = gamesPath / "__editor_headless_new_map.map.yml";
     const std::filesystem::path geometryMetadataPath = gamesPath / "__editor_headless_new_map.geometry.yml";
     const std::filesystem::path terrainMetadataPath = gamesPath / "__editor_headless_new_map.terrain.yml";
     const std::filesystem::path scriptPath =
-        assetFileSystem.getEditorDevelopmentRoot() / "Data" / "scripts" / "maps" / "__editor_headless_new_map.lua";
+        activeWorldEditorPath(assetFileSystem, "events/maps/__editor_headless_new_map.lua");
     const std::filesystem::path mapStatsPath =
-        assetFileSystem.getEditorDevelopmentRoot() / "Data" / "data_tables" / "map_stats.txt";
+        activeWorldEditorPath(assetFileSystem, "data_tables/map_stats.txt");
     const std::filesystem::path mapNavigationPath =
-        assetFileSystem.getEditorDevelopmentRoot() / "Data" / "data_tables" / "map_navigation.txt";
+        activeWorldEditorPath(assetFileSystem, "data_tables/map_navigation.txt");
 
     if (!std::filesystem::exists(scenePath)
         || !std::filesystem::exists(mapPath)
@@ -1803,7 +1822,7 @@ bool verifyOutdoorSourceOnlyPackageLoad(
         return false;
     }
 
-    const std::filesystem::path gamesPath = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path gamesPath = activeWorldEditorPath(assetFileSystem, "maps");
     const std::filesystem::path mapPath = gamesPath / "__editor_headless_source_only.odm";
     std::error_code removeError;
     std::filesystem::remove(mapPath, removeError);
@@ -1923,7 +1942,7 @@ bool verifyIndoorMapPackageLoad(
         return false;
     }
 
-    const std::filesystem::path gamesPath = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path gamesPath = activeWorldEditorPath(assetFileSystem, "maps");
     const std::filesystem::path tempSourceGlbPath = gamesPath / "__editor_headless_indoor_source.glb";
 
     {
@@ -2720,7 +2739,7 @@ bool verifyOutdoorMapPackageLifecycle(
         return false;
     }
 
-    const std::filesystem::path gamesPath = assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path gamesPath = activeWorldEditorPath(assetFileSystem, "maps");
     const std::filesystem::path scenePath = gamesPath / "__editor_headless_save_as.scene.yml";
     const std::filesystem::path mapPath = gamesPath / "__editor_headless_save_as.odm";
     const std::filesystem::path packagePath = gamesPath / "__editor_headless_save_as.map.yml";
@@ -3058,11 +3077,11 @@ void removeTemporaryRowsFromTable(const std::filesystem::path &path, size_t keyC
     }
 }
 
-void removeTemporaryRoundTripSupportFiles(const std::filesystem::path &developmentRoot)
+void removeTemporaryRoundTripSupportFiles(const Engine::AssetFileSystem &assetFileSystem)
 {
-    removeTemporaryRowsFromTable(developmentRoot / "Data" / "data_tables" / "map_stats.txt", 2);
-    removeTemporaryRowsFromTable(developmentRoot / "Data" / "data_tables" / "map_navigation.txt", 0);
-    const std::filesystem::path scriptsPath = developmentRoot / "Data" / "scripts" / "maps";
+    removeTemporaryRowsFromTable(activeWorldDevelopmentPath(assetFileSystem, "data_tables/map_stats.txt"), 2);
+    removeTemporaryRowsFromTable(activeWorldDevelopmentPath(assetFileSystem, "data_tables/map_navigation.txt"), 0);
+    const std::filesystem::path scriptsPath = activeWorldDevelopmentPath(assetFileSystem, "events/maps");
 
     if (!std::filesystem::exists(scriptsPath))
     {
@@ -3132,7 +3151,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         return 1;
     }
 
-    const std::filesystem::path gamesPath = assetFileSystem.getDevelopmentRoot() / "Data" / "games";
+    const std::filesystem::path gamesPath = activeWorldDevelopmentPath(assetFileSystem, "maps");
 
     if (!std::filesystem::exists(gamesPath))
     {
@@ -3141,7 +3160,8 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
     }
 
     removeTemporaryRoundTripScenes(gamesPath);
-    removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+    removeTemporaryRoundTripScenes(activeWorldEditorPath(assetFileSystem, "maps"));
+    removeTemporaryRoundTripSupportFiles(assetFileSystem);
 
     if (runLuaEventDiscoveryChecks)
     {
@@ -3157,7 +3177,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         std::cout << "  pass out01.odm\n";
         std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
         removeTemporaryRoundTripScenes(gamesPath);
-        removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+        removeTemporaryRoundTripSupportFiles(assetFileSystem);
         return 0;
     }
 
@@ -3175,7 +3195,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         std::cout << "  pass __editor_headless_new_map.odm\n";
         std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
         removeTemporaryRoundTripScenes(gamesPath);
-        removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+        removeTemporaryRoundTripSupportFiles(assetFileSystem);
         return 0;
     }
 
@@ -3193,7 +3213,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         std::cout << "  pass __editor_headless_source_only.odm\n";
         std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
         removeTemporaryRoundTripScenes(gamesPath);
-        removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+        removeTemporaryRoundTripSupportFiles(assetFileSystem);
         return 0;
     }
 
@@ -3210,8 +3230,8 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         std::cout << "Editor headless regression: suite=" << suiteName << " maps=1\n";
         std::cout << "  pass d18.blv\n";
         std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
-        removeTemporaryRoundTripScenes(assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games");
-        removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+        removeTemporaryRoundTripScenes(activeWorldEditorPath(assetFileSystem, "maps"));
+        removeTemporaryRoundTripSupportFiles(assetFileSystem);
         return 0;
     }
 
@@ -3229,7 +3249,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         std::cout << "  pass __editor_headless_save_as.odm\n";
         std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
         removeTemporaryRoundTripScenes(gamesPath);
-        removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+        removeTemporaryRoundTripSupportFiles(assetFileSystem);
         return 0;
     }
 
@@ -3247,7 +3267,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         std::cout << "  pass out01.odm\n";
         std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
         removeTemporaryRoundTripScenes(gamesPath);
-        removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+        removeTemporaryRoundTripSupportFiles(assetFileSystem);
         return 0;
     }
 
@@ -3265,7 +3285,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         std::cout << "  pass out01.odm\n";
         std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
         removeTemporaryRoundTripScenes(gamesPath);
-        removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+        removeTemporaryRoundTripSupportFiles(assetFileSystem);
         return 0;
     }
 
@@ -3345,7 +3365,7 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
 
     std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
     removeTemporaryRoundTripScenes(gamesPath);
-    removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+    removeTemporaryRoundTripSupportFiles(assetFileSystem);
     return 0;
 }
 
@@ -3361,8 +3381,8 @@ int EditorHeadlessDiagnostics::runCompareOutdoorScene(
         return 1;
     }
 
-    removeTemporaryRoundTripScenes(assetFileSystem.getDevelopmentRoot() / "Data" / "games");
-    removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+    removeTemporaryRoundTripScenes(activeWorldDevelopmentPath(assetFileSystem, "maps"));
+    removeTemporaryRoundTripSupportFiles(assetFileSystem);
 
     std::string failure;
 
@@ -3379,8 +3399,8 @@ int EditorHeadlessDiagnostics::runCompareOutdoorScene(
     }
 
     std::cout << "Editor headless compare passed: " << mapFileName << '\n';
-    removeTemporaryRoundTripScenes(assetFileSystem.getDevelopmentRoot() / "Data" / "games");
-    removeTemporaryRoundTripSupportFiles(assetFileSystem.getDevelopmentRoot());
+    removeTemporaryRoundTripScenes(activeWorldDevelopmentPath(assetFileSystem, "maps"));
+    removeTemporaryRoundTripSupportFiles(assetFileSystem);
     return 0;
 }
 }

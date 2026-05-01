@@ -1,5 +1,6 @@
 #pragma once
 
+#include "game/audio/SoundRef.h"
 #include "game/events/EvtEnums.h"
 #include "game/events/ScriptedEventProgram.h"
 #include "game/maps/MapDeltaData.h"
@@ -125,6 +126,7 @@ struct EventRuntimeState
         };
 
         Kind kind = Kind::PlayOneShot;
+        SoundScope soundScope = SoundScope::Engine;
         uint32_t soundId = 0;
         uint64_t key = 0;
         int32_t x = 0;

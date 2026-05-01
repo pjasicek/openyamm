@@ -97,7 +97,7 @@ OpenYAMM::Game::SpriteFrameTable loadCommonSpriteFrameTable()
     const std::string yamlText =
         readSourceTextFile(
             std::filesystem::path(OPENYAMM_SOURCE_DIR)
-            / "assets_dev/Data/rendering/sprite_frame_data_common.yml");
+            / "assets_dev/engine/rendering/sprite_frame_data_common.yml");
 
     OpenYAMM::Game::SpriteFrameTable spriteFrameTable;
     std::string errorMessage;
@@ -122,7 +122,7 @@ void checkFirstSpriteFrameTexture(
     CHECK_EQ(texture.textureName, expectedTextureName);
     CHECK(std::filesystem::exists(
         std::filesystem::path(OPENYAMM_SOURCE_DIR)
-        / "assets_dev/Data/sprites"
+        / "assets_dev/engine/sprites"
         / expectedAssetFileName));
 }
 }

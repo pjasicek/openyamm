@@ -57,13 +57,26 @@ public:
         uint32_t soundId,
         PlaybackGroup group,
         const std::optional<WorldPosition> &position = std::nullopt);
+    bool playSound(
+        SoundRef sound,
+        PlaybackGroup group,
+        const std::optional<WorldPosition> &position = std::nullopt);
     uint64_t playSoundInstance(
         uint32_t soundId,
         PlaybackGroup group,
         const std::optional<WorldPosition> &position,
         bool loop);
+    uint64_t playSoundInstance(
+        SoundRef sound,
+        PlaybackGroup group,
+        const std::optional<WorldPosition> &position,
+        bool loop);
     bool playLoopingSound(
         uint32_t soundId,
+        PlaybackGroup group,
+        const std::optional<WorldPosition> &position = std::nullopt);
+    bool playLoopingSound(
+        SoundRef sound,
         PlaybackGroup group,
         const std::optional<WorldPosition> &position = std::nullopt);
     bool playCommonSound(

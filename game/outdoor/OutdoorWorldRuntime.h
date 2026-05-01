@@ -401,6 +401,7 @@ public:
 
     struct AudioEvent
     {
+        SoundScope soundScope = SoundScope::Engine;
         uint32_t soundId = 0;
         uint32_t sourceId = 0;
         std::string reason;
@@ -924,7 +925,8 @@ private:
         float x,
         float y,
         float z,
-        bool positional = true);
+        bool positional = true,
+        SoundScope soundScope = SoundScope::Engine);
     void pushProjectileAudioEvent(const GameplayProjectileService::ProjectileAudioRequest &request);
     bool spawnProjectileFromMapActor(
         const MapActorState &actor,

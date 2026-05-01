@@ -50,6 +50,7 @@ struct LoadedTableSummary
 class GameDataLoader
 {
 public:
+    void setActiveWorldId(const std::string &worldId);
     bool load(const Engine::AssetFileSystem &assetFileSystem);
     bool loadForGameplay(const Engine::AssetFileSystem &assetFileSystem);
     bool loadForHeadlessGameplay(const Engine::AssetFileSystem &assetFileSystem);
@@ -152,6 +153,7 @@ private:
     );
 
     std::vector<LoadedTableSummary> m_loadedTables;
+    std::string m_activeWorldId = "mm8";
     MapRegistry m_mapRegistry;
     MapStats m_mapStats;
     MonsterTable m_monsterTable;

@@ -48,6 +48,8 @@ struct MapEdgeTransition
 struct MapStatsEntry
 {
     int id;
+    std::string worldId;
+    std::string canonicalId;
     std::string name;
     std::string fileName;
     int perceptionDifficulty = 0;
@@ -75,7 +77,10 @@ struct MapStatsEntry
 class MapStats
 {
 public:
-    bool loadFromRows(const std::vector<std::vector<std::string>> &rows);
+    bool loadFromRows(
+        const std::vector<std::vector<std::string>> &rows,
+        const std::string &worldId = "mm8"
+    );
     bool applyOutdoorNavigationRows(const std::vector<std::vector<std::string>> &rows);
     const std::vector<MapStatsEntry> &getEntries() const;
     const MapStatsEntry *findByFileName(const std::string &fileName) const;

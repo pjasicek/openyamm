@@ -1,0 +1,547 @@
+/NAME	ID	TYPE	3D	COMMENTS
+/First column is the filename of the .WAV file to be played backed during the game.				
+/Second column is the ID number of the sound.				
+"/Third column is the type of sound.  (System - sounds gets loaded into memory at game startup, Swap - sounds gets loaded into memory when used then flushed when done, 0 - sound must be loaded by direct calls, locked - ?."				
+/Fourth column de0tes whether the sound should be handled as 3D in Hardware.				
+/Fifth column is for general 0tes.  This column is 0T loaded by the game.				
+Lizardman_peasant attk	1000	0	0	Lizard Male (Peasant)	Attack
+Lizardman_peasant death	1001	0	0		Die
+Lizardman_peasant wince	1002	0	0		Stun
+Lizardman_peasant aware	1003	0	0		Fidget
+Lizardman_warrior attk	1010	0	0	Lizard Warrior	Attack
+Lizardman_warrior death	1011	0	0		Die
+Lizardman_wince attk	1012	0	0		Stun
+Lizardman_warrior aware	1013	0	0		Fidget
+Coutal attk	1020	0	0	Couatl (winged snake)	Attack
+Coutal death	1021	0	0		Die
+Coutal wince	1022	0	0		Stun
+Coutal aware	1023	0	0		Fidget
+pirate_warrior Attack	1030	0	0	Pirate Warrior Male	Attack
+pirate_warrior Death	1031	0	0		Die
+pirate_warrior Wince	1032	0	0		Stun
+/Unused	1033	0	0		Fidget
+pirate_crossbow attk	1040	0	0	Pirate Crossbowman (Female)	Attack
+pirate_crossbow death	1041	0	0		Die
+pirate_crossbow wince	1042	0	0		Stun
+/Unused	1043	0	0		Fidget
+pirate_mage Attk	1050	0	0	Pirate Mage Male	Attack
+pirate_mage Death	1051	0	0		Die
+pirate_mage Wince	1052	0	0		Stun
+/Unused	1053	0	0		Fidget
+Darkelf_male attk	1060	0	0	Dark Elf Peasant Male	Attack
+Darkelf_male death	1061	0	0		Die
+Darkelf_male wince	1062	0	0		Stun
+/Unused	1063	0	0		Fidget
+Darkelf_female attk	1070	0	0	Dark Elf Peasant Female	Attack
+Darkelf_female death	1071	0	0		Die
+Darkelf_female wince	1072	0	0		Stun
+Darkelf_female aware	1073	0	0		Fidget
+Darkelf_warrior attk	1080	0	0	Dark Elf Warrior	Attack
+Darkelf_warrior death	1081	0	0		Die
+Darkelf_warrior wince	1082	0	0		Stun
+/Unused	1083	0	0		Fidget
+ogre_peasant Attack	1090	0	0	Ogre Peasant Male	Attack
+ogre_peasant Death	1091	0	0		Die
+ogre_peasant Wince	1092	0	0		Stun
+ogre_peasant Aware	1093	0	0		Fidget
+ogre_warrior Attack	1100	0	0	Ogre Warrior	Attack
+ogre_warrior Death	1101	0	0		Die
+ogre_warrior Wince	1102	0	0		Stun
+ogre_warrior Aware	1103	0	0		Fidget
+wererat human Attack	1110	0	0	Wererat Human Form Male	Attack
+wererat human Death	1111	0	0		Die
+wererat human Wince	1112	0	0		Stun
+/Unused	1113	0	0		Fidget
+wererat ratman Attack	1120	0	0	Wererat Ratman Form Male	Attack
+wererat ratman Death	1121	0	0		Die
+wererat ratman Wince	1122	0	0		Stun
+wererat ratman Aware	1123	0	0		Fidget
+wererat rat Attack	1130	0	0	Wererat Rat Form Male	Attack
+wererat rat Death	1131	0	0		Die
+wererat rat Wince	1132	0	0		Stun
+wererat rat Aware	1133	0	0		Fidget
+dragon_hunter attk	1140	0	0	Dragon Hunter	Attack
+dragon_hunter death	1141	0	0		Die
+dragon_hunter wince	1142	0	0		Stun
+/Unused	1143	0	0		Fidget
+cleric attk	1150	0	0	Cleric (human male)	Attack
+cleric death	1151	0	0		Die
+cleric wincewav	1152	0	0		Stun
+cleric aware	1153	0	0		Fidget
+Darkelf_female attk	1160	0	0	Vampire Female Peasant	Attack
+Darkelf_female death	1161	0	0		Die
+Darkelf_female wince	1162	0	0		Stun
+Darkelf_female aware	1163	0	0		Fidget
+vampie Attack	1170	0	0	Vampire (monster)	Attack
+vampie Death	1171	0	0		Die
+vampie Wince	1172	0	0		Stun
+vampie Aware	1173	0	0		Fidget
+Necromancer attk	1180	0	0	Necromancer (monster)	Attack
+Necromancer death	1181	0	0		Die
+Necromancer wince	1182	0	0		Stun
+Necromancer aware	1183	0	0		Fidget
+troll warrior Attack	1190	0	0	Troll	Attack
+troll warrior Death	1191	0	0		Die
+troll warrior Wince	1192	0	0		Stun
+troll warrior Aware	1193	0	0		Fidget
+troll peasant Attack	1200	0	0	Troll Peasant	Attack
+troll peasant Death	1201	0	0		Die
+troll peasant Wince	1202	0	0		Stun
+troll peasant Aware	1203	0	0		Fidget
+Minotaur attk	1210	0	0	Mi0taur	Attack
+Minotaur death	1211	0	0		Die
+Minotaur wince	1212	0	0		Stun
+Minotaur aware	1213	0	0		Fidget
+Minotaur_peasant attk	1220	0	0	Mi0taur Peasant	Attack
+Minotaur_peasant death	1221	0	0		Die
+Minotaur_peasant wince	1222	0	0		Stun
+Minotaur_peasant aware	1223	0	0		Fidget
+crystal dragon attk	1230	0	0	Dragon	Attack
+crystal dragon death	1231	0	0		Die
+crystal dragon wince	1232	0	0		Stun
+crystal dragon aware	1233	0	0		Fidget
+Fire_elemental attk	1240	0	0	Fire Elemental	Attack
+Fire_elemental death	1241	0	0		Die
+Fire_elemental wince	1242	0	0		Stun
+Fire_elemental aware	1243	0	0		Fidget
+water elemental Attack	1250	0	0	Water Elemental	Attack
+water elemental Death	1251	0	0		Die
+water elemental Wince	1252	0	0		Stun
+water elemental Aware	1253	0	0		Fidget
+Earth_elemental attk	1260	0	0	Earth Elemental	Attack
+Earth_elemental death	1261	0	0		Die
+Earth_elemental wince	1262	0	0		Stun
+Earth_elemental aware	1263	0	0		Fidget
+airelemental attk	1270	0	0	Air Elemental	Attack
+airelemental death	1271	0	0		Die
+airelemental wince	1272	0	0		Stun
+airelemental aware	1273	0	0		Fidget
+dire_wolf attk	1280	0	0	Dire Wolf	Attack
+dire_wolf death	1281	0	0		Die
+dire_wolf wince	1282	0	0		Stun
+dire_wolf aware	1283	0	0		Fidget
+crystal dragon attk	1290	0	0	Thunder Lizard	Attack
+crystal dragon death	1291	0	0		Die
+crystal dragon wince	1292	0	0		Stun
+crystal dragon aware	1293	0	0		Fidget
+Cyclops attk	1300	0	0	Cyclops	Attack
+Cyclops death	1301	0	0		Die
+Cyclops wince	1302	0	0		Stun
+Cyclops aware	1303	0	0		Fidget
+serpentman Attack	1310	0	0	Serpentman	Attack
+serpentman Death	1311	0	0		Die
+serpentman Wince	1312	0	0		Stun
+serpentman Aware	1313	0	0		Fidget
+willowisp Attack	1320	0	0	Will' O' Wisp	Attack
+willowisp Death	1321	0	0		Die
+willowisp Wince	1322	0	0		Stun
+willowisp Aware	1323	0	0		Fidget
+Centaur attk	1330	0	0	Centaur	Attack
+Centaur death	1331	0	0		Die
+Centaur wince	1332	0	0		Stun
+/Unused	1333	0	0		Fidget
+efreet attk	1340	0	0	Efreeti	Attack
+efreet death	1341	0	0		Die
+efreet wince	1342	0	0		Stun
+efreet aware	1343	0	0		Fidget
+Ogre_Mage attack	1350	0	0	Ogre Mage	Attack
+Ogre_Mage death	1351	0	0		Die
+Ogre_Mage wince	1352	0	0		Stun
+Ogre_Mage aware	1353	0	0		Fidget
+unicorn Attack	1360	0	0	Unicorn	Attack
+unicorn Death	1361	0	0		Die
+unicorn Wince	1362	0	0		Stun
+unicorn Aware	1363	0	0		Fidget
+crystal dragon attk	1370	0	0	Crystal Dragon	Attack
+crystal dragon death	1371	0	0		Die
+crystal dragon wince	1372	0	0		Stun
+crystal dragon aware	1373	0	0		Fidget
+thunderbird Attack	1380	0	0	Thunderbird	Attack
+thunderbird Death	1381	0	0		Die
+thunderbird Wince	1382	0	0		Stun
+thunderbird Aware	1383	0	0		Fidget
+wasp warrior Attack	1390	0	0	Wasp Warrior	Attack
+wasp warrior Death	1391	0	0		Die
+wasp warrior Wince	1392	0	0		Stun
+wasp warrior Aware	1393	0	0		Fidget
+wyvern Attack	1400	0	0	Wyvern	Attack
+wyvern Death	1401	0	0		Die
+wyvern Wince	1402	0	0		Stun
+wyvern Aware	1403	0	0		Fidget
+gorgon attk	1410	0	0	Gorgon	Attack
+gorgon death	1411	0	0		Die
+gorgon wince	1412	0	0		Stun
+gorgon aware	1413	0	0		Fidget
+salamanderman Attack	1420	0	0	Salamander	Attack
+salamanderman Death	1421	0	0		Die
+salamanderman Wince	1422	0	0		Stun
+salamanderman Aware	1423	0	0		Fidget
+Phoenix attk	1430	0	0	Phoenix	Attack
+Phoenix death	1431	0	0		Die
+Phoenix wince	1432	0	0		Stun
+Phoenix aware	1433	0	0		Fidget
+triton Attack	1440	0	0	Triton	Attack
+triton Death	1441	0	0		Die
+triton Wince	1442	0	0		Stun
+triton Aware	1443	0	0		Fidget
+turtle dragon Attack	1450	0	0	Dragon Turtle	Attack
+turtle dragon Death	1451	0	0		Die
+turtle dragon Wince	1452	0	0		Stun
+turtle dragon Aware	1453	0	0		Fidget
+ravenman Attack	1460	0	0	Raven Man	Attack
+ravenman Death	1461	0	0		Die
+ravenman Wince	1462	0	0		Stun
+ravenman Aware	1463	0	0		Fidget
+Malvolent attk	1470	0	0	Malevolent Boulder	Attack
+Malvolent death	1471	0	0		Die
+Malvolent wince	1472	0	0		Stun
+Malvolent aware	1473	0	0		Fidget
+plane guardian Attack	1480	0	0	Plane Guardian	Attack
+plane guardian Death	1481	0	0		Die
+plane guardian Wince	1482	0	0		Stun
+plane guardian Aware	1483	0	0		Fidget
+crystal_walker attk	1490	0	0	Crystal Walker	Attack
+crystal_walker death	1491	0	0		Die
+crystal_walker wince	1492	0	0		Stun
+crystal_walker aware	1493	0	0		Fidget
+unicorn Attack	1500	0	0	Nightmare	Attack
+unicorn Death	1501	0	0		Die
+unicorn Wince	1502	0	0		Stun
+unicorn Aware	1503	0	0		Fidget
+etherknight attk	1510	0	0	Ether Knight	Attack
+etherknight death	1511	0	0		Die
+etherknight wince	1512	0	0		Stun
+etherknight aware	1513	0	0		Fidget
+juggeraut attk	1520	0	0	Juggernaut	Attack
+juggeraut death	1521	0	0		Die
+juggeraut wince	1522	0	0		Stun
+juggeraut aware	1523	0	0		Fidget
+gog attk	1530	0	0	Gog	Attack
+gog death	1531	0	0		Die
+gog wince	1532	0	0		Stun
+gog aware	1533	0	0		Fidget
+bone dragon attk	1540	0	0	Bone Dragon	Attack
+bone dragon death	1541	0	0		Die
+bone dragon wincewav	1542	0	0		Stun
+bone dragon aware	1543	0	0		Fidget
+/Unused	1550	0	0	Bedraggled Human (peasant)	Attack
+Bedraggled Peasant death	1551	0	0		Die
+Bedraggled Peasant wince	1552	0	0		Stun
+/Unused	1553	0	0		Fidget
+Naga attk	1560	0	0	Naga	Attack
+Naga death	1561	0	0		Die
+Naga wince	1562	0	0		Stun
+Naga aware	1563	0	0		Fidget
+skeleton archer Attack	1570	0	0	Skeleton Archer	Attack
+skeleton archer Death	1571	0	0		Die
+skeleton archer Wince	1572	0	0		Stun
+skeleton archer Aware	1573	0	0		Fidget
+Dark_dwarf attk	1580	0	0	Dark Dwarf	Attack
+Dark_dwarf death	1581	0	0		Die
+Dark_dwarf wince	1582	0	0		Stun
+/Unused	1583	0	0		Fidget
+/Unused	1590	0	0	School of Fish	Attack
+/Unused	1591	0	0		Die
+/Unused	1592	0	0		Stun
+/Unused	1593	0	0		Fidget
+pirate_warrior Attack	1600	0	0	Wimpy Pirate Warrrior Male	Attack
+pirate_warrior Death	1601	0	0		Die
+pirate_warrior Wince	1602	0	0		Stun
+/Unused	1603	0	0		Fidget
+pirate_crossbow attk	1610	0	0	Wimpy Pirate Crossbowman (Female)	Attack
+pirate_crossbow death	1611	0	0		Die
+pirate_crossbow wince	1612	0	0		Stun
+/Unused	1613	0	0		Fidget
+pirate_mage Attk	1620	0	0	Wimpy Pirate Mage Male	Attack
+pirate_mage Death	1621	0	0		Die
+pirate_mage Wince	1622	0	0		Stun
+/Unused	1623	0	0		Fidget
+crystal dragon attk	1630	0	0	Wimpy Dragon	Attack
+crystal dragon death	1631	0	0		Die
+crystal dragon wince	1632	0	0		Stun
+crystal dragon aware	1633	0	0		Fidget
+Human_mercanary attk	1640	0	0	Human Mercenary	Attack
+Human_mercanary death	1641	0	0		Die
+Human_mercanary wince	1642	0	0		Stun
+Human_mercanary aware	1643	0	0		Fidget
+
+event34_01a	30101	swap	0	Lizardman Temple	Enter
+event34_01b	30102	swap	0		Gold
+event34_01c	30103	swap	0		Exit
+/Unused	30104	swap	0		Reserved
+event13_01a	30201	swap	0	Lizardman Blacksmith	Enter
+event13_01b	30202	swap	0		Gold
+event13_01c	30203	swap	0		Exit Spend Gold
+/Unused	30204	swap	0		Exit Spend Gold
+event19_01a	30301	swap	0	Lizardman Armory	Enter
+event19_01b	30302	swap	0		Gold
+event19_01c	30303	swap	0		Exit Spend Gold
+/Unused	30304	swap	0		Exit Spend Gold
+event25_01a	30401	swap	0	Lizardman Alchemist	Enter
+event25_01b	30402	swap	0		Gold
+event25_01c	30403	swap	0		Exit Spend Gold
+/Unused	30404	swap	0		Exit Spend Gold
+event44_01a	30501	swap	0	Lizardman Magic Shop	Enter
+event44_01b	30502	swap	0		Gold
+event44_01c	30503	swap	0		Exit Spend Gold
+event44_01d	30504	swap	0		Exit Spend Gold
+event50_01a	30601	swap	0	Lizardman Spell Shop	Enter
+event50_01b	30602	swap	0		Gold
+event50_01c	30603	swap	0		Exit Spend Gold
+event50_01d	30604	swap	0		Exit Spend Gold
+event29_01a	30701	swap	0	Lizardman Training	Enter
+event29_01b	30702	swap	0		Train
+event29_01c	30703	swap	0		Eligible
+/Unused	30704	swap	0		Gold
+event09_01a	30801	swap	0	Lizardman Bank	Enter
+event09_01b	30802	swap	0		Withdraw Gold
+event09_01c	30803	swap	0		Exit
+/unused	30804	swap	0		Reserved
+event01_01a	30901	swap	0	Lizardman Tavern	Enter
+event01_01b	30902	swap	0		Rest
+event01_01c	30903	swap	0		Food
+event01_01d	30904	swap	0		Gold
+/Unused	31001	swap	0	Lizardman Ship	Enter
+/Unused	31002	swap	0		Travel
+/Unused	31003	swap	0		Gold
+/Unused	31004	swap	0		Reserved
+/Unused	31101	swap	0	Lizardman Stables	Enter
+/Unused	31102	swap	0		Travel
+/Unused	31103	swap	0		Gold
+/Unused	31104	swap	0		Reserved
+event35_01a	31201	swap	0	Dark Elven Temple	Enter
+event35_01a	31202	swap	0		Gold
+event35_01c	31203	swap	0		Exit
+/Unused	31204	swap	0		Reserved
+event14_01a	31301	swap	0	Dark Elven Blacksmith	Enter
+event14_01b	31302	swap	0		Gold
+event14_01c	31303	swap	0		Exit Spend Gold
+/Unused	31304	swap	0		Exit Spend Gold
+event20_01a	31401	swap	0	Dark Elven Armory	Enter
+event20_01b	31402	swap	0		Gold
+event20_01c	31403	swap	0		Exit Spend Gold
+/Unused	31404	swap	0		Exit Spend Gold
+event26_01a	31501	swap	0	Dark Elven Alchemist	Enter
+event26_01b	31502	swap	0		Gold
+event26_01c	31503	swap	0		Exit Spend Gold
+/Unused	31504	swap	0		Exit Spend Gold
+event45_01a	31601	swap	0	Dark Elven Magic Shop	Enter
+event45_01b	31602	swap	0		Gold
+event45_01c	31603	swap	0		Exit Spend Gold
+event45_01d	31604	swap	0		Exit Spend Gold
+event51_01a	31701	swap	0	Dark Elven Spell Shop	Enter
+event51_01b	31702	swap	0		Gold
+event51_01c	31703	swap	0		Exit Spend Gold
+event51_01d	31704	swap	0		Exit Spend Gold
+event30_01a	31801	swap	0	Dark Elven Training	Enter
+event30_01b	31802	swap	0		Train
+event30_01c	31803	swap	0		Eligible
+/Unused	31804	swap	0		Gold
+event10_01a	31901	swap	0	Dark Elven Bank	Enter
+event10_01b	31902	swap	0		Withdraw Gold
+event10_01c	31903	swap	0		Exit
+/Unused	31904	swap	0		Reserved
+event02_01a	32001	swap	0	Dark Elven Tavern	Enter
+event02_01b	32002	swap	0		Rest
+event02_01c	32003	swap	0		Food
+event02_01d	32004	swap	0		Gold
+event40_01a	32101	swap	0	Dark Elven Ship	Enter
+event40_01b	32102	swap	0		Travel
+event40_01c	32103	swap	0		Gold
+/Unused	32104	swap	0		Reserved
+event43_01a	32201	swap	0	Dark Elven Stables	Enter
+event43_01b	32202	swap	0		Travel
+event43_01c	32203	swap	0		Gold
+/Unused	32204	swap	0		Reserved
+event36_01a	32301	swap	0	Minotaur Temple	Enter
+event36_01b	32302	swap	0		Gold
+event36_01c	32303	swap	0		Exit
+/Unused	32304	swap	0		Reserved
+event15_01a	32401	swap	0	Minotaur Blacksmith	Enter
+event15_01b	32402	swap	0		Gold
+event15_01c	32403	swap	0		Exit Spend Gold
+/Unused	32404	swap	0		Exit Spend Gold
+event21_01a	32501	swap	0	Minotaur Armory	Enter
+event21_01b	32502	swap	0		Gold
+event21_01c	32503	swap	0		Exit Spend Gold
+/Unused	32504	swap	0		Exit Spend Gold
+/Unused	32601	swap	0	Minotaur Alchemist	Enter
+/Unused	32602	swap	0		Gold
+/Unused	32603	swap	0		Exit Spend Gold
+/Unused	32604	swap	0		Exit Spend Gold
+event46_01a	32701	swap	0	Minotaur Magic Shop	Enter
+event46_01b	32702	swap	0		Gold
+event46_01c	32703	swap	0		Exit Spend Gold
+event46_01d	32704	swap	0		Exit Spend Gold
+event52_01a	32801	swap	0	Minotaur Spell Shop	Enter
+event52_01b	32802	swap	0		Gold
+event52_01c	32803	swap	0		Exit Spend Gold
+event52_01d	32804	swap	0		Exit Spend Gold
+event31_01a	32901	swap	0	Minotaur Trainer	Enter
+event31_01b	32902	swap	0		Train
+event31_01c	32903	swap	0		Eligible
+/Unused	32904	swap	0		Gold
+event11_01a	33001	swap	0	Minotaur Bank	Enter
+event11_01b	33002	swap	0		Withdraw Gold
+event11_01c	33003	swap	0		Exit
+/Unused	33004	swap	0		Reserved
+event03_01a	33101	swap	0	Minotaur Tavern	Enter
+event03_01b	33102	swap	0		Rest
+event03_01c	33103	swap	0		Food
+event03_01d	33104	swap	0		Gold
+/Unused	33201	swap	0	Minotaur Ship	Enter
+/Unused	33202	swap	0		Travel
+/Unused	33203	swap	0		Gold
+/Unused	33204	swap	0		Reserved
+/Unused	33301	swap	0	Minotaur Stables	Enter
+/Unused	33302	swap	0		Travel
+/Unused	33303	swap	0		Gold
+/Unused	33304	swap	0		Reserved
+event37_01a	33401	swap	0	Dragon Hunter Temple (f)	Enter
+event37_01b	33402	swap	0		Gold
+event37_01c	33403	swap	0		Exit
+/Unused	33404	swap	0		Reserved
+event16_01a	33501	swap	0	Dragon Hunter Blacksmith	Enter
+event16_01b	33502	swap	0		Gold
+event16_01c	33503	swap	0		Exit Spend Gold
+/Unused	33504	swap	0		Exit Spend Gold
+event22_01a	33601	swap	0	Dragon Hunter Armory	Enter
+event22_01b	33602	swap	0		Gold
+event22_01c	33603	swap	0		Exit Spend Gold
+/Unused	33604	swap	0		Exit Spend Gold
+/Unused	33701	swap	0	Dragon Hunter Alchemist	Enter
+/Unused	33702	swap	0		Gold
+/Unused	33703	swap	0		Exit Spend Gold
+/Unused	33704	swap	0		Exit Spend Gold
+event47_01a	33801	swap	0	Dragon Hunter Magic Shop	Enter
+event47_01b	33802	swap	0		Gold
+event47_01c	33803	swap	0		Exit Spend Gold
+event47_01d	33804	swap	0		Exit Spend Gold
+/Unused	33901	swap	0	Dragon Hunter Spell Shop	Enter
+/Unused	33902	swap	0		Gold
+/Unused	33903	swap	0		Exit Spend Gold
+/Unused	33904	swap	0		Exit Spend Gold
+event32_01a	34001	swap	0	Dragon Hunter Trainer	Enter
+event32_01b	34002	swap	0		Train
+event32_01c	34003	swap	0		Eligible
+/Unused	34004	swap	0		Gold
+/Unused	34101	swap	0	Dragon Hunter Bank	Enter
+/Unused	34102	swap	0		Withdraw Gold
+/Unused	34103	swap	0		Exit
+/Unused	34104	swap	0		Reserved
+event04_01a	34201	swap	0	Dragon Hunter Tavern	Enter
+event04_01b	34202	swap	0		Rest
+event04_01c	34203	swap	0		Food
+event04_01d	34204	swap	0		Gold
+/Unused	34301	swap	0	Dragon Hunter Ship	Enter
+/Unused	34302	swap	0		Travel
+/Unused	34303	swap	0		Gold
+/Unused	34304	swap	0		Reserved
+/Unused	34401	swap	0	Dragon Hunter Stable	Enter
+/Unused	34402	swap	0		Travel
+/Unused	34403	swap	0		Gold
+/Unused	34404	swap	0		Reserved
+event38_01a	34501	swap	0	Necromancer Temple (f)	Enter
+event38_01b	34502	swap	0		Gold
+event38_01c	34503	swap	0		Exit
+/Unused	34504	swap	0		Reserved
+event17_01a	34601	swap	0	Necromancer Blacksmith	Enter
+event17_01b	34602	swap	0		Gold
+event17_01c	34603	swap	0		Exit Spend Gold
+/Unused	34604	swap	0		Exit Spend Gold
+event23_01a	34701	swap	0	Necromancer Armory	Enter
+event23_01b	34702	swap	0		Gold
+event23_01c	34703	swap	0		Exit Spend Gold
+/Unused	34704	swap	0		Exit Spend Gold
+event27_01a	34801	swap	0	Necromancer Alchemists Shop (f)	Enter
+event27_01b	34802	swap	0		Gold
+event27_01c	34803	swap	0		Exit Spend Gold
+/Unused	34804	swap	0		Exit Spend Gold
+event48_01a	34901	swap	0	Necromancer Magic Shop	Enter
+event48_01b	34902	swap	0		Gold
+event48_01c	34903	swap	0		Exit Spend Gold
+event48_01d	34904	swap	0		Exit Spend Gold
+event53_01a	35001	swap	0	Necromancer Spell Shop	Enter
+event53_01b	35002	swap	0		Gold
+event53_01c	35003	swap	0		Exit Spend Gold
+event53_01d	35004	swap	0		Exit Spend Gold
+event33_01a	35101	swap	0	Necromancer Training Center (f)	Enter
+event33_01b	35102	swap	0		Train
+event33_01c	35103	swap	0		Eligible
+/Unused	35104	swap	0		Gold
+event12_01a	35201	swap	0	Necromancer Bank (f)	Enter
+event12_01b	35202	swap	0		Withdraw Gold
+event12_01c	35203	swap	0		Exit
+/Unused	35204	swap	0		Reserved
+event05_01a	35301	swap	0	Necromancer Tavern	Enter
+event05_01b	35302	swap	0		Rest
+event05_01c	35303	swap	0		Food
+event05_01d	35304	swap	0		Gold
+/Unused	35401	swap	0	Necromancer Ship	Enter
+/Unused	35402	swap	0		Travel
+/Unused	35403	swap	0		Gold
+/Unused	35404	swap	0		Reserved
+/Unused	35501	swap	0	Necromancer Stable	Enter
+/Unused	35502	swap	0		Travel
+/Unused	35503	swap	0		Gold
+/Unused	35504	swap	0		Reserved
+event39_01a	35601	swap	0	Regnan Temple (f)	Enter
+event39_01b	35602	swap	0		Gold
+event39_01c	35603	swap	0		Exit
+/Unused	35604	swap	0		Reserved
+event18_01a	35701	swap	0	Regnan Weapon Shop	Enter
+event18_01b	35702	swap	0		Gold
+event18_01c	35703	swap	0		Exit Spend Gold
+/Unused	35704	swap	0		Exit Spend Gold
+event24_01a	35801	swap	0	Regnan Armor Shop	Enter
+event24_01b	35802	swap	0		Gold
+event24_01c	35803	swap	0		Exit Spend Gold
+/Unused	35804	swap	0		Exit Spend Gold
+event28_01a	35901	swap	0	Regnan Alchemist Shop (f)	Enter
+event28_01b	35902	swap	0		Gold
+event28_01c	35903	swap	0		Exit Spend Gold
+/Unused	35904	swap	0		Exit Spend Gold
+event49_01a	36001	swap	0	Regnan Magic Shop	Enter
+event49_01b	36002	swap	0		Gold
+event49_01c	36003	swap	0		Exit Spend Gold
+event49_01d	36004	swap	0		Exit Spend Gold
+event54_01a	36101	swap	0	Regnan Spell Shop (f)	Enter
+event54_01b	36102	swap	0		Gold
+event54_01c	36103	swap	0		Exit Spend Gold
+event54_01d	36104	swap	0		Exit Spend Gold
+/Unused	36201	swap	0	Wererat Trainer	Enter
+/Unused	36202	swap	0		Train
+/Unused	36203	swap	0		Eligible
+/Unused	36204	swap	0		Gold
+/Unused	36301	swap	0	Wererat Bank	Enter
+/Unused	36302	swap	0		Withdraw Gold
+/Unused	36303	swap	0		Exit
+/Unused	36304	swap	0		Reserved
+event07_01a	36401	swap	0	Regnan Pirate Tavern	Enter
+event07_01b	36402	swap	0		Rest
+event07_01c	36403	swap	0		Food
+event07_01d	36404	swap	0		Gold
+event41_01a	36501	swap	0	Wererat Boat	Enter
+event41_01b	36502	swap	0		Travel
+event41_01c	36503	swap	0		Gold
+/Unused	36504	swap	0		Reserved
+/Unused	36601	swap	0	Wererat Stable	Enter
+/Unused	36602	swap	0		Travel
+/Unused	36603	swap	0		Gold
+/Unused	36604	swap	0		Reserved
+Welcome Adventurer	36701	swap	0	Inn	Welcome Adventurer
+/Unused	36702	swap	0		Reserved
+/Unused	36703	swap	0		Reserved
+/Unused	36704	swap	0		Reserved
+event06_01a	36801	swap	0	Troll Tavern	Enter
+event06_01b	36802	swap	0		Rest
+event06_01c	36803	swap	0		Food
+event06_01d	36804	swap	0		Gold
+event42_01a	36901	swap	0	Regnan Boat	Enter
+event42_01b	36902	swap	0		Travel
+event42_01c	36903	swap	0		Gold
+/Unused	36904	swap	0		Reserved
+event08_01a	37001	swap	0	Generic Tavern	Enter
+event08_01b	37002	swap	0		Rest
+event08_01c	37003	swap	0		Food
+event08_01d	37004	swap	0		Gold

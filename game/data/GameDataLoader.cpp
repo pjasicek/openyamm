@@ -5,6 +5,7 @@
 #include "engine/TextTable.h"
 #include "game/FaceEnums.h"
 #include "game/events/EventRuntime.h"
+#include "game/maps/MapIdentity.h"
 #include "game/StringUtils.h"
 
 #include <cctype>
@@ -900,6 +901,11 @@ bool GameDataLoader::load(const Engine::AssetFileSystem &assetFileSystem)
     return loadInternal(assetFileSystem, MapLoadPurpose::Full);
 }
 
+void GameDataLoader::setActiveWorldId(const std::string &worldId)
+{
+    m_activeWorldId = normalizeWorldId(worldId);
+}
+
 bool GameDataLoader::loadForGameplay(const Engine::AssetFileSystem &assetFileSystem)
 {
     return loadInternal(assetFileSystem, MapLoadPurpose::FullGameplay);
@@ -1405,7 +1411,7 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
         rows.push_back(parsedTable->getRow(rowIndex));
     }
 
-    if (!m_mapStats.loadFromRows(rows))
+    if (!m_mapStats.loadFromRows(rows, m_activeWorldId))
     {
         return false;
     }

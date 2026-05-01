@@ -2,6 +2,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <cstdlib>
 #include <optional>
 
 namespace OpenYAMM::Game
@@ -70,6 +71,26 @@ std::string normalizeComment(const std::string &value)
     return normalized;
 }
 
+std::optional<uint32_t> parseSoundId(const std::string &value)
+{
+    const std::string trimmed = trimCopy(value);
+
+    if (trimmed.empty())
+    {
+        return std::nullopt;
+    }
+
+    char *pEnd = nullptr;
+    const unsigned long parsedValue = std::strtoul(trimmed.c_str(), &pEnd, 10);
+
+    if (pEnd == nullptr || *pEnd != '\0')
+    {
+        return std::nullopt;
+    }
+
+    return static_cast<uint32_t>(parsedValue);
+}
+
 struct SpeechSoundInfo
 {
     uint32_t voiceId = 0;
@@ -100,16 +121,107 @@ std::optional<SpeechSoundInfo> speechSoundInfoForSoundId(uint32_t soundId)
     info.groupKey = std::to_string(info.voiceId) + ":" + std::to_string(voiceOffset / 2u);
     return info;
 }
+
+std::string soundScopeName(SoundScope scope)
+{
+    switch (scope)
+    {
+    case SoundScope::Engine:
+        return "engine";
+
+    case SoundScope::World:
+        return "world";
+    }
+
+    return "unknown";
+}
+
+void indexAudioDirectory(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::string &audioDirectory,
+    std::unordered_map<std::string, std::string> &virtualPathByLowerName)
+{
+    for (const std::string &entry : assetFileSystem.enumerate(audioDirectory))
+    {
+        if (entry.empty())
+        {
+            continue;
+        }
+
+        const std::string lowerEntry = toLowerCopy(entry);
+
+        if (lowerEntry.size() < 5 || lowerEntry.substr(lowerEntry.size() - 4) != ".wav")
+        {
+            continue;
+        }
+
+        const std::string resolvedPath = audioDirectory + "/" + entry;
+        virtualPathByLowerName[lowerEntry] = resolvedPath;
+        virtualPathByLowerName[lowerEntry.substr(0, lowerEntry.size() - 4)] = resolvedPath;
+    }
+}
+
+std::string scopedAudioDirectory(SoundScope scope, const std::string &activeWorldId)
+{
+    switch (scope)
+    {
+    case SoundScope::Engine:
+        return "engine/audio";
+
+    case SoundScope::World:
+        return "worlds/" + activeWorldId + "/audio";
+    }
+
+    return "engine/audio";
+}
 }
 
 bool SoundCatalog::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 {
     m_entries.clear();
-    m_entryIndexById.clear();
+    m_engineEntryIndexById.clear();
+    m_worldEntryIndexById.clear();
+    m_speechSoundIdsByVoiceId.clear();
+
+    std::unordered_map<std::string, std::string> inheritedCommentBySpeechGroup;
+    return appendRows(rows, SoundScope::Engine, true, inheritedCommentBySpeechGroup, nullptr) && !m_entries.empty();
+}
+
+bool SoundCatalog::loadFromScopedRows(
+    const std::vector<std::vector<std::string>> &engineRows,
+    const std::vector<std::vector<std::string>> &worldRows,
+    std::string &errorMessage)
+{
+    errorMessage.clear();
+    m_entries.clear();
+    m_engineEntryIndexById.clear();
+    m_worldEntryIndexById.clear();
     m_speechSoundIdsByVoiceId.clear();
 
     std::unordered_map<std::string, std::string> inheritedCommentBySpeechGroup;
 
+    if (!appendRows(engineRows, SoundScope::Engine, true, inheritedCommentBySpeechGroup, &errorMessage)
+        || !appendRows(worldRows, SoundScope::World, false, inheritedCommentBySpeechGroup, &errorMessage))
+    {
+        return false;
+    }
+
+    if (m_entries.empty())
+    {
+        errorMessage = "sound catalog has no entries";
+        return false;
+    }
+
+    return true;
+}
+
+bool SoundCatalog::appendRows(
+    const std::vector<std::vector<std::string>> &rows,
+    SoundScope scope,
+    bool indexSpeechSounds,
+    std::unordered_map<std::string, std::string> &inheritedCommentBySpeechGroup,
+    std::string *pErrorMessage)
+{
     for (const std::vector<std::string> &row : rows)
     {
         if (row.size() < 2 || row[0].empty() || row[0][0] == '/')
@@ -118,11 +230,32 @@ bool SoundCatalog::loadFromRows(const std::vector<std::vector<std::string>> &row
         }
 
         SoundCatalogEntry entry = {};
+        const std::optional<uint32_t> soundId = parseSoundId(row[1]);
+        if (!soundId.has_value())
+        {
+            continue;
+        }
+
         entry.name = trimCopy(row[0]);
-        entry.soundId = static_cast<uint32_t>(std::strtoul(row[1].c_str(), nullptr, 10));
+        entry.soundId = *soundId;
+        entry.scope = scope;
         entry.positional = row.size() > 3 && normalizeComment(row[3]) == "3d";
 
-        const std::optional<SpeechSoundInfo> speechInfo = speechSoundInfoForSoundId(entry.soundId);
+        std::unordered_map<uint32_t, size_t> &entryIndex = entryIndexByScope(scope);
+
+        if (entry.soundId != 0 && entryIndex.find(entry.soundId) != entryIndex.end())
+        {
+            if (pErrorMessage != nullptr)
+            {
+                *pErrorMessage =
+                    "duplicate " + soundScopeName(scope) + " sound id " + std::to_string(entry.soundId);
+            }
+
+            return false;
+        }
+
+        const std::optional<SpeechSoundInfo> speechInfo =
+            indexSpeechSounds ? speechSoundInfoForSoundId(entry.soundId) : std::nullopt;
         std::string normalizedComment = row.size() > 4 ? normalizeComment(row[4]) : "";
 
         if (speechInfo)
@@ -144,7 +277,7 @@ bool SoundCatalog::loadFromRows(const std::vector<std::vector<std::string>> &row
         }
 
         entry.normalizedComment = normalizedComment;
-        m_entryIndexById[entry.soundId] = m_entries.size();
+        entryIndex[entry.soundId] = m_entries.size();
         m_entries.push_back(entry);
 
         if (!normalizedComment.empty() && speechInfo)
@@ -153,38 +286,78 @@ bool SoundCatalog::loadFromRows(const std::vector<std::vector<std::string>> &row
         }
     }
 
-    return !m_entries.empty();
+    return true;
 }
 
 void SoundCatalog::initializeVirtualPathIndex(const Engine::AssetFileSystem &assetFileSystem)
 {
-    m_virtualPathByLowerName.clear();
+    m_engineVirtualPathByLowerName.clear();
+    m_worldVirtualPathByLowerName.clear();
+    m_activeWorldId = assetFileSystem.getActiveWorldId();
 
-    for (const std::string &entry : assetFileSystem.enumerate("Data/EnglishD"))
+    indexAudioDirectory(
+        assetFileSystem,
+        scopedAudioDirectory(SoundScope::Engine, m_activeWorldId),
+        m_engineVirtualPathByLowerName);
+    indexAudioDirectory(
+        assetFileSystem,
+        scopedAudioDirectory(SoundScope::World, m_activeWorldId),
+        m_worldVirtualPathByLowerName);
+}
+
+const std::unordered_map<uint32_t, size_t> &SoundCatalog::entryIndexByScope(SoundScope scope) const
+{
+    switch (scope)
     {
-        if (entry.empty())
-        {
-            continue;
-        }
+    case SoundScope::Engine:
+        return m_engineEntryIndexById;
 
-        const std::string lowerEntry = toLowerCopy(entry);
-
-        if (lowerEntry.size() < 5 || lowerEntry.substr(lowerEntry.size() - 4) != ".wav")
-        {
-            continue;
-        }
-
-        const std::string resolvedPath = "Data/EnglishD/" + entry;
-        m_virtualPathByLowerName[lowerEntry] = resolvedPath;
-        m_virtualPathByLowerName[lowerEntry.substr(0, lowerEntry.size() - 4)] = resolvedPath;
+    case SoundScope::World:
+        return m_worldEntryIndexById;
     }
+
+    return m_engineEntryIndexById;
+}
+
+std::unordered_map<uint32_t, size_t> &SoundCatalog::entryIndexByScope(SoundScope scope)
+{
+    switch (scope)
+    {
+    case SoundScope::Engine:
+        return m_engineEntryIndexById;
+
+    case SoundScope::World:
+        return m_worldEntryIndexById;
+    }
+
+    return m_engineEntryIndexById;
+}
+
+const std::unordered_map<std::string, std::string> &SoundCatalog::virtualPathIndexByScope(SoundScope scope) const
+{
+    switch (scope)
+    {
+    case SoundScope::Engine:
+        return m_engineVirtualPathByLowerName;
+
+    case SoundScope::World:
+        return m_worldVirtualPathByLowerName;
+    }
+
+    return m_engineVirtualPathByLowerName;
 }
 
 const SoundCatalogEntry *SoundCatalog::findById(uint32_t soundId) const
 {
-    const std::unordered_map<uint32_t, size_t>::const_iterator entryIt = m_entryIndexById.find(soundId);
+    return findById(engineSound(soundId));
+}
 
-    if (entryIt == m_entryIndexById.end())
+const SoundCatalogEntry *SoundCatalog::findById(SoundRef sound) const
+{
+    const std::unordered_map<uint32_t, size_t> &entryIndex = entryIndexByScope(sound.scope);
+    const std::unordered_map<uint32_t, size_t>::const_iterator entryIt = entryIndex.find(sound.id);
+
+    if (entryIt == entryIndex.end())
     {
         return nullptr;
     }
@@ -194,7 +367,12 @@ const SoundCatalogEntry *SoundCatalog::findById(uint32_t soundId) const
 
 std::optional<std::string> SoundCatalog::buildVirtualPath(uint32_t soundId) const
 {
-    const SoundCatalogEntry *pEntry = findById(soundId);
+    return buildVirtualPath(engineSound(soundId));
+}
+
+std::optional<std::string> SoundCatalog::buildVirtualPath(SoundRef sound) const
+{
+    const SoundCatalogEntry *pEntry = findById(sound);
 
     if (pEntry == nullptr || pEntry->name.empty() || pEntry->name == "null")
     {
@@ -202,18 +380,23 @@ std::optional<std::string> SoundCatalog::buildVirtualPath(uint32_t soundId) cons
     }
 
     const std::string lowerName = toLowerCopy(pEntry->name);
+    const std::unordered_map<std::string, std::string> &virtualPathByLowerName =
+        virtualPathIndexByScope(sound.scope);
     const std::unordered_map<std::string, std::string>::const_iterator resolvedPathIt =
-        m_virtualPathByLowerName.find(lowerName);
+        virtualPathByLowerName.find(lowerName);
 
-    if (resolvedPathIt != m_virtualPathByLowerName.end())
+    if (resolvedPathIt != virtualPathByLowerName.end())
     {
         return resolvedPathIt->second;
     }
 
-    return "Data/EnglishD/" + pEntry->name + ".wav";
+    return scopedAudioDirectory(sound.scope, m_activeWorldId) + "/" + pEntry->name + ".wav";
 }
 
-std::optional<uint32_t> SoundCatalog::pickSpeechSoundId(uint32_t voiceId, const std::string &commentKey, uint32_t seed) const
+std::optional<uint32_t> SoundCatalog::pickSpeechSoundId(
+    uint32_t voiceId,
+    const std::string &commentKey,
+    uint32_t seed) const
 {
     const std::unordered_map<uint32_t, std::unordered_map<std::string, std::vector<uint32_t>>>::const_iterator voiceIt =
         m_speechSoundIdsByVoiceId.find(voiceId);

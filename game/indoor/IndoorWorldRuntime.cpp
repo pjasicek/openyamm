@@ -3707,6 +3707,7 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
         }
 
         EventRuntimeState::PendingSound sound = {};
+        sound.soundScope = SoundScope::World;
         sound.soundId = soundId;
         sound.x = static_cast<int32_t>(std::lround(audioRequest.position.x));
         sound.y = static_cast<int32_t>(std::lround(audioRequest.position.y));

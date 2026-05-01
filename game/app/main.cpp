@@ -31,7 +31,9 @@ bool parseCommonArguments(
     std::vector<std::string> &arguments)
 {
     bool hasAssetScaleArgument = false;
+    bool hasCampaignArgument = false;
     bool hasMapOverrideArgument = false;
+    bool hasWorldArgument = false;
 
     for (int argumentIndex = 1; argumentIndex < argc; ++argumentIndex)
     {
@@ -47,6 +49,34 @@ bool parseCommonArguments(
 
             config.startupMapFileOverride = argv[argumentIndex + 1];
             hasMapOverrideArgument = true;
+            ++argumentIndex;
+            continue;
+        }
+
+        if (argument == "--campaign")
+        {
+            if (hasCampaignArgument || argumentIndex + 1 >= argc)
+            {
+                std::cerr << "Usage: --campaign <campaign-id>\n";
+                return false;
+            }
+
+            config.campaignId = argv[argumentIndex + 1];
+            hasCampaignArgument = true;
+            ++argumentIndex;
+            continue;
+        }
+
+        if (argument == "--world")
+        {
+            if (hasWorldArgument || argumentIndex + 1 >= argc)
+            {
+                std::cerr << "Usage: --world <world-id>\n";
+                return false;
+            }
+
+            config.activeWorldId = argv[argumentIndex + 1];
+            hasWorldArgument = true;
             ++argumentIndex;
             continue;
         }

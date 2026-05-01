@@ -1,5 +1,7 @@
 #include "game/tables/MapStats.h"
 
+#include "game/maps/MapIdentity.h"
+
 #include <algorithm>
 #include <cctype>
 #include <iostream>
@@ -354,7 +356,7 @@ std::optional<MapEdgeTransition> *MapStatsEntry::edgeTransition(MapBoundaryEdge 
     return &northTransition;
 }
 
-bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows)
+bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows, const std::string &worldId)
 {
     m_entries.clear();
 
@@ -443,6 +445,8 @@ bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 
         entry.name = getColumnValue(row, NameColumn);
         entry.fileName = getColumnValue(row, FileNameColumn);
+        entry.worldId = normalizeWorldId(worldId);
+        entry.canonicalId = buildCanonicalMapId(entry.worldId, entry.fileName);
         entry.environmentName = getColumnValue(row, EnvironmentColumn);
         entry.areaId = 0;
         parseIntegerLocal(getColumnValue(row, AreaIdColumn), entry.areaId);

@@ -1,6 +1,8 @@
 #include "doctest/doctest.h"
 
 #include "engine/TextTable.h"
+#include "game/maps/MapIdentity.h"
+#include "game/maps/MapRegistry.h"
 #include "game/tables/MapStats.h"
 
 #include <array>
@@ -38,9 +40,9 @@ std::vector<std::vector<std::string>> loadTextTableRows(const std::string &relat
 OpenYAMM::Game::MapStats loadMapStats()
 {
     OpenYAMM::Game::MapStats mapStats = {};
-    REQUIRE(mapStats.loadFromRows(loadTextTableRows("assets_dev/Data/data_tables/map_stats.txt")));
+    REQUIRE(mapStats.loadFromRows(loadTextTableRows("assets_dev/worlds/mm8/data_tables/map_stats.txt")));
     REQUIRE(mapStats.applyOutdoorNavigationRows(
-        loadTextTableRows("assets_dev/Data/data_tables/map_navigation.txt")));
+        loadTextTableRows("assets_dev/worlds/mm8/data_tables/map_navigation.txt")));
     return mapStats;
 }
 
@@ -104,6 +106,35 @@ TEST_CASE("map stats parse perception difficulty")
     REQUIRE(pRavenshore != nullptr);
     CHECK_EQ(pDaggerWound->perceptionDifficulty, 0);
     CHECK_EQ(pRavenshore->perceptionDifficulty, 1);
+}
+
+TEST_CASE("map stats assign default canonical MM8 map identity")
+{
+    const OpenYAMM::Game::MapStats mapStats = loadMapStats();
+    const OpenYAMM::Game::MapStatsEntry *pDaggerWound = mapStats.findByFileName("Out01.odm");
+
+    REQUIRE(pDaggerWound != nullptr);
+    CHECK_EQ(pDaggerWound->worldId, OpenYAMM::Game::DefaultWorldId);
+    CHECK_EQ(pDaggerWound->canonicalId, "world.mm8.map.out01");
+}
+
+TEST_CASE("map registry supports canonical id and world/file compatibility lookups")
+{
+    const OpenYAMM::Game::MapStats mapStats = loadMapStats();
+    OpenYAMM::Game::MapRegistry registry = {};
+    registry.initialize(mapStats.getEntries());
+
+    const std::optional<OpenYAMM::Game::MapStatsEntry> canonicalEntry =
+        registry.findByCanonicalId("WORLD.MM8.MAP.OUT01");
+    REQUIRE(canonicalEntry.has_value());
+    CHECK_EQ(canonicalEntry->fileName, "Out01.odm");
+
+    const std::optional<OpenYAMM::Game::MapStatsEntry> worldFileEntry =
+        registry.findByWorldAndFileName("mm8", "out01.ODM");
+    REQUIRE(worldFileEntry.has_value());
+    CHECK_EQ(worldFileEntry->canonicalId, "world.mm8.map.out01");
+
+    CHECK_FALSE(registry.findByWorldAndFileName("mm6", "out01.odm").has_value());
 }
 
 TEST_CASE("map stats parse chest trap difficulty and damage dice")

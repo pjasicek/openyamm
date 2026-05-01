@@ -13,6 +13,7 @@
 #include "game/events/EventDialogContent.h"
 #include "game/events/EventRuntime.h"
 #include "game/events/EvtEnums.h"
+#include "game/maps/MapIdentity.h"
 #include "game/tables/ClassMultiplierTable.h"
 #include "game/tables/ItemTable.h"
 #include "game/ui/screens/ArcomageScreen.h"
@@ -1112,6 +1113,40 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
     m_gameplayController.clearRuntime();
     m_screenManager.setActiveScreen(nullptr);
 
+    std::string manifestError;
+    m_campaignManifest = loadCampaignManifestOrDefault(
+        assetFileSystem,
+        m_config.campaignId,
+        m_config.activeWorldId,
+        manifestError);
+
+    if (!manifestError.empty())
+    {
+        std::cerr << manifestError << '\n';
+        return false;
+    }
+
+    m_activeWorldManifest = loadActiveWorldManifestOrDefault(
+        assetFileSystem,
+        m_config.activeWorldId,
+        manifestError);
+
+    if (!manifestError.empty())
+    {
+        std::cerr << manifestError << '\n';
+        return false;
+    }
+
+    if (m_activeWorldManifest.id != normalizeWorldId(m_config.activeWorldId))
+    {
+        std::cerr
+            << "world.yml id '" << m_activeWorldManifest.id
+            << "' does not match active world '" << normalizeWorldId(m_config.activeWorldId) << "'\n";
+        return false;
+    }
+
+    m_gameDataLoader.setActiveWorldId(m_activeWorldManifest.id);
+
     if (!m_gameDataLoader.loadForGameplay(assetFileSystem))
     {
         return false;
@@ -1367,8 +1402,13 @@ bool GameApplication::initializeSelectedMapRuntime(bool initializeView)
             pIndoorProjectileSpriteFrameTable,
             selectedMap->indoorDecorationBillboardSet ? &*selectedMap->indoorDecorationBillboardSet : nullptr
         );
-        const std::unordered_map<std::string, IndoorSceneRuntime::Snapshot>::const_iterator indoorStateIt =
-            m_gameSession.indoorSceneStates().find(selectedMap->map.fileName);
+        std::unordered_map<std::string, IndoorSceneRuntime::Snapshot>::const_iterator indoorStateIt =
+            m_gameSession.indoorSceneStates().find(selectedMap->map.canonicalId);
+
+        if (indoorStateIt == m_gameSession.indoorSceneStates().end())
+        {
+            indoorStateIt = m_gameSession.indoorSceneStates().find(selectedMap->map.fileName);
+        }
 
         if (indoorStateIt != m_gameSession.indoorSceneStates().end())
         {
@@ -1479,23 +1519,40 @@ void GameApplication::synchronizeSessionFromRuntime()
         && m_pOutdoorPartyRuntime != nullptr
         && m_pOutdoorWorldRuntime != nullptr)
     {
+        const OutdoorWorldRuntime::Snapshot worldSnapshot = m_pOutdoorWorldRuntime->snapshot();
         m_gameSession.captureOutdoorRuntimeState(
             m_pMapSceneRuntime->currentMapFileName(),
             m_pMapSceneRuntime->party(),
             m_pOutdoorPartyRuntime->snapshot(),
-            m_pOutdoorWorldRuntime->snapshot(),
+            worldSnapshot,
             m_outdoorGameView.cameraYawRadians(),
             m_outdoorGameView.cameraPitchRadians());
+
+        const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
+
+        if (selectedMap && !selectedMap->map.canonicalId.empty())
+        {
+            m_gameSession.storeOutdoorWorldState(selectedMap->map.canonicalId, worldSnapshot);
+        }
+
         return;
     }
 
     if (m_pMapSceneRuntime->kind() == SceneKind::Indoor)
     {
         const IndoorSceneRuntime *pIndoorRuntime = static_cast<const IndoorSceneRuntime *>(m_pMapSceneRuntime.get());
+        const IndoorSceneRuntime::Snapshot snapshot = pIndoorRuntime->snapshot();
         m_gameSession.captureIndoorRuntimeState(
             m_pMapSceneRuntime->currentMapFileName(),
             m_pMapSceneRuntime->party(),
-            pIndoorRuntime->snapshot());
+            snapshot);
+
+        const std::optional<MapAssetInfo> &selectedMap = m_gameDataLoader.getSelectedMap();
+
+        if (selectedMap && !selectedMap->map.canonicalId.empty())
+        {
+            m_gameSession.storeIndoorSceneState(selectedMap->map.canonicalId, snapshot);
+        }
     }
 }
 
@@ -1717,8 +1774,13 @@ void GameApplication::restoreSavedOutdoorWorldStateForSelectedMap()
         return;
     }
 
-    const std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot>::const_iterator stateIt =
-        m_gameSession.outdoorWorldStates().find(selectedMap->map.fileName);
+    std::unordered_map<std::string, OutdoorWorldRuntime::Snapshot>::const_iterator stateIt =
+        m_gameSession.outdoorWorldStates().find(selectedMap->map.canonicalId);
+
+    if (stateIt == m_gameSession.outdoorWorldStates().end())
+    {
+        stateIt = m_gameSession.outdoorWorldStates().find(selectedMap->map.fileName);
+    }
 
     if (stateIt == m_gameSession.outdoorWorldStates().end())
     {
@@ -2025,7 +2087,7 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
     const std::string startupMapFile =
         !m_config.startupMapFileOverride.empty()
             ? m_config.startupMapFileOverride
-            : (m_settings.startMapFile.empty() ? std::string(DefaultStartupMapFile) : m_settings.startMapFile);
+            : (m_settings.startMapFile.empty() ? m_activeWorldManifest.start.mapFileName : m_settings.startMapFile);
     m_gameSession.setCurrentMapFileName(startupMapFile);
 
     const bool shouldSeedParty = rosterId.has_value() || m_settings.preseedParty;

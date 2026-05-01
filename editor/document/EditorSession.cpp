@@ -2,6 +2,7 @@
 #include "editor/import/IndoorSourceGeometryImport.h"
 #include "editor/import/ObjModelImport.h"
 
+#include "engine/ImageAssetLoader.h"
 #include "engine/TextTable.h"
 #include "engine/scripting/LuaStateOwner.h"
 #include "game/events/EvtEnums.h"
@@ -46,6 +47,16 @@ constexpr size_t ChestItemRecordSize = 36;
 constexpr size_t ChestItemRecordCount = 140;
 constexpr size_t ChestInventoryCellCount = 140;
 constexpr int ChestMatrixColumns = 14;
+
+std::filesystem::path activeWorldEditorPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &relativePath)
+{
+    return assetFileSystem.getEditorDevelopmentRoot()
+        / std::filesystem::path("worlds")
+        / assetFileSystem.getActiveWorldId()
+        / relativePath;
+}
 
 int snapIndoorActorZToFloor(const Game::IndoorMapData &indoorGeometry, int x, int y, int z)
 {
@@ -770,7 +781,7 @@ void buildBitmapTextureNames(const Engine::AssetFileSystem &assetFileSystem, std
     {
         const std::string lowerEntry = toLowerCopy(entry);
 
-        if (!lowerEntry.ends_with(".bmp"))
+        if (!lowerEntry.ends_with(".bmp") && !lowerEntry.ends_with(".png"))
         {
             continue;
         }
@@ -2355,31 +2366,31 @@ bool loadBitmapTextureSize(
         return false;
     }
 
-    const std::optional<std::vector<uint8_t>> bitmapBytes =
-        assetFileSystem.readBinaryFile("Data/bitmaps/" + canonicalName + ".bmp");
+    std::optional<std::vector<uint8_t>> bitmapBytes =
+        assetFileSystem.readBinaryFile("Data/bitmaps/" + canonicalName + ".png");
+    std::string virtualPath = "Data/bitmaps/" + canonicalName + ".png";
+
+    if (!bitmapBytes || bitmapBytes->empty())
+    {
+        virtualPath = "Data/bitmaps/" + canonicalName + ".bmp";
+        bitmapBytes = assetFileSystem.readBinaryFile(virtualPath);
+    }
 
     if (!bitmapBytes || bitmapBytes->empty())
     {
         return false;
     }
 
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+    const std::optional<Engine::ImagePixelsBgra> image =
+        Engine::decodeImagePixelsBgra(*bitmapBytes, virtualPath);
 
-    if (pIoStream == nullptr)
+    if (!image)
     {
         return false;
     }
 
-    SDL_Surface *pSurface = SDL_LoadBMP_IO(pIoStream, true);
-
-    if (pSurface == nullptr)
-    {
-        return false;
-    }
-
-    width = pSurface->w;
-    height = pSurface->h;
-    SDL_DestroySurface(pSurface);
+    width = image->width;
+    height = image->height;
     return width > 0 && height > 0;
 }
 
@@ -3342,7 +3353,7 @@ bool EditorSession::saveActiveDocumentAs(
     const std::string mapFileName = *normalizedMapId + ".odm";
     const std::string resolvedDisplayName = trimCopy(displayName).empty() ? *normalizedMapId : trimCopy(displayName);
     const std::filesystem::path targetScenePath =
-        m_pAssetFileSystem->getEditorDevelopmentRoot() / "Data" / "games" / (*normalizedMapId + ".scene.yml");
+        activeWorldEditorPath(*m_pAssetFileSystem, std::filesystem::path("maps") / (*normalizedMapId + ".scene.yml"));
     m_document.prepareOutdoorMapPackageIdentityForMapFile(mapFileName, resolvedDisplayName);
     m_document.synchronizeOutdoorGeometryMetadata();
     m_document.synchronizeOutdoorTerrainMetadata();
@@ -3390,7 +3401,7 @@ bool EditorSession::deleteActiveDocumentPackage(std::string &errorMessage)
 
     const std::filesystem::path gamesPath = m_document.scenePhysicalPath().parent_path().lexically_normal();
     const std::filesystem::path editorGamesPath =
-        m_pAssetFileSystem->getEditorDevelopmentRoot() / "Data" / "games";
+        activeWorldEditorPath(*m_pAssetFileSystem, "maps");
     const std::vector<std::filesystem::path> paths = {
         m_document.scenePhysicalPath(),
         m_document.geometryPhysicalPath(),
@@ -3408,7 +3419,7 @@ bool EditorSession::deleteActiveDocumentPackage(std::string &errorMessage)
 
         if (path.lexically_normal().parent_path() != gamesPath)
         {
-            errorMessage = "refusing to delete map files outside Data/games";
+            errorMessage = "refusing to delete map files outside the map package";
             return false;
         }
     }

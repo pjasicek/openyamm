@@ -405,6 +405,6 @@ bool EngineApplication::initializeAssetFileSystem(AssetFileSystem &assetFileSyst
         basePath = pBasePathChars;
     }
 
-    return assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier);
+    return assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId);
 }
 }

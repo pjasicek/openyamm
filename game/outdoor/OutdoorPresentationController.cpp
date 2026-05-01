@@ -101,7 +101,10 @@ void OutdoorPresentationController::consumePendingWorldAudioEvents(OutdoorGameVi
             position = GameAudioSystem::WorldPosition{event.x, event.y, event.z};
         }
 
-        view.m_pGameAudioSystem->playSound(event.soundId, GameAudioSystem::PlaybackGroup::World, position);
+        view.m_pGameAudioSystem->playSound(
+            SoundRef{event.soundScope, event.soundId},
+            GameAudioSystem::PlaybackGroup::World,
+            position);
     }
 
     view.m_pOutdoorWorldRuntime->clearPendingAudioEvents();

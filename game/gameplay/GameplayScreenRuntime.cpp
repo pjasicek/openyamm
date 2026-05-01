@@ -2060,7 +2060,7 @@ void GameplayScreenRuntime::playHouseSound(uint32_t soundId)
 {
     if (m_pAudioSystem != nullptr)
     {
-        m_pAudioSystem->playSound(soundId, GameAudioSystem::PlaybackGroup::HouseSpeech);
+        m_pAudioSystem->playSound(worldSound(soundId), GameAudioSystem::PlaybackGroup::HouseSpeech);
     }
 }
 
@@ -2193,7 +2193,11 @@ void GameplayScreenRuntime::consumePendingEventRuntimeAudioRequests()
         {
             if (m_keyedAudioInstances.find(request.key) == m_keyedAudioInstances.end())
             {
-                const uint64_t instanceId = m_pAudioSystem->playSoundInstance(request.soundId, group, position, true);
+                const uint64_t instanceId = m_pAudioSystem->playSoundInstance(
+                    SoundRef{request.soundScope, request.soundId},
+                    group,
+                    position,
+                    true);
 
                 if (instanceId != 0)
                 {
@@ -2204,7 +2208,7 @@ void GameplayScreenRuntime::consumePendingEventRuntimeAudioRequests()
             continue;
         }
 
-        m_pAudioSystem->playSound(request.soundId, group, position);
+        m_pAudioSystem->playSound(SoundRef{request.soundScope, request.soundId}, group, position);
     }
 
     pEventRuntimeState->pendingSounds.clear();

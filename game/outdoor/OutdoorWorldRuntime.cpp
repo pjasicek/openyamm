@@ -3506,7 +3506,8 @@ void OutdoorWorldRuntime::pushAudioEvent(
     float x,
     float y,
     float z,
-    bool positional)
+    bool positional,
+    SoundScope soundScope)
 {
     if (soundId == 0)
     {
@@ -3514,6 +3515,7 @@ void OutdoorWorldRuntime::pushAudioEvent(
     }
 
     AudioEvent event = {};
+    event.soundScope = soundScope;
     event.soundId = soundId;
     event.sourceId = sourceId;
     event.reason = reason;
@@ -6281,7 +6283,9 @@ void OutdoorWorldRuntime::applyOutdoorActorAudioRequests(const std::vector<Actor
                 "monster_alert",
                 audioRequest.position.x,
                 audioRequest.position.y,
-                audioRequest.position.z);
+                audioRequest.position.z,
+                true,
+                SoundScope::World);
         }
         else if (audioRequest.kind == ActorAiAudioRequestKind::Attack)
         {
@@ -6291,7 +6295,9 @@ void OutdoorWorldRuntime::applyOutdoorActorAudioRequests(const std::vector<Actor
                 "monster_attack",
                 audioRequest.position.x,
                 audioRequest.position.y,
-                audioRequest.position.z);
+                audioRequest.position.z,
+                true,
+                SoundScope::World);
         }
         else if (audioRequest.kind == ActorAiAudioRequestKind::Hit)
         {
@@ -6301,7 +6307,9 @@ void OutdoorWorldRuntime::applyOutdoorActorAudioRequests(const std::vector<Actor
                 "monster_hit",
                 audioRequest.position.x,
                 audioRequest.position.y,
-                audioRequest.position.z);
+                audioRequest.position.z,
+                true,
+                SoundScope::World);
         }
         else if (audioRequest.kind == ActorAiAudioRequestKind::Death)
         {
@@ -6311,7 +6319,9 @@ void OutdoorWorldRuntime::applyOutdoorActorAudioRequests(const std::vector<Actor
                 "monster_death",
                 audioRequest.position.x,
                 audioRequest.position.y,
-                audioRequest.position.z);
+                audioRequest.position.z,
+                true,
+                SoundScope::World);
         }
     }
 }
@@ -9603,7 +9613,9 @@ bool OutdoorWorldRuntime::applyReflectedDamageToActor(
                     "monster_death",
                     actor.preciseX,
                     actor.preciseY,
-                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+                    true,
+                    SoundScope::World);
             }
         }
         else
@@ -9621,7 +9633,9 @@ bool OutdoorWorldRuntime::applyReflectedDamageToActor(
                     "monster_hit",
                     actor.preciseX,
                     actor.preciseY,
-                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+                    true,
+                    SoundScope::World);
             }
         }
 
@@ -9961,7 +9975,9 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
                     "monster_death",
                     actor.preciseX,
                     actor.preciseY,
-                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+                    true,
+                    SoundScope::World);
             }
         }
     }
@@ -10050,7 +10066,9 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
                     "monster_death",
                     actor.preciseX,
                     actor.preciseY,
-                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+                    true,
+                    SoundScope::World);
             }
         }
 
@@ -10090,7 +10108,9 @@ bool OutdoorWorldRuntime::applyMonsterAttackToMapActor(
                 "monster_hit",
                 actor.preciseX,
                 actor.preciseY,
-                actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
+                actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+                true,
+                SoundScope::World);
         }
     }
 
@@ -10386,7 +10406,9 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
                     "monster_death",
                     actor.preciseX,
                     actor.preciseY,
-                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+                    true,
+                    SoundScope::World);
             }
         }
     }
@@ -10420,7 +10442,9 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
                     "monster_hit",
                     actor.preciseX,
                     actor.preciseY,
-                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f);
+                    actor.preciseZ + static_cast<float>(actor.height) * 0.5f,
+                    true,
+                    SoundScope::World);
             }
         }
     }

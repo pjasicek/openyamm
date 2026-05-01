@@ -1,9 +1,10 @@
 #include "editor/document/EditorDocument.h"
+
+#include "engine/ImageAssetLoader.h"
 #include "editor/import/IndoorSourceGeometryCompiler.h"
 #include "editor/import/ObjModelImport.h"
 
 #include <yaml-cpp/yaml.h>
-#include <SDL3/SDL.h>
 
 #include <array>
 #include <cctype>
@@ -163,6 +164,112 @@ std::string sceneVirtualPathFromPhysical(
     const std::filesystem::path &scenePhysicalPath)
 {
     return std::filesystem::relative(scenePhysicalPath, developmentRoot).generic_string();
+}
+
+std::filesystem::path activeWorldRelativePath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &relativePath)
+{
+    return std::filesystem::path("worlds") / assetFileSystem.getActiveWorldId() / relativePath;
+}
+
+std::filesystem::path activeWorldEditorPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &relativePath)
+{
+    return assetFileSystem.getEditorDevelopmentRoot() / activeWorldRelativePath(assetFileSystem, relativePath);
+}
+
+std::optional<std::string> worldIdFromPackageScenePath(
+    const std::filesystem::path &editorRoot,
+    const std::filesystem::path &scenePhysicalPath)
+{
+    std::error_code relativeError;
+    const std::filesystem::path mapDirectory =
+        std::filesystem::relative(scenePhysicalPath.parent_path(), editorRoot, relativeError);
+
+    if (relativeError)
+    {
+        return std::nullopt;
+    }
+
+    std::vector<std::string> components;
+
+    for (const std::filesystem::path &component : mapDirectory)
+    {
+        components.push_back(component.generic_string());
+    }
+
+    if (components.size() == 3 && components[0] == "worlds" && components[2] == "maps")
+    {
+        return components[1];
+    }
+
+    return std::nullopt;
+}
+
+std::filesystem::path packageRelativePathForLegacyVirtualPath(
+    const std::filesystem::path &editorRoot,
+    const std::filesystem::path &scenePhysicalPath,
+    const std::string &virtualPath)
+{
+    const std::optional<std::string> worldId = worldIdFromPackageScenePath(editorRoot, scenePhysicalPath);
+
+    if (!worldId)
+    {
+        return std::filesystem::path(virtualPath);
+    }
+
+    const auto mapPrefix =
+        [&virtualPath, &worldId](
+            const std::string &legacyPrefix,
+            const std::string &packagePrefix) -> std::optional<std::filesystem::path>
+    {
+        const std::string directoryPrefix = legacyPrefix + "/";
+
+        if (!virtualPath.starts_with(directoryPrefix))
+        {
+            return std::nullopt;
+        }
+
+        return std::filesystem::path("worlds")
+            / *worldId
+            / packagePrefix
+            / virtualPath.substr(directoryPrefix.size());
+    };
+
+    if (const std::optional<std::filesystem::path> path = mapPrefix("Data/scripts/maps", "events/maps"))
+    {
+        return *path;
+    }
+
+    if (const std::optional<std::filesystem::path> path = mapPrefix("Data/scripts", "events"))
+    {
+        return *path;
+    }
+
+    if (const std::optional<std::filesystem::path> path = mapPrefix("Data/games", "maps"))
+    {
+        return *path;
+    }
+
+    if (const std::optional<std::filesystem::path> path = mapPrefix("Data/data_tables", "data_tables"))
+    {
+        return *path;
+    }
+
+    return std::filesystem::path(virtualPath);
+}
+
+std::filesystem::path worldTableRelativePathForScene(
+    const std::filesystem::path &editorRoot,
+    const std::filesystem::path &scenePhysicalPath,
+    const std::string &fileName)
+{
+    return packageRelativePathForLegacyVirtualPath(
+        editorRoot,
+        scenePhysicalPath,
+        (std::filesystem::path("Data") / "data_tables" / fileName).generic_string());
 }
 
 bool ensureOverlaySeedTextFile(
@@ -437,7 +544,7 @@ void buildBitmapTextureNames(const Engine::AssetFileSystem &assetFileSystem, std
     {
         const std::string lowerEntry = toLowerCopy(entry);
 
-        if (!lowerEntry.ends_with(".bmp"))
+        if (!lowerEntry.ends_with(".bmp") && !lowerEntry.ends_with(".png"))
         {
             continue;
         }
@@ -548,31 +655,31 @@ bool loadBitmapTextureSize(
         return false;
     }
 
-    const std::optional<std::vector<uint8_t>> bitmapBytes =
-        assetFileSystem.readBinaryFile("Data/bitmaps/" + canonicalName + ".bmp");
+    std::optional<std::vector<uint8_t>> bitmapBytes =
+        assetFileSystem.readBinaryFile("Data/bitmaps/" + canonicalName + ".png");
+    std::string virtualPath = "Data/bitmaps/" + canonicalName + ".png";
+
+    if (!bitmapBytes || bitmapBytes->empty())
+    {
+        virtualPath = "Data/bitmaps/" + canonicalName + ".bmp";
+        bitmapBytes = assetFileSystem.readBinaryFile(virtualPath);
+    }
 
     if (!bitmapBytes || bitmapBytes->empty())
     {
         return false;
     }
 
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+    const std::optional<Engine::ImagePixelsBgra> image =
+        Engine::decodeImagePixelsBgra(*bitmapBytes, virtualPath);
 
-    if (pIoStream == nullptr)
+    if (!image)
     {
         return false;
     }
 
-    SDL_Surface *pSurface = SDL_LoadBMP_IO(pIoStream, true);
-
-    if (pSurface == nullptr)
-    {
-        return false;
-    }
-
-    width = pSurface->w;
-    height = pSurface->h;
-    SDL_DestroySurface(pSurface);
+    width = image->width;
+    height = image->height;
     return width > 0 && height > 0;
 }
 
@@ -1888,7 +1995,8 @@ bool EditorDocument::createNewOutdoorMapPackage(
     const std::string packageVirtualPath = "Data/games/" + replaceExtension(trimmedMapFileName, ".map.yml");
     const std::string geometryMetadataVirtualPath = "Data/games/" + replaceExtension(trimmedMapFileName, ".geometry.yml");
     const std::string terrainMetadataVirtualPath = "Data/games/" + replaceExtension(trimmedMapFileName, ".terrain.yml");
-    const std::filesystem::path mapStatsRelativePath = std::filesystem::path("Data") / "data_tables" / "map_stats.txt";
+    const std::filesystem::path mapStatsRelativePath =
+        activeWorldRelativePath(assetFileSystem, std::filesystem::path("data_tables") / "map_stats.txt");
     const std::filesystem::path mapStatsPath = assetFileSystem.getEditorDevelopmentRoot() / mapStatsRelativePath;
 
     if (assetFileSystem.exists(sceneVirtualPath)
@@ -1992,7 +2100,9 @@ bool EditorDocument::createNewOutdoorMapPackage(
     synchronizeOutdoorTerrainMetadata();
 
     const std::filesystem::path targetScenePath =
-        assetFileSystem.getEditorDevelopmentRoot() / "Data" / "games" / replaceExtension(trimmedMapFileName, ".scene.yml");
+        activeWorldEditorPath(
+            assetFileSystem,
+            std::filesystem::path("maps") / replaceExtension(trimmedMapFileName, ".scene.yml"));
 
     return saveAs(targetScenePath, errorMessage);
 }
@@ -2124,7 +2234,8 @@ bool EditorDocument::saveSourceAs(const std::filesystem::path &scenePhysicalPath
     const std::filesystem::path targetGeometryMetadataPath = deriveGeometryMetadataPathForScenePath(scenePhysicalPath);
     const std::filesystem::path targetMapPackagePath = deriveMapPackagePathForScenePath(scenePhysicalPath);
     const std::filesystem::path targetTerrainMetadataPath = deriveTerrainMetadataPathForScenePath(scenePhysicalPath);
-    const std::filesystem::path mapStatsRelativePath = std::filesystem::path("Data") / "data_tables" / "map_stats.txt";
+    const std::filesystem::path mapStatsRelativePath =
+        worldTableRelativePathForScene(m_editorDevelopmentRoot, scenePhysicalPath, "map_stats.txt");
     const std::filesystem::path mapStatsPath = m_editorDevelopmentRoot / mapStatsRelativePath;
 
     if (!ensureOverlaySeedTextFile(m_developmentRoot, m_editorDevelopmentRoot, mapStatsRelativePath, errorMessage))
@@ -2196,9 +2307,18 @@ bool EditorDocument::saveSourceAs(const std::filesystem::path &scenePhysicalPath
     if (!packageMetadata.scriptModule.empty())
     {
         const std::filesystem::path scriptModulePath =
-            m_editorDevelopmentRoot / std::filesystem::path(packageMetadata.scriptModule);
+            m_editorDevelopmentRoot
+            / packageRelativePathForLegacyVirtualPath(
+                m_editorDevelopmentRoot,
+                scenePhysicalPath,
+                packageMetadata.scriptModule);
         const bool scriptExistsInBaseDevelopmentRoot =
-            physicalVirtualPathExists(m_developmentRoot, packageMetadata.scriptModule);
+            std::filesystem::exists(
+                m_developmentRoot
+                / packageRelativePathForLegacyVirtualPath(
+                    m_editorDevelopmentRoot,
+                    scenePhysicalPath,
+                    packageMetadata.scriptModule));
 
         if (!std::filesystem::exists(scriptModulePath) && !scriptExistsInBaseDevelopmentRoot)
         {
@@ -2412,9 +2532,10 @@ bool EditorDocument::buildRuntimeAs(const std::filesystem::path &scenePhysicalPa
 
         std::vector<std::vector<std::string>> mapStatsRows;
         std::vector<std::vector<std::string>> navigationRows;
-        const std::filesystem::path mapStatsRelativePath = std::filesystem::path("Data") / "data_tables" / "map_stats.txt";
+        const std::filesystem::path mapStatsRelativePath =
+            worldTableRelativePathForScene(m_editorDevelopmentRoot, scenePhysicalPath, "map_stats.txt");
         const std::filesystem::path navigationRelativePath =
-            std::filesystem::path("Data") / "data_tables" / "map_navigation.txt";
+            worldTableRelativePathForScene(m_editorDevelopmentRoot, scenePhysicalPath, "map_navigation.txt");
         const std::filesystem::path mapStatsPath = m_editorDevelopmentRoot / mapStatsRelativePath;
         const std::filesystem::path navigationPath = m_editorDevelopmentRoot / navigationRelativePath;
 

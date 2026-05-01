@@ -73,6 +73,21 @@ If a bug appears only indoors or only outdoors, first check whether the shared s
 missing world hooks. Prefer fixing the shared path or the world hook over adding divergent logic to `IndoorGameView` or
 `OutdoorGameView`.
 
+### World, Campaign, And Mod Content
+
+- The long-term content architecture is documented in `WORLD_CAMPAIGN_MOD_ARCHITECTURE.md`.
+- OpenYAMM is the engine. Worlds such as MM8, MM7, MM6, or future custom settings should be mounted content packages,
+  not separate engines or hardcoded runtime modes.
+- Campaigns decide which worlds are mounted, which worlds can be chosen at new game start, and how cross-world travel,
+  metaquests, difficulty profiles, and global overrides work.
+- Keep shared content in a global/engine scope when the party can carry it or when it defines common mechanics: items,
+  skills, spells, classes, races, portraits, paperdolls, UI, menus, formulas, and campaign state.
+- Keep geography and story content world-scoped: maps, map events, quests, qbits/event vars, autonotes, NPCs, houses,
+  shops, local travel, death maps, loading screens, monsters, monster art, and world presentation.
+- Use canonical namespaced ids for world-specific data. Treat MM6/MM7/MM8 raw ids as import aliases, not global truth.
+- Implement world support incrementally around existing runtime systems through package mounting, world manifests,
+  campaign manifests, and active-world context. Do not rewrite the game engine for this.
+
 ## Assets And Runtime
 
 - Keep original asset formats whenever practical: TXT gameplay data, WAV audio, MP3/FLAC music, OGV video, ZIP packages.

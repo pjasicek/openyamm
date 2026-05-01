@@ -616,9 +616,9 @@ TEST_CASE("monster spell support includes implemented monster-data spells")
 TEST_CASE("monster data spell names resolve and unsupported mechanics stay explicit")
 {
     const std::optional<std::vector<std::vector<std::string>>> monsterRows =
-        loadAssetTextTableRows("assets_dev/Data/data_tables/monster_data.txt");
+        loadAssetTextTableRows("assets_dev/worlds/mm8/data_tables/monster_data.txt");
     const std::optional<std::vector<std::vector<std::string>>> spellRows =
-        loadAssetTextTableRows("assets_dev/Data/data_tables/spells.txt");
+        loadAssetTextTableRows("assets_dev/engine/data_tables/spells.txt");
     REQUIRE(monsterRows.has_value());
     REQUIRE(spellRows.has_value());
 

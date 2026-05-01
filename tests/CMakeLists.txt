@@ -1,7 +1,9 @@
 add_executable(openyamm_unit_tests
+    AssetFileSystemTests.cpp
     AudioRegressionTests.cpp
     ArcomageRegressionTests.cpp
     ChestRegressionTests.cpp
+    ContentManifestTests.cpp
     HouseDialogueRegressionTests.cpp
     ScriptedMapRegressionTests.cpp
     UnitTestMain.cpp
@@ -36,6 +38,7 @@ add_executable(openyamm_unit_tests
     ../game/arcomage/ArcomageRules.cpp
     ../game/audio/GameAudioSystem.cpp
     ../game/audio/SoundCatalog.cpp
+    ../game/content/ContentManifest.cpp
     ../game/data/ActorNameResolver.cpp
     ../game/data/GameDataLoader.cpp
     ../engine/scripting/LuaStateOwner.cpp
@@ -62,6 +65,7 @@ add_executable(openyamm_unit_tests
     ../game/gameplay/SavePreviewImage.cpp
     ../game/maps/MapDeltaData.cpp
     ../game/maps/MapAssetLoader.cpp
+    ../game/maps/MapIdentity.cpp
     ../game/maps/SaveGame.cpp
     ../game/maps/MapRegistry.cpp
     ../game/maps/IndoorSceneYml.cpp

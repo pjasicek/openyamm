@@ -192,7 +192,7 @@ void writeRawChestItemId(OpenYAMM::Game::MapDeltaChest &chest, size_t recordInde
 OpenYAMM::Game::OutdoorSceneData loadOut01Scene()
 {
     const std::filesystem::path scenePath =
-        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/Data/games/out01.scene.yml";
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm8/maps/out01.scene.yml";
     std::ifstream sceneFile(scenePath);
     REQUIRE(sceneFile.good());
 

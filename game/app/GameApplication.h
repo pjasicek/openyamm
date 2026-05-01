@@ -17,6 +17,7 @@
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/outdoor/OutdoorWorldRuntime.h"
 #include "game/app/ScreenManager.h"
+#include "game/content/ContentManifest.h"
 #include "game/maps/SaveGame.h"
 #include "game/scene/IMapSceneRuntime.h"
 #include "game/ui/screens/LoadingOverlayScreen.h"
@@ -119,6 +120,8 @@ private:
     Engine::EngineApplication m_engineApplication;
     GameDataLoader m_gameDataLoader;
     GameDataRepository m_gameDataRepository;
+    CampaignManifest m_campaignManifest;
+    WorldManifest m_activeWorldManifest;
     GameAudioSystem m_gameAudioSystem;
     GameSession m_gameSession;
     GameInputSystem m_gameInputSystem;
