@@ -9,6 +9,7 @@ add_executable(openyamm_unit_tests
     GameplayActorAiSystemTests.cpp
     GameplayRuleRegressionTests.cpp
     GameplayProjectileServiceTests.cpp
+    ImageAssetLoaderTests.cpp
     IndoorCollisionPrimitivesTests.cpp
     IndoorLightingRuntimeTests.cpp
     IndoorPortalVisibilityTests.cpp
@@ -28,6 +29,7 @@ add_executable(openyamm_unit_tests
     ../engine/AudioSystem.cpp
     ../engine/AssetFileSystem.cpp
     ../engine/AssetScaleTier.cpp
+    ../engine/ImageAssetLoader.cpp
     ../engine/TextTable.cpp
     ../game/arcomage/ArcomageAi.cpp
     ../game/arcomage/ArcomageLoader.cpp

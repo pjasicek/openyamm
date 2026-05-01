@@ -10,6 +10,7 @@
 #include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
 #include "game/scene/OutdoorSceneRuntime.h"
+#include "engine/ImageAssetLoader.h"
 
 #include <SDL3/SDL.h>
 #include <bx/math.h>
@@ -100,6 +101,7 @@ uint32_t makeTintedFogColor(
 struct SpriteTexturePreloadRequest
 {
     std::string textureName;
+    std::string virtualPath;
     int16_t paletteId = 0;
     std::vector<uint8_t> bitmapBytes;
     std::optional<std::array<uint8_t, 256 * 3>> overridePalette;
@@ -187,109 +189,28 @@ uint32_t currentAnimationTicks()
 
 std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgra(
     const std::vector<uint8_t> &bitmapBytes,
+    const std::string &virtualPath,
     const std::optional<std::array<uint8_t, 256 * 3>> &overridePalette,
     int &width,
     int &height)
 {
-    if (bitmapBytes.empty())
+    Engine::ImageDecodeOptions decodeOptions = {};
+    decodeOptions.overridePalette = overridePalette;
+    decodeOptions.applyPaletteZeroTransparencyKey = true;
+    decodeOptions.applyMagentaTransparencyKey = true;
+    decodeOptions.applyTealTransparencyKey = true;
+
+    const std::optional<Engine::ImagePixelsBgra> image =
+        Engine::decodeImagePixelsBgra(bitmapBytes, virtualPath, decodeOptions);
+
+    if (!image)
     {
         return std::nullopt;
     }
 
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes.data(), bitmapBytes.size());
-
-    if (pIoStream == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
-
-    if (pLoadedSurface == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    SDL_Palette *pBasePalette = SDL_GetSurfacePalette(pLoadedSurface);
-    const bool canApplyPalette =
-        overridePalette.has_value()
-        && pLoadedSurface->format == SDL_PIXELFORMAT_INDEX8
-        && pBasePalette != nullptr;
-
-    if (canApplyPalette)
-    {
-        width = pLoadedSurface->w;
-        height = pLoadedSurface->h;
-        std::vector<uint8_t> pixels(static_cast<size_t>(width) * static_cast<size_t>(height) * 4);
-
-        for (int row = 0; row < height; ++row)
-        {
-            const uint8_t *pSourceRow = static_cast<const uint8_t *>(pLoadedSurface->pixels)
-                + static_cast<ptrdiff_t>(row * pLoadedSurface->pitch);
-
-            for (int column = 0; column < width; ++column)
-            {
-                const uint8_t paletteIndex = pSourceRow[column];
-                const SDL_Color sourceColor =
-                    paletteIndex < pBasePalette->ncolors
-                        ? pBasePalette->colors[paletteIndex]
-                        : SDL_Color{0, 0, 0, 255};
-                const bool isZeroIndexKey = paletteIndex == 0;
-                const bool isMagentaKey =
-                    sourceColor.r >= 248 && sourceColor.g <= 8 && sourceColor.b >= 248;
-                const bool isTealKey =
-                    sourceColor.r <= 8 && sourceColor.g >= 248 && sourceColor.b >= 248;
-                const size_t paletteOffset = static_cast<size_t>(paletteIndex) * 3;
-                const size_t pixelOffset =
-                    (static_cast<size_t>(row) * static_cast<size_t>(width) + static_cast<size_t>(column)) * 4;
-
-                pixels[pixelOffset + 0] = (*overridePalette)[paletteOffset + 2];
-                pixels[pixelOffset + 1] = (*overridePalette)[paletteOffset + 1];
-                pixels[pixelOffset + 2] = (*overridePalette)[paletteOffset + 0];
-                pixels[pixelOffset + 3] = (isZeroIndexKey || isMagentaKey || isTealKey) ? 0 : 255;
-            }
-        }
-
-        SDL_DestroySurface(pLoadedSurface);
-        return pixels;
-    }
-
-    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
-    SDL_DestroySurface(pLoadedSurface);
-
-    if (pConvertedSurface == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    width = pConvertedSurface->w;
-    height = pConvertedSurface->h;
-    std::vector<uint8_t> pixels(static_cast<size_t>(width) * static_cast<size_t>(height) * 4);
-
-    for (int row = 0; row < height; ++row)
-    {
-        const uint8_t *pSourceRow = static_cast<const uint8_t *>(pConvertedSurface->pixels)
-            + static_cast<ptrdiff_t>(row * pConvertedSurface->pitch);
-        uint8_t *pTargetRow = pixels.data() + static_cast<size_t>(row) * static_cast<size_t>(width) * 4;
-        std::memcpy(pTargetRow, pSourceRow, static_cast<size_t>(width) * 4);
-    }
-
-    for (size_t pixelOffset = 0; pixelOffset < pixels.size(); pixelOffset += 4)
-    {
-        const uint8_t blue = pixels[pixelOffset + 0];
-        const uint8_t green = pixels[pixelOffset + 1];
-        const uint8_t red = pixels[pixelOffset + 2];
-        const bool isMagentaKey = red >= 248 && green <= 8 && blue >= 248;
-        const bool isTealKey = red <= 8 && green >= 248 && blue >= 248;
-
-        if (isMagentaKey || isTealKey)
-        {
-            pixels[pixelOffset + 3] = 0;
-        }
-    }
-
-    SDL_DestroySurface(pConvertedSurface);
-    return pixels;
+    width = image->width;
+    height = image->height;
+    return image->pixels;
 }
 
 struct ProjectedBillboardRect
@@ -1492,8 +1413,13 @@ void OutdoorBillboardRenderer::preloadPendingSpriteFrameWarmupsParallel(OutdoorG
                 return;
             }
 
-            const std::optional<std::string> spritePath =
-                view.findCachedAssetPath("Data/sprites", normalizedTextureName + ".bmp");
+            std::optional<std::string> spritePath =
+                view.findCachedAssetPath("Data/sprites", normalizedTextureName + ".png");
+
+            if (!spritePath)
+            {
+                spritePath = view.findCachedAssetPath("Data/sprites", normalizedTextureName + ".bmp");
+            }
 
             if (!spritePath)
             {
@@ -1521,6 +1447,7 @@ void OutdoorBillboardRenderer::preloadPendingSpriteFrameWarmupsParallel(OutdoorG
 
             SpriteTexturePreloadRequest request = {};
             request.textureName = normalizedTextureName;
+            request.virtualPath = *spritePath;
             request.paletteId = paletteId;
             request.bitmapBytes = *bitmapBytes;
 
@@ -1600,6 +1527,7 @@ void OutdoorBillboardRenderer::preloadPendingSpriteFrameWarmupsParallel(OutdoorG
                     int textureHeight = 0;
                     const std::optional<std::vector<uint8_t>> pixels = loadSpriteBitmapPixelsBgra(
                         request.bitmapBytes,
+                        request.virtualPath,
                         request.overridePalette,
                         textureWidth,
                         textureHeight);

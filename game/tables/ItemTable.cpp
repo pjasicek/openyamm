@@ -1,4 +1,5 @@
 #include "game/tables/ItemTable.h"
+#include "engine/ImageAssetLoader.h"
 #include "game/StringUtils.h"
 
 #include <algorithm>
@@ -140,9 +141,9 @@ bool loadBitmapDimensions(
         return false;
     }
 
-    const std::optional<std::vector<uint8_t>> bitmapBytes = assetFileSystem.readBinaryFile(foundPath->second);
+    const std::optional<std::vector<uint8_t>> imageBytes = assetFileSystem.readBinaryFile(foundPath->second);
 
-    if (!bitmapBytes || bitmapBytes->size() < 26 || (*bitmapBytes)[0] != 'B' || (*bitmapBytes)[1] != 'M')
+    if (!imageBytes || imageBytes->empty())
     {
         return false;
     }
@@ -150,19 +151,31 @@ bool loadBitmapDimensions(
     int32_t bitmapWidth = 0;
     int32_t bitmapHeight = 0;
 
-    if (!readInt32LittleEndian(*bitmapBytes, 18, bitmapWidth)
-        || !readInt32LittleEndian(*bitmapBytes, 22, bitmapHeight))
+    if (imageBytes->size() >= 26
+        && (*imageBytes)[0] == 'B'
+        && (*imageBytes)[1] == 'M'
+        && readInt32LittleEndian(*imageBytes, 18, bitmapWidth)
+        && readInt32LittleEndian(*imageBytes, 22, bitmapHeight)
+        && bitmapWidth > 0
+        && bitmapHeight != 0)
     {
-        return false;
+        width = bitmapWidth;
+        height = std::abs(bitmapHeight);
+    }
+    else
+    {
+        const std::optional<Engine::ImagePixelsBgra> decodedImage =
+            Engine::decodeImagePixelsBgra(*imageBytes, foundPath->second);
+
+        if (!decodedImage || decodedImage->width <= 0 || decodedImage->height <= 0)
+        {
+            return false;
+        }
+
+        width = decodedImage->width;
+        height = decodedImage->height;
     }
 
-    if (bitmapWidth <= 0 || bitmapHeight == 0)
-    {
-        return false;
-    }
-
-    width = bitmapWidth;
-    height = std::abs(bitmapHeight);
     width = Engine::scalePhysicalPixelsToLogical(width, assetFileSystem.getAssetScaleTier());
     height = Engine::scalePhysicalPixelsToLogical(height, assetFileSystem.getAssetScaleTier());
     virtualPath = foundPath->second;
@@ -185,13 +198,25 @@ std::unordered_map<std::string, std::string> buildIconPathMap(const Engine::Asse
     {
         const std::string lowerEntry = toLowerCopy(entry);
 
-        if (lowerEntry.size() <= 4 || lowerEntry.substr(lowerEntry.size() - 4) != ".bmp")
+        if (lowerEntry.size() <= 4)
         {
             continue;
         }
 
-        const std::string iconStem = lowerEntry.substr(0, lowerEntry.size() - 4);
-        iconPaths[iconStem] = "Data/icons/" + entry;
+        if (lowerEntry.substr(lowerEntry.size() - 4) == ".png")
+        {
+            const std::string iconStem = lowerEntry.substr(0, lowerEntry.size() - 4);
+            iconPaths[iconStem] = "Data/icons/" + entry;
+        }
+        else if (lowerEntry.substr(lowerEntry.size() - 4) == ".bmp")
+        {
+            const std::string iconStem = lowerEntry.substr(0, lowerEntry.size() - 4);
+
+            if (!iconPaths.contains(iconStem))
+            {
+                iconPaths[iconStem] = "Data/icons/" + entry;
+            }
+        }
     }
 
     return iconPaths;

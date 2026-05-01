@@ -1,12 +1,11 @@
 #include "game/data/GameDataLoader.h"
 
 #include "game/arcomage/ArcomageLoader.h"
+#include "engine/ImageAssetLoader.h"
 #include "engine/TextTable.h"
 #include "game/FaceEnums.h"
 #include "game/events/EventRuntime.h"
 #include "game/StringUtils.h"
-
-#include <SDL3/SDL.h>
 
 #include <cctype>
 #include <cstring>
@@ -545,46 +544,12 @@ std::optional<std::string> findBitmapPath(
     std::unordered_map<std::string, std::optional<std::string>> &bitmapPathByKey
 )
 {
-    const std::string cacheKey = directoryPath + "|" + toLowerCopy(textureName);
-    const auto cachedPathIt = bitmapPathByKey.find(cacheKey);
-
-    if (cachedPathIt != bitmapPathByKey.end())
-    {
-        return cachedPathIt->second;
-    }
-
-    const auto assetPathsIt = directoryAssetPathsByPath.find(directoryPath);
-    const std::unordered_map<std::string, std::string> *pAssetPaths = nullptr;
-
-    if (assetPathsIt != directoryAssetPathsByPath.end())
-    {
-        pAssetPaths = &assetPathsIt->second;
-    }
-    else
-    {
-        std::vector<std::string> entries = assetFileSystem.enumerate(directoryPath);
-        std::unordered_map<std::string, std::string> assetPaths;
-
-        for (const std::string &entry : entries)
-        {
-            assetPaths.emplace(toLowerCopy(entry), directoryPath + "/" + entry);
-        }
-
-        pAssetPaths = &directoryAssetPathsByPath.emplace(directoryPath, std::move(assetPaths)).first->second;
-    }
-
-    const std::string normalizedTextureName = toLowerCopy(textureName) + ".bmp";
-    const auto resolvedPathIt = pAssetPaths->find(normalizedTextureName);
-
-    if (resolvedPathIt != pAssetPaths->end())
-    {
-        const std::optional<std::string> resolvedPath = resolvedPathIt->second;
-        bitmapPathByKey[cacheKey] = resolvedPath;
-        return resolvedPath;
-    }
-
-    bitmapPathByKey[cacheKey] = std::nullopt;
-    return std::nullopt;
+    return Engine::findImageAssetPath(
+        assetFileSystem,
+        directoryPath,
+        textureName,
+        directoryAssetPathsByPath,
+        bitmapPathByKey);
 }
 
 std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
@@ -617,35 +582,17 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
         return std::nullopt;
     }
 
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+    const std::optional<Engine::ImagePixelsBgra> image =
+        Engine::decodeImagePixelsBgra(*bitmapBytes, *bitmapPath);
 
-    if (pIoStream == nullptr)
+    if (!image)
     {
         return std::nullopt;
     }
 
-    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
-
-    if (pLoadedSurface == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
-    SDL_DestroySurface(pLoadedSurface);
-
-    if (pConvertedSurface == nullptr)
-    {
-        return std::nullopt;
-    }
-
-    width = pConvertedSurface->w;
-    height = pConvertedSurface->h;
-    const size_t pixelCount = static_cast<size_t>(width) * static_cast<size_t>(height) * 4;
-    std::vector<uint8_t> pixels(pixelCount);
-    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
-    SDL_DestroySurface(pConvertedSurface);
-    return pixels;
+    width = image->width;
+    height = image->height;
+    return image->pixels;
 }
 
 void appendDecorationScriptBillboardTextures(

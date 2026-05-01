@@ -1,5 +1,6 @@
 #include "game/ui/MenuScreenBase.h"
 #include "engine/BgfxContext.h"
+#include "engine/ImageAssetLoader.h"
 #include "game/render/TextureFiltering.h"
 
 #include <SDL3/SDL.h>
@@ -429,6 +430,25 @@ std::optional<std::vector<uint8_t>> loadTexturePixelsBgra(
     if (lowerPath.size() >= 4 && lowerPath.substr(lowerPath.size() - 4) == ".pcx")
     {
         return decodePcxPixelsBgra(bytes, width, height);
+    }
+
+    if (lowerPath.size() >= 4 && lowerPath.substr(lowerPath.size() - 4) == ".png")
+    {
+        Engine::ImageDecodeOptions decodeOptions = {};
+        decodeOptions.applyMagentaTransparencyKey = true;
+        decodeOptions.applyTealTransparencyKey = true;
+
+        const std::optional<Engine::ImagePixelsBgra> image =
+            Engine::decodeImagePixelsBgra(bytes, path, decodeOptions);
+
+        if (!image)
+        {
+            return std::nullopt;
+        }
+
+        width = image->width;
+        height = image->height;
+        return image->pixels;
     }
 
     SDL_IOStream *pIoStream = SDL_IOFromConstMem(bytes.data(), bytes.size());
@@ -1677,7 +1697,8 @@ std::optional<std::string> MenuScreenBase::resolveTexturePath(const std::string 
     const std::array<std::string, 1> directories = {
         "Data/icons"
     };
-    const std::array<std::string, 2> extensions = {
+    const std::array<std::string, 3> extensions = {
+        ".png",
         ".bmp",
         ".pcx"
     };

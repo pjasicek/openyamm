@@ -13,8 +13,8 @@
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
+#include "engine/ImageAssetLoader.h"
 
-#include <SDL3/SDL.h>
 #include <bx/math.h>
 
 #include <algorithm>
@@ -1891,7 +1891,12 @@ const OutdoorGameView::SkyTextureHandle *OutdoorRenderer::ensureSkyTexture(
         return &view.m_skyTextureHandles[cachedTextureIt->second];
     }
 
-    const std::optional<std::string> bitmapPath = view.findCachedAssetPath("Data/bitmaps", textureName + ".bmp");
+    std::optional<std::string> bitmapPath = view.findCachedAssetPath("Data/bitmaps", textureName + ".png");
+
+    if (!bitmapPath)
+    {
+        bitmapPath = view.findCachedAssetPath("Data/bitmaps", textureName + ".bmp");
+    }
 
     if (!bitmapPath)
     {
@@ -1905,34 +1910,17 @@ const OutdoorGameView::SkyTextureHandle *OutdoorRenderer::ensureSkyTexture(
         return nullptr;
     }
 
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+    const std::optional<Engine::ImagePixelsBgra> image =
+        Engine::decodeImagePixelsBgra(*bitmapBytes, *bitmapPath);
 
-    if (pIoStream == nullptr)
+    if (!image)
     {
         return nullptr;
     }
 
-    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
-
-    if (pLoadedSurface == nullptr)
-    {
-        return nullptr;
-    }
-
-    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
-    SDL_DestroySurface(pLoadedSurface);
-
-    if (pConvertedSurface == nullptr)
-    {
-        return nullptr;
-    }
-
-    const int textureWidth = pConvertedSurface->w;
-    const int textureHeight = pConvertedSurface->h;
-    const size_t pixelCount = static_cast<size_t>(textureWidth) * static_cast<size_t>(textureHeight) * 4;
-    std::vector<uint8_t> pixels(pixelCount);
-    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
-    SDL_DestroySurface(pConvertedSurface);
+    const int textureWidth = image->width;
+    const int textureHeight = image->height;
+    std::vector<uint8_t> pixels = image->pixels;
 
     OutdoorGameView::SkyTextureHandle textureHandle = {};
     textureHandle.textureName = normalizedTextureName;
@@ -1996,7 +1984,12 @@ bgfx::TextureHandle OutdoorRenderer::ensureBloodSplatTexture(OutdoorGameView &vi
         return view.m_bloodSplatTextureHandle;
     }
 
-    const std::optional<std::string> bitmapPath = view.findCachedAssetPath("Data/bitmaps", "hwsplat04.bmp");
+    std::optional<std::string> bitmapPath = view.findCachedAssetPath("Data/bitmaps", "hwsplat04.png");
+
+    if (!bitmapPath)
+    {
+        bitmapPath = view.findCachedAssetPath("Data/bitmaps", "hwsplat04.bmp");
+    }
 
     if (!bitmapPath)
     {
@@ -2010,34 +2003,17 @@ bgfx::TextureHandle OutdoorRenderer::ensureBloodSplatTexture(OutdoorGameView &vi
         return BGFX_INVALID_HANDLE;
     }
 
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+    const std::optional<Engine::ImagePixelsBgra> image =
+        Engine::decodeImagePixelsBgra(*bitmapBytes, *bitmapPath);
 
-    if (pIoStream == nullptr)
+    if (!image)
     {
         return BGFX_INVALID_HANDLE;
     }
 
-    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
-
-    if (pLoadedSurface == nullptr)
-    {
-        return BGFX_INVALID_HANDLE;
-    }
-
-    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
-    SDL_DestroySurface(pLoadedSurface);
-
-    if (pConvertedSurface == nullptr)
-    {
-        return BGFX_INVALID_HANDLE;
-    }
-
-    const int textureWidth = pConvertedSurface->w;
-    const int textureHeight = pConvertedSurface->h;
-    const size_t pixelCount = static_cast<size_t>(textureWidth) * static_cast<size_t>(textureHeight) * 4;
-    std::vector<uint8_t> pixels(pixelCount);
-    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
-    SDL_DestroySurface(pConvertedSurface);
+    const int textureWidth = image->width;
+    const int textureHeight = image->height;
+    std::vector<uint8_t> pixels = image->pixels;
 
     for (size_t offset = 0; offset + 3 < pixels.size(); offset += 4)
     {

@@ -16,6 +16,7 @@
 #include "game/scene/IndoorSceneRuntime.h"
 #include "game/SpriteObjectDefs.h"
 #include "game/StringUtils.h"
+#include "engine/ImageAssetLoader.h"
 
 #include <bx/math.h>
 
@@ -4607,12 +4608,22 @@ bgfx::TextureHandle IndoorRenderer::ensureBloodSplatTexture()
         return m_bloodSplatTextureHandle;
     }
 
-    const std::optional<std::string> bitmapPath =
+    std::optional<std::string> bitmapPath =
         GameplayHudCommon::findCachedAssetPath(
             m_pAssetFileSystem,
             m_spriteLoadCache,
             "Data/bitmaps",
-            "hwsplat04.bmp");
+            "hwsplat04.png");
+
+    if (!bitmapPath)
+    {
+        bitmapPath =
+            GameplayHudCommon::findCachedAssetPath(
+                m_pAssetFileSystem,
+                m_spriteLoadCache,
+                "Data/bitmaps",
+                "hwsplat04.bmp");
+    }
 
     if (!bitmapPath)
     {
@@ -4627,34 +4638,17 @@ bgfx::TextureHandle IndoorRenderer::ensureBloodSplatTexture()
         return BGFX_INVALID_HANDLE;
     }
 
-    SDL_IOStream *pIoStream = SDL_IOFromConstMem(bitmapBytes->data(), bitmapBytes->size());
+    const std::optional<Engine::ImagePixelsBgra> image =
+        Engine::decodeImagePixelsBgra(*bitmapBytes, *bitmapPath);
 
-    if (pIoStream == nullptr)
+    if (!image)
     {
         return BGFX_INVALID_HANDLE;
     }
 
-    SDL_Surface *pLoadedSurface = SDL_LoadBMP_IO(pIoStream, true);
-
-    if (pLoadedSurface == nullptr)
-    {
-        return BGFX_INVALID_HANDLE;
-    }
-
-    SDL_Surface *pConvertedSurface = SDL_ConvertSurface(pLoadedSurface, SDL_PIXELFORMAT_BGRA32);
-    SDL_DestroySurface(pLoadedSurface);
-
-    if (pConvertedSurface == nullptr)
-    {
-        return BGFX_INVALID_HANDLE;
-    }
-
-    const int textureWidth = pConvertedSurface->w;
-    const int textureHeight = pConvertedSurface->h;
-    const size_t pixelCount = size_t(textureWidth) * size_t(textureHeight) * 4;
-    std::vector<uint8_t> pixels(pixelCount);
-    std::memcpy(pixels.data(), pConvertedSurface->pixels, pixelCount);
-    SDL_DestroySurface(pConvertedSurface);
+    const int textureWidth = image->width;
+    const int textureHeight = image->height;
+    std::vector<uint8_t> pixels = image->pixels;
 
     for (size_t offset = 0; offset + 3 < pixels.size(); offset += 4)
     {
