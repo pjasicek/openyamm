@@ -583,41 +583,6 @@ void seedDebugWandsIntoParty(Party &party, const ItemTable &itemTable)
     }
 }
 
-void seedSimulatedAdventurersInn(
-    Party &party,
-    const RosterTable &rosterTable,
-    const NpcDialogTable &npcDialogTable,
-    std::optional<uint32_t> selectedRosterId)
-{
-    static constexpr std::array<uint32_t, 2> DefaultAdventurersInnRosterIds = {{1, 7}};
-
-    party.clearAdventurersInnMembers();
-
-    for (uint32_t rosterId : DefaultAdventurersInnRosterIds)
-    {
-        if (selectedRosterId.has_value() && rosterId == *selectedRosterId)
-        {
-            continue;
-        }
-
-        if (party.hasRosterMember(rosterId))
-        {
-            continue;
-        }
-
-        const RosterEntry *pEntry = rosterTable.get(rosterId);
-
-        if (pEntry == nullptr)
-        {
-            continue;
-        }
-
-        const NpcEntry *pNpcEntry = npcDialogTable.findNpcByName(pEntry->name);
-        const uint32_t innPortraitPictureId = pNpcEntry != nullptr ? pNpcEntry->pictureId : 0;
-        party.addAdventurersInnMember(*pEntry, innPortraitPictureId);
-    }
-}
-
 float normalizedVolumeLevel(int level)
 {
     return std::clamp(static_cast<float>(level) / 9.0f, 0.0f, 1.0f);
@@ -662,17 +627,25 @@ Character buildFreshCreatedCharacter(
     const ClassMultiplierTable &classMultiplierTable,
     const ItemTable &itemTable,
     const StandardItemEnchantTable &standardItemEnchantTable,
-    const SpecialItemEnchantTable &specialItemEnchantTable)
+    const SpecialItemEnchantTable &specialItemEnchantTable,
+    bool preserveDebugLoadout)
 {
     Character character = sourceCharacter;
     character.rosterId = 0;
     character.birthYear = character.birthYear != 0 ? character.birthYear : 1150;
-    character.experience = 0;
-    character.level = 1;
-    character.skillPoints = 0;
+
+    if (!preserveDebugLoadout)
+    {
+        character.experience = 0;
+        character.level = 1;
+        character.skillPoints = 0;
+        character.knownSpellIds.clear();
+        character.equipment = {};
+        character.equipmentRuntime = {};
+    }
+
     character.quickSpellName.clear();
     character.attackSpellName.clear();
-    character.knownSpellIds.clear();
     character.baseResistances = {};
     character.permanentBonuses = {};
     character.magicalBonuses = {};
@@ -680,8 +653,6 @@ Character buildFreshCreatedCharacter(
     character.magicalImmunities = {};
     character.permanentConditionImmunities = {};
     character.magicalConditionImmunities = {};
-    character.equipment = {};
-    character.equipmentRuntime = {};
     character.conditions = {};
     character.awards.clear();
     character.eventVariables.clear();
@@ -712,7 +683,12 @@ Character buildFreshCreatedCharacter(
     character.health = character.maxHealth;
     character.maxSpellPoints = GameMechanics::calculateBaseCharacterMaxSpellPoints(character, &classMultiplierTable);
     character.spellPoints = character.maxSpellPoints;
-    grantCreatedCharacterStarterItems(character, itemTable, standardItemEnchantTable, specialItemEnchantTable);
+
+    if (!preserveDebugLoadout)
+    {
+        grantCreatedCharacterStarterItems(character, itemTable, standardItemEnchantTable, specialItemEnchantTable);
+    }
+
     return character;
 }
 }
@@ -2021,6 +1997,7 @@ void GameApplication::openNewGameScreen()
         *m_pAssetFileSystem,
         &m_gameAudioSystem,
         m_gameSession.data(),
+        m_settings.newGameGodLich,
         [this](const Character &character)
         {
             startNewSessionFromCharacterCreation(character);
@@ -2049,6 +2026,27 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
             ? m_config.startupMapFileOverride
             : (m_settings.startMapFile.empty() ? std::string(DefaultStartupMapFile) : m_settings.startMapFile);
     m_gameSession.setCurrentMapFileName(startupMapFile);
+
+    const bool shouldSeedParty = rosterId.has_value() || m_settings.preseedParty;
+    std::optional<uint32_t> effectiveRosterId = rosterId;
+
+    if (!effectiveRosterId.has_value() && m_settings.preseedParty && m_settings.partySeedRosterId != 0)
+    {
+        effectiveRosterId = m_settings.partySeedRosterId;
+    }
+
+    if (shouldSeedParty)
+    {
+        Party &party = ensureSessionPartyState();
+        const RosterEntry *pRosterEntry =
+            effectiveRosterId.has_value() ? m_gameDataLoader.getRosterTable().get(*effectiveRosterId) : nullptr;
+
+        seedSimulatedPartyFromRoster(
+            party,
+            m_gameDataLoader.getRosterTable(),
+            effectiveRosterId.has_value() && pRosterEntry != nullptr ? effectiveRosterId : std::nullopt);
+        seedDebugWandsIntoParty(party, m_gameDataLoader.getItemTable());
+    }
 
     if (!loadCurrentSessionMap(initializeView))
     {
@@ -2095,49 +2093,6 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
         return false;
     }
 
-    Party &party = m_pMapSceneRuntime->party();
-
-    const bool shouldSeedParty = rosterId.has_value() || m_settings.preseedParty;
-    std::optional<uint32_t> effectiveRosterId = rosterId;
-
-    if (!effectiveRosterId.has_value() && m_settings.preseedParty && m_settings.partySeedRosterId != 0)
-    {
-        effectiveRosterId = m_settings.partySeedRosterId;
-    }
-
-    if (shouldSeedParty)
-    {
-        const RosterEntry *pRosterEntry =
-            effectiveRosterId.has_value() ? m_gameDataLoader.getRosterTable().get(*effectiveRosterId) : nullptr;
-
-        if (effectiveRosterId.has_value() && pRosterEntry == nullptr)
-        {
-            seedSimulatedPartyFromRoster(
-                party,
-                m_gameDataLoader.getRosterTable(),
-                std::nullopt);
-            seedSimulatedAdventurersInn(
-                party,
-                m_gameDataLoader.getRosterTable(),
-                m_gameDataLoader.getNpcDialogTable(),
-                std::nullopt);
-            seedDebugWandsIntoParty(party, m_gameDataLoader.getItemTable());
-        }
-        else
-        {
-            seedSimulatedPartyFromRoster(
-                party,
-                m_gameDataLoader.getRosterTable(),
-                effectiveRosterId);
-            seedSimulatedAdventurersInn(
-                party,
-                m_gameDataLoader.getRosterTable(),
-                m_gameDataLoader.getNpcDialogTable(),
-                effectiveRosterId);
-            seedDebugWandsIntoParty(party, m_gameDataLoader.getItemTable());
-        }
-    }
-
     applyCurrentSettingsToActiveRuntime();
     applyStartupDebugSettingsToActiveRuntime();
     synchronizeSessionFromRuntime();
@@ -2158,6 +2113,20 @@ bool GameApplication::startNewSessionFromCharacterCreation(const Character &char
     m_gameSession.clearCurrentSavePath();
     m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
     m_gameSession.setCurrentMapFileName(DefaultStartupMapFile);
+    PartySeed seed = {};
+    seed.gold = 200;
+    seed.food = 5;
+    seed.members.push_back(
+        buildFreshCreatedCharacter(
+            character,
+            m_gameDataLoader.getClassMultiplierTable(),
+            m_gameDataLoader.getItemTable(),
+            m_gameDataLoader.getStandardItemEnchantTable(),
+            m_gameDataLoader.getSpecialItemEnchantTable(),
+            m_settings.newGameGodLich));
+
+    Party &sessionParty = ensureSessionPartyState();
+    sessionParty.seed(seed);
     renderLoadingOverlayProgress(15);
 
     if (!loadCurrentSessionMap(
@@ -2179,22 +2148,6 @@ bool GameApplication::startNewSessionFromCharacterCreation(const Character &char
         return false;
     }
 
-    PartySeed seed = {};
-    seed.gold = 200;
-    seed.food = 5;
-    seed.members.push_back(
-        buildFreshCreatedCharacter(
-            character,
-            m_gameDataLoader.getClassMultiplierTable(),
-            m_gameDataLoader.getItemTable(),
-            m_gameDataLoader.getStandardItemEnchantTable(),
-            m_gameDataLoader.getSpecialItemEnchantTable()));
-    m_pOutdoorPartyRuntime->party().seed(seed);
-    seedSimulatedAdventurersInn(
-        m_pOutdoorPartyRuntime->party(),
-        m_gameDataLoader.getRosterTable(),
-        m_gameDataLoader.getNpcDialogTable(),
-        std::nullopt);
     renderLoadingOverlayProgress(90);
     applyCurrentSettingsToActiveRuntime();
     synchronizeSessionFromRuntime();

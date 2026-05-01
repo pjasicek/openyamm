@@ -28,6 +28,7 @@ constexpr float RootWidth = 640.0f;
 constexpr float RootHeight = 480.0f;
 constexpr const char *CharacterCreationLayoutPath = "Data/ui/gameplay/character_creation.yml";
 constexpr uint32_t DefaultCreationCharacterDataId = 1;
+constexpr uint32_t DebugGodLichCharacterDataId = 27;
 constexpr uint32_t CharacterCreationVoicePreviewSpeakerKey = 0x43525650u;
 constexpr int StartingBonusPool = 15;
 constexpr int NeutralBaseStatValue = 11;
@@ -49,6 +50,13 @@ struct RaceStatRule
 {
     int baseStep = 1;
     int droppedStep = 1;
+};
+
+struct DebugEquipmentItem
+{
+    uint32_t CharacterEquipment::*pItemId = &CharacterEquipment::mainHand;
+    EquippedItemRuntimeState CharacterEquipmentRuntimeState::*pRuntimeState = &CharacterEquipmentRuntimeState::mainHand;
+    uint32_t itemId = 0;
 };
 
 struct SkillSlotPosition
@@ -103,6 +111,30 @@ constexpr std::array<CreationCandidate, 26> CreationCandidates = {{
     {24, "Brakka", "Troll", CreationRace::Troll},
     {25, "Aleton", "Dragon", CreationRace::Dragon},
     {26, "Beren", "Dragon", CreationRace::Dragon},
+}};
+
+constexpr CreationCandidate DebugGodLichCandidate = {
+    DebugGodLichCharacterDataId,
+    "God",
+    "Lich",
+    CreationRace::Human,
+    true,
+    {11, 11, 11, 11, 11, 11, 11},
+    {{"", ""}},
+};
+
+constexpr std::array<DebugEquipmentItem, 11> DebugGodLichEquipment = {{
+    {&CharacterEquipment::mainHand, &CharacterEquipmentRuntimeState::mainHand, 527},   // Spiritslayer
+    {&CharacterEquipment::offHand, &CharacterEquipmentRuntimeState::offHand, 534},     // Herondale's Lost Shield
+    {&CharacterEquipment::bow, &CharacterEquipmentRuntimeState::bow, 531},             // Tournament Bow
+    {&CharacterEquipment::armor, &CharacterEquipmentRuntimeState::armor, 515},         // Supreme Plate
+    {&CharacterEquipment::helm, &CharacterEquipmentRuntimeState::helm, 520},           // Drogg's Helm
+    {&CharacterEquipment::belt, &CharacterEquipmentRuntimeState::belt, 537},           // Berserker Belt
+    {&CharacterEquipment::cloak, &CharacterEquipmentRuntimeState::cloak, 522},         // Archangel Wings
+    {&CharacterEquipment::gauntlets, &CharacterEquipmentRuntimeState::gauntlets, 517}, // Fleetfingers
+    {&CharacterEquipment::boots, &CharacterEquipmentRuntimeState::boots, 518},         // Herald's Boots
+    {&CharacterEquipment::ring1, &CharacterEquipmentRuntimeState::ring1, 519},         // Ring of Planes
+    {&CharacterEquipment::ring2, &CharacterEquipmentRuntimeState::ring2, 535},         // Ring of Fusion
 }};
 
 constexpr std::array<SkillSlotPosition, 4> SelectedSkillPositions = {{
@@ -542,6 +574,87 @@ std::array<RaceStatRule, static_cast<size_t>(StatId::Count)> raceRulesForStats(
     return rules;
 }
 
+void equipDebugGodLichItem(Character &character, const ItemTable *pItemTable, const DebugEquipmentItem &equipmentItem)
+{
+    if (pItemTable == nullptr)
+    {
+        return;
+    }
+
+    const ItemDefinition *pItemDefinition = pItemTable->get(equipmentItem.itemId);
+
+    if (pItemDefinition == nullptr)
+    {
+        return;
+    }
+
+    character.equipment.*equipmentItem.pItemId = equipmentItem.itemId;
+    EquippedItemRuntimeState &runtimeState = character.equipmentRuntime.*equipmentItem.pRuntimeState;
+    runtimeState = {};
+    runtimeState.identified = true;
+    runtimeState.rarity = pItemDefinition->rarity;
+
+    if (pItemDefinition->rarity == ItemRarity::Artifact || pItemDefinition->rarity == ItemRarity::Relic)
+    {
+        runtimeState.artifactId = static_cast<uint16_t>(std::min<uint32_t>(equipmentItem.itemId, 0xFFFFu));
+    }
+}
+
+void equipDebugGodLichItems(Character &character, const ItemTable *pItemTable)
+{
+    character.inventory.clear();
+    character.equipment = {};
+    character.equipmentRuntime = {};
+
+    for (const DebugEquipmentItem &equipmentItem : DebugGodLichEquipment)
+    {
+        equipDebugGodLichItem(character, pItemTable, equipmentItem);
+    }
+}
+
+void applyDebugGodLichCharacter(
+    Character &character,
+    const ClassMultiplierTable *pClassMultiplierTable,
+    const ItemTable *pItemTable,
+    const SpellTable *pSpellTable)
+{
+    character.name = "God";
+    character.className = "Lich";
+    character.role = displayClassName(character.className);
+    character.characterDataId = DebugGodLichCharacterDataId;
+    character.level = 100;
+    character.experience = 100000000;
+    character.skillPoints = 0;
+    character.might = 100;
+    character.intellect = 100;
+    character.personality = 100;
+    character.endurance = 100;
+    character.accuracy = 100;
+    character.speed = 100;
+    character.luck = 100;
+    character.skills.clear();
+    character.knownSpellIds.clear();
+
+    for (const std::string &skillName : allCanonicalSkillNames())
+    {
+        character.skills[skillName] = {skillName, 200, SkillMastery::Grandmaster};
+    }
+
+    if (pSpellTable != nullptr)
+    {
+        for (const SpellEntry &spell : pSpellTable->entries())
+        {
+            if (spell.id > 0)
+            {
+                character.learnSpell(static_cast<uint32_t>(spell.id));
+            }
+        }
+    }
+
+    GameMechanics::refreshCharacterBaseResources(character, true, pClassMultiplierTable);
+    equipDebugGodLichItems(character, pItemTable);
+}
+
 uint32_t statLabelColorForStats(const std::array<int, static_cast<size_t>(StatId::Count)> &baseStats, size_t statIndex)
 {
     if (statIndex >= baseStats.size())
@@ -650,11 +763,13 @@ NewGameScreen::NewGameScreen(
     const Engine::AssetFileSystem &assetFileSystem,
     GameAudioSystem *pGameAudioSystem,
     const GameDataRepository &gameData,
+    bool debugGodLichRoster,
     ContinueAction continueAction,
     BackAction backAction)
     : MenuScreenBase(assetFileSystem)
     , m_pGameAudioSystem(pGameAudioSystem)
     , m_pGameData(&gameData)
+    , m_debugGodLichRoster(debugGodLichRoster)
     , m_continueAction(std::move(continueAction))
     , m_backAction(std::move(backAction))
 {
@@ -671,9 +786,9 @@ void NewGameScreen::onEnter()
 
     size_t defaultCandidateIndex = 0;
 
-    for (size_t index = 0; index < CreationCandidates.size(); ++index)
+    for (size_t index = 0; index < candidateCount(); ++index)
     {
-        if (CreationCandidates[index].characterDataId == DefaultCreationCharacterDataId)
+        if (candidateAt(index).characterDataId == DefaultCreationCharacterDataId)
         {
             defaultCandidateIndex = index;
             break;
@@ -740,7 +855,22 @@ void NewGameScreen::handleSdlEvent(const SDL_Event &event)
 
 const CreationCandidate &NewGameScreen::selectedCandidate() const
 {
-    return CreationCandidates[m_state.selectedCandidateIndex];
+    return candidateAt(m_state.selectedCandidateIndex);
+}
+
+size_t NewGameScreen::candidateCount() const
+{
+    return m_debugGodLichRoster ? 1 : CreationCandidates.size();
+}
+
+const CreationCandidate &NewGameScreen::candidateAt(size_t candidateIndex) const
+{
+    if (m_debugGodLichRoster)
+    {
+        return DebugGodLichCandidate;
+    }
+
+    return CreationCandidates[std::min(candidateIndex, CreationCandidates.size() - 1)];
 }
 
 std::array<int, static_cast<size_t>(StatId::Count)> NewGameScreen::statsForRace(CreationRace race) const
@@ -775,7 +905,7 @@ const CharacterDollEntry *NewGameScreen::selectedCharacterEntry() const
 void NewGameScreen::resetStateForCandidate(size_t candidateIndex)
 {
     m_state = {};
-    m_state.selectedCandidateIndex = std::min(candidateIndex, CreationCandidates.size() - 1);
+    m_state.selectedCandidateIndex = std::min(candidateIndex, candidateCount() - 1);
     resetCurrentState(true);
 }
 
@@ -1105,8 +1235,9 @@ std::vector<int> NewGameScreen::availableVoiceIdsForSelectedCandidate() const
 
     std::unordered_set<int> seenVoiceIds;
 
-    for (const CreationCandidate &candidate : CreationCandidates)
+    for (size_t candidateIndex = 0; candidateIndex < candidateCount(); ++candidateIndex)
     {
+        const CreationCandidate &candidate = candidateAt(candidateIndex);
         const CharacterDollEntry *pEntry = m_pGameData->characterDollTable().getCharacter(candidate.characterDataId);
 
         if (pEntry == nullptr || pEntry->defaultSex != pSelectedEntry->defaultSex)
@@ -1129,7 +1260,7 @@ std::vector<int> NewGameScreen::availableVoiceIdsForSelectedCandidate() const
 void NewGameScreen::cycleCandidate(int direction)
 {
     endNameEditing(true);
-    const int count = static_cast<int>(CreationCandidates.size());
+    const int count = static_cast<int>(candidateCount());
     int nextIndex = static_cast<int>(m_state.selectedCandidateIndex) + direction;
 
     if (nextIndex < 0)
@@ -1524,6 +1655,15 @@ Character NewGameScreen::buildCharacter() const
         true,
         m_pGameData != nullptr ? &m_pGameData->classMultiplierTable() : nullptr);
 
+    if (m_debugGodLichRoster)
+    {
+        applyDebugGodLichCharacter(
+            character,
+            m_pGameData != nullptr ? &m_pGameData->classMultiplierTable() : nullptr,
+            m_pGameData != nullptr ? &m_pGameData->itemTable() : nullptr,
+            m_pGameData != nullptr ? &m_pGameData->spellTable() : nullptr);
+    }
+
     return character;
 }
 
@@ -1531,7 +1671,7 @@ void NewGameScreen::confirmCreation()
 {
     endNameEditing(true);
 
-    if (currentBonusPool() != 0)
+    if (!m_debugGodLichRoster && currentBonusPool() != 0)
     {
         m_state.statusMessage = "All bonus points must be assigned.";
         return;

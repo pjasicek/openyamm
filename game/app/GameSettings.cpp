@@ -681,6 +681,16 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "new_game_god_lich"))
+    {
+        bool parsed = settings.newGameGodLich;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.newGameGodLich = parsed;
+        }
+    }
+
     error.clear();
     return settings;
 }
@@ -750,7 +760,8 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "start_flying=" << (settings.startFlying ? "true" : "false") << '\n'
         << "movement_speed_multiplier=" << settings.movementSpeedMultiplier << '\n'
         << "immortal=" << (settings.immortal ? "true" : "false") << '\n'
-        << "unlimited_mana=" << (settings.unlimitedMana ? "true" : "false") << '\n';
+        << "unlimited_mana=" << (settings.unlimitedMana ? "true" : "false") << '\n'
+        << "new_game_god_lich=" << (settings.newGameGodLich ? "true" : "false") << '\n';
 
     if (!output.good())
     {

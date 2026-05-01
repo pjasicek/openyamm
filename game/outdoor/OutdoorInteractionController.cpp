@@ -2086,8 +2086,7 @@ GameplayWorldPickRequest OutdoorInteractionController::buildWorldPickRequest(
 
 bool OutdoorInteractionController::worldInspectModeActive(const OutdoorGameView &view)
 {
-    static_cast<void>(view);
-    return false;
+    return view.m_isInitialized && view.m_pOutdoorWorldRuntime != nullptr && view.m_outdoorMapData.has_value();
 }
 
 std::optional<GameplayHeldItemDropRequest> OutdoorInteractionController::buildHeldItemDropRequest(

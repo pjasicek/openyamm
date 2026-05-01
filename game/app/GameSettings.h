@@ -102,6 +102,7 @@ struct GameSettings
     float movementSpeedMultiplier = 1.0f;
     bool immortal = true;
     bool unlimitedMana = true;
+    bool newGameGodLich = false;
     int keyboardInteractionDepth = 512;
     int mouseInteractionDepth = 512;
 

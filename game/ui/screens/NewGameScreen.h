@@ -59,6 +59,7 @@ public:
         const Engine::AssetFileSystem &assetFileSystem,
         GameAudioSystem *pGameAudioSystem,
         const GameDataRepository &gameData,
+        bool debugGodLichRoster,
         ContinueAction continueAction,
         BackAction backAction);
 
@@ -85,6 +86,8 @@ private:
 
     void drawScreen(float deltaSeconds) override;
     void resetStateForCandidate(size_t candidateIndex);
+    size_t candidateCount() const;
+    const CreationCandidate &candidateAt(size_t candidateIndex) const;
     void beginNameEditing();
     void endNameEditing(bool commitEdit);
     bool tryIncreaseStat(StatId statId);
@@ -127,6 +130,7 @@ private:
 
     GameAudioSystem *m_pGameAudioSystem = nullptr;
     const GameDataRepository *m_pGameData = nullptr;
+    bool m_debugGodLichRoster = false;
     ContinueAction m_continueAction;
     BackAction m_backAction;
     UiLayoutManager m_layoutManager;
