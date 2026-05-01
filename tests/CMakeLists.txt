@@ -23,6 +23,8 @@ add_executable(openyamm_unit_tests
     SpellbookUiLayoutTests.cpp
     TableRegressionTests.cpp
     GameplayScreenRuntimeTestStubs.cpp
+    ../game/app/GameSettings.cpp
+    ../game/app/KeyboardBindings.cpp
     ../engine/AudioSystem.cpp
     ../engine/AssetFileSystem.cpp
     ../engine/AssetScaleTier.cpp

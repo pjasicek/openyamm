@@ -1,5 +1,6 @@
 #include "doctest/doctest.h"
 
+#include "game/app/GameSettings.h"
 #include "game/party/Party.h"
 #include "game/tables/MonsterTable.h"
 #include "game/tables/SpriteTables.h"
@@ -8,6 +9,7 @@
 
 #include <filesystem>
 #include <fstream>
+#include <optional>
 #include <sstream>
 
 namespace
@@ -123,6 +125,26 @@ void checkFirstSpriteFrameTexture(
         / "assets_dev/Data/sprites"
         / expectedAssetFileName));
 }
+}
+
+TEST_CASE("settings debug god lich new game option round trips")
+{
+    const std::filesystem::path path =
+        std::filesystem::temp_directory_path() / "openyamm_debug_god_lich_settings.ini";
+
+    OpenYAMM::Game::GameSettings settings = OpenYAMM::Game::GameSettings::createDefault();
+    settings.newGameGodLich = true;
+
+    std::string error;
+    REQUIRE(OpenYAMM::Game::saveGameSettings(path, settings, error));
+
+    const std::optional<OpenYAMM::Game::GameSettings> loadedSettings =
+        OpenYAMM::Game::loadGameSettings(path, error);
+
+    REQUIRE(loadedSettings.has_value());
+    CHECK(loadedSettings->newGameGodLich);
+
+    std::filesystem::remove(path);
 }
 
 TEST_CASE("house data magic guild types are explicit")

@@ -9,6 +9,8 @@ These rules apply to all AI-generated contributions in this repository.
 - Prefer simple, maintainable solutions over clever abstractions.
 - Do not add adapter/forwarding layers that only hide duplicated ownership.
 - Keep temporary diagnostics and noisy logs out of final changes.
+- Do not add hack fixes or broad compatibility fallbacks that mask stale/broken state. Fix the authoritative data,
+  event script, schema, or system behavior instead; if old saves/assets need migration, make that an explicit migration.
 
 ## Workflow
 

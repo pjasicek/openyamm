@@ -1522,6 +1522,33 @@ TEST_CASE("moved roster join npcs populate adventurers inn overlay")
     CHECK(foundBlazen);
 }
 
+TEST_CASE("dagger wound init event unlocks starting adventurers inn roster")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Tests::HouseDialogueTestHarness harness(gameData);
+
+    REQUIRE(harness.executeOut01LocalEvent(3));
+    harness.openHouseDialog(AdventurersInnHouseId);
+
+    bool foundDevlin = false;
+    bool foundElsbeth = false;
+
+    for (const OpenYAMM::Game::AdventurersInnMember &member : harness.party().adventurersInnMembers())
+    {
+        if (member.character.rosterId == 1)
+        {
+            foundDevlin = true;
+        }
+        else if (member.character.rosterId == 7)
+        {
+            foundElsbeth = true;
+        }
+    }
+
+    CHECK(foundDevlin);
+    CHECK(foundElsbeth);
+}
+
 TEST_CASE("roster join mapping and players can show topic")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();

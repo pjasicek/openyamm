@@ -296,7 +296,42 @@ TEST_CASE("shared actor AI pursues a remembered party target without attack line
     CHECK(*update.state.motionState == ActorAiMotionState::Pursuing);
     CHECK(update.movementIntent.action == ActorAiMovementAction::Pursue);
     CHECK(update.movementIntent.applyMovement);
+    CHECK(update.movementIntent.moveSpeed == doctest::Approx(400.0f));
     CHECK_FALSE(update.attackRequest.has_value());
+}
+
+TEST_CASE("shared actor AI uses OE pursuit speed multiplier and cap")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(24, 124);
+    actor.world.active = true;
+    actor.identity.hostilityType = 4;
+    actor.status.hostileToParty = true;
+    actor.status.hasDetectedParty = true;
+    actor.stats.aiType = GameplayActorAiType::Normal;
+    actor.stats.moveSpeed = 700;
+    actor.stats.attack1Damage.diceRolls = 1;
+    actor.stats.attack1Damage.diceSides = 4;
+    actor.movement.movementAllowed = true;
+    actor.movement.effectiveMoveSpeed = 700.0f;
+    actor.target.currentKind = ActorAiTargetKind::Party;
+    actor.target.currentPosition = {600.0f, 200.0f, 64.0f};
+    actor.target.currentDistance = 500.0f;
+    actor.target.currentEdgeDistance = 500.0f;
+    actor.target.currentCanSense = true;
+    actor.target.currentHasAttackLineOfSight = false;
+    actor.target.partyCanSenseActor = true;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.motionState.has_value());
+    CHECK(*update.state.motionState == ActorAiMotionState::Pursuing);
+    CHECK(update.movementIntent.applyMovement);
+    CHECK(update.movementIntent.moveSpeed == doctest::Approx(1000.0f));
 }
 
 TEST_CASE("shared actor AI emits vertical movement for flying actors pursuing above or below")
@@ -795,6 +830,31 @@ TEST_CASE("shared actor AI flees briefly after a single hostile actor contact")
     CHECK(update.movementIntent.clearVelocity);
     REQUIRE(update.state.actionSeconds.has_value());
     CHECK(*update.state.actionSeconds > 0.0f);
+}
+
+TEST_CASE("shared actor AI continues fleeing with OE flee speed multiplier")
+{
+    GameplayActorAiSystem system;
+    ActorAiFrameFacts frame = makeFrame();
+    ActorAiFacts actor = makeActor(25, 125);
+    actor.world.active = true;
+    actor.runtime.motionState = ActorAiMotionState::Fleeing;
+    actor.runtime.animationState = ActorAiAnimationState::Walking;
+    actor.runtime.actionSeconds = 1.0f;
+    actor.movement.movementAllowed = true;
+    actor.movement.moveDirectionX = 1.0f;
+    actor.movement.effectiveMoveSpeed = 180.0f;
+    frame.activeActors.push_back(actor);
+
+    const OpenYAMM::Game::ActorAiFrameResult result = system.updateActors(frame);
+
+    REQUIRE_EQ(result.actorUpdates.size(), 1u);
+    const OpenYAMM::Game::ActorAiUpdate &update = result.actorUpdates.front();
+    REQUIRE(update.state.motionState.has_value());
+    CHECK(*update.state.motionState == ActorAiMotionState::Fleeing);
+    CHECK(update.movementIntent.action == ActorAiMovementAction::Flee);
+    CHECK(update.movementIntent.applyMovement);
+    CHECK(update.movementIntent.moveSpeed == doctest::Approx(360.0f));
 }
 
 TEST_CASE("shared actor AI preserves crowd steering instead of overwriting it with contact flee")

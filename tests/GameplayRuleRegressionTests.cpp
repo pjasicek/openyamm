@@ -1377,6 +1377,30 @@ TEST_CASE("lua event runtime onload sees party quest bits")
     CHECK_FALSE(invisibleBitWasSet);
 }
 
+TEST_CASE("dagger wound onload seeds starting roster quest bits")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    REQUIRE(gameData.out01LocalEventProgram.has_value());
+
+    OpenYAMM::Game::Party party = {};
+    party.seed(createRegressionPartySeed());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+
+    REQUIRE(eventRuntime.executeOnLoadEvents(
+        gameData.out01LocalEventProgram,
+        gameData.globalEventProgram,
+        runtimeState,
+        &party,
+        nullptr));
+    CHECK_EQ(runtimeState.localOnLoadEventsExecuted, 4u);
+    CHECK(party.hasQuestBit(226));
+    CHECK(party.hasQuestBit(185));
+    CHECK(party.hasQuestBit(401));
+    CHECK(party.hasQuestBit(407));
+}
+
 TEST_CASE("lua event runtime resolves MM8 invisible event variable alias")
 {
     const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
