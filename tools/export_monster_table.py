@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import struct
 from pathlib import Path
 
@@ -54,13 +55,35 @@ def read_binary_rows(binary_path: Path) -> dict[int, list[str]]:
     return rows
 
 
+def build_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Export dmonlist.bin into monster_descriptors.txt")
+    parser.add_argument("--source-bin", help="path to dmonlist.bin")
+    parser.add_argument("--monster-data", help="path to monster_data.txt used to preserve row ids")
+    parser.add_argument("--output", help="path to monster_descriptors.txt")
+    return parser
+
+
 def main() -> int:
+    parser = build_argument_parser()
+    args = parser.parse_args()
     repo_root = Path(__file__).resolve().parents[1]
     legacy_binary_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "dmonlist.bin"
     fallback_binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dmonlist.bin"
-    binary_path = legacy_binary_path if legacy_binary_path.exists() else fallback_binary_path
-    monster_data_path = repo_root / "assets_dev" / "Data" / "data_tables" / "monster_data.txt"
-    table_path = repo_root / "assets_dev" / "Data" / "data_tables" / "monster_descriptors.txt"
+    binary_path = Path(args.source_bin) if args.source_bin else legacy_binary_path
+
+    if not binary_path.exists() and not args.source_bin:
+        binary_path = fallback_binary_path
+
+    monster_data_path = (
+        Path(args.monster_data)
+        if args.monster_data
+        else repo_root / "assets_dev" / "Data" / "data_tables" / "monster_data.txt"
+    )
+    table_path = (
+        Path(args.output)
+        if args.output
+        else repo_root / "assets_dev" / "Data" / "data_tables" / "monster_descriptors.txt"
+    )
     binary_rows = read_binary_rows(binary_path)
     rendered_lines: list[str] = []
 
@@ -96,6 +119,7 @@ def main() -> int:
         else:
             rendered_lines.append(str(monster_id))
 
+    table_path.parent.mkdir(parents=True, exist_ok=True)
     table_path.write_text("\n".join(rendered_lines) + "\n", encoding="utf-8")
     return 0
 

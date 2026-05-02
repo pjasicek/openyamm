@@ -56,523 +56,435 @@ RegisterNoOpEvent(10, "Legacy event 10")
 RegisterEvent(11, "Door", function()
     evt.SetDoorState(1, DoorAction.Open)
     evt.SetDoorState(2, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(12, "Door", function()
     evt.SetDoorState(3, DoorAction.Open)
     evt.SetDoorState(4, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(13, "Door", function()
     evt.SetDoorState(5, DoorAction.Open)
     evt.SetDoorState(6, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(14, "Door", function()
     evt.SetDoorState(7, DoorAction.Open)
     evt.SetDoorState(8, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(15, "Door", function()
     evt.SetDoorState(9, DoorAction.Open)
     evt.SetDoorState(10, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(16, "Door", function()
     evt.SetDoorState(11, DoorAction.Open)
     evt.SetDoorState(12, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(17, "Door", function()
     evt.SetDoorState(13, DoorAction.Open)
     evt.SetDoorState(14, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(18, "Door", function()
     evt.SetDoorState(15, DoorAction.Open)
     evt.SetDoorState(16, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(19, "Door", function()
     evt.SetDoorState(17, DoorAction.Open)
     evt.SetDoorState(18, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(20, "Door", function()
     evt.SetDoorState(19, DoorAction.Open)
     evt.SetDoorState(20, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(21, "Door", function()
     evt.SetDoorState(21, DoorAction.Open)
     evt.SetDoorState(22, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(22, "Door", function()
     evt.SetDoorState(23, DoorAction.Open)
     evt.SetDoorState(24, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(23, "Door", function()
     evt.SetDoorState(25, DoorAction.Open)
     evt.SetDoorState(26, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(24, "Door", function()
     evt.SetDoorState(27, DoorAction.Open)
     evt.SetDoorState(28, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(25, "Door", function()
     evt.SetDoorState(29, DoorAction.Open)
     evt.SetDoorState(30, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(26, "Door", function()
     evt.SetDoorState(31, DoorAction.Open)
     evt.SetDoorState(32, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(27, "Door", function()
     evt.SetDoorState(33, DoorAction.Open)
     evt.SetDoorState(34, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(28, "Door", function()
     evt.SetDoorState(35, DoorAction.Open)
     evt.SetDoorState(36, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(29, "Door", function()
     evt.SetDoorState(37, DoorAction.Open)
     evt.SetDoorState(38, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(30, "Door", function()
     evt.SetDoorState(39, DoorAction.Open)
     evt.SetDoorState(40, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(31, "Door", function()
     evt.SetDoorState(41, DoorAction.Open)
     evt.SetDoorState(42, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(32, "Door", function()
     evt.SetDoorState(43, DoorAction.Open)
     evt.SetDoorState(44, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(33, "Door", function()
     evt.SetDoorState(45, DoorAction.Open)
     evt.SetDoorState(46, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(34, "Door", function()
     evt.SetDoorState(47, DoorAction.Open)
     evt.SetDoorState(48, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(35, "Door", function()
     evt.SetDoorState(49, DoorAction.Open)
     evt.SetDoorState(50, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(36, "Door", function()
     evt.SetDoorState(51, DoorAction.Open)
     evt.SetDoorState(52, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(37, "Door", function()
     evt.SetDoorState(53, DoorAction.Open)
     evt.SetDoorState(54, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(38, "Door", function()
     evt.SetDoorState(55, DoorAction.Open)
     evt.SetDoorState(56, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(39, "Door", function()
     evt.SetDoorState(57, DoorAction.Open)
     evt.SetDoorState(58, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(40, "Door", function()
     evt.SetDoorState(59, DoorAction.Open)
     evt.SetDoorState(60, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(41, "Door", function()
     evt.SetDoorState(61, DoorAction.Open)
     evt.SetDoorState(62, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(42, "Door", function()
     evt.SetDoorState(63, DoorAction.Open)
     evt.SetDoorState(64, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(43, "Door", function()
     evt.SetDoorState(65, DoorAction.Open)
     evt.SetDoorState(66, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(44, "Door", function()
     evt.SetDoorState(67, DoorAction.Open)
     evt.SetDoorState(68, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(45, "Door", function()
     evt.SetDoorState(69, DoorAction.Open)
     evt.SetDoorState(70, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(46, "Door", function()
     evt.SetDoorState(71, DoorAction.Open)
     evt.SetDoorState(72, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(47, "Door", function()
     evt.SetDoorState(73, DoorAction.Open)
     evt.SetDoorState(74, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(48, "Door", function()
     evt.SetDoorState(75, DoorAction.Open)
     evt.SetDoorState(76, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(49, "Door", function()
     evt.SetDoorState(77, DoorAction.Open)
     evt.SetDoorState(78, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(50, "Door", function()
     evt.SetDoorState(79, DoorAction.Open)
     evt.SetDoorState(80, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(51, "Door", function()
     evt.SetDoorState(81, DoorAction.Open)
     evt.SetDoorState(82, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(52, "Door", function()
     evt.SetDoorState(83, DoorAction.Open)
     evt.SetDoorState(84, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(53, "Door", function()
     evt.SetDoorState(85, DoorAction.Open)
     evt.SetDoorState(86, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(54, "Door", function()
     evt.SetDoorState(87, DoorAction.Open)
     evt.SetDoorState(88, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(55, "Door", function()
     evt.SetDoorState(89, DoorAction.Open)
     evt.SetDoorState(90, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(56, "Door", function()
     evt.SetDoorState(91, DoorAction.Open)
     evt.SetDoorState(92, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(57, "Door", function()
     evt.SetDoorState(93, DoorAction.Open)
     evt.SetDoorState(94, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(58, "Door", function()
     evt.SetDoorState(95, DoorAction.Open)
     evt.SetDoorState(96, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(59, "Door", function()
     evt.SetDoorState(97, DoorAction.Open)
     evt.SetDoorState(98, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(60, "Door", function()
     evt.SetDoorState(99, DoorAction.Open)
     evt.SetDoorState(100, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(61, "Door", function()
     evt.SetDoorState(101, DoorAction.Open)
     evt.SetDoorState(102, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(62, "Door", function()
     evt.SetDoorState(103, DoorAction.Open)
     evt.SetDoorState(104, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(63, "Door", function()
     evt.SetDoorState(105, DoorAction.Open)
     evt.SetDoorState(106, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(64, "Door", function()
     evt.SetDoorState(107, DoorAction.Open)
     evt.SetDoorState(108, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(65, "Door", function()
     evt.SetDoorState(109, DoorAction.Open)
     evt.SetDoorState(110, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(66, "Door", function()
     evt.SetDoorState(111, DoorAction.Open)
     evt.SetDoorState(112, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(67, "Door", function()
     evt.SetDoorState(113, DoorAction.Open)
     evt.SetDoorState(114, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(68, "Door", function()
     evt.SetDoorState(115, DoorAction.Open)
     evt.SetDoorState(116, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(69, "Door", function()
     evt.SetDoorState(117, DoorAction.Open)
     evt.SetDoorState(118, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(70, "Door", function()
     evt.SetDoorState(119, DoorAction.Open)
     evt.SetDoorState(120, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(71, "Door", function()
     evt.SetDoorState(121, DoorAction.Open)
     evt.SetDoorState(122, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(72, "Door", function()
     evt.SetDoorState(123, DoorAction.Open)
     evt.SetDoorState(124, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(73, "Door", function()
     evt.SetDoorState(125, DoorAction.Open)
     evt.SetDoorState(126, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(74, "Door", function()
     evt.SetDoorState(127, DoorAction.Open)
     evt.SetDoorState(128, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(75, "Legacy event 75", function()
     evt.SetDoorState(129, DoorAction.Open)
     evt.SetDoorState(130, DoorAction.Open)
-    return
 end)
 
 RegisterEvent(76, "Door", function()
     evt.SetDoorState(131, DoorAction.Open)
     evt.SetDoorState(132, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(77, "Door", function()
     evt.SetDoorState(133, DoorAction.Open)
     evt.SetDoorState(134, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(78, "Door", function()
     evt.SetDoorState(135, DoorAction.Open)
     evt.SetDoorState(136, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
-    return
 end, "Chest")
 
 RegisterEvent(82, "Chest", function()
     evt.OpenChest(1)
-    return
 end, "Chest")
 
 RegisterEvent(83, "Chest", function()
     evt.OpenChest(2)
-    return
 end, "Chest")
 
 RegisterEvent(84, "Chest", function()
     evt.OpenChest(3)
-    return
 end, "Chest")
 
 RegisterEvent(85, "Chest", function()
     evt.OpenChest(4)
-    return
 end, "Chest")
 
 RegisterEvent(86, "Chest", function()
     evt.OpenChest(5)
-    return
 end, "Chest")
 
 RegisterEvent(87, "Chest", function()
     evt.OpenChest(6)
-    return
 end, "Chest")
 
 RegisterEvent(88, "Chest", function()
     evt.OpenChest(7)
-    return
 end, "Chest")
 
 RegisterEvent(89, "Chest", function()
     evt.OpenChest(8)
-    return
 end, "Chest")
 
 RegisterEvent(90, "Chest", function()
     evt.OpenChest(9)
-    return
 end, "Chest")
 
 RegisterEvent(91, "Chest", function()
     evt.OpenChest(10)
-    return
 end, "Chest")
 
 RegisterEvent(92, "Chest", function()
     evt.OpenChest(11)
-    return
 end, "Chest")
 
 RegisterEvent(93, "Chest", function()
     evt.OpenChest(12)
-    return
 end, "Chest")
 
 RegisterEvent(94, "Chest", function()
     evt.OpenChest(13)
-    return
 end, "Chest")
 
 RegisterEvent(95, "Chest", function()
     evt.OpenChest(14)
-    return
 end, "Chest")
 
 RegisterEvent(96, "Chest", function()
     evt.OpenChest(15)
-    return
 end, "Chest")
 
 RegisterEvent(97, "Chest", function()
     evt.OpenChest(16)
-    return
 end, "Chest")
 
 RegisterEvent(98, "Chest", function()
     evt.OpenChest(17)
-    return
 end, "Chest")
 
 RegisterEvent(99, "Chest", function()
     evt.OpenChest(18)
-    return
 end, "Chest")
 
 RegisterEvent(100, "Chest", function()
     evt.OpenChest(19)
-    return
 end, "Chest")
 
 RegisterEvent(131, "Legacy event 131", function()
     if IsQBitSet(QBit(62)) then return end -- Vilebites Ashes (item603) placed in troll tomb.
     if not IsQBitSet(QBit(61)) then return end -- Put Vilebite's ashes in the Dust village tomb then return to Overdune. - Given and taken by Overdune, NPC 7, w177.
     evt.ForPlayer(Players.All)
-    if not HasItem(603) then return end -- Urn of Ashes
-    RemoveItem(603) -- Urn of Ashes
-    SetQBit(QBit(62)) -- Vilebites Ashes (item603) placed in troll tomb.
-    SetQBit(QBit(225)) -- dead questbit for internal use(bling)
-    ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
-    evt.StatusText("Vilebite is now at rest !")
-    ClearQBit(QBit(202)) -- Urn of Ashes - I lost it
-    return
+    if HasItem(603) then -- Urn of Ashes
+        RemoveItem(603) -- Urn of Ashes
+        SetQBit(QBit(62)) -- Vilebites Ashes (item603) placed in troll tomb.
+        SetQBit(QBit(225)) -- dead questbit for internal use(bling)
+        ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
+        evt.StatusText("Vilebite is now at rest !")
+        ClearQBit(QBit(202)) -- Urn of Ashes - I lost it
+    end
 end)
 
 RegisterEvent(451, "Legacy event 451", function()
@@ -582,7 +494,6 @@ RegisterEvent(451, "Legacy event 451", function()
     evt.SetDoorState(42, DoorAction.Close)
     evt.SetDoorState(71, DoorAction.Close)
     evt.SetDoorState(72, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(452, "Legacy event 452", function()
@@ -598,7 +509,6 @@ RegisterEvent(452, "Legacy event 452", function()
     evt.SetDoorState(2, DoorAction.Close)
     evt.SetDoorState(67, DoorAction.Close)
     evt.SetDoorState(68, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(453, "Legacy event 453", function()
@@ -620,7 +530,6 @@ RegisterEvent(453, "Legacy event 453", function()
     evt.SetDoorState(27, DoorAction.Close)
     evt.SetDoorState(61, DoorAction.Close)
     evt.SetDoorState(62, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(456, "Legacy event 456", function()
@@ -642,7 +551,6 @@ RegisterEvent(456, "Legacy event 456", function()
     evt.SetDoorState(102, DoorAction.Close)
     evt.SetDoorState(17, DoorAction.Close)
     evt.SetDoorState(18, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(457, "Legacy event 457", function()
@@ -658,7 +566,6 @@ RegisterEvent(457, "Legacy event 457", function()
     evt.SetDoorState(104, DoorAction.Close)
     evt.SetDoorState(21, DoorAction.Close)
     evt.SetDoorState(22, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(458, "Legacy event 458", function()
@@ -678,7 +585,6 @@ RegisterEvent(458, "Legacy event 458", function()
     evt.SetDoorState(28, DoorAction.Close)
     evt.SetDoorState(127, DoorAction.Close)
     evt.SetDoorState(128, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(459, "Legacy event 459", function()
@@ -690,7 +596,6 @@ RegisterEvent(459, "Legacy event 459", function()
     evt.SetDoorState(104, DoorAction.Close)
     evt.SetDoorState(123, DoorAction.Close)
     evt.SetDoorState(124, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(460, "Legacy event 460", function()
@@ -704,7 +609,6 @@ RegisterEvent(460, "Legacy event 460", function()
     evt.SetDoorState(8, DoorAction.Close)
     evt.SetDoorState(119, DoorAction.Close)
     evt.SetDoorState(120, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(461, "Legacy event 461", function()
@@ -724,7 +628,6 @@ RegisterEvent(461, "Legacy event 461", function()
     evt.SetDoorState(52, DoorAction.Close)
     evt.SetDoorState(115, DoorAction.Close)
     evt.SetDoorState(116, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(462, "Legacy event 462", function()
@@ -746,7 +649,6 @@ RegisterEvent(462, "Legacy event 462", function()
     evt.SetDoorState(92, DoorAction.Close)
     evt.SetDoorState(59, DoorAction.Close)
     evt.SetDoorState(60, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(463, "Legacy event 463", function()
@@ -758,7 +660,6 @@ RegisterEvent(463, "Legacy event 463", function()
     evt.SetDoorState(28, DoorAction.Close)
     evt.SetDoorState(101, DoorAction.Close)
     evt.SetDoorState(102, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(464, "Legacy event 464", function()
@@ -782,7 +683,6 @@ RegisterEvent(464, "Legacy event 464", function()
     evt.SetDoorState(6, DoorAction.Close)
     evt.SetDoorState(3, DoorAction.Close)
     evt.SetDoorState(4, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(465, "Legacy event 465", function()
@@ -806,7 +706,6 @@ RegisterEvent(465, "Legacy event 465", function()
     evt.SetDoorState(120, DoorAction.Close)
     evt.SetDoorState(121, DoorAction.Close)
     evt.SetDoorState(122, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(466, "Legacy event 466", function()
@@ -814,7 +713,6 @@ RegisterEvent(466, "Legacy event 466", function()
     evt.SetDoorState(94, DoorAction.Close)
     evt.SetDoorState(43, DoorAction.Close)
     evt.SetDoorState(44, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(467, "Legacy event 467", function()
@@ -826,7 +724,6 @@ RegisterEvent(467, "Legacy event 467", function()
     evt.SetDoorState(74, DoorAction.Close)
     evt.SetDoorState(71, DoorAction.Close)
     evt.SetDoorState(72, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(468, "Legacy event 468", function()
@@ -840,7 +737,6 @@ RegisterEvent(468, "Legacy event 468", function()
     evt.SetDoorState(118, DoorAction.Close)
     evt.SetDoorState(55, DoorAction.Close)
     evt.SetDoorState(56, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(469, "Legacy event 469", function()
@@ -852,7 +748,6 @@ RegisterEvent(469, "Legacy event 469", function()
     evt.SetDoorState(114, DoorAction.Close)
     evt.SetDoorState(87, DoorAction.Close)
     evt.SetDoorState(88, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(470, "Legacy event 470", function()
@@ -864,7 +759,6 @@ RegisterEvent(470, "Legacy event 470", function()
     evt.SetDoorState(46, DoorAction.Close)
     evt.SetDoorState(83, DoorAction.Close)
     evt.SetDoorState(84, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(471, "Legacy event 471", function()
@@ -886,7 +780,6 @@ RegisterEvent(471, "Legacy event 471", function()
     evt.SetDoorState(80, DoorAction.Close)
     evt.SetDoorState(53, DoorAction.Close)
     evt.SetDoorState(54, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(472, "Legacy event 472", function()
@@ -908,7 +801,6 @@ RegisterEvent(472, "Legacy event 472", function()
     evt.SetDoorState(78, DoorAction.Close)
     evt.SetDoorState(33, DoorAction.Close)
     evt.SetDoorState(34, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(473, "Legacy event 473", function()
@@ -924,7 +816,6 @@ RegisterEvent(473, "Legacy event 473", function()
     evt.SetDoorState(112, DoorAction.Close)
     evt.SetDoorState(37, DoorAction.Close)
     evt.SetDoorState(38, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(474, "Legacy event 474", function()
@@ -944,7 +835,6 @@ RegisterEvent(474, "Legacy event 474", function()
     evt.SetDoorState(40, DoorAction.Close)
     evt.SetDoorState(131, DoorAction.Close)
     evt.SetDoorState(132, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(475, "Legacy event 475", function()
@@ -962,7 +852,6 @@ RegisterEvent(475, "Legacy event 475", function()
     evt.SetDoorState(134, DoorAction.Close)
     evt.SetDoorState(135, DoorAction.Close)
     evt.SetDoorState(136, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(476, "Legacy event 476", function()
@@ -978,7 +867,6 @@ RegisterEvent(476, "Legacy event 476", function()
     evt.SetDoorState(12, DoorAction.Close)
     evt.SetDoorState(107, DoorAction.Close)
     evt.SetDoorState(108, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(477, "Legacy event 477", function()
@@ -1008,7 +896,6 @@ RegisterEvent(477, "Legacy event 477", function()
     evt.SetDoorState(92, DoorAction.Close)
     evt.SetDoorState(133, DoorAction.Close)
     evt.SetDoorState(134, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(478, "Legacy event 478", function()
@@ -1034,11 +921,9 @@ RegisterEvent(478, "Legacy event 478", function()
     evt.SetDoorState(86, DoorAction.Close)
     evt.SetDoorState(25, DoorAction.Close)
     evt.SetDoorState(26, DoorAction.Close)
-    return
 end)
 
 RegisterEvent(501, "Leave the Troll Tomb", function()
-    evt.MoveToMap(-15458, -14419, 1, 512, 0, 0, 0, 0, "Out04.odm")
-    return
+    evt.MoveToMap(-15458, -14419, 1, 512, 0, 0, 0, 1, "out04.odm") -- Ironsand Desert
 end, "Leave the Troll Tomb")
 

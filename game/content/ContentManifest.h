@@ -22,26 +22,9 @@ struct WorldManifest
     bool loadedFromFile = false;
 };
 
-struct CampaignManifest
-{
-    std::string id = "default";
-    std::string name = "Default Campaign";
-    std::vector<std::string> worlds = {"mm8"};
-    std::vector<std::string> startWorlds = {"mm8"};
-    bool loadedFromFile = false;
-};
-
 WorldManifest loadActiveWorldManifestOrDefault(
     const Engine::AssetFileSystem &assetFileSystem,
     const std::string &worldId,
     std::string &errorMessage
 );
-
-CampaignManifest loadCampaignManifestOrDefault(
-    const Engine::AssetFileSystem &assetFileSystem,
-    const std::string &campaignId,
-    const std::string &activeWorldId,
-    std::string &errorMessage
-);
 }
-

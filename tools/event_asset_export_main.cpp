@@ -2,6 +2,7 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
 #include "engine/TextTable.h"
+#include "game/events/EvtEnums.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/tables/MapStats.h"
 #include "tools/EventIr.h"
@@ -20,9 +21,12 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <limits>
 #include <optional>
+#include <set>
 #include <sstream>
 #include <string>
+#include <string_view>
 #include <unordered_map>
 #include <vector>
 
@@ -32,10 +36,15 @@ using OpenYAMM::Engine::AssetFileSystem;
 using OpenYAMM::Engine::ApplicationConfig;
 using OpenYAMM::Engine::TextTable;
 using OpenYAMM::Game::EventIrProgram;
+using OpenYAMM::Game::EvtEvent;
+using OpenYAMM::Game::EvtInstruction;
+using OpenYAMM::Game::EvtOpcode;
+using OpenYAMM::Game::EvtVariable;
 using OpenYAMM::Game::EvtProgram;
 using OpenYAMM::Game::IndoorMapData;
 using OpenYAMM::Game::IndoorMapDataLoader;
 using OpenYAMM::Game::IndoorSpawn;
+using OpenYAMM::Game::LegacyEventVersion;
 using OpenYAMM::Game::LegacyLuaExportLookups;
 using OpenYAMM::Game::LegacyLuaExportScope;
 using OpenYAMM::Game::MapEncounterInfo;
@@ -43,13 +52,36 @@ using OpenYAMM::Game::MapStats;
 using OpenYAMM::Game::MapStatsEntry;
 using OpenYAMM::Game::StrTable;
 
+constexpr uint32_t CustomWorldQBitBegin = 10000;
+
+std::optional<LegacyEventVersion> parseLegacyEventVersion(std::string_view value)
+{
+    if (value == "6" || value == "mm6" || value == "MM6")
+    {
+        return LegacyEventVersion::Mm6;
+    }
+
+    if (value == "7" || value == "mm7" || value == "MM7")
+    {
+        return LegacyEventVersion::Mm7;
+    }
+
+    if (value == "8" || value == "mm8" || value == "MM8")
+    {
+        return LegacyEventVersion::Mm8;
+    }
+
+    return std::nullopt;
+}
+
 bool parseArguments(
     int argc,
     char **argv,
     ApplicationConfig &config,
     std::optional<std::string> &mapFilter,
     std::optional<std::filesystem::path> &luaExportConfigPath,
-    std::optional<std::string> &legacyEventsDir)
+    std::optional<std::string> &legacyEventsDir,
+    std::optional<LegacyEventVersion> &legacyEventVersion)
 {
     bool hasAssetScaleArgument = false;
 
@@ -119,6 +151,41 @@ bool parseArguments(
             continue;
         }
 
+        if (argument == "--legacy-event-version")
+        {
+            if (legacyEventVersion.has_value() || argumentIndex + 1 >= argc)
+            {
+                std::cerr << "Usage: --legacy-event-version <6|7|8>\n";
+                return false;
+            }
+
+            const std::string value = argv[argumentIndex + 1];
+            const std::optional<LegacyEventVersion> parsedVersion = parseLegacyEventVersion(value);
+
+            if (!parsedVersion)
+            {
+                std::cerr << "Invalid legacy event version: " << value << '\n';
+                return false;
+            }
+
+            legacyEventVersion = *parsedVersion;
+            ++argumentIndex;
+            continue;
+        }
+
+        if (argument == "--world")
+        {
+            if (argumentIndex + 1 >= argc)
+            {
+                std::cerr << "Usage: --world <world_id>\n";
+                return false;
+            }
+
+            config.activeWorldId = argv[argumentIndex + 1];
+            ++argumentIndex;
+            continue;
+        }
+
         std::cerr << "Unknown argument: " << argument << '\n';
         return false;
     }
@@ -171,26 +238,27 @@ std::string toUpperCopy(const std::string &value)
 
 struct LuaExportTablePaths
 {
-    std::string mapStats = "Data/data_tables/map_stats.txt";
-    std::string houseData = "Data/data_tables/house_data.txt";
-    std::string npcTopicText = "Data/data_tables/npc_topic_text.txt";
-    std::string npcTopic = "Data/data_tables/npc_topic.txt";
-    std::string npcGreeting = "Data/data_tables/npc_greet.txt";
-    std::string items = "Data/data_tables/items.txt";
-    std::string objectList = "Data/data_tables/object_list.txt";
-    std::string monsterData = "Data/data_tables/monster_data.txt";
-    std::string placeMon = "Data/data_tables/english/place_mon.txt";
-    std::string spells = "Data/data_tables/spells.txt";
-    std::string spellsSupplemental = "Data/data_tables/spells_supplemental.txt";
-    std::string npc = "Data/data_tables/npc.txt";
-    std::string roster = "Data/data_tables/roster.txt";
-    std::string npcGroup = "Data/data_tables/english/npc_group.txt";
-    std::string npcNews = "Data/data_tables/npc_news.txt";
-    std::string quests = "Data/data_tables/english/quests.txt";
-    std::string autonote = "Data/data_tables/english/autonote.txt";
-    std::string awards = "Data/data_tables/english/awards.txt";
+    std::string mapStats = "engine/data_tables/map_stats.txt";
+    std::string houseData = "engine/data_tables/house_data.txt";
+    std::string npcTopicText = "engine/data_tables/npc_topic_text.txt";
+    std::string npcTopic = "engine/data_tables/npc_topic.txt";
+    std::string npcGreeting = "engine/data_tables/npc_greet.txt";
+    std::string items = "engine/data_tables/items.txt";
+    std::string objectList = "engine/data_tables/object_list.txt";
+    std::string monsterData = "engine/data_tables/monster_data.txt";
+    std::string placeMon = "engine/data_tables/english/place_mon.txt";
+    std::string spells = "engine/data_tables/spells.txt";
+    std::string spellsSupplemental = "engine/data_tables/spells_supplemental.txt";
+    std::string npc = "engine/data_tables/npc.txt";
+    std::string roster = "engine/data_tables/roster.txt";
+    std::string npcGroup = "engine/data_tables/english/npc_group.txt";
+    std::string npcNews = "engine/data_tables/npc_news.txt";
+    std::string quests = "engine/data_tables/english/quests.txt";
+    std::string autonote = "engine/data_tables/english/autonote.txt";
+    std::string awards = "engine/data_tables/english/awards.txt";
     std::string legacyEventsDir = "_legacy/events";
     std::string decompiledScriptsDir;
+    LegacyEventVersion legacyEventVersion = LegacyEventVersion::Mm8;
 };
 
 bool loadLuaExportConfig(const std::filesystem::path &path, LuaExportTablePaths &tablePaths)
@@ -220,7 +288,7 @@ bool loadLuaExportConfig(const std::filesystem::path &path, LuaExportTablePaths 
             continue;
         }
 
-        if (sectionName != "paths")
+        if (sectionName != "paths" && sectionName != "legacy_events")
         {
             continue;
         }
@@ -234,6 +302,21 @@ bool loadLuaExportConfig(const std::filesystem::path &path, LuaExportTablePaths 
 
         const std::string key = toLowerCopy(trimCopy(trimmed.substr(0, equalsIndex)));
         const std::string value = trimCopy(trimmed.substr(equalsIndex + 1));
+
+        if (sectionName == "legacy_events")
+        {
+            if (key == "version")
+            {
+                const std::optional<LegacyEventVersion> parsedVersion = parseLegacyEventVersion(value);
+
+                if (parsedVersion)
+                {
+                    tablePaths.legacyEventVersion = *parsedVersion;
+                }
+            }
+
+            continue;
+        }
 
         if (key == "map_stats")
         {
@@ -445,6 +528,11 @@ std::optional<uint32_t> parseUint32Field(const std::string &value)
     const unsigned long parsedId = std::strtoul(value.c_str(), &pEnd, 10);
 
     if (pEnd == value.c_str() || *pEnd != '\0')
+    {
+        return std::nullopt;
+    }
+
+    if (parsedId > std::numeric_limits<uint32_t>::max())
     {
         return std::nullopt;
     }
@@ -941,18 +1029,24 @@ bool isMeaningfulQuestField(const std::string &value)
 
 std::unordered_map<uint32_t, std::string> loadQuestNotes(
     const AssetFileSystem &assetFileSystem,
-    const std::string &virtualPath)
+    const std::string &virtualPath,
+    std::string &errorMessage)
 {
     std::unordered_map<uint32_t, std::string> notes;
     std::vector<std::vector<std::string>> rows;
 
     if (!loadTextTableRows(assetFileSystem, virtualPath, rows))
     {
+        errorMessage = "failed to read " + virtualPath;
         return notes;
     }
 
-    for (const std::vector<std::string> &row : rows)
+    std::set<uint32_t> seenQBitIds;
+
+    for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
     {
+        const std::vector<std::string> &row = rows[rowIndex];
+
         if (row.size() <= 2)
         {
             continue;
@@ -962,7 +1056,21 @@ std::unordered_map<uint32_t, std::string> loadQuestNotes(
 
         if (!parsedId)
         {
+            if (!row[0].empty() && row[0][0] != '#' && row[0] != "Q Bit")
+            {
+                errorMessage = "invalid quests.txt QBit id at row "
+                    + std::to_string(rowIndex + 1) + ": " + row[0];
+                return {};
+            }
+
             continue;
+        }
+
+        if (!seenQBitIds.insert(*parsedId).second)
+        {
+            errorMessage = "duplicate quests.txt QBit id at row "
+                + std::to_string(rowIndex + 1) + ": " + std::to_string(*parsedId);
+            return {};
         }
 
         const std::string questText = normalizeWhitespace(row[1]);
@@ -1028,6 +1136,82 @@ std::unordered_map<uint32_t, std::string> loadAutonoteTexts(
     }
 
     return texts;
+}
+
+bool legacyOpcodeUsesVariableValue(EvtOpcode opcode)
+{
+    switch (opcode)
+    {
+        case EvtOpcode::Compare:
+        case EvtOpcode::Add:
+        case EvtOpcode::Subtract:
+        case EvtOpcode::Set:
+        case EvtOpcode::OnCanShowDialogItemCmp:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+std::optional<uint32_t> legacyQBitIdFromVariableValue(uint32_t rawValue)
+{
+    const uint32_t rawVariableId = rawValue & 0xFFFFu;
+    const uint32_t index = rawValue >> 16;
+
+    if (rawVariableId != static_cast<uint32_t>(EvtVariable::QBits))
+    {
+        return std::nullopt;
+    }
+
+    return index;
+}
+
+bool validateLegacyQBitReferences(
+    const EvtProgram &evtProgram,
+    const LegacyLuaExportLookups &lookups,
+    const std::string &sourceName)
+{
+    std::set<uint32_t> customQBitsMissingQuestRows;
+
+    for (const EvtEvent &event : evtProgram.getEvents())
+    {
+        for (const EvtInstruction &instruction : event.instructions)
+        {
+            if (!legacyOpcodeUsesVariableValue(instruction.opcode) || !instruction.value1)
+            {
+                continue;
+            }
+
+            const std::optional<uint32_t> qbitId = legacyQBitIdFromVariableValue(*instruction.value1);
+
+            if (!qbitId)
+            {
+                continue;
+            }
+
+            if (*qbitId == 0)
+            {
+                std::cerr << "Invalid QBit(0) reference in " << sourceName
+                          << " event " << event.eventId
+                          << " step " << static_cast<unsigned>(instruction.step) << '\n';
+                return false;
+            }
+
+            if (*qbitId >= CustomWorldQBitBegin && lookups.questNotes.find(*qbitId) == lookups.questNotes.end())
+            {
+                customQBitsMissingQuestRows.insert(*qbitId);
+            }
+        }
+    }
+
+    for (uint32_t qbitId : customQBitsMissingQuestRows)
+    {
+        std::cerr << "Warning: " << sourceName << " references custom-range QBit(" << qbitId
+                  << ") without a visible row in quests.txt\n";
+    }
+
+    return true;
 }
 
 std::unordered_map<uint32_t, std::string> loadAwardTexts(
@@ -1220,6 +1404,130 @@ std::unordered_map<std::string, std::unordered_map<uint32_t, std::string>> loadD
     }
 
     return titlesByScriptStem;
+}
+
+uint32_t eventStepKey(uint32_t eventId, uint32_t step)
+{
+    return (eventId << 8) | step;
+}
+
+std::unordered_map<uint32_t, uint32_t> loadDecompiledSummonObjectTypesForScript(
+    const std::filesystem::path &decompiledScriptPath)
+{
+    std::unordered_map<uint32_t, uint32_t> typesByEventStep;
+    std::ifstream inputStream(decompiledScriptPath);
+
+    if (!inputStream)
+    {
+        return typesByEventStep;
+    }
+
+    uint32_t currentEventId = 0;
+    bool hasCurrentEvent = false;
+    std::string line;
+
+    while (std::getline(inputStream, line))
+    {
+        const std::string trimmed = trimCopy(line);
+
+        if (trimmed.starts_with("event "))
+        {
+            const size_t idEnd = trimmed.find_first_not_of("0123456789", 6);
+            const std::optional<uint32_t> parsedEventId =
+                parseUint32Field(trimmed.substr(6, idEnd == std::string::npos ? std::string::npos : idEnd - 6));
+
+            currentEventId = parsedEventId.value_or(0);
+            hasCurrentEvent = parsedEventId.has_value();
+            continue;
+        }
+
+        if (!hasCurrentEvent)
+        {
+            continue;
+        }
+
+        const size_t colonIndex = trimmed.find(':');
+        const size_t summonIndex = trimmed.find("SummonObject");
+        const size_t typeIndex = trimmed.find("Type = ");
+
+        if (colonIndex == std::string::npos
+            || summonIndex == std::string::npos
+            || typeIndex == std::string::npos
+            || summonIndex < colonIndex)
+        {
+            continue;
+        }
+
+        const std::optional<uint32_t> parsedStep = parseUint32Field(trimmed.substr(0, colonIndex));
+
+        if (!parsedStep)
+        {
+            continue;
+        }
+
+        const size_t valueBegin = typeIndex + std::string_view("Type = ").size();
+        const size_t valueEnd = trimmed.find_first_not_of("0123456789", valueBegin);
+        const std::optional<uint32_t> parsedType =
+            parseUint32Field(trimmed.substr(valueBegin, valueEnd - valueBegin));
+
+        if (parsedType)
+        {
+            typesByEventStep[eventStepKey(currentEventId, *parsedStep)] = *parsedType;
+        }
+    }
+
+    return typesByEventStep;
+}
+
+std::unordered_map<uint32_t, uint32_t> loadDecompiledSummonObjectTypes(
+    const std::unordered_map<std::string, std::unordered_map<uint32_t, uint32_t>> &typesByScriptStem,
+    const std::string &outputStem)
+{
+    const std::string lowerOutputStem = toLowerCopy(outputStem);
+    auto iterator = typesByScriptStem.find(lowerOutputStem);
+
+    if (iterator == typesByScriptStem.end()
+        && lowerOutputStem.size() > 2
+        && lowerOutputStem[0] == '6'
+        && (lowerOutputStem[1] == 'd' || lowerOutputStem[1] == 't'))
+    {
+        iterator = typesByScriptStem.find(lowerOutputStem.substr(1));
+    }
+
+    if (iterator == typesByScriptStem.end())
+    {
+        return {};
+    }
+
+    return iterator->second;
+}
+
+std::unordered_map<std::string, std::unordered_map<uint32_t, uint32_t>> loadDecompiledSummonObjectTypes(
+    const std::filesystem::path &decompiledScriptsDir)
+{
+    std::unordered_map<std::string, std::unordered_map<uint32_t, uint32_t>> typesByScriptStem;
+
+    if (decompiledScriptsDir.empty() || !std::filesystem::is_directory(decompiledScriptsDir))
+    {
+        return typesByScriptStem;
+    }
+
+    for (const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator(decompiledScriptsDir))
+    {
+        if (!entry.is_regular_file() || toLowerCopy(entry.path().extension().string()) != ".txt")
+        {
+            continue;
+        }
+
+        std::unordered_map<uint32_t, uint32_t> types = loadDecompiledSummonObjectTypesForScript(entry.path());
+
+        if (!types.empty())
+        {
+            typesByScriptStem[toLowerCopy(entry.path().stem().string())] = std::move(types);
+        }
+    }
+
+    return typesByScriptStem;
 }
 
 std::optional<uint32_t> readYamlUint32(const YAML::Node &node, const char *key)
@@ -1576,8 +1884,10 @@ bool exportLegacyProgram(
     const std::string &outputStem,
     const LegacyLuaExportLookups &baseLookups,
     const std::unordered_map<std::string, std::unordered_map<uint32_t, std::string>> &decompiledEventTitles,
+    const std::unordered_map<std::string, std::unordered_map<uint32_t, uint32_t>> &decompiledSummonObjectTypes,
     const MapStatsEntry *pMapEntry,
-    bool globalScope)
+    bool globalScope,
+    LegacyEventVersion version)
 {
     std::string resolvedEvtPath;
     const std::optional<std::vector<uint8_t>> evtBytes = readFirstExistingBinary(
@@ -1633,7 +1943,13 @@ bool exportLegacyProgram(
             return iterator != baseLookups.npcTexts.end() ? std::optional<std::string>(iterator->second) : std::nullopt;
         };
 
-    if (!buildEventIrProgramFromLegacySource(eventIrProgram, evtProgram, strTable, resolveHouseName, resolveNpcText))
+    if (!buildEventIrProgramFromLegacySource(
+            eventIrProgram,
+            evtProgram,
+            strTable,
+            resolveHouseName,
+            resolveNpcText,
+            static_cast<int>(version)))
     {
         std::cerr << "Failed to convert legacy event program to IR: " << legacyBaseName << '\n';
         return false;
@@ -1661,6 +1977,8 @@ bool exportLegacyProgram(
             lookups.monsterNames,
             pMapEntry);
         populateMapEncounterNames(lookups, pMapEntry);
+        lookups.summonObjectTypesByEventStep =
+            loadDecompiledSummonObjectTypes(decompiledSummonObjectTypes, outputStem);
     }
 
     const auto titleIterator = decompiledEventTitles.find(toLowerCopy(outputStem));
@@ -1670,11 +1988,17 @@ bool exportLegacyProgram(
         lookups.eventTitles = titleIterator->second;
     }
 
+    if (!validateLegacyQBitReferences(evtProgram, lookups, legacyBaseName))
+    {
+        return false;
+    }
+
     if (!writeTextFile(luaPath, OpenYAMM::Game::generateLegacyEventLuaChunk(
             evtProgram,
             strTable,
             lookups,
-            globalScope ? LegacyLuaExportScope::Global : LegacyLuaExportScope::Map))
+            globalScope ? LegacyLuaExportScope::Global : LegacyLuaExportScope::Map,
+            version))
         || !writeTextFile(evtDumpPath, evtProgram.dump(strTable))
         || !writeTextFile(irDumpPath, eventIrProgram.dump()))
     {
@@ -1692,8 +2016,16 @@ int main(int argc, char **argv)
     std::optional<std::string> mapFilter;
     std::optional<std::filesystem::path> luaExportConfigPath;
     std::optional<std::string> legacyEventsDirOverride;
+    std::optional<LegacyEventVersion> legacyEventVersionOverride;
 
-    if (!parseArguments(argc, argv, config, mapFilter, luaExportConfigPath, legacyEventsDirOverride))
+    if (!parseArguments(
+            argc,
+            argv,
+            config,
+            mapFilter,
+            luaExportConfigPath,
+            legacyEventsDirOverride,
+            legacyEventVersionOverride))
     {
         return 2;
     }
@@ -1711,6 +2043,11 @@ int main(int argc, char **argv)
         tablePaths.legacyEventsDir = *legacyEventsDirOverride;
     }
 
+    if (legacyEventVersionOverride)
+    {
+        tablePaths.legacyEventVersion = *legacyEventVersionOverride;
+    }
+
     if (tablePaths.decompiledScriptsDir.empty())
     {
         const std::filesystem::path siblingDecompiledScriptsDir =
@@ -1724,7 +2061,11 @@ int main(int argc, char **argv)
 
     AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(std::filesystem::current_path(), config.assetRoot, config.assetScaleTier))
+    if (!assetFileSystem.initialize(
+            std::filesystem::current_path(),
+            config.assetRoot,
+            config.assetScaleTier,
+            config.activeWorldId))
     {
         std::cerr << "Failed to initialize asset file system\n";
         return 1;
@@ -1753,27 +2094,42 @@ int main(int argc, char **argv)
     lookups.monsterNames = loadMonsterNames(assetFileSystem, tablePaths.monsterData);
     lookups.placedMonsterNames = loadPlacedMonsterNames(assetFileSystem, tablePaths.placeMon);
     lookups.spellNames = loadSpellNames(assetFileSystem, tablePaths.spells, tablePaths.spellsSupplemental);
-    lookups.questNotes = loadQuestNotes(assetFileSystem, tablePaths.quests);
+    std::string questNotesError;
+    lookups.questNotes = loadQuestNotes(assetFileSystem, tablePaths.quests, questNotesError);
+
+    if (!questNotesError.empty())
+    {
+        std::cerr << "Failed to validate quest note table: " << questNotesError << '\n';
+        return 1;
+    }
+
     lookups.autonoteTexts = loadAutonoteTexts(assetFileSystem, tablePaths.autonote);
     lookups.awardTexts = loadAwardTexts(assetFileSystem, tablePaths.awards);
     lookups.inputStringAnswerTexts =
         loadLegacyInputStringAnswerTexts(assetFileSystem, tablePaths.legacyEventsDir);
     const std::unordered_map<std::string, std::unordered_map<uint32_t, std::string>> decompiledEventTitles =
         loadDecompiledEventTitles(tablePaths.decompiledScriptsDir);
-    const std::filesystem::path scriptsRoot = assetFileSystem.getDevelopmentRoot() / "Data" / "scripts";
+    const std::unordered_map<std::string, std::unordered_map<uint32_t, uint32_t>> decompiledSummonObjectTypes =
+        loadDecompiledSummonObjectTypes(tablePaths.decompiledScriptsDir);
+    const std::filesystem::path globalScriptsRoot =
+        assetFileSystem.getDevelopmentRoot() / "engine" / "events";
+    const std::filesystem::path worldScriptsRoot =
+        assetFileSystem.getDevelopmentRoot() / "worlds" / config.activeWorldId / "events";
     const std::filesystem::path dumpsRoot = std::filesystem::current_path() / "script_dumps";
 
     if (!exportLegacyProgram(
             assetFileSystem,
-            scriptsRoot,
+            globalScriptsRoot,
             dumpsRoot,
             tablePaths.legacyEventsDir,
             "Global",
             "Global",
             lookups,
             decompiledEventTitles,
+            decompiledSummonObjectTypes,
             nullptr,
-            true))
+            true,
+            tablePaths.legacyEventVersion))
     {
         return 1;
     }
@@ -1797,15 +2153,17 @@ int main(int argc, char **argv)
 
         if (!exportLegacyProgram(
                 assetFileSystem,
-                scriptsRoot,
+                worldScriptsRoot,
                 dumpsRoot,
                 tablePaths.legacyEventsDir,
                 mapStem,
                 lowerMapStem,
                 lookups,
                 decompiledEventTitles,
+                decompiledSummonObjectTypes,
                 &entry,
-                false))
+                false,
+                tablePaths.legacyEventVersion))
         {
             return 1;
         }
@@ -1828,7 +2186,9 @@ int main(int argc, char **argv)
     std::cout << "Exported legacy event assets:\n";
     std::cout << "  global=yes\n";
     std::cout << "  map_count=" << exportedMapCount << '\n';
-    std::cout << "  scripts_root=" << scriptsRoot << '\n';
+    std::cout << "  legacy_event_version=" << static_cast<int>(tablePaths.legacyEventVersion) << '\n';
+    std::cout << "  global_scripts_root=" << globalScriptsRoot << '\n';
+    std::cout << "  world_scripts_root=" << worldScriptsRoot << '\n';
     std::cout << "  dumps_root=" << dumpsRoot << '\n';
     return 0;
 }

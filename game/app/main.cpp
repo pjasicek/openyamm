@@ -2,6 +2,7 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
 #include "game/app/GameApplication.h"
+#include "game/app/GameSettings.h"
 #include "game/outdoor/HeadlessOutdoorDiagnostics.h"
 
 #include <SDL3/SDL.h>
@@ -28,12 +29,13 @@ bool parseCommonArguments(
     int argc,
     char **argv,
     OpenYAMM::Engine::ApplicationConfig &config,
-    std::vector<std::string> &arguments)
+    std::vector<std::string> &arguments,
+    bool &worldArgumentProvided)
 {
     bool hasAssetScaleArgument = false;
-    bool hasCampaignArgument = false;
     bool hasMapOverrideArgument = false;
     bool hasWorldArgument = false;
+    worldArgumentProvided = false;
 
     for (int argumentIndex = 1; argumentIndex < argc; ++argumentIndex)
     {
@@ -53,20 +55,6 @@ bool parseCommonArguments(
             continue;
         }
 
-        if (argument == "--campaign")
-        {
-            if (hasCampaignArgument || argumentIndex + 1 >= argc)
-            {
-                std::cerr << "Usage: --campaign <campaign-id>\n";
-                return false;
-            }
-
-            config.campaignId = argv[argumentIndex + 1];
-            hasCampaignArgument = true;
-            ++argumentIndex;
-            continue;
-        }
-
         if (argument == "--world")
         {
             if (hasWorldArgument || argumentIndex + 1 >= argc)
@@ -77,6 +65,7 @@ bool parseCommonArguments(
 
             config.activeWorldId = argv[argumentIndex + 1];
             hasWorldArgument = true;
+            worldArgumentProvided = true;
             ++argumentIndex;
             continue;
         }
@@ -110,17 +99,52 @@ bool parseCommonArguments(
     return true;
 }
 
+void applySettingsStartupWorldIfConfigured(
+    OpenYAMM::Engine::ApplicationConfig &config,
+    bool worldArgumentProvided)
+{
+    if (worldArgumentProvided)
+    {
+        return;
+    }
+
+    const std::filesystem::path settingsPath = "settings.ini";
+
+    if (!std::filesystem::exists(settingsPath))
+    {
+        return;
+    }
+
+    std::string error;
+    const std::optional<OpenYAMM::Game::GameSettings> settings =
+        OpenYAMM::Game::loadGameSettings(settingsPath, error);
+
+    if (!settings)
+    {
+        std::cerr << "Failed to read startup world from " << settingsPath.string() << ": " << error << '\n';
+        return;
+    }
+
+    if (!settings->startWorldId.empty())
+    {
+        config.activeWorldId = settings->startWorldId;
+    }
+}
+
 int runApplication(int argc, char **argv)
 {
     av_log_set_level(AV_LOG_ERROR);
 
     OpenYAMM::Engine::ApplicationConfig config = OpenYAMM::Engine::ApplicationConfig::createDefault();
     std::vector<std::string> arguments;
+    bool worldArgumentProvided = false;
 
-    if (!parseCommonArguments(argc, argv, config, arguments))
+    if (!parseCommonArguments(argc, argv, config, arguments, worldArgumentProvided))
     {
         return 2;
     }
+
+    applySettingsStartupWorldIfConfigured(config, worldArgumentProvided);
 
     if (!arguments.empty() && arguments[0].rfind("--headless-", 0) == 0)
     {

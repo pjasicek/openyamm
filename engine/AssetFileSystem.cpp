@@ -6,8 +6,10 @@
 #include <array>
 #include <cctype>
 #include <cstdint>
+#include <fstream>
 #include <iostream>
 #include <memory>
+#include <unordered_map>
 #include <unordered_set>
 #include <vector>
 
@@ -19,6 +21,8 @@ constexpr const char *EditorDevelopmentRootName = "assets_editor_dev";
 constexpr const char *EngineDevelopmentRootName = "engine";
 constexpr const char *WorldsDevelopmentRootName = "worlds";
 constexpr const char *DefaultActiveWorldId = "mm8";
+constexpr const char *IconsDirectoryName = "icons";
+constexpr const char *AudioDirectoryName = "audio";
 
 constexpr std::array<const char *, 7> TieredAssetDirectories = {
     "Data/bitmaps",
@@ -34,6 +38,12 @@ struct VirtualPathAlias
 {
     const char *pLegacyPrefix;
     const char *pPackagePrefix;
+};
+
+struct MergedRootFile
+{
+    std::string rootKey;
+    std::filesystem::path filePath;
 };
 
 constexpr std::array<VirtualPathAlias, 19> PackagePathAliases = {
@@ -73,6 +83,108 @@ std::filesystem::path deriveEditorDevelopmentRoot(const std::filesystem::path &a
     return assetRoot.parent_path() / EditorDevelopmentRootName;
 }
 
+std::string toLowerAscii(std::string value)
+{
+    for (char &character : value)
+    {
+        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
+    }
+
+    return value;
+}
+
+bool filesHaveSameContents(const std::filesystem::path &left, const std::filesystem::path &right)
+{
+    std::error_code leftSizeError;
+    const uintmax_t leftSize = std::filesystem::file_size(left, leftSizeError);
+
+    std::error_code rightSizeError;
+    const uintmax_t rightSize = std::filesystem::file_size(right, rightSizeError);
+
+    if (leftSizeError || rightSizeError || leftSize != rightSize)
+    {
+        return false;
+    }
+
+    std::ifstream leftStream(left, std::ios::binary);
+    std::ifstream rightStream(right, std::ios::binary);
+
+    if (!leftStream.good() || !rightStream.good())
+    {
+        return false;
+    }
+
+    constexpr size_t BufferSize = 16384;
+    std::array<char, BufferSize> leftBuffer = {};
+    std::array<char, BufferSize> rightBuffer = {};
+
+    while (leftStream.good() || rightStream.good())
+    {
+        leftStream.read(leftBuffer.data(), static_cast<std::streamsize>(leftBuffer.size()));
+        rightStream.read(rightBuffer.data(), static_cast<std::streamsize>(rightBuffer.size()));
+
+        const std::streamsize leftCount = leftStream.gcount();
+        const std::streamsize rightCount = rightStream.gcount();
+
+        if (leftCount != rightCount)
+        {
+            return false;
+        }
+
+        if (!std::equal(leftBuffer.begin(), leftBuffer.begin() + leftCount, rightBuffer.begin()))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+std::string canonicalPathKey(const std::filesystem::path &path)
+{
+    std::error_code canonicalError;
+    const std::filesystem::path canonicalPath = std::filesystem::weakly_canonical(path, canonicalError);
+    return (canonicalError ? path.lexically_normal() : canonicalPath).generic_string();
+}
+
+std::vector<std::filesystem::path> collectExistingWorldPackageRoots(
+    const std::filesystem::path &assetRoot,
+    const char *pPackageDirectoryName)
+{
+    std::vector<std::filesystem::path> packageRoots;
+    const std::filesystem::path worldsRoot = assetRoot / WorldsDevelopmentRootName;
+
+    if (!std::filesystem::exists(worldsRoot))
+    {
+        return packageRoots;
+    }
+
+    for (const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator(worldsRoot))
+    {
+        if (!entry.is_directory())
+        {
+            continue;
+        }
+
+        const std::filesystem::path packageRoot = entry.path() / pPackageDirectoryName;
+
+        if (std::filesystem::is_directory(packageRoot))
+        {
+            packageRoots.push_back(packageRoot);
+        }
+    }
+
+    std::sort(
+        packageRoots.begin(),
+        packageRoots.end(),
+        [](const std::filesystem::path &left, const std::filesystem::path &right)
+        {
+            return left.generic_string() < right.generic_string();
+        });
+
+    return packageRoots;
+}
+
 struct PhysicsFsListDeleter
 {
     void operator()(char **pList) const
@@ -83,6 +195,60 @@ struct PhysicsFsListDeleter
         }
     }
 };
+
+std::optional<std::string> findCaseInsensitiveVirtualPath(const std::string &virtualPath)
+{
+    const std::filesystem::path path(virtualPath);
+    const std::string parentPath = path.parent_path().generic_string();
+    const std::string requestedFileName = toLowerAscii(path.filename().string());
+
+    if (requestedFileName.empty())
+    {
+        return std::nullopt;
+    }
+
+    const std::string directoryPath = parentPath.empty() ? "." : parentPath;
+    char **pEnumeratedEntries = PHYSFS_enumerateFiles(directoryPath.c_str());
+    std::unique_ptr<char *, PhysicsFsListDeleter> pEntryList(pEnumeratedEntries);
+
+    if (pEnumeratedEntries == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    for (char **pEntry = pEnumeratedEntries; *pEntry != nullptr; ++pEntry)
+    {
+        if (toLowerAscii(*pEntry) != requestedFileName)
+        {
+            continue;
+        }
+
+        return parentPath.empty()
+            ? std::string(*pEntry)
+            : parentPath + "/" + *pEntry;
+    }
+
+    return std::nullopt;
+}
+
+PHYSFS_File *openReadExactOrCaseInsensitive(const std::string &virtualPath)
+{
+    PHYSFS_File *pFile = PHYSFS_openRead(virtualPath.c_str());
+
+    if (pFile != nullptr)
+    {
+        return pFile;
+    }
+
+    const std::optional<std::string> resolvedPath = findCaseInsensitiveVirtualPath(virtualPath);
+
+    if (!resolvedPath)
+    {
+        return nullptr;
+    }
+
+    return PHYSFS_openRead(resolvedPath->c_str());
+}
 }
 
 AssetFileSystem::AssetFileSystem()
@@ -120,6 +286,7 @@ bool AssetFileSystem::initialize(
     }
 
     m_isInitialized = true;
+    m_basePath = basePath;
     m_assetScaleTier = assetScaleTier;
     m_activeWorldId = normalizePackageId(activeWorldId, DefaultActiveWorldId);
 
@@ -185,6 +352,20 @@ bool AssetFileSystem::initialize(
     return true;
 }
 
+bool AssetFileSystem::switchActiveWorld(const std::string &activeWorldId)
+{
+    if (!isInitialized())
+    {
+        return false;
+    }
+
+    const std::filesystem::path basePath = m_basePath;
+    const std::filesystem::path assetRoot = m_developmentRoot;
+    const AssetScaleTier assetScaleTier = m_assetScaleTier;
+
+    return initialize(basePath, assetRoot, assetScaleTier, activeWorldId);
+}
+
 bool AssetFileSystem::mountDevelopmentRoot(const std::filesystem::path &assetRoot)
 {
     if (!mountSearchRoot(assetRoot, true))
@@ -222,10 +403,38 @@ bool AssetFileSystem::mountDevelopmentPackageRoots(
         return false;
     }
 
+    if (!validateMergedIconRoots(assetRoot))
+    {
+        return false;
+    }
+
+    if (!mountMergedWorldIconRoots(assetRoot, normalizedWorldId))
+    {
+        return false;
+    }
+
+    if (!validateMergedAudioRoots(assetRoot))
+    {
+        return false;
+    }
+
+    if (!mountMergedWorldAudioRoots(assetRoot, normalizedWorldId))
+    {
+        return false;
+    }
+
     return true;
 }
 
 bool AssetFileSystem::mountSearchRoot(const std::filesystem::path &assetRoot, bool appendToPath)
+{
+    return mountSearchRootAt(assetRoot, "/", appendToPath);
+}
+
+bool AssetFileSystem::mountSearchRootAt(
+    const std::filesystem::path &assetRoot,
+    const std::string &mountPoint,
+    bool appendToPath)
 {
     if (!isInitialized())
     {
@@ -238,14 +447,137 @@ bool AssetFileSystem::mountSearchRoot(const std::filesystem::path &assetRoot, bo
         return false;
     }
 
-    if (!PHYSFS_mount(assetRoot.string().c_str(), "/", appendToPath ? 1 : 0))
+    if (!PHYSFS_mount(assetRoot.string().c_str(), mountPoint.c_str(), appendToPath ? 1 : 0))
     {
-        std::cerr << "PHYSFS_mount failed for " << assetRoot << ": "
+        std::cerr << "PHYSFS_mount failed for " << assetRoot << " at " << mountPoint << ": "
                   << PHYSFS_getErrorByCode(PHYSFS_getLastErrorCode()) << '\n';
         return false;
     }
 
+    SearchMount searchMount;
+    searchMount.root = assetRoot;
+    searchMount.mountPoint = normalizeVirtualPath(mountPoint);
+
+    if (appendToPath)
+    {
+        m_searchMounts.push_back(searchMount);
+    }
+    else
+    {
+        m_searchMounts.insert(m_searchMounts.begin(), searchMount);
+    }
+
     return true;
+}
+
+bool AssetFileSystem::validateMergedPackageRoots(
+    const std::filesystem::path &assetRoot,
+    const char *pPackageDirectoryName,
+    const char *pAssetTypeName) const
+{
+    std::unordered_map<std::string, MergedRootFile> knownPackageFiles;
+    std::vector<std::filesystem::path> packageRoots;
+
+    const std::filesystem::path enginePackageRoot =
+        assetRoot / EngineDevelopmentRootName / pPackageDirectoryName;
+
+    if (std::filesystem::is_directory(enginePackageRoot))
+    {
+        packageRoots.push_back(enginePackageRoot);
+    }
+
+    const std::vector<std::filesystem::path> worldPackageRoots =
+        collectExistingWorldPackageRoots(assetRoot, pPackageDirectoryName);
+    packageRoots.insert(packageRoots.end(), worldPackageRoots.begin(), worldPackageRoots.end());
+
+    for (const std::filesystem::path &packageRoot : packageRoots)
+    {
+        const std::string rootKey = canonicalPathKey(packageRoot);
+
+        for (const std::filesystem::directory_entry &entry : std::filesystem::directory_iterator(packageRoot))
+        {
+            if (!entry.is_regular_file())
+            {
+                continue;
+            }
+
+            const std::string logicalName = toLowerAscii(entry.path().filename().string());
+            const auto existingIterator = knownPackageFiles.find(logicalName);
+
+            if (existingIterator == knownPackageFiles.end())
+            {
+                knownPackageFiles.emplace(logicalName, MergedRootFile{rootKey, entry.path()});
+                continue;
+            }
+
+            const MergedRootFile &existingFile = existingIterator->second;
+
+            if (existingFile.rootKey == rootKey)
+            {
+                continue;
+            }
+
+            if (!filesHaveSameContents(existingFile.filePath, entry.path()))
+            {
+                std::cerr << "Conflicting " << pAssetTypeName << " asset " << logicalName << " exists in both "
+                          << existingFile.filePath << " and " << entry.path() << '\n';
+                return false;
+            }
+        }
+    }
+
+    return true;
+}
+
+bool AssetFileSystem::validateMergedIconRoots(const std::filesystem::path &assetRoot) const
+{
+    return validateMergedPackageRoots(assetRoot, IconsDirectoryName, "icon");
+}
+
+bool AssetFileSystem::validateMergedAudioRoots(const std::filesystem::path &assetRoot) const
+{
+    return validateMergedPackageRoots(assetRoot, AudioDirectoryName, "audio");
+}
+
+bool AssetFileSystem::mountMergedWorldPackageRoots(
+    const std::filesystem::path &assetRoot,
+    const std::string &activeWorldId,
+    const char *pPackageDirectoryName)
+{
+    const std::string normalizedWorldId = normalizePackageId(activeWorldId, DefaultActiveWorldId);
+    const std::vector<std::filesystem::path> worldPackageRoots =
+        collectExistingWorldPackageRoots(assetRoot, pPackageDirectoryName);
+
+    for (const std::filesystem::path &packageRoot : worldPackageRoots)
+    {
+        const std::string worldId = toLowerAscii(packageRoot.parent_path().filename().string());
+
+        if (worldId == normalizedWorldId)
+        {
+            continue;
+        }
+
+        if (!mountSearchRootAt(packageRoot, "/" + std::string(pPackageDirectoryName), true))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool AssetFileSystem::mountMergedWorldIconRoots(
+    const std::filesystem::path &assetRoot,
+    const std::string &activeWorldId)
+{
+    return mountMergedWorldPackageRoots(assetRoot, activeWorldId, IconsDirectoryName);
+}
+
+bool AssetFileSystem::mountMergedWorldAudioRoots(
+    const std::filesystem::path &assetRoot,
+    const std::string &activeWorldId)
+{
+    return mountMergedWorldPackageRoots(assetRoot, activeWorldId, AudioDirectoryName);
 }
 
 bool AssetFileSystem::exists(const std::string &virtualPath) const
@@ -260,6 +592,11 @@ bool AssetFileSystem::exists(const std::string &virtualPath) const
     for (const std::string &resolvedPath : resolvedPaths)
     {
         if (PHYSFS_exists(resolvedPath.c_str()) != 0)
+        {
+            return true;
+        }
+
+        if (findCaseInsensitiveVirtualPath(resolvedPath))
         {
             return true;
         }
@@ -327,7 +664,7 @@ std::optional<std::vector<uint8_t>> AssetFileSystem::readBinaryFile(const std::s
 
     for (const std::string &resolvedPath : resolvedPaths)
     {
-        pFile = PHYSFS_openRead(resolvedPath.c_str());
+        pFile = openReadExactOrCaseInsensitive(resolvedPath);
 
         if (pFile != nullptr)
         {
@@ -396,17 +733,49 @@ std::optional<std::filesystem::path> AssetFileSystem::resolvePhysicalPath(const 
 
     for (const std::string &resolvedPath : resolvedPaths)
     {
-        for (const std::string &searchPath : getSearchPaths())
-        {
-            const std::filesystem::path candidate =
-                std::filesystem::path(searchPath) / std::filesystem::path(resolvedPath);
+        std::vector<std::string> physicalPathCandidates = {resolvedPath};
 
-            if (std::filesystem::exists(candidate))
+        const std::optional<std::string> caseInsensitivePath = findCaseInsensitiveVirtualPath(resolvedPath);
+
+        if (caseInsensitivePath && *caseInsensitivePath != resolvedPath)
+        {
+            physicalPathCandidates.push_back(*caseInsensitivePath);
+        }
+
+        for (const SearchMount &searchMount : m_searchMounts)
+        {
+            for (const std::string &physicalPathCandidate : physicalPathCandidates)
             {
-                std::error_code canonicalError;
-                const std::filesystem::path canonicalPath =
-                    std::filesystem::weakly_canonical(candidate, canonicalError);
-                return canonicalError ? candidate.lexically_normal() : canonicalPath;
+                std::filesystem::path relativePath = physicalPathCandidate;
+
+                if (!searchMount.mountPoint.empty())
+                {
+                    const std::string mountPointPrefix = searchMount.mountPoint + "/";
+
+                    if (physicalPathCandidate == searchMount.mountPoint)
+                    {
+                        relativePath.clear();
+                    }
+                    else if (physicalPathCandidate.starts_with(mountPointPrefix))
+                    {
+                        relativePath = physicalPathCandidate.substr(mountPointPrefix.size());
+                    }
+                    else
+                    {
+                        continue;
+                    }
+                }
+
+                const std::filesystem::path candidate =
+                    searchMount.root / relativePath;
+
+                if (std::filesystem::exists(candidate))
+                {
+                    std::error_code canonicalError;
+                    const std::filesystem::path canonicalPath =
+                        std::filesystem::weakly_canonical(candidate, canonicalError);
+                    return canonicalError ? candidate.lexically_normal() : canonicalPath;
+                }
             }
         }
     }
@@ -443,10 +812,12 @@ void AssetFileSystem::shutdown()
 
     PHYSFS_deinit();
     m_isInitialized = false;
+    m_basePath.clear();
     m_developmentRoot.clear();
     m_editorDevelopmentRoot.clear();
     m_activeWorldId = DefaultActiveWorldId;
     m_assetScaleTier = AssetScaleTier::X1;
+    m_searchMounts.clear();
 }
 
 bool AssetFileSystem::isInitialized() const

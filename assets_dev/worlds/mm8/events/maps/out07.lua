@@ -27,7 +27,7 @@ SetMapMetadata({
     [100] = {19},
     },
     textureNames = {},
-    spriteNames = {"on"},
+    spriteNames = {"0"},
     castSpellIds = {},
     timers = {
     { eventId = 451, repeating = true, intervalGameMinutes = 15, remainingGameMinutes = 15 },
@@ -37,32 +37,15 @@ SetMapMetadata({
 
 RegisterEvent(1, "Legacy event 1", function()
     if IsQBitSet(QBit(40)) then -- Found and Rescued Cauri Blackthorne
-        evt.SetSprite(20, 0, "on")
-        evt.SetSprite(21, 0, "on")
-        evt.SetSprite(22, 0, "on")
-        evt.SetSprite(23, 0, "on")
-        evt.SetSprite(24, 0, "on")
-        if IsQBitSet(QBit(19)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
-            evt.SetMonGroupBit(39, MonsterBits.Hostile, 1) -- actor group 39: Cleric of the Sun
-            evt.SetMonGroupBit(40, MonsterBits.Hostile, 1) -- actor group 40: Cleric of the Sun
-            return
-        elseif IsQBitSet(QBit(230)) then -- You have Pissed off the clerics
-            evt.SetMonGroupBit(39, MonsterBits.Hostile, 1) -- actor group 39: Cleric of the Sun
-            evt.SetMonGroupBit(40, MonsterBits.Hostile, 1) -- actor group 40: Cleric of the Sun
-            return
-        else
-            return
-        end
-    elseif IsQBitSet(QBit(19)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
+        evt.SetSprite(20, 0, "0")
+        evt.SetSprite(21, 0, "0")
+        evt.SetSprite(22, 0, "0")
+        evt.SetSprite(23, 0, "0")
+        evt.SetSprite(24, 0, "0")
+    end
+    if IsQBitSet(QBit(19)) or IsQBitSet(QBit(230)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
         evt.SetMonGroupBit(39, MonsterBits.Hostile, 1) -- actor group 39: Cleric of the Sun
         evt.SetMonGroupBit(40, MonsterBits.Hostile, 1) -- actor group 40: Cleric of the Sun
-        return
-    elseif IsQBitSet(QBit(230)) then -- You have Pissed off the clerics
-        evt.SetMonGroupBit(39, MonsterBits.Hostile, 1) -- actor group 39: Cleric of the Sun
-        evt.SetMonGroupBit(40, MonsterBits.Hostile, 1) -- actor group 40: Cleric of the Sun
-        return
-    else
-        return
     end
 end)
 
@@ -83,274 +66,238 @@ RegisterNoOpEvent(9, "Legacy event 9")
 RegisterNoOpEvent(10, "Legacy event 10")
 
 RegisterEvent(11, "Ravensight Residence", function()
-    evt.EnterHouse(388) -- Ravensight Residence
-    return
+    evt.EnterHouse(610) -- Ravensight Residence
 end, "Ravensight Residence")
 
 RegisterEvent(12, "Ravensight Residence", nil, "Ravensight Residence")
 
 RegisterEvent(13, "Dreamwright Residence", function()
-    evt.EnterHouse(389) -- Dreamwright Residence
-    return
+    evt.EnterHouse(611) -- Dreamwright Residence
 end, "Dreamwright Residence")
 
 RegisterEvent(14, "Dreamwright Residence", nil, "Dreamwright Residence")
 
 RegisterEvent(15, "Snowtree Residence", function()
-    evt.EnterHouse(390) -- Snowtree Residence
-    return
+    evt.EnterHouse(612) -- Snowtree Residence
 end, "Snowtree Residence")
 
 RegisterEvent(16, "Snowtree Residence", nil, "Snowtree Residence")
 
 RegisterEvent(17, "Dantillion's Residence", function()
-    evt.EnterHouse(391) -- Dantillion's Residence
-    return
+    evt.EnterHouse(613) -- Dantillion's Residence
 end, "Dantillion's Residence")
 
 RegisterEvent(18, "Dantillion's Residence", nil, "Dantillion's Residence")
 
 RegisterEvent(19, "Mithrit Residence", function()
-    evt.EnterHouse(392) -- Mithrit Residence
-    return
+    evt.EnterHouse(614) -- Mithrit Residence
 end, "Mithrit Residence")
 
 RegisterEvent(20, "Mithrit Residence", nil, "Mithrit Residence")
 
 RegisterEvent(21, "Tonk Residence", function()
-    evt.EnterHouse(393) -- Tonk Residence
-    return
+    evt.EnterHouse(615) -- Tonk Residence
 end, "Tonk Residence")
 
 RegisterEvent(22, "Tonk Residence", nil, "Tonk Residence")
 
 RegisterEvent(23, "Keenedge Residence", function()
-    evt.EnterHouse(394) -- Keenedge Residence
-    return
+    evt.EnterHouse(616) -- Keenedge Residence
 end, "Keenedge Residence")
 
 RegisterEvent(24, "Keenedge Residence", nil, "Keenedge Residence")
 
 RegisterEvent(25, "Treasurestone Residence", function()
-    evt.EnterHouse(395) -- Treasurestone Residence
-    return
+    evt.EnterHouse(617) -- Treasurestone Residence
 end, "Treasurestone Residence")
 
 RegisterEvent(26, "Treasurestone Residence", nil, "Treasurestone Residence")
 
 RegisterEvent(27, "Sampson Residence", function()
-    evt.EnterHouse(396) -- Sampson Residence
-    return
+    evt.EnterHouse(618) -- Sampson Residence
 end, "Sampson Residence")
 
 RegisterEvent(28, "Sampson Residence", nil, "Sampson Residence")
 
 RegisterEvent(29, "Verish's House", function()
-    evt.EnterHouse(482) -- Verish's House
-    return
+    evt.EnterHouse(701) -- Verish's House
 end, "Verish's House")
 
 RegisterEvent(30, "Verish's House", nil, "Verish's House")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
-    return
 end, "Chest")
 
 RegisterEvent(82, "Chest", function()
     evt.OpenChest(1)
-    return
 end, "Chest")
 
 RegisterEvent(83, "Chest", function()
     evt.OpenChest(2)
-    return
 end, "Chest")
 
 RegisterEvent(84, "Chest", function()
     evt.OpenChest(3)
-    return
 end, "Chest")
 
 RegisterEvent(85, "Chest", function()
     evt.OpenChest(4)
-    return
 end, "Chest")
 
 RegisterEvent(86, "Chest", function()
     evt.OpenChest(5)
-    return
 end, "Chest")
 
 RegisterEvent(87, "Chest", function()
     evt.OpenChest(6)
-    return
 end, "Chest")
 
 RegisterEvent(88, "Chest", function()
     evt.OpenChest(7)
-    return
 end, "Chest")
 
 RegisterEvent(89, "Chest", function()
     evt.OpenChest(8)
-    return
 end, "Chest")
 
 RegisterEvent(90, "Chest", function()
     evt.OpenChest(9)
-    return
 end, "Chest")
 
 RegisterEvent(91, "Chest", function()
     evt.OpenChest(10)
-    return
 end, "Chest")
 
 RegisterEvent(92, "Chest", function()
     evt.OpenChest(11)
-    return
 end, "Chest")
 
 RegisterEvent(93, "Chest", function()
     evt.OpenChest(12)
-    return
 end, "Chest")
 
 RegisterEvent(94, "Chest", function()
     evt.OpenChest(13)
-    return
 end, "Chest")
 
 RegisterEvent(95, "Chest", function()
     evt.OpenChest(14)
-    return
 end, "Chest")
 
 RegisterEvent(96, "Chest", function()
     evt.OpenChest(15)
-    return
 end, "Chest")
 
 RegisterEvent(97, "Chest", function()
     evt.OpenChest(16)
-    return
 end, "Chest")
 
 RegisterEvent(98, "Chest", function()
     evt.OpenChest(17)
-    return
 end, "Chest")
 
 RegisterEvent(99, "Chest", function()
     evt.OpenChest(18)
-    return
 end, "Chest")
 
 RegisterEvent(100, "Chest", function()
     evt.OpenChest(19)
-    return
 end, "Chest")
 
 RegisterEvent(101, "Drink from the well", function()
     evt.StatusText("That was not so refreshing")
     SetValue(PoisonedRed, 0)
-    if IsAutonoteSet(263) then return end -- Well near the Temple of the Sun in the Murmurwoods is poison!
-    SetAutonote(263) -- Well near the Temple of the Sun in the Murmurwoods is poison!
-    return
+    if IsAutonoteSet(224) then return end -- Well near the Temple of the Sun in the Murmurwoods is poison!
+    SetAutonote(224) -- Well near the Temple of the Sun in the Murmurwoods is poison!
 end, "Drink from the well")
 
 RegisterEvent(102, "Drink from the well", function()
     if not IsAtLeast(BasePersonality, 16) then
         AddValue(BasePersonality, 2)
         evt.StatusText("Personality +2 (Permanent)")
-        SetAutonote(265) -- Well in the Ravage Roaming region gives a permanent Endurance bonus up to an Endurance of 16.
+        SetAutonote(226) -- Well in the Ravage Roaming region gives a permanent Endurance bonus up to an Endurance of 16.
         return
     end
     evt.StatusText("Refreshing")
-    return
 end, "Drink from the well")
 
 RegisterEvent(103, "Drink from the well", function()
     evt.StatusText("Refreshing")
-    return
 end, "Drink from the well")
 
 RegisterEvent(131, "Legacy event 131", function()
     if IsQBitSet(QBit(69)) then return end -- Ancient Troll Homeland Found
     if not IsQBitSet(QBit(68)) then return end -- Find the Ancient Troll Homeland and return to Volog Sandwind in the Ironsand Desert. - Given By ? In area 4
     evt.ForPlayer(Players.All)
-    if not HasItem(0) then return end -- 0
-    RemoveItem(0) -- 0
-    SetQBit(QBit(69)) -- Ancient Troll Homeland Found
-    return
+    if HasItem(0) then -- 0
+        RemoveItem(0) -- 0
+        SetQBit(QBit(69)) -- Ancient Troll Homeland Found
+    end
 end)
 
 RegisterEvent(132, "Statue", function()
     evt.ForPlayer(Players.All)
-    if not HasItem(339) then return end -- Stone to Flesh
-    evt.SpeakNPC(55) -- Cauri Blackthorne
-    SetQBit(QBit(40)) -- Found and Rescued Cauri Blackthorne
-    RemoveItem(339) -- Stone to Flesh
-    SetQBit(QBit(430)) -- Roster Character In Party 31
-    evt.SetSprite(20, 0, "on")
-    return
+    if HasItem(339) then -- Stone to Flesh
+        evt.SetSprite(20, 0, "0")
+        SetQBit(QBit(40)) -- Found and Rescued Cauri Blackthorne
+        RemoveItem(339) -- Stone to Flesh
+        SetQBit(QBit(430)) -- Roster Character In Party 31
+        evt.SpeakNPC(42) -- Cauri Blackthorne
+    end
 end, "Statue")
 
 RegisterEvent(133, "Statue", function()
     evt.ForPlayer(Players.All)
-    if not HasItem(339) then return end -- Stone to Flesh
-    evt.SpeakNPC(59) -- Dark Elf Pilgrim
-    RemoveItem(339) -- Stone to Flesh
-    evt.SetSprite(21, 0, "on")
-    return
+    if HasItem(339) then -- Stone to Flesh
+        evt.SetSprite(21, 0, "0")
+        RemoveItem(339) -- Stone to Flesh
+        evt.SpeakNPC(46) -- Dark Elf Pilgrim
+    end
 end, "Statue")
 
 RegisterEvent(134, "Statue", function()
     evt.ForPlayer(Players.All)
-    if not HasItem(339) then return end -- Stone to Flesh
-    evt.SpeakNPC(59) -- Dark Elf Pilgrim
-    RemoveItem(339) -- Stone to Flesh
-    evt.SetSprite(22, 0, "on")
-    return
+    if HasItem(339) then -- Stone to Flesh
+        evt.SetSprite(22, 0, "0")
+        RemoveItem(339) -- Stone to Flesh
+        evt.SpeakNPC(46) -- Dark Elf Pilgrim
+    end
 end, "Statue")
 
 RegisterEvent(135, "Statue", function()
     evt.ForPlayer(Players.All)
-    if not HasItem(339) then return end -- Stone to Flesh
-    evt.SpeakNPC(59) -- Dark Elf Pilgrim
-    RemoveItem(339) -- Stone to Flesh
-    evt.SetSprite(23, 0, "on")
-    return
+    if HasItem(339) then -- Stone to Flesh
+        evt.SetSprite(23, 0, "0")
+        RemoveItem(339) -- Stone to Flesh
+        evt.SpeakNPC(46) -- Dark Elf Pilgrim
+    end
 end, "Statue")
 
 RegisterEvent(136, "Statue", function()
     evt.ForPlayer(Players.All)
-    if not HasItem(339) then return end -- Stone to Flesh
-    evt.SpeakNPC(59) -- Dark Elf Pilgrim
-    RemoveItem(339) -- Stone to Flesh
-    evt.SetSprite(24, 0, "on")
-    return
+    if HasItem(339) then -- Stone to Flesh
+        evt.SetSprite(24, 0, "0")
+        RemoveItem(339) -- Stone to Flesh
+        evt.SpeakNPC(46) -- Dark Elf Pilgrim
+    end
 end, "Statue")
 
 RegisterEvent(150, "Obelisk", function()
     if IsQBitSet(QBit(192)) then return end -- Obelisk Area 7
     evt.StatusText("pearswhil")
-    SetAutonote(22) -- Obelisk message #6: pearswhil
+    SetAutonote(13) -- Obelisk message #6: pearswhil
     SetQBit(QBit(192)) -- Obelisk Area 7
-    return
 end, "Obelisk")
 
 RegisterEvent(191, "Traveler's Rest", function()
-    evt.EnterHouse(113) -- Traveler's Rest
-    return
+    evt.EnterHouse(234) -- Traveler's Rest
 end, "Traveler's Rest")
 
 RegisterEvent(192, "Traveler's Rest", nil, "Traveler's Rest")
 
 RegisterEvent(201, "Guild of Light", function()
-    evt.EnterHouse(142) -- Guild of Light
-    return
+    evt.EnterHouse(170) -- Guild of Light
 end, "Guild of Light")
 
 RegisterEvent(202, "Guild of Light", nil, "Guild of Light")
@@ -394,7 +341,6 @@ RegisterEvent(451, "Legacy event 451", function()
     elseif randomStep == 25 then
         evt.PlaySound(340, 18048, -11968)
     end
-    return
 end)
 
 RegisterEvent(452, "Legacy event 452", function()
@@ -426,14 +372,12 @@ RegisterEvent(452, "Legacy event 452", function()
     elseif randomStep == 25 then
         evt.PlaySound(339, 15552, 13568)
     end
-    return
 end)
 
 RegisterEvent(454, "Legacy event 454", function()
     if IsQBitSet(QBit(240)) then return end -- for riki
     AddValue(InventoryItem(332), 332) -- Lloyd's Beacon
     SetQBit(QBit(240)) -- for riki
-    return
 end)
 
 RegisterEvent(455, "Tree", function()
@@ -494,25 +438,23 @@ RegisterEvent(455, "Tree", function()
 end, "Tree")
 
 RegisterEvent(501, "Enter the Temple of the Sun", function()
-    evt.MoveToMap(-768, -768, 96, 280, 0, 0, 205, 0, "d22.blv")
-    return
+    evt.MoveToMap(-768, -768, 96, 280, 0, 0, 364, 1, "d22.blv") -- Temple of the Sun
 end, "Enter the Temple of the Sun")
 
 RegisterEvent(502, "Enter the Druid Circle", function()
-    evt.MoveToMap(235, 2980, 673, 1536, 0, 0, 206, 0, "d23.blv")
-    return
+    evt.MoveToMap(235, 2980, 673, 1536, 0, 0, 365, 3, "d23.blv") -- Druid Circle
 end, "Enter the Druid Circle")
 
 RegisterEvent(503, "Enter the Plane of Air", function()
-    evt.MoveToMap(5376, -12240, 1133, 512, 0, 0, 222, 0, "ElemA.odm")
-    return
+    evt.MoveToMap(5376, -12240, 1133, 512, 0, 0, 347, 1, "elema.odm") -- Plane of Air
 end, "Enter the Plane of Air")
 
 RegisterEvent(504, "Enter the Ancient Troll Home", function()
     if not IsQBitSet(QBit(69)) then -- Ancient Troll Homeland Found
         SetQBit(QBit(69)) -- Ancient Troll Homeland Found
+        evt.MoveToMap(448, -224, 0, 512, 0, 0, 0, 1, "d43.blv") -- Ancient Troll Home
+        return
     end
-    evt.MoveToMap(448, -224, 0, 512, 0, 0, 0, 0, "D43.blv")
-    return
+    evt.MoveToMap(448, -224, 0, 512, 0, 0, 0, 1, "d43.blv") -- Ancient Troll Home
 end, "Enter the Ancient Troll Home")
 

@@ -54,305 +54,256 @@ RegisterNoOpEvent(9, "Legacy event 9")
 RegisterNoOpEvent(10, "Legacy event 10")
 
 RegisterEvent(11, "Dragontracker Hall", function()
-    evt.EnterHouse(423) -- Dragontracker Hall
-    return
+    evt.EnterHouse(645) -- Dragontracker Hall
 end, "Dragontracker Hall")
 
 RegisterEvent(12, "Dragontracker Hall", nil, "Dragontracker Hall")
 
 RegisterEvent(13, "Nirses Loot", function()
-    evt.EnterHouse(424) -- Nirses Loot
-    return
+    evt.EnterHouse(646) -- Nirses Loot
 end, "Nirses Loot")
 
 RegisterEvent(14, "Nirses Loot", nil, "Nirses Loot")
 
 RegisterEvent(15, "Burnkindle's Spoils", function()
-    evt.EnterHouse(425) -- Burnkindle's Spoils
-    return
+    evt.EnterHouse(647) -- Burnkindle's Spoils
 end, "Burnkindle's Spoils")
 
 RegisterEvent(16, "Burnkindle's Spoils", nil, "Burnkindle's Spoils")
 
 RegisterEvent(17, "Cleareye Hall", function()
-    evt.EnterHouse(426) -- Cleareye Hall
-    return
+    evt.EnterHouse(648) -- Cleareye Hall
 end, "Cleareye Hall")
 
 RegisterEvent(18, "Cleareye Hall", nil, "Cleareye Hall")
 
 RegisterEvent(19, "Shadowrunner's Vault", function()
-    evt.EnterHouse(427) -- Shadowrunner's Vault
-    return
+    evt.EnterHouse(649) -- Shadowrunner's Vault
 end, "Shadowrunner's Vault")
 
 RegisterEvent(20, "Shadowrunner's Vault", nil, "Shadowrunner's Vault")
 
 RegisterEvent(21, "Lifter's Lockup", function()
-    evt.EnterHouse(428) -- Lifter's Lockup
-    return
+    evt.EnterHouse(650) -- Lifter's Lockup
 end, "Lifter's Lockup")
 
 RegisterEvent(22, "Lifter's Lockup", nil, "Lifter's Lockup")
 
 RegisterEvent(23, "Steelcoif Hall", function()
-    evt.EnterHouse(429) -- Steelcoif Hall
-    return
+    evt.EnterHouse(651) -- Steelcoif Hall
 end, "Steelcoif Hall")
 
 RegisterEvent(24, "Steelcoif Hall", nil, "Steelcoif Hall")
 
 RegisterEvent(25, "Jawblower Manor", function()
-    evt.EnterHouse(430) -- Jawblower Manor
-    return
+    evt.EnterHouse(652) -- Jawblower Manor
 end, "Jawblower Manor")
 
 RegisterEvent(26, "Jawblower Manor", nil, "Jawblower Manor")
 
 RegisterEvent(27, "Marmon Domicile", function()
-    evt.EnterHouse(431) -- Marmon Domicile
-    return
+    evt.EnterHouse(653) -- Marmon Domicile
 end, "Marmon Domicile")
 
 RegisterEvent(28, "Marmon Domicile", nil, "Marmon Domicile")
 
 RegisterEvent(29, "One-eye's Lair", function()
-    evt.EnterHouse(432) -- One-eye's Lair
-    return
+    evt.EnterHouse(654) -- One-eye's Lair
 end, "One-eye's Lair")
 
 RegisterEvent(30, "One-eye's Lair", nil, "One-eye's Lair")
 
 RegisterEvent(31, "Paul's Estate", function()
-    evt.EnterHouse(433) -- Paul's Estate
-    return
+    evt.EnterHouse(655) -- Paul's Estate
 end, "Paul's Estate")
 
 RegisterEvent(32, "Paul's Estate", nil, "Paul's Estate")
 
 RegisterEvent(33, "Terrence's Home", function()
-    evt.EnterHouse(434) -- Terrence's Home
-    return
+    evt.EnterHouse(656) -- Terrence's Home
 end, "Terrence's Home")
 
 RegisterEvent(34, "Terrence's Home", nil, "Terrence's Home")
 
 RegisterEvent(35, "Ferne Lair", function()
-    evt.EnterHouse(435) -- Ferne Lair
-    return
+    evt.EnterHouse(657) -- Ferne Lair
 end, "Ferne Lair")
 
 RegisterEvent(36, "Ferne Lair", nil, "Ferne Lair")
 
 RegisterEvent(37, "Pavel's Place", function()
-    evt.EnterHouse(436) -- Pavel's Place
-    return
+    evt.EnterHouse(658) -- Pavel's Place
 end, "Pavel's Place")
 
 RegisterEvent(38, "Pavel's Place", nil, "Pavel's Place")
 
 RegisterEvent(39, "Nalani's Hall", function()
-    evt.EnterHouse(437) -- Nalani's Hall
-    return
+    evt.EnterHouse(659) -- Nalani's Hall
 end, "Nalani's Hall")
 
 RegisterEvent(40, "Nalani's Hall", nil, "Nalani's Hall")
 
 RegisterEvent(41, "Mercer Domicile", function()
-    evt.EnterHouse(438) -- Mercer Domicile
-    return
+    evt.EnterHouse(660) -- Mercer Domicile
 end, "Mercer Domicile")
 
 RegisterEvent(42, "Mercer Domicile", nil, "Mercer Domicile")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
-    return
 end, "Chest")
 
 RegisterEvent(82, "Chest", function()
     evt.OpenChest(1)
-    return
 end, "Chest")
 
 RegisterEvent(83, "Chest", function()
     evt.OpenChest(2)
-    return
 end, "Chest")
 
 RegisterEvent(84, "Chest", function()
     evt.OpenChest(3)
-    return
 end, "Chest")
 
 RegisterEvent(85, "Chest", function()
     evt.OpenChest(4)
-    return
 end, "Chest")
 
 RegisterEvent(86, "Chest", function()
     evt.OpenChest(5)
-    return
 end, "Chest")
 
 RegisterEvent(87, "Chest", function()
     evt.OpenChest(6)
-    return
 end, "Chest")
 
 RegisterEvent(88, "Chest", function()
     evt.OpenChest(7)
-    return
 end, "Chest")
 
 RegisterEvent(89, "Chest", function()
     evt.OpenChest(8)
-    return
 end, "Chest")
 
 RegisterEvent(90, "Chest", function()
     evt.OpenChest(9)
-    return
 end, "Chest")
 
 RegisterEvent(91, "Chest", function()
     evt.OpenChest(10)
-    return
 end, "Chest")
 
 RegisterEvent(92, "Chest", function()
     evt.OpenChest(11)
-    return
 end, "Chest")
 
 RegisterEvent(93, "Chest", function()
     evt.OpenChest(12)
-    return
 end, "Chest")
 
 RegisterEvent(94, "Chest", function()
     evt.OpenChest(13)
-    return
 end, "Chest")
 
 RegisterEvent(95, "Chest", function()
     evt.OpenChest(14)
-    return
 end, "Chest")
 
 RegisterEvent(96, "Chest", function()
     evt.OpenChest(15)
-    return
 end, "Chest")
 
 RegisterEvent(97, "Chest", function()
     evt.OpenChest(16)
-    return
 end, "Chest")
 
 RegisterEvent(98, "Chest", function()
     evt.OpenChest(17)
-    return
 end, "Chest")
 
 RegisterEvent(99, "Chest", function()
     evt.OpenChest(18)
-    return
 end, "Chest")
 
 RegisterEvent(100, "Chest", function()
     evt.OpenChest(19)
-    return
 end, "Chest")
 
 RegisterEvent(101, "Drink from the well", function()
     if not IsAtLeast(BaseSpeed, 16) then
         AddValue(BaseSpeed, 2)
         evt.StatusText("Speed +2 (Permanent)")
-        SetAutonote(271) -- Well on the Island of Regna gives a permanent Speed bonus up to a Speed of 16.
+        SetAutonote(232) -- Well on the Island of Regna gives a permanent Speed bonus up to a Speed of 16.
         return
     end
     evt.StatusText("Refreshing")
-    return
 end, "Drink from the well")
 
 RegisterEvent(102, "Drink from the well", function()
     evt.StatusText("Refreshing")
-    return
 end, "Drink from the well")
 
 RegisterEvent(103, "Drink from the well", function()
     evt.StatusText("Refreshing")
-    return
 end, "Drink from the well")
 
 RegisterEvent(104, "Drink from the fountain", function()
     evt.StatusText("Refreshing")
     if IsQBitSet(QBit(183)) then return end -- Hareckburg Town Portal
     SetQBit(QBit(183)) -- Hareckburg Town Portal
-    return
 end, "Drink from the fountain")
 
 RegisterEvent(150, "Obelisk", function()
     if IsQBitSet(QBit(194)) then return end -- Obelisk Area 13
     evt.StatusText("gholdsold")
-    SetAutonote(18) -- Obelisk message #2: gholdsold
+    SetAutonote(9) -- Obelisk message #2: gholdsold
     SetQBit(QBit(194)) -- Obelisk Area 13
-    return
 end, "Obelisk")
 
 RegisterEvent(171, "Custom Cutlass", function()
     evt.EnterHouse(7) -- Custom Cutlass
-    return
 end, "Custom Cutlass")
 
 RegisterEvent(172, "Custom Cutlass", nil, "Custom Cutlass")
 
 RegisterEvent(173, "Karr Battlegear", function()
-    evt.EnterHouse(21) -- Karr Battlegear
-    return
+    evt.EnterHouse(42) -- Karr Battlegear
 end, "Karr Battlegear")
 
 RegisterEvent(174, "Karr Battlegear", nil, "Karr Battlegear")
 
 RegisterEvent(175, "Gifts of Regna", function()
-    evt.EnterHouse(35) -- Gifts of Regna
-    return
+    evt.EnterHouse(82) -- Gifts of Regna
 end, "Gifts of Regna")
 
 RegisterEvent(176, "Gifts of Regna", nil, "Gifts of Regna")
 
 RegisterEvent(177, "Poultices and Cures", function()
-    evt.EnterHouse(46) -- Poultices and Cures
-    return
+    evt.EnterHouse(114) -- Poultices and Cures
 end, "Poultices and Cures")
 
 RegisterEvent(178, "Poultices and Cures", nil, "Poultices and Cures")
 
 RegisterEvent(179, "Protective Magic", function()
-    evt.EnterHouse(146) -- Protective Magic
-    return
+    evt.EnterHouse(185) -- Protective Magic
 end, "Protective Magic")
 
 RegisterEvent(180, "Protective Magic", nil, "Protective Magic")
 
 RegisterEvent(183, "Spindrift", function()
-    evt.EnterHouse(68) -- Spindrift
-    return
+    evt.EnterHouse(484) -- Spindrift
 end, "Spindrift")
 
 RegisterEvent(184, "Spindrift", nil, "Spindrift")
 
 RegisterEvent(185, "The Blessed Sea", function()
-    evt.EnterHouse(80) -- The Blessed Sea
-    return
+    evt.EnterHouse(309) -- The Blessed Sea
 end, "The Blessed Sea")
 
 RegisterEvent(186, "The Blessed Sea", nil, "The Blessed Sea")
 
 RegisterEvent(191, "Pirate's Rest", function()
-    evt.EnterHouse(115) -- Pirate's Rest
-    return
+    evt.EnterHouse(236) -- Pirate's Rest
 end, "Pirate's Rest")
 
 RegisterEvent(192, "Pirate's Rest", nil, "Pirate's Rest")
@@ -389,7 +340,6 @@ RegisterEvent(451, "Fire the cannon !", function()
         end
     end
     evt.StatusText("You do not see the right kind of ammunition anywhere")
-    return
 end, "Fire the cannon !")
 
 RegisterEvent(452, "Legacy event 452", function()
@@ -397,9 +347,9 @@ RegisterEvent(452, "Legacy event 452", function()
         return
     elseif IsAtLeast(MapVar(41), 3) then
         SetQBit(QBit(37)) -- Regnan Pirate Fleet is sunk.
-        evt.MoveNPC(77, 276) -- Derrin Delver -> Hostel
-        evt.MoveNPC(24, 277) -- Queen Catherine -> Hostel
-        evt.MoveNPC(25, 277) -- King Roland -> Hostel
+        evt.MoveNPC(64, 899) -- Derrin Delver -> Hostel
+        evt.MoveNPC(20, 900) -- Queen Catherine -> Hostel
+        evt.MoveNPC(21, 900) -- King Roland -> Hostel
         AddValue(History(15), 0)
         SetValue(MapVar(41), 0)
         evt.SetFacetBit(31, FacetBits.Invisible, 0)
@@ -452,14 +402,12 @@ end)
 
 RegisterEvent(453, "Legacy event 453", function()
     evt.CastSpell(6, 3, 4, -13312, 12864, 2432, -13371, 13740, 2793) -- Fireball
-    return
 end)
 
 RegisterEvent(454, "Tree", function()
     if IsQBitSet(QBit(285)) then return end -- Got the Tele scroll in area 13
     AddValue(InventoryItem(341), 341) -- Telekinesis
     SetQBit(QBit(285)) -- Got the Tele scroll in area 13
-    return
 end, "Tree")
 
 RegisterEvent(479, "Legacy event 479", function()
@@ -475,30 +423,26 @@ RegisterEvent(479, "Legacy event 479", function()
     elseif randomStep == 10 then
         evt.PlaySound(338, 3704, 1024)
     end
-    return
 end)
 
 RegisterEvent(490, "Door", function()
     evt.FaceAnimation(FaceAnimation.DoorLocked)
     evt.StatusText("The door is locked")
-    return
 end, "Door")
 
 RegisterEvent(494, "Tree", function()
-    if not evt.CheckItemsCount(DecorVar(23), 1) then return end
-    evt.RemoveItems(DecorVar(23))
-    AddValue(InventoryItem(220), 220) -- Potion Bottle
-    return
+    if evt.CheckItemsCount(DecorVar(23), 1) then
+        evt.RemoveItems(DecorVar(23))
+        AddValue(InventoryItem(220), 220) -- Potion Bottle
+    end
 end, "Tree")
 
 RegisterEvent(501, "Enter the Pirate Stronghold", function()
-    evt.MoveToMap(-554, 3682, 1, 520, 0, 0, 209, 0, "D31.blv")
-    return
+    evt.MoveToMap(-554, 3682, 1, 520, 0, 0, 368, 1, "d31.blv") -- Pirate Stronghold
 end, "Enter the Pirate Stronghold")
 
 RegisterEvent(502, "Enter the Abandoned Pirate Keep", function()
-    evt.MoveToMap(-6520, -6512, 129, 1024, 0, 0, 210, 0, "d32.blv")
-    return
+    evt.MoveToMap(-6520, -6512, 129, 1024, 0, 0, 369, 1, "d32.blv") -- Abandoned Pirate Keep
 end, "Enter the Abandoned Pirate Keep")
 
 RegisterEvent(503, "Enter the Tower", function()
@@ -506,18 +450,15 @@ RegisterEvent(503, "Enter the Tower", function()
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
-    evt.MoveToMap(5892, 4632, 1853, 1536, 0, 0, 0, 0, "d33.blv")
-    return
+    evt.MoveToMap(5892, 4632, 1853, 1536, 0, 0, 0, 1, "d33.blv") -- Passage Under Regna
 end, "Enter the Tower")
 
 RegisterEvent(504, "Enter the Cave", function()
-    evt.MoveToMap(-28, -193, 57, 1024, 0, 0, 211, 0, "d34.blv")
-    return
+    evt.MoveToMap(-28, -193, 57, 1024, 0, 0, 370, 3, "d34.blv") -- Small Sub Pen
 end, "Enter the Cave")
 
 RegisterEvent(505, "Enter the Cave", function()
-    evt.MoveToMap(1328, -1576, 4, 1536, 0, 0, 0, 0, "D47.blv")
-    return
+    evt.MoveToMap(1328, -1576, 4, 1536, 0, 0, 0, 1, "d47.blv") -- Old Loeb's Cave
 end, "Enter the Cave")
 
 RegisterEvent(506, "Enter the Tower", function()
@@ -525,7 +466,6 @@ RegisterEvent(506, "Enter the Tower", function()
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
-    evt.MoveToMap(1926, -7682, 1572, 0, 0, 0, 0, 0, "d33.blv")
-    return
+    evt.MoveToMap(1926, -7682, 1572, 0, 0, 0, 0, 1, "d33.blv") -- Passage Under Regna
 end, "Enter the Tower")
 

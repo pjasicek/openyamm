@@ -1,0 +1,175 @@
+# Monster sprite frame groups for family m271.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 11489
+    sprite_name: "m271a"
+    animation_length_raw: 21
+    frames:
+      - texture_name: "m270aa"
+        frame_length_raw: 3
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270ac"
+        frame_length_raw: 6
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270ae"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270af"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270ag"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270ah"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+  - sprite_id: 11497
+    sprite_name: "m271d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m270na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        palette_id: 271
+      - texture_name: "m270nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 271
+      - texture_name: "m270da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 271
+      - texture_name: "m270db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 271
+      - texture_name: "m270dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 271
+      - texture_name: "m270dd0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        palette_id: 271
+  - sprite_id: 11503
+    sprite_name: "m271x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m270xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        palette_id: 271
+  - sprite_id: 11504
+    sprite_name: "m271w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m270wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270we"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270wg"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270wh"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+  - sprite_id: 11512
+    sprite_name: "m271n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m270na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270nd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270ne"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+      - texture_name: "m270nf"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271
+  - sprite_id: 11518
+    sprite_name: "m271f"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m270fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        palette_id: 271
+      - texture_name: "m270fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 271
+      - texture_name: "m270fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 271
+      - texture_name: "m270fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1, Center]
+        palette_id: 271
+      - texture_name: "m270fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 271
+      - texture_name: "m270fb0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        palette_id: 271
+  - sprite_id: 11524
+    sprite_name: "m271s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m270sa"
+        frame_length_raw: 2
+        flags: [First, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 271

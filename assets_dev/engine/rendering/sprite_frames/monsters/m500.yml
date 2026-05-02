@@ -1,0 +1,75 @@
+# Monster sprite frame groups for family m500.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 16771
+    sprite_name: "m500d"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "7m500da0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 545
+      - texture_name: "7m500db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 545
+      - texture_name: "7m500dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 545
+      - texture_name: "7m500dd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 545
+      - texture_name: "7m500de0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 545
+  - sprite_id: 16776
+    sprite_name: "m500s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "7m500sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+  - sprite_id: 16777
+    sprite_name: "m500w"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "7m500wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m500wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m500wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m500wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m500wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m500wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m500wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+  - sprite_id: 16784
+    sprite_name: "m500x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "7m500xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 545

@@ -2,6 +2,9 @@
 
 #include <algorithm>
 #include <cstdlib>
+#include <iostream>
+#include <limits>
+#include <set>
 
 namespace OpenYAMM::Game
 {
@@ -16,9 +19,13 @@ std::string getCell(const std::vector<std::string> &row, size_t index)
 bool JournalQuestTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 {
     m_entries.clear();
+    std::set<uint32_t> seenQBitIds;
+    bool hasValidationError = false;
 
-    for (const std::vector<std::string> &row : rows)
+    for (size_t rowIndex = 0; rowIndex < rows.size(); ++rowIndex)
     {
+        const std::vector<std::string> &row = rows[rowIndex];
+
         if (row.empty() || row[0].empty() || row[0][0] == '#')
         {
             continue;
@@ -29,11 +36,32 @@ bool JournalQuestTable::loadFromRows(const std::vector<std::vector<std::string>>
 
         if (pEnd == row[0].c_str() || *pEnd != '\0')
         {
+            if (row[0] != "Q Bit")
+            {
+                std::cerr << "Invalid quests.txt QBit id at row " << (rowIndex + 1) << ": " << row[0] << '\n';
+                hasValidationError = true;
+            }
+
             continue;
         }
 
+        if (parsedId > std::numeric_limits<uint32_t>::max())
+        {
+            std::cerr << "Out-of-range quests.txt QBit id at row " << (rowIndex + 1) << ": " << row[0] << '\n';
+            hasValidationError = true;
+            continue;
+        }
+
+        const uint32_t qbitId = static_cast<uint32_t>(parsedId);
+
+        if (!seenQBitIds.insert(qbitId).second)
+        {
+            std::cerr << "Duplicate quests.txt QBit id at row " << (rowIndex + 1) << ": " << qbitId << '\n';
+            hasValidationError = true;
+        }
+
         JournalQuestEntry entry = {};
-        entry.qbitId = static_cast<uint32_t>(parsedId);
+        entry.qbitId = qbitId;
         entry.text = getCell(row, 1);
         entry.notes = getCell(row, 2);
         entry.owner = getCell(row, 3);
@@ -44,6 +72,12 @@ bool JournalQuestTable::loadFromRows(const std::vector<std::vector<std::string>>
         }
 
         m_entries.push_back(std::move(entry));
+    }
+
+    if (hasValidationError)
+    {
+        m_entries.clear();
+        return false;
     }
 
     std::sort(

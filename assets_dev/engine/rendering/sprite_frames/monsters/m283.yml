@@ -1,0 +1,171 @@
+# Monster sprite frame groups for family m283.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 11801
+    sprite_name: "m283a"
+    animation_length_raw: 20
+    frames:
+      - texture_name: "m282aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282ac"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282ae"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282af"
+        frame_length_raw: 6
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282ag"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282ah"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+  - sprite_id: 11809
+    sprite_name: "m283x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m282xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        palette_id: 283
+  - sprite_id: 11810
+    sprite_name: "m283d"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m282na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 283
+      - texture_name: "m282nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282dd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282de0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        palette_id: 283
+  - sprite_id: 11817
+    sprite_name: "m283f"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m282sa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282fa0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282fd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        palette_id: 283
+      - texture_name: "m282fb0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        palette_id: 283
+  - sprite_id: 11824
+    sprite_name: "m283n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m282na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282nd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282ne"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282nf"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+  - sprite_id: 11830
+    sprite_name: "m283w"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m282wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282we"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283
+      - texture_name: "m282wg"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        palette_id: 283

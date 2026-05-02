@@ -1,0 +1,206 @@
+# Monster sprite frame groups for family m288.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 11944
+    sprite_name: "m288a"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m286aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286ac"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286ae"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286af"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+  - sprite_id: 11950
+    sprite_name: "m288d"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m286na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286dd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286xa0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286de0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 1.75
+        palette_id: 288
+  - sprite_id: 11958
+    sprite_name: "m288x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m286xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+  - sprite_id: 11959
+    sprite_name: "m288f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m286fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286fd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286fe0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 1.75
+        palette_id: 288
+  - sprite_id: 11964
+    sprite_name: "m288n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m286na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286nd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286ne"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286nf"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+  - sprite_id: 11970
+    sprite_name: "m288w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m286wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286we"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286wg"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+      - texture_name: "m286wh"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288
+  - sprite_id: 11978
+    sprite_name: "m288s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m286sa"
+        frame_length_raw: 2
+        flags: [First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.75
+        palette_id: 288

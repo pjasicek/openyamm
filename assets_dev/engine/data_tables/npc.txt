@@ -1,0 +1,1226 @@
+NPC Data (Special)			Group			Current	Profession	Greet	Join	Event	Event	Event	Event	Event	Event	
+#	Name	Pic	A	B	C	2D Location	 1 - 76	#	Y / N	# A	# B	# C	# D	# E	# F	Notes
+1	Brekish Onefang	1465	0	0	0	212	0	3	0	7	8	9	0	0	0	"(1) Lizardman Throne Room, Lizardman Leader pre Qbit 6 after, NPC 35"
+2	Dadeross	1325	0	0	0	212	0	2	0	20	5	6	72	0	0	"(1) Lizardman Throne Room, Minotaur, Caravan Leader pre Qbit 6, cut after bit set becomes 36"
+3	Elgar Fellmoon	1438	0	0	0	354	0	10	0	28	0	0	0	0	0	"(2) Merchanthouse, door"
+4	Arion Hunter	1070	0	0	0	772	0	12	0	32	188	187	0	0	0	"(2) Smuggler's Cove, wererat smuggler leader"
+5	Bastian Loudrin	1132	0	0	0	773	0	14	0	41	0	0	0	0	0	"(3) Merchant Guild, dark elf merchant one"
+6	Alliane Frelsig	1133	0	0	0	0	0	0	0	0	0	0	0	0	0	Dark Elf Merchant Two
+7	Overdune Snapfinger	1042	0	0	0	0	0	16	0	45	701	0	0	0	0	"(4) 2DLoc initially ""0"". Set to 177 in Event 42"
+8	Aori Derrisai	0	0	0	0	0	0	0	0	0	0	0	0	0	0	"(3) Drk Elf Rch House, pc"
+9	Sandro	1038	0	0	0	213	0	31	0	94	96	0	0	0	0	"(6) Necromancers' Guild ,w 180"
+10	Thant	1223	0	0	0	213	0	0	0	158	0	0	0	0	0	"(6) Necromancers' Guild, w 180"
+11	Dyson Leland	1058	0	0	0	754	0	0	0	97	98	99	0	0	0	"(6) Necromancers' Guild, pc w 181"
+12	Icarus Dire	0	0	0	0	0	0	0	0	0	0	0	0	0	0	"(6) Necromancer Rich House, pc"
+13	Masul	1043	0	0	0	755	0	29	0	744	0	0	0	0	0	"(8) Minotaur Lair, (2) Merchant House of Alvar"
+14	Helius	0	0	0	0	0	0	0	0	0	0	0	0	0	0	"(8) Minotaur Lair, pc"
+15	Sir Charles Quixote	1089	0	0	0	753	0	21	0	63	56	58	57	0	0	"(5) Dragon Hunters' Camp, (2) Merchant House of Alvar"
+16	Reginald Dorray	0	0	0	0	0	0	0	0	0	0	0	0	0	0	(5) Dragon Hunters' Camp
+17	Deftclaw Redreaver	1088	0	0	0	774	0	19	0	48	60	62	0	0	0	"(5) Dragon's Cave, (2) Merchant House of Alvar"
+18	Zog the Jackal	0	0	0	0	0	0	0	0	0	0	0	0	0	0	(8) Barbarian Fortress
+19	Xanthor	1106	0	0	0	0	0	45	0	152	0	0	0	0	0	(2) Rich Dark Elf House
+20	Queen Catherine	1067	0	0	0	0	0	0	0	590	591	592	0	0	0	(2) Merchant House of Alvar
+21	King Roland	1068	0	0	0	0	0	55	0	587	588	589	0	0	0	(2) Merchant House of Alvar
+22	Escaton	1066	0	0	0	775	0	48	0	159	0	0	0	0	0	(14) Eschaton's Palace
+23	Pyrannaste	1086	0	0	0	664	0	53	0	170	0	0	0	0	0	(14) Prison of the Lord of Fire
+24	Acwalander	1085	0	0	0	662	0	51	0	168	0	0	0	0	0	(14) Prison of the Lord of Water
+25	Gralkor the Cruel	1087	0	0	0	663	0	52	0	169	0	0	0	0	0	(14) Prison of the Lord of Earth
+26	Shalwend	1090	0	0	0	661	0	50	0	167	0	0	0	0	0	(14) Prison of the Lord of Air
+27	S'ton	1477	0	0	0	0	0	1	0	1	2	3	0	0	0	"(1) Outside, Lizardman Journeyman Merchant of Alvar"
+28	Fredrick Talimere	1060	0	0	0	866	0	5	0	10	11	0	0	0	0	"(1) Cleric House, Cleric PC that joins party"
+29	Rohtnax	1466	0	0	0	776	0	6	0	14	15	16	17	0	0	"(1) Peasant House, Find Brother Secondary Quest"
+30	Pascella Tisk	1463	0	0	0	784	0	7	0	18	19	584	0	0	0	"(1) Peasant House, Prophecies of the Snake Secondary Quest"
+31	Brekish Onefang	0	0	0	0	0	0	0	0	0	0	0	0	0	0	STILL USED?
+32	Dadeross	1325	0	0	0	0	0	0	0	0	0	0	0	0	0	"(3) Drk Elf Medium House, After Qbit 6 set"
+33	Oskar Tyre	1156	0	0	0	214	0	37	0	102	0	0	0	0	0	(7) w 182 - door inside the Sun Temple
+34	Guard	1213	0	0	0	0	0	107	0	0	0	0	0	0	0	Necromancer Guard
+35	Guard	1039	0	0	0	0	0	108	0	0	0	0	0	0	0	Dragon Guard
+36	Guard	1302	0	0	0	0	0	109	0	0	0	0	0	0	0	Dragon Hunter Guard
+37	Guard	1167	0	0	0	0	0	110	0	0	0	0	0	0	0	Wererat Guard
+38	Jeric Whistlebone	1302	0	0	0	0	0	111	0	0	0	0	0	0	0	Placemon in dh camp area 5
+39	Relburn Jeebes	1440	0	0	0	526	0	0	0	22	23	733	0	0	0	(3) Dark Elf Promotion Quest
+40	Elgar Fellmoon	1438	0	0	0	751	0	24	0	104	105	731	0	0	0	"(2) Merchanthouse, Council Chamber"
+41	Dantillion 	1158	0	0	0	613	0	104	0	27	0	0	0	0	0	(8) Cleric of the Sun
+42	Cauri Blackthorne	1389	0	0	0	0	0	0	0	24	25	0	0	0	0	"(8) Dark Elf Hero, Promotion Quest"
+43	Volog Sandwind	1041	0	0	0	561	0	0	0	35	36	37	0	0	0	(4)Troll Promo
+44	Sahil Ittalle	1441	0	0	0	528	0	54	0	581	582	583	0	0	0	(3) Guy who talks about alliance promo
+45	Guard	1262	0	0	0	0	0	13	0	0	0	0	0	0	0	(6) Guard in Necromancers' Guild
+46	Dark Elf Pilgrim	1438	0	0	0	0	0	105	0	0	0	0	0	0	0	(7) Statues in Area 7 for Dark Elf Promo
+47	Farhill Snapfinger	1365	0	0	0	0	0	17	0	0	0	0	0	0	0	"(4) 2D Loc set in event 42, Event 47 set in event 46 "
+48	Zanthora	1240	0	0	0	0	0	0	0	0	0	0	0	0	0	"(6) Mad Necromancer's Lair, Mad Necromancer"
+49	Leane Stormlance	1295	0	0	0	538	0	0	0	52	0	51	0	0	0	"(5) House at Dragon Hunter fort, Knight Promo Start"
+50	Dervish Chevron	1058	0	0	0	908	0	0	0	50	659	0	0	0	0	"(2) Cleric, Rescue Blazen Stormlance Secondary Quest"
+51	Garret Deverro	1301	0	0	0	0	0	0	0	735	0	0	0	0	0	(5) Quixote's Chamber (179) after Quixote goes to w 175
+52	Sir Charles Quixote	1089	0	0	0	0	0	23	0	0	0	58	0	0	0	"(2) Merchanthouse, Council Chamber"
+53	Deftclaw Redreaver	1088	0	0	0	0	0	25	0	123	60	62	0	0	0	"(2) Merchanthouse, Council Chamber"
+54	Oskar Tyre	1156	0	0	0	0	0	26	0	130	0	0	0	0	0	"(2) Merchanthouse, Council Chamber"
+55	Masul	1043	0	0	0	0	0	27	0	137	0	0	0	0	0	"(2) Merchanthouse, Council Chamber"
+56	Sandro	1038	0	0	0	0	0	28	0	144	0	0	0	0	0	"(2) Merchanthouse, Council Chamber"
+57	Thanys	1044	0	0	0	624	0	30	0	66	172	0	0	0	0	"(8) Minotaur Lair, house near entrance"
+58	Tessalar	1340	0	0	0	640	0	0	0	69	70	0	0	0	0	"(8) Minotaur Lair, house near entrance, Promo dude"
+59	Stephen	1064	0	0	0	612	0	0	0	80	0	78	76	77	0	(2) Cleric Promo dude
+60	Cleric of the Sun	1153	0	0	0	0	0	0	0	0	0	0	0	0	0	(7) Cleric in the foyer of the Temple of the Sun
+61	Vetrinus Taleshire	1038	0	0	0	577	0	0	0	86	0	0	0	0	0	(2) Necro Promo dude
+62	Lathean	1226	0	0	0	582	0	0	0	82	83	738	0	0	0	(6) Vampire Promo Dude
+63	Thant	1223	0	0	0	0	0	0	0	0	0	0	0	0	0	"(6) Thant after Sandro leaves, placed here leaving N guild after alliance formed"
+64	Derrin Delver	1164	0	0	0	0	0	44	0	151	0	0	0	0	0	(2) Rich Dark Elf House place w276 after fleet sunk
+65	Aislen	1473	0	0	0	879	0	0	0	174	0	0	0	0	0	(1)Begin Jungle Fever Secondary Quest
+66	Languid	1477	0	0	0	798	0	0	0	177	585	0	0	0	0	(1) Poisoned Water Supply Secondary Quest
+67	Hobb Sandwind	1375	0	0	0	561	0	0	0	734	0	0	0	0	0	(4)Secondary Troll promo dude
+68	Thistle	1479	0	0	0	804	0	0	0	179	180	181	0	0	0	(1) Potion of Pure Speed Secondary Quest
+69	Hiss	1481	0	0	0	761	0	0	0	182	0	586	0	0	0	(1) Idol of the Snake Secondary Quest
+70	Isthric the Tongue	1469	0	0	0	823	0	0	0	296	190	584	0	0	0	(1) Brother of Rohtnax
+71	Maddigan the Tracker	1400	0	0	0	906	0	0	0	184	185	0	0	0	0	(2) Kill Dire Wolves and Cash for Pelts Secondary Quests
+72	Wilburt	1370	0	0	0	508	0	0	0	190	671	0	0	0	0	(2) Hint About Location of Anointed Potion
+73	Lathius	1161	0	0	0	894	0	0	0	193	0	0	0	0	0	(2) Recover Shield Eclipse for Cleric Secondary Quest
+74	Rihansi	1387	0	0	0	547	0	0	0	201	202	203	0	0	0	(3) Potion of Pure Luck Secondary Quest
+75	Reaver	1313	0	0	0	890	0	0	0	191	192	0	0	0	0	(2) Pays for Naga Hides
+76	Keldon	1431	0	0	0	549	0	0	0	198	199	0	0	0	0	(3) Kill All Ogres Secondary Quest and Pays bounty on Ogre Ears
+77	Galvinus	1154	0	0	0	623	0	0	0	244	245	246	0	0	0	(8) Potion of Pure Accuracy Secondary Quest
+78	Talion	1374	0	0	0	555	0	0	0	210	211	0	0	0	0	(4) Potion of Pure Endurance Secondary Quest
+79	Veldon	1451	0	0	0	550	0	0	0	204	205	0	0	0	0	(3) Pays for Wasp Stingers
+80	Dirthic	1478	0	0	0	852	0	0	0	294	585	0	0	0	0	(1) CureJungle Fever Secondary Quest
+81	Husk	1480	0	0	0	860	0	0	0	295	586	0	0	0	0	(1) CureJungle Fever Secondary Quest
+82	Hobert	1372	0	0	0	557	0	0	0	575	669	0	0	0	0	(4) Fire Resistance Potion Secondary Quest
+83	Kelvin	1269	0	0	0	596	0	0	0	232	233	234	0	0	0	(6) Potion of Pure Intellect Secondary Quest
+84	Pole	1373	0	0	0	559	0	0	0	206	207	0	0	0	0	(4) Begin Deliver Fire Resistance Potions Secondary Quest
+85	Xevius	1347	0	0	0	619	0	0	0	242	243	0	0	0	0	(8) Buys Wyvern Horns
+86	Schmecker	1369	0	0	0	561	0	0	0	195	196	197	0	0	0	(4) Royal Wasp Jelly Secondary Quest
+87	Calindril	1301	0	0	0	566	0	0	0	213	0	0	0	0	0	(5) Dragon Hunters Dragonbane Secondary Quest
+88	Castigeir	1164	0	0	0	615	0	0	0	238	239	240	0	0	0	(7) Potion of Pure Personallity Quest
+89	Balion Tearwing	1040	0	0	0	574	0	0	0	216	0	0	0	0	0	(5) Dragons Dragonbane Secondary Quest
+90	Avalon	1310	0	0	0	562	0	0	0	219	0	0	0	0	0	(5) Kill All Dragons Secondary quest
+91	Jerin Flame-eye	1039	0	0	0	572	0	0	0	221	0	0	0	0	0	(5) Kill All Dragon Hunters Secondary Quest
+92	Zelim	1304	0	0	0	540	0	0	0	223	224	0	0	0	0	(5) Drum of Vicotry Secondary Quest
+93	Tantilion	1283	0	0	0	606	0	0	0	226	227	0	0	0	0	(6) Bone of Doom Secondary Quest
+94	Benefice	1284	0	0	0	594	0	0	0	229	728	0	0	0	0	(6) Puzzle Box Secondary Quest
+95	Hallien	1263	0	0	0	588	0	0	0	235	236	0	0	0	0	(6) Vial of Grave Dirt Secondary Quest
+96	One-Eye	1193	0	0	0	654	0	0	0	249	247	248	0	0	0	(13) Lost Treasure of the Dread Pirate Stanley Secondary Quest
+97	Long-Tail	1464	0	0	0	876	0	0	0	250	251	584	0	0	0	(1) Simple Trading Triangle
+98	Treblid	1161	0	0	0	805	0	0	0	252	253	0	0	0	0	(2) Simple Trading Triangle
+99	Gibere	1450	0	0	0	535	0	0	0	254	255	0	0	0	0	(3) Simple Trading Triangle
+100	Mylander	1152	0	0	0	617	0	0	0	256	257	0	0	0	0	(7) Long Trading Triangle
+101	Whisper	1238	0	0	0	592	0	0	0	258	259	0	0	0	0	(6) Long Trading Triangle 
+102	Irabelle Hunter	1168	0	0	0	0	0	0	0	741	0	0	0	0	0	Arion Hunters daughter
+103	Pavel	1198	0	0	0	658	0	98	0	260	261	0	0	0	0	(13) Long trading Triangle
+104	Journey	1272	0	0	0	591	0	0	0	262	263	0	0	0	0	(6) Mysterious Trading Triangle
+105	Neblick	1426	0	0	0	897	0	0	0	264	265	0	0	0	0	(2) Mysterious Trading Triangle
+106	Cagnor	1344	0	0	0	674	0	0	0	266	267	0	0	0	0	(8) Mysterious Trading Triangle
+107	Blazen Stormlance	1062	0	0	0	0	0	115	0	53	54	55	0	0	0	(6) Part of Knight Promotion Quest
+108	Dread Pirate Stanley	1186	0	0	0	236	0	0	0	298	0	0	0	0	0	(13) False Report Secondary Quest
+109	Bryant Conlan	1308	0	0	0	895	0	0	0	579	577	578	0	0	0	(2) Bounty Hunter Quest
+110	Cahalli Evenall	1434	0	0	0	523	0	0	0	579	577	578	0	0	0	(3) Bounty Hunter Quest
+111	Harry Merit	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+112	Aerie Luodrin	1395	0	0	0	834	0	49	0	303	421	422	0	0	0	Expert Sword (2)
+113	Jaycin Cardron	1192	0	0	0	538	0	49	0	304	420	422	0	0	0	Master Sword (5)
+114	Miyon Dragontracker	1305	0	0	0	645	0	49	0	305	420	421	0	0	0	Grand Master Sword (13)
+115	Herald Foestryke	1302	0	0	0	540	0	49	0	309	427	428	0	0	0	Expert Axe (5)
+116	Jasp Hunter	1362	0	0	0	907	0	49	0	310	426	428	0	0	0	Master Axe (2)
+117	Garic Senjac	1319	0	0	0	635	0	49	0	311	426	427	0	0	0	Grand Master Axe (8)
+118	Puddle Thain	1369	0	0	0	793	0	49	0	300	418	419	0	0	0	Expert Staff (2)
+119	Celia Stone	1369	0	0	0	553	0	49	0	301	417	419	571	0	0	Master Staff (4)
+120	Tristen Stillwater	1257	0	0	0	599	0	49	0	302	417	418	0	0	0	Grand Master Staff (6)
+121	Matric Townsaver	1455	0	0	0	871	0	49	0	312	430	431	0	0	0	Expert Spear (2)
+122	Ashandra Withersmythe	1408	0	0	0	509	0	49	0	313	429	431	0	0	0	Master Spear (3)
+123	Yarrow	1487	0	0	0	876	0	49	0	314	429	430	0	0	0	Grand Master Spear (1)
+124	Lori Vespers	1404	0	0	0	510	0	49	0	306	424	425	0	0	0	Expert Dagger (3)
+125	Jobber 	1159	0	0	0	874	0	49	0	307	423	425	0	0	0	Master Dagger (2)
+126	Karla Nirses	1182	0	0	0	646	0	49	0	308	423	424	0	0	0	Grand Master Dagger (13)
+127	Shivan Keeneye	1482	0	0	0	804	0	49	0	315	433	434	0	0	0	Expert Bow (1)
+128	Oberic Nosewort	1425	0	0	0	905	0	49	0	316	432	434	0	0	0	Master Bow (2)
+129	Solis	1453	0	0	0	511	0	49	0	317	432	433	0	0	0	Grand Master Bow (3)
+130	Lisha Sourbrow	1378	0	0	0	871	0	49	0	318	436	437	0	0	0	Expert Mace (2)
+131	Robert Morningstar	1346	0	0	0	539	0	49	0	319	435	437	0	0	0	Master Mace (5)
+132	Brother Hearthsworn	1362	0	0	0	554	0	49	0	320	435	436	572	0	0	Grand Master Mace (4)
+133	Thadin 	1480	0	0	0	792	0	49	0	327	442	443	0	0	0	Exper Leather (1)
+134	Shamus Hollyfield	1333	0	0	0	639	0	49	0	328	441	443	0	0	0	Master Leather (8)
+135	Medwari Elmsmire	1377	0	0	0	555	0	49	0	329	441	442	573	0	0	Grand Master Leather (4)
+136	Tobren Forgewright	1414	0	0	0	796	0	49	0	330	445	446	0	0	0	Expert Chain (2)
+137	Halian Eversmyle	1188	0	0	0	512	0	49	0	331	444	446	0	0	0	Master Chain (3)
+138	Seline Burnkindle	1398	0	0	0	647	0	49	0	332	444	445	0	0	0	Grand Master Chain (13)
+139	Bone	1475	0	0	0	833	0	49	0	333	448	449	292	0	0	Expert Plate (1)
+140	Botham	1307	0	0	0	896	0	49	0	334	447	449	0	0	0	Master Plate (2)
+141	Sethine Ironfist	1294	0	0	0	541	0	49	0	335	447	448	0	0	0	Grand Master Plate (5)
+142	Qillain Moore	1437	0	0	0	513	0	49	0	324	439	440	0	0	0	Expert Shield (3)
+143	Sheldon Nightwood	1270	0	0	0	584	0	49	0	325	438	440	0	0	0	Master Shield (6)
+144	Peryn Reaverston	1312	0	0	0	542	0	49	0	326	438	439	0	0	0	Grand Master Shield (5)
+145	Taren Temper	1446	0	0	0	891	0	49	0	336	451	452	0	0	0	Expert Fire_Magic (2)
+146	Solomon Steele	1430	0	0	0	522	0	49	0	337	450	452	0	0	0	Master Fire_Magic (3)
+147	Burn	1149	0	0	0	543	0	49	0	338	450	451	0	0	0	Grand Master Fire_Magic (11)
+148	Ulbrecht Pederton	1160	0	0	0	785	0	49	0	342	457	458	0	0	0	Expert Water_Magic (2)
+149	Gregory Mist	1369	0	0	0	556	0	49	0	343	456	458	574	0	0	Master Water_Magic (4)
+150	Black Current	1134	0	0	0	545	0	49	0	344	456	457	0	0	0	Grand Master Water_Magic (12)
+151	Reshie 	1470	0	0	0	870	0	49	0	339	454	455	0	0	0	Expert Air_Magic (1)
+152	Hollis Stormeye	1336	0	0	0	641	0	49	0	340	453	455	0	0	0	Master Air_Magic (7)
+153	Cloud Nedlon	1139	0	0	0	672	0	49	0	341	453	454	0	0	0	Grand Master Air_Magic (9)
+154	Ostrin Grivic	1463	0	0	0	882	0	49	0	345	460	461	0	0	0	Expert Earth_Magic (1)
+155	Dorothy Sablewood	1387	0	0	0	521	0	49	0	346	459	461	0	0	0	Master Earth_Magic (2)
+156	Griven	1144	0	0	0	696	0	49	0	347	459	460	0	0	0	Grand Master Earth_Magic (10)
+157	Straton Hawthorne	1164	0	0	0	903	0	49	0	348	463	464	0	0	0	Expert Spirit_Magic (2)
+158	Bethold Kern	1303	0	0	0	569	0	49	0	349	462	464	0	0	0	Master Spirit_Magic (5)
+159	Lasiter Ravensight	1154	0	0	0	610	0	49	0	350	462	463	0	0	0	Grand Master Spirit_Magic (7)
+160	Shane Krewlen	1460	0	0	0	514	0	49	0	351	466	467	0	0	0	Expert Mind_Magic (3)
+161	Barbara Lotts	1339	0	0	0	638	0	49	0	352	465	467	0	0	0	Master Mind_Magic (8)
+162	Gilad Dreamwright	1287	0	0	0	611	0	49	0	353	465	466	0	0	0	Grand Master Mind_Magic (7)
+163	Zevah Poised	1486	0	0	0	813	0	49	0	354	469	470	290	0	0	Expert Body_Magic (1)
+164	Tugor Arin	1309	0	0	0	563	0	49	0	355	468	470	0	0	0	Master Body_Magic (5)
+165	Critias Snowtree	1164	0	0	0	612	0	49	0	356	468	469	0	0	0	Grand Master Body_Magic (7)
+166	Archibald Dawnsglow	1159	0	0	0	853	0	49	0	357	472	473	0	0	0	Expert Light_Magic (2)
+167	Lunius Dawnbringer	1195	0	0	0	613	0	49	0	358	471	473	0	0	0	Master Light_Magic (7)
+168	Aldrin Cleareye	1162	0	0	0	648	0	49	0	359	471	472	0	0	0	Grand Master Light_Magic (13)
+169	Patwin Darkenmore	1456	0	0	0	515	0	49	0	360	475	476	0	0	0	Expert Dark_Magic (3)
+170	Carla Umberpool	1184	0	0	0	595	0	49	0	361	474	476	0	0	0	Master Dark_Magic (6)
+171	Sithicus Shadowrunner	1221	0	0	0	649	0	49	0	362	474	475	0	0	0	Grand Master Dark_Magic (13)
+172	Flynn Shador	1218	0	0	0	585	0	49	0	366	523	524	0	0	0	Expert Vampire(6)
+173	Douglas Dirthmoore	1223	0	0	0	581	0	49	0	367	522	524	0	0	0	Master Vampire (6)
+174	Payge Arachnia	1206	0	0	0	580	0	49	0	368	522	523	0	0	0	Grand Master Vampire (6)
+175	Fedwin Dervish	1422	0	0	0	516	0	49	0	363	526	527	0	0	0	Expert Dark Elf (3)
+176	Lanshee Caverhill	1402	0	0	0	889	0	49	0	364	525	527	0	0	0	Master Dark Elf (2)
+177	Ton Agraynel	1421	0	0	0	517	0	49	0	365	525	526	0	0	0	Grand Master Dark Elf (3)
+178	Ishton	1040	0	0	0	572	0	49	0	369	529	530	0	0	0	Expert Dragon(5)
+179	Erthint	1039	0	0	0	573	0	49	0	370	528	530	0	0	0	Master Dragon (5)
+180	Klain Scarwing	1039	0	0	0	574	0	49	0	371	528	529	0	0	0	Grand Master Dragon (5)
+181	Chevon Wist	1480	0	0	0	795	0	49	0	393	499	500	0	0	0	Expert Disarm_Trap (1)
+182	Kelli Lightfingers	1187	0	0	0	518	0	49	0	394	498	500	0	0	0	Master Disarm_Trap (3)
+183	Gareth Lifter	1422	0	0	0	650	0	49	0	395	498	499	0	0	0	Grand Master Disarm_Trap (13)
+184	Silk Nightwalker	1433	0	0	0	519	0	49	0	387	493	494	0	0	0	Expert Perception (3)
+185	Helga Steeleye	1266	0	0	0	593	0	49	0	388	492	494	0	0	0	Master Perception (6)
+186	Balan Suretrail	1334	0	0	0	629	0	49	0	389	492	493	0	0	0	Grand Master Perception (8)
+187	Fishner Thomb	1477	0	0	0	823	0	49	0	375	481	482	291	0	0	Expert Merchant (1)
+188	Fenton Iverson	1447	0	0	0	530	0	49	0	376	480	482	0	0	0	Master Merchant (3)
+189	Raven Quicktoungue	1387	0	0	0	883	0	49	0	377	480	481	0	0	0	Grand Master Merchant (2)
+190	Petra Mithrit	1292	0	0	0	614	0	49	0	414	520	521	0	0	0	Expert Learning (7)
+191	Garret Mistspring	1256	0	0	0	579	0	49	0	415	519	521	0	0	0	Master Learning (6)
+192	Wanda Lightsworn	1295	0	0	0	564	0	49	0	416	519	520	0	0	0	Grand Master Learning (5)
+193	Alton Putnam	1315	0	0	0	892	0	49	0	384	490	491	0	0	0	Expert Meditation (2)
+194	Gretchin Nevermore	1405	0	0	0	527	0	49	0	385	489	491	0	0	0	Master Meditation (7)
+195	Lenord Nightcrawler	1224	0	0	0	578	0	49	0	386	489	490	0	0	0	Grand Master Meditation (6)
+196	Menasaur 	1485	0	0	0	852	0	49	0	381	487	488	0	0	0	Expert Body_building (1)
+197	Kenneth Otterton	1347	0	0	0	565	0	49	0	382	486	488	0	0	0	Master Body_Building (5)
+198	Mikel Smithson	1376	0	0	0	558	0	49	0	383	486	487	576	0	0	Grand Master Body_Building (4)
+199	Kyra Sparkmen	1416	0	0	0	520	0	49	0	372	478	479	0	0	0	Expert Identify_Item (1)
+200	Eithian 	1464	0	0	0	798	0	49	0	373	477	479	0	0	0	Master Identify_Item (3)
+201	Elzbet Roggen	1228	0	0	0	587	0	49	0	374	477	478	0	0	0	Grand Master Identify_Item (6)
+202	Evandar Lotts	1163	0	0	0	904	0	49	0	378	484	485	0	0	0	Expert Repair_Item (2)
+203	Quick Jeni 	1296	0	0	0	570	0	49	0	379	483	485	0	0	0	Master Reapir_Item (5)
+204	Qethrin Tonk	1160	0	0	0	615	0	49	0	380	483	484	0	0	0	Grand Master Repair_Item (7)
+205	Tessa Maker	1289	0	0	0	567	0	49	0	402	508	509	0	0	0	Expert Identify_Monster (5)
+206	Matric Keenedge	1282	0	0	0	616	0	49	0	403	507	509	0	0	0	Master Identify_Monster (7)
+207	Blacken Stonecleaver	1303	0	0	0	898	0	49	0	404	507	508	0	0	0	Grand Master Identify_Monster (2)
+208	Norbert Slayer	1310	0	0	0	568	0	49	0	405	511	512	0	0	0	Expert Armsmaster (5)
+209	Lasatin the Scarred	1485	0	0	0	843	0	49	0	406	510	512	293	0	0	Master Armsmaster (1)
+210	Jasper Steelcoif	1189	0	0	0	651	0	49	0	407	510	511	0	0	0	Grand Master Armsmaster (13)
+211	Tabitha Watershed	1378	0	0	0	524	0	49	0	411	517	518	0	0	0	Expert Alchemy (3)
+212	Kethry Treasurestone	1176	0	0	0	617	0	49	0	412	516	518	0	0	0	Master Alchemy (7)
+213	Ich 	1482	0	0	0	795	0	49	0	413	516	517	0	0	0	Grand Master Alchemy (1)
+214	Kethric Tarent	1375	0	0	0	560	0	49	0	390	496	497	0	0	0	Expert Regeneration (4)
+215	William Sampson	1157	0	0	0	618	0	49	0	391	495	497	0	0	0	Master Regeneration (7)
+216	Ush the Many Tailed	1464	0	0	0	885	0	49	0	392	495	496	0	0	0	Grand Master Regeneration (1)
+217	Elsie Apple	1415	0	0	0	799	0	60	0	676	0	0	0	0	0	Hint NPC in Ravenshore
+218	Jillian Applebee	1378	0	0	0	844	0	62	0	679	0	0	0	0	0	Hint NPC in Ravenshore
+219	Chadric Benson	1314	0	0	0	541	0	0	0	675	0	0	0	0	0	Hint NPC in DH camp
+220	Mortie Bith	1154	0	0	0	675	0	61	0	678	0	0	0	0	0	Hint NPC in Shadowspire
+221	Aznog Black	1369	0	0	0	824	0	0	0	677	0	0	0	0	0	Troll Hint NPC in Ravenshore
+222	Tonk Blueswan	1297	0	0	0	880	0	0	0	0	597	0	0	0	0	Arcomange Secondary Quest (2)
+223	Turgon Bombah	1459	0	0	0	548	0	106	0	594	0	0	0	0	0	Ore Weapon (3)
+224	Karn Bowes	1441	0	0	0	536	0	106	0	595	0	0	0	0	0	Ore Armor (3)
+225	Kerin Bremen	1414	0	0	0	537	0	106	0	596	0	0	0	0	0	Ore Item (3)
+226	Claderin Brightspear	1232	0	0	0	583	0	106	0	594	0	0	0	0	0	Ore Item (6)
+227	Cardric Caverhill	1218	0	0	0	597	0	106	0	595	0	0	0	0	0	Ore Item (6)
+228	Brother Crane	1268	0	0	0	673	0	106	0	596	0	0	0	0	0	Ore Item (6)
+229	Poundlin Deerhunter	1395	0	0	0	867	0	58	0	672	0	0	0	0	0	"Ravenshore, Vault of Time Hint"
+230	Isram Delver	1308	0	0	0	539	0	58	0	674	0	0	0	0	0	Hint NPC in DH camp
+231	Dotes	1376	0	0	0	909	0	0	0	661	663	0	0	0	0	Hint Npc
+232	Weldrik Falconeye	1311	0	0	0	571	0	93	0	711	0	0	0	0	0	Hint Npc
+233	Dekian Farswell	1445	0	0	0	551	0	58	0	709	0	0	0	0	0	Hint Npc
+234	Brand Featherwind	1442	0	0	0	552	0	58	0	710	0	0	0	0	0	Hint Npc
+235	Kindle Fellburn	1401	0	0	0	602	0	58	0	712	0	0	0	0	0	Hint Npc
+236	Ashen Fiddlebone	1423	0	0	0	604	0	94	0	714	0	0	0	0	0	Hint Npc
+237	Sethrik Fist 	1422	0	0	0	607	0	95	0	715	0	0	0	0	0	Hint Npc
+238	Bigfist Slowstepper	1371	0	0	0	553	0	94	0	716	0	0	0	0	0	Hint Npc
+239	Zephyr	1140	0	0	0	667	0	96	0	717	0	0	0	0	0	Hint Npc
+240	Lara Gallowswell	1399	0	0	0	603	0	58	0	713	0	0	0	0	0	Hint Npc
+241	Gizmo Bertram 	1456	0	0	0	861	0	0	0	663	665	0	0	0	0	Hint Npc
+242	Heather Goblinreaver	1361	0	0	0	557	0	0	0	668	671	0	0	0	0	Hint Npc
+243	Benjamin Greenstorm	1367	0	0	0	558	0	0	0	669	0	0	0	0	0	Hint Npc
+244	Julian Greensward	1363	0	0	0	559	0	0	0	670	0	0	0	0	0	Hint Npc
+245	Myles Greydawn	1439	0	0	0	533	0	0	0	664	0	0	0	0	0	Hint Npc
+246	Xavier Havest	1458	0	0	0	529	0	0	0	665	0	0	0	0	0	Hint Npc
+247	Ethan Hillsman	1438	0	0	0	888	0	0	0	661	0	0	0	0	0	Hint Npc
+248	Holden	1362	0	0	0	814	0	0	0	662	671	0	0	0	0	Hint Npc
+249	Karlin Ivers	1410	0	0	0	777	0	0	0	663	662	0	0	0	0	Hint Npc
+250	Samuel Jack	1364	0	0	0	762	0	0	0	660	0	0	0	0	0	Hint Npc
+251	Payge Karrand	1405	0	0	0	893	0	0	0	659	665	0	0	0	0	Hint Npc
+252	Brigham Kinney	1424	0	0	0	901	0	0	0	658	663	0	0	0	0	Hint Npc
+253	Thomas Laraselle	1444	0	0	0	886	0	0	0	657	666	0	0	0	0	Hint Npc
+254	Asael Fromago	1457	0	0	0	525	0	57	0	654	655	656	0	0	0	Cheese Connoisseur in Alvar
+255	Bazalath	1039	0	0	0	572	0	0	0	673	0	0	0	0	0	Dragon Hint NPC in Dragon Cave
+256	Loamwalker	1145	0	0	0	676	0	63	0	680	0	0	0	0	0	Hint NPC in Plane of Earth
+257	Soil	1146	0	0	0	677	0	64	0	681	0	0	0	0	0	Hint NPC in Plane of Earth
+258	Wingsail	1139	0	0	0	665	0	65	0	682	0	0	0	0	0	Hint NPC in Plane of Air
+259	Vapor	1141	0	0	0	666	0	66	0	683	0	0	0	0	0	Hint NPC in Plane of Air
+260	Riverglass	1135	0	0	0	691	0	67	0	684	0	0	0	0	0	Hint NPC in Plane of Water
+261	Clearcreek	1136	0	0	0	692	0	68	0	685	0	0	0	0	0	Hint NPC in Plane of Water
+262	Devlin Arcanus	0	0	0	0	0	0	0	0	601	0	0	0	0	0	Roster PC
+263	Fredrick Talimere	0	0	0	0	0	0	0	0	602	0	0	0	0	0	Roster PC
+264	Simon Templar	1064	0	0	0	0	0	103	0	603	0	0	0	0	0	Roster PC
+265	Overdune Snaprfinger	0	0	0	0	0	0	0	0	604	0	0	0	0	0	Roster PC
+266	Arius	1044	0	0	0	861	0	71	0	605	0	0	0	0	0	Roster PC
+267	Rohani Oscleton	1047	0	0	0	531	0	72	0	606	0	0	0	0	0	Roster PC
+268	Elsbeth Lamentia	0	0	0	0	0	0	0	0	607	0	0	0	0	0	Roster PC
+269	Ithilgore	1040	0	0	0	573	0	73	0	608	0	0	0	0	0	Roster PC
+270	Karanya Memoria	1055	0	0	0	902	0	74	0	706	0	0	0	0	0	Roster PC
+271	Maylander 	1058	0	0	0	877	0	75	0	707	0	0	0	0	0	Roster PC
+272	Leane Stormlance	1061	0	0	0	0	0	0	0	611	0	0	0	0	0	Roster PC
+273	Volog Sandwind	1041	0	0	0	0	0	0	0	612	0	0	0	0	0	(4) troll promo
+274	Thanys	0	0	0	0	0	0	0	0	613	0	0	0	0	0	Roster PC
+275	Jasp Thelbourne	1048	0	0	0	532	0	76	0	708	0	0	0	0	0	Roster PC
+276	Gethric Mercutura	1050	0	0	0	586	0	77	0	615	0	0	0	0	0	Roster PC
+277	Flamdring	1039	0	0	0	702	0	79	0	616	0	0	0	0	0	Roster PC
+278	Hevatia Deverbero	0439	0	0	0	605	0	80	0	688	0	0	0	0	0	Roster PC
+279	Verish 	1060	0	0	0	701	0	81	0	689	0	0	0	0	0	Roster PC
+280	Nelix Uriel	1062	0	0	0	699	0	82	0	690	0	0	0	0	0	Roster PC
+281	Sethrc Thistlebone	1042	0	0	0	698	0	83	0	691	0	0	0	0	0	Roster PC
+282	Rionel	1044	0	0	0	630	0	84	0	692	0	0	0	0	0	Roster PC
+283	Adric Stellare	1046	0	0	0	534	0	85	0	693	0	0	0	0	0	Roster PC
+284	Infaustus 	1051	0	0	0	590	0	86	0	694	0	0	0	0	0	Roster PC
+285	Brimstone	1040	0	0	0	703	0	87	0	695	0	0	0	0	0	Roster PC
+286	Vetrinus Taleshire	0439	0	0	0	0	0	0	0	625	0	0	0	0	0	(6) Necro Promo
+287	Dervish Chevron	1058	0	0	0	0	0	0	0	626	0	0	0	0	0	(2) Eclipse secondary quest
+288	Tempus 	1062	0	0	0	700	0	88	0	696	0	0	0	0	0	Roster PC
+289	Thorne Understone	1041	0	0	0	697	0	89	0	697	0	0	0	0	0	Roster PC
+290	Ulbrecht	1043	0	0	0	634	0	90	0	698	0	0	0	0	0	Roster PC
+291	Cauri Blackthorne	1045	0	0	0	0	0	0	0	630	0	0	0	0	0	(7) dark elf promo 
+292	Artorius Veritas	1050	0	0	0	598	0	91	0	699	0	0	0	0	0	Roster PC
+293	Duroth the Eternal	1039	0	0	0	704	0	92	0	700	0	0	0	0	0	Roster PC
+294	Nathaniel Roberts	1054	0	0	0	589	0	78	0	633	0	0	0	0	0	Roster PC
+295	Dyson Leyland	0	0	0	0	0	0	0	0	634	0	0	0	0	0	Roster PC
+296	Blazen Stormlance	1062	0	0	0	0	0	0	0	635	0	0	0	0	0	(6) knight promo
+297	troll	0	0	0	0	0	0	0	0	636	0	0	0	0	0	Roster PC
+298	minotaur	0	0	0	0	0	0	0	0	637	0	0	0	0	0	Roster PC
+299	darkelf	0	0	0	0	0	0	0	0	638	0	0	0	0	0	Roster PC
+300	vampire	0	0	0	0	0	0	0	0	639	0	0	0	0	0	Roster PC
+301	dragon	0	0	0	0	0	0	0	0	640	0	0	0	0	0	Roster PC
+302	necromancer	0	0	0	0	0	0	0	0	641	0	0	0	0	0	Roster PC
+303	cleric	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Roster PC
+304	knight	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Roster PC
+305	troll	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Roster PC
+306	minotaur	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Roster PC
+307	darkelf	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Roster PC
+308	vampire	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Roster PC
+309	dragon	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Roster PC
+310	dragon	0	0	0	0	0	0	0	0	0	0	0	0	0	0	Roster PC
+311	Ember	1147	0	0	0	686	0	69	0	686	0	0	0	0	0	Hint NPC in Plane of Fire
+312	Evenblaze	1149	0	0	0	687	0	70	0	687	0	0	0	0	0	Hint NPC in Plane of Fire
+313	Arena Master	1295	0	0	0	0	0	0	0	704	0	0	0	0	0	Arena Master
+314	Oracle	1444	0	0	0	757	0	113	0	705	732	0	0	0	0	Seer
+315	Davee Sail	1190	0	0	0	621	0	97	0	718	0	0	0	0	0	Hint NPC
+316	Erik Jarblower	1185	0	0	0	652	0	98	0	719	0	0	0	0	0	Hint NPC
+317	Jarrena Marmon	1183	0	0	0	653	0	98	0	720	0	0	0	0	0	HintNPC
+318	Pirate Paul	1197	0	0	0	655	0	98	0	721	0	0	0	0	0	HintNPC
+319	Yoel Wargreen	1213	0	0	0	608	0	99	0	722	0	0	0	0	0	HintNPC
+320	Pordo	1350	0	0	0	622	0	100	0	723	0	0	0	0	0	HintNPC
+321	Vish	1349	0	0	0	620	0	100	0	724	0	0	0	0	0	HintNPC
+322	Ferris	1335	0	0	0	625	0	58	0	725	0	0	0	0	0	HintNPC
+323	Ex-captain Terrence	1194	0	0	0	656	0	101	0	726	0	0	0	0	0	HintNPC
+324	Fenella Ferne	1177	0	0	0	657	0	98	0	727	0	0	0	0	0	HintNPC
+325	Dierdra Wallace	1207	0	0	0	609	0	62	0	728	0	0	0	0	0	HintNPC
+326	Nalani	1178	0	0	0	659	0	98	0	729	0	0	0	0	0	HintNPC
+327	Rhetta Mercer	1175	0	0	0	660	0	102	0	730	0	0	0	0	0	HintNPC
+328	Lizardman Peasant	1487	0	0	0	0	0	0	0	0	0	0	0	0	0	
+329	Lizardman Guard	1475	0	0	0	0	0	0	0	0	0	0	0	0	0	
+330	Dark Elf Peasant	1402	0	0	0	0	0	0	0	0	0	0	0	0	0	
+331	Dark Elf Guard	1462	0	0	0	0	0	0	0	0	0	0	0	0	0	
+332	Ogre Peasant	1351	0	0	0	0	0	0	0	0	0	0	0	0	0	
+333	Wererat Peasants	1166	0	0	0	0	0	0	0	0	0	0	0	0	0	
+334	Troll Peasant	1370	0	0	0	0	0	0	0	0	0	0	0	0	0	
+335	Dragon Hunter	1314	0	0	0	0	0	0	0	0	0	0	0	0	0	
+336	Necromancer Peasant	1204	0	0	0	0	0	0	0	0	0	0	0	0	0	
+337	Cleric Peasant	1153	0	0	0	0	0	0	0	0	0	0	0	0	0	
+338	Regnan Peasant	1190	0	0	0	0	0	0	0	0	0	0	0	0	0	
+339	Minotaur Peasant	1321	0	0	0	0	0	0	0	0	0	0	0	0	0	
+340	Lord Markham	0532	0	0	0	1163	0	116	0	751	752	753	784	937	0	
+341	Thomas the Judge	0534	0	0	0	1163	0	117	0	755	756	0	0	0	0	
+342	Margaret the Docent	0853	0	0	0	0	0	118	0	757	759	792	0	0	0	
+343	Ailyssa the Bard	0852	0	0	0	0	0	119	0	760	761	762	0	0	0	
+344	Sally	0865	0	0	0	0	0	120	0	764	765	0	0	0	0	Sells seashells by the seashore
+345	Mr. Malwick	0945	0	0	0	0	0	121	0	767	768	776	0	0	0	Offers an item now for a favor later
+346	Sal Sharktooth	0946	0	0	0	0	0	123	0	771	772	0	0	0	0	Ambusher leader in Emerald Isle
+347	Brent Filiant	0960	0	0	0	0	0	125	0	777	778	779	0	0	0	Trade hat for red potion
+348	Carolyn Weathers	0857	0	0	0	1183	0	126	0	0	1152	1154	0	0	0	Elemental Guild Membership
+349	Roger Tellmar	0956	0	0	0	1184	0	127	0	0	1156	1158	0	0	0	Self Guild Membership
+350	William Darvees	0889	0	0	0	1168	0	128	0	782	0	0	0	0	0	Boatman to take party to area 2
+351	Donna Wyrith	0796	0	0	0	1167	0	129	0	786	787	0	0	0	0	Sally's mom in dragon house
+352	Grant Valandir	0934	0	0	0	1171	0	130	0	790	791	0	0	0	0	Back of the weapon shop
+353	Mia Lucille	0799	0	0	0	1170	0	131	0	788	789	0	0	0	0	Favor for Mark near entrance to town
+354	William Lasker	1530	0	0	0	1162	0	152	0	794	0	393	308	0	0	Good Thief promoter
+355	Seknit Undershadow	0949	0	0	0	983	0	155	0	798	799	0	0	0	0	Evil Thief promoter
+356	Sir Charles Quixote	0930	0	0	0	941	0	158	0	801	0	0	0	0	0	Good Paladin promoter
+357	William Setag	0926	0	0	0	0	0	164	0	806	0	0	0	0	0	Evil Paladin promoter
+358	Margaret the Docent	0853	0	0	0	0	0	133	0	757	759	792	0	0	0	Docent for the tour 1
+359	Margaret the Docent	0853	0	0	0	0	0	134	0	757	759	792	0	0	0	Docent for the tour 2
+360	Margaret the Docent	0853	0	0	0	0	0	135	0	757	759	792	0	0	0	Docent for the tour 3
+361	Margaret the Docent	0853	0	0	0	0	0	136	0	757	759	792	0	0	0	Docent for the tour 4
+362	Margaret the Docent	0853	0	0	0	0	0	137	0	757	759	792	0	0	0	Docent for the tour 5
+363	Margaret the Docent	0853	0	0	0	0	0	138	0	757	759	792	0	0	0	Docent for the tour 6
+364	Margaret the Docent	0853	0	0	0	0	0	139	0	757	759	792	0	0	0	Docent for the tour 7
+365	Margaret the Docent	0853	0	0	0	0	0	140	0	757	759	792	0	0	0	Docent for the tour 8
+366	Margaret the Docent	0853	0	0	0	0	0	141	0	757	759	792	0	0	0	Docent for the tour 9
+367	Margaret the Docent	0853	0	0	0	0	0	142	0	757	759	792	0	0	0	Docent for the tour 10
+368	Margaret the Docent	0853	0	0	0	0	0	143	0	757	759	792	0	0	0	Docent for the tour 11
+369	Margaret the Docent	0853	0	0	0	0	0	144	0	757	759	792	0	0	0	Docent for the tour 12
+370	Margaret the Docent	0853	0	0	0	0	0	145	0	757	759	792	0	0	0	Docent for the tour 13
+371	Margaret the Docent	0853	0	0	0	0	0	146	0	757	759	792	0	0	0	Docent for the tour 14
+372	Margaret the Docent	0853	0	0	0	0	0	147	0	757	759	792	0	0	0	Docent for the tour 15
+373	Margaret the Docent	0853	0	0	0	0	0	148	0	757	759	792	0	0	0	Docent for the tour 16
+374	Margaret the Docent	0853	0	0	0	0	0	149	0	757	759	792	0	0	0	Docent for the tour 17
+375	Margaret the Docent	0853	0	0	0	0	0	150	0	757	759	792	0	0	0	Docent for the tour 18
+376	Margaret the Docent	0853	0	0	0	0	0	151	0	757	759	792	0	0	0	Docent for the tour 19
+377	Bartholomew Hume	0876	0	0	0	1126	0	166	0	808	0	0	0	0	0	Good Monk promoter
+378	Stephan Sand	0925	0	0	0	1074	0	169	0	813	0	0	0	0	0	Evil Monk promoter
+379	Lawrence Mark	0940	0	0	0	1104	0	171	0	815	0	0	0	0	0	Good Archer promoter
+380	Steagal Snick	0962	0	0	0	1020	0	173	0	817	0	0	0	0	0	Evil Archer promoter
+381	Leda Rowan	0824	0	0	0	1117	0	175	0	821	0	0	0	0	0	Good Knight promoter
+382	Frederick Org	0885	0	0	0	942	0	177	0	823	0	0	0	0	0	Evil Knight promoter
+383	Lysander Sweet	0923	0	0	0	1139	0	179	0	827	0	0	0	0	0	Good Ranger promoter
+384	Ebednezer Sower	0903	0	0	0	968	0	181	0	829	0	0	0	0	0	Evil Ranger promoter
+385	Rebecca Devine	0790	0	0	0	1059	0	187	0	836	0	0	0	0	0	Good Cleric promoter
+386	Daedalus Falk	0914	0	0	0	985	0	189	0	838	0	0	0	0	0	Evil Cleric promoter
+387	Thomas Grey	0902	0	0	0	1157	0	191	0	842	0	0	0	0	0	Good Sorcerer promoter
+388	Halfgild Wynac	1493	0	0	0	1073	0	193	0	846	0	0	0	0	0	Evil Sorcerer promoter
+389	Anthony Green	0921	0	0	0	950	0	195	0	848	0	0	0	0	0	Good Druid promoter
+390	Tor Anwyn	0959	0	0	0	996	0	197	0	852	0	0	0	0	0	Evil Druid promoter
+391	Faerie King	0678	0	0	0	0	0	183	0	833	939	0	0	0	0	Faerie King (hunter promo end)
+392	The Oldest Tree	1490	0	0	0	0	0	184	0	834	0	0	0	0	0	The Oldest Tree (Ranger lord end)
+393	Alice Hargreaves	0848	0	0	0	0	0	162	0	805	0	0	0	0	0	Capture/Rescue girl for Paladin 2nd promotion
+394	Bartholomew Hume	0876	0	0	0	0	0	168	0	810	0	0	0	0	0	Bartholomew for dungeon promo event
+395	Golem	1492	0	0	0	0	0	199	0	854	855	0	0	0	0	Golem party gets to construct
+396	Baby Dragon	1494	0	0	0	0	0	284	0	0	0	0	0	0	0	Baby Dragon familiar for Warlock quest
+397	Butler	0906	0	0	0	0	0	200	0	856	1252	0	0	0	0	Player Castle
+398	Hothfarr IX	1551	0	0	0	216	0	202	0	857	0	0	0	0	0	Dwarf King
+399	Drathen Keldin	0764	0	0	0	0	0	204	0	0	0	0	0	0	0	
+400	Jaycen Keldin	0745	0	0	0	0	0	205	0	0	0	0	0	0	0	
+401	Yarrow Keldin	0749	0	0	0	0	0	205	0	0	0	0	0	0	0	
+402	Fausil Keldin	0735	0	0	0	0	0	205	0	0	0	0	0	0	0	
+403	Red Keldin	0754	0	0	0	0	0	205	0	0	0	0	0	0	0	
+404	Thom Keldin	0742	0	0	0	0	0	205	0	0	0	0	0	0	0	
+405	Arvin Keldin	0757	0	0	0	0	0	205	0	0	0	0	0	0	0	
+406	Ellen Rockway	0791	0	0	0	0	0	206	0	866	867	868	869	0	0	Human Ambassador
+407	Alain Hani	0700	0	0	0	0	0	207	0	870	871	872	873	0	0	Elven Ambassador
+408	Queen Catherine	1534	0	0	0	217	0	208	0	874	876	877	879	880	0	
+409	ElfKing	1543	0	0	0	218	0	210	0	881	883	884	886	887	0	
+410	Loren Steel	0894	0	0	0	0	0	262	0	0	0	0	0	0	0	
+411	Fake Loren	0894	0	0	0	0	0	263	0	0	0	0	0	0	0	
+412	Messenger	0915	0	0	0	0	0	212	0	0	0	0	0	0	0	Artifact Battle
+413	Judge Grey	1517	0	0	0	1165	0	213	0	888	889	890	0	0	0	
+414	Ambassador Wright	0922	0	0	0	0	0	214	0	0	0	0	0	0	0	Wizard Ambassador
+415	Ambassador Scale	0892	0	0	0	0	0	215	0	0	0	0	0	0	0	Necro Ambassador
+416	Judge Fairweather	1536	0	0	0	0	0	219	0	893	0	0	0	0	0	good arbiter (144/139)
+417	Judge Sleen	1548	0	0	0	0	0	216	0	891	0	0	0	0	0	evil arbiter (142/139)
+418	Gavin Magnus	1497	0	0	0	220	0	222	0	895	359	0	0	0	0	Wizard Boss
+419	Resurectra	1559	0	0	0	0	0	225	0	897	899	0	0	0	0	Good MM3 Boss
+420	Crag Hack	0455	0	0	0	0	0	229	0	901	0	0	0	0	0	Good MM3
+421	Sir Caneghem	0456	0	0	0	0	0	232	0	903	0	0	0	0	0	Good MM3
+422	Robert the Wise	1556	0	0	0	0	0	235	0	905	0	0	0	0	0	Good MM3
+423	Kastore	1558	0	0	0	0	0	237	0	907	909	0	0	0	0	Evil MM3 Boss
+424	Maximus	0454	0	0	0	0	0	241	0	911	0	0	0	0	0	Evil MM3
+425	Dark Shade	1560	0	0	0	0	0	244	0	913	0	0	0	0	0	Evil MM3
+426	Tolberti	1557	0	0	0	0	0	247	0	915	0	0	0	0	0	Evil MM3
+427	Archibald Ironfist	1508	0	0	0	219	0	249	0	917	362	0	0	0	0	Necro Boss
+428	Temple of Light	1495	0	0	0	316	0	0	0	923	0	0	0	0	0	Dungeon Entrance
+429	Temple of Dark	1495	0	0	0	317	0	0	0	924	0	0	0	0	0	Dungeon Entrance
+430	Messenger	0932	0	0	0	0	0	265	0	0	0	0	0	0	0	Arbiter death
+431	Lady Carmine	0826	0	0	0	0	0	295	0	0	0	0	0	0	0	
+432	Tarin Withern	0933	0	0	0	311	0	266	0	929	0	0	0	0	0	Lantern Quest
+433	Mazim Dusk	0925	0	0	0	1002	0	268	0	931	0	0	0	0	0	Haldar's Remains Quest
+434	Davrik Peladium	0881	0	0	0	240	0	270	0	933	0	0	0	0	0	Davrik's Signet Ring Quest
+435	Norbert Thrush	0915	0	0	0	939	0	272	0	935	0	0	0	0	0	Quill
+436	Johann Kerrid	0677	0	0	0	960	0	274	0	938	0	0	0	0	0	Faerie Pipes Quest
+437	Messenger	0925	0	0	0	0	0	276	0	0	0	0	0	0	0	
+438	Niles Stantley	0929	0	0	0	0	0	277	0	941	942	0	0	0	0	
+439	Spark Burnkindle	0745	0	0	0	1056	0	278	0	944	0	0	0	0	0	Kill Troggie Quest
+440	Ton Withersmythe	0927	0	0	0	1108	0	0	0	300	1065	0	0	0	0	Expert Staff (2)
+441	Elsie Pederton	0809	0	0	0	1111	0	0	0	301	1066	0	0	0	0	Master Staff (6)
+442	Jillian Mithrit	0666	0	0	0	1016	0	0	0	302	0	0	0	0	0	Grand Master Staff (14)
+443	Payge Rivenhill	0821	0	0	0	923	0	0	0	303	1067	0	0	0	0	Expert Sword (3)
+444	Tugor Slicer	0630	0	0	0	984	0	0	0	304	1068	0	0	0	0	Master Sword (5)
+445	Chadric Townsaver	0931	0	0	0	1122	0	0	0	305	1233	0	0	0	0	Grand Master Sword (2)
+446	Mortie Ottin	0947	0	0	0	957	0	0	0	306	1069	0	0	0	0	Expert Dagger (4)
+447	Aznog Slasher	0622	0	0	0	1145	0	0	0	307	1070	0	0	0	0	Master Dagger (10)
+448	Tonken Fist	0718	0	0	0	1038	0	0	0	308	1194	0	0	0	0	Grand Master Dagger (13)
+449	Turgon Woodsplitter	0747	0	0	0	1122	0	0	0	309	1071	0	0	0	0	Expert Axe (2)
+450	Dalin Keenedge	0736	0	0	0	1051	0	0	0	310	1072	0	0	0	0	Master Axe (39)
+451	Karn Stonecleaver	0739	0	0	0	1032	0	0	0	311	1194	1174	0	0	0	Grand Master Axe (13)
+452	Kerin Greydawn	0665	0	0	0	1005	0	0	0	312	1073	0	0	0	0	Expert Spear (13)
+453	Claderin Silverpoint	0701	0	0	0	948	0	0	0	313	1074	0	0	0	0	Master Spear (4)
+454	Seline Falconeye	0664	0	0	0	1052	0	0	0	314	1188	0	0	0	0	Grand Master Spear (39)
+455	Jaycin Suretrail	0693	0	0	0	947	0	0	0	315	1075	0	0	0	0	Expert Bow (4)
+456	Lanshee Ravensight	0664	0	0	0	1147	0	0	0	316	1076	0	0	0	0	Master Bow (10)
+457	Cardric the Steady	0702	0	0	0	1104	0	0	0	317	1230	0	0	0	0	Grand Master Bow (2)
+458	Aldrin Tamloc	0757	0	0	0	1057	0	0	0	318	1077	0	0	0	0	Expert Mace (39)
+459	Brother Rothham	0887	0	0	0	1050	0	0	0	319	1078	0	0	0	0	Master Mace (13)
+460	Patwin Fellbern	0573	0	0	0	982	0	0	0	320	1239	0	0	0	0	Grand Master Mace (5)
+461	Lunius Shador	0954	0	0	0	0	0	309	0	513	514	0	0	0	0	Area 5 Ambusher
+462	Archibald Ironfist	1508	0	0	0	0	0	0	0	0	0	0	0	0	0	Area 12 Archibald
+463	Grand Master Blaster	0965	0	0	0	0	0	0	0	323	0	0	0	0	0	Grand Master Blaster
+464	Poundlin Lotts	0735	0	0	0	929	0	0	0	324	1079	0	0	0	0	Expert Shield (39)
+465	Isram Gallowswell	0575	0	0	0	1031	0	0	0	325	1080	0	0	0	0	Master Shield (13)
+466	Fedwin Smithson	0895	0	0	0	988	0	0	0	326	1199	0	0	0	0	Grand Master Shield (9)
+467	Douglas Iverson	0872	0	0	0	1108	0	0	0	327	1081	0	0	0	0	Exper Leather (2)
+468	Rabisa Nedlon	0847	0	0	0	1148	0	0	0	328	1082	0	0	0	0	Master Leather (10)
+469	Miyon the Quick	0941	0	0	0	949	0	0	0	329	0	0	0	0	0	Grand Master Leather (4)
+470	Gilad Bith	0698	0	0	0	946	0	0	0	330	1083	0	0	0	0	Expert Chain (4)
+471	Medwari Dragontracker	0687	0	0	0	1021	0	0	0	331	1084	0	0	0	0	Master Chain (14)
+472	Halian Nevermore	0916	0	0	0	979	0	0	0	332	1195	0	0	0	0	Grand Master Chain (5)
+473	Weldrik Lotts	0738	0	0	0	1040	0	0	0	333	1085	0	0	0	0	Expert Plate (13)
+474	Dekian Forgewright	0953	0	0	0	927	0	0	0	334	1086	0	0	0	0	Master Plate (3)
+475	Brand the Maker	0952	0	0	0	1118	0	0	0	335	1240	0	0	0	0	Grand Master Plate (6)
+476	Kindle Treasurestone	0659	0	0	0	954	0	0	0	336	1087	0	0	0	0	Expert Fire_Magic (4)
+477	Ashen Temper	0823	0	0	0	1106	0	0	0	337	1088	0	0	0	0	Master Fire_Magic (2)
+478	Blayze 	0810	0	0	0	1129	0	0	0	338	1171	0	0	0	0	Grand Master Fire_Magic (3)
+479	Sethrik Windsong	0683	0	0	0	955	0	0	0	339	1089	0	0	0	0	Expert Air_Magic (4)
+480	Rislyn Greenstorm	0671	0	0	0	1017	0	0	0	340	1090	0	0	0	0	Master Air_Magic (14)
+481	Gayle	0822	0	0	0	1115	0	0	0	341	1195	0	0	0	0	Grand Master Air_Magic (6)
+482	Herald Whitecap	0685	0	0	0	956	0	0	0	342	1091	0	0	0	0	Expert Water_Magic (4)
+483	Tobren Rainshield	0789	0	0	0	1002	0	0	0	343	1092	0	0	0	0	Master Water_Magic (10)
+484	Torrent	0888	0	0	0	1125	0	0	0	344	1234	0	0	0	0	Grand Master Water_Magic (2)
+485	Johanson Kern	0958	0	0	0	1121	0	0	0	345	1093	0	0	0	0	Expert Earth_Magic (2)
+486	Lara Stonewright	0670	0	0	0	966	0	0	0	346	1094	0	0	0	0	Master Earth_Magic (4)
+487	Avalanche	0638	0	0	0	1135	0	0	0	347	1173	0	0	0	0	Grand Master Earth_Magic (5)
+488	Bertram Stillwater	0937	0	0	0	1103	0	0	0	348	1095	0	0	0	0	Expert Spirit_Magic (2)
+489	Heather Dreamwright	0851	0	0	0	1131	0	0	0	349	1096	0	0	0	0	Master Spirit_Magic (3)
+490	Benjamin the Balanced	0901	0	0	0	965	0	0	0	350	1190	0	0	0	0	Grand Master Spirit_Magic (4)
+491	Julian the Delver	0905	0	0	0	931	0	0	0	351	1097	0	0	0	0	Expert Mind_Magic (3)
+492	Myles Featherwind	0683	0	0	0	1014	0	0	0	352	1098	0	0	0	0	Master Mind_Magic (14)
+493	Xavier Bremen	0869	0	0	0	1007	0	0	0	353	1196	0	0	0	0	Grand Master Mind_Magic (13)
+494	Straton Hillsman	0884	0	0	0	1102	0	0	0	354	1099	0	0	0	0	Expert Body_Magic (2)
+495	Brother Bombah	0883	0	0	0	1035	0	0	0	355	1100	0	0	0	0	Master Body_Magic (13)
+496	Tempus	0918	0	0	0	1140	0	0	0	356	1180	0	0	0	0	Grand Master Body_Magic (14)
+497	Ethan Lightsworn	0924	0	0	0	1113	0	0	0	357	1129	0	0	0	0	Expert Light_Magic (6)
+498	Helena Morningstar	0860	0	0	0	1060	0	0	0	358	1130	0	0	0	0	Master Light_Magic (7)
+499	Shamus Dawnbringer	0852	0	0	0	0	0	0	0	359	0	0	0	0	0	Hint NPC
+500	Jasp the Nightcrawler	0781	0	0	0	981	0	0	0	360	1131	0	0	0	0	Expert Dark_Magic (5)
+501	Seth Darkenmore	0826	0	0	0	1073	0	0	0	361	1132	1204	0	0	0	Master Dark_Magic (8)
+502	Karlin Arachnia	0917	0	0	0	0	0	0	0	362	1182	0	0	0	0	Hint NPC
+503	Fenton Krewlen	0910	0	0	0	1107	0	0	0	372	1101	0	0	0	0	Expert Identify_Item (2)
+504	Samuel Benson	0891	0	0	0	1119	0	0	0	373	1102	0	0	0	0	Master Identify_Item (6)
+505	Payge Blueswan	0668	0	0	0	953	0	0	0	374	1193	0	0	0	0	Grand Master Identify_Item (4)
+506	Matric Weatherson	0936	0	0	0	967	0	0	0	375	1103	0	0	0	0	Expert Merchant (4)
+507	Bethold Caverhill	0881	0	0	0	986	0	0	0	376	1104	0	0	0	0	Master Merchant (9)
+508	Brigham the Frugal	0948	0	0	0	1116	0	0	0	377	1184	0	0	0	0	Grand Master Merchant (6)
+509	Shane Thomas	0964	0	0	0	1107	0	0	0	378	1105	0	0	0	0	Expert Repair_Item (2)
+510	Thomas Moore	0868	0	0	0	1049	0	0	0	379	1106	0	0	0	0	Master Reapir_Item (13)
+511	Gareth the Fixer	0951	0	0	0	926	0	0	0	380	1168	0	0	0	0	Grand Master Repair_Item (3)
+512	Kelli Hollyfield	0725	0	0	0	1138	0	0	0	381	1107	0	0	0	0	Expert Body_building (6)
+513	Wanda Foestryke	0704	0	0	0	971	0	0	0	382	1108	0	0	0	0	Master Body_Building (5)
+514	Evandar Thomas	0624	0	0	0	995	0	0	0	383	1210	0	0	0	0	Grand Master Body_Building (10)
+515	Barbara Wiseman	0854	0	0	0	980	0	0	0	384	1109	0	0	0	0	Expert Meditation (5)
+516	Tessa Greensward	0863	0	0	0	1113	0	0	0	385	1110	0	0	0	0	Master Meditation (6)
+517	Kaine	0684	0	0	0	1141	0	0	0	386	1181	0	0	0	0	Grand Master Meditation (14)
+518	Gregory Weider	0909	0	0	0	1123	0	0	0	387	1111	0	0	0	0	Expert Perception (2)
+519	Garret Dotes	0686	0	0	0	952	0	0	0	388	1112	0	0	0	0	Master Perception (4)
+520	Petra Cleareye	0583	0	0	0	970	0	0	0	389	1239	0	0	0	0	Grand Master Perception (5)
+521	Qillain Laraselle	0702	0	0	0	916	0	306	0	501	0	0	0	0	0	Ore for weapon
+522	Robert Sourbrow	0744	0	0	0	917	0	307	0	502	0	0	0	0	0	Ore for armor
+523	Cloud Agraynel	0846	0	0	0	919	0	308	0	503	0	0	0	0	0	Ore for misc
+524	Expert Thievery	0965	0	0	0	0	0	0	0	390	0	0	0	0	0	Expert Thievery
+525	Master Thievery	0965	0	0	0	0	0	0	0	391	0	0	0	0	0	Master Thievery
+526	Grand Master Thievery	0965	0	0	0	0	0	0	0	392	0	0	0	0	0	Grand Master Thievery
+527	Gretchin Fiddlebone	0652	0	0	0	959	0	0	0	393	1113	0	0	0	0	Expert Lock_Pick (4)
+528	Lenord Skinner	0935	0	0	0	1124	0	0	0	394	1114	0	0	0	0	Master Lock_Pick (2)
+529	Silk Quicktoungue	0576	0	0	0	997	0	0	0	395	1246	0	0	0	0	Grand Master Lock_Pick (10)
+530	Sheldon Mist	0773	0	0	0	1101	0	0	0	396	1115	0	0	0	0	Expert Dodging (2)
+531	Oberic Crane	0870	0	0	0	987	0	0	0	397	1116	0	0	0	0	Master Dodging (9)
+532	Kenneth Wain	0929	0	0	0	1132	0	0	0	398	1169	0	0	0	0	Grand Master Dodging (3)
+533	Kira Steeleye	0858	0	0	0	1101	0	0	0	399	1117	0	0	0	0	Expert Unarmed (2)
+534	Ulbrecht the Brawler	0571	0	0	0	987	0	0	0	400	1118	0	0	0	0	Master Unarmed (9)
+535	Norris 	0942	0	0	0	1130	0	0	0	401	1232	0	0	0	0	Grand Master Unarmed (3)
+536	Alton Black	0696	0	0	0	958	0	0	0	402	1119	0	0	0	0	Expert Identify_Monster (4)
+537	Jeni Swiftfoot	0663	0	0	0	1023	0	0	0	403	1120	0	0	0	0	Master Identify_Monster (14)
+538	Raven the Hunter	0919	0	0	0	1123	0	0	0	404	1231	0	0	0	0	Grand Master Identify_Monster (2)
+539	Edgar Botham	0626	0	0	0	975	0	0	0	405	1121	0	0	0	0	Expert Armsmaster (5)
+540	Paula Brightspear	0689	0	0	0	1008	0	0	0	406	1122	0	0	0	0	Master Armsmaster (14)
+541	Lasiter the Slayer	0958	0	0	0	1150	0	0	0	407	1194	0	0	0	0	Grand Master Armsmaster (12)
+542	Peryn Lightfingers	0938	0	0	0	1124	0	0	0	408	1123	0	0	0	0	Expert Stealing (2)
+543	Leane Shadowrunner	0849	0	0	0	973	0	0	0	409	1124	0	0	0	0	Master Stealing (5)
+544	Everil Nightwalker	0699	0	0	0	1027	0	0	0	410	1196	0	0	0	0	Grand Master Stealing (13)
+545	Edgar Willowbark	0694	0	0	0	961	0	0	0	411	1125	0	0	0	0	Expert Alchemy (4)
+546	Elzbet Winterspoon	0808	0	0	0	1144	0	0	0	412	1126	0	0	0	0	Master Alchemy (10)
+547	Lucid Apple	0558	0	0	0	1142	0	0	0	413	1185	0	0	0	0	Grand Master Alchemy (14)
+548	Agatha Putnam	0812	0	0	0	1133	0	0	0	414	1127	0	0	0	0	Expert Learning (5)
+549	Dorothy Senjac	0811	0	0	0	996	0	0	0	415	1128	0	0	0	0	Master Learning (10)
+550	William Smithson	0572	0	0	0	988	0	0	0	416	1199	0	0	0	0	Grand Master Learning (9)
+551	Garic Hawthorne	0904	0	0	0	1149	0	0	0	300	1065	0	0	0	0	Expert Staff (10)
+552	Flynn Arin	0950	0	0	0	1043	0	0	0	303	1067	0	0	0	0	Expert Sword (13)
+553	Smiling Jack	0908	0	0	0	1110	0	0	0	306	1069	0	0	0	0	Expert Dagger (6)
+554	Wort Goblinreaver	0565	0	0	0	1022	0	0	0	309	1071	0	0	0	0	Expert Axe (14)
+555	Cassandra Holden	0688	0	0	0	1009	0	0	0	312	1073	0	0	0	0	Expert Spear (14)
+556	Wil Rudyman	0873	0	0	0	1110	0	0	0	315	1075	0	0	0	0	Expert Bow (6)
+557	Norbert Havest	0877	0	0	0	945	0	0	0	318	1077	0	0	0	0	Expert Mace (3)
+558	Expert Blaster	0965	0	0	0	0	0	0	0	321	0	0	0	0	0	Expert Blaster
+559	Randal Wolverton	0880	0	0	0	911	0	0	0	324	1079	0	0	0	0	Expert Shield (3)
+560	Mikel Deerhunter	0567	0	0	0	1022	0	0	0	327	1081	0	0	0	0	Expert Leather (14)
+561	Tricia Steelcoif	0775	0	0	0	1030	0	0	0	330	1083	0	0	0	0	Expert Chain (13)
+562	Critias Burnkindle	0739	0	0	0	1056	0	0	0	333	1270	0	0	0	0	Expert Plate (13)
+563	Lisha Redding	0861	0	0	0	1036	0	0	0	336	1087	0	0	0	0	Expert Fire_Magic (13)
+564	Kyra Stormeye	0859	0	0	0	1006	0	0	0	339	1089	0	0	0	0	Expert Air_Magic (13)
+565	Karla Ravenhair	0651	0	0	0	1015	0	0	0	342	1091	0	0	0	0	Expert Water_Magic (14)
+566	Jasper Welman	0744	0	0	0	1053	0	0	0	345	1093	1225	0	0	0	Expert Earth_Magic (39)
+567	Solomon Riverstone	0866	0	0	0	989	0	0	0	348	1095	0	0	0	0	Expert Spirit_Magic (13)
+568	Helga Whitesky	0808	0	0	0	990	0	0	0	351	1097	0	0	0	0	Expert Mind_Magic (10)
+569	Tristen Hearthsworn	0902	0	0	0	936	0	0	0	354	1099	0	0	0	0	Expert Body_Magic (3)
+570	Celia Sparkmen	0965	0	0	0	0	0	0	0	357	1129	0	0	0	0	Expert Light_Magic
+571	Blacken Reaverston	0965	0	0	0	0	0	0	0	360	1131	0	0	0	0	Expert Dark_Magic
+572	Hollis the True	0794	0	0	0	1146	0	0	0	372	1101	0	0	0	0	Expert Identify_Item (10)
+573	Jobber Thain	0760	0	0	0	1054	0	0	0	375	1103	0	0	0	0	Expert Merchant (39)
+574	Balan Gizmo	0742	0	0	0	1055	0	0	0	378	1105	0	0	0	0	Expert Repair_Item (39)
+575	Trip Thorinson	0761	0	0	0	1057	0	0	0	381	1107	0	0	0	0	Expert Body_Building (39)
+576	Stewart Whitesky	0900	0	0	0	990	0	0	0	384	1109	0	0	0	0	Expert Meditation (10)
+577	Kethric Otterton	0695	0	0	0	1009	0	0	0	387	1111	0	0	0	0	Expert Perception (14)
+578	Expert Diplomacy	0965	0	0	0	0	0	0	0	390	0	0	0	0	0	Expert Diplomacy
+579	Expert Thievery	0965	0	0	0	0	0	0	0	390	0	0	0	0	0	Expert Thievery
+580	Taren the Lifter	0943	0	0	0	1048	0	0	0	393	1113	0	0	0	0	Expert Lock_Pick (13)
+581	Spyder 	0591	0	0	0	1136	0	0	0	396	1115	0	0	0	0	Expert Dodging (6)
+582	Puddle Stone	0875	0	0	0	1136	0	0	0	399	1117	0	0	0	0	Expert Unarmed (6)
+583	Christie Nosewort	0802	0	0	0	1146	0	0	0	402	1119	0	0	0	0	Expert Identify_Monster (10)
+584	Trent Steele	0574	0	0	0	1025	0	0	0	405	1121	0	0	0	0	Expert Armsmaster (13)
+585	Elmo the Pincher	0815	0	0	0	991	0	0	0	408	1123	0	0	0	0	Expert Stealing (10)
+586	Bryce Watershed	0911	0	0	0	1137	0	0	0	411	1125	0	0	0	0	Expert Alchemy (6)
+587	Issac Applebee	0898	0	0	0	1112	0	0	0	414	1127	0	0	0	0	Expert Learning (6)
+588	Matric Bowes	0957	0	0	0	1105	0	0	0	1154	1220	0	0	0	0	Fire Guild Membership (2)
+589	Kethry Dawnsglow	0564	0	0	0	954	0	0	0	1154	1206	0	0	0	0	Fire Guild Membership (4)
+590	Lita Roggen	0709	0	0	0	1143	0	0	0	1154	1243	0	0	0	0	Fire Guild Membership (10)
+591	Carla Tarent	0585	0	0	0	1105	0	0	0	1152	1236	0	0	0	0	Air Guild Membership (2)
+592	Patrice Vespers	0560	0	0	0	955	0	0	0	1152	1194	0	0	0	0	Air Guild Membership (4)
+593	Lori Winterbright	0587	0	0	0	1061	0	0	0	1152	1237	0	0	0	0	Air Guild Membership (7)
+594	Illene Farswell	0581	0	0	0	1127	0	0	0	1155	1236	1270	0	0	0	Water Guild Membership (2)
+595	Tabitha Mistspring	0561	0	0	0	956	0	0	0	1155	1194	0	0	0	0	Water Guild Membership (4)
+596	Janet Thomas	0792	0	0	0	1137	0	0	0	1155	1240	0	0	0	0	Water Guild Membership (6)
+597	Dennis Caverhill	0779	0	0	0	986	0	0	0	1155	1199	0	0	0	0	Water Guild Membership (9)
+598	Pedron Sablewood	0963	0	0	0	1127	0	0	0	1153	1218	0	0	0	0	Earth Guild Membership (2)
+599	Devon Ivers	0697	0	0	0	966	0	0	0	1153	1206	0	0	0	0	Earth Guild Membership (4)
+600	Therese Umberpool	0602	0	0	0	1072	0	0	0	1153	1182	1205	0	0	0	Earth Guild Membership (8)
+601	Feldin Urthsmite	0750	0	0	0	1058	0	0	0	1153	1224	0	0	0	0	Earth Guild Membership (39)
+602	Alise Nightwood	0766	0	0	0	1103	0	0	0	1158	1220	0	0	0	0	Spirit Guild Membership (2)
+603	Wilbur Eversmyle	0882	0	0	0	932	0	0	0	1158	1169	0	0	0	0	Spirit Guild Membership (3)
+604	Malisha Karrand	0803	0	0	0	969	0	0	0	1158	1239	0	0	0	0	Spirit Guild Membership (5)
+605	Yarrow Elmsmire	0886	0	0	0	1102	0	0	0	1156	1178	0	0	0	0	Body Guild Membership (2)
+606	Tilgar Dirthmoore	0928	0	0	0	933	0	0	0	1156	1232	0	0	0	0	Body Guild Membership (3)
+607	Ashandra Snowtree	0669	0	0	0	1015	0	0	0	1156	1191	0	0	0	0	Body Guild Membership (14)
+608	Ronald Kinney	0893	0	0	0	1126	0	0	0	1157	1194	0	0	0	0	Mind Guild Membership (2)
+609	Heather Cardron	0857	0	0	0	937	0	0	0	1157	1168	0	0	0	0	Mind Guild Membership (3)
+610	Halain Sampson	0878	0	0	0	1046	0	0	0	1157	1196	0	0	0	0	Mind Guild Membership (13)
+611	Rawn Dervish	0566	0	0	0	1014	0	0	0	1157	1191	0	0	0	0	Mind Guild Membership (14)
+612	Guard	0931	0	0	0	0	0	253	0	0	0	0	0	0	0	Fort Riverstride Guard
+613	Guard	0953	0	0	0	0	0	254	0	0	0	0	0	0	0	Watchtower 6 Guard
+614	Guard	0940	0	0	0	0	0	255	0	0	0	0	0	0	0	Temple of Light Guard
+615	Guard	0914	0	0	0	0	0	256	0	0	0	0	0	0	0	Temple of Dark Guard
+616	Castle Guard	0931	0	0	0	0	0	257	0	0	0	0	0	0	0	Castle Gryphonheart Guard
+617	Castle Guard	0689	0	0	0	0	0	258	0	0	0	0	0	0	0	Castle Navan Guard
+618	Castle Guard	0952	0	0	0	0	0	259	0	0	0	0	0	0	0	Castle Lambent Guard
+619	Castle Guard	0637	0	0	0	0	0	260	0	0	0	0	0	0	0	Castle Gloaming Guard
+620	Eric Swarrel	0913	0	0	0	0	0	261	0	925	926	0	0	0	0	School of Sorcery Receptionist
+621	Guard	0902	0	0	0	0	0	132	0	0	0	0	0	0	0	School of Sorcery Guard
+622	Guard	0875	0	0	0	0	0	264	0	0	0	0	0	0	0	Markham's House Guard
+623	Seth Drakkson	0872	0	0	0	984	0	280	0	946	0	0	0	0	0	Kill Griffin Quest
+624	Darron Temper	0955	0	0	0	1106	0	285	0	948	0	0	0	0	0	Arcomage Cards Quest
+625	Gary Zimm	0900	0	0	0	1120	0	286	0	1063	0	0	0	0	0	Scarf Quest
+626	Roland Ironfist	1491	0	0	0	0	0	287	0	0	0	0	0	0	0	Roland for the Hive
+627	Thom Lumbra	0892	0	0	0	957	0	288	0	1212	0	0	0	0	0	Statuette Quest
+628	Ferdinand Visconti	0897	0	0	0	1042	0	290	0	1214	0	0	0	0	0	Painting Quest
+629	Gina Barnes	0822	0	0	0	944	0	292	0	1216	0	0	0	0	0	Arcomage Quest
+630	Tiricia Lambert	0838	0	0	0	0	0	294	0	1200	1202	0	0	0	0	Hint NPC In Bracada (6)
+631	Timothy Hawk	0594	0	0	0	0	0	294	0	1201	1203	0	0	0	0	Hint NPC In Bracada (6)
+632	Heather Hughes	0843	0	0	0	0	0	295	0	1238	1194	0	0	0	0	Hint NPC In Celeste (7)
+633	Geofery Hamic	0934	0	0	0	0	0	295	0	1244	1249	0	0	0	0	Hint NPC In Celeste (7)
+634	Irving Kull	0935	0	0	0	0	0	296	0	1182	1205	0	0	0	0	Hint NPC In The Pit (8)
+635	Polera Skulk	0845	0	0	0	0	0	296	0	1204	1182	0	0	0	0	Hint NPC In The Pit (8)
+636	Agatha Noble	0707	0	0	0	0	0	297	0	1210	1211	0	0	0	0	Hint NPC in Nighon (10)
+637	Vincent Albers	0781	0	0	0	0	0	297	0	1246	1211	0	0	0	0	Hint NPC in Nighon (10)
+638	Dallia Sparks	0714	0	0	0	1151	0	298	0	1209	1187	0	0	0	0	Hint NPC in Barrow Downs (11)
+639	Arena Master	0734	0	0	0	0	0	0	0	0	0	1149	0	0	0	
+640	Adam McCarthy	0779	0	0	0	0	0	0	0	0	0	0	0	0	0	
+641	Alex Sherman	0879	0	0	0	0	0	0	0	0	0	0	0	0	0	
+642	Andrew Grumm	0929	0	0	0	0	0	0	0	0	0	0	0	0	0	
+643	April Lee	0560	0	0	0	0	0	0	0	0	0	0	0	0	0	
+644	Benjamin Bent	0949	0	0	0	0	0	0	0	0	0	0	0	0	0	
+645	Bill Nesemeier	0956	0	0	0	0	0	0	0	0	0	0	0	0	0	
+646	Bob Young	0923	0	0	0	0	0	0	0	0	0	0	0	0	0	
+647	Bonnie Long-Hemssath	0791	0	0	0	0	0	0	0	0	0	0	0	0	0	
+648	Brian DeMetz	0573	0	0	0	0	0	0	0	0	0	0	0	0	0	
+649	Brian Kemper	0598	0	0	0	0	0	0	0	0	0	0	0	0	0	
+650	Bryan Farina	1494	0	0	0	0	0	0	0	0	0	0	0	0	0	
+651	Carl Pinder	0592	0	0	0	0	0	0	0	0	0	0	0	0	0	
+652	Charles Zilm	0962	0	0	0	0	0	0	0	0	0	0	0	0	0	
+653	Chris Bates	0950	0	0	0	0	0	0	0	0	0	0	0	0	0	
+654	Chris Rock	0574	0	0	0	0	0	0	0	0	0	0	0	0	0	
+655	Christian Vanover	1554	0	0	0	0	0	0	0	0	0	0	0	0	0	
+656	Chuck Russom	0950	0	0	0	0	0	0	0	0	0	0	0	0	0	
+657	Dave Botan	0960	0	0	0	0	0	0	0	0	0	0	0	0	0	
+658	David Mullich	0955	0	0	0	0	0	0	0	0	0	0	0	0	0	
+659	David Richey	0957	0	0	0	0	0	0	0	0	0	0	0	0	0	
+660	David Vela	0576	0	0	0	0	0	0	0	0	0	0	0	0	0	
+661	Dean Gibson	0961	0	0	0	0	0	0	0	0	0	0	0	0	0	
+662	Edward Hudson	0565	0	0	0	0	0	0	0	0	0	0	0	0	0	
+663	George Almond	0740	0	0	0	0	0	0	0	0	0	0	0	0	0	
+664	George Ruof	0735	0	0	0	0	0	0	0	0	0	0	0	0	0	
+665	Greg Fulton	0757	0	0	0	0	0	0	0	0	0	0	0	0	0	
+666	Gus Smedstad 	0694	0	0	0	0	0	0	0	0	0	0	0	0	0	
+667	Ian Bullard	0693	0	0	0	0	0	0	0	0	0	0	0	0	0	
+668	Jack Russell	0872	0	0	0	0	0	0	0	0	0	0	0	0	0	
+669	James Dickinson	0527	0	0	0	0	0	0	0	0	0	0	0	0	0	
+670	Jeff Bigman	0937	0	0	0	0	0	0	0	0	0	0	0	0	0	
+671	Jeff Blattner	0938	0	0	0	0	0	0	0	0	0	0	0	0	0	
+672	Jeff Leggett	0940	0	0	0	0	0	0	0	0	0	0	0	0	0	
+673	Jennifer Bullard	0670	0	0	0	0	0	0	0	0	0	0	0	0	0	
+674	Joel Kelly 	0692	0	0	0	0	0	0	0	0	0	0	0	0	0	
+675	John Bolton	0869	0	0	0	0	0	0	0	0	0	0	0	0	0	
+676	John Gibson	0904	0	0	0	0	0	0	0	0	0	0	0	0	0	
+677	John Krause	0906	0	0	0	0	0	0	0	0	0	0	0	0	0	
+678	John Machin	0914	0	0	0	0	0	0	0	0	0	0	0	0	0	
+679	John Slowsky	0888	0	0	0	0	0	0	0	0	0	0	0	0	0	
+680	Jon Van Caneghem	0456	0	0	0	0	0	0	0	0	0	0	0	0	0	
+681	Julia Ulano	0664	0	0	0	0	0	0	0	0	0	0	0	0	0	
+682	Keith Francart	1539	0	0	0	0	0	0	0	0	0	0	0	0	0	
+683	Keith Talanay	1540	0	0	0	0	0	0	0	0	0	0	0	0	0	
+684	Ken Spencer	1548	0	0	0	0	0	0	0	0	0	0	0	0	0	
+685	Ken Thomson	0951	0	0	0	0	0	0	0	0	0	0	0	0	0	
+686	Kurt McKeever	0954	0	0	0	0	0	0	0	0	0	0	0	0	0	
+687	Lisa Whitman	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+688	Lou Henderson	0891	0	0	0	0	0	0	0	0	0	0	0	0	0	
+689	Marcus Pregent	0887	0	0	0	0	0	0	0	0	0	0	0	0	0	
+690	Mark Caldwell	1546	0	0	0	0	0	0	0	0	0	0	0	0	0	
+691	Michael Wolf 	0878	0	0	0	0	0	0	0	0	0	0	0	0	0	
+692	Nicco Wargon 	0900	0	0	0	0	0	0	0	0	0	0	0	0	0	
+693	Paul Rattner	1516	0	0	0	0	0	0	0	0	0	0	0	0	0	
+694	"Peter ""Zoop"" Ryu"	1530	0	0	0	0	0	0	0	0	0	0	0	0	0	
+695	Phelan Sykes	0656	0	0	0	0	0	0	0	0	0	0	0	0	0	
+696	Rebecca Christel	0657	0	0	0	0	0	0	0	0	0	0	0	0	0	
+697	Riki Corredera 	1518	0	0	0	0	0	0	0	0	0	0	0	0	0	
+698	Robert King	0781	0	0	0	0	0	0	0	0	0	0	0	0	0	
+699	Ryan Den	0699	0	0	0	0	0	0	0	0	0	0	0	0	0	
+700	Scott White	0675	0	0	0	0	0	0	0	0	0	0	0	0	0	
+701	Steve Baca	0695	0	0	0	0	0	0	0	0	0	0	0	0	0	
+702	Steve Jasper	0698	0	0	0	0	0	0	0	0	0	0	0	0	0	
+703	Steve Wasaff	0702	0	0	0	0	0	0	0	0	0	0	0	0	0	
+704	Tim Lang	0700	0	0	0	0	0	0	0	0	0	0	0	0	0	
+705	Tracy Iwata	0660	0	0	0	0	0	0	0	0	0	0	0	0	0	
+706	Walter Johnson	0873	0	0	0	0	0	0	0	0	0	0	0	0	0	
+707	Devin Chapman	0877	0	0	0	0	0	0	0	0	0	0	0	0	0	
+708	Derek Chester	0893	0	0	0	0	0	0	0	0	0	0	0	0	0	
+709	Eric Williamson	0871	0	0	0	0	0	0	0	0	0	0	0	0	0	
+710	Tom Zeliff	0876	0	0	0	0	0	0	0	0	0	0	0	0	0	
+711	Lord Roberts	0959	0	0	0	0	0	0	0	0	0	0	0	0	0	
+712	Amethyst Gemstone	0666	0	0	0	0	0	0	0	0	0	0	0	0	0	
+713	Wacko the Ninja	0935	0	0	0	0	0	0	0	0	0	0	0	0	0	
+714	Andrew YC Pupedis	0926	0	0	0	0	0	0	0	0	0	0	0	0	0	
+715	Just_A_Brain	0898	0	0	0	0	0	0	0	0	0	0	0	0	0	
+716	"Mephisto, Ancient Sorcerer"	0914	0	0	0	0	0	0	0	0	0	0	0	0	0	
+717	Contest Winner 7	0963	0	0	0	0	0	0	0	0	0	0	0	0	0	
+718	King Louis	1537	0	0	0	0	0	0	0	0	0	0	0	0	0	
+719	Rydric	0902	0	0	0	1127	0	310	0	515	1257	0	0	0	0	Trade NPC Arrowheads/Wood
+720	Guthwulf	0889	0	0	0	910	0	304	0	1170	1179	0	0	0	0	Hint NPC in Steadwick/Pete (3)
+721	Aaron Castro	0869	0	0	0	915	0	304	0	1168	1170	0	0	0	0	Hint NPC in Steadwick/Pete (3)
+722	Pip Hillier	0942	0	0	0	940	0	311	0	1258	1259	0	0	0	0	Trade NPC Feathers/Arrowheads
+723	Robert Belknap	0694	0	0	0	960	0	312	0	1260	1261	0	0	0	0	Trade NPC Wood/Feathers
+724	Infernon	0701	0	0	0	1021	0	315	0	1266	1267	0	0	0	0	Trade NPC Wine/Bottles
+725	Wacko	0935	0	0	0	1039	0	299	0	1268	1270	0	0	0	0	Hint NPC in Tatalia (13) wharf area
+726	Your Conscience	0929	0	0	0	1026	0	299	0	1270	1268	0	0	0	0	Hint NPC in Tatalia (13) wharf area
+727	Amethyst Gemstone	0719	0	0	0	1152	0	298	0	1209	1249	0	0	0	0	Hint NPC in Barrow Downs/Pete (11)
+728	Matthias Bearheart	0923	0	0	0	940	0	304	0	1313	1170	0	0	0	0	Hint NPC in Steadwick/Pete (3)
+729	Tanya Kirklynn	0844	0	0	0	1121	0	302	0	1245	1228	0	0	0	0	Hint NPC in Harmondale (2)
+730	Brahein Kadarr	0934	0	0	0	1125	0	302	0	1222	1227	0	0	0	0	Hint NPC in Harmondale (2)
+731	Karlin Talion	0802	0	0	0	922	0	304	0	1249	1176	0	0	0	0	Hint NPC in Steadwick (3)
+732	Peggy Tish	0835	0	0	0	921	0	304	0	1175	1170	0	0	0	0	Hint NPC in Steadwick (3)
+733	Kira Cardrin	0824	0	0	0	924	0	304	0	1171	1168	0	0	0	0	Hint NPC in Steadwick (3)
+734	Inja Yew	0662	0	0	0	946	0	299	0	1197	1250	0	0	0	0	Hint NPC in Tularean Forest (4)
+735	Alik Whitemoon	0682	0	0	0	961	0	299	0	1198	1194	0	0	0	0	Hint NPC in Tularean Forest (4)
+736	Damon Hawker	0929	0	0	0	1134	0	305	0	1172	1249	0	0	0	0	Hint NPC in Deyja (5)
+737	Claes Mogren	0596	0	0	0	976	0	305	0	1173	1194	0	0	0	0	Hint NPC in Deyja (5)
+738	Licia Rivenrock	0717	0	0	0	1156	0	298	0	1207	1179	0	0	0	0	Hint NPC in Barrow Downs (11)
+739	Feldspar Toolmen	0740	0	0	0	1153	0	298	0	1179	1189	0	0	0	0	Hint NPC in Barrow Downs (11)
+740	Jasper Fissure	0746	0	0	0	1154	0	298	0	1269	1179	0	0	0	0	Hint NPC in Barrow Downs (11)
+741	Kelly Garnet	0709	0	0	0	1155	0	298	0	1270	1194	0	0	0	0	Hint NPC in Barrow Downs (11)
+742	Regina Fern	0828	0	0	0	0	0	299	0	1197	1250	0	0	0	0	Hint NPC in Tatalia (13) wharf area
+743	Thed Robynson	0868	0	0	0	0	0	299	0	1198	1250	0	0	0	0	Hint NPC in Tatalia (13) wharf area
+744	Tasha Vale	0670	0	0	0	0	0	300	0	1248	1191	0	0	0	0	Hint NPC in Avlee (14)
+745	Relburn Ditch	0764	0	0	0	0	0	301	0	1208	1223	0	0	0	0	Hint NPC in Stone City (39)
+746	Auric Goldsmith	0746	0	0	0	0	0	301	0	1248	1226	0	0	0	0	Hint NPC in Stone City (39)
+747	Darek Halover	0740	0	0	0	0	0	301	0	1242	1247	0	0	0	0	Hint NPC in Stone City (39)
+748	Diana Dedrick	0842	0	0	0	0	0	302	0	1221	1228	0	0	0	0	Hint NPC in Harmondale (2)
+749	Sioned Warsen	0853	0	0	0	0	0	302	0	1312	1229	0	0	0	0	Hint NPC in Harmondale (2)
+750	Deedra Brewer	0822	0	0	0	0	0	302	0	1227	1245	0	0	0	0	Hint NPC in Harmondale (2)
+751	Solitare Bainful	0666	0	0	0	0	0	303	0	1194	1193	0	0	0	0	Hint NPC in Tularean Forest (4)
+752	Tiana Withern	0660	0	0	0	0	0	303	0	1190	1192	0	0	0	0	Hint NPC in Tularean Forest (4)
+753	Therenda Evermorn	0849	0	0	0	0	0	304	0	1168	1176	0	0	0	0	Hint NPC in Steadwick (3)
+754	Tamara Anders	0844	0	0	0	0	0	304	0	1169	1170	0	0	0	0	Hint NPC in Steadwick (3)
+755	Roberta Theben	0592	0	0	0	0	0	304	0	1171	1249	0	0	0	0	Hint NPC in Steadwick (3)
+756	Samantha Kilvers	0590	0	0	0	0	0	304	0	1171	1194	0	0	0	0	Hint NPC in Steadwick (3)
+757	Tabitha Yerin	0816	0	0	0	0	0	305	0	1172	1249	0	0	0	0	Hint NPC in Deyja (5)
+758	Jasmine Jeavers	0609	0	0	0	0	0	305	0	1173	1313	0	0	0	0	Hint NPC in Deyja (5)
+759	Mattric Bowes	0595	0	0	0	1120	0	294	0	1183	1202	0	0	0	0	Hint NPC In Bracada (6)
+760	Alashandra Reese	0586	0	0	0	1114	0	294	0	1202	1203	0	0	0	0	Hint NPC In Bracada (6)
+761	Calindra Goldensight	0846	0	0	0	1034	0	313	0	1262	1263	0	0	0	0	Trade NPC Sand/Wine
+762	Arvin Beneclowd	0740	0	0	0	1156	0	314	0	1264	1265	0	0	0	0	Trade NPC Bottles/Sand
+763	Nivek Arlond	0934	0	0	0	933	0	304	0	1194	1175	0	0	0	0	Hint NPC in Steadwick (3)
+764	Mireille Warlin	0664	0	0	0	951	0	303	0	1190	1193	0	0	0	0	Hint NPC in Tularean Forest (4)
+765	Shiara FireOpal	0798	0	0	0	1089	0	305	0	1194	1249	0	0	0	0	Hint NPC in Deyja (5)
+766	Linda Draken	0806	0	0	0	977	0	305	0	1173	1172	0	0	0	0	Hint NPC in Deyja (5)
+767	Ferris Oxhide	0756	0	0	0	972	0	305	0	1194	506	0	0	0	0	Hint NPC in Deyja (5)
+768	Jayce Kedrin	0745	0	0	0	974	0	305	0	1249	506	0	0	0	0	Hint NPC in Stone City (39)
+769	Giliyan Redfern	0660	0	0	0	947	0	303	0	1194	1192	0	0	0	0	Hint NPC in Tularean Forest/Pete (4)
+770	Karzon Skyefyre	0684	0	0	0	959	0	303	0	1190	1193	0	0	0	0	Hint NPC in Tularean Forest (4)
+771	Rainyn Rivencrest	0651	0	0	0	951	0	303	0	506	1313	0	0	0	0	Hint NPC in Tularean Forest (4)
+772	Tom Ono	1506	0	0	0	0	0	0	0	0	0	0	0	0	0	
+773	Karl Drown	1504	0	0	0	0	0	0	0	0	0	0	0	0	0	
+774	Tony Evans	0948	0	0	0	0	0	0	0	0	0	0	0	0	0	
+775	Chris Miller	0686	0	0	0	0	0	0	0	0	0	0	0	0	0	
+776	Carl Pindor	0690	0	0	0	0	0	0	0	0	0	0	0	0	0	
+777	Eric Heffron	0694	0	0	0	0	0	0	0	0	0	0	0	0	0	
+778	Hairbaugh	0936	0	0	0	0	0	319	0	1256	1311	0	0	0	0	Goblin Spy in Harmondale
+779	Rawn Talreisch	0568	0	0	0	943	0	304	0	1270	1249	0	0	0	0	Hint NPC in Steadwick (3)
+780	Guard	0738	0	0	0	0	0	318	0	0	0	0	0	0	0	Guard in Stone City
+781	Peni Pretty	0839	0	0	0	928	0	304	0	1253	1313	0	0	0	0	Hint NPC in Erathia (3)
+782	Tallia Ravenswood	0850	0	0	0	1128	0	304	0	1270	1313	0	0	0	0	Hint NPC in Erathia (3)
+783	Harli Quinn	0613	0	0	0	978	0	305	0	1313	1270	0	0	0	0	Hint NPC in Deyja (5)
+784	Madigan Tarent	0849	0	0	0	1066	0	295	0	1312	1270	0	0	0	0	Hint NPC in Celeste (7)
+785	Garion Ramiez	0949	0	0	0	1067	0	295	0	1313	1194	0	0	0	0	Hint NPC in Celeste (7)
+786	Andover Potbello	0372	0	0	0	260	74	0	0	1314	1609	0	0	0	0	gives money for the sixth letter and retrieve candelabra quest
+787	Maria	0327	0	0	0	260	48	0	0	1321	0	0	0	0	0	gives clue for marketing promotion.
+788	Frank Fairchild	0266	0	0	0	208	0	0	0	1637	1639	0	0	0	0	Gives the save the mom quest and takes letter from d6
+789	Wilbur Humphrey	1030	0	0	0	222	0	0	0	1322	1326	0	0	0	0	Council Quest and Promotion Quest.
+790	Albert Newton	0030	0	0	0	223	0	0	0	1364	1368	0	0	0	0	Council Quest and Promotion Quest.
+791	Osric Temper	0033	0	0	0	224	0	0	0	1374	1378	0	0	0	0	Council Quest and Promotion Quest.
+792	Chadwick Blackpoole	0414	0	0	0	274	0	0	0	0	0	0	0	0	0	Gives nomination for Cavalier Quest - is supposed to be in Free Haven inn
+793	Oracle	0034	0	0	0	451	0	0	0	1386	1387	0	0	0	0	Return the crystals and pyramid quests
+794	The Seer	0035	0	0	0	450	0	0	0	1354	1358	1359	0	0	0	"Seer quest, item return, and hint"
+795	Marton Ferris	0443	0	0	0	1294	42	0	0	0	0	1709	0	0	0	Divine Intervention quest
+796	Melody Silver	0289	0	0	0	0	0	0	0	1344	0	0	0	0	0	The damsel in distress for the paladin quest
+797	Archibald Ironfist	1029	0	0	0	1244	0	0	0	1343	0	0	0	0	0	Need picture from heroes 2
+798	Nicolai Ironfist	0031	0	0	0	222	0	0	0	1331	1338	0	0	0	0	Need a new picture
+799	Loretta Fleise	0029	0	0	0	226	0	0	0	1392	1395	0	0	0	0	
+800	Erik Von Stromgard	0028	0	0	0	227	0	0	0	1400	1404	0	0	0	0	
+801	Anthony Stone	0032	0	0	0	225	0	0	0	1345	1348	0	0	0	0	
+802	The Prince of Thieves	0057	0	0	0	0	0	0	0	1411	0	0	0	0	0	
+803	Verdant	1574	0	0	0	0	0	323	0	0	0	0	0	0	0	Cross continent Q NPC.
+804	The Hermit on the Mountain	0228	0	0	0	1451	0	0	0	1408	0	0	0	0	0	winter quest for Stromgard
+805	Aaron Strongmun	0453	0	0	0	1285	13	0	0	1515	1574	0	0	0	0	"Sword Expert, door next to weaponshop (D3)"
+806	Bernard Jacobs	0452	0	0	0	1327	13	0	0	1559	1596	0	0	0	0	Repair expert (E2)
+807	Benito Tellman	0451	0	0	400	1393	13	0	0	1535	1584	0	0	0	0	"Plate expert, 4 buildings south of Ironfist (D3)"
+808	Forrest Suthers	0450	0	0	0	1418	14	0	0	1536	0	0	0	0	0	Plate Master (C2)
+809	John Tuck	0449	0	800	0	1535	14	0	0	1572	0	0	0	0	0	Learning master (D1)
+810	Kyle Lutvig	0448	0	0	0	1220	77	0	0	0	0	0	0	0	0	child
+811	David Feather	0447	0	0	0	1237	14	0	0	1534	0	0	0	0	0	chain master (C3)
+812	Rich Hamburg	0446	0	0	400	1382	13	0	0	1533	1583	0	0	0	0	"chain expert, 4 buildings south of Ironfist (D3)"
+813	Susan Handlebaum	0445	0	0	0	0	77	0	0	0	0	0	0	0	0	child
+814	Will Ottoman	0444	0	800	0	1511	13	0	0	1558	1602	0	0	0	0	merchant master (D1)
+815	Noah White	0443	0	0	0	1366	14	0	0	0	0	0	0	0	0	instructor
+816	Calvin Black	0442	0	0	200	1302	13	0	0	1513	1573	0	0	0	0	staff expert (E2)
+817	Avinril Smythers 	0441	0	0	0	270	15	0	0	1603	0	0	0	0	0	"Good dwarf who gives defeat Snergal quest, Master axe (C3)"
+818	Harold Hess	0440	0	0	0	1339	55	0	0	0	0	1699	0	0	0	Merc Guild Membership (E3)
+819	Jacques Kohl	0438	0	0	200	1331	14	0	0	1568	0	0	0	0	0	diplomacy master (C1)
+820	Tim O'Hoolihan	0437	0	0	0	1524	13	0	0	1549	1591	0	0	0	0	body expert (C2)
+821	Fredrick Piles	0436	0	0	400	1308	46	0	0	0	0	1699	0	0	0	Merc Guild Membership (C1)
+822	Charles D'Sorpigal	0435	0	0	0	210	15	0	0	1605	0	0	0	0	0	Constable in Mist who gives the prove Silver Helms are bad quest
+823	Kent Williams	0434	0	0	0	1435	32	0	0	0	0	0	0	0	0	Person who sells house in Free Haven
+824	Gordon Styles	0433	0	0	0	1429	2	0	0	0	0	0	0	0	0	armorer
+825	Dorf	0432	0	0	0	1413	13	0	0	1513	1573	0	0	0	0	"staff expert, Bottom middle building (E3)"
+826	Twillen	0431	0	0	0	0	41	0	0	1667	0	0	0	0	0	"Young Twillen, after the statuette quest"
+827	Terrance Smith	0430	0	0	0	1325	13	0	0	1517	1575	0	0	0	0	"dagger expert, behind tavern below Ironfist  (D3)"
+828	Samson Tess	0429	0	0	0	0	73	0	0	1661	0	0	0	0	0	Human guard in Goblinwatch after quest complete
+829	Harper Collins	0428	0	0	400	1287	14	0	0	1542	0	1705	0	0	0	water master (E2)
+830	Arlen Sailor	0427	0	0	0	1280	13	0	0	1532	0	0	0	0	0	leather master (C1)
+831	Bertrand Scrivner	0426	0	0	0	210	23	0	0	1607	0	0	0	0	0	Mayor in Mist Town Hall
+832	Peter Ivanovich	0425	0	0	0	1336	7	0	0	0	0	0	0	0	0	pathfinder
+833	Michael Ogilvy	0424	0	0	0	1528	46	0	0	1515	1574	0	0	0	0	Sword expert (C2)
+834	Bernice Hatter	0423	0	0	0	1531	3	0	0	0	0	0	0	0	0	alchemist
+835	Tess Tucker	0422	0	0	0	1397	51	0	0	0	0	1698	0	0	0	Thief Guild Membership (B2)
+836	Hector Dragged	0421	0	0	0	0	0	0	0	0	0	0	0	0	0	
+837	Guy Hampton	0420	0	0	0	1307	14	0	0	1516	0	0	0	0	0	sword master (B2)
+838	Horace Rose	0419	0	0	400	1283	46	0	0	0	0	1701	0	0	0	Merc Guild Membership (D1)
+839	Falagar	0418	0	0	0	1351	41	0	0	1662	0	0	0	0	0	Mage from the intro
+840	Gilbert Hammer	0417	0	0	0	1525	14	0	0	1550	0	0	0	0	0	body master (D1)
+841	Leon Lazaru	0416	0	0	0	1300	13	0	0	1555	1594	0	0	0	0	"identify expert, 2 houses by gate (D3)"
+842	Macro Caligula	0415	0	0	0	1252	14	0	0	1566	0	0	0	0	0	perception master (C3)
+843	Orville Corvair	0414	0	0	0	1372	4	0	0	0	0	0	0	0	0	scholar
+844	Lucky Oster	0413	0	0	0	1298	51	0	0	0	0	1697	0	0	0	Thief Guild Membership (D1)
+845	Gonzalo Ramirez	0412	0	0	200	1315	0	0	0	1521	1577	1700	0	0	0	spear expert (E2)
+846	Marcellus Lutvig	0411	0	0	0	1220	51	0	0	0	0	1697	0	0	0	Thief Guild Membership (C1)
+847	Erik Salzburg	0410	0	0	0	1430	13	0	0	1561	1597	0	0	0	0	"bodybuilding expert, 2 big houses east (E3)"
+848	Ahmed A'sanzi	0409	0	0	0	1292	5	0	0	0	0	0	0	0	0	guide
+849	Sergio Carrington	0408	0	0	0	1266	51	0	0	0	0	1698	0	0	0	Thief Guild Membership (C2)
+850	Saad Shamel	0407	0	0	0	0	0	0	0	0	0	0	0	0	0	
+851	Ghim Hammond	0406	0	0	0	0	0	0	0	1614	0	0	0	0	0	Dwarf prisoner that gives key to d5
+852	Walter Hargreaves	0405	0	0	0	1240	13	0	0	1567	1600	0	0	0	0	"diplomacy expert, upstairs Ironfist (D3)"
+853	Virgil Holiday	0404	0	0	0	1273	13	0	0	1547	1590	0	0	0	0	"mind expert, west 5 poor houses (E3)"
+854	Warren Holmes	0403	0	0	0	1355	17	0	0	0	0	1694	0	0	0	Elemental Guild Membership (C1)
+855	Tyler Tailor	0402	0	0	0	1313	13	0	0	1569	1601	0	0	0	0	"disarm expert, 2 houses by gate (D3)"
+856	Sylvester Moor	0401	0	0	0	1460	13	0	0	1567	1600	0	0	0	0	diplomacy expert (C2)
+857	Victor Hosen	0400	0	0	0	1422	13	0	0	1563	1598	0	0	0	0	"meditation expert, 2 big houses east (E3)"
+858	Thane Roper	0399	0	0	0	1523	14	0	0	1548	0	0	0	0	0	mind master (D1)
+859	Oliver Wendell	0398	0	0	0	0	0	0	0	1615	0	0	0	0	0	Monk who gives party info in d7
+860	Winston Historian	0397	0	0	400	1281	46	0	0	0	0	1700	0	0	0	Merc Guild Membership (C2)
+861	Zoltan Phelps	0396	0	0	0	1390	21	0	0	1635	0	0	0	0	0	Gives quest to retrieve lost artifact
+862	Andrew Besper	0395	0	0	0	1348	31	0	0	1616	0	1701	0	0	0	Gives quest to retrieve harp
+863	Ellen Rockway	0394	0	0	0	1507	48	0	0	0	0	0	0	0	0	gypsy
+864	Olaf Berring	0393	0	0	0	1421	13	0	0	1561	1597	0	0	0	0	bodybuilding expert (D3)
+865	Nadine Hayden	0	0	0	0	0	0	0	0	0	0	0	0	0	0	"Guild of light proprietor (npc 61), picture used ?"
+866	Isao Magistrus	0391	0	0	0	1228	13	0	0	1537	1585	0	0	0	0	"fire expert, west 5 poor houses (E3)"
+867	Livia Farrel	0390	0	0	0	1453	13	0	0	1557	1595	0	0	0	0	merchant expert (C2)
+868	Enoch Highridge	0389	0	0	0	1258	13	0	0	1545	1589	0	0	0	0	"spirit expert, west 5 poor houses (E3)"
+869	Edgar Carpenter	0388	0	0	400	1359	13	0	0	1529	1581	0	0	0	0	"shield expert, 4 buildings south of Ironfist (D3)"
+870	Hans Gifford	0387	0	0	0	1251	14	0	0	1556	0	0	0	0	0	identify master (C2)
+871	Isaac Streetman	0386	0	0	0	1268	17	0	0	0	0	1695	0	0	0	Self Guild Membership (D1)
+872	Twillen	0385	0	0	0	1342	41	0	0	1664	1666	0	0	0	0	Statuette Quest
+873	Naomi Highland	0384	0	0	0	1361	10	0	0	0	0	0	0	0	0	healer
+874	Errol Ostermann	0383	0	0	0	1330	14	0	0	1526	0	0	0	0	0	mace master (B2)
+875	Gabe Lester	0382	0	0	0	1320	14	0	0	1570	0	0	0	0	0	disarm master (C1)
+876	Dickson Parks	0381	0	0	0	1250	13	0	0	1525	1579	0	0	0	0	mace expert (C1)
+877	Takao	0380	0	0	0	1532	13	0	0	1529	1581	0	0	0	0	shield expert (C2)
+878	Jed Morrison	0379	0	0	0	1235	13	0	0	1523	1578	0	0	0	0	bow expert (C1)
+879	Douglas Hill	0378	0	0	0	1383	13	0	0	1541	1587	0	0	0	0	"water expert, on luck island (E3)"
+880	Elton Astrogate	0377	0	0	0	1225	13	0	0	1571	1602	0	0	0	0	"learning expert, upstairs Ironfist (D3)"
+881	Morton Holovin	0376	0	0	0	1295	13	0	0	1553	1593	0	0	0	0	dark expert (C1)
+882	Newt Headrow	0375	0	0	400	1371	13	0	0	1531	1582	0	0	0	0	"leather expert, 4 buildings south of Ironfist (D3)"
+883	Jasmine Spicer	0374	0	0	0	1520	11	0	0	0	0	0	0	0	0	expert healer
+884	Helen Teal	0373	0	0	0	1403	13	0	0	1523	1578	0	0	0	0	bow expert (D3)
+885	Pat	0372	0	0	0	0	0	0	0	0	0	0	0	0	0	Proprietor picture already used.
+886	Jessica Carson	0371	0	0	0	1309	17	0	0	0	0	1702	0	0	0	Air Guild Membership (C2)
+887	Faith Kellenmoor	0370	0	0	0	1366	21	0	0	0	0	0	0	0	0	merchant
+888	Ginger Astor	0369	0	0	0	1514	13	0	0	0	0	0	0	0	0	teacher
+889	Yvonne D'arcy	0368	0	0	0	1406	33	0	0	0	0	0	0	0	0	cook
+890	Jezebel	0367	0	0	400	1227	14	0	0	1538	0	1704	0	0	0	fire master (E2)
+891	Pat Skylark	0366	0	0	0	1286	13	0	0	1527	1580	0	0	0	0	blaster expert (E1)
+892	Doreen Espana	0365	0	0	0	1549	34	0	0	0	0	0	0	0	0	chef
+893	Emmanuel Cravitz	0364	0	0	0	0	0	0	0	1634	0	0	0	0	0	Husband needed for t8 find the husband quest
+894	Revee Botania	0363	0	0	0	1507	14	0	0	1544	0	0	0	0	0	earth master (D1)
+895	Deth Macbre	0362	0	0	0	0	0	0	0	0	0	0	0	0	0	weird face…not sure what to do with this one.
+896	Hugger Brother	0361	0	0	0	1427	20	0	0	0	0	0	0	0	0	trader
+897	Hugger Brother	0360	0	0	0	1533	28	0	0	0	0	0	0	0	0	chimney sweep
+898	Hugger Brother	0359	0	0	0	1338	8	0	0	0	0	0	0	0	0	sailor
+899	Hugger Brother	0358	0	0	0	1493	26	0	0	0	0	0	0	0	0	locksmith
+900	Graham Dancey	0357	0	0	0	1539	24	0	0	0	0	0	0	0	0	barrister
+901	Wendy Featherhill	0356	0	0	0	1454	47	0	0	0	0	0	0	0	0	psychic
+902	Dolores Craft	0355	0	0	0	1461	33	0	0	0	0	0	0	0	0	cook
+903	Joanne Cravitz	0354	0	0	0	1354	52	0	0	1630	0	0	0	0	0	Wife for the t8 find the husband quest
+904	Holly Struthers	0353	0	0	0	1253	17	0	0	0	0	1703	0	0	0	Earth Guild Membership (D1)
+905	Ike Pargrew	0352	0	0	0	1332	17	0	0	0	0	1703	0	0	0	Earth Guild Membership (C2)
+906	Corey Rozburg	0351	0	0	0	1296	17	0	0	0	0	1704	0	0	0	Fire Guild Membership (C2)
+907	Preston Harper	0350	0	0	200	1224	13	0	0	1533	1583	0	0	0	0	chain expert (D2)
+908	Tina Sheltan	0349	0	0	800	1473	13	0	0	1551	1592	0	0	0	0	light expert (D1)
+909	Roxanne Sheltan	0348	0	0	0	1473	77	0	0	0	0	0	0	0	0	child
+910	Tara D'Cathay	0347	0	0	0	1448	13	0	0	1565	1599	0	0	0	0	"perception expert, above tavern (E3)"
+911	Vera Grasslin	0346	0	0	0	1468	36	0	0	0	0	0	0	0	0	bard
+912	Emma Terrance	0345	0	0	0	1462	59	0	0	0	0	0	0	0	0	weaver
+913	Olivia Trumpet	0344	0	0	0	1455	58	0	0	0	0	0	0	0	0	potter
+914	Rebecca Traveler	0343	0	0	0	1236	77	0	0	0	0	0	0	0	0	child
+915	Rexella 	0342	0	0	0	1375	14	0	0	1528	0	0	0	0	0	master blaster (A2)
+916	Miriam Goodwife	0341	0	0	0	1416	32	0	0	0	0	0	0	0	0	banker
+917	Dominique Juarez	0340	0	0	0	1321	17	0	0	0	0	1705	0	0	0	Water Guild Membership (C2)
+918	Gretchen Fallzen	0339	0	0	0	1437	54	0	0	0	0	0	0	0	0	tailor
+919	Edna Harmenov	0338	0	0	0	1256	55	0	0	0	0	0	0	0	0	laborer
+920	Julie Cooper	0337	0	0	0	1503	56	0	0	0	0	0	0	0	0	farmer
+921	Ethel Armstrong	0336	0	0	0	1410	70	0	0	0	0	0	0	0	0	scribe
+922	Bernice Weaver	0335	0	0	600	1438	17	0	0	0	0	1706	0	0	0	Body Guild Membership (D3)
+923	Bishop Iquisitorio	0334	0	0	600	1255	14	0	0	1546	0	1708	0	0	0	"spirit master, behind Ironfist (D3)"
+924	Eva Semple	0333	0	0	100	1419	14	0	0	0	0	0	0	0	0	instructor
+925	Gail Ashtengard	0332	0	0	0	1271	53	0	0	0	0	0	0	0	0	serf
+926	Daphne Calloway	0331	0	0	0	1357	23	0	0	0	0	0	0	0	0	counselor
+927	Stephen Biggs	0330	0	0	0	1412	13	0	0	1519	1576	0	0	0	0	"axe expert, 2nd door in training (D3)"
+928	Lilly June	0329	0	0	0	1369	19	0	0	0	0	0	0	0	0	spell master
+929	Peggy Woods	0328	0	0	0	1368	17	0	0	0	0	1706	0	0	0	Body Guild Membership (C2)
+930	Maria	0327	0	0	0	0	0	0	0	0	0	0	0	0	0	picture already used by maria the gypsy
+931	Alice Ofenhauser	0326	0	0	0	1488	24	0	0	0	0	0	0	0	0	barrister
+932	Cyrus Montebleu	0325	0	0	0	1483	13	0	0	1559	1596	0	0	0	0	repair expert (D1)
+933	Donald Retzer	0324	0	0	0	1469	13	0	0	1571	1602	0	0	0	0	"learning expert, upstairs self guild (E3)"
+934	Cody Ripper	0323	0	0	0	1299	46	0	0	0	0	0	0	0	0	squire
+935	Tracy Flauta	0322	0	0	600	1403	17	0	0	0	0	1707	0	0	0	Mind Guild Membership (D3)
+936	Carol Rossini	0321	0	0	0	1498	72	0	0	0	0	0	0	0	0	clerk
+937	Stephanie Pavlov	0320	0	0	0	1269	71	0	0	0	0	0	0	0	0	missionary
+938	Sandra Trudoor	0319	0	0	0	1550	74	0	0	0	0	0	0	0	0	follower of Baa
+939	Violet Dawson	0318	0	0	0	1316	58	0	0	1641	0	1695	0	0	0	(Self Guild Membership and Rescue Angela)
+940	Sherell Ivanaveh	0317	0	0	0	0	0	0	0	1646	0	0	0	0	0	Prisoner of the cannibals in the t3 rescue the prisoner quest
+941	Elsie Freedman	0316	0	0	0	1356	17	0	0	0	0	1707	0	0	0	Mind Guild Membership (C2)
+942	Beverly Sweetwater	0315	0	0	0	1317	4	0	0	0	0	0	0	0	0	scholar
+943	Florimel Evylen	0314	0	0	100	1341	75	0	0	0	0	0	0	0	0	noble
+944	Stacy Flanders	0313	0	0	0	1401	74	0	0	0	0	0	0	0	0	follower of baa
+945	Belinda Pikeman	0312	0	0	0	1391	33	0	0	0	0	0	0	0	0	cook
+946	Connie Lettering	0311	0	0	0	1310	13	0	0	1519	1576	0	0	0	0	axe expert (C3)
+947	Chandra Stripling	0310	0	0	0	1380	52	0	0	0	0	0	0	0	0	peasant
+948	Jean Acton	0309	0	0	0	1284	31	0	0	0	0	0	0	0	0	factor
+949	Clyde Dagget	0308	0	0	0	1537	13	0	0	1563	1598	0	0	0	0	meditation expert (D1)
+950	Kathleen Mester	0307	0	0	0	1373	18	0	0	1711	0	0	0	0	0	mystic - allows the use of the teleporter (E2)
+951	Mynasia	0306	0	0	0	1526	13	0	0	1547	1590	0	0	0	0	mind expert (C2)
+952	Amber Praetor	0305	0	0	100	1548	36	0	0	0	0	0	0	0	0	bard
+953	Cassandra Timmon	0304	0	0	0	1411	42	0	0	0	0	0	0	0	0	acolyte
+954	Michele Blackshire	0303	0	0	0	1522	13	0	0	1545	1589	0	0	0	0	spirit expert (C2)
+955	Carly Rotterdam	0302	0	0	0	1546	77	0	0	0	0	0	0	0	0	child
+956	Gabriel Cartman	0301	0	0	0	1379	3	0	0	1618	0	0	0	0	0	Alchemist who gives retrieve Ethric's skull quest
+957	Casey Ludwig	0300	0	0	0	1282	13	0	0	1557	1595	0	0	0	0	merchant expert (C3)
+958	Sheila Loompus	0299	0	0	0	1439	13	0	0	1555	1594	0	0	0	0	"identify expert, above tavern (E3)"
+959	Judith Shoemaker	0298	0	0	0	1402	60	0	0	0	0	0	0	0	0	cobbler
+960	Selena Stipe	0297	0	0	0	1362	45	0	0	0	0	0	0	0	0	pirate
+961	Wilma Rothwing	0296	0	0	0	1344	17	0	0	0	0	1708	0	0	0	Spirit Guild Membership (C2)
+962	Ivan Magyar	0295	0	0	0	1221	13	0	0	1569	1601	0	0	0	0	disarm expert (C2)
+963	Nicholas Roth	0294	0	999	800	1219	13	0	0	1551	1592	0	0	0	0	light expert (B1)
+964	Bonnie Rotterdam	0293	0	0	100	1546	0	0	0	1429	0	0	0	0	0	Harpy Feather Buyer (C2)
+965	Caao Salem	0292	0	0	400	1272	14	0	0	1540	0	1702	0	0	0	air master (E2)
+966	Bronwyn Meck	0291	0	0	400	1279	14	0	0	1530	0	0	0	0	0	Shield Master (B2)
+967	Randall Norris	0290	0	0	0	1301	9	0	0	0	0	0	0	0	0	navigator
+968	Telelocator	0034	0	0	0	0	0	0	0	0	0	0	0	0	0	
+969	Heidi Strumper	0288	0	0	100	1544	75	0	0	0	0	0	0	0	0	noble
+970	Igor	0287	0	0	0	1394	13	0	0	1527	1580	0	0	0	0	"blaster expert, behind goblin camp (E3)"
+971	Iris Poppyfield	0286	0	0	100	1542	36	0	0	0	0	0	0	0	0	bard
+972	Jason Traveler	0285	0	800	0	1236	14	0	0	1562	0	0	0	0	0	bodybuilding master (C2)
+973	Desmond Weller	0284	0	0	0	1249	14	0	0	1524	0	0	0	0	0	bow master (B1)
+974	Jack Crow	0283	0	0	0	1267	13	0	0	1525	1579	0	0	0	0	mace expert (C3)
+975	Harriet Waters	0282	0	0	0	1392	57	0	0	0	0	0	0	0	0	cooper
+976	Avilia Asheed	0281	0	0	0	1345	22	0	0	0	0	0	0	0	0	scout
+977	Kevin Watch	0280	0	0	0	0	52	0	0	0	0	0	0	0	0	Peasant turned to stone in t8
+978	Sharry Carnegie	0329	0	0	0	0	0	0	0	1640	0	0	0	0	0	"Rescue the Sharry quest, becomes healer in 2D 471 in New Sorpigal"
+979	Jo Handlebaum	0278	0	0	0	1377	19	0	0	0	0	0	0	0	0	spell master
+980	Angela Dawson	0277	0	0	0	0	77	0	0	1643	0	0	0	0	0	Child for the d2 rescue the lost child quest
+981	Arthur O'Leery	0276	0	0	0	1257	0	0	0	1531	1582	1696	0	0	0	leather expert (E2)
+982	Ambrose Brusse	0275	0	0	0	1376	13	0	0	1553	1593	0	0	0	0	dark expert (B2)
+983	Fletcher Tormengast	0274	0	0	0	0	52	0	0	0	0	0	0	0	0	Peasant turned to stone in t8
+984	Elijah Skylark	0273	0	0	0	1286	77	0	0	0	0	0	0	0	0	child
+985	Carlo Tormini	0272	0	0	0	1400	35	0	0	1644	0	0	0	0	0	Gives the t3 rescue the prisoner quest
+986	Emil Lime	0271	0	0	0	1306	37	0	0	1668	0	0	0	0	0	Jewelled Egg Quest
+987	Kern Carnegie	0270	0	0	0	1333	15	0	0	0	0	0	0	0	0	arms master
+988	Logan Dasher	0269	0	0	0	1530	13	0	0	1517	1575	0	0	0	0	dagger expert (C2)
+989	Flossie Setering	0268	0	0	0	1322	58	0	0	0	0	0	0	0	0	potter
+990	Dolores Fischer	0267	0	0	0	1381	6	0	0	0	0	0	0	0	0	tracker
+991	Burton Rutherford	0266	0	800	0	1297	14	0	0	1522	0	0	0	0	0	spear master (C3)
+992	Buford T. Allman	0265	0	0	0	1303	24	0	0	1621	0	1694	0	0	0	(Elemental Guild and kill Spider Queen)
+993	Jack Van Imp	0264	0	0	0	1426	13	0	0	1537	1585	0	0	0	0	fire expert (C2)
+994	Rexella Van Imp	0263	0	0	0	1426	42	0	0	0	0	0	0	0	0	acolyte
+995	Jules Miles	0262	0	0	0	1265	14	0	0	1518	0	0	0	0	0	dagger master (C1)
+996	Ryan Treacle	0261	0	0	0	1343	13	0	0	1560	0	0	0	0	0	repair master (C1)
+997	Maria Trepan	0260	0	0	0	1319	33	0	0	1647	0	0	0	0	0	Gives the free Blackshire from the curse quest
+998	Cheryl Duncan	0259	0	0	0	1456	13	0	0	1539	1586	0	0	0	0	"air expert, above bank (E3)"
+999	Woodrow Albright	0258	0	0	0	1409	13	0	0	1535	1584	0	0	0	0	plate expert (C2)
+1000	Droppa MaPantz	0257	0	0	0	1278	27	0	0	0	0	0	0	0	0	fool
+1001	Taro	0256	0	0	0	1243	13	0	0	1543	1588	0	0	0	0	"earth expert, west 5 poor houses (E3)"
+1002	Madeleine Towers	0255	0	0	0	1358	21	0	0	0	0	0	0	0	0	merchant
+1003	Fabian Sun	0254	0	0	0	1505	30	0	0	0	0	0	0	0	0	quarter master
+1004	Bandar Jahrom	0232	0	0	0	1606	0	0	0	1448	0	0	0	0	0	Lamp Trader (B3)
+1005	Thari Mirumoto	0252	0	0	0	1534	77	0	0	0	0	0	0	0	0	child
+1006	Kai Lian	0251	0	0	0	1370	59	0	0	0	0	0	0	0	0	weaver
+1007	Eunbo Kim	0250	0	0	0	1262	23	0	0	0	0	0	0	0	0	counselor
+1008	Hitomi Mirumoto	0249	0	0	0	1534	13	0	0	1541	1587	0	0	0	0	water expert (C2)
+1009	Sila Daewon	0248	0	0	100	1248	14	0	0	0	0	0	0	0	0	instructor
+1010	Abdulai Mahgreb	0247	0	0	0	1288	13	0	0	1549	1591	0	0	0	0	"body expert, west 5 poor houses (E3)"
+1011	Chitania Retiani	0246	0	0	0	1513	58	0	0	0	0	0	0	0	0	potter
+1012	Sigriv	0245	0	0	0	1478	13	0	0	1521	1577	0	0	0	0	spear expert (D1)
+1013	Myyra Hian	0244	0	0	0	1350	47	0	0	0	0	0	0	0	0	psychic
+1014	Norio Ariganaka	0243	0	0	600	1242	14	0	0	1564	0	0	0	0	0	meditation master (E2)
+1015	Shoshi Pertoniki	0242	0	0	0	1239	13	0	0	1565	1599	0	0	0	0	perception expert (D2)
+1016	Leah Lu	0241	0	0	0	1543	77	0	0	0	0	0	0	0	0	child
+1017	Rodinia Sidara	0240	0	0	0	1293	43	0	0	0	0	0	0	0	0	piper
+1018	Indihir Vilandi	0239	0	0	0	1467	29	0	0	0	0	0	0	0	0	porter
+1019	Ta Li No Gharma	0238	0	0	0	1396	62	0	0	0	0	0	0	0	0	miller
+1020	Ackbar	0237	0	0	0	1472	30	0	0	0	0	0	0	0	0	quarter master
+1021	Li Tizare	0236	0	0	0	1536	13	0	0	1543	1588	0	0	0	0	earth expert (C2)
+1022	Soon Lu	0235	0	0	0	1543	40	0	0	0	0	0	0	0	0	water master
+1023	Zodahn Delphi	0234	0	0	0	1538	13	0	0	1539	1586	0	0	0	0	air expert (C2)
+1024	Lori Tao	0233	0	0	0	1501	74	0	0	0	0	0	0	0	0	follower of baa
+1025	Sri Retiani	0215	0	0	0	1513	77	0	0	0	0	0	0	0	0	child
+1026	Daila Chow	0214	0	0	0	0	77	0	0	0	0	0	0	0	0	child
+1027	Gohei Matsu	0204	0	0	0	1482	43	0	0	0	0	0	0	0	0	piper
+1028	Shileka Toreena	0202	0	0	100	1314	39	0	0	0	0	0	0	0	0	wind master
+1029	Melody Stone	0201	0	0	0	1311	38	0	0	0	0	0	0	0	0	cartographer
+1030	Rebecca Calaway	0200	0	0	0	1365	17	0	0	0	0	1710	0	0	0	Dark Guild Membership (B2)
+1031	Virginia Standridge	0199	0	0	600	1238	17	0	0	0	0	1709	0	0	0	Light Guild Membership (D1)
+1032	Dana Fenster	0197	0	0	0	0	0	0	0	0	0	0	0	0	0	"proprietor light guild, picture already used"
+1033	Roxina Smolenska	0196	0	0	0	1270	25	0	0	0	0	0	0	0	0	tinker
+1034	Beth Thompson	0195	0	0	100	1487	40	0	0	0	0	0	0	0	0	water master
+1035	Wilma Cook	0194	0	0	100	1476	41	0	0	0	0	0	0	0	0	gate master
+1036	Lesiah Marduk	0193	0	0	0	1384	51	0	0	0	0	0	0	0	0	burglar
+1037	Miro Shinek	0190	0	0	0	1517	35	0	0	0	0	0	0	0	0	horseman
+1038	Anawah	0182	0	0	0	1334	29	0	0	0	0	0	0	0	0	porter
+1039	Mihi Mihi Nanook	0180	0	0	0	1477	55	0	0	0	0	0	0	0	0	laborer
+1040	Su Lang Manchu	0179	0	0	0	1291	14	0	0	1554	0	0	0	0	0	dark master (A2)
+1041	Nigan	0175	0	0	0	1323	15	0	0	0	0	0	0	0	0	arms master
+1042	Kachiko Toranaga	0170	0	0	100	1312	36	0	0	0	0	0	0	0	0	bard
+1043	Jasper Rice	0164	0	0	0	1223	14	0	0	1514	0	0	0	0	0	staff master (D1)
+1044	Isao Tizare	0158	0	0	0	1536	77	0	0	0	0	0	0	0	0	child
+1045	Heather Mitchell	0157	0	0	0	1234	49	0	0	0	0	0	0	0	0	negotiator
+1046	Linda Nichols	0156	0	0	0	1324	17	0	0	0	0	0	0	0	0	apprentice
+1047	Svetlanta Irktusk	0155	0	0	0	1335	19	0	0	0	0	0	0	0	0	spell master
+1048	Rachel Herzl	0154	0	0	0	1367	17	0	0	0	0	1710	0	0	0	Dark Guild Membership (C1)
+1049	Rosemarie Reyjavik	0153	0	0	0	1471	21	0	0	0	0	0	0	0	0	merchant
+1050	Miriam Boyer	0152	0	0	0	1444	16	0	0	0	0	0	0	0	0	weapons master
+1051	Naomi Wind	0151	0	0	0	1377	41	0	0	0	0	0	0	0	0	gate master
+1052	Eleanor Vanderbilt	0150	0	0	0	1446	7	0	0	1623	0	0	0	0	0	Gives the deface the altar quest
+1053	Gertrude Whaler	0149	0	0	0	1388	39	0	0	0	0	0	0	0	0	wind master
+1054	Amanda Van De Camp	0148	0	0	0	1378	76	0	0	0	0	0	0	0	0	gambler
+1055	Sharla Quinn	0147	0	0	0	1399	12	0	0	0	0	0	0	0	0	master healer
+1056	Deliah Bwana	0146	0	0	0	1388	40	0	0	0	0	0	0	0	0	water master
+1057	Ki Lo Nee	0078	0	0	999	1226	14	0	0	1552	0	0	0	0	0	Light Master (E1)
+1058	Rosita Alexander	0137	0	0	100	1389	75	0	0	0	0	0	0	0	0	noble
+1059	Ral	0128	0	0	0	1486	63	0	0	0	0	0	0	0	0	carpenter
+1060	Nikobi	0125	0	0	0	1491	22	0	0	0	0	0	0	0	0	scout
+1061	Beauregard Wolf	0095	0	0	0	1496	50	0	0	0	0	0	0	0	0	duper
+1062	Lysander Farrel	0072	0	0	0	1453	77	0	0	0	0	0	0	0	0	child
+1063	Becky Holmes	0071	0	0	0	1355	77	0	0	0	0	0	0	0	0	child
+1064	Kim Astrogate	0070	0	0	0	1225	77	0	0	0	0	0	0	0	0	child
+1065	William Tucker	0069	0	0	0	1397	77	0	0	0	0	0	0	0	0	child
+1066	Dennis Johnson	0068	0	0	0	0	77	0	0	0	0	0	0	0	0	Stable proprietor picture used
+1067	Jennifer Herzl	0067	0	0	0	1367	77	0	0	0	0	0	0	0	0	child
+1068	Christopher Smith	0066	0	0	0	1325	77	0	0	0	0	0	0	0	0	child
+1069	George Almond	0064	0	0	0	1466	64	0	0	0	0	0	0	0	0	stonecutter
+1070	Daniel Carnegie	0063	0	0	0	1333	77	0	0	0	0	0	0	0	0	child
+1071	Carrie Calaway	0062	0	0	0	1365	77	0	0	0	0	0	0	0	0	child
+1072	Dini Mahgreb	0061	0	0	0	1288	77	0	0	0	0	0	0	0	0	child
+1073	Hejaz Mawsil	0108	0	0	0	1328	18	0	0	1625	0	1696	0	0	0	(Thief Guild Membership and Cobra Eggs)
+1074	Barrad Unter	0091	0	0	0	1398	32	0	0	0	0	0	0	0	0	banker
+1075	Winston Schezar	0101	0	0	0	1254	42	0	0	1628	0	0	0	0	0	Gives destroy wicked crystal quest
+1076	Janice	0020	0	0	0	208	72	0	0	1316	0	1712	0	0	0	Gives Goblinwatch and Temple of Baa quest - Monster Hunt
+1077	Earnest	0019	0	0	0	210	72	0	0	0	0	1712	0	0	0	Monster Hunt
+1078	Jake	0021	0	0	0	211	72	0	0	0	0	1712	0	0	0	Monster Hunt
+1079	Ghost of John Silver	0059	0	0	0	0	0	0	0	1611	1612	1613	0	0	0	Ghost in d12
+1080	Ghost of Balthasar	0060	0	0	0	0	0	0	0	1651	1652	1653	0	0	0	Paladin ghost in d17
+1081	Urok	1031	0	0	0	1463	0	0	0	1660	0	0	0	0	0	Goblin guard in Goblinwatch
+1082	Arius Peleth	0228	0	0	0	0	0	0	0	0	0	0	0	0	0	Toll bridge NPC
+1083	Lord of Fire	0058	0	0	0	0	0	0	0	1670	1671	1672	0	0	0	Lord of Fire NPC in d4
+1084	Preston Steel	0018	0	0	0	209	0	0	0	1688	0	0	0	0	0	Osric Temper's councilman
+1085	Tori Goldman	0015	0	0	0	209	0	0	0	1689	0	0	0	0	0	Loretta's councilwoman
+1086	Isaac Rockwell	0012	0	0	0	209	0	0	0	1690	0	0	0	0	0	Anthony Stone's councilman
+1087	Olaf Heimdall	0009	0	0	0	209	0	0	0	1691	0	0	0	0	0	Stromgard's councilman
+1088	Euclid Kepler	0006	0	0	0	209	0	0	0	1692	0	0	0	0	0	Newton's councilman
+1089	Slicker Silvertongue	0003	0	0	0	209	0	0	0	1693	0	0	0	0	0	the traitor
+1090	Loretta Fleise	0029	0	0	0	0	0	0	0	1678	0	0	0	0	0	loretta for the first druid promo
+1091	Loretta Fleise	0029	0	0	0	0	0	0	0	1679	0	0	0	0	0	loretta for the second druid promo
+1092	Runaway Chaos	0980	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1093	Slovang Arcanos	0453	0	0	0	1216	1	0	0	0	0	0	0	0	0	Smith
+1094	Brian Telemere	0452	0	0	0	1231	2	0	0	0	0	0	0	0	0	Armorer
+1095	Ken Chomais	0451	0	0	0	1217	3	0	0	0	0	0	0	0	0	Alchemist
+1096	Christian Vela	0450	0	0	0	1232	4	0	0	0	0	0	0	0	0	Scholar
+1097	Michael Tuck	0449	0	0	0	1247	5	0	0	0	0	0	0	0	0	Guide
+1098	Anthony Hargraine	0447	0	0	0	1276	6	0	0	0	0	0	0	0	0	Tracker
+1099	Miles Loman	0446	0	0	0	1305	7	0	0	0	0	0	0	0	0	Pathfinder
+1100	Zeke Magellan	0444	0	0	0	1329	8	0	0	0	0	0	0	0	0	Sailor
+1101	Tyger Helms	0443	0	0	0	1353	9	0	0	0	0	0	0	0	0	Navigator
+1102	Wolf Armstrong	0442	0	0	0	1364	10	0	0	0	0	0	0	0	0	Healer
+1103	Rockwell Humdring	0441	0	0	0	1277	11	0	0	0	0	0	0	0	0	Expert Healer
+1104	Carl Moramir	0440	0	0	0	1263	12	0	0	0	0	0	0	0	0	Master Healer
+1105	Vance Cornelius	0438	0	0	0	1318	13	0	0	0	0	0	0	0	0	Teacher
+1106	Norris Horton	0437	0	0	0	1398	24	0	0	0	0	0	0	0	0	barrister
+1107	Stile Bloke	0436	0	0	0	1407	15	0	0	0	0	0	0	0	0	Arms Master
+1108	Abdul	0230	0	0	0	1602	0	0	0	1437	1438	0	0	0	0	Abdul (B3)
+1109	Najat Ramadi	0237	0	0	0	1604	0	0	0	1439	1442	1445	0	0	0	Armor Pyramid (B3)
+1110	Hans Schultz	0433	0	0	0	1481	18	0	0	0	0	0	0	0	0	Mystic
+1111	Donald Dorfus	0432	0	0	0	1509	19	0	0	0	0	0	0	0	0	Spell Master
+1112	Richard Harp	0431	0	0	0	1516	20	0	0	0	0	0	0	0	0	Trader
+1113	Stephen Iago	0430	0	0	0	1519	21	0	0	0	0	0	0	0	0	Merchant
+1114	Lawrence Aleman	0429	0	0	0	1540	0	0	0	1426	0	0	0	0	0	Temple Gong buyer (C2)
+1115	Terry Ros	0428	0	0	0	1436	19	0	0	1435	0	0	0	0	0	Lich Book Quest (C3)
+1116	Alex Morrow	0427	0	0	0	1445	25	0	0	0	0	0	0	0	0	Barrister
+1117	Castor Lithgow	0426	0	0	0	1346	24	0	0	0	0	0	0	0	0	Tinker
+1118	Egor Ivanovich	0425	0	0	0	1420	28	0	0	0	0	0	0	0	0	Locksmith
+1119	Jacques Roscomon	0424	0	0	0	1428	27	0	0	0	0	0	0	0	0	Fool
+1120	Shiela Wind	0423	0	0	0	1527	26	0	0	0	0	0	0	0	0	Chimney Sweep
+1121	Bronwyn Blue	0422	0	0	0	1529	29	0	0	0	0	0	0	0	0	Porter
+1122	Daniel Forosmini	0421	0	0	0	1541	30	0	0	0	0	0	0	0	0	Quarter Master
+1123	Bejamin Sotherland	0420	0	0	0	1431	31	0	0	0	0	0	0	0	0	Factor
+1124	Harold Amwen	0419	0	0	0	1440	32	0	0	0	0	0	0	0	0	Banker
+1125	Leo Grant	0418	0	0	0	1449	33	0	0	0	0	0	0	0	0	Cook
+1126	Lorn Hammer	0417	0	0	0	1457	34	0	0	0	0	0	0	0	0	Chef
+1127	David Pike	0416	0	0	0	1464	35	0	0	0	0	0	0	0	0	Horseman
+1128	Barry Shepherd	0415	0	0	0	1414	36	0	0	0	0	0	0	0	0	Bard
+1129	Robin Lang	0414	0	0	0	1423	37	0	0	0	0	0	0	0	0	Enchanter
+1130	Dom Malikto	0413	0	0	0	1432	38	0	0	0	0	0	0	0	0	Cartographer
+1131	Josef Logger	0412	0	0	0	1441	39	0	0	0	0	0	0	0	0	Wind Master
+1132	Jult Bandito	0411	0	0	0	1450	40	0	0	0	0	0	0	0	0	Water Master
+1133	Piter Harkonnen	0410	0	0	0	1458	41	0	0	0	0	0	0	0	0	Gate Master
+1134	Saul Fogg	0409	0	0	0	1465	42	0	0	0	0	0	0	0	0	Acolyte
+1135	Arther Jelnic	0408	0	0	0	1470	43	0	0	0	0	0	0	0	0	Piper
+1136	Abe Markoviac	0407	0	0	0	1475	44	0	0	0	0	0	0	0	0	Explorer
+1137	Shel Stineway	0406	0	0	0	1480	45	0	0	0	0	0	0	0	0	Pirate
+1138	Les Parker	0405	0	0	0	1485	46	0	0	0	0	0	0	0	0	Squire
+1139	Ray Boswell	0404	0	0	0	1490	47	0	0	0	0	0	0	0	0	Psychic
+1140	Sly Silverstone	0403	0	0	0	1495	48	0	0	0	0	0	0	0	0	Gypsy
+1141	Marc Teagan	0402	0	0	0	1500	49	0	0	0	0	0	0	0	0	Negotiator
+1142	Harper Nike	0401	0	0	0	1504	50	0	0	0	0	0	0	0	0	Duper
+1143	Trevor Jones	0400	0	0	0	1508	51	0	0	0	0	0	0	0	0	Burglar
+1144	Gerrold Dane	0399	0	0	0	1512	52	0	0	0	0	0	0	0	0	Peasant
+1145	Peace Stringer	0398	0	0	0	1515	53	0	0	0	0	0	0	0	0	Serf
+1146	Trent Jameson	0397	0	0	0	1518	54	0	0	0	0	0	0	0	0	Tailor
+1147	Yves Meeks	0396	0	0	0	1521	55	0	0	0	0	0	0	0	0	Laborer
+1148	Dean Frimple	0395	0	0	0	1551	56	0	0	0	0	0	0	0	0	Farmer
+1149	Lisa Janway	0394	0	0	0	1552	57	0	0	0	0	0	0	0	0	Cooper
+1150	Tor Brock	0393	0	0	0	1553	58	0	0	0	0	0	0	0	0	Potter
+1151	Cheryl Ahmanson	0392	0	0	0	1554	59	0	0	0	0	0	0	0	0	Weaver
+1152	Lyle Roma	0391	0	0	0	1555	75	0	0	0	0	0	0	0	0	noble
+1153	Renee Blackburn	0390	0	0	0	1556	0	0	0	1430	0	0	0	0	0	Golden Pyramid Buyer (C2)
+1154	Lon Miller	0389	0	0	0	1557	0	0	0	1427	0	0	0	0	0	Bone Buyer (C2)
+1155	Davis Carp	0388	0	0	0	1558	0	0	0	1428	0	0	0	0	0	Lodestone Buyer (C2)
+1156	Nick Fenster	0387	0	0	0	1559	0	0	0	1431	0	0	0	0	0	Keg of Wine Buyer (C2)
+1157	Sy Roth	0386	0	0	0	1560	0	0	0	1432	0	0	0	0	0	Tooth Buyer (C2)
+1158	Mort Arnosti	0385	0	0	0	1561	66	0	0	0	0	0	0	0	0	Trapper
+1159	Geoff Southy	0383	0	0	0	1562	0	0	0	1433	0	0	0	0	0	Four Leaf Clover Buyer (C2)
+1160	Dillan Robinson	0382	0	0	0	1563	0	0	0	1434	0	0	0	0	0	Amber Buyer (C2)
+1161	Ian Trom	0380	0	0	0	1408	20	0	0	0	0	0	0	0	0	locksmith
+1162	Darth Cartwright	0379	0	0	0	1408	16	0	0	0	0	0	0	0	0	weapons master
+1163	Jason Duster	0378	0	0	0	1417	37	0	0	0	0	0	0	0	0	enchanter
+1164	Paul Hapsburg	0377	0	0	0	1417	12	0	0	0	0	0	0	0	0	master healer
+1165	Kerman Murian	0227	0	0	0	1603	0	0	0	1440	1443	1446	0	0	0	Weapon Trader (B3)
+1166	Irbil Baktarian	0075	0	0	0	1605	0	0	0	1441	1444	1447	0	0	0	Misc Trader (B3)
+1167	Tracy Neather	0370	0	0	0	1340	75	0	0	0	0	0	0	0	0	Noble
+1168	Ty Cognac	0364	0	0	0	1352	76	0	0	0	0	0	0	0	0	Gambler
+1169	Joy Brown	0354	0	0	0	1363	1	0	0	0	0	0	0	0	0	Smith
+1170	Larry Dorfmann	0352	0	0	0	1374	2	0	0	0	0	0	0	0	0	Armorer
+1171	Nero Claudius	0351	0	0	0	1385	3	0	0	0	0	0	0	0	0	Alchemist
+1172	Drusis Tiberio	0350	0	0	0	1395	4	0	0	0	0	0	0	0	0	Scholar
+1173	Iris Amble	0347	0	0	0	1405	5	0	0	0	0	0	0	0	0	Guide
+1174	Candice Streep	0341	0	0	0	1415	6	0	0	0	0	0	0	0	0	Tracker
+1175	Rus Hockwoller	0325	0	0	0	1424	7	0	0	0	0	0	0	0	0	Pathfinder
+1176	Jake Green	0308	0	0	0	1433	8	0	0	0	0	0	0	0	0	Sailor
+1177	Blaze the Circus Master	1027	0	0	0	1595	0	0	0	1417	1418	0	0	0	0	Circus Master
+1178	Sir William Tarquin	0994	0	0	0	1596	0	0	0	1419	1420	0	0	0	0	Might Game
+1179	Pip Darkstone	1012	0	0	0	1597	0	0	0	1419	1421	0	0	0	0	Endurance Game
+1180	Shalaz Zalas	1005	0	0	0	1598	0	0	0	1419	1422	0	0	0	0	Speed Game
+1181	Azure Windsong	1017	0	0	0	1599	0	0	0	1419	1423	0	0	0	0	Accuracy Game
+1182	Gnimish Goroth	0976	0	0	0	1600	0	0	0	1419	1424	0	0	0	0	Luck Game
+1183	Teleron Prentice	1014	0	0	0	1601	0	0	0	1419	1425	0	0	0	0	Intellect Game
+1184	Random MapNPC 1	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1185	Random MapNPC 2	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1186	Random MapNPC 3	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1187	Random MapNPC 4	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1188	Random MapNPC 5	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1189	Random MapNPC 6	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1190	Random MapNPC 7	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1191	Random MapNPC 8	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1192	Random MapNPC 9	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1193	Random MapNPC 10	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1194	Random MapNPC 11	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1195	Random MapNPC 12	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1196	Random MapNPC 13	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1197	Random MapNPC 14	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1198	Random MapNPC 15	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1199	Random MapNPC 16	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1200	Random MapNPC 17	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1201	Random MapNPC 18	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1202	Random MapNPC 19	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1203	Random MapNPC 20	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1204	Random MapNPC 21	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1205	Random MapNPC 22	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1206	Random MapNPC 23	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1207	Random MapNPC 24	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1208	Random MapNPC 25	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1209	Random MapNPC 26	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1210	Random MapNPC 27	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1211	Random MapNPC 28	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1212	Random MapNPC 29	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1213	Random MapNPC 30	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1214	Random MapNPC 31	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1215	Random MapNPC 32	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1216	Random MapNPC 33	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1217	Random MapNPC 34	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1218	Random MapNPC 35	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1219	Random MapNPC 36	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1220	Random MapNPC 37	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1221	Random MapNPC 38	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1222	Random MapNPC 39	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1223	Random MapNPC 40	0	0	0	0	0	0	0	0	0	0	0	0	0	0	
+1224	Random MapNPC 41	0	0	0	0	0	0	0	0	0	0	0	0	0	0	

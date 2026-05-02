@@ -1,0 +1,199 @@
+# Monster sprite frame groups for family m396.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 14721
+    sprite_name: "m396a"
+    animation_length_raw: 20
+    frames:
+      - texture_name: "m394aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394ab"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394ac"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394ad"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394ae"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394af"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394ag"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394ah"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394ai"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394aj"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+  - sprite_id: 14731
+    sprite_name: "m396d"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m394na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 396
+      - texture_name: "m394nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394dd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394de0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 396
+  - sprite_id: 14738
+    sprite_name: "m396x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m394xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 396
+  - sprite_id: 14739
+    sprite_name: "m396f"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m394sa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 396
+      - texture_name: "m394fa0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394fd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394fe0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394ff0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 396
+      - texture_name: "m394fg0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 396
+  - sprite_id: 14747
+    sprite_name: "m396n"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m394na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394nf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394ng"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394nh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+  - sprite_id: 14754
+    sprite_name: "m396w"
+    animation_length_raw: 20
+    frames:
+      - texture_name: "m394wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394wh"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394wi"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 396
+      - texture_name: "m394wj"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 396

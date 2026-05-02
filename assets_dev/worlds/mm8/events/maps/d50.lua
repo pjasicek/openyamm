@@ -340,7 +340,6 @@ RegisterEvent(81, "Legacy event 81", function()
 end)
 
 RegisterEvent(501, "Leave New World Computing", function()
-    evt.MoveToMap(10267, -1132, 240, 0, 0, 0, 0, 0, "pbp.odm")
-    return
+    evt.MoveToMap(10267, -1132, 240, 0, 0, 0, 0, 1, "pbp.odm") -- Plane Between Planes
 end, "Leave New World Computing")
 

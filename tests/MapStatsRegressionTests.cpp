@@ -40,9 +40,9 @@ std::vector<std::vector<std::string>> loadTextTableRows(const std::string &relat
 OpenYAMM::Game::MapStats loadMapStats()
 {
     OpenYAMM::Game::MapStats mapStats = {};
-    REQUIRE(mapStats.loadFromRows(loadTextTableRows("assets_dev/worlds/mm8/data_tables/map_stats.txt")));
+    REQUIRE(mapStats.loadFromRows(loadTextTableRows("assets_dev/engine/data_tables/map_stats.txt")));
     REQUIRE(mapStats.applyOutdoorNavigationRows(
-        loadTextTableRows("assets_dev/worlds/mm8/data_tables/map_navigation.txt")));
+        loadTextTableRows("assets_dev/engine/data_tables/map_navigation.txt")));
     return mapStats;
 }
 
@@ -127,7 +127,7 @@ TEST_CASE("map registry supports canonical id and world/file compatibility looku
     const std::optional<OpenYAMM::Game::MapStatsEntry> canonicalEntry =
         registry.findByCanonicalId("WORLD.MM8.MAP.OUT01");
     REQUIRE(canonicalEntry.has_value());
-    CHECK_EQ(canonicalEntry->fileName, "Out01.odm");
+    CHECK_EQ(canonicalEntry->fileName, "out01.odm");
 
     const std::optional<OpenYAMM::Game::MapStatsEntry> worldFileEntry =
         registry.findByWorldAndFileName("mm8", "out01.ODM");
@@ -135,6 +135,16 @@ TEST_CASE("map registry supports canonical id and world/file compatibility looku
     CHECK_EQ(worldFileEntry->canonicalId, "world.mm8.map.out01");
 
     CHECK_FALSE(registry.findByWorldAndFileName("mm6", "out01.odm").has_value());
+
+    const std::optional<OpenYAMM::Game::MapStatsEntry> mm6Entry =
+        registry.findByWorldAndFileName("mm6", "oute3.odm");
+    REQUIRE(mm6Entry.has_value());
+    CHECK_EQ(mm6Entry->canonicalId, "world.mm6.map.oute3");
+
+    const std::optional<OpenYAMM::Game::MapStatsEntry> mm7Entry =
+        registry.findByWorldAndFileName("mm7", "7out01.odm");
+    REQUIRE(mm7Entry.has_value());
+    CHECK_EQ(mm7Entry->canonicalId, "world.mm7.map.7out01");
 }
 
 TEST_CASE("map stats parse chest trap difficulty and damage dice")

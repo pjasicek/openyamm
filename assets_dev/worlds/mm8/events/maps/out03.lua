@@ -53,375 +53,317 @@ RegisterNoOpEvent(9, "Legacy event 9")
 RegisterNoOpEvent(10, "Legacy event 10")
 
 RegisterEvent(11, "Withersmythe Estate", function()
-    evt.EnterHouse(287) -- Withersmythe Estate
-    return
+    evt.EnterHouse(509) -- Withersmythe Estate
 end, "Withersmythe Estate")
 
 RegisterEvent(12, "Withersmythe Estate", nil, "Withersmythe Estate")
 
 RegisterEvent(13, "Vespers Hall", function()
-    evt.EnterHouse(288) -- Vespers Hall
-    return
+    evt.EnterHouse(510) -- Vespers Hall
 end, "Vespers Hall")
 
 RegisterEvent(14, "Vespers Hall", nil, "Vespers Hall")
 
 RegisterEvent(15, "Hall of Solis", function()
-    evt.EnterHouse(289) -- Hall of Solis
-    return
+    evt.EnterHouse(511) -- Hall of Solis
 end, "Hall of Solis")
 
 RegisterEvent(16, "Hall of Solis", nil, "Hall of Solis")
 
 RegisterEvent(17, "Eversmyle Hall", function()
-    evt.EnterHouse(290) -- Eversmyle Hall
-    return
+    evt.EnterHouse(512) -- Eversmyle Hall
 end, "Eversmyle Hall")
 
 RegisterEvent(18, "Eversmyle Hall", nil, "Eversmyle Hall")
 
 RegisterEvent(19, "Moore Cottage", function()
-    evt.EnterHouse(291) -- Moore Cottage
-    return
+    evt.EnterHouse(513) -- Moore Cottage
 end, "Moore Cottage")
 
 RegisterEvent(20, "Moore Cottage", nil, "Moore Cottage")
 
 RegisterEvent(21, "House of Krewlen", function()
-    evt.EnterHouse(292) -- House of Krewlen
-    return
+    evt.EnterHouse(514) -- House of Krewlen
 end, "House of Krewlen")
 
 RegisterEvent(22, "House of Krewlen", nil, "House of Krewlen")
 
 RegisterEvent(23, "Darkenmoore Hall", function()
-    evt.EnterHouse(293) -- Darkenmoore Hall
-    return
+    evt.EnterHouse(515) -- Darkenmoore Hall
 end, "Darkenmoore Hall")
 
 RegisterEvent(24, "Darkenmoore Hall", nil, "Darkenmoore Hall")
 
 RegisterEvent(25, "Dervish Estate", function()
-    evt.EnterHouse(294) -- Dervish Estate
-    return
+    evt.EnterHouse(516) -- Dervish Estate
 end, "Dervish Estate")
 
 RegisterEvent(26, "Dervish Estate", nil, "Dervish Estate")
 
 RegisterEvent(27, "Agraynel Hall", function()
-    evt.EnterHouse(295) -- Agraynel Hall
-    return
+    evt.EnterHouse(517) -- Agraynel Hall
 end, "Agraynel Hall")
 
 RegisterEvent(28, "Agraynel Hall", nil, "Agraynel Hall")
 
 RegisterEvent(29, "House of Lightfinger", function()
-    evt.EnterHouse(296) -- House of Lightfinger
-    return
+    evt.EnterHouse(518) -- House of Lightfinger
 end, "House of Lightfinger")
 
 RegisterEvent(30, "House of Lightfinger", nil, "House of Lightfinger")
 
 RegisterEvent(31, "Nightwalker Cottage", function()
-    evt.EnterHouse(297) -- Nightwalker Cottage
-    return
+    evt.EnterHouse(519) -- Nightwalker Cottage
 end, "Nightwalker Cottage")
 
 RegisterEvent(32, "Nightwalker Cottage", nil, "Nightwalker Cottage")
 
 RegisterEvent(33, "Sparkman Home", function()
-    evt.EnterHouse(298) -- Sparkman Home
-    return
+    evt.EnterHouse(520) -- Sparkman Home
 end, "Sparkman Home")
 
 RegisterEvent(34, "Sparkman Home", nil, "Sparkman Home")
 
 RegisterEvent(35, "Sablewood Hall", function()
-    evt.EnterHouse(299) -- Sablewood Hall
-    return
+    evt.EnterHouse(521) -- Sablewood Hall
 end, "Sablewood Hall")
 
 RegisterEvent(36, "Sablewood Hall", nil, "Sablewood Hall")
 
 RegisterEvent(37, "Steele Estate", function()
-    evt.EnterHouse(300) -- Steele Estate
-    return
+    evt.EnterHouse(522) -- Steele Estate
 end, "Steele Estate")
 
 RegisterEvent(38, "Steele Estate", nil, "Steele Estate")
 
 RegisterEvent(39, "Guild of Bounty Hunters", function()
-    evt.EnterHouse(301) -- Guild of Bounty Hunters
-    return
+    evt.EnterHouse(523) -- Guild of Bounty Hunters
 end, "Guild of Bounty Hunters")
 
 RegisterEvent(40, "Guild of Bounty Hunters", nil, "Guild of Bounty Hunters")
 
 RegisterEvent(41, "Watershed Cottage", function()
-    evt.EnterHouse(302) -- Watershed Cottage
-    return
+    evt.EnterHouse(524) -- Watershed Cottage
 end, "Watershed Cottage")
 
 RegisterEvent(42, "Watershed Cottage", nil, "Watershed Cottage")
 
 RegisterEvent(43, "Fromago Manor", function()
-    evt.EnterHouse(303) -- Fromago Manor
-    return
+    evt.EnterHouse(525) -- Fromago Manor
 end, "Fromago Manor")
 
 RegisterEvent(44, "Fromago Manor", nil, "Fromago Manor")
 
 RegisterEvent(45, "Blackthorne Estate", function()
-    evt.EnterHouse(304) -- Blackthorne Estate
-    return
+    evt.EnterHouse(526) -- Blackthorne Estate
 end, "Blackthorne Estate")
 
 RegisterEvent(46, "Blackthorne Estate", nil, "Blackthorne Estate")
 
 RegisterEvent(47, "House of Nevermore", function()
-    evt.EnterHouse(305) -- House of Nevermore
-    return
+    evt.EnterHouse(527) -- House of Nevermore
 end, "House of Nevermore")
 
 RegisterEvent(48, "House of Nevermore", nil, "House of Nevermore")
 
 RegisterEvent(49, "Ittalle Cottage", function()
-    evt.EnterHouse(306) -- Ittalle Cottage
-    return
+    evt.EnterHouse(528) -- Ittalle Cottage
 end, "Ittalle Cottage")
 
 RegisterEvent(50, "Ittalle Cottage", nil, "Ittalle Cottage")
 
 RegisterEvent(51, "Havest Hall", function()
-    evt.EnterHouse(307) -- Havest Hall
-    return
+    evt.EnterHouse(529) -- Havest Hall
 end, "Havest Hall")
 
 RegisterEvent(52, "Havest Hall", nil, "Havest Hall")
 
 RegisterEvent(53, "Iverson Estate", function()
-    evt.EnterHouse(308) -- Iverson Estate
-    return
+    evt.EnterHouse(530) -- Iverson Estate
 end, "Iverson Estate")
 
 RegisterEvent(54, "Iverson Estate", nil, "Iverson Estate")
 
 RegisterEvent(55, "Oscleton Residence", function()
-    evt.EnterHouse(309) -- Oscleton Residence
-    return
+    evt.EnterHouse(531) -- Oscleton Residence
 end, "Oscleton Residence")
 
 RegisterEvent(56, "Oscleton Residence", nil, "Oscleton Residence")
 
 RegisterEvent(57, "Thelbourne Residence", function()
-    evt.EnterHouse(310) -- Thelbourne Residence
-    return
+    evt.EnterHouse(532) -- Thelbourne Residence
 end, "Thelbourne Residence")
 
 RegisterEvent(58, "Thelbourne Residence", nil, "Thelbourne Residence")
 
 RegisterEvent(59, "Greydawn Residence", function()
-    evt.EnterHouse(311) -- Greydawn Residence
-    return
+    evt.EnterHouse(533) -- Greydawn Residence
 end, "Greydawn Residence")
 
 RegisterEvent(60, "Greydawn Residence", nil, "Greydawn Residence")
 
 RegisterEvent(61, "House Stellare", function()
-    evt.EnterHouse(312) -- House Stellare
-    return
+    evt.EnterHouse(534) -- House Stellare
 end, "House Stellare")
 
 RegisterEvent(62, "House Stellare", nil, "House Stellare")
 
 RegisterEvent(63, "House of Brandy", function()
-    evt.EnterHouse(313) -- House of Brandy
-    return
+    evt.EnterHouse(535) -- House of Brandy
 end, "House of Brandy")
 
 RegisterEvent(64, "House of Brandy", nil, "House of Brandy")
 
 RegisterEvent(65, "Bowes Residence", function()
-    evt.EnterHouse(314) -- Bowes Residence
-    return
+    evt.EnterHouse(536) -- Bowes Residence
 end, "Bowes Residence")
 
 RegisterEvent(66, "Bowes Residence", nil, "Bowes Residence")
 
 RegisterEvent(67, "Breman Residence", function()
-    evt.EnterHouse(315) -- Breman Residence
-    return
+    evt.EnterHouse(537) -- Breman Residence
 end, "Breman Residence")
 
 RegisterEvent(68, "Breman Residence", nil, "Breman Residence")
 
 RegisterEvent(69, " Home of Rihansi ", function()
-    evt.EnterHouse(325) --  Home of Rihansi
-    return
+    evt.EnterHouse(547) --  Home of Rihansi
 end, " Home of Rihansi ")
 
 RegisterEvent(70, " Home of Rihansi ", nil, " Home of Rihansi ")
 
 RegisterEvent(71, "Bombah Hall", function()
-    evt.EnterHouse(326) -- Bombah Hall
-    return
+    evt.EnterHouse(548) -- Bombah Hall
 end, "Bombah Hall")
 
 RegisterEvent(72, "Bombah Hall", nil, "Bombah Hall")
 
 RegisterEvent(73, "Keldon's Cottage", function()
-    evt.EnterHouse(327) -- Keldon's Cottage
-    return
+    evt.EnterHouse(549) -- Keldon's Cottage
 end, "Keldon's Cottage")
 
 RegisterEvent(74, "Keldon's Cottage", nil, "Keldon's Cottage")
 
 RegisterEvent(75, "Featherwind's House", function()
-    evt.EnterHouse(330) -- Featherwind's House
-    return
+    evt.EnterHouse(552) -- Featherwind's House
 end, "Featherwind's House")
 
 RegisterEvent(76, "Featherwind's House", nil, "Featherwind's House")
 
 RegisterEvent(77, "House Farswell", function()
-    evt.EnterHouse(329) -- House Farswell
-    return
+    evt.EnterHouse(551) -- House Farswell
 end, "House Farswell")
 
 RegisterEvent(78, "House Farswell", nil, "House Farswell")
 
 RegisterEvent(79, "Veldon's Cottage", function()
-    evt.EnterHouse(328) -- Veldon's Cottage
-    return
+    evt.EnterHouse(550) -- Veldon's Cottage
 end, "Veldon's Cottage")
 
 RegisterEvent(80, "Veldon's Cottage", nil, "Veldon's Cottage")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
-    return
 end, "Chest")
 
 RegisterEvent(82, "Chest", function()
     evt.OpenChest(1)
-    return
 end, "Chest")
 
 RegisterEvent(83, "Chest", function()
     evt.OpenChest(2)
-    return
 end, "Chest")
 
 RegisterEvent(84, "Chest", function()
     evt.OpenChest(3)
-    return
 end, "Chest")
 
 RegisterEvent(85, "Chest", function()
     evt.OpenChest(4)
-    return
 end, "Chest")
 
 RegisterEvent(86, "Chest", function()
     evt.OpenChest(5)
-    return
 end, "Chest")
 
 RegisterEvent(87, "Chest", function()
     evt.OpenChest(6)
-    return
 end, "Chest")
 
 RegisterEvent(88, "Chest", function()
     evt.OpenChest(7)
-    return
 end, "Chest")
 
 RegisterEvent(89, "Chest", function()
     evt.OpenChest(8)
-    return
 end, "Chest")
 
 RegisterEvent(90, "Chest", function()
     evt.OpenChest(9)
-    return
 end, "Chest")
 
 RegisterEvent(91, "Legacy event 91", function()
     evt.OpenChest(10)
-    return
 end)
 
 RegisterEvent(92, "Ogre Raiding Fort", function()
     evt.OpenChest(11)
-    return
 end, "Ogre Raiding Fort")
 
 RegisterEvent(93, "Chest", function()
     evt.OpenChest(12)
-    return
 end, "Chest")
 
 RegisterEvent(94, "Chest", function()
     evt.OpenChest(13)
-    return
 end, "Chest")
 
 RegisterEvent(95, "Chest", function()
     evt.OpenChest(14)
-    return
 end, "Chest")
 
 RegisterEvent(96, "Chest", function()
     evt.OpenChest(15)
-    return
 end, "Chest")
 
 RegisterEvent(97, "Chest", function()
     evt.OpenChest(16)
-    return
 end, "Chest")
 
 RegisterEvent(98, "Chest", function()
     evt.OpenChest(17)
-    return
 end, "Chest")
 
 RegisterEvent(99, "Chest", function()
     evt.OpenChest(18)
-    return
 end, "Chest")
 
 RegisterEvent(100, "Chest", function()
     evt.OpenChest(19)
-    return
 end, "Chest")
 
 RegisterEvent(101, "Drink from the well", function()
     if not IsAtLeast(PersonalityBonus, 25) then
         AddValue(PersonalityBonus, 25)
         evt.StatusText("Personality +25 (Temporary)")
-        SetAutonote(251) -- Well in the city of Alvar gives a temporary Personality bonus of 25.
+        SetAutonote(212) -- Well in the city of Alvar gives a temporary Personality bonus of 25.
         return
     end
     evt.StatusText("Refreshing")
-    return
 end, "Drink from the well")
 
 RegisterEvent(102, "Drink from the well", function()
     if not IsAtLeast(BaseMight, 16) then
         AddValue(BaseMight, 2)
         evt.StatusText("Might +2 (Permanent)")
-        SetAutonote(252) -- Well in the city of Alvar gives a permanent Strength bonus up to a Strength of 16.
+        SetAutonote(213) -- Well in the city of Alvar gives a permanent Strength bonus up to a Strength of 16.
         return
     end
     evt.StatusText("Refreshing")
-    return
 end, "Drink from the well")
 
 RegisterEvent(103, "Drink from the well", function()
     evt.StatusText("Refreshing")
-    return
 end, "Drink from the well")
 
 RegisterEvent(104, "Drink from the fountain", function()
@@ -431,11 +373,10 @@ RegisterEvent(104, "Drink from the fountain", function()
     if not IsAtLeast(MaxSpellPoints, 0) then
         AddValue(CurrentSpellPoints, 25)
         evt.StatusText("You mind clears, and you recover some Mana")
-        SetAutonote(253) -- Fountain in the city of Alvar restores Spell Points.
+        SetAutonote(214) -- Fountain in the city of Alvar restores Spell Points.
         return
     end
     evt.StatusText("Refreshing")
-    return
 end, "Drink from the fountain")
 
 RegisterEvent(131, "Legacy event 131", function()
@@ -453,110 +394,96 @@ RegisterEvent(131, "Legacy event 131", function()
     SetQBit(QBit(225)) -- dead questbit for internal use(bling)
     ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
     evt.StatusText("You have killed all of the Ogres")
-    return
 end)
 
 RegisterEvent(150, "Obelisk", function()
     if IsQBitSet(QBit(188)) then return end -- Obelisk Area 3
     evt.StatusText("ubjectsap")
-    SetAutonote(21) -- Obelisk message #5: ubjectsap
+    SetAutonote(12) -- Obelisk message #5: ubjectsap
     SetQBit(QBit(188)) -- Obelisk Area 3
-    return
 end, "Obelisk")
 
 RegisterEvent(171, "Polished Steel", function()
     evt.EnterHouse(3) -- Polished Steel
-    return
 end, "Polished Steel")
 
 RegisterEvent(172, "Polished Steel", nil, "Polished Steel")
 
 RegisterEvent(173, "Armory", function()
-    evt.EnterHouse(17) -- Armory
-    return
+    evt.EnterHouse(38) -- Armory
 end, "Armory")
 
 RegisterEvent(174, "Armory", nil, "Armory")
 
 RegisterEvent(175, "Arcane Items", function()
-    evt.EnterHouse(31) -- Arcane Items
-    return
+    evt.EnterHouse(78) -- Arcane Items
 end, "Arcane Items")
 
 RegisterEvent(176, "Arcane Items", nil, "Arcane Items")
 
 RegisterEvent(177, "Prepared Potions", function()
-    evt.EnterHouse(44) -- Prepared Potions
-    return
+    evt.EnterHouse(112) -- Prepared Potions
 end, "Prepared Potions")
 
 RegisterEvent(178, "Prepared Potions", nil, "Prepared Potions")
 
 RegisterEvent(179, "Self Study", function()
-    evt.EnterHouse(141) -- Self Study
-    return
+    evt.EnterHouse(187) -- Self Study
 end, "Self Study")
 
 RegisterEvent(180, "Self Study", nil, "Self Study")
 
 RegisterEvent(181, "Guild Caravans", function()
-    evt.EnterHouse(55) -- Guild Caravans
-    return
+    evt.EnterHouse(453) -- Guild Caravans
 end, "Guild Caravans")
 
 RegisterEvent(182, "Guild Caravans", nil, "Guild Caravans")
 
 RegisterEvent(185, "House of Healing", function()
-    evt.EnterHouse(76) -- House of Healing
-    return
+    evt.EnterHouse(305) -- House of Healing
 end, "House of Healing")
 
 RegisterEvent(186, "House of Healing", nil, "House of Healing")
 
 RegisterEvent(187, "Guild Training Hall", function()
-    evt.EnterHouse(91) -- Guild Training Hall
-    return
+    evt.EnterHouse(1566) -- Guild Training Hall
 end, "Guild Training Hall")
 
 RegisterEvent(188, "Guild Training Hall", nil, "Guild Training Hall")
 
 RegisterEvent(189, "Placeholder", function()
-    evt.EnterHouse(103) -- Placeholder
-    return
+    evt.EnterHouse(763) -- Placeholder
 end, "Placeholder")
 
 RegisterEvent(190, "Placeholder", nil, "Placeholder")
 
 RegisterEvent(191, "Profit House", function()
-    evt.EnterHouse(109) -- Profit House
-    return
+    evt.EnterHouse(230) -- Profit House
 end, "Profit House")
 
 RegisterEvent(192, "Profit House", nil, "Profit House")
 
 RegisterEvent(193, "Guild House of Finance", function()
-    evt.EnterHouse(130) -- Guild House of Finance
-    return
+    evt.EnterHouse(283) -- Guild House of Finance
 end, "Guild House of Finance")
 
 RegisterEvent(194, "Guild House of Finance", nil, "Guild House of Finance")
 
 RegisterEvent(195, "Miho's Roadhouse", function()
-    evt.EnterHouse(117) -- Miho's Roadhouse
-    return
+    evt.EnterHouse(238) -- Miho's Roadhouse
 end, "Miho's Roadhouse")
 
 RegisterEvent(196, "Miho's Roadhouse", nil, "Miho's Roadhouse")
 
 RegisterEvent(197, "Merchant Guildhouse", function()
     if IsQBitSet(QBit(59)) then -- Returned to the Merchant guild in Alvar with overdune. Quest 25 done.
-        evt.EnterHouse(176) -- Merchant Guildhouse
+        evt.EnterHouse(773) -- Merchant Guildhouse
         return
     elseif HasPlayer(4) then -- Overdune Snapfinger
         if evt._IsNpcInParty(4) then
-            evt.ShowMovie("\"overrept\" ", true)
+            evt.ShowMovie("\"overrept\"", true)
             evt.SetNPCTopic(5, 0, 43) -- Bastian Loudrin topic 0: Quest
-            evt.SetNPCGreeting(5, 15) -- Bastian Loudrin greeting: We have identified those we believe would join an alliance to stand against the crisis. These are: the Minotaurs of Ravage Roaming, the Clerics of the Temple of the Sun in Murmurwoods, the Dragons of Garrote Gorge, the Necromancers' Guild in Shadowspire, and Charles Quixote's Dragon hunting camp in Garrote Gorge. Now none of us believe that you can get all of them to work together, but with us and the Trolls already with the alliance, it should suffice if three of the five join us. Perhaps you should begin by speaking with Sahil Ittalle who lives at the north end of the town. He is our guild's historian and the best person to brief you on our potential allies' various dispositions.
+            evt.SetNPCGreeting(5, 15) -- Bastian Loudrin greeting: We have identified those we believe would join an alliance to stand against the crisis. These are: the Minotaurs of Ravage Roaming, the Clerics of the Temple of the Sun in Murmurwoods, the Dragons of Garrote Gorge, the Necromancers' Guild in Shadowspire, and Charles Quixote's Dragon hunting camp in Garrote Gorge.Now none of us believe that you can get all of them to work together, but with us and the Trolls already with the alliance, it should suffice if three of the five join us.Perhaps you should begin by speaking with Sahil Ittalle who lives at the north end of the town. He is our guild's historian and the best person to brief you on our potential allies' various dispositions.
             evt.ForPlayer(Players.All)
             AddValue(Experience, 10000)
             SetAward(Award(5)) -- Found a witness to the cataclysm in the Ironsand Desert.
@@ -573,10 +500,10 @@ RegisterEvent(197, "Merchant Guildhouse", function()
             AddValue(Gold, 4000)
             evt.SetNPCTopic(13, 0, 65) -- Masul topic 0: Alliance
         end
-        evt.EnterHouse(176) -- Merchant Guildhouse
+        evt.EnterHouse(773) -- Merchant Guildhouse
         return
     else
-        evt.EnterHouse(176) -- Merchant Guildhouse
+        evt.EnterHouse(773) -- Merchant Guildhouse
         return
     end
 end, "Merchant Guildhouse")
@@ -584,8 +511,7 @@ end, "Merchant Guildhouse")
 RegisterEvent(198, "Merchant Guildhouse", nil, "Merchant Guildhouse")
 
 RegisterEvent(199, "Elemental Guild", function()
-    evt.EnterHouse(147) -- Elemental Guild
-    return
+    evt.EnterHouse(183) -- Elemental Guild
 end, "Elemental Guild")
 
 RegisterEvent(200, "Elemental Guild", nil, "Elemental Guild")
@@ -603,57 +529,49 @@ RegisterEvent(449, "Fountain", nil, "Fountain")
 RegisterEvent(450, "Well", nil, "Well")
 
 RegisterEvent(451, "House Memoria", function()
-    evt.EnterHouse(279) -- House Memoria
-    return
+    evt.EnterHouse(902) -- House Memoria
 end, "House Memoria")
 
 RegisterEvent(452, "House Memoria", nil, "House Memoria")
 
 RegisterEvent(453, "House of Hawthorne ", function()
-    evt.EnterHouse(280) -- House of Hawthorne
-    return
+    evt.EnterHouse(903) -- House of Hawthorne
 end, "House of Hawthorne ")
 
 RegisterEvent(454, "House of Hawthorne ", nil, "House of Hawthorne ")
 
 RegisterEvent(455, "Lott's Family Home", function()
-    evt.EnterHouse(281) -- Lott's Family Home
-    return
+    evt.EnterHouse(904) -- Lott's Family Home
 end, "Lott's Family Home")
 
 RegisterEvent(456, "Lott's Family Home", nil, "Lott's Family Home")
 
 RegisterEvent(457, "House of Nosewort", function()
-    evt.EnterHouse(282) -- House of Nosewort
-    return
+    evt.EnterHouse(905) -- House of Nosewort
 end, "House of Nosewort")
 
 RegisterEvent(458, "House of Nosewort", nil, "House of Nosewort")
 
 RegisterEvent(459, "Dotes Family Hovel", function()
-    evt.EnterHouse(286) -- Dotes Family Hovel
-    return
+    evt.EnterHouse(909) -- Dotes Family Hovel
 end, "Dotes Family Hovel")
 
 RegisterEvent(460, "Dotes Family Hovel", nil, "Dotes Family Hovel")
 
 RegisterEvent(461, "Hall of the Tracker", function()
-    evt.EnterHouse(283) -- Hall of the Tracker
-    return
+    evt.EnterHouse(906) -- Hall of the Tracker
 end, "Hall of the Tracker")
 
 RegisterEvent(462, "Hall of the Tracker", nil, "Hall of the Tracker")
 
 RegisterEvent(463, "Hunter's Hovel", function()
-    evt.EnterHouse(284) -- Hunter's Hovel
-    return
+    evt.EnterHouse(907) -- Hunter's Hovel
 end, "Hunter's Hovel")
 
 RegisterEvent(464, "Hunter's Hovel", nil, "Hunter's Hovel")
 
 RegisterEvent(465, "Dervish's Cottage", function()
-    evt.EnterHouse(285) -- Dervish's Cottage
-    return
+    evt.EnterHouse(908) -- Dervish's Cottage
 end, "Dervish's Cottage")
 
 RegisterEvent(466, "Dervish's Cottage", nil, "Dervish's Cottage")
@@ -672,7 +590,6 @@ RegisterEvent(472, "Legacy event 472", nil)
 
 RegisterEvent(479, "Legacy event 479", function()
     PickRandomOption(479, 2, {2, 4, 6, 8, 10, 12})
-    return
 end)
 
 RegisterEvent(490, "Legacy event 490", function()
@@ -680,50 +597,47 @@ RegisterEvent(490, "Legacy event 490", function()
     if randomStep == 2 then
         evt.PlaySound(325, 4544, 13872)
     end
-    return
 end)
 
 RegisterEvent(491, "Ogre Raiding Fort", function()
-    evt.MoveToMap(-20497, 1169, 1051, 1536, 0, 0, 0, 0, "0")
-    return
+    evt.MoveToMap(-20497, 1169, 1051, 1536, 0, 0, 0, 0, "0.")
 end, "Ogre Raiding Fort")
 
 RegisterEvent(495, "Pine tree", function()
     if IsQBitSet(QBit(276)) then return end -- Reagant spout area 3
-    if not IsAtLeast(PerceptionSkill, 5) then return end
+    if not IsAtLeast(DisarmTrapSkill, 5) then return end
     local randomStep = PickRandomOption(495, 4, {5, 7, 9, 11})
     if randomStep == 5 then
-        evt.SummonItem(2138, 14624, -160, 3296, 1000, 1, true)
+        evt.SummonItem(2138, 14624, -160, 3296, 1000, 1, true) -- Diary Page
     elseif randomStep == 7 then
-        evt.SummonItem(2139, 14624, -160, 3296, 1000, 1, true)
+        evt.SummonItem(2139, 14624, -160, 3296, 1000, 1, true) -- Page from Agar's Journal
     elseif randomStep == 9 then
-        evt.SummonItem(2140, 14624, -160, 3296, 1000, 1, true)
+        evt.SummonItem(2140, 14624, -160, 3296, 1000, 1, true) -- Remains of a Journal
     elseif randomStep == 11 then
-        evt.SummonItem(2141, 14624, -160, 3296, 1000, 1, true)
+        evt.SummonItem(2141, 14624, -160, 3296, 1000, 1, true) -- Letter from the Dragon Riders
     end
     SetQBit(QBit(276)) -- Reagant spout area 3
-    return
 end, "Pine tree")
 
 RegisterEvent(496, "Pine tree", function()
     if IsQBitSet(QBit(275)) then -- Reagant spout area 3
         return
-    elseif IsAtLeast(PerceptionSkill, 7) then
+    elseif IsAtLeast(DisarmTrapSkill, 7) then
         local randomStep = PickRandomOption(496, 4, {5, 7, 9, 11, 13, 15})
         if randomStep == 5 then
-            evt.SummonItem(240, -15104, 19808, 3698, 1000, 1, true) -- Might Boost
+            evt.SummonItem(240, -15104, 19808, 3698, 1000, 1, true) -- Sealed Letter
         elseif randomStep == 7 then
-            evt.SummonItem(241, -15104, 19808, 3698, 1000, 1, true) -- Intellect Boost
+            evt.SummonItem(241, -15104, 19808, 3698, 1000, 1, true) -- Sealed Letter
         elseif randomStep == 9 then
-            evt.SummonItem(242, -15104, 19808, 3698, 1000, 1, true) -- Personality Boost
+            evt.SummonItem(242, -15104, 19808, 3698, 1000, 1, true) -- Sealed Letter
         elseif randomStep == 11 then
-            evt.SummonItem(243, -15104, 19808, 3698, 1000, 1, true) -- Endurance Boost
+            evt.SummonItem(243, -15104, 19808, 3698, 1000, 1, true) -- Sealed Letter
         elseif randomStep == 13 then
-            evt.SummonItem(244, -15104, 19808, 3698, 1000, 1, true) -- Speed Boost
+            evt.SummonItem(244, -15104, 19808, 3698, 1000, 1, true) -- Sealed Letter
         elseif randomStep == 15 then
-            evt.SummonItem(245, -15104, 19808, 3698, 1000, 1, true) -- Accuracy Boost
+            evt.SummonItem(245, -15104, 19808, 3698, 1000, 1, true) -- Lich Jar
         end
-        SetQBit(QBit(276)) -- Reagant spout area 3
+        SetQBit(QBit(275)) -- Reagant spout area 3
         return
     else
         return
@@ -731,22 +645,18 @@ RegisterEvent(496, "Pine tree", function()
 end, "Pine tree")
 
 RegisterEvent(501, "Enter the Wasp Nest", function()
-    evt.MoveToMap(-2192, -1840, -127, 33, 0, 0, 197, 0, "d11.blv")
-    return
+    evt.MoveToMap(-2192, -1840, -127, 33, 0, 0, 356, 1, "d11.blv") -- Wasp Nest
 end, "Enter the Wasp Nest")
 
 RegisterEvent(502, "Enter the Ogre Raiding Fort", function()
-    evt.MoveToMap(-3424, 32, 0, 520, 0, 0, 198, 0, "d12.blv")
-    return
+    evt.MoveToMap(-3424, 32, 0, 1024, 0, 0, 357, 1, "d12.blv") -- Ogre Fortress
 end, "Enter the Ogre Raiding Fort")
 
 RegisterEvent(503, "Enter the Dark Dwarf Compound", function()
-    evt.MoveToMap(-10528, -352, -896, 512, 0, 0, 0, 0, "d41.blv")
-    return
+    evt.MoveToMap(-10528, -352, -896, 512, 0, 0, 0, 1, "d41.blv") -- Dark Dwarf Compound
 end, "Enter the Dark Dwarf Compound")
 
 RegisterEvent(504, "Enter the Wasp Nest", function()
-    evt.MoveToMap(301, 2162, 513, 161, 0, 0, 197, 0, "d11.blv")
-    return
+    evt.MoveToMap(301, 2162, 513, 161, 0, 0, 356, 1, "d11.blv") -- Wasp Nest
 end, "Enter the Wasp Nest")
 

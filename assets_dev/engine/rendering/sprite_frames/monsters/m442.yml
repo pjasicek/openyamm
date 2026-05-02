@@ -1,0 +1,1181 @@
+# Monster sprite frame groups for family m442.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 1962
+    sprite_name: "m442a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m440aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440ab"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440ac"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440ad"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440ae"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440af"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440ag"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440ah"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+  - sprite_id: 1970
+    sprite_name: "m442d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m440na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.399994
+        palette_id: 442
+  - sprite_id: 1976
+    sprite_name: "m442x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m440xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.399994
+        palette_id: 442
+  - sprite_id: 1977
+    sprite_name: "m442f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m440fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440fd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440fe0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.399994
+        palette_id: 442
+  - sprite_id: 1982
+    sprite_name: "m442s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m440sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+  - sprite_id: 1983
+    sprite_name: "m442w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m440wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+  - sprite_id: 1991
+    sprite_name: "m442n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m440na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+      - texture_name: "m440ne"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 442
+  - sprite_id: 15920
+    sprite_name: "7m443d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 139
+      - texture_name: "m442nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 139
+      - texture_name: "m442da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 139
+      - texture_name: "m442db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 139
+      - texture_name: "m442dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 139
+      - texture_name: "m442dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 139
+  - sprite_id: 15926
+    sprite_name: "7m443f"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 139
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 139
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 139
+      - texture_name: "m442fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1]
+        palette_id: 139
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 139
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 139
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 139
+  - sprite_id: 15933
+    sprite_name: "7m443n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+  - sprite_id: 15939
+    sprite_name: "7m443s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+  - sprite_id: 15940
+    sprite_name: "7m443w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m442wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+      - texture_name: "m442wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 139
+  - sprite_id: 15948
+    sprite_name: "7m443x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 139
+  - sprite_id: 15978
+    sprite_name: "7m445d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 145
+      - texture_name: "m442nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 145
+      - texture_name: "m442da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 145
+      - texture_name: "m442db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 145
+      - texture_name: "m442dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 145
+      - texture_name: "m442dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 145
+  - sprite_id: 15984
+    sprite_name: "7m445f"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 145
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 145
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 145
+      - texture_name: "m442fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1]
+        palette_id: 145
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 145
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 145
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 145
+  - sprite_id: 15991
+    sprite_name: "7m445n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+  - sprite_id: 15997
+    sprite_name: "7m445s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+  - sprite_id: 15998
+    sprite_name: "7m445w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m442wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+      - texture_name: "m442wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 145
+  - sprite_id: 16006
+    sprite_name: "7m445x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 145
+  - sprite_id: 16007
+    sprite_name: "7m446d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 146
+      - texture_name: "m442nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 146
+      - texture_name: "m442da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 146
+      - texture_name: "m442db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 146
+      - texture_name: "m442dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 146
+      - texture_name: "m442dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 146
+  - sprite_id: 16013
+    sprite_name: "7m446f"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 146
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 146
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 146
+      - texture_name: "m442fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1]
+        palette_id: 146
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 146
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 146
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 146
+  - sprite_id: 16020
+    sprite_name: "7m446n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+  - sprite_id: 16026
+    sprite_name: "7m446s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+  - sprite_id: 16027
+    sprite_name: "7m446w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m442wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+      - texture_name: "m442wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 146
+  - sprite_id: 16035
+    sprite_name: "7m446x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 146
+  - sprite_id: 16036
+    sprite_name: "7m447d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 147
+      - texture_name: "m442nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 147
+      - texture_name: "m442da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 147
+      - texture_name: "m442db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 147
+      - texture_name: "m442dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 147
+      - texture_name: "m442dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 147
+  - sprite_id: 16042
+    sprite_name: "7m447f"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 147
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 147
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 147
+      - texture_name: "m442fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1]
+        palette_id: 147
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 147
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 147
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 147
+  - sprite_id: 16049
+    sprite_name: "7m447n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+  - sprite_id: 16055
+    sprite_name: "7m447s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+  - sprite_id: 16056
+    sprite_name: "7m447w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m442wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+      - texture_name: "m442wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 147
+  - sprite_id: 16064
+    sprite_name: "7m447x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 147
+  - sprite_id: 16094
+    sprite_name: "7m449d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 149
+      - texture_name: "m442nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 149
+      - texture_name: "m442da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 149
+      - texture_name: "m442db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 149
+      - texture_name: "m442dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 149
+      - texture_name: "m442dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 149
+  - sprite_id: 16100
+    sprite_name: "7m449f"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 149
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 149
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 149
+      - texture_name: "m442fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1]
+        palette_id: 149
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 149
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 149
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 149
+  - sprite_id: 16107
+    sprite_name: "7m449n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+  - sprite_id: 16113
+    sprite_name: "7m449s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+  - sprite_id: 16114
+    sprite_name: "7m449w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m442wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+      - texture_name: "m442wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 149
+  - sprite_id: 16122
+    sprite_name: "7m449x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 149
+  - sprite_id: 16123
+    sprite_name: "7m450d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 390
+      - texture_name: "m442nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 390
+      - texture_name: "m442da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 390
+      - texture_name: "m442db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 390
+      - texture_name: "m442dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 390
+      - texture_name: "m442dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 390
+  - sprite_id: 16129
+    sprite_name: "7m450f"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 390
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 390
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 390
+      - texture_name: "m442fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1]
+        palette_id: 390
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 390
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 390
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 390
+  - sprite_id: 16136
+    sprite_name: "7m450n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+  - sprite_id: 16142
+    sprite_name: "7m450s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+  - sprite_id: 16143
+    sprite_name: "7m450w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m442wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+      - texture_name: "m442wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 390
+  - sprite_id: 16151
+    sprite_name: "7m450x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 390
+  - sprite_id: 16152
+    sprite_name: "7m451d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 391
+      - texture_name: "m442nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 391
+      - texture_name: "m442da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 391
+      - texture_name: "m442db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 391
+      - texture_name: "m442dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 391
+      - texture_name: "m442dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 391
+  - sprite_id: 16158
+    sprite_name: "7m451f"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 391
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 391
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 391
+      - texture_name: "m442fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1]
+        palette_id: 391
+      - texture_name: "m442fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 391
+      - texture_name: "m442fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 391
+      - texture_name: "m442fa0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 391
+  - sprite_id: 16165
+    sprite_name: "7m451n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m442na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+  - sprite_id: 16171
+    sprite_name: "7m451s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+  - sprite_id: 16172
+    sprite_name: "7m451w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m442wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+      - texture_name: "m442wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 391
+  - sprite_id: 16180
+    sprite_name: "7m451x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m442xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 391

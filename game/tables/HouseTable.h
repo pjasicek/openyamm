@@ -27,8 +27,10 @@ struct HouseEntry
     };
 
     uint32_t id = 0;
+    uint32_t mapId = 0;
     uint32_t proprietorPictureId = 0;
     uint32_t roomSoundId = 0;
+    uint32_t houseSoundBaseId = 0;
     std::string type;
     std::string name;
     std::string buildingName;

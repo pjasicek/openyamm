@@ -9,14 +9,17 @@ namespace OpenYAMM::Game
 {
 bool isMonsterProjectileSpellName(const std::string &spellName)
 {
-    static constexpr std::array<const char *, 21> ProjectileSpellNames = {
+    static constexpr std::array<const char *, 27> ProjectileSpellNames = {
         "fire bolt",
         "fireball",
         "incinerate",
         "lightning bolt",
         "implosion",
+        "meteor shower",
         "ice bolt",
+        "icebolt",
         "ice blast",
+        "iceblast",
         "acid burst",
         "deadly swarm",
         "blades",
@@ -25,10 +28,13 @@ bool isMonsterProjectileSpellName(const std::string &spellName)
         "sparks",
         "mind blast",
         "psychic shock",
+        "psychic shockt",
         "harm",
+        "flying fist",
         "light bolt",
         "spirit lash",
         "toxic cloud",
+        "shrapmetal",
         "dragon breath",
         "poison spray",
     };
@@ -40,7 +46,7 @@ bool isMonsterProjectileSpellName(const std::string &spellName)
 
 bool isMonsterSelfBuffSpellName(const std::string &spellName)
 {
-    static constexpr std::array<const char *, 10> SelfBuffSpellNames = {
+    static constexpr std::array<const char *, 11> SelfBuffSpellNames = {
         "bless",
         "day of protection",
         "fate",
@@ -50,6 +56,7 @@ bool isMonsterSelfBuffSpellName(const std::string &spellName)
         "hour of power",
         "pain reflection",
         "shield",
+        "stone skin",
         "stoneskin",
     };
 
@@ -63,6 +70,7 @@ bool isMonsterSelfActionSpellName(const std::string &spellName)
     const std::string lowered = toLowerCopy(spellName);
     return lowered == "heal"
         || lowered == "power cure"
+        || lowered == "dispel magic"
         || isMonsterSelfBuffSpellName(lowered);
 }
 }

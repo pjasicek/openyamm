@@ -111,6 +111,36 @@ TEST_CASE("AssetFileSystem keeps legacy fallback and enumerates package aliases"
     std::filesystem::remove_all(temporaryRoot);
 }
 
+TEST_CASE("AssetFileSystem reads aliased package files case-insensitively")
+{
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+
+    writeTextFile(assetRoot / "worlds" / "mm8" / "videos" / "Houses" / "Ntrhall.ogv", "house-video");
+
+    {
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        REQUIRE(assetFileSystem.initialize(
+            temporaryRoot,
+            assetRoot,
+            OpenYAMM::Engine::AssetScaleTier::X1));
+
+        const std::optional<std::string> videoText =
+            assetFileSystem.readTextFile("Videos/Houses/ntrhall.ogv");
+        REQUIRE(videoText.has_value());
+        CHECK_EQ(*videoText, "house-video");
+
+        CHECK(assetFileSystem.exists("Videos/Houses/ntrhall.ogv"));
+
+        const std::optional<std::filesystem::path> physicalPath =
+            assetFileSystem.resolvePhysicalPath("Videos/Houses/ntrhall.ogv");
+        REQUIRE(physicalPath.has_value());
+        CHECK(physicalPath->generic_string().ends_with("assets_dev/worlds/mm8/videos/Houses/Ntrhall.ogv"));
+    }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
 TEST_CASE("AssetFileSystem keeps EnglishT and icon font aliases distinct")
 {
     const std::filesystem::path temporaryRoot = makeTemporaryRoot();
@@ -140,6 +170,158 @@ TEST_CASE("AssetFileSystem keeps EnglishT and icon font aliases distinct")
     std::filesystem::remove_all(temporaryRoot);
 }
 
+TEST_CASE("AssetFileSystem merges inactive world icon roots")
+{
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+
+    writeTextFile(assetRoot / "engine" / "icons" / "engine_only.bmp", "engine-icon");
+    writeTextFile(assetRoot / "engine" / "icons" / "shared.bmp", "same-icon");
+    writeTextFile(assetRoot / "worlds" / "mm6" / "icons" / "mm6_only.bmp", "mm6-icon");
+    writeTextFile(assetRoot / "worlds" / "mm6" / "icons" / "shared.bmp", "same-icon");
+    writeTextFile(assetRoot / "worlds" / "mm7" / "icons" / "mm7_only.bmp", "mm7-icon");
+    writeTextFile(assetRoot / "worlds" / "mm8" / "icons" / "mm8_only.bmp", "mm8-icon");
+
+    {
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        REQUIRE(assetFileSystem.initialize(
+            temporaryRoot,
+            assetRoot,
+            OpenYAMM::Engine::AssetScaleTier::X1,
+            "mm8"));
+
+        const std::optional<std::string> mm6IconText =
+            assetFileSystem.readTextFile("Data/icons/mm6_only.bmp");
+        REQUIRE(mm6IconText.has_value());
+        CHECK_EQ(*mm6IconText, "mm6-icon");
+
+        const std::optional<std::string> mm7IconText =
+            assetFileSystem.readTextFile("Data/icons/mm7_only.bmp");
+        REQUIRE(mm7IconText.has_value());
+        CHECK_EQ(*mm7IconText, "mm7-icon");
+
+        const std::optional<std::string> mm8IconText =
+            assetFileSystem.readTextFile("Data/icons/mm8_only.bmp");
+        REQUIRE(mm8IconText.has_value());
+        CHECK_EQ(*mm8IconText, "mm8-icon");
+
+        const std::optional<std::string> sharedIconText =
+            assetFileSystem.readTextFile("Data/icons/shared.bmp");
+        REQUIRE(sharedIconText.has_value());
+        CHECK_EQ(*sharedIconText, "same-icon");
+
+        const std::vector<std::string> entries = assetFileSystem.enumerate("Data/icons");
+        CHECK(containsEntry(entries, "engine_only.bmp"));
+        CHECK(containsEntry(entries, "mm6_only.bmp"));
+        CHECK(containsEntry(entries, "mm7_only.bmp"));
+        CHECK(containsEntry(entries, "mm8_only.bmp"));
+
+        const std::optional<std::filesystem::path> mm7PhysicalPath =
+            assetFileSystem.resolvePhysicalPath("Data/icons/mm7_only.bmp");
+        REQUIRE(mm7PhysicalPath.has_value());
+        CHECK(mm7PhysicalPath->generic_string().ends_with("assets_dev/worlds/mm7/icons/mm7_only.bmp"));
+    }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("AssetFileSystem rejects conflicting merged world icons")
+{
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+
+    writeTextFile(assetRoot / "engine" / "icons" / "shared.bmp", "engine-icon");
+    writeTextFile(assetRoot / "worlds" / "mm6" / "icons" / "shared.bmp", "mm6-icon");
+    writeTextFile(assetRoot / "worlds" / "mm8" / "maps" / "out01.scene.yml", "active-world-map");
+
+    {
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        CHECK_FALSE(assetFileSystem.initialize(
+            temporaryRoot,
+            assetRoot,
+            OpenYAMM::Engine::AssetScaleTier::X1,
+            "mm8"));
+    }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("AssetFileSystem merges inactive world audio roots")
+{
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+
+    writeTextFile(assetRoot / "engine" / "audio" / "engine_only.wav", "engine-audio");
+    writeTextFile(assetRoot / "engine" / "audio" / "shared.wav", "same-audio");
+    writeTextFile(assetRoot / "worlds" / "mm6" / "audio" / "mm6_only.wav", "mm6-audio");
+    writeTextFile(assetRoot / "worlds" / "mm6" / "audio" / "shared.wav", "same-audio");
+    writeTextFile(assetRoot / "worlds" / "mm7" / "audio" / "mm7_only.wav", "mm7-audio");
+    writeTextFile(assetRoot / "worlds" / "mm8" / "audio" / "mm8_only.wav", "mm8-audio");
+
+    {
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        REQUIRE(assetFileSystem.initialize(
+            temporaryRoot,
+            assetRoot,
+            OpenYAMM::Engine::AssetScaleTier::X1,
+            "mm8"));
+
+        const std::optional<std::string> mm6AudioText =
+            assetFileSystem.readTextFile("Data/EnglishD/mm6_only.wav");
+        REQUIRE(mm6AudioText.has_value());
+        CHECK_EQ(*mm6AudioText, "mm6-audio");
+
+        const std::optional<std::string> mm7AudioText =
+            assetFileSystem.readTextFile("Data/EnglishD/mm7_only.wav");
+        REQUIRE(mm7AudioText.has_value());
+        CHECK_EQ(*mm7AudioText, "mm7-audio");
+
+        const std::optional<std::string> mm8AudioText =
+            assetFileSystem.readTextFile("Data/EnglishD/mm8_only.wav");
+        REQUIRE(mm8AudioText.has_value());
+        CHECK_EQ(*mm8AudioText, "mm8-audio");
+
+        const std::optional<std::string> sharedAudioText =
+            assetFileSystem.readTextFile("Data/EnglishD/shared.wav");
+        REQUIRE(sharedAudioText.has_value());
+        CHECK_EQ(*sharedAudioText, "same-audio");
+
+        const std::vector<std::string> entries = assetFileSystem.enumerate("Data/EnglishD");
+        CHECK(containsEntry(entries, "engine_only.wav"));
+        CHECK(containsEntry(entries, "mm6_only.wav"));
+        CHECK(containsEntry(entries, "mm7_only.wav"));
+        CHECK(containsEntry(entries, "mm8_only.wav"));
+
+        const std::optional<std::filesystem::path> mm7PhysicalPath =
+            assetFileSystem.resolvePhysicalPath("Data/EnglishD/mm7_only.wav");
+        REQUIRE(mm7PhysicalPath.has_value());
+        CHECK(mm7PhysicalPath->generic_string().ends_with("assets_dev/worlds/mm7/audio/mm7_only.wav"));
+    }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
+TEST_CASE("AssetFileSystem rejects conflicting merged world audio")
+{
+    const std::filesystem::path temporaryRoot = makeTemporaryRoot();
+    const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
+
+    writeTextFile(assetRoot / "engine" / "audio" / "shared.wav", "engine-audio");
+    writeTextFile(assetRoot / "worlds" / "mm6" / "audio" / "shared.wav", "mm6-audio");
+    writeTextFile(assetRoot / "worlds" / "mm8" / "maps" / "out01.scene.yml", "active-world-map");
+
+    {
+        OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+        CHECK_FALSE(assetFileSystem.initialize(
+            temporaryRoot,
+            assetRoot,
+            OpenYAMM::Engine::AssetScaleTier::X1,
+            "mm8"));
+    }
+
+    std::filesystem::remove_all(temporaryRoot);
+}
+
 TEST_CASE("AssetFileSystem resolves EnglishT text through shared English data tables")
 {
     const std::filesystem::path temporaryRoot = makeTemporaryRoot();
@@ -163,13 +345,13 @@ TEST_CASE("AssetFileSystem resolves EnglishT text through shared English data ta
     std::filesystem::remove_all(temporaryRoot);
 }
 
-TEST_CASE("AssetFileSystem resolves English data tables through shared and world data tables")
+TEST_CASE("AssetFileSystem resolves English data tables through engine data tables")
 {
     const std::filesystem::path temporaryRoot = makeTemporaryRoot();
     const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
 
     writeTextFile(assetRoot / "engine" / "data_tables" / "english" / "stats.txt", "shared-stats");
-    writeTextFile(assetRoot / "worlds" / "mm8" / "data_tables" / "english" / "quest.txt", "world-quest");
+    writeTextFile(assetRoot / "engine" / "data_tables" / "english" / "quest.txt", "engine-quest");
 
     {
         OpenYAMM::Engine::AssetFileSystem assetFileSystem;
@@ -186,19 +368,19 @@ TEST_CASE("AssetFileSystem resolves English data tables through shared and world
         const std::optional<std::string> questText =
             assetFileSystem.readTextFile("Data/data_tables/english/quest.txt");
         REQUIRE(questText.has_value());
-        CHECK_EQ(*questText, "world-quest");
+        CHECK_EQ(*questText, "engine-quest");
     }
 
     std::filesystem::remove_all(temporaryRoot);
 }
 
-TEST_CASE("AssetFileSystem resolves shared and world tables through data_tables")
+TEST_CASE("AssetFileSystem resolves engine tables through data_tables")
 {
     const std::filesystem::path temporaryRoot = makeTemporaryRoot();
     const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
 
     writeTextFile(assetRoot / "engine" / "data_tables" / "items.txt", "engine-items");
-    writeTextFile(assetRoot / "worlds" / "mm8" / "data_tables" / "map_stats.txt", "world-map-stats");
+    writeTextFile(assetRoot / "engine" / "data_tables" / "map_stats.txt", "engine-map-stats");
 
     {
         OpenYAMM::Engine::AssetFileSystem assetFileSystem;
@@ -215,7 +397,7 @@ TEST_CASE("AssetFileSystem resolves shared and world tables through data_tables"
         const std::optional<std::string> mapStatsText =
             assetFileSystem.readTextFile("Data/data_tables/map_stats.txt");
         REQUIRE(mapStatsText.has_value());
-        CHECK_EQ(*mapStatsText, "world-map-stats");
+        CHECK_EQ(*mapStatsText, "engine-map-stats");
     }
 
     std::filesystem::remove_all(temporaryRoot);

@@ -1,0 +1,211 @@
+# Monster sprite frame groups for family m267.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 11381
+    sprite_name: "m267a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m266aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266ac"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266ae"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266af"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266ag"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266ah"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+  - sprite_id: 11389
+    sprite_name: "m267d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m266fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266dd0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 2.0
+        palette_id: 267
+  - sprite_id: 11395
+    sprite_name: "m267x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m266xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+  - sprite_id: 11396
+    sprite_name: "m267w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m266wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266we"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266wg"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266wh"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+  - sprite_id: 11404
+    sprite_name: "m267n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m266na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266nd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266ne"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266nf"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267
+  - sprite_id: 11410
+    sprite_name: "m267f"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m266fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 267
+      - texture_name: "m266fb0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 2.0
+        palette_id: 267
+  - sprite_id: 11416
+    sprite_name: "m267s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m266sa"
+        frame_length_raw: 2
+        flags: [First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 267

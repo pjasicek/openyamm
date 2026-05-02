@@ -21,6 +21,28 @@ std::optional<TValue> readPayloadValue(const std::vector<uint8_t> &payload, size
     return value;
 }
 
+std::optional<std::string> readPayloadString(const std::vector<uint8_t> &payload, size_t offset)
+{
+    if (offset > payload.size())
+    {
+        return std::nullopt;
+    }
+
+    std::string value;
+
+    for (size_t index = offset; index < payload.size(); ++index)
+    {
+        if (payload[index] == 0)
+        {
+            return value;
+        }
+
+        value.push_back(static_cast<char>(payload[index]));
+    }
+
+    return std::nullopt;
+}
+
 std::string hexValue(uint32_t value)
 {
     std::ostringstream stream;
@@ -317,7 +339,8 @@ EventIrInstruction convertInstruction(
     const EvtInstruction &evtInstruction,
     const StrTable &strTable,
     const std::function<std::optional<std::string>(uint32_t)> &resolveHouseName,
-    const std::function<std::optional<std::string>(uint32_t)> &resolveNpcText
+    const std::function<std::optional<std::string>(uint32_t)> &resolveNpcText,
+    int legacyEventVersion
 )
 {
     EventIrInstruction irInstruction = {};
@@ -535,8 +558,23 @@ EventIrInstruction convertInstruction(
         const std::optional<int32_t> yaw = readPayloadValue<int32_t>(evtInstruction.rawPayload, 12);
         const std::optional<int32_t> pitch = readPayloadValue<int32_t>(evtInstruction.rawPayload, 16);
         const std::optional<int32_t> zSpeed = readPayloadValue<int32_t>(evtInstruction.rawPayload, 20);
-        const std::optional<uint8_t> houseId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 24);
-        const std::optional<uint8_t> exitPicId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 25);
+        std::optional<uint32_t> houseId;
+
+        if (legacyEventVersion == 8)
+        {
+            if (const std::optional<uint16_t> value = readPayloadValue<uint16_t>(evtInstruction.rawPayload, 24))
+            {
+                houseId = *value;
+            }
+        }
+        else if (const std::optional<uint8_t> value = readPayloadValue<uint8_t>(evtInstruction.rawPayload, 24))
+        {
+            houseId = *value;
+        }
+
+        const size_t iconOffset = legacyEventVersion == 8 ? 26 : 25;
+        const size_t mapNameOffset = legacyEventVersion == 8 ? 27 : 26;
+        const std::optional<uint8_t> exitPicId = readPayloadValue<uint8_t>(evtInstruction.rawPayload, iconOffset);
 
         if (x && y && z && yaw && pitch && zSpeed && houseId && exitPicId)
         {
@@ -551,6 +589,8 @@ EventIrInstruction convertInstruction(
                 *exitPicId
             };
         }
+
+        irInstruction.text = readPayloadString(evtInstruction.rawPayload, mapNameOffset);
     }
 
     switch (irInstruction.operation)
@@ -871,7 +911,8 @@ bool buildEventIrProgramFromLegacySource(
     const EvtProgram &evtProgram,
     const StrTable &strTable,
     const std::function<std::optional<std::string>(uint32_t)> &resolveHouseName,
-    const std::function<std::optional<std::string>(uint32_t)> &resolveNpcText
+    const std::function<std::optional<std::string>(uint32_t)> &resolveNpcText,
+    int legacyEventVersion
 )
 {
     std::vector<EventIrEvent> events;
@@ -884,7 +925,13 @@ bool buildEventIrProgramFromLegacySource(
         for (const EvtInstruction &evtInstruction : evtEvent.instructions)
         {
             irEvent.instructions.push_back(
-                convertInstruction(evtEvent.eventId, evtInstruction, strTable, resolveHouseName, resolveNpcText)
+                convertInstruction(
+                    evtEvent.eventId,
+                    evtInstruction,
+                    strTable,
+                    resolveHouseName,
+                    resolveNpcText,
+                    legacyEventVersion)
             );
         }
 

@@ -372,14 +372,22 @@ std::optional<std::vector<uint8_t>> loadBitmapPixelsBgra(
 
     width = image->width;
     height = image->height;
+    std::vector<uint8_t> pixels = image->pixels;
 
     if (forceTerrainTileSize && (width != forcedTerrainTileSize || height != forcedTerrainTileSize))
     {
-        bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
-        return std::nullopt;
+        pixels = Engine::scalePixelsNearestBgra(pixels, width, height, forcedTerrainTileSize, forcedTerrainTileSize);
+
+        if (pixels.empty())
+        {
+            bitmapLoadCache.pixelsByKey[cacheKey] = std::nullopt;
+            return std::nullopt;
+        }
+
+        width = forcedTerrainTileSize;
+        height = forcedTerrainTileSize;
     }
 
-    std::vector<uint8_t> pixels = image->pixels;
     bitmapLoadCache.pixelsByKey[cacheKey] = BitmapPixelsResult{width, height, pixels};
     return pixels;
 }

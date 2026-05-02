@@ -1,0 +1,196 @@
+# Monster sprite frame groups for family m408.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 15044
+    sprite_name: "m408a"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m406aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406ab"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406ac"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406ad"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406ae"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406af"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+  - sprite_id: 15050
+    sprite_name: "m408d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m406na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.099991
+        palette_id: 74
+  - sprite_id: 15056
+    sprite_name: "m408x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m406xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.099991
+        palette_id: 74
+  - sprite_id: 15057
+    sprite_name: "m408w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m406wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+  - sprite_id: 15065
+    sprite_name: "m408n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m406na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74
+  - sprite_id: 15071
+    sprite_name: "m408f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m406fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406fd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.099991
+        palette_id: 74
+      - texture_name: "m406fe0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.099991
+        palette_id: 74
+  - sprite_id: 15076
+    sprite_name: "m408s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m406sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 74

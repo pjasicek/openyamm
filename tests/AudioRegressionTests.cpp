@@ -16,8 +16,10 @@
 #include <SDL3/SDL.h>
 
 #include <array>
+#include <cctype>
 #include <filesystem>
 #include <string>
+#include <unordered_set>
 #include <vector>
 
 namespace
@@ -85,6 +87,24 @@ std::vector<std::vector<std::string>> rowsFromTextTable(const OpenYAMM::Engine::
     }
 
     return rows;
+}
+
+bool isUnsignedIntegerString(const std::string &value)
+{
+    if (value.empty())
+    {
+        return false;
+    }
+
+    for (const char character : value)
+    {
+        if (std::isdigit(static_cast<unsigned char>(character)) == 0)
+        {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 OpenYAMM::Game::Party makeAudioRegressionParty(const OpenYAMM::Tests::RegressionGameData &gameData)
@@ -283,23 +303,17 @@ TEST_CASE("speech catalog maps lich reaction voices from sound id blocks")
 
     const std::optional<std::string> engineSoundCatalogText =
         assetFileSystem.readTextFile("engine/data_tables/sounds.txt");
-    const std::optional<std::string> worldSoundCatalogText =
-        assetFileSystem.readTextFile("worlds/mm8/data_tables/sounds.txt");
     REQUIRE(engineSoundCatalogText.has_value());
-    REQUIRE(worldSoundCatalogText.has_value());
 
     const std::optional<OpenYAMM::Engine::TextTable> parsedEngineSoundCatalog =
         OpenYAMM::Engine::TextTable::parseTabSeparated(*engineSoundCatalogText);
-    const std::optional<OpenYAMM::Engine::TextTable> parsedWorldSoundCatalog =
-        OpenYAMM::Engine::TextTable::parseTabSeparated(*worldSoundCatalogText);
     REQUIRE(parsedEngineSoundCatalog.has_value());
-    REQUIRE(parsedWorldSoundCatalog.has_value());
 
     OpenYAMM::Game::SoundCatalog soundCatalog;
     std::string errorMessage;
     REQUIRE(soundCatalog.loadFromScopedRows(
         rowsFromTextTable(*parsedEngineSoundCatalog),
-        rowsFromTextTable(*parsedWorldSoundCatalog),
+        {},
         errorMessage));
 
     const std::optional<uint32_t> maleLichTrap =
@@ -344,7 +358,7 @@ TEST_CASE("sound catalog scopes world monster sounds independently from engine s
     CHECK(errorMessage.find("duplicate world sound id 1000") != std::string::npos);
 }
 
-TEST_CASE("sound catalog resolves scoped audio files without world overriding engine audio")
+TEST_CASE("sound catalog resolves flat sound rows against engine and world audio files")
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
     std::string failure;
@@ -353,23 +367,17 @@ TEST_CASE("sound catalog resolves scoped audio files without world overriding en
 
     const std::optional<std::string> engineSoundCatalogText =
         assetFileSystem.readTextFile("engine/data_tables/sounds.txt");
-    const std::optional<std::string> worldSoundCatalogText =
-        assetFileSystem.readTextFile("worlds/mm8/data_tables/sounds.txt");
     REQUIRE(engineSoundCatalogText.has_value());
-    REQUIRE(worldSoundCatalogText.has_value());
 
     const std::optional<OpenYAMM::Engine::TextTable> parsedEngineSoundCatalog =
         OpenYAMM::Engine::TextTable::parseTabSeparated(*engineSoundCatalogText);
-    const std::optional<OpenYAMM::Engine::TextTable> parsedWorldSoundCatalog =
-        OpenYAMM::Engine::TextTable::parseTabSeparated(*worldSoundCatalogText);
     REQUIRE(parsedEngineSoundCatalog.has_value());
-    REQUIRE(parsedWorldSoundCatalog.has_value());
 
     OpenYAMM::Game::SoundCatalog soundCatalog;
     std::string errorMessage;
     REQUIRE(soundCatalog.loadFromScopedRows(
         rowsFromTextTable(*parsedEngineSoundCatalog),
-        rowsFromTextTable(*parsedWorldSoundCatalog),
+        {},
         errorMessage));
     soundCatalog.initializeVirtualPathIndex(assetFileSystem);
 
@@ -378,14 +386,156 @@ TEST_CASE("sound catalog resolves scoped audio files without world overriding en
         soundCatalog.buildVirtualPath(OpenYAMM::Game::worldSound(1000));
     const std::optional<std::string> worldHousePath =
         soundCatalog.buildVirtualPath(OpenYAMM::Game::worldSound(30101));
+    const std::optional<std::string> flatHousePath =
+        soundCatalog.buildVirtualPath(OpenYAMM::Game::engineSound(30101));
 
     REQUIRE(enginePath.has_value());
     REQUIRE(worldMonsterPath.has_value());
     REQUIRE(worldHousePath.has_value());
-    CHECK(enginePath->starts_with("engine/audio/"));
-    CHECK(worldMonsterPath->starts_with("worlds/mm8/audio/"));
-    CHECK(worldHousePath->starts_with("worlds/mm8/audio/"));
-    CHECK_FALSE(soundCatalog.buildVirtualPath(OpenYAMM::Game::engineSound(30101)).has_value());
+    REQUIRE(flatHousePath.has_value());
+    CHECK(enginePath->starts_with("audio/"));
+    CHECK(worldMonsterPath->starts_with("audio/"));
+    CHECK(worldHousePath->starts_with("audio/"));
+    CHECK(flatHousePath->starts_with("audio/"));
+    CHECK(assetFileSystem.exists(*enginePath));
+    CHECK(assetFileSystem.exists(*worldMonsterPath));
+    CHECK(assetFileSystem.exists(*worldHousePath));
+    CHECK(assetFileSystem.exists(*flatHousePath));
+}
+
+TEST_CASE("sound catalog resolves registered physical audio through merged audio namespace")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    std::string failure;
+
+    REQUIRE_MESSAGE(initializeRegressionAssetFileSystem(assetFileSystem, failure), failure.c_str());
+
+    const std::optional<std::string> engineSoundCatalogText =
+        assetFileSystem.readTextFile("engine/data_tables/sounds.txt");
+    REQUIRE(engineSoundCatalogText.has_value());
+
+    const std::optional<OpenYAMM::Engine::TextTable> parsedEngineSoundCatalog =
+        OpenYAMM::Engine::TextTable::parseTabSeparated(*engineSoundCatalogText);
+    REQUIRE(parsedEngineSoundCatalog.has_value());
+
+    OpenYAMM::Game::SoundCatalog soundCatalog;
+    std::string errorMessage;
+    REQUIRE(soundCatalog.loadFromScopedRows(
+        rowsFromTextTable(*parsedEngineSoundCatalog),
+        {},
+        errorMessage));
+    soundCatalog.initializeVirtualPathIndex(assetFileSystem);
+
+    std::unordered_set<uint32_t> checkedSoundIds;
+    size_t resolvedSoundCount = 0;
+
+    for (size_t rowIndex = 0; rowIndex < parsedEngineSoundCatalog->getRowCount(); ++rowIndex)
+    {
+        const std::vector<std::string> row = parsedEngineSoundCatalog->getRow(rowIndex);
+
+        if (row.size() < 2 || row[0].empty() || row[0][0] == '/')
+        {
+            continue;
+        }
+
+        if (!isUnsignedIntegerString(row[1]))
+        {
+            continue;
+        }
+
+        const uint32_t soundId = static_cast<uint32_t>(std::stoul(row[1]));
+
+        if (soundId == 0 || !checkedSoundIds.insert(soundId).second)
+        {
+            continue;
+        }
+
+        const std::string audioPath = "Data/EnglishD/" + row[0] + ".wav";
+
+        if (!assetFileSystem.exists(audioPath))
+        {
+            continue;
+        }
+
+        const std::optional<std::string> resolvedPath = soundCatalog.buildVirtualPath(soundId);
+        REQUIRE_MESSAGE(resolvedPath.has_value(), row[0].c_str());
+        CHECK_MESSAGE(resolvedPath->starts_with("audio/"), resolvedPath->c_str());
+        CHECK_MESSAGE(assetFileSystem.exists(*resolvedPath), resolvedPath->c_str());
+        ++resolvedSoundCount;
+    }
+
+    CHECK(resolvedSoundCount > 7000);
+}
+
+TEST_CASE("monster descriptor sound ids resolve through merged sound registry")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    std::string failure;
+
+    REQUIRE_MESSAGE(initializeRegressionAssetFileSystem(assetFileSystem, failure), failure.c_str());
+
+    const std::optional<std::string> engineSoundCatalogText =
+        assetFileSystem.readTextFile("engine/data_tables/sounds.txt");
+    REQUIRE(engineSoundCatalogText.has_value());
+
+    const std::optional<OpenYAMM::Engine::TextTable> parsedEngineSoundCatalog =
+        OpenYAMM::Engine::TextTable::parseTabSeparated(*engineSoundCatalogText);
+    REQUIRE(parsedEngineSoundCatalog.has_value());
+
+    const std::optional<std::string> monsterDescriptorText =
+        assetFileSystem.readTextFile("engine/data_tables/monster_descriptors.txt");
+    REQUIRE(monsterDescriptorText.has_value());
+
+    const std::optional<OpenYAMM::Engine::TextTable> parsedMonsterDescriptors =
+        OpenYAMM::Engine::TextTable::parseTabSeparated(*monsterDescriptorText);
+    REQUIRE(parsedMonsterDescriptors.has_value());
+
+    OpenYAMM::Game::SoundCatalog soundCatalog;
+    std::string errorMessage;
+    REQUIRE(soundCatalog.loadFromScopedRows(
+        rowsFromTextTable(*parsedEngineSoundCatalog),
+        {},
+        errorMessage));
+    soundCatalog.initializeVirtualPathIndex(assetFileSystem);
+
+    std::unordered_set<uint32_t> checkedMonsterSoundIds;
+
+    for (size_t rowIndex = 0; rowIndex < parsedMonsterDescriptors->getRowCount(); ++rowIndex)
+    {
+        const std::vector<std::string> row = parsedMonsterDescriptors->getRow(rowIndex);
+
+        if (row.size() < 11 || !isUnsignedIntegerString(row[0]))
+        {
+            continue;
+        }
+
+        for (size_t columnIndex = 7; columnIndex <= 10; ++columnIndex)
+        {
+            if (row[columnIndex].empty())
+            {
+                continue;
+            }
+
+            if (!isUnsignedIntegerString(row[columnIndex]))
+            {
+                continue;
+            }
+
+            const uint32_t soundId = static_cast<uint32_t>(std::stoul(row[columnIndex]));
+
+            if (soundId == 0 || !checkedMonsterSoundIds.insert(soundId).second)
+            {
+                continue;
+            }
+
+            const std::optional<std::string> resolvedPath = soundCatalog.buildVirtualPath(soundId);
+            REQUIRE_MESSAGE(resolvedPath.has_value(), row[columnIndex].c_str());
+            CHECK_MESSAGE(resolvedPath->starts_with("audio/"), resolvedPath->c_str());
+            CHECK_MESSAGE(assetFileSystem.exists(*resolvedPath), resolvedPath->c_str());
+        }
+    }
+
+    CHECK(checkedMonsterSoundIds.size() > 700);
 }
 
 TEST_CASE("lich character speech audio resolves from character data voice ids")

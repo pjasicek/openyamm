@@ -1,0 +1,107 @@
+# Monster sprite frame groups for family m589.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 5701
+    sprite_name: "m589a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m588aa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 588
+      - texture_name: "m588ab0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 588
+      - texture_name: "m588ac0"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 588
+      - texture_name: "m588ad0"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 64
+        palette_id: 588
+      - texture_name: "m588ae0"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 588
+      - texture_name: "m588af0"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1]
+        glow_radius: 32
+        palette_id: 588
+      - texture_name: "m588ag0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 588
+      - texture_name: "m588ah0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 588
+  - sprite_id: 5709
+    sprite_name: "m589d"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m588na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 588
+      - texture_name: "m588nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 588
+      - texture_name: "m588da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 588
+      - texture_name: "m588dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 588
+      - texture_name: "m588dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 588
+  - sprite_id: 5714
+    sprite_name: "m589x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m588xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 588
+  - sprite_id: 5715
+    sprite_name: "m589s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m588sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 588
+  - sprite_id: 5716
+    sprite_name: "m589n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m588na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 588
+      - texture_name: "m588nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 588
+      - texture_name: "m588nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 588
+      - texture_name: "m588nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 588
+      - texture_name: "m588ne"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 588

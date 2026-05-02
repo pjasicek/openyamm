@@ -14,6 +14,7 @@ bool buildEventIrProgramFromLegacySource(
     const EvtProgram &evtProgram,
     const StrTable &strTable,
     const std::function<std::optional<std::string>(uint32_t)> &resolveHouseName,
-    const std::function<std::optional<std::string>(uint32_t)> &resolveNpcText
+    const std::function<std::optional<std::string>(uint32_t)> &resolveNpcText,
+    int legacyEventVersion = 8
 );
 }

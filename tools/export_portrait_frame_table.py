@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import struct
 from pathlib import Path
 
@@ -10,12 +11,29 @@ HEADER_GROUP = "Portrait Frame Data\t\t\tTiming\tFlags"
 HEADER_COLUMNS = "#\tTextureIndex\tFrameLengthRaw\tAnimationLengthRaw\tFlags"
 
 
+def build_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Export dpft.bin into portrait_frame_data.txt")
+    parser.add_argument("--source-bin", help="path to dpft.bin")
+    parser.add_argument("--output", help="path to portrait_frame_data.txt")
+    return parser
+
+
 def main() -> int:
+    parser = build_argument_parser()
+    args = parser.parse_args()
     repo_root = Path(__file__).resolve().parents[1]
     legacy_binary_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "dpft.bin"
     fallback_binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dpft.bin"
-    binary_path = legacy_binary_path if legacy_binary_path.exists() else fallback_binary_path
-    output_path = repo_root / "assets_dev" / "Data" / "data_tables" / "portrait_frame_data.txt"
+    binary_path = Path(args.source_bin) if args.source_bin else legacy_binary_path
+
+    if not binary_path.exists() and not args.source_bin:
+        binary_path = fallback_binary_path
+
+    output_path = (
+        Path(args.output)
+        if args.output
+        else repo_root / "assets_dev" / "Data" / "data_tables" / "portrait_frame_data.txt"
+    )
 
     data = binary_path.read_bytes()
     frame_count = struct.unpack_from("<I", data, 0)[0]
@@ -40,6 +58,7 @@ def main() -> int:
             )
         )
 
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return 0
 

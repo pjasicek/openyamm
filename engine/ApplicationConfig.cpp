@@ -9,7 +9,6 @@ ApplicationConfig ApplicationConfig::createDefault()
     ApplicationConfig config;
     config.appName = "OpenYAMM";
     config.assetRoot = AssetPaths::getDevelopmentAssetRoot();
-    config.campaignId = "default";
     config.activeWorldId = "mm8";
     config.startupMapFileOverride.clear();
     config.assetScaleTier = AssetScaleTier::X1;

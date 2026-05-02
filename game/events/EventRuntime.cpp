@@ -743,6 +743,28 @@ std::optional<PortraitId> eventPortraitId(uint32_t rawPortraitId)
     return portraitId == PortraitId::Invalid ? std::nullopt : std::optional<PortraitId>(portraitId);
 }
 
+uint32_t eventReferenceId(lua_Integer rawId)
+{
+    if (rawId < 0)
+    {
+        const int64_t signedId = static_cast<int64_t>(rawId);
+        const uint64_t magnitude = static_cast<uint64_t>(-(signedId + 1)) + 1;
+        return static_cast<uint32_t>(magnitude);
+    }
+
+    const uint64_t unsignedId = static_cast<uint64_t>(rawId);
+
+    if (unsignedId > static_cast<uint64_t>(std::numeric_limits<int32_t>::max())
+        && unsignedId <= static_cast<uint64_t>(std::numeric_limits<uint32_t>::max()))
+    {
+        const int64_t signedId = static_cast<int64_t>(unsignedId) -
+            (static_cast<int64_t>(std::numeric_limits<uint32_t>::max()) + 1);
+        return static_cast<uint32_t>(signedId < 0 ? -signedId : signedId);
+    }
+
+    return static_cast<uint32_t>(rawId);
+}
+
 std::string damageStatusForEvtVariable(const std::vector<size_t> &targetMemberIndices)
 {
     return targetMemberIndices.size() > 1 ? "event damaged party" : "event damaged member";
@@ -762,6 +784,7 @@ void queuePendingSound(
 
     EventRuntimeState::PendingSound request = {};
     request.soundId = soundId;
+    request.soundScope = soundId >= 30000 ? SoundScope::World : SoundScope::Engine;
     request.x = x;
     request.y = y;
     request.positional = positional;
@@ -3895,7 +3918,7 @@ int luaShowMovie(lua_State *pLuaState)
 int luaSetSprite(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    const uint32_t cogNumber = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t cogNumber = eventReferenceId(luaL_checkinteger(pLuaState, 1));
     EventRuntimeState::SpriteOverride spriteOverride = {};
     spriteOverride.hidden = luaEventBoolean(pLuaState, 2);
 
@@ -4638,7 +4661,7 @@ int luaStopDoor(lua_State *pLuaState)
 int luaSetTexture(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    const uint32_t cogNumber = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t cogNumber = eventReferenceId(luaL_checkinteger(pLuaState, 1));
 
     if (lua_gettop(pLuaState) >= 2 && lua_type(pLuaState, 2) == LUA_TSTRING)
     {
@@ -4656,7 +4679,7 @@ int luaSetTexture(lua_State *pLuaState)
 int luaSetLight(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    pRuntimeState->indoorLightsEnabled[static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1))] =
+    pRuntimeState->indoorLightsEnabled[eventReferenceId(luaL_checkinteger(pLuaState, 1))] =
         luaEventBoolean(pLuaState, 2);
     return 0;
 }
@@ -4665,7 +4688,7 @@ int luaSetFacetBit(lua_State *pLuaState)
 {
     LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    const uint32_t cogNumber = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const uint32_t cogNumber = eventReferenceId(luaL_checkinteger(pLuaState, 1));
     const uint32_t bit = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 2));
     const bool isOn = luaEventBoolean(pLuaState, 3);
 

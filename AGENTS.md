@@ -6,6 +6,9 @@ These rules apply to all AI-generated contributions in this repository.
 
 - Generate new code. Never copy code from OpenEnroth or mm_mapview2.
 - Use `reference/OpenEnroth-git/` and mm_mapview2 only as behavioral/structural references.
+- Use GrayFace's decompiled scripts in `reference/mmext-scripts/Decompiled_Scripts/` as semi-authoritative event
+  behavior references for MM6/MM7/MM8. Prefer the per-world `txt/` folders for readable control flow when checking or
+  repairing exported EVT Lua. Do not copy script code into OpenYAMM; use it to understand intent and validate behavior.
 - Prefer simple, maintainable solutions over clever abstractions.
 - Do not add adapter/forwarding layers that only hide duplicated ownership.
 - Keep temporary diagnostics and noisy logs out of final changes.
@@ -73,20 +76,37 @@ If a bug appears only indoors or only outdoors, first check whether the shared s
 missing world hooks. Prefer fixing the shared path or the world hook over adding divergent logic to `IndoorGameView` or
 `OutdoorGameView`.
 
-### World, Campaign, And Mod Content
+### Flat Base, World, And Mod Content
 
 - The long-term content architecture is documented in `WORLD_CAMPAIGN_MOD_ARCHITECTURE.md`.
 - OpenYAMM is the engine. Worlds such as MM8, MM7, MM6, or future custom settings should be mounted content packages,
   not separate engines or hardcoded runtime modes.
-- Campaigns decide which worlds are mounted, which worlds can be chosen at new game start, and how cross-world travel,
-  metaquests, difficulty profiles, and global overrides work.
-- Keep shared content in a global/engine scope when the party can carry it or when it defines common mechanics: items,
-  skills, spells, classes, races, portraits, paperdolls, UI, menus, formulas, and campaign state.
-- Keep geography and story content world-scoped: maps, map events, quests, qbits/event vars, autonotes, NPCs, houses,
-  shops, local travel, death maps, loading screens, monsters, monster art, and world presentation.
+- Use a flat MMerge-like base: `assets_dev/engine/` is the global/base content layer and `assets_dev/worlds/*` contains
+  world-local maps, events, and presentation assets. MM6/MM7/MM8 worlds must not own active TXT/BIN gameplay tables;
+  import or migrate their references to the merged MMerge-owned tables under `assets_dev/engine/`. Do not add a
+  separate campaign package layer for now.
+- The flat base decides which worlds are mounted, which worlds can be chosen at new game start, and how cross-world
+  travel, metaquests, difficulty profiles, and global overrides work.
+- Keep shared content in the engine/base scope when the party can carry it or when it defines base mechanics:
+  items, skills, spells, classes, races, portraits, paperdolls, formulas, base state, and the merged QBit journal
+  registry (`quests.txt`). The default MMerge global tables belong under `assets_dev/engine/`.
+- Keep geography and map-local content world-scoped: maps, map events, map/local event vars, loading screens, monster
+  art, and world presentation. In the MMerge-style flat base, merged journal/autonote/history/NPC dialogue, house,
+  travel, monster, decoration, object, and other TXT/BIN registries live globally under `assets_dev/engine/`.
+- Treat QBits as global party/save state. Worlds and mods may own declared QBit ranges, with custom content starting at
+  `10000+`, but those bits merge into the shared registry and must not silently collide.
 - Use canonical namespaced ids for world-specific data. Treat MM6/MM7/MM8 raw ids as import aliases, not global truth.
-- Implement world support incrementally around existing runtime systems through package mounting, world manifests,
-  campaign manifests, and active-world context. Do not rewrite the game engine for this.
+- Implement world support incrementally around existing runtime systems through package mounting, world manifests, mod
+  manifests, declared id ranges, and active-world context. Do not rewrite the game engine for this.
+- For MM6/MMerge import work, use the "MM6 Import Reference From MMerge" section in
+  `WORLD_CAMPAIGN_MOD_ARCHITECTURE.md`. Treat `reference/mmerge_data_forus/` and `reference/mmmerge/` as data and
+  behavior references only; import into normal world/mod architecture instead of reproducing MMerge's memory-hook
+  runtime shape.
+- Track MMerge TXT table integration in `MMERGE_TXT_TABLE_INTEGRATION_INVENTORY.md` and update it whenever a table is
+  promoted, converted, skipped, or given a loader.
+- Track MMerge icon ownership in `MMERGE_ICON_OWNERSHIP.md`. Keep merge-owned/global icons in
+  `assets_dev/engine/icons`, original-world NPC portraits in `assets_dev/worlds/mm*/icons`, and preserve the documented
+  lowercase/0644 import rules.
 
 ## Assets And Runtime
 

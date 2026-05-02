@@ -253,23 +253,20 @@ std::filesystem::path packageRelativePathForLegacyVirtualPath(
         return *path;
     }
 
-    if (const std::optional<std::filesystem::path> path = mapPrefix("Data/data_tables", "data_tables"))
+    const std::string dataTablePrefix = "Data/data_tables/";
+    if (virtualPath.starts_with(dataTablePrefix))
     {
-        return *path;
+        return std::filesystem::path("engine")
+            / "data_tables"
+            / virtualPath.substr(dataTablePrefix.size());
     }
 
     return std::filesystem::path(virtualPath);
 }
 
-std::filesystem::path worldTableRelativePathForScene(
-    const std::filesystem::path &editorRoot,
-    const std::filesystem::path &scenePhysicalPath,
-    const std::string &fileName)
+std::filesystem::path engineTableRelativePath(const std::string &fileName)
 {
-    return packageRelativePathForLegacyVirtualPath(
-        editorRoot,
-        scenePhysicalPath,
-        (std::filesystem::path("Data") / "data_tables" / fileName).generic_string());
+    return std::filesystem::path("engine") / "data_tables" / fileName;
 }
 
 bool ensureOverlaySeedTextFile(
@@ -1995,8 +1992,7 @@ bool EditorDocument::createNewOutdoorMapPackage(
     const std::string packageVirtualPath = "Data/games/" + replaceExtension(trimmedMapFileName, ".map.yml");
     const std::string geometryMetadataVirtualPath = "Data/games/" + replaceExtension(trimmedMapFileName, ".geometry.yml");
     const std::string terrainMetadataVirtualPath = "Data/games/" + replaceExtension(trimmedMapFileName, ".terrain.yml");
-    const std::filesystem::path mapStatsRelativePath =
-        activeWorldRelativePath(assetFileSystem, std::filesystem::path("data_tables") / "map_stats.txt");
+    const std::filesystem::path mapStatsRelativePath = engineTableRelativePath("map_stats.txt");
     const std::filesystem::path mapStatsPath = assetFileSystem.getEditorDevelopmentRoot() / mapStatsRelativePath;
 
     if (assetFileSystem.exists(sceneVirtualPath)
@@ -2234,8 +2230,7 @@ bool EditorDocument::saveSourceAs(const std::filesystem::path &scenePhysicalPath
     const std::filesystem::path targetGeometryMetadataPath = deriveGeometryMetadataPathForScenePath(scenePhysicalPath);
     const std::filesystem::path targetMapPackagePath = deriveMapPackagePathForScenePath(scenePhysicalPath);
     const std::filesystem::path targetTerrainMetadataPath = deriveTerrainMetadataPathForScenePath(scenePhysicalPath);
-    const std::filesystem::path mapStatsRelativePath =
-        worldTableRelativePathForScene(m_editorDevelopmentRoot, scenePhysicalPath, "map_stats.txt");
+    const std::filesystem::path mapStatsRelativePath = engineTableRelativePath("map_stats.txt");
     const std::filesystem::path mapStatsPath = m_editorDevelopmentRoot / mapStatsRelativePath;
 
     if (!ensureOverlaySeedTextFile(m_developmentRoot, m_editorDevelopmentRoot, mapStatsRelativePath, errorMessage))
@@ -2532,10 +2527,8 @@ bool EditorDocument::buildRuntimeAs(const std::filesystem::path &scenePhysicalPa
 
         std::vector<std::vector<std::string>> mapStatsRows;
         std::vector<std::vector<std::string>> navigationRows;
-        const std::filesystem::path mapStatsRelativePath =
-            worldTableRelativePathForScene(m_editorDevelopmentRoot, scenePhysicalPath, "map_stats.txt");
-        const std::filesystem::path navigationRelativePath =
-            worldTableRelativePathForScene(m_editorDevelopmentRoot, scenePhysicalPath, "map_navigation.txt");
+        const std::filesystem::path mapStatsRelativePath = engineTableRelativePath("map_stats.txt");
+        const std::filesystem::path navigationRelativePath = engineTableRelativePath("map_navigation.txt");
         const std::filesystem::path mapStatsPath = m_editorDevelopmentRoot / mapStatsRelativePath;
         const std::filesystem::path navigationPath = m_editorDevelopmentRoot / navigationRelativePath;
 
@@ -3008,6 +3001,7 @@ bool EditorDocument::loadOutdoorScenePhysicalPath(
     m_developmentRoot = developmentRoot;
     m_editorDevelopmentRoot = editorDevelopmentRoot;
     m_outdoorGeometry = *outdoorGeometry;
+    m_outdoorGeometry.fileName = sceneData->geometryFile;
     m_outdoorGeometrySourceBytes = geometryBytes.value_or(std::vector<uint8_t>{});
     m_outdoorSceneData = *sceneData;
     m_indoorGeometry = {};
@@ -3969,6 +3963,7 @@ bool EditorDocument::loadOutdoorSceneText(
     m_developmentRoot = developmentRoot;
     m_editorDevelopmentRoot = editorDevelopmentRoot;
     m_outdoorGeometry = *outdoorGeometry;
+    m_outdoorGeometry.fileName = sceneData->geometryFile;
     m_outdoorGeometrySourceBytes = geometryBytes.value_or(std::vector<uint8_t>{});
     m_outdoorSceneData = *sceneData;
     m_indoorGeometry = {};

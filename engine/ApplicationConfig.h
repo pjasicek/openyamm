@@ -17,7 +17,6 @@ struct ApplicationConfig
 {
     std::string appName;
     std::string assetRoot;
-    std::string campaignId;
     std::string activeWorldId;
     std::string startupMapFileOverride;
     AssetScaleTier assetScaleTier;

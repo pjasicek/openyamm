@@ -46,11 +46,11 @@ TEST_CASE("character sheet uses equipped items for combat and armor class")
 
     CHECK_EQ(summary.combat.attack, 6);
     REQUIRE(summary.combat.shoot.has_value());
-    CHECK_EQ(*summary.combat.shoot, 4);
+    CHECK_EQ(*summary.combat.shoot, 6);
     CHECK_EQ(summary.combat.meleeDamageText, "9 - 15");
-    CHECK_EQ(summary.combat.rangedDamageText, "4 - 8");
-    CHECK_EQ(summary.armorClass.actual, 29);
-    CHECK_EQ(summary.armorClass.base, 29);
+    CHECK_EQ(summary.combat.rangedDamageText, "5 - 8");
+    CHECK_EQ(summary.armorClass.actual, 26);
+    CHECK_EQ(summary.armorClass.base, 26);
 }
 
 TEST_CASE("monster incoming attack hit chance uses armor class and monster level")

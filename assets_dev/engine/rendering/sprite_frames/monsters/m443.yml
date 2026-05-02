@@ -1,0 +1,201 @@
+# Monster sprite frame groups for family m443.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 1996
+    sprite_name: "m443a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m440aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440ab"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440ac"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440ad"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440ae"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440af"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440ag"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440ah"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+  - sprite_id: 2004
+    sprite_name: "m443d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m440na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.399994
+        palette_id: 443
+  - sprite_id: 2010
+    sprite_name: "m443x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m440xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.399994
+        palette_id: 443
+  - sprite_id: 2011
+    sprite_name: "m443f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m440fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440fd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440fe0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.399994
+        palette_id: 443
+  - sprite_id: 2016
+    sprite_name: "m443s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m440sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+  - sprite_id: 2017
+    sprite_name: "m443w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m440wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+  - sprite_id: 2025
+    sprite_name: "m443n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m440na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443
+      - texture_name: "m440ne"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.399994
+        palette_id: 443

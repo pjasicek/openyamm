@@ -4,10 +4,12 @@
 #include "editor/document/EditorDocument.h"
 #include "editor/import/IndoorSourceGeometryCompiler.h"
 #include "engine/AssetFileSystem.h"
+#include "engine/ImageAssetLoader.h"
 #include "game/events/EvtEnums.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/IndoorSceneYml.h"
 #include "game/maps/MapDeltaData.h"
+#include "game/maps/TerrainTileData.h"
 #include "game/outdoor/OutdoorGeometryUtils.h"
 #include "game/outdoor/OutdoorMapData.h"
 
@@ -56,16 +58,6 @@ std::filesystem::path activeWorldEditorPath(
     const std::filesystem::path &relativePath)
 {
     return assetFileSystem.getEditorDevelopmentRoot()
-        / std::filesystem::path("worlds")
-        / assetFileSystem.getActiveWorldId()
-        / relativePath;
-}
-
-std::filesystem::path activeWorldDevelopmentPath(
-    const Engine::AssetFileSystem &assetFileSystem,
-    const std::filesystem::path &relativePath)
-{
-    return assetFileSystem.getDevelopmentRoot()
         / std::filesystem::path("worlds")
         / assetFileSystem.getActiveWorldId()
         / relativePath;
@@ -2933,6 +2925,217 @@ bool verifyOutdoorEntityPlacementDefaults(
     return true;
 }
 
+bool verifyEditorWorldOutdoorTerrainLoad(
+    OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    std::string &failure)
+{
+    const std::filesystem::path mapPath =
+        assetFileSystem.getEditorDevelopmentRoot() / "worlds/mm6/maps/oute3.scene.yml";
+
+    if (!std::filesystem::exists(mapPath))
+    {
+        failure = "editor world terrain test map is missing: " + mapPath.string();
+        return false;
+    }
+
+    OpenYAMM::Editor::EditorSession session;
+    session.initialize(assetFileSystem);
+
+    if (!session.openMapPhysicalPath(mapPath, failure))
+    {
+        failure = "could not open editor world terrain test map: " + failure;
+        return false;
+    }
+
+    if (assetFileSystem.getActiveWorldId() != "mm6")
+    {
+        failure = "editor world terrain test did not switch to mm6";
+        return false;
+    }
+
+    const OpenYAMM::Game::OutdoorMapData &outdoorGeometry = session.document().outdoorGeometry();
+
+    if (outdoorGeometry.fileName != "oute3.odm")
+    {
+        failure = "editor world terrain test loaded wrong outdoor filename: " + outdoorGeometry.fileName;
+        return false;
+    }
+
+    const std::optional<std::vector<std::string>> textureNames =
+        OpenYAMM::Game::loadTerrainTileTextureNames(assetFileSystem, outdoorGeometry);
+
+    if (!textureNames)
+    {
+        failure = "editor world terrain test could not load terrain texture names";
+        return false;
+    }
+
+    OpenYAMM::Engine::DirectoryAssetPathCache directoryAssetPathsByPath;
+    OpenYAMM::Engine::AssetPathLookupCache assetPathByKey;
+    std::unordered_set<uint8_t> checkedTileIds;
+
+    for (uint8_t tileId : outdoorGeometry.tileMap)
+    {
+        if (!checkedTileIds.insert(tileId).second)
+        {
+            continue;
+        }
+
+        const std::string &textureName = (*textureNames)[tileId];
+
+        if (textureName.empty() || textureName == "pending")
+        {
+            failure = "editor world terrain test has unresolved texture for tile " + std::to_string(tileId);
+            return false;
+        }
+
+        const std::optional<std::string> texturePath = OpenYAMM::Engine::findImageAssetPath(
+            assetFileSystem,
+            "Data/bitmaps",
+            textureName,
+            directoryAssetPathsByPath,
+            assetPathByKey);
+
+        if (!texturePath)
+        {
+            failure = "editor world terrain test is missing texture asset: " + textureName;
+            return false;
+        }
+    }
+
+    return true;
+}
+
+std::filesystem::path canonicalPathForCompare(const std::filesystem::path &path)
+{
+    std::error_code error;
+    const std::filesystem::path canonicalPath = std::filesystem::weakly_canonical(path, error);
+    return error ? path.lexically_normal() : canonicalPath;
+}
+
+bool verifyScriptVirtualPathResolvesTo(
+    const OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const std::string &scriptVirtualPath,
+    const std::filesystem::path &expectedPhysicalPath,
+    std::string &failure)
+{
+    const std::optional<std::filesystem::path> resolvedPhysicalPath =
+        assetFileSystem.resolvePhysicalPath(scriptVirtualPath);
+
+    if (!resolvedPhysicalPath)
+    {
+        failure = "could not resolve script path " + scriptVirtualPath;
+        return false;
+    }
+
+    if (canonicalPathForCompare(*resolvedPhysicalPath) != canonicalPathForCompare(expectedPhysicalPath))
+    {
+        failure = "script path " + scriptVirtualPath + " resolved to " + resolvedPhysicalPath->string()
+            + " instead of " + expectedPhysicalPath.string();
+        return false;
+    }
+
+    return true;
+}
+
+bool verifyLoadedEditorWorldMapScript(
+    OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    const std::string &worldId,
+    const std::string &mapFileName,
+    std::string &failure)
+{
+    const std::filesystem::path mapPath =
+        assetFileSystem.getEditorDevelopmentRoot() / "worlds" / worldId / "maps" / mapFileName;
+    const std::string mapStem = std::filesystem::path(mapFileName).stem().string();
+    const std::string scriptVirtualPath = "Data/scripts/maps/" + mapStem + ".lua";
+    const std::filesystem::path expectedScriptPhysicalPath =
+        assetFileSystem.getEditorDevelopmentRoot() / "worlds" / worldId / "events/maps" / (mapStem + ".lua");
+
+    if (!std::filesystem::exists(mapPath))
+    {
+        failure = "editor world script test map is missing: " + mapPath.string();
+        return false;
+    }
+
+    if (!std::filesystem::exists(expectedScriptPhysicalPath))
+    {
+        failure = "editor world script test lua is missing: " + expectedScriptPhysicalPath.string();
+        return false;
+    }
+
+    OpenYAMM::Editor::EditorSession session;
+    session.initialize(assetFileSystem);
+
+    if (!session.openMapPhysicalPath(mapPath, failure))
+    {
+        failure = "could not open editor world script test map " + mapPath.string() + ": " + failure;
+        return false;
+    }
+
+    if (assetFileSystem.getActiveWorldId() != worldId)
+    {
+        failure = "editor world script test did not switch to " + worldId;
+        return false;
+    }
+
+    const std::optional<std::string> localScriptModulePath = session.localScriptModulePath();
+
+    if (!localScriptModulePath || *localScriptModulePath != scriptVirtualPath)
+    {
+        failure = "editor world script test resolved unexpected local module for " + mapFileName;
+        return false;
+    }
+
+    if (worldId == "mm6" && mapFileName == "oute3.odm")
+    {
+        const std::optional<std::string> eventSummary = session.describeMapEvent(28);
+
+        if (!eventSummary || eventSummary->find("Town Hall") == std::string::npos)
+        {
+            failure = "mm6 oute3 event 28 did not resolve to Town Hall";
+            return false;
+        }
+
+        if (eventSummary->find("Barbarian Fortress") != std::string::npos)
+        {
+            failure = "mm6 oute3 event 28 still resolves to Barbarian Fortress";
+            return false;
+        }
+    }
+
+    return verifyScriptVirtualPathResolvesTo(
+        assetFileSystem,
+        scriptVirtualPath,
+        expectedScriptPhysicalPath,
+        failure);
+}
+
+bool verifyEditorWorldMapScriptLoad(
+    OpenYAMM::Engine::AssetFileSystem &assetFileSystem,
+    std::string &failure)
+{
+    if (!verifyLoadedEditorWorldMapScript(assetFileSystem, "mm6", "oute3.odm", failure))
+    {
+        return false;
+    }
+
+    if (!verifyLoadedEditorWorldMapScript(assetFileSystem, "mm8", "out01.odm", failure))
+    {
+        return false;
+    }
+
+    if (!assetFileSystem.switchActiveWorld("mm7"))
+    {
+        failure = "could not switch asset file system to mm7 for script resolution test";
+        return false;
+    }
+
+    const std::string scriptVirtualPath = "Data/scripts/maps/out09.lua";
+    const std::filesystem::path expectedScriptPhysicalPath =
+        assetFileSystem.getEditorDevelopmentRoot() / "worlds/mm7/events/maps/out09.lua";
+    return verifyScriptVirtualPathResolvesTo(assetFileSystem, scriptVirtualPath, expectedScriptPhysicalPath, failure);
+}
+
 bool isCanonicalLegacyBackedOutdoorMap(const std::filesystem::path &gamesPath, const std::string &mapFileName)
 {
     const std::filesystem::path scenePath =
@@ -3079,9 +3282,9 @@ void removeTemporaryRowsFromTable(const std::filesystem::path &path, size_t keyC
 
 void removeTemporaryRoundTripSupportFiles(const Engine::AssetFileSystem &assetFileSystem)
 {
-    removeTemporaryRowsFromTable(activeWorldDevelopmentPath(assetFileSystem, "data_tables/map_stats.txt"), 2);
-    removeTemporaryRowsFromTable(activeWorldDevelopmentPath(assetFileSystem, "data_tables/map_navigation.txt"), 0);
-    const std::filesystem::path scriptsPath = activeWorldDevelopmentPath(assetFileSystem, "events/maps");
+    removeTemporaryRowsFromTable(assetFileSystem.getEditorDevelopmentRoot() / "engine/data_tables/map_stats.txt", 2);
+    removeTemporaryRowsFromTable(assetFileSystem.getEditorDevelopmentRoot() / "engine/data_tables/map_navigation.txt", 0);
+    const std::filesystem::path scriptsPath = activeWorldEditorPath(assetFileSystem, "events/maps");
 
     if (!std::filesystem::exists(scriptsPath))
     {
@@ -3121,6 +3324,8 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
     const bool runMapPackageLifecycleChecks = suiteName == "outdoor-map-package-lifecycle";
     const bool runEntityPlacementChecks = suiteName == "outdoor-entity-placement";
     const bool runSpriteObjectPlacementChecks = suiteName == "outdoor-sprite-object-placement";
+    const bool runEditorWorldOutdoorTerrainChecks = suiteName == "editor-world-outdoor-terrain-load";
+    const bool runEditorWorldMapScriptChecks = suiteName == "editor-world-map-script-load";
     const bool runRoundTripChecks =
         suiteName == "outdoor-scene-yml-parity"
         || suiteName == "outdoor-scene-yml-roundtrip"
@@ -3135,7 +3340,9 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         || runIndoorPackageLoadChecks
         || runMapPackageLifecycleChecks
         || runEntityPlacementChecks
-        || runSpriteObjectPlacementChecks;
+        || runSpriteObjectPlacementChecks
+        || runEditorWorldOutdoorTerrainChecks
+        || runEditorWorldMapScriptChecks;
 
     if (!runRoundTripChecks)
     {
@@ -3145,13 +3352,13 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
 
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Editor headless diagnostics failed: could not initialize asset file system\n";
         return 1;
     }
 
-    const std::filesystem::path gamesPath = activeWorldDevelopmentPath(assetFileSystem, "maps");
+    const std::filesystem::path gamesPath = activeWorldEditorPath(assetFileSystem, "maps");
 
     if (!std::filesystem::exists(gamesPath))
     {
@@ -3160,7 +3367,6 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
     }
 
     removeTemporaryRoundTripScenes(gamesPath);
-    removeTemporaryRoundTripScenes(activeWorldEditorPath(assetFileSystem, "maps"));
     removeTemporaryRoundTripSupportFiles(assetFileSystem);
 
     if (runLuaEventDiscoveryChecks)
@@ -3289,6 +3495,44 @@ int EditorHeadlessDiagnostics::runRegressionSuite(
         return 0;
     }
 
+    if (runEditorWorldOutdoorTerrainChecks)
+    {
+        std::string failure;
+
+        if (!verifyEditorWorldOutdoorTerrainLoad(assetFileSystem, failure))
+        {
+            std::cerr << "Editor headless regression failed: " << failure << '\n';
+            return 1;
+        }
+
+        std::cout << "Editor headless regression: suite=" << suiteName << " maps=1\n";
+        std::cout << "  pass oute3.odm\n";
+        std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
+        removeTemporaryRoundTripScenes(activeWorldEditorPath(assetFileSystem, "maps"));
+        removeTemporaryRoundTripSupportFiles(assetFileSystem);
+        return 0;
+    }
+
+    if (runEditorWorldMapScriptChecks)
+    {
+        std::string failure;
+
+        if (!verifyEditorWorldMapScriptLoad(assetFileSystem, failure))
+        {
+            std::cerr << "Editor headless regression failed: " << failure << '\n';
+            return 1;
+        }
+
+        std::cout << "Editor headless regression: suite=" << suiteName << " maps=3\n";
+        std::cout << "  pass mm6/oute3.odm\n";
+        std::cout << "  pass mm7/out09.lua\n";
+        std::cout << "  pass mm8/out01.odm\n";
+        std::cout << "Editor headless regression passed: suite=" << suiteName << '\n';
+        removeTemporaryRoundTripScenes(activeWorldEditorPath(assetFileSystem, "maps"));
+        removeTemporaryRoundTripSupportFiles(assetFileSystem);
+        return 0;
+    }
+
     std::vector<std::string> mapFileNames;
 
     std::unordered_set<std::string> seenMapFileNames;
@@ -3375,13 +3619,13 @@ int EditorHeadlessDiagnostics::runCompareOutdoorScene(
 {
     OpenYAMM::Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Editor headless diagnostics failed: could not initialize asset file system\n";
         return 1;
     }
 
-    removeTemporaryRoundTripScenes(activeWorldDevelopmentPath(assetFileSystem, "maps"));
+    removeTemporaryRoundTripScenes(activeWorldEditorPath(assetFileSystem, "maps"));
     removeTemporaryRoundTripSupportFiles(assetFileSystem);
 
     std::string failure;
@@ -3399,7 +3643,7 @@ int EditorHeadlessDiagnostics::runCompareOutdoorScene(
     }
 
     std::cout << "Editor headless compare passed: " << mapFileName << '\n';
-    removeTemporaryRoundTripScenes(activeWorldDevelopmentPath(assetFileSystem, "maps"));
+    removeTemporaryRoundTripScenes(activeWorldEditorPath(assetFileSystem, "maps"));
     removeTemporaryRoundTripSupportFiles(assetFileSystem);
     return 0;
 }

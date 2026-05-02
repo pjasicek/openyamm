@@ -110,6 +110,81 @@ bool parseBoolDefaultTrue(const std::string &value)
 
     return lowered == "1" || lowered == "true" || lowered == "yes" || lowered == "y";
 }
+
+std::vector<std::string> deriveOfferedSkillsForHouseType(const std::string &houseType)
+{
+    if (houseType == "Weapon Shop")
+    {
+        return {"Sword", "Dagger", "Axe", "Spear", "Bow", "Mace"};
+    }
+
+    if (houseType == "Armor Shop")
+    {
+        return {"LeatherArmor", "ChainArmor", "PlateArmor", "Shield"};
+    }
+
+    if (houseType == "Elemental Guild")
+    {
+        return {"FireMagic", "AirMagic", "WaterMagic", "EarthMagic", "Learning"};
+    }
+
+    if (houseType == "Fire Guild")
+    {
+        return {"FireMagic", "Learning"};
+    }
+
+    if (houseType == "Air Guild")
+    {
+        return {"AirMagic", "Learning"};
+    }
+
+    if (houseType == "Water Guild")
+    {
+        return {"WaterMagic", "Learning"};
+    }
+
+    if (houseType == "Earth Guild")
+    {
+        return {"EarthMagic", "Learning"};
+    }
+
+    if (houseType == "Self Guild")
+    {
+        return {"SpiritMagic", "MindMagic", "BodyMagic", "Meditation"};
+    }
+
+    if (houseType == "Spirit Guild")
+    {
+        return {"SpiritMagic", "Meditation"};
+    }
+
+    if (houseType == "Mind Guild")
+    {
+        return {"MindMagic", "Meditation"};
+    }
+
+    if (houseType == "Body Guild")
+    {
+        return {"BodyMagic", "Meditation"};
+    }
+
+    if (houseType == "Light Guild")
+    {
+        return {"LightMagic"};
+    }
+
+    if (houseType == "Dark Guild")
+    {
+        return {"DarkMagic"};
+    }
+
+    if (houseType == "Temple")
+    {
+        return {"Merchant"};
+    }
+
+    return {};
+}
 }
 
 bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
@@ -140,6 +215,7 @@ bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
 
         HouseEntry entry = {};
         entry.id = static_cast<uint32_t>(parsedId);
+        entry.mapId = (row.size() > 3 && !row[3].empty()) ? std::strtoul(row[3].c_str(), nullptr, 10) : 0;
         entry.proprietorPictureId =
             (row.size() > 8 && !row[8].empty()) ? std::strtoul(row[8].c_str(), nullptr, 10) : 0;
         entry.type = row.size() > 2 ? row[2] : "";
@@ -185,6 +261,11 @@ bool HouseTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
             }
         }
 
+        if (entry.offeredSkills.empty())
+        {
+            entry.offeredSkills = deriveOfferedSkillsForHouseType(entry.type);
+        }
+
         m_entries[entry.id] = entry;
     }
 
@@ -222,6 +303,22 @@ bool HouseTable::loadAnimationRows(const std::vector<std::vector<std::string>> &
             }
         }
         entry.roomSoundId = (row.size() > 6 && !row[6].empty()) ? std::strtoul(row[6].c_str(), nullptr, 10) : 0;
+        entry.houseSoundBaseId = (row.size() > 7 && !row[7].empty()) ? std::strtoul(row[7].c_str(), nullptr, 10) : 0;
+        if (row.size() > 8)
+        {
+            const uint32_t proprietorPictureId = parseUnsigned(row[8]);
+
+            if (proprietorPictureId != 0)
+            {
+                entry.proprietorPictureId = proprietorPictureId;
+            }
+        }
+
+        if (entry.type.empty() && row.size() > 9)
+        {
+            entry.type = row[9];
+        }
+
         entry.residentNpcIds.clear();
 
         size_t startPosition = 0;

@@ -1,0 +1,127 @@
+# Monster sprite frame groups for family m638.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 6905
+    sprite_name: "m638w"
+    animation_length_raw: 30
+    frames:
+      - texture_name: "m636wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wh"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wi"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wj"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wk"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wl"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wm"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wn"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+      - texture_name: "m636wo"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 638
+  - sprite_id: 6920
+    sprite_name: "m638d"
+    animation_length_raw: 20
+    frames:
+      - texture_name: "m636da0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 638
+      - texture_name: "m636db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 638
+      - texture_name: "m636dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 638
+      - texture_name: "m636dd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 638
+      - texture_name: "m636de0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 638
+      - texture_name: "m636df0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 638
+      - texture_name: "m636dg0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 638
+      - texture_name: "m636dh0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 638
+      - texture_name: "m636di0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 638
+      - texture_name: "m636dj0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 638
+  - sprite_id: 6930
+    sprite_name: "m638x"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "m636xa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 638
+      - texture_name: "m636di0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 638
+      - texture_name: "m636dj0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 638

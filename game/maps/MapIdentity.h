@@ -8,6 +8,6 @@ constexpr const char *DefaultWorldId = "mm8";
 
 std::string normalizeWorldId(const std::string &worldId);
 std::string normalizeMapFileStem(const std::string &fileName);
+std::string inferWorldIdFromMapFileName(const std::string &fileName, const std::string &fallbackWorldId);
 std::string buildCanonicalMapId(const std::string &worldId, const std::string &fileName);
 }
-

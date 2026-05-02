@@ -58,6 +58,92 @@ std::filesystem::path activeWorldEditorPath(
         / relativePath;
 }
 
+struct EditorWorldMapPath
+{
+    std::string worldId;
+    std::filesystem::path path;
+    bool redirectedToEditorCopy = false;
+};
+
+std::filesystem::path weaklyCanonicalAbsolute(const std::filesystem::path &path)
+{
+    std::error_code error;
+    const std::filesystem::path absolutePath = std::filesystem::absolute(path, error);
+
+    if (error)
+    {
+        return path.lexically_normal();
+    }
+
+    const std::filesystem::path canonicalPath = std::filesystem::weakly_canonical(absolutePath, error);
+    return error ? absolutePath.lexically_normal() : canonicalPath;
+}
+
+std::optional<EditorWorldMapPath> resolveWorldMapPathUnderRoot(
+    const std::filesystem::path &root,
+    const std::filesystem::path &editorRoot,
+    const std::filesystem::path &normalizedPath,
+    bool redirectToEditorCopy)
+{
+    const std::filesystem::path normalizedRoot = weaklyCanonicalAbsolute(root);
+    std::error_code relativeError;
+    const std::filesystem::path relativePath = std::filesystem::relative(normalizedPath, normalizedRoot, relativeError);
+
+    if (relativeError)
+    {
+        return std::nullopt;
+    }
+
+    std::vector<std::filesystem::path> components;
+
+    for (const std::filesystem::path &component : relativePath)
+    {
+        components.push_back(component);
+    }
+
+    if (components.size() < 4 || components[0] != "worlds" || components[2] != "maps")
+    {
+        return std::nullopt;
+    }
+
+    std::filesystem::path mapRelativePath;
+
+    for (size_t index = 3; index < components.size(); ++index)
+    {
+        mapRelativePath /= components[index];
+    }
+
+    EditorWorldMapPath result = {};
+    result.worldId = components[1].generic_string();
+    result.path = redirectToEditorCopy
+        ? weaklyCanonicalAbsolute(editorRoot / "worlds" / result.worldId / "maps" / mapRelativePath)
+        : normalizedPath;
+    result.redirectedToEditorCopy = redirectToEditorCopy;
+    return result;
+}
+
+std::optional<EditorWorldMapPath> resolveEditorWorldMapPath(
+    const Engine::AssetFileSystem &assetFileSystem,
+    const std::filesystem::path &path)
+{
+    const std::filesystem::path normalizedPath = weaklyCanonicalAbsolute(path);
+    const std::filesystem::path editorRoot = assetFileSystem.getEditorDevelopmentRoot();
+
+    if (const std::optional<EditorWorldMapPath> editorPath =
+            resolveWorldMapPathUnderRoot(editorRoot, editorRoot, normalizedPath, false))
+    {
+        return editorPath;
+    }
+
+    if (const std::optional<EditorWorldMapPath> developmentPath =
+            resolveWorldMapPathUnderRoot(assetFileSystem.getDevelopmentRoot(), editorRoot, normalizedPath, true))
+    {
+        return developmentPath;
+    }
+
+    return std::nullopt;
+}
+
 int snapIndoorActorZToFloor(const Game::IndoorMapData &indoorGeometry, int x, int y, int z)
 {
     Game::IndoorFaceGeometryCache geometryCache(indoorGeometry.faces.size());
@@ -402,22 +488,22 @@ bool loadEditorMonsterTable(const Engine::AssetFileSystem &assetFileSystem, Game
     std::vector<std::vector<std::string>> placedMonsterRows;
     std::vector<std::vector<std::string>> monsterRelationRows;
 
-    if (!loadTextTableRows(assetFileSystem, "Data/data_tables/monster_data.txt", monsterDataRows))
+    if (!loadTextTableRows(assetFileSystem, "engine/data_tables/monster_data.txt", monsterDataRows))
     {
         return false;
     }
 
-    if (!loadTextTableRows(assetFileSystem, "Data/data_tables/monster_descriptors.txt", monsterDescriptorRows))
+    if (!loadTextTableRows(assetFileSystem, "engine/data_tables/monster_descriptors.txt", monsterDescriptorRows))
     {
         return false;
     }
 
-    if (!loadTextTableRows(assetFileSystem, "Data/data_tables/english/place_mon.txt", placedMonsterRows))
+    if (!loadTextTableRows(assetFileSystem, "engine/data_tables/english/place_mon.txt", placedMonsterRows))
     {
         return false;
     }
 
-    if (!loadTextTableRows(assetFileSystem, "Data/data_tables/monster_relation_data.txt", monsterRelationRows))
+    if (!loadTextTableRows(assetFileSystem, "engine/data_tables/hostile.txt", monsterRelationRows))
     {
         return false;
     }
@@ -522,7 +608,7 @@ bool loadEditorChestTable(const Engine::AssetFileSystem &assetFileSystem, Game::
 {
     std::vector<std::vector<std::string>> chestRows;
 
-    if (!loadTextTableRows(assetFileSystem, "Data/data_tables/chest_data.txt", chestRows))
+    if (!loadTextTableRows(assetFileSystem, "engine/data_tables/chest_data.txt", chestRows))
     {
         return false;
     }
@@ -534,7 +620,7 @@ bool loadEditorDecorationTable(const Engine::AssetFileSystem &assetFileSystem, G
 {
     std::vector<std::vector<std::string>> decorationRows;
 
-    if (!loadTextTableRows(assetFileSystem, "Data/data_tables/decoration_data.txt", decorationRows))
+    if (!loadTextTableRows(assetFileSystem, "engine/data_tables/decoration_data.txt", decorationRows))
     {
         return false;
     }
@@ -721,7 +807,7 @@ bool loadEditorMapStats(const Engine::AssetFileSystem &assetFileSystem, Game::Ma
 {
     std::vector<std::vector<std::string>> mapRows;
 
-    if (!loadTextTableRows(assetFileSystem, "Data/data_tables/map_stats.txt", mapRows))
+    if (!loadTextTableRows(assetFileSystem, "engine/data_tables/map_stats.txt", mapRows))
     {
         return false;
     }
@@ -733,7 +819,7 @@ bool loadEditorMapStats(const Engine::AssetFileSystem &assetFileSystem, Game::Ma
 
     std::vector<std::vector<std::string>> navigationRows;
 
-    if (loadTextTableRows(assetFileSystem, "Data/data_tables/map_navigation.txt", navigationRows))
+    if (loadTextTableRows(assetFileSystem, "engine/data_tables/map_navigation.txt", navigationRows))
     {
         if (!mapStats.applyOutdoorNavigationRows(navigationRows))
         {
@@ -811,7 +897,7 @@ bool loadEditorObjectTable(const Engine::AssetFileSystem &assetFileSystem, Game:
 {
     std::vector<std::vector<std::string>> objectRows;
 
-    if (!loadTextTableRows(assetFileSystem, "Data/data_tables/object_list.txt", objectRows))
+    if (!loadTextTableRows(assetFileSystem, "engine/data_tables/object_list.txt", objectRows))
     {
         return false;
     }
@@ -1140,7 +1226,6 @@ std::vector<std::filesystem::path> buildLuaScriptSidecarPathCandidates(
 
     appendDirectoryCandidates(geometryPath.parent_path());
     appendDirectoryCandidates(scenePath.parent_path());
-    appendDirectoryCandidates(std::filesystem::current_path());
     return candidates;
 }
 
@@ -3042,7 +3127,23 @@ void copyBModelSceneReferences(
 
 void EditorSession::initialize(const Engine::AssetFileSystem &assetFileSystem)
 {
-    m_pAssetFileSystem = &assetFileSystem;
+    m_pAssetFileSystem = const_cast<Engine::AssetFileSystem *>(&assetFileSystem);
+    m_monsterTable = Game::MonsterTable{};
+    m_chestTable = Game::ChestTable{};
+    m_mapStats = Game::MapStats{};
+    m_objectTable = Game::ObjectTable{};
+    m_decorationTable = Game::DecorationTable{};
+    m_itemTable = Game::ItemTable{};
+    m_entityBillboardSpriteFrameTable = Game::SpriteFrameTable{};
+    m_itemNames.clear();
+    m_monsterOptions.clear();
+    m_chestOptions.clear();
+    m_decorationOptions.clear();
+    m_objectOptions.clear();
+    m_itemOptions.clear();
+    m_bitmapTextureNames.clear();
+    m_hasEntityBillboardSpriteFrameTable = false;
+    m_hasDecorationTable = false;
     m_pendingSpawn = {};
     m_pendingSpawn.radius = 512;
     m_pendingSpawn.typeId = 3;
@@ -3058,10 +3159,10 @@ void EditorSession::initialize(const Engine::AssetFileSystem &assetFileSystem)
     std::vector<std::vector<std::string>> placedMonsterRows;
     std::vector<std::vector<std::string>> monsterRelationRows;
 
-    if (loadTextTableRows(assetFileSystem, "Data/data_tables/monster_data.txt", monsterDataRows)
-        && loadTextTableRows(assetFileSystem, "Data/data_tables/monster_descriptors.txt", monsterDescriptorRows)
-        && loadTextTableRows(assetFileSystem, "Data/data_tables/english/place_mon.txt", placedMonsterRows)
-        && loadTextTableRows(assetFileSystem, "Data/data_tables/monster_relation_data.txt", monsterRelationRows))
+    if (loadTextTableRows(assetFileSystem, "engine/data_tables/monster_data.txt", monsterDataRows)
+        && loadTextTableRows(assetFileSystem, "engine/data_tables/monster_descriptors.txt", monsterDescriptorRows)
+        && loadTextTableRows(assetFileSystem, "engine/data_tables/english/place_mon.txt", placedMonsterRows)
+        && loadTextTableRows(assetFileSystem, "engine/data_tables/hostile.txt", monsterRelationRows))
     {
         m_monsterTable.loadEntriesFromRows(monsterDescriptorRows);
         m_monsterTable.loadDisplayNamesFromRows(monsterDataRows);
@@ -3073,14 +3174,14 @@ void EditorSession::initialize(const Engine::AssetFileSystem &assetFileSystem)
 
     std::vector<std::vector<std::string>> chestRows;
 
-    if (loadTextTableRows(assetFileSystem, "Data/data_tables/chest_data.txt", chestRows))
+    if (loadTextTableRows(assetFileSystem, "engine/data_tables/chest_data.txt", chestRows))
     {
         m_chestTable.loadRows(chestRows);
         buildChestOptions(chestRows, m_chestOptions);
     }
 
     std::vector<std::vector<std::string>> decorationRows;
-    m_hasDecorationTable = loadTextTableRows(assetFileSystem, "Data/data_tables/decoration_data.txt", decorationRows)
+    m_hasDecorationTable = loadTextTableRows(assetFileSystem, "engine/data_tables/decoration_data.txt", decorationRows)
         && m_decorationTable.loadRows(decorationRows);
 
     if (m_hasDecorationTable)
@@ -3100,7 +3201,7 @@ void EditorSession::initialize(const Engine::AssetFileSystem &assetFileSystem)
 
     std::vector<std::vector<std::string>> objectRows;
 
-    if (loadTextTableRows(assetFileSystem, "Data/data_tables/object_list.txt", objectRows))
+    if (loadTextTableRows(assetFileSystem, "engine/data_tables/object_list.txt", objectRows))
     {
         m_objectTable.loadRows(objectRows);
         buildObjectOptions(objectRows, m_objectOptions);
@@ -3114,10 +3215,10 @@ void EditorSession::initialize(const Engine::AssetFileSystem &assetFileSystem)
     std::vector<std::vector<std::string>> itemRows;
     std::vector<std::vector<std::string>> randomItemRows;
 
-    if (loadTextTableRows(assetFileSystem, "Data/data_tables/items.txt", itemRows))
+    if (loadTextTableRows(assetFileSystem, "engine/data_tables/items.txt", itemRows))
     {
         buildEditorItemNames(itemRows, m_itemNames, m_itemOptions);
-        loadTextTableRows(assetFileSystem, "Data/data_tables/random_items.txt", randomItemRows);
+        loadTextTableRows(assetFileSystem, "engine/data_tables/random_items.txt", randomItemRows);
         m_itemTable.load(assetFileSystem, itemRows, randomItemRows);
 
         if (!m_itemOptions.empty())
@@ -3254,6 +3355,38 @@ bool EditorSession::openIndoorMap(const std::string &mapFileName, std::string &e
     return true;
 }
 
+bool EditorSession::switchActiveWorld(const std::string &worldId, std::string &errorMessage)
+{
+    if (m_pAssetFileSystem == nullptr)
+    {
+        errorMessage = "editor session is not initialized";
+        return false;
+    }
+
+    if (trimCopy(worldId).empty())
+    {
+        errorMessage = "world id is empty";
+        return false;
+    }
+
+    if (toLowerCopy(trimCopy(worldId)) == m_pAssetFileSystem->getActiveWorldId())
+    {
+        return true;
+    }
+
+    if (!m_pAssetFileSystem->switchActiveWorld(worldId))
+    {
+        errorMessage = "could not switch editor asset world to " + worldId;
+        return false;
+    }
+
+    initialize(*m_pAssetFileSystem);
+    resetPreviewEventRuntimeState();
+    m_hasCachedOutdoorDerivedState = false;
+    appendLog("info", "Switched editor world to " + m_pAssetFileSystem->getActiveWorldId());
+    return true;
+}
+
 bool EditorSession::openMapPhysicalPath(const std::filesystem::path &path, std::string &errorMessage)
 {
     if (m_pAssetFileSystem == nullptr)
@@ -3262,7 +3395,27 @@ bool EditorSession::openMapPhysicalPath(const std::filesystem::path &path, std::
         return false;
     }
 
-    if (!m_document.loadMapPhysicalPath(*m_pAssetFileSystem, path, errorMessage))
+    std::filesystem::path mapPath = path;
+    const std::optional<EditorWorldMapPath> editorWorldMapPath =
+        resolveEditorWorldMapPath(*m_pAssetFileSystem, path);
+
+    if (editorWorldMapPath)
+    {
+        if (editorWorldMapPath->redirectedToEditorCopy && !std::filesystem::exists(editorWorldMapPath->path))
+        {
+            errorMessage = "editor map copy does not exist: " + editorWorldMapPath->path.string();
+            return false;
+        }
+
+        if (!switchActiveWorld(editorWorldMapPath->worldId, errorMessage))
+        {
+            return false;
+        }
+
+        mapPath = editorWorldMapPath->path;
+    }
+
+    if (!m_document.loadMapPhysicalPath(*m_pAssetFileSystem, mapPath, errorMessage))
     {
         return false;
     }
@@ -7242,11 +7395,11 @@ void EditorSession::loadOutdoorEditorSupportData(const std::string &mapFileName)
     {
         std::string resolvedLuaPath;
         std::optional<std::string> luaSource =
-            readFirstExistingPhysicalText(localLuaSidecarCandidates, resolvedLuaPath);
+            readFirstExistingText(*m_pAssetFileSystem, localLuaCandidates, resolvedLuaPath);
 
         if (!luaSource)
         {
-            luaSource = readFirstExistingText(*m_pAssetFileSystem, localLuaCandidates, resolvedLuaPath);
+            luaSource = readFirstExistingPhysicalText(localLuaSidecarCandidates, resolvedLuaPath);
         }
 
         if (luaSource)

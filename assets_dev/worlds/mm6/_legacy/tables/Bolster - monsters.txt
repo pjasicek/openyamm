@@ -1,0 +1,653 @@
+#	Note	Type	ExtraType	Creed	Gender	Style	Pref magic	No bounty hunt	New ranged attacks	New spells	Size affects HP	Replicate	New summons	Summon Id	Extra points	Max HP Boost (%)
+0		0		0		0	0	-	-	-	-	-	-			
+1	Lizardman Peasant	Lizardman	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+2	Lizardman Farmer	Lizardman	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+3	Lizardman Villager	Lizardman	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+4	Lizardman Soldier	Lizardman		Neutral		Strength	0	-	x	-	-	-	-			2500
+5	Lizardman Sergeant	Lizardman		Neutral		Strength	0	-	x	-	-	-	-			2500
+6	Lizardman Captain	Lizardman		Neutral		Strength	0	-	x	-	-	-	-			2500
+7	Young Couatl	Creature		Neutral		Speed	Water	-	x	-	x	-	-			600
+8	Couatl	Creature		Neutral		Speed	Water	-	x	-	x	-	-			600
+9	Winged Serpent	Creature		Neutral		Speed	Water	-	x	x	x	-	-			600
+10	Regnan Bandit	Human		Neutral	M	Strength	0	-	-	-	-	-	-			500
+11	Regnan Pirate	Human		Neutral	M	Strength	0	-	-	-	-	-	-			400
+12	Regnan Brigadier	Human		Neutral	M	Strength	0	-	x	-	-	-	-			300
+13	Regnan Crossbowman	Human		Neutral	F	Strength	Air	-	-	-	-	-	-			500
+14	Regnan Arbalester	Human		Neutral	F	Strength	Air	-	-	-	-	-	-			400
+15	Regnan Lieutenant	Human		Neutral	F	Strength	Air	-	-	x	-	-	-			300
+16	Regnan Sorcerer	Human		Dark	M	Magic	Fire	-	x	x	-	-	-			300
+17	Regnan Battlemage	Human		Dark	M	Magic	Fire	-	x	x	-	-	-			200
+18	Regnan Archmage	Human		Dark	M	Magic	Fire	-	x	x	-	-	-			100
+19	Dark Elf Peasant	DarkElf	Elf,Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+20	Dark Elf Peasant	DarkElf	Elf,Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+21	Dark Elf Peasant	DarkElf	Elf,Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+22	Dark Elf Peasant	DarkElf	Elf,Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+23	Dark Elf Peasant	DarkElf	Elf,Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+24	Dark Elf Peasant	DarkElf	Elf,Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+25	Dark Elven Warrior	DarkElf	Elf	Neutral		Strength	0	-	-	-	-	-	-			100
+26	Dark Elven Defender	DarkElf	Elf	Neutral		Strength	0	-	-	-	-	-	-			100
+27	Dark Elven Crusader	DarkElf	Elf	Neutral		Strength	Self	-	-	x	-	-	-			100
+28	Ogre Peasant	Ogre	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+29	Ogre Peasant	Ogre	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+30	Ogre Peasant	Ogre	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+31	Ogre Brawler	Ogre		Neutral		Strength	0	-	-	-	-	-	-			400
+32	Ogre Warrior	Ogre		Neutral		Strength	0	-	-	-	-	-	-			400
+33	Ogre Warleader	Ogre		Neutral		Strength	Body	-	-	x	-	-	-			400
+34	Animalist	0		Neutral		Strength	Water	-	-	x	-	-	-			300
+35	Shapeshifter	0		Neutral		Strength	Water	-	-	x	-	-	-			300
+36	Lycanthrope	0		Neutral		Strength	Water	-	x	x	-	-	-			300
+37	Ratman	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+38	Wererat	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+39	Greater Wererat	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+40	Bestial Animalist	Creature		Neutral		Speed	0	-	-	-	x	-	-			300
+41	Bestial Shapeshifter	Creature		Neutral		Speed	0	-	-	-	x	-	-			300
+42	Bestial Lycanthrope	Creature		Neutral		Speed	0	-	-	-	x	-	-			300
+43	Dragon Hunter	Human		Neutral		Strength	0	-	-	-	-	-	-			500
+44	Crusader	Human		Neutral		Strength	0	-	-	-	-	-	-			400
+45	Dragonslayer	Human		Neutral		Strength	0	-	-	-	-	-	-			300
+46	Acolyte of the Sun	Human		Light		Magic	Light	-	x	x	-	-	-			500
+47	Cleric of the Sun	Human		Light		Magic	Light	-	x	x	-	-	-			400
+48	Priest of the Sun	Human		Light		Magic	Light	-	x	x	-	x	x	98		300
+49	Peasant	Undead	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+50	Peasant	Undead	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+51	Peasant	Undead	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+52	Vampire Minion	Undead		Dark		Strength	Self	-	-	x	-	-	-			350
+53	Vampire	Undead		Dark		Strength	Self	-	-	x	-	-	-			350
+54	Greater Vampire	Undead		Dark		Strength	Self	-	-	x	-	-	-			300
+55	Dark Path Journeyman	Human		Dark		Magic	Dark	-	x	x	-	-	-			300
+56	Necromancer	Human		Dark		Magic	Dark	-	x	x	-	-	-			300
+57	Master Necromancer	Human		Dark		Magic	Dark	-	x	x	-	x	x	269		300
+58	Troll Clubman	Troll	Ogre	Neutral		Endurance	0	-	-	-	-	-	-			300
+59	Troll Warrior	Troll	Ogre	Neutral		Endurance	0	-	-	-	-	-	-			300
+60	Troll Chieftain	Troll	Ogre	Neutral		Endurance	0	-	-	-	-	-	-			300
+61	Troll Peasant	Troll	Ogre,Peasant,NoArena	Peasant		Wimpy	0	x	-	-	-	-	-			100
+62	Troll Peasant	Troll	Ogre,Peasant,NoArena	Peasant		Wimpy	0	x	-	-	-	-	-			100
+63	Troll Peasant	Troll	Ogre,Peasant,NoArena	Peasant		Wimpy	0	x	-	-	-	-	-			100
+64	Minotaur Guard	Minotaur		Neutral		Strength	Body	-	-	x	-	-	-			300
+65	Minotaur Warrior	Minotaur		Neutral		Strength	Body	-	-	x	-	-	-			300
+66	Minotaur Battleleader	Minotaur		Neutral		Strength	Body	-	-	x	-	-	-			300
+67	Minotaur Peasant	Minotaur	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+68	Minotaur Peasant	Minotaur	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+69	Minotaur Peasant	Minotaur	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+70	Dragon	Dragon		Neutral		Strength	Fire	-	x	-	x	-	-			300
+71	Dragon Flightleader	Dragon		Neutral		Strength	Fire	-	x	-	x	-	-			200
+72	Great Wyrm	Dragon		Neutral		Strength	Fire	-	x	x	x	-	-			200
+73	Lesser Fire Elemental	Elemental		Neutral		Strength	Fire	-	x	-	-	-	-			100
+74	Fire Elemental	Elemental		Neutral		Strength	Fire	-	x	-	-	-	-			100
+75	Greater Fire Elemental	Elemental		Neutral		Strength	Fire	-	x	x	-	-	-			100
+76	Lesser Water Elemental	Elemental	Swimmer	Neutral		Magic	Water	-	x	-	-	-	-			100
+77	Water Elemental	Elemental	Swimmer	Neutral		Magic	Water	-	x	-	-	-	-			100
+78	Greater Water Elemental	Elemental	Swimmer	Neutral		Magic	Water	-	x	x	-	-	-			100
+79	Lesser Earth Elemental	Elemental		Neutral		Endurance	Earth	-	x	-	-	-	-			100
+80	Earth Elemental	Elemental		Neutral		Endurance	Earth	-	x	-	-	-	-			100
+81	Greater Earth Elemental	Elemental		Neutral		Endurance	Earth	-	x	x	-	-	-			100
+82	Lesser Air Elemental	Elemental		Neutral		Speed	Air	-	x	-	-	-	-			100
+83	Air Elemental	Elemental		Neutral		Speed	Air	-	x	-	-	-	-			100
+84	Greater Air Elemental	Elemental		Neutral		Speed	Air	-	x	x	-	-	-			100
+85	Dire Wolf Yearling	Creature		Neutral		Speed	0	-	-	-	-	-	-			500
+86	Dire Wolf	Creature		Neutral		Speed	0	-	-	-	-	-	-			400
+87	Pack Leader	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+88	Young Basilisk	Creature		Neutral		Strength	0	-	-	-	-	-	-			200
+89	Basilisk	Creature		Neutral		Strength	0	-	-	-	-	-	-			200
+90	Elder Basilisk	Creature		Neutral		Strength	0	-	-	-	-	-	-			200
+91	Cyclops	0	Ogre	Neutral		Strength	0	-	-	-	-	-	-			300
+92	Cyclops Hunter	0	Ogre	Neutral		Strength	Earth	-	-	x	-	-	-			300
+93	Cyclops Warrior	0	Ogre	Neutral		Strength	Earth	-	-	x	-	-	-			300
+94	Serpentman	Creature		Neutral		Speed	Fire	-	-	x	-	-	-			500
+95	Serpentman Elder	Creature		Neutral		Speed	Fire	-	-	x	-	-	-			400
+96	Serpentman Warrior	Creature		Neutral		Speed	Fire	-	-	x	-	-	-			300
+97	Dancing Light	0	Elemental	Light		Speed	Light	-	x	-	-	-	-			300
+98	Wisp 	0	Elemental	Light		Speed	Light	-	x	-	-	-	-			300
+99	Will O' Wisp	0	Elemental	Light		Speed	Light	-	x	x	-	-	x	97		300
+100	Centaur	Creature		Neutral		Speed	0	-	x	-	-	-	-			500
+101	Centaur Warrior	Creature		Neutral		Speed	0	-	x	-	-	-	-			400
+102	Centaur Warlord	Creature		Neutral		Speed	0	-	x	-	-	-	-			300
+103	Efreeti Soldier	Elemental		Neutral		Strength	Fire	-	x	-	-	-	-			300
+104	Efreeti Knight	Elemental		Neutral		Strength	Fire	-	x	-	-	-	-			300
+105	Efreeti Lord	Elemental		Neutral		Strength	Fire	-	x	x	-	-	x	73		300
+106	Ogre Mage Apprentice	Ogre		Neutral		Magic	Elemental	-	x	x	-	-	-			300
+107	Ogre Mage 	Ogre		Neutral		Magic	Elemental	-	x	x	-	-	-			300
+108	Ogre Magi	Ogre		Neutral		Magic	Elemental	-	x	x	-	-	-			300
+109	Unicorn Foal	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+110	Unicorn	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+111	Unicorn Herd Leader	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+112	Emerald Dragon	Construct	Dragon	Neutral		Strength	0	-	-	-	-	-	-			100
+113	Sapphire Dragon	Construct	Dragon	Neutral		Strength	0	-	-	-	-	-	-			100
+114	Ruby Dragon	Construct	Dragon	Neutral		Strength	0	-	-	-	-	-	-			100
+115	Mist Hawk	Creature	Elemental	Neutral		Speed	0	-	-	-	-	-	-			200
+116	Storm Eagle	Creature	Elemental	Neutral		Speed	0	-	x	-	-	-	-			200
+117	Thunderbird	Creature	Elemental	Neutral		Speed	Air	-	x	x	-	-	-			200
+118	Wasp Worker	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+119	Wasp Sentry	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+120	Wasp Warrior	Creature		Neutral		Speed	0	-	x	-	-	-	-			300
+121	Wyvern 	Dragon		Neutral		Strength	0	-	-	-	-	-	-			500
+122	Horned Wyvern	Dragon		Neutral		Strength	0	-	-	-	-	-	-			400
+123	Ancient Wyvern	Dragon		Neutral		Strength	0	-	-	-	-	-	-			300
+124	Brass Gorgon	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+125	Bronze Gorgon	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+126	Iron Gorgon	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+127	Fire Newt	Creature	Elemental	Neutral		Speed	0	-	x	-	-	-	-			300
+128	Fire Lizard	Creature	Elemental	Neutral		Speed	0	-	x	-	-	-	-			300
+129	Salamander 	Creature	Elemental	Neutral		Speed	0	-	x	-	-	-	-			300
+130	Fire Bird	Creature	Elemental	Neutral		Speed	0	-	-	-	-	-	-			300
+131	Phoenix	Creature	Elemental	Neutral		Speed	0	-	-	-	-	-	-			300
+132	Grand Phoenix	Creature	Elemental	Neutral		Speed	0	-	-	-	-	-	-			300
+133	Triton 	Creature		Neutral		Strength	Air	-	x	-	-	-	-			300
+134	Triton Warrior	Creature		Neutral		Strength	Air	-	x	-	-	-	-			300
+135	Triton Crusader	Creature		Neutral		Strength	Air	-	x	x	-	-	-			300
+136	Young Dragon Turtle	Creature	Swimmer	Neutral		Strength	0	-	-	-	x	-	-			300
+137	Dragon Turtle	Creature	Swimmer	Neutral		Strength	0	-	-	-	x	-	-			300
+138	Elder Tortoise	Creature	Swimmer	Neutral		Strength	0	-	-	-	x	-	-			300
+139	Rook	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+140	Corbie	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+141	Raven	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+142	Boulder	Construct	Immobile	Neutral		Endurance	Earth	-	-	-	-	-	-			300
+143	Boulder	Construct	Immobile	Neutral		Endurance	Earth	-	-	-	-	x	-			300
+144	Boulder	Construct	Immobile	Neutral		Endurance	Earth	-	-	x	-	x	-			300
+145	Plane Guardian	0		Neutral		Strength	0	-	-	-	-	-	-			300
+146	Plane Protector	0		Neutral		Strength	0	-	-	-	-	-	-			300
+147	Plane Overlord	0		Neutral		Strength	0	-	-	-	-	-	-			300
+148	Crystal Walker	Construct		Neutral		Strength	0	-	-	-	-	-	-			300
+149	Crystal Sentry	Construct		Neutral		Strength	0	-	-	-	-	-	-			300
+150	Crystal Guardian	Construct		Neutral		Strength	0	-	-	-	-	-	-			300
+151	Fear	Demon		Dark		Strength	0	-	x	-	-	-	-			300
+152	Terror	Demon		Dark		Strength	0	-	x	-	-	-	-			300
+153	Nightmare	Demon		Dark		Strength	0	-	x	-	-	-	-			300
+154	Ether Knight	0		Neutral		Strength	0	-	-	-	-	-	-			300
+155	Ether Champion	0		Neutral		Strength	0	-	-	-	-	-	-			300
+156	Ether Lord	0		Neutral		Strength	0	-	-	-	-	-	-			300
+157	Charger	Construct	Elemental	Neutral		Strength	0	-	-	-	-	-	-			300
+158	Juggernaut	Construct	Elemental	Neutral		Strength	0	-	-	-	-	-	-			300
+159	Demolisher	Construct	Elemental	Neutral		Strength	0	-	-	-	-	-	-			300
+160	Smoke Gog	Demon		Dark		Magic	Fire	-	x	-	-	-	-			300
+161	Ember Gog	Demon		Dark		Magic	Fire	-	x	x	-	-	-			300
+162	Fire Gog	Demon		Dark		Magic	Fire	-	x	x	-	-	-			300
+163	Skeletal Dragon	Undead	Dragon	Dark		Strength	0	-	-	-	x	-	-			300
+164	Bone Dragon	Undead	Dragon	Dark		Strength	0	-	-	-	x	-	-			300
+165	Undead Dragon	Undead	Dragon	Dark		Strength	0	-	-	-	x	-	-			300
+166	Human Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	-	-	-	-	-	-			300
+167	Human Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	-	-	-	-	-	-			300
+168	Human Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	-	-	-	-	-	-			300
+169	Naga 	Creature		Neutral		Strength	0	-	x	-	-	-	-			300
+170	Naga Warrior	Creature		Neutral		Strength	0	-	x	-	-	-	-			300
+171	Naga Queen	Creature		Neutral		Strength	0	-	x	-	-	-	-			300
+172	Skeleton Bowman	Undead		Dark		Strength	0	-	x	-	-	-	-			300
+173	Skeleton Hunter	Undead		Dark		Strength	0	-	x	-	-	-	-			300
+174	Skeleton Archer 	Undead		Dark		Strength	0	-	x	-	-	-	-			300
+175	Dark Dwarf Grunt	0	Dwarf	Neutral		Strength	0	-	x	-	-	-	-			300
+176	Dark Dwarf Pounder	0	Dwarf	Neutral		Strength	0	-	x	-	-	-	-			300
+177	Dark Dwarf Berserker	0	Dwarf	Neutral		Strength	0	-	x	-	-	-	-			300
+178	Fish	Creature	Swimmer,NoArena	Neutral		Wimpy	0	x	-	-	-	-	-			100
+179	Fish	Creature	Swimmer,NoArena	Neutral		Wimpy	0	x	-	-	-	-	-			100
+180	Fish	Creature	Swimmer,NoArena	Neutral		Wimpy	0	x	-	-	-	-	-			100
+181	Pirate	Human		Neutral		Strength	0	-	-	-	-	-	-			300
+182	Buccaneer	Human		Neutral		Strength	0	-	-	-	-	-	-			300
+183	Corsair	Human		Neutral		Strength	0	-	x	-	-	-	-			300
+184	Regnan Crossbowman	Human		Neutral		Strength	0	-	x	-	-	-	-			300
+185	Regnan Arbalester	Human		Neutral		Strength	0	-	x	-	-	-	-			300
+186	Regnan Lieutenant	Human		Neutral		Strength	0	-	x	-	-	-	-			300
+187	Pirate Seer	Human		Dark		Magic	Elemental	-	x	x	-	-	-			300
+188	Pirate Magi	Human		Dark		Magic	Elemental	-	x	x	-	-	-			300
+189	Pirate Wizard	Human		Dark		Magic	Elemental	-	x	x	-	-	x	73		300
+190	Hatchling	Dragon		Neutral		Strength	Fire	-	x	-	x	-	-			300
+191	Dragonette	Dragon		Neutral		Strength	Fire	-	x	-	x	-	-			300
+192	Young Dragon	Dragon		Neutral		Strength	Fire	-	x	x	x	-	-			300
+193	Soldier of Fortune	Human		Neutral		Strength	0	-	-	-	-	-	-			300
+194	Mercenary	Human		Neutral		Strength	0	-	-	-	-	-	-			300
+195	Mercenary Captain	Human		Neutral		Strength	Spirit	-	-	x	-	-	-			300
+196	Chaos Guardian	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+197	Chaos Protector	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+198	Chaos Overlord	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+199	Angel	0		Light		Strength	Light	-	-	x	-	-	-			300
+200	Angel Lord	0		Light		Strength	Light	-	-	x	-	-	-			300
+201	Archangel	0		Light		Strength	Light	-	-	x	-	-	x	242		300
+202	Archer	Human		Neutral		Strength	Air	-	x	-	-	-	-			300
+203	Bowman	Human		Neutral		Strength	Air	-	x	x	-	-	-			300
+204	Elite Archer	Human		Neutral		Strength	Air	-	x	x	-	-	-			300
+205	Giant Bat	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+206	Vampire Bat	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+207	Inferno Bat	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+208	Young Behemoth	Creature		Neutral		Strength	0	-	-	-	x	-	-			300
+209	Behemoth	Creature		Neutral		Strength	0	-	-	-	x	-	-			300
+210	Ancient Behemoth	Creature		Neutral		Strength	0	-	-	-	x	-	-			300
+211	Floating Eye	0	Demon	Neutral		Magic	Elemental	-	x	x	-	-	-			300
+212	Gazer	0	Demon	Neutral		Magic	Elemental	-	x	x	-	-	-			300
+213	Evil Eye	0	Demon	Neutral		Magic	Elemental	-	x	x	-	-	-			300
+214	Acolyte of the Moon	Human		Dark		Magic	Dark	-	x	x	-	-	-			300
+215	Cleric of the Moon	Human		Dark		Magic	Dark	-	x	x	-	-	-			300
+216	Priest of the Moon	Human		Dark		Magic	Dark	-	x	x	-	-	x	269		300
+217	Acolyte of the Sun	Human		Light		Magic	Light	-	x	x	-	-	-			300
+218	Cleric of the Sun	Human		Light		Magic	Light	-	x	x	-	-	-			300
+219	Priest of the Sun	Human		Light		Magic	Light	-	x	x	-	-	x	242		300
+220	Devil Worker	Demon		Dark		Strength	0	-	-	-	-	-	-			300
+221	Devil Warrior	Demon		Dark		Strength	0	-	-	-	-	-	-			300
+222	Devil Captain	Demon		Dark		Strength	0	-	-	-	-	-	-			300
+223	Green Dragon	Dragon		Neutral		Strength	0	-	x	-	-	-	-			300
+224	Blue Dragon	Dragon		Neutral		Strength	0	-	x	-	-	-	-			300
+225	Red Dragon	Dragon		Neutral		Strength	0	-	x	-	-	-	-			300
+226	Dragonfly	Creature		Neutral		Speed	Fire	-	-	-	x	-	-			1000
+227	Fire Dragonfly	Creature		Neutral		Speed	Fire	-	-	x	x	-	-			1000
+228	Queen Dragonfly	Creature		Neutral		Speed	Fire	-	x	x	x	-	-			700
+229	Dwarven Soldier	0	Dwarf	Neutral		Strength	0	-	-	-	-	-	-			300
+230	Dwarven Lieutenant	0	Dwarf	Neutral		Strength	0	-	-	-	-	-	-			300
+231	Dwarven Commander	0	Dwarf	Neutral		Strength	0	-	-	-	-	-	-			300
+232	Tempest	Elemental		Neutral		Speed	Air	-	x	-	-	-	-			300
+233	Cyclone	Elemental		Neutral		Speed	Air	-	x	-	-	-	-			300
+234	Air Elemental	Elemental		Neutral		Speed	Air	-	x	x	-	-	-			300
+235	Clay Elemental	Elemental		Neutral		Endurance	Earth	-	x	-	-	-	-			300
+236	Stone Elemental	Elemental		Neutral		Endurance	Earth	-	x	-	-	-	-			300
+237	Earth Elemental	Elemental		Neutral		Endurance	Earth	-	x	x	-	-	-			300
+238	Warden of Fire	Elemental		Neutral		Strength	Fire	-	x	-	-	-	-			300
+239	Guardian of Flame	Elemental		Neutral		Strength	Fire	-	x	-	-	-	-			300
+240	Fire Elemental	Elemental		Neutral		Strength	Fire	-	x	x	-	-	-			300
+241	Lesser Light Elemental	Elemental		Neutral		Speed	Light	-	x	-	-	-	-			300
+242	Light Elemental	Elemental		Neutral		Speed	Light	-	x	-	-	-	-			300
+243	Greater Light Elemental	Elemental		Neutral		Speed	Light	-	x	x	-	-	-			300
+244	Sprite	Elemental	Swimmer	Neutral		Magic	Water	-	x	-	-	-	-			300
+245	Sylph	Elemental	Swimmer	Neutral		Magic	Water	-	x	-	-	-	-			300
+246	Water Elemental	Elemental	Swimmer	Neutral		Magic	Water	-	x	x	-	-	-			300
+247	Elven Archer	Elf		Neutral		Speed	Air	-	x	-	-	-	-			300
+248	Elven Scout	Elf		Neutral		Speed	Air	-	x	x	-	-	-			300
+249	Elven Ranger	Elf		Neutral		Speed	Air	-	x	x	-	-	-			300
+250	Elven Warrior	Elf		Neutral		Strength	Self	-	-	-	-	-	-			300
+251	Elven Defender	Elf		Neutral		Strength	Self	-	-	x	-	-	-			300
+252	Elven Lancer	Elf		Neutral		Strength	Self	-	-	x	-	-	-			300
+253	Conscript	Human		Neutral	F	Strength	0	-	-	-	-	-	-			300
+254	Soldier	Human		Neutral	F	Strength	0	-	-	-	-	-	-			300
+255	Fighter	Human		Neutral	F	Strength	0	-	-	-	-	-	-			300
+256	Robber	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+257	Raider	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+258	Bandit	Human		Neutral	M	Strength	0	-	x	-	-	-	-			300
+259	Initiate of the Sword	0	Human	Neutral		Strength	0	-	-	-	-	-	-			300
+260	Champion of the Sword	0	Human	Neutral		Strength	0	-	-	-	-	-	-			300
+261	Master of the Sword	0	Human	Neutral		Strength	Spirit	-	-	x	-	-	-			300
+262	Stone Gargoyle	Construct		Neutral		Endurance	0	-	-	-	-	-	-			300
+263	Marble Gargoyle	Construct		Neutral		Endurance	0	-	-	-	-	-	-			300
+264	Obsidian Gargoyle	Construct		Neutral		Endurance	0	-	-	-	-	-	-			300
+265	Djinni	Elemental		Neutral		Magic	Elemental	-	x	x	-	-	-			300
+266	Genie	Elemental		Neutral		Magic	Elemental	-	x	x	-	-	-			300
+267	Efreet	Elemental		Neutral		Magic	Elemental	-	x	x	-	-	x	232		300
+268	Shade	Undead		Neutral		Speed	0	-	-	-	-	-	-			300
+269	Specter	Undead		Neutral		Speed	0	-	-	-	-	-	-			300
+270	Ghost	Undead		Neutral		Speed	0	-	-	-	-	-	-			300
+271	Goblin	Goblin		Neutral		Strength	0	-	-	-	-	-	-			500
+272	Hobgoblin	Goblin		Neutral		Strength	0	-	-	-	-	-	-			400
+273	Goblin Lord	Goblin		Neutral		Strength	0	-	x	-	-	-	-			300
+274	Gogling	Demon		Neutral		Magic	Fire	-	x	-	-	-	-			300
+275	Gog	Demon		Neutral		Magic	Fire	-	x	x	-	-	-			300
+276	Magog	Demon		Neutral		Magic	Fire	-	x	x	-	-	-			300
+277	Bronze Golem	Construct		Neutral		Endurance	0	-	-	-	-	-	-			300
+278	Brass Golem	Construct		Neutral		Endurance	0	-	-	-	-	-	-			300
+279	Gold Golem	Construct		Neutral		Endurance	0	-	-	-	-	-	-			300
+280	Griffin	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+281	Hunting Griffin	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+282	Royal Griffin	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+283	Harpy	Creature		Neutral		Speed	Self	-	-	x	-	-	-			300
+284	Harpy Hag	Creature		Neutral		Speed	Self	-	-	x	-	-	-			300
+285	Harpy Queen	Creature		Neutral		Speed	Self	-	-	x	-	-	-			300
+286	Fire Hydra	Creature		Neutral		Strength	Fire	-	x	x	x	-	-			300
+287	Air Hydra	Creature		Neutral		Strength	Air	-	x	x	x	-	-			300
+288	Chaos Hydra	Creature		Neutral		Strength	Dark	-	x	x	x	-	-			300
+289	Lich	Undead		Dark		Magic	Dark	-	x	x	-	-	x	268		300
+290	Power Lich	Undead		Dark		Magic	Dark	-	x	x	-	-	x	268		300
+291	Lich King	Undead		Dark		Magic	Dark	-	x	x	-	-	-			300
+292	Sorcerer	Human		Light	M	Magic	Light	-	x	x	-	-	-			300
+293	Wizard	Human		Light	M	Magic	Light	-	x	x	-	-	x	242		300
+294	Archmage	Human		Light	M	Magic	Light	-	x	x	-	-	x	242		300
+295	Minicore	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+296	Manticore 	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+297	Scorpicore	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+298	Medusa	Creature		Neutral		Strength	Self	-	x	-	-	-	-			300
+299	Queen Medusa	Creature		Neutral		Strength	Self	-	x	x	-	-	-			300
+300	Empress Medusa	Creature		Neutral		Strength	Self	-	x	x	-	-	-			300
+301	Minotaur	Creature		Neutral		Strength	Self	-	-	-	x	-	-			300
+302	Minotaur Headsman	Creature		Neutral		Strength	Self	-	-	x	x	-	-			300
+303	Minotaur Lord	Creature		Neutral		Strength	Self	-	-	x	x	-	-			300
+304	Monk	Human		Neutral	M	Strength	Self	-	-	-	-	-	-			300
+305	Initiate	Human		Neutral	M	Strength	Self	-	-	x	-	-	-			300
+306	Master	Human		Neutral	M	Strength	Self	-	-	x	-	-	-			300
+307	Necromancer	0		Dark	F	Magic	Dark	-	x	x	-	-	-			300
+308	Speaker for the Dead	0		Dark	F	Magic	Dark	-	x	x	-	-	-			300
+309	Queen of the Dead	0		Dark	F	Magic	Dark	-	x	x	-	-	x	268		300
+310	Emerald Ooze	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+311	Sapphire Ooze	Creature		Neutral		Strength	0	-	-	-	-	x	-			300
+312	Bloodstone Ooze	Creature		Neutral		Strength	0	-	-	-	-	x	-			300
+313	Peasant	Dwarf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+314	Peasant	Dwarf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+315	Peasant	Dwarf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+316	Peasant	Dwarf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+317	Peasant	Dwarf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+318	Peasant	Dwarf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+319	Peasant	Dwarf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+320	Peasant	Dwarf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+321	Peasant	Dwarf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+322	Peasant	Dwarf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+323	Peasant	Dwarf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+324	Peasant	Dwarf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+325	Peasant	Dwarf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+326	Peasant	Dwarf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+327	Peasant	Dwarf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+328	Peasant	Dwarf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+329	Peasant	Dwarf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+330	Peasant	Elf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+331	Peasant	Elf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+332	Peasant	Elf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+333	Peasant	Elf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+334	Peasant	Elf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+335	Peasant	Elf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+336	Peasant	Elf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+337	Peasant	Elf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+338	Peasant	Elf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+339	Peasant	Elf	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+340	Peasant	Elf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+341	Peasant	Elf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+342	Peasant	Elf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+343	Peasant	Elf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+344	Peasant	Elf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+345	Peasant	Elf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+346	Peasant	Elf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+347	Peasant	Elf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+348	Peasant	Elf	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+349	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+350	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+351	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+352	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+353	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+354	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+355	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+356	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+357	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+358	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+359	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+360	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+361	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+362	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+363	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+364	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+365	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+366	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+367	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+368	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+369	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+370	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+371	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+372	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+373	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+374	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+375	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+376	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+377	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+378	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+379	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+380	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+381	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+382	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+383	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+384	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+385	Giant Rat	Creature		Neutral		Speed	0	-	-	-	x	-	-			1000
+386	Lightning Rat	Creature		Neutral		Speed	0	-	-	-	x	-	-			700
+387	Fire Rat	Creature		Neutral		Speed	0	-	-	-	x	-	-			400
+388	Seeker Droid	Construct		Neutral		Strength	0	-	-	-	-	-	-			100
+389	Sentinel Droid	Construct		Neutral		Strength	0	-	-	-	-	-	-			100
+390	Assassin Droid	Construct		Neutral		Strength	0	-	-	-	-	-	-			100
+391	Roc	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+392	Greater Roc	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+393	Thunderbird	Creature		Neutral		Speed	Air	-	x	x	-	-	-			300
+394	Giant Shark	Creature		Neutral		Speed	0	x	-	-	-	-	-			300
+395	Piranha Shark	Creature		Neutral		Speed	0	x	-	-	-	-	-			300
+396	Dragon Shark	Creature		Neutral		Speed	0	x	-	-	-	-	-			300
+397	Skeleton	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+398	Skeleton Warrior	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+399	Skeleton Lord	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+400	Giant Spider	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+401	Venemous Spider	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+402	Widowmaker	Creature		Neutral		Strength	0	-	-	-	-	-	x	400		300
+403	Swordsman	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+404	Guard	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+405	Adventurer	Human		Neutral	M	Strength	Spirit	-	-	-	-	-	-			300
+406	Thief	Human		Neutral	M	Strength	Elemental	-	x	-	-	-	-			300
+407	Rogue	Human		Neutral	M	Strength	Elemental	-	x	-	-	-	-			300
+408	Master Thief	Human		Neutral	M	Strength	Elemental	-	x	x	-	-	-			300
+409	Titan	Titan		Neutral		Strength	Air	-	x	-	x	-	-			300
+410	Storm Titan	Titan		Neutral		Strength	Air	-	x	x	x	-	-			300
+411	Blood Titan	Titan		Neutral		Strength	Air	-	x	x	x	-	-			300
+412	Troglodyte Drone	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+413	Troglodyte Soldier	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+414	Troglodyte Queen	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+415	Minion Vampire	Undead		Dark		Strength	Self	-	-	-	-	-	-			300
+416	Vampire	Undead		Dark		Strength	Self	-	-	x	-	-	-			300
+417	Elder Vampire	Undead		Dark		Strength	Self	-	-	x	-	-	-			300
+418	Fire Warlock	Human		Neutral	F	Magic	Fire	-	x	x	-	-	x	240		300
+419	Water Warlock	Human		Neutral	F	Magic	Water	-	x	x	-	-	x	244		300
+420	Air Warlock	Human		Neutral	F	Magic	Air	-	x	x	-	-	x	232		300
+421	Wight	Undead		Dark		Speed	0	-	-	-	-	-	-			300
+422	Wraith	Undead		Dark		Speed	0	-	-	-	-	-	-			300
+423	Barrow Wight	Undead		Dark		Speed	0	-	-	-	-	-	-			300
+424	Wyvern	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+425	Horned Wyvern	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+426	Ancient Wyvern	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+427	Rotted Corpse	Undead		Dark		Endurance	0	-	-	-	-	-	-			300
+428	Walking Dead	Undead		Dark		Endurance	0	-	-	-	-	-	-			300
+429	Zombie	Undead		Dark		Endurance	0	-	-	-	-	-	-			300
+430	peasant	Goblin	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+431	peasant	Goblin	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+432	peasant	Goblin	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+433	peasant	Goblin	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+434	peasant	Goblin	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+435	peasant	Goblin	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+436	peasant	Goblin	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+437	peasant	Goblin	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+438	peasant	Goblin	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			100
+439	peasant	Goblin	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+440	peasant	Goblin	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+441	peasant	Goblin	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+442	peasant	Goblin	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+443	peasant	Goblin	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+444	peasant	Goblin	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+445	peasant	Goblin	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+446	peasant	Goblin	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+447	peasant	Goblin	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			100
+448	Swamp Troll	Troll	Ogre	Neutral		Strength	0	-	-	-	-	-	-			300
+449	River Troll	Troll	Ogre	Neutral		Strength	0	-	-	-	-	-	-			300
+450	Mountain Troll	Troll	Ogre	Neutral		Strength	0	-	-	-	-	-	-			300
+451	Tree	Immobile		Neutral		Endurance	0	-	x	-	-	-	x	226		300
+452	Tree	Immobile		Neutral		Endurance	0	-	x	-	-	-	x	226		300
+453	Tree	Immobile		Neutral		Endurance	0	-	x	-	-	-	x	226		300
+454	Ghast	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+455	Ghoul 	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+456	Revenant	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+457	Tolberti	Human	NoArena	Neutral		Strength	0	x	-	-	-	-	-			300
+458	Robert the Wise	Human	NoArena	Neutral		Strength	0	x	-	-	-	-	-			300
+459	Blaster Guy C	Human	NoArena	Neutral		Strength	0	x	-	-	-	-	-			300
+460	Mega-Dragon	Dragon	NoArena	Neutral		Strength	0	x	-	-	-	-	-			300
+461	Mega-Dragon	Dragon	NoArena	Neutral		Strength	0	x	-	-	-	-	-			300
+462	Mega-Dragon	Dragon	NoArena	Neutral		Strength	0	x	-	-	-	-	-			300
+463	Cat A	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+464	Cat B	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+465	Cat C	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+466	Chicken A	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+467	Chicken B	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+468	Chicken C	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+469	Dog A	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+470	Dog B	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+471	Dog C	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+472	Rat A	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+473	Rat B	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+474	Rat C	Creature		Neutral		Wimpy	0	x	-	-	x	-	-			100
+475	Archer	Human		Neutral	F	Strength	Fire	-	x	-	-	-	-			300
+476	Master Archer	Human		Neutral	F	Strength	Fire	-	x	-	-	-	-			300
+477	Fire Archer	Human		Neutral	F	Strength	Fire	-	x	x	-	-	-			300
+478	Magyar	Human		Neutral	F	Strength	0	-	-	-	-	-	-			300
+479	Magyar Soldier	Human		Neutral	F	Strength	0	-	-	-	-	-	-			300
+480	Magyar Matron	Human		Neutral	F	Strength	0	-	-	-	-	-	-			300
+481	Bat	Creature		Neutral		Speed	0	-	-	-	x	-	-			300
+482	Giant Bat	Creature		Neutral		Speed	0	-	-	-	x	-	-			300
+483	Vampire Bat	Creature		Neutral		Speed	0	-	-	-	x	-	-			300
+484	Flying Eye	Creature		Neutral		Magic	Elemental	-	x	x	-	-	-			300
+485	Terrible Eye	Creature		Neutral		Magic	Elemental	-	x	x	-	-	-			300
+486	Maddening Eye	Creature		Neutral		Magic	Elemental	-	x	x	-	-	-			300
+487	Blood Sucker	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+488	Brain Sucker	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+489	Soul Sucker	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+490	Acolyte of Baa	Human		Dark	M	Magic	Self	-	x	x	-	-	-			300
+491	Cleric of Baa	Human		Dark	M	Magic	Self	-	x	x	-	-	-			300
+492	Priest of Baa	Human		Dark	M	Magic	Self	-	x	x	-	-	-			300
+493	Cobra	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+494	King Cobra	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+495	Queen Cobra	Creature		Neutral		Speed	0	-	-	-	-	-	-			300
+496	Agar's Pet	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+497	Agar's Monster	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+498	Agar's Abomination	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+499	Devil Captain	Demon		Dark		Strength	0	-	-	-	-	-	-			300
+500	Devil Master	Demon		Dark		Strength	0	-	-	-	-	-	-			300
+501	Devil King	Demon		Dark		Strength	0	-	-	-	-	-	-			300
+502	Devil Spawn	Demon		Dark		Strength	0	-	-	-	-	-	-			300
+503	Devil Worker	Demon		Dark		Strength	0	-	-	-	-	-	-			300
+504	Devil Warrior	Demon		Dark		Strength	0	-	-	-	-	-	-			300
+505	Fire Lizard	Creature		Neutral		Strength	0	-	x	-	x	-	-			300
+506	Lightning Lizard	Creature		Neutral		Strength	0	-	x	-	x	-	-			300
+507	Thunder Lizard	Creature		Neutral		Strength	0	-	x	-	x	-	-			300
+508	Flame Drake	Dragon		Neutral		Strength	0	-	x	-	x	-	-			300
+509	Frost Drake	Dragon		Neutral		Strength	0	-	x	-	x	-	-			300
+510	Energy Drake	Dragon		Neutral		Strength	0	-	x	-	x	-	-			300
+511	Wyrm	Dragon		Neutral		Strength	0	-	-	-	x	-	-			300
+512	Giant Wyrm	Dragon		Neutral		Strength	0	-	-	-	x	-	-			300
+513	Great Wyrm	Dragon		Neutral		Strength	0	-	-	-	x	-	-			300
+514	Red Dragon	Dragon		Neutral		Strength	0	-	x	-	x	-	-			300
+515	Blue Dragon	Dragon		Neutral		Strength	0	-	x	-	x	-	-			300
+516	Gold Dragon	Dragon		Neutral		Strength	0	-	x	-	x	-	-			300
+517	Druid	Human		Neutral	F	Magic	Any	-	x	x	-	-	-			300
+518	Great Druid	Human		Neutral	F	Magic	Any	-	x	x	-	-	-			300
+519	Grand Druid	Human		Neutral	F	Magic	Any	-	x	x	-	-	x	527		300
+520	Dwarf	0	Dwarf	Neutral		Strength	0	-	-	-	-	-	-			300
+521	Dwarf Warrior	0	Dwarf	Neutral		Strength	0	-	-	-	-	-	-			300
+522	Dwarf Lord	0	Dwarf	Neutral		Strength	0	-	-	-	-	-	-			300
+523	Dust Devil	Elemental		Neutral		Speed	Air	-	x	-	-	-	-			300
+524	Twister	Elemental		Neutral		Speed	Air	-	x	-	-	x	-			300
+525	Air Elemental	Elemental		Neutral		Speed	Air	-	x	x	-	x	-			300
+526	Rock Beast	Elemental		Neutral		Endurance	Earth	-	x	-	-	-	-			300
+527	Earth Spirit	Elemental		Neutral		Endurance	Earth	-	x	-	-	-	-			300
+528	Earth Elemental	Elemental		Neutral		Endurance	Earth	-	x	x	-	-	-			300
+529	Fire Beast	Elemental		Neutral		Strength	Fire	-	x	-	-	-	-			300
+530	Fire Spirit	Elemental		Neutral		Strength	Fire	-	x	-	-	x	-			300
+531	Fire Elemental	Elemental		Neutral		Strength	Fire	-	x	x	-	x	-			300
+532	Water Beast	Elemental		Neutral		Magic	Water	-	x	-	-	-	-			300
+533	Water Spirit	Elemental		Neutral		Magic	Water	-	x	-	-	-	-			300
+534	Water Elemental	Elemental		Neutral		Magic	Water	-	x	x	-	-	-			300
+535	Fighter	0	Human	Neutral		Strength	0	-	-	-	-	-	-			300
+536	Soldier	0	Human	Neutral		Strength	0	-	-	-	-	-	-			300
+537	Veteran	0	Human	Neutral		Strength	0	-	-	-	-	-	-			300
+538	Thug	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+539	Ruffian	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+540	Brigand	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+541	Stone Gargoyle	Construct		Neutral		Strength	0	-	-	-	-	-	-			300
+542	Marble Gargoyle	Construct		Neutral		Strength	0	-	-	-	-	-	-			300
+543	Diamond Gargoyle	Construct		Neutral		Strength	0	-	-	-	-	-	-			300
+544	Genie	Elemental		Neutral		Magic	0	-	-	-	-	-	x	523		300
+545	Djinn	Elemental		Neutral		Magic	0	-	-	-	-	-	x	523		300
+546	Efreet	Elemental		Neutral		Magic	0	-	-	-	-	-	x	523		300
+547	Ghost	Undead		Neutral		Speed	0	-	-	-	-	-	-			300
+548	Evil Spirit	Undead		Neutral		Speed	0	-	-	-	-	-	-			300
+549	Specter	Undead		Neutral		Speed	0	-	-	-	-	-	-			300
+550	Goblin	Goblin		Neutral		Strength	0	-	-	-	-	-	-			300
+551	Goblin Shaman	Goblin		Neutral		Strength	Elemental	-	x	x	-	-	-			300
+552	Goblin King	Goblin		Neutral		Strength	0	-	x	-	-	-	-			300
+553	Guard	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+554	Lieutenant	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+555	Captain	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+556	Harpy	Creature		Neutral		Speed	Self	-	-	x	-	-	-			300
+557	Harpy Hag	Creature		Neutral		Speed	Self	-	-	x	-	-	-			300
+558	Harpy Witch	Creature		Neutral		Speed	Self	-	-	x	-	-	-			300
+559	Hydra	Creature		Neutral		Strength	0	-	x	-	-	-	-			300
+560	Venomous Hydra	Creature		Neutral		Strength	0	-	x	-	-	-	-			300
+561	Colossal Hydra	Creature		Neutral		Strength	0	-	x	-	-	-	-			300
+562	Defender of VARN	0		Neutral		Strength	0	-	-	-	-	-	-			300
+563	Sentinel of VARN	0		Neutral		Strength	0	-	-	-	-	-	-			300
+564	Guardian of VARN	0		Neutral		Strength	0	-	-	-	-	-	-			300
+565	Death Knight	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+566	Doom Knight	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+567	Cuisinart	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+568	Lich	Undead		Dark		Magic	Dark	-	x	x	-	-	-			300
+569	Greater Lich	Undead		Dark		Magic	Dark	-	x	x	-	-	x	548		300
+570	Power Lich	Undead		Dark		Magic	Dark	-	x	x	-	-	x	548		300
+571	Lizard Man	0	Lizardman	Neutral		Strength	0	-	-	-	-	-	-			300
+572	Lizard Archer	0	Lizardman	Neutral		Strength	0	-	-	-	-	-	-			300
+573	Lizard Wizard	0	Lizardman	Neutral		Strength	Elemental	-	x	x	-	-	-			300
+574	Medusa	Creature		Neutral		Strength	0	-	x	-	-	-	-			300
+575	Medusa Enchantress	Creature		Neutral		Strength	Elemental	-	x	x	-	-	-			300
+576	Gorgon	Creature		Neutral		Strength	0	-	x	-	-	-	-			300
+577	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			300
+578	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			300
+579	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			300
+580	Minotaur	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+581	Minotaur Mage	Creature		Neutral		Strength	Body	-	x	x	-	-	-			300
+582	Minotaur King	Creature		Neutral		Strength	Body	-	-	x	-	-	-			300
+583	Novice Monk	Human		Neutral	M	Strength	Self	-	-	x	-	-	-			300
+584	Initiate Monk	Human		Neutral	M	Strength	Self	-	-	x	-	-	-			300
+585	Master Monk	Human		Neutral	M	Strength	Self	-	-	x	-	-	-			300
+586	Swordsman	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+587	Expert Swordsman	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+588	Master Swordsman	Human		Neutral	M	Strength	Spirit	-	-	x	-	-	-			300
+589	Ooze	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+590	Acidic Ooze	Creature		Neutral		Strength	0	-	-	-	-	x	-			300
+591	Corrosive Ooze	Creature		Neutral		Strength	0	-	-	-	-	x	-			300
+592	Ogre	Ogre		Neutral		Strength	0	-	-	-	-	-	-			300
+593	Ogre Raider	Ogre		Neutral		Strength	0	-	-	-	-	-	-			300
+594	Ogre Chieftain	Ogre		Neutral		Strength	0	-	-	-	-	-	-			300
+595	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			300
+596	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			300
+597	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			300
+598	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			300
+599	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			300
+600	Peasant	Human	Peasant,NoArena	Peasant	F	Wimpy	0	x	-	-	-	-	-			300
+601	Cutpurse	0		Neutral		Speed	0	-	-	-	-	-	-			300
+602	Bounty Hunter	0		Neutral		Speed	0	-	-	-	-	-	-			300
+603	Assassin	0		Neutral		Speed	0	-	-	-	-	-	-			300
+604	Cannibal	0		Neutral		Strength	0	-	-	-	-	-	-			300
+605	Head Hunter	0		Neutral		Strength	0	-	-	-	-	-	-			300
+606	Witch Doctor	0		Neutral		Strength	0	-	x	-	-	-	-			300
+607	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			300
+608	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			300
+609	Peasant	Human	Peasant,NoArena	Peasant	M	Wimpy	0	x	-	-	-	-	-			300
+610	Apprentice Mage	Human		Neutral	M	Magic	Fire	-	x	x	-	-	-			300
+611	Journeyman Mage	Human		Neutral	M	Magic	Water	-	x	x	-	-	-			300
+612	Mage	Human		Neutral	M	Magic	Air	-	x	x	-	-	x	530		300
+613	Follower of Baa	Human		Dark	M	Strength	0	-	-	-	-	-	-			300
+614	Mystic of Baa	Human		Dark	M	Strength	Spirit	-	x	x	-	-	-			300
+615	Fanatic of Baa	Human		Dark	M	Strength	Spirit	-	x	x	-	-	-			300
+616	Cannibal	0		Neutral		Strength	0	-	-	-	-	-	-			300
+617	Head Hunter	0		Neutral		Strength	0	-	-	-	-	-	-			300
+618	Witch Doctor	0		Neutral		Strength	0	-	-	-	-	-	-			300
+619	Common Rat	Creature		Neutral		Speed	0	-	-	-	x	-	-			300
+620	Large Rat	Creature		Neutral		Speed	0	-	-	-	x	-	-			300
+621	Giant Rat	Creature		Neutral		Speed	0	-	-	-	x	-	-			300
+622	Patrol Unit	Construct	NoArena	Neutral		Speed	0	-	x	-	-	-	-			300
+623	Enforcer Unit	Construct	NoArena	Neutral		Speed	0	-	x	-	-	-	-			300
+624	Terminator Unit	Construct	NoArena	Neutral		Speed	0	-	x	-	-	-	-			300
+625	Sea Serpent	0	Swimmer	Neutral		Strength	Water	-	x	x	-	-	-			300
+626	Sea Monster	0	Swimmer	Neutral		Strength	Water	-	x	x	-	-	-			300
+627	Sea Terror	0	Swimmer	Neutral		Strength	Water	-	x	x	-	-	-			300
+628	Skeleton	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+629	Skeleton Knight	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+630	Skeleton Lord	Undead		Dark		Strength	0	-	-	-	-	-	-			300
+631	Sorcerer	Human		Light	M	Magic	Elemental	-	x	x	-	-	-			300
+632	Magician	Human		Light	M	Magic	Elemental	-	x	x	-	-	-			300
+633	Warlock	Human		Light	M	Magic	Elemental	-	x	x	-	-	x	527		300
+634	Spider	Creature		Neutral		Strength	0	-	-	-	x	-	-			300
+635	Giant Spider	Creature		Neutral		Strength	0	-	-	-	x	-	-			300
+636	Huge Spider	Creature		Neutral		Strength	0	-	-	-	x	-	-			300
+637	Thief	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+638	Burglar	Human		Neutral	M	Strength	0	-	-	-	-	-	-			300
+639	Rogue	Human		Neutral	M	Strength	0	-	x	-	-	-	-			300
+640	Titan	Titan		Neutral		Strength	Air	-	x	x	x	-	-			300
+641	Noble Titan	Titan		Neutral		Strength	Air	-	x	x	x	-	-			300
+642	Supreme Titan	Titan		Neutral		Strength	Air	-	x	x	x	-	-			300
+643	Wolfman	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+644	Werewolf	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+645	Greater Werewolf	Creature		Neutral		Strength	0	-	-	-	-	-	-			300
+646	Demon Queen	Immobile	NoArena	Dark		Endurance	0	x	x	-	-	-	-			300
+647	Reactor	Immobile	NoArena	Neutral		Endurance	0	x	x	-	-	-	-			300
+648	Reactor	Immobile	NoArena	Neutral		Endurance	0	x	x	-	-	-	-			300
+649	Cactus	Demon		Neutral		Speed	0	x	-	-	-	-	-			300
+650	Cactus	Demon		Neutral		Speed	0	x	-	-	-	-	-			300
+651	Cactus	Demon		Neutral		Speed	0	x	-	-	-	-	-			300

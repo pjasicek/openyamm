@@ -29,28 +29,6 @@ void finalizeRow(
     }
 }
 
-bool hasUnclosedQuotedField(const std::string &contents)
-{
-    bool isInsideQuotes = false;
-
-    for (size_t index = 0; index < contents.size(); ++index)
-    {
-        if (contents[index] != '"')
-        {
-            continue;
-        }
-
-        if (isInsideQuotes && index + 1 < contents.size() && contents[index + 1] == '"')
-        {
-            ++index;
-            continue;
-        }
-
-        isInsideQuotes = !isInsideQuotes;
-    }
-
-    return isInsideQuotes;
-}
 }
 
 std::optional<TextTable> TextTable::parseTabSeparated(const std::string &contents)
@@ -71,9 +49,17 @@ std::optional<TextTable> TextTable::parseTabSeparated(const std::string &content
                 currentCell.push_back('"');
                 ++index;
             }
+            else if (isInsideQuotes)
+            {
+                isInsideQuotes = false;
+            }
+            else if (currentCell.empty())
+            {
+                isInsideQuotes = true;
+            }
             else
             {
-                isInsideQuotes = !isInsideQuotes;
+                currentCell.push_back(character);
             }
 
             continue;
@@ -99,7 +85,7 @@ std::optional<TextTable> TextTable::parseTabSeparated(const std::string &content
         currentCell.push_back(character);
     }
 
-    if (hasUnclosedQuotedField(contents))
+    if (isInsideQuotes)
     {
         return std::nullopt;
     }

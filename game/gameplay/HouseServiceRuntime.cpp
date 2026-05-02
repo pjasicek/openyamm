@@ -121,9 +121,44 @@ bool isSpellbookAllowedForGuild(const HouseEntry &houseEntry, const ItemDefiniti
         return *spellId >= 1 && *spellId <= 44;
     }
 
+    if (isHouseType(houseEntry, "Fire Guild"))
+    {
+        return *spellId >= 1 && *spellId <= 11;
+    }
+
+    if (isHouseType(houseEntry, "Air Guild"))
+    {
+        return *spellId >= 12 && *spellId <= 22;
+    }
+
+    if (isHouseType(houseEntry, "Water Guild"))
+    {
+        return *spellId >= 23 && *spellId <= 33;
+    }
+
+    if (isHouseType(houseEntry, "Earth Guild"))
+    {
+        return *spellId >= 34 && *spellId <= 44;
+    }
+
     if (isHouseType(houseEntry, "Self Guild"))
     {
         return *spellId >= 45 && *spellId <= 77;
+    }
+
+    if (isHouseType(houseEntry, "Spirit Guild"))
+    {
+        return *spellId >= 45 && *spellId <= 55;
+    }
+
+    if (isHouseType(houseEntry, "Mind Guild"))
+    {
+        return *spellId >= 56 && *spellId <= 66;
+    }
+
+    if (isHouseType(houseEntry, "Body Guild"))
+    {
+        return *spellId >= 67 && *spellId <= 77;
     }
 
     if (isHouseType(houseEntry, "Light Guild"))

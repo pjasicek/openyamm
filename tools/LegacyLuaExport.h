@@ -16,6 +16,13 @@ enum class LegacyLuaExportScope
     Global,
 };
 
+enum class LegacyEventVersion
+{
+    Mm6 = 6,
+    Mm7 = 7,
+    Mm8 = 8,
+};
+
 struct LegacyLuaExportLookups
 {
     std::optional<std::string> mapName;
@@ -40,11 +47,13 @@ struct LegacyLuaExportLookups
     std::unordered_map<uint32_t, std::string> autonoteTexts;
     std::unordered_map<uint32_t, std::string> awardTexts;
     std::unordered_map<uint32_t, std::string> inputStringAnswerTexts;
+    std::unordered_map<uint32_t, uint32_t> summonObjectTypesByEventStep;
 };
 
 std::string generateLegacyEventLuaChunk(
     const EvtProgram &evtProgram,
     const StrTable &strTable,
     const LegacyLuaExportLookups &lookups,
-    LegacyLuaExportScope scope);
+    LegacyLuaExportScope scope,
+    LegacyEventVersion version = LegacyEventVersion::Mm8);
 }

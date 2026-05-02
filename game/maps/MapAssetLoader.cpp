@@ -43,9 +43,9 @@ void pumpMapLoadProgress(const MapLoadProgressPump &progressPump)
     }
 }
 
-std::string dataTablePath(std::string_view fileName)
+std::string engineDataTablePath(std::string_view fileName)
 {
-    return "Data/data_tables/" + std::string(fileName);
+    return "engine/data_tables/" + std::string(fileName);
 }
 
 std::string monsterSpriteFrameFamilyPath(std::string_view familyRoot)
@@ -506,7 +506,7 @@ bool loadDecorationRows(
     rows.clear();
 
     const std::optional<std::string> contents =
-        assetFileSystem.readTextFile(dataTablePath("decoration_data.txt"));
+        assetFileSystem.readTextFile(engineDataTablePath("decoration_data.txt"));
 
     if (!contents)
     {
@@ -537,7 +537,7 @@ bool loadTextureFrameRows(
     rows.clear();
 
     const std::optional<std::string> contents =
-        assetFileSystem.readTextFile(dataTablePath("texture_frame_data.txt"));
+        assetFileSystem.readTextFile(engineDataTablePath("texture_frame_data.txt"));
 
     if (!contents)
     {
@@ -2605,6 +2605,19 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
 
         if (useTransitionOverlay)
         {
+            int overlayTextureWidth = 0;
+            int overlayTextureHeight = 0;
+            const std::optional<std::vector<uint8_t>> overlayTilePixels =
+                loadBitmapPixelsBgra(
+                    assetFileSystem,
+                    "Data/bitmaps",
+                    textureName,
+                    overlayTextureWidth,
+                    overlayTextureHeight,
+                    true,
+                    true,
+                    bitmapLoadCache
+                );
             int baseTextureWidth = 0;
             int baseTextureHeight = 0;
             const std::optional<std::vector<uint8_t>> baseTilePixels =
@@ -2619,9 +2632,14 @@ std::optional<OutdoorTerrainTextureAtlas> buildOutdoorTerrainTextureAtlas(
                     bitmapLoadCache
                 );
 
-            if (baseTilePixels && baseTextureWidth == terrainTileSize && baseTextureHeight == terrainTileSize)
+            if (overlayTilePixels
+                && overlayTextureWidth == terrainTileSize
+                && overlayTextureHeight == terrainTileSize
+                && baseTilePixels
+                && baseTextureWidth == terrainTileSize
+                && baseTextureHeight == terrainTileSize)
             {
-                transitionOverlayPixels = *tilePixels;
+                transitionOverlayPixels = *overlayTilePixels;
                 fallbackLiquidBasePixels = *baseTilePixels;
                 resolvedTilePixels = compositeTerrainOverlayOverBase(*baseTilePixels, transitionOverlayPixels);
             }
@@ -3076,6 +3094,8 @@ std::optional<MapAssetInfo> MapAssetLoader::load(
 
         if (assetInfo.outdoorMapData)
         {
+            assetInfo.outdoorMapData->fileName = map.fileName;
+
             if (sceneText)
             {
                 OutdoorSceneYmlLoader sceneLoader = {};

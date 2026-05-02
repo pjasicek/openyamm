@@ -171,6 +171,7 @@ public:
     bool openOutdoorMap(const std::string &mapFileName, std::string &errorMessage);
     bool openIndoorMap(const std::string &mapFileName, std::string &errorMessage);
     bool openMapPhysicalPath(const std::filesystem::path &path, std::string &errorMessage);
+    bool switchActiveWorld(const std::string &worldId, std::string &errorMessage);
     bool createNewOutdoorMap(
         const std::string &mapId,
         const std::string &displayName,
@@ -332,7 +333,7 @@ private:
     void pruneBModelImportSources();
     std::string previewEventRuntimeKey() const;
 
-    const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
+    Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
     Game::MonsterTable m_monsterTable;
     Game::ChestTable m_chestTable;
     Game::MapStats m_mapStats;

@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import json
 import re
 import struct
@@ -39,6 +40,18 @@ def decode_string(data: bytes) -> str:
 
 def decode_flags(flags: int) -> list[str]:
     return [name for bit, name in FLAG_NAMES if flags & bit]
+
+
+def should_force_exact_texture(flags: int, texture_name: str, sprites_dir: Path) -> bool:
+    if flags & (0x00000010 | 0x00010000 | 0x00000040):
+        return False
+
+    if not texture_name:
+        return False
+
+    exact_texture_path = sprites_dir / f"{texture_name}.bmp"
+    directional_texture_path = sprites_dir / f"{texture_name}0.bmp"
+    return exact_texture_path.exists() and not directional_texture_path.exists()
 
 
 def format_float(value: float) -> str:
@@ -95,14 +108,32 @@ def build_group_lines(group: dict[str, object]) -> list[str]:
     return lines
 
 
+def build_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Export dsft.bin into sprite frame YAML")
+    parser.add_argument("--source-bin", help="path to dsft.bin")
+    parser.add_argument("--rendering-dir", help="directory for sprite_frame_data_common.yml and sprite_frames/")
+    return parser
+
+
 def main() -> int:
+    parser = build_argument_parser()
+    args = parser.parse_args()
     repo_root = Path(__file__).resolve().parents[1]
     legacy_binary_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "dsft.bin"
     fallback_binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dsft.bin"
-    binary_path = legacy_binary_path if legacy_binary_path.exists() else fallback_binary_path
-    rendering_path = repo_root / "assets_dev" / "Data" / "rendering"
+    binary_path = Path(args.source_bin) if args.source_bin else legacy_binary_path
+
+    if not binary_path.exists() and not args.source_bin:
+        binary_path = fallback_binary_path
+
+    rendering_path = (
+        Path(args.rendering_dir)
+        if args.rendering_dir
+        else repo_root / "assets_dev" / "Data" / "rendering"
+    )
     common_output_path = rendering_path / "sprite_frame_data_common.yml"
     family_output_dir = rendering_path / "sprite_frames" / "monsters"
+    sprites_dir = rendering_path.parent / "sprites"
 
     data = binary_path.read_bytes()
     frame_count, _ = struct.unpack_from("<II", data, 0)
@@ -141,6 +172,8 @@ def main() -> int:
                 data,
                 offset + 40,
             )
+            if should_force_exact_texture(flags, texture_name, sprites_dir):
+                flags |= 0x00000010
 
             frame = {
                 "texture_name": texture_name,

@@ -1,0 +1,167 @@
+# Monster sprite frame groups for family m304.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 12378
+    sprite_name: "m304d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m302na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302dd0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+  - sprite_id: 12384
+    sprite_name: "m304x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m302xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+  - sprite_id: 12385
+    sprite_name: "m304w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m302wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302we"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302wg"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302wh"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+  - sprite_id: 12393
+    sprite_name: "m304n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m302na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302nd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302ne"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304
+  - sprite_id: 12398
+    sprite_name: "m304f"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "m302nf0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302fa0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+      - texture_name: "m302fb0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 0.799988
+        palette_id: 304
+  - sprite_id: 12405
+    sprite_name: "m304s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m302sa"
+        frame_length_raw: 2
+        flags: [First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.799988
+        palette_id: 304

@@ -8,12 +8,66 @@ namespace
 {
 std::string normalizeName(std::string value)
 {
+    std::string normalized;
+    normalized.reserve(value.size());
+
     for (char &character : value)
     {
-        character = static_cast<char>(std::tolower(static_cast<unsigned char>(character)));
+        if (std::isspace(static_cast<unsigned char>(character)) != 0)
+        {
+            if (!normalized.empty() && normalized.back() != ' ')
+            {
+                normalized.push_back(' ');
+            }
+
+            continue;
+        }
+
+        if (character == '-' && !normalized.empty() && normalized.back() == ' ')
+        {
+            normalized.pop_back();
+        }
+
+        normalized.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(character))));
     }
 
-    return value;
+    if (!normalized.empty() && normalized.back() == ' ')
+    {
+        normalized.pop_back();
+    }
+
+    return normalized;
+}
+
+std::string compactName(const std::string &value)
+{
+    std::string compacted;
+    compacted.reserve(value.size());
+
+    for (unsigned char character : value)
+    {
+        if (std::isalnum(character) != 0)
+        {
+            compacted.push_back(static_cast<char>(std::tolower(character)));
+        }
+    }
+
+    return compacted;
+}
+
+std::string canonicalLegacySpellAlias(const std::string &normalizedName)
+{
+    if (normalizedName == "day-o-gods" || normalizedName == "day o gods")
+    {
+        return "day of the gods";
+    }
+
+    if (normalizedName == "psychic shockt")
+    {
+        return "psychic shock";
+    }
+
+    return normalizedName;
 }
 
 bool isNumericString(const std::string &value)
@@ -51,7 +105,7 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         SpellEntry entry = {};
         entry.id = std::stoi(row[0]);
         entry.name = row[2];
-        entry.normalizedName = normalizeName(entry.name);
+        entry.normalizedName = canonicalLegacySpellAlias(normalizeName(entry.name));
         entry.schoolName = row.size() > 3 ? row[3] : "";
         entry.shortName = row.size() > 4 ? row[4] : "";
         entry.description = row.size() > 5 ? row[5] : "";
@@ -75,6 +129,7 @@ bool SpellTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
         entry.damageDiceSides = row.size() > 23 && !row[23].empty() ? std::stoi(row[23]) : 0;
         m_entryIndexById[entry.id] = m_entries.size();
         m_entryIndexByNormalizedName[entry.normalizedName] = m_entries.size();
+        m_entryIndexByNormalizedName[compactName(entry.name)] = m_entries.size();
         m_entries.push_back(std::move(entry));
     }
 
@@ -95,7 +150,13 @@ const SpellEntry *SpellTable::findById(int id) const
 
 const SpellEntry *SpellTable::findByName(const std::string &name) const
 {
-    const auto entryIt = m_entryIndexByNormalizedName.find(normalizeName(name));
+    const std::string normalizedName = canonicalLegacySpellAlias(normalizeName(name));
+    auto entryIt = m_entryIndexByNormalizedName.find(normalizedName);
+
+    if (entryIt == m_entryIndexByNormalizedName.end())
+    {
+        entryIt = m_entryIndexByNormalizedName.find(compactName(name));
+    }
 
     if (entryIt == m_entryIndexByNormalizedName.end())
     {

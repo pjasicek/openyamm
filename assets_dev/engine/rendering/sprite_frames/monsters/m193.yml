@@ -1,0 +1,211 @@
+# Monster sprite frame groups for family m193.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 9482
+    sprite_name: "m193a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m190aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190ac"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190ae"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190af"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190ag"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190ah"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+  - sprite_id: 9490
+    sprite_name: "m193d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m190na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190dd0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+  - sprite_id: 9496
+    sprite_name: "m193x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m190xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+  - sprite_id: 9497
+    sprite_name: "m193w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m190wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190we"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190wg"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190wh"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+  - sprite_id: 9505
+    sprite_name: "m193n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m190na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190nd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190ne"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190nf"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193
+  - sprite_id: 9511
+    sprite_name: "m193f"
+    animation_length_raw: 13
+    frames:
+      - texture_name: "m190fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190fd0"
+        frame_length_raw: 3
+        flags: [HasMore, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+      - texture_name: "m190fb0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 1.099991
+        palette_id: 193
+  - sprite_id: 9517
+    sprite_name: "m193s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m190sa"
+        frame_length_raw: 2
+        flags: [First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.099991
+        palette_id: 193

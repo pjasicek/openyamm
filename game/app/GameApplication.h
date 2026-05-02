@@ -90,6 +90,7 @@ private:
     bool processPendingArcomageGame();
     void handleCompletedArcomageScreen();
     bool initializeStartupSession(bool initializeView);
+    std::string resolveStartupMapFile() const;
     bool startNewSession(std::optional<uint32_t> rosterId, bool initializeView = true);
     bool startNewSessionFromCharacterCreation(const Character &character, bool initializeView = true);
     bool loadSessionFromPath(const std::filesystem::path &path);
@@ -120,7 +121,6 @@ private:
     Engine::EngineApplication m_engineApplication;
     GameDataLoader m_gameDataLoader;
     GameDataRepository m_gameDataRepository;
-    CampaignManifest m_campaignManifest;
     WorldManifest m_activeWorldManifest;
     GameAudioSystem m_gameAudioSystem;
     GameSession m_gameSession;

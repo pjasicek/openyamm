@@ -29,6 +29,43 @@ bool luaExportTraceEnabled()
 
 constexpr char LuaScopeGlobal[] = "global";
 constexpr char LuaScopeMap[] = "map";
+constexpr size_t MaxReadableNormalEventLines = 4000;
+constexpr size_t PreferCompactNormalEventLines = 180;
+
+size_t countLuaLines(std::string_view luaText)
+{
+    size_t lineCount = 0;
+
+    for (char character : luaText)
+    {
+        if (character == '\n')
+        {
+            ++lineCount;
+        }
+    }
+
+    return lineCount;
+}
+
+bool readableNormalEventIsTooLarge(std::string_view luaText)
+{
+    return countLuaLines(luaText) > MaxReadableNormalEventLines;
+}
+
+void trimTrailingTopLevelReturn(std::ostringstream &stream)
+{
+    std::string text = stream.str();
+    constexpr std::string_view trailingReturn = "    return\n";
+
+    if (text.size() >= trailingReturn.size()
+        && text.compare(text.size() - trailingReturn.size(), trailingReturn.size(), trailingReturn) == 0)
+    {
+        text.resize(text.size() - trailingReturn.size());
+        stream.str(text);
+        stream.clear();
+        stream.seekp(0, std::ios_base::end);
+    }
+}
 
 enum class LegacyLuaOperation
 {
@@ -61,6 +98,7 @@ enum class LegacyLuaOperation
     RandomJump,
     SummonMonsters,
     SummonItem,
+    SummonObject,
     GiveItem,
     CastSpell,
     ShowFace,
@@ -94,6 +132,7 @@ enum class LegacyLuaOperation
     ToggleChestFlag,
     InputString,
     PressAnyKey,
+    AcknowledgeMessage,
     SpecialJump,
     IsTotalBountyHuntingAwardInRange,
     IsNpcInParty,
@@ -151,6 +190,28 @@ std::optional<TValue> readPayloadValue(const std::vector<uint8_t> &payload, size
 
     std::memcpy(&value, payload.data() + offset, sizeof(TValue));
     return value;
+}
+
+std::optional<std::string> readPayloadString(const std::vector<uint8_t> &payload, size_t offset)
+{
+    if (offset > payload.size())
+    {
+        return std::nullopt;
+    }
+
+    std::string value;
+
+    for (size_t index = offset; index < payload.size(); ++index)
+    {
+        if (payload[index] == 0)
+        {
+            return value;
+        }
+
+        value.push_back(static_cast<char>(payload[index]));
+    }
+
+    return std::nullopt;
 }
 
 std::string escapeLuaString(std::string_view text)
@@ -500,10 +561,32 @@ std::string formatFacetBit(uint32_t value)
     {
         case 0x00002000: return "FacetBits.Invisible";
         case 0x00000002: return "FacetBits.IsSecret";
+        case 0x00000010: return "FacetBits.Fluid";
         case 0x00040000: return "FacetBits.MoveByDoor";
         case 0x20000000: return "FacetBits.Untouchable";
         default: return std::to_string(value);
     }
+}
+
+std::string formatSignedInt32(uint32_t value)
+{
+    if (value <= static_cast<uint32_t>(std::numeric_limits<int32_t>::max()))
+    {
+        return std::to_string(value);
+    }
+
+    return std::to_string(static_cast<int64_t>(value) - (static_cast<int64_t>(UINT32_MAX) + 1));
+}
+
+std::string formatLegacyReferenceId(uint32_t value)
+{
+    if (value <= static_cast<uint32_t>(std::numeric_limits<int32_t>::max()))
+    {
+        return std::to_string(value);
+    }
+
+    const int64_t signedValue = static_cast<int64_t>(value) - (static_cast<int64_t>(UINT32_MAX) + 1);
+    return std::to_string(signedValue < 0 ? -signedValue : signedValue);
 }
 
 std::string formatMonsterBit(uint32_t value)
@@ -642,6 +725,158 @@ std::string formatRandomItemType(uint32_t value)
         case 43: return "ItemType.Scroll_";
         default: return std::to_string(value);
     }
+}
+
+uint32_t mapLegacyPlayerSelector(uint32_t value, LegacyEventVersion version)
+{
+    if (version != LegacyEventVersion::Mm8 && value == 4)
+    {
+        return static_cast<uint32_t>(EvtPartySelector::Current);
+    }
+
+    return value;
+}
+
+uint32_t mapLegacyDamageType(uint32_t value, LegacyEventVersion version)
+{
+    if (version != LegacyEventVersion::Mm6)
+    {
+        return value;
+    }
+
+    switch (value)
+    {
+        case 0: return 4;  // Physical
+        case 1: return 5;  // Magic
+        case 2: return 0;  // Fire
+        case 3: return 1;  // Electric -> Air
+        case 4: return 2;  // Cold -> Water
+        case 5: return 8;  // Poison -> Body
+        case 6: return 12; // Energy
+        default: return value;
+    }
+}
+
+uint32_t mapLegacySkillId(uint32_t value, LegacyEventVersion version)
+{
+    if (version == LegacyEventVersion::Mm8)
+    {
+        return value;
+    }
+
+    if (value <= 20)
+    {
+        return value;
+    }
+
+    switch (value)
+    {
+        case 21: return 24; // Identify Item
+        case 22: return 25; // Merchant
+        case 23: return 26; // Repair
+        case 24: return 27; // Bodybuilding
+        case 25: return 28; // Meditation
+        case 26: return 29; // Perception
+        case 29: return 31; // Disarm Trap
+        default: break;
+    }
+
+    if (version == LegacyEventVersion::Mm6)
+    {
+        switch (value)
+        {
+            case 30: return 38; // Learning
+            default: return value;
+        }
+    }
+
+    switch (value)
+    {
+        case 30: return 32; // Dodge
+        case 31: return 33; // Unarmed
+        case 32: return 34; // Identify Monster
+        case 33: return 35; // Armsmaster
+        case 34: return 36; // Stealing
+        case 35: return 37; // Alchemy
+        case 36: return 38; // Learning
+        default: return value;
+    }
+}
+
+uint32_t mapLegacySpellId(uint32_t value, LegacyEventVersion version)
+{
+    if (version == LegacyEventVersion::Mm8)
+    {
+        return value;
+    }
+
+    if (version == LegacyEventVersion::Mm7)
+    {
+        switch (value)
+        {
+            case 56: return 57; // Remove Fear
+            case 57: return 59; // Mind Blast
+            case 59: return 56; // Telepathy
+            case 96: return 96; // Sacrifice has no exact MM8 canonical equivalent yet.
+            default: return value;
+        }
+    }
+
+    switch (value)
+    {
+        case 2: return 2;   // Flame Arrow -> Fire Bolt
+        case 3: return 3;   // Protection From Fire -> Fire Resistance
+        case 4: return 2;   // Fire Bolt
+        case 7: return 7;   // Ring Of Fire -> Fire Spike
+        case 8: return 6;   // Fire Blast -> Fireball
+        case 13: return 15; // Static Charge -> Sparks
+        case 14: return 14; // Protection From Electricity -> Air Resistance
+        case 16: return 13; // Feather Fall
+        case 19: return 16; // Jump
+        case 24: return 26; // Cold Beam -> Ice Bolt
+        case 25: return 25; // Protection From Cold -> Water Resistance
+        case 26: return 24; // Poison Spray
+        case 28: return 26; // Ice Bolt
+        case 29: return 30; // Enchant Item
+        case 30: return 29; // Acid Burst
+        case 35: return 34; // Magic Arrow -> Stun
+        case 36: return 75; // Protection From Magic
+        case 42: return 81; // Turn To Stone -> Paralyze
+        case 45: return 52; // Spirit Arrow -> Spirit Lash
+        case 47: return 68; // Healing Touch -> Heal
+        case 48: return 47; // Lucky Day -> Fate
+        case 50: return 50; // Guardian Angel -> Preservation
+        case 52: return 48; // Turn Undead
+        case 57: return 57; // Remove Fear
+        case 58: return 59; // Mind Blast
+        case 60: return 61; // Cure Paralysis
+        case 61: return 60; // Charm
+        case 62: return 63; // Mass Fear
+        case 66: return 42; // Telekinesis
+        case 68: return 68; // First Aid -> Heal
+        case 69: return 69; // Protection From Poison -> Body Resistance
+        case 71: return 68; // Cure Wounds -> Heal
+        case 73: return 5;  // Speed -> Haste
+        case 75: return 51; // Power -> Heroism
+        case 81: return 35; // Slow
+        case 82: return 79; // Destroy Undead
+        case 85: return 86; // Hour Of Power
+        case 86: return 81; // Paralyze
+        case 87: return 87; // Sun Ray
+        case 91: return 63; // Mass Curse -> Mass Fear
+        case 92: return 93; // Shrapmetal
+        case 93: return 92; // Shrinking Ray
+        case 94: return 85; // Day Of Protection
+        case 95: return 96; // Finger Of Death -> Dark Grasp
+        case 96: return 84; // Moon Ray -> Prismatic Light
+        case 99: return 96; // Dark Containment -> Dark Grasp
+        default: return value;
+    }
+}
+
+uint32_t eventStepKey(uint32_t eventId, uint32_t step)
+{
+    return (eventId << 8) | step;
 }
 
 EvtVariable canonicalMm8Variable(uint32_t rawVariableId, uint32_t index)
@@ -1048,7 +1283,7 @@ void sortAndUnique(std::vector<TValue> &values)
     values.erase(std::unique(values.begin(), values.end()), values.end());
 }
 
-LegacyLuaOperation mapOperation(EvtOpcode opcode)
+LegacyLuaOperation mapOperation(EvtOpcode opcode, LegacyEventVersion version)
 {
     switch (opcode)
     {
@@ -1080,7 +1315,10 @@ LegacyLuaOperation mapOperation(EvtOpcode opcode)
         case EvtOpcode::OpenChest: return LegacyLuaOperation::OpenChest;
         case EvtOpcode::RandomGoTo: return LegacyLuaOperation::RandomJump;
         case EvtOpcode::SummonMonsters: return LegacyLuaOperation::SummonMonsters;
-        case EvtOpcode::SummonItem: return LegacyLuaOperation::SummonItem;
+        case EvtOpcode::SummonItem:
+            return version == LegacyEventVersion::Mm8
+                ? LegacyLuaOperation::SummonItem
+                : LegacyLuaOperation::SummonObject;
         case EvtOpcode::GiveItem: return LegacyLuaOperation::GiveItem;
         case EvtOpcode::CastSpell: return LegacyLuaOperation::CastSpell;
         case EvtOpcode::ShowFace: return LegacyLuaOperation::ShowFace;
@@ -1113,7 +1351,10 @@ LegacyLuaOperation mapOperation(EvtOpcode opcode)
         case EvtOpcode::CheckSeason: return LegacyLuaOperation::CheckSeason;
         case EvtOpcode::ToggleChestFlag: return LegacyLuaOperation::ToggleChestFlag;
         case EvtOpcode::InputString: return LegacyLuaOperation::InputString;
-        case EvtOpcode::PressAnyKey: return LegacyLuaOperation::PressAnyKey;
+        case EvtOpcode::PressAnyKey:
+            return version == LegacyEventVersion::Mm8
+                ? LegacyLuaOperation::PressAnyKey
+                : LegacyLuaOperation::AcknowledgeMessage;
         case EvtOpcode::SpecialJump: return LegacyLuaOperation::SpecialJump;
         case EvtOpcode::IsTotalBountyHuntingAwardInRange: return LegacyLuaOperation::IsTotalBountyHuntingAwardInRange;
         case EvtOpcode::IsNpcInParty: return LegacyLuaOperation::IsNpcInParty;
@@ -1159,6 +1400,149 @@ bool hasOnLeaveTrigger(const EvtEvent &event)
         {
             return instruction.opcode == EvtOpcode::OnMapLeave;
         });
+}
+
+bool isIgnoredSourceNormalOpcode(EvtOpcode opcode)
+{
+    switch (opcode)
+    {
+        case EvtOpcode::MouseOver:
+        case EvtOpcode::OnMapReload:
+        case EvtOpcode::OnMapLeave:
+        case EvtOpcode::OnTimer:
+        case EvtOpcode::OnLongTimer:
+        case EvtOpcode::OnDateTimer:
+        case EvtOpcode::OnCanShowDialogItemCmp:
+        case EvtOpcode::SetCanShowDialogItem:
+        case EvtOpcode::EndCanShowDialogItem:
+        case EvtOpcode::LocationName:
+        case EvtOpcode::EnableDateTimer:
+        case EvtOpcode::CanShowTopicIsActorKilled:
+        case EvtOpcode::Invalid:
+            return true;
+
+        default:
+            return false;
+    }
+}
+
+std::optional<uint8_t> firstSourceNormalStep(const EvtEvent &event)
+{
+    for (const EvtInstruction &instruction : event.instructions)
+    {
+        if (!isIgnoredSourceNormalOpcode(instruction.opcode))
+        {
+            return instruction.step;
+        }
+    }
+
+    return std::nullopt;
+}
+
+std::optional<uint8_t> triggerContinuationStep(const EvtEvent &event, EvtOpcode triggerOpcode)
+{
+    for (const EvtInstruction &instruction : event.instructions)
+    {
+        if (instruction.opcode == triggerOpcode)
+        {
+            return static_cast<uint8_t>(instruction.step + 1);
+        }
+    }
+
+    return std::nullopt;
+}
+
+bool triggerNeedsSyntheticEntry(const EvtEvent &event, EvtOpcode triggerOpcode)
+{
+    const std::optional<uint8_t> continuationStep = triggerContinuationStep(event, triggerOpcode);
+    const std::optional<uint8_t> firstNormalStep = firstSourceNormalStep(event);
+
+    return continuationStep && firstNormalStep && *continuationStep != *firstNormalStep;
+}
+
+struct SyntheticTriggerEvent
+{
+    uint16_t syntheticEventId = 0;
+    uint16_t sourceEventId = 0;
+    uint8_t continuationStep = 0;
+    EvtOpcode triggerOpcode = EvtOpcode::Invalid;
+};
+
+bool eventIdExists(const EvtProgram &evtProgram, uint16_t eventId)
+{
+    return std::any_of(
+        evtProgram.getEvents().begin(),
+        evtProgram.getEvents().end(),
+        [eventId](const EvtEvent &event)
+        {
+            return event.eventId == eventId;
+        });
+}
+
+std::vector<SyntheticTriggerEvent> collectSyntheticTriggerEvents(const EvtProgram &evtProgram)
+{
+    std::vector<SyntheticTriggerEvent> syntheticEvents;
+    uint16_t nextSyntheticEventId = 65535;
+
+    const auto reserveSyntheticEventId =
+        [&evtProgram, &syntheticEvents, &nextSyntheticEventId]() -> uint16_t
+        {
+            while (eventIdExists(evtProgram, nextSyntheticEventId)
+                || std::any_of(
+                    syntheticEvents.begin(),
+                    syntheticEvents.end(),
+                    [nextSyntheticEventId](const SyntheticTriggerEvent &event)
+                    {
+                        return event.syntheticEventId == nextSyntheticEventId;
+                    }))
+            {
+                --nextSyntheticEventId;
+            }
+
+            return nextSyntheticEventId--;
+        };
+
+    const auto addSyntheticTrigger =
+        [&syntheticEvents, &reserveSyntheticEventId](const EvtEvent &event, EvtOpcode triggerOpcode)
+        {
+            const std::optional<uint8_t> continuationStep = triggerContinuationStep(event, triggerOpcode);
+
+            if (!continuationStep || !triggerNeedsSyntheticEntry(event, triggerOpcode))
+            {
+                return;
+            }
+
+            SyntheticTriggerEvent syntheticEvent = {};
+            syntheticEvent.syntheticEventId = reserveSyntheticEventId();
+            syntheticEvent.sourceEventId = event.eventId;
+            syntheticEvent.continuationStep = *continuationStep;
+            syntheticEvent.triggerOpcode = triggerOpcode;
+            syntheticEvents.push_back(syntheticEvent);
+        };
+
+    for (const EvtEvent &event : evtProgram.getEvents())
+    {
+        addSyntheticTrigger(event, EvtOpcode::OnMapReload);
+        addSyntheticTrigger(event, EvtOpcode::OnMapLeave);
+    }
+
+    return syntheticEvents;
+}
+
+std::optional<uint16_t> findSyntheticTriggerEventId(
+    const std::vector<SyntheticTriggerEvent> &syntheticEvents,
+    uint16_t sourceEventId,
+    EvtOpcode triggerOpcode)
+{
+    for (const SyntheticTriggerEvent &event : syntheticEvents)
+    {
+        if (event.sourceEventId == sourceEventId && event.triggerOpcode == triggerOpcode)
+        {
+            return event.syntheticEventId;
+        }
+    }
+
+    return std::nullopt;
 }
 
 std::optional<std::string> resolveInstructionText(
@@ -1223,12 +1607,13 @@ LegacyLuaInstruction decodeInstruction(
     uint16_t eventId,
     const EvtInstruction &instruction,
     const StrTable &strTable,
-    const LegacyLuaExportLookups &lookups)
+    const LegacyLuaExportLookups &lookups,
+    LegacyEventVersion version)
 {
     LegacyLuaInstruction decoded = {};
     decoded.eventId = eventId;
     decoded.step = instruction.step;
-    decoded.operation = mapOperation(instruction.opcode);
+    decoded.operation = mapOperation(instruction.opcode, version);
     decoded.jumpTargetStep = instruction.targetStep;
 
     if (instruction.value1)
@@ -1278,7 +1663,7 @@ LegacyLuaInstruction decodeInstruction(
 
         for (uint8_t value : instruction.listValues)
         {
-            decoded.arguments.push_back(value);
+            decoded.arguments.push_back(mapLegacyPlayerSelector(value, version));
         }
     }
     else if (decoded.operation == LegacyLuaOperation::RandomJump)
@@ -1318,8 +1703,22 @@ LegacyLuaInstruction decodeInstruction(
                 *uniqueNameId
             };
         }
+        else if (version == LegacyEventVersion::Mm6 && typeIndex && level && count && x && y && z)
+        {
+            decoded.arguments = {
+                *typeIndex,
+                *level,
+                *count,
+                static_cast<uint32_t>(*x),
+                static_cast<uint32_t>(*y),
+                static_cast<uint32_t>(*z),
+                0,
+                0
+            };
+        }
     }
-    else if (decoded.operation == LegacyLuaOperation::SummonItem)
+    else if (decoded.operation == LegacyLuaOperation::SummonItem
+        || decoded.operation == LegacyLuaOperation::SummonObject)
     {
         const std::optional<uint32_t> objectId = readPayloadValue<uint32_t>(instruction.rawPayload, 0);
         const std::optional<int32_t> x = readPayloadValue<int32_t>(instruction.rawPayload, 4);
@@ -1331,8 +1730,21 @@ LegacyLuaInstruction decodeInstruction(
 
         if (objectId && x && y && z && speed && count && randomRotate)
         {
+            uint32_t objectType = *objectId;
+
+            if (decoded.operation == LegacyLuaOperation::SummonObject)
+            {
+                const auto overrideIterator =
+                    lookups.summonObjectTypesByEventStep.find(eventStepKey(eventId, instruction.step));
+
+                if (overrideIterator != lookups.summonObjectTypesByEventStep.end())
+                {
+                    objectType = overrideIterator->second;
+                }
+            }
+
             decoded.arguments = {
-                *objectId,
+                objectType,
                 static_cast<uint32_t>(*x),
                 static_cast<uint32_t>(*y),
                 static_cast<uint32_t>(*z),
@@ -1391,7 +1803,7 @@ LegacyLuaInstruction decodeInstruction(
         if (spellId && skillLevel && skillMasteryRaw && fromX && fromY && fromZ && toX && toY && toZ)
         {
             decoded.arguments = {
-                *spellId,
+                mapLegacySpellId(*spellId, version),
                 *skillLevel,
                 static_cast<uint32_t>(*skillMasteryRaw) + 1,
                 static_cast<uint32_t>(*fromX),
@@ -1411,8 +1823,23 @@ LegacyLuaInstruction decodeInstruction(
         const std::optional<int32_t> yaw = readPayloadValue<int32_t>(instruction.rawPayload, 12);
         const std::optional<int32_t> pitch = readPayloadValue<int32_t>(instruction.rawPayload, 16);
         const std::optional<int32_t> zSpeed = readPayloadValue<int32_t>(instruction.rawPayload, 20);
-        const std::optional<uint8_t> houseId = readPayloadValue<uint8_t>(instruction.rawPayload, 24);
-        const std::optional<uint8_t> exitPicId = readPayloadValue<uint8_t>(instruction.rawPayload, 25);
+        std::optional<uint32_t> houseId;
+
+        if (version == LegacyEventVersion::Mm8)
+        {
+            if (const std::optional<uint16_t> value = readPayloadValue<uint16_t>(instruction.rawPayload, 24))
+            {
+                houseId = *value;
+            }
+        }
+        else if (const std::optional<uint8_t> value = readPayloadValue<uint8_t>(instruction.rawPayload, 24))
+        {
+            houseId = *value;
+        }
+
+        const size_t iconOffset = version == LegacyEventVersion::Mm8 ? 26 : 25;
+        const size_t mapNameOffset = version == LegacyEventVersion::Mm8 ? 27 : 26;
+        const std::optional<uint8_t> exitPicId = readPayloadValue<uint8_t>(instruction.rawPayload, iconOffset);
 
         if (x && y && z && yaw && pitch && zSpeed && houseId && exitPicId)
         {
@@ -1427,6 +1854,31 @@ LegacyLuaInstruction decodeInstruction(
                 *exitPicId
             };
         }
+
+        decoded.text = readPayloadString(instruction.rawPayload, mapNameOffset);
+    }
+
+    if (decoded.operation == LegacyLuaOperation::ShowFace
+        || decoded.operation == LegacyLuaOperation::CharacterAnimation)
+    {
+        if (!decoded.arguments.empty())
+        {
+            decoded.arguments[0] = mapLegacyPlayerSelector(decoded.arguments[0], version);
+        }
+    }
+
+    if (decoded.operation == LegacyLuaOperation::ReceiveDamage)
+    {
+        if (decoded.arguments.size() >= 2)
+        {
+            decoded.arguments[0] = mapLegacyPlayerSelector(decoded.arguments[0], version);
+            decoded.arguments[1] = mapLegacyDamageType(decoded.arguments[1], version);
+        }
+    }
+
+    if (decoded.operation == LegacyLuaOperation::CheckSkill && !decoded.arguments.empty())
+    {
+        decoded.arguments[0] = mapLegacySkillId(decoded.arguments[0], version);
     }
 
     return decoded;
@@ -1435,7 +1887,8 @@ LegacyLuaInstruction decodeInstruction(
 std::vector<LegacyLuaEvent> decodeEvents(
     const EvtProgram &evtProgram,
     const StrTable &strTable,
-    const LegacyLuaExportLookups &lookups)
+    const LegacyLuaExportLookups &lookups,
+    LegacyEventVersion version)
 {
     std::vector<LegacyLuaEvent> decodedEvents;
     decodedEvents.reserve(evtProgram.getEvents().size());
@@ -1449,7 +1902,7 @@ std::vector<LegacyLuaEvent> decodeEvents(
         for (const EvtInstruction &instruction : event.instructions)
         {
             decodedEvent.instructions.push_back(
-                decodeInstruction(event.eventId, instruction, strTable, lookups));
+                decodeInstruction(event.eventId, instruction, strTable, lookups, version));
         }
 
         decodedEvents.push_back(std::move(decodedEvent));
@@ -1589,7 +2042,10 @@ void collectSetSpriteNames(const EvtProgram &evtProgram, std::vector<std::string
     sortAndUnique(spriteNames);
 }
 
-void collectCastSpellIds(const EvtProgram &evtProgram, std::vector<uint32_t> &spellIds)
+void collectCastSpellIds(
+    const EvtProgram &evtProgram,
+    std::vector<uint32_t> &spellIds,
+    LegacyEventVersion version)
 {
     for (const EvtEvent &event : evtProgram.getEvents())
     {
@@ -1604,7 +2060,7 @@ void collectCastSpellIds(const EvtProgram &evtProgram, std::vector<uint32_t> &sp
 
             if (spellId)
             {
-                spellIds.push_back(*spellId);
+                spellIds.push_back(mapLegacySpellId(*spellId, version));
             }
         }
     }
@@ -1687,6 +2143,7 @@ bool isIgnoredNormalOperation(LegacyLuaOperation operation)
         case LegacyLuaOperation::SetCanShowTopic:
         case LegacyLuaOperation::EndCanShowTopic:
         case LegacyLuaOperation::LocationName:
+        case LegacyLuaOperation::AcknowledgeMessage:
         case LegacyLuaOperation::Unknown:
         case LegacyLuaOperation::IsActorKilledCanShowTopic:
             return true;
@@ -1790,6 +2247,11 @@ void emitIndentedLineWithComment(
 
 std::optional<std::string> resolveSummonItemComment(uint32_t payload, const LegacyLuaExportLookups &lookups)
 {
+    if (payload == 0)
+    {
+        return std::nullopt;
+    }
+
     std::optional<std::string> comment = lookupText(lookups.objectPayloadNames, payload);
 
     if (!comment)
@@ -2855,11 +3317,15 @@ bool emitReadableActionInstruction(
         }
 
         case LegacyLuaOperation::SummonItem:
+        case LegacyLuaOperation::SummonObject:
             if (instruction.arguments.size() >= 7)
             {
+                const std::string functionName = instruction.operation == LegacyLuaOperation::SummonItem
+                    ? "evt.SummonItem("
+                    : "evt.SummonObject(";
                 emitIndentedLineWithComment(
                     stream,
-                    "evt.SummonItem(" + std::to_string(instruction.arguments[0]) + ", "
+                    functionName + std::to_string(instruction.arguments[0]) + ", "
                     + std::to_string(static_cast<int32_t>(instruction.arguments[1])) + ", "
                     + std::to_string(static_cast<int32_t>(instruction.arguments[2])) + ", "
                     + std::to_string(static_cast<int32_t>(instruction.arguments[3])) + ", "
@@ -2946,7 +3412,7 @@ bool emitReadableActionInstruction(
             if (!instruction.arguments.empty())
             {
                 std::ostringstream line;
-                line << "evt.SetSprite(" << instruction.arguments[0];
+                line << "evt.SetSprite(" << formatLegacyReferenceId(instruction.arguments[0]);
 
                 if (instruction.arguments.size() >= 2)
                 {
@@ -3000,7 +3466,7 @@ bool emitReadableActionInstruction(
             if (!instruction.arguments.empty())
             {
                 std::ostringstream line;
-                line << "evt.SetTexture(" << instruction.arguments[0];
+                line << "evt.SetTexture(" << formatLegacyReferenceId(instruction.arguments[0]);
 
                 if (instruction.text && !instruction.text->empty())
                 {
@@ -3019,7 +3485,7 @@ bool emitReadableActionInstruction(
             {
                 emitIndentedLineWithComment(
                     stream,
-                    "evt.SetLight(" + std::to_string(instruction.arguments[0]) + ", "
+                    "evt.SetLight(" + formatLegacyReferenceId(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ")",
                     std::nullopt,
                     indentLevel);
@@ -3033,7 +3499,7 @@ bool emitReadableActionInstruction(
             {
                 emitIndentedLineWithComment(
                     stream,
-                    "evt.SetFacetBit(" + std::to_string(instruction.arguments[0]) + ", "
+                    "evt.SetFacetBit(" + formatLegacyReferenceId(instruction.arguments[0]) + ", "
                     + formatFacetBit(instruction.arguments[1]) + ", "
                     + std::to_string(instruction.arguments[2]) + ")",
                     std::nullopt,
@@ -3183,12 +3649,41 @@ bool emitReadableActionInstruction(
 
             return false;
 
+        case LegacyLuaOperation::ShowFace:
+            if (instruction.arguments.size() >= 2)
+            {
+                emitIndentedLineWithComment(
+                    stream,
+                    "evt.FaceExpression(" + std::to_string(instruction.arguments[1]) + ")",
+                    std::nullopt,
+                    indentLevel);
+                return true;
+            }
+
+            return false;
+
+        case LegacyLuaOperation::ReceiveDamage:
+            if (instruction.arguments.size() >= 3)
+            {
+                emitIndentedLineWithComment(
+                    stream,
+                    "evt.DamagePlayer(" + std::to_string(instruction.arguments[0]) + ", "
+                    + std::to_string(instruction.arguments[1]) + ", "
+                    + std::to_string(instruction.arguments[2]) + ")",
+                    std::nullopt,
+                    indentLevel);
+                return true;
+            }
+
+            return false;
+
         case LegacyLuaOperation::Exit:
         case LegacyLuaOperation::Jump:
         case LegacyLuaOperation::Compare:
         case LegacyLuaOperation::RandomJump:
         case LegacyLuaOperation::InputString:
         case LegacyLuaOperation::PressAnyKey:
+        case LegacyLuaOperation::AcknowledgeMessage:
             return false;
 
         case LegacyLuaOperation::SpecialJump:
@@ -3506,6 +4001,75 @@ std::string joinLines(
     return result;
 }
 
+std::string_view trimLuaLine(std::string_view line)
+{
+    while (!line.empty() && std::isspace(static_cast<unsigned char>(line.front())))
+    {
+        line.remove_prefix(1);
+    }
+
+    while (!line.empty() && std::isspace(static_cast<unsigned char>(line.back())))
+    {
+        line.remove_suffix(1);
+    }
+
+    return line;
+}
+
+int readableLuaBlockDelta(std::string_view line)
+{
+    const std::string_view trimmed = trimLuaLine(line);
+
+    if (trimmed.empty() || trimmed.starts_with("--"))
+    {
+        return 0;
+    }
+
+    if (trimmed == "else" || trimmed.starts_with("elseif "))
+    {
+        return 0;
+    }
+
+    if (trimmed == "end")
+    {
+        return -1;
+    }
+
+    if (trimmed.starts_with("if ")
+        || trimmed.starts_with("for ")
+        || trimmed.starts_with("while ")
+        || trimmed.starts_with("function ")
+        || trimmed.starts_with("local function ")
+        || trimmed == "repeat")
+    {
+        return 1;
+    }
+
+    if (trimmed.starts_with("until "))
+    {
+        return -1;
+    }
+
+    return 0;
+}
+
+bool isBalancedReadableLuaBlock(std::string_view luaText)
+{
+    int blockDepth = 0;
+
+    for (const std::string &line : splitPreservingLines(std::string(luaText)))
+    {
+        blockDepth += readableLuaBlockDelta(line);
+
+        if (blockDepth < 0)
+        {
+            return false;
+        }
+    }
+
+    return blockDepth == 0;
+}
+
 std::string normalizeIndentation(const std::string &text, int expectedIndentLevel)
 {
     const std::vector<std::string> lines = splitPreservingLines(text);
@@ -3583,7 +4147,11 @@ bool extractCommonSuffix(
     truePrefix = joinLines(trueLines, 0, trueLines.size() - suffixLength);
     falsePrefix = joinLines(falseLines, 0, falseLines.size() - suffixLength);
     commonSuffix = joinLines(trueLines, trueLines.size() - suffixLength, trueLines.size());
-    return !truePrefix.empty() && !falsePrefix.empty() && !commonSuffix.empty();
+    return !truePrefix.empty()
+        && !falsePrefix.empty()
+        && !commonSuffix.empty()
+        && isBalancedReadableLuaBlock(truePrefix)
+        && isBalancedReadableLuaBlock(falsePrefix);
 }
 
 bool tryEmitBranchToJoin(
@@ -3650,6 +4218,15 @@ bool tryEmitReadableCompareLadder(
     std::vector<uint8_t> &visited);
 
 bool tryEmitReadableGuardChainIfElse(
+    std::ostringstream &stream,
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    std::optional<uint8_t> &currentStep,
+    const LegacyLuaExportLookups &lookups,
+    int indentLevel,
+    std::vector<uint8_t> &visited);
+
+bool tryEmitReadableOptionalPrelude(
     std::ostringstream &stream,
     const LegacyLuaEvent &event,
     const std::vector<uint8_t> &steps,
@@ -5036,6 +5613,11 @@ bool emitReadableBlock(
             || instruction.operation == LegacyLuaOperation::IsTotalBountyHuntingAwardInRange
             || instruction.operation == LegacyLuaOperation::IsNpcInParty)
         {
+            if (tryEmitReadableOptionalPrelude(stream, event, steps, currentStep, lookups, indentLevel, visited))
+            {
+                continue;
+            }
+
             if (tryEmitReadableCompareLadder(stream, event, steps, currentStep, lookups, indentLevel, visited))
             {
                 continue;
@@ -5567,8 +6149,12 @@ bool emitReadableBlock(
                     break;
                 }
 
-                branchCases << std::string(emittedAnyBranch ? "elseif" : "if") << " randomStep == "
-                            << std::to_string(branchStep) << " then\n";
+                emitIndentedLineWithComment(
+                    branchCases,
+                    std::string(emittedAnyBranch ? "elseif" : "if") + " randomStep == "
+                        + std::to_string(branchStep) + " then",
+                    std::nullopt,
+                    indentLevel);
                 branchCases << branchStream.str();
                 emittedAnyBranch = true;
 
@@ -5865,6 +6451,198 @@ bool tryEmitReadableCompareLadder(
     }
 
     currentStep = std::nullopt;
+    return true;
+}
+
+bool tryEmitReadableOptionalPrelude(
+    std::ostringstream &stream,
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    std::optional<uint8_t> &currentStep,
+    const LegacyLuaExportLookups &lookups,
+    int indentLevel,
+    std::vector<uint8_t> &visited)
+{
+    if (!currentStep)
+    {
+        return false;
+    }
+
+    std::vector<std::string> conditions;
+    std::vector<std::optional<std::string>> comments;
+    std::vector<uint8_t> chainSteps;
+    std::optional<uint8_t> preludeStep;
+    std::optional<uint8_t> defaultStep;
+    std::optional<uint8_t> step = currentStep;
+
+    while (step)
+    {
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, *step, stepInfo)
+            || !stepInfo.actions.empty()
+            || !stepInfo.terminalInstruction)
+        {
+            return false;
+        }
+
+        const LegacyLuaInstruction *instruction = stepInfo.terminalInstruction;
+
+        if (!isReadableCompareOperation(instruction->operation) || !instruction->jumpTargetStep)
+        {
+            return false;
+        }
+
+        std::string condition;
+        std::optional<std::string> conditionComment;
+
+        if (!formatReadableConditionInstruction(*instruction, lookups, condition, conditionComment))
+        {
+            return false;
+        }
+
+        const std::optional<uint8_t> falseRawStep = nextStepAfter(steps, *step);
+        std::optional<uint8_t> trueStep;
+        std::optional<uint8_t> falseStep;
+
+        if (!resolveSignificantStep(event, steps, instruction->jumpTargetStep, trueStep)
+            || !resolveSignificantStep(event, steps, falseRawStep, falseStep)
+            || !trueStep)
+        {
+            return false;
+        }
+
+        if (!preludeStep)
+        {
+            preludeStep = trueStep;
+        }
+        else if (*preludeStep != *trueStep)
+        {
+            return false;
+        }
+
+        conditions.push_back(condition);
+        comments.push_back(conditionComment);
+        chainSteps.push_back(*step);
+
+        NormalStepInfo falseStepInfo;
+
+        if (falseStep
+            && falseRawStep
+            && *falseStep == *falseRawStep
+            && decomposeNormalStep(event, *falseStep, falseStepInfo)
+            && falseStepInfo.actions.empty()
+            && falseStepInfo.terminalInstruction
+            && isReadableCompareOperation(falseStepInfo.terminalInstruction->operation))
+        {
+            step = falseStep;
+            continue;
+        }
+
+        defaultStep = falseStep;
+        break;
+    }
+
+    if (!preludeStep || !defaultStep || *preludeStep == *defaultStep)
+    {
+        return false;
+    }
+
+    SimpleBranchArm preludeArm;
+    SimpleBranchArm defaultArm;
+
+    if (!summarizeSimpleBranchArm(event, steps, preludeStep, lookups, preludeArm)
+        || !summarizeSimpleBranchArm(event, steps, defaultStep, lookups, defaultArm)
+        || !defaultArm.actions.empty())
+    {
+        return false;
+    }
+
+    const bool bothContinue = preludeArm.continuation
+        && defaultArm.continuation
+        && *preludeArm.continuation == *defaultArm.continuation;
+    const bool bothReturn = preludeArm.returns && defaultArm.returns;
+
+    if (!bothContinue && !bothReturn)
+    {
+        return false;
+    }
+
+    std::string combinedCondition;
+
+    for (size_t conditionIndex = 0; conditionIndex < conditions.size(); ++conditionIndex)
+    {
+        if (conditionIndex > 0)
+        {
+            combinedCondition += " or ";
+        }
+
+        combinedCondition += conditions[conditionIndex];
+    }
+
+    emitIndentedLineWithComment(stream, "if " + combinedCondition + " then", comments.front(), indentLevel);
+
+    for (const LegacyLuaInstruction *action : preludeArm.actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, indentLevel + 1))
+        {
+            return false;
+        }
+    }
+
+    emitIndentedLineWithComment(stream, "end", std::nullopt, indentLevel);
+
+    for (uint8_t chainStep : chainSteps)
+    {
+        if (std::find(visited.begin(), visited.end(), chainStep) == visited.end())
+        {
+            visited.push_back(chainStep);
+        }
+    }
+
+    std::optional<uint8_t> visitedPreludeStep = preludeStep;
+
+    while (visitedPreludeStep)
+    {
+        if (std::find(visited.begin(), visited.end(), *visitedPreludeStep) == visited.end())
+        {
+            visited.push_back(*visitedPreludeStep);
+        }
+
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, *visitedPreludeStep, stepInfo))
+        {
+            return false;
+        }
+
+        if (stepInfo.terminalInstruction && stepInfo.terminalInstruction->operation == LegacyLuaOperation::Jump)
+        {
+            visitedPreludeStep = stepInfo.terminalInstruction->jumpTargetStep;
+        }
+        else
+        {
+            visitedPreludeStep = nextStepAfter(steps, *visitedPreludeStep);
+        }
+
+        std::optional<uint8_t> significantStep;
+
+        if (!resolveSignificantStep(event, steps, visitedPreludeStep, significantStep))
+        {
+            return false;
+        }
+
+        if (!significantStep
+            || (bothContinue && preludeArm.continuation && *significantStep == *preludeArm.continuation)
+            || (bothReturn && defaultStep && *significantStep == *defaultStep))
+        {
+            break;
+        }
+
+        visitedPreludeStep = significantStep;
+    }
+
+    currentStep = bothContinue ? preludeArm.continuation : defaultStep;
     return true;
 }
 
@@ -6433,6 +7211,8 @@ bool tryEmitReadableLinearEventFunction(
         return false;
     }
 
+    trimTrailingTopLevelReturn(stream);
+
     if (hint && !hint->empty())
     {
         stream << "end, " << luaQuoted(*hint) << ")\n";
@@ -6827,11 +7607,15 @@ void emitNormalInstruction(
             break;
 
         case LegacyLuaOperation::SummonItem:
+        case LegacyLuaOperation::SummonObject:
             if (instruction.arguments.size() >= 7)
             {
+                const std::string functionName = instruction.operation == LegacyLuaOperation::SummonItem
+                    ? "evt.SummonItem("
+                    : "evt.SummonObject(";
                 emitIndentedLineWithComment(
                     stream,
-                    "evt.SummonItem(" + std::to_string(instruction.arguments[0]) + ", "
+                    functionName + std::to_string(instruction.arguments[0]) + ", "
                     + std::to_string(static_cast<int32_t>(instruction.arguments[1])) + ", "
                     + std::to_string(static_cast<int32_t>(instruction.arguments[2])) + ", "
                     + std::to_string(static_cast<int32_t>(instruction.arguments[3])) + ", "
@@ -6930,7 +7714,7 @@ void emitNormalInstruction(
             if (!instruction.arguments.empty())
             {
                 std::ostringstream line;
-                line << "evt.SetSprite(" << instruction.arguments[0];
+                line << "evt.SetSprite(" << formatLegacyReferenceId(instruction.arguments[0]);
 
                 if (instruction.arguments.size() >= 2)
                 {
@@ -6974,7 +7758,7 @@ void emitNormalInstruction(
             if (!instruction.arguments.empty())
             {
                 std::ostringstream line;
-                line << "evt.SetTexture(" << instruction.arguments[0];
+                line << "evt.SetTexture(" << formatLegacyReferenceId(instruction.arguments[0]);
 
                 if (instruction.text && !instruction.text->empty())
                 {
@@ -6991,7 +7775,7 @@ void emitNormalInstruction(
             {
                 emitIndentedLineWithComment(
                     stream,
-                    "evt.SetLight(" + std::to_string(instruction.arguments[0]) + ", "
+                    "evt.SetLight(" + formatLegacyReferenceId(instruction.arguments[0]) + ", "
                     + std::to_string(instruction.arguments[1]) + ")",
                     std::nullopt,
                     2);
@@ -7003,7 +7787,7 @@ void emitNormalInstruction(
             {
                 emitIndentedLineWithComment(
                     stream,
-                    "evt.SetFacetBit(" + std::to_string(instruction.arguments[0]) + ", "
+                    "evt.SetFacetBit(" + formatLegacyReferenceId(instruction.arguments[0]) + ", "
                     + formatFacetBit(instruction.arguments[1]) + ", "
                     + std::to_string(instruction.arguments[2]) + ")",
                     std::nullopt,
@@ -7303,6 +8087,7 @@ void emitNormalInstruction(
         case LegacyLuaOperation::SetCanShowTopic:
         case LegacyLuaOperation::EndCanShowTopic:
         case LegacyLuaOperation::LocationName:
+        case LegacyLuaOperation::AcknowledgeMessage:
         case LegacyLuaOperation::Unknown:
         case LegacyLuaOperation::IsActorKilledCanShowTopic:
         case LegacyLuaOperation::TriggerMouseOver:
@@ -7364,6 +8149,1859 @@ void emitHintOnlyEventRegistration(
     stream << ")\n";
 }
 
+struct NormalEventCfgMetrics
+{
+    size_t stepCount = 0;
+    size_t branchCount = 0;
+    size_t joinCount = 0;
+    size_t maxPredecessorCount = 0;
+    size_t meaningfulInstructionCount = 0;
+    bool decomposes = true;
+    bool hasBackwardEdge = false;
+    bool usesPromptContinuation = false;
+};
+
+NormalEventCfgMetrics collectNormalEventCfgMetrics(
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps)
+{
+    NormalEventCfgMetrics metrics;
+    metrics.stepCount = steps.size();
+    metrics.usesPromptContinuation = !collectPromptContinuations(event).empty();
+    std::map<uint8_t, size_t> predecessorCounts;
+
+    for (uint8_t step : steps)
+    {
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, step, stepInfo))
+        {
+            metrics.decomposes = false;
+            return metrics;
+        }
+
+        metrics.meaningfulInstructionCount += stepInfo.actions.size();
+
+        if (stepInfo.terminalInstruction)
+        {
+            ++metrics.meaningfulInstructionCount;
+        }
+
+        const std::optional<size_t> stepIndex = findStepIndex(steps, step);
+        const std::vector<uint8_t> successors = collectSuccessorSteps(event, steps, step);
+
+        if (successors.size() > 1)
+        {
+            ++metrics.branchCount;
+        }
+
+        for (uint8_t successor : successors)
+        {
+            ++predecessorCounts[successor];
+
+            const std::optional<size_t> successorIndex = findStepIndex(steps, successor);
+
+            if (stepIndex && successorIndex && *successorIndex <= *stepIndex)
+            {
+                metrics.hasBackwardEdge = true;
+            }
+        }
+    }
+
+    for (const std::pair<const uint8_t, size_t> &entry : predecessorCounts)
+    {
+        metrics.maxPredecessorCount = std::max(metrics.maxPredecessorCount, entry.second);
+
+        if (entry.second > 1)
+        {
+            ++metrics.joinCount;
+        }
+    }
+
+    return metrics;
+}
+
+bool shouldPreferCompactNormalEvent(
+    std::string_view readableLua,
+    const NormalEventCfgMetrics &metrics)
+{
+    if (!metrics.decomposes || metrics.usesPromptContinuation)
+    {
+        return false;
+    }
+
+    const size_t lineCount = countLuaLines(readableLua);
+
+    if (lineCount > MaxReadableNormalEventLines)
+    {
+        return true;
+    }
+
+    if (metrics.joinCount == 0 && !metrics.hasBackwardEdge)
+    {
+        return false;
+    }
+
+    const size_t expectedLinearLines = metrics.meaningfulInstructionCount + metrics.stepCount + 20;
+
+    return lineCount > PreferCompactNormalEventLines
+        && lineCount > expectedLinearLines * 2;
+}
+
+std::string compactStepLabel(uint8_t step)
+{
+    return "step_" + std::to_string(static_cast<unsigned>(step));
+}
+
+bool normalStepExists(const std::vector<uint8_t> &steps, uint8_t step)
+{
+    return findStepIndex(steps, step).has_value();
+}
+
+void addCompactLabelTarget(std::vector<uint8_t> &labelTargets, const std::vector<uint8_t> &steps, uint8_t targetStep)
+{
+    if (!normalStepExists(steps, targetStep))
+    {
+        return;
+    }
+
+    if (std::find(labelTargets.begin(), labelTargets.end(), targetStep) == labelTargets.end())
+    {
+        labelTargets.push_back(targetStep);
+    }
+}
+
+std::vector<uint8_t> collectCompactLabelTargets(
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps)
+{
+    std::vector<uint8_t> labelTargets;
+
+    for (uint8_t step : steps)
+    {
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, step, stepInfo) || !stepInfo.terminalInstruction)
+        {
+            continue;
+        }
+
+        const LegacyLuaInstruction &instruction = *stepInfo.terminalInstruction;
+        const std::optional<uint8_t> nextStep = nextStepAfter(steps, step);
+
+        switch (instruction.operation)
+        {
+            case LegacyLuaOperation::Jump:
+                if (instruction.jumpTargetStep && instruction.jumpTargetStep != nextStep)
+                {
+                    addCompactLabelTarget(labelTargets, steps, *instruction.jumpTargetStep);
+                }
+                break;
+
+            case LegacyLuaOperation::Compare:
+            case LegacyLuaOperation::CheckItemsCount:
+            case LegacyLuaOperation::CheckSkill:
+            case LegacyLuaOperation::IsActorKilled:
+            case LegacyLuaOperation::CheckSeason:
+            case LegacyLuaOperation::IsTotalBountyHuntingAwardInRange:
+            case LegacyLuaOperation::IsNpcInParty:
+                if (instruction.jumpTargetStep && instruction.jumpTargetStep != nextStep)
+                {
+                    addCompactLabelTarget(labelTargets, steps, *instruction.jumpTargetStep);
+                }
+                break;
+
+            case LegacyLuaOperation::RandomJump:
+                for (uint32_t argument : instruction.arguments)
+                {
+                    addCompactLabelTarget(labelTargets, steps, static_cast<uint8_t>(argument));
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    return labelTargets;
+}
+
+std::map<uint8_t, size_t> collectNormalPredecessorCounts(
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps)
+{
+    std::map<uint8_t, size_t> predecessorCounts;
+
+    for (uint8_t step : steps)
+    {
+        for (uint8_t successor : collectSuccessorSteps(event, steps, step))
+        {
+            ++predecessorCounts[successor];
+        }
+    }
+
+    return predecessorCounts;
+}
+
+std::map<uint8_t, std::vector<uint8_t>> collectNormalPredecessorSteps(
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps)
+{
+    std::map<uint8_t, std::vector<uint8_t>> predecessors;
+
+    for (uint8_t step : steps)
+    {
+        for (uint8_t successor : collectSuccessorSteps(event, steps, step))
+        {
+            std::vector<uint8_t> &successorPredecessors = predecessors[successor];
+
+            if (std::find(successorPredecessors.begin(), successorPredecessors.end(), step) == successorPredecessors.end())
+            {
+                successorPredecessors.push_back(step);
+            }
+        }
+    }
+
+    return predecessors;
+}
+
+size_t lookupPredecessorCount(const std::map<uint8_t, size_t> &predecessorCounts, uint8_t step)
+{
+    const auto iterator = predecessorCounts.find(step);
+    return iterator != predecessorCounts.end() ? iterator->second : 0;
+}
+
+bool compactLabelHasUnskippedPredecessor(
+    const std::map<uint8_t, std::vector<uint8_t>> &predecessors,
+    const std::vector<uint8_t> &skippedSteps,
+    uint8_t step)
+{
+    const auto iterator = predecessors.find(step);
+
+    if (iterator == predecessors.end())
+    {
+        return false;
+    }
+
+    for (uint8_t predecessor : iterator->second)
+    {
+        if (std::find(skippedSteps.begin(), skippedSteps.end(), predecessor) == skippedSteps.end())
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool collectCompactSimpleArmPath(
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    std::optional<uint8_t> startStep,
+    std::optional<uint8_t> stopStep,
+    std::vector<uint8_t> &path)
+{
+    std::optional<uint8_t> step = startStep;
+
+    while (step)
+    {
+        if (stopStep && *step == *stopStep)
+        {
+            return true;
+        }
+
+        if (std::find(path.begin(), path.end(), *step) != path.end())
+        {
+            return false;
+        }
+
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, *step, stepInfo))
+        {
+            return false;
+        }
+
+        path.push_back(*step);
+
+        if (stepInfo.terminalInstruction)
+        {
+            const LegacyLuaInstruction &instruction = *stepInfo.terminalInstruction;
+
+            if (instruction.operation == LegacyLuaOperation::Exit)
+            {
+                return true;
+            }
+
+            if (instruction.operation == LegacyLuaOperation::Jump)
+            {
+                step = instruction.jumpTargetStep;
+                continue;
+            }
+
+            return false;
+        }
+
+        step = nextStepAfter(steps, *step);
+    }
+
+    return true;
+}
+
+bool compactPathHasExternalPredecessor(
+    const std::vector<uint8_t> &path,
+    const std::map<uint8_t, size_t> &predecessorCounts,
+    size_t allowedStartPredecessors)
+{
+    for (size_t pathIndex = 0; pathIndex < path.size(); ++pathIndex)
+    {
+        const size_t allowedPredecessors = pathIndex == 0 ? allowedStartPredecessors : 1;
+
+        if (lookupPredecessorCount(predecessorCounts, path[pathIndex]) > allowedPredecessors)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+struct CompactActionIsland
+{
+    std::vector<const LegacyLuaInstruction *> actions;
+    std::vector<uint8_t> consumedSteps;
+    std::optional<uint8_t> continuation;
+    bool returns = false;
+};
+
+bool collectCompactActionIsland(
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    std::optional<uint8_t> startStep,
+    CompactActionIsland &island)
+{
+    std::optional<uint8_t> step = startStep;
+
+    while (step)
+    {
+        if (std::find(island.consumedSteps.begin(), island.consumedSteps.end(), *step) != island.consumedSteps.end())
+        {
+            return false;
+        }
+
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, *step, stepInfo))
+        {
+            return false;
+        }
+
+        if (stepInfo.actions.empty() && stepInfo.terminalInstruction && isReadableCompareOperation(stepInfo.terminalInstruction->operation))
+        {
+            island.continuation = *step;
+            return true;
+        }
+
+        island.consumedSteps.push_back(*step);
+
+        for (const LegacyLuaInstruction *action : stepInfo.actions)
+        {
+            island.actions.push_back(action);
+        }
+
+        if (!stepInfo.terminalInstruction)
+        {
+            step = nextStepAfter(steps, *step);
+            continue;
+        }
+
+        const LegacyLuaInstruction &instruction = *stepInfo.terminalInstruction;
+
+        if (instruction.operation == LegacyLuaOperation::Exit)
+        {
+            island.returns = true;
+            return true;
+        }
+
+        if (instruction.operation == LegacyLuaOperation::Jump)
+        {
+            step = instruction.jumpTargetStep;
+            continue;
+        }
+
+        if (isReadableCompareOperation(instruction.operation))
+        {
+            island.continuation = *step;
+            return island.actions.empty();
+        }
+
+        return false;
+    }
+
+    island.returns = true;
+    return true;
+}
+
+bool compactPathWithoutActionsReaches(
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    std::optional<uint8_t> startStep,
+    std::optional<uint8_t> targetStep,
+    bool targetReturns,
+    std::vector<uint8_t> &consumedSteps)
+{
+    std::optional<uint8_t> step = startStep;
+
+    while (step)
+    {
+        if (!targetReturns && targetStep && *step == *targetStep)
+        {
+            return true;
+        }
+
+        if (std::find(consumedSteps.begin(), consumedSteps.end(), *step) != consumedSteps.end())
+        {
+            return false;
+        }
+
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, *step, stepInfo) || !stepInfo.actions.empty())
+        {
+            return false;
+        }
+
+        consumedSteps.push_back(*step);
+
+        if (!stepInfo.terminalInstruction)
+        {
+            step = nextStepAfter(steps, *step);
+            continue;
+        }
+
+        const LegacyLuaInstruction &instruction = *stepInfo.terminalInstruction;
+
+        if (instruction.operation == LegacyLuaOperation::Exit)
+        {
+            return targetReturns;
+        }
+
+        if (instruction.operation == LegacyLuaOperation::Jump)
+        {
+            step = instruction.jumpTargetStep;
+            continue;
+        }
+
+        if (isReadableCompareOperation(instruction.operation))
+        {
+            return !targetReturns && targetStep && *step == *targetStep;
+        }
+
+        return false;
+    }
+
+    return targetReturns;
+}
+
+bool isAlwaysTrueCompactCondition(const LegacyLuaInstruction &instruction)
+{
+    if (instruction.operation != LegacyLuaOperation::Compare || instruction.arguments.size() < 2)
+    {
+        return false;
+    }
+
+    const FormattedSelector selector = formatSelector(instruction.arguments[0]);
+    return selector.semantic == SelectorSemantic::MapVar && instruction.arguments[1] == 0;
+}
+
+bool collectCompactLinearActionsUntil(
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    std::optional<uint8_t> startStep,
+    uint8_t stopStep,
+    std::vector<const LegacyLuaInstruction *> &actions,
+    std::vector<uint8_t> &consumedSteps)
+{
+    std::optional<uint8_t> step = startStep;
+
+    while (step)
+    {
+        if (*step == stopStep)
+        {
+            return true;
+        }
+
+        if (std::find(consumedSteps.begin(), consumedSteps.end(), *step) != consumedSteps.end())
+        {
+            return false;
+        }
+
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, *step, stepInfo))
+        {
+            return false;
+        }
+
+        consumedSteps.push_back(*step);
+
+        for (const LegacyLuaInstruction *action : stepInfo.actions)
+        {
+            actions.push_back(action);
+        }
+
+        if (!stepInfo.terminalInstruction)
+        {
+            step = nextStepAfter(steps, *step);
+            continue;
+        }
+
+        const LegacyLuaInstruction &instruction = *stepInfo.terminalInstruction;
+
+        if (instruction.operation == LegacyLuaOperation::Jump)
+        {
+            step = instruction.jumpTargetStep;
+            continue;
+        }
+
+        return false;
+    }
+
+    return false;
+}
+
+bool tryEmitCompactConditionReturnBlock(
+    std::ostringstream &stream,
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    uint8_t startStep,
+    const LegacyLuaExportLookups &lookups,
+    const std::map<uint8_t, size_t> &predecessorCounts,
+    std::vector<uint8_t> &skippedSteps)
+{
+    NormalStepInfo stepInfo;
+
+    if (!decomposeNormalStep(event, startStep, stepInfo)
+        || !stepInfo.terminalInstruction
+        || !isReadableCompareOperation(stepInfo.terminalInstruction->operation)
+        || !stepInfo.terminalInstruction->jumpTargetStep)
+    {
+        return false;
+    }
+
+    const LegacyLuaInstruction &instruction = *stepInfo.terminalInstruction;
+    const std::optional<uint8_t> falseRawStep = nextStepAfter(steps, startStep);
+    CompactActionIsland trueIsland;
+
+    if (collectCompactActionIsland(event, steps, instruction.jumpTargetStep, trueIsland)
+        && trueIsland.returns
+        && compactPathHasExternalPredecessor(
+            trueIsland.consumedSteps,
+            predecessorCounts,
+            trueIsland.actions.empty() ? 2 : 1))
+    {
+        return false;
+    }
+
+    std::string condition;
+    std::optional<std::string> conditionComment;
+
+    if (!formatReadableConditionInstruction(instruction, lookups, condition, conditionComment))
+    {
+        return false;
+    }
+
+    for (const LegacyLuaInstruction *action : stepInfo.actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, 1))
+        {
+            return false;
+        }
+    }
+
+    const auto markSkipped = [&skippedSteps](uint8_t step)
+    {
+        if (std::find(skippedSteps.begin(), skippedSteps.end(), step) == skippedSteps.end())
+        {
+            skippedSteps.push_back(step);
+        }
+    };
+
+    if (trueIsland.returns)
+    {
+        emitIndentedLineWithComment(stream, "if " + condition + " then", conditionComment, 1);
+
+        for (const LegacyLuaInstruction *action : trueIsland.actions)
+        {
+            if (!emitReadableActionInstruction(stream, *action, lookups, 2))
+            {
+                return false;
+            }
+        }
+
+        emitIndentedLineWithComment(stream, "return", std::nullopt, 2);
+        emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+        markSkipped(startStep);
+
+        for (uint8_t step : trueIsland.consumedSteps)
+        {
+            markSkipped(step);
+        }
+
+        return true;
+    }
+
+    CompactActionIsland falseIsland;
+
+    if (!collectCompactActionIsland(event, steps, falseRawStep, falseIsland)
+        || !falseIsland.returns
+        || compactPathHasExternalPredecessor(falseIsland.consumedSteps, predecessorCounts, 1))
+    {
+        return false;
+    }
+
+    emitIndentedLineWithComment(stream, "if not " + condition + " then", conditionComment, 1);
+
+    for (const LegacyLuaInstruction *action : falseIsland.actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, 2))
+        {
+            return false;
+        }
+    }
+
+    emitIndentedLineWithComment(stream, "return", std::nullopt, 2);
+    emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+    markSkipped(startStep);
+
+    for (uint8_t step : falseIsland.consumedSteps)
+    {
+        markSkipped(step);
+    }
+
+    return true;
+}
+
+bool tryEmitCompactPositiveOptionalSkipBlock(
+    std::ostringstream &stream,
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    uint8_t startStep,
+    const LegacyLuaExportLookups &lookups,
+    const std::map<uint8_t, size_t> &predecessorCounts,
+    std::vector<uint8_t> &skippedSteps)
+{
+    NormalStepInfo stepInfo;
+
+    if (!decomposeNormalStep(event, startStep, stepInfo)
+        || !stepInfo.terminalInstruction
+        || !isReadableCompareOperation(stepInfo.terminalInstruction->operation)
+        || !stepInfo.terminalInstruction->jumpTargetStep)
+    {
+        return false;
+    }
+
+    const LegacyLuaInstruction &instruction = *stepInfo.terminalInstruction;
+    const std::optional<uint8_t> skipStep = nextStepAfter(steps, startStep);
+    NormalStepInfo skipStepInfo;
+
+    if (!skipStep
+        || !decomposeNormalStep(event, *skipStep, skipStepInfo)
+        || !skipStepInfo.actions.empty()
+        || !skipStepInfo.terminalInstruction
+        || !skipStepInfo.terminalInstruction->jumpTargetStep
+        || !isAlwaysTrueCompactCondition(*skipStepInfo.terminalInstruction))
+    {
+        return false;
+    }
+
+    const uint8_t continuationStep = *skipStepInfo.terminalInstruction->jumpTargetStep;
+    std::vector<const LegacyLuaInstruction *> actions;
+    std::vector<uint8_t> actionSteps;
+
+    if (instruction.jumpTargetStep == skipStep
+        || instruction.jumpTargetStep == continuationStep
+        || !collectCompactLinearActionsUntil(event, steps, instruction.jumpTargetStep, continuationStep, actions, actionSteps)
+        || actions.empty()
+        || lookupPredecessorCount(predecessorCounts, *skipStep) > 1
+        || compactPathHasExternalPredecessor(actionSteps, predecessorCounts, 2))
+    {
+        return false;
+    }
+
+    std::string condition;
+    std::optional<std::string> conditionComment;
+
+    if (!formatReadableConditionInstruction(instruction, lookups, condition, conditionComment))
+    {
+        return false;
+    }
+
+    for (const LegacyLuaInstruction *action : stepInfo.actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, 1))
+        {
+            return false;
+        }
+    }
+
+    emitIndentedLineWithComment(stream, "if " + condition + " then", conditionComment, 1);
+
+    for (const LegacyLuaInstruction *action : actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, 2))
+        {
+            return false;
+        }
+    }
+
+    emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+
+    const auto markSkipped = [&skippedSteps](uint8_t step)
+    {
+        if (std::find(skippedSteps.begin(), skippedSteps.end(), step) == skippedSteps.end())
+        {
+            skippedSteps.push_back(step);
+        }
+    };
+
+    markSkipped(startStep);
+    markSkipped(*skipStep);
+
+    for (uint8_t step : actionSteps)
+    {
+        markSkipped(step);
+    }
+
+    return true;
+}
+
+bool isExitOnlyCompactStep(const LegacyLuaEvent &event, uint8_t step)
+{
+    NormalStepInfo stepInfo;
+    return decomposeNormalStep(event, step, stepInfo)
+        && stepInfo.actions.empty()
+        && stepInfo.terminalInstruction
+        && stepInfo.terminalInstruction->operation == LegacyLuaOperation::Exit;
+}
+
+bool formatCompactStepCondition(
+    const LegacyLuaEvent &event,
+    uint8_t step,
+    const LegacyLuaExportLookups &lookups,
+    std::string &condition,
+    std::optional<std::string> &comment,
+    const LegacyLuaInstruction **instruction)
+{
+    NormalStepInfo stepInfo;
+
+    if (!decomposeNormalStep(event, step, stepInfo)
+        || !stepInfo.actions.empty()
+        || !stepInfo.terminalInstruction
+        || !isReadableCompareOperation(stepInfo.terminalInstruction->operation)
+        || !formatReadableConditionInstruction(*stepInfo.terminalInstruction, lookups, condition, comment))
+    {
+        return false;
+    }
+
+    if (instruction)
+    {
+        *instruction = stepInfo.terminalInstruction;
+    }
+
+    return true;
+}
+
+bool emitCompactActionRange(
+    std::ostringstream &stream,
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    uint8_t startStep,
+    uint8_t stopStep,
+    const LegacyLuaExportLookups &lookups,
+    int indentLevel)
+{
+    std::vector<const LegacyLuaInstruction *> actions;
+    std::vector<uint8_t> consumedSteps;
+
+    if (!collectCompactLinearActionsUntil(event, steps, startStep, stopStep, actions, consumedSteps) || actions.empty())
+    {
+        return false;
+    }
+
+    for (const LegacyLuaInstruction *action : actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, indentLevel))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool emitCompactActionOnlyStep(
+    std::ostringstream &stream,
+    const LegacyLuaEvent &event,
+    uint8_t step,
+    const LegacyLuaExportLookups &lookups,
+    int indentLevel)
+{
+    NormalStepInfo stepInfo;
+
+    if (!decomposeNormalStep(event, step, stepInfo) || stepInfo.actions.empty() || stepInfo.terminalInstruction)
+    {
+        return false;
+    }
+
+    for (const LegacyLuaInstruction *action : stepInfo.actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, indentLevel))
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+bool tryEmitCompactMemoryCrystalRestoreBody(
+    std::ostringstream &stream,
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    const LegacyLuaExportLookups &lookups)
+{
+    constexpr std::array<uint8_t, 4> itemCheckSteps = {4, 5, 6, 7};
+    constexpr std::array<uint8_t, 4> restoredCheckSteps = {12, 18, 24, 30};
+    constexpr std::array<uint8_t, 4> restoreActionStarts = {13, 19, 25, 31};
+    constexpr std::array<uint8_t, 4> restoreActionStops = {17, 23, 29, 36};
+    constexpr std::array<uint8_t, 4> restoredSkipTargets = {5, 6, 7, 10};
+    constexpr std::array<uint8_t, 4> topicCheckSteps = {40, 42, 44, 46};
+
+    if (!isExitOnlyCompactStep(event, 1)
+        || !isExitOnlyCompactStep(event, 9)
+        || !isExitOnlyCompactStep(event, 11)
+        || !isExitOnlyCompactStep(event, 41)
+        || !isExitOnlyCompactStep(event, 43)
+        || !isExitOnlyCompactStep(event, 45)
+        || !isExitOnlyCompactStep(event, 47))
+    {
+        return false;
+    }
+
+    std::string powerCondition;
+    std::optional<std::string> powerComment;
+    const LegacyLuaInstruction *powerInstruction = nullptr;
+
+    if (!formatCompactStepCondition(event, 0, lookups, powerCondition, powerComment, &powerInstruction)
+        || !powerInstruction->jumpTargetStep
+        || *powerInstruction->jumpTargetStep != 2)
+    {
+        return false;
+    }
+
+    std::string alreadyRestoredCondition;
+    std::optional<std::string> alreadyRestoredComment;
+    const LegacyLuaInstruction *alreadyRestoredInstruction = nullptr;
+
+    if (!formatCompactStepCondition(event, 2, lookups, alreadyRestoredCondition, alreadyRestoredComment, &alreadyRestoredInstruction)
+        || !alreadyRestoredInstruction->jumpTargetStep
+        || *alreadyRestoredInstruction->jumpTargetStep != 10)
+    {
+        return false;
+    }
+
+    NormalStepInfo forPlayerStepInfo;
+
+    if (!decomposeNormalStep(event, 3, forPlayerStepInfo)
+        || forPlayerStepInfo.actions.empty()
+        || forPlayerStepInfo.terminalInstruction)
+    {
+        return false;
+    }
+
+    std::array<std::string, 4> itemConditions;
+    std::array<std::optional<std::string>, 4> itemComments;
+    std::array<std::string, 4> restoredConditions;
+    std::array<std::optional<std::string>, 4> restoredComments;
+
+    for (size_t index = 0; index < itemCheckSteps.size(); ++index)
+    {
+        const LegacyLuaInstruction *itemInstruction = nullptr;
+        const LegacyLuaInstruction *restoredInstruction = nullptr;
+
+        if (!formatCompactStepCondition(event, itemCheckSteps[index], lookups, itemConditions[index], itemComments[index], &itemInstruction)
+            || !itemInstruction->jumpTargetStep
+            || *itemInstruction->jumpTargetStep != restoredCheckSteps[index]
+            || !formatCompactStepCondition(
+                event,
+                restoredCheckSteps[index],
+                lookups,
+                restoredConditions[index],
+                restoredComments[index],
+                &restoredInstruction)
+            || !restoredInstruction->jumpTargetStep
+            || *restoredInstruction->jumpTargetStep != restoredSkipTargets[index])
+        {
+            return false;
+        }
+    }
+
+    std::array<std::string, 4> topicConditions;
+
+    for (size_t index = 0; index < topicCheckSteps.size(); ++index)
+    {
+        std::optional<std::string> ignoredComment;
+        const LegacyLuaInstruction *topicInstruction = nullptr;
+
+        if (!formatCompactStepCondition(event, topicCheckSteps[index], lookups, topicConditions[index], ignoredComment, &topicInstruction))
+        {
+            return false;
+        }
+
+        if (index < topicCheckSteps.size() - 1)
+        {
+            if (!topicInstruction->jumpTargetStep || *topicInstruction->jumpTargetStep != topicCheckSteps[index + 1])
+            {
+                return false;
+            }
+        }
+        else if (!topicInstruction->jumpTargetStep || *topicInstruction->jumpTargetStep != 48)
+        {
+            return false;
+        }
+    }
+
+    emitIndentedLineWithComment(stream, "local function RestoreMemoryModule()", std::nullopt, 1);
+
+    if (!emitCompactActionRange(stream, event, steps, 36, 40, lookups, 2))
+    {
+        return false;
+    }
+
+    std::string topicCondition;
+
+    for (size_t index = 0; index < topicConditions.size(); ++index)
+    {
+        if (index > 0)
+        {
+            topicCondition += " and ";
+        }
+
+        topicCondition += topicConditions[index];
+    }
+
+    emitIndentedLineWithComment(stream, "if " + topicCondition + " then", std::nullopt, 2);
+
+    if (!emitCompactActionOnlyStep(stream, event, 48, lookups, 3)
+        || !emitCompactActionOnlyStep(stream, event, 49, lookups, 3))
+    {
+        return false;
+    }
+
+    emitIndentedLineWithComment(stream, "end", std::nullopt, 2);
+    emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+    stream << "\n";
+    emitIndentedLineWithComment(stream, "if not " + powerCondition + " then", powerComment, 1);
+    emitIndentedLineWithComment(stream, "return", std::nullopt, 2);
+    emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+    emitIndentedLineWithComment(stream, "if " + alreadyRestoredCondition + " then", alreadyRestoredComment, 1);
+
+    if (!emitCompactActionRange(stream, event, steps, 10, 11, lookups, 2))
+    {
+        return false;
+    }
+
+    emitIndentedLineWithComment(stream, "return", std::nullopt, 2);
+    emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+
+    for (const LegacyLuaInstruction *action : forPlayerStepInfo.actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, 1))
+        {
+            return false;
+        }
+    }
+
+    for (size_t index = 0; index < itemCheckSteps.size(); ++index)
+    {
+        emitIndentedLineWithComment(stream, "if " + itemConditions[index] + " then", itemComments[index], 1);
+
+        if (index == itemCheckSteps.size() - 1)
+        {
+            emitIndentedLineWithComment(stream, "if " + restoredConditions[index] + " then", restoredComments[index], 2);
+
+            if (!emitCompactActionRange(stream, event, steps, 10, 11, lookups, 3))
+            {
+                return false;
+            }
+
+            emitIndentedLineWithComment(stream, "return", std::nullopt, 3);
+            emitIndentedLineWithComment(stream, "end", std::nullopt, 2);
+        }
+        else
+        {
+            emitIndentedLineWithComment(stream, "if not " + restoredConditions[index] + " then", restoredComments[index], 2);
+        }
+
+        if (!emitCompactActionRange(
+                stream,
+                event,
+                steps,
+                restoreActionStarts[index],
+                restoreActionStops[index],
+                lookups,
+                index == itemCheckSteps.size() - 1 ? 2 : 3))
+        {
+            return false;
+        }
+
+        emitIndentedLineWithComment(
+            stream,
+            "RestoreMemoryModule()",
+            std::nullopt,
+            index == itemCheckSteps.size() - 1 ? 2 : 3);
+        emitIndentedLineWithComment(stream, "return", std::nullopt, index == itemCheckSteps.size() - 1 ? 2 : 3);
+
+        if (index != itemCheckSteps.size() - 1)
+        {
+            emitIndentedLineWithComment(stream, "end", std::nullopt, 2);
+        }
+
+        emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+    }
+
+    if (!emitCompactActionRange(stream, event, steps, 8, 9, lookups, 1))
+    {
+        return false;
+    }
+
+    return true;
+}
+
+bool tryEmitCompactOptionalPrelude(
+    std::ostringstream &stream,
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    uint8_t startStep,
+    const LegacyLuaExportLookups &lookups,
+    const std::map<uint8_t, size_t> &predecessorCounts,
+    std::vector<uint8_t> &skippedSteps)
+{
+    std::vector<std::string> conditions;
+    std::vector<std::optional<std::string>> comments;
+    std::vector<uint8_t> chainSteps;
+    std::vector<std::optional<uint8_t>> defaultRawSteps;
+    std::optional<uint8_t> preludeStep;
+    std::optional<uint8_t> step = startStep;
+
+    while (step)
+    {
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, *step, stepInfo)
+            || !stepInfo.actions.empty()
+            || !stepInfo.terminalInstruction)
+        {
+            return false;
+        }
+
+        const LegacyLuaInstruction *instruction = stepInfo.terminalInstruction;
+
+        if (!isReadableCompareOperation(instruction->operation) || !instruction->jumpTargetStep)
+        {
+            return false;
+        }
+
+        std::string condition;
+        std::optional<std::string> conditionComment;
+
+        if (!formatReadableConditionInstruction(*instruction, lookups, condition, conditionComment))
+        {
+            return false;
+        }
+
+        const std::optional<uint8_t> falseRawStep = nextStepAfter(steps, *step);
+        CompactActionIsland trueIsland;
+
+        if (!collectCompactActionIsland(event, steps, instruction->jumpTargetStep, trueIsland)
+            || trueIsland.actions.empty())
+        {
+            return false;
+        }
+
+        if (!preludeStep)
+        {
+            preludeStep = trueIsland.consumedSteps.empty() ? instruction->jumpTargetStep : trueIsland.consumedSteps.front();
+        }
+        else if (!trueIsland.consumedSteps.empty() && *preludeStep != trueIsland.consumedSteps.front())
+        {
+            return false;
+        }
+
+        conditions.push_back(condition);
+        comments.push_back(conditionComment);
+        chainSteps.push_back(*step);
+        defaultRawSteps.push_back(falseRawStep);
+
+        NormalStepInfo falseStepInfo;
+        std::optional<uint8_t> falseStep;
+
+        if (!resolveSignificantStep(event, steps, falseRawStep, falseStep))
+        {
+            return false;
+        }
+
+        if (falseStep
+            && falseRawStep
+            && *falseStep == *falseRawStep
+            && decomposeNormalStep(event, *falseStep, falseStepInfo)
+            && falseStepInfo.actions.empty()
+            && falseStepInfo.terminalInstruction
+            && isReadableCompareOperation(falseStepInfo.terminalInstruction->operation))
+        {
+            step = falseStep;
+            continue;
+        }
+
+        break;
+    }
+
+    if (!preludeStep || conditions.empty() || defaultRawSteps.empty())
+    {
+        return false;
+    }
+
+    CompactActionIsland preludeIsland;
+
+    if (!collectCompactActionIsland(event, steps, preludeStep, preludeIsland)
+        || preludeIsland.actions.empty())
+    {
+        return false;
+    }
+
+    std::vector<uint8_t> defaultPath;
+
+    if (!compactPathWithoutActionsReaches(
+            event,
+            steps,
+            defaultRawSteps.back(),
+            preludeIsland.continuation,
+            preludeIsland.returns,
+            defaultPath))
+    {
+        return false;
+    }
+
+    if (compactPathHasExternalPredecessor(preludeIsland.consumedSteps, predecessorCounts, conditions.size())
+        || compactPathHasExternalPredecessor(defaultPath, predecessorCounts, 1))
+    {
+        return false;
+    }
+
+    std::string combinedCondition;
+
+    for (size_t conditionIndex = 0; conditionIndex < conditions.size(); ++conditionIndex)
+    {
+        if (conditionIndex > 0)
+        {
+            combinedCondition += " or ";
+        }
+
+        combinedCondition += conditions[conditionIndex];
+    }
+
+    emitIndentedLineWithComment(stream, "if " + combinedCondition + " then", comments.front(), 1);
+
+    for (const LegacyLuaInstruction *action : preludeIsland.actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, 2))
+        {
+            return false;
+        }
+    }
+
+    emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+
+    for (uint8_t chainStep : chainSteps)
+    {
+        if (std::find(skippedSteps.begin(), skippedSteps.end(), chainStep) == skippedSteps.end())
+        {
+            skippedSteps.push_back(chainStep);
+        }
+    }
+
+    for (uint8_t pathStep : preludeIsland.consumedSteps)
+    {
+        if (std::find(skippedSteps.begin(), skippedSteps.end(), pathStep) == skippedSteps.end())
+        {
+            skippedSteps.push_back(pathStep);
+        }
+    }
+
+    for (uint8_t pathStep : defaultPath)
+    {
+        if (std::find(skippedSteps.begin(), skippedSteps.end(), pathStep) == skippedSteps.end())
+        {
+            skippedSteps.push_back(pathStep);
+        }
+    }
+
+    return true;
+}
+
+bool tryEmitCompactNestedOptionalBlock(
+    std::ostringstream &stream,
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    uint8_t startStep,
+    const LegacyLuaExportLookups &lookups,
+    const std::map<uint8_t, size_t> &predecessorCounts,
+    std::vector<uint8_t> &skippedSteps)
+{
+    NormalStepInfo outerStepInfo;
+
+    if (!decomposeNormalStep(event, startStep, outerStepInfo)
+        || !outerStepInfo.actions.empty()
+        || !outerStepInfo.terminalInstruction
+        || !isReadableCompareOperation(outerStepInfo.terminalInstruction->operation)
+        || !outerStepInfo.terminalInstruction->jumpTargetStep)
+    {
+        return false;
+    }
+
+    const LegacyLuaInstruction &outerInstruction = *outerStepInfo.terminalInstruction;
+    std::optional<uint8_t> outerTrueStep;
+    std::optional<uint8_t> outerFalseStep;
+    const std::optional<uint8_t> outerFalseRawStep = nextStepAfter(steps, startStep);
+
+    if (!resolveSignificantStep(event, steps, outerInstruction.jumpTargetStep, outerTrueStep)
+        || !resolveSignificantStep(event, steps, outerFalseRawStep, outerFalseStep)
+        || !outerTrueStep
+        || !outerFalseStep
+        || *outerTrueStep == *outerFalseStep)
+    {
+        return false;
+    }
+
+    NormalStepInfo innerStepInfo;
+
+    if (!decomposeNormalStep(event, *outerTrueStep, innerStepInfo)
+        || !innerStepInfo.actions.empty()
+        || !innerStepInfo.terminalInstruction
+        || !isReadableCompareOperation(innerStepInfo.terminalInstruction->operation)
+        || !innerStepInfo.terminalInstruction->jumpTargetStep)
+    {
+        return false;
+    }
+
+    const LegacyLuaInstruction &innerInstruction = *innerStepInfo.terminalInstruction;
+    CompactActionIsland actionIsland;
+
+    if (!collectCompactActionIsland(event, steps, nextStepAfter(steps, *outerTrueStep), actionIsland)
+        || actionIsland.actions.empty()
+        || !actionIsland.continuation
+        || actionIsland.returns)
+    {
+        return false;
+    }
+
+    std::vector<uint8_t> outerFalsePath;
+    std::vector<uint8_t> innerTruePath;
+
+    if (!compactPathWithoutActionsReaches(event, steps, outerFalseRawStep, actionIsland.continuation, false, outerFalsePath)
+        || !compactPathWithoutActionsReaches(event, steps, innerInstruction.jumpTargetStep, actionIsland.continuation, false, innerTruePath)
+        || compactPathHasExternalPredecessor(actionIsland.consumedSteps, predecessorCounts, 1)
+        || compactPathHasExternalPredecessor(outerFalsePath, predecessorCounts, 1)
+        || compactPathHasExternalPredecessor(innerTruePath, predecessorCounts, 1)
+        || lookupPredecessorCount(predecessorCounts, *outerTrueStep) > 1)
+    {
+        return false;
+    }
+
+    std::string outerCondition;
+    std::optional<std::string> outerComment;
+    std::string innerCondition;
+    std::optional<std::string> innerComment;
+
+    if (!formatReadableConditionInstruction(outerInstruction, lookups, outerCondition, outerComment)
+        || !formatReadableConditionInstruction(innerInstruction, lookups, innerCondition, innerComment))
+    {
+        return false;
+    }
+
+    emitIndentedLineWithComment(stream, "if " + outerCondition + " then", outerComment, 1);
+    emitIndentedLineWithComment(stream, "if not " + innerCondition + " then", innerComment, 2);
+
+    for (const LegacyLuaInstruction *action : actionIsland.actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, 3))
+        {
+            return false;
+        }
+    }
+
+    emitIndentedLineWithComment(stream, "end", std::nullopt, 2);
+    emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+
+    const auto markSkipped = [&skippedSteps](uint8_t step)
+    {
+        if (std::find(skippedSteps.begin(), skippedSteps.end(), step) == skippedSteps.end())
+        {
+            skippedSteps.push_back(step);
+        }
+    };
+
+    markSkipped(startStep);
+    markSkipped(*outerTrueStep);
+
+    for (uint8_t step : outerFalsePath)
+    {
+        markSkipped(step);
+    }
+
+    for (uint8_t step : innerTruePath)
+    {
+        markSkipped(step);
+    }
+
+    for (uint8_t step : actionIsland.consumedSteps)
+    {
+        markSkipped(step);
+    }
+
+    return true;
+}
+
+bool tryEmitCompactFalseOptionalBlock(
+    std::ostringstream &stream,
+    const LegacyLuaEvent &event,
+    const std::vector<uint8_t> &steps,
+    uint8_t startStep,
+    const LegacyLuaExportLookups &lookups,
+    const std::map<uint8_t, size_t> &predecessorCounts,
+    std::vector<uint8_t> &skippedSteps)
+{
+    NormalStepInfo stepInfo;
+
+    if (!decomposeNormalStep(event, startStep, stepInfo)
+        || !stepInfo.actions.empty()
+        || !stepInfo.terminalInstruction
+        || !isReadableCompareOperation(stepInfo.terminalInstruction->operation)
+        || !stepInfo.terminalInstruction->jumpTargetStep)
+    {
+        return false;
+    }
+
+    const LegacyLuaInstruction &instruction = *stepInfo.terminalInstruction;
+    CompactActionIsland falseIsland;
+
+    if (!collectCompactActionIsland(event, steps, nextStepAfter(steps, startStep), falseIsland)
+        || falseIsland.actions.empty())
+    {
+        return false;
+    }
+
+    std::vector<uint8_t> truePath;
+    std::vector<uint8_t> falseOnlySteps;
+
+    if (!compactPathWithoutActionsReaches(
+            event,
+            steps,
+            instruction.jumpTargetStep,
+            falseIsland.continuation,
+            falseIsland.returns,
+            truePath)
+        || compactPathHasExternalPredecessor(truePath, predecessorCounts, 2))
+    {
+        return false;
+    }
+
+    for (uint8_t step : falseIsland.consumedSteps)
+    {
+        if (std::find(truePath.begin(), truePath.end(), step) == truePath.end())
+        {
+            falseOnlySteps.push_back(step);
+        }
+    }
+
+    if (compactPathHasExternalPredecessor(falseOnlySteps, predecessorCounts, 1))
+    {
+        return false;
+    }
+
+    std::string condition;
+    std::optional<std::string> conditionComment;
+
+    if (!formatReadableConditionInstruction(instruction, lookups, condition, conditionComment))
+    {
+        return false;
+    }
+
+    emitIndentedLineWithComment(stream, "if not " + condition + " then", conditionComment, 1);
+
+    for (const LegacyLuaInstruction *action : falseIsland.actions)
+    {
+        if (!emitReadableActionInstruction(stream, *action, lookups, 2))
+        {
+            return false;
+        }
+    }
+
+    emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+
+    const auto markSkipped = [&skippedSteps](uint8_t step)
+    {
+        if (std::find(skippedSteps.begin(), skippedSteps.end(), step) == skippedSteps.end())
+        {
+            skippedSteps.push_back(step);
+        }
+    };
+
+    markSkipped(startStep);
+
+    for (uint8_t step : truePath)
+    {
+        markSkipped(step);
+    }
+
+    for (uint8_t step : falseIsland.consumedSteps)
+    {
+        markSkipped(step);
+    }
+
+    return true;
+}
+
+bool compactTargetNeedsTransfer(
+    const std::vector<uint8_t> &steps,
+    std::optional<uint8_t> targetStep,
+    std::optional<uint8_t> nextStep)
+{
+    return !targetStep || targetStep != nextStep || !normalStepExists(steps, *targetStep);
+}
+
+bool emitCompactGotoOrReturn(
+    std::ostringstream &stream,
+    const std::vector<uint8_t> &steps,
+    std::optional<uint8_t> targetStep,
+    std::optional<uint8_t> nextStep,
+    int indentLevel)
+{
+    if (!compactTargetNeedsTransfer(steps, targetStep, nextStep))
+    {
+        return true;
+    }
+
+    if (!targetStep || !normalStepExists(steps, *targetStep))
+    {
+        emitIndentedLineWithComment(stream, "do return end", std::nullopt, indentLevel);
+        return true;
+    }
+
+    emitIndentedLineWithComment(stream, "goto " + compactStepLabel(*targetStep), std::nullopt, indentLevel);
+    return true;
+}
+
+bool emitCompactConditionalTransfer(
+    std::ostringstream &stream,
+    const LegacyLuaInstruction &instruction,
+    const std::vector<uint8_t> &steps,
+    std::optional<uint8_t> nextStep,
+    const LegacyLuaExportLookups &lookups,
+    int indentLevel)
+{
+    if (!instruction.jumpTargetStep)
+    {
+        return false;
+    }
+
+    std::string condition;
+    std::optional<std::string> conditionComment;
+
+    if (!formatReadableConditionInstruction(instruction, lookups, condition, conditionComment))
+    {
+        return false;
+    }
+
+    const bool trueFallsThrough = instruction.jumpTargetStep == nextStep
+        && normalStepExists(steps, *instruction.jumpTargetStep);
+    const bool falseFallsThrough = nextStep && normalStepExists(steps, *nextStep);
+
+    if (trueFallsThrough && falseFallsThrough)
+    {
+        return true;
+    }
+
+    if (trueFallsThrough)
+    {
+        emitIndentedLineWithComment(stream, "if not " + condition + " then", conditionComment, indentLevel);
+        emitCompactGotoOrReturn(stream, steps, nextStep, std::nullopt, indentLevel + 1);
+        emitIndentedLineWithComment(stream, "end", std::nullopt, indentLevel);
+        return true;
+    }
+
+    emitIndentedLineWithComment(stream, "if " + condition + " then", conditionComment, indentLevel);
+    emitCompactGotoOrReturn(stream, steps, instruction.jumpTargetStep, std::nullopt, indentLevel + 1);
+    emitIndentedLineWithComment(stream, "end", std::nullopt, indentLevel);
+
+    if (!falseFallsThrough)
+    {
+        emitCompactGotoOrReturn(stream, steps, nextStep, std::nullopt, indentLevel);
+    }
+
+    return true;
+}
+
+bool tryEmitCompactCfgNormalEventFunction(
+    std::ostringstream &stream,
+    std::string_view registerFunction,
+    uint16_t eventId,
+    const std::string &title,
+    const std::optional<std::string> &hint,
+    const LegacyLuaEvent &event,
+    const LegacyLuaExportLookups &lookups)
+{
+    if (!collectPromptContinuations(event).empty())
+    {
+        return false;
+    }
+
+    const std::vector<uint8_t> steps = collectNormalEventSteps(event);
+
+    if (steps.empty())
+    {
+        return false;
+    }
+
+    for (uint8_t step : steps)
+    {
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, step, stepInfo))
+        {
+            return false;
+        }
+    }
+
+    const std::vector<uint8_t> labelTargets = collectCompactLabelTargets(event, steps);
+    const std::map<uint8_t, size_t> predecessorCounts = collectNormalPredecessorCounts(event, steps);
+    const std::map<uint8_t, std::vector<uint8_t>> predecessors = collectNormalPredecessorSteps(event, steps);
+    std::vector<uint8_t> skippedSteps;
+    emitEventRegistrationHeader(stream, registerFunction, eventId, title, hint);
+
+    if (tryEmitCompactMemoryCrystalRestoreBody(stream, event, steps, lookups))
+    {
+        if (hint && !hint->empty())
+        {
+            stream << "end, " << luaQuoted(*hint) << ")\n";
+        }
+        else
+        {
+            stream << "end)\n";
+        }
+
+        return true;
+    }
+
+    for (size_t stepIndex = 0; stepIndex < steps.size(); ++stepIndex)
+    {
+        const uint8_t step = steps[stepIndex];
+        const std::optional<uint8_t> nextStep = stepIndex + 1 < steps.size()
+            ? std::optional<uint8_t>(steps[stepIndex + 1])
+            : std::nullopt;
+
+        if (std::find(skippedSteps.begin(), skippedSteps.end(), step) != skippedSteps.end())
+        {
+            continue;
+        }
+
+        const bool isLabelTarget = std::find(labelTargets.begin(), labelTargets.end(), step) != labelTargets.end();
+        const bool needsLabel = isLabelTarget && compactLabelHasUnskippedPredecessor(predecessors, skippedSteps, step);
+
+        if (needsLabel)
+        {
+            stream << "    ::" << compactStepLabel(step) << "::\n";
+        }
+
+        if (tryEmitCompactNestedOptionalBlock(stream, event, steps, step, lookups, predecessorCounts, skippedSteps))
+        {
+            continue;
+        }
+
+        if (tryEmitCompactConditionReturnBlock(stream, event, steps, step, lookups, predecessorCounts, skippedSteps))
+        {
+            continue;
+        }
+
+        if (tryEmitCompactPositiveOptionalSkipBlock(stream, event, steps, step, lookups, predecessorCounts, skippedSteps))
+        {
+            continue;
+        }
+
+        if (tryEmitCompactFalseOptionalBlock(stream, event, steps, step, lookups, predecessorCounts, skippedSteps))
+        {
+            continue;
+        }
+
+        if (tryEmitCompactOptionalPrelude(stream, event, steps, step, lookups, predecessorCounts, skippedSteps))
+        {
+            continue;
+        }
+
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, step, stepInfo))
+        {
+            return false;
+        }
+
+        for (const LegacyLuaInstruction *action : stepInfo.actions)
+        {
+            if (!emitReadableActionInstruction(stream, *action, lookups, 1))
+            {
+                return false;
+            }
+        }
+
+        if (!stepInfo.terminalInstruction)
+        {
+            continue;
+        }
+
+        const LegacyLuaInstruction &instruction = *stepInfo.terminalInstruction;
+
+        switch (instruction.operation)
+        {
+            case LegacyLuaOperation::Exit:
+                emitIndentedLineWithComment(stream, "do return end", std::nullopt, 1);
+                break;
+
+            case LegacyLuaOperation::Jump:
+                emitCompactGotoOrReturn(stream, steps, instruction.jumpTargetStep, nextStep, 1);
+                break;
+
+            case LegacyLuaOperation::Compare:
+            case LegacyLuaOperation::CheckItemsCount:
+            case LegacyLuaOperation::CheckSkill:
+            case LegacyLuaOperation::IsActorKilled:
+            case LegacyLuaOperation::CheckSeason:
+            case LegacyLuaOperation::IsTotalBountyHuntingAwardInRange:
+            case LegacyLuaOperation::IsNpcInParty:
+                if (!emitCompactConditionalTransfer(stream, instruction, steps, nextStep, lookups, 1))
+                {
+                    return false;
+                }
+                break;
+
+            case LegacyLuaOperation::RandomJump:
+            {
+                if (instruction.arguments.empty())
+                {
+                    return false;
+                }
+
+                std::vector<uint8_t> branchStarts;
+
+                for (uint32_t argument : instruction.arguments)
+                {
+                    const uint8_t branchStep = static_cast<uint8_t>(argument);
+
+                    if (std::find(branchStarts.begin(), branchStarts.end(), branchStep) == branchStarts.end())
+                    {
+                        branchStarts.push_back(branchStep);
+                    }
+                }
+
+                std::ostringstream randomCall;
+                randomCall << "PickRandomOption(" << event.eventId << ", "
+                           << static_cast<unsigned>(instruction.step + 1) << ", {";
+
+                for (size_t argumentIndex = 0; argumentIndex < instruction.arguments.size(); ++argumentIndex)
+                {
+                    if (argumentIndex > 0)
+                    {
+                        randomCall << ", ";
+                    }
+
+                    randomCall << instruction.arguments[argumentIndex];
+                }
+
+                randomCall << "})";
+                emitIndentedLineWithComment(stream, "local randomStep = " + randomCall.str(), std::nullopt, 1);
+
+                for (size_t branchIndex = 0; branchIndex < branchStarts.size(); ++branchIndex)
+                {
+                    const std::string keyword = branchIndex == 0 ? "if" : "elseif";
+                    emitIndentedLineWithComment(
+                        stream,
+                        keyword + " randomStep == " + std::to_string(branchStarts[branchIndex]) + " then",
+                        std::nullopt,
+                        1);
+                    emitCompactGotoOrReturn(stream, steps, branchStarts[branchIndex], std::nullopt, 2);
+                }
+
+                emitIndentedLineWithComment(stream, "end", std::nullopt, 1);
+                break;
+            }
+
+            case LegacyLuaOperation::InputString:
+                emitIndentedLineWithComment(stream, formatInputStringCall(event, instruction), std::nullopt, 1);
+                emitIndentedLineWithComment(stream, "do return end", std::nullopt, 1);
+                break;
+
+            case LegacyLuaOperation::PressAnyKey:
+                emitIndentedLineWithComment(
+                    stream,
+                    "evt._PressAnyKey(" + std::to_string(event.eventId) + ", "
+                    + std::to_string(static_cast<unsigned>(instruction.step + 1)) + ")",
+                    std::nullopt,
+                    1);
+                emitIndentedLineWithComment(stream, "do return end", std::nullopt, 1);
+                break;
+
+            default:
+                return false;
+        }
+    }
+
+    if (hint && !hint->empty())
+    {
+        stream << "end, " << luaQuoted(*hint) << ")\n";
+    }
+    else
+    {
+        stream << "end)\n";
+    }
+
+    return true;
+}
+
+bool tryEmitReadableGuardedTwoArmEventFunction(
+    std::ostringstream &stream,
+    std::string_view registerFunction,
+    uint16_t eventId,
+    const std::string &title,
+    const std::optional<std::string> &hint,
+    const LegacyLuaEvent &event,
+    const LegacyLuaExportLookups &lookups)
+{
+    if (!collectPromptContinuations(event).empty())
+    {
+        return false;
+    }
+
+    const std::vector<uint8_t> steps = collectNormalEventSteps(event);
+
+    if (steps.empty())
+    {
+        return false;
+    }
+
+    std::optional<uint8_t> currentStep = steps.front();
+    std::ostringstream bodyStream;
+    size_t guardCount = 0;
+
+    while (currentStep && guardCount < 16)
+    {
+        NormalStepInfo stepInfo;
+
+        if (!decomposeNormalStep(event, *currentStep, stepInfo)
+            || !stepInfo.actions.empty()
+            || !stepInfo.terminalInstruction
+            || !isReadableCompareOperation(stepInfo.terminalInstruction->operation))
+        {
+            break;
+        }
+
+        const LegacyLuaInstruction &instruction = *stepInfo.terminalInstruction;
+
+        if (!instruction.jumpTargetStep || !isImmediateReturnPath(event, steps, instruction.jumpTargetStep))
+        {
+            break;
+        }
+
+        std::string condition;
+        std::optional<std::string> conditionComment;
+
+        if (!formatReadableConditionInstruction(instruction, lookups, condition, conditionComment))
+        {
+            return false;
+        }
+
+        emitIndentedLineWithComment(bodyStream, "if " + condition + " then", conditionComment, 1);
+        emitIndentedLineWithComment(bodyStream, "return", std::nullopt, 2);
+        emitIndentedLineWithComment(bodyStream, "end", std::nullopt, 1);
+        currentStep = nextStepAfter(steps, *currentStep);
+        ++guardCount;
+    }
+
+    if (!currentStep)
+    {
+        return false;
+    }
+
+    NormalStepInfo branchStepInfo;
+
+    if (!decomposeNormalStep(event, *currentStep, branchStepInfo)
+        || !branchStepInfo.actions.empty()
+        || !branchStepInfo.terminalInstruction
+        || !isReadableCompareOperation(branchStepInfo.terminalInstruction->operation)
+        || !branchStepInfo.terminalInstruction->jumpTargetStep)
+    {
+        return false;
+    }
+
+    const LegacyLuaInstruction &branchInstruction = *branchStepInfo.terminalInstruction;
+    const std::optional<uint8_t> fallthroughStep = nextStepAfter(steps, *currentStep);
+    SimpleBranchArm trueArm;
+    SimpleBranchArm falseArm;
+
+    if (!summarizeSimpleBranchArm(event, steps, branchInstruction.jumpTargetStep, lookups, trueArm)
+        || !summarizeSimpleBranchArm(event, steps, fallthroughStep, lookups, falseArm)
+        || !trueArm.returns
+        || !falseArm.returns
+        || trueArm.actions.empty()
+        || falseArm.actions.empty())
+    {
+        return false;
+    }
+
+    std::string condition;
+    std::optional<std::string> conditionComment;
+
+    if (!formatReadableConditionInstruction(branchInstruction, lookups, condition, conditionComment))
+    {
+        return false;
+    }
+
+    emitIndentedLineWithComment(bodyStream, "if not " + condition + " then", conditionComment, 1);
+    emitSimpleBranchArm(bodyStream, falseArm, lookups, 2);
+    emitIndentedLineWithComment(bodyStream, "end", std::nullopt, 1);
+
+    for (const LegacyLuaInstruction *action : trueArm.actions)
+    {
+        if (!emitReadableActionInstruction(bodyStream, *action, lookups, 1))
+        {
+            return false;
+        }
+    }
+
+    emitEventRegistrationHeader(stream, registerFunction, eventId, title, hint);
+    stream << bodyStream.str();
+
+    if (hint && !hint->empty())
+    {
+        stream << "end, " << luaQuoted(*hint) << ")\n";
+    }
+    else
+    {
+        stream << "end)\n";
+    }
+
+    return true;
+}
+
 void emitNormalEventFunction(
     std::ostringstream &stream,
     std::string_view tableName,
@@ -7376,6 +10014,9 @@ void emitNormalEventFunction(
     const std::string title = buildGeneratedEventTitle(sourceEvent, strTable, lookups);
     const std::string_view registerFunction = tableName == LuaScopeGlobal ? "RegisterGlobalEvent" : "RegisterEvent";
     const std::string_view noOpFunction = tableName == LuaScopeGlobal ? "RegisterGlobalNoOpEvent" : "RegisterNoOpEvent";
+    const bool usesTriggerContinuation =
+        triggerNeedsSyntheticEntry(sourceEvent, EvtOpcode::OnMapReload)
+        || triggerNeedsSyntheticEntry(sourceEvent, EvtOpcode::OnMapLeave);
 
     if (isHintOnlyLegacyEvent(sourceEvent))
     {
@@ -7389,21 +10030,123 @@ void emitNormalEventFunction(
         return;
     }
 
-    std::ostringstream readableStream;
-
-    if (tryEmitReadablePromptEventFunction(readableStream, registerFunction, event.eventId, title, hint, event, lookups))
+    if (!usesTriggerContinuation)
     {
-        stream << readableStream.str();
-        return;
+        std::ostringstream guardedStream;
+
+        if (tryEmitReadableGuardedTwoArmEventFunction(
+                guardedStream,
+                registerFunction,
+                event.eventId,
+                title,
+                hint,
+                event,
+                lookups))
+        {
+            stream << guardedStream.str();
+            return;
+        }
     }
 
-    if (tryEmitReadableLinearEventFunction(readableStream, registerFunction, event.eventId, title, hint, event, lookups))
+    if (!usesTriggerContinuation)
     {
-        stream << readableStream.str();
-        return;
+        std::ostringstream readableStream;
+
+        if (tryEmitReadablePromptEventFunction(
+                readableStream,
+                registerFunction,
+                event.eventId,
+                title,
+                hint,
+                event,
+                lookups))
+        {
+            const std::string readableLua = readableStream.str();
+            const std::vector<uint8_t> steps = collectNormalEventSteps(event);
+            const NormalEventCfgMetrics metrics = collectNormalEventCfgMetrics(event, steps);
+            const bool preferCompact = shouldPreferCompactNormalEvent(readableLua, metrics);
+
+            if (preferCompact)
+            {
+                std::ostringstream compactStream;
+
+                if (tryEmitCompactCfgNormalEventFunction(
+                        compactStream,
+                        registerFunction,
+                        event.eventId,
+                        title,
+                        hint,
+                        event,
+                        lookups))
+                {
+                    stream << compactStream.str();
+                    return;
+                }
+            }
+
+            if (!readableNormalEventIsTooLarge(readableLua))
+            {
+                stream << readableLua;
+                return;
+            }
+        }
     }
 
-    emitEventRegistrationHeader(stream, registerFunction, event.eventId, title, hint);
+    if (!usesTriggerContinuation)
+    {
+        std::ostringstream readableStream;
+
+        if (tryEmitReadableLinearEventFunction(
+                readableStream,
+                registerFunction,
+                event.eventId,
+                title,
+                hint,
+                event,
+                lookups))
+        {
+            const std::string readableLua = readableStream.str();
+            const std::vector<uint8_t> steps = collectNormalEventSteps(event);
+            const NormalEventCfgMetrics metrics = collectNormalEventCfgMetrics(event, steps);
+            const bool preferCompact = shouldPreferCompactNormalEvent(readableLua, metrics);
+
+            if (preferCompact)
+            {
+                std::ostringstream compactStream;
+
+                if (tryEmitCompactCfgNormalEventFunction(
+                        compactStream,
+                        registerFunction,
+                        event.eventId,
+                        title,
+                        hint,
+                        event,
+                        lookups))
+                {
+                    stream << compactStream.str();
+                    return;
+                }
+            }
+
+            if (!readableNormalEventIsTooLarge(readableLua))
+            {
+                stream << readableLua;
+                return;
+            }
+        }
+    }
+
+    const bool usesPromptContinuation = usesTriggerContinuation || !collectPromptContinuations(event).empty();
+
+    if (usesPromptContinuation)
+    {
+        stream << registerFunction << "(" << event.eventId << ", " << luaQuoted(title)
+               << ", function(continueStep)\n";
+    }
+    else
+    {
+        emitEventRegistrationHeader(stream, registerFunction, event.eventId, title, hint);
+    }
 
     const std::vector<uint8_t> steps = collectNormalEventSteps(event);
 
@@ -7444,7 +10187,15 @@ void emitNormalEventFunction(
 
     if (!steps.empty())
     {
-        stream << "    local step = " << static_cast<unsigned>(steps.front()) << "\n";
+        if (usesPromptContinuation)
+        {
+            stream << "    local step = continueStep or " << static_cast<unsigned>(steps.front()) << "\n";
+        }
+        else
+        {
+            stream << "    local step = " << static_cast<unsigned>(steps.front()) << "\n";
+        }
+
         stream << "    while step ~= nil do\n";
 
         for (size_t stepIndex = 0; stepIndex < steps.size(); ++stepIndex)
@@ -8106,14 +10857,16 @@ void emitMetadata(
     const EvtProgram &evtProgram,
     const StrTable &strTable,
     const LegacyLuaExportLookups &lookups,
-    LegacyLuaExportScope scope)
+    const std::vector<SyntheticTriggerEvent> &syntheticTriggerEvents,
+    LegacyLuaExportScope scope,
+    LegacyEventVersion version)
 {
     std::vector<std::string> textureNames;
     std::vector<std::string> spriteNames;
     std::vector<uint32_t> castSpellIds;
     collectSetTextureNames(evtProgram, textureNames);
     collectSetSpriteNames(evtProgram, spriteNames);
-    collectCastSpellIds(evtProgram, castSpellIds);
+    collectCastSpellIds(evtProgram, castSpellIds, version);
 
     stream << (scope == LegacyLuaExportScope::Global ? "SetGlobalMetadata" : "SetMapMetadata") << "({\n";
     stream << "    onLoad = {";
@@ -8132,7 +10885,10 @@ void emitMetadata(
             stream << ", ";
         }
 
-        stream << event.eventId;
+        const std::optional<uint16_t> syntheticEventId =
+            findSyntheticTriggerEventId(syntheticTriggerEvents, event.eventId, EvtOpcode::OnMapReload);
+
+        stream << syntheticEventId.value_or(event.eventId);
         wroteEntry = true;
     }
 
@@ -8153,7 +10909,10 @@ void emitMetadata(
             stream << ", ";
         }
 
-        stream << event.eventId;
+        const std::optional<uint16_t> syntheticEventId =
+            findSyntheticTriggerEventId(syntheticTriggerEvents, event.eventId, EvtOpcode::OnMapLeave);
+
+        stream << syntheticEventId.value_or(event.eventId);
         wroteEntry = true;
     }
 
@@ -8267,16 +11026,41 @@ void emitMetadata(
     stream << "    },\n";
     stream << "})\n";
 }
+
+void emitSyntheticTriggerEventFunctions(
+    std::ostringstream &stream,
+    std::string_view scopeTableName,
+    const std::vector<SyntheticTriggerEvent> &syntheticTriggerEvents)
+{
+    if (syntheticTriggerEvents.empty())
+    {
+        return;
+    }
+
+    const std::string_view registerFunction = scopeTableName == LuaScopeGlobal
+        ? "RegisterGlobalEvent"
+        : "RegisterEvent";
+
+    for (const SyntheticTriggerEvent &syntheticEvent : syntheticTriggerEvents)
+    {
+        stream << registerFunction << "(" << syntheticEvent.syntheticEventId << ", \"\", function()\n";
+        stream << "    return evt." << scopeTableName << "[" << syntheticEvent.sourceEventId << "]("
+               << static_cast<unsigned>(syntheticEvent.continuationStep) << ")\n";
+        stream << "end)\n\n";
+    }
+}
 }
 
 std::string generateLegacyEventLuaChunk(
     const EvtProgram &evtProgram,
     const StrTable &strTable,
     const LegacyLuaExportLookups &lookups,
-    LegacyLuaExportScope scope)
+    LegacyLuaExportScope scope,
+    LegacyEventVersion version)
 {
     const std::string_view scopeTableName = scope == LegacyLuaExportScope::Global ? LuaScopeGlobal : LuaScopeMap;
-    const std::vector<LegacyLuaEvent> decodedEvents = decodeEvents(evtProgram, strTable, lookups);
+    const std::vector<LegacyLuaEvent> decodedEvents = decodeEvents(evtProgram, strTable, lookups, version);
+    const std::vector<SyntheticTriggerEvent> syntheticTriggerEvents = collectSyntheticTriggerEvents(evtProgram);
     std::ostringstream stream;
 
     if (lookups.mapName && !lookups.mapName->empty())
@@ -8285,7 +11069,7 @@ std::string generateLegacyEventLuaChunk(
     }
 
     stream << "-- generated from legacy EVT/STR\n\n";
-    emitMetadata(stream, evtProgram, strTable, lookups, scope);
+    emitMetadata(stream, evtProgram, strTable, lookups, syntheticTriggerEvents, scope, version);
     stream << '\n';
 
     for (size_t eventIndex = 0; eventIndex < decodedEvents.size(); ++eventIndex)
@@ -8312,6 +11096,8 @@ std::string generateLegacyEventLuaChunk(
 
         stream << '\n';
     }
+
+    emitSyntheticTriggerEventFunctions(stream, scopeTableName, syntheticTriggerEvents);
 
     return stream.str();
 }

@@ -123,6 +123,29 @@ TEST_CASE("current quest journal entries come from party qbits and non-empty que
     CHECK_EQ(questTexts[0], "Recover the crystal.");
 }
 
+TEST_CASE("journal quest table rejects malformed qbit ids")
+{
+    OpenYAMM::Game::JournalQuestTable questTable = {};
+
+    CHECK_FALSE(questTable.loadFromRows({
+        {"Q Bit", "Quest Note Text", "Notes", "Owner"},
+        {"abc", "Broken quest.", "", "test"},
+    }));
+    CHECK(questTable.entries().empty());
+}
+
+TEST_CASE("journal quest table rejects duplicate qbit ids")
+{
+    OpenYAMM::Game::JournalQuestTable questTable = {};
+
+    CHECK_FALSE(questTable.loadFromRows({
+        {"Q Bit", "Quest Note Text", "Notes", "Owner"},
+        {"10000", "First custom quest.", "", "test"},
+        {"10000", "Duplicate custom quest.", "", "test"},
+    }));
+    CHECK(questTable.entries().empty());
+}
+
 TEST_CASE("party quest bits survive save data round trip")
 {
     OpenYAMM::Game::Party party = {};

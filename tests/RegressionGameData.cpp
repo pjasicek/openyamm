@@ -22,14 +22,14 @@ struct RegressionGameDataState
     std::string failure;
 };
 
-std::string dataTablePath(std::string_view fileName)
+std::string engineDataTablePath(std::string_view fileName)
 {
-    return "Data/data_tables/" + std::string(fileName);
+    return "engine/data_tables/" + std::string(fileName);
 }
 
-std::string englishDataTablePath(std::string_view fileName)
+std::string engineEnglishDataTablePath(std::string_view fileName)
 {
-    return dataTablePath(std::string("english/") + std::string(fileName));
+    return "engine/data_tables/english/" + std::string(fileName);
 }
 
 std::string prependLuaSupport(
@@ -80,23 +80,6 @@ bool loadTextTableRows(
     }
 
     return true;
-}
-
-bool loadFirstTextTableRows(
-    const Engine::AssetFileSystem &assetFileSystem,
-    const std::vector<std::string> &virtualPaths,
-    std::vector<std::vector<std::string>> &rows,
-    std::string &failure)
-{
-    for (const std::string &virtualPath : virtualPaths)
-    {
-        if (loadTextTableRows(assetFileSystem, virtualPath, rows, failure))
-        {
-            return true;
-        }
-    }
-
-    return false;
 }
 
 bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
@@ -158,14 +141,14 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> arcomageRuleRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("arcomage_rules.txt"), arcomageRuleRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("arcomage_rules.txt"), arcomageRuleRows, failure))
     {
         return false;
     }
 
     std::vector<std::vector<std::string>> arcomageCardRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("arcomage_cards.txt"), arcomageCardRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("arcomage_cards.txt"), arcomageCardRows, failure))
     {
         return false;
     }
@@ -180,14 +163,14 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     data.arcomageLibrary = arcomageLoader.library();
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("items.txt"), itemRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("items.txt"), itemRows, failure))
     {
         return false;
     }
 
     std::vector<std::vector<std::string>> randomItemRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("random_items.txt"), randomItemRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("random_items.txt"), randomItemRows, failure))
     {
         return false;
     }
@@ -200,7 +183,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> potionRows;
 
-    if (!loadTextTableRows(assetFileSystem, englishDataTablePath("potion.txt"), potionRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineEnglishDataTablePath("potion.txt"), potionRows, failure))
     {
         return false;
     }
@@ -215,7 +198,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     if (!loadTextTableRows(
             assetFileSystem,
-            dataTablePath("standard_item_enchants.txt"),
+            engineDataTablePath("standard_item_enchants.txt"),
             standardEnchantRows,
             failure))
     {
@@ -232,7 +215,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     if (!loadTextTableRows(
             assetFileSystem,
-            dataTablePath("special_item_enchants.txt"),
+            engineDataTablePath("special_item_enchants.txt"),
             specialEnchantRows,
             failure))
     {
@@ -247,7 +230,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> readableScrollRows;
 
-    if (!loadTextTableRows(assetFileSystem, englishDataTablePath("scroll.txt"), readableScrollRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineEnglishDataTablePath("scroll.txt"), readableScrollRows, failure))
     {
         return false;
     }
@@ -260,7 +243,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> transitionRows;
 
-    if (!loadTextTableRows(assetFileSystem, englishDataTablePath("trans.txt"), transitionRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineEnglishDataTablePath("trans.txt"), transitionRows, failure))
     {
         return false;
     }
@@ -273,7 +256,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> monsterRelationRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("monster_relation_data.txt"), monsterRelationRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("hostile.txt"), monsterRelationRows, failure))
     {
         return false;
     }
@@ -286,14 +269,14 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> spellRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("spells.txt"), spellRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("spells.txt"), spellRows, failure))
     {
         return false;
     }
 
     std::vector<std::vector<std::string>> supplementalSpellRows;
 
-    const std::string supplementalSpellsPath = dataTablePath("spells_supplemental.txt");
+    const std::string supplementalSpellsPath = engineDataTablePath("spells_supplemental.txt");
 
     if (assetFileSystem.exists(supplementalSpellsPath)
         && !loadTextTableRows(assetFileSystem, supplementalSpellsPath, supplementalSpellRows, failure))
@@ -314,7 +297,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> characterRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("character_data.txt"), characterRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("character_data.txt"), characterRows, failure))
     {
         return false;
     }
@@ -327,7 +310,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> dollTypeRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("doll_types.txt"), dollTypeRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("doll_types.txt"), dollTypeRows, failure))
     {
         return false;
     }
@@ -340,7 +323,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> classMultiplierRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("class_multipliers.txt"), classMultiplierRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("class_multipliers.txt"), classMultiplierRows, failure))
     {
         return false;
     }
@@ -353,7 +336,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> classSkillRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("class_skills.txt"), classSkillRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("class_skills.txt"), classSkillRows, failure))
     {
         return false;
     }
@@ -366,7 +349,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> startingSkillRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("class_starting_skills.txt"), startingSkillRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("class_starting_skills.txt"), startingSkillRows, failure))
     {
         return false;
     }
@@ -379,7 +362,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> houseRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("house_data.txt"), houseRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("house_data.txt"), houseRows, failure))
     {
         return false;
     }
@@ -392,7 +375,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> houseAnimationRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("house_animations.txt"), houseAnimationRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("house_animations.txt"), houseAnimationRows, failure))
     {
         return false;
     }
@@ -405,7 +388,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> transportRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("transport_schedules.txt"), transportRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("transport_schedules.txt"), transportRows, failure))
     {
         return false;
     }
@@ -418,7 +401,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> rosterRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("roster.txt"), rosterRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("roster.txt"), rosterRows, failure))
     {
         return false;
     }
@@ -431,42 +414,42 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
 
     std::vector<std::vector<std::string>> greetingRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {dataTablePath("npc_greet.txt")}, greetingRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("npc_greet.txt"), greetingRows, failure))
     {
         return false;
     }
 
     std::vector<std::vector<std::string>> textRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {dataTablePath("npc_topic_text.txt")}, textRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("npc_topic_text.txt"), textRows, failure))
     {
         return false;
     }
 
     std::vector<std::vector<std::string>> topicRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {dataTablePath("npc_topic.txt")}, topicRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("npc_topic.txt"), topicRows, failure))
     {
         return false;
     }
 
     std::vector<std::vector<std::string>> npcRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {dataTablePath("npc.txt")}, npcRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("npc.txt"), npcRows, failure))
     {
         return false;
     }
 
     std::vector<std::vector<std::string>> newsRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {dataTablePath("npc_news.txt")}, newsRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("npc_news.txt"), newsRows, failure))
     {
         return false;
     }
 
     std::vector<std::vector<std::string>> groupRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {englishDataTablePath("npc_group.txt")}, groupRows, failure))
+    if (!loadTextTableRows(assetFileSystem, engineEnglishDataTablePath("npc_group.txt"), groupRows, failure))
     {
         return false;
     }

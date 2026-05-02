@@ -55,102 +55,82 @@ RegisterNoOpEvent(10, "Legacy event 10")
 
 RegisterEvent(81, "Legacy event 81", function()
     evt.OpenChest(0)
-    return
 end)
 
 RegisterEvent(82, "Legacy event 82", function()
     evt.OpenChest(1)
-    return
 end)
 
 RegisterEvent(83, "Legacy event 83", function()
     evt.OpenChest(2)
-    return
 end)
 
 RegisterEvent(84, "Legacy event 84", function()
     evt.OpenChest(3)
-    return
 end)
 
 RegisterEvent(85, "Legacy event 85", function()
     evt.OpenChest(4)
-    return
 end)
 
 RegisterEvent(86, "Legacy event 86", function()
     evt.OpenChest(5)
-    return
 end)
 
 RegisterEvent(87, "Legacy event 87", function()
     evt.OpenChest(6)
-    return
 end)
 
 RegisterEvent(88, "Legacy event 88", function()
     evt.OpenChest(7)
-    return
 end)
 
 RegisterEvent(89, "Legacy event 89", function()
     evt.OpenChest(8)
-    return
 end)
 
 RegisterEvent(90, "Legacy event 90", function()
     evt.OpenChest(9)
-    return
 end)
 
 RegisterEvent(91, "Legacy event 91", function()
     evt.OpenChest(10)
-    return
 end)
 
 RegisterEvent(92, "Legacy event 92", function()
     evt.OpenChest(11)
-    return
 end)
 
 RegisterEvent(93, "Legacy event 93", function()
     evt.OpenChest(12)
-    return
 end)
 
 RegisterEvent(94, "Legacy event 94", function()
     evt.OpenChest(13)
-    return
 end)
 
 RegisterEvent(95, "Legacy event 95", function()
     evt.OpenChest(14)
-    return
 end)
 
 RegisterEvent(96, "Legacy event 96", function()
     evt.OpenChest(15)
-    return
 end)
 
 RegisterEvent(97, "Legacy event 97", function()
     evt.OpenChest(16)
-    return
 end)
 
 RegisterEvent(98, "Legacy event 98", function()
     evt.OpenChest(17)
-    return
 end)
 
 RegisterEvent(99, "Legacy event 99", function()
     evt.OpenChest(18)
-    return
 end)
 
 RegisterEvent(100, "Legacy event 100", function()
     evt.OpenChest(19)
-    return
 end)
 
 RegisterEvent(401, "Escaton's Palace", nil, "Escaton's Palace")
@@ -166,8 +146,7 @@ RegisterEvent(405, "Prison of the Water Lord", nil, "Prison of the Water Lord")
 RegisterEvent(406, "Escaton's Crystal", nil, "Escaton's Crystal")
 
 RegisterEvent(501, "Enter Escaton's Palace", function()
-    evt.MoveToMap(-704, -5312, 1, 512, 0, 0, 218, 0, "d35.blv")
-    return
+    evt.MoveToMap(-704, -5312, 1, 512, 0, 0, 378, 1, "d35.blv") -- Escaton's Palace
 end, "Enter Escaton's Palace")
 
 RegisterEvent(502, "Enter the Prison of the Air Lord", function()
@@ -176,8 +155,7 @@ RegisterEvent(502, "Enter the Prison of the Air Lord", function()
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
-    evt.MoveToMap(-733, -2563, -1051, 960, 0, 0, 219, 0, "d36.blv")
-    return
+    evt.MoveToMap(-733, -2563, -1051, 960, 0, 0, 379, 1, "d36.blv") -- Prison of the Lord of Air
 end, "Enter the Prison of the Air Lord")
 
 RegisterEvent(503, "Enter the Prison of the Fire Lord", function()
@@ -186,8 +164,7 @@ RegisterEvent(503, "Enter the Prison of the Fire Lord", function()
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
-    evt.MoveToMap(-128, 896, 1, 1536, 0, 0, 199, 1, "d37.blv")
-    return
+    evt.MoveToMap(-128, 896, 1, 1536, 0, 0, 342, 1, "d37.blv") -- Prison of the Lord of Fire
 end, "Enter the Prison of the Fire Lord")
 
 RegisterEvent(504, "Enter the Prison of the Water Lord", function()
@@ -196,8 +173,7 @@ RegisterEvent(504, "Enter the Prison of the Water Lord", function()
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
-    evt.MoveToMap(2393, -10664, 1, 520, 0, 0, 200, 1, "d38.blv")
-    return
+    evt.MoveToMap(2393, -10664, 1, 520, 0, 0, 343, 1, "d38.blv") -- Prison of the Lord of Water
 end, "Enter the Prison of the Water Lord")
 
 RegisterEvent(505, "Enter the Prison of the Earth Lord", function()
@@ -206,18 +182,16 @@ RegisterEvent(505, "Enter the Prison of the Earth Lord", function()
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     end
-    evt.MoveToMap(-2, 118, 1, 2047, 0, 0, 198, 1, "d39.blv")
-    return
+    evt.MoveToMap(-2, 118, 1, 2047, 0, 0, 341, 1, "d39.blv") -- Prison of the Lord of Earth
 end, "Enter the Prison of the Earth Lord")
 
 RegisterEvent(506, "Enter Escaton's Crystal", function()
-    evt.MoveToMap(-14232, -2956, 800, 432, 0, 0, 0, 0, "D10.blv")
-    return
+    evt.MoveToMap(-14232, -2956, 800, 432, 0, 0, 0, 1, "d10.blv") -- Escaton's Crystal
 end, "Enter Escaton's Crystal")
 
 RegisterEvent(507, "A giant's sword", function()
-    if not HasItem(634) then return end -- Flute
-    evt.MoveToMap(19, -601, 1, 1552, 0, 0, 0, 0, "d50.blv")
-    return
+    if HasItem(634) then -- Flute
+        evt.MoveToMap(19, -601, 1, 1552, 0, 0, 0, 1, "d50.blv") -- NWC
+    end
 end, "A giant's sword")
 

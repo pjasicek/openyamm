@@ -1,0 +1,67 @@
+# Monster sprite frame groups for family m504.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 16785
+    sprite_name: "m504d"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "7m504da0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 545
+      - texture_name: "7m504db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 545
+      - texture_name: "7m504dc0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 545
+  - sprite_id: 16788
+    sprite_name: "m504s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "7m504sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+  - sprite_id: 16789
+    sprite_name: "m504w"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "7m504wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m504wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m504wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m504wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m504wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m504wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+      - texture_name: "7m504wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 545
+  - sprite_id: 16796
+    sprite_name: "m504x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "7m504xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 545

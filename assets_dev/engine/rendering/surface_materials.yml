@@ -6,9 +6,14 @@ materials:
       - face
     match:
       texture_names:
+        - 6wtrtyl
+        - 7wtrtyl
         - wtrtyl
         - hwtrtyl
       texture_prefixes:
+        - 6wtrdr
+        - 7hwtrdr
+        - 7wtrdr
         - wtrdr
         - hwtrdr
     terrain_transition_overlay: true

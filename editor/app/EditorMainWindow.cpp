@@ -7913,9 +7913,13 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
         return;
     }
 
+    const std::filesystem::path editorWorldsRoot = pAssetFileSystem->getEditorDevelopmentRoot() / "worlds";
+
     if (m_openMapBrowserDirectory.empty() || !std::filesystem::exists(m_openMapBrowserDirectory))
     {
-        m_openMapBrowserDirectory = std::filesystem::current_path();
+        m_openMapBrowserDirectory = std::filesystem::exists(editorWorldsRoot)
+            ? editorWorldsRoot
+            : std::filesystem::current_path();
     }
 
     std::error_code pathError;
@@ -7971,10 +7975,9 @@ void EditorMainWindow::renderOpenOutdoorMapModal(EditorSession &session)
 
     if (ImGui::Button("Root", ImVec2(80.0f, 0.0f)))
     {
-        const std::filesystem::path absolutePath = std::filesystem::absolute(m_openMapBrowserDirectory);
-        const std::filesystem::path rootPath = absolutePath.root_path();
-
-        m_openMapBrowserDirectory = rootPath.empty() ? m_openMapBrowserDirectory : rootPath;
+        m_openMapBrowserDirectory = std::filesystem::exists(editorWorldsRoot)
+            ? editorWorldsRoot
+            : std::filesystem::absolute(m_openMapBrowserDirectory).root_path();
         m_openMapSelectedRelativePath.clear();
     }
 

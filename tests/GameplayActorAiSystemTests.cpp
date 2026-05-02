@@ -616,17 +616,32 @@ TEST_CASE("monster spell support includes implemented monster-data spells")
 TEST_CASE("monster data spell names resolve and unsupported mechanics stay explicit")
 {
     const std::optional<std::vector<std::vector<std::string>>> monsterRows =
-        loadAssetTextTableRows("assets_dev/worlds/mm8/data_tables/monster_data.txt");
+        loadAssetTextTableRows("assets_dev/engine/data_tables/monster_data.txt");
     const std::optional<std::vector<std::vector<std::string>>> spellRows =
         loadAssetTextTableRows("assets_dev/engine/data_tables/spells.txt");
+    const std::optional<std::vector<std::vector<std::string>>> supplementalSpellRows =
+        loadAssetTextTableRows("assets_dev/engine/data_tables/spells_supplemental.txt");
     REQUIRE(monsterRows.has_value());
     REQUIRE(spellRows.has_value());
 
+    std::vector<std::vector<std::string>> combinedSpellRows = *spellRows;
+
+    if (supplementalSpellRows.has_value())
+    {
+        combinedSpellRows.insert(
+            combinedSpellRows.end(),
+            supplementalSpellRows->begin(),
+            supplementalSpellRows->end());
+    }
+
     OpenYAMM::Game::SpellTable spellTable = {};
-    REQUIRE(spellTable.loadFromRows(*spellRows));
+    REQUIRE(spellTable.loadFromRows(combinedSpellRows));
 
     const std::set<std::string> knownUnsupportedMechanics = {
+        "day-o-gods",
         "day of the gods",
+        "finger of death",
+        "mass curse",
         "paralyze",
     };
     std::set<std::string> unsupportedSpellNames;

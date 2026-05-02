@@ -93,15 +93,15 @@ std::vector<std::string> buildLuaScriptPathCandidates(const std::string &baseNam
     if (globalScope)
     {
         return {
-            "Data/scripts/Global.lua",
-            "Data/scripts/global.lua",
+            "events/Global.lua",
+            "events/global.lua",
         };
     }
 
     const std::string lowerBaseName = toLowerCopy(baseName);
     return {
-        "Data/scripts/maps/" + lowerBaseName + ".lua",
-        "Data/scripts/maps/" + baseName + ".lua",
+        "events/maps/" + lowerBaseName + ".lua",
+        "events/maps/" + baseName + ".lua",
     };
 }
 
@@ -142,8 +142,8 @@ std::vector<std::filesystem::path> buildLuaScriptSidecarPathCandidates(
 std::vector<std::string> buildLuaSupportPathCandidates()
 {
     return {
-        "Data/scripts/common/event_support.lua",
-        "Data/scripts/common/EventSupport.lua",
+        "scripts/common/event_support.lua",
+        "scripts/common/EventSupport.lua",
     };
 }
 
@@ -166,12 +166,17 @@ std::string prependLuaSupport(
 
 std::string dataTablePath(std::string_view fileName)
 {
-    return "Data/data_tables/" + std::string(fileName);
+    return "engine/data_tables/" + std::string(fileName);
 }
 
-std::string englishDataTablePath(std::string_view fileName)
+std::string engineDataTablePath(std::string_view fileName)
 {
-    return "Data/data_tables/english/" + std::string(fileName);
+    return "engine/data_tables/" + std::string(fileName);
+}
+
+std::string engineEnglishDataTablePath(std::string_view fileName)
+{
+    return "engine/data_tables/english/" + std::string(fileName);
 }
 
 size_t countChestItemSlots(const MapDeltaChest &chest)
@@ -906,6 +911,11 @@ void GameDataLoader::setActiveWorldId(const std::string &worldId)
     m_activeWorldId = normalizeWorldId(worldId);
 }
 
+void GameDataLoader::setInitialMapFileName(const std::string &fileName)
+{
+    m_initialMapFileName = fileName;
+}
+
 bool GameDataLoader::loadForGameplay(const Engine::AssetFileSystem &assetFileSystem)
 {
     return loadInternal(assetFileSystem, MapLoadPurpose::FullGameplay);
@@ -918,6 +928,7 @@ bool GameDataLoader::loadForHeadlessGameplay(const Engine::AssetFileSystem &asse
 
 bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose)
 {
+    m_activeWorldId = normalizeWorldId(assetFileSystem.getActiveWorldId());
     m_loadedTables.clear();
 
     if (!loadMapStats(assetFileSystem))
@@ -1063,9 +1074,9 @@ bool GameDataLoader::loadInternal(const Engine::AssetFileSystem &assetFileSystem
     }
 
     const std::vector<std::string> tablePaths = {
-        dataTablePath("spells.txt"),
-        dataTablePath("random_items.txt"),
-        englishDataTablePath("scroll.txt")
+        engineDataTablePath("spells.txt"),
+        engineDataTablePath("random_items.txt"),
+        engineEnglishDataTablePath("scroll.txt")
     };
 
     for (const std::string &tablePath : tablePaths)
@@ -1411,7 +1422,7 @@ bool GameDataLoader::loadMapStats(const Engine::AssetFileSystem &assetFileSystem
         rows.push_back(parsedTable->getRow(rowIndex));
     }
 
-    if (!m_mapStats.loadFromRows(rows, m_activeWorldId))
+    if (!m_mapStats.loadFromRows(rows, DefaultWorldId))
     {
         return false;
     }
@@ -1451,7 +1462,7 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
 {
     std::vector<std::vector<std::string>> monsterDataRows;
 
-    const std::string monsterDataPath = dataTablePath("monster_data.txt");
+    const std::string monsterDataPath = engineDataTablePath("monster_data.txt");
 
     if (!loadTextTableRows(assetFileSystem, monsterDataPath, monsterDataRows))
     {
@@ -1460,7 +1471,7 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
 
     std::vector<std::vector<std::string>> monsterDescriptorRows;
 
-    const std::string monsterDescriptorPath = dataTablePath("monster_descriptors.txt");
+    const std::string monsterDescriptorPath = engineDataTablePath("monster_descriptors.txt");
 
     if (!loadTextTableRows(assetFileSystem, monsterDescriptorPath, monsterDescriptorRows))
     {
@@ -1502,7 +1513,7 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
 
     std::vector<std::vector<std::string>> placedMonsterRows;
 
-    const std::string placeMonPath = englishDataTablePath("place_mon.txt");
+    const std::string placeMonPath = engineEnglishDataTablePath("place_mon.txt");
 
     if (!loadTextTableRows(assetFileSystem, placeMonPath, placedMonsterRows))
     {
@@ -1517,7 +1528,7 @@ bool GameDataLoader::loadMonsterTable(const Engine::AssetFileSystem &assetFileSy
 
     std::vector<std::vector<std::string>> monsterRelationRows;
 
-    const std::string monsterRelationPath = dataTablePath("monster_relation_data.txt");
+    const std::string monsterRelationPath = engineDataTablePath("hostile.txt");
 
     if (!loadTextTableRows(assetFileSystem, monsterRelationPath, monsterRelationRows))
     {
@@ -1572,7 +1583,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {dataTablePath("npc_greet.txt")},
+            {engineDataTablePath("npc_greet.txt")},
             greetingRows))
     {
         return false;
@@ -1582,7 +1593,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {dataTablePath("npc_topic_text.txt")},
+            {engineDataTablePath("npc_topic_text.txt")},
             textRows))
     {
         return false;
@@ -1592,7 +1603,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {dataTablePath("npc_topic.txt")},
+            {engineDataTablePath("npc_topic.txt")},
             topicRows))
     {
         return false;
@@ -1602,7 +1613,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {dataTablePath("npc.txt")},
+            {engineDataTablePath("npc.txt")},
             npcRows))
     {
         return false;
@@ -1612,7 +1623,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {dataTablePath("npc_news.txt")},
+            {engineDataTablePath("npc_news.txt")},
             newsRows))
     {
         return false;
@@ -1622,7 +1633,7 @@ bool GameDataLoader::loadNpcDialogTable(const Engine::AssetFileSystem &assetFile
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {englishDataTablePath("npc_group.txt")},
+            {engineEnglishDataTablePath("npc_group.txt")},
             groupRows))
     {
         return false;
@@ -1646,7 +1657,7 @@ bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileS
 {
     std::vector<std::vector<std::string>> questRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {englishDataTablePath("quests.txt")}, questRows))
+    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("quests.txt")}, questRows))
     {
         std::cerr << "Failed to read journal quest table\n";
         return false;
@@ -1654,7 +1665,7 @@ bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileS
 
     std::vector<std::vector<std::string>> historyRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {englishDataTablePath("history.txt")}, historyRows))
+    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("history.txt")}, historyRows))
     {
         std::cerr << "Failed to read journal history table\n";
         return false;
@@ -1662,7 +1673,7 @@ bool GameDataLoader::loadJournalTables(const Engine::AssetFileSystem &assetFileS
 
     std::vector<std::vector<std::string>> autonoteRows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {englishDataTablePath("autonote.txt")}, autonoteRows))
+    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("autonote.txt")}, autonoteRows))
     {
         std::cerr << "Failed to read journal autonote table\n";
         return false;
@@ -1693,14 +1704,14 @@ bool GameDataLoader::loadClassSkillTable(const Engine::AssetFileSystem &assetFil
 {
     std::vector<std::vector<std::string>> capRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("class_skills.txt"), capRows))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("class_skills.txt"), capRows))
     {
         return false;
     }
 
     std::vector<std::vector<std::string>> startingRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("class_starting_skills.txt"), startingRows))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("class_starting_skills.txt"), startingRows))
     {
         return false;
     }
@@ -1718,7 +1729,7 @@ bool GameDataLoader::loadClassMultiplierTable(const Engine::AssetFileSystem &ass
 {
     std::vector<std::vector<std::string>> rows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("class_multipliers.txt"), rows))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("class_multipliers.txt"), rows))
     {
         return false;
     }
@@ -1736,7 +1747,7 @@ bool GameDataLoader::loadRosterTable(const Engine::AssetFileSystem &assetFileSys
 {
     std::vector<std::vector<std::string>> rows;
 
-    const std::string rosterPath = dataTablePath("roster.txt");
+    const std::string rosterPath = engineDataTablePath("roster.txt");
 
     if (!loadTextTableRows(assetFileSystem, rosterPath, rows))
     {
@@ -1756,7 +1767,7 @@ bool GameDataLoader::loadCharacterDollTable(const Engine::AssetFileSystem &asset
 {
     std::vector<std::vector<std::string>> characterRows;
 
-    const std::string characterDataPath = dataTablePath("character_data.txt");
+    const std::string characterDataPath = engineDataTablePath("character_data.txt");
 
     if (!loadTextTableRows(assetFileSystem, characterDataPath, characterRows))
     {
@@ -1766,7 +1777,7 @@ bool GameDataLoader::loadCharacterDollTable(const Engine::AssetFileSystem &asset
 
     std::vector<std::vector<std::string>> dollTypeRows;
 
-    const std::string dollTypesPath = dataTablePath("doll_types.txt");
+    const std::string dollTypesPath = engineDataTablePath("doll_types.txt");
 
     if (!loadTextTableRows(assetFileSystem, dollTypesPath, dollTypeRows))
     {
@@ -1793,7 +1804,7 @@ bool GameDataLoader::loadCharacterInspectTable(const Engine::AssetFileSystem &as
 {
     std::vector<std::vector<std::string>> statRows;
 
-    const std::string statsPath = englishDataTablePath("stats.txt");
+    const std::string statsPath = engineEnglishDataTablePath("stats.txt");
 
     if (!loadTextTableRows(assetFileSystem, statsPath, statRows))
     {
@@ -1803,7 +1814,7 @@ bool GameDataLoader::loadCharacterInspectTable(const Engine::AssetFileSystem &as
 
     std::vector<std::vector<std::string>> skillRows;
 
-    const std::string skillDesPath = englishDataTablePath("skill_des.txt");
+    const std::string skillDesPath = engineEnglishDataTablePath("skill_des.txt");
 
     if (!loadTextTableRows(assetFileSystem, skillDesPath, skillRows))
     {
@@ -1823,7 +1834,7 @@ bool GameDataLoader::loadCharacterInspectTable(const Engine::AssetFileSystem &as
 bool GameDataLoader::loadRaceStartingStatsTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     std::vector<std::vector<std::string>> rows;
-    const std::string tablePath = dataTablePath("race_starting_stats.txt");
+    const std::string tablePath = engineDataTablePath("race_starting_stats.txt");
 
     if (!loadTextTableRows(assetFileSystem, tablePath, rows))
     {
@@ -1844,7 +1855,7 @@ bool GameDataLoader::loadReadableScrollTable(const Engine::AssetFileSystem &asse
 {
     std::vector<std::vector<std::string>> rows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {englishDataTablePath("scroll.txt")}, rows))
+    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("scroll.txt")}, rows))
     {
         std::cerr << "Failed to read readable scroll table\n";
         return false;
@@ -1863,7 +1874,7 @@ bool GameDataLoader::loadPotionMixingTable(const Engine::AssetFileSystem &assetF
 {
     std::vector<std::vector<std::string>> rows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {englishDataTablePath("potion.txt")}, rows))
+    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("potion.txt")}, rows))
     {
         return false;
     }
@@ -1881,7 +1892,7 @@ bool GameDataLoader::loadTransitionTable(const Engine::AssetFileSystem &assetFil
 {
     std::vector<std::vector<std::string>> rows;
 
-    if (!loadFirstTextTableRows(assetFileSystem, {englishDataTablePath("trans.txt")}, rows))
+    if (!loadFirstTextTableRows(assetFileSystem, {engineEnglishDataTablePath("trans.txt")}, rows))
     {
         return false;
     }
@@ -1899,7 +1910,7 @@ bool GameDataLoader::loadArcomageLibrary(const Engine::AssetFileSystem &assetFil
 {
     std::vector<std::vector<std::string>> ruleRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("arcomage_rules.txt"), ruleRows))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("arcomage_rules.txt"), ruleRows))
     {
         std::cerr << "Failed to read Arcomage tavern rule table\n";
         return false;
@@ -1907,7 +1918,7 @@ bool GameDataLoader::loadArcomageLibrary(const Engine::AssetFileSystem &assetFil
 
     std::vector<std::vector<std::string>> cardRows;
 
-    if (!loadTextTableRows(assetFileSystem, dataTablePath("arcomage_cards.txt"), cardRows))
+    if (!loadTextTableRows(assetFileSystem, engineDataTablePath("arcomage_cards.txt"), cardRows))
     {
         std::cerr << "Failed to read Arcomage card table\n";
         return false;
@@ -1928,7 +1939,7 @@ bool GameDataLoader::loadArcomageLibrary(const Engine::AssetFileSystem &assetFil
 bool GameDataLoader::loadPortraitFrameTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     std::vector<std::vector<std::string>> rows;
-    const std::string tablePath = dataTablePath("portrait_frame_data.txt");
+    const std::string tablePath = engineDataTablePath("portrait_frame_data.txt");
 
     if (!loadTextTableRows(assetFileSystem, tablePath, rows))
     {
@@ -1948,7 +1959,7 @@ bool GameDataLoader::loadPortraitFrameTable(const Engine::AssetFileSystem &asset
 bool GameDataLoader::loadIconFrameTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     std::vector<std::vector<std::string>> rows;
-    const std::string tablePath = dataTablePath("icon_frame_data.txt");
+    const std::string tablePath = engineDataTablePath("icon_frame_data.txt");
 
     if (!loadTextTableRows(assetFileSystem, tablePath, rows))
     {
@@ -1968,7 +1979,7 @@ bool GameDataLoader::loadIconFrameTable(const Engine::AssetFileSystem &assetFile
 bool GameDataLoader::loadSpellFxTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     std::vector<std::vector<std::string>> rows;
-    const std::string tablePath = dataTablePath("spell_fx.txt");
+    const std::string tablePath = engineDataTablePath("spell_fx.txt");
 
     if (!loadTextTableRows(assetFileSystem, tablePath, rows))
     {
@@ -1988,7 +1999,7 @@ bool GameDataLoader::loadSpellFxTable(const Engine::AssetFileSystem &assetFileSy
 bool GameDataLoader::loadPortraitFxEventTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     std::vector<std::vector<std::string>> rows;
-    const std::string tablePath = dataTablePath("portrait_fx_events.txt");
+    const std::string tablePath = engineDataTablePath("portrait_fx_events.txt");
 
     if (!loadTextTableRows(assetFileSystem, tablePath, rows))
     {
@@ -2008,7 +2019,7 @@ bool GameDataLoader::loadPortraitFxEventTable(const Engine::AssetFileSystem &ass
 bool GameDataLoader::loadFaceAnimationTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     std::vector<std::vector<std::string>> rows;
-    const std::string tablePath = dataTablePath("face_animations.txt");
+    const std::string tablePath = engineDataTablePath("face_animations.txt");
 
     if (!loadTextTableRows(assetFileSystem, tablePath, rows))
     {
@@ -2072,7 +2083,7 @@ bool GameDataLoader::loadFirstTextTableRows(
 bool GameDataLoader::loadObjectTable(const Engine::AssetFileSystem &assetFileSystem)
 {
     std::vector<std::vector<std::string>> objectRows;
-    const std::string objectListPath = dataTablePath("object_list.txt");
+    const std::string objectListPath = engineDataTablePath("object_list.txt");
 
     if (!loadTextTableRows(assetFileSystem, objectListPath, objectRows))
     {
@@ -2112,7 +2123,7 @@ bool GameDataLoader::loadSpellTable(const Engine::AssetFileSystem &assetFileSyst
 {
     std::vector<std::vector<std::string>> rows;
 
-    const std::string spellsPath = dataTablePath("spells.txt");
+    const std::string spellsPath = engineDataTablePath("spells.txt");
 
     if (!loadTextTableRows(assetFileSystem, spellsPath, rows))
     {
@@ -2125,7 +2136,7 @@ bool GameDataLoader::loadSpellTable(const Engine::AssetFileSystem &assetFileSyst
         return false;
     }
 
-    const std::string supplementalSpellsPath = dataTablePath("spells_supplemental.txt");
+    const std::string supplementalSpellsPath = engineDataTablePath("spells_supplemental.txt");
 
     if (assetFileSystem.exists(supplementalSpellsPath))
     {
@@ -2152,7 +2163,7 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
 {
     std::vector<std::vector<std::string>> itemRows;
 
-    const std::string itemsPath = dataTablePath("items.txt");
+    const std::string itemsPath = engineDataTablePath("items.txt");
 
     if (!loadTextTableRows(assetFileSystem, itemsPath, itemRows))
     {
@@ -2161,7 +2172,7 @@ bool GameDataLoader::loadItemTable(const Engine::AssetFileSystem &assetFileSyste
 
     std::vector<std::vector<std::string>> randomItemRows;
 
-    const std::string randomItemsPath = dataTablePath("random_items.txt");
+    const std::string randomItemsPath = engineDataTablePath("random_items.txt");
 
     if (!loadTextTableRows(assetFileSystem, randomItemsPath, randomItemRows))
     {
@@ -2184,7 +2195,7 @@ bool GameDataLoader::loadItemEnchantTables(const Engine::AssetFileSystem &assetF
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {dataTablePath("standard_item_enchants.txt")},
+            {engineDataTablePath("standard_item_enchants.txt")},
             standardRows))
     {
         std::cerr << "Failed to read standard item enchant table: STDITEMS.TXT\n";
@@ -2193,7 +2204,7 @@ bool GameDataLoader::loadItemEnchantTables(const Engine::AssetFileSystem &assetF
 
     if (!loadFirstTextTableRows(
             assetFileSystem,
-            {dataTablePath("special_item_enchants.txt")},
+            {engineDataTablePath("special_item_enchants.txt")},
             specialRows))
     {
         std::cerr << "Failed to read special item enchant table: SPCITEMS.TXT\n";
@@ -2213,7 +2224,7 @@ bool GameDataLoader::loadItemEquipPosTable(const Engine::AssetFileSystem &assetF
 {
     std::vector<std::vector<std::string>> rows;
 
-    const std::string itemEquipPosPath = dataTablePath("item_equip_pos.txt");
+    const std::string itemEquipPosPath = engineDataTablePath("item_equip_pos.txt");
 
     if (!loadTextTableRows(assetFileSystem, itemEquipPosPath, rows))
     {
@@ -2283,7 +2294,45 @@ bool GameDataLoader::loadTextTableRows(
 
 bool GameDataLoader::loadInitialMap(const Engine::AssetFileSystem &assetFileSystem, MapLoadPurpose mapLoadPurpose)
 {
-    return loadSelectedMap(assetFileSystem, 1, mapLoadPurpose);
+    if (!m_initialMapFileName.empty())
+    {
+        const std::optional<MapStatsEntry> selectedMap = m_mapRegistry.findByFileName(m_initialMapFileName);
+
+        if (!selectedMap)
+        {
+            std::cerr << "Failed to select initial map from map registry: file=" << m_initialMapFileName << '\n';
+            return false;
+        }
+
+        return loadSelectedMap(assetFileSystem, selectedMap->id, mapLoadPurpose);
+    }
+
+    const std::string activeWorldCanonicalPrefix = "world." + m_activeWorldId + ".map.";
+
+    for (const MapStatsEntry &entry : m_mapRegistry.getEntries())
+    {
+        if (toLowerCopy(entry.canonicalId).starts_with(activeWorldCanonicalPrefix))
+        {
+            return loadSelectedMap(assetFileSystem, entry.id, mapLoadPurpose);
+        }
+    }
+
+    const std::optional<MapStatsEntry> defaultMap = m_mapRegistry.findById(1);
+
+    if (defaultMap)
+    {
+        return loadSelectedMap(assetFileSystem, defaultMap->id, mapLoadPurpose);
+    }
+
+    const std::vector<MapStatsEntry> &entries = m_mapRegistry.getEntries();
+
+    if (entries.empty())
+    {
+        std::cerr << "Failed to select initial map from empty map registry\n";
+        return false;
+    }
+
+    return loadSelectedMap(assetFileSystem, entries.front().id, mapLoadPurpose);
 }
 
 bool GameDataLoader::loadSelectedMap(

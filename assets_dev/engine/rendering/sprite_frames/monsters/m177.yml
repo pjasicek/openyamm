@@ -1,0 +1,200 @@
+# Monster sprite frame groups for family m177.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 9071
+    sprite_name: "m177a"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m174aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174ac"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174ae"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174af"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174ag"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+  - sprite_id: 9078
+    sprite_name: "m177d"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m174na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174da0"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.199997
+        glow_radius: 64
+        palette_id: 42
+      - texture_name: "m174db0"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.199997
+        glow_radius: 128
+        palette_id: 42
+      - texture_name: "m174dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.199997
+        glow_radius: 256
+        palette_id: 42
+      - texture_name: "m174de0"
+        frame_length_raw: 2
+        flags: [Lit, Image1, Center]
+        scale: 1.199997
+        glow_radius: 128
+        palette_id: 42
+  - sprite_id: 9083
+    sprite_name: "m177x"
+    animation_length_raw: 3
+    frames:
+      - texture_name: "m174xa0"
+        frame_length_raw: 3
+        flags: [First, Image1, Center]
+        scale: 1.199997
+        palette_id: 42
+  - sprite_id: 9084
+    sprite_name: "m177w"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m174wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174wg"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174wh"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+  - sprite_id: 9091
+    sprite_name: "m177n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m174na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174nd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174ne"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174nf"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42
+  - sprite_id: 9097
+    sprite_name: "m177f"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m174fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174fd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174fc0"
+        frame_length_raw: 4
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 42
+      - texture_name: "m174fb0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 1.199997
+        palette_id: 42
+  - sprite_id: 9103
+    sprite_name: "m177s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m174sa"
+        frame_length_raw: 2
+        flags: [First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 42

@@ -444,6 +444,12 @@ TEST_CASE("generated_lua_event_scripts_are_loaded_from_files")
     REQUIRE(selectedMap->globalEventProgram->luaSourceText().has_value());
     REQUIRE(selectedMap->globalEventProgram->luaSourceName().has_value());
     CHECK_EQ(*selectedMap->globalEventProgram->luaSourceName(), "@Data/scripts/Global.lua");
+    CHECK(std::filesystem::exists(
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/events/Global.lua"));
+    CHECK_FALSE(std::filesystem::exists(
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/engine/scripts/Global.lua"));
+    CHECK_FALSE(std::filesystem::exists(
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm8/events/Global.lua"));
 
     REQUIRE(selectedMap->localEventProgram.has_value());
     REQUIRE(selectedMap->localEventProgram->luaSourceText().has_value());
@@ -502,15 +508,15 @@ TEST_CASE("d19 blv MoveNPC updates party global npc house overrides")
         &party));
 
     CHECK_EQ(runtimeState.npcHouseOverrides[9], 0u);
-    CHECK_EQ(runtimeState.npcHouseOverrides[69], 175u);
-    CHECK_EQ(runtimeState.npcHouseOverrides[76], 180u);
+    CHECK_EQ(runtimeState.npcHouseOverrides[56], 751u);
+    CHECK_EQ(runtimeState.npcHouseOverrides[63], 213u);
 
     OpenYAMM::Game::EventRuntimeState seededRuntimeState = {};
     party.applyGlobalNpcStateTo(seededRuntimeState);
 
     CHECK_EQ(seededRuntimeState.npcHouseOverrides[9], 0u);
-    CHECK_EQ(seededRuntimeState.npcHouseOverrides[69], 175u);
-    CHECK_EQ(seededRuntimeState.npcHouseOverrides[76], 180u);
+    CHECK_EQ(seededRuntimeState.npcHouseOverrides[56], 751u);
+    CHECK_EQ(seededRuntimeState.npcHouseOverrides[63], 213u);
 }
 
 TEST_CASE("d16 on-leave events move allied dragon hunters before map exit")
@@ -553,15 +559,15 @@ TEST_CASE("d16 on-leave events move allied dragon hunters before map exit")
     REQUIRE(eventRuntime.executeOnLeaveEvents(localEventProgram, std::nullopt, runtimeState, &party));
 
     CHECK_EQ(runtimeState.npcHouseOverrides[19], 0u);
-    CHECK_EQ(runtimeState.npcHouseOverrides[65], 175u);
-    CHECK_EQ(runtimeState.npcHouseOverrides[64], 179u);
+    CHECK_EQ(runtimeState.npcHouseOverrides[52], 751u);
+    CHECK_EQ(runtimeState.npcHouseOverrides[51], 753u);
 
     OpenYAMM::Game::EventRuntimeState seededRuntimeState = {};
     party.applyGlobalNpcStateTo(seededRuntimeState);
 
     CHECK_EQ(seededRuntimeState.npcHouseOverrides[19], 0u);
-    CHECK_EQ(seededRuntimeState.npcHouseOverrides[65], 175u);
-    CHECK_EQ(seededRuntimeState.npcHouseOverrides[64], 179u);
+    CHECK_EQ(seededRuntimeState.npcHouseOverrides[52], 751u);
+    CHECK_EQ(seededRuntimeState.npcHouseOverrides[51], 753u);
 }
 
 TEST_CASE("out05 authored special actors preserve relation override and carried item")
@@ -699,10 +705,10 @@ TEST_CASE("d06 submarine event plays cutscene and moves to small sub pen")
 
     REQUIRE(eventRuntime.executeEventById(localEventProgram, std::nullopt, 451, runtimeState, &party, nullptr));
     REQUIRE(runtimeState.pendingMovie.has_value());
-    CHECK_EQ(runtimeState.pendingMovie->movieName, "\"Subcut\" ");
+    CHECK_EQ(runtimeState.pendingMovie->movieName, "\"Subcut\"");
     CHECK(runtimeState.pendingMovie->restoreAfterPlayback);
     REQUIRE(runtimeState.pendingMapMove.has_value());
-    CHECK_EQ(runtimeState.pendingMapMove->mapName, std::optional<std::string>("D34.blv"));
+    CHECK_EQ(runtimeState.pendingMapMove->mapName, std::optional<std::string>("d34.blv"));
     CHECK_EQ(runtimeState.pendingMapMove->x, -2416);
     CHECK_EQ(runtimeState.pendingMapMove->y, 1850);
     CHECK_EQ(runtimeState.pendingMapMove->z, -687);

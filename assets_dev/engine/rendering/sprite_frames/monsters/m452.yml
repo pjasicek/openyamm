@@ -1,0 +1,11 @@
+# Monster sprite frame groups for family m452.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 16450
+    sprite_name: "7m461x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m452xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 498

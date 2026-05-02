@@ -25,7 +25,7 @@ bool canUseBgfxResources()
 
 std::string dataTablePath(std::string_view fileName)
 {
-    return "Data/data_tables/" + std::string(fileName);
+    return "engine/data_tables/" + std::string(fileName);
 }
 
 bool tryParseInteger(const std::string &value, int &parsedValue)

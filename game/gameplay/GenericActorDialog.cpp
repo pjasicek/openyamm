@@ -6,16 +6,22 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-uint32_t resolveGenericNpcId(const std::string &actorName, uint32_t actorGroup)
+uint32_t findNpcIdByName(const NpcDialogTable &npcDialogTable, const std::string &name)
+{
+    const NpcEntry *pNpcEntry = npcDialogTable.findNpcByName(name);
+    return pNpcEntry != nullptr ? pNpcEntry->id : 0;
+}
+
+std::string resolveGenericNpcName(const std::string &actorName, uint32_t actorGroup)
 {
     if (actorName == "Lizardman Peasant")
     {
-        return 516;
+        return "Lizardman Peasant";
     }
 
     if (actorName == "Lizardman Villager")
     {
-        return 516;
+        return "Lizardman Peasant";
     }
 
     if (actorName == "Lizardman Guard"
@@ -24,68 +30,68 @@ uint32_t resolveGenericNpcId(const std::string &actorName, uint32_t actorGroup)
         || actorName == "Lizardman Warrior"
         || actorName == "Lizardman Lookout")
     {
-        return 517;
+        return "Lizardman Guard";
     }
 
     if (actorName == "Dark Elf Peasant")
     {
-        return 518;
+        return "Dark Elf Peasant";
     }
 
     if (actorName == "Dark Elf Guard")
     {
-        return 519;
+        return "Dark Elf Guard";
     }
 
     if (actorName == "Ogre Peasant")
     {
-        return 520;
+        return "Ogre Peasant";
     }
 
     if (actorName == "Wererat Peasant" || actorName == "Wererat Peasants")
     {
-        return 521;
+        return "Wererat Peasants";
     }
 
     if (actorName == "Troll Peasant")
     {
-        return 522;
+        return "Troll Peasant";
     }
 
     if (actorName == "Dragon Hunter")
     {
-        return 523;
+        return "Dragon Hunter";
     }
 
     if (actorName == "Necromancer Peasant")
     {
-        return 524;
+        return "Necromancer Peasant";
     }
 
     if (actorName == "Cleric Peasant")
     {
-        return 525;
+        return "Cleric Peasant";
     }
 
     if (actorName == "Regnan Peasant" || actorName == "Pirate")
     {
-        return 526;
+        return "Regnan Peasant";
     }
 
     if (actorName == "Minotaur Peasant")
     {
-        return 527;
+        return "Minotaur Peasant";
     }
 
     switch (actorGroup)
     {
         case 1:
         case 3:
-            return 516;
+            return "Lizardman Peasant";
 
         case 2:
         case 9:
-            return 517;
+            return "Lizardman Guard";
 
         case 5:
         case 6:
@@ -93,42 +99,42 @@ uint32_t resolveGenericNpcId(const std::string &actorName, uint32_t actorGroup)
         case 16:
         case 17:
         case 18:
-            return 518;
+            return "Dark Elf Peasant";
 
         case 8:
-            return 521;
+            return "Wererat Peasants";
 
         case 19:
         case 20:
         case 21:
-            return 522;
+            return "Troll Peasant";
 
         case 22:
         case 23:
         case 24:
-            return 523;
+            return "Dragon Hunter";
 
         case 25:
         case 26:
         case 27:
-            return 524;
+            return "Necromancer Peasant";
 
         case 28:
         case 29:
-            return 525;
+            return "Cleric Peasant";
 
         case 32:
         case 33:
         case 34:
-            return 526;
+            return "Regnan Peasant";
 
         case 35:
         case 36:
         case 37:
-            return 527;
+            return "Minotaur Peasant";
 
         default:
-            return 0;
+            return {};
     }
 }
 }
@@ -167,7 +173,7 @@ std::optional<GenericActorDialogResolution> resolveGenericActorDialog(
     }
 
     GenericActorDialogResolution resolution = {};
-    resolution.npcId = resolveGenericNpcId(actorName, actorGroup);
+    resolution.npcId = findNpcIdByName(npcDialogTable, resolveGenericNpcName(actorName, actorGroup));
     resolution.newsId = newsId;
     return resolution;
 }

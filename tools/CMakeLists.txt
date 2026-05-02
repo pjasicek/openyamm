@@ -5,6 +5,7 @@ add_executable(openyamm_event_asset_export
     LegacyLuaExport.cpp
     legacy_events/EvtProgram.cpp
     ../game/indoor/IndoorMapData.cpp
+    ../game/maps/MapIdentity.cpp
     ../game/tables/HouseTable.cpp
     ../game/tables/MapStats.cpp
     legacy_events/StrTable.cpp

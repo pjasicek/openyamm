@@ -1,0 +1,143 @@
+# Monster sprite frame groups for family m169.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 8870
+    sprite_name: "m169a"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m166aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166ac"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166ae"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+  - sprite_id: 8875
+    sprite_name: "m169d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m166wa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166wb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166dd0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 1.599991
+        palette_id: 169
+  - sprite_id: 8881
+    sprite_name: "m169x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m166xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 1.599991
+        palette_id: 169
+  - sprite_id: 8882
+    sprite_name: "m169w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m166wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166we"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166wg"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166wh"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+  - sprite_id: 8890
+    sprite_name: "m169n"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "m166na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169
+      - texture_name: "m166nd"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 169

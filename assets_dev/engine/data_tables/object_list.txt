@@ -80,221 +80,462 @@ Scroll	obj182	77	64	64	0	0	81	0x00000000	0	0	0	Bounce
 Spellbook	obj190	78	64	64	0	0	85	0x00000000	0	0	0	Bounce
 Gem	obj195	79	64	64	0	0	86	0x00000000	0	0	0	Bounce
 Key	obj205	80	64	64	0	0	87	0x00000000	0	0	0	Bounce
-//  Spell Effects							
-// Red							
-Fire Bolt	fire02	1010	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	1011	16	16	64	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
-Fireball	fire04	1050	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell01	1051	16	16	96	0	598	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Fire Spike	spell07	1060	16	16	7680	1000	628	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept,Bounce
-explosion	null	1061	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Immolation	null	1070	16	16	64	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
-Meteor Shower	spell09	1080	16	16	768	1000	629	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
-explosion	null	1081	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Inferno	null	1090	16	16	64	1000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
-explosion	null	1091	16	16	64	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
-Incinerate	spell11	1100	16	16	768	4000	641	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	1101	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Air Spell Objects							
-// Yellow							
-Sparks	spell02	2030	16	16	768	1000	610	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
-explosion	null	2031	16	16	64	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
-Lightning Bolt	spell18	2060	16	16	128	8000	653	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	2061	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Implosion	spell57c	2080	16	16	64	0	730	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
-explosion	spell57c	2081	16	16	8	0	730	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Starburst	spell22	2100	16	16	768	4000	659	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	2101	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Water Spell Objects							
-// Blue							
-Poison Spray	null	3010	16	16	768	1500	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	3011	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Ice Bolt	spell26	3030	16	16	768	4000	670	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	3031	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Acid Burst	null	3060	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell29	3061	16	16	64	0	678	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Ice Blast	spell26	3090	16	16	768	4000	670	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	3091	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-shard	spell26	3092	16	16	768	4000	670	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-// Earth Spell Objects							
-// Gray							
-Stun	spell03	4000	16	16	768	4000	622	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Slow	earth02	4010	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	earthX02	4011	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Deadly Swarm	spell37	4030	16	16	768	4000	686	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell37c	4031	16	16	128	0	691	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Blades	spell39	4050	16	16	768	4000	707	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell39c	4051	16	16	8	0	713	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Rock Blast	spell41	4070	16	16	768	4000	714	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	earthX08	4071	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Death Blossom	spell41	4090	16	16	320	1500	714	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
-explosion	earthX10	4091	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-shard	spell41	4092	16	16	1000	500	714	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
-Mass Distortion	earth11	4100	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	earthX11	4101	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Spirit Spell Objects							
-// Color?							
-Spirit Lash	null	5070	16	16	0	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
-explosion	null	5071	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Mind Spell Objects							
-// Orange							
-Mind Blast	spell57	6030	16	16	768	4000	722	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell57c	6031	16	16	8	0	730	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Telepathy	spell59	6000	16	16	64	0	731	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Charm	spell60	6040	16	16	64	4000	739	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-explosion	mindX05	6041	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Berzerk	spell62	6060	16	16	64	0	747	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-explosion	null	6061	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Mass Fear	mind08	6070	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	mindX08	6071	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Psychic Shock	spell65	6090	16	16	768	4000	755	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell57c	6091	16	16	8	0	730	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Enslave	spell66	6100	16	16	64	0	759	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-explosion	null	6101	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Body Spell Objects							
-// Green							
-Harm	spell70	7030	16	16	768	4000	767	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	bodyX04	7031	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Flying Fist	spell76	7090	16	16	768	4000	776	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	bodyX10	7091	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Light Spell Objects							
-// White							
-Light Bolt	sp78b	8000	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	sp78c	8001	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Destroy Undead	light02	8010	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	lightX02	8011	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Paralyze	light04	8030	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	lightX04	8031	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Prismatic Light	spell84	8060	16	16	768	4000	786	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	8061	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Sunray	spell87	8090	16	16	128	8000	796	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	8091	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Dark Spell Objects							
-// Purple							
-Toxic Cloud	spell90	9010	16	16	768	2000	797	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	darkX02	9011	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Shrinking Ray	spell92	9030	16	16	768	4000	809	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	9031	16	16	0	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
-Shrap Metal	spell93	9040	16	16	768	4000	810	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell57c	9041	16	16	8	0	730	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Control Undead	spell94	9050	16	16	72	0	818	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Dark Grasp	null	9070	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	9071	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Dragon Breath	spell97	9080	16	16	768	4000	827	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell97c	9081	16	16	64	0	833	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Souldrinker	null	9100	16	16	0	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
-explosion	null	9110	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Dark Elf Ability Objects							
-// Purple							
-Blind	spell98	10020	16	16	768	4000	841	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	10021	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-DarkFire Bolt	spell99	10030	16	16	768	4000	849	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell99x	10031	16	16	8	0	857	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Vampire Ability Objects							
-// Purple							
-LifeDrain	spell107	11000	16	16	768	4000	908	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	11001	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Vampire Charm	spell60	11020	16	16	768	4000	739	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	11021	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Dragon Ability Objects							
-// Purple							
-Fear	mind08	12000	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	12001	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Breath Weapon 2	spell100	12010	16	16	768	4000	858	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell100x	12011	16	16	8	0	866	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-// Objects							
-Air	spell101	500	16	16	768	6000	867	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Earth	spell102	505	16	16	768	4000	874	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Fire	spell103	510	16	16	768	4000	881	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Water	spell104	515	16	16	768	4000	887	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Body	spell105	520	16	16	768	4000	894	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Mind	spell105	525	16	16	768	4000	894	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Spirit	spell105	530	16	16	768	4000	894	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Light	spell106	535	16	16	768	4000	901	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Dark	spell107	540	16	16	768	4000	908	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Arrow	arrow	545	16	16	768	4000	916	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-FireArrow	FrArw	550	16	16	768	4000	917	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-Laser	lzrbolt	555	16	16	768	6000	915	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	null	556	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Cylops Projectile	spell70c	560	16	16	768	3000	923	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
-explosive death	null	600	16	16	0	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
-explosion	spell97c	601	16	16	64	0	833	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-FireTrap	spell103	811	16	16	48	0	881	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-ElecTrap	spell101	812	16	16	48	0	867	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-ColdTrap	spell104	813	16	16	48	0	887	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-PoisonTrap	spell105	814	16	16	48	0	894	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-launchobject	null	570	16	16	768	3000	0	0x00000000	0	0	0	LifeTime,NoPickup
-Splash	splash	800	16	16	96	0	158	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
-Cylops Projectile	boulder	560	16	16	768	3000	923	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
 Will O' Wisp Heart	obj133	81	64	64	0	0	36	0x00000000	0	0	0	Bounce
 Dragon Turtle Fang	obj134	82	64	64	0	0	37	0x00000000	0	0	0	Bounce
 small pile of coins	obj187	83	64	64	0	0	82	0x00000000	0	0	0	Bounce
 medium pile of coins	obj188	84	64	64	0	0	83	0x00000000	0	0	0	Bounce
 large pile of coins	obj189	85	64	64	0	0	84	0x00000000	0	0	0	Bounce
-letter	obj251	86	64	64	0	0	91	0x00000000	0	0	0	Bounce
+letter	obj251	86	64	64	0	0	90	0x00000000	0	0	0	Bounce
 Urn of Ashes	obj259	87	64	64	0	0	92	0x00000000	0	0	0	Bounce
 Nightshade Brazier	obj272	88	64	64	0	0	103	0x00000000	0	0	0	Bounce
 Dragon Leader's Egg	obj285	89	64	64	0	0	116	0x00000000	0	0	0	Bounce
-Heart of Fire	obj261	92	64	64	0	0	94	0x00000000	0	0	0	Bounce
-Heart of Water	obj262	93	64	64	0	0	95	0x00000000	0	0	0	Bounce
-Heart of Air	obj263	94	64	64	0	0	96	0x00000000	0	0	0	Bounce
-Heart of Earth	obj264	95	64	64	0	0	97	0x00000000	0	0	0	Bounce
-Conflux Key	obj250	96	64	64	0	0	89	0x00000000	0	0	0	Bounce
-Lost Book of Kehl	obj294	97	64	64	0	0	121	0x00000000	0	0	0	Bounce
-Sarcophagus of Korbu	obj265	98	64	64	0	0	98	0x00000000	0	0	0	Bounce
-Puzzle Box	obj361	145	64	64	0	0	146	0x00000000	0	0	0	Bounce
-Vial of Grave Earth	obj268	100	64	64	0	0	99	0x00000000	0	0	0	Bounce
-Drum of Victory	obj269	101	64	64	0	0	100	0x00000000	0	0	0	Bounce
-Remains of Korbu	obj109	102	64	64	0	0	31	0x00000000	0	0	0	Bounce
-Lich Jar	obj276	103	64	64	0	0	107	0x00000000	0	0	0	Bounce
-Ring of Keys	obj277	104	64	64	0	0	108	0x00000000	0	0	0	Bounce
-Idol of the Snake	obj278	105	64	64	0	0	109	0x00000000	0	0	0	Bounce
-Big Brass Ring	obj279	106	64	64	0	0	110	0x00000000	0	0	0	Bounce
-Naga Hide	obj280	107	64	64	0	0	111	0x00000000	0	0	0	Bounce
-Dire Wolf Pelt	obj281	108	64	64	0	0	112	0x00000000	0	0	0	Bounce
-Flute	obj282	109	64	64	0	0	113	0x00000000	0	0	0	Bounce
-Royal Wasp Jelly	obj283	110	64	64	0	0	114	0x00000000	0	0	0	Bounce
-Dragonbane Flower	obj287	111	64	64	0	0	117	0x00000000	0	0	0	Bounce
-Bone of Doom	obj271	112	64	64	0	0	102	0x00000000	0	0	0	Bounce
-Druid Circlet of Power	obj310	113	64	64	0	0	137	0x00000000	0	0	0	Bounce
-Wyvern Horn	obj311	114	64	64	0	0	138	0x00000000	0	0	0	Bounce
-Pirate Hat	obj275	115	64	64	0	0	106	0x00000000	0	0	0	Bounce
-Tobersk Fruit	obj295	116	64	64	0	0	122	0x00000000	0	0	0	Bounce
-Tobersk Pulp	obj296	117	64	64	0	0	123	0x00000000	0	0	0	Bounce
-Tobersk Brandy	obj297	118	64	64	0	0	124	0x00000000	0	0	0	Bounce
-Heartwood of Jadame	obj298	119	64	64	0	0	125	0x00000000	0	0	0	Bounce
-Enchanted Amulets	obj313	120	64	64	0	0	0	0x00000000	0	0	0	Bounce
-Dried Sunfish	obj300	121	64	64	0	0	127	0x00000000	0	0	0	Bounce
-Silver Dust of the Sea	obj301	122	64	64	0	0	128	0x00000000	0	0	0	Bounce
-Ground Wyvern Horn	obj302	123	64	64	0	0	129	0x00000000	0	0	0	Bounce
-Ogre Ear	obj303	124	64	64	0	0	130	0x00000000	0	0	0	Bounce
-Wasp Stingers	obj304	125	64	64	0	0	131	0x00000000	0	0	0	Bounce
-Green Apple	obj305	126	64	64	0	0	132	0x00000000	0	0	0	Bounce
-Horseshoe	obj284	127	64	64	0	0	115	0x00000000	0	0	0	Bounce
-Enchanted Amulet	obj306	128	64	64	0	0	133	0x00000000	0	0	0	Bounce
-Wheel of Frelandeau	obj307	129	64	64	0	0	134	0x00000000	0	0	0	Bounce
-Log of Eldenbrie	obj308	130	64	64	0	0	135	0x00000000	0	0	0	Bounce
-Ball of Dunduck	obj309	131	64	64	0	0	136	0x00000000	0	0	0	Bounce
-Anointed Herb Potion	obj270	132	64	64	0	0	101	0x00000000	0	0	0	Bounce
-Iron-laced ore	obj353	133	64	64	0	0	140	0x00000000	0	0	0	Bounce
-Siertal-laced ore	obj354	134	64	64	0	0	141	0x00000000	0	0	0	Bounce
-Phylt-laced ore	obj355	135	64	64	0	0	142	0x00000000	0	0	0	Bounce
-Kergar-laced ore	obj356	136	64	64	0	0	143	0x00000000	0	0	0	Bounce
-Erudine-laced ore	obj357	137	64	64	0	0	144	0x00000000	0	0	0	Bounce
-Stalt-laced ore	obj358	138	64	64	0	0	145	0x00000000	0	0	0	Bounce
-Power Stone	obj288	139	64	64	0	0	118	0x00000000	0	0	0	Bounce
-Power Stone	obj289	140	64	64	0	0	119	0x00000000	0	0	0	Bounce
-Arcane Key	obj290	141	64	64	0	0	120	0x00000000	0	0	0	Bounce
-Ogre Key	obj312	142	64	64	0	0	139	0x00000000	0	0	0	Bounce
-Gem of Restoration	obj314	143	64	64	0	0	0	0x00000000	0	0	0	Bounce
-Zircon	obj366	144	64	64	0	0	148	0x00000000	0	0	0	Bounce
-Iolite	obj367	146	64	64	0	0	149	0x00000000	0	0	0	Bounce
-Citrine	obj368	147	64	64	0	0	150	0x00000000	0	0	0	Bounce
-Amber	obj369	148	64	64	0	0	151	0x00000000	0	0	0	Bounce
-Amethyst	obj370	149	64	64	0	0	152	0x00000000	0	0	0	Bounce
-Topaz	obj371	150	64	64	0	0	153	0x00000000	0	0	0	Bounce
-Emerald	obj372	151	64	64	0	0	154	0x00000000	0	0	0	Bounce
-Sapphire	obj373	152	64	64	0	0	155	0x00000000	0	0	0	Bounce
-Ruby	obj374	153	64	64	0	0	156	0x00000000	0	0	0	Bounce
-Diamond	obj375	154	64	64	0	0	157	0x00000000	0	0	0	Bounce
-Cannonball of Dominion	obj376	155	64	64	0	0	164	0x00000000	0	0	0	Bounce
+Heart of Fire	obj261	90	64	64	0	0	94	0x00000000	0	0	0	Bounce
+Heart of Water	obj262	91	64	64	0	0	95	0x00000000	0	0	0	Bounce
+Heart of Air	obj263	92	64	64	0	0	96	0x00000000	0	0	0	Bounce
+Heart of Earth	obj264	93	64	64	0	0	97	0x00000000	0	0	0	Bounce
+Conflux Key	obj250	94	64	64	0	0	89	0x00000000	0	0	0	Bounce
+Lost Book of Kehl	obj294	95	64	64	0	0	121	0x00000000	0	0	0	Bounce
+Sarcophagus of Korbu	obj265	96	64	64	0	0	98	0x00000000	0	0	0	Bounce
+Puzzle Box	obj361	97	64	64	0	0	146	0x00000000	0	0	0	Bounce
+Vial of Grave Earth	obj268	98	64	64	0	0	99	0x00000000	0	0	0	Bounce
+Drum of Victory	obj269	99	64	64	0	0	100	0x00000000	0	0	0	Bounce
+Remains of Korbu	obj109	100	64	64	0	0	31	0x00000000	0	0	0	Bounce
+Lich Jar	obj276	101	64	64	0	0	107	0x00000000	0	0	0	Bounce
+Ring of Keys	obj277	102	64	64	0	0	108	0x00000000	0	0	0	Bounce
+Idol of the Snake	obj278	103	64	64	0	0	109	0x00000000	0	0	0	Bounce
+Big Brass Ring	obj279	104	64	64	0	0	110	0x00000000	0	0	0	Bounce
+Naga Hide	obj280	105	64	64	0	0	111	0x00000000	0	0	0	Bounce
+Dire Wolf Pelt	obj281	106	64	64	0	0	112	0x00000000	0	0	0	Bounce
+Flute	obj282	107	64	64	0	0	113	0x00000000	0	0	0	Bounce
+Royal Wasp Jelly	obj283	108	64	64	0	0	114	0x00000000	0	0	0	Bounce
+Dragonbane Flower	obj287	109	64	64	0	0	117	0x00000000	0	0	0	Bounce
+Bone of Doom	obj271	110	64	64	0	0	102	0x00000000	0	0	0	Bounce
+Druid Circlet of Power	obj310	111	64	64	0	0	137	0x00000000	0	0	0	Bounce
+Wyvern Horn	obj311	112	64	64	0	0	138	0x00000000	0	0	0	Bounce
+Pirate Hat	obj275	113	64	64	0	0	106	0x00000000	0	0	0	Bounce
+Tobersk Fruit	obj295	114	64	64	0	0	122	0x00000000	0	0	0	Bounce
+Tobersk Pulp	obj296	115	64	64	0	0	123	0x00000000	0	0	0	Bounce
+Tobersk Brandy	obj297	116	64	64	0	0	124	0x00000000	0	0	0	Bounce
+Heartwood of Jadame	obj298	117	64	64	0	0	125	0x00000000	0	0	0	Bounce
+Enchanted Amulets	null	118	64	64	0	0	0	0x00000000	0	0	0	Bounce
+Dried Sunfish	obj300	119	64	64	0	0	127	0x00000000	0	0	0	Bounce
+Silver Dust of the Sea	obj301	120	64	64	0	0	128	0x00000000	0	0	0	Bounce
+Ground Wyvern Horn	obj302	121	64	64	0	0	129	0x00000000	0	0	0	Bounce
+Ogre Ear	obj303	122	64	64	0	0	130	0x00000000	0	0	0	Bounce
+Wasp Stingers	obj304	123	64	64	0	0	131	0x00000000	0	0	0	Bounce
+Green Apple	obj305	124	64	64	0	0	132	0x00000000	0	0	0	Bounce
+Horseshoe	obj284	125	64	64	0	0	115	0x00000000	0	0	0	Bounce
+Enchanted Amulet	obj306	126	64	64	0	0	133	0x00000000	0	0	0	Bounce
+Wheel of Frelandeau	obj307	127	64	64	0	0	134	0x00000000	0	0	0	Bounce
+Log of Eldenbrie	obj308	128	64	64	0	0	135	0x00000000	0	0	0	Bounce
+Ball of Dunduck	obj309	129	64	64	0	0	136	0x00000000	0	0	0	Bounce
+Anointed Herb Potion	obj270	130	64	64	0	0	101	0x00000000	0	0	0	Bounce
+Iron-laced ore	obj353	131	64	64	0	0	140	0x00000000	0	0	0	Bounce
+Siertal-laced ore	obj354	132	64	64	0	0	141	0x00000000	0	0	0	Bounce
+Phylt-laced ore	obj355	133	64	64	0	0	142	0x00000000	0	0	0	Bounce
+Kergar-laced ore	obj356	134	64	64	0	0	143	0x00000000	0	0	0	Bounce
+Erudine-laced ore	obj357	135	64	64	0	0	144	0x00000000	0	0	0	Bounce
+Stalt-laced ore	obj358	136	64	64	0	0	145	0x00000000	0	0	0	Bounce
+Power Stone	obj288	137	64	64	0	0	118	0x00000000	0	0	0	Bounce
+Power Stone	obj289	138	64	64	0	0	119	0x00000000	0	0	0	Bounce
+Arcane Key	obj290	139	64	64	0	0	120	0x00000000	0	0	0	Bounce
+Ogre Key	obj312	140	64	64	0	0	139	0x00000000	0	0	0	Bounce
+Gem of Restoration	null	141	64	64	0	0	0	0x00000000	0	0	0	Bounce
+Zircon	obj366	142	64	64	0	0	148	0x00000000	0	0	0	Bounce
+Iolite	obj367	143	64	64	0	0	149	0x00000000	0	0	0	Bounce
+Citrine	obj368	144	64	64	0	0	150	0x00000000	0	0	0	Bounce
+Amber	obj369	145	64	64	0	0	151	0x00000000	0	0	0	Bounce
+Amethyst	obj370	146	64	64	0	0	152	0x00000000	0	0	0	Bounce
+Topaz	obj371	147	64	64	0	0	153	0x00000000	0	0	0	Bounce
+Emerald	obj372	148	64	64	0	0	154	0x00000000	0	0	0	Bounce
+Sapphire	obj373	149	64	64	0	0	155	0x00000000	0	0	0	Bounce
+Ruby	obj374	150	64	64	0	0	156	0x00000000	0	0	0	Bounce
+Diamond	obj375	151	64	64	0	0	157	0x00000000	0	0	0	Bounce
+Cannonball of Dominion	obj376	152	64	64	0	0	164	0x00000000	0	0	0	Bounce
+Null	null	153	16	16	0	0	0	0x00000000	0	0	0	0
+longsword	7obj001	154	64	64	0	0	7634	0x00000000	0	0	0	Bounce
+2 handed sword	7obj006	155	64	64	0	0	7635	0x00000000	0	0	0	Bounce
+Broadsword	7obj009	156	64	64	0	0	7636	0x00000000	0	0	0	Bounce
+Cutlass	7obj012	157	64	64	0	0	7637	0x00000000	0	0	0	Bounce
+Dagger	7obj016	158	64	64	0	0	7638	0x00000000	0	0	0	Bounce
+Long Dagger	7obj016	159	64	64	0	0	7638	0x00000000	0	0	0	Bounce
+axe	7obj023	160	64	64	0	0	7639	0x00000000	0	0	0	Bounce
+Two handed axe	7obj028	161	64	64	0	0	7640	0x00000000	0	0	0	Bounce
+Spear	7obj031	162	64	64	0	0	7641	0x00000000	0	0	0	Bounce
+Halberd	7obj036	163	64	64	0	0	7642	0x00000000	0	0	0	Bounce
+Trident	7obj039	164	64	64	0	0	7643	0x00000000	0	0	0	Bounce
+Long bow	7obj042	165	64	64	0	0	7644	0x00000000	0	0	0	Bounce
+Crossbow	7obj047	166	64	64	0	0	7645	0x00000000	0	0	0	Bounce
+Mace	7obj050	167	64	64	0	0	7646	0x00000000	0	0	0	Bounce
+Hammer	7obj055	168	64	64	0	0	7647	0x00000000	0	0	0	Bounce
+Club	7obj058	169	64	64	0	0	7648	0x00000000	0	0	0	Bounce
+Staff	7obj061	170	64	64	0	0	7649	0x00000000	0	0	0	Bounce
+Blaster Pistol	7obj064	171	64	64	0	0	7650	0x00000000	0	0	0	Bounce
+Blaster Rifle	7obj065	172	64	64	0	0	7651	0x00000000	0	0	0	Bounce
+Leather Armor	7obj066	173	64	64	0	0	7652	0x00000000	0	0	0	Bounce
+Chainmail 	7obj071	174	64	64	0	0	7653	0x00000000	0	0	0	Bounce
+Plate mail 	7obj076	175	64	64	0	0	7654	0x00000000	0	0	0	Bounce
+Large Shield	7obj079	176	64	64	0	0	7655	0x00000000	0	0	0	Bounce
+Small Shield 	7OBJ084	177	64	64	0	0	7656	0x00000000	0	0	0	Bounce
+Helm	7OBJ090	178	64	64	0	0	7657	0x00000000	0	0	0	Bounce
+Hat	7OBJ094	179	64	64	0	0	7658	0x00000000	0	0	0	Bounce
+Crown	7obj097	180	64	64	0	0	7659	0x00000000	0	0	0	Bounce
+Belt	7obj101	181	64	64	0	0	7661	0x00000000	0	0	0	Bounce
+Cloak	7obj105	182	64	64	0	0	7662	0x00000000	0	0	0	Bounce
+Gauntlets	7OBJ111	183	64	64	0	0	7663	0x00000000	0	0	0	Bounce
+Boots	7obj115	184	64	64	0	0	7664	0x00000000	0	0	0	Bounce
+Ring	7OBJ120	185	64	64	0	0	7665	0x00000000	0	0	0	Bounce
+Amulet	7obj130	186	64	64	0	0	7666	0x00000000	0	0	0	Bounce
+Wand	7obj135	187	64	64	0	0	7669	0x00000000	0	0	0	Bounce
+Phirna Root	7OBJ140	188	64	64	0	0	7670	0x00000000	0	0	0	Bounce
+Widowsweep Berries	7OBJ141	189	64	64	0	0	7671	0x00000000	0	0	0	Bounce
+Mushrooms	7OBJ142	190	64	64	0	0	7672	0x00000000	0	0	0	Bounce
+Poppysnaps 	7OBJ143	191	64	64	0	0	7673	0x00000000	0	0	0	Bounce
+Rose petals 	7OBJ144	192	64	64	0	0	7674	0x00000000	0	0	0	Bounce
+Vial of Troll's Blood	7obj145	193	64	64	0	0	7675	0x00000000	0	0	0	Bounce
+Ruby	7obj146	194	64	64	0	0	7676	0x00000000	0	0	0	Bounce
+Dragon's eye	7obj147	195	64	64	0	0	7677	0x00000000	0	0	0	Bounce
+Meteorite fragment	7OBJ148	196	64	64	0	0	7678	0x00000000	0	0	0	Bounce
+Harpy Feather	7obj149	197	64	64	0	0	7679	0x00000000	0	0	0	Bounce
+Moonstone	7obj150	198	64	64	0	0	7680	0x00000000	0	0	0	Bounce
+Toadstool	7obj151	199	64	64	0	0	7681	0x00000000	0	0	0	Bounce
+Fae dust	7OBJ152	200	64	64	0	0	7682	0x00000000	0	0	0	Bounce
+Sulfur	7obj153	201	64	64	0	0	7683	0x00000000	0	0	0	Bounce
+Garnet	7obj154	202	64	64	0	0	7684	0x00000000	0	0	0	Bounce
+Vial of Devil Ichor	7obj155	203	64	64	0	0	7685	0x00000000	0	0	0	Bounce
+Obsidian	7OBJ156	204	64	64	0	0	7686	0x00000000	0	0	0	Bounce
+Vial of Ooze endoplasm	7obj157	205	64	64	0	0	7687	0x00000000	0	0	0	Bounce
+Mercury	7obj158	206	64	64	0	0	7688	0x00000000	0	0	0	Bounce
+Philosopher's Stone	7obj159	207	64	64	0	0	7689	0x00000000	0	0	0	Bounce
+Blue Potion	7OBJ160	208	64	64	0	0	7690	0x00000000	0	0	0	Bounce
+Red Potion	7OBJ161	209	64	64	0	0	7691	0x00000000	0	0	0	Bounce
+Yellow Potion	7OBJ162	210	64	64	0	0	7692	0x00000000	0	0	0	Bounce
+White Potion	7OBJ163	211	64	64	0	0	7693	0x00000000	0	0	0	Bounce
+Gray Potion	7OBJ164	212	64	64	0	0	7694	0x00000000	0	0	0	Bounce
+Black Potion	7OBJ165	213	64	64	0	0	7695	0x00000000	0	0	0	Bounce
+Purple Potion	7OBJ166	214	64	64	0	0	7696	0x00000000	0	0	0	Bounce
+Green Potion	7OBJ167	215	64	64	0	0	7697	0x00000000	0	0	0	Bounce
+Orange Potion	7OBJ168	216	64	64	0	0	7698	0x00000000	0	0	0	Bounce
+Red and Orange Potion	null	217	64	64	0	0	0	0x00000000	0	0	0	Bounce
+Red and Purple Potion	null	218	64	64	0	0	0	0x00000000	0	0	0	Bounce
+Red and Green Potion	7OBJ171	219	64	64	0	0	7699	0x00000000	0	0	0	Bounce
+Blue and Orange Potion	7OBJ172	220	64	64	0	0	7700	0x00000000	0	0	0	Bounce
+Blue and Purple Potion	7OBJ173	221	64	64	0	0	7701	0x00000000	0	0	0	Bounce
+Blue and Green Potion	7OBJ174	222	64	64	0	0	7702	0x00000000	0	0	0	Bounce
+Yellow and Orange Potion	7OBJ175	223	64	64	0	0	7703	0x00000000	0	0	0	Bounce
+Yellow and Purple Potion	7OBJ176	224	64	64	0	0	7704	0x00000000	0	0	0	Bounce
+Yellow and Green Potion	7OBJ177	225	64	64	0	0	7705	0x00000000	0	0	0	Bounce
+Orange and Purple Potion	7OBJ178	226	64	64	0	0	7706	0x00000000	0	0	0	Bounce
+Purple and Green Potion	7OBJ179	227	64	64	0	0	7707	0x00000000	0	0	0	Bounce
+Orange and Green Potion	7OBJ180	228	64	64	0	0	7708	0x00000000	0	0	0	Bounce
+Empty Potion Bottle	7OBJ181	229	64	64	0	0	7709	0x00000000	0	0	0	Bounce
+Scroll	7OBJ182	230	64	64	0	0	7710	0x00000000	0	0	0	Bounce
+Spellbook	7obj190	231	64	64	0	0	7715	0x00000000	0	0	0	Bounce
+Gem	7obj196	232	64	64	0	0	7717	0x00000000	0	0	0	Bounce
+Key	7obj205	233	64	64	0	0	7718	0x00000000	0	0	0	Bounce
+Peacock Feather Quill	7obj247	234	64	64	0	0	7719	0x00000000	0	0	0	Bounce
+Wetsuit	7obj299	235	64	64	0	0	7758	0x00000000	0	0	0	Bounce
+Signet Ring	7obj250	236	64	64	0	0	7720	0x00000000	0	0	0	Bounce
+Sealed Letter	7obj251	237	64	64	0	0	7721	0x00000000	0	0	0	Bounce
+Sealed Letter	7obj251	238	64	64	0	0	7721	0x00000000	0	0	0	Bounce
+Sealed Letter	7obj251	239	64	64	0	0	7721	0x00000000	0	0	0	Bounce
+Sealed Letter	7obj251	240	64	64	0	0	7721	0x00000000	0	0	0	Bounce
+Sealed Letter 	7obj251	241	64	64	0	0	7721	0x00000000	0	0	0	Bounce
+Sealed Letter 	7obj251	242	64	64	0	0	7721	0x00000000	0	0	0	Bounce
+Sealed Letter	7obj251	243	64	64	0	0	7721	0x00000000	0	0	0	Bounce
+Sealed Letter	7obj251	244	64	64	0	0	7721	0x00000000	0	0	0	Bounce
+Lich Jar	7obj259	245	64	64	0	0	7722	0x00000000	0	0	0	Bounce
+Genie Lamp	7obj260	246	64	64	0	0	7723	0x00000000	0	0	0	Bounce
+Statuette	7obj261	247	64	64	0	0	7724	0x00000000	0	0	0	Bounce
+Statuette	7obj262	248	64	64	0	0	7725	0x00000000	0	0	0	Bounce
+Statuette	7obj263	249	64	64	0	0	7726	0x00000000	0	0	0	Bounce
+Big Tapestry	7obj365	250	64	64	0	0	7773	0x00000000	0	0	0	Bounce
+Painting 1	7obj265	251	64	64	0	0	7727	0x00000000	0	0	0	Bounce
+Painting 2	7obj265	252	64	64	0	0	7727	0x00000000	0	0	0	Bounce
+Painting 3	7obj265	253	64	64	0	0	7727	0x00000000	0	0	0	Bounce
+Vase	7OBJ268	254	64	64	0	0	7728	0x00000000	0	0	0	Bounce
+Flower	7obj269	255	64	64	0	0	7729	0x00000000	0	0	0	Bounce
+Skull	7obj270	256	64	64	0	0	7730	0x00000000	0	0	0	Bounce
+Thigh Bone	7obj271	257	64	64	0	0	7731	0x00000000	0	0	0	Bounce
+Jar with Magic Dust	7obj272	258	64	64	0	0	7732	0x00000000	0	0	0	Bounce
+Bottle of Poison	7obj273	259	64	64	0	0	7733	0x00000000	0	0	0	Bounce
+Red Apple	7obj274	260	64	64	0	0	7734	0x00000000	0	0	0	Bounce
+Wealthy Hat	7OBJ275	261	64	64	0	0	7735	0x00000000	0	0	0	Bounce
+Musical Instrument 1	7Obj276	262	64	64	0	0	7736	0x00000000	0	0	0	Bounce
+Musical Instrument 2	7Obj277	263	64	64	0	0	7737	0x00000000	0	0	0	Bounce
+Musical Instrument 3	7Obj278	264	64	64	0	0	7738	0x00000000	0	0	0	Bounce
+Seashell	7OBJ279	265	64	64	0	0	7739	0x00000000	0	0	0	Bounce
+Floor Tile	7OBJ280	266	64	64	0	0	7740	0x00000000	0	0	0	Bounce
+Winged Sandals	7OBJ281	267	64	64	0	0	7741	0x00000000	0	0	0	Bounce
+Scarf	7obj282	268	64	64	0	0	7742	0x00000000	0	0	0	Bounce
+Golem parts 	7obj283a	269	64	64	0	0	7743	0x00000000	0	0	0	Bounce
+Golem parts	7obj283b	270	64	64	0	0	7744	0x00000000	0	0	0	Bounce
+Golem parts	7obj283c	271	64	64	0	0	7745	0x00000000	0	0	0	Bounce
+Golem parts	7obj283d	272	64	64	0	0	7746	0x00000000	0	0	0	Bounce
+Golem parts	7obj283e	273	64	64	0	0	7747	0x00000000	0	0	0	Bounce
+Golem parts	7obj283f	274	64	64	0	0	7748	0x00000000	0	0	0	Bounce
+Golem parts	7obj283g	275	64	64	0	0	7749	0x00000000	0	0	0	Bounce
+Horseshoe	7obj284	276	64	64	0	0	7750	0x00000000	0	0	0	Bounce
+Reptilian Egg	7obj285	277	64	64	0	0	7751	0x00000000	0	0	0	Bounce
+Lantern	7obj286	278	64	64	0	0	7752	0x00000000	0	0	0	Bounce
+Rope	7obj287	279	64	64	0	0	7753	0x00000000	0	0	0	Bounce
+Castle in a Bottle	7obj288	280	64	64	0	0	7754	0x00000000	0	0	0	Bounce
+Deck of Cards (Arcomage)	7obj289	281	64	64	0	0	7755	0x00000000	0	0	0	Bounce
+horned helm	null	282	64	64	0	0	0	0x00000000	0	0	0	Bounce
+Gold	7OBJ187	283	64	64	0	0	7712	0x00000000	0	0	0	Bounce
+Gold	7OBJ188	284	64	64	0	0	7713	0x00000000	0	0	0	Bounce
+Gold	7OBJ189	285	64	64	0	0	7714	0x00000000	0	0	0	Bounce
+Wet Suit	7obj299	286	64	64	0	0	7758	0x00000000	0	0	0	Bounce
+Lich Jar Case	7obj351	287	64	64	0	0	7759	0x00000000	0	0	0	Bounce
+Good half of amulet	7obj363	288	64	64	0	0	7760	0x00000000	0	0	0	Bounce
+evil half of amulet	7obj364	289	64	64	0	0	7762	0x00000000	0	0	0	Bounce
+ore	7obj353	290	64	64	0	0	7764	0x00000000	0	0	0	Bounce
+ore	7obj354	291	64	64	0	0	7765	0x00000000	0	0	0	Bounce
+ore	7obj355	292	64	64	0	0	7766	0x00000000	0	0	0	Bounce
+ore	7obj356	293	64	64	0	0	7767	0x00000000	0	0	0	Bounce
+ore	7obj357	294	64	64	0	0	7768	0x00000000	0	0	0	Bounce
+ore	7obj358	295	64	64	0	0	7769	0x00000000	0	0	0	Bounce
+control cube	7obj361	296	64	64	0	0	7771	0x00000000	0	0	0	Bounce
+crate 	7obj183	297	64	64	0	0	7711	0x00000000	0	0	0	Bounce
+Heart of the Wood	7obj297	298	64	64	0	0	7757	0x00000000	0	0	0	Bounce
+Tapestry	7obj365	299	64	32	0	0	7773	0x00000000	0	0	0	Bounce
+oscillation overthruster	7obj362	300	64	64	0	0	7772	0x00000000	0	0	0	Bounce
+empty lich jar	7obj294	301	64	64	0	0	7756	0x00000000	0	0	0	Bounce
+null	null	302	16	16	0	0	0	0x00000000	0	0	0	Bounce
+long sword	3LSWORD	303	64	16	0	0	17523	0x00000000	0	0	0	Bounce
+two-handed sword	32HSWORD	304	64	16	0	0	17524	0x00000000	0	0	0	Bounce
+broadsword	3BRSWRD	305	64	16	0	0	17525	0x00000000	0	0	0	Bounce
+cutlass	3CUTLASS	306	64	16	0	0	17526	0x00000000	0	0	0	Bounce
+dagger	3DAGGER	307	64	16	0	0	17527	0x00000000	0	0	0	Bounce
+long dagger	3LDAGGER	308	64	16	0	0	17528	0x00000000	0	0	0	Bounce
+axe	3AXE	309	64	16	0	0	17529	0x00000000	0	0	0	Bounce
+two-handed axe	32HAXE	310	64	16	0	0	17530	0x00000000	0	0	0	Bounce
+spear	3SPEAR	311	64	16	0	0	17531	0x00000000	0	0	0	Bounce
+halberd	3HALBERD	312	64	16	0	0	17532	0x00000000	0	0	0	Bounce
+trident	3TRIDENT	313	64	16	0	0	17533	0x00000000	0	0	0	Bounce
+long bow	3BOW	314	64	16	0	0	17534	0x00000000	0	0	0	Bounce
+crossbow	3CROSBOW	315	64	16	0	0	17535	0x00000000	0	0	0	Bounce
+mace	3MACE	316	64	16	0	0	17536	0x00000000	0	0	0	Bounce
+war hammer	3HAMMER	317	64	16	0	0	17537	0x00000000	0	0	0	Bounce
+club	3CLUB	318	64	16	0	0	17538	0x00000000	0	0	0	Bounce
+staff	3STAFF	319	64	16	0	0	17539	0x00000000	0	0	0	Bounce
+blaster	3BLASTER	320	64	16	0	0	17540	0x00000000	0	0	0	Bounce
+blaster rifle	3BLASTR2	321	64	16	0	0	17541	0x00000000	0	0	0	Bounce
+leather armor	3LEATHER	322	64	16	0	0	17542	0x00000000	0	0	0	Bounce
+chain mail	3CHAIN	323	64	16	0	0	17543	0x00000000	0	0	0	Bounce
+plate mail	3PLATE	324	64	16	0	0	17544	0x00000000	0	0	0	Bounce
+large shield	3LSHIELD	325	64	16	0	0	17545	0x00000000	0	0	0	Bounce
+small shield	3SSHIELD	326	64	16	0	0	17546	0x00000000	0	0	0	Bounce
+helm	3HELM	327	64	16	0	0	17547	0x00000000	0	0	0	Bounce
+hat	3HAT	328	64	16	0	0	17548	0x00000000	0	0	0	Bounce
+crown	3CROWN	329	64	16	0	0	17549	0x00000000	0	0	0	Bounce
+belt	3BELT	330	64	16	0	0	17550	0x00000000	0	0	0	Bounce
+cape	3CAPE	331	64	16	0	0	17551	0x00000000	0	0	0	Bounce
+gauntlets	3GNTLET	332	64	16	0	0	17552	0x00000000	0	0	0	Bounce
+boots	3BOOTS	333	64	16	0	0	17553	0x00000000	0	0	0	Bounce
+ring	3RING	334	64	16	0	0	17554	0x00000000	0	0	0	Bounce
+amulet	3AMULET	335	64	16	0	0	17555	0x00000000	0	0	0	Bounce
+wand	3WAND	336	64	16	0	0	17556	0x00000000	0	0	0	Bounce
+scroll	3SCROLL	337	64	16	0	0	17557	0x00000000	0	0	0	Bounce
+bottle	3BOTL02	338	64	16	0	0	17559	0x00000000	0	0	0	Bounce
+bottle	3BOTL03	339	64	16	0	0	17560	0x00000000	0	0	0	Bounce
+bottle	3BOTL04	340	64	16	0	0	17561	0x00000000	0	0	0	Bounce
+bottle	3BOTL05	341	64	16	0	0	17562	0x00000000	0	0	0	Bounce
+bottle	3BOTL06	342	64	16	0	0	17563	0x00000000	0	0	0	Bounce
+bottle	3BOTL07	343	64	16	0	0	17564	0x00000000	0	0	0	Bounce
+bottle	3BOTL08	344	64	16	0	0	17565	0x00000000	0	0	0	Bounce
+bottle	3BOTL09	345	64	16	0	0	17566	0x00000000	0	0	0	Bounce
+bottle	3BOTL10	346	64	16	0	0	17567	0x00000000	0	0	0	Bounce
+key	3KEY	347	64	16	0	0	17568	0x00000000	0	0	0	Bounce
+keyring	3KEYRING	348	64	16	0	0	17569	0x00000000	0	0	0	Bounce
+leather pouch	3POUCH	349	64	16	0	0	17570	0x00000000	0	0	0	Bounce
+book	3BOOK	350	64	16	0	0	17571	0x00000000	0	0	0	Bounce
+hourglass	3HRGLASS	351	64	16	0	0	17572	0x00000000	0	0	0	Bounce
+chalice	3chalice	352	64	16	0	0	17573	0x00000000	0	0	0	Bounce
+horn	3HORN	353	64	16	0	0	17574	0x00000000	0	0	0	Bounce
+crystal ball	3crysball	354	64	16	0	0	17585	0x00000000	0	0	0	Bounce
+Deck of Fate	3TAROT	355	64	16	0	0	17586	0x00000000	0	0	0	Bounce
+ankh	3ANKH	356	64	16	0	0	17587	0x00000000	0	0	0	Bounce
+candelabra	3cndlAbra	357	64	16	0	0	17588	0x00000000	0	0	0	Bounce
+tiger statuette	3Stat1	358	64	16	0	0	17589	0x00000000	0	0	0	Bounce
+bear statuette	3Stat2	359	64	16	0	0	17590	0x00000000	0	0	0	Bounce
+wolf statuette	3Stat3	360	64	16	0	0	17591	0x00000000	0	0	0	Bounce
+eagle statuette	3STAT4	361	64	16	0	0	17592	0x00000000	0	0	0	Bounce
+dragon statuette	3Stat5	362	64	16	0	0	17593	0x00000000	0	0	0	Bounce
+dragon claw	3CLAW	363	64	16	0	0	17594	0x00000000	0	0	0	Bounce
+Mystery Cube	3CUBE	364	64	16	0	0	17596	0x00000000	0	0	0	Bounce
+glass shard	3SHARD	365	64	16	0	0	17597	0x00000000	0	0	0	Bounce
+black pearl	3Blkperl	366	64	16	0	0	17598	0x00000000	0	0	0	Bounce
+white pearl	3Wytperl	367	64	16	0	0	17599	0x00000000	0	0	0	Bounce
+rose	3Rose	368	64	16	0	0	17600	0x00000000	0	0	0	Bounce
+bell	3BELL	369	64	16	0	0	17601	0x00000000	0	0	0	Bounce
+gong	3GONG	370	64	16	0	0	17602	0x00000000	0	0	0	Bounce
+horse shoe	3HORSHOE	371	64	16	0	0	17603	0x00000000	0	0	0	Bounce
+skull	3SKULL	372	64	16	0	0	17604	0x00000000	0	0	0	Bounce
+bone	3BONE	373	64	16	0	0	17605	0x00000000	0	0	0	Bounce
+crystal skull	3crystal	374	64	16	0	0	17606	0x00000000	0	0	0	Bounce
+shovel	3SHOVEL	375	64	16	0	0	17607	0x00000000	0	0	0	Bounce
+lock picks	3LOCKPIK	376	64	16	0	0	17608	0x00000000	0	0	0	Bounce
+rope	3ROPE	377	64	16	0	0	17609	0x00000000	0	0	0	Bounce
+stone	3stone	378	64	16	0	0	17610	0x00000000	0	0	0	Bounce
+quill	3QUILL	379	64	16	0	0	17611	0x00000000	0	0	0	Bounce
+pyramid	3PYRAMID	380	64	16	0	0	17612	0x00000000	0	0	0	Bounce
+torch	3TORCH	381	64	16	0	0	17613	0x00000000	0	0	0	Bounce
+map	3MAP	382	64	16	0	0	17614	0x00000000	0	0	0	Bounce
+keg	3KEG	383	64	64	0	0	17615	0x00000000	0	0	0	Bounce
+egg	3EGG	384	16	16	0	0	17616	0x00000000	0	0	0	Bounce
+chime	3CHIME	385	64	16	0	0	17617	0x00000000	0	0	0	Bounce
+tooth	3TOOTH	386	64	16	0	0	17618	0x00000000	0	0	0	Bounce
+four leafed clover	3CLOVER	387	64	16	0	0	17619	0x00000000	0	0	0	Bounce
+flute	3FLUTE	388	64	16	0	0	17620	0x00000000	0	0	0	Bounce
+harp	3HARP	389	64	16	0	0	17621	0x00000000	0	0	0	Bounce
+jewelled egg	3jewlegG	390	64	16	0	0	17622	0x00000000	0	0	0	Bounce
+living heart	3HEART	391	64	16	0	0	17623	0x00000000	0	0	0	Bounce
+fossil	3AMBER	392	64	16	0	0	17624	0x00000000	0	0	0	Bounce
+magic lamp	3ALDNLMP	393	64	16	0	0	17625	0x00000000	0	0	0	Bounce
+apple	3APPLE	394	64	16	0	0	17626	0x00000000	0	0	0	Bounce
+gem	3gem01	395	64	16	0	0	17575	0x00000000	0	0	0	Bounce
+gem	3gem02	396	64	16	0	0	17576	0x00000000	0	0	0	Bounce
+gem	3gem03	397	64	16	0	0	17577	0x00000000	0	0	0	Bounce
+gem	3gem04	398	64	16	0	0	17578	0x00000000	0	0	0	Bounce
+gem	3gem05	399	64	16	0	0	17579	0x00000000	0	0	0	Bounce
+gem	3gem06	400	64	16	0	0	17580	0x00000000	0	0	0	Bounce
+gem	3gem07	401	64	16	0	0	17581	0x00000000	0	0	0	Bounce
+gem	3gem08	402	64	16	0	0	17582	0x00000000	0	0	0	Bounce
+gem	3gem09	403	64	16	0	0	17583	0x00000000	0	0	0	Bounce
+gem	3gem10	404	64	16	0	0	17584	0x00000000	0	0	0	Bounce
+herb	3herb03	405	64	16	0	0	17629	0x00000000	0	0	0	Bounce
+herb	3herb02	406	64	16	0	0	17628	0x00000000	0	0	0	Bounce
+herb	3herb01	407	64	16	0	0	17627	0x00000000	0	0	0	Bounce
+A small pile of gold	3coinsm	408	64	16	0	0	17632	0x00000000	0	0	0	Bounce
+A pile of gold	3coinMid	409	64	16	0	0	17631	0x00000000	0	0	0	Bounce
+a large pile of gold	3coinLG	410	64	16	0	0	17630	0x00000000	0	0	0	Bounce
+Memory Crystal	mcryst01	411	64	16	0	0	17633	0x00000000	0	0	0	Bounce
+rat's tail	null	412	64	16	0	0	0	0x00000000	0	0	0	Bounce
+Memory Crystal	null	413	64	16	0	0	0	0x00000000	0	0	0	Bounce
+Infused rod	null	414	64	16	0	0	17963	0x00000000	0	0	0	Bounce
+Wisp wrappings	3CAPE	415	64	16	0	0	17551	0x00000000	0	0	0	Bounce
+Black and white potion	obj160	416	64	64	0	0	59	0x00000000	0	0	0	Bounce
+Air	spell101	500	16	16	768	6000	862	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Earth	spell102	505	16	16	768	4000	869	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Fire	spell103	510	16	16	768	4000	876	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Water	spell104	515	16	16	768	4000	882	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Body	spell105	520	16	16	768	4000	889	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Mind	spell105	525	16	16	768	4000	889	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Spirit	spell105	530	16	16	768	4000	889	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Light	spell106	535	16	16	768	4000	896	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Dark	spell107	540	16	16	768	4000	903	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Arrow	arrow	545	16	16	768	4000	911	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+FireArrow	FrArw	550	16	16	768	4000	912	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Laser	lzrbolt	555	16	16	768	6000	910	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	556	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Cannonball	spell70c	560	16	16	768	4000	770	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
+Cyclops Projectile	boulder	565	16	16	768	3000	918	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
+launchobject	null	570	16	16	768	3000	0	0x00000000	0	0	0	LifeTime,NoPickup
+explosive death	null	600	16	16	0	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell97c	601	16	16	64	0	828	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Splash	splash	800	16	16	96	0	158	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+FireTrap	spell103	811	16	16	48	0	876	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+ElecTrap	spell101	812	16	16	48	0	862	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+ColdTrap	spell104	813	16	16	48	0	882	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+PoisonTrap	spell105	814	16	16	48	0	889	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Fire Bolt	null	1010	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	1011	16	16	64	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
+Fireball	null	1050	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell01	1051	16	16	96	0	593	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Fire Spike	spell07	1060	16	16	7680	1000	623	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept,Bounce
+explosion	null	1061	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Immolation	null	1070	16	16	64	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
+Meteor Shower	spell09	1080	16	16	768	1000	624	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
+explosion	null	1081	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Inferno	null	1090	16	16	64	1000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
+explosion	null	1091	16	16	64	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
+Incinerate	spell11	1100	16	16	768	4000	636	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	1101	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Sparks	spell02	2030	16	16	768	1000	605	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
+explosion	null	2031	16	16	64	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
+Lightning Bolt	spell18	2060	16	16	128	8000	648	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	2061	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Implosion	spell57c	2080	16	16	64	0	725	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
+explosion	spell57c	2081	16	16	8	0	725	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Starburst	spell22	2100	16	16	768	4000	654	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	2101	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Poison Spray	null	3010	16	16	768	1500	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	3011	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Ice Bolt	spell26	3030	16	16	768	4000	665	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	3031	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Acid Burst	null	3060	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell29	3061	16	16	64	0	673	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Ice Blast	spell26	3090	16	16	768	4000	665	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	3091	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+shard	spell26	3092	16	16	768	4000	665	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Stun	spell03	4000	16	16	768	4000	617	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Slow	null	4010	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	4011	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Deadly Swarm	spell37	4030	16	16	768	4000	681	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell37c	4031	16	16	128	0	686	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Blades	spell39	4050	16	16	768	4000	702	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell39c	4051	16	16	8	0	708	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Rock Blast	spell41	4070	16	16	768	4000	709	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	4071	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Death Blossom	spell41	4090	16	16	320	1500	709	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
+explosion	null	4091	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+shard	spell41	4092	16	16	1000	500	709	0x00000000	0	0	0	LifeTime,NoPickup,FlagOnIntercept
+Mass Distortion	null	4100	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	4101	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Spirit Lash	null	5070	16	16	0	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
+explosion	null	5071	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Telepathy	spell59	6000	16	16	64	0	726	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Mind Blast	spell57	6030	16	16	768	4000	717	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell57c	6031	16	16	8	0	725	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Charm	spell60	6040	16	16	64	4000	734	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+explosion	null	6041	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Berzerk	spell62	6060	16	16	64	0	742	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+explosion	null	6061	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Mass Fear	null	6070	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	6071	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Psychic Shock	spell65	6090	16	16	768	4000	750	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell57c	6091	16	16	8	0	725	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Enslave	spell66	6100	16	16	64	0	754	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+explosion	null	6101	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Harm	spell70	7030	16	16	768	4000	762	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	7031	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Flying Fist	spell76	7090	16	16	768	4000	771	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	7091	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Light Bolt	null	8000	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	8001	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Destroy Undead	null	8010	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	8011	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Paralyze	null	8030	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	8031	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Prismatic Light	spell84	8060	16	16	768	4000	781	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	8061	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Sunray	spell87	8090	16	16	128	8000	791	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	8091	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Toxic Cloud	spell90	9010	16	16	768	2000	792	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	9011	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Shrinking Ray	spell92	9030	16	16	768	4000	804	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	9031	16	16	0	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
+Shrap Metal	spell93	9040	16	16	768	4000	805	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell57c	9041	16	16	8	0	725	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Control Undead	spell94	9050	16	16	72	0	813	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Dark Grasp	null	9070	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	9071	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Dragon Breath	spell97	9080	16	16	768	4000	822	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell97c	9081	16	16	64	0	828	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Souldrinker	null	9100	16	16	0	0	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity
+explosion	null	9110	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Blind	spell98	10020	16	16	768	4000	836	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	10021	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+DarkFire Bolt	spell99	10030	16	16	768	4000	844	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell99x	10031	16	16	8	0	852	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+LifeDrain	spell107	11000	16	16	768	4000	903	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	11001	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Vampire Charm	spell60	11020	16	16	768	4000	734	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	11021	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Fear	null	12000	16	16	768	4000	0	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	null	12001	16	16	0	0	0	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Breath Weapon 2	spell100	12010	16	16	768	4000	853	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+explosion	spell100x	12011	16	16	8	0	861	0x00000000	0	0	0	LifeTime,FTLifeTime,NoPickup,NoGravity
+Rain	Rain	12012	32	32	768	4000	23313	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept
+Snow	Snow	12013	32	32	768	4000	23339	0x00000000	0	0	0	LifeTime,NoPickup,NoGravity,FlagOnIntercept

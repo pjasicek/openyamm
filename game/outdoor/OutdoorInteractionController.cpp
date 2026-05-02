@@ -55,6 +55,7 @@ constexpr float InteractionWorldItemMinHalfExtent = 20.0f;
 constexpr float InteractionWorldItemMinHeight = 40.0f;
 constexpr float InteractionSpriteObjectMinHalfExtent = 24.0f;
 constexpr float InteractionSpriteObjectMinHeight = 48.0f;
+constexpr float OutdoorEventTargetInteractionDepth = 1024.0f;
 
 bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
 {
@@ -562,6 +563,13 @@ float interactionDepthForInputMethod(
         ? settings.keyboardInteractionDepth
         : settings.mouseInteractionDepth;
     return static_cast<float>(std::clamp(configuredDepth, 32, 4096));
+}
+
+float eventTargetInteractionDepthForInputMethod(
+    const OutdoorGameView &view,
+    OutdoorInteractionController::InteractionInputMethod inputMethod)
+{
+    return std::max(interactionDepthForInputMethod(view, inputMethod), OutdoorEventTargetInteractionDepth);
 }
 
 bool shouldSkipSpriteObjectInspectTarget(const SpriteObjectBillboard &object, const ObjectEntry *pObjectEntry)
@@ -4942,7 +4950,7 @@ bool OutdoorInteractionController::canActivateInteractionEventTargetInspectEvent
     InteractionInputMethod inputMethod)
 {
     return canActivateEventTargetInspectEvent(view, inspectHit)
-        && isInteractionInspectHitInRange(view, inspectHit, inputMethod);
+        && inspectHit.distance < eventTargetInteractionDepthForInputMethod(view, inputMethod);
 }
 
 bool OutdoorInteractionController::canDispatchWorldActivation(

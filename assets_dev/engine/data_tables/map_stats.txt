@@ -1,0 +1,742 @@
+	Map Stats			First					x5	D20's		Random Encounter																					
+			Reset	Visit	Per	Refil	Alert	Steal	Lock	Trap	Tres	Enc	M1	M2	M3			Dif	Appear			Dif	Appear			Dif	Appear	Redbook					
+#	Name	File name	#	Day	0-20	Days	Days	Perm	0-20	0-10	0-6	%	%	%	%	Mon1 Pic	Mon 1	 1-5	#	Mon2 Pic	Mon 2	 1-5	#	Mon3 Pic	Mon 3	 1-5	#	Track	EAX Environments	Map Designer	Notes	in area	
+1	Dagger Wound Island	out01.odm	0	0	0	672	0	1	0	0	0	10	0	100	0	Lizardmen Warrior	Lizardmen Warrior	1	 2-5	Wimpy Pirate Warrior Male	Wimpy Pirate Warrior Male	1	 1-3	Couatl (winged snake)	Couatl (winged snake)	1	 1-3	4	FOREST	100			x
+2	Ravenshore	out02.odm	0	0	1	672	0	2	1	1	1	10	0	50	50	Human Mercenary	Human Mercenary	3	 2-5	Centaur	Centaur	1	 1-3	Dire Wolf	Dire Wolf	1	 1-3	9	PLAINS	2			x
+3	Alvar	out03.odm	0	0	2	672	0	5	2	1	1	10	0	50	50	Dark Elf Warrior	Dark Elf Warrior	2	 1-3	Ogre Warrior	Ogre Warrior	1	 1-3	Wasp Warrior	Wasp Warrior	1	 1-3	3	PLAINS	3			-
+4	Ironsand Desert	out04.odm	0	0	3	336	0	3	3	2	2	10	50	0	50	Gog	Gog	1	 1-3	Troll	Troll	2	 1-3	Cyclops	Cyclops	2	 1-3	6	FOREST	0			-
+5	Garrote Gorge	out05.odm	0	0	3	336	0	5	3	2	2	10	100	0	0	Naga	Naga	3	 2-5	Wimpy Dragon	Wimpy Dragon	2	 1-3	Dragon Hunter	Dragon Hunter	3	 1-3	6	MOUNTAIN	0			-
+6	Shadowspire	out06.odm	0	0	4	336	0	7	4	2	2	10	50	0	50	Vampire (monster)	Vampire (monster)	2	 1-3	Skeletons Archer	Skeletons Archer	2	 1-3	Bone Dragon	Bone Dragon	1	 1-3	11	MOUNTAIN	0			-
+7	Murmurwoods	out07.odm	0	0	4	336	0	3	4	2	3	10	60	20	20	Will ' O Wisp	Will ' O Wisp	3	 1-3	Thunder Lizard	Thunder Lizard	3	 1-3	Unicorn	Unicorn	3	 1-3	13	CITY	0			-
+8	Ravage Roaming	out08.odm	0	0	4	336	0	4	4	2	3	10	30	30	40	Wyvern	Wyvern	3	 1-3	Gorgon	Gorgon	3	 1-3	Ogre Warrior	Ogre Warrior	3	 1-3	6	CAVE	0			-
+9	Plane of Air	elema.odm	0	0	10	336	0	5	10	5	4	10	50	25	25	Air Elemental	Air Elemental	3	 1-3	Thunderbird	Thunderbird	3	 1-3	Raven Man	Raven Man	3	 1-3	9	PLAINS	0			-
+10	Plane of Earth	eleme.blv	0	0	10	336	0	5	10	5	4	10	50	0	50	Earth Elemental	Earth Elemental	3	 1-3	Malevolent Boulder	Malevolent Boulder	3	 1-3	Juggernaut	Juggernaut	3	 1-3	3	MOUNTAIN	0			-
+11	Plane of Fire	elemf.odm	0	0	10	336	0	5	10	5	4	10	50	25	25	Fire Elemental	Fire Elemental	3	 1-3	Efreeti	Efreeti	3	 1-3	Salamander	Salamander	3	 1-3	10	MOUNTAIN	0			-
+12	Plane of Water	elemw.odm	0	0	10	336	0	5	10	5	4	10	50	25	25	Water Elemental	Water Elemental	3	 1-3	Triton	Triton	3	 1-3	Dragon Turtle	Dragon Turtle	3	 1-3	7	MOUNTAIN	0			-
+13	Regna	out13.odm	0	0	10	672	0	10	10	5	4	10	34	33	33	Pirate Warrior Male	Pirate Warrior Male	3	 1-3	Pirate Crossbowman (Female)	Pirate Crossbowman (Female)	1	 1-3	Pirate Mage Male	Pirate Mage Male	3	 1-3	10	PLAINS	0			-
+14	Plane Between Planes	pbp.odm	0	0	20	168	0	5	20	10	5	10	30	50	20	Ether Knight	Ether Knight	3	 1-3	Plane Guardian	Plane Guardian	3	 1-3	Nightmare	Nightmare	3	 1-3	15	FOREST	0			-
+15	Tutorial	out15.odm	0	0	0	0	0	0	0	0	0	0	100	0	0	0	0	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	2	UNDERWATER	0			-
+16	Abandoned Temple	d05.blv	0	0	0	672	0	5	1	1	1	10	50	50	0	Serpentmen	Serpentmen	3	 1-3	Couatl (winged snake)	Couatl (winged snake)	3	 1-4	0	0	1	 1-3	3	CAVE	0			-
+17	Pirate Outpost	d06.blv	0	0	1	672	0	5	4	2	1	10	34	33	33	Wimpy Pirate Mage Male	Wimpy Pirate Mage Male	3	 1-3	Pirate Warrior Male	Pirate Warrior Male	3	 1-3	Pirate Crossbowman (Female)	Pirate Crossbowman (Female)	1	 1-3	10	CAVE	0			-
+18	Smuggler's Cove	d07.blv	0	0	4	168	0	5	3	2	2	10	33	33	34	Wererat Human Form Male	Wererat Human Form Male	1	 1-3	Wererat Ratman Form Male	Wererat Ratman Form Male	1	 1-3	Wererat Rat Form Male	Wererat Rat Form Male	1	 1-3	11	CAVE	0			-
+19	Dire Wolf Den	d08.blv	0	0	2	168	0	5	4	2	2	10	100	0	0	Dire Wolf	Dire Wolf	2	 1-3	Wererat Ratman Form Male	Wererat Ratman Form Male	2	 1-4	0	0	2	 1-3	5	CAVE	0			-
+20	Merchant House of Alvar	d09.blv	0	0	2	-1	0	5	0	0	3	0	100	0	0	Dark Elf Pesant Male	Dark Elf Pesant Male	1	 2-5	Dark Elf Pesant Female	Dark Elf Pesant Female	1	 2-5	0	0	1	 2-5	4	CAVE	0		1	x
+21	Escaton's Crystal	d10.blv	0	0	20	672	0	5	20	10	5	10	50	50	0	Crystal Walker	Crystal Walker	5	 2-5	Crystal Dragon	Crystal Dragon	5	 2-5	0	0	1	 2-5	2	STONEROOM	0		2	x
+22	Wasp Nest	d11.blv	0	0	4	168	0	5	6	3	2	10	100	0	0	Wasp Warrior	Wasp Warrior	2	 1-3	0	0	1	 1-3	0	0	1	 1-3	12	CAVE	0		2	x
+23	Ogre Fortress	d12.blv	0	0	4	672	0	5	5	3	2	10	50	10	40	Ogre Warrior	Ogre Warrior	3	 1-3	Human Mercenary	Human Mercenary	3	 2-5	Ogre Mage	Ogre Mage	3	 1-3	13	CAVE	0		3	-
+24	Troll Tomb	d13.blv	0	0	5	672	0	5	4	3	3	10	100	0	0	Gog	Gog	3	 1-4	0	0	2	 1-3	0	0	3	 1-3	2	STONEROOM	0		3	x
+25	Cyclops Larder	d14.blv	0	0	10	168	0	5	14	7	4	10	100	0	0	Cyclops	Cyclops	3	 1-3	Bedraggled Human (peasant)	Bedraggled Human (peasant)	2	 1-3	0	0	1	 1-3	4	CAVE	0		4	x
+26	Chain of Fire	d15.blv	0	0	12	672	0	5	10	6	3	10	70	30	0	Gog	Gog	3	 1-3	Salamander	Salamander	5	 1-3	0	0	3	 1-3	7	CAVE	0		4	x
+27	Dragon Hunter's Camp	d16.blv	0	0	10	168	0	5	8	5	3	10	100	0	0	Dragon Hunter	Dragon Hunter	4	 1-3	Human Mercenary	Human Mercenary	3	 1-3	0	0	4	 1-3	9	CAVE	0		5	-
+28	Dragon Cave	d17.blv	0	0	10	168	0	5	15	8	5	10	100	0	0	Dragon	Dragon	3	 1-3	Wimpy Dragon	Wimpy Dragon	1	 1-3	0	0	1	 1-3	13	CAVE	0		5	-
+29	Naga Vault	d18.blv	0	0	7	336	0	5	12	7	3	10	100	0	0	Naga	Naga	2	 1-4	Serpentmen	Serpentmen	3	 1-3	0	0	1	 1-3	2	CAVE	0		6	-
+30	Necromancers' Guild	d19.blv	0	0	10	168	0	5	8	4	4	10	100	0	0	Necromancer (monster)	Necromancer (monster)	1	 1-3	Skeletons Archer	Skeletons Archer	3	 1-3	Vampire (monster)	Vampire (monster)	1	 1-3	11	CAVE	0		6	x
+31	Mad Necromancer's Lab 	d20.blv	0	0	15	336	0	5	11	6	4	10	50	20	30	Necromancer (monster)	Necromancer (monster)	3	 1-3	Bone Dragon	Bone Dragon	3	 1-3	Skeletons Archer	Skeletons Archer	3	 1-3	16	CAVE	0		7	x
+32	Vampire Crypt	d21.blv	0	0	15	336	0	5	9	4	3	10	100	0	0	Vampire (monster)	Vampire (monster)	3	 1-3	0	0	3	 1-3	0	0	5	 1-3	3	STONEROOM	0		7	x
+33	Temple of the Sun	d22.blv	0	0	0	336	0	5	7	4	3	10	100	0	0	Cleric (human male)	Cleric (human male)	3	 1-3	0	0	3	 1-3	0	0	5	 1-3	13	CAVE	0		8	x
+34	Druid Circle	d23.blv	0	0	10	336	0	5	10	5	4	10	50	0	50	Dark Dwarf	Dark Dwarf	4	 1-3	Malevolent Boulder	Malevolent Boulder	2	 1-3	Juggernaut	Juggernaut	2	 1-3	12	STONEROOM	0		8	x
+35	Balthazar Lair	d24.blv	0	0	10	672	0	5	10	6	4	10	100	0	0	Minotaur	Minotaur	3	 1-3	Triton	Triton	2	 1-3	0	0	1	 1-3	11	STONEROOM	0		9	-
+36	Barbarian Fortress	d25.blv	0	0	10	672	0	5	10	5	5	10	20	50	30	Human Mercenary	Human Mercenary	3	 1-3	Ogre Warrior	Ogre Warrior	2	 1-3	Ogre Mage	Ogre Mage	1	 1-3	9	STONEROOM	0		9	-
+37	The Crypt of Korbu	d26.blv	0	0	15	672	0	5	12	7	4	10	50	50	0	Efreeti	Efreeti	4	 1-3	Naga	Naga	2	 1-3	0	0	2	 1-3	3	CAVE	0		10	x
+38	Castle of Air	d27.blv	0	0	18	336	0	5	15	9	5	10	100	0	0	Air Elemental	Air Elemental	4	 1-3	0	0	2	 1-3	0	0	3	 1-3	4	STONEROOM	0		10	x
+39	Tomb of Lord Brinne	d28.blv	0	0	4	336	0	5	0	0	2	10	100	0	0	0	0	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	12	CAVE	0		11	x
+40	Castle of Fire	d29.blv	0	0	18	336	0	5	15	9	5	10	100	0	0	Fire Elemental	Fire Elemental	4	 1-3	0	0	1	 1-3	0	0	1	 1-3	6	STONEROOM	0		12	x
+41	War Camp	d30.blv	0	0	14	336	0	5	12	7	5	10	30	30	40	Gog	Gog	4	 1-3	Phoenix	Phoenix	5	 1-3	Efreeti	Efreeti	3	 1-3	7	CAVE	0		13	-
+42	Pirate Stronghold	d31.blv	0	0	12	336	0	5	9	4	4	10	50	50	0	Pirate Warrior Male	Pirate Warrior Male	4	 1-3	Pirate Crossbowman (Female)	Pirate Crossbowman (Female)	3	 1-3	Human Mercenary	Human Mercenary	5	 1-3	12	CAVE	0		13	-
+43	Abandoned Pirate Keep	d32.blv	0	0	11	336	0	5	11	5	4	10	50	25	25	Pirate Mage Male	Pirate Mage Male	4	 1-3	Pirate Warrior Male	Pirate Warrior Male	5	 1-3	Ogre Mage	Ogre Mage	3	 1-3	12	STONEROOM	0		13	-
+44	Passage Under Regna	d33.blv	0	0	10	336	0	5	9	5	4	10	40	30	30	Pirate Mage Male	Pirate Mage Male	4	 1-3	Pirate Warrior Male	Pirate Warrior Male	3	 1-3	Ogre Warrior	Ogre Warrior	1	 1-3	12	CAVE	0		14	-
+45	Small Sub Pen	d34.blv	0	0	8	336	0	5	8	4	4	10	50	30	20	Pirate Warrior Male	Pirate Warrior Male	1	 1-3	Pirate Crossbowman (Female)	Pirate Crossbowman (Female)	3	 1-3	Pirate Mage Male	Pirate Mage Male	5	 1-3	11	STONEROOM	0		14	-
+46	Escaton's Palace	d35.blv	0	0	20	336	0	5	20	10	6	10	100	0	0	Wimpy Plane Guardian	Wimpy Plane Guardian	5	 1-3	Ether Knight	Ether Knight	5	 1-3	0	0	1	 1-3	1	CAVE	0		14	-
+47	Prison of the Lord of Air	d36.blv	0	0	20	336	0	5	20	10	6	10	34	33	33	Crystal Walker	Crystal Walker	5	 1-3	Ether Knight	Ether Knight	5	 1-3	Earth Elemental	Earth Elemental	5	 1-3	3	CAVE	0		15	x
+48	Prison of the Lord of Fire	d37.blv	0	0	20	336	0	5	20	10	6	10	34	33	33	Crystal Dragon	Crystal Dragon	5	 1-3	Ether Knight	Ether Knight	5	 1-3	Water Elemental	Water Elemental	5	 1-3	5	STONEROOM	0		3	-
+49	Prison of the Lord of Water	d38.blv	0	0	20	336	0	5	20	10	6	10	33	34	33	Nightmare	Nightmare	5	 1-3	Ether Knight	Ether Knight	5	 1-3	Fire Elemental	Fire Elemental	5	 1-3	8	STONEROOM	0		4	-
+50	Prison of the Lord of Earth	d39.blv	0	0	20	336	0	5	20	10	6	10	34	33	33	Plane Guardian	Plane Guardian	5	 1-3	Nightmare	Nightmare	5	 1-3	Air Elemental	Air Elemental	5	 1-3	10	STONEROOM	0		7	-
+51	Uplifted Library	d40.blv	0	0	6	336	0	5	6	3	4	10	100	0	0	Triton	Triton	3	 1-3	Malevolent Boulder	Malevolent Boulder	3	 1-3	0	0	3	 1-3	7	STONEROOM	0		8	-
+52	Dark Dwarf Compound	d41.blv	0	0	10	336	0	5	8	4	4	10	100	0	0	Dark Dwarf	Dark Dwarf	4	 1-3	Malevolent Boulder	Malevolent Boulder	3	 1-3	0	0	1	 1-3	3	CAVE	0			x
+53	Arena	d42.blv	0	0	1	0	0	1	1	1	1	0	0	0	0	0	0	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	5	CAVE	0			-
+54	Ancient Troll Home	d43.blv	0	0	10	336	0	5	7	5	3	10	50	50	0	Thunder Lizard	Thunder Lizard	3	 1-3	Will ' O Wisp	Will ' O Wisp	3	 1-3	0	0	1	 1-3	8	CAVE	0			-
+55	Grand Temple of Eep	d44.blv	0	0	12	336	0	5	8	5	3	10	34	33	33	Wererat Human Form Male	Wererat Human Form Male	5	 1-3	Wererat Ratman Form Male	Wererat Ratman Form Male	5	 1-3	Wererat Rat Form Male	Wererat Rat Form Male	5	 1-3	10	CAVE	0			-
+56	Chapel of Eep	d45.blv	0	0	6	672	0	5	4	3	2	10	34	33	33	Wererat Human Form Male	Wererat Human Form Male	1	 1-3	Wererat Ratman Form Male	Wererat Ratman Form Male	1	 1-3	Wererat Rat Form Male	Wererat Rat Form Male	1	 1-3	14	CAVE	0			-
+57	Church of Eep	d46.blv	0	0	8	672	0	5	6	4	2	10	34	33	33	Wererat Human Form Male	Wererat Human Form Male	3	 1-3	Wererat Ratman Form Male	Wererat Ratman Form Male	3	 1-3	Wererat Rat Form Male	Wererat Rat Form Male	3	 1-3	2	CAVE	0			-
+58	Old Loeb's Cave	d47.blv	0	0	18	672	0	5	16	8	4	10	20	80	0	Dragon	Dragon	3	 1-3	Wimpy Dragon	Wimpy Dragon	5	 1-3	0	0	1	 1-3	4	CAVE	0			-
+59	Ilsingore's Cave	d48.blv	0	0	18	672	0	5	18	8	4	10	20	80	0	Dragon	Dragon	3	 1-3	Wimpy Dragon	Wimpy Dragon	5	 1-3	0	0	1	 1-3	7	CAVE	0			-
+60	Yaardrake's Cave	d49.blv	0	0	18	672	0	5	18	9	5	10	20	80	0	Dragon	Dragon	3	 1-3	Wimpy Dragon	Wimpy Dragon	5	 1-3	0	0	1	 1-3	9	CAVE	0			-
+61	NWC	d50.blv	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	6	CAVE	0			-
+62	Emerald Island	7out01.odm	0	0	0	672	7	0	0	1	0	10	100	0	0	Dragonfly	Dragonfly	1	 2-5	0	0	1	 1-3	0	0	1	 1-3	35	FOREST	0	"Training Island--Lush, tropical island"		x
+63	Harmondale	7out02.odm	0	0	2	672	7	1	2	1	0	10	100	0	0	Goblin	Goblin	3	 2-5	Swordsman	Swordsman	3	 1-3	0	0	1	 1-3	19	PLAINS	0	Home town map--hills and scattered trees.  Water ok		x
+64	Erathia	7out03.odm	0	0	4	672	7	3	4	2	1	10	50	50	0	Fighter Leather	Fighter Leather	2	 1-3	Griffin	Griffin	1	 1-3	0	0	1	 1-3	32	PLAINS	0	"Human Capital--low hills, river (with fort built on top), near lake"		-
+65	The Tularean Forest	7out04.odm	0	0	4	672	7	3	4	2	1	10	0	100	0	Treant	Treant	1	 1-1	Elf Spearman	Elf Spearman	2	 1-3	Fighter Chain	Fighter Chain	2	 1-3	33	FOREST	0	"Elvish capital--Cliffs, waterfalls, forest"		-
+66	Deyja	7out05.odm	0	0	6	672	7	5	6	3	2	10	0	50	50	0	0	1	 1-3	Harpy	Harpy	2	 1-3	Zombie	Zombie	3	 1-3	17	MOUNTAIN	0	Necromancer zone--wasteland		-
+67	The Bracada Desert	7out06.odm	0	0	6	672	7	5	6	3	2	10	50	50	0	Golem	Golem	2	 1-3	Griffin	Griffin	2	 1-3	0	0	1	 1-3	17	MOUNTAIN	0	"Wizard's area--desert w/ oasis, sharp mountains"		-
+68	Evenmorn Island	out09.odm	0	0	8	168	7	5	8	4	2	10	40	30	30	Skeleton Warrior	Skeleton Warrior	3	 1-3	Ghost	Ghost	2	 1-3	Gargoyle	Gargoyle	1	 1-3	21	PLAINS	0	Haunted island of the church of the sun and moon. Perm. fog		-
+69	Mount Nighon	out10.odm	0	0	10	672	7	7	10	5	3	10	40	30	30	Warlock	Warlock	2	 1-3	Roc	Roc	3	 1-3	Hydra	Hydra	1	 1-3	26	MOUNTAIN	0	Warlock Capital--Snowy mountains.  Warlock home inside of volcano		-
+70	The Barrow Downs	out11.odm	0	0	5	168	7	5	5	3	2	10	40	30	30	AGog	AGog	1	 1-3	Ghost	Ghost	1	 1-3	Gargoyle	Gargoyle	1	 1-3	27	MOUNTAIN	0	"Dwarvish lands (no dwarves outside)--rough hills, rocky"		-
+71	The Land of the Giants	out12.odm	0	0	20	168	7	5	20	9	6	10	40	30	30	ADragon	ADragon	3	 1-3	Titan	Titan	3	 1-3	Devil	Devil	3	 1-3	27	MOUNTAIN	0	"devils, titans, dragons--mountainous and desolate"		-
+72	Tatalia	7out13.odm	0	0	8	672	7	5	8	4	2	10	50	0	50	Archer	Archer	3	 1-3	0	0	1	 1-3	ATroll	ATroll	3	 1-3	19	PLAINS	0	"human territory--swampy with some nice, cultivated areas"		-
+73	Avlee	out14.odm	0	0	8	672	7	5	8	4	2	10	40	30	30	Elf Spearman	Elf Spearman	3	 1-3	AWyvern	AWyvern	3	 1-3	Elemental Water	Elemental Water	3	 1-3	19	FOREST	0	"Elvish territory--slightly tropical, nice beach, lush"		-
+74	Shoals	7out15.odm	0	0	1	168	7	0	1	1	1	10	100	0	0	Sea Monster	Sea Monster	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	24	UNDERWATER	0	Underwater terrain		-
+75	The Erathian Sewers	d01.blv	0	0	5	672	7	10	5	2	1	10	50	50	0	Thief	Thief	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	18	CAVE	0	Thief guild and sewers.  Many entrance/exits.  Golem guarded treasure	3	-
+76	The Maze	d02.blv	0	0	12	672	7	10	12	6	5	10	40	30	30	AMinotaur	AMinotaur	4	 1-3	Hydra	Hydra	2	 1-3	Warlock	Warlock	3	 1-3	18	STONEROOM	0	minotaur maze used by the warlocks to breed new minotaurs.	10	x
+77	Castle Gloaming	d03.blv	0	0	12	336	7	10	12	6	4	10	40	30	30	Lich	Lich	3	 1-3	Vampire	Vampire	3	 1-3	Necromancer	Necromancer	3	 1-3	22	STONEROOM	0	Necromancer's castle (headed by Archibald)	8	-
+78	The Temple of Baa	d04.blv	0	0	11	672	7	10	11	5	3	10	40	30	30	Cleric Moon	Cleric Moon	1	 1-3	Devil	Devil	3	 1-3	Spider	Spider	5	 1-3	28	STONEROOM	0	temple of Baa that hasn't quite got the bad news yet.	14	-
+79	The Arena	7d05.blv	0	0	1	0	7	10	1	1	1	10	0	0	0	0	0	1	 1-3	0	0	1	 1-3	0	0	1	 1-3	23	ARENA	0			-
+80	The Temple of the Moon	7d06.blv	0	0	0	672	7	10	0	1	0	10	40	30	30	Bat	Bat	1	 2-5	Rat	Rat	1	 2-5	Spider	Spider	1	 2-5	28	CAVE	0	"Half cave, half ruined temple of the moon"	1	x
+81	Thunderfist Mountain	7d07.blv	0	0	10	672	7	10	10	5	4	10	40	30	30	Warlock	Warlock	4	 1-3	AMinotaur	AMinotaur	2	 1-3	Beholder	Beholder	2	 1-3	31	CAVE	0	Volcano dungeon connecting to Stone city (dungeon 20)	10	x
+82	The Tularean Caves	7d08.blv	0	0	4	672	7	10	4	3	1	10	40	30	30	Troglodyte	Troglodyte	2	 1-3	Elf Spearman	Elf Spearman	2	 1-3	AWyvern	AWyvern	1	 1-3	18	CAVE	0	Caves near the elvish castle. Used as POW camp for humans.  Secret entrance to castle thru here	4	x
+83	The Titans' Stronghold	7d09.blv	0	0	16	672	7	10	16	8	5	10	50	50	0	Titan	Titan	3	 1-3	ADragon	ADragon	3	 1-3	0	0	1	 1-3	31	CAVE	0	home of the giants	14	-
+84	The Breeding Zone	7d10.blv	0	0	10	0	7	10	10	5	1	10	40	30	30	Behemoth	Behemoth	3	 1-3	Elemental Fire	Elemental Fire	3	 1-3	AGog	AGog	5	 1-3	18	CAVE	0	training ground for the underworld.	8	x
+85	The Walls of Mist	7d11.blv	0	0	10	0	7	10	10	5	1	10	40	30	30	Mage	Mage	3	 1-3	Elemental Air	Elemental Air	3	 1-3	Genie	Genie	3	 1-3	18	CAVE	0	"training ground for the cloud city.  Walls are made of ""mist"""	7	x
+86	Clanker's Laboratory	7d12.blv	0	0	14	672	7	10	14	7	4	10	40	30	30	Beholder	Beholder	1	 1-3	AGog	AGog	5	 1-3	Golem	Golem	3	 1-3	18	CAVE	0	"small laboratory.  Good place for ""experimental"" items."	4	x
+87	Zokarr's Tomb	7d13.blv	0	0	5	672	7	10	5	3	2	10	50	50	0	Wight	Wight	1	 1-3	Ghoul	Ghoul	1	 1-3	0	0	1	 1-3	20	CAVE	0			-
+88	The School of Sorcery	7d14.blv	0	0	10	672	7	10	10	5	2	10	50	50	0	Mage	Mage	2	 1-3	Golem	Golem	3	 1-3	0	0	1	 1-3	34	CAVE	0	The place where all sorcerers learn their craft.	6	-
+89	Watchtower 6	7d15.blv	0	0	11	672	7	10	11	6	3	10	40	30	30	Necromancer	Necromancer	1	 1-3	Lich	Lich	1	 1-3	Elemental Earth	Elemental Earth	1	 1-3	18	CAVE	0	Last remaining Necromancer border watchtower.	5	-
+90	The Wine Cellar	7d16.blv	0	0	13	672	7	10	13	7	3	10	40	30	30	Vampire	Vampire	4	 1-3	Bat	Bat	5	 1-3	Necromancer	Necromancer	3	 1-3	18	STONEROOM	0	"Basement under house for vampire ""family"""	13	-
+91	The Tidewater Caverns	7d17.blv	0	0	9	672	7	10	9	4	2	10	40	30	30	Thief	Thief	4	 1-3	Ghost	Ghost	3	 1-3	Skeleton Warrior	Skeleton Warrior	5	 1-3	18	CAVE	0	pirate's caves.  Fills with water periodically	13	-
+92	Lord Markham's Manor	7d18.blv	0	0	10	672	7	10	10	5	2	10	50	50	0	Fighter Plate	Fighter Plate	3	 1-3	Swordsman	Swordsman	3	 1-3	0	0	1	 1-3	34	CAVE	0	Repeatable map (needs special coding)		-
+93	Grand Temple of the Moon	7d19.blv	0	0	9	672	7	10	9	4	3	10	50	50	0	Cleric Moon	Cleric Moon	3	 1-3	Wight	Wight	2	 1-3	0	0	1	 1-3	28	STONEROOM	0	Ruined old temple of the moon	9	-
+94	The Mercenary Guild	7d20.blv	0	0	11	672	7	10	11	5	4	10	40	30	30	Archer	Archer	4	 1-3	Fighter Leather	Fighter Leather	5	 1-3	Fighter Plate	Fighter Plate	3	 1-3	34	CAVE	0	main mercenary guild	13	-
+95	White Cliff Cave	7d21.blv	0	0	2	672	7	10	2	1	0	10	50	50	0	Troglodyte	Troglodyte	1	 1-3	Ooze	Ooze	1	 1-3	0	0	1	 1-3	18	CAVE	0	Goblin caves.  Good place to put gold from robbed bank and new monsters	2	x
+96	The Hall under the Hill	7d22.blv	0	0	6	672	7	10	6	3	1	10	100	0	0	Dragonfly	Dragonfly	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	18	CAVE	0	Faerie mound with shrunken dwarves	14	-
+97	The Lincoln	7d23.blv	0	0	20	672	7	10	20	10	6	10	100	0	0	Robot	Robot	3	 1-3	0	0	1	 1-3	0	0	1	 1-3	23	CAVE	0	ship used to transport MMIII characters here	15	x
+98	Stone City	7d24.blv	0	0	6	672	7	7	6	3	1	10	50	50	0	Dwarf	Dwarf	1	 1-3	Troglodyte	Troglodyte	3	 1-3	0	0	1	 1-3	34	CAVE	0	Dwarven city.  Charge to enter if no dwarves in party.	11	x
+99	Celeste	7d25.blv	0	0	20	672	7	10	20	7	3	10	40	30	30	Angel	Angel	3	 1-3	Roc	Roc	3	 1-3	Mage	Mage	3	 1-3	25	CITY	0	Cloud city		-
+100	The Pit	7d26.blv	0	0	20	672	7	10	20	7	3	10	40	30	30	Lich	Lich	3	 1-3	Necromancer	Necromancer	3	 1-3	Vampire	Vampire	3	 1-3	22	CAVE	0	Underground undead city (indoor map)		-
+101	Colony Zod	7d27.blv	0	0	20	672	7	10	20	10	5	10	100	0	0	Devil	Devil	4	 1-3	0	0	1	 1-3	0	0	1	 1-3	28	STONEROOM	0	Surviving colony of the devils	12	x
+102	The Dragon's Lair	7d28.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Dragon	Dragon	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	28	CAVE	0	Dragon's Lair on Emerald Island		x
+103	Castle Harmondale	7d29.blv	0	0	1	-1	7	10	1	1	0	0	30	40	30	Rat	Rat	3	 2-5	Goblin	Goblin	2	 2-5	Bat	Bat	1	 2-5	34	STONEROOM	0	Expandable player castle (starts with monsters)	2	x
+104	Castle Lambent	7d30.blv	0	0	12	336	7	10	12	6	4	10	40	30	30	Mage	Mage	3	 1-3	Angel	Angel	3	 1-3	Golem	Golem	3	 1-3	30	STONEROOM	0	Wizard's castle (council of wizards)	7	-
+105	Fort Riverstride	7d31.blv	0	0	4	336	7	10	4	3	1	10	40	30	30	Swordsman	Swordsman	2	 1-3	Fighter Chain	Fighter Chain	2	 1-3	Archer	Archer	3	 1-3	34	STONEROOM	0	Erathian border fort.  Fort lies ontop of river. (fortified bridge)	3	x
+106	Castle Navan	7d32.blv	0	0	6	336	7	10	6	3	2	10	40	30	30	Elf Spearman	Elf Spearman	2	 1-3	Elf Archer	Elf Archer	2	 1-3	Dragonfly	Dragonfly	4	 1-3	29	STONEROOM	0	Elf king's castle	4	-
+107	Castle Gryphonheart	7d33.blv	0	0	6	336	7	10	6	3	2	10	40	30	30	Archer	Archer	2	 1-3	Fighter Chain	Fighter Chain	2	 1-3	Fighter Plate	Fighter Plate	1	 1-3	29	STONEROOM	0	Queen Catherine's castle	3	-
+108	The Red Dwarf Mines	7d34.blv	0	0	5	672	7	10	5	2	1	10	50	50	0	Medusa	Medusa	1	 1-3	Ooze	Ooze	3	 1-3	0	0	1	 1-3	18	CAVE	0	Mine taken over by medusas.  Dwarves here are statues to be rescued	6	x
+109	Nighon Tunnels	7d35.blv	0	0	8	672	7	10	8	4	2	10	0	50	50	Dwarf	Dwarf	3	 1-3	AGog	AGog	4	 1-3	Warlock	Warlock	2	 1-3	18	CAVE	0			-
+110	Tunnels to Eeofol	7d36.blv	0	0	10	672	7	10	10	5	5	10	50	50	0	Behemoth	Behemoth	3	 1-3	Medusa	Medusa	3	 1-3	0	0	1	 1-3	31	CAVE	0			-
+111	The Haunted Mansion	7d37.blv	0	0	12	336	7	10	12	6	2	10	30	30	40	Ghoul	Ghoul	2	 1-3	Wight	Wight	3	 1-3	Ghost	Ghost	2	 1-3	18	CAVE	0	Repeatable map (needs special coding)		-
+112	Barrow VII	mdk01.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	AGog	AGog	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+113	Barrow IV	mdk02.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Skeleton Warrior	Skeleton Warrior	3	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+114	Barrow II	mdk03.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Zombie	Zombie	3	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+115	Barrow XIV	mdk04.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Ghoul	Ghoul	2	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+116	Barrow III	mdk05.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Ghoul	Ghoul	2	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+117	Barrow IX	mdt01.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	AGog	AGog	1	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+118	Barrow VI	mdt02.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Wight	Wight	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+119	Barrow I	mdt03.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Wight	Wight	1	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+120	Barrow VIII	mdt04.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Wight	Wight	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+121	Barrow XIII	mdt05.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Ghoul	Ghoul	2	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+122	Barrow X	mdr01.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	AGog	AGog	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+123	Barrow XII	mdr02.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Skeleton Warrior	Skeleton Warrior	3	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+124	Barrow V	mdr03.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Skeleton Warrior	Skeleton Warrior	3	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+125	Barrow XI	mdr04.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Zombie	Zombie	3	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+126	Barrow XV	mdr05.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Zombie	Zombie	3	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
+127	Wromthrax's Cave	mdt09.blv	0	0	10	672	7	10	10	5	3	10	100	0	0	ADragon	ADragon	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	18	CAVE	0			-
+128	William Setag's Tower	mdt10.blv	0	0	8	672	7	10	8	4	2	10	50	50	0	Fighter Plate	Fighter Plate	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	34	STONEROOM	0			-
+129	The Hidden Tomb	mdt11.blv	0	0	12	672	7	10	12	6	4	10	50	50	0	Lich	Lich	3	 1-3	Vampire	Vampire	3	 1-3	0	0	1	 1-3	18	CAVE	0			-
+130	The Dragon Caves	mdt12.blv	0	0	20	672	7	15	20	10	6	10	100	0	0	ADragon	ADragon	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	31	CAVE	0	Repeatable map (needs special coding)		-
+131	The Bandit Caves	mdt14.blv	0	0	6	336	7	10	6	3	1	10	50	50	0	Thief	Thief	2	 1-3	Fighter Leather	Fighter Leather	1	 1-3	0	0	1	 1-3	34	CAVE	0	Repeatable map (needs special coding)		-
+132	The Small House	mdt15.blv	0	0	20	672	7	10	20	10	6	10	0	0	0	zBlasterGuy	zBlasterGuy	1	1	Rat	Rat	3	 1-3	0	0	1	 1-3	34	STONEROOM	0			-
+133	Temple of the Light	t01.blv	0	0	15	672	7	10	15	8	5	10	40	30	30	Cleric Sun	Cleric Sun	3	 1-3	Angel	Angel	3	 1-3	Monk	Monk	5	 1-3	28	STONEROOM	0	revival branch of the Church of the Sun	7	x
+134	Temple of the Dark	t02.blv	0	0	15	672	7	10	15	8	5	10	40	30	30	Cleric Moon	Cleric Moon	4	 1-3	Vampire	Vampire	2	 1-3	Ghoul	Ghoul	4	 1-3	28	STONEROOM	0	revival branch of the Church of the Moon	8	x
+135	Grand Temple of the Sun	t03.blv	0	0	9	672	7	10	9	4	3	10	50	50	0	Cleric Sun	Cleric Sun	3	 1-3	Monk	Monk	2	 1-3	0	0	1	 1-3	28	STONEROOM	0	Ruined old temple of the sun	9	-
+136	The Hall of the Pit	t04.blv	0	0	9	672	7	10	9	4	2	10	40	30	30	Harpy	Harpy	3	 1-3	Gargoyle	Gargoyle	2	 1-3	Zombie	Zombie	4	 1-3	18	CAVE	0	Entrance to The Pit.  Small guard station.	5	-
+137	Sweet Water	outa1.odm	0	0	0	224	0	0	8	9	6	10	50	50	0	Demon	Demon	3	 2-4	DemonFly	DemonFly	3	 2-4	0	0	1	 1-4	40	0	Peter	0	0	-
+138	Paradise Valley	outa2.odm	0	0	0	168	0	0	7	8	6	10	40	30	30	DragonCover	DragonCover	3	 1-3	BHydra	BHydra	3	 2-4	BTitan	BTitan	3	 1-3	51	0	Peter	0	0	-
+139	Hermit's Isle	outa3.odm	0	0	0	168	0	0	7	8	6	10	50	50	0	BTitan	BTitan	5	 2-3	BHydra	BHydra	5	 3-5	SeaSerpent	SeaSerpent	5	 3-5	41	0	Peter	0	0	-
+140	Kriegspire	outb1.odm	0	0	0	224	0	0	6	8	6	10	40	30	30	BMinotaur	BMinotaur	2	 2-4	ElemEarth	ElemEarth	2	 2-4	BDragonFly	BDragonFly	2	 2-3	47	0	Peter	0	0	-
+141	Blackshire	outb2.odm	0	0	0	672	0	0	6	8	6	10	10	70	20	DragonCave	DragonCave	3	 2-3	Werewolf	Werewolf	2	 3-5	ElemAir	ElemAir	2	 2-4	41	0	Peter	0	0	-
+142	Dragonsand	outb3.odm	0	0	0	168	0	0	8	10	6	10	30	40	30	DragonLand	DragonLand	5	 2-4	DragonCover	DragonCover	5	 2-3	DragonCave	DragonCave	5	 2-4	41	0	Peter	0	0	-
+143	Frozen Highlands	outc1.odm	0	0	0	672	0	0	4	6	6	10	20	40	20	BHarpy	BHarpy	3	 4-6	Barbarian	Barbarian	3	 3-5	BArcher	BArcher	3	 3-5	47	0	Peter	0	0	-
+144	Free Haven	outc2.odm	0	0	0	672	0	0	4	6	6	10	30	70	0	BArcher	BArcher	2	 3-5	PeasantM2	PeasantM2	5	 4-6	0	0	0	0	51	0	Peter	0	0	-
+145	Mire of the Damned	outc3.odm	0	0	0	168	0	0	3	7	6	10	10	20	70	BGhost	BGhost	2	 2-5	BHarpy	BHarpy	2	 3-5	Skeleton	Skeleton	4	 4-6	48	0	Peter	0	0	-
+146	Silver Cove	outd1.odm	0	0	0	672	0	0	4	5	6	10	50	50	0	Druidess	Druidess	2	 2-4	BGargoyle	BGargoyle	3	 3-5	0	0	1	 1-4	37	0	Peter	0	0	-
+147	Bootleg Bay	outd2.odm	0	0	0	224	0	0	3	2	6	10	40	40	20	PeasantM4	PeasantM4	3	 4-6	PeasantF4	PeasantF4	3	 4-6	LizardArch	LizardArch	3	 3-5	37	0	Peter	0	0	-
+148	Castle Ironfist	outd3.odm	0	0	0	672	0	0	2	3	6	10	20	40	40	LizardArch	LizardArch	1	 3-5	Bloodsucker	Bloodsucker	3	 3-6	PeasantM3	PeasantM3	1	 4-6	37	0	Peter	0	0	-
+149	Eel Infested Waters	oute1.odm	0	0	0	224	0	0	5	6	6	10	0	100	0	SeaSerpent	SeaSerpent	3	 1-3	Cockatrice	Cockatrice	3	 4-6	ElemWater	ElemWater	2	 2-4	37	0	Peter	0	0	-
+150	Misty Islands	oute2.odm	0	0	0	672	0	0	2	2	6	10	50	50	0	PeasantM3	PeasantM3	2	 4-6	PeasantF3	PeasantF3	2	 4-6	0	0	1	 1-4	37	0	Peter	0	0	-
+151	New Sorpigal	oute3.odm	0	0	0	168	0	0	0	1	6	10	50	50	0	BGoblin	BGoblin	1	 3-5	PeasantM2	PeasantM2	1	 3-5	0	0	1	 1-4	37	0	Peter	0	0	-
+152	Goblinwatch	6d01.blv	0	0	0	672	0	0	0	1	6	10	40	30	30	BRat	BRat	2	 3-5	BGoblin	BGoblin	2	 3-5	Bloodsucker	Bloodsucker	1	 4-6	43	0	Bruce	0	0	-
+153	Abandoned Temple	6d02.blv	0	0	0	672	0	0	1	1	6	10	30	40	30	BBat	BBat	2	 4-6	Cobra	Cobra	1	 3-5	BSpider	BSpider	1	 2-4	44	0	Bruce	0	0	-
+154	Shadow Guild Hideout	6d03.blv	0	0	0	672	0	0	2	2	6	10	50	50	0	BThief	BThief	3	 3-7	FighterLeath	FighterLeath	2	 2-5	0	0	1	 1-4	42	0	Walter	0	0	-
+155	Hall of the Fire Lord	6d04.blv	0	0	0	672	0	0	2	2	6	10	60	40	0	BGoblin	BGoblin	4	 3-5	Ogre	Ogre	2	 2-4	0	0	1	 1-4	42	0	Bruce	0	0	-
+156	Snergle's Caverns	6d05.blv	0	0	0	672	0	0	3	3	6	10	20	80	0	BDwarf	BDwarf	3	 3-5	BBat	BBat	5	 2-6	0	0	1	 1-4	42	0	Dave	0	0	-
+157	Dragoons' Caverns	6d06.blv	0	0	0	672	0	0	2	3	6	10	60	40	0	FighterLeath	FighterLeath	3	 2-6	FighterChain	FighterChain	3	 2-3	BOoze	BOoze	3	 2-3	42	0	Tim	0	0	-
+158	Silver Helm Outpost	6d07.blv	0	0	0	672	0	0	3	3	6	10	20	30	50	Nobleman	Nobleman	3	 3-4	BMonk	BMonk	3	 3-4	Guard	Guard	3	 2-4	42	0	Walter	0	0	-
+159	Shadow Guild	6d08.blv	0	0	0	672	0	0	4	3	6	10	50	50	0	BThief	BThief	5	 2-4	PeasantF3	PeasantF3	5	 2-4	BGenie	BGenie	1	 1-2	42	0	Lisa	0	0	-
+160	Snergle's Iron Mines	6d09.blv	0	0	0	672	0	0	3	3	6	10	50	50	0	BDwarf	BDwarf	4	 2-4	BOoze	BOoze	4	 2-4	Demon	Demon	1	 2-3	42	0	Tim	0	0	-
+161	Dragoons' Keep	6d10.blv	0	0	0	672	0	0	3	3	6	10	40	60	0	FighterChain	FighterChain	3	 3-5	BRat	BRat	5	 4-8	0	0	1	 1-4	42	0	Tim	0	0	-
+162	Corlagon's Estate	6d11.blv	0	0	0	672	0	0	4	4	6	10	20	80	0	BGhost	BGhost	4	 3-6	Skeleton	Skeleton	5	 4-8	BLich	BLich	2	 1-1	42	0	Tim	0	0	-
+163	Silver Helm Stronghold	6d12.blv	0	0	0	672	0	0	3	4	6	10	40	40	20	Nobleman	Nobleman	5	 3-8	FighterChain	FighterChain	4	 3-6	Sorcerer	Sorcerer	3	 2-3	42	0	Walter	0	0	-
+164	The Monolith	6d13.blv	0	0	0	672	0	0	3	5	6	10	80	10	10	Druidess	Druidess	3	 2-5	ElemEarth	ElemEarth	3	 2-3	ElemWater	ElemWater	3	 2-3	42	0	Dave	0	0	-
+165	Tomb of Ethric the Mad	6d14.blv	0	0	0	672	0	0	4	5	6	10	10	60	30	BLich	BLich	4	 2-3	Skeleton	Skeleton	5	 4-7	BGhost	BGhost	5	 2-3	42	0	Dave	0	0	-
+166	Icewind Keep	6d15.blv	0	0	0	672	0	0	4	5	6	10	40	60	0	Ogre	Ogre	4	 3-5	Guard	Guard	4	 3-5	0	0	1	 1-4	42	0	Dave	0	0	-
+167	Warlord's Fortress	6d16.blv	0	0	0	672	0	0	5	6	6	10	80	20	0	FighterLeath	FighterLeath	5	 2-4	FighterChain	FighterChain	5	 2-4	KnightPlate	KnightPlate	5	 2-4	42	0	Chris	0	0	-
+168	Lair of the Wolf	6d17.blv	0	0	0	672	0	0	5	6	6	10	100	0	0	Werewolf	Werewolf	4	 2-5	Nobleman	Nobleman	5	 4-6	BOoze	BOoze	5	 5-7	42	0	Walter	0	0	-
+169	Gharik's Forge	6d18.blv	0	0	0	672	0	0	7	8	6	10	40	40	20	Sorcerer	Sorcerer	4	 3-6	ElemFire	ElemFire	4	 2-3	ElemFire	ElemFire	4	 2-3	42	0	Tim	0	0	-
+170	Agar's Laboratory	6d19.blv	0	0	0	672	0	0	5	9	6	10	80	20	0	BBeholder	BBeholder	4	 2-3	Cockatrice	Cockatrice	5	 2-3	BLich	BLich	5	 1-1	42	0	Dave	0	0	-
+171	Caves of the Dragon Riders	6d20.blv	0	0	0	672	0	0	6	10	6	10	10	20	70	KnightPlate	KnightPlate	5	 2-4	DragonLand	DragonLand	5	 2-4	0	0	1	 1-4	42	0	Lisa	0	0	-
+172	Temple of Baa	6t1.blv	0	0	0	672	0	0	2	1	6	10	10	40	50	Cleric	Cleric	1	 3-5	BSpider	BSpider	3	 3-5	Skeleton	Skeleton	3	 3-5	50	0	Tony	0	0	-
+173	Temple of the Fist	6t2.blv	0	0	0	672	0	0	2	1	6	10	20	80	0	BMonk	BMonk	3	 2-4	BRat	BRat	5	 3-5	0	0	1	 1-4	49	0	Dave	0	0	-
+174	Temple of Tsantsa	6t3.blv	0	0	0	672	0	0	2	1	6	10	30	30	40	PeasantM4	PeasantM4	4	 3-4	PeasantF4	PeasantF4	4	 3-4	Cobra	Cobra	5	 4-6	49	0	Chris	0	0	-
+175	Temple of the Sun	6t4.blv	0	0	0	672	0	0	3	2	6	10	100	0	0	BMonk	BMonk	4	 2-4	BMinotaur	BMinotaur	5	 1-1	0	0	1	 1-4	49	0	Chris	0	0	-
+176	Temple of the Moon	6t5.blv	0	0	0	672	0	0	3	2	6	10	40	60	0	Druidess	Druidess	4	 3-6	Cobra	Cobra	5	 3-5	BMedusa	BMedusa	2	 2-3	49	0	Tim	0	0	-
+177	Supreme Temple of Baa	6t6.blv	0	0	0	672	0	0	4	4	6	10	90	0	10	Cleric	Cleric	4	 3-5	Demon	Demon	1	 2-3	ElemFire	ElemFire	3	 2-4	50	0	Chris	0	0	-
+178	Superior Temple of Baa	6t7.blv	0	0	0	672	0	0	4	4	6	10	70	20	10	Cleric	Cleric	5	 3-6	Druidess	Druidess	4	 3-6	Sorcerer	Sorcerer	3	 3-6	50	0	Tony	0	0	-
+179	Temple of the Snake	6t8.blv	0	0	0	672	0	0	5	5	6	10	100	0	0	BMedusa	BMedusa	5	 2-5	PeasantM1	PeasantM1	3	 1-1	DragonCover	DragonCover	1	 1-1	49	0	Chris	0	0	-
+180	Castle Alamos	cd1.blv	0	0	0	672	0	0	5	5	6	10	10	80	10	Sorcerer	Sorcerer	4	 2-3	Barbarian	Barbarian	5	 3-5	ElemAir	ElemAir	4	 2-3	49	0	Bruce	0	0	-
+181	Castle Darkmoor	cd2.blv	0	0	0	672	0	0	5	5	6	10	10	10	80	BLich	BLich	4	 2-4	BBeholder	BBeholder	3	 2-4	Ogre	Ogre	5	 2-4	49	0	Tony	0	0	-
+182	Castle Kriegspire	cd3.blv	0	0	0	672	0	0	6	6	6	10	80	20	0	BMinotaur	BMinotaur	4	 2-4	Cockatrice	Cockatrice	5	 3-4	BDragonFly	BDragonFly	4	 2-3	49	0	Bruce	0	0	-
+183	Free Haven Sewer	sewer.blv	0	0	0	672	0	0	4	2	6	10	30	30	40	BRat	BRat	5	 3-5	Cleric	Cleric	3	 2-4	BThief	BThief	5	 2-4	44	0	???	0	0	-
+184	Tomb of VARN	pyramid.blv	0	0	0	672	0	0	8	8	6	10	100	0	0	Jackalman	Jackalman	4	 3-4	BGenie	BGenie	4	 2-3	BRobot	BRobot	1	 1-2	46	0	Bruce	0	0	-
+185	Oracle of Enroth	oracle.blv	0	0	0	672	0	0	0	0	6	10	0	0	0	PeasantM1	PeasantM1	1	 1-4	0	0	1	 1-4	0	0	1	 1-4	46	0	Tony	0	0	-
+186	Control Center	sci-fi.blv	0	0	0	672	0	0	5	8	6	10	100	0	0	BRobot	BRobot	2	 1-3	0	0	1	 1-4	0	0	1	 1-4	46	0	Tony	0	0	-
+187	The Hive	hive.blv	0	0	0	7	0	0	10	10	6	10	50	50	0	Demon	Demon	5	 2-4	DemonFly	DemonFly	5	 2-4	DemonQueen	DemonQueen	1	 1-1	40	0	Bruce	0	0	-
+188	The Arena	zarena.blv	0	0	0	1	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	45	0		0	0	-
+189	Dragon's Lair	zddb01.blv	0	0	0	672	0	0	1	1	6	10	0	0	0	DragonCover	DragonCover	2	 1-2	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+190	pending	zddb02.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+191	pending	zddb03.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+192	pending	zddb04.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+193	pending	zddb05.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+194	pending	zddb06.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+195	pending	zddb07.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+196	pending	zddb08.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+197	pending	zddb09.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+198	pending	zddb10.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+199	pending	zdtl01.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+200	pending	zdtl02.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+201	pending	zdwj01.blv	0	0	0	672	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+202	Devil Outpost	zdwj02.blv	0	0	0	672	0	0	1	1	6	10	0	0	0	Demon	Demon	2	 2-3	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+203	New World Computing	znwc.blv	0	0	0	7	0	0	1	1	6	0	0	0	0	0	0	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	37	0		0	0	-
+204	The Breach	Breach.odm	0	0	0	-1	0	0	1	7	6	0	100	0	0	Will ' O Wisp	Will ' O Wisp	1	 1-1	0	0	1	 1-4	0	0	1	 1-4	37	0		0	0	-
+205	The Breach	BrAlvar.odm	0	0	2	-1	0	0	2	7	6	80	10	10	80	Fire Elemental	Fire Elemental	5	 1-3	ATroll	ATroll	5	 1-3	Cactus	Cactus	1	 1-3	3	PSYCHOTIC		0	0	-
+206	Basement of the Breach	BrBase.blv	0	0	0	1	0	0	0	1	1	50	100	0	0	Cactus	Cactus	1	 1-3	0	0	1	 1-4	0	0	1	 1-4	42	0		0	0	-
+207	The Strange Temple	7nwc.blv	0	0	1	672	7	10	1	1	1	0	0	0	0	0	0	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	34	STONEROOM	0			-
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+
+
+

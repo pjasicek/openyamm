@@ -919,7 +919,7 @@ uint32_t SpriteFrameTable::mirrorFlagForOctant(int octant)
 
 std::string SpriteFrameTable::buildTextureName(const std::string &baseName, int suffixIndex)
 {
-    if (baseName.size() >= 7)
+    if (!baseName.empty() && baseName.back() == '0')
     {
         return baseName;
     }

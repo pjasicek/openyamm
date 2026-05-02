@@ -47,7 +47,7 @@ TEST_CASE("arcomage library initializes a playable match")
 
     REQUIRE_EQ(library.cards.size(), OpenYAMM::Game::ArcomageLibrary::CardCount);
 
-    const OpenYAMM::Game::ArcomageTavernRule *pRule = library.ruleForHouse(107);
+    const OpenYAMM::Game::ArcomageTavernRule *pRule = library.ruleForHouse(228);
     REQUIRE(pRule != nullptr);
 
     OpenYAMM::Game::ArcomageRules rules;
@@ -73,7 +73,7 @@ TEST_CASE("arcomage player play amethyst applies expected effects")
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::ArcomageTestHarness harness = {};
 
-    REQUIRE(harness.initialize(gameData.arcomageLibrary, 107));
+    REQUIRE(harness.initialize(gameData.arcomageLibrary, 228));
 
     const std::optional<uint32_t> amethystId = harness.cardIdByName("Amethyst");
     REQUIRE(amethystId.has_value());
@@ -103,7 +103,7 @@ TEST_CASE("arcomage conditional card branches match expected effects")
     {
         OpenYAMM::Tests::ArcomageTestHarness harness = {};
 
-        REQUIRE(harness.initialize(gameData.arcomageLibrary, 107));
+        REQUIRE(harness.initialize(gameData.arcomageLibrary, 228));
         harness.clearHands();
         REQUIRE(harness.setHand(0, std::vector<uint32_t>{4u}));
         harness.state.players[0].bricks = 20;
@@ -119,7 +119,7 @@ TEST_CASE("arcomage conditional card branches match expected effects")
     {
         OpenYAMM::Tests::ArcomageTestHarness harness = {};
 
-        REQUIRE(harness.initialize(gameData.arcomageLibrary, 107));
+        REQUIRE(harness.initialize(gameData.arcomageLibrary, 228));
         harness.clearHands();
         REQUIRE(harness.setHand(0, std::vector<uint32_t>{4u}));
         harness.state.players[0].bricks = 20;
@@ -137,7 +137,7 @@ TEST_CASE("arcomage player discard marks card as discarded")
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::ArcomageTestHarness harness = {};
 
-    REQUIRE(harness.initialize(gameData.arcomageLibrary, 107));
+    REQUIRE(harness.initialize(gameData.arcomageLibrary, 228));
 
     const std::optional<uint32_t> amethystId = harness.cardIdByName("Amethyst");
     REQUIRE(amethystId.has_value());
@@ -159,7 +159,7 @@ TEST_CASE("arcomage ai turn can be simulated headlessly")
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::ArcomageTestHarness harness = {};
 
-    REQUIRE(harness.initialize(gameData.arcomageLibrary, 107));
+    REQUIRE(harness.initialize(gameData.arcomageLibrary, 228));
 
     const std::optional<uint32_t> amethystId = harness.cardIdByName("Amethyst");
     REQUIRE(amethystId.has_value());
@@ -190,7 +190,7 @@ TEST_CASE("arcomage mm8 special cards apply expected effects")
     SUBCASE("flood water targets the lower wall side")
     {
         OpenYAMM::Tests::ArcomageTestHarness harness = {};
-        REQUIRE(harness.initialize(library, 107));
+        REQUIRE(harness.initialize(library, 228));
 
         const std::optional<uint32_t> floodWaterId = harness.cardIdByName("Flood Water");
         REQUIRE(floodWaterId.has_value());
@@ -215,7 +215,7 @@ TEST_CASE("arcomage mm8 special cards apply expected effects")
     SUBCASE("shift swaps the two walls")
     {
         OpenYAMM::Tests::ArcomageTestHarness harness = {};
-        REQUIRE(harness.initialize(library, 107));
+        REQUIRE(harness.initialize(library, 228));
 
         const std::optional<uint32_t> shiftId = harness.cardIdByName("Shift");
         REQUIRE(shiftId.has_value());
@@ -240,7 +240,7 @@ TEST_CASE("arcomage play again refills hand like oe")
     SUBCASE("plain play again card refills to five without discard")
     {
         OpenYAMM::Tests::ArcomageTestHarness harness = {};
-        REQUIRE(harness.initialize(library, 107));
+        REQUIRE(harness.initialize(library, 228));
 
         const std::optional<uint32_t> luckyCacheId = harness.cardIdByName("Lucky Cache");
         REQUIRE(luckyCacheId.has_value());
@@ -261,7 +261,7 @@ TEST_CASE("arcomage play again refills hand like oe")
     SUBCASE("extra draw play again card requires one discard but keeps the turn")
     {
         OpenYAMM::Tests::ArcomageTestHarness harness = {};
-        REQUIRE(harness.initialize(library, 107));
+        REQUIRE(harness.initialize(library, 228));
 
         const std::optional<uint32_t> prismId = harness.cardIdByName("Prism");
         REQUIRE(prismId.has_value());
@@ -290,7 +290,7 @@ TEST_CASE("arcomage turn change clears previous shown cards")
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
     OpenYAMM::Tests::ArcomageTestHarness harness = {};
 
-    REQUIRE(harness.initialize(gameData.arcomageLibrary, 107));
+    REQUIRE(harness.initialize(gameData.arcomageLibrary, 228));
 
     const std::optional<uint32_t> amethystId = harness.cardIdByName("Amethyst");
     REQUIRE(amethystId.has_value());

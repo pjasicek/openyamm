@@ -2,9 +2,9 @@
 
 from __future__ import annotations
 
+import argparse
 import csv
 import struct
-import sys
 from pathlib import Path
 
 
@@ -95,6 +95,21 @@ def parse_template_rows(template_path: Path) -> list[tuple[str, int | None, str 
                 result.append(("blank", None, None))
                 continue
 
+            if len(row) >= 16 and row[0].strip().lower() == "name" and row[1].strip().lower() == "id":
+                result.append(("comment", None, HEADER_LINE))
+                continue
+
+            if len(row) >= 16:
+                try:
+                    object_id = int(row[1].strip())
+                except ValueError:
+                    object_id = None
+
+                if object_id is not None:
+                    sprite_name = row[15].strip()
+                    result.append(("data", object_id, sprite_name))
+                    continue
+
             try:
                 object_id = int(row[2].strip())
             except ValueError:
@@ -127,15 +142,34 @@ def format_row(entry: dict[str, object], sprite_name: str | None) -> str:
     )
 
 
+def build_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Export dobjlist.bin into object_list.txt")
+    parser.add_argument("--source-bin", help="path to dobjlist.bin")
+    parser.add_argument("--table", help="existing object_list.txt used as sprite-name template")
+    parser.add_argument("--output", help="path to object_list.txt")
+    return parser
+
+
 def main() -> int:
+    parser = build_argument_parser()
+    args = parser.parse_args()
     repo_root = Path(__file__).resolve().parents[1]
     legacy_binary_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "dobjlist.bin"
     fallback_binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dobjlist.bin"
-    binary_path = legacy_binary_path if legacy_binary_path.exists() else fallback_binary_path
-    table_path = repo_root / "assets_dev" / "Data" / "data_tables" / "object_list.txt"
+    binary_path = Path(args.source_bin) if args.source_bin else legacy_binary_path
+
+    if not binary_path.exists() and not args.source_bin:
+        binary_path = fallback_binary_path
+
+    table_path = (
+        Path(args.output)
+        if args.output
+        else repo_root / "assets_dev" / "Data" / "data_tables" / "object_list.txt"
+    )
+    template_path = Path(args.table) if args.table else table_path
 
     binary_rows = read_binary_rows(binary_path)
-    template_rows = parse_template_rows(table_path)
+    template_rows = parse_template_rows(template_path)
     rendered_lines: list[str] = []
     seen_object_ids: set[int] = set()
 
@@ -170,6 +204,7 @@ def main() -> int:
         entry["object_id"] = object_id
         rendered_lines.append(format_row(entry, "null"))
 
+    table_path.parent.mkdir(parents=True, exist_ok=True)
     table_path.write_text("\n".join(rendered_lines) + "\n", encoding="utf-8")
     return 0
 

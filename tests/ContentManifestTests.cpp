@@ -43,13 +43,6 @@ TEST_CASE("content manifests default when package files are absent")
             "mm8"));
 
         std::string error;
-        const OpenYAMM::Game::CampaignManifest campaign =
-            OpenYAMM::Game::loadCampaignManifestOrDefault(assetFileSystem, "default", "mm8", error);
-        CHECK(error.empty());
-        CHECK_FALSE(campaign.loadedFromFile);
-        REQUIRE_EQ(campaign.worlds.size(), 1);
-        CHECK_EQ(campaign.worlds.front(), "mm8");
-
         const OpenYAMM::Game::WorldManifest world =
             OpenYAMM::Game::loadActiveWorldManifestOrDefault(assetFileSystem, "mm8", error);
         CHECK(error.empty());
@@ -61,7 +54,7 @@ TEST_CASE("content manifests default when package files are absent")
     std::filesystem::remove_all(temporaryRoot);
 }
 
-TEST_CASE("content manifests parse mounted world and campaign definitions")
+TEST_CASE("content manifests parse mounted world definition")
 {
     const std::filesystem::path temporaryRoot = makeTemporaryRoot();
     const std::filesystem::path assetRoot = temporaryRoot / "assets_dev";
@@ -74,16 +67,6 @@ TEST_CASE("content manifests parse mounted world and campaign definitions")
         "start:\n"
         "  map: custom01.odm\n"
         "  introMovie: custom_intro\n");
-    writeTextFile(
-        assetRoot / "campaigns" / "test" / "campaign.yml",
-        "id: test\n"
-        "name: Test Campaign\n"
-        "worlds:\n"
-        "  - mm8\n"
-        "  - custom\n"
-        "startWorlds:\n"
-        "  - custom\n");
-
     {
         OpenYAMM::Engine::AssetFileSystem assetFileSystem;
         REQUIRE(assetFileSystem.initialize(
@@ -93,16 +76,6 @@ TEST_CASE("content manifests parse mounted world and campaign definitions")
             "custom"));
 
         std::string error;
-        const OpenYAMM::Game::CampaignManifest campaign =
-            OpenYAMM::Game::loadCampaignManifestOrDefault(assetFileSystem, "test", "custom", error);
-        CHECK(error.empty());
-        REQUIRE(campaign.loadedFromFile);
-        CHECK_EQ(campaign.id, "test");
-        REQUIRE_EQ(campaign.worlds.size(), 2);
-        CHECK_EQ(campaign.worlds[1], "custom");
-        REQUIRE_EQ(campaign.startWorlds.size(), 1);
-        CHECK_EQ(campaign.startWorlds.front(), "custom");
-
         const OpenYAMM::Game::WorldManifest world =
             OpenYAMM::Game::loadActiveWorldManifestOrDefault(assetFileSystem, "custom", error);
         CHECK(error.empty());
@@ -115,4 +88,3 @@ TEST_CASE("content manifests parse mounted world and campaign definitions")
 
     std::filesystem::remove_all(temporaryRoot);
 }
-

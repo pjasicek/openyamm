@@ -61,9 +61,33 @@ std::string normalizeMapFileStem(const std::string &fileName)
     return fallback.empty() ? "unknown" : fallback;
 }
 
+std::string inferWorldIdFromMapFileName(const std::string &fileName, const std::string &fallbackWorldId)
+{
+    const std::string stem = normalizeMapFileStem(fileName);
+
+    if (!stem.empty() && stem[0] == '6')
+    {
+        return "mm6";
+    }
+
+    if (!stem.empty() && stem[0] == '7')
+    {
+        return "mm7";
+    }
+
+    if (stem.size() >= 4
+        && stem.starts_with("out")
+        && stem[3] >= 'a'
+        && stem[3] <= 'e')
+    {
+        return "mm6";
+    }
+
+    return normalizeWorldId(fallbackWorldId);
+}
+
 std::string buildCanonicalMapId(const std::string &worldId, const std::string &fileName)
 {
     return "world." + normalizeWorldId(worldId) + ".map." + normalizeMapFileStem(fileName);
 }
 }
-

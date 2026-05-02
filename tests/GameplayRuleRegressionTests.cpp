@@ -18,6 +18,7 @@
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/JournalQuestTable.h"
+#include "game/tables/SurfaceMaterialTable.h"
 
 #include "tests/RegressionGameData.h"
 #include "tests/PartySpellTestHarness.h"
@@ -414,11 +415,12 @@ TEST_CASE("outdoor terrain descriptors expose liquid flags for non-default tiles
     OpenYAMM::Game::OutdoorMapData ironsand = {};
     ironsand.fileName = "out04.odm";
     ironsand.masterTile = 1;
-    ironsand.tileSetLookupIndices = {234, 198, 270, 414};
+    ironsand.tileSetLookupIndices = {594, 558, 450, 522};
 
     const std::optional<std::vector<OpenYAMM::Game::TerrainTileDescriptor>> ironsandDescriptors =
         OpenYAMM::Game::loadTerrainTileDescriptors(assetFileSystem, ironsand);
     REQUIRE(ironsandDescriptors.has_value());
+    CHECK((*ironsandDescriptors)[1].textureName == "plntyl");
     CHECK((*ironsandDescriptors)[126].textureName == "lavtyl");
     CHECK(((*ironsandDescriptors)[126].flags & OpenYAMM::Game::TerrainTileFlagWater) != 0);
     CHECK(((*ironsandDescriptors)[126].flags & OpenYAMM::Game::TerrainTileFlagBurn) != 0);
@@ -426,16 +428,62 @@ TEST_CASE("outdoor terrain descriptors expose liquid flags for non-default tiles
     OpenYAMM::Game::OutdoorMapData shadowspire = {};
     shadowspire.fileName = "out06.odm";
     shadowspire.masterTile = 2;
-    shadowspire.tileSetLookupIndices = {162, 126, 198, 414};
+    shadowspire.tileSetLookupIndices = {702, 738, 666, 774};
 
     const std::optional<std::vector<OpenYAMM::Game::TerrainTileDescriptor>> shadowspireDescriptors =
         OpenYAMM::Game::loadTerrainTileDescriptors(assetFileSystem, shadowspire);
     REQUIRE(shadowspireDescriptors.has_value());
+    CHECK((*shadowspireDescriptors)[1].textureName == "gdtyl");
     CHECK((*shadowspireDescriptors)[162].textureName == "tartyl");
     CHECK(((*shadowspireDescriptors)[162].flags & OpenYAMM::Game::TerrainTileFlagWater) != 0);
     CHECK(((*shadowspireDescriptors)[162].flags & OpenYAMM::Game::TerrainTileFlagBurn) == 0);
     CHECK((*shadowspireDescriptors)[174].textureName == "trne");
     CHECK(((*shadowspireDescriptors)[174].flags & OpenYAMM::Game::TerrainTileFlagTransition) != 0);
+}
+
+TEST_CASE("outdoor terrain descriptors use mm6 and mm7 MMerge tile tables")
+{
+    OpenYAMM::Engine::AssetFileSystem assetFileSystem;
+    REQUIRE(initializeTestAssetFileSystem(assetFileSystem));
+
+    const std::optional<std::string> surfaceMaterialYaml =
+        assetFileSystem.readTextFile("Data/rendering/surface_materials.yml");
+    REQUIRE(surfaceMaterialYaml.has_value());
+
+    OpenYAMM::Game::SurfaceMaterialTable surfaceMaterialTable;
+    std::string surfaceMaterialError;
+    REQUIRE(surfaceMaterialTable.loadFromYaml(*surfaceMaterialYaml, surfaceMaterialError));
+    REQUIRE(surfaceMaterialTable.findMatch("6wtrtyl", 0, true) != nullptr);
+    REQUIRE(surfaceMaterialTable.findMatch("6wtrdrNE", 0, true) != nullptr);
+    REQUIRE(surfaceMaterialTable.findMatch("7wtrtyl", 0, true) != nullptr);
+    REQUIRE(surfaceMaterialTable.findMatch("7hwtrdrne", 0, true) != nullptr);
+
+    OpenYAMM::Game::OutdoorMapData newSorpigal = {};
+    newSorpigal.fileName = "oute3.odm";
+    newSorpigal.masterTile = 2;
+    newSorpigal.tileSetLookupIndices = {90, 126, 198, 774};
+
+    const std::optional<std::vector<OpenYAMM::Game::TerrainTileDescriptor>> newSorpigalDescriptors =
+        OpenYAMM::Game::loadTerrainTileDescriptors(assetFileSystem, newSorpigal);
+    REQUIRE(newSorpigalDescriptors.has_value());
+    CHECK((*newSorpigalDescriptors)[1].textureName == "6dirttyl");
+    CHECK((*newSorpigalDescriptors)[90].textureName == "6grastyl");
+    CHECK((*newSorpigalDescriptors)[126].textureName == "6wtrtyl");
+    CHECK(((*newSorpigalDescriptors)[126].flags & OpenYAMM::Game::TerrainTileFlagWater) != 0);
+
+    OpenYAMM::Game::OutdoorMapData emeraldIsland = {};
+    emeraldIsland.fileName = "7out01.odm";
+    emeraldIsland.masterTile = 1;
+    emeraldIsland.tileSetLookupIndices = {90, 126, 270, 414};
+
+    const std::optional<std::vector<OpenYAMM::Game::TerrainTileDescriptor>> emeraldIslandDescriptors =
+        OpenYAMM::Game::loadTerrainTileDescriptors(assetFileSystem, emeraldIsland);
+    REQUIRE(emeraldIslandDescriptors.has_value());
+    CHECK((*emeraldIslandDescriptors)[1].textureName == "7dirttyl");
+    CHECK((*emeraldIslandDescriptors)[90].textureName == "7grastyl");
+    CHECK((*emeraldIslandDescriptors)[126].textureName == "7wtrtyl");
+    CHECK(((*emeraldIslandDescriptors)[126].flags & OpenYAMM::Game::TerrainTileFlagWater) != 0);
+    CHECK(assetFileSystem.exists("Data/bitmaps/7wtrtyl.bmp"));
 }
 
 TEST_CASE("outdoor terrain descriptor flags are applied to movement attributes")
@@ -446,7 +494,7 @@ TEST_CASE("outdoor terrain descriptor flags are applied to movement attributes")
     OpenYAMM::Game::OutdoorMapData mapData = {};
     mapData.fileName = "out04.odm";
     mapData.masterTile = 1;
-    mapData.tileSetLookupIndices = {234, 198, 270, 414};
+    mapData.tileSetLookupIndices = {594, 558, 450, 522};
     mapData.tileMap.assign(
         static_cast<size_t>(OpenYAMM::Game::OutdoorMapData::TerrainWidth)
             * static_cast<size_t>(OpenYAMM::Game::OutdoorMapData::TerrainHeight),
@@ -1766,7 +1814,7 @@ TEST_CASE("lua MoveToMap with transition ids opens shared transition dialog inst
     const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
         "evt.map[1] = function()\n"
         "    evt._BeginEvent(1)\n"
-        "    evt.MoveToMap(-500, -1567, -63, 512, 0, 0, 204, 9, \"\1D18.blv\")\n"
+        "    evt.MoveToMap(-500, -1567, -63, 512, 0, 0, 363, 9, \"\1D18.blv\")\n"
         "    return\n"
         "end\n",
         "@SyntheticDungeonTransition.lua",
@@ -1783,7 +1831,7 @@ TEST_CASE("lua MoveToMap with transition ids opens shared transition dialog inst
     REQUIRE(runtimeState.pendingDialogueContext->transitionMapMove.has_value());
     CHECK_EQ(runtimeState.pendingDialogueContext->transitionMapMove->mapName, std::optional<std::string>("D18.blv"));
     CHECK_EQ(runtimeState.pendingDialogueContext->transitionMapMove->x, -500);
-    CHECK_EQ(runtimeState.pendingDialogueContext->transitionTextId, 204u);
+    CHECK_EQ(runtimeState.pendingDialogueContext->transitionTextId, 363u);
     CHECK_EQ(runtimeState.pendingDialogueContext->transitionImageId, 9u);
 }
 
@@ -1800,7 +1848,7 @@ TEST_CASE("dungeon transition dialog uses trans table title text icon and transi
     OpenYAMM::Game::EventRuntimeState::PendingDialogueContext context = {};
     context.kind = OpenYAMM::Game::DialogueContextKind::MapTransition;
     context.transitionMapMove = mapMove;
-    context.transitionTextId = 204;
+    context.transitionTextId = 363;
     context.transitionImageId = 9;
     runtimeState.pendingDialogueContext = context;
 

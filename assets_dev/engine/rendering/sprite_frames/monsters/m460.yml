@@ -1,0 +1,147 @@
+# Monster sprite frame groups for family m460.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 16391
+    sprite_name: "m460d"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "7m452na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 497
+      - texture_name: "7m452nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 497
+      - texture_name: "7m452da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 497
+      - texture_name: "7m452db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 497
+      - texture_name: "7m452dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 497
+      - texture_name: "7m452dd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 497
+      - texture_name: "7m452de0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 497
+  - sprite_id: 16398
+    sprite_name: "m460f"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "7m452fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        palette_id: 497
+      - texture_name: "7m452fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 497
+      - texture_name: "7m452fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 497
+      - texture_name: "7m452fd0"
+        frame_length_raw: 6
+        flags: [HasMore, Image1]
+        palette_id: 497
+      - texture_name: "7m452fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 497
+      - texture_name: "7m452fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        palette_id: 497
+      - texture_name: "7m452fa0"
+        frame_length_raw: 2
+        flags: [Image1]
+        palette_id: 497
+  - sprite_id: 16405
+    sprite_name: "m460n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "7m452na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+  - sprite_id: 16411
+    sprite_name: "m460s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "7m452sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+  - sprite_id: 16412
+    sprite_name: "m460w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "7m452wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+      - texture_name: "7m452wh"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        palette_id: 497
+  - sprite_id: 16420
+    sprite_name: "m460x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "7m452xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        palette_id: 497

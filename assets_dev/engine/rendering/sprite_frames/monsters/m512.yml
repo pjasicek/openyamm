@@ -1,0 +1,30 @@
+# Monster sprite frame groups for family m512.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 3818
+    sprite_name: ""
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m512aa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 512
+  - sprite_id: 3851
+    sprite_name: ""
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m512aa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 2.299988
+        palette_id: 512
+  - sprite_id: 3884
+    sprite_name: ""
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m512aa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 2.699997
+        palette_id: 512

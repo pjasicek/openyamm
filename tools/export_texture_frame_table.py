@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import struct
 from pathlib import Path
 
@@ -19,12 +20,29 @@ def decode_flags(flags: int) -> str:
     return ",".join(names)
 
 
+def build_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Export dtft.bin into texture_frame_data.txt")
+    parser.add_argument("--source-bin", help="path to dtft.bin")
+    parser.add_argument("--output", help="path to texture_frame_data.txt")
+    return parser
+
+
 def main() -> None:
+    parser = build_argument_parser()
+    args = parser.parse_args()
     repo_root = Path(__file__).resolve().parents[1]
     legacy_source_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "dtft.bin"
     fallback_source_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "dtft.bin"
-    source_path = legacy_source_path if legacy_source_path.exists() else fallback_source_path
-    target_path = repo_root / "assets_dev" / "Data" / "data_tables" / "texture_frame_data.txt"
+    source_path = Path(args.source_bin) if args.source_bin else legacy_source_path
+
+    if not source_path.exists() and not args.source_bin:
+        source_path = fallback_source_path
+
+    target_path = (
+        Path(args.output)
+        if args.output
+        else repo_root / "assets_dev" / "Data" / "data_tables" / "texture_frame_data.txt"
+    )
     source_bytes = source_path.read_bytes()
     count = struct.unpack_from("<i", source_bytes, 0)[0]
     offset = 4
@@ -44,6 +62,7 @@ def main() -> None:
         )
         offset += RECORD_SIZE
 
+    target_path.parent.mkdir(parents=True, exist_ok=True)
     target_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
 
 

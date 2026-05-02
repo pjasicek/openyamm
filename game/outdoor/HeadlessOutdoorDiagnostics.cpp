@@ -1903,7 +1903,7 @@ std::string buildNormalizedOutdoorAuthoredSnapshot(const MapAssetInfo &mapAssetI
             : 0;
 
         stream << entity.name << '|'
-               << entity.decorationListId << '|'
+               << (entity.name.empty() ? std::to_string(entity.decorationListId) : toLowerCopy(entity.name)) << '|'
                << entity.aiAttributes << '|';
         appendNormalizedPosition(stream, entity.x, entity.y, entity.z);
         stream << '|'
@@ -1975,10 +1975,8 @@ std::string buildNormalizedOutdoorAuthoredSnapshot(const MapAssetInfo &mapAssetI
                << actor.moveSpeed << '|';
         appendNormalizedPosition(stream, actor.x, actor.y, actor.z);
         stream << '|'
-               << actor.spriteIds[0] << ','
-               << actor.spriteIds[1] << ','
-               << actor.spriteIds[2] << ','
-               << actor.spriteIds[3] << '|'
+               // MMerge global SFT remaps sprite ids; monster ids above carry the authored identity.
+               << "0,0,0,0" << '|'
                << actor.sectorId << '|'
                << actor.currentActionAnimation << '|'
                << actor.group << '|'
@@ -3374,7 +3372,7 @@ int HeadlessGameplayDiagnostics::runProfileFullMapLoad(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -3418,7 +3416,7 @@ int HeadlessGameplayDiagnostics::runSimulateActor(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -3536,7 +3534,7 @@ int HeadlessGameplayDiagnostics::runTraceActorAi(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -3692,7 +3690,7 @@ int HeadlessGameplayDiagnostics::runInspectActorPreview(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -3806,7 +3804,7 @@ int HeadlessGameplayDiagnostics::runDumpActorSupport(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -3944,7 +3942,7 @@ int HeadlessGameplayDiagnostics::runDumpActorPreviewTexture(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -4032,7 +4030,7 @@ int HeadlessGameplayDiagnostics::runOpenEvent(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -4253,7 +4251,7 @@ int HeadlessGameplayDiagnostics::runOpenActor(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -4419,7 +4417,7 @@ int HeadlessGameplayDiagnostics::runDialogSequence(
 {
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Headless diagnostic failed: could not initialize asset file system\n";
         return 1;
@@ -4806,7 +4804,7 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
 
     Engine::AssetFileSystem assetFileSystem;
 
-    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier))
+    if (!assetFileSystem.initialize(basePath, m_config.assetRoot, m_config.assetScaleTier, m_config.activeWorldId))
     {
         std::cerr << "Regression suite failed: could not initialize asset file system\n";
         return 1;

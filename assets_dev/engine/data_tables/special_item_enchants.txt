@@ -26,7 +26,7 @@ Wearer resistant to Poison.	of Antidotes	0	0	0	10	10	10	10	10	0	0	10	10	1000	C	i
 Wearer resistant to Sleep.	of Alarms	0	0	0	10	10	10	10	10	0	0	10	10	500	B	immune to sleep condition
 Wearer resistant to Stone.	of The Medusa	0	0	0	5	5	5	5	5	0	0	5	5	2000	D	immune to stone condition
 Increased Knockback.	of Force	0	0	0	0	0	0	0	0	0	0	0	0	500	A	Increase knockback effect (X10)
- +5 Level.	of Power	0	0	0	0	0	0	0	0	0	0	0	0	2500	D	(+5) char level
+ +5 Level.	of Power	2	2	2	2	2	2	2	2	2	2	2	2	2500	D	(+5) char level
 Increases effect of all Air spells.	of Air Magic	0	0	0	0	0	0	0	0	0	0	10	10	2000	D	50% increase of spell effect and duration
 Increases effect of all Body spells.	of Body Magic	0	0	0	0	0	0	0	0	0	0	10	10	2000	D	50% increase of spell effect and duration
 Increases effect of all Dark spells.	of Dark Magic	0	0	0	0	0	0	0	0	0	0	10	10	2000	D	50% increase of spell effect and duration
@@ -74,8 +74,9 @@ Adds 6-8 points of Cold damage and +5 Armor Class.	Barbarians'	20	20	20	0	0	0	0	
 +10 Water Resistance and +2 Alchemy skill.	of the Ocean	0	0	0	20	20	20	0	0	0	0	0	0	1000	B	+10 Water Resistance and +2 Alchemy skill
 Prevents damage from drowning.	of Water Walking	0	0	0	5	5	5	5	5	0	15	5	5	1500	C	Character with item takes no damage from drowning
 Prevents damage from falling.	of Feather Falling	0	0	0	5	0	0	5	5	0	5	15	5	1000	B	Character with item takes no damage from falling
+Throws sparks into enemy.	of Sparking	0	0	0	0	0	0	0	0	0	0	0	0	x2	B	Throws sparks into enemy.
 
-		495	495	505	345	315	310	245	305	200	185	375	370			
+		505	505	505	345	315	310	245	305	200	185	375	370			
 
 Treasure Level	If treasure Level = 3 add all A and B															
 A= 3 to 4	If treasure Level = 4 add all A and B and C

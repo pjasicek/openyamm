@@ -22,14 +22,14 @@ public:
     int run();
 
 private:
-    bool startup(const Engine::AssetFileSystem &assetFileSystem);
+    bool startup(Engine::AssetFileSystem &assetFileSystem);
     bool setupRendering();
     void handleEvent(const SDL_Event &event);
     void renderFrame(int width, int height, float mouseWheelDelta, float deltaSeconds);
     void shutdown();
 
     Engine::EngineApplication m_engineApplication;
-    const Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
+    Engine::AssetFileSystem *m_pAssetFileSystem = nullptr;
     EditorImGuiBgfxRenderer m_imguiRenderer;
     EditorMainWindow m_mainWindow;
     EditorSession m_session;

@@ -1,0 +1,217 @@
+# Monster sprite frame groups for family m205.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 9789
+    sprite_name: "m205a"
+    animation_length_raw: 22
+    frames:
+      - texture_name: "m202aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ac"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ae"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ae"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ac"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202aa"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+  - sprite_id: 9800
+    sprite_name: "m205d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m202da0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202dd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202de0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202df0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 2.0
+        palette_id: 496
+  - sprite_id: 9806
+    sprite_name: "m205x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m202xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+  - sprite_id: 9807
+    sprite_name: "m205w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m202wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202we"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202wg"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202wh"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+  - sprite_id: 9815
+    sprite_name: "m205f"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m202fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202fd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202fe0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ff0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 2.0
+        palette_id: 496
+  - sprite_id: 9821
+    sprite_name: "m205n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m202na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202nd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202ne"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496
+      - texture_name: "m202nf"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 2.0
+        palette_id: 496

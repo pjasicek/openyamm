@@ -1,0 +1,167 @@
+# Monster sprite frame groups for family m391.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 14594
+    sprite_name: "m391a"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m390aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390ab"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390ac"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390ad"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390ae"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390af"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390ag"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+  - sprite_id: 14601
+    sprite_name: "m391d"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m390na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390nd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390db0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 2.199997
+        palette_id: 553
+  - sprite_id: 14606
+    sprite_name: "m391x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m390xa0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 2.199997
+        palette_id: 553
+  - sprite_id: 14607
+    sprite_name: "m391w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m390sa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390wa"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390wg"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+  - sprite_id: 14615
+    sprite_name: "m391n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m390na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+      - texture_name: "m390nf"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553
+  - sprite_id: 14621
+    sprite_name: "m391s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m390sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 2.199997
+        palette_id: 553

@@ -25,6 +25,7 @@ add_executable(openyamm_unit_tests
     RegressionGameData.cpp
     SpellbookUiLayoutTests.cpp
     TableRegressionTests.cpp
+    TextTableTests.cpp
     GameplayScreenRuntimeTestStubs.cpp
     ../game/app/GameSettings.cpp
     ../game/app/KeyboardBindings.cpp

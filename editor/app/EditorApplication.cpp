@@ -96,7 +96,7 @@ void configureImGuiStyle()
 EditorApplication::EditorApplication(const Engine::ApplicationConfig &config)
     : m_engineApplication(
         config,
-        [this](const Engine::AssetFileSystem &assetFileSystem)
+        [this](Engine::AssetFileSystem &assetFileSystem)
         {
             return startup(assetFileSystem);
         },
@@ -124,7 +124,7 @@ int EditorApplication::run()
     return m_engineApplication.run();
 }
 
-bool EditorApplication::startup(const Engine::AssetFileSystem &assetFileSystem)
+bool EditorApplication::startup(Engine::AssetFileSystem &assetFileSystem)
 {
     m_pAssetFileSystem = &assetFileSystem;
     m_session.initialize(assetFileSystem);

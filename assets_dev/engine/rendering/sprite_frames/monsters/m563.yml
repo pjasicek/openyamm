@@ -1,0 +1,168 @@
+# Monster sprite frame groups for family m563.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 5120
+    sprite_name: "m563a"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m560aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560ab"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560ac"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560ad"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560ae"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560af"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560ag"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+  - sprite_id: 5127
+    sprite_name: "m563d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m560na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560da"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560db"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560dc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560dd"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+  - sprite_id: 5133
+    sprite_name: "m563x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m560xa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+  - sprite_id: 5134
+    sprite_name: "m563w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m560sa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560wa"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560wg"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+  - sprite_id: 5142
+    sprite_name: "m563n"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m560na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560ne"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560nf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563
+      - texture_name: "m560ng"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 563

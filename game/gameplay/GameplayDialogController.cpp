@@ -5,6 +5,7 @@
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/HouseInteraction.h"
 #include "game/gameplay/MasteryTeacherDialog.h"
+#include "game/tables/HouseTable.h"
 #include "game/tables/MapStats.h"
 #include "game/tables/NpcDialogTable.h"
 #include "game/party/Party.h"
@@ -22,7 +23,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr uint32_t AdventurersInnHouseId = 185;
+constexpr uint32_t DefaultAdventurersInnHouseId = 185;
 constexpr uint32_t ArcomageRulesTextId = 136;
 constexpr uint32_t AutoNoteVariableTag = 0x00E1u;
 constexpr uint32_t ExpertTrainerTopicIdFirst = 300;
@@ -342,6 +343,43 @@ bool partyHasAdventurersInnRosterMember(const Party &party, uint32_t rosterId)
     return false;
 }
 
+bool isAdventurersInnHouse(const GameplayDialogController::Context &context, uint32_t houseId)
+{
+    if (context.pHouseTable == nullptr)
+    {
+        return houseId == DefaultAdventurersInnHouseId;
+    }
+
+    const HouseEntry *pHouseEntry = context.pHouseTable->get(houseId);
+    return pHouseEntry != nullptr && pHouseEntry->name == "The Adventurer's Inn";
+}
+
+uint32_t defaultAdventurersInnHouseId(const GameplayDialogController::Context &context)
+{
+    if (context.pHouseTable != nullptr)
+    {
+        std::optional<uint32_t> selectedHouseId;
+
+        for (const auto &[candidateHouseId, houseEntry] : context.pHouseTable->entries())
+        {
+            if (houseEntry.name == "The Adventurer's Inn")
+            {
+                if (!selectedHouseId.has_value() || candidateHouseId < *selectedHouseId)
+                {
+                    selectedHouseId = candidateHouseId;
+                }
+            }
+        }
+
+        if (selectedHouseId.has_value())
+        {
+            return *selectedHouseId;
+        }
+    }
+
+    return DefaultAdventurersInnHouseId;
+}
+
 void syncAvailableRosterMembersToAdventurersInn(GameplayDialogController::Context &context)
 {
     if (context.pParty == nullptr || context.pRosterTable == nullptr)
@@ -372,7 +410,7 @@ void syncAvailableRosterMembersToAdventurersInn(GameplayDialogController::Contex
 
     for (const auto &[npcId, houseId] : context.eventRuntimeState.npcHouseOverrides)
     {
-        if (houseId != AdventurersInnHouseId || context.eventRuntimeState.unavailableNpcIds.contains(npcId))
+        if (!isAdventurersInnHouse(context, houseId) || context.eventRuntimeState.unavailableNpcIds.contains(npcId))
         {
             continue;
         }
@@ -408,7 +446,7 @@ void syncAvailableRosterMembersToAdventurersInn(GameplayDialogController::Contex
 
 bool tryOpenAdventurersInnOverlay(GameplayDialogController::Context &context, uint32_t houseId)
 {
-    if (houseId != AdventurersInnHouseId || context.pParty == nullptr)
+    if (!isAdventurersInnHouse(context, houseId) || context.pParty == nullptr)
     {
         return false;
     }
@@ -1031,8 +1069,9 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
                 context.pParty->addAdventurersInnMember(*pRosterEntry, portraitPictureId);
             }
 
-            context.eventRuntimeState.npcHouseOverrides[invite.npcId] = AdventurersInnHouseId;
-            context.pParty->setNpcHouseOverride(invite.npcId, AdventurersInnHouseId);
+            const uint32_t adventurersInnHouseId = defaultAdventurersInnHouseId(context);
+            context.eventRuntimeState.npcHouseOverrides[invite.npcId] = adventurersInnHouseId;
+            context.pParty->setNpcHouseOverride(invite.npcId, adventurersInnHouseId);
 
             if (context.pNpcDialogTable != nullptr)
             {

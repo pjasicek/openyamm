@@ -12,7 +12,7 @@ namespace OpenYAMM::Engine
 class EngineApplication
 {
 public:
-    using StartupCallback = std::function<bool(const AssetFileSystem &)>;
+    using StartupCallback = std::function<bool(AssetFileSystem &)>;
     using RenderSetupCallback = std::function<bool()>;
     using RenderFrameCallback = std::function<void(int, int, float, float)>;
     using EventCallback = std::function<void(const SDL_Event &)>;

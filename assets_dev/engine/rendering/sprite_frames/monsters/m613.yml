@@ -1,0 +1,196 @@
+# Monster sprite frame groups for family m613.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 6286
+    sprite_name: "m613a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m612aa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612ab0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612ac0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612ad0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612ae0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612af0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612ag0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612ah0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+  - sprite_id: 6294
+    sprite_name: "m613d"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m612na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612dd0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+  - sprite_id: 6299
+    sprite_name: "m613x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m612xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+  - sprite_id: 6300
+    sprite_name: "m613w"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "m612wa"
+        frame_length_raw: 1
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612wb"
+        frame_length_raw: 1
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612wc"
+        frame_length_raw: 1
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612wd"
+        frame_length_raw: 1
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612we"
+        frame_length_raw: 1
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612wf"
+        frame_length_raw: 1
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612wg"
+        frame_length_raw: 1
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612wh"
+        frame_length_raw: 1
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+  - sprite_id: 6308
+    sprite_name: "m613n"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m612na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612nd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612ne"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612nf"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 0.665985
+        palette_id: 613
+  - sprite_id: 6314
+    sprite_name: "m613f"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "m612fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+      - texture_name: "m612fd0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 0.665985
+        palette_id: 613
+  - sprite_id: 6318
+    sprite_name: "m613s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m612sa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 0.665985
+        palette_id: 613

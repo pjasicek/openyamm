@@ -142,11 +142,6 @@ void logAudioTraceUnresolvedSound(
     std::cerr << '\n';
 }
 
-std::string dataTablePath(std::string_view fileName)
-{
-    return "Data/data_tables/" + std::string(fileName);
-}
-
 std::vector<std::vector<std::string>> rowsFromTextTable(const Engine::TextTable &textTable)
 {
     std::vector<std::vector<std::string>> rows;
@@ -578,10 +573,8 @@ bool GameAudioSystem::initialize(
 
     const std::optional<std::string> engineSoundCatalogText =
         assetFileSystem.readTextFile("engine/data_tables/sounds.txt");
-    const std::optional<std::string> worldSoundCatalogText =
-        assetFileSystem.readTextFile("worlds/" + assetFileSystem.getActiveWorldId() + "/data_tables/sounds.txt");
     const std::optional<std::string> speechReactionText =
-        assetFileSystem.readTextFile(dataTablePath("speech_reactions.txt"));
+        assetFileSystem.readTextFile("engine/data_tables/speech_reactions.txt");
 
     if (!engineSoundCatalogText || !speechReactionText)
     {
@@ -590,20 +583,16 @@ bool GameAudioSystem::initialize(
 
     const std::optional<Engine::TextTable> parsedEngineSoundCatalog =
         Engine::TextTable::parseTabSeparated(*engineSoundCatalogText);
-    const std::optional<Engine::TextTable> parsedWorldSoundCatalog =
-        worldSoundCatalogText ? Engine::TextTable::parseTabSeparated(*worldSoundCatalogText) : std::nullopt;
     const std::optional<Engine::TextTable> parsedSpeechReactions =
         Engine::TextTable::parseTabSeparated(*speechReactionText);
 
-    if (!parsedEngineSoundCatalog || (worldSoundCatalogText && !parsedWorldSoundCatalog) || !parsedSpeechReactions)
+    if (!parsedEngineSoundCatalog || !parsedSpeechReactions)
     {
         return false;
     }
 
     const std::vector<std::vector<std::string>> engineSoundRows = rowsFromTextTable(*parsedEngineSoundCatalog);
-    const std::vector<std::vector<std::string>> worldSoundRows =
-        parsedWorldSoundCatalog ? rowsFromTextTable(*parsedWorldSoundCatalog) : std::vector<std::vector<std::string>>();
-
+    const std::vector<std::vector<std::string>> worldSoundRows;
     const std::vector<std::vector<std::string>> speechRows = rowsFromTextTable(*parsedSpeechReactions);
 
     std::string soundCatalogError;

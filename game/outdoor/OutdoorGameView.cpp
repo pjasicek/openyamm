@@ -71,9 +71,9 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-std::string dataTablePath(std::string_view fileName)
+std::string engineDataTablePath(std::string_view fileName)
 {
-    return "Data/data_tables/" + std::string(fileName);
+    return "engine/data_tables/" + std::string(fileName);
 }
 
 bool usesBlackTransparencyKey(std::string_view textureName)
@@ -353,6 +353,7 @@ HouseShopVisualLayout buildHouseShopVisualLayout(const HouseEntry &houseEntry, b
         || isHouseType(houseEntry, "Self Guild")
         || isHouseType(houseEntry, "Light Guild")
         || isHouseType(houseEntry, "Dark Guild")
+        || houseEntry.type.find(" Guild") != std::string::npos
         || isHouseType(houseEntry, "Spell Shop"))
     {
         layout.backgroundAsset = "MAGSHELF";
@@ -1745,12 +1746,11 @@ uint32_t currentDialogueHostHouseId(const EventRuntimeState *pEventRuntimeState)
 }
 
 std::vector<std::string> collectRelevantHouseVideoStemsForMap(
-    const OutdoorMapData &outdoorMapData,
+    uint32_t mapId,
     const std::optional<ScriptedEventProgram> &localProgram,
     const std::optional<ScriptedEventProgram> &globalProgram,
     const HouseTable &houseTable)
 {
-    static_cast<void>(outdoorMapData);
     static_cast<void>(localProgram);
     static_cast<void>(globalProgram);
 
@@ -1761,7 +1761,7 @@ std::vector<std::string> collectRelevantHouseVideoStemsForMap(
     {
         (void)houseId;
 
-        if (houseEntry.videoName.empty())
+        if (houseEntry.mapId != mapId || houseEntry.videoName.empty())
         {
             continue;
         }
@@ -1998,7 +1998,7 @@ std::optional<OutdoorPartyStartPoint> resolveOutdoorPartyStartPoint(
     const OutdoorMapData &outdoorMapData)
 {
     const std::optional<std::string> decorationTableText =
-        assetFileSystem.readTextFile(dataTablePath("decoration_data.txt"));
+        assetFileSystem.readTextFile(engineDataTablePath("decoration_data.txt"));
 
     if (!decorationTableText)
     {
@@ -2987,7 +2987,7 @@ bool OutdoorGameView::initialize(
     }
 
     const std::vector<std::string> relevantHouseVideoStems = collectRelevantHouseVideoStemsForMap(
-        outdoorMapData,
+        m_pOutdoorWorldRuntime != nullptr ? static_cast<uint32_t>(m_pOutdoorWorldRuntime->mapId()) : 0,
         m_pOutdoorSceneRuntime != nullptr
             ? m_pOutdoorSceneRuntime->localEventProgram()
             : std::nullopt,

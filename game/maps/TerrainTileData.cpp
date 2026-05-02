@@ -1,8 +1,10 @@
 #include "game/maps/TerrainTileData.h"
 
 #include "engine/TextTable.h"
+#include "game/maps/MapIdentity.h"
 
 #include <algorithm>
+#include <array>
 #include <cctype>
 #include <charconv>
 #include <iostream>
@@ -42,8 +44,13 @@ std::string toLowerCopy(const std::string &value)
     return result;
 }
 
-std::optional<int> resolveTerrainDescriptorIndex(const OutdoorMapData &outdoorMapData, int tileIndex)
+std::optional<int> resolveTerrainDescriptorIndex(
+    const OutdoorMapData &outdoorMapData,
+    int tileIndex,
+    bool remapDirectTilesByMasterTile)
 {
+    static constexpr std::array<int, 3> DirectTileLookupBases = {0, 450, 630};
+
     // Legacy outdoor local tile ids are laid out as:
     // [0..90) direct/global ids
     // [90..126) tileset #1
@@ -53,12 +60,24 @@ std::optional<int> resolveTerrainDescriptorIndex(const OutdoorMapData &outdoorMa
     // [234..256) invalid/pending
     if (tileIndex < 90)
     {
-        return tileIndex;
+        if (!remapDirectTilesByMasterTile
+            || tileIndex == 0
+            || outdoorMapData.masterTile >= DirectTileLookupBases.size())
+        {
+            return tileIndex;
+        }
+
+        return DirectTileLookupBases[static_cast<size_t>(outdoorMapData.masterTile)] + tileIndex;
     }
 
     if (tileIndex >= 234)
     {
         return std::nullopt;
+    }
+
+    if (outdoorMapData.masterTile >= DirectTileLookupBases.size())
+    {
+        return tileIndex;
     }
 
     const int tilesetIndex = (tileIndex - 90) / 36;
@@ -88,34 +107,50 @@ uint16_t parseUnsigned16(const std::string &value)
 
     return static_cast<uint16_t>(parsedValue);
 }
+
+std::string terrainTileDataFileNameForWorld(const std::string &worldId)
+{
+    const std::string normalizedWorldId = normalizeWorldId(worldId);
+
+    if (normalizedWorldId == "mm6")
+    {
+        return "terrain_tile_data_3.txt";
+    }
+
+    if (normalizedWorldId == "mm7")
+    {
+        return "terrain_tile_data_2.txt";
+    }
+
+    return "terrain_tile_data.txt";
+}
+
 } // namespace
+
+std::string terrainTileDataFileName(uint8_t)
+{
+    return "terrain_tile_data.txt";
+}
 
 std::string terrainTileDataPath(uint8_t masterTile)
 {
-    if (masterTile == 1)
-    {
-        return "Data/data_tables/terrain_tile_data_2.txt";
-    }
-
-    if (masterTile == 2)
-    {
-        return "Data/data_tables/terrain_tile_data_3.txt";
-    }
-
-    return "Data/data_tables/terrain_tile_data.txt";
+    return "engine/data_tables/" + terrainTileDataFileName(masterTile);
 }
 
 std::optional<std::vector<TerrainTileDescriptor>> loadTerrainTileDescriptors(
     const Engine::AssetFileSystem &assetFileSystem,
     const OutdoorMapData &outdoorMapData)
 {
-    const std::optional<std::string> tableContents =
-        assetFileSystem.readTextFile(terrainTileDataPath(outdoorMapData.masterTile));
+    const std::string worldId = inferWorldIdFromMapFileName(outdoorMapData.fileName, assetFileSystem.getActiveWorldId());
+    const std::string fileName = terrainTileDataFileNameForWorld(worldId);
+    const std::string engineTablePath = "engine/data_tables/" + fileName;
+    const bool remapDirectTilesByMasterTile = normalizeWorldId(worldId) == DefaultWorldId;
+    const std::optional<std::string> tableContents = assetFileSystem.readTextFile(engineTablePath);
 
     if (!tableContents)
     {
         std::cout << "Terrain tile data load failed for " << outdoorMapData.fileName
-                  << ": missing table " << terrainTileDataPath(outdoorMapData.masterTile) << '\n';
+                  << ": missing table " << engineTablePath << '\n';
         return std::nullopt;
     }
 
@@ -124,7 +159,7 @@ std::optional<std::vector<TerrainTileDescriptor>> loadTerrainTileDescriptors(
     if (!parsedTable)
     {
         std::cout << "Terrain tile data parse failed for " << outdoorMapData.fileName
-                  << ": " << terrainTileDataPath(outdoorMapData.masterTile) << '\n';
+                  << ": " << engineTablePath << '\n';
         return std::nullopt;
     }
 
@@ -162,7 +197,7 @@ std::optional<std::vector<TerrainTileDescriptor>> loadTerrainTileDescriptors(
     if (descriptors.empty())
     {
         std::cout << "Terrain tile data empty for " << outdoorMapData.fileName
-                  << ": " << terrainTileDataPath(outdoorMapData.masterTile) << '\n';
+                  << ": " << engineTablePath << '\n';
         return std::nullopt;
     }
 
@@ -170,7 +205,8 @@ std::optional<std::vector<TerrainTileDescriptor>> loadTerrainTileDescriptors(
 
     for (int tileIndex = 0; tileIndex < 256; ++tileIndex)
     {
-        const std::optional<int> descriptorIndex = resolveTerrainDescriptorIndex(outdoorMapData, tileIndex);
+        const std::optional<int> descriptorIndex =
+            resolveTerrainDescriptorIndex(outdoorMapData, tileIndex, remapDirectTilesByMasterTile);
 
         if (!descriptorIndex)
         {

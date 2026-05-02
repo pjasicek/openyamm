@@ -456,6 +456,7 @@ HouseShopVisualLayout buildHouseShopVisualLayout(const HouseEntry &houseEntry, b
         || isHouseType(houseEntry, "Self Guild")
         || isHouseType(houseEntry, "Light Guild")
         || isHouseType(houseEntry, "Dark Guild")
+        || houseEntry.type.find(" Guild") != std::string::npos
         || isHouseType(houseEntry, "Spell Shop"))
     {
         layout.backgroundAsset = "MAGSHELF";

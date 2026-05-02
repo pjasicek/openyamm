@@ -9,6 +9,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr const char *MergedAudioDirectory = "audio";
+
 std::string toLowerCopy(const std::string &value)
 {
     std::string lower = value;
@@ -163,16 +165,9 @@ void indexAudioDirectory(
 
 std::string scopedAudioDirectory(SoundScope scope, const std::string &activeWorldId)
 {
-    switch (scope)
-    {
-    case SoundScope::Engine:
-        return "engine/audio";
-
-    case SoundScope::World:
-        return "worlds/" + activeWorldId + "/audio";
-    }
-
-    return "engine/audio";
+    (void)scope;
+    (void)activeWorldId;
+    return MergedAudioDirectory;
 }
 }
 
@@ -297,12 +292,9 @@ void SoundCatalog::initializeVirtualPathIndex(const Engine::AssetFileSystem &ass
 
     indexAudioDirectory(
         assetFileSystem,
-        scopedAudioDirectory(SoundScope::Engine, m_activeWorldId),
+        MergedAudioDirectory,
         m_engineVirtualPathByLowerName);
-    indexAudioDirectory(
-        assetFileSystem,
-        scopedAudioDirectory(SoundScope::World, m_activeWorldId),
-        m_worldVirtualPathByLowerName);
+    m_worldVirtualPathByLowerName = m_engineVirtualPathByLowerName;
 }
 
 const std::unordered_map<uint32_t, size_t> &SoundCatalog::entryIndexByScope(SoundScope scope) const
@@ -374,23 +366,58 @@ std::optional<std::string> SoundCatalog::buildVirtualPath(SoundRef sound) const
 {
     const SoundCatalogEntry *pEntry = findById(sound);
 
+    if (pEntry == nullptr && sound.scope == SoundScope::World)
+    {
+        pEntry = findById(engineSound(sound.id));
+    }
+
     if (pEntry == nullptr || pEntry->name.empty() || pEntry->name == "null")
     {
         return std::nullopt;
     }
 
     const std::string lowerName = toLowerCopy(pEntry->name);
-    const std::unordered_map<std::string, std::string> &virtualPathByLowerName =
-        virtualPathIndexByScope(sound.scope);
-    const std::unordered_map<std::string, std::string>::const_iterator resolvedPathIt =
-        virtualPathByLowerName.find(lowerName);
-
-    if (resolvedPathIt != virtualPathByLowerName.end())
+    const auto findPathInScope = [this, &lowerName](SoundScope scope) -> std::optional<std::string>
     {
-        return resolvedPathIt->second;
+        const std::unordered_map<std::string, std::string> &virtualPathByLowerName =
+            virtualPathIndexByScope(scope);
+        const std::unordered_map<std::string, std::string>::const_iterator resolvedPathIt =
+            virtualPathByLowerName.find(lowerName);
+
+        if (resolvedPathIt != virtualPathByLowerName.end())
+        {
+            return resolvedPathIt->second;
+        }
+
+        return std::nullopt;
+    };
+
+    if (sound.scope == SoundScope::World)
+    {
+        if (const std::optional<std::string> worldPath = findPathInScope(SoundScope::World))
+        {
+            return *worldPath;
+        }
+
+        if (const std::optional<std::string> enginePath = findPathInScope(SoundScope::Engine))
+        {
+            return *enginePath;
+        }
+
+        return scopedAudioDirectory(SoundScope::World, m_activeWorldId) + "/" + pEntry->name + ".wav";
     }
 
-    return scopedAudioDirectory(sound.scope, m_activeWorldId) + "/" + pEntry->name + ".wav";
+    if (const std::optional<std::string> enginePath = findPathInScope(SoundScope::Engine))
+    {
+        return *enginePath;
+    }
+
+    if (const std::optional<std::string> worldPath = findPathInScope(SoundScope::World))
+    {
+        return *worldPath;
+    }
+
+    return scopedAudioDirectory(SoundScope::Engine, m_activeWorldId) + "/" + pEntry->name + ".wav";
 }
 
 std::optional<uint32_t> SoundCatalog::pickSpeechSoundId(

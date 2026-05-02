@@ -1,0 +1,241 @@
+# Monster sprite frame groups for family m208.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 9864
+    sprite_name: "m208a"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m206aa0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ac0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ad0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ae0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ag0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ai0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ak0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206am0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ao0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ap0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206aq0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206as0"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+  - sprite_id: 9876
+    sprite_name: "m208d"
+    animation_length_raw: 9
+    frames:
+      - texture_name: "m206da0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206dc0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206de0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206dg0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206di0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206dk0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206dm0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206do0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206dq0"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+  - sprite_id: 9885
+    sprite_name: "m208w"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m206wa0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206wc0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206we0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206wg0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206wi0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206wk0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206wm0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206wo0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206wq0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ws0"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+  - sprite_id: 9895
+    sprite_name: "m208n"
+    animation_length_raw: 6
+    frames:
+      - texture_name: "m206aa0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, First, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ac0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206ac0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206af0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206dd0"
+        frame_length_raw: 1
+        flags: [HasMore, Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528
+      - texture_name: "m206dc0"
+        frame_length_raw: 1
+        flags: [Lit, Image1, Center]
+        scale: 1.799988
+        glow_radius: 384
+        palette_id: 528

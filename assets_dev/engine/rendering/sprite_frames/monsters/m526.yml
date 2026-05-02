@@ -1,0 +1,201 @@
+# Monster sprite frame groups for family m526.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 4154
+    sprite_name: "m526a"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m524aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524ab"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524ac"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524ad"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524ae"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524af"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524ag"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+  - sprite_id: 4161
+    sprite_name: "m526d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m524na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524da"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524db"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524dc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524dd"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+  - sprite_id: 4167
+    sprite_name: "m526x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m524xa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+  - sprite_id: 4168
+    sprite_name: "m526f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m524fa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524fb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524fc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524fd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524fe"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+  - sprite_id: 4173
+    sprite_name: "m526s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m524sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+  - sprite_id: 4174
+    sprite_name: "m526w"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "m524wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524wg"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524wh"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524wi"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+  - sprite_id: 4183
+    sprite_name: "m526n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m524na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524
+      - texture_name: "m524ne"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.599991
+        palette_id: 524

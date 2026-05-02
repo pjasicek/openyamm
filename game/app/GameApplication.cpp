@@ -1028,6 +1028,8 @@ void GameApplication::loadOrCreateSettings()
         }
     }
 
+    m_settings.startWorldId = normalizeWorldId(m_config.activeWorldId);
+
     if (!saveGameSettings(path, m_settings, error))
     {
         std::cerr << "GameApplication: failed to write " << path.string() << ": " << error << '\n';
@@ -1114,18 +1116,6 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
     m_screenManager.setActiveScreen(nullptr);
 
     std::string manifestError;
-    m_campaignManifest = loadCampaignManifestOrDefault(
-        assetFileSystem,
-        m_config.campaignId,
-        m_config.activeWorldId,
-        manifestError);
-
-    if (!manifestError.empty())
-    {
-        std::cerr << manifestError << '\n';
-        return false;
-    }
-
     m_activeWorldManifest = loadActiveWorldManifestOrDefault(
         assetFileSystem,
         m_config.activeWorldId,
@@ -1146,6 +1136,7 @@ bool GameApplication::loadGameData(const Engine::AssetFileSystem &assetFileSyste
     }
 
     m_gameDataLoader.setActiveWorldId(m_activeWorldManifest.id);
+    m_gameDataLoader.setInitialMapFileName(m_activeWorldManifest.start.mapFileName);
 
     if (!m_gameDataLoader.loadForGameplay(assetFileSystem))
     {
@@ -2071,6 +2062,23 @@ void GameApplication::openNewGameScreen()
         }));
 }
 
+std::string GameApplication::resolveStartupMapFile() const
+{
+    if (!m_config.startupMapFileOverride.empty())
+    {
+        return m_config.startupMapFileOverride;
+    }
+
+    if (!m_settings.startMapFile.empty())
+    {
+        return m_settings.startMapFile;
+    }
+
+    return m_activeWorldManifest.start.mapFileName.empty()
+        ? DefaultStartupMapFile
+        : m_activeWorldManifest.start.mapFileName;
+}
+
 bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool initializeView)
 {
     if (m_pAssetFileSystem == nullptr)
@@ -2084,11 +2092,7 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
     m_gameSession.clear();
     m_gameSession.clearCurrentSavePath();
     m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
-    const std::string startupMapFile =
-        !m_config.startupMapFileOverride.empty()
-            ? m_config.startupMapFileOverride
-            : (m_settings.startMapFile.empty() ? m_activeWorldManifest.start.mapFileName : m_settings.startMapFile);
-    m_gameSession.setCurrentMapFileName(startupMapFile);
+    m_gameSession.setCurrentMapFileName(resolveStartupMapFile());
 
     const bool shouldSeedParty = rosterId.has_value() || m_settings.preseedParty;
     std::optional<uint32_t> effectiveRosterId = rosterId;
@@ -2118,23 +2122,27 @@ bool GameApplication::startNewSession(std::optional<uint32_t> rosterId, bool ini
             << m_gameSession.currentMapFileName()
             << '\n';
 
-        if (m_gameSession.currentMapFileName() != DefaultStartupMapFile)
+        const std::string fallbackStartupMapFile = m_activeWorldManifest.start.mapFileName.empty()
+            ? DefaultStartupMapFile
+            : m_activeWorldManifest.start.mapFileName;
+
+        if (m_gameSession.currentMapFileName() != fallbackStartupMapFile)
         {
-            m_gameSession.setCurrentMapFileName(DefaultStartupMapFile);
+            m_gameSession.setCurrentMapFileName(fallbackStartupMapFile);
 
             if (loadCurrentSessionMap(initializeView))
             {
-                // Use the default startup map when the configured one cannot be loaded.
+                // Use the world manifest startup map when the configured one cannot be loaded.
                 std::cerr
-                    << "GameApplication: startNewSession fell back to default startup map "
-                    << DefaultStartupMapFile
+                    << "GameApplication: startNewSession fell back to world startup map "
+                    << fallbackStartupMapFile
                     << '\n';
             }
             else
             {
                 std::cerr
                     << "GameApplication: startNewSession fallback startup map also failed "
-                    << DefaultStartupMapFile
+                    << fallbackStartupMapFile
                     << '\n';
                 openMainMenuScreen();
                 return false;
@@ -2175,7 +2183,7 @@ bool GameApplication::startNewSessionFromCharacterCreation(const Character &char
     m_gameSession.clear();
     m_gameSession.clearCurrentSavePath();
     m_gameSession.setCurrentSceneKind(SceneKind::Outdoor);
-    m_gameSession.setCurrentMapFileName(DefaultStartupMapFile);
+    m_gameSession.setCurrentMapFileName(resolveStartupMapFile());
     PartySeed seed = {};
     seed.gold = 200;
     seed.food = 5;

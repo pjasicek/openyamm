@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import struct
 from pathlib import Path
 
@@ -42,7 +43,7 @@ def parse_bin_rows(binary_path: Path) -> dict[int, dict[str, int | str]]:
     return rows
 
 
-def parse_text_overrides(text_path: Path, preserve_flags: bool) -> dict[int, dict[str, str]]:
+def parse_text_overrides(text_path: Path, preserve_flags: bool, number_offset: int = 0) -> dict[int, dict[str, str]]:
     overrides: dict[int, dict[str, str]] = {}
 
     for line in text_path.read_text(encoding="utf-8", errors="ignore").splitlines():
@@ -51,7 +52,7 @@ def parse_text_overrides(text_path: Path, preserve_flags: bool) -> dict[int, dic
         if not parts or not parts[0].strip().isdigit():
             continue
 
-        number = int(parts[0].strip())
+        number = int(parts[0].strip()) + number_offset
         if len(parts) >= 14:
             overrides[number] = {
                 "label": parts[1].strip(),
@@ -111,19 +112,58 @@ def format_flags(flag_text: str, flag_value: int) -> str:
     return ",".join(names)
 
 
+def build_argument_parser() -> argparse.ArgumentParser:
+    parser = argparse.ArgumentParser(description="Export ddeclist.bin into decoration_data.txt")
+    parser.add_argument("--source-bin", help="path to ddeclist.bin")
+    parser.add_argument("--output", help="path to decoration_data.txt")
+    parser.add_argument("--text-overrides", help="optional existing text table for labels and hints")
+    parser.add_argument(
+        "--text-overrides-number-offset",
+        type=int,
+        default=0,
+        help="offset added to numeric ids read from --text-overrides",
+    )
+    parser.add_argument(
+        "--preserve-override-flags",
+        action="store_true",
+        help="preserve flag text from --text-overrides instead of decoding binary flags",
+    )
+    return parser
+
+
 def main() -> int:
+    parser = build_argument_parser()
+    args = parser.parse_args()
     repo_root = Path(__file__).resolve().parents[1]
     legacy_binary_path = repo_root / "assets_dev" / "_legacy" / "bin_tables" / "ddeclist.bin"
     fallback_binary_path = repo_root / "assets_dev" / "Data" / "EnglishT" / "ddeclist.bin"
-    binary_path = legacy_binary_path if legacy_binary_path.exists() else fallback_binary_path
-    output_path = repo_root / "assets_dev" / "Data" / "data_tables" / "decoration_data.txt"
+    binary_path = Path(args.source_bin) if args.source_bin else legacy_binary_path
+
+    if not binary_path.exists() and not args.source_bin:
+        binary_path = fallback_binary_path
+
+    output_path = (
+        Path(args.output)
+        if args.output
+        else repo_root / "assets_dev" / "Data" / "data_tables" / "decoration_data.txt"
+    )
     legacy_text_path = repo_root / "assets_dev" / "Data" / "data_tables" / "dec_list.txt"
 
     bin_rows = parse_bin_rows(binary_path)
-    if output_path.exists():
+    text_override_path = Path(args.text_overrides) if args.text_overrides else None
+
+    if text_override_path is not None and text_override_path.exists():
+        text_overrides = parse_text_overrides(
+            text_override_path,
+            preserve_flags=args.preserve_override_flags,
+            number_offset=args.text_overrides_number_offset,
+        )
+    elif output_path.exists():
         text_overrides = parse_text_overrides(output_path, preserve_flags=False)
-    else:
+    elif legacy_text_path.exists():
         text_overrides = parse_text_overrides(legacy_text_path, preserve_flags=True)
+    else:
+        text_overrides = {}
 
     lines = [HEADER_GROUP, HEADER_COLUMNS, ""]
 
@@ -157,6 +197,7 @@ def main() -> int:
             )
         )
 
+    output_path.parent.mkdir(parents=True, exist_ok=True)
     output_path.write_text("\n".join(lines) + "\n", encoding="utf-8")
     return 0
 

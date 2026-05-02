@@ -591,14 +591,20 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
-    if (const std::optional<std::string> value = getIniValue(document, "debug", "start_map_file"))
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "start_world"))
     {
-        const std::string trimmed = trimCopy(*value);
+        const std::string trimmed = toLowerCopy(trimCopy(*value));
 
         if (!trimmed.empty())
         {
-            settings.startMapFile = trimmed;
+            settings.startWorldId = trimmed;
         }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "start_map_file"))
+    {
+        const std::string trimmed = trimCopy(*value);
+        settings.startMapFile = trimmed;
     }
 
     if (const std::optional<std::string> value = getIniValue(document, "debug", "override_start_position"))
@@ -752,6 +758,7 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "[debug]\n"
         << "preseed_party=" << (settings.preseedParty ? "true" : "false") << '\n'
         << "party_seed_roster_id=" << settings.partySeedRosterId << '\n'
+        << "start_world=" << settings.startWorldId << '\n'
         << "start_map_file=" << settings.startMapFile << '\n'
         << "override_start_position=" << (settings.overrideStartPosition ? "true" : "false") << '\n'
         << "start_x=" << settings.startX << '\n'

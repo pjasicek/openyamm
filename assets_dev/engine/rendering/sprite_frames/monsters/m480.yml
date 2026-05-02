@@ -1,0 +1,178 @@
+# Monster sprite frame groups for family m480.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 16550
+    sprite_name: "m480a"
+    animation_length_raw: 18
+    frames:
+      - texture_name: "m479ab0"
+        frame_length_raw: 1
+        flags: [HasMore, First, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ac0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ad0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ae0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479af0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ag0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ah0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ai0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479aj0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ak0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479al0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479am0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479an0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ao0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ap0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479aq0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ar0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479as0"
+        frame_length_raw: 1
+        flags: [Image1]
+        scale: 5.0
+        palette_id: 530
+  - sprite_id: 16568
+    sprite_name: "m480d"
+    animation_length_raw: 4
+    frames:
+      - texture_name: "m479da0"
+        frame_length_raw: 1
+        flags: [HasMore, First, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479db0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479dc0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479dd0"
+        frame_length_raw: 1
+        flags: [Image1]
+        scale: 5.0
+        palette_id: 530
+  - sprite_id: 16572
+    sprite_name: "m480x"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "m479xa0"
+        frame_length_raw: 1
+        flags: [First, Image1]
+        scale: 5.0
+        palette_id: 530
+  - sprite_id: 16573
+    sprite_name: "m480n"
+    animation_length_raw: 7
+    frames:
+      - texture_name: "m479na0"
+        frame_length_raw: 1
+        flags: [HasMore, First, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479nb0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479nc0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479nd0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ne0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479nf0"
+        frame_length_raw: 1
+        flags: [HasMore, Image1]
+        scale: 5.0
+        palette_id: 530
+      - texture_name: "m479ng0"
+        frame_length_raw: 1
+        flags: [Image1]
+        scale: 5.0
+        palette_id: 530
+  - sprite_id: 16580
+    sprite_name: "m480s"
+    animation_length_raw: 1
+    frames:
+      - texture_name: "m479sa0"
+        frame_length_raw: 1
+        flags: [First, Image1]
+        scale: 5.0
+        palette_id: 530

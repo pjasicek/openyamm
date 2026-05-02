@@ -1,0 +1,4027 @@
+/NAME	ID	TYPE	3D	COMMENTS
+/First column is the filename of the .WAV file to be played backed during the game.				
+/Second column is the ID number of the sound.				
+"/Third column is the type of sound.  (System - sounds gets loaded into memory at game startup, Swap - sounds gets loaded into memory when used then flushed when done, 0 - sound must be loaded by direct calls, locked - ?."				
+/Fourth column de0tes whether the sound should be handled as 3D in Hardware.				
+/Fifth column is for general 0tes.  This column is 0T loaded by the game.				
+null	0	system	0	
+campfire	4	0	0	
+enter	6	system	0	
+wooddrclose	7	system	0	
+fireBall	8	system	0	
+fountain	10	0	3D	
+boat	18	0	3D	
+ClickIn	19	system	0	
+ClickMinus	20	system	0	
+ClickMovingSelector	21	system	0	
+ClickOut	22	system	0
+ClickPlus	23	system	0
+ClickSkill	24	system	0
+ClickStart	25	system	0
+pending	26	system	0
+Error	27	system	0
+hit with arrow01l	28	system	0
+metal vs leather03h	44	system	0
+metal vs metal01l	45	system	0
+metal vs metal03h	47	system	0
+RunBadlands	49	0	3D
+RunCarpet	50	0	3D
+RunCooledLava	51	0	3D
+RunDesert	52	0	3D
+RunDirt	53	0	3D
+RunGrass	54	0	3D
+RunIce	55	0	3D
+RunMud	56	0	3D
+RunRoad	57	0	3D
+RunSnow	58	0	3D
+RunStone	59	0	3D
+RunStoneHall	60	0	3D
+RunSwamp	61	0	3D
+RunWater	62	0	3D
+RunWaterIndoor	63	0	3D
+RunWood	64	0	3D
+RunWoodPlanking	65	0	3D
+SelectingANewCharacter	66	system	0
+shoot blaster01	67	system	0
+shoot bow01	71	system	3D
+StartMainChoice01	74	system	0
+StartMainChoice02	75	system	0
+StartMainChoice03	76	system	0
+StartMainChoice04	77	system	0
+swing with axe01	78	system	0
+swing with axe03	80	system	0
+swing with blunt weapon01	81	system	0
+swing with blunt weapon03	83	system	0
+swing with sword01	84	system	0
+swing with sword02	85	system	0
+ViewingANewCharacter	87	system	0
+WalkBadlands	88	0	3D
+WalkCarpet	89	0	3D
+WalkCooledLava	90	0	3D
+WalkDesert	91	0	3D
+WalkDirt	92	0	3D
+WalkGrass	93	0	3D
+WalkIce	94	0	3D
+WalkMud	95	0	3D
+WalkRoad	96	0	3D
+WalkSnow	97	0	3D
+WalkStone	98	0	3D
+WalkStoneHall	99	0	3D
+WalkSwamp	100	0	3D
+WalkWater	101	0	3D
+WalkWaterIndoor	102	0	3D
+WalkWood	103	0	3D
+WalkWoodPlanking	104	0	3D
+wood vs metal01l	105	system	0
+wood vs metal02m	106	system	0
+wood vs metal03h	107	system	0
+wood weapon vs leather01l	108	system	0
+wood weapon vs leather02m	109	system	0
+wood weapon vs leather03h	110	system	0
+bricks down	117	0	0
+bricks up	118	0	0
+damage	119	0	0
+deal	120	0	0
+defeat	121	0	0
+quarry up	122	0	0
+quarry down	123	0	0
+shuffle	124	0	0
+title	125	0	0
+tower up	126	0	0
+typing	127	0	0
+victory	128	0	0
+wall up	129	0	0
+luteguitar	130	system	0
+panflute	131	system	0
+trumpet	132	system	0
+/General Sounds				
+gold01	133	system	0	
+tip	134	swap	0	
+heal	135	swap	0	
+fizzle	136	swap	0	
+TurnPageU	137	system	0	
+TurnPageD	138	system	0	
+batlleen	139	system	0	
+batllest	140	system	0	
+openchest0101	141	swap	0	
+spellfail0201	142	system	0	
+drink	143	swap	0	
+eat	144	swap	0	
+pickup	145	swap	0	
+fixit	146	swap	0	
+mixpotion	147	swap	0	
+gong	148	swap	0
+flute	149	swap	0
+harp	150	swap	0
+church	151	swap	0
+chimes	152	swap	0
+splash	153	swap	0
+star1	154	system	0
+star2	155	system	0
+star4	157	system	0
+eradicate	158	system	0
+eleccircle	159	system	0
+encounter	160	swap	0
+bubbling cauldron01	161	0	0
+memorycrystal	162	0	0
+openbook	163	system	0
+closebook	164	system	0
+teleport	165	swap	0	
+wolfhowl	166	0	3D	
+quest	20001	swap	0	
+/Door Sounds				
+wood door0101	167	0	3D	
+dr_lock401	168	0	3D	
+wood door0201	169	0	3D	
+dr_lock101	170	0	3D	
+wood door0301	171	0	3D	
+dr_lock101	172	0	3D	
+wood door0401	173	0	3D	
+dr_lock101	174	0	3D	
+wood door0501	175	0	3D	
+dr_lock401	176	0	3D	
+stone door0101	177	0	3D	
+stone doorclse0101	178	0	3D	
+stone door0201	179	0	3D	
+stone doorclse0101	180	0	3D	
+stone door0301	181	0	3D	
+stone doorclse0101	182	0	3D	
+stone door0401	183	0	3D	
+stone doorclse0101	184	0	3D	
+stone door0501	185	0	3D	
+stone doorclse0101	186	0	3D	
+/Event Sounds				
+Alarm Bell 1	187	swap	0	
+Alarm Bell 2	188	swap	0	
+Cargo Elevator	189	swap	0	
+Cargo Elevatorb	190	swap	0	
+Church Bell	191	swap	0	
+Going Down	192	swap	0	
+Going Downb	193	swap	0	
+Going Up	194	swap	0	
+Going Upb	195	swap	0	
+Tone1	196	swap	0	
+Tone2	197	swap	0	
+Tone3	198	swap	0	
+Tone4	199	swap	0	
+Alarm Bell 1b	200	swap	0	
+Alarm Bell 2b	201	swap	0	
+humming	202	swap	0	
+hesgone	203	swap	0	
+death	204	swap	0	
+/Fire Spells				
+/Spells are numbered according to their order in the main spell list.  The first sound associated with each spell is the main or casting sound.  The second sound (if used) is the 'explosion' effect.				
+TorchLight	10000	swap	0	Torch Light
+/Unused	10001	swap	0	
+04firebolt01	10010	swap	0	Fire Bolt
+04firebolt03	10011	swap	0	
+TorchLight2	10020	swap	0	Fire Resistance
+/Unused	10021	swap	0	
+Fireaura01	10030	swap	0	Fire Aura
+/Unused	10031	swap	0	
+Haste	10040	swap	0	Haste
+/Unused	10041	swap	0	
+06fireball01	10050	swap	0	Fireball
+Fireball2	10051	swap	0	
+08fireblast03	10060	swap	0	Fire Spike
+06fireball03	10061	swap	0	
+Immolation	10070	swap	0	Immolation
+/Unused	10071	swap	0	
+Meteor Shower 1	10080	swap	0	Meteor Shower
+09metoershower03	10081	swap	0	
+Inferno	10090	swap	0	Infer0
+/Unused	10071	swap	0	
+Incinerate	10100	swap	0	Incinerate
+11Incinerate03	10101	swap	0	
+/Air Spells				
+12WizardEye03	11000	swap	0	Wizard Eye
+/Unused	11001	swap	0	
+FeatherFall	11010	swap	0	Feather Fall
+/Unused	11011	swap	0	
+14p	11020	swap	0	Air Resistance
+/Unused	11021	swap	0	
+15Sparks01	11030	swap	0	Sparks
+15sparks03	11031	swap	0	
+29unlock03	11040	swap	0	Jump
+/Unused	11041	swap	0	
+shield02_character-portrait	11050	swap	0	Shield
+/Unused	11051	swap	0	
+18LightningBolt03	11060	swap	0	Lightning Bolt
+/Unused	11061	swap	0	
+wizard_eye_interface-image	11070	swap	0	Invisibility
+/Unused	11071	swap	0	
+20implosion03	11080	swap	0	Implosion
+/Unused	11081	swap	0	
+21fly03	11090	swap	0	Fly
+/Unused	11091	swap	0	
+Starburst	11100	swap	0	Starburst
+22Starburst03	11101	swap	0	
+/Water Spells				
+23Awaken03	12000	swap	0	Awaken
+/Unused	12001	swap	0	
+Poison Spray	12010	swap	0	Poison Spray
+24coldbeam03	12011	swap	0	
+Water Resistance	12020	swap	0	Water Resistance
+/Unused	12021	swap	0	
+Ice Bolt	12030	swap	0	Ice Bolt
+28icebolt03	12031	swap	0	
+Waterwalk	12040	swap	0	Water Walk
+/Unused	12041	swap	0	
+Dispell Magic	12050	swap	0	Recharge Item
+/Unused	12051	swap	0	
+39blades03	12060	swap	0	Acid Burst
+20implosion03	12061	swap	0	
+Enchant Item	12070	swap	0	Enchant Item
+/Unused	12071	swap	0	
+Town Portal	12080	swap	0	Town Portal
+/Unused	12081	swap	0	
+IceBlast	12090	swap	0	Ice Blast
+IceBlast2	12091	swap	0	
+Lloyds beacon	12100	swap	0	Lloyd's Beacon
+/Unused	12101	swap	0	
+/Earth Spells				
+Stun1	13000	swap	0	Stun
+34Stun03	13001	swap	0	
+44MassDistortion03	13010	swap	0	Slow
+/Unused	13011	swap	0	
+Earth Resistance	13020	swap	0	Earth Resistance
+/Unused	13021	swap	0	
+37DeadlySwarm03	13030	swap	0	Deadly Swarm
+Deadly Swarm Explosion	13031	swap	0	
+Stoneskin	13040	swap	0	Stone Skin
+/Unused	13041	swap	0	
+92shapmetal01	13050	swap	0	Blades
+/Unused	13051	swap	0	
+40stonetoflesh03	13060	swap	0	Stone to Flesh
+/Unused	13061	swap	0	
+rockblast_projectile	13070	swap	0	Rock Blast
+41rockblast03	13071	swap	0	
+Day of Protection	13080	swap	0	Telekinesis
+/Unused	13081	swap	0	
+43deathblossom01	13090	swap	0	Death Blossom
+43deathblossom03	13091	swap	0	
+44MassDistortion01	13100	swap	0	Mass Distortion
+/Unused	13101	swap	0	
+/Spirit Spells				
+Detect Life	14000	swap	0	Detect Life
+/Unused	14001	swap	0	
+Bless	14010	swap	0	Bless
+/Unused	14011	swap	0	
+Fate	14020	swap	0	Fate
+/Unused	14021	swap	0	
+54sharedlife03	14030	swap	0	Turn Undead
+/Unused	14031	swap	0	
+49RemoveCurse03	14040	swap	0	Remove Curse
+/Unused	14041	swap	0	
+Preservation	14050	swap	0	Preservation
+/Unused	14051	swap	0	
+51heroism03	14060	swap	0	Heroism
+/Unused	14061	swap	0	
+28icebolt01	14070	swap	0	Spirit Lash
+/Unused	14071	swap	0	
+51heroism03	14080	swap	0	Raise Dead
+/Unused	14081	swap	0	
+53raisedead03	14090	swap	0	Shared Life
+/Unused	14091	swap	0	
+51heroism03	14100	swap	0	Resurrection
+/Unused	14101	swap	0	
+/Mind Spells				
+57removefear03	15000	swap	0	Telepathy
+/Unused	15001	swap	0	
+MindBlast_Frnt_projectile	15010	swap	0	Remove Fear
+58mindblast03	15011	swap	0	
+Mind resistance	15020	swap	0	Mind Resistance
+/Unused	15021	swap	0	
+Telepathy	15030	swap	0	Mind Blast
+/Unused	15031	swap	0	
+Heroism	15040	swap	0	Charm
+/Unused	15041	swap	0	
+60cureparalasis03	15050	swap	0	Cure Paralysis
+/Unused	15051	swap	0	
+63feeblemind02	15060	swap	0	Berserk
+/Unused	15061	swap	0	
+65psychicshock03	15070	swap	0	Mass Fear
+/Unused	15071	swap	0	
+64cureinsanity03	15080	swap	0	Cure Insanity
+/Unused	15081	swap	0	
+Psychic Shock	15090	swap	0	Psychic Shock
+58mindblast03	15091	swap	0	
+Enslave	15100	swap	0	Enslave
+/Unused	15101	swap	0	
+/Body Spells				
+Cure Weakness	16000	swap	0	Cure Weakness
+/Unused	16001	swap	0	
+Heal	16010	swap	0	Heal
+/Unused	16011	swap	0	
+69protectionfrompoison03	16020	swap	0	Body Resistance
+/Unused	16021	swap	0	
+harm_rear_projectile	16030	swap	0	Harm
+Harm	16031	swap	0	
+Regeneration	16040	swap	0	Regeneration
+/Unused	16041	swap	0	
+72curepoison03	16050	swap	0	Cure Poison
+/Unused	16051	swap	0	
+hammerhands_character-portrait	16060	swap	0	Hammerhands
+/Unused	16061	swap	0	
+74curedisease03	16070	swap	0	Cure Disease
+/Unused	16071	swap	0	
+awaken2	16080	swap	0	Protection From Magic
+/Unused	16081	swap	0	
+Flying Fist	16090	swap	0	Flying Fist
+76flyingfist03	16091	swap	0	
+Power Cure	16100	swap	0	Power Cure
+/Unused	16101	swap	0	
+/Light Spells				
+02Flame01	17000	swap	0	Light Bolt
+02Flame03	17001	swap	0	
+55resurection03	17010	swap	0	Destroy Undead
+/Unused	17011	swap	0	
+Recharge Item	17020	swap	0	Dispel Magic
+/Unused	17021	swap	0	
+Paralyze	17030	swap	0	Paralyze
+/Unused	17031	swap	0	
+Sparks	17040	swap	0	Summon Elemental
+/Unused	17041	swap	0	
+Day of the Gods	17050	swap	0	Day of the Gods
+/Unused	17051	swap	0	
+Prismatic Light	17060	swap	0	Prismatic Light
+/Unused	17061	swap	0	
+94dayofprotection03	17070	swap	0	Day of Protection
+/Unused	17071	swap	0	
+9armageddon01	17080	swap	0	Hour of Power
+/Unused	17081	swap	0	
+sunray	17090	swap	0	Sunray
+86sunray03	17091	swap	0	
+Devine Intervention	17100	swap	0	Divine Intervention
+/Unused	17101	swap	0	
+/Dark Spells				
+Reanimate	18000	swap	0	Reanimate
+/Unused	18001	swap	0	
+Toxic Cloud	18010	swap	0	Toxic Cloud
+90toxiccloud03	18011	swap	0	
+Vampric Weapon	18020	swap	0	Vampiric Weapon
+/Unused	18021	swap	0	
+Shrink ray	18030	swap	0	Shrinking Ray
+/Unused	18031	swap	0	
+Shrapmetal_projectile_bb	18040	swap	0	Sharpmetal
+92shapmetal03	18041	swap	0	
+Control Undead	18050	swap	0	Control Undeda
+/Unused	18051	swap	0	
+Sacrifice2	18060	swap	0	Pain Reflection
+/Unused	18061	swap	0	
+Soul Drinker	18070	swap	0	Dark Grasp
+/Unused	18071	swap	0	
+Dragon Breath	18080	swap	0	Dragon Breath
+dragonbreath_explosion	18081	swap	0	
+9armageddon02	18090	swap	0	Armageddon
+/Unused	18091	swap	0	
+95fingerofdeath01	18100	swap	0	Souldrinker
+/Unused	18101	swap	0	
+/Dark Elf Abilities				
+100 Glamour	19000	swap	0	Glamour
+/Unused	19001	swap	0	
+101 Travelers' boon	19010	swap	0	Traveler's Boon
+/Unused	19011	swap	0	
+102 Blind	19020	swap	0	Blind
+102 Blind-2	19021	swap	0	
+103 Darkfire bolt	19030	swap	0	Darkfire Bolt
+/Unused	19031	swap	0	
+/Unused	19040	swap	0	Reserved
+/Unused	19041	swap	0	
+/Unused	19050	swap	0	Reserved
+/Unused	19051	swap	0	
+/Unused	19060	swap	0	Reserved
+/Unused	19061	swap	0	
+/Unused	19070	swap	0	Reserved
+/Unused	19071	swap	0	
+/Unused	19080	swap	0	Reserved
+/Unused	19081	swap	0	
+/Unused	19090	swap	0	Reserved
+/Unused	19091	swap	0	
+/Unused	19100	swap	0	Reserved
+/Unused	19101	swap	0	
+/Vampire Abilities				
+111 Lifedrain	20000	swap	0	Lifedrain
+/Unused	20001	swap	0	
+112 Levitate	20010	swap	0	Levitate
+/Unused	20011	swap	0	
+113 Hypno magic	20020	swap	0	Charm
+/Unused	20021	swap	0	
+114 Gusty shimmer	20030	swap	0	Mistform
+/Unused	20031	swap	0	
+/Unused	20040	swap	0	Reserved
+/Unused	20041	swap	0	
+/Unused	20050	swap	0	Reserved
+/Unused	20051	swap	0	
+/Unused	20060	swap	0	Reserved
+/Unused	20061	swap	0	
+/Unused	20070	swap	0	Reserved
+/Unused	20071	swap	0	
+/Unused	20080	swap	0	Reserved
+/Unused	20081	swap	0	
+/Unused	20090	swap	0	Reserved
+/Unused	20091	swap	0	
+/Unused	20100	swap	0	Reserved
+/Unused	20101	swap	0	
+/Dragon Abilities				
+122 Fear	21000	swap	0	Fear
+/Unused	21001	swap	0	
+123 Flame blast	21010	swap	0	Breath Weapon II
+/Unused	21011	swap	0	
+21Fly	21020	swap	0	Flight
+/Unused	21021	swap	0	
+125 Wing flaps	21030	swap	0	Wing Buffet
+/Unused	21031	swap	0	
+/Unused	21040	swap	0	Reserved
+/Unused	21041	swap	0	
+/Unused	21050	swap	0	Reserved
+/Unused	21051	swap	0	
+/Unused	21060	swap	0	Reserved
+/Unused	21061	swap	0	
+/Unused	21070	swap	0	Reserved
+/Unused	21071	swap	0	
+/Unused	21080	swap	0	Reserved
+/Unused	21081	swap	0	
+/Unused	21090	swap	0	Reserved
+/Unused	21091	swap	0	
+/Unused	21100	swap	0	Reserved
+/Unused	21101	swap	0	
+/Monster					
+Lizardman_peasant attk	1000	0	0	Lizard Male (Peasant)	Attack
+Lizardman_peasant death	1001	0	0		Die
+Lizardman_peasant wince	1002	0	0		Stun
+Lizardman_peasant aware	1003	0	0		Fidget
+Lizardman_warrior attk	1010	0	0	Lizard Warrior	Attack
+Lizardman_warrior death	1011	0	0		Die
+Lizardman_wince attk	1012	0	0		Stun
+Lizardman_warrior aware	1013	0	0		Fidget
+Coutal attk	1020	0	0	Couatl (winged snake)	Attack
+Coutal death	1021	0	0		Die
+Coutal wince	1022	0	0		Stun
+Coutal aware	1023	0	0		Fidget
+pirate_warrior Attack	1030	0	0	Pirate Warrior Male	Attack
+pirate_warrior Death	1031	0	0		Die
+pirate_warrior Wince	1032	0	0		Stun
+/Unused	1033	0	0		Fidget
+pirate_crossbow attk	1040	0	0	Pirate Crossbowman (Female)	Attack
+pirate_crossbow death	1041	0	0		Die
+pirate_crossbow wince	1042	0	0		Stun
+/Unused	1043	0	0		Fidget
+pirate_mage Attk	1050	0	0	Pirate Mage Male	Attack
+pirate_mage Death	1051	0	0		Die
+pirate_mage Wince	1052	0	0		Stun
+/Unused	1053	0	0		Fidget
+Darkelf_male attk	1060	0	0	Dark Elf Peasant Male	Attack
+Darkelf_male death	1061	0	0		Die
+Darkelf_male wince	1062	0	0		Stun
+/Unused	1063	0	0		Fidget
+Darkelf_female attk	1070	0	0	Dark Elf Peasant Female	Attack
+Darkelf_female death	1071	0	0		Die
+Darkelf_female wince	1072	0	0		Stun
+Darkelf_female aware	1073	0	0		Fidget
+Darkelf_warrior attk	1080	0	0	Dark Elf Warrior	Attack
+Darkelf_warrior death	1081	0	0		Die
+Darkelf_warrior wince	1082	0	0		Stun
+/Unused	1083	0	0		Fidget
+ogre_peasant Attack	1090	0	0	Ogre Peasant Male	Attack
+ogre_peasant Death	1091	0	0		Die
+ogre_peasant Wince	1092	0	0		Stun
+ogre_peasant Aware	1093	0	0		Fidget
+ogre_warrior Attack	1100	0	0	Ogre Warrior	Attack
+ogre_warrior Death	1101	0	0		Die
+ogre_warrior Wince	1102	0	0		Stun
+ogre_warrior Aware	1103	0	0		Fidget
+wererat human Attack	1110	0	0	Wererat Human Form Male	Attack
+wererat human Death	1111	0	0		Die
+wererat human Wince	1112	0	0		Stun
+/Unused	1113	0	0		Fidget
+wererat ratman Attack	1120	0	0	Wererat Ratman Form Male	Attack
+wererat ratman Death	1121	0	0		Die
+wererat ratman Wince	1122	0	0		Stun
+wererat ratman Aware	1123	0	0		Fidget
+wererat rat Attack	1130	0	0	Wererat Rat Form Male	Attack
+wererat rat Death	1131	0	0		Die
+wererat rat Wince	1132	0	0		Stun
+wererat rat Aware	1133	0	0		Fidget
+dragon_hunter attk	1140	0	0	Dragon Hunter	Attack
+dragon_hunter death	1141	0	0		Die
+dragon_hunter wince	1142	0	0		Stun
+/Unused	1143	0	0		Fidget
+cleric attk	1150	0	0	Cleric (human male)	Attack
+cleric death	1151	0	0		Die
+cleric wincewav	1152	0	0		Stun
+cleric aware	1153	0	0		Fidget
+Darkelf_female attk	1160	0	0	Vampire Female Peasant	Attack
+Darkelf_female death	1161	0	0		Die
+Darkelf_female wince	1162	0	0		Stun
+Darkelf_female aware	1163	0	0		Fidget
+vampie Attack	1170	0	0	Vampire (monster)	Attack
+vampie Death	1171	0	0		Die
+vampie Wince	1172	0	0		Stun
+vampie Aware	1173	0	0		Fidget
+Necromancer attk	1180	0	0	Necromancer (monster)	Attack
+Necromancer death	1181	0	0		Die
+Necromancer wince	1182	0	0		Stun
+Necromancer aware	1183	0	0		Fidget
+troll warrior Attack	1190	0	0	Troll	Attack
+troll warrior Death	1191	0	0		Die
+troll warrior Wince	1192	0	0		Stun
+troll warrior Aware	1193	0	0		Fidget
+troll peasant Attack	1200	0	0	Troll Peasant	Attack
+troll peasant Death	1201	0	0		Die
+troll peasant Wince	1202	0	0		Stun
+troll peasant Aware	1203	0	0		Fidget
+Minotaur attk	1210	0	0	Mi0taur	Attack
+Minotaur death	1211	0	0		Die
+Minotaur wince	1212	0	0		Stun
+Minotaur aware	1213	0	0		Fidget
+Minotaur_peasant attk	1220	0	0	Mi0taur Peasant	Attack
+Minotaur_peasant death	1221	0	0		Die
+Minotaur_peasant wince	1222	0	0		Stun
+Minotaur_peasant aware	1223	0	0		Fidget
+crystal dragon attk	1230	0	0	Dragon	Attack
+crystal dragon death	1231	0	0		Die
+crystal dragon wince	1232	0	0		Stun
+crystal dragon aware	1233	0	0		Fidget
+Fire_elemental attk	1240	0	0	Fire Elemental	Attack
+Fire_elemental death	1241	0	0		Die
+Fire_elemental wince	1242	0	0		Stun
+Fire_elemental aware	1243	0	0		Fidget
+water elemental Attack	1250	0	0	Water Elemental	Attack
+water elemental Death	1251	0	0		Die
+water elemental Wince	1252	0	0		Stun
+water elemental Aware	1253	0	0		Fidget
+Earth_elemental attk	1260	0	0	Earth Elemental	Attack
+Earth_elemental death	1261	0	0		Die
+Earth_elemental wince	1262	0	0		Stun
+Earth_elemental aware	1263	0	0		Fidget
+airelemental attk	1270	0	0	Air Elemental	Attack
+airelemental death	1271	0	0		Die
+airelemental wince	1272	0	0		Stun
+airelemental aware	1273	0	0		Fidget
+dire_wolf attk	1280	0	0	Dire Wolf	Attack
+dire_wolf death	1281	0	0		Die
+dire_wolf wince	1282	0	0		Stun
+dire_wolf aware	1283	0	0		Fidget
+crystal dragon attk	1290	0	0	Thunder Lizard	Attack
+crystal dragon death	1291	0	0		Die
+crystal dragon wince	1292	0	0		Stun
+crystal dragon aware	1293	0	0		Fidget
+Cyclops attk	1300	0	0	Cyclops	Attack
+Cyclops death	1301	0	0		Die
+Cyclops wince	1302	0	0		Stun
+Cyclops aware	1303	0	0		Fidget
+serpentman Attack	1310	0	0	Serpentman	Attack
+serpentman Death	1311	0	0		Die
+serpentman Wince	1312	0	0		Stun
+serpentman Aware	1313	0	0		Fidget
+willowisp Attack	1320	0	0	Will' O' Wisp	Attack
+willowisp Death	1321	0	0		Die
+willowisp Wince	1322	0	0		Stun
+willowisp Aware	1323	0	0		Fidget
+Centaur attk	1330	0	0	Centaur	Attack
+Centaur death	1331	0	0		Die
+Centaur wince	1332	0	0		Stun
+/Unused	1333	0	0		Fidget
+efreet attk	1340	0	0	Efreeti	Attack
+efreet death	1341	0	0		Die
+efreet wince	1342	0	0		Stun
+efreet aware	1343	0	0		Fidget
+Ogre_Mage attack	1350	0	0	Ogre Mage	Attack
+Ogre_Mage death	1351	0	0		Die
+Ogre_Mage wince	1352	0	0		Stun
+Ogre_Mage aware	1353	0	0		Fidget
+unicorn Attack	1360	0	0	Unicorn	Attack
+unicorn Death	1361	0	0		Die
+unicorn Wince	1362	0	0		Stun
+unicorn Aware	1363	0	0		Fidget
+crystal dragon attk	1370	0	0	Crystal Dragon	Attack
+crystal dragon death	1371	0	0		Die
+crystal dragon wince	1372	0	0		Stun
+crystal dragon aware	1373	0	0		Fidget
+thunderbird Attack	1380	0	0	Thunderbird	Attack
+thunderbird Death	1381	0	0		Die
+thunderbird Wince	1382	0	0		Stun
+thunderbird Aware	1383	0	0		Fidget
+wasp warrior Attack	1390	0	0	Wasp Warrior	Attack
+wasp warrior Death	1391	0	0		Die
+wasp warrior Wince	1392	0	0		Stun
+wasp warrior Aware	1393	0	0		Fidget
+wyvern Attack	1400	0	0	Wyvern	Attack
+wyvern Death	1401	0	0		Die
+wyvern Wince	1402	0	0		Stun
+wyvern Aware	1403	0	0		Fidget
+gorgon attk	1410	0	0	Gorgon	Attack
+gorgon death	1411	0	0		Die
+gorgon wince	1412	0	0		Stun
+gorgon aware	1413	0	0		Fidget
+salamanderman Attack	1420	0	0	Salamander	Attack
+salamanderman Death	1421	0	0		Die
+salamanderman Wince	1422	0	0		Stun
+salamanderman Aware	1423	0	0		Fidget
+Phoenix attk	1430	0	0	Phoenix	Attack
+Phoenix death	1431	0	0		Die
+Phoenix wince	1432	0	0		Stun
+Phoenix aware	1433	0	0		Fidget
+triton Attack	1440	0	0	Triton	Attack
+triton Death	1441	0	0		Die
+triton Wince	1442	0	0		Stun
+triton Aware	1443	0	0		Fidget
+turtle dragon Attack	1450	0	0	Dragon Turtle	Attack
+turtle dragon Death	1451	0	0		Die
+turtle dragon Wince	1452	0	0		Stun
+turtle dragon Aware	1453	0	0		Fidget
+ravenman Attack	1460	0	0	Raven Man	Attack
+ravenman Death	1461	0	0		Die
+ravenman Wince	1462	0	0		Stun
+ravenman Aware	1463	0	0		Fidget
+Malvolent attk	1470	0	0	Malevolent Boulder	Attack
+Malvolent death	1471	0	0		Die
+Malvolent wince	1472	0	0		Stun
+Malvolent aware	1473	0	0		Fidget
+plane guardian Attack	1480	0	0	Plane Guardian	Attack
+plane guardian Death	1481	0	0		Die
+plane guardian Wince	1482	0	0		Stun
+plane guardian Aware	1483	0	0		Fidget
+crystal_walker attk	1490	0	0	Crystal Walker	Attack
+crystal_walker death	1491	0	0		Die
+crystal_walker wince	1492	0	0		Stun
+crystal_walker aware	1493	0	0		Fidget
+unicorn Attack	1500	0	0	Nightmare	Attack
+unicorn Death	1501	0	0		Die
+unicorn Wince	1502	0	0		Stun
+unicorn Aware	1503	0	0		Fidget
+etherknight attk	1510	0	0	Ether Knight	Attack
+etherknight death	1511	0	0		Die
+etherknight wince	1512	0	0		Stun
+etherknight aware	1513	0	0		Fidget
+juggeraut attk	1520	0	0	Juggernaut	Attack
+juggeraut death	1521	0	0		Die
+juggeraut wince	1522	0	0		Stun
+juggeraut aware	1523	0	0		Fidget
+gog attk	1530	0	0	Gog	Attack
+gog death	1531	0	0		Die
+gog wince	1532	0	0		Stun
+gog aware	1533	0	0		Fidget
+bone dragon attk	1540	0	0	Bone Dragon	Attack
+bone dragon death	1541	0	0		Die
+bone dragon wincewav	1542	0	0		Stun
+bone dragon aware	1543	0	0		Fidget
+/Unused	1550	0	0	Bedraggled Human (peasant)	Attack
+Bedraggled Peasant death	1551	0	0		Die
+Bedraggled Peasant wince	1552	0	0		Stun
+/Unused	1553	0	0		Fidget
+Naga attk	1560	0	0	Naga	Attack
+Naga death	1561	0	0		Die
+Naga wince	1562	0	0		Stun
+Naga aware	1563	0	0		Fidget
+skeleton archer Attack	1570	0	0	Skeleton Archer	Attack
+skeleton archer Death	1571	0	0		Die
+skeleton archer Wince	1572	0	0		Stun
+skeleton archer Aware	1573	0	0		Fidget
+Dark_dwarf attk	1580	0	0	Dark Dwarf	Attack
+Dark_dwarf death	1581	0	0		Die
+Dark_dwarf wince	1582	0	0		Stun
+/Unused	1583	0	0		Fidget
+/Unused	1590	0	0	School of Fish	Attack
+/Unused	1591	0	0		Die
+/Unused	1592	0	0		Stun
+/Unused	1593	0	0		Fidget
+pirate_warrior Attack	1600	0	0	Wimpy Pirate Warrrior Male	Attack
+pirate_warrior Death	1601	0	0		Die
+pirate_warrior Wince	1602	0	0		Stun
+/Unused	1603	0	0		Fidget
+pirate_crossbow attk	1610	0	0	Wimpy Pirate Crossbowman (Female)	Attack
+pirate_crossbow death	1611	0	0		Die
+pirate_crossbow wince	1612	0	0		Stun
+/Unused	1613	0	0		Fidget
+pirate_mage Attk	1620	0	0	Wimpy Pirate Mage Male	Attack
+pirate_mage Death	1621	0	0		Die
+pirate_mage Wince	1622	0	0		Stun
+/Unused	1623	0	0		Fidget
+crystal dragon attk	1630	0	0	Wimpy Dragon	Attack
+crystal dragon death	1631	0	0		Die
+crystal dragon wince	1632	0	0		Stun
+crystal dragon aware	1633	0	0		Fidget
+Human_mercanary attk	1640	0	0	Human Mercenary	Attack
+Human_mercanary death	1641	0	0		Die
+Human_mercanary wince	1642	0	0		Stun
+Human_mercanary aware	1643	0	0		Fidget
+/Player - General					
+01Female_Wince	0	 system	0		
+01Male_Wince	0	 system	0		
+02Female_Wince	0	 system	0		
+02Male_Wince	0	 system	0		
+03Female_Wince	0	 system	0		
+03Male_Wince	0	 system	0		
+04Female_Wince	0	 system	0		
+04Male_Wince	0	 system	0		
+05Female_Wince	0	 system	0		
+05Male_Wince	0	 system	0		
+/Knight 1				
+/Character voices may have an additional sound that can be substituted for the primary one.  The game code will randomly choose one from the set of available choices.				
+pc5001c	5000	swap	0	disarm trap
+pc5001d	5001	swap	0	
+pc5002a	5002	swap	0	closed store
+pc5002b	5003	swap	0	
+pc5003a	5004	swap	0	set off trap
+pc5003d	5005	swap	0	
+pc5004b	5006	swap	0	select character
+pc5004d	5007	swap	0	
+pc5005c	5008	swap	0	identify weak item
+pc5005d	5009	swap	0	
+pc5006c	5010	swap	0	identify powerful item
+pc5006d	5011	swap	0	
+pc5007b	5012	swap	0	fail to identify item
+pc5007d	5013	swap	0	
+pc5008c	5014	swap	0	repair item
+pc5008e	5015	swap	0	
+pc5009b	5016	swap	0	fail to repair item
+pc5009e	5017	swap	0	
+pc5010a	5018	swap	0	identify weak monster
+pc5010d	5019	swap	0	
+pc5011c	5020	swap	0	identify powerful monster
+pc5011f	5021	swap	0	
+pc5012a	5022	swap	0	fail to identify monster
+pc5012d	5023	swap	0	
+pc5013e	5024	swap	0	set new readied spell
+pc5013f	5025	swap	0	
+pc5014b	5026	swap	0	hungry
+pc5014c	5027	swap	0	
+pc5015a	5028	swap	0	barely wounded
+pc5015b	5029	swap	0	
+pc5016b	5030	swap	0	badly wounded
+pc5016c	5031	swap	0	
+pc5017a	5032	swap	0	dying
+pc5017f	5033	swap	0	
+pc5018b	5034	swap	0	become drunk
+pc5018c	5035	swap	0	
+pc5019b	5036	swap	0	become insane
+pc5019g	5037	swap	0	
+pc5020d	5038	swap	0	become poisoned/diseased
+pc5020f	5039	swap	0	
+pc5021c	5040	swap	0	become cursed
+pc5021e	5041	swap	0	
+pc5022a	5042	swap	0	falling
+pc5022c	5043	swap	0	
+pc5023c	5044	swap	0	unable to rest
+pc5023d	5045	swap	0	
+pc5024c	5046	swap	0	not enough gold
+pc5024e	5047	swap	0	
+pc5025a	5048	swap	0	room in inventory
+pc5025c	5049	swap	0	
+pc5026c	5050	swap	0	mixed potion successfully
+pc5026d	5051	swap	0	
+pc5027d	5052	swap	0	mixed potion unsuccessfully
+pc5027j	5053	swap	0	
+pc5028b	5054	swap	0	locked door
+pc5028d	5055	swap	0	
+pc5029c	5056	swap	0	learned a new spell  
+pc5029e	5057	swap	0	
+pc5030c	5058	swap	0	can't learn spell    
+pc5030g	5059	swap	0	
+pc5040a	5060	swap	0	can't equip item 
+pc5040b	5061	swap	0	
+pc5032a	5062	swap	0	greeting1    
+pc5032b	5063	swap	0	
+pc5033a	5064	swap	0	greeting2    
+pc5033c	5065	swap	0	
+pc5031a	5066	swap	0	greeting3    
+pc5031b	5067	swap	0	
+/Unused	5068	swap	0	curse    
+/Unused	5069	swap	0	
+/Unused	5070	swap	0	laughter 
+/Unused	5071	swap	0	
+pc5034a	5072	swap	0	killed powerful monster  
+pc5034b	5073	swap	0	
+pc5035e	5074	swap	0	killed weak monster  
+pc5035f	5075	swap	0	
+pc5036a	5076	swap	0	last person standing 
+pc5036b	5077	swap	0	
+pc5037a	5078	swap	0	leaving dungeon (party thrashed)
+pc5037b	5079	swap	0	
+pc5038a	5080	swap	0	entering dungeon(first time) 
+pc5038b	5081	swap	0	
+pc5039a	5082	swap	0	yes  
+pc5039b	5083	swap	0	
+pc5042a	5084	swap	0	thank you
+pc5042b	5085	swap	0	
+pc5041a	5086	swap	0	indignant
+pc5041b	5087	swap	0	
+/Unused	5088	swap	0	obligatory
+/Unused	5089	swap	0	
+/Unused	5090	swap	0	shut up  
+/Unused	5091	swap	0	
+pc5043a	5092	swap	0	yell 
+pc5043b	5093	swap	0	
+/Knight Female 1				
+pc5101d	5100	swap	0	disarm trap
+pc5101e	5101	swap	0	
+pc5102a	5102	swap	0	closed store
+pc5102b	5103	swap	0	
+pc5103c	5104	swap	0	set off trap
+pc5103d	5105	swap	0	
+pc5104b	5106	swap	0	select character
+pc5104c	5107	swap	0	
+pc5105c	5108	swap	0	identify weak item
+pc5105e	5109	swap	0	
+pc5106c	5110	swap	0	identify powerful item
+pc5106e	5111	swap	0	
+pc5107c	5112	swap	0	fail to identify item
+pc5107d	5113	swap	0	
+pc5108a	5114	swap	0	repair item
+pc5108b	5115	swap	0	
+pc5109a	5116	swap	0	fail to repair item
+pc5109e	5117	swap	0	
+pc5110a	5118	swap	0	identify weak monster
+pc5110b	5119	swap	0	
+pc5111a	5120	swap	0	identify powerful monster
+pc5111b	5121	swap	0	
+pc5112a	5122	swap	0	fail to identify monster
+pc5112d	5123	swap	0	
+pc5113b	5124	swap	0	set new readied spell
+pc5113e	5125	swap	0	
+pc5114d	5126	swap	0	hungry
+pc5114e	5127	swap	0	
+pc5115b	5128	swap	0	barely wounded
+pc5115e	5129	swap	0	
+pc5116a	5130	swap	0	badly wounded
+pc5116c	5131	swap	0	
+pc5117d	5132	swap	0	dying
+pc5117e	5133	swap	0	
+pc5118c	5134	swap	0	become drunk
+pc5118d	5135	swap	0	
+pc5119b	5136	swap	0	become insane
+pc5119d	5137	swap	0	
+pc5120c	5138	swap	0	become poisoned/diseased
+pc5120e	5139	swap	0	
+pc5121a	5140	swap	0	become cursed
+pc5121d	5141	swap	0	
+pc5122a	5142	swap	0	falling
+pc5122e	5143	swap	0	
+pc5123a	5144	swap	0	unable to rest
+pc5123b	5145	swap	0	
+pc5124c	5146	swap	0	not enough gold
+pc5124d	5147	swap	0	
+pc5125a	5148	swap	0	room in inventory
+pc5125b	5149	swap	0	
+pc5126c	5150	swap	0	mixed potion successfully
+pc5126d	5151	swap	0	
+pc5127b	5152	swap	0	mixed potion unsuccessfully
+pc5127d	5153	swap	0	
+pc5128a	5154	swap	0	locked door
+pc5128e	5155	swap	0	
+pc5129a	5156	swap	0	learned a new spell  
+pc5129b	5157	swap	0	
+pc5130a	5158	swap	0	can't learn spell    
+pc5130b	5159	swap	0	
+pc5131a	5160	swap	0	can't equip item 
+pc5131b	5161	swap	0	
+pc5132a	5162	swap	0	greeting1    
+pc5132b	5163	swap	0	
+pc5133a	5164	swap	0	greeting2    
+pc5133b	5165	swap	0	
+pc5134a	5166	swap	0	greeting3    
+pc5134b	5167	swap	0	
+/Unused	5168	swap	0	curse    
+/Unused	5169	swap	0	
+/Unused	5170	swap	0	laughter 
+/Unused	5171	swap	0	
+pc5135a	5172	swap	0	killed powerful monster  
+pc5135b	5173	swap	0	
+pc5136a	5174	swap	0	killed weak monster  
+pc5136b	5175	swap	0	
+pc5137a	5176	swap	0	last person standing 
+pc5137b	5177	swap	0	
+pc5138a	5178	swap	0	leaving dungeon (party thrashed)
+pc5138b	5179	swap	0	
+pc5139a	5180	swap	0	entering dungeon(first time) 
+pc5139d	5181	swap	0	
+pc5140a	5182	swap	0	yes  
+pc5140b	5183	swap	0	
+/Unused	5184	swap	0	thank you
+/Unused	5185	swap	0	
+pc5142a	5186	swap	0	indignant
+pc5142b	5187	swap	0	
+/Unused	5188	swap	0	obligatory
+/Unused	5189	swap	0	
+/Unused	5190	swap	0	shut up  
+/Unused	5191	swap	0	
+pc5143a	5192	swap	0	yell 
+pc5143b	5193	swap	0	
+/Knight 2				
+pc5201a	5200	swap	0	disarm trap
+pc5201c	5201	swap	0	
+pc5202b	5202	swap	0	closed store
+pc5202c	5203	swap	0	
+pc5203b	5204	swap	0	set off trap
+pc5203d	5205	swap	0	
+pc5204b	5206	swap	0	select character
+pc5204c	5207	swap	0	
+pc5205b	5208	swap	0	identify weak item
+pc5205d	5209	swap	0	
+pc5206a	5210	swap	0	identify powerful item
+pc5206b	5211	swap	0	
+pc5207b	5212	swap	0	fail to identify item
+pc5207d	5213	swap	0	
+pc5208c	5214	swap	0	repair item
+pc5208d	5215	swap	0	
+pc5209c	5216	swap	0	fail to repair item
+pc5209d	5217	swap	0	
+pc5210c	5218	swap	0	identify weak monster
+pc5210e	5219	swap	0	
+pc5211b	5220	swap	0	identify powerful monster
+pc5211d	5221	swap	0	
+pc5212a	5222	swap	0	fail to identify monster
+pc5212c	5223	swap	0	
+pc5213c	5224	swap	0	set new readied spell
+pc5213e	5225	swap	0	
+pc5214a	5226	swap	0	hungry
+pc5214c	5227	swap	0	
+pc5215a	5228	swap	0	barely wounded
+pc5215c	5229	swap	0	
+pc5216b	5230	swap	0	badly wounded
+pc5216c	5231	swap	0	
+pc5217b	5232	swap	0	dying
+pc5217c	5233	swap	0	
+pc5218c	5234	swap	0	become drunk
+pc5218d	5235	swap	0	
+pc5219a	5236	swap	0	become insane
+pc5219d	5237	swap	0	
+pc5220b	5238	swap	0	become poisoned/diseased
+pc5220d	5239	swap	0	
+pc5221c	5240	swap	0	become cursed
+pc5221d	5241	swap	0	
+pc5222a	5242	swap	0	falling
+pc5222b	5243	swap	0	
+pc5223c	5244	swap	0	unable to rest
+pc5223d	5245	swap	0	
+pc5224b	5246	swap	0	not enough gold
+pc5224c	5247	swap	0	
+pc5225a	5248	swap	0	room in inventory
+pc5225b	5249	swap	0	
+pc5226a	5250	swap	0	mixed potion successfully
+pc5226b	5251	swap	0	
+pc5227b	5252	swap	0	mixed potion unsuccessfully
+pc5227c	5253	swap	0	
+pc5228a	5254	swap	0	locked door
+pc5228b	5255	swap	0	
+pc5229a	5256	swap	0	learned a new spell  
+pc5229c	5257	swap	0	
+pc5230a	5258	swap	0	can't learn spell    
+pc5230b	5259	swap	0	
+pc5231a	5260	swap	0	can't equip item 
+pc5231d	5261	swap	0	
+pc5232a	5262	swap	0	greeting1    
+pc5232c	5263	swap	0	
+pc5233a	5264	swap	0	greeting2    
+pc5233b	5265	swap	0	
+pc5234a	5266	swap	0	greeting3    
+pc5234b	5267	swap	0	
+/Unused	5268	swap	0	curse    
+/Unused	5269	swap	0	
+/Unused	5270	swap	0	laughter 
+/Unused	5271	swap	0	
+pc5235a	5272	swap	0	killed powerful monster  
+pc5235b	5273	swap	0	
+pc5236a	5274	swap	0	killed weak monster  
+pc5236b	5275	swap	0	
+pc5237a	5276	swap	0	last person standing 
+pc5237b	5277	swap	0	
+pc5238a	5278	swap	0	leaving dungeon (party thrashed)
+pc5238b	5279	swap	0	
+pc5239a	5280	swap	0	entering dungeon(first time) 
+pc5239b	5281	swap	0	
+pc5240a	5282	swap	0	yes  
+pc5240b	5283	swap	0	
+/Unused	5284	swap	0	thank you
+/Unused	5285	swap	0	
+pc5242a	5286	swap	0	indignant
+pc5242b	5287	swap	0	
+/Unused	5288	swap	0	obligatory
+/Unused	5289	swap	0	
+/Unused	5290	swap	0	shut up  
+/Unused	5291	swap	0	
+pc5243a	5292	swap	0	yell 
+pc5243b	5293	swap	0	
+/Knight Female 2				
+pc5301a	5300	swap	0	disarm trap
+pc5301b	5301	swap	0	
+pc5302a	5302	swap	0	closed store
+pc5302b	5303	swap	0	
+pc5303a	5304	swap	0	set off trap
+pc5303c	5305	swap	0	
+pc5304a	5306	swap	0	select character
+pc5304b	5307	swap	0	
+pc5305a	5308	swap	0	identify weak item
+pc5305b	5309	swap	0	
+pc5306a	5310	swap	0	identify powerful item
+pc5306b	5311	swap	0	
+pc5307a	5312	swap	0	fail to identify item
+pc5307b	5313	swap	0	
+pc5308a	5314	swap	0	repair item
+pc5308b	5315	swap	0	
+pc5309a	5316	swap	0	fail to repair item
+pc5309b	5317	swap	0	
+pc5310a	5318	swap	0	identify weak monster
+pc5310b	5319	swap	0	
+pc5311a	5320	swap	0	identify powerful monster
+pc5311b	5321	swap	0	
+pc5312a	5322	swap	0	fail to identify monster
+pc5312b	5323	swap	0	
+pc5313a	5324	swap	0	set new readied spell
+pc5313b	5325	swap	0	
+pc5314a	5326	swap	0	hungry
+pc5314b	5327	swap	0	
+pc5315a	5328	swap	0	barely wounded
+pc5315b	5329	swap	0	
+pc5316a	5330	swap	0	badly wounded
+pc5316b	5331	swap	0	
+pc5317a	5332	swap	0	dying
+pc5317b	5333	swap	0	
+pc5318a	5334	swap	0	become drunk
+pc5318b	5335	swap	0	
+pc5319a	5336	swap	0	become insane
+pc5319b	5337	swap	0	
+pc5320a	5338	swap	0	become poisoned/diseased
+pc5320b	5339	swap	0	
+pc5321a	5340	swap	0	become cursed
+pc5321b	5341	swap	0	
+pc5322a	5342	swap	0	falling
+pc5322b	5343	swap	0	
+pc5323a	5344	swap	0	unable to rest
+pc5323b	5345	swap	0	
+pc5324a	5346	swap	0	not enough gold
+pc5324b	5347	swap	0	
+pc5325a	5348	swap	0	room in inventory
+pc5325b	5349	swap	0	
+pc5326a	5350	swap	0	mixed potion successfully
+pc5326b	5351	swap	0	
+pc5327a	5352	swap	0	mixed potion unsuccessfully
+pc5327b	5353	swap	0	
+pc5328a	5354	swap	0	locked door
+pc5328b	5355	swap	0	
+pc5329a	5356	swap	0	learned a new spell  
+pc5329b	5357	swap	0	
+pc5330a	5358	swap	0	can't learn spell    
+pc5330b	5359	swap	0	
+pc5331a	5360	swap	0	can't equip item 
+pc5331b	5361	swap	0	
+pc5332a	5362	swap	0	greeting1    
+pc5332b	5363	swap	0	
+pc5333a	5364	swap	0	greeting2    
+pc5333b	5365	swap	0	
+pc5334a	5366	swap	0	greeting3    
+pc5334b	5367	swap	0	
+/Unused	5368	swap	0	curse    
+/Unused	5369	swap	0	
+/Unused	5370	swap	0	laughter 
+/Unused	5371	swap	0	
+pc5335a	5372	swap	0	killed powerful monster  
+pc5335b	5373	swap	0	
+pc5336a	5374	swap	0	killed weak monster  
+pc5336b	5375	swap	0	
+pc5337a	5376	swap	0	last person standing 
+pc5337b	5377	swap	0	
+pc5338a	5378	swap	0	leaving dungeon (party thrashed)
+pc5338b	5379	swap	0	
+pc5339a	5380	swap	0	entering dungeon(first time) 
+pc5339b	5381	swap	0		
+pc5340a	5382	swap	0	yes  	
+pc5340b	5383	swap	0		
+/Unused	5384	swap	0	thanks you	
+/Unused	5385	swap	0		
+pc5342a	5386	swap	0	indignant	
+pc5342b	5387	swap	0		
+/Unused	5388	swap	0	obligatory	pc5341a
+/Unused	5389	swap	0		pc5341b
+/Unused	5390	swap	0	shut up  	
+/Unused	5391	swap	0		
+pc5343a	5392	swap	0	yell 	
+pc5343b	5393	swap	0		
+/Cleric 1					
+pc5401b	5400	swap	0	disarm trap	
+pc5401c	5401	swap	0		
+pc5402a	5402	swap	0	closed store
+pc5402d	5403	swap	0	
+pc5403a	5404	swap	0	set off trap
+pc5403c	5405	swap	0	
+pc5404a	5406	swap	0	select character
+pc5404d	5407	swap	0	
+pc5405a	5408	swap	0	identify weak item
+pc5405b	5409	swap	0	
+pc5406b	5410	swap	0	identify powerful item
+pc5406d	5411	swap	0	
+pc5407b	5412	swap	0	fail to identify item
+pc5407c	5413	swap	0	
+pc5408a	5414	swap	0	repair item
+pc5408d	5415	swap	0	
+pc5409b	5416	swap	0	fail to repair item
+pc5409d	5417	swap	0	
+pc5410b	5418	swap	0	identify weak monster
+pc5410c	5419	swap	0	
+pc5411a	5420	swap	0	identify powerful monster
+pc5411d	5421	swap	0	
+pc5412a	5422	swap	0	fail to identify monster
+pc5412c	5423	swap	0	
+pc5413a	5424	swap	0	set new readied spell
+pc5413b	5425	swap	0	
+pc5414a	5426	swap	0	hungry
+pc5414b	5427	swap	0	
+pc5415a	5428	swap	0	barely wounded
+pc5415d	5429	swap	0	
+pc5416a	5430	swap	0	badly wounded
+pc5416c	5431	swap	0	
+pc5417a	5432	swap	0	dying
+pc5417b	5433	swap	0	
+pc5418b	5434	swap	0	become drunk
+pc5418c	5435	swap	0	
+pc5419b	5436	swap	0	become insane
+pc5419c	5437	swap	0	
+pc5420a	5438	swap	0	become poisoned/diseased
+pc5420c	5439	swap	0	
+pc5421a	5440	swap	0	become cursed
+pc5421b	5441	swap	0	
+pc5422a	5442	swap	0	falling
+pc5422b	5443	swap	0	
+pc5423a	5444	swap	0	unable to rest
+pc5423c	5445	swap	0	
+pc5424a	5446	swap	0	not enough gold
+pc5424b	5447	swap	0	
+pc5425a	5448	swap	0	room in inventory
+pc5425b	5449	swap	0	
+pc5426b	5450	swap	0	mixed potion successfully
+pc5426c	5451	swap	0	
+pc5427a	5452	swap	0	mixed potion unsuccessfully
+pc5427b	5453	swap	0	
+pc5428a	5454	swap	0	locked door
+pc5428b	5455	swap	0	
+pc5429b	5456	swap	0	learned a new spell  
+pc5429c	5457	swap	0	
+pc5430a	5458	swap	0	can't learn spell    
+pc5430b	5459	swap	0	
+pc5431a	5460	swap	0	can't equip item 
+pc5431b	5461	swap	0	
+pc5432a	5462	swap	0	greeting1    
+pc5432b	5463	swap	0	
+pc5433a	5464	swap	0	greeting2    
+pc5433b	5465	swap	0	
+pc5434a	5466	swap	0	greeting3    
+pc5434b	5467	swap	0	
+/Unused	5468	swap	0	curse    
+/Unused	5469	swap	0	
+/Unused	5470	swap	0	laughter 
+/Unused	5471	swap	0	
+pc5435a	5472	swap	0	killed powerful monster  
+pc5435b	5473	swap	0	
+pc5436a	5474	swap	0	killed weak monster  
+pc5436b	5475	swap	0	
+pc5437a	5476	swap	0	last person standing 
+pc5437b	5477	swap	0	
+pc5438a	5478	swap	0	leaving dungeon (party thrashed)
+pc5438b	5479	swap	0	
+pc5439a	5480	swap	0	entering dungeon(first time) 
+pc5439b	5481	swap	0	
+pc5440a	5482	swap	0	yes  
+pc5440b	5483	swap	0	
+/Unused	5484	swap	0	thank you
+/Unused	5485	swap	0	
+pc5442a	5486	swap	0	indignant
+pc5442b	5487	swap	0	
+/Unused	5488	swap	0	obligatory
+/Unused	5489	swap	0	
+/Unused	5490	swap	0	shut up  
+/Unused	5491	swap	0	
+pc5443a	5492	swap	0	yell 
+pc5443b	5493	swap	0	
+/Cleric Female 1				
+pc5501b	5500	swap	0	disarm trap
+pc5501c	5501	swap	0	
+pc5502a	5502	swap	0	closed store
+pc5502b	5503	swap	0	
+pc5503b	5504	swap	0	set off trap
+pc5503c	5505	swap	0	
+pc5504a	5506	swap	0	select character
+pc5504b	5507	swap	0	
+pc5505a	5508	swap	0	identify weak item
+pc5505d	5509	swap	0	
+pc5506b	5510	swap	0	identify powerful item
+pc5506c	5511	swap	0	
+pc5507a	5512	swap	0	fail to identify item
+pc5507b	5513	swap	0	
+pc5508a	5514	swap	0	repair item
+pc5508c	5515	swap	0	
+pc5509a	5516	swap	0	fail to repair item
+pc5509b	5517	swap	0	
+pc5510a	5518	swap	0	identify weak monster
+pc5510c	5519	swap	0	
+pc5511b	5520	swap	0	identify powerful monster
+pc5511c	5521	swap	0	
+pc5512b	5522	swap	0	fail to identify monster
+pc5512c	5523	swap	0	
+pc5513a	5524	swap	0	set new readied spell
+pc5513b	5525	swap	0	
+pc5514a	5526	swap	0	hungry
+pc5514b	5527	swap	0	
+pc5515a	5528	swap	0	barely wounded
+pc5515d	5529	swap	0	
+pc5516a	5530	swap	0	badly wounded
+pc5516b	5531	swap	0	
+pc5517a	5532	swap	0	dying
+pc5517b	5533	swap	0	
+pc5518a	5534	swap	0	become drunk
+pc5518d	5535	swap	0	
+pc5519a	5536	swap	0	become insane
+pc5519b	5537	swap	0	
+pc5520a	5538	swap	0	become poisoned/diseased
+pc5520b	5539	swap	0	
+pc5521a	5540	swap	0	become cursed
+pc5521b	5541	swap	0	
+pc5522b	5542	swap	0	falling
+pc5522d	5543	swap	0	
+pc5523b	5544	swap	0	unable to rest
+pc5523c	5545	swap	0	
+pc5524b	5546	swap	0	not enough gold
+pc5524c	5547	swap	0	
+pc5525a	5548	swap	0	room in inventory
+pc5525b	5549	swap	0	
+pc5526c	5550	swap	0	mixed potion successfully
+pc5526d	5551	swap	0	
+pc5527a	5552	swap	0	mixed potion unsuccessfully
+pc5527b	5553	swap	0	
+pc5528a	5554	swap	0	locked door
+pc5528c	5555	swap	0	
+pc5529a	5556	swap	0	learned a new spell  
+pc5529b	5557	swap	0	
+pc5530b	5558	swap	0	can't learn spell    
+pc5530c	5559	swap	0	
+pc5531b	5560	swap	0	can't equip item 
+pc5531c	5561	swap	0	
+pc5532b	5562	swap	0	greeting1    
+pc5532c	5563	swap	0	
+pc5533a	5564	swap	0	greeting2    
+pc5533c	5565	swap	0	
+pc5534a	5566	swap	0	greeting3    
+pc5534b	5567	swap	0	
+/Unused	5568	swap	0	curse    
+/Unused	5569	swap	0	
+/Unused	5570	swap	0	laughter 
+/Unused	5571	swap	0	
+pc5535a	5572	swap	0	killed powerful monster  
+pc5535b	5573	swap	0	
+pc5536a	5574	swap	0	killed weak monster  
+pc5536b	5575	swap	0	
+pc5537a	5576	swap	0	last person standing 
+pc5537b	5577	swap	0	
+pc5538a	5578	swap	0	leaving dungeon (party thrashed)
+pc5538b	5579	swap	0	
+pc5539a	5580	swap	0	entering dungeon(first time) 
+pc5539b	5581	swap	0	
+pc5540a	5582	swap	0	yes  
+pc5540b	5583	swap	0	
+/Unused	5584	swap	0	thank you
+/Unused	5585	swap	0	
+pc5542a	5586	swap	0	indignant
+pc5542b	5587	swap	0	
+/Unused	5588	swap	0	obligatory
+/Unused	5589	swap	0	
+/Unused	5590	swap	0	shut up  
+/Unused	5591	swap	0	
+pc5543a	5592	swap	0	yell 
+pc5543b	5593	swap	0	
+/Cleric 2				
+pc5601a	5600	swap	0	disarm trap
+pc5601e	5601	swap	0	
+pc5602a	5602	swap	0	closed store
+pc5602b	5603	swap	0	
+pc5603c	5604	swap	0	set off trap
+pc5603d	5605	swap	0	
+pc5604c	5606	swap	0	select character
+pc5604d	5607	swap	0	
+pc5605b	5608	swap	0	identify weak item
+pc5605c	5609	swap	0	
+pc5606b	5610	swap	0	identify powerful item
+pc5606d	5611	swap	0	
+pc5607a	5612	swap	0	fail to identify item
+pc5607c	5613	swap	0	
+pc5608a	5614	swap	0	repair item
+pc5608b	5615	swap	0	
+pc5609a	5616	swap	0	fail to repair item
+pc5609b	5617	swap	0	
+pc5610a	5618	swap	0	identify weak monster
+pc5610c	5619	swap	0	
+pc5611b	5620	swap	0	identify powerful monster
+pc5611d	5621	swap	0	
+pc5612a	5622	swap	0	fail to identify monster
+pc5612b	5623	swap	0	
+pc5613a	5624	swap	0	set new readied spell
+pc5613b	5625	swap	0	
+pc5614c	5626	swap	0	hungry
+pc5614d	5627	swap	0	
+pc5615a	5628	swap	0	barely wounded
+pc5615b	5629	swap	0	
+pc5616a	5630	swap	0	badly wounded
+pc5616b	5631	swap	0	
+pc5617a	5632	swap	0	dying
+pc5617b	5633	swap	0	
+pc5618b	5634	swap	0	become drunk
+pc5618c	5635	swap	0	
+pc5619a	5636	swap	0	become insane
+pc5619d	5637	swap	0	
+pc5620a	5638	swap	0	become poisoned/diseased
+pc5620b	5639	swap	0	
+pc5621a	5640	swap	0	become cursed
+pc5621b	5641	swap	0	
+pc5622a	5642	swap	0	falling
+pc5622b	5643	swap	0	
+pc5623a	5644	swap	0	unable to rest
+pc5623b	5645	swap	0	
+pc5624a	5646	swap	0	not enough gold
+pc5624b	5647	swap	0	
+pc5625a	5648	swap	0	room in inventory
+pc5625b	5649	swap	0	
+pc5626b	5650	swap	0	mixed potion successfully
+pc5626c	5651	swap	0	
+pc5627b	5652	swap	0	mixed potion unsuccessfully
+pc5627d	5653	swap	0	
+pc5628a	5654	swap	0	locked door
+pc5628b	5655	swap	0	
+pc5629a	5656	swap	0	learned a new spell  
+pc5629c	5657	swap	0	
+pc5630a	5658	swap	0	can't learn spell    
+pc5630b	5659	swap	0	
+pc5631a	5660	swap	0	can't equip item 
+pc5631b	5661	swap	0	
+pc5632a	5662	swap	0	greeting1    
+pc5632c	5663	swap	0	
+pc5633a	5664	swap	0	greeting2    
+pc5633b	5665	swap	0	
+pc5634a	5666	swap	0	greeting3    
+pc5634b	5667	swap	0	
+/Unused	5668	swap	0	curse    
+/Unused	5669	swap	0	
+/Unused	5670	swap	0	laughter 
+/Unused	5671	swap	0	
+pc5635a	5672	swap	0	killed powerful monster  
+pc5635e	5673	swap	0	
+pc5636a	5674	swap	0	killed weak monster  
+pc5636d	5675	swap	0	
+pc5637b	5676	swap	0	last person standing 
+pc5637c	5677	swap	0	
+pc5638b	5678	swap	0	leaving dungeon (party thrashed)
+pc5638e	5679	swap	0	
+pc5639a	5680	swap	0	entering dungeon(first time) 
+pc5639b	5681	swap	0	
+pc5640a	5682	swap	0	yes  
+pc5640b	5683	swap	0	
+/Unused	5684	swap	0	thank you
+/Unused	5685	swap	0	
+pc5642a	5686	swap	0	indignant
+pc5642b	5687	swap	0	
+/Unused	5688	swap	0	obligatory
+/Unused	5689	swap	0	
+/Unused	5690	swap	0	shut up  
+/Unused	5691	swap	0	
+pc5643a	5692	swap	0	yell 
+pc5643b	5693	swap	0	
+/Cleric Female 2				
+pc5701a	5700	swap	0	disarm trap
+pc5701c	5701	swap	0	
+pc5702b	5702	swap	0	closed store
+pc5702d	5703	swap	0	
+pc5703a	5704	swap	0	set off trap
+pc5703c	5705	swap	0	
+pc5704b	5706	swap	0	select character
+pc5704c	5707	swap	0	
+pc5705a	5708	swap	0	identify weak item
+pc5705c	5709	swap	0	
+pc5706a	5710	swap	0	identify powerful item
+pc5706c	5711	swap	0	
+pc5707a	5712	swap	0	fail to identify item
+pc5707b	5713	swap	0	
+pc5708a	5714	swap	0	repair item
+pc5708b	5715	swap	0	
+pc5709b	5716	swap	0	fail to repair item
+pc5709c	5717	swap	0	
+pc5710b	5718	swap	0	identify weak monster
+pc5710c	5719	swap	0	
+pc5711a	5720	swap	0	identify powerful monster
+pc5711c	5721	swap	0	
+pc5712b	5722	swap	0	fail to identify monster
+pc5712c	5723	swap	0	
+pc5713a	5724	swap	0	set new readied spell
+pc5713b	5725	swap	0	
+pc5714a	5726	swap	0	hungry
+pc5714b	5727	swap	0	
+pc5715a	5728	swap	0	barely wounded
+pc5715b	5729	swap	0	
+pc5716a	5730	swap	0	badly wounded
+pc5716b	5731	swap	0	
+pc5717a	5732	swap	0	dying
+pc5717b	5733	swap	0	
+pc5718a	5734	swap	0	become drunk
+pc5718d	5735	swap	0	
+pc5719a	5736	swap	0	become insane
+pc5719c	5737	swap	0	
+pc5720a	5738	swap	0	become poisoned/diseased
+pc5720b	5739	swap	0	
+pc5721b	5740	swap	0	become cursed
+pc5721c	5741	swap	0	
+pc5722b	5742	swap	0	falling
+pc5722c	5743	swap	0	
+pc5723a	5744	swap	0	unable to rest
+pc5723b	5745	swap	0	
+pc5724a	5746	swap	0	not enough gold
+pc5724b	5747	swap	0	
+pc5725a	5748	swap	0	room in inventory
+pc5725b	5749	swap	0	
+pc5726b	5750	swap	0	mixed potion successfully
+pc5726c	5751	swap	0	
+pc5727a	5752	swap	0	mixed potion unsuccessfully
+pc5727b	5753	swap	0	
+pc5728a	5754	swap	0	locked door
+pc5728b	5755	swap	0	
+pc5729a	5756	swap	0	learned a new spell  
+pc5729b	5757	swap	0	
+pc5730a	5758	swap	0	can't learn spell    
+pc5730b	5759	swap	0	
+pc5731a	5760	swap	0	can't equip item 
+pc5731b	5761	swap	0	
+pc5732b	5762	swap	0	greeting1    
+pc5732c	5763	swap	0	
+pc5733a	5764	swap	0	greeting2    
+pc5733b	5765	swap	0	
+pc5734a	5766	swap	0	greeting3    
+pc5734b	5767	swap	0	
+/Unused	5768	swap	0	curse    
+/Unused	5769	swap	0		
+/Unused	5770	swap	0	laughter 	
+/Unused	5771	swap	0		
+pc5735a	5772	swap	0	killed powerful monster  	
+pc5735d	5773	swap	0		
+pc5736b	5774	swap	0	killed weak monster  	
+pc5736c	5775	swap	0		
+pc5737a	5776	swap	0	last person standing 	
+pc5737b	5777	swap	0		
+pc5738a	5778	swap	0	leaving dungeon (party thrashed)	
+pc5738c	5779	swap	0		
+pc5739a	5780	swap	0	entering dungeon(first time) 	
+pc5739b	5781	swap	0		
+pc5740a	5782	swap	0	yes  	
+pc5740b	5783	swap	0		
+/Unused	5784	swap	0	thank you	pc5741a
+/Unused	5785	swap	0		pc5741b
+pc5742a	5786	swap	0	indignant	
+pc5742b	5787	swap	0		
+/Unused	5788	swap	0	obligatory	
+/Unused	5789	swap	0		
+/Unused	5790	swap	0	shut up  	
+/Unused	5791	swap	0		
+pc5743a	5792	swap	0	yell 	
+pc5743b	5793	swap	0		
+/Necromancer 1					
+pc5801a	5800	swap	0	disarm trap	
+pc5801b	5801	swap	0		
+pc5802a	5802	swap	0	closed store	
+pc5802b	5803	swap	0		
+pc5803b	5804	swap	0	set off trap	
+pc5803c	5805	swap	0		
+pc5804a	5806	swap	0	select character
+pc5804c	5807	swap	0	
+pc5805b	5808	swap	0	identify weak item
+pc5805c	5809	swap	0	
+pc5806a	5810	swap	0	identify powerful item
+pc5806c	5811	swap	0	
+pc5807a	5812	swap	0	fail to identify item
+pc5807b	5813	swap	0	
+pc5808a	5814	swap	0	repair item
+pc5808c	5815	swap	0	
+pc5809a	5816	swap	0	fail to repair item
+pc5809c	5817	swap	0	
+pc5810a	5818	swap	0	identify weak monster
+pc5810b	5819	swap	0	
+pc5811a	5820	swap	0	identify powerful monster
+pc5811b	5821	swap	0	
+pc5812b	5822	swap	0	fail to identify monster
+pc5812c	5823	swap	0	
+pc5813a	5824	swap	0	set new readied spell
+pc5813b	5825	swap	0	
+pc5814a	5826	swap	0	hungry
+pc5814c	5827	swap	0	
+pc5815b	5828	swap	0	barely wounded
+pc5815c	5829	swap	0	
+pc5816a	5830	swap	0	badly wounded
+pc5816c	5831	swap	0	
+pc5817a	5832	swap	0	dying
+pc5817b	5833	swap	0	
+pc5818a	5834	swap	0	become drunk
+pc5818c	5835	swap	0	
+pc5819a	5836	swap	0	become insane
+pc5819b	5837	swap	0	
+pc5820a	5838	swap	0	become poisoned/diseased
+pc5820b	5839	swap	0	
+pc5821a	5840	swap	0	become cursed
+pc5821b	5841	swap	0	
+pc5822a	5842	swap	0	falling
+pc5822c	5843	swap	0	
+pc5823b	5844	swap	0	unable to rest
+pc5823c	5845	swap	0	
+pc5824b	5846	swap	0	not enough gold
+pc5824c	5847	swap	0	
+pc5825a	5848	swap	0	room in inventory
+pc5825b	5849	swap	0	
+pc5826a	5850	swap	0	mixed potion successfully
+pc5826c	5851	swap	0	
+pc5827b	5852	swap	0	mixed potion unsuccessfully
+pc5827c	5853	swap	0	
+pc5828a	5854	swap	0	locked door
+pc5828b	5855	swap	0	
+pc5829a	5856	swap	0	learned a new spell  
+pc5829b	5857	swap	0	
+pc5830a	5858	swap	0	can't learn spell    
+pc5830b	5859	swap	0	
+pc5831b	5860	swap	0	can't equip item 
+pc5831c	5861	swap	0	
+pc5832a	5862	swap	0	greeting1    
+pc5832b	5863	swap	0	
+pc5833a	5864	swap	0	greeting2    
+pc5833b	5865	swap	0	
+pc5834a	5866	swap	0	greeting3    
+pc5834b	5867	swap	0	
+/Unused	5868	swap	0	curse    
+/Unused	5869	swap	0	
+/Unused	5870	swap	0	laughter 
+/Unused	5871	swap	0	
+pc5835a	5872	swap	0	killed powerful monster  
+pc5835c	5873	swap	0	
+pc5836a	5874	swap	0	killed weak monster  
+pc5836c	5875	swap	0	
+pc5837b	5876	swap	0	last person standing 
+pc5837c	5877	swap	0	
+pc5838a	5878	swap	0	leaving dungeon (party thrashed)
+pc5838b	5879	swap	0	
+pc5839a	5880	swap	0	entering dungeon(first time) 
+pc5839c	5881	swap	0	
+pc5840a	5882	swap	0	yes  
+pc5840b	5883	swap	0	
+/Unused	5884	swap	0	thank you
+/Unused	5885	swap	0	
+pc5842b	5886	swap	0	indignant
+pc5842c	5887	swap	0	
+/Unused	5888	swap	0	obligatory
+/Unused	5889	swap	0	
+/Unused	5890	swap	0	shut up  
+/Unused	5891	swap	0	
+pc5843b	5892	swap	0	yell 
+pc5843c	5893	swap	0	
+/Necromancer Female 1				
+pc5901b	5900	swap	0	disarm trap
+pc5901c	5901	swap	0	
+pc5902a	5902	swap	0	closed store
+pc5902c	5903	swap	0	
+pc5903a	5904	swap	0	set off trap
+pc5903c	5905	swap	0	
+pc5904b	5906	swap	0	select character
+pc5904d	5907	swap	0	
+pc5905a	5908	swap	0	identify weak item
+pc5905b	5909	swap	0	
+pc5906b	5910	swap	0	identify powerful item
+pc5906c	5911	swap	0	
+pc5907a	5912	swap	0	fail to identify item
+pc5907b	5913	swap	0	
+pc5908a	5914	swap	0	repair item
+pc5908b	5915	swap	0	
+pc5909b	5916	swap	0	fail to repair item
+pc5909c	5917	swap	0	
+pc5910a	5918	swap	0	identify weak monster
+pc5910c	5919	swap	0	
+pc5911b	5920	swap	0	identify powerful monster
+pc5911c	5921	swap	0	
+pc5912a	5922	swap	0	fail to identify monster
+pc5912c	5923	swap	0	
+pc5913a	5924	swap	0	set new readied spell
+pc5913b	5925	swap	0	
+pc5914b	5926	swap	0	hungry
+pc5914c	5927	swap	0	
+pc5915a	5928	swap	0	barely wounded
+pc5915b	5929	swap	0	
+pc5916b	5930	swap	0	badly wounded
+pc5916c	5931	swap	0	
+pc5917b	5932	swap	0	dying
+pc5917c	5933	swap	0	
+pc5918b	5934	swap	0	become drunk
+pc5918c	5935	swap	0	
+pc5919b	5936	swap	0	become insane
+pc5919c	5937	swap	0	
+pc5920a	5938	swap	0	become poisoned/diseased
+pc5920b	5939	swap	0	
+pc5921a	5940	swap	0	become cursed
+pc5921b	5941	swap	0	
+pc5922a	5942	swap	0	falling
+pc5922b	5943	swap	0	
+pc5923a	5944	swap	0	unable to rest
+pc5923b	5945	swap	0	
+pc5924a	5946	swap	0	not enough gold
+pc5924b	5947	swap	0	
+pc5925a	5948	swap	0	room in inventory
+pc5925b	5949	swap	0	
+pc5926a	5950	swap	0	mixed potion successfully
+pc5926b	5951	swap	0	
+pc5927b	5952	swap	0	mixed potion unsuccessfully
+pc5927d	5953	swap	0	
+pc5928a	5954	swap	0	locked door
+pc5928b	5955	swap	0	
+pc5929a	5956	swap	0	learned a new spell  
+pc5929d	5957	swap	0	
+pc5930a	5958	swap	0	can't learn spell    
+pc5930b	5959	swap	0	
+pc5931a	5960	swap	0	can't equip item 
+pc5931c	5961	swap	0	
+pc5932b	5962	swap	0	greeting1    
+pc5932c	5963	swap	0	
+pc5933b	5964	swap	0	greeting2    
+pc5933c	5965	swap	0	
+pc5934a	5966	swap	0	greeting3    
+pc5934b	5967	swap	0	
+/Unused	5968	swap	0	curse    
+/Unused	5969	swap	0	
+/Unused	5970	swap	0	laughter 
+/Unused	5971	swap	0	
+pc5935a	5972	swap	0	killed powerful monster  
+pc5935b	5973	swap	0	
+pc5936b	5974	swap	0	killed weak monster  
+pc5936c	5975	swap	0	
+pc5937b	5976	swap	0	last person standing 
+pc5937c	5977	swap	0	
+pc5938b	5978	swap	0	leaving dungeon (party thrashed)
+pc5938c	5979	swap	0	
+pc5939a	5980	swap	0	entering dungeon(first time) 
+pc5939b	5981	swap	0	
+pc5940a	5982	swap	0	yes  
+pc5940b	5983	swap	0	
+/Unused	5984	swap	0	thank you
+/Unused	5985	swap	0	
+pc5942a	5986	swap	0	indignant
+pc5942b	5987	swap	0	
+/Unused	5988	swap	0	obligatory
+/Unused	5989	swap	0	
+/Unused	5990	swap	0	shut up  
+/Unused	5991	swap	0	
+pc5943a	5992	swap	0	yell 
+pc5943b	5993	swap	0	
+/Necromancer 2				
+pc6001b	6000	swap	0	disarm trap
+pc6001c	6001	swap	0	
+pc6002a	6002	swap	0	closed store
+pc6002b	6003	swap	0	
+pc6003b	6004	swap	0	set off trap
+pc6003c	6005	swap	0	
+pc6004a	6006	swap	0	select character
+pc6004b	6007	swap	0	
+pc6005a	6008	swap	0	identify weak item
+pc6005c	6009	swap	0	
+pc6006c	6010	swap	0	identify powerful item
+pc6006d	6011	swap	0	
+pc6007a	6012	swap	0	fail to identify item
+pc6007b	6013	swap	0	
+pc6008b	6014	swap	0	repair item
+pc6008c	6015	swap	0	
+pc6009b	6016	swap	0	fail to repair item
+pc6009d	6017	swap	0	
+pc6010a	6018	swap	0	identify weak monster
+pc6010b	6019	swap	0	
+pc6011b	6020	swap	0	identify powerful monster
+pc6011c	6021	swap	0	
+pc6012b	6022	swap	0	fail to identify monster
+pc6012d	6023	swap	0	
+pc6013b	6024	swap	0	set new readied spell
+pc6013d	6025	swap	0	
+pc6014c	6026	swap	0	hungry
+pc6014d	6027	swap	0	
+pc6015a	6028	swap	0	barely wounded
+pc6015b	6029	swap	0	
+pc6016a	6030	swap	0	badly wounded
+pc6016b	6031	swap	0	
+pc6017a	6032	swap	0	dying
+pc6017b	6033	swap	0	
+pc6018b	6034	swap	0	become drunk
+pc6018d	6035	swap	0	
+pc6019a	6036	swap	0	become insane
+pc6019c	6037	swap	0	
+pc6020a	6038	swap	0	become poisoned/diseased
+pc6020b	6039	swap	0	
+pc6021c	6040	swap	0	become cursed
+pc6021d	6041	swap	0	
+pc6022b	6042	swap	0	falling
+pc6022c	6043	swap	0	
+pc6023b	6044	swap	0	unable to rest
+pc6023d	6045	swap	0	
+pc6024b	6046	swap	0	not enough gold
+pc6024d	6047	swap	0	
+pc6025a	6048	swap	0	room in inventory
+pc6025b	6049	swap	0	
+pc6026a	6050	swap	0	mixed potion successfully
+pc6026c	6051	swap	0	
+pc6027b	6052	swap	0	mixed potion unsuccessfully
+pc6027c	6053	swap	0	
+pc6028a	6054	swap	0	locked door
+pc6028b	6055	swap	0	
+pc6029a	6056	swap	0	learned a new spell  
+pc6029c	6057	swap	0	
+pc6030b	6058	swap	0	can't learn spell    
+pc6030d	6059	swap	0	
+pc6031b	6060	swap	0	can't equip item 
+pc6031d	6061	swap	0	
+pc6032c	6062	swap	0	greeting1    
+pc6032d	6063	swap	0	
+pc6033a	6064	swap	0	greeting2    
+pc6033d	6065	swap	0	
+pc6034a	6066	swap	0	greeting3    
+pc6034b	6067	swap	0	
+/Unused	6068	swap	0	curse    
+/Unused	6069	swap	0	
+/Unused	6070	swap	0	laughter 
+/Unused	6071	swap	0	
+pc6035a	6072	swap	0	killed powerful monster  
+pc6035c	6073	swap	0	
+pc6036a	6074	swap	0	killed weak monster  
+pc6036b	6075	swap	0	
+pc6037a	6076	swap	0	last person standing 
+pc6037b	6077	swap	0	
+pc6038c	6078	swap	0	leaving dungeon (party thrashed)
+pc6038d	6079	swap	0	
+pc6039b	6080	swap	0	entering dungeon(first time) 
+pc6039c	6081	swap	0	
+pc6040a	6082	swap	0	yes  
+pc6040b	6083	swap	0	
+/Unused	6084	swap	0	thank you
+/Unused	6085	swap	0	
+pc6042a	6086	swap	0	indignant
+pc6042b	6087	swap	0	
+/Unused	6088	swap	0	obligatory
+/Unused	6089	swap	0	
+/Unused	6090	swap	0	shut up  
+/Unused	6091	swap	0	
+pc6043a	6092	swap	0	yell 
+pc6043b	6093	swap	0	
+/Necromancer Female 2				
+pc6101c	6100	swap	0	disarm trap
+pc6101d	6101	swap	0	
+pc6102b	6102	swap	0	closed store
+pc6102c	6103	swap	0	
+pc6103a	6104	swap	0	set off trap
+pc6103c	6105	swap	0	
+pc6104a	6106	swap	0	select character
+pc6104c	6107	swap	0	
+pc6105b	6108	swap	0	identify weak item
+pc6105d	6109	swap	0	
+pc6106a	6110	swap	0	identify powerful item
+pc6106b	6111	swap	0	
+pc6107c	6112	swap	0	fail to identify item
+pc6107d	6113	swap	0	
+pc6108a	6114	swap	0	repair item
+pc6108b	6115	swap	0	
+pc6109a	6116	swap	0	fail to repair item
+pc6109b	6117	swap	0	
+pc6110a	6118	swap	0	identify weak monster
+pc6110b	6119	swap	0	
+pc6111b	6120	swap	0	identify powerful monster
+pc6111c	6121	swap	0	
+pc6112b	6122	swap	0	fail to identify monster
+pc6112d	6123	swap	0	
+pc6113a	6124	swap	0	set new readied spell
+pc6113c	6125	swap	0	
+pc6114a	6126	swap	0	hungry
+pc6114c	6127	swap	0	
+pc6115b	6128	swap	0	barely wounded
+pc6115d	6129	swap	0	
+pc6116c	6130	swap	0	badly wounded
+pc6116d	6131	swap	0	
+pc6117a	6132	swap	0	dying
+pc6117b	6133	swap	0	
+pc6118a	6134	swap	0	become drunk
+pc6118e	6135	swap	0	
+pc6119a	6136	swap	0	become insane
+pc6119c	6137	swap	0	
+pc6120a	6138	swap	0	become poisoned/diseased
+pc6120b	6139	swap	0	
+pc6121a	6140	swap	0	become cursed
+pc6121b	6141	swap	0	
+pc6122b	6142	swap	0	falling
+pc6122d	6143	swap	0	
+pc6123c	6144	swap	0	unable to rest
+pc6123d	6145	swap	0	
+pc6124a	6146	swap	0	not enough gold
+pc6124b	6147	swap	0	
+pc6125a	6148	swap	0	room in inventory
+pc6125b	6149	swap	0	
+pc6126a	6150	swap	0	mixed potion successfully
+pc6126b	6151	swap	0	
+pc6127b	6152	swap	0	mixed potion unsuccessfully
+pc6127d	6153	swap	0	
+pc6128b	6154	swap	0	locked door
+pc6128d	6155	swap	0	
+pc6129a	6156	swap	0	learned a new spell  
+pc6129b	6157	swap	0	
+pc6130b	6158	swap	0	can't learn spell    
+pc6130c	6159	swap	0	
+pc6131a	6160	swap	0	can't equip item 
+pc6131b	6161	swap	0	
+pc6132a	6162	swap	0	greeting1    
+pc6132b	6163	swap	0	
+pc6133a	6164	swap	0	greeting2    
+pc6133c	6165	swap	0	
+pc6134c	6166	swap	0	greeting3    
+pc6134d	6167	swap	0	
+/Unused	6168	swap	0	curse    
+/Unused	6169	swap	0	
+/Unused	6170	swap	0	laughter 
+/Unused	6171	swap	0	
+pc6135a	6172	swap	0	killed powerful monster  
+pc6135c	6173	swap	0	
+pc6136a	6174	swap	0	killed weak monster  
+pc6136b	6175	swap	0	
+pc6137a	6176	swap	0	last person standing 
+pc6137c	6177	swap	0	
+pc6138b	6178	swap	0	leaving dungeon (party thrashed)
+pc6138c	6179	swap	0	
+pc6139a	6180	swap	0	entering dungeon(first time) 
+pc6139c	6181	swap	0	
+pc6140a	6182	swap	0	yes  
+pc6140b	6183	swap	0	
+/Unused	6184	swap	0	thank you
+/Unused	6185	swap	0	
+pc6142a	6186	swap	0	indignant
+pc6142c	6187	swap	0	
+/Unused	6188	swap	0	obligatory
+/Unused	6189	swap	0	
+/Unused	6190	swap	0	shut up  
+/Unused	6191	swap	0	
+pc6143b	6192	swap	0	yell 
+pc6143d	6193	swap	0	
+/Vampire 1				
+pc6201a	6200	swap	0	disarm trap
+pc6201b	6201	swap	0	
+pc6202a	6202	swap	0	closed store
+pc6202b	6203	swap	0	
+pc6203a	6204	swap	0	set off trap
+pc6203b	6205	swap	0	
+pc6204a	6206	swap	0	select character
+pc6204b	6207	swap	0	
+pc6205a	6208	swap	0	identify weak item
+pc6205b	6209	swap	0	
+pc6206a	6210	swap	0	identify powerful item
+pc6206b	6211	swap	0	
+pc6207a	6212	swap	0	fail to identify item
+pc6207b	6213	swap	0	
+pc6208a	6214	swap	0	repair item
+pc6208b	6215	swap	0	
+pc6209a	6216	swap	0	fail to repair item
+pc6209b	6217	swap	0	
+pc6210a	6218	swap	0	identify weak monster
+pc6210b	6219	swap	0	
+pc6211a	6220	swap	0	identify powerful monster
+pc6211b	6221	swap	0	
+pc6212a	6222	swap	0	fail to identify monster
+pc6212b	6223	swap	0	
+pc6213a	6224	swap	0	set new readied spell
+pc6213b	6225	swap	0	
+pc6214a	6226	swap	0	hungry
+pc6214b	6227	swap	0	
+pc6215a	6228	swap	0	barely wounded
+pc6215b	6229	swap	0	
+pc6216a	6230	swap	0	badly wounded
+pc6216b	6231	swap	0	
+pc6217a	6232	swap	0	dying
+pc6217b	6233	swap	0	
+pc6218a	6234	swap	0	become drunk
+pc6218b	6235	swap	0	
+pc6219a	6236	swap	0	become insane
+pc6219b	6237	swap	0	
+pc6220a	6238	swap	0	become poisoned/diseased
+pc6220b	6239	swap	0	
+pc6221a	6240	swap	0	become cursed
+pc6221b	6241	swap	0	
+pc6222a	6242	swap	0	falling
+pc6222b	6243	swap	0	
+pc6223a	6244	swap	0	unable to rest
+pc6223b	6245	swap	0	
+pc6224a	6246	swap	0	not enough gold
+pc6224b	6247	swap	0	
+pc6225a	6248	swap	0	room in inventory
+pc6225b	6249	swap	0	
+pc6226a	6250	swap	0	mixed potion successfully
+pc6226b	6251	swap	0	
+pc6227a	6252	swap	0	mixed potion unsuccessfully
+pc6227b	6253	swap	0	
+pc6228a	6254	swap	0	locked door
+pc6228b	6255	swap	0	
+pc6229a	6256	swap	0	learned a new spell  
+pc6229b	6257	swap	0	
+pc6230a	6258	swap	0	can't learn spell    
+pc6230b	6259	swap	0	
+pc6231a	6260	swap	0	can't equip item 
+pc6231b	6261	swap	0	
+pc6232a	6262	swap	0	greeting1    
+pc6232b	6263	swap	0	
+pc6233a	6264	swap	0	greeting2    
+pc6233b	6265	swap	0	
+pc6234a	6266	swap	0	greeting3    
+pc6234b	6267	swap	0	
+/Unused	6268	swap	0	curse    
+/Unused	6269	swap	0	
+/Unused	6270	swap	0	laughter 
+/Unused	6271	swap	0	
+pc6235a	6272	swap	0	killed powerful monster  
+pc6235b	6273	swap	0	
+pc6236a	6274	swap	0	killed weak monster  
+pc6236b	6275	swap	0	
+pc6237a	6276	swap	0	last person standing 
+pc6237b	6277	swap	0	
+pc6238a	6278	swap	0	leaving dungeon (party thrashed)
+pc6238b	6279	swap	0	
+pc6239a	6280	swap	0	entering dungeon(first time) 
+pc6239b	6281	swap	0	
+pc6240a	6282	swap	0	yes  
+pc6240b	6283	swap	0	
+/Unused	6284	swap	0	0
+/Unused	6285	swap	0	
+pc6242a	6286	swap	0	indignant
+pc6242b	6287	swap	0	
+/Unused	6288	swap	0	obligatory
+/Unused	6289	swap	0	
+/Unused	6290	swap	0	shut up  
+/Unused	6291	swap	0	
+pc6243a	6292	swap	0	yell 
+pc6243b	6293	swap	0	
+/Vampire Female 1				
+pc6301a	6300	swap	0	disarm trap
+pc6301b	6301	swap	0	
+pc6302a	6302	swap	0	closed store
+pc6302b	6303	swap	0	
+pc6303a	6304	swap	0	set off trap
+pc6303b	6305	swap	0	
+pc6304a	6306	swap	0	select character
+pc6304b	6307	swap	0	
+pc6305a	6308	swap	0	identify weak item
+pc6305b	6309	swap	0	
+pc6306a	6310	swap	0	identify powerful item
+pc6306b	6311	swap	0	
+pc6307a	6312	swap	0	fail to identify item
+pc6307b	6313	swap	0	
+pc6308a	6314	swap	0	repair item
+pc6308b	6315	swap	0	
+pc6309a	6316	swap	0	fail to repair item
+pc6309b	6317	swap	0	
+pc6310a	6318	swap	0	identify weak monster
+pc6310b	6319	swap	0	
+pc6311a	6320	swap	0	identify powerful monster
+pc6311b	6321	swap	0	
+pc6312a	6322	swap	0	fail to identify monster
+pc6312b	6323	swap	0	
+pc6313a	6324	swap	0	set new readied spell
+pc6313b	6325	swap	0	
+pc6314a	6326	swap	0	hungry
+pc6314b	6327	swap	0	
+pc6315a	6328	swap	0	barely wounded
+pc6315b	6329	swap	0	
+pc6316a	6330	swap	0	badly wounded
+pc6316b	6331	swap	0	
+pc6317a	6332	swap	0	dying
+pc6317b	6333	swap	0	
+pc6318a	6334	swap	0	become drunk
+pc6318b	6335	swap	0	
+pc6319a	6336	swap	0	become insane
+pc6319b	6337	swap	0	
+pc6320a	6338	swap	0	become poisoned/diseased
+pc6320b	6339	swap	0	
+pc6321a	6340	swap	0	become cursed
+pc6321b	6341	swap	0	
+pc6322a	6342	swap	0	falling
+pc6322b	6343	swap	0	
+pc6323a	6344	swap	0	unable to rest
+pc6323b	6345	swap	0	
+pc6324a	6346	swap	0	not enough gold
+pc6324b	6347	swap	0	
+pc6325a	6348	swap	0	room in inventory
+pc6325b	6349	swap	0	
+pc6326a	6350	swap	0	mixed potion successfully
+pc6326b	6351	swap	0	
+pc6327a	6352	swap	0	mixed potion unsuccessfully
+pc6327b	6353	swap	0	
+pc6328a	6354	swap	0	locked door
+pc6328b	6355	swap	0	
+pc6329a	6356	swap	0	learned a new spell  
+pc6329b	6357	swap	0	
+pc6330a	6358	swap	0	can't learn spell    
+pc6230b	6359	swap	0	
+pc6331a	6360	swap	0	can't equip item 
+pc6331b	6361	swap	0	
+pc6332a	6362	swap	0	greeting1    
+pc6332b	6363	swap	0	
+pc6333a	6364	swap	0	greeting2    
+pc6333b	6365	swap	0	
+pc6334a	6366	swap	0	greeting3    
+pc6334b	6367	swap	0	
+/Unused	6368	swap	0	curse    
+/Unused	6369	swap	0	
+/Unused	6370	swap	0	laughter 
+/Unused	6371	swap	0	
+pc6335a	6372	swap	0	killed powerful monster  
+pc6335b	6373	swap	0	
+pc6336a	6374	swap	0	killed weak monster  
+pc6336b	6375	swap	0	
+pc6337a	6376	swap	0	last person standing 
+pc6337b	6377	swap	0	
+pc6338a	6378	swap	0	leaving dungeon (party thrashed)
+pc6338b	6379	swap	0	
+pc6339a	6380	swap	0	entering dungeon(first time) 
+pc6339b	6381	swap	0	
+pc6340a	6382	swap	0	yes  
+pc6340b	6383	swap	0	
+/Unused	6384	swap	0	0
+/Unused	6385	swap	0	
+pc6342a	6386	swap	0	indignant
+pc6342b	6387	swap	0	
+/Unused	6388	swap	0	obligatory
+/Unused	6389	swap	0	
+/Unused	6390	swap	0	shut up  
+/Unused	6391	swap	0	
+pc6343a	6392	swap	0	yell 
+pc6343b	6393	swap	0	
+/Vampire 2				
+pc6401a	6400	swap	0	disarm trap
+pc6401b	6401	swap	0	
+pc6402a	6402	swap	0	closed store
+pc6402b	6403	swap	0	
+pc6403a	6404	swap	0	set off trap
+pc6403b	6405	swap	0	
+pc6404a	6406	swap	0	select character
+pc6404b	6407	swap	0	
+pc6405a	6408	swap	0	identify weak item
+pc6405b	6409	swap	0	
+pc6406a	6410	swap	0	identify powerful item
+pc6406b	6411	swap	0	
+pc6407a	6412	swap	0	fail to identify item
+pc6407b	6413	swap	0	
+pc6408a	6414	swap	0	repair item
+pc6408b	6415	swap	0	
+pc6409a	6416	swap	0	fail to repair item
+pc6409b	6417	swap	0	
+pc6410a	6418	swap	0	identify weak monster
+pc6410b	6419	swap	0	
+pc6411a	6420	swap	0	identify powerful monster
+pc6411b	6421	swap	0	
+pc6412a	6422	swap	0	fail to identify monster
+pc6412b	6423	swap	0	
+pc6413a	6424	swap	0	set new readied spell
+pc6413b	6425	swap	0	
+pc6414a	6426	swap	0	hungry
+pc6414b	6427	swap	0	
+pc6415a	6428	swap	0	barely wounded
+pc6415b	6429	swap	0	
+pc6416a	6430	swap	0	badly wounded
+pc6416b	6431	swap	0	
+pc6417a	6432	swap	0	dying
+pc6417b	6433	swap	0	
+pc6418a	6434	swap	0	become drunk
+pc6418b	6435	swap	0	
+pc6419a	6436	swap	0	become insane
+pc6419b	6437	swap	0	
+pc6420a	6438	swap	0	become poisoned/diseased
+pc6420b	6439	swap	0	
+pc6421a	6440	swap	0	become cursed
+pc6421b	6441	swap	0	
+pc6422a	6442	swap	0	falling
+pc6422b	6443	swap	0	
+pc6423a	6444	swap	0	unable to rest
+pc6423b	6445	swap	0	
+pc6424a	6446	swap	0	not enough gold
+pc6424b	6447	swap	0	
+pc6425a	6448	swap	0	room in inventory
+pc6425b	6449	swap	0	
+pc6426a	6450	swap	0	mixed potion successfully
+pc6426b	6451	swap	0	
+pc6427a	6452	swap	0	mixed potion unsuccessfully
+pc6427b	6453	swap	0	
+pc6428a	6454	swap	0	locked door
+pc6428b	6455	swap	0	
+pc6429a	6456	swap	0	learned a new spell  
+pc6429b	6457	swap	0	
+pc6430a	6458	swap	0	can't learn spell    
+pc6430b	6459	swap	0	
+pc6431a	6460	swap	0	can't equip item 
+pc6431b	6461	swap	0	
+pc6432a	6462	swap	0	greeting1    
+pc6432b	6463	swap	0	
+pc6433a	6464	swap	0	greeting2    
+pc6433b	6465	swap	0	
+pc6434a	6466	swap	0	greeting3    
+pc6434b	6467	swap	0	
+/Unused	6468	swap	0	curse    
+/Unused	6469	swap	0	
+/Unused	6470	swap	0	laughter 
+/Unused	6471	swap	0	
+pc6435a	6472	swap	0	killed powerful monster  
+pc6435b	6473	swap	0	
+pc6436a	6474	swap	0	killed weak monster  
+pc6436b	6475	swap	0	
+pc6437a	6476	swap	0	last person standing 
+pc6437b	6477	swap	0	
+pc6438a	6478	swap	0	leaving dungeon (party thrashed)
+pc6438b	6479	swap	0	
+pc6439a	6480	swap	0	entering dungeon(first time) 
+pc6439b	6481	swap	0	
+pc6440a	6482	swap	0	yes  
+pc6440b	6483	swap	0	
+/Unused	6484	swap	0	0
+/Unused	6485	swap	0	
+pc6442a	6486	swap	0	indignant
+pc6442b	6487	swap	0	
+/Unused	6488	swap	0	obligatory
+/Unused	6489	swap	0	
+/Unused	6490	swap	0	shut up  
+/Unused	6491	swap	0	
+pc6443a	6492	swap	0	yell 
+pc6443b	6493	swap	0	
+/Vampire Female 2				
+pc6501a	6500	swap	0	disarm trap
+pc6501b	6501	swap	0	
+pc6502a	6502	swap	0	closed store
+pc6502b	6503	swap	0	
+pc6503a	6504	swap	0	set off trap
+pc6503b	6505	swap	0	
+pc6504a	6506	swap	0	select character
+pc6504b	6507	swap	0	
+pc6505a	6508	swap	0	identify weak item
+pc6505b	6509	swap	0	
+pc6506a	6510	swap	0	identify powerful item
+pc6506b	6511	swap	0	
+pc6507a	6512	swap	0	fail to identify item
+pc6507b	6513	swap	0	
+pc6508a	6514	swap	0	repair item
+pc6508b	6515	swap	0	
+pc6509a	6516	swap	0	fail to repair item
+pc6509b	6517	swap	0	
+pc6510a	6518	swap	0	identify weak monster
+pc6510b	6519	swap	0	
+pc6511a	6520	swap	0	identify powerful monster
+pc6511b	6521	swap	0	
+pc6512a	6522	swap	0	fail to identify monster
+pc6512b	6523	swap	0	
+pc6513a	6524	swap	0	set new readied spell
+pc6513b	6525	swap	0	
+pc6514a	6526	swap	0	hungry
+pc6514b	6527	swap	0	
+pc6515a	6528	swap	0	barely wounded
+pc6515b	6529	swap	0	
+pc6516a	6530	swap	0	badly wounded
+pc6516b	6531	swap	0	
+pc6517a	6532	swap	0	dying
+pc6517b	6533	swap	0	
+pc6518a	6534	swap	0	become drunk
+pc6518b	6535	swap	0	
+pc6519a	6536	swap	0	become insane
+pc6519b	6537	swap	0	
+pc6520a	6538	swap	0	become poisoned/diseased
+pc6520b	6539	swap	0	
+pc6521a	6540	swap	0	become cursed
+pc6521b	6541	swap	0	
+pc6522a	6542	swap	0	falling
+pc6522b	6543	swap	0	
+pc6523a	6544	swap	0	unable to rest
+pc6523b	6545	swap	0	
+pc6524a	6546	swap	0	not enough gold
+pc6524b	6547	swap	0	
+pc6525a	6548	swap	0	room in inventory
+pc6525b	6549	swap	0	
+pc6526a	6550	swap	0	mixed potion successfully
+pc6526b	6551	swap	0	
+pc6527a	6552	swap	0	mixed potion unsuccessfully
+pc6527b	6553	swap	0	
+pc6528a	6554	swap	0	locked door
+pc6528b	6555	swap	0	
+pc6529a	6556	swap	0	learned a new spell  
+pc6529b	6557	swap	0	
+pc6530a	6558	swap	0	can't learn spell    
+pc6530b	6559	swap	0	
+pc6531a	6560	swap	0	can't equip item 
+pc6531b	6561	swap	0	
+pc6532a	6562	swap	0	greeting1    
+pc6532b	6563	swap	0	
+pc6533a	6564	swap	0	greeting2    
+pc6533b	6565	swap	0	
+pc6534a	6566	swap	0	greeting3    
+pc6534b	6567	swap	0	
+/Unused	6568	swap	0	curse    
+/Unused	6569	swap	0	
+/Unused	6570	swap	0	laughter 
+/Unused	6571	swap	0	
+pc6535a	6572	swap	0	killed powerful monster  
+pc6535b	6573	swap	0	
+pc6536a	6574	swap	0	killed weak monster  
+pc6536b	6575	swap	0	
+pc6537a	6576	swap	0	last person standing 
+pc6537b	6577	swap	0	
+pc6538a	6578	swap	0	leaving dungeon (party thrashed)
+pc6538b	6579	swap	0	
+pc6539a	6580	swap	0	entering dungeon(first time) 
+pc6539b	6581	swap	0	
+pc6540a	6582	swap	0	yes  
+pc6540b	6583	swap	0	
+/Unused	6584	swap	0	0
+/Unused	6585	swap	0	
+pc6542a	6586	swap	0	indignant
+pc6542b	6587	swap	0	
+/Unused	6588	swap	0	obligatory
+/Unused	6589	swap	0	
+/Unused	6590	swap	0	shut up  
+/Unused	6591	swap	0	
+pc6543a	6592	swap	0	yell 
+pc6543b	6593	swap	0	
+/Dark Elf 1				
+pc6601a	6600	swap	0	disarm trap
+pc6601b	6601	swap	0	
+pc6602a	6602	swap	0	closed store
+pc6602b	6603	swap	0	
+pc6603a	6604	swap	0	set off trap
+pc6603b	6605	swap	0	
+pc6604a	6606	swap	0	select character
+pc6604b	6607	swap	0	
+pc6605a	6608	swap	0	identify weak item
+pc6605b	6609	swap	0	
+pc6606a	6610	swap	0	identify powerful item
+pc6606b	6611	swap	0	
+pc6607a	6612	swap	0	fail to identify item
+pc6607b	6613	swap	0	
+pc6608a	6614	swap	0	repair item
+pc6608b	6615	swap	0	
+pc6609a	6616	swap	0	fail to repair item
+pc6609b	6617	swap	0	
+pc6610a	6618	swap	0	identify weak monster
+pc6610b	6619	swap	0	
+pc6611a	6620	swap	0	identify powerful monster
+pc6611b	6621	swap	0	
+pc6612a	6622	swap	0	fail to identify monster
+pc6612b	6623	swap	0	
+pc6613a	6624	swap	0	set new readied spell
+pc6613b	6625	swap	0	
+pc6614a	6626	swap	0	hungry
+pc6614b	6627	swap	0	
+pc6615a	6628	swap	0	barely wounded
+pc6615b	6629	swap	0	
+pc6616a	6630	swap	0	badly wounded
+pc6616b	6631	swap	0	
+pc6617a	6632	swap	0	dying
+pc6617b	6633	swap	0	
+pc6618a	6634	swap	0	become drunk
+pc6618b	6635	swap	0	
+pc6619a	6636	swap	0	become insane
+pc6619b	6637	swap	0	
+pc6620a	6638	swap	0	become poisoned/diseased
+pc6620b	6639	swap	0	
+pc6621a	6640	swap	0	become cursed
+pc6621b	6641	swap	0	
+pc6622a	6642	swap	0	falling
+pc6622b	6643	swap	0	
+pc6623a	6644	swap	0	unable to rest
+pc6623b	6645	swap	0	
+pc6624a	6646	swap	0	not enough gold
+pc6624b	6647	swap	0	
+pc6625a	6648	swap	0	room in inventory
+pc6625b	6649	swap	0	
+pc6626a	6650	swap	0	mixed potion successfully
+pc6626b	6651	swap	0	
+pc6627a	6652	swap	0	mixed potion unsuccessfully
+pc6627b	6653	swap	0	
+pc6628a	6654	swap	0	locked door
+pc6628b	6655	swap	0	
+pc6629a	6656	swap	0	learned a new spell  
+pc6629b	6657	swap	0	
+pc6630a	6658	swap	0	can't learn spell    
+pc6630b	6659	swap	0	
+pc6631a	6660	swap	0	can't equip item 
+pc6631b	6661	swap	0	
+pc6632a	6662	swap	0	greeting1    
+pc6632b	6663	swap	0	
+pc6633a	6664	swap	0	greeting2    
+pc6633b	6665	swap	0	
+pc6634a	6666	swap	0	greeting3    
+pc6634b	6667	swap	0	
+/Unused	6668	swap	0	curse    
+/Unused	6669	swap	0	
+/Unused	6670	swap	0	laughter 
+/Unused	6671	swap	0	
+pc6635a	6672	swap	0	killed powerful monster  
+pc6635b	6673	swap	0	
+pc6636a	6674	swap	0	killed weak monster  
+pc6636b	6675	swap	0	
+pc6637a	6676	swap	0	last person standing 
+pc6637b	6677	swap	0	
+pc6638a	6678	swap	0	leaving dungeon (party thrashed)
+pc6638b	6679	swap	0	
+pc6639a	6680	swap	0	entering dungeon(first time) 
+pc6639b	6681	swap	0	
+pc6640a	6682	swap	0	yes  
+pc6640b	6683	swap	0	
+/Unused	6684	swap	0	0
+/Unused	6685	swap	0	
+pc6642a	6686	swap	0	indignant
+pc6642b	6687	swap	0	
+/Unused	6688	swap	0	obligatory
+/Unused	6689	swap	0	
+/Unused	6690	swap	0	shut up  
+/Unused	6691	swap	0	
+pc6643a	6692	swap	0	yell 
+pc6643b	6693	swap	0	
+/Dark Elf Female 1				
+pc6701a	6700	swap	0	disarm trap
+pc6701b	6701	swap	0	
+pc6702a	6702	swap	0	closed store
+pc6702b	6703	swap	0	
+pc6703a	6704	swap	0	set off trap
+pc6703b	6705	swap	0	
+pc6704a	6706	swap	0	select character
+pc6704b	6707	swap	0	
+pc6705a	6708	swap	0	identify weak item
+pc6705b	6709	swap	0	
+pc6706a	6710	swap	0	identify powerful item
+pc6706b	6711	swap	0	
+pc6707a	6712	swap	0	fail to identify item
+pc6707b	6713	swap	0	
+pc6708a	6714	swap	0	repair item
+pc6708b	6715	swap	0	
+pc6709a	6716	swap	0	fail to repair item
+pc6709b	6717	swap	0	
+pc6710a	6718	swap	0	identify weak monster
+pc6710b	6719	swap	0	
+pc6711a	6720	swap	0	identify powerful monster
+pc6711b	6721	swap	0	
+pc6712a	6722	swap	0	fail to identify monster
+pc6712b	6723	swap	0	
+pc6713a	6724	swap	0	set new readied spell
+pc6713b	6725	swap	0	
+pc6714a	6726	swap	0	hungry
+pc6714b	6727	swap	0	
+pc6715a	6728	swap	0	barely wounded
+pc6715b	6729	swap	0	
+pc6716a	6730	swap	0	badly wounded
+pc6716b	6731	swap	0	
+pc6717a	6732	swap	0	dying
+pc6717b	6733	swap	0	
+pc6718a	6734	swap	0	become drunk
+pc6718b	6735	swap	0	
+pc6719a	6736	swap	0	become insane
+pc6719b	6737	swap	0	
+pc6720a	6738	swap	0	become poisoned/diseased
+pc6720b	6739	swap	0	
+pc6721a	6740	swap	0	become cursed
+pc6721b	6741	swap	0	
+pc6722a	6742	swap	0	falling
+pc6722b	6743	swap	0	
+pc6723a	6744	swap	0	unable to rest
+pc6723b	6745	swap	0	
+pc6724a	6746	swap	0	not enough gold
+pc6724b	6747	swap	0	
+pc6725a	6748	swap	0	room in inventory
+pc6725b	6749	swap	0	
+pc6726a	6750	swap	0	mixed potion successfully
+pc6726b	6751	swap	0	
+pc6727a	6752	swap	0	mixed potion unsuccessfully
+pc6727b	6753	swap	0	
+pc6728a	6754	swap	0	locked door
+pc6728b	6755	swap	0	
+pc6729a	6756	swap	0	learned a new spell  
+pc6729b	6757	swap	0	
+pc6730a	6758	swap	0	can't learn spell    
+pc6730b	6759	swap	0	
+pc6731a	6760	swap	0	can't equip item 
+pc6731b	6761	swap	0	
+pc6732a	6762	swap	0	greeting1    
+pc6732b	6763	swap	0	
+pc6733a	6764	swap	0	greeting2    
+pc6733b	6765	swap	0	
+pc6734a	6766	swap	0	greeting3    
+pc6734b	6767	swap	0	
+/Unused	6768	swap	0	curse    
+/Unused	6769	swap	0	
+/Unused	6770	swap	0	laughter 
+/Unused	6771	swap	0	
+pc6735a	6772	swap	0	killed powerful monster  
+pc6735b	6773	swap	0	
+pc6736a	6774	swap	0	killed weak monster  
+pc6736b	6775	swap	0	
+pc6737a	6776	swap	0	last person standing 
+pc6737b	6777	swap	0	
+pc6738a	6778	swap	0	leaving dungeon (party thrashed)
+pc6738b	6779	swap	0	
+pc6739a	6780	swap	0	entering dungeon(first time) 
+pc6739b	6781	swap	0	
+pc6740a	6782	swap	0	yes  
+pc6740b	6783	swap	0	
+/Unused	6784	swap	0	0
+/Unused	6785	swap	0	
+pc6742a	6786	swap	0	indignant
+pc6742b	6787	swap	0	
+/Unused	6788	swap	0	obligatory
+/Unused	6789	swap	0	
+/Unused	6790	swap	0	shut up  
+/Unused	6791	swap	0	
+pc6743a	6792	swap	0	yell 
+pc6743b	6793	swap	0	
+/Dark Elf 2				
+pc6801a	6800	swap	0	disarm trap
+pc6801b	6801	swap	0	
+pc6802a	6802	swap	0	closed store
+pc6802b	6803	swap	0	
+pc6803a	6804	swap	0	set off trap
+pc6803b	6805	swap	0	
+pc6804a	6806	swap	0	select character
+pc6804b	6807	swap	0	
+pc6805a	6808	swap	0	identify weak item
+pc6805b	6809	swap	0	
+pc6806a	6810	swap	0	identify powerful item
+pc6806b	6811	swap	0	
+pc6807a	6812	swap	0	fail to identify item
+pc6807b	6813	swap	0	
+pc6808a	6814	swap	0	repair item
+pc6808b	6815	swap	0	
+pc6809a	6816	swap	0	fail to repair item
+pc6809b	6817	swap	0	
+pc6810a	6818	swap	0	identify weak monster
+pc6810b	6819	swap	0	
+pc6811a	6820	swap	0	identify powerful monster
+pc6811b	6821	swap	0	
+pc6812a	6822	swap	0	fail to identify monster
+pc6812b	6823	swap	0	
+pc6813a	6824	swap	0	set new readied spell
+pc6813b	6825	swap	0	
+pc6814a	6826	swap	0	hungry
+pc6814b	6827	swap	0	
+pc6815a	6828	swap	0	barely wounded
+pc6815b	6829	swap	0	
+pc6816a	6830	swap	0	badly wounded
+pc6816b	6831	swap	0	
+pc6817a	6832	swap	0	dying
+pc6817b	6833	swap	0	
+pc6818a	6834	swap	0	become drunk
+pc6818b	6835	swap	0	
+pc6819a	6836	swap	0	become insane
+pc6819b	6837	swap	0	
+pc6820a	6838	swap	0	become poisoned/diseased
+pc6820b	6839	swap	0	
+pc6821a	6840	swap	0	become cursed
+pc6821b	6841	swap	0	
+pc6822a	6842	swap	0	falling
+pc6822b	6843	swap	0	
+pc6823a	6844	swap	0	unable to rest
+pc6823b	6845	swap	0	
+pc6824a	6846	swap	0	not enough gold
+pc6824b	6847	swap	0	
+pc6825a	6848	swap	0	room in inventory
+pc6825b	6849	swap	0	
+pc6826a	6850	swap	0	mixed potion successfully
+pc6826b	6851	swap	0	
+pc6827a	6852	swap	0	mixed potion unsuccessfully
+pc6827b	6853	swap	0	
+pc6828a	6854	swap	0	locked door
+pc6828b	6855	swap	0	
+pc6829a	6856	swap	0	learned a new spell  
+pc6829b	6857	swap	0	
+pc6830a	6858	swap	0	can't learn spell    
+pc6830b	6859	swap	0	
+pc6831a	6860	swap	0	can't equip item 
+pc6831b	6861	swap	0	
+pc6832a	6862	swap	0	greeting1    
+pc6832b	6863	swap	0	
+pc6833a	6864	swap	0	greeting2    
+pc6833b	6865	swap	0	
+pc6834a	6866	swap	0	greeting3    
+pc6834b	6867	swap	0	
+/Unused	6868	swap	0	curse    
+/Unused	6869	swap	0	
+/Unused	6870	swap	0	laughter 
+/Unused	6871	swap	0	
+pc6835a	6872	swap	0	killed powerful monster  
+pc6835b	6873	swap	0	
+pc6836a	6874	swap	0	killed weak monster  
+pc6836b	6875	swap	0	
+pc6837a	6876	swap	0	last person standing 
+pc6837b	6877	swap	0	
+pc6838a	6878	swap	0	leaving dungeon (party thrashed)
+pc6838b	6879	swap	0	
+pc6839a	6880	swap	0	entering dungeon(first time) 
+pc6839b	6881	swap	0	
+pc6840a	6882	swap	0	yes  
+pc6840b	6883	swap	0	
+/Unused	6884	swap	0	0
+/Unused	6885	swap	0	
+pc6842a	6886	swap	0	indignant
+pc6842b	6887	swap	0	
+/Unused	6888	swap	0	obligatory
+/Unused	6889	swap	0	
+/Unused	6890	swap	0	shut up  
+/Unused	6891	swap	0	
+pc6843a	6892	swap	0	yell 
+pc6843b	6893	swap	0	
+/Dark Elf Female 2				
+pc6901a	6900	swap	0	disarm trap
+pc6901b	6901	swap	0	
+pc6902a	6902	swap	0	closed store
+pc6902b	6903	swap	0	
+pc6903a	6904	swap	0	set off trap
+pc6903b	6905	swap	0	
+pc6904a	6906	swap	0	select character
+pc6904b	6907	swap	0	
+pc6905a	6908	swap	0	identify weak item
+pc6905b	6909	swap	0	
+pc6906a	6910	swap	0	identify powerful item
+pc6906b	6911	swap	0	
+pc6907a	6912	swap	0	fail to identify item
+pc6907b	6913	swap	0	
+pc6908a	6914	swap	0	repair item
+pc6908b	6915	swap	0	
+pc6909a	6916	swap	0	fail to repair item
+pc6909b	6917	swap	0	
+pc6910a	6918	swap	0	identify weak monster
+pc6910b	6919	swap	0	
+pc6911a	6920	swap	0	identify powerful monster
+pc6911b	6921	swap	0	
+pc6912a	6922	swap	0	fail to identify monster
+pc6912b	6923	swap	0	
+pc6913a	6924	swap	0	set new readied spell
+pc6913b	6925	swap	0	
+pc6914a	6926	swap	0	hungry
+pc6914b	6927	swap	0	
+pc6915a	6928	swap	0	barely wounded
+pc6915b	6929	swap	0	
+pc6916a	6930	swap	0	badly wounded
+pc6916b	6931	swap	0	
+pc6917a	6932	swap	0	dying
+pc6917b	6933	swap	0	
+pc6918a	6934	swap	0	become drunk
+pc6918b	6935	swap	0	
+pc6919a	6936	swap	0	become insane
+pc6919b	6937	swap	0	
+pc6920a	6938	swap	0	become poisoned/diseased
+pc6920b	6939	swap	0	
+pc6921a	6940	swap	0	become cursed
+pc6921b	6941	swap	0	
+pc6922a	6942	swap	0	falling
+pc6922b	6943	swap	0	
+pc6923a	6944	swap	0	unable to rest
+pc6923b	6945	swap	0	
+pc6924a	6946	swap	0	not enough gold
+pc6924b	6947	swap	0	
+pc6925a	6948	swap	0	room in inventory
+pc6925b	6949	swap	0	
+pc6926a	6950	swap	0	mixed potion successfully
+pc6926b	6951	swap	0	
+pc6927a	6952	swap	0	mixed potion unsuccessfully
+pc6927b	6953	swap	0	
+pc6928a	6954	swap	0	locked door
+pc6928b	6955	swap	0	
+pc6929a	6956	swap	0	learned a new spell  
+pc6929b	6957	swap	0	
+pc6930a	6958	swap	0	can't learn spell    
+pc6930b	6959	swap	0	
+pc6931a	6960	swap	0	can't equip item 
+pc6931b	6961	swap	0	
+pc6932a	6962	swap	0	greeting1    
+pc6932b	6963	swap	0	
+pc6933a	6964	swap	0	greeting2    
+pc6933b	6965	swap	0	
+pc6934a	6966	swap	0	greeting3    
+pc6934b	6967	swap	0	
+/Unused	6968	swap	0	curse    
+/Unused	6969	swap	0	
+/Unused	6970	swap	0	laughter 
+/Unused	6971	swap	0	
+pc6935a	6972	swap	0	killed powerful monster  
+pc6935b	6973	swap	0	
+pc6936a	6974	swap	0	killed weak monster  
+pc6936b	6975	swap	0	
+pc6937a	6976	swap	0	last person standing 
+pc6937b	6977	swap	0	
+pc6938a	6978	swap	0	leaving dungeon (party thrashed)
+pc6938b	6979	swap	0	
+pc6939a	6980	swap	0	entering dungeon(first time) 
+pc6939b	6981	swap	0	
+pc6940a	6982	swap	0	yes  
+pc6940b	6983	swap	0	
+/Unused	6984	swap	0	0
+/Unused	6985	swap	0	
+pc6942a	6986	swap	0	indignant
+pc6942b	6987	swap	0	
+/Unused	6988	swap	0	obligatory
+/Unused	6989	swap	0	
+/Unused	6990	swap	0	shut up  
+/Unused	6991	swap	0	
+pc6943a	6992	swap	0	yell 
+pc6943b	6993	swap	0	
+/Minotaur 1				
+pc7001a	7000	swap	0	disarm trap
+pc7001b	7001	swap	0	
+pc7002a	7002	swap	0	closed store
+pc7002b	7003	swap	0	
+pc7003a	7004	swap	0	set off trap
+pc7003b	7005	swap	0	
+pc7004a	7006	swap	0	select character
+pc7004b	7007	swap	0	
+pc7005a	7008	swap	0	identify weak item
+pc7005b	7009	swap	0	
+pc7006a	7010	swap	0	identify powerful item
+pc7006b	7011	swap	0	
+pc7007a	7012	swap	0	fail to identify item
+pc7007b	7013	swap	0	
+pc7008a	7014	swap	0	repair item
+pc7008b	7015	swap	0	
+pc7009a	7016	swap	0	fail to repair item
+pc7009b	7017	swap	0	
+pc7010a	7018	swap	0	identify weak monster
+pc7010b	7019	swap	0	
+pc7011a	7020	swap	0	identify powerful monster
+pc7011b	7021	swap	0	
+pc7012a	7022	swap	0	fail to identify monster
+pc7012b	7023	swap	0	
+pc7013a	7024	swap	0	set new readied spell
+pc7013b	7025	swap	0	
+pc7014a	7026	swap	0	hungry
+pc7014b	7027	swap	0	
+pc7015a	7028	swap	0	barely wounded
+pc7015b	7029	swap	0	
+pc7016a	7030	swap	0	badly wounded
+pc7016b	7031	swap	0	
+pc7017a	7032	swap	0	dying
+pc7017b	7033	swap	0	
+pc7018a	7034	swap	0	become drunk
+pc7018b	7035	swap	0	
+pc7019a	7036	swap	0	become insane
+pc7019b	7037	swap	0	
+pc7020a	7038	swap	0	become poisoned/diseased
+pc7020b	7039	swap	0	
+pc7021a	7040	swap	0	become cursed
+pc7021b	7041	swap	0	
+pc7022a	7042	swap	0	falling
+pc7022b	7043	swap	0	
+pc7023a	7044	swap	0	unable to rest
+pc7023b	7045	swap	0	
+pc7024a	7046	swap	0	not enough gold
+pc7024b	7047	swap	0	
+pc7025a	7048	swap	0	room in inventory
+pc7025b	7049	swap	0	
+pc7026a	7050	swap	0	mixed potion successfully
+pc7026b	7051	swap	0	
+pc7027a	7052	swap	0	mixed potion unsuccessfully
+pc7027b	7053	swap	0	
+pc7028a	7054	swap	0	locked door
+pc7028b	7055	swap	0	
+pc7029a	7056	swap	0	learned a new spell  
+pc7029b	7057	swap	0	
+pc7030a	7058	swap	0	can't learn spell    
+pc7030b	7059	swap	0	
+pc7031a	7060	swap	0	can't equip item 
+pc7031b	7061	swap	0	
+pc7032a	7062	swap	0	greeting1    
+pc7032b	7063	swap	0	
+pc7033a	7064	swap	0	greeting2    
+pc7033b	7065	swap	0	
+pc7034a	7066	swap	0	greeting3    
+pc7034b	7067	swap	0	
+/Unused	7068	swap	0	curse    
+/Unused	7069	swap	0	
+/Unused	7070	swap	0	laughter 
+/Unused	7071	swap	0	
+pc7035a	7072	swap	0	killed powerful monster  
+pc7035b	7073	swap	0	
+pc7036a	7074	swap	0	killed weak monster  
+pc7036b	7075	swap	0	
+pc7037a	7076	swap	0	last person standing 
+pc7037b	7077	swap	0	
+pc7038a	7078	swap	0	leaving dungeon (party thrashed)
+pc7038b	7079	swap	0	
+pc7039a	7080	swap	0	entering dungeon(first time) 
+pc7039b	7081	swap	0	
+pc7040a	7082	swap	0	yes  
+pc7040b	7083	swap	0	
+/Unused	7084	swap	0	0
+/Unused	7085	swap	0	
+pc7042a	7086	swap	0	indignant
+pc7042b	7087	swap	0	
+/Unused	7088	swap	0	obligatory
+/Unused	7089	swap	0	
+/Unused	7090	swap	0	shut up  
+/Unused	7091	swap	0	
+pc7043a	7092	swap	0	yell 
+pc7043b	7093	swap	0	
+/Minotaur 2				
+pc7101a	7100	swap	0	disarm trap
+pc7101b	7101	swap	0	
+pc7102a	7102	swap	0	closed store
+pc7102b	7103	swap	0	
+pc7103a	7104	swap	0	set off trap
+pc7103b	7105	swap	0	
+pc7104a	7106	swap	0	select character
+pc7104b	7107	swap	0	
+pc7105a	7108	swap	0	identify weak item
+pc7105b	7109	swap	0	
+pc7106a	7110	swap	0	identify powerful item
+pc7106b	7111	swap	0	
+pc7107a	7112	swap	0	fail to identify item
+pc7107b	7113	swap	0	
+pc7108a	7114	swap	0	repair item
+pc7108b	7115	swap	0	
+pc7109a	7116	swap	0	fail to repair item
+pc7109b	7117	swap	0	
+pc7110a	7118	swap	0	identify weak monster
+pc7110b	7119	swap	0	
+pc7111a	7120	swap	0	identify powerful monster
+pc7111b	7121	swap	0	
+pc7112a	7122	swap	0	fail to identify monster
+pc7112b	7123	swap	0	
+pc7113a	7124	swap	0	set new readied spell
+pc7113b	7125	swap	0	
+pc7114a	7126	swap	0	hungry
+pc7114b	7127	swap	0	
+pc7115a	7128	swap	0	barely wounded
+pc7115b	7129	swap	0	
+pc7116a	7130	swap	0	badly wounded
+pc7116b	7131	swap	0	
+pc7117a	7132	swap	0	dying
+pc7117b	7133	swap	0	
+pc7118a	7134	swap	0	become drunk
+pc7118b	7135	swap	0	
+pc7119a	7136	swap	0	become insane
+pc7119b	7137	swap	0	
+pc7120a	7138	swap	0	become poisoned/diseased
+pc7120b	7139	swap	0	
+pc7121a	7140	swap	0	become cursed
+pc7121b	7141	swap	0	
+pc7122a	7142	swap	0	falling
+pc7122b	7143	swap	0	
+pc7123a	7144	swap	0	unable to rest
+pc7123b	7145	swap	0	
+pc7024a	7146	swap	0	not enough gold
+pc7124b	7147	swap	0	
+pc7125a	7148	swap	0	room in inventory
+pc7125b	7149	swap	0	
+pc7026a	7150	swap	0	mixed potion successfully
+pc7126b	7151	swap	0	
+pc7127a	7152	swap	0	mixed potion unsuccessfully
+pc7127b	7153	swap	0	
+pc7128a	7154	swap	0	locked door
+pc7128b	7155	swap	0	
+pc7129a	7156	swap	0	learned a new spell  
+pc7129b	7157	swap	0	
+pc7130a	7158	swap	0	can't learn spell    
+pc7130b	7159	swap	0	
+pc7131a	7160	swap	0	can't equip item 
+pc7131b	7161	swap	0	
+pc7132a	7162	swap	0	greeting1    
+pc7132b	7163	swap	0	
+pc7133a	7164	swap	0	greeting2    
+pc7133b	7165	swap	0	
+pc7134a	7166	swap	0	greeting3    
+pc7134b	7167	swap	0	
+/Unused	7168	swap	0	curse    
+/Unused	7169	swap	0	
+/Unused	7170	swap	0	laughter 
+/Unused	7171	swap	0	
+pc7135a	7172	swap	0	killed powerful monster  
+pc7135b	7173	swap	0	
+pc7136a	7174	swap	0	killed weak monster  
+pc7136b	7175	swap	0	
+pc7137a	7176	swap	0	last person standing 
+pc7137b	7177	swap	0	
+pc7138a	7178	swap	0	leaving dungeon (party thrashed)
+pc7138b	7179	swap	0	
+pc7139a	7180	swap	0	entering dungeon(first time) 
+pc7139b	7181	swap	0	
+pc7140a	7182	swap	0	yes  
+pc7140b	7183	swap	0	
+/Unused	7184	swap	0	0
+/Unused	7185	swap	0	
+pc7142a	7186	swap	0	indignant
+pc7142b	7187	swap	0	
+/Unused	7188	swap	0	obligatory
+/Unused	7189	swap	0	
+/Unused	7190	swap	0	shut up  
+/Unused	7191	swap	0	
+pc7143a	7192	swap	0	yell 
+pc7143b	7193	swap	0	
+/Troll 1				
+pc7201a	7200	swap	0	disarm trap
+pc7201b	7201	swap	0	
+pc7202a	7202	swap	0	closed store
+pc7202b	7203	swap	0	
+pc7203a	7204	swap	0	set off trap
+pc7203b	7205	swap	0	
+pc7204a	7206	swap	0	select character
+pc7204b	7207	swap	0	
+pc7205a	7208	swap	0	identify weak item
+pc7205b	7209	swap	0	
+pc7206a	7210	swap	0	identify powerful item
+pc7206b	7211	swap	0	
+pc7207a	7212	swap	0	fail to identify item
+pc7207b	7213	swap	0	
+pc7208a	7214	swap	0	repair item
+pc7208b	7215	swap	0	
+pc7209a	7216	swap	0	fail to repair item
+pc7209b	7217	swap	0	
+pc7210a	7218	swap	0	identify weak monster
+pc7210b	7219	swap	0	
+pc7211a	7220	swap	0	identify powerful monster
+pc7211b	7221	swap	0	
+pc7212a	7222	swap	0	fail to identify monster
+pc7212b	7223	swap	0	
+pc7213a	7224	swap	0	set new readied spell
+pc7213b	7225	swap	0	
+pc7214a	7226	swap	0	hungry
+pc7214b	7227	swap	0	
+pc7215a	7228	swap	0	barely wounded
+pc7215b	7229	swap	0	
+pc7216a	7230	swap	0	badly wounded
+pc7216b	7231	swap	0	
+pc7217a	7232	swap	0	dying
+pc7217b	7233	swap	0	
+pc7218a	7234	swap	0	become drunk
+pc7218b	7235	swap	0	
+pc7219a	7236	swap	0	become insane
+pc7219b	7237	swap	0	
+pc7220a	7238	swap	0	become poisoned/diseased
+pc7220b	7239	swap	0	
+pc7221a	7240	swap	0	become cursed
+pc7221b	7241	swap	0	
+pc7222a	7242	swap	0	falling
+pc7222b	7243	swap	0	
+pc7223a	7244	swap	0	unable to rest
+pc7223b	7245	swap	0	
+pc7224a	7246	swap	0	not enough gold
+pc7224b	7247	swap	0	
+pc7225a	7248	swap	0	room in inventory
+pc7225b	7249	swap	0	
+pc7226a	7250	swap	0	mixed potion successfully
+pc7226b	7251	swap	0	
+pc7227a	7252	swap	0	mixed potion unsuccessfully
+pc7227b	7253	swap	0	
+pc7228a	7254	swap	0	locked door
+pc7228b	7255	swap	0	
+pc7229a	7256	swap	0	learned a new spell  
+pc7229b	7257	swap	0	
+pc7230a	7258	swap	0	can't learn spell    
+pc7230b	7259	swap	0	
+pc7231a	7260	swap	0	can't equip item 
+pc7231b	7261	swap	0	
+pc7232a	7262	swap	0	greeting1    
+pc7232b	7263	swap	0	
+pc7233a	7264	swap	0	greeting2    
+pc7233b	7265	swap	0	
+pc7234a	7266	swap	0	greeting3    
+pc7234b	7267	swap	0	
+/Unused	7268	swap	0	curse    
+/Unused	7269	swap	0	
+/Unused	7270	swap	0	laughter 
+/Unused	7271	swap	0	
+pc7235a	7272	swap	0	killed powerful monster  
+pc7235b	7273	swap	0	
+pc7236a	7274	swap	0	killed weak monster  
+pc7236b	7275	swap	0	
+pc7237a	7276	swap	0	last person standing 
+pc7237b	7277	swap	0	
+pc7238a	7278	swap	0	leaving dungeon (party thrashed)
+pc7238b	7279	swap	0	
+pc7239a	7280	swap	0	entering dungeon(first time) 
+pc7239b	7281	swap	0	
+pc7240a	7282	swap	0	yes  
+pc7240b	7283	swap	0	
+/Unused	7284	swap	0	0
+/Unused	7285	swap	0	
+pc7242a	7286	swap	0	indignant
+pc7242b	7287	swap	0	
+/Unused	7288	swap	0	obligatory
+/Unused	7289	swap	0	
+/Unused	7290	swap	0	shut up  
+/Unused	7291	swap	0	
+pc7243a	7292	swap	0	yell 
+pc7243b	7293	swap	0	
+/Troll 2				
+pc7301a	7300	swap	0	disarm trap
+pc7301b	7301	swap	0	
+pc7302a	7302	swap	0	closed store
+pc7302b	7303	swap	0	
+pc7303a	7304	swap	0	set off trap
+pc7303b	7305	swap	0	
+pc7304a	7306	swap	0	select character
+pc7304b	7307	swap	0	
+pc7305a	7308	swap	0	identify weak item
+pc7305b	7309	swap	0	
+pc7306a	7310	swap	0	identify powerful item
+pc7306b	7311	swap	0	
+pc7307a	7312	swap	0	fail to identify item
+pc7307b	7313	swap	0	
+pc7308a	7314	swap	0	repair item
+pc7308b	7315	swap	0	
+pc7309a	7316	swap	0	fail to repair item
+pc7309b	7317	swap	0	
+pc7310a	7318	swap	0	identify weak monster
+pc7310b	7319	swap	0	
+pc7311a	7320	swap	0	identify powerful monster
+pc7311b	7321	swap	0	
+pc7312a	7322	swap	0	fail to identify monster
+pc7312b	7323	swap	0	
+pc7313a	7324	swap	0	set new readied spell
+pc7313b	7325	swap	0	
+pc7314a	7326	swap	0	hungry
+pc7314b	7327	swap	0	
+pc7315a	7328	swap	0	barely wounded
+pc7315b	7329	swap	0	
+pc7316a	7330	swap	0	badly wounded
+pc7316b	7331	swap	0	
+pc7317a	7332	swap	0	dying
+pc7317b	7333	swap	0	
+pc7318a	7334	swap	0	become drunk
+pc7318b	7335	swap	0	
+pc7319a	7336	swap	0	become insane
+pc7319b	7337	swap	0	
+pc7320a	7338	swap	0	become poisoned/diseased
+pc7320b	7339	swap	0	
+pc7321a	7340	swap	0	become cursed
+pc7321b	7341	swap	0	
+pc7322a	7342	swap	0	falling
+pc7322b	7343	swap	0	
+pc7323a	7344	swap	0	unable to rest
+pc7323b	7345	swap	0	
+pc7324a	7346	swap	0	not enough gold
+pc7324b	7347	swap	0	
+pc7325a	7348	swap	0	room in inventory
+pc7325b	7349	swap	0	
+pc7326a	7350	swap	0	mixed potion successfully
+pc7326b	7351	swap	0	
+pc7327a	7352	swap	0	mixed potion unsuccessfully
+pc7327b	7353	swap	0	
+pc7328a	7354	swap	0	locked door
+pc7328b	7355	swap	0	
+pc7329a	7356	swap	0	learned a new spell  
+pc7329b	7357	swap	0	
+pc7330a	7358	swap	0	can't learn spell    
+pc7330b	7359	swap	0	
+pc7331a	7360	swap	0	can't equip item 
+pc7331b	7361	swap	0	
+pc7332a	7362	swap	0	greeting1    
+pc7332b	7363	swap	0	
+pc7333a	7364	swap	0	greeting2    
+pc7333b	7365	swap	0	
+pc7334a	7366	swap	0	greeting3    
+pc7334b	7367	swap	0	
+/Unused	7368	swap	0	curse    
+/Unused	7369	swap	0	
+/Unused	7370	swap	0	laughter 
+/Unused	7371	swap	0	
+pc7335a	7372	swap	0	killed powerful monster  
+pc7335b	7373	swap	0	
+pc7336a	7374	swap	0	killed weak monster  
+pc7336b	7375	swap	0	
+pc7337a	7376	swap	0	last person standing 
+pc7337b	7377	swap	0	
+pc7338a	7378	swap	0	leaving dungeon (party thrashed)
+pc7338b	7379	swap	0	
+pc7339a	7380	swap	0	entering dungeon(first time) 
+pc7339b	7381	swap	0	
+pc7340a	7382	swap	0	yes  
+pc7340b	7383	swap	0	
+/Unused	7384	swap	0	0
+/Unused	7385	swap	0	
+pc7342a	7386	swap	0	indignant
+pc7342b	7387	swap	0	
+/Unused	7388	swap	0	obligatory
+/Unused	7389	swap	0	
+/Unused	7390	swap	0	shut up  
+/Unused	7391	swap	0	
+pc7343a	7392	swap	0	yell 
+pc7343b	7393	swap	0	
+/Dragon 1				
+pc7401a	7400	swap	0	disarm trap
+pc7401b	7401	swap	0	
+pc7402a	7402	swap	0	closed store
+pc7402b	7403	swap	0	
+pc7403a	7404	swap	0	set off trap
+pc7403b	7405	swap	0	
+/unused	7406	swap	0	select character
+/unused	7407	swap	0	
+pc7404a	7408	swap	0	identify weak item
+pc7404b	7409	swap	0	
+pc7405a	7410	swap	0	identify powerful item
+pc7405b	7411	swap	0	
+pc7406a	7412	swap	0	fail to identify item
+pc7406b	7413	swap	0	
+pc7407a	7414	swap	0	repair item
+pc7407b	7415	swap	0	
+pc7408a	7416	swap	0	fail to repair item
+pc7408b	7417	swap	0	
+pc7409a	7418	swap	0	identify weak monster
+pc7409b	7419	swap	0	
+pc7410a	7420	swap	0	identify powerful monster
+pc7410b	7421	swap	0	
+pc7411a	7422	swap	0	fail to identify monster
+pc7411b	7423	swap	0	
+pc7412a	7424	swap	0	set new readied spell
+pc7412b	7425	swap	0	
+pc7413a	7426	swap	0	hungry
+pc7413b	7427	swap	0	
+pc7414a	7428	swap	0	barely wounded
+pc7414b	7429	swap	0	
+pc7415a	7430	swap	0	badly wounded
+pc7415b	7431	swap	0	
+pc7416a	7432	swap	0	dying
+pc7416b	7433	swap	0	
+pc7417a	7434	swap	0	become drunk
+pc7417b	7435	swap	0	
+pc7418a	7436	swap	0	become insane
+pc7418b	7437	swap	0	
+pc7419a	7438	swap	0	become poisoned/diseased
+pc7419b	7439	swap	0	
+pc7420a	7440	swap	0	become cursed
+pc7420b	7441	swap	0	
+pc7421a	7442	swap	0	falling
+pc7421b	7443	swap	0	
+pc7422a	7444	swap	0	unable to rest
+pc7422b	7445	swap	0	
+pc7423a	7446	swap	0	not enough gold
+pc7423b	7447	swap	0	
+pc7424a	7448	swap	0	room in inventory
+pc7424b	7449	swap	0	
+pc7425a	7450	swap	0	mixed potion successfully
+pc7425b	7451	swap	0	
+pc7426a	7452	swap	0	mixed potion unsuccessfully
+pc7426b	7453	swap	0	
+pc7427a	7454	swap	0	locked door
+pc7427b	7455	swap	0	
+pc7428a	7456	swap	0	learned a new spell  
+pc7428b	7457	swap	0	
+pc7429a	7458	swap	0	can't learn spell    
+pc7429b	7459	swap	0	
+pc7430a	7460	swap	0	can't equip item 
+pc7430b	7461	swap	0	
+pc7431a	7462	swap	0	greeting1    
+pc7431b	7463	swap	0	
+pc7432a	7464	swap	0	greeting2    
+pc7432b	7465	swap	0	
+pc7433a	7466	swap	0	greeting3    
+pc7433b	7467	swap	0	
+/Unused	7468	swap	0	curse    
+/Unused	7469	swap	0	
+/Unused	7470	swap	0	laughter 
+/Unused	7471	swap	0	
+pc7434a	7472	swap	0	killed powerful monster  
+pc7434b	7473	swap	0	
+pc7435a	7474	swap	0	killed weak monster  
+pc7435b	7475	swap	0	
+pc7436a	7476	swap	0	last person standing 
+pc7436b	7477	swap	0	
+pc7437a	7478	swap	0	leaving dungeon (party thrashed)
+pc7437b	7479	swap	0	
+pc7438a	7480	swap	0	entering dungeon(first time) 
+pc7438b	7481	swap	0	
+pc7439a	7482	swap	0	yes  
+pc7439b	7483	swap	0	
+pc7440a	7484	swap	0	no
+pc7440b	7485	swap	0	
+/Unused	7486	swap	0	indignant
+/Unused	7487	swap	0	
+/Unused	7488	swap	0	obligatory
+/Unused	7489	swap	0	
+/Unused	7490	swap	0	shut up  
+/Unused	7491	swap	0	
+roar 1	7492	swap	0	yell 
+roar 1	7493	swap	0	
+/Dragon 2				
+pc7501a	7500	swap	0	disarm trap
+pc7501b	7501	swap	0	
+pc7502a	7502	swap	0	closed store
+pc7502b	7503	swap	0	
+pc7503a	7504	swap	0	set off trap
+pc7503b	7505	swap	0	
+/unused	7506	swap	0	select character
+/unused	7507	swap	0	
+pc7504a	7508	swap	0	identify weak item
+pc7504b	7509	swap	0	
+pc7505a	7510	swap	0	identify powerful item
+pc7505b	7511	swap	0	
+pc7506a	7512	swap	0	fail to identify item
+pc7506b	7513	swap	0	
+pc7507a	7514	swap	0	repair item
+pc7507b	7515	swap	0	
+pc7508a	7516	swap	0	fail to repair item
+pc7508b	7517	swap	0	
+pc7509a	7518	swap	0	identify weak monster
+pc7509b	7519	swap	0	
+pc7510a	7520	swap	0	identify powerful monster
+pc7510b	7521	swap	0	
+pc7511a	7522	swap	0	fail to identify monster
+pc7511b	7523	swap	0	
+pc7512a	7524	swap	0	set new readied spell
+pc7512b	7525	swap	0	
+pc7513a	7526	swap	0	hungry
+pc7513b	7527	swap	0	
+pc7514a	7528	swap	0	barely wounded
+pc7514b	7529	swap	0	
+pc7515a	7530	swap	0	badly wounded
+pc7515b	7531	swap	0	
+pc7516a	7532	swap	0	dying
+pc7516b	7533	swap	0	
+pc7517a	7534	swap	0	become drunk
+pc7517b	7535	swap	0	
+pc7518a	7536	swap	0	become insane
+pc7518b	7537	swap	0	
+pc7519a	7538	swap	0	become poisoned/diseased
+pc7519b	7539	swap	0	
+pc7520a	7540	swap	0	become cursed
+pc7520b	7541	swap	0	
+pc7521a	7542	swap	0	falling
+pc7521b	7543	swap	0	
+pc7522a	7544	swap	0	unable to rest
+pc7522b	7545	swap	0	
+pc7523a	7546	swap	0	not enough gold
+pc7523b	7547	swap	0	
+pc7524a	7548	swap	0	room in inventory
+pc7524b	7549	swap	0	
+pc7525a	7550	swap	0	mixed potion successfully
+pc7525b	7551	swap	0	
+pc7526a	7552	swap	0	mixed potion unsuccessfully
+pc7526b	7553	swap	0	
+pc7527a	7554	swap	0	locked door
+pc7527b	7555	swap	0	
+pc7528a	7556	swap	0	learned a new spell  
+pc7528b	7557	swap	0	
+pc7529a	7558	swap	0	can't learn spell    
+pc7529b	7559	swap	0	
+pc7530a	7560	swap	0	can't equip item 
+pc7530b	7561	swap	0	
+pc7531a	7562	swap	0	greeting1    
+pc7531b	7563	swap	0	
+pc7532a	7564	swap	0	greeting2    
+pc7532b	7565	swap	0	
+pc7533a	7566	swap	0	greeting3    
+pc7533b	7567	swap	0	
+/Unused	7568	swap	0	curse    
+/Unused	7569	swap	0	
+/Unused	7570	swap	0	laughter 
+/Unused	7571	swap	0	
+pc7534a	7572	swap	0	killed powerful monster  
+pc7534b	7573	swap	0	
+pc7535a	7574	swap	0	killed weak monster  
+pc7535b	7575	swap	0	
+pc7536a	7576	swap	0	last person standing 
+pc7536b	7577	swap	0	
+pc7537a	7578	swap	0	leaving dungeon (party thrashed)
+pc7537b	7579	swap	0	
+pc7538a	7580	swap	0	entering dungeon(first time) 
+pc7538b	7581	swap	0	
+pc7539a	7582	swap	0	yes  
+pc7539b	7583	swap	0	
+pc7540a	7584	swap	0	no
+pc7540b	7585	swap	0	
+/Unused	7586	swap	0	indignant
+/Unused	7587	swap	0	
+/Unused	7588	swap	0	obligatory
+/Unused	7589	swap	0	
+/Unused	7590	swap	0	shut up  
+/Unused	7591	swap	0	
+roar2	7592	swap	0	yell 
+roar2	7593	swap	0	
+/Lich 1				
+LM101b	7600	swap	0	disarm trap
+LM101c	7601	swap	0	
+LM102c	7602	swap	0	closed store
+LM102d	7603	swap	0	
+LM103c	7604	swap	0	set off trap
+LM103d	7605	swap	0	
+LM104a	7606	swap	0	select character
+LM104b	7607	swap	0	
+LM105a	7608	swap	0	identify weak item
+LM105b	7609	swap	0	
+LM106b	7610	swap	0	identify powerful item
+LM106b	7611	swap	0	
+LM107b	7612	swap	0	fail to identify item
+LM107f	7613	swap	0	
+LM108b	7614	swap	0	repair item
+LM108c	7615	swap	0	
+LM109c	7616	swap	0	fail to repair item
+LM109e	7617	swap	0	
+LM110c	7618	swap	0	identify weak monster
+LM110f	7619	swap	0	
+LM111c	7620	swap	0	identify powerful monster
+LM111d	7621	swap	0	
+LM112e	7622	swap	0	fail to identify monster
+LM112e	7623	swap	0	
+LM113a	7624	swap	0	set new readied spell
+LM113c	7625	swap	0	
+LM114b	7626	swap	0	hungry
+LM114b	7627	swap	0	
+LM115c	7628	swap	0	barely wounded
+LM115e	7629	swap	0	
+LM116c	7630	swap	0	badly wounded
+LM116e	7631	swap	0	
+LM117e	7632	swap	0	dying
+LM117e	7633	swap	0	
+LM118a	7634	swap	0	become drunk
+LM118d	7635	swap	0	
+LM119d	7636	swap	0	become insane
+LM119d	7637	swap	0	
+LM120c	7638	swap	0	become poisoned/diseased
+LM120c	7639	swap	0	
+LM121d	7640	swap	0	become cursed
+LM121d	7641	swap	0	
+LM122a	7642	swap	0	falling
+LM122a	7643	swap	0	
+LM123d	7644	swap	0	unable to rest
+LM123d	7645	swap	0	
+LM124a	7646	swap	0	not enough gold
+LM124d	7647	swap	0	
+LM125a	7648	swap	0	room in inventory
+LM125b	7649	swap	0	
+LM126c	7650	swap	0	mixed potion successfully
+LM126c	7651	swap	0	
+LM127a	7652	swap	0	mixed potion unsuccessfully
+LM127e	7653	swap	0	
+LM128b	7654	swap	0	locked door
+LM128b	7655	swap	0	
+LM129c	7656	swap	0	learned a new spell  
+LM129e	7657	swap	0	
+LM130a	7658	swap	0	can't learn spell    
+LM130a	7659	swap	0	
+LM131e	7660	swap	0	can't equip item 
+Lm131a	7661	swap	0	
+LM132a	7662	swap	0	greeting1    
+LM132b	7663	swap	0	
+LM133a	7664	swap	0	greeting2    
+LM133a	7665	swap	0	
+LM134c	7666	swap	0	greeting3    
+LM134c	7667	swap	0	
+LM135c	7668	swap	0	curse    
+LM135d	7669	swap	0	
+LM136c	7670	swap	0	laughter 
+LM136c	7671	swap	0	
+LM137b	7672	swap	0	killed powerful monster  
+LM137b	7673	swap	0	
+LM138a	7674	swap	0	killed weak monster  
+LM138e	7675	swap	0	
+LM139d	7676	swap	0	last person standing 
+LM139d	7677	swap	0	
+LM140c	7678	swap	0	leaving dungeon (party thrashed)
+LM140c	7679	swap	0	
+LM141a	7680	swap	0	entering dungeon(first time) 
+LM141a	7681	swap	0	
+LM142a	7682	swap	0	yes  
+LM142a	7683	swap	0	
+LM143a	7684	swap	0	0
+LM143a	7685	swap	0	
+LM144b	7686	swap	0	indignant
+LM144b	7687	swap	0	
+LM145b	7688	swap	0	obligatory
+LM145b	7689	swap	0	
+LM146d	7690	swap	0	shut up  
+LM146d	7691	swap	0	
+LM147a	7692	swap	0	yell 
+LM147a	7693	swap	0	
+/Lich Female 1				
+LF101a	7700	swap	0	disarm trap
+LF101a	7701	swap	0	
+LF102b	7702	swap	0	closed store
+LF102d	7703	swap	0	
+LF103a	7704	swap	0	set off trap
+LF103C	7705	swap	0	
+LF104B	7706	swap	0	select character
+LF104D	7707	swap	0	
+LF105b	7708	swap	0	identify weak item
+LF105d	7709	swap	0	
+LF106c	7710	swap	0	identify powerful item
+LF106e	7711	swap	0	
+LF107a	7712	swap	0	fail to identify item
+LF107b	7713	swap	0	
+LF108a	7714	swap	0	repair item
+LF108a	7715	swap	0	
+LF109b	7716	swap	0	fail to repair item
+LF109d	7717	swap	0	
+LF110b	7718	swap	0	identify weak monster
+LF110c	7719	swap	0	
+LF111b	7720	swap	0	identify powerful monster
+LF111e	7721	swap	0	
+LF112e	7722	swap	0	fail to identify monster
+LF112f	7723	swap	0	
+LF113a	7724	swap	0	set new readied spell
+LF113f	7725	swap	0	
+LF114d	7726	swap	0	hungry
+LF114e	7727	swap	0	
+LF115e	7728	swap	0	barely wounded
+LF115f	7729	swap	0	
+LF116b	7730	swap	0	badly wounded
+LF116b	7731	swap	0	
+LF117e	7732	swap	0	dying
+LF117e	7733	swap	0	
+LF118b	7734	swap	0	become drunk
+LF118b	7735	swap	0	
+LF119a	7736	swap	0	become insane
+LF119a	7737	swap	0	
+LF120b	7738	swap	0	become poisoned/diseased
+LF120b	7739	swap	0	
+LF121e	7740	swap	0	become cursed
+LF121e	7741	swap	0	
+LF122a	7742	swap	0	falling
+LF122a	7743	swap	0	
+LF123e	7744	swap	0	unable to rest
+LF123e	7745	swap	0	
+LF124a	7746	swap	0	not enough gold
+LF124b	7747	swap	0	
+LF125d	7748	swap	0	room in inventory
+LF125d	7749	swap	0	
+LF126d	7750	swap	0	mixed potion successfully
+LF126e	7751	swap	0	
+LF127d	7752	swap	0	mixed potion unsuccessfully
+LF127e	7753	swap	0	
+LF128d	7754	swap	0	locked door
+LF128d	7755	swap	0	
+LF129d	7756	swap	0	learned a new spell  
+LF129d	7757	swap	0	
+LF130d	7758	swap	0	can't learn spell    
+LF130d	7759	swap	0	
+LF131c	7760	swap	0	can't equip item 
+LF131c	7761	swap	0	
+LF132a	7762	swap	0	greeting1    
+LF132b	7763	swap	0	
+LF133a	7764	swap	0	greeting2    
+LF133a	7765	swap	0	
+LF134c	7766	swap	0	greeting3    
+LF134c	7767	swap	0	
+LF135b	7768	swap	0	curse    
+LF135d	7769	swap	0	
+LF136b	7770	swap	0	laughter 
+LF136c	7771	swap	0	
+LF137a	7772	swap	0	killed powerful monster  
+LF137b	7773	swap	0	
+LF138g	7774	swap	0	killed weak monster  
+LF138g	7775	swap	0	
+LF139c	7776	swap	0	last person standing 
+LF139c	7777	swap	0	
+LF140b	7778	swap	0	leaving dungeon (party thrashed)
+LF140b	7779	swap	0	
+LF141c	7780	swap	0	entering dungeon(first time) 
+LF141c	7781	swap	0	
+LF142a	7782	swap	0	yes  
+LF142a	7783	swap	0	
+LF143b	7784	swap	0	0
+LF143b	7785	swap	0	
+LF144a	7786	swap	0	indignant
+LF144e	7787	swap	0	
+LF145a	7788	swap	0	obligatory
+LF145d	7789	swap	0	
+LF146c	7790	swap	0	shut up  
+LF146e	7791	swap	0	
+LF147b	7792	swap	0	yell 
+LF147b	7793	swap	0	
+/Lich Male 2				
+pc5101a	7800	swap	0	disarm trap
+pc5101b	7801	swap	0	
+pc5102a	7802	swap	0	closed store
+pc5102b	7803	swap	0	
+pc5103a	7804	swap	0	set off trap
+pc5103b	7805	swap	0	
+pc5104a	7806	swap	0	select character
+pc5104b	7807	swap	0	
+pc5105a	7808	swap	0	identify weak item
+pc5105b	7809	swap	0	
+pc5106a	7810	swap	0	identify powerful item
+pc5106b	7811	swap	0	
+pc5107a	7812	swap	0	fail to identify item
+pc5107b	7813	swap	0	
+pc5108a	7814	swap	0	repair item
+pc5108b	7815	swap	0	
+pc5109a	7816	swap	0	fail to repair item
+pc5109b	7817	swap	0	
+pc5110a	7818	swap	0	identify weak monster
+pc5110b	7819	swap	0	
+pc5111a	7820	swap	0	identify powerful monster
+pc5111b	7821	swap	0	
+pc5112a	7822	swap	0	fail to identify monster
+pc5112b	7823	swap	0	
+pc5113a	7824	swap	0	set new readied spell
+pc5113b	7825	swap	0	
+pc5114a	7826	swap	0	hungry
+pc5114b	7827	swap	0	
+pc5115a	7828	swap	0	barely wounded
+pc5115b	7829	swap	0	
+pc5116a	7830	swap	0	badly wounded
+pc5116b	7831	swap	0	
+pc5117a	7832	swap	0	dying
+pc5117b	7833	swap	0	
+pc5118a	7834	swap	0	become drunk
+pc5118b	7835	swap	0	
+pc5119a	7836	swap	0	become insane
+pc5119b	7837	swap	0	
+pc5120a	7838	swap	0	become poisoned/diseased
+pc5120b	7839	swap	0	
+pc5121a	7840	swap	0	become cursed
+pc5121b	7841	swap	0	
+pc5122a	7842	swap	0	falling
+pc5122b	7843	swap	0	
+pc5123a	7844	swap	0	unable to rest
+pc5123b	7845	swap	0	
+pc5124a	7846	swap	0	not enough gold
+pc5124b	7847	swap	0	
+pc5125a	7848	swap	0	room in inventory
+pc5125b	7849	swap	0	
+pc5126a	7850	swap	0	mixed potion successfully
+pc5126b	7851	swap	0	
+pc5127a	7852	swap	0	mixed potion unsuccessfully
+pc5127b	7853	swap	0	
+pc5128a	7854	swap	0	locked door
+pc5128b	7855	swap	0	
+pc5129a	7856	swap	0	learned a new spell  
+pc5129b	7857	swap	0	
+pc5130a	7858	swap	0	can't learn spell    
+pc5130b	7859	swap	0	
+pc5131a	7860	swap	0	can't equip item 
+pc5131b	7861	swap	0	
+pc5132a	7862	swap	0	greeting1    
+pc5132b	7863	swap	0	
+pc5133a	7864	swap	0	greeting2    
+pc5133b	7865	swap	0	
+pc5134a	7866	swap	0	greeting3    
+pc5134b	7867	swap	0	
+/Unused	7868	swap	0	curse    
+/Unused	7869	swap	0	
+/Unused	7870	swap	0	laughter 
+/Unused	7871	swap	0	
+pc5135a	7872	swap	0	killed powerful monster  
+pc5135b	7873	swap	0	
+pc5136a	7874	swap	0	killed weak monster  
+pc5136b	7875	swap	0	
+pc5137a	7876	swap	0	last person standing 
+pc5137b	7877	swap	0	
+pc5138a	7878	swap	0	leaving dungeon (party thrashed)
+pc5138b	7879	swap	0	
+pc5139a	7880	swap	0	entering dungeon(first time) 
+pc5139b	7881	swap	0	
+pc5140a	7882	swap	0	yes  
+pc5140b	7883	swap	0	
+/Unused	7884	swap	0	0
+/Unused	7885	swap	0	
+pc5142a	7886	swap	0	indignant
+pc5142b	7887	swap	0	
+/Unused	7888	swap	0	obligatory
+/Unused	7889	swap	0	
+/Unused	7890	swap	0	shut up  
+/Unused	7891	swap	0	
+pc5143a	7892	swap	0	yell 
+pc5143b	7893	swap	0	
+/Lich Female 2				
+pc5201a	7900	swap	0	disarm trap
+pc5201b	7901	swap	0	
+pc5202a	7902	swap	0	closed store
+pc5202b	7903	swap	0	
+pc5203a	7904	swap	0	set off trap
+pc5203b	7905	swap	0	
+pc5204a	7906	swap	0	select character
+pc5204b	7907	swap	0	
+pc5205a	7908	swap	0	identify weak item
+pc5205b	7909	swap	0	
+pc5206a	7910	swap	0	identify powerful item
+pc5206b	7911	swap	0	
+pc5207a	7912	swap	0	fail to identify item
+pc5207b	7913	swap	0	
+pc5208a	7914	swap	0	repair item
+pc5208b	7915	swap	0	
+pc5209a	7916	swap	0	fail to repair item
+pc5209b	7917	swap	0	
+pc5210a	7918	swap	0	identify weak monster
+pc5210b	7919	swap	0	
+pc5211a	7920	swap	0	identify powerful monster
+pc5211b	7921	swap	0	
+pc5212a	7922	swap	0	fail to identify monster
+pc5212b	7923	swap	0	
+pc5213a	7924	swap	0	set new readied spell
+pc5213b	7925	swap	0	
+pc5214a	7926	swap	0	hungry
+pc5214b	7927	swap	0	
+pc5215a	7928	swap	0	barely wounded
+pc5215b	7929	swap	0	
+pc5216a	7930	swap	0	badly wounded
+pc5216b	7931	swap	0	
+pc5217a	7932	swap	0	dying
+pc5217b	7933	swap	0	
+pc5218a	7934	swap	0	become drunk
+pc5218b	7935	swap	0	
+pc5219a	7936	swap	0	become insane
+pc5219b	7937	swap	0	
+pc5220a	7938	swap	0	become poisoned/diseased
+pc5220b	7939	swap	0	
+pc5221a	7940	swap	0	become cursed
+pc5221b	7941	swap	0	
+pc5222a	7942	swap	0	falling
+pc5222b	7943	swap	0	
+pc5223a	7944	swap	0	unable to rest
+pc5223b	7945	swap	0	
+pc5224a	7946	swap	0	not enough gold
+pc5224b	7947	swap	0	
+pc5225a	7948	swap	0	room in inventory
+pc5225b	7949	swap	0	
+pc5226a	7950	swap	0	mixed potion successfully
+pc5226b	7951	swap	0	
+pc5227a	7952	swap	0	mixed potion unsuccessfully
+pc5227b	7953	swap	0	
+pc5228a	7954	swap	0	locked door
+pc5228b	7955	swap	0	
+pc5229a	7956	swap	0	learned a new spell  
+pc5229b	7957	swap	0	
+pc5230a	7958	swap	0	can't learn spell    
+pc5230b	7959	swap	0	
+pc5231a	7960	swap	0	can't equip item 
+pc5231b	7961	swap	0	
+pc5232a	7962	swap	0	greeting1    
+pc5232b	7963	swap	0	
+pc5233a	7964	swap	0	greeting2    
+pc5233b	7965	swap	0	
+pc5234a	7966	swap	0	greeting3    
+pc5234b	7967	swap	0	
+/Unused	7968	swap	0	curse    
+/Unused	7969	swap	0	
+/Unused	7970	swap	0	laughter 
+/Unused	7971	swap	0	
+pc5235a	7972	swap	0	killed powerful monster  
+pc5235b	7973	swap	0	
+pc5236a	7974	swap	0	killed weak monster  
+pc5236b	7975	swap	0	
+pc5237a	7976	swap	0	last person standing 
+pc5237b	7977	swap	0	
+pc5238a	7978	swap	0	leaving dungeon (party thrashed)
+pc5238b	7979	swap	0	
+pc5239a	7980	swap	0	entering dungeon(first time) 
+pc5239b	7981	swap	0	
+pc5240a	7982	swap	0	yes  
+pc5240b	7983	swap	0	
+/Unused	7984	swap	0	0
+/Unused	7985	swap	0	
+pc5242a	7986	swap	0	indignant
+pc5242b	7987	swap	0	
+/Unused	7988	swap	0	obligatory
+/Unused	7989	swap	0	
+/Unused	7990	swap	0	shut up  
+/Unused	7991	swap	0		
+pc5243a	7992	swap	0	yell 	
+pc5243b	7993	swap	0		
+/Events					
+quest	7994	swap	0		
+/2D Events					
+"/The table in 2DEvents.XLS pulls its numbers for the town shops from this section of data.  The index used is part of the id:  3XX0?, where XX is the index and ? Is the sound variant to play."					
+event34_01a	30101	swap	0	Lizardman Temple	Enter
+event34_01b	30102	swap	0		Gold
+event34_01c	30103	swap	0		Exit
+/Unused	30104	swap	0		Reserved
+event13_01a	30201	swap	0	Lizardman Blacksmith	Enter
+event13_01b	30202	swap	0		Gold
+event13_01c	30203	swap	0		Exit Spend Gold
+/Unused	30204	swap	0		Exit Spend Gold
+event19_01a	30301	swap	0	Lizardman Armory	Enter
+event19_01b	30302	swap	0		Gold
+event19_01c	30303	swap	0		Exit Spend Gold
+/Unused	30304	swap	0		Exit Spend Gold
+event25_01a	30401	swap	0	Lizardman Alchemist	Enter
+event25_01b	30402	swap	0		Gold
+event25_01c	30403	swap	0		Exit Spend Gold
+/Unused	30404	swap	0		Exit Spend Gold
+event44_01a	30501	swap	0	Lizardman Magic Shop	Enter
+event44_01b	30502	swap	0		Gold
+event44_01c	30503	swap	0		Exit Spend Gold
+event44_01d	30504	swap	0		Exit Spend Gold
+event50_01a	30601	swap	0	Lizardman Spell Shop	Enter
+event50_01b	30602	swap	0		Gold
+event50_01c	30603	swap	0		Exit Spend Gold
+event50_01d	30604	swap	0		Exit Spend Gold
+event29_01a	30701	swap	0	Lizardman Training	Enter
+event29_01b	30702	swap	0		Train
+event29_01c	30703	swap	0		Eligible
+/Unused	30704	swap	0		Gold
+event09_01a	30801	swap	0	Lizardman Bank	Enter
+event09_01b	30802	swap	0		Withdraw Gold
+event09_01c	30803	swap	0		Exit
+/unused	30804	swap	0		Reserved
+event01_01a	30901	swap	0	Lizardman Tavern	Enter
+event01_01b	30902	swap	0		Rest
+event01_01c	30903	swap	0		Food
+event01_01d	30904	swap	0		Gold
+/Unused	31001	swap	0	Lizardman Ship	Enter
+/Unused	31002	swap	0		Travel
+/Unused	31003	swap	0		Gold
+/Unused	31004	swap	0		Reserved
+/Unused	31101	swap	0	Lizardman Stables	Enter
+/Unused	31102	swap	0		Travel
+/Unused	31103	swap	0		Gold
+/Unused	31104	swap	0		Reserved
+event35_01a	31201	swap	0	Dark Elven Temple	Enter
+event35_01a	31202	swap	0		Gold
+event35_01c	31203	swap	0		Exit
+/Unused	31204	swap	0		Reserved
+event14_01a	31301	swap	0	Dark Elven Blacksmith	Enter
+event14_01b	31302	swap	0		Gold
+event14_01c	31303	swap	0		Exit Spend Gold
+/Unused	31304	swap	0		Exit Spend Gold
+event20_01a	31401	swap	0	Dark Elven Armory	Enter
+event20_01b	31402	swap	0		Gold
+event20_01c	31403	swap	0		Exit Spend Gold
+/Unused	31404	swap	0		Exit Spend Gold
+event26_01a	31501	swap	0	Dark Elven Alchemist	Enter
+event26_01b	31502	swap	0		Gold
+event26_01c	31503	swap	0		Exit Spend Gold
+/Unused	31504	swap	0		Exit Spend Gold
+event45_01a	31601	swap	0	Dark Elven Magic Shop	Enter
+event45_01b	31602	swap	0		Gold
+event45_01c	31603	swap	0		Exit Spend Gold
+event45_01d	31604	swap	0		Exit Spend Gold
+event51_01a	31701	swap	0	Dark Elven Spell Shop	Enter
+event51_01b	31702	swap	0		Gold
+event51_01c	31703	swap	0		Exit Spend Gold
+event51_01d	31704	swap	0		Exit Spend Gold
+event30_01a	31801	swap	0	Dark Elven Training	Enter
+event30_01b	31802	swap	0		Train
+event30_01c	31803	swap	0		Eligible
+/Unused	31804	swap	0		Gold
+event10_01a	31901	swap	0	Dark Elven Bank	Enter
+event10_01b	31902	swap	0		Withdraw Gold
+event10_01c	31903	swap	0		Exit
+/Unused	31904	swap	0		Reserved
+event02_01a	32001	swap	0	Dark Elven Tavern	Enter
+event02_01b	32002	swap	0		Rest
+event02_01c	32003	swap	0		Food
+event02_01d	32004	swap	0		Gold
+event40_01a	32101	swap	0	Dark Elven Ship	Enter
+event40_01b	32102	swap	0		Travel
+event40_01c	32103	swap	0		Gold
+/Unused	32104	swap	0		Reserved
+event43_01a	32201	swap	0	Dark Elven Stables	Enter
+event43_01b	32202	swap	0		Travel
+event43_01c	32203	swap	0		Gold
+/Unused	32204	swap	0		Reserved
+event36_01a	32301	swap	0	Minotaur Temple	Enter
+event36_01b	32302	swap	0		Gold
+event36_01c	32303	swap	0		Exit
+/Unused	32304	swap	0		Reserved
+event15_01a	32401	swap	0	Minotaur Blacksmith	Enter
+event15_01b	32402	swap	0		Gold
+event15_01c	32403	swap	0		Exit Spend Gold
+/Unused	32404	swap	0		Exit Spend Gold
+event21_01a	32501	swap	0	Minotaur Armory	Enter
+event21_01b	32502	swap	0		Gold
+event21_01c	32503	swap	0		Exit Spend Gold
+/Unused	32504	swap	0		Exit Spend Gold
+/Unused	32601	swap	0	Minotaur Alchemist	Enter
+/Unused	32602	swap	0		Gold
+/Unused	32603	swap	0		Exit Spend Gold
+/Unused	32604	swap	0		Exit Spend Gold
+event46_01a	32701	swap	0	Minotaur Magic Shop	Enter
+event46_01b	32702	swap	0		Gold
+event46_01c	32703	swap	0		Exit Spend Gold
+event46_01d	32704	swap	0		Exit Spend Gold
+event52_01a	32801	swap	0	Minotaur Spell Shop	Enter
+event52_01b	32802	swap	0		Gold
+event52_01c	32803	swap	0		Exit Spend Gold
+event52_01d	32804	swap	0		Exit Spend Gold
+event31_01a	32901	swap	0	Minotaur Trainer	Enter
+event31_01b	32902	swap	0		Train
+event31_01c	32903	swap	0		Eligible
+/Unused	32904	swap	0		Gold
+event11_01a	33001	swap	0	Minotaur Bank	Enter
+event11_01b	33002	swap	0		Withdraw Gold
+event11_01c	33003	swap	0		Exit
+/Unused	33004	swap	0		Reserved
+event03_01a	33101	swap	0	Minotaur Tavern	Enter
+event03_01b	33102	swap	0		Rest
+event03_01c	33103	swap	0		Food
+event03_01d	33104	swap	0		Gold
+/Unused	33201	swap	0	Minotaur Ship	Enter
+/Unused	33202	swap	0		Travel
+/Unused	33203	swap	0		Gold
+/Unused	33204	swap	0		Reserved
+/Unused	33301	swap	0	Minotaur Stables	Enter
+/Unused	33302	swap	0		Travel
+/Unused	33303	swap	0		Gold
+/Unused	33304	swap	0		Reserved
+event37_01a	33401	swap	0	Dragon Hunter Temple (f)	Enter
+event37_01b	33402	swap	0		Gold
+event37_01c	33403	swap	0		Exit
+/Unused	33404	swap	0		Reserved
+event16_01a	33501	swap	0	Dragon Hunter Blacksmith	Enter
+event16_01b	33502	swap	0		Gold
+event16_01c	33503	swap	0		Exit Spend Gold
+/Unused	33504	swap	0		Exit Spend Gold
+event22_01a	33601	swap	0	Dragon Hunter Armory	Enter
+event22_01b	33602	swap	0		Gold
+event22_01c	33603	swap	0		Exit Spend Gold
+/Unused	33604	swap	0		Exit Spend Gold
+/Unused	33701	swap	0	Dragon Hunter Alchemist	Enter
+/Unused	33702	swap	0		Gold
+/Unused	33703	swap	0		Exit Spend Gold
+/Unused	33704	swap	0		Exit Spend Gold
+event47_01a	33801	swap	0	Dragon Hunter Magic Shop	Enter
+event47_01b	33802	swap	0		Gold
+event47_01c	33803	swap	0		Exit Spend Gold
+event47_01d	33804	swap	0		Exit Spend Gold
+/Unused	33901	swap	0	Dragon Hunter Spell Shop	Enter
+/Unused	33902	swap	0		Gold
+/Unused	33903	swap	0		Exit Spend Gold
+/Unused	33904	swap	0		Exit Spend Gold
+event32_01a	34001	swap	0	Dragon Hunter Trainer	Enter
+event32_01b	34002	swap	0		Train
+event32_01c	34003	swap	0		Eligible
+/Unused	34004	swap	0		Gold
+/Unused	34101	swap	0	Dragon Hunter Bank	Enter
+/Unused	34102	swap	0		Withdraw Gold
+/Unused	34103	swap	0		Exit
+/Unused	34104	swap	0		Reserved
+event04_01a	34201	swap	0	Dragon Hunter Tavern	Enter
+event04_01b	34202	swap	0		Rest
+event04_01c	34203	swap	0		Food
+event04_01d	34204	swap	0		Gold
+/Unused	34301	swap	0	Dragon Hunter Ship	Enter
+/Unused	34302	swap	0		Travel
+/Unused	34303	swap	0		Gold
+/Unused	34304	swap	0		Reserved
+/Unused	34401	swap	0	Dragon Hunter Stable	Enter
+/Unused	34402	swap	0		Travel
+/Unused	34403	swap	0		Gold
+/Unused	34404	swap	0		Reserved
+event38_01a	34501	swap	0	Necromancer Temple (f)	Enter
+event38_01b	34502	swap	0		Gold
+event38_01c	34503	swap	0		Exit
+/Unused	34504	swap	0		Reserved
+event17_01a	34601	swap	0	Necromancer Blacksmith	Enter
+event17_01b	34602	swap	0		Gold
+event17_01c	34603	swap	0		Exit Spend Gold
+/Unused	34604	swap	0		Exit Spend Gold
+event23_01a	34701	swap	0	Necromancer Armory	Enter
+event23_01b	34702	swap	0		Gold
+event23_01c	34703	swap	0		Exit Spend Gold
+/Unused	34704	swap	0		Exit Spend Gold
+event27_01a	34801	swap	0	Necromancer Alchemists Shop (f)	Enter
+event27_01b	34802	swap	0		Gold
+event27_01c	34803	swap	0		Exit Spend Gold
+/Unused	34804	swap	0		Exit Spend Gold
+event48_01a	34901	swap	0	Necromancer Magic Shop	Enter
+event48_01b	34902	swap	0		Gold
+event48_01c	34903	swap	0		Exit Spend Gold
+event48_01d	34904	swap	0		Exit Spend Gold
+event53_01a	35001	swap	0	Necromancer Spell Shop	Enter
+event53_01b	35002	swap	0		Gold
+event53_01c	35003	swap	0		Exit Spend Gold
+event53_01d	35004	swap	0		Exit Spend Gold
+event33_01a	35101	swap	0	Necromancer Training Center (f)	Enter
+event33_01b	35102	swap	0		Train
+event33_01c	35103	swap	0		Eligible
+/Unused	35104	swap	0		Gold
+event12_01a	35201	swap	0	Necromancer Bank (f)	Enter
+event12_01b	35202	swap	0		Withdraw Gold
+event12_01c	35203	swap	0		Exit
+/Unused	35204	swap	0		Reserved
+event05_01a	35301	swap	0	Necromancer Tavern	Enter
+event05_01b	35302	swap	0		Rest
+event05_01c	35303	swap	0		Food
+event05_01d	35304	swap	0		Gold
+/Unused	35401	swap	0	Necromancer Ship	Enter
+/Unused	35402	swap	0		Travel
+/Unused	35403	swap	0		Gold
+/Unused	35404	swap	0		Reserved
+/Unused	35501	swap	0	Necromancer Stable	Enter
+/Unused	35502	swap	0		Travel
+/Unused	35503	swap	0		Gold
+/Unused	35504	swap	0		Reserved
+event39_01a	35601	swap	0	Regnan Temple (f)	Enter
+event39_01b	35602	swap	0		Gold
+event39_01c	35603	swap	0		Exit
+/Unused	35604	swap	0		Reserved
+event18_01a	35701	swap	0	Regnan Weapon Shop	Enter
+event18_01b	35702	swap	0		Gold
+event18_01c	35703	swap	0		Exit Spend Gold
+/Unused	35704	swap	0		Exit Spend Gold
+event24_01a	35801	swap	0	Regnan Armor Shop	Enter
+event24_01b	35802	swap	0		Gold
+event24_01c	35803	swap	0		Exit Spend Gold
+/Unused	35804	swap	0		Exit Spend Gold
+event28_01a	35901	swap	0	Regnan Alchemist Shop (f)	Enter
+event28_01b	35902	swap	0		Gold
+event28_01c	35903	swap	0		Exit Spend Gold
+/Unused	35904	swap	0		Exit Spend Gold
+event49_01a	36001	swap	0	Regnan Magic Shop	Enter
+event49_01b	36002	swap	0		Gold
+event49_01c	36003	swap	0		Exit Spend Gold
+event49_01d	36004	swap	0		Exit Spend Gold
+event54_01a	36101	swap	0	Regnan Spell Shop (f)	Enter
+event54_01b	36102	swap	0		Gold
+event54_01c	36103	swap	0		Exit Spend Gold
+event54_01d	36104	swap	0		Exit Spend Gold
+/Unused	36201	swap	0	Wererat Trainer	Enter
+/Unused	36202	swap	0		Train
+/Unused	36203	swap	0		Eligible
+/Unused	36204	swap	0		Gold
+/Unused	36301	swap	0	Wererat Bank	Enter
+/Unused	36302	swap	0		Withdraw Gold
+/Unused	36303	swap	0		Exit
+/Unused	36304	swap	0		Reserved
+event07_01a	36401	swap	0	Regnan Pirate Tavern	Enter
+event07_01b	36402	swap	0		Rest
+event07_01c	36403	swap	0		Food
+event07_01d	36404	swap	0		Gold
+event41_01a	36501	swap	0	Wererat Boat	Enter
+event41_01b	36502	swap	0		Travel
+event41_01c	36503	swap	0		Gold
+/Unused	36504	swap	0		Reserved
+/Unused	36601	swap	0	Wererat Stable	Enter
+/Unused	36602	swap	0		Travel
+/Unused	36603	swap	0		Gold
+/Unused	36604	swap	0		Reserved
+Welcome Adventurer	36701	swap	0	Inn	Welcome Adventurer
+/Unused	36702	swap	0		Reserved
+/Unused	36703	swap	0		Reserved
+/Unused	36704	swap	0		Reserved
+event06_01a	36801	swap	0	Troll Tavern	Enter
+event06_01b	36802	swap	0		Rest
+event06_01c	36803	swap	0		Food
+event06_01d	36804	swap	0		Gold
+event42_01a	36901	swap	0	Regnan Boat	Enter
+event42_01b	36902	swap	0		Travel
+event42_01c	36903	swap	0		Gold
+/Unused	36904	swap	0		Reserved
+event08_01a	37001	swap	0	Generic Tavern	Enter
+event08_01b	37002	swap	0		Rest
+event08_01c	37003	swap	0		Food
+event08_01d	37004	swap	0		Gold
+whistling wind	300	swap	0		
+battle wince02	301	swap	0
+battle wince03	302	swap	0
+battle wince04	303	swap	0
+battle wince05	304	swap	0
+battle wince06	305	swap	0
+battle wince07	306	swap	0
+battle wince08	307	swap	0
+boat creek loop	308	swap	0
+female scream	309	swap	0
+lava loop	310	swap	0
+male scream	311	swap	0
+switch01	312	swap	0
+switch02	313	swap	0
+switch03	314	swap	0
+sword fight 01	315	swap	0
+sword fight 02	316	swap	0
+sword fight 03	317	swap	0
+sword fight loop01	318	swap	0
+sword fight loop02	319	swap	0
+battle wince01	320	swap	0
+wolf howl (distance)	321	swap	0
+frog01	322	swap	0
+frog02	323	swap	0
+horse trot	324	swap	0
+horse	325	swap	0
+racoon	326	swap	0
+snake rattle01	327	swap	0
+snake rattle02	328	swap	0
+snake rattle03	329	swap	0
+snake rattle04	330	swap	0
+dog	331	swap	0
+bird flight01	332	swap	0
+bird flight02	333	swap	0
+bird01	334	swap	0
+bird02	335	swap	0
+bird03	336	swap	0
+bird04	337	swap	0
+bird05	338	swap	0
+bird06	339	swap	0
+bird07	340	swap	0
+bird08	341	swap	0
+bird09	342	swap	0
+bird10	343	swap	0
+bird11	344	swap	0
+bird12	345	swap	0
+bird13	346	swap	0
+Crowcaw	347	swap	0
+owl01	348	swap	0
+owl02	349	swap	0
+owl03	350	swap	0
+wood pecker pecking	351	swap	0
+zap301	352	swap	0
+boing0101	353	swap	0
+boing02	354	swap	0
+boing0201	355	swap	0
+boing03	356	swap	0
+boing0301	357	swap	0
+buzzer01	358	swap	0
+buzzer0101	359	swap	0
+buzzer02	360	swap	0
+buzzer0201	361	swap	0
+buzzer03	362	swap	0
+buzzer0301	363	swap	0
+buzzer04	364	swap	0
+buzzer0401	365	swap	0
+click1	366	swap	0
+click10	367	swap	0
+click1001	368	swap	0
+click101	369	swap	0
+click11	370	swap	0
+click1101	371	swap	0
+click12	372	swap	0
+click1201	373	swap	0
+click13	374	swap	0
+click1301	375	swap	0
+click14	376	swap	0
+click1401	377	swap	0
+click15	378	swap	0
+click1501	379	swap	0
+click16	380	swap	0
+click1601	381	swap	0
+click17	382	swap	0
+click1701	383	swap	0
+click18	384	swap	0
+click1801	385	swap	0
+click19	386	swap	0
+click1901	387	swap	0
+click2	388	swap	0
+click20	389	swap	0
+click2001	390	swap	0
+click201	391	swap	0
+click21	392	swap	0
+click2101	393	swap	0
+click22	394	swap	0
+click2201	395	swap	0
+click23	396	swap	0
+click2301	397	swap	0
+click24	398	swap	0
+click2401	399	swap	0
+click3	400	swap	0
+click301	401	swap	0
+click4	402	swap	0
+click401	403	swap	0
+click5	404	swap	0
+click501	405	swap	0
+click6	406	swap	0
+click601	407	swap	0
+click7	408	swap	0
+click701	409	swap	0
+click8	410	swap	0
+click801	411	swap	0
+click9	412	swap	0
+click901	413	swap	0
+zap1	414	swap	0
+zap101	415	swap	0
+zap2	416	swap	0
+zap201	417	swap	0
+zap3	418	swap	0
+boing01	419	swap	0
+locked door02	420	swap	0
+chest open	421	swap	0
+door slide closed	422	swap	0
+door slide open	423	swap	0
+door01 close	424	swap	0
+door01 open	425	swap	0
+door02 close	426	swap	0
+door02 open	427	swap	0
+door03 close	428	swap	0
+door03 open	429	swap	0
+door04 close	430	swap	0
+door04 open	431	swap	0
+door05 close	432	swap	0
+door05 open	433	swap	0
+door06 close	434	swap	0
+door06 open	435	swap	0
+door07 close	436	swap	0
+door07 open	437	swap	0
+locked door01	438	swap	0
+chest close	439	swap	0
+raging fire loop	440	swap	0
+torch loop	441	swap	0
+torch loop2	442	swap	0
+concrete01 foot1	443	swap	0
+concrete01 foot2	444	swap	0
+creaky floor foot1	445	swap	0
+creaky floor foot2	446	swap	0
+dirt01 foot1	447	swap	0
+dirt01 foot2	448	swap	0
+dirt02 foot1	449	swap	0
+dirt02 foot2	450	swap	0
+GRASS01 FOOT1	451	swap	0
+GRASS01 FOOT2	452	swap	0
+stone01 foot1	453	swap	0
+stone01 foot2	454	swap	0
+Wood01 Foot1	455	swap	0
+wood01 foot2	456	swap	0
+drip01	457	swap	0
+drip02	458	swap	0
+drip03	459	swap	0
+fountain loop	460	swap	0
+fountain loop2	461	swap	0
+lt waves loop	462	swap	0
+med waves loop	463	swap	0
+rushing water loop	464	swap	0
+water lapping loop	465	swap	0
+water01 foot1	466	swap	0
+water01 foot2	467	swap	0
+water02 foot1`	468	swap	0
+water02 foot2	469	swap	0
+waterfall loop1	470	swap	0
+waterfall loop2	471	swap	0

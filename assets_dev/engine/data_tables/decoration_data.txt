@@ -1,0 +1,676 @@
+Decoration Data			Descriptor							Comments	
+#	InternalName	Hint	Type	Radius	Height	LightRadius	LightRed	LightGreen	LightBlue	SoundId	Flags	SpriteId	Comments
+
+1	null	null	0	8	8	0	0	0	0	0	0	0	-
+2	6Pending	test	0	16	16	16	0	0	0	0	0	16819	-
+3	v7Party Start	test	0	16	16	0	0	0	0	0	DontDraw	0	-
+4	mcryst01	Memory Crystal	0	52	52	0	0	0	0	-22841	0	17633	-
+5	crysdisc	Crystal Disk	0	52	52	0	0	0	0	-22841	0	17720	-
+6	noose	noose	0	52	52	0	0	0	0	0	0	17721	-
+7	v6fount1	Fountain	0	38	74	0	0	0	0	0	0	17705	-
+8	ped01	Bear Statuette	0	80	80	0	0	0	0	0	0	17639	-
+9	ped02	Tiger Statuette	0	80	80	0	0	0	0	0	0	17640	-
+10	ped03	Eagle Statuette	0	80	80	0	0	0	0	0	0	17641	-
+11	ped04	Wolf Statuette	0	80	80	0	0	0	0	0	0	17642	-
+12	ped05	Dragon Statuette	0	80	80	0	0	0	0	0	0	17643	-
+13	ped06	Pedastal	0	80	80	0	0	0	0	0	0	17644	-
+14	pending	pending	0	16	16	0	0	0	0	0	0	1	-
+15	Party Start	null	0	16	16	0	0	0	0	0	DontDraw	0	-
+16	north start	null	0	16	16	0	0	0	0	0	DontDraw	0	-
+17	south start	null	0	16	16	0	0	0	0	0	DontDraw	0	-
+18	east start	null	0	16	16	0	0	0	0	0	DontDraw	0	-
+19	west start	null	0	16	16	0	0	0	0	0	DontDraw	0	-
+20	torch01	torch	0	8	52	512	255	128	0	0	0	7968	-
+21	torch02	torch	0	7	52	512	255	128	0	0	0	7976	-
+22	torch03	torch	0	8	52	512	255	128	0	0	0	7980	-
+23	smoke	null	0	16	8	0	0	0	0	0	EmitSmoke	0	-
+24	fire01	large fire	0	16	16	256	255	0	0	0	EmitFire	0	-
+25	v7north start	null	0	16	16	0	0	0	0	0	DontDraw	0	-
+26	v7south start	null	0	16	16	0	0	0	0	0	DontDraw	0	-
+27	v7east start	null	0	16	16	0	0	0	0	0	DontDraw	0	-
+28	v7west start	null	0	16	16	0	0	0	0	0	DontDraw	0	-
+29	6Flower01	flowers	0	0	0	0	0	0	0	0	0	17947	-
+30	6Flower02	flowers	0	0	0	0	0	0	0	0	0	17948	-
+31	6Flower03	flowers	0	0	0	0	0	0	0	0	0	17949	-
+32	6Flower04	flowers	0	0	0	0	0	0	0	0	0	17950	-
+33	6Flower05	flowers	0	0	0	0	0	0	0	0	0	17951	-
+34	6Flower06	flowers	0	0	0	0	0	0	0	0	0	17952	-
+35	6Flower07	flowers	0	0	0	0	0	0	0	0	0	17953	-
+36	6Flower08	flowers	0	0	0	0	0	0	0	0	0	17954	-
+37	6Flower09	flowers	0	0	0	0	0	0	0	0	0	17955	-
+38	6Flower10	flowers	0	0	0	0	0	0	0	0	0	17956	-
+39	6Flower11	flowers	0	0	0	0	0	0	0	0	0	17957	-
+40	6Flower12	flowers	0	0	0	0	0	0	0	0	0	17958	-
+41	6Flower13	flowers	0	0	0	0	0	0	0	0	0	17959	-
+42	Cac1	cactus	0	52	52	0	0	0	0	0	0	17960	-
+43	Cac2	cactus	0	52	52	0	0	0	0	0	0	17962	-
+44	Cac3	cactus	0	52	52	0	0	0	0	0	0	17964	-
+45	Cac4	cactus	0	52	52	0	0	0	0	0	0	17965	-
+46	Cac5	cactus	0	52	52	0	0	0	0	0	0	17966	-
+47	Cac6	cactus	0	52	52	0	0	0	0	0	0	17967	-
+48	Cac7	cactus	0	52	52	0	0	0	0	0	0	17968	-
+49	Cac8	cactus	0	52	52	0	0	0	0	0	0	17969	-
+50	Cac9	cactus	0	52	52	0	0	0	0	0	0	17970	-
+51	Cac10	cactus	0	52	52	0	0	0	0	0	0	17971	-
+52	Cac12	cactus	0	52	52	0	0	0	0	0	0	17972	-
+53	Cac13	cactus	0	52	52	0	0	0	0	0	0	17973	-
+54	Cac15	cactus	0	52	52	0	0	0	0	0	0	17974	-
+55	Cac16	cactus	0	52	52	0	0	0	0	0	0	17975	-
+56	Cac17	cactus	0	52	52	0	0	0	0	0	0	17976	-
+57	Cac18	cactus	0	52	52	0	0	0	0	0	0	17977	-
+58	Cac19	cactus	0	52	52	0	0	0	0	0	0	17978	-
+59	Cac20	cactus	0	52	52	0	0	0	0	0	0	17979	-
+60	Cac21	cactus	0	52	52	0	0	0	0	0	0	17980	-
+61	Cac22	cactus	0	52	52	0	0	0	0	0	0	17981	-
+62	Cac23	cactus	0	52	52	0	0	0	0	0	0	17982	-
+63	Cac24	cactus	0	52	52	0	0	0	0	0	0	17983	-
+64	Cac25	cactus	0	52	52	0	0	0	0	0	0	17984	-
+65	swptree1	tree	0	52	52	0	0	0	0	0	0	17987	-
+66	swptree2	tree	0	52	52	0	0	0	0	0	0	17988	-
+67	swptree3	tree	0	52	52	0	0	0	0	0	0	17989	-
+68	swptree4	tree	0	52	52	0	0	0	0	0	0	17990	-
+69	mushrm01	mushroom	0	52	52	0	0	0	0	0	0	17782	-
+70	mushrm02	mushroom	0	52	52	0	0	0	0	0	0	17783	-
+71	mushrm03	mushroom	0	52	52	0	0	0	0	0	0	17784	-
+72	shroom_d	mushroom	0	52	52	0	0	0	0	0	0	17785	-
+73	shroom_e	mushroom	0	52	52	0	0	0	0	0	0	17786	-
+74	smmushrm	mushroom	0	52	52	0	0	0	0	0	0	17787	-
+75	rush01	weeds	0	54	54	0	0	0	0	0	0	17991	-
+76	rush02	weeds	0	54	54	0	0	0	0	0	0	17992	-
+77	rush03	weeds	0	54	54	0	0	0	0	0	0	17993	-
+78	snotre01	tree	0	52	52	0	0	0	0	0	0	17994	-
+79	snotre02	tree	0	52	52	0	0	0	0	0	0	17995	-
+80	snotre03	tree	0	52	52	0	0	0	0	0	0	17996	-
+81	snotre04	tree	0	52	52	0	0	0	0	0	0	17997	-
+82	snotre05	tree	0	52	52	0	0	0	0	0	0	17998	-
+83	snoweed1	weeds	0	52	52	0	0	0	0	0	0	17999	-
+84	6rock01	rock	0	52	52	0	0	0	0	0	0	17811	-
+85	Snd_Brook	test	0	0	0	0	0	0	0	-23370	DontDraw	0	-
+86	Snd_Boat	test	0	0	0	0	0	0	0	-23369	DontDraw	0	-
+87	6rock02	rock	0	52	52	0	0	0	0	0	0	17813	-
+88	Snd_Howl	test	0	0	0	0	0	0	0	-23253	DontDraw,SoundOnDawn,SoundOnDusk	0	-
+89	6rock03	rock	0	52	52	0	0	0	0	0	0	17814	-
+90	Snd_Dragon	test	0	0	0	0	0	0	0	0	DontDraw,SoundOnDawn,SoundOnDusk	0	-
+91	6rock04	rock	0	52	52	0	0	0	0	0	0	17815	-
+92	6rock05	rock	0	52	52	0	0	0	0	0	0	17816	-
+93	6rock06	rock	0	52	52	0	0	0	0	0	0	17817	-
+94	6rock07	rock	0	52	52	0	0	0	0	0	0	17818	-
+95	6rock08	rock	0	52	52	0	0	0	0	0	0	17819	-
+96	6rock09	rock	0	52	52	0	0	0	0	0	0	17820	-
+97	6rock10	rock	0	52	52	0	0	0	0	0	0	17821	-
+98	6rock11	rock	0	52	52	0	0	0	0	0	0	17822	-
+99	6rock12	rock	0	52	52	0	0	0	0	0	0	17823	-
+100	6rock13	rock	0	52	52	0	0	0	0	0	0	17824	-
+101	6rock14	rock	0	52	52	0	0	0	0	0	0	17825	-
+102	searka01	rock	0	52	52	0	0	0	0	0	0	17708	-
+103	searkb01	rock	0	52	52	0	0	0	0	0	0	17714	-
+104	fla1__01	flag	0	30	40	0	0	0	0	0	0	17833	-
+105	fla2__01	flag	0	30	40	0	0	0	0	0	0	17841	-
+106	fla3__01	flag	0	30	40	0	0	0	0	0	0	17849	-
+107	fla4__01	flag	0	30	40	0	0	0	0	0	0	17857	-
+108	crystl0	crystal	0	52	52	0	0	0	0	0	0	17802	-
+109	crclstr	crystal	0	52	52	0	0	0	0	0	0	17808	-
+110	crys5	crystal	0	52	52	0	0	0	0	0	0	17809	-
+111	crys6	crystal	0	52	52	0	0	0	0	0	0	17810	-
+112	stlmite1	stalagmite	0	52	52	0	0	0	0	0	0	17657	-
+113	stlmite2	stalagmite	0	52	52	0	0	0	0	0	0	17659	-
+114	stlmite3	stalagmite	0	52	52	0	0	0	0	0	0	17661	-
+115	stlmite4	stalagmite	0	52	52	0	0	0	0	0	0	17826	-
+116	Corpse	corpse	0	30	40	0	0	0	0	0	0	17897	-
+117	Corpse01	corpse	0	30	40	0	0	0	0	0	0	17898	-
+118	Corpse02	corpse	0	30	40	0	0	0	0	0	0	17899	-
+119	Corpse03	corpse	0	30	40	0	0	0	0	0	0	17900	-
+120	torch05	torch	0	100	64	512	28	0	255	0	0	7988	-
+121	Corpse04	corpse	0	30	40	0	0	0	0	0	0	17901	-
+122	torch06	torch	0	100	64	512	0	255	0	0	0	7996	-
+123	Corpse05	corpse	0	30	40	0	0	0	0	0	0	17902	-
+124	Corpse06	corpse	0	30	40	0	0	0	0	0	0	17903	-
+125	torch07	torch	0	100	64	512	255	0	0	0	0	8004	-
+126	Corpse07	corpse	0	30	40	0	0	0	0	0	0	17904	-
+127	Corpse08	corpse	0	30	40	0	0	0	0	0	0	17905	-
+128	Corpse09	corpse	0	30	40	0	0	0	0	0	0	17906	-
+129	Corpse10	corpse	0	30	40	0	0	0	0	0	0	17907	-
+130	Corpse11	corpse	0	30	40	0	0	0	0	0	0	17908	-
+131	Corpse12	corpse	0	30	40	0	0	0	0	0	0	17909	-
+132	Corpse13	corpse	0	30	40	0	0	0	0	0	0	17910	-
+133	Corpse14	corpse	0	30	40	0	0	0	0	0	0	17911	-
+134	Corpse15	corpse	0	30	40	0	0	0	0	0	0	17912	-
+135	Corpse16	corpse	0	30	40	0	0	0	0	0	0	17913	-
+136	Corpse17	corpse	0	30	40	0	0	0	0	0	0	17914	-
+137	Corpse18	corpse	0	30	40	0	0	0	0	0	0	17915	-
+138	Corpse19	corpse	0	30	40	0	0	0	0	0	0	17916	-
+139	trasheap	trash heap	0	56	56	0	0	0	0	0	0	17704	-
+140	bouy0	buoy	0	30	40	0	0	0	0	0	0	17722	-
+141	ChandEL0	chandelier	0	30	40	0	0	0	0	0	0	17865	-
+142	ChndLir0	chandelier	0	40	40	0	0	0	0	0	0	17869	-
+143	cndlab0	candle	0	40	30	0	0	0	0	0	0	17778	-
+144	brazir2f	brazier	0	30	40	0	0	0	0	0	0	17752	-
+145	brzier00	brazier	0	30	40	256	0	0	0	0	0	17753	-
+146	flamb00	flambeaux	0	30	40	0	0	0	0	0	0	17765	-
+147	bag01	bag	0	49	60	0	0	0	0	0	0	17877	-
+148	Bucket	bucket	0	29	40	0	0	0	0	0	0	17880	-
+149	Bonecage	bone cage	0	29	40	0	0	0	0	0	0	17879	-
+150	Corinth	column	0	29	40	0	0	0	0	0	0	17881	-
+151	floursac	sack	0	49	40	0	0	0	0	0	0	17882	-
+152	hngncge2	hanging cage	0	29	40	0	0	0	0	0	0	17883	-
+153	sta1a	Statue	0	29	40	0	0	0	0	-22938	0	17829	-
+154	SHP	Ship	0	378	512	0	0	0	0	-22937	SlowLoop	17832	-
+155	bag_A	bag	0	30	40	0	0	0	0	0	0	17876	-
+156	bigbarel	barrel	0	30	40	0	0	0	0	0	0	17878	-
+157	smlbarel	keg	0	30	40	0	0	0	0	0	0	17789	-
+158	sklplrev	skull pile	0	30	40	0	0	0	0	0	0	17788	-
+159	ckfyr00	fire	0	30	40	0	0	0	0	-22942	0	17790	-
+160	cmpfyr00	fire	0	30	40	0	0	0	0	-22942	0	17796	-
+161	6torch01	torch	0	8	52	256	0	0	0	0	FlickerAverage	17733	-
+162	torchnf	torch	0	7	52	0	0	0	0	0	0	17732	-
+163	TrchB00	torch	0	8	52	256	0	0	0	0	FlickerAverage	17772	-
+164	nwtrchnf	torch	0	7	52	0	0	0	0	0	0	17771	-
+165	torskul0	torch	0	8	52	256	0	0	0	0	0	17743	-
+166	v66torch01	torch	0	8	52	256	0	0	0	0	FlickerAverage	17733	-
+167	Brnrock0	burning rock	0	30	40	0	0	0	0	0	0	17759	-
+168	scon100	sconce	0	30	40	0	0	0	0	0	0	17884	-
+169	scon200	sconce	0	30	40	0	0	0	0	0	0	17891	-
+170	foodbowl	bowl	0	30	40	0	0	0	0	0	0	17875	-
+171	swrdstn	A Sword in a Stone	0	52	52	0	0	0	0	0	0	17827	-
+172	swrdstx	rock	0	52	52	0	0	0	0	0	0	17828	-
+173	cauld00	Cauldron	0	52	52	0	0	0	0	-22842	0	17645	-
+174	potery1	crockery	0	30	30	0	0	0	0	0	0	17696	-
+175	potery2	crockery	0	30	30	0	0	0	0	0	0	17697	-
+176	basket1	basket	0	30	30	0	0	0	0	0	0	17698	-
+177	cstump3a	stump	0	30	30	0	0	0	0	0	0	17699	-
+178	tcurn	Urn	0	30	30	0	0	0	0	0	0	17700	-
+179	urn	Urn	0	30	30	0	0	0	0	0	0	17701	-
+180	urn2	Urn	0	30	30	0	0	0	0	0	0	17703	-
+181	empty	empty cage	0	64	128	0	0	0	0	0	0	16827	-
+182	goblet	goblet	0	32	32	0	0	0	0	0	0	17651	-
+183	haybale2	Hay	0	127	127	0	0	0	0	0	0	17652	-
+184	mite2	stalagmite	0	64	112	0	0	0	0	0	0	17653	-
+185	mite3	stalagmite	0	64	112	0	0	0	0	0	0	17654	-
+186	mite4	stalagmite	0	64	112	0	0	0	0	0	0	17655	-
+187	mite5	stalagmite	0	64	112	0	0	0	0	0	0	17656	-
+188	v6stlmite1	stalagmite	0	64	112	0	0	0	0	0	0	17657	-
+189	v6stlmite2	stalagmite	0	64	112	0	0	0	0	0	0	17659	-
+190	v6stlmite3	stalagmite	0	64	112	0	0	0	0	0	0	17661	-
+191	stltite1	stalagtite	0	64	112	0	0	0	0	0	0	17663	-
+192	stltite2	stalagtite	0	64	112	0	0	0	0	0	0	17664	-
+193	stltite3	stalagtite	0	64	112	0	0	0	0	0	0	17665	-
+194	tite2	stalagtite	0	64	112	0	0	0	0	0	0	17666	-
+195	tite3	stalagtite	0	64	112	0	0	0	0	0	0	17667	-
+196	tite4	stalagtite	0	64	112	0	0	0	0	0	0	17668	-
+197	tite5	stalagtite	0	64	112	0	0	0	0	0	0	17669	-
+198	mushrm04	mushroom	0	64	64	0	0	0	0	0	0	17670	-
+199	mushrm05	mushroom	0	64	64	0	0	0	0	0	0	17671	-
+200	mushrm06	mushroom	0	64	64	0	0	0	0	0	0	17672	-
+201	mushrm07	mushroom	0	64	64	0	0	0	0	0	0	17673	-
+202	pillow	pillow	0	63	31	0	0	0	0	0	0	17674	-
+203	plate	plate	0	16	16	0	0	0	0	0	0	17675	-
+204	pltepeas	pltepeas	0	16	16	0	0	0	0	0	0	17676	-
+205	sklabra0	candelabra of skulls	0	96	196	0	0	0	0	0	0	17677	-
+206	sklspear	skulls	0	96	196	0	0	0	0	0	0	17683	-
+207	stick02	stake	0	255	128	0	0	0	0	0	0	17684	-
+208	stick03	stake	0	16	128	0	0	0	0	0	0	17685	-
+209	stick04	stake	0	16	128	0	0	0	0	0	0	17686	-
+210	stick05	stake	0	64	128	0	0	0	0	0	0	17687	-
+211	stick06	stake	0	255	128	0	0	0	0	0	0	17688	-
+212	stick09	stake	0	16	128	0	0	0	0	0	0	17689	-
+213	stick10	stake	0	16	128	0	0	0	0	0	0	17690	-
+214	stick16	stake	0	16	128	0	0	0	0	0	0	17691	-
+215	stick17	stake	0	16	128	0	0	0	0	0	0	17692	-
+216	strwlg	pile of straw	0	140	30	0	0	0	0	0	0	17693	-
+217	strwsm	pile of straw	0	120	30	0	0	0	0	0	0	17694	-
+218	stump5a	stump	0	96	64	0	0	0	0	0	0	17695	-
+219	Cac26	cactus	0	52	52	0	0	0	0	0	0	17985	-
+220	Cac27	cactus	0	52	52	0	0	0	0	0	0	17986	-
+221	Boat loop	null	0	16	64	0	0	0	0	308	DontDraw	0	-
+222	lava loop	null	0	16	64	0	0	0	0	310	DontDraw	0	-
+223	wind loop	null	0	16	64	0	0	0	0	300	DontDraw	0	-
+224	water loop	null	0	16	64	0	0	0	0	465	DontDraw	0	-
+225	7dec01	trash heap	0	52	52	0	0	0	0	0	0	7909	-
+226	dec01	Elf Statue	0	16	256	0	0	0	0	0	0	165	-
+227	7dec02	campfire	0	52	52	0	0	0	0	0	0	7910	-
+228	dec02	candle stick	0	16	160	86	255	255	255	0	0	166	-
+229	7dec03	cauldron	0	52	52	0	0	0	0	0	0	7918	-
+230	dec03	dec03	0	16	64	0	0	0	0	0	0	172	-
+231	7dec04	chandelier	0	52	52	0	0	0	0	0	0	7925	-
+232	dec04	campfire	0	16	0	128	255	255	255	0	0	173	-
+233	7dec05	cage	0	52	52	0	0	0	0	0	0	7931	-
+234	dec05	skeleton	0	16	8	0	0	0	0	0	0	181	-
+235	7dec06	cage	0	52	52	0	0	0	0	0	0	7943	-
+236	dec06	torch	0	16	180	128	255	30	30	0	0	182	-
+237	7dec07	cage	0	52	52	0	0	0	0	0	0	7955	-
+238	dec07	lantern	0	16	180	96	255	255	255	0	0	190	-
+239	7dec08	fruit bowl	0	52	52	0	0	0	0	0	0	7962	-
+240	dec08	chandelier	0	16	180	96	255	255	255	0	0	196	-
+241	dec09	crystal	0	16	8	0	0	0	0	0	0	202	-
+242	7dec10	trash heap	0	52	52	0	0	0	0	0	0	8020	-
+243	dec10	crystal	0	16	8	0	0	0	0	0	0	203	-
+244	7dec11	dirt	0	52	52	0	0	0	0	0	0	8021	-
+245	dec11	crystal	0	16	8	0	0	0	0	0	0	204	-
+246	7dec12	wood	0	52	52	0	0	0	0	0	0	8022	-
+247	dec12	crystal	0	16	8	0	0	0	0	0	0	205	-
+248	7dec13	wood	0	52	52	0	0	0	0	0	0	8023	-
+249	dec13	rune post	0	16	8	0	0	0	0	0	0	206	-
+250	7dec14	wood	0	52	52	0	0	0	0	0	0	8024	-
+251	dec14	rune post	0	16	8	0	0	0	0	0	0	207	-
+252	7dec15	wood	0	52	52	0	0	0	0	0	0	8025	-
+253	dec15	rune post	0	16	8	0	0	0	0	0	0	208	-
+254	7dec16	wood	0	52	52	0	0	0	0	0	0	8026	-
+255	dec16	rune post	0	16	8	0	0	0	0	0	0	209	-
+256	7dec17	wood	0	52	52	0	0	0	0	0	0	8027	-
+257	dec17	rune post	0	16	8	0	0	0	0	0	0	210	-
+258	7dec18	bones	0	52	52	0	0	0	0	0	0	8028	-
+259	dec18	rune post	0	16	8	0	0	0	0	0	0	211	-
+260	dec19	bones	0	52	52	0	0	0	0	0	0	8029	-
+261	7dec20	skull	0	52	52	0	0	0	0	0	0	8030	-
+262	dec20	trash	0	16	8	0	0	0	0	0	0	212	-
+263	7dec21	cask	0	29	40	0	0	0	0	-23370	0	8031	-
+264	dec21	bones	0	16	8	0	0	0	0	0	0	213	-
+265	dec22	carrion	0	16	8	0	0	0	0	0	0	214	-
+266	dec24x	burned out fire	0	16	16	0	0	0	0	0	0	7902	-
+267	v77dec24	fire	0	32	32	0	0	0	0	0	0	8012	-
+268	7dec24	barrel	0	30	40	0	0	0	0	0	0	8012	-
+269	dec27	chandelier	0	16	180	96	255	255	255	0	0	240	-
+270	dec29	bones	0	16	8	0	0	0	0	0	0	247	-
+271	dec30	buoy	0	16	8	0	0	0	0	0	0	248	-
+272	dec31	metal bowl	0	16	8	0	0	0	0	0	0	256	-
+273	dec32	metal bowls	0	16	8	0	0	0	0	0	0	257	-
+274	dec33	wood bowl	0	16	8	0	0	0	0	0	0	258	-
+275	7dec32	barrel	0	52	52	0	0	0	0	-23258	0	8032	-
+276	dec34	wood bowls	0	16	8	0	0	0	0	0	0	259	-
+277	7dec33	buoy	0	52	52	0	0	0	0	0	0	8033	-
+278	dec35	glass	0	16	8	0	0	0	0	0	0	260	-
+279	7dec34	rock	0	52	52	0	0	0	0	0	0	8065	-
+280	dec36	wood plate	0	16	8	0	0	0	0	0	0	261	-
+281	7dec35	fountain	0	128	128	0	0	0	0	-23370	0	8071	-
+282	dec37	wood plates	0	16	8	0	0	0	0	0	0	262	-
+283	dec38	metal plate	0	16	8	0	0	0	0	0	0	263	-
+284	dec39	metal plates	0	16	8	0	0	0	0	0	0	264	-
+285	7dec41	bottle	0	16	16	0	0	0	0	0	0	8077	-
+286	7dec42	bowl	0	16	16	0	0	0	0	0	0	8078	-
+287	7dec43	stack of bowls	0	16	16	0	0	0	0	0	0	8079	-
+288	7dec44	bowl	0	16	16	0	0	0	0	0	0	7963	-
+289	7dec45	stack of bowls	0	16	16	0	0	0	0	0	0	7964	-
+290	7dec46	goblet	0	16	16	0	0	0	0	0	0	8080	-
+291	7dec47	goblet	0	16	16	0	0	0	0	0	0	8081	-
+292	7dec48	goblet	0	16	16	0	0	0	0	0	0	7965	-
+293	7dec49	mile market	0	16	16	0	0	0	0	0	0	8082	-
+294	7dec50	plate	0	16	16	0	0	0	0	0	0	7966	-
+295	7dec51	stack of plates	0	16	16	0	0	0	0	0	0	7967	-
+296	7dec52	plate	0	16	16	0	0	0	0	0	0	8083	-
+297	7dec53	stack of plates	0	16	16	0	0	0	0	0	0	8084	-
+298	7dec54	statue	0	100	64	0	0	0	0	0	0	8085	-
+299	dec56	torch	0	32	182	96	255	255	255	0	0	393	-
+300	7dec55	statue	0	100	64	0	0	0	0	0	0	8086	-
+301	dec57	path marker	0	16	16	96	255	255	255	0	0	401	-
+302	dec58	Seaweed	0	16	64	0	0	0	0	0	0	402	-
+303	dec59	Coral	0	16	64	0	0	0	0	0	0	412	-
+304	dec23	trash heap	0	52	52	0	0	0	0	0	0	215	-
+305	dec60	beacon fire	0	64	160	128	0	0	0	0	0	7774	-
+306	dec24	campfire	0	52	56	128	200	30	30	0	0	216	-
+307	dec61	beacon fire	0	64	160	128	0	0	0	0	0	7782	-
+308	dec25	campfire	0	32	56	128	255	255	255	0	0	225	-
+309	dec62	beacon fire	0	64	160	128	0	0	0	0	0	7790	-
+310	dec63	beacon fire	0	64	160	128	0	0	0	0	0	7798	-
+311	dec26	cauldron	0	52	52	128	255	255	255	0	0	233	-
+312	dec64	magic pedastal	0	64	190	64	0	0	0	0	0	7806	-
+313	dec65	magic pedastal	0	64	190	64	0	0	0	0	0	7814	-
+314	dec28	fruit bowl	0	52	52	0	0	0	0	0	0	246	-
+315	dec66	magic pedastal	0	64	190	64	0	0	0	0	0	7822	-
+316	dec67	magic pedastal	0	64	190	64	0	0	0	0	0	7830	-
+317	dec68	magic pedastal	0	64	190	64	0	0	0	0	0	7838	-
+318	dec69	magic pedastal	0	64	190	64	0	0	0	0	0	7846	-
+319	dec70	magic pedastal	0	64	190	64	0	0	0	0	0	7854	-
+320	dec71	magic pedastal	0	64	190	64	0	0	0	0	0	7862	-
+321	dec72	magic pedastal	0	64	190	64	0	0	0	0	0	7870	-
+322	dec73	magic pedastal	0	64	190	64	0	0	0	0	0	7878	-
+323	dec74	magic pedastal	0	64	190	64	0	0	0	0	0	7886	-
+324	dec75	magic pedastal	0	64	190	64	0	0	0	0	0	7894	-
+325	dec40	beacon fire	0	64	160	256	63	164	255	0	0	265	-
+326	dec41	beacon fire	0	64	160	256	255	207	119	0	0	273	-
+327	dec42	beacon fire	0	64	160	256	255	165	65	0	0	281	-
+328	dec43	beacon fire	0	64	160	256	255	255	255	0	0	289	-
+329	dec44	magic pedastal	0	64	190	256	247	229	203	0	0	297	-
+330	dec45	magic pedastal	0	64	190	256	248	205	163	0	0	305	-
+331	dec46	magic pedastal	0	64	190	256	255	255	255	0	0	313	-
+332	dec47	magic pedastal	0	64	190	256	158	255	178	0	0	321	-
+333	dec48	magic pedastal	0	64	190	256	166	214	255	0	0	329	-
+334	dec49	magic pedastal	0	64	190	256	255	45	45	0	0	337	-
+335	dec50	magic pedastal	0	64	190	256	255	225	209	0	0	345	-
+336	dec51	magic pedastal	0	64	190	256	222	183	200	0	0	353	-
+337	dec52	magic pedastal	0	64	190	256	202	151	255	0	0	361	-
+338	dec53	magic pedastal	0	64	190	256	255	146	146	0	0	369	-
+339	dec54	magic pedastal	0	64	190	256	255	255	255	0	0	377	-
+340	dec55	magic pedastal	0	64	190	256	243	255	155	0	0	385	-
+341	v7dec86	mushroom	0	0	0	0	0	0	0	0	0	8041	-
+342	dec87	log	0	0	0	0	0	0	0	0	0	8042	-
+343	v7dec88	mushroom	0	0	0	0	0	0	0	0	0	8043	-
+344	dec89	fossil	0	0	0	0	0	0	0	0	0	8044	-
+345	dec90	fossil	0	0	0	0	0	0	0	0	0	8045	-
+346	dec91	mushroom	0	0	0	0	0	0	0	0	0	8046	-
+347	dec92	stalagmite	0	0	0	0	0	0	0	0	0	8047	-
+348	dec94	statue	0	16	16	0	0	0	0	0	0	8062	-
+349	dec95	statue	0	16	16	0	0	0	0	0	0	8063	-
+350	dec96	statue	0	16	16	0	0	0	0	0	0	8064	-
+351	dec97	vase	0	100	64	0	0	0	0	0	0	8087	-
+352	7rock01	rock	0	0	0	0	0	0	0	0	0	8049	-
+353	rock01	rock	0	16	8	0	0	0	0	0	0	482	-
+354	7rock02	rock	0	0	0	0	0	0	0	0	0	8050	-
+355	rock02	rock	0	16	8	0	0	0	0	0	0	483	-
+356	7rock03	rock	0	0	0	0	0	0	0	0	0	8051	-
+357	rock03	boulder	0	16	24	0	0	0	0	0	0	484	-
+358	7rock04	rock	0	0	0	0	0	0	0	0	0	8052	-
+359	rock04	rock	0	16	8	0	0	0	0	0	0	485	-
+360	7rock05	rock	0	0	0	0	0	0	0	0	0	8053	-
+361	rock05	rock	0	16	8	0	0	0	0	0	0	486	-
+362	7rock06	rock	0	0	0	0	0	0	0	0	0	8054	-
+363	rock06	rock	0	16	8	0	0	0	0	0	0	487	-
+364	7rock07	rock	0	0	0	0	0	0	0	0	0	8055	-
+365	rock07	rock	0	16	8	0	0	0	0	0	0	488	-
+366	7rock08	rock	0	0	0	0	0	0	0	0	0	8056	-
+367	rock08	rock	0	16	8	0	0	0	0	0	0	489	-
+368	7rock09	rock	0	0	0	0	0	0	0	0	0	8057	-
+369	rock09	rock	0	16	8	0	0	0	0	0	0	490	-
+370	rock10	boulder	0	16	24	0	0	0	0	0	0	491	-
+371	rock11	rock	0	16	8	0	0	0	0	0	0	492	-
+372	rock12	boulder	0	16	24	0	0	0	0	0	0	493	-
+373	rock13	rock	0	16	8	0	0	0	0	0	0	494	-
+374	rock14	rock	0	16	8	0	0	0	0	0	0	495	-
+375	rock15	rock	0	16	8	0	0	0	0	0	0	496	-
+376	rock16	rock	0	16	8	0	0	0	0	0	0	497	-
+377	rock17	rock	0	16	8	0	0	0	0	0	0	498	-
+378	rock18	rock	0	16	8	0	0	0	0	0	0	499	-
+379	rock19	rock	0	16	8	0	0	0	0	0	0	500	-
+380	rock20	rock	0	16	8	0	0	0	0	0	0	501	-
+381	rock21	rock	0	16	8	0	0	0	0	0	0	502	-
+382	rock22	rock	0	16	8	0	0	0	0	0	0	503	-
+383	rock23	rock	0	16	8	0	0	0	0	0	0	504	-
+384	rock24	rock	0	16	8	0	0	0	0	0	0	505	-
+385	rock25	rock	0	16	8	0	0	0	0	0	0	506	-
+386	rock26	boulder	0	16	24	0	0	0	0	0	0	507	-
+387	rock27	rock	0	16	8	0	0	0	0	0	0	508	-
+388	rock28	rock	0	16	8	0	0	0	0	0	0	509	-
+389	rock29	rock	0	16	8	0	0	0	0	0	0	510	-
+390	rock30	rock	0	16	8	0	0	0	0	0	0	511	-
+391	rock31	rock	0	16	8	0	0	0	0	0	0	512	-
+392	rock32	rock	0	16	8	0	0	0	0	0	0	513	-
+393	rock33	rock	0	16	8	0	0	0	0	0	0	514	-
+394	rock34	rock	0	16	8	0	0	0	0	0	0	515	-
+395	rock35	rock	0	16	8	0	0	0	0	0	0	516	-
+396	rock36	rock	0	16	8	0	0	0	0	0	0	517	-
+397	rock37	rock	0	16	8	0	0	0	0	0	0	518	-
+398	rock38	boulder	0	16	24	0	0	0	0	0	0	519	-
+399	rock40	rock	0	16	8	0	0	0	0	0	0	520	-
+400	rock41	rock	0	16	8	0	0	0	0	0	0	521	-
+401	rock42	rock	0	16	8	0	0	0	0	0	0	522	-
+402	rock43	boulder	0	16	24	0	0	0	0	0	0	523	-
+403	rock44	rock	0	16	8	0	0	0	0	0	0	524	-
+404	rock45	rock	0	16	8	0	0	0	0	0	0	525	-
+405	rock46	rock	0	16	8	0	0	0	0	0	0	526	-
+406	rock47	rock	0	16	8	0	0	0	0	0	0	527	-
+407	rock48	rock	0	16	8	0	0	0	0	0	0	528	-
+408	rock50	boulder	0	16	24	0	0	0	0	0	0	529	-
+409	rock51	rock	0	16	8	0	0	0	0	0	0	530	-
+410	rock52	rock	0	16	8	0	0	0	0	0	0	531	-
+411	rock53	rock	0	16	8	0	0	0	0	0	0	532	-
+412	rock54	rock	0	16	8	0	0	0	0	0	0	533	-
+413	rock55	rock	0	16	8	0	0	0	0	0	0	534	-
+414	rock56	rock	0	16	8	0	0	0	0	0	0	535	-
+415	rock57	rock	0	16	8	0	0	0	0	0	0	536	-
+416	rock58	rock	0	16	8	0	0	0	0	0	0	537	-
+417	rock59	rock	0	16	8	0	0	0	0	0	0	538	-
+418	rock60	rock	0	16	8	0	0	0	0	0	0	539	-
+419	rock61	tar rock	0	16	8	0	0	0	0	0	0	540	-
+420	rock62	tar rock	0	16	8	0	0	0	0	0	0	541	-
+421	rock63	tar rock	0	16	8	0	0	0	0	0	0	542	-
+422	rock64	tar rock	0	16	8	0	0	0	0	0	0	543	-
+423	rock65	ancient rune stone	0	16	60	0	0	0	0	0	0	544	-
+424	rock66	ancient rune stone	0	16	60	0	0	0	0	0	0	545	-
+425	rock67	ancient rune stone	0	16	32	0	0	0	0	0	0	546	-
+426	rock68	ancient rune stone	0	16	32	0	0	0	0	0	0	547	-
+427	rock69	ancient rune stone	0	16	32	0	0	0	0	0	0	548	-
+428	rock70	ancient rune stone	0	16	32	0	0	0	0	0	0	549	-
+429	6tree01	tree	0	96	96	0	0	0	0	0	0	17917	-
+430	7tree01	tree	0	96	96	0	0	0	0	0	0	8101	-
+431	tree01	palm tree	0	16	256	0	0	0	0	0	0	550	-
+432	6tree02	tree	0	96	96	0	0	0	0	0	0	17918	-
+433	7tree02	tree	0	96	96	0	0	0	0	0	0	8102	-
+434	tree02	palm tree	0	16	256	0	0	0	0	0	0	551	-
+435	6tree03	tree	0	76	96	0	0	0	0	0	0	17919	-
+436	7tree03	tree	0	96	96	0	0	0	0	0	0	8103	-
+437	tree03	palm tree	0	16	256	0	0	0	0	0	0	552	-
+438	6tree04	tree	0	96	96	0	0	0	0	0	0	17920	-
+439	7tree04	tree	0	96	96	0	0	0	0	0	0	8104	-
+440	tree04	palm tree	0	16	256	0	0	0	0	0	0	553	-
+441	6tree05	tree	0	96	96	0	0	0	0	0	0	17921	-
+442	7tree05	tree	0	96	96	0	0	0	0	0	0	8105	-
+443	tree05	palm tree	0	16	256	0	0	0	0	0	0	554	-
+444	tree06a	Empty Food Tree	0	86	96	0	0	0	0	0	0	17923	-
+445	7tree06	tree	0	96	96	0	0	0	0	0	0	8106	-
+446	tree06	palm tree	0	16	256	0	0	0	0	0	0	555	-
+447	6tree07	tree	0	96	96	0	0	0	0	0	0	17924	-
+448	7tree07	tree	0	96	96	0	0	0	0	0	0	8107	-
+449	tree07	palm tree	0	16	256	0	0	0	0	0	0	556	-
+450	6tree08	tree	0	96	96	0	0	0	0	0	0	17925	-
+451	7tree08	tree	0	96	96	0	0	0	0	0	0	8108	-
+452	tree08	palm tree	0	16	256	0	0	0	0	0	0	557	-
+453	6tree09	tree	0	70	96	0	0	0	0	0	0	17926	-
+454	7tree09	tree	0	96	96	0	0	0	0	0	0	8109	-
+455	tree09	palm tree	0	16	256	0	0	0	0	0	0	558	-
+456	6tree10	tree	0	96	96	0	0	0	0	0	0	17927	-
+457	7tree10	tree	0	96	96	0	0	0	0	0	0	8110	-
+458	tree10	tree	0	16	256	0	0	0	0	0	0	559	-
+459	6tree11	tree	0	65	96	0	0	0	0	0	0	17928	-
+460	7tree11	tree	0	96	96	0	0	0	0	0	0	8111	-
+461	tree11	tree	0	16	256	0	0	0	0	0	0	560	-
+462	6tree12	tree	0	66	96	0	0	0	0	0	0	17929	-
+463	7tree12	tree	0	96	96	0	0	0	0	0	0	8112	-
+464	tree12	tree	0	16	256	0	0	0	0	0	0	561	-
+465	6tree13	tree	0	96	96	0	0	0	0	0	0	17930	-
+466	7tree13	tree	0	96	96	0	0	0	0	0	0	8113	-
+467	tree13	tree	0	16	256	0	0	0	0	0	0	562	-
+468	6tree14	tree	0	76	96	0	0	0	0	0	0	17931	-
+469	7tree14	tree	0	96	96	0	0	0	0	0	0	8114	-
+470	tree14	tree	0	16	256	0	0	0	0	0	0	563	-
+471	6tree15	tree	0	96	96	0	0	0	0	0	0	17932	-
+472	7tree15	tree	0	96	96	0	0	0	0	0	0	8115	-
+473	tree15	tree	0	16	256	0	0	0	0	0	0	564	-
+474	6tree06	Food Tree	0	86	96	0	0	0	0	0	0	17922	-
+475	7tree16	tree	0	96	96	0	0	0	0	0	0	8116	-
+476	tree16	tree	0	16	256	0	0	0	0	0	0	565	-
+477	6tree17	tree	0	76	96	0	0	0	0	0	0	17933	-
+478	7tree17	tree	0	96	96	0	0	0	0	0	0	8117	-
+479	tree17	tree	0	16	256	0	0	0	0	0	0	566	-
+480	6tree18	tree	0	76	96	0	0	0	0	0	0	17934	-
+481	7tree18	tree	0	96	96	0	0	0	0	0	0	8118	-
+482	tree18	tree	0	16	256	0	0	0	0	0	0	567	-
+483	6tree19	tree	0	76	96	0	0	0	0	0	0	17935	-
+484	7tree19	tree	0	96	96	0	0	0	0	0	0	8119	-
+485	tree19	tree	0	16	256	0	0	0	0	0	0	568	-
+486	6tree20	tree	0	76	96	0	0	0	0	0	0	17936	-
+487	7tree20	tree	0	96	96	0	0	0	0	0	0	8120	-
+488	tree20	tree	0	16	256	0	0	0	0	0	0	569	-
+489	6tree21	tree	0	76	96	0	0	0	0	0	0	17937	-
+490	7tree21	tree	0	96	96	0	0	0	0	0	0	8121	-
+491	tree21	tree	0	16	256	0	0	0	0	0	0	570	-
+492	6tree22	tree	0	76	96	0	0	0	0	0	0	17938	-
+493	7tree22	tree	0	96	96	0	0	0	0	0	0	8122	-
+494	tree22	tree	0	16	256	0	0	0	0	0	0	571	-
+495	6tree23	tree	0	76	96	0	0	0	0	0	0	17939	-
+496	tree23	tree	0	96	96	0	0	0	0	0	0	8123	-
+497	6tree24	tree	0	76	96	0	0	0	0	0	0	17940	-
+498	7tree24	tree	0	96	96	0	0	0	0	0	0	8124	-
+499	tree24	tree	0	16	256	0	0	0	0	0	0	572	-
+500	6tree25	tree	0	76	96	0	0	0	0	0	0	17941	-
+501	7tree25	tree	0	96	96	0	0	0	0	0	0	8125	-
+502	tree25	tree	0	16	256	0	0	0	0	0	0	573	-
+503	6tree26	tree	0	76	96	0	0	0	0	0	0	17942	-
+504	tree26	tree	0	96	96	0	0	0	0	0	0	8126	-
+505	6tree27	tree	0	76	96	0	0	0	0	0	0	17943	-
+506	tree27	tree	0	96	96	0	0	0	0	0	0	8127	-
+507	6tree28	tree	0	76	96	0	0	0	0	0	0	17944	-
+508	7tree28	tree	0	96	96	0	0	0	0	0	0	8128	-
+509	tree28	dead tree	0	16	256	0	0	0	0	0	0	574	-
+510	6tree29	tree	0	76	96	0	0	0	0	0	0	17945	-
+511	7tree29	tree	0	96	96	0	0	0	0	0	0	8129	-
+512	tree29	pine tree	0	16	256	0	0	0	0	0	0	575	-
+513	6tree30	tree	0	76	96	0	0	0	0	0	0	17946	-
+514	7tree30	tree	0	96	96	0	0	0	0	0	0	8130	-
+515	tree30	pine tree	0	16	256	0	0	0	0	0	0	576	-
+516	7tree31	tree	0	96	96	0	0	0	0	0	0	8131	-
+517	tree31	tree	0	16	256	0	0	0	0	0	0	577	-
+518	tree32	tree	0	96	96	0	0	0	0	0	0	8132	-
+519	tree33	tree	0	96	96	0	0	0	0	0	0	8133	-
+520	tree34	tree	0	96	96	0	0	0	0	0	0	8134	-
+521	tree35	tree	0	96	96	0	0	0	0	0	0	8135	-
+522	tree36	tree	0	96	96	0	0	0	0	0	0	8136	-
+523	tree37	tree	0	96	96	0	0	0	0	0	0	8137	-
+524	tree38	tree	0	96	96	0	0	0	0	0	0	8138	-
+525	tree41	tree	0	96	400	0	0	0	0	0	0	8139	-
+526	tree42	tree	0	96	400	0	0	0	0	0	0	8140	-
+527	tree43	tree	0	96	256	0	0	0	0	0	0	8141	-
+528	tree44	tree	0	96	256	0	0	0	0	0	0	8142	-
+529	tree45	tree	0	96	256	0	0	0	0	0	0	8143	-
+530	tree46	tree	0	96	256	0	0	0	0	0	0	8144	-
+531	tree59b	willow tree	0	16	256	0	0	0	0	0	0	579	-
+532	tree60d	tree	0	16	256	0	0	0	0	0	0	582	-
+533	tree61d	tree	0	16	256	0	0	0	0	0	0	584	-
+534	tree62c	tree	0	16	256	0	0	0	0	0	0	587	-
+535	tree63d	tree	0	16	256	0	0	0	0	0	0	590	-
+536	tree60	tree	0	96	96	0	0	0	0	0	0	8147	-
+537	tree64d	tree	0	16	256	0	0	0	0	0	0	592	-
+538	tree61	tree	0	96	96	0	0	0	0	0	0	8148	-
+539	tree63b	tree	0	16	256	0	0	0	0	0	0	589	-
+540	tree62	tree	0	96	96	0	0	0	0	0	0	8149	-
+541	tree63	tree	0	16	256	0	0	0	0	0	0	591	-
+542	7tree63	tree	0	96	96	0	0	0	0	0	0	8150	-
+543	tree62b	tree	0	16	256	0	0	0	0	0	0	586	-
+544	v7tree64	tree	0	96	96	0	0	0	0	0	0	8151	-
+545	tree62a	tree	0	16	256	0	0	0	0	0	0	585	-
+546	tree65	tree	0	96	96	0	0	0	0	0	0	8152	-
+547	tree61a	tree	0	16	256	0	0	0	0	0	0	583	-
+548	tree66	tree	0	96	96	0	0	0	0	0	0	8153	-
+549	tree60b	tree	0	16	256	0	0	0	0	0	0	581	-
+550	tree60a	tree	0	16	256	0	0	0	0	0	0	580	-
+551	tree59	willow tree	0	16	256	0	0	0	0	0	0	578	-
+552	tree69	tree69	0	96	400	0	0	0	0	0	0	8154	-
+553	plant01b	plant	0	0	0	0	0	0	0	0	0	8171	-
+554	plant01	plants	0	16	8	0	0	0	0	0	0	422	-
+555	plant02b	plant	0	0	0	0	0	0	0	0	0	8173	-
+556	plant02	plant	0	16	8	0	0	0	0	0	0	423	-
+557	plant03b	plant	0	0	0	0	0	0	0	0	0	8175	-
+558	plant03	plant	0	16	8	0	0	0	0	0	0	424	-
+559	plant04b	plant	0	0	0	0	0	0	0	0	0	8177	-
+560	plant04	plant	0	16	8	0	0	0	0	0	0	425	-
+561	plant05b	plant	0	0	0	0	0	0	0	0	0	8179	-
+562	plant05	fern	0	16	8	0	0	0	0	0	0	426	-
+563	plant06b	plant	0	0	0	0	0	0	0	0	0	8181	-
+564	plant06	plant	0	16	8	0	0	0	0	0	0	427	-
+565	plant07b	plant	0	0	0	0	0	0	0	0	0	8183	-
+566	plant07	plant	0	16	8	0	0	0	0	0	0	428	-
+567	plant08b	plant	0	0	0	0	0	0	0	0	0	8185	-
+568	plant08	plant	0	16	8	0	0	0	0	0	0	429	-
+569	plant09b	plant	0	0	0	0	0	0	0	0	0	8187	-
+570	plant09	plant	0	16	8	0	0	0	0	0	0	430	-
+571	plant10b	plant	0	0	0	0	0	0	0	0	0	8189	-
+572	plant10	plant	0	16	8	0	0	0	0	0	0	431	-
+573	plant11b	plant	0	0	0	0	0	0	0	0	0	8191	-
+574	plant11	plant	0	16	8	0	0	0	0	0	0	432	-
+575	plant12b	plant	0	0	0	0	0	0	0	0	0	8193	-
+576	plant12	plant	0	16	8	0	0	0	0	0	0	433	-
+577	plant12a	plant	0	0	0	0	0	0	0	0	0	8192	-
+578	plant13	plant	0	16	8	0	0	0	0	0	0	434	-
+579	plant11a	plant	0	0	0	0	0	0	0	0	0	8190	-
+580	plant14	plant	0	16	8	0	0	0	0	0	0	435	-
+581	plant10a	plant	0	0	0	0	0	0	0	0	0	8188	-
+582	plant15	plant	0	16	8	0	0	0	0	0	0	436	-
+583	plant09a	plant	0	0	0	0	0	0	0	0	0	8186	-
+584	plant16	flower	0	16	8	0	0	0	0	0	0	437	-
+585	plant08a	plant	0	0	0	0	0	0	0	0	0	8184	-
+586	plant17	flower	0	16	8	0	0	0	0	0	0	438	-
+587	plant07a	plant	0	0	0	0	0	0	0	0	0	8182	-
+588	plant18	flower	0	16	8	0	0	0	0	0	0	439	-
+589	plant06a	plant	0	0	0	0	0	0	0	0	0	8180	-
+590	plant19	flower	0	16	8	0	0	0	0	0	0	440	-
+591	plant05a	plant	0	0	0	0	0	0	0	0	0	8178	-
+592	plant20	flower	0	16	8	0	0	0	0	0	0	441	-
+593	plant04a	plant	0	0	0	0	0	0	0	0	0	8176	-
+594	plant21	flower	0	16	8	0	0	0	0	0	0	442	-
+595	plant03a	plant	0	0	0	0	0	0	0	0	0	8174	-
+596	plant22	flower	0	16	8	0	0	0	0	0	0	443	-
+597	plant02a	plant	0	0	0	0	0	0	0	0	0	8172	-
+598	plant23	flower	0	16	8	0	0	0	0	0	0	444	-
+599	plant01a	plant	0	0	0	0	0	0	0	0	0	8170	-
+600	plant24	flower	0	16	8	0	0	0	0	0	0	445	-
+601	plant25	flower	0	16	8	0	0	0	0	0	0	446	-
+602	plant26	flower	0	16	8	0	0	0	0	0	0	447	-
+603	plant27	flower	0	16	8	0	0	0	0	0	0	448	-
+604	plant28	shrub	0	16	8	0	0	0	0	0	0	449	-
+605	plant29	shrub	0	16	8	0	0	0	0	0	0	450	-
+606	plant30	shrub	0	16	8	0	0	0	0	0	0	451	-
+607	plant31	flower	0	16	8	0	0	0	0	0	0	452	-
+608	plant32	shrub	0	16	8	0	0	0	0	0	0	453	-
+609	plant33	flower	0	16	8	0	0	0	0	0	0	454	-
+610	plant34	corn	0	16	8	0	0	0	0	0	0	455	-
+611	plant35	corn	0	16	8	0	0	0	0	0	0	456	-
+612	plant36	corn	0	16	8	0	0	0	0	0	0	457	-
+613	plant37	lily pad	0	16	8	0	0	0	0	0	0	458	-
+614	plant38	lily pad	0	16	8	0	0	0	0	0	0	459	-
+615	plant39	plant	0	16	8	0	0	0	0	0	0	460	-
+616	plant40	plant	0	16	8	0	0	0	0	0	0	461	-
+617	plant41	plant	0	16	8	0	0	0	0	0	0	462	-
+618	plant42	plant	0	16	8	0	0	0	0	0	0	463	-
+619	plant43	tree stump	0	16	24	0	0	0	0	0	0	464	-
+620	plant44	tree stump	0	16	24	0	0	0	0	0	0	465	-
+621	plant45	tree stump	0	16	24	0	0	0	0	0	0	466	-
+622	plant46	tree stump	0	16	24	0	0	0	0	0	0	467	-
+623	plant47	tree stump	0	16	24	0	0	0	0	0	0	468	-
+624	plant48	plant	0	16	8	0	0	0	0	0	0	469	-
+625	plant49	tumbleweed	0	16	8	0	0	0	0	0	0	470	-
+626	plant50	cactus	0	16	64	0	0	0	0	0	0	471	-
+627	plant51	cactus	0	16	64	0	0	0	0	0	0	472	-
+628	plant52	cactus	0	16	64	0	0	0	0	0	0	473	-
+629	plant53	flowering cactus	0	16	64	0	0	0	0	0	0	474	-
+630	plant54	cactus	0	16	64	0	0	0	0	0	0	475	-
+631	plant55	lily pads	0	16	8	0	0	0	0	0	0	476	-
+632	plant56	plants	0	16	8	0	0	0	0	0	0	477	-
+633	plant57	plants	0	16	8	0	0	0	0	0	0	478	-
+634	plant58	plant	0	16	8	0	0	0	0	0	0	479	-
+635	plant59	grass	0	16	8	0	0	0	0	0	0	480	-
+636	plant60	dead tree	0	16	64	0	0	0	0	0	0	481	-
+637	flower01	flower	0	0	0	0	0	0	0	0	0	8155	-
+638	flower02	flower	0	0	0	0	0	0	0	0	0	8156	-
+639	flower03	flower	0	0	0	0	0	0	0	0	0	8157	-
+640	flower04	flower	0	0	0	0	0	0	0	0	0	8158	-
+641	flower05	flower	0	0	0	0	0	0	0	0	0	8159	-
+642	flower06	flower	0	0	0	0	0	0	0	0	0	8160	-
+643	flower07	flower	0	0	0	0	0	0	0	0	0	8161	-
+644	flower08	flower	0	0	0	0	0	0	0	0	0	8162	-
+645	flower09	flower	0	0	0	0	0	0	0	0	0	8163	-
+646	flower10	flower	0	0	0	0	0	0	0	0	0	8164	-
+647	flower11	flower	0	0	0	0	0	0	0	0	0	8165	-
+648	flower12	flower	0	0	0	0	0	0	0	0	0	8166	-
+649	flower13	flower	0	0	0	0	0	0	0	0	0	8167	-
+650	flower14	flower	0	0	0	0	0	0	0	0	0	8168	-
+651	flower16	flower	0	0	0	0	0	0	0	0	0	8169	-
+652	bush01	bush	0	0	0	0	0	0	0	0	0	8088	-
+653	bush02	bush	0	0	0	0	0	0	0	0	0	8089	-
+654	bush03	bush	0	0	0	0	0	0	0	0	0	8090	-
+655	bush07	bush	0	64	96	0	0	0	0	0	0	8091	-
+656	bush08	bush	0	64	96	0	0	0	0	0	0	8092	-
+657	bush09	cactus	0	40	96	0	0	0	0	0	0	8093	-
+658	bush10	cactus	0	40	96	0	0	0	0	0	0	8094	-
+659	bush11	cactus	0	40	96	0	0	0	0	0	0	8095	-
+660	bush12	cactus	0	40	96	0	0	0	0	0	0	8096	-
+661	bush13	cactus	0	40	96	0	0	0	0	0	0	8097	-
+662	bush14	cactus	0	40	96	0	0	0	0	0	0	8098	-
+663	bush15	cactus	0	40	96	0	0	0	0	0	0	8099	-
+664	bush16	cactus	0	40	96	0	0	0	0	0	0	8100	-
+665	leafs01	leafs	0	0	0	0	0	0	0	0	0	23222	-
+666	leafs02	leafs	0	0	0	0	0	0	0	0	0	23223	-
+667	leafs03	leafs	0	0	0	0	0	0	0	0	0	23224	-
+668	leafs04	leafs	0	0	0	0	0	0	0	0	0	23225	-
+669	outlight1	null	0	16	16	128	255	255	255	0	0	23226	-
+670	outlight2	null	0	16	16	256	255	255	255	0	0	23227	-
+671	outlight3	null	0	16	16	512	255	255	255	0	0	23228	-
+672	OrMatt1	Uneasy origin matter	0	32	32	256	255	255	255	0	MoveThrough,FlickerAverage	876	-
+673	OrMatt2	Uneasy origin matter	0	32	32	256	255	255	255	0	MoveThrough,FlickerAverage	896	-

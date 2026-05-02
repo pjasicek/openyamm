@@ -445,7 +445,7 @@ bool MapStats::loadFromRows(const std::vector<std::vector<std::string>> &rows, c
 
         entry.name = getColumnValue(row, NameColumn);
         entry.fileName = getColumnValue(row, FileNameColumn);
-        entry.worldId = normalizeWorldId(worldId);
+        entry.worldId = inferWorldIdFromMapFileName(entry.fileName, worldId);
         entry.canonicalId = buildCanonicalMapId(entry.worldId, entry.fileName);
         entry.environmentName = getColumnValue(row, EnvironmentColumn);
         entry.areaId = 0;

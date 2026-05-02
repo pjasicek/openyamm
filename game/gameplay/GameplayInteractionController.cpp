@@ -18,7 +18,7 @@ namespace OpenYAMM::Game
 {
 namespace
 {
-constexpr float NearHoverStatusDistance = 512.0f;
+constexpr float NearHoverStatusDistance = 1024.0f;
 constexpr float ActorHoverStatusDistance = 8192.0f;
 constexpr uint64_t HoverInspectRefreshNanoseconds = 33 * 1000 * 1000;
 constexpr uint32_t ArrowProjectileObjectId = 545;

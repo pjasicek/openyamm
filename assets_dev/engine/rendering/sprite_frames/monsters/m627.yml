@@ -1,0 +1,191 @@
+# Monster sprite frame groups for family m627.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 6641
+    sprite_name: "m627a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m624aa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624ab0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624ac0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624ad0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624ae0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624af0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624ag0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624ah0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.199997
+        palette_id: 627
+  - sprite_id: 6649
+    sprite_name: "m627d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m624na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624dd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.199997
+        palette_id: 627
+  - sprite_id: 6655
+    sprite_name: "m627f"
+    animation_length_raw: 8
+    frames:
+      - texture_name: "m624fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624fd0"
+        frame_length_raw: 2
+        flags: [Image1]
+        scale: 1.199997
+        palette_id: 627
+  - sprite_id: 6659
+    sprite_name: "m627s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m624sa"
+        frame_length_raw: 2
+        flags: [First, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+  - sprite_id: 6660
+    sprite_name: "m627w"
+    animation_length_raw: 14
+    frames:
+      - texture_name: "m624wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624wb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624wc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624wd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624we"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624wf"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624wg"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+  - sprite_id: 6667
+    sprite_name: "m627n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m624na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624nb"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624nc"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624nd"
+        frame_length_raw: 2
+        flags: [HasMore, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+      - texture_name: "m624ne"
+        frame_length_raw: 2
+        flags: [Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 627
+  - sprite_id: 6672
+    sprite_name: "m627x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m624df0"
+        frame_length_raw: 2
+        flags: [First, Image1]
+        scale: 1.199997
+        palette_id: 627

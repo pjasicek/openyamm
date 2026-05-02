@@ -1,0 +1,201 @@
+# Monster sprite frame groups for family m279.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 11699
+    sprite_name: "m279a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m278aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278ac"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278ae"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278af"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278ag"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278ah"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+  - sprite_id: 11707
+    sprite_name: "m279d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m278na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278dd0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 1.5
+        palette_id: 279
+  - sprite_id: 11713
+    sprite_name: "m279x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m278xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 1.5
+        palette_id: 279
+  - sprite_id: 11714
+    sprite_name: "m279w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m278wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278we"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278wg"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278wh"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+  - sprite_id: 11722
+    sprite_name: "m279n"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m278na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278nc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278nd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278ne"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279
+  - sprite_id: 11727
+    sprite_name: "m279f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m278fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278fd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.5
+        palette_id: 279
+      - texture_name: "m278fe0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 1.5
+        palette_id: 279
+  - sprite_id: 11732
+    sprite_name: "m279s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m278sa"
+        frame_length_raw: 2
+        flags: [First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.5
+        palette_id: 279

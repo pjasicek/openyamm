@@ -93,7 +93,8 @@ struct GameSettings
     KeyboardSettings keyboard = {};
     bool preseedParty = true;
     uint32_t partySeedRosterId = 0;
-    std::string startMapFile = "out01.odm";
+    std::string startWorldId = "mm8";
+    std::string startMapFile;
     bool overrideStartPosition = false;
     float startX = 0.0f;
     float startY = 0.0f;

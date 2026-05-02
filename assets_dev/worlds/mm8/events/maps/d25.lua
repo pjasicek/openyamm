@@ -35,7 +35,6 @@ SetMapMetadata({
 
 RegisterEvent(1, "Legacy event 1", function()
     evt.SetMonGroupBit(10, MonsterBits.Hostile, 1) -- actor group 10: Ogre Magi, spawn Human Mercenary A, spawn Ogre Mage A, spawn Ogre Warrior A
-    return
 end)
 
 RegisterNoOpEvent(2, "Legacy event 2")
@@ -49,9 +48,9 @@ RegisterNoOpEvent(5, "Legacy event 5")
 RegisterEvent(6, "Legacy event 6", function()
     if IsQBitSet(QBit(204)) then return end -- Dragon Leader's Egg - I lost it, taken event g49, g64
     evt.ForPlayer(Players.All)
-    if not HasItem(605) then return end -- Dragon Leader's Egg
-    SetQBit(QBit(204)) -- Dragon Leader's Egg - I lost it, taken event g49, g64
-    return
+    if HasItem(605) then -- Dragon Leader's Egg
+        SetQBit(QBit(204)) -- Dragon Leader's Egg - I lost it, taken event g49, g64
+    end
 end)
 
 RegisterNoOpEvent(7, "Legacy event 7")
@@ -64,401 +63,322 @@ RegisterNoOpEvent(10, "Legacy event 10")
 
 RegisterEvent(11, "Door", function()
     evt.SetDoorState(1, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(12, "Button", function()
     evt.SetDoorState(2, DoorAction.Open)
-    return
 end, "Button")
 
 RegisterEvent(13, "Door", function()
     evt.SetDoorState(3, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(14, "Door", function()
     evt.SetDoorState(4, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(15, "Door", function()
     evt.SetDoorState(5, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(16, "Door", function()
     evt.SetDoorState(6, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(17, "Door", function()
     evt.SetDoorState(7, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(18, "Door", function()
     evt.SetDoorState(8, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(19, "Door", function()
     evt.SetDoorState(9, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(20, "Door", function()
     evt.SetDoorState(10, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(21, "Door", function()
     evt.SetDoorState(11, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(22, "Door", function()
     evt.SetDoorState(12, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(23, "Door", function()
     evt.SetDoorState(13, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(24, "Door", function()
     evt.SetDoorState(14, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(25, "Door", function()
     evt.SetDoorState(15, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(26, "Door", function()
     evt.SetDoorState(16, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(27, "Door", function()
     evt.SetDoorState(17, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(28, "Door", function()
     evt.SetDoorState(18, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(29, "Door", function()
     evt.SetDoorState(19, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(30, "Door", function()
     evt.SetDoorState(20, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(31, "Door", function()
     evt.SetDoorState(21, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(32, "Door", function()
     evt.SetDoorState(22, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(33, "Door", function()
     evt.SetDoorState(23, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(34, "Door", function()
     evt.SetDoorState(24, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(35, "Door", function()
     evt.SetDoorState(25, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(36, "Door", function()
     evt.SetDoorState(26, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(37, "Door", function()
     evt.SetDoorState(27, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(38, "Door", function()
     evt.SetDoorState(28, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(39, "Door", function()
     evt.SetDoorState(29, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(40, "Door", function()
     evt.SetDoorState(30, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(41, "Door", function()
     evt.SetDoorState(31, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(42, "Door", function()
     evt.SetDoorState(32, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(43, "Door", function()
     evt.SetDoorState(33, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(44, "Door", function()
     evt.SetDoorState(34, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(45, "Door", function()
     evt.SetDoorState(35, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(46, "Door", function()
     evt.SetDoorState(36, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(47, "Door", function()
     evt.SetDoorState(37, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(48, "Door", function()
     evt.SetDoorState(38, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(49, "Door", function()
     evt.SetDoorState(39, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(50, "Door", function()
     evt.SetDoorState(40, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(51, "Door", function()
     evt.SetDoorState(41, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(52, "Door", function()
     evt.SetDoorState(42, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(53, "Door", function()
     evt.SetDoorState(43, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(54, "Door", function()
     evt.SetDoorState(44, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(55, "Door", function()
     evt.SetDoorState(45, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(56, "Door", function()
     evt.SetDoorState(46, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(57, "Door", function()
     evt.SetDoorState(47, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(58, "Door", function()
     evt.SetDoorState(48, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(59, "Door", function()
     evt.SetDoorState(49, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(60, "Door", function()
     evt.SetDoorState(50, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(61, "Door", function()
     evt.SetDoorState(51, DoorAction.Open)
     evt.SetDoorState(52, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(62, "Door", function()
     evt.SetDoorState(53, DoorAction.Open)
     evt.SetDoorState(54, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(63, "Door", function()
     evt.SetDoorState(55, DoorAction.Open)
     evt.SetDoorState(56, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(64, "Door", function()
     evt.SetDoorState(57, DoorAction.Open)
     evt.SetDoorState(58, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(71, "Lever", function()
     evt.SetDoorState(71, DoorAction.Trigger)
     evt.SetDoorState(1, DoorAction.Trigger)
-    return
 end, "Lever")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
-    return
 end, "Chest")
 
 RegisterEvent(82, "Chest", function()
     evt.OpenChest(1)
-    return
 end, "Chest")
 
 RegisterEvent(83, "Chest", function()
     evt.OpenChest(2)
-    return
 end, "Chest")
 
 RegisterEvent(84, "Chest", function()
     evt.OpenChest(3)
-    return
 end, "Chest")
 
 RegisterEvent(85, "Chest", function()
     evt.OpenChest(4)
-    return
 end, "Chest")
 
 RegisterEvent(86, "Chest", function()
     evt.OpenChest(5)
-    return
 end, "Chest")
 
 RegisterEvent(87, "Chest", function()
     evt.OpenChest(6)
-    return
 end, "Chest")
 
 RegisterEvent(88, "Chest", function()
     evt.OpenChest(7)
-    return
 end, "Chest")
 
 RegisterEvent(89, "Chest", function()
     evt.OpenChest(8)
-    return
 end, "Chest")
 
 RegisterEvent(90, "Chest", function()
     evt.OpenChest(9)
-    return
 end, "Chest")
 
 RegisterEvent(91, "Chest", function()
     evt.OpenChest(10)
-    return
 end, "Chest")
 
 RegisterEvent(92, "Chest", function()
     evt.OpenChest(11)
-    return
 end, "Chest")
 
 RegisterEvent(93, "Chest", function()
     evt.OpenChest(12)
-    return
 end, "Chest")
 
 RegisterEvent(94, "Chest", function()
     evt.OpenChest(13)
-    return
 end, "Chest")
 
 RegisterEvent(95, "Chest", function()
     evt.OpenChest(14)
-    return
 end, "Chest")
 
 RegisterEvent(96, "Chest", function()
     evt.OpenChest(15)
-    return
 end, "Chest")
 
 RegisterEvent(97, "Chest", function()
     evt.OpenChest(16)
-    return
 end, "Chest")
 
 RegisterEvent(98, "Chest", function()
     evt.OpenChest(17)
-    return
 end, "Chest")
 
 RegisterEvent(99, "Chest", function()
     evt.OpenChest(18)
-    return
 end, "Chest")
 
 RegisterEvent(100, "Chest", function()
     evt.OpenChest(19)
-    return
 end, "Chest")
 
 RegisterEvent(501, "Leave the Barbarian Fortress", function()
-    evt.MoveToMap(-19274, 7911, 2401, 512, 0, 0, 0, 0, "Out08.odm")
-    return
+    evt.MoveToMap(-19274, 7911, 2401, 512, 0, 0, 0, 1, "out08.odm") -- Ravage Roaming
 end, "Leave the Barbarian Fortress")
 
 RegisterEvent(502, "Leave the Barbarian Fortress", function()
-    evt.MoveToMap(-19274, 12329, 2401, 1536, 0, 0, 0, 0, "Out08.odm")
-    return
+    evt.MoveToMap(-19274, 12329, 2401, 1536, 0, 0, 0, 1, "out08.odm") -- Ravage Roaming
 end, "Leave the Barbarian Fortress")
 
 RegisterEvent(503, "Leave the Barbarian Fortress", function()
-    evt.MoveToMap(-14535, 12425, 2401, 1536, 0, 0, 0, 0, "Out08.odm")
-    return
+    evt.MoveToMap(-14535, 12425, 2401, 1536, 0, 0, 0, 1, "out08.odm") -- Ravage Roaming
 end, "Leave the Barbarian Fortress")
 
 RegisterEvent(504, "Leave the Barbarian Fortress", function()
-    evt.MoveToMap(-14552, 7911, 2401, 512, 0, 0, 0, 0, "Out08.odm")
-    return
+    evt.MoveToMap(-14552, 7911, 2401, 512, 0, 0, 0, 1, "out08.odm") -- Ravage Roaming
 end, "Leave the Barbarian Fortress")
 

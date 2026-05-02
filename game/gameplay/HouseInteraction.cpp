@@ -409,6 +409,13 @@ HouseServiceType resolveHouseServiceType(const HouseEntry &houseEntry)
         || isHouseType(houseEntry, "Light Guild")
         || isHouseType(houseEntry, "Dark Guild")
         || isHouseType(houseEntry, "Self Guild")
+        || isHouseType(houseEntry, "Fire Guild")
+        || isHouseType(houseEntry, "Air Guild")
+        || isHouseType(houseEntry, "Water Guild")
+        || isHouseType(houseEntry, "Earth Guild")
+        || isHouseType(houseEntry, "Spirit Guild")
+        || isHouseType(houseEntry, "Mind Guild")
+        || isHouseType(houseEntry, "Body Guild")
         || isHouseType(houseEntry, "Spell Shop"))
     {
         return HouseServiceType::Guild;
@@ -424,7 +431,17 @@ HouseServiceType resolveHouseServiceType(const HouseEntry &houseEntry)
 
 std::optional<uint32_t> deriveHouseSoundId(const HouseEntry &houseEntry, HouseSoundType soundType)
 {
-    if (houseEntry.roomSoundId == 0 || soundType == HouseSoundType::None)
+    if (soundType == HouseSoundType::None)
+    {
+        return std::nullopt;
+    }
+
+    if (houseEntry.houseSoundBaseId != 0)
+    {
+        return houseEntry.houseSoundBaseId + static_cast<uint32_t>(soundType);
+    }
+
+    if (houseEntry.roomSoundId == 0)
     {
         return std::nullopt;
     }

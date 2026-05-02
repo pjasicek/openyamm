@@ -1,0 +1,206 @@
+# Monster sprite frame groups for family m662.
+# sprite_id is the first frame index referenced by runtime tables.
+sprites:
+  - sprite_id: 7563
+    sprite_name: "m662a"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m592aa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592ab"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592ac"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592ad"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592ae"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592af"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592ag"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592ah"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+  - sprite_id: 7571
+    sprite_name: "m662d"
+    animation_length_raw: 12
+    frames:
+      - texture_name: "m592na0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592nb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592da0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592db0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592dc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592dd0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+  - sprite_id: 7577
+    sprite_name: "m662x"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m592xa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+  - sprite_id: 7578
+    sprite_name: "m662w"
+    animation_length_raw: 16
+    frames:
+      - texture_name: "m592wa"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592wb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592wc"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592wd"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592we"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592wf"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592wg"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592wh"
+        frame_length_raw: 2
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+  - sprite_id: 7586
+    sprite_name: "m662n"
+    animation_length_raw: 15
+    frames:
+      - texture_name: "m592na"
+        frame_length_raw: 2
+        flags: [HasMore, First, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592nb"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592na"
+        frame_length_raw: 2
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592nb"
+        frame_length_raw: 3
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592nc"
+        frame_length_raw: 3
+        flags: [HasMore, Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592nd"
+        frame_length_raw: 3
+        flags: [Center, Mirror5, Mirror6, Mirror7]
+        scale: 1.199997
+        palette_id: 594
+  - sprite_id: 7592
+    sprite_name: "m662f"
+    animation_length_raw: 10
+    frames:
+      - texture_name: "m592fa0"
+        frame_length_raw: 2
+        flags: [HasMore, First, Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592fb0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592fc0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592fd0"
+        frame_length_raw: 2
+        flags: [HasMore, Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+      - texture_name: "m592fe0"
+        frame_length_raw: 2
+        flags: [Image1, Center]
+        scale: 1.199997
+        palette_id: 594
+  - sprite_id: 7597
+    sprite_name: "m662s"
+    animation_length_raw: 2
+    frames:
+      - texture_name: "m592sa0"
+        frame_length_raw: 2
+        flags: [First, Image1, Center]
+        scale: 1.199997
+        palette_id: 594

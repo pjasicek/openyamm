@@ -43,7 +43,7 @@ RegisterEvent(1, "Legacy event 1", function()
         evt.SetDoorState(5, DoorAction.Close)
         return
     elseif IsQBitSet(QBit(229)) then -- You have Pissed off the Necros
-        if not IsAtLeast(88080639, 1344) then
+        if not IsAtLeast(Counter(9), 1344) then
             evt.SetMonGroupBit(41, MonsterBits.Hostile, 1) -- actor group 41: Necromancer, spawn Necromancer (monster) A
             evt.SetMonGroupBit(42, MonsterBits.Hostile, 1) -- actor group 42: spawn Necromancer (monster) A
             evt.SetMonGroupBit(10, MonsterBits.Invisible, 0) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
@@ -52,21 +52,18 @@ RegisterEvent(1, "Legacy event 1", function()
             evt.SetDoorState(5, DoorAction.Close)
             return
         end
-        ClearQBit(QBit(229)) -- You have Pissed off the Necros
+        SetValue(MapVar(11), 0)
         evt.SetMonGroupBit(10, MonsterBits.Hostile, 0) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
         evt.SetMonGroupBit(10, MonsterBits.Invisible, 1) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
         evt.SetMonGroupBit(41, MonsterBits.Hostile, 0) -- actor group 41: Necromancer, spawn Necromancer (monster) A
         evt.SetMonGroupBit(42, MonsterBits.Hostile, 0) -- actor group 42: spawn Necromancer (monster) A
         ClearQBit(QBit(229)) -- You have Pissed off the Necros
+        evt.SetDoorState(5, DoorAction.Close)
+        return
     else
-        evt.SetMonGroupBit(10, MonsterBits.Hostile, 0) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
-        evt.SetMonGroupBit(10, MonsterBits.Invisible, 1) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
-        evt.SetMonGroupBit(41, MonsterBits.Hostile, 0) -- actor group 41: Necromancer, spawn Necromancer (monster) A
-        evt.SetMonGroupBit(42, MonsterBits.Hostile, 0) -- actor group 42: spawn Necromancer (monster) A
-        ClearQBit(QBit(229)) -- You have Pissed off the Necros
+        evt.SetDoorState(5, DoorAction.Close)
+        return
     end
-evt.SetDoorState(5, DoorAction.Close)
-return
 end)
 
 RegisterEvent(2, "Legacy event 2", function()
@@ -80,7 +77,6 @@ RegisterEvent(2, "Legacy event 2", function()
     evt.SetDoorState(15, DoorAction.Open)
     evt.SetDoorState(16, DoorAction.Open)
     SetValue(MapVar(21), 0)
-    return
 end)
 
 RegisterNoOpEvent(3, "Legacy event 3")
@@ -92,25 +88,16 @@ RegisterNoOpEvent(5, "Legacy event 5")
 RegisterEvent(6, "Legacy event 6", function()
     if IsQBitSet(QBit(19)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
         evt.MoveNPC(9, 0) -- Sandro -> removed
-        evt.MoveNPC(69, 175) -- Sandro -> Council Chamber Door
-        evt.MoveNPC(76, 180) -- Thant -> Sandro/Thant's Throne Room
-        if IsQBitSet(QBit(229)) then -- You have Pissed off the Necros
-            return
-        elseif IsAtLeast(MapVar(11), 2) then
-            SetQBit(QBit(229)) -- You have Pissed off the Necros
-            SetValue(255, 0)
-            return
-        else
-            return
-        end
-    elseif IsQBitSet(QBit(229)) then -- You have Pissed off the Necros
+        evt.MoveNPC(56, 751) -- Sandro -> Council Chamber Door
+        evt.MoveNPC(63, 213) -- Thant -> Sandro/Thant's Throne Room
+    end
+    if IsQBitSet(QBit(229)) then -- You have Pissed off the Necros
         return
     elseif IsAtLeast(MapVar(11), 2) then
         SetQBit(QBit(229)) -- You have Pissed off the Necros
-        SetValue(255, 0)
-        return
+        SetValue(Counter(9), 0)
     else
-        return
+        SetValue(MapVar(11), 0)
     end
 end)
 
@@ -124,51 +111,45 @@ RegisterNoOpEvent(10, "Legacy event 10")
 
 RegisterEvent(11, "Door", function()
     evt.SetDoorState(1, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(12, "Button", function()
     evt.SetDoorState(2, DoorAction.Trigger)
-    return
 end, "Button")
 
 RegisterEvent(13, "Button", function()
     evt.SetDoorState(3, DoorAction.Trigger)
-    return
 end, "Button")
 
 RegisterEvent(14, "Button", function()
     evt.SetDoorState(4, DoorAction.Trigger)
     evt.SetDoorState(5, DoorAction.Close)
-    return
 end, "Button")
 
 RegisterEvent(15, "Door", function()
     if not IsQBitSet(QBit(20)) then -- Allied with Temple of the Sun. Destroy the Skeleton Transformer done.
         if not HasPlayer(34) then -- Dyson Leyland
-            evt.SetNPCGreeting(58, 107) -- Guard greeting: Halt! These areas are off limits to guests! Guild members only!
-            if not IsAtLeast(316, 0) then
-                evt.SpeakNPC(58) -- Guard
+            evt.SetNPCGreeting(45, 107) -- Guard greeting: Halt! These areas are off limits to guests! Guild members only!
+            if not IsAtLeast(Invisible, 0) then
+                evt.SpeakNPC(45) -- Guard
             end
             evt.FaceAnimation(FaceAnimation.DoorLocked)
             return
         end
         if not evt._IsNpcInParty(34) then
-            evt.SetNPCGreeting(58, 144) -- Guard greeting 144
-            if not IsAtLeast(316, 0) then
-                evt.SpeakNPC(58) -- Guard
+            evt.SetNPCGreeting(45, 0) -- Guard greeting cleared
+            if not IsAtLeast(Invisible, 0) then
+                evt.SpeakNPC(45) -- Guard
             end
             evt.FaceAnimation(FaceAnimation.DoorLocked)
             return
         end
     end
     evt.SetDoorState(5, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(16, "Door", function()
     evt.SetDoorState(6, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(18, "Button", function()
@@ -176,12 +157,12 @@ RegisterEvent(18, "Button", function()
         evt.SetDoorState(8, DoorAction.Open)
         evt.SetDoorState(9, DoorAction.Close)
         evt.SetDoorState(10, DoorAction.Open)
-        if not IsAtLeast(MapVar(21), 6) then return end
-        SubtractValue(MapVar(21), 1)
+        if IsAtLeast(MapVar(21), 6) then
+            SubtractValue(MapVar(21), 1)
+        end
         return
     end
     evt.FaceAnimation(FaceAnimation.DoorLocked)
-    return
 end, "Button")
 
 RegisterEvent(19, "Button", function()
@@ -195,7 +176,6 @@ RegisterEvent(19, "Button", function()
         end
     end
     evt.StatusText("The Door will not move")
-    return
 end, "Button")
 
 RegisterEvent(20, "Lever", function()
@@ -225,7 +205,6 @@ RegisterEvent(20, "Lever", function()
     return
     end
     evt.StatusText("The lever will not move")
-    return
 end, "Lever")
 
 RegisterEvent(21, "Lever", function()
@@ -359,7 +338,6 @@ RegisterEvent(25, "Door Beam", function()
     end
     evt.SetDoorState(16, DoorAction.Open)
     SetValue(MapVar(21), 6)
-    return
 end, "Door Beam")
 
 RegisterEvent(26, "Door", function()
@@ -367,7 +345,6 @@ RegisterEvent(26, "Door", function()
     evt.SetDoorState(60, DoorAction.Close)
     evt.SetDoorState(61, DoorAction.Close)
     evt.SetDoorState(62, DoorAction.Close)
-    return
 end, "Door")
 
 RegisterEvent(27, "Door", function()
@@ -383,172 +360,138 @@ RegisterEvent(27, "Door", function()
         return
     end
     evt.FaceAnimation(FaceAnimation.DoorLocked)
-    return
 end, "Door")
 
 RegisterEvent(28, "Door", function()
     evt.SetDoorState(18, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(29, "Door", function()
     evt.SetDoorState(19, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(30, "Door", function()
     evt.SetDoorState(20, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(31, "Door", function()
     evt.SetDoorState(21, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(32, "Door", function()
     evt.SetDoorState(22, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(33, "Door", function()
     evt.SetDoorState(23, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(34, "Door", function()
     evt.SetDoorState(24, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(35, "Door", function()
     evt.SetDoorState(25, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(36, "Door", function()
     evt.SetDoorState(26, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(37, "Door", function()
     evt.SetDoorState(27, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(38, "Door", function()
     evt.SetDoorState(28, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(39, "Door", function()
     evt.SetDoorState(29, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(40, "Door", function()
     evt.SetDoorState(30, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(41, "Door", function()
     evt.SetDoorState(31, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(42, "Door", function()
     evt.SetDoorState(32, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(43, "Door", function()
     evt.SetDoorState(33, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(44, "Door", function()
     evt.SetDoorState(34, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(45, "Door", function()
     evt.SetDoorState(35, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(46, "Door", function()
     evt.SetDoorState(36, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(47, "Door", function()
     evt.SetDoorState(37, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(48, "Door", function()
     evt.SetDoorState(38, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(49, "Door", function()
     evt.SetDoorState(39, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(50, "Door", function()
     evt.SetDoorState(40, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(51, "Door", function()
     evt.SetDoorState(41, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(52, "Door", function()
     evt.SetDoorState(42, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(53, "Door", function()
     evt.SetDoorState(43, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(54, "Door", function()
     evt.SetDoorState(44, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(55, "Door", function()
     evt.SetDoorState(45, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(56, "Door", function()
     evt.SetDoorState(46, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(57, "Door", function()
     evt.SetDoorState(47, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(58, "Door", function()
     evt.SetDoorState(48, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(59, "Door", function()
     evt.SetDoorState(49, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(60, "Door", function()
     evt.SetDoorState(50, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(61, "Door", function()
@@ -572,12 +515,12 @@ RegisterEvent(61, "Door", function()
     elseif IsQBitSet(QBit(19)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
         if not IsAtLeast(MapVar(11), 1) then
             SetValue(MapVar(11), 1)
-            evt.SpeakNPC(38) -- Guard
+            evt.SpeakNPC(34) -- Guard
             evt.FaceAnimation(FaceAnimation.DoorLocked)
             return
         end
         SetQBit(QBit(229)) -- You have Pissed off the Necros
-        SetValue(255, 0)
+        SetValue(Counter(9), 0)
         evt.SetMonGroupBit(41, MonsterBits.Hostile, 1) -- actor group 41: Necromancer, spawn Necromancer (monster) A
         evt.SetMonGroupBit(42, MonsterBits.Hostile, 1) -- actor group 42: spawn Necromancer (monster) A
         evt.SetMonGroupBit(10, MonsterBits.Invisible, 0) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
@@ -586,7 +529,7 @@ RegisterEvent(61, "Door", function()
         evt.SetDoorState(51, DoorAction.Open)
         evt.SetDoorState(52, DoorAction.Open)
     else
-        evt.SpeakNPC(38) -- Guard
+        evt.SpeakNPC(34) -- Guard
         evt.FaceAnimation(FaceAnimation.DoorLocked)
     end
 return
@@ -613,12 +556,12 @@ RegisterEvent(62, "Door", function()
     elseif IsQBitSet(QBit(19)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
         if not IsAtLeast(MapVar(11), 1) then
             SetValue(MapVar(11), 1)
-            evt.SpeakNPC(38) -- Guard
+            evt.SpeakNPC(34) -- Guard
             evt.FaceAnimation(FaceAnimation.DoorLocked)
             return
         end
         SetQBit(QBit(229)) -- You have Pissed off the Necros
-        SetValue(255, 0)
+        SetValue(Counter(9), 0)
         evt.SetMonGroupBit(41, MonsterBits.Hostile, 1) -- actor group 41: Necromancer, spawn Necromancer (monster) A
         evt.SetMonGroupBit(42, MonsterBits.Hostile, 1) -- actor group 42: spawn Necromancer (monster) A
         evt.SetMonGroupBit(10, MonsterBits.Invisible, 0) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
@@ -627,7 +570,7 @@ RegisterEvent(62, "Door", function()
         evt.SetDoorState(53, DoorAction.Open)
         evt.SetDoorState(54, DoorAction.Open)
     else
-        evt.SpeakNPC(38) -- Guard
+        evt.SpeakNPC(34) -- Guard
         evt.FaceAnimation(FaceAnimation.DoorLocked)
     end
 return
@@ -654,12 +597,12 @@ RegisterEvent(63, "Door", function()
     elseif IsQBitSet(QBit(19)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
         if not IsAtLeast(MapVar(11), 1) then
             SetValue(MapVar(11), 1)
-            evt.SpeakNPC(38) -- Guard
+            evt.SpeakNPC(34) -- Guard
             evt.FaceAnimation(FaceAnimation.DoorLocked)
             return
         end
         SetQBit(QBit(229)) -- You have Pissed off the Necros
-        SetValue(255, 0)
+        SetValue(Counter(9), 0)
         evt.SetMonGroupBit(41, MonsterBits.Hostile, 1) -- actor group 41: Necromancer, spawn Necromancer (monster) A
         evt.SetMonGroupBit(42, MonsterBits.Hostile, 1) -- actor group 42: spawn Necromancer (monster) A
         evt.SetMonGroupBit(10, MonsterBits.Invisible, 0) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
@@ -668,7 +611,7 @@ RegisterEvent(63, "Door", function()
         evt.SetDoorState(55, DoorAction.Open)
         evt.SetDoorState(56, DoorAction.Open)
     else
-        evt.SpeakNPC(38) -- Guard
+        evt.SpeakNPC(34) -- Guard
         evt.FaceAnimation(FaceAnimation.DoorLocked)
     end
 return
@@ -695,12 +638,12 @@ RegisterEvent(64, "Door", function()
     elseif IsQBitSet(QBit(19)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
         if not IsAtLeast(MapVar(11), 1) then
             SetValue(MapVar(11), 1)
-            evt.SpeakNPC(38) -- Guard
+            evt.SpeakNPC(34) -- Guard
             evt.FaceAnimation(FaceAnimation.DoorLocked)
             return
         end
         SetQBit(QBit(229)) -- You have Pissed off the Necros
-        SetValue(255, 0)
+        SetValue(Counter(9), 0)
         evt.SetMonGroupBit(41, MonsterBits.Hostile, 1) -- actor group 41: Necromancer, spawn Necromancer (monster) A
         evt.SetMonGroupBit(42, MonsterBits.Hostile, 1) -- actor group 42: spawn Necromancer (monster) A
         evt.SetMonGroupBit(10, MonsterBits.Invisible, 0) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
@@ -709,7 +652,7 @@ RegisterEvent(64, "Door", function()
         evt.SetDoorState(57, DoorAction.Open)
         evt.SetDoorState(58, DoorAction.Open)
     else
-        evt.SpeakNPC(38) -- Guard
+        evt.SpeakNPC(34) -- Guard
         evt.FaceAnimation(FaceAnimation.DoorLocked)
     end
 return
@@ -718,113 +661,91 @@ end, "Door")
 RegisterEvent(65, "Door", function()
     evt.SetDoorState(59, DoorAction.Open)
     evt.SetDoorState(60, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(66, "Door", function()
     evt.SetDoorState(61, DoorAction.Open)
     evt.SetDoorState(62, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(81, "Chest", function()
     evt.OpenChest(0)
-    return
 end, "Chest")
 
 RegisterEvent(82, "Chest", function()
     evt.OpenChest(1)
-    return
 end, "Chest")
 
 RegisterEvent(83, "Chest", function()
     evt.OpenChest(2)
-    return
 end, "Chest")
 
 RegisterEvent(84, "Chest", function()
     evt.OpenChest(3)
-    return
 end, "Chest")
 
 RegisterEvent(85, "Chest", function()
     evt.OpenChest(4)
-    return
 end, "Chest")
 
 RegisterEvent(86, "Chest", function()
     evt.OpenChest(5)
-    return
 end, "Chest")
 
 RegisterEvent(87, "Chest", function()
     evt.OpenChest(6)
-    return
 end, "Chest")
 
 RegisterEvent(88, "Chest", function()
     evt.OpenChest(7)
-    return
 end, "Chest")
 
 RegisterEvent(89, "Chest", function()
     evt.OpenChest(8)
-    return
 end, "Chest")
 
 RegisterEvent(90, "Chest", function()
     evt.OpenChest(9)
-    return
 end, "Chest")
 
 RegisterEvent(91, "Chest", function()
     evt.OpenChest(10)
-    return
 end, "Chest")
 
 RegisterEvent(92, "Chest", function()
     evt.OpenChest(11)
-    return
 end, "Chest")
 
 RegisterEvent(93, "Chest", function()
     evt.OpenChest(12)
-    return
 end, "Chest")
 
 RegisterEvent(94, "Chest", function()
     evt.OpenChest(13)
-    return
 end, "Chest")
 
 RegisterEvent(95, "Chest", function()
     evt.OpenChest(14)
-    return
 end, "Chest")
 
 RegisterEvent(96, "Chest", function()
     evt.OpenChest(15)
-    return
 end, "Chest")
 
 RegisterEvent(97, "Chest", function()
     evt.OpenChest(16)
-    return
 end, "Chest")
 
 RegisterEvent(98, "Chest", function()
     evt.OpenChest(17)
-    return
 end, "Chest")
 
 RegisterEvent(99, "Chest", function()
     evt.OpenChest(18)
-    return
 end, "Chest")
 
 RegisterEvent(100, "Chest", function()
     evt.OpenChest(19)
-    return
 end, "Chest")
 
 RegisterEvent(131, "Legacy event 131", function()
@@ -832,12 +753,12 @@ RegisterEvent(131, "Legacy event 131", function()
     if not IsQBitSet(QBit(26)) then return end -- Find the skeleton transformer in the Shadowspire Necromancers' Guild. Destroy it and return to Oskar Tyre. - Given and taken by Oskar Tyre (area 7). Taken when Qbit 29 set.
     if not HasPlayer(34) then return end -- Dyson Leyland
     if not IsAtLeast(MapVar(21), 15) then return end
-    if not evt._IsNpcInParty(34) then return end
-    SetQBit(QBit(27)) -- Skeleton Transformer Destroyed.
-    evt.ShowMovie("\"skeltrans\" ", true)
-    evt.SetFacetBit(30, FacetBits.Untouchable, 1)
-    evt.SetFacetBit(30, FacetBits.Invisible, 1)
-    return
+    if evt._IsNpcInParty(34) then
+        SetQBit(QBit(27)) -- Skeleton Transformer Destroyed.
+        evt.ShowMovie("\"skeltrans\"", true)
+        evt.SetFacetBit(30, FacetBits.Untouchable, 1)
+        evt.SetFacetBit(30, FacetBits.Invisible, 1)
+    end
 end)
 
 RegisterEvent(201, "Sandro/Thant's Throne Room", function()
@@ -851,7 +772,7 @@ RegisterEvent(201, "Sandro/Thant's Throne Room", function()
         evt.FaceAnimation(FaceAnimation.DoorLocked)
         return
     elseif IsQBitSet(QBit(19)) then -- Allied with Necromancers Guild. Steal Nightshade Brazier done.
-        evt.EnterHouse(180) -- Sandro/Thant's Throne Room
+        evt.EnterHouse(213) -- Sandro/Thant's Throne Room
         return
     else
         evt.ForPlayer(Players.All)
@@ -871,77 +792,61 @@ RegisterEvent(201, "Sandro/Thant's Throne Room", function()
             AddValue(Experience, 12500)
             evt.ForPlayer(Players.Current)
             AddValue(Gold, 8000)
-            evt.ShowMovie("\"nightshade\" ", true)
+            evt.ShowMovie("\"nightshade\"", true)
             AddValue(History(12), 0)
             ClearQBit(QBit(203)) -- Nightshade Brazier - I lost it
         end
-        evt.EnterHouse(180) -- Sandro/Thant's Throne Room
+        evt.EnterHouse(213) -- Sandro/Thant's Throne Room
         return
     end
 end, "Sandro/Thant's Throne Room")
 
 RegisterEvent(203, "Dyson Leland's Room", function()
     SetValue(MapVar(31), 5)
-    if IsQBitSet(QBit(89)) then -- Dyson Leland talks to you about the Necromancers. For global event 97-100.
-        evt.SetNPCTopic(11, 3, 634) -- Dyson Leland topic 3: Roster Join Event
-        if IsQBitSet(QBit(26)) then -- Find the skeleton transformer in the Shadowspire Necromancers' Guild. Destroy it and return to Oskar Tyre. - Given and taken by Oskar Tyre (area 7). Taken when Qbit 29 set.
-            SetValue(MapVar(31), 4)
+    if IsQBitSet(QBit(26)) then -- Find the skeleton transformer in the Shadowspire Necromancers' Guild. Destroy it and return to Oskar Tyre. - Given and taken by Oskar Tyre (area 7). Taken when Qbit 29 set.
+        if IsQBitSet(QBit(89)) and IsQBitSet(QBit(90)) then -- Dyson Leland talks to you about the Necromancers. For global event 97-100.
+            evt.SetNPCTopic(11, 3, 634) -- Dyson Leland topic 3: Roster Join Event
+            if IsQBitSet(QBit(26)) then -- Find the skeleton transformer in the Shadowspire Necromancers' Guild. Destroy it and return to Oskar Tyre. - Given and taken by Oskar Tyre (area 7). Taken when Qbit 29 set.
+                SetValue(MapVar(31), 4)
+            end
             if not IsQBitSet(QBit(28)) then -- Bring the Nightshade Brazier to the Necromancers' Guild leader, Sandro. The Brazier is in the Temple of the Sun. - Given and taken by Sandro (area 6). Taken when Qbit 27 set.
-                evt.SetNPCGreeting(11, 35) -- Dyson Leland greeting: Ah, you are sent by his high holiness…Oskar Tyre thinks to activate his agent. Though I would wish him no good, I will do as he asks. Yes, I have knowledge of the guild's Skeleton Transformer and believe I can destroy it. Very well, let us do this thing against the Necromancers' Guild. I will at least be able to strike against one of my enemies!
-                evt.EnterHouse(181) -- Dyson Leland's Room
+                evt.SetNPCGreeting(11, 35) -- Dyson Leland greeting: Ah, you are sent by his high holiness�Oskar Tyre thinks to activate his agent. Though I would wish him no good, I will do as he asks. Yes, I have knowledge of the guild's Skeleton Transformer and believe I can destroy it. Very well, let us do this thing against the Necromancers' Guild. I will at least be able to strike against one of my enemies!
+                evt.EnterHouse(754) -- Dyson Leland's Room
                 return
             end
             if not IsAtLeast(MapVar(31), 5) then
-                evt.SetNPCGreeting(11, 36) -- Dyson Leland greeting: Hah! So both Sandro and Oskar Tyre seek to use me against the other. I have thought of the possibility of this occurring. I believe that if I were to strike against one, it would become impossible for me to strike the other. So I guess we have a choice--help the guild or the temple. Which? I don't know, as my hatred for both is equal. I suppose I'll have to do with a half measure of revenge.
-                evt.EnterHouse(181) -- Dyson Leland's Room
-                return
-            end
-            evt.SetNPCGreeting(11, 34) -- Dyson Leland greeting: So, Sandro has asked you to strike a blow against the Sun Temple! Though I hate the guild. I would be willing to help you. Half a serving of revenge is better than none.
-            evt.EnterHouse(181) -- Dyson Leland's Room
-            return
-        elseif IsQBitSet(QBit(28)) then -- Bring the Nightshade Brazier to the Necromancers' Guild leader, Sandro. The Brazier is in the Temple of the Sun. - Given and taken by Sandro (area 6). Taken when Qbit 27 set.
-            if not IsAtLeast(MapVar(31), 5) then
-                evt.SetNPCGreeting(11, 36) -- Dyson Leland greeting: Hah! So both Sandro and Oskar Tyre seek to use me against the other. I have thought of the possibility of this occurring. I believe that if I were to strike against one, it would become impossible for me to strike the other. So I guess we have a choice--help the guild or the temple. Which? I don't know, as my hatred for both is equal. I suppose I'll have to do with a half measure of revenge.
-                evt.EnterHouse(181) -- Dyson Leland's Room
+                evt.SetNPCGreeting(11, 36) -- Dyson Leland greeting: Hah! So both Sandro and Oskar Tyre seek to use me against the other. I have thought of the possibility of this occurring. I believe that if I were to strike against one, it would become impossible for me to strike the other.So I guess we have a choice--help the guild or the temple. Which? I don't know, as my hatred for both is equal. I suppose I'll have to do with a half measure of revenge.
+                evt.EnterHouse(754) -- Dyson Leland's Room
                 return
             end
             evt.SetNPCGreeting(11, 34) -- Dyson Leland greeting: So, Sandro has asked you to strike a blow against the Sun Temple! Though I hate the guild. I would be willing to help you. Half a serving of revenge is better than none.
         else
-            evt.SetNPCGreeting(11, 35) -- Dyson Leland greeting: Ah, you are sent by his high holiness…Oskar Tyre thinks to activate his agent. Though I would wish him no good, I will do as he asks. Yes, I have knowledge of the guild's Skeleton Transformer and believe I can destroy it. Very well, let us do this thing against the Necromancers' Guild. I will at least be able to strike against one of my enemies!
         end
-    evt.EnterHouse(181) -- Dyson Leland's Room
-    return
-    elseif IsQBitSet(QBit(90)) then -- Dyson Leland talks to you about the Temple of the Sun. For Global event 97-100.
-        evt.SetNPCTopic(11, 3, 634) -- Dyson Leland topic 3: Roster Join Event
-        if IsQBitSet(QBit(26)) then -- Find the skeleton transformer in the Shadowspire Necromancers' Guild. Destroy it and return to Oskar Tyre. - Given and taken by Oskar Tyre (area 7). Taken when Qbit 29 set.
-            SetValue(MapVar(31), 4)
+        evt.EnterHouse(754) -- Dyson Leland's Room
+        return
+    elseif IsQBitSet(QBit(28)) then -- Bring the Nightshade Brazier to the Necromancers' Guild leader, Sandro. The Brazier is in the Temple of the Sun. - Given and taken by Sandro (area 6). Taken when Qbit 27 set.
+        if IsQBitSet(QBit(89)) and IsQBitSet(QBit(90)) then -- Dyson Leland talks to you about the Necromancers. For global event 97-100.
+            evt.SetNPCTopic(11, 3, 634) -- Dyson Leland topic 3: Roster Join Event
+            if IsQBitSet(QBit(26)) then -- Find the skeleton transformer in the Shadowspire Necromancers' Guild. Destroy it and return to Oskar Tyre. - Given and taken by Oskar Tyre (area 7). Taken when Qbit 29 set.
+                SetValue(MapVar(31), 4)
+            end
             if not IsQBitSet(QBit(28)) then -- Bring the Nightshade Brazier to the Necromancers' Guild leader, Sandro. The Brazier is in the Temple of the Sun. - Given and taken by Sandro (area 6). Taken when Qbit 27 set.
-                evt.SetNPCGreeting(11, 35) -- Dyson Leland greeting: Ah, you are sent by his high holiness…Oskar Tyre thinks to activate his agent. Though I would wish him no good, I will do as he asks. Yes, I have knowledge of the guild's Skeleton Transformer and believe I can destroy it. Very well, let us do this thing against the Necromancers' Guild. I will at least be able to strike against one of my enemies!
-                evt.EnterHouse(181) -- Dyson Leland's Room
+                evt.SetNPCGreeting(11, 35) -- Dyson Leland greeting: Ah, you are sent by his high holiness�Oskar Tyre thinks to activate his agent. Though I would wish him no good, I will do as he asks. Yes, I have knowledge of the guild's Skeleton Transformer and believe I can destroy it. Very well, let us do this thing against the Necromancers' Guild. I will at least be able to strike against one of my enemies!
+                evt.EnterHouse(754) -- Dyson Leland's Room
                 return
             end
             if not IsAtLeast(MapVar(31), 5) then
-                evt.SetNPCGreeting(11, 36) -- Dyson Leland greeting: Hah! So both Sandro and Oskar Tyre seek to use me against the other. I have thought of the possibility of this occurring. I believe that if I were to strike against one, it would become impossible for me to strike the other. So I guess we have a choice--help the guild or the temple. Which? I don't know, as my hatred for both is equal. I suppose I'll have to do with a half measure of revenge.
-                evt.EnterHouse(181) -- Dyson Leland's Room
-                return
-            end
-            evt.SetNPCGreeting(11, 34) -- Dyson Leland greeting: So, Sandro has asked you to strike a blow against the Sun Temple! Though I hate the guild. I would be willing to help you. Half a serving of revenge is better than none.
-            evt.EnterHouse(181) -- Dyson Leland's Room
-            return
-        elseif IsQBitSet(QBit(28)) then -- Bring the Nightshade Brazier to the Necromancers' Guild leader, Sandro. The Brazier is in the Temple of the Sun. - Given and taken by Sandro (area 6). Taken when Qbit 27 set.
-            if not IsAtLeast(MapVar(31), 5) then
-                evt.SetNPCGreeting(11, 36) -- Dyson Leland greeting: Hah! So both Sandro and Oskar Tyre seek to use me against the other. I have thought of the possibility of this occurring. I believe that if I were to strike against one, it would become impossible for me to strike the other. So I guess we have a choice--help the guild or the temple. Which? I don't know, as my hatred for both is equal. I suppose I'll have to do with a half measure of revenge.
-                evt.EnterHouse(181) -- Dyson Leland's Room
+                evt.SetNPCGreeting(11, 36) -- Dyson Leland greeting: Hah! So both Sandro and Oskar Tyre seek to use me against the other. I have thought of the possibility of this occurring. I believe that if I were to strike against one, it would become impossible for me to strike the other.So I guess we have a choice--help the guild or the temple. Which? I don't know, as my hatred for both is equal. I suppose I'll have to do with a half measure of revenge.
+                evt.EnterHouse(754) -- Dyson Leland's Room
                 return
             end
             evt.SetNPCGreeting(11, 34) -- Dyson Leland greeting: So, Sandro has asked you to strike a blow against the Sun Temple! Though I hate the guild. I would be willing to help you. Half a serving of revenge is better than none.
         else
-            evt.SetNPCGreeting(11, 35) -- Dyson Leland greeting: Ah, you are sent by his high holiness…Oskar Tyre thinks to activate his agent. Though I would wish him no good, I will do as he asks. Yes, I have knowledge of the guild's Skeleton Transformer and believe I can destroy it. Very well, let us do this thing against the Necromancers' Guild. I will at least be able to strike against one of my enemies!
         end
-    evt.EnterHouse(181) -- Dyson Leland's Room
-    return
+        evt.EnterHouse(754) -- Dyson Leland's Room
+        return
     else
-        evt.EnterHouse(181) -- Dyson Leland's Room
+        evt.EnterHouse(754) -- Dyson Leland's Room
         return
     end
 end, "Dyson Leland's Room")
@@ -949,36 +854,31 @@ end, "Dyson Leland's Room")
 RegisterEvent(451, "Legacy event 451", function()
     if IsAtLeast(MapVar(11), 2) then return end
     SetValue(MapVar(11), 0)
-    return
 end)
 
 RegisterEvent(452, "Door", function()
     evt.SetDoorState(5, DoorAction.Open)
-    return
 end, "Door")
 
 RegisterEvent(453, "Legacy event 453", function()
-    if IsAtLeast(316, 0) then return end
+    if IsAtLeast(Invisible, 0) then return end
     if IsAtLeast(MapVar(11), 1) then return end
-    evt.SpeakNPC(38) -- Guard
+    evt.SpeakNPC(34) -- Guard
     SetValue(MapVar(11), 1)
-    return
 end)
 
 RegisterEvent(454, "Legacy event 454", function()
     if IsAtLeast(MapVar(11), 2) then return end
-    if IsAtLeast(316, 0) then return end
+    if IsAtLeast(Invisible, 0) then return end
     evt.SetMonGroupBit(41, MonsterBits.Hostile, 1) -- actor group 41: Necromancer, spawn Necromancer (monster) A
     evt.SetMonGroupBit(42, MonsterBits.Hostile, 1) -- actor group 42: spawn Necromancer (monster) A
     evt.SetMonGroupBit(10, MonsterBits.Invisible, 0) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
     evt.SetMonGroupBit(10, MonsterBits.Hostile, 1) -- actor group 10: spawn Necromancer (monster) A, spawn Skeletons Archer A, spawn Vampire (monster) A
     SetValue(MapVar(11), 2)
     evt.SetDoorState(7, DoorAction.Open)
-    return
 end)
 
 RegisterEvent(501, "Leave the Necromancers' Guild", function()
-    evt.MoveToMap(15620, -11571, 4480, 1536, 0, 0, 0, 0, "Out06.odm")
-    return
+    evt.MoveToMap(15620, -11571, 4480, 1536, 0, 0, 0, 1, "out06.odm") -- Shadowspire
 end, "Leave the Necromancers' Guild")
 
