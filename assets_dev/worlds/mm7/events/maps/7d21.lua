@@ -117,268 +117,55 @@ RegisterEvent(195, "Chest", function()
     evt.OpenChest(0)
 end, "Chest")
 
-RegisterEvent(196, "Legacy event 196", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(16), 1) then return 10 end
-        return 1
-    end
-    local function Step_1()
-        return PickRandomOption(196, 1, {2, 4, 6, 7, 2, 2})
-    end
-    local function Step_2()
+RegisterEvent(196, "Legacy event 196", function()
+    if IsAtLeast(MapVar(16), 1) then return end
+    local randomStep = PickRandomOption(196, 2, {2, 4, 6, 7, 2, 2})
+    if randomStep == 2 then
         AddValue(InventoryItem(1488), 1488) -- Iron-laced ore
-        return 3
-    end
-    local function Step_3()
-        return 8
-    end
-    local function Step_4()
+    elseif randomStep == 4 then
         AddValue(InventoryItem(1488), 1488) -- Iron-laced ore
-        return 5
-    end
-    local function Step_5()
-        return 8
-    end
-    local function Step_6()
+    elseif randomStep == 6 then
         evt.DamagePlayer(5, 0, 50)
-        return 7
-    end
-    local function Step_7()
         AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
-        return 8
+    elseif randomStep == 7 then
+        AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
     end
-    local function Step_8()
-        SetValue(MapVar(16), 1)
-        return 9
-    end
-    local function Step_9()
-        evt.SetTexture(2, "cwb1")
-        return 10
-    end
-    local function Step_10()
-        return nil
-    end
-    local function Step_12()
-        if IsAtLeast(MapVar(16), 1) then return 14 end
-        return 13
-    end
-    local function Step_13()
-        return 10
-    end
-    local function Step_14()
-        evt.SetTexture(2, "cwb1")
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 8 then
-            step = Step_8()
-        elseif step == 9 then
-            step = Step_9()
-        elseif step == 10 then
-            step = Step_10()
-        elseif step == 12 then
-            step = Step_12()
-        elseif step == 13 then
-            step = Step_13()
-        elseif step == 14 then
-            step = Step_14()
-        else
-            step = nil
-        end
-    end
+    SetValue(MapVar(16), 1)
+    evt.SetTexture(2, "cwb1")
 end)
 
-RegisterEvent(197, "Legacy event 197", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(17), 1) then return 10 end
-        return 1
-    end
-    local function Step_1()
-        return PickRandomOption(197, 1, {2, 4, 6, 7, 2, 2})
-    end
-    local function Step_2()
+RegisterEvent(197, "Legacy event 197", function()
+    if IsAtLeast(MapVar(17), 1) then return end
+    local randomStep = PickRandomOption(197, 2, {2, 4, 6, 7, 2, 2})
+    if randomStep == 2 then
         AddValue(InventoryItem(1488), 1488) -- Iron-laced ore
-        return 3
-    end
-    local function Step_3()
-        return 8
-    end
-    local function Step_4()
+    elseif randomStep == 4 then
         AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
-        return 5
-    end
-    local function Step_5()
-        return 8
-    end
-    local function Step_6()
+    elseif randomStep == 6 then
         evt.DamagePlayer(5, 0, 50)
-        return 7
-    end
-    local function Step_7()
         AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
-        return 8
+    elseif randomStep == 7 then
+        AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
     end
-    local function Step_8()
-        SetValue(MapVar(17), 1)
-        return 9
-    end
-    local function Step_9()
-        evt.SetTexture(3, "cwb1")
-        return 10
-    end
-    local function Step_10()
-        return nil
-    end
-    local function Step_12()
-        if IsAtLeast(MapVar(17), 1) then return 14 end
-        return 13
-    end
-    local function Step_13()
-        return 10
-    end
-    local function Step_14()
-        evt.SetTexture(3, "cwb1")
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 8 then
-            step = Step_8()
-        elseif step == 9 then
-            step = Step_9()
-        elseif step == 10 then
-            step = Step_10()
-        elseif step == 12 then
-            step = Step_12()
-        elseif step == 13 then
-            step = Step_13()
-        elseif step == 14 then
-            step = Step_14()
-        else
-            step = nil
-        end
-    end
+    SetValue(MapVar(17), 1)
+    evt.SetTexture(3, "cwb1")
 end)
 
-RegisterEvent(198, "Legacy event 198", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(18), 1) then return 10 end
-        return 1
-    end
-    local function Step_1()
-        return PickRandomOption(198, 1, {2, 4, 6, 7, 2, 2})
-    end
-    local function Step_2()
+RegisterEvent(198, "Legacy event 198", function()
+    if IsAtLeast(MapVar(18), 1) then return end
+    local randomStep = PickRandomOption(198, 2, {2, 4, 6, 7, 2, 2})
+    if randomStep == 2 then
         AddValue(InventoryItem(1488), 1488) -- Iron-laced ore
-        return 3
-    end
-    local function Step_3()
-        return 8
-    end
-    local function Step_4()
+    elseif randomStep == 4 then
         AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
-        return 5
-    end
-    local function Step_5()
-        return 8
-    end
-    local function Step_6()
+    elseif randomStep == 6 then
         evt.DamagePlayer(5, 0, 50)
-        return 7
-    end
-    local function Step_7()
         AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
-        return 8
+    elseif randomStep == 7 then
+        AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
     end
-    local function Step_8()
-        SetValue(MapVar(18), 1)
-        return 9
-    end
-    local function Step_9()
-        evt.SetTexture(4, "cwb1")
-        return 10
-    end
-    local function Step_10()
-        return nil
-    end
-    local function Step_12()
-        if IsAtLeast(MapVar(18), 1) then return 14 end
-        return 13
-    end
-    local function Step_13()
-        return 10
-    end
-    local function Step_14()
-        evt.SetTexture(4, "cwb1")
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 8 then
-            step = Step_8()
-        elseif step == 9 then
-            step = Step_9()
-        elseif step == 10 then
-            step = Step_10()
-        elseif step == 12 then
-            step = Step_12()
-        elseif step == 13 then
-            step = Step_13()
-        elseif step == 14 then
-            step = Step_14()
-        else
-            step = nil
-        end
-    end
+    SetValue(MapVar(18), 1)
+    evt.SetTexture(4, "cwb1")
 end)
 
 RegisterEvent(501, "Leave the White Cliff Caves", function()
@@ -386,14 +173,20 @@ RegisterEvent(501, "Leave the White Cliff Caves", function()
 end, "Leave the White Cliff Caves")
 
 RegisterEvent(65535, "", function()
-    return evt.map[196](12)
+    if IsAtLeast(MapVar(16), 1) then
+        evt.SetTexture(2, "cwb1")
+    end
 end)
 
 RegisterEvent(65534, "", function()
-    return evt.map[197](12)
+    if IsAtLeast(MapVar(17), 1) then
+        evt.SetTexture(3, "cwb1")
+    end
 end)
 
 RegisterEvent(65533, "", function()
-    return evt.map[198](12)
+    if IsAtLeast(MapVar(18), 1) then
+        evt.SetTexture(4, "cwb1")
+    end
 end)
 

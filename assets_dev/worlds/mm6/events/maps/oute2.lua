@@ -202,452 +202,92 @@ RegisterEvent(92, "Legacy event 92", function()
     evt.MoveToMap(4688, -2944, 96, 1400, 0, 0, 0, 0)
 end)
 
-RegisterEvent(101, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(2), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(101, "Tree", function()
+    if not IsAtLeast(MapVar(2), 1) then
         SetValue(MapVar(2), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("Tree")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(134, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("There doesn't seem to be anymore apples.")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(2), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("There doesn't seem to be anymore apples.")
 end, "Tree")
 
-RegisterEvent(102, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(3), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(102, "Tree", function()
+    if not IsAtLeast(MapVar(3), 1) then
         SetValue(MapVar(3), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("Tree")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(135, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("There doesn't seem to be anymore apples.")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(3), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("There doesn't seem to be anymore apples.")
 end, "Tree")
 
-RegisterEvent(103, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(4), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(103, "Tree", function()
+    if not IsAtLeast(MapVar(4), 1) then
         SetValue(MapVar(4), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("Tree")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(136, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("There doesn't seem to be anymore apples.")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(4), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("There doesn't seem to be anymore apples.")
 end, "Tree")
 
-RegisterEvent(104, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(5), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(104, "Tree", function()
+    if not IsAtLeast(MapVar(5), 1) then
         SetValue(MapVar(5), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("Tree")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(137, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("There doesn't seem to be anymore apples.")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(5), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("There doesn't seem to be anymore apples.")
 end, "Tree")
 
-RegisterEvent(105, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(6), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(105, "Tree", function()
+    if not IsAtLeast(MapVar(6), 1) then
         SetValue(MapVar(6), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("Tree")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(138, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("There doesn't seem to be anymore apples.")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(6), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("There doesn't seem to be anymore apples.")
 end, "Tree")
 
-RegisterEvent(106, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(7), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(106, "Tree", function()
+    if not IsAtLeast(MapVar(7), 1) then
         SetValue(MapVar(7), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("Tree")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(139, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("There doesn't seem to be anymore apples.")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(7), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("There doesn't seem to be anymore apples.")
 end, "Tree")
 
-RegisterEvent(107, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(8), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(107, "Tree", function()
+    if not IsAtLeast(MapVar(8), 1) then
         SetValue(MapVar(8), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("Tree")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(140, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("There doesn't seem to be anymore apples.")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(8), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("There doesn't seem to be anymore apples.")
 end, "Tree")
 
-RegisterEvent(108, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(9), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(108, "Tree", function()
+    if not IsAtLeast(MapVar(9), 1) then
         SetValue(MapVar(9), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("Tree")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(141, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("There doesn't seem to be anymore apples.")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(9), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("There doesn't seem to be anymore apples.")
 end, "Tree")
 
 RegisterEvent(109, "Drink from Fountain.", function()
@@ -760,34 +400,42 @@ RegisterEvent(261, "Shrine of Intellect", function()
 end, "Shrine of Intellect")
 
 RegisterEvent(65535, "", function()
-    return evt.map[101](8)
+    if not IsAtLeast(MapVar(2), 1) then return end
+    evt.SetSprite(134, 1, "6tree06")
 end)
 
 RegisterEvent(65534, "", function()
-    return evt.map[102](8)
+    if not IsAtLeast(MapVar(3), 1) then return end
+    evt.SetSprite(135, 1, "6tree06")
 end)
 
 RegisterEvent(65533, "", function()
-    return evt.map[103](8)
+    if not IsAtLeast(MapVar(4), 1) then return end
+    evt.SetSprite(136, 1, "6tree06")
 end)
 
 RegisterEvent(65532, "", function()
-    return evt.map[104](8)
+    if not IsAtLeast(MapVar(5), 1) then return end
+    evt.SetSprite(137, 1, "6tree06")
 end)
 
 RegisterEvent(65531, "", function()
-    return evt.map[105](8)
+    if not IsAtLeast(MapVar(6), 1) then return end
+    evt.SetSprite(138, 1, "6tree06")
 end)
 
 RegisterEvent(65530, "", function()
-    return evt.map[106](8)
+    if not IsAtLeast(MapVar(7), 1) then return end
+    evt.SetSprite(139, 1, "6tree06")
 end)
 
 RegisterEvent(65529, "", function()
-    return evt.map[107](8)
+    if not IsAtLeast(MapVar(8), 1) then return end
+    evt.SetSprite(140, 1, "6tree06")
 end)
 
 RegisterEvent(65528, "", function()
-    return evt.map[108](8)
+    if not IsAtLeast(MapVar(9), 1) then return end
+    evt.SetSprite(141, 1, "6tree06")
 end)
 

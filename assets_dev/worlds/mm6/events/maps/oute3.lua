@@ -335,513 +335,103 @@ RegisterEvent(110, "Well", function()
     evt.StatusText("Refreshing!")
 end, "Well")
 
-RegisterEvent(111, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(11), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(111, "Tree", function()
+    if not IsAtLeast(MapVar(11), 1) then
         SetValue(MapVar(11), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("You pick an apple.")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(298, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("Tree")
-        return 7
-    end
-    local function Step_7()
-        return nil
-    end
-    local function Step_9()
-        if IsAtLeast(MapVar(11), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 9 then
-            step = Step_9()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("Tree")
 end, "Tree")
 
-RegisterEvent(112, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(12), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(112, "Tree", function()
+    if not IsAtLeast(MapVar(12), 1) then
         SetValue(MapVar(12), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("You pick an apple.")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(299, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("Tree")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(12), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("Tree")
 end, "Tree")
 
-RegisterEvent(113, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(13), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(113, "Tree", function()
+    if not IsAtLeast(MapVar(13), 1) then
         SetValue(MapVar(13), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("You pick an apple.")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(300, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("Tree")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(13), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("Tree")
 end, "Tree")
 
-RegisterEvent(114, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(14), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(114, "Tree", function()
+    if not IsAtLeast(MapVar(14), 1) then
         SetValue(MapVar(14), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("You pick an apple.")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(301, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("Tree")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(14), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("Tree")
 end, "Tree")
 
-RegisterEvent(115, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(15), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(115, "Tree", function()
+    if not IsAtLeast(MapVar(15), 1) then
         SetValue(MapVar(15), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("You pick an apple.")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(467, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("Tree")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(15), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("Tree")
 end, "Tree")
 
-RegisterEvent(116, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(16), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(116, "Tree", function()
+    if not IsAtLeast(MapVar(16), 1) then
         SetValue(MapVar(16), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("You pick an apple.")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(303, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("Tree")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(16), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("Tree")
 end, "Tree")
 
-RegisterEvent(117, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(17), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(117, "Tree", function()
+    if not IsAtLeast(MapVar(17), 1) then
         SetValue(MapVar(17), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("You pick an apple.")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(302, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("Tree")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(17), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("Tree")
 end, "Tree")
 
-RegisterEvent(118, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(18), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(118, "Tree", function()
+    if not IsAtLeast(MapVar(18), 1) then
         SetValue(MapVar(18), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("You pick an apple.")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(305, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("Tree")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(18), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("Tree")
 end, "Tree")
 
-RegisterEvent(119, "Tree", function(continueStep)
-    local function Step_0()
-        if IsAtLeast(MapVar(19), 1) then return 6 end
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(119, "Tree", function()
+    if not IsAtLeast(MapVar(19), 1) then
         SetValue(MapVar(19), 1)
-        return 2
-    end
-    local function Step_2()
         AddValue(Food, 1)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("You pick an apple.")
-        return 4
-    end
-    local function Step_4()
         evt.SetSprite(304, 1, "6tree06")
-        return 5
+        return
     end
-    local function Step_5()
-        return nil
-    end
-    local function Step_6()
-        evt.StatusText("Tree")
-        return 8
-    end
-    local function Step_8()
-        if IsAtLeast(MapVar(19), 1) then return 4 end
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 8 then
-            step = Step_8()
-        else
-            step = nil
-        end
-    end
+    evt.StatusText("Tree")
 end, "Tree")
 
 RegisterEvent(130, "Legacy event 130", function()
@@ -951,71 +541,18 @@ RegisterEvent(225, "Legacy event 225", function()
     SetValue(MapVar(61), 1)
 end)
 
-RegisterEvent(226, "Legacy event 226", function(continueStep)
-    local function Step_0()
-        if IsQBitSet(QBit(1326)) then return 8 end -- NPC
-        return 1
+RegisterEvent(226, "Legacy event 226", function()
+    if IsQBitSet(QBit(1326)) then -- NPC
+        return
     end
-    local function Step_1()
-        if IsAtLeast(ActualMight, 25) then return 5 end
-        return 2
-    end
-    local function Step_2()
+    if not IsAtLeast(ActualMight, 25) then
         evt.FaceExpression(51)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("The Sword won't budge!")
-        return 4
+        return
     end
-    local function Step_4()
-        return 8
-    end
-    local function Step_5()
-        SetQBit(QBit(1326)) -- NPC
-        return 6
-    end
-    local function Step_6()
-        AddValue(InventoryItem(1608), 1608) -- Claymore
-        return 7
-    end
-    local function Step_7()
-        evt.SetSprite(339, 1, "swrdstx")
-        return 8
-    end
-    local function Step_8()
-        return nil
-    end
-    local function Step_10()
-        if IsQBitSet(QBit(1326)) then return 7 end -- NPC
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 8 then
-            step = Step_8()
-        elseif step == 10 then
-            step = Step_10()
-        else
-            step = nil
-        end
-    end
+    SetQBit(QBit(1326)) -- NPC
+    AddValue(InventoryItem(1608), 1608) -- Claymore
+    evt.SetSprite(339, 1, "swrdstx")
 end)
 
 RegisterEvent(230, "Legacy event 230", function()
@@ -1073,42 +610,52 @@ RegisterEvent(261, "Shrine of Luck", function()
 end, "Shrine of Luck")
 
 RegisterEvent(65535, "", function()
-    return evt.map[111](9)
+    if not IsAtLeast(MapVar(11), 1) then return end
+    evt.SetSprite(298, 1, "6tree06")
 end)
 
 RegisterEvent(65534, "", function()
-    return evt.map[112](8)
+    if not IsAtLeast(MapVar(12), 1) then return end
+    evt.SetSprite(299, 1, "6tree06")
 end)
 
 RegisterEvent(65533, "", function()
-    return evt.map[113](8)
+    if not IsAtLeast(MapVar(13), 1) then return end
+    evt.SetSprite(300, 1, "6tree06")
 end)
 
 RegisterEvent(65532, "", function()
-    return evt.map[114](8)
+    if not IsAtLeast(MapVar(14), 1) then return end
+    evt.SetSprite(301, 1, "6tree06")
 end)
 
 RegisterEvent(65531, "", function()
-    return evt.map[115](8)
+    if not IsAtLeast(MapVar(15), 1) then return end
+    evt.SetSprite(467, 1, "6tree06")
 end)
 
 RegisterEvent(65530, "", function()
-    return evt.map[116](8)
+    if not IsAtLeast(MapVar(16), 1) then return end
+    evt.SetSprite(303, 1, "6tree06")
 end)
 
 RegisterEvent(65529, "", function()
-    return evt.map[117](8)
+    if not IsAtLeast(MapVar(17), 1) then return end
+    evt.SetSprite(302, 1, "6tree06")
 end)
 
 RegisterEvent(65528, "", function()
-    return evt.map[118](8)
+    if not IsAtLeast(MapVar(18), 1) then return end
+    evt.SetSprite(305, 1, "6tree06")
 end)
 
 RegisterEvent(65527, "", function()
-    return evt.map[119](8)
+    if not IsAtLeast(MapVar(19), 1) then return end
+    evt.SetSprite(304, 1, "6tree06")
 end)
 
 RegisterEvent(65526, "", function()
-    return evt.map[226](10)
+    if not IsQBitSet(QBit(1326)) then return end -- NPC
+    evt.SetSprite(339, 1, "swrdstx")
 end)
 

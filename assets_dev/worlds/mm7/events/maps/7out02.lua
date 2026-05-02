@@ -461,230 +461,41 @@ RegisterEvent(51, "Legacy event 51", function()
     end
 end)
 
-RegisterEvent(110, "Legacy event 110", function(continueStep)
-    local function Step_0()
-        if IsQBitSet(QBit(645)) then return 3 end -- Player castle timer only happens once
-        return 1
-    end
-    local function Step_1()
+RegisterEvent(110, "Legacy event 110", function()
+    if not IsQBitSet(QBit(645)) then -- Player castle timer only happens once
         SetValue(Counter(3), 0)
-        return 2
-    end
-    local function Step_2()
         SetQBit(QBit(645)) -- Player castle timer only happens once
-        return 3
     end
-    local function Step_3()
-        evt.SetTexture(1, "chb1dl")
-        return 4
-    end
-    local function Step_4()
-        evt.SetTexture(2, "chb1dr")
-        return 5
-    end
-    local function Step_5()
-        evt.SetTexture(3, "chb1el")
-        return 6
-    end
-    local function Step_6()
-        evt.SetTexture(4, "chb1er")
-        return 7
-    end
-    local function Step_7()
-        evt.SetTexture(5, "chb1s")
-        return 8
-    end
-    local function Step_8()
-        evt.SetTexture(6, "chb1")
-        return 9
-    end
-    local function Step_9()
-        evt.SetTexture(11, "chb1el")
-        return 10
-    end
-    local function Step_10()
-        evt.SetTexture(12, "chb1")
-        return 11
-    end
-    local function Step_11()
-        evt.SetTexture(13, "chb1er")
-        return 12
-    end
-    local function Step_12()
-        evt.SetTexture(14, "chb1s")
-        return 13
-    end
-    local function Step_13()
-        evt.SetTexture(15, "chbw")
-        return 14
-    end
-    local function Step_14()
-        evt.SetTexture(7, "chbw")
-        return 15
-    end
-    local function Step_15()
-        evt.SetFacetBit(10, FacetBits.Invisible, 1)
-        return 16
-    end
-    local function Step_16()
-        evt.SetFacetBit(15, FacetBits.Invisible, 0)
-        return 17
-    end
-    local function Step_17()
-        evt.SetSprite(1, 1, "7tree07")
-        return 18
-    end
-    local function Step_18()
-        evt.SetSprite(2, 1, "7tree01")
-        return 19
-    end
-    local function Step_19()
-        if IsAtLeast(History(7), 0) then return 21 end
-        return 20
-    end
-    local function Step_20()
-        AddValue(History(7), 0)
-        return 21
-    end
-    local function Step_21()
-        return nil
-    end
-    local function Step_23()
-        if IsQBitSet(QBit(610)) then return 0 end -- Built Castle to Level 2 (rescued dwarf guy)
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 8 then
-            step = Step_8()
-        elseif step == 9 then
-            step = Step_9()
-        elseif step == 10 then
-            step = Step_10()
-        elseif step == 11 then
-            step = Step_11()
-        elseif step == 12 then
-            step = Step_12()
-        elseif step == 13 then
-            step = Step_13()
-        elseif step == 14 then
-            step = Step_14()
-        elseif step == 15 then
-            step = Step_15()
-        elseif step == 16 then
-            step = Step_16()
-        elseif step == 17 then
-            step = Step_17()
-        elseif step == 18 then
-            step = Step_18()
-        elseif step == 19 then
-            step = Step_19()
-        elseif step == 20 then
-            step = Step_20()
-        elseif step == 21 then
-            step = Step_21()
-        elseif step == 23 then
-            step = Step_23()
-        else
-            step = nil
-        end
-    end
+    evt.SetTexture(1, "chb1dl")
+    evt.SetTexture(2, "chb1dr")
+    evt.SetTexture(3, "chb1el")
+    evt.SetTexture(4, "chb1er")
+    evt.SetTexture(5, "chb1s")
+    evt.SetTexture(6, "chb1")
+    evt.SetTexture(11, "chb1el")
+    evt.SetTexture(12, "chb1")
+    evt.SetTexture(13, "chb1er")
+    evt.SetTexture(14, "chb1s")
+    evt.SetTexture(15, "chbw")
+    evt.SetTexture(7, "chbw")
+    evt.SetFacetBit(10, FacetBits.Invisible, 1)
+    evt.SetFacetBit(15, FacetBits.Invisible, 0)
+    evt.SetSprite(1, 1, "7tree07")
+    evt.SetSprite(2, 1, "7tree01")
+    if IsAtLeast(History(7), 0) then return end
+    AddValue(History(7), 0)
 end)
 
-RegisterEvent(111, "Legacy event 111", function(continueStep)
-    local function Step_0()
-        evt.SetFacetBit(20, FacetBits.Untouchable, 0)
-        return 1
-    end
-    local function Step_1()
-        evt.SetFacetBit(20, FacetBits.Invisible, 0)
-        return 2
-    end
-    local function Step_2()
-        evt.SetFacetBit(15, FacetBits.Invisible, 1)
-        return 3
-    end
-    local function Step_3()
-        evt.SetFacetBit(11, FacetBits.Invisible, 1)
-        return 4
-    end
-    local function Step_4()
-        evt.SetFacetBit(12, FacetBits.Invisible, 1)
-        return 5
-    end
-    local function Step_5()
-        evt.SetFacetBit(13, FacetBits.Invisible, 1)
-        return 6
-    end
-    local function Step_6()
-        evt.SetFacetBit(14, FacetBits.Invisible, 1)
-        return 7
-    end
-    local function Step_7()
-        evt.SetFacetBit(15, FacetBits.Invisible, 1)
-        return 8
-    end
-    local function Step_8()
-        evt.SetFacetBit(16, FacetBits.Invisible, 1)
-        return 9
-    end
-    local function Step_9()
-        return nil
-    end
-    local function Step_11()
-        if IsQBitSet(QBit(614)) then return 0 end -- Completed Proving Grounds without killing a single creature
-        return 12
-    end
-    local function Step_12()
-        if IsQBitSet(QBit(641)) then return 0 end -- Completed Breeding Pit.
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 8 then
-            step = Step_8()
-        elseif step == 9 then
-            step = Step_9()
-        elseif step == 11 then
-            step = Step_11()
-        elseif step == 12 then
-            step = Step_12()
-        else
-            step = nil
-        end
-    end
+RegisterEvent(111, "Legacy event 111", function()
+    evt.SetFacetBit(20, FacetBits.Untouchable, 0)
+    evt.SetFacetBit(20, FacetBits.Invisible, 0)
+    evt.SetFacetBit(15, FacetBits.Invisible, 1)
+    evt.SetFacetBit(11, FacetBits.Invisible, 1)
+    evt.SetFacetBit(12, FacetBits.Invisible, 1)
+    evt.SetFacetBit(13, FacetBits.Invisible, 1)
+    evt.SetFacetBit(14, FacetBits.Invisible, 1)
+    evt.SetFacetBit(15, FacetBits.Invisible, 1)
+    evt.SetFacetBit(16, FacetBits.Invisible, 1)
 end)
 
 RegisterEvent(112, "Crate", function()
@@ -1392,10 +1203,54 @@ RegisterEvent(302, "Enter the White Cliff Caves", function()
 end, "Enter the White Cliff Caves")
 
 RegisterEvent(65535, "", function()
-    return evt.map[110](23)
+    if not IsQBitSet(QBit(610)) then return end -- Built Castle to Level 2 (rescued dwarf guy)
+    if not IsQBitSet(QBit(645)) then -- Player castle timer only happens once
+        SetValue(Counter(3), 0)
+        SetQBit(QBit(645)) -- Player castle timer only happens once
+    end
+    evt.SetTexture(1, "chb1dl")
+    evt.SetTexture(2, "chb1dr")
+    evt.SetTexture(3, "chb1el")
+    evt.SetTexture(4, "chb1er")
+    evt.SetTexture(5, "chb1s")
+    evt.SetTexture(6, "chb1")
+    evt.SetTexture(11, "chb1el")
+    evt.SetTexture(12, "chb1")
+    evt.SetTexture(13, "chb1er")
+    evt.SetTexture(14, "chb1s")
+    evt.SetTexture(15, "chbw")
+    evt.SetTexture(7, "chbw")
+    evt.SetFacetBit(10, FacetBits.Invisible, 1)
+    evt.SetFacetBit(15, FacetBits.Invisible, 0)
+    evt.SetSprite(1, 1, "7tree07")
+    evt.SetSprite(2, 1, "7tree01")
+    if IsAtLeast(History(7), 0) then return end
+    AddValue(History(7), 0)
 end)
 
 RegisterEvent(65534, "", function()
-    return evt.map[111](11)
+    if IsQBitSet(QBit(614)) then -- Completed Proving Grounds without killing a single creature
+        evt.SetFacetBit(20, FacetBits.Untouchable, 0)
+        evt.SetFacetBit(20, FacetBits.Invisible, 0)
+        evt.SetFacetBit(15, FacetBits.Invisible, 1)
+        evt.SetFacetBit(11, FacetBits.Invisible, 1)
+        evt.SetFacetBit(12, FacetBits.Invisible, 1)
+        evt.SetFacetBit(13, FacetBits.Invisible, 1)
+        evt.SetFacetBit(14, FacetBits.Invisible, 1)
+        evt.SetFacetBit(15, FacetBits.Invisible, 1)
+        evt.SetFacetBit(16, FacetBits.Invisible, 1)
+        return
+    elseif IsQBitSet(QBit(641)) then -- Completed Breeding Pit.
+        evt.SetFacetBit(20, FacetBits.Untouchable, 0)
+        evt.SetFacetBit(20, FacetBits.Invisible, 0)
+        evt.SetFacetBit(15, FacetBits.Invisible, 1)
+        evt.SetFacetBit(11, FacetBits.Invisible, 1)
+        evt.SetFacetBit(12, FacetBits.Invisible, 1)
+        evt.SetFacetBit(13, FacetBits.Invisible, 1)
+        evt.SetFacetBit(14, FacetBits.Invisible, 1)
+        evt.SetFacetBit(15, FacetBits.Invisible, 1)
+        evt.SetFacetBit(16, FacetBits.Invisible, 1)
+        return
+    end
 end)
 

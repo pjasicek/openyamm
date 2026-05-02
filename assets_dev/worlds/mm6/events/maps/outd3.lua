@@ -411,71 +411,18 @@ RegisterEvent(221, "Legacy event 221", function()
     evt.SetFacetBit(1, FacetBits.Untouchable, 0)
 end)
 
-RegisterEvent(225, "Legacy event 225", function(continueStep)
-    local function Step_0()
-        if IsQBitSet(QBit(1327)) then return 8 end -- NPC
-        return 1
+RegisterEvent(225, "Legacy event 225", function()
+    if IsQBitSet(QBit(1327)) then -- NPC
+        return
     end
-    local function Step_1()
-        if IsAtLeast(ActualMight, 40) then return 5 end
-        return 2
-    end
-    local function Step_2()
+    if not IsAtLeast(ActualMight, 40) then
         evt.FaceExpression(51)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("The Sword won't budge!")
-        return 4
+        return
     end
-    local function Step_4()
-        return 8
-    end
-    local function Step_5()
-        SetQBit(QBit(1327)) -- NPC
-        return 6
-    end
-    local function Step_6()
-        evt.GiveItem(4, 23, 1609) -- Barbarian Flamberge
-        return 7
-    end
-    local function Step_7()
-        evt.SetSprite(232, 1, "swrdstx")
-        return 8
-    end
-    local function Step_8()
-        return nil
-    end
-    local function Step_10()
-        if IsQBitSet(QBit(1327)) then return 7 end -- NPC
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 8 then
-            step = Step_8()
-        elseif step == 10 then
-            step = Step_10()
-        else
-            step = nil
-        end
-    end
+    SetQBit(QBit(1327)) -- NPC
+    evt.GiveItem(4, 23, 1609) -- Barbarian Flamberge
+    evt.SetSprite(232, 1, "swrdstx")
 end)
 
 RegisterEvent(230, "Legacy event 230", function()
@@ -521,6 +468,7 @@ RegisterEvent(261, "Shrine of Electricity", function()
 end, "Shrine of Electricity")
 
 RegisterEvent(65535, "", function()
-    return evt.map[225](10)
+    if not IsQBitSet(QBit(1327)) then return end -- NPC
+    evt.SetSprite(232, 1, "swrdstx")
 end)
 

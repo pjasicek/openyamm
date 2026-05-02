@@ -459,205 +459,46 @@ RegisterEvent(215, "Legacy event 215", function()
     evt.MoveToMap(-9192, 21936, 160, 1536, 0, 0, 0, 0)
 end)
 
-RegisterEvent(220, "Legacy event 220", function(continueStep)
-    local function Step_0()
-        if IsQBitSet(QBit(1334)) then return 8 end -- NPC
-        return 1
+RegisterEvent(220, "Legacy event 220", function()
+    if IsQBitSet(QBit(1334)) then -- NPC
+        return
     end
-    local function Step_1()
-        if IsAtLeast(ActualMight, 60) then return 5 end
-        return 2
-    end
-    local function Step_2()
+    if not IsAtLeast(ActualMight, 60) then
         evt.FaceExpression(51)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("The Sword won't budge!")
-        return 4
+        return
     end
-    local function Step_4()
-        return 8
-    end
-    local function Step_5()
-        SetQBit(QBit(1334)) -- NPC
-        return 6
-    end
-    local function Step_6()
-        evt.GiveItem(5, 23, 1606) -- Conqueror Sword
-        return 7
-    end
-    local function Step_7()
-        evt.SetSprite(359, 1, "swrdstx")
-        return 8
-    end
-    local function Step_8()
-        return nil
-    end
-    local function Step_10()
-        if IsQBitSet(QBit(1334)) then return 7 end -- NPC
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 8 then
-            step = Step_8()
-        elseif step == 10 then
-            step = Step_10()
-        else
-            step = nil
-        end
-    end
+    SetQBit(QBit(1334)) -- NPC
+    evt.GiveItem(5, 23, 1606) -- Conqueror Sword
+    evt.SetSprite(359, 1, "swrdstx")
 end)
 
-RegisterEvent(221, "Legacy event 221", function(continueStep)
-    local function Step_0()
-        if IsQBitSet(QBit(1335)) then return 8 end -- NPC
-        return 1
+RegisterEvent(221, "Legacy event 221", function()
+    if IsQBitSet(QBit(1335)) then -- NPC
+        return
     end
-    local function Step_1()
-        if IsAtLeast(ActualMight, 60) then return 5 end
-        return 2
-    end
-    local function Step_2()
+    if not IsAtLeast(ActualMight, 60) then
         evt.FaceExpression(51)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("The Sword won't budge!")
-        return 4
+        return
     end
-    local function Step_4()
-        return 8
-    end
-    local function Step_5()
-        SetQBit(QBit(1335)) -- NPC
-        return 6
-    end
-    local function Step_6()
-        evt.GiveItem(5, 23, 1607) -- Lionheart Sword
-        return 7
-    end
-    local function Step_7()
-        evt.SetSprite(360, 1, "swrdstx")
-        return 8
-    end
-    local function Step_8()
-        return nil
-    end
-    local function Step_10()
-        if IsQBitSet(QBit(1335)) then return 7 end -- NPC
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 8 then
-            step = Step_8()
-        elseif step == 10 then
-            step = Step_10()
-        else
-            step = nil
-        end
-    end
+    SetQBit(QBit(1335)) -- NPC
+    evt.GiveItem(5, 23, 1607) -- Lionheart Sword
+    evt.SetSprite(360, 1, "swrdstx")
 end)
 
-RegisterEvent(222, "Legacy event 222", function(continueStep)
-    local function Step_0()
-        if IsQBitSet(QBit(1336)) then return 8 end -- NPC
-        return 1
+RegisterEvent(222, "Legacy event 222", function()
+    if IsQBitSet(QBit(1336)) then -- NPC
+        return
     end
-    local function Step_1()
-        if IsAtLeast(ActualMight, 100) then return 5 end
-        return 2
-    end
-    local function Step_2()
+    if not IsAtLeast(ActualMight, 100) then
         evt.FaceExpression(51)
-        return 3
-    end
-    local function Step_3()
         evt.StatusText("The Sword won't budge!")
-        return 4
+        return
     end
-    local function Step_4()
-        return 8
-    end
-    local function Step_5()
-        SetQBit(QBit(1336)) -- NPC
-        return 6
-    end
-    local function Step_6()
-        evt.GiveItem(6, 23, 1610) -- Vanquisher Sword
-        return 7
-    end
-    local function Step_7()
-        evt.SetSprite(361, 1, "swrdstx")
-        return 8
-    end
-    local function Step_8()
-        return nil
-    end
-    local function Step_10()
-        if IsQBitSet(QBit(1336)) then return 7 end -- NPC
-        return nil
-    end
-    local step = continueStep or 0
-    while step ~= nil do
-        if step == 0 then
-            step = Step_0()
-        elseif step == 1 then
-            step = Step_1()
-        elseif step == 2 then
-            step = Step_2()
-        elseif step == 3 then
-            step = Step_3()
-        elseif step == 4 then
-            step = Step_4()
-        elseif step == 5 then
-            step = Step_5()
-        elseif step == 6 then
-            step = Step_6()
-        elseif step == 7 then
-            step = Step_7()
-        elseif step == 8 then
-            step = Step_8()
-        elseif step == 10 then
-            step = Step_10()
-        else
-            step = nil
-        end
-    end
+    SetQBit(QBit(1336)) -- NPC
+    evt.GiveItem(6, 23, 1610) -- Vanquisher Sword
+    evt.SetSprite(361, 1, "swrdstx")
 end)
 
 RegisterEvent(223, "Legacy event 223", function()
@@ -698,14 +539,17 @@ RegisterEvent(261, "Shrine of Personality", function()
 end, "Shrine of Personality")
 
 RegisterEvent(65535, "", function()
-    return evt.map[220](10)
+    if not IsQBitSet(QBit(1334)) then return end -- NPC
+    evt.SetSprite(359, 1, "swrdstx")
 end)
 
 RegisterEvent(65534, "", function()
-    return evt.map[221](10)
+    if not IsQBitSet(QBit(1335)) then return end -- NPC
+    evt.SetSprite(360, 1, "swrdstx")
 end)
 
 RegisterEvent(65533, "", function()
-    return evt.map[222](10)
+    if not IsQBitSet(QBit(1336)) then return end -- NPC
+    evt.SetSprite(361, 1, "swrdstx")
 end)
 
