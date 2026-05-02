@@ -17,75 +17,75 @@ SetMapMetadata({
 })
 
 RegisterEvent(2, "Drink from Trough.", function()
-    evt.EnterHouse(28) -- Placeholder
+    evt.EnterHouse(28) -- The Sharpening Stone
 end, "Drink from Trough.")
 
 RegisterEvent(3, "Drink from Trough.", nil, "Drink from Trough.")
 
 RegisterEvent(4, "Hic…", function()
-    evt.EnterHouse(29) -- Fearsome Fetishes
+    evt.EnterHouse(29) -- Feathers and String
 end, "Hic…")
 
 RegisterEvent(5, "Hic…", nil, "Hic…")
 
 RegisterEvent(6, "Darkmoor", function()
-    evt.EnterHouse(67) -- Wind
+    evt.EnterHouse(67) -- The Foundry
 end, "Darkmoor")
 
 RegisterEvent(7, "Darkmoor", nil, "Darkmoor")
 
 RegisterEvent(8, "Whitecap", function()
-    evt.EnterHouse(72) -- Placeholder
+    evt.EnterHouse(72) -- The Footman's Friend
 end, "Whitecap")
 
 RegisterEvent(9, "Whitecap", nil, "Whitecap")
 
-RegisterEvent(10, "The Grog and Grub", function()
-    evt.EnterHouse(107) -- The Grog and Grub
-end, "The Grog and Grub")
+RegisterEvent(10, "Alchemy and Incantations", function()
+    evt.EnterHouse(107) -- Alchemy and Incantations
+end, "Alchemy and Incantations")
 
-RegisterEvent(11, "The Grog and Grub", nil, "The Grog and Grub")
+RegisterEvent(11, "Alchemy and Incantations", nil, "Alchemy and Incantations")
 
-RegisterEvent(12, "Legacy event 12", function()
-    evt.EnterHouse(1259)
-end)
+RegisterEvent(12, "Abdul's Discount Goods", function()
+    evt.EnterHouse(1259) -- Abdul's Discount Goods
+end, "Abdul's Discount Goods")
 
-RegisterEvent(13, "Legacy event 13", nil)
+RegisterEvent(13, "Abdul's Discount Goods", nil, "Abdul's Discount Goods")
 
-RegisterEvent(14, "Riverglass' House", function()
-    evt.EnterHouse(472) -- Riverglass' House
-end, "Riverglass' House")
+RegisterEvent(14, "Free Haven Travel East", function()
+    evt.EnterHouse(472) -- Free Haven Travel East
+end, "Free Haven Travel East")
 
-RegisterEvent(15, "Riverglass' House", nil, "Riverglass' House")
+RegisterEvent(15, "Free Haven Travel East", nil, "Free Haven Travel East")
 
-RegisterEvent(16, "Clearcreek's House", function()
-    evt.EnterHouse(473) -- Clearcreek's House
-end, "Clearcreek's House")
+RegisterEvent(16, "Free Haven Travel West", function()
+    evt.EnterHouse(473) -- Free Haven Travel West
+end, "Free Haven Travel West")
 
-RegisterEvent(17, "Clearcreek's House", nil, "Clearcreek's House")
+RegisterEvent(17, "Free Haven Travel West", nil, "Free Haven Travel West")
 
-RegisterEvent(18, "House 501", function()
-    evt.EnterHouse(501) -- House 501
-end, "House 501")
+RegisterEvent(18, "Windrunner", function()
+    evt.EnterHouse(501) -- Windrunner
+end, "Windrunner")
 
-RegisterEvent(19, "Bombah Hall", function()
+RegisterEvent(19, "Free Haven Temple", function()
     if IsQBitSet(QBit(1131)) then -- Take the Sacred Chalice from the monks in their island temple east of Free Haven, return it to Temple Stone in Free Haven, and then return to Lord Stone at Castle Stone. - NPC
         evt.ForPlayer(Players.All)
         if HasItem(2054) then -- Sacred Chalice
             RemoveItem(2054) -- Sacred Chalice
             ClearQBit(QBit(1212)) -- Quest item bits for seer
             SetQBit(QBit(1132)) -- NPC
-            evt.EnterHouse(326) -- Bombah Hall
+            evt.EnterHouse(326) -- Temple Stone
         end
-        evt.EnterHouse(326) -- Bombah Hall
+        evt.EnterHouse(326) -- Temple Stone
         return
     elseif IsQBitSet(QBit(1130)) then -- NPC
         if not IsQBitSet(QBit(1129)) then -- Hire a Stonecutter and a Carpenter, bring them to Temple Stone in Free Haven to repair the Temple, and then return to Lord Anthony Stone at Castle Stone. - NPC
             evt.SimpleMessage("You hand the Sacred Chalice to the monks of the temple who ensconce it in the main altar.")
-            evt.EnterHouse(326) -- Bombah Hall
+            evt.EnterHouse(326) -- Temple Stone
             return
         end
-        evt.EnterHouse(1442)
+        evt.EnterHouse(1442) -- Free Haven Temple
         return
     elseif IsQBitSet(QBit(1708)) then -- Replacement for HasNPCProfession ¹64 ver. 6
         if IsQBitSet(QBit(1709)) then -- Replacement for HasNPCProfession ¹63 ver. 6
@@ -94,376 +94,376 @@ RegisterEvent(19, "Bombah Hall", function()
             ClearQBit(QBit(1708)) -- Replacement for HasNPCProfession ¹64 ver. 6
             evt.SimpleMessage("The stone cutter and carpenter begin rebuilding the temple.")
         end
-        evt.EnterHouse(1442)
+        evt.EnterHouse(1442) -- Free Haven Temple
         return
     else
-        evt.EnterHouse(1442)
+        evt.EnterHouse(1442) -- Free Haven Temple
         return
     end
-end, "Bombah Hall")
+end, "Free Haven Temple")
 
-RegisterEvent(20, "Legacy event 20", function()
-    evt.EnterHouse(1584)
-end)
+RegisterEvent(20, "Free Haven Academy", function()
+    evt.EnterHouse(1584) -- Free Haven Academy
+end, "Free Haven Academy")
 
-RegisterEvent(21, "Legacy event 21", nil)
+RegisterEvent(21, "Free Haven Academy", nil, "Free Haven Academy")
 
-RegisterEvent(22, "Botham Hall", function()
-    evt.EnterHouse(273) -- Botham Hall
-end, "Botham Hall")
+RegisterEvent(22, "The Echoing Whisper", function()
+    evt.EnterHouse(273) -- The Echoing Whisper
+end, "The Echoing Whisper")
 
-RegisterEvent(23, "Botham Hall", nil, "Botham Hall")
+RegisterEvent(23, "The Echoing Whisper", nil, "The Echoing Whisper")
 
-RegisterEvent(24, "Guild of Bounty Hunters", function()
-    evt.EnterHouse(272) -- Guild of Bounty Hunters
-end, "Guild of Bounty Hunters")
+RegisterEvent(24, "Viktor's Hall", function()
+    evt.EnterHouse(272) -- Viktor's Hall
+end, "Viktor's Hall")
 
-RegisterEvent(25, "Guild of Bounty Hunters", nil, "Guild of Bounty Hunters")
+RegisterEvent(25, "Viktor's Hall", nil, "Viktor's Hall")
 
-RegisterEvent(26, "Neblick's House", function()
-    evt.EnterHouse(274) -- Neblick's House
-end, "Neblick's House")
+RegisterEvent(26, "Rockham's Pride", function()
+    evt.EnterHouse(274) -- Rockham's Pride
+end, "Rockham's Pride")
 
-RegisterEvent(27, "Neblick's House", nil, "Neblick's House")
+RegisterEvent(27, "Rockham's Pride", nil, "Rockham's Pride")
 
-RegisterEvent(28, "Steele Estate", function()
-    evt.EnterHouse(300) -- Steele Estate
-end, "Steele Estate")
+RegisterEvent(28, "Foreign Exchange", function()
+    evt.EnterHouse(300) -- Foreign Exchange
+end, "Foreign Exchange")
 
-RegisterEvent(29, "Steele Estate", nil, "Steele Estate")
+RegisterEvent(29, "Foreign Exchange", nil, "Foreign Exchange")
 
-RegisterEvent(30, "Placeholder", function()
-    evt.EnterHouse(133) -- Placeholder
-end, "Placeholder")
+RegisterEvent(30, "Adept Guild of Fire", function()
+    evt.EnterHouse(133) -- Adept Guild of Fire
+end, "Adept Guild of Fire")
 
-RegisterEvent(31, "Placeholder", nil, "Placeholder")
+RegisterEvent(31, "Adept Guild of Fire", nil, "Adept Guild of Fire")
 
-RegisterEvent(32, "Cures and Curses", function()
-    evt.EnterHouse(139) -- Cures and Curses
-end, "Cures and Curses")
+RegisterEvent(32, "Adept Guild of Air", function()
+    evt.EnterHouse(139) -- Adept Guild of Air
+end, "Adept Guild of Air")
 
-RegisterEvent(33, "Cures and Curses", nil, "Cures and Curses")
+RegisterEvent(33, "Adept Guild of Air", nil, "Adept Guild of Air")
 
-RegisterEvent(34, "Guild of Mind", function()
-    evt.EnterHouse(145) -- Guild of Mind
-end, "Guild of Mind")
+RegisterEvent(34, "Adept Guild of Water", function()
+    evt.EnterHouse(145) -- Adept Guild of Water
+end, "Adept Guild of Water")
 
-RegisterEvent(35, "Guild of Mind", nil, "Guild of Mind")
+RegisterEvent(35, "Adept Guild of Water", nil, "Adept Guild of Water")
 
-RegisterEvent(36, "Placeholder", function()
-    evt.EnterHouse(151) -- Placeholder
-end, "Placeholder")
+RegisterEvent(36, "Adept Guild of Earth", function()
+    evt.EnterHouse(151) -- Adept Guild of Earth
+end, "Adept Guild of Earth")
 
-RegisterEvent(37, "Placeholder", nil, "Placeholder")
+RegisterEvent(37, "Adept Guild of Earth", nil, "Adept Guild of Earth")
 
-RegisterEvent(38, "Placeholder", function()
-    evt.EnterHouse(157) -- Placeholder
-end, "Placeholder")
+RegisterEvent(38, "Adept Guild of Spirit", function()
+    evt.EnterHouse(157) -- Adept Guild of Spirit
+end, "Adept Guild of Spirit")
 
-RegisterEvent(39, "Placeholder", nil, "Placeholder")
+RegisterEvent(39, "Adept Guild of Spirit", nil, "Adept Guild of Spirit")
 
-RegisterEvent(40, "Placeholder", function()
-    evt.EnterHouse(163) -- Placeholder
-end, "Placeholder")
+RegisterEvent(40, "Adept Guild of Mind", function()
+    evt.EnterHouse(163) -- Adept Guild of Mind
+end, "Adept Guild of Mind")
 
-RegisterEvent(41, "Placeholder", nil, "Placeholder")
+RegisterEvent(41, "Adept Guild of Mind", nil, "Adept Guild of Mind")
 
-RegisterEvent(42, "Placeholder", function()
-    evt.EnterHouse(169) -- Placeholder
-end, "Placeholder")
+RegisterEvent(42, "Adept Guild of Body", function()
+    evt.EnterHouse(169) -- Adept Guild of Body
+end, "Adept Guild of Body")
 
-RegisterEvent(43, "Placeholder", nil, "Placeholder")
+RegisterEvent(43, "Adept Guild of Body", nil, "Adept Guild of Body")
 
-RegisterEvent(44, "Cyclops Larder", function()
-    evt.EnterHouse(200) -- Cyclops Larder
-end, "Cyclops Larder")
+RegisterEvent(44, "Duelists' Edge", function()
+    evt.EnterHouse(200) -- Duelists' Edge
+end, "Duelists' Edge")
 
-RegisterEvent(45, "Cyclops Larder", nil, "Cyclops Larder")
+RegisterEvent(45, "Duelists' Edge", nil, "Duelists' Edge")
 
-RegisterEvent(46, "Merchanthouse of Alvar", function()
-    evt.EnterHouse(195) -- Merchanthouse of Alvar
-end, "Merchanthouse of Alvar")
+RegisterEvent(46, "Smugglers' Guild", function()
+    evt.EnterHouse(195) -- Smugglers' Guild
+end, "Smugglers' Guild")
 
-RegisterEvent(47, "Merchanthouse of Alvar", nil, "Merchanthouse of Alvar")
+RegisterEvent(47, "Smugglers' Guild", nil, "Smugglers' Guild")
 
-RegisterEvent(48, "Pole's Hovel", function()
-    evt.EnterHouse(337) -- Pole's Hovel
-end, "Pole's Hovel")
+RegisterEvent(48, "Castle Temper", function()
+    evt.EnterHouse(337) -- Castle Temper
+end, "Castle Temper")
 
-RegisterEvent(49, "Pirate Stronghold", function()
-    evt.EnterHouse(209) -- Pirate Stronghold
-end, "Pirate Stronghold")
+RegisterEvent(49, "High Council", function()
+    evt.EnterHouse(209) -- High Council
+end, "High Council")
 
-RegisterEvent(50, "Pirate Stronghold", nil, "Pirate Stronghold")
+RegisterEvent(50, "High Council", nil, "High Council")
 
-RegisterEvent(52, "House 507", function()
-    evt.EnterHouse(507) -- House 507
-end, "House 507")
+RegisterEvent(52, "Enterprise", function()
+    evt.EnterHouse(507) -- Enterprise
+end, "Enterprise")
 
-RegisterEvent(53, "Hovel of Mist", function()
-    evt.EnterHouse(334) -- Hovel of Mist
-end, "Hovel of Mist")
+RegisterEvent(53, "Temple Baa", function()
+    evt.EnterHouse(334) -- Temple Baa
+end, "Temple Baa")
 
-RegisterEvent(54, "Placeholder", function()
-    evt.EnterHouse(105) -- Placeholder
-end, "Placeholder")
+RegisterEvent(54, "The Sorcerer's Shoppe", function()
+    evt.EnterHouse(105) -- The Sorcerer's Shoppe
+end, "The Sorcerer's Shoppe")
 
-RegisterEvent(55, "Placeholder", nil, "Placeholder")
+RegisterEvent(55, "The Sorcerer's Shoppe", nil, "The Sorcerer's Shoppe")
 
 RegisterEvent(56, "Blackshire", function()
-    evt.EnterHouse(1221)
+    evt.EnterHouse(1221) -- House
 end, "Blackshire")
 
 RegisterEvent(57, "Guild of Mind", function()
-    evt.EnterHouse(1236)
+    evt.EnterHouse(1236) -- House
 end, "Guild of Mind")
 
 RegisterEvent(58, "The stone cutter and carpenter begin rebuilding the temple.", function()
-    evt.EnterHouse(1251)
+    evt.EnterHouse(1251) -- House
 end, "The stone cutter and carpenter begin rebuilding the temple.")
 
 RegisterEvent(59, "You hand the Sacred Chalice to the monks of the temple who ensconce it in the main altar.", function()
-    evt.EnterHouse(1266)
+    evt.EnterHouse(1266) -- House
 end, "You hand the Sacred Chalice to the monks of the temple who ensconce it in the main altar.")
 
-RegisterEvent(60, "Legacy event 60", function()
-    evt.EnterHouse(1281)
-end)
+RegisterEvent(60, "House", function()
+    evt.EnterHouse(1281) -- House
+end, "House")
 
-RegisterEvent(61, "Legacy event 61", function()
-    evt.EnterHouse(1296)
-end)
+RegisterEvent(61, "House", function()
+    evt.EnterHouse(1296) -- House
+end, "House")
 
-RegisterEvent(62, "Legacy event 62", function()
-    evt.EnterHouse(1309)
-end)
+RegisterEvent(62, "House", function()
+    evt.EnterHouse(1309) -- House
+end, "House")
 
-RegisterEvent(63, "Legacy event 63", function()
-    evt.EnterHouse(1321)
-end)
+RegisterEvent(63, "House", function()
+    evt.EnterHouse(1321) -- House
+end, "House")
 
-RegisterEvent(64, "Legacy event 64", function()
-    evt.EnterHouse(1332)
-end)
+RegisterEvent(64, "House", function()
+    evt.EnterHouse(1332) -- House
+end, "House")
 
-RegisterEvent(65, "Legacy event 65", function()
-    evt.EnterHouse(1344)
-end)
+RegisterEvent(65, "House", function()
+    evt.EnterHouse(1344) -- House
+end, "House")
 
-RegisterEvent(66, "Legacy event 66", function()
-    evt.EnterHouse(1356)
-end)
+RegisterEvent(66, "House", function()
+    evt.EnterHouse(1356) -- House
+end, "House")
 
-RegisterEvent(67, "Legacy event 67", function()
-    evt.EnterHouse(1368)
-end)
+RegisterEvent(67, "House", function()
+    evt.EnterHouse(1368) -- House
+end, "House")
 
-RegisterEvent(68, "Legacy event 68", function()
-    evt.EnterHouse(1379)
-end)
+RegisterEvent(68, "House", function()
+    evt.EnterHouse(1379) -- House
+end, "House")
 
-RegisterEvent(69, "Legacy event 69", function()
-    evt.EnterHouse(1390)
-end)
+RegisterEvent(69, "House", function()
+    evt.EnterHouse(1390) -- House
+end, "House")
 
-RegisterEvent(70, "Legacy event 70", function()
-    evt.EnterHouse(1400)
-end)
+RegisterEvent(70, "House", function()
+    evt.EnterHouse(1400) -- House
+end, "House")
 
-RegisterEvent(71, "Legacy event 71", function()
-    evt.EnterHouse(1409)
-end)
+RegisterEvent(71, "House", function()
+    evt.EnterHouse(1409) -- House
+end, "House")
 
-RegisterEvent(72, "Legacy event 72", function()
-    evt.EnterHouse(1418)
-end)
+RegisterEvent(72, "House", function()
+    evt.EnterHouse(1418) -- House
+end, "House")
 
-RegisterEvent(73, "Legacy event 73", function()
-    evt.EnterHouse(1426)
-end)
+RegisterEvent(73, "House", function()
+    evt.EnterHouse(1426) -- House
+end, "House")
 
-RegisterEvent(74, "Legacy event 74", function()
-    evt.EnterHouse(1435)
-end)
+RegisterEvent(74, "House", function()
+    evt.EnterHouse(1435) -- House
+end, "House")
 
-RegisterEvent(75, "Legacy event 75", function()
-    evt.EnterHouse(1444)
-end)
+RegisterEvent(75, "House", function()
+    evt.EnterHouse(1444) -- House
+end, "House")
 
-RegisterEvent(76, "Legacy event 76", function()
-    evt.EnterHouse(1453)
-end)
+RegisterEvent(76, "House", function()
+    evt.EnterHouse(1453) -- House
+end, "House")
 
-RegisterEvent(77, "Legacy event 77", function()
-    evt.EnterHouse(1460)
-end)
+RegisterEvent(77, "House", function()
+    evt.EnterHouse(1460) -- House
+end, "House")
 
-RegisterEvent(78, "Legacy event 78", function()
-    evt.EnterHouse(1466)
-end)
+RegisterEvent(78, "House", function()
+    evt.EnterHouse(1466) -- House
+end, "House")
 
-RegisterEvent(79, "Legacy event 79", function()
-    evt.EnterHouse(1471)
-end)
+RegisterEvent(79, "House", function()
+    evt.EnterHouse(1471) -- House
+end, "House")
 
-RegisterEvent(80, "Legacy event 80", function()
-    evt.EnterHouse(1476)
-end)
+RegisterEvent(80, "House", function()
+    evt.EnterHouse(1476) -- House
+end, "House")
 
-RegisterEvent(81, "Legacy event 81", function()
-    evt.EnterHouse(1481)
-end)
+RegisterEvent(81, "House", function()
+    evt.EnterHouse(1481) -- House
+end, "House")
 
-RegisterEvent(82, "Legacy event 82", function()
-    evt.EnterHouse(1486)
-end)
+RegisterEvent(82, "House", function()
+    evt.EnterHouse(1486) -- House
+end, "House")
 
-RegisterEvent(83, "Legacy event 83", function()
-    evt.EnterHouse(1491)
-end)
+RegisterEvent(83, "House", function()
+    evt.EnterHouse(1491) -- House
+end, "House")
 
-RegisterEvent(84, "Legacy event 84", function()
-    evt.EnterHouse(1496)
-end)
+RegisterEvent(84, "House", function()
+    evt.EnterHouse(1496) -- House
+end, "House")
 
-RegisterEvent(85, "Legacy event 85", function()
-    evt.EnterHouse(1501)
-end)
+RegisterEvent(85, "House", function()
+    evt.EnterHouse(1501) -- House
+end, "House")
 
-RegisterEvent(86, "Legacy event 86", function()
-    evt.EnterHouse(1505)
-end)
+RegisterEvent(86, "House", function()
+    evt.EnterHouse(1505) -- House
+end, "House")
 
-RegisterEvent(87, "Legacy event 87", function()
-    evt.EnterHouse(1509)
-end)
+RegisterEvent(87, "House", function()
+    evt.EnterHouse(1509) -- House
+end, "House")
 
-RegisterEvent(88, "Legacy event 88", function()
-    evt.EnterHouse(1513)
-end)
+RegisterEvent(88, "House", function()
+    evt.EnterHouse(1513) -- House
+end, "House")
 
-RegisterEvent(89, "Legacy event 89", function()
-    evt.EnterHouse(1516)
-end)
+RegisterEvent(89, "House", function()
+    evt.EnterHouse(1516) -- House
+end, "House")
 
-RegisterEvent(90, "Legacy event 90", function()
-    evt.EnterHouse(1519)
-end)
+RegisterEvent(90, "House", function()
+    evt.EnterHouse(1519) -- House
+end, "House")
 
-RegisterEvent(91, "Legacy event 91", function()
-    evt.EnterHouse(1522)
-end)
+RegisterEvent(91, "House", function()
+    evt.EnterHouse(1522) -- House
+end, "House")
 
-RegisterEvent(92, "Legacy event 92", function()
-    evt.EnterHouse(1524)
-end)
+RegisterEvent(92, "House", function()
+    evt.EnterHouse(1524) -- House
+end, "House")
 
-RegisterEvent(93, "Legacy event 93", function()
-    evt.EnterHouse(1526)
-end)
+RegisterEvent(93, "House", function()
+    evt.EnterHouse(1526) -- House
+end, "House")
 
-RegisterEvent(94, "Legacy event 94", function()
-    evt.EnterHouse(1528)
-end)
+RegisterEvent(94, "House", function()
+    evt.EnterHouse(1528) -- House
+end, "House")
 
-RegisterEvent(95, "Legacy event 95", function()
-    evt.EnterHouse(1530)
-end)
+RegisterEvent(95, "House", function()
+    evt.EnterHouse(1530) -- House
+end, "House")
 
-RegisterEvent(96, "Legacy event 96", function()
-    evt.EnterHouse(1532)
-end)
+RegisterEvent(96, "House", function()
+    evt.EnterHouse(1532) -- House
+end, "House")
 
-RegisterEvent(97, "Legacy event 97", function()
-    evt.EnterHouse(1534)
-end)
+RegisterEvent(97, "House", function()
+    evt.EnterHouse(1534) -- House
+end, "House")
 
-RegisterEvent(98, "Legacy event 98", function()
-    evt.EnterHouse(1536)
-end)
+RegisterEvent(98, "House", function()
+    evt.EnterHouse(1536) -- House
+end, "House")
 
-RegisterEvent(99, "Legacy event 99", function()
-    evt.EnterHouse(1538)
-end)
+RegisterEvent(99, "House", function()
+    evt.EnterHouse(1538) -- House
+end, "House")
 
-RegisterEvent(100, "Legacy event 100", function()
-    evt.EnterHouse(1540)
-end)
+RegisterEvent(100, "House", function()
+    evt.EnterHouse(1540) -- House
+end, "House")
 
-RegisterEvent(101, "Legacy event 101", function()
-    evt.EnterHouse(1542)
-end)
+RegisterEvent(101, "House", function()
+    evt.EnterHouse(1542) -- House
+end, "House")
 
-RegisterEvent(102, "Legacy event 102", function()
-    evt.EnterHouse(1544)
-end)
+RegisterEvent(102, "House", function()
+    evt.EnterHouse(1544) -- House
+end, "House")
 
-RegisterEvent(103, "Legacy event 103", function()
-    evt.EnterHouse(1546)
-end)
+RegisterEvent(103, "House", function()
+    evt.EnterHouse(1546) -- House
+end, "House")
 
-RegisterEvent(104, "Legacy event 104", function()
-    evt.EnterHouse(1548)
-end)
+RegisterEvent(104, "House", function()
+    evt.EnterHouse(1548) -- House
+end, "House")
 
-RegisterEvent(105, "Legacy event 105", function()
-    evt.EnterHouse(1549)
-end)
+RegisterEvent(105, "House", function()
+    evt.EnterHouse(1549) -- House
+end, "House")
 
-RegisterEvent(106, "Legacy event 106", function()
-    evt.EnterHouse(1550)
-end)
+RegisterEvent(106, "House", function()
+    evt.EnterHouse(1550) -- House
+end, "House")
 
 RegisterEvent(107, "Drink from Trough.", function()
-    evt.EnterHouse(1551)
+    evt.EnterHouse(1551) -- House
 end, "Drink from Trough.")
 
 RegisterEvent(108, "Hic…", function()
-    evt.EnterHouse(1552)
+    evt.EnterHouse(1552) -- House
 end, "Hic…")
 
 RegisterEvent(109, "Refreshing!", function()
-    evt.EnterHouse(1553)
+    evt.EnterHouse(1553) -- House
 end, "Refreshing!")
 
 RegisterEvent(110, "Free Haven", function()
-    evt.EnterHouse(1554)
+    evt.EnterHouse(1554) -- House
 end, "Free Haven")
 
 RegisterEvent(111, "Shrine of Accuracy", function()
-    evt.EnterHouse(1555)
+    evt.EnterHouse(1555) -- House
 end, "Shrine of Accuracy")
 
 RegisterEvent(112, "You pray at the shrine.", function()
-    evt.EnterHouse(1556)
+    evt.EnterHouse(1556) -- House
 end, "You pray at the shrine.")
 
 RegisterEvent(113, "+10 Accuracy permanent", function()
-    evt.EnterHouse(1557)
+    evt.EnterHouse(1557) -- House
 end, "+10 Accuracy permanent")
 
 RegisterEvent(114, "+3 Accuracy permanent", function()
-    evt.EnterHouse(1558)
+    evt.EnterHouse(1558) -- House
 end, "+3 Accuracy permanent")
 
 RegisterEvent(115, "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            lg____gtS_cln;__", function()
-    evt.EnterHouse(1559)
+    evt.EnterHouse(1559) -- House
 end, "The surface of the obelisk is blood warm to the touch.  A message swims into view as you remove your hand:                                                                                                                                                            lg____gtS_cln;__")
 
 RegisterEvent(116, "Obelisk", function()
-    evt.EnterHouse(1560)
+    evt.EnterHouse(1560) -- House
 end, "Obelisk")
 
 RegisterEvent(117, "Free Haven", function()
-    evt.EnterHouse(1561)
+    evt.EnterHouse(1561) -- House
 end, "Free Haven")
 
 RegisterEvent(118, "Castle Temper", function()
-    evt.EnterHouse(1562)
+    evt.EnterHouse(1562) -- House
 end, "Castle Temper")
 
 RegisterEvent(119, "Temple of Baa", function()
-    evt.EnterHouse(1563)
+    evt.EnterHouse(1563) -- House
 end, "Temple of Baa")
 
 RegisterEvent(120, "Chest", function()
@@ -629,10 +629,10 @@ RegisterEvent(210, "Legacy event 210", function()
     end
 end)
 
-RegisterEvent(211, "Hiss' Hut", function()
+RegisterEvent(211, "Throne Room", function()
     evt.MoveToMap(0, 0, 0, 0, 0, 0, 81, 1, "0.")
-    evt.EnterHouse(224) -- Hiss' Hut
-end, "Hiss' Hut")
+    evt.EnterHouse(224) -- Throne Room
+end, "Throne Room")
 
 RegisterEvent(212, "Legacy event 212", function()
     if IsQBitSet(QBit(1202)) then return end -- NPC

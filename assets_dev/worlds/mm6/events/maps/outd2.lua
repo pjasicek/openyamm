@@ -19,173 +19,173 @@ SetMapMetadata({
 })
 
 RegisterEvent(2, "Refreshing!", function()
-    evt.EnterHouse(23) -- Placeholder
+    evt.EnterHouse(23) -- Hammer and Tongs
 end, "Refreshing!")
 
 RegisterEvent(3, "Refreshing!", nil, "Refreshing!")
 
 RegisterEvent(4, "Pedestal", function()
-    evt.EnterHouse(65) -- Smoke
+    evt.EnterHouse(65) -- Abraham's Metalworks
 end, "Pedestal")
 
 RegisterEvent(5, "Pedestal", nil, "Pedestal")
 
-RegisterEvent(6, "Placeholder", function()
-    evt.EnterHouse(99) -- Placeholder
-end, "Placeholder")
+RegisterEvent(6, "The Little Magic Shop", function()
+    evt.EnterHouse(99) -- The Little Magic Shop
+end, "The Little Magic Shop")
 
-RegisterEvent(7, "Placeholder", nil, "Placeholder")
+RegisterEvent(7, "The Little Magic Shop", nil, "The Little Magic Shop")
 
-RegisterEvent(8, "Legacy event 8", function()
-    evt.EnterHouse(1587)
-end)
+RegisterEvent(8, "Training-by-the-Sea", function()
+    evt.EnterHouse(1587) -- Training-by-the-Sea
+end, "Training-by-the-Sea")
 
-RegisterEvent(9, "Legacy event 9", nil)
+RegisterEvent(9, "Training-by-the-Sea", nil, "Training-by-the-Sea")
 
-RegisterEvent(10, "Caverhill Estate", function()
-    evt.EnterHouse(266) -- Caverhill Estate
-end, "Caverhill Estate")
+RegisterEvent(10, "The Goblin's Tooth", function()
+    evt.EnterHouse(266) -- The Goblin's Tooth
+end, "The Goblin's Tooth")
 
-RegisterEvent(11, "Caverhill Estate", nil, "Caverhill Estate")
+RegisterEvent(11, "The Goblin's Tooth", nil, "The Goblin's Tooth")
 
-RegisterEvent(12, "Reaver's Home", function()
-    evt.EnterHouse(267) -- Reaver's Home
-end, "Reaver's Home")
+RegisterEvent(12, "The Broken Cutlass", function()
+    evt.EnterHouse(267) -- The Broken Cutlass
+end, "The Broken Cutlass")
 
-RegisterEvent(13, "Reaver's Home", nil, "Reaver's Home")
+RegisterEvent(13, "The Broken Cutlass", nil, "The Broken Cutlass")
 
-RegisterEvent(14, "Legacy event 14", function()
+RegisterEvent(14, "Circus", function()
     if IsAtLeast(DayOfYear, 308) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 309) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 310) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 311) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 312) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 313) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 314) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 315) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 316) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 317) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 318) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 319) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 320) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 321) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 322) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 323) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 324) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 325) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 326) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 327) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 328) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 329) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 330) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 331) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 332) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 333) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 334) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     elseif IsAtLeast(DayOfYear, 335) then
-        evt.EnterHouse(1595)
+        evt.EnterHouse(1595) -- Circus
     else
         evt.StatusText("No one is here.  The Circus has moved.")
         return
     end
-end)
+end, "Circus")
 
-RegisterEvent(15, "Talion's Hovel", function()
-    evt.EnterHouse(333) -- Talion's Hovel
-end, "Talion's Hovel")
+RegisterEvent(15, "House of Healing", function()
+    evt.EnterHouse(333) -- House of Healing
+end, "House of Healing")
 
-RegisterEvent(16, "House 506", function()
-    evt.EnterHouse(506) -- House 506
-end, "House 506")
+RegisterEvent(16, "Valkyrie", function()
+    evt.EnterHouse(506) -- Valkyrie
+end, "Valkyrie")
 
-RegisterEvent(17, "House 505", function()
-    evt.EnterHouse(505) -- House 505
-end, "House 505")
+RegisterEvent(17, "Tsunami", function()
+    evt.EnterHouse(505) -- Tsunami
+end, "Tsunami")
 
 RegisterEvent(18, "Obelisk", function()
     if IsAtLeast(DayOfYear, 308) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 309) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 310) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 311) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 312) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 313) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 314) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 315) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 316) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 317) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 318) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 319) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 320) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 321) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 322) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 323) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 324) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 325) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 326) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 327) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 328) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 329) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 330) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 331) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 332) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 333) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 334) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     elseif IsAtLeast(DayOfYear, 335) then
-        evt.EnterHouse(1596)
+        evt.EnterHouse(1596) -- Tent
     else
         evt.StatusText("No one is here.  The Circus has moved.")
         return
@@ -194,187 +194,187 @@ end, "Obelisk")
 
 RegisterEvent(19, "Freehaven", function()
     if IsAtLeast(DayOfYear, 308) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 309) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 310) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 311) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 312) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 313) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 314) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 315) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 316) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 317) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 318) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 319) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 320) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 321) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 322) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 323) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 324) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 325) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 326) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 327) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 328) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 329) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 330) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 331) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 332) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 333) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 334) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     elseif IsAtLeast(DayOfYear, 335) then
-        evt.EnterHouse(1598)
+        evt.EnterHouse(1598) -- Tent
     else
         evt.StatusText("No one is here.  The Circus has moved.")
         return
     end
 end, "Freehaven")
 
-RegisterEvent(20, "Legacy event 20", function()
+RegisterEvent(20, "Tent", function()
     if IsAtLeast(DayOfYear, 308) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 309) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 310) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 311) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 312) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 313) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 314) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 315) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 316) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 317) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 318) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 319) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 320) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 321) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 322) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 323) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 324) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 325) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 326) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 327) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 328) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 329) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 330) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 331) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 332) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 333) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 334) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     elseif IsAtLeast(DayOfYear, 335) then
-        evt.EnterHouse(1601)
+        evt.EnterHouse(1601) -- Tent
     else
         evt.StatusText("No one is here.  The Circus has moved.")
         return
     end
-end)
+end, "Tent")
 
 RegisterEvent(21, "Ironfist Castle", function()
     if IsAtLeast(DayOfYear, 308) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 309) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 310) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 311) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 312) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 313) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 314) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 315) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 316) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 317) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 318) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 319) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 320) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 321) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 322) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 323) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 324) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 325) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 326) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 327) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 328) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 329) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 330) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 331) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 332) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 333) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 334) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     elseif IsAtLeast(DayOfYear, 335) then
-        evt.EnterHouse(1597)
+        evt.EnterHouse(1597) -- Wagon
     else
         evt.StatusText("No one is here.  The Circus has moved.")
         return
@@ -383,61 +383,61 @@ end, "Ironfist Castle")
 
 RegisterEvent(22, "Circus (Winter)", function()
     if IsAtLeast(DayOfYear, 308) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 309) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 310) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 311) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 312) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 313) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 314) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 315) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 316) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 317) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 318) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 319) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 320) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 321) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 322) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 323) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 324) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 325) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 326) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 327) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 328) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 329) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 330) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 331) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 332) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 333) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 334) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     elseif IsAtLeast(DayOfYear, 335) then
-        evt.EnterHouse(1599)
+        evt.EnterHouse(1599) -- Wagon
     else
         evt.StatusText("No one is here.  The Circus has moved.")
         return
@@ -446,61 +446,61 @@ end, "Circus (Winter)")
 
 RegisterEvent(23, "Drink from Fountain", function()
     if IsAtLeast(DayOfYear, 308) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 309) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 310) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 311) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 312) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 313) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 314) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 315) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 316) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 317) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 318) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 319) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 320) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 321) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 322) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 323) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 324) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 325) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 326) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 327) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 328) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 329) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 330) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 331) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 332) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 333) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 334) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     elseif IsAtLeast(DayOfYear, 335) then
-        evt.EnterHouse(1600)
+        evt.EnterHouse(1600) -- Wagon
     else
         evt.StatusText("No one is here.  The Circus has moved.")
         return
@@ -519,45 +519,45 @@ RegisterEvent(26, "Circus (Winter)", function()
     evt.StatusText("Circus (Winter)")
 end, "Circus (Winter)")
 
-RegisterEvent(50, "Legacy event 50", function()
-    evt.EnterHouse(1224)
-end)
+RegisterEvent(50, "House", function()
+    evt.EnterHouse(1224) -- House
+end, "House")
 
-RegisterEvent(51, "Legacy event 51", function()
-    evt.EnterHouse(1239)
-end)
+RegisterEvent(51, "House", function()
+    evt.EnterHouse(1239) -- House
+end, "House")
 
-RegisterEvent(52, "Legacy event 52", function()
-    evt.EnterHouse(1254)
-end)
+RegisterEvent(52, "House", function()
+    evt.EnterHouse(1254) -- House
+end, "House")
 
-RegisterEvent(53, "Legacy event 53", function()
-    evt.EnterHouse(1269)
-end)
+RegisterEvent(53, "House", function()
+    evt.EnterHouse(1269) -- House
+end, "House")
 
-RegisterEvent(54, "Legacy event 54", function()
-    evt.EnterHouse(1284)
-end)
+RegisterEvent(54, "House", function()
+    evt.EnterHouse(1284) -- House
+end, "House")
 
-RegisterEvent(55, "Legacy event 55", function()
-    evt.EnterHouse(1299)
-end)
+RegisterEvent(55, "House", function()
+    evt.EnterHouse(1299) -- House
+end, "House")
 
-RegisterEvent(56, "Legacy event 56", function()
-    evt.EnterHouse(1312)
-end)
+RegisterEvent(56, "House", function()
+    evt.EnterHouse(1312) -- House
+end, "House")
 
-RegisterEvent(57, "Legacy event 57", function()
-    evt.EnterHouse(1324)
-end)
+RegisterEvent(57, "House", function()
+    evt.EnterHouse(1324) -- House
+end, "House")
 
-RegisterEvent(58, "Legacy event 58", function()
-    evt.EnterHouse(1335)
-end)
+RegisterEvent(58, "House", function()
+    evt.EnterHouse(1335) -- House
+end, "House")
 
-RegisterEvent(59, "Legacy event 59", function()
-    evt.EnterHouse(1347)
-end)
+RegisterEvent(59, "House", function()
+    evt.EnterHouse(1347) -- House
+end, "House")
 
 RegisterEvent(60, "Chest", function()
     evt.OpenChest(1)
@@ -595,9 +595,9 @@ RegisterEvent(93, "Drink from Well.", function()
     evt.MoveToMap(2817, -4748, -639, 512, 0, 0, 170, 1, "6t3.blv")
 end, "Drink from Well.")
 
-RegisterEvent(94, "Hovel of Mist", function()
-    evt.EnterHouse(334) -- Hovel of Mist
-end, "Hovel of Mist")
+RegisterEvent(94, "Temple Baa", function()
+    evt.EnterHouse(334) -- Temple Baa
+end, "Temple Baa")
 
 RegisterEvent(100, "Drink from Well.", function()
     if IsAtLeast(MightBonus, 20) then return end
@@ -682,7 +682,7 @@ RegisterEvent(221, "Pedestal", function()
     if not IsQBitSet(QBit(1249)) then return end -- NPC
     if IsQBitSet(QBit(1246)) then -- NPC
         evt.MoveNPC(872, 0) -- Twillen -> removed
-        evt.MoveNPC(826, 1342) -- Twillen -> house 1342
+        evt.MoveNPC(826, 1342) -- Twillen -> House
     end
 end, "Pedestal")
 

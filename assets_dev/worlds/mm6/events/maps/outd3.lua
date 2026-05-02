@@ -2,7 +2,7 @@
 -- generated from legacy EVT/STR
 
 SetMapMetadata({
-    onLoad = {225},
+    onLoad = {65535},
     onLeave = {},
     openedChestIds = {
     [76] = {2},
@@ -21,60 +21,60 @@ SetMapMetadata({
 })
 
 RegisterEvent(2, "Keep Off!", function()
-    evt.EnterHouse(24) -- Placeholder
+    evt.EnterHouse(24) -- Fine Blades
 end, "Keep Off!")
 
 RegisterEvent(3, "Keep Off!", nil, "Keep Off!")
 
 RegisterEvent(4, "+10 Hit Points restored.", function()
-    evt.EnterHouse(64) -- The Dauntless
+    evt.EnterHouse(64) -- Metalweave Armory
 end, "+10 Hit Points restored.")
 
 RegisterEvent(5, "+10 Hit Points restored.", nil, "+10 Hit Points restored.")
 
-RegisterEvent(6, "Placeholder", function()
-    evt.EnterHouse(101) -- Placeholder
-end, "Placeholder")
+RegisterEvent(6, "Eye of Newt", function()
+    evt.EnterHouse(101) -- Eye of Newt
+end, "Eye of Newt")
 
-RegisterEvent(7, "Placeholder", nil, "Placeholder")
+RegisterEvent(7, "Eye of Newt", nil, "Eye of Newt")
 
-RegisterEvent(8, "Empty House", function()
-    evt.EnterHouse(471) -- Empty House
-end, "Empty House")
+RegisterEvent(8, "Royal Lines ", function()
+    evt.EnterHouse(471) -- Royal Lines
+end, "Royal Lines ")
 
-RegisterEvent(9, "Empty House", nil, "Empty House")
+RegisterEvent(9, "Royal Lines ", nil, "Royal Lines ")
 
-RegisterEvent(10, "Legacy event 10", function()
-    evt.EnterHouse(1589)
-end)
+RegisterEvent(10, "Royal Gymnasium", function()
+    evt.EnterHouse(1589) -- Royal Gymnasium
+end, "Royal Gymnasium")
 
-RegisterEvent(11, "Legacy event 11", nil)
+RegisterEvent(11, "Royal Gymnasium", nil, "Royal Gymnasium")
 
-RegisterEvent(12, "Laraselle Estate", function()
-    evt.EnterHouse(264) -- Laraselle Estate
-end, "Laraselle Estate")
+RegisterEvent(12, "The King's Crown", function()
+    evt.EnterHouse(264) -- The King's Crown
+end, "The King's Crown")
 
-RegisterEvent(13, "Laraselle Estate", nil, "Laraselle Estate")
+RegisterEvent(13, "The King's Crown", nil, "The King's Crown")
 
-RegisterEvent(14, "Bank of Balthazar", function()
-    evt.EnterHouse(132) -- Bank of Balthazar
-end, "Bank of Balthazar")
+RegisterEvent(14, "Initiate Guild of Fire", function()
+    evt.EnterHouse(132) -- Initiate Guild of Fire
+end, "Initiate Guild of Fire")
 
-RegisterEvent(15, "Bank of Balthazar", nil, "Bank of Balthazar")
+RegisterEvent(15, "Initiate Guild of Fire", nil, "Initiate Guild of Fire")
 
-RegisterEvent(16, "Hovel of Greenstorm", function()
-    evt.EnterHouse(336) -- Hovel of Greenstorm
-end, "Hovel of Greenstorm")
+RegisterEvent(16, "Castle Newton", function()
+    evt.EnterHouse(336) -- Castle Newton
+end, "Castle Newton")
 
-RegisterEvent(17, "Hovel of Greenstorm", nil, "Hovel of Greenstorm")
+RegisterEvent(17, "Castle Newton", nil, "Castle Newton")
 
-RegisterEvent(18, "Nedlon's House", function()
-    evt.EnterHouse(450) -- Nedlon's House
-end, "Nedlon's House")
+RegisterEvent(18, "The Seer", function()
+    evt.EnterHouse(450) -- The Seer
+end, "The Seer")
 
-RegisterEvent(19, "Hearthsworn Hovel", function()
-    evt.EnterHouse(332) -- Hearthsworn Hovel
-end, "Hearthsworn Hovel")
+RegisterEvent(19, "King's Temple", function()
+    evt.EnterHouse(332) -- King's Temple
+end, "King's Temple")
 
 RegisterEvent(40, "New Sorpigal", function()
     evt.StatusText("New Sorpigal")
@@ -84,25 +84,25 @@ RegisterEvent(41, "Ironfist Castle", function()
     evt.StatusText("Ironfist Castle")
 end, "Ironfist Castle")
 
-RegisterEvent(42, "Legacy event 42", function()
+RegisterEvent(42, "King's Library", function()
     if not IsQBitSet(QBit(1201)) then -- NPC
-        evt.EnterHouse(1215)
+        evt.EnterHouse(1215) -- King's Library
         return
     end
     evt.EnterHouse(0)
-end)
+end, "King's Library")
 
-RegisterEvent(43, "Gateway to the Plane of Air", function()
+RegisterEvent(43, "Throne Room", function()
     if IsQBitSet(QBit(1114)) then -- Entertain Nicolai. - Paul
         if not IsQBitSet(QBit(1700)) then -- Replacement for NPCs ¹13 ver. 6
             evt.SimpleMessage("The prince has been kidnapped!  No visitors will be admitted until this crisis has been resolved!")
         end
         evt.MoveToMap(0, 0, 0, 0, 0, 0, 79, 1, "0.")
-        evt.EnterHouse(222) -- Gateway to the Plane of Air
+        evt.EnterHouse(222) -- Throne Room
         return
     elseif IsQBitSet(QBit(1119)) then -- Find and return Prince Nicolai to Castle Ironfist. - Walt
         if IsQBitSet(QBit(1700)) then -- Replacement for NPCs ¹13 ver. 6
-            evt.MoveNPC(798, 222) -- Nicolai Ironfist -> Gateway to the Plane of Air
+            evt.MoveNPC(798, 222) -- Nicolai Ironfist -> Throne Room
             ClearQBit(QBit(1700)) -- Replacement for NPCs ¹13 ver. 6
             ClearQBit(QBit(1119)) -- Find and return Prince Nicolai to Castle Ironfist. - Walt
             evt.SimpleMessage("\"Well, thanks for sneaking me out of the Castle.  Sorry about the circus thing—I hope I wasn’t too much trouble to find.  I’ll go in myself so no one will see that it was you who kidnapped me.  Thanks again, and goodbye.  I’ll remember this, and I owe you a favor! \"")
@@ -110,133 +110,133 @@ RegisterEvent(43, "Gateway to the Plane of Air", function()
             AddValue(Experience, 7500)
             evt.SetNPCTopic(798, 0, 1337) -- Nicolai Ironfist topic 0: The Circus
             evt.MoveToMap(0, 0, 0, 0, 0, 0, 79, 1, "0.")
-            evt.EnterHouse(222) -- Gateway to the Plane of Air
+            evt.EnterHouse(222) -- Throne Room
             return
         end
         evt.SimpleMessage("The prince has been kidnapped!  No visitors will be admitted until this crisis has been resolved!")
     else
         evt.MoveToMap(0, 0, 0, 0, 0, 0, 79, 1, "0.")
-        evt.EnterHouse(222) -- Gateway to the Plane of Air
+        evt.EnterHouse(222) -- Throne Room
         return
     end
-end, "Gateway to the Plane of Air")
+end, "Throne Room")
 
-RegisterEvent(44, "House 497", function()
-    evt.EnterHouse(497) -- House 497
-end, "House 497")
+RegisterEvent(44, "Zephyr", function()
+    evt.EnterHouse(497) -- Zephyr
+end, "Zephyr")
 
-RegisterEvent(45, "House 498", function()
-    evt.EnterHouse(498) -- House 498
-end, "House 498")
+RegisterEvent(45, "Queen Catherine", function()
+    evt.EnterHouse(498) -- Queen Catherine
+end, "Queen Catherine")
 
 RegisterEvent(46, "Ironfist Castle", function()
-    evt.EnterHouse(25) -- Placeholder
+    evt.EnterHouse(25) -- The Eagle's Eye
 end, "Ironfist Castle")
 
 RegisterEvent(47, "Ironfist Castle", nil, "Ironfist Castle")
 
 RegisterEvent(48, "+3 Electricity resistance permanent", function()
-    evt.EnterHouse(68) -- Spindrift
+    evt.EnterHouse(68) -- Iron Defense
 end, "+3 Electricity resistance permanent")
 
 RegisterEvent(49, "+3 Electricity resistance permanent", nil, "+3 Electricity resistance permanent")
 
-RegisterEvent(50, "Hillsman Cottage", function()
-    evt.EnterHouse(265) -- Hillsman Cottage
-end, "Hillsman Cottage")
+RegisterEvent(50, "The Will o' Wisp", function()
+    evt.EnterHouse(265) -- The Will o' Wisp
+end, "The Will o' Wisp")
 
-RegisterEvent(51, "Hillsman Cottage", nil, "Hillsman Cottage")
+RegisterEvent(51, "The Will o' Wisp", nil, "The Will o' Wisp")
 
-RegisterEvent(52, "Placeholder", function()
-    evt.EnterHouse(156) -- Placeholder
-end, "Placeholder")
+RegisterEvent(52, "Initiate Guild of Spirit", function()
+    evt.EnterHouse(156) -- Initiate Guild of Spirit
+end, "Initiate Guild of Spirit")
 
-RegisterEvent(53, "Placeholder", nil, "Placeholder")
+RegisterEvent(53, "Initiate Guild of Spirit", nil, "Initiate Guild of Spirit")
 
-RegisterEvent(54, "Placeholder", function()
-    evt.EnterHouse(162) -- Placeholder
-end, "Placeholder")
+RegisterEvent(54, "Initiate Guild of Mind", function()
+    evt.EnterHouse(162) -- Initiate Guild of Mind
+end, "Initiate Guild of Mind")
 
-RegisterEvent(55, "Placeholder", nil, "Placeholder")
+RegisterEvent(55, "Initiate Guild of Mind", nil, "Initiate Guild of Mind")
 
-RegisterEvent(56, "Placeholder", function()
-    evt.EnterHouse(168) -- Placeholder
-end, "Placeholder")
+RegisterEvent(56, "Initiate Guild of Body", function()
+    evt.EnterHouse(168) -- Initiate Guild of Body
+end, "Initiate Guild of Body")
 
-RegisterEvent(57, "Placeholder", nil, "Placeholder")
+RegisterEvent(57, "Initiate Guild of Body", nil, "Initiate Guild of Body")
 
-RegisterEvent(58, "Legacy event 58", function()
-    evt.EnterHouse(1225)
-end)
+RegisterEvent(58, "House", function()
+    evt.EnterHouse(1225) -- House
+end, "House")
 
-RegisterEvent(59, "Legacy event 59", function()
-    evt.EnterHouse(1240)
-end)
+RegisterEvent(59, "House", function()
+    evt.EnterHouse(1240) -- House
+end, "House")
 
-RegisterEvent(60, "Legacy event 60", function()
-    evt.EnterHouse(1255)
-end)
+RegisterEvent(60, "House", function()
+    evt.EnterHouse(1255) -- House
+end, "House")
 
-RegisterEvent(61, "Legacy event 61", function()
-    evt.EnterHouse(1285)
-end)
+RegisterEvent(61, "House", function()
+    evt.EnterHouse(1285) -- House
+end, "House")
 
-RegisterEvent(62, "Legacy event 62", function()
-    evt.EnterHouse(1300)
-end)
+RegisterEvent(62, "House", function()
+    evt.EnterHouse(1300) -- House
+end, "House")
 
-RegisterEvent(63, "Legacy event 63", function()
-    evt.EnterHouse(1313)
-end)
+RegisterEvent(63, "House", function()
+    evt.EnterHouse(1313) -- House
+end, "House")
 
-RegisterEvent(64, "Legacy event 64", function()
-    evt.EnterHouse(1325)
-end)
+RegisterEvent(64, "House", function()
+    evt.EnterHouse(1325) -- House
+end, "House")
 
-RegisterEvent(65, "Legacy event 65", function()
-    evt.EnterHouse(1359)
-end)
+RegisterEvent(65, "House", function()
+    evt.EnterHouse(1359) -- House
+end, "House")
 
-RegisterEvent(66, "Legacy event 66", function()
-    evt.EnterHouse(1371)
-end)
+RegisterEvent(66, "House", function()
+    evt.EnterHouse(1371) -- House
+end, "House")
 
-RegisterEvent(67, "Legacy event 67", function()
-    evt.EnterHouse(1382)
-end)
+RegisterEvent(67, "House", function()
+    evt.EnterHouse(1382) -- House
+end, "House")
 
-RegisterEvent(68, "Legacy event 68", function()
-    evt.EnterHouse(1393)
-end)
+RegisterEvent(68, "House", function()
+    evt.EnterHouse(1393) -- House
+end, "House")
 
-RegisterEvent(69, "Legacy event 69", function()
-    evt.EnterHouse(1412)
-end)
+RegisterEvent(69, "House", function()
+    evt.EnterHouse(1412) -- House
+end, "House")
 
-RegisterEvent(70, "Legacy event 70", function()
-    evt.EnterHouse(1421)
-end)
+RegisterEvent(70, "House", function()
+    evt.EnterHouse(1421) -- House
+end, "House")
 
-RegisterEvent(71, "Legacy event 71", function()
-    evt.EnterHouse(1270)
-    evt.EnterHouse(1336)
-end)
+RegisterEvent(71, "House", function()
+    evt.EnterHouse(1270) -- House
+    evt.EnterHouse(1336) -- House
+end, "House")
 
-RegisterEvent(72, "Legacy event 72", function()
-    evt.EnterHouse(1348)
-end)
+RegisterEvent(72, "House", function()
+    evt.EnterHouse(1348) -- House
+end, "House")
 
-RegisterEvent(73, "Legacy event 73", function()
-    evt.EnterHouse(1403)
-end)
+RegisterEvent(73, "House", function()
+    evt.EnterHouse(1403) -- House
+end, "House")
 
-RegisterEvent(74, "Legacy event 74", function()
-    evt.EnterHouse(1429)
-end)
+RegisterEvent(74, "House", function()
+    evt.EnterHouse(1429) -- House
+end, "House")
 
-RegisterEvent(75, "Legacy event 75", function()
-    evt.EnterHouse(1438)
-end)
+RegisterEvent(75, "House", function()
+    evt.EnterHouse(1438) -- House
+end, "House")
 
 RegisterEvent(76, "Crate", function()
     evt.OpenChest(2)
@@ -262,12 +262,12 @@ RegisterEvent(81, "Crate", function()
     evt.OpenChest(1)
 end, "Crate")
 
-RegisterEvent(82, "Dragon Hunter Camp", function()
-    evt.EnterHouse(202) -- Dragon Hunter Camp
-end, "Dragon Hunter Camp")
+RegisterEvent(82, "Berserkers' Fury", function()
+    evt.EnterHouse(202) -- Berserkers' Fury
+end, "Berserkers' Fury")
 
 RegisterEvent(83, "Castle Ironfist", function()
-    evt.EnterHouse(1387)
+    evt.EnterHouse(1387) -- House
 end, "Castle Ironfist")
 
 RegisterEvent(90, "Legacy event 90", function()
@@ -290,9 +290,9 @@ RegisterEvent(94, "Legacy event 94", function()
     evt.MoveToMap(-15592, 120, -191, 0, 0, 0, 162, 1, "6t1.blv")
 end)
 
-RegisterEvent(97, "Hovel of Mist", function()
-    evt.EnterHouse(334) -- Hovel of Mist
-end, "Hovel of Mist")
+RegisterEvent(97, "Temple Baa", function()
+    evt.EnterHouse(334) -- Temple Baa
+end, "Temple Baa")
 
 RegisterEvent(100, "Drink from Fountain", function()
     if not IsAtLeast(SpeedBonus, 10) then
@@ -411,18 +411,71 @@ RegisterEvent(221, "Legacy event 221", function()
     evt.SetFacetBit(1, FacetBits.Untouchable, 0)
 end)
 
-RegisterEvent(225, "Legacy event 225", function()
-    if IsQBitSet(QBit(1327)) then -- NPC
-        return
+RegisterEvent(225, "Legacy event 225", function(continueStep)
+    local function Step_0()
+        if IsQBitSet(QBit(1327)) then return 8 end -- NPC
+        return 1
     end
-    if not IsAtLeast(ActualMight, 40) then
+    local function Step_1()
+        if IsAtLeast(ActualMight, 40) then return 5 end
+        return 2
+    end
+    local function Step_2()
         evt.FaceExpression(51)
-        evt.StatusText("The Sword won't budge!")
-        return
+        return 3
     end
-    SetQBit(QBit(1327)) -- NPC
-    evt.GiveItem(4, 23, 1609) -- Barbarian Flamberge
-    evt.SetSprite(232, 1, "swrdstx")
+    local function Step_3()
+        evt.StatusText("The Sword won't budge!")
+        return 4
+    end
+    local function Step_4()
+        return 8
+    end
+    local function Step_5()
+        SetQBit(QBit(1327)) -- NPC
+        return 6
+    end
+    local function Step_6()
+        evt.GiveItem(4, 23, 1609) -- Barbarian Flamberge
+        return 7
+    end
+    local function Step_7()
+        evt.SetSprite(232, 1, "swrdstx")
+        return 8
+    end
+    local function Step_8()
+        return nil
+    end
+    local function Step_10()
+        if IsQBitSet(QBit(1327)) then return 7 end -- NPC
+        return nil
+    end
+    local step = continueStep or 0
+    while step ~= nil do
+        if step == 0 then
+            step = Step_0()
+        elseif step == 1 then
+            step = Step_1()
+        elseif step == 2 then
+            step = Step_2()
+        elseif step == 3 then
+            step = Step_3()
+        elseif step == 4 then
+            step = Step_4()
+        elseif step == 5 then
+            step = Step_5()
+        elseif step == 6 then
+            step = Step_6()
+        elseif step == 7 then
+            step = Step_7()
+        elseif step == 8 then
+            step = Step_8()
+        elseif step == 10 then
+            step = Step_10()
+        else
+            step = nil
+        end
+    end
 end)
 
 RegisterEvent(230, "Legacy event 230", function()
@@ -466,4 +519,8 @@ RegisterEvent(261, "Shrine of Electricity", function()
     end
     evt.StatusText("You pray at the shrine.")
 end, "Shrine of Electricity")
+
+RegisterEvent(65535, "", function()
+    return evt.map[225](10)
+end)
 

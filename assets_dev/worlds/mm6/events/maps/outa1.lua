@@ -61,7 +61,7 @@ RegisterEvent(103, "Pedestal", function()
     if not IsQBitSet(QBit(1249)) then return end -- NPC
     if IsQBitSet(QBit(1250)) then -- NPC
         evt.MoveNPC(872, 0) -- Twillen -> removed
-        evt.MoveNPC(826, 1342) -- Twillen -> house 1342
+        evt.MoveNPC(826, 1342) -- Twillen -> House
     end
 end, "Pedestal")
 
@@ -72,11 +72,11 @@ RegisterEvent(104, "Legacy event 104", function()
 end)
 
 RegisterEvent(204, "Obelisk", function()
-    evt.EnterHouse(1216)
+    evt.EnterHouse(1216) -- House
 end, "Obelisk")
 
 RegisterEvent(205, " ", function()
-    evt.EnterHouse(1231)
+    evt.EnterHouse(1231) -- House
 end, " ")
 
 RegisterEvent(210, "Obelisk", function()

@@ -2,7 +2,7 @@
 -- generated from legacy EVT/STR
 
 SetMapMetadata({
-    onLoad = {1, 196, 197, 198},
+    onLoad = {1, 65535, 65534, 65533},
     onLeave = {},
     openedChestIds = {
     [176] = {1, 0},
@@ -160,58 +160,286 @@ RegisterEvent(195, "Chest", function()
     evt.OpenChest(0)
 end, "Chest")
 
-RegisterEvent(196, "Ore Vein", function()
-    if IsAtLeast(MapVar(16), 1) then return end
-    local randomStep = PickRandomOption(196, 2, {2, 4, 6, 8, 2, 2})
-    if randomStep == 2 then
-        AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
-    elseif randomStep == 4 then
-        AddValue(InventoryItem(1490), 1490) -- Phylt-laced ore
-    elseif randomStep == 6 then
-        evt.DamagePlayer(5, 0, 50)
-        evt.StatusText("Cave In !")
-        AddValue(InventoryItem(1491), 1491) -- Kergar-laced ore
-    elseif randomStep == 8 then
-        AddValue(InventoryItem(1491), 1491) -- Kergar-laced ore
+RegisterEvent(196, "Ore Vein", function(continueStep)
+    local function Step_0()
+        if IsAtLeast(MapVar(16), 1) then return 11 end
+        return 1
     end
-    SetValue(MapVar(16), 1)
-    evt.SetTexture(2, "c2b")
+    local function Step_1()
+        return PickRandomOption(196, 1, {2, 4, 6, 8, 2, 2})
+    end
+    local function Step_2()
+        AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
+        return 3
+    end
+    local function Step_3()
+        return 9
+    end
+    local function Step_4()
+        AddValue(InventoryItem(1490), 1490) -- Phylt-laced ore
+        return 5
+    end
+    local function Step_5()
+        return 9
+    end
+    local function Step_6()
+        evt.DamagePlayer(5, 0, 50)
+        return 7
+    end
+    local function Step_7()
+        evt.StatusText("Cave In !")
+        return 8
+    end
+    local function Step_8()
+        AddValue(InventoryItem(1491), 1491) -- Kergar-laced ore
+        return 9
+    end
+    local function Step_9()
+        SetValue(MapVar(16), 1)
+        return 10
+    end
+    local function Step_10()
+        evt.SetTexture(2, "c2b")
+        return 11
+    end
+    local function Step_11()
+        return nil
+    end
+    local function Step_13()
+        if IsAtLeast(MapVar(16), 1) then return 15 end
+        return 14
+    end
+    local function Step_14()
+        return 11
+    end
+    local function Step_15()
+        evt.SetTexture(2, "c2b")
+        return nil
+    end
+    local step = continueStep or 0
+    while step ~= nil do
+        if step == 0 then
+            step = Step_0()
+        elseif step == 1 then
+            step = Step_1()
+        elseif step == 2 then
+            step = Step_2()
+        elseif step == 3 then
+            step = Step_3()
+        elseif step == 4 then
+            step = Step_4()
+        elseif step == 5 then
+            step = Step_5()
+        elseif step == 6 then
+            step = Step_6()
+        elseif step == 7 then
+            step = Step_7()
+        elseif step == 8 then
+            step = Step_8()
+        elseif step == 9 then
+            step = Step_9()
+        elseif step == 10 then
+            step = Step_10()
+        elseif step == 11 then
+            step = Step_11()
+        elseif step == 13 then
+            step = Step_13()
+        elseif step == 14 then
+            step = Step_14()
+        elseif step == 15 then
+            step = Step_15()
+        else
+            step = nil
+        end
+    end
 end, "Ore Vein")
 
-RegisterEvent(197, "Ore Vein", function()
-    if IsAtLeast(MapVar(17), 1) then return end
-    local randomStep = PickRandomOption(197, 2, {2, 4, 6, 8, 2, 2})
-    if randomStep == 2 then
-        AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
-    elseif randomStep == 4 then
-        AddValue(InventoryItem(1490), 1490) -- Phylt-laced ore
-    elseif randomStep == 6 then
-        evt.DamagePlayer(5, 0, 50)
-        evt.StatusText("Cave In !")
-        AddValue(InventoryItem(1491), 1491) -- Kergar-laced ore
-    elseif randomStep == 8 then
-        AddValue(InventoryItem(1491), 1491) -- Kergar-laced ore
+RegisterEvent(197, "Ore Vein", function(continueStep)
+    local function Step_0()
+        if IsAtLeast(MapVar(17), 1) then return 11 end
+        return 1
     end
-    SetValue(MapVar(17), 1)
-    evt.SetTexture(3, "c2b")
+    local function Step_1()
+        return PickRandomOption(197, 1, {2, 4, 6, 8, 2, 2})
+    end
+    local function Step_2()
+        AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
+        return 3
+    end
+    local function Step_3()
+        return 9
+    end
+    local function Step_4()
+        AddValue(InventoryItem(1490), 1490) -- Phylt-laced ore
+        return 5
+    end
+    local function Step_5()
+        return 9
+    end
+    local function Step_6()
+        evt.DamagePlayer(5, 0, 50)
+        return 7
+    end
+    local function Step_7()
+        evt.StatusText("Cave In !")
+        return 8
+    end
+    local function Step_8()
+        AddValue(InventoryItem(1491), 1491) -- Kergar-laced ore
+        return 9
+    end
+    local function Step_9()
+        SetValue(MapVar(17), 1)
+        return 10
+    end
+    local function Step_10()
+        evt.SetTexture(3, "c2b")
+        return 11
+    end
+    local function Step_11()
+        return nil
+    end
+    local function Step_13()
+        if IsAtLeast(MapVar(17), 1) then return 15 end
+        return 14
+    end
+    local function Step_14()
+        return 11
+    end
+    local function Step_15()
+        evt.SetTexture(3, "c2b")
+        return nil
+    end
+    local step = continueStep or 0
+    while step ~= nil do
+        if step == 0 then
+            step = Step_0()
+        elseif step == 1 then
+            step = Step_1()
+        elseif step == 2 then
+            step = Step_2()
+        elseif step == 3 then
+            step = Step_3()
+        elseif step == 4 then
+            step = Step_4()
+        elseif step == 5 then
+            step = Step_5()
+        elseif step == 6 then
+            step = Step_6()
+        elseif step == 7 then
+            step = Step_7()
+        elseif step == 8 then
+            step = Step_8()
+        elseif step == 9 then
+            step = Step_9()
+        elseif step == 10 then
+            step = Step_10()
+        elseif step == 11 then
+            step = Step_11()
+        elseif step == 13 then
+            step = Step_13()
+        elseif step == 14 then
+            step = Step_14()
+        elseif step == 15 then
+            step = Step_15()
+        else
+            step = nil
+        end
+    end
 end, "Ore Vein")
 
-RegisterEvent(198, "Ore Vein", function()
-    if IsAtLeast(MapVar(18), 1) then return end
-    local randomStep = PickRandomOption(198, 2, {2, 4, 6, 8, 2, 2})
-    if randomStep == 2 then
-        AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
-    elseif randomStep == 4 then
-        AddValue(InventoryItem(1490), 1490) -- Phylt-laced ore
-    elseif randomStep == 6 then
-        evt.DamagePlayer(5, 0, 50)
-        evt.StatusText("Cave In !")
-        AddValue(InventoryItem(1491), 1491) -- Kergar-laced ore
-    elseif randomStep == 8 then
-        AddValue(InventoryItem(1491), 1491) -- Kergar-laced ore
+RegisterEvent(198, "Ore Vein", function(continueStep)
+    local function Step_0()
+        if IsAtLeast(MapVar(18), 1) then return 11 end
+        return 1
     end
-    SetValue(MapVar(18), 1)
-    evt.SetTexture(4, "c2b")
+    local function Step_1()
+        return PickRandomOption(198, 1, {2, 4, 6, 8, 2, 2})
+    end
+    local function Step_2()
+        AddValue(InventoryItem(1489), 1489) -- Siertal-laced ore
+        return 3
+    end
+    local function Step_3()
+        return 9
+    end
+    local function Step_4()
+        AddValue(InventoryItem(1490), 1490) -- Phylt-laced ore
+        return 5
+    end
+    local function Step_5()
+        return 9
+    end
+    local function Step_6()
+        evt.DamagePlayer(5, 0, 50)
+        return 7
+    end
+    local function Step_7()
+        evt.StatusText("Cave In !")
+        return 8
+    end
+    local function Step_8()
+        AddValue(InventoryItem(1491), 1491) -- Kergar-laced ore
+        return 9
+    end
+    local function Step_9()
+        SetValue(MapVar(18), 1)
+        return 10
+    end
+    local function Step_10()
+        evt.SetTexture(4, "c2b")
+        return 11
+    end
+    local function Step_11()
+        return nil
+    end
+    local function Step_13()
+        if IsAtLeast(MapVar(18), 1) then return 15 end
+        return 14
+    end
+    local function Step_14()
+        return 11
+    end
+    local function Step_15()
+        evt.SetTexture(4, "c2b")
+        return nil
+    end
+    local step = continueStep or 0
+    while step ~= nil do
+        if step == 0 then
+            step = Step_0()
+        elseif step == 1 then
+            step = Step_1()
+        elseif step == 2 then
+            step = Step_2()
+        elseif step == 3 then
+            step = Step_3()
+        elseif step == 4 then
+            step = Step_4()
+        elseif step == 5 then
+            step = Step_5()
+        elseif step == 6 then
+            step = Step_6()
+        elseif step == 7 then
+            step = Step_7()
+        elseif step == 8 then
+            step = Step_8()
+        elseif step == 9 then
+            step = Step_9()
+        elseif step == 10 then
+            step = Step_10()
+        elseif step == 11 then
+            step = Step_11()
+        elseif step == 13 then
+            step = Step_13()
+        elseif step == 14 then
+            step = Step_14()
+        elseif step == 15 then
+            step = Step_15()
+        else
+            step = nil
+        end
+    end
 end, "Ore Vein")
 
 RegisterEvent(416, "Legacy event 416", function()
@@ -221,4 +449,16 @@ end)
 RegisterEvent(501, "Leave the Tidewater Caverns", function()
     evt.MoveToMap(-19112, 2248, 49, 896, 0, 0, 0, 0, "7out13.odm")
 end, "Leave the Tidewater Caverns")
+
+RegisterEvent(65535, "", function()
+    return evt.map[196](13)
+end)
+
+RegisterEvent(65534, "", function()
+    return evt.map[197](13)
+end)
+
+RegisterEvent(65533, "", function()
+    return evt.map[198](13)
+end)
 

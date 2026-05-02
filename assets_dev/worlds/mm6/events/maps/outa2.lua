@@ -16,100 +16,100 @@ SetMapMetadata({
     },
 })
 
-RegisterEvent(2, "Wards and Pendants", function()
-    evt.EnterHouse(32) -- Wards and Pendants
-end, "Wards and Pendants")
+RegisterEvent(2, "Singing Steel", function()
+    evt.EnterHouse(32) -- Singing Steel
+end, "Singing Steel")
 
-RegisterEvent(3, "Wards and Pendants", nil, "Wards and Pendants")
+RegisterEvent(3, "Singing Steel", nil, "Singing Steel")
 
-RegisterEvent(4, "Sanctum", function()
-    evt.EnterHouse(75) -- Sanctum
-end, "Sanctum")
+RegisterEvent(4, "The Enchanted Hauberk", function()
+    evt.EnterHouse(75) -- The Enchanted Hauberk
+end, "The Enchanted Hauberk")
 
-RegisterEvent(5, "Sanctum", nil, "Sanctum")
+RegisterEvent(5, "The Enchanted Hauberk", nil, "The Enchanted Hauberk")
 
-RegisterEvent(6, "Profit House", function()
-    evt.EnterHouse(109) -- Profit House
-end, "Profit House")
+RegisterEvent(6, "Mighty Magicks", function()
+    evt.EnterHouse(109) -- Mighty Magicks
+end, "Mighty Magicks")
 
-RegisterEvent(7, "Profit House", nil, "Profit House")
+RegisterEvent(7, "Mighty Magicks", nil, "Mighty Magicks")
 
-RegisterEvent(8, "Legacy event 8", function()
-    evt.EnterHouse(1586)
-end)
+RegisterEvent(8, "The Sparring Ground", function()
+    evt.EnterHouse(1586) -- The Sparring Ground
+end, "The Sparring Ground")
 
-RegisterEvent(9, "Legacy event 9", nil)
+RegisterEvent(9, "The Sparring Ground", nil, "The Sparring Ground")
 
-RegisterEvent(10, "House of Hawthorne ", function()
-    evt.EnterHouse(280) -- House of Hawthorne
-end, "House of Hawthorne ")
+RegisterEvent(10, "The Last Chance", function()
+    evt.EnterHouse(280) -- The Last Chance
+end, "The Last Chance")
 
-RegisterEvent(11, "House of Hawthorne ", nil, "House of Hawthorne ")
+RegisterEvent(11, "The Last Chance", nil, "The Last Chance")
 
-RegisterEvent(50, "Legacy event 50", function()
-    evt.EnterHouse(1217)
-end)
+RegisterEvent(50, "House", function()
+    evt.EnterHouse(1217) -- House
+end, "House")
 
-RegisterEvent(51, "Legacy event 51", function()
-    evt.EnterHouse(1232)
-end)
+RegisterEvent(51, "House", function()
+    evt.EnterHouse(1232) -- House
+end, "House")
 
-RegisterEvent(52, "Legacy event 52", function()
-    evt.EnterHouse(1247)
-end)
+RegisterEvent(52, "House", function()
+    evt.EnterHouse(1247) -- House
+end, "House")
 
-RegisterEvent(53, "Legacy event 53", function()
-    evt.EnterHouse(1261)
-end)
+RegisterEvent(53, "House", function()
+    evt.EnterHouse(1261) -- House
+end, "House")
 
-RegisterEvent(54, "Legacy event 54", function()
-    evt.EnterHouse(1276)
-end)
+RegisterEvent(54, "House", function()
+    evt.EnterHouse(1276) -- House
+end, "House")
 
-RegisterEvent(55, "Legacy event 55", function()
-    evt.EnterHouse(1291)
-end)
+RegisterEvent(55, "House", function()
+    evt.EnterHouse(1291) -- House
+end, "House")
 
-RegisterEvent(56, "Legacy event 56", function()
-    evt.EnterHouse(1305)
-end)
+RegisterEvent(56, "House", function()
+    evt.EnterHouse(1305) -- House
+end, "House")
 
-RegisterEvent(57, "Legacy event 57", function()
-    evt.EnterHouse(1317)
-end)
+RegisterEvent(57, "House", function()
+    evt.EnterHouse(1317) -- House
+end, "House")
 
-RegisterEvent(58, "Legacy event 58", function()
-    evt.EnterHouse(1329)
-end)
+RegisterEvent(58, "House", function()
+    evt.EnterHouse(1329) -- House
+end, "House")
 
-RegisterEvent(59, "Legacy event 59", function()
-    evt.EnterHouse(1341)
-end)
+RegisterEvent(59, "House", function()
+    evt.EnterHouse(1341) -- House
+end, "House")
 
-RegisterEvent(60, "Legacy event 60", function()
-    evt.EnterHouse(1353)
-end)
+RegisterEvent(60, "House", function()
+    evt.EnterHouse(1353) -- House
+end, "House")
 
-RegisterEvent(61, "Legacy event 61", function()
-    evt.EnterHouse(1364)
-end)
+RegisterEvent(61, "House", function()
+    evt.EnterHouse(1364) -- House
+end, "House")
 
-RegisterEvent(62, "Legacy event 62", function()
-    evt.EnterHouse(1375)
-end)
+RegisterEvent(62, "House", function()
+    evt.EnterHouse(1375) -- House
+end, "House")
 
-RegisterEvent(63, "Legacy event 63", function()
-    evt.EnterHouse(1386)
-end)
+RegisterEvent(63, "House", function()
+    evt.EnterHouse(1386) -- House
+end, "House")
 
-RegisterEvent(64, "Legacy event 64", function()
-    evt.EnterHouse(1396)
-end)
+RegisterEvent(64, "House", function()
+    evt.EnterHouse(1396) -- House
+end, "House")
 
-RegisterEvent(65, "Legacy event 65", function()
-    evt.EnterHouse(1406)
-    evt.EnterHouse(1416)
-end)
+RegisterEvent(65, "House", function()
+    evt.EnterHouse(1406) -- House
+    evt.EnterHouse(1416) -- House
+end, "House")
 
 RegisterEvent(75, "Chest", function()
     evt.OpenChest(1)
@@ -123,9 +123,9 @@ RegisterEvent(77, "Chest", function()
     evt.OpenChest(3)
 end, "Chest")
 
-RegisterEvent(90, "Hovel of Mist", function()
-    evt.EnterHouse(334) -- Hovel of Mist
-end, "Hovel of Mist")
+RegisterEvent(90, "Temple Baa", function()
+    evt.EnterHouse(334) -- Temple Baa
+end, "Temple Baa")
 
 RegisterEvent(100, "Drink from Fountain", function()
     if not IsAtLeast(MapVar(2), 1) then

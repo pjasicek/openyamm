@@ -16,124 +16,124 @@ SetMapMetadata({
 })
 
 RegisterEvent(2, "Shrine of Cold", function()
-    evt.EnterHouse(35) -- Gifts of Regna
+    evt.EnterHouse(35) -- Knight's Paradise
 end, "Shrine of Cold")
 
 RegisterEvent(3, "Shrine of Cold", nil, "Shrine of Cold")
 
-RegisterEvent(4, "Placeholder", function()
-    evt.EnterHouse(73) -- Placeholder
-end, "Placeholder")
+RegisterEvent(4, "Armorworks ", function()
+    evt.EnterHouse(73) -- Armorworks
+end, "Armorworks ")
 
-RegisterEvent(5, "Placeholder", nil, "Placeholder")
+RegisterEvent(5, "Armorworks ", nil, "Armorworks ")
 
-RegisterEvent(6, "Placeholder", function()
-    evt.EnterHouse(104) -- Placeholder
-end, "Placeholder")
+RegisterEvent(6, "Unusual Enchantments", function()
+    evt.EnterHouse(104) -- Unusual Enchantments
+end, "Unusual Enchantments")
 
-RegisterEvent(7, "Placeholder", nil, "Placeholder")
+RegisterEvent(7, "Unusual Enchantments", nil, "Unusual Enchantments")
 
-RegisterEvent(8, "Griven's House", function()
-    evt.EnterHouse(477) -- Griven's House
-end, "Griven's House")
+RegisterEvent(8, "King's Highway", function()
+    evt.EnterHouse(477) -- King's Highway
+end, "King's Highway")
 
-RegisterEvent(9, "Griven's House", nil, "Griven's House")
+RegisterEvent(9, "King's Highway", nil, "King's Highway")
 
-RegisterEvent(10, "Legacy event 10", function()
-    evt.EnterHouse(1591)
-end)
+RegisterEvent(10, "Lone Tree Training", function()
+    evt.EnterHouse(1591) -- Lone Tree Training
+end, "Lone Tree Training")
 
-RegisterEvent(11, "Legacy event 11", nil)
+RegisterEvent(11, "Lone Tree Training", nil, "Lone Tree Training")
 
-RegisterEvent(12, "House Memoria", function()
-    evt.EnterHouse(279) -- House Memoria
-end, "House Memoria")
+RegisterEvent(12, "The Broken Promise", function()
+    evt.EnterHouse(279) -- The Broken Promise
+end, "The Broken Promise")
 
-RegisterEvent(13, "House Memoria", nil, "House Memoria")
+RegisterEvent(13, "The Broken Promise", nil, "The Broken Promise")
 
-RegisterEvent(14, "Legacy event 14", function()
-    evt.EnterHouse(1451)
-end)
+RegisterEvent(14, "Hermit's Hut", function()
+    evt.EnterHouse(1451) -- Hermit's Hut
+end, "Hermit's Hut")
 
-RegisterEvent(40, "Legacy event 40", function()
-    evt.EnterHouse(1248)
-end)
+RegisterEvent(40, "House", function()
+    evt.EnterHouse(1248) -- House
+end, "House")
 
-RegisterEvent(41, "Legacy event 41", function()
-    evt.EnterHouse(1262)
-end)
+RegisterEvent(41, "House", function()
+    evt.EnterHouse(1262) -- House
+end, "House")
 
-RegisterEvent(42, "Legacy event 42", function()
-    evt.EnterHouse(1277)
-end)
+RegisterEvent(42, "House", function()
+    evt.EnterHouse(1277) -- House
+end, "House")
 
-RegisterEvent(43, "Legacy event 43", function()
-    evt.EnterHouse(1292)
-end)
+RegisterEvent(43, "House", function()
+    evt.EnterHouse(1292) -- House
+end, "House")
 
-RegisterEvent(50, "Legacy event 50", function()
-    evt.EnterHouse(1219)
-end)
+RegisterEvent(50, "House", function()
+    evt.EnterHouse(1219) -- House
+end, "House")
 
-RegisterEvent(51, "Legacy event 51", function()
-    evt.EnterHouse(1234)
-end)
+RegisterEvent(51, "House", function()
+    evt.EnterHouse(1234) -- House
+end, "House")
 
-RegisterEvent(52, "Legacy event 52", function()
-    evt.EnterHouse(1249)
-end)
+RegisterEvent(52, "House", function()
+    evt.EnterHouse(1249) -- House
+end, "House")
 
-RegisterEvent(53, "Legacy event 53", function()
-    evt.EnterHouse(1263)
-end)
+RegisterEvent(53, "House", function()
+    evt.EnterHouse(1263) -- House
+end, "House")
 
-RegisterEvent(54, "Legacy event 54", function()
-    evt.EnterHouse(1278)
-end)
+RegisterEvent(54, "House", function()
+    evt.EnterHouse(1278) -- House
+end, "House")
 
-RegisterEvent(55, "Legacy event 55", function()
-    evt.EnterHouse(1293)
-end)
+RegisterEvent(55, "House", function()
+    evt.EnterHouse(1293) -- House
+end, "House")
 
-RegisterEvent(56, "Legacy event 56", function()
-    evt.EnterHouse(1306)
-end)
+RegisterEvent(56, "House", function()
+    evt.EnterHouse(1306) -- House
+end, "House")
 
-RegisterEvent(57, "Legacy event 57", function()
-    evt.EnterHouse(1318)
-end)
+RegisterEvent(57, "House", function()
+    evt.EnterHouse(1318) -- House
+end, "House")
 
-RegisterEvent(58, "Legacy event 58", function()
-    evt.EnterHouse(1340)
-end)
+RegisterEvent(58, "House", function()
+    evt.EnterHouse(1340) -- House
+end, "House")
 
-RegisterEvent(59, "Legacy event 59", function()
-    evt.EnterHouse(1352)
-end)
+RegisterEvent(59, "House", function()
+    evt.EnterHouse(1352) -- House
+end, "House")
 
-RegisterEvent(60, "Legacy event 60", function()
-    evt.EnterHouse(1363)
-end)
+RegisterEvent(60, "House", function()
+    evt.EnterHouse(1363) -- House
+end, "House")
 
-RegisterEvent(61, "Legacy event 61", function()
-    evt.EnterHouse(1374)
-end)
+RegisterEvent(61, "House", function()
+    evt.EnterHouse(1374) -- House
+end, "House")
 
-RegisterEvent(62, "Legacy event 62", function()
-    evt.EnterHouse(1385)
-end)
+RegisterEvent(62, "House", function()
+    evt.EnterHouse(1385) -- House
+end, "House")
 
-RegisterEvent(63, "Legacy event 63", function()
-    evt.EnterHouse(1395)
-end)
+RegisterEvent(63, "House", function()
+    evt.EnterHouse(1395) -- House
+end, "House")
 
-RegisterEvent(64, "Legacy event 64", function()
-    evt.EnterHouse(1405)
-end)
+RegisterEvent(64, "House", function()
+    evt.EnterHouse(1405) -- House
+end, "House")
 
-RegisterEvent(65, "Legacy event 65", function()
-    evt.EnterHouse(1415)
-end)
+RegisterEvent(65, "House", function()
+    evt.EnterHouse(1415) -- House
+end, "House")
 
 RegisterEvent(75, "Chest", function()
     evt.OpenChest(1)
@@ -250,7 +250,7 @@ RegisterEvent(150, "Pedestal", function()
     if not IsQBitSet(QBit(1249)) then return end -- NPC
     if IsQBitSet(QBit(1250)) then -- NPC
         evt.MoveNPC(872, 0) -- Twillen -> removed
-        evt.MoveNPC(826, 1342) -- Twillen -> house 1342
+        evt.MoveNPC(826, 1342) -- Twillen -> House
     end
 end, "Pedestal")
 

@@ -22,48 +22,48 @@ SetMapMetadata({
 RegisterNoOpEvent(1, "rock", "rock")
 
 RegisterEvent(50, "+50 Hit points temporary.", function()
-    evt.EnterHouse(1366)
+    evt.EnterHouse(1366) -- House
 end, "+50 Hit points temporary.")
 
 RegisterEvent(51, "Refreshing!", function()
-    evt.EnterHouse(1377)
+    evt.EnterHouse(1377) -- House
 end, "Refreshing!")
 
 RegisterEvent(52, "Chest", function()
-    evt.EnterHouse(1388)
+    evt.EnterHouse(1388) -- House
 end, "Chest")
 
 RegisterEvent(53, "+20 to all stats permanent.", function()
-    evt.EnterHouse(1398)
+    evt.EnterHouse(1398) -- House
 end, "+20 to all stats permanent.")
 
 RegisterEvent(54, "Dragonsand", function()
-    evt.EnterHouse(1408)
+    evt.EnterHouse(1408) -- House
 end, "Dragonsand")
 
 RegisterEvent(55, "Shrine of Magic", function()
-    evt.EnterHouse(1417)
+    evt.EnterHouse(1417) -- House
 end, "Shrine of Magic")
 
 RegisterEvent(56, "You pray at the shrine.", function()
-    evt.EnterHouse(1602)
+    evt.EnterHouse(1602) -- Tent
 end, "You pray at the shrine.")
 
 RegisterEvent(57, "+10 Magic resistance permanent", function()
-    evt.EnterHouse(1604)
+    evt.EnterHouse(1604) -- Tent
 end, "+10 Magic resistance permanent")
 
-RegisterEvent(58, "Legacy event 58", function()
-    evt.EnterHouse(1603)
-end)
+RegisterEvent(58, "Tent", function()
+    evt.EnterHouse(1603) -- Tent
+end, "Tent")
 
-RegisterEvent(59, "Legacy event 59", function()
-    evt.EnterHouse(1605)
-end)
+RegisterEvent(59, "Tent", function()
+    evt.EnterHouse(1605) -- Tent
+end, "Tent")
 
-RegisterEvent(60, "Legacy event 60", function()
-    evt.EnterHouse(1606)
-end)
+RegisterEvent(60, "Tent", function()
+    evt.EnterHouse(1606) -- Tent
+end, "Tent")
 
 RegisterEvent(75, "Chest", function()
     evt.OpenChest(1)
@@ -175,7 +175,7 @@ RegisterEvent(105, "Pedestal", function()
         if not IsQBitSet(QBit(1249)) then return end -- NPC
         if IsQBitSet(QBit(1250)) then -- NPC
             evt.MoveNPC(872, 0) -- Twillen -> removed
-            evt.MoveNPC(826, 1342) -- Twillen -> house 1342
+            evt.MoveNPC(826, 1342) -- Twillen -> House
         end
         return
     elseif HasItem(2072) then -- Wolf Statuette
@@ -188,7 +188,7 @@ RegisterEvent(105, "Pedestal", function()
         if not IsQBitSet(QBit(1249)) then return end -- NPC
         if IsQBitSet(QBit(1250)) then -- NPC
             evt.MoveNPC(872, 0) -- Twillen -> removed
-            evt.MoveNPC(826, 1342) -- Twillen -> house 1342
+            evt.MoveNPC(826, 1342) -- Twillen -> House
         end
         return
     else

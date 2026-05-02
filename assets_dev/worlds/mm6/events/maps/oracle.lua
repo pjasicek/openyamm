@@ -40,7 +40,7 @@ RegisterEvent(2, "Legacy event 2", function()
 end)
 
 RegisterEvent(3, "Oracle", function()
-    evt.EnterHouse(451) -- Tell James if you see this 451
+    evt.EnterHouse(451) -- The Oracle
 end, "Oracle")
 
 RegisterEvent(4, "Legacy event 4", function()

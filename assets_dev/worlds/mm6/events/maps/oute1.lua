@@ -2,7 +2,7 @@
 -- generated from legacy EVT/STR
 
 SetMapMetadata({
-    onLoad = {226},
+    onLoad = {65535},
     onLeave = {},
     openedChestIds = {
     [58] = {1},
@@ -15,67 +15,67 @@ SetMapMetadata({
     },
 })
 
-RegisterEvent(2, "Kessel's Kantina", function()
-    evt.EnterHouse(108) -- Kessel's Kantina
-end, "Kessel's Kantina")
+RegisterEvent(2, "Little Charms", function()
+    evt.EnterHouse(108) -- Little Charms
+end, "Little Charms")
 
-RegisterEvent(3, "Kessel's Kantina", nil, "Kessel's Kantina")
+RegisterEvent(3, "Little Charms", nil, "Little Charms")
 
-RegisterEvent(4, "Veldon's Cottage", function()
-    evt.EnterHouse(328) -- Veldon's Cottage
-end, "Veldon's Cottage")
+RegisterEvent(4, "Abdul's Discount House of Worship", function()
+    evt.EnterHouse(328) -- Abdul's Discount House of Worship
+end, "Abdul's Discount House of Worship")
 
-RegisterEvent(5, "Bluesawn Home", function()
-    evt.EnterHouse(262) -- Bluesawn Home
-end, "Bluesawn Home")
+RegisterEvent(5, "An Arrow's Flight", function()
+    evt.EnterHouse(262) -- An Arrow's Flight
+end, "An Arrow's Flight")
 
-RegisterEvent(6, "Bluesawn Home", nil, "Bluesawn Home")
+RegisterEvent(6, "An Arrow's Flight", nil, "An Arrow's Flight")
 
-RegisterEvent(7, "Quicktongue Estate", function()
-    evt.EnterHouse(263) -- Quicktongue Estate
-end, "Quicktongue Estate")
+RegisterEvent(7, "A Stone's Throw", function()
+    evt.EnterHouse(263) -- A Stone's Throw
+end, "A Stone's Throw")
 
-RegisterEvent(8, "Quicktongue Estate", nil, "Quicktongue Estate")
+RegisterEvent(8, "A Stone's Throw", nil, "A Stone's Throw")
 
-RegisterEvent(9, "House 504", function()
-    evt.EnterHouse(504) -- House 504
-end, "House 504")
+RegisterEvent(9, "Tigershark", function()
+    evt.EnterHouse(504) -- Tigershark
+end, "Tigershark")
 
-RegisterEvent(10, "House 503", function()
-    evt.EnterHouse(503) -- House 503
-end, "House 503")
+RegisterEvent(10, "Cirrus", function()
+    evt.EnterHouse(503) -- Cirrus
+end, "Cirrus")
 
-RegisterEvent(50, "Legacy event 50", function()
-    evt.EnterHouse(1226)
-end)
+RegisterEvent(50, "House", function()
+    evt.EnterHouse(1226) -- House
+end, "House")
 
-RegisterEvent(51, "Legacy event 51", function()
-    evt.EnterHouse(1241)
-end)
+RegisterEvent(51, "House", function()
+    evt.EnterHouse(1241) -- House
+end, "House")
 
-RegisterEvent(52, "Legacy event 52", function()
-    evt.EnterHouse(1256)
-end)
+RegisterEvent(52, "House", function()
+    evt.EnterHouse(1256) -- House
+end, "House")
 
-RegisterEvent(53, "Legacy event 53", function()
-    evt.EnterHouse(1271)
-end)
+RegisterEvent(53, "House", function()
+    evt.EnterHouse(1271) -- House
+end, "House")
 
-RegisterEvent(54, "Legacy event 54", function()
-    evt.EnterHouse(1286)
-end)
+RegisterEvent(54, "House", function()
+    evt.EnterHouse(1286) -- House
+end, "House")
 
-RegisterEvent(55, "Legacy event 55", function()
-    evt.EnterHouse(1301)
-end)
+RegisterEvent(55, "House", function()
+    evt.EnterHouse(1301) -- House
+end, "House")
 
-RegisterEvent(56, "Legacy event 56", function()
-    evt.EnterHouse(1314)
-end)
+RegisterEvent(56, "House", function()
+    evt.EnterHouse(1314) -- House
+end, "House")
 
-RegisterEvent(57, "Legacy event 57", function()
-    evt.EnterHouse(1326)
-end)
+RegisterEvent(57, "House", function()
+    evt.EnterHouse(1326) -- House
+end, "House")
 
 RegisterEvent(58, "Legacy event 58", function()
     evt.OpenChest(1)
@@ -112,18 +112,71 @@ RegisterEvent(101, "Drink from Fountain.", function()
     evt.StatusText("Refreshing")
 end, "Drink from Fountain.")
 
-RegisterEvent(226, "Legacy event 226", function()
-    if IsQBitSet(QBit(1337)) then -- NPC
-        return
+RegisterEvent(226, "Legacy event 226", function(continueStep)
+    local function Step_0()
+        if IsQBitSet(QBit(1337)) then return 8 end -- NPC
+        return 1
     end
-    if not IsAtLeast(ActualMight, 200) then
+    local function Step_1()
+        if IsAtLeast(ActualMight, 200) then return 5 end
+        return 2
+    end
+    local function Step_2()
         evt.FaceExpression(51)
-        evt.StatusText("The Sword won't budge!")
-        return
+        return 3
     end
-    SetQBit(QBit(1337)) -- NPC
-    AddValue(InventoryItem(2023), 2023) -- Excalibur
-    evt.SetSprite(99, 1, "swrdstx")
+    local function Step_3()
+        evt.StatusText("The Sword won't budge!")
+        return 4
+    end
+    local function Step_4()
+        return 8
+    end
+    local function Step_5()
+        SetQBit(QBit(1337)) -- NPC
+        return 6
+    end
+    local function Step_6()
+        AddValue(InventoryItem(2023), 2023) -- Excalibur
+        return 7
+    end
+    local function Step_7()
+        evt.SetSprite(99, 1, "swrdstx")
+        return 8
+    end
+    local function Step_8()
+        return nil
+    end
+    local function Step_10()
+        if IsQBitSet(QBit(1337)) then return 7 end -- NPC
+        return nil
+    end
+    local step = continueStep or 0
+    while step ~= nil do
+        if step == 0 then
+            step = Step_0()
+        elseif step == 1 then
+            step = Step_1()
+        elseif step == 2 then
+            step = Step_2()
+        elseif step == 3 then
+            step = Step_3()
+        elseif step == 4 then
+            step = Step_4()
+        elseif step == 5 then
+            step = Step_5()
+        elseif step == 6 then
+            step = Step_6()
+        elseif step == 7 then
+            step = Step_7()
+        elseif step == 8 then
+            step = Step_8()
+        elseif step == 10 then
+            step = Step_10()
+        else
+            step = nil
+        end
+    end
 end)
 
 RegisterEvent(227, "Obelisk", function()
@@ -152,4 +205,8 @@ RegisterEvent(261, "Shrine of Poison", function()
     end
     evt.StatusText("You pray at the shrine.")
 end, "Shrine of Poison")
+
+RegisterEvent(65535, "", function()
+    return evt.map[226](10)
+end)
 

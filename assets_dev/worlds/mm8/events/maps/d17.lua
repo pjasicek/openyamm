@@ -3,7 +3,7 @@
 
 SetMapMetadata({
     onLoad = {1, 2, 3, 4, 5},
-    onLeave = {6, 7, 8, 9, 10},
+    onLeave = {6, 7, 8, 65535, 10},
     openedChestIds = {
     [81] = {0},
     [82] = {1},
@@ -87,29 +87,148 @@ RegisterEvent(8, "Legacy event 8", function()
     SetValue(Counter(10), 0)
 end)
 
-RegisterEvent(9, "Legacy event 9", function()
-    if IsQBitSet(QBit(22)) then -- Allied with Dragons. Return Dragon Egg to Dragons done.
-        return
-    elseif IsQBitSet(QBit(155)) then -- Killed all Dragons in Garrote Gorge Area
-        return
-    else
-        if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 189, 0, false) then return end -- monster 189 "Hatchling"; all matching actors defeated
-        if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 190, 0, false) then return end -- monster 190 "Dragonette"; all matching actors defeated
-        if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 191, 0, false) then return end -- monster 191 "Young Dragon"; all matching actors defeated
-        if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 69, 0, false) then return end -- monster 69 "Dragon"; all matching actors defeated
-        if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 70, 0, false) then return end -- monster 70 "Dragon Flightleader"; all matching actors defeated
-        if not evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 71, 0, false) then return end -- monster 71 "Great Wyrm"; all matching actors defeated
-        if not IsQBitSet(QBit(156)) then -- Questbit set for Riki
-            SetQBit(QBit(156)) -- Questbit set for Riki
-            evt.SummonMonsters(2, 1, 223, -8, 170, 0, 1, 0) -- encounter slot 2 "Wimpy Dragon" tier A, count 223, pos=(-8, 170, 0), actor group 1, no unique actor name
-            evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
-            return
-        end
+RegisterEvent(9, "Legacy event 9", function(continueStep)
+    local function Step_2()
+        if IsQBitSet(QBit(22)) then return 25 end -- Allied with Dragons. Return Dragon Egg to Dragons done.
+        return 3
+    end
+    local function Step_3()
+        if IsQBitSet(QBit(155)) then return 25 end -- Killed all Dragons in Garrote Gorge Area
+        return 4
+    end
+    local function Step_4()
+        if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 189, 0, false) then return 6 end -- monster 189 "Hatchling"; all matching actors defeated
+        return 5
+    end
+    local function Step_5()
+        return 25
+    end
+    local function Step_6()
+        if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 190, 0, false) then return 8 end -- monster 190 "Dragonette"; all matching actors defeated
+        return 7
+    end
+    local function Step_7()
+        return 25
+    end
+    local function Step_8()
+        if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 191, 0, false) then return 10 end -- monster 191 "Young Dragon"; all matching actors defeated
+        return 9
+    end
+    local function Step_9()
+        return 25
+    end
+    local function Step_10()
+        if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 69, 0, false) then return 12 end -- monster 69 "Dragon"; all matching actors defeated
+        return 11
+    end
+    local function Step_11()
+        return 25
+    end
+    local function Step_12()
+        if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 70, 0, false) then return 14 end -- monster 70 "Dragon Flightleader"; all matching actors defeated
+        return 13
+    end
+    local function Step_13()
+        return 25
+    end
+    local function Step_14()
+        if evt.CheckMonstersKilled(ActorKillCheck.MonsterId, 71, 0, false) then return 16 end -- monster 71 "Great Wyrm"; all matching actors defeated
+        return 15
+    end
+    local function Step_15()
+        return 25
+    end
+    local function Step_16()
+        if IsQBitSet(QBit(156)) then return 21 end -- Questbit set for Riki
+        return 17
+    end
+    local function Step_17()
+        SetQBit(QBit(156)) -- Questbit set for Riki
+        return 18
+    end
+    local function Step_18()
+        evt.SummonMonsters(2, 1, 223, -8, 170, 0, 1, 0) -- encounter slot 2 "Wimpy Dragon" tier A, count 223, pos=(-8, 170, 0), actor group 1, no unique actor name
+        return 19
+    end
+    local function Step_19()
+        evt.SetMonGroupBit(1, MonsterBits.Invisible, 1)
+        return 20
+    end
+    local function Step_20()
+        return 25
+    end
+    local function Step_21()
         SetQBit(QBit(155)) -- Killed all Dragons in Garrote Gorge Area
+        return 22
+    end
+    local function Step_22()
         SetQBit(QBit(225)) -- dead questbit for internal use(bling)
+        return 23
+    end
+    local function Step_23()
         ClearQBit(QBit(225)) -- dead questbit for internal use(bling)
+        return 24
+    end
+    local function Step_24()
         evt.StatusText("You have killed all of the Dragons")
-        return
+        return 25
+    end
+    local function Step_25()
+        return nil
+    end
+    local step = continueStep or 2
+    while step ~= nil do
+        if step == 2 then
+            step = Step_2()
+        elseif step == 3 then
+            step = Step_3()
+        elseif step == 4 then
+            step = Step_4()
+        elseif step == 5 then
+            step = Step_5()
+        elseif step == 6 then
+            step = Step_6()
+        elseif step == 7 then
+            step = Step_7()
+        elseif step == 8 then
+            step = Step_8()
+        elseif step == 9 then
+            step = Step_9()
+        elseif step == 10 then
+            step = Step_10()
+        elseif step == 11 then
+            step = Step_11()
+        elseif step == 12 then
+            step = Step_12()
+        elseif step == 13 then
+            step = Step_13()
+        elseif step == 14 then
+            step = Step_14()
+        elseif step == 15 then
+            step = Step_15()
+        elseif step == 16 then
+            step = Step_16()
+        elseif step == 17 then
+            step = Step_17()
+        elseif step == 18 then
+            step = Step_18()
+        elseif step == 19 then
+            step = Step_19()
+        elseif step == 20 then
+            step = Step_20()
+        elseif step == 21 then
+            step = Step_21()
+        elseif step == 22 then
+            step = Step_22()
+        elseif step == 23 then
+            step = Step_23()
+        elseif step == 24 then
+            step = Step_24()
+        elseif step == 25 then
+            step = Step_25()
+        else
+            step = nil
+        end
     end
 end)
 
@@ -240,4 +359,8 @@ end)
 RegisterEvent(501, "Leave the dragon cave", function()
     evt.MoveToMap(6376, 12420, 1616, 0, 0, 0, 0, 1, "out05.odm") -- Garrote Gorge
 end, "Leave the dragon cave")
+
+RegisterEvent(65535, "", function()
+    return evt.map[9](1)
+end)
 
