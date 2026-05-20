@@ -51,6 +51,24 @@ public:
     using ChestViewState = GameplayChestViewState;
     using CorpseViewState = GameplayCorpseViewState;
 
+    struct ArpgModeCorpseLootItem
+    {
+        size_t actorIndex = 0;
+        size_t itemIndex = 0;
+        ChestItemState item = {};
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+    };
+
+    struct ArpgModeGoldPickup
+    {
+        uint32_t amount = 0;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+    };
+
     struct AtmosphereState
     {
         std::string sourceSkyTextureName;
@@ -622,6 +640,8 @@ public:
         const GameplayWorldPoint &source) override;
     bool spawnPartyAttackProjectile(const GameplayPartyAttackProjectileRequest &request) override;
     bool castPartyAttackSpell(const GameplayPartyAttackSpellRequest &request) override;
+    void playArpgModePartyActionAnimation(float animationSeconds, bool spellCast) override;
+    void faceArpgModePartyActionTarget(const PartySpellCastRequest &request) override;
     void recordPartyAttackWorldResult(
         std::optional<size_t> actorIndex,
         bool attacked,
@@ -708,8 +728,14 @@ public:
     CorpseViewState *activeCorpseView() override;
     const CorpseViewState *activeCorpseView() const override;
     void commitActiveCorpseView() override;
+    bool ensureMapActorCorpseView(size_t actorIndex);
     bool openMapActorCorpseView(size_t actorIndex);
     bool takeActiveCorpseItem(size_t itemIndex, ChestItemState &item) override;
+    std::optional<ChestItemState> mapActorCorpseItem(size_t actorIndex, size_t itemIndex) const;
+    bool takeMapActorCorpseItem(size_t actorIndex, size_t itemIndex, ChestItemState &item);
+    bool tryPlaceMapActorCorpseItemAt(size_t actorIndex, const ChestItemState &item, size_t itemIndex);
+    std::vector<ArpgModeCorpseLootItem> collectArpgModeCorpseLootItems();
+    std::vector<ArpgModeGoldPickup> collectNearbyArpgModeCorpseGold(float radius);
     void closeActiveCorpseView() override;
     const std::vector<AudioEvent> &pendingAudioEvents() const;
     void clearPendingAudioEvents();
@@ -754,6 +780,8 @@ public:
     bool activateTelekinesisTarget(const GameplayWorldHit &hit) override;
     GameplayPendingSpellWorldTargetFacts pickPendingSpellWorldTarget(
         const GameplayWorldPickRequest &request) override;
+    GameplayWorldHit pickNearbyInteractionTarget(float radius) override;
+    GameplayWorldHit pickForwardInteractionTarget(float depth) override;
     GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickMouseInteractionTarget(const GameplayWorldPickRequest &request) override;

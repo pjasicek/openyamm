@@ -46,6 +46,46 @@ bool hasStatusText(const std::optional<std::string> &text)
     return text.has_value() && !text->empty();
 }
 
+float arpgModeInteractionDepth(const GameplayScreenRuntime &runtime)
+{
+    return static_cast<float>(std::clamp(runtime.settingsSnapshot().keyboardInteractionDepth, 32, 4096));
+}
+
+GameplayWorldHit pickArpgModePopupInteractionTarget(
+    IGameplayWorldRuntime &worldRuntime,
+    const GameplayScreenRuntime &runtime)
+{
+    return worldRuntime.pickNearbyInteractionTarget(arpgModeInteractionDepth(runtime));
+}
+
+GameplayWorldHit pickArpgModeForwardInteractionTarget(
+    IGameplayWorldRuntime &worldRuntime,
+    const GameplayScreenRuntime &runtime)
+{
+    return worldRuntime.pickForwardInteractionTarget(arpgModeInteractionDepth(runtime));
+}
+
+GameplayWorldHit pickArpgModePrecisionInteractionTarget(
+    IGameplayWorldRuntime &worldRuntime,
+    const GameplayWorldPickRequest &request)
+{
+    GameplayWorldHit hit = worldRuntime.pickMouseInteractionTarget(request);
+
+    if (worldRuntime.canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard))
+    {
+        return hit;
+    }
+
+    hit = worldRuntime.pickKeyboardInteractionTarget(request);
+
+    if (worldRuntime.canActivateWorldHit(hit, GameplayInteractionMethod::Keyboard))
+    {
+        return hit;
+    }
+
+    return {};
+}
+
 bool hasActiveLootView(const GameplayScreenRuntime &runtime)
 {
     const IGameplayWorldRuntime *pWorldRuntime = runtime.worldRuntime();
@@ -769,6 +809,28 @@ std::optional<GameplayActionController::WorldPoint> partyRangedTargetFromWorldHi
     return std::nullopt;
 }
 
+std::optional<GameplayActionController::WorldPoint> arpgModeOutdoorActorRangedTargetFromWorldHit(
+    IGameplayWorldRuntime &worldRuntime,
+    const GameplayWorldHit &hit)
+{
+    if (worldRuntime.isIndoorMap()
+        || hit.kind != GameplayWorldHitKind::Actor
+        || !hit.actor)
+    {
+        return std::nullopt;
+    }
+
+    const std::optional<bx::Vec3> actorTargetPoint =
+        worldRuntime.spellActionActorTargetPoint(hit.actor->actorIndex);
+    const bx::Vec3 targetPoint = actorTargetPoint.value_or(hit.actor->hitPoint);
+
+    return GameplayActionController::WorldPoint{
+        .x = targetPoint.x,
+        .y = targetPoint.y,
+        .z = targetPoint.z,
+    };
+}
+
 GameplaySpellActionController::TargetQueries buildSpellActionTargetQueries(
     GameplayScreenState &screenState,
     const GameplayInputFrame &input)
@@ -832,16 +894,19 @@ void executePartyAttack(
         }
     }
 
+    const bool arpgMode = runtime.settingsSnapshot().arpgModeEnabled;
     const std::optional<size_t> directActorIndex =
-        currentHit.kind == GameplayWorldHitKind::Actor && currentHit.actor
+        !arpgMode && currentHit.kind == GameplayWorldHitKind::Actor && currentHit.actor
             ? std::optional<size_t>(currentHit.actor->actorIndex)
             : std::nullopt;
     const std::string directTargetName =
-        currentHit.kind == GameplayWorldHitKind::Actor && currentHit.actor
+        !arpgMode && currentHit.kind == GameplayWorldHitKind::Actor && currentHit.actor
             ? currentHit.actor->displayName
             : "";
     const std::optional<GameplayActionController::WorldPoint> hitRangedTarget =
-        partyRangedTargetFromWorldHit(currentHit);
+        arpgMode
+            ? arpgModeOutdoorActorRangedTargetFromWorldHit(*pWorldRuntime, currentHit)
+            : partyRangedTargetFromWorldHit(currentHit);
 
     const GameplayActionController::PartyAttackExecutionResult attackResult =
         GameplayActionController::executePartyAttack(
@@ -876,7 +941,7 @@ void executePartyAttack(
         turnBasedCombatRuntime.applyPlayerAction(
             *pParty,
             attackResult.actingMemberIndex,
-            attackResult.attack.recoverySeconds);
+            attackResult.appliedRecoverySeconds);
     }
 }
 
@@ -1217,6 +1282,19 @@ GameplayInteractionController::resolveWorldInteractionPointerPolicy(
 {
     WorldInteractionPointerPolicy policy = {};
     policy.useCenterGameplayPoint = input.mouseLookActive && !input.cursorModeActive;
+
+    if (input.arpgMode)
+    {
+        policy.useCenterGameplayPoint = false;
+        policy.inspectScreenX = input.pointerX;
+        policy.inspectScreenY = input.pointerY;
+        policy.leftMousePressed = input.leftMousePressed;
+        policy.pointerOverPartyPortrait = input.pointerOverPortrait;
+        policy.activationPressed = input.keyboardActivationPressed && !input.rightMousePressed;
+        policy.attackPressed = input.rightMousePressed;
+        return policy;
+    }
+
     policy.inspectScreenX =
         policy.useCenterGameplayPoint ? input.screenWidth * 0.5f : input.pointerX;
     policy.inspectScreenY =
@@ -1261,7 +1339,10 @@ GameplayInteractionController::updateWorldInteractionFrame(
     const bool worldReady = pWorldRuntime != nullptr && pWorldRuntime->worldInteractionReady();
     const bool inspectModeActive = pWorldRuntime != nullptr && pWorldRuntime->worldInspectModeActive();
     const bool pendingSpellCancelPressed = input.isScancodeHeld(SDL_SCANCODE_ESCAPE);
-    const bool keyboardUsePressed = input.action(KeyboardAction::Trigger).held;
+    const bool arpgMode =
+        runtime.settingsSnapshot().arpgModeEnabled && !screenState.arpgModeFirstPersonUseMode();
+    const bool keyboardUsePressed = !arpgMode && input.action(KeyboardAction::Trigger).held;
+    const bool contextActionTriggerPressed = arpgMode && input.action(KeyboardAction::Trigger).held;
     const bool usePressed = input.action(KeyboardAction::Use).held;
     const bool attackPressed = input.action(KeyboardAction::Attack).held;
     const bool leftMousePressed = input.leftMouseButton.held;
@@ -1287,6 +1368,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
                 .rightMousePressed = rightMousePressed,
                 .keyboardActivationPressed = usePressed,
                 .keyboardAttackPressed = attackPressed,
+                .arpgMode = arpgMode,
                 .pointerX = input.pointerX,
                 .pointerY = input.pointerY,
                 .screenWidth = screenWidth,
@@ -1598,9 +1680,11 @@ GameplayInteractionController::updateWorldInteractionFrame(
         std::optional<std::string> contextActionEventStatusText;
         GameplayContextActionState &contextActionState = runtime.contextActionState();
         const uint64_t contextActionRefreshIntervalNanoseconds =
-            contextActionState.visible ? ContextActionRefreshNanoseconds : ContextActionIdleRetryNanoseconds;
+            arpgMode
+                ? ContextActionRefreshNanoseconds
+                : contextActionState.visible ? ContextActionRefreshNanoseconds : ContextActionIdleRetryNanoseconds;
         const bool contextActionRayChanged =
-            contextActionPickRayChanged(contextActionState, currentInteractionPickRequest);
+            !arpgMode && contextActionPickRayChanged(contextActionState, currentInteractionPickRequest);
         const bool contextActionRefreshDue =
             contextActionState.lastUpdateNanoseconds == 0
             || currentTickNanoseconds < contextActionState.lastUpdateNanoseconds
@@ -1610,19 +1694,29 @@ GameplayInteractionController::updateWorldInteractionFrame(
 
         if (contextActionRefreshDue)
         {
-            std::optional<GameplayContextAction> contextAction =
-                buildContextAction(*pWorldRuntime, result.hover.worldHit, result.hover.eventTargetStatusText);
+            std::optional<GameplayContextAction> contextAction;
 
-            if (!contextAction)
+            if (arpgMode)
             {
-                contextActionHit = pWorldRuntime->pickKeyboardInteractionTarget(currentInteractionPickRequest);
-
-                if (isSameActivationTarget(contextActionHit, result.hover.worldHit))
-                {
-                    contextActionEventStatusText = result.hover.eventTargetStatusText;
-                }
-
+                contextActionHit = pickArpgModePopupInteractionTarget(*pWorldRuntime, runtime);
                 contextAction = buildContextAction(*pWorldRuntime, contextActionHit, contextActionEventStatusText);
+            }
+            else
+            {
+                contextAction =
+                    buildContextAction(*pWorldRuntime, result.hover.worldHit, result.hover.eventTargetStatusText);
+
+                if (!contextAction)
+                {
+                    contextActionHit = pWorldRuntime->pickKeyboardInteractionTarget(currentInteractionPickRequest);
+
+                    if (isSameActivationTarget(contextActionHit, result.hover.worldHit))
+                    {
+                        contextActionEventStatusText = result.hover.eventTargetStatusText;
+                    }
+
+                    contextAction = buildContextAction(*pWorldRuntime, contextActionHit, contextActionEventStatusText);
+                }
             }
 
             setSingleContextAction(
@@ -1633,13 +1727,17 @@ GameplayInteractionController::updateWorldInteractionFrame(
         }
         else
         {
-            const bool visibleActionInvalid = contextActionState.visible
-                && contextActionState.primaryIndex >= contextActionState.actions.size();
-            const bool visibleActionNoLongerActivatable = contextActionState.visible
-                && !visibleActionInvalid
-                && !pWorldRuntime->canActivateWorldHit(
-                    contextActionState.actions[contextActionState.primaryIndex].worldHit,
-                    GameplayInteractionMethod::Keyboard);
+            const bool visibleActionInvalid =
+                contextActionState.visible && contextActionState.primaryIndex >= contextActionState.actions.size();
+            bool visibleActionNoLongerActivatable = false;
+
+            if (!arpgMode && contextActionState.visible && !visibleActionInvalid)
+            {
+                const GameplayWorldHit &visibleActionHit =
+                    contextActionState.actions[contextActionState.primaryIndex].worldHit;
+                visibleActionNoLongerActivatable =
+                    !pWorldRuntime->canActivateWorldHit(visibleActionHit, GameplayInteractionMethod::Keyboard);
+            }
 
             if (visibleActionInvalid || visibleActionNoLongerActivatable)
             {
@@ -1674,7 +1772,8 @@ GameplayInteractionController::updateWorldInteractionFrame(
     }
 
     const bool stealPressed =
-        input.leftMouseButton.pressed
+        !arpgMode
+        && input.leftMouseButton.pressed
         && pointerPolicy.leftMousePressed
         && (input.isScancodeHeld(SDL_SCANCODE_LCTRL) || input.isScancodeHeld(SDL_SCANCODE_RCTRL));
 
@@ -1714,20 +1813,85 @@ GameplayInteractionController::updateWorldInteractionFrame(
     }
 
     const bool hadLootViewBeforeActivation = hasActiveLootView(runtime);
+
+    if (arpgMode && contextActionTriggerPressed)
+    {
+        if (!worldInteractionInputState.keyboardUseLatch && worldReady && pWorldRuntime != nullptr)
+        {
+            worldInteractionInputState.keyboardUseLatch = true;
+            const GameplayContextActionState &contextActionState = runtime.contextActionStateReadOnly();
+            const bool hasPrimaryContextAction =
+                contextActionState.visible && contextActionState.primaryIndex < contextActionState.actions.size();
+            const GameplayWorldHit activationHit =
+                hasPrimaryContextAction
+                    ? contextActionState.actions[contextActionState.primaryIndex].worldHit
+                    : runtime.settingsSnapshot().contextActionPopup
+                        ? pickArpgModePopupInteractionTarget(*pWorldRuntime, runtime)
+                        : pickArpgModeForwardInteractionTarget(*pWorldRuntime, runtime);
+            const bool activated =
+                tryActivateWorldHit(
+                    &runtime,
+                    pWorldRuntime,
+                    activationHit,
+                    GameplayInteractionMethod::Keyboard);
+
+            if (activated)
+            {
+                result.keyboardUseActivated = true;
+                refreshWorldHover(standardHoverInput, pWorldRuntime);
+                runtime.clearContextActionState();
+
+                const bool hasLootViewAfterActivation = hasActiveLootView(runtime);
+
+                if (!hadLootViewBeforeActivation && hasLootViewAfterActivation)
+                {
+                    overlayInteractionState.lootChestItemLatch = true;
+                }
+            }
+        }
+    }
+    else if (arpgMode)
+    {
+        worldInteractionInputState.keyboardUseLatch = false;
+    }
+
     GameplayWorldHit keyboardActivationHit = {};
 
     if (pointerPolicy.activationPressed && worldReady && pWorldRuntime != nullptr)
     {
-        const GameplayWorldPickRequest keyboardActivationPickRequest =
-            pWorldRuntime->buildWorldPickRequest(
-                GameplayWorldPickRequestInput{
-                    .screenX = pointerPolicy.inspectScreenX,
-                    .screenY = pointerPolicy.inspectScreenY,
-                    .screenWidth = input.screenWidth,
-                    .screenHeight = input.screenHeight,
-                    .includeRay = true,
-                });
-        keyboardActivationHit = pWorldRuntime->pickMouseInteractionTarget(keyboardActivationPickRequest);
+        if (arpgMode)
+        {
+            keyboardActivationHit =
+                pickArpgModePrecisionInteractionTarget(*pWorldRuntime, currentInteractionPickRequest);
+
+            if (!keyboardActivationHit.hasHit)
+            {
+                const GameplayContextActionState &contextActionState = runtime.contextActionStateReadOnly();
+
+                if (contextActionState.visible
+                    && contextActionState.primaryIndex < contextActionState.actions.size())
+                {
+                    keyboardActivationHit = contextActionState.actions[contextActionState.primaryIndex].worldHit;
+                }
+                else
+                {
+                    keyboardActivationHit = pickArpgModeForwardInteractionTarget(*pWorldRuntime, runtime);
+                }
+            }
+        }
+        else
+        {
+            const GameplayWorldPickRequest keyboardActivationPickRequest =
+                pWorldRuntime->buildWorldPickRequest(
+                    GameplayWorldPickRequestInput{
+                        .screenX = pointerPolicy.inspectScreenX,
+                        .screenY = pointerPolicy.inspectScreenY,
+                        .screenWidth = input.screenWidth,
+                        .screenHeight = input.screenHeight,
+                        .includeRay = true,
+                    });
+            keyboardActivationHit = pWorldRuntime->pickMouseInteractionTarget(keyboardActivationPickRequest);
+        }
     }
 
     const KeyboardActivationInteractionResult keyboardActivationResult =

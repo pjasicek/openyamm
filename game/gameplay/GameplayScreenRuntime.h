@@ -154,6 +154,7 @@ public:
     const JournalAutonoteTable *journalAutonoteTable() const;
     const std::string &currentMapFileName() const;
     float gameplayCameraYawRadians() const;
+    float gameplayMinimapArrowYawRadians() const;
     const std::vector<uint8_t> *journalMapFullyRevealedCells() const;
     const std::vector<uint8_t> *journalMapPartiallyRevealedCells() const;
     EventDialogContent &activeEventDialog() const;

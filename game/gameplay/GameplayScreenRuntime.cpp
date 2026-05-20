@@ -878,6 +878,11 @@ float GameplayScreenRuntime::gameplayCameraYawRadians() const
     return sceneAdapter().gameplayCameraYawRadians();
 }
 
+float GameplayScreenRuntime::gameplayMinimapArrowYawRadians() const
+{
+    return sceneAdapter().gameplayMinimapArrowYawRadians();
+}
+
 const std::vector<uint8_t> *GameplayScreenRuntime::journalMapFullyRevealedCells() const
 {
     const IGameplayWorldRuntime *pWorldRuntime = worldRuntime();

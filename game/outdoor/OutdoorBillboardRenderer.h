@@ -71,6 +71,9 @@ public:
 private:
     static bool uploadBillboardTexture(OutdoorGameView &view, const OutdoorBitmapTexture &texture);
     static bool hasActorPreviewTexturePreloadWork(const OutdoorGameView &view);
+    static bx::Vec3 resolveBillboardCameraForward(
+        const OutdoorGameView &view,
+        const bx::Vec3 &cameraPosition);
     static void appendWorldQuadVertices(
         std::vector<OutdoorGameView::TerrainVertex> &vertices,
         const bx::Vec3 &center,

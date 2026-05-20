@@ -43,6 +43,8 @@ add_executable(openyamm_unit_tests
     ../game/app/GameSettings.cpp
     ../game/app/KeyboardBindings.cpp
     ../game/app/ScreenManager.cpp
+    ../game/arpg/ArpgModeCamera.cpp
+    ../game/arpg/ArpgModeLoot.cpp
     ../engine/AudioSystem.cpp
     ../engine/AssetFileSystem.cpp
     ../engine/AssetScaleTier.cpp

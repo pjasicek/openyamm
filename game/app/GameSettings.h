@@ -163,6 +163,21 @@ struct GameSettings
     bool unlimitedMana = true;
     bool newGameGodLich = false;
     bool debugConsole = true;
+    bool arpgModeEnabled = false;
+    std::string arpgModePlayerMonsterDescriptor = "m270";
+    float arpgModeCameraYawDegrees = 135.0f;
+    float arpgModeCameraPitchDegrees = -55.0f;
+    float arpgModeCameraDistance = 2600.0f;
+    float arpgModeCameraTargetHeight = 120.0f;
+    float arpgModeCameraFovDegrees = 45.0f;
+    float arpgModeCameraFollowLerp = 18.0f;
+    float arpgModeClickStopRadius = 48.0f;
+    float arpgModeMoveSpeedMultiplier = 1.0f;
+    float arpgModeSpellAnimationSeconds = 0.35f;
+    float arpgModeSpellReleaseSeconds = 0.12f;
+    float arpgModeAttackAnimationMinSeconds = 0.25f;
+    float arpgModeAttackAnimationMaxSeconds = 0.5f;
+    float arpgModeAttackAnimationRecoveryScale = 0.35f;
     int keyboardInteractionDepth = 512;
     int mouseInteractionDepth = 512;
 #if defined(__ANDROID__)

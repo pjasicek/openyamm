@@ -79,6 +79,29 @@ void pulseGameplayAction(GameplayInputFrame &input, KeyboardAction action)
     state.released = false;
 }
 
+void clearGameplayAction(GameplayInputFrame &input, KeyboardAction action)
+{
+    input.actions[keyboardActionIndex(action)] = {};
+}
+
+void suppressArpgFirstPersonUseBlockedWorldInputs(GameplayInputFrame &input)
+{
+    input.leftMouseButton = {};
+    input.rightMouseButton = {};
+    clearGameplayAction(input, KeyboardAction::Forward);
+    clearGameplayAction(input, KeyboardAction::Backward);
+    clearGameplayAction(input, KeyboardAction::Left);
+    clearGameplayAction(input, KeyboardAction::Right);
+    clearGameplayAction(input, KeyboardAction::Jump);
+    clearGameplayAction(input, KeyboardAction::FlyUp);
+    clearGameplayAction(input, KeyboardAction::FlyDown);
+    clearGameplayAction(input, KeyboardAction::Land);
+    clearGameplayAction(input, KeyboardAction::Attack);
+    clearGameplayAction(input, KeyboardAction::CastReady);
+    clearGameplayAction(input, KeyboardAction::Pass);
+    input.keyboardHeld[SDL_SCANCODE_Q] = false;
+}
+
 Party buildConfiguredParty(
     const Party::Snapshot &snapshot,
     const GameDataRepository &data)
@@ -645,6 +668,27 @@ void GameSession::updateGameplay(
         m_gameplayUpdatePerformanceDiagnostics.worldInteractionStateNanoseconds,
         worldInteractionStateBeginTickCount);
 
+    const bool arpgModeConfigured = m_gameplayScreenRuntime.settingsSnapshot().arpgModeEnabled;
+
+    if (!arpgModeConfigured && m_gameplayScreenState.arpgModeFirstPersonUseMode())
+    {
+        m_gameplayScreenState.setArpgModeFirstPersonUseMode(false);
+    }
+
+    if (arpgModeConfigured
+        && input.isScancodeHeld(SDL_SCANCODE_Y)
+        && m_previousKeyboardState[SDL_SCANCODE_Y] == 0
+        && !m_sharedWorldInteractionBlockedThisFrame)
+    {
+        const bool enabled = !m_gameplayScreenState.arpgModeFirstPersonUseMode();
+        m_gameplayScreenState.setArpgModeFirstPersonUseMode(enabled);
+        m_gameplayScreenState.attackActionState().clear();
+        m_gameplayScreenState.quickSpellState().clear();
+        m_gameplayScreenState.worldInteractionInputState().clear();
+        m_gameplayScreenRuntime.clearContextActionState();
+        m_gameplayScreenRuntime.setStatusBarEvent(enabled ? "First-person use view" : "Isometric combat view");
+    }
+
     if (pWorldRuntime != nullptr)
     {
         if (collectPerformanceDiagnostics)
@@ -671,6 +715,7 @@ void GameSession::updateGameplay(
             m_gameplayScreenRuntime.readableScrollOverlayReadOnly().active;
 
         const uint64_t sharedInputBeginTickCount = collectPerformanceDiagnostics ? SDL_GetTicksNS() : 0;
+        const bool arpgFirstPersonUseMode = m_gameplayScreenState.arpgModeFirstPersonUseMode();
         m_sharedInputFrameResult =
             GameplayInputController::updateSharedGameplayInputFrame(
                 m_gameplayScreenState,
@@ -691,15 +736,38 @@ void GameSession::updateGameplay(
                     .isUtilitySpellModalActive = isUtilitySpellModalActive,
                     .isReadableScrollOverlayActive = isReadableScrollOverlayActive,
                     .processSharedGameplayHotkeys = true,
-                    .processQuickCast = true,
+                    .processQuickCast = !arpgFirstPersonUseMode,
                 });
+
+        const bool arpgFirstPersonUseControlsActive =
+            arpgFirstPersonUseMode
+            && !m_sharedInputFrameResult.worldInputBlocked
+            && !m_sharedWorldInteractionBlockedThisFrame;
+
+        if (arpgFirstPersonUseControlsActive)
+        {
+            m_sharedInputFrameResult.mouseLookPolicy.mouseLookActive = true;
+            m_sharedInputFrameResult.mouseLookPolicy.cursorModeActive = false;
+            m_sharedInputFrameResult.mouseLookPolicy.allowGameplayPointerInput = false;
+            m_gameplayScreenState.gameplayMouseLookState().mouseLookActive = true;
+            m_gameplayScreenState.gameplayMouseLookState().cursorModeActive = false;
+        }
+
         recordDiagnostics(m_gameplayUpdatePerformanceDiagnostics.sharedInputNanoseconds, sharedInputBeginTickCount);
 
         GameplayInputFrame worldInput = input;
 
+        if (arpgFirstPersonUseMode)
+        {
+            suppressArpgFirstPersonUseBlockedWorldInputs(worldInput);
+        }
+
         if (m_overlayInteractionState.gameplayHudAttackRequested)
         {
-            pulseGameplayAction(worldInput, KeyboardAction::Attack);
+            if (!arpgFirstPersonUseMode)
+            {
+                pulseGameplayAction(worldInput, KeyboardAction::Attack);
+            }
             m_overlayInteractionState.gameplayHudAttackRequested = false;
         }
 

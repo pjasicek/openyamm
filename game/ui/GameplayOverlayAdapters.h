@@ -42,6 +42,10 @@ public:
     virtual ~IGameplayOverlaySceneAdapter() = default;
 
     virtual float gameplayCameraYawRadians() const = 0;
+    virtual float gameplayMinimapArrowYawRadians() const
+    {
+        return gameplayCameraYawRadians();
+    }
 
     virtual void executeActiveDialogAction() = 0;
     virtual bool tryCastSpellRequest(

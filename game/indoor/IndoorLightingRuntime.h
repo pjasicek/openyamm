@@ -71,6 +71,8 @@ struct IndoorLightingFrameInput
     const std::vector<uint8_t> *pVisibleSectorMask = nullptr;
     const std::vector<std::vector<IndoorVisibilityFrustum>> *pVisibleSectorFrustums = nullptr;
     bx::Vec3 cameraPosition = {0.0f, 0.0f, 0.0f};
+    bx::Vec3 torchPosition = {0.0f, 0.0f, 0.0f};
+    bool hasTorchPosition = false;
     bool coloredLights = true;
 };
 

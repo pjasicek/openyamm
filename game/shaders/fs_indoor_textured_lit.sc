@@ -8,6 +8,7 @@ uniform vec4 u_indoorLightPositions[12];
 uniform vec4 u_indoorLightColors[12];
 uniform vec4 u_indoorLightParams;
 uniform vec4 u_secretPulseParams;
+uniform vec4 u_indoorFaceAlphaParams;
 uniform vec4 u_indoorSkyParams;
 uniform vec4 u_indoorSkyProjectionParams;
 
@@ -121,5 +122,5 @@ void main()
         color = mix(color, secretTint, boundaryFade);
     }
 
-    gl_FragColor = vec4(color, textureColor.a);
+    gl_FragColor = vec4(color, textureColor.a * u_indoorFaceAlphaParams.x);
 }

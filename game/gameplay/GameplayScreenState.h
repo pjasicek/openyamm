@@ -148,6 +148,9 @@ public:
     GameplayMouseLookState &gameplayMouseLookState();
     const GameplayMouseLookState &gameplayMouseLookState() const;
 
+    bool arpgModeFirstPersonUseMode() const;
+    void setArpgModeFirstPersonUseMode(bool enabled);
+
     void requestOpenNewGameScreen();
     void requestOpenLoadGameScreen();
     bool consumePendingOpenNewGameScreenRequest();
@@ -160,6 +163,7 @@ private:
     AttackActionState m_attackActionState = {};
     WorldInteractionInputState m_worldInteractionInputState = {};
     GameplayMouseLookState m_gameplayMouseLookState = {};
+    bool m_arpgModeFirstPersonUseMode = false;
     bool m_pendingOpenNewGameScreen = false;
     bool m_pendingOpenLoadGameScreen = false;
 };

@@ -35,6 +35,7 @@ void GameplayScreenState::clear()
     m_attackActionState.clear();
     m_worldInteractionInputState.clear();
     m_gameplayMouseLookState.clear();
+    m_arpgModeFirstPersonUseMode = false;
     m_pendingOpenNewGameScreen = false;
     m_pendingOpenLoadGameScreen = false;
 }
@@ -237,6 +238,16 @@ GameplayScreenState::GameplayMouseLookState &GameplayScreenState::gameplayMouseL
 const GameplayScreenState::GameplayMouseLookState &GameplayScreenState::gameplayMouseLookState() const
 {
     return m_gameplayMouseLookState;
+}
+
+bool GameplayScreenState::arpgModeFirstPersonUseMode() const
+{
+    return m_arpgModeFirstPersonUseMode;
+}
+
+void GameplayScreenState::setArpgModeFirstPersonUseMode(bool enabled)
+{
+    m_arpgModeFirstPersonUseMode = enabled;
 }
 
 void GameplayScreenState::requestOpenNewGameScreen()

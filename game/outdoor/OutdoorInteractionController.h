@@ -121,6 +121,14 @@ private:
         OutdoorGameView &view,
         const OutdoorMapData &outdoorMapData,
         const GameplayWorldPickRequest &request);
+    static GameplayWorldHit pickNearbyInteractionTarget(
+        OutdoorGameView &view,
+        const OutdoorMapData &outdoorMapData,
+        float radius);
+    static GameplayWorldHit pickForwardInteractionTarget(
+        OutdoorGameView &view,
+        const OutdoorMapData &outdoorMapData,
+        float depth);
     static GameplayWorldHit pickHeldItemWorldTarget(
         OutdoorGameView &view,
         const OutdoorMapData &outdoorMapData,
@@ -202,6 +210,9 @@ private:
         const OutdoorGameView &view,
         const GameplayWorldHit &worldHit,
         InteractionInputMethod inputMethod);
+    static bool arpgModeGameplayWorldHitHasLineOfSight(
+        const OutdoorGameView &view,
+        const GameplayWorldHit &worldHit);
     static bool dispatchWorldActivation(
         OutdoorGameView &view,
         const GameplayWorldHit &worldHit);

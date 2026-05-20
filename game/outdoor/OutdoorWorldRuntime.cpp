@@ -25,6 +25,7 @@
 #include "game/outdoor/OutdoorInteractionController.h"
 #include "game/outdoor/OutdoorPartyRuntime.h"
 #include "game/party/EventSpellBuffs.h"
+#include "game/party/PartySpellSystem.h"
 #include "game/scene/OutdoorSceneRuntime.h"
 #include "game/party/SpellIds.h"
 #include "game/audio/SoundIds.h"
@@ -12291,7 +12292,6 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
 
     if (isDead && !actorShouldLeaveCorpse(m_pMonsterTable, actor))
     {
-        actor.isInvisible = true;
         actor.velocityX = 0.0f;
         actor.velocityY = 0.0f;
         actor.velocityZ = 0.0f;
@@ -13015,6 +13015,40 @@ bool OutdoorWorldRuntime::castPartyAttackSpell(const GameplayPartyAttackSpellReq
     worldRequest.targetY = request.target.y;
     worldRequest.targetZ = request.target.z;
     return castPartySpell(worldRequest);
+}
+
+void OutdoorWorldRuntime::playArpgModePartyActionAnimation(float animationSeconds, bool spellCast)
+{
+    if (m_pInteractionView != nullptr)
+    {
+        m_pInteractionView->playArpgModePartyActionAnimation(animationSeconds, spellCast);
+    }
+}
+
+void OutdoorWorldRuntime::faceArpgModePartyActionTarget(const PartySpellCastRequest &request)
+{
+    if (m_pInteractionView == nullptr || !m_pInteractionView->arpgModeEnabled())
+    {
+        return;
+    }
+
+    std::optional<bx::Vec3> targetPoint;
+
+    if (request.targetActorIndex)
+    {
+        targetPoint = spellActionActorTargetPoint(*request.targetActorIndex);
+    }
+    else if (request.hasTargetPoint)
+    {
+        targetPoint = bx::Vec3{request.targetX, request.targetY, request.targetZ};
+    }
+
+    if (!targetPoint)
+    {
+        return;
+    }
+
+    m_pInteractionView->faceArpgModeTargetPoint(targetPoint->x, targetPoint->y);
 }
 
 void OutdoorWorldRuntime::recordPartyAttackWorldResult(
@@ -14060,7 +14094,7 @@ void OutdoorWorldRuntime::commitActiveCorpseView()
     }
 }
 
-bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
+bool OutdoorWorldRuntime::ensureMapActorCorpseView(size_t actorIndex)
 {
     if (actorIndex >= m_mapActors.size())
     {
@@ -14077,6 +14111,11 @@ bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
     if (actorIndex >= m_mapActorCorpseViews.size())
     {
         m_mapActorCorpseViews.resize(actorIndex + 1);
+    }
+
+    if (m_mapActorCorpseViews[actorIndex].has_value())
+    {
+        return !m_mapActorCorpseViews[actorIndex]->items.empty();
     }
 
     if (!m_mapActorCorpseViews[actorIndex].has_value())
@@ -14141,8 +14180,9 @@ bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
 
         if (corpse.items.empty())
         {
-            m_mapActors[actorIndex].isInvisible = true;
-            m_mapActorCorpseViews[actorIndex].reset();
+            corpse.fromSummonedMonster = false;
+            corpse.sourceIndex = static_cast<uint32_t>(actorIndex);
+            m_mapActorCorpseViews[actorIndex] = std::move(corpse);
             return false;
         }
 
@@ -14151,8 +14191,218 @@ bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
         m_mapActorCorpseViews[actorIndex] = std::move(corpse);
     }
 
+    return m_mapActorCorpseViews[actorIndex].has_value();
+}
+
+bool OutdoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
+{
+    if (!ensureMapActorCorpseView(actorIndex))
+    {
+        return false;
+    }
+
     m_activeCorpseView = *m_mapActorCorpseViews[actorIndex];
     return true;
+}
+
+std::optional<OutdoorWorldRuntime::ChestItemState> OutdoorWorldRuntime::mapActorCorpseItem(
+    size_t actorIndex,
+    size_t itemIndex) const
+{
+    if (actorIndex >= m_mapActorCorpseViews.size()
+        || !m_mapActorCorpseViews[actorIndex].has_value()
+        || itemIndex >= m_mapActorCorpseViews[actorIndex]->items.size())
+    {
+        return std::nullopt;
+    }
+
+    return m_mapActorCorpseViews[actorIndex]->items[itemIndex];
+}
+
+bool OutdoorWorldRuntime::takeMapActorCorpseItem(size_t actorIndex, size_t itemIndex, ChestItemState &item)
+{
+    if (actorIndex >= m_mapActorCorpseViews.size()
+        || !m_mapActorCorpseViews[actorIndex].has_value()
+        || itemIndex >= m_mapActorCorpseViews[actorIndex]->items.size())
+    {
+        return false;
+    }
+
+    CorpseViewState &corpseView = *m_mapActorCorpseViews[actorIndex];
+    item = corpseView.items[itemIndex];
+    corpseView.items.erase(corpseView.items.begin() + static_cast<ptrdiff_t>(itemIndex));
+
+    if (m_activeCorpseView && m_activeCorpseView->sourceIndex == actorIndex)
+    {
+        m_activeCorpseView = corpseView;
+    }
+
+    if (!corpseView.items.empty())
+    {
+        return true;
+    }
+
+    if (m_activeCorpseView && m_activeCorpseView->sourceIndex == actorIndex)
+    {
+        m_activeCorpseView.reset();
+    }
+
+    return true;
+}
+
+bool OutdoorWorldRuntime::tryPlaceMapActorCorpseItemAt(size_t actorIndex, const ChestItemState &item, size_t itemIndex)
+{
+    if (actorIndex >= m_mapActors.size())
+    {
+        return false;
+    }
+
+    if (actorIndex >= m_mapActorCorpseViews.size())
+    {
+        m_mapActorCorpseViews.resize(actorIndex + 1);
+    }
+
+    if (!m_mapActorCorpseViews[actorIndex].has_value())
+    {
+        CorpseViewState corpseView = {};
+        corpseView.fromSummonedMonster = false;
+        corpseView.sourceIndex = static_cast<uint32_t>(actorIndex);
+        corpseView.title = m_mapActors[actorIndex].displayName;
+        m_mapActorCorpseViews[actorIndex] = std::move(corpseView);
+    }
+
+    CorpseViewState &corpseView = *m_mapActorCorpseViews[actorIndex];
+    const size_t insertIndex = std::min(itemIndex, corpseView.items.size());
+    corpseView.items.insert(corpseView.items.begin() + static_cast<ptrdiff_t>(insertIndex), item);
+
+    if (actorIndex < m_mapActors.size())
+    {
+        m_mapActors[actorIndex].isInvisible = false;
+    }
+
+    if (m_activeCorpseView && m_activeCorpseView->sourceIndex == actorIndex)
+    {
+        m_activeCorpseView = corpseView;
+    }
+
+    return true;
+}
+
+std::vector<OutdoorWorldRuntime::ArpgModeCorpseLootItem> OutdoorWorldRuntime::collectArpgModeCorpseLootItems()
+{
+    std::vector<ArpgModeCorpseLootItem> items;
+
+    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+    {
+        if (!ensureMapActorCorpseView(actorIndex))
+        {
+            continue;
+        }
+
+        if (actorIndex >= m_mapActorCorpseViews.size() || !m_mapActorCorpseViews[actorIndex].has_value())
+        {
+            continue;
+        }
+
+        const MapActorState &actor = m_mapActors[actorIndex];
+        const CorpseViewState &corpseView = *m_mapActorCorpseViews[actorIndex];
+        const float anchorZ = actor.preciseZ + std::max(48.0f, static_cast<float>(actor.height) * 0.45f);
+
+        for (size_t itemIndex = 0; itemIndex < corpseView.items.size(); ++itemIndex)
+        {
+            items.push_back(
+                ArpgModeCorpseLootItem{
+                    .actorIndex = actorIndex,
+                    .itemIndex = itemIndex,
+                    .item = corpseView.items[itemIndex],
+                    .x = actor.preciseX,
+                    .y = actor.preciseY,
+                    .z = anchorZ,
+                });
+        }
+    }
+
+    return items;
+}
+
+std::vector<OutdoorWorldRuntime::ArpgModeGoldPickup> OutdoorWorldRuntime::collectNearbyArpgModeCorpseGold(float radius)
+{
+    std::vector<ArpgModeGoldPickup> pickups;
+
+    if (m_pParty == nullptr || radius <= 0.0f)
+    {
+        return pickups;
+    }
+
+    const float radiusSquared = radius * radius;
+
+    for (size_t actorIndex = 0; actorIndex < m_mapActors.size(); ++actorIndex)
+    {
+        if (!ensureMapActorCorpseView(actorIndex)
+            || actorIndex >= m_mapActorCorpseViews.size()
+            || !m_mapActorCorpseViews[actorIndex].has_value())
+        {
+            continue;
+        }
+
+        const MapActorState &actor = m_mapActors[actorIndex];
+        const float deltaX = partyX() - actor.preciseX;
+        const float deltaY = partyY() - actor.preciseY;
+        const float deltaZ = partyFootZ() - actor.preciseZ;
+
+        if (deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > radiusSquared)
+        {
+            continue;
+        }
+
+        size_t itemIndex = 0;
+
+        while (actorIndex < m_mapActorCorpseViews.size()
+            && m_mapActorCorpseViews[actorIndex].has_value()
+            && itemIndex < m_mapActorCorpseViews[actorIndex]->items.size())
+        {
+            const ChestItemState &item = m_mapActorCorpseViews[actorIndex]->items[itemIndex];
+
+            if (!item.isGold)
+            {
+                ++itemIndex;
+                continue;
+            }
+
+            ChestItemState removedItem = {};
+
+            if (!takeMapActorCorpseItem(actorIndex, itemIndex, removedItem))
+            {
+                break;
+            }
+
+            const uint32_t adjustedGold =
+                m_eventRuntimeState
+                    ? hiredNpcGoldAfterBonusAndFees(removedItem.goldAmount, *m_eventRuntimeState)
+                    : removedItem.goldAmount;
+
+            if (adjustedGold == 0)
+            {
+                continue;
+            }
+
+            m_pParty->addGold(static_cast<int>(adjustedGold));
+            m_pParty->requestSound(SoundId::Gold);
+            pickups.push_back(
+                ArpgModeGoldPickup{
+                    .amount = adjustedGold,
+                    .x = actor.preciseX,
+                    .y = actor.preciseY,
+                    .z = actor.preciseZ + std::max(48.0f, static_cast<float>(actor.height) * 0.45f),
+                });
+            GAMEPLAY_DEBUG_TRACE(
+                "gold_received destination=party source=arpg_corpse_proximity"
+                " corpse_index=" + std::to_string(actorIndex)
+                + " amount=" + std::to_string(adjustedGold));
+        }
+    }
+
+    return pickups;
 }
 
 bool OutdoorWorldRuntime::takeActiveCorpseItem(size_t itemIndex, ChestItemState &item)
@@ -14169,12 +14419,7 @@ bool OutdoorWorldRuntime::takeActiveCorpseItem(size_t itemIndex, ChestItemState 
     {
         if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
         {
-            m_mapActorCorpseViews[m_activeCorpseView->sourceIndex].reset();
-        }
-
-        if (m_activeCorpseView->sourceIndex < m_mapActors.size())
-        {
-            m_mapActors[m_activeCorpseView->sourceIndex].isInvisible = true;
+            m_mapActorCorpseViews[m_activeCorpseView->sourceIndex] = *m_activeCorpseView;
         }
 
         m_activeCorpseView.reset();
@@ -15867,6 +16112,32 @@ GameplayWorldHit OutdoorWorldRuntime::pickKeyboardInteractionTarget(const Gamepl
         *m_pInteractionView,
         *m_pOutdoorMapData,
         request);
+}
+
+GameplayWorldHit OutdoorWorldRuntime::pickNearbyInteractionTarget(float radius)
+{
+    if (m_pInteractionView == nullptr || m_pOutdoorMapData == nullptr)
+    {
+        return {};
+    }
+
+    return OutdoorInteractionController::pickNearbyInteractionTarget(
+        *m_pInteractionView,
+        *m_pOutdoorMapData,
+        radius);
+}
+
+GameplayWorldHit OutdoorWorldRuntime::pickForwardInteractionTarget(float depth)
+{
+    if (m_pInteractionView == nullptr || m_pOutdoorMapData == nullptr)
+    {
+        return {};
+    }
+
+    return OutdoorInteractionController::pickForwardInteractionTarget(
+        *m_pInteractionView,
+        *m_pOutdoorMapData,
+        depth);
 }
 
 GameplayWorldHit OutdoorWorldRuntime::pickHeldItemWorldTarget(const GameplayWorldPickRequest &request)

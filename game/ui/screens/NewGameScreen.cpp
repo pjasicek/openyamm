@@ -754,6 +754,7 @@ void applyDebugGodLichCharacter(
 
     GameMechanics::refreshCharacterBaseResources(character, true, pClassMultiplierTable);
     equipDebugGodLichItems(character, pItemTable);
+    character.quickSpellName = "Fire Bolt";
 }
 
 uint32_t statLabelColorForStats(const std::array<int, static_cast<size_t>(StatId::Count)> &baseStats, size_t statIndex)

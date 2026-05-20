@@ -1,6 +1,7 @@
 #include "game/gameplay/GameplayActionController.h"
 
 #include "game/audio/GameAudioSystem.h"
+#include "game/app/GameSettings.h"
 #include "game/gameplay/GameplayScreenRuntime.h"
 #include "game/gameplay/GameplaySpellService.h"
 #include "game/gameplay/TurnBasedCombatRuntime.h"
@@ -22,6 +23,17 @@ constexpr float CharacterRangedAttackDistance = 5120.0f;
 constexpr float DragonBreathSourceHeight = 96.0f;
 constexpr float PartyMemberProjectileLateralSpacing = 28.0f;
 constexpr float ProjectileRightVectorEpsilon = 0.0001f;
+
+float arpgModeAttackAnimationSeconds(const GameSettings &settings, const CharacterAttackResult &attack)
+{
+    const float minimumSeconds = std::clamp(settings.arpgModeAttackAnimationMinSeconds, 0.05f, 10.0f);
+    const float maximumSeconds =
+        std::max(minimumSeconds, std::clamp(settings.arpgModeAttackAnimationMaxSeconds, 0.05f, 10.0f));
+    const float recoveryScale = std::clamp(settings.arpgModeAttackAnimationRecoveryScale, 0.0f, 10.0f);
+    const float scaledSeconds = std::max(0.0f, attack.recoverySeconds) * recoveryScale;
+
+    return std::clamp(scaledSeconds, minimumSeconds, maximumSeconds);
+}
 
 void resetQuickCastRepeatState(GameplayScreenState::QuickSpellState &quickSpellState)
 {
@@ -312,6 +324,68 @@ std::optional<GameplayActionController::PartyAttackActorFacts> chooseFallbackRan
     return bestActor;
 }
 
+std::optional<GameplayActionController::PartyAttackActorFacts> chooseFallbackMeleeTarget(
+    const GameplayActionController::PartyAttackConfig &config)
+{
+    if (config.pWorldRuntime == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const std::vector<GameplayPartyAttackActorFacts> actors =
+        config.pWorldRuntime->collectPartyAttackFallbackActors(config.fallbackQuery);
+    float bestDistance = std::numeric_limits<float>::max();
+    std::optional<GameplayActionController::PartyAttackActorFacts> bestActor;
+
+    for (const GameplayPartyAttackActorFacts &actor : actors)
+    {
+        if (!GameplayActionController::isPartyAttackFallbackCandidate(actor))
+        {
+            continue;
+        }
+
+        const GameplayActionController::PartyAttackActorFacts actionActor{
+            .actorIndex = actor.actorIndex,
+            .monsterId = actor.monsterId,
+            .displayName = actor.displayName,
+            .position = {
+                .x = actor.position.x,
+                .y = actor.position.y,
+                .z = actor.position.z,
+            },
+            .radius = actor.radius,
+            .height = actor.height,
+            .currentHp = actor.currentHp,
+            .maxHp = actor.maxHp,
+            .effectiveArmorClass = actor.effectiveArmorClass,
+            .hourOfPowerPower = actor.hourOfPowerPower,
+            .isDead = actor.isDead,
+            .isInvisible = actor.isInvisible,
+            .hostileToParty = actor.hostileToParty,
+            .visibleForFallback = actor.visibleForFallback,
+        };
+        const float distance = actorDistanceFromParty(actionActor, config.partyPosition);
+
+        if (distance > CharacterMeleeAttackDistance)
+        {
+            continue;
+        }
+
+        if (distance < bestDistance)
+        {
+            bestDistance = distance;
+            bestActor = actionActor;
+        }
+    }
+
+    return bestActor;
+}
+
+bool shouldUseArpgMeleeAutoTarget(const CharacterAttackProfile &profile)
+{
+    return profile.canMelee;
+}
+
 void playPartyAttackSound(
     const GameplayActionController::PartyAttackConfig &config,
     const Character &attacker,
@@ -556,8 +630,11 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
 
     Party &party = *config.pParty;
     Character *pAttacker = party.activeMember();
+    const bool arpgMode =
+        config.pRuntime != nullptr && config.pRuntime->settingsSnapshot().arpgModeEnabled;
 
-    if ((pAttacker == nullptr || !GameMechanics::canTakeGameplayAction(*pAttacker))
+    if (!arpgMode
+        && (pAttacker == nullptr || !GameMechanics::canTakeGameplayAction(*pAttacker))
         && party.switchToNextReadyMember())
     {
         pAttacker = party.activeMember();
@@ -593,6 +670,7 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
 
         if (attackCastResult.castStarted
             && !attackCastResult.followupUiActive
+            && !arpgMode
             && (config.pRuntime == nullptr || !config.pRuntime->turnBasedCombatRuntime().active()))
         {
             party.switchToNextReadyMember();
@@ -601,22 +679,33 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
         return result;
     }
 
-    std::optional<PartyAttackActorFacts> target = resolveUsableActorTarget(config, config.directTargetActorIndex);
+    const CharacterAttackTuning attackTuning = config.pRuntime != nullptr
+        ? characterAttackTuningFromSettings(config.pRuntime->settingsSnapshot())
+        : CharacterAttackTuning{};
+    const CharacterAttackProfile attackProfile =
+        GameMechanics::buildCharacterAttackProfile(*pAttacker, config.pItemTable, config.pSpellTable, attackTuning);
+    std::optional<PartyAttackActorFacts> target =
+        arpgMode ? std::nullopt : resolveUsableActorTarget(config, config.directTargetActorIndex);
 
     if (!target)
     {
-        target = chooseFallbackRangedTarget(config);
+        if (arpgMode)
+        {
+            if (shouldUseArpgMeleeAutoTarget(attackProfile))
+            {
+                target = chooseFallbackMeleeTarget(config);
+            }
+        }
+        else
+        {
+            target = chooseFallbackRangedTarget(config);
+        }
     }
 
     result.targetActorIndex = target ? std::optional<size_t>(target->actorIndex) : std::nullopt;
 
     const float targetDistance = target ? actorDistanceFromParty(*target, config.partyPosition) : 0.0f;
     const bool targetInMeleeRange = target.has_value() && targetDistance <= CharacterMeleeAttackDistance;
-    const CharacterAttackTuning attackTuning = config.pRuntime != nullptr
-        ? characterAttackTuningFromSettings(config.pRuntime->settingsSnapshot())
-        : CharacterAttackTuning{};
-    const CharacterAttackProfile attackProfile =
-        GameMechanics::buildCharacterAttackProfile(*pAttacker, config.pItemTable, config.pSpellTable, attackTuning);
     const CharacterAttackMode attackMode = choosePartyAttackMode(attackProfile, targetInMeleeRange);
     std::mt19937 rng = buildPartyAttackRng(config, actingMemberIndex, result.targetActorIndex);
     CharacterAttackResult attack = {};
@@ -813,18 +902,41 @@ GameplayActionController::PartyAttackExecutionResult GameplayActionController::e
 
     if (actionPerformed)
     {
+        float appliedRecoverySeconds = attack.recoverySeconds;
+
+        if (config.pRuntime != nullptr
+            && config.pRuntime->settingsSnapshot().arpgModeEnabled
+            && config.pWorldRuntime != nullptr)
+        {
+            const float animationSeconds = arpgModeAttackAnimationSeconds(config.pRuntime->settingsSnapshot(), attack);
+            config.pWorldRuntime->playArpgModePartyActionAnimation(animationSeconds, false);
+
+            if (attack.mode == CharacterAttackMode::Melee)
+            {
+                appliedRecoverySeconds = animationSeconds;
+                attack.recoverySeconds = animationSeconds;
+                result.attack.recoverySeconds = animationSeconds;
+            }
+        }
+
+        result.appliedRecoverySeconds = appliedRecoverySeconds;
+
         playPartyAttackSound(config, *pAttacker, attack);
 
         if (config.pRuntime != nullptr && config.pRuntime->turnBasedCombatRuntime().active())
         {
             config.pRuntime->turnBasedCombatRuntime().storeMemberTurnRecovery(
                 actingMemberIndex,
-                attack.recoverySeconds);
+                appliedRecoverySeconds);
         }
         else
         {
-            party.applyRecoveryToActiveMember(attack.recoverySeconds);
-            party.switchToNextReadyMember();
+            party.applyRecoveryToActiveMember(appliedRecoverySeconds);
+
+            if (!arpgMode)
+            {
+                party.switchToNextReadyMember();
+            }
         }
     }
 

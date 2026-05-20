@@ -132,6 +132,7 @@ public:
         bool killed = false;
         std::optional<size_t> targetActorIndex;
         size_t actingMemberIndex = 0;
+        float appliedRecoverySeconds = 0.0f;
         CharacterAttackResult attack = {};
     };
 

@@ -2,6 +2,7 @@
 
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
+#include "game/indoor/IndoorGeometryUtils.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/indoor/IndoorPortalGraph.h"
@@ -36,6 +37,7 @@
 namespace OpenYAMM::Game
 {
 class GameSession;
+struct GameSettings;
 struct GameplayInputFrame;
 struct PartySpellCastResult;
 class IndoorSceneRuntime;
@@ -84,7 +86,9 @@ public:
     void updateWorldMovement(
         const GameplayInputFrame &input,
         float deltaSeconds,
-        bool allowWorldInput);
+        bool allowWorldInput,
+        const GameSettings &settings,
+        bool arpgModeFirstPersonUseMode);
     void setCameraPosition(float x, float y, float z);
     void setCameraAngles(float yawRadians, float pitchRadians);
     bool hasHudRenderResources() const;
@@ -121,9 +125,21 @@ public:
     std::optional<size_t> gameplayClosestVisibleHostileActorIndex() const;
     std::optional<bx::Vec3> gameplayActorTargetPoint(size_t actorIndex) const;
     std::optional<bx::Vec3> gameplayGroundTargetPoint(float screenX, float screenY) const;
+    bool projectArpgModeWorldPointToScreen(
+        const bx::Vec3 &worldPoint,
+        int width,
+        int height,
+        float &screenX,
+        float &screenY) const;
+    GameplayWorldHit pickNearbyGameplayWorldHit(float radius) const;
+    GameplayWorldHit pickForwardGameplayWorldHit(float depth) const;
+    bool arpgModeGameplayWorldHitHasLineOfSight(const GameplayWorldHit &hit) const;
     std::vector<int16_t> visibleIndoorMapRevealSectorIds(int16_t sectorId, int16_t eyeSectorId) const;
     float cameraYawRadians() const;
     float cameraPitchRadians() const;
+    float arpgModeGameplayYawRadians() const;
+    void setArpgModeGameplayYawRadians(float yawRadians);
+    void playArpgModePartyActionAnimation(float animationSeconds, bool spellCast);
     bool canActivateGameplayWorldHit(const GameplayWorldHit &hit) const;
     bool activateGameplayWorldHit(const GameplayWorldHit &hit);
     void shutdown();
@@ -185,6 +201,7 @@ private:
         uint32_t animationLengthTicks = 0;
         int textureWidth = 0;
         int textureHeight = 0;
+        bool ceiling = false;
         uint32_t vertexCapacity = 0;
         uint32_t vertexCount = 0;
         bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
@@ -274,6 +291,7 @@ private:
         uint32_t doorId = 0;
         uint16_t doorState = 0;
         uint16_t mechanismLinkedEventId = 0;
+        size_t mechanismFaceIndex = static_cast<size_t>(-1);
         std::string mechanismFaceSummary;
         std::string mechanismLinkedEventSummary;
     };
@@ -346,6 +364,13 @@ private:
     std::optional<std::string> resolveEntityDecorationHoverStatusText(const InspectHit &inspectHit) const;
     std::optional<std::string> resolveEventTargetHoverStatusText(const InspectHit &inspectHit) const;
     void updateCameraFromInput(const GameplayInputFrame &input, float deltaSeconds, bool allowWorldInput);
+    bool updateArpgModeWorldMovement(
+        const GameplayInputFrame &input,
+        float deltaSeconds,
+        bool allowWorldInput,
+        const GameSettings &settings,
+        bool arpgModeFirstPersonUseMode);
+    std::vector<uint8_t> buildArpgModeVisibleSectorMask() const;
     void renderDecorationBillboards(
         uint16_t viewId,
         const float *pViewMatrix,
@@ -363,7 +388,8 @@ private:
         const std::vector<std::vector<IndoorVisibilityFrustum>> &visibleSectorFrustums,
         const IndoorLightingFrame &lightingFrame,
         bool spriteOutlineEnabled,
-        const GameplayContextActionState *pContextActionState = nullptr
+        const GameplayContextActionState *pContextActionState = nullptr,
+        const GameSettings *pSettings = nullptr
     );
     void renderSpriteObjectBillboards(
         uint16_t viewId,
@@ -377,7 +403,8 @@ private:
     );
     void renderContextActionGeometryHighlight(
         uint16_t viewId,
-        const GameplayContextActionState *pContextActionState);
+        const GameplayContextActionState *pContextActionState,
+        bool arpgMode);
     bgfx::TextureHandle ensureBloodSplatTexture();
     void ensureBloodSplatVertexBuffer();
     void renderBloodSplats(
@@ -397,6 +424,7 @@ private:
     uint64_t currentTexturedBatchVisualRevision() const;
     bool texturedBatchesNeedFullRebuild() const;
     void rebuildIndoorRenderMemberships();
+    void rebuildArpgModeOccludingFaceCandidates();
     void rebuildMechanismBindings();
     bool rebuildAllTexturedBatches(uint64_t &texturedBuildNanoseconds);
     bool updateMovingMechanismFaceVertices(
@@ -406,6 +434,14 @@ private:
         size_t *pDirtyBatchCount = nullptr);
     static void rebuildTexturedBatchBounds(TexturedBatch &batch);
     std::vector<size_t> collectMovingMechanismFaceIndices() const;
+    struct ArpgModeOccludingFaceCandidate
+    {
+        size_t faceIndex = 0;
+        int16_t sectorId = -1;
+        int16_t backSectorId = -1;
+        bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
+    };
     struct IndoorPerformanceDiagnostics
     {
         uint64_t visibilityCalls = 0;
@@ -493,6 +529,7 @@ private:
     bool isSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const;
     bool isRenderSectorVisible(int16_t sectorId, const std::vector<uint8_t> &visibleSectorMask) const;
     bool isTexturedBatchVisible(const TexturedBatch &batch, const std::vector<uint8_t> &visibleSectorMask) const;
+    bool isCeilingFace(size_t faceIndex, const IndoorFace &face) const;
 
     bool m_isInitialized;
     bool m_isRenderable;
@@ -536,6 +573,7 @@ private:
     bgfx::UniformHandle m_indoorLightColorsUniformHandle;
     bgfx::UniformHandle m_indoorLightParamsUniformHandle;
     bgfx::UniformHandle m_secretPulseParamsUniformHandle;
+    bgfx::UniformHandle m_indoorFaceAlphaParamsUniformHandle;
     bgfx::UniformHandle m_indoorSkyParamsUniformHandle;
     bgfx::UniformHandle m_indoorSkyProjectionParamsUniformHandle;
     bgfx::UniformHandle m_billboardAmbientUniformHandle;
@@ -567,6 +605,9 @@ private:
     WorldFxSystem m_worldFxSystem;
     IndoorLightingRuntime m_indoorLightingRuntime;
     std::vector<MechanismBinding> m_mechanismBindings;
+    std::vector<uint8_t> m_ceilingFaceMask;
+    std::vector<ArpgModeOccludingFaceCandidate> m_arpgModeOccludingFaceCandidates;
+    IndoorFaceGeometryCache m_arpgModeOcclusionGeometryCache;
     std::vector<int32_t> m_faceBatchIndices;
     std::vector<uint32_t> m_faceVertexOffsets;
     std::vector<uint32_t> m_faceVertexCounts;
@@ -589,6 +630,23 @@ private:
     bool m_jumpHeld;
     bool m_indoorGeometryRenderingDisabled = false;
     bool m_indoorGeometryRenderingToggleHeld = false;
+    bool m_arpgModeHasMoveDestination = false;
+    bool m_arpgModeCameraDistanceInitialized = false;
+    bool m_arpgModeCameraActive = false;
+    bool m_arpgModeFirstPersonUseModeActive = false;
+    float m_arpgModeMoveDestinationX = 0.0f;
+    float m_arpgModeMoveDestinationY = 0.0f;
+    float m_arpgModeMoveDestinationZ = 0.0f;
+    float m_arpgModeCameraDistance = 2600.0f;
+    float m_arpgModeCameraFovDegrees = 45.0f;
+    float m_arpgModeGameplayYawRadians = 0.0f;
+    bool m_arpgModeCameraMatricesValid = false;
+    std::array<float, 16> m_arpgModeViewMatrix = {};
+    std::array<float, 16> m_arpgModeProjectionMatrix = {};
+    float m_arpgModeActionAnimationSeconds = 0.0f;
+    float m_arpgModeActionAnimationDurationSeconds = 0.0f;
+    float m_arpgModeActionAnimationElapsedSeconds = 0.0f;
+    bool m_arpgModeActionAnimationIsCast = false;
     InspectHit m_cachedInspectHit = {};
     bool m_cachedInspectHitValid = false;
     float m_cachedInspectMouseX = 0.0f;

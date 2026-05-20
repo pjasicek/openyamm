@@ -326,6 +326,11 @@ int outdoorMinimapArrowIndex(float yawRadians)
     return (octant + 7) % 8;
 }
 
+float outdoorMinimapArrowYawRadians(const GameplayScreenRuntime &context)
+{
+    return context.gameplayMinimapArrowYawRadians();
+}
+
 enum class ItemTintContext
 {
     None,
@@ -866,7 +871,7 @@ void renderJournalVectorMap(
         mapResolved.width,
         mapResolved.height,
         journalScreen);
-    const int arrowIndex = outdoorMinimapArrowIndex(context.gameplayCameraYawRadians());
+    const int arrowIndex = outdoorMinimapArrowIndex(outdoorMinimapArrowYawRadians(context));
     const std::optional<GameplayScreenRuntime::HudTextureHandle> arrowTexture =
         context.gameplayUiRuntime().ensureHudTextureLoaded("MAPDIR" + std::to_string(arrowIndex + 1));
 
@@ -4430,7 +4435,7 @@ void GameplayPartyOverlayRenderer::renderJournalOverlay(GameplayScreenRuntime &c
                         mapResolved->width,
                         mapResolved->height,
                         journalScreen);
-                    const int arrowIndex = outdoorMinimapArrowIndex(context.gameplayCameraYawRadians());
+                    const int arrowIndex = outdoorMinimapArrowIndex(outdoorMinimapArrowYawRadians(context));
                     const std::optional<GameplayScreenRuntime::HudTextureHandle> arrowTexture =
                         loadHudTexture("MAPDIR" + std::to_string(arrowIndex + 1));
 

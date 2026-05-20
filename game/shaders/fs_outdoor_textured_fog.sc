@@ -11,6 +11,7 @@ uniform vec4 u_fxLightPositions[8];
 uniform vec4 u_fxLightColors[8];
 uniform vec4 u_fxLightParams;
 uniform vec4 u_secretPulseParams;
+uniform vec4 u_outdoorFaceAlphaParams;
 
 float safeSmoothstep(float edge0, float edge1, float value)
 {
@@ -101,7 +102,9 @@ void main()
 
     vec4 textureColor = texture2D(s_texColor, texcoord);
     textureColor.rgb = mix(textureColor.rgb, u_fogColor.rgb, u_fogDensities.z);
-    vec4 litTextureColor = vec4(textureColor.rgb * getFxLighting(v_worldPosition), textureColor.a);
+    vec4 litTextureColor = vec4(
+        textureColor.rgb * getFxLighting(v_worldPosition),
+        textureColor.a * u_outdoorFaceAlphaParams.x);
 
     if (v_texcoord1.x > 0.5 && u_secretPulseParams.x > 0.5)
     {

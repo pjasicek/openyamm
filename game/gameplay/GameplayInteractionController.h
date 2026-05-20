@@ -125,6 +125,7 @@ public:
         bool rightMousePressed = false;
         bool keyboardActivationPressed = false;
         bool keyboardAttackPressed = false;
+        bool arpgMode = false;
         float pointerX = 0.0f;
         float pointerY = 0.0f;
         float screenWidth = 0.0f;

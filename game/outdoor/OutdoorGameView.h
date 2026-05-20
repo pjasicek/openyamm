@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/app/GameSettings.h"
+#include "game/arpg/ArpgModeCamera.h"
 #include "game/fx/WorldFxRenderResources.h"
 #include "game/fx/WorldFxSystem.h"
 #include "game/outdoor/OutdoorCollisionData.h"
@@ -126,6 +127,13 @@ public:
     bool requestTravelAutosave();
     void setSettingsSnapshot(const GameSettings &settings);
     bool executeEventHooks(EventRuntimeHookKind kind);
+    bool arpgModeEnabled() const;
+    bool arpgModeFirstPersonUseMode() const;
+    void playArpgModePartyActionAnimation(float animationSeconds, bool spellCast);
+    void updateArpgModeDelayedSpell(float deltaSeconds);
+    void updateArpgModeLootAutoPickup(float deltaSeconds);
+    bool tryActivateArpgModeLootLabelAt(float screenX, float screenY);
+    void faceArpgModeTargetPoint(float targetX, float targetY);
 
 private:
     friend struct GameApplicationTestAccess;
@@ -209,10 +217,18 @@ private:
         uint32_t baseAttributes = 0;
         size_t bModelIndex = 0;
         size_t faceIndex = 0;
+        uint8_t polygonType = 0;
         int textureWidth = 0;
         int textureHeight = 0;
         std::string textureName;
         size_t defaultAnimationIndex = static_cast<size_t>(-1);
+        bool boundsValid = false;
+        float minX = 0.0f;
+        float maxX = 0.0f;
+        float minY = 0.0f;
+        float maxY = 0.0f;
+        float minZ = 0.0f;
+        float maxZ = 0.0f;
     };
 
     struct BModelTextureAnimationHandle
@@ -393,6 +409,26 @@ private:
         std::vector<TexturedTerrainVertex> vertices;
     };
 
+    struct ArpgModeLootLabelHit
+    {
+        size_t actorIndex = 0;
+        size_t itemIndex = 0;
+        float x = 0.0f;
+        float y = 0.0f;
+        float width = 0.0f;
+        float height = 0.0f;
+    };
+
+    struct ArpgModeLootFloatingText
+    {
+        std::string text;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float remainingSeconds = 0.0f;
+        float durationSeconds = 0.0f;
+    };
+
     using SpellbookPointerTarget = GameplaySpellbookPointerTarget;
 
     using SpellbookState = GameplayUiController::SpellbookState;
@@ -485,7 +521,10 @@ public:
     IGameplayWorldRuntime *worldRuntime() const;
     GameAudioSystem *audioSystem() const;
     const GameDataRepository &data() const;
+    bool tryActivateArpgModeCorpseLootItem(size_t actorIndex, size_t itemIndex);
+    bool tryActivateFirstArpgModeCorpseLootItem(size_t actorIndex);
     float gameplayCameraYawRadians() const override;
+    float gameplayMinimapArrowYawRadians() const override;
     void setStatusBarEvent(const std::string &text, float durationSeconds = 2.0f);
     void executeActiveDialogAction() override;
     GameSettings &mutableSettings();
@@ -524,6 +563,12 @@ private:
     void syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled);
     void syncCursorToGameplayCrosshair(SDL_Window *pWindow = nullptr);
     void refreshViewDistanceCache();
+    ArpgModeCameraFrame buildCameraFrame(uint16_t viewWidth, uint16_t viewHeight, float farClipDistance) const;
+    void renderArpgModeLootOverlay(
+        int width,
+        int height,
+        const ArpgModeCameraFrame &cameraFrame,
+        float deltaSeconds);
     const BillboardTextureHandle *findBillboardTexture(const std::string &textureName, int16_t paletteId = 0) const;
     bool m_isInitialized;
     bool m_isRenderable;
@@ -570,6 +615,7 @@ private:
     bgfx::UniformHandle m_outdoorFogDensitiesUniformHandle;
     bgfx::UniformHandle m_outdoorFogDistancesUniformHandle;
     bgfx::UniformHandle m_secretPulseParamsUniformHandle;
+    bgfx::UniformHandle m_outdoorFaceAlphaParamsUniformHandle;
     bgfx::UniformHandle m_spellAreaPreviewParams0UniformHandle;
     bgfx::UniformHandle m_spellAreaPreviewParams1UniformHandle;
     bgfx::UniformHandle m_spellAreaPreviewColorAUniformHandle;
@@ -587,6 +633,9 @@ private:
     std::vector<BModelTextureAnimationHandle> m_bmodelTextureAnimations;
     std::vector<ResolvedBModelDrawGroup> m_resolvedBModelDrawGroups;
     uint64_t m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+    std::vector<ResolvedBModelDrawGroup> m_arpgModeResolvedBModelDrawGroups;
+    uint64_t m_arpgModeResolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+    uint64_t m_arpgModeResolvedBModelOcclusionHash = 0;
     uint64_t m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
     std::deque<BillboardTextureHandle> m_billboardTextureHandles;
     WorldFxRenderResources m_worldFxRenderResources;
@@ -653,6 +702,23 @@ private:
     bool m_isRotatingCamera;
     float m_lastMouseX;
     float m_lastMouseY;
+    bool m_arpgModeHasMoveDestination = false;
+    float m_arpgModeMoveDestinationX = 0.0f;
+    float m_arpgModeMoveDestinationY = 0.0f;
+    float m_arpgModeMoveDestinationZ = 0.0f;
+    float m_arpgModeActionAnimationSeconds = 0.0f;
+    float m_arpgModeActionAnimationDurationSeconds = 0.0f;
+    float m_arpgModeActionAnimationElapsedSeconds = 0.0f;
+    bool m_arpgModeActionAnimationIsCast = false;
+    bool m_arpgModeFirstPersonUseModeActive = false;
+    bool m_arpgModeDelayedSpellActive = false;
+    bool m_arpgModeReleasingDelayedSpell = false;
+    PartySpellCastRequest m_arpgModeDelayedSpellRequest = {};
+    std::string m_arpgModeDelayedSpellName;
+    float m_arpgModeDelayedSpellReleaseSeconds = 0.0f;
+    float m_arpgModeMinimapArrowYawRadians = 0.0f;
+    std::vector<ArpgModeLootLabelHit> m_arpgModeLootLabelHits;
+    std::vector<ArpgModeLootFloatingText> m_arpgModeLootFloatingTexts;
     uint64_t m_lastGameplayMouseLookCursorSyncTicks = 0;
     GameSession &m_gameSession;
     uint64_t m_lastAdventurersInnPortraitClickTicks;

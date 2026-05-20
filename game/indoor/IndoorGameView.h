@@ -65,6 +65,10 @@ public:
     void shutdown();
     void reopenMenuScreen();
     bool requestQuickSave();
+    void updateArpgModeLootAutoPickup(float deltaSeconds);
+    bool tryActivateArpgModeLootLabelAt(float screenX, float screenY);
+    bool tryActivateArpgModeCorpseLootItem(size_t actorIndex, size_t itemIndex);
+    bool tryActivateFirstArpgModeCorpseLootItem(size_t actorIndex);
 
     IndoorPartyRuntime *partyRuntime() const;
     IGameplayWorldRuntime *worldRuntime() const;
@@ -85,6 +89,7 @@ public:
     bool requestTravelAutosave();
     bool trySaveToSelectedGameSlot() override;
     const GameSettings &settingsSnapshot() const;
+    bool arpgModeFirstPersonUseMode() const;
     GameplayWorldUiRenderState gameplayUiRenderState(int width, int height) const;
 private:
     GameplayDialogController::Context buildDialogContext(EventRuntimeState &eventRuntimeState);
@@ -101,6 +106,37 @@ private:
         const std::filesystem::path &path,
         const std::string &saveName,
         bool closeUiOnSuccess);
+    void renderArpgModeLootOverlay(int width, int height, float deltaSeconds);
+
+    struct ArpgModeLootLabelHit
+    {
+        size_t actorIndex = 0;
+        size_t itemIndex = 0;
+        float x = 0.0f;
+        float y = 0.0f;
+        float width = 0.0f;
+        float height = 0.0f;
+    };
+
+    struct ArpgModeLootFloatingText
+    {
+        std::string text;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float remainingSeconds = 0.0f;
+        float durationSeconds = 0.0f;
+    };
+
+    struct ArpgModeLootLineOfSightState
+    {
+        size_t actorIndex = 0;
+        bool hasLineOfSight = false;
+        bool seenThisFrame = false;
+        float refreshSeconds = 0.0f;
+    };
+
+    bool arpgModeLootLabelHasLineOfSight(size_t actorIndex, const bx::Vec3 &point);
 
     struct PendingSavePreviewCaptureState
     {
@@ -130,5 +166,8 @@ private:
     float m_lastFootstepY = 0.0f;
     float m_walkingMotionHoldSeconds = 0.0f;
     std::optional<uint32_t> m_activeWalkingSoundId;
+    std::vector<ArpgModeLootLabelHit> m_arpgModeLootLabelHits;
+    std::vector<ArpgModeLootFloatingText> m_arpgModeLootFloatingTexts;
+    std::vector<ArpgModeLootLineOfSightState> m_arpgModeLootLineOfSightStates;
 };
 } // namespace OpenYAMM::Game

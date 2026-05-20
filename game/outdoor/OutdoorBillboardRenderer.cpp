@@ -9,6 +9,7 @@
 #include "game/outdoor/OutdoorGameView.h"
 #include "game/outdoor/OutdoorFogProfile.h"
 #include "game/outdoor/OutdoorInteractionController.h"
+#include "game/party/Party.h"
 #include "game/render/TextureFiltering.h"
 #include "game/StringUtils.h"
 #include "game/scene/OutdoorSceneRuntime.h"
@@ -71,6 +72,14 @@ constexpr uint8_t UnderwaterFogBlue = 90;
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue)
 {
     return 0xff000000u
+        | (static_cast<uint32_t>(blue) << 16)
+        | (static_cast<uint32_t>(green) << 8)
+        | static_cast<uint32_t>(red);
+}
+
+uint32_t makeAbgrAlpha(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+{
+    return (static_cast<uint32_t>(alpha) << 24)
         | (static_cast<uint32_t>(blue) << 16)
         | (static_cast<uint32_t>(green) << 8)
         | static_cast<uint32_t>(red);
@@ -202,6 +211,162 @@ bool contextActionHighlightsOutdoorDecoration(const GameplayWorldHit *pHit, size
         && pHit->eventTarget.has_value()
         && pHit->eventTarget->targetKind == GameplayWorldEventTargetKind::Decoration
         && pHit->eventTarget->targetIndex == decorationIndex;
+}
+
+std::array<uint16_t, 8> buildArpgModeActionSpriteFrameIndices(
+    const SpriteFrameTable &spriteFrameTable,
+    const MonsterEntry &monsterEntry)
+{
+    std::array<uint16_t, 8> spriteFrameIndices = {};
+
+    for (size_t actionIndex = 0; actionIndex < spriteFrameIndices.size(); ++actionIndex)
+    {
+        const std::string &spriteName = monsterEntry.spriteNames[actionIndex];
+
+        if (spriteName.empty())
+        {
+            continue;
+        }
+
+        const std::optional<uint16_t> frameIndex = spriteFrameTable.findFrameIndexBySpriteName(spriteName);
+
+        if (frameIndex)
+        {
+            spriteFrameIndices[actionIndex] = *frameIndex;
+        }
+    }
+
+    return spriteFrameIndices;
+}
+
+uint16_t firstArpgModeSpriteFrameIndex(const std::array<uint16_t, 8> &actionSpriteFrameIndices)
+{
+    for (uint16_t frameIndex : actionSpriteFrameIndices)
+    {
+        if (frameIndex != 0)
+        {
+            return frameIndex;
+        }
+    }
+
+    return 0;
+}
+
+bool spriteFrameIndexHasDirectionalTextures(const SpriteFrameTable &spriteFrameTable, uint16_t spriteFrameIndex)
+{
+    const SpriteFrameEntry *pFrame = spriteFrameTable.getFrame(spriteFrameIndex, 0);
+    return pFrame != nullptr && !SpriteFrameTable::hasFlag(pFrame->flags, SpriteFrameFlag::Image1);
+}
+
+bool monsterEntryHasDirectionalArpgActionSprites(
+    const SpriteFrameTable &spriteFrameTable,
+    const std::array<uint16_t, 8> &actionSpriteFrameIndices)
+{
+    const size_t meleeAttackIndex = static_cast<size_t>(OutdoorWorldRuntime::ActorAnimation::AttackMelee);
+    const size_t rangedAttackIndex = static_cast<size_t>(OutdoorWorldRuntime::ActorAnimation::AttackRanged);
+
+    if (meleeAttackIndex < actionSpriteFrameIndices.size()
+        && spriteFrameIndexHasDirectionalTextures(spriteFrameTable, actionSpriteFrameIndices[meleeAttackIndex]))
+    {
+        return true;
+    }
+
+    return rangedAttackIndex < actionSpriteFrameIndices.size()
+        && spriteFrameIndexHasDirectionalTextures(spriteFrameTable, actionSpriteFrameIndices[rangedAttackIndex]);
+}
+
+const MonsterEntry *findMonsterEntryByName(const MonsterTable &monsterTable, const std::string &internalName)
+{
+    if (internalName.empty())
+    {
+        return nullptr;
+    }
+
+    if (internalName == "m270")
+    {
+        return monsterTable.findByInternalName("Lich A");
+    }
+
+    return monsterTable.findByInternalName(internalName);
+}
+
+const MonsterEntry *resolveArpgModePlayerMonsterEntry(
+    const GameDataRepository &gameData,
+    const GameSettings &settings,
+    const SpriteFrameTable &spriteFrameTable)
+{
+    const MonsterTable &monsterTable = gameData.monsterTable();
+    const std::array<std::string, 4> candidates = {
+        "m270",
+        settings.arpgModePlayerMonsterDescriptor,
+        "Lich A",
+        "Lich C",
+    };
+    const MonsterEntry *pFirstValidEntry = nullptr;
+
+    for (const std::string &candidate : candidates)
+    {
+        const MonsterEntry *pMonsterEntry = findMonsterEntryByName(monsterTable, candidate);
+
+        if (pMonsterEntry == nullptr)
+        {
+            continue;
+        }
+
+        const std::array<uint16_t, 8> actionSpriteFrameIndices =
+            buildArpgModeActionSpriteFrameIndices(spriteFrameTable, *pMonsterEntry);
+
+        if (firstArpgModeSpriteFrameIndex(actionSpriteFrameIndices) != 0)
+        {
+            if (pFirstValidEntry == nullptr)
+            {
+                pFirstValidEntry = pMonsterEntry;
+            }
+
+            if (monsterEntryHasDirectionalArpgActionSprites(spriteFrameTable, actionSpriteFrameIndices))
+            {
+                return pMonsterEntry;
+            }
+        }
+    }
+
+    return pFirstValidEntry;
+}
+
+uint16_t selectArpgModePlayerSpriteFrameIndex(
+    float actionAnimationSeconds,
+    bool actionAnimationIsCast,
+    bool hasMoveDestination,
+    const std::array<uint16_t, 8> &actionSpriteFrameIndices)
+{
+    OutdoorWorldRuntime::ActorAnimation animation = OutdoorWorldRuntime::ActorAnimation::Standing;
+
+    if (actionAnimationSeconds > 0.0f)
+    {
+        animation = actionAnimationIsCast
+            ? OutdoorWorldRuntime::ActorAnimation::AttackRanged
+            : OutdoorWorldRuntime::ActorAnimation::AttackMelee;
+    }
+    else if (hasMoveDestination)
+    {
+        animation = OutdoorWorldRuntime::ActorAnimation::Walking;
+    }
+
+    const size_t actionIndex = static_cast<size_t>(animation);
+
+    if (actionIndex < actionSpriteFrameIndices.size() && actionSpriteFrameIndices[actionIndex] != 0)
+    {
+        return actionSpriteFrameIndices[actionIndex];
+    }
+
+    const size_t standingIndex = static_cast<size_t>(OutdoorWorldRuntime::ActorAnimation::Standing);
+
+    if (standingIndex < actionSpriteFrameIndices.size() && actionSpriteFrameIndices[standingIndex] != 0)
+    {
+        return actionSpriteFrameIndices[standingIndex];
+    }
+
+    return firstArpgModeSpriteFrameIndex(actionSpriteFrameIndices);
 }
 
 uint32_t computeClearDistanceFogColorAbgr(const OutdoorWorldRuntime &worldRuntime)
@@ -513,6 +678,39 @@ bool OutdoorBillboardRenderer::hasActorPreviewTexturePreloadWork(const OutdoorGa
 
     return view.m_outdoorActorPreviewBillboardSet
         && view.m_outdoorActorPreviewBillboardSet->texturePreloadFuture.valid();
+}
+
+bx::Vec3 OutdoorBillboardRenderer::resolveBillboardCameraForward(
+    const OutdoorGameView &view,
+    const bx::Vec3 &cameraPosition)
+{
+    if (view.arpgModeEnabled())
+    {
+        const bx::Vec3 targetDelta = {
+            view.m_cameraTargetX - cameraPosition.x,
+            view.m_cameraTargetY - cameraPosition.y,
+            view.m_cameraTargetZ - cameraPosition.z
+        };
+        const float targetDistanceSquared =
+            targetDelta.x * targetDelta.x + targetDelta.y * targetDelta.y + targetDelta.z * targetDelta.z;
+
+        if (targetDistanceSquared > 0.000001f)
+        {
+            const float invTargetDistance = 1.0f / std::sqrt(targetDistanceSquared);
+            return {
+                targetDelta.x * invTargetDistance,
+                targetDelta.y * invTargetDistance,
+                targetDelta.z * invTargetDistance
+            };
+        }
+    }
+
+    const float cosPitch = std::cos(view.m_cameraPitchRadians);
+    return {
+        std::cos(view.m_cameraYawRadians) * cosPitch,
+        std::sin(view.m_cameraYawRadians) * cosPitch,
+        std::sin(view.m_cameraPitchRadians)
+    };
 }
 
 void OutdoorBillboardRenderer::applyBillboardFogUniforms(OutdoorGameView &view, float renderDistance)
@@ -924,12 +1122,7 @@ void OutdoorBillboardRenderer::prepareKeyboardInteractionBillboardCache(
     float viewProjectionMatrix[16] = {};
     bx::mtxMul(viewProjectionMatrix, pViewMatrix, pProjectionMatrix);
 
-    const float cosPitch = std::cos(view.m_cameraPitchRadians);
-    const bx::Vec3 cameraForward = {
-        std::cos(view.m_cameraYawRadians) * cosPitch,
-        std::sin(view.m_cameraYawRadians) * cosPitch,
-        std::sin(view.m_cameraPitchRadians)
-    };
+    const bx::Vec3 cameraForward = resolveBillboardCameraForward(view, cameraPosition);
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
     const uint32_t animationTimeTicks = currentAnimationTicks();
@@ -1934,12 +2127,7 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
 
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
-    const float cosPitch = std::cos(view.m_cameraPitchRadians);
-    const bx::Vec3 cameraForward = {
-        std::cos(view.m_cameraYawRadians) * cosPitch,
-        std::sin(view.m_cameraYawRadians) * cosPitch,
-        std::sin(view.m_cameraPitchRadians)
-    };
+    const bx::Vec3 cameraForward = resolveBillboardCameraForward(view, cameraPosition);
     const float decorationRenderDistance = view.m_viewDistanceCache.decorationBillboardDistance;
     applyBillboardFogUniforms(view, decorationRenderDistance);
     const uint32_t animationTimeTicks = currentAnimationTicks();
@@ -2216,12 +2404,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
 
     const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
-    const float cosPitch = std::cos(view.m_cameraPitchRadians);
-    const bx::Vec3 cameraForward = {
-        std::cos(view.m_cameraYawRadians) * cosPitch,
-        std::sin(view.m_cameraYawRadians) * cosPitch,
-        std::sin(view.m_cameraPitchRadians)
-    };
+    const bx::Vec3 cameraForward = resolveBillboardCameraForward(view, cameraPosition);
     const uint32_t animationTimeTicks = currentAnimationTicks();
     const uint64_t actorRenderStartTickCount = SDL_GetTicksNS();
     uint64_t gatherStageNanoseconds = 0;
@@ -2245,6 +2428,10 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         float distanceSquared = 0.0f;
         float cameraDepth = 0.0f;
         uint32_t lightContributionAbgr = 0xff000000u;
+        bool hasHealthBar = false;
+        float healthRatio = 1.0f;
+        float healthBarZ = 0.0f;
+        float healthBarScale = 1.0f;
     };
 
     thread_local std::vector<BillboardDrawItem> drawItems;
@@ -2264,6 +2451,11 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
     if (view.m_pOutdoorWorldRuntime != nullptr)
     {
         drawItemReserveCount += view.m_pOutdoorWorldRuntime->mapActorCount();
+    }
+
+    if (view.arpgModeEnabled())
+    {
+        ++drawItemReserveCount;
     }
 
     drawItems.reserve(drawItemReserveCount);
@@ -2367,7 +2559,10 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             uint16_t sourceBillboardHeight,
             uint16_t spriteFrameIndex,
             const std::array<uint16_t, 8> &actionSpriteFrameIndices,
-            bool useStaticFrame)
+            bool useStaticFrame,
+            std::optional<float> explicitHealthRatio = std::nullopt,
+            float explicitHealthBarScale = 1.0f,
+            std::optional<float> explicitAnimationProgress = std::nullopt)
         {
             if (pRuntimeActor != nullptr && pRuntimeActor->isInvisible)
             {
@@ -2390,6 +2585,20 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             }
 
             uint32_t frameTimeTicks = useStaticFrame ? 0U : animationTimeTicks;
+
+            if (explicitAnimationProgress)
+            {
+                const SpriteFrameEntry *pFirstFrame =
+                    view.m_outdoorActorPreviewBillboardSet->spriteFrameTable.getFrame(spriteFrameIndex, 0);
+
+                if (pFirstFrame != nullptr && pFirstFrame->animationLengthTicks > 0)
+                {
+                    const float progress = std::clamp(*explicitAnimationProgress, 0.0f, 1.0f);
+                    frameTimeTicks =
+                        static_cast<uint32_t>(
+                            std::floor(progress * static_cast<float>(pFirstFrame->animationLengthTicks - 1)));
+                }
+            }
 
             if (pRuntimeActor != nullptr)
             {
@@ -2427,7 +2636,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             const float angleToCamera = std::atan2(
                 static_cast<float>(actorY) - cameraPosition.y,
                 static_cast<float>(actorX) - cameraPosition.x);
-            const float actorYaw = pRuntimeActor != nullptr ? pRuntimeActor->yawRadians : 0.0f;
+            const float actorYaw = pRuntimeActor != nullptr ? pRuntimeActor->yawRadians : view.m_cameraYawRadians;
             const float octantAngle = actorYaw - angleToCamera + Pi + (Pi / 8.0f);
             const int octant = static_cast<int>(std::floor(octantAngle / (Pi / 4.0f))) & 7;
             const ResolvedSpriteTexture resolvedTexture = SpriteFrameTable::resolveTexture(*pFrame, octant);
@@ -2475,13 +2684,15 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                     && *runtimeActorIndex == *hoveredRuntimeActorIndex);
             drawItem.hoveredOutlineColorAbgr =
                 drawItem.hovered && pRuntimeActor != nullptr
-                    ? (contextHighlighted ? contextActionHighlightOutlineColor() : resolveHoveredActorOutlineColor(*pRuntimeActor))
+                    ? (contextHighlighted
+                        ? contextActionHighlightOutlineColor()
+                        : resolveHoveredActorOutlineColor(*pRuntimeActor))
                     : 0;
             drawItem.x = static_cast<float>(actorX);
             drawItem.y = static_cast<float>(actorY);
             drawItem.z = static_cast<float>(actorZ);
             drawItem.heightScale =
-                pRuntimeActor != nullptr && sourceBillboardHeight > 0
+                sourceBillboardHeight > 0
                     ? static_cast<float>(actorHeight) / static_cast<float>(sourceBillboardHeight)
                     : 1.0f;
             if (pRuntimeActor != nullptr && pRuntimeActor->shrinkRemainingSeconds > 0.0f)
@@ -2491,11 +2702,35 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             drawItem.distanceSquared = distanceSquared;
             drawItem.cameraDepth = deltaX * cameraForward.x + deltaY * cameraForward.y + deltaZ * cameraForward.z;
             const float previewScale = std::max(pFrame->scale * drawItem.heightScale, 0.01f);
+            const float worldHeight = static_cast<float>(pTexture->height) * previewScale;
             drawItem.lightContributionAbgr = computeBillboardLightContributionAbgr(
                 view,
                 drawItem.x,
                 drawItem.y,
-                drawItem.z + static_cast<float>(pTexture->height) * previewScale * 0.5f);
+                drawItem.z + worldHeight * 0.5f);
+
+            if (pRuntimeActor != nullptr
+                && pRuntimeActor->hostileToParty
+                && pRuntimeActor->currentHp > 0
+                && pRuntimeActor->maxHp > 0)
+            {
+                drawItem.hasHealthBar = true;
+                drawItem.healthRatio =
+                    std::clamp(
+                        static_cast<float>(pRuntimeActor->currentHp) / static_cast<float>(pRuntimeActor->maxHp),
+                        0.0f,
+                        1.0f);
+                drawItem.healthBarScale = 1.0f;
+            }
+
+            if (explicitHealthRatio)
+            {
+                drawItem.hasHealthBar = true;
+                drawItem.healthRatio = std::clamp(*explicitHealthRatio, 0.0f, 1.0f);
+                drawItem.healthBarScale = explicitHealthBarScale;
+            }
+
+            drawItem.healthBarZ = drawItem.z + worldHeight + 26.0f * drawItem.heightScale;
             drawItems.push_back(drawItem);
         };
 
@@ -2576,9 +2811,86 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         }
     }
 
+    if (view.m_outdoorActorPreviewBillboardSet)
+    {
+        if (view.arpgModeEnabled() && view.m_pOutdoorPartyRuntime != nullptr)
+        {
+            const MonsterEntry *pMonsterEntry =
+                resolveArpgModePlayerMonsterEntry(
+                    view.data(),
+                    view.settingsSnapshot(),
+                    view.m_outdoorActorPreviewBillboardSet->spriteFrameTable);
+
+            if (pMonsterEntry != nullptr)
+            {
+                const std::array<uint16_t, 8> actionSpriteFrameIndices =
+                    buildArpgModeActionSpriteFrameIndices(
+                        view.m_outdoorActorPreviewBillboardSet->spriteFrameTable,
+                        *pMonsterEntry);
+                const uint16_t spriteFrameIndex =
+                    selectArpgModePlayerSpriteFrameIndex(
+                        view.m_arpgModeActionAnimationSeconds,
+                        view.m_arpgModeActionAnimationIsCast,
+                        view.m_arpgModeHasMoveDestination,
+                        actionSpriteFrameIndices);
+                const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+
+                if (spriteFrameIndex != 0)
+                {
+                    std::optional<float> actionAnimationProgress;
+                    if (view.m_arpgModeActionAnimationSeconds > 0.0f
+                        && view.m_arpgModeActionAnimationDurationSeconds > 0.0f)
+                    {
+                        actionAnimationProgress =
+                            std::clamp(
+                                view.m_arpgModeActionAnimationElapsedSeconds
+                                    / view.m_arpgModeActionAnimationDurationSeconds,
+                                0.0f,
+                                1.0f);
+                    }
+
+                    std::optional<float> puppetHealthRatio;
+                    const Party *pParty =
+                        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->party() : nullptr;
+                    const Character *pMember = pParty != nullptr ? pParty->activeMember() : nullptr;
+
+                    if (pMember != nullptr)
+                    {
+                        const int maximumHealth = Party::effectiveMaximumHealth(*pMember);
+
+                        if (maximumHealth > 0)
+                        {
+                            puppetHealthRatio =
+                                static_cast<float>(std::clamp(pMember->health, 0, maximumHealth))
+                                / static_cast<float>(maximumHealth);
+                        }
+                    }
+
+                    appendActorDrawItem(
+                        nullptr,
+                        std::nullopt,
+                        static_cast<int>(std::lround(moveState.x)),
+                        static_cast<int>(std::lround(moveState.y)),
+                        static_cast<int>(std::lround(moveState.footZ)),
+                        pMonsterEntry->radius,
+                        static_cast<uint16_t>(std::lround(static_cast<float>(pMonsterEntry->height) * 1.25f)),
+                        pMonsterEntry->height,
+                        spriteFrameIndex,
+                        actionSpriteFrameIndices,
+                        false,
+                        puppetHealthRatio,
+                        1.25f,
+                        actionAnimationProgress);
+                }
+            }
+        }
+    }
+
     if (view.m_showActors && view.m_outdoorActorPreviewBillboardSet)
     {
-        for (size_t billboardIndex = 0; billboardIndex < view.m_outdoorActorPreviewBillboardSet->billboards.size(); ++billboardIndex)
+        for (size_t billboardIndex = 0;
+             billboardIndex < view.m_outdoorActorPreviewBillboardSet->billboards.size();
+             ++billboardIndex)
         {
             const ActorPreviewBillboard &billboard = view.m_outdoorActorPreviewBillboardSet->billboards[billboardIndex];
 
@@ -2587,7 +2899,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                 continue;
             }
 
-            const OutdoorWorldRuntime::MapActorState *pRuntimeActor = OutdoorInteractionController::runtimeActorStateForBillboard(view, billboard);
+            const OutdoorWorldRuntime::MapActorState *pRuntimeActor =
+                OutdoorInteractionController::runtimeActorStateForBillboard(view, billboard);
             const int actorX = pRuntimeActor != nullptr ? pRuntimeActor->x : billboard.x;
             const int actorY = pRuntimeActor != nullptr ? pRuntimeActor->y : billboard.y;
             const int actorZ = pRuntimeActor != nullptr ? pRuntimeActor->z : billboard.z;
@@ -2885,6 +3198,74 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
         submitStageNanoseconds += SDL_GetTicksNS() - submitStageStartTickCount;
     }
+
+    thread_local std::vector<OutdoorGameView::TerrainVertex> healthBarVertices;
+    healthBarVertices.clear();
+
+    for (const BillboardDrawItem &drawItem : drawItems)
+    {
+        if (!drawItem.hasHealthBar)
+        {
+            continue;
+        }
+
+        const float barScale = std::max(0.65f, drawItem.healthBarScale);
+        const float barWidth = 92.0f * barScale;
+        const float barHeight = 11.0f * barScale;
+        const bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.healthBarZ};
+        const bx::Vec3 shadowCenter = {
+            center.x - cameraUp.x * 3.0f * barScale,
+            center.y - cameraUp.y * 3.0f * barScale,
+            center.z - cameraUp.z * 3.0f * barScale
+        };
+        const bx::Vec3 frameRight = {
+            cameraRight.x * barWidth * 0.5f,
+            cameraRight.y * barWidth * 0.5f,
+            cameraRight.z * barWidth * 0.5f
+        };
+        const bx::Vec3 frameUp = {
+            cameraUp.x * barHeight * 0.5f,
+            cameraUp.y * barHeight * 0.5f,
+            cameraUp.z * barHeight * 0.5f
+        };
+        appendWorldQuadVertices(healthBarVertices, shadowCenter, frameRight, frameUp, makeAbgrAlpha(0, 0, 0, 150));
+        appendWorldQuadVertices(healthBarVertices, center, frameRight, frameUp, makeAbgrAlpha(18, 12, 10, 230));
+
+        const float innerWidth = std::max(2.0f, barWidth - 6.0f * barScale);
+        const float innerHeight = std::max(2.0f, barHeight - 4.0f * barScale);
+        const float fillWidth = std::max(1.0f, innerWidth * drawItem.healthRatio);
+        const float fillOffset = (innerWidth - fillWidth) * 0.5f;
+        const bx::Vec3 fillCenter = {
+            center.x - cameraRight.x * fillOffset,
+            center.y - cameraRight.y * fillOffset,
+            center.z - cameraRight.z * fillOffset
+        };
+        const bx::Vec3 fillRight = {
+            cameraRight.x * fillWidth * 0.5f,
+            cameraRight.y * fillWidth * 0.5f,
+            cameraRight.z * fillWidth * 0.5f
+        };
+        const bx::Vec3 fillUp = {
+            cameraUp.x * innerHeight * 0.5f,
+            cameraUp.y * innerHeight * 0.5f,
+            cameraUp.z * innerHeight * 0.5f
+        };
+        appendWorldQuadVertices(healthBarVertices, fillCenter, fillRight, fillUp, makeAbgrAlpha(177, 25, 28, 245));
+
+        const bx::Vec3 glossCenter = {
+            fillCenter.x + cameraUp.x * innerHeight * 0.22f,
+            fillCenter.y + cameraUp.y * innerHeight * 0.22f,
+            fillCenter.z + cameraUp.z * innerHeight * 0.22f
+        };
+        const bx::Vec3 glossUp = {
+            cameraUp.x * innerHeight * 0.16f,
+            cameraUp.y * innerHeight * 0.16f,
+            cameraUp.z * innerHeight * 0.16f
+        };
+        appendWorldQuadVertices(healthBarVertices, glossCenter, fillRight, glossUp, makeAbgrAlpha(255, 108, 82, 155));
+    }
+
+    submitColoredVertices(view, viewId, healthBarVertices, ColoredAlphaRenderState);
 
     const uint64_t totalActorRenderNanoseconds = SDL_GetTicksNS() - actorRenderStartTickCount;
 

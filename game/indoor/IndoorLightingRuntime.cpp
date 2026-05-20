@@ -1028,7 +1028,7 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
                 resolveGameplayTorchLight(*input.pParty, false, true))
         {
             IndoorRenderLight torch = {};
-            torch.position = input.cameraPosition;
+            torch.position = input.hasTorchPosition ? input.torchPosition : input.cameraPosition;
             torch.radius = torchLight->radius;
             torch.colorAbgr = torchLight->colorAbgr;
             torch.intensity = torchLight->intensity * IndoorTorchLightIntensityScale;

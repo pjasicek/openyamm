@@ -27,6 +27,7 @@
 #include <cstring>
 #include <filesystem>
 #include <fstream>
+#include <functional>
 #include <iostream>
 #include <iterator>
 #include <limits>
@@ -62,6 +63,8 @@ constexpr float OutdoorWorldFogNearOpacity = 0.04f;
 constexpr float OutdoorWorldFogStrongOpacity = 176.0f / 255.0f;
 constexpr float OutdoorSkyFogNearOpacity = 0.02f;
 constexpr float OutdoorSkyFogStrongOpacity = 208.0f / 255.0f;
+constexpr float ArpgModeOccludingBModelFaceAlpha = 0.36f;
+constexpr float OutdoorRayEpsilon = 0.0001f;
 
 bool outdoorActorIsPartyControlled(OutdoorWorldRuntime::ActorControlMode mode)
 {
@@ -158,6 +161,69 @@ uint32_t makeTintedFogColor(
 bool outdoorFaceHasInvisibleAttribute(uint32_t attributes)
 {
     return hasFaceAttribute(attributes, FaceAttribute::Invisible);
+}
+
+bx::Vec3 outdoorRendererVecSubtract(const bx::Vec3 &left, const bx::Vec3 &right)
+{
+    return {left.x - right.x, left.y - right.y, left.z - right.z};
+}
+
+bx::Vec3 outdoorRendererVecCross(const bx::Vec3 &left, const bx::Vec3 &right)
+{
+    return {
+        left.y * right.z - left.z * right.y,
+        left.z * right.x - left.x * right.z,
+        left.x * right.y - left.y * right.x
+    };
+}
+
+float outdoorRendererVecDot(const bx::Vec3 &left, const bx::Vec3 &right)
+{
+    return left.x * right.x + left.y * right.y + left.z * right.z;
+}
+
+float outdoorRendererVecLength(const bx::Vec3 &value)
+{
+    return std::sqrt(outdoorRendererVecDot(value, value));
+}
+
+bool intersectOutdoorRendererRayTriangle(
+    const bx::Vec3 &rayOrigin,
+    const bx::Vec3 &rayDirection,
+    const bx::Vec3 &vertex0,
+    const bx::Vec3 &vertex1,
+    const bx::Vec3 &vertex2,
+    float &distance)
+{
+    const bx::Vec3 edge1 = outdoorRendererVecSubtract(vertex1, vertex0);
+    const bx::Vec3 edge2 = outdoorRendererVecSubtract(vertex2, vertex0);
+    const bx::Vec3 pVector = outdoorRendererVecCross(rayDirection, edge2);
+    const float determinant = outdoorRendererVecDot(edge1, pVector);
+
+    if (std::fabs(determinant) <= OutdoorRayEpsilon)
+    {
+        return false;
+    }
+
+    const float inverseDeterminant = 1.0f / determinant;
+    const bx::Vec3 tVector = outdoorRendererVecSubtract(rayOrigin, vertex0);
+    const float barycentricU = outdoorRendererVecDot(tVector, pVector) * inverseDeterminant;
+
+    if (barycentricU < 0.0f || barycentricU > 1.0f)
+    {
+        return false;
+    }
+
+    const bx::Vec3 qVector = outdoorRendererVecCross(tVector, edge1);
+    const float barycentricV = outdoorRendererVecDot(rayDirection, qVector) * inverseDeterminant;
+
+    if (barycentricV < 0.0f || barycentricU + barycentricV > 1.0f)
+    {
+        return false;
+    }
+
+    distance = outdoorRendererVecDot(edge2, qVector) * inverseDeterminant;
+    return distance > OutdoorRayEpsilon;
 }
 
 uint32_t withAlpha(uint32_t abgr, uint8_t alpha)
@@ -1304,9 +1370,135 @@ void OutdoorRenderer::applyOutdoorFxLightUniforms(OutdoorGameView &view, const b
     bgfx::setUniform(view.m_outdoorFxLightParamsUniformHandle, view.m_cachedOutdoorFxLightParams.data());
 }
 
-void OutdoorRenderer::destroyResolvedBModelDrawGroups(OutdoorGameView &view)
+bool OutdoorRenderer::makeOutdoorBModelOcclusionRay(
+    const bx::Vec3 &rayOrigin,
+    const bx::Vec3 &point,
+    BModelOcclusionRay &ray)
 {
-    for (OutdoorGameView::ResolvedBModelDrawGroup &group : view.m_resolvedBModelDrawGroups)
+    const bx::Vec3 toPoint = outdoorRendererVecSubtract(point, rayOrigin);
+    const float pointDistance = outdoorRendererVecLength(toPoint);
+
+    if (pointDistance <= OutdoorRayEpsilon)
+    {
+        return false;
+    }
+
+    constexpr float BoundsPadding = 16.0f;
+    ray = {};
+    ray.origin = rayOrigin;
+    ray.point = point;
+    ray.direction = {
+        toPoint.x / pointDistance,
+        toPoint.y / pointDistance,
+        toPoint.z / pointDistance
+    };
+    ray.distance = pointDistance;
+    ray.minX = std::min(rayOrigin.x, point.x) - BoundsPadding;
+    ray.maxX = std::max(rayOrigin.x, point.x) + BoundsPadding;
+    ray.minY = std::min(rayOrigin.y, point.y) - BoundsPadding;
+    ray.maxY = std::max(rayOrigin.y, point.y) + BoundsPadding;
+    ray.minZ = std::min(rayOrigin.z, point.z) - BoundsPadding;
+    ray.maxZ = std::max(rayOrigin.z, point.z) + BoundsPadding;
+    return true;
+}
+
+void OutdoorRenderer::updateTexturedBModelBatchBounds(OutdoorGameView::TexturedBModelBatch &batch)
+{
+    batch.boundsValid = false;
+
+    if (batch.vertices.empty())
+    {
+        return;
+    }
+
+    batch.minX = batch.maxX = batch.vertices.front().x;
+    batch.minY = batch.maxY = batch.vertices.front().y;
+    batch.minZ = batch.maxZ = batch.vertices.front().z;
+
+    for (const OutdoorGameView::TexturedTerrainVertex &vertex : batch.vertices)
+    {
+        batch.minX = std::min(batch.minX, vertex.x);
+        batch.maxX = std::max(batch.maxX, vertex.x);
+        batch.minY = std::min(batch.minY, vertex.y);
+        batch.maxY = std::max(batch.maxY, vertex.y);
+        batch.minZ = std::min(batch.minZ, vertex.z);
+        batch.maxZ = std::max(batch.maxZ, vertex.z);
+    }
+
+    batch.boundsValid = true;
+}
+
+bool OutdoorRenderer::outdoorBModelBatchOccludesPoint(
+    const OutdoorGameView::TexturedBModelBatch &batch,
+    const EventRuntimeState *pEventRuntimeState,
+    const BModelOcclusionRay &ray)
+{
+    if (!batch.boundsValid || batch.vertices.size() < 3)
+    {
+        return false;
+    }
+
+    const std::array<float, 3> bmodelOffset = outdoorBModelRuntimeOffset(pEventRuntimeState, batch.bModelIndex);
+    const float minX = batch.minX + bmodelOffset[0];
+    const float maxX = batch.maxX + bmodelOffset[0];
+    const float minY = batch.minY + bmodelOffset[1];
+    const float maxY = batch.maxY + bmodelOffset[1];
+    const float minZ = batch.minZ + bmodelOffset[2];
+    const float maxZ = batch.maxZ + bmodelOffset[2];
+
+    if (maxX < ray.minX
+        || minX > ray.maxX
+        || maxY < ray.minY
+        || minY > ray.maxY
+        || maxZ < ray.minZ
+        || minZ > ray.maxZ)
+    {
+        return false;
+    }
+
+    for (size_t vertexIndex = 0; vertexIndex + 2 < batch.vertices.size(); vertexIndex += 3)
+    {
+        const OutdoorGameView::TexturedTerrainVertex &vertex0 = batch.vertices[vertexIndex];
+        const OutdoorGameView::TexturedTerrainVertex &vertex1 = batch.vertices[vertexIndex + 1];
+        const OutdoorGameView::TexturedTerrainVertex &vertex2 = batch.vertices[vertexIndex + 2];
+        const bx::Vec3 triangleVertex0 = {
+            vertex0.x + bmodelOffset[0],
+            vertex0.y + bmodelOffset[1],
+            vertex0.z + bmodelOffset[2]
+        };
+        const bx::Vec3 triangleVertex1 = {
+            vertex1.x + bmodelOffset[0],
+            vertex1.y + bmodelOffset[1],
+            vertex1.z + bmodelOffset[2]
+        };
+        const bx::Vec3 triangleVertex2 = {
+            vertex2.x + bmodelOffset[0],
+            vertex2.y + bmodelOffset[1],
+            vertex2.z + bmodelOffset[2]
+        };
+        float distance = 0.0f;
+
+        if (intersectOutdoorRendererRayTriangle(
+                ray.origin,
+                ray.direction,
+                triangleVertex0,
+                triangleVertex1,
+                triangleVertex2,
+                distance)
+            && distance > 16.0f
+            && distance + 8.0f < ray.distance)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+void OutdoorRenderer::destroyResolvedBModelDrawGroupVector(
+    std::vector<OutdoorGameView::ResolvedBModelDrawGroup> &groups)
+{
+    for (OutdoorGameView::ResolvedBModelDrawGroup &group : groups)
     {
         if (bgfx::isValid(group.vertexBufferHandle))
         {
@@ -1318,21 +1510,33 @@ void OutdoorRenderer::destroyResolvedBModelDrawGroups(OutdoorGameView &view)
         group.animationIndex = static_cast<size_t>(-1);
     }
 
-    view.m_resolvedBModelDrawGroups.clear();
-    view.m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+    groups.clear();
 }
 
-void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
+uint64_t outdoorBModelOcclusionMaskHash(const std::vector<uint8_t> &mask)
 {
-    destroyResolvedBModelDrawGroups(view);
+    uint64_t hash = 1469598103934665603ull;
+
+    for (uint8_t value : mask)
+    {
+        hash ^= static_cast<uint64_t>(value);
+        hash *= 1099511628211ull;
+    }
+
+    hash ^= static_cast<uint64_t>(mask.size());
+    hash *= 1099511628211ull;
+    return hash;
+}
+
+void OutdoorRenderer::rebuildResolvedBModelDrawGroupVector(
+    OutdoorGameView &view,
+    std::vector<OutdoorGameView::ResolvedBModelDrawGroup> &drawGroups,
+    const std::vector<uint8_t> *pSkipBatchMask)
+{
+    destroyResolvedBModelDrawGroupVector(drawGroups);
 
     if (view.m_texturedBModelBatches.empty() || view.m_bmodelTextureAnimations.empty())
     {
-        const EventRuntimeState *pEventRuntimeState =
-            view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
-        const MapDeltaData *pMapDeltaData =
-            view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
-        view.m_resolvedBModelDrawGroupRevision = outdoorSurfaceVisualRevision(pMapDeltaData, pEventRuntimeState);
         return;
     }
 
@@ -1340,7 +1544,6 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
     const MapDeltaData *pMapDeltaData =
         view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
-    const uint64_t targetRevision = outdoorSurfaceVisualRevision(pMapDeltaData, pEventRuntimeState);
     const std::unordered_map<uint32_t, std::string> *pTextureOverrides =
         pEventRuntimeState != nullptr ? &pEventRuntimeState->textureOverrides : nullptr;
     const std::unordered_map<uint32_t, std::string> *pModelFacetTextureOverrides =
@@ -1357,8 +1560,17 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
     std::vector<std::vector<OutdoorGameView::TexturedTerrainVertex>> verticesByAnimationIndex(
         view.m_bmodelTextureAnimations.size());
 
-    for (const OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
+    for (size_t batchIndex = 0; batchIndex < view.m_texturedBModelBatches.size(); ++batchIndex)
     {
+        if (pSkipBatchMask != nullptr
+            && batchIndex < pSkipBatchMask->size()
+            && (*pSkipBatchMask)[batchIndex] != 0)
+        {
+            continue;
+        }
+
+        const OutdoorGameView::TexturedBModelBatch &batch = view.m_texturedBModelBatches[batchIndex];
+
         if (outdoorBModelHasRuntimeMechanism(pEventRuntimeState, batch.bModelIndex))
         {
             continue;
@@ -1440,7 +1652,6 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
             }
         }
 
-        float secretPulse = batch.vertices.empty() ? 0.0f : batch.vertices.front().secretPulse;
         std::array<float, 4> flowInfo = {0.0f, 0.0f, 0.0f, 0.0f};
 
         if (view.m_outdoorMapData
@@ -1453,8 +1664,7 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
             flowInfo = outdoorFaceFlowInfo(effectiveFace, batch.textureWidth, batch.textureHeight);
         }
 
-        secretPulse = secretFaceVertexFlag(effectiveAttributes);
-
+        const float secretPulse = secretFaceVertexFlag(effectiveAttributes);
         const size_t oldSize = groupVertices.size();
         groupVertices.insert(groupVertices.end(), batch.vertices.begin(), batch.vertices.end());
         const std::array<float, 3> bmodelOffset =
@@ -1473,11 +1683,12 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         }
     }
 
-    view.m_resolvedBModelDrawGroups.reserve(view.m_bmodelTextureAnimations.size());
+    drawGroups.reserve(view.m_bmodelTextureAnimations.size());
 
     for (size_t animationIndex = 0; animationIndex < verticesByAnimationIndex.size(); ++animationIndex)
     {
-        const std::vector<OutdoorGameView::TexturedTerrainVertex> &groupVertices = verticesByAnimationIndex[animationIndex];
+        const std::vector<OutdoorGameView::TexturedTerrainVertex> &groupVertices =
+            verticesByAnimationIndex[animationIndex];
 
         if (groupVertices.empty())
         {
@@ -1499,9 +1710,29 @@ void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
         group.vertexBufferHandle = vertexBufferHandle;
         group.vertexCount = static_cast<uint32_t>(groupVertices.size());
         group.animationIndex = animationIndex;
-        view.m_resolvedBModelDrawGroups.push_back(group);
+        drawGroups.push_back(group);
     }
+}
 
+void OutdoorRenderer::destroyResolvedBModelDrawGroups(OutdoorGameView &view)
+{
+    destroyResolvedBModelDrawGroupVector(view.m_resolvedBModelDrawGroups);
+    view.m_resolvedBModelDrawGroups.clear();
+    view.m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+    destroyResolvedBModelDrawGroupVector(view.m_arpgModeResolvedBModelDrawGroups);
+    view.m_arpgModeResolvedBModelDrawGroups.clear();
+    view.m_arpgModeResolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+    view.m_arpgModeResolvedBModelOcclusionHash = 0;
+}
+
+void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
+{
+    const EventRuntimeState *pEventRuntimeState =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+    const MapDeltaData *pMapDeltaData =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
+    const uint64_t targetRevision = outdoorSurfaceVisualRevision(pMapDeltaData, pEventRuntimeState);
+    rebuildResolvedBModelDrawGroupVector(view, view.m_resolvedBModelDrawGroups, nullptr);
     view.m_resolvedBModelDrawGroupRevision = targetRevision;
 }
 
@@ -2196,11 +2427,13 @@ void OutdoorRenderer::createBModelTextureBatches(
 
             OutdoorGameView::TexturedBModelBatch batch = {};
             batch.vertices = texturedBModelVertices;
+            updateTexturedBModelBatchBounds(batch);
             batch.faceId = faceId;
             batch.cogNumber = face.cogNumber;
             batch.baseAttributes = face.attributes;
             batch.bModelIndex = bModelIndex;
             batch.faceIndex = localFaceIndex;
+            batch.polygonType = face.polygonType;
             batch.textureWidth = pBaseTexture->width;
             batch.textureHeight = pBaseTexture->height;
             batch.textureName = toLowerCopy(face.textureName);
@@ -2641,7 +2874,8 @@ void OutdoorRenderer::renderBloodSplats(
         || !bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
         || !bgfx::isValid(view.m_outdoorFxLightColorsUniformHandle)
         || !bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle)
-        || !bgfx::isValid(view.m_secretPulseParamsUniformHandle))
+        || !bgfx::isValid(view.m_secretPulseParamsUniformHandle)
+        || !bgfx::isValid(view.m_outdoorFaceAlphaParamsUniformHandle))
     {
         return;
     }
@@ -2681,6 +2915,8 @@ void OutdoorRenderer::renderBloodSplats(
         view.m_outdoorFogDistancesUniformHandle,
         fogParameters);
     applySecretPulseUniforms(view);
+    const std::array<float, 4> faceAlphaParams = {1.0f, 0.0f, 0.0f, 0.0f};
+    bgfx::setUniform(view.m_outdoorFaceAlphaParamsUniformHandle, faceAlphaParams.data());
     bgfx::setState(
         BGFX_STATE_WRITE_RGB
         | BGFX_STATE_WRITE_A
@@ -2846,6 +3082,13 @@ void OutdoorRenderer::renderWorldPasses(
         view.m_pOutdoorWorldRuntime,
         pAtmosphereState,
         farClipDistance);
+    const auto applyOutdoorFaceAlphaUniform =
+        [&view](float alpha)
+        {
+            const std::array<float, 4> params = {alpha, 0.0f, 0.0f, 0.0f};
+            bgfx::setUniform(view.m_outdoorFaceAlphaParamsUniformHandle, params.data());
+        };
+    std::function<void()> submitArpgModeTranslucentOccludingBModelFaces = []() {};
 
     if (pAtmosphereState != nullptr)
     {
@@ -2884,7 +3127,8 @@ void OutdoorRenderer::renderWorldPasses(
             && bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
             && bgfx::isValid(view.m_outdoorFxLightColorsUniformHandle)
             && bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle)
-            && bgfx::isValid(view.m_secretPulseParamsUniformHandle))
+            && bgfx::isValid(view.m_secretPulseParamsUniformHandle)
+            && bgfx::isValid(view.m_outdoorFaceAlphaParamsUniformHandle))
         {
             updateAnimatedWaterTileTexture(view);
 
@@ -2902,6 +3146,7 @@ void OutdoorRenderer::renderWorldPasses(
                 view.m_outdoorFogDistancesUniformHandle,
                 worldFogParameters);
             applySecretPulseUniforms(view);
+            applyOutdoorFaceAlphaUniform(1.0f);
             bgfx::setState(
                 BGFX_STATE_WRITE_RGB
                 | BGFX_STATE_WRITE_A
@@ -2927,6 +3172,254 @@ void OutdoorRenderer::renderWorldPasses(
         }
     }
 
+    const auto submitTexturedBModelBatch =
+        [&](const OutdoorGameView::TexturedBModelBatch &batch,
+            const EventRuntimeState *pEventRuntimeState,
+            const MapDeltaData *pMapDeltaData,
+            float alpha,
+            bool writeDepth)
+        {
+            if (batch.vertices.empty())
+            {
+                return;
+            }
+
+            size_t animationIndex = batch.defaultAnimationIndex;
+            bool hasModelFacetOverride = false;
+
+            if (pEventRuntimeState != nullptr)
+            {
+                const uint32_t overrideKey =
+                    EventRuntime::outdoorModelFacetTextureOverrideKey(batch.bModelIndex, batch.faceIndex);
+                const auto modelFacetOverrideIt =
+                    pEventRuntimeState->outdoorModelFacetTextureOverrides.find(overrideKey);
+
+                if (modelFacetOverrideIt != pEventRuntimeState->outdoorModelFacetTextureOverrides.end())
+                {
+                    hasModelFacetOverride = true;
+                    const std::string normalizedOverrideTextureName = toLowerCopy(modelFacetOverrideIt->second);
+                    animationIndex = static_cast<size_t>(-1);
+
+                    for (size_t candidateIndex = 0; candidateIndex < view.m_bmodelTextureAnimations.size();
+                         ++candidateIndex)
+                    {
+                        if (view.m_bmodelTextureAnimations[candidateIndex].textureName == normalizedOverrideTextureName)
+                        {
+                            animationIndex = candidateIndex;
+                            break;
+                        }
+                    }
+                }
+
+                if (!hasModelFacetOverride)
+                {
+                    const auto textureOverrideIt = pEventRuntimeState->textureOverrides.find(batch.cogNumber);
+
+                    if (textureOverrideIt != pEventRuntimeState->textureOverrides.end())
+                    {
+                        const std::string normalizedOverrideTextureName = toLowerCopy(textureOverrideIt->second);
+                        animationIndex = static_cast<size_t>(-1);
+
+                        for (size_t candidateIndex = 0; candidateIndex < view.m_bmodelTextureAnimations.size();
+                             ++candidateIndex)
+                        {
+                            if (view.m_bmodelTextureAnimations[candidateIndex].textureName
+                                == normalizedOverrideTextureName)
+                            {
+                                animationIndex = candidateIndex;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+
+            if (animationIndex >= view.m_bmodelTextureAnimations.size())
+            {
+                return;
+            }
+
+            const OutdoorGameView::BModelTextureAnimationHandle &animation =
+                view.m_bmodelTextureAnimations[animationIndex];
+
+            if (animation.frameTextureHandles.empty())
+            {
+                return;
+            }
+
+            const size_t frameIndex = frameIndexForAnimation(
+                animation.frameLengthTicks,
+                animation.animationLengthTicks,
+                static_cast<uint32_t>(std::lround(view.m_elapsedTime * 128.0f)));
+
+            if (frameIndex >= animation.frameTextureHandles.size()
+                || !bgfx::isValid(animation.frameTextureHandles[frameIndex]))
+            {
+                return;
+            }
+
+            uint32_t effectiveAttributes = batch.baseAttributes;
+
+            if (pMapDeltaData != nullptr && batch.faceId < pMapDeltaData->faceAttributes.size())
+            {
+                effectiveAttributes = pMapDeltaData->faceAttributes[batch.faceId];
+            }
+            else if (pEventRuntimeState != nullptr)
+            {
+                const auto setIt = pEventRuntimeState->facetSetMasks.find(batch.faceId);
+
+                if (setIt != pEventRuntimeState->facetSetMasks.end())
+                {
+                    effectiveAttributes |= setIt->second;
+                }
+
+                const auto clearIt = pEventRuntimeState->facetClearMasks.find(batch.faceId);
+
+                if (clearIt != pEventRuntimeState->facetClearMasks.end())
+                {
+                    effectiveAttributes &= ~clearIt->second;
+                }
+            }
+
+            std::array<float, 4> flowInfo = {0.0f, 0.0f, 0.0f, 0.0f};
+
+            if (view.m_outdoorMapData
+                && batch.bModelIndex < view.m_outdoorMapData->bmodels.size()
+                && batch.faceIndex < view.m_outdoorMapData->bmodels[batch.bModelIndex].faces.size())
+            {
+                OutdoorBModelFace effectiveFace =
+                    view.m_outdoorMapData->bmodels[batch.bModelIndex].faces[batch.faceIndex];
+                effectiveFace.attributes = effectiveAttributes;
+                flowInfo = outdoorFaceFlowInfo(effectiveFace, batch.textureWidth, batch.textureHeight);
+            }
+
+            const float secretPulse = secretFaceVertexFlag(effectiveAttributes);
+            const std::array<float, 3> bmodelOffset =
+                outdoorBModelRuntimeOffset(pEventRuntimeState, batch.bModelIndex);
+            std::vector<OutdoorGameView::TexturedTerrainVertex> vertices = batch.vertices;
+
+            for (OutdoorGameView::TexturedTerrainVertex &vertex : vertices)
+            {
+                vertex.x += bmodelOffset[0];
+                vertex.y += bmodelOffset[1];
+                vertex.z += bmodelOffset[2];
+                vertex.secretPulse = secretPulse;
+                vertex.flowUPerSecond = flowInfo[0];
+                vertex.flowVPerSecond = flowInfo[1];
+                vertex.lavaFlow = flowInfo[2];
+                vertex.fluidFlow = flowInfo[3];
+            }
+
+            const uint32_t vertexCount = static_cast<uint32_t>(vertices.size());
+
+            if (bgfx::getAvailTransientVertexBuffer(
+                    vertexCount,
+                    OutdoorGameView::TexturedTerrainVertex::ms_layout) < vertexCount)
+            {
+                return;
+            }
+
+            bgfx::TransientVertexBuffer transientVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(
+                &transientVertexBuffer,
+                vertexCount,
+                OutdoorGameView::TexturedTerrainVertex::ms_layout);
+            std::memcpy(
+                transientVertexBuffer.data,
+                vertices.data(),
+                vertices.size() * sizeof(OutdoorGameView::TexturedTerrainVertex));
+
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, vertexCount);
+            bindTexture(
+                0,
+                view.m_terrainTextureSamplerHandle,
+                animation.frameTextureHandles[frameIndex],
+                TextureFilterProfile::BModel);
+            applyOutdoorFxLightUniforms(view, cameraPosition);
+            applyOutdoorFogUniforms(
+                view.m_outdoorFogColorUniformHandle,
+                view.m_outdoorFogDensitiesUniformHandle,
+                view.m_outdoorFogDistancesUniformHandle,
+                worldFogParameters);
+            applySecretPulseUniforms(view);
+            applyOutdoorFaceAlphaUniform(alpha);
+
+            uint64_t renderState =
+                BGFX_STATE_WRITE_RGB
+                | BGFX_STATE_WRITE_A
+                | BGFX_STATE_DEPTH_TEST_LEQUAL;
+
+            if (writeDepth)
+            {
+                renderState |= BGFX_STATE_WRITE_Z;
+            }
+
+            if (alpha < 0.999f)
+            {
+                renderState |= BGFX_STATE_BLEND_ALPHA;
+            }
+
+            bgfx::setState(renderState);
+            bgfx::submit(MainViewId, view.m_outdoorTexturedFogProgramHandle);
+        };
+
+    const auto submitResolvedBModelDrawGroups =
+        [&](const std::vector<OutdoorGameView::ResolvedBModelDrawGroup> &drawGroups)
+        {
+            for (const OutdoorGameView::ResolvedBModelDrawGroup &group : drawGroups)
+            {
+                if (!bgfx::isValid(group.vertexBufferHandle)
+                    || group.vertexCount == 0
+                    || group.animationIndex >= view.m_bmodelTextureAnimations.size())
+                {
+                    continue;
+                }
+
+                const OutdoorGameView::BModelTextureAnimationHandle &animation =
+                    view.m_bmodelTextureAnimations[group.animationIndex];
+
+                if (animation.frameTextureHandles.empty())
+                {
+                    continue;
+                }
+
+                const size_t frameIndex = frameIndexForAnimation(
+                    animation.frameLengthTicks,
+                    animation.animationLengthTicks,
+                    static_cast<uint32_t>(std::lround(view.m_elapsedTime * 128.0f)));
+
+                if (frameIndex >= animation.frameTextureHandles.size()
+                    || !bgfx::isValid(animation.frameTextureHandles[frameIndex]))
+                {
+                    continue;
+                }
+
+                bgfx::setTransform(modelMatrix);
+                bgfx::setVertexBuffer(0, group.vertexBufferHandle, 0, group.vertexCount);
+                bindTexture(
+                    0,
+                    view.m_terrainTextureSamplerHandle,
+                    animation.frameTextureHandles[frameIndex],
+                    TextureFilterProfile::BModel);
+                applyOutdoorFxLightUniforms(view, cameraPosition);
+                applyOutdoorFogUniforms(
+                    view.m_outdoorFogColorUniformHandle,
+                    view.m_outdoorFogDensitiesUniformHandle,
+                    view.m_outdoorFogDistancesUniformHandle,
+                    worldFogParameters);
+                applySecretPulseUniforms(view);
+                applyOutdoorFaceAlphaUniform(1.0f);
+                bgfx::setState(
+                    BGFX_STATE_WRITE_RGB
+                    | BGFX_STATE_WRITE_A
+                    | BGFX_STATE_WRITE_Z
+                    | BGFX_STATE_DEPTH_TEST_LEQUAL
+                );
+                bgfx::submit(MainViewId, view.m_outdoorTexturedFogProgramHandle);
+            }
+        };
+
     {
         if (view.m_showBModels
             && bgfx::isValid(view.m_bmodelVertexBufferHandle)
@@ -2937,246 +3430,157 @@ void OutdoorRenderer::renderWorldPasses(
             const MapDeltaData *pMapDeltaData =
                 view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->mapDeltaData() : nullptr;
             const uint64_t targetRevision = outdoorSurfaceVisualRevision(pMapDeltaData, pEventRuntimeState);
+            const bool arpgModeOccludingBModelFaces =
+                view.arpgModeEnabled()
+                && view.m_pOutdoorPartyRuntime != nullptr
+                && view.m_outdoorMapData.has_value();
 
             if (bgfx::isValid(view.m_outdoorTexturedFogProgramHandle)
                 && bgfx::isValid(view.m_terrainTextureSamplerHandle)
                 && bgfx::isValid(view.m_outdoorFxLightPositionsUniformHandle)
                 && bgfx::isValid(view.m_outdoorFxLightColorsUniformHandle)
                 && bgfx::isValid(view.m_outdoorFxLightParamsUniformHandle)
-                && bgfx::isValid(view.m_secretPulseParamsUniformHandle))
+                && bgfx::isValid(view.m_secretPulseParamsUniformHandle)
+                && bgfx::isValid(view.m_outdoorFaceAlphaParamsUniformHandle))
             {
-                if (view.m_resolvedBModelDrawGroupRevision != targetRevision)
+                std::vector<uint8_t> arpgModeOccludingBModelBatchMask;
+                bool arpgModeHasOccludingBModelBatch = false;
+
+                if (arpgModeOccludingBModelFaces)
                 {
-                    rebuildResolvedBModelDrawGroups(view);
+                    arpgModeOccludingBModelBatchMask.assign(view.m_texturedBModelBatches.size(), 0);
+                    const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+                    const std::array<bx::Vec3, 3> puppetSamples = {{
+                        {moveState.x, moveState.y, moveState.footZ + 72.0f},
+                        {moveState.x, moveState.y, moveState.footZ + 128.0f},
+                        {moveState.x, moveState.y, moveState.footZ + 192.0f}
+                    }};
+                    std::array<BModelOcclusionRay, 3> occlusionRays = {};
+                    size_t occlusionRayCount = 0;
+
+                    for (const bx::Vec3 &sample : puppetSamples)
+                    {
+                        BModelOcclusionRay ray = {};
+
+                        if (makeOutdoorBModelOcclusionRay(cameraPosition, sample, ray))
+                        {
+                            occlusionRays[occlusionRayCount] = ray;
+                            ++occlusionRayCount;
+                        }
+                    }
+
+                    for (size_t batchIndex = 0; batchIndex < view.m_texturedBModelBatches.size(); ++batchIndex)
+                    {
+                        const OutdoorGameView::TexturedBModelBatch &batch = view.m_texturedBModelBatches[batchIndex];
+
+                        if (batch.vertices.empty()
+                            || outdoorFaceHiddenByEventRuntime(
+                                batch.faceId,
+                                batch.baseAttributes,
+                                pMapDeltaData,
+                                pEventRuntimeState))
+                        {
+                            continue;
+                        }
+
+                        for (size_t rayIndex = 0; rayIndex < occlusionRayCount; ++rayIndex)
+                        {
+                            if (outdoorBModelBatchOccludesPoint(
+                                    batch,
+                                    pEventRuntimeState,
+                                    occlusionRays[rayIndex]))
+                            {
+                                arpgModeOccludingBModelBatchMask[batchIndex] = 1;
+                                arpgModeHasOccludingBModelBatch = true;
+                                break;
+                            }
+                        }
+                    }
                 }
 
-                for (const OutdoorGameView::ResolvedBModelDrawGroup &group : view.m_resolvedBModelDrawGroups)
+                if (arpgModeOccludingBModelFaces && arpgModeHasOccludingBModelBatch)
                 {
-                    if (!bgfx::isValid(group.vertexBufferHandle)
-                        || group.vertexCount == 0
-                        || group.animationIndex >= view.m_bmodelTextureAnimations.size())
+                    const uint64_t occlusionHash = outdoorBModelOcclusionMaskHash(arpgModeOccludingBModelBatchMask);
+
+                    if (view.m_arpgModeResolvedBModelDrawGroupRevision != targetRevision
+                        || view.m_arpgModeResolvedBModelOcclusionHash != occlusionHash)
                     {
-                        continue;
+                        rebuildResolvedBModelDrawGroupVector(
+                            view,
+                            view.m_arpgModeResolvedBModelDrawGroups,
+                            &arpgModeOccludingBModelBatchMask);
+                        view.m_arpgModeResolvedBModelDrawGroupRevision = targetRevision;
+                        view.m_arpgModeResolvedBModelOcclusionHash = occlusionHash;
                     }
 
-                    const OutdoorGameView::BModelTextureAnimationHandle &animation =
-                        view.m_bmodelTextureAnimations[group.animationIndex];
-
-                    if (animation.frameTextureHandles.empty())
+                    submitResolvedBModelDrawGroups(view.m_arpgModeResolvedBModelDrawGroups);
+                }
+                else
+                {
+                    if (view.m_resolvedBModelDrawGroupRevision != targetRevision)
                     {
-                        continue;
+                        rebuildResolvedBModelDrawGroups(view);
                     }
 
-                    const size_t frameIndex = frameIndexForAnimation(
-                        animation.frameLengthTicks,
-                        animation.animationLengthTicks,
-                        static_cast<uint32_t>(std::lround(view.m_elapsedTime * 128.0f)));
-
-                    if (frameIndex >= animation.frameTextureHandles.size()
-                        || !bgfx::isValid(animation.frameTextureHandles[frameIndex]))
-                    {
-                        continue;
-                    }
-
-                    bgfx::setTransform(modelMatrix);
-                    bgfx::setVertexBuffer(0, group.vertexBufferHandle, 0, group.vertexCount);
-                    bindTexture(
-                        0,
-                        view.m_terrainTextureSamplerHandle,
-                        animation.frameTextureHandles[frameIndex],
-                        TextureFilterProfile::BModel);
-                    applyOutdoorFxLightUniforms(view, cameraPosition);
-                    applyOutdoorFogUniforms(
-                        view.m_outdoorFogColorUniformHandle,
-                        view.m_outdoorFogDensitiesUniformHandle,
-                        view.m_outdoorFogDistancesUniformHandle,
-                        worldFogParameters);
-                    applySecretPulseUniforms(view);
-                    bgfx::setState(
-                        BGFX_STATE_WRITE_RGB
-                        | BGFX_STATE_WRITE_A
-                        | BGFX_STATE_WRITE_Z
-                        | BGFX_STATE_DEPTH_TEST_LEQUAL
-                    );
-                    bgfx::submit(MainViewId, view.m_outdoorTexturedFogProgramHandle);
+                    submitResolvedBModelDrawGroups(view.m_resolvedBModelDrawGroups);
                 }
 
-                for (const OutdoorGameView::TexturedBModelBatch &batch : view.m_texturedBModelBatches)
+                for (size_t batchIndex = 0; batchIndex < view.m_texturedBModelBatches.size(); ++batchIndex)
                 {
+                    const OutdoorGameView::TexturedBModelBatch &batch = view.m_texturedBModelBatches[batchIndex];
+
                     if (!outdoorBModelHasRuntimeMechanism(pEventRuntimeState, batch.bModelIndex)
                         || batch.vertices.empty()
-                        || outdoorFaceHiddenByEventRuntime(batch.faceId, batch.baseAttributes, pMapDeltaData, pEventRuntimeState))
+                        || (!arpgModeOccludingBModelBatchMask.empty()
+                            && arpgModeOccludingBModelBatchMask[batchIndex] != 0)
+                        || outdoorFaceHiddenByEventRuntime(
+                            batch.faceId,
+                            batch.baseAttributes,
+                            pMapDeltaData,
+                            pEventRuntimeState))
                     {
                         continue;
                     }
 
-                    size_t animationIndex = batch.defaultAnimationIndex;
-                    bool hasModelFacetOverride = false;
+                    submitTexturedBModelBatch(batch, pEventRuntimeState, pMapDeltaData, 1.0f, true);
+                }
 
-                    if (pEventRuntimeState != nullptr)
-                    {
-                        const uint32_t overrideKey =
-                            EventRuntime::outdoorModelFacetTextureOverrideKey(batch.bModelIndex, batch.faceIndex);
-                        const auto modelFacetOverrideIt =
-                            pEventRuntimeState->outdoorModelFacetTextureOverrides.find(overrideKey);
-
-                        if (modelFacetOverrideIt != pEventRuntimeState->outdoorModelFacetTextureOverrides.end())
+                if (arpgModeHasOccludingBModelBatch)
+                {
+                    submitArpgModeTranslucentOccludingBModelFaces =
+                        [&, pEventRuntimeState, pMapDeltaData, arpgModeOccludingBModelBatchMask]()
                         {
-                            hasModelFacetOverride = true;
-                            const std::string normalizedOverrideTextureName = toLowerCopy(modelFacetOverrideIt->second);
-                            animationIndex = static_cast<size_t>(-1);
-
-                            for (size_t candidateIndex = 0; candidateIndex < view.m_bmodelTextureAnimations.size();
-                                 ++candidateIndex)
+                            for (size_t batchIndex = 0;
+                                 batchIndex < arpgModeOccludingBModelBatchMask.size()
+                                    && batchIndex < view.m_texturedBModelBatches.size();
+                                 ++batchIndex)
                             {
-                                if (view.m_bmodelTextureAnimations[candidateIndex].textureName
-                                    == normalizedOverrideTextureName)
+                                if (arpgModeOccludingBModelBatchMask[batchIndex] == 0)
                                 {
-                                    animationIndex = candidateIndex;
-                                    break;
+                                    continue;
                                 }
-                            }
-                        }
 
-                        if (!hasModelFacetOverride)
-                        {
-                            const auto textureOverrideIt = pEventRuntimeState->textureOverrides.find(batch.cogNumber);
+                                const OutdoorGameView::TexturedBModelBatch &batch =
+                                    view.m_texturedBModelBatches[batchIndex];
 
-                            if (textureOverrideIt != pEventRuntimeState->textureOverrides.end())
-                            {
-                                const std::string normalizedOverrideTextureName = toLowerCopy(textureOverrideIt->second);
-                                animationIndex = static_cast<size_t>(-1);
-
-                                for (size_t candidateIndex = 0; candidateIndex < view.m_bmodelTextureAnimations.size();
-                                     ++candidateIndex)
+                                if (batch.vertices.empty()
+                                    || outdoorFaceHiddenByEventRuntime(
+                                        batch.faceId,
+                                        batch.baseAttributes,
+                                        pMapDeltaData,
+                                        pEventRuntimeState))
                                 {
-                                    if (view.m_bmodelTextureAnimations[candidateIndex].textureName
-                                        == normalizedOverrideTextureName)
-                                    {
-                                        animationIndex = candidateIndex;
-                                        break;
-                                    }
+                                    continue;
                                 }
+
+                                submitTexturedBModelBatch(
+                                    batch,
+                                    pEventRuntimeState,
+                                    pMapDeltaData,
+                                    ArpgModeOccludingBModelFaceAlpha,
+                                    false);
                             }
-                        }
-                    }
-
-                    if (animationIndex >= view.m_bmodelTextureAnimations.size())
-                    {
-                        continue;
-                    }
-
-                    const OutdoorGameView::BModelTextureAnimationHandle &animation =
-                        view.m_bmodelTextureAnimations[animationIndex];
-
-                    if (animation.frameTextureHandles.empty())
-                    {
-                        continue;
-                    }
-
-                    const size_t frameIndex = frameIndexForAnimation(
-                        animation.frameLengthTicks,
-                        animation.animationLengthTicks,
-                        static_cast<uint32_t>(std::lround(view.m_elapsedTime * 128.0f)));
-
-                    if (frameIndex >= animation.frameTextureHandles.size()
-                        || !bgfx::isValid(animation.frameTextureHandles[frameIndex]))
-                    {
-                        continue;
-                    }
-
-                    uint32_t effectiveAttributes = batch.baseAttributes;
-
-                    if (pMapDeltaData != nullptr && batch.faceId < pMapDeltaData->faceAttributes.size())
-                    {
-                        effectiveAttributes = pMapDeltaData->faceAttributes[batch.faceId];
-                    }
-                    else if (pEventRuntimeState != nullptr)
-                    {
-                        const auto setIt = pEventRuntimeState->facetSetMasks.find(batch.faceId);
-
-                        if (setIt != pEventRuntimeState->facetSetMasks.end())
-                        {
-                            effectiveAttributes |= setIt->second;
-                        }
-
-                        const auto clearIt = pEventRuntimeState->facetClearMasks.find(batch.faceId);
-
-                        if (clearIt != pEventRuntimeState->facetClearMasks.end())
-                        {
-                            effectiveAttributes &= ~clearIt->second;
-                        }
-                    }
-
-                    std::array<float, 4> flowInfo = {0.0f, 0.0f, 0.0f, 0.0f};
-
-                    if (view.m_outdoorMapData
-                        && batch.bModelIndex < view.m_outdoorMapData->bmodels.size()
-                        && batch.faceIndex < view.m_outdoorMapData->bmodels[batch.bModelIndex].faces.size())
-                    {
-                        OutdoorBModelFace effectiveFace =
-                            view.m_outdoorMapData->bmodels[batch.bModelIndex].faces[batch.faceIndex];
-                        effectiveFace.attributes = effectiveAttributes;
-                        flowInfo = outdoorFaceFlowInfo(effectiveFace, batch.textureWidth, batch.textureHeight);
-                    }
-
-                    const float secretPulse = secretFaceVertexFlag(effectiveAttributes);
-                    const std::array<float, 3> bmodelOffset =
-                        outdoorBModelRuntimeOffset(pEventRuntimeState, batch.bModelIndex);
-                    std::vector<OutdoorGameView::TexturedTerrainVertex> vertices = batch.vertices;
-
-                    for (OutdoorGameView::TexturedTerrainVertex &vertex : vertices)
-                    {
-                        vertex.x += bmodelOffset[0];
-                        vertex.y += bmodelOffset[1];
-                        vertex.z += bmodelOffset[2];
-                        vertex.secretPulse = secretPulse;
-                        vertex.flowUPerSecond = flowInfo[0];
-                        vertex.flowVPerSecond = flowInfo[1];
-                        vertex.lavaFlow = flowInfo[2];
-                        vertex.fluidFlow = flowInfo[3];
-                    }
-
-                    const uint32_t vertexCount = static_cast<uint32_t>(vertices.size());
-
-                    if (bgfx::getAvailTransientVertexBuffer(
-                            vertexCount,
-                            OutdoorGameView::TexturedTerrainVertex::ms_layout) < vertexCount)
-                    {
-                        continue;
-                    }
-
-                    bgfx::TransientVertexBuffer transientVertexBuffer = {};
-                    bgfx::allocTransientVertexBuffer(
-                        &transientVertexBuffer,
-                        vertexCount,
-                        OutdoorGameView::TexturedTerrainVertex::ms_layout);
-                    std::memcpy(
-                        transientVertexBuffer.data,
-                        vertices.data(),
-                        vertices.size() * sizeof(OutdoorGameView::TexturedTerrainVertex));
-
-                    bgfx::setTransform(modelMatrix);
-                    bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, vertexCount);
-                    bindTexture(
-                        0,
-                        view.m_terrainTextureSamplerHandle,
-                        animation.frameTextureHandles[frameIndex],
-                        TextureFilterProfile::BModel);
-                    applyOutdoorFxLightUniforms(view, cameraPosition);
-                    applyOutdoorFogUniforms(
-                        view.m_outdoorFogColorUniformHandle,
-                        view.m_outdoorFogDensitiesUniformHandle,
-                        view.m_outdoorFogDistancesUniformHandle,
-                        worldFogParameters);
-                    applySecretPulseUniforms(view);
-                    bgfx::setState(
-                        BGFX_STATE_WRITE_RGB
-                        | BGFX_STATE_WRITE_A
-                        | BGFX_STATE_WRITE_Z
-                        | BGFX_STATE_DEPTH_TEST_LEQUAL
-                    );
-                    bgfx::submit(MainViewId, view.m_outdoorTexturedFogProgramHandle);
+                        };
                 }
             }
 
@@ -3261,6 +3665,8 @@ void OutdoorRenderer::renderWorldPasses(
     {
         OutdoorBillboardRenderer::renderFxGlowBillboards(view, MainViewId, pViewMatrix);
     }
+
+    submitArpgModeTranslucentOccludingBModelFaces();
 
     renderPendingSpellAreaPreview(view, MainViewId);
 

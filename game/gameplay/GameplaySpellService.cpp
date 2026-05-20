@@ -9,10 +9,18 @@
 #include "game/party/LloydsBeaconRuntime.h"
 #include "game/party/SpellIds.h"
 
+#include <cmath>
+
 namespace OpenYAMM::Game
 {
 namespace
 {
+bool isArpgModeForwardProjectileEffect(PartySpellCastEffectKind effectKind)
+{
+    return effectKind == PartySpellCastEffectKind::Projectile
+        || effectKind == PartySpellCastEffectKind::MultiProjectile;
+}
+
 bool isUtilitySelectionRequest(const PartySpellCastRequest &request)
 {
     return request.utilityAction != PartySpellUtilityActionKind::None
@@ -33,6 +41,50 @@ SkillMastery dragonAbilityMasteryForCaster(const GameplayScreenRuntime &runtime,
     const Character *pCaster = pParty != nullptr ? pParty->member(casterMemberIndex) : nullptr;
     const CharacterSkill *pDragonAbility = pCaster != nullptr ? pCaster->findSkill("DragonAbility") : nullptr;
     return pDragonAbility != nullptr ? pDragonAbility->mastery : SkillMastery::None;
+}
+
+void setArpgModeForwardProjectileTarget(
+    PartySpellCastRequest &request,
+    const IGameplayWorldRuntime &worldRuntime,
+    const GameplaySpellActionController::TargetQueries &targetQueries)
+{
+    constexpr float ForwardTargetDistance = 8192.0f;
+    const float sourceX = worldRuntime.partyX();
+    const float sourceY = worldRuntime.partyY();
+    const float sourceZ = worldRuntime.partyFootZ() + 96.0f;
+    float yawRadians = worldRuntime.gameplayCameraYawRadians();
+
+    std::optional<bx::Vec3> cursorTargetPoint;
+
+    if (targetQueries.useCrosshairTarget && targetQueries.screenWidth > 0.0f && targetQueries.screenHeight > 0.0f)
+    {
+        cursorTargetPoint =
+            worldRuntime.spellActionGroundTargetPoint(
+                targetQueries.screenWidth * 0.5f,
+                targetQueries.screenHeight * 0.5f);
+    }
+    else
+    {
+        cursorTargetPoint = worldRuntime.spellActionGroundTargetPoint(targetQueries.cursorX, targetQueries.cursorY);
+    }
+
+    if (cursorTargetPoint)
+    {
+        const float deltaX = cursorTargetPoint->x - sourceX;
+        const float deltaY = cursorTargetPoint->y - sourceY;
+
+        if (deltaX * deltaX + deltaY * deltaY > 1.0f)
+        {
+            yawRadians = std::atan2(deltaY, deltaX);
+        }
+    }
+
+    request.targetActorIndex.reset();
+    request.targetCharacterIndex.reset();
+    request.hasTargetPoint = true;
+    request.targetX = sourceX + std::cos(yawRadians) * ForwardTargetDistance;
+    request.targetY = sourceY + std::sin(yawRadians) * ForwardTargetDistance;
+    request.targetZ = sourceZ;
 }
 }
 
@@ -239,13 +291,23 @@ bool GameplaySpellService::tryResolveQuickCastRequest(
         return true;
     }
 
+    if (runtime.settingsSnapshot().arpgModeEnabled
+        && pWorldRuntime != nullptr
+        && isArpgModeForwardProjectileEffect(descriptor.effectKind)
+        && (descriptor.targetKind == PartySpellCastTargetKind::Actor
+            || descriptor.targetKind == PartySpellCastTargetKind::GroundPoint))
+    {
+        setArpgModeForwardProjectileTarget(request, *pWorldRuntime, targetQueries);
+        return true;
+    }
+
     if (descriptor.targetKind == PartySpellCastTargetKind::Actor)
     {
         if (pWorldRuntime != nullptr)
         {
             request.targetActorIndex = pWorldRuntime->spellActionHoveredActorIndex();
 
-            if (!request.targetActorIndex)
+            if (!runtime.settingsSnapshot().arpgModeEnabled && !request.targetActorIndex)
             {
                 request.targetActorIndex = pWorldRuntime->spellActionClosestVisibleHostileActorIndex();
             }
@@ -743,6 +805,11 @@ void GameplaySpellService::applySuccessFeedback(
     if (isUtilitySelectionRequest(request))
     {
         runtime.closeUtilitySpellOverlayAfterSpellResolution(request.spellId);
+    }
+
+    if (runtime.settingsSnapshot().arpgModeEnabled && runtime.worldRuntime() != nullptr)
+    {
+        runtime.worldRuntime()->faceArpgModePartyActionTarget(request);
     }
 
     runtime.triggerPortraitFaceAnimation(request.casterMemberIndex, FaceAnimationId::CastSpell);

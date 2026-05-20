@@ -2,6 +2,7 @@
 
 #include "game/app/GameSession.h"
 #include "engine/BgfxContext.h"
+#include "game/arpg/ArpgModeLoot.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/FaceEnums.h"
 #include "game/gameplay/GenericActorDialog.h"
@@ -10,6 +11,7 @@
 #include "game/gameplay/GameplayCombatController.h"
 #include "game/gameplay/GameplayHeldItemController.h"
 #include "game/gameplay/GameplayInputFrame.h"
+#include "game/gameplay/NpcFollowerRuntime.h"
 #include "game/gameplay/MercenaryRecruitmentRuntime.h"
 #include "game/gameplay/GameplaySpellActionController.h"
 #include "game/gameplay/GameplaySpellService.h"
@@ -2735,6 +2737,127 @@ bool projectWorldPointToScreen(
     return true;
 }
 
+uint32_t makeArpgModeHudColor(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+{
+    return (static_cast<uint32_t>(alpha) << 24)
+        | (static_cast<uint32_t>(blue) << 16)
+        | (static_cast<uint32_t>(green) << 8)
+        | static_cast<uint32_t>(red);
+}
+
+InventoryItem normalizedArpgModeCorpseInventoryItem(const GameplayChestItemState &item)
+{
+    InventoryItem inventoryItem = item.item;
+
+    if (inventoryItem.objectDescriptionId == 0)
+    {
+        inventoryItem.objectDescriptionId = item.itemId;
+    }
+
+    if (inventoryItem.quantity == 0)
+    {
+        inventoryItem.quantity = item.quantity;
+    }
+
+    if (inventoryItem.width == 0)
+    {
+        inventoryItem.width = item.width;
+    }
+
+    if (inventoryItem.height == 0)
+    {
+        inventoryItem.height = item.height;
+    }
+
+    return inventoryItem;
+}
+
+std::string arpgModeCorpseLootLabel(
+    const GameplayChestItemState &item,
+    const ItemTable &itemTable,
+    const StandardItemEnchantTable *pStandardEnchantTable,
+    const SpecialItemEnchantTable *pSpecialEnchantTable)
+{
+    if (item.isGold)
+    {
+        return std::to_string(item.goldAmount) + " Gold";
+    }
+
+    const InventoryItem inventoryItem = normalizedArpgModeCorpseInventoryItem(item);
+    const ItemDefinition *pItemDefinition = itemTable.get(inventoryItem.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        return "Item";
+    }
+
+    std::string label =
+        ItemRuntime::displayName(inventoryItem, *pItemDefinition, pStandardEnchantTable, pSpecialEnchantTable);
+
+    if (inventoryItem.quantity > 1)
+    {
+        label = std::to_string(inventoryItem.quantity) + "x " + label;
+    }
+
+    return label.empty() ? "Item" : label;
+}
+
+ArpgModeLootFacts arpgModeCorpseLootFacts(const GameplayChestItemState &item, const ItemTable &itemTable)
+{
+    ArpgModeLootFacts facts = {};
+    facts.isGold = item.isGold;
+    facts.goldAmount = item.goldAmount;
+
+    if (item.isGold)
+    {
+        return facts;
+    }
+
+    const InventoryItem inventoryItem = normalizedArpgModeCorpseInventoryItem(item);
+    const ItemDefinition *pItemDefinition = itemTable.get(inventoryItem.objectDescriptionId);
+
+    if (pItemDefinition == nullptr)
+    {
+        return facts;
+    }
+
+    facts.value = pItemDefinition->value;
+    facts.highestTreasureLevel = arpgModeHighestTreasureLevel(*pItemDefinition);
+    facts.reagentPower = arpgModeReagentPower(*pItemDefinition);
+    facts.hasStandardEnchant = inventoryItem.standardEnchantId != 0;
+    facts.hasSpecialEnchant = inventoryItem.specialEnchantId != 0;
+    facts.hasArtifactOrRelicIdentity =
+        inventoryItem.rarity == ItemRarity::Artifact
+        || inventoryItem.rarity == ItemRarity::Relic
+        || pItemDefinition->rarity == ItemRarity::Artifact
+        || pItemDefinition->rarity == ItemRarity::Relic;
+    facts.hasRareIdentity =
+        pItemDefinition->rarity != ItemRarity::Common
+        || inventoryItem.artifactId != 0
+        || ItemRuntime::isRareItem(*pItemDefinition);
+    return facts;
+}
+
+void drawArpgModeSolidHudRect(
+    GameplayScreenRuntime &screenRuntime,
+    const std::string &textureName,
+    float x,
+    float y,
+    float width,
+    float height,
+    uint32_t colorAbgr)
+{
+    const std::optional<GameplayScreenRuntime::HudTextureHandle> texture =
+        screenRuntime.gameplayUiRuntime().ensureSolidHudTextureLoaded(textureName, colorAbgr);
+
+    if (!texture)
+    {
+        return;
+    }
+
+    screenRuntime.submitHudTexturedQuad(*texture, x, y, width, height);
+}
+
 std::filesystem::path getShaderPath(bgfx::RendererType::Enum rendererType, const char *pShaderName)
 {
     const std::filesystem::path configuredShaderRoot = OPENYAMM_BGFX_SHADER_DIR;
@@ -2857,6 +2980,7 @@ OutdoorGameView::OutdoorGameView(GameSession &gameSession)
     , m_outdoorFogDensitiesUniformHandle(BGFX_INVALID_HANDLE)
     , m_outdoorFogDistancesUniformHandle(BGFX_INVALID_HANDLE)
     , m_secretPulseParamsUniformHandle(BGFX_INVALID_HANDLE)
+    , m_outdoorFaceAlphaParamsUniformHandle(BGFX_INVALID_HANDLE)
     , m_spellAreaPreviewParams0UniformHandle(BGFX_INVALID_HANDLE)
     , m_spellAreaPreviewParams1UniformHandle(BGFX_INVALID_HANDLE)
     , m_spellAreaPreviewColorAUniformHandle(BGFX_INVALID_HANDLE)
@@ -2965,6 +3089,16 @@ bool OutdoorGameView::initialize(
     m_pOutdoorWorldRuntime->bindGlobalEventProgram(&sceneRuntime.globalEventProgram());
     m_pOutdoorWorldRuntime->setWorldFxSystem(&m_worldFxSystem);
     m_gameSettings = settings;
+    m_arpgModeHasMoveDestination = false;
+    m_arpgModeActionAnimationSeconds = 0.0f;
+    m_arpgModeActionAnimationDurationSeconds = 0.0f;
+    m_arpgModeActionAnimationElapsedSeconds = 0.0f;
+    m_arpgModeActionAnimationIsCast = false;
+    m_arpgModeDelayedSpellActive = false;
+    m_arpgModeReleasingDelayedSpell = false;
+    m_arpgModeDelayedSpellRequest = {};
+    m_arpgModeDelayedSpellName.clear();
+    m_arpgModeDelayedSpellReleaseSeconds = 0.0f;
     refreshViewDistanceCache();
     m_gameSession.gameplayScreenRuntime().bindSceneAdapter(this);
     m_gameSession.gameplayScreenRuntime().bindAudioSystem(m_pGameAudioSystem);
@@ -3053,6 +3187,7 @@ bool OutdoorGameView::initialize(
         m_cameraTargetZ = initialFootZ + m_cameraEyeHeight;
     }
     m_cameraYawRadians = initialYawRadians.value_or(-Pi * 0.5f);
+    m_arpgModeMinimapArrowYawRadians = m_cameraYawRadians;
     m_cameraPitchRadians = -0.15f;
     m_cameraDistance = 0.0f;
     m_cameraOrthoScale = 1.2f;
@@ -3098,6 +3233,8 @@ bool OutdoorGameView::initialize(
     m_outdoorFogDensitiesUniformHandle = bgfx::createUniform("u_fogDensities", bgfx::UniformType::Vec4);
     m_outdoorFogDistancesUniformHandle = bgfx::createUniform("u_fogDistances", bgfx::UniformType::Vec4);
     m_secretPulseParamsUniformHandle = bgfx::createUniform("u_secretPulseParams", bgfx::UniformType::Vec4);
+    m_outdoorFaceAlphaParamsUniformHandle =
+        bgfx::createUniform("u_outdoorFaceAlphaParams", bgfx::UniformType::Vec4);
     m_spellAreaPreviewParams0UniformHandle = bgfx::createUniform("u_spellAreaParams0", bgfx::UniformType::Vec4);
     m_spellAreaPreviewParams1UniformHandle = bgfx::createUniform("u_spellAreaParams1", bgfx::UniformType::Vec4);
     m_spellAreaPreviewColorAUniformHandle = bgfx::createUniform("u_spellAreaColorA", bgfx::UniformType::Vec4);
@@ -3120,7 +3257,8 @@ bool OutdoorGameView::initialize(
         || !bgfx::isValid(m_outdoorFogColorUniformHandle)
         || !bgfx::isValid(m_outdoorFogDensitiesUniformHandle)
         || !bgfx::isValid(m_outdoorFogDistancesUniformHandle)
-        || !bgfx::isValid(m_secretPulseParamsUniformHandle))
+        || !bgfx::isValid(m_secretPulseParamsUniformHandle)
+        || !bgfx::isValid(m_outdoorFaceAlphaParamsUniformHandle))
     {
         std::cerr << "OutdoorGameView failed to create bgfx resources.\n";
         shutdown();
@@ -3353,50 +3491,11 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
     captureFrameTimingStage(spriteWarmupStageNanoseconds);
 
     const float wireframeAspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
+    const ArpgModeCameraFrame cameraFrame = buildCameraFrame(viewWidth, viewHeight, farClipDistance);
 
-    float wireframeViewMatrix[16] = {};
-    float wireframeProjectionMatrix[16] = {};
-
-    const float cameraYawRadians = effectiveCameraYawRadians();
-    const float cameraPitchRadians = effectiveCameraPitchRadians();
-    const float cosPitch = std::cos(cameraPitchRadians);
-    const float sinPitch = std::sin(cameraPitchRadians);
-    const float cosYaw = std::cos(cameraYawRadians);
-    const float sinYaw = std::sin(cameraYawRadians);
-    const bx::Vec3 wireframeEye = {
-        m_cameraTargetX,
-        m_cameraTargetY,
-        m_cameraTargetZ
-    };
-    const bx::Vec3 wireframeAt = {
-        m_cameraTargetX + cosYaw * cosPitch,
-        m_cameraTargetY + sinYaw * cosPitch,
-        m_cameraTargetZ + sinPitch
-    };
-    const bx::Vec3 wireframeUp = {0.0f, 0.0f, 1.0f};
-    bx::mtxLookAt(
-        wireframeViewMatrix,
-        wireframeEye,
-        wireframeAt,
-        wireframeUp,
-        bx::Handedness::Right);
-    bx::mtxProj(
-        wireframeProjectionMatrix,
-        CameraVerticalFovDegrees,
-        wireframeAspectRatio,
-        0.1f,
-        farClipDistance,
-        bgfx::getCaps()->homogeneousDepth,
-        bx::Handedness::Right
-    );
-
-    const bx::Vec3 cameraForward = vecNormalize(vecSubtract(wireframeAt, wireframeEye));
-    const bx::Vec3 cameraRight = vecNormalize(bx::cross(cameraForward, wireframeUp));
-    const bx::Vec3 cameraUp = vecNormalize(bx::cross(cameraRight, cameraForward));
-
-    bgfx::setViewTransform(SkyViewId, wireframeViewMatrix, wireframeProjectionMatrix);
+    bgfx::setViewTransform(SkyViewId, cameraFrame.viewMatrix.data(), cameraFrame.projectionMatrix.data());
     bgfx::touch(SkyViewId);
-    bgfx::setViewTransform(MainViewId, wireframeViewMatrix, wireframeProjectionMatrix);
+    bgfx::setViewTransform(MainViewId, cameraFrame.viewMatrix.data(), cameraFrame.projectionMatrix.data());
     bgfx::touch(MainViewId);
     captureFrameTimingStage(matrixStageNanoseconds);
 
@@ -3418,11 +3517,12 @@ void OutdoorGameView::render(int width, int height, const GameplayInputFrame &in
         wireframeAspectRatio,
         farClipDistance,
         pAtmosphereState,
-        wireframeEye,
-        cameraForward,
-        cameraRight,
-        cameraUp,
-        wireframeViewMatrix);
+        cameraFrame.eye,
+        cameraFrame.forward,
+        cameraFrame.right,
+        cameraFrame.up,
+        cameraFrame.viewMatrix.data());
+    renderArpgModeLootOverlay(width, height, cameraFrame, deltaSeconds);
     captureFrameTimingStage(worldRenderStageNanoseconds);
 
     if (captureSavePreviewThisFrame)
@@ -3557,6 +3657,7 @@ void OutdoorGameView::shutdown()
         m_outdoorFogDensitiesUniformHandle = BGFX_INVALID_HANDLE;
         m_outdoorFogDistancesUniformHandle = BGFX_INVALID_HANDLE;
         m_secretPulseParamsUniformHandle = BGFX_INVALID_HANDLE;
+        m_outdoorFaceAlphaParamsUniformHandle = BGFX_INVALID_HANDLE;
         m_spellAreaPreviewParams0UniformHandle = BGFX_INVALID_HANDLE;
         m_spellAreaPreviewParams1UniformHandle = BGFX_INVALID_HANDLE;
         m_spellAreaPreviewColorAUniformHandle = BGFX_INVALID_HANDLE;
@@ -3574,6 +3675,9 @@ void OutdoorGameView::shutdown()
         m_bmodelTextureAnimations.clear();
         m_resolvedBModelDrawGroups.clear();
         m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+        m_arpgModeResolvedBModelDrawGroups.clear();
+        m_arpgModeResolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+        m_arpgModeResolvedBModelOcclusionHash = 0;
 
         m_texturedBModelBatches.clear();
         OutdoorBillboardRenderer::invalidateRenderAssets(*this);
@@ -3710,6 +3814,12 @@ void OutdoorGameView::shutdown()
         m_secretPulseParamsUniformHandle = BGFX_INVALID_HANDLE;
     }
 
+    if (bgfx::isValid(m_outdoorFaceAlphaParamsUniformHandle))
+    {
+        bgfx::destroy(m_outdoorFaceAlphaParamsUniformHandle);
+        m_outdoorFaceAlphaParamsUniformHandle = BGFX_INVALID_HANDLE;
+    }
+
     if (bgfx::isValid(m_spellAreaPreviewParams0UniformHandle))
     {
         bgfx::destroy(m_spellAreaPreviewParams0UniformHandle);
@@ -3776,6 +3886,20 @@ void OutdoorGameView::shutdown()
     }
     m_resolvedBModelDrawGroups.clear();
     m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+    for (ResolvedBModelDrawGroup &group : m_arpgModeResolvedBModelDrawGroups)
+    {
+        if (bgfx::isValid(group.vertexBufferHandle))
+        {
+            bgfx::destroy(group.vertexBufferHandle);
+            group.vertexBufferHandle = BGFX_INVALID_HANDLE;
+        }
+
+        group.vertexCount = 0;
+        group.animationIndex = static_cast<size_t>(-1);
+    }
+    m_arpgModeResolvedBModelDrawGroups.clear();
+    m_arpgModeResolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
+    m_arpgModeResolvedBModelOcclusionHash = 0;
     OutdoorBillboardRenderer::destroyRenderAssets(*this);
     OutdoorRenderer::destroySkyResources(*this);
 
@@ -3899,6 +4023,73 @@ float OutdoorGameView::cameraYawRadians() const
 float OutdoorGameView::cameraPitchRadians() const
 {
     return m_cameraPitchRadians;
+}
+
+bool OutdoorGameView::arpgModeEnabled() const
+{
+    return m_gameSettings.arpgModeEnabled
+        && !arpgModeFirstPersonUseMode()
+        && m_pOutdoorPartyRuntime != nullptr;
+}
+
+bool OutdoorGameView::arpgModeFirstPersonUseMode() const
+{
+    return m_gameSession.gameplayScreenState().arpgModeFirstPersonUseMode();
+}
+
+ArpgModeCameraFrame OutdoorGameView::buildCameraFrame(
+    uint16_t viewWidth,
+    uint16_t viewHeight,
+    float farClipDistance) const
+{
+    const float aspectRatio =
+        static_cast<float>(std::max<uint16_t>(viewWidth, 1))
+        / static_cast<float>(std::max<uint16_t>(viewHeight, 1));
+    const bool homogeneousDepth = bgfx::getCaps()->homogeneousDepth;
+
+    if (arpgModeEnabled())
+    {
+        return buildArpgModeCameraFrame(
+            ArpgModeCameraInput{
+                .target = {m_cameraTargetX, m_cameraTargetY, m_cameraTargetZ},
+                .yawRadians = degreesToRadians(m_gameSettings.arpgModeCameraYawDegrees),
+                .pitchRadians = degreesToRadians(m_gameSettings.arpgModeCameraPitchDegrees),
+                .distance = m_gameSettings.arpgModeCameraDistance,
+                .fovDegrees = m_gameSettings.arpgModeCameraFovDegrees,
+                .aspectRatio = aspectRatio,
+                .nearClip = 0.1f,
+                .farClip = farClipDistance,
+                .homogeneousDepth = homogeneousDepth,
+            });
+    }
+
+    const float cameraYawRadians = effectiveCameraYawRadians();
+    const float cameraPitchRadians = effectiveCameraPitchRadians();
+    const float cosPitch = std::cos(cameraPitchRadians);
+    const bx::Vec3 eye = {m_cameraTargetX, m_cameraTargetY, m_cameraTargetZ};
+    const bx::Vec3 at = {
+        m_cameraTargetX + std::cos(cameraYawRadians) * cosPitch,
+        m_cameraTargetY + std::sin(cameraYawRadians) * cosPitch,
+        m_cameraTargetZ + std::sin(cameraPitchRadians),
+    };
+    const bx::Vec3 worldUp = {0.0f, 0.0f, 1.0f};
+
+    ArpgModeCameraFrame frame = {};
+    frame.eye = eye;
+    frame.at = at;
+    frame.forward = vecNormalize(vecSubtract(at, eye));
+    frame.right = vecNormalize(bx::cross(frame.forward, worldUp));
+    frame.up = vecNormalize(bx::cross(frame.right, frame.forward));
+    bx::mtxLookAt(frame.viewMatrix.data(), frame.eye, frame.at, worldUp, bx::Handedness::Right);
+    bx::mtxProj(
+        frame.projectionMatrix.data(),
+        CameraVerticalFovDegrees,
+        aspectRatio,
+        0.1f,
+        farClipDistance,
+        homogeneousDepth,
+        bx::Handedness::Right);
+    return frame;
 }
 
 void OutdoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled)
@@ -4042,6 +4233,395 @@ void OutdoorGameView::setCameraAngles(float yawRadians, float pitchRadians)
     }
 
     m_cameraPitchRadians = std::clamp(m_cameraPitchRadians, -1.55f, 1.55f);
+}
+
+void OutdoorGameView::playArpgModePartyActionAnimation(float animationSeconds, bool spellCast)
+{
+    if (!arpgModeEnabled())
+    {
+        return;
+    }
+
+    const float minimumDurationSeconds = 0.05f;
+    const float durationSeconds = std::max(animationSeconds, minimumDurationSeconds);
+    m_arpgModeActionAnimationSeconds = durationSeconds;
+    m_arpgModeActionAnimationDurationSeconds = durationSeconds;
+    m_arpgModeActionAnimationElapsedSeconds = 0.0f;
+    m_arpgModeActionAnimationIsCast = spellCast;
+}
+
+void OutdoorGameView::faceArpgModeTargetPoint(float targetX, float targetY)
+{
+    if (!arpgModeEnabled() || m_pOutdoorPartyRuntime == nullptr)
+    {
+        return;
+    }
+
+    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+    const float deltaX = targetX - moveState.x;
+    const float deltaY = targetY - moveState.y;
+
+    if (deltaX * deltaX + deltaY * deltaY <= 0.000001f)
+    {
+        return;
+    }
+
+    const float yawRadians = std::atan2(deltaY, deltaX);
+    setCameraAngles(yawRadians, cameraPitchRadians());
+    m_arpgModeMinimapArrowYawRadians = yawRadians;
+}
+
+void OutdoorGameView::updateArpgModeDelayedSpell(float deltaSeconds)
+{
+    if (!m_arpgModeDelayedSpellActive)
+    {
+        return;
+    }
+
+    m_arpgModeDelayedSpellReleaseSeconds =
+        std::max(0.0f, m_arpgModeDelayedSpellReleaseSeconds - std::max(0.0f, deltaSeconds));
+
+    if (m_arpgModeDelayedSpellReleaseSeconds > 0.0f)
+    {
+        return;
+    }
+
+    PartySpellCastRequest request = m_arpgModeDelayedSpellRequest;
+    const std::string spellName = m_arpgModeDelayedSpellName;
+    m_arpgModeDelayedSpellActive = false;
+    m_arpgModeDelayedSpellRequest = {};
+    m_arpgModeDelayedSpellName.clear();
+    m_arpgModeReleasingDelayedSpell = true;
+    tryCastSpellRequest(request, spellName);
+    m_arpgModeReleasingDelayedSpell = false;
+}
+
+void OutdoorGameView::updateArpgModeLootAutoPickup(float deltaSeconds)
+{
+    for (ArpgModeLootFloatingText &floatingText : m_arpgModeLootFloatingTexts)
+    {
+        floatingText.remainingSeconds =
+            std::max(0.0f, floatingText.remainingSeconds - std::max(0.0f, deltaSeconds));
+    }
+
+    m_arpgModeLootFloatingTexts.erase(
+        std::remove_if(
+            m_arpgModeLootFloatingTexts.begin(),
+            m_arpgModeLootFloatingTexts.end(),
+            [](const ArpgModeLootFloatingText &floatingText)
+            {
+                return floatingText.remainingSeconds <= 0.0f;
+            }),
+        m_arpgModeLootFloatingTexts.end());
+
+    if (!arpgModeEnabled() || m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const std::vector<OutdoorWorldRuntime::ArpgModeGoldPickup> pickups =
+        m_pOutdoorWorldRuntime->collectNearbyArpgModeCorpseGold(220.0f);
+    uint32_t totalGold = 0;
+
+    for (const OutdoorWorldRuntime::ArpgModeGoldPickup &pickup : pickups)
+    {
+        totalGold += pickup.amount;
+        m_arpgModeLootFloatingTexts.push_back(
+            ArpgModeLootFloatingText{
+                .text = "+" + std::to_string(pickup.amount) + " gold",
+                .x = pickup.x,
+                .y = pickup.y,
+                .z = pickup.z + 48.0f,
+                .remainingSeconds = 1.35f,
+                .durationSeconds = 1.35f,
+            });
+    }
+
+    if (totalGold > 0)
+    {
+        setStatusBarEvent("+" + std::to_string(totalGold) + " gold");
+    }
+}
+
+void OutdoorGameView::renderArpgModeLootOverlay(
+    int width,
+    int height,
+    const ArpgModeCameraFrame &cameraFrame,
+    float)
+{
+    m_arpgModeLootLabelHits.clear();
+
+    if (!arpgModeEnabled() || m_pOutdoorWorldRuntime == nullptr || width <= 0 || height <= 0)
+    {
+        return;
+    }
+
+    GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
+    screenRuntime.prepareHudView(width, height);
+
+    float viewProjectionMatrix[16] = {};
+    bx::mtxMul(viewProjectionMatrix, cameraFrame.viewMatrix.data(), cameraFrame.projectionMatrix.data());
+
+    const std::vector<OutdoorWorldRuntime::ArpgModeCorpseLootItem> lootItems =
+        m_pOutdoorWorldRuntime->collectArpgModeCorpseLootItems();
+    constexpr const char *FontName = "Create";
+    constexpr float FontScale = 1.0f;
+    constexpr float PaddingX = 7.0f;
+    constexpr float PaddingY = 3.0f;
+    constexpr float Border = 2.0f;
+    const float fontHeight = static_cast<float>(std::max(12, screenRuntime.hudFontHeight(FontName)));
+    const float labelHeight = std::max(18.0f, fontHeight * FontScale + PaddingY * 2.0f);
+    const float lineGap = 4.0f;
+
+    for (const OutdoorWorldRuntime::ArpgModeCorpseLootItem &lootItem : lootItems)
+    {
+        ProjectedPoint projected = {};
+
+        if (!projectWorldPointToScreen(
+                bx::Vec3{lootItem.x, lootItem.y, lootItem.z},
+                width,
+                height,
+                viewProjectionMatrix,
+                projected))
+        {
+            continue;
+        }
+
+        if (projected.x < 0.0f
+            || projected.x > static_cast<float>(width)
+            || projected.y < 0.0f
+            || projected.y > static_cast<float>(height))
+        {
+            continue;
+        }
+
+        const std::string baseLabel =
+            arpgModeCorpseLootLabel(
+                lootItem.item,
+                data().itemTable(),
+                &data().standardItemEnchantTable(),
+                &data().specialItemEnchantTable());
+        const ArpgModeLootFacts facts = arpgModeCorpseLootFacts(lootItem.item, data().itemTable());
+        const ArpgModeLootImportance importance = classifyArpgModeLoot(facts);
+        const ArpgModeLootStyle style = arpgModeLootStyle(importance, lootItem.item.isGold);
+        const std::string label = style.showStar ? "* " + baseLabel : baseLabel;
+        const float measuredWidth = screenRuntime.measureHudTextWidth(FontName, label) * FontScale;
+        const float labelWidth = std::clamp(measuredWidth + PaddingX * 2.0f, 76.0f, 340.0f);
+        float labelX = projected.x - labelWidth * 0.5f;
+        float labelY =
+            projected.y
+            - labelHeight
+            - 16.0f
+            - static_cast<float>(lootItem.itemIndex) * (labelHeight + lineGap);
+
+        if (labelX < 4.0f
+            || labelY < 4.0f
+            || labelX + labelWidth > static_cast<float>(width) - 4.0f
+            || labelY + labelHeight > static_cast<float>(height) - 4.0f)
+        {
+            continue;
+        }
+
+        if (style.showBeam)
+        {
+            const float beamTop = std::min(labelY + labelHeight, projected.y - 2.0f);
+            const float beamHeight = std::max(18.0f, projected.y - beamTop);
+            drawArpgModeSolidHudRect(
+                screenRuntime,
+                "__arpg_loot_beam__",
+                projected.x - 1.5f,
+                beamTop,
+                3.0f,
+                beamHeight,
+                style.beamColorAbgr);
+        }
+
+        drawArpgModeSolidHudRect(
+            screenRuntime,
+            "__arpg_loot_border__",
+            labelX,
+            labelY,
+            labelWidth,
+            labelHeight,
+            style.borderColorAbgr);
+        drawArpgModeSolidHudRect(
+            screenRuntime,
+            "__arpg_loot_background__",
+            labelX + Border,
+            labelY + Border,
+            labelWidth - Border * 2.0f,
+            labelHeight - Border * 2.0f,
+            style.backgroundColorAbgr);
+
+        const float textX = labelX + PaddingX;
+        const float textY = labelY + std::max(1.0f, (labelHeight - fontHeight * FontScale) * 0.5f);
+        screenRuntime.renderHudTextLine(FontName, style.textColorAbgr, label, textX, textY, FontScale);
+
+        m_arpgModeLootLabelHits.push_back(
+            ArpgModeLootLabelHit{
+                .actorIndex = lootItem.actorIndex,
+                .itemIndex = lootItem.itemIndex,
+                .x = labelX,
+                .y = labelY,
+                .width = labelWidth,
+                .height = labelHeight,
+            });
+    }
+
+    for (const ArpgModeLootFloatingText &floatingText : m_arpgModeLootFloatingTexts)
+    {
+        if (floatingText.remainingSeconds <= 0.0f || floatingText.durationSeconds <= 0.0f)
+        {
+            continue;
+        }
+
+        const float progress =
+            1.0f - std::clamp(floatingText.remainingSeconds / floatingText.durationSeconds, 0.0f, 1.0f);
+        ProjectedPoint projected = {};
+
+        if (!projectWorldPointToScreen(
+                bx::Vec3{floatingText.x, floatingText.y, floatingText.z + progress * 96.0f},
+                width,
+                height,
+                viewProjectionMatrix,
+                projected))
+        {
+            continue;
+        }
+
+        const float alpha = std::clamp(floatingText.remainingSeconds / 0.45f, 0.0f, 1.0f);
+        const uint8_t alphaByte = static_cast<uint8_t>(std::round(255.0f * alpha));
+        const uint32_t textColor = makeArpgModeHudColor(255, 223, 102, alphaByte);
+        const float textWidth = screenRuntime.measureHudTextWidth(FontName, floatingText.text) * FontScale;
+        screenRuntime.renderHudTextLine(
+            FontName,
+            textColor,
+            floatingText.text,
+            projected.x - textWidth * 0.5f,
+            projected.y,
+            FontScale);
+    }
+}
+
+bool OutdoorGameView::tryActivateArpgModeLootLabelAt(float screenX, float screenY)
+{
+    if (!arpgModeEnabled() || m_pOutdoorWorldRuntime == nullptr || m_pOutdoorPartyRuntime == nullptr)
+    {
+        return false;
+    }
+
+    for (auto iterator = m_arpgModeLootLabelHits.rbegin(); iterator != m_arpgModeLootLabelHits.rend(); ++iterator)
+    {
+        const ArpgModeLootLabelHit &hit = *iterator;
+
+        if (screenX < hit.x
+            || screenX > hit.x + hit.width
+            || screenY < hit.y
+            || screenY > hit.y + hit.height)
+        {
+            continue;
+        }
+
+        tryActivateArpgModeCorpseLootItem(hit.actorIndex, hit.itemIndex);
+        return true;
+    }
+
+    return false;
+}
+
+bool OutdoorGameView::tryActivateArpgModeCorpseLootItem(size_t actorIndex, size_t itemIndex)
+{
+    if (!arpgModeEnabled() || m_pOutdoorWorldRuntime == nullptr || m_pOutdoorPartyRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const std::optional<GameplayChestItemState> selectedItem =
+        m_pOutdoorWorldRuntime->mapActorCorpseItem(actorIndex, itemIndex);
+
+    if (!selectedItem)
+    {
+        return false;
+    }
+
+    if (selectedItem->isGold)
+    {
+        GameplayChestItemState removedItem = {};
+
+        if (!m_pOutdoorWorldRuntime->takeMapActorCorpseItem(actorIndex, itemIndex, removedItem))
+        {
+            return true;
+        }
+
+        const EventRuntimeState *pEventRuntimeState = m_pOutdoorWorldRuntime->eventRuntimeState();
+        const uint32_t adjustedGold =
+            pEventRuntimeState != nullptr
+                ? hiredNpcGoldAfterBonusAndFees(removedItem.goldAmount, *pEventRuntimeState)
+                : removedItem.goldAmount;
+        m_pOutdoorPartyRuntime->party().addGold(static_cast<int>(adjustedGold));
+        m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
+        setStatusBarEvent("+" + std::to_string(adjustedGold) + " gold");
+        m_arpgModeLootFloatingTexts.push_back(
+            ArpgModeLootFloatingText{
+                .text = "+" + std::to_string(adjustedGold) + " gold",
+                .x = m_pOutdoorPartyRuntime->movementState().x,
+                .y = m_pOutdoorPartyRuntime->movementState().y,
+                .z = m_pOutdoorPartyRuntime->movementState().footZ + 96.0f,
+                .remainingSeconds = 1.35f,
+                .durationSeconds = 1.35f,
+            });
+        return true;
+    }
+
+    GameplayChestItemState removedItem = {};
+
+    if (!m_pOutdoorWorldRuntime->takeMapActorCorpseItem(actorIndex, itemIndex, removedItem))
+    {
+        return true;
+    }
+
+    InventoryItem inventoryItem = normalizedArpgModeCorpseInventoryItem(removedItem);
+    const ItemDefinition *pItemDefinition = data().itemTable().get(inventoryItem.objectDescriptionId);
+    const std::string itemName =
+        pItemDefinition != nullptr
+            ? ItemRuntime::displayName(
+                inventoryItem,
+                *pItemDefinition,
+                &data().standardItemEnchantTable(),
+                &data().specialItemEnchantTable())
+            : "item";
+
+    if (!m_pOutdoorPartyRuntime->party().tryGrantInventoryItemStartingAt(
+            m_pOutdoorPartyRuntime->party().activeMemberIndex(),
+            inventoryItem))
+    {
+        m_pOutdoorWorldRuntime->tryPlaceMapActorCorpseItemAt(actorIndex, removedItem, itemIndex);
+        setStatusBarEvent("Pack is Full!");
+        return true;
+    }
+
+    m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
+    setStatusBarEvent("+" + itemName);
+    m_arpgModeLootFloatingTexts.push_back(
+        ArpgModeLootFloatingText{
+            .text = "+" + itemName,
+            .x = m_pOutdoorPartyRuntime->movementState().x,
+            .y = m_pOutdoorPartyRuntime->movementState().y,
+            .z = m_pOutdoorPartyRuntime->movementState().footZ + 96.0f,
+            .remainingSeconds = 1.55f,
+            .durationSeconds = 1.55f,
+        });
+    return true;
+}
+
+bool OutdoorGameView::tryActivateFirstArpgModeCorpseLootItem(size_t actorIndex)
+{
+    if (m_pOutdoorWorldRuntime == nullptr || !m_pOutdoorWorldRuntime->ensureMapActorCorpseView(actorIndex))
+    {
+        return false;
+    }
+
+    return tryActivateArpgModeCorpseLootItem(actorIndex, 0);
 }
 
 void OutdoorGameView::reopenMenuScreen()
@@ -4419,6 +4999,24 @@ bool OutdoorGameView::tryCastSpellRequest(const PartySpellCastRequest &request, 
     resolvedRequest.viewAspectRatio =
         static_cast<float>(std::max(m_lastRenderWidth, 1)) / static_cast<float>(std::max(m_lastRenderHeight, 1));
 
+    if (arpgModeEnabled() && !m_arpgModeReleasingDelayedSpell)
+    {
+        if (m_arpgModeDelayedSpellActive)
+        {
+            return true;
+        }
+
+        m_arpgModeDelayedSpellActive = true;
+        m_arpgModeDelayedSpellRequest = resolvedRequest;
+        m_arpgModeDelayedSpellName = spellName;
+        m_arpgModeDelayedSpellReleaseSeconds = std::clamp(m_gameSettings.arpgModeSpellReleaseSeconds, 0.0f, 10.0f);
+        m_pOutdoorWorldRuntime->faceArpgModePartyActionTarget(resolvedRequest);
+        playArpgModePartyActionAnimation(
+            std::clamp(m_gameSettings.arpgModeSpellAnimationSeconds, 0.05f, 10.0f),
+            true);
+        return true;
+    }
+
     GameplayScreenRuntime &screenRuntime = m_gameSession.gameplayScreenRuntime();
     const GameplaySpellService::SpellRequestResolution resolution =
         m_gameSession.gameplaySpellService().resolveSpellRequest(screenRuntime, resolvedRequest, spellName);
@@ -4583,6 +5181,11 @@ float OutdoorGameView::gameplayCameraYawRadians() const
     return effectiveCameraYawRadians();
 }
 
+float OutdoorGameView::gameplayMinimapArrowYawRadians() const
+{
+    return arpgModeEnabled() ? m_arpgModeMinimapArrowYawRadians : effectiveCameraYawRadians();
+}
+
 void OutdoorGameView::executeActiveDialogAction()
 {
     if (m_pOutdoorWorldRuntime != nullptr)
@@ -4617,6 +5220,11 @@ void OutdoorGameView::updateActorInspectOverlayState(int width, int height, cons
     GameplayUiController::ActorInspectOverlayState &actorInspectOverlay = overlayContext.actorInspectOverlay();
 
     actorInspectOverlay = {};
+
+    if (arpgModeEnabled())
+    {
+        return;
+    }
 
     const bool hasActiveLootView =
         m_pOutdoorWorldRuntime != nullptr

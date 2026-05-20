@@ -32,6 +32,7 @@
 #include "game/items/ItemRuntime.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/party/EventSpellBuffs.h"
+#include "game/party/PartySpellSystem.h"
 #include "game/party/SpellIds.h"
 #include "game/tables/ObjectTable.h"
 #include "game/tables/SpriteTables.h"
@@ -748,6 +749,36 @@ float indoorWorldHitDistance(const GameplayWorldHit &hit)
     }
 
     return std::numeric_limits<float>::max();
+}
+
+std::optional<bx::Vec3> indoorWorldHitPoint(const GameplayWorldHit &hit)
+{
+    if (hit.actor)
+    {
+        return hit.actor->hitPoint;
+    }
+
+    if (hit.worldItem)
+    {
+        return hit.worldItem->hitPoint;
+    }
+
+    if (hit.eventTarget)
+    {
+        return hit.eventTarget->hitPoint;
+    }
+
+    if (hit.object)
+    {
+        return hit.object->hitPoint;
+    }
+
+    if (hit.ground)
+    {
+        return hit.ground->worldPoint;
+    }
+
+    return std::nullopt;
 }
 
 int16_t clampToInt16(float value)
@@ -4886,7 +4917,6 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
 
             if (!actorShouldLeaveCorpse(m_pMonsterTable, actor))
             {
-                actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
                 aiState.velocityX = 0.0f;
                 aiState.velocityY = 0.0f;
                 aiState.velocityZ = 0.0f;
@@ -8120,7 +8150,7 @@ float IndoorWorldRuntime::partyFootZ() const
 
 float IndoorWorldRuntime::gameplayCameraYawRadians() const
 {
-    return m_pRenderer != nullptr ? m_pRenderer->cameraYawRadians() : 0.0f;
+    return m_pRenderer != nullptr ? m_pRenderer->arpgModeGameplayYawRadians() : 0.0f;
 }
 
 float IndoorWorldRuntime::gameplayCameraPitchRadians() const
@@ -8161,7 +8191,11 @@ void IndoorWorldRuntime::updateWorldMovement(
 {
     if (m_pRenderer != nullptr)
     {
-        m_pRenderer->updateWorldMovement(input, deltaSeconds, allowWorldInput);
+        const GameSettings settings =
+            m_pGameplayView != nullptr ? m_pGameplayView->settingsSnapshot() : GameSettings::createDefault();
+        const bool arpgModeFirstPersonUseMode =
+            m_pGameplayView != nullptr && m_pGameplayView->arpgModeFirstPersonUseMode();
+        m_pRenderer->updateWorldMovement(input, deltaSeconds, allowWorldInput, settings, arpgModeFirstPersonUseMode);
     }
 
     if (m_pGameplayView != nullptr && m_pPartyRuntime != nullptr && !m_pPartyRuntime->movementStatusText().empty())
@@ -8468,7 +8502,6 @@ void IndoorWorldRuntime::updateTurnBasedPausedActorAnimations(float deltaSeconds
 
             if (!actorShouldLeaveCorpse(m_pMonsterTable, actor))
             {
-                actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
                 aiState.velocityX = 0.0f;
                 aiState.velocityY = 0.0f;
                 aiState.velocityZ = 0.0f;
@@ -11127,7 +11160,37 @@ bool IndoorWorldRuntime::canActivateWorldHit(
         : settings.mouseInteractionDepth;
     const float interactionDepth = static_cast<float>(std::clamp(configuredDepth, 32, 4096));
 
-    if (indoorWorldHitDistance(hit) >= interactionDepth)
+    const bool arpgMode =
+        m_pGameplayView != nullptr
+        && m_pGameplayView->settingsSnapshot().arpgModeEnabled
+        && !m_pGameplayView->arpgModeFirstPersonUseMode();
+
+    if (arpgMode && m_pPartyRuntime != nullptr)
+    {
+        const std::optional<bx::Vec3> hitPoint = indoorWorldHitPoint(hit);
+
+        if (!hitPoint)
+        {
+            return false;
+        }
+
+        const float deltaX = hitPoint->x - partyX();
+        const float deltaY = hitPoint->y - partyY();
+        const float deltaZ = hitPoint->z - partyFootZ();
+
+        if (deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ >= interactionDepth * interactionDepth)
+        {
+            return false;
+        }
+
+        if (interactionMethod == GameplayInteractionMethod::Keyboard
+            && m_pRenderer != nullptr
+            && !m_pRenderer->arpgModeGameplayWorldHitHasLineOfSight(hit))
+        {
+            return false;
+        }
+    }
+    else if (indoorWorldHitDistance(hit) >= interactionDepth)
     {
         return false;
     }
@@ -11157,7 +11220,9 @@ bool IndoorWorldRuntime::canActivateWorldHit(
             && hasContainingItemPayload(pMapDeltaData->spriteObjects[hit.worldItem->worldItemIndex].rawContainingItem);
     }
 
-    return m_pRenderer != nullptr && m_pRenderer->canActivateGameplayWorldHit(hit);
+    const bool canActivate = m_pRenderer != nullptr && m_pRenderer->canActivateGameplayWorldHit(hit);
+
+    return canActivate;
 }
 
 bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
@@ -11173,7 +11238,43 @@ bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
             return m_pGameplayView != nullptr && m_pGameplayView->activateMapActorDialogue(actorIndex);
         }
 
-        return autoLootMapActorCorpse(hit.actor->actorIndex);
+        if (m_pGameplayView != nullptr
+            && m_pGameplayView->settingsSnapshot().arpgModeEnabled
+            && !m_pGameplayView->arpgModeFirstPersonUseMode())
+        {
+            if (m_pGameplayView->tryActivateFirstArpgModeCorpseLootItem(actorIndex))
+            {
+                if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
+                {
+                    (*m_pEventRuntimeState)->lastActivationResult =
+                        "corpse " + std::to_string(actorIndex) + " picked up arpg loot item";
+                }
+
+                return true;
+            }
+
+            if (ensureMapActorCorpseView(actorIndex))
+            {
+                m_pGameplayView->setStatusBarEvent("Loot dropped");
+
+                if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
+                {
+                    (*m_pEventRuntimeState)->lastActivationResult =
+                        "corpse " + std::to_string(actorIndex) + " arpg loot labels";
+                }
+
+                return true;
+            }
+
+            if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
+            {
+                (*m_pEventRuntimeState)->lastActivationResult = "corpse " + std::to_string(actorIndex) + " empty";
+            }
+
+            return true;
+        }
+
+        return autoLootMapActorCorpse(actorIndex);
     }
 
     if (hit.kind == GameplayWorldHitKind::WorldItem && hit.worldItem)
@@ -11812,6 +11913,53 @@ bool IndoorWorldRuntime::castPartyAttackSpell(const GameplayPartyAttackSpellRequ
     return applied;
 }
 
+void IndoorWorldRuntime::playArpgModePartyActionAnimation(float animationSeconds, bool spellCast)
+{
+    if (m_pRenderer != nullptr)
+    {
+        m_pRenderer->playArpgModePartyActionAnimation(animationSeconds, spellCast);
+    }
+}
+
+void IndoorWorldRuntime::faceArpgModePartyActionTarget(const PartySpellCastRequest &request)
+{
+    const bool arpgMode =
+        m_pGameplayView != nullptr
+        && m_pGameplayView->settingsSnapshot().arpgModeEnabled
+        && !m_pGameplayView->arpgModeFirstPersonUseMode();
+
+    if (!arpgMode || m_pRenderer == nullptr)
+    {
+        return;
+    }
+
+    std::optional<bx::Vec3> targetPoint;
+
+    if (request.targetActorIndex)
+    {
+        targetPoint = spellActionActorTargetPoint(*request.targetActorIndex);
+    }
+    else if (request.hasTargetPoint)
+    {
+        targetPoint = bx::Vec3{request.targetX, request.targetY, request.targetZ};
+    }
+
+    if (!targetPoint)
+    {
+        return;
+    }
+
+    const float deltaX = targetPoint->x - partyX();
+    const float deltaY = targetPoint->y - partyY();
+
+    if (deltaX * deltaX + deltaY * deltaY <= 0.000001f)
+    {
+        return;
+    }
+
+    m_pRenderer->setArpgModeGameplayYawRadians(std::atan2(deltaY, deltaX));
+}
+
 void IndoorWorldRuntime::recordPartyAttackWorldResult(
     std::optional<size_t> actorIndex,
     bool attacked,
@@ -11891,7 +12039,14 @@ GameplayPartyAttackFrameInput IndoorWorldRuntime::buildPartyAttackFrameInput(
     const float attackSourceX = moveState.x;
     const float attackSourceY = moveState.y;
     const float attackSourceZ = moveState.footZ + PartyCollisionHeight / 3.0f;
-    const float yawRadians = m_pRenderer != nullptr ? m_pRenderer->cameraYawRadians() : 0.0f;
+    const bool arpgMode =
+        m_pGameplayView != nullptr
+        && m_pGameplayView->settingsSnapshot().arpgModeEnabled
+        && !m_pGameplayView->arpgModeFirstPersonUseMode();
+    const float yawRadians =
+        m_pRenderer != nullptr
+        ? (arpgMode ? m_pRenderer->arpgModeGameplayYawRadians() : m_pRenderer->cameraYawRadians())
+        : 0.0f;
 
     GameplayPartyAttackFrameInput input = {};
     input.enabled = true;
@@ -11914,7 +12069,17 @@ GameplayPartyAttackFrameInput IndoorWorldRuntime::buildPartyAttackFrameInput(
             .z = 0.0f,
         };
 
-    if (pickRequest.hasRay)
+    if (arpgMode)
+    {
+        input.defaultRangedTarget =
+            GameplayWorldPoint{
+                .x = attackSourceX + std::cos(yawRadians) * 5120.0f,
+                .y = attackSourceY + std::sin(yawRadians) * 5120.0f,
+                .z = attackSourceZ,
+            };
+        input.hasRayRangedTarget = false;
+    }
+    else if (pickRequest.hasRay)
     {
         input.defaultRangedTarget =
             GameplayWorldPoint{
@@ -11978,7 +12143,20 @@ GameplayPendingSpellWorldTargetFacts IndoorWorldRuntime::pickPendingSpellWorldTa
 
     facts.worldHit = m_pRenderer->pickGameplayWorldHit(request);
 
-    if (facts.worldHit.ground)
+    const bool arpgMode =
+        m_pGameplayView != nullptr
+        && m_pGameplayView->settingsSnapshot().arpgModeEnabled
+        && !m_pGameplayView->arpgModeFirstPersonUseMode();
+    const std::optional<bx::Vec3> arpgCursorTarget =
+        arpgMode
+            ? m_pRenderer->gameplayGroundTargetPoint(request.screenX, request.screenY)
+            : std::nullopt;
+
+    if (arpgCursorTarget)
+    {
+        facts.fallbackGroundTargetPoint = *arpgCursorTarget;
+    }
+    else if (facts.worldHit.ground)
     {
         facts.fallbackGroundTargetPoint = facts.worldHit.ground->worldPoint;
     }
@@ -11996,6 +12174,16 @@ GameplayPendingSpellWorldTargetFacts IndoorWorldRuntime::pickPendingSpellWorldTa
     }
 
     return facts;
+}
+
+GameplayWorldHit IndoorWorldRuntime::pickNearbyInteractionTarget(float radius)
+{
+    return m_pRenderer != nullptr ? m_pRenderer->pickNearbyGameplayWorldHit(radius) : GameplayWorldHit{};
+}
+
+GameplayWorldHit IndoorWorldRuntime::pickForwardInteractionTarget(float depth)
+{
+    return m_pRenderer != nullptr ? m_pRenderer->pickNearbyGameplayWorldHit(depth) : GameplayWorldHit{};
 }
 
 GameplayWorldHit IndoorWorldRuntime::pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request)
@@ -12567,7 +12755,7 @@ void IndoorWorldRuntime::commitActiveCorpseView()
 }
 
 
-bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
+bool IndoorWorldRuntime::ensureMapActorCorpseView(size_t actorIndex)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
 
@@ -12594,6 +12782,11 @@ bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
     if (actorIndex >= m_mapActorCorpseViews.size())
     {
         m_mapActorCorpseViews.resize(actorIndex + 1);
+    }
+
+    if (m_mapActorCorpseViews[actorIndex].has_value())
+    {
+        return !m_mapActorCorpseViews[actorIndex]->items.empty();
     }
 
     if (!m_mapActorCorpseViews[actorIndex].has_value())
@@ -12656,8 +12849,9 @@ bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
 
         if (corpse.items.empty())
         {
-            pMapDeltaData->actors[actorIndex].attributes |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
-            m_mapActorCorpseViews[actorIndex].reset();
+            corpse.fromSummonedMonster = false;
+            corpse.sourceIndex = uint32_t(actorIndex);
+            m_mapActorCorpseViews[actorIndex] = std::move(corpse);
             return false;
         }
 
@@ -12666,8 +12860,233 @@ bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
         m_mapActorCorpseViews[actorIndex] = std::move(corpse);
     }
 
+    return true;
+}
+
+bool IndoorWorldRuntime::openMapActorCorpseView(size_t actorIndex)
+{
+    if (!ensureMapActorCorpseView(actorIndex))
+    {
+        return false;
+    }
+
     m_activeCorpseView = *m_mapActorCorpseViews[actorIndex];
     return true;
+}
+
+std::optional<IndoorWorldRuntime::ChestItemState> IndoorWorldRuntime::mapActorCorpseItem(
+    size_t actorIndex,
+    size_t itemIndex) const
+{
+    if (actorIndex >= m_mapActorCorpseViews.size()
+        || !m_mapActorCorpseViews[actorIndex].has_value()
+        || itemIndex >= m_mapActorCorpseViews[actorIndex]->items.size())
+    {
+        return std::nullopt;
+    }
+
+    return m_mapActorCorpseViews[actorIndex]->items[itemIndex];
+}
+
+bool IndoorWorldRuntime::takeMapActorCorpseItem(size_t actorIndex, size_t itemIndex, ChestItemState &item)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr
+        || actorIndex >= m_mapActorCorpseViews.size()
+        || !m_mapActorCorpseViews[actorIndex].has_value()
+        || itemIndex >= m_mapActorCorpseViews[actorIndex]->items.size())
+    {
+        return false;
+    }
+
+    CorpseViewState &corpseView = *m_mapActorCorpseViews[actorIndex];
+    item = corpseView.items[itemIndex];
+    corpseView.items.erase(corpseView.items.begin() + std::ptrdiff_t(itemIndex));
+
+    if (m_activeCorpseView && m_activeCorpseView->sourceIndex == actorIndex)
+    {
+        m_activeCorpseView = corpseView;
+    }
+
+    if (!corpseView.items.empty())
+    {
+        return true;
+    }
+
+    if (m_activeCorpseView && m_activeCorpseView->sourceIndex == actorIndex)
+    {
+        m_activeCorpseView.reset();
+    }
+
+    return true;
+}
+
+bool IndoorWorldRuntime::tryPlaceMapActorCorpseItemAt(
+    size_t actorIndex,
+    const ChestItemState &item,
+    size_t itemIndex)
+{
+    MapDeltaData *pMapDeltaData = mapDeltaData();
+
+    if (pMapDeltaData == nullptr || actorIndex >= pMapDeltaData->actors.size())
+    {
+        return false;
+    }
+
+    if (actorIndex >= m_mapActorCorpseViews.size())
+    {
+        m_mapActorCorpseViews.resize(actorIndex + 1);
+    }
+
+    if (!m_mapActorCorpseViews[actorIndex].has_value())
+    {
+        const MapDeltaActor &actor = pMapDeltaData->actors[actorIndex];
+        const MonsterTable::MonsterStatsEntry *pStats =
+            m_pMonsterTable != nullptr ? findIndoorActorStats(m_pMonsterTable, actor) : nullptr;
+
+        CorpseViewState corpseView = {};
+        corpseView.fromSummonedMonster = false;
+        corpseView.sourceIndex = static_cast<uint32_t>(actorIndex);
+        corpseView.title =
+            !actor.name.empty() ? actor.name : pStats != nullptr ? pStats->name : std::string("Corpse");
+        m_mapActorCorpseViews[actorIndex] = std::move(corpseView);
+    }
+
+    CorpseViewState &corpseView = *m_mapActorCorpseViews[actorIndex];
+    const size_t insertIndex = std::min(itemIndex, corpseView.items.size());
+    corpseView.items.insert(corpseView.items.begin() + std::ptrdiff_t(insertIndex), item);
+
+    pMapDeltaData->actors[actorIndex].attributes &= ~static_cast<uint32_t>(EvtActorAttribute::Invisible);
+
+    if (m_activeCorpseView && m_activeCorpseView->sourceIndex == actorIndex)
+    {
+        m_activeCorpseView = corpseView;
+    }
+
+    return true;
+}
+
+std::vector<IndoorWorldRuntime::ArpgModeCorpseLootItem> IndoorWorldRuntime::collectArpgModeCorpseLootItems()
+{
+    std::vector<ArpgModeCorpseLootItem> items;
+
+    for (size_t actorIndex = 0; actorIndex < mapActorCount(); ++actorIndex)
+    {
+        if (!ensureMapActorCorpseView(actorIndex)
+            || actorIndex >= m_mapActorCorpseViews.size()
+            || !m_mapActorCorpseViews[actorIndex].has_value())
+        {
+            continue;
+        }
+
+        GameplayRuntimeActorState actorState = {};
+
+        if (!actorRuntimeState(actorIndex, actorState))
+        {
+            continue;
+        }
+
+        const CorpseViewState &corpseView = *m_mapActorCorpseViews[actorIndex];
+        const float anchorZ = actorState.preciseZ + std::max(48.0f, static_cast<float>(actorState.height) * 0.45f);
+
+        for (size_t itemIndex = 0; itemIndex < corpseView.items.size(); ++itemIndex)
+        {
+            items.push_back(
+                ArpgModeCorpseLootItem{
+                    .actorIndex = actorIndex,
+                    .itemIndex = itemIndex,
+                    .item = corpseView.items[itemIndex],
+                    .x = actorState.preciseX,
+                    .y = actorState.preciseY,
+                    .z = anchorZ,
+                });
+        }
+    }
+
+    return items;
+}
+
+std::vector<IndoorWorldRuntime::ArpgModeGoldPickup> IndoorWorldRuntime::collectNearbyArpgModeCorpseGold(float radius)
+{
+    std::vector<ArpgModeGoldPickup> pickups;
+
+    if (m_pParty == nullptr || radius <= 0.0f)
+    {
+        return pickups;
+    }
+
+    const float radiusSquared = radius * radius;
+
+    for (size_t actorIndex = 0; actorIndex < mapActorCount(); ++actorIndex)
+    {
+        if (!ensureMapActorCorpseView(actorIndex)
+            || actorIndex >= m_mapActorCorpseViews.size()
+            || !m_mapActorCorpseViews[actorIndex].has_value())
+        {
+            continue;
+        }
+
+        GameplayRuntimeActorState actorState = {};
+
+        if (!actorRuntimeState(actorIndex, actorState))
+        {
+            continue;
+        }
+
+        const float deltaX = partyX() - actorState.preciseX;
+        const float deltaY = partyY() - actorState.preciseY;
+        const float deltaZ = partyFootZ() - actorState.preciseZ;
+
+        if (deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > radiusSquared)
+        {
+            continue;
+        }
+
+        size_t itemIndex = 0;
+
+        while (actorIndex < m_mapActorCorpseViews.size()
+            && m_mapActorCorpseViews[actorIndex].has_value()
+            && itemIndex < m_mapActorCorpseViews[actorIndex]->items.size())
+        {
+            const ChestItemState &item = m_mapActorCorpseViews[actorIndex]->items[itemIndex];
+
+            if (!item.isGold)
+            {
+                ++itemIndex;
+                continue;
+            }
+
+            ChestItemState removedItem = {};
+
+            if (!takeMapActorCorpseItem(actorIndex, itemIndex, removedItem))
+            {
+                break;
+            }
+
+            const uint32_t adjustedGold =
+                m_pEventRuntimeState != nullptr && *m_pEventRuntimeState
+                    ? hiredNpcGoldAfterBonusAndFees(removedItem.goldAmount, **m_pEventRuntimeState)
+                    : removedItem.goldAmount;
+
+            if (adjustedGold == 0)
+            {
+                continue;
+            }
+
+            m_pParty->addGold(static_cast<int>(adjustedGold));
+            m_pParty->requestSound(SoundId::Gold);
+            pickups.push_back(
+                ArpgModeGoldPickup{
+                    .amount = adjustedGold,
+                    .x = actorState.preciseX,
+                    .y = actorState.preciseY,
+                    .z = actorState.preciseZ,
+                });
+        }
+    }
+
+    return pickups;
 }
 
 bool IndoorWorldRuntime::autoLootMapActorCorpse(size_t actorIndex)
@@ -12740,13 +13159,7 @@ bool IndoorWorldRuntime::takeActiveCorpseItem(size_t itemIndex, ChestItemState &
     {
         if (m_activeCorpseView->sourceIndex < m_mapActorCorpseViews.size())
         {
-            m_mapActorCorpseViews[m_activeCorpseView->sourceIndex].reset();
-        }
-
-        if (m_activeCorpseView->sourceIndex < pMapDeltaData->actors.size())
-        {
-            pMapDeltaData->actors[m_activeCorpseView->sourceIndex].attributes
-                |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
+            m_mapActorCorpseViews[m_activeCorpseView->sourceIndex] = *m_activeCorpseView;
         }
 
         m_activeCorpseView.reset();

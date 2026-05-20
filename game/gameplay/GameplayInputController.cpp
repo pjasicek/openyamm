@@ -541,6 +541,7 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
         || config.isReadableScrollOverlayActive;
     const bool gameplayMouseLookAllowed =
         context.settingsSnapshot().controlScheme == ControlScheme::Modern
+        && !context.settingsSnapshot().arpgModeEnabled
         && GameplayScreenController::canEnableGameplayMouseLook(
             context,
             GameplayMouseLookEnableConfig{
@@ -690,6 +691,10 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
             }
         }
 
+        const bool isArpgModeQuickCastPressed =
+            context.settingsSnapshot().arpgModeEnabled
+            && config.pInputFrame != nullptr
+            && config.pInputFrame->isScancodeHeld(SDL_SCANCODE_Q);
         const bool isQuickCastPressed =
             isActionHeld(context, KeyboardAction::CastReady, config.pInputFrame, config.pKeyboardState);
 
@@ -698,7 +703,7 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 quickSpellState,
                 GameplayActionController::QuickCastActionConfig{
                     .canRunAction = true,
-                    .quickCastPressed = isQuickCastPressed,
+                    .quickCastPressed = isQuickCastPressed || isArpgModeQuickCastPressed,
                     .hasReadyMember = config.hasReadyMember,
                 });
 

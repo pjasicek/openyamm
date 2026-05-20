@@ -2700,6 +2700,32 @@ void appendMonsterActionTextures(
     }
 }
 
+void appendArpgModePlayerMonsterTextures(
+    std::vector<BitmapTextureRequest> &textureRequests,
+    const SpriteFrameTable &spriteFrameTable,
+    const MonsterTable &monsterTable)
+{
+    static constexpr std::array<const char *, 2> ArpgModePlayerMonsterDescriptors = {
+        "Lich A",
+        "Lich C",
+    };
+
+    for (const char *pDescriptorName : ArpgModePlayerMonsterDescriptors)
+    {
+        const MonsterEntry *pMonsterEntry = monsterTable.findByInternalName(pDescriptorName);
+
+        if (pMonsterEntry == nullptr)
+        {
+            continue;
+        }
+
+        appendMonsterActionTextures(
+            textureRequests,
+            spriteFrameTable,
+            buildMonsterActionSpriteFrameIndices(spriteFrameTable, pMonsterEntry));
+    }
+}
+
 void appendEncounterSlotTierTextures(
     std::vector<BitmapTextureRequest> &textureRequests,
     const SpriteFrameTable &spriteFrameTable,
@@ -3002,6 +3028,8 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
         neededMonsterFamilies,
         neededWorldPrefixedMonsterSpriteNames,
         monsterTable);
+    neededMonsterFamilies.insert("m271");
+    neededMonsterFamilies.insert("m273");
 
     const std::optional<SpriteFrameTable> spriteFrameTable =
         loadSpriteFrameTable(
@@ -3018,6 +3046,7 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     billboardSet.spriteFrameTable = *spriteFrameTable;
 
     std::vector<BitmapTextureRequest> textureRequests;
+    appendArpgModePlayerMonsterTextures(textureRequests, billboardSet.spriteFrameTable, monsterTable);
 
     if (mapDeltaData)
     {
@@ -3025,11 +3054,6 @@ std::optional<ActorPreviewBillboardSet> buildActorPreviewBillboardSet(
     }
 
     appendSpawnActors(billboardSet, textureRequests, map, monsterTable, spawns, pOutdoorMapData);
-
-    if (billboardSet.billboards.empty())
-    {
-        return std::nullopt;
-    }
 
     if (decodeTextures)
     {

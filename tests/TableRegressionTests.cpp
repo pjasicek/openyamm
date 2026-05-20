@@ -1,6 +1,8 @@
 #include "doctest/doctest.h"
 
 #include "engine/TextTable.h"
+#include "game/arpg/ArpgModeCamera.h"
+#include "game/arpg/ArpgModeLoot.h"
 #include "game/app/GameSettings.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/party/Party.h"
@@ -211,6 +213,16 @@ TEST_CASE("settings debug startup options round trip")
     settings.contextActionPopup = true;
     settings.verticalSync = true;
     settings.mouseSensitivity = 42;
+    settings.arpgModeEnabled = true;
+    settings.arpgModePlayerMonsterDescriptor = "BLich C";
+    settings.arpgModeCameraYawDegrees = -35.0f;
+    settings.arpgModeCameraPitchDegrees = -50.0f;
+    settings.arpgModeCameraDistance = 3200.0f;
+    settings.arpgModeCameraTargetHeight = 160.0f;
+    settings.arpgModeCameraFovDegrees = 42.0f;
+    settings.arpgModeCameraFollowLerp = 12.0f;
+    settings.arpgModeClickStopRadius = 64.0f;
+    settings.arpgModeMoveSpeedMultiplier = 1.5f;
 
     std::string error;
     REQUIRE(OpenYAMM::Game::saveGameSettings(path, settings, error));
@@ -239,6 +251,38 @@ TEST_CASE("settings debug startup options round trip")
     CHECK(loadedSettings->contextActionPopup);
     CHECK(loadedSettings->verticalSync);
     CHECK_EQ(loadedSettings->mouseSensitivity, 42);
+    CHECK(loadedSettings->arpgModeEnabled);
+    CHECK_EQ(loadedSettings->arpgModePlayerMonsterDescriptor, "BLich C");
+    CHECK(loadedSettings->arpgModeCameraYawDegrees == doctest::Approx(-35.0f));
+    CHECK(loadedSettings->arpgModeCameraPitchDegrees == doctest::Approx(-50.0f));
+    CHECK(loadedSettings->arpgModeCameraDistance == doctest::Approx(3200.0f));
+    CHECK(loadedSettings->arpgModeCameraTargetHeight == doctest::Approx(160.0f));
+    CHECK(loadedSettings->arpgModeCameraFovDegrees == doctest::Approx(42.0f));
+    CHECK(loadedSettings->arpgModeCameraFollowLerp == doctest::Approx(12.0f));
+    CHECK(loadedSettings->arpgModeClickStopRadius == doctest::Approx(64.0f));
+    CHECK(loadedSettings->arpgModeMoveSpeedMultiplier == doctest::Approx(1.5f));
+
+    std::filesystem::remove(path);
+}
+
+TEST_CASE("arpg mode settings force god lich new game roster")
+{
+    const std::filesystem::path path =
+        std::filesystem::temp_directory_path() / "openyamm_arpg_mode_settings.ini";
+
+    OpenYAMM::Game::GameSettings settings = OpenYAMM::Game::GameSettings::createDefault();
+    settings.newGameGodLich = false;
+    settings.arpgModeEnabled = true;
+
+    std::string error;
+    REQUIRE(OpenYAMM::Game::saveGameSettings(path, settings, error));
+
+    const std::optional<OpenYAMM::Game::GameSettings> loadedSettings =
+        OpenYAMM::Game::loadGameSettings(path, error);
+
+    REQUIRE(loadedSettings.has_value());
+    CHECK(loadedSettings->arpgModeEnabled);
+    CHECK(loadedSettings->newGameGodLich);
 
     std::filesystem::remove(path);
 }
@@ -280,6 +324,74 @@ TEST_CASE("settings monster bolster feature defaults off")
     CHECK_EQ(loadedSettings->contextActionPopup, OpenYAMM::Game::GameSettings::createDefault().contextActionPopup);
 
     std::filesystem::remove(path);
+}
+
+TEST_CASE("arpg mode camera frame offsets eye above target")
+{
+    const OpenYAMM::Game::ArpgModeCameraFrame frame =
+        OpenYAMM::Game::buildArpgModeCameraFrame(
+            OpenYAMM::Game::ArpgModeCameraInput{
+                .target = {100.0f, 200.0f, 50.0f},
+                .yawRadians = OpenYAMM::Game::degreesToRadians(-45.0f),
+                .pitchRadians = OpenYAMM::Game::degreesToRadians(-55.0f),
+                .distance = 2600.0f,
+                .fovDegrees = 45.0f,
+                .aspectRatio = 16.0f / 9.0f,
+                .nearClip = 0.1f,
+                .farClip = 18000.0f,
+                .homogeneousDepth = false,
+            });
+
+    CHECK(frame.eye.z > frame.at.z);
+    CHECK(frame.forward.z < 0.0f);
+    CHECK(frame.viewMatrix[0] != 0.0f);
+    CHECK(frame.projectionMatrix[0] != 0.0f);
+}
+
+TEST_CASE("arpg mode loot classifier treats high treasure and reagent power as valuable")
+{
+    OpenYAMM::Game::ItemDefinition lowReagent = {};
+    lowReagent.equipStat = "Reagent";
+    lowReagent.mod1 = "3";
+    lowReagent.value = 1;
+
+    OpenYAMM::Game::ItemDefinition highReagent = lowReagent;
+    highReagent.mod1 = "20";
+
+    OpenYAMM::Game::ItemDefinition treasureSixItem = {};
+    treasureSixItem.randomTreasureWeights[5] = 1;
+
+    CHECK_EQ(OpenYAMM::Game::arpgModeReagentPower(lowReagent), 3);
+    CHECK_EQ(OpenYAMM::Game::arpgModeReagentPower(highReagent), 20);
+    CHECK_EQ(OpenYAMM::Game::arpgModeHighestTreasureLevel(treasureSixItem), 6);
+
+    CHECK(
+        OpenYAMM::Game::classifyArpgModeLoot(
+            OpenYAMM::Game::ArpgModeLootFacts{
+                .value = lowReagent.value,
+                .reagentPower = OpenYAMM::Game::arpgModeReagentPower(lowReagent),
+            })
+        == OpenYAMM::Game::ArpgModeLootImportance::Common);
+    CHECK(
+        OpenYAMM::Game::classifyArpgModeLoot(
+            OpenYAMM::Game::ArpgModeLootFacts{
+                .value = highReagent.value,
+                .reagentPower = OpenYAMM::Game::arpgModeReagentPower(highReagent),
+            })
+        == OpenYAMM::Game::ArpgModeLootImportance::Exceptional);
+    CHECK(
+        OpenYAMM::Game::classifyArpgModeLoot(
+            OpenYAMM::Game::ArpgModeLootFacts{
+                .highestTreasureLevel = OpenYAMM::Game::arpgModeHighestTreasureLevel(treasureSixItem),
+            })
+        == OpenYAMM::Game::ArpgModeLootImportance::Mythic);
+    CHECK(
+        OpenYAMM::Game::classifyArpgModeLoot(
+            OpenYAMM::Game::ArpgModeLootFacts{
+                .highestTreasureLevel = OpenYAMM::Game::arpgModeHighestTreasureLevel(treasureSixItem),
+                .hasArtifactOrRelicIdentity = true,
+            })
+        == OpenYAMM::Game::ArpgModeLootImportance::ArtifactRelic);
 }
 
 TEST_CASE("gameplay trace writes only when settings-backed sink is enabled")

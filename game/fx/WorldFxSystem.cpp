@@ -19,9 +19,11 @@ constexpr float ParticleUpdateStepSeconds = 1.0f / 30.0f;
 constexpr float MaxParticleUpdateAccumulationSeconds = 0.25f;
 constexpr float DefaultProjectileTrailCooldownSeconds = 1.0f / 30.0f;
 constexpr float SparksProjectileTrailCooldownSeconds = 0.10f;
-constexpr float PartySpellFxRingRadius = 28.0f;
-constexpr float ImpactLightRadiusScale = 1.18f;
+constexpr float PartySpellFxRingRadius = 56.0f;
+constexpr float ImpactLightRadiusScale = 2.36f;
 constexpr float ImpactLightIntensityScale = 1.35f;
+constexpr float SpellFxDurationScale = 2.0f;
+constexpr float SpellFxRadiusScale = 2.0f;
 constexpr uint32_t CannonballPseudoSpellId = 136;
 
 uint32_t makeAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
@@ -144,7 +146,7 @@ float impactLightDurationSeconds(
         break;
     }
 
-    return std::max(recipeSeconds, presentationSeconds);
+    return std::max(recipeSeconds, presentationSeconds) * SpellFxDurationScale;
 }
 
 float impactLightRadius(FxRecipes::ProjectileRecipe recipe)
@@ -259,7 +261,8 @@ void WorldFxSystem::triggerPartySpellFx(const PartySpellCastResult &result)
         const float sparkleY = result.sourceY + std::sin(angleRadians) * offsetRadius;
         const float sparkleZ =
             result.sourceZ + (sparkleCount > 1 ? static_cast<float>(sparkleIndex % 2) * 10.0f : 0.0f);
-        const float sparkleRadius = result.effectKind == PartySpellCastEffectKind::PartyRestore ? 30.0f : 24.0f;
+        const float sparkleRadius =
+            (result.effectKind == PartySpellCastEffectKind::PartyRestore ? 30.0f : 24.0f) * SpellFxRadiusScale;
         const uint32_t sparkleSeed =
             (result.spellId * 2654435761u) ^ static_cast<uint32_t>(sparkleIndex * 2246822519u);
 
@@ -272,7 +275,7 @@ void WorldFxSystem::triggerPartySpellFx(const PartySpellCastResult &result)
                 sparkleX,
                 sparkleY,
                 sparkleZ - 44.0f,
-                148.0f,
+                148.0f * SpellFxRadiusScale,
                 std::cos(angleRadians),
                 std::sin(angleRadians));
         }
@@ -558,7 +561,7 @@ void WorldFxSystem::syncProjectileTrails(GameSession &session, bool refreshSpati
             FxRecipes::spawnProjectileTrailParticles(m_particleSystem, trailContext, recipe);
         }
 
-        const float glowRadius = FxRecipes::projectileRecipeGlowRadius(recipe);
+        const float glowRadius = FxRecipes::projectileRecipeGlowRadius(recipe) * SpellFxRadiusScale;
 
         if (refreshSpatialFx && glowRadius > 0.0f)
         {

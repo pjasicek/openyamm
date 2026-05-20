@@ -1123,6 +1123,166 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "enabled"))
+    {
+        bool parsed = settings.arpgModeEnabled;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.arpgModeEnabled = parsed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "player_monster_descriptor"))
+    {
+        const std::string trimmed = trimCopy(*value);
+
+        if (!trimmed.empty())
+        {
+            settings.arpgModePlayerMonsterDescriptor = trimmed;
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "camera_yaw_degrees"))
+    {
+        float parsed = settings.arpgModeCameraYawDegrees;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeCameraYawDegrees = std::clamp(parsed, -360.0f, 360.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "camera_pitch_degrees"))
+    {
+        float parsed = settings.arpgModeCameraPitchDegrees;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeCameraPitchDegrees = std::clamp(parsed, -85.0f, -5.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "camera_distance"))
+    {
+        float parsed = settings.arpgModeCameraDistance;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeCameraDistance = std::clamp(parsed, 256.0f, 20000.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "camera_target_height"))
+    {
+        float parsed = settings.arpgModeCameraTargetHeight;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeCameraTargetHeight = std::clamp(parsed, -512.0f, 2048.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "camera_fov_degrees"))
+    {
+        float parsed = settings.arpgModeCameraFovDegrees;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeCameraFovDegrees = std::clamp(parsed, 20.0f, 90.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "camera_follow_lerp"))
+    {
+        float parsed = settings.arpgModeCameraFollowLerp;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeCameraFollowLerp = std::clamp(parsed, 0.1f, 60.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "click_stop_radius"))
+    {
+        float parsed = settings.arpgModeClickStopRadius;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeClickStopRadius = std::clamp(parsed, 4.0f, 512.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "move_speed_multiplier"))
+    {
+        float parsed = settings.arpgModeMoveSpeedMultiplier;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeMoveSpeedMultiplier = std::clamp(parsed, 0.1f, 10.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "spell_animation_seconds"))
+    {
+        float parsed = settings.arpgModeSpellAnimationSeconds;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeSpellAnimationSeconds = std::clamp(parsed, 0.05f, 10.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "spell_release_seconds"))
+    {
+        float parsed = settings.arpgModeSpellReleaseSeconds;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeSpellReleaseSeconds = std::clamp(parsed, 0.0f, 10.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "attack_animation_min_seconds"))
+    {
+        float parsed = settings.arpgModeAttackAnimationMinSeconds;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeAttackAnimationMinSeconds = std::clamp(parsed, 0.05f, 10.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "attack_animation_max_seconds"))
+    {
+        float parsed = settings.arpgModeAttackAnimationMaxSeconds;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeAttackAnimationMaxSeconds = std::clamp(parsed, 0.05f, 10.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "arpg_mode", "attack_animation_recovery_scale"))
+    {
+        float parsed = settings.arpgModeAttackAnimationRecoveryScale;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.arpgModeAttackAnimationRecoveryScale = std::clamp(parsed, 0.0f, 10.0f);
+        }
+    }
+
+    if (settings.arpgModeAttackAnimationMaxSeconds < settings.arpgModeAttackAnimationMinSeconds)
+    {
+        settings.arpgModeAttackAnimationMaxSeconds = settings.arpgModeAttackAnimationMinSeconds;
+    }
+
+    if (settings.arpgModeEnabled)
+    {
+        settings.newGameGodLich = true;
+    }
+
     error.clear();
     return settings;
 }
@@ -1232,7 +1392,23 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "immortal=" << (settings.immortal ? "true" : "false") << '\n'
         << "unlimited_mana=" << (settings.unlimitedMana ? "true" : "false") << '\n'
         << "new_game_god_lich=" << (settings.newGameGodLich ? "true" : "false") << '\n'
-        << "console=" << (settings.debugConsole ? "true" : "false") << '\n';
+        << "console=" << (settings.debugConsole ? "true" : "false") << "\n\n"
+        << "[arpg_mode]\n"
+        << "enabled=" << (settings.arpgModeEnabled ? "true" : "false") << '\n'
+        << "player_monster_descriptor=" << settings.arpgModePlayerMonsterDescriptor << '\n'
+        << "camera_yaw_degrees=" << settings.arpgModeCameraYawDegrees << '\n'
+        << "camera_pitch_degrees=" << settings.arpgModeCameraPitchDegrees << '\n'
+        << "camera_distance=" << settings.arpgModeCameraDistance << '\n'
+        << "camera_target_height=" << settings.arpgModeCameraTargetHeight << '\n'
+        << "camera_fov_degrees=" << settings.arpgModeCameraFovDegrees << '\n'
+        << "camera_follow_lerp=" << settings.arpgModeCameraFollowLerp << '\n'
+        << "click_stop_radius=" << settings.arpgModeClickStopRadius << '\n'
+        << "move_speed_multiplier=" << settings.arpgModeMoveSpeedMultiplier << '\n'
+        << "spell_animation_seconds=" << settings.arpgModeSpellAnimationSeconds << '\n'
+        << "spell_release_seconds=" << settings.arpgModeSpellReleaseSeconds << '\n'
+        << "attack_animation_min_seconds=" << settings.arpgModeAttackAnimationMinSeconds << '\n'
+        << "attack_animation_max_seconds=" << settings.arpgModeAttackAnimationMaxSeconds << '\n'
+        << "attack_animation_recovery_scale=" << settings.arpgModeAttackAnimationRecoveryScale << '\n';
 
     if (!output.good())
     {

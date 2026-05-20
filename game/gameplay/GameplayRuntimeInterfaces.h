@@ -21,6 +21,7 @@ struct GameplayMinimapState;
 struct GameplayMinimapLineState;
 struct GameplayMinimapMarkerState;
 struct GameplayInputFrame;
+struct PartySpellCastRequest;
 struct PartySpellCastResult;
 
 struct GameplayWorldUiRenderState
@@ -641,6 +642,15 @@ public:
     }
     virtual bool spawnPartyAttackProjectile(const GameplayPartyAttackProjectileRequest &request) = 0;
     virtual bool castPartyAttackSpell(const GameplayPartyAttackSpellRequest &request) = 0;
+    virtual void playArpgModePartyActionAnimation(float animationSeconds, bool spellCast)
+    {
+        (void)animationSeconds;
+        (void)spellCast;
+    }
+    virtual void faceArpgModePartyActionTarget(const PartySpellCastRequest &request)
+    {
+        (void)request;
+    }
     virtual void recordPartyAttackWorldResult(
         std::optional<size_t> actorIndex,
         bool attacked,
@@ -657,6 +667,15 @@ public:
     virtual std::optional<bx::Vec3> spellActionGroundTargetPoint(float screenX, float screenY) const = 0;
     virtual GameplayPendingSpellWorldTargetFacts pickPendingSpellWorldTarget(
         const GameplayWorldPickRequest &request) = 0;
+    virtual GameplayWorldHit pickNearbyInteractionTarget(float radius)
+    {
+        (void)radius;
+        return {};
+    }
+    virtual GameplayWorldHit pickForwardInteractionTarget(float depth)
+    {
+        return pickNearbyInteractionTarget(depth);
+    }
     virtual GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) = 0;
     virtual GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) = 0;
     virtual GameplayWorldHit pickMouseInteractionTarget(const GameplayWorldPickRequest &request) = 0;

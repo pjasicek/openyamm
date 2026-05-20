@@ -17,16 +17,16 @@ namespace FxRecipes
 {
 namespace
 {
-constexpr float ProjectileTrailParticleSizeScale = 1.18f;
+constexpr float ProjectileTrailParticleSizeScale = 2.36f;
 constexpr float ProjectileTrailParticleDensityScale = 1.33f;
-constexpr float ProjectileTrailParticleLifetimeScale = 2.05f;
-constexpr float ImpactBurstParticleSizeScale = 1.24f;
+constexpr float ProjectileTrailParticleLifetimeScale = 4.10f;
+constexpr float ImpactBurstParticleSizeScale = 2.48f;
 constexpr float ImpactBurstParticleVelocityScale = 1.32f;
-constexpr float ImpactBurstParticleLifetimeScale = 1.18f;
+constexpr float ImpactBurstParticleLifetimeScale = 2.36f;
 constexpr float ImpactCloudSpreadScale = 1.35f;
-constexpr float ImpactCloudSizeScale = 1.22f;
-constexpr float LightningTrailParticleSizeScale = 3.0f;
-constexpr float LightningTrailParticleLifetimeScale = 2.0f;
+constexpr float ImpactCloudSizeScale = 2.44f;
+constexpr float LightningTrailParticleSizeScale = 6.0f;
+constexpr float LightningTrailParticleLifetimeScale = 4.0f;
 
 struct LayerRecipe
 {

@@ -211,6 +211,11 @@ int outdoorMinimapArrowIndex(float yawRadians)
     return (octant + 7) % 8;
 }
 
+float outdoorMinimapArrowYawRadians(const GameplayScreenRuntime &context)
+{
+    return context.gameplayMinimapArrowYawRadians();
+}
+
 float nearestHostileActorDistanceToParty(const IGameplayWorldRuntime *pWorldRuntime)
 {
     if (pWorldRuntime == nullptr)
@@ -1480,7 +1485,7 @@ void GameplayUiRenderer::renderGameplayHudArt(GameplayScreenRuntime &context, in
                 minimapScissorHeight);
         }
 
-        const int arrowIndex = outdoorMinimapArrowIndex(context.gameplayCameraYawRadians());
+        const int arrowIndex = outdoorMinimapArrowIndex(outdoorMinimapArrowYawRadians(context));
         const std::optional<GameplayHudTextureHandle> arrowTexture =
             context.gameplayUiRuntime().ensureHudTextureLoaded("MAPDIR" + std::to_string(arrowIndex + 1));
 

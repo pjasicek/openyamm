@@ -998,38 +998,9 @@ std::optional<size_t> OutdoorInteractionController::resolveClosestVisibleHostile
 
     const uint16_t viewWidth = static_cast<uint16_t>(std::max(view.m_lastRenderWidth, 1));
     const uint16_t viewHeight = static_cast<uint16_t>(std::max(view.m_lastRenderHeight, 1));
-    const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
-    const float cameraYawRadians = view.effectiveCameraYawRadians();
-    const float cameraPitchRadians = view.effectiveCameraPitchRadians();
-    const float cosPitch = std::cos(cameraPitchRadians);
-    const float sinPitch = std::sin(cameraPitchRadians);
-    const float cosYaw = std::cos(cameraYawRadians);
-    const float sinYaw = std::sin(cameraYawRadians);
-    const bx::Vec3 eye = {
-        view.m_cameraTargetX,
-        view.m_cameraTargetY,
-        view.m_cameraTargetZ
-    };
-    const bx::Vec3 at = {
-        view.m_cameraTargetX + cosYaw * cosPitch,
-        view.m_cameraTargetY + sinYaw * cosPitch,
-        view.m_cameraTargetZ + sinPitch
-    };
-    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
-    float viewMatrix[16] = {};
-    float projectionMatrix[16] = {};
     float viewProjectionMatrix[16] = {};
-    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
-    bx::mtxProj(
-        projectionMatrix,
-        CameraVerticalFovDegrees,
-        aspectRatio,
-        0.1f,
-        200000.0f,
-        bgfx::getCaps()->homogeneousDepth,
-        bx::Handedness::Right
-    );
-    bx::mtxMul(viewProjectionMatrix, viewMatrix, projectionMatrix);
+    const ArpgModeCameraFrame cameraFrame = view.buildCameraFrame(viewWidth, viewHeight, 200000.0f);
+    bx::mtxMul(viewProjectionMatrix, cameraFrame.viewMatrix.data(), cameraFrame.projectionMatrix.data());
 
     std::optional<size_t> nearestActorIndex;
     float nearestDistanceSquared = std::numeric_limits<float>::max();
@@ -1125,44 +1096,15 @@ bool OutdoorInteractionController::buildQuickCastInspectRayForScreenPoint(
         return false;
     }
 
-    const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
-    const float cameraYawRadians = view.effectiveCameraYawRadians();
-    const float cameraPitchRadians = view.effectiveCameraPitchRadians();
-    const float cosPitch = std::cos(cameraPitchRadians);
-    const float sinPitch = std::sin(cameraPitchRadians);
-    const float cosYaw = std::cos(cameraYawRadians);
-    const float sinYaw = std::sin(cameraYawRadians);
-    const bx::Vec3 eye = {
-        view.m_cameraTargetX,
-        view.m_cameraTargetY,
-        view.m_cameraTargetZ
-    };
-    const bx::Vec3 at = {
-        view.m_cameraTargetX + cosYaw * cosPitch,
-        view.m_cameraTargetY + sinYaw * cosPitch,
-        view.m_cameraTargetZ + sinPitch
-    };
-    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
-    float viewMatrix[16] = {};
-    float projectionMatrix[16] = {};
-    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
-    bx::mtxProj(
-        projectionMatrix,
-        CameraVerticalFovDegrees,
-        aspectRatio,
-        0.1f,
-        200000.0f,
-        bgfx::getCaps()->homogeneousDepth,
-        bx::Handedness::Right
-    );
+    const ArpgModeCameraFrame cameraFrame = view.buildCameraFrame(viewWidth, viewHeight, 200000.0f);
 
     return OutdoorInteractionController::buildInspectRayForScreenPoint(
         screenX,
         screenY,
         viewWidth,
         viewHeight,
-        viewMatrix,
-        projectionMatrix,
+        cameraFrame.viewMatrix.data(),
+        cameraFrame.projectionMatrix.data(),
         rayOrigin,
         rayDirection);
 }
@@ -1187,36 +1129,7 @@ std::optional<bx::Vec3> OutdoorInteractionController::resolveQuickCastCursorTarg
 
     const uint16_t viewWidth = static_cast<uint16_t>(std::max(view.m_lastRenderWidth, 1));
     const uint16_t viewHeight = static_cast<uint16_t>(std::max(view.m_lastRenderHeight, 1));
-    const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
-    const float cameraYawRadians = view.effectiveCameraYawRadians();
-    const float cameraPitchRadians = view.effectiveCameraPitchRadians();
-    const float cosPitch = std::cos(cameraPitchRadians);
-    const float sinPitch = std::sin(cameraPitchRadians);
-    const float cosYaw = std::cos(cameraYawRadians);
-    const float sinYaw = std::sin(cameraYawRadians);
-    const bx::Vec3 eye = {
-        view.m_cameraTargetX,
-        view.m_cameraTargetY,
-        view.m_cameraTargetZ
-    };
-    const bx::Vec3 at = {
-        view.m_cameraTargetX + cosYaw * cosPitch,
-        view.m_cameraTargetY + sinYaw * cosPitch,
-        view.m_cameraTargetZ + sinPitch
-    };
-    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
-    float viewMatrix[16] = {};
-    float projectionMatrix[16] = {};
-    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
-    bx::mtxProj(
-        projectionMatrix,
-        CameraVerticalFovDegrees,
-        aspectRatio,
-        0.1f,
-        200000.0f,
-        bgfx::getCaps()->homogeneousDepth,
-        bx::Handedness::Right
-    );
+    const ArpgModeCameraFrame cameraFrame = view.buildCameraFrame(viewWidth, viewHeight, 200000.0f);
 
     const OutdoorGameView::InspectHit inspectHit = OutdoorInteractionController::inspectBModelFace(
         const_cast<OutdoorGameView &>(view),
@@ -1227,8 +1140,8 @@ std::optional<bx::Vec3> OutdoorInteractionController::resolveQuickCastCursorTarg
         cursorY,
         view.m_lastRenderWidth,
         view.m_lastRenderHeight,
-        viewMatrix,
-        projectionMatrix,
+        cameraFrame.viewMatrix.data(),
+        cameraFrame.projectionMatrix.data(),
         OutdoorGameView::DecorationPickMode::Interaction);
     const std::optional<float> terrainDistance =
         intersectOutdoorTerrainRay(*view.m_outdoorMapData, rayOrigin, rayDirection);
@@ -2423,46 +2336,20 @@ GameplayWorldPickRequest OutdoorInteractionController::buildWorldPickRequest(
 {
     const uint16_t viewWidth = static_cast<uint16_t>(std::max(input.screenWidth, 1));
     const uint16_t viewHeight = static_cast<uint16_t>(std::max(input.screenHeight, 1));
-    const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
-    const float cameraYawRadians = view.effectiveCameraYawRadians();
-    const float cameraPitchRadians = view.effectiveCameraPitchRadians();
-    const float cosPitch = std::cos(cameraPitchRadians);
-    const float sinPitch = std::sin(cameraPitchRadians);
-    const float cosYaw = std::cos(cameraYawRadians);
-    const float sinYaw = std::sin(cameraYawRadians);
-    const bx::Vec3 eye = {
-        view.m_cameraTargetX,
-        view.m_cameraTargetY,
-        view.m_cameraTargetZ
-    };
-    const bx::Vec3 at = {
-        view.m_cameraTargetX + cosYaw * cosPitch,
-        view.m_cameraTargetY + sinYaw * cosPitch,
-        view.m_cameraTargetZ + sinPitch
-    };
-    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
-    float viewMatrix[16] = {};
-    float projectionMatrix[16] = {};
-
-    bx::mtxLookAt(viewMatrix, eye, at, up, bx::Handedness::Right);
-    bx::mtxProj(
-        projectionMatrix,
-        CameraVerticalFovDegrees,
-        aspectRatio,
-        0.1f,
-        DefaultOutdoorFarClip,
-        bgfx::getCaps()->homogeneousDepth,
-        bx::Handedness::Right
-    );
+    const ArpgModeCameraFrame cameraFrame =
+        view.buildCameraFrame(viewWidth, viewHeight, DefaultOutdoorFarClip);
 
     GameplayWorldPickRequest pickRequest = {};
     pickRequest.screenX = input.screenX;
     pickRequest.screenY = input.screenY;
     pickRequest.viewWidth = viewWidth;
     pickRequest.viewHeight = viewHeight;
-    pickRequest.eye = eye;
-    std::copy(std::begin(viewMatrix), std::end(viewMatrix), pickRequest.viewMatrix.begin());
-    std::copy(std::begin(projectionMatrix), std::end(projectionMatrix), pickRequest.projectionMatrix.begin());
+    pickRequest.eye = cameraFrame.eye;
+    std::copy(cameraFrame.viewMatrix.begin(), cameraFrame.viewMatrix.end(), pickRequest.viewMatrix.begin());
+    std::copy(
+        cameraFrame.projectionMatrix.begin(),
+        cameraFrame.projectionMatrix.end(),
+        pickRequest.projectionMatrix.begin());
 
     if (input.includeRay)
     {
@@ -2472,8 +2359,8 @@ GameplayWorldPickRequest OutdoorInteractionController::buildWorldPickRequest(
                 input.screenY,
                 viewWidth,
                 viewHeight,
-                viewMatrix,
-                projectionMatrix,
+                cameraFrame.viewMatrix.data(),
+                cameraFrame.projectionMatrix.data(),
                 pickRequest.rayOrigin,
                 pickRequest.rayDirection);
 
@@ -2560,6 +2447,49 @@ GameplayPartyAttackFrameInput OutdoorInteractionController::buildPartyAttackFram
             .y = pickRequest.rayOrigin.y + pickRequest.rayDirection.y * 5120.0f,
             .z = pickRequest.rayOrigin.z + pickRequest.rayDirection.z * 5120.0f,
         };
+
+    if (view.arpgModeEnabled())
+    {
+        std::optional<bx::Vec3> arpgCursorGroundTarget;
+
+        if (view.m_outdoorMapData && pickRequest.hasRay)
+        {
+            const std::optional<float> terrainDistance =
+                intersectOutdoorTerrainRay(*view.m_outdoorMapData, pickRequest.rayOrigin, pickRequest.rayDirection);
+
+            if (terrainDistance)
+            {
+                arpgCursorGroundTarget =
+                    bx::Vec3{
+                        pickRequest.rayOrigin.x + pickRequest.rayDirection.x * *terrainDistance,
+                        pickRequest.rayOrigin.y + pickRequest.rayDirection.y * *terrainDistance,
+                        pickRequest.rayOrigin.z + pickRequest.rayDirection.z * *terrainDistance
+                    };
+            }
+        }
+
+        float arpgTargetYawRadians = view.m_cameraYawRadians;
+
+        if (arpgCursorGroundTarget)
+        {
+            const float deltaX = arpgCursorGroundTarget->x - attackSourceX;
+            const float deltaY = arpgCursorGroundTarget->y - attackSourceY;
+
+            if (deltaX * deltaX + deltaY * deltaY > InspectRayEpsilon * InspectRayEpsilon)
+            {
+                arpgTargetYawRadians = std::atan2(deltaY, deltaX);
+            }
+        }
+
+        input.defaultRangedTarget =
+            GameplayWorldPoint{
+                .x = attackSourceX + std::cos(arpgTargetYawRadians) * 5120.0f,
+                .y = attackSourceY + std::sin(arpgTargetYawRadians) * 5120.0f,
+                .z = attackSourceZ,
+            };
+        input.hasRayRangedTarget = false;
+    }
+
     std::copy(
         pickRequest.viewMatrix.begin(),
         pickRequest.viewMatrix.end(),
@@ -2745,6 +2675,299 @@ GameplayWorldHit OutdoorInteractionController::pickKeyboardInteractionTarget(
         request.ignoreActors);
 
     return translateInspectHitToGameplayWorldHit(view, inspectHit);
+}
+
+GameplayWorldHit OutdoorInteractionController::pickNearbyInteractionTarget(
+    OutdoorGameView &view,
+    const OutdoorMapData &outdoorMapData,
+    float radius)
+{
+    if (view.m_pOutdoorPartyRuntime == nullptr)
+    {
+        return {};
+    }
+
+    const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+    const float maxRadius = std::max(0.0f, radius);
+    const float maxRadiusSquared = maxRadius * maxRadius;
+    OutdoorGameView::InspectHit bestHit = {};
+    float bestDistanceSquared = maxRadiusSquared;
+
+    const auto distanceSquaredFromParty =
+        [&](float x, float y) -> float
+        {
+            const float deltaX = x - moveState.x;
+            const float deltaY = y - moveState.y;
+            return deltaX * deltaX + deltaY * deltaY;
+        };
+
+    const auto tryUpdateBestHit =
+        [&](OutdoorGameView::InspectHit hit, float targetX, float targetY, float targetZ)
+        {
+            const float distanceSquared = distanceSquaredFromParty(targetX, targetY);
+
+            if (distanceSquared > bestDistanceSquared)
+            {
+                return;
+            }
+
+            hit.distance = std::sqrt(distanceSquared);
+            hit.hitX = targetX;
+            hit.hitY = targetY;
+            hit.hitZ = targetZ;
+
+            if (!canActivateInteractionInspectEvent(view, hit, InteractionInputMethod::Keyboard))
+            {
+                return;
+            }
+
+            if (view.arpgModeEnabled() && view.m_pOutdoorWorldRuntime != nullptr)
+            {
+                const bx::Vec3 start = {moveState.x, moveState.y, moveState.footZ + view.m_cameraEyeHeight};
+                const bx::Vec3 end = {targetX, targetY, targetZ};
+
+                if (!view.m_pOutdoorWorldRuntime->hasClearOutdoorLineOfSight(start, end))
+                {
+                    return;
+                }
+            }
+
+            bestDistanceSquared = distanceSquared;
+            bestHit = std::move(hit);
+        };
+
+    if (view.m_pOutdoorWorldRuntime != nullptr)
+    {
+        for (size_t actorIndex = 0; actorIndex < view.m_pOutdoorWorldRuntime->mapActorCount(); ++actorIndex)
+        {
+            const OutdoorWorldRuntime::MapActorState *pActor = view.m_pOutdoorWorldRuntime->mapActorState(actorIndex);
+
+            if (pActor == nullptr || pActor->isInvisible)
+            {
+                continue;
+            }
+
+            OutdoorGameView::InspectHit hit = {};
+            hit.hasHit = true;
+            hit.kind = "actor";
+            hit.bModelIndex = actorIndex;
+            hit.runtimeActorIndex = actorIndex;
+            hit.name = pActor->displayName;
+            hit.isFriendly = !pActor->hostileToParty;
+            hit.npcId = pActor->npcId;
+            hit.actorGroup = pActor->group;
+            tryUpdateBestHit(
+                std::move(hit),
+                pActor->preciseX,
+                pActor->preciseY,
+                pActor->preciseZ + static_cast<float>(pActor->height) * 0.5f);
+        }
+
+        for (size_t worldItemIndex = 0; worldItemIndex < view.m_pOutdoorWorldRuntime->worldItemCount(); ++worldItemIndex)
+        {
+            const OutdoorWorldRuntime::WorldItemState *pWorldItem =
+                view.m_pOutdoorWorldRuntime->worldItemState(worldItemIndex);
+
+            if (pWorldItem == nullptr || pWorldItem->isExpired)
+            {
+                continue;
+            }
+
+            OutdoorGameView::InspectHit hit = {};
+            hit.hasHit = true;
+            hit.kind = "world_item";
+            hit.bModelIndex = worldItemIndex;
+            hit.name = pWorldItem->objectName;
+            hit.objectDescriptionId = pWorldItem->objectDescriptionId;
+            hit.objectSpriteId = pWorldItem->objectSpriteId;
+            hit.attributes = pWorldItem->attributes;
+            tryUpdateBestHit(std::move(hit), pWorldItem->x, pWorldItem->y, pWorldItem->z);
+        }
+    }
+
+    if (view.m_outdoorDecorationBillboardSet)
+    {
+        for (size_t decorationIndex = 0; decorationIndex < view.m_outdoorDecorationBillboardSet->billboards.size();
+             ++decorationIndex)
+        {
+            const DecorationBillboard &decoration = view.m_outdoorDecorationBillboardSet->billboards[decorationIndex];
+            bool hidden = false;
+
+            if (resolveDecorationBillboardSpriteId(view, decoration, hidden) == 0 || hidden)
+            {
+                continue;
+            }
+
+            OutdoorGameView::InspectHit hit = {};
+            hit.hasHit = true;
+            hit.kind = "decoration";
+            hit.bModelIndex = decorationIndex;
+            hit.name = decoration.name;
+            hit.decorationId = decoration.decorationId;
+
+            if (view.m_outdoorMapData && decoration.entityIndex < view.m_outdoorMapData->entities.size())
+            {
+                const OutdoorEntity &entity = view.m_outdoorMapData->entities[decoration.entityIndex];
+                hit.eventIdPrimary = entity.eventIdPrimary;
+                hit.eventIdSecondary = entity.eventIdSecondary;
+            }
+
+            tryUpdateBestHit(
+                std::move(hit),
+                static_cast<float>(decoration.x),
+                static_cast<float>(decoration.y),
+                static_cast<float>(decoration.z));
+        }
+    }
+
+    const EventRuntimeState *pEventRuntimeState =
+        view.m_pOutdoorWorldRuntime != nullptr ? view.m_pOutdoorWorldRuntime->eventRuntimeState() : nullptr;
+
+    for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
+    {
+        const OutdoorBModel &bModel = outdoorMapData.bmodels[bModelIndex];
+        const std::array<float, 3> bmodelOffset = outdoorBModelRuntimeOffset(pEventRuntimeState, bModelIndex);
+        const std::optional<uint16_t> runtimeCogTriggeredNumber =
+            outdoorBModelRuntimeCogTriggeredNumber(pEventRuntimeState, bModelIndex);
+
+        for (size_t faceIndex = 0; faceIndex < bModel.faces.size(); ++faceIndex)
+        {
+            const OutdoorBModelFace &face = bModel.faces[faceIndex];
+            const uint16_t cogTriggeredNumber = runtimeCogTriggeredNumber.value_or(face.cogTriggeredNumber);
+
+            if (!outdoorFaceIsInteractionActivatable(face.attributes, cogTriggeredNumber)
+                || face.vertexIndices.empty())
+            {
+                continue;
+            }
+
+            bx::Vec3 center = {0.0f, 0.0f, 0.0f};
+            size_t vertexCount = 0;
+
+            for (uint16_t vertexIndex : face.vertexIndices)
+            {
+                if (vertexIndex >= bModel.vertices.size())
+                {
+                    continue;
+                }
+
+                bx::Vec3 vertex = outdoorBModelVertexToWorld(bModel.vertices[vertexIndex]);
+                center.x += vertex.x + bmodelOffset[0];
+                center.y += vertex.y + bmodelOffset[1];
+                center.z += vertex.z + bmodelOffset[2];
+                ++vertexCount;
+            }
+
+            if (vertexCount == 0)
+            {
+                continue;
+            }
+
+            const float invVertexCount = 1.0f / static_cast<float>(vertexCount);
+            center.x *= invVertexCount;
+            center.y *= invVertexCount;
+            center.z *= invVertexCount;
+
+            OutdoorGameView::InspectHit hit = {};
+            hit.hasHit = true;
+            hit.kind = "face";
+            hit.bModelIndex = bModelIndex;
+            hit.faceIndex = faceIndex;
+            hit.textureName = face.textureName;
+            hit.attributes = face.attributes;
+            hit.bitmapIndex = face.bitmapIndex;
+            hit.cogNumber = face.cogNumber;
+            hit.cogTriggeredNumber = cogTriggeredNumber;
+            hit.cogTrigger = face.cogTrigger;
+            hit.polygonType = face.polygonType;
+            hit.shade = face.shade;
+            hit.visibility = face.visibility;
+            tryUpdateBestHit(std::move(hit), center.x, center.y, center.z);
+        }
+    }
+
+    return translateInspectHitToGameplayWorldHit(view, bestHit);
+}
+
+GameplayWorldHit OutdoorInteractionController::pickForwardInteractionTarget(
+    OutdoorGameView &view,
+    const OutdoorMapData &outdoorMapData,
+    float depth)
+{
+    if (view.m_pOutdoorPartyRuntime == nullptr)
+    {
+        return {};
+    }
+
+    const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+    const float yawRadians = view.m_cameraYawRadians;
+    const bx::Vec3 rayDirection = {std::cos(yawRadians), std::sin(yawRadians), 0.0f};
+    const bx::Vec3 rayOrigin = {moveState.x, moveState.y, moveState.footZ + view.m_cameraEyeHeight};
+    const bx::Vec3 at = {
+        rayOrigin.x + rayDirection.x,
+        rayOrigin.y + rayDirection.y,
+        rayOrigin.z + rayDirection.z
+    };
+    const bx::Vec3 up = {0.0f, 0.0f, 1.0f};
+    const int viewWidth = view.m_lastRenderWidth > 0 ? view.m_lastRenderWidth : 1280;
+    const int viewHeight = view.m_lastRenderHeight > 0 ? view.m_lastRenderHeight : 720;
+    const float aspectRatio = static_cast<float>(viewWidth) / static_cast<float>(viewHeight);
+    float viewMatrix[16] = {};
+    float projectionMatrix[16] = {};
+
+    bx::mtxLookAt(viewMatrix, rayOrigin, at, up, bx::Handedness::Right);
+    bx::mtxProj(
+        projectionMatrix,
+        60.0f,
+        aspectRatio,
+        0.1f,
+        DefaultOutdoorFarClip,
+        bgfx::getCaps()->homogeneousDepth,
+        bx::Handedness::Right);
+
+    GameplayWorldPickRequest request = {};
+    request.screenX = static_cast<float>(viewWidth) * 0.5f;
+    request.screenY = static_cast<float>(viewHeight) * 0.5f;
+    request.viewWidth = viewWidth;
+    request.viewHeight = viewHeight;
+    request.eye = rayOrigin;
+    request.rayOrigin = rayOrigin;
+    request.rayDirection = rayDirection;
+    request.hasRay = true;
+    std::copy(std::begin(viewMatrix), std::end(viewMatrix), request.viewMatrix.begin());
+    std::copy(std::begin(projectionMatrix), std::end(projectionMatrix), request.projectionMatrix.begin());
+
+    const OutdoorGameView::InspectHit inspectHit = inspectBModelFace(
+        view,
+        outdoorMapData,
+        rayOrigin,
+        rayDirection,
+        request.screenX,
+        request.screenY,
+        request.viewWidth,
+        request.viewHeight,
+        request.viewMatrix.data(),
+        request.projectionMatrix.data(),
+        OutdoorGameView::DecorationPickMode::Interaction,
+        FacePickMode::InteractionActivatable,
+        request.ignoreActors);
+    GameplayWorldHit hit = translateInspectHitToGameplayWorldHit(view, inspectHit);
+
+    if (!hit.hasHit || depth <= 0.0f)
+    {
+        return hit;
+    }
+
+    const float deltaX = inspectHit.hitX - moveState.x;
+    const float deltaY = inspectHit.hitY - moveState.y;
+    const float deltaZ = inspectHit.hitZ - moveState.footZ;
+
+    if (deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ > depth * depth)
+    {
+        return {};
+    }
+
+    return hit;
 }
 
 GameplayWorldHit OutdoorInteractionController::pickHeldItemWorldTarget(
@@ -4814,6 +5037,28 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(
 
             if (pActorState != nullptr && pActorState->isDead)
             {
+                if (view.arpgModeEnabled())
+                {
+                    if (view.tryActivateFirstArpgModeCorpseLootItem(*runtimeActorIndex))
+                    {
+                        pEventRuntimeState->lastActivationResult =
+                            "corpse " + std::to_string(*runtimeActorIndex) + " picked up arpg loot item";
+                        return true;
+                    }
+
+                    if (!view.m_pOutdoorWorldRuntime->ensureMapActorCorpseView(*runtimeActorIndex))
+                    {
+                        pEventRuntimeState->lastActivationResult =
+                            "corpse " + std::to_string(*runtimeActorIndex) + " empty";
+                        return true;
+                    }
+
+                    view.setStatusBarEvent("Loot dropped");
+                    pEventRuntimeState->lastActivationResult =
+                        "corpse " + std::to_string(*runtimeActorIndex) + " arpg loot labels";
+                    return true;
+                }
+
                 if (!view.m_pOutdoorWorldRuntime->openMapActorCorpseView(*runtimeActorIndex))
                 {
                     pEventRuntimeState->lastActivationResult =
@@ -5092,6 +5337,7 @@ bool OutdoorInteractionController::tryActivateWorldItemInspectEvent(
 
         const int goldAmount = static_cast<int>(std::max<uint32_t>(1u, worldItem.goldAmount));
         view.m_pOutdoorPartyRuntime->party().addGold(goldAmount);
+        view.m_pOutdoorPartyRuntime->party().requestSound(SoundId::Gold);
         view.setStatusBarEvent(formatFoundGoldStatusText(goldAmount));
 
         if (EventRuntimeState *pEventRuntimeState = view.m_pOutdoorWorldRuntime->eventRuntimeState())
@@ -5612,6 +5858,21 @@ bool OutdoorInteractionController::canDispatchWorldActivation(
 
     const OutdoorGameView::InspectHit inspectHit = inspectHitFromGameplayWorldHit(worldHit);
 
+    if (view.arpgModeEnabled() && inputMethod == InteractionInputMethod::Keyboard)
+    {
+        const float interactionDepth = interactionDepthForInputMethod(view, inputMethod);
+
+        if (!std::isfinite(inspectHit.distance) || inspectHit.distance > interactionDepth)
+        {
+            return false;
+        }
+
+        if (!arpgModeGameplayWorldHitHasLineOfSight(view, worldHit))
+        {
+            return false;
+        }
+    }
+
     if (worldHit.kind == GameplayWorldHitKind::Actor)
     {
         return canActivateInteractionActorInspectEvent(view, inspectHit, inputMethod);
@@ -5633,6 +5894,31 @@ bool OutdoorInteractionController::canDispatchWorldActivation(
     }
 
     return canActivateInteractionInspectEvent(view, inspectHit, inputMethod);
+}
+
+bool OutdoorInteractionController::arpgModeGameplayWorldHitHasLineOfSight(
+    const OutdoorGameView &view,
+    const GameplayWorldHit &worldHit)
+{
+    if (!worldHit.hasHit
+        || view.m_pOutdoorPartyRuntime == nullptr
+        || view.m_pOutdoorWorldRuntime == nullptr)
+    {
+        return false;
+    }
+
+    const OutdoorGameView::InspectHit inspectHit = inspectHitFromGameplayWorldHit(worldHit);
+
+    if (!inspectHit.hasHit)
+    {
+        return false;
+    }
+
+    const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+    const bx::Vec3 start = {moveState.x, moveState.y, moveState.footZ + view.m_cameraEyeHeight};
+    const bx::Vec3 end = {inspectHit.hitX, inspectHit.hitY, inspectHit.hitZ};
+
+    return view.m_pOutdoorWorldRuntime->hasClearOutdoorLineOfSight(start, end);
 }
 
 bool OutdoorInteractionController::dispatchWorldActivation(

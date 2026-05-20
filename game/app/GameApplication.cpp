@@ -7021,7 +7021,11 @@ void GameApplication::renderFrame(int width, int height, float mouseWheelDelta, 
         if (m_pMapSceneRuntime->kind() == SceneKind::Outdoor && m_pOutdoorPartyRuntime != nullptr)
         {
             const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
-            m_gameAudioSystem.update(moveState.x, moveState.y, moveState.footZ + 96.0f, deltaSeconds);
+            const float listenerZ =
+                m_outdoorGameView.arpgModeEnabled()
+                    ? moveState.footZ + m_settings.arpgModeCameraTargetHeight
+                    : moveState.footZ + 96.0f;
+            m_gameAudioSystem.update(moveState.x, moveState.y, listenerZ, deltaSeconds);
         }
         else if (m_pMapSceneRuntime->kind() == SceneKind::Indoor)
         {

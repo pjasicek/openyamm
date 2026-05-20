@@ -102,6 +102,34 @@ private:
         const std::optional<OutdoorBModelTextureSet> &outdoorBModelTextureSet);
     static void applySecretPulseUniforms(OutdoorGameView &view);
     static void applyOutdoorFxLightUniforms(OutdoorGameView &view, const bx::Vec3 &cameraPosition);
+    struct BModelOcclusionRay
+    {
+        bx::Vec3 origin = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 point = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 direction = {0.0f, 0.0f, 0.0f};
+        float distance = 0.0f;
+        float minX = 0.0f;
+        float maxX = 0.0f;
+        float minY = 0.0f;
+        float maxY = 0.0f;
+        float minZ = 0.0f;
+        float maxZ = 0.0f;
+    };
+    static bool makeOutdoorBModelOcclusionRay(
+        const bx::Vec3 &rayOrigin,
+        const bx::Vec3 &point,
+        BModelOcclusionRay &ray);
+    static void updateTexturedBModelBatchBounds(OutdoorGameView::TexturedBModelBatch &batch);
+    static bool outdoorBModelBatchOccludesPoint(
+        const OutdoorGameView::TexturedBModelBatch &batch,
+        const EventRuntimeState *pEventRuntimeState,
+        const BModelOcclusionRay &ray);
+    static void destroyResolvedBModelDrawGroupVector(
+        std::vector<OutdoorGameView::ResolvedBModelDrawGroup> &groups);
+    static void rebuildResolvedBModelDrawGroupVector(
+        OutdoorGameView &view,
+        std::vector<OutdoorGameView::ResolvedBModelDrawGroup> &drawGroups,
+        const std::vector<uint8_t> *pSkipBatchMask);
     static void destroyResolvedBModelDrawGroups(OutdoorGameView &view);
     static void rebuildResolvedBModelDrawGroups(OutdoorGameView &view);
     static bgfx::TextureHandle ensureBloodSplatTexture(OutdoorGameView &view);

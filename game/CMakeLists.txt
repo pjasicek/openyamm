@@ -8,6 +8,8 @@ FetchContent_GetProperties(bgfx SOURCE_DIR OPENYAMM_BGFX_FETCH_SOURCE_DIR)
 add_library(openyamm_game STATIC
     app/ScreenManager.cpp
     app/GameInputSystem.cpp
+    arpg/ArpgModeCamera.cpp
+    arpg/ArpgModeLoot.cpp
     arcomage/ArcomageAi.cpp
     arcomage/ArcomageLoader.cpp
     arcomage/ArcomageRules.cpp

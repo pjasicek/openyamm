@@ -1072,6 +1072,11 @@ void applyIncomingHitSideEffects(
 
     context.party.clearMemberCondition(memberIndex, CharacterCondition::Asleep);
 
+    if (context.pRuntime != nullptr && context.pRuntime->settingsSnapshot().arpgModeEnabled)
+    {
+        return;
+    }
+
     const CharacterSheetSummary summary = GameMechanics::buildCharacterSheetSummary(
         *pMember,
         context.pRuntime != nullptr ? context.pRuntime->itemTable() : nullptr,
