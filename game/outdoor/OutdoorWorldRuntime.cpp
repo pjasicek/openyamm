@@ -1,5 +1,6 @@
 #include "game/outdoor/OutdoorWorldRuntime.h"
 
+#include "game/data/ActorNameResolver.h"
 #include "game/debug/GameplayDebugTrace.h"
 #include "game/tables/ChestTable.h"
 #include "game/fx/ParticleRecipes.h"
@@ -57,6 +58,25 @@ namespace
 constexpr float GameMinutesPerRealSecond = 0.5f;
 constexpr float CollisionEpsilon = 0.01f;
 constexpr float OutdoorMechanismGeometryRefreshStepSeconds = 1.0f / 30.0f;
+
+std::string resolveSpawnedMapActorName(
+    const MonsterTable &monsterTable,
+    const MonsterTable::MonsterStatsEntry &stats,
+    uint32_t uniqueNameId)
+{
+    if (uniqueNameId != 0)
+    {
+        const std::optional<std::string> uniqueName =
+            monsterTable.getUniqueName(static_cast<int32_t>(uniqueNameId));
+
+        if (uniqueName && !uniqueName->empty())
+        {
+            return *uniqueName;
+        }
+    }
+
+    return stats.name;
+}
 
 float outdoorMechanismOpenFraction(
     const RuntimeMechanismState &mechanism,
@@ -696,11 +716,7 @@ constexpr float ChestTrapForwardDepth = 96.0f;
 constexpr float ChestTrapForwardPitchScale = 0.70710678f;
 constexpr float ChestTrapCenterSpriteZOffset = 32.0f;
 constexpr float OeTurnAwayFromWaterAngleRadians = Pi / 32.0f;
-constexpr int DwiMapId = 1;
-constexpr uint32_t DwiTestActor61 = 61;
-constexpr float DwiTestActor61X = -7665.0f;
-constexpr float DwiTestActor61Y = -4660.0f;
-constexpr float DwiTestActor61Z = 200.0f;
+constexpr int DaggerWoundIslandMapId = 1;
 constexpr uint32_t EventSpellSourceId = std::numeric_limits<uint32_t>::max();
 constexpr uint32_t GoldHeapSmallItemId = 187;
 constexpr uint32_t GoldHeapLargeItemId = 189;
@@ -2247,37 +2263,6 @@ float resolveActorGroundZ(
     return floorZ;
 }
 
-void applyTestActorOverrides(
-    int mapId,
-    const OutdoorMapData *pOutdoorMapData,
-    const MonsterTable::MonsterStatsEntry *pStats,
-    uint32_t actorId,
-    OutdoorWorldRuntime::MapActorState &state
-)
-{
-    if (mapId == DwiMapId && actorId == DwiTestActor61)
-    {
-        state.preciseX = DwiTestActor61X;
-        state.preciseY = DwiTestActor61Y;
-        state.preciseZ = resolveActorGroundZ(
-            pOutdoorMapData,
-            pStats,
-            state.radius,
-            DwiTestActor61X,
-            DwiTestActor61Y,
-            DwiTestActor61Z);
-        state.x = static_cast<int>(std::lround(state.preciseX));
-        state.y = static_cast<int>(std::lround(state.preciseY));
-        state.z = static_cast<int>(std::lround(state.preciseZ));
-        state.homePreciseX = state.preciseX;
-        state.homePreciseY = state.preciseY;
-        state.homePreciseZ = state.preciseZ;
-        state.homeX = state.x;
-        state.homeY = state.y;
-        state.homeZ = state.z;
-    }
-}
-
 float actorCollisionRadius(
     const OutdoorWorldRuntime::MapActorState &actor,
     const MonsterTable::MonsterStatsEntry *pStats)
@@ -2730,7 +2715,7 @@ OutdoorWorldRuntime::MapActorState buildMapActorState(
         pStats != nullptr ? resolveGameplayMonsterBolster(bolsterContext, *pStats, pMonsterEntry)
                           : GameplayMonsterBolsterResult {};
     const int baseMaxHp = pStats != nullptr ? pStats->hitPoints : std::max(0, static_cast<int>(actor.hp));
-    state.displayName = pStats != nullptr ? pStats->name : actor.name;
+    state.displayName = resolveMapDeltaActorName(monsterTable, actor);
     state.maxHp = pStats != nullptr ? bolster.maxHp : std::max(0, static_cast<int>(actor.hp));
     state.currentHp = actor.hp > 0 && actor.hp > baseMaxHp ? actor.hp : state.maxHp;
     state.bolsterRewardMultiplier = pStats != nullptr
@@ -3691,7 +3676,7 @@ OutdoorWorldRuntime::MapActorState buildSpawnedMapActorState(
     OutdoorWorldRuntime::MapActorState state = {};
     state.actorId = actorId;
     state.monsterId = static_cast<int16_t>(stats.id);
-    state.displayName = stats.name;
+    state.displayName = resolveSpawnedMapActorName(monsterTable, stats, uniqueNameId);
     state.uniqueNameId = uniqueNameId;
     state.spawnedAtRuntime = true;
     state.fromSpawnPoint = fromSpawnPoint;
@@ -4898,7 +4883,6 @@ void OutdoorWorldRuntime::initialize(
                 mapActorAttackAnimationSeconds[actorIndex],
                 bolsterContext);
             const MonsterTable::MonsterStatsEntry *pStats = monsterTable.findStatsById(actorState.monsterId);
-            applyTestActorOverrides(map.id, m_pOutdoorMapData, pStats, actorState.actorId, actorState);
 
             if (outdoorActorPreviewBillboardSet)
             {
@@ -7123,7 +7107,7 @@ void OutdoorWorldRuntime::refreshAtmosphereState()
             resolveRenderedSkyTextureName(m_atmosphereState.sourceSkyTextureName, minutesOfDay);
     }
 
-    if (m_mapId == DwiMapId)
+    if (m_mapId == DaggerWoundIslandMapId)
     {
         m_atmosphereState.skyTextureName = "sunsetclouds";
     }
@@ -7912,12 +7896,12 @@ void OutdoorWorldRuntime::applyOutdoorActorAudioRequests(const std::vector<Actor
             continue;
         }
 
-        if (audioRequest.kind == ActorAiAudioRequestKind::Alert)
+        if (audioRequest.kind == ActorAiAudioRequestKind::Bored)
         {
             pushAudioEvent(
-                pStats->awareSoundId,
+                pStats->boredSoundId,
                 actor.actorId,
-                "monster_alert",
+                "monster_bored",
                 audioRequest.position.x,
                 audioRequest.position.y,
                 audioRequest.position.z,
@@ -12650,7 +12634,6 @@ bool OutdoorWorldRuntime::spawnEncounterFromResolvedData(
         }
 
         actor.hostileToParty = actor.hostileToParty || aggro;
-        applyTestActorOverrides(m_mapId, m_pOutdoorMapData, pStats, actor.actorId, actor);
         applyOeOutdoorActorFloorCorrection(actor, *pStats);
 
         if (m_outdoorMovementController)
@@ -12728,6 +12711,7 @@ void OutdoorWorldRuntime::aggroNearbyMapActorFaction(size_t actorIndex, float pa
     }
 
     const MapActorState &victim = m_mapActors[actorIndex];
+    const MonsterTable::MonsterStatsEntry *pVictimStats = m_pMonsterTable->findStatsById(victim.monsterId);
 
     for (size_t otherActorIndex = 0; otherActorIndex < m_mapActors.size(); ++otherActorIndex)
     {
@@ -12745,8 +12729,11 @@ void OutdoorWorldRuntime::aggroNearbyMapActorFaction(size_t actorIndex, float pa
 
         const bool sameEventGroup = victim.group != 0 && victim.group == otherActor.group;
         const bool sameMonsterFaction = m_pMonsterTable->isLikelySameFaction(victim.monsterId, otherActor.monsterId);
+        const MonsterTable::MonsterStatsEntry *pOtherStats = m_pMonsterTable->findStatsById(otherActor.monsterId);
+        const bool sameCivilianAggression =
+            actorSharesCivilianAggression(victim.group, pVictimStats, otherActor.group, pOtherStats);
 
-        if (!sameEventGroup && !sameMonsterFaction)
+        if (!sameEventGroup && !sameMonsterFaction && !sameCivilianAggression)
         {
             continue;
         }
@@ -12783,8 +12770,6 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     {
         return false;
     }
-
-    const bool wasHostileOrAggressor = actor.hostileToParty || actor.hasDetectedParty;
 
     if (m_pGameplayActorService != nullptr
         && m_pGameplayActorService->hasPainReflection(buildGameplayActorSpellEffectState(actor))
@@ -12906,10 +12891,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
         }
     }
 
-    if (!wasHostileOrAggressor)
-    {
-        aggroNearbyMapActorFaction(actorIndex, partyX, partyY, partyZ);
-    }
+    aggroNearbyMapActorFaction(actorIndex, partyX, partyY, partyZ);
     return true;
 }
 
@@ -15993,6 +15975,26 @@ bool OutdoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
     }
 
     return OutdoorInteractionController::dispatchWorldActivation(*m_pInteractionView, hit);
+}
+
+bool OutdoorWorldRuntime::activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId)
+{
+    EventRuntimeState *pRuntimeState = eventRuntimeState();
+    const uint32_t previousSpellId = pRuntimeState != nullptr ? pRuntimeState->activeEventSpellId : 0;
+
+    if (pRuntimeState != nullptr)
+    {
+        pRuntimeState->activeEventSpellId = spellId;
+    }
+
+    const bool activated = activateWorldHit(hit);
+
+    if (pRuntimeState != nullptr)
+    {
+        pRuntimeState->activeEventSpellId = previousSpellId;
+    }
+
+    return activated;
 }
 
 bool OutdoorWorldRuntime::canActivateTelekinesisTarget(const GameplayWorldHit &hit) const

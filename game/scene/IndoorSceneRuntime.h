@@ -22,6 +22,7 @@ class GameplayProjectileService;
 class MergedBolsterMapTable;
 class MergedBolsterMonsterTable;
 class MonsterProjectileTable;
+class NpcDialogTable;
 class SpriteFrameTable;
 class SpellTable;
 
@@ -46,6 +47,7 @@ public:
         IndoorPartyRuntime::Snapshot partyRuntime;
         std::vector<TimerState> timers;
         std::optional<IndoorMoveState> lastProcessedPartyMoveStateForFaceTriggers;
+        std::optional<size_t> lastPartyFloorFaceForPressurePlateTriggers;
         float mechanismAccumulatorMilliseconds = 0.0f;
     };
 
@@ -72,7 +74,8 @@ public:
         const DecorationBillboardSet *pIndoorDecorationBillboardSet = nullptr,
         const MergedBolsterMapTable *pMergedBolsterMapTable = nullptr,
         const MergedBolsterMonsterTable *pMergedBolsterMonsterTable = nullptr,
-        bool bolsterMonstersEnabled = false
+        bool bolsterMonstersEnabled = false,
+        const NpcDialogTable *pNpcDialogTable = nullptr
     );
     IndoorSceneRuntime(
         const std::string &mapFileName,
@@ -92,7 +95,8 @@ public:
         const DecorationBillboardSet *pIndoorDecorationBillboardSet = nullptr,
         const MergedBolsterMapTable *pMergedBolsterMapTable = nullptr,
         const MergedBolsterMonsterTable *pMergedBolsterMonsterTable = nullptr,
-        bool bolsterMonstersEnabled = false
+        bool bolsterMonstersEnabled = false,
+        const NpcDialogTable *pNpcDialogTable = nullptr
     );
 
     SceneKind kind() const override;
@@ -148,6 +152,7 @@ private:
     IndoorWorldRuntime m_worldRuntime;
     std::vector<TimerState> m_timers;
     std::optional<IndoorMoveState> m_lastProcessedPartyMoveStateForFaceTriggers;
+    std::optional<size_t> m_lastPartyFloorFaceForPressurePlateTriggers;
     std::unordered_map<uint32_t, MechanismAudioState> m_mechanismAudioStates;
     float m_mechanismAccumulatorMilliseconds = 0.0f;
 };

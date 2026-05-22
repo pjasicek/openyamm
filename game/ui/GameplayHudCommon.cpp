@@ -349,6 +349,7 @@ GameplayResolvedHudLayoutElement GameplayHudCommon::resolveAttachedHudLayoutRect
 
 std::optional<GameplayResolvedHudLayoutElement> GameplayHudCommon::resolveHudLayoutElement(
     const UiLayoutManager &layoutManager,
+    const std::unordered_map<std::string, float> &runtimeWidthOverrides,
     const std::unordered_map<std::string, float> &runtimeHeightOverrides,
     const std::string &layoutId,
     int screenWidth,
@@ -390,6 +391,10 @@ std::optional<GameplayResolvedHudLayoutElement> GameplayHudCommon::resolveHudLay
                 uiViewport.width / HudReferenceWidth,
                 uiViewport.height / HudReferenceHeight);
             const auto runtimeHeightOverrideIterator = runtimeHeightOverrides.find(normalizedLayoutId);
+            const auto runtimeWidthOverrideIterator = runtimeWidthOverrides.find(normalizedLayoutId);
+            const float effectiveWidth = runtimeWidthOverrideIterator != runtimeWidthOverrides.end()
+                ? runtimeWidthOverrideIterator->second
+                : (element.width > 0.0f ? element.width : currentFallbackWidth);
             const float effectiveHeight = runtimeHeightOverrideIterator != runtimeHeightOverrides.end()
                 ? runtimeHeightOverrideIterator->second
                 : (element.height > 0.0f ? element.height : currentFallbackHeight);
@@ -418,7 +423,7 @@ std::optional<GameplayResolvedHudLayoutElement> GameplayHudCommon::resolveHudLay
                 resolved.scale = element.hasExplicitScale
                     ? std::clamp(baseScale, element.minScale, element.maxScale)
                     : parent->scale;
-                resolved.width = (element.width > 0.0f ? element.width : currentFallbackWidth) * resolved.scale;
+                resolved.width = effectiveWidth * resolved.scale;
                 resolved.height = effectiveHeight * resolved.scale;
                 resolved = resolveAttachedHudLayoutRect(
                     element.attachTo,
@@ -451,7 +456,7 @@ std::optional<GameplayResolvedHudLayoutElement> GameplayHudCommon::resolveHudLay
             }
 
             resolved.scale = std::clamp(baseScale, element.minScale, element.maxScale);
-            resolved.width = (element.width > 0.0f ? element.width : currentFallbackWidth) * resolved.scale;
+            resolved.width = effectiveWidth * resolved.scale;
             resolved.height = effectiveHeight * resolved.scale;
 
             switch (element.anchor)

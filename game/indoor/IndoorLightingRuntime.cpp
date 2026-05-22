@@ -7,6 +7,7 @@
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/party/Party.h"
+#include "game/render/lighting/FxLightClustering.h"
 #include "game/tables/SpriteTables.h"
 
 #include <algorithm>
@@ -26,6 +27,14 @@ constexpr uint8_t DefaultLightAlpha = 224;
 constexpr uint8_t FxLightAlphaFallback = 208;
 constexpr size_t InvalidDecorationDecorVarIndex = static_cast<size_t>(-1);
 constexpr size_t MaxDecorationDecorVarCount = 125;
+constexpr float IndoorFxClusterCellSize = 512.0f;
+constexpr uint32_t IndoorFxClusterThresholdPerSector = 4;
+constexpr uint32_t MaxFxClustersPerIndoorSector = 7;
+constexpr float MaxIndoorFxClusterRadius = 640.0f;
+constexpr float MaxIndoorFxClusterIntensity = 2.5f;
+constexpr size_t MaxIndoorTorchLightsPerDraw = 1;
+constexpr size_t MaxIndoorStaticLightsPerDraw = 4;
+constexpr size_t MaxIndoorFxLightsPerDraw = 7;
 
 float indoorRenderLightKindWeight(IndoorRenderLightKind kind)
 {
@@ -99,6 +108,29 @@ std::vector<size_t> buildIndoorInteractiveDecorationDecorVarIndices(
 bool isFxLight(IndoorRenderLightKind kind)
 {
     return kind == IndoorRenderLightKind::Fx;
+}
+
+bool isTorchLight(IndoorRenderLightKind kind)
+{
+    return kind == IndoorRenderLightKind::Torch;
+}
+
+bool isStaticDetailLight(IndoorRenderLightKind kind)
+{
+    return kind == IndoorRenderLightKind::Static || kind == IndoorRenderLightKind::Decoration;
+}
+
+IndoorRenderLight indoorLightFromRenderLight(const RenderLight &source)
+{
+    IndoorRenderLight light = {};
+    light.position = source.position;
+    light.radius = source.radius;
+    light.colorAbgr = source.colorAbgr;
+    light.intensity = source.intensity;
+    light.sectorId = source.sectorId;
+    light.kind = IndoorRenderLightKind::Fx;
+    light.stableId = source.stableId;
+    return light;
 }
 
 float redChannel(uint32_t colorAbgr)
@@ -264,6 +296,19 @@ void appendFrameLight(
         return;
     }
 
+    if (light.kind == IndoorRenderLightKind::Fx)
+    {
+        if (sectorId < frame.dynamicLightIndicesBySector.size())
+        {
+            frame.dynamicLightIndicesBySector[sectorId].push_back(lightIndex);
+        }
+        else
+        {
+            frame.globalLightIndices.push_back(lightIndex);
+        }
+        return;
+    }
+
     frame.lightIndicesBySector[sectorId].push_back(lightIndex);
 }
 
@@ -379,12 +424,25 @@ void addSectorLightingSample(
     int16_t sectorId,
     std::array<float, 3> &rgb)
 {
-    if (sectorId < 0 || static_cast<size_t>(sectorId) >= frame.lightIndicesBySector.size())
+    if (sectorId < 0)
     {
         return;
     }
 
-    for (uint32_t lightIndex : frame.lightIndicesBySector[static_cast<size_t>(sectorId)])
+    if (static_cast<size_t>(sectorId) < frame.lightIndicesBySector.size())
+    {
+        for (uint32_t lightIndex : frame.lightIndicesBySector[static_cast<size_t>(sectorId)])
+        {
+            addLightingSample(frame, position, lightIndex, rgb);
+        }
+    }
+
+    if (static_cast<size_t>(sectorId) >= frame.dynamicLightIndicesBySector.size())
+    {
+        return;
+    }
+
+    for (uint32_t lightIndex : frame.dynamicLightIndicesBySector[static_cast<size_t>(sectorId)])
     {
         addLightingSample(frame, position, lightIndex, rgb);
     }
@@ -435,6 +493,7 @@ IndoorDrawLightSet packDrawLightSet(
         lightSet.colors[base + 1] = greenChannel(light.colorAbgr);
         lightSet.colors[base + 2] = blueChannel(light.colorAbgr);
         lightSet.colors[base + 3] = alphaChannel(light.colorAbgr) * light.intensity * IndoorLightScale;
+        lightSet.stableIds[index] = light.stableId;
     }
 
     lightSet.lightCount = lightCount;
@@ -501,12 +560,25 @@ void appendSectorLightCandidates(
     CandidateLightList &candidateLightIndices,
     int16_t sectorId)
 {
-    if (sectorId < 0 || static_cast<size_t>(sectorId) >= frame.lightIndicesBySector.size())
+    if (sectorId < 0)
     {
         return;
     }
 
-    for (uint32_t lightIndex : frame.lightIndicesBySector[static_cast<size_t>(sectorId)])
+    if (static_cast<size_t>(sectorId) < frame.lightIndicesBySector.size())
+    {
+        for (uint32_t lightIndex : frame.lightIndicesBySector[static_cast<size_t>(sectorId)])
+        {
+            appendLightCandidate(frame, candidateLightIndices, lightIndex);
+        }
+    }
+
+    if (static_cast<size_t>(sectorId) >= frame.dynamicLightIndicesBySector.size())
+    {
+        return;
+    }
+
+    for (uint32_t lightIndex : frame.dynamicLightIndicesBySector[static_cast<size_t>(sectorId)])
     {
         appendLightCandidate(frame, candidateLightIndices, lightIndex);
     }
@@ -580,6 +652,52 @@ bool trySelectLight(
     ++selectedLightCount;
     return true;
 }
+
+template <size_t Capacity>
+void selectRankedLightsUpToBudget(
+    std::array<uint32_t, MaxIndoorDrawLights> &selectedLightIndices,
+    size_t &selectedLightCount,
+    const std::array<std::pair<uint32_t, float>, Capacity> &rankedLights,
+    size_t rankedLightCount,
+    size_t budget)
+{
+    size_t selectedFromBudget = 0;
+
+    for (size_t rankedIndex = 0; rankedIndex < rankedLightCount; ++rankedIndex)
+    {
+        if (selectedLightCount >= MaxIndoorDrawLights || selectedFromBudget >= budget)
+        {
+            break;
+        }
+
+        if (trySelectLight(selectedLightIndices, selectedLightCount, rankedLights[rankedIndex].first))
+        {
+            ++selectedFromBudget;
+        }
+    }
+}
+
+bool previousSelectionContains(
+    const IndoorLightSelectionHistory *pPreviousSelection,
+    uint32_t stableId)
+{
+    if (pPreviousSelection == nullptr || stableId == 0)
+    {
+        return false;
+    }
+
+    const size_t previousLightCount = std::min(pPreviousSelection->lightCount, MaxIndoorDrawLights);
+
+    for (size_t index = 0; index < previousLightCount; ++index)
+    {
+        if (pPreviousSelection->lightStableIds[index] == stableId)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
 }
 
 bool IndoorLightingRuntime::isBlvLightEnabledByState(
@@ -609,8 +727,14 @@ float IndoorLightingRuntime::ambientFromMinAmbientLightLevel(int minAmbientLight
 
 std::array<float, 3> IndoorLightingRuntime::sampleLightingRgb(
     const IndoorLightingFrame &frame,
-    const bx::Vec3 &position)
+    const bx::Vec3 &position,
+    LightingStats *pStats)
 {
+    if (pStats != nullptr)
+    {
+        ++pStats->billboardSamples;
+    }
+
     std::array<float, 3> rgb = {frame.ambient, frame.ambient, frame.ambient};
 
     for (uint32_t lightIndex = 0; lightIndex < frame.lights.size(); ++lightIndex)
@@ -625,11 +749,17 @@ std::array<float, 3> IndoorLightingRuntime::sampleLightingRgbForSectors(
     const IndoorLightingFrame &frame,
     const bx::Vec3 &position,
     int16_t sectorId,
-    int16_t backSectorId)
+    int16_t backSectorId,
+    LightingStats *pStats)
 {
+    if (pStats != nullptr)
+    {
+        ++pStats->billboardSamples;
+    }
+
     if (sectorId < 0 && backSectorId < 0)
     {
-        return sampleLightingRgb(frame, position);
+        return sampleLightingRgb(frame, position, nullptr);
     }
 
     std::array<float, 3> rgb = {frame.ambient, frame.ambient, frame.ambient};
@@ -652,10 +782,11 @@ std::array<float, 3> IndoorLightingRuntime::sampleLightingRgbForSectors(
 IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForPoint(
     const IndoorLightingFrame &frame,
     const bx::Vec3 &position,
-    const bx::Vec3 &viewForward)
+    const bx::Vec3 &viewForward,
+    LightingStats *pStats)
 {
     IndoorLightSelectionBounds bounds = {};
-    return selectDrawLightSetForBounds(frame, position, viewForward, -1, -1, bounds);
+    return selectDrawLightSetForBounds(frame, position, viewForward, -1, -1, bounds, pStats);
 }
 
 IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForSectors(
@@ -663,10 +794,20 @@ IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForSectors(
     const bx::Vec3 &referencePosition,
     const bx::Vec3 &viewForward,
     int16_t sectorId,
-    int16_t backSectorId)
+    int16_t backSectorId,
+    LightingStats *pStats,
+    const IndoorLightSelectionHistory *pPreviousSelection)
 {
     IndoorLightSelectionBounds bounds = {};
-    return selectDrawLightSetForBounds(frame, referencePosition, viewForward, sectorId, backSectorId, bounds);
+    return selectDrawLightSetForBounds(
+        frame,
+        referencePosition,
+        viewForward,
+        sectorId,
+        backSectorId,
+        bounds,
+        pStats,
+        pPreviousSelection);
 }
 
 IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForBounds(
@@ -675,7 +816,9 @@ IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForBounds(
     const bx::Vec3 &viewForward,
     int16_t sectorId,
     int16_t backSectorId,
-    const IndoorLightSelectionBounds &bounds)
+    const IndoorLightSelectionBounds &bounds,
+    LightingStats *pStats,
+    const IndoorLightSelectionHistory *pPreviousSelection)
 {
     CandidateLightList candidateLightIndices = {};
 
@@ -700,38 +843,16 @@ IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForBounds(
             appendSectorLightCandidates(frame, candidateLightIndices, backSectorId);
         }
 
-        if (bounds.valid)
-        {
-            // FX lights can visibly cross sector portals, but they should not be global candidates for every batch.
-            for (uint32_t lightIndex : frame.fxLightIndices)
-            {
-                if (lightIndex >= frame.lights.size())
-                {
-                    continue;
-                }
-
-                const IndoorRenderLight &light = frame.lights[lightIndex];
-
-                if (light.sectorId < 0 || light.sectorId == sectorId || light.sectorId == backSectorId)
-                {
-                    continue;
-                }
-
-                if (!lightTouchesBounds(light, bounds))
-                {
-                    continue;
-                }
-
-                appendLightCandidate(frame, candidateLightIndices, lightIndex);
-            }
-        }
     }
 
     const bx::Vec3 normalizedViewForward = normalizedVector(viewForward);
-    constexpr size_t ReservedNonFxDetailLights = 4;
-    std::array<std::pair<uint32_t, float>, ReservedNonFxDetailLights> rankedNonFxLights = {};
+    std::array<std::pair<uint32_t, float>, MaxIndoorDrawLights> rankedTorchLights = {};
+    std::array<std::pair<uint32_t, float>, MaxIndoorDrawLights> rankedStaticLights = {};
+    std::array<std::pair<uint32_t, float>, MaxIndoorDrawLights> rankedFxLights = {};
     std::array<std::pair<uint32_t, float>, MaxIndoorDrawLights> rankedLights = {};
-    size_t rankedNonFxLightCount = 0;
+    size_t rankedTorchLightCount = 0;
+    size_t rankedStaticLightCount = 0;
+    size_t rankedFxLightCount = 0;
     size_t rankedLightCount = 0;
     CandidateLightList touchingLightIndices = {};
 
@@ -753,40 +874,64 @@ IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForBounds(
 
         touchingLightIndices.push(lightIndex);
 
-        const float score = lightDrawScore(light, referencePosition, normalizedViewForward, sectorId, backSectorId);
+        float score = lightDrawScore(light, referencePosition, normalizedViewForward, sectorId, backSectorId);
 
         if (score <= 0.0f)
         {
             continue;
         }
 
+        if (previousSelectionContains(pPreviousSelection, light.stableId))
+        {
+            score *= 1.20f;
+        }
+
         insertRankedLight(rankedLights, rankedLightCount, lightIndex, score);
 
-        if (!isFxLight(light.kind))
+        if (isTorchLight(light.kind))
         {
-            insertRankedLight(rankedNonFxLights, rankedNonFxLightCount, lightIndex, score);
+            insertRankedLight(rankedTorchLights, rankedTorchLightCount, lightIndex, score);
+        }
+        else if (isStaticDetailLight(light.kind))
+        {
+            insertRankedLight(rankedStaticLights, rankedStaticLightCount, lightIndex, score);
+        }
+        else if (isFxLight(light.kind))
+        {
+            insertRankedLight(rankedFxLights, rankedFxLightCount, lightIndex, score);
         }
     }
 
     std::array<uint32_t, MaxIndoorDrawLights> selectedLightIndices = {};
     size_t selectedLightCount = 0;
 
-    for (size_t rankedIndex = 0; rankedIndex < rankedNonFxLightCount; ++rankedIndex)
-    {
-        trySelectLight(selectedLightIndices, selectedLightCount, rankedNonFxLights[rankedIndex].first);
-    }
-
-    for (size_t rankedIndex = 0; rankedIndex < rankedLightCount; ++rankedIndex)
-    {
-        if (selectedLightCount >= MaxIndoorDrawLights)
-        {
-            break;
-        }
-
-        trySelectLight(selectedLightIndices, selectedLightCount, rankedLights[rankedIndex].first);
-    }
+    selectRankedLightsUpToBudget(
+        selectedLightIndices,
+        selectedLightCount,
+        rankedTorchLights,
+        rankedTorchLightCount,
+        MaxIndoorTorchLightsPerDraw);
+    selectRankedLightsUpToBudget(
+        selectedLightIndices,
+        selectedLightCount,
+        rankedStaticLights,
+        rankedStaticLightCount,
+        MaxIndoorStaticLightsPerDraw);
+    selectRankedLightsUpToBudget(
+        selectedLightIndices,
+        selectedLightCount,
+        rankedFxLights,
+        rankedFxLightCount,
+        MaxIndoorFxLightsPerDraw);
+    selectRankedLightsUpToBudget(
+        selectedLightIndices,
+        selectedLightCount,
+        rankedLights,
+        rankedLightCount,
+        MaxIndoorDrawLights);
 
     std::array<float, 3> approximateRgb = {0.0f, 0.0f, 0.0f};
+    uint32_t omittedTailLightCount = 0;
 
     for (size_t candidateIndex = 0; candidateIndex < touchingLightIndices.size(); ++candidateIndex)
     {
@@ -798,6 +943,7 @@ IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForBounds(
             continue;
         }
 
+        ++omittedTailLightCount;
         const IndoorRenderLight &light = frame.lights[lightIndex];
         const float approximateTailLightScale = isFxLight(light.kind) ? 0.10f : 0.28f;
         const std::array<float, 3> contribution =
@@ -810,6 +956,14 @@ IndoorDrawLightSet IndoorLightingRuntime::selectDrawLightSetForBounds(
     approximateRgb[0] = std::clamp(approximateRgb[0], 0.0f, 0.45f);
     approximateRgb[1] = std::clamp(approximateRgb[1], 0.0f, 0.45f);
     approximateRgb[2] = std::clamp(approximateRgb[2], 0.0f, 0.45f);
+    if (pStats != nullptr)
+    {
+        recordLightingSelection(
+            *pStats,
+            static_cast<uint32_t>(candidateLightIndices.size()),
+            static_cast<uint32_t>(selectedLightCount),
+            omittedTailLightCount);
+    }
     return packDrawLightSet(frame, selectedLightIndices, selectedLightCount, approximateRgb);
 }
 
@@ -1001,6 +1155,7 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
     if (input.pMapData != nullptr)
     {
         frame.lightIndicesBySector.resize(input.pMapData->sectors.size());
+        frame.dynamicLightIndicesBySector.resize(input.pMapData->sectors.size());
     }
 
     if (input.pMapData != nullptr && !input.pMapData->sectors.empty())
@@ -1033,37 +1188,62 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
             torch.colorAbgr = torchLight->colorAbgr;
             torch.intensity = torchLight->intensity * IndoorTorchLightIntensityScale;
             torch.kind = IndoorRenderLightKind::Torch;
+            torch.stableId = 0x746f7263u;
             appendFrameLight(frame, torch, true);
         }
     }
 
     if (input.pWorldFxSystem != nullptr)
     {
+        std::vector<RenderLight> fxLights;
+        fxLights.reserve(input.pWorldFxSystem->lightEmitters().size());
+
         for (const WorldFxLightEmitter &emitter : input.pWorldFxSystem->lightEmitters())
         {
             const bx::Vec3 lightPosition = {emitter.x, emitter.y, emitter.z};
 
             if (!sectorVisible(input.pVisibleSectorMask, emitter.sectorId)
-                || !sphereIntersectsVisibleSectorFrustums(
-                    input.pVisibleSectorFrustums,
-                    emitter.sectorId,
-                    lightPosition,
-                    emitter.radius))
+                || (emitter.sectorId >= 0
+                    && !sphereIntersectsVisibleSectorFrustums(
+                        input.pVisibleSectorFrustums,
+                        emitter.sectorId,
+                        lightPosition,
+                        emitter.radius)))
             {
                 continue;
             }
 
-            IndoorRenderLight light = {};
+            RenderLight light = {};
             light.position = lightPosition;
             light.radius = emitter.radius;
             light.colorAbgr =
                 emitter.colorAbgr != 0
                     ? emitter.colorAbgr
                     : makeAbgr(255, 255, 255, FxLightAlphaFallback);
-            light.intensity = 1.0f;
+            light.intensity = emitter.intensity;
             light.sectorId = emitter.sectorId;
-            light.kind = IndoorRenderLightKind::Fx;
-            appendFrameLight(frame, light, false);
+            light.kind = emitter.kind;
+            light.stableId = emitter.stableId;
+            light.dynamic = true;
+            light.important = emitter.important;
+            fxLights.push_back(light);
+        }
+
+        FxLightClusterConfig clusterConfig = {};
+        clusterConfig.cellSize = IndoorFxClusterCellSize;
+        clusterConfig.thresholdPerSector = IndoorFxClusterThresholdPerSector;
+        clusterConfig.maxClustersPerSector = MaxFxClustersPerIndoorSector;
+        clusterConfig.maxRadius = MaxIndoorFxClusterRadius;
+        clusterConfig.maxIntensity = MaxIndoorFxClusterIntensity;
+        clusterConfig.allowSectorlessLights = true;
+        const FxLightClusterResult clusteredLights =
+            FxLightClustering::clusterSectorFxLights(fxLights, clusterConfig);
+        frame.sourceFxLightCount = static_cast<uint32_t>(fxLights.size());
+        frame.clusteredFxLightCount = clusteredLights.outputClusterLights;
+
+        for (const RenderLight &sourceLight : clusteredLights.lights)
+        {
+            appendFrameLight(frame, indoorLightFromRenderLight(sourceLight), false);
         }
     }
 
@@ -1141,6 +1321,10 @@ IndoorLightingFrame IndoorLightingRuntime::buildFrame(const IndoorLightingFrameI
                 light.intensity = source.intensity;
                 light.sectorId = source.sectorId;
                 light.kind = source.kind;
+                light.stableId =
+                    source.kind == IndoorRenderLightKind::Static
+                        ? static_cast<uint32_t>(source.sourceLightId + 1)
+                        : source.runtimeOverrideKey;
                 appendFrameLight(frame, light, false);
             };
 

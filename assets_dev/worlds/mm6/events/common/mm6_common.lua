@@ -333,25 +333,27 @@ function MM6.RevealSilvertongue()
 end
 
 function MM6.RepairStoneTemple()
+    if IsQBitSet(QBit(1132)) then
+        evt.EnterHouse(326)
+        return
+    end
+
     if IsQBitSet(QBit(1131)) then
         if HasItem(2054) then
             RemoveItem(2054)
             ClearQBit(QBit(1212))
             SetQBit(QBit(1132))
+            evt.EnterHouse(326)
             evt.SimpleMessage(
                 "You hand the Sacred Chalice to the monks of the temple who ensconce it in the main altar.")
         else
-            evt.EnterHouse(326)
+            evt.EnterHouse(1442)
         end
         return
     end
 
     if IsQBitSet(QBit(1130)) then
-        if IsQBitSet(QBit(1129)) then
-            evt.EnterHouse(1442)
-        else
-            evt.EnterHouse(326)
-        end
+        evt.EnterHouse(1442)
         return
     end
 

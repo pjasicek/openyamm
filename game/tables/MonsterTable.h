@@ -201,7 +201,7 @@ public:
         uint16_t attackSoundId = 0;
         uint16_t deathSoundId = 0;
         uint16_t winceSoundId = 0;
-        uint16_t awareSoundId = 0;
+        uint16_t boredSoundId = 0;
         uint32_t kindFlags = 0;
 
         bool hasKind(MonsterKind kind) const;

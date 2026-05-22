@@ -3053,7 +3053,7 @@ IndoorWorldRuntime::MapActorAiState buildIndoorMapActorAiState(
     IndoorWorldRuntime::MapActorAiState state = {};
     state.actorId = static_cast<uint32_t>(actorIndex);
     state.monsterId = resolvedMonsterId;
-    state.displayName = pStats != nullptr ? pStats->name : actor.name;
+    state.displayName = pMonsterTable != nullptr ? resolveMapDeltaActorName(*pMonsterTable, actor) : actor.name;
     state.bolsterRewardMultiplier = std::max(1.0f, actor.bolsterRewardMultiplier);
     state.spriteFrameIndex = pActorSpriteFrameTable != nullptr
         ? resolveRuntimeActorSpriteFrameIndex(*pActorSpriteFrameTable, actor, pMonsterEntry)
@@ -5001,9 +5001,9 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
 
         uint32_t soundId = 0;
 
-        if (audioRequest.kind == ActorAiAudioRequestKind::Alert)
+        if (audioRequest.kind == ActorAiAudioRequestKind::Bored)
         {
-            soundId = pStats->awareSoundId;
+            soundId = pStats->boredSoundId;
         }
         else if (audioRequest.kind == ActorAiAudioRequestKind::Attack)
         {
@@ -5028,7 +5028,9 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
         sound.soundId = soundId;
         sound.x = static_cast<int32_t>(std::lround(audioRequest.position.x));
         sound.y = static_cast<int32_t>(std::lround(audioRequest.position.y));
+        sound.z = static_cast<int32_t>(std::lround(audioRequest.position.z));
         sound.positional = true;
+        sound.hasExplicitZ = true;
         (*m_pEventRuntimeState)->pendingSounds.push_back(sound);
     }
 
@@ -5516,6 +5518,30 @@ void IndoorWorldRuntime::pushIndoorProjectileAudioEvent(
     sound.x = static_cast<int32_t>(std::lround(audioRequest.x));
     sound.y = static_cast<int32_t>(std::lround(audioRequest.y));
     sound.positional = audioRequest.positional;
+    (*m_pEventRuntimeState)->pendingSounds.push_back(sound);
+}
+
+void IndoorWorldRuntime::pushIndoorMonsterSound(size_t actorIndex, uint32_t soundId)
+{
+    if (soundId == 0
+        || m_pEventRuntimeState == nullptr
+        || !*m_pEventRuntimeState
+        || actorIndex >= m_mapActorAiStates.size())
+    {
+        return;
+    }
+
+    const MapActorAiState &aiState = m_mapActorAiStates[actorIndex];
+
+    EventRuntimeState::PendingSound sound = {};
+    sound.soundScope = SoundScope::World;
+    sound.soundId = soundId;
+    sound.x = static_cast<int32_t>(std::lround(aiState.preciseX));
+    sound.y = static_cast<int32_t>(std::lround(aiState.preciseY));
+    sound.z = static_cast<int32_t>(
+        std::lround(aiState.preciseZ + static_cast<float>(aiState.collisionHeight) * 0.5f));
+    sound.positional = true;
+    sound.hasExplicitZ = true;
     (*m_pEventRuntimeState)->pendingSounds.push_back(sound);
 }
 
@@ -6180,7 +6206,8 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
             const MonsterTable::MonsterStatsEntry *pStats = nullptr;
             if (impact.actorIndex < pMapDeltaData->actors.size() && m_pMonsterTable != nullptr)
             {
-                pStats = m_pMonsterTable->findStatsById(resolveIndoorActorStatsId(pMapDeltaData->actors[impact.actorIndex]));
+                pStats = m_pMonsterTable->findStatsById(
+                    resolveIndoorActorStatsId(pMapDeltaData->actors[impact.actorIndex]));
             }
 
             if (pStats != nullptr)
@@ -6246,11 +6273,29 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
             if (previousHp > 0 && targetActor.hp <= 0)
             {
                 beginMapActorDyingState(impact.actorIndex, targetActor);
+
+                if (m_pMonsterTable != nullptr)
+                {
+                    if (const MonsterTable::MonsterStatsEntry *pStats =
+                            m_pMonsterTable->findStatsById(resolvedMonsterId))
+                    {
+                        pushIndoorMonsterSound(impact.actorIndex, pStats->deathSoundId);
+                    }
+                }
             }
             else if (previousHp > 0 && targetActor.hp < previousHp)
             {
                 const GameplayWorldPoint sourcePoint = {projectile.sourceX, projectile.sourceY, projectile.sourceZ};
                 beginMapActorHitReaction(impact.actorIndex, targetActor, &sourcePoint);
+
+                if (m_pMonsterTable != nullptr)
+                {
+                    if (const MonsterTable::MonsterStatsEntry *pStats =
+                            m_pMonsterTable->findStatsById(resolvedMonsterId))
+                    {
+                        pushIndoorMonsterSound(impact.actorIndex, pStats->winceSoundId);
+                    }
+                }
             }
         }
     }
@@ -6451,12 +6496,30 @@ void IndoorWorldRuntime::applyIndoorProjectileFrameResult(
                         if (previousHp > 0 && targetActor.hp <= 0)
                         {
                             beginMapActorDyingState(actorHit.actorIndex, targetActor);
+
+                            if (m_pMonsterTable != nullptr)
+                            {
+                                if (const MonsterTable::MonsterStatsEntry *pStats =
+                                        m_pMonsterTable->findStatsById(resolvedMonsterId))
+                                {
+                                    pushIndoorMonsterSound(actorHit.actorIndex, pStats->deathSoundId);
+                                }
+                            }
                         }
                         else if (previousHp > 0 && targetActor.hp < previousHp)
                         {
                             const GameplayWorldPoint sourcePoint =
                                 {projectile.sourceX, projectile.sourceY, projectile.sourceZ};
                             beginMapActorHitReaction(actorHit.actorIndex, targetActor, &sourcePoint);
+
+                            if (m_pMonsterTable != nullptr)
+                            {
+                                if (const MonsterTable::MonsterStatsEntry *pStats =
+                                        m_pMonsterTable->findStatsById(resolvedMonsterId))
+                                {
+                                    pushIndoorMonsterSound(actorHit.actorIndex, pStats->winceSoundId);
+                                }
+                            }
                         }
                     }
                 }
@@ -8681,6 +8744,7 @@ void IndoorWorldRuntime::aggroNearbyMapActorFaction(size_t actorIndex)
 
     const MapDeltaActor &victim = pMapDeltaData->actors[actorIndex];
     const int16_t victimMonsterId = resolveIndoorActorStatsId(victim);
+    const MonsterTable::MonsterStatsEntry *pVictimStats = m_pMonsterTable->findStatsById(victimMonsterId);
     const float victimX =
         actorIndex < m_mapActorAiStates.size() ? m_mapActorAiStates[actorIndex].preciseX : static_cast<float>(victim.x);
     const float victimY =
@@ -8704,10 +8768,13 @@ void IndoorWorldRuntime::aggroNearbyMapActorFaction(size_t actorIndex)
         }
 
         const bool sameEventGroup = victim.group != 0 && victim.group == otherActor.group;
-        const bool sameMonsterFaction =
-            m_pMonsterTable->isLikelySameFaction(victimMonsterId, resolveIndoorActorStatsId(otherActor));
+        const int16_t otherMonsterId = resolveIndoorActorStatsId(otherActor);
+        const bool sameMonsterFaction = m_pMonsterTable->isLikelySameFaction(victimMonsterId, otherMonsterId);
+        const MonsterTable::MonsterStatsEntry *pOtherStats = m_pMonsterTable->findStatsById(otherMonsterId);
+        const bool sameCivilianAggression =
+            actorSharesCivilianAggression(victim.group, pVictimStats, otherActor.group, pOtherStats);
 
-        if (!sameEventGroup && !sameMonsterFaction)
+        if (!sameEventGroup && !sameMonsterFaction && !sameCivilianAggression)
         {
             continue;
         }
@@ -9723,6 +9790,11 @@ bool IndoorWorldRuntime::applyReflectedDamageToActor(
         m_mapActorAiStates[actorIndex].velocityY = knockback.y;
         m_mapActorAiStates[actorIndex].velocityZ = knockback.z;
 
+        if (pStats != nullptr)
+        {
+            pushIndoorMonsterSound(actorIndex, pStats->deathSoundId);
+        }
+
         applyMonsterKillReputationPenalty(*this, pStats, actor.group);
 
         if (pStats != nullptr && pStats->experience > 0 && m_pParty != nullptr)
@@ -9741,6 +9813,11 @@ bool IndoorWorldRuntime::applyReflectedDamageToActor(
         source.y = partyY();
         source.z = partyFootZ();
         beginMapActorHitReaction(actorIndex, actor, &source);
+
+        if (pStats != nullptr)
+        {
+            pushIndoorMonsterSound(actorIndex, pStats->winceSoundId);
+        }
     }
 
     return actor.hp != previousHp;
@@ -10095,11 +10172,21 @@ bool IndoorWorldRuntime::applyPartySpellToActor(
         aiState.velocityX = knockback.x;
         aiState.velocityY = knockback.y;
         aiState.velocityZ = knockback.z;
+
+        if (pStats != nullptr)
+        {
+            pushIndoorMonsterSound(actorIndex, pStats->deathSoundId);
+        }
     }
     else if (previousHp > 0 && actor.hp < previousHp)
     {
         const GameplayWorldPoint sourcePoint = {partyX, partyY, partyZ};
         beginMapActorHitReaction(actorIndex, actor, &sourcePoint);
+
+        if (pStats != nullptr)
+        {
+            pushIndoorMonsterSound(actorIndex, pStats->winceSoundId);
+        }
     }
 
     return actor.hp != previousHp;
@@ -11096,7 +11183,12 @@ bool IndoorWorldRuntime::applyIndoorActorPhysicsStep(IndoorMovementController &m
             actorIndex,
             true,
             nullptr,
-            actorCanFly);
+            actorCanFly,
+            false,
+            420.0f,
+            1.0f,
+            false,
+            true);
 
     const float deltaX = resolvedMoveState.x - aiState.preciseX;
     const float deltaY = resolvedMoveState.y - aiState.preciseY;
@@ -11365,6 +11457,26 @@ bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
     return m_pRenderer != nullptr && m_pRenderer->activateGameplayWorldHit(hit);
 }
 
+bool IndoorWorldRuntime::activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId)
+{
+    EventRuntimeState *pRuntimeState = eventRuntimeState();
+    const uint32_t previousSpellId = pRuntimeState != nullptr ? pRuntimeState->activeEventSpellId : 0;
+
+    if (pRuntimeState != nullptr)
+    {
+        pRuntimeState->activeEventSpellId = spellId;
+    }
+
+    const bool activated = activateWorldHit(hit);
+
+    if (pRuntimeState != nullptr)
+    {
+        pRuntimeState->activeEventSpellId = previousSpellId;
+    }
+
+    return activated;
+}
+
 bool IndoorWorldRuntime::canActivateTelekinesisTarget(const GameplayWorldHit &hit) const
 {
     if (!hit.hasHit)
@@ -11580,10 +11692,6 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
         return false;
     }
 
-    const bool wasHostileOrAggressor =
-        (actor.attributes
-            & (static_cast<uint32_t>(EvtActorAttribute::Hostile)
-                | static_cast<uint32_t>(EvtActorAttribute::Aggressor))) != 0;
     const int16_t resolvedMonsterId = resolveIndoorActorStatsId(actor);
     const int appliedDamage = applyMonsterDamageEventHooks(actorIndex, resolvedMonsterId, damage, damageType);
     const int previousHp = actor.hp;
@@ -11615,6 +11723,11 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
         m_mapActorAiStates[actorIndex].velocityX = knockback.x;
         m_mapActorAiStates[actorIndex].velocityY = knockback.y;
         m_mapActorAiStates[actorIndex].velocityZ = knockback.z;
+
+        if (pStats != nullptr)
+        {
+            pushIndoorMonsterSound(actorIndex, pStats->deathSoundId);
+        }
     }
 
     if (actorIndex < m_mapActorAiStates.size())
@@ -11674,6 +11787,11 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
         m_mapActorAiStates[actorIndex].velocityX = knockback.x;
         m_mapActorAiStates[actorIndex].velocityY = knockback.y;
         m_mapActorAiStates[actorIndex].velocityZ = knockback.z;
+
+        if (pStats != nullptr)
+        {
+            pushIndoorMonsterSound(actorIndex, pStats->winceSoundId);
+        }
     }
 
     if (previousHp > 0 && nextHp <= 0 && m_pMonsterTable != nullptr && m_pParty != nullptr)
@@ -11692,10 +11810,7 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
         }
     }
 
-    if (!wasHostileOrAggressor)
-    {
-        aggroNearbyMapActorFaction(actorIndex);
-    }
+    aggroNearbyMapActorFaction(actorIndex);
     return actor.hp != previousHp;
 }
 
@@ -13785,6 +13900,16 @@ bool IndoorWorldRuntime::setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn
     }
 
     return matchedAny;
+}
+
+std::vector<uint32_t> IndoorWorldRuntime::resolveIndoorLightReferenceIds(int32_t rawReferenceId) const
+{
+    if (m_pIndoorMapData == nullptr)
+    {
+        return {};
+    }
+
+    return OpenYAMM::Game::resolveIndoorLightReferenceIds(*m_pIndoorMapData, rawReferenceId);
 }
 
 std::vector<IndoorActorCollision> IndoorWorldRuntime::actorMovementCollidersForActorMovement(

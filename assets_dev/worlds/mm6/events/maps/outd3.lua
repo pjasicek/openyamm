@@ -449,6 +449,9 @@ RegisterEvent(210, nil, function(continueStep)
             evt._PressAnyKey(210, 12)
             return
         end
+        if not IsAtLeast(Gold, 100) then
+            return
+        end
         SubtractValue(Gold, 100)
         SetValue(MapVar(6), 0)
     end
@@ -456,6 +459,9 @@ RegisterEvent(210, nil, function(continueStep)
         if not IsAtLeast(Gold, 100) then
             evt.SetMessage("Well")
             evt._PressAnyKey(210, 12)
+            return
+        end
+        if not IsAtLeast(Gold, 100) then
             return
         end
         SubtractValue(Gold, 100)

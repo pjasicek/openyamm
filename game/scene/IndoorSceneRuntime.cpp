@@ -245,17 +245,9 @@ void seedIndoorInteractiveDecorationRuntimeStateIfNeeded(
     }
 }
 
-bool enteredIndoorPressurePlateFace(
-    const IndoorMoveState &previousState,
-    const IndoorMoveState &currentState)
+bool hasIndoorPressurePlateSupportFace(const IndoorMoveState &state)
 {
-    if (!currentState.grounded || currentState.supportFaceIndex == static_cast<size_t>(-1))
-    {
-        return false;
-    }
-
-    return !previousState.grounded
-        || previousState.supportFaceIndex != currentState.supportFaceIndex;
+    return state.grounded && state.supportFaceIndex != static_cast<size_t>(-1);
 }
 
 std::string uppercaseCopy(const std::string &value)
@@ -482,7 +474,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const DecorationBillboardSet *pIndoorDecorationBillboardSet,
     const MergedBolsterMapTable *pMergedBolsterMapTable,
     const MergedBolsterMonsterTable *pMergedBolsterMonsterTable,
-    bool bolsterMonstersEnabled)
+    bool bolsterMonstersEnabled,
+    const NpcDialogTable *pNpcDialogTable)
     : m_map(map)
     , m_mapFileName(mapFileName)
     , m_pIndoorMapData(&indoorMapData)
@@ -491,6 +484,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     , m_eventRuntimeState(eventRuntimeState)
     , m_localEventProgram(localEventProgram)
     , m_globalEventProgram(globalEventProgram)
+    , m_eventRuntime(nullptr, pNpcDialogTable)
     , m_partyRuntime(
         IndoorMovementController(indoorMapData, &m_mapDeltaData, &m_eventRuntimeState),
         itemTable)
@@ -559,7 +553,8 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     const DecorationBillboardSet *pIndoorDecorationBillboardSet,
     const MergedBolsterMapTable *pMergedBolsterMapTable,
     const MergedBolsterMonsterTable *pMergedBolsterMonsterTable,
-    bool bolsterMonstersEnabled)
+    bool bolsterMonstersEnabled,
+    const NpcDialogTable *pNpcDialogTable)
     : m_map(map)
     , m_mapFileName(mapFileName)
     , m_pIndoorMapData(&indoorMapData)
@@ -568,6 +563,7 @@ IndoorSceneRuntime::IndoorSceneRuntime(
     , m_eventRuntimeState(eventRuntimeState)
     , m_localEventProgram(localEventProgram)
     , m_globalEventProgram(globalEventProgram)
+    , m_eventRuntime(nullptr, pNpcDialogTable)
     , m_partyRuntime(
         IndoorMovementController(indoorMapData, &m_mapDeltaData, &m_eventRuntimeState),
         itemTable)
@@ -731,6 +727,7 @@ IndoorSceneRuntime::Snapshot IndoorSceneRuntime::snapshot() const
     snapshot.partyRuntime = m_partyRuntime.snapshot();
     snapshot.timers = m_timers;
     snapshot.lastProcessedPartyMoveStateForFaceTriggers = m_lastProcessedPartyMoveStateForFaceTriggers;
+    snapshot.lastPartyFloorFaceForPressurePlateTriggers = m_lastPartyFloorFaceForPressurePlateTriggers;
     snapshot.mechanismAccumulatorMilliseconds = m_mechanismAccumulatorMilliseconds;
     return snapshot;
 }
@@ -759,6 +756,14 @@ void IndoorSceneRuntime::restoreSnapshot(const Snapshot &snapshot)
     }
     m_timers = reconcileSavedTimersWithProgram(snapshot.timers, m_localEventProgram, m_globalEventProgram, m_mapFileName);
     m_lastProcessedPartyMoveStateForFaceTriggers = snapshot.lastProcessedPartyMoveStateForFaceTriggers;
+    m_lastPartyFloorFaceForPressurePlateTriggers = snapshot.lastPartyFloorFaceForPressurePlateTriggers;
+    if (!m_lastPartyFloorFaceForPressurePlateTriggers
+        && m_lastProcessedPartyMoveStateForFaceTriggers
+        && hasIndoorPressurePlateSupportFace(*m_lastProcessedPartyMoveStateForFaceTriggers))
+    {
+        m_lastPartyFloorFaceForPressurePlateTriggers =
+            m_lastProcessedPartyMoveStateForFaceTriggers->supportFaceIndex;
+    }
     m_mechanismAudioStates.clear();
     m_mechanismAccumulatorMilliseconds = snapshot.mechanismAccumulatorMilliseconds;
 }
@@ -913,16 +918,24 @@ bool IndoorSceneRuntime::updatePartyFaceTriggers()
 {
     const IndoorMoveState currentMoveState = m_partyRuntime.movementState();
 
-    if (!m_lastProcessedPartyMoveStateForFaceTriggers)
+    m_lastProcessedPartyMoveStateForFaceTriggers = currentMoveState;
+
+    if (!hasIndoorPressurePlateSupportFace(currentMoveState))
     {
-        m_lastProcessedPartyMoveStateForFaceTriggers = currentMoveState;
         return false;
     }
 
-    const IndoorMoveState previousMoveState = *m_lastProcessedPartyMoveStateForFaceTriggers;
-    m_lastProcessedPartyMoveStateForFaceTriggers = currentMoveState;
+    // Match OE floor-face semantics: short airborne/jitter frames do not re-enter the same pressure plate.
+    if (!m_lastPartyFloorFaceForPressurePlateTriggers)
+    {
+        m_lastPartyFloorFaceForPressurePlateTriggers = currentMoveState.supportFaceIndex;
+        return false;
+    }
 
-    if (!enteredIndoorPressurePlateFace(previousMoveState, currentMoveState))
+    const size_t previousFloorFaceIndex = *m_lastPartyFloorFaceForPressurePlateTriggers;
+    m_lastPartyFloorFaceForPressurePlateTriggers = currentMoveState.supportFaceIndex;
+
+    if (previousFloorFaceIndex == currentMoveState.supportFaceIndex)
     {
         return false;
     }
@@ -1044,7 +1057,7 @@ bool IndoorSceneRuntime::activateEvent(
     }
 
     m_worldRuntime.applyEventRuntimeState();
-    m_partyRuntime.party().applyEventRuntimeState(*m_eventRuntimeState);
+    m_partyRuntime.party().applyEventRuntimeState(*m_eventRuntimeState, false);
     m_eventRuntimeState->lastActivationResult = "event " + std::to_string(eventId) + " executed";
     return true;
 }

@@ -2485,7 +2485,7 @@ bool GameDataLoader::loadRosterTable(const Engine::AssetFileSystem &assetFileSys
         return false;
     }
 
-    if (!m_rosterTable.loadFromRows(rows))
+    if (!m_rosterTable.loadFromRows(rows, &m_classSkillTable))
     {
         std::cerr << "Failed to parse roster table: " << rosterPath << '\n';
         return false;
@@ -2553,7 +2553,19 @@ bool GameDataLoader::loadCharacterInspectTable(const Engine::AssetFileSystem &as
         return false;
     }
 
-    if (!m_characterInspectTable.loadStatRows(statRows) || !m_characterInspectTable.loadSkillRows(skillRows))
+    std::vector<std::vector<std::string>> classRows;
+
+    const std::string classPath = engineEnglishDataTablePath("class.txt");
+
+    if (!loadTextTableRows(assetFileSystem, classPath, classRows))
+    {
+        std::cerr << "Failed to read character inspect table: " << classPath << '\n';
+        return false;
+    }
+
+    if (!m_characterInspectTable.loadStatRows(statRows)
+        || !m_characterInspectTable.loadSkillRows(skillRows)
+        || !m_characterInspectTable.loadClassRows(classRows))
     {
         std::cerr << "Failed to parse character inspect tables\n";
         return false;
@@ -3424,7 +3436,7 @@ bool GameDataLoader::loadSelectedMap(
     timingLogger.stage("script textures appended");
 
     {
-        EventRuntime eventRuntime(&m_houseTable);
+        EventRuntime eventRuntime(&m_houseTable, &m_npcDialogTable);
         const std::optional<MapDeltaData> &mapDeltaData = m_selectedMap->outdoorMapDeltaData
             ? m_selectedMap->outdoorMapDeltaData
             : m_selectedMap->indoorMapDeltaData;

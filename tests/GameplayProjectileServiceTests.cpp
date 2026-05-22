@@ -127,17 +127,31 @@ TEST_CASE("monster attack projectile damage rolls monster table dice")
     }
 }
 
-TEST_CASE("sparks projectile uses shared lightning-style fx and light recipe")
+TEST_CASE("sparks projectile keeps lighting but skips emitted particles")
 {
     const ProjectileRecipe recipe = OpenYAMM::Game::FxRecipes::classifyProjectileRecipe(
         static_cast<int>(SpellId::Sparks),
         "Sparks",
         "spell02",
         0);
+    OpenYAMM::Game::ParticleSystem particleSystem;
+    OpenYAMM::Game::FxRecipes::ProjectileSpawnContext context = {};
+    context.spellId = static_cast<int>(SpellId::Sparks);
+    context.objectName = "Sparks";
+    context.spriteName = "spell02";
 
     CHECK(recipe == ProjectileRecipe::Sparks);
+    OpenYAMM::Game::FxRecipes::spawnProjectileTrailParticles(particleSystem, context, recipe);
+    CHECK_EQ(particleSystem.particleCount(), 0u);
     CHECK(OpenYAMM::Game::FxRecipes::projectileRecipeUsesDedicatedImpactFx(recipe));
-    CHECK(OpenYAMM::Game::FxRecipes::projectileRecipeGlowRadius(recipe) > 0.0f);
+    CHECK_GT(OpenYAMM::Game::FxRecipes::projectileRecipeGlowRadius(recipe), 0.0f);
+
+    OpenYAMM::Game::FxRecipes::ImpactSpawnContext impactContext = {};
+    impactContext.recipe = recipe;
+    impactContext.objectName = "Sparks";
+    impactContext.spriteName = "spell02";
+    OpenYAMM::Game::FxRecipes::spawnImpactParticles(particleSystem, impactContext);
+    CHECK_EQ(particleSystem.particleCount(), 0u);
 }
 
 TEST_CASE("energy blaster projectile has no trail particles but keeps dedicated impact fx")

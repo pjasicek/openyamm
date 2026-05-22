@@ -61,6 +61,7 @@ public:
     {
         bool interactionPressed = false;
         bool allowInteraction = false;
+        uint64_t currentTickNanoseconds = 0;
         GameplayWorldHit pickedHit;
         bool hasPickedHit = false;
         GameplayScreenRuntime *pRuntime = nullptr;
@@ -80,6 +81,7 @@ public:
     {
         bool activationPressed = false;
         bool allowInteraction = false;
+        uint64_t currentTickNanoseconds = 0;
         GameplayWorldHit currentHit;
         GameplayScreenRuntime *pRuntime = nullptr;
         IGameplayWorldRuntime *pWorldRuntime = nullptr;

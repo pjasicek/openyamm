@@ -1,5 +1,7 @@
 #pragma once
 
+#include "game/render/lighting/RenderLight.h"
+
 #include <cstdint>
 #include <unordered_map>
 
@@ -29,7 +31,10 @@ private:
         float y,
         float z,
         float radius,
-        uint32_t colorAbgr);
+        uint32_t colorAbgr,
+        RenderLightKind kind = RenderLightKind::GenericFx,
+        uint32_t stableId = 0,
+        bool important = false);
 
     std::unordered_map<uint64_t, float> m_emitterCooldownBySourceKey;
     std::unordered_map<uint64_t, uint32_t> m_emitterSequenceBySourceKey;

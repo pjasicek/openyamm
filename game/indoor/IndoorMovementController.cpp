@@ -1044,6 +1044,7 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
     state.y = y;
     state.eyeHeight = body.height;
     state.footZ = eyeZ - body.height;
+    state.fallStartZ = state.footZ;
 
     if (m_pIndoorMapData == nullptr)
     {
@@ -1131,6 +1132,7 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
         candidateState.eyeSectorId = floor.sectorId;
         candidateState.supportFaceIndex = floor.faceIndex;
         candidateState.grounded = true;
+        candidateState.fallStartZ = candidateState.footZ;
         return candidateState;
     };
 
@@ -1141,6 +1143,7 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
         candidateState.y = candidateY;
         candidateState.eyeHeight = body.height;
         candidateState.footZ = candidateEyeZ - body.height;
+        candidateState.fallStartZ = candidateState.footZ;
 
         IndoorFloorSample floor = sampleSupportedFloor(
             vertices,
@@ -1177,6 +1180,7 @@ IndoorMoveState IndoorMovementController::initializeStateFromEyePosition(
             candidateState.eyeSectorId = floor.sectorId;
             candidateState.supportFaceIndex = floor.faceIndex;
             candidateState.grounded = true;
+            candidateState.fallStartZ = candidateState.footZ;
         }
         else
         {
@@ -1316,6 +1320,7 @@ IndoorMoveState IndoorMovementController::resolveMove(
     IndoorMoveState currentState = state;
     IndoorMoveDebugInfo stepDebug = {};
     const float substepDeltaSeconds = deltaSeconds / static_cast<float>(substepCount);
+    float maxLandingFallDistance = 0.0f;
 
     for (int substepIndex = 0; substepIndex < substepCount; ++substepIndex)
     {
@@ -1338,6 +1343,11 @@ IndoorMoveState IndoorMovementController::resolveMove(
             lockVerticalPosition,
             preventGroundActorLedgeDrop);
 
+        if (currentState.landedThisFrame)
+        {
+            maxLandingFallDistance = std::max(maxLandingFallDistance, currentState.fallDistance);
+        }
+
         if (blockActorSlide
             && (stepDebug.primaryBlockKind == IndoorMoveBlockKind::Actor
                 || stepDebug.primaryBlockKind == IndoorMoveBlockKind::Party))
@@ -1349,6 +1359,12 @@ IndoorMoveState IndoorMovementController::resolveMove(
     if (pDebugInfo != nullptr)
     {
         *pDebugInfo = stepDebug;
+    }
+
+    if (maxLandingFallDistance > 0.0f)
+    {
+        currentState.landedThisFrame = true;
+        currentState.fallDistance = maxLandingFallDistance;
     }
 
     return currentState;
@@ -1463,6 +1479,8 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
     const float stepX = sweptState.velocity.x * sweptRequest.deltaSeconds;
     const float stepY = sweptState.velocity.y * sweptRequest.deltaSeconds;
     const bool flying = flyingActive && !jumpRequested;
+    const bool wasAirborne = !state.grounded;
+    const float stepFallStartZ = wasAirborne ? std::max(state.fallStartZ, state.footZ) : state.footZ;
     const std::optional<int16_t> preferredSectorId =
         state.sectorId >= 0 ? std::optional<int16_t>(state.sectorId) : std::nullopt;
     const IndoorFloorSample currentFloor = sampleSupportedFloor(
@@ -1502,6 +1520,33 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
     bool candidateGrounded = !flying && state.grounded && supportedByCurrentFloor;
     bool fullMoveBlockedByActor = false;
     IndoorWallCollision fullMoveWallCollision = {};
+
+    const auto finalizeFallState = [&](IndoorMoveState result) -> IndoorMoveState
+    {
+        result.landedThisFrame = false;
+        result.fallDistance = 0.0f;
+
+        if (flying || lockVerticalPosition)
+        {
+            result.fallStartZ = result.footZ;
+            return result;
+        }
+
+        if (result.grounded)
+        {
+            if (wasAirborne && result.footZ < stepFallStartZ)
+            {
+                result.landedThisFrame = true;
+                result.fallDistance = stepFallStartZ - result.footZ;
+            }
+
+            result.fallStartZ = result.footZ;
+            return result;
+        }
+
+        result.fallStartZ = wasAirborne ? std::max(stepFallStartZ, result.footZ) : result.footZ;
+        return result;
+    };
 
     const auto appendContactedActorIndex = [&](size_t actorIndex)
     {
@@ -1621,9 +1666,13 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
             && !flying
             && !sweptRequest.jumpRequested
             && movementLength > 0.0001f;
+        const auto floorDropsBelowActorLedgeGuard =
+            [&state](const IndoorFloorSample &sample) -> bool
+        {
+            return !sample.hasFloor || sample.height < state.footZ - ActorLedgeDropGuardHeight;
+        };
 
-        if (guardGroundActorAgainstLedgeDrop
-            && (!floor.hasFloor || floor.height < state.footZ - ActorLedgeDropGuardHeight))
+        if (guardGroundActorAgainstLedgeDrop && floorDropsBelowActorLedgeGuard(floor))
         {
             return false;
         }
@@ -1646,6 +1695,11 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 body,
                 preferredSectorId,
                 &nonBlockingMechanismFaceMask);
+
+            if (guardGroundActorAgainstLedgeDrop && floorDropsBelowActorLedgeGuard(leadingFootprintFloor))
+            {
+                return false;
+            }
 
             if (floor.hasFloor
                 && floor.faceIndex == state.supportFaceIndex
@@ -1934,7 +1988,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                             };
                         }
 
-                        return recoveredState;
+                        return finalizeFallState(recoveredState);
                     }
                 }
             }
@@ -2217,7 +2271,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 pDebugInfo->fullMoveSucceeded = true;
             }
 
-            return stationaryState;
+            return finalizeFallState(stationaryState);
         }
 
         return state;
@@ -2234,7 +2288,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 pDebugInfo->collisionResponseSucceeded = true;
             }
 
-            return iterativeState;
+            return finalizeFallState(iterativeState);
         }
 
         const bx::Vec3 remainingDirection =
@@ -2387,7 +2441,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                     pDebugInfo->collisionResponseSucceeded = sweptFaceHit;
                 }
 
-                return targetState;
+                return finalizeFallState(targetState);
             }
 
             fullMoveBlockedByActor = hitActor;
@@ -2430,7 +2484,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                             pDebugInfo->responseStep = slideStep;
                         }
 
-                        return slideState;
+                        return finalizeFallState(slideState);
                     }
                 }
             }
@@ -2523,7 +2577,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
             && (nearestHit->type == SweptCollisionHitType::Actor
                 || nearestHit->type == SweptCollisionHitType::Party))
         {
-            return iterativeState;
+            return finalizeFallState(iterativeState);
         }
 
         const float consumedDistance = std::clamp(nearestHit->moveDistance, 0.0f, remainingDistance);
@@ -2536,7 +2590,7 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
                 pDebugInfo->collisionResponseSucceeded = true;
             }
 
-            return iterativeState;
+            return finalizeFallState(iterativeState);
         }
 
         const bx::Vec3 leftoverStep = {
@@ -2574,11 +2628,11 @@ IndoorMoveState IndoorMovementController::resolveMoveSingleStep(
             pDebugInfo->collisionResponseSucceeded = true;
         }
 
-        return iterativeState;
+        return finalizeFallState(iterativeState);
     }
 
     writePrimaryBlockDebug();
-    return iterativeState;
+    return finalizeFallState(iterativeState);
 }
 
 IndoorCollisionTraceInfo IndoorMovementController::traceCollisionIssues(

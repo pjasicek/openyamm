@@ -9,6 +9,8 @@
 
 #include <array>
 #include <functional>
+#include <optional>
+#include <random>
 #include <string>
 #include <vector>
 
@@ -53,6 +55,7 @@ public:
         GameAudioSystem *pGameAudioSystem,
         const GameDataRepository &gameData,
         bool debugGodLichRoster,
+        bool allowIncompleteCharacterCreation,
         ContinueAction continueAction,
         BackAction backAction);
 
@@ -109,6 +112,13 @@ private:
     const CreationCandidate &candidateAt(size_t candidateIndex) const;
     void beginNameEditing();
     void endNameEditing(bool commitEdit);
+    void deleteNameEditCharacter();
+    void resetNameBackspaceRepeat();
+    void updateNameBackspaceRepeat(float deltaSeconds);
+    void ensurePcNamesLoaded();
+    std::string generateDefaultNameForState(const CreationState &state);
+    bool partyNameAlreadyUsed(const std::string &name) const;
+    size_t pcNameColumnForState(const CreationState &state) const;
     bool tryIncreaseStat(StatId statId);
     bool tryDecreaseStat(StatId statId);
     bool tryToggleOptionalSkill(const std::string &skillName);
@@ -162,12 +172,24 @@ private:
         const StatInspectEntry &entry,
         const MenuScreenBase::Rect &sourceRect,
         float scale);
+    void renderClassInspectPopup(
+        const ClassInspectEntry &entry,
+        const MenuScreenBase::Rect &sourceRect,
+        float scale);
+    void showCreationCompletionError();
+    void renderCreationCompletionErrorMessageBox(
+        const MenuScreenBase::Rect &rootRect,
+        float scale);
+    std::optional<TexturePixelsBgra> buildCreationPreviewDollPixels(
+        const CharacterDollEntry &entry,
+        const CharacterDollTypeEntry *pDollType);
     void playUiClickSound(SoundId soundId) const;
     void playVoicePreview();
 
     GameAudioSystem *m_pGameAudioSystem = nullptr;
     const GameDataRepository *m_pGameData = nullptr;
     bool m_debugGodLichRoster = false;
+    bool m_allowIncompleteCharacterCreation = false;
     ContinueAction m_continueAction;
     BackAction m_backAction;
     UiLayoutManager m_layoutManager;
@@ -176,9 +198,17 @@ private:
     SelectedContinent m_selectedContinent = {};
     std::vector<CreationCandidate> m_candidates;
     std::vector<CreationState> m_partyStates;
+    std::array<std::vector<std::string>, 8> m_pcNameColumns;
     CreationState m_state = {};
     size_t m_partySize = 1;
     size_t m_activePartySlot = 0;
+    std::mt19937 m_nameRng;
+    bool m_pcNamesLoaded = false;
+    bool m_nameBackspaceHeld = false;
+    float m_nameBackspaceRepeatTimer = 0.0f;
+    float m_creationCompletionErrorSeconds = 0.0f;
+    std::string m_creationPreviewDollCacheKey;
+    std::optional<TexturePixelsBgra> m_creationPreviewDollPixels;
     bool m_layoutLoaded = false;
     bool m_continentLayoutLoaded = false;
     bool m_characterCreationInitialized = false;

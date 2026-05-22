@@ -2,6 +2,7 @@
 
 #include <cstdint>
 #include <string>
+#include <vector>
 
 namespace OpenYAMM::Game
 {
@@ -16,6 +17,11 @@ public:
     virtual const MapDeltaData *mapDeltaData() const = 0;
     virtual MapDeltaData *mapDeltaData() = 0;
     virtual bool setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn) = 0;
+    virtual std::vector<uint32_t> resolveIndoorLightReferenceIds(int32_t rawReferenceId) const
+    {
+        (void)rawReferenceId;
+        return {};
+    }
 
     virtual bool registerOutdoorModelMechanism(
         uint32_t mechanismId,

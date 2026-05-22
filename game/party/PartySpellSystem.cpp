@@ -697,7 +697,18 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::AirResistance:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::PartyBuff, SkillMastery::Normal, {3, 3, 3, 3}, {120, 120, 120, 120}, PartyBuffId::AirResistance);
         case SpellId::Sparks:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::MultiProjectile, SkillMastery::Normal, {4, 4, 4, 4}, {110, 100, 90, 80}, PartyBuffId::TorchLight, 2, 1, true, sparksCount);
+            return makeBackendSpellRule(
+                spellId,
+                PartySpellCastTargetKind::GroundPoint,
+                PartySpellCastEffectKind::MultiProjectile,
+                SkillMastery::Normal,
+                {4, 4, 4, 4},
+                {},
+                PartyBuffId::TorchLight,
+                2,
+                1,
+                true,
+                sparksCount);
         case SpellId::Jump:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::None, PartySpellCastEffectKind::Jump, SkillMastery::Expert, {5, 5, 5, 5}, {90, 90, 70, 50}, PartyBuffId::TorchLight);
         case SpellId::Shield:
@@ -764,7 +775,7 @@ std::optional<BackendSpellRule> resolveBackendSpellRule(uint32_t spellId, SkillM
         case SpellId::Blades:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Actor, PartySpellCastEffectKind::ActorEffect, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight, 1, 9, false);
         case SpellId::StoneToFlesh:
-            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::Character, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
+            return makeBackendSpellRule(spellId, PartySpellCastTargetKind::CharacterOrWorldTarget, PartySpellCastEffectKind::CharacterRestore, SkillMastery::Expert, {}, {}, PartyBuffId::TorchLight);
         case SpellId::RockBlast:
             return makeBackendSpellRule(spellId, PartySpellCastTargetKind::GroundPoint, PartySpellCastEffectKind::Projectile, SkillMastery::Master, {}, {}, PartyBuffId::TorchLight, 10, 10, false);
         case SpellId::Telekinesis:
@@ -1404,6 +1415,15 @@ bool applyCharacterRestoreSpell(
     }
 }
 
+bool isStoneToFleshWorldTarget(const GameplayWorldHit &hit)
+{
+    return hit.hasHit
+        && hit.kind == GameplayWorldHitKind::EventTarget
+        && hit.eventTarget.has_value()
+        && hit.eventTarget->contextActionMetadata.has_value()
+        && hit.eventTarget->contextActionMetadata->kind == "stone_to_flesh";
+}
+
 PartySpellCastResult makeFailure(
     uint32_t spellId,
     PartySpellCastStatus status,
@@ -1632,6 +1652,23 @@ PartySpellCastResult PartySpellSystem::castSpell(
                 rule->targetKind,
                 rule->effectKind,
                 "Need character target");
+        }
+    }
+    else if (rule->targetKind == PartySpellCastTargetKind::CharacterOrWorldTarget)
+    {
+        const bool hasCharacterTarget =
+            request.targetCharacterIndex && party.member(*request.targetCharacterIndex) != nullptr;
+        const bool hasWorldTarget =
+            request.targetWorldHit.has_value() && isStoneToFleshWorldTarget(*request.targetWorldHit);
+
+        if (!hasCharacterTarget && !hasWorldTarget)
+        {
+            return makeFailure(
+                request.spellId,
+                PartySpellCastStatus::NeedCharacterOrWorldTarget,
+                rule->targetKind,
+                rule->effectKind,
+                NoValidTargetText);
         }
     }
     else if (rule->targetKind == PartySpellCastTargetKind::ActorOrCharacter)
@@ -1953,42 +1990,51 @@ PartySpellCastResult PartySpellSystem::castSpell(
     }
     else if (rule->effectKind == PartySpellCastEffectKind::CharacterRestore)
     {
-        if (!request.targetCharacterIndex)
+        if (spellId == SpellId::StoneToFlesh
+            && request.targetWorldHit.has_value()
+            && isStoneToFleshWorldTarget(*request.targetWorldHit))
         {
-            return makeFailure(
-                request.spellId,
-                PartySpellCastStatus::NeedCharacterTarget,
-                rule->targetKind,
-                rule->effectKind,
-                "Need character target");
-        }
-
-        castSucceeded = true;
-
-        if (spellId == SpellId::Heal)
-        {
-            const int healAmount =
-                skillMastery == SkillMastery::Grandmaster
-                    ? 5 + static_cast<int>(5 * skillLevel)
-                    : skillMastery == SkillMastery::Master
-                    ? 5 + static_cast<int>(4 * skillLevel)
-                    : skillMastery == SkillMastery::Expert
-                    ? 5 + static_cast<int>(3 * skillLevel)
-                    : 5 + static_cast<int>(2 * skillLevel);
-            party.healMember(*request.targetCharacterIndex, healAmount);
+            castSucceeded = worldRuntime.activateWorldHitFromSpell(*request.targetWorldHit, request.spellId);
         }
         else
         {
-            applyCharacterRestoreSpell(
-                party,
-                request.spellId,
-                *request.targetCharacterIndex,
-                skillLevel);
-        }
+            if (!request.targetCharacterIndex)
+            {
+                return makeFailure(
+                    request.spellId,
+                    PartySpellCastStatus::NeedCharacterTarget,
+                    rule->targetKind,
+                    rule->effectKind,
+                    "Need character target");
+            }
 
-        if (castSucceeded)
-        {
-            appendAffectedCharacterIndex(result.affectedCharacterIndices, *request.targetCharacterIndex);
+            castSucceeded = true;
+
+            if (spellId == SpellId::Heal)
+            {
+                const int healAmount =
+                    skillMastery == SkillMastery::Grandmaster
+                        ? 5 + static_cast<int>(5 * skillLevel)
+                        : skillMastery == SkillMastery::Master
+                        ? 5 + static_cast<int>(4 * skillLevel)
+                        : skillMastery == SkillMastery::Expert
+                        ? 5 + static_cast<int>(3 * skillLevel)
+                        : 5 + static_cast<int>(2 * skillLevel);
+                party.healMember(*request.targetCharacterIndex, healAmount);
+            }
+            else
+            {
+                applyCharacterRestoreSpell(
+                    party,
+                    request.spellId,
+                    *request.targetCharacterIndex,
+                    skillLevel);
+            }
+
+            if (castSucceeded)
+            {
+                appendAffectedCharacterIndex(result.affectedCharacterIndices, *request.targetCharacterIndex);
+            }
         }
     }
     else if (rule->effectKind == PartySpellCastEffectKind::PartyRestore)

@@ -575,6 +575,9 @@ RegisterEvent(453, nil, function()
 end)
 
 RegisterEvent(454, nil, function()
+    if not IsAtLeast(Gold, 10) then
+        return
+    end
     SubtractValue(Gold, 10)
     AddValue(InventoryItem(1022), 1022) -- _potion/reagent
 end)

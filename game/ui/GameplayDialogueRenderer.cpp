@@ -81,6 +81,48 @@ constexpr float DialogueTextRightInset = 6.0f;
 constexpr float DialogueTextPrimaryFontMaxHeight = 344.0f;
 constexpr const char *DialogueTextSmallFontName = "Create";
 
+std::optional<float> fullWidthStandaloneDialogueFrameWidth(
+    const GameplayScreenRuntime::HudLayoutElement *pDialogueRootLayout,
+    const GameplayScreenRuntime::HudLayoutElement *pDialogueFrameLayout)
+{
+    if (pDialogueRootLayout == nullptr || pDialogueFrameLayout == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const float frameWidth = pDialogueRootLayout->width - std::max(0.0f, pDialogueFrameLayout->gapX);
+
+    if (frameWidth <= pDialogueFrameLayout->width)
+    {
+        return std::nullopt;
+    }
+
+    return frameWidth;
+}
+
+std::optional<float> fullWidthStandaloneDialogueTextWidth(
+    float frameWidth,
+    const GameplayScreenRuntime::HudLayoutElement *pDialogueFrameLayout,
+    const GameplayScreenRuntime::HudLayoutElement *pDialogueTextLayout)
+{
+    if (pDialogueFrameLayout == nullptr || pDialogueTextLayout == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    const float originalRightInset = std::max(
+        0.0f,
+        pDialogueFrameLayout->width - pDialogueTextLayout->gapX - pDialogueTextLayout->width);
+    const float textWidth = frameWidth - pDialogueTextLayout->gapX - originalRightInset;
+
+    if (textWidth <= pDialogueTextLayout->width)
+    {
+        return std::nullopt;
+    }
+
+    return textWidth;
+}
+
 float dialogueTextLineAdvance(const GameplayScreenRuntime::HudFontHandle &font)
 {
     return static_cast<float>(std::max(1, font.fontHeight - 3));
@@ -702,8 +744,31 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         hoveredHouseServiceTopicText);
 
     const GameplayScreenRuntime::HudLayoutElement *pDialogueFrameLayout = view.findHudLayoutElement("DialogueFrame");
+    const GameplayScreenRuntime::HudLayoutElement *pDialogueRootLayout = view.findHudLayoutElement("DialogueRoot");
     const GameplayScreenRuntime::HudLayoutElement *pDialogueTextLayout = view.findHudLayoutElement("DialogueText");
     const GameplayScreenRuntime::HudLayoutElement *pBasebarLayout = view.findHudLayoutElement("OutdoorBasebar");
+    const bool useFullWidthDialogueTextFrame = showDialogueTextFrame && !showEventDialogPanel;
+    std::optional<float> fullWidthDialogueFrameWidth;
+    std::optional<float> fullWidthDialogueTextWidth;
+
+    if (useFullWidthDialogueTextFrame)
+    {
+        fullWidthDialogueFrameWidth =
+            fullWidthStandaloneDialogueFrameWidth(pDialogueRootLayout, pDialogueFrameLayout);
+
+        if (fullWidthDialogueFrameWidth)
+        {
+            fullWidthDialogueTextWidth =
+                fullWidthStandaloneDialogueTextWidth(*fullWidthDialogueFrameWidth, pDialogueFrameLayout, pDialogueTextLayout);
+            view.setHudLayoutRuntimeWidthOverride("DialogueFrame", *fullWidthDialogueFrameWidth);
+            view.setHudLayoutRuntimeWidthOverride("DialogueFrameEndCap", *fullWidthDialogueFrameWidth);
+
+            if (fullWidthDialogueTextWidth)
+            {
+                view.setHudLayoutRuntimeWidthOverride("DialogueText", *fullWidthDialogueTextWidth);
+            }
+        }
+    }
 
     if (showDialogueTextFrame
         && pDialogueFrameLayout != nullptr
@@ -712,8 +777,15 @@ void GameplayDialogueRenderer::renderDialogueOverlay(
         && toLowerCopy(pDialogueFrameLayout->screen) == "dialogue"
         && toLowerCopy(pDialogueTextLayout->screen) == "dialogue")
     {
+        GameplayScreenRuntime::HudLayoutElement effectiveDialogueTextLayout = *pDialogueTextLayout;
+
+        if (fullWidthDialogueTextWidth)
+        {
+            effectiveDialogueTextLayout.width = *fullWidthDialogueTextWidth;
+        }
+
         const std::optional<DialogueBodyTextMetrics> textMetrics =
-            calculateDialogueBodyTextMetrics(view, *pDialogueTextLayout, dialogueBodyLines);
+            calculateDialogueBodyTextMetrics(view, effectiveDialogueTextLayout, dialogueBodyLines);
 
         if (textMetrics)
         {
@@ -2046,7 +2118,13 @@ void GameplayDialogueRenderer::renderDialogueBodyText(
     }
 
     const std::optional<DialogueBodyTextMetrics> textMetrics =
-        calculateDialogueBodyTextMetrics(view, *pDialogueTextLayout, dialogueBodyLines);
+        [&view, pDialogueTextLayout, &dialogueBodyLines, &resolvedText]() -> std::optional<DialogueBodyTextMetrics>
+        {
+            GameplayScreenRuntime::HudLayoutElement effectiveDialogueTextLayout = *pDialogueTextLayout;
+            effectiveDialogueTextLayout.width = resolvedText->width / std::max(1.0f, resolvedText->scale);
+            effectiveDialogueTextLayout.height = resolvedText->height / std::max(1.0f, resolvedText->scale);
+            return calculateDialogueBodyTextMetrics(view, effectiveDialogueTextLayout, dialogueBodyLines);
+        }();
 
     if (!textMetrics)
     {

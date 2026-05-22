@@ -122,6 +122,8 @@ struct GameSettings
     std::string textFiltering = "nearest";
     std::string minimapFiltering = "linear";
     std::string viewDistance = "default";
+    float outdoorBillboardDepthSlice = 256.0f;
+    bool skipEventCutscenes = false;
     Engine::AssetScaleProfile assetScaleProfile = Engine::createUniformAssetScaleProfile(Engine::AssetScaleTier::X1);
     GameplayUiLayout gameplayUiLayout = GameplayUiLayout::Widescreen;
     WindowMode windowMode = WindowMode::Windowed;
@@ -162,6 +164,7 @@ struct GameSettings
     bool immortal = true;
     bool unlimitedMana = true;
     bool newGameGodLich = false;
+    bool allowIncompleteCharacterCreation = false;
     bool debugConsole = true;
     bool arpgModeEnabled = false;
     std::string arpgModePlayerMonsterDescriptor = "m270";

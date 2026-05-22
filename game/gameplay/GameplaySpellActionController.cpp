@@ -125,7 +125,10 @@ GameplaySpellActionController::updatePendingTargetSelection(
         || pendingTargetState.targetKind == PartySpellCastTargetKind::ActorOrCharacter;
     const bool characterTargetAllowed =
         pendingTargetState.targetKind == PartySpellCastTargetKind::Character
+        || pendingTargetState.targetKind == PartySpellCastTargetKind::CharacterOrWorldTarget
         || pendingTargetState.targetKind == PartySpellCastTargetKind::ActorOrCharacter;
+    const bool worldTargetAllowed =
+        pendingTargetState.targetKind == PartySpellCastTargetKind::CharacterOrWorldTarget;
 
     if (actorTargetAllowed)
     {
@@ -135,6 +138,11 @@ GameplaySpellActionController::updatePendingTargetSelection(
     if (characterTargetAllowed)
     {
         resolvePendingCharacterTarget(request, input.portraitMemberIndex);
+    }
+
+    if (worldTargetAllowed && input.worldHit.hasHit)
+    {
+        request.targetWorldHit = input.worldHit;
     }
 
     if (pendingTargetState.targetKind == PartySpellCastTargetKind::GroundPoint)

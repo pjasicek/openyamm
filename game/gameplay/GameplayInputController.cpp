@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayInputController.h"
 
+#include "game/audio/SoundIds.h"
 #include "game/gameplay/GameplayActionController.h"
 #include "game/app/GameSettings.h"
 #include "game/gameplay/GameplayInputFrame.h"
@@ -62,11 +63,56 @@ bool isActionHeld(
     return context.mutableSettings().keyboard.isPressed(action, pKeyboardState);
 }
 
+bool isScancodeHeld(
+    SDL_Scancode scancode,
+    const GameplayInputFrame *pInputFrame,
+    const bool *pKeyboardState)
+{
+    if (pInputFrame != nullptr)
+    {
+        return pInputFrame->isScancodeHeld(scancode);
+    }
+
+    return pKeyboardState != nullptr
+        && scancode > SDL_SCANCODE_UNKNOWN
+        && scancode < SDL_SCANCODE_COUNT
+        && pKeyboardState[scancode];
+}
+
 bool isEscapeNewlyPressed(GameplayScreenRuntime &context, const bool *pKeyboardState)
 {
     return pKeyboardState != nullptr
         && pKeyboardState[SDL_SCANCODE_ESCAPE]
         && context.previousKeyboardState()[SDL_SCANCODE_ESCAPE] == 0;
+}
+
+bool closeActiveLootViewFromEscape(GameplayScreenRuntime &context, IGameplayWorldRuntime &worldRuntime)
+{
+    if (worldRuntime.activeChestView() == nullptr && worldRuntime.activeCorpseView() == nullptr)
+    {
+        return false;
+    }
+
+    if (context.inventoryNestedOverlay().active)
+    {
+        context.closeInventoryNestedOverlay();
+    }
+    else
+    {
+        if (worldRuntime.activeChestView() != nullptr)
+        {
+            context.playCommonUiSound(SoundId::ChestClose);
+        }
+
+        worldRuntime.closeActiveChestView();
+        worldRuntime.closeActiveCorpseView();
+        context.interactionState().activateInspectLatch = true;
+        context.interactionState().chestSelectionIndex = 0;
+    }
+
+    context.interactionState().menuToggleLatch = true;
+    context.interactionState().closeOverlayLatch = true;
+    return true;
 }
 
 std::optional<size_t> nextSelectableMemberIndex(const Party &party, bool requireGameplayReady)
@@ -170,6 +216,11 @@ void GameplayInputController::handleStandardUiHotkeys(
 
     if (isEscapeNewlyPressed(context, config.pKeyboardState))
     {
+        if (pWorldRuntime != nullptr && closeActiveLootViewFromEscape(context, *pWorldRuntime))
+        {
+            return;
+        }
+
         if (spellbookActive)
         {
             context.closeSpellbookOverlay();
@@ -453,7 +504,8 @@ void GameplayInputController::handleSharedGameplayHotkeys(
 
     const bool combatPressed =
         config.canToggleAlwaysRun
-        && isActionHeld(context, KeyboardAction::Combat, config.pInputFrame, config.pKeyboardState);
+        && (isActionHeld(context, KeyboardAction::Combat, config.pInputFrame, config.pKeyboardState)
+            || isScancodeHeld(SDL_SCANCODE_KP_ENTER, config.pInputFrame, config.pKeyboardState));
     if (combatPressed)
     {
         if (!context.interactionState().turnBasedToggleLatch)
@@ -462,8 +514,13 @@ void GameplayInputController::handleSharedGameplayHotkeys(
 
             if (pParty != nullptr)
             {
+                const bool wasTurnBasedActive = context.turnBasedCombatRuntime().active();
                 if (context.turnBasedCombatRuntime().toggle(*pParty, context.worldRuntime()))
                 {
+                    context.playCommonUiSound(
+                        wasTurnBasedActive
+                            ? SoundId::EndTurnBasedMode
+                            : SoundId::StartTurnBasedMode);
                     context.setStatusBarEvent(
                         context.turnBasedCombatRuntime().active()
                             ? "Turn-based mode"

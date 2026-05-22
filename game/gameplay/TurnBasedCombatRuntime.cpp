@@ -18,9 +18,9 @@ namespace
 {
 constexpr float OeRealtimeRecoveryScale = 2.133333333333333f;
 constexpr float TurnTicksPerSecond = 128.0f;
-constexpr float TurnMovementStepTicks = 26.0f;
 constexpr int TurnMovementStepActionPoints = 26;
 constexpr int TurnMovementActionPoints = 130;
+constexpr float TurnMovementStepSeconds = static_cast<float>(TurnMovementStepActionPoints) / TurnTicksPerSecond;
 constexpr float InitialWaitTicks = 64.0f;
 constexpr float ActorActionResolutionMaxTicks = 128.0f;
 constexpr float ActorNearbyDistance = 5120.0f;
@@ -436,17 +436,12 @@ bool TurnBasedCombatRuntime::noteMovementInput(GameplayInputFrame &input)
         return false;
     }
 
-    const bool consumeForward = forwardHeld && !m_forwardLatch;
-    const bool consumeBackward = backwardHeld && !m_backwardLatch;
-    const bool consumeLeft = leftHeld && !m_strafeLeftLatch;
-    const bool consumeRight = rightHeld && !m_strafeRightLatch;
-
     m_forwardLatch = forwardHeld;
     m_backwardLatch = backwardHeld;
     m_strafeLeftLatch = leftHeld;
     m_strafeRightLatch = rightHeld;
 
-    const bool consumeAny = consumeForward || consumeBackward || consumeLeft || consumeRight;
+    const bool consumeAny = forwardHeld || backwardHeld || leftHeld || rightHeld;
 
     if (!consumeAny || !consumeMovementActionPoint())
     {
@@ -461,14 +456,14 @@ bool TurnBasedCombatRuntime::noteMovementInput(GameplayInputFrame &input)
         return false;
     }
 
-    setActionState(input, KeyboardAction::Forward, consumeForward);
-    setActionState(input, KeyboardAction::Backward, consumeBackward);
-    setActionState(input, KeyboardAction::Left, consumeLeft);
-    setActionState(input, KeyboardAction::Right, consumeRight);
-    input.keyboardHeld[SDL_SCANCODE_W] = consumeForward;
-    input.keyboardHeld[SDL_SCANCODE_S] = consumeBackward;
-    input.keyboardHeld[SDL_SCANCODE_A] = consumeLeft;
-    input.keyboardHeld[SDL_SCANCODE_D] = consumeRight;
+    setActionState(input, KeyboardAction::Forward, forwardHeld);
+    setActionState(input, KeyboardAction::Backward, backwardHeld);
+    setActionState(input, KeyboardAction::Left, leftHeld);
+    setActionState(input, KeyboardAction::Right, rightHeld);
+    input.keyboardHeld[SDL_SCANCODE_W] = forwardHeld;
+    input.keyboardHeld[SDL_SCANCODE_S] = backwardHeld;
+    input.keyboardHeld[SDL_SCANCODE_A] = leftHeld;
+    input.keyboardHeld[SDL_SCANCODE_D] = rightHeld;
     input.keyboardHeld[SDL_SCANCODE_X] = false;
     setActionState(input, KeyboardAction::Jump, false);
     setActionState(input, KeyboardAction::FlyUp, false);
@@ -476,10 +471,10 @@ bool TurnBasedCombatRuntime::noteMovementInput(GameplayInputFrame &input)
     input.turnBasedMovementStep = true;
     m_movementStepThisFrame = true;
     GAMEPLAY_DEBUG_TRACE(
-        std::string("turn_based_movement_step forward=") + (consumeForward ? "true" : "false")
-        + " backward=" + (consumeBackward ? "true" : "false")
-        + " left=" + (consumeLeft ? "true" : "false")
-        + " right=" + (consumeRight ? "true" : "false")
+        std::string("turn_based_movement_step forward=") + (forwardHeld ? "true" : "false")
+        + " backward=" + (backwardHeld ? "true" : "false")
+        + " left=" + (leftHeld ? "true" : "false")
+        + " right=" + (rightHeld ? "true" : "false")
         + " movement_ap=" + std::to_string(m_movementActionPoints));
     return true;
 }
@@ -493,7 +488,8 @@ float TurnBasedCombatRuntime::movementDeltaSecondsForFrame(float fallbackDeltaSe
 
     if (m_stage == TurnBasedCombatStage::Movement && m_movementStepThisFrame)
     {
-        return TurnMovementStepTicks / TurnTicksPerSecond;
+        (void)fallbackDeltaSeconds;
+        return TurnMovementStepSeconds;
     }
 
     return 0.0f;
@@ -1002,6 +998,7 @@ bool TurnBasedCombatRuntime::consumeMovementActionPoint()
 {
     if (m_movementActionPoints <= 0)
     {
+        m_movementActionPoints = 0;
         m_movementFinished = true;
         return false;
     }
@@ -1010,6 +1007,7 @@ bool TurnBasedCombatRuntime::consumeMovementActionPoint()
 
     if (m_movementActionPoints <= 0)
     {
+        m_movementActionPoints = 0;
         m_movementFinished = true;
     }
 

@@ -1276,7 +1276,7 @@ RegisterGlobalEvent(89, "Promotion to Lich", function()
     end
     for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
         evt.ForPlayer(player)
-        if not IsAtLeast(ClassId, 44) then
+        if IsAtLeast(ClassId, 44) then
             if not HasItem(628) then -- Lich Jar
                 evt.SetMessage("You have the Lost Book of Khel, however you lack the Lich Jars needed to complete the transformation!\nReturn here when you have one for each necromancer in your party!")
                 return
@@ -3281,6 +3281,9 @@ RegisterGlobalEvent(250, "Buy Tobersk Fruit for 200 gold", function()
     evt.SetMessage("Tobersk fruit is native only to the Dagger Wound Island region.")
     ClearQBit(QBit(251)) -- Bought Item pulp
     if IsAtLeast(Gold, 200) then
+        if not IsAtLeast(Gold, 200) then
+            return
+        end
         SubtractValue(Gold, 200)
         AddValue(InventoryItem(643), 643) -- Tobersk Fruit
         SetQBit(QBit(250)) -- Bought Item fruit
@@ -3343,6 +3346,9 @@ RegisterGlobalEvent(252, "Buy Tobersk Pulp for 300 gold", function()
     evt.SetMessage("Tobersk fruit is processed in Ravenshore into tobersk pulp.")
     ClearQBit(QBit(250)) -- Bought Item fruit
     if IsAtLeast(Gold, 300) then
+        if not IsAtLeast(Gold, 300) then
+            return
+        end
         SubtractValue(Gold, 300)
         AddValue(InventoryItem(644), 644) -- Tobersk Pulp
         SetQBit(QBit(251)) -- Bought Item pulp
@@ -3405,6 +3411,9 @@ RegisterGlobalEvent(254, "Buy Tobersk Brandy 500 gold", function()
     evt.SetMessage("Tobersk brandy is a favorite drink among the Lizardmen of Dagger Wound Island.\nSome call it an acquired taste.\nHow ever you look at it, it equals pure profit!\nBe gentle with the bottles as you travel back to the islands.")
     ClearQBit(QBit(251)) -- Bought Item pulp
     if IsAtLeast(Gold, 500) then
+        if not IsAtLeast(Gold, 500) then
+            return
+        end
         SubtractValue(Gold, 500)
         AddValue(InventoryItem(645), 645) -- Tobersk Brandy
         SetQBit(QBit(252)) -- Bought Item brandy
@@ -3467,6 +3476,9 @@ RegisterGlobalEvent(256, "Buy Heartwood of Jadame for 1000 gold", function()
     evt.SetMessage("The Heartwood of Jadame is used by the vampires of the Shadowspire region in the construction of their coffins.")
     ClearQBit(QBit(255)) -- Bought Sunfish
     if IsAtLeast(Gold, 1000) then
+        if not IsAtLeast(Gold, 1000) then
+            return
+        end
         SubtractValue(Gold, 1000)
         AddValue(InventoryItem(646), 646) -- Heartwood of Jadame
         SetQBit(QBit(253)) -- Bought heartwood
@@ -3529,6 +3541,9 @@ RegisterGlobalEvent(258, "Buy Pirate Amulets for 1500 gold", function()
     evt.SetMessage("The Pirates of Regna like flamboyant jewelry!\nAmulets that fail to take enchantments cast by the Necromancers of Shadowspire fill this need quite well.\nThe Pirates pay some of their \"hard earned\" bounty to get these amulets.")
     ClearQBit(QBit(253)) -- Bought heartwood
     if IsAtLeast(Gold, 1500) then
+        if not IsAtLeast(Gold, 1500) then
+            return
+        end
         SubtractValue(Gold, 1500)
         AddValue(InventoryItem(647), 647) -- Flawed Amulets
         SetQBit(QBit(254)) -- Bought amulets
@@ -3591,6 +3606,9 @@ RegisterGlobalEvent(260, "Buy Dried Sunfish for 2000 gold", function()
     evt.SetMessage("Dried Sunfish is a delicacy enjoyed by the High Clerics of the Temple of the Sun.\nThey pay good money for deliveries of this flaky, somewhat salty fish.")
     ClearQBit(QBit(254)) -- Bought amulets
     if IsAtLeast(Gold, 2000) then
+        if not IsAtLeast(Gold, 2000) then
+            return
+        end
         SubtractValue(Gold, 2000)
         AddValue(InventoryItem(648), 648) -- Dried Sunfish
         SetQBit(QBit(255)) -- Bought Sunfish
@@ -3653,6 +3671,9 @@ RegisterGlobalEvent(262, "Buy Silver Dust of the Sea for 5000 gold", function()
     evt.SetMessage("Purchase Silver Dust of the Sea made by the Necromancers of Shadowspire. It is used by the smugglers of Ravenshore to hide their boats.")
     ClearQBit(QBit(267)) -- Can't keep buying Ground Wyvern horn
     if IsAtLeast(Gold, 5000) then
+        if not IsAtLeast(Gold, 5000) then
+            return
+        end
         SubtractValue(Gold, 5000)
         AddValue(InventoryItem(649), 649) -- Silver Dust of the Sea
         SetQBit(QBit(253)) -- Bought heartwood
@@ -3715,6 +3736,9 @@ RegisterGlobalEvent(264, "Buy Forged Credit Vouchers for 6500 gold", function()
     evt.SetMessage("These Forged Credit Vouchers are used by agents of the Ogre Mage Zog to acquire gold from the Merchants of Alvar.")
     ClearQBit(QBit(265)) -- Can't keep buying Silver Dust of the Sea
     if IsAtLeast(Gold, 6500) then
+        if not IsAtLeast(Gold, 6500) then
+            return
+        end
         SubtractValue(Gold, 6500)
         AddValue(InventoryItem(650), 650) -- Forged Vouchers
         SetQBit(QBit(257)) -- Bought Item Forged Credit Vouchers
@@ -3777,6 +3801,9 @@ RegisterGlobalEvent(266, "Buy Ground Wyvern Horn for 7500 gold", function()
     evt.SetMessage("Ground Wyvern Horn is reported to be one of the most potent reagents used by the necromancers of Shadowspire.\nUnlike the reagents used by alchemists, this reagents is only used by the highest members of the Necromancers' Guild.")
     ClearQBit(QBit(266)) -- Can't keep buying Forged Credit Vouchers
     if IsAtLeast(Gold, 7500) then
+        if not IsAtLeast(Gold, 7500) then
+            return
+        end
         SubtractValue(Gold, 7500)
         AddValue(InventoryItem(651), 651) -- Ground Wyvern Horn
         SetQBit(QBit(258)) -- Bought Item Ground Wyvern Horn
@@ -4997,6 +5024,9 @@ RegisterGlobalEvent(513, nil, function()
         return
     end
     evt.SetMessage("This 1000 gold will go a long way to keeping zombies off the roads.")
+    if not IsAtLeast(Gold, 1000) then
+        return
+    end
     SubtractValue(Gold, 1000)
     SetQBit(QBit(761)) -- Don't get ambushed
     evt.SetNPCTopic(461, 0, 0) -- Lunius Shador topic 0 cleared
@@ -5013,6 +5043,9 @@ RegisterGlobalEvent(515, nil, function()
     evt.SetMessage("Excellent!")
     ClearQBit(QBit(764)) -- Bought Item 3
     if IsAtLeast(Gold, 200) then
+        if not IsAtLeast(Gold, 200) then
+            return
+        end
         SubtractValue(Gold, 200)
         AddValue(InventoryItem(1494), 1494) -- Crate of Arrowheads
         SetQBit(QBit(762)) -- Bought Item 1
@@ -6844,7 +6877,7 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
         evt.SetMessage("Ah, you return seeking promotion for others in your party?\nI have not forgotten your help in recovering the Lost Book of Kehl!\nAll Necromancers in your party will be promoted to Lich.\nBe sure each Necromancer has a Lich Jar in his possession.")
         for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
-            if not IsAtLeast(ClassId, 44) then
+            if IsAtLeast(ClassId, 44) then
                 if not HasItem(628) then -- Lich Jar
                     evt.SetMessage("You have the Lost Book of Khel, however you lack the Lich Jars needed to complete the transformation!\nReturn here when you have one for each necromancer in your party!")
                     return
@@ -6866,7 +6899,7 @@ RegisterGlobalEvent(738, "Promote Necromancers", function()
         evt.SetMessage("Ah, you return seeking promotion for others in your party?\nI have not forgotten your help in recovering the Lost Book of Kehl!\nAll Necromancers in your party will be promoted to Lich.\nBe sure each Necromancer has a Lich Jar in his possession.")
         for _, player in ipairs({Players.Member0, Players.Member1, Players.Member2, Players.Member3, Players.Member4}) do
             evt.ForPlayer(player)
-            if not IsAtLeast(ClassId, 44) then
+            if IsAtLeast(ClassId, 44) then
                 if not HasItem(628) then -- Lich Jar
                     evt.SetMessage("You have the Lost Book of Khel, however you lack the Lich Jars needed to complete the transformation!\nReturn here when you have one for each necromancer in your party!")
                     return
@@ -7230,6 +7263,9 @@ RegisterGlobalEvent(763, nil, function()
         evt.SetMessage("It would help if you had the 500 gold pieces.")
         return
     end
+    if not IsAtLeast(Gold, 500) then
+        return
+    end
     SubtractValue(Gold, 500)
     AddValue(InventoryItem(1434), 1434) -- Lute
     evt.SetMessage("Well, promise to at least take care of it and not use it for firewood.\nI suppose I'll have to make do without an instrument for the rest of this trip.\nMaybe I should tell stories instead of sing until I get back home.")
@@ -7250,6 +7286,9 @@ end)
 RegisterGlobalEvent(766, nil, function()
     if not IsAtLeast(Gold, 100) then
         evt.SetMessage("I really can't go any less than 100 gold; I need to make a living, too.")
+        return
+    end
+    if not IsAtLeast(Gold, 100) then
         return
     end
     SubtractValue(Gold, 100)
@@ -10410,6 +10449,9 @@ RegisterGlobalEvent(927, nil, function()
     end
     evt.SetMessage("Here's the membership, remember it only lasts for six months.\nCheck the shelves in the front rooms here to see what is available.")
     SetQBit(QBit(657)) -- Membership to the School of Sorcery Scroll Shop
+    if not IsAtLeast(Gold, 5000) then
+        return
+    end
     SubtractValue(Gold, 5000)
     evt.SetNPCTopic(620, 1, 0) -- Eric Swarrel topic 1 cleared
 end)
@@ -12186,6 +12228,9 @@ RegisterGlobalEvent(1258, nil, function()
     evt.SetMessage("Here's your crate of Griffin Feathers.")
     ClearQBit(QBit(762)) -- Bought Item 1
     if IsAtLeast(Gold, 200) then
+        if not IsAtLeast(Gold, 200) then
+            return
+        end
         SubtractValue(Gold, 200)
         AddValue(InventoryItem(1495), 1495) -- Crate of Griffin Feathers
         SetQBit(QBit(763)) -- Bought Item 2
@@ -12247,6 +12292,9 @@ RegisterGlobalEvent(1260, nil, function()
     evt.SetMessage("Here's your crate of Tularean Wood.")
     ClearQBit(QBit(763)) -- Bought Item 2
     if IsAtLeast(Gold, 200) then
+        if not IsAtLeast(Gold, 200) then
+            return
+        end
         SubtractValue(Gold, 200)
         AddValue(InventoryItem(1496), 1496) -- Crate of Tularean Wood
         SetQBit(QBit(764)) -- Bought Item 3
@@ -12308,6 +12356,9 @@ RegisterGlobalEvent(1262, nil, function()
     evt.SetMessage("Thanks!\nHere's your crate of Sand. Arvin Beneclowd in the forsaken Barrow Downs pays well for this Sand, from it he creates fine bottles!")
     ClearQBit(QBit(767)) -- Bought Item 6
     if IsAtLeast(Gold, 2000) then
+        if not IsAtLeast(Gold, 2000) then
+            return
+        end
         SubtractValue(Gold, 2000)
         AddValue(InventoryItem(1497), 1497) -- Crate of Sand
         SetQBit(QBit(765)) -- Bought Item 4
@@ -12359,6 +12410,9 @@ RegisterGlobalEvent(1264, nil, function()
     evt.SetMessage("Be sure to take this crate of Glass Bottles to Infernon in Avlee.")
     ClearQBit(QBit(765)) -- Bought Item 4
     if IsAtLeast(Gold, 2000) then
+        if not IsAtLeast(Gold, 2000) then
+            return
+        end
         SubtractValue(Gold, 2000)
         AddValue(InventoryItem(1498), 1498) -- Crate of Glass Bottles
         SetQBit(QBit(766)) -- Bought Item 5
@@ -12410,6 +12464,9 @@ RegisterGlobalEvent(1266, nil, function()
     evt.SetMessage("Here's your crate of Enrothian Wine.")
     ClearQBit(QBit(766)) -- Bought Item 5
     if IsAtLeast(Gold, 2000) then
+        if not IsAtLeast(Gold, 2000) then
+            return
+        end
         SubtractValue(Gold, 2000)
         AddValue(InventoryItem(1499), 1499) -- Crate of Enrothian Wine
         SetQBit(QBit(767)) -- Bought Item 6
@@ -14090,6 +14147,9 @@ RegisterGlobalEvent(1419, nil, function()
 end)
 
 RegisterGlobalEvent(1420, nil, function()
+    if not IsAtLeast(Gold, 50) then
+        return
+    end
     SubtractValue(Gold, 50)
     if IsAtLeast(ActualMight, 200) then
         local randomStep = PickRandomOption(1420, 4, {4, 7, 10, 13, 16, 19})
@@ -14247,6 +14307,9 @@ RegisterGlobalEvent(1420, nil, function()
 end)
 
 RegisterGlobalEvent(1421, nil, function()
+    if not IsAtLeast(Gold, 50) then
+        return
+    end
     SubtractValue(Gold, 50)
     if IsAtLeast(ActualEndurance, 200) then
         local randomStep = PickRandomOption(1421, 4, {4, 7, 10, 13, 16, 19})
@@ -14404,6 +14467,9 @@ RegisterGlobalEvent(1421, nil, function()
 end)
 
 RegisterGlobalEvent(1422, nil, function()
+    if not IsAtLeast(Gold, 50) then
+        return
+    end
     SubtractValue(Gold, 50)
     if IsAtLeast(ActualSpeed, 200) then
         local randomStep = PickRandomOption(1422, 4, {4, 7, 10, 13, 16, 19})
@@ -14561,6 +14627,9 @@ RegisterGlobalEvent(1422, nil, function()
 end)
 
 RegisterGlobalEvent(1423, nil, function()
+    if not IsAtLeast(Gold, 50) then
+        return
+    end
     SubtractValue(Gold, 50)
     if IsAtLeast(ActualAccuracy, 200) then
         local randomStep = PickRandomOption(1423, 4, {4, 7, 10, 13, 16, 19})
@@ -14718,6 +14787,9 @@ RegisterGlobalEvent(1423, nil, function()
 end)
 
 RegisterGlobalEvent(1424, nil, function()
+    if not IsAtLeast(Gold, 50) then
+        return
+    end
     SubtractValue(Gold, 50)
     if IsAtLeast(ActualLuck, 200) then
         local randomStep = PickRandomOption(1424, 4, {4, 7, 10, 13, 16, 19})
@@ -14875,6 +14947,9 @@ RegisterGlobalEvent(1424, nil, function()
 end)
 
 RegisterGlobalEvent(1425, nil, function()
+    if not IsAtLeast(Gold, 50) then
+        return
+    end
     SubtractValue(Gold, 50)
     if IsAtLeast(ActualIntellect, 200) then
         local randomStep = PickRandomOption(1425, 4, {4, 7, 10, 13, 16, 19})

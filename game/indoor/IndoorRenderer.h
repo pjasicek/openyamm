@@ -196,6 +196,7 @@ private:
         std::string textureName;
         int16_t sectorId = -1;
         int16_t backSectorId = -1;
+        uint32_t stableId = 0;
         std::vector<bgfx::TextureHandle> frameTextureHandles;
         std::vector<uint32_t> frameLengthTicks;
         uint32_t animationLengthTicks = 0;
@@ -208,6 +209,12 @@ private:
         bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
         bool hasBounds = false;
         std::vector<TexturedVertex> vertices;
+    };
+
+    struct CachedIndoorLightSelection
+    {
+        IndoorLightSelectionHistory history = {};
+        uint32_t lastSeenFrame = 0;
     };
 
     struct IndoorTextureHandle
@@ -378,7 +385,8 @@ private:
         const std::vector<uint8_t> &visibleSectorMask,
         const std::vector<std::vector<IndoorVisibilityFrustum>> &visibleSectorFrustums,
         const IndoorLightingFrame &lightingFrame,
-        const GameplayContextActionState *pContextActionState = nullptr
+        const GameplayContextActionState *pContextActionState = nullptr,
+        LightingStats *pLightingStats = nullptr
     );
     void renderActorPreviewBillboards(
         uint16_t viewId,
@@ -389,7 +397,8 @@ private:
         const IndoorLightingFrame &lightingFrame,
         bool spriteOutlineEnabled,
         const GameplayContextActionState *pContextActionState = nullptr,
-        const GameSettings *pSettings = nullptr
+        const GameSettings *pSettings = nullptr,
+        LightingStats *pLightingStats = nullptr
     );
     void renderSpriteObjectBillboards(
         uint16_t viewId,
@@ -399,7 +408,8 @@ private:
         const std::vector<std::vector<IndoorVisibilityFrustum>> &visibleSectorFrustums,
         const IndoorLightingFrame &lightingFrame,
         bool spriteOutlineEnabled,
-        const GameplayContextActionState *pContextActionState = nullptr
+        const GameplayContextActionState *pContextActionState = nullptr,
+        LightingStats *pLightingStats = nullptr
     );
     void renderContextActionGeometryHighlight(
         uint16_t viewId,
@@ -486,6 +496,24 @@ private:
         uint64_t renderVisibleTexturedBatches = 0;
         uint64_t renderSubmittedTexturedBatches = 0;
         uint64_t renderCulledTexturedBatches = 0;
+        uint64_t renderDecorationSpriteItems = 0;
+        uint64_t renderDecorationSpriteSubmits = 0;
+        uint64_t renderDecorationSpriteOutlineSubmits = 0;
+        uint64_t renderDecorationSpriteTextureSwitches = 0;
+        uint64_t renderActorSpriteItems = 0;
+        uint64_t renderActorSpriteSubmits = 0;
+        uint64_t renderActorSpriteOutlineSubmits = 0;
+        uint64_t renderActorSpriteTextureSwitches = 0;
+        uint64_t renderSpriteObjectItems = 0;
+        uint64_t renderSpriteObjectProjectiles = 0;
+        uint64_t renderSpriteObjectImpacts = 0;
+        uint64_t renderSpriteObjectSubmits = 0;
+        uint64_t renderSpriteObjectBatchSubmits = 0;
+        uint64_t renderSpriteObjectBatchedItems = 0;
+        uint64_t renderSpriteObjectUnbatchedItems = 0;
+        uint64_t renderSpriteObjectOutlineSubmits = 0;
+        uint64_t renderSpriteObjectTextureSwitches = 0;
+        LightingStats lightingStats = {};
 
         bool hasActivity() const
         {
@@ -596,11 +624,13 @@ private:
     uint32_t m_bloodSplatVertexCount = 0;
     uint64_t m_bloodSplatVertexBufferRevision = std::numeric_limits<uint64_t>::max();
     std::vector<TexturedBatch> m_texturedBatches;
+    std::unordered_map<uint32_t, CachedIndoorLightSelection> m_indoorLightingSelectionCache;
     std::vector<IndoorTextureHandle> m_indoorTextureHandles;
     std::vector<BillboardTextureHandle> m_billboardTextureHandles;
     std::unordered_map<BillboardTextureLookupKey, size_t, BillboardTextureLookupKeyHash>
         m_billboardTextureIndexByKey;
     uint64_t m_texturedBatchVisualRevision = std::numeric_limits<uint64_t>::max();
+    uint32_t m_indoorLightingSelectionFrame = 0;
     WorldFxRenderResources m_worldFxRenderResources;
     WorldFxSystem m_worldFxSystem;
     IndoorLightingRuntime m_indoorLightingRuntime;

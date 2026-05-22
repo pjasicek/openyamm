@@ -225,6 +225,9 @@ RegisterEvent(101, "Drink from Well.", function()
         return
     end
     if IsAtLeast(Gold, 5000) then
+        if not IsAtLeast(Gold, 5000) then
+            return
+        end
         SubtractValue(Gold, 5000)
         AddValue(Experience, 5000)
         SubtractValue(MapVar(2), 1)

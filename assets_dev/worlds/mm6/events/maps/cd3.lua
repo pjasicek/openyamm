@@ -115,6 +115,9 @@ RegisterEvent(13, "Guardian of Kriegspire", function(continueStep)
             evt.StatusText("Get Lost!")
             return
         end
+        if not IsAtLeast(Gold, 50000) then
+            return
+        end
         SubtractValue(Gold, 50000)
         evt.MoveToMap(13487, 3117, 673, 0, 0, 0, 0, 0)
     end
@@ -229,6 +232,9 @@ RegisterEvent(27, "Curator of Kriegspire", function(continueStep)
     if continueStep == 4 then
         if not IsAtLeast(Gold, 10000) then
             evt.StatusText("Get Lost!")
+            return
+        end
+        if not IsAtLeast(Gold, 10000) then
             return
         end
         SubtractValue(Gold, 10000)

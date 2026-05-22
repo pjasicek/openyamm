@@ -98,6 +98,7 @@ public:
 
 private:
     static std::string normalizeCommandName(std::string_view name);
+    static std::vector<std::string> splitCommandLine(std::string_view line);
     static std::vector<std::string> tokenize(std::string_view line);
     static int itemOptionSearchScore(const ItemOption &item, const std::string &query);
     static int mapOptionSearchScore(const MapOption &map, const std::string &query);

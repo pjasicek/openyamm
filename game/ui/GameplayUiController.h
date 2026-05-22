@@ -162,6 +162,7 @@ public:
         bool active = false;
         std::string title;
         std::string body;
+        CharacterInspectMasteryLine normal = {};
         CharacterInspectMasteryLine expert = {};
         CharacterInspectMasteryLine master = {};
         CharacterInspectMasteryLine grandmaster = {};

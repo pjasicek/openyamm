@@ -39,6 +39,11 @@ MonsterKillReputationResult applyMonsterKillReputationPenalty(
     IGameplayWorldRuntime &worldRuntime,
     const MonsterTable::MonsterStatsEntry *pStats,
     uint32_t actorGroup);
+bool actorSharesCivilianAggression(
+    uint32_t leftActorGroup,
+    const MonsterTable::MonsterStatsEntry *pLeftStats,
+    uint32_t rightActorGroup,
+    const MonsterTable::MonsterStatsEntry *pRightStats);
 ReputationLevel reputationLevel(int effectiveReputation);
 std::string reputationLabel(int effectiveReputation);
 }

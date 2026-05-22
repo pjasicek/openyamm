@@ -50,8 +50,10 @@ vec3 getFxLighting(vec3 worldPosition)
 
         vec3 toLight = u_fxLightPositions[i].xyz - worldPosition;
         float radius = max(u_fxLightPositions[i].w, 1.0);
-        float dist = length(toLight);
-        float attenuation = 1.0 - safeSmoothstep(0.0, radius, dist);
+        float distanceSquared = dot(toLight, toLight);
+        float inverseRadiusSquared = 1.0 / (radius * radius);
+        float attenuation = 1.0 - clamp(distanceSquared * inverseRadiusSquared, 0.0, 1.0);
+        attenuation *= attenuation;
         lighting += u_fxLightColors[i].rgb * (u_fxLightColors[i].w * attenuation * u_fxLightParams.z);
     }
 

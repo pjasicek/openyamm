@@ -495,8 +495,14 @@ end, "Drink from the Well")
 
 RegisterEvent(459, "Well", function()
     if not IsAtLeast(Gold, 100) then
+        if not IsAtLeast(Gold, 99) then
+            return
+        end
         SubtractValue(Gold, 99)
         evt.StatusText("You make a wish")
+        return
+    end
+    if not IsAtLeast(Gold, 100) then
         return
     end
     SubtractValue(Gold, 100)

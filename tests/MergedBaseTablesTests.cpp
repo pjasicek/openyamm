@@ -5,6 +5,7 @@
 #include "engine/TextTable.h"
 #include "game/audio/SoundCatalog.h"
 #include "game/party/SpeechIds.h"
+#include "game/tables/CharacterInspectTable.h"
 #include "game/tables/FaceAnimationTable.h"
 #include "game/tables/PortraitEnums.h"
 #include "game/tables/PortraitFrameTable.h"
@@ -313,12 +314,16 @@ TEST_CASE("merged base engine tables load without changing active MM8 runtime ta
     CHECK_EQ(bolsterMapTable.entries()[1].note, "Dagger Wound Island");
     const OpenYAMM::Game::MergedBolsterMapEntry *pHarmondale = bolsterMapTable.findById(63u);
     REQUIRE(pHarmondale != nullptr);
-    CHECK_FALSE(pHarmondale->rain);
+    CHECK(pHarmondale->rain);
     CHECK(pHarmondale->snow);
     const OpenYAMM::Game::MergedBolsterMapEntry *pTulareanForest = bolsterMapTable.findById(65u);
     REQUIRE(pTulareanForest != nullptr);
     CHECK(pTulareanForest->rain);
     CHECK_FALSE(pTulareanForest->snow);
+    const OpenYAMM::Game::MergedBolsterMapEntry *pBracadaDesert = bolsterMapTable.findById(67u);
+    REQUIRE(pBracadaDesert != nullptr);
+    CHECK_FALSE(pBracadaDesert->rain);
+    CHECK_FALSE(pBracadaDesert->snow);
 
     CHECK_GT(bolsterMonsterTable.entries().size(), 100u);
     CHECK_EQ(bolsterMonsterTable.entries()[1].type, "Lizardman");
@@ -479,6 +484,23 @@ TEST_CASE("race skill rules apply additive effective caps without changing class
     CHECK_EQ(
         classSkillTable.getEffectiveCap("Peasant", 4, "Regeneration"),
         OpenYAMM::Game::SkillMastery::None);
+}
+
+TEST_CASE("character inspect table loads class descriptions")
+{
+    OpenYAMM::Game::CharacterInspectTable inspectTable;
+
+    REQUIRE(inspectTable.loadClassRows(loadRows("english/class.txt")));
+
+    const OpenYAMM::Game::ClassInspectEntry *pKnight = inspectTable.getClass("Knight");
+    REQUIRE(pKnight != nullptr);
+    CHECK_EQ(pKnight->name, "Knight");
+    CHECK(pKnight->description.find("martial skills") != std::string::npos);
+
+    const OpenYAMM::Game::ClassInspectEntry *pWarriorMage = inspectTable.getClass("Warrior Mage");
+    REQUIRE(pWarriorMage != nullptr);
+    CHECK_EQ(pWarriorMage->name, "Warrior Mage");
+    CHECK(pWarriorMage->description.find("first Archer promotion") != std::string::npos);
 }
 
 TEST_CASE("race skill rules grant minimum caps and honor class-kind exceptions")
@@ -676,7 +698,7 @@ TEST_CASE("merged startable character voices resolve core speech sounds")
         OpenYAMM::Game::SpeechId::DoorLocked,
         OpenYAMM::Game::SpeechId::CantLearnSpell,
         OpenYAMM::Game::SpeechId::LearnSpell,
-        OpenYAMM::Game::SpeechId::AttackHit,
+        OpenYAMM::Game::SpeechId::KillWeakEnemy,
         OpenYAMM::Game::SpeechId::CantEquip,
         OpenYAMM::Game::SpeechId::StoreClosed,
         OpenYAMM::Game::SpeechId::NotEnoughGold,
@@ -706,4 +728,29 @@ TEST_CASE("merged startable character voices resolve core speech sounds")
     }
 
     CHECK_GT(checkedVoiceIds.size(), 50u);
+}
+
+TEST_CASE("merged character presentation-only reactions have no speech sounds")
+{
+    OpenYAMM::Game::SpeechReactionTable speechReactionTable;
+    REQUIRE(speechReactionTable.loadFromRows(loadRows("character_speech_events.txt")));
+
+    const std::array<OpenYAMM::Game::SpeechId, 8> portraitOnlySpeechIds = {{
+        OpenYAMM::Game::SpeechId::Shoot,
+        OpenYAMM::Game::SpeechId::AttackHit,
+        OpenYAMM::Game::SpeechId::AttackMiss,
+        OpenYAMM::Game::SpeechId::FoundItem,
+        OpenYAMM::Game::SpeechId::StatBonusIncreased,
+        OpenYAMM::Game::SpeechId::StatBaseIncreased,
+        OpenYAMM::Game::SpeechId::QuestGot,
+        OpenYAMM::Game::SpeechId::AwardGot,
+    }};
+
+    for (OpenYAMM::Game::SpeechId speechId : portraitOnlySpeechIds)
+    {
+        const OpenYAMM::Game::SpeechReactionEntry *pReaction = speechReactionTable.find(speechId);
+        REQUIRE(pReaction != nullptr);
+        CHECK(pReaction->soundTypes.empty());
+        CHECK(pReaction->faceAnimationId.has_value());
+    }
 }

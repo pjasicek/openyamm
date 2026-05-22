@@ -35,6 +35,17 @@ bool professionHurtsReputation(uint32_t professionId)
             return false;
     }
 }
+
+bool isMMergeGuardGroup(uint32_t actorGroup)
+{
+    return actorGroup == MMergeGuardGroup38 || actorGroup == MMergeGuardGroup55;
+}
+
+bool isCivilianAggressionActor(uint32_t actorGroup, const MonsterTable::MonsterStatsEntry *pStats)
+{
+    return isMMergeGuardGroup(actorGroup)
+        || (pStats != nullptr && pStats->hasKind(MonsterKind::Peasant));
+}
 }
 
 int clampReputation(int value)
@@ -138,6 +149,16 @@ MonsterKillReputationResult applyMonsterKillReputationPenalty(
     addStoredCurrentLocationReputation(worldRuntime, result.reputationDelta);
 
     return result;
+}
+
+bool actorSharesCivilianAggression(
+    uint32_t leftActorGroup,
+    const MonsterTable::MonsterStatsEntry *pLeftStats,
+    uint32_t rightActorGroup,
+    const MonsterTable::MonsterStatsEntry *pRightStats)
+{
+    return isCivilianAggressionActor(leftActorGroup, pLeftStats)
+        && isCivilianAggressionActor(rightActorGroup, pRightStats);
 }
 
 ReputationLevel reputationLevel(int effectiveReputation)

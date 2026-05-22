@@ -289,7 +289,15 @@ std::optional<InteractiveDecorationBindingSpec> resolveInteractiveDecorationBind
 
     if (*internalNumber >= 40 && *internalNumber <= 43)
     {
-        spec.baseEventId = static_cast<uint16_t>(542 + (*internalNumber - 40) * 7);
+        spec.baseEventId = static_cast<uint16_t>(543 + (*internalNumber - 40) * 7);
+        spec.eventCount = 7;
+        spec.useSeededInitialState = true;
+        return spec;
+    }
+
+    if (*internalNumber >= 60 && *internalNumber <= 63)
+    {
+        spec.baseEventId = static_cast<uint16_t>(543 + (*internalNumber - 60) * 7);
         spec.eventCount = 7;
         spec.useSeededInitialState = true;
         return spec;

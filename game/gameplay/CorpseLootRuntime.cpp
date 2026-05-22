@@ -279,6 +279,14 @@ GameplayCorpseViewState buildMonsterCorpseView(
     view.title = title;
 
     static thread_local std::mt19937 rng(std::random_device{}());
+    const bool hasGuaranteedItems =
+        std::any_of(
+            guaranteedItemIds.begin(),
+            guaranteedItemIds.end(),
+            [](uint32_t itemId)
+            {
+                return itemId != 0;
+            });
 
     if (loot.goldDiceRolls > 0 && loot.goldDiceSides > 0)
     {
@@ -307,6 +315,7 @@ GameplayCorpseViewState buildMonsterCorpseView(
 
     if (loot.itemChance > 0
         && loot.itemLevel > 0
+        && !hasGuaranteedItems
         && std::uniform_int_distribution<int>(0, 99)(rng) < loot.itemChance)
     {
         const std::optional<InventoryItem> generatedItem =

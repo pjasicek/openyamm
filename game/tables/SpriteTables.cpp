@@ -479,11 +479,23 @@ const DecorationEntry *DecorationTable::get(uint16_t decorationId) const
 
 const DecorationEntry *DecorationTable::findByInternalName(const std::string &internalName) const
 {
+    const std::optional<uint16_t> decorationId = findIdByInternalName(internalName);
+
+    if (!decorationId)
+    {
+        return nullptr;
+    }
+
+    return get(*decorationId);
+}
+
+std::optional<uint16_t> DecorationTable::findIdByInternalName(const std::string &internalName) const
+{
     const std::string normalizedName = toLowerCopy(trimCopy(internalName));
 
     if (normalizedName.empty())
     {
-        return nullptr;
+        return std::nullopt;
     }
 
     const std::unordered_map<std::string, uint16_t>::const_iterator iterator =
@@ -491,10 +503,24 @@ const DecorationEntry *DecorationTable::findByInternalName(const std::string &in
 
     if (iterator == m_entryIndexByInternalName.end() || iterator->second >= m_entries.size())
     {
-        return nullptr;
+        return std::nullopt;
     }
 
-    return &m_entries[iterator->second];
+    return iterator->second;
+}
+
+DecorationLookupResult DecorationTable::resolveMapDecoration(
+    uint16_t decorationId,
+    const std::string &internalName) const
+{
+    const std::optional<uint16_t> namedDecorationId = findIdByInternalName(internalName);
+
+    if (namedDecorationId && *namedDecorationId != 0)
+    {
+        return DecorationLookupResult{*namedDecorationId, get(*namedDecorationId)};
+    }
+
+    return DecorationLookupResult{decorationId, get(decorationId)};
 }
 
 bool SpriteFrameTable::loadFromBytes(const std::vector<uint8_t> &bytes)

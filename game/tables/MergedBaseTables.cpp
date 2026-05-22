@@ -1790,7 +1790,7 @@ bool MergedBolsterMapTable::loadFromRows(const std::vector<std::vector<std::stri
         entry.bolsterExtra = parseOptionalUnsigned(row, 7);
         entry.professionMaxRarity = parseOptionalUnsignedValue(row, 8);
         entry.customSky = row.size() > 9 ? trimCopy(row[9]) : "";
-        entry.rain = row.size() > 10 ? isMarkerCell(row[10]) : true;
+        entry.rain = row.size() > 10 ? !isDisabledCell(row[10]) : true;
         entry.snow = row.size() > 11 ? isMarkerCell(row[11]) : false;
         m_entries.push_back(std::move(entry));
     }

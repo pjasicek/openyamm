@@ -82,6 +82,82 @@ AppendGlobalEvent(1347, function()
     MM6.RemoveQuestFollower(802)
 end)
 
+local EnrothClericClassId = 4
+local EnrothPriestClassId = 5
+local EnrothHighPriestClassId = 50
+
+ReplaceGlobalEvent(1349, "Anthony Stone Priest promotion", function()
+    if not IsQBitSet(QBit(1130)) then
+        evt.SetMessage(
+            "The temple I asked you to rebuild still stands in ruins.\n"
+            .. "The people are deprived of their rightful religious solace, and you return to me empty-handed.\n"
+            .. "Leave here and complete your mission!")
+        return
+    end
+
+    evt.SetMessage(
+        "Excellent work!\n"
+        .. "The temple has been rebuilt and the affront to the gods eased.\n"
+        .. "For this service, I am happy to promote all clerics to priests, "
+        .. "and I grant honorary priest status to all non-clerics.\n"
+        .. "Congratulations!")
+    ClearQBit(QBit(1129))
+    evt.SetNPCTopic(801, 1, 1350)
+    AddValue(131307, 2)
+    evt.ForPlayer(Players.All)
+    AddValue(Experience, 15000)
+
+    for _, player in ipairs(PartyMembers()) do
+        if PlayerClassMatches(player, EnrothClericClassId) then
+            SetPlayerClass(player, EnrothPriestClassId)
+            SetQBit(QBit(1647))
+        else
+            SetQBit(QBit(1648))
+        end
+    end
+end)
+
+ReplaceGlobalEvent(1351, "Anthony Stone High Priest promotion", function()
+    evt.ForPlayer(Players.All)
+
+    if IsQBitSet(QBit(1132)) then
+        evt.SetMessage(
+            "You are successful!\n"
+            .. "It looks like I will have to keep my promise and make more irregular, early promotions.\n"
+            .. "I do so with pleasure.\n"
+            .. "I hereby promote all priests to high priests, and all honorary priests to honorary high priests.")
+
+        for _, player in ipairs(PartyMembers()) do
+            if PlayerClassMatches(player, EnrothPriestClassId) then
+                SetPlayerClass(player, EnrothHighPriestClassId)
+                SetQBit(QBit(1649))
+            else
+                SetQBit(QBit(1650))
+            end
+        end
+
+        AddValue(327915, 5)
+        ClearQBit(QBit(1131))
+        evt.ForPlayer(Players.All)
+        AddValue(Experience, 30000)
+        evt.SetNPCTopic(801, 1, 1352)
+    elseif HasItem(2054) then
+        evt.SetMessage(
+            "I see that you have recovered the chalice!\n"
+            .. "Good work, but you still need to ensconce it in the temple.\n"
+            .. "Take it there at once and return to me for your promotion!")
+    else
+        evt.SetMessage("The monks still have the chalice, and our temple is still without it.\nWhy do you delay?")
+    end
+end)
+
+ReplaceGlobalEvent(1352, "Anthony Stone High Priest done", function()
+    evt.SetMessage(
+        "Though your rise to high priest status was almost unseemly quick, "
+        .. "I have never seen finer high priests in all my years.\n"
+        .. "I am grateful for all you've done for myself and for Enroth.")
+end)
+
 ReplaceGlobalEvent(1426, nil, function()
     MM6.SellCollectorItem(
         2082,
@@ -238,8 +314,7 @@ AppendGlobalEvent(1646, function(continueStep)
     MM6.AddQuestFollower(940)
 end)
 
-ReplaceGlobalEvent(1331, nil, function()
-    evt.SimpleMessage("The palace is deadly dull, and everyone tells me what to do.\nBeing royalty isn't really worth much and no one will let me go outside the walls while my father is gone.\nI haven't left the castle for months!\nAnyway, you people look pretty important.\nWhat if you helped me sneak out and stay with you for a couple of days?\nI can't give you much in return yet, but I'll owe you a favor.\nSomeday I'll be able to repay you.\nI am the prince, after all!\nI'll go out the secret door and meet you outside.")
+AppendGlobalEvent(1331, function()
     MM6.StartNicolaiQuest()
 end)
 
@@ -251,7 +326,6 @@ ReplaceGlobalEvent(1333, nil, function(continueStep)
     MM6.KidnapNicolai(true)
 end)
 
-ReplaceGlobalEvent(1334, nil, function()
-    evt.SimpleMessage("Um.\nHi. <smiling weakly> Would you believe I got lost and these nice people were taking me home?\nNo?\nI guess I wouldn't either.\nI suppose it's time we got back to the castle, then.")
+AppendGlobalEvent(1334, function()
     MM6.RecoverNicolaiAtCircus()
 end)

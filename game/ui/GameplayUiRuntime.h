@@ -102,12 +102,17 @@ public:
         const std::string &textureName,
         int &width,
         int &height);
+    std::optional<std::vector<uint8_t>> loadItemIconBitmapPixelsBgraCached(
+        const std::string &textureName,
+        int &width,
+        int &height);
     std::optional<std::vector<uint8_t>> loadSpriteBitmapPixelsBgraCached(
         const std::string &textureName,
         int16_t paletteId,
         int &width,
         int &height);
     void clearHudLayoutRuntimeHeightOverrides();
+    void setHudLayoutRuntimeWidthOverride(const std::string &layoutId, float width);
     void setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height);
     const UiLayoutManager::LayoutElement *findHudLayoutElement(const std::string &layoutId) const;
     int defaultHudLayoutZIndexForScreen(const std::string &screen) const;
@@ -232,6 +237,7 @@ private:
     std::vector<GameplayHudFontData> m_hudFontHandles;
     std::vector<GameplayHudFontColorTextureData> m_hudFontColorTextureHandles;
     std::vector<GameplayHudTextureColorTextureData> m_hudTextureColorTextureHandles;
+    std::unordered_map<std::string, float> m_hudLayoutRuntimeWidthOverrides;
     std::unordered_map<std::string, float> m_hudLayoutRuntimeHeightOverrides;
     std::vector<GameplayRenderedInspectableHudItem> m_renderedInspectableHudItems;
     GameplayHudScreenState m_renderedInspectableHudScreenState = GameplayHudScreenState::Gameplay;

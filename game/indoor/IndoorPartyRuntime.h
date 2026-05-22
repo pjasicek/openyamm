@@ -31,7 +31,13 @@ public:
     void teleportEyePosition(float x, float y, float z);
     void teleportPartyPosition(float x, float y, float z);
     void translatePartyPosition(float deltaX, float deltaY, float deltaZ);
-    void update(float desiredVelocityX, float desiredVelocityY, bool jumpRequested, bool running, float deltaSeconds);
+    void update(
+        float desiredVelocityX,
+        float desiredVelocityY,
+        bool jumpRequested,
+        bool running,
+        float deltaSeconds,
+        bool turnBasedMovementStep = false);
     void setActorColliders(const std::vector<IndoorActorCollision> &actorColliders);
     void setDecorationColliders(const std::vector<IndoorCylinderCollision> &decorationColliders);
     void setSpriteObjectColliders(const std::vector<IndoorCylinderCollision> &spriteObjectColliders);

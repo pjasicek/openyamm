@@ -309,6 +309,7 @@ public:
     bool isControlsRenderButtonPressed(GameplayControlsRenderButton button) const;
     bool isVideoOptionsRenderButtonPressed(GameplayVideoOptionsRenderButton button) const;
     void clearHudLayoutRuntimeHeightOverrides();
+    void setHudLayoutRuntimeWidthOverride(const std::string &layoutId, float width);
     void setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height);
 
     const HouseEntry *findHouseEntry(uint32_t houseId) const;

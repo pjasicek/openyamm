@@ -22,6 +22,7 @@
 #include <array>
 #include <chrono>
 #include <cmath>
+#include <cstddef>
 #include <cstdlib>
 #include <cstring>
 #include <future>
@@ -44,6 +45,7 @@ constexpr bool DebugProjectileDrawLogging = false;
 constexpr uint64_t BillboardAlphaRenderState =
     BGFX_STATE_WRITE_RGB
     | BGFX_STATE_WRITE_A
+    | BGFX_STATE_WRITE_Z
     | BGFX_STATE_DEPTH_TEST_LEQUAL
     | BGFX_STATE_BLEND_ALPHA;
 constexpr size_t MaxPreloadDecodeWorkerCount = 8;
@@ -85,6 +87,12 @@ uint32_t makeAbgrAlpha(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
         | static_cast<uint32_t>(red);
 }
 
+uint8_t lightContributionByte(float value)
+{
+    return static_cast<uint8_t>(
+        std::clamp(std::lround(value * BillboardLightContributionScale * 255.0f), 0l, 255l));
+}
+
 bool timingEnvironmentFlagEnabled(const char *pName)
 {
     const char *pValue = std::getenv(pName);
@@ -98,6 +106,11 @@ bool actorRenderHitchLoggingEnabled()
 {
     return timingEnvironmentFlagEnabled("OPENYAMM_MAP_LOAD_TIMING")
         || timingEnvironmentFlagEnabled("OPENYAMM_ACTOR_RENDER_TIMING");
+}
+
+float outdoorBillboardDepthSliceSize(const OutdoorGameView &view)
+{
+    return std::clamp(view.settingsSnapshot().outdoorBillboardDepthSlice, 0.0f, 8192.0f);
 }
 
 size_t spritePreloadDecodeWorkerCount(size_t requestCount)
@@ -912,19 +925,30 @@ void OutdoorBillboardRenderer::writeLitBillboardVertices(
 }
 
 uint32_t OutdoorBillboardRenderer::computeBillboardLightContributionAbgr(
-    const OutdoorGameView &view,
+    OutdoorGameView &view,
     float x,
     float y,
     float z)
 {
-    (void)view;
-    (void)x;
-    (void)y;
-    (void)z;
+    LightingStats *pLightingStats = view.m_gameSettings.performanceTrace ? &view.m_outdoorLightingStats : nullptr;
+    const uint64_t sampleBeginTickCount = pLightingStats != nullptr ? SDL_GetTicksNS() : 0;
 
-    // Billboard lighting is intentionally ambient-only for now.
-    // Terrain and textured bmodels still receive the shader-backed FX light contribution.
-    return 0xff000000u;
+    if (pLightingStats != nullptr)
+    {
+        ++pLightingStats->billboardSamples;
+    }
+
+    const std::array<float, 3> rgb = view.m_outdoorLightingRuntime.sampleLightingRgb({x, y, z});
+
+    if (pLightingStats != nullptr)
+    {
+        pLightingStats->billboardSampleNanoseconds += SDL_GetTicksNS() - sampleBeginTickCount;
+    }
+
+    return makeAbgr(
+        lightContributionByte(rgb[0]),
+        lightContributionByte(rgb[1]),
+        lightContributionByte(rgb[2]));
 }
 
 std::optional<OutdoorGameView::InspectHit> OutdoorBillboardRenderer::resolveHoveredOutlineInspectHit(
@@ -2293,6 +2317,11 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
             return left.distanceSquared > right.distanceSquared;
         });
 
+    if (view.m_gameSettings.performanceTrace)
+    {
+        view.m_outdoorSpriteRenderDiagnostics.decorationItems += drawItems.size();
+    }
+
     size_t groupBegin = 0;
 
     while (groupBegin < drawItems.size())
@@ -2387,6 +2416,13 @@ void OutdoorBillboardRenderer::renderDecorationBillboards(
         bgfx::setState(BillboardAlphaRenderState);
         bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
 
+        if (view.m_gameSettings.performanceTrace)
+        {
+            ++view.m_outdoorSpriteRenderDiagnostics.decorationBatchSubmits;
+            view.m_outdoorSpriteRenderDiagnostics.decorationBatchedItems += groupEnd - groupBegin;
+            ++view.m_outdoorSpriteRenderDiagnostics.decorationTextureGroups;
+        }
+
         groupBegin = groupEnd;
     }
 }
@@ -2420,6 +2456,8 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         const OutdoorGameView::BillboardTextureHandle *pTexture = nullptr;
         bool mirrored = false;
         bool hovered = false;
+        bool actor = false;
+        bool decoration = false;
         uint32_t hoveredOutlineColorAbgr = 0;
         float x = 0.0f;
         float y = 0.0f;
@@ -2674,6 +2712,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
+            drawItem.actor = true;
             const bool contextHighlighted =
                 runtimeActorIndex.has_value()
                 && contextActionHighlightsActor(pContextActionHit, *runtimeActorIndex);
@@ -2793,6 +2832,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             drawItem.pFrame = pFrame;
             drawItem.pTexture = pTexture;
             drawItem.mirrored = resolvedTexture.mirrored;
+            drawItem.decoration = true;
             drawItem.x = static_cast<float>(billboard.x);
             drawItem.y = static_cast<float>(billboard.y);
             drawItem.z = static_cast<float>(billboard.z);
@@ -3035,51 +3075,218 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
         });
     sortStageNanoseconds += SDL_GetTicksNS() - sortStageStartTickCount;
 
+    if (view.m_gameSettings.performanceTrace)
+    {
+        const OutdoorGameView::BillboardTextureHandle *pLastActorTexture = nullptr;
+        const OutdoorGameView::BillboardTextureHandle *pLastDecorationTexture = nullptr;
+
+        for (const BillboardDrawItem &drawItem : drawItems)
+        {
+            if (drawItem.actor)
+            {
+                ++view.m_outdoorSpriteRenderDiagnostics.actorItems;
+
+                if (drawItem.pTexture != pLastActorTexture)
+                {
+                    ++view.m_outdoorSpriteRenderDiagnostics.actorTextureSwitches;
+                    pLastActorTexture = drawItem.pTexture;
+                }
+            }
+
+            if (drawItem.decoration)
+            {
+                ++view.m_outdoorSpriteRenderDiagnostics.decorationItems;
+
+                if (drawItem.pTexture != pLastDecorationTexture)
+                {
+                    ++view.m_outdoorSpriteRenderDiagnostics.decorationTextureSwitches;
+                    pLastDecorationTexture = drawItem.pTexture;
+                }
+            }
+        }
+    }
+
     const uint32_t vertexCount = 6;
     applyBillboardFogUniforms(view, view.m_viewDistanceCache.actorBillboardDistance);
 
-    for (const BillboardDrawItem &drawItem : drawItems)
+    struct CombinedBillboardBatch
     {
-        const OutdoorGameView::BillboardTextureHandle *pTexture = drawItem.pTexture;
+        const OutdoorGameView::BillboardTextureHandle *pTexture = nullptr;
+        std::vector<OutdoorGameView::LitBillboardVertex> vertices;
+        size_t actorItems = 0;
+        size_t decorationItems = 0;
+    };
 
-        if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+    std::vector<CombinedBillboardBatch> billboardBatches;
+    billboardBatches.reserve(32);
+
+    const auto resetBillboardBatch =
+        [](CombinedBillboardBatch &batch)
         {
-            continue;
-        }
-
-        if (bgfx::getAvailTransientVertexBuffer(vertexCount, OutdoorGameView::LitBillboardVertex::ms_layout) < vertexCount)
-        {
-            continue;
-        }
-
-        ++textureGroupCount;
-
-        const uint64_t submitStageStartTickCount = SDL_GetTicksNS();
-        const SpriteFrameEntry &frame = *drawItem.pFrame;
-        const float spriteScale = std::max(frame.scale * drawItem.heightScale, 0.01f);
-        const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
-        const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
-        const float halfWidth = worldWidth * 0.5f;
-        const bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.z + worldHeight * 0.5f};
-        const bx::Vec3 right = {cameraRight.x * halfWidth, cameraRight.y * halfWidth, cameraRight.z * halfWidth};
-        const bx::Vec3 up = {
-            cameraUp.x * worldHeight * 0.5f,
-            cameraUp.y * worldHeight * 0.5f,
-            cameraUp.z * worldHeight * 0.5f
+            batch.vertices.clear();
+            batch.pTexture = nullptr;
+            batch.actorItems = 0;
+            batch.decorationItems = 0;
         };
-        const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
-        const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
 
-        if (drawItem.hovered)
+    const auto submitBillboardBatch =
+        [&](CombinedBillboardBatch &batch)
         {
+            if (batch.pTexture == nullptr || batch.vertices.empty())
+            {
+                resetBillboardBatch(batch);
+                return;
+            }
+
+            const uint64_t submitStageStartTickCount = SDL_GetTicksNS();
+            const uint32_t batchVertexCount = static_cast<uint32_t>(batch.vertices.size());
+
+            if (bgfx::getAvailTransientVertexBuffer(
+                    batchVertexCount,
+                    OutdoorGameView::LitBillboardVertex::ms_layout) >= batchVertexCount)
+            {
+                bgfx::TransientVertexBuffer transientVertexBuffer = {};
+                bgfx::allocTransientVertexBuffer(
+                    &transientVertexBuffer,
+                    batchVertexCount,
+                    OutdoorGameView::LitBillboardVertex::ms_layout);
+                std::memcpy(
+                    transientVertexBuffer.data,
+                    batch.vertices.data(),
+                    static_cast<size_t>(batch.vertices.size() * sizeof(OutdoorGameView::LitBillboardVertex)));
+
+                float modelMatrix[16] = {};
+                bx::mtxIdentity(modelMatrix);
+                bgfx::setTransform(modelMatrix);
+                bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, batchVertexCount);
+                bindTexture(
+                    0,
+                    view.m_terrainTextureSamplerHandle,
+                    batch.pTexture->textureHandle,
+                    TextureFilterProfile::Billboard,
+                    BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+                applyBillboardAmbientUniform(view);
+                applyBillboardOverrideColorUniform(view, 0, 0.0f);
+                applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
+                bgfx::setState(BillboardAlphaRenderState);
+                bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+                ++textureGroupCount;
+
+                if (view.m_gameSettings.performanceTrace)
+                {
+                    if (batch.actorItems > 0)
+                    {
+                        ++view.m_outdoorSpriteRenderDiagnostics.actorBatchSubmits;
+                        ++view.m_outdoorSpriteRenderDiagnostics.actorSubmits;
+                        view.m_outdoorSpriteRenderDiagnostics.actorBatchedItems += batch.actorItems;
+                    }
+
+                    if (batch.decorationItems > 0)
+                    {
+                        ++view.m_outdoorSpriteRenderDiagnostics.decorationBatchSubmits;
+                        ++view.m_outdoorSpriteRenderDiagnostics.decorationSubmits;
+                        view.m_outdoorSpriteRenderDiagnostics.decorationBatchedItems += batch.decorationItems;
+                    }
+                }
+            }
+
+            submitStageNanoseconds += SDL_GetTicksNS() - submitStageStartTickCount;
+            resetBillboardBatch(batch);
+        };
+
+    const auto appendBillboardVertices =
+        [&](const BillboardDrawItem &drawItem, std::vector<OutdoorGameView::LitBillboardVertex> &vertices) -> bool
+        {
+            const OutdoorGameView::BillboardTextureHandle *pTexture = drawItem.pTexture;
+
+            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                return false;
+            }
+
+            const SpriteFrameEntry &frame = *drawItem.pFrame;
+            const float spriteScale = std::max(frame.scale * drawItem.heightScale, 0.01f);
+            const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+            const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+            const float halfWidth = worldWidth * 0.5f;
+            const bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.z + worldHeight * 0.5f};
+            const bx::Vec3 right = {
+                cameraRight.x * halfWidth,
+                cameraRight.y * halfWidth,
+                cameraRight.z * halfWidth
+            };
+            const bx::Vec3 up = {
+                cameraUp.x * worldHeight * 0.5f,
+                cameraUp.y * worldHeight * 0.5f,
+                cameraUp.z * worldHeight * 0.5f
+            };
+            const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
+            const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
+
+            appendLitBillboardVertices(vertices, center, right, up, u0, u1, drawItem.lightContributionAbgr);
+            return true;
+        };
+
+    const auto appendDrawItemToBatch =
+        [&](const BillboardDrawItem &drawItem, CombinedBillboardBatch &batch) -> bool
+        {
+            if (drawItem.pTexture == nullptr || !bgfx::isValid(drawItem.pTexture->textureHandle))
+            {
+                return false;
+            }
+
+            if (batch.pTexture == nullptr)
+            {
+                batch.pTexture = drawItem.pTexture;
+            }
+
+            if (!appendBillboardVertices(drawItem, batch.vertices))
+            {
+                return false;
+            }
+
+            batch.actorItems += drawItem.actor ? 1 : 0;
+            batch.decorationItems += drawItem.decoration ? 1 : 0;
+            return true;
+        };
+
+    const auto submitHoveredBillboard =
+        [&](const BillboardDrawItem &drawItem)
+        {
+            const OutdoorGameView::BillboardTextureHandle *pTexture = drawItem.pTexture;
+
+            if (pTexture == nullptr || !bgfx::isValid(pTexture->textureHandle))
+            {
+                return;
+            }
+
+            const SpriteFrameEntry &frame = *drawItem.pFrame;
+            const float spriteScale = std::max(frame.scale * drawItem.heightScale, 0.01f);
+            const float worldWidth = static_cast<float>(pTexture->width) * spriteScale;
+            const float worldHeight = static_cast<float>(pTexture->height) * spriteScale;
+            const float halfWidth = worldWidth * 0.5f;
+            const bx::Vec3 center = {drawItem.x, drawItem.y, drawItem.z + worldHeight * 0.5f};
+            const bx::Vec3 right = {
+                cameraRight.x * halfWidth,
+                cameraRight.y * halfWidth,
+                cameraRight.z * halfWidth
+            };
+            const bx::Vec3 up = {
+                cameraUp.x * worldHeight * 0.5f,
+                cameraUp.y * worldHeight * 0.5f,
+                cameraUp.z * worldHeight * 0.5f
+            };
+            const float u0 = drawItem.mirrored ? 1.0f : 0.0f;
+            const float u1 = drawItem.mirrored ? 0.0f : 1.0f;
+
             const float paddingU = HoveredActorOutlineThicknessPixels / static_cast<float>(pTexture->width);
             const float paddingV = HoveredActorOutlineThicknessPixels / static_cast<float>(pTexture->height);
             const float outlinedHalfWidth =
-                (static_cast<float>(pTexture->width) * spriteScale + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale)
-                * 0.5f;
+                (static_cast<float>(pTexture->width) * spriteScale
+                    + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale) * 0.5f;
             const float outlinedHalfHeight =
-                (static_cast<float>(pTexture->height) * spriteScale + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale)
-                * 0.5f;
+                (static_cast<float>(pTexture->height) * spriteScale
+                    + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale) * 0.5f;
             const bx::Vec3 outlineRight = {
                 cameraRight.x * outlinedHalfWidth,
                 cameraRight.y * outlinedHalfWidth,
@@ -3129,6 +3336,7 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
             if (bgfx::getAvailTransientVertexBuffer(vertexCount, OutdoorGameView::LitBillboardVertex::ms_layout)
                 >= vertexCount)
             {
+                const uint64_t outlineSubmitStageStartTickCount = SDL_GetTicksNS();
                 bgfx::TransientVertexBuffer outlineTransientVertexBuffer = {};
                 bgfx::allocTransientVertexBuffer(
                     &outlineTransientVertexBuffer,
@@ -3158,45 +3366,182 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                     HoveredActorOutlineThicknessPixels);
                 bgfx::setState(BillboardAlphaRenderState);
                 bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+                submitStageNanoseconds += SDL_GetTicksNS() - outlineSubmitStageStartTickCount;
+
+                if (view.m_gameSettings.performanceTrace)
+                {
+                    if (drawItem.actor)
+                    {
+                        ++view.m_outdoorSpriteRenderDiagnostics.actorOutlineSubmits;
+                    }
+                    else if (drawItem.decoration)
+                    {
+                        ++view.m_outdoorSpriteRenderDiagnostics.decorationOutlineSubmits;
+                    }
+                }
             }
+
+            std::array<OutdoorGameView::LitBillboardVertex, 6> vertices = {};
+            writeLitBillboardVertices(
+                vertices.data(),
+                center,
+                right,
+                up,
+                u0,
+                u1,
+                drawItem.lightContributionAbgr);
+
+            if (bgfx::getAvailTransientVertexBuffer(vertexCount, OutdoorGameView::LitBillboardVertex::ms_layout)
+                < vertexCount)
+            {
+                return;
+            }
+
+            const uint64_t submitStageStartTickCount = SDL_GetTicksNS();
+            bgfx::TransientVertexBuffer transientVertexBuffer = {};
+            bgfx::allocTransientVertexBuffer(
+                &transientVertexBuffer,
+                vertexCount,
+                OutdoorGameView::LitBillboardVertex::ms_layout);
+            std::memcpy(
+                transientVertexBuffer.data,
+                vertices.data(),
+                static_cast<size_t>(vertices.size() * sizeof(OutdoorGameView::LitBillboardVertex)));
+
+            float modelMatrix[16] = {};
+            bx::mtxIdentity(modelMatrix);
+            bgfx::setTransform(modelMatrix);
+            bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, vertexCount);
+            bindTexture(
+                0,
+                view.m_terrainTextureSamplerHandle,
+                pTexture->textureHandle,
+                TextureFilterProfile::Billboard,
+                BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+            applyBillboardAmbientUniform(view);
+            applyBillboardOverrideColorUniform(view, 0, 0.0f);
+            applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
+            bgfx::setState(BillboardAlphaRenderState);
+            bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+
+            ++textureGroupCount;
+
+            if (view.m_gameSettings.performanceTrace)
+            {
+                if (drawItem.actor)
+                {
+                    ++view.m_outdoorSpriteRenderDiagnostics.actorSubmits;
+                }
+                else if (drawItem.decoration)
+                {
+                    ++view.m_outdoorSpriteRenderDiagnostics.decorationSubmits;
+                }
+            }
+            submitStageNanoseconds += SDL_GetTicksNS() - submitStageStartTickCount;
+        };
+
+    const float depthSliceSize = outdoorBillboardDepthSliceSize(view);
+    size_t drawItemIndex = 0;
+
+    if (depthSliceSize <= 0.0f)
+    {
+        CombinedBillboardBatch exactBatch = {};
+        exactBatch.vertices.reserve(drawItems.size() * 6);
+
+        for (const BillboardDrawItem &drawItem : drawItems)
+        {
+            if (drawItem.hovered)
+            {
+                submitBillboardBatch(exactBatch);
+                submitHoveredBillboard(drawItem);
+                continue;
+            }
+
+            if (drawItem.pTexture == nullptr || !bgfx::isValid(drawItem.pTexture->textureHandle))
+            {
+                continue;
+            }
+
+            if (exactBatch.pTexture != drawItem.pTexture)
+            {
+                submitBillboardBatch(exactBatch);
+                exactBatch.pTexture = drawItem.pTexture;
+            }
+
+            appendDrawItemToBatch(drawItem, exactBatch);
         }
 
-        std::array<OutdoorGameView::LitBillboardVertex, 6> vertices = {};
-        writeLitBillboardVertices(
-            vertices.data(),
-            center,
-            right,
-            up,
-            u0,
-            u1,
-            drawItem.lightContributionAbgr);
+        submitBillboardBatch(exactBatch);
+    }
+    else
+    {
+        while (drawItemIndex < drawItems.size())
+        {
+            const BillboardDrawItem &firstDrawItem = drawItems[drawItemIndex];
 
-        bgfx::TransientVertexBuffer transientVertexBuffer = {};
-        bgfx::allocTransientVertexBuffer(
-            &transientVertexBuffer,
-            vertexCount,
-            OutdoorGameView::LitBillboardVertex::ms_layout);
-        std::memcpy(
-            transientVertexBuffer.data,
-            vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(OutdoorGameView::LitBillboardVertex)));
+            if (firstDrawItem.hovered)
+            {
+                submitHoveredBillboard(firstDrawItem);
+                ++drawItemIndex;
+                continue;
+            }
 
-        float modelMatrix[16] = {};
-        bx::mtxIdentity(modelMatrix);
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, vertexCount);
-        bindTexture(
-            0,
-            view.m_terrainTextureSamplerHandle,
-            pTexture->textureHandle,
-            TextureFilterProfile::Billboard,
-            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-        applyBillboardAmbientUniform(view);
-        applyBillboardOverrideColorUniform(view, 0, 0.0f);
-        applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
-        bgfx::setState(BillboardAlphaRenderState);
-        bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
-        submitStageNanoseconds += SDL_GetTicksNS() - submitStageStartTickCount;
+            const float sliceNearDepth = firstDrawItem.cameraDepth - depthSliceSize;
+            size_t sliceItemCount = 0;
+            billboardBatches.clear();
+
+            while (drawItemIndex < drawItems.size())
+            {
+                const BillboardDrawItem &drawItem = drawItems[drawItemIndex];
+
+                if (drawItem.hovered || drawItem.cameraDepth < sliceNearDepth)
+                {
+                    break;
+                }
+
+                const OutdoorGameView::BillboardTextureHandle *pTexture = drawItem.pTexture;
+
+                if (pTexture != nullptr && bgfx::isValid(pTexture->textureHandle))
+                {
+                    CombinedBillboardBatch *pBatch = nullptr;
+
+                    for (CombinedBillboardBatch &batch : billboardBatches)
+                    {
+                        if (batch.pTexture == pTexture)
+                        {
+                            pBatch = &batch;
+                            break;
+                        }
+                    }
+
+                    if (pBatch == nullptr)
+                    {
+                        billboardBatches.push_back({});
+                        pBatch = &billboardBatches.back();
+                        pBatch->pTexture = pTexture;
+                    }
+
+                    if (appendDrawItemToBatch(drawItem, *pBatch))
+                    {
+                        ++sliceItemCount;
+                    }
+                }
+
+                ++drawItemIndex;
+            }
+
+            if (view.m_gameSettings.performanceTrace && sliceItemCount > 0)
+            {
+                ++view.m_outdoorSpriteRenderDiagnostics.combinedDepthSlices;
+                view.m_outdoorSpriteRenderDiagnostics.combinedDepthSliceTextureGroups += billboardBatches.size();
+                view.m_outdoorSpriteRenderDiagnostics.combinedDepthSliceItems += sliceItemCount;
+            }
+
+            for (CombinedBillboardBatch &batch : billboardBatches)
+            {
+                submitBillboardBatch(batch);
+            }
+        }
     }
 
     thread_local std::vector<OutdoorGameView::TerrainVertex> healthBarVertices;
@@ -3334,6 +3679,7 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
         bool hovered = false;
         uint32_t hoveredOutlineColorAbgr = 0;
         float distanceSquared = 0.0f;
+        float distance = 0.0f;
         uint32_t lightContributionAbgr = 0xff000000u;
     };
 
@@ -3422,6 +3768,7 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
                 ? (contextHighlighted ? contextActionHighlightOutlineColor() : hoveredWorldItemOutlineColor())
                 : 0;
         drawItem.distanceSquared = deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+        drawItem.distance = std::sqrt(drawItem.distanceSquared);
         drawItem.lightContributionAbgr = computeBillboardLightContributionAbgr(
             view,
             pWorldItem->x,
@@ -3435,8 +3782,147 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
         drawItems.end(),
         [](const BillboardDrawItem &left, const BillboardDrawItem &right)
         {
-            return left.distanceSquared > right.distanceSquared;
+            return left.distance > right.distance;
         });
+
+    if (view.m_gameSettings.performanceTrace)
+    {
+        view.m_outdoorSpriteRenderDiagnostics.worldItemItems += drawItems.size();
+
+        const OutdoorGameView::BillboardTextureHandle *pLastTexture = nullptr;
+        for (const BillboardDrawItem &drawItem : drawItems)
+        {
+            if (drawItem.pTexture != pLastTexture)
+            {
+                ++view.m_outdoorSpriteRenderDiagnostics.worldItemTextureSwitches;
+                pLastTexture = drawItem.pTexture;
+            }
+        }
+    }
+
+    const float depthSliceSize = outdoorBillboardDepthSliceSize(view);
+    size_t worldItemSliceBegin = 0;
+
+    while (depthSliceSize > 0.0f && worldItemSliceBegin < drawItems.size())
+    {
+        if (drawItems[worldItemSliceBegin].hovered)
+        {
+            ++worldItemSliceBegin;
+            continue;
+        }
+
+        const float sliceNearDistance = drawItems[worldItemSliceBegin].distance - depthSliceSize;
+        size_t worldItemSliceEnd = worldItemSliceBegin + 1;
+
+        while (worldItemSliceEnd < drawItems.size()
+            && !drawItems[worldItemSliceEnd].hovered
+            && drawItems[worldItemSliceEnd].distance >= sliceNearDistance)
+        {
+            ++worldItemSliceEnd;
+        }
+
+        std::stable_sort(
+            drawItems.begin() + static_cast<std::ptrdiff_t>(worldItemSliceBegin),
+            drawItems.begin() + static_cast<std::ptrdiff_t>(worldItemSliceEnd),
+            [](const BillboardDrawItem &left, const BillboardDrawItem &right)
+            {
+                const uint16_t leftTextureId = left.pTexture != nullptr ? left.pTexture->textureHandle.idx : 0;
+                const uint16_t rightTextureId = right.pTexture != nullptr ? right.pTexture->textureHandle.idx : 0;
+
+                if (leftTextureId != rightTextureId)
+                {
+                    return leftTextureId < rightTextureId;
+                }
+
+                return left.distance > right.distance;
+            });
+
+        if (view.m_gameSettings.performanceTrace)
+        {
+            ++view.m_outdoorSpriteRenderDiagnostics.worldItemDepthSlices;
+            view.m_outdoorSpriteRenderDiagnostics.worldItemDepthSliceItems +=
+                worldItemSliceEnd - worldItemSliceBegin;
+
+            const OutdoorGameView::BillboardTextureHandle *pLastTexture = nullptr;
+            for (size_t index = worldItemSliceBegin; index < worldItemSliceEnd; ++index)
+            {
+                if (drawItems[index].pTexture != pLastTexture)
+                {
+                    ++view.m_outdoorSpriteRenderDiagnostics.worldItemDepthSliceTextureGroups;
+                    pLastTexture = drawItems[index].pTexture;
+                }
+            }
+        }
+
+        worldItemSliceBegin = worldItemSliceEnd;
+    }
+
+    struct WorldItemBillboardBatch
+    {
+        const OutdoorGameView::BillboardTextureHandle *pTexture = nullptr;
+        std::vector<OutdoorGameView::LitBillboardVertex> vertices;
+        size_t itemCount = 0;
+    };
+
+    WorldItemBillboardBatch billboardBatch = {};
+    billboardBatch.vertices.reserve(drawItems.size() * 6);
+
+    const auto flushBillboardBatch =
+        [&]()
+        {
+            if (billboardBatch.pTexture == nullptr || billboardBatch.vertices.empty())
+            {
+                billboardBatch.vertices.clear();
+                billboardBatch.pTexture = nullptr;
+                billboardBatch.itemCount = 0;
+                return;
+            }
+
+            const uint32_t batchVertexCount = static_cast<uint32_t>(billboardBatch.vertices.size());
+
+            if (bgfx::getAvailTransientVertexBuffer(
+                    batchVertexCount,
+                    OutdoorGameView::LitBillboardVertex::ms_layout) >= batchVertexCount)
+            {
+                bgfx::TransientVertexBuffer transientVertexBuffer = {};
+                bgfx::allocTransientVertexBuffer(
+                    &transientVertexBuffer,
+                    batchVertexCount,
+                    OutdoorGameView::LitBillboardVertex::ms_layout);
+                std::memcpy(
+                    transientVertexBuffer.data,
+                    billboardBatch.vertices.data(),
+                    static_cast<size_t>(
+                        billboardBatch.vertices.size() * sizeof(OutdoorGameView::LitBillboardVertex)));
+
+                float modelMatrix[16] = {};
+                bx::mtxIdentity(modelMatrix);
+                bgfx::setTransform(modelMatrix);
+                bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, batchVertexCount);
+                bindTexture(
+                    0,
+                    view.m_terrainTextureSamplerHandle,
+                    billboardBatch.pTexture->textureHandle,
+                    TextureFilterProfile::Billboard,
+                    BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+                applyBillboardAmbientUniform(view);
+                applyBillboardOverrideColorUniform(view, 0, 0.0f);
+                applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
+                bgfx::setState(BillboardAlphaRenderState);
+                bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+
+                if (view.m_gameSettings.performanceTrace)
+                {
+                    ++view.m_outdoorSpriteRenderDiagnostics.worldItemBatchSubmits;
+                    ++view.m_outdoorSpriteRenderDiagnostics.worldItemSubmits;
+                    view.m_outdoorSpriteRenderDiagnostics.worldItemBatchedItems += billboardBatch.itemCount;
+                }
+            }
+
+            billboardBatch.vertices.clear();
+            billboardBatch.pTexture = nullptr;
+            billboardBatch.itemCount = 0;
+        };
 
     for (const BillboardDrawItem &drawItem : drawItems)
     {
@@ -3459,14 +3945,16 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
 
         if (drawItem.hovered)
         {
+            flushBillboardBatch();
+
             const float paddingU = HoveredActorOutlineThicknessPixels / static_cast<float>(texture.width);
             const float paddingV = HoveredActorOutlineThicknessPixels / static_cast<float>(texture.height);
             const float outlinedHalfWidth =
-                (static_cast<float>(texture.width) * spriteScale + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale)
-                * 0.5f;
+                (static_cast<float>(texture.width) * spriteScale
+                    + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale) * 0.5f;
             const float outlinedHalfHeight =
-                (static_cast<float>(texture.height) * spriteScale + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale)
-                * 0.5f;
+                (static_cast<float>(texture.height) * spriteScale
+                    + HoveredActorOutlineThicknessPixels * 2.0f * spriteScale) * 0.5f;
             const bx::Vec3 outlineRight = {
                 cameraRight.x * outlinedHalfWidth,
                 cameraRight.y * outlinedHalfWidth,
@@ -3550,6 +4038,11 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
                     HoveredActorOutlineThicknessPixels);
                 bgfx::setState(BillboardAlphaRenderState);
                 bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+
+                if (view.m_gameSettings.performanceTrace)
+                {
+                    ++view.m_outdoorSpriteRenderDiagnostics.worldItemOutlineSubmits;
+                }
             }
         }
 
@@ -3562,6 +4055,19 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
             u0,
             u1,
             drawItem.lightContributionAbgr);
+
+        if (!drawItem.hovered)
+        {
+            if (billboardBatch.pTexture != &texture)
+            {
+                flushBillboardBatch();
+                billboardBatch.pTexture = &texture;
+            }
+
+            billboardBatch.vertices.insert(billboardBatch.vertices.end(), vertices.begin(), vertices.end());
+            ++billboardBatch.itemCount;
+            continue;
+        }
 
         if (bgfx::getAvailTransientVertexBuffer(
                 static_cast<uint32_t>(vertices.size()),
@@ -3595,7 +4101,14 @@ void OutdoorBillboardRenderer::renderRuntimeWorldItems(
         applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
         bgfx::setState(BillboardAlphaRenderState);
         bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+
+        if (view.m_gameSettings.performanceTrace)
+        {
+            ++view.m_outdoorSpriteRenderDiagnostics.worldItemSubmits;
+        }
     }
+
+    flushBillboardBatch();
 }
 
 void OutdoorBillboardRenderer::renderRuntimeProjectiles(
@@ -3906,6 +4419,11 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
             return left.distanceSquared > right.distanceSquared;
         });
 
+    if (view.m_gameSettings.performanceTrace)
+    {
+        view.m_outdoorSpriteRenderDiagnostics.runtimeProjectileItems += drawItems.size();
+    }
+
     size_t groupBegin = 0;
 
     while (groupBegin < drawItems.size())
@@ -3994,6 +4512,13 @@ void OutdoorBillboardRenderer::renderRuntimeProjectiles(
         bgfx::setState(BillboardAlphaRenderState);
         bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
 
+        if (view.m_gameSettings.performanceTrace)
+        {
+            ++view.m_outdoorSpriteRenderDiagnostics.runtimeProjectileBatchSubmits;
+            view.m_outdoorSpriteRenderDiagnostics.runtimeProjectileBatchedItems += groupEnd - groupBegin;
+            ++view.m_outdoorSpriteRenderDiagnostics.runtimeProjectileTextureGroups;
+        }
+
         groupBegin = groupEnd;
     }
 }
@@ -4029,6 +4554,11 @@ void OutdoorBillboardRenderer::renderFxContactShadows(
 
     std::vector<OutdoorGameView::LitBillboardVertex> vertices;
     vertices.reserve(shadows.size() * 6);
+
+    if (view.m_gameSettings.performanceTrace)
+    {
+        view.m_outdoorSpriteRenderDiagnostics.fxContactShadowItems += shadows.size();
+    }
 
     for (const WorldFxContactShadow &shadow : shadows)
     {
@@ -4075,6 +4605,11 @@ void OutdoorBillboardRenderer::renderFxContactShadows(
     applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
     bgfx::setState(BillboardAlphaRenderState);
     bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+
+    if (view.m_gameSettings.performanceTrace)
+    {
+        ++view.m_outdoorSpriteRenderDiagnostics.fxContactShadowSubmits;
+    }
 }
 
 void OutdoorBillboardRenderer::renderFxGlowBillboards(
@@ -4093,6 +4628,7 @@ void OutdoorBillboardRenderer::renderFxGlowBillboards(
     const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
     std::vector<OutdoorGameView::TerrainVertex> vertices;
     vertices.reserve(glowBillboards.size() * 6);
+    size_t visibleGlowCount = 0;
 
     for (const WorldFxGlowBillboard &glow : glowBillboards)
     {
@@ -4101,6 +4637,7 @@ void OutdoorBillboardRenderer::renderFxGlowBillboards(
             continue;
         }
 
+        ++visibleGlowCount;
         const bx::Vec3 center = {glow.x, glow.y, glow.z};
         const bx::Vec3 right = {
             cameraRight.x * glow.radius,
@@ -4113,6 +4650,16 @@ void OutdoorBillboardRenderer::renderFxGlowBillboards(
             cameraUp.z * glow.radius
         };
         appendWorldQuadVertices(vertices, center, right, up, glow.colorAbgr);
+    }
+
+    if (view.m_gameSettings.performanceTrace)
+    {
+        view.m_outdoorSpriteRenderDiagnostics.fxGlowItems += visibleGlowCount;
+
+        if (!vertices.empty())
+        {
+            ++view.m_outdoorSpriteRenderDiagnostics.fxGlowSubmits;
+        }
     }
 
     submitColoredVertices(view, viewId, vertices, ColoredAdditiveRenderState);
@@ -4201,6 +4748,89 @@ void OutdoorBillboardRenderer::renderSpriteObjectBillboards(
             return left.distanceSquared > right.distanceSquared;
         });
 
+    if (view.m_gameSettings.performanceTrace)
+    {
+        view.m_outdoorSpriteRenderDiagnostics.staticSpriteObjectItems += drawItems.size();
+
+        const OutdoorGameView::BillboardTextureHandle *pLastTexture = nullptr;
+        for (const BillboardDrawItem &drawItem : drawItems)
+        {
+            if (drawItem.pTexture != pLastTexture)
+            {
+                ++view.m_outdoorSpriteRenderDiagnostics.staticSpriteObjectTextureSwitches;
+                pLastTexture = drawItem.pTexture;
+            }
+        }
+    }
+
+    struct StaticSpriteObjectBillboardBatch
+    {
+        const OutdoorGameView::BillboardTextureHandle *pTexture = nullptr;
+        std::vector<OutdoorGameView::LitBillboardVertex> vertices;
+        size_t itemCount = 0;
+    };
+
+    StaticSpriteObjectBillboardBatch billboardBatch = {};
+    billboardBatch.vertices.reserve(drawItems.size() * 6);
+
+    const auto flushBillboardBatch =
+        [&]()
+        {
+            if (billboardBatch.pTexture == nullptr || billboardBatch.vertices.empty())
+            {
+                billboardBatch.vertices.clear();
+                billboardBatch.pTexture = nullptr;
+                billboardBatch.itemCount = 0;
+                return;
+            }
+
+            const uint32_t batchVertexCount = static_cast<uint32_t>(billboardBatch.vertices.size());
+
+            if (bgfx::getAvailTransientVertexBuffer(
+                    batchVertexCount,
+                    OutdoorGameView::LitBillboardVertex::ms_layout) >= batchVertexCount)
+            {
+                bgfx::TransientVertexBuffer transientVertexBuffer = {};
+                bgfx::allocTransientVertexBuffer(
+                    &transientVertexBuffer,
+                    batchVertexCount,
+                    OutdoorGameView::LitBillboardVertex::ms_layout);
+                std::memcpy(
+                    transientVertexBuffer.data,
+                    billboardBatch.vertices.data(),
+                    static_cast<size_t>(
+                        billboardBatch.vertices.size() * sizeof(OutdoorGameView::LitBillboardVertex)));
+
+                float modelMatrix[16] = {};
+                bx::mtxIdentity(modelMatrix);
+                bgfx::setTransform(modelMatrix);
+                bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, batchVertexCount);
+                bindTexture(
+                    0,
+                    view.m_terrainTextureSamplerHandle,
+                    billboardBatch.pTexture->textureHandle,
+                    TextureFilterProfile::Billboard,
+                    BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
+                applyBillboardAmbientUniform(view);
+                applyBillboardOverrideColorUniform(view, 0, 0.0f);
+                applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
+                bgfx::setState(BillboardAlphaRenderState);
+                bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+
+                if (view.m_gameSettings.performanceTrace)
+                {
+                    ++view.m_outdoorSpriteRenderDiagnostics.staticSpriteObjectBatchSubmits;
+                    ++view.m_outdoorSpriteRenderDiagnostics.staticSpriteObjectSubmits;
+                    view.m_outdoorSpriteRenderDiagnostics.staticSpriteObjectBatchedItems +=
+                        billboardBatch.itemCount;
+                }
+            }
+
+            billboardBatch.vertices.clear();
+            billboardBatch.pTexture = nullptr;
+            billboardBatch.itemCount = 0;
+        };
+
     for (const BillboardDrawItem &drawItem : drawItems)
     {
         const SpriteObjectBillboard &billboard = *drawItem.pBillboard;
@@ -4230,39 +4860,17 @@ void OutdoorBillboardRenderer::renderSpriteObjectBillboards(
             u1,
             drawItem.lightContributionAbgr);
 
-        if (bgfx::getAvailTransientVertexBuffer(
-                static_cast<uint32_t>(vertices.size()),
-                OutdoorGameView::LitBillboardVertex::ms_layout) < vertices.size())
+        if (billboardBatch.pTexture != &texture)
         {
-            continue;
+            flushBillboardBatch();
+            billboardBatch.pTexture = &texture;
         }
 
-        bgfx::TransientVertexBuffer transientVertexBuffer = {};
-        bgfx::allocTransientVertexBuffer(
-            &transientVertexBuffer,
-            static_cast<uint32_t>(vertices.size()),
-            OutdoorGameView::LitBillboardVertex::ms_layout);
-        std::memcpy(
-            transientVertexBuffer.data,
-            vertices.data(),
-            static_cast<size_t>(vertices.size() * sizeof(OutdoorGameView::LitBillboardVertex)));
-
-        float modelMatrix[16] = {};
-        bx::mtxIdentity(modelMatrix);
-        bgfx::setTransform(modelMatrix);
-        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
-        bindTexture(
-            0,
-            view.m_terrainTextureSamplerHandle,
-            texture.textureHandle,
-            TextureFilterProfile::Billboard,
-            BGFX_SAMPLER_U_CLAMP | BGFX_SAMPLER_V_CLAMP);
-        applyBillboardAmbientUniform(view);
-        applyBillboardOverrideColorUniform(view, 0, 0.0f);
-        applyBillboardOutlineParamsUniform(view, 0.0f, 0.0f, 0.0f);
-        bgfx::setState(BillboardAlphaRenderState);
-        bgfx::submit(viewId, view.m_outdoorLitBillboardProgramHandle);
+        billboardBatch.vertices.insert(billboardBatch.vertices.end(), vertices.begin(), vertices.end());
+        ++billboardBatch.itemCount;
     }
+
+    flushBillboardBatch();
 }
 
 } // namespace OpenYAMM::Game

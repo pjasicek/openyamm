@@ -620,6 +620,28 @@ TEST_CASE("party damage queues mmmerge fall and preservation reactions")
     CHECK(hasPendingSpeech(party, 0, OpenYAMM::Game::SpeechId::CheatedDeath));
 }
 
+TEST_CASE("party fall damage uses OE integer health scaling")
+{
+    OpenYAMM::Game::Party party = makeInventoryParty();
+
+    OpenYAMM::Game::Character *pFirstMember = party.member(0);
+    OpenYAMM::Game::Character *pSecondMember = party.member(1);
+    REQUIRE(pFirstMember != nullptr);
+    REQUIRE(pSecondMember != nullptr);
+    pFirstMember->maxHealth = 45;
+    pFirstMember->health = 45;
+    pSecondMember->maxHealth = 45;
+    pSecondMember->health = 45;
+    pSecondMember->featherFalling = true;
+
+    OpenYAMM::Game::OutdoorMovementEffects effects = {};
+    effects.maxFallDamageDistance = 768.0f;
+    party.applyMovementEffects(effects);
+
+    CHECK(pFirstMember->health == 33);
+    CHECK(pSecondMember->health == 45);
+}
+
 TEST_CASE("party condition acquisition queues mmmerge condition reactions")
 {
     OpenYAMM::Game::Party party = {};

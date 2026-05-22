@@ -96,7 +96,7 @@ struct DecorationBillboard
 
     uint32_t spriteOverrideKey() const
     {
-        return static_cast<uint32_t>(entityIndex);
+        return eventIdPrimary != 0 ? eventIdPrimary : static_cast<uint32_t>(entityIndex);
     }
 };
 

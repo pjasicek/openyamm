@@ -30,6 +30,7 @@ constexpr float RootWidth = 640.0f;
 constexpr float RootHeight = 480.0f;
 constexpr const char *CharacterCreationLayoutPath = "Data/ui/gameplay/character_creation.yml";
 constexpr const char *ContinentSelectionLayoutPath = "Data/ui/gameplay/continent_selection.yml";
+constexpr const char *PcNamesTablePath = "engine/data_tables/english/pc_names.txt";
 constexpr uint32_t DefaultCreationCharacterDataId = 1;
 constexpr const char *DefaultCreationClassName = "Knight";
 constexpr const char *DefaultNewGameContinentKey = "jadame";
@@ -42,8 +43,16 @@ constexpr int MaximumStatValue = 25;
 constexpr int BoostedMaximumStatValue = 34;
 constexpr float InspectPopupWidth = 425.0f;
 constexpr float InspectPopupGap = 12.0f;
+constexpr float NameBackspaceInitialRepeatDelaySeconds = 0.35f;
+constexpr float NameBackspaceRepeatIntervalSeconds = 0.065f;
+constexpr float CreationCompletionErrorDurationSeconds = 4.0f;
+constexpr float CreationCompletionErrorBoxX = 140.0f;
+constexpr float CreationCompletionErrorBoxWidth = 360.0f;
 constexpr size_t MaximumOptionalSkillSelections = 2;
 constexpr size_t MaximumNameLength = 15;
+constexpr const char *CreationCompletionErrorText =
+    "Create Party cannot be completed unless you have assigned all characters 2 extra skills and have spent all of "
+    "your bonus points.";
 constexpr uint32_t WhiteColor = 0xffffffffu;
 constexpr uint32_t YellowColor = 0xff00ffffu;
 constexpr uint32_t BlueColor = 0xffffd830u;
@@ -266,6 +275,43 @@ std::string trimCopy(const std::string &value)
     }
 
     return value.substr(start, end - start);
+}
+
+std::string canonicalNameToken(const std::string &value)
+{
+    std::string token;
+
+    for (unsigned char character : value)
+    {
+        if (std::isalnum(character) != 0)
+        {
+            token.push_back(static_cast<char>(std::tolower(character)));
+        }
+    }
+
+    return token;
+}
+
+std::vector<std::string> splitTabLine(const std::string &line)
+{
+    std::vector<std::string> cells;
+    size_t start = 0;
+
+    while (start <= line.size())
+    {
+        const size_t end = line.find('\t', start);
+
+        if (end == std::string::npos)
+        {
+            cells.push_back(line.substr(start));
+            break;
+        }
+
+        cells.push_back(line.substr(start, end - start));
+        start = end + 1;
+    }
+
+    return cells;
 }
 
 MenuScreenBase::Rect scaledRect(float rootX, float rootY, float scale, float x, float y, float width, float height)
@@ -867,14 +913,17 @@ NewGameScreen::NewGameScreen(
     GameAudioSystem *pGameAudioSystem,
     const GameDataRepository &gameData,
     bool debugGodLichRoster,
+    bool allowIncompleteCharacterCreation,
     ContinueAction continueAction,
     BackAction backAction)
     : MenuScreenBase(assetFileSystem)
     , m_pGameAudioSystem(pGameAudioSystem)
     , m_pGameData(&gameData)
     , m_debugGodLichRoster(debugGodLichRoster)
+    , m_allowIncompleteCharacterCreation(allowIncompleteCharacterCreation)
     , m_continueAction(std::move(continueAction))
     , m_backAction(std::move(backAction))
+    , m_nameRng(std::random_device{}())
 {
 }
 
@@ -943,6 +992,12 @@ void NewGameScreen::onExit()
 
 void NewGameScreen::handleSdlEvent(const SDL_Event &event)
 {
+    if (event.type == SDL_EVENT_KEY_UP && event.key.key == SDLK_BACKSPACE)
+    {
+        resetNameBackspaceRepeat();
+        return;
+    }
+
     if (event.type == SDL_EVENT_TEXT_INPUT && m_state.nameEditing)
     {
         const char *pText = event.text.text;
@@ -1000,9 +1055,11 @@ void NewGameScreen::handleSdlEvent(const SDL_Event &event)
             break;
 
         case SDLK_BACKSPACE:
-            if (m_state.nameEditing && !m_state.nameEditBuffer.empty())
+            if (m_state.nameEditing)
             {
-                m_state.nameEditBuffer.pop_back();
+                deleteNameEditCharacter();
+                m_nameBackspaceHeld = !m_state.nameEditBuffer.empty();
+                m_nameBackspaceRepeatTimer = NameBackspaceInitialRepeatDelaySeconds;
             }
             break;
 
@@ -1301,7 +1358,7 @@ void NewGameScreen::resetCurrentState(bool applyCandidateDefaults)
     const std::array<int, static_cast<size_t>(StatId::Count)> baseStats = statsForRace(candidate.raceName);
     m_state.baseStats = baseStats;
     m_state.currentStats = baseStats;
-    m_state.name = candidate.defaultName;
+    m_state.name = generateDefaultNameForState(m_state);
     m_state.nameEditBuffer = m_state.name;
     m_state.defaultSkills.clear();
     m_state.optionalSkills.clear();
@@ -1386,6 +1443,7 @@ void NewGameScreen::beginNameEditing()
         return;
     }
 
+    resetNameBackspaceRepeat();
     m_state.nameEditing = true;
     m_state.nameEditBuffer = m_state.name;
 #if !defined(__ANDROID__)
@@ -1400,6 +1458,8 @@ void NewGameScreen::beginNameEditing()
 
 void NewGameScreen::endNameEditing(bool commitEdit)
 {
+    resetNameBackspaceRepeat();
+
     if (!m_state.nameEditing)
     {
         return;
@@ -1424,6 +1484,200 @@ void NewGameScreen::endNameEditing(bool commitEdit)
         SDL_StopTextInput(pWindow);
     }
 #endif
+}
+
+void NewGameScreen::deleteNameEditCharacter()
+{
+    if (m_state.nameEditing && !m_state.nameEditBuffer.empty())
+    {
+        m_state.nameEditBuffer.pop_back();
+    }
+}
+
+void NewGameScreen::resetNameBackspaceRepeat()
+{
+    m_nameBackspaceHeld = false;
+    m_nameBackspaceRepeatTimer = 0.0f;
+}
+
+void NewGameScreen::updateNameBackspaceRepeat(float deltaSeconds)
+{
+    if (!m_nameBackspaceHeld || !m_state.nameEditing)
+    {
+        resetNameBackspaceRepeat();
+        return;
+    }
+
+    if (deltaSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    m_nameBackspaceRepeatTimer -= deltaSeconds;
+
+    while (m_nameBackspaceRepeatTimer <= 0.0f)
+    {
+        deleteNameEditCharacter();
+
+        if (m_state.nameEditBuffer.empty())
+        {
+            resetNameBackspaceRepeat();
+            return;
+        }
+
+        m_nameBackspaceRepeatTimer += NameBackspaceRepeatIntervalSeconds;
+    }
+}
+
+void NewGameScreen::ensurePcNamesLoaded()
+{
+    if (m_pcNamesLoaded)
+    {
+        return;
+    }
+
+    m_pcNamesLoaded = true;
+    const std::optional<std::string> tableText = assetFileSystem().readTextFile(PcNamesTablePath);
+
+    if (!tableText.has_value())
+    {
+        return;
+    }
+
+    bool headerLine = true;
+    size_t lineStart = 0;
+
+    while (lineStart <= tableText->size())
+    {
+        const size_t lineEnd = tableText->find('\n', lineStart);
+        const std::string line = lineEnd == std::string::npos
+            ? tableText->substr(lineStart)
+            : tableText->substr(lineStart, lineEnd - lineStart);
+
+        if (headerLine)
+        {
+            headerLine = false;
+        }
+        else
+        {
+            const std::vector<std::string> cells = splitTabLine(line);
+            const size_t columnCount = std::min(cells.size(), m_pcNameColumns.size());
+
+            for (size_t columnIndex = 0; columnIndex < columnCount; ++columnIndex)
+            {
+                const std::string name = trimCopy(cells[columnIndex]);
+
+                if (!name.empty() && name != "*end")
+                {
+                    m_pcNameColumns[columnIndex].push_back(name);
+                }
+            }
+        }
+
+        if (lineEnd == std::string::npos)
+        {
+            break;
+        }
+
+        lineStart = lineEnd + 1;
+    }
+}
+
+std::string NewGameScreen::generateDefaultNameForState(const CreationState &state)
+{
+    const CreationCandidate &candidate = candidateForState(state);
+
+    if (m_debugGodLichRoster)
+    {
+        return candidate.defaultName;
+    }
+
+    ensurePcNamesLoaded();
+
+    const size_t columnIndex = pcNameColumnForState(state);
+    const std::vector<std::string> &names = m_pcNameColumns[columnIndex];
+
+    if (names.empty())
+    {
+        return candidate.defaultName.empty() ? "Player" : candidate.defaultName;
+    }
+
+    std::vector<const std::string *> unusedNames;
+
+    for (const std::string &name : names)
+    {
+        if (!partyNameAlreadyUsed(name))
+        {
+            unusedNames.push_back(&name);
+        }
+    }
+
+    if (!unusedNames.empty())
+    {
+        std::uniform_int_distribution<size_t> distribution(0, unusedNames.size() - 1);
+        return *unusedNames[distribution(m_nameRng)];
+    }
+
+    std::uniform_int_distribution<size_t> distribution(0, names.size() - 1);
+    return names[distribution(m_nameRng)];
+}
+
+bool NewGameScreen::partyNameAlreadyUsed(const std::string &name) const
+{
+    const std::string trimmedName = trimCopy(name);
+
+    if (trimmedName.empty())
+    {
+        return false;
+    }
+
+    for (size_t slotIndex = 0; slotIndex < m_partyStates.size(); ++slotIndex)
+    {
+        if (slotIndex == m_activePartySlot)
+        {
+            continue;
+        }
+
+        if (trimCopy(m_partyStates[slotIndex].name) == trimmedName)
+        {
+            return true;
+        }
+    }
+
+    return false;
+}
+
+size_t NewGameScreen::pcNameColumnForState(const CreationState &state) const
+{
+    const CreationCandidate &candidate = candidateForState(state);
+    const CharacterDollEntry *pEntry = characterEntryForState(state);
+    const bool female = pEntry != nullptr && pEntry->defaultSex == 1;
+    const std::string raceName = canonicalNameToken(candidate.raceName);
+    const std::string className = canonicalNameToken(classNameForState(state));
+
+    if (raceName == "dragon" || className == "dragon" || className == "greatwyrm")
+    {
+        return 7;
+    }
+
+    if (raceName == "troll" || raceName == "minotaur" || className == "troll" || className == "wartroll"
+        || className == "minotaur" || className == "minotaurlord")
+    {
+        return 4;
+    }
+
+    if (raceName == "darkelf" || className == "darkelf")
+    {
+        return female ? 3 : 2;
+    }
+
+    if (raceName == "vampire" || className == "vampire" || className == "nosferatu" || className == "necromancer"
+        || className == "lich")
+    {
+        return female ? 5 : 6;
+    }
+
+    return female ? 1 : 0;
 }
 
 int NewGameScreen::currentBonusPool() const
@@ -2075,6 +2329,218 @@ void NewGameScreen::renderStatInspectPopup(
     }
 }
 
+void NewGameScreen::renderClassInspectPopup(
+    const ClassInspectEntry &entry,
+    const MenuScreenBase::Rect &sourceRect,
+    float scale)
+{
+    StatInspectEntry statEntry = {};
+    statEntry.name = entry.name;
+    statEntry.description = entry.description;
+    renderStatInspectPopup(statEntry, sourceRect, scale);
+}
+
+void NewGameScreen::showCreationCompletionError()
+{
+    m_state.statusMessage.clear();
+    m_creationCompletionErrorSeconds = CreationCompletionErrorDurationSeconds;
+}
+
+void NewGameScreen::renderCreationCompletionErrorMessageBox(
+    const MenuScreenBase::Rect &rootRect,
+    float scale)
+{
+    if (m_creationCompletionErrorSeconds <= 0.0f)
+    {
+        return;
+    }
+
+    const MenuScreenBase::Rect popupRect = scaledRect(
+        rootRect.x,
+        rootRect.y,
+        scale,
+        CreationCompletionErrorBoxX,
+        140.0f,
+        CreationCompletionErrorBoxWidth,
+        100.0f);
+    const float popupScale = scale;
+    const float rightOverhang = 7.0f * popupScale;
+    const float bottomOverhang = 7.0f * popupScale;
+
+    drawTexture("parchment", popupRect);
+    drawTexture("edge_top", {popupRect.x, popupRect.y, popupRect.width, 10.0f * popupScale});
+    drawTexture(
+        "edge_btm",
+        {popupRect.x,
+         popupRect.y + popupRect.height - 16.0f * popupScale + bottomOverhang,
+         popupRect.width,
+         16.0f * popupScale});
+    drawTexture("edge_lf", {popupRect.x, popupRect.y, 11.0f * popupScale, popupRect.height});
+    drawTexture(
+        "edge_rt",
+        {popupRect.x + popupRect.width - 16.0f * popupScale + rightOverhang,
+         popupRect.y,
+         16.0f * popupScale,
+         popupRect.height});
+    drawTexture("cornr_UL", {popupRect.x, popupRect.y, 33.0f * popupScale, 32.0f * popupScale});
+    drawTexture(
+        "cornr_UR",
+        {popupRect.x + popupRect.width - 39.0f * popupScale + rightOverhang,
+         popupRect.y,
+         39.0f * popupScale,
+         32.0f * popupScale});
+    drawTexture(
+        "cornr_LL",
+        {popupRect.x,
+         popupRect.y + popupRect.height - 38.0f * popupScale + bottomOverhang,
+         33.0f * popupScale,
+         38.0f * popupScale});
+    drawTexture(
+        "cornr_LR",
+        {popupRect.x + popupRect.width - 39.0f * popupScale + rightOverhang,
+         popupRect.y + popupRect.height - 38.0f * popupScale + bottomOverhang,
+         39.0f * popupScale,
+         38.0f * popupScale});
+
+    const float textWidth = std::max(1.0f, popupRect.width - 32.0f * popupScale);
+    const std::vector<std::string> lines = wrapTextToWidth(
+        "SMALLNUM",
+        CreationCompletionErrorText,
+        textWidth,
+        popupScale);
+    const float lineHeight = static_cast<float>(fontHeight("SMALLNUM")) * popupScale;
+    const float textHeight = lineHeight * static_cast<float>(lines.size());
+    float textY = popupRect.y + (popupRect.height - textHeight) * 0.5f;
+
+    for (const std::string &line : lines)
+    {
+        const float lineWidth = measureTextWidth("SMALLNUM", line, popupScale);
+        drawText(
+            "SMALLNUM",
+            line,
+            popupRect.x + (popupRect.width - lineWidth) * 0.5f,
+            textY,
+            WhiteColor,
+            popupScale);
+        textY += lineHeight;
+    }
+}
+
+std::optional<MenuScreenBase::TexturePixelsBgra> NewGameScreen::buildCreationPreviewDollPixels(
+    const CharacterDollEntry &entry,
+    const CharacterDollTypeEntry *pDollType)
+{
+    const std::optional<TexturePixelsBgra> background = texturePixelsBgra(entry.backgroundAsset);
+
+    if (!background.has_value()
+        || background->physicalWidth <= 0
+        || background->physicalHeight <= 0
+        || background->logicalWidth <= 0
+        || background->logicalHeight <= 0)
+    {
+        return std::nullopt;
+    }
+
+    TexturePixelsBgra composite = *background;
+    const float physicalScaleX =
+        static_cast<float>(composite.physicalWidth) / static_cast<float>(std::max(1, composite.logicalWidth));
+    const float physicalScaleY =
+        static_cast<float>(composite.physicalHeight) / static_cast<float>(std::max(1, composite.logicalHeight));
+    const auto compositeLayer =
+        [this, &composite, physicalScaleX, physicalScaleY](
+            const std::string &assetName,
+            int logicalX,
+            int logicalY)
+        {
+            if (assetName.empty() || assetName == "none" || assetName == "null")
+            {
+                return;
+            }
+
+            const std::optional<TexturePixelsBgra> layer = texturePixelsBgra(assetName);
+
+            if (!layer.has_value()
+                || layer->physicalWidth <= 0
+                || layer->physicalHeight <= 0
+                || layer->pixels.empty())
+            {
+                return;
+            }
+
+            const int targetX = static_cast<int>(std::lround(static_cast<float>(logicalX) * physicalScaleX));
+            const int targetY = static_cast<int>(std::lround(static_cast<float>(logicalY) * physicalScaleY));
+
+            for (int sourceY = 0; sourceY < layer->physicalHeight; ++sourceY)
+            {
+                const int destinationY = targetY + sourceY;
+
+                if (destinationY < 0 || destinationY >= composite.physicalHeight)
+                {
+                    continue;
+                }
+
+                for (int sourceX = 0; sourceX < layer->physicalWidth; ++sourceX)
+                {
+                    const int destinationX = targetX + sourceX;
+
+                    if (destinationX < 0 || destinationX >= composite.physicalWidth)
+                    {
+                        continue;
+                    }
+
+                    const size_t sourceOffset =
+                        (static_cast<size_t>(sourceY) * static_cast<size_t>(layer->physicalWidth)
+                         + static_cast<size_t>(sourceX)) * 4;
+                    const uint8_t sourceAlpha = layer->pixels[sourceOffset + 3];
+
+                    if (sourceAlpha == 0)
+                    {
+                        continue;
+                    }
+
+                    const size_t destinationOffset =
+                        (static_cast<size_t>(destinationY) * static_cast<size_t>(composite.physicalWidth)
+                         + static_cast<size_t>(destinationX)) * 4;
+
+                    if (sourceAlpha == 255)
+                    {
+                        composite.pixels[destinationOffset + 0] = layer->pixels[sourceOffset + 0];
+                        composite.pixels[destinationOffset + 1] = layer->pixels[sourceOffset + 1];
+                        composite.pixels[destinationOffset + 2] = layer->pixels[sourceOffset + 2];
+                        composite.pixels[destinationOffset + 3] = 255;
+                        continue;
+                    }
+
+                    const uint32_t inverseAlpha = 255u - sourceAlpha;
+
+                    for (size_t channel = 0; channel < 3; ++channel)
+                    {
+                        composite.pixels[destinationOffset + channel] = static_cast<uint8_t>(
+                            (static_cast<uint32_t>(layer->pixels[sourceOffset + channel]) * sourceAlpha
+                             + static_cast<uint32_t>(composite.pixels[destinationOffset + channel]) * inverseAlpha)
+                            / 255u);
+                    }
+
+                    composite.pixels[destinationOffset + 3] = static_cast<uint8_t>(
+                        std::min<uint32_t>(
+                            255u,
+                            sourceAlpha
+                            + static_cast<uint32_t>(composite.pixels[destinationOffset + 3]) * inverseAlpha / 255u));
+                }
+            }
+        };
+
+    compositeLayer(entry.bodyAsset, entry.bodyOffsetX, entry.bodyOffsetY);
+
+    if (pDollType != nullptr)
+    {
+        compositeLayer(entry.leftHandOpenAsset, pDollType->leftHandFingersX, pDollType->leftHandFingersY);
+        compositeLayer(entry.rightHandOpenAsset, pDollType->rightHandOpenX, pDollType->rightHandOpenY);
+    }
+
+    return composite;
+}
+
 Character NewGameScreen::buildCharacter() const
 {
     return buildCharacterFromState(m_state);
@@ -2163,6 +2629,31 @@ void NewGameScreen::confirmCreation()
             switchActivePartySlot(slotIndex);
             m_state.statusMessage = "Character name cannot be empty.";
             return;
+        }
+    }
+
+    if (!m_allowIncompleteCharacterCreation)
+    {
+        for (size_t slotIndex = 0; slotIndex < (m_debugGodLichRoster ? 1 : m_partySize); ++slotIndex)
+        {
+            const CreationState &state = m_partyStates[slotIndex];
+
+            if (bonusPoolForState(state) > 0)
+            {
+                switchActivePartySlot(slotIndex);
+                showCreationCompletionError();
+                return;
+            }
+
+            const size_t requiredSkillCount =
+                std::min(MaximumOptionalSkillSelections, state.optionalSkills.size());
+
+            if (state.selectedOptionalSkills.size() < requiredSkillCount)
+            {
+                switchActivePartySlot(slotIndex);
+                showCreationCompletionError();
+                return;
+            }
         }
     }
 
@@ -2572,14 +3063,19 @@ void NewGameScreen::drawScreen(float deltaSeconds)
 {
     if (m_stage == FlowStage::ContinentSelection)
     {
+        resetNameBackspaceRepeat();
         drawContinentSelection(deltaSeconds);
         return;
     }
 
-    static_cast<void>(deltaSeconds);
-
     initializeCharacterCreationForSelectedContinent();
     ensureLayoutLoaded();
+    updateNameBackspaceRepeat(deltaSeconds);
+
+    if (m_creationCompletionErrorSeconds > 0.0f)
+    {
+        m_creationCompletionErrorSeconds = std::max(0.0f, m_creationCompletionErrorSeconds - deltaSeconds);
+    }
 
     const float fallbackScale = std::min(
         static_cast<float>(frameWidth()) / RootWidth,
@@ -2658,13 +3154,34 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         drawText(fontName, "_", cursorX, cursorY, WhiteColor, scale);
     }
 
+    const std::string displayedClassName = displayClassName(selectedClassName());
     drawText(
         fontName,
-        displayClassName(selectedClassName()),
+        displayedClassName,
         classValueRect.x,
         classValueRect.y,
         WhiteColor,
         scale);
+
+    std::optional<std::pair<MenuScreenBase::Rect, const ClassInspectEntry *>> hoveredClassInspect;
+
+    if (rightMouseDown() && m_pGameData != nullptr)
+    {
+        const float classTextWidth = measureTextWidth(fontName, displayedClassName, scale);
+        const float classTextHeight = static_cast<float>(fontHeight(fontName)) * scale;
+        const MenuScreenBase::Rect classTextRect = {
+            classValueRect.x,
+            classValueRect.y,
+            classTextWidth,
+            classTextHeight + 3.0f * scale
+        };
+
+        if (hitTest(classTextRect))
+        {
+            hoveredClassInspect =
+                std::make_pair(classTextRect, m_pGameData->characterInspectTable().getClass(selectedClassName()));
+        }
+    }
 
     if (pEntry != nullptr)
     {
@@ -2985,58 +3502,33 @@ void NewGameScreen::drawScreen(float deltaSeconds)
             resolveRect("CharacterCreationPreviewAnchor", 451.0f, 80.0f, 0.0f, 0.0f);
         const float dollAnchorX = dollAnchorRect.x;
         const float dollAnchorY = dollAnchorRect.y;
-        const auto drawDollLayerAtNativeSize =
-            [this, scale](const std::string &assetName, float layerX, float layerY)
-            {
-                if (assetName.empty() || assetName == "none" || assetName == "null")
+        const std::string compositeKey =
+            std::to_string(pEntry->id) + ":"
+            + std::to_string(pEntry->dollTypeId) + ":"
+            + pEntry->backgroundAsset + ":"
+            + pEntry->bodyAsset + ":"
+            + pEntry->leftHandOpenAsset + ":"
+            + pEntry->rightHandOpenAsset;
+
+        if (m_creationPreviewDollCacheKey != compositeKey)
+        {
+            m_creationPreviewDollPixels = buildCreationPreviewDollPixels(*pEntry, pDollType);
+            m_creationPreviewDollCacheKey = compositeKey;
+        }
+
+        if (m_creationPreviewDollPixels.has_value())
+        {
+            drawPixelsBgra(
+                "new_game_creation_doll:" + compositeKey,
+                m_creationPreviewDollPixels->physicalWidth,
+                m_creationPreviewDollPixels->physicalHeight,
+                m_creationPreviewDollPixels->pixels,
                 {
-                    return;
-                }
-
-                const std::optional<MenuScreenBase::TextureSize> size = textureSize(assetName);
-
-                if (!size.has_value())
-                {
-                    return;
-                }
-
-                drawTexture(
-                    assetName,
-                    {
-                        std::round(layerX),
-                        std::round(layerY),
-                        std::round(size->width * scale),
-                        std::round(size->height * scale)
-                    });
-            };
-
-        if (!pEntry->backgroundAsset.empty() && pEntry->backgroundAsset != "none")
-        {
-            drawDollLayerAtNativeSize(pEntry->backgroundAsset, dollAnchorX, dollAnchorY);
-        }
-
-        const float bodyBaseX = dollAnchorX + static_cast<float>(pEntry->bodyOffsetX) * scale;
-        const float bodyBaseY = dollAnchorY + static_cast<float>(pEntry->bodyOffsetY) * scale;
-
-        if (!pEntry->bodyAsset.empty() && pEntry->bodyAsset != "none")
-        {
-            drawDollLayerAtNativeSize(pEntry->bodyAsset, bodyBaseX, bodyBaseY);
-        }
-
-        if (pDollType != nullptr && !pEntry->leftHandOpenAsset.empty() && pEntry->leftHandOpenAsset != "none")
-        {
-            drawDollLayerAtNativeSize(
-                pEntry->leftHandOpenAsset,
-                dollAnchorX + static_cast<float>(pDollType->leftHandFingersX) * scale,
-                dollAnchorY + static_cast<float>(pDollType->leftHandFingersY) * scale);
-        }
-
-        if (pDollType != nullptr && !pEntry->rightHandOpenAsset.empty() && pEntry->rightHandOpenAsset != "none")
-        {
-            drawDollLayerAtNativeSize(
-                pEntry->rightHandOpenAsset,
-                dollAnchorX + static_cast<float>(pDollType->rightHandOpenX) * scale,
-                dollAnchorY + static_cast<float>(pDollType->rightHandOpenY) * scale);
+                    std::round(dollAnchorX),
+                    std::round(dollAnchorY),
+                    std::round(static_cast<float>(m_creationPreviewDollPixels->logicalWidth) * scale),
+                    std::round(static_cast<float>(m_creationPreviewDollPixels->logicalHeight) * scale)
+                });
         }
     }
 
@@ -3057,6 +3549,13 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         && !hoveredStatInspect->second->description.empty())
     {
         renderStatInspectPopup(*hoveredStatInspect->second, hoveredStatInspect->first, scale);
+    }
+
+    if (hoveredClassInspect.has_value()
+        && hoveredClassInspect->second != nullptr
+        && !hoveredClassInspect->second->description.empty())
+    {
+        renderClassInspectPopup(*hoveredClassInspect->second, hoveredClassInspect->first, scale);
     }
 
     if (!m_debugGodLichRoster)
@@ -3148,7 +3647,11 @@ void NewGameScreen::drawScreen(float deltaSeconds)
     {
         playUiClickSound(SoundId::ClickIn);
         confirmCreation();
-        return;
+
+        if (m_creationCompletionErrorSeconds <= 0.0f)
+        {
+            return;
+        }
     }
 
     if (returnPressed)
@@ -3160,7 +3663,11 @@ void NewGameScreen::drawScreen(float deltaSeconds)
         else
         {
             confirmCreation();
-            return;
+
+            if (m_creationCompletionErrorSeconds <= 0.0f)
+            {
+                return;
+            }
         }
     }
 
@@ -3170,5 +3677,7 @@ void NewGameScreen::drawScreen(float deltaSeconds)
             resolveRect("CharacterCreationStatusMessage", 210.0f, 446.0f, 0.0f, 0.0f);
         drawText(fontName, m_state.statusMessage, statusMessageRect.x, statusMessageRect.y, RedColor, scale);
     }
+
+    renderCreationCompletionErrorMessageBox(rootRect, scale);
 }
 }

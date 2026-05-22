@@ -981,6 +981,11 @@ function support.setMapMetadata(metadata)
     end
 end
 
+function support.setMapContextAction(eventId, metadata)
+    local meta = ensureMetaScope("map")
+    meta.contextActions[eventId] = metadata
+end
+
 function support.appendMapOnLoadEvent(eventId)
     local meta = ensureMetaScope("map")
     table.insert(meta.onLoad, eventId)
@@ -1189,6 +1194,17 @@ function support.currentGameMinutes()
     return evt.CurrentGameMinutes()
 end
 
+function support.npcText(textId, fallback)
+    return evt.NPCText(textId or 0, fallback or "")
+end
+
+Game = Game or {}
+Game.NPCText = setmetatable(Game.NPCText or {}, {
+    __index = function(_, key)
+        return support.npcText(tonumber(key) or 0)
+    end,
+})
+
 function support.currentContinent()
     return evt.GetCurrentContinent()
 end
@@ -1203,6 +1219,10 @@ end
 
 function support.setRuntimeVariable(variableId, value)
     evt.SetRuntimeVariable(variableId, value or 0)
+end
+
+function support.currentEventSpellId()
+    return evt.GetActiveEventSpellId()
 end
 
 function support.getPartyVariable(variableId)
@@ -1531,6 +1551,7 @@ CastSpellFromTo = support.castSpellFromTo
 PickRandomOption = support.pickRandomOption
 AskQuestionWithAnswerSteps = support.askQuestionWithAnswerSteps
 SetMapMetadata = support.setMapMetadata
+SetMapContextAction = support.setMapContextAction
 AppendMapOnLoadEvent = support.appendMapOnLoadEvent
 AppendMapOnLeaveEvent = support.appendMapOnLeaveEvent
 RegisterMapOnLoadEvent = support.registerMapOnLoadEvent
@@ -1570,10 +1591,12 @@ HasFollowerNpc = support.hasFollowerNpc
 AddFollowerNpc = support.addFollowerNpc
 RemoveFollowerNpc = support.removeFollowerNpc
 CurrentGameMinutes = support.currentGameMinutes
+NPCText = support.npcText
 CurrentContinent = support.currentContinent
 AdvanceGameMinutes = support.advanceGameMinutes
 GetRuntimeVariable = support.getRuntimeVariable
 SetRuntimeVariable = support.setRuntimeVariable
+CurrentEventSpellId = support.currentEventSpellId
 GetPartyVariable = support.getPartyVariable
 SetPartyVariable = support.setPartyVariable
 GetClassId = support.getClassId
@@ -1679,6 +1702,7 @@ removeFollowerNpc = support.removeFollowerNpc
 currentGameMinutes = support.currentGameMinutes
 getRuntimeVariable = support.getRuntimeVariable
 setRuntimeVariable = support.setRuntimeVariable
+currentEventSpellId = support.currentEventSpellId
 getPartyVariable = support.getPartyVariable
 setPartyVariable = support.setPartyVariable
 getClassId = support.getClassId

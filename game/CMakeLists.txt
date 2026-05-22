@@ -125,6 +125,7 @@ add_library(openyamm_game STATIC
     outdoor/OutdoorSpatialFxRuntime.cpp
     outdoor/OutdoorGameplayInputController.cpp
     outdoor/OutdoorInteractionController.cpp
+    outdoor/OutdoorLightingRuntime.cpp
     outdoor/OutdoorMapData.cpp
     outdoor/OutdoorPresentationController.cpp
     outdoor/OutdoorRenderer.cpp

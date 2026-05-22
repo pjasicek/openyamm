@@ -51,11 +51,11 @@ initial_state:
         y: -1280
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 1
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 30
     - actor_index: 1
       name: ""
@@ -73,11 +73,11 @@ initial_state:
         y: -3712
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 6
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 45
     - actor_index: 2
       name: ""
@@ -95,11 +95,11 @@ initial_state:
         y: -5120
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 24
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 78
     - actor_index: 3
       name: ""
@@ -117,11 +117,11 @@ initial_state:
         y: -4224
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 21
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 97
     - actor_index: 4
       name: ""
@@ -139,11 +139,11 @@ initial_state:
         y: -3584
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 19
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 64
     - actor_index: 5
       name: ""
@@ -161,11 +161,11 @@ initial_state:
         y: -2944
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 7
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 104
     - actor_index: 6
       name: ""
@@ -183,11 +183,11 @@ initial_state:
         y: -2304
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 7
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 100
     - actor_index: 7
       name: ""
@@ -205,11 +205,11 @@ initial_state:
         y: -1664
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 8
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 79
     - actor_index: 8
       name: ""
@@ -227,11 +227,11 @@ initial_state:
         y: -1664
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 17
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 44
     - actor_index: 9
       name: ""
@@ -249,11 +249,11 @@ initial_state:
         y: -896
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 18
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 40
     - actor_index: 10
       name: ""
@@ -271,11 +271,11 @@ initial_state:
         y: -384
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 15
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 89
     - actor_index: 11
       name: ""
@@ -293,11 +293,11 @@ initial_state:
         y: -1024
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 15
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 43
     - actor_index: 12
       name: ""
@@ -315,11 +315,11 @@ initial_state:
         y: -1664
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 14
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 105
     - actor_index: 13
       name: ""
@@ -337,11 +337,11 @@ initial_state:
         y: -2304
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 13
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 41
     - actor_index: 14
       name: ""
@@ -359,11 +359,11 @@ initial_state:
         y: 256
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 16
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 103
     - actor_index: 15
       name: ""
@@ -381,11 +381,11 @@ initial_state:
         y: -5120
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 23
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 69
     - actor_index: 16
       name: ""
@@ -403,11 +403,11 @@ initial_state:
         y: -5248
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 25
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 87
     - actor_index: 17
       name: ""
@@ -425,11 +425,11 @@ initial_state:
         y: -5248
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 27
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 63
     - actor_index: 18
       name: ""
@@ -447,11 +447,11 @@ initial_state:
         y: -5248
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 26
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 92
     - actor_index: 19
       name: ""
@@ -469,11 +469,11 @@ initial_state:
         y: -2816
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 33
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 75
     - actor_index: 20
       name: ""
@@ -491,11 +491,11 @@ initial_state:
         y: -2432
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 75
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 51
     - actor_index: 21
       name: ""
@@ -513,11 +513,11 @@ initial_state:
         y: -1024
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 34
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 54
     - actor_index: 22
       name: ""
@@ -535,11 +535,11 @@ initial_state:
         y: -1664
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 34
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 53
     - actor_index: 23
       name: ""
@@ -557,11 +557,11 @@ initial_state:
         y: -1536
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 75
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 101
     - actor_index: 24
       name: ""
@@ -579,11 +579,11 @@ initial_state:
         y: -3584
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 37
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 59
     - actor_index: 25
       name: ""
@@ -601,11 +601,11 @@ initial_state:
         y: -3584
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 36
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 28
     - actor_index: 26
       name: ""
@@ -623,11 +623,11 @@ initial_state:
         y: -3456
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 35
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 70
     - actor_index: 27
       name: ""
@@ -645,11 +645,11 @@ initial_state:
         y: -3328
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 30
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 29
     - actor_index: 28
       name: ""
@@ -667,11 +667,11 @@ initial_state:
         y: -1024
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 75
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 85
     - actor_index: 29
       name: ""
@@ -689,11 +689,11 @@ initial_state:
         y: -1920
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 39
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 93
     - actor_index: 30
       name: ""
@@ -711,11 +711,11 @@ initial_state:
         y: -1920
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 43
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 42
     - actor_index: 31
       name: ""
@@ -733,11 +733,11 @@ initial_state:
         y: -3584
         z: 0
       sprite_ids: [1050, 1051, 1052, 1053]
-      sector_id: 0
+      sector_id: 32
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 77
     - actor_index: 32
       name: ""
@@ -755,11 +755,11 @@ initial_state:
         y: -4480
         z: 0
       sprite_ids: [1050, 1051, 1052, 1053]
-      sector_id: 0
+      sector_id: 31
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 72
     - actor_index: 33
       name: ""
@@ -777,11 +777,11 @@ initial_state:
         y: -4864
         z: 0
       sprite_ids: [1050, 1051, 1052, 1053]
-      sector_id: 0
+      sector_id: 22
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 86
     - actor_index: 34
       name: ""
@@ -799,11 +799,11 @@ initial_state:
         y: -2688
         z: 0
       sprite_ids: [1050, 1051, 1052, 1053]
-      sector_id: 0
+      sector_id: 20
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 32
     - actor_index: 35
       name: ""
@@ -821,11 +821,11 @@ initial_state:
         y: -2560
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 45
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 27
     - actor_index: 36
       name: ""
@@ -843,11 +843,11 @@ initial_state:
         y: -2048
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 46
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 56
     - actor_index: 37
       name: ""
@@ -865,11 +865,11 @@ initial_state:
         y: -1280
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 47
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 36
     - actor_index: 38
       name: ""
@@ -887,11 +887,11 @@ initial_state:
         y: -640
         z: 0
       sprite_ids: [1050, 1051, 1052, 1053]
-      sector_id: 0
+      sector_id: 49
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 47
     - actor_index: 39
       name: ""
@@ -909,11 +909,11 @@ initial_state:
         y: -1408
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 74
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 60
     - actor_index: 40
       name: ""
@@ -931,11 +931,11 @@ initial_state:
         y: -512
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 74
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 84
     - actor_index: 41
       name: ""
@@ -953,11 +953,11 @@ initial_state:
         y: 0
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 74
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 65
     - actor_index: 42
       name: ""
@@ -975,11 +975,11 @@ initial_state:
         y: -896
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 74
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 96
     - actor_index: 43
       name: ""
@@ -997,11 +997,11 @@ initial_state:
         y: 896
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 50
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 48
     - actor_index: 44
       name: ""
@@ -1019,11 +1019,11 @@ initial_state:
         y: 1536
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 52
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 58
     - actor_index: 45
       name: ""
@@ -1041,11 +1041,11 @@ initial_state:
         y: 384
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 48
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 66
     - actor_index: 46
       name: ""
@@ -1063,11 +1063,11 @@ initial_state:
         y: 1920
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 72
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 55
     - actor_index: 47
       name: ""
@@ -1085,11 +1085,11 @@ initial_state:
         y: 896
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 71
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 90
     - actor_index: 48
       name: ""
@@ -1107,11 +1107,11 @@ initial_state:
         y: -1024
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 34
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 73
     - actor_index: 49
       name: ""
@@ -1129,11 +1129,11 @@ initial_state:
         y: 512
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 73
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 106
     - actor_index: 50
       name: ""
@@ -1151,11 +1151,11 @@ initial_state:
         y: 256
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 73
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 88
     - actor_index: 51
       name: ""
@@ -1173,11 +1173,11 @@ initial_state:
         y: 1152
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 73
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 46
     - actor_index: 52
       name: ""
@@ -1195,11 +1195,11 @@ initial_state:
         y: 6016
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 70
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 67
     - actor_index: 53
       name: ""
@@ -1217,11 +1217,11 @@ initial_state:
         y: 5248
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 70
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 95
     - actor_index: 54
       name: ""
@@ -1239,11 +1239,11 @@ initial_state:
         y: 5760
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 70
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 33
     - actor_index: 55
       name: ""
@@ -1261,11 +1261,11 @@ initial_state:
         y: 6400
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 70
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 82
     - actor_index: 56
       name: ""
@@ -1283,11 +1283,11 @@ initial_state:
         y: 7296
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 69
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 49
     - actor_index: 57
       name: ""
@@ -1305,11 +1305,11 @@ initial_state:
         y: 8448
         z: 0
       sprite_ids: [1050, 1051, 1052, 1053]
-      sector_id: 0
+      sector_id: 66
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 91
     - actor_index: 58
       name: ""
@@ -1327,11 +1327,11 @@ initial_state:
         y: 9600
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 64
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 71
     - actor_index: 59
       name: ""
@@ -1349,11 +1349,11 @@ initial_state:
         y: 8448
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 63
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 35
     - actor_index: 60
       name: ""
@@ -1371,11 +1371,11 @@ initial_state:
         y: 7552
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 59
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 50
     - actor_index: 61
       name: ""
@@ -1393,11 +1393,11 @@ initial_state:
         y: 6912
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 60
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 57
     - actor_index: 62
       name: ""
@@ -1415,11 +1415,11 @@ initial_state:
         y: 6400
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 61
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 39
     - actor_index: 63
       name: ""
@@ -1437,11 +1437,11 @@ initial_state:
         y: 5760
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 62
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 34
     - actor_index: 64
       name: ""
@@ -1459,11 +1459,11 @@ initial_state:
         y: 5760
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 65
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 61
     - actor_index: 65
       name: ""
@@ -1481,11 +1481,11 @@ initial_state:
         y: 5120
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 65
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 102
     - actor_index: 66
       name: ""
@@ -1503,11 +1503,11 @@ initial_state:
         y: 4352
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 68
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 76
     - actor_index: 67
       name: ""
@@ -1525,11 +1525,11 @@ initial_state:
         y: 4864
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 68
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 31
     - actor_index: 68
       name: ""
@@ -1547,11 +1547,11 @@ initial_state:
         y: 4224
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 68
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 98
     - actor_index: 69
       name: ""
@@ -1569,11 +1569,11 @@ initial_state:
         y: 3840
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 68
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 81
     - actor_index: 70
       name: ""
@@ -1591,11 +1591,11 @@ initial_state:
         y: 3328
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 55
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 74
     - actor_index: 71
       name: ""
@@ -1613,11 +1613,11 @@ initial_state:
         y: 4992
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 58
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 83
     - actor_index: 72
       name: ""
@@ -1635,11 +1635,11 @@ initial_state:
         y: 4480
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 53
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 80
     - actor_index: 73
       name: ""
@@ -1657,11 +1657,11 @@ initial_state:
         y: 3712
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 53
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 62
     - actor_index: 74
       name: ""
@@ -1679,11 +1679,11 @@ initial_state:
         y: 3456
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 54
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 38
     - actor_index: 75
       name: ""
@@ -1701,11 +1701,11 @@ initial_state:
         y: 2688
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 54
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 99
     - actor_index: 76
       name: ""
@@ -1723,11 +1723,11 @@ initial_state:
         y: 2304
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 51
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 52
     - actor_index: 77
       name: ""
@@ -1745,11 +1745,11 @@ initial_state:
         y: 1920
         z: 0
       sprite_ids: [1040, 1041, 1042, 1043]
-      sector_id: 0
+      sector_id: 51
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 94
     - actor_index: 78
       name: ""
@@ -1767,11 +1767,11 @@ initial_state:
         y: 6272
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 69
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 37
     - actor_index: 79
       name: ""
@@ -1789,11 +1789,11 @@ initial_state:
         y: 3456
         z: 0
       sprite_ids: [1030, 1031, 1032, 1033]
-      sector_id: 0
+      sector_id: 68
       current_action_animation: 0
       carried_item_id: 0
       group: 0
-      ally: 0
+      ally: 1
       unique_name_index: 68
   sprite_objects: []
   chests:

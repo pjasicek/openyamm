@@ -712,6 +712,26 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         settings.viewDistance = trimCopy(*value);
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "video", "outdoor_billboard_depth_slice"))
+    {
+        float parsed = settings.outdoorBillboardDepthSlice;
+
+        if (parseFloatValue(*value, parsed))
+        {
+            settings.outdoorBillboardDepthSlice = std::clamp(parsed, 0.0f, 8192.0f);
+        }
+    }
+
+    if (const std::optional<std::string> value = getIniValue(document, "video", "skip_event_cutscenes"))
+    {
+        bool parsed = settings.skipEventCutscenes;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.skipEventCutscenes = parsed;
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "video", "gameplay_ui_layout"))
     {
         settings.gameplayUiLayout = parseGameplayUiLayout(*value);
@@ -1113,6 +1133,16 @@ std::optional<GameSettings> loadGameSettings(const std::filesystem::path &path, 
         }
     }
 
+    if (const std::optional<std::string> value = getIniValue(document, "debug", "allow_incomplete_character_creation"))
+    {
+        bool parsed = settings.allowIncompleteCharacterCreation;
+
+        if (parseBoolValue(*value, parsed))
+        {
+            settings.allowIncompleteCharacterCreation = parsed;
+        }
+    }
+
     if (const std::optional<std::string> value = getIniValue(document, "debug", "console"))
     {
         bool parsed = settings.debugConsole;
@@ -1363,6 +1393,9 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "text_filtering=" << settings.textFiltering << '\n'
         << "minimap_filtering=" << settings.minimapFiltering << '\n'
         << "view_distance=" << settings.viewDistance << '\n'
+        << "outdoor_billboard_depth_slice="
+        << std::clamp(settings.outdoorBillboardDepthSlice, 0.0f, 8192.0f) << '\n'
+        << "skip_event_cutscenes=" << (settings.skipEventCutscenes ? "true" : "false") << '\n'
         << "window_mode=" << windowModeString(settings.windowMode) << '\n'
         << "resolution=" << std::clamp(settings.resolutionWidth, 320, 16384)
         << 'x' << std::clamp(settings.resolutionHeight, 200, 16384) << '\n'
@@ -1392,6 +1425,8 @@ bool saveGameSettings(const std::filesystem::path &path, const GameSettings &set
         << "immortal=" << (settings.immortal ? "true" : "false") << '\n'
         << "unlimited_mana=" << (settings.unlimitedMana ? "true" : "false") << '\n'
         << "new_game_god_lich=" << (settings.newGameGodLich ? "true" : "false") << '\n'
+        << "allow_incomplete_character_creation="
+        << (settings.allowIncompleteCharacterCreation ? "true" : "false") << '\n'
         << "console=" << (settings.debugConsole ? "true" : "false") << "\n\n"
         << "[arpg_mode]\n"
         << "enabled=" << (settings.arpgModeEnabled ? "true" : "false") << '\n'

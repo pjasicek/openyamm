@@ -54,14 +54,14 @@ end
 function MM8.UnstoneStatue(spriteId, npcId, addCauriBits)
     evt.ForPlayer(Players.All)
     local hasScroll = HasItem(339)
-    local hasSpell = MM8.HasCurrentPlayerSpell(40)
+    local castStoneToFlesh = CurrentEventSpellId() == 40
 
-    if not hasScroll and not hasSpell then
+    if not hasScroll and not castStoneToFlesh then
         evt.ForPlayer(Players.Current)
         return
     end
 
-    if not hasSpell then
+    if not castStoneToFlesh then
         RemoveItem(339)
     end
 

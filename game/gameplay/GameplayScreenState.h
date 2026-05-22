@@ -4,6 +4,7 @@
 #include "game/party/PartySpellSystem.h"
 #include "game/ui/GameplayUiController.h"
 
+#include <cstdint>
 #include <string>
 
 namespace OpenYAMM::Game
@@ -71,6 +72,8 @@ public:
     {
         bool keyboardUseLatch = false;
         bool inspectKeyboardActivateLatch = false;
+        uint64_t keyboardUseNextRepeatTickNanoseconds = 0;
+        uint64_t inspectKeyboardActivateNextRepeatTickNanoseconds = 0;
         bool heldInventoryDropLatch = false;
         bool inspectMouseActivateLatch = false;
         GameplayWorldHit pressedWorldHit;

@@ -85,7 +85,7 @@ std::string turnBasedIndicatorAnimationName(const TurnBasedCombatRuntime &turnBa
             return "turnstop";
         case TurnBasedCombatStage::Movement:
         {
-            const int spentMovementSteps = std::clamp(5 - turnBasedRuntime.movementActionPoints() / 26, 0, 4);
+            const int spentMovementSteps = std::clamp((130 - turnBasedRuntime.movementActionPoints()) / 26, 0, 4);
             return "turn" + std::to_string(spentMovementSteps);
         }
         case TurnBasedCombatStage::Wait:
@@ -522,6 +522,11 @@ bool isBuffLayoutVisible(const Party &party, const std::string &layoutId)
     if (normalizedLayoutId == "outdoorbuffbody_immolation")
     {
         return party.hasPartyBuff(PartyBuffId::Immolation);
+    }
+
+    if (normalizedLayoutId == "outdoorbuffskull_frame" || normalizedLayoutId == "outdoorbuffbody_frame")
+    {
+        return true;
     }
 
     if (normalizedLayoutId.rfind("outdoorbuffskull_", 0) == 0

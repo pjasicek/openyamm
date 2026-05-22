@@ -10817,6 +10817,118 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
     );
 
     runCase(
+        "party_attack_on_newly_hostile_actor_propagates_civilian_aggro",
+        [&](std::string &failure)
+        {
+            if (!selectedMap->outdoorMapDeltaData || selectedMap->outdoorMapDeltaData->actors.size() <= 5)
+            {
+                failure = "selected map has too few outdoor actors";
+                return false;
+            }
+
+            constexpr size_t FirstActorIndex = 3;
+            constexpr size_t SecondActorIndex = 4;
+            constexpr size_t ThirdActorIndex = 5;
+            constexpr uint32_t SyntheticGroup = 85000;
+
+            MapAssetInfo modifiedMap = *selectedMap;
+            modifiedMap.outdoorMapDeltaData = *selectedMap->outdoorMapDeltaData;
+            modifiedMap.outdoorMapDeltaData->locationInfo.lastRespawnDay = 1;
+            MapDeltaActor &firstActor = modifiedMap.outdoorMapDeltaData->actors[FirstActorIndex];
+            MapDeltaActor &secondActor = modifiedMap.outdoorMapDeltaData->actors[SecondActorIndex];
+            MapDeltaActor &thirdActor = modifiedMap.outdoorMapDeltaData->actors[ThirdActorIndex];
+            const int baseX = firstActor.x;
+            const int baseY = firstActor.y;
+            const int baseZ = firstActor.z;
+
+            auto prepareFriendlyActor =
+                [&](MapDeltaActor &actor, int offsetX)
+                {
+                    actor.attributes = 0;
+                    actor.hp = std::max<int16_t>(20, firstActor.hp);
+                    actor.hostilityType = 0;
+                    actor.monsterInfoId = firstActor.monsterInfoId;
+                    actor.monsterId = firstActor.monsterId;
+                    actor.radius = firstActor.radius;
+                    actor.height = firstActor.height;
+                    actor.moveSpeed = firstActor.moveSpeed;
+                    actor.x = baseX + offsetX;
+                    actor.y = baseY;
+                    actor.z = baseZ;
+                    actor.group = SyntheticGroup;
+                    actor.ally = firstActor.ally;
+                };
+
+            prepareFriendlyActor(firstActor, 0);
+            prepareFriendlyActor(secondActor, 3000);
+            prepareFriendlyActor(thirdActor, 6000);
+
+            RegressionScenario scenario = {};
+
+            if (!initializeRegressionScenario(gameDataLoader, modifiedMap, scenario))
+            {
+                failure = "scenario init failed";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pFirst = scenario.world.mapActorState(FirstActorIndex);
+
+            if (pFirst == nullptr)
+            {
+                failure = "first actor missing";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    FirstActorIndex,
+                    1,
+                    pFirst->preciseX + 64.0f,
+                    pFirst->preciseY,
+                    pFirst->preciseZ))
+            {
+                failure = "first party attack did not apply";
+                return false;
+            }
+
+            const OutdoorWorldRuntime::MapActorState *pSecond = scenario.world.mapActorState(SecondActorIndex);
+            const OutdoorWorldRuntime::MapActorState *pThird = scenario.world.mapActorState(ThirdActorIndex);
+
+            if (pSecond == nullptr || !pSecond->hostileToParty)
+            {
+                failure = "second actor did not become hostile from first attack";
+                return false;
+            }
+
+            if (pThird == nullptr || pThird->hostileToParty)
+            {
+                failure = "third actor should still be friendly after first attack";
+                return false;
+            }
+
+            if (!scenario.world.applyPartyAttackToMapActor(
+                    SecondActorIndex,
+                    1,
+                    pSecond->preciseX + 64.0f,
+                    pSecond->preciseY,
+                    pSecond->preciseZ))
+            {
+                failure = "second party attack did not apply";
+                return false;
+            }
+
+            pThird = scenario.world.mapActorState(ThirdActorIndex);
+
+            if (pThird == nullptr || !pThird->hostileToParty)
+            {
+                failure = "third actor did not become hostile from attack on newly hostile actor";
+                return false;
+            }
+
+            return true;
+        }
+    );
+
+    runCase(
         "party_attack_on_actor_3_causes_wimp_flee",
         [&](std::string &failure)
         {
@@ -17594,11 +17706,11 @@ int HeadlessGameplayDiagnostics::runRegressionSuite(
             const std::optional<uint16_t> beaconEventId =
                 OutdoorInteractionController::resolveInteractiveDecorationEventId(view, beaconBillboard.entityIndex);
 
-            if (!beaconEventId || *beaconEventId < 542 || *beaconEventId > 548)
+            if (!beaconEventId || *beaconEventId < 543 || *beaconEventId > 549)
             {
                 failure = "dec40 beacon resolved to event "
                     + std::to_string(beaconEventId.value_or(0))
-                    + " outside 542..548";
+                    + " outside 543..549";
                 return false;
             }
 

@@ -974,6 +974,27 @@ std::optional<MenuScreenBase::TextureSize> MenuScreenBase::textureSize(const std
     };
 }
 
+std::optional<MenuScreenBase::TexturePixelsBgra> MenuScreenBase::texturePixelsBgra(const std::string &textureName)
+{
+    const TextureHandle *pTexture = ensureTexture(textureName);
+
+    if (pTexture == nullptr
+        || pTexture->physicalWidth <= 0
+        || pTexture->physicalHeight <= 0
+        || pTexture->bgraPixels.empty())
+    {
+        return std::nullopt;
+    }
+
+    return TexturePixelsBgra{
+        pTexture->physicalWidth,
+        pTexture->physicalHeight,
+        pTexture->width,
+        pTexture->height,
+        pTexture->bgraPixels
+    };
+}
+
 bool MenuScreenBase::drawText(
     const std::string &fontName,
     const std::string &text,

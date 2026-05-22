@@ -102,7 +102,7 @@ private:
         float u1,
         uint32_t lightContributionAbgr);
     static uint32_t computeBillboardLightContributionAbgr(
-        const OutdoorGameView &view,
+        OutdoorGameView &view,
         float x,
         float y,
         float z);

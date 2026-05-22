@@ -166,6 +166,21 @@ public:
         return m_radiusQueryActorIndices;
     }
 
+    void setWorldHitActivationResult(bool result)
+    {
+        m_worldHitActivationResult = result;
+    }
+
+    size_t activatedWorldHitCount() const
+    {
+        return m_activatedWorldHits.size();
+    }
+
+    const std::vector<uint32_t> &activatedWorldHitSpellIds() const
+    {
+        return m_activatedWorldHitSpellIds;
+    }
+
     void setTurnBasedActorActionInProgress(bool inProgress)
     {
         m_turnBasedActorActionInProgress = inProgress;
@@ -636,13 +651,29 @@ public:
     {
         (void)hit;
         (void)interactionMethod;
-        return false;
+        return m_worldHitActivationResult;
     }
 
     bool activateWorldHit(const Game::GameplayWorldHit &hit) override
     {
-        (void)hit;
-        return false;
+        if (!m_worldHitActivationResult)
+        {
+            return false;
+        }
+
+        m_activatedWorldHits.push_back(hit);
+        return true;
+    }
+
+    bool activateWorldHitFromSpell(const Game::GameplayWorldHit &hit, uint32_t spellId) override
+    {
+        if (!activateWorldHit(hit))
+        {
+            return false;
+        }
+
+        m_activatedWorldHitSpellIds.push_back(spellId);
+        return true;
     }
 
     bool canActivateTelekinesisTarget(const Game::GameplayWorldHit &hit) const override
@@ -939,6 +970,8 @@ private:
     std::vector<Game::GameplayRuntimeActorState> m_actors;
     std::vector<Game::GameplayPartySpellProjectileRequest> m_projectileRequests;
     std::vector<AppliedSpellToActor> m_appliedSpellRequests;
+    std::vector<Game::GameplayWorldHit> m_activatedWorldHits;
+    std::vector<uint32_t> m_activatedWorldHitSpellIds;
     std::vector<FriendlySummonRequest> m_friendlySummonRequests;
     float m_gameMinutes = 0.0f;
     float m_partyX = 0.0f;
@@ -952,6 +985,7 @@ private:
     float m_partyJumpLift = 1.0f;
     bool m_alwaysRunEnabled = false;
     bool m_turnBasedActorActionInProgress = false;
+    bool m_worldHitActivationResult = false;
     size_t m_stopTurnBasedActorMovementCount = 0;
 };
 }

@@ -37,8 +37,8 @@ constexpr size_t ActorSpriteIdsOffset = 0xd4;
 constexpr size_t ActorSectorIdOffset = 0xa6;
 constexpr size_t ActorCurrentActionAnimationOffset = 0xba;
 constexpr size_t ActorCarriedItemIdOffset = 0xbc;
-constexpr size_t ActorAllyOffset = 0x340;
 constexpr size_t ActorGroupOffset = 0x34c;
+constexpr size_t ActorAllyOffset = 0x350;
 constexpr size_t ActorUniqueNameIndexOffset = 0x3bc;
 constexpr uint32_t TicksPerRealtimeSecond = 128;
 

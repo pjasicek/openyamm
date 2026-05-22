@@ -691,7 +691,7 @@ bool loadRegressionGameData(RegressionGameData &data, std::string &failure)
         return false;
     }
 
-    if (!data.rosterTable.loadFromRows(rosterRows))
+    if (!data.rosterTable.loadFromRows(rosterRows, &data.classSkillTable))
     {
         failure = "could not load roster table for regression tests";
         return false;

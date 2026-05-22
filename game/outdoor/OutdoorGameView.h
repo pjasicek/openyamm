@@ -5,6 +5,7 @@
 #include "game/fx/WorldFxRenderResources.h"
 #include "game/fx/WorldFxSystem.h"
 #include "game/outdoor/OutdoorCollisionData.h"
+#include "game/outdoor/OutdoorLightingRuntime.h"
 #include "game/outdoor/OutdoorSpatialFxRuntime.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/tables/MapStats.h"
@@ -27,6 +28,7 @@
 #include "game/tables/NpcDialogTable.h"
 #include "game/tables/ObjectTable.h"
 #include "game/party/PartySpellSystem.h"
+#include "game/render/lighting/LightingStats.h"
 #include "game/gameplay/GameplaySpellActionController.h"
 #include "game/tables/ReadableScrollTable.h"
 #include "game/tables/RosterTable.h"
@@ -222,13 +224,20 @@ private:
         int textureHeight = 0;
         std::string textureName;
         size_t defaultAnimationIndex = static_cast<size_t>(-1);
-        bool boundsValid = false;
-        float minX = 0.0f;
-        float maxX = 0.0f;
-        float minY = 0.0f;
-        float maxY = 0.0f;
-        float minZ = 0.0f;
-        float maxZ = 0.0f;
+        bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
+        bool hasBounds = false;
+    };
+
+    struct TexturedTerrainChunk
+    {
+        bgfx::VertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
+        uint32_t vertexCount = 0;
+        bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
+        int32_t cellX = 0;
+        int32_t cellY = 0;
+        uint32_t stableId = 0;
     };
 
     struct BModelTextureAnimationHandle
@@ -244,6 +253,9 @@ private:
         bgfx::VertexBufferHandle vertexBufferHandle = BGFX_INVALID_HANDLE;
         uint32_t vertexCount = 0;
         size_t animationIndex = static_cast<size_t>(-1);
+        bx::Vec3 boundsMin = {0.0f, 0.0f, 0.0f};
+        bx::Vec3 boundsMax = {0.0f, 0.0f, 0.0f};
+        bool hasBounds = false;
     };
 
     static constexpr size_t OutdoorFxUniformLightCount = 8;
@@ -582,6 +594,7 @@ private:
     OutdoorSceneRuntime *m_pOutdoorSceneRuntime;
     OutdoorWorldRuntime *m_pOutdoorWorldRuntime;
     OutdoorSpatialFxRuntime m_outdoorSpatialFxRuntime;
+    OutdoorLightingRuntime m_outdoorLightingRuntime;
     bgfx::VertexBufferHandle m_vertexBufferHandle;
     bgfx::IndexBufferHandle m_indexBufferHandle;
     bgfx::DynamicVertexBufferHandle m_skyVertexBufferHandle;
@@ -629,6 +642,7 @@ private:
     uint32_t m_bmodelFaceCount;
     uint32_t m_entityMarkerVertexCount;
     uint32_t m_spawnMarkerVertexCount;
+    std::vector<TexturedTerrainChunk> m_texturedTerrainChunks;
     std::vector<TexturedBModelBatch> m_texturedBModelBatches;
     std::vector<BModelTextureAnimationHandle> m_bmodelTextureAnimations;
     std::vector<ResolvedBModelDrawGroup> m_resolvedBModelDrawGroups;
@@ -642,6 +656,50 @@ private:
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightPositions = {};
     std::array<float, OutdoorFxUniformLightCount * 4> m_cachedOutdoorFxLightColors = {};
     std::array<float, 4> m_cachedOutdoorFxLightParams = {};
+    LightingStats m_outdoorLightingStats = {};
+    float m_lastOutdoorLightingStatsLogElapsedTime = 0.0f;
+    struct OutdoorSpriteRenderDiagnostics
+    {
+        uint64_t decorationItems = 0;
+        uint64_t decorationBatchSubmits = 0;
+        uint64_t decorationBatchedItems = 0;
+        uint64_t decorationTextureGroups = 0;
+        uint64_t decorationSubmits = 0;
+        uint64_t decorationOutlineSubmits = 0;
+        uint64_t decorationTextureSwitches = 0;
+        uint64_t actorItems = 0;
+        uint64_t actorBatchSubmits = 0;
+        uint64_t actorBatchedItems = 0;
+        uint64_t actorSubmits = 0;
+        uint64_t actorOutlineSubmits = 0;
+        uint64_t actorTextureSwitches = 0;
+        uint64_t combinedDepthSlices = 0;
+        uint64_t combinedDepthSliceTextureGroups = 0;
+        uint64_t combinedDepthSliceItems = 0;
+        uint64_t worldItemItems = 0;
+        uint64_t worldItemBatchSubmits = 0;
+        uint64_t worldItemBatchedItems = 0;
+        uint64_t worldItemSubmits = 0;
+        uint64_t worldItemOutlineSubmits = 0;
+        uint64_t worldItemTextureSwitches = 0;
+        uint64_t worldItemDepthSlices = 0;
+        uint64_t worldItemDepthSliceTextureGroups = 0;
+        uint64_t worldItemDepthSliceItems = 0;
+        uint64_t runtimeProjectileItems = 0;
+        uint64_t runtimeProjectileBatchSubmits = 0;
+        uint64_t runtimeProjectileBatchedItems = 0;
+        uint64_t runtimeProjectileTextureGroups = 0;
+        uint64_t staticSpriteObjectItems = 0;
+        uint64_t staticSpriteObjectBatchSubmits = 0;
+        uint64_t staticSpriteObjectBatchedItems = 0;
+        uint64_t staticSpriteObjectSubmits = 0;
+        uint64_t staticSpriteObjectTextureSwitches = 0;
+        uint64_t fxGlowItems = 0;
+        uint64_t fxGlowSubmits = 0;
+        uint64_t fxContactShadowItems = 0;
+        uint64_t fxContactShadowSubmits = 0;
+    };
+    OutdoorSpriteRenderDiagnostics m_outdoorSpriteRenderDiagnostics = {};
     std::unordered_map<int16_t, std::unordered_map<std::string, size_t>> m_billboardTextureIndexByPalette;
     std::unordered_map<std::string, size_t> m_decorationBitmapTextureIndexByName;
     std::vector<SkyTextureHandle> m_skyTextureHandles;

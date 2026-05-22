@@ -17,7 +17,7 @@ public:
         size_t maxParticles = 0;
         size_t emittedThisFrame = 0;
         size_t rejectedThisFrame = 0;
-        std::array<size_t, 5> activeByMaterial = {};
+        std::array<size_t, 6> activeByMaterial = {};
         std::array<size_t, 2> activeByBlendMode = {};
         std::array<size_t, 6> activeByTag = {};
     };

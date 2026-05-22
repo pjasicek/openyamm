@@ -67,12 +67,20 @@ struct DecorationEntry
     int16_t soundId = 0;
 };
 
+struct DecorationLookupResult
+{
+    uint16_t decorationId = 0;
+    const DecorationEntry *pEntry = nullptr;
+};
+
 class DecorationTable
 {
 public:
     bool loadRows(const std::vector<std::vector<std::string>> &rows);
     const DecorationEntry *get(uint16_t decorationId) const;
     const DecorationEntry *findByInternalName(const std::string &internalName) const;
+    std::optional<uint16_t> findIdByInternalName(const std::string &internalName) const;
+    DecorationLookupResult resolveMapDecoration(uint16_t decorationId, const std::string &internalName) const;
 
 private:
     std::vector<DecorationEntry> m_entries;

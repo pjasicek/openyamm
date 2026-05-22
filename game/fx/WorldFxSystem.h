@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/fx/ParticleSystem.h"
+#include "game/render/lighting/RenderLight.h"
 
 #include <cstdint>
 #include <unordered_map>
@@ -29,7 +30,11 @@ struct WorldFxLightEmitter
     float z = 0.0f;
     float radius = 0.0f;
     uint32_t colorAbgr = 0xffffffffu;
+    float intensity = 1.0f;
     int16_t sectorId = -1;
+    RenderLightKind kind = RenderLightKind::GenericFx;
+    uint32_t stableId = 0;
+    bool important = false;
 };
 
 struct WorldFxContactShadow
@@ -78,7 +83,16 @@ public:
         float radius,
         uint32_t colorAbgr,
         bool renderVisibleBillboard = true);
-    void addLightEmitter(float x, float y, float z, float radius, uint32_t colorAbgr, int16_t sectorId = -1);
+    void addLightEmitter(
+        float x,
+        float y,
+        float z,
+        float radius,
+        uint32_t colorAbgr,
+        int16_t sectorId = -1,
+        RenderLightKind kind = RenderLightKind::GenericFx,
+        uint32_t stableId = 0,
+        bool important = false);
 
     ParticleSystem &particles();
     const ParticleSystem &particles() const;

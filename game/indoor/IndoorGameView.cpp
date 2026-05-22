@@ -195,6 +195,11 @@ void drawArpgModeSolidHudRect(
     screenRuntime.submitHudTexturedQuad(*texture, x, y, width, height);
 }
 
+bool windowHasInputFocus(SDL_Window *pWindow)
+{
+    return pWindow != nullptr && (SDL_GetWindowFlags(pWindow) & SDL_WINDOW_INPUT_FOCUS) != 0;
+}
+
 bool isAutosavePath(const std::filesystem::path &path)
 {
     return toLowerCopy(path.stem().string()) == "autosave";
@@ -2121,6 +2126,11 @@ void IndoorGameView::presentPendingEventFeedback()
         }
 
         pEventRuntimeState->statusMessages.clear();
+
+        GameplayHeldItemController::applyGrantedEventItemsToHeldInventory(
+            m_gameSession.gameplayScreenRuntime(),
+            *pEventRuntimeState,
+            m_gameSession.data().itemTable());
     }
 
     m_gameSession.gameplayScreenRuntime().ensurePendingEventDialogPresented(
@@ -2352,14 +2362,17 @@ const GameSettings &IndoorGameView::settingsSnapshot() const
 
 void IndoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled)
 {
-    if (pWindow != nullptr && SDL_GetWindowRelativeMouseMode(pWindow) != enabled)
+    const bool windowFocused = windowHasInputFocus(pWindow);
+    const bool effectiveEnabled = enabled && windowFocused;
+
+    if (pWindow != nullptr && SDL_GetWindowRelativeMouseMode(pWindow) != effectiveEnabled)
     {
-        if (enabled)
+        if (effectiveEnabled)
         {
             syncCursorToGameplayCrosshair(pWindow);
             m_lastGameplayMouseLookCursorSyncTicks = SDL_GetTicks();
         }
-        else
+        else if (windowFocused)
         {
             int windowWidth = 0;
             int windowHeight = 0;
@@ -2376,10 +2389,10 @@ void IndoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled
             m_lastGameplayMouseLookCursorSyncTicks = 0;
         }
 
-        SDL_SetWindowRelativeMouseMode(pWindow, enabled);
+        SDL_SetWindowRelativeMouseMode(pWindow, effectiveEnabled);
         m_gameSession.requestRelativeMouseMotionReset();
     }
-    else if (enabled)
+    else if (effectiveEnabled)
     {
         const uint64_t nowTicks = SDL_GetTicks();
 
@@ -2396,7 +2409,7 @@ void IndoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled
         m_lastGameplayMouseLookCursorSyncTicks = 0;
     }
 
-    if (enabled)
+    if (effectiveEnabled)
     {
         SDL_HideCursor();
     }
@@ -2427,6 +2440,11 @@ void IndoorGameView::syncCursorToGameplayCrosshair(SDL_Window *pWindow)
     }
 
     if (pWindow == nullptr)
+    {
+        return;
+    }
+
+    if (!windowHasInputFocus(pWindow))
     {
         return;
     }

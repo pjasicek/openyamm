@@ -1,6 +1,7 @@
 #pragma once
 
 #include "game/indoor/IndoorPortalVisibility.h"
+#include "game/render/lighting/LightingStats.h"
 
 #include <bx/math.h>
 
@@ -35,6 +36,7 @@ struct IndoorRenderLight
     float intensity = 1.0f;
     int16_t sectorId = -1;
     IndoorRenderLightKind kind = IndoorRenderLightKind::Static;
+    uint32_t stableId = 0;
 };
 
 struct IndoorLightingFrame
@@ -42,8 +44,11 @@ struct IndoorLightingFrame
     float ambient = 1.0f;
     std::vector<IndoorRenderLight> lights;
     std::vector<std::vector<uint32_t>> lightIndicesBySector;
+    std::vector<std::vector<uint32_t>> dynamicLightIndicesBySector;
     std::vector<uint32_t> globalLightIndices;
     std::vector<uint32_t> fxLightIndices;
+    uint32_t sourceFxLightCount = 0;
+    uint32_t clusteredFxLightCount = 0;
 };
 
 struct IndoorDrawLightSet
@@ -51,6 +56,13 @@ struct IndoorDrawLightSet
     std::array<float, MaxIndoorDrawLights * 4> positions = {};
     std::array<float, MaxIndoorDrawLights * 4> colors = {};
     std::array<float, 4> params = {};
+    std::array<uint32_t, MaxIndoorDrawLights> stableIds = {};
+    size_t lightCount = 0;
+};
+
+struct IndoorLightSelectionHistory
+{
+    std::array<uint32_t, MaxIndoorDrawLights> lightStableIds = {};
     size_t lightCount = 0;
 };
 
@@ -89,29 +101,36 @@ public:
     static float ambientFromMinAmbientLightLevel(int minAmbientLightLevel);
     static std::array<float, 3> sampleLightingRgb(
         const IndoorLightingFrame &frame,
-        const bx::Vec3 &position);
+        const bx::Vec3 &position,
+        LightingStats *pStats = nullptr);
     static std::array<float, 3> sampleLightingRgbForSectors(
         const IndoorLightingFrame &frame,
         const bx::Vec3 &position,
         int16_t sectorId,
-        int16_t backSectorId = -1);
+        int16_t backSectorId = -1,
+        LightingStats *pStats = nullptr);
     static IndoorDrawLightSet selectDrawLightSetForPoint(
         const IndoorLightingFrame &frame,
         const bx::Vec3 &position,
-        const bx::Vec3 &viewForward);
+        const bx::Vec3 &viewForward,
+        LightingStats *pStats = nullptr);
     static IndoorDrawLightSet selectDrawLightSetForSectors(
         const IndoorLightingFrame &frame,
         const bx::Vec3 &referencePosition,
         const bx::Vec3 &viewForward,
         int16_t sectorId,
-        int16_t backSectorId);
+        int16_t backSectorId,
+        LightingStats *pStats = nullptr,
+        const IndoorLightSelectionHistory *pPreviousSelection = nullptr);
     static IndoorDrawLightSet selectDrawLightSetForBounds(
         const IndoorLightingFrame &frame,
         const bx::Vec3 &referencePosition,
         const bx::Vec3 &viewForward,
         int16_t sectorId,
         int16_t backSectorId,
-        const IndoorLightSelectionBounds &bounds);
+        const IndoorLightSelectionBounds &bounds,
+        LightingStats *pStats = nullptr,
+        const IndoorLightSelectionHistory *pPreviousSelection = nullptr);
 
 private:
     struct CachedLightSource

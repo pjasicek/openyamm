@@ -232,14 +232,18 @@ RegisterEvent(195, "Chest", function()
 end, "Chest")
 
 RegisterEvent(376, "Altar", function()
+    evt.Debug("Ahoj1")
     if IsQBitSet(QBit(575)) then return end -- Defaced the Altar of Good. Priest of Dark promo quest.
+    evt.Debug("Ahoj2")
     if IsQBitSet(QBit(556)) then -- Deface the Altar of Good in the Temple of the Sun on Evenmorn Isle then return to Daedalus Falk in the Deyja Moors.
+        evt.Debug("Ahoj3")
         evt.SetTexture(20, "cfb1")
         SetQBit(QBit(575)) -- Defaced the Altar of Good. Priest of Dark promo quest.
         evt.ForPlayer(Players.All)
         SetQBit(QBit(757)) -- Congratulations - For Blinging
         ClearQBit(QBit(757)) -- Congratulations - For Blinging
         evt.StatusText("You have Desecrated the altar")
+        evt.Debug("Ahoj5")
     end
 end, "Altar")
 

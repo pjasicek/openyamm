@@ -27,6 +27,7 @@ constexpr float ImpactCloudSpreadScale = 1.35f;
 constexpr float ImpactCloudSizeScale = 2.44f;
 constexpr float LightningTrailParticleSizeScale = 6.0f;
 constexpr float LightningTrailParticleLifetimeScale = 4.0f;
+constexpr float TwoPi = 6.28318530717958647692f;
 
 struct LayerRecipe
 {
@@ -52,6 +53,36 @@ struct LayerRecipe
     FxParticleAlignment alignment = FxParticleAlignment::CameraFacing;
     FxParticleMaterial material = FxParticleMaterial::SoftBlob;
     FxParticleTag tag = FxParticleTag::Misc;
+};
+
+struct RadialLayerRecipe
+{
+    uint32_t startColorAbgr = 0xffffffffu;
+    uint32_t endColorAbgr = 0x00ffffffu;
+    uint32_t count = 0;
+    float spawnRadius = 0.0f;
+    float verticalSpread = 0.0f;
+    float driftVelocityMin = 0.0f;
+    float driftVelocityMax = 0.0f;
+    float upwardVelocityMin = 0.0f;
+    float upwardVelocityMax = 0.0f;
+    float startSizeMin = 0.0f;
+    float startSizeMax = 0.0f;
+    float endSizeScaleMin = 1.0f;
+    float endSizeScaleMax = 1.0f;
+    float lifetimeSecondsMin = 0.0f;
+    float lifetimeSecondsMax = 0.0f;
+    float drag = 0.0f;
+    float rotationJitterRadians = 0.0f;
+    float angularVelocityRadians = 0.0f;
+    float fadeInSeconds = 0.0f;
+    float fadeOutStartFractionMin = 0.0f;
+    float fadeOutStartFractionMax = 0.0f;
+    FxParticleMotion motion = FxParticleMotion::Drift;
+    FxParticleBlendMode blendMode = FxParticleBlendMode::Alpha;
+    FxParticleAlignment alignment = FxParticleAlignment::CameraFacing;
+    FxParticleMaterial material = FxParticleMaterial::Smoke;
+    FxParticleTag tag = FxParticleTag::DecorationEmitter;
 };
 
 void tuneProjectileTrailLayer(LayerRecipe &layer)
@@ -140,6 +171,68 @@ void emitLayerParticles(
         particle.fadeInSeconds = layer.fadeInSeconds;
         particle.lifetimeSeconds = layer.lifetimeSeconds * (0.88f + hashToUnit(seed >> 4) * 0.24f);
         particle.startColorAbgr = varyAlpha(layer.startColorAbgr, 0.9f + hashToUnit(seed >> 12) * 0.25f);
+        particle.endColorAbgr = layer.endColorAbgr;
+        particle.motion = layer.motion;
+        particle.blendMode = layer.blendMode;
+        particle.alignment = layer.alignment;
+        particle.material = layer.material;
+        particle.tag = layer.tag;
+
+        if (!particleSystem.addParticle(particle))
+        {
+            return;
+        }
+    }
+}
+
+float lerpFloat(float minValue, float maxValue, float t)
+{
+    return minValue + (maxValue - minValue) * std::clamp(t, 0.0f, 1.0f);
+}
+
+void emitRadialLayerParticles(
+    ParticleSystem &particleSystem,
+    uint32_t baseSeed,
+    float x,
+    float y,
+    float z,
+    const RadialLayerRecipe &layer)
+{
+    for (uint32_t particleIndex = 0; particleIndex < layer.count; ++particleIndex)
+    {
+        const uint32_t seed = baseSeed ^ (particleIndex * 2654435761u);
+        const float spawnAngle = hashToUnit(seed) * TwoPi;
+        const float spawnDistance = std::sqrt(hashToUnit(seed >> 5)) * layer.spawnRadius;
+        const float driftAngle = spawnAngle + (hashToUnit(seed >> 11) * 2.0f - 1.0f) * 1.35f;
+        const float driftVelocity = lerpFloat(layer.driftVelocityMin, layer.driftVelocityMax, hashToUnit(seed >> 17));
+        const float upwardVelocity =
+            lerpFloat(layer.upwardVelocityMin, layer.upwardVelocityMax, hashToUnit(seed >> 23));
+        const float startSize = lerpFloat(layer.startSizeMin, layer.startSizeMax, hashToUnit(seed >> 3));
+        const float endSizeScale = lerpFloat(layer.endSizeScaleMin, layer.endSizeScaleMax, hashToUnit(seed >> 9));
+        const float lifetimeSeconds =
+            lerpFloat(layer.lifetimeSecondsMin, layer.lifetimeSecondsMax, hashToUnit(seed >> 15));
+        const float fadeOutStartFraction =
+            lerpFloat(layer.fadeOutStartFractionMin, layer.fadeOutStartFractionMax, hashToUnit(seed >> 25));
+        const float swirl = hashToUnit(seed >> 21) * 2.0f - 1.0f;
+
+        FxParticleState particle = {};
+        particle.x = x + std::cos(spawnAngle) * spawnDistance;
+        particle.y = y + std::sin(spawnAngle) * spawnDistance;
+        particle.z = z + hashToUnit(seed >> 27) * layer.verticalSpread;
+        particle.velocityX = std::cos(driftAngle) * driftVelocity;
+        particle.velocityY = std::sin(driftAngle) * driftVelocity;
+        particle.velocityZ = upwardVelocity;
+        particle.size = startSize;
+        particle.endSize = startSize * endSizeScale;
+        particle.drag = layer.drag;
+        particle.rotationRadians = swirl * layer.rotationJitterRadians;
+        particle.angularVelocityRadians = swirl * layer.angularVelocityRadians;
+        particle.stretch = 1.0f;
+        particle.ageSeconds = 0.0f;
+        particle.fadeInSeconds = layer.fadeInSeconds;
+        particle.lifetimeSeconds = lifetimeSeconds;
+        particle.fadeOutStartSeconds = lifetimeSeconds * fadeOutStartFraction;
+        particle.startColorAbgr = varyAlpha(layer.startColorAbgr, 0.84f + hashToUnit(seed >> 12) * 0.32f);
         particle.endColorAbgr = layer.endColorAbgr;
         particle.motion = layer.motion;
         particle.blendMode = layer.blendMode;
@@ -680,7 +773,7 @@ void spawnProjectileTrailParticles(
 {
     const SpellId spellId = spellIdFromValue(static_cast<uint32_t>(context.spellId));
 
-    if (recipe == ProjectileRecipe::Blaster)
+    if (recipe == ProjectileRecipe::Blaster || recipe == ProjectileRecipe::Sparks)
     {
         return;
     }
@@ -1170,6 +1263,12 @@ void spawnProjectileTrailParticles(
 void spawnImpactParticles(ParticleSystem &particleSystem, const ImpactSpawnContext &context)
 {
     const ProjectileRecipe recipe = context.recipe;
+
+    if (recipe == ProjectileRecipe::Sparks)
+    {
+        return;
+    }
+
     const uint32_t colorAbgr =
         recipe != ProjectileRecipe::None ? projectileRecipeColorAbgr(recipe)
             : deriveImpactColorAbgr(context.objectName, context.spriteName);
@@ -1672,71 +1771,37 @@ void spawnDecorationSmokeParticles(
     float z,
     float emitterRadius)
 {
-    LayerRecipe smokeLayer = {};
-    smokeLayer.startColorAbgr = makeAbgr(208, 208, 208, 88);
-    smokeLayer.endColorAbgr = makeAbgr(168, 168, 168, 0);
-    smokeLayer.count = 1u;
-    smokeLayer.lateralSpread = std::max(9.0f, emitterRadius * 0.26f);
-    smokeLayer.verticalSpread = 10.0f;
-    smokeLayer.upwardVelocity = 112.0f;
-    smokeLayer.startSize = std::max(24.0f, emitterRadius * 0.78f);
-    smokeLayer.endSize = smokeLayer.startSize * 3.0f;
-    smokeLayer.lifetimeSeconds = 2.60f;
-    smokeLayer.drag = 0.18f;
-    smokeLayer.rotationJitterRadians = 1.0f;
-    smokeLayer.angularVelocityRadians = 0.8f;
-    smokeLayer.fadeInSeconds = 0.28f;
-    smokeLayer.motion = FxParticleMotion::Drift;
-    smokeLayer.blendMode = FxParticleBlendMode::Alpha;
-    smokeLayer.alignment = FxParticleAlignment::CameraFacing;
-    smokeLayer.material = FxParticleMaterial::Smoke;
-    smokeLayer.tag = FxParticleTag::DecorationEmitter;
-    emitLayerParticles(
-        particleSystem,
-        seed,
-        x,
-        y,
-        z,
-        0.0f,
-        0.0f,
-        1.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        smokeLayer);
+    const float plumeRadius = std::max(84.0f, emitterRadius * 2.65f);
+    const float puffSize = std::max(36.0f, emitterRadius * 0.84f);
 
-    LayerRecipe hazeLayer = {};
-    hazeLayer.startColorAbgr = makeAbgr(228, 228, 228, 52);
-    hazeLayer.endColorAbgr = makeAbgr(188, 188, 188, 0);
-    hazeLayer.count = 1u;
-    hazeLayer.lateralSpread = std::max(6.0f, emitterRadius * 0.20f);
-    hazeLayer.verticalSpread = 6.0f;
-    hazeLayer.upwardVelocity = 84.0f;
-    hazeLayer.startSize = std::max(30.0f, emitterRadius * 0.98f);
-    hazeLayer.endSize = hazeLayer.startSize * 2.5f;
-    hazeLayer.lifetimeSeconds = 2.10f;
-    hazeLayer.drag = 0.22f;
-    hazeLayer.rotationJitterRadians = 0.8f;
-    hazeLayer.angularVelocityRadians = 0.5f;
-    hazeLayer.fadeInSeconds = 0.26f;
-    hazeLayer.motion = FxParticleMotion::Drift;
-    hazeLayer.blendMode = FxParticleBlendMode::Alpha;
-    hazeLayer.alignment = FxParticleAlignment::CameraFacing;
-    hazeLayer.material = FxParticleMaterial::Mist;
-    hazeLayer.tag = FxParticleTag::DecorationEmitter;
-    emitLayerParticles(
-        particleSystem,
-        seed ^ 0x85ebca6bu,
-        x,
-        y,
-        z,
-        0.0f,
-        0.0f,
-        1.0f,
-        0.0f,
-        0.0f,
-        0.0f,
-        hazeLayer);
+    RadialLayerRecipe puffLayer = {};
+    puffLayer.startColorAbgr = makeAbgr(246, 246, 242, 142);
+    puffLayer.endColorAbgr = makeAbgr(224, 224, 220, 0);
+    puffLayer.count = 1u;
+    puffLayer.spawnRadius = plumeRadius;
+    puffLayer.verticalSpread = std::max(10.0f, emitterRadius * 0.20f);
+    puffLayer.driftVelocityMin = 4.0f;
+    puffLayer.driftVelocityMax = 18.0f;
+    puffLayer.upwardVelocityMin = 52.0f;
+    puffLayer.upwardVelocityMax = 94.0f;
+    puffLayer.startSizeMin = puffSize * 0.75f;
+    puffLayer.startSizeMax = puffSize * 1.25f;
+    puffLayer.endSizeScaleMin = 0.95f;
+    puffLayer.endSizeScaleMax = 1.45f;
+    puffLayer.lifetimeSecondsMin = 5.2f;
+    puffLayer.lifetimeSecondsMax = 8.2f;
+    puffLayer.drag = 0.035f;
+    puffLayer.rotationJitterRadians = 0.4f;
+    puffLayer.angularVelocityRadians = 0.18f;
+    puffLayer.fadeInSeconds = 0.30f;
+    puffLayer.fadeOutStartFractionMin = 0.56f;
+    puffLayer.fadeOutStartFractionMax = 0.82f;
+    puffLayer.motion = FxParticleMotion::Drift;
+    puffLayer.blendMode = FxParticleBlendMode::Alpha;
+    puffLayer.alignment = FxParticleAlignment::CameraFacing;
+    puffLayer.material = FxParticleMaterial::SoftBlob;
+    puffLayer.tag = FxParticleTag::DecorationEmitter;
+    emitRadialLayerParticles(particleSystem, seed, x, y, z, puffLayer);
 }
 
 void spawnBuffSparkles(

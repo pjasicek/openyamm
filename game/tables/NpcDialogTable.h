@@ -107,6 +107,7 @@ public:
     std::optional<RosterJoinOffer> getRosterJoinOfferForTopic(uint32_t topicId) const;
     std::optional<GuildMembershipOffer> getGuildMembershipOfferForTopic(uint32_t topicId) const;
     std::optional<ResolvedTopic> getTopicById(uint32_t topicId) const;
+    std::vector<NpcEntry> entries() const;
 
 private:
     std::unordered_map<uint32_t, RosterJoinOffer> m_rosterJoinOffersByTopicId;

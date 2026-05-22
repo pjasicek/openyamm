@@ -11,6 +11,8 @@ namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr const char *StatusBarFrameAsset = "Ui-FrSp";
+
 enum class ActiveGameplayHudLayout
 {
     Overlay,
@@ -543,8 +545,8 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
                 logicalStatusBarWidth = std::clamp(
                     context.measureHudTextWidth(pStatusBarLayout->fontName, statusBarLabel)
                         * std::max(0.1f, pStatusBarLayout->textScale)
-                        + 16.0f,
-                    24.0f,
+                        + 24.0f,
+                    32.0f,
                     483.0f);
             }
 
@@ -568,6 +570,22 @@ void GameplayHudRenderer::renderGameplayHud(GameplayScreenRuntime &context, int 
                     {
                         context.submitHudTexturedQuad(
                             *statusBarTexture,
+                            resolvedStatusBar->x,
+                            resolvedStatusBar->y,
+                            resolvedStatusBar->width,
+                            resolvedStatusBar->height);
+                    }
+                }
+
+                if (useGameplayWideHud && !statusBarLabel.empty())
+                {
+                    const std::optional<GameplayHudTextureHandle> statusBarFrameTexture =
+                        context.gameplayUiRuntime().ensureHudTextureLoaded(StatusBarFrameAsset);
+
+                    if (statusBarFrameTexture)
+                    {
+                        context.submitHudTexturedQuad(
+                            *statusBarFrameTexture,
                             resolvedStatusBar->x,
                             resolvedStatusBar->y,
                             resolvedStatusBar->width,

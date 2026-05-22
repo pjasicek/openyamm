@@ -10,6 +10,8 @@
 
 namespace OpenYAMM::Game
 {
+class ClassSkillTable;
+
 struct RosterEntry
 {
     uint32_t id = 0;
@@ -46,7 +48,9 @@ struct RosterEntry
 class RosterTable
 {
 public:
-    bool loadFromRows(const std::vector<std::vector<std::string>> &rows);
+    bool loadFromRows(
+        const std::vector<std::vector<std::string>> &rows,
+        const ClassSkillTable *pClassSkillTable = nullptr);
 
     const RosterEntry *get(uint32_t rosterId) const;
     const RosterEntry *findByName(const std::string &name) const;

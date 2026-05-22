@@ -5,6 +5,9 @@ This local Flatpak packaging uses the same asset layout as the Windows release p
 - `assets/engine.zip`
 - `assets/worlds/*.zip`
 
+The build script creates those zips fresh from `assets_dev/` in the staged Flatpak source tree, so local root
+`assets/*.zip` files do not have to be regenerated before building Flatpak packages.
+
 Build and install locally after the Flatpak runtime and SDK are installed:
 
 ```sh
@@ -16,6 +19,12 @@ The same flow is available from CMake:
 
 ```sh
 cmake --build build --target openyamm_flatpak_release
+```
+
+The build script uses the online CPU count minus two parallel jobs by default. Override it when needed:
+
+```sh
+packaging/flatpak/build_flatpak.sh --jobs=8
 ```
 
 Clean local Flatpak build output and legacy `.flatpak-builder` state:

@@ -80,6 +80,10 @@ private:
     static std::vector<OutdoorGameView::TexturedTerrainVertex> buildTexturedTerrainVertices(
         const OutdoorMapData &mapData,
         const OutdoorTerrainTextureAtlas &textureAtlas);
+    static void destroyTexturedTerrainChunks(OutdoorGameView &view);
+    static void buildTexturedTerrainChunks(
+        OutdoorGameView &view,
+        const std::vector<OutdoorGameView::TexturedTerrainVertex> &vertices);
     static std::vector<OutdoorGameView::TexturedTerrainVertex> buildTexturedBModelFaceVertices(
         const OutdoorMapData &mapData,
         size_t bModelIndex,
@@ -138,7 +142,8 @@ private:
         OutdoorGameView &view,
         uint16_t viewId,
         const bx::Vec3 &cameraPosition,
-        float farClipDistance);
+        float farClipDistance,
+        bool useLocalFxLighting);
     static void renderContextActionGeometryHighlight(OutdoorGameView &view, uint16_t viewId);
     static void renderPendingSpellAreaPreview(OutdoorGameView &view, uint16_t viewId);
 };

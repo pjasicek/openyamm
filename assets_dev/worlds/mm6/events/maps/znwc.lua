@@ -409,26 +409,44 @@ RegisterEvent(61, "Potions for sale", function()
     local randomStep = PickRandomOption(61, 5, {5, 8, 11, 14, 17, 20})
     if randomStep == 5 then
         AddValue(InventoryItem(220), 220) -- Potion Bottle
+        if not IsAtLeast(Gold, 50) then
+            return
+        end
         SubtractValue(Gold, 50)
         return
     elseif randomStep == 8 then
         AddValue(InventoryItem(221), 221) -- Catalyst
+        if not IsAtLeast(Gold, 20) then
+            return
+        end
         SubtractValue(Gold, 20)
         return
     elseif randomStep == 11 then
         AddValue(InventoryItem(221), 221) -- Catalyst
+        if not IsAtLeast(Gold, 100) then
+            return
+        end
         SubtractValue(Gold, 100)
         return
     elseif randomStep == 14 then
         AddValue(InventoryItem(222), 222) -- Cure Wounds
+        if not IsAtLeast(Gold, 50) then
+            return
+        end
         SubtractValue(Gold, 50)
         return
     elseif randomStep == 17 then
         AddValue(InventoryItem(223), 223) -- Magic Potion
+        if not IsAtLeast(Gold, 20) then
+            return
+        end
         SubtractValue(Gold, 20)
         return
     elseif randomStep == 20 then
         AddValue(InventoryItem(224), 224) -- Cure Weakness
+        if not IsAtLeast(Gold, 50) then
+            return
+        end
         SubtractValue(Gold, 50)
         return
     end

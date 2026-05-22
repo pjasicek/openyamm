@@ -5,9 +5,9 @@ source:
   legacy_companion_file: "elemf.ddm"
 environment:
   sky_texture: ""
-  ground_tileset_name: "grastyl"
-  master_tile: 2
-  tile_set_lookup_indices: [702, 378, 702, 774]
+  ground_tileset_name: ""
+  master_tile: 0
+  tile_set_lookup_indices: [198, 378, 198, 414]
   day_bits_raw: 0
   map_extra_bits_raw: 192
   flags:
@@ -26,6 +26,7 @@ environment:
   ceiling: 0
 terrain:
   attribute_overrides: []
+  footstep_sound_overrides: []
 bmodel_faces:
   interactive_faces:
     - bmodel_index: 0
@@ -152,13 +153,13 @@ bmodel_faces:
       face_index: 20
       legacy_attributes: 33561096
       cog_number: 0
-      cog_triggered_number: 403
+      cog_triggered_number: 505
       cog_trigger: 0
     - bmodel_index: 0
       face_index: 21
       legacy_attributes: 33561096
       cog_number: 0
-      cog_triggered_number: 403
+      cog_triggered_number: 505
       cog_trigger: 0
     - bmodel_index: 0
       face_index: 22
@@ -5562,7 +5563,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 18
       face_index: 12
-      legacy_attributes: 33587720
+      legacy_attributes: 33554952
       cog_number: 0
       cog_triggered_number: 16
       cog_trigger: 0
@@ -5826,7 +5827,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 19
       face_index: 9
-      legacy_attributes: 33588232
+      legacy_attributes: 33555464
       cog_number: 0
       cog_triggered_number: 16
       cog_trigger: 0
@@ -5838,7 +5839,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 19
       face_index: 11
-      legacy_attributes: 33587720
+      legacy_attributes: 33554952
       cog_number: 0
       cog_triggered_number: 16
       cog_trigger: 0
@@ -6198,7 +6199,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 20
       face_index: 8
-      legacy_attributes: 33588232
+      legacy_attributes: 33555464
       cog_number: 0
       cog_triggered_number: 16
       cog_trigger: 0
@@ -6444,7 +6445,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 21
       face_index: 12
-      legacy_attributes: 33588232
+      legacy_attributes: 33555464
       cog_number: 0
       cog_triggered_number: 14
       cog_trigger: 0
@@ -6708,7 +6709,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 22
       face_index: 9
-      legacy_attributes: 33587720
+      legacy_attributes: 33554952
       cog_number: 0
       cog_triggered_number: 14
       cog_trigger: 0
@@ -6720,7 +6721,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 22
       face_index: 11
-      legacy_attributes: 33588232
+      legacy_attributes: 33555464
       cog_number: 0
       cog_triggered_number: 14
       cog_trigger: 0
@@ -7080,7 +7081,7 @@ bmodel_faces:
       cog_trigger: 0
     - bmodel_index: 23
       face_index: 8
-      legacy_attributes: 33587720
+      legacy_attributes: 33554952
       cog_number: 0
       cog_triggered_number: 14
       cog_trigger: 0
@@ -8587,7 +8588,7 @@ bmodel_faces:
 entities:
   - entity_index: 0
     name: "Party Start"
-    decoration_list_id: 14
+    decoration_list_id: 13
     ai_attributes: 2
     position:
       x: 88
@@ -8603,8 +8604,8 @@ entities:
 spawns:
   - spawn_index: 0
     position:
-      x: -3392
-      y: -20640
+      x: -13760
+      y: -13632
       z: 0
     radius: 32
     type_id: 3
@@ -8613,18 +8614,18 @@ spawns:
     group: 0
   - spawn_index: 1
     position:
-      x: -896
-      y: -18240
+      x: -10816
+      y: 15968
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 3
     attributes: 0
     group: 0
   - spawn_index: 2
     position:
-      x: 2848
-      y: -18720
+      x: -1920
+      y: -20896
       z: 0
     radius: 32
     type_id: 3
@@ -8633,28 +8634,28 @@ spawns:
     group: 0
   - spawn_index: 3
     position:
-      x: 4384
-      y: -21184
+      x: 18240
+      y: 11520
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 2
     attributes: 0
     group: 0
   - spawn_index: 4
     position:
-      x: -13312
-      y: 15744
+      x: 19296
+      y: 5376
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 3
     attributes: 0
     group: 0
   - spawn_index: 5
     position:
-      x: 8928
-      y: -2080
+      x: -6272
+      y: 3744
       z: 0
     radius: 32
     type_id: 3
@@ -8663,8 +8664,8 @@ spawns:
     group: 0
   - spawn_index: 6
     position:
-      x: 5952
-      y: 9568
+      x: -1984
+      y: -19616
       z: 0
     radius: 32
     type_id: 3
@@ -8672,6 +8673,26 @@ spawns:
     attributes: 0
     group: 0
   - spawn_index: 7
+    position:
+      x: 1056
+      y: 17088
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 0
+  - spawn_index: 8
+    position:
+      x: -9216
+      y: 3872
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 9
     position:
       x: -8032
       y: 9536
@@ -8681,30 +8702,10 @@ spawns:
     index: 1
     attributes: 0
     group: 0
-  - spawn_index: 8
-    position:
-      x: -10592
-      y: -3808
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 9
-    position:
-      x: -13760
-      y: -13632
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
   - spawn_index: 10
     position:
-      x: 11424
-      y: 4992
+      x: -10944
+      y: 16704
       z: 0
     radius: 32
     type_id: 3
@@ -8723,8 +8724,8 @@ spawns:
     group: 0
   - spawn_index: 12
     position:
-      x: -15552
-      y: 8448
+      x: 11296
+      y: 13440
       z: 0
     radius: 32
     type_id: 3
@@ -8733,105 +8734,25 @@ spawns:
     group: 0
   - spawn_index: 13
     position:
-      x: 11232
-      y: 18752
+      x: 224
+      y: -18848
       z: 0
     radius: 32
     type_id: 3
-    index: 2
+    index: 1
     attributes: 0
     group: 0
   - spawn_index: 14
     position:
-      x: 18240
-      y: 11520
+      x: -13312
+      y: 15744
       z: 0
     radius: 32
     type_id: 3
-    index: 2
+    index: 1
     attributes: 0
     group: 0
   - spawn_index: 15
-    position:
-      x: 17632
-      y: -11744
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 2
-    attributes: 0
-    group: 0
-  - spawn_index: 16
-    position:
-      x: 10976
-      y: -20064
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 2
-    attributes: 0
-    group: 0
-  - spawn_index: 17
-    position:
-      x: -13696
-      y: -19840
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 2
-    attributes: 0
-    group: 0
-  - spawn_index: 18
-    position:
-      x: -10944
-      y: 16704
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 2
-    attributes: 0
-    group: 0
-  - spawn_index: 19
-    position:
-      x: -11616
-      y: 15808
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 2
-    attributes: 0
-    group: 0
-  - spawn_index: 20
-    position:
-      x: -10816
-      y: 15968
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 3
-    attributes: 0
-    group: 0
-  - spawn_index: 21
-    position:
-      x: 3136
-      y: 1856
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 3
-    attributes: 0
-    group: 0
-  - spawn_index: 22
-    position:
-      x: -15552
-      y: -9088
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 3
-    attributes: 0
-    group: 0
-  - spawn_index: 23
     position:
       x: -1696
       y: -10720
@@ -8841,77 +8762,7 @@ spawns:
     index: 3
     attributes: 0
     group: 0
-  - spawn_index: 24
-    position:
-      x: 1056
-      y: 17088
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 3
-    attributes: 0
-    group: 0
-  - spawn_index: 25
-    position:
-      x: 17536
-      y: 18688
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 3
-    attributes: 0
-    group: 0
-  - spawn_index: 26
-    position:
-      x: 11296
-      y: 13440
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 2
-    attributes: 0
-    group: 0
-  - spawn_index: 27
-    position:
-      x: 12704
-      y: 11744
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 2
-    attributes: 0
-    group: 0
-  - spawn_index: 28
-    position:
-      x: 11904
-      y: 10112
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 2
-    attributes: 0
-    group: 0
-  - spawn_index: 29
-    position:
-      x: 12224
-      y: 9088
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 2
-    attributes: 0
-    group: 0
-  - spawn_index: 30
-    position:
-      x: 14144
-      y: 11136
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 2
-    attributes: 0
-    group: 0
-  - spawn_index: 31
+  - spawn_index: 16
     position:
       x: 10624
       y: 10880
@@ -8921,37 +8772,7 @@ spawns:
     index: 2
     attributes: 0
     group: 0
-  - spawn_index: 32
-    position:
-      x: 10016
-      y: 9664
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 3
-    attributes: 0
-    group: 0
-  - spawn_index: 33
-    position:
-      x: 12160
-      y: 13152
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 3
-    attributes: 0
-    group: 0
-  - spawn_index: 34
-    position:
-      x: 11328
-      y: 11968
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 3
-    attributes: 0
-    group: 0
-  - spawn_index: 35
+  - spawn_index: 17
     position:
       x: 12768
       y: 10368
@@ -8961,47 +8782,177 @@ spawns:
     index: 3
     attributes: 0
     group: 0
-  - spawn_index: 36
+  - spawn_index: 18
     position:
-      x: 19296
-      y: 5376
+      x: -5504
+      y: 1920
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 19
+    position:
+      x: -15552
+      y: -9088
       z: 0
     radius: 32
     type_id: 3
     index: 3
     attributes: 0
     group: 0
-  - spawn_index: 37
+  - spawn_index: 20
     position:
-      x: 7296
-      y: 2208
+      x: 17536
+      y: 18688
       z: 0
     radius: 32
     type_id: 3
     index: 3
     attributes: 0
     group: 0
-  - spawn_index: 38
+  - spawn_index: 21
     position:
-      x: 8704
-      y: 1600
+      x: 2848
+      y: -18720
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 22
+    position:
+      x: 10976
+      y: -20064
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 23
+    position:
+      x: 384
+      y: -20416
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 24
+    position:
+      x: 6976
+      y: -10656
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 25
+    position:
+      x: 16736
+      y: -6368
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 26
+    position:
+      x: -15552
+      y: 8448
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 27
+    position:
+      x: 16768
+      y: -14720
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 28
+    position:
+      x: -3392
+      y: -20640
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 29
+    position:
+      x: 9600
+      y: -11968
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 30
+    position:
+      x: 12224
+      y: 9088
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 31
+    position:
+      x: -10432
+      y: 4384
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 32
+    position:
+      x: 3136
+      y: 1856
       z: 0
     radius: 32
     type_id: 3
     index: 3
     attributes: 0
     group: 0
-  - spawn_index: 39
+  - spawn_index: 33
     position:
-      x: -672
-      y: 7520
+      x: -608
+      y: 16192
       z: 0
     radius: 32
     type_id: 3
     index: 3
     attributes: 0
     group: 0
-  - spawn_index: 40
+  - spawn_index: 34
+    position:
+      x: -896
+      y: -18240
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 35
     position:
       x: 384
       y: 6336
@@ -9011,10 +8962,60 @@ spawns:
     index: 3
     attributes: 0
     group: 0
+  - spawn_index: 36
+    position:
+      x: 2080
+      y: -20224
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 37
+    position:
+      x: 5952
+      y: 9568
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 38
+    position:
+      x: 17376
+      y: -7648
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 39
+    position:
+      x: -18752
+      y: 5536
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 40
+    position:
+      x: -17568
+      y: 8320
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
   - spawn_index: 41
     position:
-      x: -704
-      y: 17376
+      x: 7296
+      y: 2208
       z: 0
     radius: 32
     type_id: 3
@@ -9023,12 +9024,12 @@ spawns:
     group: 0
   - spawn_index: 42
     position:
-      x: -608
-      y: 16192
+      x: 11904
+      y: 10112
       z: 0
     radius: 32
     type_id: 3
-    index: 3
+    index: 2
     attributes: 0
     group: 0
   - spawn_index: 43
@@ -9043,18 +9044,18 @@ spawns:
     group: 0
   - spawn_index: 44
     position:
-      x: 17376
-      y: -7648
+      x: 11328
+      y: 11968
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 3
     attributes: 0
     group: 0
   - spawn_index: 45
     position:
-      x: 16736
-      y: -6368
+      x: -10592
+      y: -3808
       z: 0
     radius: 32
     type_id: 3
@@ -9063,28 +9064,28 @@ spawns:
     group: 0
   - spawn_index: 46
     position:
-      x: 10976
-      y: -9312
+      x: 8704
+      y: 1600
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 3
     attributes: 0
     group: 0
   - spawn_index: 47
     position:
-      x: 9600
-      y: -11968
+      x: 11232
+      y: 18752
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 2
     attributes: 0
     group: 0
   - spawn_index: 48
     position:
-      x: 6976
-      y: -10656
+      x: 4384
+      y: -21184
       z: 0
     radius: 32
     type_id: 3
@@ -9093,115 +9094,25 @@ spawns:
     group: 0
   - spawn_index: 49
     position:
-      x: 7456
-      y: -7648
+      x: 12160
+      y: 13152
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 3
     attributes: 0
     group: 0
   - spawn_index: 50
     position:
-      x: -576
-      y: -3936
+      x: 10016
+      y: 9664
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 3
     attributes: 0
     group: 0
   - spawn_index: 51
-    position:
-      x: -256
-      y: -2912
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 52
-    position:
-      x: -10432
-      y: 4384
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 53
-    position:
-      x: -9216
-      y: 3872
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 54
-    position:
-      x: -7168
-      y: 4352
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 55
-    position:
-      x: -6272
-      y: 3744
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 56
-    position:
-      x: -5504
-      y: 1920
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 57
-    position:
-      x: -18752
-      y: 5536
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 58
-    position:
-      x: -17568
-      y: 8320
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 59
-    position:
-      x: -8128
-      y: 8320
-      z: 0
-    radius: 32
-    type_id: 3
-    index: 1
-    attributes: 0
-    group: 0
-  - spawn_index: 60
     position:
       x: -16064
       y: -14144
@@ -9211,7 +9122,77 @@ spawns:
     index: 1
     attributes: 0
     group: 0
-  - spawn_index: 61
+  - spawn_index: 52
+    position:
+      x: -672
+      y: 7520
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 3
+    attributes: 0
+    group: 0
+  - spawn_index: 53
+    position:
+      x: 14144
+      y: 11136
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 54
+    position:
+      x: 17632
+      y: -11744
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 55
+    position:
+      x: -8128
+      y: 8320
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 56
+    position:
+      x: 7456
+      y: -7648
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 57
+    position:
+      x: 12704
+      y: 11744
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 58
+    position:
+      x: 11424
+      y: 4992
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 2
+    attributes: 0
+    group: 0
+  - spawn_index: 59
     position:
       x: -14624
       y: -16896
@@ -9221,10 +9202,30 @@ spawns:
     index: 1
     attributes: 0
     group: 0
+  - spawn_index: 60
+    position:
+      x: -256
+      y: -2912
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
+  - spawn_index: 61
+    position:
+      x: 17888
+      y: -13920
+      z: 0
+    radius: 32
+    type_id: 3
+    index: 1
+    attributes: 0
+    group: 0
   - spawn_index: 62
     position:
-      x: -1984
-      y: -19616
+      x: 10976
+      y: -9312
       z: 0
     radius: 32
     type_id: 3
@@ -9233,8 +9234,8 @@ spawns:
     group: 0
   - spawn_index: 63
     position:
-      x: 224
-      y: -18848
+      x: -576
+      y: -3936
       z: 0
     radius: 32
     type_id: 3
@@ -9253,18 +9254,18 @@ spawns:
     group: 0
   - spawn_index: 65
     position:
-      x: 2080
-      y: -20224
+      x: -704
+      y: 17376
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 3
     attributes: 0
     group: 0
   - spawn_index: 66
     position:
-      x: 384
-      y: -20416
+      x: 8928
+      y: -2080
       z: 0
     radius: 32
     type_id: 3
@@ -9273,8 +9274,8 @@ spawns:
     group: 0
   - spawn_index: 67
     position:
-      x: -1920
-      y: -20896
+      x: -7168
+      y: 4352
       z: 0
     radius: 32
     type_id: 3
@@ -9283,22 +9284,22 @@ spawns:
     group: 0
   - spawn_index: 68
     position:
-      x: 17888
-      y: -13920
+      x: -11616
+      y: 15808
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 2
     attributes: 0
     group: 0
   - spawn_index: 69
     position:
-      x: 16768
-      y: -14720
+      x: -13696
+      y: -19840
       z: 0
     radius: 32
     type_id: 3
-    index: 1
+    index: 2
     attributes: 0
     group: 0
 initial_state:

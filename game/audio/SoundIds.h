@@ -92,6 +92,8 @@ enum class SoundId : uint32_t
     Fizzle = 136,
     TurnPageUp = 137,
     TurnPageDown = 138,
+    EndTurnBasedMode = 139,
+    StartTurnBasedMode = 140,
     OpenChest = 141,
     SpellFail = 142,
     Drink = 143,

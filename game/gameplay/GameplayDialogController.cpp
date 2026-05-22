@@ -2170,6 +2170,16 @@ GameplayDialogController::Result GameplayDialogController::executeActiveDialogAc
         }
         else if (houseActionId == HouseActionId::TavernArcomagePlay)
         {
+            if (!partyCanPlayArcomageInHouse(*pHouseEntry, context.pParty))
+            {
+                const char *pMessage = arcomageDeckRequiredMessage();
+                context.eventRuntimeState.messages.push_back(pMessage);
+                context.uiController.setStatusBarEvent(pMessage);
+                refreshCurrentHouseServiceDialog(context, pHouseEntry->id);
+                result.shouldOpenPendingEventDialog = true;
+                return result;
+            }
+
             EventRuntimeState::PendingArcomageGame pendingGame = {};
             pendingGame.houseId = pHouseEntry->id;
             context.eventRuntimeState.pendingArcomageGame = std::move(pendingGame);

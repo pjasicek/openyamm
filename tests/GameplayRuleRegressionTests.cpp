@@ -3,6 +3,7 @@
 #include "engine/AssetFileSystem.h"
 #include "engine/AssetScaleTier.h"
 #include "engine/AudioSystem.h"
+#include "engine/TextTable.h"
 #include "game/FaceEnums.h"
 #include "game/events/EventRuntime.h"
 #include "game/events/EventDialogContent.h"
@@ -33,6 +34,7 @@
 #include "game/tables/JournalQuestTable.h"
 #include "game/tables/ItemTable.h"
 #include "game/tables/MonsterTable.h"
+#include "game/tables/SpriteTables.h"
 #include "game/tables/SurfaceMaterialTable.h"
 
 #include "tests/RegressionGameData.h"
@@ -170,6 +172,33 @@ const OpenYAMM::Tests::RegressionGameData &requireRegressionGameData()
         OpenYAMM::Tests::regressionGameDataLoaded(),
         OpenYAMM::Tests::regressionGameDataFailure().c_str());
     return OpenYAMM::Tests::regressionGameData();
+}
+
+std::string loadSourceFileText(const std::string &relativePath)
+{
+    const std::filesystem::path path = std::filesystem::path(OPENYAMM_SOURCE_DIR) / relativePath;
+    std::ifstream file(path);
+    REQUIRE(file.good());
+    std::ostringstream text;
+    text << file.rdbuf();
+    return text.str();
+}
+
+std::vector<std::vector<std::string>> loadSourceTabSeparatedRows(const std::string &relativePath)
+{
+    const std::optional<OpenYAMM::Engine::TextTable> table =
+        OpenYAMM::Engine::TextTable::parseTabSeparated(loadSourceFileText(relativePath));
+    REQUIRE(table.has_value());
+
+    std::vector<std::vector<std::string>> rows;
+    rows.reserve(table->getRowCount());
+
+    for (size_t rowIndex = 0; rowIndex < table->getRowCount(); ++rowIndex)
+    {
+        rows.push_back(table->getRow(rowIndex));
+    }
+
+    return rows;
 }
 
 OpenYAMM::Game::Character makeRegressionPartyMember(
@@ -488,6 +517,47 @@ TEST_CASE("outdoor water damage tick reports drowning status text")
     CHECK_EQ(partyRuntime.movementStatusText(), "You are drowning!");
 }
 
+TEST_CASE("outdoor water landing still applies fall damage")
+{
+    const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();
+    OpenYAMM::Game::OutdoorMovementController movementController(
+        boundary.mapData,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt);
+    OpenYAMM::Game::OutdoorMovementDriver movementDriver(
+        boundary.mapData,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt,
+        std::nullopt);
+    OpenYAMM::Game::ItemTable itemTable = {};
+    OpenYAMM::Game::OutdoorPartyRuntime partyRuntime(std::move(movementDriver), itemTable);
+    partyRuntime.initialize(boundary.waterX, boundary.waterY, 0.0f, true);
+
+    OpenYAMM::Game::OutdoorPartyRuntime::Snapshot snapshot = partyRuntime.snapshot();
+    snapshot.movementState = movementController.initializeState(boundary.waterX, boundary.waterY, 0.0f);
+    snapshot.movementState.footZ += 768.0f;
+    snapshot.movementState.airborne = true;
+    snapshot.movementState.verticalVelocity = 0.0f;
+    snapshot.movementState.fallStartZ = snapshot.movementState.footZ;
+    snapshot.movementState.supportOnWater = false;
+    snapshot.partyMovementState = {};
+    partyRuntime.restoreSnapshot(snapshot);
+
+    const int initialHealth = partyRuntime.party().totalHealth();
+
+    for (int i = 0; i < 80 && partyRuntime.party().lastFallDamageDistance() <= 0.0f; ++i)
+    {
+        partyRuntime.update(OpenYAMM::Game::OutdoorMovementInput{}, 0.1f);
+    }
+
+    CHECK(partyRuntime.movementState().supportOnWater);
+    CHECK_GT(partyRuntime.party().lastFallDamageDistance(), 512.0f);
+    CHECK_LT(partyRuntime.party().totalHealth(), initialHealth);
+}
+
 TEST_CASE("classic outdoor flying ignores camera pitch for forward movement")
 {
     const SyntheticOutdoorWaterBoundaryScenario boundary = createSyntheticOutdoorWaterBoundaryScenario();
@@ -687,6 +757,113 @@ TEST_CASE("outdoor scene overlays apply partial environment flags")
     CHECK_EQ(mergedScene.environment.mapExtraBitsRaw, 0xc4u);
     CHECK_EQ(mergedScene.environment.fogWeakDistance, 128);
     CHECK_EQ(mergedScene.environment.fogStrongDistance, 2048);
+}
+
+TEST_CASE("outdoor scene overlays can override actor NPC ids")
+{
+    const auto loadText =
+        [](const std::filesystem::path &path)
+        {
+            std::ifstream file(path);
+            REQUIRE(file.good());
+            std::ostringstream text;
+            text << file.rdbuf();
+            return text.str();
+        };
+
+    OpenYAMM::Game::OutdoorSceneYmlLoader sceneLoader = {};
+    std::string sceneError;
+    const std::filesystem::path scenePath =
+        std::filesystem::path(OPENYAMM_SOURCE_DIR) / "assets_dev/worlds/mm8/maps/out01.scene.yml";
+
+    const std::optional<OpenYAMM::Game::OutdoorSceneData> scene =
+        sceneLoader.loadFromText(loadText(scenePath), sceneError);
+    REQUIRE_MESSAGE(scene.has_value(), sceneError.c_str());
+    REQUIRE_FALSE(scene->initialState.actors.empty());
+    CHECK_EQ(scene->initialState.actors.front().npcId, 27);
+
+    OpenYAMM::Game::OutdoorSceneData mergedScene = *scene;
+    const std::string overlayText =
+        "format_version: 1\n"
+        "kind: outdoor_scene_overlay\n"
+        "initial_state:\n"
+        "  actor_npc_id_overrides:\n"
+        "    - actor_index: 0\n"
+        "      npc_id: 31\n";
+
+    REQUIRE_MESSAGE(
+        sceneLoader.applyOverlayFromText(mergedScene, overlayText, sceneError),
+        sceneError.c_str());
+    REQUIRE_FALSE(mergedScene.initialState.actors.empty());
+    CHECK_EQ(mergedScene.initialState.actors.front().npcId, 31);
+}
+
+TEST_CASE("map decoration names take precedence over legacy decoration ids")
+{
+    OpenYAMM::Game::DecorationTable decorationTable;
+    REQUIRE(decorationTable.loadRows(loadSourceTabSeparatedRows("assets_dev/engine/data_tables/decoration_data.txt")));
+
+    const OpenYAMM::Game::DecorationLookupResult smoke =
+        decorationTable.resolveMapDecoration(13, "smoke");
+    REQUIRE(smoke.pEntry != nullptr);
+    CHECK_EQ(smoke.decorationId, 22);
+    CHECK_EQ(smoke.pEntry->internalName, "smoke");
+    CHECK((smoke.pEntry->flags & static_cast<uint16_t>(OpenYAMM::Game::DecorationDescFlag::EmitSmoke)) != 0);
+
+    const OpenYAMM::Game::DecorationLookupResult partyStart =
+        decorationTable.resolveMapDecoration(13, "Party Start");
+    REQUIRE(partyStart.pEntry != nullptr);
+    CHECK_EQ(partyStart.decorationId, 14);
+    CHECK_EQ(partyStart.pEntry->internalName, "party start");
+    CHECK((partyStart.pEntry->flags & static_cast<uint16_t>(OpenYAMM::Game::DecorationDescFlag::DontDraw)) != 0);
+
+    const OpenYAMM::Game::DecorationLookupResult fallback =
+        decorationTable.resolveMapDecoration(13, "missing-decoration-name");
+    REQUIRE(fallback.pEntry != nullptr);
+    CHECK_EQ(fallback.decorationId, 13);
+    CHECK_EQ(fallback.pEntry->internalName, "pending");
+
+    const OpenYAMM::Game::DecorationLookupResult mm7BeaconFire =
+        decorationTable.resolveMapDecoration(305, "dec61");
+    REQUIRE(mm7BeaconFire.pEntry != nullptr);
+    CHECK_EQ(mm7BeaconFire.decorationId, 306);
+    CHECK_EQ(mm7BeaconFire.pEntry->internalName, "dec61");
+    CHECK_EQ(mm7BeaconFire.pEntry->hint, "beacon fire");
+
+    OpenYAMM::Game::OutdoorSceneYmlLoader sceneLoader = {};
+    std::string sceneError;
+    const std::optional<OpenYAMM::Game::OutdoorSceneData> out01Scene =
+        sceneLoader.loadFromText(loadSourceFileText("assets_dev/worlds/mm8/maps/out01.scene.yml"), sceneError);
+    REQUIRE_MESSAGE(out01Scene.has_value(), sceneError.c_str());
+
+    const OpenYAMM::Game::OutdoorSceneEntity *pSmokeEntity = nullptr;
+    const OpenYAMM::Game::OutdoorSceneEntity *pPartyStartEntity = nullptr;
+
+    for (const OpenYAMM::Game::OutdoorSceneEntity &entity : out01Scene->entities)
+    {
+        if (entity.entity.name == "smoke" && pSmokeEntity == nullptr)
+        {
+            pSmokeEntity = &entity;
+        }
+        else if (entity.entity.name == "Party Start" && pPartyStartEntity == nullptr)
+        {
+            pPartyStartEntity = &entity;
+        }
+    }
+
+    REQUIRE(pSmokeEntity != nullptr);
+    const OpenYAMM::Game::DecorationLookupResult out01Smoke =
+        decorationTable.resolveMapDecoration(pSmokeEntity->entity.decorationListId, pSmokeEntity->entity.name);
+    REQUIRE(out01Smoke.pEntry != nullptr);
+    CHECK_EQ(out01Smoke.decorationId, 22);
+
+    REQUIRE(pPartyStartEntity != nullptr);
+    const OpenYAMM::Game::DecorationLookupResult out01PartyStart =
+        decorationTable.resolveMapDecoration(
+            pPartyStartEntity->entity.decorationListId,
+            pPartyStartEntity->entity.name);
+    REQUIRE(out01PartyStart.pEntry != nullptr);
+    CHECK_EQ(out01PartyStart.decorationId, 14);
 }
 
 TEST_CASE("mm7 shoals scene overlay combines always dark fog with underwater tint")
@@ -3146,6 +3323,59 @@ TEST_CASE("indoor lava support applies recurring burning damage")
     CHECK_EQ(partyRuntime.movementStatusText(), "You are burning!");
 }
 
+TEST_CASE("indoor party runtime applies fall damage after airborne landing")
+{
+    OpenYAMM::Game::IndoorMapData mapData = {};
+    mapData.vertices = {
+        {-512, -512, 0},
+        {512, -512, 0},
+        {512, 512, 0},
+        {-512, 512, 0},
+    };
+
+    OpenYAMM::Game::IndoorFace floor = {};
+    floor.vertexIndices = {0, 1, 2, 3};
+    floor.facetType = 3;
+    floor.roomNumber = 1;
+    mapData.faces = {floor};
+
+    OpenYAMM::Game::IndoorSector dummySector = {};
+    OpenYAMM::Game::IndoorSector sector = {};
+    sector.floorCount = 1;
+    sector.faceCount = 1;
+    sector.nonBspFaceCount = 1;
+    sector.minX = -512;
+    sector.maxX = 512;
+    sector.minY = -512;
+    sector.maxY = 512;
+    sector.minZ = -512;
+    sector.maxZ = 2048;
+    sector.floorFaceIds = {0};
+    sector.faceIds = {0};
+    sector.nonBspFaceIds = {0};
+    mapData.sectors = {dummySector, sector};
+
+    std::optional<OpenYAMM::Game::MapDeltaData> mapDeltaData = OpenYAMM::Game::MapDeltaData{};
+    std::optional<OpenYAMM::Game::EventRuntimeState> eventRuntimeState = OpenYAMM::Game::EventRuntimeState{};
+    OpenYAMM::Game::IndoorMovementController movementController(mapData, &mapDeltaData, &eventRuntimeState);
+    OpenYAMM::Game::ItemTable itemTable = {};
+    OpenYAMM::Game::IndoorPartyRuntime partyRuntime(std::move(movementController), itemTable);
+    partyRuntime.initializeEyePosition(0.0f, 0.0f, 928.0f, true);
+
+    REQUIRE_FALSE(partyRuntime.movementState().grounded);
+    const int initialHealth = partyRuntime.party().totalHealth();
+
+    for (int i = 0; i < 80 && partyRuntime.party().lastFallDamageDistance() <= 0.0f; ++i)
+    {
+        partyRuntime.update(0.0f, 0.0f, false, false, 0.1f);
+    }
+
+    CHECK(partyRuntime.movementState().grounded);
+    CHECK_GT(partyRuntime.party().lastFallDamageDistance(), 512.0f);
+    CHECK_LT(partyRuntime.party().totalHealth(), initialHealth);
+    CHECK_EQ(partyRuntime.party().lastStatus(), "fall damage");
+}
+
 TEST_CASE("indoor movement rejects standing clearance below body height")
 {
     OpenYAMM::Game::IndoorMapData mapData = {};
@@ -3754,6 +3984,32 @@ TEST_CASE("lua event runtime supports evt jump alias")
     CHECK_EQ(runtimeState.statusMessages.back(), "jump ok");
 }
 
+TEST_CASE("lua random jump advances between repeated event activations")
+{
+    const std::optional<OpenYAMM::Game::ScriptedEventProgram> scriptedProgram = loadSyntheticScriptedProgram(
+        "evt.map[1] = function()\n"
+        "    evt._BeginEvent(1)\n"
+        "    local a = evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20})\n"
+        "    local b = evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20})\n"
+        "    local c = evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20})\n"
+        "    local d = evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20})\n"
+        "    local e = evt._RandomJump(451, 1, {2, 5, 8, 11, 14, 20})\n"
+        "    evt.StatusText(tostring(a) .. ',' .. tostring(b) .. ',' .. tostring(c) .. ',' .. tostring(d) .. ',' .. tostring(e))\n"
+        "    return\n"
+        "end\n",
+        "@SyntheticRandomJump.lua",
+        OpenYAMM::Game::ScriptedEventScope::Map);
+    REQUIRE(scriptedProgram.has_value());
+
+    OpenYAMM::Game::EventRuntime eventRuntime = {};
+    OpenYAMM::Game::EventRuntimeState runtimeState = {};
+    runtimeState.eventRandomState = 1;
+
+    REQUIRE(eventRuntime.executeEventById(scriptedProgram, std::nullopt, 1, runtimeState, nullptr, nullptr));
+    REQUIRE_FALSE(runtimeState.statusMessages.empty());
+    CHECK_EQ(runtimeState.statusMessages.back(), "2,11,8,5,14");
+}
+
 TEST_CASE("history event variables are scoped to the active merged continent")
 {
     const uint32_t historySevenVariable =
@@ -3822,7 +4078,7 @@ TEST_CASE("level decoration script event id comes from legacy uEventID field")
     indoorEntity.eventIdPrimary = 1;
     indoorEntity.eventIdSecondary = 376;
     CHECK_EQ(indoorEntity.scriptEventId(), 376u);
-    CHECK_EQ(indoorEntity.spriteOverrideKey(7), 7u);
+    CHECK_EQ(indoorEntity.spriteOverrideKey(7), 1u);
 
     indoorEntity.eventIdPrimary = 0;
     CHECK_EQ(indoorEntity.spriteOverrideKey(7), 7u);
@@ -3831,7 +4087,7 @@ TEST_CASE("level decoration script event id comes from legacy uEventID field")
     outdoorEntity.eventIdPrimary = 1;
     outdoorEntity.eventIdSecondary = 376;
     CHECK_EQ(outdoorEntity.scriptEventId(), 376u);
-    CHECK_EQ(outdoorEntity.spriteOverrideKey(7), 7u);
+    CHECK_EQ(outdoorEntity.spriteOverrideKey(7), 1u);
 
     outdoorEntity.eventIdPrimary = 0;
     CHECK_EQ(outdoorEntity.spriteOverrideKey(7), 7u);
@@ -3901,6 +4157,20 @@ TEST_CASE("interactive decoration rules cover MM6 and MM7 indoor loot decoration
     CHECK_EQ(mm6TrashHeapSpec->baseEventId, 1748u);
     CHECK_EQ(mm6TrashHeapSpec->eventCount, 2u);
     CHECK_EQ(OpenYAMM::Game::initialInteractiveDecorationState(mm6TrashHeapSpec->family, 27u), 1u);
+
+    const std::optional<OpenYAMM::Game::InteractiveDecorationBindingSpec> mm7BeaconFireSpec =
+        OpenYAMM::Game::resolveInteractiveDecorationBindingSpec(makeDecoration("dec61", "beacon fire"), "dec61");
+    REQUIRE(mm7BeaconFireSpec.has_value());
+    CHECK_EQ(mm7BeaconFireSpec->baseEventId, 550u);
+    CHECK_EQ(mm7BeaconFireSpec->eventCount, 7u);
+    CHECK(mm7BeaconFireSpec->useSeededInitialState);
+
+    const std::optional<OpenYAMM::Game::InteractiveDecorationBindingSpec> mm8BeaconFireSpec =
+        OpenYAMM::Game::resolveInteractiveDecorationBindingSpec(makeDecoration("dec40", "beacon fire"), "dec40");
+    REQUIRE(mm8BeaconFireSpec.has_value());
+    CHECK_EQ(mm8BeaconFireSpec->baseEventId, 543u);
+    CHECK_EQ(mm8BeaconFireSpec->eventCount, 7u);
+    CHECK(mm8BeaconFireSpec->useSeededInitialState);
 
     CHECK_FALSE(OpenYAMM::Game::resolveInteractiveDecorationBindingSpec(makeDecoration("", "bag"), "").has_value());
 }
@@ -5698,6 +5968,85 @@ TEST_CASE("indoor actor ledge guard blocks grounded non-flying drops")
     CHECK_EQ(guarded.footZ, doctest::Approx(0.0f));
 }
 
+TEST_CASE("indoor actor ledge guard blocks leading footprint drops")
+{
+    OpenYAMM::Game::IndoorMapData mapData = {};
+    mapData.vertices = {
+        {-256, 0, 0},
+        {256, 0, 0},
+        {256, 256, 0},
+        {-256, 256, 0},
+        {-256, 256, -160},
+        {256, 256, -160},
+        {256, 512, -160},
+        {-256, 512, -160},
+    };
+
+    OpenYAMM::Game::IndoorFace upperFloor = {};
+    upperFloor.vertexIndices = {0, 1, 2, 3};
+    upperFloor.facetType = 3;
+
+    OpenYAMM::Game::IndoorFace lowerFloor = {};
+    lowerFloor.vertexIndices = {4, 5, 6, 7};
+    lowerFloor.facetType = 3;
+
+    mapData.faces = {upperFloor, lowerFloor};
+
+    OpenYAMM::Game::IndoorSector sector = {};
+    sector.floorCount = 2;
+    sector.faceCount = 2;
+    sector.nonBspFaceCount = 2;
+    sector.minX = -256;
+    sector.maxX = 256;
+    sector.minY = 0;
+    sector.maxY = 512;
+    sector.minZ = -256;
+    sector.maxZ = 256;
+    sector.floorFaceIds = {0, 1};
+    sector.faceIds = {0, 1};
+    sector.nonBspFaceIds = sector.faceIds;
+    mapData.sectors = {sector};
+
+    std::optional<OpenYAMM::Game::MapDeltaData> mapDeltaData = OpenYAMM::Game::MapDeltaData{};
+    std::optional<OpenYAMM::Game::EventRuntimeState> eventRuntimeState = OpenYAMM::Game::EventRuntimeState{};
+    OpenYAMM::Game::IndoorMovementController controller(mapData, &mapDeltaData, &eventRuntimeState);
+    const OpenYAMM::Game::IndoorBodyDimensions body = {};
+    const OpenYAMM::Game::IndoorMoveState initial =
+        controller.initializeStateFromEyePosition(0.0f, 180.0f, body.height, body);
+
+    REQUIRE(initial.grounded);
+    REQUIRE_EQ(initial.supportFaceIndex, 0u);
+
+    const OpenYAMM::Game::IndoorMoveState unguarded =
+        controller.resolveMove(initial, body, 0.0f, 100.0f, false, 0.5f);
+
+    CHECK_GT(unguarded.y + body.radius, 256.0f);
+
+    const OpenYAMM::Game::IndoorMoveState guarded =
+        controller.resolveMove(
+            initial,
+            body,
+            0.0f,
+            100.0f,
+            false,
+            0.5f,
+            nullptr,
+            std::nullopt,
+            false,
+            nullptr,
+            false,
+            false,
+            420.0f,
+            1.0f,
+            false,
+            true);
+
+    CHECK_LT(guarded.y + body.radius, unguarded.y + body.radius - 8.0f);
+    CHECK(guarded.grounded);
+    CHECK_EQ(guarded.supportFaceIndex, 0u);
+    CHECK_EQ(guarded.footZ, doctest::Approx(0.0f));
+}
+
 TEST_CASE("indoor movement does not collide with current sloped support floor")
 {
     OpenYAMM::Game::IndoorMapData mapData = {};
@@ -6675,6 +7024,21 @@ TEST_CASE("MMerge monster kill reputation applies peasant and guard deltas")
     CHECK(peasantGuardResult.applied);
     CHECK_EQ(peasantGuardResult.reputationDelta, 3);
     CHECK_EQ(worldRuntime.currentLocationReputation(), 6);
+}
+
+TEST_CASE("MMerge civilian aggression links guards and peasants")
+{
+    OpenYAMM::Game::MonsterTable::MonsterStatsEntry peasant = {};
+    peasant.kindFlags = OpenYAMM::Game::monsterKindFlag(OpenYAMM::Game::MonsterKind::Peasant);
+
+    OpenYAMM::Game::MonsterTable::MonsterStatsEntry monster = {};
+
+    CHECK(OpenYAMM::Game::actorSharesCivilianAggression(55, &monster, 85, &peasant));
+    CHECK(OpenYAMM::Game::actorSharesCivilianAggression(85, &peasant, 55, &monster));
+    CHECK(OpenYAMM::Game::actorSharesCivilianAggression(38, &monster, 85, &peasant));
+    CHECK(OpenYAMM::Game::actorSharesCivilianAggression(12, &peasant, 85, &peasant));
+    CHECK_FALSE(OpenYAMM::Game::actorSharesCivilianAggression(12, &monster, 85, &peasant));
+    CHECK_FALSE(OpenYAMM::Game::actorSharesCivilianAggression(55, &monster, 12, &monster));
 }
 
 TEST_CASE("MMerge monster kill reputation ignores ordinary monsters")

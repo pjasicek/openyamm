@@ -39,15 +39,15 @@ Yes	Yes	Yes1,Yes2	AttackHit
 ThankYou	Thank You	Thanks1,Thanks2	AttackHit
 Indignant	Indignant	Indignant	AttackMiss
 Yell	Yell	Move!1,Move!2	Yell
-AttackHit	Attack Hit	Heh1,Heh2	AttackHit
-AttackMiss	Attack Miss	Indignant	AttackMiss
-Shoot	Shoot	Heh1,Heh2	Shoot
+AttackHit	Attack Hit		AttackHit
+AttackMiss	Attack Miss		AttackMiss
+Shoot	Shoot		Shoot
 CastSpell	Cast Spell		CastSpell
 DamagedParty	Damaged Party	SoftInjure1	DamagedParty
-FoundItem	Found Item	Thanks1,Thanks2	FoundItem
+FoundItem	Found Item		FoundItem
 SkillIncreased	Skill Increased	Thanks1,Thanks2	SkillIncreased
-QuestGot	Quest Got	Thanks1,Thanks2	QuestGot
-AwardGot	Award Got	Thanks1,Thanks2	AwardGot
+QuestGot	Quest Got		QuestGot
+AwardGot	Award Got		AwardGot
 TempleHeal	Temple Heal	Thanks1,Thanks2	TempleHeal
 TempleDonate	Temple Donate	Thanks1,Thanks2	TempleDonate
 TravelBoat	Travel Boat	Thanks1,Thanks2	TravelBoat
@@ -76,8 +76,8 @@ SkillLearned	Skill Learned	Thanks1,Thanks2	SkillLearned
 ShopRude	Shop Rude	Indignant	ShopRude
 SkillMasteryIncreased	Skill Mastery Increased	Thanks1,Thanks2	SkillMasteryIncreased
 JoinedGuild	Joined Guild	Thanks1,Thanks2	JoinedGuild
-StatBonusIncreased	Stat Bonus Increased	Thanks1,Thanks2	StatBonusIncreased
-StatBaseIncreased	Stat Base Increased	Thanks1,Thanks2	StatBaseIncreased
+StatBonusIncreased	Stat Bonus Increased		StatBonusIncreased
+StatBaseIncreased	Stat Base Increased		StatBaseIncreased
 AfraidSilent	Afraid Silent		AfraidSilent
 CheatedDeath	Cheated Death	Yes1,Yes2	CheatedDeath
 InPrison	In Prison	Indignant	InPrison

@@ -21,7 +21,7 @@ namespace OpenYAMM::Game
 namespace
 {
 constexpr float DecorationEmitterCooldownSeconds = 0.045f;
-constexpr float DecorationSmokeEmitterCooldownSeconds = 0.14f;
+constexpr float DecorationSmokeEmitterCooldownSeconds = 0.24f;
 constexpr float SpatialFxRefreshIntervalSeconds = 1.0f / 60.0f;
 constexpr float ShadowHeightFadeDistance = 512.0f;
 constexpr int32_t MapWeatherSnowing = 2;
@@ -312,7 +312,10 @@ void OutdoorSpatialFxRuntime::syncPartyTorchLight(OutdoorGameView &view)
         view.m_cameraTargetY,
         view.m_cameraTargetZ,
         torchLight->radius,
-        torchLight->colorAbgr);
+        torchLight->colorAbgr,
+        RenderLightKind::Torch,
+        0x746f7263u,
+        true);
 }
 
 void OutdoorSpatialFxRuntime::syncActorSpatialFx(OutdoorGameView &view)
@@ -351,7 +354,9 @@ void OutdoorSpatialFxRuntime::syncActorSpatialFx(OutdoorGameView &view)
                 pActor->preciseY,
                 pActor->preciseZ + static_cast<float>(pActor->height) * 0.5f,
                 static_cast<float>(pFrame->glowRadius),
-                makeAbgr(255, 255, 255, 140));
+                makeAbgr(255, 255, 255, 140),
+                RenderLightKind::ActorGlow,
+                static_cast<uint32_t>(actorIndex + 1));
         }
     }
 }
@@ -420,7 +425,15 @@ void OutdoorSpatialFxRuntime::syncDecorationEmitters(OutdoorGameView &view)
                 lightEmitterRadius,
                 lightAlpha);
             const uint32_t lightEmitterColorAbgr = makeAbgr(lightRed, lightGreen, lightBlue, lightAlpha);
-            addLightEmitter(view, lightX, lightY, lightZ, lightEmitterRadius, lightEmitterColorAbgr);
+            addLightEmitter(
+                view,
+                lightX,
+                lightY,
+                lightZ,
+                lightEmitterRadius,
+                lightEmitterColorAbgr,
+                RenderLightKind::Decoration,
+                static_cast<uint32_t>(emitterKey));
         }
 
         const uint64_t emitterKey = makeDecorationEmitterKey(billboard);
@@ -498,7 +511,9 @@ void OutdoorSpatialFxRuntime::syncSpriteObjectSpatialFx(OutdoorGameView &view)
             static_cast<float>(billboard.y),
             static_cast<float>(billboard.z) + static_cast<float>(billboard.height) * 0.5f,
             static_cast<float>(pFrame->glowRadius * billboard.glowRadiusMultiplier),
-            makeAbgr(255, 255, 255, 120));
+            makeAbgr(255, 255, 255, 120),
+            RenderLightKind::SpriteGlow,
+            static_cast<uint32_t>(billboard.index + 1));
         addGlowBillboard(
             view,
             static_cast<float>(billboard.x),
@@ -832,8 +847,11 @@ void OutdoorSpatialFxRuntime::addLightEmitter(
     float y,
     float z,
     float radius,
-    uint32_t colorAbgr)
+    uint32_t colorAbgr,
+    RenderLightKind kind,
+    uint32_t stableId,
+    bool important)
 {
-    view.m_worldFxSystem.addLightEmitter(x, y, z, radius, colorAbgr);
+    view.m_worldFxSystem.addLightEmitter(x, y, z, radius, colorAbgr, -1, kind, stableId, important);
 }
 }

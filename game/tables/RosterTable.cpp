@@ -1,8 +1,11 @@
 #include "game/tables/RosterTable.h"
 
+#include "game/tables/ClassSkillTable.h"
+
 #include <algorithm>
 #include <cctype>
 #include <cstdlib>
+#include <optional>
 
 namespace OpenYAMM::Game
 {
@@ -97,9 +100,28 @@ RosterEntry::StartingItem decodeRosterStartingItem(uint32_t rawValue)
 
     return item;
 }
+
+std::string resolveRosterClassName(const std::string &classToken, const ClassSkillTable *pClassSkillTable)
+{
+    uint32_t classId = 0;
+
+    if (pClassSkillTable != nullptr && parseUnsigned(classToken, classId))
+    {
+        const std::optional<std::string> className = pClassSkillTable->classNameForId(classId);
+
+        if (className)
+        {
+            return *className;
+        }
+    }
+
+    return classToken;
+}
 }
 
-bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows)
+bool RosterTable::loadFromRows(
+    const std::vector<std::vector<std::string>> &rows,
+    const ClassSkillTable *pClassSkillTable)
 {
     m_entries.clear();
     std::vector<std::string> skillColumns;
@@ -137,7 +159,7 @@ bool RosterTable::loadFromRows(const std::vector<std::vector<std::string>> &rows
         RosterEntry entry = {};
         entry.id = id;
         entry.name = row[1];
-        entry.className = row[2];
+        entry.className = resolveRosterClassName(row[2], pClassSkillTable);
         entry.blurb = row.size() > 123 ? row[123] : "";
 
         if (entry.name.empty() || entry.name == "Placeholder")

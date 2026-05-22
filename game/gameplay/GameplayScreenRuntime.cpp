@@ -2953,6 +2953,11 @@ void GameplayScreenRuntime::clearHudLayoutRuntimeHeightOverrides()
     uiRuntime().clearHudLayoutRuntimeHeightOverrides();
 }
 
+void GameplayScreenRuntime::setHudLayoutRuntimeWidthOverride(const std::string &layoutId, float width)
+{
+    uiRuntime().setHudLayoutRuntimeWidthOverride(layoutId, width);
+}
+
 void GameplayScreenRuntime::setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height)
 {
     uiRuntime().setHudLayoutRuntimeHeightOverride(layoutId, height);

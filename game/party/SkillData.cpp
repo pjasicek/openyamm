@@ -192,8 +192,8 @@ const std::unordered_map<std::string, std::string> SkillAliases = {
 const std::unordered_map<std::string, std::string> DisplayClassNames = {
     {"WarriorMage", "Warrior Mage"},
     {"MasterArcher", "Master Archer"},
-    {"PriestLight", "Priest Light"},
-    {"PriestDark", "Priest Dark"},
+    {"PriestLight", "Priest of the Light"},
+    {"PriestDark", "Priest of the Dark"},
     {"DarkElf", "Dark Elf"},
     {"GreatWyrm", "Great Wyrm"},
     {"GreatDruid", "Great Druid"},

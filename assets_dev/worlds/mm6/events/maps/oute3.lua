@@ -577,26 +577,44 @@ RegisterEvent(210, "Well", function(continueStep)
     end
     if continueStep ~= nil then return end
     if IsAtLeast(Gold, 10000) then
+        if not IsAtLeast(Gold, 1000) then
+            return
+        end
         SubtractValue(Gold, 1000)
         evt.SetMessage("Your purse feels much lighter as you foolishly throw your money into the well.")
         evt._PressAnyKey(210, 11)
     elseif IsAtLeast(Gold, 5000) then
+        if not IsAtLeast(Gold, 500) then
+            return
+        end
         SubtractValue(Gold, 500)
         evt.SetMessage("Your purse feels much lighter as you foolishly throw your money into the well.")
         evt._PressAnyKey(210, 15)
     elseif IsAtLeast(Gold, 1000) then
+        if not IsAtLeast(Gold, 100) then
+            return
+        end
         SubtractValue(Gold, 100)
         evt.SetMessage("Your purse feels much lighter as you foolishly throw your money into the well.")
         evt._PressAnyKey(210, 19)
     elseif IsAtLeast(Gold, 500) then
+        if not IsAtLeast(Gold, 50) then
+            return
+        end
         SubtractValue(Gold, 50)
         evt.SetMessage("Your purse feels much lighter as you foolishly throw your money into the well.")
         evt._PressAnyKey(210, 23)
     elseif IsAtLeast(Gold, 100) then
+        if not IsAtLeast(Gold, 10) then
+            return
+        end
         SubtractValue(Gold, 10)
         evt.SetMessage("Your purse feels much lighter as you foolishly throw your money into the well.")
         evt._PressAnyKey(210, 27)
     elseif IsAtLeast(Gold, 50) then
+        if not IsAtLeast(Gold, 5) then
+            return
+        end
         SubtractValue(Gold, 5)
         evt.SetMessage("Your purse feels much lighter as you foolishly throw your money into the well.")
         evt._PressAnyKey(210, 31)

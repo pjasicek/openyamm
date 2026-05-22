@@ -21,6 +21,9 @@ struct IndoorMoveState
     int16_t eyeSectorId = -1;
     size_t supportFaceIndex = static_cast<size_t>(-1);
     bool grounded = false;
+    bool landedThisFrame = false;
+    float fallStartZ = 0.0f;
+    float fallDistance = 0.0f;
 
     float eyeZ() const
     {

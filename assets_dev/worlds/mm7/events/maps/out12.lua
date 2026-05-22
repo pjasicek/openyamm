@@ -190,8 +190,14 @@ RegisterEvent(204, "Tunnel Entrance", nil, "Tunnel Entrance")
 
 RegisterEvent(205, "Well", function()
     if not IsAtLeast(Gold, 5000) then
+        if not IsAtLeast(Gold, 4999) then
+            return
+        end
         SubtractValue(Gold, 4999)
         evt.StatusText("You make a wish")
+        return
+    end
+    if not IsAtLeast(Gold, 5000) then
         return
     end
     SubtractValue(Gold, 5000)

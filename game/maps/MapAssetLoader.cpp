@@ -281,31 +281,11 @@ std::string trimAsciiWhitespace(const std::string &value)
 }
 
 template <typename EntityType>
-const DecorationEntry *resolveDecorationEntry(
+DecorationLookupResult resolveDecorationEntry(
     const DecorationTable &decorationTable,
     const EntityType &entity)
 {
-    const DecorationEntry *pNamedDecoration = nullptr;
-
-    if (!entity.name.empty())
-    {
-        pNamedDecoration = decorationTable.findByInternalName(entity.name);
-
-        if (pNamedDecoration != nullptr
-            && hasDecorationFlag(pNamedDecoration->flags, DecorationDescFlag::DontDraw))
-        {
-            return pNamedDecoration;
-        }
-    }
-
-    const DecorationEntry *pDecoration = decorationTable.get(entity.decorationListId);
-
-    if ((pDecoration == nullptr || pDecoration->spriteId == 0) && pNamedDecoration != nullptr)
-    {
-        pDecoration = pNamedDecoration;
-    }
-
-    return pDecoration;
+    return decorationTable.resolveMapDecoration(entity.decorationListId, entity.name);
 }
 
 template <typename EntityType>
@@ -1953,7 +1933,8 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
     for (size_t entityIndex = 0; entityIndex < entities.size(); ++entityIndex)
     {
         const EntityType &entity = entities[entityIndex];
-        const DecorationEntry *pDecoration = resolveDecorationEntry(billboardSet.decorationTable, entity);
+        const DecorationLookupResult decoration = resolveDecorationEntry(billboardSet.decorationTable, entity);
+        const DecorationEntry *pDecoration = decoration.pEntry;
 
         if (pDecoration == nullptr)
         {
@@ -1972,7 +1953,7 @@ std::optional<DecorationBillboardSet> buildDecorationBillboardSet(
 
         DecorationBillboard billboard = {};
         billboard.entityIndex = entityIndex;
-        billboard.decorationId = entity.decorationListId;
+        billboard.decorationId = decoration.decorationId;
         billboard.spriteId = pDecoration->spriteId;
         billboard.flags = pDecoration->flags;
         billboard.height = pDecoration->height;
@@ -2066,7 +2047,8 @@ std::optional<OutdoorDecorationCollisionSet> buildOutdoorDecorationCollisionSet(
     for (size_t entityIndex = 0; entityIndex < entities.size(); ++entityIndex)
     {
         const EntityType &entity = entities[entityIndex];
-        const DecorationEntry *pDecoration = resolveDecorationEntry(decorationTable, entity);
+        const DecorationLookupResult decoration = resolveDecorationEntry(decorationTable, entity);
+        const DecorationEntry *pDecoration = decoration.pEntry;
 
         if (pDecoration == nullptr)
         {
@@ -2080,7 +2062,7 @@ std::optional<OutdoorDecorationCollisionSet> buildOutdoorDecorationCollisionSet(
 
         OutdoorDecorationCollision collision = {};
         collision.entityIndex = entityIndex;
-        collision.decorationId = entity.decorationListId;
+        collision.decorationId = decoration.decorationId;
         collision.descriptionFlags = pDecoration->flags;
         collision.instanceFlags = entity.aiAttributes;
         collision.radius = pDecoration->radius;

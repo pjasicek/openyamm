@@ -1705,6 +1705,43 @@ bool OutdoorSceneYmlLoader::applyOverlayFromText(
                 }
             }
         }
+
+        const YAML::Node actorNpcIdOverridesNode = initialStateNode["actor_npc_id_overrides"];
+
+        if (actorNpcIdOverridesNode)
+        {
+            if (!actorNpcIdOverridesNode.IsSequence())
+            {
+                errorMessage = "initial_state.actor_npc_id_overrides must be a sequence";
+                return false;
+            }
+
+            for (const YAML::Node &overrideNode : actorNpcIdOverridesNode)
+            {
+                if (!overrideNode.IsMap())
+                {
+                    errorMessage = "actor npc id override entry must be a map";
+                    return false;
+                }
+
+                size_t actorIndex = 0;
+                int16_t npcId = 0;
+
+                if (!readScalarNode(overrideNode, "actor_index", actorIndex, errorMessage)
+                    || !readScalarNode(overrideNode, "npc_id", npcId, errorMessage))
+                {
+                    return false;
+                }
+
+                if (actorIndex >= sceneData.initialState.actors.size())
+                {
+                    errorMessage = "actor npc id override actor_index is out of range";
+                    return false;
+                }
+
+                sceneData.initialState.actors[actorIndex].npcId = npcId;
+            }
+        }
     }
 
     return true;

@@ -288,7 +288,6 @@ void GameplayFxService::consumePendingPortraitEventFxRequest(
             break;
 
         case PortraitFxEventKind::StatDecrease:
-            runtime.playSpeechReaction(request.memberIndices.front(), SpeechId::Indignant, false);
             break;
 
         case PortraitFxEventKind::Disease:

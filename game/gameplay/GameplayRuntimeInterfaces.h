@@ -620,6 +620,11 @@ public:
         const GameplayWorldHit &hit,
         GameplayInteractionMethod interactionMethod) const = 0;
     virtual bool activateWorldHit(const GameplayWorldHit &hit) = 0;
+    virtual bool activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId)
+    {
+        (void)spellId;
+        return activateWorldHit(hit);
+    }
     virtual bool canActivateTelekinesisTarget(const GameplayWorldHit &hit) const = 0;
     virtual bool activateTelekinesisTarget(const GameplayWorldHit &hit) = 0;
     virtual std::optional<GameplayPartyAttackActorFacts> partyAttackActorFacts(

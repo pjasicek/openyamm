@@ -431,6 +431,40 @@ int16_t clampedInt16(int value)
 {
     return static_cast<int16_t>(std::clamp(value, -32768, 32767));
 }
+
+uint32_t absoluteEventReferenceId(int32_t rawReferenceId)
+{
+    if (rawReferenceId >= 0)
+    {
+        return static_cast<uint32_t>(rawReferenceId);
+    }
+
+    const int64_t signedId = static_cast<int64_t>(rawReferenceId);
+    return static_cast<uint32_t>(-(signedId + 1) + 1);
+}
+}
+
+std::vector<uint32_t> resolveIndoorLightReferenceIds(const IndoorMapData &indoorMapData, int32_t rawReferenceId)
+{
+    if (indoorMapData.version >= 8 && rawReferenceId >= 0)
+    {
+        std::vector<uint32_t> lightIds;
+
+        for (size_t lightIndex = 0; lightIndex < indoorMapData.lights.size(); ++lightIndex)
+        {
+            if (indoorMapData.lights[lightIndex].id == rawReferenceId)
+            {
+                lightIds.push_back(static_cast<uint32_t>(lightIndex));
+            }
+        }
+
+        if (!lightIds.empty())
+        {
+            return lightIds;
+        }
+    }
+
+    return {absoluteEventReferenceId(rawReferenceId)};
 }
 
 std::optional<IndoorMapData> IndoorMapDataLoader::loadFromBytes(const std::vector<uint8_t> &bytes) const
@@ -826,6 +860,10 @@ std::optional<IndoorMapData> IndoorMapDataLoader::loadFromBytes(const std::vecto
         {
             reader.readInt16(lightOffset + 0x0c, light.attributes);
             reader.readInt16(lightOffset + 0x0e, light.brightness);
+            if (layout->version >= 8)
+            {
+                reader.readInt32(lightOffset + 0x10, light.id);
+            }
         }
         else
         {
@@ -1168,6 +1206,10 @@ std::optional<std::vector<uint8_t>> IndoorMapDataWriter::buildBytes(const Indoor
         writeValue<uint8_t>(bytes, lightOffset + 0x0b, light.type);
         writeValue<int16_t>(bytes, lightOffset + 0x0c, light.attributes);
         writeValue<int16_t>(bytes, lightOffset + 0x0e, light.brightness);
+        if (Layout.version >= 8)
+        {
+            writeValue<int32_t>(bytes, lightOffset + 0x10, light.id);
+        }
     }
 
     appendInt32(bytes, static_cast<int32_t>(indoorMapData.bspNodes.size()));

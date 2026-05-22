@@ -414,3 +414,97 @@ TEST_CASE("legacy lua exporter rewrites lich ritual checks and promotions to all
     CHECK(ritualLua.find("evt.ForPlayer(Players.Member0)") == std::string::npos);
     CHECK(ritualLua.find("evt.ForPlayer(Players.Member3)") == std::string::npos);
 }
+
+TEST_CASE("legacy lua exporter keeps mm8 lich jar checks on necromancers")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::vector<uint8_t> evtBytes =
+        readBinaryFixture(sourceRoot / "assets_dev/worlds/mm8/_legacy/events/Global.EVT");
+
+    OpenYAMM::Game::EvtProgram evtProgram = {};
+    REQUIRE(evtProgram.loadFromBytes(evtBytes));
+
+    OpenYAMM::Game::StrTable strTable = {};
+
+    OpenYAMM::Game::LegacyLuaExportLookups lookups = {};
+    lookups.itemNames[628] = "Lich Jar";
+
+    const std::string lua = OpenYAMM::Game::generateLegacyEventLuaChunk(
+        evtProgram,
+        strTable,
+        lookups,
+        OpenYAMM::Game::LegacyLuaExportScope::Global,
+        OpenYAMM::Game::LegacyEventVersion::Mm8);
+
+    const std::string promotionLua = extractLuaEvent(lua, "RegisterGlobalEvent(89");
+    INFO(promotionLua);
+    CHECK(promotionLua.find("if IsAtLeast(ClassId, 44) then") != std::string::npos);
+    CHECK(promotionLua.find("if not HasItem(628) then -- Lich Jar") != std::string::npos);
+    CHECK(promotionLua.find("if not IsAtLeast(ClassId, 44) then") == std::string::npos);
+
+    const std::string repeatPromotionLua = extractLuaEvent(lua, "RegisterGlobalEvent(738");
+    INFO(repeatPromotionLua);
+    CHECK(repeatPromotionLua.find("if IsAtLeast(ClassId, 44) then") != std::string::npos);
+    CHECK(repeatPromotionLua.find("if not HasItem(628) then -- Lich Jar") != std::string::npos);
+    CHECK(repeatPromotionLua.find("if not IsAtLeast(ClassId, 44) then") == std::string::npos);
+}
+
+TEST_CASE("legacy lua exporter preserves mm8 indoor light group ids")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::vector<uint8_t> evtBytes =
+        readBinaryFixture(sourceRoot / "assets_dev/worlds/mm8/_legacy/events/D05.EVT");
+    const std::vector<uint8_t> strBytes =
+        readBinaryFixture(sourceRoot / "assets_dev/worlds/mm8/_legacy/events/D05.STR");
+
+    OpenYAMM::Game::EvtProgram evtProgram = {};
+    REQUIRE(evtProgram.loadFromBytes(evtBytes));
+
+    OpenYAMM::Game::StrTable strTable = {};
+    REQUIRE(strTable.loadFromBytes(strBytes));
+
+    OpenYAMM::Game::LegacyLuaExportLookups lookups = {};
+    lookups.mapName = "Abandoned Temple";
+
+    const std::string lua = OpenYAMM::Game::generateLegacyEventLuaChunk(
+        evtProgram,
+        strTable,
+        lookups,
+        OpenYAMM::Game::LegacyLuaExportScope::Map,
+        OpenYAMM::Game::LegacyEventVersion::Mm8);
+
+    const std::string buttonLua = extractLuaEvent(lua, "RegisterEvent(106");
+    INFO(buttonLua);
+    CHECK(buttonLua.find("evt.SetTexture(5, \"t65b11b\")") != std::string::npos);
+    CHECK(buttonLua.find("evt.SetLight(5, 0)") != std::string::npos);
+    CHECK(buttonLua.find("evt.SetLight(5, 1)") != std::string::npos);
+    CHECK(buttonLua.find("evt.SetLight(4, 0)") == std::string::npos);
+}
+
+TEST_CASE("legacy lua exporter keeps mm6 indoor light ids zero based")
+{
+    const std::filesystem::path sourceRoot = OPENYAMM_SOURCE_DIR;
+    const std::vector<uint8_t> evtBytes =
+        readBinaryFixture(sourceRoot / "assets_dev/worlds/mm6/_legacy/events/SEWER.EVT");
+    const std::vector<uint8_t> strBytes =
+        readBinaryFixture(sourceRoot / "assets_dev/worlds/mm6/_legacy/events/SEWER.STR");
+
+    OpenYAMM::Game::EvtProgram evtProgram = {};
+    REQUIRE(evtProgram.loadFromBytes(evtBytes));
+
+    OpenYAMM::Game::StrTable strTable = {};
+    REQUIRE(strTable.loadFromBytes(strBytes));
+
+    OpenYAMM::Game::LegacyLuaExportLookups lookups = {};
+    lookups.mapName = "Sewer";
+
+    const std::string lua = OpenYAMM::Game::generateLegacyEventLuaChunk(
+        evtProgram,
+        strTable,
+        lookups,
+        OpenYAMM::Game::LegacyLuaExportScope::Map,
+        OpenYAMM::Game::LegacyEventVersion::Mm6);
+
+    INFO(lua);
+    CHECK(lua.find("evt.SetLight(0, 1)") != std::string::npos);
+}

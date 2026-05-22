@@ -13,6 +13,7 @@
 namespace OpenYAMM::Game
 {
 class HouseTable;
+class NpcDialogTable;
 
 class OutdoorSceneRuntime : public IMapSceneRuntime
 {
@@ -30,7 +31,8 @@ public:
         OutdoorWorldRuntime &worldRuntime,
         const std::optional<ScriptedEventProgram> &localEventProgram,
         const std::optional<ScriptedEventProgram> &globalEventProgram,
-        const HouseTable *pHouseTable = nullptr
+        const HouseTable *pHouseTable = nullptr,
+        const NpcDialogTable *pNpcDialogTable = nullptr
     );
 
     SceneKind kind() const override;

@@ -62,81 +62,81 @@
 59	Ilsingore's Cave	d48.blv	0	0	18	672	0	5	18	8	4	10	20	80	0	Dragon	Dragon	3	 1-3	Wimpy Dragon	Wimpy Dragon	5	 1-3	0	0	1	 1-3	7	CAVE	0			-
 60	Yaardrake's Cave	d49.blv	0	0	18	672	0	5	18	9	5	10	20	80	0	Dragon	Dragon	3	 1-3	Wimpy Dragon	Wimpy Dragon	5	 1-3	0	0	1	 1-3	9	CAVE	0			-
 61	NWC	d50.blv	0	0	0	0	0	0	0	0	0	0	0	0	0	0	0	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	6	CAVE	0			-
-62	Emerald Island	7out01.odm	0	0	0	672	7	0	0	1	0	10	100	0	0	Dragonfly	Dragonfly	1	 2-5	0	0	1	 1-3	0	0	1	 1-3	35	FOREST	0	"Training Island--Lush, tropical island"		x
-63	Harmondale	7out02.odm	0	0	2	672	7	1	2	1	0	10	100	0	0	Goblin	Goblin	3	 2-5	Swordsman	Swordsman	3	 1-3	0	0	1	 1-3	19	PLAINS	0	Home town map--hills and scattered trees.  Water ok		x
-64	Erathia	7out03.odm	0	0	4	672	7	3	4	2	1	10	50	50	0	Fighter Leather	Fighter Leather	2	 1-3	Griffin	Griffin	1	 1-3	0	0	1	 1-3	32	PLAINS	0	"Human Capital--low hills, river (with fort built on top), near lake"		-
-65	The Tularean Forest	7out04.odm	0	0	4	672	7	3	4	2	1	10	0	100	0	Treant	Treant	1	 1-1	Elf Spearman	Elf Spearman	2	 1-3	Fighter Chain	Fighter Chain	2	 1-3	33	FOREST	0	"Elvish capital--Cliffs, waterfalls, forest"		-
-66	Deyja	7out05.odm	0	0	6	672	7	5	6	3	2	10	0	50	50	0	0	1	 1-3	Harpy	Harpy	2	 1-3	Zombie	Zombie	3	 1-3	17	MOUNTAIN	0	Necromancer zone--wasteland		-
-67	The Bracada Desert	7out06.odm	0	0	6	672	7	5	6	3	2	10	50	50	0	Golem	Golem	2	 1-3	Griffin	Griffin	2	 1-3	0	0	1	 1-3	17	MOUNTAIN	0	"Wizard's area--desert w/ oasis, sharp mountains"		-
+62	Emerald Island	7out01.odm	0	0	0	672	7	0	0	1	0	10	100	0	0	Dragonfly	Dragonfly	1	 2-5	0	0	1	 1-3	0	0	1	 1-3	35	FOREST	0	"Training Island--Lush, tropical island"		x	mm7
+63	Harmondale	7out02.odm	0	0	2	672	7	1	2	1	0	10	100	0	0	Goblin	Goblin	3	 2-5	Swordsman	Swordsman	3	 1-3	0	0	1	 1-3	19	PLAINS	0	Home town map--hills and scattered trees.  Water ok		x	mm7
+64	Erathia	7out03.odm	0	0	4	672	7	3	4	2	1	10	50	50	0	Fighter Leather	Fighter Leather	2	 1-3	Griffin	Griffin	1	 1-3	0	0	1	 1-3	32	PLAINS	0	"Human Capital--low hills, river (with fort built on top), near lake"		-	mm7
+65	The Tularean Forest	7out04.odm	0	0	4	672	7	3	4	2	1	10	0	100	0	Treant	Treant	1	 1-1	Elf Spearman	Elf Spearman	2	 1-3	Fighter Chain	Fighter Chain	2	 1-3	33	FOREST	0	"Elvish capital--Cliffs, waterfalls, forest"		-	mm7
+66	Deyja	7out05.odm	0	0	6	672	7	5	6	3	2	10	0	50	50	0	0	1	 1-3	Harpy	Harpy	2	 1-3	Zombie	Zombie	3	 1-3	17	MOUNTAIN	0	Necromancer zone--wasteland		-	mm7
+67	The Bracada Desert	7out06.odm	0	0	6	672	7	5	6	3	2	10	50	50	0	Golem	Golem	2	 1-3	Griffin	Griffin	2	 1-3	0	0	1	 1-3	17	MOUNTAIN	0	"Wizard's area--desert w/ oasis, sharp mountains"		-	mm7
 68	Evenmorn Island	out09.odm	0	0	8	168	7	5	8	4	2	10	40	30	30	Skeleton Warrior	Skeleton Warrior	3	 1-3	Ghost	Ghost	2	 1-3	Gargoyle	Gargoyle	1	 1-3	21	PLAINS	0	Haunted island of the church of the sun and moon. Perm. fog		-	mm7
 69	Mount Nighon	out10.odm	0	0	10	672	7	7	10	5	3	10	40	30	30	Warlock	Warlock	2	 1-3	Roc	Roc	3	 1-3	Hydra	Hydra	1	 1-3	26	MOUNTAIN	0	Warlock Capital--Snowy mountains.  Warlock home inside of volcano		-	mm7
 70	The Barrow Downs	out11.odm	0	0	5	168	7	5	5	3	2	10	40	30	30	AGog	AGog	1	 1-3	Ghost	Ghost	1	 1-3	Gargoyle	Gargoyle	1	 1-3	27	MOUNTAIN	0	"Dwarvish lands (no dwarves outside)--rough hills, rocky"		-	mm7
 71	The Land of the Giants	out12.odm	0	0	20	168	7	5	20	9	6	10	40	30	30	ADragon	ADragon	3	 1-3	Titan	Titan	3	 1-3	Devil	Devil	3	 1-3	27	MOUNTAIN	0	"devils, titans, dragons--mountainous and desolate"		-	mm7
-72	Tatalia	7out13.odm	0	0	8	672	7	5	8	4	2	10	50	0	50	Archer	Archer	3	 1-3	0	0	1	 1-3	ATroll	ATroll	3	 1-3	19	PLAINS	0	"human territory--swampy with some nice, cultivated areas"		-
+72	Tatalia	7out13.odm	0	0	8	672	7	5	8	4	2	10	50	0	50	Archer	Archer	3	 1-3	0	0	1	 1-3	ATroll	ATroll	3	 1-3	19	PLAINS	0	"human territory--swampy with some nice, cultivated areas"		-	mm7
 73	Avlee	out14.odm	0	0	8	672	7	5	8	4	2	10	40	30	30	Elf Spearman	Elf Spearman	3	 1-3	AWyvern	AWyvern	3	 1-3	Elemental Water	Elemental Water	3	 1-3	19	FOREST	0	"Elvish territory--slightly tropical, nice beach, lush"		-	mm7
-74	Shoals	7out15.odm	0	0	1	168	7	0	1	1	1	10	100	0	0	Sea Monster	Sea Monster	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	24	UNDERWATER	0	Underwater terrain		-
-75	The Erathian Sewers	d01.blv	0	0	5	672	7	10	5	2	1	10	50	50	0	Thief	Thief	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	18	CAVE	0	Thief guild and sewers.  Many entrance/exits.  Golem guarded treasure	3	-
-76	The Maze	d02.blv	0	0	12	672	7	10	12	6	5	10	40	30	30	AMinotaur	AMinotaur	4	 1-3	Hydra	Hydra	2	 1-3	Warlock	Warlock	3	 1-3	18	STONEROOM	0	minotaur maze used by the warlocks to breed new minotaurs.	10	x
-77	Castle Gloaming	d03.blv	0	0	12	336	7	10	12	6	4	10	40	30	30	Lich	Lich	3	 1-3	Vampire	Vampire	3	 1-3	Necromancer	Necromancer	3	 1-3	22	STONEROOM	0	Necromancer's castle (headed by Archibald)	8	-
-78	The Temple of Baa	d04.blv	0	0	11	672	7	10	11	5	3	10	40	30	30	Cleric Moon	Cleric Moon	1	 1-3	Devil	Devil	3	 1-3	Spider	Spider	5	 1-3	28	STONEROOM	0	temple of Baa that hasn't quite got the bad news yet.	14	-
-79	The Arena	7d05.blv	0	0	1	0	7	10	1	1	1	10	0	0	0	0	0	1	 1-3	0	0	1	 1-3	0	0	1	 1-3	23	ARENA	0			-
-80	The Temple of the Moon	7d06.blv	0	0	0	672	7	10	0	1	0	10	40	30	30	Bat	Bat	1	 2-5	Rat	Rat	1	 2-5	Spider	Spider	1	 2-5	28	CAVE	0	"Half cave, half ruined temple of the moon"	1	x
-81	Thunderfist Mountain	7d07.blv	0	0	10	672	7	10	10	5	4	10	40	30	30	Warlock	Warlock	4	 1-3	AMinotaur	AMinotaur	2	 1-3	Beholder	Beholder	2	 1-3	31	CAVE	0	Volcano dungeon connecting to Stone city (dungeon 20)	10	x
-82	The Tularean Caves	7d08.blv	0	0	4	672	7	10	4	3	1	10	40	30	30	Troglodyte	Troglodyte	2	 1-3	Elf Spearman	Elf Spearman	2	 1-3	AWyvern	AWyvern	1	 1-3	18	CAVE	0	Caves near the elvish castle. Used as POW camp for humans.  Secret entrance to castle thru here	4	x
-83	The Titans' Stronghold	7d09.blv	0	0	16	672	7	10	16	8	5	10	50	50	0	Titan	Titan	3	 1-3	ADragon	ADragon	3	 1-3	0	0	1	 1-3	31	CAVE	0	home of the giants	14	-
-84	The Breeding Zone	7d10.blv	0	0	10	0	7	10	10	5	1	10	40	30	30	Behemoth	Behemoth	3	 1-3	Elemental Fire	Elemental Fire	3	 1-3	AGog	AGog	5	 1-3	18	CAVE	0	training ground for the underworld.	8	x
-85	The Walls of Mist	7d11.blv	0	0	10	0	7	10	10	5	1	10	40	30	30	Mage	Mage	3	 1-3	Elemental Air	Elemental Air	3	 1-3	Genie	Genie	3	 1-3	18	CAVE	0	"training ground for the cloud city.  Walls are made of ""mist"""	7	x
-86	Clanker's Laboratory	7d12.blv	0	0	14	672	7	10	14	7	4	10	40	30	30	Beholder	Beholder	1	 1-3	AGog	AGog	5	 1-3	Golem	Golem	3	 1-3	18	CAVE	0	"small laboratory.  Good place for ""experimental"" items."	4	x
-87	Zokarr's Tomb	7d13.blv	0	0	5	672	7	10	5	3	2	10	50	50	0	Wight	Wight	1	 1-3	Ghoul	Ghoul	1	 1-3	0	0	1	 1-3	20	CAVE	0			-
-88	The School of Sorcery	7d14.blv	0	0	10	672	7	10	10	5	2	10	50	50	0	Mage	Mage	2	 1-3	Golem	Golem	3	 1-3	0	0	1	 1-3	34	CAVE	0	The place where all sorcerers learn their craft.	6	-
-89	Watchtower 6	7d15.blv	0	0	11	672	7	10	11	6	3	10	40	30	30	Necromancer	Necromancer	1	 1-3	Lich	Lich	1	 1-3	Elemental Earth	Elemental Earth	1	 1-3	18	CAVE	0	Last remaining Necromancer border watchtower.	5	-
-90	The Wine Cellar	7d16.blv	0	0	13	672	7	10	13	7	3	10	40	30	30	Vampire	Vampire	4	 1-3	Bat	Bat	5	 1-3	Necromancer	Necromancer	3	 1-3	18	STONEROOM	0	"Basement under house for vampire ""family"""	13	-
-91	The Tidewater Caverns	7d17.blv	0	0	9	672	7	10	9	4	2	10	40	30	30	Thief	Thief	4	 1-3	Ghost	Ghost	3	 1-3	Skeleton Warrior	Skeleton Warrior	5	 1-3	18	CAVE	0	pirate's caves.  Fills with water periodically	13	-
-92	Lord Markham's Manor	7d18.blv	0	0	10	672	7	10	10	5	2	10	50	50	0	Fighter Plate	Fighter Plate	3	 1-3	Swordsman	Swordsman	3	 1-3	0	0	1	 1-3	34	CAVE	0	Repeatable map (needs special coding)		-
-93	Grand Temple of the Moon	7d19.blv	0	0	9	672	7	10	9	4	3	10	50	50	0	Cleric Moon	Cleric Moon	3	 1-3	Wight	Wight	2	 1-3	0	0	1	 1-3	28	STONEROOM	0	Ruined old temple of the moon	9	-
-94	The Mercenary Guild	7d20.blv	0	0	11	672	7	10	11	5	4	10	40	30	30	Archer	Archer	4	 1-3	Fighter Leather	Fighter Leather	5	 1-3	Fighter Plate	Fighter Plate	3	 1-3	34	CAVE	0	main mercenary guild	13	-
-95	White Cliff Cave	7d21.blv	0	0	2	672	7	10	2	1	0	10	50	50	0	Troglodyte	Troglodyte	1	 1-3	Ooze	Ooze	1	 1-3	0	0	1	 1-3	18	CAVE	0	Goblin caves.  Good place to put gold from robbed bank and new monsters	2	x
-96	The Hall under the Hill	7d22.blv	0	0	6	672	7	10	6	3	1	10	100	0	0	Dragonfly	Dragonfly	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	18	CAVE	0	Faerie mound with shrunken dwarves	14	-
-97	The Lincoln	7d23.blv	0	0	20	672	7	10	20	10	6	10	100	0	0	Robot	Robot	3	 1-3	0	0	1	 1-3	0	0	1	 1-3	23	CAVE	0	ship used to transport MMIII characters here	15	x
-98	Stone City	7d24.blv	0	0	6	672	7	7	6	3	1	10	50	50	0	Dwarf	Dwarf	1	 1-3	Troglodyte	Troglodyte	3	 1-3	0	0	1	 1-3	34	CAVE	0	Dwarven city.  Charge to enter if no dwarves in party.	11	x
-99	Celeste	7d25.blv	0	0	20	672	7	10	20	7	3	10	40	30	30	Angel	Angel	3	 1-3	Roc	Roc	3	 1-3	Mage	Mage	3	 1-3	25	CITY	0	Cloud city		-
-100	The Pit	7d26.blv	0	0	20	672	7	10	20	7	3	10	40	30	30	Lich	Lich	3	 1-3	Necromancer	Necromancer	3	 1-3	Vampire	Vampire	3	 1-3	22	CAVE	0	Underground undead city (indoor map)		-
-101	Colony Zod	7d27.blv	0	0	20	672	7	10	20	10	5	10	100	0	0	Devil	Devil	4	 1-3	0	0	1	 1-3	0	0	1	 1-3	28	STONEROOM	0	Surviving colony of the devils	12	x
-102	The Dragon's Lair	7d28.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Dragon	Dragon	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	28	CAVE	0	Dragon's Lair on Emerald Island		x
-103	Castle Harmondale	7d29.blv	0	0	1	-1	7	10	1	1	0	0	30	40	30	Rat	Rat	3	 2-5	Goblin	Goblin	2	 2-5	Bat	Bat	1	 2-5	34	STONEROOM	0	Expandable player castle (starts with monsters)	2	x
-104	Castle Lambent	7d30.blv	0	0	12	336	7	10	12	6	4	10	40	30	30	Mage	Mage	3	 1-3	Angel	Angel	3	 1-3	Golem	Golem	3	 1-3	30	STONEROOM	0	Wizard's castle (council of wizards)	7	-
-105	Fort Riverstride	7d31.blv	0	0	4	336	7	10	4	3	1	10	40	30	30	Swordsman	Swordsman	2	 1-3	Fighter Chain	Fighter Chain	2	 1-3	Archer	Archer	3	 1-3	34	STONEROOM	0	Erathian border fort.  Fort lies ontop of river. (fortified bridge)	3	x
-106	Castle Navan	7d32.blv	0	0	6	336	7	10	6	3	2	10	40	30	30	Elf Spearman	Elf Spearman	2	 1-3	Elf Archer	Elf Archer	2	 1-3	Dragonfly	Dragonfly	4	 1-3	29	STONEROOM	0	Elf king's castle	4	-
-107	Castle Gryphonheart	7d33.blv	0	0	6	336	7	10	6	3	2	10	40	30	30	Archer	Archer	2	 1-3	Fighter Chain	Fighter Chain	2	 1-3	Fighter Plate	Fighter Plate	1	 1-3	29	STONEROOM	0	Queen Catherine's castle	3	-
-108	The Red Dwarf Mines	7d34.blv	0	0	5	672	7	10	5	2	1	10	50	50	0	Medusa	Medusa	1	 1-3	Ooze	Ooze	3	 1-3	0	0	1	 1-3	18	CAVE	0	Mine taken over by medusas.  Dwarves here are statues to be rescued	6	x
-109	Nighon Tunnels	7d35.blv	0	0	8	672	7	10	8	4	2	10	0	50	50	Dwarf	Dwarf	3	 1-3	AGog	AGog	4	 1-3	Warlock	Warlock	2	 1-3	18	CAVE	0			-
-110	Tunnels to Eeofol	7d36.blv	0	0	10	672	7	10	10	5	5	10	50	50	0	Behemoth	Behemoth	3	 1-3	Medusa	Medusa	3	 1-3	0	0	1	 1-3	31	CAVE	0			-
-111	The Haunted Mansion	7d37.blv	0	0	12	336	7	10	12	6	2	10	30	30	40	Ghoul	Ghoul	2	 1-3	Wight	Wight	3	 1-3	Ghost	Ghost	2	 1-3	18	CAVE	0	Repeatable map (needs special coding)		-
-112	Barrow VII	mdk01.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	AGog	AGog	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-113	Barrow IV	mdk02.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Skeleton Warrior	Skeleton Warrior	3	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-114	Barrow II	mdk03.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Zombie	Zombie	3	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-115	Barrow XIV	mdk04.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Ghoul	Ghoul	2	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-116	Barrow III	mdk05.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Ghoul	Ghoul	2	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-117	Barrow IX	mdt01.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	AGog	AGog	1	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-118	Barrow VI	mdt02.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Wight	Wight	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-119	Barrow I	mdt03.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Wight	Wight	1	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-120	Barrow VIII	mdt04.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Wight	Wight	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-121	Barrow XIII	mdt05.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Ghoul	Ghoul	2	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-122	Barrow X	mdr01.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	AGog	AGog	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-123	Barrow XII	mdr02.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Skeleton Warrior	Skeleton Warrior	3	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-124	Barrow V	mdr03.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Skeleton Warrior	Skeleton Warrior	3	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-125	Barrow XI	mdr04.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Zombie	Zombie	3	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-126	Barrow XV	mdr05.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Zombie	Zombie	3	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-
-127	Wromthrax's Cave	mdt09.blv	0	0	10	672	7	10	10	5	3	10	100	0	0	ADragon	ADragon	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	18	CAVE	0			-
-128	William Setag's Tower	mdt10.blv	0	0	8	672	7	10	8	4	2	10	50	50	0	Fighter Plate	Fighter Plate	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	34	STONEROOM	0			-
-129	The Hidden Tomb	mdt11.blv	0	0	12	672	7	10	12	6	4	10	50	50	0	Lich	Lich	3	 1-3	Vampire	Vampire	3	 1-3	0	0	1	 1-3	18	CAVE	0			-
-130	The Dragon Caves	mdt12.blv	0	0	20	672	7	15	20	10	6	10	100	0	0	ADragon	ADragon	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	31	CAVE	0	Repeatable map (needs special coding)		-
-131	The Bandit Caves	mdt14.blv	0	0	6	336	7	10	6	3	1	10	50	50	0	Thief	Thief	2	 1-3	Fighter Leather	Fighter Leather	1	 1-3	0	0	1	 1-3	34	CAVE	0	Repeatable map (needs special coding)		-
-132	The Small House	mdt15.blv	0	0	20	672	7	10	20	10	6	10	0	0	0	zBlasterGuy	zBlasterGuy	1	1	Rat	Rat	3	 1-3	0	0	1	 1-3	34	STONEROOM	0			-
-133	Temple of the Light	t01.blv	0	0	15	672	7	10	15	8	5	10	40	30	30	Cleric Sun	Cleric Sun	3	 1-3	Angel	Angel	3	 1-3	Monk	Monk	5	 1-3	28	STONEROOM	0	revival branch of the Church of the Sun	7	x
-134	Temple of the Dark	t02.blv	0	0	15	672	7	10	15	8	5	10	40	30	30	Cleric Moon	Cleric Moon	4	 1-3	Vampire	Vampire	2	 1-3	Ghoul	Ghoul	4	 1-3	28	STONEROOM	0	revival branch of the Church of the Moon	8	x
-135	Grand Temple of the Sun	t03.blv	0	0	9	672	7	10	9	4	3	10	50	50	0	Cleric Sun	Cleric Sun	3	 1-3	Monk	Monk	2	 1-3	0	0	1	 1-3	28	STONEROOM	0	Ruined old temple of the sun	9	-
-136	The Hall of the Pit	t04.blv	0	0	9	672	7	10	9	4	2	10	40	30	30	Harpy	Harpy	3	 1-3	Gargoyle	Gargoyle	2	 1-3	Zombie	Zombie	4	 1-3	18	CAVE	0	Entrance to The Pit.  Small guard station.	5	-
+74	Shoals	7out15.odm	0	0	1	168	7	0	1	1	1	10	100	0	0	Sea Monster	Sea Monster	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	24	UNDERWATER	0	Underwater terrain		-	mm7
+75	The Erathian Sewers	d01.blv	0	0	5	672	7	10	5	2	1	10	50	50	0	Thief	Thief	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	18	CAVE	0	Thief guild and sewers.  Many entrance/exits.  Golem guarded treasure	3	-	mm7
+76	The Maze	d02.blv	0	0	12	672	7	10	12	6	5	10	40	30	30	AMinotaur	AMinotaur	4	 1-3	Hydra	Hydra	2	 1-3	Warlock	Warlock	3	 1-3	18	STONEROOM	0	minotaur maze used by the warlocks to breed new minotaurs.	10	x	mm7
+77	Castle Gloaming	d03.blv	0	0	12	336	7	10	12	6	4	10	40	30	30	Lich	Lich	3	 1-3	Vampire	Vampire	3	 1-3	Necromancer	Necromancer	3	 1-3	22	STONEROOM	0	Necromancer's castle (headed by Archibald)	8	-	mm7
+78	The Temple of Baa	d04.blv	0	0	11	672	7	10	11	5	3	10	40	30	30	Cleric Moon	Cleric Moon	1	 1-3	Devil	Devil	3	 1-3	Spider	Spider	5	 1-3	28	STONEROOM	0	temple of Baa that hasn't quite got the bad news yet.	14	-	mm7
+79	The Arena	7d05.blv	0	0	1	0	7	10	1	1	1	10	0	0	0	0	0	1	 1-3	0	0	1	 1-3	0	0	1	 1-3	23	ARENA	0			-	mm7
+80	The Temple of the Moon	7d06.blv	0	0	0	672	7	10	0	1	0	10	40	30	30	Bat	Bat	1	 2-5	Rat	Rat	1	 2-5	Spider	Spider	1	 2-5	28	CAVE	0	"Half cave, half ruined temple of the moon"	1	x	mm7
+81	Thunderfist Mountain	7d07.blv	0	0	10	672	7	10	10	5	4	10	40	30	30	Warlock	Warlock	4	 1-3	AMinotaur	AMinotaur	2	 1-3	Beholder	Beholder	2	 1-3	31	CAVE	0	Volcano dungeon connecting to Stone city (dungeon 20)	10	x	mm7
+82	The Tularean Caves	7d08.blv	0	0	4	672	7	10	4	3	1	10	40	30	30	Troglodyte	Troglodyte	2	 1-3	Elf Spearman	Elf Spearman	2	 1-3	AWyvern	AWyvern	1	 1-3	18	CAVE	0	Caves near the elvish castle. Used as POW camp for humans.  Secret entrance to castle thru here	4	x	mm7
+83	The Titans' Stronghold	7d09.blv	0	0	16	672	7	10	16	8	5	10	50	50	0	Titan	Titan	3	 1-3	ADragon	ADragon	3	 1-3	0	0	1	 1-3	31	CAVE	0	home of the giants	14	-	mm7
+84	The Breeding Zone	7d10.blv	0	0	10	0	7	10	10	5	1	10	40	30	30	Behemoth	Behemoth	3	 1-3	Elemental Fire	Elemental Fire	3	 1-3	AGog	AGog	5	 1-3	18	CAVE	0	training ground for the underworld.	8	x	mm7
+85	The Walls of Mist	7d11.blv	0	0	10	0	7	10	10	5	1	10	40	30	30	Mage	Mage	3	 1-3	Elemental Air	Elemental Air	3	 1-3	Genie	Genie	3	 1-3	18	CAVE	0	"training ground for the cloud city.  Walls are made of ""mist"""	7	x	mm7
+86	Clanker's Laboratory	7d12.blv	0	0	14	672	7	10	14	7	4	10	40	30	30	Beholder	Beholder	1	 1-3	AGog	AGog	5	 1-3	Golem	Golem	3	 1-3	18	CAVE	0	"small laboratory.  Good place for ""experimental"" items."	4	x	mm7
+87	Zokarr's Tomb	7d13.blv	0	0	5	672	7	10	5	3	2	10	50	50	0	Wight	Wight	1	 1-3	Ghoul	Ghoul	1	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+88	The School of Sorcery	7d14.blv	0	0	10	672	7	10	10	5	2	10	50	50	0	Mage	Mage	2	 1-3	Golem	Golem	3	 1-3	0	0	1	 1-3	34	CAVE	0	The place where all sorcerers learn their craft.	6	-	mm7
+89	Watchtower 6	7d15.blv	0	0	11	672	7	10	11	6	3	10	40	30	30	Necromancer	Necromancer	1	 1-3	Lich	Lich	1	 1-3	Elemental Earth	Elemental Earth	1	 1-3	18	CAVE	0	Last remaining Necromancer border watchtower.	5	-	mm7
+90	The Wine Cellar	7d16.blv	0	0	13	672	7	10	13	7	3	10	40	30	30	Vampire	Vampire	4	 1-3	Bat	Bat	5	 1-3	Necromancer	Necromancer	3	 1-3	18	STONEROOM	0	"Basement under house for vampire ""family"""	13	-	mm7
+91	The Tidewater Caverns	7d17.blv	0	0	9	672	7	10	9	4	2	10	40	30	30	Thief	Thief	4	 1-3	Ghost	Ghost	3	 1-3	Skeleton Warrior	Skeleton Warrior	5	 1-3	18	CAVE	0	pirate's caves.  Fills with water periodically	13	-	mm7
+92	Lord Markham's Manor	7d18.blv	0	0	10	672	7	10	10	5	2	10	50	50	0	Fighter Plate	Fighter Plate	3	 1-3	Swordsman	Swordsman	3	 1-3	0	0	1	 1-3	34	CAVE	0	Repeatable map (needs special coding)		-	mm7
+93	Grand Temple of the Moon	7d19.blv	0	0	9	672	7	10	9	4	3	10	50	50	0	Cleric Moon	Cleric Moon	3	 1-3	Wight	Wight	2	 1-3	0	0	1	 1-3	28	STONEROOM	0	Ruined old temple of the moon	9	-	mm7
+94	The Mercenary Guild	7d20.blv	0	0	11	672	7	10	11	5	4	10	40	30	30	Archer	Archer	4	 1-3	Fighter Leather	Fighter Leather	5	 1-3	Fighter Plate	Fighter Plate	3	 1-3	34	CAVE	0	main mercenary guild	13	-	mm7
+95	White Cliff Cave	7d21.blv	0	0	2	672	7	10	2	1	0	10	50	50	0	Troglodyte	Troglodyte	1	 1-3	Ooze	Ooze	1	 1-3	0	0	1	 1-3	18	CAVE	0	Goblin caves.  Good place to put gold from robbed bank and new monsters	2	x	mm7
+96	The Hall under the Hill	7d22.blv	0	0	6	672	7	10	6	3	1	10	100	0	0	Dragonfly	Dragonfly	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	18	CAVE	0	Faerie mound with shrunken dwarves	14	-	mm7
+97	The Lincoln	7d23.blv	0	0	20	672	7	10	20	10	6	10	100	0	0	Robot	Robot	3	 1-3	0	0	1	 1-3	0	0	1	 1-3	23	CAVE	0	ship used to transport MMIII characters here	15	x	mm7
+98	Stone City	7d24.blv	0	0	6	672	7	7	6	3	1	10	50	50	0	Dwarf	Dwarf	1	 1-3	Troglodyte	Troglodyte	3	 1-3	0	0	1	 1-3	34	CAVE	0	Dwarven city.  Charge to enter if no dwarves in party.	11	x	mm7
+99	Celeste	7d25.blv	0	0	20	672	7	10	20	7	3	10	40	30	30	Angel	Angel	3	 1-3	Roc	Roc	3	 1-3	Mage	Mage	3	 1-3	25	CITY	0	Cloud city		-	mm7
+100	The Pit	7d26.blv	0	0	20	672	7	10	20	7	3	10	40	30	30	Lich	Lich	3	 1-3	Necromancer	Necromancer	3	 1-3	Vampire	Vampire	3	 1-3	22	CAVE	0	Underground undead city (indoor map)		-	mm7
+101	Colony Zod	7d27.blv	0	0	20	672	7	10	20	10	5	10	100	0	0	Devil	Devil	4	 1-3	0	0	1	 1-3	0	0	1	 1-3	28	STONEROOM	0	Surviving colony of the devils	12	x	mm7
+102	The Dragon's Lair	7d28.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Dragon	Dragon	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	28	CAVE	0	Dragon's Lair on Emerald Island		x	mm7
+103	Castle Harmondale	7d29.blv	0	0	1	-1	7	10	1	1	0	0	30	40	30	Rat	Rat	3	 2-5	Goblin	Goblin	2	 2-5	Bat	Bat	1	 2-5	34	STONEROOM	0	Expandable player castle (starts with monsters)	2	x	mm7
+104	Castle Lambent	7d30.blv	0	0	12	336	7	10	12	6	4	10	40	30	30	Mage	Mage	3	 1-3	Angel	Angel	3	 1-3	Golem	Golem	3	 1-3	30	STONEROOM	0	Wizard's castle (council of wizards)	7	-	mm7
+105	Fort Riverstride	7d31.blv	0	0	4	336	7	10	4	3	1	10	40	30	30	Swordsman	Swordsman	2	 1-3	Fighter Chain	Fighter Chain	2	 1-3	Archer	Archer	3	 1-3	34	STONEROOM	0	Erathian border fort.  Fort lies ontop of river. (fortified bridge)	3	x	mm7
+106	Castle Navan	7d32.blv	0	0	6	336	7	10	6	3	2	10	40	30	30	Elf Spearman	Elf Spearman	2	 1-3	Elf Archer	Elf Archer	2	 1-3	Dragonfly	Dragonfly	4	 1-3	29	STONEROOM	0	Elf king's castle	4	-	mm7
+107	Castle Gryphonheart	7d33.blv	0	0	6	336	7	10	6	3	2	10	40	30	30	Archer	Archer	2	 1-3	Fighter Chain	Fighter Chain	2	 1-3	Fighter Plate	Fighter Plate	1	 1-3	29	STONEROOM	0	Queen Catherine's castle	3	-	mm7
+108	The Red Dwarf Mines	7d34.blv	0	0	5	672	7	10	5	2	1	10	50	50	0	Medusa	Medusa	1	 1-3	Ooze	Ooze	3	 1-3	0	0	1	 1-3	18	CAVE	0	Mine taken over by medusas.  Dwarves here are statues to be rescued	6	x	mm7
+109	Nighon Tunnels	7d35.blv	0	0	8	672	7	10	8	4	2	10	0	50	50	Dwarf	Dwarf	3	 1-3	AGog	AGog	4	 1-3	Warlock	Warlock	2	 1-3	18	CAVE	0			-	mm7
+110	Tunnels to Eeofol	7d36.blv	0	0	10	672	7	10	10	5	5	10	50	50	0	Behemoth	Behemoth	3	 1-3	Medusa	Medusa	3	 1-3	0	0	1	 1-3	31	CAVE	0			-	mm7
+111	The Haunted Mansion	7d37.blv	0	0	12	336	7	10	12	6	2	10	30	30	40	Ghoul	Ghoul	2	 1-3	Wight	Wight	3	 1-3	Ghost	Ghost	2	 1-3	18	CAVE	0	Repeatable map (needs special coding)		-	mm7
+112	Barrow VII	mdk01.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	AGog	AGog	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+113	Barrow IV	mdk02.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Skeleton Warrior	Skeleton Warrior	3	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+114	Barrow II	mdk03.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Zombie	Zombie	3	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+115	Barrow XIV	mdk04.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Ghoul	Ghoul	2	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+116	Barrow III	mdk05.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Ghoul	Ghoul	2	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+117	Barrow IX	mdt01.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	AGog	AGog	1	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+118	Barrow VI	mdt02.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Wight	Wight	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+119	Barrow I	mdt03.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Wight	Wight	1	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+120	Barrow VIII	mdt04.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Wight	Wight	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+121	Barrow XIII	mdt05.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Ghoul	Ghoul	2	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+122	Barrow X	mdr01.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	AGog	AGog	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+123	Barrow XII	mdr02.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Skeleton Warrior	Skeleton Warrior	3	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+124	Barrow V	mdr03.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Skeleton Warrior	Skeleton Warrior	3	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+125	Barrow XI	mdr04.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Zombie	Zombie	3	 1-3	Bat	Bat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+126	Barrow XV	mdr05.blv	0	0	5	672	7	10	5	3	1	10	50	50	0	Zombie	Zombie	3	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	20	CAVE	0			-	mm7
+127	Wromthrax's Cave	mdt09.blv	0	0	10	672	7	10	10	5	3	10	100	0	0	ADragon	ADragon	1	 1-3	0	0	3	 1-3	0	0	1	 1-3	18	CAVE	0			-	mm7
+128	William Setag's Tower	mdt10.blv	0	0	8	672	7	10	8	4	2	10	50	50	0	Fighter Plate	Fighter Plate	1	 1-3	Rat	Rat	3	 1-3	0	0	1	 1-3	34	STONEROOM	0			-	mm7
+129	The Hidden Tomb	mdt11.blv	0	0	12	672	7	10	12	6	4	10	50	50	0	Lich	Lich	3	 1-3	Vampire	Vampire	3	 1-3	0	0	1	 1-3	18	CAVE	0			-	mm7
+130	The Dragon Caves	mdt12.blv	0	0	20	672	7	15	20	10	6	10	100	0	0	ADragon	ADragon	5	 1-3	0	0	1	 1-3	0	0	1	 1-3	31	CAVE	0	Repeatable map (needs special coding)		-	mm7
+131	The Bandit Caves	mdt14.blv	0	0	6	336	7	10	6	3	1	10	50	50	0	Thief	Thief	2	 1-3	Fighter Leather	Fighter Leather	1	 1-3	0	0	1	 1-3	34	CAVE	0	Repeatable map (needs special coding)		-	mm7
+132	The Small House	mdt15.blv	0	0	20	672	7	10	20	10	6	10	0	0	0	zBlasterGuy	zBlasterGuy	1	1	Rat	Rat	3	 1-3	0	0	1	 1-3	34	STONEROOM	0			-	mm7
+133	Temple of the Light	t01.blv	0	0	15	672	7	10	15	8	5	10	40	30	30	Cleric Sun	Cleric Sun	3	 1-3	Angel	Angel	3	 1-3	Monk	Monk	5	 1-3	28	STONEROOM	0	revival branch of the Church of the Sun	7	x	mm7
+134	Temple of the Dark	t02.blv	0	0	15	672	7	10	15	8	5	10	40	30	30	Cleric Moon	Cleric Moon	4	 1-3	Vampire	Vampire	2	 1-3	Ghoul	Ghoul	4	 1-3	28	STONEROOM	0	revival branch of the Church of the Moon	8	x	mm7
+135	Grand Temple of the Sun	t03.blv	0	0	9	672	7	10	9	4	3	10	50	50	0	Cleric Sun	Cleric Sun	3	 1-3	Monk	Monk	2	 1-3	0	0	1	 1-3	28	STONEROOM	0	Ruined old temple of the sun	9	-	mm7
+136	The Hall of the Pit	t04.blv	0	0	9	672	7	10	9	4	2	10	40	30	30	Harpy	Harpy	3	 1-3	Gargoyle	Gargoyle	2	 1-3	Zombie	Zombie	4	 1-3	18	CAVE	0	Entrance to The Pit.  Small guard station.	5	-	mm7
 137	Sweet Water	outa1.odm	0	0	0	224	0	0	8	9	6	10	50	50	0	Demon	Demon	3	 2-4	DemonFly	DemonFly	3	 2-4	0	0	1	 1-4	40	0	Peter	0	0	-
 138	Paradise Valley	outa2.odm	0	0	0	168	0	0	7	8	6	10	40	30	30	DragonCover	DragonCover	3	 1-3	BHydra	BHydra	3	 2-4	BTitan	BTitan	3	 1-3	51	0	Peter	0	0	-
 139	Hermit's Isle	outa3.odm	0	0	0	168	0	0	7	8	6	10	50	50	0	BTitan	BTitan	5	 2-3	BHydra	BHydra	5	 3-5	SeaSerpent	SeaSerpent	5	 3-5	41	0	Peter	0	0	-

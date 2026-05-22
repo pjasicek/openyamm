@@ -30,6 +30,7 @@ local GemExchangeEntries = {
 ReplaceMapEvent(132, "Statue", function()
     MM8.UnstoneStatue(20, 42, true)
 end, "Statue")
+SetMapContextAction(132, { kind = "stone_to_flesh", source = "spell", targetName = "Statue" })
 
 for eventId = 133, 136 do
     local statueEventId = eventId
@@ -38,6 +39,7 @@ for eventId = 133, 136 do
     ReplaceMapEvent(eventId, "Statue", function()
         MM8.UnstoneStatue(spriteId, 46, false)
     end, "Statue")
+    SetMapContextAction(eventId, { kind = "stone_to_flesh", source = "spell", targetName = "Statue" })
 end
 
 ReplaceMapEvent(455, "Tree", function()

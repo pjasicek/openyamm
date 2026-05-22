@@ -21,6 +21,7 @@ install_deps_from=""
 assume_yes=1
 add_flathub=0
 clean_only=0
+build_jobs=""
 
 usage()
 {
@@ -43,6 +44,7 @@ Options:
   --no-force-clean        Reuse the flatpak-builder build directory.
   --install-deps          Ask flatpak-builder to install missing runtimes from Flathub.
   --add-flathub           Add the user Flathub remote if it is missing.
+  --jobs=N                Parallel build jobs. Default: online CPU count minus 2.
   --clean-only            Remove Flatpak build output/state and exit.
   --no-assumeyes          Allow flatpak-builder to prompt.
   -h, --help              Show this help.
@@ -87,6 +89,9 @@ for argument in "$@"; do
         --add-flathub)
             add_flathub=1
             ;;
+        --jobs=*)
+            build_jobs="${argument#*=}"
+            ;;
         --clean-only)
             clean_only=1
             ;;
@@ -104,6 +109,29 @@ for argument in "$@"; do
             ;;
     esac
 done
+
+detect_default_build_jobs()
+{
+    local cpu_count=""
+
+    if command -v nproc >/dev/null 2>&1; then
+        cpu_count="$(nproc)"
+    elif getconf _NPROCESSORS_ONLN >/dev/null 2>&1; then
+        cpu_count="$(getconf _NPROCESSORS_ONLN)"
+    fi
+
+    case "$cpu_count" in
+        ''|*[!0-9]*)
+            cpu_count=2
+            ;;
+    esac
+
+    if [ "$cpu_count" -gt 2 ]; then
+        printf '%s\n' "$((cpu_count - 2))"
+    else
+        printf '1\n'
+    fi
+}
 
 if [ -z "$build_dir" ]; then
     build_dir="$output_dir/build"
@@ -127,6 +155,22 @@ fi
 
 if [ -z "$bundle_path" ]; then
     bundle_path="$output_dir/OpenYAMM.flatpak"
+fi
+
+if [ -z "$build_jobs" ] || [ "$build_jobs" = "auto" ]; then
+    build_jobs="$(detect_default_build_jobs)"
+fi
+
+case "$build_jobs" in
+    ''|*[!0-9]*)
+        printf 'Invalid --jobs value: %s\n' "$build_jobs" >&2
+        exit 2
+        ;;
+esac
+
+if [ "$build_jobs" -lt 1 ]; then
+    printf 'Invalid --jobs value: %s\n' "$build_jobs" >&2
+    exit 2
 fi
 
 if [ "$clean_only" -eq 1 ]; then
@@ -157,6 +201,14 @@ require_file()
     fi
 }
 
+require_dir()
+{
+    if [ ! -d "$repo_root/$1" ]; then
+        printf 'Required release input is missing: %s\n' "$1" >&2
+        exit 1
+    fi
+}
+
 require_command flatpak-builder
 require_command flatpak
 require_command cmake
@@ -177,11 +229,11 @@ version_at_least()
 }
 
 require_file settings_release.ini
-require_file assets/engine.zip
-require_file assets/worlds/mm6.zip
-require_file assets/worlds/mm7.zip
-require_file assets/worlds/mm8.zip
-require_file assets/worlds/mmmerge.zip
+require_dir assets_dev/engine
+require_dir assets_dev/worlds/mm6
+require_dir assets_dev/worlds/mm7
+require_dir assets_dev/worlds/mm8
+require_dir assets_dev/worlds/mmmerge
 
 copy_source_entry()
 {
@@ -197,6 +249,40 @@ copy_source_entry()
     cp -a "$source_path" "$destination_path"
 }
 
+package_asset_dir()
+{
+    local source_path="$repo_root/$1"
+    local destination_path="$source_dir/$2"
+
+    if [ ! -d "$source_path" ]; then
+        printf 'Required asset package source is missing: %s\n' "$1" >&2
+        exit 1
+    fi
+
+    mkdir -p "$(dirname "$destination_path")"
+    printf 'Packaging %s -> %s\n' "$1" "$2"
+    (cd "$source_path" && cmake -E tar cf "$destination_path" --format=zip -- .) >/dev/null
+}
+
+stage_flatpak_assets()
+{
+    local world_source_root="$repo_root/assets_dev/worlds"
+    local world_path=""
+    local world_package_name=""
+
+    mkdir -p "$source_dir/assets/worlds"
+    package_asset_dir assets_dev/engine assets/engine.zip
+
+    for world_path in "$world_source_root"/*; do
+        if [ ! -d "$world_path" ]; then
+            continue
+        fi
+
+        world_package_name="$(basename "$world_path")"
+        package_asset_dir "assets_dev/worlds/$world_package_name" "assets/worlds/$world_package_name.zip"
+    done
+}
+
 prepare_source_tree()
 {
     printf 'Preparing minimal Flatpak source tree: %s\n' "$source_dir"
@@ -208,10 +294,10 @@ prepare_source_tree()
     copy_source_entry cmake
     copy_source_entry engine
     copy_source_entry game
-    copy_source_entry assets
     copy_source_entry packaging/flatpak
     copy_source_entry packaging/icons
     copy_source_entry tools/openyamm_shaderc_stubs.cpp
+    stage_flatpak_assets
 
     mkdir -p "$(dirname "$generated_manifest")"
     cmake \
@@ -249,6 +335,7 @@ builder_args=(
     "--default-branch=$branch"
     "--state-dir=$state_dir"
     "--delete-build-dirs"
+    "--jobs=$build_jobs"
     "--user"
 )
 
@@ -268,7 +355,7 @@ if [ "$assume_yes" -eq 1 ]; then
     builder_args+=("-y")
 fi
 
-printf 'Building Flatpak app %s (%s)\n' "$app_id" "$branch"
+printf 'Building Flatpak app %s (%s, jobs=%s)\n' "$app_id" "$branch" "$build_jobs"
 flatpak-builder "${builder_args[@]}" "$build_dir" "$generated_manifest"
 
 if [ "$create_bundle" -eq 1 ]; then

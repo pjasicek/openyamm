@@ -308,9 +308,19 @@ void DebugConsole::clearMessages()
 
 void DebugConsole::executeLine(const std::string &line)
 {
-    const std::vector<std::string> tokens = tokenize(line);
+    const std::vector<std::string> commandLines = splitCommandLine(line);
+    bool hasCommand = false;
 
-    if (tokens.empty())
+    for (const std::string &commandLine : commandLines)
+    {
+        if (!tokenize(commandLine).empty())
+        {
+            hasCommand = true;
+            break;
+        }
+    }
+
+    if (!hasCommand)
     {
         return;
     }
@@ -330,22 +340,32 @@ void DebugConsole::executeLine(const std::string &line)
 
     m_historyCursor = m_history.size();
 
-    const std::string commandName = normalizeCommandName(tokens.front());
-    const auto commandIt = m_commands.find(commandName);
-
-    if (commandIt == m_commands.end())
+    for (const std::string &commandLine : commandLines)
     {
-        addMessage(MessageKind::Error, "Unknown command: " + tokens.front());
-        return;
-    }
+        const std::vector<std::string> tokens = tokenize(commandLine);
 
-    CommandContext context = {};
-    context.args.assign(tokens.begin() + 1, tokens.end());
-    const CommandResult result = commandIt->second.callback(context);
+        if (tokens.empty())
+        {
+            continue;
+        }
 
-    if (!result.message.empty())
-    {
-        addMessage(result.success ? MessageKind::Success : MessageKind::Error, result.message);
+        const std::string commandName = normalizeCommandName(tokens.front());
+        const auto commandIt = m_commands.find(commandName);
+
+        if (commandIt == m_commands.end())
+        {
+            addMessage(MessageKind::Error, "Unknown command: " + tokens.front());
+            continue;
+        }
+
+        CommandContext context = {};
+        context.args.assign(tokens.begin() + 1, tokens.end());
+        const CommandResult result = commandIt->second.callback(context);
+
+        if (!result.message.empty())
+        {
+            addMessage(result.success ? MessageKind::Success : MessageKind::Error, result.message);
+        }
     }
 }
 
@@ -402,6 +422,35 @@ std::string DebugConsole::normalizeCommandName(std::string_view name)
     }
 
     return result;
+}
+
+std::vector<std::string> DebugConsole::splitCommandLine(std::string_view line)
+{
+    std::vector<std::string> commandLines;
+    std::string current;
+    bool inQuotes = false;
+
+    for (char character : line)
+    {
+        if (character == '"')
+        {
+            inQuotes = !inQuotes;
+            current.push_back(character);
+            continue;
+        }
+
+        if (!inQuotes && character == ';')
+        {
+            commandLines.push_back(current);
+            current.clear();
+            continue;
+        }
+
+        current.push_back(character);
+    }
+
+    commandLines.push_back(current);
+    return commandLines;
 }
 
 std::vector<std::string> DebugConsole::tokenize(std::string_view line)
@@ -1564,6 +1613,7 @@ void DebugConsole::renderHelpText() const
     ImGui::BulletText("event <id>");
     ImGui::BulletText("qbit get|set|clear <id>");
     ImGui::BulletText("qbit dump [active|all|filter]");
+    ImGui::BulletText("npc greeting get|reset|set <npc-id> [greeting-id]");
     ImGui::BulletText("award dump [active|all|filter]");
     ImGui::BulletText("item search <text>");
     ImGui::BulletText("item give <id|text> [qty]");

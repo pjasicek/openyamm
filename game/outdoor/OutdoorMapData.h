@@ -91,7 +91,7 @@ struct OutdoorEntity
 
     uint32_t spriteOverrideKey(size_t entityIndex) const
     {
-        return static_cast<uint32_t>(entityIndex);
+        return eventIdPrimary != 0 ? eventIdPrimary : static_cast<uint32_t>(entityIndex);
     }
 };
 

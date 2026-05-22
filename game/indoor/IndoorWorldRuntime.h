@@ -246,6 +246,7 @@ public:
     const MapDeltaData *mapDeltaData() const override;
     MapDeltaData *mapDeltaData() override;
     bool setFacetBit(uint32_t cogNumber, uint32_t bit, bool isOn) override;
+    std::vector<uint32_t> resolveIndoorLightReferenceIds(int32_t rawReferenceId) const override;
     float gameMinutes() const override;
     int currentHour() const override;
     void advanceGameMinutes(float minutes) override;
@@ -393,6 +394,7 @@ public:
         const GameplayWorldHit &hit,
         GameplayInteractionMethod interactionMethod) const override;
     bool activateWorldHit(const GameplayWorldHit &hit) override;
+    bool activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId) override;
     bool canActivateTelekinesisTarget(const GameplayWorldHit &hit) const override;
     bool activateTelekinesisTarget(const GameplayWorldHit &hit) override;
     std::optional<GameplayPartyAttackActorFacts> partyAttackActorFacts(
@@ -671,6 +673,7 @@ private:
         size_t actorIndex,
         const MapDeltaActor &actor,
         const MonsterTable::MonsterStatsEntry &stats) const;
+    void pushIndoorMonsterSound(size_t actorIndex, uint32_t soundId);
     void beginMapActorHitReaction(
         size_t actorIndex,
         MapDeltaActor &actor,

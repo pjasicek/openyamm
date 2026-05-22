@@ -166,6 +166,8 @@ enum class LegacyLuaOperation
 enum class SelectorSemantic
 {
     Generic,
+    FixedGold,
+    BankGold,
     QBit,
     Award,
     Autonote,
@@ -1241,7 +1243,7 @@ FormattedSelector formatSelector(
         case EvtVariable::Hour: return {"Hour"};
         case EvtVariable::DayOfYear: return {"DayOfYear"};
         case EvtVariable::DayOfWeek: return {"DayOfWeek"};
-        case EvtVariable::Gold:
+        case EvtVariable::Gold: return {"Gold", SelectorSemantic::FixedGold};
         case EvtVariable::RandomGold: return {"Gold"};
         case EvtVariable::Food:
         case EvtVariable::RandomFood: return {"Food"};
@@ -1358,7 +1360,7 @@ FormattedSelector formatSelector(
         case EvtVariable::MonthIs: return {"MonthIs"};
         case EvtVariable::ReputationInCurrentLocation: return {"ReputationInCurrentLocation"};
         case EvtVariable::Unknown1: return {"Unknown1"};
-        case EvtVariable::GoldInBank: return {"BankGold"};
+        case EvtVariable::GoldInBank: return {"BankGold", SelectorSemantic::BankGold};
         case EvtVariable::NumDeaths: return {"NumDeaths"};
         case EvtVariable::NumBounties: return {"NumBounties"};
         case EvtVariable::PrisonTerms: return {"PrisonTerms"};
@@ -1486,6 +1488,12 @@ std::string formatSubtractExpression(
     }
 
     return "SubtractValue(" + selector.expression + ", " + std::to_string(static_cast<int32_t>(value)) + ")";
+}
+
+bool subtractRequiresSufficientValue(const FormattedSelector &selector)
+{
+    return selector.semantic == SelectorSemantic::FixedGold
+        || selector.semantic == SelectorSemantic::BankGold;
 }
 
 std::string formatSetExpression(
@@ -3428,6 +3436,18 @@ bool emitReadableActionInstruction(
             if (instruction.arguments.size() >= 2)
             {
                 const FormattedSelector selector = formatSelector(instruction.arguments[0], lookups.qbitRemaps);
+                if (subtractRequiresSufficientValue(selector))
+                {
+                    const int32_t value = static_cast<int32_t>(instruction.arguments[1]);
+                    emitIndentedLineWithComment(
+                        stream,
+                        "if not IsAtLeast(" + selector.expression + ", " + std::to_string(value) + ") then",
+                        std::nullopt,
+                        indentLevel);
+                    emitIndentedLineWithComment(stream, "return", std::nullopt, indentLevel + 1);
+                    emitIndentedLineWithComment(stream, "end", std::nullopt, indentLevel);
+                }
+
                 emitIndentedLineWithComment(
                     stream,
                     formatSubtractExpression(selector, instruction.arguments[1]),
@@ -5373,13 +5393,13 @@ bool tryEmitReadablePartyMemberLoop(
             {
                 requirementStep = primaryJumpStep;
                 directSuccessStep = primaryFallthroughStep;
-                negatePrimaryCondition = true;
+                negatePrimaryCondition = false;
             }
             else if (isCompareInstructionStep(primaryFallthroughStep) && primaryJumpStep)
             {
                 requirementStep = primaryFallthroughStep;
                 directSuccessStep = primaryJumpStep;
-                negatePrimaryCondition = false;
+                negatePrimaryCondition = true;
             }
             else
             {
@@ -5901,13 +5921,13 @@ bool tryEmitReadablePartyMemberLoop(
             {
                 requirementStep = jumpStep;
                 directSuccessStep = fallthroughSignificantStep;
-                shape.negatePrimaryCondition = true;
+                shape.negatePrimaryCondition = false;
             }
             else if (isCompareInstructionStep(fallthroughSignificantStep) && jumpStep)
             {
                 requirementStep = fallthroughSignificantStep;
                 directSuccessStep = jumpStep;
-                shape.negatePrimaryCondition = false;
+                shape.negatePrimaryCondition = true;
             }
             else
             {
@@ -8330,6 +8350,18 @@ void emitNormalInstruction(
             if (instruction.arguments.size() >= 2)
             {
                 const FormattedSelector selector = formatSelector(instruction.arguments[0], lookups.qbitRemaps);
+                if (subtractRequiresSufficientValue(selector))
+                {
+                    const int32_t value = static_cast<int32_t>(instruction.arguments[1]);
+                    emitIndentedLineWithComment(
+                        stream,
+                        "if not IsAtLeast(" + selector.expression + ", " + std::to_string(value) + ") then",
+                        std::nullopt,
+                        2);
+                    emitIndentedLineWithComment(stream, "return", std::nullopt, 3);
+                    emitIndentedLineWithComment(stream, "end", std::nullopt, 2);
+                }
+
                 emitIndentedLineWithComment(
                     stream,
                     formatSubtractExpression(selector, instruction.arguments[1]),

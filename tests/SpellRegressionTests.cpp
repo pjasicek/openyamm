@@ -38,6 +38,26 @@ size_t seedDefaultSpellTarget(OpenYAMM::Tests::PartySpellTestWorldRuntime &world
     return worldRuntime.addActor(actor);
 }
 
+OpenYAMM::Game::GameplayWorldHit makeEventTargetHit(uint16_t eventId, const std::string &metadataKind)
+{
+    OpenYAMM::Game::GameplayEventTargetContextActionMetadata metadata = {};
+    metadata.kind = metadataKind;
+    metadata.source = "test";
+
+    OpenYAMM::Game::GameplayEventTargetHit eventTarget = {};
+    eventTarget.targetKind = OpenYAMM::Game::GameplayWorldEventTargetKind::Decoration;
+    eventTarget.eventIdPrimary = eventId;
+    eventTarget.eventIdSecondary = eventId;
+    eventTarget.triggeredEventId = eventId;
+    eventTarget.contextActionMetadata = metadata;
+
+    OpenYAMM::Game::GameplayWorldHit hit = {};
+    hit.hasHit = true;
+    hit.kind = OpenYAMM::Game::GameplayWorldHitKind::EventTarget;
+    hit.eventTarget = eventTarget;
+    return hit;
+}
+
 uint32_t findFirstWeaponItemId(const OpenYAMM::Game::ItemTable &itemTable)
 {
     for (const OpenYAMM::Game::ItemDefinition &entry : itemTable.entries())
@@ -419,6 +439,39 @@ TEST_CASE("party spell backend fire bolt spawns projectile")
     CHECK_EQ(worldRuntime.projectileRequests().front().targetX, 1024.0f);
 }
 
+TEST_CASE("party spell backend sparks applies no recovery")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+    OpenYAMM::Game::Party party = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&party);
+
+    OpenYAMM::Game::Character *pCaster = party.member(0);
+    REQUIRE(pCaster != nullptr);
+
+    pCaster->skills["AirMagic"] = {"AirMagic", 5, OpenYAMM::Game::SkillMastery::Normal};
+    pCaster->spellPoints = 20;
+
+    OpenYAMM::Game::PartySpellCastRequest request = {};
+    request.casterMemberIndex = 0;
+    request.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Sparks);
+    request.hasTargetPoint = true;
+    request.targetX = 1024.0f;
+    request.targetY = 0.0f;
+    request.targetZ = 0.0f;
+
+    const OpenYAMM::Game::PartySpellCastResult result = OpenYAMM::Game::PartySpellSystem::castSpell(
+        party,
+        worldRuntime,
+        gameData.spellTable,
+        request);
+
+    REQUIRE(result.succeeded());
+    CHECK_EQ(result.recoverySeconds, 0.0f);
+    CHECK_EQ(pCaster->recoverySecondsRemaining, 0.0f);
+    CHECK_EQ(worldRuntime.projectileRequests().size(), 3u);
+}
+
 TEST_CASE("party spell backend lets wands bypass learned mastery requirements")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -653,6 +706,75 @@ TEST_CASE("party spell backend reanimate turns a dead character into a zombie")
     CHECK_GT(pTarget->health, 0);
 }
 
+TEST_CASE("party spell backend stone to flesh targets characters and marked world statues")
+{
+    const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
+
+    OpenYAMM::Game::Party characterParty = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime characterRuntime = {};
+    characterRuntime.bindParty(&characterParty);
+
+    REQUIRE(characterParty.applyMemberCondition(1, OpenYAMM::Game::CharacterCondition::Petrified));
+
+    OpenYAMM::Game::PartySpellCastRequest characterRequest = {};
+    characterRequest.casterMemberIndex = 0;
+    characterRequest.spellId = OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::StoneToFlesh);
+    characterRequest.targetCharacterIndex = 1;
+    characterRequest.skillLevelOverride = 8;
+    characterRequest.skillMasteryOverride = OpenYAMM::Game::SkillMastery::Expert;
+    characterRequest.spendMana = false;
+    characterRequest.applyRecovery = false;
+
+    const OpenYAMM::Game::PartySpellCastResult characterResult = OpenYAMM::Game::PartySpellSystem::castSpell(
+        characterParty,
+        characterRuntime,
+        gameData.spellTable,
+        characterRequest);
+
+    REQUIRE(characterResult.succeeded());
+    const OpenYAMM::Game::Character *pTarget = characterParty.member(1);
+    REQUIRE(pTarget != nullptr);
+    CHECK_FALSE(pTarget->conditions.test(static_cast<size_t>(OpenYAMM::Game::CharacterCondition::Petrified)));
+    CHECK_EQ(characterRuntime.activatedWorldHitCount(), 0u);
+
+    OpenYAMM::Game::Party worldParty = OpenYAMM::Tests::makeSpellRegressionParty(gameData);
+    OpenYAMM::Tests::PartySpellTestWorldRuntime worldRuntime = {};
+    worldRuntime.bindParty(&worldParty);
+    worldRuntime.setWorldHitActivationResult(true);
+
+    OpenYAMM::Game::PartySpellCastRequest worldRequest = characterRequest;
+    worldRequest.targetCharacterIndex.reset();
+    worldRequest.targetWorldHit = makeEventTargetHit(132, "stone_to_flesh");
+
+    const OpenYAMM::Game::PartySpellCastResult worldResult = OpenYAMM::Game::PartySpellSystem::castSpell(
+        worldParty,
+        worldRuntime,
+        gameData.spellTable,
+        worldRequest);
+
+    REQUIRE(worldResult.succeeded());
+    CHECK_EQ(worldRuntime.activatedWorldHitCount(), 1u);
+    CHECK_EQ(
+        worldRuntime.activatedWorldHitSpellIds(),
+        std::vector<uint32_t>{OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::StoneToFlesh)});
+
+    OpenYAMM::Tests::PartySpellTestWorldRuntime wrongRuntime = {};
+    wrongRuntime.bindParty(&worldParty);
+    wrongRuntime.setWorldHitActivationResult(true);
+
+    OpenYAMM::Game::PartySpellCastRequest wrongRequest = worldRequest;
+    wrongRequest.targetWorldHit = makeEventTargetHit(11, "open_door");
+
+    const OpenYAMM::Game::PartySpellCastResult wrongResult = OpenYAMM::Game::PartySpellSystem::castSpell(
+        worldParty,
+        wrongRuntime,
+        gameData.spellTable,
+        wrongRequest);
+
+    CHECK(wrongResult.status == OpenYAMM::Game::PartySpellCastStatus::NeedCharacterOrWorldTarget);
+    CHECK_EQ(wrongRuntime.activatedWorldHitCount(), 0u);
+}
+
 TEST_CASE("party spell backend supports all defined non utility spells")
 {
     const OpenYAMM::Tests::RegressionGameData &gameData = requireRegressionGameData();
@@ -673,9 +795,13 @@ TEST_CASE("party spell backend supports all defined non utility spells")
             return OpenYAMM::Game::PartySpellCastStatus::NeedInventoryItemTarget;
         }
 
+        if (spellId == OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Telekinesis))
+        {
+            return OpenYAMM::Game::PartySpellCastStatus::NeedTelekinesisTarget;
+        }
+
         if (spellId == OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::TownPortal)
             || spellId == OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::LloydsBeacon)
-            || spellId == OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Telekinesis)
             || spellId == OpenYAMM::Game::spellIdValue(OpenYAMM::Game::SpellId::Telepathy))
         {
             return OpenYAMM::Game::PartySpellCastStatus::NeedUtilityUi;

@@ -776,6 +776,7 @@ public:
         const GameplayWorldHit &hit,
         GameplayInteractionMethod interactionMethod) const override;
     bool activateWorldHit(const GameplayWorldHit &hit) override;
+    bool activateWorldHitFromSpell(const GameplayWorldHit &hit, uint32_t spellId) override;
     bool canActivateTelekinesisTarget(const GameplayWorldHit &hit) const override;
     bool activateTelekinesisTarget(const GameplayWorldHit &hit) override;
     GameplayPendingSpellWorldTargetFacts pickPendingSpellWorldTarget(

@@ -160,8 +160,10 @@ TEST_CASE("turn based runtime pending actions block player actions until resolve
     CHECK(runtime.beginPlayerActionOrFinishMovement(party));
 }
 
-TEST_CASE("turn based runtime grants five discrete movement chunks")
+TEST_CASE("turn based runtime spends OE movement actions only while movement is held")
 {
+    constexpr float MovementStepSeconds = 26.0f / 128.0f;
+
     OpenYAMM::Game::Party party = makeTurnBasedParty(1);
     OpenYAMM::Game::TurnBasedCombatRuntime runtime = {};
 
@@ -180,20 +182,44 @@ TEST_CASE("turn based runtime grants five discrete movement chunks")
 
     CHECK(runtime.noteMovementInput(input));
     CHECK_EQ(runtime.movementActionPoints(), 104);
-    CHECK_EQ(runtime.movementDeltaSecondsForFrame(0.0f), doctest::Approx(26.0f / 128.0f));
+    CHECK_EQ(runtime.movementDeltaSecondsForFrame(0.016f), doctest::Approx(MovementStepSeconds));
     CHECK(input.turnBasedMovementStep);
-
-    CHECK_FALSE(runtime.noteMovementInput(input));
-    CHECK_EQ(runtime.movementActionPoints(), 104);
-
-    input.actions[OpenYAMM::Game::keyboardActionIndex(OpenYAMM::Game::KeyboardAction::Forward)].held = false;
-    input.keyboardHeld[SDL_SCANCODE_W] = false;
-    CHECK_FALSE(runtime.noteMovementInput(input));
 
     input.actions[OpenYAMM::Game::keyboardActionIndex(OpenYAMM::Game::KeyboardAction::Forward)].held = true;
     input.keyboardHeld[SDL_SCANCODE_W] = true;
     CHECK(runtime.noteMovementInput(input));
     CHECK_EQ(runtime.movementActionPoints(), 78);
+    CHECK_EQ(runtime.movementDeltaSecondsForFrame(0.016f), doctest::Approx(MovementStepSeconds));
+
+    input.actions[OpenYAMM::Game::keyboardActionIndex(OpenYAMM::Game::KeyboardAction::Forward)].held = false;
+    input.keyboardHeld[SDL_SCANCODE_W] = false;
+    CHECK_FALSE(runtime.noteMovementInput(input));
+    CHECK_EQ(runtime.movementActionPoints(), 78);
+    runtime.update(&party, nullptr, 0.016f);
+    CHECK(runtime.stage() == OpenYAMM::Game::TurnBasedCombatStage::Movement);
+
+    input.actions[OpenYAMM::Game::keyboardActionIndex(OpenYAMM::Game::KeyboardAction::Forward)].held = true;
+    input.keyboardHeld[SDL_SCANCODE_W] = true;
+    CHECK(runtime.noteMovementInput(input));
+    CHECK_EQ(runtime.movementActionPoints(), 52);
+    CHECK_EQ(runtime.movementDeltaSecondsForFrame(0.016f), doctest::Approx(MovementStepSeconds));
+
+    input.actions[OpenYAMM::Game::keyboardActionIndex(OpenYAMM::Game::KeyboardAction::Forward)].held = true;
+    input.keyboardHeld[SDL_SCANCODE_W] = true;
+    CHECK(runtime.noteMovementInput(input));
+    CHECK_EQ(runtime.movementActionPoints(), 26);
+    CHECK_EQ(runtime.movementDeltaSecondsForFrame(0.016f), doctest::Approx(MovementStepSeconds));
+
+    input.actions[OpenYAMM::Game::keyboardActionIndex(OpenYAMM::Game::KeyboardAction::Forward)].held = true;
+    input.keyboardHeld[SDL_SCANCODE_W] = true;
+    CHECK(runtime.noteMovementInput(input));
+    CHECK_EQ(runtime.movementActionPoints(), 0);
+    CHECK_EQ(runtime.movementDeltaSecondsForFrame(0.016f), doctest::Approx(MovementStepSeconds));
+
+    runtime.update(&party, nullptr, 0.016f);
+
+    CHECK(runtime.stage() == OpenYAMM::Game::TurnBasedCombatStage::Wait);
+    CHECK_EQ(runtime.movementActionPoints(), 0);
 }
 
 TEST_CASE("turn based runtime cycles party actions before OE movement phase")

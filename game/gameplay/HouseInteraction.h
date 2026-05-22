@@ -113,6 +113,11 @@ std::optional<uint32_t> deriveHouseSoundId(const HouseEntry &houseEntry, HouseSo
 bool isHouseOpenAtGameMinute(const HouseEntry &houseEntry, float currentGameMinutes);
 std::string buildClosedStatusText(const HouseEntry &houseEntry);
 bool isBoatHouse(const HouseEntry &houseEntry);
+uint32_t arcomageDeckItemId();
+const char *arcomageDeckRequiredMessage();
+bool partyHasArcomageDeck(const Party *pParty);
+bool houseRequiresArcomageDeck(const HouseEntry &houseEntry);
+bool partyCanPlayArcomageInHouse(const HouseEntry &houseEntry, const Party *pParty);
 
 std::vector<std::string> buildHouseServiceInfoLines(
     const HouseEntry &houseEntry,

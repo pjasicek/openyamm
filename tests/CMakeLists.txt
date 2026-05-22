@@ -28,6 +28,7 @@ add_executable(openyamm_unit_tests
     MercenaryRecruitmentRuntimeTests.cpp
     MonsterTableRegressionTests.cpp
     MergedBaseTablesTests.cpp
+    OutdoorLightingRuntimeTests.cpp
     PartyRegressionTests.cpp
     PathMapTests.cpp
     PathPlannerTests.cpp
@@ -156,6 +157,7 @@ add_executable(openyamm_unit_tests
     ../game/ui/GameplayUiController.cpp
     ../game/ui/SpellbookUiLayout.cpp
     ../game/outdoor/OutdoorGeometryUtils.cpp
+    ../game/outdoor/OutdoorLightingRuntime.cpp
     ../game/outdoor/OutdoorMapData.cpp
     ../game/outdoor/OutdoorMovementController.cpp
     ../game/outdoor/OutdoorMovementDriver.cpp

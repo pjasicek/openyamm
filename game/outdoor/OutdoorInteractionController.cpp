@@ -459,7 +459,15 @@ std::optional<DirectInteractiveDecorationBindingSpec> resolveDirectInteractiveDe
 
     if (*internalNumber >= 40 && *internalNumber <= 43)
     {
-        spec.baseEventId = static_cast<uint16_t>(542 + (*internalNumber - 40) * 7);
+        spec.baseEventId = static_cast<uint16_t>(543 + (*internalNumber - 40) * 7);
+        spec.eventCount = 7;
+        spec.useSeededInitialState = true;
+        return spec;
+    }
+
+    if (*internalNumber >= 60 && *internalNumber <= 63)
+    {
+        spec.baseEventId = static_cast<uint16_t>(543 + (*internalNumber - 60) * 7);
         spec.eventCount = 7;
         spec.useSeededInitialState = true;
         return spec;
@@ -1408,12 +1416,9 @@ void OutdoorInteractionController::rebuildInteractiveDecorationBindings(OutdoorG
             continue;
         }
 
-        const DecorationEntry *pDecoration = decorationTable.get(entity.decorationListId);
-
-        if ((pDecoration == nullptr || pDecoration->spriteId == 0) && !entity.name.empty())
-        {
-            pDecoration = decorationTable.findByInternalName(entity.name);
-        }
+        const DecorationLookupResult decoration =
+            decorationTable.resolveMapDecoration(entity.decorationListId, entity.name);
+        const DecorationEntry *pDecoration = decoration.pEntry;
 
         if (pDecoration == nullptr)
         {

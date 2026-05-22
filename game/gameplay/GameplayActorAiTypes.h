@@ -64,7 +64,7 @@ enum class ActorAiAttackRequestKind : uint8_t
 enum class ActorAiAudioRequestKind : uint8_t
 {
     None = 0,
-    Alert = 1,
+    Bored = 1,
     Attack = 2,
     Hit = 3,
     Death = 4,

@@ -13,8 +13,8 @@ elements:
     children:
       - id: QuickReferenceBackground
         anchor: top_left
-        offset_x: 8
-        offset_y: 8
+        offset_x: 0
+        offset_y: 0
         width: 640
         height: 367
         z_index: 0
@@ -23,10 +23,10 @@ elements:
 
       - id: QuickReferenceExitButton
         anchor: top_left
-        offset_x: 391
-        offset_y: 316
+        offset_x: 557
+        offset_y: 322
         width: 75
-        height: 33
+        height: 26
         z_index: 20
         interactive: true
         asset:
@@ -65,7 +65,7 @@ elements:
       - id: QuickReferenceClassLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 60
+        offset_y: 67
         width: 60
         height: 13
         z_index: 10
@@ -79,7 +79,7 @@ elements:
       - id: QuickReferenceHpLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 73
+        offset_y: 87
         width: 60
         height: 13
         z_index: 10
@@ -93,7 +93,7 @@ elements:
       - id: QuickReferenceSpLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 86
+        offset_y: 107
         width: 60
         height: 13
         z_index: 10
@@ -107,7 +107,7 @@ elements:
       - id: QuickReferenceAcLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 99
+        offset_y: 127
         width: 60
         height: 13
         z_index: 10
@@ -121,7 +121,7 @@ elements:
       - id: QuickReferenceAttackLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 112
+        offset_y: 147
         width: 60
         height: 13
         z_index: 10
@@ -135,7 +135,7 @@ elements:
       - id: QuickReferenceMeleeDamageLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 125
+        offset_y: 167
         width: 60
         height: 13
         z_index: 10
@@ -149,7 +149,7 @@ elements:
       - id: QuickReferenceShootLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 138
+        offset_y: 187
         width: 60
         height: 13
         z_index: 10
@@ -163,7 +163,7 @@ elements:
       - id: QuickReferenceRangedDamageLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 151
+        offset_y: 207
         width: 60
         height: 13
         z_index: 10
@@ -177,7 +177,7 @@ elements:
       - id: QuickReferenceSkillsLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 164
+        offset_y: 227
         width: 60
         height: 13
         z_index: 10
@@ -191,7 +191,7 @@ elements:
       - id: QuickReferencePointsLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 177
+        offset_y: 247
         width: 60
         height: 13
         z_index: 10
@@ -205,7 +205,7 @@ elements:
       - id: QuickReferenceConditionLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 190
+        offset_y: 267
         width: 60
         height: 13
         z_index: 10
@@ -219,7 +219,7 @@ elements:
       - id: QuickReferenceQuickSpellLabel
         anchor: top_left
         offset_x: 22
-        offset_y: 203
+        offset_y: 287
         width: 60
         height: 13
         z_index: 10

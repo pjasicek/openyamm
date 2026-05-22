@@ -13,6 +13,7 @@
 #include "game/tables/ClassSkillTable.h"
 #include "game/tables/HouseTable.h"
 #include "game/tables/JournalQuestTable.h"
+#include "game/tables/NpcDialogTable.h"
 
 #include <algorithm>
 #include <cctype>
@@ -40,10 +41,17 @@ constexpr uint32_t DefaultEventPortraitDurationTicks = 96;
 constexpr uint32_t MaxBitfieldFlagIndex = 31;
 constexpr uint32_t DefaultHistoryContinentId = 1;
 constexpr uint32_t Mm7HistoryContinentId = 2;
+constexpr uint32_t Mm6CircusLodestoneItemId = 2090;
+constexpr uint32_t Mm6CircusHarpyFeatherItemId = 2091;
+constexpr uint32_t Mm6CircusFourLeafCloverItemId = 2097;
+constexpr int32_t Mm6CircusLodestonePoints = 1;
+constexpr int32_t Mm6CircusHarpyFeatherPoints = 3;
+constexpr int32_t Mm6CircusFourLeafCloverPoints = 5;
 
 int resolveMonthFromDayOfYear(int dayOfYear);
 int currentGameMinutesFromRuntimeState(const EventRuntimeState &runtimeState);
 uint32_t randomJumpSeed(uint16_t eventId, uint8_t step, const EventRuntimeState &runtimeState);
+uint32_t nextEventRandom(uint16_t eventId, uint8_t step, EventRuntimeState &runtimeState);
 std::optional<std::string> skillNameForEvtVariable(EvtVariable variableId);
 SkillMastery normalizeCheckSkillMastery(uint32_t rawMastery);
 bool evaluateCompareValue(
@@ -336,7 +344,7 @@ std::optional<InventoryItem> createGrantedEventItem(
     request.mode = ItemGenerationMode::Generic;
     request.allowRareItems = true;
 
-    std::mt19937 rng(randomJumpSeed(
+    std::mt19937 rng(nextEventRandom(
         eventId,
         static_cast<uint8_t>(runtimeState.grantedItems.size() & 0xFFu),
         runtimeState));
@@ -1181,6 +1189,17 @@ uint32_t randomJumpSeed(uint16_t eventId, uint8_t step, const EventRuntimeState 
     return static_cast<uint32_t>(eventId) * 2654435761u
         ^ static_cast<uint32_t>(step) * 40503u
         ^ static_cast<uint32_t>(std::max(0, currentGameMinutesFromRuntimeState(runtimeState)));
+}
+
+uint32_t nextEventRandom(uint16_t eventId, uint8_t step, EventRuntimeState &runtimeState)
+{
+    if (runtimeState.eventRandomState == 0)
+    {
+        runtimeState.eventRandomState = randomJumpSeed(eventId, step, runtimeState);
+    }
+
+    runtimeState.eventRandomState = runtimeState.eventRandomState * 1664525u + 1013904223u;
+    return runtimeState.eventRandomState;
 }
 
 std::optional<PortraitId> eventPortraitId(uint32_t rawPortraitId)
@@ -2098,7 +2117,6 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         case EvtVariable::Npcs2:
         case EvtVariable::IsFlying:
         case EvtVariable::HiredNpcHasSpeciality:
-        case EvtVariable::CircusPrises:
         case EvtVariable::NumSkillPoints:
         case EvtVariable::MonthIs:
         case EvtVariable::Counter1:
@@ -2123,6 +2141,10 @@ EventRuntime::VariableRef EventRuntime::decodeVariable(uint32_t rawId)
         case EvtVariable::Invisible:
         case EvtVariable::ItemEquipped:
             variable.kind = VariableKind::PartyState;
+            break;
+
+        case EvtVariable::CircusPrises:
+            variable.kind = VariableKind::CircusPrises;
             break;
 
         default:
@@ -2203,6 +2225,16 @@ int32_t EventRuntime::getVariableValue(
         }
 
         return pParty->hasAward(variable.index) ? static_cast<int32_t>(variable.index) : 0;
+    }
+
+    if (variable.kind == VariableKind::CircusPrises)
+    {
+        return getInventoryItemCount(runtimeState, pParty, Mm6CircusLodestoneItemId, std::nullopt)
+            * Mm6CircusLodestonePoints
+            + getInventoryItemCount(runtimeState, pParty, Mm6CircusHarpyFeatherItemId, std::nullopt)
+                * Mm6CircusHarpyFeatherPoints
+            + getInventoryItemCount(runtimeState, pParty, Mm6CircusFourLeafCloverItemId, std::nullopt)
+                * Mm6CircusFourLeafCloverPoints;
     }
 
     if (variable.kind == VariableKind::ClassId)
@@ -5566,7 +5598,7 @@ int luaRandomJump(lua_State *pLuaState)
 {
     const uint16_t eventId = static_cast<uint16_t>(luaL_checkinteger(pLuaState, 1));
     const uint8_t step = static_cast<uint8_t>(luaL_checkinteger(pLuaState, 2));
-    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
     luaL_checktype(pLuaState, 3, LUA_TTABLE);
 
     const size_t count = lua_rawlen(pLuaState, 3);
@@ -5592,8 +5624,8 @@ int luaRandomJump(lua_State *pLuaState)
         return 1;
     }
 
-    const uint32_t seed = randomJumpSeed(eventId, step, *pRuntimeState);
-    lua_pushinteger(pLuaState, validTargets[seed % validTargets.size()]);
+    const uint32_t randomValue = nextEventRandom(eventId, step, *pRuntimeState);
+    lua_pushinteger(pLuaState, validTargets[randomValue % validTargets.size()]);
     return 1;
 }
 
@@ -6511,6 +6543,13 @@ int luaSetRuntimeVariable(lua_State *pLuaState)
     return 0;
 }
 
+int luaGetActiveEventSpellId(lua_State *pLuaState)
+{
+    const EventRuntimeState *pRuntimeState = readableRuntimeState(pLuaState);
+    lua_pushinteger(pLuaState, pRuntimeState != nullptr ? pRuntimeState->activeEventSpellId : 0);
+    return 1;
+}
+
 int luaGetPartyVariable(lua_State *pLuaState)
 {
     const Party *pParty = readableParty(pLuaState);
@@ -6973,6 +7012,31 @@ int luaIsHouseOpen(lua_State *pLuaState)
     return 1;
 }
 
+int luaNpcText(lua_State *pLuaState)
+{
+    const uint32_t textId = static_cast<uint32_t>(luaL_checkinteger(pLuaState, 1));
+    const char *pFallback = lua_gettop(pLuaState) >= 2 && !lua_isnil(pLuaState, 2)
+        ? luaL_checkstring(pLuaState, 2)
+        : "";
+
+    const EventRuntime *pEventRuntime = readableEventRuntime(pLuaState);
+    const NpcDialogTable *pNpcDialogTable = pEventRuntime != nullptr ? pEventRuntime->npcDialogTable() : nullptr;
+
+    if (pNpcDialogTable != nullptr)
+    {
+        const std::optional<std::string> text = pNpcDialogTable->getText(textId);
+
+        if (text.has_value())
+        {
+            lua_pushlstring(pLuaState, text->data(), text->size());
+            return 1;
+        }
+    }
+
+    lua_pushstring(pLuaState, pFallback);
+    return 1;
+}
+
 int luaSetMonsterRelation(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
@@ -7356,8 +7420,27 @@ int luaSetOutdoorModelFacetTexture(lua_State *pLuaState)
 int luaSetLight(lua_State *pLuaState)
 {
     EventRuntimeState *pRuntimeState = writableRuntimeState(pLuaState);
-    pRuntimeState->indoorLightsEnabled[eventReferenceId(luaL_checkinteger(pLuaState, 1))] =
-        luaEventBoolean(pLuaState, 2);
+    const lua_Integer rawReferenceId = luaL_checkinteger(pLuaState, 1);
+    const bool enabled = luaEventBoolean(pLuaState, 2);
+    const LuaExecutionContext *pExecutionContext = executionContextFromLua(pLuaState);
+
+    if (pExecutionContext != nullptr && pExecutionContext->pSceneEventContext != nullptr)
+    {
+        const std::vector<uint32_t> resolvedLightIds =
+            pExecutionContext->pSceneEventContext->resolveIndoorLightReferenceIds(
+                static_cast<int32_t>(rawReferenceId));
+
+        if (!resolvedLightIds.empty())
+        {
+            for (uint32_t lightId : resolvedLightIds)
+            {
+                pRuntimeState->indoorLightsEnabled[lightId] = enabled;
+            }
+            return 0;
+        }
+    }
+
+    pRuntimeState->indoorLightsEnabled[eventReferenceId(rawReferenceId)] = enabled;
     return 0;
 }
 
@@ -7698,6 +7781,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "SetNPCProfession", luaSetNpcProfession);
     registerLuaFunction(pLuaState, "CheckMonstersKilled", luaCheckMonstersKilled);
     registerLuaFunction(pLuaState, "IsHouseOpen", luaIsHouseOpen);
+    registerLuaFunction(pLuaState, "NPCText", luaNpcText);
     registerLuaFunction(pLuaState, "ChangeGroupToGroup", luaChangeGroupToGroup);
     registerLuaFunction(pLuaState, "ChangeGroupAlly", luaChangeGroupAlly);
     registerLuaFunction(pLuaState, "CheckSeason", luaCheckSeason);
@@ -7712,6 +7796,7 @@ void registerEventBindings(LuaSessionCache &session)
     registerLuaFunction(pLuaState, "AdvanceGameMinutes", luaAdvanceGameMinutes);
     registerLuaFunction(pLuaState, "GetRuntimeVariable", luaGetRuntimeVariable);
     registerLuaFunction(pLuaState, "SetRuntimeVariable", luaSetRuntimeVariable);
+    registerLuaFunction(pLuaState, "GetActiveEventSpellId", luaGetActiveEventSpellId);
     registerLuaFunction(pLuaState, "GetPartyVariable", luaGetPartyVariable);
     registerLuaFunction(pLuaState, "SetPartyVariable", luaSetPartyVariable);
     registerLuaFunction(pLuaState, "GetClassId", luaGetClassId);
@@ -8091,6 +8176,7 @@ void clearTransientEventRuntimeState(EventRuntimeState &runtimeState)
     runtimeState.openedChestIds.clear();
     runtimeState.openedChestRequests.clear();
     runtimeState.activeEventOpenedByTelekinesis = false;
+    runtimeState.activeEventSpellId = 0;
     runtimeState.grantedItems.clear();
     runtimeState.grantedItemIds.clear();
     runtimeState.clearHeldItemRequest = false;
@@ -8160,8 +8246,9 @@ const std::unordered_map<uint32_t, int32_t> &historyEventTimesForActiveContinent
     return historyEventTimesForContinent(runtimeState, runtimeState.activeHistoryContinentId);
 }
 
-EventRuntime::EventRuntime(const HouseTable *pHouseTable)
+EventRuntime::EventRuntime(const HouseTable *pHouseTable, const NpcDialogTable *pNpcDialogTable)
     : m_pHouseTable(pHouseTable)
+    , m_pNpcDialogTable(pNpcDialogTable)
 {
 }
 
@@ -8177,6 +8264,16 @@ void EventRuntime::bindHouseTable(const HouseTable *pHouseTable)
 const HouseTable *EventRuntime::houseTable() const
 {
     return m_pHouseTable;
+}
+
+void EventRuntime::bindNpcDialogTable(const NpcDialogTable *pNpcDialogTable)
+{
+    m_pNpcDialogTable = pNpcDialogTable;
+}
+
+const NpcDialogTable *EventRuntime::npcDialogTable() const
+{
+    return m_pNpcDialogTable;
 }
 
 uint32_t EventRuntime::outdoorModelFacetTextureOverrideKey(uint32_t modelIndex, uint32_t faceIndex)

@@ -158,14 +158,15 @@ OutdoorSceneRuntime::OutdoorSceneRuntime(
     OutdoorWorldRuntime &worldRuntime,
     const std::optional<ScriptedEventProgram> &localEventProgram,
     const std::optional<ScriptedEventProgram> &globalEventProgram,
-    const HouseTable *pHouseTable)
+    const HouseTable *pHouseTable,
+    const NpcDialogTable *pNpcDialogTable)
     : m_mapFileName(mapFileName)
     , m_mapEntry(mapEntry)
     , m_pPartyRuntime(&partyRuntime)
     , m_pWorldRuntime(&worldRuntime)
     , m_localEventProgram(localEventProgram)
     , m_globalEventProgram(globalEventProgram)
-    , m_eventRuntime(pHouseTable)
+    , m_eventRuntime(pHouseTable, pNpcDialogTable)
 {
 }
 

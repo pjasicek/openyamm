@@ -36,10 +36,23 @@ elements:
           align_x: left
           align_y: top
 
-      - id: CharacterInspectExpert
+      - id: CharacterInspectNormal
         anchor: top_left
         offset_x: 20
         offset_y: 130
+        width: 385
+        height: 16
+        text:
+          value: "{normal}"
+          font: SMALLNUM
+          color: white
+          align_x: left
+          align_y: middle
+
+      - id: CharacterInspectExpert
+        anchor: top_left
+        offset_x: 20
+        offset_y: 150
         width: 385
         height: 16
         text:
@@ -52,7 +65,7 @@ elements:
       - id: CharacterInspectMaster
         anchor: top_left
         offset_x: 20
-        offset_y: 150
+        offset_y: 170
         width: 385
         height: 16
         text:
@@ -65,7 +78,7 @@ elements:
       - id: CharacterInspectGrandmaster
         anchor: top_left
         offset_x: 20
-        offset_y: 170
+        offset_y: 190
         width: 385
         height: 16
         text:

@@ -239,6 +239,29 @@ bool CharacterInspectTable::loadSkillRows(const std::vector<std::vector<std::str
     return !m_skills.empty();
 }
 
+bool CharacterInspectTable::loadClassRows(const std::vector<std::vector<std::string>> &rows)
+{
+    m_classes.clear();
+
+    for (const std::vector<std::string> &row : rows)
+    {
+        const std::string canonicalClass = canonicalClassName(cellValue(row, 0));
+        const std::string description = cellValue(row, 1);
+
+        if (canonicalClass.empty() || description.empty())
+        {
+            continue;
+        }
+
+        ClassInspectEntry entry = {};
+        entry.name = displayClassName(canonicalClass);
+        entry.description = description;
+        m_classes[canonicalClass] = std::move(entry);
+    }
+
+    return !m_classes.empty();
+}
+
 const StatInspectEntry *CharacterInspectTable::getStat(const std::string &statName) const
 {
     const std::string canonicalName = canonicalStatName(statName);
@@ -251,5 +274,12 @@ const SkillInspectEntry *CharacterInspectTable::getSkill(const std::string &skil
     const std::string canonicalName = canonicalSkillName(skillName);
     const std::unordered_map<std::string, SkillInspectEntry>::const_iterator it = m_skills.find(canonicalName);
     return it != m_skills.end() ? &it->second : nullptr;
+}
+
+const ClassInspectEntry *CharacterInspectTable::getClass(const std::string &className) const
+{
+    const std::string canonicalName = canonicalClassName(className);
+    const std::unordered_map<std::string, ClassInspectEntry>::const_iterator it = m_classes.find(canonicalName);
+    return it != m_classes.end() ? &it->second : nullptr;
 }
 }

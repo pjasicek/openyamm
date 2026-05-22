@@ -700,6 +700,20 @@ std::optional<std::vector<uint8_t>> GameplayUiRuntime::loadHudBitmapPixelsBgraCa
         height);
 }
 
+std::optional<std::vector<uint8_t>> GameplayUiRuntime::loadItemIconBitmapPixelsBgraCached(
+    const std::string &textureName,
+    int &width,
+    int &height)
+{
+    return GameplayHudCommon::loadHudBitmapPixelsBgraCached(
+        m_pAssetFileSystem,
+        m_assetLoadCache,
+        textureName,
+        width,
+        height,
+        GameplayHudBitmapTransparencyMode::ItemIcon);
+}
+
 std::optional<std::vector<uint8_t>> GameplayUiRuntime::loadSpriteBitmapPixelsBgraCached(
     const std::string &textureName,
     int16_t paletteId,
@@ -717,7 +731,13 @@ std::optional<std::vector<uint8_t>> GameplayUiRuntime::loadSpriteBitmapPixelsBgr
 
 void GameplayUiRuntime::clearHudLayoutRuntimeHeightOverrides()
 {
+    m_hudLayoutRuntimeWidthOverrides.clear();
     m_hudLayoutRuntimeHeightOverrides.clear();
+}
+
+void GameplayUiRuntime::setHudLayoutRuntimeWidthOverride(const std::string &layoutId, float width)
+{
+    m_hudLayoutRuntimeWidthOverrides[toLowerCopy(layoutId)] = width;
 }
 
 void GameplayUiRuntime::setHudLayoutRuntimeHeightOverride(const std::string &layoutId, float height)
@@ -749,6 +769,7 @@ std::optional<GameplayResolvedHudLayoutElement> GameplayUiRuntime::resolveHudLay
 {
     return GameplayHudCommon::resolveHudLayoutElement(
         m_layoutManager,
+        m_hudLayoutRuntimeWidthOverrides,
         m_hudLayoutRuntimeHeightOverrides,
         layoutId,
         screenWidth,

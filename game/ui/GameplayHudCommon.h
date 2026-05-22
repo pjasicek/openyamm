@@ -127,6 +127,7 @@ public:
         float scale);
     static std::optional<GameplayResolvedHudLayoutElement> resolveHudLayoutElement(
         const UiLayoutManager &layoutManager,
+        const std::unordered_map<std::string, float> &runtimeWidthOverrides,
         const std::unordered_map<std::string, float> &runtimeHeightOverrides,
         const std::string &layoutId,
         int screenWidth,

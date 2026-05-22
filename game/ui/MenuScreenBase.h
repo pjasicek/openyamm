@@ -41,6 +41,15 @@ public:
         float height = 0.0f;
     };
 
+    struct TexturePixelsBgra
+    {
+        int physicalWidth = 0;
+        int physicalHeight = 0;
+        int logicalWidth = 0;
+        int logicalHeight = 0;
+        std::vector<uint8_t> pixels;
+    };
+
     struct ButtonVisualSet
     {
         std::string defaultTextureName;
@@ -97,6 +106,7 @@ protected:
         const Rect &rect,
         uint32_t colorAbgr);
     std::optional<TextureSize> textureSize(const std::string &textureName);
+    std::optional<TexturePixelsBgra> texturePixelsBgra(const std::string &textureName);
     bool drawText(
         const std::string &fontName,
         const std::string &text,

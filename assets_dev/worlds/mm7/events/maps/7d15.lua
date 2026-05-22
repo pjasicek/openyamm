@@ -184,6 +184,7 @@ end)
 
 RegisterEvent(451, nil, function()
     local randomStep = PickRandomOption(451, 1, {2, 5, 8, 11, 14, 20})
+    evt.Debug("random step: ", randomStep)
     if randomStep == 2 then
         evt.SetDoorState(5, DoorAction.Trigger)
         evt.SetDoorState(9, DoorAction.Trigger)

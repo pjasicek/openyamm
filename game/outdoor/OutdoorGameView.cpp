@@ -92,6 +92,11 @@ bool mapLoadTimingEnabled()
     return pValue != nullptr && std::string_view(pValue) != "0" && std::string_view(pValue) != "false";
 }
 
+bool windowHasInputFocus(SDL_Window *pWindow)
+{
+    return pWindow != nullptr && (SDL_GetWindowFlags(pWindow) & SDL_WINDOW_INPUT_FOCUS) != 0;
+}
+
 class OutdoorViewLoadTimingLogger
 {
 public:
@@ -3621,6 +3626,9 @@ void OutdoorGameView::shutdown()
             m_pOutdoorWorldRuntime->setWorldFxSystem(nullptr);
         }
         m_pOutdoorWorldRuntime = nullptr;
+        resetLightingStats(m_outdoorLightingStats);
+        m_outdoorSpriteRenderDiagnostics = {};
+        m_lastOutdoorLightingStatsLogElapsedTime = 0.0f;
     };
 
     screenRuntime.clearUiControllerRuntimeState();
@@ -3666,6 +3674,7 @@ void OutdoorGameView::shutdown()
         m_filledTerrainVertexBufferHandle = BGFX_INVALID_HANDLE;
         m_skyVertexBufferHandle = BGFX_INVALID_HANDLE;
         m_texturedTerrainVertexBufferHandle = BGFX_INVALID_HANDLE;
+        m_texturedTerrainChunks.clear();
         m_bmodelVertexBufferHandle = BGFX_INVALID_HANDLE;
         m_bmodelCollisionVertexBufferHandle = BGFX_INVALID_HANDLE;
         m_entityMarkerVertexBufferHandle = BGFX_INVALID_HANDLE;
@@ -3918,6 +3927,17 @@ void OutdoorGameView::shutdown()
         m_texturedTerrainVertexBufferHandle = BGFX_INVALID_HANDLE;
     }
 
+    for (TexturedTerrainChunk &chunk : m_texturedTerrainChunks)
+    {
+        if (bgfx::isValid(chunk.vertexBufferHandle))
+        {
+            bgfx::destroy(chunk.vertexBufferHandle);
+            chunk.vertexBufferHandle = BGFX_INVALID_HANDLE;
+        }
+    }
+
+    m_texturedTerrainChunks.clear();
+
     if (bgfx::isValid(m_bloodSplatVertexBufferHandle))
     {
         bgfx::destroy(m_bloodSplatVertexBufferHandle);
@@ -3962,6 +3982,9 @@ void OutdoorGameView::shutdown()
     m_elapsedTime = 0.0f;
     m_framesPerSecond = 0.0f;
     m_lastOutdoorFxLightUniformUpdateElapsedTime = -1.0f;
+    resetLightingStats(m_outdoorLightingStats);
+    m_outdoorSpriteRenderDiagnostics = {};
+    m_lastOutdoorLightingStatsLogElapsedTime = 0.0f;
     m_cachedSkyVertices.clear();
     m_cachedSkyTextureName.clear();
     m_lastSkyUpdateElapsedTime = -1.0f;
@@ -3972,6 +3995,8 @@ void OutdoorGameView::shutdown()
     m_spawnMarkerVertexCount = 0;
     worldInteractionInputState.keyboardUseLatch = false;
     worldInteractionInputState.inspectKeyboardActivateLatch = false;
+    worldInteractionInputState.keyboardUseNextRepeatTickNanoseconds = 0;
+    worldInteractionInputState.inspectKeyboardActivateNextRepeatTickNanoseconds = 0;
     screenRuntime.resetOverlayInteractionState();
     worldInteractionInputState.inspectMouseActivateLatch = false;
     attackActionState.clear();
@@ -4094,14 +4119,17 @@ ArpgModeCameraFrame OutdoorGameView::buildCameraFrame(
 
 void OutdoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enabled)
 {
-    if (pWindow != nullptr && SDL_GetWindowRelativeMouseMode(pWindow) != enabled)
+    const bool windowFocused = windowHasInputFocus(pWindow);
+    const bool effectiveEnabled = enabled && windowFocused;
+
+    if (pWindow != nullptr && SDL_GetWindowRelativeMouseMode(pWindow) != effectiveEnabled)
     {
-        if (enabled)
+        if (effectiveEnabled)
         {
             syncCursorToGameplayCrosshair(pWindow);
             m_lastGameplayMouseLookCursorSyncTicks = SDL_GetTicks();
         }
-        else
+        else if (windowFocused)
         {
             int windowWidth = 0;
             int windowHeight = 0;
@@ -4118,10 +4146,10 @@ void OutdoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enable
             m_lastGameplayMouseLookCursorSyncTicks = 0;
         }
 
-        SDL_SetWindowRelativeMouseMode(pWindow, enabled);
+        SDL_SetWindowRelativeMouseMode(pWindow, effectiveEnabled);
         m_gameSession.requestRelativeMouseMotionReset();
     }
-    else if (enabled)
+    else if (effectiveEnabled)
     {
         const uint64_t nowTicks = SDL_GetTicks();
 
@@ -4138,7 +4166,7 @@ void OutdoorGameView::syncGameplayMouseLookMode(SDL_Window *pWindow, bool enable
         m_lastGameplayMouseLookCursorSyncTicks = 0;
     }
 
-    if (enabled)
+    if (effectiveEnabled)
     {
         SDL_HideCursor();
     }
@@ -4169,6 +4197,11 @@ void OutdoorGameView::syncCursorToGameplayCrosshair(SDL_Window *pWindow)
     }
 
     if (pWindow == nullptr)
+    {
+        return;
+    }
+
+    if (!windowHasInputFocus(pWindow))
     {
         return;
     }
@@ -4862,6 +4895,8 @@ void OutdoorGameView::clearWorldInteractionInputLatches()
 
     worldInteractionInputState.keyboardUseLatch = false;
     worldInteractionInputState.inspectKeyboardActivateLatch = false;
+    worldInteractionInputState.keyboardUseNextRepeatTickNanoseconds = 0;
+    worldInteractionInputState.inspectKeyboardActivateNextRepeatTickNanoseconds = 0;
     pendingSpellCast.clickLatch = false;
     worldInteractionInputState.heldInventoryDropLatch = false;
     m_gameSession.overlayInteractionState().activateInspectLatch = false;

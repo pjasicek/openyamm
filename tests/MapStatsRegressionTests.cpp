@@ -262,6 +262,9 @@ TEST_CASE("map stats assign default canonical MM8 map identity")
     const OpenYAMM::Game::MapStatsEntry *pDaggerWound = mapStats.findByFileName("Out01.odm");
     const OpenYAMM::Game::MapStatsEntry *pMountNighon = mapStats.findByFileName("out10.odm");
     const OpenYAMM::Game::MapStatsEntry *pLandOfTheGiants = mapStats.findByFileName("out12.odm");
+    const OpenYAMM::Game::MapStatsEntry *pErathianSewers = mapStats.findByFileName("d01.blv");
+    const OpenYAMM::Game::MapStatsEntry *pBarrowXiv = mapStats.findByFileName("mdk04.blv");
+    const OpenYAMM::Game::MapStatsEntry *pTempleOfTheDark = mapStats.findByFileName("t02.blv");
     const OpenYAMM::Game::MapStatsEntry *pBreach = mapStats.findByFileName("Breach.odm");
     const OpenYAMM::Game::MapStatsEntry *pBrAlvar = mapStats.findByFileName("BrAlvar.odm");
     const OpenYAMM::Game::MapStatsEntry *pBrBase = mapStats.findByFileName("BrBase.blv");
@@ -276,6 +279,16 @@ TEST_CASE("map stats assign default canonical MM8 map identity")
     CHECK_EQ(pMountNighon->canonicalId, "world.mm7.map.out10");
     CHECK_EQ(pLandOfTheGiants->worldId, "mm7");
     CHECK_EQ(pLandOfTheGiants->canonicalId, "world.mm7.map.out12");
+
+    REQUIRE(pErathianSewers != nullptr);
+    REQUIRE(pBarrowXiv != nullptr);
+    REQUIRE(pTempleOfTheDark != nullptr);
+    CHECK_EQ(pErathianSewers->worldId, "mm7");
+    CHECK_EQ(pErathianSewers->canonicalId, "world.mm7.map.d01");
+    CHECK_EQ(pBarrowXiv->worldId, "mm7");
+    CHECK_EQ(pBarrowXiv->canonicalId, "world.mm7.map.mdk04");
+    CHECK_EQ(pTempleOfTheDark->worldId, "mm7");
+    CHECK_EQ(pTempleOfTheDark->canonicalId, "world.mm7.map.t02");
 
     REQUIRE(pBreach != nullptr);
     REQUIRE(pBrAlvar != nullptr);

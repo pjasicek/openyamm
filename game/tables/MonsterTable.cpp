@@ -999,7 +999,7 @@ bool MonsterTable::loadStatsFromRows(const std::vector<std::vector<std::string>>
             entry.attackSoundId = pEntry->soundSampleIds[0];
             entry.deathSoundId = pEntry->soundSampleIds[1];
             entry.winceSoundId = pEntry->soundSampleIds[2];
-            entry.awareSoundId = pEntry->soundSampleIds[3];
+            entry.boredSoundId = pEntry->soundSampleIds[3];
         }
 
         m_statsIdByPictureName[toLowerCopy(entry.pictureName)] = entry.id;

@@ -532,6 +532,28 @@ const NpcEntry *NpcDialogTable::getNpc(uint32_t npcId) const
     return &npcIt->second;
 }
 
+std::vector<NpcEntry> NpcDialogTable::entries() const
+{
+    std::vector<NpcEntry> entries;
+    entries.reserve(m_npcs.size());
+
+    for (const auto &[npcId, npc] : m_npcs)
+    {
+        static_cast<void>(npcId);
+        entries.push_back(npc);
+    }
+
+    std::sort(
+        entries.begin(),
+        entries.end(),
+        [](const NpcEntry &left, const NpcEntry &right)
+        {
+            return left.id < right.id;
+        });
+
+    return entries;
+}
+
 const NpcEntry *NpcDialogTable::findNpcByName(const std::string &name) const
 {
     const std::string normalizedName = normalizeName(name);

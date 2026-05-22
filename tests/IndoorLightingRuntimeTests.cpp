@@ -1,12 +1,17 @@
 #include "doctest/doctest.h"
 
 #include "game/events/EventRuntime.h"
+#include "game/fx/WorldFxSystem.h"
 #include "game/gameplay/GameplayTorchLight.h"
 #include "game/indoor/IndoorLightingRuntime.h"
 #include "game/indoor/IndoorMapData.h"
 #include "game/maps/MapAssetLoader.h"
 #include "game/party/Party.h"
 #include "game/party/SpellIds.h"
+#include "game/render/lighting/FxLightClustering.h"
+#include "game/render/lighting/LightingStats.h"
+
+#include <vector>
 
 using OpenYAMM::Game::EventRuntimeState;
 using OpenYAMM::Game::GameplayTorchLight;
@@ -14,6 +19,7 @@ using OpenYAMM::Game::IndoorLight;
 using OpenYAMM::Game::IndoorLightingFrame;
 using OpenYAMM::Game::IndoorLightingFrameInput;
 using OpenYAMM::Game::IndoorLightingRuntime;
+using OpenYAMM::Game::IndoorLightSelectionHistory;
 using OpenYAMM::Game::IndoorLightSelectionBounds;
 using OpenYAMM::Game::IndoorMapData;
 using OpenYAMM::Game::IndoorRenderLight;
@@ -21,8 +27,13 @@ using OpenYAMM::Game::IndoorRenderLightKind;
 using OpenYAMM::Game::IndoorSector;
 using OpenYAMM::Game::IndoorVisibilityFrustum;
 using OpenYAMM::Game::IndoorVisibilityPlane;
+using OpenYAMM::Game::LightingStats;
+using OpenYAMM::Game::RenderLightKind;
+using OpenYAMM::Game::RenderLight;
 using OpenYAMM::Game::DecorationBillboard;
 using OpenYAMM::Game::DecorationBillboardSet;
+using OpenYAMM::Game::FxLightClusterConfig;
+using OpenYAMM::Game::FxLightClusterResult;
 using OpenYAMM::Game::MaxIndoorDrawLights;
 using OpenYAMM::Game::Party;
 using OpenYAMM::Game::PartyBuffId;
@@ -31,6 +42,10 @@ using OpenYAMM::Game::gameplayTorchLightColorAbgr;
 using OpenYAMM::Game::resolveGameplayTorchLight;
 using OpenYAMM::Game::SkillMastery;
 using OpenYAMM::Game::SpellId;
+using OpenYAMM::Game::WorldFxLightEmitter;
+using OpenYAMM::Game::addLightingStats;
+using OpenYAMM::Game::recordLightingSelection;
+using OpenYAMM::Game::resetLightingStats;
 using OpenYAMM::Game::spellIdValue;
 
 namespace
@@ -58,6 +73,200 @@ IndoorMapData makeMapWithOneSector()
 TEST_CASE("indoor lighting keeps shader draw light budget local to each draw")
 {
     CHECK_EQ(MaxIndoorDrawLights, 12u);
+}
+
+TEST_CASE("lighting stats accumulate and reset instrumentation counters")
+{
+    LightingStats stats = {};
+    stats.inputLights = 3;
+    stats.maxCandidatesPerSelection = 2;
+    stats.selectionNanoseconds = 12;
+
+    LightingStats increment = {};
+    increment.inputLights = 4;
+    increment.maxCandidatesPerSelection = 9;
+    increment.selectionNanoseconds = 5;
+    addLightingStats(stats, increment);
+
+    CHECK_EQ(stats.inputLights, 7u);
+    CHECK_EQ(stats.maxCandidatesPerSelection, 9u);
+    CHECK_EQ(stats.selectionNanoseconds, 17u);
+
+    recordLightingSelection(stats, 6, 3, 2);
+    CHECK_EQ(stats.selectionCalls, 1u);
+    CHECK_EQ(stats.candidateEvaluations, 6u);
+    CHECK_EQ(stats.selectedLights, 3u);
+    CHECK_EQ(stats.omittedTailLights, 2u);
+
+    resetLightingStats(stats);
+    CHECK_EQ(stats.inputLights, 0u);
+    CHECK_EQ(stats.selectionNanoseconds, 0u);
+}
+
+TEST_CASE("world FX light emitters default to generic render-light metadata")
+{
+    WorldFxLightEmitter defaultEmitter = {};
+    CHECK(defaultEmitter.kind == RenderLightKind::GenericFx);
+    CHECK_EQ(defaultEmitter.intensity, 1.0f);
+    CHECK_EQ(defaultEmitter.stableId, 0u);
+    CHECK_FALSE(defaultEmitter.important);
+
+    WorldFxLightEmitter projectileEmitter = {};
+    projectileEmitter.kind = RenderLightKind::Projectile;
+    projectileEmitter.sectorId = 7;
+    projectileEmitter.stableId = 42;
+    projectileEmitter.important = true;
+
+    CHECK(projectileEmitter.kind == RenderLightKind::Projectile);
+    CHECK_EQ(projectileEmitter.sectorId, 7);
+    CHECK_EQ(projectileEmitter.stableId, 42u);
+    CHECK(projectileEmitter.important);
+}
+
+TEST_CASE("FX light clustering collapses dense projectile lights in one sector")
+{
+    std::vector<RenderLight> sourceLights;
+
+    for (uint32_t index = 0; index < 12; ++index)
+    {
+        RenderLight light = {};
+        light.position = {static_cast<float>(index * 8), 0.0f, 0.0f};
+        light.radius = 96.0f;
+        light.colorAbgr = 0xff6040ffu;
+        light.intensity = 1.0f;
+        light.sectorId = 2;
+        light.kind = RenderLightKind::Projectile;
+        light.dynamic = true;
+        sourceLights.push_back(light);
+    }
+
+    RenderLight torch = {};
+    torch.position = {500.0f, 0.0f, 0.0f};
+    torch.radius = 500.0f;
+    torch.colorAbgr = 0xffffffffu;
+    torch.intensity = 1.0f;
+    torch.sectorId = 2;
+    torch.kind = RenderLightKind::Torch;
+    torch.dynamic = true;
+    torch.important = true;
+    sourceLights.push_back(torch);
+
+    FxLightClusterConfig config = {};
+    config.cellSize = 256.0f;
+    config.thresholdPerSector = 8;
+    config.maxClustersPerSector = 8;
+    config.maxRadius = 900.0f;
+    config.maxIntensity = 2.5f;
+
+    const FxLightClusterResult result = OpenYAMM::Game::FxLightClustering::clusterSectorFxLights(
+        sourceLights,
+        config);
+
+    REQUIRE_EQ(result.lights.size(), 2u);
+    CHECK_EQ(result.clusteredInputLights, 12u);
+    CHECK_EQ(result.outputClusterLights, 1u);
+
+    bool foundCluster = false;
+    bool foundTorch = false;
+
+    for (const RenderLight &light : result.lights)
+    {
+        if (light.kind == RenderLightKind::ClusteredFx)
+        {
+            foundCluster = true;
+            CHECK_EQ(light.sectorId, 2);
+            CHECK(light.radius <= 900.0f);
+            CHECK(light.intensity <= 2.5f);
+            CHECK(light.stableId != 0u);
+        }
+
+        if (light.kind == RenderLightKind::Torch)
+        {
+            foundTorch = true;
+        }
+    }
+
+    CHECK(foundCluster);
+    CHECK(foundTorch);
+}
+
+TEST_CASE("FX light clustering supports sectorless outdoor dynamic lights")
+{
+    std::vector<RenderLight> sourceLights;
+
+    for (uint32_t index = 0; index < 20; ++index)
+    {
+        RenderLight light = {};
+        light.position = {static_cast<float>(index * 10), 32.0f, 64.0f};
+        light.radius = 128.0f;
+        light.colorAbgr = 0xff6040ffu;
+        light.intensity = 1.0f;
+        light.sectorId = -1;
+        light.kind = RenderLightKind::Projectile;
+        light.dynamic = true;
+        sourceLights.push_back(light);
+    }
+
+    FxLightClusterConfig config = {};
+    config.cellSize = 512.0f;
+    config.thresholdPerSector = 8;
+    config.maxClustersPerSector = 4;
+    config.maxRadius = 1400.0f;
+    config.maxIntensity = 2.5f;
+    config.allowSectorlessLights = true;
+
+    const FxLightClusterResult result = OpenYAMM::Game::FxLightClustering::clusterSectorFxLights(
+        sourceLights,
+        config);
+
+    REQUIRE_EQ(result.lights.size(), 1u);
+    CHECK_EQ(result.clusteredInputLights, 20u);
+    CHECK_EQ(result.outputClusterLights, 1u);
+    CHECK_EQ(result.lights.front().sectorId, -1);
+    CHECK(result.lights.front().kind == RenderLightKind::ClusteredFx);
+    CHECK(result.lights.front().stableId != 0u);
+}
+
+TEST_CASE("FX light clustering collapses dense indoor spark lights before draw selection")
+{
+    std::vector<RenderLight> sourceLights;
+
+    for (uint32_t index = 0; index < 35; ++index)
+    {
+        RenderLight light = {};
+        light.position = {
+            static_cast<float>((index % 7) * 48),
+            static_cast<float>((index / 7) * 36),
+            static_cast<float>((index % 3) * 24)
+        };
+        light.radius = 112.0f;
+        light.colorAbgr = 0xff6040ffu;
+        light.intensity = 1.0f;
+        light.sectorId = -1;
+        light.kind = RenderLightKind::Projectile;
+        light.dynamic = true;
+        sourceLights.push_back(light);
+    }
+
+    FxLightClusterConfig config = {};
+    config.cellSize = 512.0f;
+    config.thresholdPerSector = 4;
+    config.maxClustersPerSector = 7;
+    config.maxRadius = 640.0f;
+    config.maxIntensity = 2.5f;
+    config.allowSectorlessLights = true;
+
+    const FxLightClusterResult result = OpenYAMM::Game::FxLightClustering::clusterSectorFxLights(
+        sourceLights,
+        config);
+
+    REQUIRE_EQ(result.lights.size(), 1u);
+    CHECK_EQ(result.clusteredInputLights, 35u);
+    CHECK_EQ(result.outputClusterLights, 1u);
+    CHECK_EQ(result.lights.front().sectorId, -1);
+    CHECK(result.lights.front().kind == RenderLightKind::ClusteredFx);
+    CHECK(result.lights.front().radius <= 640.0f);
+    CHECK(result.lights.front().stableId != 0u);
 }
 
 TEST_CASE("indoor lighting resolves BLV light enabled state from attributes and runtime overrides")
@@ -442,6 +651,200 @@ TEST_CASE("indoor lighting keeps static detail lights when many FX lights are pr
     }
 
     CHECK(foundStaticLight);
+}
+
+TEST_CASE("indoor lighting does not scan unrelated sector FX candidates for local draw selection")
+{
+    IndoorLightingFrame frame = {};
+    frame.ambient = 0.25f;
+    frame.lightIndicesBySector.resize(3);
+    frame.dynamicLightIndicesBySector.resize(3);
+
+    IndoorRenderLight localFxLight = {};
+    localFxLight.position = {0.0f, 0.0f, 0.0f};
+    localFxLight.radius = 300.0f;
+    localFxLight.colorAbgr = 0xffffffffu;
+    localFxLight.intensity = 1.0f;
+    localFxLight.sectorId = 0;
+    localFxLight.kind = IndoorRenderLightKind::Fx;
+    frame.dynamicLightIndicesBySector[0].push_back(static_cast<uint32_t>(frame.lights.size()));
+    frame.fxLightIndices.push_back(static_cast<uint32_t>(frame.lights.size()));
+    frame.lights.push_back(localFxLight);
+
+    for (size_t index = 0; index < MaxIndoorDrawLights * 4; ++index)
+    {
+        IndoorRenderLight unrelatedFxLight = {};
+        unrelatedFxLight.position = {static_cast<float>(index * 8), 0.0f, 0.0f};
+        unrelatedFxLight.radius = 2000.0f;
+        unrelatedFxLight.colorAbgr = 0xffffffffu;
+        unrelatedFxLight.intensity = 1.0f;
+        unrelatedFxLight.sectorId = 2;
+        unrelatedFxLight.kind = IndoorRenderLightKind::Fx;
+        frame.dynamicLightIndicesBySector[2].push_back(static_cast<uint32_t>(frame.lights.size()));
+        frame.fxLightIndices.push_back(static_cast<uint32_t>(frame.lights.size()));
+        frame.lights.push_back(unrelatedFxLight);
+    }
+
+    IndoorLightSelectionBounds bounds = {};
+    bounds.min = {-32.0f, -32.0f, -32.0f};
+    bounds.max = {32.0f, 32.0f, 32.0f};
+    bounds.valid = true;
+
+    LightingStats stats = {};
+    const OpenYAMM::Game::IndoorDrawLightSet drawLights =
+        IndoorLightingRuntime::selectDrawLightSetForBounds(
+            frame,
+            {0.0f, 0.0f, 0.0f},
+            {1.0f, 0.0f, 0.0f},
+            0,
+            -1,
+            bounds,
+            &stats);
+
+    CHECK_EQ(drawLights.lightCount, 1u);
+    CHECK_EQ(stats.selectionCalls, 1u);
+    CHECK_EQ(stats.candidateEvaluations, 1u);
+    CHECK_EQ(stats.maxCandidatesPerSelection, 1u);
+}
+
+TEST_CASE("indoor lighting reserves draw slots for FX when authored lights dominate score")
+{
+    IndoorLightingFrame frame = {};
+    frame.ambient = 0.25f;
+    frame.lightIndicesBySector.resize(1);
+    frame.dynamicLightIndicesBySector.resize(1);
+
+    for (size_t index = 0; index < MaxIndoorDrawLights + 4; ++index)
+    {
+        IndoorRenderLight staticLight = {};
+        staticLight.position = {128.0f, 0.0f, 0.0f};
+        staticLight.radius = 256.0f;
+        staticLight.colorAbgr = 0xffffffffu;
+        staticLight.intensity = 20.0f;
+        staticLight.sectorId = 0;
+        staticLight.kind = IndoorRenderLightKind::Static;
+        staticLight.stableId = static_cast<uint32_t>(index + 1);
+        frame.lightIndicesBySector[0].push_back(static_cast<uint32_t>(frame.lights.size()));
+        frame.lights.push_back(staticLight);
+    }
+
+    for (size_t index = 0; index < 3; ++index)
+    {
+        IndoorRenderLight fxLight = {};
+        fxLight.position = {128.0f, 0.0f, 0.0f};
+        fxLight.radius = 256.0f;
+        fxLight.colorAbgr = 0xffffffffu;
+        fxLight.intensity = 1.0f;
+        fxLight.sectorId = 0;
+        fxLight.kind = IndoorRenderLightKind::Fx;
+        fxLight.stableId = static_cast<uint32_t>(100 + index);
+        frame.dynamicLightIndicesBySector[0].push_back(static_cast<uint32_t>(frame.lights.size()));
+        frame.fxLightIndices.push_back(static_cast<uint32_t>(frame.lights.size()));
+        frame.lights.push_back(fxLight);
+    }
+
+    IndoorLightSelectionBounds bounds = {};
+    bounds.min = {-32.0f, -32.0f, -32.0f};
+    bounds.max = {160.0f, 32.0f, 32.0f};
+    bounds.valid = true;
+
+    const OpenYAMM::Game::IndoorDrawLightSet drawLights =
+        IndoorLightingRuntime::selectDrawLightSetForBounds(
+            frame,
+            {0.0f, 0.0f, 0.0f},
+            {1.0f, 0.0f, 0.0f},
+            0,
+            -1,
+            bounds);
+
+    size_t selectedFxCount = 0;
+
+    for (size_t index = 0; index < drawLights.lightCount; ++index)
+    {
+        if (drawLights.stableIds[index] >= 100 && drawLights.stableIds[index] < 103)
+        {
+            ++selectedFxCount;
+        }
+    }
+
+    CHECK_EQ(drawLights.lightCount, MaxIndoorDrawLights);
+    CHECK_EQ(selectedFxCount, 3u);
+}
+
+TEST_CASE("indoor lighting keeps previous stable light selection when scores are close")
+{
+    IndoorLightingFrame frame = {};
+    frame.ambient = 0.25f;
+    frame.dynamicLightIndicesBySector.resize(1);
+
+    for (size_t index = 0; index < MaxIndoorDrawLights; ++index)
+    {
+        IndoorRenderLight light = {};
+        light.position = {128.0f, 0.0f, 0.0f};
+        light.radius = 256.0f;
+        light.colorAbgr = 0xffffffffu;
+        light.intensity = 1.0f;
+        light.sectorId = 0;
+        light.kind = IndoorRenderLightKind::Fx;
+        light.stableId = static_cast<uint32_t>(index + 1);
+        frame.dynamicLightIndicesBySector[0].push_back(static_cast<uint32_t>(frame.lights.size()));
+        frame.fxLightIndices.push_back(static_cast<uint32_t>(frame.lights.size()));
+        frame.lights.push_back(light);
+    }
+
+    IndoorRenderLight previousLight = {};
+    previousLight.position = {128.0f, 0.0f, 0.0f};
+    previousLight.radius = 256.0f;
+    previousLight.colorAbgr = 0xffffffffu;
+    previousLight.intensity = 0.9f;
+    previousLight.sectorId = 0;
+    previousLight.kind = IndoorRenderLightKind::Fx;
+    previousLight.stableId = 999;
+    frame.dynamicLightIndicesBySector[0].push_back(static_cast<uint32_t>(frame.lights.size()));
+    frame.fxLightIndices.push_back(static_cast<uint32_t>(frame.lights.size()));
+    frame.lights.push_back(previousLight);
+
+    IndoorLightSelectionBounds bounds = {};
+    bounds.min = {-32.0f, -32.0f, -32.0f};
+    bounds.max = {160.0f, 32.0f, 32.0f};
+    bounds.valid = true;
+
+    const OpenYAMM::Game::IndoorDrawLightSet withoutHistory =
+        IndoorLightingRuntime::selectDrawLightSetForBounds(
+            frame,
+            {0.0f, 0.0f, 0.0f},
+            {1.0f, 0.0f, 0.0f},
+            0,
+            -1,
+            bounds);
+
+    bool selectedPreviousWithoutHistory = false;
+    for (size_t index = 0; index < withoutHistory.lightCount; ++index)
+    {
+        selectedPreviousWithoutHistory = selectedPreviousWithoutHistory || withoutHistory.stableIds[index] == 999;
+    }
+    CHECK_FALSE(selectedPreviousWithoutHistory);
+
+    IndoorLightSelectionHistory history = {};
+    history.lightStableIds[0] = 999;
+    history.lightCount = 1;
+    const OpenYAMM::Game::IndoorDrawLightSet withHistory =
+        IndoorLightingRuntime::selectDrawLightSetForBounds(
+            frame,
+            {0.0f, 0.0f, 0.0f},
+            {1.0f, 0.0f, 0.0f},
+            0,
+            -1,
+            bounds,
+            nullptr,
+            &history);
+
+    bool selectedPreviousWithHistory = false;
+    for (size_t index = 0; index < withHistory.lightCount; ++index)
+    {
+        selectedPreviousWithHistory = selectedPreviousWithHistory || withHistory.stableIds[index] == 999;
+    }
+    CHECK(selectedPreviousWithHistory);
 }
 
 TEST_CASE("indoor lighting samples ambient plus nearby point lights")

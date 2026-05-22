@@ -720,6 +720,7 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
                 overlay.active = true;
                 overlay.title = pEntry->name;
                 overlay.body = pEntry->description;
+                std::string normalDescription = pEntry->normalDescription;
                 std::string expertDescription = pEntry->expertDescription;
                 std::string masterDescription = pEntry->masterDescription;
                 std::string grandmasterDescription = pEntry->grandmasterDescription;
@@ -736,6 +737,13 @@ void GameplayHudOverlaySupport::updateCharacterInspectOverlay(
                         "Skill added to Attack Bonus (quintuple effect); +1 damage per skill point";
                 }
 
+                overlay.normal.text = "Normal: " + normalDescription;
+                overlay.normal.availability = skillMasteryAvailability(
+                    context.classSkillTable(),
+                    pCharacter,
+                    row.canonicalName,
+                    SkillMastery::Normal);
+                overlay.normal.visible = !normalDescription.empty();
                 overlay.expert.text = "Expert: " + expertDescription;
                 overlay.expert.availability = skillMasteryAvailability(
                     context.classSkillTable(),
@@ -1115,7 +1123,8 @@ void GameplayHudOverlaySupport::updateCharacterDetailOverlay(
 
     overlay.active = true;
     const std::string characterName = pCharacter->name.empty() ? "Member" : pCharacter->name;
-    const std::string characterClass = !pCharacter->className.empty() ? pCharacter->className : pCharacter->role;
+    const std::string characterClass =
+        displayClassName(!pCharacter->className.empty() ? pCharacter->className : pCharacter->role);
     overlay.title = characterClass.empty() ? characterName : characterName + " the " + characterClass;
     overlay.body.clear();
     overlay.portraitTextureName = defaultCharacterPortraitTextureName(*pCharacter);
