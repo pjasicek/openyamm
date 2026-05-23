@@ -349,7 +349,7 @@ const MonsterEntry *resolveArpgModePlayerMonsterEntry(
 uint16_t selectArpgModePlayerSpriteFrameIndex(
     float actionAnimationSeconds,
     bool actionAnimationIsCast,
-    bool hasMoveDestination,
+    bool walkingAnimationActive,
     const std::array<uint16_t, 8> &actionSpriteFrameIndices)
 {
     OutdoorWorldRuntime::ActorAnimation animation = OutdoorWorldRuntime::ActorAnimation::Standing;
@@ -360,7 +360,7 @@ uint16_t selectArpgModePlayerSpriteFrameIndex(
             ? OutdoorWorldRuntime::ActorAnimation::AttackRanged
             : OutdoorWorldRuntime::ActorAnimation::AttackMelee;
     }
-    else if (hasMoveDestination)
+    else if (walkingAnimationActive)
     {
         animation = OutdoorWorldRuntime::ActorAnimation::Walking;
     }
@@ -2867,13 +2867,14 @@ void OutdoorBillboardRenderer::renderActorPreviewBillboards(
                     buildArpgModeActionSpriteFrameIndices(
                         view.m_outdoorActorPreviewBillboardSet->spriteFrameTable,
                         *pMonsterEntry);
+                const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+                const bool walkingAnimationActive = view.m_arpgModeHasMoveDestination && !moveState.airborne;
                 const uint16_t spriteFrameIndex =
                     selectArpgModePlayerSpriteFrameIndex(
                         view.m_arpgModeActionAnimationSeconds,
                         view.m_arpgModeActionAnimationIsCast,
-                        view.m_arpgModeHasMoveDestination,
+                        walkingAnimationActive,
                         actionSpriteFrameIndices);
-                const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
 
                 if (spriteFrameIndex != 0)
                 {

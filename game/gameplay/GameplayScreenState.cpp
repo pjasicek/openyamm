@@ -12,6 +12,11 @@ void GameplayScreenState::QuickSpellState::clear()
     *this = {};
 }
 
+void GameplayScreenState::ArpgAetherRayState::clear()
+{
+    *this = {};
+}
+
 void GameplayScreenState::AttackActionState::clear()
 {
     *this = {};
@@ -32,6 +37,7 @@ void GameplayScreenState::clear()
     m_uiState = {};
     m_pendingSpellTarget.clear();
     m_quickSpellState.clear();
+    m_arpgAetherRayState.clear();
     m_attackActionState.clear();
     m_worldInteractionInputState.clear();
     m_gameplayMouseLookState.clear();
@@ -208,6 +214,16 @@ GameplayScreenState::QuickSpellState &GameplayScreenState::quickSpellState()
 const GameplayScreenState::QuickSpellState &GameplayScreenState::quickSpellState() const
 {
     return m_quickSpellState;
+}
+
+GameplayScreenState::ArpgAetherRayState &GameplayScreenState::arpgAetherRayState()
+{
+    return m_arpgAetherRayState;
+}
+
+const GameplayScreenState::ArpgAetherRayState &GameplayScreenState::arpgAetherRayState() const
+{
+    return m_arpgAetherRayState;
 }
 
 GameplayScreenState::AttackActionState &GameplayScreenState::attackActionState()

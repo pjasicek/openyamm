@@ -2637,6 +2637,55 @@ bool intersectRayAabb(
     return true;
 }
 
+bool intersectRayAabbInterval(
+    const bx::Vec3 &rayOrigin,
+    const bx::Vec3 &rayDirection,
+    const bx::Vec3 &minBounds,
+    const bx::Vec3 &maxBounds,
+    float &tMin,
+    float &tMax)
+{
+    tMin = 0.0f;
+    tMax = std::numeric_limits<float>::max();
+
+    const float rayOriginValues[3] = {rayOrigin.x, rayOrigin.y, rayOrigin.z};
+    const float rayDirectionValues[3] = {rayDirection.x, rayDirection.y, rayDirection.z};
+    const float minValues[3] = {minBounds.x, minBounds.y, minBounds.z};
+    const float maxValues[3] = {maxBounds.x, maxBounds.y, maxBounds.z};
+
+    for (int axis = 0; axis < 3; ++axis)
+    {
+        if (std::fabs(rayDirectionValues[axis]) <= InspectRayEpsilon)
+        {
+            if (rayOriginValues[axis] < minValues[axis] || rayOriginValues[axis] > maxValues[axis])
+            {
+                return false;
+            }
+
+            continue;
+        }
+
+        const float inverseDirection = 1.0f / rayDirectionValues[axis];
+        float t1 = (minValues[axis] - rayOriginValues[axis]) * inverseDirection;
+        float t2 = (maxValues[axis] - rayOriginValues[axis]) * inverseDirection;
+
+        if (t1 > t2)
+        {
+            std::swap(t1, t2);
+        }
+
+        tMin = std::max(tMin, t1);
+        tMax = std::min(tMax, t2);
+
+        if (tMin > tMax)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 std::optional<float> intersectOutdoorTerrainRay(
     const OutdoorMapData &outdoorMapData,
     const bx::Vec3 &rayOrigin,
@@ -2644,10 +2693,58 @@ std::optional<float> intersectOutdoorTerrainRay(
 {
     float closestDistance = std::numeric_limits<float>::max();
     bool hasIntersection = false;
+    const bx::Vec3 terrainBoundsMin = {
+        outdoorGridCornerWorldX(0),
+        outdoorGridCornerWorldY(OutdoorMapData::TerrainHeight - 1),
+        0.0f
+    };
+    const bx::Vec3 terrainBoundsMax = {
+        outdoorGridCornerWorldX(OutdoorMapData::TerrainWidth - 1),
+        outdoorGridCornerWorldY(0),
+        static_cast<float>(std::numeric_limits<uint8_t>::max() * OutdoorMapData::TerrainHeightScale)
+    };
+    float tMin = 0.0f;
+    float tMax = 0.0f;
 
-    for (int gridY = 0; gridY < OutdoorMapData::TerrainHeight - 1; ++gridY)
+    if (!intersectRayAabbInterval(rayOrigin, rayDirection, terrainBoundsMin, terrainBoundsMax, tMin, tMax))
     {
-        for (int gridX = 0; gridX < OutdoorMapData::TerrainWidth - 1; ++gridX)
+        return std::nullopt;
+    }
+
+    const bx::Vec3 segmentStart = {
+        rayOrigin.x + rayDirection.x * tMin,
+        rayOrigin.y + rayDirection.y * tMin,
+        rayOrigin.z + rayDirection.z * tMin
+    };
+    const bx::Vec3 segmentEnd = {
+        rayOrigin.x + rayDirection.x * tMax,
+        rayOrigin.y + rayDirection.y * tMax,
+        rayOrigin.z + rayDirection.z * tMax
+    };
+    const float startGridX = outdoorWorldToGridXFloat(segmentStart.x);
+    const float endGridX = outdoorWorldToGridXFloat(segmentEnd.x);
+    const float startGridY = outdoorWorldToGridYFloat(segmentStart.y);
+    const float endGridY = outdoorWorldToGridYFloat(segmentEnd.y);
+    const int minGridX = std::clamp(
+        static_cast<int>(std::floor(std::min(startGridX, endGridX))) - 1,
+        0,
+        OutdoorMapData::TerrainWidth - 2);
+    const int maxGridX = std::clamp(
+        static_cast<int>(std::ceil(std::max(startGridX, endGridX))) + 1,
+        0,
+        OutdoorMapData::TerrainWidth - 2);
+    const int minGridY = std::clamp(
+        static_cast<int>(std::floor(std::min(startGridY, endGridY))) - 1,
+        0,
+        OutdoorMapData::TerrainHeight - 2);
+    const int maxGridY = std::clamp(
+        static_cast<int>(std::ceil(std::max(startGridY, endGridY))) + 1,
+        0,
+        OutdoorMapData::TerrainHeight - 2);
+
+    for (int gridY = minGridY; gridY <= maxGridY; ++gridY)
+    {
+        for (int gridX = minGridX; gridX <= maxGridX; ++gridX)
         {
             const size_t topLeftIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
             const size_t topRightIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + (gridX + 1));
@@ -3689,6 +3786,7 @@ void OutdoorGameView::shutdown()
         m_arpgModeResolvedBModelOcclusionHash = 0;
 
         m_texturedBModelBatches.clear();
+        m_arpgModeBModelBatchNeighbors.clear();
         OutdoorBillboardRenderer::invalidateRenderAssets(*this);
         OutdoorRenderer::invalidateSkyResources(*this);
         screenRuntime.releaseHudGpuResources(false);
@@ -3881,6 +3979,7 @@ void OutdoorGameView::shutdown()
     }
 
     m_texturedBModelBatches.clear();
+    m_arpgModeBModelBatchNeighbors.clear();
     m_bmodelTextureAnimations.clear();
     for (ResolvedBModelDrawGroup &group : m_resolvedBModelDrawGroups)
     {
@@ -4283,6 +4382,41 @@ void OutdoorGameView::playArpgModePartyActionAnimation(float animationSeconds, b
     m_arpgModeActionAnimationIsCast = spellCast;
 }
 
+void OutdoorGameView::sustainArpgModePartyActionAnimation(float animationSeconds, bool spellCast)
+{
+    if (!arpgModeEnabled())
+    {
+        return;
+    }
+
+    const float minimumDurationSeconds = 0.05f;
+    const float durationSeconds = std::max(animationSeconds, minimumDurationSeconds);
+
+    if (m_arpgModeActionAnimationSeconds <= 0.0f || m_arpgModeActionAnimationIsCast != spellCast)
+    {
+        playArpgModePartyActionAnimation(durationSeconds, spellCast);
+        return;
+    }
+
+    if (m_arpgModeActionAnimationDurationSeconds <= 0.0f
+        || m_arpgModeActionAnimationElapsedSeconds >= m_arpgModeActionAnimationDurationSeconds)
+    {
+        m_arpgModeActionAnimationElapsedSeconds = 0.0f;
+    }
+
+    m_arpgModeActionAnimationSeconds = std::max(m_arpgModeActionAnimationSeconds, durationSeconds);
+    m_arpgModeActionAnimationDurationSeconds = std::max(m_arpgModeActionAnimationDurationSeconds, durationSeconds);
+    m_arpgModeActionAnimationIsCast = spellCast;
+}
+
+void OutdoorGameView::cancelArpgModePartyActionAnimation()
+{
+    m_arpgModeActionAnimationSeconds = 0.0f;
+    m_arpgModeActionAnimationDurationSeconds = 0.0f;
+    m_arpgModeActionAnimationElapsedSeconds = 0.0f;
+    m_arpgModeActionAnimationIsCast = false;
+}
+
 void OutdoorGameView::faceArpgModeTargetPoint(float targetX, float targetY)
 {
     if (!arpgModeEnabled() || m_pOutdoorPartyRuntime == nullptr)
@@ -4331,6 +4465,8 @@ void OutdoorGameView::updateArpgModeDelayedSpell(float deltaSeconds)
 
 void OutdoorGameView::updateArpgModeLootAutoPickup(float deltaSeconds)
 {
+    updateArpgModeCombatFeedback(deltaSeconds);
+
     for (ArpgModeLootFloatingText &floatingText : m_arpgModeLootFloatingTexts)
     {
         floatingText.remainingSeconds =
@@ -4373,6 +4509,109 @@ void OutdoorGameView::updateArpgModeLootAutoPickup(float deltaSeconds)
     if (totalGold > 0)
     {
         setStatusBarEvent("+" + std::to_string(totalGold) + " gold");
+    }
+}
+
+void OutdoorGameView::updateArpgModeCombatFeedback(float deltaSeconds)
+{
+    const float elapsedSeconds = std::max(0.0f, deltaSeconds);
+
+    if (m_arpgModeCombatTargetState.active)
+    {
+        m_arpgModeCombatTargetState.remainingSeconds =
+            std::max(0.0f, m_arpgModeCombatTargetState.remainingSeconds - elapsedSeconds);
+        m_arpgModeCombatTargetState.active = m_arpgModeCombatTargetState.remainingSeconds > 0.0f;
+    }
+
+    for (ArpgModeCombatFloatingText &floatingText : m_arpgModeCombatFloatingTexts)
+    {
+        floatingText.remainingSeconds = std::max(0.0f, floatingText.remainingSeconds - elapsedSeconds);
+    }
+
+    m_arpgModeCombatFloatingTexts.erase(
+        std::remove_if(
+            m_arpgModeCombatFloatingTexts.begin(),
+            m_arpgModeCombatFloatingTexts.end(),
+            [](const ArpgModeCombatFloatingText &floatingText)
+            {
+                return floatingText.remainingSeconds <= 0.0f;
+            }),
+        m_arpgModeCombatFloatingTexts.end());
+
+    if (m_pOutdoorWorldRuntime == nullptr)
+    {
+        return;
+    }
+
+    const std::vector<GameplayArpgCombatFeedbackEvent> events =
+        m_pOutdoorWorldRuntime->drainArpgModeCombatFeedbackEvents();
+
+    if (!arpgModeEnabled() || arpgModeFirstPersonUseMode())
+    {
+        return;
+    }
+
+    for (const GameplayArpgCombatFeedbackEvent &event : events)
+    {
+        if (event.damage > 0)
+        {
+            m_arpgModeCombatTargetState.active = true;
+            m_arpgModeCombatTargetState.actorIndex = event.actorIndex;
+            m_arpgModeCombatTargetState.remainingSeconds = 2.5f;
+
+            const auto existingText =
+                std::find_if(
+                    m_arpgModeCombatFloatingTexts.begin(),
+                    m_arpgModeCombatFloatingTexts.end(),
+                    [&](const ArpgModeCombatFloatingText &floatingText)
+                    {
+                        return !floatingText.experience && floatingText.actorIndex == event.actorIndex;
+                    });
+            ArpgModeCombatFloatingText *pFloatingText =
+                existingText != m_arpgModeCombatFloatingTexts.end() ? &*existingText : nullptr;
+
+            if (pFloatingText == nullptr)
+            {
+                m_arpgModeCombatFloatingTexts.push_back(
+                    ArpgModeCombatFloatingText{
+                        .actorIndex = event.actorIndex,
+                    });
+                pFloatingText = &m_arpgModeCombatFloatingTexts.back();
+            }
+
+            pFloatingText->amount += event.damage;
+            pFloatingText->text = std::to_string(pFloatingText->amount);
+            pFloatingText->x = event.x;
+            pFloatingText->y = event.y;
+            pFloatingText->z = event.z + std::max(48.0f, event.height * 0.75f);
+            pFloatingText->remainingSeconds = 0.95f;
+            pFloatingText->durationSeconds = 0.95f;
+            pFloatingText->colorAbgr = pFloatingText->amount >= 100
+                ? makeArpgModeHudColor(255, 225, 106, 255)
+                : makeArpgModeHudColor(235, 232, 210, 255);
+            pFloatingText->fontScale = pFloatingText->amount >= 500
+                ? 1.45f
+                : pFloatingText->amount >= 100 ? 1.25f : 1.1f;
+            pFloatingText->experience = false;
+        }
+
+        if (event.experience > 0)
+        {
+            m_arpgModeCombatFloatingTexts.push_back(
+                ArpgModeCombatFloatingText{
+                    .actorIndex = event.actorIndex,
+                    .amount = event.experience,
+                    .text = "+" + std::to_string(event.experience) + " exp",
+                    .x = event.x,
+                    .y = event.y,
+                    .z = event.z + std::max(72.0f, event.height + 42.0f),
+                    .remainingSeconds = 1.35f,
+                    .durationSeconds = 1.35f,
+                    .colorAbgr = makeArpgModeHudColor(128, 232, 153, 255),
+                    .fontScale = 0.9f,
+                    .experience = true,
+                });
+        }
     }
 }
 
@@ -4498,7 +4737,120 @@ void OutdoorGameView::renderArpgModeLootOverlay(
                 .y = labelY,
                 .width = labelWidth,
                 .height = labelHeight,
+                .worldX = lootItem.x,
+                .worldY = lootItem.y,
+                .worldZ = lootItem.z,
             });
+    }
+
+    constexpr float CombatFontScale = 1.1f;
+
+    for (const ArpgModeCombatFloatingText &floatingText : m_arpgModeCombatFloatingTexts)
+    {
+        if (floatingText.remainingSeconds <= 0.0f || floatingText.durationSeconds <= 0.0f)
+        {
+            continue;
+        }
+
+        const float progress =
+            1.0f - std::clamp(floatingText.remainingSeconds / floatingText.durationSeconds, 0.0f, 1.0f);
+        ProjectedPoint projected = {};
+
+        if (!projectWorldPointToScreen(
+                bx::Vec3{floatingText.x, floatingText.y, floatingText.z + progress * 110.0f},
+                width,
+                height,
+                viewProjectionMatrix,
+                projected))
+        {
+            continue;
+        }
+
+        const float fadeStartSeconds = floatingText.experience ? 0.55f : 0.35f;
+        const float alpha = std::clamp(floatingText.remainingSeconds / fadeStartSeconds, 0.0f, 1.0f);
+        const uint8_t alphaByte = static_cast<uint8_t>(std::round(255.0f * alpha));
+        const uint32_t textColor = (floatingText.colorAbgr & 0x00ffffffu)
+            | (static_cast<uint32_t>(alphaByte) << 24);
+        const float fontScale = CombatFontScale * std::max(0.5f, floatingText.fontScale);
+        const float textWidth = screenRuntime.measureHudTextWidth(FontName, floatingText.text) * fontScale;
+        screenRuntime.renderHudTextLine(
+            FontName,
+            textColor,
+            floatingText.text,
+            projected.x - textWidth * 0.5f,
+            projected.y,
+            fontScale);
+    }
+
+    if (m_arpgModeCombatTargetState.active)
+    {
+        GameplayActorInspectState inspectState = {};
+
+        if (m_pOutdoorWorldRuntime->actorInspectState(m_arpgModeCombatTargetState.actorIndex, 0, inspectState)
+            && inspectState.maxHp > 0
+            && !inspectState.isDead)
+        {
+            constexpr float PanelWidth = 260.0f;
+            constexpr float PanelHeight = 36.0f;
+            constexpr float BarHeight = 8.0f;
+            constexpr float Border = 2.0f;
+            constexpr float NameScale = 1.0f;
+            constexpr float HpScale = 0.75f;
+            const float panelX = (static_cast<float>(width) - PanelWidth) * 0.5f;
+            const float panelY = 10.0f;
+            const float nameWidth = screenRuntime.measureHudTextWidth(FontName, inspectState.displayName) * NameScale;
+            const float nameX = panelX + (PanelWidth - nameWidth) * 0.5f;
+            const float barX = panelX + 12.0f;
+            const float barY = panelY + 21.0f;
+            const float barWidth = PanelWidth - 24.0f;
+            const float fillRatio =
+                std::clamp(
+                    static_cast<float>(inspectState.currentHp) / static_cast<float>(inspectState.maxHp),
+                    0.0f,
+                    1.0f);
+            const std::string hpText =
+                std::to_string(std::max(0, inspectState.currentHp)) + " / " + std::to_string(inspectState.maxHp);
+            const float hpTextWidth = screenRuntime.measureHudTextWidth(FontName, hpText) * HpScale;
+
+            drawArpgModeSolidHudRect(
+                screenRuntime,
+                "__arpg_target_panel_bg__",
+                panelX,
+                panelY,
+                PanelWidth,
+                PanelHeight,
+                makeArpgModeHudColor(6, 8, 10, 160));
+            screenRuntime.renderHudTextLine(
+                FontName,
+                makeArpgModeHudColor(255, 211, 132, 255),
+                inspectState.displayName,
+                nameX,
+                panelY + 2.0f,
+                NameScale);
+            drawArpgModeSolidHudRect(
+                screenRuntime,
+                "__arpg_target_bar_frame__",
+                barX,
+                barY,
+                barWidth,
+                BarHeight,
+                makeArpgModeHudColor(12, 12, 12, 230));
+            drawArpgModeSolidHudRect(
+                screenRuntime,
+                "__arpg_target_bar_fill__",
+                barX + Border,
+                barY + Border,
+                std::max(1.0f, (barWidth - Border * 2.0f) * fillRatio),
+                BarHeight - Border * 2.0f,
+                makeArpgModeHudColor(186, 28, 30, 245));
+            screenRuntime.renderHudTextLine(
+                FontName,
+                makeArpgModeHudColor(238, 232, 210, 215),
+                hpText,
+                panelX + (PanelWidth - hpTextWidth) * 0.5f,
+                barY + 7.0f,
+                HpScale);
+        }
     }
 
     for (const ArpgModeLootFloatingText &floatingText : m_arpgModeLootFloatingTexts)
@@ -4557,6 +4909,49 @@ bool OutdoorGameView::tryActivateArpgModeLootLabelAt(float screenX, float screen
 
         tryActivateArpgModeCorpseLootItem(hit.actorIndex, hit.itemIndex);
         return true;
+    }
+
+    return false;
+}
+
+bool OutdoorGameView::tryActivateNearestArpgModeLootLabel()
+{
+    if (!arpgModeEnabled()
+        || m_pOutdoorWorldRuntime == nullptr
+        || m_pOutdoorPartyRuntime == nullptr
+        || m_arpgModeLootLabelHits.empty())
+    {
+        return false;
+    }
+
+    const OutdoorMoveState &moveState = m_pOutdoorPartyRuntime->movementState();
+    std::vector<ArpgModeLootLabelHit> sortedHits = m_arpgModeLootLabelHits;
+
+    std::stable_sort(
+        sortedHits.begin(),
+        sortedHits.end(),
+        [&moveState](const ArpgModeLootLabelHit &lhs, const ArpgModeLootLabelHit &rhs)
+        {
+            const float lhsDeltaX = lhs.worldX - moveState.x;
+            const float lhsDeltaY = lhs.worldY - moveState.y;
+            const float lhsDeltaZ = lhs.worldZ - moveState.footZ;
+            const float rhsDeltaX = rhs.worldX - moveState.x;
+            const float rhsDeltaY = rhs.worldY - moveState.y;
+            const float rhsDeltaZ = rhs.worldZ - moveState.footZ;
+            const float lhsDistanceSquared =
+                lhsDeltaX * lhsDeltaX + lhsDeltaY * lhsDeltaY + lhsDeltaZ * lhsDeltaZ;
+            const float rhsDistanceSquared =
+                rhsDeltaX * rhsDeltaX + rhsDeltaY * rhsDeltaY + rhsDeltaZ * rhsDeltaZ;
+
+            return lhsDistanceSquared < rhsDistanceSquared;
+        });
+
+    for (const ArpgModeLootLabelHit &hit : sortedHits)
+    {
+        if (tryActivateArpgModeCorpseLootItem(hit.actorIndex, hit.itemIndex))
+        {
+            return true;
+        }
     }
 
     return false;

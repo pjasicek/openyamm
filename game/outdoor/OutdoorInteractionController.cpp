@@ -897,6 +897,55 @@ bool intersectRayAabb(
     return true;
 }
 
+bool intersectRayAabbInterval(
+    const bx::Vec3 &rayOrigin,
+    const bx::Vec3 &rayDirection,
+    const bx::Vec3 &minBounds,
+    const bx::Vec3 &maxBounds,
+    float &tMin,
+    float &tMax)
+{
+    tMin = 0.0f;
+    tMax = std::numeric_limits<float>::max();
+
+    const float rayOriginValues[3] = {rayOrigin.x, rayOrigin.y, rayOrigin.z};
+    const float rayDirectionValues[3] = {rayDirection.x, rayDirection.y, rayDirection.z};
+    const float minValues[3] = {minBounds.x, minBounds.y, minBounds.z};
+    const float maxValues[3] = {maxBounds.x, maxBounds.y, maxBounds.z};
+
+    for (int axis = 0; axis < 3; ++axis)
+    {
+        if (std::fabs(rayDirectionValues[axis]) <= InspectRayEpsilon)
+        {
+            if (rayOriginValues[axis] < minValues[axis] || rayOriginValues[axis] > maxValues[axis])
+            {
+                return false;
+            }
+
+            continue;
+        }
+
+        const float inverseDirection = 1.0f / rayDirectionValues[axis];
+        float t1 = (minValues[axis] - rayOriginValues[axis]) * inverseDirection;
+        float t2 = (maxValues[axis] - rayOriginValues[axis]) * inverseDirection;
+
+        if (t1 > t2)
+        {
+            std::swap(t1, t2);
+        }
+
+        tMin = std::max(tMin, t1);
+        tMax = std::min(tMax, t2);
+
+        if (tMin > tMax)
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
 std::optional<float> intersectOutdoorTerrainRay(
     const OutdoorMapData &outdoorMapData,
     const bx::Vec3 &rayOrigin,
@@ -904,10 +953,58 @@ std::optional<float> intersectOutdoorTerrainRay(
 {
     float closestDistance = std::numeric_limits<float>::max();
     bool hasIntersection = false;
+    const bx::Vec3 terrainBoundsMin = {
+        outdoorGridCornerWorldX(0),
+        outdoorGridCornerWorldY(OutdoorMapData::TerrainHeight - 1),
+        0.0f
+    };
+    const bx::Vec3 terrainBoundsMax = {
+        outdoorGridCornerWorldX(OutdoorMapData::TerrainWidth - 1),
+        outdoorGridCornerWorldY(0),
+        static_cast<float>(std::numeric_limits<uint8_t>::max() * OutdoorMapData::TerrainHeightScale)
+    };
+    float tMin = 0.0f;
+    float tMax = 0.0f;
 
-    for (int gridY = 0; gridY < OutdoorMapData::TerrainHeight - 1; ++gridY)
+    if (!intersectRayAabbInterval(rayOrigin, rayDirection, terrainBoundsMin, terrainBoundsMax, tMin, tMax))
     {
-        for (int gridX = 0; gridX < OutdoorMapData::TerrainWidth - 1; ++gridX)
+        return std::nullopt;
+    }
+
+    const bx::Vec3 segmentStart = {
+        rayOrigin.x + rayDirection.x * tMin,
+        rayOrigin.y + rayDirection.y * tMin,
+        rayOrigin.z + rayDirection.z * tMin
+    };
+    const bx::Vec3 segmentEnd = {
+        rayOrigin.x + rayDirection.x * tMax,
+        rayOrigin.y + rayDirection.y * tMax,
+        rayOrigin.z + rayDirection.z * tMax
+    };
+    const float startGridX = outdoorWorldToGridXFloat(segmentStart.x);
+    const float endGridX = outdoorWorldToGridXFloat(segmentEnd.x);
+    const float startGridY = outdoorWorldToGridYFloat(segmentStart.y);
+    const float endGridY = outdoorWorldToGridYFloat(segmentEnd.y);
+    const int minGridX = std::clamp(
+        static_cast<int>(std::floor(std::min(startGridX, endGridX))) - 1,
+        0,
+        OutdoorMapData::TerrainWidth - 2);
+    const int maxGridX = std::clamp(
+        static_cast<int>(std::ceil(std::max(startGridX, endGridX))) + 1,
+        0,
+        OutdoorMapData::TerrainWidth - 2);
+    const int minGridY = std::clamp(
+        static_cast<int>(std::floor(std::min(startGridY, endGridY))) - 1,
+        0,
+        OutdoorMapData::TerrainHeight - 2);
+    const int maxGridY = std::clamp(
+        static_cast<int>(std::ceil(std::max(startGridY, endGridY))) + 1,
+        0,
+        OutdoorMapData::TerrainHeight - 2);
+
+    for (int gridY = minGridY; gridY <= maxGridY; ++gridY)
+    {
+        for (int gridX = minGridX; gridX <= maxGridX; ++gridX)
         {
             const size_t topLeftIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + gridX);
             const size_t topRightIndex = static_cast<size_t>(gridY * OutdoorMapData::TerrainWidth + (gridX + 1));
@@ -5044,24 +5141,7 @@ bool OutdoorInteractionController::tryActivateActorInspectEvent(
             {
                 if (view.arpgModeEnabled())
                 {
-                    if (view.tryActivateFirstArpgModeCorpseLootItem(*runtimeActorIndex))
-                    {
-                        pEventRuntimeState->lastActivationResult =
-                            "corpse " + std::to_string(*runtimeActorIndex) + " picked up arpg loot item";
-                        return true;
-                    }
-
-                    if (!view.m_pOutdoorWorldRuntime->ensureMapActorCorpseView(*runtimeActorIndex))
-                    {
-                        pEventRuntimeState->lastActivationResult =
-                            "corpse " + std::to_string(*runtimeActorIndex) + " empty";
-                        return true;
-                    }
-
-                    view.setStatusBarEvent("Loot dropped");
-                    pEventRuntimeState->lastActivationResult =
-                        "corpse " + std::to_string(*runtimeActorIndex) + " arpg loot labels";
-                    return true;
+                    return false;
                 }
 
                 if (!view.m_pOutdoorWorldRuntime->openMapActorCorpseView(*runtimeActorIndex))
@@ -5668,7 +5748,7 @@ bool OutdoorInteractionController::canActivateActorInspectEvent(
 
             if (pActorState != nullptr && pActorState->isDead)
             {
-                return true;
+                return !view.arpgModeEnabled();
             }
 
             if (pActorState != nullptr && actorIsInDeathSequence(*pActorState))

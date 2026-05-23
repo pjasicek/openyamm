@@ -8,6 +8,7 @@
 namespace OpenYAMM::Game
 {
 bgfx::VertexLayout WorldFxParticleVertex::ms_layout;
+bgfx::VertexLayout WorldFxBeamVertex::ms_layout;
 
 void WorldFxParticleVertex::init()
 {
@@ -18,10 +19,22 @@ void WorldFxParticleVertex::init()
         .end();
 }
 
+void WorldFxBeamVertex::init()
+{
+    ms_layout.begin()
+        .add(bgfx::Attrib::Position, 3, bgfx::AttribType::Float)
+        .add(bgfx::Attrib::TexCoord0, 2, bgfx::AttribType::Float)
+        .end();
+}
+
 void WorldFxRenderResources::reset()
 {
     m_particleProgramHandle = BGFX_INVALID_HANDLE;
+    m_beamProgramHandle = BGFX_INVALID_HANDLE;
     m_particleParamsUniformHandle = BGFX_INVALID_HANDLE;
+    m_beamParamsUniformHandle = BGFX_INVALID_HANDLE;
+    m_beamCoreColorUniformHandle = BGFX_INVALID_HANDLE;
+    m_beamGlowColorUniformHandle = BGFX_INVALID_HANDLE;
     m_textureSamplerHandle = BGFX_INVALID_HANDLE;
     m_particleTextures.clear();
     m_particleTextureHandleIndices.fill(bgfx::kInvalidHandle);
@@ -41,9 +54,29 @@ void WorldFxRenderResources::shutdown()
         bgfx::destroy(m_particleProgramHandle);
     }
 
+    if (bgfx::isValid(m_beamProgramHandle))
+    {
+        bgfx::destroy(m_beamProgramHandle);
+    }
+
     if (bgfx::isValid(m_particleParamsUniformHandle))
     {
         bgfx::destroy(m_particleParamsUniformHandle);
+    }
+
+    if (bgfx::isValid(m_beamParamsUniformHandle))
+    {
+        bgfx::destroy(m_beamParamsUniformHandle);
+    }
+
+    if (bgfx::isValid(m_beamCoreColorUniformHandle))
+    {
+        bgfx::destroy(m_beamCoreColorUniformHandle);
+    }
+
+    if (bgfx::isValid(m_beamGlowColorUniformHandle))
+    {
+        bgfx::destroy(m_beamGlowColorUniformHandle);
     }
 
     if (bgfx::isValid(m_textureSamplerHandle))
@@ -65,7 +98,11 @@ void WorldFxRenderResources::shutdown()
 bool WorldFxRenderResources::isReady() const
 {
     return bgfx::isValid(m_particleProgramHandle)
+        && bgfx::isValid(m_beamProgramHandle)
         && bgfx::isValid(m_particleParamsUniformHandle)
+        && bgfx::isValid(m_beamParamsUniformHandle)
+        && bgfx::isValid(m_beamCoreColorUniformHandle)
+        && bgfx::isValid(m_beamGlowColorUniformHandle)
         && bgfx::isValid(m_textureSamplerHandle);
 }
 
@@ -79,6 +116,16 @@ void WorldFxRenderResources::setParticleProgramHandle(bgfx::ProgramHandle handle
     m_particleProgramHandle = handle;
 }
 
+bgfx::ProgramHandle WorldFxRenderResources::beamProgramHandle() const
+{
+    return m_beamProgramHandle;
+}
+
+void WorldFxRenderResources::setBeamProgramHandle(bgfx::ProgramHandle handle)
+{
+    m_beamProgramHandle = handle;
+}
+
 bgfx::UniformHandle WorldFxRenderResources::particleParamsUniformHandle() const
 {
     return m_particleParamsUniformHandle;
@@ -87,6 +134,36 @@ bgfx::UniformHandle WorldFxRenderResources::particleParamsUniformHandle() const
 void WorldFxRenderResources::setParticleParamsUniformHandle(bgfx::UniformHandle handle)
 {
     m_particleParamsUniformHandle = handle;
+}
+
+bgfx::UniformHandle WorldFxRenderResources::beamParamsUniformHandle() const
+{
+    return m_beamParamsUniformHandle;
+}
+
+void WorldFxRenderResources::setBeamParamsUniformHandle(bgfx::UniformHandle handle)
+{
+    m_beamParamsUniformHandle = handle;
+}
+
+bgfx::UniformHandle WorldFxRenderResources::beamCoreColorUniformHandle() const
+{
+    return m_beamCoreColorUniformHandle;
+}
+
+void WorldFxRenderResources::setBeamCoreColorUniformHandle(bgfx::UniformHandle handle)
+{
+    m_beamCoreColorUniformHandle = handle;
+}
+
+bgfx::UniformHandle WorldFxRenderResources::beamGlowColorUniformHandle() const
+{
+    return m_beamGlowColorUniformHandle;
+}
+
+void WorldFxRenderResources::setBeamGlowColorUniformHandle(bgfx::UniformHandle handle)
+{
+    m_beamGlowColorUniformHandle = handle;
 }
 
 bgfx::UniformHandle WorldFxRenderResources::textureSamplerHandle() const

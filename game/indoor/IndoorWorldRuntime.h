@@ -323,6 +323,7 @@ public:
         size_t actorIndex,
         uint32_t animationTicks,
         GameplayActorInspectState &state) const override;
+    std::vector<GameplayArpgCombatFeedbackEvent> drainArpgModeCombatFeedbackEvents() override;
     std::optional<GameplayCombatActorInfo> combatActorInfoById(uint32_t actorId) const override;
     bool applyReflectedDamageToActor(
         uint32_t actorId,
@@ -406,11 +407,17 @@ public:
         size_t actorIndex,
         int damage,
         CombatDamageType damageType,
-        const GameplayWorldPoint &source);
+        const GameplayWorldPoint &source,
+        bool allowHitReaction = true);
     bool applyPartyAttackMeleeDamage(
         size_t actorIndex,
         int damage,
         const GameplayWorldPoint &source) override;
+    bool applyPartyChannelDamage(
+        size_t actorIndex,
+        int damage,
+        const GameplayWorldPoint &source,
+        bool allowHitReaction) override;
     void applyPartyAttackMeleeEffects(
         size_t actorIndex,
         const CharacterAttackResult &attack,
@@ -418,7 +425,10 @@ public:
     bool spawnPartyAttackProjectile(const GameplayPartyAttackProjectileRequest &request) override;
     bool castPartyAttackSpell(const GameplayPartyAttackSpellRequest &request) override;
     void playArpgModePartyActionAnimation(float animationSeconds, bool spellCast) override;
+    void sustainArpgModePartyActionAnimation(float animationSeconds, bool spellCast) override;
+    void cancelArpgModePartyActionAnimation() override;
     void faceArpgModePartyActionTarget(const PartySpellCastRequest &request) override;
+    void addChannelBeamFx(const GameplayChannelBeamFx &beam) override;
     void recordPartyAttackWorldResult(
         std::optional<size_t> actorIndex,
         bool attacked,
@@ -433,10 +443,16 @@ public:
     std::optional<size_t> spellActionClosestVisibleHostileActorIndex() const override;
     std::optional<bx::Vec3> spellActionActorTargetPoint(size_t actorIndex) const override;
     std::optional<bx::Vec3> spellActionGroundTargetPoint(float screenX, float screenY) const override;
+    std::optional<bx::Vec3> spellActionCursorPlaneTargetPoint(
+        float screenX,
+        float screenY,
+        float planeZ,
+        float fallbackDistance) const override;
     GameplayPendingSpellWorldTargetFacts pickPendingSpellWorldTarget(
         const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickNearbyInteractionTarget(float radius) override;
     GameplayWorldHit pickForwardInteractionTarget(float depth) override;
+    bool tryActivateArpgModeLootPopup() override;
     GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) override;
     GameplayWorldHit pickMouseInteractionTarget(const GameplayWorldPickRequest &request) override;
@@ -745,6 +761,7 @@ private:
     std::vector<std::optional<CorpseViewState>> m_mapActorCorpseViews;
     std::optional<CorpseViewState> m_activeCorpseView;
     std::vector<MapActorAiState> m_mapActorAiStates;
+    std::vector<GameplayArpgCombatFeedbackEvent> m_arpgModeCombatFeedbackEvents;
     std::vector<size_t> m_actorCorpsePhysicsActorIndices;
     mutable ActorInspectPreviewAnimationState m_actorInspectPreviewAnimation = {};
     std::vector<uint8_t> m_activatedIndoorSectorMask;

@@ -79,6 +79,22 @@ bool outdoorActorIsPartyControlled(OutdoorWorldRuntime::ActorControlMode mode)
     }
 }
 
+uint64_t outdoorBModelFaceEdgeKey(size_t bModelIndex, uint16_t vertexA, uint16_t vertexB)
+{
+    const uint16_t minVertex = std::min(vertexA, vertexB);
+    const uint16_t maxVertex = std::max(vertexA, vertexB);
+    const uint64_t bModelKey = static_cast<uint64_t>(static_cast<uint32_t>(bModelIndex));
+    return (bModelKey << 32) | (static_cast<uint64_t>(minVertex) << 16) | static_cast<uint64_t>(maxVertex);
+}
+
+void appendUniqueIndex(std::vector<size_t> &indices, size_t index)
+{
+    if (std::find(indices.begin(), indices.end(), index) == indices.end())
+    {
+        indices.push_back(index);
+    }
+}
+
 float secretFaceVertexFlag(uint32_t attributes)
 {
     return hasFaceAttribute(attributes, FaceAttribute::IsSecret) ? 1.0f : 0.0f;
@@ -1892,6 +1908,7 @@ void OutdoorRenderer::destroyResolvedBModelDrawGroups(OutdoorGameView &view)
     view.m_arpgModeResolvedBModelDrawGroups.clear();
     view.m_arpgModeResolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
     view.m_arpgModeResolvedBModelOcclusionHash = 0;
+    view.m_arpgModeBModelBatchNeighbors.clear();
 }
 
 void OutdoorRenderer::rebuildResolvedBModelDrawGroups(OutdoorGameView &view)
@@ -2650,6 +2667,7 @@ void OutdoorRenderer::createBModelTextureBatches(
     }
 
     uint32_t faceId = 0;
+    std::unordered_map<uint64_t, std::vector<size_t>> batchIndicesByEdge;
 
     for (size_t bModelIndex = 0; bModelIndex < outdoorMapData.bmodels.size(); ++bModelIndex)
     {
@@ -2708,7 +2726,40 @@ void OutdoorRenderer::createBModelTextureBatches(
                 batch.defaultAnimationIndex = animationIndexIterator->second;
             }
 
+            const size_t batchIndex = view.m_texturedBModelBatches.size();
+            for (size_t vertexIndex = 0; vertexIndex < face.vertexIndices.size(); ++vertexIndex)
+            {
+                const uint16_t vertexA = face.vertexIndices[vertexIndex];
+                const uint16_t vertexB = face.vertexIndices[(vertexIndex + 1) % face.vertexIndices.size()];
+                batchIndicesByEdge[outdoorBModelFaceEdgeKey(bModelIndex, vertexA, vertexB)].push_back(batchIndex);
+            }
+
             view.m_texturedBModelBatches.push_back(std::move(batch));
+        }
+    }
+
+    view.m_arpgModeBModelBatchNeighbors.clear();
+    view.m_arpgModeBModelBatchNeighbors.resize(view.m_texturedBModelBatches.size());
+
+    for (const std::pair<const uint64_t, std::vector<size_t>> &entry : batchIndicesByEdge)
+    {
+        const std::vector<size_t> &edgeBatchIndices = entry.second;
+
+        if (edgeBatchIndices.size() < 2)
+        {
+            continue;
+        }
+
+        for (size_t sourceBatchIndex : edgeBatchIndices)
+        {
+            for (size_t targetBatchIndex : edgeBatchIndices)
+            {
+                if (sourceBatchIndex != targetBatchIndex
+                    && sourceBatchIndex < view.m_arpgModeBModelBatchNeighbors.size())
+                {
+                    appendUniqueIndex(view.m_arpgModeBModelBatchNeighbors[sourceBatchIndex], targetBatchIndex);
+                }
+            }
         }
     }
 }
@@ -2846,6 +2897,7 @@ bool OutdoorRenderer::initializeWorldRenderResources(
     view.m_outdoorLitBillboardProgramHandle =
         loadProgramHandle("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");
     view.m_worldFxRenderResources.setParticleProgramHandle(loadProgramHandle("vs_particle", "fs_particle"));
+    view.m_worldFxRenderResources.setBeamProgramHandle(loadProgramHandle("vs_beam", "fs_beam"));
     view.m_outdoorTexturedFogProgramHandle =
         loadProgramHandle("vs_outdoor_textured_fog", "fs_outdoor_textured_fog");
     view.m_outdoorForcePerspectiveProgramHandle =
@@ -3816,6 +3868,7 @@ void OutdoorRenderer::renderWorldPasses(
                 if (arpgModeOccludingBModelFaces)
                 {
                     arpgModeOccludingBModelBatchMask.assign(view.m_texturedBModelBatches.size(), 0);
+                    std::vector<size_t> arpgModeDirectOccludingBModelBatchIndices;
                     const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
                     const std::array<bx::Vec3, 3> puppetSamples = {{
                         {moveState.x, moveState.y, moveState.footZ + 72.0f},
@@ -3858,9 +3911,43 @@ void OutdoorRenderer::renderWorldPasses(
                                     occlusionRays[rayIndex]))
                             {
                                 arpgModeOccludingBModelBatchMask[batchIndex] = 1;
+                                arpgModeDirectOccludingBModelBatchIndices.push_back(batchIndex);
                                 arpgModeHasOccludingBModelBatch = true;
                                 break;
                             }
+                        }
+                    }
+
+                    for (size_t batchIndex : arpgModeDirectOccludingBModelBatchIndices)
+                    {
+                        if (batchIndex >= view.m_arpgModeBModelBatchNeighbors.size())
+                        {
+                            continue;
+                        }
+
+                        for (size_t neighborBatchIndex : view.m_arpgModeBModelBatchNeighbors[batchIndex])
+                        {
+                            if (neighborBatchIndex >= arpgModeOccludingBModelBatchMask.size()
+                                || neighborBatchIndex >= view.m_texturedBModelBatches.size())
+                            {
+                                continue;
+                            }
+
+                            const OutdoorGameView::TexturedBModelBatch &neighborBatch =
+                                view.m_texturedBModelBatches[neighborBatchIndex];
+
+                            if (neighborBatch.vertices.empty()
+                                || outdoorFaceHiddenByEventRuntime(
+                                    neighborBatch.faceId,
+                                    neighborBatch.baseAttributes,
+                                    pMapDeltaData,
+                                    pEventRuntimeState))
+                            {
+                                continue;
+                            }
+
+                            arpgModeOccludingBModelBatchMask[neighborBatchIndex] = 1;
+                            arpgModeHasOccludingBModelBatch = true;
                         }
                     }
                 }
@@ -4054,6 +4141,13 @@ void OutdoorRenderer::renderWorldPasses(
             bgfx::submit(MainViewId, view.m_programHandle);
         }
     }
+
+    ParticleRenderer::renderBeams(
+        view.m_worldFxRenderResources,
+        view.m_worldFxSystem.beams(),
+        MainViewId,
+        pViewMatrix,
+        cameraPosition);
 
     if (view.m_showSpriteObjects || view.m_showActors || view.m_showDecorationBillboards)
     {

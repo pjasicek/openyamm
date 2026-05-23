@@ -83,6 +83,21 @@ uint32_t stableIndoorTexturedBatchId(
     return hash != 0 ? hash : 1u;
 }
 
+uint32_t indoorFaceEdgeKey(uint16_t vertexA, uint16_t vertexB)
+{
+    const uint16_t minVertex = std::min(vertexA, vertexB);
+    const uint16_t maxVertex = std::max(vertexA, vertexB);
+    return (static_cast<uint32_t>(minVertex) << 16) | static_cast<uint32_t>(maxVertex);
+}
+
+void appendUniqueIndex(std::vector<size_t> &indices, size_t index)
+{
+    if (std::find(indices.begin(), indices.end(), index) == indices.end())
+    {
+        indices.push_back(index);
+    }
+}
+
 float secretFaceVertexFlag(uint32_t attributes)
 {
     return hasFaceAttribute(attributes, FaceAttribute::IsSecret) ? 1.0f : 0.0f;
@@ -108,6 +123,28 @@ bool indoorFaceMarkedAsCeiling(const IndoorMapData &indoorMapData, size_t faceIn
         };
 
     return sectorContainsCeilingFace(face.roomNumber) || sectorContainsCeilingFace(face.roomBehindNumber);
+}
+
+bool indoorFaceMarkedAsFloor(const IndoorMapData &indoorMapData, size_t faceIndex, const IndoorFace &face)
+{
+    if (face.facetType == 3)
+    {
+        return true;
+    }
+
+    const auto sectorContainsFloorFace =
+        [&](uint16_t sectorId) -> bool
+        {
+            if (sectorId >= indoorMapData.sectors.size())
+            {
+                return false;
+            }
+
+            const std::vector<uint16_t> &floorFaceIds = indoorMapData.sectors[sectorId].floorFaceIds;
+            return std::find(floorFaceIds.begin(), floorFaceIds.end(), faceIndex) != floorFaceIds.end();
+        };
+
+    return sectorContainsFloorFace(face.roomNumber) || sectorContainsFloorFace(face.roomBehindNumber);
 }
 
 std::vector<uint8_t> buildIndoorCeilingFaceMask(const IndoorMapData &indoorMapData)
@@ -322,7 +359,8 @@ constexpr float BillboardFrustumSlack = 8.0f;
 constexpr float ArpgModeCameraMinDistance = 800.0f;
 constexpr float ArpgModeCameraMaxDistance = 6400.0f;
 constexpr float ArpgModeCameraWheelStep = 220.0f;
-constexpr uint16_t ArpgModeIndoorMaximumVisibilityDepth = 4;
+constexpr int ArpgModeIndoorHigherSectorCullMargin = 64;
+constexpr uint32_t ArpgModeIndoorRenderVisibilityRefreshMs = 100;
 
 struct RuntimeActorBillboard
 {
@@ -674,7 +712,7 @@ const MonsterEntry *resolveArpgModePlayerMonsterEntry(
 uint16_t selectArpgModePlayerSpriteFrameIndex(
     float actionAnimationSeconds,
     bool actionAnimationIsCast,
-    bool hasMoveDestination,
+    bool walkingAnimationActive,
     const std::array<uint16_t, 8> &actionSpriteFrameIndices)
 {
     ActorAiAnimationState animation = ActorAiAnimationState::Standing;
@@ -683,7 +721,7 @@ uint16_t selectArpgModePlayerSpriteFrameIndex(
     {
         animation = actionAnimationIsCast ? ActorAiAnimationState::AttackRanged : ActorAiAnimationState::AttackMelee;
     }
-    else if (hasMoveDestination)
+    else if (walkingAnimationActive)
     {
         animation = ActorAiAnimationState::Walking;
     }
@@ -2623,6 +2661,7 @@ bool IndoorRenderer::initialize(
     m_indoorLitProgramHandle = loadProgram("vs_indoor_textured_lit", "fs_indoor_textured_lit");
     m_billboardProgramHandle = loadProgram("vs_outdoor_billboard_lit", "fs_outdoor_billboard_lit");
     m_worldFxRenderResources.setParticleProgramHandle(loadProgram("vs_particle", "fs_particle"));
+    m_worldFxRenderResources.setBeamProgramHandle(loadProgram("vs_beam", "fs_beam"));
     ParticleRenderer::initializeResources(m_worldFxRenderResources);
     m_textureSamplerHandle = bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler);
     m_indoorLightPositionsUniformHandle =
@@ -2865,19 +2904,32 @@ std::vector<uint8_t> IndoorRenderer::buildVisibleSectorMask(const bx::Vec3 &came
     return cache.visibleSectorMask;
 }
 
-std::vector<uint8_t> IndoorRenderer::buildArpgModeVisibleSectorMask() const
+std::vector<uint8_t> IndoorRenderer::buildArpgModeRenderVisibleSectorMask(
+    const std::vector<uint8_t> &cameraVisibleSectorMask) const
 {
     if (!m_indoorMapData || m_indoorMapData->sectors.empty())
     {
-        return {};
+        return cameraVisibleSectorMask;
     }
 
     int16_t startSectorId = -1;
+    int16_t partySectorId = -1;
+    int16_t eyeSectorId = -1;
 
     if (m_pSceneRuntime != nullptr)
     {
         const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
         const size_t sectorCount = m_indoorMapData->sectors.size();
+
+        if (moveState.sectorId >= 0 && static_cast<size_t>(moveState.sectorId) < sectorCount)
+        {
+            partySectorId = moveState.sectorId;
+        }
+
+        if (moveState.eyeSectorId >= 0 && static_cast<size_t>(moveState.eyeSectorId) < sectorCount)
+        {
+            eyeSectorId = moveState.eyeSectorId;
+        }
 
         if (moveState.eyeSectorId >= 0 && static_cast<size_t>(moveState.eyeSectorId) < sectorCount)
         {
@@ -2889,75 +2941,95 @@ std::vector<uint8_t> IndoorRenderer::buildArpgModeVisibleSectorMask() const
         }
     }
 
-    if (startSectorId < 0 || !m_indoorPortalGraph)
+    if (startSectorId < 0)
     {
-        return {};
+        return cameraVisibleSectorMask;
     }
 
+    const IndoorSector &startSector = m_indoorMapData->sectors[static_cast<size_t>(startSectorId)];
+    const int higherSectorCullMinZ = static_cast<int>(startSector.maxZ) + ArpgModeIndoorHigherSectorCullMargin;
     std::vector<uint8_t> visibleSectorMask(m_indoorMapData->sectors.size(), 0);
-    std::vector<uint16_t> sectorDepths(m_indoorMapData->sectors.size(), std::numeric_limits<uint16_t>::max());
-    std::vector<int16_t> sectorQueue;
-    size_t queueCursor = 0;
 
-    visibleSectorMask[static_cast<size_t>(startSectorId)] = 1;
-    sectorDepths[static_cast<size_t>(startSectorId)] = 0;
-    sectorQueue.push_back(startSectorId);
+    for (size_t sectorId = 0; sectorId < visibleSectorMask.size() && sectorId < cameraVisibleSectorMask.size();
+         ++sectorId)
+    {
+        const IndoorSector &sector = m_indoorMapData->sectors[sectorId];
+
+        if (cameraVisibleSectorMask[sectorId] != 0 && sector.minZ <= higherSectorCullMinZ)
+        {
+            visibleSectorMask[sectorId] = 1;
+        }
+    }
 
     const std::optional<EventRuntimeState> &eventRuntimeState = runtimeEventRuntimeStateStorage();
     const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
 
-    while (queueCursor < sectorQueue.size())
+    const auto appendSector =
+        [&](int16_t sectorId)
+        {
+            if (sectorId < 0 || static_cast<size_t>(sectorId) >= visibleSectorMask.size())
+            {
+                return;
+            }
+
+            const IndoorSector &sector = m_indoorMapData->sectors[static_cast<size_t>(sectorId)];
+
+            if (sector.minZ > higherSectorCullMinZ)
+            {
+                return;
+            }
+
+            visibleSectorMask[static_cast<size_t>(sectorId)] = 1;
+        };
+
+    const auto appendImmediatePortalNeighbors =
+        [&](int16_t sectorId)
+        {
+            appendSector(sectorId);
+
+            if (!m_indoorPortalGraph
+                || sectorId < 0
+                || static_cast<size_t>(sectorId) >= m_indoorPortalGraph->sectors.size())
+            {
+                return;
+            }
+
+            const IndoorSectorPortalCache &sectorPortalCache =
+                m_indoorPortalGraph->sectors[static_cast<size_t>(sectorId)];
+
+            for (size_t linkOffset = 0; linkOffset < sectorPortalCache.portalLinkIds.size(); ++linkOffset)
+            {
+                const uint16_t portalLinkId = sectorPortalCache.portalLinkIds[linkOffset];
+
+                if (portalLinkId >= m_indoorPortalGraph->portals.size()
+                    || linkOffset >= sectorPortalCache.connectedSectorIds.size())
+                {
+                    continue;
+                }
+
+                const IndoorPortalLink &portalLink = m_indoorPortalGraph->portals[portalLinkId];
+
+                if (portalLink.faceId >= m_indoorMapData->faces.size())
+                {
+                    continue;
+                }
+
+                const IndoorFace &portalFace = m_indoorMapData->faces[portalLink.faceId];
+
+                if (!isFaceVisible(portalLink.faceId, portalFace, mapDeltaData, eventRuntimeState))
+                {
+                    continue;
+                }
+
+                appendSector(static_cast<int16_t>(sectorPortalCache.connectedSectorIds[linkOffset]));
+            }
+        };
+
+    appendImmediatePortalNeighbors(partySectorId);
+
+    if (eyeSectorId != partySectorId)
     {
-        const int16_t sectorId = sectorQueue[queueCursor++];
-        const uint16_t currentDepth = sectorDepths[static_cast<size_t>(sectorId)];
-
-        if (currentDepth >= ArpgModeIndoorMaximumVisibilityDepth
-            || sectorId < 0
-            || static_cast<size_t>(sectorId) >= m_indoorPortalGraph->sectors.size())
-        {
-            continue;
-        }
-
-        const IndoorSectorPortalCache &sectorPortalCache = m_indoorPortalGraph->sectors[static_cast<size_t>(sectorId)];
-
-        for (size_t linkOffset = 0; linkOffset < sectorPortalCache.portalLinkIds.size(); ++linkOffset)
-        {
-            const uint16_t portalLinkId = sectorPortalCache.portalLinkIds[linkOffset];
-
-            if (portalLinkId >= m_indoorPortalGraph->portals.size()
-                || linkOffset >= sectorPortalCache.connectedSectorIds.size())
-            {
-                continue;
-            }
-
-            const uint16_t connectedSectorId = sectorPortalCache.connectedSectorIds[linkOffset];
-
-            if (connectedSectorId >= visibleSectorMask.size())
-            {
-                continue;
-            }
-
-            const IndoorPortalLink &portalLink = m_indoorPortalGraph->portals[portalLinkId];
-
-            if (portalLink.faceId >= m_indoorMapData->faces.size())
-            {
-                continue;
-            }
-
-            const IndoorFace &portalFace = m_indoorMapData->faces[portalLink.faceId];
-
-            if (!isFaceVisible(portalLink.faceId, portalFace, mapDeltaData, eventRuntimeState))
-            {
-                continue;
-            }
-
-            if (visibleSectorMask[connectedSectorId] == 0)
-            {
-                visibleSectorMask[connectedSectorId] = 1;
-                sectorDepths[connectedSectorId] = currentDepth + 1;
-                sectorQueue.push_back(static_cast<int16_t>(connectedSectorId));
-            }
-        }
+        appendImmediatePortalNeighbors(eyeSectorId);
     }
 
     return visibleSectorMask;
@@ -3809,9 +3881,43 @@ void IndoorRenderer::render(
     }
 
     const uint64_t visibilityBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
-    const std::vector<uint8_t> renderVisibleSectorMask =
-        arpgMode ? buildArpgModeVisibleSectorMask() : buildVisibleSectorMask(eye);
-    const std::vector<uint8_t> &baseVisibleSectorMask = renderVisibleSectorMask;
+    std::vector<uint8_t> cameraVisibleSectorMask;
+    std::vector<uint8_t> renderVisibleSectorMask;
+
+    if (arpgMode && m_pSceneRuntime != nullptr && m_indoorMapData)
+    {
+        const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
+        const uint32_t visibilityTick = SDL_GetTicks();
+        const bool refreshArpgRenderVisibility =
+            !m_arpgModeRenderVisibilityCacheValid
+            || m_arpgModeCameraVisibleSectorMaskCache.size() != m_indoorMapData->sectors.size()
+            || m_arpgModeRenderVisibleSectorMaskCache.size() != m_indoorMapData->sectors.size()
+            || m_arpgModeRenderVisibilityCacheSectorId != moveState.sectorId
+            || m_arpgModeRenderVisibilityCacheEyeSectorId != moveState.eyeSectorId
+            || visibilityTick - m_arpgModeRenderVisibilityCacheTick >= ArpgModeIndoorRenderVisibilityRefreshMs;
+
+        if (refreshArpgRenderVisibility)
+        {
+            m_arpgModeCameraVisibleSectorMaskCache = buildVisibleSectorMask(eye);
+            m_arpgModeRenderVisibleSectorMaskCache =
+                buildArpgModeRenderVisibleSectorMask(m_arpgModeCameraVisibleSectorMaskCache);
+            m_arpgModeRenderVisibilityCacheValid = true;
+            m_arpgModeRenderVisibilityCacheTick = visibilityTick;
+            m_arpgModeRenderVisibilityCacheSectorId = moveState.sectorId;
+            m_arpgModeRenderVisibilityCacheEyeSectorId = moveState.eyeSectorId;
+        }
+
+        cameraVisibleSectorMask = m_arpgModeCameraVisibleSectorMaskCache;
+        renderVisibleSectorMask = m_arpgModeRenderVisibleSectorMaskCache;
+    }
+    else
+    {
+        cameraVisibleSectorMask = buildVisibleSectorMask(eye);
+        renderVisibleSectorMask = cameraVisibleSectorMask;
+        m_arpgModeRenderVisibilityCacheValid = false;
+    }
+
+    const std::vector<uint8_t> &baseVisibleSectorMask = cameraVisibleSectorMask;
     const std::vector<std::vector<IndoorVisibilityFrustum>> emptyVisibleSectorFrustums;
     const std::vector<std::vector<IndoorVisibilityFrustum>> &renderVisibleSectorFrustums =
         arpgMode ? emptyVisibleSectorFrustums : m_renderPortalVisibilityCache.visibleSectorFrustums;
@@ -4060,6 +4166,7 @@ void IndoorRenderer::render(
             && m_faceBatchIndices.size() == m_indoorMapData->faces.size())
         {
             arpgModeOccludingFaceMask.assign(m_indoorMapData->faces.size(), 0);
+            std::vector<size_t> arpgModeDirectOccludingFaceIndices;
             const std::optional<MapDeltaData> &mapDeltaData = runtimeMapDeltaData();
             m_arpgModeOcclusionGeometryCache.setAttributeOverrides(mapDeltaData ? &*mapDeltaData : nullptr);
             const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
@@ -4143,9 +4250,45 @@ void IndoorRenderer::render(
                             && distance + 8.0f < sampleDistance)
                         {
                             arpgModeOccludingFaceMask[faceIndex] = 1;
+                            arpgModeDirectOccludingFaceIndices.push_back(faceIndex);
                             break;
                         }
                     }
+                }
+            }
+
+            for (size_t faceIndex : arpgModeDirectOccludingFaceIndices)
+            {
+                if (faceIndex >= m_arpgModeOccludingFaceNeighbors.size())
+                {
+                    continue;
+                }
+
+                for (size_t neighborFaceIndex : m_arpgModeOccludingFaceNeighbors[faceIndex])
+                {
+                    if (neighborFaceIndex >= arpgModeOccludingFaceMask.size()
+                        || neighborFaceIndex >= m_indoorMapData->faces.size())
+                    {
+                        continue;
+                    }
+
+                    const IndoorFace &neighborFace = m_indoorMapData->faces[neighborFaceIndex];
+
+                    if (indoorFaceMarkedAsFloor(*m_indoorMapData, neighborFaceIndex, neighborFace))
+                    {
+                        continue;
+                    }
+
+                    if (!isFaceVisible(
+                            neighborFaceIndex,
+                            neighborFace,
+                            runtimeMapDeltaData(),
+                            runtimeEventRuntimeStateStorage()))
+                    {
+                        continue;
+                    }
+
+                    arpgModeOccludingFaceMask[neighborFaceIndex] = 1;
                 }
             }
 
@@ -4531,6 +4674,12 @@ void IndoorRenderer::render(
     submitArpgModeTranslucentOccludingFaces();
 
     const uint64_t particlesBeginTickCount = collectRenderDiagnostics ? SDL_GetTicksNS() : 0;
+    ParticleRenderer::renderBeams(
+        m_worldFxRenderResources,
+        m_worldFxSystem.beams(),
+        MainViewId,
+        viewMatrix,
+        eye);
     ParticleRenderer::renderParticles(
         m_worldFxRenderResources,
         m_worldFxSystem.particles(),
@@ -6582,6 +6731,61 @@ std::optional<bx::Vec3> IndoorRenderer::gameplayGroundTargetPoint(float screenX,
     };
 }
 
+std::optional<bx::Vec3> IndoorRenderer::gameplayCursorPlaneTargetPoint(
+    float screenX,
+    float screenY,
+    float planeZ,
+    float fallbackDistance) const
+{
+    if (m_lastRenderWidth <= 0 || m_lastRenderHeight <= 0)
+    {
+        return std::nullopt;
+    }
+
+    const GameplayWorldPickRequest request = buildGameplayWorldPickRequest(
+        GameplayWorldPickRequestInput{
+            .screenX = screenX,
+            .screenY = screenY,
+            .screenWidth = m_lastRenderWidth,
+            .screenHeight = m_lastRenderHeight,
+            .includeRay = true,
+        });
+
+    if (!request.hasRay)
+    {
+        return std::nullopt;
+    }
+
+    if (std::fabs(request.rayDirection.z) > InspectRayEpsilon)
+    {
+        const float planeDistance = (planeZ - request.rayOrigin.z) / request.rayDirection.z;
+
+        if (planeDistance > InspectRayEpsilon)
+        {
+            return bx::Vec3{
+                request.rayOrigin.x + request.rayDirection.x * planeDistance,
+                request.rayOrigin.y + request.rayDirection.y * planeDistance,
+                planeZ
+            };
+        }
+    }
+
+    const float horizontalLengthSquared =
+        request.rayDirection.x * request.rayDirection.x + request.rayDirection.y * request.rayDirection.y;
+
+    if (horizontalLengthSquared <= InspectRayEpsilon * InspectRayEpsilon)
+    {
+        return std::nullopt;
+    }
+
+    const float horizontalLength = std::sqrt(horizontalLengthSquared);
+    return bx::Vec3{
+        request.rayOrigin.x + request.rayDirection.x / horizontalLength * fallbackDistance,
+        request.rayOrigin.y + request.rayDirection.y / horizontalLength * fallbackDistance,
+        planeZ
+    };
+}
+
 bool IndoorRenderer::projectArpgModeWorldPointToScreen(
     const bx::Vec3 &worldPoint,
     int width,
@@ -7026,6 +7230,40 @@ void IndoorRenderer::playArpgModePartyActionAnimation(float animationSeconds, bo
     m_arpgModeActionAnimationIsCast = spellCast;
 }
 
+void IndoorRenderer::sustainArpgModePartyActionAnimation(float animationSeconds, bool spellCast)
+{
+    if (!m_arpgModeCameraActive)
+    {
+        return;
+    }
+
+    const float durationSeconds = std::max(animationSeconds, 0.05f);
+
+    if (m_arpgModeActionAnimationSeconds <= 0.0f || m_arpgModeActionAnimationIsCast != spellCast)
+    {
+        playArpgModePartyActionAnimation(durationSeconds, spellCast);
+        return;
+    }
+
+    if (m_arpgModeActionAnimationDurationSeconds <= 0.0f
+        || m_arpgModeActionAnimationElapsedSeconds >= m_arpgModeActionAnimationDurationSeconds)
+    {
+        m_arpgModeActionAnimationElapsedSeconds = 0.0f;
+    }
+
+    m_arpgModeActionAnimationSeconds = std::max(m_arpgModeActionAnimationSeconds, durationSeconds);
+    m_arpgModeActionAnimationDurationSeconds = std::max(m_arpgModeActionAnimationDurationSeconds, durationSeconds);
+    m_arpgModeActionAnimationIsCast = spellCast;
+}
+
+void IndoorRenderer::cancelArpgModePartyActionAnimation()
+{
+    m_arpgModeActionAnimationSeconds = 0.0f;
+    m_arpgModeActionAnimationDurationSeconds = 0.0f;
+    m_arpgModeActionAnimationElapsedSeconds = 0.0f;
+    m_arpgModeActionAnimationIsCast = false;
+}
+
 std::optional<IndoorRenderer::InspectHit> IndoorRenderer::inspectHitFromGameplayWorldHit(
     const GameplayWorldHit &hit) const
 {
@@ -7192,6 +7430,9 @@ void IndoorRenderer::shutdown()
     m_indoorLightingRuntime.clearStaticCache();
     m_renderVertices.clear();
     m_neighboringSectorIds.clear();
+    m_arpgModeRenderVisibilityCacheValid = false;
+    m_arpgModeCameraVisibleSectorMaskCache.clear();
+    m_arpgModeRenderVisibleSectorMaskCache.clear();
     m_pSceneRuntime = nullptr;
     m_pAssetFileSystem = nullptr;
     m_pItemTable = nullptr;
@@ -7216,6 +7457,7 @@ void IndoorRenderer::shutdown()
     m_indoorGeometryRenderingToggleHeld = false;
     m_ceilingFaceMask.clear();
     m_arpgModeOccludingFaceCandidates.clear();
+    m_arpgModeOccludingFaceNeighbors.clear();
     m_arpgModeOcclusionGeometryCache.reset(0);
     clearPortalVisibilityCaches();
     m_worldFxSystem.reset();
@@ -7525,6 +7767,7 @@ void IndoorRenderer::rebuildIndoorRenderMemberships()
 void IndoorRenderer::rebuildArpgModeOccludingFaceCandidates()
 {
     m_arpgModeOccludingFaceCandidates.clear();
+    m_arpgModeOccludingFaceNeighbors.clear();
 
     if (!m_indoorMapData
         || m_faceBatchIndices.size() != m_indoorMapData->faces.size()
@@ -7534,6 +7777,9 @@ void IndoorRenderer::rebuildArpgModeOccludingFaceCandidates()
     }
 
     m_arpgModeOccludingFaceCandidates.reserve(m_indoorMapData->faces.size());
+    m_arpgModeOccludingFaceNeighbors.resize(m_indoorMapData->faces.size());
+    std::unordered_map<uint32_t, std::vector<size_t>> faceIndicesByEdge;
+    faceIndicesByEdge.reserve(m_indoorMapData->faces.size() * 2);
 
     for (size_t faceIndex = 0; faceIndex < m_indoorMapData->faces.size(); ++faceIndex)
     {
@@ -7593,6 +7839,35 @@ void IndoorRenderer::rebuildArpgModeOccludingFaceCandidates()
         if (hasBounds)
         {
             m_arpgModeOccludingFaceCandidates.push_back(candidate);
+
+            for (size_t vertexIndex = 0; vertexIndex < face.vertexIndices.size(); ++vertexIndex)
+            {
+                const uint16_t vertexA = face.vertexIndices[vertexIndex];
+                const uint16_t vertexB = face.vertexIndices[(vertexIndex + 1) % face.vertexIndices.size()];
+                faceIndicesByEdge[indoorFaceEdgeKey(vertexA, vertexB)].push_back(faceIndex);
+            }
+        }
+    }
+
+    for (const std::pair<const uint32_t, std::vector<size_t>> &entry : faceIndicesByEdge)
+    {
+        const std::vector<size_t> &edgeFaceIndices = entry.second;
+
+        if (edgeFaceIndices.size() < 2)
+        {
+            continue;
+        }
+
+        for (size_t sourceFaceIndex : edgeFaceIndices)
+        {
+            for (size_t targetFaceIndex : edgeFaceIndices)
+            {
+                if (sourceFaceIndex != targetFaceIndex
+                    && sourceFaceIndex < m_arpgModeOccludingFaceNeighbors.size())
+                {
+                    appendUniqueIndex(m_arpgModeOccludingFaceNeighbors[sourceFaceIndex], targetFaceIndex);
+                }
+            }
         }
     }
 }
@@ -8677,24 +8952,26 @@ void IndoorRenderer::renderActorPreviewBillboards(
                 && billboard.actorIndex < mapDeltaData->actors.size()
                 && mapDeltaData->actors[billboard.actorIndex].hp > 0)
             {
-                const int16_t monsterId =
-                    pActorAiState->monsterId > 0
-                        ? pActorAiState->monsterId
-                        : mapDeltaData->actors[billboard.actorIndex].monsterId;
-                const MonsterTable::MonsterStatsEntry *pStats =
-                    m_monsterTable ? m_monsterTable->findStatsById(monsterId) : nullptr;
-                const int maxHp =
-                    pStats != nullptr && pStats->hitPoints > 0
-                        ? pStats->hitPoints
-                        : static_cast<int>(mapDeltaData->actors[billboard.actorIndex].hp);
+                GameplayActorInspectState inspectState = {};
+                const bool hasInspectState =
+                    m_pSceneRuntime != nullptr
+                    && m_pSceneRuntime->worldRuntime().actorInspectState(
+                        billboard.actorIndex,
+                        0,
+                        inspectState);
+                const int maxHp = hasInspectState && inspectState.maxHp > 0
+                    ? inspectState.maxHp
+                    : static_cast<int>(mapDeltaData->actors[billboard.actorIndex].hp);
+                const int currentHp = hasInspectState
+                    ? inspectState.currentHp
+                    : static_cast<int>(mapDeltaData->actors[billboard.actorIndex].hp);
 
                 if (maxHp > 0)
                 {
                     drawItem.hasHealthBar = true;
                     drawItem.healthRatio =
                         std::clamp(
-                            static_cast<float>(mapDeltaData->actors[billboard.actorIndex].hp)
-                                / static_cast<float>(maxHp),
+                            static_cast<float>(currentHp) / static_cast<float>(maxHp),
                             0.0f,
                             1.0f);
                     drawItem.healthBarScale = 1.0f;
@@ -8721,11 +8998,13 @@ void IndoorRenderer::renderActorPreviewBillboards(
                     buildRuntimeActorActionSpriteFrameIndices(
                         m_indoorActorPreviewBillboardSet->spriteFrameTable,
                         pMonsterEntry);
+                const IndoorMoveState &moveState = m_pSceneRuntime->partyRuntime().movementState();
+                const bool walkingAnimationActive = m_arpgModeHasMoveDestination && moveState.grounded;
                 const uint16_t spriteFrameIndex =
                     selectArpgModePlayerSpriteFrameIndex(
                         m_arpgModeActionAnimationSeconds,
                         m_arpgModeActionAnimationIsCast,
-                        m_arpgModeHasMoveDestination,
+                        walkingAnimationActive,
                         actionSpriteFrameIndices);
                 uint32_t frameTimeTicks = animationTimeTicks;
 
@@ -10535,6 +10814,7 @@ bool IndoorRenderer::rebuildAllTexturedBatches(uint64_t &texturedBuildNanosecond
         m_faceVertexOffsets.clear();
         m_faceVertexCounts.clear();
         m_arpgModeOccludingFaceCandidates.clear();
+        m_arpgModeOccludingFaceNeighbors.clear();
         m_texturedBatchVisualRevision = currentTexturedBatchVisualRevision();
         return true;
     }
@@ -10967,7 +11247,11 @@ void IndoorRenderer::destroyDerivedGeometryResources()
     m_faceVertexOffsets.clear();
     m_faceVertexCounts.clear();
     m_arpgModeOccludingFaceCandidates.clear();
+    m_arpgModeOccludingFaceNeighbors.clear();
     m_arpgModeOcclusionGeometryCache.reset(0);
+    m_arpgModeRenderVisibilityCacheValid = false;
+    m_arpgModeCameraVisibleSectorMaskCache.clear();
+    m_arpgModeRenderVisibleSectorMaskCache.clear();
 }
 
 void IndoorRenderer::destroyIndoorTextureHandles()
@@ -10996,6 +11280,7 @@ bool IndoorRenderer::rebuildDerivedGeometryResources()
 
     m_renderVertices = buildMechanismAdjustedVertices(*m_indoorMapData, mapDeltaData, eventRuntimeState);
     m_arpgModeOcclusionGeometryCache.reset(m_indoorMapData->faces.size());
+    m_arpgModeRenderVisibilityCacheValid = false;
 
     if (bgfx::getRendererType() == bgfx::RendererType::Noop)
     {
@@ -11095,6 +11380,7 @@ bool IndoorRenderer::updateMovingMechanismGeometryResources()
         return false;
     }
     m_arpgModeOcclusionGeometryCache.reset(m_indoorMapData->faces.size());
+    m_arpgModeRenderVisibilityCacheValid = false;
 
     if (collectDiagnostics)
     {
@@ -11788,15 +12074,15 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
             continue;
         }
 
-        if (hasFaceAttribute(effectiveAttributes, FaceAttribute::Invisible)
-            || !isFaceVisible(faceIndex, face, mapDeltaData, eventRuntimeState))
+        if (!visibleSectorMask.empty()
+            && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
+            && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask))
         {
             continue;
         }
 
-        if (!visibleSectorMask.empty()
-            && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
-            && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask))
+        if (hasFaceAttribute(effectiveAttributes, FaceAttribute::Invisible)
+            || !isFaceVisible(faceIndex, face, mapDeltaData, eventRuntimeState))
         {
             continue;
         }
@@ -12468,14 +12754,14 @@ IndoorRenderer::InspectHit IndoorRenderer::inspectAtCursor(
                         continue;
                     }
 
-                    if (!isFaceVisible(faceIndex, face, mapDeltaData, eventRuntimeState))
+                    if (!visibleSectorMask.empty()
+                        && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
+                        && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask))
                     {
                         continue;
                     }
 
-                    if (!visibleSectorMask.empty()
-                        && !isSectorVisible(static_cast<int16_t>(face.roomNumber), visibleSectorMask)
-                        && !isSectorVisible(static_cast<int16_t>(face.roomBehindNumber), visibleSectorMask))
+                    if (!isFaceVisible(faceIndex, face, mapDeltaData, eventRuntimeState))
                     {
                         continue;
                     }
@@ -13272,6 +13558,9 @@ bool IndoorRenderer::updateArpgModeWorldMovement(
     float desiredVelocityX = 0.0f;
     float desiredVelocityY = 0.0f;
     const bool actionAnimationActive = m_arpgModeActionAnimationSeconds > 0.0f;
+    const bool jumpPressed = input.action(KeyboardAction::Jump).held;
+    const bool jumpRequested = allowWorldInput && !actionAnimationActive && jumpPressed && !m_jumpHeld;
+    m_jumpHeld = jumpPressed;
 
     if (allowWorldInput && !actionAnimationActive && m_arpgModeHasMoveDestination)
     {
@@ -13311,7 +13600,7 @@ bool IndoorRenderer::updateArpgModeWorldMovement(
     partyRuntime.setDecorationColliders(worldRuntime.decorationMovementColliders());
     partyRuntime.setSpriteObjectColliders(worldRuntime.spriteObjectMovementColliders());
     partyRuntime.setMovementSpeedMultiplier(1.0f);
-    partyRuntime.update(desiredVelocityX, desiredVelocityY, false, true, deltaSeconds);
+    partyRuntime.update(desiredVelocityX, desiredVelocityY, jumpRequested, true, deltaSeconds);
     moveState = partyRuntime.movementState();
 
     if (m_arpgModeActionAnimationSeconds > 0.0f)

@@ -399,6 +399,14 @@ function(openyamm_configure_runtime_shaders)
         "fragment"
         "fs_particle.bin")
     openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/vs_beam.sc"
+        "vertex"
+        "vs_beam.bin")
+    openyamm_compile_bgfx_shader(
+        "${CMAKE_SOURCE_DIR}/game/shaders/fs_beam.sc"
+        "fragment"
+        "fs_beam.bin")
+    openyamm_compile_bgfx_shader(
         "${CMAKE_SOURCE_DIR}/game/shaders/vs_spell_area_preview.sc"
         "vertex"
         "vs_spell_area_preview.bin")
@@ -430,6 +438,8 @@ function(openyamm_configure_runtime_shaders)
         fs_outdoor_force_perspective.bin
         vs_particle.bin
         fs_particle.bin
+        vs_beam.bin
+        fs_beam.bin
         vs_spell_area_preview.bin
         fs_spell_area_preview.bin
         vs_editor_preview_material.bin

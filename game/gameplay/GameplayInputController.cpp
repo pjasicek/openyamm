@@ -1,5 +1,6 @@
 #include "game/gameplay/GameplayInputController.h"
 
+#include "game/audio/GameAudioSystem.h"
 #include "game/audio/SoundIds.h"
 #include "game/gameplay/GameplayActionController.h"
 #include "game/app/GameSettings.h"
@@ -11,13 +12,72 @@
 #include "game/gameplay/TurnBasedCombatRuntime.h"
 
 #include <SDL3/SDL.h>
+#include <bx/math.h>
 
+#include <algorithm>
+#include <cmath>
 #include <optional>
 
 namespace OpenYAMM::Game
 {
 namespace
 {
+constexpr float ArpgAetherRayRange = 1495.0f;
+constexpr float ArpgAetherRaySourceHeight = 112.0f;
+constexpr float ArpgAetherRayVisualRadius = 54.0f;
+constexpr float ArpgAetherRayHitRadius = 82.0f;
+constexpr float ArpgAetherRayDamageTickSeconds = 0.05f;
+constexpr float ArpgAetherRayManaTickSeconds = 0.25f;
+constexpr float ArpgAetherRayChannelAnimationSeconds = 0.55f;
+constexpr int ArpgAetherRayManaPerTick = 1;
+constexpr int ArpgAetherRayDamagePerTick = 2;
+constexpr uint32_t ArpgAetherRayChannelSoundId = 49999u;
+constexpr uint32_t ArpgAetherRayStableFxId = 0xa37e4121u;
+
+uint32_t makeInputFxAbgr(uint8_t red, uint8_t green, uint8_t blue, uint8_t alpha)
+{
+    return (static_cast<uint32_t>(alpha) << 24)
+        | (static_cast<uint32_t>(blue) << 16)
+        | (static_cast<uint32_t>(green) << 8)
+        | static_cast<uint32_t>(red);
+}
+
+float pointSegmentDistanceSquared(
+    const GameplayWorldPoint &point,
+    const GameplayWorldPoint &start,
+    const GameplayWorldPoint &end)
+{
+    const float segmentX = end.x - start.x;
+    const float segmentY = end.y - start.y;
+    const float segmentZ = end.z - start.z;
+    const float segmentLengthSquared = segmentX * segmentX + segmentY * segmentY + segmentZ * segmentZ;
+
+    if (segmentLengthSquared <= 0.000001f)
+    {
+        const float deltaX = point.x - start.x;
+        const float deltaY = point.y - start.y;
+        const float deltaZ = point.z - start.z;
+        return deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+    }
+
+    const float startToPointX = point.x - start.x;
+    const float startToPointY = point.y - start.y;
+    const float startToPointZ = point.z - start.z;
+    const float t =
+        std::clamp(
+            (startToPointX * segmentX + startToPointY * segmentY + startToPointZ * segmentZ)
+            / segmentLengthSquared,
+            0.0f,
+            1.0f);
+    const float closestX = start.x + segmentX * t;
+    const float closestY = start.y + segmentY * t;
+    const float closestZ = start.z + segmentZ * t;
+    const float deltaX = point.x - closestX;
+    const float deltaY = point.y - closestY;
+    const float deltaZ = point.z - closestZ;
+    return deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ;
+}
+
 bool isActionNewlyPressed(GameplayScreenRuntime &context, KeyboardAction action, const bool *pKeyboardState)
 {
     if (pKeyboardState == nullptr)
@@ -86,6 +146,60 @@ bool isEscapeNewlyPressed(GameplayScreenRuntime &context, const bool *pKeyboardS
         && context.previousKeyboardState()[SDL_SCANCODE_ESCAPE] == 0;
 }
 
+uint32_t mixAetherRayDamageTickRoll(uint32_t tickSequence, size_t actorIndex)
+{
+    uint32_t value = tickSequence ^ 0x9e3779b9u;
+    value ^= static_cast<uint32_t>(actorIndex) + 0x85ebca6bu + (value << 6) + (value >> 2);
+    value ^= value >> 16;
+    value *= 0x7feb352du;
+    value ^= value >> 15;
+    value *= 0x846ca68bu;
+    value ^= value >> 16;
+    return value;
+}
+
+void stopArpgAetherRaySound(GameplayScreenState::ArpgAetherRayState &rayState, GameplayScreenRuntime &context)
+{
+    if (rayState.channelSoundInstanceId == 0 || context.audioSystem() == nullptr)
+    {
+        rayState.channelSoundInstanceId = 0;
+        return;
+    }
+
+    context.audioSystem()->stopSoundInstance(rayState.channelSoundInstanceId);
+    rayState.channelSoundInstanceId = 0;
+}
+
+void clearArpgAetherRayChannel(GameplayScreenState::ArpgAetherRayState &rayState, GameplayScreenRuntime &context)
+{
+    const bool wasChanneling = rayState.active;
+    stopArpgAetherRaySound(rayState, context);
+
+    if (wasChanneling && context.worldRuntime() != nullptr)
+    {
+        context.worldRuntime()->cancelArpgModePartyActionAnimation();
+    }
+
+    rayState.clear();
+}
+
+void suspendArpgAetherRayChannelForMana(
+    GameplayScreenState::ArpgAetherRayState &rayState,
+    GameplayScreenRuntime &context)
+{
+    const bool wasChanneling = rayState.active;
+    stopArpgAetherRaySound(rayState, context);
+
+    if (wasChanneling && context.worldRuntime() != nullptr)
+    {
+        context.worldRuntime()->cancelArpgModePartyActionAnimation();
+    }
+
+    rayState.active = false;
+    rayState.damageTickAccumulatorSeconds = 0.0f;
+    rayState.manaTickAccumulatorSeconds = 0.0f;
+}
+
 bool closeActiveLootViewFromEscape(GameplayScreenRuntime &context, IGameplayWorldRuntime &worldRuntime)
 {
     if (worldRuntime.activeChestView() == nullptr && worldRuntime.activeCorpseView() == nullptr)
@@ -149,6 +263,232 @@ GameplaySpellActionController::TargetQueries buildSpellActionTargetQueries(
     targetQueries.screenWidth = static_cast<float>(config.screenWidth);
     targetQueries.screenHeight = static_cast<float>(config.screenHeight);
     return targetQueries;
+}
+
+void faceArpgAetherRayTarget(
+    IGameplayWorldRuntime &worldRuntime,
+    const GameplayWorldPoint &target)
+{
+    PartySpellCastRequest facingRequest = {};
+    facingRequest.hasTargetPoint = true;
+    facingRequest.targetX = target.x;
+    facingRequest.targetY = target.y;
+    facingRequest.targetZ = target.z;
+    worldRuntime.faceArpgModePartyActionTarget(facingRequest);
+}
+
+void applyArpgAetherRayDamageTick(
+    IGameplayWorldRuntime &worldRuntime,
+    const GameplayWorldPoint &source,
+    const GameplayWorldPoint &end,
+    uint32_t damageTickSequence)
+{
+    const size_t actorCount = worldRuntime.mapActorCount();
+
+    for (size_t actorIndex = 0; actorIndex < actorCount; ++actorIndex)
+    {
+        GameplayRuntimeActorState actor = {};
+
+        if (!worldRuntime.actorRuntimeState(actorIndex, actor)
+            || actor.isDead
+            || actor.isInvisible)
+        {
+            continue;
+        }
+
+        const float actorMinZ = actor.preciseZ - 48.0f;
+        const float actorMaxZ = actor.preciseZ + static_cast<float>(actor.height) + 48.0f;
+
+        if (source.z < actorMinZ && end.z < actorMinZ)
+        {
+            continue;
+        }
+
+        if (source.z > actorMaxZ && end.z > actorMaxZ)
+        {
+            continue;
+        }
+
+        GameplayWorldPoint actorPoint = {};
+        actorPoint.x = actor.preciseX;
+        actorPoint.y = actor.preciseY;
+        actorPoint.z = source.z;
+
+        const float hitRadius = ArpgAetherRayHitRadius + std::max(24.0f, static_cast<float>(actor.radius));
+        const float distanceSquared = pointSegmentDistanceSquared(actorPoint, source, end);
+
+        if (distanceSquared > hitRadius * hitRadius)
+        {
+            continue;
+        }
+
+        const bool allowHitReaction =
+            (mixAetherRayDamageTickRoll(damageTickSequence, actorIndex) % 100u) < 5u;
+        worldRuntime.applyPartyChannelDamage(
+            actorIndex,
+            ArpgAetherRayDamagePerTick,
+            source,
+            allowHitReaction);
+    }
+
+}
+
+void updateArpgAetherRayChannel(
+    GameplayScreenState &screenState,
+    GameplayScreenRuntime &context,
+    const GameplaySharedInputFrameConfig &config,
+    bool canRunStandardGameplayAction,
+    bool blockedByOverlay)
+{
+    GameplayScreenState::ArpgAetherRayState &rayState = screenState.arpgAetherRayState();
+    IGameplayWorldRuntime *pWorldRuntime = context.worldRuntime();
+    Party *pParty = context.party();
+    Character *pCaster = pParty != nullptr ? pParty->activeMember() : nullptr;
+    const bool channelHeld =
+        context.settingsSnapshot().arpgModeEnabled
+        && config.pInputFrame != nullptr
+        && config.pInputFrame->isScancodeHeld(SDL_SCANCODE_F);
+
+    if (!channelHeld
+        || !canRunStandardGameplayAction
+        || blockedByOverlay
+        || !config.hasReadyMember
+        || pWorldRuntime == nullptr
+        || pCaster == nullptr)
+    {
+        clearArpgAetherRayChannel(rayState, context);
+        return;
+    }
+
+    if (pCaster->spellPoints < ArpgAetherRayManaPerTick)
+    {
+        if (!rayState.manaWarningLatch)
+        {
+            context.setStatusBarEvent("Not enough spell points.");
+            rayState.manaWarningLatch = true;
+        }
+
+        suspendArpgAetherRayChannelForMana(rayState, context);
+        return;
+    }
+
+    rayState.manaWarningLatch = false;
+
+    if (!rayState.active)
+    {
+        rayState.active = true;
+        rayState.immediateDamageTickPending = true;
+        rayState.damageTickAccumulatorSeconds = 0.0f;
+        rayState.manaTickAccumulatorSeconds = ArpgAetherRayManaTickSeconds;
+    }
+
+    GameplayWorldPoint source = {};
+    source.x = pWorldRuntime->partyX();
+    source.y = pWorldRuntime->partyY();
+    source.z = pWorldRuntime->partyFootZ() + ArpgAetherRaySourceHeight;
+
+    if (rayState.channelSoundInstanceId == 0 && context.audioSystem() != nullptr)
+    {
+        rayState.channelSoundInstanceId =
+            context.audioSystem()->playSoundInstance(
+                engineSound(ArpgAetherRayChannelSoundId),
+                GameAudioSystem::PlaybackGroup::World,
+                std::nullopt,
+                true);
+    }
+
+    const GameplaySpellActionController::TargetQueries targetQueries =
+        buildSpellActionTargetQueries(screenState, config);
+    const float targetScreenX =
+        targetQueries.useCrosshairTarget && targetQueries.screenWidth > 0.0f
+            ? targetQueries.screenWidth * 0.5f
+            : targetQueries.cursorX;
+    const float targetScreenY =
+        targetQueries.useCrosshairTarget && targetQueries.screenHeight > 0.0f
+            ? targetQueries.screenHeight * 0.5f
+            : targetQueries.cursorY;
+    std::optional<bx::Vec3> targetPoint;
+
+    targetPoint =
+        pWorldRuntime->spellActionCursorPlaneTargetPoint(
+            targetScreenX,
+            targetScreenY,
+            source.z,
+            ArpgAetherRayRange);
+
+    float yawRadians = pWorldRuntime->gameplayCameraYawRadians();
+
+    if (targetPoint)
+    {
+        const float deltaX = targetPoint->x - source.x;
+        const float deltaY = targetPoint->y - source.y;
+
+        if (deltaX * deltaX + deltaY * deltaY > 1.0f)
+        {
+            yawRadians = std::atan2(deltaY, deltaX);
+        }
+    }
+
+    GameplayWorldPoint end = {};
+    end.x = source.x + std::cos(yawRadians) * ArpgAetherRayRange;
+    end.y = source.y + std::sin(yawRadians) * ArpgAetherRayRange;
+    end.z = source.z;
+    end = pWorldRuntime->clipChannelBeamTarget(source, end);
+
+    faceArpgAetherRayTarget(*pWorldRuntime, end);
+    pWorldRuntime->sustainArpgModePartyActionAnimation(ArpgAetherRayChannelAnimationSeconds, true);
+
+    const float deltaSeconds = std::clamp(config.deltaSeconds, 0.0f, 0.10f);
+    rayState.channelElapsedSeconds += deltaSeconds;
+    rayState.damageTickAccumulatorSeconds += deltaSeconds;
+    rayState.manaTickAccumulatorSeconds += deltaSeconds;
+
+    GameplayChannelBeamFx beam = {};
+    beam.start = source;
+    beam.end = end;
+    beam.radius = ArpgAetherRayVisualRadius;
+    beam.intensity = 1.0f;
+    beam.phaseSeconds = rayState.channelElapsedSeconds;
+    beam.coreColorAbgr = makeInputFxAbgr(230, 255, 190, 235);
+    beam.glowColorAbgr = makeInputFxAbgr(70, 255, 126, 205);
+    beam.stableId = ArpgAetherRayStableFxId;
+    pWorldRuntime->addChannelBeamFx(beam);
+
+    if (rayState.immediateDamageTickPending)
+    {
+        applyArpgAetherRayDamageTick(
+            *pWorldRuntime,
+            source,
+            end,
+            rayState.damageTickSequence);
+        ++rayState.damageTickSequence;
+        rayState.immediateDamageTickPending = false;
+    }
+
+    while (rayState.manaTickAccumulatorSeconds >= ArpgAetherRayManaTickSeconds)
+    {
+        if (pCaster->spellPoints < ArpgAetherRayManaPerTick)
+        {
+            context.setStatusBarEvent("Not enough spell points.");
+            rayState.manaWarningLatch = true;
+            suspendArpgAetherRayChannelForMana(rayState, context);
+            return;
+        }
+
+        pCaster->spellPoints -= ArpgAetherRayManaPerTick;
+        rayState.manaTickAccumulatorSeconds -= ArpgAetherRayManaTickSeconds;
+    }
+
+    while (rayState.damageTickAccumulatorSeconds >= ArpgAetherRayDamageTickSeconds)
+    {
+        applyArpgAetherRayDamageTick(
+            *pWorldRuntime,
+            source,
+            end,
+            rayState.damageTickSequence);
+        ++rayState.damageTickSequence;
+        rayState.damageTickAccumulatorSeconds -= ArpgAetherRayDamageTickSeconds;
+    }
 }
 } // namespace
 
@@ -624,6 +964,13 @@ GameplaySharedInputFrameResult GameplayInputController::updateSharedGameplayInpu
                 .hasHeldItem = heldInventoryItem.active,
                 .blockOnHeldItem = true,
             });
+
+    updateArpgAetherRayChannel(
+        screenState,
+        context,
+        config,
+        canToggleAdventurersInn,
+        blocksUnderlyingMouseInput || config.isUtilitySpellModalActive);
 
     if (config.processStandardUiInput)
     {

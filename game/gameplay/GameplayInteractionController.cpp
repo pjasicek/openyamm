@@ -966,6 +966,7 @@ void clearWorldInteractionFrameState(
         screenState.worldInteractionInputState();
 
     worldInteractionInputState.keyboardUseLatch = false;
+    worldInteractionInputState.arpgContextActionTriggerLatch = false;
     worldInteractionInputState.inspectKeyboardActivateLatch = false;
     worldInteractionInputState.keyboardUseNextRepeatTickNanoseconds = 0;
     worldInteractionInputState.inspectKeyboardActivateNextRepeatTickNanoseconds = 0;
@@ -1178,6 +1179,8 @@ GameplayInteractionController::updateKeyboardActivationInteraction(
         return result;
     }
 
+    const bool firstActivationPress = !state.inspectKeyboardActivateLatch;
+
     if (!keyboardRepeatInteractionDue(
         state.inspectKeyboardActivateLatch,
         state.inspectKeyboardActivateNextRepeatTickNanoseconds,
@@ -1187,6 +1190,15 @@ GameplayInteractionController::updateKeyboardActivationInteraction(
     }
 
     result.latched = true;
+
+    if (input.activateArpgLootPopupFirst
+        && firstActivationPress
+        && input.pWorldRuntime != nullptr
+        && input.pWorldRuntime->tryActivateArpgModeLootPopup())
+    {
+        result.activated = true;
+        return result;
+    }
 
     if (!input.currentHit.hasHit)
     {
@@ -1579,6 +1591,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
         }
 
         worldInteractionInputState.keyboardUseLatch = false;
+        worldInteractionInputState.arpgContextActionTriggerLatch = false;
         worldInteractionInputState.keyboardUseNextRepeatTickNanoseconds = 0;
         worldInteractionInputState.heldInventoryDropLatch = false;
         overlayInteractionState.activateInspectLatch = false;
@@ -1858,24 +1871,29 @@ GameplayInteractionController::updateWorldInteractionFrame(
 
     if (arpgMode && contextActionTriggerPressed)
     {
-        if (!worldInteractionInputState.keyboardUseLatch && worldReady && pWorldRuntime != nullptr)
+        if (!worldInteractionInputState.arpgContextActionTriggerLatch && worldReady && pWorldRuntime != nullptr)
         {
-            worldInteractionInputState.keyboardUseLatch = true;
+            worldInteractionInputState.arpgContextActionTriggerLatch = true;
             const GameplayContextActionState &contextActionState = runtime.contextActionStateReadOnly();
             const bool hasPrimaryContextAction =
                 contextActionState.visible && contextActionState.primaryIndex < contextActionState.actions.size();
-            const GameplayWorldHit activationHit =
-                hasPrimaryContextAction
-                    ? contextActionState.actions[contextActionState.primaryIndex].worldHit
-                    : runtime.settingsSnapshot().contextActionPopup
-                        ? pickArpgModePopupInteractionTarget(*pWorldRuntime, runtime)
-                        : pickArpgModeForwardInteractionTarget(*pWorldRuntime, runtime);
-            const bool activated =
-                tryActivateWorldHit(
-                    &runtime,
-                    pWorldRuntime,
-                    activationHit,
-                    GameplayInteractionMethod::Keyboard);
+            bool activated = pWorldRuntime->tryActivateArpgModeLootPopup();
+
+            if (!activated)
+            {
+                const GameplayWorldHit activationHit =
+                    hasPrimaryContextAction
+                        ? contextActionState.actions[contextActionState.primaryIndex].worldHit
+                        : runtime.settingsSnapshot().contextActionPopup
+                            ? pickArpgModePopupInteractionTarget(*pWorldRuntime, runtime)
+                            : pickArpgModeForwardInteractionTarget(*pWorldRuntime, runtime);
+                activated =
+                    tryActivateWorldHit(
+                        &runtime,
+                        pWorldRuntime,
+                        activationHit,
+                        GameplayInteractionMethod::Keyboard);
+            }
 
             if (activated)
             {
@@ -1894,7 +1912,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
     }
     else if (arpgMode)
     {
-        worldInteractionInputState.keyboardUseLatch = false;
+        worldInteractionInputState.arpgContextActionTriggerLatch = false;
     }
 
     GameplayWorldHit keyboardActivationHit = {};
@@ -1954,6 +1972,7 @@ GameplayInteractionController::updateWorldInteractionFrame(
             KeyboardActivationInteractionInput{
                 .activationPressed = pointerPolicy.activationPressed,
                 .allowInteraction = worldReady,
+                .activateArpgLootPopupFirst = arpgMode,
                 .currentTickNanoseconds = currentTickNanoseconds,
                 .currentHit = keyboardActivationHit,
                 .pRuntime = &runtime,

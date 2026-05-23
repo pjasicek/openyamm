@@ -224,6 +224,7 @@ void WorldFxSystem::reset()
     m_glowBillboards.clear();
     m_lightEmitters.clear();
     m_contactShadows.clear();
+    m_beams.clear();
     m_trailCooldownByProjectileId.clear();
     m_persistentImpactLights.clear();
     m_seenImpactIds.clear();
@@ -251,6 +252,8 @@ void WorldFxSystem::updateParticles(float deltaSeconds, bool paused)
         m_particleSystem.update(ParticleUpdateStepSeconds);
         m_particleUpdateAccumulatorSeconds -= ParticleUpdateStepSeconds;
     }
+
+    updateBeams(deltaSeconds);
 }
 
 void WorldFxSystem::syncProjectileFx(GameSession &session, float deltaSeconds, bool refreshSpatialFx)
@@ -260,6 +263,7 @@ void WorldFxSystem::syncProjectileFx(GameSession &session, float deltaSeconds, b
     syncProjectileTrails(session, refreshSpatialFx);
     syncProjectileImpacts(session);
     emitPersistentImpactLights(refreshSpatialFx);
+    emitBeamSpatialFx();
     cleanupSeenProjectileImpactIds(session);
 }
 
@@ -439,6 +443,29 @@ void WorldFxSystem::addLightEmitter(
     m_lightEmitters.push_back(light);
 }
 
+void WorldFxSystem::addBeam(const WorldFxBeam &beam)
+{
+    if (beam.stableId != 0)
+    {
+        std::vector<WorldFxBeam>::iterator beamIterator =
+            std::find_if(
+                m_beams.begin(),
+                m_beams.end(),
+                [&beam](const WorldFxBeam &existingBeam)
+                {
+                    return existingBeam.stableId == beam.stableId;
+                });
+
+        if (beamIterator != m_beams.end())
+        {
+            *beamIterator = beam;
+            return;
+        }
+    }
+
+    m_beams.push_back(beam);
+}
+
 ParticleSystem &WorldFxSystem::particles()
 {
     return m_particleSystem;
@@ -449,6 +476,11 @@ const ParticleSystem &WorldFxSystem::particles() const
     return m_particleSystem;
 }
 
+const std::vector<WorldFxBeam> &WorldFxSystem::beams() const
+{
+    return m_beams;
+}
+
 const std::vector<WorldFxGlowBillboard> &WorldFxSystem::glowBillboards() const
 {
     return m_glowBillboards;
@@ -457,6 +489,44 @@ const std::vector<WorldFxGlowBillboard> &WorldFxSystem::glowBillboards() const
 const std::vector<WorldFxContactShadow> &WorldFxSystem::contactShadows() const
 {
     return m_contactShadows;
+}
+
+void WorldFxSystem::updateBeams(float deltaSeconds)
+{
+    const float elapsedSeconds = std::max(0.0f, deltaSeconds);
+
+    for (WorldFxBeam &beam : m_beams)
+    {
+        beam.remainingSeconds -= elapsedSeconds;
+    }
+
+    m_beams.erase(
+        std::remove_if(
+            m_beams.begin(),
+            m_beams.end(),
+            [](const WorldFxBeam &beam)
+            {
+                return beam.remainingSeconds <= 0.0f;
+            }),
+        m_beams.end());
+}
+
+void WorldFxSystem::emitBeamSpatialFx()
+{
+    for (const WorldFxBeam &beam : m_beams)
+    {
+        const float radius = std::max(32.0f, beam.radius);
+        addLightEmitter(
+            beam.endX,
+            beam.endY,
+            beam.endZ,
+            radius * 8.0f,
+            withScaledAlpha(beam.glowColorAbgr, 0.75f),
+            -1,
+            RenderLightKind::GenericFx,
+            beam.stableId,
+            false);
+    }
 }
 
 void WorldFxSystem::updateProjectileTrailCooldowns(float deltaSeconds)

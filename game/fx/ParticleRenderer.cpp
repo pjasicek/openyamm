@@ -3,6 +3,7 @@
 #include "game/fx/FxSharedTypes.h"
 #include "game/fx/ParticleSystem.h"
 #include "game/fx/WorldFxRenderResources.h"
+#include "game/fx/WorldFxSystem.h"
 #include "game/render/TextureFiltering.h"
 
 #include <bgfx/bgfx.h>
@@ -32,6 +33,12 @@ constexpr uint64_t ParticleAlphaRenderState =
     | BGFX_STATE_BLEND_ALPHA;
 
 constexpr uint64_t ParticleAdditiveRenderState =
+    BGFX_STATE_WRITE_RGB
+    | BGFX_STATE_WRITE_A
+    | BGFX_STATE_DEPTH_TEST_LEQUAL
+    | BGFX_STATE_BLEND_ADD;
+
+constexpr uint64_t BeamAdditiveRenderState =
     BGFX_STATE_WRITE_RGB
     | BGFX_STATE_WRITE_A
     | BGFX_STATE_DEPTH_TEST_LEQUAL
@@ -256,6 +263,15 @@ bx::Vec3 normalizeOrFallback(const bx::Vec3 &value, const bx::Vec3 &fallback)
     return bx::mul(value, 1.0f / std::sqrt(lengthSquared));
 }
 
+void colorAbgrToUniform(uint32_t colorAbgr, float *pColor)
+{
+    const float inverse255 = 1.0f / 255.0f;
+    pColor[0] = static_cast<float>(channelAt(colorAbgr, 0)) * inverse255;
+    pColor[1] = static_cast<float>(channelAt(colorAbgr, 8)) * inverse255;
+    pColor[2] = static_cast<float>(channelAt(colorAbgr, 16)) * inverse255;
+    pColor[3] = static_cast<float>(channelAt(colorAbgr, 24)) * inverse255;
+}
+
 bool shouldRenderParticle(
     const FxParticleState &particle,
     const bx::Vec3 &cameraPosition,
@@ -333,8 +349,12 @@ void ParticleRenderer::initializeResources(WorldFxRenderResources &resources)
         };
 
     WorldFxParticleVertex::init();
+    WorldFxBeamVertex::init();
     resources.setTextureSamplerHandle(bgfx::createUniform("s_texColor", bgfx::UniformType::Sampler));
     resources.setParticleParamsUniformHandle(bgfx::createUniform("u_particleParams", bgfx::UniformType::Vec4));
+    resources.setBeamParamsUniformHandle(bgfx::createUniform("u_beamParams", bgfx::UniformType::Vec4));
+    resources.setBeamCoreColorUniformHandle(bgfx::createUniform("u_beamCoreColor", bgfx::UniformType::Vec4));
+    resources.setBeamGlowColorUniformHandle(bgfx::createUniform("u_beamGlowColor", bgfx::UniformType::Vec4));
 
     ensureParticleTexture(ParticleSoftBlobTextureName, 64, 64, buildRadialPixels(64, 64, 2.6f, 0.0f, 1.0f));
     ensureParticleTexture(ParticleHardBlobTextureName, 64, 64, buildRadialPixels(64, 64, 6.5f, 0.08f, 1.10f));
@@ -625,6 +645,154 @@ void ParticleRenderer::renderParticles(
             ParticleAdditiveRenderState,
             material,
             true);
+    }
+}
+
+void ParticleRenderer::renderBeams(
+    WorldFxRenderResources &resources,
+    const std::vector<WorldFxBeam> &beams,
+    uint16_t viewId,
+    const float *pViewMatrix,
+    const bx::Vec3 &cameraPosition)
+{
+    if (beams.empty()
+        || !bgfx::isValid(resources.beamProgramHandle())
+        || !bgfx::isValid(resources.beamParamsUniformHandle())
+        || !bgfx::isValid(resources.beamCoreColorUniformHandle())
+        || !bgfx::isValid(resources.beamGlowColorUniformHandle()))
+    {
+        return;
+    }
+
+    const bx::Vec3 cameraRight = {pViewMatrix[0], pViewMatrix[4], pViewMatrix[8]};
+    const bx::Vec3 cameraUp = {pViewMatrix[1], pViewMatrix[5], pViewMatrix[9]};
+    const bx::Vec3 cameraForward =
+        normalizeOrFallback(bx::mul(bx::cross(cameraRight, cameraUp), -1.0f), {0.0f, 0.0f, 1.0f});
+
+    for (const WorldFxBeam &beam : beams)
+    {
+        const bx::Vec3 start = {beam.startX, beam.startY, beam.startZ};
+        const bx::Vec3 end = {beam.endX, beam.endY, beam.endZ};
+        const bx::Vec3 beamVector = bx::sub(end, start);
+        const float lengthSquared = bx::dot(beamVector, beamVector);
+
+        if (lengthSquared <= 1.0f)
+        {
+            continue;
+        }
+
+        const float length = std::sqrt(lengthSquared);
+        const bx::Vec3 midpoint = bx::mul(bx::add(start, end), 0.5f);
+        const bx::Vec3 toMidpoint = bx::sub(midpoint, cameraPosition);
+        const float cullDistance = 12288.0f + length;
+
+        if (bx::dot(toMidpoint, toMidpoint) > cullDistance * cullDistance)
+        {
+            continue;
+        }
+
+        const bx::Vec3 beamDirection = bx::mul(beamVector, 1.0f / length);
+        bx::Vec3 side = normalizeOrFallback(bx::cross(beamDirection, cameraForward), cameraRight);
+
+        if (bx::dot(side, side) <= 0.0001f)
+        {
+            side = normalizeOrFallback(bx::cross(beamDirection, cameraUp), cameraRight);
+        }
+
+        const float halfWidth = std::max(4.0f, beam.radius);
+        const bx::Vec3 widthOffset = bx::mul(side, halfWidth);
+        const float impactRadius = std::max(16.0f, beam.radius * 3.0f);
+        const bx::Vec3 impactCenter = bx::sub(end, bx::mul(beamDirection, 8.0f));
+        const bx::Vec3 impactRight = bx::mul(cameraRight, impactRadius);
+        const bx::Vec3 impactUp = bx::mul(cameraUp, impactRadius);
+        const std::array<WorldFxBeamVertex, 12> vertices = {{
+            {start.x - widthOffset.x, start.y - widthOffset.y, start.z - widthOffset.z, 0.0f, 1.0f},
+            {start.x + widthOffset.x, start.y + widthOffset.y, start.z + widthOffset.z, 0.0f, 0.0f},
+            {end.x + widthOffset.x, end.y + widthOffset.y, end.z + widthOffset.z, 1.0f, 0.0f},
+            {start.x - widthOffset.x, start.y - widthOffset.y, start.z - widthOffset.z, 0.0f, 1.0f},
+            {end.x + widthOffset.x, end.y + widthOffset.y, end.z + widthOffset.z, 1.0f, 0.0f},
+            {end.x - widthOffset.x, end.y - widthOffset.y, end.z - widthOffset.z, 1.0f, 1.0f},
+            {
+                impactCenter.x - impactRight.x - impactUp.x,
+                impactCenter.y - impactRight.y - impactUp.y,
+                impactCenter.z - impactRight.z - impactUp.z,
+                0.84f,
+                1.0f
+            },
+            {
+                impactCenter.x - impactRight.x + impactUp.x,
+                impactCenter.y - impactRight.y + impactUp.y,
+                impactCenter.z - impactRight.z + impactUp.z,
+                0.84f,
+                0.0f
+            },
+            {
+                impactCenter.x + impactRight.x + impactUp.x,
+                impactCenter.y + impactRight.y + impactUp.y,
+                impactCenter.z + impactRight.z + impactUp.z,
+                1.16f,
+                0.0f
+            },
+            {
+                impactCenter.x - impactRight.x - impactUp.x,
+                impactCenter.y - impactRight.y - impactUp.y,
+                impactCenter.z - impactRight.z - impactUp.z,
+                0.84f,
+                1.0f
+            },
+            {
+                impactCenter.x + impactRight.x + impactUp.x,
+                impactCenter.y + impactRight.y + impactUp.y,
+                impactCenter.z + impactRight.z + impactUp.z,
+                1.16f,
+                0.0f
+            },
+            {
+                impactCenter.x + impactRight.x - impactUp.x,
+                impactCenter.y + impactRight.y - impactUp.y,
+                impactCenter.z + impactRight.z - impactUp.z,
+                1.16f,
+                1.0f
+            },
+        }};
+
+        if (bgfx::getAvailTransientVertexBuffer(
+                static_cast<uint32_t>(vertices.size()),
+                WorldFxBeamVertex::ms_layout) < vertices.size())
+        {
+            continue;
+        }
+
+        bgfx::TransientVertexBuffer transientVertexBuffer = {};
+        bgfx::allocTransientVertexBuffer(
+            &transientVertexBuffer,
+            static_cast<uint32_t>(vertices.size()),
+            WorldFxBeamVertex::ms_layout);
+        std::memcpy(
+            transientVertexBuffer.data,
+            vertices.data(),
+            static_cast<size_t>(vertices.size() * sizeof(WorldFxBeamVertex)));
+
+        float modelMatrix[16] = {};
+        bx::mtxIdentity(modelMatrix);
+        float beamParams[4] = {
+            beam.phaseSeconds,
+            std::clamp(beam.intensity, 0.0f, 4.0f),
+            length,
+            0.0f
+        };
+        float coreColor[4] = {};
+        float glowColor[4] = {};
+        colorAbgrToUniform(beam.coreColorAbgr, coreColor);
+        colorAbgrToUniform(beam.glowColorAbgr, glowColor);
+
+        bgfx::setTransform(modelMatrix);
+        bgfx::setVertexBuffer(0, &transientVertexBuffer, 0, static_cast<uint32_t>(vertices.size()));
+        bgfx::setUniform(resources.beamParamsUniformHandle(), beamParams);
+        bgfx::setUniform(resources.beamCoreColorUniformHandle(), coreColor);
+        bgfx::setUniform(resources.beamGlowColorUniformHandle(), glowColor);
+        bgfx::setState(BeamAdditiveRenderState);
+        bgfx::submit(viewId, resources.beamProgramHandle());
     }
 }
 }

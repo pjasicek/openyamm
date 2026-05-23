@@ -102,6 +102,21 @@ void suppressArpgFirstPersonUseBlockedWorldInputs(GameplayInputFrame &input)
     input.keyboardHeld[SDL_SCANCODE_Q] = false;
 }
 
+void suppressAetherRayChannelMovementInputs(GameplayInputFrame &input)
+{
+    input.leftMouseButton = {};
+    input.rightMouseButton = {};
+    clearGameplayAction(input, KeyboardAction::Forward);
+    clearGameplayAction(input, KeyboardAction::Backward);
+    clearGameplayAction(input, KeyboardAction::Left);
+    clearGameplayAction(input, KeyboardAction::Right);
+    clearGameplayAction(input, KeyboardAction::Jump);
+    clearGameplayAction(input, KeyboardAction::FlyUp);
+    clearGameplayAction(input, KeyboardAction::FlyDown);
+    clearGameplayAction(input, KeyboardAction::Land);
+    input.turnBasedMovementStep = false;
+}
+
 Party buildConfiguredParty(
     const Party::Snapshot &snapshot,
     const GameDataRepository &data)
@@ -725,6 +740,7 @@ void GameSession::updateGameplay(
                     .pKeyboardState = input.keyboardState(),
                     .pInputFrame = &input,
                     .mouseWheelDelta = input.mouseWheelDelta,
+                    .deltaSeconds = deltaSeconds,
                     .screenWidth = input.screenWidth,
                     .screenHeight = input.screenHeight,
                     .pointerX = input.pointerX,
@@ -775,6 +791,11 @@ void GameSession::updateGameplay(
         {
             pulseGameplayAction(worldInput, KeyboardAction::Trigger);
             m_overlayInteractionState.gameplayHudTriggerRequested = false;
+        }
+
+        if (m_gameplayScreenState.arpgAetherRayState().active)
+        {
+            suppressAetherRayChannelMovementInputs(worldInput);
         }
 
         const bool gameplayHudPointerActive =

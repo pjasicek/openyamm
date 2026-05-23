@@ -67,6 +67,7 @@ public:
     bool requestQuickSave();
     void updateArpgModeLootAutoPickup(float deltaSeconds);
     bool tryActivateArpgModeLootLabelAt(float screenX, float screenY);
+    bool tryActivateNearestArpgModeLootLabel();
     bool tryActivateArpgModeCorpseLootItem(size_t actorIndex, size_t itemIndex);
     bool tryActivateFirstArpgModeCorpseLootItem(size_t actorIndex);
 
@@ -106,6 +107,7 @@ private:
         const std::filesystem::path &path,
         const std::string &saveName,
         bool closeUiOnSuccess);
+    void updateArpgModeCombatFeedback(float deltaSeconds);
     void renderArpgModeLootOverlay(int width, int height, float deltaSeconds);
 
     struct ArpgModeLootLabelHit
@@ -116,6 +118,9 @@ private:
         float y = 0.0f;
         float width = 0.0f;
         float height = 0.0f;
+        float worldX = 0.0f;
+        float worldY = 0.0f;
+        float worldZ = 0.0f;
     };
 
     struct ArpgModeLootFloatingText
@@ -126,6 +131,28 @@ private:
         float z = 0.0f;
         float remainingSeconds = 0.0f;
         float durationSeconds = 0.0f;
+    };
+
+    struct ArpgModeCombatFloatingText
+    {
+        size_t actorIndex = 0;
+        int amount = 0;
+        std::string text;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float remainingSeconds = 0.0f;
+        float durationSeconds = 0.0f;
+        uint32_t colorAbgr = 0xffffffffu;
+        float fontScale = 1.0f;
+        bool experience = false;
+    };
+
+    struct ArpgModeCombatTargetState
+    {
+        bool active = false;
+        size_t actorIndex = 0;
+        float remainingSeconds = 0.0f;
     };
 
     struct ArpgModeLootLineOfSightState
@@ -168,6 +195,8 @@ private:
     std::optional<uint32_t> m_activeWalkingSoundId;
     std::vector<ArpgModeLootLabelHit> m_arpgModeLootLabelHits;
     std::vector<ArpgModeLootFloatingText> m_arpgModeLootFloatingTexts;
+    std::vector<ArpgModeCombatFloatingText> m_arpgModeCombatFloatingTexts;
     std::vector<ArpgModeLootLineOfSightState> m_arpgModeLootLineOfSightStates;
+    ArpgModeCombatTargetState m_arpgModeCombatTargetState;
 };
 } // namespace OpenYAMM::Game

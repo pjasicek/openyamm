@@ -27,6 +27,7 @@ constexpr float ArpgModeMeleeAutoTargetDistance = 407.2f;
 constexpr float ArpgModeCameraMinDistance = 800.0f;
 constexpr float ArpgModeCameraMaxDistance = 6400.0f;
 constexpr float ArpgModeCameraWheelStep = 220.0f;
+constexpr float ArpgModeCursorMoveDestinationDistance = 1024.0f;
 
 float normalizedDegrees(float degrees)
 {
@@ -106,6 +107,104 @@ bool arpgModeActiveMemberUsesPlainMelee(OutdoorGameView &view)
         && !profile.hasBlaster
         && !profile.hasDragonBreath
         && !profile.rangedAttackBonus.has_value();
+}
+
+bool projectArpgModePointToScreen(
+    const bx::Vec3 &point,
+    int viewWidth,
+    int viewHeight,
+    const float *pViewProjectionMatrix,
+    float &screenX,
+    float &screenY)
+{
+    const float clipX =
+        point.x * pViewProjectionMatrix[0]
+        + point.y * pViewProjectionMatrix[4]
+        + point.z * pViewProjectionMatrix[8]
+        + pViewProjectionMatrix[12];
+    const float clipY =
+        point.x * pViewProjectionMatrix[1]
+        + point.y * pViewProjectionMatrix[5]
+        + point.z * pViewProjectionMatrix[9]
+        + pViewProjectionMatrix[13];
+    const float clipW =
+        point.x * pViewProjectionMatrix[3]
+        + point.y * pViewProjectionMatrix[7]
+        + point.z * pViewProjectionMatrix[11]
+        + pViewProjectionMatrix[15];
+
+    if (clipW <= 0.000001f)
+    {
+        return false;
+    }
+
+    const float inverseW = 1.0f / clipW;
+    const float ndcX = clipX * inverseW;
+    const float ndcY = clipY * inverseW;
+
+    screenX = ((ndcX + 1.0f) * 0.5f) * static_cast<float>(viewWidth);
+    screenY = ((1.0f - ndcY) * 0.5f) * static_cast<float>(viewHeight);
+    return true;
+}
+
+std::optional<bx::Vec3> resolveArpgModeCursorDirection(
+    const OutdoorMoveState &moveState,
+    const ArpgModeCameraFrame &cameraFrame,
+    float targetHeight,
+    const GameplayInputFrame &input)
+{
+    if (input.screenWidth <= 0 || input.screenHeight <= 0)
+    {
+        return std::nullopt;
+    }
+
+    float viewProjectionMatrix[16] = {};
+    bx::mtxMul(viewProjectionMatrix, cameraFrame.viewMatrix.data(), cameraFrame.projectionMatrix.data());
+
+    float puppetScreenX = 0.0f;
+    float puppetScreenY = 0.0f;
+    const bx::Vec3 puppetPoint = {
+        moveState.x,
+        moveState.y,
+        moveState.footZ + targetHeight
+    };
+
+    if (!projectArpgModePointToScreen(
+            puppetPoint,
+            input.screenWidth,
+            input.screenHeight,
+            viewProjectionMatrix,
+            puppetScreenX,
+            puppetScreenY))
+    {
+        puppetScreenX = static_cast<float>(input.screenWidth) * 0.5f;
+        puppetScreenY = static_cast<float>(input.screenHeight) * 0.5f;
+    }
+
+    const float screenDeltaX = input.pointerX - puppetScreenX;
+    const float screenDeltaY = input.pointerY - puppetScreenY;
+
+    if (screenDeltaX * screenDeltaX + screenDeltaY * screenDeltaY <= 16.0f)
+    {
+        return std::nullopt;
+    }
+
+    bx::Vec3 direction = {
+        cameraFrame.right.x * screenDeltaX - cameraFrame.up.x * screenDeltaY,
+        cameraFrame.right.y * screenDeltaX - cameraFrame.up.y * screenDeltaY,
+        0.0f
+    };
+    const float lengthSquared = direction.x * direction.x + direction.y * direction.y;
+
+    if (lengthSquared <= 0.000001f)
+    {
+        return std::nullopt;
+    }
+
+    const float inverseLength = 1.0f / std::sqrt(lengthSquared);
+    direction.x *= inverseLength;
+    direction.y *= inverseLength;
+    return direction;
 }
 
 std::optional<bx::Vec3> resolveArpgModeNearestMeleeTarget(OutdoorGameView &view)
@@ -199,70 +298,64 @@ std::optional<bx::Vec3> OutdoorGameplayInputController::resolveArpgModeMoveClick
     OutdoorGameView &view,
     const GameplayInputFrame &input)
 {
-    if (view.m_pOutdoorWorldRuntime == nullptr)
+    if (view.m_pOutdoorPartyRuntime == nullptr)
     {
         return std::nullopt;
     }
 
-    const GameplayWorldPickRequest pickRequest =
-        view.m_pOutdoorWorldRuntime->buildWorldPickRequest(
-            GameplayWorldPickRequestInput{
-                .screenX = input.pointerX,
-                .screenY = input.pointerY,
-                .screenWidth = input.screenWidth,
-                .screenHeight = input.screenHeight,
-                .includeRay = true,
-            });
-    const GameplayWorldHit hit = view.m_pOutdoorWorldRuntime->pickMouseInteractionTarget(pickRequest);
+    const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
+    const ArpgModeCameraFrame cameraFrame =
+        view.buildCameraFrame(
+            static_cast<uint16_t>(std::max(1, input.screenWidth)),
+            static_cast<uint16_t>(std::max(1, input.screenHeight)),
+            18000.0f);
+    const std::optional<bx::Vec3> direction =
+        resolveArpgModeCursorDirection(
+            moveState,
+            cameraFrame,
+            view.m_gameSettings.arpgModeCameraTargetHeight,
+            input);
 
-    if (hit.kind == GameplayWorldHitKind::Ground && hit.ground && hit.ground->isValid)
+    if (!direction)
     {
-        return hit.ground->worldPoint;
+        return std::nullopt;
     }
 
-    const GameplayPendingSpellWorldTargetFacts targetFacts =
-        view.m_pOutdoorWorldRuntime->pickPendingSpellWorldTarget(pickRequest);
-    return targetFacts.fallbackGroundTargetPoint;
+    return bx::Vec3{
+        moveState.x + direction->x * ArpgModeCursorMoveDestinationDistance,
+        moveState.y + direction->y * ArpgModeCursorMoveDestinationDistance,
+        moveState.footZ
+    };
 }
 
 void OutdoorGameplayInputController::faceArpgModePointerDirection(
     OutdoorGameView &view,
     const GameplayInputFrame &input)
 {
-    if (view.m_pOutdoorWorldRuntime == nullptr)
-    {
-        return;
-    }
-
-    const GameplayWorldPickRequest pickRequest =
-        view.m_pOutdoorWorldRuntime->buildWorldPickRequest(
-            GameplayWorldPickRequestInput{
-                .screenX = input.pointerX,
-                .screenY = input.pointerY,
-                .screenWidth = input.screenWidth,
-                .screenHeight = input.screenHeight,
-                .includeRay = true,
-            });
-
-    const GameplayPendingSpellWorldTargetFacts targetFacts =
-        view.m_pOutdoorWorldRuntime->pickPendingSpellWorldTarget(pickRequest);
-
-    if (!targetFacts.fallbackGroundTargetPoint || view.m_pOutdoorPartyRuntime == nullptr)
+    if (view.m_pOutdoorPartyRuntime == nullptr)
     {
         return;
     }
 
     const OutdoorMoveState &moveState = view.m_pOutdoorPartyRuntime->movementState();
-    const float deltaX = targetFacts.fallbackGroundTargetPoint->x - moveState.x;
-    const float deltaY = targetFacts.fallbackGroundTargetPoint->y - moveState.y;
-    const float horizontalLengthSquared = deltaX * deltaX + deltaY * deltaY;
+    const ArpgModeCameraFrame cameraFrame =
+        view.buildCameraFrame(
+            static_cast<uint16_t>(std::max(1, input.screenWidth)),
+            static_cast<uint16_t>(std::max(1, input.screenHeight)),
+            18000.0f);
+    const std::optional<bx::Vec3> direction =
+        resolveArpgModeCursorDirection(
+            moveState,
+            cameraFrame,
+            view.m_gameSettings.arpgModeCameraTargetHeight,
+            input);
 
-    if (horizontalLengthSquared <= 0.000001f)
+    if (!direction)
     {
         return;
     }
 
-    view.m_cameraYawRadians = std::atan2(deltaY, deltaX);
+    view.m_cameraYawRadians = std::atan2(direction->y, direction->x);
 }
 
 bool faceArpgModeNearestMeleeTarget(OutdoorGameView &view)
@@ -357,6 +450,7 @@ bool OutdoorGameplayInputController::updateArpgModeOutdoorFrame(
     float actualMovementYawRadians = movementYawRadians;
     bool hasActualMovementYaw = false;
     bool moveForward = false;
+    const bool jumpPressed = !actionAnimationActive && input.action(KeyboardAction::Jump).held;
 
     if (!actionAnimationActive && view.m_arpgModeHasMoveDestination)
     {
@@ -386,7 +480,7 @@ bool OutdoorGameplayInputController::updateArpgModeOutdoorFrame(
             false,
             false,
             false,
-            false,
+            jumpPressed,
             false,
             false,
             false,

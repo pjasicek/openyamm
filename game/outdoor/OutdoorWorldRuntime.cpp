@@ -11795,6 +11795,13 @@ bool OutdoorWorldRuntime::actorInspectState(
     return true;
 }
 
+std::vector<GameplayArpgCombatFeedbackEvent> OutdoorWorldRuntime::drainArpgModeCombatFeedbackEvents()
+{
+    std::vector<GameplayArpgCombatFeedbackEvent> events = std::move(m_arpgModeCombatFeedbackEvents);
+    m_arpgModeCombatFeedbackEvents.clear();
+    return events;
+}
+
 std::optional<GameplayCombatActorInfo> OutdoorWorldRuntime::combatActorInfoById(uint32_t actorId) const
 {
     if (m_pMonsterTable == nullptr)
@@ -12267,6 +12274,7 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
 
     MapActorState &actor = m_mapActors[actorIndex];
     const bool wasDead = actor.isDead;
+    const bool leaveCorpse = !isDead || actorShouldLeaveCorpse(m_pMonsterTable, actor);
     actor.isDead = isDead;
     actor.currentHp = isDead ? 0 : actor.maxHp;
     actor.aiState = isDead ? ActorAiState::Dead : ActorAiState::Standing;
@@ -12274,11 +12282,28 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
     actor.animationTimeTicks = 0.0f;
     actor.actionSeconds = 0.0f;
 
-    if (isDead && !actorShouldLeaveCorpse(m_pMonsterTable, actor))
+    if (isDead && !leaveCorpse)
     {
+        actor.isInvisible = true;
         actor.velocityX = 0.0f;
         actor.velocityY = 0.0f;
         actor.velocityZ = 0.0f;
+        m_actorCorpsePhysicsActorIndices.erase(
+            std::remove(
+                m_actorCorpsePhysicsActorIndices.begin(),
+                m_actorCorpsePhysicsActorIndices.end(),
+                actorIndex),
+            m_actorCorpsePhysicsActorIndices.end());
+
+        if (actorIndex < m_mapActorCorpseViews.size())
+        {
+            m_mapActorCorpseViews[actorIndex].reset();
+        }
+
+        if (m_activeCorpseView && m_activeCorpseView->sourceIndex == actorIndex)
+        {
+            m_activeCorpseView.reset();
+        }
     }
     else if (isDead)
     {
@@ -12328,6 +12353,7 @@ bool OutdoorWorldRuntime::setMapActorDead(size_t actorIndex, bool isDead, bool e
 
     if (wasDead && !isDead)
     {
+        actor.isInvisible = false;
         actor.bloodSplatSpawned = false;
         removeBloodSplat(actor.actorId);
     }
@@ -12757,7 +12783,8 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     int damage,
     float partyX,
     float partyY,
-    float partyZ)
+    float partyZ,
+    bool allowHitReaction)
 {
     if (actorIndex >= m_mapActors.size() || damage <= 0)
     {
@@ -12804,6 +12831,8 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
 
     const int previousHp = actor.currentHp;
     actor.currentHp = std::max(0, actor.currentHp - damage);
+    const int dealtDamage = std::max(0, previousHp - actor.currentHp);
+    int experienceReward = 0;
     faceDirection(actor, partyX - actor.preciseX, partyY - actor.preciseY);
     setMapActorHostileToParty(actorIndex, partyX, partyY, partyZ, false);
 
@@ -12835,11 +12864,12 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
 
                 if (m_pParty != nullptr && pStats->experience > 0)
                 {
-                    m_pParty->grantSharedExperience(
+                    experienceReward = static_cast<int>(
                         gameplayBolsterExperienceReward(
                             pStats->experience,
                             pStats->hitPoints,
                             actor.bolsterRewardMultiplier));
+                    m_pParty->grantSharedExperience(static_cast<uint32_t>(experienceReward));
                 }
 
                 pushAudioEvent(
@@ -12856,7 +12886,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
     }
     else
     {
-        if (canEnterHitReaction(actor))
+        if (allowHitReaction && canEnterHitReaction(actor))
         {
             faceDirection(actor, partyX - actor.preciseX, partyY - actor.preciseY);
             beginHitReaction(actor, m_pActorSpriteFrameTable);
@@ -12874,7 +12904,7 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
             actor.velocityZ = knockback.z;
         }
 
-        if (m_pMonsterTable != nullptr)
+        if (allowHitReaction && m_pMonsterTable != nullptr)
         {
             if (const MonsterTable::MonsterStatsEntry *pStats = m_pMonsterTable->findStatsById(actor.monsterId))
             {
@@ -12891,6 +12921,21 @@ bool OutdoorWorldRuntime::applyPartyAttackToMapActor(
         }
     }
 
+    if (dealtDamage > 0)
+    {
+        m_arpgModeCombatFeedbackEvents.push_back(
+            GameplayArpgCombatFeedbackEvent{
+                .actorIndex = actorIndex,
+                .damage = dealtDamage,
+                .experience = experienceReward,
+                .x = actor.preciseX,
+                .y = actor.preciseY,
+                .z = actor.preciseZ,
+                .height = static_cast<float>(actor.height),
+                .killed = previousHp > 0 && actor.currentHp <= 0,
+            });
+    }
+
     aggroNearbyMapActorFaction(actorIndex, partyX, partyY, partyZ);
     return true;
 }
@@ -12901,6 +12946,21 @@ bool OutdoorWorldRuntime::applyPartyAttackMeleeDamage(
     const GameplayWorldPoint &source)
 {
     return applyPartyAttackToMapActor(actorIndex, damage, source.x, source.y, source.z);
+}
+
+bool OutdoorWorldRuntime::applyPartyChannelDamage(
+    size_t actorIndex,
+    int damage,
+    const GameplayWorldPoint &source,
+    bool allowHitReaction)
+{
+    return applyPartyAttackToMapActor(
+        actorIndex,
+        damage,
+        source.x,
+        source.y,
+        source.z,
+        allowHitReaction);
 }
 
 void OutdoorWorldRuntime::applyPartyAttackMeleeEffects(
@@ -13007,6 +13067,22 @@ void OutdoorWorldRuntime::playArpgModePartyActionAnimation(float animationSecond
     }
 }
 
+void OutdoorWorldRuntime::sustainArpgModePartyActionAnimation(float animationSeconds, bool spellCast)
+{
+    if (m_pInteractionView != nullptr)
+    {
+        m_pInteractionView->sustainArpgModePartyActionAnimation(animationSeconds, spellCast);
+    }
+}
+
+void OutdoorWorldRuntime::cancelArpgModePartyActionAnimation()
+{
+    if (m_pInteractionView != nullptr)
+    {
+        m_pInteractionView->cancelArpgModePartyActionAnimation();
+    }
+}
+
 void OutdoorWorldRuntime::faceArpgModePartyActionTarget(const PartySpellCastRequest &request)
 {
     if (m_pInteractionView == nullptr || !m_pInteractionView->arpgModeEnabled())
@@ -13031,6 +13107,149 @@ void OutdoorWorldRuntime::faceArpgModePartyActionTarget(const PartySpellCastRequ
     }
 
     m_pInteractionView->faceArpgModeTargetPoint(targetPoint->x, targetPoint->y);
+}
+
+void OutdoorWorldRuntime::addChannelBeamFx(const GameplayChannelBeamFx &beam)
+{
+    if (m_pWorldFxSystem == nullptr)
+    {
+        return;
+    }
+
+    WorldFxBeam fxBeam = {};
+    fxBeam.startX = beam.start.x;
+    fxBeam.startY = beam.start.y;
+    fxBeam.startZ = beam.start.z;
+    fxBeam.endX = beam.end.x;
+    fxBeam.endY = beam.end.y;
+    fxBeam.endZ = beam.end.z;
+    fxBeam.radius = beam.radius;
+    fxBeam.intensity = beam.intensity;
+    fxBeam.phaseSeconds = beam.phaseSeconds;
+    fxBeam.remainingSeconds = 0.16f;
+    fxBeam.coreColorAbgr = beam.coreColorAbgr;
+    fxBeam.glowColorAbgr = beam.glowColorAbgr;
+    fxBeam.stableId = beam.stableId;
+    m_pWorldFxSystem->addBeam(fxBeam);
+}
+
+GameplayWorldPoint OutdoorWorldRuntime::clipChannelBeamTarget(
+    const GameplayWorldPoint &source,
+    const GameplayWorldPoint &target) const
+{
+    if (m_pOutdoorMapData == nullptr)
+    {
+        return target;
+    }
+
+    const bx::Vec3 segmentStart = {source.x, source.y, source.z};
+    const bx::Vec3 segmentEnd = {target.x, target.y, target.z};
+    const float segmentX = target.x - source.x;
+    const float segmentY = target.y - source.y;
+    const float segmentZ = target.z - source.z;
+    const float segmentLength =
+        std::sqrt(segmentX * segmentX + segmentY * segmentY + segmentZ * segmentZ);
+    float bestFactor = 1.0f;
+
+    if (segmentLength <= 1.0f)
+    {
+        return target;
+    }
+
+    std::vector<size_t> candidateFaceIndices;
+    constexpr float FaceCandidatePadding = 32.0f;
+    collectOutdoorFaceCandidates(
+        std::min(source.x, target.x) - FaceCandidatePadding,
+        std::min(source.y, target.y) - FaceCandidatePadding,
+        std::max(source.x, target.x) + FaceCandidatePadding,
+        std::max(source.y, target.y) + FaceCandidatePadding,
+        candidateFaceIndices);
+
+    for (size_t candidateFaceIndex : candidateFaceIndices)
+    {
+        const OutdoorFaceGeometryData *pFaceGeometry = outdoorFace(candidateFaceIndex);
+
+        if (pFaceGeometry == nullptr
+            || !pFaceGeometry->hasPlane
+            || hasFaceAttribute(pFaceGeometry->attributes, FaceAttribute::Invisible))
+        {
+            continue;
+        }
+
+        if (std::max(source.z, target.z) + FaceCandidatePadding < pFaceGeometry->minZ
+            || std::min(source.z, target.z) - FaceCandidatePadding > pFaceGeometry->maxZ)
+        {
+            continue;
+        }
+
+        float factor = 0.0f;
+        bx::Vec3 intersectionPoint = {0.0f, 0.0f, 0.0f};
+
+        if (intersectOutdoorSegmentWithFace(
+                *pFaceGeometry,
+                segmentStart,
+                segmentEnd,
+                factor,
+                intersectionPoint)
+            && factor > 0.01f)
+        {
+            bestFactor = std::min(bestFactor, factor);
+        }
+    }
+
+    const int sampleCount = std::clamp(static_cast<int>(std::ceil(segmentLength / 64.0f)), 1, 96);
+    float previousFactor = 0.0f;
+
+    for (int sampleIndex = 1; sampleIndex <= sampleCount; ++sampleIndex)
+    {
+        const float factor = static_cast<float>(sampleIndex) / static_cast<float>(sampleCount);
+
+        if (factor >= bestFactor)
+        {
+            break;
+        }
+
+        const float x = source.x + segmentX * factor;
+        const float y = source.y + segmentY * factor;
+        const float z = source.z + segmentZ * factor;
+        const float terrainHeight = sampleOutdoorRenderedTerrainHeight(*m_pOutdoorMapData, x, y);
+
+        if (terrainHeight + 8.0f >= z)
+        {
+            float lowFactor = previousFactor;
+            float highFactor = factor;
+
+            for (int iteration = 0; iteration < 8; ++iteration)
+            {
+                const float midFactor = (lowFactor + highFactor) * 0.5f;
+                const float midX = source.x + segmentX * midFactor;
+                const float midY = source.y + segmentY * midFactor;
+                const float midZ = source.z + segmentZ * midFactor;
+                const float midTerrainHeight =
+                    sampleOutdoorRenderedTerrainHeight(*m_pOutdoorMapData, midX, midY);
+
+                if (midTerrainHeight + 8.0f >= midZ)
+                {
+                    highFactor = midFactor;
+                }
+                else
+                {
+                    lowFactor = midFactor;
+                }
+            }
+
+            bestFactor = std::min(bestFactor, highFactor);
+            break;
+        }
+
+        previousFactor = factor;
+    }
+
+    return GameplayWorldPoint{
+        source.x + segmentX * bestFactor,
+        source.y + segmentY * bestFactor,
+        source.z + segmentZ * bestFactor
+    };
 }
 
 void OutdoorWorldRuntime::recordPartyAttackWorldResult(
@@ -13142,6 +13361,61 @@ std::optional<bx::Vec3> OutdoorWorldRuntime::spellActionGroundTargetPoint(float 
     }
 
     return OutdoorInteractionController::resolveQuickCastCursorTargetPoint(*m_pInteractionView, screenX, screenY);
+}
+
+std::optional<bx::Vec3> OutdoorWorldRuntime::spellActionCursorPlaneTargetPoint(
+    float screenX,
+    float screenY,
+    float planeZ,
+    float fallbackDistance) const
+{
+    if (m_pInteractionView == nullptr)
+    {
+        return std::nullopt;
+    }
+
+    bx::Vec3 rayOrigin = {0.0f, 0.0f, 0.0f};
+    bx::Vec3 rayDirection = {0.0f, 0.0f, 0.0f};
+
+    if (!OutdoorInteractionController::buildQuickCastInspectRayForScreenPoint(
+            *m_pInteractionView,
+            screenX,
+            screenY,
+            rayOrigin,
+            rayDirection))
+    {
+        return std::nullopt;
+    }
+
+    constexpr float RayEpsilon = 0.0001f;
+
+    if (std::fabs(rayDirection.z) > RayEpsilon)
+    {
+        const float planeDistance = (planeZ - rayOrigin.z) / rayDirection.z;
+
+        if (planeDistance > RayEpsilon)
+        {
+            return bx::Vec3{
+                rayOrigin.x + rayDirection.x * planeDistance,
+                rayOrigin.y + rayDirection.y * planeDistance,
+                planeZ
+            };
+        }
+    }
+
+    const float horizontalLengthSquared = rayDirection.x * rayDirection.x + rayDirection.y * rayDirection.y;
+
+    if (horizontalLengthSquared <= RayEpsilon * RayEpsilon)
+    {
+        return std::nullopt;
+    }
+
+    const float horizontalLength = std::sqrt(horizontalLengthSquared);
+    return bx::Vec3{
+        rayOrigin.x + rayDirection.x / horizontalLength * fallbackDistance,
+        rayOrigin.y + rayDirection.y / horizontalLength * fallbackDistance,
+        planeZ
+    };
 }
 
 bool OutdoorWorldRuntime::applyDirectSpellImpactToMapActor(
@@ -15959,6 +16233,11 @@ bool OutdoorWorldRuntime::canActivateWorldHit(
         return false;
     }
 
+    if (m_pInteractionView->arpgModeEnabled() && hit.kind == GameplayWorldHitKind::Corpse)
+    {
+        return false;
+    }
+
     const OutdoorInteractionController::InteractionInputMethod outdoorMethod =
         interactionMethod == GameplayInteractionMethod::Keyboard
             ? OutdoorInteractionController::InteractionInputMethod::Keyboard
@@ -15970,6 +16249,11 @@ bool OutdoorWorldRuntime::canActivateWorldHit(
 bool OutdoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
 {
     if (m_pInteractionView == nullptr)
+    {
+        return false;
+    }
+
+    if (m_pInteractionView->arpgModeEnabled() && hit.kind == GameplayWorldHitKind::Corpse)
     {
         return false;
     }
@@ -16127,6 +16411,11 @@ GameplayWorldHit OutdoorWorldRuntime::pickNearbyInteractionTarget(float radius)
         *m_pInteractionView,
         *m_pOutdoorMapData,
         radius);
+}
+
+bool OutdoorWorldRuntime::tryActivateArpgModeLootPopup()
+{
+    return m_pInteractionView != nullptr && m_pInteractionView->tryActivateNearestArpgModeLootLabel();
 }
 
 GameplayWorldHit OutdoorWorldRuntime::pickForwardInteractionTarget(float depth)

@@ -32,6 +32,19 @@ struct WorldFxParticleTexture
     bgfx::TextureHandle textureHandle = BGFX_INVALID_HANDLE;
 };
 
+struct WorldFxBeamVertex
+{
+    float x;
+    float y;
+    float z;
+    float u;
+    float v;
+
+    static void init();
+
+    static bgfx::VertexLayout ms_layout;
+};
+
 class WorldFxRenderResources
 {
 public:
@@ -47,8 +60,20 @@ public:
     bgfx::ProgramHandle particleProgramHandle() const;
     void setParticleProgramHandle(bgfx::ProgramHandle handle);
 
+    bgfx::ProgramHandle beamProgramHandle() const;
+    void setBeamProgramHandle(bgfx::ProgramHandle handle);
+
     bgfx::UniformHandle particleParamsUniformHandle() const;
     void setParticleParamsUniformHandle(bgfx::UniformHandle handle);
+
+    bgfx::UniformHandle beamParamsUniformHandle() const;
+    void setBeamParamsUniformHandle(bgfx::UniformHandle handle);
+
+    bgfx::UniformHandle beamCoreColorUniformHandle() const;
+    void setBeamCoreColorUniformHandle(bgfx::UniformHandle handle);
+
+    bgfx::UniformHandle beamGlowColorUniformHandle() const;
+    void setBeamGlowColorUniformHandle(bgfx::UniformHandle handle);
 
     bgfx::UniformHandle textureSamplerHandle() const;
     void setTextureSamplerHandle(bgfx::UniformHandle handle);
@@ -64,7 +89,11 @@ public:
 
 private:
     bgfx::ProgramHandle m_particleProgramHandle = BGFX_INVALID_HANDLE;
+    bgfx::ProgramHandle m_beamProgramHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_particleParamsUniformHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_beamParamsUniformHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_beamCoreColorUniformHandle = BGFX_INVALID_HANDLE;
+    bgfx::UniformHandle m_beamGlowColorUniformHandle = BGFX_INVALID_HANDLE;
     bgfx::UniformHandle m_textureSamplerHandle = BGFX_INVALID_HANDLE;
     std::vector<WorldFxParticleTexture> m_particleTextures;
     std::array<uint16_t, ParticleMaterialCount> m_particleTextureHandleIndices = {{

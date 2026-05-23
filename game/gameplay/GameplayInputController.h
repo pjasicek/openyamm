@@ -48,6 +48,7 @@ struct GameplaySharedInputFrameConfig
     const bool *pKeyboardState = nullptr;
     const GameplayInputFrame *pInputFrame = nullptr;
     float mouseWheelDelta = 0.0f;
+    float deltaSeconds = 0.0f;
     int screenWidth = 0;
     int screenHeight = 0;
     float pointerX = 0.0f;

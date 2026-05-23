@@ -8,6 +8,7 @@
 #include "game/events/EvtEnums.h"
 #include "game/events/EventProjectileSpells.h"
 #include "game/StringUtils.h"
+#include "game/fx/WorldFxSystem.h"
 #include "game/gameplay/BountyHuntRuntime.h"
 #include "game/gameplay/ChestRuntime.h"
 #include "game/gameplay/CorpseLootRuntime.h"
@@ -4917,9 +4918,20 @@ std::vector<bool> IndoorWorldRuntime::applyIndoorActorAiFrameResult(
 
             if (!actorShouldLeaveCorpse(m_pMonsterTable, actor))
             {
+                actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
                 aiState.velocityX = 0.0f;
                 aiState.velocityY = 0.0f;
                 aiState.velocityZ = 0.0f;
+
+                if (update.actorIndex < m_mapActorCorpseViews.size())
+                {
+                    m_mapActorCorpseViews[update.actorIndex].reset();
+                }
+
+                if (m_activeCorpseView && m_activeCorpseView->sourceIndex == update.actorIndex)
+                {
+                    m_activeCorpseView.reset();
+                }
             }
             else if (indoorActorCorpsePhysicsNeedsStep(actor, aiState))
             {
@@ -8414,7 +8426,11 @@ void IndoorWorldRuntime::updateTurnBasedPausedActorAnimations(float deltaSeconds
             aiState.animationTimeTicks = 0.0f;
             aiState.attackImpactTriggered = false;
             actor.currentActionAnimation = indoorActionAnimationFromActorAi(ActorAiAnimationState::Dying);
-            activateIndoorActorCorpsePhysics(actorIndex);
+
+            if (actorShouldLeaveCorpse(m_pMonsterTable, actor))
+            {
+                activateIndoorActorCorpsePhysics(actorIndex);
+            }
         }
 
         if (aiState.motionState != ActorAiMotionState::Dying)
@@ -8565,9 +8581,20 @@ void IndoorWorldRuntime::updateTurnBasedPausedActorAnimations(float deltaSeconds
 
             if (!actorShouldLeaveCorpse(m_pMonsterTable, actor))
             {
+                actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Invisible);
                 aiState.velocityX = 0.0f;
                 aiState.velocityY = 0.0f;
                 aiState.velocityZ = 0.0f;
+
+                if (actorIndex < m_mapActorCorpseViews.size())
+                {
+                    m_mapActorCorpseViews[actorIndex].reset();
+                }
+
+                if (m_activeCorpseView && m_activeCorpseView->sourceIndex == actorIndex)
+                {
+                    m_activeCorpseView.reset();
+                }
             }
             else if (indoorActorCorpsePhysicsNeedsStep(actor, aiState))
             {
@@ -9664,6 +9691,13 @@ bool IndoorWorldRuntime::actorInspectState(
     state.previewTextureName = resolvedTexture.textureName;
     state.previewPaletteId = pFrame->paletteId;
     return true;
+}
+
+std::vector<GameplayArpgCombatFeedbackEvent> IndoorWorldRuntime::drainArpgModeCombatFeedbackEvents()
+{
+    std::vector<GameplayArpgCombatFeedbackEvent> events = std::move(m_arpgModeCombatFeedbackEvents);
+    m_arpgModeCombatFeedbackEvents.clear();
+    return events;
 }
 
 std::optional<GameplayCombatActorInfo> IndoorWorldRuntime::combatActorInfoById(uint32_t actorId) const
@@ -11257,6 +11291,11 @@ bool IndoorWorldRuntime::canActivateWorldHit(
         && m_pGameplayView->settingsSnapshot().arpgModeEnabled
         && !m_pGameplayView->arpgModeFirstPersonUseMode();
 
+    if (arpgMode && hit.kind == GameplayWorldHitKind::Corpse)
+    {
+        return false;
+    }
+
     if (arpgMode && m_pPartyRuntime != nullptr)
     {
         const std::optional<bx::Vec3> hitPoint = indoorWorldHitPoint(hit);
@@ -11294,12 +11333,17 @@ bool IndoorWorldRuntime::canActivateWorldHit(
         const MapActorAiState *pAiState =
             actorIndex < m_mapActorAiStates.size() ? &m_mapActorAiStates[actorIndex] : nullptr;
 
+        if (arpgMode && pAiState != nullptr && pAiState->motionState == ActorAiMotionState::Dead)
+        {
+            return false;
+        }
+
         return pMapDeltaData != nullptr
             && actorIndex < pMapDeltaData->actors.size()
             && pAiState != nullptr
             && (pMapDeltaData->actors[actorIndex].attributes
                 & static_cast<uint32_t>(EvtActorAttribute::Invisible)) == 0
-            && (pAiState->motionState == ActorAiMotionState::Dead
+            && ((!arpgMode && pAiState->motionState == ActorAiMotionState::Dead)
                 || (m_pGameplayView != nullptr && m_pGameplayView->canActivateMapActorDialogue(actorIndex)));
     }
 
@@ -11319,6 +11363,16 @@ bool IndoorWorldRuntime::canActivateWorldHit(
 
 bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
 {
+    const bool arpgMode =
+        m_pGameplayView != nullptr
+        && m_pGameplayView->settingsSnapshot().arpgModeEnabled
+        && !m_pGameplayView->arpgModeFirstPersonUseMode();
+
+    if (arpgMode && hit.kind == GameplayWorldHitKind::Corpse)
+    {
+        return false;
+    }
+
     if (hit.kind == GameplayWorldHitKind::Actor && hit.actor)
     {
         const size_t actorIndex = hit.actor->actorIndex;
@@ -11330,40 +11384,9 @@ bool IndoorWorldRuntime::activateWorldHit(const GameplayWorldHit &hit)
             return m_pGameplayView != nullptr && m_pGameplayView->activateMapActorDialogue(actorIndex);
         }
 
-        if (m_pGameplayView != nullptr
-            && m_pGameplayView->settingsSnapshot().arpgModeEnabled
-            && !m_pGameplayView->arpgModeFirstPersonUseMode())
+        if (arpgMode)
         {
-            if (m_pGameplayView->tryActivateFirstArpgModeCorpseLootItem(actorIndex))
-            {
-                if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
-                {
-                    (*m_pEventRuntimeState)->lastActivationResult =
-                        "corpse " + std::to_string(actorIndex) + " picked up arpg loot item";
-                }
-
-                return true;
-            }
-
-            if (ensureMapActorCorpseView(actorIndex))
-            {
-                m_pGameplayView->setStatusBarEvent("Loot dropped");
-
-                if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
-                {
-                    (*m_pEventRuntimeState)->lastActivationResult =
-                        "corpse " + std::to_string(actorIndex) + " arpg loot labels";
-                }
-
-                return true;
-            }
-
-            if (m_pEventRuntimeState != nullptr && *m_pEventRuntimeState)
-            {
-                (*m_pEventRuntimeState)->lastActivationResult = "corpse " + std::to_string(actorIndex) + " empty";
-            }
-
-            return true;
+            return false;
         }
 
         return autoLootMapActorCorpse(actorIndex);
@@ -11675,7 +11698,8 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
     size_t actorIndex,
     int damage,
     CombatDamageType damageType,
-    const GameplayWorldPoint &source)
+    const GameplayWorldPoint &source,
+    bool allowHitReaction)
 {
     MapDeltaData *pMapDeltaData = mapDeltaData();
 
@@ -11696,6 +11720,8 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
     const int appliedDamage = applyMonsterDamageEventHooks(actorIndex, resolvedMonsterId, damage, damageType);
     const int previousHp = actor.hp;
     const int nextHp = std::max(0, previousHp - appliedDamage);
+    const int dealtDamage = std::max(0, previousHp - nextHp);
+    int experienceReward = 0;
     actor.hp = static_cast<int16_t>(nextHp);
     actor.attributes |= static_cast<uint32_t>(EvtActorAttribute::Hostile)
         | static_cast<uint32_t>(EvtActorAttribute::Aggressor)
@@ -11768,7 +11794,7 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
         aiState.spellEffects.hasDetectedParty = true;
     }
 
-    if (previousHp > 0 && nextHp > 0)
+    if (allowHitReaction && previousHp > 0 && nextHp > 0)
     {
         beginMapActorHitReaction(actorIndex, actor, &source);
         const MonsterTable::MonsterStatsEntry *pStats =
@@ -11805,9 +11831,27 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
             const float rewardMultiplier = actorIndex < m_mapActorAiStates.size()
                 ? m_mapActorAiStates[actorIndex].bolsterRewardMultiplier
                 : 1.0f;
-            m_pParty->grantSharedExperience(
+            experienceReward = static_cast<int>(
                 gameplayBolsterExperienceReward(pStats->experience, pStats->hitPoints, rewardMultiplier));
+            m_pParty->grantSharedExperience(static_cast<uint32_t>(experienceReward));
         }
+    }
+
+    if (dealtDamage > 0)
+    {
+        const MapActorAiState *pAiState =
+            actorIndex < m_mapActorAiStates.size() ? &m_mapActorAiStates[actorIndex] : nullptr;
+        m_arpgModeCombatFeedbackEvents.push_back(
+            GameplayArpgCombatFeedbackEvent{
+                .actorIndex = actorIndex,
+                .damage = dealtDamage,
+                .experience = experienceReward,
+                .x = pAiState != nullptr ? pAiState->preciseX : static_cast<float>(actor.x),
+                .y = pAiState != nullptr ? pAiState->preciseY : static_cast<float>(actor.y),
+                .z = pAiState != nullptr ? pAiState->preciseZ : static_cast<float>(actor.z),
+                .height = pAiState != nullptr ? static_cast<float>(pAiState->collisionHeight) : 128.0f,
+                .killed = previousHp > 0 && nextHp <= 0,
+            });
     }
 
     aggroNearbyMapActorFaction(actorIndex);
@@ -11820,6 +11864,20 @@ bool IndoorWorldRuntime::applyPartyAttackMeleeDamage(
     const GameplayWorldPoint &source)
 {
     return applyPartyAttackMeleeDamage(actorIndex, damage, CombatDamageType::Physical, source);
+}
+
+bool IndoorWorldRuntime::applyPartyChannelDamage(
+    size_t actorIndex,
+    int damage,
+    const GameplayWorldPoint &source,
+    bool allowHitReaction)
+{
+    return applyPartyAttackMeleeDamage(
+        actorIndex,
+        damage,
+        CombatDamageType::Physical,
+        source,
+        allowHitReaction);
 }
 
 void IndoorWorldRuntime::applyPartyAttackMeleeEffects(
@@ -12036,6 +12094,22 @@ void IndoorWorldRuntime::playArpgModePartyActionAnimation(float animationSeconds
     }
 }
 
+void IndoorWorldRuntime::sustainArpgModePartyActionAnimation(float animationSeconds, bool spellCast)
+{
+    if (m_pRenderer != nullptr)
+    {
+        m_pRenderer->sustainArpgModePartyActionAnimation(animationSeconds, spellCast);
+    }
+}
+
+void IndoorWorldRuntime::cancelArpgModePartyActionAnimation()
+{
+    if (m_pRenderer != nullptr)
+    {
+        m_pRenderer->cancelArpgModePartyActionAnimation();
+    }
+}
+
 void IndoorWorldRuntime::faceArpgModePartyActionTarget(const PartySpellCastRequest &request)
 {
     const bool arpgMode =
@@ -12073,6 +12147,30 @@ void IndoorWorldRuntime::faceArpgModePartyActionTarget(const PartySpellCastReque
     }
 
     m_pRenderer->setArpgModeGameplayYawRadians(std::atan2(deltaY, deltaX));
+}
+
+void IndoorWorldRuntime::addChannelBeamFx(const GameplayChannelBeamFx &beam)
+{
+    if (m_pRenderer == nullptr)
+    {
+        return;
+    }
+
+    WorldFxBeam fxBeam = {};
+    fxBeam.startX = beam.start.x;
+    fxBeam.startY = beam.start.y;
+    fxBeam.startZ = beam.start.z;
+    fxBeam.endX = beam.end.x;
+    fxBeam.endY = beam.end.y;
+    fxBeam.endZ = beam.end.z;
+    fxBeam.radius = beam.radius;
+    fxBeam.intensity = beam.intensity;
+    fxBeam.phaseSeconds = beam.phaseSeconds;
+    fxBeam.remainingSeconds = 0.16f;
+    fxBeam.coreColorAbgr = beam.coreColorAbgr;
+    fxBeam.glowColorAbgr = beam.glowColorAbgr;
+    fxBeam.stableId = beam.stableId;
+    m_pRenderer->worldFxSystem().addBeam(fxBeam);
 }
 
 void IndoorWorldRuntime::recordPartyAttackWorldResult(
@@ -12246,6 +12344,17 @@ std::optional<bx::Vec3> IndoorWorldRuntime::spellActionGroundTargetPoint(float s
     return m_pRenderer != nullptr ? m_pRenderer->gameplayGroundTargetPoint(screenX, screenY) : std::nullopt;
 }
 
+std::optional<bx::Vec3> IndoorWorldRuntime::spellActionCursorPlaneTargetPoint(
+    float screenX,
+    float screenY,
+    float planeZ,
+    float fallbackDistance) const
+{
+    return m_pRenderer != nullptr
+        ? m_pRenderer->gameplayCursorPlaneTargetPoint(screenX, screenY, planeZ, fallbackDistance)
+        : std::nullopt;
+}
+
 GameplayPendingSpellWorldTargetFacts IndoorWorldRuntime::pickPendingSpellWorldTarget(
     const GameplayWorldPickRequest &request)
 {
@@ -12299,6 +12408,11 @@ GameplayWorldHit IndoorWorldRuntime::pickNearbyInteractionTarget(float radius)
 GameplayWorldHit IndoorWorldRuntime::pickForwardInteractionTarget(float depth)
 {
     return m_pRenderer != nullptr ? m_pRenderer->pickNearbyGameplayWorldHit(depth) : GameplayWorldHit{};
+}
+
+bool IndoorWorldRuntime::tryActivateArpgModeLootPopup()
+{
+    return m_pGameplayView != nullptr && m_pGameplayView->tryActivateNearestArpgModeLootLabel();
 }
 
 GameplayWorldHit IndoorWorldRuntime::pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request)

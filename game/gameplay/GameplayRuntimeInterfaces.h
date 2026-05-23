@@ -155,6 +155,18 @@ struct GameplayActorInspectState
     GameplayActorControlMode controlMode = GameplayActorControlMode::None;
 };
 
+struct GameplayArpgCombatFeedbackEvent
+{
+    size_t actorIndex = 0;
+    int damage = 0;
+    int experience = 0;
+    float x = 0.0f;
+    float y = 0.0f;
+    float z = 0.0f;
+    float height = 0.0f;
+    bool killed = false;
+};
+
 struct GameplayActorSpellEffectState
 {
     float slowRemainingSeconds = 0.0f;
@@ -380,6 +392,18 @@ struct GameplayPartyAttackFrameInput
     GameplayPartyAttackFallbackQuery fallbackQuery = {};
 };
 
+struct GameplayChannelBeamFx
+{
+    GameplayWorldPoint start = {};
+    GameplayWorldPoint end = {};
+    float radius = 32.0f;
+    float intensity = 1.0f;
+    float phaseSeconds = 0.0f;
+    uint32_t coreColorAbgr = 0xffffffffu;
+    uint32_t glowColorAbgr = 0xffffffffu;
+    uint32_t stableId = 0;
+};
+
 enum class GameplayInteractionMethod
 {
     Keyboard,
@@ -524,6 +548,10 @@ public:
         size_t actorIndex,
         uint32_t animationTicks,
         GameplayActorInspectState &state) const = 0;
+    virtual std::vector<GameplayArpgCombatFeedbackEvent> drainArpgModeCombatFeedbackEvents()
+    {
+        return {};
+    }
     virtual std::optional<GameplayCombatActorInfo> combatActorInfoById(uint32_t actorId) const = 0;
     virtual bool applyReflectedDamageToActor(
         uint32_t actorId,
@@ -636,6 +664,15 @@ public:
         size_t actorIndex,
         int damage,
         const GameplayWorldPoint &source) = 0;
+    virtual bool applyPartyChannelDamage(
+        size_t actorIndex,
+        int damage,
+        const GameplayWorldPoint &source,
+        bool allowHitReaction)
+    {
+        (void)allowHitReaction;
+        return applyPartyAttackMeleeDamage(actorIndex, damage, source);
+    }
     virtual void applyPartyAttackMeleeEffects(
         size_t actorIndex,
         const CharacterAttackResult &attack,
@@ -652,9 +689,27 @@ public:
         (void)animationSeconds;
         (void)spellCast;
     }
+    virtual void sustainArpgModePartyActionAnimation(float animationSeconds, bool spellCast)
+    {
+        playArpgModePartyActionAnimation(animationSeconds, spellCast);
+    }
+    virtual void cancelArpgModePartyActionAnimation()
+    {
+    }
     virtual void faceArpgModePartyActionTarget(const PartySpellCastRequest &request)
     {
         (void)request;
+    }
+    virtual void addChannelBeamFx(const GameplayChannelBeamFx &beam)
+    {
+        (void)beam;
+    }
+    virtual GameplayWorldPoint clipChannelBeamTarget(
+        const GameplayWorldPoint &source,
+        const GameplayWorldPoint &target) const
+    {
+        (void)source;
+        return target;
     }
     virtual void recordPartyAttackWorldResult(
         std::optional<size_t> actorIndex,
@@ -670,6 +725,16 @@ public:
     virtual std::optional<size_t> spellActionClosestVisibleHostileActorIndex() const = 0;
     virtual std::optional<bx::Vec3> spellActionActorTargetPoint(size_t actorIndex) const = 0;
     virtual std::optional<bx::Vec3> spellActionGroundTargetPoint(float screenX, float screenY) const = 0;
+    virtual std::optional<bx::Vec3> spellActionCursorPlaneTargetPoint(
+        float screenX,
+        float screenY,
+        float planeZ,
+        float fallbackDistance) const
+    {
+        (void)planeZ;
+        (void)fallbackDistance;
+        return spellActionGroundTargetPoint(screenX, screenY);
+    }
     virtual GameplayPendingSpellWorldTargetFacts pickPendingSpellWorldTarget(
         const GameplayWorldPickRequest &request) = 0;
     virtual GameplayWorldHit pickNearbyInteractionTarget(float radius)
@@ -680,6 +745,10 @@ public:
     virtual GameplayWorldHit pickForwardInteractionTarget(float depth)
     {
         return pickNearbyInteractionTarget(depth);
+    }
+    virtual bool tryActivateArpgModeLootPopup()
+    {
+        return false;
     }
     virtual GameplayWorldHit pickKeyboardInteractionTarget(const GameplayWorldPickRequest &request) = 0;
     virtual GameplayWorldHit pickHeldItemWorldTarget(const GameplayWorldPickRequest &request) = 0;

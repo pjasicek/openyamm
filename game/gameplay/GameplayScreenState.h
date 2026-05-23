@@ -59,6 +59,20 @@ public:
         void clear();
     };
 
+    struct ArpgAetherRayState
+    {
+        float damageTickAccumulatorSeconds = 0.0f;
+        float manaTickAccumulatorSeconds = 0.0f;
+        float channelElapsedSeconds = 0.0f;
+        uint64_t channelSoundInstanceId = 0;
+        uint32_t damageTickSequence = 0;
+        bool immediateDamageTickPending = false;
+        bool manaWarningLatch = false;
+        bool active = false;
+
+        void clear();
+    };
+
     struct AttackActionState
     {
         bool inspectLatch = false;
@@ -71,6 +85,7 @@ public:
     struct WorldInteractionInputState
     {
         bool keyboardUseLatch = false;
+        bool arpgContextActionTriggerLatch = false;
         bool inspectKeyboardActivateLatch = false;
         uint64_t keyboardUseNextRepeatTickNanoseconds = 0;
         uint64_t inspectKeyboardActivateNextRepeatTickNanoseconds = 0;
@@ -142,6 +157,9 @@ public:
     QuickSpellState &quickSpellState();
     const QuickSpellState &quickSpellState() const;
 
+    ArpgAetherRayState &arpgAetherRayState();
+    const ArpgAetherRayState &arpgAetherRayState() const;
+
     AttackActionState &attackActionState();
     const AttackActionState &attackActionState() const;
 
@@ -163,6 +181,7 @@ private:
     UiState m_uiState = {};
     PendingSpellTargetState m_pendingSpellTarget = {};
     QuickSpellState m_quickSpellState = {};
+    ArpgAetherRayState m_arpgAetherRayState = {};
     AttackActionState m_attackActionState = {};
     WorldInteractionInputState m_worldInteractionInputState = {};
     GameplayMouseLookState m_gameplayMouseLookState = {};

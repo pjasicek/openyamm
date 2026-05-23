@@ -81,6 +81,7 @@ public:
     {
         bool activationPressed = false;
         bool allowInteraction = false;
+        bool activateArpgLootPopupFirst = false;
         uint64_t currentTickNanoseconds = 0;
         GameplayWorldHit currentHit;
         GameplayScreenRuntime *pRuntime = nullptr;

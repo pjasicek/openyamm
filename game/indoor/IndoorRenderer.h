@@ -125,6 +125,11 @@ public:
     std::optional<size_t> gameplayClosestVisibleHostileActorIndex() const;
     std::optional<bx::Vec3> gameplayActorTargetPoint(size_t actorIndex) const;
     std::optional<bx::Vec3> gameplayGroundTargetPoint(float screenX, float screenY) const;
+    std::optional<bx::Vec3> gameplayCursorPlaneTargetPoint(
+        float screenX,
+        float screenY,
+        float planeZ,
+        float fallbackDistance) const;
     bool projectArpgModeWorldPointToScreen(
         const bx::Vec3 &worldPoint,
         int width,
@@ -140,6 +145,8 @@ public:
     float arpgModeGameplayYawRadians() const;
     void setArpgModeGameplayYawRadians(float yawRadians);
     void playArpgModePartyActionAnimation(float animationSeconds, bool spellCast);
+    void sustainArpgModePartyActionAnimation(float animationSeconds, bool spellCast);
+    void cancelArpgModePartyActionAnimation();
     bool canActivateGameplayWorldHit(const GameplayWorldHit &hit) const;
     bool activateGameplayWorldHit(const GameplayWorldHit &hit);
     void shutdown();
@@ -377,7 +384,6 @@ private:
         bool allowWorldInput,
         const GameSettings &settings,
         bool arpgModeFirstPersonUseMode);
-    std::vector<uint8_t> buildArpgModeVisibleSectorMask() const;
     void renderDecorationBillboards(
         uint16_t viewId,
         const float *pViewMatrix,
@@ -549,6 +555,8 @@ private:
     };
     void clearPortalVisibilityCaches() const;
     std::vector<uint8_t> buildVisibleSectorMask(const bx::Vec3 &cameraPosition) const;
+    std::vector<uint8_t> buildArpgModeRenderVisibleSectorMask(
+        const std::vector<uint8_t> &cameraVisibleSectorMask) const;
     void logIndoorVisibilityDiagnostics(
         const std::vector<uint8_t> &baseVisibleSectorMask,
         const std::vector<uint8_t> &renderVisibleSectorMask,
@@ -637,6 +645,7 @@ private:
     std::vector<MechanismBinding> m_mechanismBindings;
     std::vector<uint8_t> m_ceilingFaceMask;
     std::vector<ArpgModeOccludingFaceCandidate> m_arpgModeOccludingFaceCandidates;
+    std::vector<std::vector<size_t>> m_arpgModeOccludingFaceNeighbors;
     IndoorFaceGeometryCache m_arpgModeOcclusionGeometryCache;
     std::vector<int32_t> m_faceBatchIndices;
     std::vector<uint32_t> m_faceVertexOffsets;
@@ -677,6 +686,12 @@ private:
     float m_arpgModeActionAnimationDurationSeconds = 0.0f;
     float m_arpgModeActionAnimationElapsedSeconds = 0.0f;
     bool m_arpgModeActionAnimationIsCast = false;
+    bool m_arpgModeRenderVisibilityCacheValid = false;
+    uint32_t m_arpgModeRenderVisibilityCacheTick = 0;
+    int16_t m_arpgModeRenderVisibilityCacheSectorId = -1;
+    int16_t m_arpgModeRenderVisibilityCacheEyeSectorId = -1;
+    std::vector<uint8_t> m_arpgModeCameraVisibleSectorMaskCache;
+    std::vector<uint8_t> m_arpgModeRenderVisibleSectorMaskCache;
     InspectHit m_cachedInspectHit = {};
     bool m_cachedInspectHitValid = false;
     float m_cachedInspectMouseX = 0.0f;

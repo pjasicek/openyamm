@@ -132,9 +132,13 @@ public:
     bool arpgModeEnabled() const;
     bool arpgModeFirstPersonUseMode() const;
     void playArpgModePartyActionAnimation(float animationSeconds, bool spellCast);
+    void sustainArpgModePartyActionAnimation(float animationSeconds, bool spellCast);
+    void cancelArpgModePartyActionAnimation();
     void updateArpgModeDelayedSpell(float deltaSeconds);
     void updateArpgModeLootAutoPickup(float deltaSeconds);
+    void updateArpgModeCombatFeedback(float deltaSeconds);
     bool tryActivateArpgModeLootLabelAt(float screenX, float screenY);
+    bool tryActivateNearestArpgModeLootLabel();
     void faceArpgModeTargetPoint(float targetX, float targetY);
 
 private:
@@ -429,6 +433,9 @@ private:
         float y = 0.0f;
         float width = 0.0f;
         float height = 0.0f;
+        float worldX = 0.0f;
+        float worldY = 0.0f;
+        float worldZ = 0.0f;
     };
 
     struct ArpgModeLootFloatingText
@@ -439,6 +446,28 @@ private:
         float z = 0.0f;
         float remainingSeconds = 0.0f;
         float durationSeconds = 0.0f;
+    };
+
+    struct ArpgModeCombatFloatingText
+    {
+        size_t actorIndex = 0;
+        int amount = 0;
+        std::string text;
+        float x = 0.0f;
+        float y = 0.0f;
+        float z = 0.0f;
+        float remainingSeconds = 0.0f;
+        float durationSeconds = 0.0f;
+        uint32_t colorAbgr = 0xffffffffu;
+        float fontScale = 1.0f;
+        bool experience = false;
+    };
+
+    struct ArpgModeCombatTargetState
+    {
+        bool active = false;
+        size_t actorIndex = 0;
+        float remainingSeconds = 0.0f;
     };
 
     using SpellbookPointerTarget = GameplaySpellbookPointerTarget;
@@ -644,6 +673,7 @@ private:
     uint32_t m_spawnMarkerVertexCount;
     std::vector<TexturedTerrainChunk> m_texturedTerrainChunks;
     std::vector<TexturedBModelBatch> m_texturedBModelBatches;
+    std::vector<std::vector<size_t>> m_arpgModeBModelBatchNeighbors;
     std::vector<BModelTextureAnimationHandle> m_bmodelTextureAnimations;
     std::vector<ResolvedBModelDrawGroup> m_resolvedBModelDrawGroups;
     uint64_t m_resolvedBModelDrawGroupRevision = std::numeric_limits<uint64_t>::max();
@@ -777,6 +807,8 @@ private:
     float m_arpgModeMinimapArrowYawRadians = 0.0f;
     std::vector<ArpgModeLootLabelHit> m_arpgModeLootLabelHits;
     std::vector<ArpgModeLootFloatingText> m_arpgModeLootFloatingTexts;
+    std::vector<ArpgModeCombatFloatingText> m_arpgModeCombatFloatingTexts;
+    ArpgModeCombatTargetState m_arpgModeCombatTargetState;
     uint64_t m_lastGameplayMouseLookCursorSyncTicks = 0;
     GameSession &m_gameSession;
     uint64_t m_lastAdventurersInnPortraitClickTicks;

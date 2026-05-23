@@ -1376,6 +1376,8 @@ void IndoorGameView::shutdown()
 
 void IndoorGameView::updateArpgModeLootAutoPickup(float deltaSeconds)
 {
+    updateArpgModeCombatFeedback(deltaSeconds);
+
     for (ArpgModeLootFloatingText &floatingText : m_arpgModeLootFloatingTexts)
     {
         floatingText.remainingSeconds =
@@ -1419,6 +1421,109 @@ void IndoorGameView::updateArpgModeLootAutoPickup(float deltaSeconds)
     if (totalGold > 0)
     {
         setStatusBarEvent("+" + std::to_string(totalGold) + " gold");
+    }
+}
+
+void IndoorGameView::updateArpgModeCombatFeedback(float deltaSeconds)
+{
+    const float elapsedSeconds = std::max(0.0f, deltaSeconds);
+
+    if (m_arpgModeCombatTargetState.active)
+    {
+        m_arpgModeCombatTargetState.remainingSeconds =
+            std::max(0.0f, m_arpgModeCombatTargetState.remainingSeconds - elapsedSeconds);
+        m_arpgModeCombatTargetState.active = m_arpgModeCombatTargetState.remainingSeconds > 0.0f;
+    }
+
+    for (ArpgModeCombatFloatingText &floatingText : m_arpgModeCombatFloatingTexts)
+    {
+        floatingText.remainingSeconds = std::max(0.0f, floatingText.remainingSeconds - elapsedSeconds);
+    }
+
+    m_arpgModeCombatFloatingTexts.erase(
+        std::remove_if(
+            m_arpgModeCombatFloatingTexts.begin(),
+            m_arpgModeCombatFloatingTexts.end(),
+            [](const ArpgModeCombatFloatingText &floatingText)
+            {
+                return floatingText.remainingSeconds <= 0.0f;
+            }),
+        m_arpgModeCombatFloatingTexts.end());
+
+    if (m_pIndoorSceneRuntime == nullptr)
+    {
+        return;
+    }
+
+    const std::vector<GameplayArpgCombatFeedbackEvent> events =
+        m_pIndoorSceneRuntime->worldRuntime().drainArpgModeCombatFeedbackEvents();
+
+    if (!m_settings.arpgModeEnabled || arpgModeFirstPersonUseMode())
+    {
+        return;
+    }
+
+    for (const GameplayArpgCombatFeedbackEvent &event : events)
+    {
+        if (event.damage > 0)
+        {
+            m_arpgModeCombatTargetState.active = true;
+            m_arpgModeCombatTargetState.actorIndex = event.actorIndex;
+            m_arpgModeCombatTargetState.remainingSeconds = 2.5f;
+
+            const auto existingText =
+                std::find_if(
+                    m_arpgModeCombatFloatingTexts.begin(),
+                    m_arpgModeCombatFloatingTexts.end(),
+                    [&](const ArpgModeCombatFloatingText &floatingText)
+                    {
+                        return !floatingText.experience && floatingText.actorIndex == event.actorIndex;
+                    });
+            ArpgModeCombatFloatingText *pFloatingText =
+                existingText != m_arpgModeCombatFloatingTexts.end() ? &*existingText : nullptr;
+
+            if (pFloatingText == nullptr)
+            {
+                m_arpgModeCombatFloatingTexts.push_back(
+                    ArpgModeCombatFloatingText{
+                        .actorIndex = event.actorIndex,
+                    });
+                pFloatingText = &m_arpgModeCombatFloatingTexts.back();
+            }
+
+            pFloatingText->amount += event.damage;
+            pFloatingText->text = std::to_string(pFloatingText->amount);
+            pFloatingText->x = event.x;
+            pFloatingText->y = event.y;
+            pFloatingText->z = event.z + std::max(48.0f, event.height * 0.75f);
+            pFloatingText->remainingSeconds = 0.95f;
+            pFloatingText->durationSeconds = 0.95f;
+            pFloatingText->colorAbgr = pFloatingText->amount >= 100
+                ? makeArpgModeHudColor(255, 225, 106, 255)
+                : makeArpgModeHudColor(235, 232, 210, 255);
+            pFloatingText->fontScale = pFloatingText->amount >= 500
+                ? 1.45f
+                : pFloatingText->amount >= 100 ? 1.25f : 1.1f;
+            pFloatingText->experience = false;
+        }
+
+        if (event.experience > 0)
+        {
+            m_arpgModeCombatFloatingTexts.push_back(
+                ArpgModeCombatFloatingText{
+                    .actorIndex = event.actorIndex,
+                    .amount = event.experience,
+                    .text = "+" + std::to_string(event.experience) + " exp",
+                    .x = event.x,
+                    .y = event.y,
+                    .z = event.z + std::max(72.0f, event.height + 42.0f),
+                    .remainingSeconds = 1.35f,
+                    .durationSeconds = 1.35f,
+                    .colorAbgr = makeArpgModeHudColor(128, 232, 153, 255),
+                    .fontScale = 0.9f,
+                    .experience = true,
+                });
+        }
     }
 }
 
@@ -1558,6 +1663,9 @@ void IndoorGameView::renderArpgModeLootOverlay(int width, int height, float delt
                 .y = labelY,
                 .width = labelWidth,
                 .height = labelHeight,
+                .worldX = lootItem.x,
+                .worldY = lootItem.y,
+                .worldZ = lootItem.z,
             });
     }
 
@@ -1570,6 +1678,117 @@ void IndoorGameView::renderArpgModeLootOverlay(int width, int height, float delt
                 return !state.seenThisFrame;
             }),
         m_arpgModeLootLineOfSightStates.end());
+
+    constexpr float CombatFontScale = 1.1f;
+
+    for (const ArpgModeCombatFloatingText &floatingText : m_arpgModeCombatFloatingTexts)
+    {
+        if (floatingText.remainingSeconds <= 0.0f || floatingText.durationSeconds <= 0.0f)
+        {
+            continue;
+        }
+
+        const float progress =
+            1.0f - std::clamp(floatingText.remainingSeconds / floatingText.durationSeconds, 0.0f, 1.0f);
+        float projectedX = 0.0f;
+        float projectedY = 0.0f;
+
+        if (!m_pIndoorRenderer->projectArpgModeWorldPointToScreen(
+                bx::Vec3{floatingText.x, floatingText.y, floatingText.z + progress * 110.0f},
+                width,
+                height,
+                projectedX,
+                projectedY))
+        {
+            continue;
+        }
+
+        const float fadeStartSeconds = floatingText.experience ? 0.55f : 0.35f;
+        const float alpha = std::clamp(floatingText.remainingSeconds / fadeStartSeconds, 0.0f, 1.0f);
+        const uint8_t alphaByte = static_cast<uint8_t>(std::round(255.0f * alpha));
+        const uint32_t textColor = (floatingText.colorAbgr & 0x00ffffffu)
+            | (static_cast<uint32_t>(alphaByte) << 24);
+        const float fontScale = CombatFontScale * std::max(0.5f, floatingText.fontScale);
+        const float textWidth = screenRuntime.measureHudTextWidth(FontName, floatingText.text) * fontScale;
+        screenRuntime.renderHudTextLine(
+            FontName,
+            textColor,
+            floatingText.text,
+            projectedX - textWidth * 0.5f,
+            projectedY,
+            fontScale);
+    }
+
+    if (m_arpgModeCombatTargetState.active)
+    {
+        GameplayActorInspectState inspectState = {};
+
+        if (worldRuntime.actorInspectState(m_arpgModeCombatTargetState.actorIndex, 0, inspectState)
+            && inspectState.maxHp > 0
+            && !inspectState.isDead)
+        {
+            constexpr float PanelWidth = 260.0f;
+            constexpr float PanelHeight = 36.0f;
+            constexpr float BarHeight = 8.0f;
+            constexpr float Border = 2.0f;
+            constexpr float NameScale = 1.0f;
+            constexpr float HpScale = 0.75f;
+            const float panelX = (static_cast<float>(width) - PanelWidth) * 0.5f;
+            const float panelY = 10.0f;
+            const float nameWidth = screenRuntime.measureHudTextWidth(FontName, inspectState.displayName) * NameScale;
+            const float nameX = panelX + (PanelWidth - nameWidth) * 0.5f;
+            const float barX = panelX + 12.0f;
+            const float barY = panelY + 21.0f;
+            const float barWidth = PanelWidth - 24.0f;
+            const float fillRatio =
+                std::clamp(
+                    static_cast<float>(inspectState.currentHp) / static_cast<float>(inspectState.maxHp),
+                    0.0f,
+                    1.0f);
+            const std::string hpText =
+                std::to_string(std::max(0, inspectState.currentHp)) + " / " + std::to_string(inspectState.maxHp);
+            const float hpTextWidth = screenRuntime.measureHudTextWidth(FontName, hpText) * HpScale;
+
+            drawArpgModeSolidHudRect(
+                screenRuntime,
+                "__arpg_target_panel_bg__",
+                panelX,
+                panelY,
+                PanelWidth,
+                PanelHeight,
+                makeArpgModeHudColor(6, 8, 10, 160));
+            screenRuntime.renderHudTextLine(
+                FontName,
+                makeArpgModeHudColor(255, 211, 132, 255),
+                inspectState.displayName,
+                nameX,
+                panelY + 2.0f,
+                NameScale);
+            drawArpgModeSolidHudRect(
+                screenRuntime,
+                "__arpg_target_bar_frame__",
+                barX,
+                barY,
+                barWidth,
+                BarHeight,
+                makeArpgModeHudColor(12, 12, 12, 230));
+            drawArpgModeSolidHudRect(
+                screenRuntime,
+                "__arpg_target_bar_fill__",
+                barX + Border,
+                barY + Border,
+                std::max(1.0f, (barWidth - Border * 2.0f) * fillRatio),
+                BarHeight - Border * 2.0f,
+                makeArpgModeHudColor(186, 28, 30, 245));
+            screenRuntime.renderHudTextLine(
+                FontName,
+                makeArpgModeHudColor(238, 232, 210, 215),
+                hpText,
+                panelX + (PanelWidth - hpTextWidth) * 0.5f,
+                barY + 7.0f,
+                HpScale);
+        }
+    }
 
     for (const ArpgModeLootFloatingText &floatingText : m_arpgModeLootFloatingTexts)
     {
@@ -1679,6 +1898,52 @@ bool IndoorGameView::tryActivateArpgModeLootLabelAt(float screenX, float screenY
 
         tryActivateArpgModeCorpseLootItem(hit.actorIndex, hit.itemIndex);
         return true;
+    }
+
+    return false;
+}
+
+bool IndoorGameView::tryActivateNearestArpgModeLootLabel()
+{
+    IndoorPartyRuntime *pPartyRuntime = partyRuntime();
+
+    if (!m_settings.arpgModeEnabled
+        || arpgModeFirstPersonUseMode()
+        || m_pIndoorSceneRuntime == nullptr
+        || pPartyRuntime == nullptr
+        || m_arpgModeLootLabelHits.empty())
+    {
+        return false;
+    }
+
+    const IndoorMoveState &moveState = pPartyRuntime->movementState();
+    std::vector<ArpgModeLootLabelHit> sortedHits = m_arpgModeLootLabelHits;
+
+    std::stable_sort(
+        sortedHits.begin(),
+        sortedHits.end(),
+        [&moveState](const ArpgModeLootLabelHit &lhs, const ArpgModeLootLabelHit &rhs)
+        {
+            const float lhsDeltaX = lhs.worldX - moveState.x;
+            const float lhsDeltaY = lhs.worldY - moveState.y;
+            const float lhsDeltaZ = lhs.worldZ - moveState.footZ;
+            const float rhsDeltaX = rhs.worldX - moveState.x;
+            const float rhsDeltaY = rhs.worldY - moveState.y;
+            const float rhsDeltaZ = rhs.worldZ - moveState.footZ;
+            const float lhsDistanceSquared =
+                lhsDeltaX * lhsDeltaX + lhsDeltaY * lhsDeltaY + lhsDeltaZ * lhsDeltaZ;
+            const float rhsDistanceSquared =
+                rhsDeltaX * rhsDeltaX + rhsDeltaY * rhsDeltaY + rhsDeltaZ * rhsDeltaZ;
+
+            return lhsDistanceSquared < rhsDistanceSquared;
+        });
+
+    for (const ArpgModeLootLabelHit &hit : sortedHits)
+    {
+        if (tryActivateArpgModeCorpseLootItem(hit.actorIndex, hit.itemIndex))
+        {
+            return true;
+        }
     }
 
     return false;
